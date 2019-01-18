@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>WALLET</title>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <style>
+        .glyphicon-refresh-animate {
+            -animation: spin .7s infinite linear;
+            -webkit-animation: spin2 .7s infinite linear;
+        }
+
+        @-webkit-keyframes spin2 {
+            from { -webkit-transform: rotate(0deg);}
+            to { -webkit-transform: rotate(360deg);}
+        }
+
+        @keyframes spin {
+            from { transform: scale(1) rotate(0deg);}
+            to { transform: scale(1) rotate(360deg);}
+        }
+
+        .user-selector {
+          margin: 5px;
+        }
+    </style>
+  </head>
+  <body style="padding-top: 70px; padding-bottom: 30px;">
+  <script src="/libs/nearlib.js"></script>
+
+  <!-- Fixed navbar -->
+  <nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="/">WALLET</a>
+      </div>
+      <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+          <li class="active"><a href="/">Home</a></li>
+          </ul>
+      </div><!--/.nav-collapse -->
+    </div>
+  </nav>
+
+  <div class="container" role="main">
+    <h2> Account: <span id="username"></span></h2>
+    <pre id="acc_details"></pre>
+  </div>
+
+  <div class="container">
+    <h3> Send money</h3>
+    <from class="form" id="form-tx">
+      <div class="form-group">
+        <label for="form-username">Receiver's Account ID</label>
+        <input type="text" class="form-input form-control" id="form-username" placeholder="satoshi.near" required>
+      </div>
+      <div class="form-group hidden">
+        <label for="form-method-name">Method name</label>
+        <input type="text" class="form-input form-control" id="form-method-name" placeholder="deposit">
+      </div>
+      <div class="form-group">
+        <label for="form-amount">Amount of money</label>
+        <input type="number" class="form-input form-control" id="form-amount" required value="0">
+      </div>
+      <div class="form-group hidden">
+        <label for="form-args">Arguments (in JSON, optional)</label>
+        <textarea class="form-input form-control" id="form-args" placeholder="{}"></textarea>
+      </div>
+      <div class="form-group">
+        <button type="button" id="submit-tx-button" class="btn btn-lg btn-default" disabled="disabled">Send money<span id="loading-spinner" class="hidden glyphicon glyphicon-refresh glyphicon-refresh-animate"></span>
+        </button>
+      </div>
+    </from>
+    <div id="error-message-div" class="alert alert-danger fade in hidden">
+        <a href="#" class="close" data-dismiss="alert">&times;</a>
+        <strong>Error!</strong> <span id='error-message'></span>
+    </div>
+    <div id="success-message-div" class="alert alert-success fade in hidden">
+        <a href="#" class="close" data-dismiss="alert">&times;</a>
+        Successfully sent money: <strong id="tx-id"></strong><br>
+    </div>
+  </div>
+    <div class="container">
+    <div id="change-accounts-div" class="hidden">
+      <h3>Change account</h3>
+      <div class="well" id="user-selection">
+
+      </div>
+    </div>
+    <div><button id="create-account-button" class="btn btn-lg btn-success"><span class="glyphicon glyphicon-plus"></span> Create new account</button></div>
+  </div>
+
+  <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!-- Include all compiled plugins (below), or include individual files as needed -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+  <script src="/libs/wallet.js"></script>
+
+  <script>
+    let wallet = new Wallet();
+    wallet.redirect_if_empty();
+
+    let username = wallet.get_username();
+    let is_legit = false;
+    let receiver_username = "";
+    let method_name = "";
+    let amount = 0;
+    let args = {};
+    let your_account = {};
+    let your_amount = 0;
+
+    let users = wallet.users;
+    let acc_cnt = 0;
+    for (u in users) {
+      let b = $('<button/>')
+        .addClass("btn btn-md btn-primary user-selector")
+        .text(u)
+        .attr('data-username', u);
+      $('#user-selection').append(b);
+      acc_cnt++;
+    }
+    if (acc_cnt > 1) {
+      $('#change-accounts-div').removeClass('hidden');
+    }
+
+    $('#form-tx .form-input').on("input", function() {
+      receiver_username = $('#form-username').val();
+      is_legit = wallet.is_legit_account_id(receiver_username);
+      method_name = $('#form-method-name').val();
+      amount = parseInt($('#form-amount').val());
+      is_legit = is_legit && ((amount > 0 || (amount == 0 && method_name.length > 0)) && amount <= your_amount);
+      let val = $('#form-args').val() || "{}";
+      try {
+        args = JSON.parse(val);
+      } catch (e) {
+        is_legit = false;
+      }
+      $('#submit-tx-button').attr('disabled', !is_legit);
+    });
+
+    $('#submit-tx-button').click(function(e) {
+      $('#error-message-div').addClass('hidden');
+      $('#success-message-div').addClass('hidden');
+      e.preventDefault();
+      if (!is_legit) {
+        return false;
+      }
+      $('#loading-spinner').removeClass('hidden');
+      $('#submit-tx-button').attr('disabled', true);
+      wallet.send_transaction(username, receiver_username, method_name, amount, args)
+        .then((d) => {
+          console.log(d);
+          $('#tx-id').text(JSON.stringify(d));
+          $('#success-message-div').removeClass('hidden');
+          refresh_account();
+        })
+        .catch((e) => {
+          console.log(e);
+          $('#error-message').text(e);
+          $('#error-message-div').removeClass('hidden');
+        }).finally(() => {
+          $('#submit-tx-button').attr('disabled', false);
+          $('#loading-spinner').addClass('hidden');
+        });
+    })
+
+
+    $('.user-selector').click(function() {
+      $('.user-selector[data-username="' + username + '"').removeClass('hidden');
+      username = $(this).data('username');
+      wallet.select_user(username);
+      refresh_account();
+    });
+
+    $('#create-account-button').click(wallet.redirect_to_create_account);
+
+    function refresh_account() {
+      $('#acc_details').html('<span class="glyphicon glyphicon-refresh glyphicon-refresh-animate">');
+      $('.user-selector[data-username="' + username + '"]').addClass('hidden');
+      $('#username').text(username);
+      wallet.load_account(username)
+        .then(function(v) {
+          console.log(v);
+          your_account = v;
+          your_amount = v['amount'] || 0;
+          $('#acc_details').text(JSON.stringify(v, null, 2));
+        })
+        .catch(function(e) {
+          your_account = {};
+          your_amount = 0;
+          console.log(e);
+          $('#acc_details').text("Failed to load. " + e);
+        });
+    }
+    refresh_account();
+  </script>
+</body>
+</html>

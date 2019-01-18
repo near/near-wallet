@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>Authorization request</title>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <style>
+        .glyphicon-refresh-animate {
+            -animation: spin .7s infinite linear;
+            -webkit-animation: spin2 .7s infinite linear;
+        }
+
+        @-webkit-keyframes spin2 {
+            from { -webkit-transform: rotate(0deg);}
+            to { -webkit-transform: rotate(360deg);}
+        }
+
+        @keyframes spin {
+            from { transform: scale(1) rotate(0deg);}
+            to { transform: scale(1) rotate(360deg);}
+        }
+    </style>
+  </head>
+  <body style="padding-top: 70px; padding-bottom: 30px;">
+  <script src="/libs/nearlib.js"></script>
+  <script src="/libs/wallet.js"></script>
+
+  <div class="container" role="main">
+    <div class="jumbotron">
+      <div class="lead">App <strong id="app-title"></strong> wants to login with your wallet</div>
+      <div id="div-url">URL: <strong id="app-url"></strong></div>
+
+      <div id="div-url">Login with: <strong id="username"></strong></div>
+      <br>
+
+      <form id="approve-form" class="row" method="get">
+        <div class="col-xs-4"><input id="on-approve" class="btn btn-lg btn-block btn-success" value="Authorize" /></div>
+        <div class="col-xs-4"><input id="on-deny" class="btn btn-lg btn-block btn-danger" value="Deny" /></div>
+      </form>
+    </div>
+  </div>
+
+
+  <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script type="text/javascript" src="/libs/url.min.js"></script>
+  <!-- Include all compiled plugins (below), or include individual files as needed -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+  <script>
+    let wallet = new Wallet();
+    wallet.redirect_if_empty();
+
+    let app_title = $.url('?title');
+    let app_url = $.url('?app_url');
+    $('#app-title').text(app_title);
+    $('#app-url').text(app_url);
+
+    $('#username').text(wallet.get_username());
+
+    let on_success_url = $.url('?on_success_url');
+    let on_failure_url = $.url('?on_failure_url');
+    $('#on-approve').click(function() {
+      let authToken = wallet.new_access_token(app_url, app_title);
+      let userName = wallet.get_username();
+
+      $('#approve-form')
+        .attr('action', on_success_url)
+        .append($('<input/>')
+          .attr({'type': 'hidden', 'name': 'authToken', 'value': authToken})
+        )
+        .append($('<input/>')
+          .attr({'type': 'hidden', 'name': 'username', 'value': userName})
+        )
+        .submit();
+    });
+    $('#on-deny').click(function() {
+      $('#approve-form')
+        .attr('action', on_failure_url)
+        .submit();
+    });
+  </script>
+</body>
+</html>
