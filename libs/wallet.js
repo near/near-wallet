@@ -23,6 +23,15 @@ class Wallet {
     this.users = JSON.parse(localStorage.getItem(KEY_WALLET_USERS) || "{}");
     this.tokens = JSON.parse(localStorage.getItem(KEY_WALLET_TOKENS) || "{}");
     this.active_user = localStorage.getItem(KEY_ACTIVE_USER) || "";
+    $('body').append(
+      $('<div/>').addClass("container").attr('role', 'footer').css('margin-top', '50px').append(
+        $('<div/>').append(
+          $("<small/>").addClass("text-muted").text("DISCLAIMER: This is a developers' preview Wallet. It should be used for NEAR Protocol DevNet only. Learn more at ").append(
+            $("<a/>").attr("href", "https://nearprotocol.com").text("nearprotocol.com")
+          )
+        )
+      )
+    );
   }
 
   save() {
