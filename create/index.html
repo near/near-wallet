@@ -61,8 +61,8 @@
     <h3>Create a new account on NEAR Protocol DevNet</h3>
     <from class="form">
         <div class="form-group">
-          <label for="form-username">NEAR Account ID</label>
-          <input type="text" class="form-control" id="form-username" placeholder="satoshi.near" required aria-describedby="account-help-block">
+          <label for="form-account-id">NEAR Account ID</label>
+          <input type="text" class="form-control" id="form-account-id" placeholder="satoshi.near" required aria-describedby="account-help-block">
           <div id="account-help-block" class="help-block">
             Account ID can be <strong>5-32 characters</strong> long and contains any of the following:<br>
             <ul>
@@ -100,11 +100,11 @@
   <script>
     let wallet = new Wallet();
     let is_legit = false;
-    let username = "";
+    let account_id = "";
 
-    $('#form-username').on("input", function() {
-      username = $(this).val();
-      is_legit = wallet.is_legit_account_id(username);
+    $('#form-account-id').on("input", function() {
+      account_id = $(this).val();
+      is_legit = wallet.is_legit_account_id(account_id);
       $('#submit-button').attr('disabled', !is_legit);
     });
 
@@ -117,7 +117,7 @@
       $('#loading-spinner').removeClass('hidden');
       $('#submit-button').attr('disabled', true);
       // TODO: The account is not taken
-      wallet.create_new_account(username)
+      wallet.create_new_account(account_id)
         .then((d) => {
           $('#success-message-div').removeClass('hidden');
           $('#submit-button').addClass('hidden');

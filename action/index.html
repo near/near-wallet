@@ -43,7 +43,7 @@
       <div class="lead">Transaction from app <strong id="app-title"></strong></div>
       <div id="div-url">URL: <strong id="app-url"></strong></div>
 
-      <div id="div-url">For user: <strong id="username"></strong></div>
+      <div id="div-url">For user: <strong id="account-id"></strong></div>
       <br>
       <label>Transaction details:</label>
       <pre id="tx-details"></pre>
@@ -79,7 +79,7 @@
       let app_url = auth.app_url;
       $('#app-title').text(app_title);
       $('#app-url').text(app_url);
-      $('#username').text(auth.username);
+      $('#account-id').text(auth.account_id);
 
       let tx = JSON.parse($.url("?tx"));
 
@@ -94,7 +94,7 @@
         let contract_id = tx['contract_id'];
         let method_name = tx['method_name'] || '';
         let args = tx['args'];
-        wallet.send_transaction(auth.username, contract_id, method_name, amount, args)
+        wallet.send_transaction(auth.account_id, contract_id, method_name, amount, args)
           .catch(console.log)
           .then(() => {
             console.log("done");

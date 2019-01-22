@@ -42,8 +42,9 @@
     <div class="jumbotron">
       <div class="lead">App <strong id="app-title"></strong> wants to login with your wallet</div>
       <div id="div-url">URL: <strong id="app-url"></strong></div>
+      <div id="div-contract">Contract ID: <strong id="app-contract-id"></strong></div>
 
-      <div id="div-url">Login with: <strong id="username"></strong></div>
+      <div id="div-login">Login with: <strong id="account-id"></strong></div>
       <br>
 
       <form id="approve-form" class="row" method="get">
@@ -66,24 +67,26 @@
 
     let app_title = $.url('?title');
     let app_url = $.url('?app_url');
+    let contract_id = $.url('?contract_id') || '';
     $('#app-title').text(app_title);
     $('#app-url').text(app_url);
+    $('#app-contract-id').text(contract_id);
 
-    $('#username').text(wallet.get_username());
+    $('#account-id').text(wallet.get_account_id());
 
     let on_success_url = $.url('?on_success_url');
     let on_failure_url = $.url('?on_failure_url');
     $('#on-approve').click(function() {
-      let authToken = wallet.new_access_token(app_url, app_title);
-      let userName = wallet.get_username();
+      let auth_token = wallet.new_access_token(app_url, app_title, contract_id);
+      let account_id = wallet.get_account_id();
 
       $('#approve-form')
         .attr('action', on_success_url)
         .append($('<input/>')
-          .attr({'type': 'hidden', 'name': 'authToken', 'value': authToken})
+          .attr({'type': 'hidden', 'name': 'auth_token', 'value': auth_token})
         )
         .append($('<input/>')
-          .attr({'type': 'hidden', 'name': 'username', 'value': userName})
+          .attr({'type': 'hidden', 'name': 'account_id', 'value': account_id})
         )
         .submit();
     });

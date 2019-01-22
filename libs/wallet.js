@@ -4,9 +4,9 @@ const WALLET_CREATE_NEW_ACCOUNT_URL = '/create/';
 const CONTRACT_CREATE_ACCOUNT_URL = 'https://studio.nearprotocol.com/contract-api/account';
 const NODE_URL = "https://studio.nearprotocol.com/devnet";
 
-const KEY_WALLET_USERS = "wallet:users";
+const KEY_WALLET_ACCOUNTS = "wallet:accounts";
 const KEY_WALLET_TOKENS = "wallet:tokens";
-const KEY_ACTIVE_USER = "wallet:active_user";
+const KEY_ACTIVE_ACCOUNT_ID = "wallet:active_account_id";
 
 const ACCOUNT_ID_REGEX = /^[a-z0-9@._\-]{5,32}$/;
 
@@ -20,9 +20,9 @@ class Wallet {
   constructor() {
     this.key_store = new nearLib.BrowserLocalStorageKeystore();
     this.near = window.nearLib.Near.createDefaultConfig(NODE_URL);
-    this.users = JSON.parse(localStorage.getItem(KEY_WALLET_USERS) || "{}");
+    this.accounts = JSON.parse(localStorage.getItem(KEY_WALLET_ACCOUNTS) || "{}");
     this.tokens = JSON.parse(localStorage.getItem(KEY_WALLET_TOKENS) || "{}");
-    this.active_user = localStorage.getItem(KEY_ACTIVE_USER) || "";
+    this.account_id = localStorage.getItem(KEY_ACTIVE_ACCOUNT_ID) || "";
     $('body').append(
       $('<div/>').addClass("container").attr('role', 'footer').css('margin-top', '50px').append(
         $('<div/>').append(
@@ -35,24 +35,24 @@ class Wallet {
   }
 
   save() {
-    localStorage.setItem(KEY_WALLET_USERS, JSON.stringify(this.users));
+    localStorage.setItem(KEY_ACTIVE_ACCOUNT_ID, this.account_id);
+    localStorage.setItem(KEY_WALLET_ACCOUNTS, JSON.stringify(this.accounts));
     localStorage.setItem(KEY_WALLET_TOKENS, JSON.stringify(this.tokens));
-    localStorage.setItem(KEY_ACTIVE_USER, this.active_user);
   }
 
-  get_username() {
-    return this.active_user;
+  get_account_id() {
+    return this.account_id;
   }
 
-  select_user(username) {
-    if (!(username in this.users)) {
+  select_account(account_id) {
+    if (!(account_id in this.accounts)) {
       return false;
     }
-    this.active_user = username;
+    this.account_id = account_id;
     this.save();
   }
 
-  new_access_token(app_url, app_title) {
+  new_access_token(app_url, app_title, contract_id) {
     var token = "";
     var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 
@@ -60,10 +60,15 @@ class Wallet {
       token += possible.charAt(Math.floor(Math.random() * possible.length));
     }
 
+    if (!this.is_legit_account_id(contract_id)) {
+      contract_id = '';
+    }
+
     this.tokens[token] = {
         app_url,
         app_title,
-        username: this.active_user,
+        contract_id,
+        account_id: this.account_id,
     };
     this.save();
     return token;
@@ -73,10 +78,10 @@ class Wallet {
     return ACCOUNT_ID_REGEX.test(account_id);
   }
 
-  async send_transaction(username, receiver_id, method_name, amount, args) {  
+  async send_transaction(sender_id, receiver_id, method_name, amount, args) {  
     return await this.near.scheduleFunctionCall(
       amount,
-      username,
+      sender_id,
       receiver_id,
       method_name,
       args || {},
@@ -91,7 +96,7 @@ class Wallet {
   }
 
   is_empty() {
-    return !this.users || !Object.keys(this.users).length;
+    return !this.accounts || !Object.keys(this.accounts).length;
   }
 
   redirect_if_empty() {
@@ -100,30 +105,31 @@ class Wallet {
     }
   }
 
-  async load_account(username) {
-    if (!(username in this.users)) {
-      throw "Account " + username + " doesn't exists."; 
+  async load_account(account_id) {
+    if (!(account_id in this.accounts)) {
+      throw "Account " + account_id + " doesn't exists.";
     }
-    return await this.near.nearClient.viewAccount(username);
+    return await this.near.nearClient.viewAccount(account_id);
   }
 
-  async create_new_account(username) {
-    if (username in this.users) {
-      throw "Account " + username + " already exists."; 
+  async create_new_account(account_id) {
+    // TODO: Check account doesn't exists on devnet
+    if (account_id in this.accounts) {
+      throw "Account " + account_id + " already exists."; 
     }
     let thisWallet = this;
     let keyPair = await nearLib.KeyPair.fromRandomSeed();
     return new Promise(function (resolve, reject) {
       let data = JSON.stringify({
-        "newAccountId": username,
-        "newAccountPublicKey": keyPair.getPublicKey(),
+        newAccountId: account_id,
+        newAccountPublicKey: keyPair.getPublicKey(),
       });
 
       $.post(CONTRACT_CREATE_ACCOUNT_URL, data)
         .done((d) => {
-          thisWallet.key_store.setKey(username, keyPair).catch(console.log);
-          thisWallet.users[username] = true;
-          thisWallet.active_user = username;
+          thisWallet.key_store.setKey(account_id, keyPair).catch(console.log);
+          thisWallet.accounts[account_id] = true;
+          thisWallet.account_id = account_id;
           thisWallet.save();
           resolve(d);
         })
@@ -131,6 +137,59 @@ class Wallet {
           reject(e.responseText)
         })
     });
+  }
+
+  subscribe_for_messages() {
+    window.addEventListener("message", $.proxy(this.receive_message, this), false);
+  }
+
+  receive_message(event) {
+    let data;
+    try {
+      data = JSON.parse(event.data);
+    } catch (e) {
+      // Silently dying.
+      return;
+    }
+    if (data['action'] !== 'send_transaction') {
+      // Unknown action.
+      return;
+    }
+    let token = data['token'] || '';
+    if (!(token in this.tokens)) {
+      console.warn("Wallet: TX denied. The token " + token + " is not found ");
+      // Unknown token.
+      return;
+    }
+    let app_data = this.tokens[token];
+    let account_id = app_data['account_id'];
+    if (!(account_id in this.accounts)) {
+      console.warn("Wallet: TX denied. The account " + account_id + " is not part of the wallet anymore.");
+      // Account is no longer authorized.
+      return;
+    }
+    let contract_id = app_data['contract_id'];
+    let receiver_id = data['receiver_id'] || contract_id;
+    if (receiver_id !== contract_id || !this.is_legit_account_id(receiver_id)) {
+      console.warn("Wallet: TX denied. Bad receiver's account ID ('" + receiver_id + "') or it doesn't match the authorized contract id");
+      // Bad receiver account ID or it doesn't match contract id.
+      return;
+    }
+    let amount = parseInt(data['amount']) || 0;
+    if (amount !== 0) {
+      console.warn("Wallet: TX denied. Transaction amount should be 0.");
+      // Automatic authorization denied since for amounts greater than 0.
+    }
+    let method_name = data['method_name'] || '';
+    if (!method_name) {
+      console.warn("Wallet: TX denied.  Method name can't be empty since the amount is 0");
+      // Method name can't be empty since the amount is 0.
+      return;
+    }
+    let args = data['args'] || {};
+    // Sending the transaction on behalf of the account_id
+    this.send_transaction(account_id, receiver_id, method_name, amount, args)
+      .catch(console.log);
   }
 }
 

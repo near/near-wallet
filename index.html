@@ -62,7 +62,7 @@
   </nav>
 
   <div class="container" role="main">
-    <h2> Account: <span id="username"></span></h2>
+    <h2> Account: <span id="account-id"></span></h2>
     <pre id="acc_details"></pre>
   </div>
 
@@ -70,8 +70,8 @@
     <h3> Send money</h3>
     <from class="form" id="form-tx">
       <div class="form-group">
-        <label for="form-username">Receiver's Account ID</label>
-        <input type="text" class="form-input form-control" id="form-username" placeholder="satoshi.near" required>
+        <label for="form-account-id">Receiver's Account ID</label>
+        <input type="text" class="form-input form-control" id="form-account-id" placeholder="satoshi.near" required>
       </div>
       <div class="form-group hidden">
         <label for="form-method-name">Method name</label>
@@ -120,23 +120,23 @@
     let wallet = new Wallet();
     wallet.redirect_if_empty();
 
-    let username = wallet.get_username();
+    let account_id = wallet.get_account_id();
     let is_legit = false;
-    let receiver_username = "";
+    let receiver_id = "";
     let method_name = "";
     let amount = 0;
     let args = {};
     let your_account = {};
     let your_amount = 0;
 
-    let users = wallet.users;
+    let accounts = wallet.accounts;
     let acc_cnt = 0;
-    for (u in users) {
+    for (u in accounts) {
       let b = $('<button/>')
-        .addClass("btn btn-md btn-primary user-selector")
+        .addClass("btn btn-md btn-primary account-selector")
         .text(u)
-        .attr('data-username', u);
-      $('#user-selection').append(b);
+        .attr('data-account-id', u);
+      $('#account-selection').append(b);
       acc_cnt++;
     }
     if (acc_cnt > 1) {
@@ -144,8 +144,8 @@
     }
 
     $('#form-tx .form-input').on("input", function() {
-      receiver_username = $('#form-username').val();
-      is_legit = wallet.is_legit_account_id(receiver_username);
+      receiver_id = $('#form-account-id').val();
+      is_legit = wallet.is_legit_account_id(receiver_id);
       method_name = $('#form-method-name').val();
       amount = parseInt($('#form-amount').val());
       is_legit = is_legit && ((amount > 0 || (amount == 0 && method_name.length > 0)) && amount <= your_amount);
@@ -167,7 +167,7 @@
       }
       $('#loading-spinner').removeClass('hidden');
       $('#submit-tx-button').attr('disabled', true);
-      wallet.send_transaction(username, receiver_username, method_name, amount, args)
+      wallet.send_transaction(account_id, receiver_id, method_name, amount, args)
         .then((d) => {
           console.log(d);
           $('#tx-id').text(JSON.stringify(d));
@@ -186,9 +186,9 @@
 
 
     $('.user-selector').click(function() {
-      $('.user-selector[data-username="' + username + '"').removeClass('hidden');
-      username = $(this).data('username');
-      wallet.select_user(username);
+      $('.user-selector[data-account-id="' + account_id + '"').removeClass('hidden');
+      account_id = $(this).data('account-id');
+      wallet.select_user(account_id);
       refresh_account();
     });
 
@@ -196,9 +196,9 @@
 
     function refresh_account() {
       $('#acc_details').html('<span class="glyphicon glyphicon-refresh glyphicon-refresh-animate">');
-      $('.user-selector[data-username="' + username + '"]').addClass('hidden');
-      $('#username').text(username);
-      wallet.load_account(username)
+      $('.user-selector[data-account-id="' + account_id + '"]').addClass('hidden');
+      $('#account-id').text(account_id);
+      wallet.load_account(account_id)
         .then(function(v) {
           console.log(v);
           your_account = v;
