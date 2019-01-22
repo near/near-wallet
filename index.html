@@ -33,7 +33,7 @@
             to { transform: scale(1) rotate(360deg);}
         }
 
-        .user-selector {
+        .account-selector {
           margin: 5px;
         }
     </style>
@@ -102,7 +102,7 @@
     <div class="container">
     <div id="change-accounts-div" class="hidden">
       <h3>Change account</h3>
-      <div class="well" id="user-selection">
+      <div class="well" id="account-selection">
 
       </div>
     </div>
@@ -185,10 +185,10 @@
     })
 
 
-    $('.user-selector').click(function() {
-      $('.user-selector[data-account-id="' + account_id + '"').removeClass('hidden');
+    $('.account-selector').click(function() {
+      $('.account-selector[data-account-id="' + account_id + '"').removeClass('hidden');
       account_id = $(this).data('account-id');
-      wallet.select_user(account_id);
+      wallet.select_account(account_id);
       refresh_account();
     });
 
@@ -196,7 +196,7 @@
 
     function refresh_account() {
       $('#acc_details').html('<span class="glyphicon glyphicon-refresh glyphicon-refresh-animate">');
-      $('.user-selector[data-account-id="' + account_id + '"]').addClass('hidden');
+      $('.account-selector[data-account-id="' + account_id + '"]').addClass('hidden');
       $('#account-id').text(account_id);
       wallet.load_account(account_id)
         .then(function(v) {
