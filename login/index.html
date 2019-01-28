@@ -74,8 +74,8 @@
 
     $('#account-id').text(wallet.get_account_id());
 
-    let on_success_url = $.url('?on_success_url');
-    let on_failure_url = $.url('?on_failure_url');
+    let on_success_url = $.url('?success_url');
+    let on_failure_url = $.url('?failure_url');
     $('#on-approve').click(function() {
       let auth_token = wallet.new_access_token(app_url, app_title, contract_id);
       let account_id = wallet.get_account_id();

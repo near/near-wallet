@@ -18,8 +18,8 @@ function sleep(time) {
 
 class Wallet {
   constructor() {
-    this.key_store = new nearLib.BrowserLocalStorageKeystore();
-    this.near = window.nearLib.Near.createDefaultConfig(NODE_URL);
+    this.key_store = new nearlib.BrowserLocalStorageKeystore();
+    this.near = window.nearlib.Near.createDefaultConfig(NODE_URL);
     this.accounts = JSON.parse(localStorage.getItem(KEY_WALLET_ACCOUNTS) || "{}");
     this.tokens = JSON.parse(localStorage.getItem(KEY_WALLET_TOKENS) || "{}");
     this.account_id = localStorage.getItem(KEY_ACTIVE_ACCOUNT_ID) || "";
@@ -118,7 +118,7 @@ class Wallet {
       throw "Account " + account_id + " already exists."; 
     }
     let thisWallet = this;
-    let keyPair = await nearLib.KeyPair.fromRandomSeed();
+    let keyPair = await nearlib.KeyPair.fromRandomSeed();
     return new Promise(function (resolve, reject) {
       let data = JSON.stringify({
         newAccountId: account_id,
@@ -143,6 +143,49 @@ class Wallet {
     window.addEventListener("message", $.proxy(this.receive_message, this), false);
   }
 
+  async process_transaction_message(action, data) {
+    let token = data['token'] || '';
+    if (!(token in this.tokens)) {
+      // Unknown token.
+      throw "The token " + token + " is not found ";
+    }
+    let app_data = this.tokens[token];
+    let account_id = app_data['account_id'];
+    if (!(account_id in this.accounts)) {
+      // Account is no longer authorized.
+      throw "The account " + account_id + " is not part of the wallet anymore.";
+    }
+    let contract_id = app_data['contract_id'];
+    let receiver_id = data['receiver_id'] || contract_id;
+    if (receiver_id !== contract_id || !this.is_legit_account_id(receiver_id)) {
+      // Bad receiver account ID or it doesn't match contract id.
+      throw "Bad receiver's account ID ('" + receiver_id + "') or it doesn't match the authorized contract id";
+    }
+    let amount = parseInt(data['amount']) || 0;
+    if (amount !== 0) {
+      // Automatic authorization denied since for amounts greater than 0.
+      throw "Transaction amount should be 0.";
+    }
+    let method_name = data['method_name'] || '';
+    if (!method_name) {
+      // Method name can't be empty since the amount is 0.
+      throw "Method name can't be empty since the amount is 0";
+    }
+    let args = data['args'] || {};
+    if (action == 'send_transaction') {
+      // Sending the transaction on behalf of the account_id
+      return await this.send_transaction(account_id, receiver_id, method_name, amount, args)
+    } else if (action == 'sign_transaction') {
+      // Signing the provided hash of the transaction. It's a security issue here.
+      // In the future we would sign the transaction above and don't depend on the given hash.
+      let hash = data['hash'] || '';
+      let signature = await this.near.nearClient.signer.signHash(hash, account_id);
+      return signature;
+    } else {
+      throw "Unknown action";
+    }
+  }
+
   receive_message(event) {
     let data;
     try {
@@ -151,45 +194,32 @@ class Wallet {
       // Silently dying.
       return;
     }
-    if (data['action'] !== 'send_transaction') {
-      // Unknown action.
+    const action = data['action'] || '';
+    if (action !== 'send_transaction' && action !== 'sign_transaction') {
+      // Unknown action, skipping silently.
       return;
     }
-    let token = data['token'] || '';
-    if (!(token in this.tokens)) {
-      console.warn("Wallet: TX denied. The token " + token + " is not found ");
-      // Unknown token.
-      return;
-    }
-    let app_data = this.tokens[token];
-    let account_id = app_data['account_id'];
-    if (!(account_id in this.accounts)) {
-      console.warn("Wallet: TX denied. The account " + account_id + " is not part of the wallet anymore.");
-      // Account is no longer authorized.
-      return;
-    }
-    let contract_id = app_data['contract_id'];
-    let receiver_id = data['receiver_id'] || contract_id;
-    if (receiver_id !== contract_id || !this.is_legit_account_id(receiver_id)) {
-      console.warn("Wallet: TX denied. Bad receiver's account ID ('" + receiver_id + "') or it doesn't match the authorized contract id");
-      // Bad receiver account ID or it doesn't match contract id.
-      return;
-    }
-    let amount = parseInt(data['amount']) || 0;
-    if (amount !== 0) {
-      console.warn("Wallet: TX denied. Transaction amount should be 0.");
-      // Automatic authorization denied since for amounts greater than 0.
-    }
-    let method_name = data['method_name'] || '';
-    if (!method_name) {
-      console.warn("Wallet: TX denied.  Method name can't be empty since the amount is 0");
-      // Method name can't be empty since the amount is 0.
-      return;
-    }
-    let args = data['args'] || {};
-    // Sending the transaction on behalf of the account_id
-    this.send_transaction(account_id, receiver_id, method_name, amount, args)
-      .catch(console.log);
+    const request_id = data['request_id'] || '';
+
+    let reply = (d) => event.source.postMessage(JSON.stringify(d), event.origin);
+
+    this.process_transaction_message(action, data)
+      .then((result) => {
+        console.log("Wallet: OK " + action, result);
+        reply({
+          success: true,
+          request_id,
+          result,
+        });
+      })
+      .catch((error) => {
+        console.error("Wallet: failed to " + action, error);
+        reply({
+          success: false,
+          request_id,
+          error,
+        });
+      });
   }
 }
 
