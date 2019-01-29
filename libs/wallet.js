@@ -213,7 +213,7 @@ class Wallet {
 
     this.process_transaction_message(action, data)
       .then((result) => {
-        console.log("Wallet: OK " + action, result);
+        console.log("Wallet: OK " + action);
         reply({
           success: true,
           request_id,

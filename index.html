@@ -67,7 +67,7 @@
   </div>
 
   <div class="container">
-    <h3> Send money</h3>
+    <h3> Send tokens</h3>
     <from class="form" id="form-tx">
       <div class="form-group">
         <label for="form-account-id">Receiver's Account ID</label>
@@ -78,7 +78,7 @@
         <input type="text" class="form-input form-control" id="form-method-name" placeholder="deposit">
       </div>
       <div class="form-group">
-        <label for="form-amount">Amount of money</label>
+        <label for="form-amount">Amount of tokens</label> <small>(positive integer)</small>
         <input type="number" class="form-input form-control" id="form-amount" required value="0">
       </div>
       <div class="form-group hidden">
@@ -172,6 +172,7 @@
           console.log(d);
           $('#tx-id').text(JSON.stringify(d));
           $('#success-message-div').removeClass('hidden');
+          $('#form-amount').val(0);
           refresh_account();
         })
         .catch((e) => {

@@ -40,16 +40,15 @@
 
   <div class="container" role="main">
     <div class="jumbotron">
-      <div class="lead">App <strong id="app-title"></strong> wants to login with your wallet</div>
-      <div id="div-url">URL: <strong id="app-url"></strong></div>
-      <div id="div-contract">Contract ID: <strong id="app-contract-id"></strong></div>
-
+      <div class="lead">App <strong id="app-title"></strong> wants to login with your account</div>
       <div id="div-login">Login with: <strong id="account-id"></strong></div>
+      <div id="div-url">Origin: <strong id="app-url"></strong></div>
+      <div id="div-contract">Contract ID: <strong id="app-contract-id"></strong></div>
       <br>
 
       <form id="approve-form" class="row" method="get">
-        <div class="col-xs-4"><input id="on-approve" class="btn btn-lg btn-block btn-success" value="Authorize" /></div>
-        <div class="col-xs-4"><input id="on-deny" class="btn btn-lg btn-block btn-danger" value="Deny" /></div>
+        <div class="col-xs-4"><button id="on-approve" class="btn btn-lg btn-block btn-success">Authorize</button></div>
+        <div class="col-xs-4"><button id="on-deny" class="btn btn-lg btn-block btn-danger">Deny</button></div>
       </form>
     </div>
   </div>
