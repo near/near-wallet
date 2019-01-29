@@ -84,7 +84,7 @@
     <div id="success-message-div" class="alert alert-success fade in hidden">
         <a href="#" class="close" data-dismiss="alert">&times;</a>
         <strong>Success!</strong> Account <span id='success-message-account'></span> was successfully created!<br>
-        You'll be redirected in 3 seconds.
+        You'll be redirected in 0.5 seconds.
     </div>
   </div>
 
@@ -123,7 +123,7 @@
           $('#submit-button').addClass('hidden');
           setTimeout(() => {
             window.location.replace($.url('?next_url'));
-          }, 3000);
+          }, 500);
         })
         .catch((e) => {
           console.log(e);

@@ -113,13 +113,20 @@ class Wallet {
   }
 
   async create_new_account(account_id) {
-    // TODO: Check account doesn't exists on devnet
     if (account_id in this.accounts) {
-      throw "Account " + account_id + " already exists."; 
+      throw "Account " + account_id + " already exists.";
     }
-    let thisWallet = this;
+    let remoteAccount = null;
+    try {
+      remoteAccount = await this.near.nearClient.viewAccount(account_id);
+    } catch (e) {
+      // expected
+    }
+    if (!!remoteAccount) {
+      throw "Account " + account_id + " already exists.";
+    }
     let keyPair = await nearlib.KeyPair.fromRandomSeed();
-    return new Promise(function (resolve, reject) {
+    return await new Promise((resolve, reject) => {
       let data = JSON.stringify({
         newAccountId: account_id,
         newAccountPublicKey: keyPair.getPublicKey(),
@@ -127,10 +134,10 @@ class Wallet {
 
       $.post(CONTRACT_CREATE_ACCOUNT_URL, data)
         .done((d) => {
-          thisWallet.key_store.setKey(account_id, keyPair).catch(console.log);
-          thisWallet.accounts[account_id] = true;
-          thisWallet.account_id = account_id;
-          thisWallet.save();
+          this.key_store.setKey(account_id, keyPair).catch(console.log);
+          this.accounts[account_id] = true;
+          this.account_id = account_id;
+          this.save();
           resolve(d);
         })
         .fail((e) => {

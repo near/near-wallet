@@ -200,7 +200,6 @@
       $('#account-id').text(account_id);
       wallet.load_account(account_id)
         .then(function(v) {
-          console.log(v);
           your_account = v;
           your_amount = v['amount'] || 0;
           $('#acc_details').text(JSON.stringify(v, null, 2));
