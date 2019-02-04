@@ -4,7 +4,7 @@ const WALLET_CREATE_NEW_ACCOUNT_URL = '/create/';
 const CONTRACT_CREATE_ACCOUNT_URL = 'https://studio.nearprotocol.com/contract-api/account';
 const NODE_URL = "https://studio.nearprotocol.com/devnet";
 
-const KEY_UNIQUE_PREFIX = "";
+const KEY_UNIQUE_PREFIX = "_1:";
 const KEY_WALLET_ACCOUNTS = KEY_UNIQUE_PREFIX + "wallet:accounts";
 const KEY_WALLET_TOKENS = KEY_UNIQUE_PREFIX + "wallet:tokens";
 const KEY_ACTIVE_ACCOUNT_ID = KEY_UNIQUE_PREFIX + "wallet:active_account_id";
