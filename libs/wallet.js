@@ -151,6 +151,13 @@ class Wallet {
     window.addEventListener("message", $.proxy(this.receive_message, this), false);
   }
 
+  clear_state() {
+    this.accounts = {};
+    this.tokens = {};
+    this.account_id = "";
+    this.save();
+  }
+
   async process_transaction_message(action, data) {
     let token = data['token'] || '';
     if (!(token in this.tokens)) {
