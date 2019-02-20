@@ -89,10 +89,14 @@ class Wallet {
     );
   }
 
-  redirect_to_create_account() {
-    let url = WALLET_CREATE_NEW_ACCOUNT_URL + "?" + $.param({
-      next_url: window.location.href,
-    })
+  redirect_to_create_account(options = {}) {
+    const param = {
+      next_url: window.location.href
+    };
+    if (options.reset_accounts) {
+      param.reset_accounts = true;
+    }
+    let url = WALLET_CREATE_NEW_ACCOUNT_URL + "?" + $.param(param)
     window.location.replace(url);
   }
 
