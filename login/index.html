@@ -63,6 +63,9 @@
   <script>
     let wallet = new Wallet();
     wallet.redirect_if_empty();
+    let account_id = wallet.get_account_id();
+    // Check that account is still active
+    wallet.load_account(account_id).then(() => {});
 
     let app_title = $.url('?title');
     let app_url = $.url('?app_url');
@@ -71,7 +74,7 @@
     $('#app-url').text(app_url);
     $('#app-contract-id').text(contract_id);
 
-    $('#account-id').text(wallet.get_account_id());
+    $('#account-id').text(account_id);
 
     let on_success_url = $.url('?success_url');
     let on_failure_url = $.url('?failure_url');

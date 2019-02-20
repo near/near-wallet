@@ -114,7 +114,18 @@ class Wallet {
     if (!(account_id in this.accounts)) {
       throw "Account " + account_id + " doesn't exists.";
     }
-    return await this.near.nearClient.viewAccount(account_id);
+    try {
+      return await this.near.nearClient.viewAccount(account_id);
+    } catch (e) {
+      if (e.message && e.message.indexOf('is not valid') != -1) {
+        // We have an account in the storage, but it doesn't exist on blockchain. We probably nuked storage so just redirect to create account
+        console.log(e);
+        this.clear_state();
+        this.redirect_to_create_account({
+          reset_accounts: true
+        });
+      }
+    }
   }
 
   async create_new_account(account_id) {
