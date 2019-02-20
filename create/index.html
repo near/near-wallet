@@ -59,6 +59,8 @@
 
   <div class="container" role="main">
     <h3>Create a new account on NEAR Protocol DevNet</h3>
+    <div id="extra-text-delete-storage" class="collapse">You have been redirected to this page because we had to reset the developer accounts.
+      Please create a new account. We apologize for the inconveience.</div>
     <from class="form">
         <div class="form-group">
           <label for="form-account-id">NEAR Account ID</label>
@@ -101,6 +103,11 @@
     let wallet = new Wallet();
     let is_legit = false;
     let account_id = "";
+
+    // optional messages
+    if($.url('?reset_accounts')) {
+      $("#extra-text-delete-storage").removeClass("collapse");
+    }
 
     $('#form-account-id').on("input", function() {
       account_id = $(this).val();
