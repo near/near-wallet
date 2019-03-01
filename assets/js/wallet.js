@@ -6,7 +6,7 @@ const WALLET_CREATE_NEW_ACCOUNT_URL = '{{ site.baseurl }}/create/';
 {% if jekyll.environment == "production" %}
 const CONTRACT_CREATE_ACCOUNT_URL = 'https://studio.nearprotocol.com/contract-api/account';
 const NODE_URL = "https://studio.nearprotocol.com/devnet";
-{% else if jekyll.environment == "local" %}
+{% elsif jekyll.environment == "development" %}
 const CONTRACT_CREATE_ACCOUNT_URL = 'http://localhost:3000/account';
 const NODE_URL = 'http://localhost:3030'
 {% else %}
