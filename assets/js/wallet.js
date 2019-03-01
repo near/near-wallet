@@ -10,8 +10,8 @@ const NODE_URL = "https://studio.nearprotocol.com/devnet";
 const CONTRACT_CREATE_ACCOUNT_URL = 'http://localhost:3000/account';
 const NODE_URL = 'http://localhost:3030'
 {% else %}
-const CONTRACT_CREATE_ACCOUNT_URL = '{{ site.baseurl }}/contract-api/account';
-const NODE_URL = '{{ site.baseurl }}/devnet'
+const CONTRACT_CREATE_ACCOUNT_URL = '/contract-api/account';
+const NODE_URL = '/devnet'
 {% endif %}
 
 const KEY_UNIQUE_PREFIX = "_2:";
