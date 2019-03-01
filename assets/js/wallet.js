@@ -1,8 +1,18 @@
-const WALLET_URL = "/login/";
-const WALLET_CREATE_NEW_ACCOUNT_URL = '/create/';
+---
+---
+const WALLET_URL = "{{ site.baseurl }}/login/";
+const WALLET_CREATE_NEW_ACCOUNT_URL = '{{ site.baseurl }}/create/';
 
+{% if jekyll.environment == "production" %}
 const CONTRACT_CREATE_ACCOUNT_URL = 'https://studio.nearprotocol.com/contract-api/account';
 const NODE_URL = "https://studio.nearprotocol.com/devnet";
+{% else if jekyll.environment == "local" %}
+const CONTRACT_CREATE_ACCOUNT_URL = 'http://localhost:3000/account';
+const NODE_URL = 'http://localhost:3030'
+{% else %}
+const CONTRACT_CREATE_ACCOUNT_URL = '{{ site.baseurl }}/contract-api/account';
+const NODE_URL = '{{ site.baseurl }}/devnet'
+{% endif %}
 
 const KEY_UNIQUE_PREFIX = "_2:";
 const KEY_WALLET_ACCOUNTS = KEY_UNIQUE_PREFIX + "wallet:accounts_v2";
@@ -66,10 +76,10 @@ class Wallet {
     }
 
     this.tokens[token] = {
-        app_url,
-        app_title,
-        contract_id,
-        account_id: this.account_id,
+      app_url,
+      app_title,
+      contract_id,
+      account_id: this.account_id,
     };
     this.save();
     return token;
@@ -79,7 +89,7 @@ class Wallet {
     return ACCOUNT_ID_REGEX.test(account_id);
   }
 
-  async send_transaction(sender_id, receiver_id, method_name, amount, args) {  
+  async send_transaction(sender_id, receiver_id, method_name, amount, args) {
     return await this.near.scheduleFunctionCall(
       amount,
       sender_id,
