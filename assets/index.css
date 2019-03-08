@@ -38,6 +38,7 @@ body {
    font-size: 14px;
    line-height: 18px;
    padding-top: 72px;
+   -webkit-text-size-adjust: 100%;
 }
 
 
