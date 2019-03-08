@@ -1,0 +1,70 @@
+<div class="navtop row w-100 no-gutters" style="">
+   <div class="col col-4 col-lg-7 col-sm-6" style="">
+      <div class="row">
+         <div class="col col-auto">
+            <img src="{{ site.baseurl }}/assets/img/wallet.png" alt="" style="height: 72px;">
+         </div>
+         <div class="col d-none d-lg-block mainmenu">
+            <a href="#" class="nav-recent">
+               RECENT
+            </a>
+            <a href="#" class="nav-activity">
+               ACTIVITY
+            </a>
+            <a href="#" class="nav-sendmoney">
+               SEND MONEY
+            </a>
+         </div>
+      </div>
+   </div>
+   <div class="col col-8 col-lg-5 col-sm-6 ">
+      <div class="row float-right">
+         <div class="col d-none d-lg-block mainmenu help">
+            <a href="http://near.chat/" target="_blank" class="nav-help">
+               HELP
+            </a>
+         </div>
+         <div class="col col-auto drop" id="dropdown">
+            <div class="row">
+               <div class="col col-auto account-img">
+                  <img src="{{ site.baseurl }}/assets/img/icon-account.svg" alt="" style="width: 24px;margin: 6px;">
+               </div>
+               <div class="col" style="line-height: 36px;margin: 0 0 0 10px;">
+                  <span class="account-id"></span>
+               </div>
+               <div class="col near-tokens" style="">
+                  <span class="account-amount"></span>&nbsp;NEAR
+               </div>
+               <div class="col dropdown-arr" style="position: relative;">
+                  <img src="{{ site.baseurl }}/assets/img/icon-arrow-down.svg" alt="" style="width: 12px;">
+
+                  <div class="dropdown-x" style="">
+                     <div class="switch-account-title">
+                        SWITCH ACCOUNT
+                     </div>
+                     <div class="switch-account">
+                        <div class="opt account-selector">
+                           <div class="row">
+                              <div class="col username"></div>
+                              <div class="col col-auto ammount"></div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+
+
+<script>
+   $('#dropdown').on('mouseenter', function () {
+      $('.dropdown-x').show()
+   })
+   $('#dropdown').on('mouseleave', function () {
+      $('.dropdown-x').hide()
+   })
+
+</script>

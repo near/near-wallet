@@ -3,16 +3,9 @@
 const WALLET_URL = "{{ site.baseurl }}/login/";
 const WALLET_CREATE_NEW_ACCOUNT_URL = '{{ site.baseurl }}/create/';
 
-{% if jekyll.environment == "production" %}
 const CONTRACT_CREATE_ACCOUNT_URL = 'https://studio.nearprotocol.com/contract-api/account';
 const NODE_URL = "https://studio.nearprotocol.com/devnet";
-{% elsif jekyll.environment == "development" %}
-const CONTRACT_CREATE_ACCOUNT_URL = 'http://localhost:3000/account';
-const NODE_URL = 'http://localhost:3030'
-{% else %}
-const CONTRACT_CREATE_ACCOUNT_URL = '/contract-api/account';
-const NODE_URL = '/devnet'
-{% endif %}
+
 
 const KEY_UNIQUE_PREFIX = "_2:";
 const KEY_WALLET_ACCOUNTS = KEY_UNIQUE_PREFIX + "wallet:accounts_v2";
@@ -34,15 +27,15 @@ class Wallet {
     this.accounts = JSON.parse(localStorage.getItem(KEY_WALLET_ACCOUNTS) || "{}");
     this.tokens = JSON.parse(localStorage.getItem(KEY_WALLET_TOKENS) || "{}");
     this.account_id = localStorage.getItem(KEY_ACTIVE_ACCOUNT_ID) || "";
-    $('body').append(
-      $('<div/>').addClass("container").attr('role', 'footer').css('margin-top', '50px').append(
-        $('<div/>').append(
-          $("<small/>").addClass("text-muted").text("DISCLAIMER: This is a developers' preview Wallet. It should be used for NEAR Protocol DevNet only. Learn more at ").append(
-            $("<a/>").attr("href", "https://nearprotocol.com").text("nearprotocol.com")
-          )
-        )
-      )
-    );
+   //  $('body').append(
+   //    $('<div/>').addClass("container").attr('role', 'footer').css('margin-top', '50px').append(
+   //      $('<div/>').append(
+   //        $("<small/>").addClass("text-muted").text("DISCLAIMER: This is a developers' preview Wallet. It should be used for NEAR Protocol DevNet only. Learn more at ").append(
+   //          $("<a/>").attr("href", "https://nearprotocol.com").text("nearprotocol.com")
+   //        )
+   //      )
+   //    )
+   //  );
   }
 
   save() {
