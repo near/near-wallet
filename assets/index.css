@@ -85,11 +85,11 @@ input {
    position: relative;
 }
 input.username.error {
-   background: url('/assets/img/icon-problems.svg') right 22px center no-repeat;
+   background: url('img/icon-problems.svg') right 22px center no-repeat;
    background-size: 24px 24px;
 }
 input.username.success {
-   background: url('/assets/img/icon-check.svg') right 22px center no-repeat;
+   background: url('img/icon-check.svg') right 22px center no-repeat;
    background-size: 24px 24px;
 }
 
@@ -240,7 +240,7 @@ div.note {
    margin-left: 10px;
 }
 .nav-recent::before {
-   background-image: url('/assets/img/icon-recent.svg');
+   background-image: url('img/icon-recent.svg');
    background-size: 24px 24px;
    display: inline-block;
    width: 24px; 
@@ -260,7 +260,7 @@ div.note {
    margin-left: 24px;
 }
 .nav-activity::before {
-   background-image: url('/assets/img/icon-activity.svg');
+   background-image: url('img/icon-activity.svg');
    background-size: 24px 24px;
    display: inline-block;
    width: 24px; 
@@ -280,7 +280,7 @@ div.note {
    margin-left: 24px;
 }
 .nav-sendmoney::before {
-   background-image: url('/assets/img/icon-send.svg');
+   background-image: url('img/icon-send.svg');
    background-size: 24px 24px;
    display: inline-block;
    width: 24px; 
@@ -301,7 +301,7 @@ div.note {
    margin-left: 10px;
 }
 .nav-help::before {
-   background-image: url('/assets/img/icon-help.svg');
+   background-image: url('img/icon-help.svg');
    background-size: 24px 24px;
    display: inline-block;
    width: 24px; 
@@ -395,7 +395,7 @@ ul.success li:before{
    display: inline-block;
    height: 24px;
    width: 24px;
-   background-image: url('/assets/img/icon-check.svg');
+   background-image: url('img/icon-check.svg');
 
    position: absolute;
    top: -6px;
@@ -406,7 +406,7 @@ ul.error li:before{
    display: inline-block;
    height: 24px;
    width: 24px;
-   background-image: url('/assets/img/icon-problems.svg');
+   background-image: url('img/icon-problems.svg');
 
    position: absolute;
    top: -6px;
@@ -455,17 +455,17 @@ ul.error li:before{
    background-size: 18px 18px;
 }
 .account-first .account-info.up {
-   background-image: url(/assets/img/icon-arrow-up.svg);
+   background-image: url(img/icon-arrow-up.svg);
 }
 .account-first .account-info.down {
-   background-image: url(/assets/img/icon-arrow-down.svg);
+   background-image: url(img/icon-arrow-down.svg);
 }
 
 .account .img {
    width: 56px;
    height: 56px;
    background-color: #d8d8d8;
-   background-image: url(/assets/img/icon-account.svg);
+   background-image: url(img/icon-account.svg);
    background-position: center center;
    background-repeat: no-repeat;
    background-size: 36px 36px;
@@ -474,7 +474,7 @@ ul.error li:before{
 .account .plus {
    width: 56px;
    height: 56px;
-   background-image: url(/assets/img/icon-account.svg);
+   background-image: url(img/icon-account.svg);
    background-position: center center;
    background-repeat: no-repeat;
    background-size: 36px 36px;
@@ -526,7 +526,7 @@ ul.error li:before{
 .account-img {
    width: 36px;
    height: 36px;
-   background-image: url(/assets/img/icon-m-node.svg);
+   background-image: url(img/icon-m-node.svg);
    background-position: center center;
    background-repeat: no-repeat;
    background-size: 36px 36px;
