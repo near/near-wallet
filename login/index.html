@@ -36,108 +36,108 @@
    {% include navtop.html %}
 
 
-      <div class="container h-100" style="">
-         <div class="row">
-            <div class="col" style="height: 100px;">
+   <div class="container h-100" style="">
+      <div class="row">
+         <div class="col" style="height: 100px;">
 
-            </div>
          </div>
-         <div class="row">
-            <div class="col text-center">
-               <h2>
-                  Allow <span style="font-weight: 600;" class="app-title">[app_name]</span> to use your NEAR account?
-               </h2>
-            </div>
-         </div>
-         <div class="row justify-content-center" style="margin: 30px 0 0 0;">
-            <div class="col col-lg-8" style="background: #f8f8f8;">
-               <div class="row">
-                  <div class="col-12 col-md-6 info-allow" style="border-right: 2px solid #efefef;">
-                     <h3 style="font-weight: 600;">
-                        This allows <span class="app-title">[app_name]</span> to:
-                     </h3>
-                     <ul class="success">
-                        <li>
-                           View your Account Name
-                        </li>
-                        <li>
-                           Write Chat messages with your name
-                        </li>
-                     </ul>
-                  </div>
-                  <div class="col-12 col-md-6 info-allow">
-                     <h3 style="font-weight: 600;">
-                        This allows <span class="app-title">[app_name]</span> to:
-                     </h3>
-                     <ul class="error">
-                        <li>
-                           View your Account Name
-                        </li>
-                        <li>
-                           Write Chat messages with your name
-                        </li>
-                     </ul>
-                  </div>
-               </div>
-            </div>
-         </div>
-         <div class="row">
-            <div class="col">
-               <div class="account-list" style="height: px;position: relative;">
-                  <div class="account account-first">
-                     <div class="row">
-                        <div class="col col-auto img"></div>
-                        <div class="col account-info up">
-                           <h3 class="account-id"></h3>
-                        </div>
-                     </div>
-                  </div>
-                  <div class="account-dropdown" style="height: 0px;position: absolute;z-index: 99;overflow: hidden;width: 100%;">
-                     <div class="account-change-select">
-                        <div class="account opt2 account-selector">
-                           <div class="row">
-                              <div class="col col-auto img"></div>
-                              <div class="col account-info">
-                                 <h3 class="username"></h3>
-                              </div>
-                           </div>
-                        </div>
-                     </div>
-                     <div id="create-account-button" class="account account-create">
-                        <div class="row">
-                           <div class="col col-auto plus"></div>
-                           <div class="col account-info">
-                              <h3>
-                                 Create New Account
-                              </h3>
-                           </div>
-                        </div>
-                     </div>
-                  </div>
-
-
-               </div>
-
-            </div>
-         </div>
-         <form id="approve-form" class="row" method="get">
-            <div class="col-12 col-sm-6">
-               <button id="on-deny" class="deny float-right">
-                  DENY
-               </button>
-            </div>
-            <div class="col-12 col-sm-6">
-               <button id="on-approve" class="allow">
-                  ALLOW
-               </button>
-            </div>
-         </form>
       </div>
+      <div class="row">
+         <div class="col text-center">
+            <h2>
+               Allow <span style="font-weight: 600;" class="app-title">[app_name]</span> to use your NEAR account?
+            </h2>
+         </div>
+      </div>
+      <div class="row justify-content-center" style="margin: 30px 0 0 0;">
+         <div class="col col-lg-8" style="background: #f8f8f8;">
+            <div class="row">
+               <div class="col-12 col-md-6 info-allow" style="border-right: 2px solid #efefef;">
+                  <h3 style="font-weight: 600;">
+                     This allows <span class="app-title">[app_name]</span> to:
+                  </h3>
+                  <ul class="success">
+                     <li>
+                        View your Account Name
+                     </li>
+                     <li>
+                        Write Chat messages with your name
+                     </li>
+                  </ul>
+               </div>
+               <div class="col-12 col-md-6 info-allow">
+                  <h3 style="font-weight: 600;">
+                     This allows <span class="app-title">[app_name]</span> to:
+                  </h3>
+                  <ul class="error">
+                     <li>
+                        View your Account Name
+                     </li>
+                     <li>
+                        Write Chat messages with your name
+                     </li>
+                  </ul>
+               </div>
+            </div>
+         </div>
+      </div>
+      <div class="row">
+         <div class="col">
+            <div class="account-list" style="height: px;position: relative;">
+               <div class="account account-first">
+                  <div class="row">
+                     <div class="col col-auto img"></div>
+                     <div class="col account-info up">
+                        <h3 class="account-id"></h3>
+                     </div>
+                  </div>
+               </div>
+               <div class="account-dropdown" style="height: 0px;position: absolute;z-index: 99;overflow: hidden;width: 100%;">
+                  <div class="account-change-select">
+                     <div class="account opt2 account-selector">
+                        <div class="row">
+                           <div class="col col-auto img"></div>
+                           <div class="col account-info">
+                              <h3 class="username"></h3>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <div id="create-account-button" class="account account-create">
+                     <div class="row">
+                        <div class="col col-auto plus"></div>
+                        <div class="col account-info">
+                           <h3>
+                              Create New Account
+                           </h3>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+
+
+            </div>
+
+         </div>
+      </div>
+      <form id="approve-form" class="row" method="get">
+         <div class="col-12 col-sm-6">
+            <button id="on-deny" class="deny float-sm-right">
+               DENY
+            </button>
+         </div>
+         <div class="col-12 col-sm-6">
+            <button id="on-approve" class="allow">
+               ALLOW
+            </button>
+         </div>
+      </form>
+   </div>
 
 
 
 
-      {% include footer.html %}
+   {% include footer.html %}
 
 
 
@@ -201,7 +201,9 @@
 
          acc_cnt++;
       }
-
+      if (acc_cnt === 1) {
+         $('.one-account').hide();
+      }
 
 
       $('.account-selector').on('click', function () {

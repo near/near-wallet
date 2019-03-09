@@ -2,9 +2,10 @@
    <div class="col col-4 col-lg-7 col-sm-6" style="">
       <div class="row">
          <div class="col col-auto">
-            <img src="{{ site.baseurl }}/assets/img/wallet.png" alt="" style="height: 72px;">
+            <img class="logo" src="{{ site.baseurl }}/assets/img/wallet.png" alt="NEAR Wallet">
          </div>
-         <div class="col d-none d-lg-block mainmenu">
+
+         <div class="col d-none mainmenu hidden">
             <a href="#" class="nav-recent">
                RECENT
             </a>
@@ -25,17 +26,17 @@
             </a>
          </div>
          <div class="col col-auto drop" id="dropdown">
-            <div class="row">
+            <div class="row" style="position: relative;">
                <div class="col col-auto account-img">
                   <img src="{{ site.baseurl }}/assets/img/icon-account-bl.svg" alt="" style="width: 24px;margin: 6px;">
                </div>
-               <div class="col" style="line-height: 36px;margin: 0 0 0 10px;">
+               <div class="col account-name" style="line-height: 36px;margin: 0 0 0 10px;">
                   <span class="account-id"></span>
                </div>
-               <div class="col near-tokens" style="">
+               <div class="float-left near-tokens" style="">
                   <span class="account-amount"></span>&nbsp;NEAR
                </div>
-               <div class="col dropdown-arr" style="position: relative;">
+               <div class="float-left col dropdown-arr one-account" style="position: relative;">
                   <img src="{{ site.baseurl }}/assets/img/icon-arrow-down.svg" alt="" style="width: 12px;">
 
                   <div class="dropdown-x" style="">
@@ -67,4 +68,8 @@
       $('.dropdown-x').hide()
    })
 
+
+   $('.logo').on('click', function () {
+      window.location.replace('/');
+   });
 </script>

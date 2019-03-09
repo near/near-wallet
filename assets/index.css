@@ -24,12 +24,18 @@
 
 
 .container {
-   padding: 0 0 100px 0;
+   padding: 0 0 200px 0;
 }
 
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
 
-html, body {
+html {
    height: 100%;
+   box-sizing: border-box;
 }
 
 
@@ -39,6 +45,8 @@ body {
    line-height: 18px;
    padding-top: 72px;
    -webkit-text-size-adjust: 100%;
+   min-height: 100%;
+   position: relative;
 }
 
 
@@ -348,6 +356,13 @@ div.note {
 }
 
 
+
+.logo {
+   height: 72px;
+   cursor: pointer;
+}
+
+
 .footer {
    height: 100px;
    background-color: #f8f8f8;
@@ -359,7 +374,10 @@ div.note {
 
    padding: 30px;
 
-   
+   position: absolute;
+   right: 0;
+  bottom: 0;
+  left: 0;
 }
 .footer a {
    color: #999999;
@@ -539,16 +557,22 @@ ul.error li:before{
 
    color: #8fd6bd;
 
-   margin: 6px 0 6px 10px;
+   margin: 6px 20px 6px 10px;
    height: 24px;
    background: #111314;
    border-radius: 12px;
    padding: 0 10px;
+   
 }
 
 .dropdown-arr {
-   margin: 8px 20px 0 10px;
+   margin: 8px 20px 0 -10px;
 }
+
+
+ .account-code_hash {
+   word-wrap: break-word;
+ }
 
 
 .dropdown-x {
@@ -638,13 +662,38 @@ ul.error li:before{
 
 @media screen and (min-width: 768px) {
    .container {
-      padding: 0px 0px 100px 0px;
+      padding: 0px 0px 200px 0px;
    }
 }
 
 @media screen and (max-width: 576px) {
    .container {
-      padding: 0px 20px 100px 20px;
+      padding: 0px 20px 200px 20px;
+   }
+   .account-name {
+      position: absolute;
+      top: -18px;
+      right: -20px;
+      font-size: 12px;
+   }
+   .near-tokens {
+      margin-top: 18px;
+   }
+   .dropdown-arr {
+      margin: 20px 20px 0 -10px;
+   }
+   #approve-form > div {
+      text-align: center;
+   }
+   button.allow {
+      margin: 10px 0 0 0;
+   }
+   button.deny {
+      margin: 0 0 0 0;
+   }
+   .info-allow {
+      padding: 10px 24px;
+      border: 0px !important;
    }
 }
 
@@ -656,7 +705,7 @@ ul.error li:before{
 
 @media screen and (max-width: 340px) {
    .container {
-      padding: 0px 10px 100px 10px;
+      padding: 0px 10px 200px 10px;
    }
    input {
       /* width: 320px; */
