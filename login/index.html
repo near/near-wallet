@@ -2,103 +2,280 @@
 ---
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <title>Authorization request</title>
 
-    <!-- Bootstrap -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+<head>
+   <meta charset="utf-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+   <title>Authorization request</title>
 
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
+   <!-- Bootstrap -->
+   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous">
+
+   <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+   <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
-    <style>
-        .glyphicon-refresh-animate {
-            -animation: spin .7s infinite linear;
-            -webkit-animation: spin2 .7s infinite linear;
-        }
 
-        @-webkit-keyframes spin2 {
-            from { -webkit-transform: rotate(0deg);}
-            to { -webkit-transform: rotate(360deg);}
-        }
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
-        @keyframes spin {
-            from { transform: scale(1) rotate(0deg);}
-            to { transform: scale(1) rotate(360deg);}
-        }
-    </style>
-  </head>
-  <body style="padding-top: 70px; padding-bottom: 30px;">
-  <script src="{{ site.near.nearlib_url }}"></script>
-  <script src="{{ site.baseurl }}/assets/js/wallet.js"></script>
+   <link rel="stylesheet" href="https://use.typekit.net/pqx2pko.css">
+   <link rel="stylesheet" href="{{ site.baseurl }}/assets/index.css">
 
-  <div class="container" role="main">
-    <div class="jumbotron">
-      <div class="lead">App <strong id="app-title"></strong> wants to login with your account</div>
-      <div id="div-login">Login with: <strong id="account-id"></strong></div>
-      <div id="div-url">Origin: <strong id="app-url"></strong></div>
-      <div id="div-contract">Contract ID: <strong id="app-contract-id"></strong></div>
-      <br>
+   <link rel='shortcut icon' type='image/x-icon' href='{{ site.baseurl }}/assets/img/favicon.ico' />
+</head>
 
+<body>
+   <script src="{{ site.near.nearlib_url }}"></script>
+   <script src="{{ site.baseurl }}/assets/js/wallet.js"></script>
+
+   {% include navtop.html %}
+
+
+   <div class="container h-100" style="">
+      <div class="row">
+         <div class="col" style="height: 100px;">
+
+         </div>
+      </div>
+      <div class="row">
+         <div class="col text-center">
+            <h2>
+               Allow <span style="font-weight: 600;" class="app-title">[app_name]</span> to use your NEAR account?
+            </h2>
+         </div>
+      </div>
+      <div class="row justify-content-center" style="margin: 30px 0 0 0;">
+         <div class="col col-lg-8" style="background: #f8f8f8;">
+            <div class="row">
+               <div class="col-12 col-md-6 info-allow" style="border-right: 2px solid #efefef;">
+                  <h3 style="font-weight: 600;">
+                     This allows <span class="app-title">[app_name]</span> to:
+                  </h3>
+                  <ul class="success">
+                     <li>
+                        View your Account Name
+                     </li>
+                     <li>
+                        Write Chat messages with your name
+                     </li>
+                  </ul>
+               </div>
+               <div class="col-12 col-md-6 info-allow">
+                  <h3 style="font-weight: 600;">
+                     But, does NOT allow them to:
+                  </h3>
+                  <ul class="error">
+                     <li>
+                        View your Account Name
+                     </li>
+                     <li>
+                        Write Chat messages with your name
+                     </li>
+                  </ul>
+               </div>
+            </div>
+         </div>
+      </div>
+      <div class="row">
+         <div class="col">
+            <div class="account-list" style="height: px;position: relative;">
+               <div class="account account-first">
+                  <div class="row">
+                     <div class="col col-auto img"></div>
+                     <div class="col account-info up">
+                        <h3 class="account-id"></h3>
+                     </div>
+                  </div>
+               </div>
+               <div class="account-dropdown" style="height: 0px;position: absolute;z-index: 99;overflow: hidden;width: 100%;">
+                  <div class="account-change-select">
+                     <div class="account opt2 account-selector">
+                        <div class="row">
+                           <div class="col col-auto img"></div>
+                           <div class="col account-info">
+                              <h3 class="username"></h3>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <div id="create-account-button" class="account account-create">
+                     <div class="row">
+                        <div class="col col-auto plus"></div>
+                        <div class="col account-info">
+                           <h3>
+                              Create New Account
+                           </h3>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+
+
+            </div>
+
+         </div>
+      </div>
       <form id="approve-form" class="row" method="get">
-        <div class="col-xs-4"><button id="on-approve" class="btn btn-lg btn-block btn-success">Authorize</button></div>
-        <div class="col-xs-4"><button id="on-deny" class="btn btn-lg btn-block btn-danger">Deny</button></div>
+         <div class="col-12 col-sm-6">
+            <button id="on-deny" class="deny float-sm-right">
+               DENY
+            </button>
+         </div>
+         <div class="col-12 col-sm-6">
+            <button id="on-approve" class="allow">
+               ALLOW
+            </button>
+         </div>
       </form>
-    </div>
-  </div>
+   </div>
 
 
-  <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  <script type="text/javascript" src="{{ site.baseurl }}/assets/js/url.min.js"></script>
-  <!-- Include all compiled plugins (below), or include individual files as needed -->
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
-  <script>
-    let wallet = new Wallet();
-    wallet.redirect_if_empty();
-    let account_id = wallet.get_account_id();
-    // Check that account is still active
-    wallet.load_account(account_id).then(() => {});
 
-    let app_title = $.url('?title');
-    let app_url = $.url('?app_url');
-    let contract_id = $.url('?contract_id') || '';
-    $('#app-title').text(app_title);
-    $('#app-url').text(app_url);
-    $('#app-contract-id').text(contract_id);
+   {% include footer.html %}
 
-    $('#account-id').text(account_id);
 
-    let on_success_url = $.url('?success_url');
-    let on_failure_url = $.url('?failure_url');
-    $('#on-approve').click(function() {
-      let auth_token = wallet.new_access_token(app_url, app_title, contract_id);
+
+
+
+
+
+
+   <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+
+
+   <script type="text/javascript" src="{{ site.baseurl }}/assets/js/url.min.js"></script>
+   <!-- Include all compiled plugins (below), or include individual files as needed -->
+   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+      crossorigin="anonymous"></script>
+
+   <script>
+      let wallet = new Wallet();
+      wallet.redirect_if_empty();
       let account_id = wallet.get_account_id();
 
-      $('#approve-form')
-        .attr('action', on_success_url)
-        .append($('<input/>')
-          .attr({'type': 'hidden', 'name': 'auth_token', 'value': auth_token})
-        )
-        .append($('<input/>')
-          .attr({'type': 'hidden', 'name': 'account_id', 'value': account_id})
-        )
-        .submit();
-    });
-    $('#on-deny').click(function() {
-      $('#approve-form')
-        .attr('action', on_failure_url)
-        .submit();
-    });
-  </script>
+
+      $('.account-first').on('click', function () {
+         if ($('.account-dropdown').height() === 0) {
+            $('.account-dropdown').height(300);
+            $('.account-info').removeClass('up');
+            $('.account-info').addClass('down');
+         }
+         else {
+            $('.account-dropdown').height(0);
+            $('.account-info').removeClass('down');
+            $('.account-info').addClass('up');
+         }
+      });
+
+      let accounts = wallet.accounts;
+      let acc_cnt = 0;
+
+      let opt = $('.switch-account').find('.opt').parent().html();
+      let opt2 = $('.account-change-select').find('.opt2').parent().html();
+
+      for (u in accounts) {
+         if (acc_cnt) {
+            $('.switch-account').append(opt);
+            $('.switch-account').find('.opt:last').addClass('border-a')
+         }
+         $('.switch-account').find('.opt:last').find('.ammount').text('');
+         $('.switch-account').find('.opt:last').find('.username').text(u);
+         $('.switch-account').find('.opt:last').attr('data-account-id', u);
+
+
+
+         if (acc_cnt) {
+            $('.account-change-select').append(opt2);
+         }
+         $('.account-change-select').find('.opt2:last').find('.username').text(u);
+         $('.account-change-select').find('.opt2:last').attr('data-account-id', u);
+         if (account_id === u) {
+            $('.account-change-select').find('.opt2:last').addClass('hidden');
+         }
+
+         acc_cnt++;
+      }
+      if (acc_cnt === 1) {
+         $('.one-account').hide();
+      }
+
+
+      $('.account-selector').on('click', function () {
+         $('.account-selector[data-account-id="' + account_id + '"').removeClass('hidden');
+         account_id = $(this).data('account-id');
+         wallet.select_account(account_id);
+         refresh_account();
+      });
+
+
+
+
+
+      function refresh_account() {
+         $('.account-selector[data-account-id="' + account_id + '"]').addClass('hidden');
+         $('.account-id').text(account_id);
+
+         if ($('.account-dropdown').height() !== 0) {
+            $('.account-dropdown').height(0);
+         }
+
+         wallet.load_account(account_id)
+            .then(function (v) {
+               $('.account-amount').text(v['amount'] || 0);
+               $('.account-stake').text(v['stake']);
+               $('.account-nonce').text(v['nonce']);
+               $('.account-code_hash').text(v['code_hash']);
+            })
+            .catch(function (e) {
+               console.log(e);
+            });
+      }
+      refresh_account();
+
+
+
+      // Check that account is still active
+      wallet.load_account(account_id).then(() => { });
+
+      let app_title = $.url('?title');
+      let app_url = $.url('?app_url');
+      let contract_id = $.url('?contract_id') || '';
+      $('.app-title').text(app_title);
+      $('#app-url').text(app_url);
+      $('#app-contract-id').text(contract_id);
+
+      $('#account-id').text(account_id);
+
+      $('#create-account-button').click(wallet.redirect_to_create_account);
+
+      let on_success_url = $.url('?success_url');
+      let on_failure_url = $.url('?failure_url');
+      $('#on-approve').click(function () {
+         let auth_token = wallet.new_access_token(app_url, app_title, contract_id);
+         let account_id = wallet.get_account_id();
+
+         $('#approve-form')
+            .attr('action', on_success_url)
+            .append($('<input/>')
+               .attr({ 'type': 'hidden', 'name': 'auth_token', 'value': auth_token })
+            )
+            .append($('<input/>')
+               .attr({ 'type': 'hidden', 'name': 'account_id', 'value': account_id })
+            )
+            .submit();
+      });
+      $('#on-deny').click(function () {
+         $('#approve-form')
+            .attr('action', on_failure_url)
+            .submit();
+      });
+   </script>
 </body>
+
 </html>

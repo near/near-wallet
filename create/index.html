@@ -2,147 +2,189 @@
 ---
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <title>NEAR DEVNET WALLET</title>
 
-    <!-- Bootstrap -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+<head>
+   <meta charset="utf-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+   <title>NEAR DEVNET WALLET</title>
 
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
+   <!-- Bootstrap -->
+   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous">
+
+   <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+   <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
-    <style>
-        .glyphicon-refresh-animate {
-            -animation: spin .7s infinite linear;
-            -webkit-animation: spin2 .7s infinite linear;
-        }
 
-        @-webkit-keyframes spin2 {
-            from { -webkit-transform: rotate(0deg);}
-            to { -webkit-transform: rotate(360deg);}
-        }
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
-        @keyframes spin {
-            from { transform: scale(1) rotate(0deg);}
-            to { transform: scale(1) rotate(360deg);}
-        }
-    </style>
-  </head>
-  <body style="padding-top: 70px; padding-bottom: 30px;">
-  <script src="{{ site.near.nearlib_url }}"></script>
-  
-    <!-- Fixed navbar -->
-    <nav class="navbar  navbar-default  navbar-fixed-top">
-        <div class="container">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="/">NEAR DEVNET WALLET</a>
-        </div>
-        <div id="navbar" class="navbar-collapse collapse">
-            <ul class="nav navbar-nav">
-            <li class="active"><a href="/">Home</a></li>
-            </ul>
-        </div><!--/.nav-collapse -->
-        </div>
-    </nav>
+   <link rel="stylesheet" href="https://use.typekit.net/pqx2pko.css">
+   <link rel="stylesheet" href="{{ site.baseurl }}/assets/index.css">
 
-  <div class="container" role="main">
-    <h3>Create a new account on NEAR Protocol DevNet</h3>
-    <div id="extra-text-delete-storage" class="collapse">You have been redirected to this page because we had to reset the developer accounts.
-      Please create a new account. We apologize for the inconveience.</div>
-    <from class="form">
-        <div class="form-group">
-          <label for="form-account-id">NEAR Account ID</label>
-          <input type="text" class="form-control" id="form-account-id" placeholder="satoshi.near" required aria-describedby="account-help-block">
-          <div id="account-help-block" class="help-block">
-            Account ID can be <strong>5-32 characters</strong> long and contains any of the following:<br>
-            <ul>
-              <li>Lowercase characters (a-z)</li>
-              <li>Digits (0-9)
-              <li>Special characters (@._-)</li>
-            </ul>
-          </div>
-        </div>
-        <div class="form-group">
-          <button type="button" id="submit-button" class="btn btn-lg btn-primary" disabled="disabled">Create <span id="loading-spinner" class="hidden glyphicon glyphicon-refresh glyphicon-refresh-animate"></span>
-          </button>
-        </div>
-    </from>
-    <div id="error-message-div" class="alert alert-danger fade in hidden">
-        <a href="#" class="close" data-dismiss="alert">&times;</a>
-        <strong>Error!</strong> <span id='error-message'></span>
-    </div>
-    <div id="success-message-div" class="alert alert-success fade in hidden">
-        <a href="#" class="close" data-dismiss="alert">&times;</a>
-        <strong>Success!</strong> Account <span id='success-message-account'></span> was successfully created!<br>
-        You'll be redirected in 0.5 seconds.
-    </div>
-  </div>
+   <link rel='shortcut icon' type='image/x-icon' href='{{ site.baseurl }}/assets/img/favicon.ico' />
+
+</head>
+
+<body>
+   <script src="{{ site.near.nearlib_url }}"></script>
+
+   {% include navtop.html %}
+
+   <div class="container">
+      <div class="row">
+         <div class="col">
+            <h1>
+               Create Account
+            </h1>
+         </div>
+      </div>
+      <div class="row">
+         <div class="col col-lg-6">
+            <h2>
+               Creating an account is easy. Just choose a&nbsp;username and you’re ready to go.
+            </h2>
+         </div>
+      </div>
+      <div class="row" style="padding: 38px 0 10px 0;">
+         <div class="col">
+            <h3>
+               Choose a Username
+            </h3>
+         </div>
+      </div>
+      <div class="row">
+         <div class="col">
+            <div class="row">
+               <div class="col col-12 col-lg-6 col-md-12">
+                  <from class="form">
+                     <input type="text" id="form-account-id" placeholder="example: satoshi.near" class="username"
+                        aria-describedby="account-help-block">
+                     <div class="error-message-x-rwd">
+                        <div id="error-message-div-rwd" class="info info-error hidden">
+                           <span class='error-message'></span>
+                        </div>
+                        <div id="success-message-div-rwd" class="info info-success hidden">
+                           Congrats! this name is available.
+                        </div>
+                     </div>
+                     <button type="submit" class="create-account" disabled id="submit-button">
+                        CREATE ACCOUNT
+                     </button>
+                  </from>
+               </div>
+               <div class="col col-lg-6 col-md-12 note-div">
+                  <div class="error-message-x">
+                     <div id="error-message-div" class="info info-error hidden">
+                        <span class='error-message'></span>
+                     </div>
+                     <div id="success-message-div" class="info info-success hidden">
+                        Congrats! this name is available.
+                     </div>
+                  </div>
+                  <div id="account-help-block" class="note note-f">
+                     <span class="note-b">
+                        NOTE
+                     </span>
+                     <br>
+                     <span class="note-m">
+                        Your username can be 5-32 characters
+                        <br>
+                        long and contain any of the following:
+                     </span>
+                     <span class="note-l">
+                        • Lowercase characters (a-z)
+                        <br>
+                        • Digits (0-9)
+                        <br>
+                        • Special characters (@._-)
+                     </span>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+      <div class="row">
+         <div class="col note-f disclaimer">
+            <span class="note-b">
+               DISCLAIMER:
+            </span>
+            This is a developers&apos; preview Wallet. It should be used for NEAR Protocol DevNet only. Learn more at
+            <a href="">
+               nearprotocol.com
+            </a>
+         </div>
+      </div>
+   </div>
+
+   {% include footer.html %}
 
 
-  <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  <script type="text/javascript" src="{{ site.baseurl }}/assets/js/url.min.js"></script>
-  <!-- Include all compiled plugins (below), or include individual files as needed -->
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
-  <script src="{{ site.baseurl }}/assets/js/wallet.js"></script>
 
-  <script>
-    let wallet = new Wallet();
-    let is_legit = false;
-    let account_id = "";
+   <script type="text/javascript" src="{{ site.baseurl }}/assets/js/url.min.js"></script>
+   <!-- Include all compiled plugins (below), or include individual files as needed -->
 
-    // optional messages
-    if($.url('?reset_accounts')) {
-      $("#extra-text-delete-storage").removeClass("collapse");
-    }
+   <script src="{{ site.baseurl }}/assets/js/wallet.js"></script>
 
-    $('#form-account-id').on("input", function() {
-      account_id = $(this).val();
-      is_legit = wallet.is_legit_account_id(account_id);
-      $('#submit-button').attr('disabled', !is_legit);
-    });
+   <script>
+      let wallet = new Wallet();
+      let is_legit = false;
+      let account_id = "";
 
-    $('#submit-button').click(function(e) {
-      $('#error-message-div').addClass('hidden');
-      e.preventDefault();
-      if (!is_legit) {
-        return false;
+      $('#dropdown').hide();
+
+      // optional messages
+      if ($.url('?reset_accounts')) {
+         $("#extra-text-delete-storage").removeClass("collapse");
       }
-      $('#loading-spinner').removeClass('hidden');
-      $('#submit-button').attr('disabled', true);
-      // TODO: The account is not taken
-      wallet.create_new_account(account_id)
-        .then((d) => {
-          $('#success-message-div').removeClass('hidden');
-          $('#submit-button').addClass('hidden');
-          setTimeout(() => {
-            window.location.replace($.url('?next_url'));
-          }, 500);
-        })
-        .catch((e) => {
-          console.log(e);
-          $('#error-message').text(e);
-          $('#error-message-div').removeClass('hidden');
-          $('#submit-button').attr('disabled', false);
-        }).finally(() => {
-          $('#loading-spinner').addClass('hidden');
-        });
-    })
-  </script>
+
+      $('#form-account-id').on("input", function () {
+         account_id = $(this).val();
+         is_legit = wallet.is_legit_account_id(account_id);
+         $('#submit-button').attr('disabled', !is_legit);
+      });
+
+      $('#submit-button').click(function (e) {
+         $('#error-message-div').addClass('hidden');
+         $('#error-message-div-rwd').addClass('hidden');
+         $('#form-account-id').removeClass('error');
+
+         e.preventDefault();
+         if (!is_legit) {
+            return false;
+         }
+         // $('#loading-spinner').removeClass('hidden');
+         $('#submit-button').attr('disabled', true);
+
+         // TODO: The account is not taken
+
+         wallet.create_new_account(account_id)
+            .then((d) => {
+               $('#success-message-div').removeClass('hidden');
+
+               $('#form-account-id').addClass('success');
+
+               setTimeout(() => {
+                  window.location.replace($.url('?next_url'));
+               }, 1500);
+            })
+            .catch((e) => {
+               console.log(e);
+               $('.error-message').text(e);
+               $('#error-message-div').removeClass('hidden');
+               $('#error-message-div-rwd').removeClass('hidden');
+
+               $('#form-account-id').addClass('error');
+
+               $('#submit-button').attr('disabled', true);
+            })
+      })
+   </script>
 </body>
+
 </html>
