@@ -207,7 +207,7 @@
 
 
       $('.account-selector').on('click', function () {
-         $('.account-selector[data-account-id="' + account_id + '"').removeClass('hidden');
+         $('.account-selector[data-account-id="' + account_id + '"]').removeClass('hidden');
          account_id = $(this).data('account-id');
          wallet.select_account(account_id);
          refresh_account();
