@@ -638,6 +638,11 @@ ul.error li:before{
 
 
 
+.footer .rights {
+   margin: 10px 0 0 0;
+}
+
+
 
 .mainmenu a:hover {
    color: #8fd6bd;
@@ -698,8 +703,8 @@ ul.error li:before{
 }
 
 @media screen and (max-width: 394px) {
-   .footer {
-      padding: 20px 10px 0 10px;
+   .footer .rights {
+      margin: 0px;
    }
 }
 
