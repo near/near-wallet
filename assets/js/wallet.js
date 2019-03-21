@@ -14,7 +14,7 @@ const CONTRACT_CREATE_ACCOUNT_URL = '/contract-api/account';
 const NODE_URL = '/devnet'
 {% endif %}
 
-const KEY_UNIQUE_PREFIX = "_2:";
+const KEY_UNIQUE_PREFIX = "_3:";
 const KEY_WALLET_ACCOUNTS = KEY_UNIQUE_PREFIX + "wallet:accounts_v2";
 const KEY_WALLET_TOKENS = KEY_UNIQUE_PREFIX + "wallet:tokens_v2";
 const KEY_ACTIVE_ACCOUNT_ID = KEY_UNIQUE_PREFIX + "wallet:active_account_id_v2";
