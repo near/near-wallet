@@ -3,6 +3,6 @@ theme: minima
 plugins:
   - jekyll-feed
 near:
-  nearlib_url: https://cdn.jsdelivr.net/npm/nearlib@0.4.2/dist/nearlib.js
+  nearlib_url: https://cdn.jsdelivr.net/npm/nearlib@0.4.4/dist/nearlib.js
 exclude:
   - ops/
