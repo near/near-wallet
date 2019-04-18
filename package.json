@@ -1,0 +1,36 @@
+{
+   "homepage": "https://marcinbodnar.github.io/near-wallet-new",
+   "name": "wallet",
+   "version": "0.1.0",
+   "private": true,
+   "dependencies": {
+      "nearlib": "^0.4.7",
+      "prop-types": "^15.7.2",
+      "query-string": "^6.4.2",
+      "react": "^16.8.6",
+      "react-dom": "^16.8.6",
+      "react-redux": "^6.0.1",
+      "react-redux-loading": "^1.0.1",
+      "react-router-dom": "^5.0.0",
+      "react-scripts": "2.1.8",
+      "redux": "^4.0.1",
+      "redux-thunk": "^2.3.0",
+      "semantic-ui-react": "^0.86.0",
+      "styled-components": "^4.2.0"
+   },
+   "scripts": {
+      "start": "react-scripts start",
+      "build": "react-scripts build",
+      "test": "react-scripts test",
+      "eject": "react-scripts eject"
+   },
+   "eslintConfig": {
+      "extends": "react-app"
+   },
+   "browserslist": [
+      ">0.2%",
+      "not dead",
+      "not ie <= 11",
+      "not op_mini all"
+   ]
+}
