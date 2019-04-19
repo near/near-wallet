@@ -147,6 +147,28 @@ const CustomResponsive = styled(Responsive)`
 
             padding: 20px;
 
+            &-scroll {
+               max-height: 318px;
+               overflow-y: auto;
+               width: 270px;
+
+               > .item {
+                  width: 250px;
+                  margin: 0px;
+                  padding: 0px;
+
+                  :hover {
+                     text-decoration: underline;
+                  }
+                  ::before {
+                     display: none;
+                  }
+                  ::after {
+                     display: none;
+                  }
+               }
+            }
+
             h6 {
                padding-bottom: 6px;
             }
@@ -157,6 +179,9 @@ const CustomResponsive = styled(Responsive)`
                font-weight: 500;
                border-bottom: 2px solid #e6e6e6;
                letter-spacing: normal;
+
+               text-overflow: ellipsis;
+               overflow: hidden;
             }
             button {
                width: 100%;
@@ -204,11 +229,6 @@ class DesktopView extends Component {
    showFixedMenu = () => this.setState({ fixed: true })
 
    handleItemClick = (e, { name }) => this.setState({ activeItem: name })
-
-   accountIdShort = account_id =>
-      account_id.length > 12
-         ? account_id.substring(0, 12).concat('...')
-         : account_id
 
    handleSelectAccount = account_id => {
       this.wallet = new Wallet()
@@ -261,7 +281,7 @@ class DesktopView extends Component {
                            {account.loader || !account.account_id ? (
                               <Loader active inline size='mini' />
                            ) : (
-                              `@${this.accountIdShort(account.account_id)}`
+                              `@${account.account_id}`
                            )}
                         </Menu.Item>
                         <Menu.Item className='account-tokens'>
@@ -279,6 +299,8 @@ class DesktopView extends Component {
                         <Segment basic className='account-dropdown'>
                            <List>
                               <List.Item as='h6'>SWITCH ACCOUNT</List.Item>
+                           </List>
+                           <List className='account-dropdown-scroll'>
                               {account.accounts &&
                                  Object.keys(account.accounts)
                                     .filter(a => a !== account.account_id)
@@ -291,7 +313,7 @@ class DesktopView extends Component {
                                           }
                                           className='account-title'
                                        >
-                                          @{this.accountIdShort(account)}
+                                          @{account}
                                        </List.Item>
                                     ))}
                            </List>

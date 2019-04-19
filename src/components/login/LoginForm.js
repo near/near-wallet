@@ -6,15 +6,12 @@ import { Grid, Segment, List, Form, Button } from 'semantic-ui-react'
 
 import AddBlueImage from '../../images/icon-add-blue.svg'
 import ArrowDownImage from '../../images/icon-arrow-down.svg'
+import ArrowUpImage from '../../images/icon-arrow-up.svg'
 import AccountGreyImage from '../../images/icon-account-grey.svg'
 
 import styled from 'styled-components'
 
 const CustomGrid = styled(Grid)`
-   &&& {
-      padding-bottom: 200px;
-   }
-
    && button {
       width: 190px;
       height: 60px;
@@ -102,9 +99,11 @@ const CustomGrid = styled(Grid)`
             background-size: 36px 36px;
          }
          .name {
-            float: left;
             margin-top: 12px;
             margin-left: 18px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            flex: 1;
          }
          .arrow {
             float: right;
@@ -114,18 +113,19 @@ const CustomGrid = styled(Grid)`
             background-repeat: no-repeat;
             background-position: center center;
             background-size: 24px auto;
+
+            &.up {
+               background-image: url(${ArrowUpImage});
+            }
          }
       }
       .trigger {
+         display: flex;
       }
       .dropdown {
-         position: absolute;
-         left: 0px;
-         top: 64px;
-         z-index: 200;
-
          .element {
             margin-top: -4px;
+            display: flex;
          }
       }
       .create-account {
@@ -175,7 +175,6 @@ const LoginForm = ({
    dropdown,
    account,
    handleOnClick,
-   accountIdShort,
    handleDeny,
    handleSelectAccount,
    redirectCreateAccount
@@ -200,9 +199,9 @@ const LoginForm = ({
                <List verticalAlign='middle' className={`element trigger`}>
                   <List.Item className='img' />
                   <List.Item as='h3' className='name'>
-                     @{accountIdShort(account.account_id)}
+                     @{account.account_id}
                   </List.Item>
-                  <List.Item className='arrow' />
+                  <List.Item className={`arrow ${dropdown ? 'up' : ''}`} />
                </List>
 
                <Segment basic className={`dropdown ${dropdown ? '' : 'hide'}`}>
@@ -216,7 +215,7 @@ const LoginForm = ({
                         >
                            <List.Item className='img' />
                            <List.Item as='h3' className='name'>
-                              @{accountIdShort(account)}
+                              @{account}
                            </List.Item>
                         </List>
                      ))}
@@ -240,7 +239,7 @@ const LoginForm = ({
             className=''
          />
       </Grid.Row>
-      <Grid.Row className=''>
+      <Grid.Row className={`${dropdown ? 'hide' : ''}`}>
          <Grid.Column
             largeScreen={5}
             computer={4}
@@ -288,7 +287,6 @@ const LoginForm = ({
 LoginForm.propTypes = {
    dropdown: PropTypes.bool.isRequired,
    handleOnClick: PropTypes.func.isRequired,
-   accountIdShort: PropTypes.func.isRequired,
    handleDeny: PropTypes.func.isRequired,
    handleSelectAccount: PropTypes.func.isRequired,
    redirectCreateAccount: PropTypes.func.isRequired

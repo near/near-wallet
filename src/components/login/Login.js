@@ -42,11 +42,6 @@ class Login extends Component {
       this.wallet.redirect_to_create_account({}, this.props.history)
    }
 
-   accountIdShort = account_id =>
-      account_id.length > 12
-         ? account_id.substring(0, 12).concat('...')
-         : account_id
-
    render() {
       const { account } = this.props
 
@@ -59,7 +54,6 @@ class Login extends Component {
                <LoginForm
                   {...this.state}
                   handleOnClick={this.handleOnClick}
-                  accountIdShort={this.accountIdShort}
                   handleDeny={this.handleDeny}
                   handleSelectAccount={this.handleSelectAccount}
                   redirectCreateAccount={this.redirectCreateAccount}

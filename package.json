@@ -1,9 +1,10 @@
 {
-   "homepage": "https://marcinbodnar.github.io/near-wallet-new",
+   "homepage": "https://marcinbodnar.github.io/near-wallet",
    "name": "wallet",
    "version": "0.1.0",
    "private": true,
    "dependencies": {
+      "gh-pages": "^2.0.1",
       "nearlib": "^0.4.7",
       "prop-types": "^15.7.2",
       "query-string": "^6.4.2",
@@ -19,6 +20,8 @@
       "styled-components": "^4.2.0"
    },
    "scripts": {
+      "predeploy": "npm run build",
+      "deploy": "gh-pages -d build",
       "start": "react-scripts start",
       "build": "react-scripts build",
       "test": "react-scripts test",

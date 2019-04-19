@@ -66,6 +66,9 @@ const CustomResponsive = styled(Responsive)`
             font-weight: 500;
             border-bottom: 1px solid #323434;
             letter-spacing: normal;
+
+            text-overflow: ellipsis;
+            overflow: hidden;
          }
 
          button {
@@ -95,6 +98,10 @@ const CustomResponsive = styled(Responsive)`
          padding: 0px;
          font-family: 'benton-sans', sans-serif;
          font-weight: 400;
+
+         text-overflow: ellipsis;
+         overflow: hidden;
+         width: 100px;
       }
 
       .account-tokens {
@@ -202,11 +209,6 @@ class MobileView extends Component {
 
    handleToggle = () => this.setState({ sidebarOpened: true })
 
-   accountIdShort = account_id =>
-      account_id.length > 12
-         ? account_id.substring(0, 12).concat('...')
-         : account_id
-
    handleSelectAccount = account_id => {
       this.wallet = new Wallet()
       this.wallet.select_account(account_id)
@@ -229,10 +231,7 @@ class MobileView extends Component {
             getWidth={getWidth}
             maxWidth={Responsive.onlyTablet.maxWidth}
          >
-            <Sidebar.Pushable
-               getWidth={getWidth}
-               maxWidth={Responsive.onlyTablet.maxWidth}
-            >
+            <Sidebar.Pushable>
                <Sidebar
                   as={Menu}
                   animation='push'
@@ -247,7 +246,7 @@ class MobileView extends Component {
                         {account.loader || !account.account_id ? (
                            <Loader active inline size='mini' />
                         ) : (
-                           `@${this.accountIdShort(account.account_id)}`
+                           `@${account.account_id}`
                         )}
                      </Segment>
                      <Segment basic floated='right' className='account-tokens'>
@@ -302,7 +301,7 @@ class MobileView extends Component {
                                     }
                                     className='account-title'
                                  >
-                                    @{this.accountIdShort(account)}
+                                    @{account}
                                  </List.Item>
                               ))}
                      </List>
