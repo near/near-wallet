@@ -76,12 +76,12 @@ self.__precacheManifest = [
     "url": "/near-wallet/static/media/Branding with Type - Bw Seido Round Light.dde73b38.otf"
   },
   {
-    "revision": "971c1fec19ca99196578f34e66d5f0e9",
-    "url": "/near-wallet/static/media/Branding with Type - Bw Seido Round Medium.971c1fec.otf"
-  },
-  {
     "revision": "6de0530b5b9708aa0ee264851a0cf1a2",
     "url": "/near-wallet/static/media/Branding with Type - Bw Seido Round Regular.6de0530b.otf"
+  },
+  {
+    "revision": "971c1fec19ca99196578f34e66d5f0e9",
+    "url": "/near-wallet/static/media/Branding with Type - Bw Seido Round Medium.971c1fec.otf"
   },
   {
     "revision": "92efb468f50e0e8dd58298491f22197a",
