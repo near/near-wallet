@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="26px" height="26px" viewBox="0 0 26 26" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 54.1 (76490) - https://sketchapp.com -->
+    <title>icon-account</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round">
+        <g id="Contacts" transform="translate(-261.000000, -480.000000)" stroke="#999999">
+            <g id="Group-6" transform="translate(250.000000, 469.000000)">
+                <g id="icon-account" transform="translate(12.000000, 12.000000)">
+                    <path d="M18,12 C18,9.57322653 16.5381469,7.38540881 14.2961006,6.4567228 C12.0540543,5.5280368 9.47334729,6.04137134 7.75735931,7.75735931 C6.04137134,9.47334729 5.5280368,12.0540543 6.4567228,14.2961006 C7.38540881,16.5381469 9.57322653,18 12,18 C15.3137085,18 18,15.3137085 18,12 L18,12 Z M12,18 L1.62,18 C3.76678657,21.7008261 7.72158836,23.9787377 12,23.9787377 C16.2784116,23.9787377 20.2332134,21.7008261 22.38,18 L12,18 Z" id="Shape"></path>
+                    <path d="M0,12.0000002 C9.87562078e-08,5.37258307 5.37258307,1.78813934e-07 12,1.78813934e-07 C18.6274169,1.78813935e-07 23.9999999,5.37258307 24,12.0000002" id="Path"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
