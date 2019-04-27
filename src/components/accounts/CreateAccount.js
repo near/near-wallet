@@ -12,11 +12,11 @@ import { handleRefreshAccount, handleRefreshUrl } from '../../actions/account'
 class CreateAccount extends Component {
    state = {
       loader: false,
-      form_loader: false,
-      account_id: '',
-      is_legit: false,
-      success_message: false,
-      error_message: false
+      formLoader: false,
+      accountId: '',
+      isLegit: false,
+      successMessage: false,
+      errorMessage: false
    }
 
    componentDidMount = () => {
@@ -28,29 +28,29 @@ class CreateAccount extends Component {
    handleChange = (e, { name, value }) => {
       this.setState(() => ({
          [name]: value,
-         is_legit: this.wallet.is_legit_account_id(value)
+         isLegit: this.wallet.isLegitAccountId(value)
       }))
    }
 
    handleSubmit = e => {
       e.preventDefault()
 
-      if (!this.state.is_legit) {
+      if (!this.state.isLegit) {
          return false
       }
 
       this.setState(() => ({
-         success_message: false,
-         error_message: false,
-         is_legit: false,
-         form_loader: true
+         successMessage: false,
+         errorMessage: false,
+         isLegit: false,
+         formLoader: true
       }))
 
       this.wallet
-         .create_new_account(this.state.account_id)
+         .createNewAccount(this.state.accountId)
          .then(d => {
             this.setState(() => ({
-               success_message: true
+               successMessage: true
             }))
             setTimeout(() => {
                this.props.history.push(
@@ -60,13 +60,13 @@ class CreateAccount extends Component {
          })
          .catch(e => {
             this.setState(() => ({
-               error_message: true
+               errorMessage: true
             }))
             console.log(e)
          })
          .finally(() => {
             this.setState(() => ({
-               form_loader: false
+               formLoader: false
             }))
          })
    }

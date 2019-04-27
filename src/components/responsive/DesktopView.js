@@ -230,15 +230,15 @@ class DesktopView extends Component {
 
    handleItemClick = (e, { name }) => this.setState({ activeItem: name })
 
-   handleSelectAccount = account_id => {
+   handleSelectAccount = accountId => {
       this.wallet = new Wallet()
-      this.wallet.select_account(account_id)
+      this.wallet.selectAccount(accountId)
       this.props.handleRefreshAccount(this.wallet, this.props.history)
    }
 
    redirectCreateAccount = () => {
       this.wallet = new Wallet()
-      this.wallet.redirect_to_create_account({}, this.props.history)
+      this.wallet.redirectToCreateAccount({}, this.props.history)
    }
 
    render() {
@@ -272,7 +272,7 @@ class DesktopView extends Component {
                         <Image className='navbar-icon' src={HelpImage} />
                         HELP
                      </Menu.Item>
-                     {account.account_id &&
+                     {account.accountId &&
                         <Menu.Menu position='right' className='dropdown-tr'>
                            <Menu.Item className='devider' />
                            <Menu.Item className='account-img'>
@@ -282,7 +282,7 @@ class DesktopView extends Component {
                               {account.loader ? (
                                  <Loader active inline size='mini' />
                               ) : (
-                                 `@${account.account_id}`
+                                 `@${account.accountId}`
                               )}
                            </Menu.Item>
                            <Menu.Item className='account-tokens'>
@@ -304,7 +304,7 @@ class DesktopView extends Component {
                               <List className='account-dropdown-scroll'>
                                  {account.accounts &&
                                     Object.keys(account.accounts)
-                                       .filter(a => a !== account.account_id)
+                                       .filter(a => a !== account.accountId)
                                        .map((account, i) => (
                                           <List.Item
                                              as='a'

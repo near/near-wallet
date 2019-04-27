@@ -199,14 +199,14 @@ const LoginForm = ({
                <List verticalAlign='middle' className={`element trigger`}>
                   <List.Item className='img' />
                   <List.Item as='h3' className='name'>
-                     @{account.account_id}
+                     @{account.accountId}
                   </List.Item>
                   <List.Item className={`arrow ${dropdown ? 'up' : ''}`} />
                </List>
 
                <Segment basic className={`dropdown ${dropdown ? '' : 'hide'}`}>
                   {Object.keys(account.accounts)
-                     .filter(a => a !== account.account_id)
+                     .filter(a => a !== account.accountId)
                      .map((account, i) => (
                         <List
                            key={`lf-${i}`}
@@ -257,13 +257,13 @@ const LoginForm = ({
             <Form action={account.url.success_url}>
                <input
                   type='hidden'
-                  name='auth_token'
-                  value={account.auth_token}
+                  name='authToken'
+                  value={account.authToken}
                />
                <input
                   type='hidden'
-                  name='account_id'
-                  value={account.account_id}
+                  name='accountId'
+                  value={account.accountId}
                />
                <Button className='deny' onClick={handleDeny}>
                   DENY

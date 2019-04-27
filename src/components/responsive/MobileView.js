@@ -209,9 +209,9 @@ class MobileView extends Component {
 
    handleToggle = () => this.setState({ sidebarOpened: true })
 
-   handleSelectAccount = account_id => {
+   handleSelectAccount = accountId => {
       this.wallet = new Wallet()
-      this.wallet.select_account(account_id)
+      this.wallet.selectAccount(accountId)
       this.props.handleRefreshAccount(this.wallet, this.props.history)
       this.handleSidebarHide()
    }
@@ -219,7 +219,7 @@ class MobileView extends Component {
    redirectCreateAccount = () => {
       this.wallet = new Wallet()
       this.handleSidebarHide()
-      this.wallet.redirect_to_create_account({}, this.props.history)
+      this.wallet.redirectToCreateAccount({}, this.props.history)
    }
 
    render() {
@@ -243,14 +243,14 @@ class MobileView extends Component {
                >
                   <Header className='sidebar-mobile-header'>
                      <Segment basic floated='left'>
-                        {account.loader || !account.account_id ? (
+                        {account.loader || !account.accountId ? (
                            <Loader active inline size='mini' />
                         ) : (
-                           `@${account.account_id}`
+                           `@${account.accountId}`
                         )}
                      </Segment>
                      <Segment basic floated='right' className='account-tokens'>
-                        {account.loader || !account.account_id ? (
+                        {account.loader || !account.accountId ? (
                            <Loader active inline size='mini' />
                         ) : (
                            account.amount
@@ -291,7 +291,7 @@ class MobileView extends Component {
 
                         {account.accounts &&
                            Object.keys(account.accounts)
-                              .filter(a => a !== account.account_id)
+                              .filter(a => a !== account.accountId)
                               .map((account, i) => (
                                  <List.Item
                                     as='a'
