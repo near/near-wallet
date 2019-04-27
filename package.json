@@ -10,6 +10,7 @@
       "query-string": "^6.4.2",
       "react": "^16.8.6",
       "react-dom": "^16.8.6",
+      "react-phone-number-input": "^2.3.11",
       "react-redux": "^6.0.1",
       "react-redux-loading": "^1.0.1",
       "react-router-dom": "^5.0.0",

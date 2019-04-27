@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { parse } from 'query-string'
+import { isValidPhoneNumber } from 'react-phone-number-input'
 
 import { Wallet } from '../../utils/wallet'
 
@@ -28,7 +29,7 @@ class SetRecoveryInfo extends Component {
    handleChange = (e, { name, value }) => {
       this.setState(() => ({
          [name]: value,
-         isLegit: this.wallet.isLegitAccountId(value)
+         isLegit: isValidPhoneNumber(value)
       }))
    }
 
@@ -47,7 +48,7 @@ class SetRecoveryInfo extends Component {
       }))
 
       this.wallet
-         .createNewAccount(this.state.phoneNumber)
+         .registerPhone(this.state.phoneNumber)
          .then(d => {
             this.setState(() => ({
                successMessage: true

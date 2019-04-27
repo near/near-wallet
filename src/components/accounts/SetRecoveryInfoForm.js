@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Segment, Form, Button, Responsive } from 'semantic-ui-react'
+import PhoneInput from 'react-phone-number-input'
 
 import ProblemsImage from '../../images/icon-problems.svg'
 import CheckBlueImage from '../../images/icon-check-blue.svg'
@@ -83,6 +84,10 @@ const RecoveryInfoForm = styled(Form)`
          color: #0072ce;
       }
    }
+
+   select.react-phone-number-input__country-select {
+      height: 100%;
+   }
 `
 
 const SetRecoveryInfoForm = ({
@@ -95,16 +100,14 @@ const SetRecoveryInfoForm = ({
    handleChange
 }) => (
    <RecoveryInfoForm autoComplete='off' onSubmit={handleSubmit}>
-      <Form.Input
-         loading={formLoader}
+      <PhoneInput
          className={`create ${successMessage ? 'success' : ''}${
             errorMessage ? 'problem' : ''
-         }`}
-         type='tel'
+         } ${formLoader ? 'loading' : '' } `}
          name='phoneNumber'
          value={phoneNumber}
-         onChange={handleChange}
-         placeholder='example: satoshi.near'
+         onChange={ value => handleChange(null, { name: 'phoneNumber', value })}
+         placeholder='example: +1 555 123 4567'
       />
 
       {successMessage && (

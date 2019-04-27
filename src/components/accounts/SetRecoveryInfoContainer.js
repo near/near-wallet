@@ -2,8 +2,6 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Container, Loader, Grid, Dimmer, Header } from 'semantic-ui-react'
 
-import { parse } from 'query-string'
-
 import NearInfo from './NearInfo'
 
 import styled from 'styled-components'
