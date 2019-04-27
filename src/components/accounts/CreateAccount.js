@@ -62,7 +62,7 @@ class CreateAccount extends Component {
             this.setState(() => ({
                errorMessage: true
             }))
-            console.log(e)
+            console.error('Error creating account:', e);
          })
          .finally(() => {
             this.setState(() => ({
