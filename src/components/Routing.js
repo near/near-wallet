@@ -8,6 +8,7 @@ import ResponsiveContainer from './responsive/ResponsiveContainer'
 import Footer from './common/Footer'
 import DashboardDetailWithRouter from './dashboard/DashboardDetail'
 import { CreateAccountWithRouter } from './accounts/CreateAccount'
+import { SetRecoveryInfoWithRouter } from './accounts/SetRecoveryInfo'
 import { LoginWithRouter } from './login/Login'
 
 import { ThemeProvider } from 'styled-components'
@@ -35,6 +36,11 @@ class Routing extends Component {
                            exact
                            path='/create'
                            component={CreateAccountWithRouter}
+                        />
+                        <Route
+                           exact
+                           path='/set-recovery'
+                           component={SetRecoveryInfoWithRouter}
                         />
                         <Route
                            exact
