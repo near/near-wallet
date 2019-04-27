@@ -1,6 +1,5 @@
 import nearlib from 'nearlib'
 
-const WALLET_URL = `/login/`
 const WALLET_CREATE_NEW_ACCOUNT_URL = `/create/`
 
 const CONTRACT_CREATE_ACCOUNT_URL =
@@ -12,13 +11,7 @@ const KEY_WALLET_ACCOUNTS = KEY_UNIQUE_PREFIX + 'wallet:accounts_v2'
 const KEY_WALLET_TOKENS = KEY_UNIQUE_PREFIX + 'wallet:tokens_v2'
 const KEY_ACTIVE_ACCOUNT_ID = KEY_UNIQUE_PREFIX + 'wallet:active_account_id_v2'
 
-const ACCOUNT_ID_REGEX = /^[a-z0-9@._\-]{5,32}$/
-
-function sleep(time) {
-   return new Promise(function(resolve, reject) {
-      setTimeout(resolve, time)
-   })
-}
+const ACCOUNT_ID_REGEX = /^[a-z0-9@._-]{5,32}$/
 
 export class Wallet {
    constructor() {
@@ -29,15 +22,6 @@ export class Wallet {
       )
       this.tokens = JSON.parse(localStorage.getItem(KEY_WALLET_TOKENS) || '{}')
       this.account_id = localStorage.getItem(KEY_ACTIVE_ACCOUNT_ID) || ''
-      //  $('body').append(
-      //    $('<div/>').addClass("container").attr('role', 'footer').css('margin-top', '50px').append(
-      //      $('<div/>').append(
-      //        $("<small/>").addClass("text-muted").text("DISCLAIMER: This is a developers' preview Wallet. It should be used for NEAR Protocol DevNet only. Learn more at ").append(
-      //          $("<a/>").attr("href", "https://nearprotocol.com").text("nearprotocol.com")
-      //        )
-      //      )
-      //    )
-      //  );
    }
 
    save() {
@@ -127,12 +111,12 @@ export class Wallet {
 
    async load_account(account_id, history) {
       if (!(account_id in this.accounts)) {
-         throw 'Account ' + account_id + " doesn't exists."
+         throw new Error('Account ' + account_id + " doesn't exists.")
       }
       try {
          return await this.near.nearClient.viewAccount(account_id)
       } catch (e) {
-         if (e.message && e.message.indexOf('is not valid') != -1) {
+         if (e.message && e.message.indexOf('is not valid') !== -1) {
             // We have an account in the storage, but it doesn't exist on blockchain. We probably nuked storage so just redirect to create account
             console.log(e)
             this.clear_state()
@@ -148,7 +132,7 @@ export class Wallet {
 
    async create_new_account(account_id) {
       if (account_id in this.accounts) {
-         throw 'Account ' + account_id + ' already exists.'
+         throw new Error('Account ' + account_id + ' already exists.');
       }
       let remoteAccount = null
       try {
@@ -157,7 +141,7 @@ export class Wallet {
          // expected
       }
       if (!!remoteAccount) {
-         throw 'Account ' + account_id + ' already exists.'
+         throw new Error('Account ' + account_id + ' already exists.');
       }
       let keyPair = await nearlib.KeyPair.fromRandomSeed()
       return await new Promise((resolve, reject) => {
@@ -166,19 +150,7 @@ export class Wallet {
             newAccountPublicKey: keyPair.getPublicKey()
          })
 
-         // $.post(CONTRACT_CREATE_ACCOUNT_URL, data)
-         //   .done((d) => {
-         //     this.key_store.setKey(account_id, keyPair).catch(console.log);
-         //     this.accounts[account_id] = true;
-         //     this.account_id = account_id;
-         //     this.save();
-         //     resolve(d);
-         //   })
-         //   .fail((e) => {
-         //     reject(e.responseText)
-         //   })
-
-         var xhr = new XMLHttpRequest()
+         let xhr = new XMLHttpRequest()
          xhr.open('POST', CONTRACT_CREATE_ACCOUNT_URL)
          xhr.setRequestHeader('Content-Type', 'application/json')
          xhr.onload = () => {
@@ -212,15 +184,15 @@ export class Wallet {
       let token = data['token'] || ''
       if (!(token in this.tokens)) {
          // Unknown token.
-         throw 'The token ' + token + ' is not found '
+         throw new Error('The token ' + token + ' is not found ')
       }
       let app_data = this.tokens[token]
       let account_id = app_data['account_id']
       if (!(account_id in this.accounts)) {
          // Account is no longer authorized.
-         throw 'The account ' +
+         throw new Error('The account ' +
             account_id +
-            ' is not part of the wallet anymore.'
+            ' is not part of the wallet anymore.')
       }
       let contract_id = app_data['contract_id']
       let receiver_id = data['receiver_id'] || contract_id
@@ -229,22 +201,22 @@ export class Wallet {
          !this.is_legit_account_id(receiver_id)
       ) {
          // Bad receiver account ID or it doesn't match contract id.
-         throw "Bad receiver's account ID ('" +
+         throw new Error("Bad receiver's account ID ('" +
             receiver_id +
-            "') or it doesn't match the authorized contract id"
+            "') or it doesn't match the authorized contract id")
       }
       let amount = parseInt(data['amount']) || 0
       if (amount !== 0) {
          // Automatic authorization denied since for amounts greater than 0.
-         throw 'Transaction amount should be 0.'
+         throw new Error('Transaction amount should be 0.')
       }
       let method_name = data['method_name'] || ''
       if (!method_name) {
          // Method name can't be empty since the amount is 0.
-         throw "Method name can't be empty since the amount is 0"
+         throw new Error("Method name can't be empty since the amount is 0")
       }
       let args = data['args'] || {}
-      if (action == 'send_transaction') {
+      if (action === 'send_transaction') {
          // Sending the transaction on behalf of the account_id
          return await this.send_transaction(
             account_id,
@@ -253,7 +225,7 @@ export class Wallet {
             amount,
             args
          )
-      } else if (action == 'sign_transaction') {
+      } else if (action === 'sign_transaction') {
          // Signing the provided hash of the transaction. It's a security issue here.
          // In the future we would sign the transaction above and don't depend on the given hash.
          let hash = data['hash'] || ''
@@ -263,7 +235,7 @@ export class Wallet {
          )
          return signature
       } else {
-         throw 'Unknown action'
+         throw new Error('Unknown action')
       }
    }
 
