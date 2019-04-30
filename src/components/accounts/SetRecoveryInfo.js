@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { parse } from 'query-string'
 import { isValidPhoneNumber } from 'react-phone-number-input'
 
 import { Wallet } from '../../utils/wallet'
@@ -15,7 +14,9 @@ class SetRecoveryInfo extends Component {
       loader: false,
       formLoader: false,
       phoneNumber: '',
+      accountId: 'vlad.near', // TODO: Send account ID from create form, etc
       isLegit: false,
+      sentSms: false,
       successMessage: false,
       errorMessage: false
    }
@@ -29,8 +30,17 @@ class SetRecoveryInfo extends Component {
    handleChange = (e, { name, value }) => {
       this.setState(() => ({
          [name]: value,
-         isLegit: isValidPhoneNumber(value)
+         isLegit: this.isLegitField(name, value)
       }))
+   }
+
+   isLegitField(name, value) {
+      // TODO: Use some validation framework?
+      let validators = {
+         phoneNumber: isValidPhoneNumber,
+         securityCode: value => value.trim().match(/^\d{6}$/)
+      }
+      return validators[name](value);
    }
 
    handleSubmit = e => {
@@ -47,29 +57,32 @@ class SetRecoveryInfo extends Component {
          formLoader: true
       }))
 
-      this.wallet
-         .registerPhone(this.state.phoneNumber)
-         .then(d => {
-            this.setState(() => ({
-               successMessage: true
-            }))
-            setTimeout(() => {
-               this.props.history.push(
-                  `/login/${parse(this.props.location.search).next_url || '/'}`
-               )
-            }, 1500)
-         })
-         .catch(e => {
+      ;(async () => {
+         try {
+            if (this.state.sentSms) {
+               await this.wallet.validateCode(this.state.phoneNumber, this.state.accountId, this.state.securityCode)
+               this.setState(() => ({
+                  successMessage: true
+               }))
+               // TODO: Redirect to account dashboard
+            } else {
+               await this.wallet.requestCode(this.state.phoneNumber, this.state.accountId)
+               this.setState(() => ({
+                  sentSms: true,
+                  successMessage: true
+               }))
+            }
+         } catch(e) {
+            console.error('Error registering phone:', e);
             this.setState(() => ({
                errorMessage: true
             }))
-            console.error('Error creating account:', e);
-         })
-         .finally(() => {
+         } finally {
             this.setState(() => ({
                formLoader: false
             }))
-         })
+         }
+      })()
    }
 
    render() {

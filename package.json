@@ -4,6 +4,7 @@
    "version": "0.1.0",
    "private": true,
    "dependencies": {
+      "fetch-send-json": "^0.0.2",
       "gh-pages": "^2.0.1",
       "nearlib": "^0.5.4",
       "prop-types": "^15.7.2",

@@ -1,9 +1,10 @@
 import nearlib from 'nearlib'
+import sendJson from 'fetch-send-json'
 
 const WALLET_CREATE_NEW_ACCOUNT_URL = `/create/`
 
-const CONTRACT_CREATE_ACCOUNT_URL =
-   'https://studio.nearprotocol.com/contract-api/account'
+const ACCOUNT_HELPER_URL = 'https://studio.nearprotocol.com/contract-api'
+const CONTRACT_CREATE_ACCOUNT_URL = `${ACCOUNT_HELPER_URL}/account`
 const NODE_URL = 'https://studio.nearprotocol.com/devnet'
 
 const KEY_UNIQUE_PREFIX = '_4:'
@@ -237,6 +238,14 @@ export class Wallet {
       } else {
          throw new Error('Unknown action')
       }
+   }
+
+   requestCode(phoneNumber, accountId) {
+      return sendJson('POST', `${ACCOUNT_HELPER_URL}/account/${phoneNumber}/${accountId}/requestCode`);
+   }
+
+   validateCode(phoneNumber, accountId, securityCode) {
+      return sendJson('POST', `${ACCOUNT_HELPER_URL}/account/${phoneNumber}/${accountId}/validateCode`, { securityCode });
    }
 
    receiveMessage(event) {

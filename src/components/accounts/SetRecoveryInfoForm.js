@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Segment, Form, Input, Button, Responsive } from 'semantic-ui-react'
+import { Form, Input, Button } from 'semantic-ui-react'
 import PhoneInput from 'react-phone-number-input'
 
 import ProblemsImage from '../../images/icon-problems.svg'
@@ -86,7 +86,7 @@ const RecoveryInfoForm = styled(Form)`
    }
 
    & h3 {
-      padding-bottom: 1rem;
+      margin-bottom: 1rem;
    }
 
    select.react-phone-number-input__country-select {
@@ -97,6 +97,7 @@ const RecoveryInfoForm = styled(Form)`
 const SetRecoveryInfoForm = ({
    formLoader,
    phoneNumber,
+   sentSms,
    isLegit,
    successMessage,
    errorMessage,
@@ -104,22 +105,29 @@ const SetRecoveryInfoForm = ({
    handleChange
 }) => (
    <RecoveryInfoForm autoComplete='off' onSubmit={handleSubmit}>
-      <Form.Field>
-         <h3>Phone Number</h3>
-         <PhoneInput
-            className={`create ${successMessage ? 'success' : ''}${
-               errorMessage ? 'problem' : ''
-            } ${formLoader ? 'loading' : '' } `}
-            name='phoneNumber'
-            value={phoneNumber}
-            onChange={ value => handleChange(null, { name: 'phoneNumber', value })}
-            placeholder='example: +1 555 123 4567'
-         />
-      </Form.Field>
-
-      {false && (
+      {!sentSms && (
          <Form.Field>
-            <Input placeholder='example: 123456'></Input>
+            <h3>Phone Number</h3>
+            <PhoneInput
+               className={`create ${successMessage ? 'success' : ''}${
+                  errorMessage ? 'problem' : ''
+               } ${formLoader ? 'loading' : '' } `}
+               name='phoneNumber'
+               value={phoneNumber}
+               onChange={ value => handleChange(null, { name: 'phoneNumber', value })}
+               placeholder='example: +1 555 123 4567'
+            />
+         </Form.Field>
+      )}
+
+      {sentSms && (
+         <Form.Field>
+            <h3>Security Code from SMS</h3>
+            <Input
+               name='securityCode'
+               onChange={handleChange}
+               placeholder='example: 123456'
+            />
          </Form.Field>
       )}
 
@@ -134,6 +142,7 @@ const SetRecoveryInfoForm = ({
 SetRecoveryInfoForm.propTypes = {
    formLoader: PropTypes.bool.isRequired,
    phoneNumber: PropTypes.string,
+   sentSms: PropTypes.bool.isRequired,
    isLegit: PropTypes.bool.isRequired,
    successMessage: PropTypes.bool.isRequired,
    errorMessage: PropTypes.bool.isRequired,
