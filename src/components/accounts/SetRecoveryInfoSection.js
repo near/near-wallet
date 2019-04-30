@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Grid, List, Responsive } from 'semantic-ui-react'
+import { Grid, Responsive } from 'semantic-ui-react'
 
 import styled from 'styled-components'
 
