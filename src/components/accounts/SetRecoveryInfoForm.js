@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Segment, Form, Button, Responsive } from 'semantic-ui-react'
+import { Segment, Form, Input, Button, Responsive } from 'semantic-ui-react'
 import PhoneInput from 'react-phone-number-input'
 
 import ProblemsImage from '../../images/icon-problems.svg'
@@ -85,6 +85,10 @@ const RecoveryInfoForm = styled(Form)`
       }
    }
 
+   & h3 {
+      padding-bottom: 1rem;
+   }
+
    select.react-phone-number-input__country-select {
       height: 100%;
    }
@@ -100,34 +104,30 @@ const SetRecoveryInfoForm = ({
    handleChange
 }) => (
    <RecoveryInfoForm autoComplete='off' onSubmit={handleSubmit}>
-      <PhoneInput
-         className={`create ${successMessage ? 'success' : ''}${
-            errorMessage ? 'problem' : ''
-         } ${formLoader ? 'loading' : '' } `}
-         name='phoneNumber'
-         value={phoneNumber}
-         onChange={ value => handleChange(null, { name: 'phoneNumber', value })}
-         placeholder='example: +1 555 123 4567'
-      />
+      <Form.Field>
+         <h3>Phone Number</h3>
+         <PhoneInput
+            className={`create ${successMessage ? 'success' : ''}${
+               errorMessage ? 'problem' : ''
+            } ${formLoader ? 'loading' : '' } `}
+            name='phoneNumber'
+            value={phoneNumber}
+            onChange={ value => handleChange(null, { name: 'phoneNumber', value })}
+            placeholder='example: +1 555 123 4567'
+         />
+      </Form.Field>
 
-      {successMessage && (
-         <Responsive maxWidth={Responsive.onlyMobile.maxWidth}>
-            <Segment basic className='alert-info success'>
-               TODO: Message to wait for SMS
-            </Segment>
-         </Responsive>
-      )}
-      {errorMessage && (
-         <Responsive maxWidth={Responsive.onlyMobile.maxWidth}>
-            <Segment basic className='alert-info problem'>
-               TODO: Show error message
-            </Segment>
-         </Responsive>
+      {false && (
+         <Form.Field>
+            <Input placeholder='example: 123456'></Input>
+         </Form.Field>
       )}
 
-      <Button type='submit' disabled={!isLegit}>
-         PROTECT ACCOUNT
-      </Button>
+      <Form.Field>
+         <Button type='submit' disabled={!isLegit}>
+            PROTECT ACCOUNT
+         </Button>
+      </Form.Field>
    </RecoveryInfoForm>
 )
 

@@ -5,10 +5,6 @@ import { Grid, Responsive } from 'semantic-ui-react'
 import styled from 'styled-components'
 
 const CustomGrid = styled(Grid)`
-   && .username-row {
-      padding-bottom: 0px;
-   }
-
    &&& .alert-info {
       font-size: 18px;
       font-weight: 600;
@@ -67,17 +63,6 @@ const CustomGrid = styled(Grid)`
 
 const SetRecoveryInfoSection = ({ successMessage, errorMessage, children }) => (
    <CustomGrid className=''>
-      <Grid.Row className='username-row'>
-         <Grid.Column
-            as='h3'
-            computer={16}
-            tablet={16}
-            mobile={16}
-            className=''
-         >
-            Phone Number
-         </Grid.Column>
-      </Grid.Row>
       <Grid.Row className=''>
          <Grid.Column computer={8} tablet={8} mobile={16} className=''>
             {children}
