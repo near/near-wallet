@@ -6,8 +6,8 @@ export const REFRESH_URL = 'REFRESH_URL'
 
 export function handleRefreshAccount(wallet, history) {
    return (dispatch, getState) => {
-      wallet.redirect_if_empty(history)
-      const account_id = wallet.get_account_id()
+      wallet.redirectIfEmpty(history)
+      const accountId = wallet.getAccountId()
 
       dispatch({
          type: LOADER_ACCOUNT,
@@ -15,13 +15,13 @@ export function handleRefreshAccount(wallet, history) {
       })
 
       wallet
-         .load_account(account_id, history)
+         .loadAccount(accountId, history)
          .then(v => {
             dispatch({
                type: REFRESH_ACCOUNT,
                data: {
-                  account_id: account_id,
-                  auth_token: wallet.new_access_token(
+                  accountId: accountId,
+                  authToken: wallet.newAccessToken(
                      getState().account.url.app_title,
                      getState().account.url.app_url,
                      getState().account.url.contract_id

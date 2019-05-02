@@ -1,6 +1,5 @@
 import nearlib from 'nearlib'
 
-const WALLET_URL = `/login/`
 const WALLET_CREATE_NEW_ACCOUNT_URL = `/create/`
 
 const CONTRACT_CREATE_ACCOUNT_URL =
@@ -12,13 +11,7 @@ const KEY_WALLET_ACCOUNTS = KEY_UNIQUE_PREFIX + 'wallet:accounts_v2'
 const KEY_WALLET_TOKENS = KEY_UNIQUE_PREFIX + 'wallet:tokens_v2'
 const KEY_ACTIVE_ACCOUNT_ID = KEY_UNIQUE_PREFIX + 'wallet:active_account_id_v2'
 
-const ACCOUNT_ID_REGEX = /^[a-z0-9@._\-]{5,32}$/
-
-function sleep(time) {
-   return new Promise(function(resolve, reject) {
-      setTimeout(resolve, time)
-   })
-}
+const ACCOUNT_ID_REGEX = /^[a-z0-9@._-]{5,32}$/
 
 export class Wallet {
    constructor() {
@@ -28,37 +21,28 @@ export class Wallet {
          localStorage.getItem(KEY_WALLET_ACCOUNTS) || '{}'
       )
       this.tokens = JSON.parse(localStorage.getItem(KEY_WALLET_TOKENS) || '{}')
-      this.account_id = localStorage.getItem(KEY_ACTIVE_ACCOUNT_ID) || ''
-      //  $('body').append(
-      //    $('<div/>').addClass("container").attr('role', 'footer').css('margin-top', '50px').append(
-      //      $('<div/>').append(
-      //        $("<small/>").addClass("text-muted").text("DISCLAIMER: This is a developers' preview Wallet. It should be used for NEAR Protocol DevNet only. Learn more at ").append(
-      //          $("<a/>").attr("href", "https://nearprotocol.com").text("nearprotocol.com")
-      //        )
-      //      )
-      //    )
-      //  );
+      this.accountId = localStorage.getItem(KEY_ACTIVE_ACCOUNT_ID) || ''
    }
 
    save() {
-      localStorage.setItem(KEY_ACTIVE_ACCOUNT_ID, this.account_id)
+      localStorage.setItem(KEY_ACTIVE_ACCOUNT_ID, this.accountId)
       localStorage.setItem(KEY_WALLET_ACCOUNTS, JSON.stringify(this.accounts))
       localStorage.setItem(KEY_WALLET_TOKENS, JSON.stringify(this.tokens))
    }
 
-   get_account_id() {
-      return this.account_id
+   getAccountId() {
+      return this.accountId
    }
 
-   select_account(account_id) {
-      if (!(account_id in this.accounts)) {
+   selectAccount(accountId) {
+      if (!(accountId in this.accounts)) {
          return false
       }
-      this.account_id = account_id
+      this.accountId = accountId
       this.save()
    }
 
-   new_access_token(app_url, app_title, contract_id) {
+   newAccessToken(app_url, app_title, contract_id) {
       var token = ''
       var possible =
          'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
@@ -67,7 +51,7 @@ export class Wallet {
          token += possible.charAt(Math.floor(Math.random() * possible.length))
       }
 
-      if (!this.is_legit_account_id(contract_id)) {
+      if (!this.isLegitAccountId(contract_id)) {
          contract_id = ''
       }
 
@@ -75,27 +59,27 @@ export class Wallet {
          app_url,
          app_title,
          contract_id,
-         account_id: this.account_id
+         account_id: this.accountId
       }
       this.save()
       return token
    }
 
-   is_legit_account_id(account_id) {
-      return ACCOUNT_ID_REGEX.test(account_id)
+   isLegitAccountId(accountId) {
+      return ACCOUNT_ID_REGEX.test(accountId)
    }
 
-   async send_transaction(sender_id, receiver_id, method_name, amount, args) {
+   async sendTransaction(senderId, receiverId, methodName, amount, args) {
       return await this.near.scheduleFunctionCall(
          amount,
-         sender_id,
-         receiver_id,
-         method_name,
+         senderId,
+         receiverId,
+         methodName,
          args || {}
       )
    }
 
-   redirect_to_create_account(options = {}, history) {
+   redirectToCreateAccount(options = {}, history) {
       const param = {
          next_url: window.location.search
       }
@@ -115,28 +99,28 @@ export class Wallet {
       history ? history.push(url) : window.location.replace(url)
    }
 
-   is_empty() {
+   isEmpty() {
       return !this.accounts || !Object.keys(this.accounts).length
    }
 
-   redirect_if_empty(history) {
-      if (this.is_empty()) {
-         this.redirect_to_create_account({}, history)
+   redirectIfEmpty(history) {
+      if (this.isEmpty()) {
+         this.redirectToCreateAccount({}, history)
       }
    }
 
-   async load_account(account_id, history) {
-      if (!(account_id in this.accounts)) {
-         throw 'Account ' + account_id + " doesn't exists."
+   async loadAccount(accountId, history) {
+      if (!(accountId in this.accounts)) {
+         throw new Error('Account ' + accountId + " doesn't exist.")
       }
       try {
-         return await this.near.nearClient.viewAccount(account_id)
+         return await this.near.nearClient.viewAccount(accountId)
       } catch (e) {
-         if (e.message && e.message.indexOf('is not valid') != -1) {
+         if (e.message && e.message.indexOf('is not valid') !== -1) {
             // We have an account in the storage, but it doesn't exist on blockchain. We probably nuked storage so just redirect to create account
             console.log(e)
-            this.clear_state()
-            this.redirect_to_create_account(
+            this.clearState()
+            this.redirectToCreateAccount(
                {
                   reset_accounts: true
                },
@@ -146,46 +130,34 @@ export class Wallet {
       }
    }
 
-   async create_new_account(account_id) {
-      if (account_id in this.accounts) {
-         throw 'Account ' + account_id + ' already exists.'
+   async createNewAccount(accountId) {
+      if (accountId in this.accounts) {
+         throw new Error('Account ' + accountId + ' already exists.');
       }
       let remoteAccount = null
       try {
-         remoteAccount = await this.near.nearClient.viewAccount(account_id)
+         remoteAccount = await this.near.nearClient.viewAccount(accountId)
       } catch (e) {
          // expected
       }
       if (!!remoteAccount) {
-         throw 'Account ' + account_id + ' already exists.'
+         throw new Error('Account ' + accountId + ' already exists.');
       }
       let keyPair = await nearlib.KeyPair.fromRandomSeed()
       return await new Promise((resolve, reject) => {
          let data = JSON.stringify({
-            newAccountId: account_id,
+            newAccountId: accountId,
             newAccountPublicKey: keyPair.getPublicKey()
          })
 
-         // $.post(CONTRACT_CREATE_ACCOUNT_URL, data)
-         //   .done((d) => {
-         //     this.key_store.setKey(account_id, keyPair).catch(console.log);
-         //     this.accounts[account_id] = true;
-         //     this.account_id = account_id;
-         //     this.save();
-         //     resolve(d);
-         //   })
-         //   .fail((e) => {
-         //     reject(e.responseText)
-         //   })
-
-         var xhr = new XMLHttpRequest()
+         let xhr = new XMLHttpRequest()
          xhr.open('POST', CONTRACT_CREATE_ACCOUNT_URL)
          xhr.setRequestHeader('Content-Type', 'application/json')
          xhr.onload = () => {
             if (xhr.status === 200) {
-               this.key_store.setKey(account_id, keyPair).catch(console.log)
-               this.accounts[account_id] = true
-               this.account_id = account_id
+               this.key_store.setKey(accountId, keyPair).catch(console.log)
+               this.accounts[accountId] = true
+               this.accountId = accountId
                this.save()
                resolve(xhr)
             } else if (xhr.status !== 200) {
@@ -196,78 +168,78 @@ export class Wallet {
       })
    }
 
-   subscribe_for_messages() {
-      //  window.addEventListener("message", $.proxy(this.receive_message, this), false);
-      window.addEventListener('message', this.receive_message.bind(this), false)
+   subscribeForMessages() {
+      //  window.addEventListener("message", $.proxy(this.receiveMessage, this), false);
+      window.addEventListener('message', this.receiveMessage.bind(this), false)
    }
 
-   clear_state() {
+   clearState() {
       this.accounts = {}
       this.tokens = {}
-      this.account_id = ''
+      this.accountId = ''
       this.save()
    }
 
-   async process_transaction_message(action, data) {
+   async processTransactionMessage(action, data) {
       let token = data['token'] || ''
       if (!(token in this.tokens)) {
          // Unknown token.
-         throw 'The token ' + token + ' is not found '
+         throw new Error('The token ' + token + ' is not found ')
       }
       let app_data = this.tokens[token]
-      let account_id = app_data['account_id']
-      if (!(account_id in this.accounts)) {
+      let accountId = app_data['account_id']
+      if (!(accountId in this.accounts)) {
          // Account is no longer authorized.
-         throw 'The account ' +
-            account_id +
-            ' is not part of the wallet anymore.'
+         throw new Error('The account ' +
+            accountId +
+            ' is not part of the wallet anymore.')
       }
       let contract_id = app_data['contract_id']
-      let receiver_id = data['receiver_id'] || contract_id
+      let receiverId = data['receiver_id'] || contract_id
       if (
-         receiver_id !== contract_id ||
-         !this.is_legit_account_id(receiver_id)
+         receiverId !== contract_id ||
+         !this.isLegitAccountId(receiverId)
       ) {
          // Bad receiver account ID or it doesn't match contract id.
-         throw "Bad receiver's account ID ('" +
-            receiver_id +
-            "') or it doesn't match the authorized contract id"
+         throw new Error("Bad receiver's account ID ('" +
+            receiverId +
+            "') or it doesn't match the authorized contract id")
       }
       let amount = parseInt(data['amount']) || 0
       if (amount !== 0) {
          // Automatic authorization denied since for amounts greater than 0.
-         throw 'Transaction amount should be 0.'
+         throw new Error('Transaction amount should be 0.')
       }
-      let method_name = data['method_name'] || ''
-      if (!method_name) {
+      let methodName = data['methodName'] || ''
+      if (!methodName) {
          // Method name can't be empty since the amount is 0.
-         throw "Method name can't be empty since the amount is 0"
+         throw new Error("Method name can't be empty since the amount is 0")
       }
       let args = data['args'] || {}
-      if (action == 'send_transaction') {
-         // Sending the transaction on behalf of the account_id
-         return await this.send_transaction(
-            account_id,
-            receiver_id,
-            method_name,
+      if (action === 'send_transaction') {
+         // Sending the transaction on behalf of the accountId
+         return await this.sendTransaction(
+            accountId,
+            receiverId,
+            methodName,
             amount,
             args
          )
-      } else if (action == 'sign_transaction') {
+      } else if (action === 'sign_transaction') {
          // Signing the provided hash of the transaction. It's a security issue here.
          // In the future we would sign the transaction above and don't depend on the given hash.
          let hash = data['hash'] || ''
          let signature = await this.near.nearClient.signer.signHash(
             hash,
-            account_id
+            accountId
          )
          return signature
       } else {
-         throw 'Unknown action'
+         throw new Error('Unknown action')
       }
    }
 
-   receive_message(event) {
+   receiveMessage(event) {
       let data
       try {
          data = JSON.parse(event.data)
@@ -284,7 +256,7 @@ export class Wallet {
 
       let reply = d => event.source.postMessage(JSON.stringify(d), event.origin)
 
-      this.process_transaction_message(action, data)
+      this.processTransactionMessage(action, data)
          .then(result => {
             console.log('Wallet: OK ' + action)
             reply({

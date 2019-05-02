@@ -65,7 +65,7 @@ const CustomGrid = styled(Grid)`
    }
 `
 
-const CreateAccountSection = ({ success_message, error_message, children }) => (
+const CreateAccountSection = ({ successMessage, errorMessage, children }) => (
    <CustomGrid className=''>
       <Grid.Row className='username-row'>
          <Grid.Column
@@ -84,7 +84,7 @@ const CreateAccountSection = ({ success_message, error_message, children }) => (
          </Grid.Column>
          <Grid.Column computer={8} tablet={8} mobile={16}>
             <Grid className='note-box'>
-               {success_message && (
+               {successMessage && (
                   <Responsive
                      as={Grid.Row}
                      minWidth={Responsive.onlyTablet.minWidth}
@@ -94,7 +94,7 @@ const CreateAccountSection = ({ success_message, error_message, children }) => (
                      </Grid.Column>
                   </Responsive>
                )}
-               {error_message && (
+               {errorMessage && (
                   <Responsive
                      as={Grid.Row}
                      minWidth={Responsive.onlyTablet.minWidth}
@@ -128,8 +128,8 @@ const CreateAccountSection = ({ success_message, error_message, children }) => (
 )
 
 CreateAccountSection.propTypes = {
-   success_message: PropTypes.bool.isRequired,
-   error_message: PropTypes.bool.isRequired,
+   successMessage: PropTypes.bool.isRequired,
+   errorMessage: PropTypes.bool.isRequired,
    children: PropTypes.element.isRequired
 }
 

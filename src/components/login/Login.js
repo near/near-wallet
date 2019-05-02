@@ -33,13 +33,13 @@ class Login extends Component {
       }
    }
 
-   handleSelectAccount = account_id => {
-      this.wallet.select_account(account_id)
+   handleSelectAccount = accountId => {
+      this.wallet.selectAccount(accountId)
       this.props.handleRefreshAccount(this.wallet, this.props.history)
    }
 
    redirectCreateAccount = () => {
-      this.wallet.redirect_to_create_account({}, this.props.history)
+      this.wallet.redirectToCreateAccount({}, this.props.history)
    }
 
    render() {
@@ -50,7 +50,7 @@ class Login extends Component {
             loader={account.loader}
             app_title={account.url && account.url.app_title}
          >
-            {account.account_id && (
+            {account.accountId && (
                <LoginForm
                   {...this.state}
                   handleOnClick={this.handleOnClick}

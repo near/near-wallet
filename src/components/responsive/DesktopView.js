@@ -230,15 +230,15 @@ class DesktopView extends Component {
 
    handleItemClick = (e, { name }) => this.setState({ activeItem: name })
 
-   handleSelectAccount = account_id => {
+   handleSelectAccount = accountId => {
       this.wallet = new Wallet()
-      this.wallet.select_account(account_id)
+      this.wallet.selectAccount(accountId)
       this.props.handleRefreshAccount(this.wallet, this.props.history)
    }
 
    redirectCreateAccount = () => {
       this.wallet = new Wallet()
-      this.wallet.redirect_to_create_account({}, this.props.history)
+      this.wallet.redirectToCreateAccount({}, this.props.history)
    }
 
    render() {
@@ -272,56 +272,58 @@ class DesktopView extends Component {
                         <Image className='navbar-icon' src={HelpImage} />
                         HELP
                      </Menu.Item>
-                     <Menu.Menu position='right' className='dropdown-tr'>
-                        <Menu.Item className='devider' />
-                        <Menu.Item className='account-img'>
-                           <Image src={AccountGreyImage} />
-                        </Menu.Item>
-                        <Menu.Item className='account-name'>
-                           {account.loader || !account.account_id ? (
-                              <Loader active inline size='mini' />
-                           ) : (
-                              `@${account.account_id}`
-                           )}
-                        </Menu.Item>
-                        <Menu.Item className='account-tokens'>
-                           {account.loader || !account.account_id ? (
-                              <Loader active inline size='mini' />
-                           ) : (
-                              account.amount
-                           )}
-                           <span className='near'>Ⓝ</span>
-                        </Menu.Item>
-                        <Menu.Item className='account-arrow'>
-                           <Image src={ArrowDownImage} />
-                        </Menu.Item>
+                     {account.accountId &&
+                        <Menu.Menu position='right' className='dropdown-tr'>
+                           <Menu.Item className='devider' />
+                           <Menu.Item className='account-img'>
+                              <Image src={AccountGreyImage} />
+                           </Menu.Item>
+                           <Menu.Item className='account-name'>
+                              {account.loader ? (
+                                 <Loader active inline size='mini' />
+                              ) : (
+                                 `@${account.accountId}`
+                              )}
+                           </Menu.Item>
+                           <Menu.Item className='account-tokens'>
+                              {account.loader ? (
+                                 <Loader active inline size='mini' />
+                              ) : (
+                                 account.amount
+                              )}
+                              <span className='near'>Ⓝ</span>
+                           </Menu.Item>
+                           <Menu.Item className='account-arrow'>
+                              <Image src={ArrowDownImage} />
+                           </Menu.Item>
 
-                        <Segment basic className='account-dropdown'>
-                           <List>
-                              <List.Item as='h6'>SWITCH ACCOUNT</List.Item>
-                           </List>
-                           <List className='account-dropdown-scroll'>
-                              {account.accounts &&
-                                 Object.keys(account.accounts)
-                                    .filter(a => a !== account.account_id)
-                                    .map((account, i) => (
-                                       <List.Item
-                                          as='a'
-                                          key={`mf-${i}`}
-                                          onClick={() =>
-                                             this.handleSelectAccount(account)
-                                          }
-                                          className='account-title'
-                                       >
-                                          @{account}
-                                       </List.Item>
-                                    ))}
-                           </List>
-                           <Button onClick={this.redirectCreateAccount}>
-                              CREATE NEW ACCOUNT
-                           </Button>
-                        </Segment>
-                     </Menu.Menu>
+                           <Segment basic className='account-dropdown'>
+                              <List>
+                                 <List.Item as='h6'>SWITCH ACCOUNT</List.Item>
+                              </List>
+                              <List className='account-dropdown-scroll'>
+                                 {account.accounts &&
+                                    Object.keys(account.accounts)
+                                       .filter(a => a !== account.accountId)
+                                       .map((account, i) => (
+                                          <List.Item
+                                             as='a'
+                                             key={`mf-${i}`}
+                                             onClick={() =>
+                                                this.handleSelectAccount(account)
+                                             }
+                                             className='account-title'
+                                          >
+                                             @{account}
+                                          </List.Item>
+                                       ))}
+                              </List>
+                              <Button onClick={this.redirectCreateAccount}>
+                                 CREATE NEW ACCOUNT
+                              </Button>
+                           </Segment>
+                        </Menu.Menu>
+                     }
                   </Menu.Menu>
                </Menu>
             </Visibility>

@@ -86,34 +86,34 @@ const AccountForm = styled(Form)`
 `
 
 const CreateAccountForm = ({
-   form_loader,
-   account_id,
-   is_legit,
-   success_message,
-   error_message,
+   formLoader,
+   accountId,
+   isLegit,
+   successMessage,
+   errorMessage,
    handleSubmit,
    handleChange
 }) => (
    <AccountForm autoComplete='off' onSubmit={handleSubmit}>
       <Form.Input
-         loading={form_loader}
-         className={`create ${success_message ? 'success' : ''}${
-            error_message ? 'problem' : ''
+         loading={formLoader}
+         className={`create ${successMessage ? 'success' : ''}${
+            errorMessage ? 'problem' : ''
          }`}
-         name='account_id'
-         value={account_id}
+         name='accountId'
+         value={accountId}
          onChange={handleChange}
          placeholder='example: satoshi.near'
       />
 
-      {success_message && (
+      {successMessage && (
          <Responsive maxWidth={Responsive.onlyMobile.maxWidth}>
             <Segment basic className='alert-info success'>
                Congrats! this name is available.
             </Segment>
          </Responsive>
       )}
-      {error_message && (
+      {errorMessage && (
          <Responsive maxWidth={Responsive.onlyMobile.maxWidth}>
             <Segment basic className='alert-info problem'>
                Username is taken. Try something else.
@@ -121,18 +121,18 @@ const CreateAccountForm = ({
          </Responsive>
       )}
 
-      <Button type='submit' disabled={!is_legit}>
+      <Button type='submit' disabled={!isLegit}>
          CREATE ACCOUNT
       </Button>
    </AccountForm>
 )
 
 CreateAccountForm.propTypes = {
-   form_loader: PropTypes.bool.isRequired,
-   account_id: PropTypes.string,
-   is_legit: PropTypes.bool.isRequired,
-   success_message: PropTypes.bool.isRequired,
-   error_message: PropTypes.bool.isRequired,
+   formLoader: PropTypes.bool.isRequired,
+   accountId: PropTypes.string,
+   isLegit: PropTypes.bool.isRequired,
+   successMessage: PropTypes.bool.isRequired,
+   errorMessage: PropTypes.bool.isRequired,
    handleSubmit: PropTypes.func.isRequired,
    handleChange: PropTypes.func.isRequired
 }

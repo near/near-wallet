@@ -56,7 +56,7 @@ class DashboardDetail extends Component {
                         mobile={16}
                         className=''
                      >
-                        <Header as='h1'>Account: {account.account_id}</Header>
+                        <Header as='h1'>Account: {account.accountId}</Header>
                      </Grid.Column>
                      <Grid.Column
                         computer={8}
@@ -66,7 +66,7 @@ class DashboardDetail extends Component {
                      />
                   </Grid.Row>
                   <Grid.Row as='h2'>
-                     <Grid.Column>account id: {account.account_id}</Grid.Column>
+                     <Grid.Column>account id: {account.accountId}</Grid.Column>
                   </Grid.Row>
                   <Grid.Row as='h2'>
                      <Grid.Column>amount: {account.amount}</Grid.Column>
