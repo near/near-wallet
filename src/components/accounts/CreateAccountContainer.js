@@ -27,16 +27,27 @@ const CustomContainer = styled(Container)`
    &&& .creating-info {
       padding-right: 0px;
       padding-top: 48px;
+      padding-bottom: 0px;
+
+      .column {
+         padding: 0 0 24px 0;
+
+         :first-child {
+            padding-left: 0px;
+         }
+      }
 
       h1 {
          color: #4a4f54;
-         padding-bottom: 24px;
+         padding-left: 0px;
+         line-height: 48px;
       }
    }
 
    @media screen and (max-width: 767px) {
       &&& .creating-info {
          padding-right: 1rem;
+         padding-left: 1rem;
       }
    }
 `

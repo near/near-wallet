@@ -62,13 +62,17 @@ class CreateAccount extends Component {
             this.setState(() => ({
                errorMessage: true
             }))
-            console.error('Error creating account:', e);
+            console.error('Error creating account:', e)
          })
          .finally(() => {
             this.setState(() => ({
                formLoader: false
             }))
          })
+   }
+
+   handleRecaptcha = value => {
+      console.log(value)
    }
 
    render() {
@@ -81,6 +85,7 @@ class CreateAccount extends Component {
                   {...this.state}
                   handleSubmit={this.handleSubmit}
                   handleChange={this.handleChange}
+                  handleRecaptcha={this.handleRecaptcha}
                />
             </CreateAccountSection>
          </CreateAccountContainer>

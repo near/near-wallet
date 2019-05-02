@@ -6,6 +6,8 @@ import { withRouter } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 
+import DesktopPopup from './DesktopPopup'
+
 import { Wallet } from '../../utils/wallet'
 
 import {
@@ -16,13 +18,20 @@ import {
    Visibility,
    List,
    Button,
-   Loader
+   Loader,
+   Popup
 } from 'semantic-ui-react'
 
 import LogoImage from '../../images/wallet.png'
 import HelpImage from '../../images/icon-help.svg'
 import AccountGreyImage from '../../images/icon-account-grey.svg'
 import ArrowDownImage from '../../images/icon-arrow-down.svg'
+import ContactsGreyImage from '../../images/icon-contacts-grey.svg'
+import AuthorizedGreyImage from '../../images/icon-authorized-grey.svg'
+import LogoutImage from '../../images/icon-logout.svg'
+import ActivityImage from '../../images/icon-activity.svg'
+import RecentImage from '../../images/icon-recent.svg'
+import SendImage from '../../images/icon-send.svg'
 
 import { handleRefreshAccount } from '../../actions/account'
 
@@ -48,7 +57,7 @@ const CustomResponsive = styled(Responsive)`
       .item {
          color: white;
          font-family: 'benton-sans', sans-serif;
-         font-weight: 400;
+         font-weight: 500;
          font-size: 14px;
          padding-left: 0px;
          padding-right: 30px;
@@ -64,9 +73,6 @@ const CustomResponsive = styled(Responsive)`
       }
       .hover.item {
          color: #6ad1e3;
-      }
-      .item:hover {
-         color: #999999;
       }
       .account-img {
          width: 36px;
@@ -117,14 +123,14 @@ const CustomResponsive = styled(Responsive)`
       }
 
       .account-arrow {
-         padding-right: 20px;
+         padding-right: 26px;
 
          img {
             width: 12px;
          }
       }
 
-      .dropdown-tr {
+      .popup-container {
          .devider {
             width: 2px;
             height: 40px;
@@ -133,73 +139,8 @@ const CustomResponsive = styled(Responsive)`
             margin: 16px 28px 0 0;
          }
 
-         .account-dropdown {
-            position: absolute;
-            top: 44px;
-            right: 20px;
-            display: none;
-
-            width: 290px;
-            min-height: 100px;
-            border-radius: 5px;
-            box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
-            background-color: #f8f8f8;
-
-            padding: 20px;
-
-            &-scroll {
-               max-height: 318px;
-               overflow-y: auto;
-               width: 270px;
-
-               > .item {
-                  width: 250px;
-                  margin: 0px;
-                  padding: 0px;
-
-                  :hover {
-                     text-decoration: underline;
-                  }
-                  ::before {
-                     display: none;
-                  }
-                  ::after {
-                     display: none;
-                  }
-               }
-            }
-
-            h6 {
-               padding-bottom: 6px;
-            }
-            .account-title {
-               height: 40px;
-               line-height: 40px;
-               color: #4a4f54;
-               font-weight: 500;
-               border-bottom: 2px solid #e6e6e6;
-               letter-spacing: normal;
-
-               text-overflow: ellipsis;
-               overflow: hidden;
-            }
-            button {
-               width: 100%;
-               border-radius: 30px;
-               background: #fff;
-               color: #6ad1e3;
-
-               :hover {
-                  background: #6ad1e3;
-                  color: #fff;
-               }
-            }
-         }
-
-         :hover {
-            .account-dropdown {
-               display: block;
-            }
+         .help {
+            padding-right: 12px;
          }
       }
    }
@@ -267,64 +208,35 @@ class DesktopView extends Component {
                   <Menu.Item as={Link} to='/'>
                      <Image className='mainlogo' src={LogoImage} />
                   </Menu.Item>
-                  <Menu.Menu position='right'>
-                     <Menu.Item as='a' href='http://near.chat/' target='_blank'>
-                        <Image className='navbar-icon' src={HelpImage} />
-                        HELP
-                     </Menu.Item>
-                     {account.accountId &&
-                        <Menu.Menu position='right' className='dropdown-tr'>
-                           <Menu.Item className='devider' />
-                           <Menu.Item className='account-img'>
-                              <Image src={AccountGreyImage} />
-                           </Menu.Item>
-                           <Menu.Item className='account-name'>
-                              {account.loader ? (
-                                 <Loader active inline size='mini' />
-                              ) : (
-                                 `@${account.accountId}`
-                              )}
-                           </Menu.Item>
-                           <Menu.Item className='account-tokens'>
-                              {account.loader ? (
-                                 <Loader active inline size='mini' />
-                              ) : (
-                                 account.amount
-                              )}
-                              <span className='near'>Ⓝ</span>
-                           </Menu.Item>
-                           <Menu.Item className='account-arrow'>
-                              <Image src={ArrowDownImage} />
-                           </Menu.Item>
-
-                           <Segment basic className='account-dropdown'>
-                              <List>
-                                 <List.Item as='h6'>SWITCH ACCOUNT</List.Item>
-                              </List>
-                              <List className='account-dropdown-scroll'>
-                                 {account.accounts &&
-                                    Object.keys(account.accounts)
-                                       .filter(a => a !== account.accountId)
-                                       .map((account, i) => (
-                                          <List.Item
-                                             as='a'
-                                             key={`mf-${i}`}
-                                             onClick={() =>
-                                                this.handleSelectAccount(account)
-                                             }
-                                             className='account-title'
-                                          >
-                                             @{account}
-                                          </List.Item>
-                                       ))}
-                              </List>
-                              <Button onClick={this.redirectCreateAccount}>
-                                 CREATE NEW ACCOUNT
-                              </Button>
-                           </Segment>
-                        </Menu.Menu>
-                     }
-                  </Menu.Menu>
+                  <Menu.Item as={Link} to='/'>
+                     <Image className='navbar-icon' src={RecentImage} />
+                     SUMMARY
+                  </Menu.Item>
+                  <Menu.Item as={Link} to='/activity'>
+                     <Image className='navbar-icon' src={ActivityImage} />
+                     ACTIVITY
+                  </Menu.Item>
+                  <Menu.Item as={Link} to='/contacts'>
+                     <Image className='navbar-icon' src={SendImage} />
+                     SEND MONEY
+                  </Menu.Item>
+                  {account.accountId && (
+                     <Menu.Menu position='right' className='popup-container'>
+                        <Menu.Item
+                           as='a'
+                           href='http://near.chat/'
+                           target='_blank'
+                           className='help'
+                        >
+                           <Image className='navbar-icon' src={HelpImage} />
+                        </Menu.Item>
+                        <DesktopPopup
+                           account={account}
+                           handleSelectAccount={this.handleSelectAccount}
+                           redirectCreateAccount={this.redirectCreateAccount}
+                        />
+                     </Menu.Menu>
+                  )}
                </Menu>
             </Visibility>
 
