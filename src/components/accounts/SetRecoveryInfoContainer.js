@@ -39,6 +39,7 @@ const CustomContainer = styled(Container)`
    }
 `
 
+/* eslint-disable jsx-a11y/accessible-emoji */
 const SetRecoveryInfoContainer = ({ loader, children, location }) => (
    <CustomContainer>
       <Grid className=''>
