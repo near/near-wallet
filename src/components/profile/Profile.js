@@ -13,16 +13,6 @@ import ProfileSection from './ProfileSection'
 import ProfileYourKeys from './ProfileYourKeys'
 import ProfileNotice from './ProfileNotice'
 
-import TContractImage from '../../images/icon-t-contract.svg'
-import activityGreyImage from '../../images/icon-activity-grey.svg'
-import AccountGreyImage from '../../images/icon-account-grey.svg'
-import AuthorizedGreyImage from '../../images/icon-authorized-grey.svg'
-import ContactsGreyImage from '../../images/icon-contacts-grey.svg'
-
-import TStakeImage from '../../images/icon-t-stake.svg'
-import TTransferImage from '../../images/icon-t-transfer.svg'
-import NearkatImage from '../../images/footer-nearkat.svg'
-
 class Profile extends Component {
    state = {
       loader: false

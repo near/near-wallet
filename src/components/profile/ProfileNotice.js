@@ -1,8 +1,6 @@
 import React from 'react'
 
-import { Link } from 'react-router-dom'
-
-import { Loader, List, Dimmer, Button, Header, Image } from 'semantic-ui-react'
+import { List } from 'semantic-ui-react'
 
 import styled from 'styled-components'
 

@@ -112,9 +112,9 @@ const ResponsiveContainer = () => (
                <Item.Content>
                   © 2019 NEAR Inc. All Rights Reserved.
                   <br />
-                  <a href=''>Terms of Service</a>
+                  <a href='/'>Terms of Service</a>
                   <span className='color-brown-grey'>|</span>
-                  <a href=''>Privacy Policy</a>
+                  <a href='/'>Privacy Policy</a>
                </Item.Content>
             </Item>
          </Item.Group>

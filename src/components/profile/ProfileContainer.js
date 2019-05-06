@@ -1,37 +1,46 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
 
-import ArrowRightImage from '../../images/icon-arrow-right.svg'
-
-import { Container, Grid, Button, Header } from 'semantic-ui-react'
+import { Container, Grid } from 'semantic-ui-react'
 
 import styled from 'styled-components'
 
 const CustomContainer = styled(Container)`
-   &&& .creating-info {
+   &&& .page-title {
       padding-right: 0px;
       padding-top: 48px;
       padding-bottom: 0px;
 
       .column {
-         padding: 0 0 24px 0;
-
-         :first-child {
-            padding-left: 0px;
-         }
+         padding: 0 14px 24px 0;
+         float: left;
+         width: auto !important;
       }
-
       h1 {
-         color: #4a4f54;
-         padding-left: 0px;
          line-height: 48px;
+      }
+      .add {
+         color: #24272a;
       }
    }
 
    @media screen and (max-width: 767px) {
-      > .grid {
-         margin-left: 0px;
-         margin-right: 0px;
+      &&& .page-title {
+         padding-top: 14px;
+         text-align: center;
+
+         .column {
+            padding: 0 0 6px 0;
+            width: 100% !important;
+            float: none;
+         }
+         .add {
+            font-size: 12px !important;
+            line-height: 18px !important;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+
+            padding-bottom: 18px;
+         }
       }
    }
 `
@@ -39,11 +48,10 @@ const CustomContainer = styled(Container)`
 const ProfileContainer = ({ children }) => (
    <CustomContainer>
       <Grid>
-         <Grid.Row className='creating-info'>
-            <Grid.Column computer={12} tablet={11} mobile={16}>
-               <Header as='h1'>
-                  Account: <span className='color-black'>@eugenethedream</span>
-               </Header>
+         <Grid.Row columns='2' className='page-title'>
+            <Grid.Column as='h1'>Account:</Grid.Column>
+            <Grid.Column as='h1' className='add'>
+               @eugenethedream
             </Grid.Column>
          </Grid.Row>
       </Grid>

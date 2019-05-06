@@ -1,8 +1,6 @@
 import React from 'react'
 
-import { Link } from 'react-router-dom'
-
-import { Loader, List, Dimmer, Button, Header, Image } from 'semantic-ui-react'
+import { List, Button, Image } from 'semantic-ui-react'
 
 import TKeySwapImage from '../../images/icon-t-key-swap.svg'
 import TContractImage from '../../images/icon-t-contract.svg'
@@ -14,7 +12,7 @@ const CustomList = styled(List)`
       background: #fff;
       width: 100%;
       margin-top: -1rem;
-      padding: 14px;
+      padding: 14px 4px 14px 14px;
 
       .keys {
          img {
@@ -66,9 +64,15 @@ const CustomList = styled(List)`
       }
       @media screen and (max-width: 767px) {
          &&& {
+            margin-top: 20px;
+
             .account {
+               button {
+                  margin-left: 8px;
+               }
                .download {
                   float: right;
+                  margin: 0 0 0 0;
                }
             }
          }

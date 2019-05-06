@@ -387,7 +387,7 @@ export default createGlobalStyle`
    @media screen and (max-width: 767px) {
       html {
          body {
-            font-size: 12px !important;
+            ${'' /* font-size: 12px !important; */}
          }
       }
 
@@ -412,11 +412,13 @@ export default createGlobalStyle`
       }
       
       h6, .h6 {
-         font-size: 10px !important;
+         ${
+            '' /* font-size: 10px !important;
          line-height: 18px !important;
          font-weight: 400 !important;
          margin: 0px !important;
-         letter-spacing: 2px !important;
+         letter-spacing: 2px !important; */
+         }
       }
 
       .box .column {
