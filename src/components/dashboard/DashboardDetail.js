@@ -11,7 +11,6 @@ import DashboardContainer from './DashboardContainer'
 import DashboardSection from './DashboardSection'
 import DashboardActivity from './DashboardActivity'
 
-import TContractImage from '../../images/icon-t-contract.svg'
 import activityGreyImage from '../../images/icon-activity-grey.svg'
 import AccountGreyImage from '../../images/icon-account-grey.svg'
 import AuthorizedGreyImage from '../../images/icon-authorized-grey.svg'

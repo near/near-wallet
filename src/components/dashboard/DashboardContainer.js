@@ -77,6 +77,23 @@ const CustomContainer = styled(Container)`
 
       &&& .send-money {
          margin-top: 20px;
+         margin-top: 0px;
+      }
+
+      &&& .creating-info {
+         padding-top: 24px;
+         text-align: center;
+
+         .column {
+            padding: 0 0 12px 0;
+         }
+         .balance {
+            display: none;
+         }
+         .button {
+            width: 240px;
+            line-height: 48px;
+         }
       }
    }
 `
@@ -87,7 +104,8 @@ const DashboardContainer = ({ children }) => (
          <Grid.Row className='creating-info'>
             <Grid.Column computer={12} tablet={11} mobile={16}>
                <Header as='h1'>
-                  Balance: <span className='color-black'>2,300.562</span>
+                  <span className='balance'>Balance: </span>
+                  <span className='color-black'>2,300.562</span>
                   <span className='near'>Ⓝ</span>
                </Header>
             </Grid.Column>

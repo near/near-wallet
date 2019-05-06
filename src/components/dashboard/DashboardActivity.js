@@ -64,8 +64,8 @@ const DashboardActivity = ({ loader, image, title, to, activity }) => (
          <Loader />
       </Dimmer>
 
-      {activity.map(row => (
-         <ListItem row={row} />
+      {activity.map((row, i) => (
+         <ListItem key={`d-${i}`} row={row} />
       ))}
 
       <Grid.Row>

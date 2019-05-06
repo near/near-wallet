@@ -399,7 +399,7 @@ export default createGlobalStyle`
          color: #4a4f54;
       }
       h2, .h2 {
-         font-size: 16px !important;
+         font-size: 22px !important;
          font-weight: 600;
          line-height: 1.33;
          margin: 0px;

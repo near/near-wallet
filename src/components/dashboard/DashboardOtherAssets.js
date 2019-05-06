@@ -21,6 +21,10 @@ const CustomGrid = styled(Grid)`
             border: 0px;
          }
 
+         .content {
+            width: auto;
+         }
+
          .icon {
             background-image: url(${TContractImage});
             background-repeat: no-repeat;
@@ -44,12 +48,58 @@ const CustomGrid = styled(Grid)`
       font-weight: 600;
    }
 
+   @media screen and (max-width: 991px) {
+      &&&& .other-assets {
+         .column {
+            .content {
+               h2 {
+                  font-size: 16px !important;
+               }
+            }
+            .icon {
+               background-size: 18px 24px;
+               width: 18px;
+               margin: 8px 6px 0 0;
+            }
+         }
+      }
+   }
+
    @media screen and (max-width: 767px) {
       &&&& .other-assets {
+         background: #fff;
+         margin-top: 18px !important;
+         border-right: 0px;
+
          > .column {
             width: 100% !important;
             border-right: 0px solid #e6e6e6;
             border-bottom: 1px solid #e6e6e6;
+            padding: 6px 0px 6px 4px;
+
+            .list {
+               width: 100%;
+
+               .item {
+                  width: 100%;
+
+                  .content {
+                     float: right;
+                     text-align: right;
+
+                     h2 {
+                        font-size: 14px !important;
+                     }
+                  }
+                  .icon {
+                     height: 20px;
+                  }
+               }
+            }
+         }
+
+         &-title {
+            display: none;
          }
       }
    }

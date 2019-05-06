@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom'
 
 import { Grid, Image } from 'semantic-ui-react'
 
-import ArrowDown from '../../images/icon-arrow-down.svg'
 import ArrowRight from '../../images/icon-arrow-right.svg'
 
 import styled from 'styled-components'
@@ -111,6 +110,12 @@ const CustomGridRow = styled(Grid.Row)`
          &.showsub.dropdown-down {
             .dropdown-image-right {
                left: 4px;
+            }
+         }
+
+         .main-row-title {
+            a {
+               font-size: 14px;
             }
          }
       }
