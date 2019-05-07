@@ -1,9 +1,6 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
 
-import ArrowRightImage from '../../images/icon-arrow-right.svg'
-
-import { TextArea, List, Image, Grid, Button, Header } from 'semantic-ui-react'
+import { TextArea, List, Image, Button } from 'semantic-ui-react'
 
 import AccountGreyImage from '../../images/icon-account-grey.svg'
 
@@ -12,6 +9,11 @@ import styled from 'styled-components'
 const CustomList = styled(List)`
    &&& {
       padding: 24px;
+      width: 360px;
+      text-align: center;
+      margin-left: auto;
+      margin-right: auto;
+      margin-top: 36px;
 
       .main-image {
          border: 0px;
@@ -42,7 +44,7 @@ const CustomList = styled(List)`
          padding-bottom: 36px;
 
          > button {
-            width: 50%;
+            width: 200px;
             background-color: #fff;
             border: 2px solid #e6e6e6;
             border-radius: 25px;
@@ -73,7 +75,7 @@ const CustomList = styled(List)`
          margin-bottom: 6px;
 
          > button {
-            width: 90%;
+            width: 288px;
             line-height: 60px;
             border-radius: 30px;
             border: solid 2px #5ace84;
@@ -98,8 +100,18 @@ const CustomList = styled(List)`
       @media screen and (max-width: 767px) {
          .near-tokens {
             > button {
-               width: 90%;
+               width: 200px;
             }
+         }
+
+         &&& {
+            padding: 0px;
+            width: 100%;
+            text-align: center;
+            margin-left: auto;
+            margin-right: auto;
+
+            border: 0px;
          }
       }
    }

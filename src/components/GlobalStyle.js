@@ -393,13 +393,13 @@ export default createGlobalStyle`
 
       
       h1, .h1 {
-         font-size: 36px !important;
+         font-size: 38px !important;
          font-weight: 500;
          line-height: 50px;
          color: #4a4f54;
       }
       h2, .h2 {
-         font-size: 22px !important;
+         font-size: 24px !important;
          font-weight: 600;
          line-height: 1.33;
          margin: 0px;

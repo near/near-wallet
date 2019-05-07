@@ -1,28 +1,11 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
-import { List, Image, Container, Grid, Button, Header } from 'semantic-ui-react'
-
 import { withRouter } from 'react-router-dom'
-
-import { Wallet } from '../../utils/wallet'
-
-import PaginationBlock from '../pagination/PaginationBlock'
-import ListItem from '../dashboard/ListItem'
 
 import SendMoneyContainer from './SendMoneyContainer'
 import SendMoneyFirstStep from './SendMoneyFirstStep'
 import SendMoneySecondStep from './SendMoneySecondStep'
-
-import TContractImage from '../../images/icon-t-contract.svg'
-import activityGreyImage from '../../images/icon-activity-grey.svg'
-import AccountGreyImage from '../../images/icon-account-grey.svg'
-import AuthorizedGreyImage from '../../images/icon-authorized-grey.svg'
-import ContactsGreyImage from '../../images/icon-contacts-grey.svg'
-
-import TStakeImage from '../../images/icon-t-stake.svg'
-import TTransferImage from '../../images/icon-t-transfer.svg'
-import NearkatImage from '../../images/footer-nearkat.svg'
 
 class SendMoney extends Component {
    state = {
