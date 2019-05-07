@@ -85,6 +85,9 @@ const AccountForm = styled(Form)`
          color: #0072ce;
       }
    }
+
+   @media screen and (max-width: 767px) {
+   }
 `
 
 const CreateAccountForm = ({

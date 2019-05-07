@@ -24,48 +24,64 @@ const CustomContainer = styled(Container)`
       letter-spacing: 2px;
    }
 
-   &&& .creating-info {
+   &&& .page-title {
       padding-right: 0px;
       padding-top: 48px;
       padding-bottom: 0px;
 
       .column {
-         padding: 0 0 24px 0;
-
-         :first-child {
-            padding-left: 0px;
-         }
+         padding: 0 14px 24px 0;
       }
-
       h1 {
-         color: #4a4f54;
-         padding-left: 0px;
          line-height: 48px;
+      }
+      .add {
       }
    }
 
    @media screen and (max-width: 767px) {
-      &&& .creating-info {
-         padding-right: 1rem;
-         padding-left: 1rem;
+      &&& .page-title {
+         padding-top: 14px;
+         text-align: center;
+
+         .column {
+            padding: 0 0 6px 0;
+         }
+         h1 {
+            margin-bottom: 0px;
+         }
+         h2 {
+            font-size: 16px !important;
+            line-height: 22px !important;
+            color: #999 !important;
+         }
+         .column.add {
+            text-align: left;
+            padding-top: 0px !important;
+         }
+      }
+
+      && .disclaimer {
+         margin-top: 50px;
+         font-size: 12px;
       }
    }
 `
 
 const CreateAccountContainer = ({ loader, children, location }) => (
    <CustomContainer>
-      <Grid className=''>
+      <Grid stackable>
          <Dimmer inverted active={loader}>
             <Loader />
          </Dimmer>
 
-         <Grid.Row className='creating-info'>
-            <Grid.Column computer={8} tablet={8} mobile={16} className=''>
-               <Header as='h1'>Create Account</Header>
-               <Header as='h2'>
-                  Creating a NEAR account is easy. Just choose a username and
-                  you’re ready to go.
-               </Header>
+         <Grid.Row columns='2' className='page-title'>
+            <Grid.Column>
+               <h1>Create Account</h1>
+               <h2>
+                  Creating a NEAR account is easy. Just choose a username
+                  andyou’re ready to go.
+               </h2>
                {parse(location.search).reset_accounts && (
                   <Header as='h3' className='color-blue'>
                      You have been redirected to this page because we had to
@@ -74,7 +90,7 @@ const CreateAccountContainer = ({ loader, children, location }) => (
                   </Header>
                )}
             </Grid.Column>
-            <Grid.Column computer={8} tablet={8} mobile={16} className=''>
+            <Grid.Column className='add'>
                <NearInfo />
             </Grid.Column>
          </Grid.Row>
@@ -82,12 +98,12 @@ const CreateAccountContainer = ({ loader, children, location }) => (
 
       {children}
 
-      <Grid className=''>
+      <Grid>
          <Grid.Row className='disclaimer border-top-bold'>
-            <Grid.Column computer={16} tablet={16} mobile={16} className=''>
+            <Grid.Column computer={16} tablet={16} mobile={16}>
                <span className='disclaimer-info'>DISCLAIMER: </span>
                This is a developers&apos; preview Wallet. It should be used for
-               NEAR Protocol DevNet only. Learn more at
+               NEAR Protocol DevNet only. Learn more at{` `}
                <a href='http://nearprotocol.com'>nearprotocol.com</a>
             </Grid.Column>
          </Grid.Row>

@@ -429,10 +429,7 @@ export default createGlobalStyle`
          margin-left: 10px;
       }
 
-      .create input {
-         padding-left: 20px !important;
-         font-size: 14px !important;
-      }
+      
 
       .dashboard-list .dropdown-image {
          display: none !important;
