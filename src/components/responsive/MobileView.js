@@ -185,6 +185,12 @@ const CustomResponsive = styled(Responsive)`
       width: 215px;
       padding: 0;
    }
+
+   @media screen and (max-width: 767px) {
+      .pusher {
+         padding-bottom: 260px;
+      }
+   }
 `
 
 const getWidth = () => {
