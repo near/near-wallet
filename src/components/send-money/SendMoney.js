@@ -3,6 +3,10 @@ import { connect } from 'react-redux'
 
 import { withRouter } from 'react-router-dom'
 
+import { Wallet } from '../../utils/wallet'
+
+import { handleRefreshAccount, handleRefreshUrl } from '../../actions/account'
+
 import SendMoneyContainer from './SendMoneyContainer'
 import SendMoneyFirstStep from './SendMoneyFirstStep'
 import SendMoneySecondStep from './SendMoneySecondStep'
@@ -12,37 +16,54 @@ class SendMoney extends Component {
       loader: false,
       step: 1,
       note: '',
-      expandNote: false
-   }
-
-   toggleShowSub = i => {
-      i = i == null ? this.state.showSubOpen : i
-
-      this.setState(state => ({
-         showSub: i === state.showSubOpen ? !state.showSub : state.showSub,
-         showSubOpen: i
-      }))
+      expandNote: false,
+      paramAccountId: false,
+      accountId: '',
+      successMessage: false,
+      errorMessage: false,
+      amount: ''
    }
 
    componentDidMount() {
-      // this.wallet = new Wallet()
-      // this.props.handleRefreshUrl(this.props.location)
-      // this.props.handleRefreshAccount(this.wallet, this.props.history)
+      this.wallet = new Wallet()
+      this.props.handleRefreshUrl(this.props.location)
+      this.props.handleRefreshAccount(this.wallet, this.props.history)
+
+      const paramId = this.props.match.params.id
 
       this.setState(() => ({
          loader: true
       }))
 
-      setTimeout(() => {
-         this.setState(_ => ({
+      if (paramId) {
+         this.wallet
+            .checkAccount(paramId)
+            .then(d => {
+               this.setState(() => ({
+                  paramAccountId: true,
+                  accountId: paramId
+               }))
+            })
+            .catch(e => {
+               this.setState(() => ({
+                  accountId: ''
+               }))
+            })
+            .finally(() => {
+               this.setState(() => ({
+                  loader: false
+               }))
+            })
+      } else {
+         this.setState(() => ({
             loader: false
          }))
-      }, 1000)
+      }
    }
 
    handleNextStep = () => {
-      this.setState(() => ({
-         step: 2
+      this.setState(state => ({
+         step: ++state.step
       }))
    }
 
@@ -58,8 +79,45 @@ class SendMoney extends Component {
       }))
    }
 
+   handleChangeAccountId = (e, { name, value }) => {
+      this.setState(() => ({
+         [name]: value,
+         successMessage: false,
+         errorMessage: false,
+         formLoader: false
+      }))
+
+      if (!this.wallet.isLegitAccountId(value)) {
+         return false
+      }
+
+      this.setState(() => ({
+         formLoader: true
+      }))
+
+      this.wallet
+         .checkAccount(value)
+         .then(d => {
+            this.setState(() => ({
+               successMessage: true,
+               errorMessage: false
+            }))
+         })
+         .catch(e => {
+            this.setState(() => ({
+               successMessage: false,
+               errorMessage: true
+            }))
+         })
+         .finally(() => {
+            this.setState(() => ({
+               formLoader: false
+            }))
+         })
+   }
+
    render() {
-      const { loader, step, note, expandNote } = this.state
+      const { step } = this.state
 
       return (
          <SendMoneyContainer>
@@ -67,15 +125,14 @@ class SendMoney extends Component {
                <SendMoneyFirstStep
                   handleNextStep={this.handleNextStep}
                   handleChange={this.handleChange}
-                  note={note}
-                  loader={loader}
+                  handleChangeAccountId={this.handleChangeAccountId}
+                  {...this.state}
                />
             )}
             {step === 2 && (
                <SendMoneySecondStep
                   handleExpandNote={this.handleExpandNote}
-                  expandNote={expandNote}
-                  note={note}
+                  {...this.state}
                />
             )}
          </SendMoneyContainer>
@@ -83,7 +140,10 @@ class SendMoney extends Component {
    }
 }
 
-const mapDispatchToProps = {}
+const mapDispatchToProps = {
+   handleRefreshAccount,
+   handleRefreshUrl
+}
 
 const mapStateToProps = ({}) => ({})
 

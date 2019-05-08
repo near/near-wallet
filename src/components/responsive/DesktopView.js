@@ -10,25 +10,10 @@ import DesktopPopup from './DesktopPopup'
 
 import { Wallet } from '../../utils/wallet'
 
-import {
-   Image,
-   Menu,
-   Responsive,
-   Segment,
-   Visibility,
-   List,
-   Button,
-   Loader,
-   Popup
-} from 'semantic-ui-react'
+import { Image, Menu, Responsive, Segment, Visibility } from 'semantic-ui-react'
 
 import LogoImage from '../../images/wallet.png'
 import HelpImage from '../../images/icon-help.svg'
-import AccountGreyImage from '../../images/icon-account-grey.svg'
-import ArrowDownImage from '../../images/icon-arrow-down.svg'
-import ContactsGreyImage from '../../images/icon-contacts-grey.svg'
-import AuthorizedGreyImage from '../../images/icon-authorized-grey.svg'
-import LogoutImage from '../../images/icon-logout.svg'
 import ActivityImage from '../../images/icon-activity.svg'
 import RecentImage from '../../images/icon-recent.svg'
 import SendImage from '../../images/icon-send.svg'
@@ -216,7 +201,7 @@ class DesktopView extends Component {
                      <Image className='navbar-icon' src={ActivityImage} />
                      ACTIVITY
                   </Menu.Item>
-                  <Menu.Item as={Link} to='/contacts'>
+                  <Menu.Item as={Link} to='/send-money'>
                      <Image className='navbar-icon' src={SendImage} />
                      SEND MONEY
                   </Menu.Item>

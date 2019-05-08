@@ -119,11 +119,17 @@ const CustomList = styled(List)`
    }
 `
 
-const SendMoneySecondStep = ({ handleExpandNote, expandNote, note }) => (
+const SendMoneySecondStep = ({
+   handleExpandNote,
+   expandNote,
+   note,
+   amount,
+   accountId
+}) => (
    <CustomList className='box'>
       <List.Item as='h2'>You are sending</List.Item>
       <List.Item as='h1' className='amount border-bottom'>
-         1.345
+         {amount}
          <span>Ⓝ</span>
       </List.Item>
       <List.Item className='to'>
@@ -134,8 +140,8 @@ const SendMoneySecondStep = ({ handleExpandNote, expandNote, note }) => (
             <Image src={AccountGreyImage} className='' align='left' />
          </div>
       </List.Item>
-      <List.Item as='h2'>Alex Skidanov</List.Item>
-      <List.Item>@alex.near</List.Item>
+      <List.Item as='h2'>{accountId}</List.Item>
+      <List.Item>@{accountId}</List.Item>
       {note && (
          <List.Item className='with-note '>
             with note:

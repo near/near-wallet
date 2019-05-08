@@ -448,7 +448,11 @@ class PaginationBlock extends Component {
                               </List.Item>
                            </List.Item>
                            <List.Item className='send-money border-top'>
-                              <Button as={Link} to='/send-money' className=''>
+                              <Button
+                                 as={Link}
+                                 to='/send-money/marcin'
+                                 className=''
+                              >
                                  SEND MONEY
                               </Button>
                            </List.Item>

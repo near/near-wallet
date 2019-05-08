@@ -133,6 +133,11 @@ export default createGlobalStyle`
       }
    }
 
+   .ui.form input[type=text] {
+      font-family: "benton-sans",sans-serif;
+      font-size: 16px;
+   }
+
 
 
 

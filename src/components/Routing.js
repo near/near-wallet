@@ -57,7 +57,7 @@ class Routing extends Component {
                         />
                         <Route
                            exact
-                           path='/send-money'
+                           path='/send-money/:id?'
                            component={SendMoneyWithRouter}
                         />
                         <Route

@@ -130,6 +130,14 @@ export class Wallet {
       }
    }
 
+   async checkAccount(accountId) {
+      if (accountId !== this.accountId) {
+         return await this.near.nearClient.viewAccount(accountId)
+      } else {
+         throw new Error('You are logged into account ' + accountId + ' .')
+      }
+   }
+
    async createNewAccount(accountId) {
       if (accountId in this.accounts) {
          throw new Error('Account ' + accountId + ' already exists.')
