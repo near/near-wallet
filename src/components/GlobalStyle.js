@@ -215,11 +215,8 @@ export default createGlobalStyle`
 
 
 
-   ${
-      '' /* .button {
+   .button {
       font-family: "benton-sans",sans-serif !important;
-      font-size: 14px !important;
-   } */
    }
 
 

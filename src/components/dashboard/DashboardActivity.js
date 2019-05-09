@@ -54,7 +54,7 @@ const DashboardActivity = ({ loader, image, title, to, activity }) => (
    <CustomGrid>
       <Grid.Row>
          <Grid.Column className='dashboard-header' textAlign='left' width={16}>
-            <Header as={Link} to={to} className='h2'>
+            <Header className='h2'>
                <Image className='column-icon' src={image} />
                {title}
             </Header>

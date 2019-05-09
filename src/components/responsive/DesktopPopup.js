@@ -1,30 +1,21 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-import ArrowRightImage from '../../images/icon-arrow-right.svg'
-
 import {
    Image,
    Menu,
-   Responsive,
    Segment,
-   Visibility,
    List,
    Button,
    Loader,
    Popup
 } from 'semantic-ui-react'
 
-import LogoImage from '../../images/wallet.png'
-import HelpImage from '../../images/icon-help.svg'
 import AccountGreyImage from '../../images/icon-account-grey.svg'
 import ArrowDownImage from '../../images/icon-arrow-down.svg'
 import ContactsGreyImage from '../../images/icon-contacts-grey.svg'
 import AuthorizedGreyImage from '../../images/icon-authorized-grey.svg'
 import LogoutImage from '../../images/icon-logout.svg'
-import ActivityImage from '../../images/icon-activity.svg'
-import RecentImage from '../../images/icon-recent.svg'
-import SendImage from '../../images/icon-send.svg'
 
 import styled from 'styled-components'
 
@@ -33,6 +24,7 @@ const CustomPopup = styled(Popup)`
       padding: 0px;
       right: 12px !important;
       top: 50px !important;
+      position: fixed !important;
 
       .account-dropdown {
          width: 290px;
