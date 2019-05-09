@@ -95,25 +95,29 @@ class SendMoney extends Component {
          formLoader: true
       }))
 
-      this.wallet
-         .checkAccount(value)
-         .then(d => {
-            this.setState(() => ({
-               successMessage: true,
-               errorMessage: false
-            }))
-         })
-         .catch(e => {
-            this.setState(() => ({
-               successMessage: false,
-               errorMessage: true
-            }))
-         })
-         .finally(() => {
-            this.setState(() => ({
-               formLoader: false
-            }))
-         })
+      this.timeout && clearTimeout(this.timeout)
+
+      this.timeout = setTimeout(() => {
+         this.wallet
+            .checkAccount(value)
+            .then(d => {
+               this.setState(() => ({
+                  successMessage: true,
+                  errorMessage: false
+               }))
+            })
+            .catch(e => {
+               this.setState(() => ({
+                  successMessage: false,
+                  errorMessage: true
+               }))
+            })
+            .finally(() => {
+               this.setState(() => ({
+                  formLoader: false
+               }))
+            })
+      }, 500)
    }
 
    render() {
