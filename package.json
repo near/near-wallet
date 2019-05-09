@@ -16,6 +16,7 @@
       "react-redux-loading": "^1.0.1",
       "react-router-dom": "^5.0.0",
       "react-scripts": "2.1.8",
+      "reduce-reducers": "^1.0.4",
       "redux": "^4.0.1",
       "redux-actions": "^2.6.5",
       "redux-thunk": "^2.3.0",

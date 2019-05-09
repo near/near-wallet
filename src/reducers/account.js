@@ -1,4 +1,4 @@
-import { handleActions } from 'redux-actions'
+import { handleActions, combineActions } from 'redux-actions'
 import {
    REFRESH_ACCOUNT,
    LOADER_ACCOUNT,
@@ -6,35 +6,39 @@ import {
    requestCode,
    validateCode
 } from '../actions/account'
+import reduceReducers from 'reduce-reducers';
 
-const reducer = handleActions({
-   [requestCode]: (state, { error, payload }) => {
-      if (payload) {
-         return { ...state, successMessage: true, sentSms: true }
-      }
-      if (error) {
-         return { ...state, errorMessage: true }
-      }
-      return state
-   },
-   [validateCode]: (state, { error, payload }) => {
-      if (payload) {
-         return { ...state, successMessage: true }
-      }
-      if (error) {
-         return { ...state, errorMessage: true }
-      }
-      return state
-   }
-}, {
+const initialState = {
+   formLoader: false,
    sentSms: false,
    successMessage: false,
    errorMessage: false
-   // TODO: Default state doesn't work as expected?
-})
+}
+
+const loaderReducer = (state, { ready }) => {
+   if (typeof ready === 'undefined') {
+      return state
+   }
+   return { ...state, formLoader: !ready }
+}
+
+const requestResultReducer = handleActions({
+   [combineActions(requestCode, validateCode)]: (state, { error, payload }) => {
+      return { ...state, successMessage: !!payload, errorMessage: !!error}
+   }
+}, initialState)
+
+const reducer = handleActions({
+   [requestCode]: (state, { payload }) => {
+      if (payload) {
+         return { ...state, sentSms: true }
+      }
+      return state
+   },
+}, initialState)
 
 // TODO: Migrate everything to redux-actions
-export default function account(state = {}, action) {
+function account(state = {}, action) {
    switch (action.type) {
       case REFRESH_ACCOUNT:
          return {
@@ -54,7 +58,14 @@ export default function account(state = {}, action) {
          }
       }
       default:
-         return reducer(state, action)
+         return state
    }
 }
+
+export default reduceReducers(
+   loaderReducer,
+   requestResultReducer,
+   reducer,
+   account,
+   initialState)
 

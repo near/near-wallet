@@ -12,7 +12,6 @@ import { requestCode, validateCode } from '../../actions/account';
 class SetRecoveryInfo extends Component {
    state = {
       loader: false,
-      formLoader: false,
       phoneNumber: '',
       isLegit: false,
    }
@@ -58,21 +57,15 @@ class SetRecoveryInfo extends Component {
                }, 1500)
             })
       }
-
-      // TODO: Integrate loader / isLegit
-      /*
-      this.setState(() => ({
-         successMessage: false,
-         errorMessage: false,
-         isLegit: false,
-         formLoader: true
-      }))
-      */
    }
 
    render() {
       const { loader } = this.state
-      const combinedState = {...this.props, ...this.state}
+      const combinedState = {
+         ...this.props,
+         ...this.state,
+         isLegit: this.state.isLegit && !this.props.formLoader
+      }
       return (
          <SetRecoveryInfoContainer loader={loader} location={this.props.location}>
             <SetRecoveryInfoSection {...combinedState}>
