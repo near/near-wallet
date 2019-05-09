@@ -6,7 +6,7 @@
    "dependencies": {
       "fetch-send-json": "^0.0.2",
       "gh-pages": "^2.0.1",
-      "nearlib": "^0.5.4",
+      "nearlib": "^0.6.2",
       "prop-types": "^15.7.2",
       "query-string": "^6.4.2",
       "react": "^16.8.6",
