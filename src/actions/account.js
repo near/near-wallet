@@ -1,4 +1,6 @@
 import { parse } from 'query-string'
+import { createActions, handleActions, combineActions } from 'redux-actions';
+import { Wallet } from '../utils/wallet';
 
 export const REFRESH_ACCOUNT = 'REFRESH_ACCOUNT'
 export const LOADER_ACCOUNT = 'LOADER_ACCOUNT'
@@ -70,3 +72,14 @@ export function handleRefreshUrl(location) {
       })
    }
 }
+
+const wallet = new Wallet()
+
+export const { requestCode, validateCode } = createActions({
+   REQUEST_CODE: wallet.requestCode.bind(wallet),
+   VALIDATE_CODE: wallet.validateCode.bind(wallet)
+})
+
+
+
+

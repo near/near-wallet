@@ -7,6 +7,7 @@ import { Wallet } from '../../utils/wallet'
 import SetRecoveryInfoSection from './SetRecoveryInfoSection'
 import SetRecoveryInfoForm from './SetRecoveryInfoForm'
 import SetRecoveryInfoContainer from './SetRecoveryInfoContainer'
+import { requestCode, validateCode } from '../../actions/account';
 
 class SetRecoveryInfo extends Component {
    state = {
@@ -14,13 +15,11 @@ class SetRecoveryInfo extends Component {
       formLoader: false,
       phoneNumber: '',
       isLegit: false,
-      sentSms: false,
-      successMessage: false,
-      errorMessage: false
    }
 
    componentDidMount = () => {
       this.wallet = new Wallet()
+      console.log("componentDidMount", this.state, this);
    }
 
    handleChange = (e, { name, value }) => {
@@ -46,54 +45,39 @@ class SetRecoveryInfo extends Component {
          return false
       }
 
+      const { dispatch } = this.props;
+      if (!this.props.sentSms) {
+         dispatch(requestCode(this.state.phoneNumber, this.props.accountId))
+      } else {
+         dispatch(validateCode(this.state.phoneNumber, this.props.accountId, this.state.securityCode))
+            .then(() => {
+               let nextUrl = `/login/${this.props.url && this.props.url.next_url || '/'}`;
+               console.log('nextUrl', nextUrl);
+               setTimeout(() => {
+                  this.props.history.push(nextUrl)
+               }, 1500)
+            })
+      }
+
+      // TODO: Integrate loader / isLegit
+      /*
       this.setState(() => ({
          successMessage: false,
          errorMessage: false,
          isLegit: false,
          formLoader: true
       }))
-
-      ;(async () => {
-         try {
-            if (this.state.sentSms) {
-               await this.wallet.validateCode(this.state.phoneNumber, this.props.accountId, this.state.securityCode)
-               this.setState(() => ({
-                  successMessage: true
-               }))
-
-               let nextUrl = `/login/${this.props.url && this.props.url.next_url || '/'}`;
-               console.log('nextUrl', nextUrl);
-               setTimeout(() => {
-                  this.props.history.push(nextUrl)
-               }, 1500)
-            } else {
-               await this.wallet.requestCode(this.state.phoneNumber, this.props.accountId)
-               this.setState(() => ({
-                  sentSms: true,
-                  successMessage: true
-               }))
-            }
-         } catch(e) {
-            console.error('Error registering phone:', e);
-            this.setState(() => ({
-               errorMessage: true
-            }))
-         } finally {
-            this.setState(() => ({
-               formLoader: false
-            }))
-         }
-      })()
+      */
    }
 
    render() {
       const { loader } = this.state
-
+      const combinedState = {...this.props, ...this.state}
       return (
          <SetRecoveryInfoContainer loader={loader} location={this.props.location}>
-            <SetRecoveryInfoSection {...this.state}>
+            <SetRecoveryInfoSection {...combinedState}>
                <SetRecoveryInfoForm
-                  {...this.state}
+                  {...combinedState}
                   handleSubmit={this.handleSubmit}
                   handleChange={this.handleChange}
                />
@@ -104,7 +88,10 @@ class SetRecoveryInfo extends Component {
 }
 
 const mapStateToProps = ({ account }, { match }) => {
-   return { accountId: match.params.accountId, url: account.url }
+   return {
+      ...account,
+      accountId: match.params.accountId
+   }
 }
 
 export const SetRecoveryInfoWithRouter = connect(mapStateToProps)(SetRecoveryInfo)

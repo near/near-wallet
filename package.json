@@ -17,6 +17,7 @@
       "react-router-dom": "^5.0.0",
       "react-scripts": "2.1.8",
       "redux": "^4.0.1",
+      "redux-actions": "^2.6.5",
       "redux-thunk": "^2.3.0",
       "semantic-ui-react": "^0.86.0",
       "styled-components": "^4.2.0"
