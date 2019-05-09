@@ -52,11 +52,7 @@ class CreateAccount extends Component {
             this.setState(() => ({
                successMessage: true
             }))
-            setTimeout(() => {
-               this.props.history.push(
-                  `/login/${parse(this.props.location.search).next_url || '/'}`
-               )
-            }, 1500)
+            this.props.history.push(`/set-recovery/${this.state.accountId}`)
          })
          .catch(e => {
             this.setState(() => ({

@@ -39,7 +39,7 @@ class Routing extends Component {
                         />
                         <Route
                            exact
-                           path='/set-recovery'
+                           path='/set-recovery/:accountId'
                            component={SetRecoveryInfoWithRouter}
                         />
                         <Route

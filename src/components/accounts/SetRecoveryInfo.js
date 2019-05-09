@@ -7,14 +7,12 @@ import { Wallet } from '../../utils/wallet'
 import SetRecoveryInfoSection from './SetRecoveryInfoSection'
 import SetRecoveryInfoForm from './SetRecoveryInfoForm'
 import SetRecoveryInfoContainer from './SetRecoveryInfoContainer'
-import { handleRefreshAccount, handleRefreshUrl } from '../../actions/account'
 
 class SetRecoveryInfo extends Component {
    state = {
       loader: false,
       formLoader: false,
       phoneNumber: '',
-      accountId: 'vlad.near', // TODO: Send account ID from create form, etc
       isLegit: false,
       sentSms: false,
       successMessage: false,
@@ -23,8 +21,6 @@ class SetRecoveryInfo extends Component {
 
    componentDidMount = () => {
       this.wallet = new Wallet()
-      // this.props.handleRefreshUrl(this.props.location)
-      // this.props.handleRefreshAccount(this.wallet)
    }
 
    handleChange = (e, { name, value }) => {
@@ -38,7 +34,7 @@ class SetRecoveryInfo extends Component {
       // TODO: Use some validation framework?
       let validators = {
          phoneNumber: isValidPhoneNumber,
-         securityCode: value => value.trim().match(/^\d{6}$/)
+         securityCode: value => !!value.trim().match(/^\d{6}$/)
       }
       return validators[name](value);
    }
@@ -60,13 +56,18 @@ class SetRecoveryInfo extends Component {
       ;(async () => {
          try {
             if (this.state.sentSms) {
-               await this.wallet.validateCode(this.state.phoneNumber, this.state.accountId, this.state.securityCode)
+               await this.wallet.validateCode(this.state.phoneNumber, this.props.accountId, this.state.securityCode)
                this.setState(() => ({
                   successMessage: true
                }))
-               // TODO: Redirect to account dashboard
+
+               let nextUrl = `/login/${this.props.url && this.props.url.next_url || '/'}`;
+               console.log('nextUrl', nextUrl);
+               setTimeout(() => {
+                  this.props.history.push(nextUrl)
+               }, 1500)
             } else {
-               await this.wallet.requestCode(this.state.phoneNumber, this.state.accountId)
+               await this.wallet.requestCode(this.state.phoneNumber, this.props.accountId)
                this.setState(() => ({
                   sentSms: true,
                   successMessage: true
@@ -102,16 +103,8 @@ class SetRecoveryInfo extends Component {
    }
 }
 
-const mapDispatchToProps = {
-   handleRefreshAccount,
-   handleRefreshUrl
+const mapStateToProps = ({ account }, { match }) => {
+   return { accountId: match.params.accountId, url: account.url }
 }
 
-const mapStateToProps = ({ account }) => ({
-   account
-})
-
-export const SetRecoveryInfoWithRouter = connect(
-   mapStateToProps,
-   mapDispatchToProps
-)(SetRecoveryInfo)
+export const SetRecoveryInfoWithRouter = connect(mapStateToProps)(SetRecoveryInfo)
