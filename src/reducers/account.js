@@ -63,9 +63,9 @@ function account(state = {}, action) {
 }
 
 export default reduceReducers(
+   initialState,
    loaderReducer,
    requestResultReducer,
    reducer,
-   account,
-   initialState)
+   account)
 
