@@ -96,9 +96,9 @@ export default createGlobalStyle`
    h5, .h5 {
       font-family: "benton-sans",sans-serif !important;
       font-size: 13px !important;
-      line-height: 26px !important;
-      font-weight: 500 !important;
-      color: #999999;
+      line-height: 26px;
+      font-weight: 500;
+      color: #999999 !important;
       margin: 0px;
       letter-spacing: 1.8px;
    }
@@ -106,9 +106,9 @@ export default createGlobalStyle`
    h6, .h6 {
       font-family: "benton-sans",sans-serif !important;
       font-size: 12px !important;
-      line-height: 18px !important;
-      font-weight: 600 !important;
-      color: #999999 !important;
+      line-height: 18px;
+      font-weight: 600;
+      color: #999999;
       margin: 0px !important;
       letter-spacing: 1.5px !important;
    }
@@ -133,6 +133,11 @@ export default createGlobalStyle`
       }
    }
 
+   .ui.form input[type=text] {
+      font-family: "benton-sans",sans-serif;
+      font-size: 16px;
+   }
+
 
 
 
@@ -154,10 +159,10 @@ export default createGlobalStyle`
       color: #999;
    }
    .color-charcoal-grey {
-      color: #4a4f54;
+      color: #4a4f54 !important;
    }
    .color-black {
-      color: #24272a;
+      color: #24272a !important;
 
       :hover {
          color: #24272a;
@@ -172,7 +177,7 @@ export default createGlobalStyle`
       border-bottom: 2px solid #f8f8f8 !important;
    }
    .border-bottom-bold {
-      border-bottom: 4px solid #f8f8f8 !important;
+      border-bottom: 4px solid #e6e6e6 !important;
    }
    .border-bottom-light {
       border-bottom: 1px solid #f8f8f8 !important;
@@ -183,7 +188,7 @@ export default createGlobalStyle`
    }
 
    .border-top-bold {
-      border-top: 4px solid #f8f8f8 !important;
+      border-top: 4px solid #e6e6e6 !important;
    }
    .border-top-light {
       border-top: 1px solid #f8f8f8 !important;
@@ -210,11 +215,8 @@ export default createGlobalStyle`
 
 
 
-   ${
-      '' /* .button {
+   .button {
       font-family: "benton-sans",sans-serif !important;
-      font-size: 14px !important;
-   } */
    }
 
 
@@ -224,7 +226,7 @@ export default createGlobalStyle`
    .box {
       border: 4px solid #e6e6e6;
       border-radius: 8px;
-      margin-bottom: 0px !important;
+      margin-bottom: 0px;
       position: relative;
       min-height: 100px;
       position: relative;
@@ -314,27 +316,10 @@ export default createGlobalStyle`
    }
 
 
-   .column-icon {
-      width: 24px !important;
-      display: inline-block !important;
-      margin: -4px 10px 0 10px !important;
-   }
+   
 
 
-   link.view-all, button.view-all, a.view-all {
-      background: #6ad1e3 !important;
-      margin: 0 !important;
-      padding: 10px 20px !important;
-      color: #fff !important;
-      font-weight: 600 !important;
-      border-radius: 20px !important;
-      border: 2px solid #6ad1e3 !important;
-
-      :hover {
-         background: #fff !important;
-         color: #6ad1e3 !important;
-      }
-   }
+   
    
 
 
@@ -373,8 +358,25 @@ export default createGlobalStyle`
 
    
 
-
-
+   .ui.list .list>.item .header, .ui.list>.item .header {
+      font-family: "benton-sans",sans-serif;
+      
+   }
+   .ui.popup>.header, .ui.popup {
+      color: #999;
+      font-family: "benton-sans",sans-serif;
+      font-weight: 400;
+      font-size: 14px !important;
+   }
+   .ui.popup {
+      border: 1px solid #eee;
+   }
+   .ui.left.center.popup:before {
+      box-shadow: 1px -1px 0 0 #eee;
+   }
+   .ui.bottom.right.popup:before {
+      box-shadow: -1px -1px 0 0 #eee;
+   }
 
 
 
@@ -387,19 +389,19 @@ export default createGlobalStyle`
    @media screen and (max-width: 767px) {
       html {
          body {
-            font-size: 12px !important;
+            ${'' /* font-size: 12px !important; */}
          }
       }
 
       
       h1, .h1 {
-         font-size: 36px !important;
+         font-size: 38px !important;
          font-weight: 500;
          line-height: 50px;
          color: #4a4f54;
       }
       h2, .h2 {
-         font-size: 16px !important;
+         font-size: 24px !important;
          font-weight: 600;
          line-height: 1.33;
          margin: 0px;
@@ -412,11 +414,13 @@ export default createGlobalStyle`
       }
       
       h6, .h6 {
-         font-size: 10px !important;
+         ${
+            '' /* font-size: 10px !important;
          line-height: 18px !important;
          font-weight: 400 !important;
          margin: 0px !important;
-         letter-spacing: 2px !important;
+         letter-spacing: 2px !important; */
+         }
       }
 
       .box .column {
@@ -427,10 +431,7 @@ export default createGlobalStyle`
          margin-left: 10px;
       }
 
-      .create input {
-         padding-left: 20px !important;
-         font-size: 14px !important;
-      }
+      
 
       .dashboard-list .dropdown-image {
          display: none !important;

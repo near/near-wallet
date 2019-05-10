@@ -2,6 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Segment, Form, Button, Responsive } from 'semantic-ui-react'
 
+import ReCAPTCHA from 'react-google-recaptcha'
+
 import ProblemsImage from '../../images/icon-problems.svg'
 import CheckBlueImage from '../../images/icon-check-blue.svg'
 
@@ -83,6 +85,9 @@ const AccountForm = styled(Form)`
          color: #0072ce;
       }
    }
+
+   @media screen and (max-width: 767px) {
+   }
 `
 
 const CreateAccountForm = ({
@@ -92,7 +97,8 @@ const CreateAccountForm = ({
    successMessage,
    errorMessage,
    handleSubmit,
-   handleChange
+   handleChange,
+   handleRecaptcha
 }) => (
    <AccountForm autoComplete='off' onSubmit={handleSubmit}>
       <Form.Input
@@ -120,6 +126,11 @@ const CreateAccountForm = ({
             </Segment>
          </Responsive>
       )}
+
+      <ReCAPTCHA
+         sitekey='6LfNjp8UAAAAAByZu30I-2-an14USj3yVbbUI3eN'
+         onChange={handleRecaptcha}
+      />
 
       <Button type='submit' disabled={!isLegit}>
          CREATE ACCOUNT

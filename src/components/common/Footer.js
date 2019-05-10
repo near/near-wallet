@@ -1,5 +1,5 @@
 import React from 'react'
-import { Grid, Image, List } from 'semantic-ui-react'
+import { Grid, Image, List, Item } from 'semantic-ui-react'
 
 import LogoFooterImage from '../../images/near.svg'
 import NearkatImage from '../../images/footer-nearkat.svg'
@@ -16,16 +16,36 @@ const FooterGrid = styled(Grid)`
 
    font-size: 12px;
    font-weight: 300;
-   line-height: 40px;
    color: #999999;
 
    &&& {
       margin-bottom: 0px;
       margin-left: 0px;
-   }
 
-   .near-logo {
-      margin: 0 20px 0 0;
+      .near-logo {
+         .content {
+            a {
+               font-size: 12px;
+               font-weight: 300;
+               color: #999999;
+               text-decoration: underline;
+
+               :hover {
+                  text-decoration: none;
+               }
+            }
+            .color-brown-grey {
+               color: #e6e6e6;
+               padding: 0 6px;
+            }
+         }
+         .image {
+            width: 140px;
+
+            img {
+            }
+         }
+      }
    }
 
    &&&& .help {
@@ -58,6 +78,23 @@ const FooterGrid = styled(Grid)`
          }
       }
    }
+
+   @media screen and (max-width: 991px) {
+   }
+
+   @media screen and (max-width: 767px) {
+      &&& {
+         height: 160px;
+
+         .near-logo {
+            .item {
+            }
+            .content {
+               text-align: center;
+            }
+         }
+      }
+   }
 `
 
 const ResponsiveContainer = () => (
@@ -69,8 +106,18 @@ const ResponsiveContainer = () => (
          tablet={10}
          mobile={16}
       >
-         <Image className='near-logo' src={LogoFooterImage} align='left' />©
-         2019 NEAR Inc. All Rights Reserved.
+         <Item.Group className='near-logo'>
+            <Item>
+               <Item.Image src={LogoFooterImage} />
+               <Item.Content>
+                  © 2019 NEAR Inc. All Rights Reserved.
+                  <br />
+                  <a href='/'>Terms of Service</a>
+                  <span className='color-brown-grey'>|</span>
+                  <a href='/'>Privacy Policy</a>
+               </Item.Content>
+            </Item>
+         </Item.Group>
       </Grid.Column>
       <Grid.Column
          only='tablet computer'

@@ -33,10 +33,12 @@ const CustomGrid = styled(Grid)`
    }
 
    &&& .note-info {
-      letter-spacing: 2px;
-      font-weight: 600;
-      line-height: 20px;
-      color: #4a4f54;
+      .title {
+         letter-spacing: 2px;
+         font-weight: 600;
+         line-height: 20px;
+         color: #4a4f54;
+      }
    }
 
    @media screen and (max-width: 991px) {
@@ -46,20 +48,31 @@ const CustomGrid = styled(Grid)`
    }
 
    @media screen and (max-width: 767px) {
-      &&& .alert-info {
-         padding: 0 0 0 24px;
-         line-height: 34px;
-         font-size: 14px;
-      }
+      &&& {
+         .alert-info {
+            padding: 0 0 6px 24px;
+            line-height: 34px;
+            font-size: 14px;
+            margin-top: -6px;
+         }
 
-      .note-box {
-         padding-left: 1rem;
-         margin-top: 10px;
-      }
+         .note-box {
+            padding-left: 1rem;
+            margin-top: 10px;
+         }
 
-      .note-box {
-         .border-left-bold {
-            padding-bottom: 0px;
+         .note-box {
+            .border-left-bold {
+               padding-bottom: 0px;
+            }
+         }
+
+         .form-row {
+            padding-top: 6px;
+         }
+
+         &&& .note-info {
+            font-size: 12px;
          }
       }
    }
@@ -78,7 +91,7 @@ const CreateAccountSection = ({ successMessage, errorMessage, children }) => (
             Choose a Username
          </Grid.Column>
       </Grid.Row>
-      <Grid.Row className=''>
+      <Grid.Row className='form-row'>
          <Grid.Column computer={8} tablet={8} mobile={16} className=''>
             {children}
          </Grid.Column>
@@ -107,8 +120,8 @@ const CreateAccountSection = ({ successMessage, errorMessage, children }) => (
 
                <Grid.Row>
                   <Grid.Column className='border-left-bold'>
-                     <List>
-                        <List.Item className='note-info'>NOTE</List.Item>
+                     <List className='note-info'>
+                        <List.Item className='title'>NOTE</List.Item>
                         <List.Item>
                            Your username can be 5-32 characters
                         </List.Item>

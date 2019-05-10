@@ -117,9 +117,17 @@ export class Wallet {
       return await this.near.nearClient.viewAccount(accountId)
    }
 
+   async checkAccount(accountId) {
+      if (accountId !== this.accountId) {
+         return await this.near.nearClient.viewAccount(accountId)
+      } else {
+         throw new Error('You are logged into account ' + accountId + ' .')
+      }
+   }
+
    async createNewAccount(accountId) {
       if (accountId in this.accounts) {
-         throw new Error('Account ' + accountId + ' already exists.');
+         throw new Error('Account ' + accountId + ' already exists.')
       }
       let remoteAccount = null
       try {
@@ -128,7 +136,7 @@ export class Wallet {
          // expected
       }
       if (!!remoteAccount) {
-         throw new Error('Account ' + accountId + ' already exists.');
+         throw new Error('Account ' + accountId + ' already exists.')
       }
       let keyPair = await nearlib.KeyPair.fromRandomSeed()
       return await new Promise((resolve, reject) => {
@@ -177,20 +185,19 @@ export class Wallet {
       let accountId = app_data['account_id']
       if (!(accountId in this.accounts)) {
          // Account is no longer authorized.
-         throw new Error('The account ' +
-            accountId +
-            ' is not part of the wallet anymore.')
+         throw new Error(
+            'The account ' + accountId + ' is not part of the wallet anymore.'
+         )
       }
       let contract_id = app_data['contract_id']
       let receiverId = data['receiver_id'] || contract_id
-      if (
-         receiverId !== contract_id ||
-         !this.isLegitAccountId(receiverId)
-      ) {
+      if (receiverId !== contract_id || !this.isLegitAccountId(receiverId)) {
          // Bad receiver account ID or it doesn't match contract id.
-         throw new Error("Bad receiver's account ID ('" +
-            receiverId +
-            "') or it doesn't match the authorized contract id")
+         throw new Error(
+            "Bad receiver's account ID ('" +
+               receiverId +
+               "') or it doesn't match the authorized contract id"
+         )
       }
       let amount = parseInt(data['amount']) || 0
       if (amount !== 0) {

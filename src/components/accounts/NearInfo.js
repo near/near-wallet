@@ -23,7 +23,7 @@ const CustomList = styled(List)`
 
    @media screen and (max-width: 767px) {
       &&& {
-         margin-top: 24px;
+         margin-top: 14px;
          float: left;
          width: 100%;
       }
