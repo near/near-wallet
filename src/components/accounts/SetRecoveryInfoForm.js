@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { Link } from 'react-router-dom'
 import { Form, Input, Button } from 'semantic-ui-react'
 import PhoneInput from 'react-phone-number-input'
 
@@ -56,7 +57,7 @@ const RecoveryInfoForm = styled(Form)`
       background-size: 24px 24px;
    }
 
-   && button {
+   &&& button {
       width: 288px;
       height: 60px;
       border-radius: 30px;
@@ -82,6 +83,24 @@ const RecoveryInfoForm = styled(Form)`
       :focus {
          background: #fff;
          color: #0072ce;
+      }
+   }
+
+   .ui.button {
+      height: 60px;
+      margin: 10px 0 0 1em;
+
+      background-color: #fff;
+      border-radius: 30px;
+      border: 4px solid #e6e6e6;
+      color: #999999;
+
+      font-size: 18px;
+      letter-spacing: 2px;
+
+      :hover {
+         background-color: #e6e6e6;
+         color: #fff;
       }
    }
 
@@ -132,9 +151,8 @@ const SetRecoveryInfoForm = ({
       )}
 
       <Form.Field>
-         <Button type='submit' disabled={!isLegit}>
-            PROTECT ACCOUNT
-         </Button>
+         <Button type='submit' disabled={!isLegit}>PROTECT ACCOUNT</Button>
+         <Link to="/dashboard" className="ui button">NOT NOW</Link>
       </Form.Field>
    </RecoveryInfoForm>
 )
