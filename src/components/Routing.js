@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
+import { Route, Switch } from 'react-router-dom'
+import { ConnectedRouter } from 'connected-react-router'
 
 import '../index.css'
 
@@ -26,7 +27,7 @@ class Routing extends Component {
          <div className='App'>
             <GlobalStyle />
 
-            <Router basename={PATH_PREFIX}>
+            <ConnectedRouter basename={PATH_PREFIX}  history={this.props.history}>
                <ThemeProvider theme={theme}>
                   <ResponsiveContainer>
                      <Switch>
@@ -71,7 +72,7 @@ class Routing extends Component {
                      <Footer />
                   </ResponsiveContainer>
                </ThemeProvider>
-            </Router>
+            </ConnectedRouter>
          </div>
       )
    }
