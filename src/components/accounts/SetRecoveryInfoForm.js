@@ -96,6 +96,7 @@ const RecoveryInfoForm = styled(Form)`
       color: #999999;
 
       font-size: 18px;
+      line-height: 24px;
       letter-spacing: 2px;
 
       :hover {

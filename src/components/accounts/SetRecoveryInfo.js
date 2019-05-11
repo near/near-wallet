@@ -18,7 +18,6 @@ class SetRecoveryInfo extends Component {
 
    componentDidMount = () => {
       this.wallet = new Wallet()
-      console.log("componentDidMount", this.state, this);
    }
 
    handleChange = (e, { name, value }) => {
@@ -51,7 +50,6 @@ class SetRecoveryInfo extends Component {
          dispatch(validateCode(this.state.phoneNumber, this.props.accountId, this.state.securityCode))
             .then(() => {
                let nextUrl = `/login/${this.props.url && this.props.url.next_url || '/'}`;
-               console.log('nextUrl', nextUrl);
                setTimeout(() => {
                   this.props.history.push(nextUrl)
                }, 1500)
