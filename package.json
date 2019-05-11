@@ -4,6 +4,7 @@
    "version": "0.1.0",
    "private": true,
    "dependencies": {
+      "connected-react-router": "^6.4.0",
       "gh-pages": "^2.0.1",
       "nearlib": "^0.5.4",
       "prop-types": "^15.7.2",
