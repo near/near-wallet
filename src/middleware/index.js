@@ -1,5 +1,6 @@
 import thunk from 'redux-thunk'
 import { applyMiddleware, compose } from 'redux'
+import { routerMiddleware } from 'connected-react-router'
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
 
@@ -29,4 +30,8 @@ const readyStatePromise = store => next => action => {
     )
   }
 
-export default composeEnhancers(applyMiddleware(readyStatePromise, thunk))
+export default (history) => composeEnhancers(
+    applyMiddleware(
+        routerMiddleware(history),
+        readyStatePromise,
+        thunk))
