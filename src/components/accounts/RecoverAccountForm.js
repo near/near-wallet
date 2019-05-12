@@ -116,6 +116,7 @@ const RecoveryInfoForm = styled(Form)`
 
 const RecoverAccountForm = ({
    formLoader,
+   accountId,
    phoneNumber,
    sentSms,
    isLegit,
@@ -125,6 +126,20 @@ const RecoverAccountForm = ({
    handleChange
 }) => (
    <RecoveryInfoForm autoComplete='off' onSubmit={handleSubmit}>
+      <Form.Field>
+         <h3>Username</h3>
+         <Form.Input
+            loading={formLoader}
+            className={`create ${successMessage ? 'success' : ''}${
+               errorMessage ? 'problem' : ''
+            }`}
+            name='accountId'
+            value={accountId}
+            onChange={handleChange}
+            placeholder='example: satoshi.near'
+            disabled={sentSms}
+         />
+      </Form.Field>
       {!sentSms && (
          <Form.Field>
             <h3>Phone Number</h3>
@@ -152,8 +167,7 @@ const RecoverAccountForm = ({
       )}
 
       <Form.Field>
-         <Button type='submit' disabled={!isLegit}>PROTECT ACCOUNT</Button>
-         <Link to="/dashboard" className="ui button">NOT NOW</Link>
+         <Button type='submit' disabled={!isLegit}>RECOVER ACCOUNT</Button>
       </Form.Field>
    </RecoveryInfoForm>
 )

@@ -30,6 +30,7 @@ class RecoverAccount extends Component {
    isLegitField(name, value) {
       // TODO: Use some validation framework?
       let validators = {
+         accountId: value => this.wallet.isLegitAccountId(value),
          phoneNumber: isValidPhoneNumber,
          securityCode: value => !!value.trim().match(/^\d{6}$/)
       }

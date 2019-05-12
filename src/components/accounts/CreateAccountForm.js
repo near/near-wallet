@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { Link } from 'react-router-dom'
 import { Segment, Form, Button, Responsive } from 'semantic-ui-react'
 
 import ReCAPTCHA from 'react-google-recaptcha'
@@ -36,6 +37,12 @@ const AccountForm = styled(Form)`
          background: #fff;
          color: #0072ce;
       }
+   }
+
+   .recoverAccount {
+      display: block;
+      margin-top: 2em;
+      font-size: 18px
    }
 
    @media screen and (max-width: 767px) {
@@ -81,6 +88,8 @@ const CreateAccountForm = ({
       <Button type='submit' disabled={!successMessage}>
          CREATE ACCOUNT
       </Button>
+
+      <Link to='/recover-account' className="recoverAccount">I already have an account</Link>
    </AccountForm>
 )
 
