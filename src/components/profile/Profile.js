@@ -35,8 +35,6 @@ class Profile extends Component {
    }
 
    render() {
-      const { loader } = this.state
-
       return (
          <ProfileContainer>
             <ProfileSection>

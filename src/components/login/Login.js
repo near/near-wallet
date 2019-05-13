@@ -48,7 +48,7 @@ class Login extends Component {
       return (
          <LoginContainer
             loader={account.loader}
-            app_title={account.url && account.url.app_title}
+            appTitle={account.url && account.url.app_title}
          >
             {account.accountId && (
                <LoginForm

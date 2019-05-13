@@ -3,22 +3,12 @@ import { connect } from 'react-redux'
 
 import { withRouter } from 'react-router-dom'
 
-import { Wallet } from '../../utils/wallet'
-
 import PaginationBlock from '../pagination/PaginationBlock'
 import ListItem from '../dashboard/ListItem'
 
 import ContactsContainer from './ContactsContainer'
 
-import TContractImage from '../../images/icon-t-contract.svg'
-import activityGreyImage from '../../images/icon-activity-grey.svg'
 import AccountGreyImage from '../../images/icon-account-grey.svg'
-import AuthorizedGreyImage from '../../images/icon-authorized-grey.svg'
-import ContactsGreyImage from '../../images/icon-contacts-grey.svg'
-
-import TStakeImage from '../../images/icon-t-stake.svg'
-import TTransferImage from '../../images/icon-t-transfer.svg'
-import NearkatImage from '../../images/footer-nearkat.svg'
 
 class Contacts extends Component {
    state = {
@@ -87,7 +77,7 @@ class Contacts extends Component {
    }
 
    render() {
-      const { loader, activity, filterTypes, showSub, showSubOpen } = this.state
+      const { activity, filterTypes, showSub, showSubOpen } = this.state
 
       return (
          <ContactsContainer>
@@ -98,6 +88,7 @@ class Contacts extends Component {
             >
                {activity.map((row, i) => (
                   <ListItem
+                     key={`c-${i}`}
                      row={row}
                      i={i}
                      wide={true}
@@ -114,7 +105,7 @@ class Contacts extends Component {
 
 const mapDispatchToProps = {}
 
-const mapStateToProps = ({}) => ({})
+const mapStateToProps = () => ({})
 
 export const ContactsWithRouter = connect(
    mapStateToProps,

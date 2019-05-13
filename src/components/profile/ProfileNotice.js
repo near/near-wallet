@@ -23,14 +23,14 @@ const CustomList = styled(List)`
    }
 `
 
-const ProfileNotice = ({ loader }) => (
+const ProfileNotice = () => (
    <CustomList className='border-left-bold'>
       <List.Item className=''>
          <List.Header>Never give your keys away</List.Header>
          <List.Content>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur
             sit amet pretium mi, a molestie est.
-            <a href=''>Learn more</a>
+            <a href='/'>Learn more</a>
          </List.Content>
       </List.Item>
    </CustomList>

@@ -150,7 +150,7 @@ const mapDispatchToProps = {
    handleRefreshUrl
 }
 
-const mapStateToProps = ({}) => ({})
+const mapStateToProps = () => ({})
 
 export const SendMoneyWithRouter = connect(
    mapStateToProps,
