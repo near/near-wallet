@@ -138,6 +138,21 @@ export class Wallet {
       }
    }
 
+   async checkNewAccount(accountId) {
+      if (accountId in this.accounts) {
+         throw new Error('Account ' + accountId + ' already exists.')
+      }
+      let remoteAccount = null
+      try {
+         remoteAccount = await this.near.nearClient.viewAccount(accountId)
+      } catch (e) {
+         // expected
+      }
+      if (!!remoteAccount) {
+         throw new Error('Account ' + accountId + ' already exists.')
+      }
+   }
+
    async createNewAccount(accountId) {
       if (accountId in this.accounts) {
          throw new Error('Account ' + accountId + ' already exists.')
