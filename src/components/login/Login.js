@@ -18,7 +18,6 @@ class Login extends Component {
       this.wallet = new Wallet()
       this.props.handleRefreshUrl(this.props.location)
       this.props.handleRefreshAccount(this.wallet, this.props.history)
-      console.log(this.props);
    }
 
    handleOnClick = () => {
