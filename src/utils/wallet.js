@@ -18,6 +18,7 @@ export class Wallet {
    constructor() {
       this.key_store = new nearlib.BrowserLocalStorageKeystore()
       this.near = nearlib.Near.createDefaultConfig(NODE_URL)
+      this.account = new nearlib.Account(this.near.nearClient);
       this.accounts = JSON.parse(
          localStorage.getItem(KEY_WALLET_ACCOUNTS) || '{}'
       )
@@ -138,7 +139,7 @@ export class Wallet {
       if (!!remoteAccount) {
          throw new Error('Account ' + accountId + ' already exists.')
       }
-      let keyPair = await nearlib.KeyPair.fromRandomSeed()
+      let keyPair = await nearlib.KeyPair.fromRandomSeed();
       return await new Promise((resolve, reject) => {
          let data = JSON.stringify({
             newAccountId: accountId,
@@ -161,6 +162,26 @@ export class Wallet {
          }
          xhr.send(data)
       })
+   }
+
+   async addAccessKey(accountId, contractId, publicKey, successUrl) {
+      const addAccessKeyResponse = await this.account.addAccessKey(
+         accountId,
+         publicKey,
+         contractId,
+         '',  // methodName
+         '',  // fundingOwner
+         0,  // fundingAmount
+      );
+      try {
+         const result = await this.near.waitForTransactionResult(addAccessKeyResponse);
+         if (result.status == "Completed") {
+            window.location.href = successUrl;
+         }
+      } catch (e) {
+         // TODO: handle errors
+         console.log("Error on adding access key ", e);
+      }
    }
 
    subscribeForMessages() {
