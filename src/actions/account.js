@@ -67,7 +67,8 @@ export function handleRefreshUrl(location) {
             app_url: parse(location.search).app_url || '',
             contract_id: parse(location.search).contract_id || '',
             success_url: parse(location.search).success_url || '',
-            failure_url: parse(location.search).failure_url || ''
+            failure_url: parse(location.search).failure_url || '',
+            public_key: parse(location.search).public_key || ''
          }
       })
    }

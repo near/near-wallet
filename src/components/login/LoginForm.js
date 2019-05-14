@@ -176,6 +176,7 @@ const LoginForm = ({
    account,
    handleOnClick,
    handleDeny,
+   handleAllow,
    handleSelectAccount,
    redirectCreateAccount
 }) => (
@@ -268,7 +269,7 @@ const LoginForm = ({
                <Button className='deny' onClick={handleDeny}>
                   DENY
                </Button>
-               <Button className='' floated='right'>
+               <Button className='' floated='right' onClick={handleAllow}>
                   ALLOW
                </Button>
             </Form>
