@@ -1,6 +1,5 @@
 import React, { Component, Fragment } from 'react'
 import { Link } from 'react-router-dom'
-import PropTypes from 'prop-types'
 
 import { Grid, List, Image, Button } from 'semantic-ui-react'
 
@@ -12,10 +11,8 @@ import NearkatImage from '../../images/footer-nearkat.svg'
 import CheckBlueImage from '../../images/icon-check-blue.svg'
 
 import { PaginationTab } from './PaginationTab'
-import PaginationFilter from './PaginationFilter'
 import PaginationPaging from './PaginationPaging'
 import PaginationSummary from './PaginationSummary'
-import ShowingSwitcher from '../common/ShowingSwitcher'
 import Search from '../common/Search'
 
 import PaginationSortBy from './PaginationSortBy'
@@ -257,8 +254,8 @@ class PaginationBlock extends Component {
          showSub = false,
          subPage
       } = this.props
+
       const {
-         buttonRadio,
          dropdownType,
          dropdown,
          search,

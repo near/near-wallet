@@ -11,9 +11,9 @@ import {
    Loader
 } from 'semantic-ui-react'
 
+import CreateAccoungFormInput from '../accounts/CreateAccoungFormInput'
+
 import AccountGreyImage from '../../images/icon-account-grey.svg'
-import ProblemsImage from '../../images/icon-problems.svg'
-import CheckBlueImage from '../../images/icon-check-blue.svg'
 
 import styled from 'styled-components'
 
@@ -30,46 +30,6 @@ const CustomList = styled(List)`
             text-align: left;
          }
 
-         input {
-            width: 100%;
-            height: 64px;
-            border: 4px solid #f8f8f8;
-            padding: 0 0 0 20px;
-
-            font-size: 18px;
-            color: #4a4f54;
-            font-weight: 400;
-            background: 0;
-
-            position: relative;
-
-            :focus {
-               border-color: #6ad1e3;
-            }
-         }
-
-         .spinner {
-            margin-right: 22px;
-
-            :before,
-            :after {
-               top: 28px;
-               width: 24px;
-               height: 24px;
-            }
-         }
-
-         .problem > .input > input,
-         .problem > .input > input:focus {
-            background: url(${ProblemsImage}) right 22px center no-repeat;
-            background-size: 24px 24px;
-         }
-
-         .success > .input > input,
-         .success > .input > input:focus {
-            background: url(${CheckBlueImage}) right 22px center no-repeat;
-            background-size: 24px 24px;
-         }
          .main-image {
             border: 0px;
             padding: 0 10px;
@@ -216,15 +176,13 @@ const SendMoneyFirstStep = ({
             <List.Item>
                <List.Content>
                   <Header as='h3'>Enter a username to send:</Header>
-                  <Form.Input
-                     loading={formLoader}
-                     className={`create ${successMessage ? 'success' : ''}${
-                        errorMessage ? 'problem' : ''
-                     }`}
-                     name='accountId'
-                     value={accountId}
-                     onChange={handleChangeAccountId}
-                     placeholder='example: satoshi.near'
+
+                  <CreateAccoungFormInput
+                     formLoader={formLoader}
+                     accountId={accountId}
+                     handleChangeAccountId={handleChangeAccountId}
+                     successMessage={successMessage}
+                     errorMessage={errorMessage}
                   />
                </List.Content>
             </List.Item>

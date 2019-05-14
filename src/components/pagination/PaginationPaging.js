@@ -1,13 +1,9 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 
-import {
-   Button,
-   List,
-} from 'semantic-ui-react'
+import { Button, List } from 'semantic-ui-react'
 
 import ArrowDown from '../../images/icon-arrow-down.svg'
 import styled from 'styled-components'
-
 
 const PaginationPagingList = styled(List)`
    && .paging-dropdown-tr {
@@ -56,12 +52,16 @@ const PaginationPagingList = styled(List)`
       padding-left: 10px;
       padding-right: 20px;
    }
-   
 `
 
 const pagingTypes = [10, 20, 50, 100]
 
-const PaginationFilter = ({ handleOnClickPaging, pagingValue, pagingDropdown, handlePagingDropdownClick }) => (
+const PaginationFilter = ({
+   handleOnClickPaging,
+   pagingValue,
+   pagingDropdown,
+   handlePagingDropdownClick
+}) => (
    <PaginationPagingList horizontal className='border-right-light'>
       <List.Item>
          <Button
@@ -73,7 +73,11 @@ const PaginationFilter = ({ handleOnClickPaging, pagingValue, pagingDropdown, ha
             {pagingValue}
          </Button>
 
-         <List selection verticalAlign='middle' className={`paging-dropdown ${pagingDropdown ? '' : 'hide'}`}>
+         <List
+            selection
+            verticalAlign='middle'
+            className={`paging-dropdown ${pagingDropdown ? '' : 'hide'}`}
+         >
             {pagingTypes.map((type, i) => (
                <List.Item
                   key={`page-${i}`}

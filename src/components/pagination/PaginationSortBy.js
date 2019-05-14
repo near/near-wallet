@@ -1,6 +1,6 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 
-import { Image, Button, List } from 'semantic-ui-react'
+import { Button, List } from 'semantic-ui-react'
 
 import ArrowDown from '../../images/icon-arrow-down.svg'
 
@@ -61,7 +61,6 @@ const PaginationFilterList = styled(List)`
 const PaginationFilter = ({
    filterTypesByType,
    handleOnClick,
-   dropdownType,
    handleDropdownClick,
    dropdown
 }) => (

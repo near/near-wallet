@@ -110,7 +110,7 @@ const CustomContainer = styled(Container)`
    }
 `
 
-const LoginContainer = ({ loader, children, app_title }) => (
+const LoginContainer = ({ loader, children, appTitle }) => (
    <CustomContainer>
       <Dimmer.Dimmable as={Segment} basic className=''>
          <Grid className=''>
@@ -148,7 +148,7 @@ const LoginContainer = ({ loader, children, app_title }) => (
                   mobile={16}
                   className=''
                >
-                  Allow <span className='font-bold'> {app_title} </span> to use
+                  Allow <span className='font-bold'> {appTitle} </span> to use
                   your NEAR account?
                </Grid.Column>
             </Grid.Row>
@@ -168,7 +168,7 @@ const LoginContainer = ({ loader, children, app_title }) => (
                   className='cont'
                >
                   <List className='border-right-light'>
-                     <List.Item as='h3'>This allows {app_title} to:</List.Item>
+                     <List.Item as='h3'>This allows {appTitle} to:</List.Item>
                      <List.Item className='list-item'>
                         <List.Content className='color-black'>
                            View your Account Name
@@ -220,7 +220,7 @@ const LoginContainer = ({ loader, children, app_title }) => (
 LoginContainer.propTypes = {
    loader: PropTypes.bool,
    children: PropTypes.element,
-   app_title: PropTypes.string
+   appTitle: PropTypes.string
 }
 
 export default LoginContainer

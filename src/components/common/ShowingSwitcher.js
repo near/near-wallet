@@ -1,8 +1,5 @@
-import React, { Fragment } from 'react'
-import {
-   Button,
-   List,
-} from 'semantic-ui-react'
+import React from 'react'
+import { Button, List } from 'semantic-ui-react'
 import styled from 'styled-components'
 
 const ShowingSwitcherList = styled(List)`
@@ -68,17 +65,13 @@ const ShowingSwitcherList = styled(List)`
    }
 `
 
-
-const ShowingSwitcher = ({buttonRadioClick, buttonRadio}) => (
-   <ShowingSwitcherList horizontal >
+const ShowingSwitcher = ({ buttonRadioClick, buttonRadio }) => (
+   <ShowingSwitcherList horizontal>
       <List.Item as='h6' className='showing'>
          SHOWING
       </List.Item>
       <List.Item className='switcher'>
-         <Button 
-            className='button-radio'
-            onClick={buttonRadioClick}
-         >
+         <Button className='button-radio' onClick={buttonRadioClick}>
             <div className={`left ${!buttonRadio ? 'on' : 'off'}`}>ALL</div>
             <div className={`right ${buttonRadio ? 'on' : 'off'}`}>MINE</div>
          </Button>

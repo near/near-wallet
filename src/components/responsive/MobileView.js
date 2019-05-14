@@ -8,187 +8,202 @@ import PropTypes from 'prop-types'
 import { Wallet } from '../../utils/wallet'
 
 import {
-   Header,
    Image,
    Menu,
    Responsive,
    Segment,
-   Sidebar,
    List,
    Button,
    Loader
 } from 'semantic-ui-react'
 
+import SendImage from '../../images/icon-send.svg'
+import ContactsGreyImage from '../../images/icon-contacts-grey.svg'
+import AuthorizedGreyImage from '../../images/icon-authorized-grey.svg'
+import LogoutImage from '../../images/icon-logout.svg'
 import LogoImage from '../../images/wallet.png'
-import HelpImage from '../../images/icon-help.svg'
-import SidebarImage from '../../images/sidebar.png'
+import AccountGreyImage from '../../images/icon-account-grey.svg'
+import ArrowDownImage from '../../images/icon-arrow-down.svg'
+import RecentImage from '../../images/icon-recent.svg'
+import ActivityImage from '../../images/icon-activity.svg'
 
 import { handleRefreshAccount } from '../../actions/account'
 
 import styled from 'styled-components'
 
 const CustomResponsive = styled(Responsive)`
-   min-height: 100vh;
-   position: static;
+   &&& {
+      .navbar {
+         padding: 0px;
 
-   .sidebar.menu {
-      min-height: 100vh;
-   }
+         &-main {
+            background-color: #24272a;
+            height: 72px;
+            border-radius: 0;
+            margin-bottom: 0;
 
-   .sidebar.menu .item {
-      background: #24272a;
+            .mainlogo {
+               padding-left: 0px;
 
-      color: white;
-      font-family: 'benton-sans', sans-serif;
-      font-weight: 400;
-      font-size: 14px;
-      padding: 20px 20px;
-      border-bottom: 1px solid #363b3e;
-   }
+               > div {
+                  width: 50px;
+                  overflow: hidden;
 
-   &&& .sidebar-mobile {
-      background: #111314;
-      border: 0px;
-      box-shadow: 0 0 0 transparent;
+                  > img.image {
+                     width: 160px;
+                     max-width: none;
+                  }
+               }
+            }
 
-      .account-dropdown {
-         padding: 20px;
+            .account-name {
+               padding-right: 0px;
 
-         h6 {
-            padding-bottom: 6px;
-            border: 0px;
-         }
+               > div {
+                  font-size: 16px;
+                  letter-spacing: normal;
+                  padding-left: 0px;
+                  padding-right: 0px;
+                  text-overflow: ellipsis;
+                  overflow: hidden;
+                  width: 116px;
+                  color: #fff;
 
-         .account-title {
-            height: 40px;
-            line-height: 40px;
-            color: #fff;
-            font-weight: 500;
-            border-bottom: 1px solid #323434;
-            letter-spacing: normal;
+                  :hover {
+                     color: #fff;
+                  }
+               }
+            }
 
-            text-overflow: ellipsis;
-            overflow: hidden;
-         }
+            .account-tokens {
+               line-height: 24px;
+               font-size: 16px;
 
-         button {
-            width: 100%;
-            border-radius: 30px;
-            background: #6ad1e3;
-            color: #fff;
+               color: #fff;
 
-            :hover {
-               background: #fff;
-               color: #6ad1e3;
+               margin: 23px 0 0 10px;
+               height: 24px;
+               background: #111314;
+               border-radius: 12px;
+               padding: 0 10px;
+
+               letter-spacing: normal;
+
+               :hover {
+                  color: #fff;
+               }
+
+               .near {
+                  font-size: 18px;
+                  padding-left: 4px;
+               }
+            }
+
+            .account-arrow {
+               padding-right: 14px;
+
+               img {
+                  width: 12px;
+               }
             }
          }
-      }
-   }
+         &-sub {
+            margin: 0px;
+            padding: 0px;
+            background-color: #24272a;
 
-   && .sidebar-mobile-header {
-      height: 72px;
-      padding: 0px 0 0 20px;
-      margin: 0px;
-      line-height: 72px;
-      color: #fff;
-      font-size: 14px;
+            &.hide {
+               display: none;
+            }
 
-      > .segment {
-         margin: 0px;
-         padding: 0px;
-         font-family: 'benton-sans', sans-serif;
-         font-weight: 400;
+            .main {
+               font-family: 'benton-sans', sans-serif;
+               font-weight: 400;
+               font-size: 14px;
+               padding: 18px 6px;
+               margin: 0 1rem;
+               border-top: 2px solid #363b3e;
 
-         text-overflow: ellipsis;
-         overflow: hidden;
-         width: 100px;
-      }
+               &.border {
+                  border-bottom: 2px solid #363b3e;
+               }
 
-      .account-tokens {
-         line-height: 24px;
-         font-size: 12px;
+               a {
+                  color: #fff;
+                  letter-spacing: 2px;
+               }
 
-         color: #fff;
+               img {
+                  margin-top: -4px;
+                  width: 24px;
+                  margin-right: 20px;
+                  display: inline-block !important;
+               }
+            }
 
-         margin: 23px 20px 0 10px;
-         height: 24px;
-         background: #24272a;
-         border-radius: 12px;
-         padding: 0 10px;
+            .sub {
+               padding: 10px 1rem 0 1rem;
 
-         :hover {
-            color: #fff;
+               .item {
+                  font-family: 'benton-sans', sans-serif;
+                  font-weight: 400;
+                  font-size: 14px;
+                  padding: 8px 9px;
+
+                  a {
+                     color: #6ad1e3;
+                     letter-spacing: 2px;
+                  }
+
+                  img {
+                     margin-top: -2px;
+                     width: 18px;
+                     margin-right: 22px;
+                     display: inline-block !important;
+                  }
+               }
+            }
+
+            .switch-account {
+               background: #000;
+               padding: 0 1rem;
+
+               padding: 20px;
+
+               .item {
+                  padding: 0 10px;
+               }
+
+               h6.item {
+                  padding-bottom: 10px;
+                  border: 0px;
+               }
+
+               .account-title {
+                  height: 40px;
+                  line-height: 40px;
+                  color: #fff;
+                  font-weight: 500;
+                  border-bottom: 1px solid #323434;
+                  letter-spacing: normal;
+
+                  text-overflow: ellipsis;
+                  overflow: hidden;
+               }
+
+               button {
+                  width: 100%;
+                  border-radius: 30px;
+                  background: #24272a;
+                  color: #6ad1e3;
+
+                  :hover {
+                     background: #fff;
+                     color: #6ad1e3;
+                  }
+               }
+            }
          }
-
-         .near {
-            font-size: 16px;
-         }
-      }
-   }
-
-   &&&& .sidebar-mobile-submenu {
-      .header {
-         font-size: 12px;
-         color: #999;
-         margin: 0;
-      }
-
-      a {
-         color: #6ad1e3;
-         padding-left: 20px;
-         font-size: 14px;
-      }
-
-      & > .menu {
-         a {
-            border-bottom: 0px solid #363b3e;
-            padding: 10px 20px;
-         }
-      }
-   }
-
-   .pusher {
-      padding-bottom: 200px;
-   }
-
-   .pusher .pusher-image {
-      padding-right: 0;
-   }
-
-   .navbar {
-      background-color: #24272a;
-      height: 72px;
-      border-radius: 0;
-      margin-bottom: 1rem;
-
-      &-icon {
-         height: 24px;
-         margin-right: 14px;
-         display: inline-block !important;
-      }
-
-      .item {
-         color: white;
-         font-family: 'benton-sans', sans-serif !important;
-         font-weight: 400;
-         font-size: 14px;
-         padding-left: 0px;
-         letter-spacing: 2px;
-
-         .mainlogo {
-            width: 220px !important;
-         }
-      }
-   }
-
-   .header.item {
-      width: 215px;
-      padding: 0;
-   }
-
-   @media screen and (max-width: 767px) {
-      .pusher {
-         padding-bottom: 260px;
       }
    }
 `
@@ -208,28 +223,29 @@ class MobileView extends Component {
    }
 
    state = {
-      sidebarOpened: false
+      dropdown: true
    }
 
-   handleSidebarHide = () => this.setState({ sidebarOpened: false })
-
-   handleToggle = () => this.setState({ sidebarOpened: true })
+   handleDropdown = () =>
+      this.setState(state => ({
+         dropdown: !state.dropdown
+      }))
 
    handleSelectAccount = accountId => {
       this.wallet = new Wallet()
       this.wallet.selectAccount(accountId)
       this.props.handleRefreshAccount(this.wallet, this.props.history)
-      this.handleSidebarHide()
+      this.handleDropdown()
    }
 
    redirectCreateAccount = () => {
       this.wallet = new Wallet()
-      this.handleSidebarHide()
+      this.handleDropdown()
       this.wallet.redirectToCreateAccount({}, this.props.history)
    }
 
    render() {
-      const { sidebarOpened } = this.state
+      const { dropdown } = this.state
       const { account } = this.props
 
       return (
@@ -237,108 +253,124 @@ class MobileView extends Component {
             getWidth={getWidth}
             maxWidth={Responsive.onlyTablet.maxWidth}
          >
-            <Sidebar.Pushable>
-               <Sidebar
-                  as={Menu}
-                  animation='push'
-                  onHide={this.handleSidebarHide}
-                  vertical
-                  visible={sidebarOpened}
-                  direction='right'
-                  className='sidebar-mobile'
+            <Segment basic className='navbar'>
+               <Menu
+                  className='navbar-main'
+                  // fixed={fixed ? 'top' : null}
+                  // fixed='top'
+                  // pointing={!fixed}
+                  borderless
                >
-                  <Header className='sidebar-mobile-header'>
-                     <Segment basic floated='left'>
-                        {account.loader || !account.accountId ? (
-                           <Loader active inline size='mini' />
-                        ) : (
-                           `@${account.accountId}`
-                        )}
-                     </Segment>
-                     <Segment basic floated='right' className='account-tokens'>
-                        {account.loader || !account.accountId ? (
-                           <Loader active inline size='mini' />
-                        ) : (
-                           account.amount
-                        )}
-                        <span className='near'>Ⓝ</span>
-                     </Segment>
-                  </Header>
-                  <Menu.Item as='a' href='http://near.chat/' target='_blank'>
-                     <Image className='navbar-icon' src={HelpImage} />
-                     HELP
+                  <Menu.Item as={Link} to='/' className='mainlogo'>
+                     <div>
+                        <Image src={LogoImage} />
+                     </div>
                   </Menu.Item>
-                  {/* <Menu.Item
-                     as='a'
-                     href='https://github.com/nearprotocol/debugger/issues'
-                     target='_blank'
-                  >
-                     <Image className="navbar-icon" src={IssuesImage} />
-                     ISSUES
-                  </Menu.Item>
-                  <Menu.Item className='sidebar-mobile-submenu'>
-                     <Header>
-                        MANAGE ACCOUNT
-                     </Header>
-                     <Menu.Menu className='Sidebar-submenu'>
-                        <Menu.Item as='a'>
-                           <Image className="navbar-icon" src={AccountImage} />
-                           Profile
+                  <Menu.Menu position='right' onClick={this.handleDropdown}>
+                     <Menu.Menu position='right' className=''>
+                        <Menu.Item className='account-name'>
+                           {account.loader || !account.accountId ? (
+                              <Loader active inline size='mini' />
+                           ) : (
+                              <div>@{account.accountId}</div>
+                           )}
                         </Menu.Item>
-                        <Menu.Item as='a'>
-                           <Image className="navbar-icon" src={ContactsImage} />
-                           Contacts
+                        <Menu.Item className='account-tokens'>
+                           {account.loader || !account.accountId ? (
+                              <Loader active inline size='mini' />
+                           ) : (
+                              account.amount
+                           )}
+                           <span className='near'>Ⓝ</span>
+                        </Menu.Item>
+                        <Menu.Item className='account-arrow'>
+                           <Image src={ArrowDownImage} />
                         </Menu.Item>
                      </Menu.Menu>
-                  </Menu.Item> */}
-                  <Segment basic className='account-dropdown'>
-                     <List>
-                        <List.Item as='h6'>SWITCH ACCOUNT</List.Item>
-
-                        {account.accounts &&
-                           Object.keys(account.accounts)
-                              .filter(a => a !== account.accountId)
-                              .map((account, i) => (
-                                 <List.Item
-                                    as='a'
-                                    key={`mf-${i}`}
-                                    onClick={() =>
-                                       this.handleSelectAccount(account)
-                                    }
-                                    className='account-title'
-                                 >
-                                    @{account}
-                                 </List.Item>
-                              ))}
-                     </List>
-                     <Button onClick={this.redirectCreateAccount}>
-                        CREATE NEW ACCOUNT
-                     </Button>
-                  </Segment>
-               </Sidebar>
-
-               <Sidebar.Pusher dimmed={sidebarOpened}>
-                  <Menu className='navbar' borderless size='large'>
-                     <Menu.Item as={Link} to='/'>
-                        <Image className='mainlogo' src={LogoImage} />
+                  </Menu.Menu>
+               </Menu>
+               <Segment
+                  basic
+                  className={`navbar-sub ${dropdown ? `hide` : ``}`}
+               >
+                  <Menu.Menu>
+                     <Menu.Item className='main'>
+                        <Link to='/' onClick={this.handleDropdown}>
+                           <Image src={RecentImage} />
+                           SUMMARY
+                        </Link>
                      </Menu.Item>
-                     <Menu.Menu position='right'>
-                        <Menu.Item
-                           className='pusher-image'
-                           onClick={this.handleToggle}
-                        >
-                           <Image
-                              className='navbar-icon'
-                              src={SidebarImage}
-                              align='right'
-                           />
+                     <Menu.Item className='main'>
+                        <Link to='/activity' onClick={this.handleDropdown}>
+                           <Image src={ActivityImage} />
+                           ACTIVITY
+                        </Link>
+                     </Menu.Item>
+                     <Menu.Item className='main border'>
+                        <Link to='/send-money' onClick={this.handleDropdown}>
+                           <Image src={SendImage} />
+                           SEND MONEY
+                        </Link>
+                     </Menu.Item>
+
+                     <Menu.Menu className='sub'>
+                        <Menu.Item>
+                           <Link to='/profile' onClick={this.handleDropdown}>
+                              <Image src={AccountGreyImage} />
+                              Profile
+                           </Link>
+                        </Menu.Item>
+                        <Menu.Item>
+                           <Link to='/contacts' onClick={this.handleDropdown}>
+                              <Image src={ContactsGreyImage} />
+                              Contacts
+                           </Link>
+                        </Menu.Item>
+                        <Menu.Item>
+                           <Link
+                              to='/authorized-apps'
+                              onClick={this.handleDropdown}
+                           >
+                              <Image src={AuthorizedGreyImage} />
+                              Authorized Apps
+                           </Link>
+                        </Menu.Item>
+                        <Menu.Item>
+                           <Link to='/' onClick={this.handleDropdown}>
+                              <Image src={LogoutImage} />
+                              Logout
+                           </Link>
                         </Menu.Item>
                      </Menu.Menu>
-                  </Menu>
+                     <Segment basic className='switch-account'>
+                        <List>
+                           <List.Item as='h6'>SWITCH ACCOUNT</List.Item>
 
-                  {this.props.children}
-               </Sidebar.Pusher>
-            </Sidebar.Pushable>
+                           {account.accounts &&
+                              Object.keys(account.accounts)
+                                 .filter(a => a !== account.accountId)
+                                 .map((account, i) => (
+                                    <List.Item
+                                       as='a'
+                                       key={`mf-${i}`}
+                                       onClick={() =>
+                                          this.handleSelectAccount(account)
+                                       }
+                                       className='account-title'
+                                    >
+                                       @{account}
+                                    </List.Item>
+                                 ))}
+                        </List>
+                        <Button onClick={this.redirectCreateAccount}>
+                           CREATE NEW ACCOUNT
+                        </Button>
+                     </Segment>
+                  </Menu.Menu>
+               </Segment>
+            </Segment>
+
+            {this.props.children}
          </CustomResponsive>
       )
    }

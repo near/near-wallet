@@ -14,6 +14,7 @@ import SendMoneySecondStep from './SendMoneySecondStep'
 class SendMoney extends Component {
    state = {
       loader: false,
+      formLoader: false,
       step: 1,
       note: '',
       expandNote: false,
@@ -149,7 +150,7 @@ const mapDispatchToProps = {
    handleRefreshUrl
 }
 
-const mapStateToProps = ({}) => ({})
+const mapStateToProps = () => ({})
 
 export const SendMoneyWithRouter = connect(
    mapStateToProps,

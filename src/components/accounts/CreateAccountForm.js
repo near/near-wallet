@@ -4,59 +4,11 @@ import { Segment, Form, Button, Responsive } from 'semantic-ui-react'
 
 import ReCAPTCHA from 'react-google-recaptcha'
 
-import ProblemsImage from '../../images/icon-problems.svg'
-import CheckBlueImage from '../../images/icon-check-blue.svg'
+import CreateAccoungFormInput from './CreateAccoungFormInput'
 
 import styled from 'styled-components'
 
 const AccountForm = styled(Form)`
-   &&& input {
-      width: 100%;
-      height: 64px;
-      border: 4px solid #f8f8f8;
-      padding: 0 0 0 20px;
-
-      font-size: 18px;
-      color: #4a4f54;
-      font-weight: 400;
-      background: 0;
-
-      position: relative;
-
-      :focus {
-         border-color: #6ad1e3;
-      }
-   }
-
-   &&&&& .spinner {
-      margin-right: 20px;
-
-      :before,
-      :after {
-         top: 28px;
-         width: 24px;
-         height: 24px;
-      }
-   }
-
-   .problem > .input > input {
-      background: url(${ProblemsImage}) right 22px center no-repeat;
-      background-size: 24px 24px;
-   }
-   .problem > .input > input:focus {
-      background: url(${ProblemsImage}) right 22px center no-repeat;
-      background-size: 24px 24px;
-   }
-
-   .success > .input > input {
-      background: url(${CheckBlueImage}) right 22px center no-repeat;
-      background-size: 24px 24px;
-   }
-   .success > .input > input:focus {
-      background: url(${CheckBlueImage}) right 22px center no-repeat;
-      background-size: 24px 24px;
-   }
-
    && button {
       width: 288px;
       height: 60px;
@@ -93,46 +45,40 @@ const AccountForm = styled(Form)`
 const CreateAccountForm = ({
    formLoader,
    accountId,
-   isLegit,
    successMessage,
    errorMessage,
    handleSubmit,
-   handleChange,
+   handleChangeAccountId,
    handleRecaptcha
 }) => (
    <AccountForm autoComplete='off' onSubmit={handleSubmit}>
-      <Form.Input
-         loading={formLoader}
-         className={`create ${successMessage ? 'success' : ''}${
-            errorMessage ? 'problem' : ''
-         }`}
-         name='accountId'
-         value={accountId}
-         onChange={handleChange}
-         placeholder='example: satoshi.near'
+      <CreateAccoungFormInput
+         formLoader={formLoader}
+         accountId={accountId}
+         handleChangeAccountId={handleChangeAccountId}
+         successMessage={successMessage}
+         errorMessage={errorMessage}
       />
 
-      {successMessage && (
-         <Responsive maxWidth={Responsive.onlyMobile.maxWidth}>
+      <Responsive maxWidth={Responsive.onlyMobile.maxWidth}>
+         {successMessage && (
             <Segment basic className='alert-info success'>
                Congrats! this name is available.
             </Segment>
-         </Responsive>
-      )}
-      {errorMessage && (
-         <Responsive maxWidth={Responsive.onlyMobile.maxWidth}>
+         )}
+         {errorMessage && (
             <Segment basic className='alert-info problem'>
                Username is taken. Try something else.
             </Segment>
-         </Responsive>
-      )}
+         )}
+      </Responsive>
 
       <ReCAPTCHA
          sitekey='6LfNjp8UAAAAAByZu30I-2-an14USj3yVbbUI3eN'
          onChange={handleRecaptcha}
       />
 
-      <Button type='submit' disabled={!isLegit}>
+      <Button type='submit' disabled={!successMessage}>
          CREATE ACCOUNT
       </Button>
    </AccountForm>
@@ -141,11 +87,10 @@ const CreateAccountForm = ({
 CreateAccountForm.propTypes = {
    formLoader: PropTypes.bool.isRequired,
    accountId: PropTypes.string,
-   isLegit: PropTypes.bool.isRequired,
    successMessage: PropTypes.bool.isRequired,
    errorMessage: PropTypes.bool.isRequired,
    handleSubmit: PropTypes.func.isRequired,
-   handleChange: PropTypes.func.isRequired
+   handleChangeAccountId: PropTypes.func.isRequired
 }
 
 export default CreateAccountForm

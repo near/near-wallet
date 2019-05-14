@@ -80,7 +80,7 @@ const CustomList = styled(List)`
    }
 `
 
-const ProfileYourKeys = ({ loader }) => (
+const ProfileYourKeys = () => (
    <CustomList className='box'>
       <List.Item className='keys'>
          <List.Icon as={Image} src={TKeySwapImage} />
