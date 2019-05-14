@@ -62,22 +62,20 @@ const CustomList = styled(List)`
             }
          }
          .near-tokens {
-            padding-top: 14px;
-            padding-bottom: 36px;
+            margin: 14px auto 36px auto;
             text-align: center;
+            padding: 2px;
 
-            > button {
-               width: 200px;
-               background-color: #fff;
-               border: 2px solid #e6e6e6;
-               border-radius: 25px;
-               color: #999999;
-               font-weight: 600;
+            width: 200px;
+            background-color: #fff;
+            border: 2px solid #e6e6e6;
+            border-radius: 25px;
+            color: #999999;
+            font-weight: 700;
 
-               :hover {
-                  background-color: #e6e6e6;
-                  color: #fff;
-               }
+            :hover {
+               background-color: #e6e6e6;
+               color: #fff;
             }
          }
 
@@ -166,7 +164,7 @@ const SendMoneyFirstStep = ({
             <List.Item>
                <List.Content>
                   <div className='main-image'>
-                     <Image src={AccountGreyImage} className='' align='left' />
+                     <Image src={AccountGreyImage} align='left' />
                   </div>
                </List.Content>
                <List.Content as='h2'>{accountId}</List.Content>
@@ -199,10 +197,10 @@ const SendMoneyFirstStep = ({
                min='0'
             />
          </List.Item>
-         <List.Item as='h5' className='near-tokens border-bottom'>
-            <Button className=''>NEAR TOKENS</Button>
+         <List.Item as='h5' className='near-tokens'>
+            NEAR TOKENS
          </List.Item>
-         <List.Item as='' className='add-note border-bottom'>
+         <List.Item className='add-note border-bottom border-top'>
             <TextArea
                name='note'
                value={note}
@@ -210,7 +208,7 @@ const SendMoneyFirstStep = ({
                placeholder='Add a note...'
             />
          </List.Item>
-         <List.Item as='' className='send-money'>
+         <List.Item className='send-money'>
             <Button
                disabled={
                   paramAccountId

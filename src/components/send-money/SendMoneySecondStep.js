@@ -1,5 +1,4 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
 
 import { List, Image, Button, Header } from 'semantic-ui-react'
 
@@ -120,6 +119,7 @@ const CustomList = styled(List)`
 `
 
 const SendMoneySecondStep = ({
+   handleNextStep,
    handleExpandNote,
    expandNote,
    note,
@@ -137,7 +137,7 @@ const SendMoneySecondStep = ({
       </List.Item>
       <List.Item>
          <div className='main-image'>
-            <Image src={AccountGreyImage} className='' align='left' />
+            <Image src={AccountGreyImage} align='left' />
          </div>
       </List.Item>
       <List.Item as='h2'>{accountId}</List.Item>
@@ -145,6 +145,7 @@ const SendMoneySecondStep = ({
       {note && (
          <List.Item className='with-note '>
             with note:
+            <br />
             {expandNote ? (
                <span className='color-black'>{note}</span>
             ) : (
@@ -154,10 +155,8 @@ const SendMoneySecondStep = ({
             )}
          </List.Item>
       )}
-      <List.Item as='' className='send-money border-top border-bottom'>
-         <Button as={Link} to='/contacts'>
-            CONFIRM & SEND
-         </Button>
+      <List.Item className='send-money border-top border-bottom'>
+         <Button onClick={handleNextStep}>CONFIRM & SEND</Button>
       </List.Item>
       <List.Item>Once confirmed, this is not undoable.</List.Item>
    </CustomList>
