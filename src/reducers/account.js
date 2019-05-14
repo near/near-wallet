@@ -23,9 +23,13 @@ const loaderReducer = (state, { ready }) => {
 }
 
 const requestResultReducer = handleActions({
-   [combineActions(requestCode, validateCode)]: (state, { error, payload }) => {
-      return { ...state, successMessage: !!payload, errorMessage: !!error}
-   }
+   [combineActions(requestCode, validateCode)]: (state, { error, payload }) => ({
+      ...state,
+      requestStatus: !!payload || error ? {
+         success: !error,
+         messageCode: error ? error.toString() : 'TODO: Success'
+      } : undefined
+   })
 }, initialState)
 
 const reducer = handleActions({

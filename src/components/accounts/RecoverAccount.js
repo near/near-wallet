@@ -4,7 +4,7 @@ import { isValidPhoneNumber } from 'react-phone-number-input'
 
 import { Wallet } from '../../utils/wallet'
 
-import RecoverAccountSection from './RecoverAccountSection'
+import AccountFormSection from './AccountFormSection'
 import RecoverAccountForm from './RecoverAccountForm'
 import RecoverAccountContainer from './RecoverAccountContainer'
 import { requestCode, validateCode } from '../../actions/account';
@@ -67,13 +67,13 @@ class RecoverAccount extends Component {
       }
       return (
          <RecoverAccountContainer loader={loader} location={this.props.location}>
-            <RecoverAccountSection {...combinedState}>
+            <AccountFormSection {...combinedState}>
                <RecoverAccountForm
                   {...combinedState}
                   handleSubmit={this.handleSubmit}
                   handleChange={this.handleChange}
                />
-            </RecoverAccountSection>
+            </AccountFormSection>
          </RecoverAccountContainer>
       )
    }
