@@ -1,5 +1,5 @@
 import { parse } from 'query-string'
-import { createActions, handleActions, combineActions } from 'redux-actions';
+import { createActions } from 'redux-actions';
 import { Wallet } from '../utils/wallet';
 
 export const REFRESH_ACCOUNT = 'REFRESH_ACCOUNT'

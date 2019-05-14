@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { parse } from 'query-string'
 
 import { Wallet } from '../../utils/wallet'
 
