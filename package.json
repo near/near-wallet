@@ -1,10 +1,11 @@
 {
-   "homepage": "https://marcinbodnar.github.io/near-wallet",
+   "homepage": "https://wallet.nearprotocol.com",
    "name": "wallet",
    "version": "0.1.0",
    "private": true,
    "dependencies": {
       "connected-react-router": "^6.4.0",
+      "fetch-send-json": "^0.0.2",
       "gh-pages": "^2.0.1",
       "nearlib": "^0.6.2",
       "prop-types": "^15.7.2",
@@ -12,11 +13,14 @@
       "react": "^16.8.6",
       "react-dom": "^16.8.6",
       "react-google-recaptcha": "^1.0.5",
+      "react-phone-number-input": "^2.3.11",
       "react-redux": "^6.0.1",
       "react-redux-loading": "^1.0.1",
       "react-router-dom": "^5.0.0",
       "react-scripts": "2.1.8",
+      "reduce-reducers": "^1.0.4",
       "redux": "^4.0.1",
+      "redux-actions": "^2.6.5",
       "redux-thunk": "^2.3.0",
       "semantic-ui-react": "^0.86.0",
       "styled-components": "^4.2.0"
@@ -28,6 +32,7 @@
       "build": "react-scripts build",
       "test": "react-scripts test",
       "lint": "eslint --ext .js --ext .jsx .",
+      "fix": "eslint --ext .js --ext .jsx . --fix",
       "eject": "react-scripts eject"
    },
    "eslintConfig": {

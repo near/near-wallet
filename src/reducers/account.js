@@ -1,10 +1,44 @@
+import { handleActions, combineActions } from 'redux-actions'
 import {
    REFRESH_ACCOUNT,
    LOADER_ACCOUNT,
-   REFRESH_URL
+   REFRESH_URL,
+   requestCode,
+   validateCode
 } from '../actions/account'
+import reduceReducers from 'reduce-reducers';
 
-export default function account(state = {}, action) {
+const initialState = {
+   formLoader: false,
+   sentSms: false,
+   successMessage: false,
+   errorMessage: false
+}
+
+const loaderReducer = (state, { ready }) => {
+   if (typeof ready === 'undefined') {
+      return state
+   }
+   return { ...state, formLoader: !ready }
+}
+
+const requestResultReducer = handleActions({
+   [combineActions(requestCode, validateCode)]: (state, { error, payload }) => {
+      return { ...state, successMessage: !!payload, errorMessage: !!error}
+   }
+}, initialState)
+
+const reducer = handleActions({
+   [requestCode]: (state, { payload }) => {
+      if (payload) {
+         return { ...state, sentSms: true }
+      }
+      return state
+   },
+}, initialState)
+
+// TODO: Migrate everything to redux-actions
+function account(state = {}, action) {
    switch (action.type) {
       case REFRESH_ACCOUNT:
          return {
@@ -27,3 +61,11 @@ export default function account(state = {}, action) {
          return state
    }
 }
+
+export default reduceReducers(
+   initialState,
+   loaderReducer,
+   requestResultReducer,
+   reducer,
+   account)
+

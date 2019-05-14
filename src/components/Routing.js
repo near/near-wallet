@@ -9,6 +9,7 @@ import ResponsiveContainer from './responsive/ResponsiveContainer'
 import Footer from './common/Footer'
 import DashboardDetailWithRouter from './dashboard/DashboardDetail'
 import { CreateAccountWithRouter } from './accounts/CreateAccount'
+import { SetRecoveryInfoWithRouter } from './accounts/SetRecoveryInfo'
 import { LoginWithRouter } from './login/Login'
 import { ContactsWithRouter } from './contacts/Contacts'
 import { AuthorizedAppsWithRouter } from './authorized-apps/AuthorizedApps'
@@ -40,6 +41,11 @@ class Routing extends Component {
                            exact
                            path='/create'
                            component={CreateAccountWithRouter}
+                        />
+                        <Route
+                           exact
+                           path='/set-recovery/:accountId'
+                           component={SetRecoveryInfoWithRouter}
                         />
                         <Route
                            exact

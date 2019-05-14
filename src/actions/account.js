@@ -1,4 +1,6 @@
 import { parse } from 'query-string'
+import { createActions } from 'redux-actions';
+import { Wallet } from '../utils/wallet';
 
 export const REFRESH_ACCOUNT = 'REFRESH_ACCOUNT'
 export const LOADER_ACCOUNT = 'LOADER_ACCOUNT'
@@ -41,6 +43,17 @@ export function handleRefreshAccount(wallet, history) {
          })
          .catch(e => {
             console.log(e)
+
+            if (e.message && e.message.indexOf('is not valid') !== -1) {
+               // We have an account in the storage, but it doesn't exist on blockchain. We probably nuked storage so just redirect to create account
+               wallet.clearState()
+               wallet.redirectToCreateAccount(
+                  {
+                     reset_accounts: true
+                  },
+                  history
+               )
+            }
          })
    }
 }
@@ -59,3 +72,14 @@ export function handleRefreshUrl(location) {
       })
    }
 }
+
+const wallet = new Wallet()
+
+export const { requestCode, validateCode } = createActions({
+   REQUEST_CODE: wallet.requestCode.bind(wallet),
+   VALIDATE_CODE: wallet.validateCode.bind(wallet)
+})
+
+
+
+
