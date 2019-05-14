@@ -14,7 +14,6 @@ class CreateAccount extends Component {
       loader: false,
       formLoader: false,
       accountId: '',
-      isLegit: false,
       successMessage: false,
       errorMessage: false
    }
@@ -25,24 +24,57 @@ class CreateAccount extends Component {
       // this.props.handleRefreshAccount(this.wallet)
    }
 
-   handleChange = (e, { name, value }) => {
+   handleChangeAccountId = (e, { name, value }) => {
       this.setState(() => ({
          [name]: value,
-         isLegit: this.wallet.isLegitAccountId(value)
+         successMessage: false,
+         errorMessage: false,
+         formLoader: false
       }))
+
+      if (!this.wallet.isLegitAccountId(value)) {
+         return false
+      }
+
+      this.setState(() => ({
+         formLoader: true
+      }))
+
+      this.timeout && clearTimeout(this.timeout)
+
+      this.timeout = setTimeout(() => {
+         this.wallet
+            .checkNewAccount(value)
+            .then(d => {
+               this.setState(() => ({
+                  successMessage: true,
+                  errorMessage: false
+               }))
+            })
+            .catch(e => {
+               this.setState(() => ({
+                  successMessage: false,
+                  errorMessage: true
+               }))
+            })
+            .finally(() => {
+               this.setState(() => ({
+                  formLoader: false
+               }))
+            })
+      }, 500)
    }
 
    handleSubmit = e => {
       e.preventDefault()
 
-      if (!this.state.isLegit) {
+      if (!this.wallet.isLegitAccountId(this.state.accountId)) {
          return false
       }
 
       this.setState(() => ({
          successMessage: false,
          errorMessage: false,
-         isLegit: false,
          formLoader: true
       }))
 
@@ -84,8 +116,8 @@ class CreateAccount extends Component {
                <CreateAccountForm
                   {...this.state}
                   handleSubmit={this.handleSubmit}
-                  handleChange={this.handleChange}
                   handleRecaptcha={this.handleRecaptcha}
+                  handleChangeAccountId={this.handleChangeAccountId}
                />
             </CreateAccountSection>
          </CreateAccountContainer>

@@ -1,13 +1,10 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 
-import {
-   Form,
-} from 'semantic-ui-react'
+import { Form } from 'semantic-ui-react'
 
 import MSearchImage from '../../images/icon-m-search.svg'
 
 import styled from 'styled-components'
-
 
 const SearchForm = styled(Form)`
    float: right;
@@ -30,9 +27,15 @@ const SearchForm = styled(Form)`
    }
 `
 
-const Search = ({handleSubmit, handleChange,search}) => (
+const Search = ({ handleSubmit, handleChange, search }) => (
    <SearchForm onSubmit={handleSubmit}>
-      <Form.Input className='search' name='search' value={search} onChange={handleChange} placeholder='Search transactions and receipts...' />
+      <Form.Input
+         className='search'
+         name='search'
+         value={search}
+         onChange={handleChange}
+         placeholder='Search transactions and receipts...'
+      />
    </SearchForm>
 )
 

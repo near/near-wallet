@@ -1,9 +1,6 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
 
-import ArrowRightImage from '../../images/icon-arrow-right.svg'
-
-import { Container, Grid, Button, Header } from 'semantic-ui-react'
+import { Container, Grid, Header } from 'semantic-ui-react'
 
 import styled from 'styled-components'
 
