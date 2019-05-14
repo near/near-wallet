@@ -33,6 +33,8 @@ import styled from 'styled-components'
 
 const CustomResponsive = styled(Responsive)`
    &&& {
+      padding-bottom: 240px;
+
       .navbar {
          padding: 0px;
 

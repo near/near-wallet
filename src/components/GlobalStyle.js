@@ -8,6 +8,7 @@ export default createGlobalStyle`
 
    #root {
       min-height: 100vh;
+      position: relative;
    }
    html {
       box-sizing: border-box;
@@ -24,8 +25,6 @@ export default createGlobalStyle`
          font-family: "benton-sans",sans-serif;
          font-weight: 400;
          font-size: 14px !important;
-         
-
       }
    }
 
