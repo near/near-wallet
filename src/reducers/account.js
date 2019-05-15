@@ -10,9 +10,7 @@ import reduceReducers from 'reduce-reducers';
 
 const initialState = {
    formLoader: false,
-   sentSms: false,
-   successMessage: false,
-   errorMessage: false
+   sentSms: false
 }
 
 const loaderReducer = (state, { ready }) => {
@@ -27,14 +25,14 @@ const requestResultReducer = handleActions({
       ...state,
       requestStatus: !!payload || error ? {
          success: !error,
-         messageCode: error ? error.toString() : 'TODO: Success'
+         messageCode: error ? payload.messageCode || payload.toString() : 'TODO: Success'
       } : undefined
    })
 }, initialState)
 
 const reducer = handleActions({
-   [requestCode]: (state, { payload }) => {
-      if (payload) {
+   [requestCode]: (state, { error, ready }) => {
+      if (ready && !error) {
          return { ...state, sentSms: true }
       }
       return state
