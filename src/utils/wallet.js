@@ -190,7 +190,7 @@ export class Wallet {
       );
       try {
          const result = await this.near.waitForTransactionResult(addAccessKeyResponse);
-         if (result.status == "Completed") {
+         if (result.status === "Completed") {
             window.location.href = successUrl;
          }
       } catch (e) {
