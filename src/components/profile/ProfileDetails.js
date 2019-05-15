@@ -99,18 +99,16 @@ const ProfileDetails = ({ loader }) => (
             <Popup
                trigger={
                   <div className='locked'>
-                     <Image src={AccountGreyImage} className='' align='left' />
+                     <Image src={AccountGreyImage} align='left' />
                   </div>
                }
                hoverable
                position='left center'
             >
-               <Popup.Header className='color-black'>
-                  Why is this locked?
-               </Popup.Header>
+               <Popup.Header>Why is this locked?</Popup.Header>
                <Popup.Content>
                   Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                  Curabitur sit amet pretium mi, a molestie est.
+                  Curabitur sit amet pretium mi, a molestie est.{` `}
                   <a href='/'>Learn more</a>
                </Popup.Content>
             </Popup>
@@ -144,7 +142,7 @@ const ProfileDetails = ({ loader }) => (
          </Grid.Column>
          <Grid.Column computer='7' tablet='7' mobile='9'>
             <div className='main-image'>
-               <Image src={AccountGreyImage} className='' align='left' />
+               <Image src={AccountGreyImage} align='left' />
             </div>
          </Grid.Column>
          <Grid.Column computer='4' tablet='4' textAlign='center' only='tablet'>

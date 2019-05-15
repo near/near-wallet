@@ -44,6 +44,11 @@ const CustomResponsive = styled(Responsive)`
             border-radius: 0;
             margin-bottom: 0;
 
+            .item {
+               font-family: 'benton-sans', sans-serif;
+               font-weight: 600;
+            }
+
             .mainlogo {
                padding-left: 0px;
 

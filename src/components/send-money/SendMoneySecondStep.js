@@ -53,6 +53,7 @@ const CustomList = styled(List)`
          .expand-note {
             color: #0072ce;
             cursor: pointer;
+            font-weight: 600;
 
             :hover {
                text-decoration: underline;
@@ -72,7 +73,7 @@ const CustomList = styled(List)`
             border-radius: 30px;
             border: solid 2px #5ace84;
             font-size: 18px;
-            font-weight: 500;
+            font-weight: 600;
             letter-spacing: 2px;
             text-align: center;
             padding: 0 0 0 0;

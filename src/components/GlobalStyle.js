@@ -23,7 +23,7 @@ export default createGlobalStyle`
          position: relative;
          color: #999;
          font-family: "benton-sans",sans-serif;
-         font-weight: 400;
+         font-weight: 500;
          font-size: 14px !important;
       }
    }
@@ -118,7 +118,7 @@ export default createGlobalStyle`
       font-family: "benton-sans",sans-serif !important;
       font-size: 12px !important;
       color: #999 !important;
-      font-weight: 400 !important;
+      font-weight: 500 !important;
 
       a {
          font-family: "benton-sans",sans-serif !important;
@@ -168,7 +168,15 @@ export default createGlobalStyle`
       }
    }
 
+   .ui.popup > .header {
+      font-weight: 600 !important;
+      color: #24272a !important;
+   }
 
+
+   .ui.list .list>.item .header, .ui.list>.item .header {
+      font-weight: 600;
+   }
 
 
 
@@ -364,7 +372,7 @@ export default createGlobalStyle`
    .ui.popup>.header, .ui.popup {
       color: #999;
       font-family: "benton-sans",sans-serif;
-      font-weight: 400;
+      font-weight: 500;
       font-size: 14px !important;
    }
    .ui.popup {
