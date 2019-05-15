@@ -49,8 +49,10 @@ class RecoverAccount extends Component {
          dispatch(requestCode(this.state.phoneNumber, this.props.accountId))
       } else {
          dispatch(validateCode(this.state.phoneNumber, this.props.accountId, this.state.securityCode))
-            .then(() => {
-               let nextUrl = `/login/${(this.props.url && this.props.url.next_url) || '/'}`;
+            .then(({error}) => {
+               if (error) return
+
+               let nextUrl = `/login/${(this.props.url && this.props.url.next_url) || '/'}`
                setTimeout(() => {
                   this.props.history.push(nextUrl)
                }, 1500)
