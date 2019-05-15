@@ -22,6 +22,9 @@ import styled from 'styled-components'
 const CustomContainer = styled(Container)`
    && .title {
       padding-top: 40px;
+   }
+
+   && .contract {
       padding-bottom: 40px;
    }
 
@@ -97,12 +100,16 @@ const CustomContainer = styled(Container)`
    @media screen and (max-width: 767px) {
       && .title {
          padding-top: 0px;
-         padding-bottom: 20px;
 
          h2 {
             font-size: 18px !important;
             line-height: 24px !important;
          }
+      }
+
+      && .contract {
+         padding-top: 0px;
+         padding-bottom: 20px;
       }
 
       && .cont {
@@ -116,6 +123,8 @@ const CustomContainer = styled(Container)`
          }
 
          div.item {
+            padding-top: 24px;
+
             .content {
                font-size: 12px;
                line-height: 14px;
@@ -165,8 +174,18 @@ const LoginContainer = ({ loader, children, appTitle }) => (
                   tablet={16}
                   mobile={16}
                >
-                  Allow <span className='font-bold'> {appTitle} </span> to use
-                  your NEAR account?
+                  <span className='font-bold'>{appTitle} </span> is requesting
+                  to use your NEAR account.
+               </Grid.Column>
+            </Grid.Row>
+            <Grid.Row className='contract'>
+               <Grid.Column
+                  textAlign='center'
+                  computer={16}
+                  tablet={16}
+                  mobile={16}
+               >
+                  Contract: @contractname.near
                </Grid.Column>
             </Grid.Row>
             <Grid.Row>
@@ -184,7 +203,7 @@ const LoginContainer = ({ loader, children, appTitle }) => (
                   className='cont'
                >
                   <List className='border-right-light'>
-                     <List.Item as='h3'>This allows {appTitle} to:</List.Item>
+                     <List.Item as='h3'>This allows:</List.Item>
                      <List.Item className='list-item'>
                         <List.Content className='color-black'>
                            View your Account Name
@@ -205,7 +224,7 @@ const LoginContainer = ({ loader, children, appTitle }) => (
                   className='cont'
                >
                   <List>
-                     <List.Item as='h3'>But, does NOT allow them to:</List.Item>
+                     <List.Item as='h3'>Does not allow:</List.Item>
                      <List.Item className='list-item-deny'>
                         <List.Content className='color-black'>
                            View your private account details

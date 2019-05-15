@@ -178,6 +178,10 @@ export default createGlobalStyle`
       font-weight: 600;
    }
 
+   .ui.button {
+      font-weight: 600;
+   }
+
 
 
    .border-bottom {
