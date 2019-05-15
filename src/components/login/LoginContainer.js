@@ -95,12 +95,31 @@ const CustomContainer = styled(Container)`
    }
 
    @media screen and (max-width: 767px) {
-      && .cont {
-         margin: 0 1rem;
+      && .title {
+         padding-top: 0px;
+         padding-bottom: 20px;
 
+         h2 {
+            font-size: 18px !important;
+            line-height: 24px !important;
+         }
+      }
+
+      && .cont {
          > div {
             border: 0px;
-            padding: 10px 0 10px 10px;
+            padding: 10px 0 10px 0;
+
+            h3 {
+               font-size: 14px !important;
+            }
+         }
+
+         div.item {
+            .content {
+               font-size: 12px;
+               line-height: 14px;
+            }
          }
       }
 
@@ -112,19 +131,18 @@ const CustomContainer = styled(Container)`
 
 const LoginContainer = ({ loader, children, appTitle }) => (
    <CustomContainer>
-      <Dimmer.Dimmable as={Segment} basic className=''>
-         <Grid className=''>
+      <Dimmer.Dimmable as={Segment} basic>
+         <Grid>
             <Dimmer inverted active={loader}>
                <Loader />
             </Dimmer>
 
-            <Grid.Row className=''>
+            <Grid.Row>
                <Grid.Column
                   textAlign='center'
                   computer={16}
                   tablet={16}
                   mobile={16}
-                  className=''
                >
                   <List horizontal className='authorize'>
                      <List.Item className='bg'>
@@ -146,7 +164,6 @@ const LoginContainer = ({ loader, children, appTitle }) => (
                   computer={16}
                   tablet={16}
                   mobile={16}
-                  className=''
                >
                   Allow <span className='font-bold'> {appTitle} </span> to use
                   your NEAR account?
@@ -157,14 +174,13 @@ const LoginContainer = ({ loader, children, appTitle }) => (
                   largeScreen={2}
                   computer={1}
                   mobile={16}
-                  className=''
                   only='large screen computer mobile'
                />
                <Grid.Column
                   largeScreen={6}
                   computer={7}
                   tablet={8}
-                  mobile={16}
+                  mobile={8}
                   className='cont'
                >
                   <List className='border-right-light'>
@@ -185,10 +201,10 @@ const LoginContainer = ({ loader, children, appTitle }) => (
                   largeScreen={6}
                   computer={7}
                   tablet={8}
-                  mobile={16}
+                  mobile={8}
                   className='cont'
                >
-                  <List className=''>
+                  <List>
                      <List.Item as='h3'>But, does NOT allow them to:</List.Item>
                      <List.Item className='list-item-deny'>
                         <List.Content className='color-black'>
@@ -206,7 +222,6 @@ const LoginContainer = ({ loader, children, appTitle }) => (
                   largeScreen={2}
                   computer={1}
                   mobile={16}
-                  className=''
                   only='large screen computer mobile'
                />
             </Grid.Row>

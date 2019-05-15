@@ -44,7 +44,7 @@ const CustomContainer = styled(Container)`
          border-radius: 30px;
          border: solid 2px #5ace84;
          font-size: 18px;
-         font-weight: 500;
+         font-weight: 600;
          letter-spacing: 2px;
          color: #5ace84;
          background: #fff;
@@ -92,7 +92,7 @@ const CustomContainer = styled(Container)`
          }
          .button {
             width: 240px;
-            line-height: 48px;
+            line-height: 44px;
          }
       }
    }

@@ -13,17 +13,26 @@ const CustomGrid = styled(Grid)`
       .row {
          padding-top: 12px;
          padding-bottom: 12px;
+
+         .edit-link {
+            font-weight: 600;
+         }
+         .title {
+            font-weight: 600;
+            color: #24272a;
+         }
       }
 
       .main-image {
          border: 0px;
          padding: 0 10px;
-         width: 48px;
-         height: 48px;
+         width: 120px;
+         height: 120px;
          background: #e6e6e6;
-         border-radius: 32px;
+         border-radius: 60px;
 
          img {
+            width: 100px;
             padding-top: 10px;
          }
       }
@@ -77,12 +86,7 @@ const ProfileDetails = ({ loader }) => (
          </Grid.Column>
       </Grid.Row>
       <Grid.Row className='border-top'>
-         <Grid.Column
-            computer='3'
-            tablet='3'
-            mobile='4'
-            className='color-black'
-         >
+         <Grid.Column computer='3' tablet='3' mobile='4' className='title'>
             Username
          </Grid.Column>
          <Grid.Column computer='7' tablet='7' mobile='9'>
@@ -113,12 +117,7 @@ const ProfileDetails = ({ loader }) => (
          </Grid.Column>
       </Grid.Row>
       <Grid.Row className='border-top'>
-         <Grid.Column
-            computer='3'
-            tablet='3'
-            mobile='4'
-            className='color-black'
-         >
+         <Grid.Column computer='3' tablet='3' mobile='4' className='title'>
             Full Name
          </Grid.Column>
          <Grid.Column computer='7' tablet='7' mobile='9'>
@@ -134,17 +133,13 @@ const ProfileDetails = ({ loader }) => (
             tablet='2'
             mobile='3'
             textAlign='right'
+            className='edit-link'
          >
             Edit
          </Grid.Column>
       </Grid.Row>
       <Grid.Row className='border-top'>
-         <Grid.Column
-            computer='3'
-            tablet='3'
-            mobile='4'
-            className='color-black'
-         >
+         <Grid.Column computer='3' tablet='3' mobile='4' className='title'>
             Photo
          </Grid.Column>
          <Grid.Column computer='7' tablet='7' mobile='9'>
@@ -162,6 +157,7 @@ const ProfileDetails = ({ loader }) => (
             tablet='2'
             mobile='3'
             textAlign='right'
+            className='edit-link'
          >
             Edit
          </Grid.Column>
@@ -188,12 +184,7 @@ const ProfileDetails = ({ loader }) => (
          </Grid.Column>
       </Grid.Row>
       <Grid.Row className='border-top'>
-         <Grid.Column
-            computer='3'
-            tablet='3'
-            mobile='4'
-            className='color-black'
-         >
+         <Grid.Column computer='3' tablet='3' mobile='4' className='title'>
             Email
          </Grid.Column>
          <Grid.Column computer='7' tablet='7' mobile='9'>
@@ -209,17 +200,13 @@ const ProfileDetails = ({ loader }) => (
             tablet='2'
             mobile='3'
             textAlign='right'
+            className='edit-link'
          >
             Edit
          </Grid.Column>
       </Grid.Row>
       <Grid.Row className='border-top'>
-         <Grid.Column
-            computer='3'
-            tablet='3'
-            mobile='4'
-            className='color-black'
-         >
+         <Grid.Column computer='3' tablet='3' mobile='4' className='title'>
             Phone
          </Grid.Column>
          <Grid.Column computer='7' tablet='7' mobile='9'>
@@ -235,17 +222,13 @@ const ProfileDetails = ({ loader }) => (
             tablet='2'
             mobile='3'
             textAlign='right'
+            className='edit-link'
          >
             Edit
          </Grid.Column>
       </Grid.Row>
       <Grid.Row className='border-top'>
-         <Grid.Column
-            computer='3'
-            tablet='3'
-            mobile='4'
-            className='color-black'
-         >
+         <Grid.Column computer='3' tablet='3' mobile='4' className='title'>
             Address
          </Grid.Column>
          <Grid.Column computer='7' tablet='7' mobile='9'>
@@ -261,6 +244,7 @@ const ProfileDetails = ({ loader }) => (
             tablet='2'
             mobile='3'
             textAlign='right'
+            className='edit-link'
          >
             Edit
          </Grid.Column>
@@ -287,12 +271,7 @@ const ProfileDetails = ({ loader }) => (
          </Grid.Column>
       </Grid.Row>
       <Grid.Row className='border-top'>
-         <Grid.Column
-            computer='3'
-            tablet='3'
-            mobile='4'
-            className='color-black'
-         >
+         <Grid.Column computer='3' tablet='3' mobile='4' className='title'>
             Balance
          </Grid.Column>
          <Grid.Column computer='7' tablet='7' mobile='9'>
@@ -308,6 +287,7 @@ const ProfileDetails = ({ loader }) => (
             tablet='2'
             mobile='3'
             textAlign='right'
+            className='edit-link'
          >
             Edit
          </Grid.Column>

@@ -23,7 +23,7 @@ import { handleRefreshAccount } from '../../actions/account'
 import styled from 'styled-components'
 
 const CustomResponsive = styled(Responsive)`
-   padding-bottom: 200px;
+   padding-bottom: 180px;
 
    .spacer {
       height: 72px;

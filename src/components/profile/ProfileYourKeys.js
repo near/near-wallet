@@ -50,6 +50,10 @@ const CustomList = styled(List)`
                color: #0072ce;
             }
          }
+         .account-name {
+            color: #24272a;
+            font-weight: 600;
+         }
       }
 
       @media screen and (max-width: 991px) {

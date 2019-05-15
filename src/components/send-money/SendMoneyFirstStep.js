@@ -97,11 +97,11 @@ const CustomList = styled(List)`
 
             > button {
                width: 288px;
-               line-height: 60px;
+               line-height: 56px;
                border-radius: 30px;
                border: solid 2px #5ace84;
                font-size: 18px;
-               font-weight: 500;
+               font-weight: 600;
                letter-spacing: 2px;
                text-align: center;
                padding: 0 0 0 0;
@@ -115,7 +115,7 @@ const CustomList = styled(List)`
                :disabled {
                   background-color: #e6e6e6;
                   border-color: #e6e6e6;
-                  opacity: 1;
+                  opacity: 1 !important;
                }
             }
          }
@@ -133,8 +133,28 @@ const CustomList = styled(List)`
          border: 0px;
 
          .near-tokens {
-            > button {
-               width: 200px;
+            width: 200px;
+         }
+
+         form {
+            .near-tokens {
+               margin: 14px auto 24px auto;
+            }
+            .add-note {
+               margin-left: -1rem;
+               margin-right: -1rem;
+
+               > textarea {
+                  width: 100%;
+                  height: 98px;
+                  border: 0px;
+                  padding: 12px;
+                  background: #f8f8f8;
+
+                  :focus {
+                     border: 0px;
+                  }
+               }
             }
          }
       }

@@ -73,8 +73,8 @@ const CustomGrid = styled(Grid)`
 
          > .column {
             width: 100% !important;
-            border-right: 0px solid #e6e6e6;
-            border-bottom: 1px solid #e6e6e6;
+            border-right: 0px;
+            border-bottom: 2px solid #f8f8f8;
             padding: 6px 0px 6px 4px;
 
             .list {

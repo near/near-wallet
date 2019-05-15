@@ -14,6 +14,7 @@ const AccountForm = styled(Form)`
       height: 60px;
       border-radius: 30px;
       border: 4px solid #0072ce;
+      font-weight: 600;
 
       background: #0072ce;
       margin: 10px 0 0 0;

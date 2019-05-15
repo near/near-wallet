@@ -60,6 +60,7 @@ const CustomResponsive = styled(Responsive)`
 
             .account-name {
                padding-right: 0px;
+               text-align: right;
 
                > div {
                   font-size: 16px;
@@ -124,10 +125,10 @@ const CustomResponsive = styled(Responsive)`
                font-size: 14px;
                padding: 18px 6px;
                margin: 0 1rem;
-               border-top: 2px solid #363b3e;
+               border-top: 1px solid #4a4f54;
 
                &.border {
-                  border-bottom: 2px solid #363b3e;
+                  border-bottom: 1px solid #4a4f54;
                }
 
                a {
@@ -153,7 +154,7 @@ const CustomResponsive = styled(Responsive)`
                   padding: 8px 9px;
 
                   a {
-                     color: #6ad1e3;
+                     color: #8fd6bd;
                      letter-spacing: 2px;
                   }
 
