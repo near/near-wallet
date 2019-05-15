@@ -1,5 +1,4 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import { Form, Input, Button } from 'semantic-ui-react'
 import PhoneInput from 'react-phone-number-input'
 
@@ -119,8 +118,7 @@ const RecoverAccountForm = ({
    phoneNumber,
    sentSms,
    isLegit,
-   successMessage,
-   errorMessage,
+   requestStatus,
    handleSubmit,
    handleChange
 }) => (
@@ -129,9 +127,7 @@ const RecoverAccountForm = ({
          <h3>Username</h3>
          <Form.Input
             loading={formLoader}
-            className={`create ${successMessage ? 'success' : ''}${
-               errorMessage ? 'problem' : ''
-            }`}
+            className={`create ${requestStatus ? (requestStatus.success ? 'success' : 'problem') : ''}`}
             name='accountId'
             value={accountId}
             onChange={handleChange}
@@ -143,9 +139,7 @@ const RecoverAccountForm = ({
          <Form.Field>
             <h3>Phone Number</h3>
             <PhoneInput
-               className={`create ${successMessage ? 'success' : ''}${
-                  errorMessage ? 'problem' : ''
-               } ${formLoader ? 'loading' : '' } `}
+               className={`create ${requestStatus ? (requestStatus.success ? 'success' : 'problem') : ''} ${formLoader ? 'loading' : '' }`}
                name='phoneNumber'
                value={phoneNumber}
                onChange={ value => handleChange(null, { name: 'phoneNumber', value })}
@@ -170,16 +164,5 @@ const RecoverAccountForm = ({
       </Form.Field>
    </RecoveryInfoForm>
 )
-
-RecoverAccountForm.propTypes = {
-   formLoader: PropTypes.bool.isRequired,
-   phoneNumber: PropTypes.string,
-   sentSms: PropTypes.bool.isRequired,
-   isLegit: PropTypes.bool.isRequired,
-   successMessage: PropTypes.bool.isRequired,
-   errorMessage: PropTypes.bool.isRequired,
-   handleSubmit: PropTypes.func.isRequired,
-   handleChange: PropTypes.func.isRequired
-}
 
 export default RecoverAccountForm
