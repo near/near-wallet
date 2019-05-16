@@ -27,10 +27,15 @@ class Login extends Component {
    }
 
    handleDeny = e => {
-      e.preventDefault()
+      e.preventDefault();
       if (this.props.account.url.failure_url) {
          window.location.href = this.props.account.url.failure_url
       }
+   }
+
+   handleAllow = e => {
+      e.preventDefault()
+      this.wallet.addAccessKey(this.props.account.accountId, this.props.account.url.contract_id, this.props.account.url.public_key, this.props.account.url.success_url);
    }
 
    handleSelectAccount = accountId => {
@@ -55,6 +60,7 @@ class Login extends Component {
                   {...this.state}
                   handleOnClick={this.handleOnClick}
                   handleDeny={this.handleDeny}
+                  handleAllow={this.handleAllow}
                   handleSelectAccount={this.handleSelectAccount}
                   redirectCreateAccount={this.redirectCreateAccount}
                />

@@ -3,18 +3,21 @@ import ReactDOM from 'react-dom'
 
 import { createStore } from 'redux'
 import { Provider } from 'react-redux'
+import { createBrowserHistory } from 'history'
 
-import reducer from './reducers'
-import middleware from './middleware'
+import createRootReducer from './reducers'
+import createMiddleware from './middleware'
 
 import Routing from './components/Routing'
 import * as serviceWorker from './serviceWorker'
 
-const store = createStore(reducer, middleware)
+const history = createBrowserHistory()
+
+const store = createStore(createRootReducer(history), createMiddleware(history))
 
 ReactDOM.render(
    <Provider store={store}>
-      <Routing />
+      <Routing history={history} />
    </Provider>,
    document.getElementById('root')
 )

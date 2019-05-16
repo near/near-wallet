@@ -1,9 +1,10 @@
 import nearlib from 'nearlib'
+import sendJson from 'fetch-send-json'
 
 const WALLET_CREATE_NEW_ACCOUNT_URL = `/create/`
 
-const CONTRACT_CREATE_ACCOUNT_URL =
-   'https://studio.nearprotocol.com/contract-api/account'
+const ACCOUNT_HELPER_URL = 'https://studio.nearprotocol.com/contract-api'
+const CONTRACT_CREATE_ACCOUNT_URL = `${ACCOUNT_HELPER_URL}/account`
 const NODE_URL = 'https://studio.nearprotocol.com/devnet'
 
 const KEY_UNIQUE_PREFIX = '_4:'
@@ -17,6 +18,7 @@ export class Wallet {
    constructor() {
       this.key_store = new nearlib.BrowserLocalStorageKeystore()
       this.near = nearlib.Near.createDefaultConfig(NODE_URL)
+      this.account = new nearlib.Account(this.near.nearClient);
       this.accounts = JSON.parse(
          localStorage.getItem(KEY_WALLET_ACCOUNTS) || '{}'
       )
@@ -113,21 +115,7 @@ export class Wallet {
       if (!(accountId in this.accounts)) {
          throw new Error('Account ' + accountId + " doesn't exist.")
       }
-      try {
-         return await this.near.nearClient.viewAccount(accountId)
-      } catch (e) {
-         if (e.message && e.message.indexOf('is not valid') !== -1) {
-            // We have an account in the storage, but it doesn't exist on blockchain. We probably nuked storage so just redirect to create account
-            console.log(e)
-            this.clearState()
-            this.redirectToCreateAccount(
-               {
-                  reset_accounts: true
-               },
-               history
-            )
-         }
-      }
+      return await this.near.nearClient.viewAccount(accountId)
    }
 
    async checkAccount(accountId) {
@@ -166,7 +154,7 @@ export class Wallet {
       if (!!remoteAccount) {
          throw new Error('Account ' + accountId + ' already exists.')
       }
-      let keyPair = await nearlib.KeyPair.fromRandomSeed()
+      let keyPair = await nearlib.KeyPair.fromRandomSeed();
       return await new Promise((resolve, reject) => {
          let data = JSON.stringify({
             newAccountId: accountId,
@@ -189,6 +177,26 @@ export class Wallet {
          }
          xhr.send(data)
       })
+   }
+
+   async addAccessKey(accountId, contractId, publicKey, successUrl) {
+      const addAccessKeyResponse = await this.account.addAccessKey(
+         accountId,
+         publicKey,
+         contractId,
+         '',  // methodName
+         '',  // fundingOwner
+         0,  // fundingAmount
+      );
+      try {
+         const result = await this.near.waitForTransactionResult(addAccessKeyResponse);
+         if (result.status == "Completed") {
+            window.location.href = successUrl;
+         }
+      } catch (e) {
+         // TODO: handle errors
+         console.log("Error on adding access key ", e);
+      }
    }
 
    subscribeForMessages() {
@@ -259,6 +267,14 @@ export class Wallet {
       } else {
          throw new Error('Unknown action')
       }
+   }
+
+   requestCode(phoneNumber, accountId) {
+      return sendJson('POST', `${ACCOUNT_HELPER_URL}/account/${phoneNumber}/${accountId}/requestCode`);
+   }
+
+   validateCode(phoneNumber, accountId, securityCode) {
+      return sendJson('POST', `${ACCOUNT_HELPER_URL}/account/${phoneNumber}/${accountId}/validateCode`, { securityCode });
    }
 
    receiveMessage(event) {

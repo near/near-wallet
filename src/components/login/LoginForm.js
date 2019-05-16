@@ -182,6 +182,7 @@ const LoginForm = ({
    account,
    handleOnClick,
    handleDeny,
+   handleAllow,
    handleSelectAccount,
    redirectCreateAccount
 }) => (
@@ -244,7 +245,9 @@ const LoginForm = ({
                <Button className='deny' onClick={handleDeny}>
                   DENY
                </Button>
-               <Button floated='right'>ALLOW</Button>
+               <Button className='' floated='right' onClick={handleAllow}>
+                  ALLOW
+               </Button>
             </Form>
          </Grid.Column>
          <Grid.Column largeScreen={5} computer={4} tablet={3} mobile={16} />

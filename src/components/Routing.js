@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
+import { Route, Switch } from 'react-router-dom'
+import { ConnectedRouter } from 'connected-react-router'
 
 import '../index.css'
 
@@ -8,6 +9,7 @@ import ResponsiveContainer from './responsive/ResponsiveContainer'
 import Footer from './common/Footer'
 import DashboardDetailWithRouter from './dashboard/DashboardDetail'
 import { CreateAccountWithRouter } from './accounts/CreateAccount'
+import { SetRecoveryInfoWithRouter } from './accounts/SetRecoveryInfo'
 import { LoginWithRouter } from './login/Login'
 import { ContactsWithRouter } from './contacts/Contacts'
 import { AuthorizedAppsWithRouter } from './authorized-apps/AuthorizedApps'
@@ -26,7 +28,7 @@ class Routing extends Component {
          <div className='App'>
             <GlobalStyle />
 
-            <Router basename={PATH_PREFIX}>
+            <ConnectedRouter basename={PATH_PREFIX}  history={this.props.history}>
                <ThemeProvider theme={theme}>
                   <ResponsiveContainer>
                      <Switch>
@@ -39,6 +41,11 @@ class Routing extends Component {
                            exact
                            path='/create'
                            component={CreateAccountWithRouter}
+                        />
+                        <Route
+                           exact
+                           path='/set-recovery/:accountId'
+                           component={SetRecoveryInfoWithRouter}
                         />
                         <Route
                            exact
@@ -71,7 +78,7 @@ class Routing extends Component {
                      <Footer />
                   </ResponsiveContainer>
                </ThemeProvider>
-            </Router>
+            </ConnectedRouter>
          </div>
       )
    }
