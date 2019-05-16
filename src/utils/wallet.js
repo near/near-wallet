@@ -190,8 +190,12 @@ export class Wallet {
       );
       try {
          const result = await this.near.waitForTransactionResult(addAccessKeyResponse);
+         const parsedUrl = new URL(successUrl);
+         parsedUrl.searchParams.set('account_id', accountId);
+         parsedUrl.searchParams.set('public_key', publicKey);
+         const redirectUrl = parsedUrl.href;
          if (result.status == "Completed") {
-            window.location.href = successUrl;
+            window.location.href = redirectUrl;
          }
       } catch (e) {
          // TODO: handle errors
