@@ -49,13 +49,13 @@ const SetRecoveryInfoContainer = ({ loader, children, location }) => (
 
          <Grid.Row className='creating-info'>
             <Grid.Column computer={8} tablet={8} mobile={16} className=''>
-               <Header as='h1'>Protect your Account 🔒</Header>
+               <Header as='h1'>Protect your Account</Header>
                <Header as='h2'>
-                  Connect account to phone number – save recovery key on our servers.
+                  Enter your phone number to make your account easy for you to recover in the future.
                </Header>
                <Header as='h3' className='color-blue'>
-                  You can skip this if you plan to backup account keys manually.
-                  We won't be able to help you with account recovery otherwise.
+                  If you want to backup your account keys manually, you can skip this.
+                  However if you choose this option, we won't be able to assist you with account recovery.
                </Header>
             </Grid.Column>
             <Grid.Column computer={8} tablet={8} mobile={16} className=''>
