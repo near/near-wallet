@@ -2,26 +2,12 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Container, Loader, Grid, Dimmer, Header } from 'semantic-ui-react'
 
+import Disclaimer from '../common/Disclaimer'
 import NearInfo from './NearInfo'
 
 import styled from 'styled-components'
 
 const CustomContainer = styled(Container)`
-   && .disclaimer {
-      margin-left: 1rem;
-      margin-right: 1rem;
-      margin-top: 100px;
-
-      > .column {
-         padding-left: 0px;
-         padding-right: 0px;
-      }
-   }
-   .disclaimer-info {
-      font-weight: 600;
-      letter-spacing: 2px;
-   }
-
    &&& .creating-info {
       padding-right: 0px;
       padding-top: 48px;
@@ -40,7 +26,7 @@ const CustomContainer = styled(Container)`
 `
 
 /* eslint-disable jsx-a11y/accessible-emoji */
-const SetRecoveryInfoContainer = ({ loader, children, location }) => (
+const SetRecoveryInfoContainer = ({ loader, children }) => (
    <CustomContainer>
       <Grid className=''>
          <Dimmer inverted active={loader}>
@@ -66,16 +52,7 @@ const SetRecoveryInfoContainer = ({ loader, children, location }) => (
 
       {children}
 
-      <Grid className=''>
-         <Grid.Row className='disclaimer border-top-bold'>
-            <Grid.Column computer={16} tablet={16} mobile={16} className=''>
-               <span className='disclaimer-info'>DISCLAIMER: </span>
-               This is a developers&apos; preview Wallet. It should be used for
-               NEAR Protocol DevNet only. Learn more at
-               <a href='http://nearprotocol.com'>nearprotocol.com</a>
-            </Grid.Column>
-         </Grid.Row>
-      </Grid>
+      <Disclaimer />
    </CustomContainer>
 )
 
