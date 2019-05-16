@@ -125,7 +125,7 @@ const DesktopPopup = ({
 }) => (
    <CustomPopup
       trigger={
-         <Menu.Menu position='right' className=''>
+         <Menu.Menu position='right' className='popup-trigger'>
             <Menu.Item className='devider' />
             <Menu.Item className='account-img'>
                <Image src={AccountGreyImage} />
@@ -150,7 +150,7 @@ const DesktopPopup = ({
             </Menu.Item>
          </Menu.Menu>
       }
-      hoverable
+      on='click'
       position='right center'
    >
       <Segment basic className='account-dropdown'>

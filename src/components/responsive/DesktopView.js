@@ -116,6 +116,9 @@ const CustomResponsive = styled(Responsive)`
       }
 
       .popup-container {
+         .popup-trigger {
+            cursor: pointer;
+         }
          .devider {
             width: 2px;
             height: 40px;
