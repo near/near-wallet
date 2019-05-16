@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 
 import DashboardOtherAssets from './DashboardOtherAssets'
 
-import ArrowRightImage from '../../images/icon-arrow-right.svg'
+import ArrowGrnImage from '../../images/icon-arrow-grn.svg'
 
 import { Container, Grid, Button, Header } from 'semantic-ui-react'
 
@@ -51,7 +51,7 @@ const CustomContainer = styled(Container)`
          text-align: left;
          padding: 0 0 0 40px;
 
-         background-image: url(${ArrowRightImage});
+         background-image: url(${ArrowGrnImage});
          background-repeat: no-repeat;
          background-position: 90% center;
          background-size: 14px 20px;

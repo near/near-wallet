@@ -12,9 +12,10 @@ import {
 } from 'semantic-ui-react'
 
 import AccountGreyImage from '../../images/icon-account-grey.svg'
+import AccountImage from '../../images/icon-account.svg'
 import ArrowDownImage from '../../images/icon-arrow-down.svg'
-import ContactsGreyImage from '../../images/icon-contacts-grey.svg'
-import AuthorizedGreyImage from '../../images/icon-authorized-grey.svg'
+import ContactsGreyImage from '../../images/icon-contacts.svg'
+import AuthorizedGreyImage from '../../images/icon-authorized.svg'
 import LogoutImage from '../../images/icon-logout.svg'
 
 import styled from 'styled-components'
@@ -155,7 +156,7 @@ const DesktopPopup = ({
       <Segment basic className='account-dropdown'>
          <List className='submenu'>
             <List.Item>
-               <List.Icon as={Image} src={AccountGreyImage} />
+               <List.Icon as={Image} src={AccountImage} />
                <List.Content as={Link} to='/profile'>
                   Profile
                </List.Content>

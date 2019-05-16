@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom'
 import { Popup, Grid, Image } from 'semantic-ui-react'
 
 import AccountGreyImage from '../../images/icon-account-grey.svg'
+import LockImage from '../../images/icon-lock.svg'
 
 import styled from 'styled-components'
 
@@ -40,10 +41,10 @@ const CustomGrid = styled(Grid)`
       .locked {
          float: right;
          border: 0px;
-         padding: 0 4px;
+         padding: 1px 7px;
          width: 32px;
          height: 32px;
-         background: #e6e6e6;
+         background: #f8f8f8;
          border-radius: 32px;
 
          img {
@@ -99,7 +100,7 @@ const ProfileDetails = ({ loader }) => (
             <Popup
                trigger={
                   <div className='locked'>
-                     <Image src={AccountGreyImage} align='left' />
+                     <Image src={LockImage} align='left' />
                   </div>
                }
                hoverable

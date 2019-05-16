@@ -18,12 +18,13 @@ import {
 } from 'semantic-ui-react'
 
 import SendImage from '../../images/icon-send.svg'
-import ContactsGreyImage from '../../images/icon-contacts-grey.svg'
-import AuthorizedGreyImage from '../../images/icon-authorized-grey.svg'
+import ContactsGreyImage from '../../images/icon-contacts.svg'
+import AuthorizedGreyImage from '../../images/icon-authorized.svg'
 import LogoutImage from '../../images/icon-logout.svg'
 import LogoImage from '../../images/wallet.png'
-import AccountGreyImage from '../../images/icon-account-grey.svg'
-import ArrowDownImage from '../../images/icon-arrow-down.svg'
+import AccountGreyImage from '../../images/icon-account.svg'
+import MobileMenuImage from '../../images/icon-mobile-menu.svg'
+import CloseImage from '../../images/icon-close.svg'
 import RecentImage from '../../images/icon-recent.svg'
 import ActivityImage from '../../images/icon-activity.svg'
 
@@ -84,13 +85,13 @@ const CustomResponsive = styled(Responsive)`
             }
 
             .account-tokens {
-               line-height: 24px;
+               line-height: 28px;
                font-size: 16px;
 
                color: #fff;
 
-               margin: 23px 0 0 10px;
-               height: 24px;
+               margin: 21px 0 0 10px;
+               height: 28px;
                background: #111314;
                border-radius: 12px;
                padding: 0 10px;
@@ -111,7 +112,7 @@ const CustomResponsive = styled(Responsive)`
                padding-right: 14px;
 
                img {
-                  width: 12px;
+                  width: 20px;
                }
             }
          }
@@ -292,7 +293,9 @@ class MobileView extends Component {
                            <span className='near'>Ⓝ</span>
                         </Menu.Item>
                         <Menu.Item className='account-arrow'>
-                           <Image src={ArrowDownImage} />
+                           <Image
+                              src={dropdown ? MobileMenuImage : CloseImage}
+                           />
                         </Menu.Item>
                      </Menu.Menu>
                   </Menu.Menu>

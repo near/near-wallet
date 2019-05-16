@@ -2,8 +2,8 @@ import React from 'react'
 
 import { List, Button, Image } from 'semantic-ui-react'
 
-import TKeySwapImage from '../../images/icon-t-key-swap.svg'
-import TContractImage from '../../images/icon-t-contract.svg'
+import KeysGreyImage from '../../images/icon-keys-grey.svg'
+import DocGreyImage from '../../images/icon-doc-grey.svg'
 
 import styled from 'styled-components'
 
@@ -87,7 +87,7 @@ const CustomList = styled(List)`
 const ProfileYourKeys = () => (
    <CustomList className='box'>
       <List.Item className='keys'>
-         <List.Icon as={Image} src={TKeySwapImage} />
+         <List.Icon as={Image} src={KeysGreyImage} />
          <List.Content as='h2'>Your Keys</List.Content>
       </List.Item>
       <List.Item className='account'>
@@ -95,7 +95,7 @@ const ProfileYourKeys = () => (
             <Button>DOWNLOAD</Button>
          </List.Content>
          <List.Content>
-            <Image align='left' src={TContractImage} />
+            <Image align='left' src={DocGreyImage} />
          </List.Content>
          <List.Content className='account-name'>
             @eugenethedream.key

@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom'
 import { Grid, Image } from 'semantic-ui-react'
 
 import ArrowRight from '../../images/icon-arrow-right.svg'
+import ArrowBlkImage from '../../images/icon-arrow-blk.svg'
 
 import styled from 'styled-components'
 
@@ -165,7 +166,7 @@ const ListItem = ({
          {wide ? (
             <Image
                onClick={() => toggleShowSub(i)}
-               src={ArrowRight}
+               src={showSub && showSubOpen === i ? ArrowBlkImage : ArrowRight}
                className='dropdown-image dropdown-image-right'
             />
          ) : (
