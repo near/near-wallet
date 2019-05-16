@@ -1,5 +1,5 @@
 import React from 'react'
-import { Grid, Responsive } from 'semantic-ui-react'
+import { Grid } from 'semantic-ui-react'
 import styled from 'styled-components'
 
 const DisclaimerGrid = styled(Grid)`
