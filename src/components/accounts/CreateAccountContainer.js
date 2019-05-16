@@ -80,7 +80,7 @@ const CreateAccountContainer = ({ loader, children, location }) => (
                <h1>Create Account</h1>
                <h2>
                   Creating a NEAR account is easy. Just choose a username
-                  andyou’re ready to go.
+                  and you’re ready to go.
                </h2>
                {parse(location.search).reset_accounts && (
                   <Header as='h3' className='color-blue'>
