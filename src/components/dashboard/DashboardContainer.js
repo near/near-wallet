@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import DashboardOtherAssets from './DashboardOtherAssets'
 
 import ArrowGrnImage from '../../images/icon-arrow-grn.svg'
+import ArrowRightImage from '../../images/icon-arrow-right.svg'
 
 import { Container, Grid, Button, Header } from 'semantic-ui-react'
 
@@ -59,6 +60,7 @@ const CustomContainer = styled(Container)`
          :hover {
             background-color: #5ace84;
             color: #fff;
+            background-image: url(${ArrowRightImage});
          }
       }
    }
