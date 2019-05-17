@@ -64,8 +64,21 @@ class SendMoney extends Component {
    }
 
    handleNextStep = () => {
+      const { step, accountId, amount} = this.state;
+
+      if (step === 2) {
+         this.wallet.sendTokens(this.wallet.getAccountId(), accountId, amount)
+            .then(() => {
+               this.setState(state => ({
+                  step: state.step + 1
+               }))
+            })
+            .catch(console.error)
+         return;
+      }
+
       this.setState(state => ({
-         step: ++state.step
+         step: state.step + 1
       }))
    }
 
