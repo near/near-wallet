@@ -245,7 +245,7 @@ const LoginForm = ({
                <Button className='deny' onClick={handleDeny}>
                   DENY
                </Button>
-               <Button className='' floated='right' onClick={handleAllow}>
+               <Button floated='right' onClick={handleAllow}>
                   ALLOW
                </Button>
             </Form>

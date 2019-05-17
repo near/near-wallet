@@ -5,39 +5,46 @@ import { Grid, List, Responsive } from 'semantic-ui-react'
 import styled from 'styled-components'
 
 const CustomGrid = styled(Grid)`
-   && .username-row {
-      padding-bottom: 0px;
-   }
-
-   &&& .alert-info {
-      font-size: 18px;
-      font-weight: 600;
-      line-height: 64px;
-      margin: 0 0 0 0;
-      padding-left: 0px;
-
-      &.problem {
-         color: #ff585d;
+   &&& {
+      .username-row {
+         padding-bottom: 0px;
+         margin-left: -1rem;
       }
-      &.success {
-         color: #6ad1e3;
-      }
-   }
 
-   .note-box {
-      padding-left: 30px;
-
-      .border-left-bold {
-         padding-bottom: 20px;
-      }
-   }
-
-   &&& .note-info {
-      .title {
-         letter-spacing: 2px;
+      .alert-info {
+         font-size: 18px;
          font-weight: 600;
-         line-height: 20px;
-         color: #4a4f54;
+         line-height: 64px;
+         margin: 0 0 0 0;
+         padding-left: 0px;
+
+         &.problem {
+            color: #ff585d;
+         }
+         &.success {
+            color: #6ad1e3;
+         }
+      }
+
+      .note-box {
+         padding-left: 30px;
+
+         .border-left-bold {
+            padding-bottom: 20px;
+         }
+      }
+
+      .note-info {
+         .title {
+            letter-spacing: 2px;
+            font-weight: 600;
+            line-height: 20px;
+            color: #4a4f54;
+         }
+      }
+
+      .form-row {
+         margin-left: -1rem;
       }
    }
 
@@ -49,6 +56,10 @@ const CustomGrid = styled(Grid)`
 
    @media screen and (max-width: 767px) {
       &&& {
+         .username-row {
+            margin-left: 0;
+         }
+
          .alert-info {
             padding: 0 0 6px 24px;
             line-height: 34px;
@@ -69,6 +80,7 @@ const CustomGrid = styled(Grid)`
 
          .form-row {
             padding-top: 6px;
+            margin-left: 0;
          }
 
          &&& .note-info {
@@ -79,20 +91,14 @@ const CustomGrid = styled(Grid)`
 `
 
 const CreateAccountSection = ({ successMessage, errorMessage, children }) => (
-   <CustomGrid className=''>
+   <CustomGrid>
       <Grid.Row className='username-row'>
-         <Grid.Column
-            as='h3'
-            computer={16}
-            tablet={16}
-            mobile={16}
-            className=''
-         >
+         <Grid.Column as='h3' computer={16} tablet={16} mobile={16}>
             Choose a Username
          </Grid.Column>
       </Grid.Row>
       <Grid.Row className='form-row'>
-         <Grid.Column computer={8} tablet={8} mobile={16} className=''>
+         <Grid.Column computer={8} tablet={8} mobile={16}>
             {children}
          </Grid.Column>
          <Grid.Column computer={8} tablet={8} mobile={16}>

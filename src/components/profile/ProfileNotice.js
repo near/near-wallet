@@ -27,7 +27,7 @@ const CustomList = styled(List)`
 
 const ProfileNotice = () => (
    <CustomList>
-      <List.Item className=''>
+      <List.Item>
          <List.Header>Never give your keys away</List.Header>
          <List.Content>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur

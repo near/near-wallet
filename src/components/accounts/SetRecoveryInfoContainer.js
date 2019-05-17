@@ -28,7 +28,7 @@ const CustomContainer = styled(Container)`
 /* eslint-disable jsx-a11y/accessible-emoji */
 const SetRecoveryInfoContainer = ({ loader, children }) => (
    <CustomContainer>
-      <Grid className=''>
+      <Grid>
          <Dimmer inverted active={loader}>
             <Loader />
          </Dimmer>
@@ -44,7 +44,7 @@ const SetRecoveryInfoContainer = ({ loader, children }) => (
                   However if you choose this option, we won't be able to assist you with account recovery.
                </Header>
             </Grid.Column>
-            <Grid.Column computer={8} tablet={8} mobile={16} className=''>
+            <Grid.Column computer={8} tablet={8} mobile={16}>
                <NearInfo />
             </Grid.Column>
          </Grid.Row>

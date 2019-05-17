@@ -331,11 +331,7 @@ class PaginationBlock extends Component {
                                        className='main-image'
                                        style={{ backgroundColor: '#fff' }}
                                     >
-                                       <Image
-                                          src={NearkatImage}
-                                          className=''
-                                          align='left'
-                                       />
+                                       <Image src={NearkatImage} align='left' />
                                     </div>
                                  </List.Item>
                                  <List.Item>
@@ -349,7 +345,7 @@ class PaginationBlock extends Component {
                               </List>
                            </List.Item>
                            <List.Item className='remove-connection border-top'>
-                              <Button className=''>DEAUTHORIZE</Button>
+                              <Button>DEAUTHORIZE</Button>
                            </List.Item>
                            <List.Item className='authorized-transactions'>
                               <List.Item
@@ -406,7 +402,6 @@ class PaginationBlock extends Component {
                                     <div className='main-image'>
                                        <Image
                                           src={AccountGreyImage}
-                                          className=''
                                           align='left'
                                        />
                                     </div>
@@ -420,7 +415,7 @@ class PaginationBlock extends Component {
                               </List>
                            </List.Item>
                            <List.Item className='remove-connection border-top'>
-                              <Button className=''>REMOVE CONNECTION</Button>
+                              <Button>REMOVE CONNECTION</Button>
                            </List.Item>
                            <List.Item className='recent-transactions'>
                               <List.Item
@@ -445,11 +440,7 @@ class PaginationBlock extends Component {
                               </List.Item>
                            </List.Item>
                            <List.Item className='send-money border-top'>
-                              <Button
-                                 as={Link}
-                                 to='/send-money/marcin'
-                                 className=''
-                              >
+                              <Button as={Link} to='/send-money/marcin'>
                                  SEND MONEY
                               </Button>
                            </List.Item>
@@ -466,7 +457,7 @@ class PaginationBlock extends Component {
                   className='pagination-block-top-paging'
                >
                   <List horizontal verticalAlign='middle'>
-                     <List.Item width={6} className=''>
+                     <List.Item width={6}>
                         <PaginationPaging
                            handleOnClickPaging={this.handleOnClickPaging}
                            pagingValue={pagingValue}
