@@ -10,6 +10,7 @@ import Footer from './common/Footer'
 import DashboardDetailWithRouter from './dashboard/DashboardDetail'
 import { CreateAccountWithRouter } from './accounts/CreateAccount'
 import { SetRecoveryInfoWithRouter } from './accounts/SetRecoveryInfo'
+import { RecoverAccountWithRouter } from './accounts/RecoverAccount'
 import { LoginWithRouter } from './login/Login'
 import { ContactsWithRouter } from './contacts/Contacts'
 import { AuthorizedAppsWithRouter } from './authorized-apps/AuthorizedApps'
@@ -46,6 +47,11 @@ class Routing extends Component {
                            exact
                            path='/set-recovery/:accountId'
                            component={SetRecoveryInfoWithRouter}
+                        />
+                        <Route
+                           exact
+                           path='/recover-account'
+                           component={RecoverAccountWithRouter}
                         />
                         <Route
                            exact

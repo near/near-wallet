@@ -194,7 +194,7 @@ export class Wallet {
          parsedUrl.searchParams.set('account_id', accountId);
          parsedUrl.searchParams.set('public_key', publicKey);
          const redirectUrl = parsedUrl.href;
-         if (result.status == "Completed") {
+         if (result.status === "Completed") {
             window.location.href = redirectUrl;
          }
       } catch (e) {

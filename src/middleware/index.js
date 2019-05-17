@@ -26,7 +26,7 @@ const readyStatePromise = store => next => action => {
     next(makeAction(false))
     return action.payload.then(
       payload => next(makeAction(true, { payload })),
-      error => next(makeAction(true, { error }))
+      error => next(makeAction(true, { error: true, payload: error }))
     )
   }
 

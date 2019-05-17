@@ -5,11 +5,11 @@ import { isValidPhoneNumber } from 'react-phone-number-input'
 import { Wallet } from '../../utils/wallet'
 
 import AccountFormSection from './AccountFormSection'
-import SetRecoveryInfoForm from './SetRecoveryInfoForm'
-import SetRecoveryInfoContainer from './SetRecoveryInfoContainer'
+import RecoverAccountForm from './RecoverAccountForm'
+import RecoverAccountContainer from './RecoverAccountContainer'
 import { requestCode, validateCode } from '../../actions/account';
 
-class SetRecoveryInfo extends Component {
+class RecoverAccount extends Component {
    state = {
       loader: false,
       phoneNumber: '',
@@ -30,6 +30,7 @@ class SetRecoveryInfo extends Component {
    isLegitField(name, value) {
       // TODO: Use some validation framework?
       let validators = {
+         accountId: value => this.wallet.isLegitAccountId(value),
          phoneNumber: isValidPhoneNumber,
          securityCode: value => !!value.trim().match(/^\d{6}$/)
       }
@@ -67,15 +68,15 @@ class SetRecoveryInfo extends Component {
          isLegit: this.state.isLegit && !this.props.formLoader
       }
       return (
-         <SetRecoveryInfoContainer loader={loader} location={this.props.location}>
+         <RecoverAccountContainer loader={loader} location={this.props.location}>
             <AccountFormSection {...combinedState}>
-               <SetRecoveryInfoForm
+               <RecoverAccountForm
                   {...combinedState}
                   handleSubmit={this.handleSubmit}
                   handleChange={this.handleChange}
                />
             </AccountFormSection>
-         </SetRecoveryInfoContainer>
+         </RecoverAccountContainer>
       )
    }
 }
@@ -87,4 +88,4 @@ const mapStateToProps = ({ account }, { match }) => {
    }
 }
 
-export const SetRecoveryInfoWithRouter = connect(mapStateToProps)(SetRecoveryInfo)
+export const RecoverAccountWithRouter = connect(mapStateToProps)(RecoverAccount)
