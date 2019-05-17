@@ -34,7 +34,7 @@ const SetRecoveryInfoContainer = ({ loader, children }) => (
          </Dimmer>
 
          <Grid.Row className='creating-info'>
-            <Grid.Column computer={8} tablet={8} mobile={16} className=''>
+            <Grid.Column computer={8} tablet={8} mobile={16}>
                <Header as='h1'>Protect your Account</Header>
                <Header as='h2'>
                   Enter your phone number to make your account easy for you to recover in the future.

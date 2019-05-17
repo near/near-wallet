@@ -27,9 +27,9 @@ const DisclaimerGrid = styled(Grid)`
 `
 
 const Disclaimer = () => (
-    <DisclaimerGrid className=''>
+    <DisclaimerGrid>
         <Grid.Row className='disclaimer border-top-bold'>
-        <Grid.Column computer={16} tablet={16} mobile={16} className=''>
+        <Grid.Column computer={16} tablet={16} mobile={16}>
             <span className='disclaimer-info'>DISCLAIMER: </span>
             This is a developers&apos; preview Wallet. It should be used for
             NEAR Protocol DevNet only. Learn more at <a href='http://nearprotocol.com'>nearprotocol.com</a>

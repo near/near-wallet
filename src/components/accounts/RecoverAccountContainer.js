@@ -28,19 +28,19 @@ const CustomContainer = styled(Container)`
 /* eslint-disable jsx-a11y/accessible-emoji */
 const RecoverAccountContainer = ({ loader, children }) => (
    <CustomContainer>
-      <Grid className=''>
+      <Grid>
          <Dimmer inverted active={loader}>
             <Loader />
          </Dimmer>
 
          <Grid.Row className='creating-info'>
-            <Grid.Column computer={8} tablet={8} mobile={16} className=''>
+            <Grid.Column computer={8} tablet={8} mobile={16}>
                <Header as='h1'>Recover your Account</Header>
                <Header as='h2'>
                   Please enter your account name and phone number you used to protect account.
                </Header>
             </Grid.Column>
-            <Grid.Column computer={8} tablet={8} mobile={16} className=''>
+            <Grid.Column computer={8} tablet={8} mobile={16}>
                <NearInfo />
             </Grid.Column>
          </Grid.Row>
