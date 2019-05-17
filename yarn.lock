@@ -4104,7 +4104,7 @@ fbjs@^0.8.0:
     setimmediate "^1.0.5"
     ua-parser-js "^0.7.18"
 
-fetch-send-json@^0.0.2:
+fetch-send-json@0.0.2:
   version "0.0.2"
   resolved "https://registry.yarnpkg.com/fetch-send-json/-/fetch-send-json-0.0.2.tgz#5e309fbf3f4f5f373c7ccc7954bb42f2996fcd69"
   integrity sha512-lWz8yc8Zr1LNMZYkP6Wtzkim/5764ByyVhX0EmepxBHcuwQ3YiJvPVxPs+rafOKjARQo00n1kIHkQNZCT6gIRw==
@@ -8588,10 +8588,10 @@ react-modal@^3.8.1:
     react-lifecycles-compat "^3.0.0"
     warning "^3.0.0"
 
-react-phone-number-input@^2.3.11:
-  version "2.3.11"
-  resolved "https://registry.yarnpkg.com/react-phone-number-input/-/react-phone-number-input-2.3.11.tgz#103f6dc4578bdb39128a9ac8df4ae6952c193193"
-  integrity sha512-URiMDE2ucHHM85mP6LioTDTKawtdBAMHkCrSyk3hIDI+dZWM85uhuwuefLQ9la7sQoTGE8ujUVse/yF6n+dL3A==
+react-phone-number-input@^2.3.12:
+  version "2.3.12"
+  resolved "https://registry.yarnpkg.com/react-phone-number-input/-/react-phone-number-input-2.3.12.tgz#630ed527200115b05bc8a27a9545c5f8ddb80162"
+  integrity sha512-+2eZ+C7VnDDz/caL/esVAdIs7TimQK/pL4WJ5AJcUP8WkB6ej8JkIdKj9klBhDjjgIJzMkdYnR5uuTqlUgHn3g==
   dependencies:
     classnames "^2.2.5"
     input-format "^0.2.2"
