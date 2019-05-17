@@ -275,6 +275,8 @@ class MobileView extends Component {
                         <Image src={LogoImage} />
                      </div>
                   </Menu.Item>
+
+                  {account.accountId && (
                   <Menu.Menu position='right' onClick={this.handleDropdown}>
                      <Menu.Menu position='right'>
                         <Menu.Item className='account-name'>
@@ -299,6 +301,7 @@ class MobileView extends Component {
                         </Menu.Item>
                      </Menu.Menu>
                   </Menu.Menu>
+                )}
                </Menu>
                <Segment
                   basic
