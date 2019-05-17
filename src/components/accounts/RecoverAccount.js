@@ -4,7 +4,7 @@ import { isValidPhoneNumber } from 'react-phone-number-input'
 
 import { Wallet } from '../../utils/wallet'
 
-import RecoverAccountSection from './RecoverAccountSection'
+import AccountFormSection from './AccountFormSection'
 import RecoverAccountForm from './RecoverAccountForm'
 import RecoverAccountContainer from './RecoverAccountContainer'
 import { requestCode, validateCode } from '../../actions/account';
@@ -49,8 +49,10 @@ class RecoverAccount extends Component {
          dispatch(requestCode(this.state.phoneNumber, this.props.accountId))
       } else {
          dispatch(validateCode(this.state.phoneNumber, this.props.accountId, this.state.securityCode))
-            .then(() => {
-               let nextUrl = `/login/${(this.props.url && this.props.url.next_url) || '/'}`;
+            .then(({error}) => {
+               if (error) return
+
+               let nextUrl = `/login/${(this.props.url && this.props.url.next_url) || '/'}`
                setTimeout(() => {
                   this.props.history.push(nextUrl)
                }, 1500)
@@ -67,13 +69,13 @@ class RecoverAccount extends Component {
       }
       return (
          <RecoverAccountContainer loader={loader} location={this.props.location}>
-            <RecoverAccountSection {...combinedState}>
+            <AccountFormSection {...combinedState}>
                <RecoverAccountForm
                   {...combinedState}
                   handleSubmit={this.handleSubmit}
                   handleChange={this.handleChange}
                />
-            </RecoverAccountSection>
+            </AccountFormSection>
          </RecoverAccountContainer>
       )
    }
