@@ -1,51 +1,66 @@
 import React from 'react'
-import { Container, Grid, Header } from 'semantic-ui-react'
+import { Container, Grid } from 'semantic-ui-react'
 
 import styled from 'styled-components'
 
 const CustomContainer = styled(Container)`
-   &&& .creating-info {
+   &&& .page-title {
       padding-right: 0px;
       padding-top: 48px;
       padding-bottom: 0px;
 
       .column {
-         padding: 0 0 24px 0;
-
-         :first-child {
-            padding-left: 0px;
-         }
+         padding: 0 14px 24px 0;
       }
-
       h1 {
-         color: #4a4f54;
-         padding-left: 0px;
          line-height: 48px;
       }
-   }
-
-   @media screen and (max-width: 991px) {
+      .add {
+         color: #24272a;
+         text-align: right;
+      }
    }
 
    @media screen and (max-width: 767px) {
-      &&& .creating-info {
-         padding-left: 1rem;
-         padding-right: 1rem;
+      &&& .page-title {
+         padding-top: 14px;
+         text-align: center;
+
+         .column {
+            padding: 0 0 6px 0;
+            width: 100% !important;
+            float: none;
+         }
+         .add {
+            font-size: 12px !important;
+            line-height: 18px !important;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+
+            padding-bottom: 18px;
+            text-align: center;
+         }
       }
    }
 `
 
 const AuthorizedAppsContainer = ({ children }) => (
    <CustomContainer>
-      <Grid columns={2} className='creating-info'>
-         <Grid.Column computer={12} tablet={10} mobile={16}>
-            <Header as='h1'>Authorized Apps</Header>
-         </Grid.Column>
-         <Grid.Column computer={4} tablet={6} mobile={16}>
-            <Header as='h1' textAlign='right' className='color-black'>
+      <Grid>
+         <Grid.Row columns='2' className='page-title'>
+            <Grid.Column computer='10' tablet='10' mobile='16' as='h1'>
+               Authorized Apps
+            </Grid.Column>
+            <Grid.Column
+               computer='6'
+               tablet='6'
+               mobile='16'
+               as='h1'
+               className='add'
+            >
                23<span className='color-brown-grey'> total</span>
-            </Header>
-         </Grid.Column>
+            </Grid.Column>
+         </Grid.Row>
       </Grid>
 
       {children}

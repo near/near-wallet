@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom'
 import { Popup, Grid, Image } from 'semantic-ui-react'
 
 import AccountGreyImage from '../../images/icon-account-grey.svg'
+import LockImage from '../../images/icon-lock.svg'
 
 import styled from 'styled-components'
 
@@ -13,17 +14,26 @@ const CustomGrid = styled(Grid)`
       .row {
          padding-top: 12px;
          padding-bottom: 12px;
+
+         .edit-link {
+            font-weight: 600;
+         }
+         .title {
+            font-weight: 600;
+            color: #24272a;
+         }
       }
 
       .main-image {
          border: 0px;
          padding: 0 10px;
-         width: 48px;
-         height: 48px;
+         width: 120px;
+         height: 120px;
          background: #e6e6e6;
-         border-radius: 32px;
+         border-radius: 60px;
 
          img {
+            width: 100px;
             padding-top: 10px;
          }
       }
@@ -31,10 +41,10 @@ const CustomGrid = styled(Grid)`
       .locked {
          float: right;
          border: 0px;
-         padding: 0 4px;
+         padding: 1px 7px;
          width: 32px;
          height: 32px;
-         background: #e6e6e6;
+         background: #f8f8f8;
          border-radius: 32px;
 
          img {
@@ -77,12 +87,7 @@ const ProfileDetails = ({ loader }) => (
          </Grid.Column>
       </Grid.Row>
       <Grid.Row className='border-top'>
-         <Grid.Column
-            computer='3'
-            tablet='3'
-            mobile='4'
-            className='color-black'
-         >
+         <Grid.Column computer='3' tablet='3' mobile='4' className='title'>
             Username
          </Grid.Column>
          <Grid.Column computer='7' tablet='7' mobile='9'>
@@ -95,30 +100,23 @@ const ProfileDetails = ({ loader }) => (
             <Popup
                trigger={
                   <div className='locked'>
-                     <Image src={AccountGreyImage} className='' align='left' />
+                     <Image src={LockImage} align='left' />
                   </div>
                }
                hoverable
                position='left center'
             >
-               <Popup.Header className='color-black'>
-                  Why is this locked?
-               </Popup.Header>
+               <Popup.Header>Why is this locked?</Popup.Header>
                <Popup.Content>
                   Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                  Curabitur sit amet pretium mi, a molestie est.
+                  Curabitur sit amet pretium mi, a molestie est.{` `}
                   <a href='/'>Learn more</a>
                </Popup.Content>
             </Popup>
          </Grid.Column>
       </Grid.Row>
       <Grid.Row className='border-top'>
-         <Grid.Column
-            computer='3'
-            tablet='3'
-            mobile='4'
-            className='color-black'
-         >
+         <Grid.Column computer='3' tablet='3' mobile='4' className='title'>
             Full Name
          </Grid.Column>
          <Grid.Column computer='7' tablet='7' mobile='9'>
@@ -134,22 +132,18 @@ const ProfileDetails = ({ loader }) => (
             tablet='2'
             mobile='3'
             textAlign='right'
+            className='edit-link'
          >
             Edit
          </Grid.Column>
       </Grid.Row>
       <Grid.Row className='border-top'>
-         <Grid.Column
-            computer='3'
-            tablet='3'
-            mobile='4'
-            className='color-black'
-         >
+         <Grid.Column computer='3' tablet='3' mobile='4' className='title'>
             Photo
          </Grid.Column>
          <Grid.Column computer='7' tablet='7' mobile='9'>
             <div className='main-image'>
-               <Image src={AccountGreyImage} className='' align='left' />
+               <Image src={AccountGreyImage} align='left' />
             </div>
          </Grid.Column>
          <Grid.Column computer='4' tablet='4' textAlign='center' only='tablet'>
@@ -162,6 +156,7 @@ const ProfileDetails = ({ loader }) => (
             tablet='2'
             mobile='3'
             textAlign='right'
+            className='edit-link'
          >
             Edit
          </Grid.Column>
@@ -188,12 +183,7 @@ const ProfileDetails = ({ loader }) => (
          </Grid.Column>
       </Grid.Row>
       <Grid.Row className='border-top'>
-         <Grid.Column
-            computer='3'
-            tablet='3'
-            mobile='4'
-            className='color-black'
-         >
+         <Grid.Column computer='3' tablet='3' mobile='4' className='title'>
             Email
          </Grid.Column>
          <Grid.Column computer='7' tablet='7' mobile='9'>
@@ -209,17 +199,13 @@ const ProfileDetails = ({ loader }) => (
             tablet='2'
             mobile='3'
             textAlign='right'
+            className='edit-link'
          >
             Edit
          </Grid.Column>
       </Grid.Row>
       <Grid.Row className='border-top'>
-         <Grid.Column
-            computer='3'
-            tablet='3'
-            mobile='4'
-            className='color-black'
-         >
+         <Grid.Column computer='3' tablet='3' mobile='4' className='title'>
             Phone
          </Grid.Column>
          <Grid.Column computer='7' tablet='7' mobile='9'>
@@ -235,17 +221,13 @@ const ProfileDetails = ({ loader }) => (
             tablet='2'
             mobile='3'
             textAlign='right'
+            className='edit-link'
          >
             Edit
          </Grid.Column>
       </Grid.Row>
       <Grid.Row className='border-top'>
-         <Grid.Column
-            computer='3'
-            tablet='3'
-            mobile='4'
-            className='color-black'
-         >
+         <Grid.Column computer='3' tablet='3' mobile='4' className='title'>
             Address
          </Grid.Column>
          <Grid.Column computer='7' tablet='7' mobile='9'>
@@ -261,6 +243,7 @@ const ProfileDetails = ({ loader }) => (
             tablet='2'
             mobile='3'
             textAlign='right'
+            className='edit-link'
          >
             Edit
          </Grid.Column>
@@ -287,12 +270,7 @@ const ProfileDetails = ({ loader }) => (
          </Grid.Column>
       </Grid.Row>
       <Grid.Row className='border-top'>
-         <Grid.Column
-            computer='3'
-            tablet='3'
-            mobile='4'
-            className='color-black'
-         >
+         <Grid.Column computer='3' tablet='3' mobile='4' className='title'>
             Balance
          </Grid.Column>
          <Grid.Column computer='7' tablet='7' mobile='9'>
@@ -308,6 +286,7 @@ const ProfileDetails = ({ loader }) => (
             tablet='2'
             mobile='3'
             textAlign='right'
+            className='edit-link'
          >
             Edit
          </Grid.Column>

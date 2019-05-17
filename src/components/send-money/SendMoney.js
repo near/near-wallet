@@ -10,6 +10,7 @@ import { handleRefreshAccount, handleRefreshUrl } from '../../actions/account'
 import SendMoneyContainer from './SendMoneyContainer'
 import SendMoneyFirstStep from './SendMoneyFirstStep'
 import SendMoneySecondStep from './SendMoneySecondStep'
+import SendMoneyThirdStep from './SendMoneyThirdStep'
 
 class SendMoney extends Component {
    state = {
@@ -125,7 +126,7 @@ class SendMoney extends Component {
       const { step } = this.state
 
       return (
-         <SendMoneyContainer>
+         <SendMoneyContainer step={step}>
             {step === 1 && (
                <SendMoneyFirstStep
                   handleNextStep={this.handleNextStep}
@@ -136,10 +137,12 @@ class SendMoney extends Component {
             )}
             {step === 2 && (
                <SendMoneySecondStep
+                  handleNextStep={this.handleNextStep}
                   handleExpandNote={this.handleExpandNote}
                   {...this.state}
                />
             )}
+            {step === 3 && <SendMoneyThirdStep {...this.state} />}
          </SendMoneyContainer>
       )
    }

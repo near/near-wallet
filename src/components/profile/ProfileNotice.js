@@ -9,6 +9,7 @@ const CustomList = styled(List)`
       padding: 8px 0 8px 20px;
       margin-left: 28px;
       margin-top: 20px;
+      border-left: 4px solid #f8f8f8;
 
       .header {
          line-height: 28px;
@@ -19,12 +20,13 @@ const CustomList = styled(List)`
 
       @media screen and (max-width: 767px) {
          margin-left: 0px;
+         border-left: 0px;
       }
    }
 `
 
 const ProfileNotice = () => (
-   <CustomList className='border-left-bold'>
+   <CustomList>
       <List.Item className=''>
          <List.Header>Never give your keys away</List.Header>
          <List.Content>

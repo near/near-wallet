@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 
 import DashboardOtherAssets from './DashboardOtherAssets'
 
+import ArrowGrnImage from '../../images/icon-arrow-grn.svg'
 import ArrowRightImage from '../../images/icon-arrow-right.svg'
 
 import { Container, Grid, Button, Header } from 'semantic-ui-react'
@@ -44,14 +45,14 @@ const CustomContainer = styled(Container)`
          border-radius: 30px;
          border: solid 2px #5ace84;
          font-size: 18px;
-         font-weight: 500;
+         font-weight: 600;
          letter-spacing: 2px;
          color: #5ace84;
          background: #fff;
          text-align: left;
          padding: 0 0 0 40px;
 
-         background-image: url(${ArrowRightImage});
+         background-image: url(${ArrowGrnImage});
          background-repeat: no-repeat;
          background-position: 90% center;
          background-size: 14px 20px;
@@ -59,6 +60,7 @@ const CustomContainer = styled(Container)`
          :hover {
             background-color: #5ace84;
             color: #fff;
+            background-image: url(${ArrowRightImage});
          }
       }
    }
@@ -92,7 +94,7 @@ const CustomContainer = styled(Container)`
          }
          .button {
             width: 240px;
-            line-height: 48px;
+            line-height: 44px;
          }
       }
    }

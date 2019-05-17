@@ -160,13 +160,19 @@ const CustomGrid = styled(Grid)`
    }
 
    @media screen and (max-width: 767px) {
-      && button,
-      && .deny {
-         width: 130px;
-         height: 50px;
-         border-radius: 25px;
+      && {
+         button,
+         .deny {
+            width: 140px;
+            border-radius: 35px;
+         }
 
-         font-size: 14px;
+         .buttons,
+         .dropdown {
+            .column {
+               padding: 0px;
+            }
+         }
       }
    }
 `
@@ -182,20 +188,8 @@ const LoginForm = ({
 }) => (
    <CustomGrid>
       <Grid.Row className='dropdown'>
-         <Grid.Column
-            largeScreen={5}
-            computer={4}
-            tablet={3}
-            mobile={16}
-            className=''
-         />
-         <Grid.Column
-            largeScreen={6}
-            computer={8}
-            tablet={10}
-            mobile={16}
-            className=''
-         >
+         <Grid.Column largeScreen={5} computer={4} tablet={3} mobile={16} />
+         <Grid.Column largeScreen={6} computer={8} tablet={10} mobile={16}>
             <Segment className='dropdown-list' onClick={handleOnClick} basic>
                <List verticalAlign='middle' className={`element trigger`}>
                   <List.Item className='img' />
@@ -232,29 +226,11 @@ const LoginForm = ({
                </Segment>
             </Segment>
          </Grid.Column>
-         <Grid.Column
-            largeScreen={5}
-            computer={4}
-            tablet={3}
-            mobile={16}
-            className=''
-         />
+         <Grid.Column largeScreen={5} computer={4} tablet={3} mobile={16} />
       </Grid.Row>
-      <Grid.Row className={`${dropdown ? 'hide' : ''}`}>
-         <Grid.Column
-            largeScreen={5}
-            computer={4}
-            tablet={3}
-            mobile={16}
-            className=''
-         />
-         <Grid.Column
-            largeScreen={6}
-            computer={8}
-            tablet={10}
-            mobile={16}
-            className=''
-         >
+      <Grid.Row className={`buttons ${dropdown ? 'hide' : ''}`}>
+         <Grid.Column largeScreen={5} computer={4} tablet={3} mobile={16} />
+         <Grid.Column largeScreen={6} computer={8} tablet={10} mobile={16}>
             <Form action={account.url.success_url}>
                <input
                   type='hidden'
@@ -274,13 +250,7 @@ const LoginForm = ({
                </Button>
             </Form>
          </Grid.Column>
-         <Grid.Column
-            largeScreen={5}
-            computer={4}
-            tablet={3}
-            mobile={16}
-            className=''
-         />
+         <Grid.Column largeScreen={5} computer={4} tablet={3} mobile={16} />
       </Grid.Row>
    </CustomGrid>
 )

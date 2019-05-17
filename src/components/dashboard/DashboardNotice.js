@@ -51,7 +51,7 @@ const DashboardNotice = ({ handleNotice }) => (
          <List.Content>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce nec
             ex non augue volutpat finibus. Suspendisse fringilla consequat magna
-            a finibus.
+            a finibus.{` `}
             <a href='/'>Call to Action</a>
          </List.Content>
       </List.Item>

@@ -23,7 +23,7 @@ import { handleRefreshAccount } from '../../actions/account'
 import styled from 'styled-components'
 
 const CustomResponsive = styled(Responsive)`
-   padding-bottom: 200px;
+   padding-bottom: 180px;
 
    .spacer {
       height: 72px;
@@ -42,7 +42,7 @@ const CustomResponsive = styled(Responsive)`
       .item {
          color: white;
          font-family: 'benton-sans', sans-serif;
-         font-weight: 500;
+         font-weight: 600;
          font-size: 14px;
          padding-left: 0px;
          padding-right: 30px;
@@ -116,6 +116,9 @@ const CustomResponsive = styled(Responsive)`
       }
 
       .popup-container {
+         .popup-trigger {
+            cursor: pointer;
+         }
          .devider {
             width: 2px;
             height: 40px;

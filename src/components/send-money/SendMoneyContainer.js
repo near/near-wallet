@@ -71,12 +71,12 @@ const CustomContainer = styled(Container)`
    }
 `
 
-const SendMoneyContainer = ({ children }) => (
+const SendMoneyContainer = ({ children, step }) => (
    <CustomContainer>
       <Grid>
          <Grid.Row columns='1' className='page-title'>
             <Grid.Column as='h1' textAlign='center'>
-               Send Money
+               {step === 3 ? `Success!` : `Send Money`}
             </Grid.Column>
          </Grid.Row>
       </Grid>

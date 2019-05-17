@@ -18,12 +18,13 @@ import {
 } from 'semantic-ui-react'
 
 import SendImage from '../../images/icon-send.svg'
-import ContactsGreyImage from '../../images/icon-contacts-grey.svg'
-import AuthorizedGreyImage from '../../images/icon-authorized-grey.svg'
+import ContactsGreyImage from '../../images/icon-contacts.svg'
+import AuthorizedGreyImage from '../../images/icon-authorized.svg'
 import LogoutImage from '../../images/icon-logout.svg'
 import LogoImage from '../../images/wallet.png'
-import AccountGreyImage from '../../images/icon-account-grey.svg'
-import ArrowDownImage from '../../images/icon-arrow-down.svg'
+import AccountGreyImage from '../../images/icon-account.svg'
+import MobileMenuImage from '../../images/icon-mobile-menu.svg'
+import CloseImage from '../../images/icon-close.svg'
 import RecentImage from '../../images/icon-recent.svg'
 import ActivityImage from '../../images/icon-activity.svg'
 
@@ -33,6 +34,8 @@ import styled from 'styled-components'
 
 const CustomResponsive = styled(Responsive)`
    &&& {
+      padding-bottom: 240px;
+
       .navbar {
          padding: 0px;
 
@@ -41,6 +44,11 @@ const CustomResponsive = styled(Responsive)`
             height: 72px;
             border-radius: 0;
             margin-bottom: 0;
+
+            .item {
+               font-family: 'benton-sans', sans-serif;
+               font-weight: 600;
+            }
 
             .mainlogo {
                padding-left: 0px;
@@ -58,6 +66,7 @@ const CustomResponsive = styled(Responsive)`
 
             .account-name {
                padding-right: 0px;
+               text-align: right;
 
                > div {
                   font-size: 16px;
@@ -76,13 +85,13 @@ const CustomResponsive = styled(Responsive)`
             }
 
             .account-tokens {
-               line-height: 24px;
+               line-height: 28px;
                font-size: 16px;
 
                color: #fff;
 
-               margin: 23px 0 0 10px;
-               height: 24px;
+               margin: 21px 0 0 10px;
+               height: 28px;
                background: #111314;
                border-radius: 12px;
                padding: 0 10px;
@@ -103,7 +112,7 @@ const CustomResponsive = styled(Responsive)`
                padding-right: 14px;
 
                img {
-                  width: 12px;
+                  width: 20px;
                }
             }
          }
@@ -122,10 +131,10 @@ const CustomResponsive = styled(Responsive)`
                font-size: 14px;
                padding: 18px 6px;
                margin: 0 1rem;
-               border-top: 2px solid #363b3e;
+               border-top: 1px solid #4a4f54;
 
                &.border {
-                  border-bottom: 2px solid #363b3e;
+                  border-bottom: 1px solid #4a4f54;
                }
 
                a {
@@ -151,7 +160,7 @@ const CustomResponsive = styled(Responsive)`
                   padding: 8px 9px;
 
                   a {
-                     color: #6ad1e3;
+                     color: #8fd6bd;
                      letter-spacing: 2px;
                   }
 
@@ -284,7 +293,9 @@ class MobileView extends Component {
                            <span className='near'>Ⓝ</span>
                         </Menu.Item>
                         <Menu.Item className='account-arrow'>
-                           <Image src={ArrowDownImage} />
+                           <Image
+                              src={dropdown ? MobileMenuImage : CloseImage}
+                           />
                         </Menu.Item>
                      </Menu.Menu>
                   </Menu.Menu>

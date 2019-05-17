@@ -7,37 +7,41 @@ import { Grid, List } from 'semantic-ui-react'
 import styled from 'styled-components'
 
 const CustomGrid = styled(Grid)`
-   &&&& .other-assets {
-      background: #f8f8f8;
-      border-top: 2px solid #e6e6e6;
-      border-bottom: 4px solid #e6e6e6;
-      padding: 0px;
+   &&&& {
+      margin-top: 0px;
 
-      .column {
-         border-right: 2px solid #e6e6e6;
-         padding: 10px 0px 10px 18px;
+      .other-assets {
+         background: #f8f8f8;
+         border-top: 2px solid #e6e6e6;
+         border-bottom: 4px solid #e6e6e6;
+         padding: 0px;
 
-         :last-of-type {
-            border: 0px;
-         }
+         .column {
+            border-right: 2px solid #e6e6e6;
+            padding: 10px 0px 10px 18px;
 
-         .content {
-            width: auto;
-         }
+            :last-of-type {
+               border: 0px;
+            }
 
-         .icon {
-            background-image: url(${TContractImage});
-            background-repeat: no-repeat;
-            background-position: center top;
-            background-size: 24px 24px;
-            width: 24px;
-            height: 38px;
-            margin: 0 6px 0 0;
-         }
+            .content {
+               width: auto;
+            }
 
-         h5 {
-            font-weight: 600;
-            line-height: 16px;
+            .icon {
+               background-image: url(${TContractImage});
+               background-repeat: no-repeat;
+               background-position: center top;
+               background-size: 24px 24px;
+               width: 24px;
+               height: 38px;
+               margin: 0 6px 0 0;
+            }
+
+            h5 {
+               font-weight: 600;
+               line-height: 16px;
+            }
          }
       }
    }
@@ -73,8 +77,8 @@ const CustomGrid = styled(Grid)`
 
          > .column {
             width: 100% !important;
-            border-right: 0px solid #e6e6e6;
-            border-bottom: 1px solid #e6e6e6;
+            border-right: 0px;
+            border-bottom: 2px solid #f8f8f8;
             padding: 6px 0px 6px 4px;
 
             .list {

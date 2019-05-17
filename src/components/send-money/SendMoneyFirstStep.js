@@ -62,22 +62,20 @@ const CustomList = styled(List)`
             }
          }
          .near-tokens {
-            padding-top: 14px;
-            padding-bottom: 36px;
+            margin: 14px auto 36px auto;
             text-align: center;
+            padding: 2px;
 
-            > button {
-               width: 200px;
-               background-color: #fff;
-               border: 2px solid #e6e6e6;
-               border-radius: 25px;
-               color: #999999;
-               font-weight: 600;
+            width: 200px;
+            background-color: #fff;
+            border: 2px solid #e6e6e6;
+            border-radius: 25px;
+            color: #999999;
+            font-weight: 700;
 
-               :hover {
-                  background-color: #e6e6e6;
-                  color: #fff;
-               }
+            :hover {
+               background-color: #e6e6e6;
+               color: #fff;
             }
          }
 
@@ -99,11 +97,11 @@ const CustomList = styled(List)`
 
             > button {
                width: 288px;
-               line-height: 60px;
+               line-height: 56px;
                border-radius: 30px;
                border: solid 2px #5ace84;
                font-size: 18px;
-               font-weight: 500;
+               font-weight: 600;
                letter-spacing: 2px;
                text-align: center;
                padding: 0 0 0 0;
@@ -117,7 +115,7 @@ const CustomList = styled(List)`
                :disabled {
                   background-color: #e6e6e6;
                   border-color: #e6e6e6;
-                  opacity: 1;
+                  opacity: 1 !important;
                }
             }
          }
@@ -135,8 +133,28 @@ const CustomList = styled(List)`
          border: 0px;
 
          .near-tokens {
-            > button {
-               width: 200px;
+            width: 200px;
+         }
+
+         form {
+            .near-tokens {
+               margin: 14px auto 24px auto;
+            }
+            .add-note {
+               margin-left: -1rem;
+               margin-right: -1rem;
+
+               > textarea {
+                  width: 100%;
+                  height: 98px;
+                  border: 0px;
+                  padding: 12px;
+                  background: #f8f8f8;
+
+                  :focus {
+                     border: 0px;
+                  }
+               }
             }
          }
       }
@@ -166,7 +184,7 @@ const SendMoneyFirstStep = ({
             <List.Item>
                <List.Content>
                   <div className='main-image'>
-                     <Image src={AccountGreyImage} className='' align='left' />
+                     <Image src={AccountGreyImage} align='left' />
                   </div>
                </List.Content>
                <List.Content as='h2'>{accountId}</List.Content>
@@ -199,10 +217,10 @@ const SendMoneyFirstStep = ({
                min='0'
             />
          </List.Item>
-         <List.Item as='h5' className='near-tokens border-bottom'>
-            <Button className=''>NEAR TOKENS</Button>
+         <List.Item as='h5' className='near-tokens'>
+            NEAR TOKENS
          </List.Item>
-         <List.Item as='' className='add-note border-bottom'>
+         <List.Item className='add-note border-bottom border-top'>
             <TextArea
                name='note'
                value={note}
@@ -210,7 +228,7 @@ const SendMoneyFirstStep = ({
                placeholder='Add a note...'
             />
          </List.Item>
-         <List.Item as='' className='send-money'>
+         <List.Item className='send-money'>
             <Button
                disabled={
                   paramAccountId
