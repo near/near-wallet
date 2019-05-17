@@ -2,26 +2,12 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Container, Loader, Grid, Dimmer, Header } from 'semantic-ui-react'
 
+import Disclaimer from '../common/Disclaimer'
 import NearInfo from './NearInfo'
 
 import styled from 'styled-components'
 
 const CustomContainer = styled(Container)`
-   && .disclaimer {
-      margin-left: 1rem;
-      margin-right: 1rem;
-      margin-top: 100px;
-
-      > .column {
-         padding-left: 0px;
-         padding-right: 0px;
-      }
-   }
-   .disclaimer-info {
-      font-weight: 600;
-      letter-spacing: 2px;
-   }
-
    &&& .creating-info {
       padding-right: 0px;
       padding-top: 48px;
@@ -40,7 +26,7 @@ const CustomContainer = styled(Container)`
 `
 
 /* eslint-disable jsx-a11y/accessible-emoji */
-const SetRecoveryInfoContainer = ({ loader, children, location }) => (
+const SetRecoveryInfoContainer = ({ loader, children }) => (
    <CustomContainer>
       <Grid className=''>
          <Dimmer inverted active={loader}>
@@ -49,13 +35,13 @@ const SetRecoveryInfoContainer = ({ loader, children, location }) => (
 
          <Grid.Row className='creating-info'>
             <Grid.Column computer={8} tablet={8} mobile={16} className=''>
-               <Header as='h1'>Protect your Account 🔒</Header>
+               <Header as='h1'>Protect your Account</Header>
                <Header as='h2'>
-                  Connect account to phone number – save recovery key on our servers.
+                  Enter your phone number to make your account easy for you to recover in the future.
                </Header>
                <Header as='h3' className='color-blue'>
-                  You can skip this if you plan to backup account keys manually.
-                  We won't be able to help you with account recovery otherwise.
+                  If you want to backup your account keys manually, you can skip this.
+                  However if you choose this option, we won't be able to assist you with account recovery.
                </Header>
             </Grid.Column>
             <Grid.Column computer={8} tablet={8} mobile={16} className=''>
@@ -66,16 +52,7 @@ const SetRecoveryInfoContainer = ({ loader, children, location }) => (
 
       {children}
 
-      <Grid className=''>
-         <Grid.Row className='disclaimer border-top-bold'>
-            <Grid.Column computer={16} tablet={16} mobile={16} className=''>
-               <span className='disclaimer-info'>DISCLAIMER: </span>
-               This is a developers&apos; preview Wallet. It should be used for
-               NEAR Protocol DevNet only. Learn more at
-               <a href='http://nearprotocol.com'>nearprotocol.com</a>
-            </Grid.Column>
-         </Grid.Row>
-      </Grid>
+      <Disclaimer />
    </CustomContainer>
 )
 

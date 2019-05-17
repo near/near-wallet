@@ -4,25 +4,12 @@ import { Container, Loader, Grid, Dimmer, Header } from 'semantic-ui-react'
 
 import { parse } from 'query-string'
 
+import Disclaimer from '../common/Disclaimer'
 import NearInfo from './NearInfo'
 
 import styled from 'styled-components'
 
 const CustomContainer = styled(Container)`
-   && .disclaimer {
-      margin-left: 1rem;
-      margin-right: 1rem;
-      margin-top: 100px;
-
-      > .column {
-         padding-left: 0px;
-         padding-right: 0px;
-      }
-   }
-   .disclaimer-info {
-      font-weight: 600;
-      letter-spacing: 2px;
-   }
 
    &&& .page-title {
       padding-right: 0px;
@@ -60,11 +47,6 @@ const CustomContainer = styled(Container)`
             padding-top: 0px !important;
          }
       }
-
-      && .disclaimer {
-         margin-top: 50px;
-         font-size: 12px;
-      }
    }
 `
 
@@ -80,7 +62,7 @@ const CreateAccountContainer = ({ loader, children, location }) => (
                <h1>Create Account</h1>
                <h2>
                   Creating a NEAR account is easy. Just choose a username
-                  andyou’re ready to go.
+                  and you’re ready to go.
                </h2>
                {parse(location.search).reset_accounts && (
                   <Header as='h3' className='color-blue'>
@@ -98,16 +80,7 @@ const CreateAccountContainer = ({ loader, children, location }) => (
 
       {children}
 
-      <Grid>
-         <Grid.Row className='disclaimer border-top-bold'>
-            <Grid.Column computer={16} tablet={16} mobile={16}>
-               <span className='disclaimer-info'>DISCLAIMER: </span>
-               This is a developers&apos; preview Wallet. It should be used for
-               NEAR Protocol DevNet only. Learn more at{` `}
-               <a href='http://nearprotocol.com'>nearprotocol.com</a>
-            </Grid.Column>
-         </Grid.Row>
-      </Grid>
+      <Disclaimer />
    </CustomContainer>
 )
 
