@@ -4,7 +4,7 @@ import { isValidPhoneNumber } from 'react-phone-number-input'
 
 import { Wallet } from '../../utils/wallet'
 
-import SetRecoveryInfoSection from './SetRecoveryInfoSection'
+import AccountFormSection from './AccountFormSection'
 import SetRecoveryInfoForm from './SetRecoveryInfoForm'
 import SetRecoveryInfoContainer from './SetRecoveryInfoContainer'
 import { requestCode, validateCode } from '../../actions/account';
@@ -48,8 +48,10 @@ class SetRecoveryInfo extends Component {
          dispatch(requestCode(this.state.phoneNumber, this.props.accountId))
       } else {
          dispatch(validateCode(this.state.phoneNumber, this.props.accountId, this.state.securityCode))
-            .then(() => {
-               let nextUrl = `/login/${(this.props.url && this.props.url.next_url) || '/'}`;
+            .then(({error}) => {
+               if (error) return
+
+               let nextUrl = `/login/${(this.props.url && this.props.url.next_url) || '/'}`
                setTimeout(() => {
                   this.props.history.push(nextUrl)
                }, 1500)
@@ -66,13 +68,13 @@ class SetRecoveryInfo extends Component {
       }
       return (
          <SetRecoveryInfoContainer loader={loader} location={this.props.location}>
-            <SetRecoveryInfoSection {...combinedState}>
+            <AccountFormSection {...combinedState}>
                <SetRecoveryInfoForm
                   {...combinedState}
                   handleSubmit={this.handleSubmit}
                   handleChange={this.handleChange}
                />
-            </SetRecoveryInfoSection>
+            </AccountFormSection>
          </SetRecoveryInfoContainer>
       )
    }

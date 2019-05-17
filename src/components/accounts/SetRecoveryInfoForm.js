@@ -1,5 +1,4 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import { Form, Input, Button } from 'semantic-ui-react'
 import PhoneInput from 'react-phone-number-input'
@@ -119,8 +118,7 @@ const SetRecoveryInfoForm = ({
    phoneNumber,
    sentSms,
    isLegit,
-   successMessage,
-   errorMessage,
+   requestStatus,
    handleSubmit,
    handleChange
 }) => (
@@ -129,9 +127,7 @@ const SetRecoveryInfoForm = ({
          <Form.Field>
             <h3>Phone Number</h3>
             <PhoneInput
-               className={`create ${successMessage ? 'success' : ''}${
-                  errorMessage ? 'problem' : ''
-               } ${formLoader ? 'loading' : '' } `}
+               className={`create ${requestStatus ? (requestStatus.success ? 'success' : 'problem') : ''} ${formLoader ? 'loading' : '' }`}
                name='phoneNumber'
                value={phoneNumber}
                onChange={ value => handleChange(null, { name: 'phoneNumber', value })}
@@ -157,16 +153,5 @@ const SetRecoveryInfoForm = ({
       </Form.Field>
    </RecoveryInfoForm>
 )
-
-SetRecoveryInfoForm.propTypes = {
-   formLoader: PropTypes.bool.isRequired,
-   phoneNumber: PropTypes.string,
-   sentSms: PropTypes.bool.isRequired,
-   isLegit: PropTypes.bool.isRequired,
-   successMessage: PropTypes.bool.isRequired,
-   errorMessage: PropTypes.bool.isRequired,
-   handleSubmit: PropTypes.func.isRequired,
-   handleChange: PropTypes.func.isRequired
-}
 
 export default SetRecoveryInfoForm
