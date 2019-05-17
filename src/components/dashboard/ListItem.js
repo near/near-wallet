@@ -141,17 +141,17 @@ const ListItem = ({
          <Grid verticalAlign='middle'>
             <Grid.Column className='col-image'>
                <div className='main-image'>
-                  <Image src={row[0]} className='' align='left' />
+                  <Image src={row[0]} align='left' />
                </div>
             </Grid.Column>
             <Grid.Column className='main-row-title'>
-               <Link to='' className='color-black'>
+               <Link to='/' className='color-black'>
                   {row[1]}
                </Link>
                {row[2] && (
                   <span className='font-small'>
                      <br />
-                     <Link to=''>{row[2]}</Link>
+                     <Link to='/'>{row[2]}</Link>
                   </span>
                )}
             </Grid.Column>

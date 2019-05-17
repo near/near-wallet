@@ -79,20 +79,14 @@ const CustomGrid = styled(Grid)`
 `
 
 const CreateAccountSection = ({ successMessage, errorMessage, children }) => (
-   <CustomGrid className=''>
+   <CustomGrid>
       <Grid.Row className='username-row'>
-         <Grid.Column
-            as='h3'
-            computer={16}
-            tablet={16}
-            mobile={16}
-            className=''
-         >
+         <Grid.Column as='h3' computer={16} tablet={16} mobile={16}>
             Choose a Username
          </Grid.Column>
       </Grid.Row>
       <Grid.Row className='form-row'>
-         <Grid.Column computer={8} tablet={8} mobile={16} className=''>
+         <Grid.Column computer={8} tablet={8} mobile={16}>
             {children}
          </Grid.Column>
          <Grid.Column computer={8} tablet={8} mobile={16}>

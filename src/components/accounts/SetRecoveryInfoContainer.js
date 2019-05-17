@@ -42,23 +42,24 @@ const CustomContainer = styled(Container)`
 /* eslint-disable jsx-a11y/accessible-emoji */
 const SetRecoveryInfoContainer = ({ loader, children, location }) => (
    <CustomContainer>
-      <Grid className=''>
+      <Grid>
          <Dimmer inverted active={loader}>
             <Loader />
          </Dimmer>
 
          <Grid.Row className='creating-info'>
-            <Grid.Column computer={8} tablet={8} mobile={16} className=''>
+            <Grid.Column computer={8} tablet={8} mobile={16}>
                <Header as='h1'>Protect your Account 🔒</Header>
                <Header as='h2'>
-                  Connect account to phone number – save recovery key on our servers.
+                  Connect account to phone number – save recovery key on our
+                  servers.
                </Header>
                <Header as='h3' className='color-blue'>
                   You can skip this if you plan to backup account keys manually.
                   We won't be able to help you with account recovery otherwise.
                </Header>
             </Grid.Column>
-            <Grid.Column computer={8} tablet={8} mobile={16} className=''>
+            <Grid.Column computer={8} tablet={8} mobile={16}>
                <NearInfo />
             </Grid.Column>
          </Grid.Row>
@@ -66,9 +67,9 @@ const SetRecoveryInfoContainer = ({ loader, children, location }) => (
 
       {children}
 
-      <Grid className=''>
+      <Grid>
          <Grid.Row className='disclaimer border-top-bold'>
-            <Grid.Column computer={16} tablet={16} mobile={16} className=''>
+            <Grid.Column computer={16} tablet={16} mobile={16}>
                <span className='disclaimer-info'>DISCLAIMER: </span>
                This is a developers&apos; preview Wallet. It should be used for
                NEAR Protocol DevNet only. Learn more at

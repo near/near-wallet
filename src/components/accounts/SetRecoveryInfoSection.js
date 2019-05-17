@@ -62,9 +62,9 @@ const CustomGrid = styled(Grid)`
 `
 
 const SetRecoveryInfoSection = ({ successMessage, errorMessage, children }) => (
-   <CustomGrid className=''>
-      <Grid.Row className=''>
-         <Grid.Column computer={8} tablet={8} mobile={16} className=''>
+   <CustomGrid>
+      <Grid.Row>
+         <Grid.Column computer={8} tablet={8} mobile={16}>
             {children}
          </Grid.Column>
          <Grid.Column computer={8} tablet={8} mobile={16}>

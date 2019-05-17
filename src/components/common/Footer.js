@@ -127,7 +127,7 @@ const ResponsiveContainer = () => (
          textAlign='right'
          className='help'
       >
-         <List floated='right' className=''>
+         <List floated='right'>
             <List.Item as='h3'>Need Help?</List.Item>
             <List.Item as='h3' className='color'>
                <a href='https://discordapp.com/invite/gBtUFKR'>

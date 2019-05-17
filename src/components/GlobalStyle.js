@@ -27,28 +27,15 @@ export default createGlobalStyle`
          font-size: 14px !important;
       }
    }
-
    
-   
-   .pusher {
-      min-height: 100vh !important;
-      ${'' /* padding-bottom: 200px; */}
-   }
-
-   .pushable {
-      min-height: 100vh !important;
-      ${'' /* margin-bottom: -200px; */}
-   }
-
 
    .App {
       min-height: 100vh;
-      ${'' /* padding-bottom: 200px; */}
+
+      > div {
+         min-height: 100vh;
+      }
    }
-   .App > div {
-      min-height: 100vh;
-   }
-   
 
    a {
       color: #0072ce;
@@ -57,8 +44,6 @@ export default createGlobalStyle`
       color: #0072ce;
       text-decoration: underline;
    }
-
-
 
    h1, .h1 {
       font-family: Bw Seido Round !important;
@@ -138,11 +123,6 @@ export default createGlobalStyle`
    }
 
 
-
-
-   .bs-medium {
-      font-weight: 500;
-   }
    .font-bold {
       font-weight: 600;
    }
@@ -168,20 +148,16 @@ export default createGlobalStyle`
       }
    }
 
+
    .ui.popup > .header {
       font-weight: 600 !important;
       color: #24272a !important;
    }
 
 
-   .ui.list .list>.item .header, .ui.list>.item .header {
+   .ui.list .list>.item .header, .ui.list>.item .header, .ui.button {
       font-weight: 600;
    }
-
-   .ui.button {
-      font-weight: 600;
-   }
-
 
 
    .border-bottom {
@@ -221,17 +197,9 @@ export default createGlobalStyle`
    }
 
 
-
-
-
-
-
    .button {
       font-family: "benton-sans",sans-serif !important;
    }
-
-
-   
 
 
    .box {
@@ -242,8 +210,6 @@ export default createGlobalStyle`
       min-height: 100px;
       position: relative;
 
-      
-
       .row {
          padding: 0px !important;
       }
@@ -251,13 +217,10 @@ export default createGlobalStyle`
          padding: 24px 10px 20px 30px !important;
          word-wrap: break-word;
       }
-
       .segment {
          padding: 30px 0 20px 0 !important;
       }
-
       .list {
-
          > .item {
             padding: 0px !important;
 
@@ -265,7 +228,6 @@ export default createGlobalStyle`
                top: -4px;
                margin: 0 10px;
             }
-
             > img.transarrow {
                width: 11px !important;
             }
@@ -277,13 +239,11 @@ export default createGlobalStyle`
    }
 
 
-
    .copy-image {
       width: 18px !important;
       margin: 0px 10px 0 0px !important;
       top: -4px !important;
    }
-
 
 
    .balance-image {
@@ -297,55 +257,13 @@ export default createGlobalStyle`
    }
    
 
-
    .transactions-block .item {
       margin-left: 10px !important;
    }
 
 
-   .page-title {
-      ${'' /* padding-top: 20px !important; */}
-
-      ${
-         '' /* > .column {
-         padding: 0px !important;
-         margin: 0px !important;
-      } */
-      }
-   }
-
-   .icon-tiny {
-      height: 12px !important;
-      margin: 6px 6px 0 0;
-      padding: 0px !important;
-      float: left;
-   }
-
-
    .hide {
       display: none !important;
-   }
-
-
-   
-
-
-   
-   
-
-
-
-
-   .column-icon-s {
-      width: 12px !important;
-      display: inline-block !important;
-      margin: -2px 10px 0 0;
-   }
-
-   .column-icon-r {
-      width: 12px !important;
-      display: inline-block !important;
-      margin: 2px 0 0 10px;
    }
 
 
@@ -362,12 +280,6 @@ export default createGlobalStyle`
       display: inline-block;
       margin: auto;
    }
-
-   .block-element {
-      padding-right: 0px !important;
-   }
-
-   
 
    .ui.list .list>.item .header, .ui.list>.item .header {
       font-family: "benton-sans",sans-serif;
@@ -390,21 +302,7 @@ export default createGlobalStyle`
    }
 
 
-
-
-
-
-
-
-
    @media screen and (max-width: 767px) {
-      html {
-         body {
-            ${'' /* font-size: 12px !important; */}
-         }
-      }
-
-      
       h1, .h1 {
          font-size: 38px !important;
          font-weight: 500;
@@ -424,45 +322,9 @@ export default createGlobalStyle`
          margin: 0px;
       }
       
-      h6, .h6 {
-         ${
-            '' /* font-size: 10px !important;
-         line-height: 18px !important;
-         font-weight: 400 !important;
-         margin: 0px !important;
-         letter-spacing: 2px !important; */
-         }
-      }
 
       .box .column {
          padding: 16px 10px !important;
       }
-
-      .recent-x .row {
-         margin-left: 10px;
-      }
-
-      
-
-      .dashboard-list .dropdown-image {
-         display: none !important;
-      }
-      
-      .dashboard-list .main-image {
-         border: 1px solid #e6e6e6 !important;
-         background: #fff;
-         border-radius: 14px;
-         padding: 6px;
-         width: 26px !important;
-      }
-
-      .dashboard-recent-blocks {
-         margin: 0 20px !important;
-         padding: 0 0 0 10px !important;
-      }
    }
-
-
-
-   
 `
