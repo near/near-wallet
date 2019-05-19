@@ -287,16 +287,7 @@ const ProfileDetails = ({ loader }) => (
          <Grid.Column computer='4' tablet='4' textAlign='center' only='tablet'>
             Only Me
          </Grid.Column>
-         <Grid.Column
-            as={Link}
-            to='/'
-            computer='2'
-            tablet='2'
-            mobile='3'
-            textAlign='right'
-            className='edit-link'
-         >
-            Edit
+         <Grid.Column as="div">
          </Grid.Column>
       </Grid.Row>
    </CustomGrid>
