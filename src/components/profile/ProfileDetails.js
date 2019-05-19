@@ -70,7 +70,7 @@ const CustomGrid = styled(Grid)`
    }
 `
 
-const ProfileDetails = ({ loader }) => (
+const ProfileDetails = ({ account }) => (
    <CustomGrid>
       <Grid.Row className='border-top-bold'>
          <Grid.Column
@@ -282,7 +282,7 @@ const ProfileDetails = ({ loader }) => (
             Balance
          </Grid.Column>
          <Grid.Column computer='7' tablet='7' mobile='9'>
-            2,300 Ⓝ
+            {account.amount} Ⓝ
          </Grid.Column>
          <Grid.Column computer='4' tablet='4' textAlign='center' only='tablet'>
             Only Me

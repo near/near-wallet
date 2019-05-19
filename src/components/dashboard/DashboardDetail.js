@@ -96,7 +96,7 @@ class DashboardDetail extends Component {
       } = this.state
 
       return (
-         <DashboardContainer>
+         <DashboardContainer account={this.props.account}>
             { false ?
             <DashboardSection notice={notice} handleNotice={this.handleNotice}>
                <DashboardActivity
