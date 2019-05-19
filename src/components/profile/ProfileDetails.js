@@ -120,6 +120,7 @@ const ProfileDetails = ({ loader }) => (
             </Popup>
          </Grid.Column>
       </Grid.Row>
+      {false ? <div>
       <Grid.Row className='border-top'>
          <Grid.Column computer='3' tablet='3' mobile='4' className='title'>
             Full Name
@@ -274,6 +275,8 @@ const ProfileDetails = ({ loader }) => (
             VISIBLE TO
          </Grid.Column>
       </Grid.Row>
+      </div> : null }
+
       <Grid.Row className='border-top'>
          <Grid.Column computer='3' tablet='3' mobile='4' className='title'>
             Balance
