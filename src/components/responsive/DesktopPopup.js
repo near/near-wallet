@@ -161,24 +161,30 @@ const DesktopPopup = ({
                   Profile
                </List.Content>
             </List.Item>
+            { false ?
             <List.Item>
                <List.Icon as={Image} src={ContactsGreyImage} />
                <List.Content as={Link} to='/contacts'>
                   Contacts
                </List.Content>
             </List.Item>
+            : null }
+            { false ?
             <List.Item>
                <List.Icon as={Image} src={AuthorizedGreyImage} />
                <List.Content as={Link} to='authorized-apps'>
                   Authorized Apps
                </List.Content>
             </List.Item>
+            : null }
+            { false ?
             <List.Item>
                <List.Icon as={Image} src={LogoutImage} />
                <List.Content as={Link} to='/logout'>
                   Logout
                </List.Content>
             </List.Item>
+            : null }
          </List>
          <List className='switch-account'>
             <List.Item as='h6'>SWITCH ACCOUNT</List.Item>
