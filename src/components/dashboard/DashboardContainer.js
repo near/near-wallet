@@ -100,14 +100,14 @@ const CustomContainer = styled(Container)`
    }
 `
 
-const DashboardContainer = ({ children }) => (
+const DashboardContainer = ({ children, account }) => (
    <CustomContainer>
       <Grid>
          <Grid.Row className='creating-info'>
             <Grid.Column computer={12} tablet={11} mobile={16}>
                <Header as='h1'>
                   <span className='balance'>Balance: </span>
-                  <span className='color-black'>2,300.562</span>
+                  <span className='color-black'>{account.amount}</span>
                   <span className='near'>Ⓝ</span>
                </Header>
             </Grid.Column>

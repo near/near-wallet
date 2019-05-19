@@ -38,7 +38,7 @@ class Profile extends Component {
       return (
          <ProfileContainer>
             <ProfileSection>
-               <ProfileDetails />
+               <ProfileDetails account={this.props.account} />
                { false ?
                <ProfileYourKeys />
                : null }
