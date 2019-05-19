@@ -117,7 +117,7 @@ const DashboardContainer = ({ children }) => (
                mobile={16}
                className='send-money'
             >
-               <Button as={Link} to='/contacts'>
+               <Button as={Link} to='/send-money'>
                   SEND MONEY
                </Button>
             </Grid.Column>
