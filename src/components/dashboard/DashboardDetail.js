@@ -97,6 +97,7 @@ class DashboardDetail extends Component {
 
       return (
          <DashboardContainer>
+            { false ?
             <DashboardSection notice={notice} handleNotice={this.handleNotice}>
                <DashboardActivity
                   loader={loader}
@@ -120,6 +121,7 @@ class DashboardDetail extends Component {
                   activity={newcontacts}
                />
             </DashboardSection>
+            : null }
          </DashboardContainer>
       )
    }
