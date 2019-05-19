@@ -108,9 +108,14 @@ const ProfileDetails = ({ loader }) => (
             >
                <Popup.Header>Why is this locked?</Popup.Header>
                <Popup.Content>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                  Curabitur sit amet pretium mi, a molestie est.{` `}
+                  Your username is your unique identifier in the system and cannot be changed
+                  cause data and asset ownership is tied to it.
+                  However you are welcome to <Link to="/create">create another account</Link> with desired name
+                  and transfer assets as needed.
+                  {` `}
+                  {false ?
                   <a href='/'>Learn more</a>
+                  : null }
                </Popup.Content>
             </Popup>
          </Grid.Column>
