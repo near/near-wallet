@@ -39,8 +39,12 @@ class Profile extends Component {
          <ProfileContainer>
             <ProfileSection>
                <ProfileDetails />
+               { false ?
                <ProfileYourKeys />
+               : null }
+               { false ?
                <ProfileNotice />
+               : null }
             </ProfileSection>
          </ProfileContainer>
       )
