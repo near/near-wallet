@@ -121,11 +121,17 @@ const CustomPopup = styled(Popup)`
 const DesktopPopup = ({
    account,
    handleSelectAccount,
-   redirectCreateAccount
+   redirectCreateAccount,
+   handleToggle,
+   popupOpen
 }) => (
    <CustomPopup
       trigger={
-         <Menu.Menu position='right' className='popup-trigger'>
+         <Menu.Menu
+            position='right'
+            className='popup-trigger'
+            onClick={handleToggle}
+         >
             <Menu.Item className='devider' />
             <Menu.Item className='account-img'>
                <Image src={AccountGreyImage} />
@@ -152,19 +158,20 @@ const DesktopPopup = ({
       }
       on='click'
       position='right center'
+      open={popupOpen}
    >
       <Segment basic className='account-dropdown'>
          <List className='submenu'>
             <List.Item>
                <List.Icon as={Image} src={AccountImage} />
-               <List.Content as={Link} to='/profile'>
+               <List.Content as={Link} to='/profile' onClick={handleToggle}>
                   Profile
                </List.Content>
             </List.Item>
             { false ?
             <List.Item>
                <List.Icon as={Image} src={ContactsGreyImage} />
-               <List.Content as={Link} to='/contacts'>
+               <List.Content as={Link} to='/contacts' onClick={handleToggle}>
                   Contacts
                </List.Content>
             </List.Item>
@@ -172,7 +179,11 @@ const DesktopPopup = ({
             { false ?
             <List.Item>
                <List.Icon as={Image} src={AuthorizedGreyImage} />
-               <List.Content as={Link} to='authorized-apps'>
+               <List.Content
+                  as={Link}
+                  to='authorized-apps'
+                  onClick={handleToggle}
+               >
                   Authorized Apps
                </List.Content>
             </List.Item>
@@ -180,7 +191,7 @@ const DesktopPopup = ({
             { false ?
             <List.Item>
                <List.Icon as={Image} src={LogoutImage} />
-               <List.Content as={Link} to='/logout'>
+               <List.Content as={Link} to='/logout' onClick={handleToggle}>
                   Logout
                </List.Content>
             </List.Item>

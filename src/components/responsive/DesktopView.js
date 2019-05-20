@@ -150,7 +150,8 @@ class DesktopView extends Component {
 
    state = {
       fixed: false,
-      activeItem: 'home'
+      activeItem: 'home',
+      popupOpen: false
    }
 
    hideFixedMenu = () => this.setState({ fixed: false })
@@ -168,10 +169,18 @@ class DesktopView extends Component {
    redirectCreateAccount = () => {
       this.wallet = new Wallet()
       this.wallet.redirectToCreateAccount({}, this.props.history)
+      this.setState(() => ({
+         popupOpen: false
+      }))
    }
 
+   handleToggle = () =>
+      this.setState(state => ({
+         popupOpen: !state.popupOpen
+      }))
+
    render() {
-      const { fixed } = this.state
+      const { fixed, popupOpen } = this.state
       const { account } = this.props
 
       return (
@@ -224,6 +233,8 @@ class DesktopView extends Component {
                            account={account}
                            handleSelectAccount={this.handleSelectAccount}
                            redirectCreateAccount={this.redirectCreateAccount}
+                           handleToggle={this.handleToggle}
+                           popupOpen={popupOpen}
                         />
                      </Menu.Menu>
                   )}
