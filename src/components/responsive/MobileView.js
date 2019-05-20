@@ -45,6 +45,10 @@ const CustomResponsive = styled(Responsive)`
             border-radius: 0;
             margin-bottom: 0;
 
+            .pointer {
+               cursor: pointer;
+            }
+
             .item {
                font-family: 'benton-sans', sans-serif;
                font-weight: 600;
@@ -277,31 +281,35 @@ class MobileView extends Component {
                   </Menu.Item>
 
                   {account.accountId && (
-                  <Menu.Menu position='right' onClick={this.handleDropdown}>
-                     <Menu.Menu position='right'>
-                        <Menu.Item className='account-name'>
-                           {account.loader || !account.accountId ? (
-                              <Loader active inline size='mini' />
-                           ) : (
-                              <div>@{account.accountId}</div>
-                           )}
-                        </Menu.Item>
-                        <Menu.Item className='account-tokens'>
-                           {account.loader || !account.accountId ? (
-                              <Loader active inline size='mini' />
-                           ) : (
-                              account.amount
-                           )}
-                           <span className='near'>Ⓝ</span>
-                        </Menu.Item>
-                        <Menu.Item className='account-arrow'>
-                           <Image
-                              src={dropdown ? MobileMenuImage : CloseImage}
-                           />
-                        </Menu.Item>
+                     <Menu.Menu
+                        className='pointer'
+                        position='right'
+                        onClick={this.handleDropdown}
+                     >
+                        <Menu.Menu position='right'>
+                           <Menu.Item className='account-name'>
+                              {account.loader || !account.accountId ? (
+                                 <Loader active inline size='mini' />
+                              ) : (
+                                 <div>@{account.accountId}</div>
+                              )}
+                           </Menu.Item>
+                           <Menu.Item className='account-tokens'>
+                              {account.loader || !account.accountId ? (
+                                 <Loader active inline size='mini' />
+                              ) : (
+                                 account.amount
+                              )}
+                              <span className='near'>Ⓝ</span>
+                           </Menu.Item>
+                           <Menu.Item className='account-arrow'>
+                              <Image
+                                 src={dropdown ? MobileMenuImage : CloseImage}
+                              />
+                           </Menu.Item>
+                        </Menu.Menu>
                      </Menu.Menu>
-                  </Menu.Menu>
-                )}
+                  )}
                </Menu>
                <Segment
                   basic
