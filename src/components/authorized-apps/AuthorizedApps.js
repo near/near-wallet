@@ -3,6 +3,9 @@ import { connect } from 'react-redux'
 
 import { withRouter } from 'react-router-dom'
 
+import { Wallet } from '../../utils/wallet'
+import { handleRefreshAccount, handleRefreshUrl } from '../../actions/account'
+
 import PaginationBlock from '../pagination/PaginationBlock'
 import ListItem from '../dashboard/ListItem'
 
@@ -34,9 +37,9 @@ class AuthorizedApps extends Component {
    }
 
    componentDidMount() {
-      // this.wallet = new Wallet()
-      // this.props.handleRefreshUrl(this.props.location)
-      // this.props.handleRefreshAccount(this.wallet, this.props.history)
+      this.wallet = new Wallet()
+      this.props.handleRefreshUrl(this.props.location)
+      this.props.handleRefreshAccount(this.wallet, this.props.history)
 
       this.setState(() => ({
          loader: true
@@ -89,7 +92,10 @@ class AuthorizedApps extends Component {
    }
 }
 
-const mapDispatchToProps = {}
+const mapDispatchToProps = {
+   handleRefreshAccount,
+   handleRefreshUrl
+}
 
 const mapStateToProps = () => ({})
 
