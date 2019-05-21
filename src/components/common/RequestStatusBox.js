@@ -21,7 +21,7 @@ const RequestStatusBoxGrid = styled(Grid)`
    && {
       padding-left: 30px;
    }
-.
+
    @media screen and (max-width: 991px) {
       .note-box {
          padding-left: 0px;
