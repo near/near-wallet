@@ -13,9 +13,10 @@ import {
    Responsive,
    Segment,
    List,
-   Button,
-   Loader
+   Button
 } from 'semantic-ui-react'
+
+import PopupMenuTrigger from './PopupMenuTrigger'
 
 import SendImage from '../../images/icon-send.svg'
 import ContactsGreyImage from '../../images/icon-contacts.svg'
@@ -23,8 +24,6 @@ import AuthorizedGreyImage from '../../images/icon-authorized.svg'
 import LogoutImage from '../../images/icon-logout.svg'
 import LogoImage from '../../images/wallet.png'
 import AccountGreyImage from '../../images/icon-account.svg'
-import MobileMenuImage from '../../images/icon-mobile-menu.svg'
-import CloseImage from '../../images/icon-close.svg'
 import RecentImage from '../../images/icon-recent.svg'
 import ActivityImage from '../../images/icon-activity.svg'
 
@@ -45,19 +44,11 @@ const CustomResponsive = styled(Responsive)`
             border-radius: 0;
             margin-bottom: 0;
 
-            .pointer {
-               cursor: pointer;
-            }
-
-            .item {
-               font-family: 'benton-sans', sans-serif;
-               font-weight: 600;
-            }
-
             .mainlogo {
-               padding-left: 0px;
+               float: left;
+               padding: 4px 10px 0px 0px;
 
-               > div {
+               div {
                   width: 50px;
                   overflow: hidden;
 
@@ -67,57 +58,9 @@ const CustomResponsive = styled(Responsive)`
                   }
                }
             }
-
-            .account-name {
-               padding-right: 0px;
-               text-align: right;
-
-               > div {
-                  font-size: 16px;
-                  letter-spacing: normal;
-                  padding-left: 0px;
-                  padding-right: 0px;
-                  text-overflow: ellipsis;
-                  overflow: hidden;
-                  width: 116px;
-                  color: #fff;
-
-                  :hover {
-                     color: #fff;
-                  }
-               }
-            }
-
-            .account-tokens {
-               line-height: 28px;
-               font-size: 16px;
-
-               color: #fff;
-
-               margin: 21px 0 0 10px;
-               height: 28px;
-               background: #111314;
-               border-radius: 12px;
-               padding: 0 10px;
-
-               letter-spacing: normal;
-
-               :hover {
-                  color: #fff;
-               }
-
-               .near {
-                  font-size: 18px;
-                  padding-left: 4px;
-               }
-            }
-
-            .account-arrow {
-               padding-right: 14px;
-
-               img {
-                  width: 20px;
-               }
+            .trigger {
+               width: 100%;
+               overflow: hidden;
             }
          }
          &-sub {
@@ -267,48 +210,24 @@ class MobileView extends Component {
             maxWidth={Responsive.onlyTablet.maxWidth}
          >
             <Segment basic className='navbar'>
-               <Menu
-                  className='navbar-main'
-                  // fixed={fixed ? 'top' : null}
-                  // fixed='top'
-                  // pointing={!fixed}
-                  borderless
-               >
-                  <Menu.Item as={Link} to='/' className='mainlogo'>
-                     <div>
-                        <Image src={LogoImage} />
-                     </div>
-                  </Menu.Item>
+               <Menu className='navbar-main' borderless>
+                  <div className='mainlogo'>
+                     <Link to='/'>
+                        <div>
+                           <Image src={LogoImage} />
+                        </div>
+                     </Link>
+                  </div>
 
                   {account.accountId && (
-                     <Menu.Menu
-                        className='pointer'
-                        position='right'
-                        onClick={this.handleDropdown}
-                     >
-                        <Menu.Menu position='right'>
-                           <Menu.Item className='account-name'>
-                              {account.loader || !account.accountId ? (
-                                 <Loader active inline size='mini' />
-                              ) : (
-                                 <div>@{account.accountId}</div>
-                              )}
-                           </Menu.Item>
-                           <Menu.Item className='account-tokens'>
-                              {account.loader || !account.accountId ? (
-                                 <Loader active inline size='mini' />
-                              ) : (
-                                 account.amount
-                              )}
-                              <span className='near'>Ⓝ</span>
-                           </Menu.Item>
-                           <Menu.Item className='account-arrow'>
-                              <Image
-                                 src={dropdown ? MobileMenuImage : CloseImage}
-                              />
-                           </Menu.Item>
-                        </Menu.Menu>
-                     </Menu.Menu>
+                     <div className='trigger'>
+                        <PopupMenuTrigger
+                           account={account}
+                           handleClick={this.handleDropdown}
+                           type='mobile'
+                           dropdown={dropdown}
+                        />
+                     </div>
                   )}
                </Menu>
                <Segment

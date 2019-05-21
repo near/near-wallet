@@ -1,19 +1,11 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-import {
-   Image,
-   Menu,
-   Segment,
-   List,
-   Button,
-   Loader,
-   Popup
-} from 'semantic-ui-react'
+import { Image, Segment, List, Button, Popup } from 'semantic-ui-react'
 
-import AccountGreyImage from '../../images/icon-account-grey.svg'
+import PopupMenuTrigger from './PopupMenuTrigger'
+
 import AccountImage from '../../images/icon-account.svg'
-import ArrowDownImage from '../../images/icon-arrow-down.svg'
 import ContactsGreyImage from '../../images/icon-contacts.svg'
 import AuthorizedGreyImage from '../../images/icon-authorized.svg'
 import LogoutImage from '../../images/icon-logout.svg'
@@ -127,36 +119,12 @@ const DesktopPopup = ({
 }) => (
    <CustomPopup
       trigger={
-         <Menu.Menu
-            position='right'
-            className='popup-trigger'
-            onClick={handleToggle}
-         >
-            <Menu.Item className='devider' />
-            <Menu.Item className='account-img'>
-               <Image src={AccountGreyImage} />
-            </Menu.Item>
-            <Menu.Item className='account-name'>
-               {account.loader || !account.accountId ? (
-                  <Loader active inline size='mini' />
-               ) : (
-                  `@${account.accountId}`
-               )}
-            </Menu.Item>
-            <Menu.Item className='account-tokens'>
-               {account.loader || !account.accountId ? (
-                  <Loader active inline size='mini' />
-               ) : (
-                  account.amount
-               )}
-               <span className='near'>Ⓝ</span>
-            </Menu.Item>
-            <Menu.Item className='account-arrow'>
-               <Image src={ArrowDownImage} />
-            </Menu.Item>
-         </Menu.Menu>
+         <PopupMenuTrigger
+            account={account}
+            handleClick={handleToggle}
+            type='desktop'
+         />
       }
-      on='click'
       position='right center'
       open={popupOpen}
    >
