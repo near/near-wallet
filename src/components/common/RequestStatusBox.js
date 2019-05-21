@@ -21,7 +21,7 @@ const RequestStatusBoxGrid = styled(Grid)`
    && {
       padding-left: 30px;
    }
-
+.
    @media screen and (max-width: 991px) {
       .note-box {
          padding-left: 0px;
@@ -41,7 +41,13 @@ const RequestStatusBoxGrid = styled(Grid)`
       }
   }
 `
-
+/**
+ * Renders request status.
+ *
+ * @param requestStatus {object} request status, can be null in case not completed yet / no outgoing request
+ * @param requestStatus.success {boolean} true if request was succesful
+ * @param requestStatus.messageCode {string} localization code of status message to display
+ */
 const RequestStatusBox = ({ requestStatus }) => (
    requestStatus ?
       <RequestStatusBoxGrid>
