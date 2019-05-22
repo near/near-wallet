@@ -274,11 +274,14 @@ export class Wallet {
    }
 
    requestCode(phoneNumber, accountId) {
-      return sendJson('POST', `${ACCOUNT_HELPER_URL}/account/${phoneNumber}/${accountId}/requestCode`);
+      return sendJson('POST', `${ACCOUNT_HELPER_URL}/account/${phoneNumber}/${accountId}/requestCode`)
    }
 
-   validateCode(phoneNumber, accountId, securityCode) {
-      return sendJson('POST', `${ACCOUNT_HELPER_URL}/account/${phoneNumber}/${accountId}/validateCode`, { securityCode });
+   async validateCode(phoneNumber, accountId, securityCode) {
+      const key = this.key_store.getKey(accountId)
+      const signer = new nearlib.SimpleKeyStoreSigner(this.key_store);
+      const { signature } = key ? signer.signBuffer(Buffer.from(securityCode), accountId) : undefined;
+      return sendJson('POST', `${ACCOUNT_HELPER_URL}/account/${phoneNumber}/${accountId}/validateCode`, { securityCode, signature })
    }
 
    receiveMessage(event) {
