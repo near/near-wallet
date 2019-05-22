@@ -51,6 +51,11 @@ class Login extends Component {
 
    render() {
       const { account } = this.props
+      const combinedState = {
+         ...this.props,
+         ...this.state,
+         isLegit: this.state.isLegit && !this.props.formLoader
+      }
 
       return (
          <LoginContainer
@@ -59,7 +64,7 @@ class Login extends Component {
          >
             {account.accountId && (
                <LoginForm
-                  {...this.state}
+                  {...combinedState}
                   handleOnClick={this.handleOnClick}
                   handleDeny={this.handleDeny}
                   handleAllow={this.handleAllow}

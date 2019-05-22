@@ -38,6 +38,12 @@ const reducer = handleActions({
       }
       return state
    },
+   [addAccessKey]: (state, { error, ready }) => {
+      if (ready && !error) {
+         return { ...state, keyAdded: true }
+      }
+      return state
+   },
 }, initialState)
 
 // TODO: Migrate everything to redux-actions

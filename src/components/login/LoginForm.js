@@ -9,6 +9,8 @@ import ArrowDownImage from '../../images/icon-arrow-down.svg'
 import ArrowUpImage from '../../images/icon-arrow-up.svg'
 import AccountGreyImage from '../../images/icon-account-grey.svg'
 
+import RequestStatusBox from '../common/RequestStatusBox'
+
 import styled from 'styled-components'
 
 const CustomGrid = styled(Grid)`
@@ -251,6 +253,9 @@ const LoginForm = ({
             </Form>
          </Grid.Column>
          <Grid.Column largeScreen={5} computer={4} tablet={3} mobile={16} />
+      </Grid.Row>
+      <Grid.Row>
+         <RequestStatusBox requestStatus={account.requestStatus} />
       </Grid.Row>
    </CustomGrid>
 )
