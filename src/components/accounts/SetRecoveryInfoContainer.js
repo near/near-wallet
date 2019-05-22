@@ -34,17 +34,19 @@ const SetRecoveryInfoContainer = ({ loader, children }) => (
          </Dimmer>
 
          <Grid.Row className='creating-info'>
-            <Grid.Column computer={8} tablet={8} mobile={16}>
+            <Grid.Column computer={9} tablet={8} mobile={16}>
                <Header as='h1'>Protect your Account</Header>
                <Header as='h2'>
-                  Enter your phone number to make your account easy for you to recover in the future.
+                  Enter your phone number to make your account easy for you to
+                  recover in the future.
                </Header>
                <Header as='h3' className='color-blue'>
-                  If you want to backup your account keys manually, you can skip this.
-                  However if you choose this option, we won't be able to assist you with account recovery.
+                  If you want to backup your account keys manually, you can skip
+                  this. However if you choose this option, we won't be able to
+                  assist you with account recovery.
                </Header>
             </Grid.Column>
-            <Grid.Column computer={8} tablet={8} mobile={16}>
+            <Grid.Column computer={7} tablet={8} mobile={16}>
                <NearInfo />
             </Grid.Column>
          </Grid.Row>
