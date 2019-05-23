@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="26px" height="26px" viewBox="0 0 26 26" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 54.1 (76490) - https://sketchapp.com -->
+    <title>icon-authorized-grey</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round">
+        <g id="Summary" transform="translate(-856.000000, -324.000000)" stroke="#CCCCCC">
+            <g id="icon-authorized-grey" transform="translate(857.000000, 325.000000)">
+                <g id="Group-21">
+                    <polyline id="Path" stroke-width="2" points="6 14.6666667 10 18.6666667 18 8.66666667"></polyline>
+                    <rect id="Rectangle" stroke-width="2" x="0" y="0" width="24" height="24" rx="2.5"></rect>
+                    <path d="M2.66666667,4 L21.3333333,4" id="Path" stroke-width="2"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="26px" height="26px" viewBox="0 0 26 26" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 54.1 (76490) - https://sketchapp.com -->
+    <title>icon-contacts-grey</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round">
+        <g id="Summary" transform="translate(-856.000000, -599.000000)" stroke="#CCCCCC">
+            <g id="icon-contacts-grey" transform="translate(857.000000, 600.000000)">
+                <g id="Group-12">
+                    <path d="M0,3.33333333 C0,1.49266667 1.49266667,0 3.33333333,0 L20.6666667,0 C22.5073333,0 24,1.49266667 24,3.33333333 L24,20.6666667 C24,22.5073333 22.5073333,24 20.6666667,24 L3.33333333,24 C1.49266667,24 0,22.5073333 0,20.6666667" id="Stroke-1" stroke-width="2"></path>
+                    <path d="M0,6 L6,6" id="Stroke-3" stroke-width="2"></path>
+                    <path d="M0,12 L6,12" id="Stroke-5" stroke-width="2"></path>
+                    <path d="M18,9 C18,10.6566667 16.6566667,12 15,12 C13.3433333,12 12,10.6566667 12,9 C12,7.34333333 13.3433333,6 15,6 C16.6566667,6 18,7.34333333 18,9 Z" id="Stroke-7" stroke-width="2"></path>
+                    <path d="M-3.01980663e-13,18 L6,18 L9.33333333,18 L10.7813333,14.7413333 C11.5226667,13.074 13.176,12 15,12 C16.824,12 18.4773333,13.074 19.2186667,14.7413333 L20.6666667,18" id="Stroke-9" stroke-width="2"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
