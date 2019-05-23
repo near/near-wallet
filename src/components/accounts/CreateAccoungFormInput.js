@@ -8,7 +8,7 @@ import CheckBlueImage from '../../images/icon-check-blue.svg'
 import styled from 'styled-components'
 
 const CustomFormInput = styled(Form.Input)`
-   &&& input {
+   &&&& input {
       width: 100%;
       height: 64px;
       border: 4px solid #f8f8f8;

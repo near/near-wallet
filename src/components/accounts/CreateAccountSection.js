@@ -49,8 +49,10 @@ const CustomGrid = styled(Grid)`
    }
 
    @media screen and (max-width: 991px) {
-      .note-box {
-         padding-left: 0px;
+      &&& {
+         .note-box {
+            padding-left: 0px;
+         }
       }
    }
 
@@ -98,10 +100,10 @@ const CreateAccountSection = ({ successMessage, errorMessage, children }) => (
          </Grid.Column>
       </Grid.Row>
       <Grid.Row className='form-row'>
-         <Grid.Column computer={8} tablet={8} mobile={16}>
+         <Grid.Column computer={9} tablet={8} mobile={16}>
             {children}
          </Grid.Column>
-         <Grid.Column computer={8} tablet={8} mobile={16}>
+         <Grid.Column computer={7} tablet={8} mobile={16}>
             <Grid className='note-box'>
                {successMessage && (
                   <Responsive

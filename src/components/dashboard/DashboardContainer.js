@@ -71,6 +71,33 @@ const CustomContainer = styled(Container)`
       }
    }
 
+   @media screen and (max-width: 991px) {
+      > .grid {
+         margin-left: 0px;
+         margin-right: 0px;
+      }
+
+      &&& .send-money {
+         margin-top: 20px;
+         margin-top: 0px;
+      }
+
+      &&& .creating-info {
+         text-align: center;
+
+         .column {
+            padding: 0 0 12px 0;
+         }
+         .balance {
+            display: none;
+         }
+         .button {
+            width: 240px;
+            line-height: 44px;
+         }
+      }
+   }
+
    @media screen and (max-width: 767px) {
       > .grid {
          margin-left: 0px;
@@ -104,7 +131,12 @@ const DashboardContainer = ({ children, account }) => (
    <CustomContainer>
       <Grid>
          <Grid.Row className='creating-info'>
-            <Grid.Column computer={12} tablet={11} mobile={16}>
+            <Grid.Column
+               computer={12}
+               tablet={16}
+               mobile={16}
+               verticalAlign='middle'
+            >
                <Header as='h1'>
                   <span className='balance'>Balance: </span>
                   <span className='color-black'>{account.amount}</span>
@@ -113,7 +145,7 @@ const DashboardContainer = ({ children, account }) => (
             </Grid.Column>
             <Grid.Column
                computer={4}
-               tablet={5}
+               tablet={16}
                mobile={16}
                className='send-money'
             >

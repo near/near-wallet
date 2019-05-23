@@ -8,7 +8,7 @@ import CheckBlueImage from '../../images/icon-check-blue.svg'
 import styled from 'styled-components'
 
 const RecoveryInfoForm = styled(Form)`
-   &&& input {
+   &&&& input {
       width: 100%;
       height: 64px;
       border: 4px solid #f8f8f8;
@@ -127,7 +127,13 @@ const RecoverAccountForm = ({
          <h3>Username</h3>
          <Form.Input
             loading={formLoader}
-            className={`create ${requestStatus ? (requestStatus.success ? 'success' : 'problem') : ''}`}
+            className={`create ${
+               requestStatus
+                  ? requestStatus.success
+                     ? 'success'
+                     : 'problem'
+                  : ''
+            }`}
             name='accountId'
             value={accountId}
             onChange={handleChange}
@@ -139,10 +145,18 @@ const RecoverAccountForm = ({
          <Form.Field>
             <h3>Phone Number</h3>
             <PhoneInput
-               className={`create ${requestStatus ? (requestStatus.success ? 'success' : 'problem') : ''} ${formLoader ? 'loading' : '' }`}
+               className={`create ${
+                  requestStatus
+                     ? requestStatus.success
+                        ? 'success'
+                        : 'problem'
+                     : ''
+               } ${formLoader ? 'loading' : ''}`}
                name='phoneNumber'
                value={phoneNumber}
-               onChange={ value => handleChange(null, { name: 'phoneNumber', value })}
+               onChange={value =>
+                  handleChange(null, { name: 'phoneNumber', value })
+               }
                placeholder='example: +1 555 123 4567'
             />
          </Form.Field>
@@ -160,7 +174,9 @@ const RecoverAccountForm = ({
       )}
 
       <Form.Field>
-         <Button type='submit' disabled={!isLegit}>RECOVER ACCOUNT</Button>
+         <Button type='submit' disabled={!isLegit}>
+            RECOVER ACCOUNT
+         </Button>
       </Form.Field>
    </RecoveryInfoForm>
 )

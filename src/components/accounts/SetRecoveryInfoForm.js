@@ -63,7 +63,7 @@ const RecoveryInfoForm = styled(Form)`
       border: 4px solid #0072ce;
 
       background: #0072ce;
-      margin: 10px 0 0 0;
+      margin: 10px 1em 0 0;
 
       font-size: 18px;
       color: #fff;
@@ -87,7 +87,7 @@ const RecoveryInfoForm = styled(Form)`
 
    .ui.button {
       height: 60px;
-      margin: 10px 0 0 1em;
+      margin: 10px 0 0 0;
 
       background-color: #fff;
       border-radius: 30px;
@@ -127,10 +127,18 @@ const SetRecoveryInfoForm = ({
          <Form.Field>
             <h3>Phone Number</h3>
             <PhoneInput
-               className={`create ${requestStatus ? (requestStatus.success ? 'success' : 'problem') : ''} ${formLoader ? 'loading' : '' }`}
+               className={`create ${
+                  requestStatus
+                     ? requestStatus.success
+                        ? 'success'
+                        : 'problem'
+                     : ''
+               } ${formLoader ? 'loading' : ''}`}
                name='phoneNumber'
                value={phoneNumber}
-               onChange={ value => handleChange(null, { name: 'phoneNumber', value })}
+               onChange={value =>
+                  handleChange(null, { name: 'phoneNumber', value })
+               }
                placeholder='example: +1 555 123 4567'
             />
          </Form.Field>
@@ -148,8 +156,12 @@ const SetRecoveryInfoForm = ({
       )}
 
       <Form.Field>
-         <Button type='submit' disabled={!isLegit}>PROTECT ACCOUNT</Button>
-         <Link to="/dashboard" className="ui button">NOT NOW</Link>
+         <Button type='submit' disabled={!isLegit}>
+            PROTECT ACCOUNT
+         </Button>
+         <Link to='/dashboard' className='ui button'>
+            NOT NOW
+         </Link>
       </Form.Field>
    </RecoveryInfoForm>
 )

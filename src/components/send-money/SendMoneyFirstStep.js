@@ -8,7 +8,8 @@ import {
    Button,
    Form,
    Dimmer,
-   Loader
+   Loader,
+   Segment
 } from 'semantic-ui-react'
 
 import CreateAccoungFormInput from '../accounts/CreateAccoungFormInput'
@@ -28,6 +29,23 @@ const CustomList = styled(List)`
          h3 {
             margin-bottom: 13px;
             text-align: left;
+         }
+
+         .alert-info {
+            font-weight: 600;
+            margin: 0 0 -8px 0;
+            padding: 0 0 0 24px !important;
+            line-height: 34px;
+            font-size: 14px;
+            margin-top: -6px;
+            text-align: left;
+
+            &.problem {
+               color: #ff585d;
+            }
+            &.success {
+               color: #6ad1e3;
+            }
          }
 
          .main-image {
@@ -202,6 +220,17 @@ const SendMoneyFirstStep = ({
                      successMessage={successMessage}
                      errorMessage={errorMessage}
                   />
+
+                  {successMessage && (
+                     <Segment basic className='alert-info success'>
+                        Username is available.
+                     </Segment>
+                  )}
+                  {errorMessage && (
+                     <Segment basic className='alert-info problem'>
+                        Username is unavailable.
+                     </Segment>
+                  )}
                </List.Content>
             </List.Item>
          )}
