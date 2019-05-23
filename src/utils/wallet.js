@@ -83,7 +83,7 @@ export class Wallet {
 
    async sendTokens(senderId, receiverId, amount) {
       return this.near.waitForTransactionResult(
-         await this.near.scheduleFunctionCall(amount, senderId, receiverId, '', {}))
+         await this.near.sendTokens(amount, senderId, receiverId))
    }
 
    redirectToCreateAccount(options = {}, history) {
