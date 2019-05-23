@@ -1,0 +1,17 @@
+@font-face {
+   font-family: 'Bw Seido Round';
+   font-weight: 500;
+   src: url('./fonts/Branding with Type - Bw Seido Round Medium.otf') format('opentype');
+}
+
+@font-face {
+   font-family: 'Bw Seido Round';
+   font-weight: 300;
+   src: url('./fonts/Branding with Type - Bw Seido Round Light.otf') format('opentype');
+}
+
+@font-face {
+   font-family: 'Bw Seido Round';
+   font-weight: 400;
+   src: url('./fonts/Branding with Type - Bw Seido Round Regular.otf') format('opentype');
+}

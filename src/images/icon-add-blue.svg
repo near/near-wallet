@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="26px" height="26px" viewBox="0 0 26 26" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 54.1 (76490) - https://sketchapp.com -->
+    <title>icon-add-blue</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round">
+        <g id="Authorize-Dropdown" transform="translate(-544.000000, -893.000000)" stroke="#6AD1E3">
+            <g id="Group-5" transform="translate(520.000000, 632.000000)">
+                <g id="icon-add-blue" transform="translate(25.000000, 262.000000)">
+                    <g id="icon-add">
+                        <circle id="Oval" stroke-width="2" cx="12" cy="12" r="12"></circle>
+                        <path d="M12,6 L12,18" id="Path" stroke-width="2"></path>
+                        <path d="M6,12 L18,12" id="Path" stroke-width="2"></path>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

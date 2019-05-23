@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="38px" height="38px" viewBox="0 0 38 38" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 54.1 (76490) - https://sketchapp.com -->
+    <title>icon-authorize</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round">
+        <g id="Authorize-Dropdown" transform="translate(-701.000000, -219.000000)" stroke="#24272A">
+            <g id="icon-authorize" transform="translate(702.000000, 220.000000)">
+                <g id="icon-transactions">
+                    <path d="M9,27 L36,27" id="Path" stroke-width="2"></path>
+                    <polyline id="Path" stroke-width="2" points="9 36 0 27 9 18"></polyline>
+                    <path d="M27,9 L0,9" id="Path" stroke-width="2"></path>
+                    <polyline id="Path" stroke-width="2" points="27 0 36 9 27 18"></polyline>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
