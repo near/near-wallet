@@ -155,7 +155,9 @@ const DashboardContainer = ({ children, account }) => (
             </Grid.Column>
          </Grid.Row>
       </Grid>
-      {false ? <DashboardOtherAssets /> : null}
+      { false ?
+      <DashboardOtherAssets />
+      : null }
       {children}
    </CustomContainer>
 )

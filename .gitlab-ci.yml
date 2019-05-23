@@ -1,0 +1,29 @@
+image: node:latest
+
+stages:
+  - build
+  - test
+
+cache:
+  paths:
+    - node_modules/
+
+install_dependencies:
+  stage: build
+  script:
+    - yarn
+  artifacts:
+    paths:
+      - node_modules/
+
+run_tests:
+  stage: test
+  script: yarn test
+
+test_bundle:
+  stage: test
+  script: yarn build
+
+lint:
+  stage: test
+  script: yarn lint
