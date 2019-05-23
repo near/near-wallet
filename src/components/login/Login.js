@@ -7,7 +7,7 @@ import { Wallet } from '../../utils/wallet'
 
 import LoginContainer from './LoginContainer'
 import LoginForm from './LoginForm'
-import { handleRefreshAccount, handleRefreshUrl } from '../../actions/account'
+import { handleRefreshAccount, handleRefreshUrl, addAccessKey } from '../../actions/account'
 
 class Login extends Component {
    state = {
@@ -16,8 +16,9 @@ class Login extends Component {
 
    componentDidMount = () => {
       this.wallet = new Wallet()
-      this.props.handleRefreshUrl(this.props.location)
-      this.props.handleRefreshAccount(this.wallet, this.props.history)
+      const { dispatch } = this.props;
+      dispatch(handleRefreshUrl(this.props.location));
+      dispatch(handleRefreshAccount(this.wallet, this.props.history));
    }
 
    handleOnClick = () => {
@@ -34,8 +35,9 @@ class Login extends Component {
    }
 
    handleAllow = e => {
+      const { dispatch } = this.props;
       e.preventDefault()
-      this.wallet.addAccessKey(this.props.account.accountId, this.props.account.url.contract_id, this.props.account.url.public_key, this.props.account.url.success_url);
+      dispatch(addAccessKey(this.props.account.accountId, this.props.account.url.contract_id, this.props.account.url.public_key, this.props.account.url.success_url));
    }
 
    handleSelectAccount = accountId => {
@@ -49,6 +51,11 @@ class Login extends Component {
 
    render() {
       const { account } = this.props
+      const combinedState = {
+         ...this.props,
+         ...this.state,
+         isLegit: this.state.isLegit && !this.props.formLoader
+      }
 
       return (
          <LoginContainer
@@ -57,7 +64,7 @@ class Login extends Component {
          >
             {account.accountId && (
                <LoginForm
-                  {...this.state}
+                  {...combinedState}
                   handleOnClick={this.handleOnClick}
                   handleDeny={this.handleDeny}
                   handleAllow={this.handleAllow}
@@ -70,16 +77,10 @@ class Login extends Component {
    }
 }
 
-const mapDispatchToProps = {
-   handleRefreshAccount,
-   handleRefreshUrl
-}
-
 const mapStateToProps = ({ account }) => ({
    account
 })
 
 export const LoginWithRouter = connect(
-   mapStateToProps,
-   mapDispatchToProps
+   mapStateToProps
 )(withRouter(Login))

@@ -3,6 +3,7 @@ import {
    REFRESH_ACCOUNT,
    LOADER_ACCOUNT,
    REFRESH_URL,
+   addAccessKey,
    requestCode,
    validateCode
 } from '../actions/account'
@@ -21,7 +22,7 @@ const loaderReducer = (state, { ready }) => {
 }
 
 const requestResultReducer = handleActions({
-   [combineActions(requestCode, validateCode)]: (state, { error, payload, meta }) => ({
+   [combineActions(addAccessKey, requestCode, validateCode, )]: (state, { error, payload, meta }) => ({
       ...state,
       requestStatus: !!payload || error ? {
          success: !error,
@@ -34,6 +35,12 @@ const reducer = handleActions({
    [requestCode]: (state, { error, ready }) => {
       if (ready && !error) {
          return { ...state, sentSms: true }
+      }
+      return state
+   },
+   [addAccessKey]: (state, { error, ready }) => {
+      if (ready && !error) {
+         return { ...state, keyAdded: true }
       }
       return state
    },

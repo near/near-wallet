@@ -76,7 +76,7 @@ export function handleRefreshUrl(location) {
 
 const wallet = new Wallet()
 
-export const { requestCode, validateCode } = createActions({
+export const { requestCode, validateCode, addAccessKey } = createActions({
    REQUEST_CODE: [
       wallet.requestCode.bind(wallet),
       () => ({ successCode: 'account.requestCode.success', errorCode: 'account.requestCode.error' })
@@ -84,7 +84,11 @@ export const { requestCode, validateCode } = createActions({
    VALIDATE_CODE: [
       wallet.validateCode.bind(wallet),
       () => ({ successCode: 'account.validateCode.success', errorCode: 'account.validateCode.error' })
-   ]
+   ],
+   ADD_ACCESS_KEY: [
+      wallet.addAccessKey.bind(wallet),
+      () => ({ successCode: 'account.addAccessKey.success', errorCode: 'account.addAccessKey.error' })
+   ],
 })
 
 
