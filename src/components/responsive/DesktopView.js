@@ -200,10 +200,12 @@ class DesktopView extends Component {
                      <Image className='navbar-icon' src={RecentImage} />
                      SUMMARY
                   </Menu.Item>
+                  { false ?
                   <Menu.Item as={Link} to='/activity'>
                      <Image className='navbar-icon' src={ActivityImage} />
                      ACTIVITY
                   </Menu.Item>
+                  : null }
                   <Menu.Item as={Link} to='/send-money'>
                      <Image className='navbar-icon' src={SendImage} />
                      SEND MONEY

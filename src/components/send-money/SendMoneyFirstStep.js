@@ -220,6 +220,7 @@ const SendMoneyFirstStep = ({
          <List.Item as='h5' className='near-tokens'>
             NEAR TOKENS
          </List.Item>
+         { false ?
          <List.Item className='add-note border-bottom border-top'>
             <TextArea
                name='note'
@@ -228,6 +229,7 @@ const SendMoneyFirstStep = ({
                placeholder='Add a note...'
             />
          </List.Item>
+         : null }
          <List.Item className='send-money'>
             <Button
                disabled={

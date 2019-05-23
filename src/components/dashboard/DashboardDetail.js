@@ -96,7 +96,8 @@ class DashboardDetail extends Component {
       } = this.state
 
       return (
-         <DashboardContainer>
+         <DashboardContainer account={this.props.account}>
+            { false ?
             <DashboardSection notice={notice} handleNotice={this.handleNotice}>
                <DashboardActivity
                   loader={loader}
@@ -120,6 +121,7 @@ class DashboardDetail extends Component {
                   activity={newcontacts}
                />
             </DashboardSection>
+            : null }
          </DashboardContainer>
       )
    }

@@ -70,7 +70,7 @@ const CustomGrid = styled(Grid)`
    }
 `
 
-const ProfileDetails = ({ loader }) => (
+const ProfileDetails = ({ account }) => (
    <CustomGrid>
       <Grid.Row className='border-top-bold'>
          <Grid.Column
@@ -108,13 +108,19 @@ const ProfileDetails = ({ loader }) => (
             >
                <Popup.Header>Why is this locked?</Popup.Header>
                <Popup.Content>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                  Curabitur sit amet pretium mi, a molestie est.{` `}
+                  Your username is your unique identifier in the system and cannot be changed
+                  cause data and asset ownership is tied to it.
+                  However you are welcome to <Link to="/create">create another account</Link> with desired name
+                  and transfer assets as needed.
+                  {` `}
+                  {false ?
                   <a href='/'>Learn more</a>
+                  : null }
                </Popup.Content>
             </Popup>
          </Grid.Column>
       </Grid.Row>
+      {false ? <div>
       <Grid.Row className='border-top'>
          <Grid.Column computer='3' tablet='3' mobile='4' className='title'>
             Full Name
@@ -269,26 +275,19 @@ const ProfileDetails = ({ loader }) => (
             VISIBLE TO
          </Grid.Column>
       </Grid.Row>
+      </div> : null }
+
       <Grid.Row className='border-top'>
          <Grid.Column computer='3' tablet='3' mobile='4' className='title'>
             Balance
          </Grid.Column>
          <Grid.Column computer='7' tablet='7' mobile='9'>
-            2,300 Ⓝ
+            {account.amount} Ⓝ
          </Grid.Column>
          <Grid.Column computer='4' tablet='4' textAlign='center' only='tablet'>
             Only Me
          </Grid.Column>
-         <Grid.Column
-            as={Link}
-            to='/'
-            computer='2'
-            tablet='2'
-            mobile='3'
-            textAlign='right'
-            className='edit-link'
-         >
-            Edit
+         <Grid.Column as="div">
          </Grid.Column>
       </Grid.Row>
    </CustomGrid>
