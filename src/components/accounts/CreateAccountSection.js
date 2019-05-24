@@ -42,8 +42,10 @@ const CustomGrid = styled(Grid)`
       }
    }
    @media screen and (max-width: 991px) {
-      .note-box {
-         padding-left: 0px;
+      &&& {
+         .note-box {
+            padding-left: 0px;
+         }
       }
    }
    @media screen and (max-width: 767px) {
