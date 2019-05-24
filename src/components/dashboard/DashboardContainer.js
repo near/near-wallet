@@ -15,30 +15,24 @@ const CustomContainer = styled(Container)`
       padding-right: 0px;
       padding-top: 48px;
       padding-bottom: 0px;
-
       .column {
          padding: 0 0 24px 0;
-
          :first-child {
             padding-left: 0px;
          }
       }
-
       h1 {
          color: #4a4f54;
          padding-left: 0px;
          line-height: 48px;
       }
    }
-
    .near {
       font-size: 48px;
       color: #24272a;
    }
-
    &&& .send-money {
       margin: -8px 0 0 0;
-
       > .button {
          width: 100%;
          line-height: 60px;
@@ -51,12 +45,10 @@ const CustomContainer = styled(Container)`
          background: #fff;
          text-align: left;
          padding: 0 0 0 40px;
-
          background-image: url(${ArrowGrnImage});
          background-repeat: no-repeat;
          background-position: 90% center;
          background-size: 14px 20px;
-
          :hover {
             background-color: #5ace84;
             color: #fff;
@@ -64,28 +56,46 @@ const CustomContainer = styled(Container)`
          }
       }
    }
-
    &&& {
       .right-section {
          padding-left: 40px;
       }
    }
-
+   @media screen and (max-width: 991px) {
+      > .grid {
+         margin-left: 0px;
+         margin-right: 0px;
+      }
+      &&& .send-money {
+         margin-top: 20px;
+         margin-top: 0px;
+      }
+      &&& .creating-info {
+         text-align: center;
+         .column {
+            padding: 0 0 12px 0;
+         }
+         .balance {
+            display: none;
+         }
+         .button {
+            width: 240px;
+            line-height: 44px;
+         }
+      }
+   }
    @media screen and (max-width: 767px) {
       > .grid {
          margin-left: 0px;
          margin-right: 0px;
       }
-
       &&& .send-money {
          margin-top: 20px;
          margin-top: 0px;
       }
-
       &&& .creating-info {
          padding-top: 24px;
          text-align: center;
-
          .column {
             padding: 0 0 12px 0;
          }
@@ -104,7 +114,12 @@ const DashboardContainer = ({ children, account }) => (
    <CustomContainer>
       <Grid>
          <Grid.Row className='creating-info'>
-            <Grid.Column computer={12} tablet={11} mobile={16}>
+            <Grid.Column
+               computer={12}
+               tablet={16}
+               mobile={16}
+               verticalAlign='middle'
+            >
                <Header as='h1'>
                   <span className='balance'>Balance: </span>
                   <span className='color-black'>{account.amount}</span>
@@ -113,7 +128,7 @@ const DashboardContainer = ({ children, account }) => (
             </Grid.Column>
             <Grid.Column
                computer={4}
-               tablet={5}
+               tablet={16}
                mobile={16}
                className='send-money'
             >
@@ -123,9 +138,7 @@ const DashboardContainer = ({ children, account }) => (
             </Grid.Column>
          </Grid.Row>
       </Grid>
-      { false ?
-      <DashboardOtherAssets />
-      : null }
+      {false ? <DashboardOtherAssets /> : null}
       {children}
    </CustomContainer>
 )
