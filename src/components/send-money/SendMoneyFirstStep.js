@@ -78,14 +78,8 @@ const CustomList = styled(List)`
             padding: 2px;
             width: 200px;
             background-color: #fff;
-            border: 2px solid #e6e6e6;
-            border-radius: 25px;
             color: #999999;
-            font-weight: 700;
-            :hover {
-               background-color: #e6e6e6;
-               color: #fff;
-            }
+            font-weight: 600;
          }
          .add-note {
             > textarea {
