@@ -5,10 +5,10 @@ import RequestStatusBox from '../common/RequestStatusBox'
 
 const AccountFormSection = ({ requestStatus, children }) => (
    <Grid>
-      <Grid.Column computer={8} tablet={8} mobile={16}>
+      <Grid.Column computer={9} tablet={8} mobile={16}>
          {children}
       </Grid.Column>
-      <Grid.Column computer={8} tablet={8} mobile={16}>
+      <Grid.Column computer={7} tablet={8} mobile={16}>
          <RequestStatusBox requestStatus={requestStatus} />
       </Grid.Column>
    </Grid>

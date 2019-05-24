@@ -11,13 +11,11 @@ const CustomContainer = styled(Container)`
    &&& .creating-info {
       padding-right: 0px;
       padding-top: 48px;
-
       h1 {
          color: #4a4f54;
          padding-bottom: 24px;
       }
    }
-
    @media screen and (max-width: 767px) {
       &&& .creating-info {
          padding-right: 1rem;
@@ -34,13 +32,14 @@ const RecoverAccountContainer = ({ loader, children }) => (
          </Dimmer>
 
          <Grid.Row className='creating-info'>
-            <Grid.Column computer={8} tablet={8} mobile={16}>
+            <Grid.Column computer={9} tablet={8} mobile={16}>
                <Header as='h1'>Recover your Account</Header>
                <Header as='h2'>
-                  Please enter your account name and phone number you used to protect account.
+                  Please enter your account name and phone number you used to
+                  protect account.
                </Header>
             </Grid.Column>
-            <Grid.Column computer={8} tablet={8} mobile={16}>
+            <Grid.Column computer={7} tablet={8} mobile={16}>
                <NearInfo />
             </Grid.Column>
          </Grid.Row>
