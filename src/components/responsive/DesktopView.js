@@ -150,7 +150,8 @@ class DesktopView extends Component {
 
    state = {
       fixed: false,
-      activeItem: 'home'
+      activeItem: 'home',
+      popupOpen: false
    }
 
    hideFixedMenu = () => this.setState({ fixed: false })
@@ -171,7 +172,7 @@ class DesktopView extends Component {
    }
 
    render() {
-      const { fixed } = this.state
+      const { fixed, popupOpen } = this.state
       const { account } = this.props
 
       return (
@@ -200,12 +201,12 @@ class DesktopView extends Component {
                      <Image className='navbar-icon' src={RecentImage} />
                      SUMMARY
                   </Menu.Item>
-                  { false ?
-                  <Menu.Item as={Link} to='/activity'>
-                     <Image className='navbar-icon' src={ActivityImage} />
-                     ACTIVITY
-                  </Menu.Item>
-                  : null }
+                  {false ? (
+                     <Menu.Item as={Link} to='/activity'>
+                        <Image className='navbar-icon' src={ActivityImage} />
+                        ACTIVITY
+                     </Menu.Item>
+                  ) : null}
                   <Menu.Item as={Link} to='/send-money'>
                      <Image className='navbar-icon' src={SendImage} />
                      SEND MONEY
@@ -224,6 +225,8 @@ class DesktopView extends Component {
                            account={account}
                            handleSelectAccount={this.handleSelectAccount}
                            redirectCreateAccount={this.redirectCreateAccount}
+                           handleToggle={this.handleToggle}
+                           popupOpen={popupOpen}
                         />
                      </Menu.Menu>
                   )}
