@@ -219,12 +219,14 @@ class MobileView extends Component {
                            SUMMARY
                         </Link>
                      </Menu.Item>
-                     <Menu.Item className='main'>
-                        <Link to='/activity' onClick={this.handleDropdown}>
-                           <Image src={ActivityImage} />
-                           ACTIVITY
-                        </Link>
-                     </Menu.Item>
+                     {false ? (
+                        <Menu.Item className='main'>
+                           <Link to='/activity' onClick={this.handleDropdown}>
+                              <Image src={ActivityImage} />
+                              ACTIVITY
+                           </Link>
+                        </Menu.Item>
+                     ) : null}
                      <Menu.Item className='main border'>
                         <Link to='/send-money' onClick={this.handleDropdown}>
                            <Image src={SendImage} />
@@ -239,27 +241,36 @@ class MobileView extends Component {
                               Profile
                            </Link>
                         </Menu.Item>
-                        <Menu.Item>
-                           <Link to='/contacts' onClick={this.handleDropdown}>
-                              <Image src={ContactsGreyImage} />
-                              Contacts
-                           </Link>
-                        </Menu.Item>
-                        <Menu.Item>
-                           <Link
-                              to='/authorized-apps'
-                              onClick={this.handleDropdown}
-                           >
-                              <Image src={AuthorizedGreyImage} />
-                              Authorized Apps
-                           </Link>
-                        </Menu.Item>
-                        <Menu.Item>
-                           <Link to='/' onClick={this.handleDropdown}>
-                              <Image src={LogoutImage} />
-                              Logout
-                           </Link>
-                        </Menu.Item>
+                        {false ? (
+                           <Menu.Item>
+                              <Link
+                                 to='/contacts'
+                                 onClick={this.handleDropdown}
+                              >
+                                 <Image src={ContactsGreyImage} />
+                                 Contacts
+                              </Link>
+                           </Menu.Item>
+                        ) : null}
+                        {false ? (
+                           <Menu.Item>
+                              <Link
+                                 to='/authorized-apps'
+                                 onClick={this.handleDropdown}
+                              >
+                                 <Image src={AuthorizedGreyImage} />
+                                 Authorized Apps
+                              </Link>
+                           </Menu.Item>
+                        ) : null}
+                        {false ? (
+                           <Menu.Item>
+                              <Link to='/' onClick={this.handleDropdown}>
+                                 <Image src={LogoutImage} />
+                                 Logout
+                              </Link>
+                           </Menu.Item>
+                        ) : null}
                      </Menu.Menu>
                      <Segment basic className='switch-account'>
                         <List>
