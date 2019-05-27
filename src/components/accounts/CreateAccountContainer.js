@@ -21,6 +21,9 @@ const CustomContainer = styled(Container)`
       h1 {
          line-height: 48px;
       }
+      h2 {
+         color: #4a4f54 !important;
+      }
    }
 
    @media screen and (max-width: 767px) {
