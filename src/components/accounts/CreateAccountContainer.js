@@ -10,7 +10,6 @@ import NearInfo from './NearInfo'
 import styled from 'styled-components'
 
 const CustomContainer = styled(Container)`
-
    &&& .page-title {
       padding-right: 0px;
       padding-top: 48px;
@@ -21,8 +20,6 @@ const CustomContainer = styled(Container)`
       }
       h1 {
          line-height: 48px;
-      }
-      .add {
       }
    }
 
@@ -58,12 +55,12 @@ const CreateAccountContainer = ({ loader, children, location }) => (
          </Dimmer>
 
          <Grid.Row columns='2' className='page-title'>
-            <Grid.Column>
-               <h1>Create Account</h1>
-               <h2>
+            <Grid.Column computer={9} tablet={8} mobile={16}>
+               <Header as='h1'>Create Account</Header>
+               <Header as='h2'>
                   Creating a NEAR account is easy. Just choose a username and
                   you’re ready to go.
-               </h2>
+               </Header>
                {parse(location.search).reset_accounts && (
                   <Header as='h3' className='color-blue'>
                      You have been redirected to this page because we had to
@@ -72,7 +69,7 @@ const CreateAccountContainer = ({ loader, children, location }) => (
                   </Header>
                )}
             </Grid.Column>
-            <Grid.Column className='add'>
+            <Grid.Column computer={7} tablet={8} mobile={16} className='add'>
                <NearInfo />
             </Grid.Column>
          </Grid.Row>

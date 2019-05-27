@@ -50,7 +50,7 @@ export default createGlobalStyle`
       font-size: 48px !important;
       font-weight: 500 !important;
       line-height: 100px;
-      color: #4a4f54;
+      color: #24272a;
    }
    h2, .h2 {
       font-family: Bw Seido Round !important;

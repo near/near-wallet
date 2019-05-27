@@ -6,25 +6,24 @@ import DashboardOtherAssets from './DashboardOtherAssets'
 import ArrowGrnImage from '../../images/icon-arrow-grn.svg'
 import ArrowRightImage from '../../images/icon-arrow-right.svg'
 
-import { Container, Grid, Button, Header } from 'semantic-ui-react'
+import { Container, Grid, Button } from 'semantic-ui-react'
 
 import styled from 'styled-components'
 
 const CustomContainer = styled(Container)`
-   &&& .creating-info {
+   &&& .page-title {
       padding-right: 0px;
       padding-top: 48px;
       padding-bottom: 0px;
+
       .column {
-         padding: 0 0 24px 0;
-         :first-child {
-            padding-left: 0px;
-         }
+         padding: 0 14px 24px 0;
       }
       h1 {
-         color: #4a4f54;
-         padding-left: 0px;
          line-height: 48px;
+      }
+      .add {
+         text-align: right;
       }
    }
    .near {
@@ -32,7 +31,7 @@ const CustomContainer = styled(Container)`
       color: #24272a;
    }
    &&& .send-money {
-      margin: -8px 0 0 0;
+      margin: 0 0 0 0;
       > .button {
          width: 100%;
          line-height: 60px;
@@ -70,7 +69,7 @@ const CustomContainer = styled(Container)`
          margin-top: 20px;
          margin-top: 0px;
       }
-      &&& .creating-info {
+      &&& .page-title {
          text-align: center;
          .column {
             padding: 0 0 12px 0;
@@ -93,7 +92,7 @@ const CustomContainer = styled(Container)`
          margin-top: 20px;
          margin-top: 0px;
       }
-      &&& .creating-info {
+      &&& .page-title {
          padding-top: 24px;
          text-align: center;
          .column {
@@ -113,18 +112,17 @@ const CustomContainer = styled(Container)`
 const DashboardContainer = ({ children, account }) => (
    <CustomContainer>
       <Grid>
-         <Grid.Row className='creating-info'>
+         <Grid.Row columns='2' className='page-title'>
             <Grid.Column
+               as='h1'
                computer={12}
                tablet={16}
                mobile={16}
                verticalAlign='middle'
             >
-               <Header as='h1'>
-                  <span className='balance'>Balance: </span>
-                  <span className='color-black'>{account.amount}</span>
-                  <span className='near'>Ⓝ</span>
-               </Header>
+               <span className='balance'>Balance: </span>
+               <span className='color-black'>{account.amount}</span>
+               <span className='near'>Ⓝ</span>
             </Grid.Column>
             <Grid.Column
                computer={4}

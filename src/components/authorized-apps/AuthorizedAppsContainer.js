@@ -16,7 +16,6 @@ const CustomContainer = styled(Container)`
          line-height: 48px;
       }
       .add {
-         color: #24272a;
          text-align: right;
       }
    }
@@ -48,14 +47,14 @@ const AuthorizedAppsContainer = ({ children }) => (
    <CustomContainer>
       <Grid>
          <Grid.Row columns='2' className='page-title'>
-            <Grid.Column computer='10' tablet='10' mobile='16' as='h1'>
+            <Grid.Column as='h1' computer={10} tablet={10} mobile={16}>
                Authorized Apps
             </Grid.Column>
             <Grid.Column
-               computer='6'
-               tablet='6'
-               mobile='16'
                as='h1'
+               computer={6}
+               tablet={6}
+               mobile={16}
                className='add'
             >
                23<span className='color-brown-grey'> total</span>
