@@ -55,7 +55,7 @@ const FooterGrid = styled(Grid)`
       .help {
          padding-right: 0px;
          padding-top: 10px;
-         padding-bottom: 0px;
+         padding-bottom: 10px;
 
          > .list {
             width: 230px;
@@ -134,7 +134,7 @@ const ResponsiveContainer = () => (
       >
          NEAR is a scalable computing and storage platform that changes how the
          web works for better.
-         <a href='/'>Learn More</a>
+         <a href='https://nearprotocol.com/'>Learn More</a>
       </Grid.Column>
       <Grid.Column
          only='tablet computer'
