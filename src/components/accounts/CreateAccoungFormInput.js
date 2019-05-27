@@ -16,10 +16,16 @@ const CustomFormInput = styled(Form.Input)`
       font-size: 18px;
       color: #4a4f54;
       font-weight: 400;
-      background: 0;
+      ${'' /* background: 0; */}
+      background-color: #f8f8f8;
       position: relative;
       :focus {
-         border-color: #6ad1e3;
+         border-color: #f8f8f8;
+         background-color: #fff;
+      }
+      :valid {
+         ${'' /* border-color: #f8f8f8; */}
+         background-color: #fff;
       }
    }
    &&&&& .spinner {
@@ -59,6 +65,7 @@ const CreateAccoungFormInput = ({
       value={accountId}
       onChange={handleChangeAccountId}
       placeholder='example: satoshi.near'
+      required
    />
 )
 

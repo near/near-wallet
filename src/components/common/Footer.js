@@ -133,7 +133,7 @@ const ResponsiveContainer = () => (
          verticalAlign='middle'
       >
          NEAR is a scalable computing and storage platform that changes how the
-         web works for better.
+         web works for better.{' '}
          <a href='https://nearprotocol.com/'>Learn More</a>
       </Grid.Column>
       <Grid.Column
