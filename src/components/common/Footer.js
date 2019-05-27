@@ -7,18 +7,17 @@ import NearkatImage from '../../images/footer-nearkat.svg'
 import styled from 'styled-components'
 
 const FooterGrid = styled(Grid)`
-   position: absolute;
-   bottom: 0px;
-   width: 100%;
+   &&&& {
+      position: absolute;
+      bottom: 0px;
+      width: 100%;
 
-   height: 100px;
-   background-color: #f8f8f8;
+      background-color: #f8f8f8;
 
-   font-size: 12px;
-   font-weight: 300;
-   color: #999999;
+      font-size: 12px;
+      font-weight: 300;
+      color: #999999;
 
-   &&& {
       margin-bottom: 0px;
       margin-left: 0px;
 
@@ -47,34 +46,39 @@ const FooterGrid = styled(Grid)`
             }
          }
       }
-   }
 
-   &&&& .help {
-      padding-right: 0px;
-      padding-top: 10px;
-      padding-bottom: 0px;
+      .learn-more {
+         padding: 0 40px 0 0;
+         color: #24272a;
+      }
 
-      > .list {
-         width: 230px;
-         height: 80px;
-         padding: 20px 0;
-         background: #fff;
-         text-align: left;
+      .help {
+         padding-right: 0px;
+         padding-top: 10px;
+         padding-bottom: 0px;
 
-         > img {
-            width: 80px;
-            position: absolute;
-            bottom: 0px;
-            right: 200px;
-         }
+         > .list {
+            width: 230px;
+            height: 80px;
+            padding: 20px 0;
+            background: #fff;
+            text-align: left;
 
-         > h3 {
-            font-weight: 600 !important;
-            padding: 0 0 0 40px;
-            color: #999999 !important;
+            > img {
+               width: 80px;
+               position: absolute;
+               bottom: 0px;
+               right: 200px;
+            }
 
-            &.color {
-               color: #0072ce !important;
+            > h3 {
+               font-weight: 600 !important;
+               padding: 0 0 0 40px;
+               color: #999999 !important;
+
+               &.color {
+                  color: #0072ce !important;
+               }
             }
          }
       }
@@ -103,7 +107,9 @@ const ResponsiveContainer = () => (
       <Grid.Column
          textAlign='left'
          verticalAlign='middle'
-         computer={10}
+         widescreen={4}
+         largeScreen={6}
+         computer={7}
          tablet={10}
          mobile={16}
       >
@@ -121,8 +127,20 @@ const ResponsiveContainer = () => (
          </Item.Group>
       </Grid.Column>
       <Grid.Column
+         only='computer'
+         computer={5}
+         className='learn-more'
+         verticalAlign='middle'
+      >
+         NEAR is a scalable computing and storage platform that changes how the
+         web works for better.
+         <a href='/'>Learn More</a>
+      </Grid.Column>
+      <Grid.Column
          only='tablet computer'
-         computer={6}
+         widescreen={7}
+         largeScreen={5}
+         computer={4}
          tablet={6}
          textAlign='right'
          className='help'
