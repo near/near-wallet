@@ -23,7 +23,6 @@ const CustomFormInput = styled(Form.Input)`
          background-color: #fff;
       }
       :valid {
-         ${'' /* border-color: #f8f8f8; */}
          background-color: #fff;
       }
    }
