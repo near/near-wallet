@@ -19,10 +19,14 @@ const RecoveryInfoForm = styled(Form)`
       font-size: 18px;
       color: #4a4f54;
       font-weight: 400;
-      background: 0;
+      background-color: #f8f8f8;
       position: relative;
       :focus {
-         border-color: #6ad1e3;
+         border-color: #f8f8f8;
+         background-color: #fff;
+      }
+      :valid {
+         background-color: #fff;
       }
    }
    .create {
@@ -31,7 +35,8 @@ const RecoveryInfoForm = styled(Form)`
       .react-phone-number-input__country {
          position: absolute;
          top: 24px;
-         right: 10px;
+         right: 22px;
+         z-index: 1;
 
          &-select-arrow {
             display: none;
@@ -157,6 +162,7 @@ const SetRecoveryInfoForm = ({
                   handleChange(null, { name: 'phoneNumber', value })
                }
                placeholder='example: +1 555 123 4567'
+               required
             />
          </Form.Field>
       )}
