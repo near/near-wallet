@@ -22,6 +22,19 @@ const RecoveryInfoForm = styled(Form)`
          border-color: #6ad1e3;
       }
    }
+   .create {
+      position: relative;
+
+      .react-phone-number-input__country {
+         position: absolute;
+         top: 24px;
+         right: 10px;
+
+         &-select-arrow {
+            display: none;
+         }
+      }
+   }
    &&&&& .spinner {
       margin-right: 20px;
       :before,

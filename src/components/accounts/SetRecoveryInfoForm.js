@@ -9,7 +9,7 @@ import CheckBlueImage from '../../images/icon-check-blue.svg'
 import styled from 'styled-components'
 
 const RecoveryInfoForm = styled(Form)`
-   &&& input {
+   &&&& input {
       width: 100%;
       height: 64px;
       border: 4px solid #f8f8f8;
@@ -21,6 +21,19 @@ const RecoveryInfoForm = styled(Form)`
       position: relative;
       :focus {
          border-color: #6ad1e3;
+      }
+   }
+   .create {
+      position: relative;
+
+      .react-phone-number-input__country {
+         position: absolute;
+         top: 24px;
+         right: 10px;
+
+         &-select-arrow {
+            display: none;
+         }
       }
    }
    &&&&& .spinner {
