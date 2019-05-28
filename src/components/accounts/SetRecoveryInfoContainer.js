@@ -51,7 +51,7 @@ const CustomContainer = styled(Container)`
 /* eslint-disable jsx-a11y/accessible-emoji */
 const SetRecoveryInfoContainer = ({ loader, children }) => (
    <CustomContainer>
-      <Grid>
+      <Grid stackable>
          <Dimmer inverted active={loader}>
             <Loader />
          </Dimmer>
@@ -62,11 +62,6 @@ const SetRecoveryInfoContainer = ({ loader, children }) => (
                <Header as='h2'>
                   Enter your phone number to make your account easy for you to
                   recover in the future.
-               </Header>
-               <Header as='h3' className='color-blue'>
-                  If you want to backup your account keys manually, you can skip
-                  this. However if you choose this option, we won't be able to
-                  assist you with account recovery.
                </Header>
             </Grid.Column>
             <Grid.Column computer={7} tablet={8} mobile={16} className='add'>

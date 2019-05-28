@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { Form, Input, Button } from 'semantic-ui-react'
+import { Form, Input, Button, Segment } from 'semantic-ui-react'
 import PhoneInput from 'react-phone-number-input'
 
 import ProblemsImage from '../../images/icon-problems.svg'
@@ -9,6 +9,8 @@ import CheckBlueImage from '../../images/icon-check-blue.svg'
 import styled from 'styled-components'
 
 const RecoveryInfoForm = styled(Form)`
+   margin-left: -1rem;
+
    &&&& input {
       width: 100%;
       height: 64px;
@@ -33,6 +35,21 @@ const RecoveryInfoForm = styled(Form)`
 
          &-select-arrow {
             display: none;
+         }
+      }
+   }
+   .segment {
+      padding: 20px 0 0 0;
+      color: #24272a;
+      border-top: 4px solid #f8f8f8 !important;
+      margin-top: 48px;
+      line-height: 24px;
+
+      a {
+         text-decoration: underline;
+
+         :hover {
+            text-decoration: none;
          }
       }
    }
@@ -107,6 +124,10 @@ const RecoveryInfoForm = styled(Form)`
    select.react-phone-number-input__country-select {
       height: 100%;
    }
+
+   @media screen and (max-width: 767px) {
+      margin-left: 0;
+   }
 `
 
 const SetRecoveryInfoForm = ({
@@ -155,10 +176,17 @@ const SetRecoveryInfoForm = ({
          <Button type='submit' disabled={!isLegit}>
             PROTECT ACCOUNT
          </Button>
-         <Link to='/dashboard' className='ui button'>
-            NOT NOW
-         </Link>
       </Form.Field>
+
+      <Segment basic>
+         <span>Skip this step</span>
+         if you want to backup your account keys manually. However, skipping
+         this will make it impossible for us to assist you with account recovery
+         in the future.{' '}
+         <Link to='/dashboard' className=''>
+            I choose to backup my account manually
+         </Link>
+      </Segment>
    </RecoveryInfoForm>
 )
 
