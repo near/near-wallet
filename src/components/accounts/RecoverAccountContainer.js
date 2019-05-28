@@ -51,17 +51,17 @@ const CustomContainer = styled(Container)`
 /* eslint-disable jsx-a11y/accessible-emoji */
 const RecoverAccountContainer = ({ loader, children }) => (
    <CustomContainer>
-      <Grid>
+      <Grid stackable>
          <Dimmer inverted active={loader}>
             <Loader />
          </Dimmer>
 
          <Grid.Row columns='2' className='page-title'>
             <Grid.Column computer={9} tablet={8} mobile={16}>
-               <Header as='h1'>Recover your Account</Header>
+               <Header as='h1'>Find your Account</Header>
                <Header as='h2'>
-                  Please enter your account name and phone number you used to
-                  protect account.
+                  Enter your information associated with the account and we will
+                  send a recovery code.
                </Header>
             </Grid.Column>
             <Grid.Column computer={7} tablet={8} mobile={16} className='add'>

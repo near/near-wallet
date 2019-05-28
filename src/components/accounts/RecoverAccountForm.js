@@ -8,6 +8,8 @@ import CheckBlueImage from '../../images/icon-check-blue.svg'
 import styled from 'styled-components'
 
 const RecoveryInfoForm = styled(Form)`
+   margin-left: -1rem;
+
    &&&& input {
       width: 100%;
       height: 64px;
@@ -106,6 +108,10 @@ const RecoveryInfoForm = styled(Form)`
    select.react-phone-number-input__country-select {
       height: 100%;
    }
+
+   @media screen and (max-width: 767px) {
+      margin-left: 0;
+   }
 `
 
 const RecoverAccountForm = ({
@@ -171,7 +177,7 @@ const RecoverAccountForm = ({
 
       <Form.Field>
          <Button type='submit' disabled={!isLegit}>
-            RECOVER ACCOUNT
+            FIND MY ACCOUNT
          </Button>
       </Form.Field>
    </RecoveryInfoForm>
