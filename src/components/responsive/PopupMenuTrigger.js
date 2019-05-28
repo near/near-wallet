@@ -70,6 +70,10 @@ const CustomDiv = styled('div')`
             > div {
                text-overflow: ellipsis;
                overflow: hidden;
+
+               &.near {
+                  text-overflow: initial;
+               }
             }
          }
          .near {
