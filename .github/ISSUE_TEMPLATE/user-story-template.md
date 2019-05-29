@@ -14,6 +14,8 @@ As a USER who PRECONDITIONS, I want to DO_THING so I can ACCOMPLISH_GOAL.
 
 - [ ] AC1
 - [ ] AC2
+- [ ] Mobile ok
+- [ ] Tested
 
 
 ## Assets
