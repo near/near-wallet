@@ -13,25 +13,28 @@ const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
  * For convenience, `dispatch` will return the promise so the caller can wait.
  */
 const readyStatePromise = store => next => action => {
-    if (!action.payload || !action.payload.then) {
-      return next(action)
-    }
-  
-    function makeAction(ready, data) {
-      const newAction = Object.assign({}, action)
-      delete newAction.payload
-      return Object.assign(newAction, { ready }, data)
-    }
-  
-    next(makeAction(false))
-    return action.payload.then(
-      payload => next(makeAction(true, { payload })),
-      error => next(makeAction(true, { error: true, payload: error }))
-    )
+  if (!action.payload || !action.payload.then) {
+    return next(action)
   }
+
+  function makeAction(ready, data) {
+    const newAction = Object.assign({}, action)
+    delete newAction.payload
+    return Object.assign(newAction, { ready }, data)
+  }
+
+  next(makeAction(false))
+  return action.payload.then(
+    payload => next(makeAction(true, { payload })),
+    error => {
+      console.warn('Error in background action:', error)
+      return next(makeAction(true, { error: true, payload: error }))
+    }
+  )
+}
 
 export default (history) => composeEnhancers(
     applyMiddleware(
         routerMiddleware(history),
-        readyStatePromise,
-        thunk))
+        thunk,
+        readyStatePromise))

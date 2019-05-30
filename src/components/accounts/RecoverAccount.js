@@ -7,7 +7,7 @@ import { Wallet } from '../../utils/wallet'
 import AccountFormSection from './AccountFormSection'
 import RecoverAccountForm from './RecoverAccountForm'
 import RecoverAccountContainer from './RecoverAccountContainer'
-import { requestCode, validateCode } from '../../actions/account';
+import { requestCode, recoverAccount } from '../../actions/account';
 
 class RecoverAccount extends Component {
    state = {
@@ -45,18 +45,11 @@ class RecoverAccount extends Component {
       }
 
       const { dispatch } = this.props;
+      const accountId = this.state.accountId || this.props.accountId;
       if (!this.props.sentSms) {
-         dispatch(requestCode(this.state.phoneNumber, this.props.accountId))
+         dispatch(requestCode(this.state.phoneNumber, accountId))
       } else {
-         dispatch(validateCode(this.state.phoneNumber, this.props.accountId, this.state.securityCode))
-            .then(({error}) => {
-               if (error) return
-
-               let nextUrl = `/login/${(this.props.url && this.props.url.next_url) || '/'}`
-               setTimeout(() => {
-                  this.props.history.push(nextUrl)
-               }, 1500)
-            })
+         dispatch(recoverAccount(this.state.phoneNumber, accountId, this.state.securityCode))
       }
    }
 
@@ -72,7 +65,7 @@ class RecoverAccount extends Component {
             <AccountFormSection {...combinedState}>
                <RecoverAccountForm
                   {...combinedState}
-                  handleSubmit={this.handleSubmit}
+                  handleSubmit={this.handleSubmit.bind(this)}
                   handleChange={this.handleChange}
                />
             </AccountFormSection>

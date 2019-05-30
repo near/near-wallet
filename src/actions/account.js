@@ -1,6 +1,7 @@
 import { parse } from 'query-string'
 import { createActions } from 'redux-actions';
 import { Wallet } from '../utils/wallet';
+import nearlib from 'nearlib'
 
 export const REFRESH_ACCOUNT = 'REFRESH_ACCOUNT'
 export const LOADER_ACCOUNT = 'LOADER_ACCOUNT'
@@ -76,14 +77,28 @@ export function handleRefreshUrl(location) {
 
 const wallet = new Wallet()
 
-export const { requestCode, validateCode } = createActions({
+export const redirectToApp = () => (dispatch, getState) => {
+   const state = getState()
+   const nextUrl = `/login/${(state.account.url && state.props.url.next_url) || '/'}`
+   setTimeout(() => {
+      // TODO: Navigate to page
+      // this.props.history.push(nextUrl)
+      console.log("redirect to ", nextUrl)
+   }, 1500)
+}
+
+export const { requestCode, setupAccountRecovery, recoverAccount } = createActions({
    REQUEST_CODE: [
       wallet.requestCode.bind(wallet),
       () => ({ successCode: 'account.requestCode.success', errorCode: 'account.requestCode.error' })
    ],
-   VALIDATE_CODE: [
-      wallet.validateCode.bind(wallet),
-      () => ({ successCode: 'account.validateCode.success', errorCode: 'account.validateCode.error' })
+   SETUP_ACCOUNT_RECOVERY: [
+      wallet.setupAccountRecovery.bind(wallet),
+      () => ({ successCode: 'account.setupAccountRecovery.success', errorCode: 'account.setupAccountRecovery.error' })
+   ],
+   RECOVER_ACCOUNT: [
+      wallet.recoverAccount.bind(wallet),
+      () => ({ successCode: 'account.recoverAccount.success', errorCode: 'account.recoverAccount.error' })
    ]
 })
 

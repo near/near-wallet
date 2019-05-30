@@ -171,10 +171,7 @@ export class Wallet {
          xhr.setRequestHeader('Content-Type', 'application/json')
          xhr.onload = () => {
             if (xhr.status === 200) {
-               this.key_store.setKey(accountId, keyPair).catch(console.log)
-               this.accounts[accountId] = true
-               this.accountId = accountId
-               this.save()
+               this.saveAndSelectAccount(accountId, keyPair);
                resolve(xhr)
             } else if (xhr.status !== 200) {
                reject(xhr.responseText)
@@ -182,6 +179,13 @@ export class Wallet {
          }
          xhr.send(data)
       })
+   }
+
+   async saveAndSelectAccount(accountId, keyPair) {
+      await this.key_store.setKey(accountId, keyPair)
+      this.accounts[accountId] = true
+      this.accountId = accountId
+      this.save()
    }
 
    async addAccessKey(accountId, contractId, publicKey, successUrl) {
@@ -282,11 +286,28 @@ export class Wallet {
       return sendJson('POST', `${ACCOUNT_HELPER_URL}/account/${phoneNumber}/${accountId}/requestCode`)
    }
 
-   async validateCode(phoneNumber, accountId, securityCode) {
-      const key = this.key_store.getKey(accountId)
-      const signer = new nearlib.SimpleKeyStoreSigner(this.key_store);
-      const { signature } = key ? signer.signBuffer(Buffer.from(securityCode), accountId) : undefined;
-      return sendJson('POST', `${ACCOUNT_HELPER_URL}/account/${phoneNumber}/${accountId}/validateCode`, { securityCode, signature })
+   validateCode(phoneNumber, accountId, postData) {
+      return sendJson('POST', `${ACCOUNT_HELPER_URL}/account/${phoneNumber}/${accountId}/validateCode`, postData)
+   }
+
+   async setupAccountRecovery(phoneNumber, accountId, securityCode) {
+      // TODO: Don't hardcode key
+      const HELPER_KEY = '22skMptHjFWNyuEWY22ftn2AbLPSYpmYwGJRGwpNHbTV';
+      const nearAccount = await this.near.nearClient.viewAccount(accountId);
+      if (!nearAccount.public_keys.some(key => nearlib.KeyPair.encodeBufferInBs58(Buffer.from(key)) === HELPER_KEY)) {
+         await this.near.waitForTransactionResult(
+            await this.account.addAccountKey(accountId, HELPER_KEY));
+      }
+
+      const signer = this.near.nearClient.signer;
+      const { signature } = await signer.signBuffer(Buffer.from(securityCode), accountId);
+      await this.validateCode(phoneNumber, accountId, { securityCode, signature })
+   }
+
+   async recoverAccount(phoneNumber, accountId, securityCode) {
+      const keyPair = nearlib.KeyPair.fromRandomSeed()
+      await this.validateCode(phoneNumber, accountId, { securityCode, publicKey: keyPair.publicKey })
+      await this.saveAndSelectAccount(accountId, keyPair)
    }
 
    receiveMessage(event) {
