@@ -18,14 +18,14 @@ import ContactsGreyImage from '../../images/icon-contacts-grey.svg'
 
 import TStakeImage from '../../images/icon-t-stake.svg'
 import TTransferImage from '../../images/icon-t-transfer.svg'
-import NearkatImage from '../../images/footer-nearkat.svg'
+import AppDefaultImage from '../../images/icon-app-default.svg'
 
 class DashboardDetail extends Component {
    state = {
       loader: false,
       notice: true,
       activity: [],
-      authorizedaps: [],
+      authorizedApps: [],
       newcontacts: []
    }
 
@@ -34,50 +34,79 @@ class DashboardDetail extends Component {
       this.props.handleRefreshUrl(this.props.location)
       this.props.handleRefreshAccount(this.wallet, this.props.history)
 
+      this.refreshAuthorizedApps()
+
       this.setState(() => ({
          loader: true
       }))
 
-      setTimeout(() => {
-         this.setState(_ => ({
-            activity: [
-               [
-                  TTransferImage,
-                  'Sent: 125 Ⓝ  to @jake.near',
-                  'Some details about this activity here',
-                  '3 min ago'
+      false &&
+         setTimeout(() => {
+            this.setState(_ => ({
+               activity: [
+                  [
+                     TTransferImage,
+                     'Sent: 125 Ⓝ  to @jake.near',
+                     'Some details about this activity here',
+                     '3 min ago'
+                  ],
+                  [
+                     TStakeImage,
+                     'You Staked 10 tokens',
+                     'Some details about this activity here',
+                     '20 min ago'
+                  ],
+                  [
+                     TTransferImage,
+                     'Sent: 125 Ⓝ  to @vlad.near',
+                     'Some details about this activity here',
+                     '1 hr ago'
+                  ]
                ],
-               [
-                  TStakeImage,
-                  'You Staked 10 tokens',
-                  'Some details about this activity here',
-                  '20 min ago'
+               authorizedApps: [
+                  [AppDefaultImage, 'NEAR Place', '', '3 hrs ago'],
+                  [AppDefaultImage, 'Cryptocats', '', '5 hrs ago'],
+                  [AppDefaultImage, 'Knights App', '', '2 days ago']
                ],
-               [
-                  TTransferImage,
-                  'Sent: 125 Ⓝ  to @vlad.near',
-                  'Some details about this activity here',
-                  '1 hr ago'
+               newcontacts: [
+                  [
+                     AccountGreyImage,
+                     'Alex Skidanov ',
+                     '',
+                     'Connected 2 days ago'
+                  ],
+                  [AccountGreyImage, '@vlad.near', '', '2 days ago'],
+                  [
+                     AccountGreyImage,
+                     'Illia Polosukhin',
+                     '',
+                     'Connected 2 days ago'
+                  ]
                ]
-            ],
-            authorizedaps: [
-               [NearkatImage, 'NEAR Place', '', '3 hrs ago'],
-               [NearkatImage, 'Cryptocats', '', '5 hrs ago'],
-               [NearkatImage, 'Knights App', '', '2 days ago']
-            ],
-            newcontacts: [
-               [AccountGreyImage, 'Alex Skidanov ', '', 'Connected 2 days ago'],
-               [AccountGreyImage, '@vlad.near', '', '2 days ago'],
-               [
-                  AccountGreyImage,
-                  'Illia Polosukhin',
-                  '',
-                  'Connected 2 days ago'
-               ]
-            ],
+               // loader: false
+            }))
+         }, 1000)
+   }
+
+   refreshAuthorizedApps = () => {
+      this.setState(() => ({
+         loader: true
+      }))
+
+      this.wallet.getAccountDetails().then(response => {
+         this.setState(() => ({
+            authorizedApps: response.authorizedApps.map(r => [
+               AppDefaultImage,
+               r.contractId,
+               r.amount,
+               r.publicKey
+               // 'NEAR Place',
+               // '3 hrs ago',
+               // '',
+            ]),
             loader: false
          }))
-      }, 1000)
+      })
    }
 
    handleNotice = () => {
@@ -91,37 +120,47 @@ class DashboardDetail extends Component {
          loader,
          notice,
          activity,
-         authorizedaps,
+         authorizedApps,
          newcontacts
       } = this.state
 
       return (
          <DashboardContainer account={this.props.account}>
-            { false ?
-            <DashboardSection notice={notice} handleNotice={this.handleNotice}>
-               <DashboardActivity
-                  loader={loader}
-                  image={activityGreyImage}
-                  title='Activity'
-                  to='/'
-                  activity={activity}
-               />
-               <DashboardActivity
-                  loader={loader}
-                  image={AuthorizedGreyImage}
-                  title='Authorized Apps'
-                  to='/authorized-apps'
-                  activity={authorizedaps}
-               />
-               <DashboardActivity
-                  loader={loader}
-                  image={ContactsGreyImage}
-                  title='New Contacts'
-                  to='/contacts'
-                  activity={newcontacts}
-               />
-            </DashboardSection>
-            : null }
+            <DashboardActivity
+               loader={loader}
+               image={AuthorizedGreyImage}
+               title='Authorized Apps'
+               to='/authorized-apps'
+               activity={authorizedApps}
+            />
+            {false ? (
+               <DashboardSection
+                  notice={notice}
+                  handleNotice={this.handleNotice}
+               >
+                  <DashboardActivity
+                     loader={loader}
+                     image={activityGreyImage}
+                     title='Activity'
+                     to='/'
+                     activity={activity}
+                  />
+                  <DashboardActivity
+                     loader={loader}
+                     image={AuthorizedGreyImage}
+                     title='Authorized Apps'
+                     to='/authorized-apps'
+                     activity={authorizedApps}
+                  />
+                  <DashboardActivity
+                     loader={loader}
+                     image={ContactsGreyImage}
+                     title='New Contacts'
+                     to='/contacts'
+                     activity={newcontacts}
+                  />
+               </DashboardSection>
+            ) : null}
          </DashboardContainer>
       )
    }

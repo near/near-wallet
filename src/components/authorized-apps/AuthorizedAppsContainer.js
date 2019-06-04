@@ -1,5 +1,5 @@
 import React from 'react'
-import { Container, Grid } from 'semantic-ui-react'
+import { Container, Grid, Dimmer, Loader } from 'semantic-ui-react'
 
 import styled from 'styled-components'
 
@@ -43,8 +43,12 @@ const CustomContainer = styled(Container)`
    }
 `
 
-const AuthorizedAppsContainer = ({ children }) => (
+const AuthorizedAppsContainer = ({ loader, total, children }) => (
    <CustomContainer>
+      <Dimmer inverted active={loader}>
+         <Loader />
+      </Dimmer>
+
       <Grid>
          <Grid.Row columns='2' className='page-title'>
             <Grid.Column as='h1' computer={10} tablet={10} mobile={16}>
@@ -57,7 +61,8 @@ const AuthorizedAppsContainer = ({ children }) => (
                mobile={16}
                className='add'
             >
-               23<span className='color-brown-grey'> total</span>
+               {total}
+               <span className='color-brown-grey'> total</span>
             </Grid.Column>
          </Grid.Row>
       </Grid>
