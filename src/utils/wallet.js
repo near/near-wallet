@@ -18,7 +18,7 @@ export class Wallet {
    constructor() {
       this.key_store = new nearlib.BrowserLocalStorageKeystore()
       this.near = nearlib.Near.createDefaultConfig(NODE_URL)
-      this.account = new nearlib.Account(this.near.nearClient);
+      this.account = new nearlib.Account(this.near.nearClient)
       this.accounts = JSON.parse(
          localStorage.getItem(KEY_WALLET_ACCOUNTS) || '{}'
       )
@@ -118,6 +118,60 @@ export class Wallet {
       return await this.near.nearClient.viewAccount(accountId)
    }
 
+   async getAccountDetails() {
+      // return await this.account.getAccountDetails(this.accountId)
+
+      return {
+         authorizedApps: [
+            {
+               contractId: 'studio-znshwhk6i',
+               amount: 100,
+               publicKey: '85Th4x9hCpgQ5vFZbMZ76RhsQpyAFeMsnnouxMbNfCKS'
+            },
+            {
+               contractId: 'studio-ee4arncdv',
+               amount: 200,
+               publicKey: 'DcXCBrXq77PHEuMVLChshGPtUCfUEjJHGuZ9hHos6VEp'
+            },
+            {
+               contractId: 'studio-znshwhk6i',
+               amount: 100,
+               publicKey: '85Th4x9hCpgQ5vFZbMZ76RhsQpyAFeMsnnouxMbNfCKS'
+            },
+            {
+               contractId: 'studio-ee4arncdv',
+               amount: 200,
+               publicKey: 'DcXCBrXq77PHEuMVLChshGPtUCfUEjJHGuZ9hHos6VEp'
+            },
+            {
+               contractId: 'studio-znshwhk6i',
+               amount: 100,
+               publicKey: '85Th4x9hCpgQ5vFZbMZ76RhsQpyAFeMsnnouxMbNfCKS'
+            },
+            {
+               contractId: 'studio-ee4arncdv',
+               amount: 200,
+               publicKey: 'DcXCBrXq77PHEuMVLChshGPtUCfUEjJHGuZ9hHos6VEp'
+            },
+            {
+               contractId: 'studio-znshwhk6i',
+               amount: 100,
+               publicKey: '85Th4x9hCpgQ5vFZbMZ76RhsQpyAFeMsnnouxMbNfCKS'
+            },
+            {
+               contractId: 'studio-ee4arncdv',
+               amount: 200,
+               publicKey: 'DcXCBrXq77PHEuMVLChshGPtUCfUEjJHGuZ9hHos6VEp'
+            }
+         ],
+         transactions: []
+      }
+   }
+
+   async removeAccessKey(publicKey) {
+      return await this.account.getAccountDetails(this.accountId, publicKey)
+   }
+
    async checkAccount(accountId) {
       if (accountId !== this.accountId) {
          return await this.near.nearClient.viewAccount(accountId)
@@ -154,7 +208,7 @@ export class Wallet {
       if (!!remoteAccount) {
          throw new Error('Account ' + accountId + ' already exists.')
       }
-      let keyPair = await nearlib.KeyPair.fromRandomSeed();
+      let keyPair = await nearlib.KeyPair.fromRandomSeed()
       return await new Promise((resolve, reject) => {
          let data = JSON.stringify({
             newAccountId: accountId,
@@ -184,22 +238,24 @@ export class Wallet {
          accountId,
          publicKey,
          contractId,
-         '',  // methodName
-         '',  // fundingOwner
-         0,  // fundingAmount
-      );
+         '', // methodName
+         '', // fundingOwner
+         0 // fundingAmount
+      )
       try {
-         const result = await this.near.waitForTransactionResult(addAccessKeyResponse);
-         const parsedUrl = new URL(successUrl);
-         parsedUrl.searchParams.set('account_id', accountId);
-         parsedUrl.searchParams.set('public_key', publicKey);
-         const redirectUrl = parsedUrl.href;
-         if (result.status === "Completed") {
-            window.location.href = redirectUrl;
+         const result = await this.near.waitForTransactionResult(
+            addAccessKeyResponse
+         )
+         const parsedUrl = new URL(successUrl)
+         parsedUrl.searchParams.set('account_id', accountId)
+         parsedUrl.searchParams.set('public_key', publicKey)
+         const redirectUrl = parsedUrl.href
+         if (result.status === 'Completed') {
+            window.location.href = redirectUrl
          }
       } catch (e) {
          // TODO: handle errors
-         console.log("Error on adding access key ", e);
+         console.log('Error on adding access key ', e)
       }
    }
 
@@ -274,14 +330,23 @@ export class Wallet {
    }
 
    requestCode(phoneNumber, accountId) {
-      return sendJson('POST', `${ACCOUNT_HELPER_URL}/account/${phoneNumber}/${accountId}/requestCode`)
+      return sendJson(
+         'POST',
+         `${ACCOUNT_HELPER_URL}/account/${phoneNumber}/${accountId}/requestCode`
+      )
    }
 
    async validateCode(phoneNumber, accountId, securityCode) {
       const key = this.key_store.getKey(accountId)
-      const signer = new nearlib.SimpleKeyStoreSigner(this.key_store);
-      const { signature } = key ? signer.signBuffer(Buffer.from(securityCode), accountId) : undefined;
-      return sendJson('POST', `${ACCOUNT_HELPER_URL}/account/${phoneNumber}/${accountId}/validateCode`, { securityCode, signature })
+      const signer = new nearlib.SimpleKeyStoreSigner(this.key_store)
+      const { signature } = key
+         ? signer.signBuffer(Buffer.from(securityCode), accountId)
+         : undefined
+      return sendJson(
+         'POST',
+         `${ACCOUNT_HELPER_URL}/account/${phoneNumber}/${accountId}/validateCode`,
+         { securityCode, signature }
+      )
    }
 
    receiveMessage(event) {
