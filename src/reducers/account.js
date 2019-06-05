@@ -4,9 +4,10 @@ import {
    LOADER_ACCOUNT,
    REFRESH_URL,
    requestCode,
-   validateCode
+   validateCode,
+   getAccountDetails
 } from '../actions/account'
-import reduceReducers from 'reduce-reducers';
+import reduceReducers from 'reduce-reducers'
 
 const initialState = {
    formLoader: false,
@@ -20,24 +21,48 @@ const loaderReducer = (state, { ready }) => {
    return { ...state, formLoader: !ready }
 }
 
-const requestResultReducer = handleActions({
-   [combineActions(requestCode, validateCode)]: (state, { error, payload, meta }) => ({
-      ...state,
-      requestStatus: !!payload || error ? {
-         success: !error,
-         messageCode: error ? payload.messageCode || meta.errorCode : meta.successCode 
-      } : undefined
-   })
-}, initialState)
-
-const reducer = handleActions({
-   [requestCode]: (state, { error, ready }) => {
-      if (ready && !error) {
-         return { ...state, sentSms: true }
-      }
-      return state
+const requestResultReducer = handleActions(
+   {
+      [combineActions(requestCode, validateCode)]: (
+         state,
+         { error, payload, meta }
+      ) => ({
+         ...state,
+         requestStatus:
+            !!payload || error
+               ? {
+                    success: !error,
+                    messageCode: error
+                       ? payload.messageCode || meta.errorCode
+                       : meta.successCode
+                 }
+               : undefined
+      })
    },
-}, initialState)
+   initialState
+)
+
+const reducer = handleActions(
+   {
+      [requestCode]: (state, { error, ready }) => {
+         if (ready && !error) {
+            return { ...state, sentSms: true }
+         }
+         return state
+      }
+   },
+   initialState
+)
+
+const authorizedApps = handleActions(
+   {
+      [getAccountDetails]: (state, { error, payload }) => ({
+         ...state,
+         authorizedApps: payload && payload.authorizedApps
+      })
+   },
+   initialState
+)
 
 // TODO: Migrate everything to redux-actions
 function account(state = {}, action) {
@@ -69,5 +94,6 @@ export default reduceReducers(
    loaderReducer,
    requestResultReducer,
    reducer,
-   account)
-
+   authorizedApps,
+   account
+)
