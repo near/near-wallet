@@ -47,17 +47,26 @@ class AuthorizedApps extends Component {
    }
 
    handleDeauthorize = () => {
-      const publicKey = this.state.showSubData[4]
+      const publicKey = this.state.showSubData[3]
 
       this.setState(() => ({
          loader: true
       }))
 
-      this.wallet.removeAccessKey(publicKey).then(() => {
-         this.refreshAuthorizedApps()
-
-         this.toggleCloseSub()
-      })
+      this.wallet
+         .removeAccessKey(publicKey)
+         .then(() => {
+            this.toggleCloseSub()
+            this.refreshAuthorizedApps()
+         })
+         .catch(e => {
+            console.error('Error deauthorize:', e)
+         })
+         .finally(() => {
+            this.setState(() => ({
+               loader: false
+            }))
+         })
    }
 
    refreshAuthorizedApps = () => {
@@ -65,20 +74,26 @@ class AuthorizedApps extends Component {
          loader: true
       }))
 
-      this.wallet.getAccountDetails().then(response => {
-         this.setState(() => ({
-            authorizedApps: response.authorizedApps.map(r => [
-               AppDefaultImage,
-               r.contractId,
-               r.amount,
-               r.publicKey
-               // 'NEAR Place',
-               // '3 hrs ago',
-               // '',
-            ]),
-            loader: false
-         }))
-      })
+      this.wallet
+         .getAccountDetails()
+         .then(response => {
+            this.setState(() => ({
+               authorizedApps: response.authorizedApps.map(r => [
+                  AppDefaultImage,
+                  r.contractId,
+                  r.amount,
+                  r.publicKey
+               ])
+            }))
+         })
+         .catch(e => {
+            console.error('Error retrieving account details:', e)
+         })
+         .finally(() => {
+            this.setState(() => ({
+               loader: false
+            }))
+         })
    }
 
    componentDidMount() {

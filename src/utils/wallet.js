@@ -119,57 +119,11 @@ export class Wallet {
    }
 
    async getAccountDetails() {
-      // return await this.account.getAccountDetails(this.accountId)
-
-      return {
-         authorizedApps: [
-            {
-               contractId: 'studio-znshwhk6i',
-               amount: 100,
-               publicKey: '85Th4x9hCpgQ5vFZbMZ76RhsQpyAFeMsnnouxMbNfCKS'
-            },
-            {
-               contractId: 'studio-ee4arncdv',
-               amount: 200,
-               publicKey: 'DcXCBrXq77PHEuMVLChshGPtUCfUEjJHGuZ9hHos6VEp'
-            },
-            {
-               contractId: 'studio-znshwhk6i',
-               amount: 100,
-               publicKey: '85Th4x9hCpgQ5vFZbMZ76RhsQpyAFeMsnnouxMbNfCKS'
-            },
-            {
-               contractId: 'studio-ee4arncdv',
-               amount: 200,
-               publicKey: 'DcXCBrXq77PHEuMVLChshGPtUCfUEjJHGuZ9hHos6VEp'
-            },
-            {
-               contractId: 'studio-znshwhk6i',
-               amount: 100,
-               publicKey: '85Th4x9hCpgQ5vFZbMZ76RhsQpyAFeMsnnouxMbNfCKS'
-            },
-            {
-               contractId: 'studio-ee4arncdv',
-               amount: 200,
-               publicKey: 'DcXCBrXq77PHEuMVLChshGPtUCfUEjJHGuZ9hHos6VEp'
-            },
-            {
-               contractId: 'studio-znshwhk6i',
-               amount: 100,
-               publicKey: '85Th4x9hCpgQ5vFZbMZ76RhsQpyAFeMsnnouxMbNfCKS'
-            },
-            {
-               contractId: 'studio-ee4arncdv',
-               amount: 200,
-               publicKey: 'DcXCBrXq77PHEuMVLChshGPtUCfUEjJHGuZ9hHos6VEp'
-            }
-         ],
-         transactions: []
-      }
+      return await this.account.getAccountDetails(this.accountId)
    }
 
    async removeAccessKey(publicKey) {
-      return await this.account.getAccountDetails(this.accountId, publicKey)
+      return await this.account.removeAccessKey(this.accountId, publicKey)
    }
 
    async checkAccount(accountId) {
