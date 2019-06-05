@@ -1,7 +1,6 @@
 import { parse } from 'query-string'
 import { createActions } from 'redux-actions';
 import { Wallet } from '../utils/wallet';
-import nearlib from 'nearlib'
 
 export const REFRESH_ACCOUNT = 'REFRESH_ACCOUNT'
 export const LOADER_ACCOUNT = 'LOADER_ACCOUNT'
