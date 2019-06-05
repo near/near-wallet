@@ -4,11 +4,15 @@ import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 
 import { Wallet } from '../../utils/wallet'
-import { handleRefreshAccount, handleRefreshUrl } from '../../actions/account'
+import {
+   handleRefreshAccount,
+   handleRefreshUrl,
+   getAccountDetails,
+   removeAccessKey
+} from '../../actions/account'
 
 import PaginationBlock from '../pagination/PaginationBlock'
 import ListItem from '../dashboard/ListItem'
-
 import AuthorizedAppsContainer from './AuthorizedAppsContainer'
 
 import AppDefaultImage from '../../images/icon-app-default.svg'
@@ -53,20 +57,10 @@ class AuthorizedApps extends Component {
          loader: true
       }))
 
-      this.wallet
-         .removeAccessKey(publicKey)
-         .then(() => {
-            this.toggleCloseSub()
-            this.refreshAuthorizedApps()
-         })
-         .catch(e => {
-            console.error('Error deauthorize:', e)
-         })
-         .finally(() => {
-            this.setState(() => ({
-               loader: false
-            }))
-         })
+      this.props.removeAccessKey(publicKey).then(() => {
+         this.toggleCloseSub()
+         this.refreshAuthorizedApps()
+      })
    }
 
    refreshAuthorizedApps = () => {
@@ -74,26 +68,11 @@ class AuthorizedApps extends Component {
          loader: true
       }))
 
-      this.wallet
-         .getAccountDetails()
-         .then(response => {
-            this.setState(() => ({
-               authorizedApps: response.authorizedApps.map(r => [
-                  AppDefaultImage,
-                  r.contractId,
-                  r.amount,
-                  r.publicKey
-               ])
-            }))
-         })
-         .catch(e => {
-            console.error('Error retrieving account details:', e)
-         })
-         .finally(() => {
-            this.setState(() => ({
-               loader: false
-            }))
-         })
+      this.props.getAccountDetails().then(() => {
+         this.setState(() => ({
+            loader: false
+         }))
+      })
    }
 
    componentDidMount() {
@@ -107,12 +86,13 @@ class AuthorizedApps extends Component {
    render() {
       const {
          loader,
-         authorizedApps,
          filterTypes,
          showSub,
          showSubOpen,
          showSubData
       } = this.state
+
+      const { authorizedApps } = this.props
 
       return (
          <AuthorizedAppsContainer loader={loader} total={authorizedApps.length}>
@@ -144,11 +124,21 @@ class AuthorizedApps extends Component {
 
 const mapDispatchToProps = {
    handleRefreshAccount,
-   handleRefreshUrl
+   handleRefreshUrl,
+   getAccountDetails,
+   removeAccessKey
 }
 
 const mapStateToProps = ({ account }) => ({
-   ...account
+   ...account,
+   authorizedApps: account.authorizedApps
+      ? account.authorizedApps.map(r => [
+           AppDefaultImage,
+           r.contractId,
+           r.amount,
+           r.publicKey
+        ])
+      : []
 })
 
 export const AuthorizedAppsWithRouter = connect(
