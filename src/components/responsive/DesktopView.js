@@ -34,6 +34,8 @@ const CustomResponsive = styled(Responsive)`
       border-radius: 0;
       position: fixed;
       top: 0px;
+      z-index: 100;
+
       .left {
          float: left;
       }

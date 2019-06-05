@@ -52,7 +52,7 @@ const PaginationBlockGrid = styled(Grid)`
    &&& .sub-list {
       background: #fff;
       width: 100%;
-      min-height: 448px;
+      height: 100%;
       padding: 0 0;
 
       > .item {

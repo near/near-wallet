@@ -144,18 +144,18 @@ const DesktopPopup = ({
                   </List.Content>
                </List.Item>
             ) : null}
-            {false ? (
-               <List.Item>
-                  <List.Icon as={Image} src={AuthorizedGreyImage} />
-                  <List.Content
-                     as={Link}
-                     to='authorized-apps'
-                     onClick={handleToggle}
-                  >
-                     Authorized Apps
-                  </List.Content>
-               </List.Item>
-            ) : null}
+
+            <List.Item>
+               <List.Icon as={Image} src={AuthorizedGreyImage} />
+               <List.Content
+                  as={Link}
+                  to='authorized-apps'
+                  onClick={handleToggle}
+               >
+                  Authorized Apps
+               </List.Content>
+            </List.Item>
+
             {false ? (
                <List.Item>
                   <List.Icon as={Image} src={LogoutImage} />

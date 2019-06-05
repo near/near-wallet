@@ -93,20 +93,26 @@ class DashboardDetail extends Component {
          loader: true
       }))
 
-      this.wallet.getAccountDetails().then(response => {
-         this.setState(() => ({
-            authorizedApps: response.authorizedApps.map(r => [
-               AppDefaultImage,
-               r.contractId,
-               r.amount,
-               r.publicKey
-               // 'NEAR Place',
-               // '3 hrs ago',
-               // '',
-            ]),
-            loader: false
-         }))
-      })
+      this.wallet
+         .getAccountDetails()
+         .then(response => {
+            this.setState(() => ({
+               authorizedApps: response.authorizedApps.map(r => [
+                  AppDefaultImage,
+                  r.contractId,
+                  r.amount,
+                  r.publicKey
+               ])
+            }))
+         })
+         .catch(e => {
+            console.error('Error retrieving account details:', e)
+         })
+         .finally(() => {
+            this.setState(() => ({
+               loader: false
+            }))
+         })
    }
 
    handleNotice = () => {
