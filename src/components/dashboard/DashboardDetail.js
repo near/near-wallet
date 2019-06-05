@@ -5,7 +5,11 @@ import { withRouter } from 'react-router-dom'
 
 import { Wallet } from '../../utils/wallet'
 
-import { handleRefreshAccount, handleRefreshUrl } from '../../actions/account'
+import {
+   handleRefreshAccount,
+   handleRefreshUrl,
+   getAccountDetails
+} from '../../actions/account'
 
 import DashboardContainer from './DashboardContainer'
 import DashboardSection from './DashboardSection'
@@ -93,26 +97,11 @@ class DashboardDetail extends Component {
          loader: true
       }))
 
-      this.wallet
-         .getAccountDetails()
-         .then(response => {
-            this.setState(() => ({
-               authorizedApps: response.authorizedApps.map(r => [
-                  AppDefaultImage,
-                  r.contractId,
-                  r.amount,
-                  r.publicKey
-               ])
-            }))
-         })
-         .catch(e => {
-            console.error('Error retrieving account details:', e)
-         })
-         .finally(() => {
-            this.setState(() => ({
-               loader: false
-            }))
-         })
+      this.props.getAccountDetails().then(() => {
+         this.setState(() => ({
+            loader: false
+         }))
+      })
    }
 
    handleNotice = () => {
@@ -126,12 +115,14 @@ class DashboardDetail extends Component {
          loader,
          notice,
          activity,
-         authorizedApps,
+
          newcontacts
       } = this.state
 
+      const { authorizedApps } = this.props
+
       return (
-         <DashboardContainer account={this.props.account}>
+         <DashboardContainer amount={this.props.amount}>
             <DashboardActivity
                loader={loader}
                image={AuthorizedGreyImage}
@@ -174,11 +165,20 @@ class DashboardDetail extends Component {
 
 const mapDispatchToProps = {
    handleRefreshAccount,
-   handleRefreshUrl
+   handleRefreshUrl,
+   getAccountDetails
 }
 
 const mapStateToProps = ({ account }) => ({
-   account
+   ...account,
+   authorizedApps: account.authorizedApps
+      ? account.authorizedApps.map(r => [
+           AppDefaultImage,
+           r.contractId,
+           r.amount,
+           r.publicKey
+        ])
+      : []
 })
 
 export default connect(

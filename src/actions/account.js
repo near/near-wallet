@@ -11,6 +11,8 @@ export function handleRefreshAccount(wallet, history) {
       wallet.redirectIfEmpty(history)
       const accountId = wallet.getAccountId()
 
+      dispatch(getAccountDetails())
+
       dispatch({
          type: LOADER_ACCOUNT,
          loader: true
