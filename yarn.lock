@@ -6777,10 +6777,10 @@ natural-compare@^1.4.0:
   resolved "https://registry.yarnpkg.com/natural-compare/-/natural-compare-1.4.0.tgz#4abebfeed7541f2c27acfb29bdbbd15c8d5ba4f7"
   integrity sha1-Sr6/7tdUHywnrPspvbvRXI1bpPc=
 
-nearlib@^0.8:
-  version "0.8.1"
-  resolved "https://registry.yarnpkg.com/nearlib/-/nearlib-0.8.1.tgz#73f81062a963ed61f36291fab738ee7251835744"
-  integrity sha512-6u4H7B1p2yvPezNou5+LL97K5Bqzz4H186mdh3hHTpxgE9avvsqJklCV10C05IdfK9RsrbBqmIuWuN6AgYiVWw==
+nearlib@^0.8.2:
+  version "0.8.2"
+  resolved "https://registry.yarnpkg.com/nearlib/-/nearlib-0.8.2.tgz#b5d6fb40184616d3b5094107ff334a9992ed6a2d"
+  integrity sha512-HwbbAy7RobqRsAYjA920y7p7AgR0xrBqzRobKazxqyXr+NrAJ/daF7nAFpOsWfANCyHT4sjKr4PSeYhXS0Wrqw==
   dependencies:
     bs58 "^4.0.1"
     error-polyfill "^0.1.2"
