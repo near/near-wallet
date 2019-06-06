@@ -7,7 +7,7 @@
       "connected-react-router": "^6.4.0",
       "fetch-send-json": "0.0.2",
       "gh-pages": "^2.0.1",
-      "nearlib": "^0.6.2",
+      "nearlib": "^0.8.2",
       "prop-types": "^15.7.2",
       "query-string": "^6.4.2",
       "react": "^16.8.6",
@@ -28,7 +28,7 @@
    "scripts": {
       "predeploy": "npm run build",
       "deploy": "gh-pages -d build",
-      "start": "react-scripts start",
+      "start": "PORT=${PORT:=3000} react-scripts start",
       "build": "react-scripts build",
       "test": "react-scripts test",
       "lint": "eslint --ext .js --ext .jsx .",

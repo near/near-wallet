@@ -3,9 +3,9 @@ import sendJson from 'fetch-send-json'
 
 const WALLET_CREATE_NEW_ACCOUNT_URL = `/create/`
 
-const ACCOUNT_HELPER_URL = 'https://studio.nearprotocol.com/contract-api'
+const ACCOUNT_HELPER_URL = process.env.ACCOUNT_HELPER_URL || 'https://studio.nearprotocol.com/contract-api'
 const CONTRACT_CREATE_ACCOUNT_URL = `${ACCOUNT_HELPER_URL}/account`
-const NODE_URL = 'https://studio.nearprotocol.com/devnet'
+const NODE_URL = process.env.NODE_URL || 'https://studio.nearprotocol.com/devnet'
 
 const KEY_UNIQUE_PREFIX = '_4:'
 const KEY_WALLET_ACCOUNTS = KEY_UNIQUE_PREFIX + 'wallet:accounts_v2'
@@ -79,6 +79,11 @@ export class Wallet {
          methodName,
          args || {}
       )
+   }
+
+   async sendTokens(senderId, receiverId, amount) {
+      return this.near.waitForTransactionResult(
+         await this.near.sendTokens(amount, senderId, receiverId))
    }
 
    redirectToCreateAccount(options = {}, history) {
