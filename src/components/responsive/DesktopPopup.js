@@ -110,24 +110,8 @@ const CustomPopup = styled(Popup)`
    }
 `
 
-const DesktopPopup = ({
-   account,
-   handleSelectAccount,
-   redirectCreateAccount,
-   handleToggle,
-   popupOpen
-}) => (
-   <CustomPopup
-      trigger={
-         <PopupMenuTrigger
-            account={account}
-            handleClick={handleToggle}
-            type='desktop'
-         />
-      }
-      position='right center'
-      open={popupOpen}
-   >
+const DesktopPopup = ({ account, handleSelectAccount, redirectCreateAccount, handleToggle, popupOpen }) => (
+   <CustomPopup trigger={<PopupMenuTrigger account={account} handleClick={handleToggle} type='desktop' />} position='right center' open={popupOpen}>
       <Segment basic className='account-dropdown'>
          <List className='submenu'>
             <List.Item>
@@ -147,11 +131,7 @@ const DesktopPopup = ({
 
             <List.Item>
                <List.Icon as={Image} src={AuthorizedGreyImage} />
-               <List.Content
-                  as={Link}
-                  to='authorized-apps'
-                  onClick={handleToggle}
-               >
+               <List.Content as={Link} to='authorized-apps' onClick={handleToggle}>
                   Authorized Apps
                </List.Content>
             </List.Item>
@@ -173,12 +153,7 @@ const DesktopPopup = ({
                Object.keys(account.accounts)
                   .filter(a => a !== account.accountId)
                   .map((account, i) => (
-                     <List.Item
-                        as='a'
-                        key={`mf-${i}`}
-                        onClick={() => handleSelectAccount(account)}
-                        className='account-title'
-                     >
+                     <List.Item as='a' key={`mf-${i}`} onClick={() => handleSelectAccount(account)} className='account-title'>
                         @{account}
                      </List.Item>
                   ))}

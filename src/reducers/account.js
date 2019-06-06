@@ -1,12 +1,5 @@
 import { handleActions, combineActions } from 'redux-actions'
-import {
-   REFRESH_ACCOUNT,
-   LOADER_ACCOUNT,
-   REFRESH_URL,
-   requestCode,
-   validateCode,
-   getAccountDetails
-} from '../actions/account'
+import { REFRESH_ACCOUNT, LOADER_ACCOUNT, REFRESH_URL, requestCode, validateCode, getAccountDetails } from '../actions/account'
 import reduceReducers from 'reduce-reducers'
 
 const initialState = {
@@ -23,18 +16,13 @@ const loaderReducer = (state, { ready }) => {
 
 const requestResultReducer = handleActions(
    {
-      [combineActions(requestCode, validateCode)]: (
-         state,
-         { error, payload, meta }
-      ) => ({
+      [combineActions(requestCode, validateCode)]: (state, { error, payload, meta }) => ({
          ...state,
          requestStatus:
             !!payload || error
                ? {
                     success: !error,
-                    messageCode: error
-                       ? payload.messageCode || meta.errorCode
-                       : meta.successCode
+                    messageCode: error ? payload.messageCode || meta.errorCode : meta.successCode
                  }
                : undefined
       })
@@ -89,11 +77,4 @@ function account(state = {}, action) {
    }
 }
 
-export default reduceReducers(
-   initialState,
-   loaderReducer,
-   requestResultReducer,
-   reducer,
-   authorizedApps,
-   account
-)
+export default reduceReducers(initialState, loaderReducer, requestResultReducer, reducer, authorizedApps, account)

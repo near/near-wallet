@@ -4,12 +4,7 @@ import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 
 import { Wallet } from '../../utils/wallet'
-import {
-   handleRefreshAccount,
-   handleRefreshUrl,
-   getAccountDetails,
-   removeAccessKey
-} from '../../actions/account'
+import { handleRefreshAccount, handleRefreshUrl, getAccountDetails, removeAccessKey } from '../../actions/account'
 
 import PaginationBlock from '../pagination/PaginationBlock'
 import ListItem from '../dashboard/ListItem'
@@ -24,12 +19,7 @@ class AuthorizedApps extends Component {
       showSubOpen: 0,
       showSubData: [],
       authorizedApps: [],
-      filterTypes: [
-         { img: '', name: 'ALL' },
-         { img: '', name: 'ALL' },
-         { img: '', name: 'ALL' },
-         { img: '', name: 'ALL' }
-      ]
+      filterTypes: [{ img: '', name: 'ALL' }, { img: '', name: 'ALL' }, { img: '', name: 'ALL' }, { img: '', name: 'ALL' }]
    }
 
    toggleShowSub = (i, row) => {
@@ -84,37 +74,15 @@ class AuthorizedApps extends Component {
    }
 
    render() {
-      const {
-         loader,
-         filterTypes,
-         showSub,
-         showSubOpen,
-         showSubData
-      } = this.state
+      const { loader, filterTypes, showSub, showSubOpen, showSubData } = this.state
 
       const { authorizedApps } = this.props
 
       return (
          <AuthorizedAppsContainer loader={loader} total={authorizedApps.length}>
-            <PaginationBlock
-               filterTypes={filterTypes}
-               showSub={showSub}
-               showSubData={showSubData}
-               toggleShowSub={this.toggleShowSub}
-               toggleCloseSub={this.toggleCloseSub}
-               subPage='authorized-apps'
-               handleDeauthorize={this.handleDeauthorize}
-            >
+            <PaginationBlock filterTypes={filterTypes} showSub={showSub} showSubData={showSubData} toggleShowSub={this.toggleShowSub} toggleCloseSub={this.toggleCloseSub} subPage='authorized-apps' handleDeauthorize={this.handleDeauthorize}>
                {authorizedApps.map((row, i) => (
-                  <ListItem
-                     key={`a-${i}`}
-                     row={row}
-                     i={i}
-                     wide={true}
-                     showSub={showSub}
-                     toggleShowSub={this.toggleShowSub}
-                     showSubOpen={showSubOpen}
-                  />
+                  <ListItem key={`a-${i}`} row={row} i={i} wide={true} showSub={showSub} toggleShowSub={this.toggleShowSub} showSubOpen={showSubOpen} />
                ))}
             </PaginationBlock>
          </AuthorizedAppsContainer>
@@ -131,14 +99,7 @@ const mapDispatchToProps = {
 
 const mapStateToProps = ({ account }) => ({
    ...account,
-   authorizedApps: account.authorizedApps
-      ? account.authorizedApps.map(r => [
-           AppDefaultImage,
-           r.contractId,
-           r.amount,
-           r.publicKey
-        ])
-      : []
+   authorizedApps: account.authorizedApps ? account.authorizedApps.map(r => [AppDefaultImage, r.contractId, r.amount, r.publicKey]) : []
 })
 
 export const AuthorizedAppsWithRouter = connect(

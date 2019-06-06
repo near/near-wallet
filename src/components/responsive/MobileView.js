@@ -7,14 +7,7 @@ import PropTypes from 'prop-types'
 
 import { Wallet } from '../../utils/wallet'
 
-import {
-   Image,
-   Menu,
-   Responsive,
-   Segment,
-   List,
-   Button
-} from 'semantic-ui-react'
+import { Image, Menu, Responsive, Segment, List, Button } from 'semantic-ui-react'
 
 import PopupMenuTrigger from './PopupMenuTrigger'
 
@@ -183,10 +176,7 @@ class MobileView extends Component {
       const { account } = this.props
 
       return (
-         <CustomResponsive
-            getWidth={getWidth}
-            maxWidth={Responsive.onlyTablet.maxWidth}
-         >
+         <CustomResponsive getWidth={getWidth} maxWidth={Responsive.onlyTablet.maxWidth}>
             <Segment basic className='navbar'>
                <Menu className='navbar-main' borderless>
                   <div className='mainlogo'>
@@ -199,19 +189,11 @@ class MobileView extends Component {
 
                   {account.accountId && (
                      <div className='trigger'>
-                        <PopupMenuTrigger
-                           account={account}
-                           handleClick={this.handleDropdown}
-                           type='mobile'
-                           dropdown={dropdown}
-                        />
+                        <PopupMenuTrigger account={account} handleClick={this.handleDropdown} type='mobile' dropdown={dropdown} />
                      </div>
                   )}
                </Menu>
-               <Segment
-                  basic
-                  className={`navbar-sub ${dropdown ? `hide` : ``}`}
-               >
+               <Segment basic className={`navbar-sub ${dropdown ? `hide` : ``}`}>
                   <Menu.Menu>
                      <Menu.Item className='main'>
                         <Link to='/' onClick={this.handleDropdown}>
@@ -243,20 +225,14 @@ class MobileView extends Component {
                         </Menu.Item>
                         {false ? (
                            <Menu.Item>
-                              <Link
-                                 to='/contacts'
-                                 onClick={this.handleDropdown}
-                              >
+                              <Link to='/contacts' onClick={this.handleDropdown}>
                                  <Image src={ContactsGreyImage} />
                                  Contacts
                               </Link>
                            </Menu.Item>
                         ) : null}
                         <Menu.Item>
-                           <Link
-                              to='/authorized-apps'
-                              onClick={this.handleDropdown}
-                           >
+                           <Link to='/authorized-apps' onClick={this.handleDropdown}>
                               <Image src={AuthorizedGreyImage} />
                               Authorized Apps
                            </Link>
@@ -278,21 +254,12 @@ class MobileView extends Component {
                               Object.keys(account.accounts)
                                  .filter(a => a !== account.accountId)
                                  .map((account, i) => (
-                                    <List.Item
-                                       as='a'
-                                       key={`mf-${i}`}
-                                       onClick={() =>
-                                          this.handleSelectAccount(account)
-                                       }
-                                       className='account-title'
-                                    >
+                                    <List.Item as='a' key={`mf-${i}`} onClick={() => this.handleSelectAccount(account)} className='account-title'>
                                        @{account}
                                     </List.Item>
                                  ))}
                         </List>
-                        <Button onClick={this.redirectCreateAccount}>
-                           CREATE NEW ACCOUNT
-                        </Button>
+                        <Button onClick={this.redirectCreateAccount}>CREATE NEW ACCOUNT</Button>
                      </Segment>
                   </Menu.Menu>
                </Segment>

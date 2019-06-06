@@ -5,11 +5,7 @@ import { withRouter } from 'react-router-dom'
 
 import { Wallet } from '../../utils/wallet'
 
-import {
-   handleRefreshAccount,
-   handleRefreshUrl,
-   getAccountDetails
-} from '../../actions/account'
+import { handleRefreshAccount, handleRefreshUrl, getAccountDetails } from '../../actions/account'
 
 import DashboardContainer from './DashboardContainer'
 import DashboardSection from './DashboardSection'
@@ -47,46 +43,9 @@ class DashboardDetail extends Component {
       false &&
          setTimeout(() => {
             this.setState(_ => ({
-               activity: [
-                  [
-                     TTransferImage,
-                     'Sent: 125 Ⓝ  to @jake.near',
-                     'Some details about this activity here',
-                     '3 min ago'
-                  ],
-                  [
-                     TStakeImage,
-                     'You Staked 10 tokens',
-                     'Some details about this activity here',
-                     '20 min ago'
-                  ],
-                  [
-                     TTransferImage,
-                     'Sent: 125 Ⓝ  to @vlad.near',
-                     'Some details about this activity here',
-                     '1 hr ago'
-                  ]
-               ],
-               authorizedApps: [
-                  [AppDefaultImage, 'NEAR Place', '', '3 hrs ago'],
-                  [AppDefaultImage, 'Cryptocats', '', '5 hrs ago'],
-                  [AppDefaultImage, 'Knights App', '', '2 days ago']
-               ],
-               newcontacts: [
-                  [
-                     AccountGreyImage,
-                     'Alex Skidanov ',
-                     '',
-                     'Connected 2 days ago'
-                  ],
-                  [AccountGreyImage, '@vlad.near', '', '2 days ago'],
-                  [
-                     AccountGreyImage,
-                     'Illia Polosukhin',
-                     '',
-                     'Connected 2 days ago'
-                  ]
-               ]
+               activity: [[TTransferImage, 'Sent: 125 Ⓝ  to @jake.near', 'Some details about this activity here', '3 min ago'], [TStakeImage, 'You Staked 10 tokens', 'Some details about this activity here', '20 min ago'], [TTransferImage, 'Sent: 125 Ⓝ  to @vlad.near', 'Some details about this activity here', '1 hr ago']],
+               authorizedApps: [[AppDefaultImage, 'NEAR Place', '', '3 hrs ago'], [AppDefaultImage, 'Cryptocats', '', '5 hrs ago'], [AppDefaultImage, 'Knights App', '', '2 days ago']],
+               newcontacts: [[AccountGreyImage, 'Alex Skidanov ', '', 'Connected 2 days ago'], [AccountGreyImage, '@vlad.near', '', '2 days ago'], [AccountGreyImage, 'Illia Polosukhin', '', 'Connected 2 days ago']]
                // loader: false
             }))
          }, 1000)
@@ -123,39 +82,12 @@ class DashboardDetail extends Component {
 
       return (
          <DashboardContainer amount={this.props.amount}>
-            <DashboardActivity
-               loader={loader}
-               image={AuthorizedGreyImage}
-               title='Authorized Apps'
-               to='/authorized-apps'
-               activity={authorizedApps}
-            />
+            <DashboardActivity loader={loader} image={AuthorizedGreyImage} title='Authorized Apps' to='/authorized-apps' activity={authorizedApps} />
             {false ? (
-               <DashboardSection
-                  notice={notice}
-                  handleNotice={this.handleNotice}
-               >
-                  <DashboardActivity
-                     loader={loader}
-                     image={activityGreyImage}
-                     title='Activity'
-                     to='/'
-                     activity={activity}
-                  />
-                  <DashboardActivity
-                     loader={loader}
-                     image={AuthorizedGreyImage}
-                     title='Authorized Apps'
-                     to='/authorized-apps'
-                     activity={authorizedApps}
-                  />
-                  <DashboardActivity
-                     loader={loader}
-                     image={ContactsGreyImage}
-                     title='New Contacts'
-                     to='/contacts'
-                     activity={newcontacts}
-                  />
+               <DashboardSection notice={notice} handleNotice={this.handleNotice}>
+                  <DashboardActivity loader={loader} image={activityGreyImage} title='Activity' to='/' activity={activity} />
+                  <DashboardActivity loader={loader} image={AuthorizedGreyImage} title='Authorized Apps' to='/authorized-apps' activity={authorizedApps} />
+                  <DashboardActivity loader={loader} image={ContactsGreyImage} title='New Contacts' to='/contacts' activity={newcontacts} />
                </DashboardSection>
             ) : null}
          </DashboardContainer>
@@ -171,14 +103,7 @@ const mapDispatchToProps = {
 
 const mapStateToProps = ({ account }) => ({
    ...account,
-   authorizedApps: account.authorizedApps
-      ? account.authorizedApps.map(r => [
-           AppDefaultImage,
-           r.contractId,
-           r.amount,
-           r.publicKey
-        ])
-      : []
+   authorizedApps: account.authorizedApps ? account.authorizedApps.map(r => [AppDefaultImage, r.contractId, r.amount, r.publicKey]) : []
 })
 
 export default connect(

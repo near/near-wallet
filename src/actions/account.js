@@ -25,11 +25,7 @@ export function handleRefreshAccount(wallet, history) {
                type: REFRESH_ACCOUNT,
                data: {
                   accountId: accountId,
-                  authToken: wallet.newAccessToken(
-                     getState().account.url.app_title,
-                     getState().account.url.app_url,
-                     getState().account.url.contract_id
-                  ),
+                  authToken: wallet.newAccessToken(getState().account.url.app_title, getState().account.url.app_url, getState().account.url.contract_id),
                   amount: v['amount'] || 0,
                   stake: v['stake'],
                   nonce: v['nonce'],
@@ -78,12 +74,7 @@ export function handleRefreshUrl(location) {
 
 const wallet = new Wallet()
 
-export const {
-   requestCode,
-   validateCode,
-   getAccountDetails,
-   removeAccessKey
-} = createActions({
+export const { requestCode, validateCode, getAccountDetails, removeAccessKey } = createActions({
    REQUEST_CODE: [
       wallet.requestCode.bind(wallet),
       () => ({
