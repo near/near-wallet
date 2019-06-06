@@ -81,6 +81,11 @@ export class Wallet {
       )
    }
 
+   async sendTokens(senderId, receiverId, amount) {
+      return this.near.waitForTransactionResult(
+         await this.near.sendTokens(amount, senderId, receiverId))
+   }
+
    redirectToCreateAccount(options = {}, history) {
       const param = {
          next_url: window.location.search
