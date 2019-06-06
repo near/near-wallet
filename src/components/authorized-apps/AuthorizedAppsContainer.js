@@ -54,7 +54,13 @@ const AuthorizedAppsContainer = ({ loader, total, children }) => (
             <Grid.Column as='h1' computer={10} tablet={10} mobile={16}>
                Authorized Apps
             </Grid.Column>
-            <Grid.Column as='h1' computer={6} tablet={6} mobile={16} className='add'>
+            <Grid.Column
+               as='h1'
+               computer={6}
+               tablet={6}
+               mobile={16}
+               className='add'
+            >
                {total}
                <span className='color-brown-grey'> total</span>
             </Grid.Column>

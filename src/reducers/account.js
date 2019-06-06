@@ -1,5 +1,12 @@
 import { handleActions, combineActions } from 'redux-actions'
-import { REFRESH_ACCOUNT, LOADER_ACCOUNT, REFRESH_URL, requestCode, validateCode, getAccountDetails } from '../actions/account'
+import {
+   REFRESH_ACCOUNT,
+   LOADER_ACCOUNT,
+   REFRESH_URL,
+   requestCode,
+   validateCode,
+   getAccountDetails
+} from '../actions/account'
 import reduceReducers from 'reduce-reducers'
 
 const initialState = {
@@ -14,43 +21,31 @@ const loaderReducer = (state, { ready }) => {
    return { ...state, formLoader: !ready }
 }
 
-const requestResultReducer = handleActions(
-   {
+const requestResultReducer = handleActions({
       [combineActions(requestCode, validateCode)]: (state, { error, payload, meta }) => ({
          ...state,
-         requestStatus:
-            !!payload || error
-               ? {
-                    success: !error,
-                    messageCode: error ? payload.messageCode || meta.errorCode : meta.successCode
-                 }
-               : undefined
+         requestStatus: !!payload || error ? {
+            success: !error,
+            messageCode: error ? payload.messageCode || meta.errorCode : meta.successCode
+         } : undefined
       })
-   },
-   initialState
-)
+}, initialState)
 
-const reducer = handleActions(
-   {
+const reducer = handleActions({
       [requestCode]: (state, { error, ready }) => {
          if (ready && !error) {
             return { ...state, sentSms: true }
          }
          return state
       }
-   },
-   initialState
-)
+}, initialState)
 
-const authorizedApps = handleActions(
-   {
+const authorizedApps = handleActions({
       [getAccountDetails]: (state, { error, payload }) => ({
          ...state,
          authorizedApps: payload && payload.authorizedApps
       })
-   },
-   initialState
-)
+}, initialState)
 
 // TODO: Migrate everything to redux-actions
 function account(state = {}, action) {
@@ -77,4 +72,11 @@ function account(state = {}, action) {
    }
 }
 
-export default reduceReducers(initialState, loaderReducer, requestResultReducer, reducer, authorizedApps, account)
+export default reduceReducers(
+   initialState,
+   loaderReducer,
+   requestResultReducer,
+   reducer,
+   authorizedApps,
+   account
+)

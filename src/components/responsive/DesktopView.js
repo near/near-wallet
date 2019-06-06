@@ -142,8 +142,15 @@ class DesktopView extends Component {
       const { account } = this.props
 
       return (
-         <CustomResponsive getWidth={getWidth} minWidth={Responsive.onlyComputer.minWidth}>
-            <Visibility once={false} onBottomPassed={this.showFixedMenu} onBottomPassedReverse={this.hideFixedMenu}>
+         <CustomResponsive
+            getWidth={getWidth}
+            minWidth={Responsive.onlyComputer.minWidth}
+         >
+            <Visibility
+               once={false}
+               onBottomPassed={this.showFixedMenu}
+               onBottomPassedReverse={this.hideFixedMenu}
+            >
                <Segment className='spacer' basic />
                <div className='navbar'>
                   <div className='left'>
@@ -155,14 +162,20 @@ class DesktopView extends Component {
                         </div>
                         <div className='item'>
                            <Link to='/'>
-                              <Image className='navbar-icon' src={RecentImage} />
+                              <Image
+                                 className='navbar-icon'
+                                 src={RecentImage}
+                              />
                               SUMMARY
                            </Link>
                         </div>
                         {false ? (
                            <div className='item'>
                               <Link to='/'>
-                                 <Image className='navbar-icon' src={ActivityImage} />
+                                 <Image
+                                    className='navbar-icon'
+                                    src={ActivityImage}
+                                 />
                                  ACTIVITY
                               </Link>
                            </div>
@@ -180,12 +193,23 @@ class DesktopView extends Component {
                         <div className='right'>
                            <div className='help'>
                               <a href='http://near.chat/'>
-                                 <Image className='navbar-icon' src={HelpImage} />
+                                 <Image
+                                    className='navbar-icon'
+                                    src={HelpImage}
+                                 />
                               </a>
                            </div>
                            <div className='devider' />
                            <div className='overflow'>
-                              <DesktopPopup account={account} handleSelectAccount={this.handleSelectAccount} redirectCreateAccount={this.redirectCreateAccount} handleToggle={this.handleToggle} popupOpen={popupOpen} />
+                              <DesktopPopup
+                                 account={account}
+                                 handleSelectAccount={this.handleSelectAccount}
+                                 redirectCreateAccount={
+                                    this.redirectCreateAccount
+                                 }
+                                 handleToggle={this.handleToggle}
+                                 popupOpen={popupOpen}
+                              />
                            </div>
                         </div>
                      )}

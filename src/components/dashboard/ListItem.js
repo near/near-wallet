@@ -122,9 +122,25 @@ const CustomGridRow = styled(Grid.Row)`
    }
 `
 
-const ListItem = ({ row, i, wide = false, showSub = false, toggleShowSub, showSubOpen }) => (
-   <CustomGridRow verticalAlign='middle' className={`border-bottom-light ${wide ? `wide` : ``} ${showSub && showSubOpen === i ? `dropdown-down` : ``} ${showSub ? `showsub` : ``}`}>
-      <Grid.Column computer={wide ? 15 : 15} tablet={wide ? 14 : 8} mobile={wide ? 14 : 10}>
+const ListItem = ({
+   row,
+   i,
+   wide = false,
+   showSub = false,
+   toggleShowSub,
+   showSubOpen
+}) => (
+   <CustomGridRow
+      verticalAlign='middle'
+      className={`border-bottom-light ${wide ? `wide` : ``} ${
+         showSub && showSubOpen === i ? `dropdown-down` : ``
+      } ${showSub ? `showsub` : ``}`}
+   >
+      <Grid.Column
+         computer={wide ? 15 : 15}
+         tablet={wide ? 14 : 8}
+         mobile={wide ? 14 : 10}
+      >
          <Grid verticalAlign='middle'>
             <Grid.Column className='col-image'>
                <div className='main-image'>
@@ -137,14 +153,28 @@ const ListItem = ({ row, i, wide = false, showSub = false, toggleShowSub, showSu
                   <span className='font-small'>
                      <br />
                      amount:
-                     <span className='color-black'>{row[2]}Ⓝ</span>, publicKey: <span className='color-black'>{row[3]}</span>
+                     <span className='color-black'>{row[2]}Ⓝ</span>, publicKey:{' '}
+                     <span className='color-black'>{row[3]}</span>
                   </span>
                )}
             </Grid.Column>
          </Grid>
       </Grid.Column>
-      <Grid.Column computer={wide ? 1 : 1} tablet={wide ? 2 : 8} mobile={wide ? 2 : 6} textAlign='right'>
-         {wide ? <Image onClick={() => toggleShowSub(i, row)} src={showSub && showSubOpen === i ? ArrowBlkImage : ArrowRight} className='dropdown-image dropdown-image-right' /> : <span className='font-small'>{/* {row[3]} */}</span>}
+      <Grid.Column
+         computer={wide ? 1 : 1}
+         tablet={wide ? 2 : 8}
+         mobile={wide ? 2 : 6}
+         textAlign='right'
+      >
+         {wide ? (
+            <Image
+               onClick={() => toggleShowSub(i, row)}
+               src={showSub && showSubOpen === i ? ArrowBlkImage : ArrowRight}
+               className='dropdown-image dropdown-image-right'
+            />
+         ) : (
+            <span className='font-small'>{/* {row[3]} */}</span>
+         )}
       </Grid.Column>
    </CustomGridRow>
 )

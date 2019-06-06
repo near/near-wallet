@@ -113,12 +113,23 @@ const DashboardContainer = ({ children, amount }) => (
    <CustomContainer>
       <Grid>
          <Grid.Row columns='2' className='page-title'>
-            <Grid.Column as='h1' computer={12} tablet={16} mobile={16} verticalAlign='middle'>
+            <Grid.Column
+               as='h1'
+               computer={12}
+               tablet={16}
+               mobile={16}
+               verticalAlign='middle'
+            >
                <span className='balance'>Balance: </span>
                <span className='color-black'>{amount}</span>
                <span className='near'>Ⓝ</span>
             </Grid.Column>
-            <Grid.Column computer={4} tablet={16} mobile={16} className='send-money'>
+            <Grid.Column
+               computer={4}
+               tablet={16}
+               mobile={16}
+               className='send-money'
+            >
                <Button as={Link} to='/send-money'>
                   SEND MONEY
                </Button>

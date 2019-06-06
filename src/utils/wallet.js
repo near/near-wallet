@@ -18,8 +18,10 @@ export class Wallet {
    constructor() {
       this.key_store = new nearlib.BrowserLocalStorageKeystore()
       this.near = nearlib.Near.createDefaultConfig(NODE_URL)
-      this.account = new nearlib.Account(this.near.nearClient)
-      this.accounts = JSON.parse(localStorage.getItem(KEY_WALLET_ACCOUNTS) || '{}')
+      this.account = new nearlib.Account(this.near.nearClient);
+      this.accounts = JSON.parse(
+         localStorage.getItem(KEY_WALLET_ACCOUNTS) || '{}'
+      )
       this.tokens = JSON.parse(localStorage.getItem(KEY_WALLET_TOKENS) || '{}')
       this.accountId = localStorage.getItem(KEY_ACTIVE_ACCOUNT_ID) || ''
    }
@@ -44,7 +46,8 @@ export class Wallet {
 
    newAccessToken(app_url, app_title, contract_id) {
       var token = ''
-      var possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
+      var possible =
+         'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
 
       for (var i = 0; i < 32; i++) {
          token += possible.charAt(Math.floor(Math.random() * possible.length))
@@ -69,7 +72,13 @@ export class Wallet {
    }
 
    async sendTransaction(senderId, receiverId, methodName, amount, args) {
-      return await this.near.scheduleFunctionCall(amount, senderId, receiverId, methodName, args || {})
+      return await this.near.scheduleFunctionCall(
+         amount,
+         senderId,
+         receiverId,
+         methodName,
+         args || {}
+      )
    }
 
    redirectToCreateAccount(options = {}, history) {
@@ -80,7 +89,15 @@ export class Wallet {
          param.reset_accounts = true
       }
       //  let url = WALLET_CREATE_NEW_ACCOUNT_URL + "?" + $.param(param)
-      let url = WALLET_CREATE_NEW_ACCOUNT_URL + '?' + Object.keys(param).map((p, i) => `${i ? '&' : ''}${encodeURIComponent(p)}=${encodeURIComponent(param[p])}`)
+      let url =
+         WALLET_CREATE_NEW_ACCOUNT_URL +
+         '?' +
+         Object.keys(param).map(
+            (p, i) =>
+               `${i ? '&' : ''}${encodeURIComponent(p)}=${encodeURIComponent(
+                  param[p]
+               )}`
+         )
       history ? history.push(url) : window.location.replace(url)
    }
 
@@ -216,13 +233,19 @@ export class Wallet {
       let accountId = app_data['account_id']
       if (!(accountId in this.accounts)) {
          // Account is no longer authorized.
-         throw new Error('The account ' + accountId + ' is not part of the wallet anymore.')
+         throw new Error(
+            'The account ' + accountId + ' is not part of the wallet anymore.'
+         )
       }
       let contract_id = app_data['contract_id']
       let receiverId = data['receiver_id'] || contract_id
       if (receiverId !== contract_id || !this.isLegitAccountId(receiverId)) {
          // Bad receiver account ID or it doesn't match contract id.
-         throw new Error("Bad receiver's account ID ('" + receiverId + "') or it doesn't match the authorized contract id")
+         throw new Error(
+            "Bad receiver's account ID ('" +
+               receiverId + 
+               "') or it doesn't match the authorized contract id"
+         )
       }
       let amount = parseInt(data['amount']) || 0
       if (amount !== 0) {
@@ -237,12 +260,21 @@ export class Wallet {
       let args = data['args'] || {}
       if (action === 'send_transaction') {
          // Sending the transaction on behalf of the accountId
-         return await this.sendTransaction(accountId, receiverId, methodName, amount, args)
+         return await this.sendTransaction(
+            accountId, 
+            receiverId, 
+            methodName, 
+            amount, 
+            args
+         )
       } else if (action === 'sign_transaction') {
          // Signing the provided hash of the transaction. It's a security issue here.
          // In the future we would sign the transaction above and don't depend on the given hash.
          let hash = data['hash'] || ''
-         let signature = await this.near.nearClient.signer.signHash(hash, accountId)
+         let signature = await this.near.nearClient.signer.signHash(
+            hash, 
+            accountId
+         )
          return signature
       } else {
          throw new Error('Unknown action')

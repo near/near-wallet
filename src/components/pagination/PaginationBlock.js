@@ -201,7 +201,9 @@ class PaginationBlock extends Component {
    state = {
       search: '',
       dropdown: false,
-      dropdownType: this.props.type ? this.props.filterTypes[this.props.type].img : TransactionFilter,
+      dropdownType: this.props.type
+         ? this.props.filterTypes[this.props.type].img
+         : TransactionFilter,
       pagingDropdown: false,
       pagingValue: 10,
 
@@ -260,36 +262,90 @@ class PaginationBlock extends Component {
    }
 
    render() {
-      const { filterTypes, type, pageNumber = 0, showSub = false, subPage, showSubData, toggleCloseSub, handleDeauthorize } = this.props
+      const {
+         filterTypes,
+         type,
+         pageNumber = 0,
+         showSub = false,
+         subPage,
+         showSubData,
+         toggleCloseSub,
+         handleDeauthorize
+      } = this.props
 
-      const { dropdownType, dropdown, search, pagingValue, pagingDropdown } = this.state
+      const {
+         dropdownType,
+         dropdown,
+         search,
+         pagingValue,
+         pagingDropdown
+      } = this.state
 
-      const { totalRecords = 1100, pageLimit = 10, initialPage = 0, onPageChanged = () => {}, pageNeighbors = 1 } = this.props
+      const {
+         totalRecords = 1100,
+         pageLimit = 10,
+         initialPage = 0,
+         onPageChanged = () => {},
+         pageNeighbors = 1
+      } = this.props
 
       const filterTypesByType = type ? [filterTypes[type]] : filterTypes
 
       return (
-         <PaginationBlockGrid className='border-top-bold border-bottom-bold' stackable columns={2}>
+         <PaginationBlockGrid
+            className='border-top-bold border-bottom-bold'
+            stackable
+            columns={2}
+         >
             <Grid.Row className='border-bottom-light'>
                {false && (
-                  <Grid.Column width={10} verticalAlign='middle' className='pagination-block-top'>
-                     <PaginationSortBy filterTypesByType={filterTypesByType} handleOnClick={this.handleOnClick} dropdownType={dropdownType} handleDropdownClick={this.handleDropdownClick} dropdown={dropdown} />
+                  <Grid.Column
+                     width={10}
+                     verticalAlign='middle'
+                     className='pagination-block-top'
+                  >
+                     <PaginationSortBy
+                        filterTypesByType={filterTypesByType}
+                        handleOnClick={this.handleOnClick}
+                        dropdownType={dropdownType}
+                        handleDropdownClick={this.handleDropdownClick}
+                        dropdown={dropdown}
+                     />
                   </Grid.Column>
                )}
                {false && (
-                  <Grid.Column width={6} textAlign='right' floated='right' verticalAlign='middle' className='pagination-block-top-search'>
-                     <Search handleSubmit={this.handleSubmit} handleChange={this.handleChange} search={search} />
+                  <Grid.Column
+                     width={6}
+                     textAlign='right'
+                     floated='right'
+                     verticalAlign='middle'
+                     className='pagination-block-top-search'
+                  >
+                     <Search
+                        handleSubmit={this.handleSubmit}
+                        handleChange={this.handleChange}
+                        search={search}
+                     />
                   </Grid.Column>
                )}
             </Grid.Row>
             <Grid.Row>
-               <Grid.Column computer={showSub ? 10 : 16} className={showSub ? `mobile-hide` : ``}>
+               <Grid.Column
+                  computer={showSub ? 10 : 16}
+                  className={showSub ? `mobile-hide` : ``}
+               >
                   <Grid>{this.props.children}</Grid>
                </Grid.Column>
-               <Grid.Column computer={6} className={`show-sub ${showSub ? `` : `hide`}`}>
+               <Grid.Column
+                  computer={6}
+                  className={`show-sub ${showSub ? `` : `hide`}`}
+               >
                   <List className='box sub-list'>
                      <List.Item className='img'>
-                        <Image onClick={() => toggleCloseSub()} src={CloseImage} />
+                        <Image
+                           onClick={() => toggleCloseSub()}
+                           src={CloseImage}
+                        />
                      </List.Item>
 
                      {subPage === 'authorized-apps' && showSubData ? (
@@ -297,47 +353,75 @@ class PaginationBlock extends Component {
                            <List.Item>
                               <List horizontal>
                                  <List.Item>
-                                    <div className='main-image' style={{ backgroundColor: '#fff' }}>
-                                       <Image src={showSubData[0]} align='left' />
+                                    <div
+                                       className='main-image'
+                                       style={{ backgroundColor: '#fff' }}
+                                    >
+                                       <Image
+                                          src={showSubData[0]}
+                                          align='left'
+                                       />
                                     </div>
                                  </List.Item>
                                  <List.Item>
-                                    <List.Header as='h2'>{showSubData[1]}</List.Header>
+                                    <List.Header as='h2'>
+                                       {showSubData[1]}
+                                    </List.Header>
 
                                     <List.Item as='h5' className='color-blue'>
-                                       <span className='color-black'>amount:</span>
+                                       <span className='color-black'>
+                                          amount:
+                                       </span>
                                        {showSubData[2]}Ⓝ
                                     </List.Item>
                                  </List.Item>
                               </List>
                            </List.Item>
                            <List.Item className='remove-connection border-top'>
-                              <Button onClick={handleDeauthorize}>DEAUTHORIZE</Button>
+                              <Button onClick={handleDeauthorize}>
+                                 DEAUTHORIZE
+                              </Button>
                            </List.Item>
                            {false && (
                               <List.Item className='authorized-transactions'>
-                                 <List.Item as='h6' className='authorized-transactions-title border-top'>
+                                 <List.Item
+                                    as='h6'
+                                    className='authorized-transactions-title border-top'
+                                 >
                                     AUTHORIZED TO
                                  </List.Item>
-                                 <List.Item className='authorized-transactions-row color-black'>View your Account Name</List.Item>
-                                 <List.Item className='authorized-transactions-row color-black'>Do something else on your behalf</List.Item>
+                                 <List.Item className='authorized-transactions-row color-black'>
+                                    View your Account Name
+                                 </List.Item>
+                                 <List.Item className='authorized-transactions-row color-black'>
+                                    Do something else on your behalf
+                                 </List.Item>
                               </List.Item>
                            )}
                            {false && (
                               <List.Item className='recent-transactions'>
-                                 <List.Item as='h6' className='recent-transactions-title border-top'>
+                                 <List.Item
+                                    as='h6'
+                                    className='recent-transactions-title border-top'
+                                 >
                                     RECENT TRANSACTIONS
                                  </List.Item>
                                  <List.Item className='recent-transactions-row border-top'>
-                                    <List.Header>Another thing here</List.Header>
+                                    <List.Header>
+                                       Another thing here
+                                    </List.Header>
                                     <List.Item>3h ago</List.Item>
                                  </List.Item>
                                  <List.Item className='recent-transactions-row border-top'>
-                                    <List.Header>Another Thing Happened</List.Header>
+                                    <List.Header>
+                                       Another Thing Happened
+                                    </List.Header>
                                     <List.Item>3d ago</List.Item>
                                  </List.Item>
                                  <List.Item className='recent-transactions-row border-top'>
-                                    <List.Header>In-app purchase: 20 Ⓝ</List.Header>
+                                    <List.Header>
+                                       In-app purchase: 20 Ⓝ
+                                    </List.Header>
                                     <List.Item>1w ago</List.Item>
                                  </List.Item>
                                  <List.Item className='recent-transactions-row border-top'>
@@ -357,11 +441,16 @@ class PaginationBlock extends Component {
                               <List horizontal>
                                  <List.Item>
                                     <div className='main-image'>
-                                       <Image src={AccountGreyImage} align='left' />
+                                       <Image
+                                          src={AccountGreyImage}
+                                          align='left'
+                                       />
                                     </div>
                                  </List.Item>
                                  <List.Item>
-                                    <List.Header as='h2'>Alex Skidanov</List.Header>
+                                    <List.Header as='h2'>
+                                       Alex Skidanov
+                                    </List.Header>
                                     <List.Item as='h5'>@alex.near</List.Item>
                                  </List.Item>
                               </List>
@@ -370,7 +459,10 @@ class PaginationBlock extends Component {
                               <Button>REMOVE CONNECTION</Button>
                            </List.Item>
                            <List.Item className='recent-transactions'>
-                              <List.Item as='h6' className='recent-transactions-title border-top'>
+                              <List.Item
+                                 as='h6'
+                                 className='recent-transactions-title border-top'
+                              >
                                  RECENT TRANSACTIONS
                               </List.Item>
                               <List.Item className='recent-transactions-row border-top'>
@@ -382,7 +474,9 @@ class PaginationBlock extends Component {
                                  <List.Item>3d ago</List.Item>
                               </List.Item>
                               <List.Item className='recent-transactions-row border-top'>
-                                 <List.Header>You and Alex played NEAR Chess</List.Header>
+                                 <List.Header>
+                                    You and Alex played NEAR Chess
+                                 </List.Header>
                                  <List.Item>1w ago</List.Item>
                               </List.Item>
                            </List.Item>
@@ -398,18 +492,47 @@ class PaginationBlock extends Component {
             </Grid.Row>
             {false && (
                <Grid.Row className='border-top-light'>
-                  <Grid.Column width={8} verticalAlign='middle' className='pagination-block-top-paging'>
+                  <Grid.Column
+                     width={8}
+                     verticalAlign='middle'
+                     className='pagination-block-top-paging'
+                  >
                      <List horizontal verticalAlign='middle'>
                         <List.Item width={6}>
-                           <PaginationPaging handleOnClickPaging={this.handleOnClickPaging} pagingValue={pagingValue} pagingDropdown={pagingDropdown} handlePagingDropdownClick={this.handlePagingDropdownClick} />
+                           <PaginationPaging
+                              handleOnClickPaging={this.handleOnClickPaging}
+                              pagingValue={pagingValue}
+                              pagingDropdown={pagingDropdown}
+                              handlePagingDropdownClick={
+                                 this.handlePagingDropdownClick
+                              }
+                           />
                         </List.Item>
-                        <List.Item width={6} as='h6' className='pagination-block-top-paging-summary'>
-                           <PaginationSummary pageNumber={pageNumber} pageLimit={pageLimit} totalRecords={totalRecords} />
+                        <List.Item
+                           width={6}
+                           as='h6'
+                           className='pagination-block-top-paging-summary'
+                        >
+                           <PaginationSummary
+                              pageNumber={pageNumber}
+                              pageLimit={pageLimit}
+                              totalRecords={totalRecords}
+                           />
                         </List.Item>
                      </List>
                   </Grid.Column>
-                  <Grid.Column width={8} className='pagination-block-paging' textAlign='right'>
-                     <PaginationTab totalRecords={totalRecords} pageLimit={pageLimit} initialPage={initialPage} onPageChanged={onPageChanged} pageNeighbors={pageNeighbors} />
+                  <Grid.Column
+                     width={8}
+                     className='pagination-block-paging'
+                     textAlign='right'
+                  >
+                     <PaginationTab
+                        totalRecords={totalRecords}
+                        pageLimit={pageLimit}
+                        initialPage={initialPage}
+                        onPageChanged={onPageChanged}
+                        pageNeighbors={pageNeighbors}
+                     />
                   </Grid.Column>
                </Grid.Row>
             )}
