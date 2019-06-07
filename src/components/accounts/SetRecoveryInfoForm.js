@@ -1,5 +1,4 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
 import { Form, Input, Button, Segment } from 'semantic-ui-react'
 import PhoneInput from 'react-phone-number-input'
 
@@ -190,7 +189,7 @@ const SetRecoveryInfoForm = ({
          if you want to backup your account keys manually. However, skipping
          this will make it impossible for us to assist you with account recovery
          in the future.{' '}
-         <a href='#' className='' onClick={skipRecoverySetup}>
+         <a href='#react-wants-this' className='' onClick={skipRecoverySetup}>
             I choose to backup my account manually
          </a>
       </Segment>
