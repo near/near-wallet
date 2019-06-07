@@ -295,7 +295,7 @@ export class Wallet {
       const nearAccount = await this.near.nearClient.viewAccount(accountId);
       if (!nearAccount.public_keys.some(key => nearlib.KeyPair.encodeBufferInBs58(Buffer.from(key)) === HELPER_KEY)) {
          await this.near.waitForTransactionResult(
-            await this.account.addAccountKey(accountId, HELPER_KEY));
+            await this.account.addAccessKey(accountId, HELPER_KEY));
       }
 
       const signer = this.near.nearClient.signer;

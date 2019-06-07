@@ -7,7 +7,7 @@ import { Wallet } from '../../utils/wallet'
 import AccountFormSection from './AccountFormSection'
 import RecoverAccountForm from './RecoverAccountForm'
 import RecoverAccountContainer from './RecoverAccountContainer'
-import { requestCode, recoverAccount } from '../../actions/account';
+import { requestCode, recoverAccount, redirectToApp } from '../../actions/account';
 
 class RecoverAccount extends Component {
    state = {
@@ -50,6 +50,10 @@ class RecoverAccount extends Component {
          dispatch(requestCode(this.state.phoneNumber, accountId))
       } else {
          dispatch(recoverAccount(this.state.phoneNumber, accountId, this.state.securityCode))
+            .then(({ error }) => {
+               if (error) return;
+               dispatch(redirectToApp())
+            })
       }
    }
 

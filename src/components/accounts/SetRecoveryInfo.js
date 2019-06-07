@@ -7,7 +7,7 @@ import { Wallet } from '../../utils/wallet'
 import AccountFormSection from './AccountFormSection'
 import SetRecoveryInfoForm from './SetRecoveryInfoForm'
 import SetRecoveryInfoContainer from './SetRecoveryInfoContainer'
-import { requestCode, setupAccountRecovery } from '../../actions/account';
+import { requestCode, setupAccountRecovery, redirectToApp } from '../../actions/account';
 
 class SetRecoveryInfo extends Component {
    state = {
@@ -51,10 +51,7 @@ class SetRecoveryInfo extends Component {
             .then(({error}) => {
                if (error) return
 
-               let nextUrl = `/login/${(this.props.url && this.props.url.next_url) || '/'}`
-               setTimeout(() => {
-                  this.props.history.push(nextUrl)
-               }, 1500)
+               dispatch(redirectToApp())
             })
       }
    }

@@ -1,4 +1,4 @@
-import { parse } from 'query-string'
+import { parse, stringify } from 'query-string'
 import { createActions } from 'redux-actions';
 import { Wallet } from '../utils/wallet';
 
@@ -78,11 +78,9 @@ const wallet = new Wallet()
 
 export const redirectToApp = () => (dispatch, getState) => {
    const state = getState()
-   const nextUrl = `/login/${(state.account.url && state.props.url.next_url) || '/'}`
+   const nextUrl = `/login/?${(state.account.url && state.account.url.success_url) ? stringify(state.account.url) : '/'}`
    setTimeout(() => {
-      // TODO: Navigate to page
-      // this.props.history.push(nextUrl)
-      console.log("redirect to ", nextUrl)
+      window.location = nextUrl
    }, 1500)
 }
 
