@@ -3,9 +3,10 @@ import sendJson from 'fetch-send-json'
 
 const WALLET_CREATE_NEW_ACCOUNT_URL = `/create/`
 
-const ACCOUNT_HELPER_URL = process.env.ACCOUNT_HELPER_URL || 'https://studio.nearprotocol.com/contract-api'
+const ACCOUNT_HELPER_URL = process.env.REACT_APP_ACCOUNT_HELPER_URL || 'https://studio.nearprotocol.com/contract-api'
 const CONTRACT_CREATE_ACCOUNT_URL = `${ACCOUNT_HELPER_URL}/account`
-const NODE_URL = process.env.NODE_URL || 'https://studio.nearprotocol.com/devnet'
+const NODE_URL = process.env.REACT_APP_NODE_URL || 'https://studio.nearprotocol.com/devnet'
+const HELPER_KEY = process.env.REACT_APP_ACCOUNT_HELPER_URL || '22skMptHjFWNyuEWY22ftn2AbLPSYpmYwGJRGwpNHbTV'
 
 const KEY_UNIQUE_PREFIX = '_4:'
 const KEY_WALLET_ACCOUNTS = KEY_UNIQUE_PREFIX + 'wallet:accounts_v2'
@@ -291,8 +292,6 @@ export class Wallet {
    }
 
    async setupAccountRecovery(phoneNumber, accountId, securityCode) {
-      // TODO: Don't hardcode key
-      const HELPER_KEY = '22skMptHjFWNyuEWY22ftn2AbLPSYpmYwGJRGwpNHbTV';
       const nearAccount = await this.near.nearClient.viewAccount(accountId);
       if (!nearAccount.public_keys.some(key => nearlib.KeyPair.encodeBufferInBs58(Buffer.from(key)) === HELPER_KEY)) {
          await this.near.waitForTransactionResult(
