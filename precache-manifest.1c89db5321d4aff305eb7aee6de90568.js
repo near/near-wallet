@@ -4,7 +4,7 @@ self.__precacheManifest = [
     "url": "/static/media/near.584de59e.svg"
   },
   {
-    "revision": "ac0076673dbe6da02d73",
+    "revision": "b570b43d1f739171da61",
     "url": "/static/css/main.091b6b40.chunk.css"
   },
   {
@@ -12,8 +12,8 @@ self.__precacheManifest = [
     "url": "/static/js/runtime~main.a8a9905a.js"
   },
   {
-    "revision": "d5055779ce53bdcc6988",
-    "url": "/static/js/2.7497c17d.chunk.js"
+    "revision": "6be30a06b64a8908f1ae",
+    "url": "/static/js/2.fe83bc98.chunk.js"
   },
   {
     "revision": "4d7da4912d87b6e16bd5636f9242aefa",
@@ -36,12 +36,12 @@ self.__precacheManifest = [
     "url": "/static/media/icon-problems.1f0685f5.svg"
   },
   {
-    "revision": "f7a4807a66b3320f7677588ea755da0f",
-    "url": "/static/media/icon-send.f7a4807a.svg"
-  },
-  {
     "revision": "5c3cedcfc647d598068ebb21c6634dd8",
     "url": "/static/media/icon-close.5c3cedcf.svg"
+  },
+  {
+    "revision": "f7a4807a66b3320f7677588ea755da0f",
+    "url": "/static/media/icon-send.f7a4807a.svg"
   },
   {
     "revision": "89d4711003caf9047ba4bd90e1e230a1",
@@ -60,6 +60,14 @@ self.__precacheManifest = [
     "url": "/static/media/icon-arrow-right.2c9f3083.svg"
   },
   {
+    "revision": "f726da93f5904efff668ffd7bcb4f3a9",
+    "url": "/static/media/icon-t-transfer.f726da93.svg"
+  },
+  {
+    "revision": "23b32201c24724ea340f8de76a8d9bfe",
+    "url": "/static/media/icon-m-transaction.23b32201.svg"
+  },
+  {
     "revision": "f6e4afacd6e34f7cba27d51c8dd55cb6",
     "url": "/static/media/icon-contacts.f6e4afac.svg"
   },
@@ -76,14 +84,6 @@ self.__precacheManifest = [
     "url": "/static/media/icon-activity.b48f419e.svg"
   },
   {
-    "revision": "f726da93f5904efff668ffd7bcb4f3a9",
-    "url": "/static/media/icon-t-transfer.f726da93.svg"
-  },
-  {
-    "revision": "23b32201c24724ea340f8de76a8d9bfe",
-    "url": "/static/media/icon-m-transaction.23b32201.svg"
-  },
-  {
     "revision": "1acfd8f49d204adce61dd6ec36ce42dc",
     "url": "/static/media/icon-mobile-menu.1acfd8f4.svg"
   },
@@ -92,8 +92,8 @@ self.__precacheManifest = [
     "url": "/static/media/icon-help.f6c0707a.svg"
   },
   {
-    "revision": "ac0076673dbe6da02d73",
-    "url": "/static/js/main.6d7118cf.chunk.js"
+    "revision": "b570b43d1f739171da61",
+    "url": "/static/js/main.805bcbd7.chunk.js"
   },
   {
     "revision": "350474420a5ffa53576a6b224f288e02",
@@ -160,12 +160,12 @@ self.__precacheManifest = [
     "url": "/static/media/icon-doc-grey.888e4b7b.svg"
   },
   {
-    "revision": "dde73b38b35929e873bb5c9955f5c863",
-    "url": "/static/media/Branding with Type - Bw Seido Round Light.dde73b38.otf"
-  },
-  {
     "revision": "971c1fec19ca99196578f34e66d5f0e9",
     "url": "/static/media/Branding with Type - Bw Seido Round Medium.971c1fec.otf"
+  },
+  {
+    "revision": "dde73b38b35929e873bb5c9955f5c863",
+    "url": "/static/media/Branding with Type - Bw Seido Round Light.dde73b38.otf"
   },
   {
     "revision": "6de0530b5b9708aa0ee264851a0cf1a2",
@@ -184,7 +184,7 @@ self.__precacheManifest = [
     "url": "/static/media/icon-contacts-grey.c7048ab4.svg"
   },
   {
-    "revision": "c975a57e1ef6c7c10d6784734881d3fd",
+    "revision": "337bf74572facd0d54de8093f59da14e",
     "url": "/index.html"
   }
 ];
