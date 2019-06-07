@@ -36,7 +36,7 @@ class Profile extends Component {
 
    render() {
       return (
-         <ProfileContainer>
+         <ProfileContainer account={this.props.account}>
             <ProfileSection>
                <ProfileDetails account={this.props.account} />
                { false ?
