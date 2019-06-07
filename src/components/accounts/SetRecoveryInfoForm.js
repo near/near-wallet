@@ -142,7 +142,8 @@ const SetRecoveryInfoForm = ({
    isLegit,
    requestStatus,
    handleSubmit,
-   handleChange
+   handleChange,
+   skipRecoverySetup
 }) => (
    <RecoveryInfoForm autoComplete='off' onSubmit={handleSubmit}>
       {!sentSms && (
@@ -189,9 +190,9 @@ const SetRecoveryInfoForm = ({
          if you want to backup your account keys manually. However, skipping
          this will make it impossible for us to assist you with account recovery
          in the future.{' '}
-         <Link to='/dashboard' className=''>
+         <a href='#' className='' onClick={skipRecoverySetup}>
             I choose to backup my account manually
-         </Link>
+         </a>
       </Segment>
    </RecoveryInfoForm>
 )

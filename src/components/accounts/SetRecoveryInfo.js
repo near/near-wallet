@@ -56,6 +56,11 @@ class SetRecoveryInfo extends Component {
       }
    }
 
+   skipRecoverySetup = e => {
+      const { dispatch } = this.props;
+      dispatch(redirectToApp())
+   }
+
    render() {
       const { loader } = this.state
       const combinedState = {
@@ -70,6 +75,7 @@ class SetRecoveryInfo extends Component {
                   {...combinedState}
                   handleSubmit={this.handleSubmit}
                   handleChange={this.handleChange}
+                  skipRecoverySetup={this.skipRecoverySetup}
                />
             </AccountFormSection>
          </SetRecoveryInfoContainer>
