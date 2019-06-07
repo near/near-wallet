@@ -6,39 +6,32 @@ import DashboardOtherAssets from './DashboardOtherAssets'
 import ArrowGrnImage from '../../images/icon-arrow-grn.svg'
 import ArrowRightImage from '../../images/icon-arrow-right.svg'
 
-import { Container, Grid, Button, Header } from 'semantic-ui-react'
+import { Container, Grid, Button } from 'semantic-ui-react'
 
 import styled from 'styled-components'
 
 const CustomContainer = styled(Container)`
-   &&& .creating-info {
+   &&& .page-title {
       padding-right: 0px;
       padding-top: 48px;
       padding-bottom: 0px;
 
       .column {
-         padding: 0 0 24px 0;
-
-         :first-child {
-            padding-left: 0px;
-         }
+         padding: 0 14px 24px 0;
       }
-
       h1 {
-         color: #4a4f54;
-         padding-left: 0px;
          line-height: 48px;
       }
+      .add {
+         text-align: right;
+      }
    }
-
    .near {
       font-size: 48px;
       color: #24272a;
    }
-
    &&& .send-money {
-      margin: -8px 0 0 0;
-
+      margin: 0 0 0 0;
       > .button {
          width: 100%;
          line-height: 60px;
@@ -51,12 +44,10 @@ const CustomContainer = styled(Container)`
          background: #fff;
          text-align: left;
          padding: 0 0 0 40px;
-
          background-image: url(${ArrowGrnImage});
          background-repeat: no-repeat;
          background-position: 90% center;
          background-size: 14px 20px;
-
          :hover {
             background-color: #5ace84;
             color: #fff;
@@ -64,28 +55,46 @@ const CustomContainer = styled(Container)`
          }
       }
    }
-
    &&& {
       .right-section {
          padding-left: 40px;
       }
    }
-
+   @media screen and (max-width: 991px) {
+      > .grid {
+         margin-left: 0px;
+         margin-right: 0px;
+      }
+      &&& .send-money {
+         margin-top: 20px;
+         margin-top: 0px;
+      }
+      &&& .page-title {
+         text-align: center;
+         .column {
+            padding: 0 0 12px 0;
+         }
+         .balance {
+            display: none;
+         }
+         .button {
+            width: 240px;
+            line-height: 44px;
+         }
+      }
+   }
    @media screen and (max-width: 767px) {
       > .grid {
          margin-left: 0px;
          margin-right: 0px;
       }
-
       &&& .send-money {
          margin-top: 20px;
          margin-top: 0px;
       }
-
-      &&& .creating-info {
+      &&& .page-title {
          padding-top: 24px;
          text-align: center;
-
          .column {
             padding: 0 0 12px 0;
          }
@@ -103,17 +112,21 @@ const CustomContainer = styled(Container)`
 const DashboardContainer = ({ children, account }) => (
    <CustomContainer>
       <Grid>
-         <Grid.Row className='creating-info'>
-            <Grid.Column computer={12} tablet={11} mobile={16}>
-               <Header as='h1'>
-                  <span className='balance'>Balance: </span>
-                  <span className='color-black'>{account.amount}</span>
-                  <span className='near'>Ⓝ</span>
-               </Header>
+         <Grid.Row columns='2' className='page-title'>
+            <Grid.Column
+               as='h1'
+               computer={12}
+               tablet={16}
+               mobile={16}
+               verticalAlign='middle'
+            >
+               <span className='balance'>Balance: </span>
+               <span className='color-black'>{account.amount}</span>
+               <span className='near'>Ⓝ</span>
             </Grid.Column>
             <Grid.Column
                computer={4}
-               tablet={5}
+               tablet={16}
                mobile={16}
                className='send-money'
             >
@@ -123,9 +136,7 @@ const DashboardContainer = ({ children, account }) => (
             </Grid.Column>
          </Grid.Row>
       </Grid>
-      { false ?
-      <DashboardOtherAssets />
-      : null }
+      {false ? <DashboardOtherAssets /> : null}
       {children}
    </CustomContainer>
 )

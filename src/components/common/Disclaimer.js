@@ -4,8 +4,6 @@ import styled from 'styled-components'
 
 const DisclaimerGrid = styled(Grid)`
    && .disclaimer {
-      margin-left: 1rem;
-      margin-right: 1rem;
       margin-top: 100px;
 
       > .column {
@@ -27,15 +25,16 @@ const DisclaimerGrid = styled(Grid)`
 `
 
 const Disclaimer = () => (
-    <DisclaimerGrid>
-        <Grid.Row className='disclaimer border-top-bold'>
-        <Grid.Column computer={16} tablet={16} mobile={16}>
+   <DisclaimerGrid>
+      <Grid.Row className='disclaimer border-top-bold'>
+         <Grid.Column computer={16} tablet={16} mobile={16}>
             <span className='disclaimer-info'>DISCLAIMER: </span>
             This is a developers&apos; preview Wallet. It should be used for
-            NEAR Protocol DevNet only. Learn more at <a href='http://nearprotocol.com'>nearprotocol.com</a>
-        </Grid.Column>
-        </Grid.Row>
-    </DisclaimerGrid>
+            NEAR Protocol DevNet only. Learn more at{' '}
+            <a href='http://nearprotocol.com'>nearprotocol.com</a>
+         </Grid.Column>
+      </Grid.Row>
+   </DisclaimerGrid>
 )
 
 export default Disclaimer

@@ -45,13 +45,13 @@ const CustomContainer = styled(Container)`
    }
 `
 
-const ProfileContainer = ({ children }) => (
+const ProfileContainer = ({ account, children }) => (
    <CustomContainer>
       <Grid>
          <Grid.Row columns='2' className='page-title'>
             <Grid.Column as='h1'>Account:</Grid.Column>
             <Grid.Column as='h1' className='add'>
-               @eugenethedream
+               @{account.accountId}
             </Grid.Column>
          </Grid.Row>
       </Grid>

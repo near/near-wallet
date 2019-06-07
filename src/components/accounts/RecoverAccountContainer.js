@@ -8,19 +8,42 @@ import NearInfo from './NearInfo'
 import styled from 'styled-components'
 
 const CustomContainer = styled(Container)`
-   &&& .creating-info {
+   &&& .page-title {
       padding-right: 0px;
       padding-top: 48px;
+      padding-bottom: 0px;
 
+      .column {
+         padding: 0 14px 24px 0;
+      }
       h1 {
-         color: #4a4f54;
-         padding-bottom: 24px;
+         line-height: 48px;
+      }
+      h2 {
+         color: #4a4f54 !important;
       }
    }
 
    @media screen and (max-width: 767px) {
-      &&& .creating-info {
-         padding-right: 1rem;
+      &&& .page-title {
+         padding-top: 14px;
+         text-align: center;
+
+         .column {
+            padding: 0 0 6px 0;
+         }
+         h1 {
+            margin-bottom: 0px;
+         }
+         h2 {
+            font-size: 16px !important;
+            line-height: 22px !important;
+            color: #999 !important;
+         }
+         .column.add {
+            text-align: left;
+            padding-top: 0px !important;
+         }
       }
    }
 `
@@ -28,19 +51,20 @@ const CustomContainer = styled(Container)`
 /* eslint-disable jsx-a11y/accessible-emoji */
 const RecoverAccountContainer = ({ loader, children }) => (
    <CustomContainer>
-      <Grid>
+      <Grid stackable>
          <Dimmer inverted active={loader}>
             <Loader />
          </Dimmer>
 
-         <Grid.Row className='creating-info'>
-            <Grid.Column computer={8} tablet={8} mobile={16}>
-               <Header as='h1'>Recover your Account</Header>
+         <Grid.Row columns='2' className='page-title'>
+            <Grid.Column computer={9} tablet={8} mobile={16}>
+               <Header as='h1'>Find your Account</Header>
                <Header as='h2'>
-                  Please enter your account name and phone number you used to protect account.
+                  Enter your information associated with the account and we will
+                  send a recovery code.
                </Header>
             </Grid.Column>
-            <Grid.Column computer={8} tablet={8} mobile={16}>
+            <Grid.Column computer={7} tablet={8} mobile={16} className='add'>
                <NearInfo />
             </Grid.Column>
          </Grid.Row>

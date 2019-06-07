@@ -10,14 +10,12 @@ const CustomGrid = styled(Grid)`
          padding-bottom: 0px;
          margin-left: -1rem;
       }
-
       .alert-info {
          font-size: 18px;
          font-weight: 600;
          line-height: 64px;
          margin: 0 0 0 0;
          padding-left: 0px;
-
          &.problem {
             color: #ff585d;
          }
@@ -25,15 +23,12 @@ const CustomGrid = styled(Grid)`
             color: #6ad1e3;
          }
       }
-
       .note-box {
          padding-left: 30px;
-
          .border-left-bold {
             padding-bottom: 20px;
          }
       }
-
       .note-info {
          .title {
             letter-spacing: 2px;
@@ -42,47 +37,41 @@ const CustomGrid = styled(Grid)`
             color: #4a4f54;
          }
       }
-
       .form-row {
          margin-left: -1rem;
       }
    }
-
    @media screen and (max-width: 991px) {
-      .note-box {
-         padding-left: 0px;
+      &&& {
+         .note-box {
+            padding-left: 0px;
+         }
       }
    }
-
    @media screen and (max-width: 767px) {
       &&& {
          .username-row {
             margin-left: 0;
          }
-
          .alert-info {
             padding: 0 0 6px 24px;
             line-height: 34px;
             font-size: 14px;
             margin-top: -6px;
          }
-
          .note-box {
             padding-left: 1rem;
             margin-top: 10px;
          }
-
          .note-box {
             .border-left-bold {
                padding-bottom: 0px;
             }
          }
-
          .form-row {
             padding-top: 6px;
             margin-left: 0;
          }
-
          &&& .note-info {
             font-size: 12px;
          }
@@ -98,10 +87,10 @@ const CreateAccountSection = ({ successMessage, errorMessage, children }) => (
          </Grid.Column>
       </Grid.Row>
       <Grid.Row className='form-row'>
-         <Grid.Column computer={8} tablet={8} mobile={16}>
+         <Grid.Column computer={9} tablet={8} mobile={16}>
             {children}
          </Grid.Column>
-         <Grid.Column computer={8} tablet={8} mobile={16}>
+         <Grid.Column computer={7} tablet={8} mobile={16}>
             <Grid className='note-box'>
                {successMessage && (
                   <Responsive

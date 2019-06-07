@@ -40,10 +40,19 @@ const AccountForm = styled(Form)`
       }
    }
 
-   .recoverAccount {
-      display: block;
-      margin-top: 2em;
-      font-size: 18px
+   .recover {
+      margin-top: 36px;
+      color: #24272a;
+      line-height: 24px;
+      font-weight: 600;
+
+      a {
+         text-decoration: underline;
+
+         :hover {
+            text-decoration: none;
+         }
+      }
    }
 
    @media screen and (max-width: 767px) {
@@ -67,7 +76,6 @@ const CreateAccountForm = ({
          successMessage={successMessage}
          errorMessage={errorMessage}
       />
-
       <Responsive maxWidth={Responsive.onlyMobile.maxWidth}>
          {successMessage && (
             <Segment basic className='alert-info success'>
@@ -80,17 +88,18 @@ const CreateAccountForm = ({
             </Segment>
          )}
       </Responsive>
-
       <ReCAPTCHA
          sitekey='6LfNjp8UAAAAAByZu30I-2-an14USj3yVbbUI3eN'
          onChange={handleRecaptcha}
       />
-
       <Button type='submit' disabled={!successMessage}>
          CREATE ACCOUNT
       </Button>
 
-      <Link to='/recover-account' className="recoverAccount">I already have an account</Link>
+      <div className='recover'>
+         <div>Already have an account?</div>
+         <Link to='/recover-account'>Recover it here</Link>
+      </div>
    </AccountForm>
 )
 

@@ -3,9 +3,11 @@ import { connect } from 'react-redux'
 
 import { withRouter } from 'react-router-dom'
 
+import { Wallet } from '../../utils/wallet'
+import { handleRefreshAccount, handleRefreshUrl } from '../../actions/account'
+
 import PaginationBlock from '../pagination/PaginationBlock'
 import ListItem from '../dashboard/ListItem'
-
 import ContactsContainer from './ContactsContainer'
 
 import AccountGreyImage from '../../images/icon-account-grey.svg'
@@ -34,9 +36,9 @@ class Contacts extends Component {
    }
 
    componentDidMount() {
-      // this.wallet = new Wallet()
-      // this.props.handleRefreshUrl(this.props.location)
-      // this.props.handleRefreshAccount(this.wallet, this.props.history)
+      this.wallet = new Wallet()
+      this.props.handleRefreshUrl(this.props.location)
+      this.props.handleRefreshAccount(this.wallet, this.props.history)
 
       this.setState(() => ({
          loader: true
@@ -103,7 +105,10 @@ class Contacts extends Component {
    }
 }
 
-const mapDispatchToProps = {}
+const mapDispatchToProps = {
+   handleRefreshAccount,
+   handleRefreshUrl
+}
 
 const mapStateToProps = () => ({})
 
