@@ -91,7 +91,7 @@ const ProfileDetails = ({ account }) => (
             Username
          </Grid.Column>
          <Grid.Column computer='7' tablet='7' mobile='9'>
-            @eugenethedream
+            @{account.accountId}
          </Grid.Column>
          <Grid.Column computer='4' tablet='4' textAlign='center' only='tablet'>
             Public
