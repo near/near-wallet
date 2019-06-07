@@ -78,7 +78,7 @@ const wallet = new Wallet()
 
 export const redirectToApp = () => (dispatch, getState) => {
    const state = getState()
-   const nextUrl = `/login/?${(state.account.url && state.account.url.success_url) ? stringify(state.account.url) : '/'}`
+   const nextUrl = (state.account.url && state.account.url.success_url) ? `/login/?${stringify(state.account.url)}` : '/'
    setTimeout(() => {
       window.location = nextUrl
    }, 1500)
