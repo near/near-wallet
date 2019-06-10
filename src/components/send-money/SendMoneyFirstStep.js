@@ -60,6 +60,7 @@ const CustomList = styled(List)`
             margin-top: 16px;
             margin-bottom: 0px;
             padding-top: 24px;
+            
             input {
                height: 80px;
                border: 0px;
@@ -70,6 +71,11 @@ const CustomList = styled(List)`
                color: #4a4f54;
                text-align: center;
                padding: 0px;
+
+               :focus::-webkit-input-placeholder { color: transparent; }
+               :focus:-moz-placeholder { color: transparent; }
+               :focus::-moz-placeholder { color: transparent; }
+               :focus:-ms-input-placeholder { color: transparent; }
             }
          }
          .near-tokens {
