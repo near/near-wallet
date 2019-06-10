@@ -197,12 +197,12 @@ const SendMoneyFirstStep = ({
 
                   {successMessage && (
                      <Segment basic className='alert-info success'>
-                        Username is available.
+                        Username exists.
                      </Segment>
                   )}
                   {errorMessage && (
                      <Segment basic className='alert-info problem'>
-                        Username is unavailable.
+                        Username does not exist.
                      </Segment>
                   )}
                </List.Content>
