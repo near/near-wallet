@@ -71,12 +71,22 @@ const CustomList = styled(List)`
                color: #4a4f54;
                text-align: center;
                padding: 0px;
-
+               
                :focus::-webkit-input-placeholder { color: transparent; }
                :focus:-moz-placeholder { color: transparent; }
                :focus::-moz-placeholder { color: transparent; }
                :focus:-ms-input-placeholder { color: transparent; }
+
+               -moz-appearance: textfield;
+
+               ::-webkit-outer-spin-button,
+               ::-webkit-inner-spin-button {
+                  -webkit-appearance: none;
+                  margin: 0;
+               }
             }
+
+
          }
          .near-tokens {
             margin: 14px auto 36px auto;
