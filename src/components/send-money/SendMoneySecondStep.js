@@ -38,8 +38,9 @@ const CustomList = styled(List)`
          font-family: Bw Seido Round;
          font-size: 72px;
          font-weight: 500;
-         line-height: 72px;
+         line-height: 60px;
          color: #4a4f54;
+         word-break: break-all;
       }
       .to {
          width: 40px;
