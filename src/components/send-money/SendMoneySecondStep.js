@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { List, Image, Button, Header } from 'semantic-ui-react'
+import { List, Image, Button, Header, Dimmer, Loader } from 'semantic-ui-react'
 
 import AccountGreyImage from '../../images/icon-account-grey.svg'
 
@@ -84,6 +84,16 @@ const CustomList = styled(List)`
                color: #5ace84;
                background: #fff;
             }
+            :disabled {
+               border: 4px solid #e6e6e6;
+               background: #e6e6e6;
+               opacity: 1 !important;
+            }
+            :active,
+            :focus {
+               background: #fff;
+               color: #5ace84;
+            }
          }
       }
 
@@ -125,9 +135,14 @@ const SendMoneySecondStep = ({
    expandNote,
    note,
    amount,
-   accountId
+   accountId,
+   loader
 }) => (
    <CustomList className='box'>
+      <Dimmer inverted active={loader}>
+         <Loader />
+      </Dimmer>
+      
       <List.Item as='h2'>You are sending</List.Item>
       <List.Item as='h1' className='amount border-bottom'>
          {amount}

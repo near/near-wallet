@@ -134,7 +134,7 @@ const ListItem = ({
       className={`border-bottom-light ${wide ? `wide` : ``} ${
          showSub && showSubOpen === i ? `dropdown-down` : ``
       } ${showSub ? `showsub` : ``}`}
-      onClick={() => toggleShowSub(i, row)}
+      onClick={() => wide && toggleShowSub(i, row)}
    >
       <Grid.Column
          computer={wide ? 15 : 15}

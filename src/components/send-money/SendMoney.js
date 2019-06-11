@@ -67,6 +67,10 @@ class SendMoney extends Component {
       const { step, accountId, amount} = this.state;
 
       if (step === 2) {
+         this.setState(() => ({
+            loader: true
+         }))
+
          this.wallet.sendTokens(this.wallet.getAccountId(), accountId, amount)
             .then(() => {
                this.setState(state => ({
@@ -74,6 +78,11 @@ class SendMoney extends Component {
                }))
             })
             .catch(console.error)
+            .finally(() => {
+               this.setState(() => ({
+                  loader: false
+               }))
+            })
          return;
       }
 
