@@ -43,6 +43,10 @@ const CustomList = styled(List)`
             &.success {
                color: #6ad1e3;
             }
+            &.amount {
+               text-align: center;
+               padding: 0 !important;
+            }
          }
          .main-image {
             border: 0px;
@@ -180,7 +184,8 @@ const SendMoneyFirstStep = ({
    successMessage,
    errorMessage,
    formLoader,
-   amount
+   amount,
+   amountStatus
 }) => (
    <CustomList className='box'>
       <Form autoComplete='off' onSubmit={handleChangeAccountId}>
@@ -235,7 +240,13 @@ const SendMoneyFirstStep = ({
                step='1'
                min='1'
             />
+            
          </List.Item>
+         {amountStatus && (
+            <Segment basic textAlign='center' className='alert-info problem amount'>
+               {amountStatus}
+            </Segment>
+         )}
          <List.Item as='h5' className='near-tokens'>
             NEAR TOKENS
          </List.Item>
@@ -253,8 +264,8 @@ const SendMoneyFirstStep = ({
             <Button
                disabled={
                   paramAccountId
-                     ? !(parseFloat(amount) > 0)
-                     : !(successMessage && parseFloat(amount) > 0)
+                     ? !((amount) > 0 && amountStatus === '')
+                     : !(successMessage && (amount) > 0 && amountStatus === '')
                }
                onClick={handleNextStep}
             >
