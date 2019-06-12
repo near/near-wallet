@@ -88,15 +88,6 @@ const CustomList = styled(List)`
 
 
          }
-         .near-tokens {
-            margin: 14px auto 36px auto;
-            text-align: center;
-            padding: 2px;
-            width: 200px;
-            background-color: #fff;
-            color: #999999;
-            font-weight: 600;
-         }
          .add-note {
             > textarea {
                width: 100%;
@@ -143,13 +134,7 @@ const CustomList = styled(List)`
          margin-left: auto;
          margin-right: auto;
          border: 0px;
-         .near-tokens {
-            width: 200px;
-         }
          form {
-            .near-tokens {
-               margin: 14px auto 24px auto;
-            }
             .add-note {
                margin-left: -1rem;
                margin-right: -1rem;
@@ -243,9 +228,6 @@ const SendMoneyFirstStep = ({
                {amountStatus}
             </Segment>
          )}
-         <List.Item as='h5' className='near-tokens'>
-            NEAR TOKENS
-         </List.Item>
          {false ? (
             <List.Item className='add-note border-bottom border-top'>
                <TextArea
