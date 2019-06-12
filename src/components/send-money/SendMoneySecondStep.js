@@ -62,11 +62,34 @@ const CustomList = styled(List)`
          }
       }
 
+      .goback {
+         font-weight: 600;
+         margin-top: 24px;
+         padding-top: 24px;
+
+         button.link {
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline;
+            margin: 0;
+            padding: 0;
+            color: #0072ce;
+
+            :hover,
+            :focus {
+               text-decoration: underline;
+               color: #0072ce;
+            }
+         }
+      }
+
       .send-money {
          padding-top: 24px;
-         padding-bottom: 24px;
+         padding-bottom: 0px;
          margin-top: 24px;
-         margin-bottom: 24px;
+         margin-bottom: 12px;
 
          > .button {
             width: 288px;
@@ -97,6 +120,8 @@ const CustomList = styled(List)`
             }
          }
       }
+
+      
 
       @media screen and (max-width: 991px) {
       }
@@ -133,6 +158,7 @@ const CustomList = styled(List)`
 const SendMoneySecondStep = ({
    handleNextStep,
    handleExpandNote,
+   handleGoBack,
    expandNote,
    note,
    amount,
@@ -172,10 +198,15 @@ const SendMoneySecondStep = ({
             )}
          </List.Item>
       )}
-      <List.Item className='send-money border-top border-bottom'>
+      <List.Item className='send-money border-top'>
          <Button onClick={handleNextStep}>CONFIRM & SEND</Button>
       </List.Item>
       <List.Item>Once confirmed, this is not undoable.</List.Item>
+      <List.Item className='goback border-top'>
+         <Button className='link' onClick={handleGoBack}>
+            Need to edit? Go Back
+         </Button>
+      </List.Item>
    </CustomList>
 )
 
