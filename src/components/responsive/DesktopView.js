@@ -121,6 +121,7 @@ class DesktopView extends Component {
       this.wallet = new Wallet()
       this.wallet.selectAccount(accountId)
       this.props.handleRefreshAccount(this.wallet, this.props.history)
+      this.props.history.push(`/`)
    }
 
    redirectCreateAccount = () => {

@@ -181,7 +181,10 @@ const DesktopPopup = ({
                      <List.Item
                         as='a'
                         key={`mf-${i}`}
-                        onClick={() => handleSelectAccount(account)}
+                        onClick={() => {
+                           handleSelectAccount(account) 
+                           handleClose()}
+                        }
                         className='account-title'
                      >
                         @{account}
