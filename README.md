@@ -8,3 +8,9 @@ This is in-browser web-based wallet for working with NEAR DevNet accounts. This 
 
 DISCLAIMER: This is a developers' preview Wallet. It should be used for NEAR Protocol DevNet only. Learn more at https://wallet.nearprotocol.com
 
+
+Dockerized Wallet
+===
+
+Dockerized wallet operates as a micro-service. It uses nginx to serve the local static content. As the result, Wallet is
+not parametrizable with environment variables.
