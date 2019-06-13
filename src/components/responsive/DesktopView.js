@@ -132,10 +132,24 @@ class DesktopView extends Component {
       }))
    }
 
-   handleToggle = () =>
+   handleToggle = () => {
       this.setState(state => ({
          popupOpen: !state.popupOpen
       }))
+   }
+
+   handleClose = () => {
+      this.setState(state => ({
+         popupOpen: false
+      }))
+   }
+
+   handleOpen = () => {
+      this.setState(state => ({
+         popupOpen: true
+      }))
+   }
+
 
    render() {
       const { popupOpen } = this.state
@@ -208,6 +222,8 @@ class DesktopView extends Component {
                                     this.redirectCreateAccount
                                  }
                                  handleToggle={this.handleToggle}
+                                 handleClose={this.handleClose}
+                                 handleOpen={this.handleOpen}
                                  popupOpen={popupOpen}
                               />
                            </div>

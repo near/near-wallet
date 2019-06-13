@@ -115,6 +115,8 @@ const DesktopPopup = ({
    handleSelectAccount,
    redirectCreateAccount,
    handleToggle,
+   handleClose,
+   handleOpen,
    popupOpen
 }) => (
    <CustomPopup
@@ -127,19 +129,22 @@ const DesktopPopup = ({
       }
       position='right center'
       open={popupOpen}
+      on='click'
+      onClose={handleClose}
+      onOpen={handleOpen}
    >
       <Segment basic className='account-dropdown'>
          <List className='submenu'>
             <List.Item>
                <List.Icon as={Image} src={AccountImage} />
-               <List.Content as={Link} to='/profile' onClick={handleToggle}>
+               <List.Content as={Link} to='/profile' onClick={handleClose}>
                   Profile
                </List.Content>
             </List.Item>
             {false ? (
                <List.Item>
                   <List.Icon as={Image} src={ContactsGreyImage} />
-                  <List.Content as={Link} to='/contacts' onClick={handleToggle}>
+                  <List.Content as={Link} to='/contacts' onClick={handleClose}>
                      Contacts
                   </List.Content>
                </List.Item>
@@ -150,7 +155,7 @@ const DesktopPopup = ({
                <List.Content
                   as={Link}
                   to='authorized-apps'
-                  onClick={handleToggle}
+                  onClick={handleClose}
                >
                   Authorized Apps
                </List.Content>
@@ -159,7 +164,7 @@ const DesktopPopup = ({
             {false ? (
                <List.Item>
                   <List.Icon as={Image} src={LogoutImage} />
-                  <List.Content as={Link} to='/logout' onClick={handleToggle}>
+                  <List.Content as={Link} to='/logout' onClick={handleClose}>
                      Logout
                   </List.Content>
                </List.Item>
