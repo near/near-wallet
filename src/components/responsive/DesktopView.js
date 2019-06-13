@@ -23,7 +23,6 @@ import { handleRefreshAccount } from '../../actions/account'
 import styled from 'styled-components'
 
 const CustomResponsive = styled(Responsive)`
-   padding-bottom: 180px;
    .spacer {
       height: 72px;
    }
@@ -232,8 +231,6 @@ class DesktopView extends Component {
                   </div>
                </div>
             </Visibility>
-
-            {this.props.children}
          </CustomResponsive>
       )
    }

@@ -33,9 +33,9 @@ import styled from 'styled-components'
 
 const CustomResponsive = styled(Responsive)`
    &&& {
-      padding-bottom: 240px;
       .navbar {
          padding: 0px;
+         margin-bottom: 1rem;
          &-main {
             background-color: #24272a;
             height: 72px;
@@ -297,8 +297,6 @@ class MobileView extends Component {
                   </Menu.Menu>
                </Segment>
             </Segment>
-
-            {this.props.children}
          </CustomResponsive>
       )
    }
