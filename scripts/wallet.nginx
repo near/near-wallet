@@ -1,3 +1,4 @@
 server {
+    listen 3004;
     root /var/www/html/wallet;
 }
