@@ -64,6 +64,25 @@ class SendMoney extends Component {
       }
    }
 
+   handleGoBack = () => {
+      this.setState(() => ({
+         step: 1
+      }))
+   }
+
+   handleCancelTransfer = () => {
+      this.setState(() => ({
+         step: 1,
+         note: '',
+         amount: '',
+         accountId: '',
+         successMessage: false,
+         paramAccountId: false,
+      }))
+
+      this.props.history.push('/send-money')
+   }
+
    handleNextStep = () => {
       const { step, accountId, amount} = this.state;
 
@@ -74,6 +93,8 @@ class SendMoney extends Component {
 
          this.wallet.sendTokens(this.wallet.getAccountId(), accountId, amount)
             .then(() => {
+               this.props.handleRefreshAccount(this.wallet, this.props.history)
+
                this.setState(state => ({
                   step: state.step + 1
                }))
@@ -157,7 +178,7 @@ class SendMoney extends Component {
       const { step } = this.state
 
       return (
-         <SendMoneyContainer step={step}>
+         <SendMoneyContainer step={step} handleCancelTransfer={this.handleCancelTransfer}>
             {step === 1 && (
                <SendMoneyFirstStep
                   handleNextStep={this.handleNextStep}
@@ -170,6 +191,7 @@ class SendMoney extends Component {
                <SendMoneySecondStep
                   handleNextStep={this.handleNextStep}
                   handleExpandNote={this.handleExpandNote}
+                  handleGoBack={this.handleGoBack}
                   {...this.state}
                />
             )}

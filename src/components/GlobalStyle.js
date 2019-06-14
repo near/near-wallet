@@ -27,13 +27,15 @@ export default createGlobalStyle`
          font-size: 14px !important;
       }
    }
+
+
    
 
    .App {
       min-height: 100vh;
 
-      > div {
-         min-height: 100vh;
+      .main {
+         padding-bottom: 200px;
       }
    }
 

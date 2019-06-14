@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { List, Image, Button, Header, Dimmer, Loader } from 'semantic-ui-react'
+import { List, Image, Button, Header } from 'semantic-ui-react'
 
 import AccountGreyImage from '../../images/icon-account-grey.svg'
 
@@ -62,11 +62,34 @@ const CustomList = styled(List)`
          }
       }
 
+      .goback {
+         font-weight: 600;
+         margin-top: 24px;
+         padding-top: 24px;
+
+         button.link {
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline;
+            margin: 0;
+            padding: 0;
+            color: #0072ce;
+
+            :hover,
+            :focus {
+               text-decoration: underline;
+               color: #0072ce;
+            }
+         }
+      }
+
       .send-money {
          padding-top: 24px;
-         padding-bottom: 24px;
+         padding-bottom: 0px;
          margin-top: 24px;
-         margin-bottom: 24px;
+         margin-bottom: 12px;
 
          > .button {
             width: 288px;
@@ -86,7 +109,7 @@ const CustomList = styled(List)`
                background: #fff;
             }
             :disabled {
-               border: 4px solid #e6e6e6;
+               border-color: #e6e6e6;
                background: #e6e6e6;
                opacity: 1 !important;
             }
@@ -94,6 +117,41 @@ const CustomList = styled(List)`
             :focus {
                background: #fff;
                color: #5ace84;
+            }
+
+            &.dots {
+               border-color: #cccccc;
+               background-color: #cccccc;
+
+               :after {
+                  content: '.';
+                  animation: dots 1s steps(5, end) infinite;
+               
+                  @keyframes dots {
+                     0%, 20% {
+                        color: rgba(0,0,0,0);
+                        text-shadow:
+                           .3em 0 0 rgba(0,0,0,0),
+                           .6em 0 0 rgba(0,0,0,0);
+                     }
+                     40% {
+                        color: white;
+                        text-shadow:
+                           .3em 0 0 rgba(0,0,0,0),
+                           .6em 0 0 rgba(0,0,0,0);
+                     }
+                     60% {
+                        text-shadow:
+                           .3em 0 0 white,
+                           .6em 0 0 rgba(0,0,0,0);
+                     }
+                     80%, 100% {
+                        text-shadow:
+                           .3em 0 0 white,
+                           .6em 0 0 white;
+                     }
+                  }
+               }
             }
          }
       }
@@ -133,6 +191,7 @@ const CustomList = styled(List)`
 const SendMoneySecondStep = ({
    handleNextStep,
    handleExpandNote,
+   handleGoBack,
    expandNote,
    note,
    amount,
@@ -140,10 +199,6 @@ const SendMoneySecondStep = ({
    loader
 }) => (
    <CustomList className='box'>
-      <Dimmer inverted active={loader}>
-         <Loader />
-      </Dimmer>
-      
       <List.Item as='h2'>You are sending</List.Item>
       <List.Item as='h1' className='amount border-bottom'>
          {amount}
@@ -172,10 +227,21 @@ const SendMoneySecondStep = ({
             )}
          </List.Item>
       )}
-      <List.Item className='send-money border-top border-bottom'>
-         <Button onClick={handleNextStep}>CONFIRM & SEND</Button>
+      <List.Item className='send-money border-top'>
+         <Button onClick={handleNextStep} className={loader ? `dots` : ``} disabled={loader}>
+            {loader
+               ? `SENDING`
+               : `CONFIRM & SEND`
+            }
+            
+         </Button>
       </List.Item>
       <List.Item>Once confirmed, this is not undoable.</List.Item>
+      <List.Item className='goback border-top'>
+         <Button className='link' onClick={handleGoBack}>
+            Need to edit? Go Back
+         </Button>
+      </List.Item>
    </CustomList>
 )
 

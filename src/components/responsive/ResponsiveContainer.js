@@ -5,8 +5,9 @@ import DesktopView from './DesktopView'
 
 const ResponsiveContainer = ({ children }) => (
    <Fragment>
-      <DesktopView>{children}</DesktopView>
-      <MobileView>{children}</MobileView>
+      <DesktopView />
+      <MobileView />
+      <div className='main'>{children}</div>
    </Fragment>
 )
 

@@ -32,20 +32,16 @@ const CustomList = styled(List)`
          .alert-info {
             font-weight: 600;
             margin: 0 0 -8px 0;
-            padding: 0 0 0 24px !important;
+            padding: 0 0 0 0 !important;
             line-height: 34px;
             font-size: 14px;
             margin-top: -6px;
-            text-align: left;
+            text-align: center;
             &.problem {
                color: #ff585d;
             }
             &.success {
                color: #6ad1e3;
-            }
-            &.amount {
-               text-align: center;
-               padding: 0 !important;
             }
          }
          .main-image {
@@ -91,15 +87,6 @@ const CustomList = styled(List)`
             }
 
 
-         }
-         .near-tokens {
-            margin: 14px auto 36px auto;
-            text-align: center;
-            padding: 2px;
-            width: 200px;
-            background-color: #fff;
-            color: #999999;
-            font-weight: 600;
          }
          .add-note {
             > textarea {
@@ -147,13 +134,7 @@ const CustomList = styled(List)`
          margin-left: auto;
          margin-right: auto;
          border: 0px;
-         .near-tokens {
-            width: 200px;
-         }
          form {
-            .near-tokens {
-               margin: 14px auto 24px auto;
-            }
             .add-note {
                margin-left: -1rem;
                margin-right: -1rem;
@@ -218,12 +199,12 @@ const SendMoneyFirstStep = ({
 
                   {successMessage && (
                      <Segment basic className='alert-info success'>
-                        Username exists.
+                        User found.
                      </Segment>
                   )}
                   {errorMessage && (
                      <Segment basic className='alert-info problem'>
-                        Username does not exist.
+                        User not found.
                      </Segment>
                   )}
                </List.Content>
@@ -243,13 +224,10 @@ const SendMoneyFirstStep = ({
             
          </List.Item>
          {amountStatus && (
-            <Segment basic textAlign='center' className='alert-info problem amount'>
+            <Segment basic textAlign='center' className='alert-info problem'>
                {amountStatus}
             </Segment>
          )}
-         <List.Item as='h5' className='near-tokens'>
-            NEAR TOKENS
-         </List.Item>
          {false ? (
             <List.Item className='add-note border-bottom border-top'>
                <TextArea

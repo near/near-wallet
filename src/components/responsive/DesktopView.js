@@ -23,7 +23,6 @@ import { handleRefreshAccount } from '../../actions/account'
 import styled from 'styled-components'
 
 const CustomResponsive = styled(Responsive)`
-   padding-bottom: 180px;
    .spacer {
       height: 72px;
    }
@@ -122,6 +121,7 @@ class DesktopView extends Component {
       this.wallet = new Wallet()
       this.wallet.selectAccount(accountId)
       this.props.handleRefreshAccount(this.wallet, this.props.history)
+      this.props.history.push(`/`)
    }
 
    redirectCreateAccount = () => {
@@ -132,10 +132,24 @@ class DesktopView extends Component {
       }))
    }
 
-   handleToggle = () =>
+   handleToggle = () => {
       this.setState(state => ({
          popupOpen: !state.popupOpen
       }))
+   }
+
+   handleClose = () => {
+      this.setState(state => ({
+         popupOpen: false
+      }))
+   }
+
+   handleOpen = () => {
+      this.setState(state => ({
+         popupOpen: true
+      }))
+   }
+
 
    render() {
       const { popupOpen } = this.state
@@ -208,6 +222,8 @@ class DesktopView extends Component {
                                     this.redirectCreateAccount
                                  }
                                  handleToggle={this.handleToggle}
+                                 handleClose={this.handleClose}
+                                 handleOpen={this.handleOpen}
                                  popupOpen={popupOpen}
                               />
                            </div>
@@ -216,8 +232,6 @@ class DesktopView extends Component {
                   </div>
                </div>
             </Visibility>
-
-            {this.props.children}
          </CustomResponsive>
       )
    }
