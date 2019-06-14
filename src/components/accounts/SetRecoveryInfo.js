@@ -7,7 +7,7 @@ import { Wallet } from '../../utils/wallet'
 import AccountFormSection from './AccountFormSection'
 import SetRecoveryInfoForm from './SetRecoveryInfoForm'
 import SetRecoveryInfoContainer from './SetRecoveryInfoContainer'
-import { requestCode, validateCode } from '../../actions/account';
+import { requestCode, setupAccountRecovery, redirectToApp } from '../../actions/account';
 
 class SetRecoveryInfo extends Component {
    state = {
@@ -47,16 +47,18 @@ class SetRecoveryInfo extends Component {
       if (!this.props.sentSms) {
          dispatch(requestCode(this.state.phoneNumber, this.props.accountId))
       } else {
-         dispatch(validateCode(this.state.phoneNumber, this.props.accountId, this.state.securityCode))
+         dispatch(setupAccountRecovery(this.state.phoneNumber, this.props.accountId, this.state.securityCode))
             .then(({error}) => {
                if (error) return
 
-               let nextUrl = `/login/${(this.props.url && this.props.url.next_url) || '/'}`
-               setTimeout(() => {
-                  this.props.history.push(nextUrl)
-               }, 1500)
+               dispatch(redirectToApp())
             })
       }
+   }
+
+   skipRecoverySetup = e => {
+      const { dispatch } = this.props;
+      dispatch(redirectToApp())
    }
 
    render() {
@@ -73,6 +75,7 @@ class SetRecoveryInfo extends Component {
                   {...combinedState}
                   handleSubmit={this.handleSubmit}
                   handleChange={this.handleChange}
+                  skipRecoverySetup={this.skipRecoverySetup}
                />
             </AccountFormSection>
          </SetRecoveryInfoContainer>

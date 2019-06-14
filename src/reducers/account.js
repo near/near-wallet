@@ -4,7 +4,8 @@ import {
    LOADER_ACCOUNT,
    REFRESH_URL,
    requestCode,
-   validateCode,
+   setupAccountRecovery,
+   recoverAccount,
    getAccountDetails
 } from '../actions/account'
 import reduceReducers from 'reduce-reducers'
@@ -22,13 +23,16 @@ const loaderReducer = (state, { ready }) => {
 }
 
 const requestResultReducer = handleActions({
-      [combineActions(requestCode, validateCode)]: (state, { error, payload, meta }) => ({
-         ...state,
-         requestStatus: !!payload || error ? {
-            success: !error,
-            messageCode: error ? payload.messageCode || meta.errorCode : meta.successCode
-         } : undefined
-      })
+   // TODO: Reset state before action somehow. On navigate / start of other action?
+   // TODO: Make this generic to avoid listing actions
+   [combineActions(requestCode, setupAccountRecovery, recoverAccount)]: (state, { error, payload, meta }) => ({
+      ...state,
+      requestStatus: !!payload || error ? {
+         success: !error,
+         errorMessage: (error && payload && payload.toString()) || undefined,
+         messageCode: error ? payload.messageCode || meta.errorCode : meta.successCode 
+      } : undefined
+   })
 }, initialState)
 
 const reducer = handleActions({

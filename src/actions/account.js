@@ -1,4 +1,4 @@
-import { parse } from 'query-string'
+import { parse, stringify } from 'query-string'
 import { createActions } from 'redux-actions'
 import { Wallet } from '../utils/wallet'
 
@@ -78,15 +78,27 @@ export function handleRefreshUrl(location) {
 
 const wallet = new Wallet()
 
-export const { requestCode, validateCode, getAccountDetails, removeAccessKey } = createActions({
+export const redirectToApp = () => (dispatch, getState) => {
+   const state = getState()
+   const nextUrl = (state.account.url && state.account.url.success_url) ? `/login/?${stringify(state.account.url)}` : '/'
+   setTimeout(() => {
+      window.location = nextUrl
+   }, 1500)
+}
+
+export const { requestCode, setupAccountRecovery, recoverAccount, getAccountDetails, removeAccessKey } = createActions({
    REQUEST_CODE: [
       wallet.requestCode.bind(wallet),
       () => ({ successCode: 'account.requestCode.success', errorCode: 'account.requestCode.error' })
    ],
-   VALIDATE_CODE: [
-      wallet.validateCode.bind(wallet),
-      () => ({ successCode: 'account.validateCode.success', errorCode: 'account.validateCode.error' })
+   SETUP_ACCOUNT_RECOVERY: [
+      wallet.setupAccountRecovery.bind(wallet),
+      () => ({ successCode: 'account.setupAccountRecovery.success', errorCode: 'account.setupAccountRecovery.error' })
+   ],
+   RECOVER_ACCOUNT: [
+      wallet.recoverAccount.bind(wallet),
+      () => ({ successCode: 'account.recoverAccount.success', errorCode: 'account.recoverAccount.error' })
    ],
    GET_ACCOUNT_DETAILS: [wallet.getAccountDetails.bind(wallet), () => ({})],
-   REMOVE_ACCESS_KEY: [wallet.removeAccessKey.bind(wallet), () => ({})]
+   REMOVE_ACCESS_KEY: [wallet.removeAccessKey.bind(wallet), () => ({})],
 })
