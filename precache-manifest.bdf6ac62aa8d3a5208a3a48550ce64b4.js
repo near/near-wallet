@@ -4,7 +4,7 @@ self.__precacheManifest = [
     "url": "/static/media/footer-nearkat.3083dec6.svg"
   },
   {
-    "revision": "56c780e12acd0360cce7",
+    "revision": "09c1e4d3822fac0da27b",
     "url": "/static/css/main.091b6b40.chunk.css"
   },
   {
@@ -92,8 +92,8 @@ self.__precacheManifest = [
     "url": "/static/media/near.584de59e.svg"
   },
   {
-    "revision": "56c780e12acd0360cce7",
-    "url": "/static/js/main.8a70c76f.chunk.js"
+    "revision": "09c1e4d3822fac0da27b",
+    "url": "/static/js/main.03ec666f.chunk.js"
   },
   {
     "revision": "350474420a5ffa53576a6b224f288e02",
@@ -152,12 +152,12 @@ self.__precacheManifest = [
     "url": "/static/media/icon-doc-grey.888e4b7b.svg"
   },
   {
-    "revision": "6de0530b5b9708aa0ee264851a0cf1a2",
-    "url": "/static/media/Branding with Type - Bw Seido Round Regular.6de0530b.otf"
-  },
-  {
     "revision": "971c1fec19ca99196578f34e66d5f0e9",
     "url": "/static/media/Branding with Type - Bw Seido Round Medium.971c1fec.otf"
+  },
+  {
+    "revision": "6de0530b5b9708aa0ee264851a0cf1a2",
+    "url": "/static/media/Branding with Type - Bw Seido Round Regular.6de0530b.otf"
   },
   {
     "revision": "dde73b38b35929e873bb5c9955f5c863",
@@ -180,7 +180,7 @@ self.__precacheManifest = [
     "url": "/static/media/icon-t-transfer.f726da93.svg"
   },
   {
-    "revision": "12eade4ba2b0af5005c10404757807b9",
+    "revision": "b5e6d29cbada5dbc3146de3d10b85884",
     "url": "/index.html"
   }
 ];
