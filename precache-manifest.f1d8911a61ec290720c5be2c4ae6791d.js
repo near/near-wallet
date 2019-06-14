@@ -152,16 +152,16 @@ self.__precacheManifest = [
     "url": "/static/media/icon-doc-grey.888e4b7b.svg"
   },
   {
-    "revision": "971c1fec19ca99196578f34e66d5f0e9",
-    "url": "/static/media/Branding with Type - Bw Seido Round Medium.971c1fec.otf"
+    "revision": "6de0530b5b9708aa0ee264851a0cf1a2",
+    "url": "/static/media/Branding with Type - Bw Seido Round Regular.6de0530b.otf"
   },
   {
     "revision": "dde73b38b35929e873bb5c9955f5c863",
     "url": "/static/media/Branding with Type - Bw Seido Round Light.dde73b38.otf"
   },
   {
-    "revision": "6de0530b5b9708aa0ee264851a0cf1a2",
-    "url": "/static/media/Branding with Type - Bw Seido Round Regular.6de0530b.otf"
+    "revision": "971c1fec19ca99196578f34e66d5f0e9",
+    "url": "/static/media/Branding with Type - Bw Seido Round Medium.971c1fec.otf"
   },
   {
     "revision": "c5c92b3da333cbf7dbb7159c0a35d3ce",
