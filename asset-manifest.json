@@ -1,13 +1,13 @@
 {
   "main.css": "/static/css/main.091b6b40.chunk.css",
-  "main.js": "/static/js/main.805bcbd7.chunk.js",
-  "main.js.map": "/static/js/main.805bcbd7.chunk.js.map",
+  "main.js": "/static/js/main.1db21dc4.chunk.js",
+  "main.js.map": "/static/js/main.1db21dc4.chunk.js.map",
   "runtime~main.js": "/static/js/runtime~main.a8a9905a.js",
   "runtime~main.js.map": "/static/js/runtime~main.a8a9905a.js.map",
-  "static/js/2.fe83bc98.chunk.js": "/static/js/2.fe83bc98.chunk.js",
-  "static/js/2.fe83bc98.chunk.js.map": "/static/js/2.fe83bc98.chunk.js.map",
+  "static/js/2.4da3b974.chunk.js": "/static/js/2.4da3b974.chunk.js",
+  "static/js/2.4da3b974.chunk.js.map": "/static/js/2.4da3b974.chunk.js.map",
   "index.html": "/index.html",
-  "precache-manifest.1c89db5321d4aff305eb7aee6de90568.js": "/precache-manifest.1c89db5321d4aff305eb7aee6de90568.js",
+  "precache-manifest.12d4d938b7d155355e8ba325c7faef3e.js": "/precache-manifest.12d4d938b7d155355e8ba325c7faef3e.js",
   "service-worker.js": "/service-worker.js",
   "static/css/main.091b6b40.chunk.css.map": "/static/css/main.091b6b40.chunk.css.map",
   "static/media/index.css": "/static/media/Branding with Type - Bw Seido Round Regular.6de0530b.otf",
@@ -48,6 +48,5 @@
   "static/media/icon-t-stake.svg": "/static/media/icon-t-stake.cc91ad52.svg",
   "static/media/icon-t-transfer.svg": "/static/media/icon-t-transfer.f726da93.svg",
   "static/media/near.svg": "/static/media/near.584de59e.svg",
-  "static/media/near_logo.svg": "/static/media/near_logo.f25a0b86.svg",
   "static/media/wallet.png": "/static/media/wallet.89d47110.png"
 }

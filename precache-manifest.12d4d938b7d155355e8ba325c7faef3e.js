@@ -1,10 +1,10 @@
 self.__precacheManifest = [
   {
-    "revision": "584de59e994c77e8745a3580caa0977b",
-    "url": "/static/media/near.584de59e.svg"
+    "revision": "3083dec6ed70b19df2ce02644fc27905",
+    "url": "/static/media/footer-nearkat.3083dec6.svg"
   },
   {
-    "revision": "b570b43d1f739171da61",
+    "revision": "9cb4b3fa1bfaa0690e06",
     "url": "/static/css/main.091b6b40.chunk.css"
   },
   {
@@ -12,16 +12,12 @@ self.__precacheManifest = [
     "url": "/static/js/runtime~main.a8a9905a.js"
   },
   {
-    "revision": "6be30a06b64a8908f1ae",
-    "url": "/static/js/2.fe83bc98.chunk.js"
+    "revision": "d9a1137d75809e72cb93",
+    "url": "/static/js/2.4da3b974.chunk.js"
   },
   {
     "revision": "4d7da4912d87b6e16bd5636f9242aefa",
     "url": "/static/media/icon-account-grey.4d7da491.svg"
-  },
-  {
-    "revision": "3083dec6ed70b19df2ce02644fc27905",
-    "url": "/static/media/footer-nearkat.3083dec6.svg"
   },
   {
     "revision": "6dc3bbf5737f4f8084194d019ca00191",
@@ -44,6 +40,14 @@ self.__precacheManifest = [
     "url": "/static/media/icon-send.f7a4807a.svg"
   },
   {
+    "revision": "11c1df80e0ef0208a680f89ef73a3f33",
+    "url": "/static/media/icon-app-default.11c1df80.svg"
+  },
+  {
+    "revision": "2f2edb6684f56bb1b90c18c1968cb746",
+    "url": "/static/media/icon-authorized.2f2edb66.svg"
+  },
+  {
     "revision": "89d4711003caf9047ba4bd90e1e230a1",
     "url": "/static/media/wallet.89d47110.png"
   },
@@ -60,20 +64,12 @@ self.__precacheManifest = [
     "url": "/static/media/icon-arrow-right.2c9f3083.svg"
   },
   {
-    "revision": "f726da93f5904efff668ffd7bcb4f3a9",
-    "url": "/static/media/icon-t-transfer.f726da93.svg"
-  },
-  {
     "revision": "23b32201c24724ea340f8de76a8d9bfe",
     "url": "/static/media/icon-m-transaction.23b32201.svg"
   },
   {
     "revision": "f6e4afacd6e34f7cba27d51c8dd55cb6",
     "url": "/static/media/icon-contacts.f6e4afac.svg"
-  },
-  {
-    "revision": "2f2edb6684f56bb1b90c18c1968cb746",
-    "url": "/static/media/icon-authorized.2f2edb66.svg"
   },
   {
     "revision": "9cae8fb52bb28beac4c236a7f6216b52",
@@ -92,8 +88,12 @@ self.__precacheManifest = [
     "url": "/static/media/icon-help.f6c0707a.svg"
   },
   {
-    "revision": "b570b43d1f739171da61",
-    "url": "/static/js/main.805bcbd7.chunk.js"
+    "revision": "584de59e994c77e8745a3580caa0977b",
+    "url": "/static/media/near.584de59e.svg"
+  },
+  {
+    "revision": "9cb4b3fa1bfaa0690e06",
+    "url": "/static/js/main.1db21dc4.chunk.js"
   },
   {
     "revision": "350474420a5ffa53576a6b224f288e02",
@@ -108,20 +108,12 @@ self.__precacheManifest = [
     "url": "/static/media/icon-arrow-blk.79cca70c.svg"
   },
   {
-    "revision": "cc91ad526f8b205928c8cc9038dc643b",
-    "url": "/static/media/icon-t-stake.cc91ad52.svg"
-  },
-  {
-    "revision": "f25a0b8648e8e8e40f7afdaba9315ed4",
-    "url": "/static/media/near_logo.f25a0b86.svg"
+    "revision": "4d2fc992567a9fde145b8df1abb80692",
+    "url": "/static/media/icon-authorized-grey.4d2fc992.svg"
   },
   {
     "revision": "6946f17b662bf464d8284f0542de8ab6",
     "url": "/static/media/icon-deny.6946f17b.svg"
-  },
-  {
-    "revision": "11c1df80e0ef0208a680f89ef73a3f33",
-    "url": "/static/media/icon-app-default.11c1df80.svg"
   },
   {
     "revision": "377da0116ef62b8d03744645b96b30f6",
@@ -160,6 +152,10 @@ self.__precacheManifest = [
     "url": "/static/media/icon-doc-grey.888e4b7b.svg"
   },
   {
+    "revision": "6de0530b5b9708aa0ee264851a0cf1a2",
+    "url": "/static/media/Branding with Type - Bw Seido Round Regular.6de0530b.otf"
+  },
+  {
     "revision": "971c1fec19ca99196578f34e66d5f0e9",
     "url": "/static/media/Branding with Type - Bw Seido Round Medium.971c1fec.otf"
   },
@@ -168,23 +164,23 @@ self.__precacheManifest = [
     "url": "/static/media/Branding with Type - Bw Seido Round Light.dde73b38.otf"
   },
   {
-    "revision": "6de0530b5b9708aa0ee264851a0cf1a2",
-    "url": "/static/media/Branding with Type - Bw Seido Round Regular.6de0530b.otf"
-  },
-  {
     "revision": "c5c92b3da333cbf7dbb7159c0a35d3ce",
     "url": "/static/media/icon-activity-grey.c5c92b3d.svg"
-  },
-  {
-    "revision": "4d2fc992567a9fde145b8df1abb80692",
-    "url": "/static/media/icon-authorized-grey.4d2fc992.svg"
   },
   {
     "revision": "c7048ab43390d27550d6c1c476ebe0df",
     "url": "/static/media/icon-contacts-grey.c7048ab4.svg"
   },
   {
-    "revision": "337bf74572facd0d54de8093f59da14e",
+    "revision": "cc91ad526f8b205928c8cc9038dc643b",
+    "url": "/static/media/icon-t-stake.cc91ad52.svg"
+  },
+  {
+    "revision": "f726da93f5904efff668ffd7bcb4f3a9",
+    "url": "/static/media/icon-t-transfer.f726da93.svg"
+  },
+  {
+    "revision": "c5c0f1d5ff950325c5815b7d2b281d47",
     "url": "/index.html"
   }
 ];
