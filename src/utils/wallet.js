@@ -295,11 +295,8 @@ export class Wallet {
       return sendJson('POST', `${ACCOUNT_HELPER_URL}/account/${phoneNumber}/${accountId}/requestCode`)
    }
 
-   async validateCode(phoneNumber, accountId, securityCode) {
-      const key = this.key_store.getKey(accountId)
-      const signer = new nearlib.SimpleKeyStoreSigner(this.key_store)
-      const { signature } = key ? signer.signBuffer(Buffer.from(securityCode), accountId) : undefined
-      return sendJson('POST', `${ACCOUNT_HELPER_URL}/account/${phoneNumber}/${accountId}/validateCode`, { securityCode, signature })
+   async validateCode(phoneNumber, accountId, postData) {
+      return sendJson('POST', `${ACCOUNT_HELPER_URL}/account/${phoneNumber}/${accountId}/validateCode`, postData)
    }
 
    async setupAccountRecovery(phoneNumber, accountId, securityCode) {
