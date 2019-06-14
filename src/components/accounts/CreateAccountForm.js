@@ -88,10 +88,12 @@ const CreateAccountForm = ({
             </Segment>
          )}
       </Responsive>
-      <ReCAPTCHA
-         sitekey='6LfNjp8UAAAAAByZu30I-2-an14USj3yVbbUI3eN'
-         onChange={handleRecaptcha}
-      />
+      {false ? (
+         <ReCAPTCHA
+            sitekey='6LfNjp8UAAAAAByZu30I-2-an14USj3yVbbUI3eN'
+            onChange={handleRecaptcha}
+         />
+      ) :null}
       <Button type='submit' disabled={!successMessage}>
          CREATE ACCOUNT
       </Button>

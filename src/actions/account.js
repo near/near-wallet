@@ -1,6 +1,6 @@
 import { parse, stringify } from 'query-string'
-import { createActions } from 'redux-actions';
-import { Wallet } from '../utils/wallet';
+import { createActions } from 'redux-actions'
+import { Wallet } from '../utils/wallet'
 
 export const REFRESH_ACCOUNT = 'REFRESH_ACCOUNT'
 export const LOADER_ACCOUNT = 'LOADER_ACCOUNT'
@@ -10,6 +10,8 @@ export function handleRefreshAccount(wallet, history) {
    return (dispatch, getState) => {
       wallet.redirectIfEmpty(history)
       const accountId = wallet.getAccountId()
+
+      dispatch(getAccountDetails())
 
       dispatch({
          type: LOADER_ACCOUNT,
@@ -84,7 +86,7 @@ export const redirectToApp = () => (dispatch, getState) => {
    }, 1500)
 }
 
-export const { requestCode, setupAccountRecovery, recoverAccount } = createActions({
+export const { requestCode, setupAccountRecovery, recoverAccount, getAccountDetails, removeAccessKey } = createActions({
    REQUEST_CODE: [
       wallet.requestCode.bind(wallet),
       () => ({ successCode: 'account.requestCode.success', errorCode: 'account.requestCode.error' })
@@ -96,9 +98,7 @@ export const { requestCode, setupAccountRecovery, recoverAccount } = createActio
    RECOVER_ACCOUNT: [
       wallet.recoverAccount.bind(wallet),
       () => ({ successCode: 'account.recoverAccount.success', errorCode: 'account.recoverAccount.error' })
-   ]
+   ],
+   GET_ACCOUNT_DETAILS: [wallet.getAccountDetails.bind(wallet), () => ({})],
+   REMOVE_ACCESS_KEY: [wallet.removeAccessKey.bind(wallet), () => ({})],
 })
-
-
-
-

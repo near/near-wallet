@@ -5,9 +5,10 @@ import {
    REFRESH_URL,
    requestCode,
    setupAccountRecovery,
-   recoverAccount
+   recoverAccount,
+   getAccountDetails
 } from '../actions/account'
-import reduceReducers from 'reduce-reducers';
+import reduceReducers from 'reduce-reducers'
 
 const initialState = {
    formLoader: false,
@@ -35,12 +36,19 @@ const requestResultReducer = handleActions({
 }, initialState)
 
 const reducer = handleActions({
-   [requestCode]: (state, { error, ready }) => {
-      if (ready && !error) {
-         return { ...state, sentSms: true }
+      [requestCode]: (state, { error, ready }) => {
+         if (ready && !error) {
+            return { ...state, sentSms: true }
+         }
+         return state
       }
-      return state
-   },
+}, initialState)
+
+const authorizedApps = handleActions({
+      [getAccountDetails]: (state, { error, payload }) => ({
+         ...state,
+         authorizedApps: payload && payload.authorizedApps
+      })
 }, initialState)
 
 // TODO: Migrate everything to redux-actions
@@ -73,5 +81,6 @@ export default reduceReducers(
    loaderReducer,
    requestResultReducer,
    reducer,
-   account)
-
+   authorizedApps,
+   account
+)

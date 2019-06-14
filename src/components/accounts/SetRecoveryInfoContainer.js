@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import { Container, Loader, Grid, Dimmer, Header } from 'semantic-ui-react'
 
 import Disclaimer from '../common/Disclaimer'
-import NearInfo from './NearInfo'
 
 import styled from 'styled-components'
 
@@ -64,9 +63,7 @@ const SetRecoveryInfoContainer = ({ loader, children }) => (
                   recover in the future.
                </Header>
             </Grid.Column>
-            <Grid.Column computer={7} tablet={8} mobile={16} className='add'>
-               <NearInfo />
-            </Grid.Column>
+            <Grid.Column computer={7} tablet={8} mobile={16} className='add'></Grid.Column>
          </Grid.Row>
       </Grid>
       {children}

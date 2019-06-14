@@ -4,21 +4,26 @@ import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 
 import { Wallet } from '../../utils/wallet'
-import { handleRefreshAccount, handleRefreshUrl } from '../../actions/account'
+import {
+   handleRefreshAccount,
+   handleRefreshUrl,
+   getAccountDetails,
+   removeAccessKey
+} from '../../actions/account'
 
 import PaginationBlock from '../pagination/PaginationBlock'
 import ListItem from '../dashboard/ListItem'
-
 import AuthorizedAppsContainer from './AuthorizedAppsContainer'
 
-import NearkatImage from '../../images/footer-nearkat.svg'
+import AppDefaultImage from '../../images/icon-app-default.svg'
 
 class AuthorizedApps extends Component {
    state = {
-      loader: false,
+      loader: true,
       showSub: false,
       showSubOpen: 0,
-      activity: [],
+      showSubData: [],
+      authorizedApps: [],
       filterTypes: [
          { img: '', name: 'ALL' },
          { img: '', name: 'ALL' },
@@ -27,13 +32,47 @@ class AuthorizedApps extends Component {
       ]
    }
 
-   toggleShowSub = i => {
+   toggleShowSub = (i, row) => {
       i = i == null ? this.state.showSubOpen : i
 
       this.setState(state => ({
-         showSub: i === state.showSubOpen ? !state.showSub : state.showSub,
-         showSubOpen: i
+         showSub: true,
+         showSubOpen: i,
+         showSubData: row
       }))
+   }
+
+   toggleCloseSub = () => {
+      this.setState(() => ({
+         showSub: false,
+         showSubOpen: 0,
+         showSubData: []
+      }))
+   }
+
+   handleDeauthorize = () => {
+      const publicKey = this.state.showSubData[3]
+
+      this.setState(() => ({
+         loader: true
+      }))
+
+      this.props.removeAccessKey(publicKey).then(() => {
+         this.toggleCloseSub()
+         this.refreshAuthorizedApps()
+      })
+   }
+
+   refreshAuthorizedApps = () => {
+      this.setState(() => ({
+         loader: true
+      }))
+
+      this.props.getAccountDetails().then(() => {
+         this.setState(() => ({
+            loader: false
+         }))
+      })
    }
 
    componentDidMount() {
@@ -41,41 +80,32 @@ class AuthorizedApps extends Component {
       this.props.handleRefreshUrl(this.props.location)
       this.props.handleRefreshAccount(this.wallet, this.props.history)
 
-      this.setState(() => ({
-         loader: true
-      }))
-
-      setTimeout(() => {
-         this.setState(_ => ({
-            activity: [
-               [NearkatImage, 'NEAR Place', '3 hrs ago', ''],
-               [NearkatImage, 'Cryptocats', '5 hrs ago', ''],
-               [NearkatImage, 'Knights App', '2 days ago', ''],
-               [NearkatImage, 'NEAR Place', '3 hrs ago', ''],
-               [NearkatImage, 'Cryptocats', '5 hrs ago', ''],
-               [NearkatImage, 'Knights App', '2 days ago', ''],
-               [NearkatImage, 'NEAR Place', '3 hrs ago', ''],
-               [NearkatImage, 'Cryptocats', '5 hrs ago', ''],
-               [NearkatImage, 'Knights App', '2 days ago', ''],
-               [NearkatImage, 'NEAR Place', '3 hrs ago', '']
-            ],
-            loader: false
-         }))
-      }, 1000)
+      this.refreshAuthorizedApps()
    }
 
    render() {
-      const { activity, filterTypes, showSub, showSubOpen } = this.state
+      const {
+         loader,
+         filterTypes,
+         showSub,
+         showSubOpen,
+         showSubData
+      } = this.state
+
+      const { authorizedApps } = this.props
 
       return (
-         <AuthorizedAppsContainer>
+         <AuthorizedAppsContainer loader={loader} total={authorizedApps.length}>
             <PaginationBlock
                filterTypes={filterTypes}
                showSub={showSub}
+               showSubData={showSubData}
                toggleShowSub={this.toggleShowSub}
+               toggleCloseSub={this.toggleCloseSub}
                subPage='authorized-apps'
+               handleDeauthorize={this.handleDeauthorize}
             >
-               {activity.map((row, i) => (
+               {authorizedApps.map((row, i) => (
                   <ListItem
                      key={`a-${i}`}
                      row={row}
@@ -94,10 +124,22 @@ class AuthorizedApps extends Component {
 
 const mapDispatchToProps = {
    handleRefreshAccount,
-   handleRefreshUrl
+   handleRefreshUrl,
+   getAccountDetails,
+   removeAccessKey
 }
 
-const mapStateToProps = () => ({})
+const mapStateToProps = ({ account }) => ({
+   ...account,
+   authorizedApps: account.authorizedApps
+      ? account.authorizedApps.map(r => [
+           AppDefaultImage,
+           r.contractId,
+           r.amount,
+           r.publicKey
+        ])
+      : []
+})
 
 export const AuthorizedAppsWithRouter = connect(
    mapStateToProps,

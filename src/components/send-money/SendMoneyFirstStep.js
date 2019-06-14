@@ -43,6 +43,10 @@ const CustomList = styled(List)`
             &.success {
                color: #6ad1e3;
             }
+            &.amount {
+               text-align: center;
+               padding: 0 !important;
+            }
          }
          .main-image {
             border: 0px;
@@ -60,6 +64,7 @@ const CustomList = styled(List)`
             margin-top: 16px;
             margin-bottom: 0px;
             padding-top: 24px;
+            
             input {
                height: 80px;
                border: 0px;
@@ -70,7 +75,22 @@ const CustomList = styled(List)`
                color: #4a4f54;
                text-align: center;
                padding: 0px;
+               
+               :focus::-webkit-input-placeholder { color: transparent; }
+               :focus:-moz-placeholder { color: transparent; }
+               :focus::-moz-placeholder { color: transparent; }
+               :focus:-ms-input-placeholder { color: transparent; }
+
+               -moz-appearance: textfield;
+
+               ::-webkit-outer-spin-button,
+               ::-webkit-inner-spin-button {
+                  -webkit-appearance: none;
+                  margin: 0;
+               }
             }
+
+
          }
          .near-tokens {
             margin: 14px auto 36px auto;
@@ -164,7 +184,8 @@ const SendMoneyFirstStep = ({
    successMessage,
    errorMessage,
    formLoader,
-   amount
+   amount,
+   amountStatus
 }) => (
    <CustomList className='box'>
       <Form autoComplete='off' onSubmit={handleChangeAccountId}>
@@ -197,12 +218,12 @@ const SendMoneyFirstStep = ({
 
                   {successMessage && (
                      <Segment basic className='alert-info success'>
-                        Username is available.
+                        Username exists.
                      </Segment>
                   )}
                   {errorMessage && (
                      <Segment basic className='alert-info problem'>
-                        Username is unavailable.
+                        Username does not exist.
                      </Segment>
                   )}
                </List.Content>
@@ -215,11 +236,17 @@ const SendMoneyFirstStep = ({
                name='amount'
                value={amount}
                onChange={handleChange}
-               placeholder='0.00'
-               step='0.01'
-               min='0'
+               placeholder='0'
+               step='1'
+               min='1'
             />
+            
          </List.Item>
+         {amountStatus && (
+            <Segment basic textAlign='center' className='alert-info problem amount'>
+               {amountStatus}
+            </Segment>
+         )}
          <List.Item as='h5' className='near-tokens'>
             NEAR TOKENS
          </List.Item>
@@ -237,8 +264,8 @@ const SendMoneyFirstStep = ({
             <Button
                disabled={
                   paramAccountId
-                     ? !(parseFloat(amount) > 0)
-                     : !(successMessage && parseFloat(amount) > 0)
+                     ? !((amount) > 0 && amountStatus === '')
+                     : !(successMessage && (amount) > 0 && amountStatus === '')
                }
                onClick={handleNextStep}
             >

@@ -23,7 +23,8 @@ class SendMoney extends Component {
       accountId: '',
       successMessage: false,
       errorMessage: false,
-      amount: ''
+      amount: '',
+      amountStatus: ''
    }
 
    componentDidMount() {
@@ -67,6 +68,10 @@ class SendMoney extends Component {
       const { step, accountId, amount} = this.state;
 
       if (step === 2) {
+         this.setState(() => ({
+            loader: true
+         }))
+
          this.wallet.sendTokens(this.wallet.getAccountId(), accountId, amount)
             .then(() => {
                this.setState(state => ({
@@ -74,6 +79,11 @@ class SendMoney extends Component {
                }))
             })
             .catch(console.error)
+            .finally(() => {
+               this.setState(() => ({
+                  loader: false
+               }))
+            })
          return;
       }
 
@@ -83,6 +93,14 @@ class SendMoney extends Component {
    }
 
    handleChange = (e, { name, value }) => {
+      this.setState(() => ({
+         amountStatus: !Number.isInteger(Number(value))
+            ? 'Please enter a whole number.'
+            : value > this.props.amount 
+               ? 'Not enough tokens.' 
+               : ''
+      }))
+
       this.setState(() => ({
          [name]: value
       }))
@@ -166,7 +184,9 @@ const mapDispatchToProps = {
    handleRefreshUrl
 }
 
-const mapStateToProps = () => ({})
+const mapStateToProps = ({ account }) => ({
+   ...account
+})
 
 export const SendMoneyWithRouter = connect(
    mapStateToProps,

@@ -5,7 +5,6 @@ import { Container, Loader, Grid, Dimmer, Header } from 'semantic-ui-react'
 import { parse } from 'query-string'
 
 import Disclaimer from '../common/Disclaimer'
-import NearInfo from './NearInfo'
 
 import styled from 'styled-components'
 
@@ -72,9 +71,7 @@ const CreateAccountContainer = ({ loader, children, location }) => (
                   </Header>
                )}
             </Grid.Column>
-            <Grid.Column computer={7} tablet={8} mobile={16} className='add'>
-               <NearInfo />
-            </Grid.Column>
+            <Grid.Column computer={7} tablet={8} mobile={16} className='add'></Grid.Column>
          </Grid.Row>
       </Grid>
 

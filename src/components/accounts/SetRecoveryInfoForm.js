@@ -185,7 +185,7 @@ const SetRecoveryInfoForm = ({
       </Form.Field>
 
       <Segment basic>
-         <span>Skip this step</span>
+         <span className='font-bold'>Skip this step </span>
          if you want to backup your account keys manually. However, skipping
          this will make it impossible for us to assist you with account recovery
          in the future.{' '}

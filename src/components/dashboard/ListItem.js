@@ -1,7 +1,5 @@
 import React from 'react'
 
-import { Link } from 'react-router-dom'
-
 import { Grid, Image } from 'semantic-ui-react'
 
 import ArrowRight from '../../images/icon-arrow-right.svg'
@@ -13,6 +11,7 @@ const CustomGridRow = styled(Grid.Row)`
    &&& {
       margin-left: 20px;
       border-left: 4px solid #f8f8f8;
+      cursor: pointer;
 
       .col-image {
          margin-left: -33px;
@@ -66,12 +65,12 @@ const CustomGridRow = styled(Grid.Row)`
          width: auto;
          padding-right: 0px;
          flex: 1;
+         word-break: break-all;
       }
 
       .dropdown-image-right {
          width: 10px;
          margin: 0 0 0 0;
-         cursor: pointer;
       }
       .dropdown-image {
          float: right;
@@ -84,7 +83,6 @@ const CustomGridRow = styled(Grid.Row)`
             width: 10px;
             top: 0px;
             left: 12px;
-            cursor: pointer;
          }
       }
 
@@ -136,8 +134,13 @@ const ListItem = ({
       className={`border-bottom-light ${wide ? `wide` : ``} ${
          showSub && showSubOpen === i ? `dropdown-down` : ``
       } ${showSub ? `showsub` : ``}`}
+      onClick={() => wide && toggleShowSub(i, row)}
    >
-      <Grid.Column computer={8} tablet={wide ? 14 : 8} mobile={wide ? 14 : 10}>
+      <Grid.Column
+         computer={wide ? 15 : 15}
+         tablet={wide ? 14 : 8}
+         mobile={wide ? 14 : 10}
+      >
          <Grid verticalAlign='middle'>
             <Grid.Column className='col-image'>
                <div className='main-image'>
@@ -145,32 +148,31 @@ const ListItem = ({
                </div>
             </Grid.Column>
             <Grid.Column className='main-row-title'>
-               <Link to='/' className='color-black'>
-                  {row[1]}
-               </Link>
-               {row[2] && (
+               contractId: <span className='color-black'>{row[1]}</span>
+               {row[2] != null && (
                   <span className='font-small'>
                      <br />
-                     <Link to='/'>{row[2]}</Link>
+                     amount:
+                     <span className='color-black'>{row[2]}Ⓝ</span>, publicKey:{' '}
+                     <span className='color-black'>{row[3]}</span>
                   </span>
                )}
             </Grid.Column>
          </Grid>
       </Grid.Column>
       <Grid.Column
-         computer={8}
+         computer={wide ? 1 : 1}
          tablet={wide ? 2 : 8}
          mobile={wide ? 2 : 6}
          textAlign='right'
       >
          {wide ? (
             <Image
-               onClick={() => toggleShowSub(i)}
                src={showSub && showSubOpen === i ? ArrowBlkImage : ArrowRight}
                className='dropdown-image dropdown-image-right'
             />
          ) : (
-            <span className='font-small'>{row[3]}</span>
+            <span className='font-small'>{/* {row[3]} */}</span>
          )}
       </Grid.Column>
    </CustomGridRow>

@@ -252,17 +252,15 @@ class MobileView extends Component {
                               </Link>
                            </Menu.Item>
                         ) : null}
-                        {false ? (
-                           <Menu.Item>
-                              <Link
-                                 to='/authorized-apps'
-                                 onClick={this.handleDropdown}
-                              >
-                                 <Image src={AuthorizedGreyImage} />
-                                 Authorized Apps
-                              </Link>
-                           </Menu.Item>
-                        ) : null}
+                        <Menu.Item>
+                           <Link
+                              to='/authorized-apps'
+                              onClick={this.handleDropdown}
+                           >
+                              <Image src={AuthorizedGreyImage} />
+                              Authorized Apps
+                           </Link>
+                        </Menu.Item>
                         {false ? (
                            <Menu.Item>
                               <Link to='/' onClick={this.handleDropdown}>

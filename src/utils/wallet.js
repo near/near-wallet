@@ -124,6 +124,14 @@ export class Wallet {
       return await this.near.nearClient.viewAccount(accountId)
    }
 
+   async getAccountDetails() {
+      return await this.account.getAccountDetails(localStorage.getItem(KEY_ACTIVE_ACCOUNT_ID))
+   }
+
+   async removeAccessKey(publicKey) {
+      return await this.account.removeAccessKey(this.accountId, publicKey)
+   }
+
    async checkAccount(accountId) {
       if (accountId !== this.accountId) {
          return await this.near.nearClient.viewAccount(accountId)
@@ -160,7 +168,7 @@ export class Wallet {
       if (!!remoteAccount) {
          throw new Error('Account ' + accountId + ' already exists.')
       }
-      let keyPair = await nearlib.KeyPair.fromRandomSeed();
+      let keyPair = await nearlib.KeyPair.fromRandomSeed()
       return await new Promise((resolve, reject) => {
          let data = JSON.stringify({
             newAccountId: accountId,
@@ -194,22 +202,22 @@ export class Wallet {
          accountId,
          publicKey,
          contractId,
-         '',  // methodName
-         '',  // fundingOwner
-         0,  // fundingAmount
-      );
+         '', // methodName
+         '', // fundingOwner
+         0 // fundingAmount
+      )
       try {
-         const result = await this.near.waitForTransactionResult(addAccessKeyResponse);
-         const parsedUrl = new URL(successUrl);
-         parsedUrl.searchParams.set('account_id', accountId);
-         parsedUrl.searchParams.set('public_key', publicKey);
-         const redirectUrl = parsedUrl.href;
-         if (result.status === "Completed") {
-            window.location.href = redirectUrl;
+         const result = await this.near.waitForTransactionResult(addAccessKeyResponse)
+         const parsedUrl = new URL(successUrl)
+         parsedUrl.searchParams.set('account_id', accountId)
+         parsedUrl.searchParams.set('public_key', publicKey)
+         const redirectUrl = parsedUrl.href
+         if (result.status === 'Completed') {
+            window.location.href = redirectUrl
          }
       } catch (e) {
          // TODO: handle errors
-         console.log("Error on adding access key ", e);
+         console.log('Error on adding access key ', e)
       }
    }
 
@@ -245,7 +253,7 @@ export class Wallet {
          // Bad receiver account ID or it doesn't match contract id.
          throw new Error(
             "Bad receiver's account ID ('" +
-               receiverId +
+               receiverId + 
                "') or it doesn't match the authorized contract id"
          )
       }
@@ -263,10 +271,10 @@ export class Wallet {
       if (action === 'send_transaction') {
          // Sending the transaction on behalf of the accountId
          return await this.sendTransaction(
-            accountId,
-            receiverId,
-            methodName,
-            amount,
+            accountId, 
+            receiverId, 
+            methodName, 
+            amount, 
             args
          )
       } else if (action === 'sign_transaction') {
@@ -274,7 +282,7 @@ export class Wallet {
          // In the future we would sign the transaction above and don't depend on the given hash.
          let hash = data['hash'] || ''
          let signature = await this.near.nearClient.signer.signHash(
-            hash,
+            hash, 
             accountId
          )
          return signature
@@ -287,7 +295,7 @@ export class Wallet {
       return sendJson('POST', `${ACCOUNT_HELPER_URL}/account/${phoneNumber}/${accountId}/requestCode`)
    }
 
-   validateCode(phoneNumber, accountId, postData) {
+   async validateCode(phoneNumber, accountId, postData) {
       return sendJson('POST', `${ACCOUNT_HELPER_URL}/account/${phoneNumber}/${accountId}/validateCode`, postData)
    }
 
