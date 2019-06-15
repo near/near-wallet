@@ -1,4 +1,13 @@
 server {
     listen 3004;
     root /var/www/html/wallet;
+
+    # what file to serve as index
+    index index.html;
+
+    location / {
+      # First attempt to serve request as file, then
+      # as directory, then fall back to redirecting to index.html
+      try_files $uri $uri/ /index.html;
+    }
 }
