@@ -334,7 +334,11 @@ module.exports = function(webpackEnv) {
                 customize: require.resolve(
                   'babel-preset-react-app/webpack-overrides'
                 ),
-                
+                presets: isEnvProduction ? undefined : [
+                  ['@babel/preset-env', {
+                    targets: "last 1 Chrome version",
+                  }]
+                ],
                 plugins: [
                   [
                     require.resolve('babel-plugin-named-asset-import'),
