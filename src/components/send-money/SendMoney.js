@@ -91,7 +91,7 @@ class SendMoney extends Component {
             loader: true
          }))
 
-         this.wallet.sendTokens(this.wallet.getAccountId(), accountId, amount)
+         this.wallet.sendMoney(accountId, amount)
             .then(() => {
                this.props.handleRefreshAccount(this.wallet, this.props.history)
 

@@ -3,9 +3,10 @@ import sendJson from 'fetch-send-json'
 
 const WALLET_CREATE_NEW_ACCOUNT_URL = `/create/`
 
+const NETWORK_ID = process.env.REACT_APP_NETWORK_ID || 'testnet'
 const ACCOUNT_HELPER_URL = process.env.REACT_APP_ACCOUNT_HELPER_URL || 'https://studio.nearprotocol.com/contract-api'
 const CONTRACT_CREATE_ACCOUNT_URL = `${ACCOUNT_HELPER_URL}/account`
-const NODE_URL = process.env.REACT_APP_NODE_URL || 'https://studio.nearprotocol.com/devnet'
+const NODE_URL = process.env.REACT_APP_NODE_URL || 'https://studio.nearprotocol.com/devnet/'
 const HELPER_KEY = process.env.REACT_APP_ACCOUNT_HELPER_KEY || '22skMptHjFWNyuEWY22ftn2AbLPSYpmYwGJRGwpNHbTV'
 
 const KEY_UNIQUE_PREFIX = '_4:'
@@ -16,13 +17,17 @@ const ACCOUNT_ID_REGEX = /^[a-z0-9@._-]{5,32}$/
 
 export class Wallet {
    constructor() {
-      this.key_store = new nearlib.BrowserLocalStorageKeystore()
-      this.near = nearlib.Near.createDefaultConfig(NODE_URL)
-      this.account = new nearlib.Account(this.near.nearClient);
+      this.key_store = new nearlib.BrowserLocalStorageKeyStore()
+      this.connection = nearlib.Connection.fromConfig({
+         networkId: NETWORK_ID,
+         provider: { type: 'JsonRpcProvider', args: { url: NODE_URL } },
+         signer: { type: 'InMemorySigner', keyStore: this.key_store }
+      })
       this.accounts = JSON.parse(
          localStorage.getItem(KEY_WALLET_ACCOUNTS) || '{}'
       )
       this.accountId = localStorage.getItem(KEY_ACTIVE_ACCOUNT_ID) || ''
+      this.account = this.accountId ? new nearlib.Account(this.connection, this.accountId) : null;
    }
 
    save() {
@@ -46,9 +51,8 @@ export class Wallet {
       return ACCOUNT_ID_REGEX.test(accountId)
    }
 
-   async sendTokens(senderId, receiverId, amount) {
-      return this.near.waitForTransactionResult(
-         await this.near.sendTokens(amount, senderId, receiverId))
+   async sendMoney(receiverId, amount) {
+      await this.account.sendMoney(receiverId, amount)
    }
 
    redirectToCreateAccount(options = {}, history) {
@@ -81,24 +85,25 @@ export class Wallet {
       }
    }
 
-   async loadAccount(accountId, history) {
+   async loadAccount(accountId) {
       if (!(accountId in this.accounts)) {
          throw new Error('Account ' + accountId + " doesn't exist.")
       }
-      return await this.near.nearClient.viewAccount(accountId)
+      return await this.account.state()
    }
 
    async getAccountDetails() {
+      if (!this.account) return null
       return await this.account.getAccountDetails(localStorage.getItem(KEY_ACTIVE_ACCOUNT_ID))
    }
 
    async removeAccessKey(publicKey) {
-      return await this.account.removeAccessKey(this.accountId, publicKey)
+      return await this.account.removeKey(publicKey)
    }
 
    async checkAccount(accountId) {
       if (accountId !== this.accountId) {
-         return await this.near.nearClient.viewAccount(accountId)
+         return await this.getAccount(accountId).state()
       } else {
          throw new Error('You are logged into account ' + accountId + ' .')
       }
@@ -110,7 +115,7 @@ export class Wallet {
       }
       let remoteAccount = null
       try {
-         remoteAccount = await this.near.nearClient.viewAccount(accountId)
+         remoteAccount = await this.getAccount(accountId).state()
       } catch (e) {
          // expected
       }
@@ -120,38 +125,14 @@ export class Wallet {
    }
 
    async createNewAccount(accountId) {
-      if (accountId in this.accounts) {
-         throw new Error('Account ' + accountId + ' already exists.')
-      }
-      let remoteAccount = null
-      try {
-         remoteAccount = await this.near.nearClient.viewAccount(accountId)
-      } catch (e) {
-         // expected
-      }
-      if (!!remoteAccount) {
-         throw new Error('Account ' + accountId + ' already exists.')
-      }
-      let keyPair = await nearlib.KeyPair.fromRandomSeed()
-      return await new Promise((resolve, reject) => {
-         let data = JSON.stringify({
-            newAccountId: accountId,
-            newAccountPublicKey: keyPair.getPublicKey()
-         })
+      this.checkNewAccount()
 
-         let xhr = new XMLHttpRequest()
-         xhr.open('POST', CONTRACT_CREATE_ACCOUNT_URL)
-         xhr.setRequestHeader('Content-Type', 'application/json')
-         xhr.onload = () => {
-            if (xhr.status === 200) {
-               this.saveAndSelectAccount(accountId, keyPair);
-               resolve(xhr)
-            } else if (xhr.status !== 200) {
-               reject(xhr.responseText)
-            }
-         }
-         xhr.send(data)
+      const keyPair = nearlib.KeyPair.fromRandom('ed25519')
+      await sendJson('POST', CONTRACT_CREATE_ACCOUNT_URL, {
+         newAccountId: accountId,
+         newAccountPublicKey: keyPair.getPublicKey()
       })
+      await this.saveAndSelectAccount(accountId, keyPair);
    }
 
    async saveAndSelectAccount(accountId, keyPair) {
@@ -162,33 +143,28 @@ export class Wallet {
    }
 
    async addAccessKey(accountId, contractId, publicKey, successUrl) {
-      const addAccessKeyResponse = await this.account.addAccessKey(
-         accountId,
+      await this.account.addKey(
          publicKey,
          contractId,
          '', // methodName
          '', // fundingOwner
          0 // fundingAmount
       )
-      try {
-         const result = await this.near.waitForTransactionResult(addAccessKeyResponse)
-         const parsedUrl = new URL(successUrl)
-         parsedUrl.searchParams.set('account_id', accountId)
-         parsedUrl.searchParams.set('public_key', publicKey)
-         const redirectUrl = parsedUrl.href
-         if (result.status === 'Completed') {
-            window.location.href = redirectUrl
-         }
-      } catch (e) {
-         // TODO: handle errors
-         console.log('Error on adding access key ', e)
-      }
+      const parsedUrl = new URL(successUrl)
+      parsedUrl.searchParams.set('account_id', accountId)
+      parsedUrl.searchParams.set('public_key', publicKey)
+      const redirectUrl = parsedUrl.href
+      window.location.href = redirectUrl
    }
 
    clearState() {
       this.accounts = {}
       this.accountId = ''
       this.save()
+   }
+
+   getAccount(accountId) {
+      return new nearlib.Account(this.connection, accountId)
    }
 
    requestCode(phoneNumber, accountId) {
@@ -200,19 +176,18 @@ export class Wallet {
    }
 
    async setupAccountRecovery(phoneNumber, accountId, securityCode) {
-      const nearAccount = await this.near.nearClient.viewAccount(accountId);
-      if (!nearAccount.public_keys.some(key => nearlib.KeyPair.encodeBufferInBs58(Buffer.from(key)) === HELPER_KEY)) {
-         await this.near.waitForTransactionResult(
-            await this.account.addAccessKey(accountId, HELPER_KEY));
+      const account = this.getAccount(accountId)
+      const state = await account.state()
+      if (!state.public_keys.some(key => nearlib.KeyPair.encodeBufferInBs58(Buffer.from(key)) === HELPER_KEY)) {
+         await account.addKey(HELPER_KEY)
       }
 
-      const signer = this.near.nearClient.signer;
-      const { signature } = await signer.signBuffer(Buffer.from(securityCode), accountId);
+      const { signature } = await this.connection.signer.signBuffer(Buffer.from(securityCode), accountId)
       await this.validateCode(phoneNumber, accountId, { securityCode, signature })
    }
 
    async recoverAccount(phoneNumber, accountId, securityCode) {
-      const keyPair = nearlib.KeyPair.fromRandomSeed()
+      const keyPair = nearlib.KeyPair.fromRandom('ed25519')
       await this.validateCode(phoneNumber, accountId, { securityCode, publicKey: keyPair.publicKey })
       await this.saveAndSelectAccount(accountId, keyPair)
    }
