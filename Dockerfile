@@ -20,7 +20,7 @@ WORKDIR /near-wallet
 RUN npm install
 RUN npm run build
 RUN mkdir -p /var/www/html/wallet
-RUN rsync -ar /near-wallet/build /var/www/html/wallet
+RUN rsync -ar /near-wallet/build/ /var/www/html/wallet
 
 # nginx
 RUN rm /etc/nginx/sites-enabled/default
