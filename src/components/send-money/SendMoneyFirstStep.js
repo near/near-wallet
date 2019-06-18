@@ -12,6 +12,7 @@ import {
    Segment
 } from 'semantic-ui-react'
 
+import RequestStatusBox from '../common/RequestStatusBox'
 import CreateAccoungFormInput from '../accounts/CreateAccoungFormInput'
 
 import AccountGreyImage from '../../images/icon-account-grey.svg'
@@ -31,17 +32,19 @@ const CustomList = styled(List)`
          }
          .alert-info {
             font-weight: 600;
-            margin: 0 0 -8px 0;
-            padding: 0 0 0 0 !important;
+            margin: 0 0 0 0;
+            padding: 8px 0;
             line-height: 34px;
             font-size: 14px;
-            margin-top: -6px;
             text-align: center;
             &.problem {
                color: #ff585d;
             }
             &.success {
                color: #6ad1e3;
+            }
+            &.segment {
+               padding: 0px !important;
             }
          }
          .main-image {
@@ -162,11 +165,10 @@ const SendMoneyFirstStep = ({
    paramAccountId,
    accountId,
    handleChangeAccountId,
-   successMessage,
-   errorMessage,
    formLoader,
    amount,
-   amountStatus
+   amountStatus,
+   requestStatus
 }) => (
    <CustomList className='box'>
       <Form autoComplete='off' onSubmit={handleChangeAccountId}>
@@ -188,29 +190,16 @@ const SendMoneyFirstStep = ({
             <List.Item>
                <List.Content>
                   <Header as='h3'>Enter a username to send:</Header>
-
                   <CreateAccoungFormInput
                      formLoader={formLoader}
                      accountId={accountId}
                      handleChangeAccountId={handleChangeAccountId}
-                     successMessage={successMessage}
-                     errorMessage={errorMessage}
+                     requestStatus={requestStatus}
                   />
-
-                  {successMessage && (
-                     <Segment basic className='alert-info success'>
-                        User found.
-                     </Segment>
-                  )}
-                  {errorMessage && (
-                     <Segment basic className='alert-info problem'>
-                        User not found.
-                     </Segment>
-                  )}
+                  <RequestStatusBox requestStatus={requestStatus} />
                </List.Content>
             </List.Item>
          )}
-
          <List.Item className='amount border-top'>
             <Form.Input
                type='number'
@@ -221,7 +210,6 @@ const SendMoneyFirstStep = ({
                step='1'
                min='1'
             />
-            
          </List.Item>
          {amountStatus && (
             <Segment basic textAlign='center' className='alert-info problem'>
@@ -243,7 +231,7 @@ const SendMoneyFirstStep = ({
                disabled={
                   paramAccountId
                      ? !((amount) > 0 && amountStatus === '')
-                     : !(successMessage && (amount) > 0 && amountStatus === '')
+                     : !(requestStatus && requestStatus.success && (amount) > 0 && amountStatus === '')
                }
                onClick={handleNextStep}
             >

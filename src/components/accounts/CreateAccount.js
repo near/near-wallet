@@ -1,101 +1,47 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
-import { Wallet } from '../../utils/wallet'
-
-import CreateAccountSection from './CreateAccountSection'
 import CreateAccountForm from './CreateAccountForm'
 import CreateAccountContainer from './CreateAccountContainer'
-import { handleRefreshAccount, handleRefreshUrl } from '../../actions/account'
+import { checkNewAccount, createNewAccount, clear } from '../../actions/account'
 
 class CreateAccount extends Component {
    state = {
       loader: false,
-      formLoader: false,
-      accountId: '',
-      successMessage: false,
-      errorMessage: false
+      accountId: ''
    }
 
-   componentDidMount = () => {
-      this.wallet = new Wallet()
-      // this.props.handleRefreshUrl(this.props.location)
-      // this.props.handleRefreshAccount(this.wallet)
+   componentDidMount = () => {}
+
+   componentWillUnmount = () => {
+      this.props.clear()
    }
 
    handleChangeAccountId = (e, { name, value }) => {
       this.setState(() => ({
-         [name]: value,
-         successMessage: false,
-         errorMessage: false,
-         formLoader: false
-      }))
-
-      if (!this.wallet.isLegitAccountId(value)) {
-         return false
-      }
-
-      this.setState(() => ({
-         formLoader: true
+         [name]: value
       }))
 
       this.timeout && clearTimeout(this.timeout)
 
       this.timeout = setTimeout(() => {
-         this.wallet
-            .checkNewAccount(value)
-            .then(d => {
-               this.setState(() => ({
-                  successMessage: true,
-                  errorMessage: false
-               }))
-            })
-            .catch(e => {
-               this.setState(() => ({
-                  successMessage: false,
-                  errorMessage: true
-               }))
-            })
-            .finally(() => {
-               this.setState(() => ({
-                  formLoader: false
-               }))
-            })
+         this.props.checkNewAccount(value)
       }, 500)
    }
 
    handleSubmit = e => {
       e.preventDefault()
 
-      if (!this.wallet.isLegitAccountId(this.state.accountId)) {
-         return false
-      }
+      const { accountId } = this.state
 
-      this.setState(() => ({
-         successMessage: false,
-         errorMessage: false,
-         formLoader: true
-      }))
+      this.props.createNewAccount(accountId).then(({ error }) => {
+         if (error) return
 
-      this.wallet
-         .createNewAccount(this.state.accountId)
-         .then(d => {
-            this.setState(() => ({
-               successMessage: true
-            }))
-            this.props.history.push(`/set-recovery/${this.state.accountId}`)
-         })
-         .catch(e => {
-            this.setState(() => ({
-               errorMessage: true
-            }))
-            console.error('Error creating account:', e)
-         })
-         .finally(() => {
-            this.setState(() => ({
-               formLoader: false
-            }))
-         })
+         let nextUrl = `/set-recovery/${accountId}`
+         setTimeout(() => {
+            this.props.history.push(nextUrl)
+         }, 200)
+      })
    }
 
    handleRecaptcha = value => {
@@ -103,30 +49,32 @@ class CreateAccount extends Component {
    }
 
    render() {
-      const { loader } = this.state
+      const { loader, accountId } = this.state
+      const { requestStatus, formLoader } = this.props
 
       return (
          <CreateAccountContainer loader={loader} location={this.props.location}>
-            <CreateAccountSection {...this.state}>
-               <CreateAccountForm
-                  {...this.state}
-                  handleSubmit={this.handleSubmit}
-                  handleRecaptcha={this.handleRecaptcha}
-                  handleChangeAccountId={this.handleChangeAccountId}
-               />
-            </CreateAccountSection>
+            <CreateAccountForm
+               accountId={accountId}
+               requestStatus={requestStatus}
+               formLoader={formLoader}
+               handleSubmit={this.handleSubmit}
+               handleRecaptcha={this.handleRecaptcha}
+               handleChangeAccountId={this.handleChangeAccountId}
+            />
          </CreateAccountContainer>
       )
    }
 }
 
 const mapDispatchToProps = {
-   handleRefreshAccount,
-   handleRefreshUrl
+   checkNewAccount,
+   createNewAccount,
+   clear
 }
 
 const mapStateToProps = ({ account }) => ({
-   account
+   ...account
 })
 
 export const CreateAccountWithRouter = connect(

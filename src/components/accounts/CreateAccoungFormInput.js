@@ -51,13 +51,12 @@ const CreateAccoungFormInput = ({
    formLoader,
    accountId,
    handleChangeAccountId,
-   successMessage,
-   errorMessage
+   requestStatus
 }) => (
    <CustomFormInput
       loading={formLoader}
-      className={`create ${successMessage ? 'success' : ''}${
-         errorMessage ? 'problem' : ''
+      className={`create ${
+         requestStatus ? (requestStatus.success ? 'success' : 'problem') : ''
       }`}
       name='accountId'
       value={accountId}
@@ -71,8 +70,7 @@ CreateAccoungFormInput.propTypes = {
    formLoader: PropTypes.bool.isRequired,
    accountId: PropTypes.string,
    handleChangeAccountId: PropTypes.func.isRequired,
-   successMessage: PropTypes.bool.isRequired,
-   errorMessage: PropTypes.bool.isRequired
+   requestStatus: PropTypes.object,
 }
 
 export default CreateAccoungFormInput

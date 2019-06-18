@@ -132,32 +132,50 @@ export class Wallet {
       return await this.account.removeAccessKey(this.accountId, publicKey)
    }
 
-   async checkAccount(accountId) {
-      if (accountId !== this.accountId) {
-         return await this.near.nearClient.viewAccount(accountId)
-      } else {
-         throw new Error('You are logged into account ' + accountId + ' .')
+   async checkAccountAvailable(accountId) {
+      if (!this.isLegitAccountId(accountId)) {
+         throw new Error()
+      }
+      if (accountId === this.accountId) {
+         throw new Error()
+      }
+      let remoteAccount = null
+      try {
+         remoteAccount = await this.near.nearClient.viewAccount(accountId)
+      } catch (e) {
+         throw new Error()
+      }
+      if (!!remoteAccount) {
+         return true
       }
    }
 
    async checkNewAccount(accountId) {
+      if (!this.isLegitAccountId(accountId)) {
+         throw new Error()
+      }
+
       if (accountId in this.accounts) {
-         throw new Error('Account ' + accountId + ' already exists.')
+         throw new Error()
       }
       let remoteAccount = null
       try {
          remoteAccount = await this.near.nearClient.viewAccount(accountId)
       } catch (e) {
-         // expected
+         return true
       }
       if (!!remoteAccount) {
-         throw new Error('Account ' + accountId + ' already exists.')
+         throw new Error()
       }
    }
 
    async createNewAccount(accountId) {
+      if (!this.isLegitAccountId(accountId)) {
+         throw new Error()
+      }
+
       if (accountId in this.accounts) {
-         throw new Error('Account ' + accountId + ' already exists.')
+         throw new Error()
       }
       let remoteAccount = null
       try {
@@ -166,7 +184,7 @@ export class Wallet {
          // expected
       }
       if (!!remoteAccount) {
-         throw new Error('Account ' + accountId + ' already exists.')
+         throw new Error()
       }
       let keyPair = await nearlib.KeyPair.fromRandomSeed()
       return await new Promise((resolve, reject) => {

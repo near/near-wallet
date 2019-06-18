@@ -216,7 +216,6 @@ export default createGlobalStyle`
          padding: 0px !important;
       }
       .column {
-         padding: 24px 10px 20px 30px !important;
          word-wrap: break-word;
       }
       .segment {

@@ -86,7 +86,7 @@ export const redirectToApp = () => (dispatch, getState) => {
    }, 1500)
 }
 
-export const { requestCode, setupAccountRecovery, recoverAccount, getAccountDetails, removeAccessKey } = createActions({
+export const { requestCode, setupAccountRecovery, recoverAccount, getAccountDetails, removeAccessKey, checkNewAccount, createNewAccount, checkAccountAvailable, clear } = createActions({
    REQUEST_CODE: [
       wallet.requestCode.bind(wallet),
       () => ({ successCode: 'account.requestCode.success', errorCode: 'account.requestCode.error' })
@@ -101,4 +101,17 @@ export const { requestCode, setupAccountRecovery, recoverAccount, getAccountDeta
    ],
    GET_ACCOUNT_DETAILS: [wallet.getAccountDetails.bind(wallet), () => ({})],
    REMOVE_ACCESS_KEY: [wallet.removeAccessKey.bind(wallet), () => ({})],
+   CHECK_NEW_ACCOUNT: [
+      wallet.checkNewAccount.bind(wallet),
+      () => ({ successCode: 'Congrats! this name is available.', errorCode: 'Username is taken. Try something else.' })
+   ],
+   CREATE_NEW_ACCOUNT: [
+      wallet.createNewAccount.bind(wallet),
+      () => ({ successCode: 'Congrats! this name is available.', errorCode: 'Username is taken. Try something else.' })
+   ],
+   CHECK_ACCOUNT_AVAILABLE: [
+      wallet.checkAccountAvailable.bind(wallet),
+      () => ({ successCode: 'User found.', errorCode: 'User not found.' })
+   ],
+   CLEAR: null,
 })
