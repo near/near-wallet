@@ -374,7 +374,11 @@ module.exports = function(webpackEnv) {
                     require.resolve('babel-preset-react-app/dependencies'),
                     { helpers: true },
                   ],
-                ],
+                ].concat(isEnvProduction ? [] : [
+                  ['@babel/preset-env', {
+                    targets: "last 1 Chrome version",
+                  }]
+                ]),
                 cacheDirectory: true,
                 cacheCompression: isEnvProduction,
                 
