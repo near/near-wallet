@@ -10,7 +10,6 @@ const HELPER_KEY = process.env.REACT_APP_ACCOUNT_HELPER_KEY || '22skMptHjFWNyuEW
 
 const KEY_UNIQUE_PREFIX = '_4:'
 const KEY_WALLET_ACCOUNTS = KEY_UNIQUE_PREFIX + 'wallet:accounts_v2'
-const KEY_WALLET_TOKENS = KEY_UNIQUE_PREFIX + 'wallet:tokens_v2'
 const KEY_ACTIVE_ACCOUNT_ID = KEY_UNIQUE_PREFIX + 'wallet:active_account_id_v2'
 
 const ACCOUNT_ID_REGEX = /^[a-z0-9@._-]{5,32}$/
@@ -23,14 +22,12 @@ export class Wallet {
       this.accounts = JSON.parse(
          localStorage.getItem(KEY_WALLET_ACCOUNTS) || '{}'
       )
-      this.tokens = JSON.parse(localStorage.getItem(KEY_WALLET_TOKENS) || '{}')
       this.accountId = localStorage.getItem(KEY_ACTIVE_ACCOUNT_ID) || ''
    }
 
    save() {
       localStorage.setItem(KEY_ACTIVE_ACCOUNT_ID, this.accountId)
       localStorage.setItem(KEY_WALLET_ACCOUNTS, JSON.stringify(this.accounts))
-      localStorage.setItem(KEY_WALLET_TOKENS, JSON.stringify(this.tokens))
    }
 
    getAccountId() {
@@ -45,41 +42,8 @@ export class Wallet {
       this.save()
    }
 
-   newAccessToken(app_url, app_title, contract_id) {
-      var token = ''
-      var possible =
-         'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
-
-      for (var i = 0; i < 32; i++) {
-         token += possible.charAt(Math.floor(Math.random() * possible.length))
-      }
-
-      if (!this.isLegitAccountId(contract_id)) {
-         contract_id = ''
-      }
-
-      this.tokens[token] = {
-         app_url,
-         app_title,
-         contract_id,
-         account_id: this.accountId
-      }
-      this.save()
-      return token
-   }
-
    isLegitAccountId(accountId) {
       return ACCOUNT_ID_REGEX.test(accountId)
-   }
-
-   async sendTransaction(senderId, receiverId, methodName, amount, args) {
-      return await this.near.scheduleFunctionCall(
-         amount,
-         senderId,
-         receiverId,
-         methodName,
-         args || {}
-      )
    }
 
    async sendTokens(senderId, receiverId, amount) {
@@ -221,74 +185,10 @@ export class Wallet {
       }
    }
 
-   subscribeForMessages() {
-      //  window.addEventListener("message", $.proxy(this.receiveMessage, this), false);
-      window.addEventListener('message', this.receiveMessage.bind(this), false)
-   }
-
    clearState() {
       this.accounts = {}
-      this.tokens = {}
       this.accountId = ''
       this.save()
-   }
-
-   async processTransactionMessage(action, data) {
-      let token = data['token'] || ''
-      if (!(token in this.tokens)) {
-         // Unknown token.
-         throw new Error('The token ' + token + ' is not found ')
-      }
-      let app_data = this.tokens[token]
-      let accountId = app_data['account_id']
-      if (!(accountId in this.accounts)) {
-         // Account is no longer authorized.
-         throw new Error(
-            'The account ' + accountId + ' is not part of the wallet anymore.'
-         )
-      }
-      let contract_id = app_data['contract_id']
-      let receiverId = data['receiver_id'] || contract_id
-      if (receiverId !== contract_id || !this.isLegitAccountId(receiverId)) {
-         // Bad receiver account ID or it doesn't match contract id.
-         throw new Error(
-            "Bad receiver's account ID ('" +
-               receiverId + 
-               "') or it doesn't match the authorized contract id"
-         )
-      }
-      let amount = parseInt(data['amount']) || 0
-      if (amount !== 0) {
-         // Automatic authorization denied since for amounts greater than 0.
-         throw new Error('Transaction amount should be 0.')
-      }
-      let methodName = data['methodName'] || ''
-      if (!methodName) {
-         // Method name can't be empty since the amount is 0.
-         throw new Error("Method name can't be empty since the amount is 0")
-      }
-      let args = data['args'] || {}
-      if (action === 'send_transaction') {
-         // Sending the transaction on behalf of the accountId
-         return await this.sendTransaction(
-            accountId, 
-            receiverId, 
-            methodName, 
-            amount, 
-            args
-         )
-      } else if (action === 'sign_transaction') {
-         // Signing the provided hash of the transaction. It's a security issue here.
-         // In the future we would sign the transaction above and don't depend on the given hash.
-         let hash = data['hash'] || ''
-         let signature = await this.near.nearClient.signer.signHash(
-            hash, 
-            accountId
-         )
-         return signature
-      } else {
-         throw new Error('Unknown action')
-      }
    }
 
    requestCode(phoneNumber, accountId) {
@@ -315,41 +215,5 @@ export class Wallet {
       const keyPair = nearlib.KeyPair.fromRandomSeed()
       await this.validateCode(phoneNumber, accountId, { securityCode, publicKey: keyPair.publicKey })
       await this.saveAndSelectAccount(accountId, keyPair)
-   }
-
-   receiveMessage(event) {
-      let data
-      try {
-         data = JSON.parse(event.data)
-      } catch (e) {
-         // Silently dying.
-         return
-      }
-      const action = data['action'] || ''
-      if (action !== 'send_transaction' && action !== 'sign_transaction') {
-         // Unknown action, skipping silently.
-         return
-      }
-      const request_id = data['request_id'] || ''
-
-      let reply = d => event.source.postMessage(JSON.stringify(d), event.origin)
-
-      this.processTransactionMessage(action, data)
-         .then(result => {
-            console.log('Wallet: OK ' + action)
-            reply({
-               success: true,
-               request_id,
-               result
-            })
-         })
-         .catch(error => {
-            console.error('Wallet: failed to ' + action, error)
-            reply({
-               success: false,
-               request_id,
-               error
-            })
-         })
    }
 }
