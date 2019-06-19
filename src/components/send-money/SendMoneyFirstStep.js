@@ -13,7 +13,7 @@ import {
 } from 'semantic-ui-react'
 
 import RequestStatusBox from '../common/RequestStatusBox'
-import CreateAccoungFormInput from '../accounts/CreateAccoungFormInput'
+import AccountFormAccountId from '../accounts/AccountFormAccountId'
 
 import AccountGreyImage from '../../images/icon-account-grey.svg'
 
@@ -190,7 +190,7 @@ const SendMoneyFirstStep = ({
             <List.Item>
                <List.Content>
                   <Header as='h3'>Enter a username to send:</Header>
-                  <CreateAccoungFormInput
+                  <AccountFormAccountId
                      formLoader={formLoader}
                      accountId={accountId}
                      handleChangeAccountId={handleChangeAccountId}

@@ -36,8 +36,7 @@ const NearInfo = () => (
          <Image src={NearLogoImage} />
       </List.Item>
       <List.Item className='text'>
-         NEAR is a scalable computing and storage platform that changes how the
-         web works for the better.{' '}
+         NEAR is a scalable computing and storage platform that changes how the web works for the better.
          <a href='https://nearprotocol.com/'>Learn More</a>
       </List.Item>
    </CustomList>

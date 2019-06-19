@@ -47,7 +47,7 @@ const CustomFormInput = styled(Form.Input)`
    }
 `
 
-const CreateAccoungFormInput = ({
+const AccountFormAccountId = ({
    formLoader,
    accountId,
    handleChangeAccountId,
@@ -66,11 +66,11 @@ const CreateAccoungFormInput = ({
    />
 )
 
-CreateAccoungFormInput.propTypes = {
+AccountFormAccountId.propTypes = {
    formLoader: PropTypes.bool.isRequired,
    accountId: PropTypes.string,
    handleChangeAccountId: PropTypes.func.isRequired,
    requestStatus: PropTypes.object,
 }
 
-export default CreateAccoungFormInput
+export default AccountFormAccountId

@@ -72,7 +72,7 @@ const CustomResponsive = styled(Responsive)`
          float: left;
          color: white;
          font-family: 'benton-sans', sans-serif;
-         font-weight: 600;
+         font-weight: 500;
          font-size: 14px;
          padding-left: 0px;
          padding-right: 30px;

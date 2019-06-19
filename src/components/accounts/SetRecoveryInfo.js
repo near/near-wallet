@@ -2,12 +2,10 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { isValidPhoneNumber } from 'react-phone-number-input'
 
-import { Wallet } from '../../utils/wallet'
-
 import AccountFormSection from './AccountFormSection'
+import AccountFormContainer from './AccountFormContainer'
 import SetRecoveryInfoForm from './SetRecoveryInfoForm'
-import SetRecoveryInfoContainer from './SetRecoveryInfoContainer'
-import { requestCode, setupAccountRecovery, redirectToApp } from '../../actions/account';
+import { requestCode, setupAccountRecovery, redirectToApp, clear } from '../../actions/account';
 
 class SetRecoveryInfo extends Component {
    state = {
@@ -16,8 +14,10 @@ class SetRecoveryInfo extends Component {
       isLegit: false,
    }
 
-   componentDidMount = () => {
-      this.wallet = new Wallet()
+   componentDidMount = () => {}
+
+   componentWillUnmount = () => {
+      this.props.clear()
    }
 
    handleChange = (e, { name, value }) => {
@@ -43,22 +43,21 @@ class SetRecoveryInfo extends Component {
          return false
       }
 
-      const { dispatch } = this.props;
       if (!this.props.sentSms) {
-         dispatch(requestCode(this.state.phoneNumber, this.props.accountId))
+         this.props.requestCode(this.state.phoneNumber, this.props.accountId)
       } else {
-         dispatch(setupAccountRecovery(this.state.phoneNumber, this.props.accountId, this.state.securityCode))
+         this.props.setupAccountRecovery(this.state.phoneNumber, this.props.accountId, this.state.securityCode)
             .then(({error}) => {
                if (error) return
 
-               dispatch(redirectToApp())
+               this.props.redirectToApp()
             })
       }
    }
 
    skipRecoverySetup = e => {
-      const { dispatch } = this.props;
-      dispatch(redirectToApp())
+      e.preventDefault()
+      this.props.redirectToApp()
    }
 
    render() {
@@ -69,8 +68,12 @@ class SetRecoveryInfo extends Component {
          isLegit: this.state.isLegit && !this.props.formLoader
       }
       return (
-         <SetRecoveryInfoContainer loader={loader} location={this.props.location}>
-            <AccountFormSection {...combinedState}>
+         <AccountFormContainer 
+            loader={loader} 
+            title='Protect your Account'
+            text='Enter your phone number to make your account easy for you to recover in the future.'
+         >
+            <AccountFormSection handleSubmit={this.handleSubmit} requestStatus={this.props.requestStatus}>
                <SetRecoveryInfoForm
                   {...combinedState}
                   handleSubmit={this.handleSubmit}
@@ -78,16 +81,21 @@ class SetRecoveryInfo extends Component {
                   skipRecoverySetup={this.skipRecoverySetup}
                />
             </AccountFormSection>
-         </SetRecoveryInfoContainer>
+         </AccountFormContainer>
       )
    }
 }
 
-const mapStateToProps = ({ account }, { match }) => {
-   return {
-      ...account,
-      accountId: match.params.accountId
-   }
+const mapDispatchToProps = {
+   requestCode,
+   setupAccountRecovery,
+   redirectToApp,
+   clear
 }
 
-export const SetRecoveryInfoWithRouter = connect(mapStateToProps)(SetRecoveryInfo)
+const mapStateToProps = ({ account }, { match }) => ({
+   ...account,
+   accountId: match.params.accountId
+})
+
+export const SetRecoveryInfoWithRouter = connect(mapStateToProps, mapDispatchToProps)(SetRecoveryInfo)

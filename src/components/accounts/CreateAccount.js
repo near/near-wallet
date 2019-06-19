@@ -2,7 +2,8 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
 import CreateAccountForm from './CreateAccountForm'
-import CreateAccountContainer from './CreateAccountContainer'
+import AccountFormSection from './AccountFormSection'
+import AccountFormContainer from './AccountFormContainer'
 import { checkNewAccount, createNewAccount, clear } from '../../actions/account'
 
 class CreateAccount extends Component {
@@ -53,16 +54,26 @@ class CreateAccount extends Component {
       const { requestStatus, formLoader } = this.props
 
       return (
-         <CreateAccountContainer loader={loader} location={this.props.location}>
-            <CreateAccountForm
-               accountId={accountId}
-               requestStatus={requestStatus}
-               formLoader={formLoader}
+         <AccountFormContainer 
+            loader={loader} 
+            location={this.props.location}
+            title='Create Account'
+            text='Creating a NEAR account is easy. Just choose a username and you’re ready to go.'
+         >
+            <AccountFormSection 
+               requestStatus={this.props.requestStatus}
                handleSubmit={this.handleSubmit}
-               handleRecaptcha={this.handleRecaptcha}
-               handleChangeAccountId={this.handleChangeAccountId}
-            />
-         </CreateAccountContainer>
+               location={this.props.location}
+            >
+               <CreateAccountForm
+                  accountId={accountId}
+                  requestStatus={requestStatus}
+                  formLoader={formLoader}
+                  handleRecaptcha={this.handleRecaptcha}
+                  handleChangeAccountId={this.handleChangeAccountId}
+               />
+            </AccountFormSection>
+         </AccountFormContainer>
       )
    }
 }

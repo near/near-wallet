@@ -7,7 +7,7 @@ const RequestStatusBoxGrid = styled(Grid)`
       font-size: 18px;
       font-weight: 600;
       line-height: 64px;
-      margin: 0 0 0 0;
+      margin: 36px 0 0 0;
       padding-left: 30px;
 
       &.problem {
@@ -16,10 +16,6 @@ const RequestStatusBoxGrid = styled(Grid)`
       &.success {
          color: #6ad1e3;
       }
-   }
-
-   && {
-      ${'' /* padding-left: 30px; */}
    }
 
    @media screen and (max-width: 991px) {
