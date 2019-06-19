@@ -27,7 +27,6 @@ export class Wallet {
          localStorage.getItem(KEY_WALLET_ACCOUNTS) || '{}'
       )
       this.accountId = localStorage.getItem(KEY_ACTIVE_ACCOUNT_ID) || ''
-      this.account = this.accountId ? new nearlib.Account(this.connection, this.accountId) : null;
    }
 
    save() {
@@ -52,7 +51,7 @@ export class Wallet {
    }
 
    async sendMoney(receiverId, amount) {
-      await this.account.sendMoney(receiverId, amount)
+      await this.getAccount(this.accountId).sendMoney(receiverId, amount)
    }
 
    redirectToCreateAccount(options = {}, history) {
@@ -89,16 +88,16 @@ export class Wallet {
       if (!(accountId in this.accounts)) {
          throw new Error('Account ' + accountId + " doesn't exist.")
       }
-      return await this.account.state()
+      return await this.getAccount(this.accountId).state()
    }
 
    async getAccountDetails() {
-      if (!this.account) return null
-      return await this.account.getAccountDetails(localStorage.getItem(KEY_ACTIVE_ACCOUNT_ID))
+      if (!this.accountId) return null
+      return await this.getAccount(this.accountId).getAccountDetails(localStorage.getItem(KEY_ACTIVE_ACCOUNT_ID))
    }
 
    async removeAccessKey(publicKey) {
-      return await this.account.removeKey(publicKey)
+      return await this.getAccount(this.accountId).removeKey(publicKey)
    }
 
    async checkAccount(accountId) {
@@ -143,7 +142,7 @@ export class Wallet {
    }
 
    async addAccessKey(accountId, contractId, publicKey, successUrl) {
-      await this.account.addKey(
+      await this.getAccount(this.accountId).addKey(
          publicKey,
          contractId,
          '', // methodName
