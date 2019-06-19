@@ -136,7 +136,7 @@ export class Wallet {
    }
 
    async saveAndSelectAccount(accountId, keyPair) {
-      await this.key_store.setKey(accountId, keyPair)
+      await this.key_store.setKey(NETWORK_ID, accountId, keyPair)
       this.accounts[accountId] = true
       this.accountId = accountId
       this.save()
