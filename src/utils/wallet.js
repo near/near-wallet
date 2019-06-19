@@ -1,4 +1,4 @@
-import nearlib from 'nearlib'
+import * as nearlib from 'nearlib'
 import sendJson from 'fetch-send-json'
 
 const WALLET_CREATE_NEW_ACCOUNT_URL = `/create/`
@@ -17,7 +17,7 @@ const ACCOUNT_ID_REGEX = /^[a-z0-9@._-]{5,32}$/
 
 export class Wallet {
    constructor() {
-      this.key_store = new nearlib.BrowserLocalStorageKeyStore()
+      this.key_store = new nearlib.keyStores.BrowserLocalStorageKeyStore()
       this.connection = nearlib.Connection.fromConfig({
          networkId: NETWORK_ID,
          provider: { type: 'JsonRpcProvider', args: { url: NODE_URL } },
