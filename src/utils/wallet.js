@@ -6,8 +6,8 @@ const WALLET_CREATE_NEW_ACCOUNT_URL = `/create/`
 const NETWORK_ID = process.env.REACT_APP_NETWORK_ID || 'testnet'
 const ACCOUNT_HELPER_URL = process.env.REACT_APP_ACCOUNT_HELPER_URL || 'https://studio.nearprotocol.com/contract-api'
 const CONTRACT_CREATE_ACCOUNT_URL = `${ACCOUNT_HELPER_URL}/account`
-const NODE_URL = process.env.REACT_APP_NODE_URL || 'https://studio.nearprotocol.com/devnet/'
-const HELPER_KEY = process.env.REACT_APP_ACCOUNT_HELPER_KEY || '22skMptHjFWNyuEWY22ftn2AbLPSYpmYwGJRGwpNHbTV'
+const NODE_URL = process.env.REACT_APP_NODE_URL || 'https://studio.nearprotocol.com/devnet'
+const HELPER_KEY = process.env.REACT_APP_ACCOUNT_HELPER_KEY || 'HxDBsMK33NZKfcNTLuZzQve8hEq99jjCdcgyiTrQwghC'
 
 const KEY_UNIQUE_PREFIX = '_4:'
 const KEY_WALLET_ACCOUNTS = KEY_UNIQUE_PREFIX + 'wallet:accounts_v2'
@@ -20,7 +20,7 @@ export class Wallet {
       this.key_store = new nearlib.keyStores.BrowserLocalStorageKeyStore()
       this.connection = nearlib.Connection.fromConfig({
          networkId: NETWORK_ID,
-         provider: { type: 'JsonRpcProvider', args: { url: NODE_URL } },
+         provider: { type: 'JsonRpcProvider', args: { url: NODE_URL + '/' } },
          signer: { type: 'InMemorySigner', keyStore: this.key_store }
       })
       this.accounts = JSON.parse(
