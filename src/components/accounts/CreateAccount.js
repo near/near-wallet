@@ -18,16 +18,10 @@ class CreateAccount extends Component {
       this.props.clear()
    }
 
-   handleChangeAccountId = (e, { name, value }) => {
+   handleChange = (e, { name, value }) => {
       this.setState(() => ({
          [name]: value
       }))
-
-      this.timeout && clearTimeout(this.timeout)
-
-      this.timeout = setTimeout(() => {
-         this.props.checkNewAccount(value)
-      }, 500)
    }
 
    handleSubmit = e => {
@@ -50,7 +44,7 @@ class CreateAccount extends Component {
    }
 
    render() {
-      const { loader, accountId } = this.state
+      const { loader } = this.state
       const { requestStatus, formLoader } = this.props
 
       return (
@@ -66,11 +60,10 @@ class CreateAccount extends Component {
                location={this.props.location}
             >
                <CreateAccountForm
-                  accountId={accountId}
                   requestStatus={requestStatus}
                   formLoader={formLoader}
                   handleRecaptcha={this.handleRecaptcha}
-                  handleChangeAccountId={this.handleChangeAccountId}
+                  handleChange={this.handleChange}
                />
             </AccountFormSection>
          </AccountFormContainer>

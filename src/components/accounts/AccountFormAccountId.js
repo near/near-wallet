@@ -1,6 +1,9 @@
-import React from 'react'
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { Form } from 'semantic-ui-react'
+
+import { checkAccountAvailable, checkNewAccount } from '../../actions/account'
 
 import ProblemsImage from '../../images/icon-problems.svg'
 import CheckBlueImage from '../../images/icon-check-blue.svg'
@@ -47,30 +50,64 @@ const CustomFormInput = styled(Form.Input)`
    }
 `
 
-const AccountFormAccountId = ({
-   formLoader,
-   accountId,
-   handleChangeAccountId,
-   requestStatus
-}) => (
-   <CustomFormInput
-      loading={formLoader}
-      className={`create ${
-         requestStatus ? (requestStatus.success ? 'success' : 'problem') : ''
-      }`}
-      name='accountId'
-      value={accountId}
-      onChange={handleChangeAccountId}
-      placeholder='example: satoshi.near'
-      required
-   />
-)
+class AccountFormAccountId extends Component {
+   state = {
+      accountId: ''
+   }
+
+   handleChangeAccountId = (e, { name, value }) => {
+      this.setState(() => ({
+         [name]: value
+      }))
+
+      this.props.handleChange(e, { name, value })
+
+      this.timeout && clearTimeout(this.timeout)
+
+      this.timeout = setTimeout(() => {
+         this.props.type === 'create'
+            ? this.props.checkNewAccount(value)
+            : this.props.checkAccountAvailable(value)
+      }, 500)
+   }
+
+
+   render () {
+      const { formLoader, requestStatus } = this.props
+      const { accountId } = this.state
+
+      return (
+         <CustomFormInput
+            loading={formLoader}
+            className={`create ${
+               requestStatus ? (requestStatus.success ? 'success' : 'problem') : ''
+            }`}
+            name='accountId'
+            value={accountId}
+            onChange={this.handleChangeAccountId}
+            placeholder='example: satoshi.near'
+            required
+         />
+      )
+   }
+}
 
 AccountFormAccountId.propTypes = {
    formLoader: PropTypes.bool.isRequired,
-   accountId: PropTypes.string,
-   handleChangeAccountId: PropTypes.func.isRequired,
-   requestStatus: PropTypes.object,
+   handleChange: PropTypes.func.isRequired,
+   type: PropTypes.string
 }
 
-export default AccountFormAccountId
+const mapDispatchToProps = {
+   checkAccountAvailable,
+   checkNewAccount
+}
+
+const mapStateToProps = ({ account }, { match }) => ({
+   ...account,
+})
+
+export default connect(
+   mapStateToProps,
+   mapDispatchToProps
+)(AccountFormAccountId)

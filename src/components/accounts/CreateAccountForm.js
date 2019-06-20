@@ -9,8 +9,7 @@ import AccountFormAccountId from './AccountFormAccountId'
 
 const CreateAccountForm = ({
    formLoader,
-   accountId,
-   handleChangeAccountId,
+   handleChange,
    handleRecaptcha,
    requestStatus
 }) => (
@@ -18,9 +17,8 @@ const CreateAccountForm = ({
       <Header as='h3'>Choose a Username</Header>
       <AccountFormAccountId
          formLoader={formLoader}
-         accountId={accountId}
-         handleChangeAccountId={handleChangeAccountId}
-         requestStatus={requestStatus}
+         handleChange={handleChange}
+         type='create'
       />
 
       {false ? (
@@ -44,8 +42,7 @@ const CreateAccountForm = ({
 
 CreateAccountForm.propTypes = {
    formLoader: PropTypes.bool.isRequired,
-   accountId: PropTypes.string,
-   handleChangeAccountId: PropTypes.func.isRequired,
+   handleChange: PropTypes.func.isRequired,
    handleRecaptcha: PropTypes.func.isRequired,
    requestStatus: PropTypes.object
 }

@@ -159,19 +159,19 @@ const CustomList = styled(List)`
 
 const SendMoneyFirstStep = ({
    handleNextStep,
+   handleChangeAmount,
    handleChange,
    note,
    loader,
    paramAccountId,
    accountId,
-   handleChangeAccountId,
    formLoader,
    amount,
    amountStatus,
    requestStatus
 }) => (
    <CustomList className='box'>
-      <Form autoComplete='off' onSubmit={handleChangeAccountId}>
+      <Form autoComplete='off'>
          <Dimmer inverted active={loader}>
             <Loader />
          </Dimmer>
@@ -192,9 +192,7 @@ const SendMoneyFirstStep = ({
                   <Header as='h3'>Enter a username to send:</Header>
                   <AccountFormAccountId
                      formLoader={formLoader}
-                     accountId={accountId}
-                     handleChangeAccountId={handleChangeAccountId}
-                     requestStatus={requestStatus}
+                     handleChange={handleChange}
                   />
                   <RequestStatusBox requestStatus={requestStatus} />
                </List.Content>
@@ -205,7 +203,7 @@ const SendMoneyFirstStep = ({
                type='number'
                name='amount'
                value={amount}
-               onChange={handleChange}
+               onChange={handleChangeAmount}
                placeholder='0'
                step='1'
                min='1'

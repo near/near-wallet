@@ -110,7 +110,7 @@ class SendMoney extends Component {
       }))
    }
 
-   handleChange = (e, { name, value }) => {
+   handleChangeAmount = (e, { name, value }) => {
       this.setState(() => ({
          amountStatus: !Number.isInteger(Number(value))
             ? 'Please enter a whole number.'
@@ -124,26 +124,16 @@ class SendMoney extends Component {
       }))
    }
 
+   handleChange = (e, { name, value }) => {
+      this.setState(() => ({
+         [name]: value
+      }))
+   }
+
    handleExpandNote = () => {
       this.setState(() => ({
          expandNote: true
       }))
-   }
-
-   handleChangeAccountId = (e, { name, value }) => {
-      this.setState(() => ({
-         [name]: value
-      }))
-
-      if (!this.wallet.isLegitAccountId(value)) {
-         return false
-      }
-
-      this.timeout && clearTimeout(this.timeout)
-
-      this.timeout = setTimeout(() => {
-         this.props.checkAccountAvailable(value)
-      }, 500)
    }
 
    render() {
@@ -155,8 +145,8 @@ class SendMoney extends Component {
             {step === 1 && (
                <SendMoneyFirstStep
                   handleNextStep={this.handleNextStep}
+                  handleChangeAmount={this.handleChangeAmount}
                   handleChange={this.handleChange}
-                  handleChangeAccountId={this.handleChangeAccountId}
                   requestStatus={requestStatus}
                   formLoader={formLoader}
                   {...this.state}

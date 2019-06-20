@@ -7,21 +7,17 @@ import AccountFormAccountId from './AccountFormAccountId'
 
 const RecoverAccountForm = ({
    formLoader,
-   accountId,
    phoneNumber,
    sentSms,
    requestStatus,
    handleChange,
-   handleChangeAccountId,
    isLegitForm
 }) => (
    <Fragment>
       <Header as='h3'>Username</Header>
       <AccountFormAccountId
          formLoader={formLoader}
-         accountId={accountId}
-         handleChangeAccountId={handleChangeAccountId}
-         requestStatus={requestStatus}
+         handleChange={handleChange}
       />
 
       {!sentSms && (
@@ -66,12 +62,10 @@ const RecoverAccountForm = ({
 
 RecoverAccountForm.propTypes = {
    formLoader: PropTypes.bool.isRequired,
-   accountId: PropTypes.string,
    phoneNumber: PropTypes.string,
    sentSms: PropTypes.bool,
    requestStatus: PropTypes.object,
    handleChange: PropTypes.func.isRequired,
-   handleChangeAccountId: PropTypes.func.isRequired,
    isLegitForm: PropTypes.func,
 }
 

@@ -22,22 +22,10 @@ class RecoverAccount extends Component {
       this.props.clear()
    }
 
-   handleChangeAccountId = (e, { name, value }) => {
-      this.setState(() => ({
-         [name]: value
-      }))
-
-      this.timeout && clearTimeout(this.timeout)
-
-      this.timeout = setTimeout(() => {
-         this.props.checkAccountAvailable(value)
-      }, 500)
-   }
-
    handleChange = (e, { name, value }) => {
-      this.setState(() => ({
+      this.setState((state) => ({
          [name]: value,
-         isLegit: this.isLegitField(name, value)
+         isLegit: name === 'accountId' ? state.isLegit : this.isLegitField(name, value)
       }))
    }
 
@@ -78,6 +66,7 @@ class RecoverAccount extends Component {
          ...this.state,
          isLegit: this.state.isLegit && !this.props.formLoader
       }
+
       return (
          <AccountFormContainer 
             loader={loader} 
@@ -88,7 +77,6 @@ class RecoverAccount extends Component {
                <RecoverAccountForm
                   {...combinedState}
                   handleChange={this.handleChange}
-                  handleChangeAccountId={this.handleChangeAccountId}
                   isLegitForm={this.isLegitForm}
                />
             </AccountFormSection>
