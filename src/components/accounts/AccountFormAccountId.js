@@ -56,8 +56,12 @@ class AccountFormAccountId extends Component {
    }
 
    handleChangeAccountId = (e, { name, value }) => {
+      if (value.match(/[^a-z0-9@._-]/)) {
+         return false
+      }
+
       this.setState(() => ({
-         [name]: value
+         [name]: value.trim().toLowerCase()
       }))
 
       this.props.handleChange(e, { name, value })
@@ -86,6 +90,7 @@ class AccountFormAccountId extends Component {
             value={accountId}
             onChange={this.handleChangeAccountId}
             placeholder='example: satoshi.near'
+            maxLength='32'
             required
          />
       )
