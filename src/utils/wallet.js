@@ -134,29 +134,21 @@ export class Wallet {
 
    async checkAccountAvailable(accountId) {
       if (!this.isLegitAccountId(accountId)) {
-         throw new Error()
+         throw new Error('Invalid username.')
       }
       if (accountId === this.accountId) {
-         throw new Error()
+         throw new Error('You are logged into account ' + accountId + ' .')
       }
-      let remoteAccount = null
-      try {
-         remoteAccount = await this.near.nearClient.viewAccount(accountId)
-      } catch (e) {
-         throw new Error()
-      }
-      if (!!remoteAccount) {
-         return true
-      }
+
+      return await this.near.nearClient.viewAccount(accountId)
    }
 
    async checkNewAccount(accountId) {
       if (!this.isLegitAccountId(accountId)) {
-         throw new Error()
+         throw new Error('Invalid username.')
       }
-
       if (accountId in this.accounts) {
-         throw new Error()
+         throw new Error('Account ' + accountId + ' already exists.')
       }
       let remoteAccount = null
       try {
@@ -165,17 +157,16 @@ export class Wallet {
          return true
       }
       if (!!remoteAccount) {
-         throw new Error()
+         throw new Error('Account ' + accountId + ' already exists.')
       }
    }
 
    async createNewAccount(accountId) {
       if (!this.isLegitAccountId(accountId)) {
-         throw new Error()
+         throw new Error('Invalid username.')
       }
-
       if (accountId in this.accounts) {
-         throw new Error()
+         throw new Error('Account ' + accountId + ' already exists.')
       }
       let remoteAccount = null
       try {
@@ -184,7 +175,7 @@ export class Wallet {
          // expected
       }
       if (!!remoteAccount) {
-         throw new Error()
+         throw new Error('Account ' + accountId + ' already exists.')
       }
       let keyPair = await nearlib.KeyPair.fromRandomSeed()
       return await new Promise((resolve, reject) => {
