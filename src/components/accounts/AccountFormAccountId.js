@@ -92,6 +92,10 @@ class AccountFormAccountId extends Component {
             placeholder='example: satoshi.near'
             maxLength='32'
             required
+            autoComplete='off'
+            autoCorrect='off'
+            autoCapitalize='off'
+            spellCheck='false'
          />
       )
    }
