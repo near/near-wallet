@@ -52,7 +52,7 @@ const CustomFormInput = styled(Form.Input)`
 
 class AccountFormAccountId extends Component {
    state = {
-      accountId: ''
+      accountId: this.props.defaultAccountId || ''
    }
 
    handleChangeAccountId = (e, { name, value }) => {
@@ -74,7 +74,6 @@ class AccountFormAccountId extends Component {
             : this.props.checkAccountAvailable(value)
       }, 500)
    }
-
 
    render () {
       const { formLoader, requestStatus } = this.props
@@ -104,7 +103,8 @@ class AccountFormAccountId extends Component {
 AccountFormAccountId.propTypes = {
    formLoader: PropTypes.bool.isRequired,
    handleChange: PropTypes.func.isRequired,
-   type: PropTypes.string
+   type: PropTypes.string,
+   defaultAccountId: PropTypes.string
 }
 
 const mapDispatchToProps = {

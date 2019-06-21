@@ -9,11 +9,11 @@ import {
    Form,
    Dimmer,
    Loader,
-   Segment
 } from 'semantic-ui-react'
 
 import RequestStatusBox from '../common/RequestStatusBox'
 import AccountFormAccountId from '../accounts/AccountFormAccountId'
+import SendMoneyAmountInput from './SendMoneyAmountInput'
 
 import AccountGreyImage from '../../images/icon-account-grey.svg'
 
@@ -31,21 +31,10 @@ const CustomList = styled(List)`
             text-align: left;
          }
          .alert-info {
-            font-weight: 600;
             margin: 0 0 0 0;
             padding: 8px 0;
             line-height: 34px;
             font-size: 14px;
-            text-align: center;
-            &.problem {
-               color: #ff585d;
-            }
-            &.success {
-               color: #6ad1e3;
-            }
-            &.segment {
-               padding: 0px !important;
-            }
          }
          .main-image {
             border: 0px;
@@ -63,33 +52,6 @@ const CustomList = styled(List)`
             margin-top: 16px;
             margin-bottom: 0px;
             padding-top: 24px;
-            
-            input {
-               height: 80px;
-               border: 0px;
-               font-family: Bw Seido Round;
-               font-size: 72px;
-               font-weight: 500;
-               line-height: 80px;
-               color: #4a4f54;
-               text-align: center;
-               padding: 0px;
-               
-               :focus::-webkit-input-placeholder { color: transparent; }
-               :focus:-moz-placeholder { color: transparent; }
-               :focus::-moz-placeholder { color: transparent; }
-               :focus:-ms-input-placeholder { color: transparent; }
-
-               -moz-appearance: textfield;
-
-               ::-webkit-outer-spin-button,
-               ::-webkit-inner-spin-button {
-                  -webkit-appearance: none;
-                  margin: 0;
-               }
-            }
-
-
          }
          .add-note {
             > textarea {
@@ -159,16 +121,15 @@ const CustomList = styled(List)`
 
 const SendMoneyFirstStep = ({
    handleNextStep,
-   handleChangeAmount,
    handleChange,
    note,
    loader,
    paramAccountId,
    accountId,
+   isLegitForm,
    formLoader,
-   amount,
-   amountStatus,
-   requestStatus
+   requestStatus,
+   amount
 }) => (
    <CustomList className='box'>
       <Form autoComplete='off'>
@@ -193,27 +154,18 @@ const SendMoneyFirstStep = ({
                   <AccountFormAccountId
                      formLoader={formLoader}
                      handleChange={handleChange}
+                     defaultAccountId={accountId}
                   />
                   <RequestStatusBox requestStatus={requestStatus} />
                </List.Content>
             </List.Item>
          )}
          <List.Item className='amount border-top'>
-            <Form.Input
-               type='number'
-               name='amount'
-               value={amount}
-               onChange={handleChangeAmount}
-               placeholder='0'
-               step='1'
-               min='1'
+            <SendMoneyAmountInput 
+               handleChange={handleChange} 
+               defaultAmount={amount}
             />
          </List.Item>
-         {amountStatus && (
-            <Segment basic textAlign='center' className='alert-info problem'>
-               {amountStatus}
-            </Segment>
-         )}
          {false ? (
             <List.Item className='add-note border-bottom border-top'>
                <TextArea
@@ -226,11 +178,7 @@ const SendMoneyFirstStep = ({
          ) : null}
          <List.Item className='send-money'>
             <Button
-               disabled={
-                  paramAccountId
-                     ? !((amount) > 0 && amountStatus === '')
-                     : !(requestStatus && requestStatus.success && (amount) > 0 && amountStatus === '')
-               }
+               disabled={!isLegitForm()}
                onClick={handleNextStep}
             >
                SEND MONEY

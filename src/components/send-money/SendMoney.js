@@ -106,21 +106,8 @@ class SendMoney extends Component {
       }
 
       this.setState(state => ({
-         step: state.step + 1
-      }))
-   }
-
-   handleChangeAmount = (e, { name, value }) => {
-      this.setState(() => ({
-         amountStatus: !Number.isInteger(Number(value))
-            ? 'Please enter a whole number.'
-            : value > this.props.amount 
-               ? 'Not enough tokens.' 
-               : ''
-      }))
-
-      this.setState(() => ({
-         [name]: value
+         step: state.step + 1,
+         amount: +state.amount
       }))
    }
 
@@ -136,19 +123,28 @@ class SendMoney extends Component {
       }))
    }
 
+   isLegitForm = () => {
+      const { paramAccountId, amount, amountStatus } = this.state
+      const { requestStatus } = this.props
+
+      return paramAccountId
+      ? ((amount) > 0 && amountStatus === '')
+      : (requestStatus && requestStatus.success && (amount) > 0 && amountStatus === '')
+   }
+
    render() {
       const { step } = this.state
-      const { requestStatus, formLoader } = this.props
+      const { formLoader, requestStatus } = this.props
 
       return (
          <SendMoneyContainer step={step} handleCancelTransfer={this.handleCancelTransfer}>
             {step === 1 && (
                <SendMoneyFirstStep
                   handleNextStep={this.handleNextStep}
-                  handleChangeAmount={this.handleChangeAmount}
                   handleChange={this.handleChange}
-                  requestStatus={requestStatus}
+                  isLegitForm={this.isLegitForm}
                   formLoader={formLoader}
+                  requestStatus={requestStatus}
                   {...this.state}
                />
             )}
