@@ -36,7 +36,7 @@ const CustomList = styled(List)`
          padding-bottom: 24px;
 
          font-family: Bw Seido Round;
-         font-size: 72px;
+         font-size: ${props => props.fontSize}px;
          font-weight: 500;
          line-height: 60px;
          color: #4a4f54;
@@ -198,9 +198,9 @@ const SendMoneySecondStep = ({
    accountId,
    loader
 }) => (
-   <CustomList className='box'>
-      <List.Item as='h2'>You are sending</List.Item>
-      <List.Item as='h1' className='amount border-bottom'>
+   <CustomList className='box' fontSize={amount.toString().length > 8 ? 34 : 48}>
+      <List.Item as='h2' >You are sending</List.Item>
+      <List.Item className='amount border-bottom'>
          {amount}
          <span>Ⓝ</span>
       </List.Item>
@@ -238,7 +238,7 @@ const SendMoneySecondStep = ({
       </List.Item>
       <List.Item>Once confirmed, this is not undoable.</List.Item>
       <List.Item className='goback border-top'>
-         <Button className='link' onClick={handleGoBack}>
+         <Button disabled={loader} className='link' onClick={handleGoBack}>
             Need to edit? Go Back
          </Button>
       </List.Item>

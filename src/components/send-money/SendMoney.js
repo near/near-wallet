@@ -80,7 +80,8 @@ class SendMoney extends Component {
       this.props.history.push('/send-money')
    }
 
-   handleNextStep = () => {
+   handleNextStep = (e) => {
+      e.preventDefault()
       const { step, accountId, amount} = this.state;
 
       if (step === 2) {
@@ -133,11 +134,11 @@ class SendMoney extends Component {
    }
 
    render() {
-      const { step } = this.state
+      const { step, loader } = this.state
       const { formLoader, requestStatus } = this.props
 
       return (
-         <SendMoneyContainer step={step} handleCancelTransfer={this.handleCancelTransfer}>
+         <SendMoneyContainer loader={loader} step={step} handleCancelTransfer={this.handleCancelTransfer}>
             {step === 1 && (
                <SendMoneyFirstStep
                   handleNextStep={this.handleNextStep}

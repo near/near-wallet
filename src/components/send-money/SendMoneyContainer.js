@@ -92,7 +92,7 @@ const CustomContainer = styled(Container)`
    }
 `
 
-const SendMoneyContainer = ({ children, step, handleCancelTransfer }) => (
+const SendMoneyContainer = ({ children, loader, step, handleCancelTransfer }) => (
    <CustomContainer>
       <Grid>
          <Grid.Row columns='1' className='page-title'>
@@ -104,7 +104,7 @@ const SendMoneyContainer = ({ children, step, handleCancelTransfer }) => (
       {children}
       {step === 2 && (
          <Segment basic textAlign='center'>
-            <Button className='link' onClick={handleCancelTransfer}>
+            <Button disabled={loader} className='link' onClick={handleCancelTransfer}>
                Cancel Transfer
             </Button>
          </Segment>
