@@ -9,6 +9,7 @@ import {
    Form,
    Dimmer,
    Loader,
+   Responsive
 } from 'semantic-ui-react'
 
 import RequestStatusBox from '../common/RequestStatusBox'
@@ -156,7 +157,7 @@ const SendMoneyFirstStep = ({
                      handleChange={handleChange}
                      defaultAccountId={accountId}
                   />
-                  <RequestStatusBox requestStatus={requestStatus} />
+                  <Responsive as={RequestStatusBox} minWidth={768} requestStatus={requestStatus} />
                </List.Content>
             </List.Item>
          )}

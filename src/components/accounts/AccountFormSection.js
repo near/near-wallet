@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Form, Grid } from 'semantic-ui-react'
+import { Form, Grid, Responsive } from 'semantic-ui-react'
 
 import RequestStatusBox from '../common/RequestStatusBox'
 import AccountNote from '../common/AccountNote'
@@ -121,8 +121,7 @@ const AccountFormSection = ({ handleSubmit, requestStatus, location, children })
             {children}
          </Grid.Column>
          <Grid.Column computer={7} tablet={8} mobile={16}>
-            <RequestStatusBox requestStatus={requestStatus} />
-
+            <Responsive as={RequestStatusBox} minWidth={768} requestStatus={requestStatus} />
             {location && <AccountNote />}
          </Grid.Column>
       </Grid>

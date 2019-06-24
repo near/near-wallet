@@ -33,6 +33,7 @@ const RequestStatusBoxGrid = styled(Grid)`
          font-size: 14px;
          padding: 0px !important;
          text-align: center;
+         margin: 24px 0 0 0;
       }
 
       && {

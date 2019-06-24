@@ -1,8 +1,9 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import { Form } from 'semantic-ui-react'
+import { Form, Responsive } from 'semantic-ui-react'
 
+import RequestStatusBox from '../common/RequestStatusBox'
 import { checkAccountAvailable, checkNewAccount } from '../../actions/account'
 
 import ProblemsImage from '../../images/icon-problems.svg'
@@ -80,22 +81,25 @@ class AccountFormAccountId extends Component {
       const { accountId } = this.state
 
       return (
-         <CustomFormInput
-            loading={formLoader}
-            className={`create ${
-               requestStatus ? (requestStatus.success ? 'success' : 'problem') : ''
-            }`}
-            name='accountId'
-            value={accountId}
-            onChange={this.handleChangeAccountId}
-            placeholder='example: satoshi.near'
-            maxLength='32'
-            required
-            autoComplete='off'
-            autoCorrect='off'
-            autoCapitalize='off'
-            spellCheck='false'
-         />
+         <Fragment>
+            <CustomFormInput
+               loading={formLoader}
+               className={`create ${
+                  requestStatus ? (requestStatus.success ? 'success' : 'problem') : ''
+               }`}
+               name='accountId'
+               value={accountId}
+               onChange={this.handleChangeAccountId}
+               placeholder='example: satoshi.near'
+               maxLength='32'
+               required
+               autoComplete='off'
+               autoCorrect='off'
+               autoCapitalize='off'
+               spellCheck='false'
+            />
+            <Responsive as={RequestStatusBox} maxWidth={767} requestStatus={requestStatus} />
+         </Fragment>
       )
    }
 }
