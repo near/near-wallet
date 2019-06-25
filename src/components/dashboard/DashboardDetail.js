@@ -122,7 +122,7 @@ class DashboardDetail extends Component {
       const { authorizedApps } = this.props
 
       return (
-         <DashboardContainer amount={this.props.amount}>
+         <DashboardContainer amountStr={this.props.amountStr}>
             <DashboardActivity
                loader={loader}
                image={AuthorizedGreyImage}

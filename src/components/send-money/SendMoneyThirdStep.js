@@ -75,7 +75,7 @@ const SendMoneyThirdStep = ({ note, amount, accountId }) => (
          <Image src={SendImage} />
       </List.Item>
       <List.Item as='h2' className='amount'>
-         {amount}
+         {amount.toLocaleString('en', {useGrouping:true})}
          <span>Ⓝ</span> was sent to:
       </List.Item>
       <List.Item>

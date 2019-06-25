@@ -202,7 +202,7 @@ const SendMoneySecondStep = ({
    <CustomList className='box' fontSize={amount.toString().length > 8 ? 34 : 48}>
       <List.Item as='h2' >You are sending</List.Item>
       <List.Item className='amount border-bottom'>
-         {amount}
+         {amount.toLocaleString('en', {useGrouping:true})}
          <span>Ⓝ</span>
       </List.Item>
       <List.Item className='to'>

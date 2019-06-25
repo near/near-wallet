@@ -124,7 +124,7 @@ const PopupMenuTrigger = ({ account, handleClick, type, dropdown = false }) => (
                   <Loader active inline size='mini' />
                ) : (
                   <div>
-                     <div>{account.amount} </div>
+                     <div>{account.amountStr} </div>
                      <div className='near'>Ⓝ</div>
                   </div>
                )}
