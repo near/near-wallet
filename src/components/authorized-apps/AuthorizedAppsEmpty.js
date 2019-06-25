@@ -45,7 +45,7 @@ const AuthorizedAppsEmpty = () => (
    <CustomSegment basic>
       <Header as='h2'>You have not connected your NEAR Wallet to any applications. When you do, you can manage them here.</Header>
       <Header as='h2'>See what's been built with NEAR:</Header>
-      <Button as='a' href='https://builtwithnear.com/'>BROWSE APPS</Button>
+      <Button as='a' href='https://builtwithnear.com/' target='_blank'>BROWSE APPS</Button>
    </CustomSegment>
 )
 
