@@ -11,6 +11,7 @@ import {
    removeAccessKey
 } from '../../actions/account'
 
+import AuthorizedAppsEmpty from './AuthorizedAppsEmpty'
 import PaginationBlock from '../pagination/PaginationBlock'
 import ListItem from '../dashboard/ListItem'
 import AuthorizedAppsContainer from './AuthorizedAppsContainer'
@@ -105,17 +106,19 @@ class AuthorizedApps extends Component {
                subPage='authorized-apps'
                handleDeauthorize={this.handleDeauthorize}
             >
-               {authorizedApps.map((row, i) => (
-                  <ListItem
-                     key={`a-${i}`}
-                     row={row}
-                     i={i}
-                     wide={true}
-                     showSub={showSub}
-                     toggleShowSub={this.toggleShowSub}
-                     showSubOpen={showSubOpen}
-                  />
-               ))}
+               {authorizedApps.length 
+                  ? authorizedApps.map((row, i) => (
+                     <ListItem
+                        key={`a-${i}`}
+                        row={row}
+                        i={i}
+                        wide={true}
+                        showSub={showSub}
+                        toggleShowSub={this.toggleShowSub}
+                        showSubOpen={showSubOpen}
+                     />
+                  )) : <AuthorizedAppsEmpty />
+               }
             </PaginationBlock>
          </AuthorizedAppsContainer>
       )
