@@ -327,5 +327,11 @@ export default createGlobalStyle`
       .box .column {
          padding: 16px 10px !important;
       }
+
+      .App {
+         .main {
+            padding-bottom: 300px;
+         }
+      }
    }
 `

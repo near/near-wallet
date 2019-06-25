@@ -120,6 +120,7 @@ const CustomList = styled(List)`
             }
 
             &.dots {
+               color: #fff;
                border-color: #cccccc;
                background-color: #cccccc;
 

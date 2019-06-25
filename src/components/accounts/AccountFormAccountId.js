@@ -57,7 +57,7 @@ class AccountFormAccountId extends Component {
    }
 
    handleChangeAccountId = (e, { name, value }) => {
-      if (value.match(/[^a-z0-9@._-]/)) {
+      if (value.match(/[^a-zA-Z0-9@._-]/)) {
          return false
       }
 
