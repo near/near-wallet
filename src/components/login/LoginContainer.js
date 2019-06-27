@@ -127,7 +127,7 @@ const CustomContainer = styled(Container)`
 
             .content {
                font-size: 12px;
-               line-height: 14px;
+               line-height: 26px;
             }
          }
       }

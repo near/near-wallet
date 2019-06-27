@@ -78,6 +78,24 @@ const CustomButton = styled(Button)`
             background-image: url(${ArrowRightImage});
          }
       }
+      &.gray-white {
+         color: #cccccc;
+         border-color: #cccccc;
+         background: #fff;
+
+         :disabled {
+            border-color: #e6e6e6;
+            background: #e6e6e6;
+            opacity: 1 !important;
+         }
+         :active,
+         :hover,
+         :focus {
+            color: #fff;
+            border-color: #cccccc;
+            background: #cccccc;
+         }
+      }
       &.link {
          width: auto;
          height: auto;
@@ -119,6 +137,9 @@ const CustomButton = styled(Button)`
          border-color: #cccccc;
          background-color: #cccccc;
 
+         :active,
+         :hover,
+         :focus,
          :disabled {
             background: #cccccc;
             border-color: #cccccc;
