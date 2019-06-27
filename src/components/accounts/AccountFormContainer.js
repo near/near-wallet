@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Container, Loader, Grid, Dimmer, Header } from 'semantic-ui-react'
+import { Container, Grid, Header } from 'semantic-ui-react'
 import { parse } from 'query-string'
 
 import Disclaimer from '../common/Disclaimer'
@@ -53,14 +53,10 @@ const CustomContainer = styled(Container)`
 `
 
 /* eslint-disable jsx-a11y/accessible-emoji */
-const AccountFormContainer = ({ loader, location, title, text, children }) => (
+const AccountFormContainer = ({ location, title, text, children }) => (
    <CustomContainer>
       <Grid stackable>
-         <Dimmer inverted active={loader}>
-            <Loader />
-         </Dimmer>
-
-         <Grid.Row columns='2' className='page-title'>
+        <Grid.Row columns='2' className='page-title'>
             <Grid.Column computer={9} tablet={8} mobile={16}>
                <Header as='h1'>{title}</Header>
                <Header as='h2'>{text}</Header>
@@ -80,7 +76,6 @@ const AccountFormContainer = ({ loader, location, title, text, children }) => (
 )
 
 AccountFormContainer.propTypes = {
-   loader: PropTypes.bool.isRequired,
    location: PropTypes.object,
    title: PropTypes.string,
    text: PropTypes.string,

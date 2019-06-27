@@ -150,17 +150,10 @@ export default createGlobalStyle`
       }
    }
 
-
    .ui.popup > .header {
       font-weight: 600 !important;
       color: #24272a !important;
    }
-
-
-   .ui.list .list>.item .header, .ui.list>.item .header, .ui.button {
-      font-weight: 600;
-   }
-
 
    .border-bottom {
       border-bottom: 2px solid #f8f8f8 !important;

@@ -57,7 +57,7 @@ const CustomDiv = styled(`div`)`
 
 class SendMoneyAmountInput extends Component {
    state = {
-      amount: this.props.defaultAmount || '',
+      amount: `${this.props.defaultAmount}` || '',
       amountStatus: ''
    }
 
@@ -76,7 +76,6 @@ class SendMoneyAmountInput extends Component {
       this.props.handleChange(e, { name, value })
       this.props.handleChange(e, { name: 'amountStatus', value: amountStatus })
    }
-
 
    render () {
       const { amount, amountStatus } = this.state

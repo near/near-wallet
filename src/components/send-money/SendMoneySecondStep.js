@@ -1,6 +1,8 @@
 import React from 'react'
 
-import { List, Image, Button, Header } from 'semantic-ui-react'
+import { List, Image, Header } from 'semantic-ui-react'
+
+import FormButton from '../common/FormButton'
 
 import AccountGreyImage from '../../images/icon-account-grey.svg'
 
@@ -90,71 +92,6 @@ const CustomList = styled(List)`
          padding-bottom: 0px;
          margin-top: 24px;
          margin-bottom: 12px;
-
-         > .button {
-            width: 288px;
-            line-height: 60px;
-            border-radius: 30px;
-            border: solid 2px #5ace84;
-            font-size: 18px;
-            font-weight: 600;
-            letter-spacing: 2px;
-            text-align: center;
-            padding: 0 0 0 0;
-            background-color: #5ace84;
-            color: #fff;
-
-            :hover {
-               color: #5ace84;
-               background: #fff;
-            }
-            :disabled {
-               border-color: #e6e6e6;
-               background: #e6e6e6;
-               opacity: 1 !important;
-            }
-            :active,
-            :focus {
-               background: #fff;
-               color: #5ace84;
-            }
-
-            &.dots {
-               color: #fff;
-               border-color: #cccccc;
-               background-color: #cccccc;
-
-               :after {
-                  content: '.';
-                  animation: dots 1s steps(5, end) infinite;
-               
-                  @keyframes dots {
-                     0%, 20% {
-                        color: rgba(0,0,0,0);
-                        text-shadow:
-                           .3em 0 0 rgba(0,0,0,0),
-                           .6em 0 0 rgba(0,0,0,0);
-                     }
-                     40% {
-                        color: white;
-                        text-shadow:
-                           .3em 0 0 rgba(0,0,0,0),
-                           .6em 0 0 rgba(0,0,0,0);
-                     }
-                     60% {
-                        text-shadow:
-                           .3em 0 0 white,
-                           .6em 0 0 rgba(0,0,0,0);
-                     }
-                     80%, 100% {
-                        text-shadow:
-                           .3em 0 0 white,
-                           .6em 0 0 white;
-                     }
-                  }
-               }
-            }
-         }
       }
 
       @media screen and (max-width: 991px) {
@@ -229,19 +166,24 @@ const SendMoneySecondStep = ({
          </List.Item>
       )}
       <List.Item className='send-money border-top'>
-         <Button onClick={handleNextStep} className={loader ? `dots` : ``} disabled={loader}>
-            {loader
-               ? `SENDING`
-               : `CONFIRM & SEND`
-            }
-            
-         </Button>
+         <FormButton
+            onClick={handleNextStep}
+            color='green'
+            disabled={loader}
+            sending={loader}
+         >
+            CONFIRM & SEND
+         </FormButton>
       </List.Item>
       <List.Item>Once confirmed, this is not undoable.</List.Item>
       <List.Item className='goback border-top'>
-         <Button disabled={loader} className='link' onClick={handleGoBack}>
+         <FormButton
+            onClick={handleGoBack}
+            color='link bold'
+            disabled={loader}
+         >
             Need to edit? Go Back
-         </Button>
+         </FormButton>
       </List.Item>
    </CustomList>
 )

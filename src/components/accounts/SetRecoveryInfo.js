@@ -43,14 +43,28 @@ class SetRecoveryInfo extends Component {
          return false
       }
 
+      this.setState(() => ({
+         loader: true
+      }))
+
       if (!this.props.sentSms) {
          this.props.requestCode(this.state.phoneNumber, this.props.accountId)
+            .finally(() => {
+               this.setState(() => ({
+                  loader: false
+               }))
+            })
       } else {
          this.props.setupAccountRecovery(this.state.phoneNumber, this.props.accountId, this.state.securityCode)
             .then(({error}) => {
                if (error) return
 
                this.props.redirectToApp()
+            })
+            .finally(() => {
+               this.setState(() => ({
+                  loader: false
+               }))
             })
       }
    }
@@ -61,7 +75,6 @@ class SetRecoveryInfo extends Component {
    }
 
    render() {
-      const { loader } = this.state
       const combinedState = {
          ...this.props,
          ...this.state,
@@ -69,7 +82,6 @@ class SetRecoveryInfo extends Component {
       }
       return (
          <AccountFormContainer 
-            loader={loader} 
             title='Protect your Account'
             text='Enter your phone number to make your account easy for you to recover in the future.'
          >

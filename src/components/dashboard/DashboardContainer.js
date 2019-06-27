@@ -1,12 +1,10 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
+import FormButton from '../common/FormButton'
 import DashboardOtherAssets from './DashboardOtherAssets'
 
-import ArrowGrnImage from '../../images/icon-arrow-grn.svg'
-import ArrowRightImage from '../../images/icon-arrow-right.svg'
-
-import { Container, Grid, Button } from 'semantic-ui-react'
+import { Container, Grid } from 'semantic-ui-react'
 
 import styled from 'styled-components'
 
@@ -31,28 +29,9 @@ const CustomContainer = styled(Container)`
       color: #24272a;
    }
    &&& .send-money {
-      margin: 0 0 0 0;
-      > .button {
-         width: 100%;
-         line-height: 60px;
-         border-radius: 30px;
-         border: solid 2px #5ace84;
-         font-size: 18px;
-         font-weight: 600;
-         letter-spacing: 2px;
-         color: #5ace84;
-         background: #fff;
-         text-align: left;
-         padding: 0 0 0 40px;
-         background-image: url(${ArrowGrnImage});
-         background-repeat: no-repeat;
-         background-position: 90% center;
-         background-size: 14px 20px;
-         :hover {
-            background-color: #5ace84;
-            color: #fff;
-            background-image: url(${ArrowRightImage});
-         }
+      button {
+         float: right;
+         margin: 0 0 0 0 !important;
       }
    }
    &&& {
@@ -68,6 +47,10 @@ const CustomContainer = styled(Container)`
       &&& .send-money {
          margin-top: 20px;
          margin-top: 0px;
+
+         .button {
+            float: none;
+         }
       }
       &&& .page-title {
          text-align: center;
@@ -76,10 +59,6 @@ const CustomContainer = styled(Container)`
          }
          .balance {
             display: none;
-         }
-         .button {
-            width: 240px;
-            line-height: 44px;
          }
       }
    }
@@ -101,10 +80,6 @@ const CustomContainer = styled(Container)`
          .balance {
             display: none;
          }
-         .button {
-            width: 240px;
-            line-height: 44px;
-         }
       }
    }
 `
@@ -115,7 +90,7 @@ const DashboardContainer = ({ children, amountStr }) => (
          <Grid.Row columns='2' className='page-title'>
             <Grid.Column
                as='h1'
-               computer={12}
+               computer={11}
                tablet={16}
                mobile={16}
                verticalAlign='middle'
@@ -125,14 +100,16 @@ const DashboardContainer = ({ children, amountStr }) => (
                <span className='near'>Ⓝ</span>
             </Grid.Column>
             <Grid.Column
-               computer={4}
+               computer={5}
                tablet={16}
                mobile={16}
                className='send-money'
             >
-               <Button as={Link} to='/send-money'>
-                  SEND MONEY
-               </Button>
+               <Link to='/send-money'>
+                  <FormButton color='green-white-arrow' >
+                     SEND MONEY
+                  </FormButton>
+               </Link>
             </Grid.Column>
          </Grid.Row>
       </Grid>

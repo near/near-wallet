@@ -11,36 +11,6 @@ const CustomForm = styled(Form)`
    &&& {
       margin-left: -1rem;
 
-      button[type='submit'] {
-         width: 288px;
-         height: 60px;
-         border-radius: 30px;
-         border: 4px solid #0072ce;
-         font-weight: 500;
-
-         background: #0072ce;
-         margin: 24px 0 0 0;
-
-         font-size: 18px;
-         color: #fff;
-         letter-spacing: 2px;
-
-         :hover {
-            background: #fff;
-            color: #0072ce;
-         }
-         :disabled {
-            border: 4px solid #e6e6e6;
-            background: #e6e6e6;
-            opacity: 1 !important;
-         }
-         :active,
-         :focus {
-            background: #fff;
-            color: #0072ce;
-         }
-      }
-
       h3.column {
          padding-bottom: 0;
       }

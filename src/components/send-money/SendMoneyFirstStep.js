@@ -5,13 +5,13 @@ import {
    TextArea,
    List,
    Image,
-   Button,
    Form,
    Dimmer,
    Loader,
    Responsive
 } from 'semantic-ui-react'
 
+import FormButton from '../common/FormButton'
 import RequestStatusBox from '../common/RequestStatusBox'
 import AccountFormAccountId from '../accounts/AccountFormAccountId'
 import SendMoneyAmountInput from './SendMoneyAmountInput'
@@ -67,28 +67,6 @@ const CustomList = styled(List)`
          .send-money {
             margin-top: 24px;
             margin-bottom: 6px;
-            > button {
-               width: 288px;
-               line-height: 56px;
-               border-radius: 30px;
-               border: solid 2px #5ace84;
-               font-size: 18px;
-               font-weight: 600;
-               letter-spacing: 2px;
-               text-align: center;
-               padding: 0 0 0 0;
-               background-color: #5ace84;
-               color: #fff;
-               :hover {
-                  color: #5ace84;
-                  background: #fff;
-               }
-               :disabled {
-                  background-color: #e6e6e6;
-                  border-color: #e6e6e6;
-                  opacity: 1 !important;
-               }
-            }
          }
       }
       @media screen and (max-width: 991px) {
@@ -178,12 +156,13 @@ const SendMoneyFirstStep = ({
             </List.Item>
          ) : null}
          <List.Item className='send-money'>
-            <Button
-               disabled={!isLegitForm()}
+            <FormButton
                onClick={handleNextStep}
+               color='green'
+               disabled={!isLegitForm()}
             >
                SEND MONEY
-            </Button>
+            </FormButton>
          </List.Item>
       </Form>
    </CustomList>

@@ -1,11 +1,13 @@
 import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
-import { Input, Header, Button } from 'semantic-ui-react'
+import { Input, Header } from 'semantic-ui-react'
 import PhoneInput from 'react-phone-number-input'
 
+import FormButton from '../common/FormButton'
 import AccountFormAccountId from './AccountFormAccountId'
 
 const RecoverAccountForm = ({
+   loader,
    formLoader,
    phoneNumber,
    sentSms,
@@ -54,13 +56,19 @@ const RecoverAccountForm = ({
          </Fragment>
       )}
 
-      <Button type='submit' disabled={!isLegitForm()}>
+      <FormButton
+         type='submit'
+         color='blue'
+         disabled={!isLegitForm()}
+         sending={loader}
+      >
          FIND MY ACCOUNT
-      </Button>
+      </FormButton>
    </Fragment>
 )
 
 RecoverAccountForm.propTypes = {
+   loader: PropTypes.bool.isRequired,
    formLoader: PropTypes.bool.isRequired,
    phoneNumber: PropTypes.string,
    sentSms: PropTypes.bool,

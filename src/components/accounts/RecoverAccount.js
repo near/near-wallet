@@ -46,21 +46,34 @@ class RecoverAccount extends Component {
       if (!this.isLegitForm()) {
          return false
       }
+      
+      this.setState(() => ({
+         loader: true
+      }))
 
       const accountId = this.state.accountId // || this.props.accountId;
       if (!this.props.sentSms) {
          this.props.requestCode(this.state.phoneNumber, accountId)
+            .finally(() => {
+               this.setState(() => ({
+                  loader: false
+               }))
+            })
       } else {
          this.props.recoverAccount(this.state.phoneNumber, accountId, this.state.securityCode)
             .then(({ error }) => {
                if (error) return;
                this.props.redirectToApp()
             })
+            .finally(() => {
+               this.setState(() => ({
+                  loader: false
+               }))
+            })
       }
    }
 
    render() {
-      const { loader } = this.state
       const combinedState = {
          ...this.props,
          ...this.state,
@@ -69,7 +82,6 @@ class RecoverAccount extends Component {
 
       return (
          <AccountFormContainer 
-            loader={loader} 
             title='Find your Account'
             text='Enter your information associated with the account and we will send a recovery code.'
          >

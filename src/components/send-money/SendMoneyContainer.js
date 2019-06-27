@@ -1,6 +1,8 @@
 import React from 'react'
 
-import { Container, Grid, Segment, Button } from 'semantic-ui-react'
+import FormButton from '../common/FormButton'
+
+import { Container, Grid, Segment } from 'semantic-ui-react'
 
 import styled from 'styled-components'
 
@@ -39,23 +41,6 @@ const CustomContainer = styled(Container)`
          }
          .add {
             color: #24272a;
-         }
-      }
-
-      button.link {
-         background-color: transparent;
-         border: none;
-         cursor: pointer;
-         text-decoration: none;
-         display: inline;
-         margin: 0;
-         padding: 0;
-         color: #999;
-
-         :hover,
-         :focus {
-            text-decoration: underline;
-            color: #999;
          }
       }
    }
@@ -104,9 +89,13 @@ const SendMoneyContainer = ({ children, loader, step, handleCancelTransfer }) =>
       {children}
       {step === 2 && (
          <Segment basic textAlign='center'>
-            <Button disabled={loader} className='link' onClick={handleCancelTransfer}>
+            <FormButton
+               onClick={handleCancelTransfer}
+               color='link gray bold'
+               disabled={loader}
+            >
                Cancel Transfer
-            </Button>
+            </FormButton>
          </Segment>
       )}
    </CustomContainer>

@@ -27,6 +27,10 @@ class CreateAccount extends Component {
    handleSubmit = e => {
       e.preventDefault()
 
+      this.setState(() => ({
+         loader: true
+      }))
+
       const { accountId } = this.state
 
       this.props.createNewAccount(accountId).then(({ error }) => {
@@ -36,6 +40,11 @@ class CreateAccount extends Component {
          setTimeout(() => {
             this.props.history.push(nextUrl)
          }, 200)
+      })
+      .finally(() => {
+         this.setState(() => ({
+            loader: false
+         }))
       })
    }
 
@@ -49,7 +58,6 @@ class CreateAccount extends Component {
 
       return (
          <AccountFormContainer 
-            loader={loader} 
             location={this.props.location}
             title='Create Account'
             text='Creating a NEAR account is easy. Just choose a username and you’re ready to go.'
@@ -60,6 +68,7 @@ class CreateAccount extends Component {
                location={this.props.location}
             >
                <CreateAccountForm
+                  loader={loader} 
                   requestStatus={requestStatus}
                   formLoader={formLoader}
                   handleRecaptcha={this.handleRecaptcha}
