@@ -41,9 +41,6 @@ const FooterGrid = styled(Grid)`
          .image {
             width: 140px;
             padding-left: 14px;
-
-            img {
-            }
          }
       }
 
@@ -88,14 +85,15 @@ const FooterGrid = styled(Grid)`
    }
 
    @media screen and (max-width: 767px) {
-      &&& {
+      &&&& {
          height: 180px;
 
          .near-logo {
-            .item {
-            }
             .content {
                text-align: center;
+            }
+            .image {
+               padding-left: 0px;
             }
          }
       }
