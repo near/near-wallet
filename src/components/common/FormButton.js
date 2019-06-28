@@ -9,17 +9,29 @@ import styled from 'styled-components'
 
 const CustomButton = styled(Button)`
    &&& {
-      width: 288px;
-      height: 60px;
-      border-radius: 30px;
-      
-      font-size: 18px;
       color: #fff;
       font-weight: 500;
       letter-spacing: 2px;
 
       margin: 24px 0 0 0;
       border: 2px solid;
+
+      width: 288px;
+      height: 60px;
+      border-radius: 30px;
+      
+      font-size: 18px;
+
+      &.small {
+         width: 110px;
+         height: 40px;
+         border-radius: 20px;
+         letter-spacing: 0;
+         padding: 0px 0px;
+         font-weight: 600;
+         
+         font-size: 14px;
+      }
 
       &.blue {
          border-color: #0072ce;
@@ -94,6 +106,24 @@ const CustomButton = styled(Button)`
             color: #fff;
             border-color: #cccccc;
             background: #cccccc;
+         }
+      }
+      &.gray-blue {
+         color: #0072ce;
+         border-color: #f8f8f8;
+         background: #f8f8f8;
+
+         :disabled {
+            border-color: #e6e6e6;
+            background: #e6e6e6;
+            opacity: 1 !important;
+         }
+         :active,
+         :hover,
+         :focus {
+            color: #0072ce;
+            border-color: #f8f8f8;
+            background: #fff;
          }
       }
       &.link {
@@ -187,10 +217,11 @@ const FormButton = ({
    disabled = false,
    onClick,
    sending = false,
+   size = ''
 }) => (
    <CustomButton
       type={type}
-      className={`${color} ${sending ? `dots` : ``}`}
+      className={`${color} ${size} ${sending ? `dots` : ``}`}
       disabled={disabled}
       onClick={onClick}
    >
@@ -208,6 +239,7 @@ FormButton.propTypes = {
    disabled: PropTypes.bool,
    onClick: PropTypes.func,
    sending: PropTypes.bool,
+   size: PropTypes.string,
 }
 
 export default FormButton

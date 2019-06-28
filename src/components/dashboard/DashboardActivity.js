@@ -2,9 +2,10 @@ import React from 'react'
 
 import { Link } from 'react-router-dom'
 
+import FormButton from '../common/FormButton'
 import ListItem from './ListItem'
 
-import { Loader, Grid, Dimmer, Button, Header, Image } from 'semantic-ui-react'
+import { Loader, Grid, Dimmer, Header, Image } from 'semantic-ui-react'
 
 import styled from 'styled-components'
 
@@ -70,9 +71,11 @@ const DashboardActivity = ({ loader, image, title, to, activity }) => (
 
       <Grid.Row>
          <Grid.Column textAlign='left' width={16}>
-            <Button as={Link} to={to} className='view-all'>
-               VIEW ALL
-            </Button>
+            <Link to={to}>
+               <FormButton color='gray-blue' size='small'>
+                  VIEW ALL
+               </FormButton>
+            </Link>
          </Grid.Column>
       </Grid.Row>
    </CustomGrid>
