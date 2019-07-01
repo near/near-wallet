@@ -13,6 +13,7 @@ const CustomContainer = styled(Container)`
       padding-right: 0px;
       padding-top: 48px;
       padding-bottom: 0px;
+      word-wrap: break-word;
 
       .column {
          padding: 0 14px 24px 0;
@@ -61,6 +62,10 @@ const CustomContainer = styled(Container)`
             display: none;
          }
       }
+      .near {
+         font-size: 38px;
+         color: #24272a;
+      }
    }
    @media screen and (max-width: 767px) {
       > .grid {
@@ -82,6 +87,16 @@ const CustomContainer = styled(Container)`
          }
       }
    }
+   @media screen and (max-width: 479px) {
+      h1 {
+         font-size: 30px !important;
+      }
+      .near {
+         font-size: 30px;
+         color: #24272a;
+      }
+   }
+   
 `
 
 const DashboardContainer = ({ children, amountStr }) => (
