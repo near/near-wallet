@@ -96,7 +96,7 @@ class AuthorizedApps extends Component {
       const { authorizedApps } = this.props
 
       return (
-         <AuthorizedAppsContainer loader={loader} total={authorizedApps.length}>
+         <AuthorizedAppsContainer loader={loader} total={authorizedApps && authorizedApps.length}>
             <PaginationBlock
                filterTypes={filterTypes}
                showSub={showSub}
@@ -106,7 +106,7 @@ class AuthorizedApps extends Component {
                subPage='authorized-apps'
                handleDeauthorize={this.handleDeauthorize}
             >
-               {authorizedApps.length 
+               {authorizedApps && (authorizedApps.length 
                   ? authorizedApps.map((row, i) => (
                      <ListItem
                         key={`a-${i}`}
@@ -117,8 +117,7 @@ class AuthorizedApps extends Component {
                         toggleShowSub={this.toggleShowSub}
                         showSubOpen={showSubOpen}
                      />
-                  )) : <AuthorizedAppsEmpty />
-               }
+                  )) : <AuthorizedAppsEmpty />)}
             </PaginationBlock>
          </AuthorizedAppsContainer>
       )
@@ -141,7 +140,7 @@ const mapStateToProps = ({ account }) => ({
            r.amount,
            r.publicKey
         ])
-      : []
+      : null
 })
 
 export const AuthorizedAppsWithRouter = connect(

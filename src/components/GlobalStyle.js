@@ -216,8 +216,6 @@ export default createGlobalStyle`
       }
       .list {
          > .item {
-            padding: 0px !important;
-
             > img {
                top: -4px;
                margin: 0 10px;

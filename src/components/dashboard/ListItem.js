@@ -117,6 +117,13 @@ const CustomGridRow = styled(Grid.Row)`
                font-size: 14px;
             }
          }
+
+         &.wide {
+
+            .col-image {
+               margin-left: 12px;
+            }
+         }
       }
    }
 `
