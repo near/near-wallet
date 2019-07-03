@@ -138,7 +138,7 @@ const ListItem = ({
 }) => (
    <CustomGridRow
       verticalAlign='middle'
-      className={`border-bottom-light ${wide ? `wide` : ``} ${
+      className={`${wide ? `wide` : ``} ${
          showSub && showSubOpen === i ? `dropdown-down` : ``
       } ${showSub ? `showsub` : ``}`}
       onClick={() => wide && toggleShowSub(i, row)}

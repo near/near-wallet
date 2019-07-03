@@ -12,11 +12,15 @@ const CustomContainer = styled(Container)`
          word-wrap: break-word;
          margin-bottom: 24px;
 
+         &.center {
+            border-bottom: 0;
+            margin-bottom: 0;
+         }
          h1 {
             line-height: 48px;
          }
          button {
-            margin-top: 0px;
+            margin-top: 12px;
          }
          .column {
             padding-left: 0;
@@ -26,13 +30,14 @@ const CustomContainer = styled(Container)`
             padding-right: 0;
          }
       }
-   }
-   @media screen and (max-width: 991px) {
-      &&& {
+      @media screen and (max-width: 991px) {
          .page-title {
-            padding: 36px 0 24px 0;
+            padding: 24px 0 12px 0;
             text-align: center;
 
+            button {
+               margin-bottom: 12px;
+            }
             .column {
                padding: 0 0 12px 0;
             }
@@ -41,29 +46,30 @@ const CustomContainer = styled(Container)`
             }
             .add {
                text-align: center;
+               padding-bottom: 0px;
 
                h1 {
                   font-size: 12px !important;
                   line-height: 18px !important;
                   letter-spacing: 2px;
                   text-transform: uppercase;
-                  padding-bottom: 18px;
+                  padding-bottom: 0px;
                }
             }
          }
       }
-   }
-   @media screen and (max-width: 767px) {
-      &&& {
+      @media screen and (max-width: 767px) {
          .title-section {
             margin-left: 0;
             margin-right: 0;
 
-            &&& .page-title {
+            .page-title {
                padding-top: 24px;
                text-align: center;
+               margin-bottom: 12px;
+
                .column {
-                  padding: 0 0 12px 0;
+                  padding: 0 0 0 0;
                }
                .balance {
                   display: none;
@@ -71,10 +77,10 @@ const CustomContainer = styled(Container)`
             }
          }
       }
-   }
-   @media screen and (max-width: 479px) {
-      h1 {
-         font-size: 30px !important;
+      @media screen and (max-width: 380px) {
+         h1 {
+            font-size: 36px !important;
+         }
       }
    }
 `
@@ -84,7 +90,7 @@ const PageContainer = ({ children, title, additional, bottom, type }) => (
       <Grid className='title-section'>
          {type === 'center'
             ? (
-               <Grid.Row columns='1' className='page-title'>
+               <Grid.Row columns='1' className='page-title center'>
                   <Grid.Column as='h1' textAlign='center'>
                      {title}
                   </Grid.Column>

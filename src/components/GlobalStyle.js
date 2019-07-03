@@ -299,7 +299,7 @@ export default createGlobalStyle`
          font-size: 38px !important;
          font-weight: 500;
          line-height: 50px;
-         color: #4a4f54;
+         color: #24272a;
       }
       h2, .h2 {
          font-size: 24px !important;

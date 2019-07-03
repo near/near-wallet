@@ -21,7 +21,6 @@ const CustomList = styled(List)`
       > .item {
          padding: 18px 20px;
       }
-
       .img {
          width: 20px;
          position: absolute;
@@ -33,7 +32,6 @@ const CustomList = styled(List)`
             cursor: pointer;
          }
       }
-
       .text {
          margin: 0 10% 0 0;
          color: #24272a;
@@ -61,7 +59,6 @@ const CustomList = styled(List)`
             padding-top: 10px;
          }
       }
-
       .remove-connection {
          > button {
             width: 100%;
@@ -128,29 +125,25 @@ const CustomList = styled(List)`
             }
          }
       }
-
       @media screen and (max-width: 991px) {
          .img {
             top: 6px;
             right: 6px;
          }
-
          .main-image {
             display: none;
          }
       }
-
       @media screen and (max-width: 767px) {
          border: 0px;
          position: absolute;
          min-height: 300px;
-         top: -172px;
+         top: -80px;
 
          .img {
             top: 0;
-            right: 10px;
+            right: 2px;
          }
-
          > .item {
             padding: 0px;
 
@@ -188,10 +181,6 @@ const CustomList = styled(List)`
             border-top: 4px solid #e6e6e6;
          }
       }
-      @media screen and (max-width: 379px) {
-         width: 104%;
-         left: -2%;
-      }
    }
 `
 
@@ -203,7 +192,6 @@ const PaginationShowSubBox = ({ toggleCloseSub, subPage, showSubData, handleDeau
             src={CloseImage}
          />
       </List.Item>
-
       <List.Item>
          {subPage === 'authorized-apps' && showSubData ? (
             <AuthorizedAppsDeauthorize 

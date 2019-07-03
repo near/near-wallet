@@ -15,7 +15,20 @@ import PaginationSortBy from './PaginationSortBy'
 import styled from 'styled-components'
 
 const PaginationBlockGrid = styled(Grid)`
-   min-height: 200px;
+   &&& {
+      border-bottom: 2px solid #e6e6e6;
+      padding-bottom: 1rem;
+
+      .list-item {
+         > .row {
+            border-top: 1px solid #e6e6e6;
+
+            :first-of-type {
+               border-top: 0;
+            }
+         }
+      }
+   }
 
    & > .row:first-child {
       ${'' /* min-height: 70px; */}
@@ -47,8 +60,14 @@ const PaginationBlockGrid = styled(Grid)`
       margin-top: -16px;
    }
 
+   @media screen and (max-width: 991px) {
+      
+   }
    @media screen and (max-width: 767px) {
       &&& {
+         padding-bottom: 0;
+         margin-top: 0px;
+         
          .mobile-hide {
             display: none;
          }
@@ -159,12 +178,11 @@ class PaginationBlock extends Component {
 
       return (
          <PaginationBlockGrid
-            className='border-top-bold border-bottom-bold'
             stackable
             columns={2}
          >
-            <Grid.Row className='border-bottom-light'>
-               {false && (
+            {false && (
+               <Grid.Row className='border-bottom-light'>
                   <Grid.Column
                      width={10}
                      verticalAlign='middle'
@@ -178,8 +196,6 @@ class PaginationBlock extends Component {
                         dropdown={dropdown}
                      />
                   </Grid.Column>
-               )}
-               {false && (
                   <Grid.Column
                      width={6}
                      textAlign='right'
@@ -193,14 +209,14 @@ class PaginationBlock extends Component {
                         search={search}
                      />
                   </Grid.Column>
-               )}
-            </Grid.Row>
+               </Grid.Row>
+            )}
             <Grid.Row>
                <Grid.Column
                   computer={showSub ? 10 : 16}
                   className={showSub ? `mobile-hide` : ``}
                >
-                  <Grid>{this.props.children}</Grid>
+                  <Grid className='list-item'>{this.props.children}</Grid>
                </Grid.Column>
 
                <Grid.Column
