@@ -13,9 +13,7 @@ const CustomList = styled(List)`
       padding: 24px;
       width: 360px;
       text-align: center;
-      margin-left: auto;
-      margin-right: auto;
-      margin-top: 36px;
+      margin: 24px auto 0 auto;
 
       .main-image {
          border: 0px;

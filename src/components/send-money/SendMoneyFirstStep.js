@@ -25,7 +25,8 @@ const CustomList = styled(List)`
       padding: 24px;
       width: 360px;
       text-align: center;
-      margin: 36px auto 0 auto;
+      margin: 24px auto 0 auto;
+
       form {
          h3 {
             margin-bottom: 13px;

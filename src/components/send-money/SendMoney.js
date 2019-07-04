@@ -7,7 +7,8 @@ import { Wallet } from '../../utils/wallet'
 
 import { handleRefreshAccount, handleRefreshUrl, checkAccountAvailable, clear } from '../../actions/account'
 
-import SendMoneyContainer from './SendMoneyContainer'
+import PageContainer from '../common/PageContainer';
+import FormButton from '../common/FormButton'
 import SendMoneyFirstStep from './SendMoneyFirstStep'
 import SendMoneySecondStep from './SendMoneySecondStep'
 import SendMoneyThirdStep from './SendMoneyThirdStep'
@@ -138,7 +139,19 @@ class SendMoney extends Component {
       const { formLoader, requestStatus } = this.props
 
       return (
-         <SendMoneyContainer loader={loader} step={step} handleCancelTransfer={this.handleCancelTransfer}>
+         <PageContainer
+            title={step === 3 ? `Success!` : `Send Money`}
+            bottom={step === 2 && (
+               <FormButton
+                  onClick={this.handleCancelTransfer}
+                  color='link gray bold'
+                  disabled={loader}
+               >
+                  Cancel Transfer
+               </FormButton>
+            )}
+            type='center'
+         >
             {step === 1 && (
                <SendMoneyFirstStep
                   handleNextStep={this.handleNextStep}
@@ -158,7 +171,7 @@ class SendMoney extends Component {
                />
             )}
             {step === 3 && <SendMoneyThirdStep {...this.state} />}
-         </SendMoneyContainer>
+         </PageContainer>
       )
    }
 }
