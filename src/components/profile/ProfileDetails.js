@@ -72,7 +72,7 @@ const CustomGrid = styled(Grid)`
 
 const ProfileDetails = ({ account }) => (
    <CustomGrid>
-      <Grid.Row className='border-top-bold'>
+      <Grid.Row>
          <Grid.Column
             computer='10'
             tablet='10'

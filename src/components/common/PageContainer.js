@@ -20,7 +20,7 @@ const CustomContainer = styled(Container)`
             line-height: 48px;
          }
          button {
-            margin-top: 12px;
+            margin-top: 0px;
          }
          .column {
             padding-left: 0;
@@ -37,6 +37,7 @@ const CustomContainer = styled(Container)`
 
             button {
                margin-bottom: 12px;
+               margin-top: 12px;
             }
             .column {
                padding: 0 0 12px 0;
