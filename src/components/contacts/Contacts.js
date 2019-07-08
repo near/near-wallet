@@ -8,7 +8,7 @@ import { handleRefreshAccount, handleRefreshUrl } from '../../actions/account'
 
 import PaginationBlock from '../pagination/PaginationBlock'
 import ListItem from '../dashboard/ListItem'
-import ContactsContainer from './ContactsContainer'
+import PageContainer from '../common/PageContainer';
 
 import AccountGreyImage from '../../images/icon-account-grey.svg'
 
@@ -32,6 +32,14 @@ class Contacts extends Component {
       this.setState(state => ({
          showSub: i === state.showSubOpen ? !state.showSub : state.showSub,
          showSubOpen: i
+      }))
+   }
+
+   toggleCloseSub = () => {
+      this.setState(() => ({
+         showSub: false,
+         showSubOpen: 0,
+         showSubData: []
       }))
    }
 
@@ -82,11 +90,15 @@ class Contacts extends Component {
       const { activity, filterTypes, showSub, showSubOpen } = this.state
 
       return (
-         <ContactsContainer>
+         <PageContainer
+            title='Contacts'
+            additional={<h1>203<span className='color-brown-grey'> total</span></h1>}
+         >
             <PaginationBlock
                filterTypes={filterTypes}
                showSub={showSub}
                toggleShowSub={this.toggleShowSub}
+               toggleCloseSub={this.toggleCloseSub}
             >
                {activity.map((row, i) => (
                   <ListItem
@@ -100,7 +112,7 @@ class Contacts extends Component {
                   />
                ))}
             </PaginationBlock>
-         </ContactsContainer>
+         </PageContainer>
       )
    }
 }

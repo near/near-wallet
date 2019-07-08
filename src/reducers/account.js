@@ -6,7 +6,11 @@ import {
    requestCode,
    setupAccountRecovery,
    recoverAccount,
-   getAccountDetails
+   getAccountDetails,
+   checkNewAccount,
+   createNewAccount,
+   checkAccountAvailable,
+   clear
 } from '../actions/account'
 import reduceReducers from 'reduce-reducers'
 
@@ -25,14 +29,15 @@ const loaderReducer = (state, { ready }) => {
 const requestResultReducer = handleActions({
    // TODO: Reset state before action somehow. On navigate / start of other action?
    // TODO: Make this generic to avoid listing actions
-   [combineActions(requestCode, setupAccountRecovery, recoverAccount)]: (state, { error, payload, meta }) => ({
+   [combineActions(requestCode, setupAccountRecovery, recoverAccount, checkNewAccount, createNewAccount, checkAccountAvailable)]: (state, { error, payload, meta }) => ({
       ...state,
       requestStatus: !!payload || error ? {
          success: !error,
          errorMessage: (error && payload && payload.toString()) || undefined,
          messageCode: error ? payload.messageCode || meta.errorCode : meta.successCode 
       } : undefined
-   })
+   }),
+   [clear]: state => Object.keys(state).reduce((obj, key) => key !== 'requestStatus' ? (obj[key] = state[key], obj) : obj, {})
 }, initialState)
 
 const reducer = handleActions({

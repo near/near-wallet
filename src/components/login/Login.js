@@ -11,6 +11,7 @@ import { handleRefreshAccount, handleRefreshUrl } from '../../actions/account'
 
 class Login extends Component {
    state = {
+      buttonLoader: false,
       dropdown: false
    }
 
@@ -35,7 +36,17 @@ class Login extends Component {
 
    handleAllow = e => {
       e.preventDefault()
-      this.wallet.addAccessKey(this.props.account.accountId, this.props.account.url.contract_id, this.props.account.url.public_key, this.props.account.url.success_url);
+
+      this.setState(() => ({
+         buttonLoader: true
+      }))
+
+      this.wallet.addAccessKey(this.props.account.accountId, this.props.account.url.contract_id, this.props.account.url.public_key, this.props.account.url.success_url)
+         .finally(() => {
+            this.setState(() => ({
+               buttonLoader: false
+            }))
+         })
    }
 
    handleSelectAccount = accountId => {

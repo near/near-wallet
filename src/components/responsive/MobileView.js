@@ -72,12 +72,11 @@ const CustomResponsive = styled(Responsive)`
                padding: 18px 6px;
                margin: 0 1rem;
                border-top: 1px solid #4a4f54;
+               color: #fff;
+               letter-spacing: 2px;
+               
                &.border {
                   border-bottom: 1px solid #4a4f54;
-               }
-               a {
-                  color: #fff;
-                  letter-spacing: 2px;
                }
                img {
                   margin-top: -4px;
@@ -93,10 +92,9 @@ const CustomResponsive = styled(Responsive)`
                   font-weight: 400;
                   font-size: 14px;
                   padding: 8px 9px;
-                  a {
-                     color: #8fd6bd;
-                     letter-spacing: 2px;
-                  }
+                  color: #8fd6bd;
+                  letter-spacing: 2px;
+                  
                   img {
                      margin-top: -2px;
                      width: 18px;
@@ -213,61 +211,55 @@ class MobileView extends Component {
                   className={`navbar-sub ${dropdown ? `hide` : ``}`}
                >
                   <Menu.Menu>
-                     <Menu.Item className='main'>
-                        <Link to='/' onClick={this.handleDropdown}>
+                     <Link to='/' onClick={this.handleDropdown}>
+                        <Menu.Item className='main'>
                            <Image src={RecentImage} />
                            SUMMARY
-                        </Link>
-                     </Menu.Item>
+                        </Menu.Item>
+                     </Link>
                      {false ? (
-                        <Menu.Item className='main'>
-                           <Link to='/activity' onClick={this.handleDropdown}>
+                        <Link to='/activity' onClick={this.handleDropdown}>
+                           <Menu.Item className='main'>
                               <Image src={ActivityImage} />
                               ACTIVITY
-                           </Link>
-                        </Menu.Item>
+                           </Menu.Item>
+                        </Link>
                      ) : null}
-                     <Menu.Item className='main border'>
-                        <Link to='/send-money' onClick={this.handleDropdown}>
+                     <Link to='/send-money' onClick={this.handleDropdown}>
+                        <Menu.Item className='main border'>
                            <Image src={SendImage} />
                            SEND MONEY
-                        </Link>
-                     </Menu.Item>
+                        </Menu.Item>
+                     </Link>
 
                      <Menu.Menu className='sub'>
-                        <Menu.Item>
-                           <Link to='/profile' onClick={this.handleDropdown}>
+                        <Link to='/profile' onClick={this.handleDropdown}>
+                           <Menu.Item>
                               <Image src={AccountGreyImage} />
                               Profile
-                           </Link>
-                        </Menu.Item>
+                           </Menu.Item>
+                        </Link>
                         {false ? (
-                           <Menu.Item>
-                              <Link
-                                 to='/contacts'
-                                 onClick={this.handleDropdown}
-                              >
+                           <Link to='/contacts' onClick={this.handleDropdown}>
+                              <Menu.Item>
                                  <Image src={ContactsGreyImage} />
                                  Contacts
-                              </Link>
-                           </Menu.Item>
+                              </Menu.Item>
+                           </Link>
                         ) : null}
-                        <Menu.Item>
-                           <Link
-                              to='/authorized-apps'
-                              onClick={this.handleDropdown}
-                           >
+                        <Link to='/authorized-apps' onClick={this.handleDropdown}>
+                           <Menu.Item>
                               <Image src={AuthorizedGreyImage} />
                               Authorized Apps
-                           </Link>
-                        </Menu.Item>
+                           </Menu.Item>
+                        </Link>
                         {false ? (
-                           <Menu.Item>
-                              <Link to='/' onClick={this.handleDropdown}>
+                           <Link to='/' onClick={this.handleDropdown}>
+                              <Menu.Item>
                                  <Image src={LogoutImage} />
                                  Logout
-                              </Link>
-                           </Menu.Item>
+                              </Menu.Item>
+                           </Link>
                         ) : null}
                      </Menu.Menu>
                      <Segment basic className='switch-account'>

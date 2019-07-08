@@ -1,5 +1,6 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
+import { Link } from 'react-router-dom'
 
 import { withRouter } from 'react-router-dom'
 
@@ -11,9 +12,10 @@ import {
    getAccountDetails
 } from '../../actions/account'
 
-import DashboardContainer from './DashboardContainer'
 import DashboardSection from './DashboardSection'
 import DashboardActivity from './DashboardActivity'
+import PageContainer from '../common/PageContainer';
+import FormButton from '../common/FormButton'
 
 import activityGreyImage from '../../images/icon-activity-grey.svg'
 import AccountGreyImage from '../../images/icon-account-grey.svg'
@@ -115,14 +117,28 @@ class DashboardDetail extends Component {
          loader,
          notice,
          activity,
-
          newcontacts
       } = this.state
 
-      const { authorizedApps } = this.props
+      const { authorizedApps, amountStr } = this.props
 
       return (
-         <DashboardContainer amount={this.props.amount}>
+         <PageContainer
+            title={(
+               <Fragment>
+                  <span className='balance'>Balance: </span>
+                  <span className='color-black'>{amountStr}</span>
+                  <span className='near'>Ⓝ</span>
+               </Fragment>
+            )}
+            additional={(
+               <Link to='/send-money'>
+                  <FormButton color='green-white-arrow' >
+                     SEND MONEY
+                  </FormButton>
+               </Link>
+            )}
+         >
             <DashboardActivity
                loader={loader}
                image={AuthorizedGreyImage}
@@ -158,7 +174,7 @@ class DashboardDetail extends Component {
                   />
                </DashboardSection>
             ) : null}
-         </DashboardContainer>
+         </PageContainer>
       )
    }
 }

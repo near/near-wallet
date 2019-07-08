@@ -2,87 +2,114 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { isValidPhoneNumber } from 'react-phone-number-input'
 
-import { Wallet } from '../../utils/wallet'
+import { requestCode, recoverAccount, redirectToApp, checkAccountAvailable, clear } from '../../actions/account'
 
-import AccountFormSection from './AccountFormSection'
 import RecoverAccountForm from './RecoverAccountForm'
-import RecoverAccountContainer from './RecoverAccountContainer'
-import { requestCode, recoverAccount, redirectToApp } from '../../actions/account';
+import AccountFormSection from './AccountFormSection'
+import AccountFormContainer from './AccountFormContainer'
 
 class RecoverAccount extends Component {
    state = {
       loader: false,
+      accountId: '',
       phoneNumber: '',
       isLegit: false,
    }
 
-   componentDidMount = () => {
-      this.wallet = new Wallet()
+   componentDidMount = () => {}
+
+   componentWillUnmount = () => {
+      this.props.clear()
    }
 
    handleChange = (e, { name, value }) => {
-      this.setState(() => ({
+      this.setState((state) => ({
          [name]: value,
-         isLegit: this.isLegitField(name, value)
+         isLegit: name === 'accountId' ? state.isLegit : this.isLegitField(name, value)
       }))
    }
 
    isLegitField(name, value) {
       // TODO: Use some validation framework?
       let validators = {
-         accountId: value => this.wallet.isLegitAccountId(value),
          phoneNumber: isValidPhoneNumber,
          securityCode: value => !!value.trim().match(/^\d{6}$/)
       }
       return validators[name](value);
    }
 
+   isLegitForm = () => this.props.requestStatus && this.props.requestStatus.success && this.state.isLegit
+
    handleSubmit = e => {
       e.preventDefault()
 
-      if (!this.state.isLegit) {
+      if (!this.isLegitForm()) {
          return false
       }
+      
+      this.setState(() => ({
+         loader: true
+      }))
 
-      const { dispatch } = this.props;
-      const accountId = this.state.accountId || this.props.accountId;
+      const accountId = this.state.accountId // || this.props.accountId;
       if (!this.props.sentSms) {
-         dispatch(requestCode(this.state.phoneNumber, accountId))
+         this.props.requestCode(this.state.phoneNumber, accountId)
+            .finally(() => {
+               this.setState(() => ({
+                  loader: false
+               }))
+            })
       } else {
-         dispatch(recoverAccount(this.state.phoneNumber, accountId, this.state.securityCode))
+         this.props.recoverAccount(this.state.phoneNumber, accountId, this.state.securityCode)
             .then(({ error }) => {
                if (error) return;
-               dispatch(redirectToApp())
+               this.props.redirectToApp()
+            })
+            .finally(() => {
+               this.setState(() => ({
+                  loader: false
+               }))
             })
       }
    }
 
    render() {
-      const { loader } = this.state
       const combinedState = {
          ...this.props,
          ...this.state,
          isLegit: this.state.isLegit && !this.props.formLoader
       }
+
       return (
-         <RecoverAccountContainer loader={loader} location={this.props.location}>
-            <AccountFormSection {...combinedState}>
+         <AccountFormContainer 
+            title='Find your Account'
+            text='Enter your information associated with the account and we will send a recovery code.'
+         >
+            <AccountFormSection requestStatus={this.props.requestStatus} handleSubmit={this.handleSubmit.bind(this)}>
                <RecoverAccountForm
                   {...combinedState}
-                  handleSubmit={this.handleSubmit.bind(this)}
                   handleChange={this.handleChange}
+                  isLegitForm={this.isLegitForm}
                />
             </AccountFormSection>
-         </RecoverAccountContainer>
+         </AccountFormContainer>
       )
    }
 }
 
-const mapStateToProps = ({ account }, { match }) => {
-   return {
-      ...account,
-      accountId: match.params.accountId
-   }
+const mapDispatchToProps = {
+   requestCode, 
+   recoverAccount, 
+   redirectToApp,
+   checkAccountAvailable,
+   clear
 }
 
-export const RecoverAccountWithRouter = connect(mapStateToProps)(RecoverAccount)
+const mapStateToProps = ({ account }, { match }) => ({
+   ...account,
+})
+
+export const RecoverAccountWithRouter = connect(
+   mapStateToProps, 
+   mapDispatchToProps
+)(RecoverAccount)

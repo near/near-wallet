@@ -2,7 +2,9 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
-import { Grid, Segment, List, Form, Button } from 'semantic-ui-react'
+import { Grid, Segment, List, Form } from 'semantic-ui-react'
+
+import FormButton from '../common/FormButton'
 
 import AddBlueImage from '../../images/icon-add-blue.svg'
 import ArrowDownImage from '../../images/icon-arrow-down.svg'
@@ -12,56 +14,13 @@ import AccountGreyImage from '../../images/icon-account-grey.svg'
 import styled from 'styled-components'
 
 const CustomGrid = styled(Grid)`
-   && button {
+   &&& button {
       width: 190px;
-      height: 60px;
-      border-radius: 30px;
-      border: 4px solid #0072ce;
+      margin-top: 0px;
+      float: right;
 
-      background: #0072ce;
-      margin: 0 0 0 0;
-
-      font-size: 18px;
-      color: #fff;
-      letter-spacing: 2px;
-
-      :hover {
-         background: #fff;
-         color: #0072ce;
-      }
-      :disabled {
-         border: 4px solid #e6e6e6;
-         background: #e6e6e6;
-      }
-      :active,
-      :focus {
-         background: #fff;
-         color: #0072ce;
-      }
-   }
-
-   && .deny {
-      width: 190px;
-      height: 60px;
-      border-radius: 30px;
-      border: 4px solid #e6e6e6;
-
-      background: transparent;
-
-      font-size: 18px;
-      color: #999;
-      letter-spacing: 2px;
-
-      margin: 0 0 0 0;
-
-      :hover {
-         border: 4px solid #0072ce;
-         color: #0072ce;
-      }
-      :active,
-      :focus {
-         border: 4px solid #0072ce;
-         color: #0072ce;
+      :first-of-type {
+         float: left;
       }
    }
 
@@ -160,7 +119,7 @@ const CustomGrid = styled(Grid)`
    }
 
    @media screen and (max-width: 767px) {
-      && {
+      &&& {
          button,
          .deny {
             width: 140px;
@@ -184,7 +143,8 @@ const LoginForm = ({
    handleDeny,
    handleAllow,
    handleSelectAccount,
-   redirectCreateAccount
+   redirectCreateAccount,
+   buttonLoader
 }) => (
    <CustomGrid>
       <Grid.Row className='dropdown'>
@@ -237,12 +197,21 @@ const LoginForm = ({
                   name='accountId'
                   value={account.accountId}
                />
-               <Button className='deny' onClick={handleDeny}>
+
+               <FormButton
+                  color='gray-white'
+                  onClick={handleDeny}
+               >
                   DENY
-               </Button>
-               <Button floated='right' onClick={handleAllow}>
+               </FormButton>
+
+               <FormButton
+                  color='blue'
+                  onClick={handleAllow}
+                  sending={buttonLoader}
+               >
                   ALLOW
-               </Button>
+               </FormButton>
             </Form>
          </Grid.Column>
          <Grid.Column largeScreen={5} computer={4} tablet={3} mobile={16} />

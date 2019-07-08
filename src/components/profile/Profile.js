@@ -7,7 +7,7 @@ import { Wallet } from '../../utils/wallet'
 
 import { handleRefreshAccount, handleRefreshUrl } from '../../actions/account'
 
-import ProfileContainer from './ProfileContainer'
+import PageContainer from '../common/PageContainer';
 import ProfileDetails from './ProfileDetails'
 import ProfileSection from './ProfileSection'
 import ProfileYourKeys from './ProfileYourKeys'
@@ -35,8 +35,12 @@ class Profile extends Component {
    }
 
    render() {
+      const { account } = this.props
+
       return (
-         <ProfileContainer account={this.props.account}>
+         <PageContainer
+            title={`Account: @${account.accountId ? account.accountId : ``}`}
+         >
             <ProfileSection>
                <ProfileDetails account={this.props.account} />
                { false ?
@@ -46,7 +50,7 @@ class Profile extends Component {
                <ProfileNotice />
                : null }
             </ProfileSection>
-         </ProfileContainer>
+         </PageContainer>
       )
    }
 }
