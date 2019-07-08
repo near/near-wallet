@@ -46,19 +46,6 @@ const CustomList = styled(List)`
             line-height: 20px;
          }
       }
-      .main-image {
-         border: 0px;
-         padding: 0 10px;
-         width: 48px;
-         height: 48px;
-         background: #e6e6e6;
-         border-radius: 32px;
-         margin: 0 0 0 0;
-
-         img {
-            padding-top: 10px;
-         }
-      }
       .remove-connection {
          > button {
             width: 100%;
@@ -67,6 +54,7 @@ const CustomList = styled(List)`
             border-radius: 25px;
             color: #fff;
             font-weight: 600;
+            margin-top: 12px;
 
             :hover {
                background: #fff;
@@ -130,8 +118,18 @@ const CustomList = styled(List)`
             top: 6px;
             right: 6px;
          }
-         .main-image {
-            display: none;
+         .title {
+            .item {
+               margin-left: 0;
+               text-align: center;
+            }
+         }
+         .image {
+            width: 100%;
+
+            > div {
+               margin: 0 auto;
+            }
          }
       }
       @media screen and (max-width: 767px) {
@@ -163,15 +161,8 @@ const CustomList = styled(List)`
                   margin-left: 0;
                }
                .image {
-                  .main-image {
+                  > div {
                      margin: 0 auto;
-                     width: 72px;
-                     height: 72px;
-
-                     > img {
-                        width: 72px;
-                        height: 72px;
-                     }
                   }
                }
             }

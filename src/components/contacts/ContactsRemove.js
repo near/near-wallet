@@ -1,21 +1,21 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-import { List, Image, Button } from 'semantic-ui-react'
+import MainImage from '../common/MainImage'
+
+import { List, Button } from 'semantic-ui-react'
 
 import AccountGreyImage from '../../images/icon-account-grey.svg'
 
 const ContactsRemove = () => (
    <List>
       <List.Item>
-         <List horizontal>
+         <List horizontal className='title'>
             <List.Item>
-               <div className='main-image'>
-                  <Image
-                     src={AccountGreyImage}
-                     align='left'
-                  />
-               </div>
+               <MainImage 
+                  src={AccountGreyImage} 
+                  size='medium'
+               />
             </List.Item>
             <List.Item>
                <List.Header as='h2'>

@@ -1,27 +1,23 @@
 import React from 'react'
 
-import { List, Image, Button } from 'semantic-ui-react'
+import MainImage from '../common/MainImage'
+
+import { List, Button } from 'semantic-ui-react'
 
 const AuthorizedAppsDeauthorize = ({ showSubData, handleDeauthorize }) => (
    <List>
       <List.Item>
          <List horizontal className='title'>
             <List.Item className='image'>
-               <div
-                  className='main-image'
-                  style={{ backgroundColor: '#fff' }}
-               >
-                  <Image
-                     src={showSubData[0]}
-                     align='left'
-                  />
-               </div>
+               <MainImage 
+                  src={showSubData[0]} 
+                  size='big'
+               />
             </List.Item>
             <List.Item>
                <List.Header as='h2'>
                   {showSubData[1]}
                </List.Header>
-
                <List.Item as='h5' className='color-blue'>
                   <span className='color-black'>
                      amount:

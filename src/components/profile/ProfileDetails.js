@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom'
 
 import { Popup, Grid, Image } from 'semantic-ui-react'
 
+import MainImage from '../common/MainImage'
+
 import AccountGreyImage from '../../images/icon-account-grey.svg'
 import LockImage from '../../images/icon-lock.svg'
 
@@ -21,20 +23,6 @@ const CustomGrid = styled(Grid)`
          .title {
             font-weight: 600;
             color: #24272a;
-         }
-      }
-
-      .main-image {
-         border: 0px;
-         padding: 0 10px;
-         width: 120px;
-         height: 120px;
-         background: #e6e6e6;
-         border-radius: 60px;
-
-         img {
-            width: 100px;
-            padding-top: 10px;
          }
       }
 
@@ -148,9 +136,10 @@ const ProfileDetails = ({ account }) => (
             Photo
          </Grid.Column>
          <Grid.Column computer='7' tablet='7' mobile='9'>
-            <div className='main-image'>
-               <Image src={AccountGreyImage} align='left' />
-            </div>
+            <MainImage 
+               src={AccountGreyImage} 
+               size='huge'
+            />
          </Grid.Column>
          <Grid.Column computer='4' tablet='4' textAlign='center' only='tablet'>
             Public

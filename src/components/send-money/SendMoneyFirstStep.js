@@ -4,13 +4,13 @@ import {
    Header,
    TextArea,
    List,
-   Image,
    Form,
    Dimmer,
    Loader,
    Responsive
 } from 'semantic-ui-react'
 
+import MainImage from '../common/MainImage'
 import FormButton from '../common/FormButton'
 import RequestStatusBox from '../common/RequestStatusBox'
 import AccountFormAccountId from '../accounts/AccountFormAccountId'
@@ -38,22 +38,14 @@ const CustomList = styled(List)`
             line-height: 34px;
             font-size: 14px;
          }
-         .main-image {
-            border: 0px;
-            padding: 0 10px;
-            width: 48px;
-            height: 48px;
-            background: #e6e6e6;
-            border-radius: 32px;
-            margin: 0 auto;
-            img {
-               padding-top: 10px;
-            }
+         .main-image > div {
+            margin-left: auto;
+            margin-right: auto;
          }
          .amount {
-            margin-top: 16px;
+            margin-top: 12px;
             margin-bottom: 0px;
-            padding-top: 24px;
+            padding-top: 36px;
          }
          .add-note {
             > textarea {
@@ -119,10 +111,11 @@ const SendMoneyFirstStep = ({
 
          {paramAccountId ? (
             <List.Item>
-               <List.Content>
-                  <div className='main-image'>
-                     <Image src={AccountGreyImage} align='left' />
-                  </div>
+               <List.Content className='main-image'>
+                  <MainImage 
+                     src={AccountGreyImage} 
+                     size='medium'
+                  />
                </List.Content>
                <List.Content as='h2'>{accountId}</List.Content>
                <List.Content>@{accountId}</List.Content>

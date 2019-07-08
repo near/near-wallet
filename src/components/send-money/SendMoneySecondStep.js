@@ -1,7 +1,8 @@
 import React from 'react'
 
-import { List, Image, Header } from 'semantic-ui-react'
+import { List, Header } from 'semantic-ui-react'
 
+import MainImage from '../common/MainImage'
 import FormButton from '../common/FormButton'
 
 import AccountGreyImage from '../../images/icon-account-grey.svg'
@@ -15,24 +16,15 @@ const CustomList = styled(List)`
       text-align: center;
       margin: 24px auto 0 auto;
 
-      .main-image {
-         border: 0px;
-         padding: 0 10px;
-         width: 48px;
-         height: 48px;
-         background: #e6e6e6;
-         border-radius: 32px;
-         margin: 0 auto;
-
-         img {
-            padding-top: 10px;
-         }
+      
+      .main-image > div {
+         margin-left: auto;
+         margin-right: auto;
       }
-
       .amount {
          margin-top: 0;
          margin-bottom: 0px;
-         padding-top: 12px;
+         padding-top: 0px;
          padding-bottom: 24px;
 
          font-family: Bw Seido Round;
@@ -64,7 +56,7 @@ const CustomList = styled(List)`
 
       .goback {
          font-weight: 600;
-         margin-top: 24px;
+         margin-top: 12px;
          padding-top: 24px;
 
          button.link {
@@ -86,7 +78,7 @@ const CustomList = styled(List)`
       }
 
       .send-money {
-         padding-top: 24px;
+         padding-top: 0px;
          padding-bottom: 0px;
          margin-top: 24px;
          margin-bottom: 12px;
@@ -143,10 +135,11 @@ const SendMoneySecondStep = ({
       <List.Item className='to'>
          <Header as='h2'>to</Header>
       </List.Item>
-      <List.Item>
-         <div className='main-image'>
-            <Image src={AccountGreyImage} align='left' />
-         </div>
+      <List.Item className='main-image'>
+         <MainImage
+            src={AccountGreyImage} 
+            size='medium'
+         />
       </List.Item>
       <List.Item as='h2'>{accountId}</List.Item>
       <List.Item>@{accountId}</List.Item>

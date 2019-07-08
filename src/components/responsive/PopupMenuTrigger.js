@@ -2,6 +2,8 @@ import React from 'react'
 
 import { Image, Loader } from 'semantic-ui-react'
 
+import MainImage from '../common/MainImage'
+
 import AccountGreyImage from '../../images/icon-account-grey.svg'
 import MobileMenuImage from '../../images/icon-mobile-menu.svg'
 import CloseImage from '../../images/icon-close.svg'
@@ -17,18 +19,14 @@ const CustomDiv = styled('div')`
    font-weight: 600;
    > div {
       .account-img {
-         width: 36px;
-         height: 36px;
-         background: #4a4f54;
-         padding-right: 0px;
          padding-left: 6px;
-         border-radius: 18px;
-         margin-top: 16px;
+         float: left;
+         
+         margin-top: 18px;
          margin-right: 10px;
-         > img {
-            width: 24px;
-            height: 24px;
-            margin-top: 5px;
+
+         > div {
+            background: #4a4f54 !important;
          }
       }
       .overflow {
@@ -108,8 +106,11 @@ const PopupMenuTrigger = ({ account, handleClick, type, dropdown = false }) => (
    <CustomDiv onClick={handleClick}>
       <div>
          {type === 'desktop' && (
-            <div className='account-img' style={{ float: 'left' }}>
-               <Image src={AccountGreyImage} />
+            <div className='account-img'>
+               <MainImage
+                  src={AccountGreyImage} 
+                  size='small'
+               />
             </div>
          )}
          <div className={`account-arrow ${type}`}>
