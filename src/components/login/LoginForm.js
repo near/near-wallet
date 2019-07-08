@@ -194,11 +194,6 @@ const LoginForm = ({
             <Form action={account.url.success_url}>
                <input
                   type='hidden'
-                  name='authToken'
-                  value={account.authToken}
-               />
-               <input
-                  type='hidden'
                   name='accountId'
                   value={account.accountId}
                />
