@@ -132,8 +132,8 @@
       "node"
     ],
     "watchPlugins": [
-      "/Users/vg/Documents/near-wallet/node_modules/jest-watch-typeahead/filename.js",
-      "/Users/vg/Documents/near-wallet/node_modules/jest-watch-typeahead/testname.js"
+      "./node_modules/jest-watch-typeahead/filename.js",
+      "./node_modules/jest-watch-typeahead/testname.js"
     ]
   },
   "babel": {
