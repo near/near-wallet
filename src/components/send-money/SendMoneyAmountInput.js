@@ -64,7 +64,7 @@ class SendMoneyAmountInput extends Component {
    handleChangeAmount = (e, { name, value }) => {
       const amountStatus = !Number.isInteger(Number(value))
          ? 'Please enter a whole number.'
-         : value > this.props.amount 
+         : value > Number(this.props.amount)
             ? 'Not enough tokens.' 
             : ''
 
@@ -105,7 +105,7 @@ class SendMoneyAmountInput extends Component {
 
 SendMoneyAmountInput.propTypes = {
    handleChange: PropTypes.func.isRequired,
-   amount: PropTypes.number
+   amount: PropTypes.string
 }
 
 const mapDispatchToProps = {}

@@ -26,7 +26,7 @@ export function handleRefreshAccount(wallet, history) {
                data: {
                   accountId: accountId,
                   amount: v['amount'] || 0,
-                  amountStr: v['amount'].toLocaleString('en', {useGrouping:true}) || 0,
+                  amountStr: Number(v['amount']).toLocaleString('en', {useGrouping:true}) || '0',
                   stake: v['stake'],
                   nonce: v['nonce'],
                   code_hash: v['code_hash'],

@@ -59,7 +59,7 @@ const CustomDiv = styled('div')`
          border-radius: 14px;
          padding: 0 10px;
          letter-spacing: normal;
-         max-width: 140px;
+         max-width: 170px;
          :hover {
             color: #fff;
          }
