@@ -49,11 +49,11 @@ class Login extends Component {
 
    render() {
       const { account } = this.props
-
       return (
          <LoginContainer
             loader={account.loader}
             appTitle={account.url && account.url.app_title}
+            contractId={account.url && account.url.contract_id}
          >
             {account.accountId && (
                <LoginForm

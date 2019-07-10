@@ -151,11 +151,13 @@ export class Wallet {
          '', // fundingOwner
          0 // fundingAmount
       )
-      const parsedUrl = new URL(successUrl)
-      parsedUrl.searchParams.set('account_id', accountId)
-      parsedUrl.searchParams.set('public_key', publicKey)
-      const redirectUrl = parsedUrl.href
-      window.location.href = redirectUrl
+      if (successUrl) {
+         const parsedUrl = new URL(successUrl)
+         parsedUrl.searchParams.set('account_id', accountId)
+         parsedUrl.searchParams.set('public_key', publicKey)
+         const redirectUrl = parsedUrl.href
+         window.location.href = redirectUrl
+      }
    }
 
    clearState() {
