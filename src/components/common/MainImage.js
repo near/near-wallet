@@ -19,7 +19,7 @@ const CustomDiv = styled(`div`)`
          height: 26px;
 
          img {
-            width: 20px;
+            width: 16px;
          }
       }
       &.small {
