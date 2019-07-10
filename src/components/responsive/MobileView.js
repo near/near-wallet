@@ -27,7 +27,7 @@ import AccountGreyImage from '../../images/icon-account.svg'
 import RecentImage from '../../images/icon-recent.svg'
 import ActivityImage from '../../images/icon-activity.svg'
 
-import { handleRefreshAccount } from '../../actions/account'
+import { handleRefreshAccount, switchAccount } from '../../actions/account'
 
 import styled from 'styled-components'
 
@@ -164,10 +164,10 @@ class MobileView extends Component {
       }))
 
    handleSelectAccount = accountId => {
-      this.wallet = new Wallet()
-      this.wallet.selectAccount(accountId)
-      this.props.handleRefreshAccount(this.wallet, this.props.history)
+      this.props.switchAccount(accountId)
+      this.props.handleRefreshAccount(this.props.history)
       this.handleDropdown()
+      this.props.history.push(`/`)
    }
 
    redirectCreateAccount = () => {
@@ -295,7 +295,8 @@ class MobileView extends Component {
 }
 
 const mapDispatchToProps = {
-   handleRefreshAccount
+   handleRefreshAccount,
+   switchAccount
 }
 
 const mapStateToProps = ({ account }) => ({

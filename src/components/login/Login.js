@@ -7,7 +7,7 @@ import { Wallet } from '../../utils/wallet'
 
 import LoginContainer from './LoginContainer'
 import LoginForm from './LoginForm'
-import { handleRefreshAccount, handleRefreshUrl } from '../../actions/account'
+import { handleRefreshAccount, handleRefreshUrl, switchAccount } from '../../actions/account'
 
 class Login extends Component {
    state = {
@@ -18,7 +18,7 @@ class Login extends Component {
    componentDidMount = () => {
       this.wallet = new Wallet()
       this.props.handleRefreshUrl(this.props.location)
-      this.props.handleRefreshAccount(this.wallet, this.props.history)
+      this.props.handleRefreshAccount(this.props.history)
    }
 
    handleOnClick = () => {
@@ -50,8 +50,8 @@ class Login extends Component {
    }
 
    handleSelectAccount = accountId => {
-      this.wallet.selectAccount(accountId)
-      this.props.handleRefreshAccount(this.wallet, this.props.history)
+      this.props.switchAccount(accountId)
+      this.props.handleRefreshAccount(this.props.history)
    }
 
    redirectCreateAccount = () => {
@@ -83,7 +83,8 @@ class Login extends Component {
 
 const mapDispatchToProps = {
    handleRefreshAccount,
-   handleRefreshUrl
+   handleRefreshUrl,
+   switchAccount
 }
 
 const mapStateToProps = ({ account }) => ({

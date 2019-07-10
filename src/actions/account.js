@@ -6,7 +6,7 @@ export const REFRESH_ACCOUNT = 'REFRESH_ACCOUNT'
 export const LOADER_ACCOUNT = 'LOADER_ACCOUNT'
 export const REFRESH_URL = 'REFRESH_URL'
 
-export function handleRefreshAccount(wallet, history) {
+export function handleRefreshAccount(history) {
    return (dispatch, getState) => {
       wallet.redirectIfEmpty(history)
       const accountId = wallet.getAccountId()
@@ -111,4 +111,8 @@ export const { requestCode, setupAccountRecovery, recoverAccount, getAccountDeta
       () => ({ successCode: 'User found.', errorCode: 'User not found.' })
    ],
    CLEAR: null,
+})
+
+export const { switchAccount } = createActions({
+   SWITCH_ACCOUNT: wallet.selectAccount.bind(wallet)
 })

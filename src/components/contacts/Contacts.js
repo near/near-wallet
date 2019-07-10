@@ -3,7 +3,6 @@ import { connect } from 'react-redux'
 
 import { withRouter } from 'react-router-dom'
 
-import { Wallet } from '../../utils/wallet'
 import { handleRefreshAccount, handleRefreshUrl } from '../../actions/account'
 
 import PaginationBlock from '../pagination/PaginationBlock'
@@ -44,9 +43,8 @@ class Contacts extends Component {
    }
 
    componentDidMount() {
-      this.wallet = new Wallet()
       this.props.handleRefreshUrl(this.props.location)
-      this.props.handleRefreshAccount(this.wallet, this.props.history)
+      this.props.handleRefreshAccount(this.props.history)
 
       this.setState(() => ({
          loader: true

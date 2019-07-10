@@ -28,7 +28,7 @@ class SendMoney extends Component {
    componentDidMount() {
       this.wallet = new Wallet()
       this.props.handleRefreshUrl(this.props.location)
-      this.props.handleRefreshAccount(this.wallet, this.props.history)
+      this.props.handleRefreshAccount(this.props.history)
 
       const paramId = this.props.match.params.id
 
@@ -92,7 +92,7 @@ class SendMoney extends Component {
 
          this.wallet.sendMoney(accountId, amount)
             .then(() => {
-               this.props.handleRefreshAccount(this.wallet, this.props.history)
+               this.props.handleRefreshAccount(this.props.history)
 
                this.setState(state => ({
                   step: state.step + 1

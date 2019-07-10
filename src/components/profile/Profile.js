@@ -3,8 +3,6 @@ import { connect } from 'react-redux'
 
 import { withRouter } from 'react-router-dom'
 
-import { Wallet } from '../../utils/wallet'
-
 import { handleRefreshAccount, handleRefreshUrl } from '../../actions/account'
 
 import PageContainer from '../common/PageContainer';
@@ -19,19 +17,8 @@ class Profile extends Component {
    }
 
    componentDidMount() {
-      this.wallet = new Wallet()
       this.props.handleRefreshUrl(this.props.location)
-      this.props.handleRefreshAccount(this.wallet, this.props.history)
-
-      this.setState(() => ({
-         loader: true
-      }))
-
-      setTimeout(() => {
-         this.setState(_ => ({
-            loader: false
-         }))
-      }, 1000)
+      this.props.handleRefreshAccount(this.props.history)
    }
 
    render() {
