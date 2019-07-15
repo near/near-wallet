@@ -10,7 +10,9 @@ import {
    checkNewAccount,
    createNewAccount,
    checkAccountAvailable,
-   clear
+   clear,
+   addAccessKey,
+   clearAlert
 } from '../actions/account'
 import reduceReducers from 'reduce-reducers'
 
@@ -25,6 +27,21 @@ const loaderReducer = (state, { ready }) => {
    }
    return { ...state, formLoader: !ready }
 }
+
+const globalAlertReducer = handleActions({
+   // TODO: Reset state before action somehow. On navigate / start of other action?
+   // TODO: Make this generic to avoid listing actions
+   [combineActions(addAccessKey)]: (state, { error, payload, meta }) => ({
+      ...state,
+      globalAlert: !!payload || error ? {
+         success: !error,
+         errorMessage: (error && payload && payload.toString()) || undefined,
+         messageCodeHeader: error ? payload.messageCode || meta.errorCodeHeader : meta.successCodeHeader,
+         messageCodeDescription: error ? payload.messageCode || meta.errorCodeDescription : meta.successCodeDescription,
+      } : undefined
+   }),
+   [clearAlert]: state => Object.keys(state).reduce((obj, key) => key !== 'globalAlert' ? (obj[key] = state[key], obj) : obj, {})
+}, initialState)
 
 const requestResultReducer = handleActions({
    // TODO: Reset state before action somehow. On navigate / start of other action?
@@ -84,6 +101,7 @@ function account(state = {}, action) {
 export default reduceReducers(
    initialState,
    loaderReducer,
+   globalAlertReducer,
    requestResultReducer,
    reducer,
    authorizedApps,

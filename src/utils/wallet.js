@@ -149,19 +149,14 @@ export class Wallet {
       this.save()
    }
 
-   async addAccessKey(accountId, contractId, publicKey, successUrl) {
-      await this.getAccount(this.accountId).addKey(
+   async addAccessKey(accountId, contractId, publicKey, successUrl, app_title) {
+      return await this.getAccount(this.accountId).addKey(
          publicKey,
          contractId,
          '', // methodName
          '', // fundingOwner
          0 // fundingAmount
       )
-      const parsedUrl = new URL(successUrl)
-      parsedUrl.searchParams.set('account_id', accountId)
-      parsedUrl.searchParams.set('public_key', publicKey)
-      const redirectUrl = parsedUrl.href
-      window.location.href = redirectUrl
    }
 
    clearState() {

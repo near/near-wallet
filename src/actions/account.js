@@ -59,15 +59,27 @@ export function handleRefreshAccount(history) {
 
 export function handleRefreshUrl(location) {
    return dispatch => {
+      const { title, app_url, contract_id, success_url, failure_url, public_key  } = parse(location.search)
+      
+      if (!success_url) {
+         return
+      }
+      
+      const parsedUrl = new URL(success_url)
+      parsedUrl.searchParams.set('account_id', wallet.getAccountId())
+      parsedUrl.searchParams.set('public_key', public_key)
+      const redirect_url = parsedUrl.href
+
       dispatch({
          type: REFRESH_URL,
          url: {
-            app_title: parse(location.search).title || '',
-            app_url: parse(location.search).app_url || '',
-            contract_id: parse(location.search).contract_id || '',
-            success_url: parse(location.search).success_url || '',
-            failure_url: parse(location.search).failure_url || '',
-            public_key: parse(location.search).public_key || ''
+            app_title: title || '',
+            app_url: app_url || '',
+            contract_id: contract_id || '',
+            success_url: success_url || '',
+            failure_url: failure_url || '',
+            public_key: public_key || '',
+            redirect_url: redirect_url || ''
          }
       })
    }
@@ -111,6 +123,19 @@ export const { requestCode, setupAccountRecovery, recoverAccount, getAccountDeta
       () => ({ successCode: 'User found.', errorCode: 'User not found.' })
    ],
    CLEAR: null,
+})
+
+export const { addAccessKey, clearAlert } = createActions({
+   ADD_ACCESS_KEY: [
+      wallet.addAccessKey.bind(wallet),
+      (accountId, contractId, publicKey, successUrl, app_title) => ({
+         successCodeHeader: 'Success',
+         successCodeDescription: app_title + ' is now authorized to use your account.',
+         errorCodeHeader: 'Error',
+         errorCodeDescription: '' 
+      })
+   ],
+   CLEAR_ALERT: null,
 })
 
 export const { switchAccount } = createActions({
