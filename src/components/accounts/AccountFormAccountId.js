@@ -97,6 +97,7 @@ class AccountFormAccountId extends Component {
                autoCorrect='off'
                autoCapitalize='off'
                spellCheck='false'
+               tabIndex='1'
             />
             <Responsive as={RequestStatusBox} maxWidth={767} requestStatus={requestStatus} />
          </Fragment>
