@@ -6,9 +6,9 @@ import sha256 from 'js-sha256';
 const WALLET_CREATE_NEW_ACCOUNT_URL = `/create/`
 
 const NETWORK_ID = process.env.REACT_APP_NETWORK_ID || 'default'
-const ACCOUNT_HELPER_URL = process.env.REACT_APP_ACCOUNT_HELPER_URL || 'https://studio.nearprotocol.com/contract-api'
+const ACCOUNT_HELPER_URL = process.env.REACT_APP_ACCOUNT_HELPER_URL || 'https://near-contract-helper.onrender.com'
 const CONTRACT_CREATE_ACCOUNT_URL = `${ACCOUNT_HELPER_URL}/account`
-const NODE_URL = process.env.REACT_APP_NODE_URL || 'https://studio.nearprotocol.com/devnet'
+const NODE_URL = process.env.REACT_APP_NODE_URL || 'https://rpc.nearprotocol.com'
 const HELPER_KEY = process.env.REACT_APP_ACCOUNT_HELPER_KEY || '22skMptHjFWNyuEWY22ftn2AbLPSYpmYwGJRGwpNHbTV'
 
 const KEY_UNIQUE_PREFIX = '_4:'
@@ -99,7 +99,7 @@ export class Wallet {
    }
 
    async removeAccessKey(publicKey) {
-      return await this.getAccount(this.accountId).removeKey(publicKey)
+      return await this.getAccount(this.accountId).deleteKey(publicKey)
    }
 
    async checkAccount(accountId) {
