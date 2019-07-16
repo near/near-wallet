@@ -35,6 +35,7 @@ const SetRecoveryInfoForm = ({
                }
                placeholder='example: +1 555 123 4567'
                required
+               tabIndex='2'
             />
          </Fragment>
       )}
@@ -46,6 +47,7 @@ const SetRecoveryInfoForm = ({
                name='securityCode'
                onChange={handleChange}
                placeholder='example: 123456'
+               tabIndex='2'
             />
 
          </Fragment>

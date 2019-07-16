@@ -40,6 +40,7 @@ const RecoverAccountForm = ({
                }
                placeholder='example: +1 555 123 4567'
                required
+               tabIndex='2'
             />
          </Fragment>
       )}
@@ -52,6 +53,7 @@ const RecoverAccountForm = ({
                onChange={handleChange}
                placeholder='example: 123456'
                required
+               tabIndex='2'
             />
          </Fragment>
       )}

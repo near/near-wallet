@@ -92,6 +92,7 @@ class SendMoneyAmountInput extends Component {
                placeholder='0'
                step='1'
                min='1'
+               tabIndex='2'
             />
             {amountStatus && (
                <Segment basic textAlign='center' className='alert-info problem'>

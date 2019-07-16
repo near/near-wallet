@@ -224,6 +224,7 @@ const FormButton = ({
       className={`${color} ${size} ${sending ? `dots` : ``}`}
       disabled={disabled}
       onClick={onClick}
+      tabIndex='3'
    >
       {sending
          ? `SENDING`
