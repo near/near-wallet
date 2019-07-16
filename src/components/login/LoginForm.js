@@ -191,7 +191,7 @@ const LoginForm = ({
       <Grid.Row className={`buttons ${dropdown ? 'hide' : ''}`}>
          <Grid.Column largeScreen={5} computer={4} tablet={3} mobile={16} />
          <Grid.Column largeScreen={6} computer={8} tablet={10} mobile={16}>
-            <Form action={account.url.success_url}>
+            <Form onSubmit={handleAllow}>
                <input
                   type='hidden'
                   name='accountId'
@@ -206,8 +206,8 @@ const LoginForm = ({
                </FormButton>
 
                <FormButton
+                  type='submit'
                   color='blue'
-                  onClick={handleAllow}
                   sending={buttonLoader}
                >
                   ALLOW

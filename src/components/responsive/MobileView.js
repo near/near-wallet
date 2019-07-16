@@ -5,6 +5,8 @@ import { withRouter, Link } from 'react-router-dom'
 
 import PropTypes from 'prop-types'
 
+import GlobalAlert from './GlobalAlert'
+
 import { Wallet } from '../../utils/wallet'
 
 import {
@@ -185,6 +187,7 @@ class MobileView extends Component {
             getWidth={getWidth}
             maxWidth={Responsive.onlyTablet.maxWidth}
          >
+            
             <Segment basic className='navbar'>
                <Menu className='navbar-main' borderless>
                   <div className='mainlogo'>
@@ -289,6 +292,7 @@ class MobileView extends Component {
                   </Menu.Menu>
                </Segment>
             </Segment>
+            <GlobalAlert />
          </CustomResponsive>
       )
    }

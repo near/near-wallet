@@ -7,6 +7,7 @@ import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 
 import DesktopPopup from './DesktopPopup'
+import GlobalAlert from './GlobalAlert'
 
 import { Wallet } from '../../utils/wallet'
 
@@ -165,6 +166,7 @@ class DesktopView extends Component {
                onBottomPassedReverse={this.hideFixedMenu}
             >
                <Segment className='spacer' basic />
+               <GlobalAlert />
                <div className='navbar'>
                   <div className='left'>
                      <div>
