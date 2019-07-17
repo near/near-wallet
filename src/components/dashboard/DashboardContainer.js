@@ -2,7 +2,9 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 
 import DashboardOtherAssets from './DashboardOtherAssets'
+import Balance from '../Balance/Balance'
 
+import milli from '../../images/n-1000.svg'
 import ArrowGrnImage from '../../images/icon-arrow-grn.svg'
 import ArrowRightImage from '../../images/icon-arrow-right.svg'
 
@@ -121,8 +123,9 @@ const DashboardContainer = ({ children, amount }) => (
                verticalAlign='middle'
             >
                <span className='balance'>Balance: </span>
-               <span className='color-black'>{amount}</span>
-               <span className='near'>Ⓝ</span>
+               <Balance 
+                  amount={amount}
+                  milli={milli} />
             </Grid.Column>
             <Grid.Column
                computer={4}

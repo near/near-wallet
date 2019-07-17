@@ -32,9 +32,11 @@ class Profile extends Component {
             loader: false
          }))
       }, 1000)
+
    }
 
    render() {
+      
       return (
          <ProfileContainer account={this.props.account}>
             <ProfileSection>
