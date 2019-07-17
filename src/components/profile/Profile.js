@@ -32,7 +32,6 @@ class Profile extends Component {
             loader: false
          }))
       }, 1000)
-
    }
 
    render() {
