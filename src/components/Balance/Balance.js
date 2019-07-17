@@ -12,7 +12,7 @@ const Balance = (props) => {
         position: "relative"
     }
     return (<div>
-        {(1234 < 0.01) ?
+        {(amount < 0.01) ?
             <div>{amount.toFixed(4)}<img style={style} src={props.milli} alt="" /></div> : <div>{amount} Ⓝ</div>}
     </div>)
 }
