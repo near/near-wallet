@@ -25,11 +25,6 @@ export function handleRefreshAccount(wallet, history) {
                type: REFRESH_ACCOUNT,
                data: {
                   accountId: accountId,
-                  authToken: wallet.newAccessToken(
-                     getState().account.url.app_title,
-                     getState().account.url.app_url,
-                     getState().account.url.contract_id
-                  ),
                   amount: v['amount'] || 0,
                   stake: v['stake'],
                   nonce: v['nonce'],
@@ -44,10 +39,11 @@ export function handleRefreshAccount(wallet, history) {
             })
          })
          .catch(e => {
-            console.log(e)
+            console.error('Error loading account:', e)
 
-            if (e.message && e.message.indexOf('is not valid') !== -1) {
+            if (e.message && e.message.indexOf('does not exist while viewing') !== -1) {
                // We have an account in the storage, but it doesn't exist on blockchain. We probably nuked storage so just redirect to create account
+               // TODO: Offer to remove specific account vs clearing everything?
                wallet.clearState()
                wallet.redirectToCreateAccount(
                   {
