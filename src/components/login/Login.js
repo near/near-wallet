@@ -47,10 +47,14 @@ class Login extends Component {
          .then(({ error }) => {
             if (error) return
 
-            let nextUrl = `/authorized-apps`
-            setTimeout(() => {
-               this.props.history.push(nextUrl)
-            }, 1500)
+            if (this.props.account.url.redirect_url) {
+               window.location = this.props.account.url.redirect_url
+            } else {
+               let nextUrl = `/authorized-apps`
+               setTimeout(() => {
+                  this.props.history.push(nextUrl)
+               }, 1500)
+            }
          })
          .finally(() => {
             this.setState(() => ({
