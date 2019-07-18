@@ -43,7 +43,7 @@ class Login extends Component {
          buttonLoader: true
       }))
 
-      this.props.addAccessKey(this.props.account.accountId, this.props.account.url.contract_id, this.props.account.url.public_key, this.props.account.url.success_url, this.props.account.url.app_title)
+      this.props.addAccessKey(this.props.account.accountId, this.props.account.url.contract_id, this.props.account.url.public_key, this.props.account.url.success_url, this.props.account.url.title)
          .then(({ error }) => {
             if (error) return
 
@@ -78,7 +78,7 @@ class Login extends Component {
       return (
          <LoginContainer
             loader={account.loader}
-            appTitle={account.url && account.url.app_title}
+            appTitle={account.url && account.url.title}
          >
             {account.accountId && (
                <LoginForm

@@ -149,7 +149,7 @@ export class Wallet {
       this.save()
    }
 
-   async addAccessKey(accountId, contractId, publicKey, successUrl, app_title) {
+   async addAccessKey(accountId, contractId, publicKey, successUrl, title) {
       return await this.getAccount(this.accountId).addKey(
          publicKey,
          contractId,
