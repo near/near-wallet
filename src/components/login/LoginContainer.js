@@ -1,6 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import MainImage from '../common/MainImage'
+
 import {
    Container,
    Loader,
@@ -31,21 +33,9 @@ const CustomContainer = styled(Container)`
    &&& .authorize {
       margin-top: 40px;
 
-      .bg {
-         width: 64px;
-         height: 64px;
-         background: #e6e6e6;
-         border-radius: 32px;
-
-         > img {
-            width: 40px;
-            height: 40px;
-            margin-top: 8px;
-         }
-      }
       .md {
          > img {
-            margin-top: 8px;
+            margin-top: -40px;
             padding: 0 24px;
          }
       }
@@ -127,7 +117,7 @@ const CustomContainer = styled(Container)`
 
             .content {
                font-size: 12px;
-               line-height: 14px;
+               line-height: 26px;
             }
          }
       }
@@ -154,14 +144,20 @@ const LoginContainer = ({ loader, children, appTitle }) => (
                   mobile={16}
                >
                   <List horizontal className='authorize'>
-                     <List.Item className='bg'>
-                        <Image src={AccountGreyImage} />
+                     <List.Item>
+                        <MainImage
+                           src={AccountGreyImage} 
+                           size='big'
+                        />
                      </List.Item>
                      <List.Item className='md'>
                         <Image src={AuthorizeImage} />
                      </List.Item>
-                     <List.Item className='bg'>
-                        <Image src={AppDefaultImage} />
+                     <List.Item>
+                        <MainImage
+                           src={AppDefaultImage} 
+                           size='big'
+                        />
                      </List.Item>
                   </List>
                </Grid.Column>

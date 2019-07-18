@@ -1,6 +1,9 @@
 import React from 'react'
 
-import { List, Image, Button, Header } from 'semantic-ui-react'
+import { List, Header } from 'semantic-ui-react'
+
+import MainImage from '../common/MainImage'
+import FormButton from '../common/FormButton'
 
 import AccountGreyImage from '../../images/icon-account-grey.svg'
 
@@ -11,32 +14,21 @@ const CustomList = styled(List)`
       padding: 24px;
       width: 360px;
       text-align: center;
-      margin-left: auto;
-      margin-right: auto;
-      margin-top: 36px;
+      margin: 24px auto 0 auto;
 
-      .main-image {
-         border: 0px;
-         padding: 0 10px;
-         width: 48px;
-         height: 48px;
-         background: #e6e6e6;
-         border-radius: 32px;
-         margin: 0 auto;
-
-         img {
-            padding-top: 10px;
-         }
+      
+      .main-image > div {
+         margin-left: auto;
+         margin-right: auto;
       }
-
       .amount {
          margin-top: 0;
          margin-bottom: 0px;
-         padding-top: 12px;
+         padding-top: 0px;
          padding-bottom: 24px;
 
          font-family: Bw Seido Round;
-         font-size: 72px;
+         font-size: ${props => props.fontSize}px;
          font-weight: 500;
          line-height: 60px;
          color: #4a4f54;
@@ -64,7 +56,7 @@ const CustomList = styled(List)`
 
       .goback {
          font-weight: 600;
-         margin-top: 24px;
+         margin-top: 12px;
          padding-top: 24px;
 
          button.link {
@@ -86,74 +78,10 @@ const CustomList = styled(List)`
       }
 
       .send-money {
-         padding-top: 24px;
+         padding-top: 0px;
          padding-bottom: 0px;
          margin-top: 24px;
          margin-bottom: 12px;
-
-         > .button {
-            width: 288px;
-            line-height: 60px;
-            border-radius: 30px;
-            border: solid 2px #5ace84;
-            font-size: 18px;
-            font-weight: 600;
-            letter-spacing: 2px;
-            text-align: center;
-            padding: 0 0 0 0;
-            background-color: #5ace84;
-            color: #fff;
-
-            :hover {
-               color: #5ace84;
-               background: #fff;
-            }
-            :disabled {
-               border-color: #e6e6e6;
-               background: #e6e6e6;
-               opacity: 1 !important;
-            }
-            :active,
-            :focus {
-               background: #fff;
-               color: #5ace84;
-            }
-
-            &.dots {
-               border-color: #cccccc;
-               background-color: #cccccc;
-
-               :after {
-                  content: '.';
-                  animation: dots 1s steps(5, end) infinite;
-               
-                  @keyframes dots {
-                     0%, 20% {
-                        color: rgba(0,0,0,0);
-                        text-shadow:
-                           .3em 0 0 rgba(0,0,0,0),
-                           .6em 0 0 rgba(0,0,0,0);
-                     }
-                     40% {
-                        color: white;
-                        text-shadow:
-                           .3em 0 0 rgba(0,0,0,0),
-                           .6em 0 0 rgba(0,0,0,0);
-                     }
-                     60% {
-                        text-shadow:
-                           .3em 0 0 white,
-                           .6em 0 0 rgba(0,0,0,0);
-                     }
-                     80%, 100% {
-                        text-shadow:
-                           .3em 0 0 white,
-                           .6em 0 0 white;
-                     }
-                  }
-               }
-            }
-         }
       }
 
       @media screen and (max-width: 991px) {
@@ -198,19 +126,20 @@ const SendMoneySecondStep = ({
    accountId,
    loader
 }) => (
-   <CustomList className='box'>
-      <List.Item as='h2'>You are sending</List.Item>
-      <List.Item as='h1' className='amount border-bottom'>
-         {amount}
+   <CustomList className='box' fontSize={amount.toString().length > 8 ? 34 : 48}>
+      <List.Item as='h2' >You are sending</List.Item>
+      <List.Item className='amount border-bottom'>
+         {amount.toLocaleString('en', {useGrouping:true})}
          <span>Ⓝ</span>
       </List.Item>
       <List.Item className='to'>
          <Header as='h2'>to</Header>
       </List.Item>
-      <List.Item>
-         <div className='main-image'>
-            <Image src={AccountGreyImage} align='left' />
-         </div>
+      <List.Item className='main-image'>
+         <MainImage
+            src={AccountGreyImage} 
+            size='medium'
+         />
       </List.Item>
       <List.Item as='h2'>{accountId}</List.Item>
       <List.Item>@{accountId}</List.Item>
@@ -228,19 +157,24 @@ const SendMoneySecondStep = ({
          </List.Item>
       )}
       <List.Item className='send-money border-top'>
-         <Button onClick={handleNextStep} className={loader ? `dots` : ``} disabled={loader}>
-            {loader
-               ? `SENDING`
-               : `CONFIRM & SEND`
-            }
-            
-         </Button>
+         <FormButton
+            onClick={handleNextStep}
+            color='green'
+            disabled={loader}
+            sending={loader}
+         >
+            CONFIRM & SEND
+         </FormButton>
       </List.Item>
       <List.Item>Once confirmed, this is not undoable.</List.Item>
       <List.Item className='goback border-top'>
-         <Button className='link' onClick={handleGoBack}>
+         <FormButton
+            onClick={handleGoBack}
+            color='link bold'
+            disabled={loader}
+         >
             Need to edit? Go Back
-         </Button>
+         </FormButton>
       </List.Item>
    </CustomList>
 )

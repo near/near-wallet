@@ -2,6 +2,8 @@ import React from 'react'
 
 import { Grid, Image } from 'semantic-ui-react'
 
+import MainImage from '../common/MainImage'
+
 import ArrowRight from '../../images/icon-arrow-right.svg'
 import ArrowBlkImage from '../../images/icon-arrow-blk.svg'
 
@@ -19,19 +21,8 @@ const CustomGridRow = styled(Grid.Row)`
          flex: 0 0 40px;
          padding-left: 0px;
 
-         .main-image {
-            border: 1px solid #e6e6e6;
-            background: #fff;
-            border-radius: 14px;
-            padding: 5px;
-            width: 26px;
-            height: 26px;
+         > div {
             margin: 0 24px 0 18px;
-            overflow: hidden;
-
-            img {
-               margin: 0 0 0 0;
-            }
          }
       }
 
@@ -43,19 +34,9 @@ const CustomGridRow = styled(Grid.Row)`
             margin-left: 6px;
             width: 56px;
             flex: 0 0 56px;
-         }
 
-         .main-image {
-            border: 0px;
-            padding: 0 10px;
-            width: 48px;
-            height: 48px;
-            background: #e6e6e6;
-            border-radius: 32px;
-            margin: 0 24px 0 0;
-
-            img {
-               padding-top: 10px;
+            > div {
+               margin: 0 24px 0 0;   
             }
          }
       }
@@ -117,6 +98,13 @@ const CustomGridRow = styled(Grid.Row)`
                font-size: 14px;
             }
          }
+
+         &.wide {
+
+            .col-image {
+               margin-left: 12px;
+            }
+         }
       }
    }
 `
@@ -131,21 +119,22 @@ const ListItem = ({
 }) => (
    <CustomGridRow
       verticalAlign='middle'
-      className={`border-bottom-light ${wide ? `wide` : ``} ${
+      className={`${wide ? `wide` : ``} ${
          showSub && showSubOpen === i ? `dropdown-down` : ``
       } ${showSub ? `showsub` : ``}`}
       onClick={() => wide && toggleShowSub(i, row)}
    >
       <Grid.Column
-         computer={wide ? 15 : 15}
-         tablet={wide ? 14 : 8}
-         mobile={wide ? 14 : 10}
+         computer={wide ? 15 : 16}
+         tablet={wide ? 14 : 16}
+         mobile={wide ? 14 : 16}
       >
          <Grid verticalAlign='middle'>
             <Grid.Column className='col-image'>
-               <div className='main-image'>
-                  <Image src={row[0]} align='left' />
-               </div>
+               <MainImage 
+                  src={row[0]} 
+                  size={wide ? `medium` : `tiny`}
+               />
             </Grid.Column>
             <Grid.Column className='main-row-title'>
                contractId: <span className='color-black'>{row[1]}</span>
@@ -160,21 +149,20 @@ const ListItem = ({
             </Grid.Column>
          </Grid>
       </Grid.Column>
-      <Grid.Column
-         computer={wide ? 1 : 1}
-         tablet={wide ? 2 : 8}
-         mobile={wide ? 2 : 6}
-         textAlign='right'
-      >
-         {wide ? (
+      {wide && (
+         <Grid.Column
+            computer={1}
+            tablet={2}
+            mobile={2}
+            textAlign='right'
+         >
             <Image
                src={showSub && showSubOpen === i ? ArrowBlkImage : ArrowRight}
                className='dropdown-image dropdown-image-right'
             />
-         ) : (
-            <span className='font-small'>{/* {row[3]} */}</span>
-         )}
-      </Grid.Column>
+            {/* <span className='font-small'>{row[3]}</span> */}
+         </Grid.Column>
+      )}
    </CustomGridRow>
 )
 

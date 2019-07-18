@@ -7,17 +7,22 @@ import { Wallet } from '../../utils/wallet'
 
 import LoginContainer from './LoginContainer'
 import LoginForm from './LoginForm'
-import { handleRefreshAccount, handleRefreshUrl } from '../../actions/account'
+import { handleRefreshAccount, handleRefreshUrl, switchAccount, addAccessKey, clearAlert } from '../../actions/account'
 
 class Login extends Component {
    state = {
+      buttonLoader: false,
       dropdown: false
    }
 
    componentDidMount = () => {
       this.wallet = new Wallet()
       this.props.handleRefreshUrl(this.props.location)
-      this.props.handleRefreshAccount(this.wallet, this.props.history)
+      this.props.handleRefreshAccount(this.props.history)
+   }
+
+   componentWillUnmount = () => {
+      this.props.clearAlert()
    }
 
    handleOnClick = () => {
@@ -33,14 +38,30 @@ class Login extends Component {
       }
    }
 
-   handleAllow = e => {
-      e.preventDefault()
-      this.wallet.addAccessKey(this.props.account.accountId, this.props.account.url.contract_id, this.props.account.url.public_key, this.props.account.url.success_url);
+   handleAllow = () => {
+      this.setState(() => ({
+         buttonLoader: true
+      }))
+
+      this.props.addAccessKey(this.props.account.accountId, this.props.account.url.contract_id, this.props.account.url.public_key, this.props.account.url.success_url, this.props.account.url.app_title)
+         .then(({ error }) => {
+            if (error) return
+
+            let nextUrl = `/authorized-apps`
+            setTimeout(() => {
+               this.props.history.push(nextUrl)
+            }, 1500)
+         })
+         .finally(() => {
+            this.setState(() => ({
+               buttonLoader: false
+            }))
+         })
    }
 
    handleSelectAccount = accountId => {
-      this.wallet.selectAccount(accountId)
-      this.props.handleRefreshAccount(this.wallet, this.props.history)
+      this.props.switchAccount(accountId)
+      this.props.handleRefreshAccount(this.props.history)
    }
 
    redirectCreateAccount = () => {
@@ -72,7 +93,10 @@ class Login extends Component {
 
 const mapDispatchToProps = {
    handleRefreshAccount,
-   handleRefreshUrl
+   handleRefreshUrl,
+   switchAccount,
+   addAccessKey,
+   clearAlert
 }
 
 const mapStateToProps = ({ account }) => ({

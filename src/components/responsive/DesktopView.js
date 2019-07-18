@@ -7,6 +7,7 @@ import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 
 import DesktopPopup from './DesktopPopup'
+import GlobalAlert from './GlobalAlert'
 
 import { Wallet } from '../../utils/wallet'
 
@@ -18,7 +19,7 @@ import ActivityImage from '../../images/icon-activity.svg'
 import RecentImage from '../../images/icon-recent.svg'
 import SendImage from '../../images/icon-send.svg'
 
-import { handleRefreshAccount } from '../../actions/account'
+import { handleRefreshAccount, switchAccount } from '../../actions/account'
 
 import styled from 'styled-components'
 
@@ -72,7 +73,7 @@ const CustomResponsive = styled(Responsive)`
          float: left;
          color: white;
          font-family: 'benton-sans', sans-serif;
-         font-weight: 600;
+         font-weight: 500;
          font-size: 14px;
          padding-left: 0px;
          padding-right: 30px;
@@ -118,9 +119,8 @@ class DesktopView extends Component {
    handleItemClick = (e, { name }) => this.setState({ activeItem: name })
 
    handleSelectAccount = accountId => {
-      this.wallet = new Wallet()
-      this.wallet.selectAccount(accountId)
-      this.props.handleRefreshAccount(this.wallet, this.props.history)
+      this.props.switchAccount(accountId)
+      this.props.handleRefreshAccount(this.props.history)
       this.props.history.push(`/`)
    }
 
@@ -166,6 +166,7 @@ class DesktopView extends Component {
                onBottomPassedReverse={this.hideFixedMenu}
             >
                <Segment className='spacer' basic />
+               <GlobalAlert />
                <div className='navbar'>
                   <div className='left'>
                      <div>
@@ -238,7 +239,8 @@ class DesktopView extends Component {
 }
 
 const mapDispatchToProps = {
-   handleRefreshAccount
+   handleRefreshAccount,
+   switchAccount
 }
 
 const mapStateToProps = ({ account }) => ({
