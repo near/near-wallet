@@ -15,8 +15,8 @@ class Login extends Component {
    }
 
    componentDidMount = () => {
+      console.log("[Login.js] url " + this.props.account.url)
       this.wallet = new Wallet()
-      this.props.handleRefreshUrl(this.props.location)
       this.props.handleRefreshAccount(this.wallet, this.props.history)
    }
 
