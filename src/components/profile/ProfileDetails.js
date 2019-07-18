@@ -274,7 +274,7 @@ const ProfileDetails = ({ account }) => (
             {account.amount} Ⓝ
          </Grid.Column>
          <Grid.Column computer='4' tablet='4' textAlign='center' only='tablet'>
-            Only Me
+            Public
          </Grid.Column>
          <Grid.Column as="div">
          </Grid.Column>
