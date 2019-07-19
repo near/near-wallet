@@ -35,7 +35,6 @@ class Profile extends Component {
    }
 
    render() {
-      
       return (
          <ProfileContainer account={this.props.account}>
             <ProfileSection>
