@@ -128,7 +128,7 @@ const CustomContainer = styled(Container)`
    }
 `
 
-const LoginContainer = ({ loader, children, appTitle }) => (
+const LoginContainer = ({ loader, children, appTitle, contractId }) => (
    <CustomContainer>
       <Dimmer.Dimmable as={Segment} basic>
          <Grid>
@@ -181,7 +181,7 @@ const LoginContainer = ({ loader, children, appTitle }) => (
                   tablet={16}
                   mobile={16}
                >
-                  Contract: @contractname.near
+                  Contract: {contractId}
                </Grid.Column>
             </Grid.Row>
             <Grid.Row>
@@ -198,6 +198,7 @@ const LoginContainer = ({ loader, children, appTitle }) => (
                   mobile={8}
                   className='cont'
                >
+                  {contractId &&
                   <List className='border-right-light'>
                      <List.Item as='h3'>This allows:</List.Item>
                      <List.Item className='list-item'>
@@ -210,7 +211,26 @@ const LoginContainer = ({ loader, children, appTitle }) => (
                            Write Chat messages with your name
                         </List.Content>
                      </List.Item>
-                  </List>
+                  </List>}
+                  {!contractId &&
+                  <List className='border-right-light'>
+                     <List.Item as='h3'>This allows:</List.Item>
+                     <List.Item className='list-item'>
+                        <List.Content className='color-black'>
+                           Create new accounts
+                        </List.Content>
+                     </List.Item>
+                     <List.Item className='list-item'>
+                        <List.Content className='color-black'>
+                           Transfer tokens from your account to other accounts
+                        </List.Content>
+                     </List.Item>
+                     <List.Item className='list-item'>
+                        <List.Content className='color-black'>
+                           Deploy smart contracts
+                        </List.Content>
+                     </List.Item>
+                  </List>}
                </Grid.Column>
                <Grid.Column
                   largeScreen={6}
@@ -219,6 +239,7 @@ const LoginContainer = ({ loader, children, appTitle }) => (
                   mobile={8}
                   className='cont'
                >
+                  {contractId &&
                   <List>
                      <List.Item as='h3'>Does not allow:</List.Item>
                      <List.Item className='list-item-deny'>
@@ -231,7 +252,11 @@ const LoginContainer = ({ loader, children, appTitle }) => (
                            Buy, Sell, or Transfer on your behalf
                         </List.Content>
                      </List.Item>
-                  </List>
+                  </List>}
+                  {!contractId &&
+                  <List>
+                     <List.Item as='h3'>Does not allow:</List.Item>
+                  </List>}
                </Grid.Column>
                <Grid.Column
                   largeScreen={2}
