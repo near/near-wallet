@@ -110,7 +110,7 @@ const ProfileDetails = ({ account }) => (
                <Popup.Header>Why is this locked?</Popup.Header>
                <Popup.Content>
                   Your username is your unique identifier in the system and cannot be changed
-                  cause data and asset ownership is tied to it.
+                  because data and asset ownership is tied to it.
                   However you are welcome to <Link to="/create">create another account</Link> with desired name
                   and transfer assets as needed.
                   {` `}
