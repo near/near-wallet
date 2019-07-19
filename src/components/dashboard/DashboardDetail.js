@@ -12,9 +12,11 @@ import {
 
 import DashboardSection from './DashboardSection'
 import DashboardActivity from './DashboardActivity'
-import PageContainer from '../common/PageContainer';
+import PageContainer from '../common/PageContainer'
 import FormButton from '../common/FormButton'
+import Balance from '../../components/Balance/Balance'
 
+import milli from '../../images/n-1000.svg'
 import activityGreyImage from '../../images/icon-activity-grey.svg'
 import AccountGreyImage from '../../images/icon-account-grey.svg'
 import AuthorizedGreyImage from '../../images/icon-authorized-grey.svg'
@@ -116,15 +118,16 @@ class DashboardDetail extends Component {
          newcontacts
       } = this.state
 
-      const { authorizedApps, amountStr } = this.props
+      const { authorizedApps, amount } = this.props
 
       return (
          <PageContainer
             title={(
                <Fragment>
-                  <span className='balance'>Balance: </span>
-                  <span className='color-black'>{amountStr}</span>
-                  <span className='near'>Ⓝ</span>
+                  <span>Balance: </span>
+                  <Balance 
+                     amount={amount} 
+                     milli={milli} />
                </Fragment>
             )}
             additional={(

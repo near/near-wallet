@@ -2,14 +2,10 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { Popup, Grid, Image } from 'semantic-ui-react'
 
-<<<<<<< HEAD
 import Balance from '../Balance/Balance'
+import MainImage from '../../components/common/MainImage'
 
 import milli from '../../images/n-1000.svg'
-=======
-import MainImage from '../common/MainImage'
-
->>>>>>> master
 import AccountGreyImage from '../../images/icon-account-grey.svg'
 import LockImage from '../../images/icon-lock.svg'
 

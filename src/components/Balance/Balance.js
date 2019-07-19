@@ -10,7 +10,7 @@ const Balance = (props) => {
     let style = {
         width: "1em",
         height: "1em",
-        marginLeft: "7px", 
+        marginLeft: "3px", 
         verticalAlign: "middle"
     }
     return (<div>
