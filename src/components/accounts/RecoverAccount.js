@@ -79,11 +79,12 @@ class RecoverAccount extends Component {
          ...this.state,
          isLegit: this.state.isLegit && !this.props.formLoader
       }
+      const { sentSms } = this.props
 
       return (
          <AccountFormContainer 
-            title='Find your Account'
-            text='Enter your information associated with the account and we will send a recovery code.'
+            title={sentSms ? `Enter your Code` : `Find your Account`}
+            text={sentSms ? `We sent you a 6-digit code via SMS text. Please enter it below to find your account.` : `Enter your information associated with the account and we will send a recovery code.`}
          >
             <AccountFormSection requestStatus={this.props.requestStatus} handleSubmit={this.handleSubmit.bind(this)}>
                <RecoverAccountForm
