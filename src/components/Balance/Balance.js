@@ -1,9 +1,9 @@
 import React from 'react'
 
-const NEAR_NOMINATION = 10**18
 // denomination of one near in minimal non divisible units (attoNears)
+const NEAR_NOMINATION = 10**18
+
 const REG = /(?=(\B)(\d{3})+$)/g;
-// const REG = /(\d)(?=(?:\d{3})+$)/g
 
 const Balance = (props) => {
     let amount = props.amount / NEAR_NOMINATION
@@ -15,7 +15,7 @@ const Balance = (props) => {
     }
     return (<div>
         {(amount < 0.01) ?
-            <div>{(amount*1000).toFixed(5)}<img style={style} src={props.milli} alt="" /></div> : 
+            <div>{(amount * 1000).toFixed(5)}<img style={style} src={props.milli} alt="" /></div> : 
             (amount < 1 ? <div>{amount.toFixed(5)} Ⓝ</div> : 
             (amount < 1000 ? <div>{amount.toFixed(5)} Ⓝ</div> : <div>{toThousands(amount)} Ⓝ</div>)
             )}
