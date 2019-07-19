@@ -60,26 +60,25 @@ export function handleRefreshAccount(history) {
 export function handleRefreshUrl(location) {
    return dispatch => {
       const { title, app_url, contract_id, success_url, failure_url, public_key  } = parse(location.search)
-      
-      if (!success_url) {
-         return
+      let redirect_url = ''
+
+      if (success_url) {
+         const parsedUrl = new URL(success_url)
+         parsedUrl.searchParams.set('account_id', wallet.getAccountId())
+         parsedUrl.searchParams.set('public_key', public_key)
+         redirect_url = parsedUrl.href
       }
-      
-      const parsedUrl = new URL(success_url)
-      parsedUrl.searchParams.set('account_id', wallet.getAccountId())
-      parsedUrl.searchParams.set('public_key', public_key)
-      const redirect_url = parsedUrl.href
 
       dispatch({
          type: REFRESH_URL,
          url: {
-            app_title: title || '',
+            title: title || '',
             app_url: app_url || '',
             contract_id: contract_id || '',
             success_url: success_url || '',
             failure_url: failure_url || '',
             public_key: public_key || '',
-            redirect_url: redirect_url || ''
+            redirect_url: redirect_url
          }
       })
    }
@@ -89,7 +88,8 @@ const wallet = new Wallet()
 
 export const redirectToApp = () => (dispatch, getState) => {
    const state = getState()
-   const nextUrl = (state.account.url && state.account.url.success_url) ? `/login/?${stringify(state.account.url)}` : '/'
+   const nextUrl = ((state.account.url && state.account.url.success_url) || state.account.url.public_key) ? `/login/?${stringify(state.account.url)}` : '/'
+   
    setTimeout(() => {
       window.location = nextUrl
    }, 1500)
@@ -128,9 +128,9 @@ export const { requestCode, setupAccountRecovery, recoverAccount, getAccountDeta
 export const { addAccessKey, clearAlert } = createActions({
    ADD_ACCESS_KEY: [
       wallet.addAccessKey.bind(wallet),
-      (accountId, contractId, publicKey, successUrl, app_title) => ({
+      (accountId, contractId, publicKey, successUrl, title) => ({
          successCodeHeader: 'Success',
-         successCodeDescription: app_title + ' is now authorized to use your account.',
+         successCodeDescription: title + ' is now authorized to use your account.',
          errorCodeHeader: 'Error',
          errorCodeDescription: '' 
       })
