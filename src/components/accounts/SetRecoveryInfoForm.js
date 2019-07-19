@@ -47,7 +47,9 @@ const SetRecoveryInfoForm = ({
                name='securityCode'
                onChange={handleChange}
                placeholder='example: 123456'
+               required
                tabIndex='2'
+               className='sms'
             />
 
          </Fragment>
