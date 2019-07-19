@@ -3,7 +3,6 @@ import { connect } from 'react-redux'
 
 import { withRouter } from 'react-router-dom'
 
-import { Wallet } from '../../utils/wallet'
 import {
    handleRefreshAccount,
    handleRefreshUrl,
@@ -11,9 +10,10 @@ import {
    removeAccessKey
 } from '../../actions/account'
 
+import AuthorizedAppsEmpty from './AuthorizedAppsEmpty'
 import PaginationBlock from '../pagination/PaginationBlock'
 import ListItem from '../dashboard/ListItem'
-import AuthorizedAppsContainer from './AuthorizedAppsContainer'
+import PageContainer from '../common/PageContainer';
 
 import AppDefaultImage from '../../images/icon-app-default.svg'
 
@@ -76,16 +76,13 @@ class AuthorizedApps extends Component {
    }
 
    componentDidMount() {
-      this.wallet = new Wallet()
       this.props.handleRefreshUrl(this.props.location)
-      this.props.handleRefreshAccount(this.wallet, this.props.history)
-
+      this.props.handleRefreshAccount(this.props.history)
       this.refreshAuthorizedApps()
    }
 
    render() {
       const {
-         loader,
          filterTypes,
          showSub,
          showSubOpen,
@@ -95,7 +92,15 @@ class AuthorizedApps extends Component {
       const { authorizedApps } = this.props
 
       return (
-         <AuthorizedAppsContainer loader={loader} total={authorizedApps.length}>
+         <PageContainer
+            title='Authorized Apps'
+            additional={(
+               <h1>
+                  {authorizedApps && authorizedApps.length}
+                  <span className='color-brown-grey'> total</span>
+               </h1>
+            )}
+         >
             <PaginationBlock
                filterTypes={filterTypes}
                showSub={showSub}
@@ -105,19 +110,20 @@ class AuthorizedApps extends Component {
                subPage='authorized-apps'
                handleDeauthorize={this.handleDeauthorize}
             >
-               {authorizedApps.map((row, i) => (
-                  <ListItem
-                     key={`a-${i}`}
-                     row={row}
-                     i={i}
-                     wide={true}
-                     showSub={showSub}
-                     toggleShowSub={this.toggleShowSub}
-                     showSubOpen={showSubOpen}
-                  />
-               ))}
+               {authorizedApps && (authorizedApps.length 
+                  ? authorizedApps.map((row, i) => (
+                     <ListItem
+                        key={`a-${i}`}
+                        row={row}
+                        i={i}
+                        wide={true}
+                        showSub={showSub}
+                        toggleShowSub={this.toggleShowSub}
+                        showSubOpen={showSubOpen}
+                     />
+                  )) : <AuthorizedAppsEmpty />)}
             </PaginationBlock>
-         </AuthorizedAppsContainer>
+         </PageContainer>
       )
    }
 }
@@ -138,7 +144,7 @@ const mapStateToProps = ({ account }) => ({
            r.amount,
            r.publicKey
         ])
-      : []
+      : null
 })
 
 export const AuthorizedAppsWithRouter = connect(

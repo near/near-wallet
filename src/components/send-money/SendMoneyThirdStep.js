@@ -2,6 +2,8 @@ import React from 'react'
 
 import { List, Image } from 'semantic-ui-react'
 
+import MainImage from '../common/MainImage'
+
 import AccountGreyImage from '../../images/icon-account-grey.svg'
 import SendImage from '../../images/icon-send.svg'
 
@@ -19,28 +21,16 @@ const CustomList = styled(List)`
       .send-money img {
          width: 24px;
       }
-
-      .main-image {
-         border: 0px;
-         padding: 0 10px;
-         width: 48px;
-         height: 48px;
-         background: #e6e6e6;
-         border-radius: 32px;
-         margin: 0 auto;
-
-         img {
-            padding-top: 10px;
-         }
+      .main-image > div {
+         margin-left: auto;
+         margin-right: auto;
       }
-
       .amount {
          margin-top: 32px;
          margin-bottom: 0px;
          padding-top: 12px;
          padding-bottom: 24px;
       }
-
       .with-note {
          padding-top: 24px;
       }
@@ -75,13 +65,14 @@ const SendMoneyThirdStep = ({ note, amount, accountId }) => (
          <Image src={SendImage} />
       </List.Item>
       <List.Item as='h2' className='amount'>
-         {amount}
+         {amount.toLocaleString('en', {useGrouping:true})}
          <span>Ⓝ</span> was sent to:
       </List.Item>
-      <List.Item>
-         <div className='main-image'>
-            <Image src={AccountGreyImage} align='left' />
-         </div>
+      <List.Item className='main-image'>
+         <MainImage
+            src={AccountGreyImage} 
+            size='medium'
+         />
       </List.Item>
       <List.Item as='h2'>{accountId}</List.Item>
       <List.Item>@{accountId}</List.Item>

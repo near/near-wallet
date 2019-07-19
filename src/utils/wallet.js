@@ -102,7 +102,10 @@ export class Wallet {
       return await this.getAccount(this.accountId).deleteKey(publicKey)
    }
 
-   async checkAccount(accountId) {
+   async checkAccountAvailable(accountId) {
+      if (!this.isLegitAccountId(accountId)) {
+         throw new Error('Invalid username.')
+      }  
       if (accountId !== this.accountId) {
          return await this.getAccount(accountId).state()
       } else {
@@ -111,6 +114,9 @@ export class Wallet {
    }
 
    async checkNewAccount(accountId) {
+      if (!this.isLegitAccountId(accountId)) {
+         throw new Error('Invalid username.')
+      }
       if (accountId in this.accounts) {
          throw new Error('Account ' + accountId + ' already exists.')
       }
@@ -118,7 +124,7 @@ export class Wallet {
       try {
          remoteAccount = await this.getAccount(accountId).state()
       } catch (e) {
-         // expected
+         return true
       }
       if (!!remoteAccount) {
          throw new Error('Account ' + accountId + ' already exists.')
@@ -143,19 +149,14 @@ export class Wallet {
       this.save()
    }
 
-   async addAccessKey(accountId, contractId, publicKey, successUrl) {
-      await this.getAccount(this.accountId).addKey(
+   async addAccessKey(accountId, contractId, publicKey, successUrl, title) {
+      return await this.getAccount(this.accountId).addKey(
          publicKey,
          contractId,
          '', // methodName
          '', // fundingOwner
          0 // fundingAmount
       )
-      const parsedUrl = new URL(successUrl)
-      parsedUrl.searchParams.set('account_id', accountId)
-      parsedUrl.searchParams.set('public_key', publicKey)
-      const redirectUrl = parsedUrl.href
-      window.location.href = redirectUrl
    }
 
    clearState() {

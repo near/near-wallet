@@ -3,11 +3,9 @@ import { connect } from 'react-redux'
 
 import { withRouter } from 'react-router-dom'
 
-import { Wallet } from '../../utils/wallet'
-
 import { handleRefreshAccount, handleRefreshUrl } from '../../actions/account'
 
-import ProfileContainer from './ProfileContainer'
+import PageContainer from '../common/PageContainer';
 import ProfileDetails from './ProfileDetails'
 import ProfileSection from './ProfileSection'
 import ProfileYourKeys from './ProfileYourKeys'
@@ -19,24 +17,17 @@ class Profile extends Component {
    }
 
    componentDidMount() {
-      this.wallet = new Wallet()
       this.props.handleRefreshUrl(this.props.location)
-      this.props.handleRefreshAccount(this.wallet, this.props.history)
-
-      this.setState(() => ({
-         loader: true
-      }))
-
-      setTimeout(() => {
-         this.setState(_ => ({
-            loader: false
-         }))
-      }, 1000)
+      this.props.handleRefreshAccount(this.props.history)
    }
 
    render() {
+      const { account } = this.props
+
       return (
-         <ProfileContainer account={this.props.account}>
+         <PageContainer
+            title={`Account: @${account.accountId ? account.accountId : ``}`}
+         >
             <ProfileSection>
                <ProfileDetails account={this.props.account} />
                { false ?
@@ -46,7 +37,7 @@ class Profile extends Component {
                <ProfileNotice />
                : null }
             </ProfileSection>
-         </ProfileContainer>
+         </PageContainer>
       )
    }
 }

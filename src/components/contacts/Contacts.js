@@ -3,12 +3,11 @@ import { connect } from 'react-redux'
 
 import { withRouter } from 'react-router-dom'
 
-import { Wallet } from '../../utils/wallet'
 import { handleRefreshAccount, handleRefreshUrl } from '../../actions/account'
 
 import PaginationBlock from '../pagination/PaginationBlock'
 import ListItem from '../dashboard/ListItem'
-import ContactsContainer from './ContactsContainer'
+import PageContainer from '../common/PageContainer';
 
 import AccountGreyImage from '../../images/icon-account-grey.svg'
 
@@ -35,10 +34,17 @@ class Contacts extends Component {
       }))
    }
 
+   toggleCloseSub = () => {
+      this.setState(() => ({
+         showSub: false,
+         showSubOpen: 0,
+         showSubData: []
+      }))
+   }
+
    componentDidMount() {
-      this.wallet = new Wallet()
       this.props.handleRefreshUrl(this.props.location)
-      this.props.handleRefreshAccount(this.wallet, this.props.history)
+      this.props.handleRefreshAccount(this.props.history)
 
       this.setState(() => ({
          loader: true
@@ -82,11 +88,15 @@ class Contacts extends Component {
       const { activity, filterTypes, showSub, showSubOpen } = this.state
 
       return (
-         <ContactsContainer>
+         <PageContainer
+            title='Contacts'
+            additional={<h1>203<span className='color-brown-grey'> total</span></h1>}
+         >
             <PaginationBlock
                filterTypes={filterTypes}
                showSub={showSub}
                toggleShowSub={this.toggleShowSub}
+               toggleCloseSub={this.toggleCloseSub}
             >
                {activity.map((row, i) => (
                   <ListItem
@@ -100,7 +110,7 @@ class Contacts extends Component {
                   />
                ))}
             </PaginationBlock>
-         </ContactsContainer>
+         </PageContainer>
       )
    }
 }

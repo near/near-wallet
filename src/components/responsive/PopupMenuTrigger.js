@@ -2,8 +2,12 @@ import React from 'react'
 
 import { Image, Loader } from 'semantic-ui-react'
 
+<<<<<<< HEAD
 import Balance from '../Balance/Balance'
 import milli from '../../images/n-1000-wht.svg'
+=======
+import MainImage from '../common/MainImage'
+>>>>>>> master
 
 import AccountGreyImage from '../../images/icon-account-grey.svg'
 import MobileMenuImage from '../../images/icon-mobile-menu.svg'
@@ -20,18 +24,14 @@ const CustomDiv = styled('div')`
    font-weight: 600;
    > div {
       .account-img {
-         width: 36px;
-         height: 36px;
-         background: #4a4f54;
-         padding-right: 0px;
          padding-left: 6px;
-         border-radius: 18px;
-         margin-top: 16px;
+         float: left;
+         
+         margin-top: 18px;
          margin-right: 10px;
-         > img {
-            width: 24px;
-            height: 24px;
-            margin-top: 5px;
+
+         > div {
+            background: #4a4f54 !important;
          }
       }
       .overflow {
@@ -64,7 +64,7 @@ const CustomDiv = styled('div')`
          border-radius: 14px;
          padding: 0 10px;
          letter-spacing: normal;
-         max-width: 140px;
+         max-width: 170px;
          :hover {
             color: #fff;
          }
@@ -111,8 +111,11 @@ const PopupMenuTrigger = ({ account, handleClick, type, dropdown = false }) => (
    <CustomDiv onClick={handleClick}>
       <div>
          {type === 'desktop' && (
-            <div className='account-img' style={{ float: 'left' }}>
-               <Image src={AccountGreyImage} />
+            <div className='account-img'>
+               <MainImage
+                  src={AccountGreyImage} 
+                  size='small'
+               />
             </div>
          )}
          <div className={`account-arrow ${type}`}>
@@ -127,9 +130,14 @@ const PopupMenuTrigger = ({ account, handleClick, type, dropdown = false }) => (
                   <Loader active inline size='mini' />
                ) : (
                   <div>
+<<<<<<< HEAD
                      <Balance 
                         amount={account.amount}
                         milli={milli} />
+=======
+                     <div>{account.amountStr} </div>
+                     <div className='near'>Ⓝ</div>
+>>>>>>> master
                   </div>
                )}
             </div>

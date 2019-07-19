@@ -7,17 +7,24 @@ import { Wallet } from '../../utils/wallet'
 
 import LoginContainer from './LoginContainer'
 import LoginForm from './LoginForm'
-import { handleRefreshAccount, handleRefreshUrl } from '../../actions/account'
+import { handleRefreshAccount, handleRefreshUrl, switchAccount, addAccessKey, clearAlert } from '../../actions/account'
 
 class Login extends Component {
    state = {
+      buttonLoader: false,
       dropdown: false
    }
 
    componentDidMount = () => {
       console.log("[Login.js] url " + this.props.account.url)
       this.wallet = new Wallet()
-      this.props.handleRefreshAccount(this.wallet, this.props.history)
+
+      this.props.handleRefreshUrl(this.props.location)
+      this.props.handleRefreshAccount(this.props.history)
+   }
+
+   componentWillUnmount = () => {
+      this.props.clearAlert()
    }
 
    handleOnClick = () => {
@@ -33,14 +40,34 @@ class Login extends Component {
       }
    }
 
-   handleAllow = e => {
-      e.preventDefault()
-      this.wallet.addAccessKey(this.props.account.accountId, this.props.account.url.contract_id, this.props.account.url.public_key, this.props.account.url.success_url);
+   handleAllow = () => {
+      this.setState(() => ({
+         buttonLoader: true
+      }))
+
+      this.props.addAccessKey(this.props.account.accountId, this.props.account.url.contract_id, this.props.account.url.public_key, this.props.account.url.success_url, this.props.account.url.title)
+         .then(({ error }) => {
+            if (error) return
+
+            if (this.props.account.url.redirect_url) {
+               window.location = this.props.account.url.redirect_url
+            } else {
+               let nextUrl = `/authorized-apps`
+               setTimeout(() => {
+                  this.props.history.push(nextUrl)
+               }, 1500)
+            }
+         })
+         .finally(() => {
+            this.setState(() => ({
+               buttonLoader: false
+            }))
+         })
    }
 
    handleSelectAccount = accountId => {
-      this.wallet.selectAccount(accountId)
-      this.props.handleRefreshAccount(this.wallet, this.props.history)
+      this.props.switchAccount(accountId)
+      this.props.handleRefreshAccount(this.props.history)
    }
 
    redirectCreateAccount = () => {
@@ -53,7 +80,7 @@ class Login extends Component {
       return (
          <LoginContainer
             loader={account.loader}
-            appTitle={account.url && account.url.app_title}
+            appTitle={account.url && account.url.title}
          >
             {account.accountId && (
                <LoginForm
@@ -72,7 +99,10 @@ class Login extends Component {
 
 const mapDispatchToProps = {
    handleRefreshAccount,
-   handleRefreshUrl
+   handleRefreshUrl,
+   switchAccount,
+   addAccessKey,
+   clearAlert
 }
 
 const mapStateToProps = ({ account }) => ({

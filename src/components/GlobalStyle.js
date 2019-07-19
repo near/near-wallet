@@ -150,17 +150,10 @@ export default createGlobalStyle`
       }
    }
 
-
    .ui.popup > .header {
       font-weight: 600 !important;
       color: #24272a !important;
    }
-
-
-   .ui.list .list>.item .header, .ui.list>.item .header, .ui.button {
-      font-weight: 600;
-   }
-
 
    .border-bottom {
       border-bottom: 2px solid #f8f8f8 !important;
@@ -216,7 +209,6 @@ export default createGlobalStyle`
          padding: 0px !important;
       }
       .column {
-         padding: 24px 10px 20px 30px !important;
          word-wrap: break-word;
       }
       .segment {
@@ -224,8 +216,6 @@ export default createGlobalStyle`
       }
       .list {
          > .item {
-            padding: 0px !important;
-
             > img {
                top: -4px;
                margin: 0 10px;
@@ -309,7 +299,7 @@ export default createGlobalStyle`
          font-size: 38px !important;
          font-weight: 500;
          line-height: 50px;
-         color: #4a4f54;
+         color: #24272a;
       }
       h2, .h2 {
          font-size: 24px !important;
@@ -327,6 +317,12 @@ export default createGlobalStyle`
 
       .box .column {
          padding: 16px 10px !important;
+      }
+
+      .App {
+         .main {
+            padding-bottom: 300px;
+         }
       }
    }
 `

@@ -2,9 +2,14 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { Popup, Grid, Image } from 'semantic-ui-react'
 
+<<<<<<< HEAD
 import Balance from '../Balance/Balance'
 
 import milli from '../../images/n-1000.svg'
+=======
+import MainImage from '../common/MainImage'
+
+>>>>>>> master
 import AccountGreyImage from '../../images/icon-account-grey.svg'
 import LockImage from '../../images/icon-lock.svg'
 
@@ -22,20 +27,6 @@ const CustomGrid = styled(Grid)`
          .title {
             font-weight: 600;
             color: #24272a;
-         }
-      }
-
-      .main-image {
-         border: 0px;
-         padding: 0 10px;
-         width: 120px;
-         height: 120px;
-         background: #e6e6e6;
-         border-radius: 60px;
-
-         img {
-            width: 100px;
-            padding-top: 10px;
          }
       }
 
@@ -73,7 +64,7 @@ const CustomGrid = styled(Grid)`
 
 const ProfileDetails = ({ account }) => (
    <CustomGrid>
-      <Grid.Row className='border-top-bold'>
+      <Grid.Row>
          <Grid.Column
             computer='10'
             tablet='10'
@@ -149,9 +140,10 @@ const ProfileDetails = ({ account }) => (
             Photo
          </Grid.Column>
          <Grid.Column computer='7' tablet='7' mobile='9'>
-            <div className='main-image'>
-               <Image src={AccountGreyImage} align='left' />
-            </div>
+            <MainImage 
+               src={AccountGreyImage} 
+               size='huge'
+            />
          </Grid.Column>
          <Grid.Column computer='4' tablet='4' textAlign='center' only='tablet'>
             Public
@@ -288,7 +280,7 @@ const ProfileDetails = ({ account }) => (
                milli={milli} />
          </Grid.Column>
          <Grid.Column computer='4' tablet='4' textAlign='center' only='tablet'>
-            Only Me
+            Public
          </Grid.Column>
          <Grid.Column as="div">
          </Grid.Column>

@@ -20,6 +20,8 @@ const DisclaimerGrid = styled(Grid)`
       && .disclaimer {
          margin-top: 50px;
          font-size: 12px;
+         margin-left: 1rem;
+         margin-right: 1rem;
       }
    }
 `
