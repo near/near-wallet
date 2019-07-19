@@ -47,13 +47,14 @@ const RecoverAccountForm = ({
 
       {sentSms && (
          <Fragment>
-            <Header as='h3'>Security Code from SMS</Header>
+            <Header as='h3'>Enter 6-digit Code</Header>
             <Input
                name='securityCode'
                onChange={handleChange}
                placeholder='example: 123456'
                required
                tabIndex='2'
+               className='sms'
             />
          </Fragment>
       )}

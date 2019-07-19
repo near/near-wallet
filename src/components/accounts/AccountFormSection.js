@@ -53,6 +53,10 @@ const CustomForm = styled(Form)`
             background-color: #fff;
          }
       }
+      .input.sms {
+         width: 288px;
+         display: block;
+      }
       .create {
          position: relative;
          margin-bottom: 0px;

@@ -51,8 +51,10 @@ class SetRecoveryInfo extends Component {
          this.props.requestCode(this.state.phoneNumber, this.props.accountId)
             .finally(() => {
                this.setState(() => ({
-                  loader: false
+                  loader: false,
+                  isLegit: false
                }))
+               this.props.clear()
             })
       } else {
          this.props.setupAccountRecovery(this.state.phoneNumber, this.props.accountId, this.state.securityCode)
