@@ -1,11 +1,11 @@
 import React from 'react'
+
 import { Link } from 'react-router-dom'
+
 import { Popup, Grid, Image } from 'semantic-ui-react'
 
-import Balance from '../Balance/Balance'
-import MainImage from '../../components/common/MainImage'
+import MainImage from '../common/MainImage'
 
-import milli from '../../images/n-1000.svg'
 import AccountGreyImage from '../../images/icon-account-grey.svg'
 import LockImage from '../../images/icon-lock.svg'
 
@@ -271,9 +271,7 @@ const ProfileDetails = ({ account }) => (
             Balance
          </Grid.Column>
          <Grid.Column computer='7' tablet='7' mobile='9'>
-            <Balance 
-               amount={account.amount}
-               milli={milli} />
+            {account.amount} Ⓝ
          </Grid.Column>
          <Grid.Column computer='4' tablet='4' textAlign='center' only='tablet'>
             Public
