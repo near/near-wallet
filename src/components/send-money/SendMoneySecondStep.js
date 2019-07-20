@@ -4,9 +4,7 @@ import { List, Header } from 'semantic-ui-react'
 
 import MainImage from '../common/MainImage'
 import FormButton from '../common/FormButton'
-import Balance from '../../components/Balance/Balance'
 
-import milli from '../../images/n-1000.svg'
 import AccountGreyImage from '../../images/icon-account-grey.svg'
 
 import styled from 'styled-components'
@@ -131,9 +129,8 @@ const SendMoneySecondStep = ({
    <CustomList className='box' fontSize={amount.toString().length > 8 ? 34 : 48}>
       <List.Item as='h2' >You are sending</List.Item>
       <List.Item className='amount border-bottom'>
-      <Balance 
-            milli={milli} 
-            amount={amount} />
+         {amount.toLocaleString('en', {useGrouping:true})}
+         <span>Ⓝ</span>
       </List.Item>
       <List.Item className='to'>
          <Header as='h2'>to</Header>

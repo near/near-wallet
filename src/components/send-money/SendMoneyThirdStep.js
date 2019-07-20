@@ -2,10 +2,8 @@ import React from 'react'
 
 import { List, Image } from 'semantic-ui-react'
 
-import Balance from '../../components/Balance/Balance'
 import MainImage from '../common/MainImage'
 
-import milli from '../../images/n-1000.svg'
 import AccountGreyImage from '../../images/icon-account-grey.svg'
 import SendImage from '../../images/icon-send.svg'
 
@@ -67,10 +65,8 @@ const SendMoneyThirdStep = ({ note, amount, accountId }) => (
          <Image src={SendImage} />
       </List.Item>
       <List.Item as='h2' className='amount'>
-         <Balance 
-            milli={milli} 
-            amount={amount} />
-         <span>was sent to:</span>
+         {amount.toLocaleString('en', {useGrouping:true})}
+         <span>Ⓝ</span> was sent to:
       </List.Item>
       <List.Item className='main-image'>
          <MainImage
