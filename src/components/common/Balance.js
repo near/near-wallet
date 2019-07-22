@@ -1,5 +1,6 @@
 
 import React from 'react'
+const BN = require('bn.js')
 
 // denomination of one near in minimal non divisible units (attoNears)
 const NEAR_NOMINATION = 10 ** 18
@@ -14,11 +15,12 @@ const Balance = (props) => {
         verticalAlign: "middle"
     }
 
+    let a = new BN(amount)
     let amount = Number(props.amount) / NEAR_NOMINATION
     let amountShow = (amount < 0.01) ?
-        <div>{(amount * 1000).toFixed(5).toString()}<img style={style} src={props.milli} alt="" /></div> :
-        (amount < 1 ? <div>{amount.toFixed(5).toString()} Ⓝ</div> :
-            (amount < 1000 ? <div>{amount.toFixed(5).toString()} Ⓝ</div> : <div>{toThousands(amount)} Ⓝ</div>)
+        <div>{(amount * 1000).toFixed(5)}<img style={style} src={props.milli} alt="" /></div> :
+        (amount < 1 ? <div>{amount.toFixed(5)} Ⓝ</div> :
+            (amount < 1000 ? <div>{amount.toFixed(5)} Ⓝ</div> : <div>{toThousands(amount)} Ⓝ</div>)
         )
     
     return (<div>
