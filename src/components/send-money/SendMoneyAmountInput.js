@@ -22,6 +22,8 @@ const CustomDiv = styled(`div`)`
          text-align: center;
          padding: 0px;
          
+         ::placeholder { font-size: 3rem }
+
          :focus::-webkit-input-placeholder { color: transparent; }
          :focus:-moz-placeholder { color: transparent; }
          :focus::-moz-placeholder { color: transparent; }
@@ -62,9 +64,9 @@ class SendMoneyAmountInput extends Component {
    }
 
    handleChangeAmount = (e, { name, value }) => {
-      const amountStatus = !Number.isInteger(Number(value))
-         ? 'Please enter a whole number.'
-         : value > Number(this.props.amount)
+      const amountStatus = value && !/^[0-9]*([.][0-9]{5}|)$/.test(value)
+            ? 'Invalid Input'
+            :  Number(value)  > Number(this.props.amount)
             ? 'Not enough tokens.' 
             : ''
 
@@ -85,14 +87,15 @@ class SendMoneyAmountInput extends Component {
          <CustomDiv fontSize={`${fontSize}px`}>
             <Form.Input
                type='number'
-               pattern='[0-9]*'
+               pattern='^[0-9]*([.][0-9]{5}|)$'
                name='amount'
                value={amount}
                onChange={this.handleChangeAmount}
-               placeholder='0'
+               placeholder='1 or 0.00001'
                step='1'
                min='1'
                tabIndex='2'
+               required={true}
             />
             {amountStatus && (
                <Segment basic textAlign='center' className='alert-info problem'>
