@@ -3,11 +3,13 @@ import React from 'react'
 import { Image, Loader } from 'semantic-ui-react'
 
 import MainImage from '../common/MainImage'
+import Balance from '../common/Balance'
 
 import AccountGreyImage from '../../images/icon-account-grey.svg'
 import MobileMenuImage from '../../images/icon-mobile-menu.svg'
 import CloseImage from '../../images/icon-close.svg'
 import ArrowDownImage from '../../images/icon-arrow-down.svg'
+import milli from '../../images/n-1000-wht.svg'
 
 import styled from 'styled-components'
 
@@ -108,7 +110,7 @@ const PopupMenuTrigger = ({ account, handleClick, type, dropdown = false }) => (
          {type === 'desktop' && (
             <div className='account-img'>
                <MainImage
-                  src={AccountGreyImage} 
+                  src={AccountGreyImage}
                   size='small'
                />
             </div>
@@ -124,18 +126,19 @@ const PopupMenuTrigger = ({ account, handleClick, type, dropdown = false }) => (
                {account.loader || !account.accountId ? (
                   <Loader active inline size='mini' />
                ) : (
-                  <div>
-                     <div>{account.amountStr} </div>
-                     <div className='near'>Ⓝ</div>
-                  </div>
-               )}
+                     <div>
+                        <Balance
+                           amount={account.amount}
+                           milli={milli} />
+                     </div>
+                  )}
             </div>
             <div className='account-name'>
                {account.loader || !account.accountId ? (
                   <Loader active inline size='mini' />
                ) : (
-                  <div>@{account.accountId}</div>
-               )}
+                     <div>@{account.accountId}</div>
+                  )}
             </div>
          </div>
       </div>

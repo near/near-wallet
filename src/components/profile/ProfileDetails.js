@@ -5,9 +5,11 @@ import { Link } from 'react-router-dom'
 import { Popup, Grid, Image } from 'semantic-ui-react'
 
 import MainImage from '../common/MainImage'
+import Balance from '../common/Balance'
 
 import AccountGreyImage from '../../images/icon-account-grey.svg'
 import LockImage from '../../images/icon-lock.svg'
+import milli from '../../images/n-1000.svg'
 
 import styled from 'styled-components'
 
@@ -102,176 +104,178 @@ const ProfileDetails = ({ account }) => (
                   and transfer assets as needed.
                   {` `}
                   {false ?
-                  <a href='/'>Learn more</a>
-                  : null }
+                     <a href='/'>Learn more</a>
+                     : null}
                </Popup.Content>
             </Popup>
          </Grid.Column>
       </Grid.Row>
       {false ? <div>
-      <Grid.Row className='border-top'>
-         <Grid.Column computer='3' tablet='3' mobile='4' className='title'>
-            Full Name
+         <Grid.Row className='border-top'>
+            <Grid.Column computer='3' tablet='3' mobile='4' className='title'>
+               Full Name
          </Grid.Column>
-         <Grid.Column computer='7' tablet='7' mobile='9'>
-            Evgeny Kuzyakov
+            <Grid.Column computer='7' tablet='7' mobile='9'>
+               Evgeny Kuzyakov
          </Grid.Column>
-         <Grid.Column computer='4' tablet='4' textAlign='center' only='tablet'>
-            Friends
+            <Grid.Column computer='4' tablet='4' textAlign='center' only='tablet'>
+               Friends
          </Grid.Column>
-         <Grid.Column
-            as={Link}
-            to='/'
-            computer='2'
-            tablet='2'
-            mobile='3'
-            textAlign='right'
-            className='edit-link'
-         >
-            Edit
+            <Grid.Column
+               as={Link}
+               to='/'
+               computer='2'
+               tablet='2'
+               mobile='3'
+               textAlign='right'
+               className='edit-link'
+            >
+               Edit
          </Grid.Column>
-      </Grid.Row>
-      <Grid.Row className='border-top'>
-         <Grid.Column computer='3' tablet='3' mobile='4' className='title'>
-            Photo
+         </Grid.Row>
+         <Grid.Row className='border-top'>
+            <Grid.Column computer='3' tablet='3' mobile='4' className='title'>
+               Photo
          </Grid.Column>
-         <Grid.Column computer='7' tablet='7' mobile='9'>
-            <MainImage 
-               src={AccountGreyImage} 
-               size='huge'
-            />
+            <Grid.Column computer='7' tablet='7' mobile='9'>
+               <MainImage
+                  src={AccountGreyImage}
+                  size='huge'
+               />
+            </Grid.Column>
+            <Grid.Column computer='4' tablet='4' textAlign='center' only='tablet'>
+               Public
          </Grid.Column>
-         <Grid.Column computer='4' tablet='4' textAlign='center' only='tablet'>
-            Public
+            <Grid.Column
+               as={Link}
+               to='/'
+               computer='2'
+               tablet='2'
+               mobile='3'
+               textAlign='right'
+               className='edit-link'
+            >
+               Edit
          </Grid.Column>
-         <Grid.Column
-            as={Link}
-            to='/'
-            computer='2'
-            tablet='2'
-            mobile='3'
-            textAlign='right'
-            className='edit-link'
-         >
-            Edit
-         </Grid.Column>
-      </Grid.Row>
+         </Grid.Row>
 
-      <Grid.Row className='border-top-bold row-title'>
-         <Grid.Column
-            computer='10'
-            tablet='10'
-            mobile='16'
-            as='h6'
-            className='color-charcoal-grey'
-         >
-            CONTACT INFORMATION
+         <Grid.Row className='border-top-bold row-title'>
+            <Grid.Column
+               computer='10'
+               tablet='10'
+               mobile='16'
+               as='h6'
+               className='color-charcoal-grey'
+            >
+               CONTACT INFORMATION
          </Grid.Column>
-         <Grid.Column
-            computer='4'
-            tablet='4'
-            as='h6'
-            textAlign='center'
-            only='tablet'
-         >
-            VISIBLE TO
+            <Grid.Column
+               computer='4'
+               tablet='4'
+               as='h6'
+               textAlign='center'
+               only='tablet'
+            >
+               VISIBLE TO
          </Grid.Column>
-      </Grid.Row>
-      <Grid.Row className='border-top'>
-         <Grid.Column computer='3' tablet='3' mobile='4' className='title'>
-            Email
+         </Grid.Row>
+         <Grid.Row className='border-top'>
+            <Grid.Column computer='3' tablet='3' mobile='4' className='title'>
+               Email
          </Grid.Column>
-         <Grid.Column computer='7' tablet='7' mobile='9'>
-            email@website.com
+            <Grid.Column computer='7' tablet='7' mobile='9'>
+               email@website.com
          </Grid.Column>
-         <Grid.Column computer='4' tablet='4' textAlign='center' only='tablet'>
-            Public
+            <Grid.Column computer='4' tablet='4' textAlign='center' only='tablet'>
+               Public
          </Grid.Column>
-         <Grid.Column
-            as={Link}
-            to='/'
-            computer='2'
-            tablet='2'
-            mobile='3'
-            textAlign='right'
-            className='edit-link'
-         >
-            Edit
+            <Grid.Column
+               as={Link}
+               to='/'
+               computer='2'
+               tablet='2'
+               mobile='3'
+               textAlign='right'
+               className='edit-link'
+            >
+               Edit
          </Grid.Column>
-      </Grid.Row>
-      <Grid.Row className='border-top'>
-         <Grid.Column computer='3' tablet='3' mobile='4' className='title'>
-            Phone
+         </Grid.Row>
+         <Grid.Row className='border-top'>
+            <Grid.Column computer='3' tablet='3' mobile='4' className='title'>
+               Phone
          </Grid.Column>
-         <Grid.Column computer='7' tablet='7' mobile='9'>
-            000-000-0000
+            <Grid.Column computer='7' tablet='7' mobile='9'>
+               000-000-0000
          </Grid.Column>
-         <Grid.Column computer='4' tablet='4' textAlign='center' only='tablet'>
-            Friends
+            <Grid.Column computer='4' tablet='4' textAlign='center' only='tablet'>
+               Friends
          </Grid.Column>
-         <Grid.Column
-            as={Link}
-            to='/'
-            computer='2'
-            tablet='2'
-            mobile='3'
-            textAlign='right'
-            className='edit-link'
-         >
-            Edit
+            <Grid.Column
+               as={Link}
+               to='/'
+               computer='2'
+               tablet='2'
+               mobile='3'
+               textAlign='right'
+               className='edit-link'
+            >
+               Edit
          </Grid.Column>
-      </Grid.Row>
-      <Grid.Row className='border-top'>
-         <Grid.Column computer='3' tablet='3' mobile='4' className='title'>
-            Address
+         </Grid.Row>
+         <Grid.Row className='border-top'>
+            <Grid.Column computer='3' tablet='3' mobile='4' className='title'>
+               Address
          </Grid.Column>
-         <Grid.Column computer='7' tablet='7' mobile='9'>
-            1234 N. West Ave., San Francisco, CA 98562
+            <Grid.Column computer='7' tablet='7' mobile='9'>
+               1234 N. West Ave., San Francisco, CA 98562
          </Grid.Column>
-         <Grid.Column computer='4' tablet='4' textAlign='center' only='tablet'>
-            Friends
+            <Grid.Column computer='4' tablet='4' textAlign='center' only='tablet'>
+               Friends
          </Grid.Column>
-         <Grid.Column
-            as={Link}
-            to='/'
-            computer='2'
-            tablet='2'
-            mobile='3'
-            textAlign='right'
-            className='edit-link'
-         >
-            Edit
+            <Grid.Column
+               as={Link}
+               to='/'
+               computer='2'
+               tablet='2'
+               mobile='3'
+               textAlign='right'
+               className='edit-link'
+            >
+               Edit
          </Grid.Column>
-      </Grid.Row>
+         </Grid.Row>
 
-      <Grid.Row className='border-top-bold row-title'>
-         <Grid.Column
-            computer='10'
-            tablet='10'
-            mobile='16'
-            as='h6'
-            className='color-charcoal-grey'
-         >
-            FINANCIAL INFORMATION
+         <Grid.Row className='border-top-bold row-title'>
+            <Grid.Column
+               computer='10'
+               tablet='10'
+               mobile='16'
+               as='h6'
+               className='color-charcoal-grey'
+            >
+               FINANCIAL INFORMATION
          </Grid.Column>
-         <Grid.Column
-            computer='4'
-            tablet='4'
-            as='h6'
-            textAlign='center'
-            only='tablet'
-         >
-            VISIBLE TO
+            <Grid.Column
+               computer='4'
+               tablet='4'
+               as='h6'
+               textAlign='center'
+               only='tablet'
+            >
+               VISIBLE TO
          </Grid.Column>
-      </Grid.Row>
-      </div> : null }
+         </Grid.Row>
+      </div> : null}
 
       <Grid.Row className='border-top'>
          <Grid.Column computer='3' tablet='3' mobile='4' className='title'>
             Balance
          </Grid.Column>
          <Grid.Column computer='7' tablet='7' mobile='9'>
-            {account.amount} Ⓝ
+            <Balance
+               amount={account.amount}
+               milli={milli} />
          </Grid.Column>
          <Grid.Column computer='4' tablet='4' textAlign='center' only='tablet'>
             Public
