@@ -50,6 +50,8 @@ const SetRecoveryInfoForm = ({
                required
                tabIndex='2'
                className='sms'
+               pattern='[0-9]*'
+               maxLength='6'
             />
 
          </Fragment>
