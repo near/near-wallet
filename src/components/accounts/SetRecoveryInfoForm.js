@@ -42,7 +42,7 @@ const SetRecoveryInfoForm = ({
 
       {sentSms && (
          <Fragment>
-            <Header as='h3'>Security Code from SMS</Header>
+            <Header as='h3'>Enter 6-digit Code</Header>
             <Input
                name='securityCode'
                onChange={handleChange}
