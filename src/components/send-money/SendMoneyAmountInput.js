@@ -25,7 +25,7 @@ const CustomDiv = styled(`div`)`
          text-align: center;
          padding: 0px;
          
-         ::placeholder { font-size: 3rem }
+         ::placeholder { font-size: 5rem }
 
          :focus::-webkit-input-placeholder { color: transparent; }
          :focus:-moz-placeholder { color: transparent; }

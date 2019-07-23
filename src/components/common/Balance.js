@@ -27,6 +27,7 @@ const Balance = (props) => {
         {amountShow}
     </div>)
 }
+
 const convertToShow = (string) => {
     let len = string.length - NOMINATION
     let numInt = string.slice(0, len).replace(REG, ",")
