@@ -65,7 +65,8 @@ class SetRecoveryInfo extends Component {
             })
             .finally(() => {
                this.setState(() => ({
-                  loader: false
+                  loader: false,
+                  isLegit: false
                }))
             })
       }
