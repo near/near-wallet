@@ -64,7 +64,7 @@ class SendMoneyAmountInput extends Component {
    }
 
    handleChangeAmount = (e, { name, value }) => {
-      const amountStatus = value && !/^[0-9]*(|[.][0-9]{5})$/.test(value)
+      const amountStatus = value && !/^[0-9]*(|[.][0-9]{1,5})$/.test(value)
             ? 'Invalid Input'
             :  Number(value)  > Number(this.props.amount)
             ? 'Not enough tokens.' 
