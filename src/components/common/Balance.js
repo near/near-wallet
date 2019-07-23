@@ -1,9 +1,8 @@
-
 import React from 'react'
-const BN = require('bn.js')
 
 // denomination of one near in minimal non divisible units (attoNears)
-const NEAR_NOMINATION = 10 ** 18
+// const NEAR_NOMINATION = 10 ** 18
+const NOMINATION = 18
 
 const REG = /(?=(\B)(\d{3})+$)/g;
 
@@ -15,25 +14,24 @@ const Balance = (props) => {
         verticalAlign: "middle"
     }
 
-    let a = new BN(amount)
-    let amount = Number(props.amount) / NEAR_NOMINATION
-    let amountShow = (amount < 0.01) ?
-        <div>{(amount * 1000).toFixed(5)}<img style={style} src={props.milli} alt="" /></div> :
-        (amount < 1 ? <div>{amount.toFixed(5)} Ⓝ</div> :
-            (amount < 1000 ? <div>{amount.toFixed(5)} Ⓝ</div> : <div>{toThousands(amount)} Ⓝ</div>)
-        )
-    
+    let amount = props.amount
+    let zerosSmall = "0".repeat(NOMINATION - 3)
+    let zeros = "0".repeat(NOMINATION)
+    let amountShow = amount ? ((amount.length <= NOMINATION - 3) ?
+        <div>{"0." + (zerosSmall.substring(amount.length) + amount).slice(0,5)}<img style={style} src={props.milli} alt="" /></div> :
+        (amount.length <= NOMINATION) ? <div>{"0." + (zeros.substring(amount.length) + amount).slice(0,5)} Ⓝ</div> :
+            <div>{convertToShow(amount)} Ⓝ</div>) :null
+
     return (<div>
         {amountShow}
     </div>)
 }
-
-const toThousands = (num) => {
-    let numInt = parseInt(num)
-    let numDec = num - numInt
-    numDec = numDec.toFixed(5).toString().slice(1)
-    return numInt.toString().replace(REG, ",") + numDec
-
+const convertToShow = (string) => {
+    console.log(string, typeof string, string.length)
+    let len = string.length - NOMINATION
+    let numInt = string.slice(0, len).replace(REG, ",")
+    let numDec = string.slice(len, string.length)
+    return numInt + "." + numDec.slice(0,5)
 }
 
 export default Balance
