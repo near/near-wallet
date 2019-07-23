@@ -5,6 +5,9 @@ import { Segment, Form } from 'semantic-ui-react'
 
 import styled from 'styled-components'
 
+import Balance from '../common/Balance'
+import milli from '../../images/n-1000.svg'
+
 const CustomDiv = styled(`div`)`
    &&&&& {
       > .field {
@@ -87,11 +90,10 @@ class SendMoneyAmountInput extends Component {
          <CustomDiv fontSize={`${fontSize}px`}>
             <Form.Input
                type='number'
-               pattern='^[0-9]*([.][0-9]{5}|)$'
                name='amount'
                value={amount}
                onChange={this.handleChangeAmount}
-               placeholder='1 or 0.00001'
+               placeholder='0'
                step='1'
                min='1'
                tabIndex='2'
@@ -102,6 +104,7 @@ class SendMoneyAmountInput extends Component {
                   {amountStatus}
                </Segment>
             )}
+            {amountStatus === '' ? <Balance milli={milli} amount={amount} /> : null}  
          </CustomDiv>
       )
    }

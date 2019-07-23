@@ -14,7 +14,8 @@ const Balance = (props) => {
         verticalAlign: "middle"
     }
 
-    let amount = props.amount
+    let index = props.amount ? props.amount.indexOf(".") : null
+    let amount = index > 0 ?  props.amount.slice(0,index): props.amount
     let zerosSmall = "0".repeat(NOMINATION - 3)
     let zeros = "0".repeat(NOMINATION)
     let amountShow = amount ? ((amount.length <= NOMINATION - 3) ?
@@ -27,7 +28,6 @@ const Balance = (props) => {
     </div>)
 }
 const convertToShow = (string) => {
-    console.log(string, typeof string, string.length)
     let len = string.length - NOMINATION
     let numInt = string.slice(0, len).replace(REG, ",")
     let numDec = string.slice(len, string.length)
