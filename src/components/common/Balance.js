@@ -7,12 +7,8 @@ const NOMINATION = 18
 const REG = /(?=(\B)(\d{3})+$)/g;
 
 const Balance = (props) => {
-
-
     let index = props.amount ? props.amount.indexOf(".") : null
     let amount = index > 0 ? props.amount.slice(0, index) : props.amount
-
-    
     let amountShow = amount ? ((amount.length <= NOMINATION - 3) ? 
                     convertToShowMilli(amount,props.milli) : convertToShow(amount))
                     : null

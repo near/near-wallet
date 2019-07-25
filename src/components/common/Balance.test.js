@@ -12,8 +12,9 @@ describe('<Balance.js>', ()=>{
     const contextBig = "1"+"0".repeat(21)
 
     it('balance should return properly for small number',()=>{
-        let wrapper = shallow(<Balance amount={contextSmall} />)
+        let wrapper = shallow(<Balance amount={contextSmall} milli={milli}/>)
         expect(wrapper.contains("0.00001")).toEqual(true);
+        expect(wrapper.find("img").prop("src")).toEqual(milli);
     })
 
     it('balance should return properly',()=>{
