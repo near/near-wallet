@@ -42,11 +42,11 @@ const SetRecoveryInfoForm = ({
 
       {sentSms && (
          <Fragment>
-            <Header as='h3'>Enter 6-digit Code</Header>
+            <Header as='h3' className='digit-code'>Enter 6-digit Code</Header>
             <Input
                name='securityCode'
                onChange={handleChange}
-               placeholder='example: 123456'
+               placeholder='123456'
                required
                tabIndex='2'
                className='sms'
@@ -75,7 +75,6 @@ SetRecoveryInfoForm.propTypes = {
    formLoader: PropTypes.bool.isRequired,
    phoneNumber: PropTypes.string,
    sentSms: PropTypes.bool,
-   isLegitForm: PropTypes.func,
    requestStatus: PropTypes.object,
    handleChange: PropTypes.func.isRequired,
    skipRecoverySetup: PropTypes.func,

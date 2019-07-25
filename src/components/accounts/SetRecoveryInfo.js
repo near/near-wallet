@@ -5,7 +5,7 @@ import { isValidPhoneNumber } from 'react-phone-number-input'
 import AccountFormSection from './AccountFormSection'
 import AccountFormContainer from './AccountFormContainer'
 import SetRecoveryInfoForm from './SetRecoveryInfoForm'
-import { requestCode, setupAccountRecovery, redirectToApp, clear } from '../../actions/account';
+import { requestCode, setupAccountRecovery, redirectToApp, clear, clearCode } from '../../actions/account';
 
 class SetRecoveryInfo extends Component {
    state = {
@@ -18,6 +18,7 @@ class SetRecoveryInfo extends Component {
 
    componentWillUnmount = () => {
       this.props.clear()
+      this.props.clearCode()
    }
 
    handleChange = (e, { name, value }) => {
@@ -60,7 +61,6 @@ class SetRecoveryInfo extends Component {
          this.props.setupAccountRecovery(this.state.phoneNumber, this.props.accountId, this.state.securityCode)
             .then(({error}) => {
                if (error) return
-
                this.props.redirectToApp()
             })
             .finally(() => {
@@ -93,7 +93,6 @@ class SetRecoveryInfo extends Component {
             <AccountFormSection handleSubmit={this.handleSubmit} requestStatus={this.props.requestStatus}>
                <SetRecoveryInfoForm
                   {...combinedState}
-                  handleSubmit={this.handleSubmit}
                   handleChange={this.handleChange}
                   skipRecoverySetup={this.skipRecoverySetup}
                />
@@ -107,7 +106,8 @@ const mapDispatchToProps = {
    requestCode,
    setupAccountRecovery,
    redirectToApp,
-   clear
+   clear,
+   clearCode
 }
 
 const mapStateToProps = ({ account }, { match }) => ({

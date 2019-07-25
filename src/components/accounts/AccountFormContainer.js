@@ -22,6 +22,13 @@ const CustomContainer = styled(Container)`
          }
          h2 {
             color: #4a4f54 !important;
+
+            span {
+               color: #24272a;
+               line-height: 54px;
+               background: #f8f8f8;
+               padding: 8px 12px;
+            }
          }
       }
       
@@ -53,11 +60,11 @@ const CustomContainer = styled(Container)`
 `
 
 /* eslint-disable jsx-a11y/accessible-emoji */
-const AccountFormContainer = ({ location, title, text, children }) => (
+const AccountFormContainer = ({ location, title, text, children, wide }) => (
    <CustomContainer>
       <Grid stackable>
-        <Grid.Row columns='2' className='page-title'>
-            <Grid.Column computer={9} tablet={8} mobile={16}>
+        <Grid.Row columns={wide ? `1` : `2`} className='page-title'>
+            <Grid.Column computer={wide ? 16 : 9} tablet={wide ? 16 : 8} mobile={16}>
                <Header as='h1'>{title}</Header>
                <Header as='h2'>{text}</Header>
                {location && parse(location.search).reset_accounts && (
@@ -78,8 +85,12 @@ const AccountFormContainer = ({ location, title, text, children }) => (
 AccountFormContainer.propTypes = {
    location: PropTypes.object,
    title: PropTypes.string,
-   text: PropTypes.string,
+   text: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.object
+   ]),
    children: PropTypes.element,
+   wide: PropTypes.bool
 }
 
 export default AccountFormContainer

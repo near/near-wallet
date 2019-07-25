@@ -8,11 +8,14 @@ import AccountNote from '../common/AccountNote'
 import styled from 'styled-components'
 
 const CustomForm = styled(Form)`
-   &&& {
+   &&&& {
       margin-left: -1rem;
 
       h3.column {
          padding-bottom: 0;
+      }
+      h3.digit-code {
+         margin-bottom: -10px;
       }
       .username-row {
          padding-bottom: 0px;
@@ -54,8 +57,8 @@ const CustomForm = styled(Form)`
          }
       }
       .input.sms {
-         width: 288px;
-         display: block;
+         width: 122px;
+         margin-right: 24px;
       }
       .create {
          position: relative;
@@ -73,16 +76,29 @@ const CustomForm = styled(Form)`
       }
 
       @media screen and (max-width: 991px) {
-         
+         .input.sms {
+            width: 288px;
+            margin-top: 0px;
+         }
+         h3.digit-code {
+            margin-bottom: 18px;
+         }
       }
       @media screen and (max-width: 767px) {
          margin-left: 0;
+         
          .username-row {
             margin-left: 0;
          }
          .form-row {
             padding-top: 6px;
             margin-left: 0;
+         }
+         .input.sms {
+            width: 288px;
+            margin-right: 0px;
+            display: block;
+            margin-top: 0px;
          }
       }
    }
