@@ -1,23 +1,23 @@
 import React from 'react'
 
 // denomination of one near in minimal non divisible units (attoNears)
-// const NEAR_NOMINATION = 10 ** 18
+// NEAR_NOMINATION is 10 ** 18 one unit
 const NOMINATION = 18
-
 const REG = /(?=(\B)(\d{3})+$)/g;
 
-const Balance = (props) => {
-    let index = props.amount ? props.amount.indexOf(".") : null
-    let amount = index > 0 ? props.amount.slice(0, index) : props.amount
-    let amountShow = amount ? ((amount.length <= NOMINATION - 3) ? 
-                    convertToShowMilli(amount,props.milli) : convertToShow(amount))
-                    : null
-
+const Balance = ({amount, milli}) => {
+    if (!amount) {
+        throw new Error("the account balance is wrong")
+    }
+    let index = amount.indexOf(".")
+    amount = index > 0 ? amount.slice(0, index) : amount
+    let amountShow = (amount.length <= NOMINATION - 3) ?
+        convertToShowMilli(amount, milli) : convertToShow(amount)
+        
     return (<div>
         {amountShow}
     </div>)
 }
-
 const convertToShowMilli = (amount, milli) => {
     let style = {
         width: "1em",
@@ -33,14 +33,14 @@ const convertToShow = (amount) => {
     if (amount.length <= NOMINATION) {
         let zeros = "0".repeat(NOMINATION)
         return (<div>{"0." + (zeros.substring(amount.length) + amount).slice(0, 5)} Ⓝ</div>)
-    }else{
+    } else {
         let len = amount.length - NOMINATION
-        let numInt = len>3 ? amount.slice(0, len).replace(REG, ",") : amount.slice(0, len)
+        let numInt = len > 3 ? amount.slice(0, len).replace(REG, ",") : amount.slice(0, len)
         let numDec = amount.slice(len, amount.length)
         let num = numInt + "." + numDec.slice(0, 5)
         return (<div>{num} Ⓝ</div>)
     }
-    
+
 }
 
 export default Balance

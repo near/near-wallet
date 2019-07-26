@@ -125,9 +125,9 @@ class DashboardDetail extends Component {
             title={(
                <Fragment>
                   <span className='balance'>Balance: </span>
-                  <Balance
+                  {amount ?  <Balance
                      amount={amount}
-                     milli={milli} />
+                     milli={milli} />: "NaN"}
                </Fragment>
             )}
             additional={(

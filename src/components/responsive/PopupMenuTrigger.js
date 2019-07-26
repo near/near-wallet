@@ -127,9 +127,9 @@ const PopupMenuTrigger = ({ account, handleClick, type, dropdown = false }) => (
                   <Loader active inline size='mini' />
                ) : (
                      <div>
-                        <Balance
+                        {account.amount ? <Balance
                            amount={account.amount}
-                           milli={milli} />
+                           milli={milli} /> : "NaN"}
                      </div>
                   )}
             </div>

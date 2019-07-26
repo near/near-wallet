@@ -67,9 +67,9 @@ const SendMoneyThirdStep = ({ note, amount, accountId }) => (
          <Image src={SendImage} />
       </List.Item>
       <List.Item as='h2' className='amount'>
-         <Balance
+         {amount ? <Balance
             milli={milli}
-            amount={amount} /> 
+            amount={amount} /> : "NaN"}
             <span>was sent to:</span>
       </List.Item>
       <List.Item className='main-image'>

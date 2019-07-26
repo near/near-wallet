@@ -60,16 +60,22 @@ const CustomDiv = styled(`div`)`
    }
 `
 
+const BN = require('bn.js')
 class SendMoneyAmountInput extends Component {
    state = {
       amount: `${this.props.defaultAmount}` || '',
       amountStatus: ''
    }
 
+   isDecimalString = (value) => {
+      let REG = /^[0-9]*(|[.][0-9]{1,5})$/
+      return REG.test(value)
+   }
+
    handleChangeAmount = (e, { name, value }) => {
-      const amountStatus = value && !/^[0-9]*(|[.][0-9]{1,5})$/.test(value)
+      const amountStatus = value && !this.isDecimalString(value)
             ? 'Invalid Input'
-            :  Number(value)  > Number(this.props.amount)
+            :  BN(value)  > BN(this.props.amount)
             ? 'Not enough tokens.' 
             : ''
 
