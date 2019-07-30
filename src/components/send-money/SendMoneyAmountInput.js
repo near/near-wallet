@@ -110,7 +110,7 @@ class SendMoneyAmountInput extends Component {
                   {amountStatus}
                </Segment>
             )}
-            {amount ? <Balance milli={milli} amount={this.state.amount} /> : ''}
+            {amount ? <Balance milli={milli} amount={this.state.amount} /> : '0'}
          </CustomDiv>
       )
    }
