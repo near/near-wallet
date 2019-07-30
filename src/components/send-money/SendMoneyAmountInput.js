@@ -75,9 +75,9 @@ class SendMoneyAmountInput extends Component {
    handleChangeAmount = (e, { name, value }) => {
       const amountStatus = value && !this.isDecimalString(value)
             ? 'Invalid Input'
-            :  BN(value)  > BN(this.props.amount)
+            :  BN(value)  > BN(this.state.amount)
             ? 'Not enough tokens.' 
-            : ''
+            : <Balance milli={milli} amount={this.state.amount} />
 
       this.setState(() => ({
          [name]: value,
@@ -110,7 +110,6 @@ class SendMoneyAmountInput extends Component {
                   {amountStatus}
                </Segment>
             )}
-            {amountStatus === '' ? <Balance milli={milli} amount={amount} /> : null}  
          </CustomDiv>
       )
    }
