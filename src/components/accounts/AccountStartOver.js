@@ -24,6 +24,10 @@ const CustomSegment = styled(Segment)`
          padding-left: 18px;
          margin-top: 0px;
       }
+
+      @media screen and (max-width: 767px) {
+         margin-top: 12px;
+      }
    }
 `
 

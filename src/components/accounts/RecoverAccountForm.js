@@ -51,7 +51,7 @@ const RecoverAccountForm = ({
 
       {sentSms && (
          <Fragment>
-         <Header as='h3' className='digit-code'>&nbsp;</Header>
+         <Header as='h3' className='digit-code empty'>&nbsp;</Header>
             <Input
                name='securityCode'
                onChange={handleChange}

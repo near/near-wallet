@@ -95,10 +95,15 @@ const CustomForm = styled(Form)`
             margin-left: 0;
          }
          .input.sms {
-            width: 288px;
+            width: 100%;
             margin-right: 0px;
             display: block;
             margin-top: 0px;
+         }
+         h3.digit-code.empty {
+            padding: 0px;
+            height: 0px;
+            margin: -24px 0 0 0;
          }
       }
    }

@@ -48,6 +48,11 @@ const CustomContainer = styled(Container)`
                line-height: 22px !important;
                color: #999 !important;
                padding-bottom: 24px;
+
+               span {
+                  line-height: 36px;
+                  padding: 4px 12px;
+               }
             }
             .column.add {
                text-align: left;
