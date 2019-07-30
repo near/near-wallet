@@ -44,11 +44,10 @@ class RecoverAccount extends Component {
       e.preventDefault()
 
       this.props.clearCode()
-      this.props.clear()
+      this.props.checkAccountAvailable(this.state.accountId)
 
       this.setState(() => ({
-         accountId: '',
-         phoneNumber: ''
+         isLegit: true
       }))
    }
 
@@ -110,7 +109,7 @@ class RecoverAccount extends Component {
          isLegit: this.state.isLegit && !this.props.formLoader
       }
       const { sentSms } = this.props
-
+      
       return (
          <AccountFormContainer 
             wide={sentSms ? true : false}

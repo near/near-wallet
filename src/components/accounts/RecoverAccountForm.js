@@ -17,7 +17,8 @@ const RecoverAccountForm = ({
    handleChange,
    handleStartOver,
    handleResendCode,
-   resendLoader
+   resendLoader,
+   accountId
 }) => (
    <Fragment>
       {!sentSms && (
@@ -26,6 +27,7 @@ const RecoverAccountForm = ({
             <AccountFormAccountId
                formLoader={formLoader}
                handleChange={handleChange}
+               defaultAccountId={accountId}
             />
             
             <Header as='h3'>Phone Number</Header>
