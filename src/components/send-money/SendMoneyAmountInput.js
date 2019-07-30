@@ -77,7 +77,7 @@ class SendMoneyAmountInput extends Component {
             ? 'Invalid Input'
             :  BN(value)  > BN(this.state.amount)
             ? 'Not enough tokens.' 
-            : <Balance milli={milli} amount={this.state.amount} />
+            : ''
 
       this.setState(() => ({
          [name]: value,
@@ -110,6 +110,7 @@ class SendMoneyAmountInput extends Component {
                   {amountStatus}
                </Segment>
             )}
+            {amount ? <Balance milli={milli} amount={this.state.amount} /> : "NaN"}
          </CustomDiv>
       )
    }
