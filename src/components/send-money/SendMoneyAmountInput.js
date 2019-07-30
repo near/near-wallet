@@ -63,7 +63,7 @@ const CustomDiv = styled(`div`)`
 const BN = require('bn.js')
 class SendMoneyAmountInput extends Component {
    state = {
-      amount: `${this.props.defaultAmount}` || '',
+      amountInput: `${this.props.defaultAmount}` || '',
       amountStatus: ''
    }
 
@@ -72,20 +72,17 @@ class SendMoneyAmountInput extends Component {
       return REG.test(value)
    }
 
-   hasEnoughToken = (amountStatus, amount, defaultAmount) => {
-      console.log("amountStatus,", amountStatus,"amount,", amount,"defaultAmount,", defaultAmount)
-      if (amount !== '' && !defaultAmount && BN(amount) > BN(defaultAmount)){
-         amountStatus = 'Not enough tokens.' 
-      }
-      return amountStatus
-   }
-   
-
    handleChangeAmount = (e, { name, value }) => {
-      const amountStatus = value && !this.isDecimalString(value)
-            ? 'Invalid Input'
-            : ''
-
+      let amountStatus = ''
+      if (value && !this.isDecimalString(value)){
+         amountStatus = 'Invalid Input'
+      }
+      let input = new BN(value)
+      let balance = new BN(this.props.amount)
+      if (balance.sub(input).negative === 1) {
+         amountStatus = 'Not enough tokens.'
+      }
+      console.log("amount status outside",amountStatus)
       this.setState(() => ({
          [name]: value,
          amountStatus
@@ -95,17 +92,20 @@ class SendMoneyAmountInput extends Component {
       this.props.handleChange(e, { name: 'amountStatus', value: amountStatus })
    }
 
-   render () {
-      const { amount, amountStatus } = this.state
-      const { defaultAmount } = this.props
-      const fontSize = amount.length > 11 ? 32 : amount.length > 8 ? 38 : amount.length > 5 ? 50 : 72
+   componentDidMount() {
+      console.log("amount input mount", this.state.amountInput, "balance", this.props.amount)
+   }
+
+   render() {
+      const { amountInput, amountStatus } = this.state
+      const fontSize = amountInput.length > 11 ? 32 : amountInput.length > 8 ? 38 : amountInput.length > 5 ? 50 : 72
 
       return (
          <CustomDiv fontSize={`${fontSize}px`}>
             <Form.Input
                type='number'
-               name='amount'
-               value={amount}
+               name='amountInput'
+               value={amountInput}
                onChange={this.handleChangeAmount}
                placeholder='0'
                step='1'
@@ -113,11 +113,11 @@ class SendMoneyAmountInput extends Component {
                tabIndex='2'
                required={true}
             />
-            { defaultAmount ? this.hasEnoughToken(amountStatus,amount,defaultAmount) && (
+            {amountStatus && (
                <Segment basic textAlign='center' className='alert-info problem'>
                   {amountStatus}
-               </Segment>) : 'How much do you want to send?'}
-            {amount ? <Balance milli={milli} amount={amount} /> : ""}  
+               </Segment>)}
+            {amountInput ? <Balance milli={milli} amount={amountInput} /> : ""}
          </CustomDiv>
       )
    }
@@ -125,7 +125,7 @@ class SendMoneyAmountInput extends Component {
 
 SendMoneyAmountInput.propTypes = {
    handleChange: PropTypes.func.isRequired,
-   amount: PropTypes.string
+   amountInput: PropTypes.string
 }
 
 const mapDispatchToProps = {}
@@ -134,7 +134,4 @@ const mapStateToProps = ({ account }, { match }) => ({
    ...account,
 })
 
-export default connect(
-   mapStateToProps,
-   mapDispatchToProps
-)(SendMoneyAmountInput)
+export default connect(mapStateToProps, mapDispatchToProps)(SendMoneyAmountInput)

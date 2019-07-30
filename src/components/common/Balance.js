@@ -7,7 +7,7 @@ const REG = /(?=(\B)(\d{3})+$)/g;
 
 const Balance = ({amount, milli}) => {
     if (!amount) {
-        throw new Error("the account balance is wrong")
+        throw new Error("the balance display is wrong")
     }
     let index = amount.indexOf(".")
     amount = index > 0 ? amount.slice(0, index) : amount
