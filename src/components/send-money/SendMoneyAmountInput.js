@@ -60,7 +60,7 @@ const CustomDiv = styled(`div`)`
    }
 `
 
-const BN = require('bn.js')
+const Big = require('big.js')
 class SendMoneyAmountInput extends Component {
    state = {
       amountInput: `${this.props.defaultAmount}` || '',
@@ -74,15 +74,18 @@ class SendMoneyAmountInput extends Component {
 
    handleChangeAmount = (e, { name, value }) => {
       let amountStatus = ''
-      if (value && !this.isDecimalString(value)){
+      if (value && !this.isDecimalString(value)) {
          amountStatus = 'Invalid Input'
       }
-      let input = new BN(value)
-      let balance = new BN(this.props.amount)
-      if (balance.sub(input).negative === 1) {
-         amountStatus = 'Not enough tokens.'
+
+      if (value !== '') {
+         let input = new Big(value)
+         let balance = new Big(this.props.amount)
+         console.log(balance.minus(input))
+         if (balance.sub(input).s < 0) {
+            amountStatus = 'Not enough tokens.'
+         }
       }
-      console.log("amount status outside",amountStatus)
       this.setState(() => ({
          [name]: value,
          amountStatus
@@ -90,10 +93,6 @@ class SendMoneyAmountInput extends Component {
 
       this.props.handleChange(e, { name, value })
       this.props.handleChange(e, { name: 'amountStatus', value: amountStatus })
-   }
-
-   componentDidMount() {
-      console.log("amount input mount", this.state.amountInput, "balance", this.props.amount)
    }
 
    render() {
@@ -117,7 +116,7 @@ class SendMoneyAmountInput extends Component {
                <Segment basic textAlign='center' className='alert-info problem'>
                   {amountStatus}
                </Segment>)}
-            {amountInput ? <Balance milli={milli} amount={amountInput} /> : ""}
+            {amountInput ? <Balance milli={milli} amount={amountInput} /> : "How much would you want to send?"}
          </CustomDiv>
       )
    }
