@@ -154,7 +154,7 @@ const DesktopPopup = ({
                <List.Icon as={Image} src={AuthorizedGreyImage} />
                <List.Content
                   as={Link}
-                  to='authorized-apps'
+                  to='/authorized-apps'
                   onClick={handleClose}
                >
                   Authorized Apps

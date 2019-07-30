@@ -5,25 +5,29 @@ import PhoneInput from 'react-phone-number-input'
 
 import FormButton from '../common/FormButton'
 import AccountFormAccountId from './AccountFormAccountId'
+import AccountStartOver from './AccountStartOver'
 
 const RecoverAccountForm = ({
    loader,
    formLoader,
    phoneNumber,
    sentSms,
+   isLegit,
    requestStatus,
    handleChange,
-   isLegitForm
+   handleStartOver,
+   handleResendCode,
+   resendLoader
 }) => (
    <Fragment>
-      <Header as='h3'>Username</Header>
-      <AccountFormAccountId
-         formLoader={formLoader}
-         handleChange={handleChange}
-      />
-
       {!sentSms && (
          <Fragment>
+            <Header as='h3'>Username</Header>
+            <AccountFormAccountId
+               formLoader={formLoader}
+               handleChange={handleChange}
+            />
+            
             <Header as='h3'>Phone Number</Header>
             <PhoneInput
                className={`create ${
@@ -47,14 +51,16 @@ const RecoverAccountForm = ({
 
       {sentSms && (
          <Fragment>
-            <Header as='h3'>Enter 6-digit Code</Header>
+         <Header as='h3' className='digit-code'>&nbsp;</Header>
             <Input
                name='securityCode'
                onChange={handleChange}
-               placeholder='example: 123456'
+               placeholder='123456'
                required
                tabIndex='2'
                className='sms'
+               pattern='[0-9]*'
+               maxLength='6'
             />
          </Fragment>
       )}
@@ -62,11 +68,19 @@ const RecoverAccountForm = ({
       <FormButton
          type='submit'
          color='blue'
-         disabled={!isLegitForm()}
+         disabled={!isLegit}
          sending={loader}
       >
          FIND MY ACCOUNT
       </FormButton>
+
+      {sentSms && (
+         <AccountStartOver
+            handleStartOver={handleStartOver}
+            handleResendCode={handleResendCode}
+            resendLoader={resendLoader}
+         />
+      )}
    </Fragment>
 )
 
@@ -77,7 +91,8 @@ RecoverAccountForm.propTypes = {
    sentSms: PropTypes.bool,
    requestStatus: PropTypes.object,
    handleChange: PropTypes.func.isRequired,
-   isLegitForm: PropTypes.func,
+   handleStartOver: PropTypes.func.isRequired,
+   handleResendCode: PropTypes.func.isRequired
 }
 
 export default RecoverAccountForm

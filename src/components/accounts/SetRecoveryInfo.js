@@ -5,7 +5,7 @@ import { isValidPhoneNumber } from 'react-phone-number-input'
 import AccountFormSection from './AccountFormSection'
 import AccountFormContainer from './AccountFormContainer'
 import SetRecoveryInfoForm from './SetRecoveryInfoForm'
-import { requestCode, setupAccountRecovery, redirectToApp, clear } from '../../actions/account';
+import { requestCode, setupAccountRecovery, redirectToApp, clear, clearCode } from '../../actions/account';
 
 class SetRecoveryInfo extends Component {
    state = {
@@ -18,6 +18,7 @@ class SetRecoveryInfo extends Component {
 
    componentWillUnmount = () => {
       this.props.clear()
+      this.props.clearCode()
    }
 
    handleChange = (e, { name, value }) => {
@@ -60,12 +61,12 @@ class SetRecoveryInfo extends Component {
          this.props.setupAccountRecovery(this.state.phoneNumber, this.props.accountId, this.state.securityCode)
             .then(({error}) => {
                if (error) return
-
                this.props.redirectToApp()
             })
             .finally(() => {
                this.setState(() => ({
-                  loader: false
+                  loader: false,
+                  isLegit: false
                }))
             })
       }
@@ -82,15 +83,16 @@ class SetRecoveryInfo extends Component {
          ...this.state,
          isLegit: this.state.isLegit && !this.props.formLoader
       }
+      const { sentSms } = this.props
+      
       return (
          <AccountFormContainer 
-            title='Protect your Account'
-            text='Enter your phone number to make your account easy for you to recover in the future.'
+            title={sentSms ? `Enter your Code` : `Protect your Account`}
+            text={sentSms ? `We sent you a 6-digit code via SMS text. Please enter it below to find your account.` : `Enter your phone number to make your account easy for you to recover in the future.`}
          >
             <AccountFormSection handleSubmit={this.handleSubmit} requestStatus={this.props.requestStatus}>
                <SetRecoveryInfoForm
                   {...combinedState}
-                  handleSubmit={this.handleSubmit}
                   handleChange={this.handleChange}
                   skipRecoverySetup={this.skipRecoverySetup}
                />
@@ -104,7 +106,8 @@ const mapDispatchToProps = {
    requestCode,
    setupAccountRecovery,
    redirectToApp,
-   clear
+   clear,
+   clearCode
 }
 
 const mapStateToProps = ({ account }, { match }) => ({

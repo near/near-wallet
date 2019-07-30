@@ -11,6 +11,7 @@ import {
    createNewAccount,
    checkAccountAvailable,
    clear,
+   clearCode,
    addAccessKey,
    clearAlert
 } from '../actions/account'
@@ -63,6 +64,9 @@ const reducer = handleActions({
             return { ...state, sentSms: true }
          }
          return state
+      },
+      [clearCode]: (state, { error, ready }) => {
+         return { ...state, sentSms: false }
       }
 }, initialState)
 
