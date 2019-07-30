@@ -72,11 +72,18 @@ class SendMoneyAmountInput extends Component {
       return REG.test(value)
    }
 
+   hasEnoughToken = (amountStatus, amount, defaultAmount) => {
+      console.log("amountStatus,", amountStatus,"amount,", amount,"defaultAmount,", defaultAmount)
+      if (amount !== '' && !defaultAmount && BN(amount) > BN(defaultAmount)){
+         amountStatus = 'Not enough tokens.' 
+      }
+      return amountStatus
+   }
+   
+
    handleChangeAmount = (e, { name, value }) => {
       const amountStatus = value && !this.isDecimalString(value)
             ? 'Invalid Input'
-            :  BN(value)  > BN(this.state.amount)
-            ? 'Not enough tokens.' 
             : ''
 
       this.setState(() => ({
@@ -90,6 +97,7 @@ class SendMoneyAmountInput extends Component {
 
    render () {
       const { amount, amountStatus } = this.state
+      const { defaultAmount } = this.props
       const fontSize = amount.length > 11 ? 32 : amount.length > 8 ? 38 : amount.length > 5 ? 50 : 72
 
       return (
@@ -105,12 +113,11 @@ class SendMoneyAmountInput extends Component {
                tabIndex='2'
                required={true}
             />
-            {amountStatus && (
+            { defaultAmount ? this.hasEnoughToken(amountStatus,amount,defaultAmount) && (
                <Segment basic textAlign='center' className='alert-info problem'>
                   {amountStatus}
-               </Segment>
-            )}
-            {amount ? <Balance milli={milli} amount={this.state.amount} /> : '0'}
+               </Segment>) : 'How much do you want to send?'}
+            {amount ? <Balance milli={milli} amount={amount} /> : ""}  
          </CustomDiv>
       )
    }
