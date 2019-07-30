@@ -81,7 +81,6 @@ class SendMoneyAmountInput extends Component {
       if (value !== '') {
          let input = new Big(value)
          let balance = new Big(this.props.amount)
-         console.log(balance.minus(input))
          if (balance.sub(input).s < 0) {
             amountStatus = 'Not enough tokens.'
          }
