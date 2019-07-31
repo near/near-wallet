@@ -18,7 +18,6 @@ class Login extends Component {
    componentDidMount = () => {
       this.wallet = new Wallet()
       this.props.handleRefreshUrl(this.props.location)
-      this.props.handleRefreshAccount(this.props.history)
    }
 
    componentWillUnmount = () => {

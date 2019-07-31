@@ -3,12 +3,7 @@ import { connect } from 'react-redux'
 
 import { withRouter } from 'react-router-dom'
 
-import {
-   handleRefreshAccount,
-   handleRefreshUrl,
-   getAccountDetails,
-   removeAccessKey
-} from '../../actions/account'
+import { getAccountDetails, removeAccessKey } from '../../actions/account'
 
 import AuthorizedAppsEmpty from './AuthorizedAppsEmpty'
 import PaginationBlock from '../pagination/PaginationBlock'
@@ -76,8 +71,6 @@ class AuthorizedApps extends Component {
    }
 
    componentDidMount() {
-      this.props.handleRefreshUrl(this.props.location)
-      this.props.handleRefreshAccount(this.props.history)
       this.refreshAuthorizedApps()
    }
 
@@ -129,8 +122,6 @@ class AuthorizedApps extends Component {
 }
 
 const mapDispatchToProps = {
-   handleRefreshAccount,
-   handleRefreshUrl,
    getAccountDetails,
    removeAccessKey
 }

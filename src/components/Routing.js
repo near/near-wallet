@@ -1,4 +1,6 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
 
 import { Route, Switch } from 'react-router-dom'
 import { ConnectedRouter } from 'connected-react-router'
@@ -17,6 +19,8 @@ import { AuthorizedAppsWithRouter } from './authorized-apps/AuthorizedApps'
 import { SendMoneyWithRouter } from './send-money/SendMoney'
 import { ProfileWithRouter } from './profile/Profile'
 
+import { handleRefreshAccount, handleRefreshUrl } from '../actions/account'
+
 import { ThemeProvider } from 'styled-components'
 import GlobalStyle from './GlobalStyle'
 const theme = {}
@@ -24,6 +28,14 @@ const theme = {}
 const PATH_PREFIX = process.env.PUBLIC_URL
 
 class Routing extends Component {
+   componentDidMount = () => {
+      const { handleRefreshAccount, history } = this.props
+      handleRefreshAccount(history)
+      history.listen(() => {
+         handleRefreshAccount(history, false)
+      })
+   }
+
    render() {
       return (
          <div className='App'>
@@ -90,4 +102,18 @@ class Routing extends Component {
    }
 }
 
-export default Routing
+Routing.propTypes = {
+   history: PropTypes.object.isRequired
+}
+
+const mapDispatchToProps = {
+   handleRefreshAccount,
+   handleRefreshUrl
+}
+
+const mapStateToProps = () => ({})
+
+export default connect(
+   mapStateToProps,
+   mapDispatchToProps
+)(Routing)
