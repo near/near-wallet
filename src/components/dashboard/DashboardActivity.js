@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 import FormButton from '../common/FormButton'
 import ListItem from './ListItem'
 
-import { Loader, Grid, Dimmer, Header, Image } from 'semantic-ui-react'
+import { Grid, Header, Image } from 'semantic-ui-react'
 
 import styled from 'styled-components'
 
@@ -51,7 +51,7 @@ const CustomGrid = styled(Grid)`
    }
 `
 
-const DashboardActivity = ({ loader, image, title, to, activity }) => (
+const DashboardActivity = ({ image, title, to, activity }) => (
    <CustomGrid>
       <Grid.Row>
          <Grid.Column className='dashboard-header' textAlign='left' width={16}>
@@ -61,9 +61,6 @@ const DashboardActivity = ({ loader, image, title, to, activity }) => (
             </Header>
          </Grid.Column>
       </Grid.Row>
-      <Dimmer inverted active={loader}>
-         <Loader />
-      </Dimmer>
 
       {activity.map((row, i) => (
          <ListItem key={`d-${i}`} row={row} />

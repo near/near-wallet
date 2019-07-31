@@ -133,7 +133,6 @@ class DashboardDetail extends Component {
             )}
          >
             <DashboardActivity
-               loader={loader}
                image={AuthorizedGreyImage}
                title='Authorized Apps'
                to='/authorized-apps'
