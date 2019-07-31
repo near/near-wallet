@@ -68,14 +68,14 @@ class SendMoneyAmountInput extends Component {
    }
 
    isDecimalString = (value) => {
-      let REG = /^[0-9]*(|[.][0-9]{1,5})$/
+      let REG = /^[0-9]*(|[.][0-9]{1,18})$/
       return REG.test(value)
    }
 
    handleChangeAmount = (e, { name, value }) => {
       let amountStatus = ''
       if (value && !this.isDecimalString(value)) {
-         amountStatus = 'Invalid Input'
+         amountStatus = 'NO MORE THAN 18 DECIMAL DIGITS'
       }
 
       if (value !== '') {
