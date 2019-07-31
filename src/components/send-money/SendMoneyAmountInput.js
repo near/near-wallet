@@ -86,11 +86,11 @@ class SendMoneyAmountInput extends Component {
          }
       }
       this.setState(() => ({
-         [name]: value,
+         amountInput: value,
          amountStatus
       }))
 
-      this.props.handleChange(e, { name, value })
+      this.props.handleChange(e, { name: 'amount', value })
       this.props.handleChange(e, { name: 'amountStatus', value: amountStatus })
    }
 
