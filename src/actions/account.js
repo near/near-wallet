@@ -88,14 +88,14 @@ const wallet = new Wallet()
 
 export const redirectToApp = () => (dispatch, getState) => {
    const state = getState()
-   const nextUrl = ((state.account.url && state.account.url.success_url) || state.account.url.public_key) ? `/login/?${stringify(state.account.url)}` : '/'
+   const nextUrl = (state.account.url && (state.account.url.success_url || state.account.url.public_key)) ? `/login/?${stringify(state.account.url)}` : '/'
    
    setTimeout(() => {
       window.location = nextUrl
    }, 1500)
 }
 
-export const { requestCode, setupAccountRecovery, recoverAccount, getAccountDetails, removeAccessKey, checkNewAccount, createNewAccount, checkAccountAvailable, clear } = createActions({
+export const { requestCode, setupAccountRecovery, recoverAccount, getAccountDetails, removeAccessKey, checkNewAccount, createNewAccount, checkAccountAvailable, clear, clearCode } = createActions({
    REQUEST_CODE: [
       wallet.requestCode.bind(wallet),
       () => ({ successCode: 'account.requestCode.success', errorCode: 'account.requestCode.error' })
@@ -123,6 +123,7 @@ export const { requestCode, setupAccountRecovery, recoverAccount, getAccountDeta
       () => ({ successCode: 'User found.', errorCode: 'User not found.' })
    ],
    CLEAR: null,
+   CLEAR_CODE: null,
 })
 
 export const { addAccessKey, clearAlert } = createActions({

@@ -180,7 +180,7 @@ export class Wallet {
    async setupAccountRecovery(phoneNumber, accountId, securityCode) {
       const account = this.getAccount(accountId)
       const state = await account.state()
-      if (!state.public_keys.some(key => b58.encode(Buffer.from(key)) === HELPER_KEY)) {
+      if (state.public_keys.indexOf(HELPER_KEY) < 0) {
          await account.addKey(HELPER_KEY)
       }
 

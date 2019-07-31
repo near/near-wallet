@@ -1,8 +1,8 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
 import { isValidPhoneNumber } from 'react-phone-number-input'
 
-import { requestCode, recoverAccount, redirectToApp, checkAccountAvailable, clear } from '../../actions/account'
+import { requestCode, recoverAccount, redirectToApp, checkAccountAvailable, clear, clearCode } from '../../actions/account'
 
 import RecoverAccountForm from './RecoverAccountForm'
 import AccountFormSection from './AccountFormSection'
@@ -14,12 +14,14 @@ class RecoverAccount extends Component {
       accountId: '',
       phoneNumber: '',
       isLegit: false,
+      resendLoader: false
    }
 
    componentDidMount = () => {}
 
    componentWillUnmount = () => {
       this.props.clear()
+      this.props.clearCode()
    }
 
    handleChange = (e, { name, value }) => {
@@ -38,15 +40,40 @@ class RecoverAccount extends Component {
       return validators[name](value);
    }
 
-   isLegitForm = () => this.props.requestStatus && this.props.requestStatus.success && this.state.isLegit
+   handleStartOver = e => {
+      e.preventDefault()
+
+      this.props.clearCode()
+      this.props.clear()
+
+      this.setState(() => ({
+         accountId: '',
+         phoneNumber: ''
+      }))
+   }
+
+   handleResendCode = e => {
+      e.preventDefault()
+
+      this.setState(() => ({
+         resendLoader: true
+      }))
+      
+      this.props.requestCode(this.state.phoneNumber, this.state.accountId)
+         .finally(() => {
+            this.setState(() => ({
+               resendLoader: false
+            }))
+         })
+   }
 
    handleSubmit = e => {
       e.preventDefault()
 
-      if (!this.isLegitForm()) {
+      if (!this.state.isLegit) {
          return false
       }
-      
+
       this.setState(() => ({
          loader: true
       }))
@@ -56,18 +83,21 @@ class RecoverAccount extends Component {
          this.props.requestCode(this.state.phoneNumber, accountId)
             .finally(() => {
                this.setState(() => ({
-                  loader: false
+                  loader: false,
+                  isLegit: false
                }))
+               this.props.clear()
             })
       } else {
          this.props.recoverAccount(this.state.phoneNumber, accountId, this.state.securityCode)
             .then(({ error }) => {
-               if (error) return;
+               if (error) return
                this.props.redirectToApp()
             })
             .finally(() => {
                this.setState(() => ({
-                  loader: false
+                  loader: false,
+                  isLegit: false
                }))
             })
       }
@@ -83,14 +113,22 @@ class RecoverAccount extends Component {
 
       return (
          <AccountFormContainer 
+            wide={sentSms ? true : false}
             title={sentSms ? `Enter your Code` : `Find your Account`}
-            text={sentSms ? `We sent you a 6-digit code via SMS text. Please enter it below to find your account.` : `Enter your information associated with the account and we will send a recovery code.`}
+            text={sentSms ? (
+               <Fragment>
+                  Your 6-digit code has been sent to: <span>{this.state.phoneNumber}</span>
+                  <br/>
+                  Enter it below to recover the account: <span>@{this.state.accountId}</span>
+               </Fragment>
+            ) : `Enter your information associated with the account and we will send a recovery code.`}
          >
             <AccountFormSection requestStatus={this.props.requestStatus} handleSubmit={this.handleSubmit.bind(this)}>
                <RecoverAccountForm
                   {...combinedState}
                   handleChange={this.handleChange}
-                  isLegitForm={this.isLegitForm}
+                  handleStartOver={this.handleStartOver}
+                  handleResendCode={this.handleResendCode}
                />
             </AccountFormSection>
          </AccountFormContainer>
@@ -103,11 +141,12 @@ const mapDispatchToProps = {
    recoverAccount, 
    redirectToApp,
    checkAccountAvailable,
-   clear
+   clear,
+   clearCode
 }
 
 const mapStateToProps = ({ account }, { match }) => ({
-   ...account,
+   ...account
 })
 
 export const RecoverAccountWithRouter = connect(
