@@ -68,14 +68,14 @@ class SendMoneyAmountInput extends Component {
    }
 
    isDecimalString = (value) => {
-      let REG = /^[0-9]*(|[.][0-9]{1,18})$/
+      let REG = /^[0-9]*(|[.][0-9]{1,5})$/
       return REG.test(value)
    }
 
    handleChangeAmount = (e, { name, value }) => {
       let amountStatus = ''
       if (value && !this.isDecimalString(value)) {
-         amountStatus = 'NO MORE THAN 18 DECIMAL DIGITS'
+         amountStatus = 'NO MORE THAN 5 DECIMAL DIGITS'
       }
 
       if (value !== '') {
@@ -115,7 +115,7 @@ class SendMoneyAmountInput extends Component {
                <Segment basic textAlign='center' className='alert-info problem'>
                   {amountStatus}
                </Segment>)}
-            {amountInput ? <Balance milli={milli} amount={amountInput} /> : "How much would you want to send?"}
+            {amountInput ? <Balance milli={milli} amount={amountInput} /> : "How much would you want to send? Please send at least 10,000,000,000 "}
          </CustomDiv>
       )
    }
