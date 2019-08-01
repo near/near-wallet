@@ -16,7 +16,6 @@
     "babel-preset-react-app": "^7.0.2",
     "bfj": "6.1.1",
     "big.js": "^5.2.2",
-    "bn.js": "^5.0.0",
     "case-sensitive-paths-webpack-plugin": "2.2.0",
     "connected-react-router": "^6.4.0",
     "css-loader": "1.0.0",

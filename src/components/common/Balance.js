@@ -7,7 +7,10 @@ const REG = /(?=(\B)(\d{3})+$)/g;
 
 const Balance = ({amount, milli}) => {
     if (!amount) {
-        throw new Error("the balance display is wrong")
+        throw new Error("amount property should not be null")
+    }
+    if (!milli) {
+        throw new Error("token image should not be null")
     }
     let index = amount.indexOf(".")
     amount = index > 0 ? amount.slice(0, index) : amount
@@ -18,6 +21,7 @@ const Balance = ({amount, milli}) => {
         {amountShow}
     </div>)
 }
+
 const convertToShowMilli = (amount, milli) => {
     let style = {
         width: "1em",
@@ -42,5 +46,4 @@ const convertToShow = (amount) => {
     }
 
 }
-
 export default Balance
