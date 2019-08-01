@@ -12,6 +12,7 @@ const Balance = ({amount, milli}) => {
     if (!milli) {
         throw new Error("token image should not be null")
     }
+    amount = amount.toString()
     let index = amount.indexOf(".")
     amount = index > 0 ? amount.slice(0, index) : amount
     let amountShow = (amount.length <= NOMINATION - 3) ?

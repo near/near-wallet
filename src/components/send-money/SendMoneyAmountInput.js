@@ -74,10 +74,9 @@ class SendMoneyAmountInput extends Component {
 
    handleChangeAmount = (e, { name, value }) => {
       let amountStatus = ''
-      if (value && !this.isDecimalString(value)) {
-         amountStatus = 'NO MORE THAN 5 DECIMAL DIGITS'
-      }
-
+      // if (value && !this.isDecimalString(value)) {
+      //    amountStatus = 'NO MORE THAN 5 DECIMAL DIGITS'
+      // }
       if (value !== '') {
          let input = new Big(value)
          let balance = new Big(this.props.amount)
@@ -85,11 +84,11 @@ class SendMoneyAmountInput extends Component {
             amountStatus = 'Not enough tokens.'
          }
       }
-      this.setState(() => ({
+      this.setState({
          amountInput: value,
          amountStatus
-      }))
-
+      })
+      console.log("[sendmoneyAmountInput.js] amountInput in handlechange", this.state.amountInput, typeof this.state.amountImput)
       this.props.handleChange(e, { name: 'amount', value })
       this.props.handleChange(e, { name: 'amountStatus', value: amountStatus })
    }
@@ -101,7 +100,7 @@ class SendMoneyAmountInput extends Component {
       return (
          <CustomDiv fontSize={`${fontSize}px`}>
             <Form.Input
-               type='number'
+               type="number"
                name='amountInput'
                value={amountInput}
                onChange={this.handleChangeAmount}

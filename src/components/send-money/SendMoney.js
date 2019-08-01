@@ -29,7 +29,7 @@ class SendMoney extends Component {
       this.wallet = new Wallet()
       this.props.handleRefreshUrl(this.props.location)
       this.props.handleRefreshAccount(this.props.history)
-
+      
       const paramId = this.props.match.params.id
 
       this.setState(() => ({
@@ -117,6 +117,7 @@ class SendMoney extends Component {
       this.setState(() => ({
          [name]: value
       }))
+      console.log("amount in the [sendmoney.js], ", this.state.amount,typeof this.state.amount)
    }
 
    handleExpandNote = () => {
