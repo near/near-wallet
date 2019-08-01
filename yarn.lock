@@ -1671,13 +1671,6 @@ axobject-query@^2.0.1:
   dependencies:
     ast-types-flow "0.0.7"
 
-b58@^4.0.3:
-  version "4.0.3"
-  resolved "https://registry.yarnpkg.com/b58/-/b58-4.0.3.tgz#852a28d804b4a5a60685f9b51706315145a48c36"
-  integrity sha512-VDtdiomm0ywbL8YzgevOZ9pcx6LuOZ3d9qYTPDcYUPf7dRYNA8wvK6epYy0FKMWIM5uaDwd3kWt1x+1S9scB1Q==
-  dependencies:
-    base-x "^3.0.2"
-
 babel-code-frame@^6.22.0, babel-code-frame@^6.26.0:
   version "6.26.0"
   resolved "https://registry.yarnpkg.com/babel-code-frame/-/babel-code-frame-6.26.0.tgz#63fd43f7dc1e3bb7ce35947db8fe369a3f58c74b"
