@@ -5,19 +5,21 @@ import React from 'react'
 const NOMINATION = 18
 const REG = /(?=(\B)(\d{3})+$)/g;
 
-const Balance = ({amount, milli}) => {
+const Balance = ({ amount, milli }) => {
     if (!amount) {
         throw new Error("amount property should not be null")
     }
-    if (!milli) {
-        throw new Error("token image should not be null")
-    }
+    // if (!milli) {
+    //     throw new Error("token image should not be null")
+    // }
     amount = amount.toString()
     let index = amount.indexOf(".")
-    amount = index > 0 ? amount.slice(0, index) : amount
+    amount = index > -1
+        ? amount.slice(0, index)
+        : amount
     let amountShow = (amount.length <= NOMINATION - 3) ?
         convertToShowMilli(amount, milli) : convertToShow(amount)
-        
+
     return (<div>
         {amountShow}
     </div>)

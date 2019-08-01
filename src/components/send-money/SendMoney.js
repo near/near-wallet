@@ -117,7 +117,6 @@ class SendMoney extends Component {
       this.setState(() => ({
          [name]: value
       }))
-      console.log("amount in the [sendmoney.js], ", this.state.amount,typeof this.state.amount)
    }
 
    handleExpandNote = () => {

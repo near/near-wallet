@@ -8,8 +8,14 @@ import milli from '../../images/n-1000.svg'
 configure({adapter: new Adapter()});
 
 describe('<Balance.js>', ()=>{
+    const contextNull = '.0987'
     const contextSmall = "1"+"0".repeat(10) 
     const contextBig = "1"+"0".repeat(21)
+
+    it('balance should return properly for non 0 for 0.0987',()=>{
+        let wrapper = shallow(<Balance amount={contextNull} milli={milli}/>)
+        expect(wrapper.contains("0.00000")).toEqual(true)
+    })
 
     it('balance should return properly for small number',()=>{
         let wrapper = shallow(<Balance amount={contextSmall} milli={milli}/>)
