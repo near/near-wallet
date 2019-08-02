@@ -94,7 +94,6 @@ class SendMoneyAmountInput extends Component {
       })
       this.props.handleChange(e, { name: 'amount', value: amountAttoNear })
       this.props.handleChange(e, { name: 'amountStatus', value: amountStatus })
-      console.log("[sendmoneyamountinput.js] amountDisplay ", this.state.amountDisplay)
    }
 
    render() {

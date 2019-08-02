@@ -15,7 +15,6 @@ const Balance = ({ amount, milli }) => {
     amount = amount.toString()
     let amountShow = (amount.length <= NOMINATION - 3) ?
         convertToShowMilli(amount, milli) : convertToShow(amount)
-    console.log("amount length", amount.length)
     return (<div>
         {amountShow}
     </div>)
