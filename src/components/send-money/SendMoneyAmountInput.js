@@ -59,12 +59,13 @@ const CustomDiv = styled(`div`)`
       }
    }
 `
-
+const MILLI_NEAR = 10 ** 15
 const Big = require('big.js')
 class SendMoneyAmountInput extends Component {
    state = {
       amountInput: `${this.props.defaultAmount}` || '',
-      amountStatus: ''
+      amountStatus: '',
+      amountDisplay: ''
    }
 
    isDecimalString = (value) => {
@@ -74,26 +75,31 @@ class SendMoneyAmountInput extends Component {
 
    handleChangeAmount = (e, { name, value }) => {
       let amountStatus = ''
-      // if (value && !this.isDecimalString(value)) {
-      //    amountStatus = 'NO MORE THAN 5 DECIMAL DIGITS'
-      // }
+      if (value && !this.isDecimalString(value)) {
+         amountStatus = 'NO MORE THAN 5 DECIMAL DIGITS'
+      }
+      let realValue = ''
       if (value !== '') {
          let input = new Big(value)
+         input = input.times(MILLI_NEAR)
+         realValue = input.toString()
          let balance = new Big(this.props.amount)
          if (balance.sub(input).s < 0) {
             amountStatus = 'Not enough tokens.'
          }
       }
+      console.log("real value, ", realValue)
       this.setState({
+         amountDisplay: realValue,
          amountInput: value,
          amountStatus
       })
-      this.props.handleChange(e, { name: 'amount', value })
+      this.props.handleChange(e, { name: 'amount', value: realValue })
       this.props.handleChange(e, { name: 'amountStatus', value: amountStatus })
    }
 
    render() {
-      const { amountInput, amountStatus } = this.state
+      const { amountInput, amountStatus, amountDisplay} = this.state
       const fontSize = amountInput.length > 11 ? 32 : amountInput.length > 8 ? 38 : amountInput.length > 5 ? 50 : 72
 
       return (
@@ -113,7 +119,7 @@ class SendMoneyAmountInput extends Component {
                <Segment basic textAlign='center' className='alert-info problem'>
                   {amountStatus}
                </Segment>)}
-            {amountInput ? <Balance milli={milli} amount={amountInput} /> : "How much would you want to send? Please send at least 10,000,000,000 "}
+            {amountDisplay ? <Balance milli={milli} amount={amountDisplay} /> : "How much would you want to send?"}
          </CustomDiv>
       )
    }

@@ -123,12 +123,12 @@ class DashboardDetail extends Component {
       return (
          <PageContainer
             title={(
-               <Fragment>
-                  <span className='balance'>Balance: </span>
-                  {amount
-                     ? <Balance amount={amount} milli={milli} />
-                     : "NaN"}
-               </Fragment>
+               amount
+                  ? <Fragment style={{display: "inline"}}>
+                     <div>Balance: </div>
+                     <Balance style={{display: "inline", margin: "0"}} amount={amount} milli={milli} />
+                  </Fragment>
+                  : "Balance loading"
             )}
             additional={(
                <Link to='/send-money'>
