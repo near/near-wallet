@@ -10,7 +10,7 @@ configure({adapter: new Adapter()});
 describe('<Balance.js>', ()=>{
     const contextNull = '.0987'
     const contextSmall = "1"+"0".repeat(10) 
-    const contextBig = "1"+"0".repeat(21)
+    const contextBig = "1234567"+"0".repeat(15)
 
     it('balance should return properly for non 0 for 0.0987',()=>{
         let wrapper = shallow(<Balance amount={contextNull} milli={milli}/>)
@@ -25,6 +25,6 @@ describe('<Balance.js>', ()=>{
 
     it('balance should return properly',()=>{
         let wrapper = render(<Balance amount={contextBig} />)
-        expect(wrapper.text()).toEqual("1,000.00000 Ⓝ");
+        expect(wrapper.text()).toEqual("1,234.56700 Ⓝ");
     })
 })

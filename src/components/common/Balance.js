@@ -9,13 +9,13 @@ const Balance = ({ amount, milli }) => {
     if (!amount) {
         throw new Error("amount property should not be null")
     }
-    if (!milli) {
-        throw new Error("token image should not be null")
-    }
+    // if (!milli) {
+    //     throw new Error("token image should not be null")
+    // }
     amount = amount.toString()
     let amountShow = (amount.length <= NOMINATION - 3) ?
         convertToShowMilli(amount, milli) : convertToShow(amount)
-
+    console.log("amount length", amount.length)
     return (<div>
         {amountShow}
     </div>)
