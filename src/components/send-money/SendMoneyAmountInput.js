@@ -81,7 +81,7 @@ class SendMoneyAmountInput extends Component {
       let amountAttoNear = ''
       if (value !== '') {
          let input = new Big(value).times(new Big(10).pow(NOMINATION))
-         amountAttoNear = input.toString()
+         amountAttoNear = input.toFixed()
          let balance = new Big(this.props.amount)
          if (balance.sub(input).s < 0) {
             amountStatus = 'Not enough tokens.'
