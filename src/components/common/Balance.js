@@ -12,7 +12,6 @@ const Balance = ({ amount, milli }) => {
     if (!milli) {
         throw new Error("token image should not be null")
     }
-    amount = amount.toString()
     let amountShow = (amount.length <= NOMINATION - 3) ?
         convertToShowMilli(amount, milli) : convertToShow(amount)
 

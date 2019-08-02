@@ -109,7 +109,7 @@ class SendMoney extends Component {
 
       this.setState(state => ({
          step: state.step + 1,
-         amount: +state.amount
+         amount: state.amount
       }))
    }
 
