@@ -2,7 +2,7 @@ import React from 'react'
 
 // denomination of one near in minimal non divisible units (attoNears)
 // NEAR_NOMINATION is 10 ** 18 one unit
-const NOMINATION = 18
+export const NOMINATION = 18
 const REG = /(?=(\B)(\d{3})+$)/g;
 
 const Balance = ({ amount, milli }) => {
