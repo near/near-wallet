@@ -24,7 +24,7 @@ describe('<Balance.js>', ()=>{
     })
 
     it('balance should return properly',()=>{
-        let wrapper = render(<Balance amount={contextBig} />)
+        let wrapper = render(<Balance amount={contextBig} milli={milli} />)
         expect(wrapper.text()).toEqual("1,000.00000 Ⓝ");
     })
 })
