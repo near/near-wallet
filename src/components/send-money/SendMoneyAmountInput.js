@@ -5,7 +5,7 @@ import { Segment, Form } from 'semantic-ui-react'
 
 import styled from 'styled-components'
 
-import Balance, { NOMINATION } from '../common/Balance'
+import Balance, { NOMINATION, formatNEAR } from '../common/Balance'
 import milli from '../../images/n-1000.svg'
 
 const CustomDiv = styled(`div`)`
@@ -63,7 +63,7 @@ const CustomDiv = styled(`div`)`
 const Big = require('big.js')
 class SendMoneyAmountInput extends Component {
    state = {
-      amountInput: `${this.props.defaultAmount}` || '',
+      amountInput: this.props.defaultAmount ? formatNEAR(this.props.defaultAmount) : '',
       amountStatus: '',
       amountDisplay: ''
    }

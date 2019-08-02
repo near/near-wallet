@@ -32,16 +32,19 @@ const convertToShowMilli = (amount, milli) => {
 }
 
 const convertToShow = (amount) => {
+    return (<div>{formatNEAR(amount)} Ⓝ</div>)
+}
+
+export const formatNEAR = (amount) => {
     if (amount.length <= NOMINATION) {
         let zeros = "0".repeat(NOMINATION)
-        return (<div>{"0." + (zeros.substring(amount.length) + amount).slice(0, 5)} Ⓝ</div>)
+        return "0." + (zeros.substring(amount.length) + amount).slice(0, 5)
     } else {
         let len = amount.length - NOMINATION
         let numInt = len > 3 ? amount.slice(0, len).replace(REG, ",") : amount.slice(0, len)
         let numDec = amount.slice(len, amount.length)
-        let num = numInt + "." + numDec.slice(0, 5)
-        return (<div>{num} Ⓝ</div>)
+        return numInt + "." + numDec.slice(0, 5)
     }
-
 }
+
 export default Balance
