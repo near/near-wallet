@@ -29,7 +29,7 @@ class SendMoney extends Component {
       this.wallet = new Wallet()
       this.props.handleRefreshUrl(this.props.location)
       this.props.handleRefreshAccount(this.props.history)
-
+      
       const paramId = this.props.match.params.id
 
       this.setState(() => ({
@@ -109,7 +109,7 @@ class SendMoney extends Component {
 
       this.setState(state => ({
          step: state.step + 1,
-         amount: +state.amount
+         amount: state.amount
       }))
    }
 
@@ -128,7 +128,7 @@ class SendMoney extends Component {
    isLegitForm = () => {
       const { paramAccountId, amount, amountStatus } = this.state
       const { requestStatus } = this.props
-
+      console.log("[sendmoney.js], ", amount)
       return paramAccountId
       ? ((amount) > 0 && amountStatus === '')
       : (requestStatus && requestStatus.success && (amount) > 0 && amountStatus === '')

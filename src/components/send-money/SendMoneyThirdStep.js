@@ -3,9 +3,11 @@ import React from 'react'
 import { List, Image } from 'semantic-ui-react'
 
 import MainImage from '../common/MainImage'
+import Balance from '../common/Balance'
 
 import AccountGreyImage from '../../images/icon-account-grey.svg'
 import SendImage from '../../images/icon-send.svg'
+import milli from '../../images/n-1000.svg'
 
 import styled from 'styled-components'
 
@@ -65,12 +67,14 @@ const SendMoneyThirdStep = ({ note, amount, accountId }) => (
          <Image src={SendImage} />
       </List.Item>
       <List.Item as='h2' className='amount'>
-         {amount.toLocaleString('en', {useGrouping:true})}
-         <span>Ⓝ</span> was sent to:
+         {amount ? <Balance
+            milli={milli}
+            amount={amount} /> : "NaN"}
+            <span>was sent to:</span>
       </List.Item>
       <List.Item className='main-image'>
          <MainImage
-            src={AccountGreyImage} 
+            src={AccountGreyImage}
             size='medium'
          />
       </List.Item>

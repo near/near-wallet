@@ -102,8 +102,8 @@ const SendMoneyFirstStep = ({
    formLoader,
    requestStatus,
    amount
-}) => (
-   <CustomList className='box'>
+}) => {
+   return (<CustomList className='box'>
       <Form autoComplete='off'>
          <Dimmer inverted active={loader}>
             <Loader />
@@ -159,7 +159,7 @@ const SendMoneyFirstStep = ({
             </FormButton>
          </List.Item>
       </Form>
-   </CustomList>
-)
+   </CustomList>)
+}
 
 export default SendMoneyFirstStep

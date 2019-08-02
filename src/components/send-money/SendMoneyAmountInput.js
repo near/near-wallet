@@ -5,6 +5,9 @@ import { Segment, Form } from 'semantic-ui-react'
 
 import styled from 'styled-components'
 
+import Balance, { NOMINATION, formatNEAR } from '../common/Balance'
+import milli from '../../images/n-1000.svg'
+
 const CustomDiv = styled(`div`)`
    &&&&& {
       > .field {
@@ -22,6 +25,8 @@ const CustomDiv = styled(`div`)`
          text-align: center;
          padding: 0px;
          
+         ::placeholder { font-size: 5rem }
+
          :focus::-webkit-input-placeholder { color: transparent; }
          :focus:-moz-placeholder { color: transparent; }
          :focus::-moz-placeholder { color: transparent; }
@@ -55,50 +60,64 @@ const CustomDiv = styled(`div`)`
    }
 `
 
+const Big = require('big.js')
 class SendMoneyAmountInput extends Component {
    state = {
-      amount: `${this.props.defaultAmount}` || '',
-      amountStatus: ''
+      amountInput: this.props.defaultAmount ? formatNEAR(this.props.defaultAmount) : '',
+      amountStatus: '',
+      amountDisplay: ''
+   }
+
+   isDecimalString = (value) => {
+      let REG = /^[0-9]*(|[.][0-9]{1,5})$/
+      return REG.test(value)
    }
 
    handleChangeAmount = (e, { name, value }) => {
-      const amountStatus = !Number.isInteger(Number(value))
-         ? 'Please enter a whole number.'
-         : value > Number(this.props.amount)
-            ? 'Not enough tokens.' 
-            : ''
-
-      this.setState(() => ({
-         [name]: value,
+      let amountStatus = ''
+      if (value && !this.isDecimalString(value)) {
+         amountStatus = 'NO MORE THAN 5 DECIMAL DIGITS'
+      }
+      let amountAttoNear = ''
+      if (value !== '') {
+         let input = new Big(value).times(new Big(10).pow(NOMINATION))
+         amountAttoNear = input.toString()
+         let balance = new Big(this.props.amount)
+         if (balance.sub(input).s < 0) {
+            amountStatus = 'Not enough tokens.'
+         }
+      }
+      this.setState({
+         amountDisplay: amountAttoNear,
+         amountInput: value,
          amountStatus
-      }))
-
-      this.props.handleChange(e, { name, value })
+      })
+      this.props.handleChange(e, { name: 'amount', value: amountAttoNear })
       this.props.handleChange(e, { name: 'amountStatus', value: amountStatus })
    }
 
-   render () {
-      const { amount, amountStatus } = this.state
-      const fontSize = amount.length > 11 ? 32 : amount.length > 8 ? 38 : amount.length > 5 ? 50 : 72
+   render() {
+      const { amountInput, amountStatus, amountDisplay} = this.state
+      const fontSize = amountInput.length > 11 ? 32 : amountInput.length > 8 ? 38 : amountInput.length > 5 ? 50 : 72
 
       return (
          <CustomDiv fontSize={`${fontSize}px`}>
             <Form.Input
-               type='number'
-               pattern='[0-9]*'
-               name='amount'
-               value={amount}
+               type="number"
+               name='amountInput'
+               value={amountInput}
                onChange={this.handleChangeAmount}
                placeholder='0'
                step='1'
                min='1'
                tabIndex='2'
+               required={true}
             />
             {amountStatus && (
                <Segment basic textAlign='center' className='alert-info problem'>
                   {amountStatus}
-               </Segment>
-            )}
+               </Segment>)}
+            {amountDisplay ? <Balance milli={milli} amount={amountDisplay} /> : "How much would you want to send?"}
          </CustomDiv>
       )
    }
@@ -106,7 +125,7 @@ class SendMoneyAmountInput extends Component {
 
 SendMoneyAmountInput.propTypes = {
    handleChange: PropTypes.func.isRequired,
-   amount: PropTypes.string
+   amountInput: PropTypes.string
 }
 
 const mapDispatchToProps = {}
@@ -115,7 +134,4 @@ const mapStateToProps = ({ account }, { match }) => ({
    ...account,
 })
 
-export default connect(
-   mapStateToProps,
-   mapDispatchToProps
-)(SendMoneyAmountInput)
+export default connect(mapStateToProps, mapDispatchToProps)(SendMoneyAmountInput)
