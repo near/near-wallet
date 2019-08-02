@@ -5,7 +5,7 @@ import { Segment, Form } from 'semantic-ui-react'
 
 import styled from 'styled-components'
 
-import Balance from '../common/Balance'
+import Balance, { NOMINATION, formatNEAR } from '../common/Balance'
 import milli from '../../images/n-1000.svg'
 
 const CustomDiv = styled(`div`)`
@@ -59,11 +59,11 @@ const CustomDiv = styled(`div`)`
       }
    }
 `
-const MILLI_NEAR = 10 ** 15
+
 const Big = require('big.js')
 class SendMoneyAmountInput extends Component {
    state = {
-      amountInput: `${this.props.defaultAmount}` || '',
+      amountInput: this.props.defaultAmount ? formatNEAR(this.props.defaultAmount) : '',
       amountStatus: '',
       amountDisplay: ''
    }
@@ -78,23 +78,21 @@ class SendMoneyAmountInput extends Component {
       if (value && !this.isDecimalString(value)) {
          amountStatus = 'NO MORE THAN 5 DECIMAL DIGITS'
       }
-      let realValue = ''
+      let amountAttoNear = ''
       if (value !== '') {
-         let input = new Big(value)
-         input = input.times(MILLI_NEAR)
-         realValue = input.toString()
+         let input = new Big(value).times(new Big(10).pow(NOMINATION))
+         amountAttoNear = input.toString()
          let balance = new Big(this.props.amount)
          if (balance.sub(input).s < 0) {
             amountStatus = 'Not enough tokens.'
          }
       }
-      console.log("real value, ", realValue)
       this.setState({
-         amountDisplay: realValue,
+         amountDisplay: amountAttoNear,
          amountInput: value,
          amountStatus
       })
-      this.props.handleChange(e, { name: 'amount', value: realValue })
+      this.props.handleChange(e, { name: 'amount', value: amountAttoNear })
       this.props.handleChange(e, { name: 'amountStatus', value: amountStatus })
       console.log("[sendmoneyamountinput.js] amountDisplay ", this.state.amountDisplay)
    }

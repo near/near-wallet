@@ -1,6 +1,5 @@
 import * as nearlib from 'nearlib'
 import sendJson from 'fetch-send-json'
-import * as b58 from 'b58'
 import sha256 from 'js-sha256';
 
 const WALLET_CREATE_NEW_ACCOUNT_URL = `/create/`
