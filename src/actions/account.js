@@ -8,10 +8,11 @@ export const REFRESH_URL = 'REFRESH_URL'
 
 export function handleRefreshAccount(history, loader = true) {
    return (dispatch, getState) => {
-      wallet.redirectIfEmpty(history)
-      const accountId = wallet.getAccountId()
+      if (isEmpty().payload) {
+         return false
+      }
 
-      dispatch(getAccountDetails())
+      const accountId = wallet.getAccountId()
 
       if (loader) {
          dispatch({
@@ -36,10 +37,12 @@ export function handleRefreshAccount(history, loader = true) {
                }
             })
 
-            dispatch({
-               type: LOADER_ACCOUNT,
-               loader: false
-            })
+            if (loader) {
+               dispatch({
+                  type: LOADER_ACCOUNT,
+                  loader: false
+               })
+            }
          })
          .catch(e => {
             console.error('Error loading account:', e)
@@ -61,7 +64,7 @@ export function handleRefreshAccount(history, loader = true) {
 
 export function handleRefreshUrl(location) {
    return dispatch => {
-      const { title, app_url, contract_id, success_url, failure_url, public_key  } = parse(location.search)
+      const { title, app_url, contract_id, success_url, failure_url, public_key } = parse(location.search)
       let redirect_url = ''
 
       if (success_url) {
@@ -97,7 +100,7 @@ export const redirectToApp = () => (dispatch, getState) => {
    }, 1500)
 }
 
-export const { requestCode, setupAccountRecovery, recoverAccount, getAccountDetails, removeAccessKey, checkNewAccount, createNewAccount, checkAccountAvailable, clear, clearCode } = createActions({
+export const { requestCode, setupAccountRecovery, recoverAccount, getAccountDetails, removeAccessKey, checkNewAccount, createNewAccount, checkAccountAvailable, clear, clearCode, isEmpty } = createActions({
    REQUEST_CODE: [
       wallet.requestCode.bind(wallet),
       () => ({ successCode: 'account.requestCode.success', errorCode: 'account.requestCode.error' })
@@ -126,6 +129,7 @@ export const { requestCode, setupAccountRecovery, recoverAccount, getAccountDeta
    ],
    CLEAR: null,
    CLEAR_CODE: null,
+   IS_EMPTY: [wallet.isEmpty.bind(wallet), () => ({})]
 })
 
 export const { addAccessKey, clearAlert } = createActions({

@@ -9,6 +9,7 @@ import '../index.css'
 
 import ResponsiveContainer from './responsive/ResponsiveContainer'
 import Footer from './common/Footer'
+import PrivateRoute from './common/PrivateRoute'
 import DashboardDetailWithRouter from './dashboard/DashboardDetail'
 import { CreateAccountWithRouter } from './accounts/CreateAccount'
 import { SetRecoveryInfoWithRouter } from './accounts/SetRecoveryInfo'
@@ -29,11 +30,12 @@ const PATH_PREFIX = process.env.PUBLIC_URL
 
 class Routing extends Component {
    componentDidMount = () => {
-      const { handleRefreshAccount, history } = this.props
+      const { handleRefreshAccount, handleRefreshUrl, history } = this.props
+
       handleRefreshAccount(history)
-      history.listen(() => {
-         handleRefreshAccount(history, false)
-      })
+      handleRefreshUrl(this.props.history.location)
+
+      history.listen(() => handleRefreshAccount(history, false))
    }
 
    render() {
@@ -45,7 +47,7 @@ class Routing extends Component {
                <ThemeProvider theme={theme}>
                   <ResponsiveContainer>
                      <Switch>
-                        <Route
+                        <PrivateRoute
                            exact
                            path='/'
                            component={DashboardDetailWithRouter}
@@ -55,7 +57,7 @@ class Routing extends Component {
                            path='/create'
                            component={CreateAccountWithRouter}
                         />
-                        <Route
+                        <PrivateRoute
                            exact
                            path='/set-recovery/:accountId'
                            component={SetRecoveryInfoWithRouter}
@@ -65,33 +67,34 @@ class Routing extends Component {
                            path='/recover-account'
                            component={RecoverAccountWithRouter}
                         />
-                        <Route
+                        <PrivateRoute
                            exact
                            path='/login'
                            component={LoginWithRouter}
                         />
-                        <Route
+                        <PrivateRoute
                            exact
                            path='/contacts'
                            component={ContactsWithRouter}
                         />
-                        <Route
+                        <PrivateRoute
                            exact
                            path='/authorized-apps'
                            component={AuthorizedAppsWithRouter}
                         />
-                        <Route
+                        <PrivateRoute
                            exact
                            path='/send-money/:id?'
                            component={SendMoneyWithRouter}
                         />
-                        <Route
+                        <PrivateRoute
                            exact
                            path='/profile'
                            component={ProfileWithRouter}
                         />
-
-                        <Route component={DashboardDetailWithRouter} />
+                        <PrivateRoute 
+                           component={DashboardDetailWithRouter} 
+                        />
                      </Switch>
                      <Footer />
                   </ResponsiveContainer>
@@ -111,7 +114,9 @@ const mapDispatchToProps = {
    handleRefreshUrl
 }
 
-const mapStateToProps = () => ({})
+const mapStateToProps = ({ account }) => ({
+   account
+})
 
 export default connect(
    mapStateToProps,

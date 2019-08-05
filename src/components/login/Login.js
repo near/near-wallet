@@ -3,8 +3,6 @@ import { connect } from 'react-redux'
 
 import { withRouter } from 'react-router-dom'
 
-import { Wallet } from '../../utils/wallet'
-
 import LoginContainer from './LoginContainer'
 import LoginForm from './LoginForm'
 import { handleRefreshAccount, handleRefreshUrl, switchAccount, addAccessKey, clearAlert } from '../../actions/account'
@@ -15,10 +13,7 @@ class Login extends Component {
       dropdown: false
    }
 
-   componentDidMount = () => {
-      this.wallet = new Wallet()
-      this.props.handleRefreshUrl(this.props.location)
-   }
+   componentDidMount = () => {}
 
    componentWillUnmount = () => {
       this.props.clearAlert()
@@ -68,7 +63,7 @@ class Login extends Component {
    }
 
    redirectCreateAccount = () => {
-      this.wallet.redirectToCreateAccount({}, this.props.history)
+      this.props.history.push('/create')
    }
 
    render() {

@@ -7,8 +7,6 @@ import PropTypes from 'prop-types'
 
 import GlobalAlert from './GlobalAlert'
 
-import { Wallet } from '../../utils/wallet'
-
 import {
    Image,
    Menu,
@@ -173,9 +171,8 @@ class MobileView extends Component {
    }
 
    redirectCreateAccount = () => {
-      this.wallet = new Wallet()
       this.handleDropdown()
-      this.wallet.redirectToCreateAccount({}, this.props.history)
+      this.props.history.push('/create')
    }
 
    render() {
