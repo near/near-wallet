@@ -273,7 +273,7 @@ const ProfileDetails = ({ account }) => (
             Balance
          </Grid.Column>
          <Grid.Column computer='7' tablet='7' mobile='9'>
-            {account.amount ? <Balance
+            {(account.amount && milli) ? <Balance
                amount={account.amount}
                milli={milli} /> : "NaN"}
          </Grid.Column>

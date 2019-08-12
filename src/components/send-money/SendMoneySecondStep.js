@@ -131,7 +131,7 @@ const SendMoneySecondStep = ({
    <CustomList className='box' fontSize={amount.toString().length > 8 ? 34 : 48}>
       <List.Item as='h2' >You are sending</List.Item>
       <List.Item className='amount border-bottom'>
-         {amount ? <Balance 
+         {(amount && milli) ? <Balance 
             milli={milli}
             amount={amount} /> : "NaN"}
       </List.Item>
