@@ -123,7 +123,7 @@ class DashboardDetail extends Component {
       return (
          <PageContainer
             title={(
-               (amount && milli)
+               amount
                   ? <Fragment style={{display: "inline"}}>
                      <div>Balance: </div>
                      <Balance style={{display: "inline", margin: "0"}} amount={amount} milli={milli} />

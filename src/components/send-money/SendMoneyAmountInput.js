@@ -117,7 +117,9 @@ class SendMoneyAmountInput extends Component {
                <Segment basic textAlign='center' className='alert-info problem'>
                   {amountStatus}
                </Segment>)}
-            {(amountDisplay && milli) ? <Balance milli={milli} amount={amountDisplay} /> : "How much would you want to send?"}
+            {amountDisplay  
+               ? <Balance milli={milli} amount={amountDisplay} /> 
+               : "How much would you want to send?"}
          </CustomDiv>
       )
    }
