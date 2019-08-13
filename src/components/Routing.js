@@ -1,9 +1,13 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
+import { ThemeProvider } from 'styled-components'
 
 import { Route, Switch } from 'react-router-dom'
 import { ConnectedRouter } from 'connected-react-router'
+import { withLocalize } from 'react-localize-redux';
+
+import translations_en from '../translations/en.global.json'
 
 import '../index.css'
 
@@ -24,13 +28,27 @@ import { SignWithRouter } from './sign/Sign'
 
 import { handleRefreshAccount, handleRefreshUrl } from '../actions/account'
 
-import { ThemeProvider } from 'styled-components'
 import GlobalStyle from './GlobalStyle'
 const theme = {}
 
 const PATH_PREFIX = process.env.PUBLIC_URL
 
 class Routing extends Component {
+   constructor(props) {
+      super(props)
+
+      this.props.initialize({
+         languages: [
+            { name: "English", code: "en" },
+         ],
+         translation: {},
+         options: {
+            renderToStaticMarkup: false
+         }
+      })
+      this.props.addTranslationForLanguage(translations_en, "en")
+   }
+   
    componentDidMount = () => {
       const { handleRefreshAccount, handleRefreshUrl, history } = this.props
 
@@ -135,4 +153,4 @@ const mapStateToProps = ({ account }) => ({
 export default connect(
    mapStateToProps,
    mapDispatchToProps
-)(Routing)
+)(withLocalize(Routing))
