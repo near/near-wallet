@@ -9,8 +9,6 @@ import { Link } from 'react-router-dom'
 import DesktopPopup from './DesktopPopup'
 import GlobalAlert from './GlobalAlert'
 
-import { Wallet } from '../../utils/wallet'
-
 import { Image, Responsive, Segment, Visibility } from 'semantic-ui-react'
 
 import LogoImage from '../../images/wallet.png'
@@ -125,11 +123,10 @@ class DesktopView extends Component {
    }
 
    redirectCreateAccount = () => {
-      this.wallet = new Wallet()
-      this.wallet.redirectToCreateAccount({}, this.props.history)
       this.setState(() => ({
          popupOpen: false
       }))
+      this.props.history.push('/create')
    }
 
    handleToggle = () => {

@@ -3,8 +3,6 @@ import { connect } from 'react-redux'
 
 import { withRouter } from 'react-router-dom'
 
-import { handleRefreshAccount, handleRefreshUrl } from '../../actions/account'
-
 import PageContainer from '../common/PageContainer';
 import ProfileDetails from './ProfileDetails'
 import ProfileSection from './ProfileSection'
@@ -17,10 +15,7 @@ class Profile extends Component {
       loader: false
    }
 
-   componentDidMount() {
-      this.props.handleRefreshUrl(this.props.location)
-      this.props.handleRefreshAccount(this.props.history)
-   }
+   componentDidMount() {}
 
    render() {
       const { account } = this.props
@@ -44,10 +39,7 @@ class Profile extends Component {
    }
 }
 
-const mapDispatchToProps = {
-   handleRefreshAccount,
-   handleRefreshUrl
-}
+const mapDispatchToProps = {}
 
 const mapStateToProps = ({ account }) => ({
    account

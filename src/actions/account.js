@@ -6,17 +6,27 @@ export const REFRESH_ACCOUNT = 'REFRESH_ACCOUNT'
 export const LOADER_ACCOUNT = 'LOADER_ACCOUNT'
 export const REFRESH_URL = 'REFRESH_URL'
 
-export function handleRefreshAccount(history) {
+export function handleRefreshAccount(history, loader = true) {
    return (dispatch, getState) => {
-      wallet.redirectIfEmpty(history)
+      if (loader) {
+         dispatch({
+            type: LOADER_ACCOUNT,
+            loader: true
+         })   
+      }
+
+      if (wallet.isEmpty()) {
+         if (loader) {
+            dispatch({
+               type: LOADER_ACCOUNT,
+               loader: false
+            })   
+         }
+
+         return false
+      }
+      
       const accountId = wallet.getAccountId()
-
-      dispatch(getAccountDetails())
-
-      dispatch({
-         type: LOADER_ACCOUNT,
-         loader: true
-      })
 
       wallet
          .loadAccount(accountId, history)
@@ -33,11 +43,6 @@ export function handleRefreshAccount(history) {
                   accounts: wallet.accounts
                }
             })
-
-            dispatch({
-               type: LOADER_ACCOUNT,
-               loader: false
-            })
          })
          .catch(e => {
             console.error('Error loading account:', e)
@@ -45,7 +50,7 @@ export function handleRefreshAccount(history) {
             if (e.message && e.message.indexOf('does not exist while viewing') !== -1) {
                // We have an account in the storage, but it doesn't exist on blockchain. We probably nuked storage so just redirect to create account
                // TODO: Offer to remove specific account vs clearing everything?
-               wallet.clearState()
+               wallet.clearState()               
                wallet.redirectToCreateAccount(
                   {
                      reset_accounts: true
@@ -54,12 +59,20 @@ export function handleRefreshAccount(history) {
                )
             }
          })
+         .finally(() => {
+            if (loader) {
+               dispatch({
+                  type: LOADER_ACCOUNT,
+                  loader: false
+               })
+            }
+         })
    }
 }
 
 export function handleRefreshUrl(location) {
    return dispatch => {
-      const { title, app_url, contract_id, success_url, failure_url, public_key  } = parse(location.search)
+      const { title, app_url, contract_id, success_url, failure_url, public_key } = parse(location.search)
       let redirect_url = ''
 
       if (success_url) {
@@ -123,7 +136,7 @@ export const { requestCode, setupAccountRecovery, recoverAccount, getAccountDeta
       () => ({ successCode: 'User found.', errorCode: 'User not found.' })
    ],
    CLEAR: null,
-   CLEAR_CODE: null,
+   CLEAR_CODE: null
 })
 
 export const { addAccessKey, clearAlert } = createActions({

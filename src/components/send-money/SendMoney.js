@@ -5,7 +5,7 @@ import { withRouter } from 'react-router-dom'
 
 import { Wallet } from '../../utils/wallet'
 
-import { handleRefreshAccount, handleRefreshUrl, checkAccountAvailable, clear } from '../../actions/account'
+import { handleRefreshAccount, checkAccountAvailable, clear } from '../../actions/account'
 
 import PageContainer from '../common/PageContainer';
 import FormButton from '../common/FormButton'
@@ -27,9 +27,6 @@ class SendMoney extends Component {
 
    componentDidMount() {
       this.wallet = new Wallet()
-      this.props.handleRefreshUrl(this.props.location)
-      this.props.handleRefreshAccount(this.props.history)
-      
       const paramId = this.props.match.params.id
 
       this.setState(() => ({
@@ -178,7 +175,6 @@ class SendMoney extends Component {
 
 const mapDispatchToProps = {
    handleRefreshAccount,
-   handleRefreshUrl,
    checkAccountAvailable,
    clear
 }

@@ -3,8 +3,6 @@ import { connect } from 'react-redux'
 
 import { withRouter } from 'react-router-dom'
 
-import { handleRefreshAccount, handleRefreshUrl } from '../../actions/account'
-
 import PaginationBlock from '../pagination/PaginationBlock'
 import ListItem from '../dashboard/ListItem'
 import PageContainer from '../common/PageContainer';
@@ -43,9 +41,6 @@ class Contacts extends Component {
    }
 
    componentDidMount() {
-      this.props.handleRefreshUrl(this.props.location)
-      this.props.handleRefreshAccount(this.props.history)
-
       this.setState(() => ({
          loader: true
       }))
@@ -115,10 +110,7 @@ class Contacts extends Component {
    }
 }
 
-const mapDispatchToProps = {
-   handleRefreshAccount,
-   handleRefreshUrl
-}
+const mapDispatchToProps = {}
 
 const mapStateToProps = () => ({})
 

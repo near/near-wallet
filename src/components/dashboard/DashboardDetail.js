@@ -4,11 +4,7 @@ import { Link } from 'react-router-dom'
 
 import { withRouter } from 'react-router-dom'
 
-import {
-   handleRefreshAccount,
-   handleRefreshUrl,
-   getAccountDetails
-} from '../../actions/account'
+import { getAccountDetails } from '../../actions/account'
 
 import DashboardSection from './DashboardSection'
 import DashboardActivity from './DashboardActivity'
@@ -36,8 +32,6 @@ class DashboardDetail extends Component {
    }
 
    componentDidMount() {
-      this.props.handleRefreshUrl(this.props.location)
-      this.props.handleRefreshAccount(this.props.history)
       this.refreshAuthorizedApps()
 
       this.setState(() => ({
@@ -139,7 +133,6 @@ class DashboardDetail extends Component {
             )}
          >
             <DashboardActivity
-               loader={loader}
                image={AuthorizedGreyImage}
                title='Authorized Apps'
                to='/authorized-apps'
@@ -179,8 +172,6 @@ class DashboardDetail extends Component {
 }
 
 const mapDispatchToProps = {
-   handleRefreshAccount,
-   handleRefreshUrl,
    getAccountDetails
 }
 
