@@ -10,6 +10,7 @@ import ProfileDetails from './ProfileDetails'
 import ProfileSection from './ProfileSection'
 import ProfileYourKeys from './ProfileYourKeys'
 import ProfileNotice from './ProfileNotice'
+import ProfileQRCode from './ProfileQRCode';
 
 class Profile extends Component {
    state = {
@@ -36,6 +37,7 @@ class Profile extends Component {
                { false ?
                <ProfileNotice />
                : null }
+               <ProfileQRCode account={this.props.account} />
             </ProfileSection>
          </PageContainer>
       )
