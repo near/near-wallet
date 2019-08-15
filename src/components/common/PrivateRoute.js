@@ -1,14 +1,12 @@
-import React from "react"
-import { Route, withRouter, Redirect } from "react-router-dom"
-import { connect } from "react-redux"
+import React from 'react'
+import { Route, withRouter, Redirect } from 'react-router-dom'
+import { connect } from 'react-redux'
 
-import { isEmpty } from '../../actions/account'
-
-const PrivateRoute = ({component: Component, ...rest}) => (
+const PrivateRoute = ({component: Component, account, ...rest}) => (
    <Route 
       {...rest} 
       render={(props) => (
-         isEmpty().payload
+         !account.accountId
             ? (
                <Redirect
                   to={{
@@ -22,10 +20,8 @@ const PrivateRoute = ({component: Component, ...rest}) => (
    />
 )
 
-const mapDispatchToProps = {
-   isEmpty
-}
+const mapStateToProps = ({ account }) => ({
+   account
+})
 
-const mapStateToProps = () => ({})
-
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(PrivateRoute))
+export default withRouter(connect(mapStateToProps)(PrivateRoute))

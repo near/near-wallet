@@ -8,18 +8,25 @@ export const REFRESH_URL = 'REFRESH_URL'
 
 export function handleRefreshAccount(history, loader = true) {
    return (dispatch, getState) => {
-      if (isEmpty().payload) {
-         return false
-      }
-
-      const accountId = wallet.getAccountId()
-
       if (loader) {
          dispatch({
             type: LOADER_ACCOUNT,
             loader: true
          })   
       }
+
+      if (wallet.isEmpty()) {
+         if (loader) {
+            dispatch({
+               type: LOADER_ACCOUNT,
+               loader: false
+            })   
+         }
+
+         return false
+      }
+      
+      const accountId = wallet.getAccountId()
 
       wallet
          .loadAccount(accountId, history)
@@ -36,13 +43,6 @@ export function handleRefreshAccount(history, loader = true) {
                   accounts: wallet.accounts
                }
             })
-
-            if (loader) {
-               dispatch({
-                  type: LOADER_ACCOUNT,
-                  loader: false
-               })
-            }
          })
          .catch(e => {
             console.error('Error loading account:', e)
@@ -50,13 +50,21 @@ export function handleRefreshAccount(history, loader = true) {
             if (e.message && e.message.indexOf('does not exist while viewing') !== -1) {
                // We have an account in the storage, but it doesn't exist on blockchain. We probably nuked storage so just redirect to create account
                // TODO: Offer to remove specific account vs clearing everything?
-               wallet.clearState()
+               wallet.clearState()               
                wallet.redirectToCreateAccount(
                   {
                      reset_accounts: true
                   },
                   history
                )
+            }
+         })
+         .finally(() => {
+            if (loader) {
+               dispatch({
+                  type: LOADER_ACCOUNT,
+                  loader: false
+               })
             }
          })
    }
@@ -100,7 +108,7 @@ export const redirectToApp = () => (dispatch, getState) => {
    }, 1500)
 }
 
-export const { requestCode, setupAccountRecovery, recoverAccount, getAccountDetails, removeAccessKey, checkNewAccount, createNewAccount, checkAccountAvailable, clear, clearCode, isEmpty } = createActions({
+export const { requestCode, setupAccountRecovery, recoverAccount, getAccountDetails, removeAccessKey, checkNewAccount, createNewAccount, checkAccountAvailable, clear, clearCode } = createActions({
    REQUEST_CODE: [
       wallet.requestCode.bind(wallet),
       () => ({ successCode: 'account.requestCode.success', errorCode: 'account.requestCode.error' })
@@ -128,8 +136,7 @@ export const { requestCode, setupAccountRecovery, recoverAccount, getAccountDeta
       () => ({ successCode: 'User found.', errorCode: 'User not found.' })
    ],
    CLEAR: null,
-   CLEAR_CODE: null,
-   IS_EMPTY: [wallet.isEmpty.bind(wallet), () => ({})]
+   CLEAR_CODE: null
 })
 
 export const { addAccessKey, clearAlert } = createActions({
