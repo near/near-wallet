@@ -82,6 +82,9 @@ const FooterGrid = styled(Grid)`
    }
 
    @media screen and (max-width: 991px) {
+      &&&& {
+         display: none;
+      }
    }
 
    @media screen and (max-width: 767px) {
