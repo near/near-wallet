@@ -95,7 +95,7 @@ class SignTransferReady extends Component {
                      />
                   </Grid.Column>
                </Grid.Row>
-               <Grid.Row centered>
+               <Grid.Row centered className='but-sec'>
                   <Grid.Column largeScreen={6} computer={8} tablet={10} mobile={16}>
                      <Form onSubmit={handleAllow}>
                         <input

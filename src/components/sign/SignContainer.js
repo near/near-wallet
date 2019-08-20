@@ -65,7 +65,7 @@ const CustomContainer = styled(Container)`
       .estimated {
          background: #f8f8f8;
          padding: 24px 0;
-         margin: 24px 0 12px 0;
+         margin: 0 0 12px 0;
       }
       .gas {
          font-size: 12px;
@@ -109,6 +109,17 @@ const CustomContainer = styled(Container)`
             }
          }
       }
+
+      @media screen and (max-width: 991px) {
+         .authorize {
+            margin-top: 18px;
+            margin-bottom: -18px;
+         }
+         .but-sec {
+            padding-top: 0px;
+         }
+      }
+
       @media screen and (max-width: 767px) {
          button {
             width: 150px;
