@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import CreateAccountForm from './CreateAccountForm'
 import AccountFormSection from './AccountFormSection'
 import AccountFormContainer from './AccountFormContainer'
-import { checkNewAccount, createNewAccount, clear } from '../../actions/account'
+import { checkNewAccount, createNewAccount, clear, handleRefreshAccount } from '../../actions/account'
 
 class CreateAccount extends Component {
    state = {
@@ -36,10 +36,10 @@ class CreateAccount extends Component {
       this.props.createNewAccount(accountId).then(({ error }) => {
          if (error) return
 
+         this.props.handleRefreshAccount()
+
          let nextUrl = `/set-recovery/${accountId}`
-         setTimeout(() => {
-            this.props.history.push(nextUrl)
-         }, 200)
+         this.props.history.push(nextUrl)
       })
       .finally(() => {
          this.setState(() => ({
@@ -83,7 +83,8 @@ class CreateAccount extends Component {
 const mapDispatchToProps = {
    checkNewAccount,
    createNewAccount,
-   clear
+   clear,
+   handleRefreshAccount
 }
 
 const mapStateToProps = ({ account }) => ({
