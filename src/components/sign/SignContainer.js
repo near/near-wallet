@@ -78,7 +78,7 @@ const CustomContainer = styled(Container)`
          color: #24272a;
          padding-top: 0;
       }
-      .transfering-dots {
+      .transferring-dots {
          :after {
             content: '.';
             animation: link 1s steps(5, end) infinite;

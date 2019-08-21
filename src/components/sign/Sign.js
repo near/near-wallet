@@ -7,15 +7,15 @@ import SignTransferReady from './SignTransferReady';
 import SignTransferSuccess from './SignTransferSuccess';
 import SignTransferCancelled from './SignTransferCancelled';
 import SignTransferInsufficientFunds from './SignTransferInsufficientFunds';
-import SignTransferTransfering from './SignTransferTransfering';
+import SignTransferTransferring from './SignTransferTransferring';
 
 class Sign extends Component {
    state = {
       transferReady: false,
-      transferTransfering: false,
-      transferTransferingStart: false,
-      transferTransferingPending: false,
-      transferTransferingEnd: false,
+      transferTransferring: false,
+      transferTransferringStart: false,
+      transferTransferringPending: false,
+      transferTransferringEnd: false,
       transferSuccess: false,
       transferCancelled: false,
       transferInsufficientFunds: false
@@ -41,25 +41,25 @@ class Sign extends Component {
    handleAllow = e => {
       this.setState(() => ({
          transferReady: false,
-         transferTransfering: true,
-         transferTransferingStart: true
+         transferTransferring: true,
+         transferTransferringStart: true
       }))
 
       setTimeout(() => {
          this.setState(() => ({
-            transferTransferingPending: true
+            transferTransferringPending: true
          }))
 
          //actions
          setTimeout(() => {
             this.setState(() => ({
-               transferTransferingEnd: true
+               transferTransferringEnd: true
             }))
 
             //finally
             setTimeout(() => {
                this.setState(() => ({
-                  transferTransfering: false,
+                  transferTransferring: false,
                   
                   transferSuccess: true,
                   // transferCancelled: true,
@@ -74,7 +74,7 @@ class Sign extends Component {
       return (
          <SignContainer>
             {this.state.transferReady && <SignTransferReady {...this.state} handleAllow={this.handleAllow} handleDeny={this.handleDeny} />}
-            {this.state.transferTransfering && <SignTransferTransfering {...this.state} />}
+            {this.state.transferTransferring && <SignTransferTransferring {...this.state} />}
             {this.state.transferSuccess && <SignTransferSuccess handleDeny={this.handleDeny} />}
             {this.state.transferCancelled && <SignTransferCancelled handleDeny={this.handleDeny} />}
             {this.state.transferInsufficientFunds && <SignTransferInsufficientFunds handleDeny={this.handleDeny} handleAddFunds={this.handleAddFunds} />}

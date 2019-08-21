@@ -75,11 +75,19 @@ const CustomDiv = styled(`div`)`
             width: 20px;
          }
       }
+      .pending-start {
+         > g {
+            > path {
+               stroke: #fff;
+               fill: #fff;
+            }
+         }
+      }
       .pending {
          > g {
             > path {
-               stroke: #999;
-               fill: #999;
+               stroke: #fff;
+               fill: #fff;
                animation-iteration-count: infinite;
                animation-fill-mode: forwards;
                animation-duration: 1.0s;
@@ -105,8 +113,8 @@ const CustomDiv = styled(`div`)`
       }
       @keyframes fadeInDots1 {
          0% {
-            stroke: #999;
-            fill: #999;
+            stroke: #fff;
+            fill: #fff;
          }
          33% {
             stroke: #5ace84;
@@ -123,12 +131,12 @@ const CustomDiv = styled(`div`)`
       }
       @keyframes fadeInDots2 {
          0% {
-            stroke: #999;
-            fill: #999;
+            stroke: #fff;
+            fill: #fff;
          }
          33% {
-            stroke: #999;
-            fill: #999;
+            stroke: #fff;
+            fill: #fff;
          }
          66% {
             stroke: #5ace84;
@@ -141,16 +149,16 @@ const CustomDiv = styled(`div`)`
       }
       @keyframes fadeInDots3 {
          0% {
-            stroke: #999;
-            fill: #999;
+            stroke: #fff;
+            fill: #fff;
          }
          33% {
-            stroke: #999;
-            fill: #999;
+            stroke: #fff;
+            fill: #fff;
          }
          66% {
-            stroke: #999;
-            fill: #999;
+            stroke: #fff;
+            fill: #fff;
          }
          100% {
             stroke: #5ace84;
@@ -163,9 +171,9 @@ const CustomDiv = styled(`div`)`
 const SignAnimatedArrow = ({ start, pending, end }) => (
    <CustomDiv>
       <div className='sep'>
-         <div className={`${start ? `start` : `` }`} />
+         <div className={`${start ? `start` : ``}`} />
       </div>
-      <SendImage className={pending ? `pending ${end ? `pending-end` : ``}` : ``} />
+      <SendImage className={`${start ? `pending-start` : ``} ${pending ? `pending` : ``} ${end ? `pending-end` : ``}`} />
       <div className='sep'>
          <div className={`${end ? `end` : `` }`} />
       </div>

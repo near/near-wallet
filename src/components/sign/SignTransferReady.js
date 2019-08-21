@@ -31,7 +31,7 @@ class SignTransferReady extends Component {
    }
 
    render() {
-      const { appTitle = 'CryptoCorgis', transferTransfering, handleAllow, handleDeny, account } = this.props
+      const { appTitle = 'CryptoCorgis', transferTransferring, handleAllow, handleDeny, account } = this.props
       const { dropdown } = this.state
 
       return (
@@ -43,7 +43,7 @@ class SignTransferReady extends Component {
                      className='authorize'
                      
                   >
-                     <SignAnimatedArrow animate={transferTransfering}  />
+                     <SignAnimatedArrow animate={transferTransferring}  />
                   </Grid.Column>
                </Grid.Row>
                <Grid.Row className='title'>
