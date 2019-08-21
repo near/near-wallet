@@ -122,7 +122,7 @@ const CustomContainer = styled(Container)`
 
       @media screen and (max-width: 767px) {
          button {
-            width: 150px;
+            width: 140px;
             margin-top: 0px;
             float: right;
 
