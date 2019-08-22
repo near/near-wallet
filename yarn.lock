@@ -1296,9 +1296,9 @@ address@1.0.3:
   integrity sha512-z55ocwKBRLryBs394Sm3ushTtBeg6VAeuku7utSoSnsJKvKcnXFIyC6vh27n3rXyxSgkJBBCAvyOn7gSUcTYjg==
 
 address@^1.0.1:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/address/-/address-1.1.0.tgz#ef8e047847fcd2c5b6f50c16965f924fd99fe709"
-  integrity sha512-4diPfzWbLEIElVG4AnqP+00SULlPzNuyJFNnmMrLgyaxG6tZXJ1sn7mjBu4fHrJE+Yp/jgylOweJn2xsLMFggQ==
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/address/-/address-1.1.1.tgz#9483d6464788dee73e9a0f9f5d57bedf429b2a70"
+  integrity sha512-srclZEseI6OB0MgWYWuYpr2F5fHMxh5lgWF72CeUFm5QgJyviPA64Q7PzJdBQkFCJibEycqsZ5b9L0l/J8SlyQ==
 
 airbnb-prop-types@^2.13.2:
   version "2.15.0"
@@ -6965,7 +6965,7 @@ nearley@^2.7.10:
 
 "nearlib@github:nearprotocol/nearlib#staging":
   version "0.13.0-staging"
-  resolved "https://codeload.github.com/nearprotocol/nearlib/tar.gz/e8174f591ee4159733520a4a5ff8ad0d60a52a47"
+  resolved "https://codeload.github.com/nearprotocol/nearlib/tar.gz/a10ff41c2f971b7997fb9b758308b002558ed9b5"
   dependencies:
     "@types/bn.js" "^4.11.5"
     bn.js "^4.11.5"
@@ -8791,9 +8791,9 @@ react-lifecycles-compat@^3.0.0, react-lifecycles-compat@^3.0.2, react-lifecycles
   integrity sha512-fBASbA6LnOU9dOU2eW7aQ8xmYBSXUIWr+UmF9b1efZBazGNO+rcXT/icdKnYm2pTwcRylVUYwW7H1PHfLekVzA==
 
 react-modal@^3.8.1:
-  version "3.9.1"
-  resolved "https://registry.yarnpkg.com/react-modal/-/react-modal-3.9.1.tgz#82ce53d110eea0d8f028f3315ef336d0baffa9b9"
-  integrity sha512-k+TUkhGWpIVHLsEyjNmlyOYL0Uz03fNZvlkhCImd1h+6fhNgTi6H6jexVXPVhD2LMMDzJyfugxMN+APN/em+eQ==
+  version "3.10.1"
+  resolved "https://registry.yarnpkg.com/react-modal/-/react-modal-3.10.1.tgz#ba37927871830c798f51404aa6bc71ff7a5e4c16"
+  integrity sha512-2DKIfdOc8+WY+SYJ/xf/WBwOYMmNAYAyGkYlc4e1TCs9rk1xY4QBz04hB3UHGcrLChh7ce77rHAe6VPNmuLYsQ==
   dependencies:
     exenv "^1.2.0"
     prop-types "^15.5.10"
@@ -8840,9 +8840,9 @@ react-redux@^6.0.1:
     react-is "^16.8.2"
 
 react-responsive-ui@^0.14.123:
-  version "0.14.152"
-  resolved "https://registry.yarnpkg.com/react-responsive-ui/-/react-responsive-ui-0.14.152.tgz#c0fac2ae3a49ac0607a8dc1c2c8b08ae9a302d6e"
-  integrity sha512-8l4NOXjKWwh7l6GoluWsT/m32dZ9JtXo7Xo/zmZrAgkB9JY7kf1K7kc8wXDcUx/BkaNMCTfXczMOp4vx60CpSQ==
+  version "0.14.154"
+  resolved "https://registry.yarnpkg.com/react-responsive-ui/-/react-responsive-ui-0.14.154.tgz#da6383978fb6654e8299d8fbcd032298109779ce"
+  integrity sha512-N1hgvJqWUlql5+diVoTg79nm2NkiwylIfSXDEgBW/w0njHK0WTdEOLqwlb7cKRuXXDQuM5HONT/1zR8KN/rN6w==
   dependencies:
     classnames "^2.2.5"
     create-react-context "^0.2.2"
