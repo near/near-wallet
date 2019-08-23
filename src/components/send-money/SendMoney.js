@@ -125,10 +125,9 @@ class SendMoney extends Component {
    isLegitForm = () => {
       const { paramAccountId, amount, amountStatus } = this.state
       const { requestStatus } = this.props
-      console.log("[sendmoney.js], ", amount)
       return paramAccountId
-      ? ((amount) > 0 && amountStatus === '')
-      : (requestStatus && requestStatus.success && (amount) > 0 && amountStatus === '')
+         ? ((amount) > 0 && amountStatus === '')
+         : (requestStatus && requestStatus.success && (amount) > 0 && amountStatus === '')
    }
 
    render() {
