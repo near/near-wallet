@@ -6964,8 +6964,8 @@ nearley@^2.7.10:
     semver "^5.4.1"
 
 "nearlib@github:nearprotocol/nearlib#staging":
-  version "0.13.0-staging2"
-  resolved "https://codeload.github.com/nearprotocol/nearlib/tar.gz/ef524ddb6552792b79764c573ca385da6bdeeed0"
+  version "0.13.0-staging3"
+  resolved "https://codeload.github.com/nearprotocol/nearlib/tar.gz/458923e70280440bfa65360fa4b23c7a959c6e6d"
   dependencies:
     "@types/bn.js" "^4.11.5"
     bn.js "^4.11.5"
