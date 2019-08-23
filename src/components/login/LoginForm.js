@@ -48,7 +48,7 @@ const LoginForm = ({
    buttonLoader
 }) => (
    <CustomGrid>
-      <Grid.Row centered>
+      <Grid.Row centered className='dropdown'>
          <Grid.Column largeScreen={6} computer={8} tablet={10} mobile={16}>
             <SelectAccountDropdown
                handleOnClick={handleOnClick}
@@ -59,8 +59,7 @@ const LoginForm = ({
             />
          </Grid.Column>
       </Grid.Row>
-      <Grid.Row className={`buttons ${dropdown ? 'hide' : ''}`}>
-         <Grid.Column largeScreen={5} computer={4} tablet={3} mobile={16} />
+      <Grid.Row centered className='buttons'>
          <Grid.Column largeScreen={6} computer={8} tablet={10} mobile={16}>
             <Form onSubmit={handleAllow}>
                <input
@@ -85,7 +84,6 @@ const LoginForm = ({
                </FormButton>
             </Form>
          </Grid.Column>
-         <Grid.Column largeScreen={5} computer={4} tablet={3} mobile={16} />
       </Grid.Row>
    </CustomGrid>
 )

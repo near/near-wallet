@@ -1,102 +1,87 @@
 import React from 'react'
 
-import { Segment, List } from 'semantic-ui-react'
+import { Segment } from 'semantic-ui-react'
 
 import AddBlueImage from '../../images/icon-add-blue.svg'
 import ArrowDownImage from '../../images/icon-arrow-down.svg'
 import ArrowUpImage from '../../images/icon-arrow-up.svg'
-import AccountGreyImage from '../../images/icon-account-grey.svg'
 
 import styled from 'styled-components'
 
 const CustomSegment = styled(Segment)`
    &&& {
-      width: 100%;
       position: relative;
-      cursor: pointer;
+      width: 100%;
+      height: 50px;
       padding: 0px;
-      margin: 0px;
+      z-index: 1000;
 
       .segment {
-         width: 100%;
          padding: 0px;
-         margin: 0px;
-      }
-      .element {
+         position: absolute;
          width: 100%;
-         min-height: 64px;
-         border: solid 4px #24272a;
-         margin: 0px;
-         padding: 0px;
+         min-height: 46px;
+         bottom: 0px;
+         border: 2px solid #24272a;
+         border-radius: 3px;
          background: #fff;
 
-         :hover {
-            background: #f8f8f8;
-         }
-         .img {
-            float: left;
-            width: 56px;
-            height: 56px;
-            background-color: #d8d8d8;
-            background-image: url(${AccountGreyImage});
-            background-position: center center;
-            background-repeat: no-repeat;
-            background-size: 36px 36px;
-         }
-         .name {
-            margin-top: 12px;
-            margin-left: 18px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            flex: 1;
-         }
-         .arrow {
-            float: right;
-            width: 56px;
-            height: 56px;
-            background-image: url(${ArrowDownImage});
-            background-repeat: no-repeat;
-            background-position: center center;
-            background-size: 24px auto;
+         .item {
+            line-height: 46px;
+            height: 46px;
+            color: #24272a;
+            padding: 0 0 0 12px;
+            font-size: 18px;
+            font-weight: 600;
 
-            &.up {
-               background-image: url(${ArrowUpImage});
+            text-overflow: ellipsis;
+            overflow: hidden;
+         }
+
+         .list-title {
+            border-bottom: 2px solid #f2f2f2;
+
+            > div {
+               float: left;
+               text-overflow: ellipsis;
+               overflow: hidden;
+               width: 82%;
+            }
+            .arrow {
+               float: right;
+               width: 48px;
+               height: 100%;
+               background-image: url(${ArrowDownImage});
+               background-repeat: no-repeat;
+               background-position: center center;
+               background-size: 16px auto;
+
+               &.up {
+                  background-image: url(${ArrowUpImage});
+               }
             }
          }
-      }
-      .trigger {
-         display: flex;
-      }
-      .dropdown {
-         .element {
-            margin-top: -4px;
-            display: flex;
-         }
-      }
-      .create-account {
-         width: 100%;
-         min-height: 64px;
-         border: solid 4px #24272a;
-         margin: 0px;
-         padding: 0px;
-         cursor: pointer;
-         background: #24272a;
+         .list-scroll {
+            max-height: 140px;
+            overflow: auto;
 
-         .img {
-            float: left;
-            width: 56px;
-            height: 56px;
+            .item {
+               border-top: 2px solid #f2f2f2;
+
+               :first-of-type {
+                  border-top: 0px solid #f2f2f2;
+               }
+            }
+         }
+         .list-create {
+            background: #24272a;
+            color: #24272a;
+            padding: 0 0 0 60px;
+
             background-image: url(${AddBlueImage});
-            background-position: center center;
+            background-position: 12px center;
             background-repeat: no-repeat;
             background-size: 24px 24px;
-         }
-         .name {
-            float: left;
-            margin-top: 12px;
-            margin-left: 18px;
-         }
-         .arrow {
          }
       }
    }
@@ -104,38 +89,28 @@ const CustomSegment = styled(Segment)`
 
 const SelectAccountDropdown = ({ handleOnClick, account, dropdown, handleSelectAccount, redirectCreateAccount }) => (
    <CustomSegment onClick={handleOnClick} basic>
-      <List verticalAlign='middle' className={`element trigger`}>
-         <List.Item className='img' />
-         <List.Item as='h3' className='name'>
-            @{account.accountId || ''}
-         </List.Item>
-         <List.Item className={`arrow ${dropdown ? 'up' : ''}`} />
-      </List>
-
-      <Segment basic className={`dropdown ${dropdown ? '' : 'hide'}`}>
-         {account.accounts && Object.keys(account.accounts)
-            .filter(a => a !== account.accountId)
-            .map((account, i) => (
-               <List
-                  key={`lf-${i}`}
-                  onClick={() => handleSelectAccount(account)}
-                  className='element'
-               >
-                  <List.Item className='img' />
-                  <List.Item as='h3' className='name'>
-                     @{account}
-                  </List.Item>
-               </List>
-            ))}
-         <List
-            onClick={redirectCreateAccount}
-            className='create-account'
-         >
-            <List.Item className='img' />
-            <List.Item className='h3 name color-seafoam-blue'>
-               Create New Account
-            </List.Item>
-         </List>
+      <Segment basic>
+         <div className='item list-title'>
+            <div>@{account.accountId}</div>
+            <div className='arrow' />
+         </div>
+         <div className={`${dropdown ? '' : 'hide'}`}>
+            <div className='list-scroll'>
+               {account.accounts && Object.keys(account.accounts)
+                  .filter(a => a !== account.accountId)
+                  .map(a => (
+                     <div 
+                        onClick={() => handleSelectAccount(a)}
+                        className='item'
+                        key={a}
+                     >@{a}</div>
+                  ))}
+            </div>
+            <div 
+               onClick={redirectCreateAccount}
+               className='item list-create color-seafoam-blue'
+            >CREATE NEW ACCOUNT</div>
+         </div>
       </Segment>
    </CustomSegment>
 )

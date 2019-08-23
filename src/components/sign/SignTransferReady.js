@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { withRouter } from 'react-router-dom'
 
 import FormButton from '../common/FormButton'
 import MobileContainer from './MobileContainer'
@@ -140,4 +141,4 @@ const mapStateToProps = ({ account }) => ({
    account
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(SignTransferReady)
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(SignTransferReady))
