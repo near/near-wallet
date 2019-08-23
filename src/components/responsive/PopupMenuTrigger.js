@@ -2,10 +2,8 @@ import React from 'react'
 
 import { Image, Loader } from 'semantic-ui-react'
 
-import MainImage from '../common/MainImage'
 import Balance from '../common/Balance'
 
-import AccountGreyImage from '../../images/icon-account-grey.svg'
 import MobileMenuImage from '../../images/icon-mobile-menu.svg'
 import CloseImage from '../../images/icon-close.svg'
 import ArrowDownImage from '../../images/icon-arrow-down.svg'
@@ -19,6 +17,7 @@ const CustomDiv = styled('div')`
    cursor: pointer;
    font-family: 'benton-sans', sans-serif;
    font-weight: 600;
+   
    > div {
       .account-img {
          padding-left: 6px;
@@ -51,54 +50,20 @@ const CustomDiv = styled('div')`
          }
       }
       .account-tokens {
-         float: right;
-         line-height: 29px;
-         font-size: 14px;
-         color: #fff;
-         margin: 21px 0 0 10px;
-         height: 28px;
-         background: #111314;
-         border-radius: 14px;
-         padding: 0 10px;
-         letter-spacing: normal;
-         max-width: 170px;
-         :hover {
-            color: #fff;
-         }
-         > div {
-            display: flex;
-            > div {
-               text-overflow: ellipsis;
-               overflow: hidden;
-
-               &.near {
-                  text-overflow: initial;
-               }
-            }
-         }
-         .near {
-            font-size: 18px;
-            padding-left: 4px;
-            font-weight: 500;
-         }
+         font-size: 18px;
+         color: #8fd6bd;
+         font-weight: 300;
+         line-height: 24px;
       }
       .account-name {
          overflow: hidden;
-         padding-right: 0px;
-         text-align: right;
-         padding-left: 0px;
-         line-height: 72px;
-         > div {
-            font-size: 14px;
-            letter-spacing: normal;
-            padding-left: 0px;
-            padding-right: 0px;
-            text-overflow: ellipsis;
-            overflow: hidden;
+         text-overflow: ellipsis;
+         font-size: 16px;
+         color: #fff;
+         margin-top: 16px;
+
+         :hover {
             color: #fff;
-            :hover {
-               color: #fff;
-            }
          }
       }
    }
@@ -107,14 +72,6 @@ const CustomDiv = styled('div')`
 const PopupMenuTrigger = ({ account, handleClick, type, dropdown = false }) => (
    <CustomDiv onClick={handleClick}>
       <div>
-         {type === 'desktop' && (
-            <div className='account-img'>
-               <MainImage
-                  src={AccountGreyImage}
-                  size='small'
-               />
-            </div>
-         )}
          <div className={`account-arrow ${type}`}>
             {type === 'mobile' && (
                <Image src={dropdown ? MobileMenuImage : CloseImage} />
@@ -122,6 +79,13 @@ const PopupMenuTrigger = ({ account, handleClick, type, dropdown = false }) => (
             {type === 'desktop' && <Image src={ArrowDownImage} />}
          </div>
          <div className='overflow'>
+            <div className='account-name'>
+               {account.loader || !account.accountId ? (
+                  <Loader active inline size='mini' />
+               ) : (
+                  `@${account.accountId}`
+               )}
+            </div>
             <div className='account-tokens'>
                {account.loader || !account.accountId ? (
                   <Loader active inline size='mini' />
@@ -129,15 +93,8 @@ const PopupMenuTrigger = ({ account, handleClick, type, dropdown = false }) => (
                      <div>
                         {account.amount 
                         ? <Balance amount={account.amount} milli={milli} /> 
-                        : "NaN"}
+                        : 'NaN'}
                      </div>
-                  )}
-            </div>
-            <div className='account-name'>
-               {account.loader || !account.accountId ? (
-                  <Loader active inline size='mini' />
-               ) : (
-                     <div>@{account.accountId}</div>
                   )}
             </div>
          </div>

@@ -293,6 +293,13 @@ export default createGlobalStyle`
       box-shadow: -1px -1px 0 0 #eee;
    }
 
+   @media screen and (max-width: 991px) {
+      .App {
+         .main {
+            padding-bottom: 0px;
+         }
+      }
+   }
 
    @media screen and (max-width: 767px) {
       h1, .h1 {
@@ -313,16 +320,8 @@ export default createGlobalStyle`
          line-height: 1.33;
          margin: 0px;
       }
-      
-
       .box .column {
          padding: 16px 10px !important;
-      }
-
-      .App {
-         .main {
-            padding-bottom: 300px;
-         }
       }
    }
 `
