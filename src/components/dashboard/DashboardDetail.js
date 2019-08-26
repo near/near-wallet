@@ -119,7 +119,7 @@ class DashboardDetail extends Component {
             title={(
                amount
                   ? <Fragment style={{display: "inline"}}>
-                     <div>Balance: </div>
+                     <div className='balance'>Balance: </div>
                      <Balance style={{display: "inline", margin: "0"}} amount={amount} milli={milli} />
                   </Fragment>
                   : "Balance loading"
