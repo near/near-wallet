@@ -121,6 +121,8 @@ const CustomContainer = styled(Container)`
       }
 
       @media screen and (max-width: 767px) {
+         margin: 0px !important;
+
          button {
             width: 140px;
             margin-top: 0px;

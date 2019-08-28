@@ -29,7 +29,7 @@ const SignTransferReady = ({ transferTransferringStart, transferTransferringPend
             </Grid.Column>
          </Grid.Row>
       </Grid>
-      <Grid>
+      <Grid padded>
          <Grid.Row className='contract'>
             <Grid.Column>
                Contract: @contractname.near

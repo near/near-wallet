@@ -34,7 +34,7 @@ const SignTransferCancelled = ({ handleDeny }) => (
             </Grid.Column>
          </Grid.Row>
       </Grid>
-      <Grid>
+      <Grid padded>
          <Grid.Row>
             <Grid.Column
                className='close'

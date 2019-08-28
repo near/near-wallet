@@ -7,11 +7,10 @@ import { Wallet } from '../../utils/wallet'
 
 import { handleRefreshAccount, checkAccountAvailable, clear } from '../../actions/account'
 
-import PageContainer from '../common/PageContainer';
-import FormButton from '../common/FormButton'
 import SendMoneyFirstStep from './SendMoneyFirstStep'
 import SendMoneySecondStep from './SendMoneySecondStep'
 import SendMoneyThirdStep from './SendMoneyThirdStep'
+import SendMoneyContainer from './SendMoneyContainer'
 
 class SendMoney extends Component {
    state = {
@@ -116,6 +115,10 @@ class SendMoney extends Component {
       }))
    }
 
+   handleRedirectDashboard = () => {
+      this.props.history.push(`/`)
+   }
+
    handleExpandNote = () => {
       this.setState(() => ({
          expandNote: true
@@ -131,23 +134,11 @@ class SendMoney extends Component {
    }
 
    render() {
-      const { step, loader } = this.state
+      const { step } = this.state
       const { formLoader, requestStatus } = this.props
 
       return (
-         <PageContainer
-            title={step === 3 ? `Success!` : `Send Money`}
-            bottom={step === 2 && (
-               <FormButton
-                  onClick={this.handleCancelTransfer}
-                  color='link gray bold'
-                  disabled={loader}
-               >
-                  Cancel Transfer
-               </FormButton>
-            )}
-            type='center'
-         >
+         <SendMoneyContainer>
             {step === 1 && (
                <SendMoneyFirstStep
                   handleNextStep={this.handleNextStep}
@@ -163,11 +154,17 @@ class SendMoney extends Component {
                   handleNextStep={this.handleNextStep}
                   handleExpandNote={this.handleExpandNote}
                   handleGoBack={this.handleGoBack}
+                  handleCancelTransfer={this.handleCancelTransfer}
                   {...this.state}
                />
             )}
-            {step === 3 && <SendMoneyThirdStep {...this.state} />}
-         </PageContainer>
+            {step === 3 && (
+               <SendMoneyThirdStep 
+                  handleRedirectDashboard={this.handleRedirectDashboard}
+                  {...this.state} 
+               />
+            )}
+         </SendMoneyContainer>
       )
    }
 }

@@ -9,7 +9,7 @@ import CheckImage from '../../images/icon-check.svg'
 
 const SignTransferReady = ({ handleDeny }) => (
    <MobileContainer>
-      <Grid>
+      <Grid padded>
          <Grid.Row centered>
             <Grid.Column
                textAlign='center'
@@ -51,7 +51,7 @@ const SignTransferReady = ({ handleDeny }) => (
             </Grid.Column>
          </Grid.Row>
       </Grid>
-      <Grid>
+      <Grid padded>
          <Grid.Row>
             <Grid.Column
                className='close'

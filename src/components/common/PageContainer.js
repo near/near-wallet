@@ -108,9 +108,11 @@ const PageContainer = ({ children, title, additional, bottom, type }) => (
             )}
       </Grid>
       {children}
-      <Segment basic textAlign='center'>
-         {bottom}
-      </Segment>
+      {bottom && (
+         <Segment basic textAlign='center'>
+            {bottom}
+         </Segment>
+      )}
    </CustomContainer>
 )
 

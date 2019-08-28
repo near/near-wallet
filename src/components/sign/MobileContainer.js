@@ -5,6 +5,10 @@ import styled from 'styled-components'
 const Top = styled(`div`)`
    @media screen and (max-width: 991px) {
       height: ${props => props.height}px ;
+
+      > #topR {
+         overflow: hidden;
+      }
    }
 `
 const Bottom = styled(`div`)`
@@ -30,7 +34,7 @@ class MobileContainer extends Component {
    }
 
    updateInnerHeight = () => {
-      const page = window.innerHeight - 70 + 12
+      const page = window.innerHeight - (72 + 14)
       const bottom = document.getElementById('bottom').clientHeight
       const topR = document.getElementById('topR').clientHeight
 

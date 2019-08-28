@@ -37,7 +37,7 @@ const SignTransferInsufficientFunds = ({ handleDeny, handleAddFunds }) => (
             </Grid.Column>
          </Grid.Row>
       </Grid>
-      <Grid>
+      <Grid padded>
          <Grid.Row centered>
             <Grid.Column largeScreen={6} computer={8} tablet={10} mobile={16}>
                <FormButton
