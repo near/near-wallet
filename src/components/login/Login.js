@@ -69,14 +69,12 @@ class Login extends Component {
    render() {
       const { account } = this.props
       return (
-         <LoginContainer
-            loader={account.loader}
-            appTitle={account.url && account.url.title}
-            contractId={account.url && account.url.contract_id}
-         >
+         <LoginContainer>
             {account.accountId && (
                <LoginForm
                   {...this.state}
+                  appTitle={account.url && account.url.title}
+                  contractId={account.url && account.url.contract_id}
                   handleOnClick={this.handleOnClick}
                   handleDeny={this.handleDeny}
                   handleAllow={this.handleAllow}

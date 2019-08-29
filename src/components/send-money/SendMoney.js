@@ -88,7 +88,7 @@ class SendMoney extends Component {
 
          this.wallet.sendMoney(accountId, amount)
             .then(() => {
-               this.props.handleRefreshAccount(this.props.history)
+               this.props.handleRefreshAccount(this.props.history, false)
 
                this.setState(state => ({
                   step: state.step + 1

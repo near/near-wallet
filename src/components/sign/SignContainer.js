@@ -21,31 +21,10 @@ const CustomContainer = styled(Container)`
       .title {
          padding-top: 30px;
       }
-      .estimated {
-         .question-circle {
-            font-size: 14px;
-            display: inline-block;
-            line-height: 0px;
-            border-radius: 50%;
-            background: #e6e6e6;
-
-            :hover {
-               background: #5ace84;
-               color: #fff;
-            }
-            span {
-               display: inline-block;
-               padding-top: 50%;
-               padding-bottom: 50%;
-               margin-left: 8px;
-               margin-right: 8px;
-            }
-         }
-      }
       button {
          width: 190px;
          margin-top: 0px;
-         padding: 0 12px;
+         padding: 0 0;
          float: right;
 
          :first-of-type {
@@ -59,13 +38,15 @@ const CustomContainer = styled(Container)`
       }
       .contract {
          font-size: 12px;
-         background: #f8f8f8;
-         text-align: center;
+         padding: 0px;
+
+         .column {
+            padding: 12px 0;
+         }
       }
-      .estimated {
+      .cont {
+         padding: 32px 0 32px 32px;
          background: #f8f8f8;
-         padding: 24px 0;
-         margin: 0 0 12px 0;
       }
       .gas {
          font-size: 12px;
@@ -112,11 +93,16 @@ const CustomContainer = styled(Container)`
 
       @media screen and (max-width: 991px) {
          .authorize {
-            margin-top: 18px;
+            margin-top: 0px;
             margin-bottom: -18px;
          }
          .but-sec {
             padding-top: 0px;
+         }
+         .contract {
+            .column {
+               background: #f8f8f8;
+            }
          }
       }
 
