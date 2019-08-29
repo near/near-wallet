@@ -7,7 +7,7 @@ export const LOADER_ACCOUNT = 'LOADER_ACCOUNT'
 export const REFRESH_URL = 'REFRESH_URL'
 
 export function handleRefreshAccount(history, loader = true) {
-   return (dispatch, getState) => {
+   return (dispatch, getState) => { 
       if (loader) {
          dispatch({
             type: LOADER_ACCOUNT,
