@@ -74,6 +74,9 @@ const CustomList = styled(List)`
             border: 4px solid #e6e6e6;
             border-bottom: 0px;
          }
+         h2 {
+            font-size: 24px !important;
+         }
       }
       .list-bottom {
          padding: 0 0 12px 0;
