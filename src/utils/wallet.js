@@ -137,7 +137,7 @@ export class Wallet {
       const keyPair = nearlib.KeyPair.fromRandom('ed25519')
       await sendJson('POST', CONTRACT_CREATE_ACCOUNT_URL, {
          newAccountId: accountId,
-         newAccountPublicKey: keyPair.getPublicKey()
+         newAccountPublicKey: keyPair.publicKey.toString()
       })
       await this.saveAndSelectAccount(accountId, keyPair);
    }
