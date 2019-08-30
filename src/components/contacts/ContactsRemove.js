@@ -11,12 +11,14 @@ const ContactsRemove = () => (
    <List>
       <List.Item>
          <List horizontal className='title'>
-            <List.Item>
-               <MainImage 
-                  src={AccountGreyImage} 
-                  size='medium'
-               />
-            </List.Item>
+            {false &&
+               <List.Item>
+                  <MainImage 
+                     src={AccountGreyImage} 
+                     size='medium'
+                  />
+               </List.Item>
+            }
             <List.Item>
                <List.Header as='h2'>
                   Alex Skidanov

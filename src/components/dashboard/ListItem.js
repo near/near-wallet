@@ -130,12 +130,14 @@ const ListItem = ({
          mobile={wide ? 14 : 16}
       >
          <Grid verticalAlign='middle'>
-            <Grid.Column className='col-image'>
-               <MainImage 
-                  src={row[0]} 
-                  size={wide ? `medium` : `tiny`}
-               />
-            </Grid.Column>
+            {false &&
+               <Grid.Column className='col-image'>
+                  <MainImage 
+                     src={row[0]} 
+                     size={wide ? `medium` : `tiny`}
+                  />
+               </Grid.Column>
+            }
             <Grid.Column className='main-row-title'>
                contractId: <span className='color-black'>{row[1]}</span>
                {row[2] != null && (
