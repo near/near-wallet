@@ -45,7 +45,7 @@ const CustomContainer = styled(Container)`
          }
       }
       .cont {
-         padding: 32px 0 32px 32px;
+         padding: 32px 0 32px 0;
          background: #f8f8f8;
       }
       .gas {
