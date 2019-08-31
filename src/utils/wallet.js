@@ -178,9 +178,9 @@ export class Wallet {
 
    async setupAccountRecovery(phoneNumber, accountId, securityCode) {
       const account = this.getAccount(accountId)
-      const state = await account.state()
-      if (state.public_keys.indexOf(HELPER_KEY) < 0) {
-         await account.addKey(HELPER_KEY)
+      const accountKeys = await account.getAccessKeys();
+      if (!accountKeys.some(it => it.public_key.endsWith(HELPER_KEY))) {
+         await account.addKey(HELPER_KEY);
       }
 
       const hash =  Uint8Array.from(sha256.array(Buffer.from(securityCode)));
