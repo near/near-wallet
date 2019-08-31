@@ -10,7 +10,7 @@ import ProblemsImage from '../../images/icon-problems.svg'
 
 const SignTransferInsufficientFunds = ({ handleDeny, handleAddFunds }) => (
    <MobileContainer>
-      <Grid>
+      <Grid padded>
          <Grid.Row centered>
             <Grid.Column
                textAlign='center'
@@ -37,7 +37,7 @@ const SignTransferInsufficientFunds = ({ handleDeny, handleAddFunds }) => (
             </Grid.Column>
          </Grid.Row>
       </Grid>
-      <Grid>
+      <Grid padded>
          <Grid.Row centered>
             <Grid.Column largeScreen={6} computer={8} tablet={10} mobile={16}>
                <FormButton
@@ -55,8 +55,13 @@ const SignTransferInsufficientFunds = ({ handleDeny, handleAddFunds }) => (
                </FormButton>
             </Grid.Column>
          </Grid.Row>
-         <Grid.Row className='contract'>
-            <Grid.Column>
+         <Grid.Row centered className='contract'>
+            <Grid.Column
+               largeScreen={12}
+               computer={14}
+               tablet={16}
+               textAlign='center'
+            >
                Contract: @contractname.near
             </Grid.Column>
          </Grid.Row>

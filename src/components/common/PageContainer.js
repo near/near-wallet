@@ -50,7 +50,7 @@ const CustomContainer = styled(Container)`
                padding-bottom: 0px;
 
                h1 {
-                  font-size: 12px !important;
+                  font-size: 11px !important;
                   line-height: 18px !important;
                   letter-spacing: 2px;
                   text-transform: uppercase;
@@ -108,9 +108,11 @@ const PageContainer = ({ children, title, additional, bottom, type }) => (
             )}
       </Grid>
       {children}
-      <Segment basic textAlign='center'>
-         {bottom}
-      </Segment>
+      {bottom && (
+         <Segment basic textAlign='center'>
+            {bottom}
+         </Segment>
+      )}
    </CustomContainer>
 )
 

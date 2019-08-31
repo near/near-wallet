@@ -35,7 +35,8 @@ const CustomResponsive = styled(Responsive)`
    &&& {
       .navbar {
          padding: 0px;
-         margin-bottom: 1rem;
+         padding-bottom: 1rem;
+         
          &-main {
             background-color: #24272a;
             height: 72px;
