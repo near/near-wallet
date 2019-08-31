@@ -190,7 +190,7 @@ export class Wallet {
 
    async recoverAccount(phoneNumber, accountId, securityCode) {
       const keyPair = nearlib.KeyPair.fromRandom('ed25519')
-      await this.validateCode(phoneNumber, accountId, { securityCode, publicKey: keyPair.publicKey })
+      await this.validateCode(phoneNumber, accountId, { securityCode, publicKey: keyPair.publicKey.toString() })
       await this.saveAndSelectAccount(accountId, keyPair)
    }
 }
