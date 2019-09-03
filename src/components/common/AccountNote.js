@@ -40,14 +40,11 @@ const AccountNote = () => (
    <CustomList>
       <List.Item className='title'>NOTE</List.Item>
       <List.Item>
-         Your username can be 5-32 characters
-      </List.Item>
-      <List.Item>
-         long and contain any of the following:
+         Your username can contain any of the following:
       </List.Item>
       <List.Item>• Lowercase characters (a-z)</List.Item>
       <List.Item>• Digits (0-9)</List.Item>
-      <List.Item>• Special characters (@._-)</List.Item>
+      <List.Item>• Characters (_-) can be used as separators</List.Item>
    </CustomList>
 )
 
