@@ -1926,12 +1926,10 @@ balanced-match@^1.0.0:
   resolved "https://registry.yarnpkg.com/balanced-match/-/balanced-match-1.0.0.tgz#89b4d199ab2bee49de164ea02b89ce462d71b767"
   integrity sha1-ibTRmasr7kneFk6gK4nORi1xt2c=
 
-base-x@^3.0.2:
-  version "3.0.6"
-  resolved "https://registry.yarnpkg.com/base-x/-/base-x-3.0.6.tgz#de047ec95f5f7b99ae63d830a2a894c96538b2cd"
-  integrity sha512-4PaF8u2+AlViJxRVjurkLTxpp7CaFRD/jo5rPT9ONnKxyhQ8f59yzamEvq7EkriG56yn5On4ONyaG75HLqr46w==
-  dependencies:
-    safe-buffer "^5.0.1"
+base-x@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/base-x/-/base-x-1.1.0.tgz#42d3d717474f9ea02207f6d1aa1f426913eeb7ac"
+  integrity sha1-QtPXF0dPnqAiB/bRqh9CaRPut6w=
 
 base64-js@^1.0.2:
   version "1.3.1"
@@ -2153,12 +2151,12 @@ browserslist@^4.0.0, browserslist@^4.3.4, browserslist@^4.3.5, browserslist@^4.6
     electron-to-chromium "^1.3.247"
     node-releases "^1.1.29"
 
-bs58@^4.0.1:
-  version "4.0.1"
-  resolved "https://registry.yarnpkg.com/bs58/-/bs58-4.0.1.tgz#be161e76c354f6f788ae4071f63f34e8c4f0a42a"
-  integrity sha1-vhYedsNU9veIrkBx9j806MTwpCo=
+bs58@^3.0.0:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/bs58/-/bs58-3.1.0.tgz#d4c26388bf4804cac714141b1945aa47e5eb248e"
+  integrity sha1-1MJjiL9IBMrHFBQbGUWqR+XrJI4=
   dependencies:
-    base-x "^3.0.2"
+    base-x "^1.1.0"
 
 bser@^2.0.0:
   version "2.1.0"
@@ -6948,13 +6946,14 @@ nearley@^2.7.10:
     randexp "0.4.6"
     semver "^5.4.1"
 
-"nearlib@github:nearprotocol/nearlib#staging":
-  version "0.13.0"
-  resolved "https://codeload.github.com/nearprotocol/nearlib/tar.gz/6f85ad8f1e7dbef77b7ecf46ecf53d911e60c187"
+nearlib@0.13.2:
+  version "0.13.2"
+  resolved "https://registry.yarnpkg.com/nearlib/-/nearlib-0.13.2.tgz#84d6dfb6f0033643ac4f8dabd721537aa49e72b3"
+  integrity sha512-H/t7OZNwmuitWxOhEsOlQYCg/C/w6t73jyuhvHB2VNzxPXa3Ykn/7MT1m4NeVd2La8EkNFoc/swC5Fg2bG50vA==
   dependencies:
     "@types/bn.js" "^4.11.5"
     bn.js "^4.11.5"
-    bs58 "^4.0.1"
+    bs58 "^3.0.0"
     error-polyfill "^0.1.2"
     http-errors "^1.7.2"
     js-sha256 "^0.9.0"
