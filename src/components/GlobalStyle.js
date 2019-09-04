@@ -303,13 +303,13 @@ export default createGlobalStyle`
 
    @media screen and (max-width: 767px) {
       h1, .h1 {
-         font-size: 38px !important;
+         font-size: 32px !important;
          font-weight: 500;
          line-height: 50px;
          color: #24272a;
       }
       h2, .h2 {
-         font-size: 24px !important;
+         font-size: 20px !important;
          font-weight: 600;
          line-height: 1.33;
          margin: 0px;

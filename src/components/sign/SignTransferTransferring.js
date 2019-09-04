@@ -7,7 +7,7 @@ import { Grid } from 'semantic-ui-react'
 
 const SignTransferReady = ({ transferTransferringStart, transferTransferringPending, transferTransferringEnd }) => (
    <MobileContainer>
-      <Grid>
+      <Grid padded>
          <Grid.Row centered>
             <Grid.Column
                textAlign='center'
@@ -29,9 +29,14 @@ const SignTransferReady = ({ transferTransferringStart, transferTransferringPend
             </Grid.Column>
          </Grid.Row>
       </Grid>
-      <Grid>
-         <Grid.Row className='contract'>
-            <Grid.Column>
+      <Grid padded>
+         <Grid.Row centered className='contract'>
+            <Grid.Column
+               largeScreen={12}
+               computer={14}
+               tablet={16}
+               textAlign='center'
+            >
                Contract: @contractname.near
             </Grid.Column>
          </Grid.Row>

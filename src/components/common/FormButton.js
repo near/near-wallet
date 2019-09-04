@@ -49,6 +49,21 @@ const CustomButton = styled(Button)`
             background: #4096db;
          }
       }
+      &.seafoam-blue {
+         border-color: #6ad1e3;
+         background: #6ad1e3;
+
+         :disabled {
+            background: #e6e6e6;
+            border-color: #e6e6e6;
+            opacity: 1 !important;
+         }
+         :active,
+         :hover,
+         :focus {
+           opacity: 0.8;
+         }
+      }
       &.green {
          border-color: #5ace84;
          background: #5ace84;

@@ -8,12 +8,14 @@ const AuthorizedAppsDeauthorize = ({ showSubData, handleDeauthorize }) => (
    <List>
       <List.Item>
          <List horizontal className='title'>
-            <List.Item className='image'>
-               <MainImage 
-                  src={showSubData[0]} 
-                  size='big'
-               />
-            </List.Item>
+            {false && 
+               <List.Item className='image'>
+                  <MainImage 
+                     src={showSubData[0]} 
+                     size='big'
+                  />
+               </List.Item>
+            }
             <List.Item>
                <List.Header as='h2'>
                   {showSubData[1]}
@@ -29,7 +31,7 @@ const AuthorizedAppsDeauthorize = ({ showSubData, handleDeauthorize }) => (
       </List.Item>
       <List.Item className='remove-connection'>
          <Button onClick={handleDeauthorize}>
-            DEAUTHORIZE
+            DEAUTHORIZE APP
          </Button>
       </List.Item>
       {false && (

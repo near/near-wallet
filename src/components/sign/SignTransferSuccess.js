@@ -9,7 +9,7 @@ import CheckImage from '../../images/icon-check.svg'
 
 const SignTransferReady = ({ handleDeny }) => (
    <MobileContainer>
-      <Grid>
+      <Grid padded>
          <Grid.Row centered>
             <Grid.Column
                textAlign='center'
@@ -27,31 +27,27 @@ const SignTransferReady = ({ handleDeny }) => (
                <span className='font-bold'>1.345 Ⓝ was transferred successfully</span>
             </Grid.Column>
          </Grid.Row>
-         <Grid.Row className='estimated'>
+         <Grid.Row centered>
             <Grid.Column
+               largeScreen={12}
+               computer={14}
+               tablet={16}
+               className='cont'
                textAlign='center'
-               computer={16}
-               className='fees'
             >
-               Transaction cost: .00043 Ⓝ
-            </Grid.Column>
-            <Grid.Column
-               textAlign='center'
-               computer={16}
-               className='gas'
-            >
-               Gas Limit: 21000
-            </Grid.Column>
-            <Grid.Column
-               textAlign='center'
-               computer={16}
-               className='gas'
-            >
-               Gas Price: .0000000021 Ⓝ
+               <div className="fees">
+                  Transaction cost: .00043 Ⓝ
+               </div>
+               <div className="gas">
+                  Gas Limit: 21000
+               </div>
+               <div className="gas">
+                  Gas Price: .0000000021 Ⓝ
+               </div>
             </Grid.Column>
          </Grid.Row>
       </Grid>
-      <Grid>
+      <Grid padded>
          <Grid.Row>
             <Grid.Column
                className='close'
@@ -65,8 +61,13 @@ const SignTransferReady = ({ handleDeny }) => (
                </FormButton>
             </Grid.Column>
          </Grid.Row>
-         <Grid.Row className='contract'>
-            <Grid.Column>
+         <Grid.Row centered className='contract'>
+            <Grid.Column
+               largeScreen={12}
+               computer={14}
+               tablet={16}
+               textAlign='center'
+            >
                Contract: @contractname.near
             </Grid.Column>
          </Grid.Row>

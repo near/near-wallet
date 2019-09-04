@@ -146,7 +146,7 @@ const CustomList = styled(List)`
             padding: 0px;
 
             h2 {
-               font-size: 40px !important;
+               font-size: 32px !important;
             }
             > .list {
                padding: 0;
@@ -168,8 +168,8 @@ const CustomList = styled(List)`
             }
          }
          .remove-connection {
-            padding-top: 12px;
-            border-top: 4px solid #e6e6e6;
+            padding-top: 0px;
+            border-top: 2px solid #e6e6e6;
          }
       }
    }
