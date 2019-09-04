@@ -13,8 +13,11 @@ const HELPER_KEY = process.env.REACT_APP_ACCOUNT_HELPER_KEY || '22skMptHjFWNyuEW
 const KEY_UNIQUE_PREFIX = '_4:'
 const KEY_WALLET_ACCOUNTS = KEY_UNIQUE_PREFIX + 'wallet:accounts_v2'
 const KEY_ACTIVE_ACCOUNT_ID = KEY_UNIQUE_PREFIX + 'wallet:active_account_id_v2'
+const ACCESS_KEY_FUNDING_AMOUNT = process.env.REACT_APP_ACCESS_KEY_FUNDING_AMOUNT || '100000000'
 
-const ACCOUNT_ID_REGEX = /^[a-z0-9@._-]{5,32}$/
+const ACCOUNT_ID_REGEX = /^(([a-z\d]+[-_])*[a-z\d]+[.@])*([a-z\d]+[-_])*[a-z\d]+$/
+
+export const ACCOUNT_ID_SUFFIX = process.env.REACT_APP_ACCOUNT_ID_SUFFIX || '.test'
 
 export class Wallet {
    constructor() {
@@ -104,7 +107,7 @@ export class Wallet {
    async checkAccountAvailable(accountId) {
       if (!this.isLegitAccountId(accountId)) {
          throw new Error('Invalid username.')
-      }  
+      }
       if (accountId !== this.accountId) {
          return await this.getAccount(accountId).state()
       } else {
@@ -115,6 +118,11 @@ export class Wallet {
    async checkNewAccount(accountId) {
       if (!this.isLegitAccountId(accountId)) {
          throw new Error('Invalid username.')
+      }
+      if (accountId.match(/.*[.@].*/)) {
+         if (!accountId.endsWith(ACCOUNT_ID_SUFFIX)) {
+            throw new Error('Characters `.` and `@` have special meaning and cannot be used as part of normal account name.');
+         }
       }
       if (accountId in this.accounts) {
          throw new Error('Account ' + accountId + ' already exists.')
@@ -136,7 +144,7 @@ export class Wallet {
       const keyPair = nearlib.KeyPair.fromRandom('ed25519')
       await sendJson('POST', CONTRACT_CREATE_ACCOUNT_URL, {
          newAccountId: accountId,
-         newAccountPublicKey: keyPair.getPublicKey()
+         newAccountPublicKey: keyPair.publicKey.toString()
       })
       await this.saveAndSelectAccount(accountId, keyPair);
    }
@@ -148,13 +156,12 @@ export class Wallet {
       this.save()
    }
 
-   async addAccessKey(accountId, contractId, publicKey, successUrl, title) {
-      return await this.getAccount(this.accountId).addKey(
+   async addAccessKey(accountId, contractId, publicKey) {
+      return await this.getAccount(accountId).addKey(
          publicKey,
          contractId,
          '', // methodName
-         '', // fundingOwner
-         0 // fundingAmount
+         ACCESS_KEY_FUNDING_AMOUNT
       )
    }
 
@@ -178,9 +185,9 @@ export class Wallet {
 
    async setupAccountRecovery(phoneNumber, accountId, securityCode) {
       const account = this.getAccount(accountId)
-      const state = await account.state()
-      if (state.public_keys.indexOf(HELPER_KEY) < 0) {
-         await account.addKey(HELPER_KEY)
+      const accountKeys = await account.getAccessKeys();
+      if (!accountKeys.some(it => it.public_key.endsWith(HELPER_KEY))) {
+         await account.addKey(HELPER_KEY);
       }
 
       const hash =  Uint8Array.from(sha256.array(Buffer.from(securityCode)));
@@ -190,7 +197,7 @@ export class Wallet {
 
    async recoverAccount(phoneNumber, accountId, securityCode) {
       const keyPair = nearlib.KeyPair.fromRandom('ed25519')
-      await this.validateCode(phoneNumber, accountId, { securityCode, publicKey: keyPair.publicKey })
+      await this.validateCode(phoneNumber, accountId, { securityCode, publicKey: keyPair.publicKey.toString() })
       await this.saveAndSelectAccount(accountId, keyPair)
    }
 }
