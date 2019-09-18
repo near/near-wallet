@@ -33,6 +33,22 @@ const CustomButton = styled(Button)`
          font-size: 14px;
       }
 
+      &.red {
+         border-color: #ff585d;
+         background: #ff585d;
+
+         :disabled {
+            background: #e6e6e6;
+            border-color: #e6e6e6;
+            opacity: 1 !important;
+         }
+         :active,
+         :hover,
+         :focus {
+            border-color: #ff686c;
+            background: #ff686c;
+         }
+      }
       &.blue {
          border-color: #0072ce;
          background: #0072ce;

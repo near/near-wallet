@@ -24,7 +24,7 @@ const CustomForm = styled(Form)`
          margin-left: -1rem;
       }
       .recover {
-         margin-top: 36px;
+         margin-top: 24px;
          color: #24272a;
          line-height: 24px;
          font-weight: 600;

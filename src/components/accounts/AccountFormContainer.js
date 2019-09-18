@@ -65,7 +65,7 @@ const CustomContainer = styled(Container)`
 `
 
 /* eslint-disable jsx-a11y/accessible-emoji */
-const AccountFormContainer = ({ location, title, text, children, wide }) => (
+const AccountFormContainer = ({ location, title, text, children, wide, disclaimer = true }) => (
    <CustomContainer>
       <Grid stackable>
         <Grid.Row columns={wide ? `1` : `2`} className='page-title'>
@@ -83,7 +83,7 @@ const AccountFormContainer = ({ location, title, text, children, wide }) => (
 
       {children}
 
-      <Disclaimer />
+      {disclaimer && <Disclaimer />}
    </CustomContainer>
 )
 
@@ -95,7 +95,8 @@ AccountFormContainer.propTypes = {
       PropTypes.object
    ]),
    children: PropTypes.element,
-   wide: PropTypes.bool
+   wide: PropTypes.bool,
+   disclaimer: PropTypes.bool
 }
 
 export default AccountFormContainer

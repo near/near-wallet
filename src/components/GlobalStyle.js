@@ -149,6 +149,9 @@ export default createGlobalStyle`
          color: #24272a;
       }
    }
+   .color-red {
+      color: #ff585d !important;
+   }
 
    .ui.popup > .header {
       font-weight: 600 !important;
@@ -209,6 +212,7 @@ export default createGlobalStyle`
          padding: 0px !important;
       }
       .column {
+         padding: 16px 18px !important;
          word-wrap: break-word;
       }
       .segment {
@@ -321,7 +325,7 @@ export default createGlobalStyle`
          margin: 0px;
       }
       .box .column {
-         padding: 16px 10px !important;
+         padding: 16px 18px !important;
       }
    }
 `
