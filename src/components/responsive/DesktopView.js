@@ -8,6 +8,7 @@ import { Link } from 'react-router-dom'
 
 import DesktopPopup from './DesktopPopup'
 import GlobalAlert from './GlobalAlert'
+import NodeAnimatedDot from '../node-staking/NodeAnimatedDot'
 
 import { Image, Responsive, Segment, Visibility } from 'semantic-ui-react'
 
@@ -65,6 +66,16 @@ const CustomResponsive = styled(Responsive)`
          padding-right: 6px;
          img {
             height: 72px;
+         }
+      }
+      .node-staking {
+         > a > div {
+            position: relative;
+         }
+         .node-dot {
+            position: absolute;
+            top: 29px;
+            left: 29px;
          }
       }
       .item {
@@ -167,9 +178,12 @@ class DesktopView extends Component {
                <div className='navbar'>
                   <div className='left'>
                      <div>
-                        <div className='mainlogo'>
+                        <div className={`mainlogo ${this.props.location.pathname === `/node-staking` ? `node-staking` : ``}`}>
                            <Link to='/'>
-                              <Image src={LogoImage} />
+                              <div>
+                                 <Image src={LogoImage} />
+                                 {this.props.location.pathname === `/node-staking` && <NodeAnimatedDot color='red' />}
+                              </div>
                            </Link>
                         </div>
                         <div className='item'>
