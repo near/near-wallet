@@ -12,12 +12,12 @@ const AddNodeForm = ({
    isLegitForm
 }) => (
    <Fragment>
-      <Header as='h3'>Enter the IP Address of your Node</Header>
+      <Header as='h4'>Enter the IP Address of your Node</Header>
       <AddNodeFormIp
          handleChange={handleChange}
       />
 
-      <Header as='h3'>Give it a nickname (optional)</Header>
+      <Header as='h4'>Give it a nickname (optional)</Header>
       <AddNodeFormNick
          handleChange={handleChange}
       />

@@ -11,7 +11,7 @@ const StakingForm = ({
    isLegitForm
 }) => (
    <Fragment>
-      <Header as='h3'>Enter amount to stake</Header>
+      <Header as='h4'>Enter amount to stake</Header>
       <StakingFormAmount
          handleChange={handleChange}
       />

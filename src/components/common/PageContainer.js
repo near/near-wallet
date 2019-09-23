@@ -78,11 +78,6 @@ const CustomContainer = styled(Container)`
             }
          }
       }
-      @media screen and (max-width: 380px) {
-         h1 {
-            font-size: 36px !important;
-         }
-      }
    }
 `
 

@@ -4,26 +4,7 @@ import { Form } from 'semantic-ui-react'
 
 import styled from 'styled-components'
 
-const CustomFormInput = styled(Form.Input)`
-   &&&& input {
-      width: 100%;
-      height: 64px;
-      border: 4px solid #f8f8f8;
-      padding: 0 0 0 20px;
-      font-size: 18px;
-      color: #4a4f54;
-      font-weight: 400;
-      background-color: #f8f8f8;
-      position: relative;
-      :focus {
-         border-color: #f8f8f8;
-         background-color: #fff;
-      }
-      :valid {
-         background-color: #fff;
-      }
-   }
-`
+const CustomFormInput = styled(Form.Input)``
 
 class AddNodeFormNick extends Component {
    state = {
@@ -43,6 +24,7 @@ class AddNodeFormNick extends Component {
 
       return (
          <CustomFormInput
+            className='create'
             name='nickname'
             onChange={this.handleChangeNick}
             placeholder='example: AWS Instance'
