@@ -17,10 +17,10 @@ const CustomButton = styled(Button)`
       border: 2px solid;
 
       width: 288px;
-      height: 60px;
+      height: 48px;
       border-radius: 30px;
       
-      font-size: 18px;
+      font-size: 14px;
 
       &.small {
          width: 110px;
@@ -282,6 +282,9 @@ const CustomButton = styled(Button)`
       }
       &.bold {
          font-weight: 600;
+      }
+      @media screen and (max-width: 767px) {
+         width: 100%;
       }
    }
 `

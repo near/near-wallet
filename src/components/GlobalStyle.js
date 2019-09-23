@@ -129,7 +129,6 @@ export default createGlobalStyle`
       height: 48px !important;
       border: 2px solid #f8f8f8 !important;
       padding: 0 0 0 20px !important;
-      ${'' /* font-size: 18px; */}
       color: #4a4f54 !important;
       font-weight: 400 !important;
       background-color: #f8f8f8 !important;
@@ -157,6 +156,7 @@ export default createGlobalStyle`
    }
    .problem > .input > input,
    .problem > .input > input:focus {
+      border: 2px solid #ff585d !important;
       background: url(${ProblemsImage}) right 12px center no-repeat !important;
       background-size: 24px 24px !important;
    }
@@ -243,7 +243,7 @@ export default createGlobalStyle`
 
 
    .box {
-      border: 4px solid #e6e6e6;
+      border: 2px solid #e6e6e6;
       border-radius: 8px;
       margin-bottom: 0px;
       position: relative;

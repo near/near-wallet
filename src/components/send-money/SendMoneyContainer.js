@@ -71,7 +71,7 @@ const CustomList = styled(List)`
 
          &.border {
             border-radius: 8px 8px 0 0;
-            border: 4px solid #e6e6e6;
+            border: 2px solid #e6e6e6;
             border-bottom: 0px;
          }
          h2 {
@@ -83,7 +83,7 @@ const CustomList = styled(List)`
 
          &.border {
             border-radius: 0 0 8px 8px;
-            border: 4px solid #e6e6e6;
+            border: 2px solid #e6e6e6;
             border-top: 0px;
          }
          &.go-to-dashboard {
@@ -157,7 +157,7 @@ const CustomList = styled(List)`
             }
          }
          .list-bottom {
-            padding: 12px 0 0;
+            padding: 12px 12px 0;
 
             &.go-to-dashboard {
                border-top: 2px solid #f8f8f8;
