@@ -17,6 +17,7 @@ import { RecoverAccountWithRouter } from './accounts/RecoverAccount'
 import { LoginWithRouter } from './login/Login'
 import { ContactsWithRouter } from './contacts/Contacts'
 import { AuthorizedAppsWithRouter } from './authorized-apps/AuthorizedApps'
+import { FullAccessKeysWithRouter } from './authorized-apps/AuthorizedApps'
 import { SendMoneyWithRouter } from './send-money/SendMoney'
 import { ProfileWithRouter } from './profile/Profile'
 import { SignWithRouter } from './sign/Sign'
@@ -83,6 +84,11 @@ class Routing extends Component {
                               exact
                               path='/authorized-apps'
                               component={AuthorizedAppsWithRouter}
+                           />
+                           <PrivateRoute
+                              exact
+                              path='/full-access-keys'
+                              component={FullAccessKeysWithRouter}
                            />
                            <PrivateRoute
                               exact

@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 
 import { withRouter } from 'react-router-dom'
 
-import { getAccountDetails } from '../../actions/account'
+import { getAccessKeys } from '../../actions/account'
 
 import DashboardSection from './DashboardSection'
 import DashboardActivity from './DashboardActivity'
@@ -20,6 +20,7 @@ import ContactsGreyImage from '../../images/icon-contacts-grey.svg'
 import TStakeImage from '../../images/icon-t-stake.svg'
 import TTransferImage from '../../images/icon-t-transfer.svg'
 import AppDefaultImage from '../../images/icon-app-default.svg'
+import DashboardKeys from './DashboardKeys'
 
 class DashboardDetail extends Component {
    state = {
@@ -37,6 +38,7 @@ class DashboardDetail extends Component {
          loader: true
       }))
 
+      // TODO: Remove fake data
       false &&
          setTimeout(() => {
             this.setState(_ => ({
@@ -90,7 +92,7 @@ class DashboardDetail extends Component {
          loader: true
       }))
 
-      this.props.getAccountDetails().then(() => {
+      this.props.getAccessKeys().then(() => {
          this.setState(() => ({
             loader: false
          }))
@@ -111,7 +113,7 @@ class DashboardDetail extends Component {
          newcontacts
       } = this.state
 
-      const { authorizedApps, amount } = this.props
+      const { authorizedApps, fullAccessKeys, amount } = this.props
 
       return (
          <PageContainer
@@ -131,11 +133,17 @@ class DashboardDetail extends Component {
                </Link>
             )}
          >
-            <DashboardActivity
+            <DashboardKeys
                image={AuthorizedGreyImage}
                title='Authorized Apps'
                to='/authorized-apps'
-               activity={authorizedApps}
+               accessKeys={authorizedApps}
+            />
+            <DashboardKeys
+               image={AuthorizedGreyImage}
+               title='Full Access Keys'
+               to='/full-access-keys'
+               accessKeys={fullAccessKeys}
             />
             {false ? (
                <DashboardSection
@@ -171,19 +179,13 @@ class DashboardDetail extends Component {
 }
 
 const mapDispatchToProps = {
-   getAccountDetails
+   getAccessKeys
 }
 
 const mapStateToProps = ({ account }) => ({
    ...account,
-   authorizedApps: account.authorizedApps
-      ? account.authorizedApps.map(r => [
-         AppDefaultImage,
-         r.contractId,
-         r.amount,
-         r.publicKey
-      ])
-      : []
+   authorizedApps: account.authorizedApps,
+   fullAccessKeys: account.fullAccessKeys
 })
 
 export default connect(

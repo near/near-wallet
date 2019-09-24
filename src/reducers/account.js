@@ -6,7 +6,7 @@ import {
    requestCode,
    setupAccountRecovery,
    recoverAccount,
-   getAccountDetails,
+   getAccessKeys,
    checkNewAccount,
    createNewAccount,
    checkAccountAvailable,
@@ -70,10 +70,11 @@ const reducer = handleActions({
       }
 }, initialState)
 
-const authorizedApps = handleActions({
-      [getAccountDetails]: (state, { error, payload }) => ({
+const accessKeys = handleActions({
+      [getAccessKeys]: (state, { error, payload }) => ({
          ...state,
-         authorizedApps: payload && payload.authorizedApps
+         authorizedApps: payload && payload.filter(it => it.access_key && it.access_key.permission.FunctionCall),
+         fullAccessKeys: payload && payload.filter(it => it.access_key && it.access_key.permission === 'FullAccess'),
       })
 }, initialState)
 
@@ -108,6 +109,6 @@ export default reduceReducers(
    globalAlertReducer,
    requestResultReducer,
    reducer,
-   authorizedApps,
+   accessKeys,
    account
 )

@@ -3,28 +3,43 @@ import React from 'react'
 import MainImage from '../common/MainImage'
 
 import { List, Button } from 'semantic-ui-react'
+import Balance from '../common/Balance'
 
 const AuthorizedAppsDeauthorize = ({ showSubData, handleDeauthorize }) => (
+   // TODO: Simplify layout as seems too much unnecessary nesting, while can use simple html tags, etc
    <List>
       <List.Item>
          <List horizontal className='title'>
-            {false && 
+            {false &&
                <List.Item className='image'>
-                  <MainImage 
-                     src={showSubData[0]} 
+                  <MainImage
+                     src={showSubData.image}
                      size='big'
                   />
                </List.Item>
             }
             <List.Item>
-               <List.Header as='h2'>
-                  {showSubData[1]}
-               </List.Header>
-               <List.Item as='h5' className='color-blue'>
-                  <span className='color-black'>
-                     amount:
-                  </span>
-                  {showSubData[2]}Ⓝ
+               {showSubData.access_key.permission.FunctionCall
+                  ? <React.Fragment>
+                     <List.Header as='h2'>
+                        {showSubData.access_key.permission.FunctionCall.receiver_id}
+                     </List.Header>
+                     <List.Item as='h5' className='color-blue'>
+                        <span className='color-black'>
+                           amount:{" "}
+                        </span>
+                        <Balance amount={showSubData.access_key.permission.FunctionCall.allowance} />
+                     </List.Item>
+                  </React.Fragment>
+                  : null
+               }
+               <List.Item as='h5' className='color-blue' style={{
+                  // TODO: Better way to fit public key
+                  textOverflow: 'ellipsis',
+                  overflow: 'hidden',
+                  width: '30em'
+               }}>
+                  {showSubData.public_key}
                </List.Item>
             </List.Item>
          </List>

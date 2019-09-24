@@ -95,9 +95,9 @@ export class Wallet {
       return await this.getAccount(this.accountId).state()
    }
 
-   async getAccountDetails() {
+   async getAccessKeys() {
       if (!this.accountId) return null
-      return await this.getAccount(this.accountId).getAccountDetails(localStorage.getItem(KEY_ACTIVE_ACCOUNT_ID))
+      return await this.getAccount(this.accountId).getAccessKeys(localStorage.getItem(KEY_ACTIVE_ACCOUNT_ID))
    }
 
    async removeAccessKey(publicKey) {
