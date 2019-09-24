@@ -37,12 +37,18 @@ class Login extends Component {
          buttonLoader: true
       }))
 
-      this.props.addAccessKey(this.props.account.accountId, this.props.account.url.contract_id, this.props.account.url.public_key, this.props.account.url.success_url, this.props.account.url.title)
+      const { account } = this.props
+      const { url } = account
+      this.props.addAccessKey(account.accountId, url.contract_id, url.public_key, url.success_url, url.title)
          .then(({ error }) => {
             if (error) return
 
-            if (this.props.account.url.redirect_url) {
-               window.location = this.props.account.url.redirect_url
+            const { success_url, public_key } = url
+            if (success_url) {
+               const parsedUrl = new URL(success_url)
+               parsedUrl.searchParams.set('account_id', account.accountId)
+               parsedUrl.searchParams.set('public_key', public_key)
+               window.location = parsedUrl.href
             } else {
                let nextUrl = `/authorized-apps`
                setTimeout(() => {
