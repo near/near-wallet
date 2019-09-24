@@ -65,7 +65,7 @@ const CustomForm = styled(Form)`
             margin-top: 0px;
          }
          h4.digit-code {
-            margin-bottom: 18px;
+            margin-bottom: 0px;
          }
       }
       @media screen and (max-width: 767px) {

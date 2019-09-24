@@ -45,7 +45,7 @@ class StakingFormAmount extends Component {
                }`}
                name='amountStaking'
                onChange={this.handleChangeAccountId}
-               placeholder='example: 0.0.0.0'
+               placeholder='example: 15'
                required
                value={amountStaking}
                autoComplete='off'
