@@ -139,7 +139,7 @@ export class Wallet {
    }
 
    async createNewAccount(accountId) {
-      this.checkNewAccount()
+      this.checkNewAccount(accountId)
 
       const keyPair = nearlib.KeyPair.fromRandom('ed25519')
       await sendJson('POST', CONTRACT_CREATE_ACCOUNT_URL, {
