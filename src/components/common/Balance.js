@@ -3,8 +3,27 @@ import styled from 'styled-components'
 import { List } from 'semantic-ui-react';
 
 const CustomDiv = styled(List)`
-    display: inline;
-    text-align: center;
+    position: relative;
+    display: inline-block;
+    border-bottom: 1px dotted black;
+    .tooltiptext {
+        visibility: hidden;
+        background-color: #8FD6BD;
+        color: #fff;
+        text-align: center;
+        border-radius: 6px;
+        padding: 1px 3px;
+        font-size: 0.4em;
+        /* Position the tooltip */
+        position: absolute;
+        z-index: 1;
+        bottom: 110%;
+        left: 0%;
+    }
+
+    :hover .tooltiptext {
+        visibility: visible;
+    }
 `
 // denomination of one near in minimal non divisible units (attoNears)
 // NEAR_NOMINATION is 10 ** 18 one unit
@@ -15,11 +34,12 @@ const Balance = ({ amount }) => {
     if (!amount) {
         throw new Error("amount property should not be null")
     }
-    let amountShow =  convertToShow(amount)
+    let amountShow = convertToShow(amount)
     console.log(amount)
     return (
         <CustomDiv>
-            {amountShow} Ⓝ 
+            {amountShow} Ⓝ
+            <div className="tooltiptext">{amount}</div>
         </CustomDiv>
     )
 }
@@ -30,7 +50,7 @@ const convertToShow = (amount) => {
 }
 
 export const formatNEAR = (amount) => {
-    if (amount.length < NOMINATION - 5){
+    if (amount.length < NOMINATION - 5) {
         return "<0.00001"
     }
     else if (amount.length <= NOMINATION) {
