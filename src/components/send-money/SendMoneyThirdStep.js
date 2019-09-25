@@ -8,8 +8,6 @@ import Balance from '../common/Balance'
 import SignAnimatedArrow from '../sign/SignAnimatedArrow'
 import FormButton from '../common/FormButton'
 
-import milli from '../../images/n-1000.svg'
-
 const SendMoneyThirdStep = ({ handleRedirectDashboard, note, amount, accountId }) => (
    <MobileContainer>
       <Fragment>
@@ -23,9 +21,9 @@ const SendMoneyThirdStep = ({ handleRedirectDashboard, note, amount, accountId }
             </List.Item>
             <List.Item as='h2' className='amount-sent'>
                {amount 
-               ? <Balance milli={milli} amount={amount} /> 
+               ? <Balance amount={amount} /> 
                : "NaN"}
-                  <span>was sent to:</span>
+                  <span> was sent to:</span>
             </List.Item>
             <List.Item as='h2'>{accountId}</List.Item>
             <List.Item>@{accountId}</List.Item>
