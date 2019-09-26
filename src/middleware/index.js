@@ -33,8 +33,25 @@ const readyStatePromise = store => next => action => {
   )
 }
 
+/**
+ * Track key user actions in Google Analytics
+ */
+const ACTIONS_TO_TRACK = ['CREATE_NEW_ACCOUNT','ADD_ACCESS_KEY', 
+'SETUP_ACCOUNT_RECOVERY', 'RECOVER_ACCOUNT','REMOVE_ACCESS_KEY']
+
+const analyticsMiddleware = store => next => action => {
+  if (window.gtag && ACTIONS_TO_TRACK.includes(action.type)) {
+    window.gtag('event', 'action', {
+      event_category: action.type,
+      event_label: JSON.stringify(action.type)
+    })
+  }
+  return next(action);
+}
+
 export default (history) => composeEnhancers(
     applyMiddleware(
         routerMiddleware(history),
         thunk,
-        readyStatePromise))
+        readyStatePromise,
+        analyticsMiddleware))
