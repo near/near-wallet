@@ -22,7 +22,7 @@ describe('<Balance.js>', ()=>{
     })
 
     it('balance should return properly',()=>{
-        let wrapper = render(<Balance amount={contextBig} />)
-        expect(wrapper.text()).toEqual("1,234.56700 Ⓝ");
+        let wrapper = shallow(<Balance amount={contextBig} />)
+        expect(wrapper.contains("1,234.56700")).toEqual(true);
     })
 })
