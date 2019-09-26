@@ -1,5 +1,5 @@
 import React from 'react';
-import { shallow, configure, render } from 'enzyme';
+import { shallow, configure } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 
 import Balance from './Balance'
