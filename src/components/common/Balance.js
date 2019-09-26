@@ -17,7 +17,6 @@ const Balance = ({ amount }) => {
         throw new Error("amount property should not be null")
     }
     let amountShow = convertToShow(amount)
-    console.log(amount)
     return (
         <CustomDiv>
             {amountShow} Ⓝ
@@ -26,8 +25,8 @@ const Balance = ({ amount }) => {
 }
 
 const convertToShow = (amount) => {
-    let n = formatNEAR(amount)
-    return n
+    return formatNEAR(amount)
+
 }
 
 export const formatNEAR = (amount) => {
