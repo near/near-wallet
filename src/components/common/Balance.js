@@ -25,7 +25,7 @@ const Balance = ({ amount }) => {
 }
 
 const convertToShow = (amount) => {
-    return formatNEAR(amount)
+    return  formatNEAR(amount)
 
 }
 
