@@ -4,26 +4,8 @@ import { List } from 'semantic-ui-react';
 
 const CustomDiv = styled(List)`
     position: relative;
-    display: inline-block;
+    display: inline;
     border-bottom: 1px dotted black;
-    .tooltiptext {
-        visibility: hidden;
-        background-color: #8FD6BD;
-        color: #fff;
-        text-align: center;
-        border-radius: 6px;
-        padding: 1px 3px;
-        font-size: 0.4em;
-        /* Position the tooltip */
-        position: absolute;
-        z-index: 1;
-        bottom: 110%;
-        left: 0%;
-    }
-
-    :hover .tooltiptext {
-        visibility: visible;
-    }
 `
 // denomination of one near in minimal non divisible units (attoNears)
 // NEAR_NOMINATION is 10 ** 18 one unit
@@ -39,7 +21,6 @@ const Balance = ({ amount }) => {
     return (
         <CustomDiv>
             {amountShow} Ⓝ
-            {/* <div className="tooltiptext">{amount}</div> */}
         </CustomDiv>
     )
 }
