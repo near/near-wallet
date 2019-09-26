@@ -9,7 +9,6 @@ import Balance from '../common/Balance'
 
 import AccountGreyImage from '../../images/icon-account-grey.svg'
 import LockImage from '../../images/icon-lock.svg'
-import milli from '../../images/n-1000.svg'
 
 import styled from 'styled-components'
 
@@ -274,7 +273,7 @@ const ProfileDetails = ({ account }) => (
          </Grid.Column>
          <Grid.Column computer='7' tablet='7' mobile='9'>
             {account.amount 
-            ? <Balance amount={account.amount} milli={milli} /> 
+            ? <Balance amount={account.amount} /> 
             : "NaN"}
          </Grid.Column>
          <Grid.Column computer='4' tablet='4' textAlign='center' only='tablet'>

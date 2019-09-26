@@ -6,7 +6,6 @@ import { Segment, Form } from 'semantic-ui-react'
 import styled from 'styled-components'
 
 import Balance, { NOMINATION, formatNEAR } from '../common/Balance'
-import milli from '../../images/n-1000.svg'
 
 const CustomDiv = styled(`div`)`
    &&&&& {
@@ -118,7 +117,7 @@ class SendMoneyAmountInput extends Component {
                   {amountStatus}
                </Segment>)}
             {amountDisplay  
-               ? <Balance milli={milli} amount={amountDisplay} /> 
+               ? <Balance amount={amountDisplay} /> 
                : "How much would you want to send?"}
          </CustomDiv>
       )

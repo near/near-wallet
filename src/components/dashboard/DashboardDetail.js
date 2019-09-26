@@ -16,7 +16,6 @@ import activityGreyImage from '../../images/icon-activity-grey.svg'
 import AccountGreyImage from '../../images/icon-account-grey.svg'
 import AuthorizedGreyImage from '../../images/icon-authorized-grey.svg'
 import ContactsGreyImage from '../../images/icon-contacts-grey.svg'
-import milli from '../../images/n-1000.svg'
 
 import TStakeImage from '../../images/icon-t-stake.svg'
 import TTransferImage from '../../images/icon-t-transfer.svg'
@@ -118,9 +117,9 @@ class DashboardDetail extends Component {
          <PageContainer
             title={(
                amount
-                  ? <Fragment style={{display: "inline"}}>
-                     <div className='balance'>Balance: </div>
-                     <Balance style={{display: "inline", margin: "0"}} amount={amount} milli={milli} />
+                  ? <Fragment>
+                     <span className='balance'>Balance: </span>
+                     <Balance amount={amount} />
                   </Fragment>
                   : "Balance loading"
             )}

@@ -7,7 +7,6 @@ import Balance from '../common/Balance'
 import MobileMenuImage from '../../images/icon-mobile-menu.svg'
 import CloseImage from '../../images/icon-close.svg'
 import ArrowDownImage from '../../images/icon-arrow-down.svg'
-import milli from '../../images/n-1000-wht.svg'
 
 import styled from 'styled-components'
 
@@ -92,7 +91,7 @@ const PopupMenuTrigger = ({ account, handleClick, type, dropdown = false }) => (
                ) : (
                      <div>
                         {account.amount 
-                        ? <Balance amount={account.amount} milli={milli} /> 
+                        ? <Balance amount={account.amount} /> 
                         : 'NaN'}
                      </div>
                   )}

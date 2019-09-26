@@ -7,8 +7,6 @@ import MobileContainer from '../sign/MobileContainer'
 import FormButton from '../common/FormButton'
 import Balance from '../common/Balance'
 
-import milli from '../../images/n-1000.svg'
-
 const SendMoneySecondStep = ({
    handleNextStep,
    handleExpandNote,
@@ -30,7 +28,7 @@ const SendMoneySecondStep = ({
             <List.Item as='h2' className='sending'>You are sending</List.Item>
             <List.Item className='amount-sending border-bottom'>
                {amount 
-               ? <Balance milli={milli} amount={amount} /> 
+               ? <Balance amount={amount} /> 
                : "NaN"}
             </List.Item>
             <List.Item className='to'>
