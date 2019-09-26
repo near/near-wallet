@@ -39,7 +39,7 @@ const Balance = ({ amount }) => {
     return (
         <CustomDiv>
             {amountShow} Ⓝ
-            <div className="tooltiptext">{amount}</div>
+            {/* <div className="tooltiptext">{amount}</div> */}
         </CustomDiv>
     )
 }
