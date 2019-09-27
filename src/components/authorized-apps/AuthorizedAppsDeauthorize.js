@@ -46,7 +46,7 @@ const AuthorizedAppsDeauthorize = ({ showSubData, handleDeauthorize }) => (
       </List.Item>
       <List.Item className='remove-connection'>
          <Button onClick={handleDeauthorize}>
-            DEAUTHORIZE APP
+            DEAUTHORIZE
          </Button>
       </List.Item>
       <List.Item className='authorized-transactions'>
