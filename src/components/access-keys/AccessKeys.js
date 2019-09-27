@@ -5,14 +5,13 @@ import { withRouter } from 'react-router-dom'
 
 import { getAccessKeys, removeAccessKey } from '../../actions/account'
 
-import AuthorizedAppsEmpty from './AuthorizedAppsEmpty'
+import AccessKeysEmpty from './AccessKeysEmpty'
 import PaginationBlock from '../pagination/PaginationBlock'
 import PageContainer from '../common/PageContainer';
 
 import KeyListItem from '../dashboard/KeyListItem'
 
-// TODO: Rename and refactor to accomodate full access keys better
-class AuthorizedApps extends Component {
+class AccessKeys extends Component {
    state = {
       loader: true,
       showSub: false,
@@ -54,11 +53,11 @@ class AuthorizedApps extends Component {
 
       this.props.removeAccessKey(publicKey).then(() => {
          this.toggleCloseSub()
-         this.refreshAuthorizedApps()
+         this.refreshAccessKeys()
       })
    }
 
-   refreshAuthorizedApps = () => {
+   refreshAccessKeys = () => {
       this.setState(() => ({
          loader: true
       }))
@@ -71,7 +70,7 @@ class AuthorizedApps extends Component {
    }
 
    componentDidMount() {
-      this.refreshAuthorizedApps()
+      this.refreshAccessKeys()
    }
 
    render() {
@@ -82,11 +81,11 @@ class AuthorizedApps extends Component {
          showSubData
       } = this.state
 
-      const { authorizedApps } = this.props
+      const { authorizedApps, title } = this.props
 
       return (
          <PageContainer
-            title='Authorized Apps'
+            title={title}
             additional={(
                <h1>
                   {authorizedApps && authorizedApps.length}
@@ -100,7 +99,7 @@ class AuthorizedApps extends Component {
                showSubData={showSubData}
                toggleShowSub={this.toggleShowSub}
                toggleCloseSub={this.toggleCloseSub}
-               subPage='authorized-apps'
+               subPage='access-keys'
                handleDeauthorize={this.handleDeauthorize}
             >
                {authorizedApps && (authorizedApps.length 
@@ -114,7 +113,7 @@ class AuthorizedApps extends Component {
                         toggleShowSub={this.toggleShowSub}
                         showSubOpen={showSubOpen}
                      />
-                  )) : <AuthorizedAppsEmpty />)}
+                  )) : <AccessKeysEmpty />)}
             </PaginationBlock>
          </PageContainer>
       )
@@ -126,22 +125,24 @@ const mapDispatchToProps = {
    removeAccessKey
 }
 
-const mapStateToProps = ({ account }) => ({
+const mapStateToPropsAuthorizedApps = ({ account }) => ({
    ...account,
-   authorizedApps: account.authorizedApps
+   authorizedApps: account.authorizedApps,
+   title: 'Authorized Apps'
 })
 
 export const AuthorizedAppsWithRouter = connect(
-   mapStateToProps,
+   mapStateToPropsAuthorizedApps,
    mapDispatchToProps
-)(withRouter(AuthorizedApps))
+)(withRouter(AccessKeys))
 
 const mapStateToPropsFullAccess = ({ account }) => ({
    ...account,
-   authorizedApps: account.fullAccessKeys
+   authorizedApps: account.fullAccessKeys,
+   title: 'Full Access Keys'
 })
 
 export const FullAccessKeysWithRouter = connect(
    mapStateToPropsFullAccess,
    mapDispatchToProps
-)(withRouter(AuthorizedApps))
+)(withRouter(AccessKeys))

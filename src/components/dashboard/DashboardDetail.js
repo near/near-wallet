@@ -32,7 +32,7 @@ class DashboardDetail extends Component {
    }
 
    componentDidMount() {
-      this.refreshAuthorizedApps()
+      this.refreshAccessKeys()
 
       this.setState(() => ({
          loader: true
@@ -87,7 +87,7 @@ class DashboardDetail extends Component {
          }, 1000)
    }
 
-   refreshAuthorizedApps = () => {
+   refreshAccessKeys = () => {
       this.setState(() => ({
          loader: true
       }))

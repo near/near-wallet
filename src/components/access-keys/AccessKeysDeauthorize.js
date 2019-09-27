@@ -5,7 +5,7 @@ import MainImage from '../common/MainImage'
 import { List, Button } from 'semantic-ui-react'
 import Balance from '../common/Balance'
 
-const AuthorizedAppsDeauthorize = ({ showSubData, handleDeauthorize }) => (
+const AccessKeysDeauthorize = ({ showSubData, handleDeauthorize }) => (
    // TODO: Simplify layout as seems too much unnecessary nesting, while can use simple html tags, etc
    <List>
       <List.Item>
@@ -111,4 +111,4 @@ const AuthorizedAppsDeauthorize = ({ showSubData, handleDeauthorize }) => (
    </List>
 )
 
-export default AuthorizedAppsDeauthorize
+export default AccessKeysDeauthorize

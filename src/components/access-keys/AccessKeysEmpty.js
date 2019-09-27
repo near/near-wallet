@@ -20,7 +20,7 @@ const CustomSegment = styled(Segment)`
    }
 `
 
-const AuthorizedAppsEmpty = () => (
+const AccessKeysEmpty = () => (
    <CustomSegment basic>
       <Header as='h2'>You have not connected your NEAR Wallet to any applications. When you do, you can manage them here.</Header>
       <Header as='h2'>See what's been built with NEAR:</Header>
@@ -30,4 +30,4 @@ const AuthorizedAppsEmpty = () => (
    </CustomSegment>
 )
 
-export default AuthorizedAppsEmpty
+export default AccessKeysEmpty
