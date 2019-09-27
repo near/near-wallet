@@ -49,22 +49,29 @@ const AuthorizedAppsDeauthorize = ({ showSubData, handleDeauthorize }) => (
             DEAUTHORIZE APP
          </Button>
       </List.Item>
-      {false && (
-         <List.Item className='authorized-transactions'>
-            <List.Item
-               as='h6'
-               className='authorized-transactions-title border-top'
-            >
-               AUTHORIZED TO
-            </List.Item>
-            <List.Item className='authorized-transactions-row color-black'>
-               View your Account Name
-            </List.Item>
-            <List.Item className='authorized-transactions-row color-black'>
-               Do something else on your behalf
-            </List.Item>
+      <List.Item className='authorized-transactions'>
+         <List.Item
+            as='h6'
+            className='authorized-transactions-title border-top'
+         >
+            AUTHORIZED TO
          </List.Item>
-      )}
+         <List.Item className='authorized-transactions-row color-black'>
+            View your Account Name
+         </List.Item>
+         {showSubData.access_key.permission === 'FullAccess'
+            ? <List.Item className='authorized-transactions-row color-black'>
+               Submit any transaction on your behalf
+            </List.Item>
+            : null
+         }
+         {showSubData.access_key.permission.FunctionCall
+            ? <List.Item className='authorized-transactions-row color-black'>
+               Use <b>{showSubData.access_key.permission.FunctionCall.receiver_id}</b> contract on your behalf
+            </List.Item>
+            : null
+         }
+      </List.Item>
       {false && (
          <List.Item className='recent-transactions'>
             <List.Item
