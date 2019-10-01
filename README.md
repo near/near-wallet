@@ -1,5 +1,7 @@
 # NEAR DevNet Wallet
 
+![Build Status](https://gitlab.com/near-protocol/near-wallet/badges/master/pipeline.svg)
+
 This is in-browser web-based wallet for working with NEAR DevNet accounts. This wallet stores account keys in open text using the localStorage under https://wallet.nearprotocol.com domain on user's machine.
 
 > NEAR Wallet features UI and usability designed by a backend engineer and should not be considered a final product.
