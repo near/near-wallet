@@ -54,7 +54,7 @@ const LoginForm = ({
             >
                {contractId &&
                   <List className='border-right-light'>
-                     <List.Item as='h3'>This allows:</List.Item>
+                     <List.Item as='h3'>This allows the app to:</List.Item>
                      <List.Item className='list-item'>
                         <List.Content className='color-black'>
                            View your account name
@@ -74,7 +74,7 @@ const LoginForm = ({
                }
                {!contractId &&
                   <List>
-                     <List.Item as='h3'>This allows:</List.Item>
+                     <List.Item as='h3'>This allows the app to:</List.Item>
                      <List.Item className='list-item'>
                         <List.Content className='color-black'>
                            Create new accounts
