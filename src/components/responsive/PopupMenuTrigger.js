@@ -79,14 +79,14 @@ const PopupMenuTrigger = ({ account, handleClick, type, dropdown = false }) => (
          </div>
          <div className='overflow'>
             <div className='account-name'>
-               {account.loader || !account.accountId ? (
+               {account.loginPending ? (
                   <Loader active inline size='mini' />
                ) : (
                   `@${account.accountId}`
                )}
             </div>
             <div className='account-tokens'>
-               {account.loader || !account.accountId ? (
+               {account.loginPending ? (
                   <Loader active inline size='mini' />
                ) : (
                      <div>

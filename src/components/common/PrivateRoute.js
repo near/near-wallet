@@ -6,7 +6,7 @@ const PrivateRoute = ({component: Component, account, ...rest}) => (
    <Route 
       {...rest} 
       render={(props) => (
-         !account.accountId
+         account.loginError
             ? (
                <Redirect
                   to={{

@@ -3,26 +3,17 @@ import { createActions } from 'redux-actions'
 import { Wallet } from '../utils/wallet'
 
 export const REFRESH_ACCOUNT = 'REFRESH_ACCOUNT'
-export const LOADER_ACCOUNT = 'LOADER_ACCOUNT'
 export const REFRESH_URL = 'REFRESH_URL'
 
 export function handleRefreshAccount(history, loader = true) {
    return (dispatch, getState) => {
-      if (loader) {
-         dispatch({
-            type: LOADER_ACCOUNT,
-            loader: true
-         })   
-      }
+      dispatch(loginPending(loader))
+      dispatch(loginSuccess(false))
+      dispatch(loginError(false))
 
       if (wallet.isEmpty()) {
-         if (loader) {
-            dispatch({
-               type: LOADER_ACCOUNT,
-               loader: false
-            })   
-         }
-
+         dispatch(loginPending(false))
+         dispatch(loginError(true))
          return false
       }
       
@@ -42,6 +33,7 @@ export function handleRefreshAccount(history, loader = true) {
                   accounts: wallet.accounts
                }
             })
+            dispatch(loginSuccess(true))
          })
          .catch(e => {
             console.error('Error loading account:', e)
@@ -57,14 +49,11 @@ export function handleRefreshAccount(history, loader = true) {
                   history
                )
             }
+
+            dispatch(loginError(true))
          })
          .finally(() => {
-            if (loader) {
-               dispatch({
-                  type: LOADER_ACCOUNT,
-                  loader: false
-               })
-            }
+            dispatch(loginPending(false))
          })
    }
 }
@@ -149,3 +138,5 @@ export const { addAccessKey, clearAlert } = createActions({
 export const { switchAccount } = createActions({
    SWITCH_ACCOUNT: wallet.selectAccount.bind(wallet)
 })
+
+export const { loginPending, loginSuccess, loginError } = createActions('LOGIN_PENDING', 'LOGIN_SUCCESS', 'LOGIN_ERROR')

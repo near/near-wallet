@@ -1,7 +1,6 @@
 import { handleActions, combineActions } from 'redux-actions'
 import {
    REFRESH_ACCOUNT,
-   LOADER_ACCOUNT,
    REFRESH_URL,
    requestCode,
    setupAccountRecovery,
@@ -13,13 +12,17 @@ import {
    clear,
    clearCode,
    addAccessKey,
-   clearAlert
+   clearAlert,
+   loginPending,
+   loginSuccess,
+   loginError
 } from '../actions/account'
 import reduceReducers from 'reduce-reducers'
 
 const initialState = {
    formLoader: false,
-   sentSms: false
+   sentSms: false,
+   loginPending: true
 }
 
 const loaderReducer = (state, { ready }) => {
@@ -85,12 +88,6 @@ function account(state = {}, action) {
             ...state,
             ...action.data
          }
-      case LOADER_ACCOUNT: {
-         return {
-            ...state,
-            loader: action.loader
-         }
-      }
       case REFRESH_URL: {
          return {
             ...state,
@@ -102,6 +99,12 @@ function account(state = {}, action) {
    }
 }
 
+const loginStatus = handleActions({
+   [loginPending]: (state, { payload }) => ({ ...state, loginPending: payload }),
+   [loginSuccess]: (state, { payload }) => ({ ...state, loginSuccess: payload }),
+   [loginError]: (state, { payload }) => ({ ...state, loginError: payload })
+}, initialState)
+
 export default reduceReducers(
    initialState,
    loaderReducer,
@@ -109,5 +112,6 @@ export default reduceReducers(
    requestResultReducer,
    reducer,
    authorizedApps,
-   account
+   account,
+   loginStatus
 )

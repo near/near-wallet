@@ -34,7 +34,7 @@ class Routing extends Component {
       const { handleRefreshAccount, handleRefreshUrl, history } = this.props
 
       handleRefreshAccount(history)
-      handleRefreshUrl(this.props.history.location)
+      handleRefreshUrl(history.location)
 
       history.listen(() => handleRefreshAccount(history, false))
    }
@@ -47,7 +47,7 @@ class Routing extends Component {
             <ConnectedRouter basename={PATH_PREFIX}  history={this.props.history}>
                <ThemeProvider theme={theme}>
                   <ResponsiveContainer>
-                     {this.props.account.loader === false && (
+                     {!this.props.account.loginPending && (
                         <Switch>
                            <PrivateRoute
                               exact
