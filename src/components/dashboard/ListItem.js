@@ -139,13 +139,12 @@ const ListItem = ({
                </Grid.Column>
             }
             <Grid.Column className='main-row-title'>
-               contractId: <span className='color-black'>{row[1]}</span>
+               <span className='color-black'>{row[1]}</span>
                {row[2] != null && (
                   <span className='font-small'>
                      <br />
                      amount:
-                     <span className='color-black'>{row[2]}Ⓝ</span>, publicKey:{' '}
-                     <span className='color-black'>{row[3]}</span>
+                     <span className='color-black'>{'Fee Allowance: <0.1% of Ⓝ Balance'}</span>
                   </span>
                )}
             </Grid.Column>
