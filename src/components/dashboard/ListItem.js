@@ -142,7 +142,7 @@ const ListItem = ({
                <span className='color-black'>{row[1]}</span>
                <span className='font-small'>
                   <br />
-                  amount: <span className='color-black'>{'Fee Allowance: <0.1% of Ⓝ Balance'}</span>
+                  Fee Allowance: <span className='color-black'>{'< 0.1% of Ⓝ Balance'}</span>
                </span>
             </Grid.Column>
          </Grid>
