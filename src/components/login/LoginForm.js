@@ -46,29 +46,35 @@ const LoginForm = ({
          </Grid.Row>
          <Grid.Row centered>
             <Grid.Column
-               largeScreen={6}
-               computer={7}
-               tablet={8}
+               largeScreen={contractId ? 6 : 8}
+               computer={contractId ? 7 : 8}
+               tablet={contractId ? 8 : 10}
+               mobile={contractId ? 8 : 16}
                className='cont'
             >
                {contractId &&
                   <List className='border-right-light'>
-                     <List.Item as='h3'>This allows:</List.Item>
+                     <List.Item as='h3'>This allows the app to:</List.Item>
                      <List.Item className='list-item'>
                         <List.Content className='color-black'>
-                           View your Account Name
+                           View your account name
                         </List.Content>
                      </List.Item>
                      <List.Item className='list-item'>
                         <List.Content className='color-black'>
-                           Write Chat messages with your name
+                           Interact with this app's smart contract on your behalf (e.g. calling functions)
+                        </List.Content>
+                     </List.Item>
+                     <List.Item className='list-item'>
+                        <List.Content className='color-black'>
+                           {'Use your NEAR balance for fees (limited to < 0.01 NEAR)'}
                         </List.Content>
                      </List.Item>
                   </List>
                }
                {!contractId &&
                   <List>
-                     <List.Item as='h3'>This allows:</List.Item>
+                     <List.Item as='h3'>This allows the app to:</List.Item>
                      <List.Item className='list-item'>
                         <List.Content className='color-black'>
                            Create new accounts
@@ -84,36 +90,41 @@ const LoginForm = ({
                            Deploy smart contracts
                         </List.Content>
                      </List.Item>
-                  </List>
-               }
-            </Grid.Column>
-            <Grid.Column
-               largeScreen={6}
-               computer={7}
-               tablet={8}
-               className='cont'
-            >
-               {contractId &&
-                  <List>
-                     <List.Item as='h3'>Does not allow:</List.Item>
-                     <List.Item className='list-item-deny'>
+                     <List.Item className='list-item'>
                         <List.Content className='color-black'>
-                           View your private account details
+                           Call functions on any smart contract
                         </List.Content>
                      </List.Item>
-                     <List.Item className='list-item-deny'>
+                     <List.Item className='list-item'>
                         <List.Content className='color-black'>
-                           Buy, Sell, or Transfer on your behalf
+                           Stake and unstake NEAR tokens
+                        </List.Content>
+                     </List.Item>
+                     <List.Item className='list-item'>
+                        <List.Content className='color-black'>
+                           Create and delete access keys
                         </List.Content>
                      </List.Item>
                   </List>
                }
-               {!contractId &&
+            </Grid.Column>
+            {contractId &&
+               <Grid.Column
+                  largeScreen={6}
+                  computer={7}
+                  tablet={8}
+                  className='cont'
+               >
                   <List>
                      <List.Item as='h3'>Does not allow:</List.Item>
+                     <List.Item className='list-item-deny'>
+                        <List.Content className='color-black'>
+                           Transfer NEAR tokens
+                        </List.Content>
+                     </List.Item>
                   </List>
-               }
-            </Grid.Column>
+               </Grid.Column>
+            }
          </Grid.Row>
       </Grid>
       <Grid padded>
@@ -154,16 +165,18 @@ const LoginForm = ({
                </Form>
             </Grid.Column>
          </Grid.Row>
-         <Grid.Row centered className='contract'>
-            <Grid.Column
-               largeScreen={12}
-               computer={14}
-               tablet={16}
-               textAlign='center'
-            >
-               Contract: {contractId}
-            </Grid.Column>
-         </Grid.Row>
+         {contractId && (
+            <Grid.Row centered className='contract'>
+               <Grid.Column
+                  largeScreen={12}
+                  computer={14}
+                  tablet={16}
+                  textAlign='center'
+               >
+                  Contract: {contractId}
+               </Grid.Column>
+            </Grid.Row>
+         )}
       </Grid>
    </MobileContainer>
 )
