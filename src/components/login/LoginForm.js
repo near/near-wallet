@@ -67,7 +67,7 @@ const LoginForm = ({
                      </List.Item>
                      <List.Item className='list-item'>
                         <List.Content className='color-black'>
-                           {'Use your NEAR balance for fees (limited to < 0.1%)'}
+                           {'Use your NEAR balance for fees (limited to < 0.01 NEAR)'}
                         </List.Content>
                      </List.Item>
                   </List>
