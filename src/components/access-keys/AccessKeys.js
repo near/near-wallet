@@ -3,21 +3,20 @@ import { connect } from 'react-redux'
 
 import { withRouter } from 'react-router-dom'
 
-import { getAccountDetails, removeAccessKey } from '../../actions/account'
+import { getAccessKeys, removeAccessKey } from '../../actions/account'
 
-import AuthorizedAppsEmpty from './AuthorizedAppsEmpty'
+import AccessKeysEmpty from './AccessKeysEmpty'
 import PaginationBlock from '../pagination/PaginationBlock'
-import ListItem from '../dashboard/ListItem'
 import PageContainer from '../common/PageContainer';
 
-import AppDefaultImage from '../../images/icon-app-default.svg'
+import KeyListItem from '../dashboard/KeyListItem'
 
-class AuthorizedApps extends Component {
+class AccessKeys extends Component {
    state = {
       loader: true,
       showSub: false,
       showSubOpen: 0,
-      showSubData: [],
+      showSubData: null,
       authorizedApps: [],
       filterTypes: [
          { img: '', name: 'ALL' },
@@ -27,13 +26,13 @@ class AuthorizedApps extends Component {
       ]
    }
 
-   toggleShowSub = (i, row) => {
+   toggleShowSub = (i, accessKey) => {
       i = i == null ? this.state.showSubOpen : i
 
       this.setState(state => ({
          showSub: true,
          showSubOpen: i,
-         showSubData: row
+         showSubData: accessKey
       }))
    }
 
@@ -41,12 +40,12 @@ class AuthorizedApps extends Component {
       this.setState(() => ({
          showSub: false,
          showSubOpen: 0,
-         showSubData: []
+         showSubData: null
       }))
    }
 
    handleDeauthorize = () => {
-      const publicKey = this.state.showSubData[3]
+      const publicKey = this.state.showSubData.public_key
 
       this.setState(() => ({
          loader: true
@@ -54,16 +53,16 @@ class AuthorizedApps extends Component {
 
       this.props.removeAccessKey(publicKey).then(() => {
          this.toggleCloseSub()
-         this.refreshAuthorizedApps()
+         this.refreshAccessKeys()
       })
    }
 
-   refreshAuthorizedApps = () => {
+   refreshAccessKeys = () => {
       this.setState(() => ({
          loader: true
       }))
 
-      this.props.getAccountDetails().then(() => {
+      this.props.getAccessKeys().then(() => {
          this.setState(() => ({
             loader: false
          }))
@@ -71,7 +70,7 @@ class AuthorizedApps extends Component {
    }
 
    componentDidMount() {
-      this.refreshAuthorizedApps()
+      this.refreshAccessKeys()
    }
 
    render() {
@@ -82,11 +81,11 @@ class AuthorizedApps extends Component {
          showSubData
       } = this.state
 
-      const { authorizedApps } = this.props
+      const { authorizedApps, title } = this.props
 
       return (
          <PageContainer
-            title='Authorized Apps'
+            title={title}
             additional={(
                <h1>
                   {authorizedApps && authorizedApps.length}
@@ -100,21 +99,21 @@ class AuthorizedApps extends Component {
                showSubData={showSubData}
                toggleShowSub={this.toggleShowSub}
                toggleCloseSub={this.toggleCloseSub}
-               subPage='authorized-apps'
+               subPage='access-keys'
                handleDeauthorize={this.handleDeauthorize}
             >
                {authorizedApps && (authorizedApps.length 
-                  ? authorizedApps.map((row, i) => (
-                     <ListItem
+                  ? authorizedApps.map((accessKey, i) => (
+                     <KeyListItem
                         key={`a-${i}`}
-                        row={row}
+                        accessKey={accessKey}
                         i={i}
                         wide={true}
                         showSub={showSub}
                         toggleShowSub={this.toggleShowSub}
                         showSubOpen={showSubOpen}
                      />
-                  )) : <AuthorizedAppsEmpty />)}
+                  )) : <AccessKeysEmpty />)}
             </PaginationBlock>
          </PageContainer>
       )
@@ -122,23 +121,28 @@ class AuthorizedApps extends Component {
 }
 
 const mapDispatchToProps = {
-   getAccountDetails,
+   getAccessKeys,
    removeAccessKey
 }
 
-const mapStateToProps = ({ account }) => ({
+const mapStateToPropsAuthorizedApps = ({ account }) => ({
    ...account,
-   authorizedApps: account.authorizedApps
-      ? account.authorizedApps.map(r => [
-           AppDefaultImage,
-           r.contractId,
-           r.amount,
-           r.publicKey
-        ])
-      : null
+   authorizedApps: account.authorizedApps,
+   title: 'Authorized Apps'
 })
 
 export const AuthorizedAppsWithRouter = connect(
-   mapStateToProps,
+   mapStateToPropsAuthorizedApps,
    mapDispatchToProps
-)(withRouter(AuthorizedApps))
+)(withRouter(AccessKeys))
+
+const mapStateToPropsFullAccess = ({ account }) => ({
+   ...account,
+   authorizedApps: account.fullAccessKeys,
+   title: 'Full Access Keys'
+})
+
+export const FullAccessKeysWithRouter = connect(
+   mapStateToPropsFullAccess,
+   mapDispatchToProps
+)(withRouter(AccessKeys))

@@ -85,9 +85,6 @@
     "lint": "eslint --ext .js --ext .jsx .",
     "fix": "eslint --ext .js --ext .jsx . --fix"
   },
-  "eslintConfig": {
-    "extends": "react-app"
-  },
   "browserslist": [
     ">0.2%",
     "not dead",
