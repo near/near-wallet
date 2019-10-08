@@ -10,7 +10,7 @@
     "fetch-send-json": "0.0.2",
     "js-sha256": "^0.9.0",
     "near-hd-key": "^1.0.0",
-    "near-ledger-js": "^0.0.2",
+    "near-ledger-js": "^0.0.3",
     "nearlib": "^0.17.2",
     "prop-types": "^15.7.2",
     "query-string": "^6.9.0",

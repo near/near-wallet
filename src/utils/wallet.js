@@ -2,6 +2,9 @@ import * as nearlib from 'nearlib'
 import sendJson from 'fetch-send-json'
 import sha256 from 'js-sha256';
 import { findSeedPhraseKey } from './seed-phrase'
+import { createClient } from 'near-ledger-js'
+import { PublicKey } from 'nearlib/lib/utils'
+import { KeyType } from 'nearlib/lib/utils/key_pair'
 
 const WALLET_CREATE_NEW_ACCOUNT_URL = `/create/`
 
@@ -164,6 +167,13 @@ export class Wallet {
          '', // methodName
          ACCESS_KEY_FUNDING_AMOUNT
       )
+   }
+
+   async addLedgerAccessKey(accountId) {
+      const client = await createClient()
+      window.client = client
+      const publicKey = await client.getPublicKey()
+      return await this.getAccount(accountId).addKey(new PublicKey(KeyType.ED25519, publicKey))  
    }
 
    clearState() {
