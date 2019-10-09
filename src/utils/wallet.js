@@ -6,6 +6,7 @@ import { createClient } from 'near-ledger-js'
 import { PublicKey } from 'nearlib/lib/utils'
 import { KeyType } from 'nearlib/lib/utils/key_pair'
 import { store } from '..'
+import { getAccessKeys } from '../actions/account'
 
 const WALLET_CREATE_NEW_ACCOUNT_URL = `/create/`
 
@@ -42,7 +43,11 @@ export class Wallet {
       const inMemorySigner = new nearlib.InMemorySigner(this.key_store)
 
       async function getLedgerKey(accountId) {
-         const state = store.getState()
+         let state = store.getState()
+         if (!state.account.fullAccessKeys) {
+            await store.dispatch(getAccessKeys(accountId))
+            state = store.getState()
+         }
          const accessKeys = state.account.fullAccessKeys
          if (accessKeys && state.account.accountId === accountId) {
             // TODO: Only use Ledger when it's the only available signer for given tx
