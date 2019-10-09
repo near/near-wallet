@@ -97,7 +97,10 @@ function account(state = {}, action) {
       case LOADER_ACCOUNT: {
          return {
             ...state,
-            loader: action.loader
+            loader: action.loader,
+            // TODO: More robust reset when switching account
+            fullAccessKeys: undefined,
+            authorizedApps: undefined
          }
       }
       case REFRESH_URL: {
