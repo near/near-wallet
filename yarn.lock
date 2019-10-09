@@ -5985,10 +5985,10 @@ near-hd-key@^1.0.0:
     create-hmac "1.1.6"
     tweetnacl "^1.0.1"
 
-near-ledger-js@^0.0.3:
-  version "0.0.3"
-  resolved "https://registry.yarnpkg.com/near-ledger-js/-/near-ledger-js-0.0.3.tgz#dc6033a2a01e5b74cf548b64d69a838cf27b591f"
-  integrity sha512-7shra+hJiXgWDakFddbUFBScpyLkjp4XFLlDn70hOH9DHluBK7/hnU4y8bSBN11/wHgQGpPFQO6hybwBQ4JXMQ==
+near-ledger-js@^0.0.4:
+  version "0.0.4"
+  resolved "https://registry.yarnpkg.com/near-ledger-js/-/near-ledger-js-0.0.4.tgz#81f71aa575cb77f40cf39e6c6d5819fade168f6b"
+  integrity sha512-Vdu1j8W0impjTb8jfyQweP7lzgS3B6EnoWfFfLArlIkC9C4a1qCYr6EvOY6tva7Sfgm/yWlEPT69N8hiXFRTRQ==
   dependencies:
     "@ledgerhq/hw-transport-u2f" "^4.70.0"
     "@ledgerhq/logs" "^4.70.0"

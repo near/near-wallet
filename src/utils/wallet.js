@@ -5,6 +5,7 @@ import { findSeedPhraseKey } from './seed-phrase'
 import { createClient } from 'near-ledger-js'
 import { PublicKey } from 'nearlib/lib/utils'
 import { KeyType } from 'nearlib/lib/utils/key_pair'
+import { store } from '..'
 
 const WALLET_CREATE_NEW_ACCOUNT_URL = `/create/`
 
@@ -23,13 +24,54 @@ const ACCOUNT_ID_REGEX = /^(([a-z\d]+[-_])*[a-z\d]+[.@])*([a-z\d]+[-_])*[a-z\d]+
 
 export const ACCOUNT_ID_SUFFIX = process.env.REACT_APP_ACCOUNT_ID_SUFFIX || '.test'
 
+async function setKeyMeta(publicKey, meta) {
+   localStorage.setItem(`keyMeta:${publicKey}`, JSON.stringify(meta))
+}
+
+async function getKeyMeta(publicKey) {
+   try {
+      return JSON.parse(localStorage.getItem(`keyMeta:${publicKey}`)) || {};
+   } catch (e) {
+      return {};
+   }
+}
+
 export class Wallet {
    constructor() {
       this.key_store = new nearlib.keyStores.BrowserLocalStorageKeyStore()
+      const inMemorySigner = new nearlib.InMemorySigner(this.key_store)
+      this.signer = {
+         async getPublicKey(accountId, networkId) {
+            const state = store.getState()
+            console.log('state', state)
+            const accessKeys = state.account.fullAccessKeys
+            if (accessKeys) {
+               // TODO: Only use Ledger when it's the only available signer
+               // TODO: Use account and network
+               const ledgerKey = accessKeys.find(accessKey => accessKey.type === 'ledger')
+               if (ledgerKey) {
+                  return PublicKey.from(ledgerKey.public_key)
+               }
+            }
+            return inMemorySigner.getPublicKey(accountId, networkId)
+         },
+         async signHash(hash, accountId, networkId) {
+            // TODO: needs support on Ledger
+         },
+         async signMessage(message, accountId, networkId) {
+            // TODO: Use account and network
+            const client = await createClient()
+            const signature = await client.sign(message)
+            return {
+               signature,
+               publicKey: await this.getPublicKey(accountId, networkId)
+            }
+         }
+      }
       this.connection = nearlib.Connection.fromConfig({
          networkId: NETWORK_ID,
          provider: { type: 'JsonRpcProvider', args: { url: NODE_URL + '/' } },
-         signer: { type: 'InMemorySigner', keyStore: this.key_store }
+         signer: this.signer
       })
       this.accounts = JSON.parse(
          localStorage.getItem(KEY_WALLET_ACCOUNTS) || '{}'
@@ -106,7 +148,7 @@ export class Wallet {
       const accessKeys =  await this.getAccount(this.accountId).getAccessKeys()
       return Promise.all(accessKeys.map(async (accessKey) => ({
          ...accessKey,
-         meta: await this.getKeyMeta(accessKey.public_key)
+         meta: await getKeyMeta(accessKey.public_key)
       })))
    }
 
@@ -180,21 +222,11 @@ export class Wallet {
       window.client = client
       const rawPublicKey = await client.getPublicKey()
       const publicKey = new PublicKey(KeyType.ED25519, rawPublicKey)
-      await this.setKeyMeta(publicKey, { type: 'ledger' })
+      await setKeyMeta(publicKey, { type: 'ledger' })
       return await this.getAccount(accountId).addKey(publicKey)  
    }
 
-   async setKeyMeta(publicKey, meta) {
-      localStorage.setItem(`keyMeta:${publicKey}`, JSON.stringify(meta))
-   }
 
-   async getKeyMeta(publicKey) {
-      try {
-         return JSON.parse(localStorage.getItem(`keyMeta:${publicKey}`)) || {};
-      } catch (e) {
-         return {};
-      }
-   }
 
    clearState() {
       this.accounts = {}
