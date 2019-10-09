@@ -120,7 +120,7 @@ const KeyListItem = ({
                         publicKey:{' '}
                         <span className='color-black'>{publicKey}</span>
                      </span>
-                     {meta.type == 'ledger' ? <p>Ledger</p> : null}
+                     {meta.type === 'ledger' ? <p>Ledger</p> : null}
                   </Grid.Column>
             }
          </Grid>

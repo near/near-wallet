@@ -104,8 +104,7 @@ export class Wallet {
       if (!this.accountId) return null
 
       const accessKeys =  await this.getAccount(this.accountId).getAccessKeys()
-      console.log('accessKeys', accessKeys);
-      return Promise.all(accessKeys.map(async (accessKey) => (console.log('accessKey', accessKey, await this.getKeyMeta(accessKey.public_key)), {
+      return Promise.all(accessKeys.map(async (accessKey) => ({
          ...accessKey,
          meta: await this.getKeyMeta(accessKey.public_key)
       })))
