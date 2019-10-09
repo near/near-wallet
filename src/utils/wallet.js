@@ -99,9 +99,16 @@ export class Wallet {
       return await this.getAccount(this.accountId).state()
    }
 
+   // TODO: Figure out whether wallet should work with any account or current one. Maybe make wallet account specific and switch whole Wallet?
    async getAccessKeys() {
       if (!this.accountId) return null
-      return await this.getAccount(this.accountId).getAccessKeys()
+
+      const accessKeys =  await this.getAccount(this.accountId).getAccessKeys()
+      console.log('accessKeys', accessKeys);
+      return Promise.all(accessKeys.map(async (accessKey) => (console.log('accessKey', accessKey, await this.getKeyMeta(accessKey.public_key)), {
+         ...accessKey,
+         meta: await this.getKeyMeta(accessKey.public_key)
+      })))
    }
 
    async removeAccessKey(publicKey) {
@@ -172,8 +179,22 @@ export class Wallet {
    async addLedgerAccessKey(accountId) {
       const client = await createClient()
       window.client = client
-      const publicKey = await client.getPublicKey()
-      return await this.getAccount(accountId).addKey(new PublicKey(KeyType.ED25519, publicKey))  
+      const rawPublicKey = await client.getPublicKey()
+      const publicKey = new PublicKey(KeyType.ED25519, rawPublicKey)
+      await this.setKeyMeta(publicKey, { type: 'ledger' })
+      return await this.getAccount(accountId).addKey(publicKey)  
+   }
+
+   async setKeyMeta(publicKey, meta) {
+      localStorage.setItem(`keyMeta:${publicKey}`, JSON.stringify(meta))
+   }
+
+   async getKeyMeta(publicKey) {
+      try {
+         return JSON.parse(localStorage.getItem(`keyMeta:${publicKey}`)) || {};
+      } catch (e) {
+         return {};
+      }
    }
 
    clearState() {

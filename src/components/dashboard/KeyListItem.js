@@ -86,7 +86,7 @@ const KeyListItem = ({
    toggleShowSub,
    showSubOpen
 }) => {
-   let { access_key, public_key: publicKey } = accessKey
+   let { access_key, public_key: publicKey, meta } = accessKey
    let { permission: { FunctionCall } } = access_key || { permission: {} };
    let { receiver_id: contractId, allowance } = FunctionCall || {};
 
@@ -120,6 +120,7 @@ const KeyListItem = ({
                         publicKey:{' '}
                         <span className='color-black'>{publicKey}</span>
                      </span>
+                     {meta.type == 'ledger' ? <p>Ledger</p> : null}
                   </Grid.Column>
             }
          </Grid>
