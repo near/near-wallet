@@ -40,31 +40,37 @@ export class Wallet {
    constructor() {
       this.key_store = new nearlib.keyStores.BrowserLocalStorageKeyStore()
       const inMemorySigner = new nearlib.InMemorySigner(this.key_store)
+
+      async function getLedgerKey(accountId) {
+         const state = store.getState()
+         const accessKeys = state.account.fullAccessKeys
+         if (accessKeys && state.account.accountId === accountId) {
+            // TODO: Only use Ledger when it's the only available signer for given tx
+            // TODO: Use network ID
+            const ledgerKey = accessKeys.find(accessKey => accessKey.meta.type === 'ledger')
+            if (ledgerKey) {
+               return PublicKey.from(ledgerKey.public_key)
+            }
+         }
+         return null
+      }
+
       this.signer = {
          async getPublicKey(accountId, networkId) {
-            const state = store.getState()
-            console.log('state', state)
-            const accessKeys = state.account.fullAccessKeys
-            if (accessKeys) {
-               // TODO: Only use Ledger when it's the only available signer
-               // TODO: Use account and network
-               const ledgerKey = accessKeys.find(accessKey => accessKey.type === 'ledger')
-               if (ledgerKey) {
-                  return PublicKey.from(ledgerKey.public_key)
-               }
-            }
-            return inMemorySigner.getPublicKey(accountId, networkId)
+            return (await getLedgerKey(accountId)) || (await inMemorySigner.getPublicKey(accountId, networkId))
          },
          async signHash(hash, accountId, networkId) {
-            // TODO: needs support on Ledger
+            throw new Error('signHash not implemented on Ledger yet')
          },
          async signMessage(message, accountId, networkId) {
-            // TODO: Use account and network
-            const client = await createClient()
-            const signature = await client.sign(message)
-            return {
-               signature,
-               publicKey: await this.getPublicKey(accountId, networkId)
+            if (await getLedgerKey(accountId)) {
+               // TODO: Use network ID
+               const client = await createClient()
+               const signature = await client.sign(message)
+               return {
+                  signature,
+                  publicKey: await this.getPublicKey(accountId, networkId)
+               }
             }
          }
       }
