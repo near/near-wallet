@@ -2,8 +2,6 @@ import * as nearlib from 'nearlib'
 import sendJson from 'fetch-send-json'
 import sha256 from 'js-sha256';
 
-const WALLET_CREATE_NEW_ACCOUNT_URL = `/create/`
-
 const NETWORK_ID = process.env.REACT_APP_NETWORK_ID || 'default'
 const ACCOUNT_HELPER_URL = process.env.REACT_APP_ACCOUNT_HELPER_URL || 'https://near-contract-helper.onrender.com'
 const CONTRACT_CREATE_ACCOUNT_URL = `${ACCOUNT_HELPER_URL}/account`
@@ -58,40 +56,15 @@ export class Wallet {
       await this.getAccount(this.accountId).sendMoney(receiverId, amount)
    }
 
-   redirectToCreateAccount(options = {}, history) {
-      const param = {
-         next_url: window.location.search
-      }
-      if (options.reset_accounts) {
-         param.reset_accounts = true
-      }
-      //  let url = WALLET_CREATE_NEW_ACCOUNT_URL + "?" + $.param(param)
-      let url =
-         WALLET_CREATE_NEW_ACCOUNT_URL +
-         '?' +
-         Object.keys(param).map(
-            (p, i) =>
-               `${i ? '&' : ''}${encodeURIComponent(p)}=${encodeURIComponent(
-                  param[p]
-               )}`
-         )
-      history ? history.push(url) : window.location.replace(url)
-   }
-
    isEmpty() {
       return !this.accounts || !Object.keys(this.accounts).length
    }
 
-   redirectIfEmpty(history) {
-      if (this.isEmpty()) {
-         this.redirectToCreateAccount({}, history)
-      }
-   }
-
    async loadAccount(accountId) {
-      if (!(accountId in this.accounts)) {
-         throw new Error('Account ' + accountId + " doesn't exist.")
+      if (this.isEmpty()) {
+         throw new Error('No account.')
       }
+
       return await this.getAccount(this.accountId).state()
    }
 

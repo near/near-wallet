@@ -21,7 +21,7 @@ import { SendMoneyWithRouter } from './send-money/SendMoney'
 import { ProfileWithRouter } from './profile/Profile'
 import { SignWithRouter } from './sign/Sign'
 
-import { handleRefreshAccount, handleRefreshUrl } from '../actions/account'
+import { refreshAccount, refreshUrl } from '../actions/account'
 
 import { ThemeProvider } from 'styled-components'
 import GlobalStyle from './GlobalStyle'
@@ -31,12 +31,12 @@ const PATH_PREFIX = process.env.PUBLIC_URL
 
 class Routing extends Component {
    componentDidMount = () => {
-      const { handleRefreshAccount, handleRefreshUrl, history } = this.props
+      const { refreshAccount, refreshUrl, history } = this.props
 
-      handleRefreshAccount(history)
-      handleRefreshUrl(history.location)
+      refreshAccount(true)
+      refreshUrl(history.location)
 
-      history.listen(() => handleRefreshAccount(history, false))
+      history.listen(() => refreshAccount(false))
    }
 
    render() {
@@ -118,8 +118,8 @@ Routing.propTypes = {
 }
 
 const mapDispatchToProps = {
-   handleRefreshAccount,
-   handleRefreshUrl
+   refreshAccount,
+   refreshUrl
 }
 
 const mapStateToProps = ({ account }) => ({

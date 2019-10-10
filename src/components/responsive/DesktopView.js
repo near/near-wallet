@@ -17,7 +17,7 @@ import ActivityImage from '../../images/icon-activity.svg'
 import RecentImage from '../../images/icon-recent.svg'
 import SendImage from '../../images/icon-send.svg'
 
-import { handleRefreshAccount, switchAccount } from '../../actions/account'
+import { refreshAccount, switchAccount } from '../../actions/account'
 
 import styled from 'styled-components'
 
@@ -118,7 +118,7 @@ class DesktopView extends Component {
 
    handleSelectAccount = accountId => {
       this.props.switchAccount(accountId)
-      this.props.handleRefreshAccount(this.props.history)
+      this.props.refreshAccount(true)
       this.props.history.push(`/`)
    }
 
@@ -236,7 +236,7 @@ class DesktopView extends Component {
 }
 
 const mapDispatchToProps = {
-   handleRefreshAccount,
+   refreshAccount,
    switchAccount
 }
 

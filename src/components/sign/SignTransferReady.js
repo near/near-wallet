@@ -7,7 +7,7 @@ import MobileContainer from './MobileContainer'
 import SignAnimatedArrow from './SignAnimatedArrow'
 import SelectAccountDropdown from '../login/SelectAccountDropdown'
 
-import { handleRefreshAccount, switchAccount } from '../../actions/account'
+import { refreshAccount, switchAccount } from '../../actions/account'
 
 import { Grid, Form } from 'semantic-ui-react'
 
@@ -24,7 +24,7 @@ class SignTransferReady extends Component {
 
    handleSelectAccount = accountId => {
       this.props.switchAccount(accountId)
-      this.props.handleRefreshAccount(this.props.history)
+      this.props.refreshAccount(false)
    }
 
    redirectCreateAccount = () => {
@@ -134,7 +134,7 @@ class SignTransferReady extends Component {
 }
 
 const mapDispatchToProps = {
-   handleRefreshAccount,
+   refreshAccount,
    switchAccount,
 }
 

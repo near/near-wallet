@@ -2,84 +2,6 @@ import { parse, stringify } from 'query-string'
 import { createActions } from 'redux-actions'
 import { Wallet } from '../utils/wallet'
 
-export const REFRESH_ACCOUNT = 'REFRESH_ACCOUNT'
-export const REFRESH_URL = 'REFRESH_URL'
-
-export function handleRefreshAccount(history, loader = true) {
-   return (dispatch, getState) => {
-      dispatch(loginPending(loader))
-      dispatch(loginSuccess(false))
-      dispatch(loginError(false))
-
-      if (wallet.isEmpty()) {
-         dispatch(loginPending(false))
-         dispatch(loginError(true))
-         return false
-      }
-      
-      const accountId = wallet.getAccountId()
-
-      wallet
-         .loadAccount(accountId, history)
-         .then(v => {
-            dispatch({
-               type: REFRESH_ACCOUNT,
-               data: {
-                  accountId: accountId,
-                  amount: v['amount'] || 0,
-                  stake: v['stake'],
-                  nonce: v['nonce'],
-                  code_hash: v['code_hash'],
-                  accounts: wallet.accounts
-               }
-            })
-            dispatch(loginSuccess(true))
-         })
-         .catch(e => {
-            console.error('Error loading account:', e)
-
-            if (e.message && e.message.indexOf('does not exist while viewing') !== -1) {
-               // We have an account in the storage, but it doesn't exist on blockchain. We probably nuked storage so just redirect to create account
-               // TODO: Offer to remove specific account vs clearing everything?
-               wallet.clearState()               
-               wallet.redirectToCreateAccount(
-                  {
-                     reset_accounts: true
-                  },
-                  history
-               )
-            }
-
-            dispatch(loginError(true))
-         })
-         .finally(() => {
-            dispatch(loginPending(false))
-         })
-   }
-}
-
-export function handleRefreshUrl(location) {
-   return dispatch => {
-      const { title, app_url, contract_id, success_url, failure_url, public_key, transaction, callback, account_id, send } = parse(location.search)
-
-      dispatch({
-         type: REFRESH_URL,
-         url: {
-            title: title || '',
-            app_url: app_url || '',
-            contract_id: contract_id || '',
-            success_url: success_url || '',
-            failure_url: failure_url || '',
-            public_key: public_key || '',
-            transaction: transaction || '',
-            callback: callback || ``,
-            account_id: account_id || '',
-            send: send || '',
-         }
-      })
-   }
-}
-
 const wallet = new Wallet()
 
 export const redirectToApp = () => (dispatch, getState) => {
@@ -139,4 +61,29 @@ export const { switchAccount } = createActions({
    SWITCH_ACCOUNT: wallet.selectAccount.bind(wallet)
 })
 
-export const { loginPending, loginSuccess, loginError } = createActions('LOGIN_PENDING', 'LOGIN_SUCCESS', 'LOGIN_ERROR')
+export const { refreshAccount, refreshUrl, resetAccounts } = createActions({
+   REFRESH_ACCOUNT: [
+      wallet.loadAccount.bind(wallet),
+      (loader) => ({ 
+         loader,
+         accountId: wallet.getAccountId(),
+         accounts: wallet.accounts
+      })
+   ],
+   REFRESH_URL: ({ search }) => {
+      const { title, app_url, contract_id, success_url, failure_url, public_key, transaction, callback, account_id, send } = parse(search)
+
+      return {
+         title: title || '',
+         app_url: app_url || '',
+         contract_id: contract_id || '',
+         success_url: success_url || '',
+         failure_url: failure_url || '',
+         public_key: public_key || '',
+         transaction: transaction || '',
+         callback: callback || ``,
+         account_id: account_id || '',
+         send: send || '',
+   }},
+   RESET_ACCOUNTS: wallet.clearState.bind(wallet)
+})

@@ -27,7 +27,7 @@ import AccountGreyImage from '../../images/icon-account.svg'
 import RecentImage from '../../images/icon-recent.svg'
 import ActivityImage from '../../images/icon-activity.svg'
 
-import { handleRefreshAccount, switchAccount } from '../../actions/account'
+import { refreshAccount, switchAccount } from '../../actions/account'
 
 import styled from 'styled-components'
 
@@ -166,7 +166,7 @@ class MobileView extends Component {
 
    handleSelectAccount = accountId => {
       this.props.switchAccount(accountId)
-      this.props.handleRefreshAccount(this.props.history)
+      this.props.refreshAccount(true)
       this.handleDropdown()
       this.props.history.push(`/`)
    }
@@ -297,7 +297,7 @@ class MobileView extends Component {
 }
 
 const mapDispatchToProps = {
-   handleRefreshAccount,
+   refreshAccount,
    switchAccount
 }
 

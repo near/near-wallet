@@ -1,7 +1,5 @@
 import { handleActions, combineActions } from 'redux-actions'
 import {
-   REFRESH_ACCOUNT,
-   REFRESH_URL,
    requestCode,
    setupAccountRecovery,
    recoverAccount,
@@ -13,9 +11,9 @@ import {
    clearCode,
    addAccessKey,
    clearAlert,
-   loginPending,
-   loginSuccess,
-   loginError
+   refreshAccount,
+   refreshUrl,
+   resetAccounts
 } from '../actions/account'
 import reduceReducers from 'reduce-reducers'
 
@@ -24,6 +22,58 @@ const initialState = {
    sentSms: false,
    loginPending: true
 }
+
+const loginReducer = handleActions({
+   [createNewAccount] : (state, { error, payload }) => ({
+      ...state,
+      loginError: error,
+      loginErrorMessage: (error && payload && payload.toString()) || undefined,
+      loginResetAccounts: false
+   }),
+   [refreshUrl]: (state, { payload }) => ({
+      ...state,
+      url: payload
+   }),
+   [resetAccounts]: (state) => ({
+      ...state,
+      loginResetAccounts: true
+   }),
+   [refreshAccount]: (state, { ready, error, payload, meta }) => {
+      if (typeof payload === 'undefined') {
+         return {
+            ...state,
+            loginPending: meta.loader ? !ready : false,
+         }
+      }
+
+      if (error) {
+         return {
+            ...state,
+            loginError: true,
+            loginErrorMessage: payload.message,
+            loginPending: false
+         }
+      }
+
+      if (payload) {
+         return { 
+            ...state, 
+            accountId: meta.accountId,
+            amount: payload ? payload.amount : '0',
+            stake: payload ? payload.stake : 0,
+            nonce: payload ? payload.nonce : 0,
+            code_hash: payload ? payload.code_hash : '',
+            accounts: meta.accounts,
+
+            loginPending: meta.loader ? !ready : false,
+            loginError: false,
+            loginErrorMessage: ''
+         }
+      }
+
+      return state
+   }
+}, initialState)
 
 const loaderReducer = (state, { ready }) => {
    if (typeof ready === 'undefined') {
@@ -80,31 +130,6 @@ const authorizedApps = handleActions({
       })
 }, initialState)
 
-// TODO: Migrate everything to redux-actions
-function account(state = {}, action) {
-   switch (action.type) {
-      case REFRESH_ACCOUNT:
-         return {
-            ...state,
-            ...action.data
-         }
-      case REFRESH_URL: {
-         return {
-            ...state,
-            url: action.url
-         }
-      }
-      default:
-         return state
-   }
-}
-
-const loginStatus = handleActions({
-   [loginPending]: (state, { payload }) => ({ ...state, loginPending: payload }),
-   [loginSuccess]: (state, { payload }) => ({ ...state, loginSuccess: payload }),
-   [loginError]: (state, { payload }) => ({ ...state, loginError: payload })
-}, initialState)
-
 export default reduceReducers(
    initialState,
    loaderReducer,
@@ -112,6 +137,5 @@ export default reduceReducers(
    requestResultReducer,
    reducer,
    authorizedApps,
-   account,
-   loginStatus
+   loginReducer
 )

@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import CreateAccountForm from './CreateAccountForm'
 import AccountFormSection from './AccountFormSection'
 import AccountFormContainer from './AccountFormContainer'
-import { checkNewAccount, createNewAccount, clear, handleRefreshAccount } from '../../actions/account'
+import { checkNewAccount, createNewAccount, clear, refreshAccount, resetAccounts } from '../../actions/account'
 
 class CreateAccount extends Component {
    state = {
@@ -12,7 +12,20 @@ class CreateAccount extends Component {
       accountId: ''
    }
 
-   componentDidMount = () => {}
+   componentDidMount = () => {
+      const { loginError, loginErrorMessage } = this.props
+
+      if (loginError) {
+         console.error('Error loading account:', loginErrorMessage)
+
+         if (loginErrorMessage.indexOf('does not exist while viewing') !== -1) {
+            // We have an account in the storage, but it doesn't exist on blockchain. We probably nuked storage so just redirect to create account
+            // TODO: Offer to remove specific account vs clearing everything?
+
+            this.props.resetAccounts()
+         }
+      }
+   }
 
    componentWillUnmount = () => {
       this.props.clear()
@@ -36,7 +49,7 @@ class CreateAccount extends Component {
       this.props.createNewAccount(accountId).then(({ error }) => {
          if (error) return
 
-         this.props.handleRefreshAccount()
+         this.props.refreshAccount(true)
 
          let nextUrl = `/set-recovery/${accountId}`
          this.props.history.push(nextUrl)
@@ -61,6 +74,7 @@ class CreateAccount extends Component {
             location={this.props.location}
             title='Create Account'
             text='Creating a NEAR account is easy. Just choose a username and you’re ready to go.'
+            loginResetAccounts={this.props.loginResetAccounts}
          >
             <AccountFormSection 
                requestStatus={this.props.requestStatus}
@@ -84,7 +98,8 @@ const mapDispatchToProps = {
    checkNewAccount,
    createNewAccount,
    clear,
-   handleRefreshAccount
+   refreshAccount,
+   resetAccounts
 }
 
 const mapStateToProps = ({ account }) => ({

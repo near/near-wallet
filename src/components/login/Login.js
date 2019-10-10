@@ -5,7 +5,7 @@ import { withRouter } from 'react-router-dom'
 
 import LoginContainer from './LoginContainer'
 import LoginForm from './LoginForm'
-import { handleRefreshAccount, handleRefreshUrl, switchAccount, addAccessKey, clearAlert } from '../../actions/account'
+import { refreshAccount, switchAccount, addAccessKey, clearAlert } from '../../actions/account'
 
 class Login extends Component {
    state = {
@@ -65,7 +65,7 @@ class Login extends Component {
 
    handleSelectAccount = accountId => {
       this.props.switchAccount(accountId)
-      this.props.handleRefreshAccount(this.props.history)
+      this.props.refreshAccount(true)
    }
 
    redirectCreateAccount = () => {
@@ -94,8 +94,7 @@ class Login extends Component {
 }
 
 const mapDispatchToProps = {
-   handleRefreshAccount,
-   handleRefreshUrl,
+   refreshAccount,
    switchAccount,
    addAccessKey,
    clearAlert
