@@ -32,7 +32,7 @@ class SignTransferReady extends Component {
    }
 
    render() {
-      const { appTitle = 'CryptoCorgis', transferTransferring, handleAllow, handleDeny, account } = this.props
+      const { appTitle = 'CryptoCorgis', transferTransferring, handleAllow, handleDeny, account, handleDetails, tx } = this.props
       const { dropdown } = this.state
 
       return (
@@ -49,36 +49,36 @@ class SignTransferReady extends Component {
                </Grid.Row>
                <Grid.Row className='title'>
                   <Grid.Column
-                     as='h2'
+                     className='h1'
                      textAlign='center'
                      computer={16}
                      tablet={16}
                      mobile={16}
                   >
-                     <span className='font-bold'>{appTitle} </span> 
-                     wants to 
-                     <span className='font-bold'> withdraw 1.345 Ⓝ </span>
+                     <div className='font-bold'>{appTitle}</div> 
+                     <div className='h2'>is requesting to transfer</div>
+                     <div className='font-bold'> 1.345 Ⓝ</div>
                   </Grid.Column>
                </Grid.Row>
-               <Grid.Row centered>
-                  <Grid.Column
-                     largeScreen={12}
-                     computer={14}
-                     tablet={16}
-                     className='cont'
-                     textAlign='center'
-                  >
-                     <div className="fees">
-                        Estimated Fees: .00043 Ⓝ
-                     </div>
-                     <div className="gas">
-                        Gas Limit: 21000
-                     </div>
-                     <div className="gas">
-                        Gas Price: .0000000021 Ⓝ
-                     </div>
-                  </Grid.Column>
-               </Grid.Row>
+               {tx.length && (
+                  <Grid.Row centered>
+                     <Grid.Column
+                        largeScreen={12}
+                        computer={14}
+                        tablet={16}
+                        className='cont'
+                        textAlign='center'
+                     >
+                        <div 
+                           className='more-information' 
+                           onClick={() => handleDetails(true)}
+                        >
+                           More information
+                           <div className='circle'>{tx.length > 9 ? '9+' : tx.length}</div>
+                        </div>
+                     </Grid.Column>
+                  </Grid.Row>
+               )}
             </Grid>
             <Grid padded>
                <Grid.Row centered>
@@ -115,16 +115,6 @@ class SignTransferReady extends Component {
                            ALLOW
                         </FormButton>
                      </Form>
-                  </Grid.Column>
-               </Grid.Row>
-               <Grid.Row centered className='contract'>
-                  <Grid.Column
-                     largeScreen={12}
-                     computer={14}
-                     tablet={16}
-                     textAlign='center'
-                  >
-                     Contract: @contractname.near
                   </Grid.Column>
                </Grid.Row>
             </Grid>

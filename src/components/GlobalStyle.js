@@ -126,7 +126,7 @@ export default createGlobalStyle`
 
 
    .font-bold {
-      font-weight: 600;
+      font-weight: 600 !important;
    }
 
 
@@ -195,6 +195,7 @@ export default createGlobalStyle`
    .button {
       font-family: "benton-sans",sans-serif !important;
    }
+   
 
 
    .box {
@@ -293,6 +294,10 @@ export default createGlobalStyle`
       box-shadow: -1px -1px 0 0 #eee;
    }
 
+   .font-benton {
+      font-family: "benton-sans",sans-serif !important;
+   }
+
    @media screen and (max-width: 991px) {
       .App {
          .main {
@@ -303,19 +308,19 @@ export default createGlobalStyle`
 
    @media screen and (max-width: 767px) {
       h1, .h1 {
-         font-size: 32px !important;
+         font-size: 28px !important;
          font-weight: 500;
          line-height: 50px;
          color: #24272a;
       }
       h2, .h2 {
-         font-size: 20px !important;
+         font-size: 22px !important;
          font-weight: 600;
          line-height: 1.33;
          margin: 0px;
       }
       h3, .h3 {
-         font-size: 16px !important;
+         font-size: 18px !important;
          font-weight: 500;
          line-height: 1.33;
          margin: 0px;
