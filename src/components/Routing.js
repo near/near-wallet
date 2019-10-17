@@ -29,6 +29,7 @@ import { SignWithRouter } from './sign/Sign'
 import { handleRefreshAccount, handleRefreshUrl } from '../actions/account'
 
 import GlobalStyle from './GlobalStyle'
+import { SetupSeedPhraseWithRouter } from './accounts/SetupSeedPhrase'
 const theme = {}
 
 const PATH_PREFIX = process.env.PUBLIC_URL
@@ -82,6 +83,11 @@ class Routing extends Component {
                               exact
                               path='/set-recovery/:accountId'
                               component={SetRecoveryInfoWithRouter}
+                           />
+                           <PrivateRoute
+                              exact
+                              path='/setup-seed-phrase/:accountId'
+                              component={SetupSeedPhraseWithRouter}
                            />
                            <Route
                               exact
