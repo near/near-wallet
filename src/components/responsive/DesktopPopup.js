@@ -8,6 +8,7 @@ import PopupMenuTrigger from './PopupMenuTrigger'
 import AccountImage from '../../images/icon-account.svg'
 import ContactsGreyImage from '../../images/icon-contacts.svg'
 import AuthorizedGreyImage from '../../images/icon-authorized.svg'
+import KeysImage from '../../images/icon-keys-grey.svg'
 import LogoutImage from '../../images/icon-logout.svg'
 
 import styled from 'styled-components'
@@ -158,6 +159,17 @@ const DesktopPopup = ({
                   onClick={handleClose}
                >
                   Authorized Apps
+               </List.Content>
+            </List.Item>
+
+            <List.Item>
+               <List.Icon as={Image} src={KeysImage} />
+               <List.Content
+                  as={Link}
+                  to='/full-access-keys'
+                  onClick={handleClose}
+               >
+                  Full Access Keys
                </List.Content>
             </List.Item>
 
