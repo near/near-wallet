@@ -1,5 +1,4 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import { Form, Grid, Responsive } from 'semantic-ui-react'
 
 import RequestStatusBox from '../common/RequestStatusBox'
@@ -122,12 +121,5 @@ const AccountFormSection = ({ handleSubmit, requestStatus, location, children })
       </Grid>
    </CustomForm>
 )
-
-AccountFormSection.propTypes = {
-   handleSubmit: PropTypes.func.isRequired,
-   requestStatus: PropTypes.object,
-   location: PropTypes.object,
-   children: PropTypes.element,
-}
 
 export default AccountFormSection

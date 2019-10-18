@@ -1,21 +1,20 @@
 import React, { Component } from 'react'
+import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import * as bip39 from 'bip39-light'
-import { derivePath, getPublicKey } from 'ed25519-hd-key'
+import { derivePath } from 'ed25519-hd-key'
 import * as bs58 from 'bs58'
 import * as nacl from 'tweetnacl'
 
 import AccountFormSection from './AccountFormSection'
 import AccountFormContainer from './AccountFormContainer'
-import { redirectToApp, clear, clearCode } from '../../actions/account';
+import { redirectToApp, addAccessKey } from '../../actions/account';
 
 class SetupSeedPhrase extends Component {
-   state = {
-      loader: false
-   }
+   state = {}
 
    componentDidMount = () => {
-      const seedPhrase = "shoot island position soft burden budget tooth cruel issue economy destroy above" //bip39.generateMnemonic()
+      const seedPhrase = bip39.generateMnemonic()
       const seed = bip39.mnemonicToSeed(seedPhrase)
       const { key } = derivePath("m/44'/397'/0'", seed.toString('hex'));
       const publicKey = bs58.encode(nacl.sign.keyPair.fromSeed(key).publicKey)
@@ -26,35 +25,15 @@ class SetupSeedPhrase extends Component {
       }))
    }
 
-   componentWillUnmount = () => {
-      // TODO: Figure out how are these used
-      this.props.clear()
-      this.props.clearCode()
-   }
-
    handleSubmit = e => {
       e.preventDefault()
 
-      this.setState(() => ({
-         loader: true
-      }))
-
-      // TODO
-      /*
-      this.props.setupAccountRecovery(this.state.phoneNumber, this.props.accountId, this.state.securityCode)
+      const contractName = null;
+      this.props.addAccessKey(this.props.accountId, contractName, this.state.publicKey)
          .then(({error}) => {
             if (error) return
-            this.props.redirectToApp()
+            this.props.history.push('/full-access-keys')
          })
-         .finally(() => {
-            this.setState(() => ({
-               loader: false,
-               isLegit: false
-            }))
-         })
-      */
-
-      this.props.redirectToApp()
    }
 
    render() {
@@ -64,8 +43,9 @@ class SetupSeedPhrase extends Component {
             text={ `Write down this seed phrase to allow you to recover account in the future.`}
          >
             <AccountFormSection handleSubmit={this.handleSubmit} requestStatus={this.props.requestStatus}>
-               <p>{this.state.seedPhrase}</p>
-               <p>{this.state.publicKey}</p>
+               <p style={{ fontSize: '2em' }}>{this.state.seedPhrase}</p>
+               <p>Public Key: {this.state.publicKey}</p>
+               <input type="submit" value="Setup Seed Phrase" />
             </AccountFormSection>
          </AccountFormContainer>
       )
@@ -74,8 +54,7 @@ class SetupSeedPhrase extends Component {
 
 const mapDispatchToProps = {
    redirectToApp,
-   clear,
-   clearCode
+   addAccessKey
 }
 
 const mapStateToProps = ({ account }, { match }) => ({
@@ -83,4 +62,4 @@ const mapStateToProps = ({ account }, { match }) => ({
    accountId: match.params.accountId
 })
 
-export const SetupSeedPhraseWithRouter = connect(mapStateToProps, mapDispatchToProps)(SetupSeedPhrase)
+export const SetupSeedPhraseWithRouter = connect(mapStateToProps, mapDispatchToProps)(withRouter(SetupSeedPhrase))
