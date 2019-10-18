@@ -34,7 +34,7 @@ class MobileContainer extends Component {
    }
 
    updateInnerHeight = () => {
-      const page = window.innerHeight - (72 + 14)
+      const page = window.innerHeight - (72 + 16)
       const bottom = document.getElementById('bottom').clientHeight
       const topR = document.getElementById('topR').clientHeight
 

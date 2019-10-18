@@ -32,8 +32,15 @@ class SignTransferReady extends Component {
    }
 
    render() {
-      const { appTitle = 'CryptoCorgis', transferTransferring, handleAllow, handleDeny, account, handleDetails, tx } = this.props
+      const { appTitle = 'CryptoCorgis', transferTransferring, handleAllow, handleDeny, account, handleDetails, transactions } = this.props
       const { dropdown } = this.state
+      const sensitiveActions = transactions.reduce((c, t) => 
+         c + t.actions.reduce((ca, a) => 
+            ['deployContract', 'stake', 'deleteAccount'].indexOf(Object.keys(a)[0]) > -1
+               ? ca + 1
+               : ca
+         , 0)
+      , 0)
 
       return (
          <MobileContainer>
@@ -42,7 +49,6 @@ class SignTransferReady extends Component {
                   <Grid.Column
                      textAlign='center'
                      className='authorize'
-                     
                   >
                      <SignAnimatedArrow animate={transferTransferring}  />
                   </Grid.Column>
@@ -60,7 +66,7 @@ class SignTransferReady extends Component {
                      <div className='font-bold'> 1.345 Ⓝ</div>
                   </Grid.Column>
                </Grid.Row>
-               {tx.length && (
+               {transactions.length && (
                   <Grid.Row centered>
                      <Grid.Column
                         largeScreen={12}
@@ -74,7 +80,7 @@ class SignTransferReady extends Component {
                            onClick={() => handleDetails(true)}
                         >
                            More information
-                           <div className='circle'>{tx.length > 9 ? '9+' : tx.length}</div>
+                           {sensitiveActions && <div className='circle'>{sensitiveActions > 9 ? '9+' : sensitiveActions}</div>}
                         </div>
                      </Grid.Column>
                   </Grid.Row>

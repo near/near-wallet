@@ -18,9 +18,6 @@ const CustomContainer = styled(Container)`
             margin: 0 auto;
          }
       }
-      .title {
-         padding-top: 30px;
-      }
       button {
          width: 190px;
          margin-top: 0px;
@@ -68,75 +65,16 @@ const CustomContainer = styled(Container)`
             line-height: 30px;
          }
       }
-      .top-back {
-         display: flex;
-         padding-bottom: 12px;
-
-         .back-button {
-            display: flex;
-            cursor: pointer;
-
-            svg {
-               margin: 0 12px 0 18px;
-               width: 12px;
-
-               polyline {
-                  stroke: #0072ce;
-               }
-            }
-         }
-      }
-      .details {
-         background: #f8f8f8;
-         padding: 0 18px;
-
-         .details-item {
-            padding: 12px 0px;
-            border-bottom: 1px solid #e6e6e6;
-
-            .title {
-               padding: 6px 0 0 0;
-            }
-            .details-subitem {
-               padding: 12px 12px 0;
-
-               .desc {
-                  display: flex;
-                  padding-top: 4px;
-                  line-height: 16px;
-
-                  .icon {
-                     margin-right: 10px;
-                     margin-top: 2px;
-
-                     svg {
-                        width: 26px;
-
-                        &.gray {
-                           polygon {
-                              stroke: #999;
-                           }
-                           .cls-2 {
-                              fill: #999;
-                           }
-                        }
-                        &.orange {
-                           polygon {
-                              stroke: #fca347;
-                           }
-                           .cls-2 {
-                              fill: #fca347;
-                           }
-                        }
-                     }
-                  }
-               }
-            }
-         }
-      }
       .sub {
          color: #24272a;
          padding-top: 0;
+      }
+      .contract {
+         font-size: 12px;
+         padding: 0px;
+         .column {
+            padding: 12px 0;
+         }
       }
       .transferring-dots {
          :after {
@@ -173,7 +111,7 @@ const CustomContainer = styled(Container)`
       @media screen and (max-width: 991px) {
          .authorize {
             margin-top: 0px;
-            margin-bottom: -18px;
+            margin-bottom: 0;
          }
          .but-sec {
             padding-top: 0px;
@@ -199,16 +137,6 @@ const CustomContainer = styled(Container)`
          }
          #bottom {
             border-top: 2px solid #f2f2f2;
-         }
-         .details {
-            min-height: calc(100vh - 126px);
-         }
-         .tx {
-            padding: 0px;
-
-            > .column {
-               padding: 0px;
-            }
          }
       }
    }

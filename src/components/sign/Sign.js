@@ -22,45 +22,66 @@ class Sign extends Component {
       transferInsufficientFunds: false,
       transferDetails: false,
 
-      tx: [
+      transactions: [
          {
-            contract: 'cryptocorgis',
-            fees: null,
-            methods: [
+            signerId: 'cryptocorgis',
+            receiverId: 'account id',
+            actions: [
                {
-                  name: 'Function Name',
-                  desc: 'Here is a description of this function that the user can read and understand.',
-                  alert: null
+                  createAccount: {},
                },
                {
-                  name: 'Function Name',
-                  desc: '',
-                  alert: 'gray'
+                  deployContract: {},
+               },
+               {
+                  functionCall: {
+                     methodName: 'Method Name',
+                     args: [1,2,3],
+                     gas: '123'
+                  },
+               },
+               {
+                  transfer: {
+                     deposit: 123
+                  },
+               },
+               {
+                  stake: {
+                     stake: 123,
+                     publicKey: 'dasdasadsdasdasadsadsadsdsaadsdas'
+                  },
+               },
+               {
+                  addKey: {
+                     publicKey: 'dasdasadsdasdasadsadsadsdsaadsdas',
+                     accessKey: {
+                        permission: {
+                           functionCall: {
+                              receiverId: 'receiver id'
+                           }
+                        }
+                     }
+                  },
+               },
+               {
+                  deleteKey: {
+                     publicKey: 'dasdasadsdasdasadsadsadsdsaadsdas'
+                  },
+               },
+               {
+                  deleteAccount: {},
                }
-            ],
-            gasLimit: null,
-            gasPrice: null
+            ]
          },
          {
-            contract: 'corgi_or_dai',
-            fees: null,
-            methods: [
-              {
-                  name: 'Function Name',
-                  desc: 'Money is being transferred here and you should pay attention.',
-                  alert: 'orange'
-               }
-            ],
-            gasLimit: null,
-            gasPrice: null
-         },
-         {
-            contract: null,
-            fees: '.00042Ⓝ',
-            methods: [],
-            gasLimit: '2100',
-            gasPrice: '.000000021Ⓝ'
-         },
+            signerId: 'cryptocorgis',
+            receiverId: 'account id',
+            actions: [
+               {
+                  deployContract: {}
+               },
+            ]
+         }
       ]
    }
 
@@ -128,15 +149,13 @@ class Sign extends Component {
             {this.state.transferSuccess && <SignTransferSuccess handleDeny={this.handleDeny} />}
             {this.state.transferCancelled && <SignTransferCancelled handleDeny={this.handleDeny} />}
             {this.state.transferInsufficientFunds && <SignTransferInsufficientFunds handleDeny={this.handleDeny} handleAddFunds={this.handleAddFunds} />}
-            {this.state.transferDetails && <SignTransferDetails handleDetails={this.handleDetails} tx={this.state.tx} />}
+            {this.state.transferDetails && <SignTransferDetails handleDetails={this.handleDetails} transactions={this.state.transactions} />}
          </SignContainer>
       )
    }
 }
 
-const mapDispatchToProps = {
-   
-}
+const mapDispatchToProps = {}
 
 const mapStateToProps = ({ account }) => ({
    account
