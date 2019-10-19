@@ -5,7 +5,7 @@
     "account.setupAccountRecovery.error": "Failed to setup account recovery.",
     "account.recoverAccount.success": "Success",
     "account.recoverAccount.error": "Failed to recover account.",
-    "account.create.success": "Congrats! this name is available.",
+    "account.create.success": "Congrats! This name is available.",
     "account.create.error": "Username is taken. Try something else.",
     "account.available.success": "User found.",
     "account.available.error": "User not found."
