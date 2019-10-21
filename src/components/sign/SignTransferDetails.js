@@ -191,7 +191,7 @@ const ActionWarrning = ({ actionKind }) => (
       {actionKind === 'functionCall' && (
          <Fragment>
             <div className='icon'><IconProblems className='gray' /></div>
-            No description specified for this method
+            No description specified for this function
          </Fragment>
       )}
       {actionKind === 'deployContract' && (
