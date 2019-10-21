@@ -166,10 +166,6 @@ const ActionRow = ({ transaction, action, actionKind }) => (
          actionKind={actionKind} 
       />
       <div className='desc font-small'>
-         <ActionDescription 
-            action={action} 
-            actionKind={actionKind} 
-         />
          <ActionWarrning 
             actionKind={actionKind} 
          />
@@ -181,7 +177,7 @@ const ActionMessage = ({ transaction, action, actionKind }) => (
    <Fragment>
       {actionKind === 'createAccount' && `Creating Account: '${transaction.receiverId}'`}
       {actionKind === 'deployContract' && `Deploying Contract: '${transaction.receiverId}'`}
-      {actionKind === 'functionCall' && `Calling Method: '${action.functionCall.methodName}'`}
+      {actionKind === 'functionCall' && `Calling function: '${action.functionCall.methodName}'`}
       {actionKind === 'transfer' && `Transferring: ${action.transfer.deposit}Ⓝ to '${transaction.receiverId}'`}
       {actionKind === 'stake' && `Staking: ${action.stake.stake}Ⓝ ${action.stake.publicKey.substring(0, 15)}...`}
       {actionKind === 'addKey' && `Adding access key`}
@@ -190,27 +186,14 @@ const ActionMessage = ({ transaction, action, actionKind }) => (
    </Fragment>
 )
 
-const ActionDescription = ({ action, actionKind }) => (
-   <Fragment>
-      {action.desc
-         ? action.desc
-         : ['deployContract', 'stake', 'deleteAccount'].indexOf(actionKind) > -1
-            ? ''
-            : actionKind === 'functionCall'
-               ? JSON.stringify(action.functionCall.args)
-               : (
-                  <Fragment>
-                     <div className='icon'><IconProblems className='gray' /></div>
-                     No description specified for this method
-                  </Fragment>
-               )
-      }
-   </Fragment>
-)
-
-
 const ActionWarrning = ({ actionKind }) => (
    <Fragment>
+      {actionKind === 'functionCall' && (
+         <Fragment>
+            <div className='icon'><IconProblems className='gray' /></div>
+            No description specified for this method
+         </Fragment>
+      )}
       {actionKind === 'deployContract' && (
          <Fragment>
             <div className='icon'><IconProblems className='orange' /></div>
