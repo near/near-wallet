@@ -2,8 +2,6 @@ import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 
-import { handleRefreshAccount, switchAccount } from '../../actions/account'
-
 import { ReactComponent as IconArrowLeft } from '../../images/icon-arrow-left.svg'
 import { ReactComponent as IconProblems } from '../../images/icon-problems.svg'
 
@@ -32,7 +30,7 @@ const CustomGrid = styled(Grid)`
    }
    .details {
       background: #f8f8f8;
-      padding: 0 18px;
+      padding: 0 18px 36px;
 
       .details-item {
          padding: 12px 0px;
@@ -96,7 +94,7 @@ const CustomGrid = styled(Grid)`
 
 class SignTransferReady extends Component {
    render() {
-      const { handleDetails, transactions } = this.props
+      const { handleDetails, transactions, fees } = this.props
 
       return (
          <CustomGrid padded>
@@ -114,6 +112,19 @@ class SignTransferReady extends Component {
                   <div className='details'>
                      <div className='details-item title h3'>Detailed description of transaction</div>
                      <TransactionsList transactions={transactions} />
+
+                     <div className='details-item'>
+                        <div className='title h3'>
+                           Transaction Fees
+                           {/* .00042Ⓝ */}
+                        </div>
+                        {/* {t.fees} */}
+                        <div className='details-subitem color-charcoal-grey'>
+                           <div>Gas Limit: {fees.gasLimit}</div>
+                           <div>Gas price estimate is unavailable</div>
+                           {/* <div>Gas Price: .000000021Ⓝ</div> */}
+                        </div>
+                     </div>
                   </div>
                </Grid.Column>
             </Grid.Row>
@@ -136,13 +147,15 @@ const TransactionsList = ({ transactions }) =>
 ))
 
 const ActionsList = ({ transaction, actions }) => 
-   actions.map((a, i) => (
-      <ActionRow 
-         key={`action-${i}`} 
-         transaction={transaction} 
-         action={a} 
-         actionKind={Object.keys(a)[0]}  
-      />
+   actions
+      .sort((a,b) => Object.keys(b)[0] === 'functionCall' ? 1 : -1)
+      .map((a, i) => (
+         <ActionRow 
+            key={`action-${i}`} 
+            transaction={transaction} 
+            action={a} 
+            actionKind={Object.keys(a)[0]}  
+         />
 ))
 
 const ActionRow = ({ transaction, action, actionKind }) => (
@@ -153,9 +166,11 @@ const ActionRow = ({ transaction, action, actionKind }) => (
          actionKind={actionKind} 
       />
       <div className='desc font-small'>
-         <ActionIcon actionKind={actionKind} />
          <ActionDescription 
             action={action} 
+            actionKind={actionKind} 
+         />
+         <ActionWarrning 
             actionKind={actionKind} 
          />
       </div>
@@ -164,51 +179,60 @@ const ActionRow = ({ transaction, action, actionKind }) => (
 
 const ActionMessage = ({ transaction, action, actionKind }) => (
    <Fragment>
-      {actionKind === 'createAccount' && `New account created: '${transaction.receiverId}'`}
-      {actionKind === 'deployContract' && `Contract deployed: '${transaction.receiverId}'`}
-      {actionKind === 'functionCall' && `Called method: '${action.functionCall.methodName}'`}
-      {actionKind === 'transfer' && `Transferred: ${action.transfer.deposit}Ⓝ to '${transaction.receiverId}'`}
-      {actionKind === 'stake' && `Staked: ${action.stake.stake}Ⓝ ${action.stake.publicKey.substring(0, 15)}...`}
-      {actionKind === 'addKey' && (
-         typeof action.addKey.accessKey.permission === 'object'
-            ? `Access key added for contract: '${action.addKey.accessKey.permission.functionCall.receiverId}'`
-            : `New key added for ${transaction.receiverId}: ${action.addKey.publicKey.substring(0, 15)}...`
-      )}
-      {actionKind === 'deleteKey' && `Key deleted: ${action.deleteKey.publicKey.substring(0, 15)}...`}
-      {actionKind === 'deleteAccount' && `Account deleted: '${transaction.receiverId}'`}
+      {actionKind === 'createAccount' && `Creating Account: '${transaction.receiverId}'`}
+      {actionKind === 'deployContract' && `Deploying Contract: '${transaction.receiverId}'`}
+      {actionKind === 'functionCall' && `Calling Method: '${action.functionCall.methodName}'`}
+      {actionKind === 'transfer' && `Transferring: ${action.transfer.deposit}Ⓝ to '${transaction.receiverId}'`}
+      {actionKind === 'stake' && `Staking: ${action.stake.stake}Ⓝ ${action.stake.publicKey.substring(0, 15)}...`}
+      {actionKind === 'addKey' && `Adding access key`}
+      {actionKind === 'deleteKey' && `Deleting access key`}
+      {actionKind === 'deleteAccount' && `Deleting account: '${transaction.receiverId}'`}
    </Fragment>
-)
-
-const ActionIcon = ({ actionKind }) => (
-   <div className='icon'>
-      {actionKind === 'createAccount' && <IconProblems className='gray' />}
-      {actionKind === 'deployContract' && <IconProblems className='orange' />}
-      {actionKind === 'functionCall' && ''}
-      {actionKind === 'transfer' && <IconProblems className='gray' />}
-      {actionKind === 'stake' && <IconProblems className='orange' />}
-      {actionKind === 'addKey' && <IconProblems className='gray' />}
-      {actionKind === 'deleteKey' && <IconProblems className='gray' />}
-      {actionKind === 'deleteAccount' && <IconProblems className='orange' />}
-   </div>
 )
 
 const ActionDescription = ({ action, actionKind }) => (
    <Fragment>
-      {actionKind === 'createAccount' && `No description specified for this method`}
-      {actionKind === 'deployContract' && `No description specified for this method`}
-      {actionKind === 'functionCall' && JSON.stringify(action.functionCall.args)}
-      {actionKind === 'transfer' && `No description specified for this method`}
-      {actionKind === 'stake' && `No description specified for this method`}
-      {actionKind === 'addKey' && `No description specified for this method`}
-      {actionKind === 'deleteKey' && `No description specified for this method`}
-      {actionKind === 'deleteAccount' && `No description specified for this method`}
+      {action.desc
+         ? action.desc
+         : ['deployContract', 'stake', 'deleteAccount'].indexOf(actionKind) > -1
+            ? ''
+            : actionKind === 'functionCall'
+               ? JSON.stringify(action.functionCall.args)
+               : (
+                  <Fragment>
+                     <div className='icon'><IconProblems className='gray' /></div>
+                     No description specified for this method
+                  </Fragment>
+               )
+      }
    </Fragment>
 )
 
-const mapDispatchToProps = {
-   handleRefreshAccount,
-   switchAccount,
-}
+
+const ActionWarrning = ({ actionKind }) => (
+   <Fragment>
+      {actionKind === 'deployContract' && (
+         <Fragment>
+            <div className='icon'><IconProblems className='orange' /></div>
+            You are about to deploy a contract to your account! This contract can access your NEAR balance, and interact with other contracts on your behalf.
+         </Fragment>
+      )}
+      {actionKind === 'stake' && (
+         <Fragment>
+            <div className='icon'><IconProblems className='orange' /></div>
+            You are about to stake NEAR tokens. These tokens will be locked, and are at risk of being lost if your validator becomes unresponsive.
+         </Fragment>
+      )}
+      {actionKind === 'deleteAccount' && (
+         <Fragment>
+            <div className='icon'><IconProblems className='orange' /></div>
+            You are about to delete your account! Your NEAR balance will be destroyed, and all of your account data deleted.
+         </Fragment>
+      )}
+   </Fragment>
+)
+
+const mapDispatchToProps = {}
 
 const mapStateToProps = () => ({})
 

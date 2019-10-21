@@ -32,15 +32,8 @@ class SignTransferReady extends Component {
    }
 
    render() {
-      const { appTitle = 'CryptoCorgis', transferTransferring, handleAllow, handleDeny, account, handleDetails, transactions } = this.props
+      const { appTitle = 'CryptoCorgis', transferTransferring, handleAllow, handleDeny, account, handleDetails, sensitiveActionsCounter } = this.props
       const { dropdown } = this.state
-      const sensitiveActions = transactions.reduce((c, t) => 
-         c + t.actions.reduce((ca, a) => 
-            ['deployContract', 'stake', 'deleteAccount'].indexOf(Object.keys(a)[0]) > -1
-               ? ca + 1
-               : ca
-         , 0)
-      , 0)
 
       return (
          <MobileContainer>
@@ -66,25 +59,23 @@ class SignTransferReady extends Component {
                      <div className='font-bold'> 1.345 Ⓝ</div>
                   </Grid.Column>
                </Grid.Row>
-               {transactions.length && (
-                  <Grid.Row centered>
-                     <Grid.Column
-                        largeScreen={12}
-                        computer={14}
-                        tablet={16}
-                        className='cont'
-                        textAlign='center'
+               <Grid.Row centered>
+                  <Grid.Column
+                     largeScreen={12}
+                     computer={14}
+                     tablet={16}
+                     className='cont'
+                     textAlign='center'
+                  >
+                     <div 
+                        className='more-information' 
+                        onClick={() => handleDetails(true)}
                      >
-                        <div 
-                           className='more-information' 
-                           onClick={() => handleDetails(true)}
-                        >
-                           More information
-                           {sensitiveActions && <div className='circle'>{sensitiveActions > 9 ? '9+' : sensitiveActions}</div>}
-                        </div>
-                     </Grid.Column>
-                  </Grid.Row>
-               )}
+                        More information
+                        {sensitiveActionsCounter && <div className='circle'>{sensitiveActionsCounter > 9 ? '9+' : sensitiveActionsCounter}</div>}
+                     </div>
+                  </Grid.Column>
+               </Grid.Row>
             </Grid>
             <Grid padded>
                <Grid.Row centered>
