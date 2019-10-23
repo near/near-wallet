@@ -6928,10 +6928,10 @@ nearley@^2.7.10:
     randexp "0.4.6"
     semver "^5.4.1"
 
-nearlib@^0.14.1:
-  version "0.14.1"
-  resolved "https://registry.yarnpkg.com/nearlib/-/nearlib-0.14.1.tgz#61993c6a459654c5cb8180605bf198262597e8f4"
-  integrity sha512-ehr0MKJbXfFDomUAoss3KD1wvdXgfJvdxn+yIckguGQ8tmRRQG9R4XThc0vR9ZTG2o6lgYTNf0g3gvSUEeuzaw==
+nearlib@^0.15.0:
+  version "0.15.0"
+  resolved "https://registry.yarnpkg.com/nearlib/-/nearlib-0.15.0.tgz#a60b027891ae8b0125ae2d7bbbda450eac86dcdc"
+  integrity sha512-w9AuYthhrr5+V8MhfE20gh+8x5qxOS17ta0FP1oql1rfkruHVnVesDm2lHNvPcWlasdzyTlYZMfnoFIqpaC09g==
   dependencies:
     "@types/bn.js" "^4.11.5"
     bn.js "^4.11.5"
