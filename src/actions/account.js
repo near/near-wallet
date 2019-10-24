@@ -70,9 +70,9 @@ export function handleRefreshAccount(history, loader = true) {
 }
 
 export function handleRefreshUrl(location) {
+   console.log("Refreshed")
    return dispatch => {
-      const { title, app_url, contract_id, success_url, failure_url, public_key, transaction, callback, account_id, send } = parse(location.search)
-
+      const { title, app_url, contract_id, success_url, failure_url, public_key, transaction, callback, account_id, send, redirect_url } = parse(location.search)
       dispatch({
          type: REFRESH_URL,
          url: {
@@ -86,6 +86,7 @@ export function handleRefreshUrl(location) {
             callback: callback || ``,
             account_id: account_id || '',
             send: send || '',
+            redirect_url: redirect_url || '',
          }
       })
    }
@@ -95,8 +96,9 @@ const wallet = new Wallet()
 
 export const redirectToApp = () => (dispatch, getState) => {
    const state = getState()
-   const nextUrl = (state.account.url && (state.account.url.success_url || state.account.url.public_key)) ? `/login/?${stringify(state.account.url)}` : '/'
-   
+   // const nextUrl = (state.account.url && (state.account.url.success_url || state.account.url.public_key)) ? `/login/?${stringify(state.account.url)}` : '/'
+   console.log(state.account.url.redirect_url)
+   const nextUrl = state.account.url.redirect_url ? state.account.url.redirect_url : '/'
    setTimeout(() => {
       window.location = nextUrl
    }, 1500)

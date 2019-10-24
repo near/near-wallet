@@ -11,7 +11,7 @@ const PrivateRoute = ({component: Component, account, ...rest}) => (
                <Redirect
                   to={{
                      pathname: '/create/',
-                     search: props.location.search,
+                     search: `${props.location.search}${(props.location.search !== '' ? '&' : '?')}redirect_url=${props.location.pathname}`,
                   }}
                />
             )

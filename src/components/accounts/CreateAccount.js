@@ -55,7 +55,6 @@ class CreateAccount extends Component {
    render() {
       const { loader } = this.state
       const { requestStatus, formLoader } = this.props
-
       return (
          <AccountFormContainer 
             location={this.props.location}

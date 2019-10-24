@@ -74,6 +74,7 @@ class SetRecoveryInfo extends Component {
 
    skipRecoverySetup = e => {
       e.preventDefault()
+      console.log('here')
       this.props.redirectToApp()
    }
 
