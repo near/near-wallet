@@ -6,6 +6,7 @@
   "dependencies": {
     "big.js": "^5.2.2",
     "connected-react-router": "^6.5.2",
+    "core-js": "^3.3.3",
     "eslint": "5.16.0",
     "eslint-config-react-app": "^3.0.8",
     "fetch-send-json": "0.0.2",
@@ -29,13 +30,14 @@
     "redux": "^4.0.1",
     "redux-actions": "^2.6.5",
     "redux-thunk": "^2.3.0",
+    "regenerator-runtime": "^0.13.3",
     "semantic-ui-react": "^0.86.0",
     "styled-components": "^4.2.0"
   },
   "scripts": {
     "predeploy": "yarn build",
     "deploy": "gh-pages -d dist/",
-    "start": "parcel",
+    "start": "parcel src/index.html",
     "prebuild": "rm -rf dist/",
     "build": "parcel build src/index.html",
     "test": "jest",
@@ -54,6 +56,7 @@
     "@babel/preset-env": "^7.6.3",
     "@babel/preset-react": "^7.6.3",
     "babel-jest": "^24.9.0",
+    "babel-preset-env": "^1.7.0",
     "enzyme": "^3.10.0",
     "enzyme-adapter-react-16": "^1.15.1",
     "jest": "^24.9.0",
