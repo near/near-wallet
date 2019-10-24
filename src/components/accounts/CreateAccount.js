@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import CreateAccountForm from './CreateAccountForm'
 import AccountFormSection from './AccountFormSection'
 import AccountFormContainer from './AccountFormContainer'
-import { checkNewAccount, createNewAccount, clear, handleRefreshAccount } from '../../actions/account'
+import { checkNewAccount, createNewAccount, clear, handleRefreshAccount, handleRefreshUrl } from '../../actions/account'
 
 class CreateAccount extends Component {
    state = {
@@ -12,7 +12,9 @@ class CreateAccount extends Component {
       accountId: ''
    }
 
-   componentDidMount = () => {}
+   componentDidMount = () => {
+      this.props.handleRefreshUrl(this.props.history.location)
+   }
 
    componentWillUnmount = () => {
       this.props.clear()
@@ -83,7 +85,8 @@ const mapDispatchToProps = {
    checkNewAccount,
    createNewAccount,
    clear,
-   handleRefreshAccount
+   handleRefreshAccount,
+   handleRefreshUrl
 }
 
 const mapStateToProps = ({ account }) => ({
