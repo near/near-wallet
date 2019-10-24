@@ -13,7 +13,7 @@
     "babel-loader": "8.0.5",
     "babel-plugin-named-asset-import": "^0.3.1",
     "babel-preset-react-app": "^7.0.2",
-    "bfj": "6.1.1",
+    "bfj": "7.0.1",
     "big.js": "^5.2.2",
     "case-sensitive-paths-webpack-plugin": "2.2.0",
     "connected-react-router": "^6.4.0",
