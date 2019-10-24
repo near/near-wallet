@@ -48,14 +48,14 @@ export default createGlobalStyle`
    }
 
    h1, .h1 {
-      font-family: Bw Seido Round !important;
+      font-family: 'Bw Seido Round' !important;
       font-size: 48px !important;
       font-weight: 500 !important;
       line-height: 100px;
       color: #24272a;
    }
    h2, .h2 {
-      font-family: Bw Seido Round !important;
+      font-family: 'Bw Seido Round' !important;
       font-size: 24px !important;
       font-weight: 500 !important;
       line-height: 1.33;
@@ -63,7 +63,7 @@ export default createGlobalStyle`
       margin: 0px;
    }
    h3, .h3 {
-      font-family: Bw Seido Round !important;
+      font-family: 'Bw Seido Round' !important;
       font-size: 18px !important;
       font-weight: 500 !important;
       line-height: 24px !important;
@@ -71,7 +71,7 @@ export default createGlobalStyle`
       margin: 0px;
    }
    h4, .h4 {
-      font-family: Bw Seido Round !important;
+      font-family: 'Bw Seido Round' !important;
       font-size: 16px;
       font-weight: 500;
       line-height: 1.33;
