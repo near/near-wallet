@@ -51,7 +51,7 @@ const CustomList = styled(List)`
          color: #999999 !important;
       }
       .amount-sending {
-         font-family: Bw Seido Round;
+         font-family: BwSeidoRound;
          font-size: 48px;
          font-weight: 500;
          line-height: 60px;
