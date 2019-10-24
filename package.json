@@ -78,10 +78,11 @@
     "workbox-webpack-plugin": "4.3.1"
   },
   "scripts": {
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d build",
-    "start": "PORT=${PORT:=3000} node scripts/start.js",
-    "build": "node scripts/build.js",
+    "predeploy": "yarn build",
+    "deploy": "gh-pages -d dist/",
+    "start": "parcel",
+    "prebuild": "rm -rf dist/",
+    "build": "parcel build src/index.html",
     "test": "node scripts/test.js",
     "lint": "eslint --ext .js --ext .jsx .",
     "fix": "eslint --ext .js --ext .jsx . --fix"
@@ -137,9 +138,7 @@
       "./node_modules/jest-watch-typeahead/testname.js"
     ]
   },
-  "babel": {
-    "presets": [
-      "react-app"
-    ]
+  "devDependencies": {
+    "parcel": "^1.12.4"
   }
 }
