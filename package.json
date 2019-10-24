@@ -36,7 +36,7 @@
     "html-webpack-plugin": "4.0.0-beta.8",
     "identity-obj-proxy": "3.0.0",
     "jest": "23.6.0",
-    "jest-pnp-resolver": "1.0.2",
+    "jest-pnp-resolver": "1.2.1",
     "jest-resolve": "23.6.0",
     "jest-watch-typeahead": "^0.4.0",
     "js-sha256": "^0.9.0",
