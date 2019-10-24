@@ -4,50 +4,14 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@babel/core": "7.2.2",
-    "@babel/preset-env": "^7.4.5",
-    "@svgr/webpack": "4.3.3",
-    "babel-core": "7.0.0-bridge.0",
-    "babel-eslint": "9.0.0",
-    "babel-jest": "23.6.0",
-    "babel-loader": "8.0.6",
-    "babel-plugin-named-asset-import": "^0.3.1",
-    "babel-preset-react-app": "^7.0.2",
-    "bfj": "7.0.1",
     "big.js": "^5.2.2",
-    "case-sensitive-paths-webpack-plugin": "2.2.0",
-    "connected-react-router": "^6.4.0",
-    "css-loader": "3.2.0",
-    "dotenv": "8.2.0",
-    "dotenv-expand": "4.2.0",
-    "enzyme": "^3.10.0",
-    "enzyme-adapter-react-16": "^1.14.0",
+    "connected-react-router": "^6.5.2",
     "eslint": "5.16.0",
     "eslint-config-react-app": "^3.0.8",
-    "eslint-loader": "3.0.2",
-    "eslint-plugin-flowtype": "2.50.3",
-    "eslint-plugin-import": "2.18.2",
-    "eslint-plugin-jsx-a11y": "6.1.2",
-    "eslint-plugin-react": "7.12.4",
     "fetch-send-json": "0.0.2",
-    "file-loader": "2.0.0",
-    "fs-extra": "7.0.1",
     "gh-pages": "^2.0.1",
-    "html-webpack-plugin": "4.0.0-beta.8",
-    "identity-obj-proxy": "3.0.0",
-    "jest": "23.6.0",
-    "jest-pnp-resolver": "1.0.2",
-    "jest-resolve": "23.6.0",
-    "jest-watch-typeahead": "^0.4.0",
     "js-sha256": "^0.9.0",
-    "mini-css-extract-plugin": "0.5.0",
     "nearlib": "^0.15.0",
-    "optimize-css-assets-webpack-plugin": "5.0.1",
-    "pnp-webpack-plugin": "1.5.0",
-    "postcss-flexbugs-fixes": "4.1.0",
-    "postcss-loader": "3.0.0",
-    "postcss-preset-env": "6.5.0",
-    "postcss-safe-parser": "4.0.1",
     "prop-types": "^15.7.2",
     "query-string": "^6.4.2",
     "react": "^16.8.6",
@@ -65,17 +29,8 @@
     "redux": "^4.0.1",
     "redux-actions": "^2.6.5",
     "redux-thunk": "^2.3.0",
-    "resolve": "1.10.0",
-    "sass-loader": "7.1.0",
     "semantic-ui-react": "^0.86.0",
-    "style-loader": "1.0.0",
-    "styled-components": "^4.2.0",
-    "terser-webpack-plugin": "1.2.2",
-    "url-loader": "2.2.0",
-    "webpack": "4.28.3",
-    "webpack-dev-server": "3.1.14",
-    "webpack-manifest-plugin": "2.2.0",
-    "workbox-webpack-plugin": "4.3.1"
+    "styled-components": "^4.2.0"
   },
   "scripts": {
     "predeploy": "yarn build",
@@ -83,7 +38,7 @@
     "start": "parcel",
     "prebuild": "rm -rf dist/",
     "build": "parcel build src/index.html",
-    "test": "node scripts/test.js",
+    "test": "jest",
     "lint": "eslint --ext .js --ext .jsx .",
     "fix": "eslint --ext .js --ext .jsx . --fix"
   },
@@ -93,52 +48,12 @@
     "not ie <= 11",
     "not op_mini all"
   ],
-  "jest": {
-    "collectCoverageFrom": [
-      "src/**/*.{js,jsx,ts,tsx}",
-      "!src/**/*.d.ts"
-    ],
-    "resolver": "jest-pnp-resolver",
-    "setupFiles": [
-      "react-app-polyfill/jsdom"
-    ],
-    "testMatch": [
-      "<rootDir>/src/**/__tests__/**/*.{js,jsx,ts,tsx}",
-      "<rootDir>/src/**/?(*.)(spec|test).{js,jsx,ts,tsx}"
-    ],
-    "testEnvironment": "jsdom",
-    "testURL": "http://localhost",
-    "transform": {
-      "^.+\\.(js|jsx|ts|tsx)$": "<rootDir>/node_modules/babel-jest",
-      "^.+\\.css$": "<rootDir>/config/jest/cssTransform.js",
-      "^(?!.*\\.(js|jsx|ts|tsx|css|json)$)": "<rootDir>/config/jest/fileTransform.js"
-    },
-    "transformIgnorePatterns": [
-      "[/\\\\]node_modules[/\\\\].+\\.(js|jsx|ts|tsx)$",
-      "^.+\\.module\\.(css|sass|scss)$"
-    ],
-    "moduleNameMapper": {
-      "^react-native$": "react-native-web",
-      "^.+\\.module\\.(css|sass|scss)$": "identity-obj-proxy"
-    },
-    "moduleFileExtensions": [
-      "web.js",
-      "js",
-      "web.ts",
-      "ts",
-      "web.tsx",
-      "tsx",
-      "json",
-      "web.jsx",
-      "jsx",
-      "node"
-    ],
-    "watchPlugins": [
-      "./node_modules/jest-watch-typeahead/filename.js",
-      "./node_modules/jest-watch-typeahead/testname.js"
-    ]
-  },
   "devDependencies": {
+    "@babel/core": "^7.0.0-0",
+    "@babel/plugin-proposal-class-properties": "^7.5.5",
+    "@babel/preset-env": "^7.6.3",
+    "babel-jest": "^24.9.0",
+    "jest": "^24.9.0",
     "parcel": "^1.12.4"
   }
 }
