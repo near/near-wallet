@@ -54,7 +54,7 @@
     "react-app-polyfill": "^0.2.2",
     "react-dev-utils": "^8.0.0",
     "react-dom": "^16.8.6",
-    "react-google-recaptcha": "^1.0.5",
+    "react-google-recaptcha": "^2.0.1",
     "react-localize-redux": "^3.5.3",
     "react-phone-number-input": "^2.3.12",
     "react-qr-svg": "^2.2.1",
