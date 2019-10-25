@@ -31,7 +31,7 @@
     "redux-actions": "^2.6.5",
     "redux-thunk": "^2.3.0",
     "regenerator-runtime": "^0.13.3",
-    "semantic-ui-react": "^0.86.0",
+    "semantic-ui-react": "^0.88.1",
     "styled-components": "^4.2.0"
   },
   "scripts": {
