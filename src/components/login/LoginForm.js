@@ -8,7 +8,7 @@ import MobileContainer from '../sign/MobileContainer'
 import FormButton from '../common/FormButton'
 import SelectAccountDropdown from './SelectAccountDropdown'
 
-import { ReactComponent as AuthorizeImage } from '../../images/icon-authorize.svg'
+import AuthorizeImage from '../../images/icon-authorize.svg'
 
 const LoginForm = ({
    dropdown,
