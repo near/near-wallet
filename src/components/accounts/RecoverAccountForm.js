@@ -8,93 +8,93 @@ import AccountFormAccountId from './AccountFormAccountId'
 import AccountStartOver from './AccountStartOver'
 
 const RecoverAccountForm = ({
-   loader,
-   formLoader,
-   phoneNumber,
-   sentSms,
-   isLegit,
-   requestStatus,
-   handleChange,
-   handleStartOver,
-   handleResendCode,
-   resendLoader,
-   accountId
+    loader,
+    formLoader,
+    phoneNumber,
+    sentSms,
+    isLegit,
+    requestStatus,
+    handleChange,
+    handleStartOver,
+    handleResendCode,
+    resendLoader,
+    accountId
 }) => (
-   <Fragment>
-      {!sentSms && (
-         <Fragment>
-            <Header as='h3'>Username</Header>
-            <AccountFormAccountId
-               formLoader={formLoader}
-               handleChange={handleChange}
-               defaultAccountId={accountId}
-            />
-            
-            <Header as='h3'>Phone Number</Header>
-            <PhoneInput
-               className={`create ${
-                  requestStatus
-                     ? requestStatus.success
-                        ? 'success'
-                        : 'problem'
-                     : ''
-               } ${formLoader ? 'loading' : ''}`}
-               name='phoneNumber'
-               value={phoneNumber}
-               onChange={value =>
-                  handleChange(null, { name: 'phoneNumber', value })
-               }
-               placeholder='example: +1 555 123 4567'
-               required
-               tabIndex='2'
-            />
-         </Fragment>
-      )}
+        <Fragment>
+            {!sentSms && (
+                <Fragment>
+                    <Header as='h3'>Username</Header>
+                    <AccountFormAccountId
+                        formLoader={formLoader}
+                        handleChange={handleChange}
+                        defaultAccountId={accountId}
+                    />
 
-      {sentSms && (
-         <Fragment>
-         <Header as='h3' className='digit-code empty'>&nbsp;</Header>
-            <Input
-               name='securityCode'
-               onChange={handleChange}
-               placeholder='123456'
-               required
-               tabIndex='2'
-               className='sms'
-               pattern='[0-9]*'
-               maxLength='6'
-            />
-         </Fragment>
-      )}
+                    <Header as='h3'>Phone Number</Header>
+                    <PhoneInput
+                        className={`create ${
+                            requestStatus
+                                ? requestStatus.success
+                                    ? 'success'
+                                    : 'problem'
+                                : ''
+                            } ${formLoader ? 'loading' : ''}`}
+                        name='phoneNumber'
+                        value={phoneNumber}
+                        onChange={value =>
+                            handleChange(null, { name: 'phoneNumber', value })
+                        }
+                        placeholder='example: +1 555 123 4567'
+                        required
+                        tabIndex='2'
+                    />
+                </Fragment>
+            )}
 
-      <FormButton
-         type='submit'
-         color='blue'
-         disabled={!isLegit}
-         sending={loader}
-      >
-         FIND MY ACCOUNT
+            {sentSms && (
+                <Fragment>
+                    <Header as='h3' className='digit-code empty'>&nbsp;</Header>
+                    <Input
+                        name='securityCode'
+                        onChange={handleChange}
+                        placeholder='123456'
+                        required
+                        tabIndex='2'
+                        className='sms'
+                        pattern='[0-9]*'
+                        maxLength='6'
+                    />
+                </Fragment>
+            )}
+
+            <FormButton
+                type='submit'
+                color='blue'
+                disabled={!isLegit}
+                sending={loader}
+            >
+                FIND MY ACCOUNT
       </FormButton>
 
-      {sentSms && (
-         <AccountStartOver
-            handleStartOver={handleStartOver}
-            handleResendCode={handleResendCode}
-            resendLoader={resendLoader}
-         />
-      )}
-   </Fragment>
-)
+            {sentSms && (
+                <AccountStartOver
+                    handleStartOver={handleStartOver}
+                    handleResendCode={handleResendCode}
+                    resendLoader={resendLoader}
+                />
+            )}
+        </Fragment>
+    )
 
 RecoverAccountForm.propTypes = {
-   loader: PropTypes.bool.isRequired,
-   formLoader: PropTypes.bool.isRequired,
-   phoneNumber: PropTypes.string,
-   sentSms: PropTypes.bool,
-   requestStatus: PropTypes.object,
-   handleChange: PropTypes.func.isRequired,
-   handleStartOver: PropTypes.func.isRequired,
-   handleResendCode: PropTypes.func.isRequired
+    loader: PropTypes.bool.isRequired,
+    formLoader: PropTypes.bool.isRequired,
+    phoneNumber: PropTypes.string,
+    sentSms: PropTypes.bool,
+    requestStatus: PropTypes.object,
+    handleChange: PropTypes.func.isRequired,
+    handleStartOver: PropTypes.func.isRequired,
+    handleResendCode: PropTypes.func.isRequired
 }
 
 export default RecoverAccountForm
