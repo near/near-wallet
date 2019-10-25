@@ -77,7 +77,7 @@ const LoginForm = ({
                   <div>This does not allow the app to transfer any tokens.</div>
                )}
                {!contractId && (
-                  <div>This allows access to your entire balance.<br />Please, proceed with caution.</div>
+                  <div>This provides access to <span className='font-bold'>all of your tokens</span>.<br />Proceed with caution!.</div>
                )}
             </Grid.Column>
          </Grid.Row>
