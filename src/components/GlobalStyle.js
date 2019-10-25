@@ -99,7 +99,9 @@ export default createGlobalStyle`
       letter-spacing: 1.5px !important;
    }
 
-
+   .font-benton {
+      font-family: "benton-sans",sans-serif !important;
+   }
 
    .font-small {
       font-family: "benton-sans",sans-serif !important;
@@ -303,19 +305,19 @@ export default createGlobalStyle`
 
    @media screen and (max-width: 767px) {
       h1, .h1 {
-         font-size: 32px !important;
+         font-size: 28px !important;
          font-weight: 500;
          line-height: 50px;
          color: #24272a;
       }
       h2, .h2 {
-         font-size: 20px !important;
+         font-size: 22px !important;
          font-weight: 600;
          line-height: 1.33;
          margin: 0px;
       }
       h3, .h3 {
-         font-size: 16px !important;
+         font-size: 18px !important;
          font-weight: 500;
          line-height: 1.33;
          margin: 0px;

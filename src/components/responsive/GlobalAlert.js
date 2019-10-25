@@ -18,6 +18,7 @@ const CustomMessage = styled(Message)`
       border-radius: 8px;
       position: relative;
       box-shadow: none;
+      align-items: end;
 
       .close {
          width: 20px;
@@ -34,7 +35,7 @@ const CustomMessage = styled(Message)`
 
       .left {
          height: 38px;
-         margin-top: -4px;
+         margin-top: 0px;
          margin-right: 0;
          display: none;
          filter: brightness(0) invert(1);
@@ -48,6 +49,7 @@ const CustomMessage = styled(Message)`
             font-size: 18px;
             line-height: 26px;
             font-weight: 600;
+            padding-bottom: 6px;
          }
       }
 
@@ -56,7 +58,7 @@ const CustomMessage = styled(Message)`
          background-color: #5ace84;
 
          .left {
-            margin-right: 12px;
+            margin-right: 18px;
             display: inline;
          }
          .content {
@@ -72,7 +74,7 @@ const CustomMessage = styled(Message)`
          background-color: #ff585d;
 
          .left {
-            margin-right: 12px;
+            margin-right: 18px;
             display: inline;
          }
          .content {
@@ -89,12 +91,8 @@ const CustomMessage = styled(Message)`
          padding-right: 8px;
 
          .content {
-            font-size: 12px;
-            line-height: 14px;
-
             .header {
-               font-size: 16px;
-               line-height: 20px;
+               
             }
          }
 
@@ -114,15 +112,17 @@ const CustomMessage = styled(Message)`
    }
 `
 
-const GlobalAlert = ({ globalAlert, clearAlert }) => (
+const GlobalAlert = ({ globalAlert, clearAlert, closeIcom = true }) => (
    globalAlert ?
       <Container>
          <CustomMessage icon className={globalAlert.success ? 'success' : 'error'}>
-            <Image
-               onClick={clearAlert}
-               src={CloseImage}
-               className='close white'
-            />
+            {closeIcom && (
+               <Image
+                  onClick={clearAlert}
+                  src={CloseImage}
+                  className='close white'
+               />
+            )}
             {globalAlert && 
                <Image className='left' src={globalAlert.success ? IconCheckImage : IconsProblemImage} />}
             <Message.Content>

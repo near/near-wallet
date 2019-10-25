@@ -89,7 +89,6 @@ class Routing extends Component {
                               component={RecoverAccountWithRouter}
                            />
                            <PrivateRoute
-                              exact
                               path='/login'
                               component={LoginWithRouter}
                            />

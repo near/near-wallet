@@ -37,16 +37,16 @@ const CustomButton = styled(Button)`
          border-color: #0072ce;
          background: #0072ce;
 
-         :disabled {
-            background: #e6e6e6;
-            border-color: #e6e6e6;
-            opacity: 1 !important;
-         }
          :active,
          :hover,
          :focus {
             border-color: #4096db;
             background: #4096db;
+         }
+         :disabled {
+            background: #e6e6e6;
+            border-color: #e6e6e6;
+            opacity: 1 !important;
          }
       }
       &.seafoam-blue {
