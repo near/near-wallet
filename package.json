@@ -55,7 +55,6 @@
     "@babel/plugin-proposal-class-properties": "^7.5.5",
     "@babel/preset-env": "^7.6.3",
     "@babel/preset-react": "^7.6.3",
-    "@svgr/parcel-plugin-svgr": "^4.3.3",
     "babel-eslint": "^10.0.3",
     "babel-jest": "^24.9.0",
     "babel-preset-env": "^1.7.0",
@@ -66,7 +65,7 @@
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-react": "^7.16.0",
     "jest": "^24.9.0",
-    "parcel-bundler": "^1.12.4",
+    "parcel": "^1.12.4",
     "posthtml-expressions": "^1.1.1"
   }
 }

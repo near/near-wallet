@@ -1,6 +1,6 @@
 import React from 'react'
 
-import SendImage from '../../images/icon-send.svg'
+import { ReactComponent as SendImage } from '../../images/icon-send.svg'
 
 import styled from 'styled-components'
 
