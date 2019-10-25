@@ -2,12 +2,12 @@
 <html lang="en">
   <head>
     <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=%REACT_APP_GA_MEASUREMENT_ID%"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id={{ WALLET_GA_MEASUREMENT_ID || '' }}"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-      gtag('config', '%REACT_APP_GA_MEASUREMENT_ID%');
+      gtag('config', '{{ WALLET_GA_MEASUREMENT_ID || "" }}');
     </script>
     <meta charset="utf-8" />
     <link rel="shortcut icon" href="./favicon.ico" />
