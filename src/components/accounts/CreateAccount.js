@@ -12,9 +12,7 @@ class CreateAccount extends Component {
       accountId: ''
    }
 
-   componentDidMount = () => {
-      this.props.handleRefreshUrl(this.props.history.location)
-   }
+   componentDidMount = () => {}
 
    componentWillUnmount = () => {
       this.props.clear()
