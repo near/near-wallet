@@ -49,7 +49,7 @@ class LoginForm extends Component {
                      textAlign='center'
                      className='authorize'
                   >
-                     <HelpImage />
+                     {/* <HelpImage /> */}
                   </Grid.Column>
                </Grid.Row>
                <Grid.Row className='title'>

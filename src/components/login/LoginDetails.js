@@ -104,7 +104,7 @@ class LoginDetails extends Component {
                   <div className='top-back'>
                      <Link to='/login'>
                         <div className='back-button h3 font-benton color-blue'>
-                           <div><IconArrowLeft /></div>
+                           {/* <div><IconArrowLeft /></div> */}
                            <div>Back</div>
                         </div>
                      </Link>
@@ -232,7 +232,9 @@ const ActionWarrning = ({ actionKind }) => (
    <Fragment>
       {actionKind === 'functionCall' && (
          <Fragment>
-            <div className='icon'><IconProblems className='gray' /></div>
+            <div className='icon'>
+            {/* <IconProblems className='gray' /> */}
+            </div>
             No description specified for this method
          </Fragment>
       )}

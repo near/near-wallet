@@ -32,12 +32,12 @@ const LoginForm = ({
                textAlign='center'
                className='authorize'
             >
-               {contractId && (
+               {/* {contractId && (
                   <AuthorizeImage />
                )}
                {!contractId && (
                   <IconProblems className='orange' />
-               )}
+               )} */}
             </Grid.Column>
          </Grid.Row>
          <Grid.Row className='title'>
