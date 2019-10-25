@@ -1,5 +1,5 @@
 import { parse, stringify } from 'query-string'
-import { createActions } from 'redux-actions'
+import { createActions, createAction } from 'redux-actions'
 import { Wallet } from '../utils/wallet'
 
 export const REFRESH_ACCOUNT = 'REFRESH_ACCOUNT'
@@ -147,6 +147,8 @@ export const { addAccessKey, clearAlert } = createActions({
    ],
    CLEAR_ALERT: null,
 })
+
+export const recoverAccountSeedPhrase = createAction('RECOVER_ACCOUNT_SEED_PHRASE', () => {})
 
 export const { switchAccount } = createActions({
    SWITCH_ACCOUNT: wallet.selectAccount.bind(wallet)

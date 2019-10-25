@@ -1,0 +1,103 @@
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
+
+import { recoverAccountSeedPhrase, redirectToApp, checkAccountAvailable, clear } from '../../actions/account'
+
+import RecoverAccountSeedPhraseForm from './RecoverAccountSeedPhraseForm'
+import AccountFormSection from './AccountFormSection'
+import AccountFormContainer from './AccountFormContainer'
+
+class RecoverAccountSeedPhrase extends Component {
+   state = {
+      loader: false,
+      accountId: '',
+      seedPhrase: '',
+      isLegit: false,
+      resendLoader: false
+   }
+
+   componentDidMount = () => {}
+
+   componentWillUnmount = () => {
+      this.props.clear()
+   }
+
+   handleChange = (e, { name, value }) => {
+      this.setState((state) => ({
+         [name]: value,
+         isLegit: name === 'accountId' ? state.isLegit : this.isLegitField(name, value)
+      }))
+   }
+
+   isLegitField(name, value) {
+      // TODO: Use some validation framework?
+      let validators = {
+         seedPhrase: value => true // TODO validate seed phrase
+      }
+      return validators[name](value);
+   }
+
+   handleSubmit = e => {
+      e.preventDefault()
+
+      if (!this.state.isLegit) {
+         return false
+      }
+
+      this.setState(() => ({
+         loader: true
+      }))
+
+      const accountId = this.state.accountId
+      this.props.recoverAccountSeedPhrase(this.state.seedPhrase, accountId)
+         .then(({ error }) => {
+            if (error) return
+            this.props.redirectToApp()
+         })
+         .finally(() => {
+            this.setState(() => ({
+               loader: false,
+               isLegit: false
+            }))
+         })
+   }
+
+   render() {
+      const combinedState = {
+         ...this.props,
+         ...this.state,
+         isLegit: this.state.isLegit && !this.props.formLoader
+      }
+      
+      return (
+         <AccountFormContainer 
+            wide={true} 
+            title="Recover using Seed Phrase"
+            text={"Enter the backup seed phrase associated with the account"}
+         >
+            <AccountFormSection requestStatus={this.props.requestStatus} handleSubmit={this.handleSubmit.bind(this)}>
+               <RecoverAccountSeedPhraseForm
+                  {...combinedState}
+                  handleChange={this.handleChange}
+               />
+            </AccountFormSection>
+         </AccountFormContainer>
+      )
+   }
+}
+
+const mapDispatchToProps = {
+   recoverAccountSeedPhrase, 
+   redirectToApp,
+   checkAccountAvailable,
+   clear
+}
+
+const mapStateToProps = ({ account }, { match }) => ({
+   ...account
+})
+
+export const RecoverAccountSeedPhraseWithRouter = connect(
+   mapStateToProps, 
+   mapDispatchToProps
+)(RecoverAccountSeedPhrase)

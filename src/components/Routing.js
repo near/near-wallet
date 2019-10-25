@@ -18,6 +18,7 @@ import DashboardDetailWithRouter from './dashboard/DashboardDetail'
 import { CreateAccountWithRouter } from './accounts/CreateAccount'
 import { SetRecoveryInfoWithRouter } from './accounts/SetRecoveryInfo'
 import { RecoverAccountWithRouter } from './accounts/RecoverAccount'
+import { RecoverAccountSeedPhraseWithRouter } from './accounts/RecoverAccountSeedPhrase'
 import { LoginWithRouter } from './login/Login'
 import { ContactsWithRouter } from './contacts/Contacts'
 import { AuthorizedAppsWithRouter } from './access-keys/AccessKeys'
@@ -93,6 +94,11 @@ class Routing extends Component {
                               exact
                               path='/recover-account'
                               component={RecoverAccountWithRouter}
+                           />
+                           <Route
+                              exact
+                              path='/recover-seed-phrase'
+                              component={RecoverAccountSeedPhraseWithRouter}
                            />
                            <PrivateRoute
                               exact

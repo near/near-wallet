@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react'
+import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import { Input, Header } from 'semantic-ui-react'
 import PhoneInput from 'react-phone-number-input'
@@ -74,8 +75,11 @@ const RecoverAccountForm = ({
                 sending={loader}
             >
                 FIND MY ACCOUNT
-      </FormButton>
-
+            </FormButton>
+            <div className='recover'>
+                <div>Have a seed phrase?</div>
+                <Link to='/recover-seed-phrase'>Recover using seed phrase</Link>
+            </div>
             {sentSms && (
                 <AccountStartOver
                     handleStartOver={handleStartOver}
