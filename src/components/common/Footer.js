@@ -61,7 +61,7 @@ const FooterGrid = styled(Grid)`
             background: #fff;
             text-align: left;
 
-            > svg {
+            > img {
                width: 80px;
                position: absolute;
                bottom: 0px;
@@ -153,7 +153,7 @@ const ResponsiveContainer = () => (
                   Contact Support
                </a>
             </List.Item>
-            <NearkatImage />
+            <Image className='nearkat' src={NearkatImage} />
          </List>
       </Grid.Column>
    </FooterGrid>
