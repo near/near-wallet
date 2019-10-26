@@ -9,8 +9,10 @@ export const generateSeedPhrase = () => {
     return parseSeedPhrase(bip39.generateMnemonic())
 }
 
+export const normalizeSeedPhrase = (seedPhrase) => seedPhrase.trim().split(/\s+/).map(part => part.toLowerCase()).join(' ')
+
 export const parseSeedPhrase = (seedPhrase) => {
-    const seed = bip39.mnemonicToSeed(seedPhrase)
+    const seed = bip39.mnemonicToSeed(normalizeSeedPhrase(seedPhrase))
     const { key } = derivePath(KEY_DERIVATION_PATH, seed.toString('hex'))
     const keyPair = nacl.sign.keyPair.fromSeed(key)
     const publicKey = 'ed25519:' + bs58.encode(Buffer.from(keyPair.publicKey))
