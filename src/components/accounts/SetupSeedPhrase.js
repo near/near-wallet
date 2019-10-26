@@ -26,7 +26,7 @@ class SetupSeedPhrase extends Component {
         this.props.addAccessKey(this.props.accountId, contractName, this.state.publicKey)
             .then(({ error }) => {
                 if (error) return
-                this.props.history.push('/full-access-keys')
+                this.props.redirectToApp()
             })
     }
 
