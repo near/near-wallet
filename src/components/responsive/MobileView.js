@@ -26,6 +26,7 @@ import LogoImage from '../../images/wallet.png'
 import AccountGreyImage from '../../images/icon-account.svg'
 import RecentImage from '../../images/icon-recent.svg'
 import ActivityImage from '../../images/icon-activity.svg'
+import KeysImage from '../../images/icon-keys-grey.svg'
 
 import { handleRefreshAccount, switchAccount } from '../../actions/account'
 
@@ -252,6 +253,12 @@ class MobileView extends Component {
                            <Menu.Item>
                               <Image src={AuthorizedGreyImage} />
                               Authorized Apps
+                           </Menu.Item>
+                        </Link>
+                        <Link to='/full-access-keys' onClick={this.handleDropdown}>
+                           <Menu.Item>
+                              <Image src={KeysImage} />
+                              Full Access Keys
                            </Menu.Item>
                         </Link>
                         {false ? (

@@ -74,7 +74,10 @@ class SetRecoveryInfo extends Component {
 
    skipRecoverySetup = e => {
       e.preventDefault()
-      this.props.redirectToApp()
+
+      const { accountId } = this.props
+      let nextUrl = `/setup-seed-phrase/${accountId}`
+      this.props.history.push(nextUrl)
    }
 
    render() {
