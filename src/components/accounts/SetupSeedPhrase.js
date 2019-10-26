@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 
+import FormButton from '../common/FormButton'
 import AccountFormSection from './AccountFormSection'
 import AccountFormContainer from './AccountFormContainer'
 import { redirectToApp, addAccessKey } from '../../actions/account'
@@ -39,7 +40,13 @@ class SetupSeedPhrase extends Component {
                 <AccountFormSection handleSubmit={this.handleSubmit} requestStatus={this.props.requestStatus}>
                     <p style={{ fontSize: '2em' }}>{this.state.seedPhrase}</p>
                     <p>Public Key: {this.state.publicKey}</p>
-                    <input type="submit" value="Setup Seed Phrase" />
+                    <FormButton
+                        type='submit'
+                        color='blue'
+                        sending={this.props.formLoader}
+                    >
+                        SETUP SEED PHRASE
+                    </FormButton>
                 </AccountFormSection>
             </AccountFormContainer>
         )
