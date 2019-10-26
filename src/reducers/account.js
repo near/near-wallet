@@ -44,17 +44,22 @@ const globalAlertReducer = handleActions({
    [clearAlert]: state => Object.keys(state).reduce((obj, key) => key !== 'globalAlert' ? (obj[key] = state[key], obj) : obj, {})
 }, initialState)
 
-const requestResultReducer = handleActions({
-   // TODO: Reset state before action somehow. On navigate / start of other action?
-   // TODO: Make this generic to avoid listing actions
-   [combineActions(requestCode, setupAccountRecovery, recoverAccount, checkNewAccount, createNewAccount, checkAccountAvailable)]: (state, { error, payload, meta }) => ({
-      ...state,
+const requestResultReducer = (state, { error, payload, meta }) => {
+   if (!meta || !meta.successCode) {
+      return state
+   }
+   return {
+      ...(state || initialState),
       requestStatus: !!payload || error ? {
          success: !error,
          errorMessage: (error && payload && payload.toString()) || undefined,
          messageCode: error ? payload.messageCode || meta.errorCode : meta.successCode 
       } : undefined
-   }),
+   }
+}
+
+const requestResultClearReducer = handleActions({
+   // TODO: Should clear be a separate action or happen automatically on navigate / start of other actions?
    [clear]: state => Object.keys(state).reduce((obj, key) => key !== 'requestStatus' ? (obj[key] = state[key], obj) : obj, {})
 }, initialState)
 
@@ -108,6 +113,7 @@ export default reduceReducers(
    loaderReducer,
    globalAlertReducer,
    requestResultReducer,
+   requestResultClearReducer,
    reducer,
    accessKeys,
    account
