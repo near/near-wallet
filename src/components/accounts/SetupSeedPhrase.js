@@ -5,13 +5,13 @@ import { connect } from 'react-redux'
 import AccountFormSection from './AccountFormSection'
 import AccountFormContainer from './AccountFormContainer'
 import { redirectToApp, addAccessKey } from '../../actions/account'
-import { generate } from '../../utils/seed-phrase'
+import { generateSeedPhrase } from '../../utils/seed-phrase'
 
 class SetupSeedPhrase extends Component {
     state = {}
 
     componentDidMount = () => {
-        const { seedPhrase, publicKey } = generate()
+        const { seedPhrase, publicKey } = generateSeedPhrase()
         this.setState((prevState) => ({
             ...prevState,
             seedPhrase,

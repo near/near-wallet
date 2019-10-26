@@ -5,11 +5,11 @@ import * as nacl from 'tweetnacl'
 
 export const KEY_DERIVATION_PATH = "m/44'/397'/0'"
 
-export const generate = () => {
-    return parse(bip39.generateMnemonic())
+export const generateSeedPhrase = () => {
+    return parseSeedPhrase(bip39.generateMnemonic())
 }
 
-export const parse = (seedPhrase) => {
+export const parseSeedPhrase = (seedPhrase) => {
     const seed = bip39.mnemonicToSeed(seedPhrase)
     const { key } = derivePath(KEY_DERIVATION_PATH, seed.toString('hex'))
     const keyPair = nacl.sign.keyPair.fromSeed(key)
@@ -18,9 +18,9 @@ export const parse = (seedPhrase) => {
     return { seedPhrase, secretKey, publicKey }
 }
 
-export const findKey = (seedPhrase, publicKeys) => {
+export const findSeedPhraseKey = (seedPhrase, publicKeys) => {
     // TODO: Need to iterate through multiple possible keys
-    const keyInfo = parse(seedPhrase)
+    const keyInfo = parseSeedPhrase(seedPhrase)
     if (publicKeys.indexOf(keyInfo.publicKey) < 0) {
         return {}
     }

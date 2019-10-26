@@ -1,7 +1,7 @@
 import * as nearlib from 'nearlib'
 import sendJson from 'fetch-send-json'
 import sha256 from 'js-sha256';
-import { findKey } from './seed-phrase'
+import { findSeedPhraseKey } from './seed-phrase'
 
 const WALLET_CREATE_NEW_ACCOUNT_URL = `/create/`
 
@@ -206,7 +206,7 @@ export class Wallet {
       const account = this.getAccount(accountId)
       const accessKeys = await account.getAccessKeys()
       const publicKeys = accessKeys.map(it => it.public_key)
-      const { secretKey } = findKey(seedPhrase, publicKeys)
+      const { secretKey } = findSeedPhraseKey(seedPhrase, publicKeys)
       if (!secretKey) {
          throw new Error(`Cannot find matching public key for account ${accountId}`);
       }
