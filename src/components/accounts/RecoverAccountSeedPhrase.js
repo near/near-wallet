@@ -9,11 +9,9 @@ import AccountFormContainer from './AccountFormContainer'
 
 class RecoverAccountSeedPhrase extends Component {
    state = {
-      loader: false,
       accountId: '',
       seedPhrase: '',
-      isLegit: false,
-      resendLoader: false
+      isLegit: false
    }
 
    componentDidMount = () => {}
@@ -44,10 +42,6 @@ class RecoverAccountSeedPhrase extends Component {
          return false
       }
 
-      this.setState(() => ({
-         loader: true
-      }))
-
       const accountId = this.state.accountId
       this.props.recoverAccountSeedPhrase(this.state.seedPhrase, accountId)
          .then(({ error }) => {
@@ -56,7 +50,6 @@ class RecoverAccountSeedPhrase extends Component {
          })
          .finally(() => {
             this.setState(() => ({
-               loader: false,
                isLegit: false
             }))
          })
@@ -93,7 +86,7 @@ const mapDispatchToProps = {
    clear
 }
 
-const mapStateToProps = ({ account }, { match }) => ({
+const mapStateToProps = ({ account }) => ({
    ...account
 })
 

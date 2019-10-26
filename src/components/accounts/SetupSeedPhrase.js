@@ -1,23 +1,17 @@
 import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
-import * as bip39 from 'bip39-light'
-import { derivePath } from 'ed25519-hd-key'
-import * as bs58 from 'bs58'
-import * as nacl from 'tweetnacl'
 
 import AccountFormSection from './AccountFormSection'
 import AccountFormContainer from './AccountFormContainer'
-import { redirectToApp, addAccessKey } from '../../actions/account';
+import { redirectToApp, addAccessKey } from '../../actions/account'
+import { generate } from '../../utils/seed-phrase'
 
 class SetupSeedPhrase extends Component {
     state = {}
 
     componentDidMount = () => {
-        const seedPhrase = bip39.generateMnemonic()
-        const seed = bip39.mnemonicToSeed(seedPhrase)
-        const { key } = derivePath("m/44'/397'/0'", seed.toString('hex'));
-        const publicKey = bs58.encode(nacl.sign.keyPair.fromSeed(key).publicKey)
+        const { seedPhrase, publicKey } = generate()
         this.setState((prevState) => ({
             ...prevState,
             seedPhrase,
