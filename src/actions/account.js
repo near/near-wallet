@@ -148,6 +148,13 @@ export const { addAccessKey, clearAlert } = createActions({
    CLEAR_ALERT: null,
 })
 
+export const { recoverAccountSeedPhrase } = createActions({
+   RECOVER_ACCOUNT_SEED_PHRASE: [
+      wallet.recoverAccountSeedPhrase.bind(wallet),
+      defaultCodesFor('account.recoverAccount')
+   ],
+})
+
 export const { switchAccount } = createActions({
    SWITCH_ACCOUNT: wallet.selectAccount.bind(wallet)
 })

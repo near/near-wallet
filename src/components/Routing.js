@@ -19,6 +19,7 @@ import DashboardDetailWithRouter from './dashboard/DashboardDetail'
 import { CreateAccountWithRouter } from './accounts/CreateAccount'
 import { SetRecoveryInfoWithRouter } from './accounts/SetRecoveryInfo'
 import { RecoverAccountWithRouter } from './accounts/RecoverAccount'
+import { RecoverAccountSeedPhraseWithRouter } from './accounts/RecoverAccountSeedPhrase'
 import { LoginWithRouter } from './login/Login'
 import { ContactsWithRouter } from './contacts/Contacts'
 import { AuthorizedAppsWithRouter } from './access-keys/AccessKeys'
@@ -30,6 +31,7 @@ import { SignWithRouter } from './sign/Sign'
 import { handleRefreshAccount, handleRefreshUrl } from '../actions/account'
 
 import GlobalStyle from './GlobalStyle'
+import { SetupSeedPhraseWithRouter } from './accounts/SetupSeedPhrase'
 const theme = {}
 
 const PATH_PREFIX = process.env.PUBLIC_URL
@@ -87,10 +89,20 @@ class Routing extends Component {
                               path='/set-recovery/:accountId'
                               component={SetRecoveryInfoWithRouter}
                            />
+                           <PrivateRoute
+                              exact
+                              path='/setup-seed-phrase/:accountId'
+                              component={SetupSeedPhraseWithRouter}
+                           />
                            <Route
                               exact
                               path='/recover-account'
                               component={RecoverAccountWithRouter}
+                           />
+                           <Route
+                              exact
+                              path='/recover-seed-phrase'
+                              component={RecoverAccountSeedPhraseWithRouter}
                            />
                            <PrivateRoute
                               exact

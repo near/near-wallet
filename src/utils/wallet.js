@@ -1,6 +1,7 @@
 import * as nearlib from 'nearlib'
 import sendJson from 'fetch-send-json'
 import sha256 from 'js-sha256';
+import { findSeedPhraseKey } from './seed-phrase'
 
 const WALLET_CREATE_NEW_ACCOUNT_URL = `/create/`
 
@@ -97,7 +98,7 @@ export class Wallet {
 
    async getAccessKeys() {
       if (!this.accountId) return null
-      return await this.getAccount(this.accountId).getAccessKeys(localStorage.getItem(KEY_ACTIVE_ACCOUNT_ID))
+      return await this.getAccount(this.accountId).getAccessKeys()
    }
 
    async removeAccessKey(publicKey) {
@@ -198,6 +199,19 @@ export class Wallet {
    async recoverAccount(phoneNumber, accountId, securityCode) {
       const keyPair = nearlib.KeyPair.fromRandom('ed25519')
       await this.validateCode(phoneNumber, accountId, { securityCode, publicKey: keyPair.publicKey.toString() })
+      await this.saveAndSelectAccount(accountId, keyPair)
+   }
+
+   async recoverAccountSeedPhrase(seedPhrase, accountId) {
+      const account = this.getAccount(accountId)
+      const accessKeys = await account.getAccessKeys()
+      const publicKeys = accessKeys.map(it => it.public_key)
+      const { secretKey } = findSeedPhraseKey(seedPhrase, publicKeys)
+      if (!secretKey) {
+         throw new Error(`Cannot find matching public key for account ${accountId}`);
+      }
+
+      const keyPair = nearlib.KeyPair.fromString(secretKey)
       await this.saveAndSelectAccount(accountId, keyPair)
    }
 }
