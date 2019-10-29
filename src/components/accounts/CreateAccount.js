@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import CreateAccountForm from './CreateAccountForm'
 import AccountFormSection from './AccountFormSection'
 import AccountFormContainer from './AccountFormContainer'
-import { checkNewAccount, createNewAccount, clear, handleRefreshAccount, handleRefreshUrl } from '../../actions/account'
+import { checkNewAccount, createNewAccount, clear, handleRefreshAccount } from '../../actions/account'
 
 class CreateAccount extends Component {
    state = {
@@ -55,6 +55,7 @@ class CreateAccount extends Component {
    render() {
       const { loader } = this.state
       const { requestStatus, formLoader } = this.props
+
       return (
          <AccountFormContainer 
             location={this.props.location}
@@ -83,8 +84,7 @@ const mapDispatchToProps = {
    checkNewAccount,
    createNewAccount,
    clear,
-   handleRefreshAccount,
-   handleRefreshUrl
+   handleRefreshAccount
 }
 
 const mapStateToProps = ({ account }) => ({
