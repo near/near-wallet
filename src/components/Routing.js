@@ -6,6 +6,7 @@ import { ThemeProvider } from 'styled-components'
 import { Route, Switch } from 'react-router-dom'
 import { ConnectedRouter } from 'connected-react-router'
 import { withLocalize } from 'react-localize-redux';
+import { parse, stringify } from 'query-string'
 
 import translations_en from '../translations/en.global.json'
 
@@ -52,10 +53,13 @@ class Routing extends Component {
    }
    
    componentDidMount = () => {
-      const { handleRefreshAccount, handleRefreshUrl, history } = this.props
-
+      const { handleRefreshAccount, handleRefreshUrl, history, account } = this.props
+      if (!account.accountId) {
+         const redirectUrl = history.location.pathname
+         history.location.search = stringify({...parse(history.location.search), redirect_url: redirectUrl})
+      }
       handleRefreshAccount(history)
-      handleRefreshUrl(this.props.history.location)
+      handleRefreshUrl(history.location)
 
       history.listen(() => handleRefreshAccount(history, false))
    }
