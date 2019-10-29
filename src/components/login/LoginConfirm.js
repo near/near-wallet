@@ -62,8 +62,8 @@ class LoginForm extends Component {
                      mobile={16}
                   >
                      <div className='font-bold'>Are you sure?</div>
-                     <div className='h2 font-benton'>You are granting <span className='font-bold'>full access</span> to {appTitle}</div>
-                     <div className='h2 font-benton'><br /><span className='font-bold'>to confirm</span>, please type your username below.</div>
+                     <div className='h2 font-benton'>You are granting <span className='font-bold'>full access</span> to {appTitle}!</div>
+                     <div className='h2 font-benton'><br /><span className='font-bold'>To confirm</span>, please enter your username below.</div>
                   </Grid.Column>
                </Grid.Row>
             </Grid>
@@ -75,7 +75,7 @@ class LoginForm extends Component {
                         value={accountId}
                         onChange={this.handleChange}
                         className={confirmStatus ? (confirmStatus === 'success' ? 'success' : 'problem') : ''}
-                        placeholder='enter username'
+                        placeholder='Username'
                         maxLength='32'
                         required
                         autoComplete='off'
