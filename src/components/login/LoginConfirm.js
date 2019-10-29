@@ -8,7 +8,7 @@ import { Grid, Input } from 'semantic-ui-react'
 import MobileContainer from '../sign/MobileContainer'
 import FormButton from '../common/FormButton'
 
-import { ReactComponent as HelpImage } from '../../images/icon-help.svg'
+import IconHelp from '../../images/IconHelp'
 
 class LoginForm extends Component {
    state = {
@@ -49,7 +49,7 @@ class LoginForm extends Component {
                      textAlign='center'
                      className='authorize'
                   >
-                     {/* <HelpImage /> */}
+                     <IconHelp color='#ff595a' />
                   </Grid.Column>
                </Grid.Row>
                <Grid.Row className='title'>

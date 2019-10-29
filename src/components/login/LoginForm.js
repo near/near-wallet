@@ -9,8 +9,8 @@ import MobileContainer from '../sign/MobileContainer'
 import FormButton from '../common/FormButton'
 import SelectAccountDropdown from './SelectAccountDropdown'
 
-import { ReactComponent as AuthorizeImage } from '../../images/icon-authorize.svg'
-import { ReactComponent as IconProblems } from '../../images/icon-problems.svg'
+import IconProblems from '../../images/IconProblems'
+import IconAuthorize from '../../images/IconAuthorize'
 
 const LoginForm = ({
    dropdown,
@@ -32,12 +32,12 @@ const LoginForm = ({
                textAlign='center'
                className='authorize'
             >
-               {/* {contractId && (
-                  <AuthorizeImage />
+               {contractId && (
+                  <IconAuthorize color='#999' />
                )}
                {!contractId && (
-                  <IconProblems className='orange' />
-               )} */}
+                  <IconProblems color='#fca347' />
+               )}
             </Grid.Column>
          </Grid.Row>
          <Grid.Row className='title'>

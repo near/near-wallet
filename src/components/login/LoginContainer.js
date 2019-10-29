@@ -20,18 +20,6 @@ const CustomContainer = styled(Container)`
          svg {
             width: 48px;
             height: 48px;
-
-            #icon-transactions {
-               stroke: #999;
-            }
-            &.orange {
-               polygon {
-                  stroke: #fca347;
-               }
-               .cls-2 {
-                  fill: #fca347;
-               }
-            }
          }
       }
       .cont {
