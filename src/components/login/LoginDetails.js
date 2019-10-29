@@ -33,6 +33,11 @@ const CustomGrid = styled(Grid)`
          padding: 12px 0px;
          border-bottom: 1px solid #e6e6e6;
 
+         &.alert {
+            .content {
+               word-break: break-word;
+            }
+         }
          .title {
             padding: 6px 0 0 0;
          }
@@ -119,7 +124,7 @@ class LoginDetails extends Component {
                   )}
                   {!contractId && (
                      <div className='details'>
-                        <div className='details-item'>
+                        <div className='details-item alert'>
                            <GlobalAlert 
                               globalAlert={{
                                  success: false,
