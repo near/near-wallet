@@ -2,8 +2,8 @@ import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 
-import { ReactComponent as IconArrowLeft } from '../../images/icon-arrow-left.svg'
-import { ReactComponent as IconProblems } from '../../images/icon-problems.svg'
+import IconArrowLeft from '../../images/IconArrowLeft'
+import IconProblems from '../../images/IconProblems'
 
 import { Grid } from 'semantic-ui-react'
 
@@ -53,23 +53,6 @@ const CustomGrid = styled(Grid)`
 
                   svg {
                      width: 26px;
-
-                     &.gray {
-                        polygon {
-                           stroke: #999;
-                        }
-                        .cls-2 {
-                           fill: #999;
-                        }
-                     }
-                     &.orange {
-                        polygon {
-                           stroke: #fca347;
-                        }
-                        .cls-2 {
-                           fill: #fca347;
-                        }
-                     }
                   }
                }
             }
@@ -105,7 +88,7 @@ class SignTransferReady extends Component {
                         className='back-button h3 font-benton color-blue'
                         onClick={() => handleDetails(false)}
                      >
-                        <div><IconArrowLeft /></div>
+                        <div><IconArrowLeft color='#0072ce' /></div>
                         <div>Back</div>
                      </div>
                   </div>
@@ -190,25 +173,25 @@ const ActionWarrning = ({ actionKind }) => (
    <Fragment>
       {actionKind === 'functionCall' && (
          <Fragment>
-            <div className='icon'><IconProblems className='gray' /></div>
+            <div className='icon'><IconProblems color='#999' /></div>
             No description specified for this function
          </Fragment>
       )}
       {actionKind === 'deployContract' && (
          <Fragment>
-            <div className='icon'><IconProblems className='orange' /></div>
+            <div className='icon'><IconProblems color='#fca347' /></div>
             You are about to deploy a contract to your account! This contract can access your NEAR balance, and interact with other contracts on your behalf.
          </Fragment>
       )}
       {actionKind === 'stake' && (
          <Fragment>
-            <div className='icon'><IconProblems className='orange' /></div>
+            <div className='icon'><IconProblems color='#fca347' /></div>
             You are about to stake NEAR tokens. These tokens will be locked, and are at risk of being lost if your validator becomes unresponsive.
          </Fragment>
       )}
       {actionKind === 'deleteAccount' && (
          <Fragment>
-            <div className='icon'><IconProblems className='orange' /></div>
+            <div className='icon'><IconProblems color='#fca347' /></div>
             You are about to delete your account! Your NEAR balance will be destroyed, and all of your account data deleted.
          </Fragment>
       )}
