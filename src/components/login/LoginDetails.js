@@ -170,7 +170,7 @@ const TransactionsList = ({ transactions }) =>
    transactions.map((t, i) => (
       <div key={`item-${i}`} className='details-item'>
          <div className='title h3'>
-            For Contract: <span className='color-blue'>@{t.signerId}</span>
+            For Contract: <a href={`https://explorer.nearprotocol.com/accounts/${t.signerId}`} target='_blank' className='color-blue'>@{t.signerId}</a>
          </div>
          <ActionsList 
             transaction={t} 
@@ -225,10 +225,10 @@ const ActionWarrning = ({ actionKind }) => (
 
 const mapDispatchToProps = {}
 
-const mapStateToProps = ({ transactions = [] }) => {
+const mapStateToProps = ({ transactions = [], account }) => {
    transactions = [
       {
-         signerId: 'cryptocorgis',
+         signerId: account.url.contract_id,
          receiverId: 'account id',
          actions: [
             {
