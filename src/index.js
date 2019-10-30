@@ -13,7 +13,6 @@ import createRootReducer from './reducers'
 import createMiddleware from './middleware'
 
 import Routing from './components/Routing'
-import * as serviceWorker from './serviceWorker'
 
 const history = createBrowserHistory()
 
@@ -27,4 +26,3 @@ ReactDOM.render(
    </Provider>,
    document.getElementById('root')
 )
-serviceWorker.unregister()
