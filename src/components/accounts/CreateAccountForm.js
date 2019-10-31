@@ -40,7 +40,7 @@ const CreateAccountForm = ({
       </FormButton>
       <div className='recover'>
          <div>Already have an account?</div>
-         <Link to='/recover-account'>Recover it here</Link>
+         <Link to={process.env.DISABLE_PHONE_RECOVERY === 'yes' ? '/recover-seed-phrase' : '/recover-account'}>Recover it here</Link>
       </div>
    </Fragment>
 )

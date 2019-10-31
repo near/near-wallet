@@ -38,7 +38,7 @@ class CreateAccount extends Component {
 
          this.props.handleRefreshAccount()
 
-         let nextUrl = `/set-recovery/${accountId}`
+         let nextUrl = process.env.DISABLE_PHONE_RECOVERY === 'yes' ? `/setup-seed-phrase/${accountId}` : `/set-recovery/${accountId}`
          this.props.history.push(nextUrl)
       })
       .finally(() => {

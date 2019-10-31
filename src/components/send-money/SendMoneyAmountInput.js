@@ -16,7 +16,7 @@ const CustomDiv = styled(`div`)`
       input {
          height: 80px;
          border: 0px;
-         font-family: Bw Seido Round;
+         font-family: BwSeidoRound;
          font-size: ${props => props.fontSize};
          font-weight: 500;
          line-height: 80px;

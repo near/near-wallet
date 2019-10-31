@@ -71,8 +71,7 @@ export function handleRefreshAccount(history, loader = true) {
 
 export function handleRefreshUrl(location) {
    return dispatch => {
-      const { title, app_url, contract_id, success_url, failure_url, public_key, transaction, callback, account_id, send } = parse(location.search)
-
+      const { title, app_url, contract_id, success_url, failure_url, public_key, transaction, callback, account_id, send, redirect_url } = parse(location.search)
       dispatch({
          type: REFRESH_URL,
          url: {
@@ -86,6 +85,7 @@ export function handleRefreshUrl(location) {
             callback: callback || ``,
             account_id: account_id || '',
             send: send || '',
+            redirect_url: redirect_url || '',
          }
       })
    }
@@ -95,39 +95,41 @@ const wallet = new Wallet()
 
 export const redirectToApp = () => (dispatch, getState) => {
    const state = getState()
-   const nextUrl = (state.account.url && (state.account.url.success_url || state.account.url.public_key)) ? `/login/?${stringify(state.account.url)}` : '/'
-   
+   const params = (state.account.url && (state.account.url.success_url || state.account.url.public_key)) ? `?${stringify(state.account.url)}` : ''
+   const nextUrl = state.account.url.redirect_url ? `${state.account.url.redirect_url}${params}` : `/${params}`
    setTimeout(() => {
       window.location = nextUrl
    }, 1500)
 }
 
+const defaultCodesFor = (prefix) => () => ({ successCode: `${prefix}.success`, errorCode: `${prefix}.error` })
+
 export const { requestCode, setupAccountRecovery, recoverAccount, getAccessKeys, removeAccessKey, checkNewAccount, createNewAccount, checkAccountAvailable, clear, clearCode } = createActions({
    REQUEST_CODE: [
       wallet.requestCode.bind(wallet),
-      () => ({ successCode: 'account.requestCode.success', errorCode: 'account.requestCode.error' })
+      defaultCodesFor('account.requestCode')
    ],
    SETUP_ACCOUNT_RECOVERY: [
       wallet.setupAccountRecovery.bind(wallet),
-      () => ({ successCode: 'account.setupAccountRecovery.success', errorCode: 'account.setupAccountRecovery.error' })
+      defaultCodesFor('account.setupAccountRecovery')
    ],
    RECOVER_ACCOUNT: [
       wallet.recoverAccount.bind(wallet),
-      () => ({ successCode: 'account.recoverAccount.success', errorCode: 'account.recoverAccount.error' })
+      defaultCodesFor('account.recoverAccount')
    ],
    GET_ACCESS_KEYS: [wallet.getAccessKeys.bind(wallet), () => ({})],
    REMOVE_ACCESS_KEY: [wallet.removeAccessKey.bind(wallet), () => ({})],
    CHECK_NEW_ACCOUNT: [
       wallet.checkNewAccount.bind(wallet),
-      () => ({ successCode: 'Congrats! this name is available.', errorCode: 'Username is taken. Try something else.' })
+      defaultCodesFor('account.create')
    ],
    CREATE_NEW_ACCOUNT: [
       wallet.createNewAccount.bind(wallet),
-      () => ({ successCode: 'Congrats! this name is available.', errorCode: 'Username is taken. Try something else.' })
+      defaultCodesFor('account.create')
    ],
    CHECK_ACCOUNT_AVAILABLE: [
       wallet.checkAccountAvailable.bind(wallet),
-      () => ({ successCode: 'User found.', errorCode: 'User not found.' })
+      defaultCodesFor('account.available')
    ],
    CLEAR: null,
    CLEAR_CODE: null
@@ -144,6 +146,13 @@ export const { addAccessKey, clearAlert } = createActions({
       })
    ],
    CLEAR_ALERT: null,
+})
+
+export const { recoverAccountSeedPhrase } = createActions({
+   RECOVER_ACCOUNT_SEED_PHRASE: [
+      wallet.recoverAccountSeedPhrase.bind(wallet),
+      defaultCodesFor('account.recoverAccount')
+   ],
 })
 
 export const { switchAccount } = createActions({
