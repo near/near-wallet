@@ -18,9 +18,6 @@ const CustomContainer = styled(Container)`
             margin: 0 auto;
          }
       }
-      .title {
-         padding-top: 30px;
-      }
       button {
          width: 190px;
          margin-top: 0px;
@@ -36,28 +33,48 @@ const CustomContainer = styled(Container)`
             float: none;
          }
       }
-      .contract {
-         font-size: 12px;
-         padding: 0px;
-
-         .column {
-            padding: 12px 0;
-         }
-      }
       .cont {
-         padding: 32px 0 32px 0;
+         padding: 0 0 16px 0;
+      }
+      .more-information {
+         position: relative;
+         width: 200px;
+         height: 40px;
+         margin: 0 auto;
+         cursor: pointer;
+
+         font-size: 13px;
+         line-height: 40px;
+         border-radius: 20px;
+         
          background: #f8f8f8;
-      }
-      .gas {
-         font-size: 12px;
-         padding: 10px 0 0 0;
-      }
-      .fees {
-         font-weight: 600;
+
+         :hover {
+            color: #24272a;
+         }
+         .circle {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background: #fca347;
+            color: #fff;
+            top: 5px;
+            right: 5px;
+
+            border-radius: 100%;
+            line-height: 30px;
+         }
       }
       .sub {
          color: #24272a;
          padding-top: 0;
+      }
+      .contract {
+         font-size: 12px;
+         padding: 0px;
+         .column {
+            padding: 12px 0;
+         }
       }
       .transferring-dots {
          :after {
@@ -94,7 +111,7 @@ const CustomContainer = styled(Container)`
       @media screen and (max-width: 991px) {
          .authorize {
             margin-top: 0px;
-            margin-bottom: -18px;
+            margin-bottom: 0;
          }
          .but-sec {
             padding-top: 0px;
@@ -117,6 +134,9 @@ const CustomContainer = styled(Container)`
             :first-of-type {
                float: left;
             }
+         }
+         #bottom {
+            border-top: 2px solid #f2f2f2;
          }
       }
    }
