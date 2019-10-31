@@ -47,7 +47,6 @@ const analyticsMiddleware = store => next => action => {
     })
   }
   if (window.amplitude) {
-    console.log("Yes")
     window.amplitude.getInstance().logEvent(action.type);
   }
   return next(action);
