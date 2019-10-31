@@ -46,8 +46,9 @@ const analyticsMiddleware = store => next => action => {
       event_label: JSON.stringify(action.type)
     })
   }
-  if (amplitude) {
-    amplitude.getInstance().logEvent(action.type);
+  if (window.amplitude) {
+    console.log("Yes")
+    window.amplitude.getInstance().logEvent(action.type);
   }
   return next(action);
 }
