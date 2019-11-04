@@ -1,6 +1,6 @@
 # NEAR DevNet Wallet
 
-![Build Status](https://gitlab.com/near-protocol/near-wallet/badges/master/pipeline.svg)
+[![Build Status](https://travis-ci.com/nearprotocol/near-wallet.svg?branch=master)](https://travis-ci.com/nearprotocol/near-wallet)
 
 This is in-browser web-based wallet for working with NEAR DevNet accounts. This wallet stores account keys in open text using the localStorage under https://wallet.nearprotocol.com domain on user's machine.
 
