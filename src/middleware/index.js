@@ -34,7 +34,7 @@ const readyStatePromise = store => next => action => {
 }
 
 /**
- * Track key user actions in Google Analytics
+ * Track key user actions in Google Analytics and Amplitude
  */
 const ACTIONS_TO_TRACK = ['CREATE_NEW_ACCOUNT','ADD_ACCESS_KEY', 
 'SETUP_ACCOUNT_RECOVERY', 'RECOVER_ACCOUNT','REMOVE_ACCESS_KEY']
@@ -45,6 +45,9 @@ const analyticsMiddleware = store => next => action => {
       event_category: action.type,
       event_label: JSON.stringify(action.type)
     })
+  }
+  if (window.amplitude) {
+    window.amplitude.getInstance().logEvent(action.type);
   }
   return next(action);
 }

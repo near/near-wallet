@@ -43,7 +43,7 @@ const CustomResponsive = styled(Responsive)`
       .overflow {
          overflow: hidden;
       }
-      .devider {
+      .divider {
          float: left;
          width: 2px;
          height: 40px;
@@ -87,6 +87,10 @@ const CustomResponsive = styled(Responsive)`
             color: #6ad1e3;
             text-decoration: none;
          }
+      }
+      .testnet-indicator {
+         margin-top: 26px;
+         color: #6ad1e3;
       }
    }
 `
@@ -203,6 +207,9 @@ class DesktopView extends Component {
                   <div className='overflow'>
                      {account.accountId && (
                         <div className='right'>
+                           <div className='item testnet-indicator'>
+                              <p>TESTNET</p>
+                           </div>
                            <div className='help'>
                               <a href='http://near.chat/'>
                                  <Image
@@ -211,7 +218,7 @@ class DesktopView extends Component {
                                  />
                               </a>
                            </div>
-                           <div className='devider' />
+                           <div className='divider' />
                            <div className='overflow'>
                               <DesktopPopup
                                  account={account}
