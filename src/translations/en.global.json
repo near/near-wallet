@@ -8,5 +8,19 @@
     "account.create.success": "Congrats! This name is available.",
     "account.create.error": "Username is taken. Try something else.",
     "account.available.success": "User found.",
-    "account.available.error": "User not found."
+    "account.available.error": "User not found.",
+
+    "actions": {
+       "createAccount": "New account created: ${receiverId}",
+       "deleteAccount": "Account deleted: ${receiverId}",
+       "deployContract": "Contract deployed: ${receiverId}",
+       "functionCall": "Called method in contract: ${methodName}",
+       "transfer": "Transferred ${deposit}Ⓝ to ${receiverId}",
+       "stake": "Staked ${stake}Ⓝ",
+       "addKey": {
+          "forContract": "Access key added for contract: ${permissionReceiverId}",
+          "forReceiver": "New key added for ${receiverId}",
+       },
+       "deleteKey": "Key deleted"
+    }
 }

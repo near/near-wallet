@@ -1,4 +1,5 @@
-import React, { Fragment } from 'react'
+import React from 'react'
+import { Translate } from 'react-localize-redux'
 
 import IconTAcct from '../../images/IconTAcct'
 import IconTKeyDelete from '../../images/IconTKeyDelete'
@@ -163,21 +164,22 @@ const ActionRow = ({ transaction, action, actionKind, wide, showSub = false, tog
    </CustomGridRow>
 )
 
-const ActionMessage = ({ transaction, action, actionKind }) => (
-   <Fragment>
-      {actionKind === 'createAccount' && `New account created: ${transaction.receiverId}`}
-      {actionKind === 'deleteAccount' && `Account deleted: ${transaction.receiverId}`}
-      {actionKind === 'deployContract' && `Contract deployed: ${transaction.receiverId}`}
-      {actionKind === 'functionCall' && `Called method in contract: ${action.functionCall.methodName}`}
-      {actionKind === 'transfer' && `Transferred ${action.transfer.deposit}Ⓝ to ${transaction.receiverId}`}
-      {actionKind === 'stake' && `Staked ${action.stake.stake}Ⓝ`}
-      {actionKind === 'addKey' && (
-         typeof action.accessKey.permission === 'object'
-            ? `Access key added for contract: ${action.accessKey.permission.functionCall.receiverId}`
-            : `New key added for ${transaction.receiverId}`
-      )}
-      {actionKind === 'deleteKey' && `Key deleted`}
-   </Fragment>
+const ActionMessage = ({ transaction, action: { addKey, functionCall, transfer, stake }, actionKind }) => (
+   <Translate 
+      id={`actions.${actionKind}${actionKind === `addKey`
+         ? addKey.accessKey && typeof addKey.accessKey.permission === 'object'
+            ? `.forContract`
+            : `.forReceiver`
+         : ''
+      }`}
+      data={{ 
+         receiverId: transaction.receiverId || '', 
+         methodName: functionCall ? functionCall.methodName : '', 
+         deposit: transfer ? transfer.deposit : '',
+         stake: stake ? stake.stake : '',
+         permissionReceiverId: (addKey && addKey.accessKey && typeof addKey.accessKey.permission === 'object') ? addKey.accessKey.permission.functionCall.receiverId : ''
+      }}
+   />
 )
 
 const ActionIcon = ({ actionKind }) => (
