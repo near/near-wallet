@@ -60,7 +60,7 @@ class CreateAccount extends Component {
          <AccountFormContainer 
             location={this.props.location}
             title='Create Account'
-            text='Creating a NEAR account is easy. Just choose a username and you’re ready to go.'
+            text='Just choose a username and you’re all set.'
          >
             <AccountFormSection 
                requestStatus={this.props.requestStatus}

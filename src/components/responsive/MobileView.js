@@ -6,6 +6,7 @@ import { withRouter, Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
 import GlobalAlert from './GlobalAlert'
+import NodeAnimatedDot from '../node-staking/NodeAnimatedDot'
 
 import {
    Image,
@@ -43,16 +44,28 @@ const CustomResponsive = styled(Responsive)`
             height: 72px;
             border-radius: 0;
             margin-bottom: 0;
+            
             .mainlogo {
                float: left;
                padding: 4px 10px 0px 0px;
-               div {
+
+               > a > div {
                   width: 50px;
                   overflow: hidden;
                   > img.image {
                      width: 160px;
                      max-width: none;
                   }
+               }
+            }
+            .node-staking {
+               > a > div {
+                  position: relative;
+               }
+               .node-dot {
+                  position: absolute;
+                  top: 24px;
+                  left: 24px;
                }
             }
             .trigger {
@@ -189,10 +202,11 @@ class MobileView extends Component {
             
             <Segment basic className='navbar'>
                <Menu className='navbar-main' borderless>
-                  <div className='mainlogo'>
+                  <div className={`mainlogo ${this.props.location.pathname === `/node-staking` ? `node-staking` : ``}`}>
                      <Link to='/'>
                         <div>
                            <Image src={LogoImage} />
+                           {this.props.location.pathname === `/node-staking` && <NodeAnimatedDot color='red' />}
                         </div>
                      </Link>
                   </div>

@@ -16,7 +16,7 @@ const CreateAccountForm = ({
    requestStatus
 }) => (
    <Fragment>
-      <Header as='h3'>Choose a Username</Header>
+      <Header as='h4'>Choose a Username</Header>
       <AccountFormAccountId
          formLoader={formLoader}
          handleChange={handleChange}

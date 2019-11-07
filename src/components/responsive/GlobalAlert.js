@@ -13,7 +13,7 @@ import styled from 'styled-components'
 
 const CustomMessage = styled(Message)`
    &&& {
-      border: 4px solid #e6e6e6;
+      border: 2px solid #e6e6e6;
       background-color: #fff;
       border-radius: 8px;
       position: relative;

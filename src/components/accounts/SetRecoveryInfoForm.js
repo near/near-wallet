@@ -19,7 +19,7 @@ const SetRecoveryInfoForm = ({
    <Fragment>
       {!sentSms && (
          <Fragment>
-            <Header as='h3'>Phone Number</Header>
+            <Header as='h4'>Phone Number</Header>
             <PhoneInput
                className={`create ${
                   requestStatus
@@ -42,7 +42,7 @@ const SetRecoveryInfoForm = ({
 
       {sentSms && (
          <Fragment>
-            <Header as='h3' className='digit-code'>Enter 6-digit Code</Header>
+            <Header as='h4' className='digit-code'>Enter 6-digit Code</Header>
             <Input
                name='securityCode'
                onChange={handleChange}

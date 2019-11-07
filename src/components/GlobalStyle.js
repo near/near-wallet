@@ -1,5 +1,8 @@
 import { createGlobalStyle } from 'styled-components'
 
+import ProblemsImage from '../images/icon-problems.svg'
+import CheckBlueImage from '../images/icon-check-blue.svg'
+
 export default createGlobalStyle`
   
   * {
@@ -121,9 +124,48 @@ export default createGlobalStyle`
       }
    }
 
-   .ui.form input[type=text] {
-      font-family: "benton-sans",sans-serif;
-      font-size: 16px;
+   input {
+      font-family: "benton-sans",sans-serif !important;
+      font-size: 14px !important;
+      width: 100% !important;
+      height: 48px !important;
+      border: 2px solid #f8f8f8 !important;
+      padding: 0 0 0 20px !important;
+      color: #4a4f54 !important;
+      font-weight: 400 !important;
+      background-color: #f8f8f8 !important;
+      position: relative !important;
+      margin-top: 8px !important;
+
+      :focus {
+         border-color: #e6e6e6 !important;
+         background-color: #fff !important;
+      }
+      :valid {
+         border-color: #e6e6e6 !important;
+         background-color: #fff !important;
+      }
+   }
+
+   .spinner {
+      margin-right: 10px !important;
+      :before,
+      :after {
+         top: 28px !important;
+         width: 24px !important;
+         height: 24px !important;
+      }
+   }
+   .problem > .input > input,
+   .problem > .input > input:focus {
+      border: 2px solid #ff585d !important;
+      background: url(${ProblemsImage}) right 12px center no-repeat !important;
+      background-size: 24px 24px !important;
+   }
+   .success > .input > input,
+   .success > .input > input:focus {
+      background: url(${CheckBlueImage}) right 12px center no-repeat !important;
+      background-size: 24px 24px !important;
    }
 
 
@@ -150,6 +192,9 @@ export default createGlobalStyle`
       :hover {
          color: #24272a;
       }
+   }
+   .color-red {
+      color: #ff585d !important;
    }
 
    .ui.popup > .header {
@@ -201,7 +246,7 @@ export default createGlobalStyle`
 
 
    .box {
-      border: 4px solid #e6e6e6;
+      border: 2px solid #e6e6e6;
       border-radius: 8px;
       margin-bottom: 0px;
       position: relative;
@@ -212,6 +257,7 @@ export default createGlobalStyle`
          padding: 0px !important;
       }
       .column {
+         padding: 16px 18px !important;
          word-wrap: break-word;
       }
       .segment {
@@ -328,7 +374,7 @@ export default createGlobalStyle`
          margin: 0px;
       }
       .box .column {
-         padding: 16px 10px !important;
+         padding: 16px 18px !important;
       }
    }
 `
