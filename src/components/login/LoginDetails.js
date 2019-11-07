@@ -98,7 +98,7 @@ class LoginDetails extends Component {
                         <div className='details-item title h3'>Detailed description of transaction</div>
                         <TransactionsList transactions={transactions} />
 
-                        <div className='details-item'>
+                        {false && <div className='details-item'>
                            <div className='title h3'>
                               Transaction Allowance
                            </div>
@@ -110,8 +110,8 @@ class LoginDetails extends Component {
                                  Total Allowance: .001Ⓝ
                               </div>
                            </div>
-                        </div>
-                        <div className='details-item'>
+                        </div>}
+                        {false && <div className='details-item'>
                            <div className='title h3'>
                               Transaction Fees
                            </div>
@@ -119,7 +119,7 @@ class LoginDetails extends Component {
                               <div>Gas Limit: {fees.gasLimit}</div>
                               <div>Gas price estimate is unavailable</div>
                            </div>
-                        </div>
+                        </div>}
                      </div>
                   )}
                   {!contractId && (
@@ -172,10 +172,10 @@ const TransactionsList = ({ transactions }) =>
          <div className='title h3'>
             For Contract: <a href={`https://explorer.nearprotocol.com/accounts/${t.signerId}`} target='_blank' className='color-blue'>@{t.signerId}</a>
          </div>
-         <ActionsList 
+         {false &&  <ActionsList 
             transaction={t} 
             actions={t.actions}
-         />
+         />}
       </div>
 ))
 
