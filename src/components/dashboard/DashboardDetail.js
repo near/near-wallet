@@ -79,7 +79,7 @@ class DashboardDetail extends Component {
                   loader={loader}
                   image={activityGreyImage}
                   title='Activity'
-                  to={`https://explorer.nearprotocol.com/accounts/${accountId}`}
+                  to={`${process.env.EXPLORER_URL || 'https://explorer.nearprotocol.com'}/accounts/${accountId}`}
                   transactions={transactions}
                />
                <DashboardKeys
