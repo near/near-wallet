@@ -105,7 +105,6 @@ class Routing extends Component {
                               component={RecoverAccountSeedPhraseWithRouter}
                            />
                            <PrivateRoute
-                              exact
                               path='/login'
                               component={LoginWithRouter}
                            />

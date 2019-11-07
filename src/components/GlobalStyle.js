@@ -99,7 +99,9 @@ export default createGlobalStyle`
       letter-spacing: 1.5px !important;
    }
 
-
+   .font-benton {
+      font-family: "benton-sans",sans-serif !important;
+   }
 
    .font-small {
       font-family: "benton-sans",sans-serif !important;

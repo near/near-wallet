@@ -1,19 +1,19 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-
-import { withRouter } from 'react-router-dom'
+import { withRouter, Route } from 'react-router-dom'
 
 import LoginContainer from './LoginContainer'
 import LoginForm from './LoginForm'
+import LoginConfirm from './LoginConfirm'
+import LoginDetails from './LoginDetails'
+
 import { handleRefreshAccount, handleRefreshUrl, switchAccount, addAccessKey, clearAlert } from '../../actions/account'
 
 class Login extends Component {
    state = {
       buttonLoader: false,
-      dropdown: false
+      dropdown: false,
    }
-
-   componentDidMount = () => {}
 
    componentWillUnmount = () => {
       this.props.clearAlert()
@@ -73,21 +73,51 @@ class Login extends Component {
    }
 
    render() {
-      const { account } = this.props
+      const { account, match } = this.props
+
       return (
          <LoginContainer>
-            {account.accountId && (
-               <LoginForm
-                  {...this.state}
-                  appTitle={account.url && account.url.title}
-                  contractId={account.url && account.url.contract_id}
-                  handleOnClick={this.handleOnClick}
-                  handleDeny={this.handleDeny}
-                  handleAllow={this.handleAllow}
-                  handleSelectAccount={this.handleSelectAccount}
-                  redirectCreateAccount={this.redirectCreateAccount}
-               />
-            )}
+            <Route
+               exact
+               path={`${match.url}`}
+               render={(props) => (
+                  <LoginForm
+                     {...this.state}
+                     {...props}
+                     appTitle={account.url && account.url.title}
+                     contractId={account.url && account.url.contract_id}
+                     handleOnClick={this.handleOnClick}
+                     handleDeny={this.handleDeny}
+                     handleAllow={this.handleAllow}
+                     handleSelectAccount={this.handleSelectAccount}
+                     redirectCreateAccount={this.redirectCreateAccount}
+                     handleDetails={this.handleDetails}
+                  />
+               )}
+            />
+            <Route 
+               exact
+               path={`${match.url}/details`}
+               render={(props) => (
+                  <LoginDetails
+                     {...props}
+                     contractId={account.url && account.url.contract_id}
+                     appTitle={account.url && account.url.title}
+                  />
+               )}
+            />
+            <Route 
+               exact
+               path={`${match.url}/confirm`}
+               render={(props) => (
+                  <LoginConfirm
+                     {...props}
+                     buttonLoader={this.state.buttonLoader}
+                     appTitle={account.url && account.url.title}
+                     handleAllow={this.handleAllow}
+                  />
+               )}
+            />
          </LoginContainer>
       )
    }
