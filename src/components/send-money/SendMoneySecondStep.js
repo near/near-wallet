@@ -21,7 +21,7 @@ const SendMoneySecondStep = ({
    <MobileContainer>
       <Fragment>
          <PageContainer
-            title={`Send`}
+            title={`Send NEAR`}
             type='center'
          />
          <List className='list-top border'>
