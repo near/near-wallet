@@ -31,7 +31,7 @@ const SendMoneyFirstStep = ({
          <MobileContainer>
             <Fragment>
                <PageContainer
-                  title={`Send Money`}
+                  title={`Send Tokens`}
                   type='center'
                />
                <List className='list-top border'>
@@ -43,7 +43,7 @@ const SendMoneyFirstStep = ({
                      ) : (
                         <List.Item>
                            <List.Content>
-                              <Header as='h3'>Enter a username to send:</Header>
+                              <Header as='h3'>Username to send to:</Header>
                               <AccountFormAccountId
                                  formLoader={formLoader}
                                  handleChange={handleChange}
@@ -79,7 +79,7 @@ const SendMoneyFirstStep = ({
                         color='green'
                         disabled={!isLegitForm()}
                      >
-                        SEND MONEY
+                        SEND
                      </FormButton>
                   </List.Item>
                </List>

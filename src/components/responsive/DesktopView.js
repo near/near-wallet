@@ -199,7 +199,7 @@ class DesktopView extends Component {
                         <div className='item'>
                            <Link to='/send-money'>
                               <Image className='navbar-icon' src={SendImage} />
-                              SEND MONEY
+                              SEND TOKENS
                            </Link>
                         </div>
                      </div>
