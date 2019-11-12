@@ -7,7 +7,7 @@
     "big.js": "^5.2.2",
     "bip39-light": "^1.0.7",
     "connected-react-router": "^6.5.2",
-    "core-js": "^3.3.6",
+    "core-js": "^3.4.0",
     "ed25519-hd-key": "^1.0.0",
     "eslint": "5.16.0",
     "eslint-config-react-app": "^3.0.8",
@@ -53,10 +53,10 @@
     "not op_mini all"
   ],
   "devDependencies": {
-    "@babel/core": "^7.0.0-0",
-    "@babel/plugin-proposal-class-properties": "^7.5.5",
+    "@babel/core": "^7.7.2",
+    "@babel/plugin-proposal-class-properties": "^7.7.0",
     "@babel/preset-env": "^7.7.1",
-    "@babel/preset-react": "^7.6.3",
+    "@babel/preset-react": "^7.7.0",
     "babel-eslint": "^10.0.3",
     "babel-jest": "^24.9.0",
     "babel-preset-env": "^1.7.0",

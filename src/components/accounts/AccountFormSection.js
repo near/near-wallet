@@ -10,10 +10,10 @@ const CustomForm = styled(Form)`
    &&&& {
       margin-left: -1rem;
 
-      h3.column {
+      h4.column {
          padding-bottom: 0;
       }
-      h3.digit-code {
+      h4.digit-code {
          margin-bottom: -10px;
       }
       .username-row {
@@ -24,7 +24,7 @@ const CustomForm = styled(Form)`
          margin-left: -1rem;
       }
       .recover {
-         margin-top: 36px;
+         margin-top: 12px;
          color: #24272a;
          line-height: 24px;
          font-weight: 600;
@@ -37,24 +37,6 @@ const CustomForm = styled(Form)`
             }
          }
       }
-      input {
-         width: 100%;
-         height: 64px;
-         border: 4px solid #f8f8f8;
-         padding: 0 0 0 20px;
-         font-size: 18px;
-         color: #4a4f54;
-         font-weight: 400;
-         background-color: #f8f8f8;
-         position: relative;
-         :focus {
-            border-color: #f8f8f8;
-            background-color: #fff;
-         }
-         :valid {
-            background-color: #fff;
-         }
-      }
       .input.sms {
          width: 122px;
          margin-right: 24px;
@@ -65,7 +47,7 @@ const CustomForm = styled(Form)`
          .react-phone-number-input__country {
             position: absolute;
             top: 24px;
-            right: 22px;
+            right: 12px;
             z-index: 1;
 
             &-select-arrow {
@@ -73,14 +55,17 @@ const CustomForm = styled(Form)`
             }
          }
       }
+      h4 {
+         margin-bottom: 0px;
+      }
 
       @media screen and (max-width: 991px) {
          .input.sms {
             width: 288px;
             margin-top: 0px;
          }
-         h3.digit-code {
-            margin-bottom: 18px;
+         h4.digit-code {
+            margin-bottom: 0px;
          }
       }
       @media screen and (max-width: 767px) {
@@ -99,11 +84,15 @@ const CustomForm = styled(Form)`
             display: block;
             margin-top: 0px;
          }
-         h3.digit-code.empty {
+         h4 {
+            font-size: 14px;
+         }
+         h4.digit-code.empty {
             padding: 0px;
             height: 0px;
             margin: -24px 0 0 0;
          }
+         
       }
    }
 `

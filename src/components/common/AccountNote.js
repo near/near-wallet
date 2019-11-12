@@ -5,7 +5,7 @@ import styled from 'styled-components'
 
 const CustomList = styled(List)`
    &&& {
-      margin: 36px 0 0 1rem;
+      margin: 26px 0 0 1rem;
       padding-left: 30px;
       border-left: 4px solid #f8f8f8;
 
@@ -17,7 +17,7 @@ const CustomList = styled(List)`
       }
 
       @media screen and (max-width: 991px) {
-         margin: 36px 0 0 -1rem;
+         margin: 26px 0 0 -1rem;
          padding-left: 30px;
          border-left: 4px solid #f8f8f8;
 

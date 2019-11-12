@@ -43,7 +43,7 @@ const SendMoneyFirstStep = ({
                      ) : (
                         <List.Item>
                            <List.Content>
-                              <Header as='h3'>Username to send to:</Header>
+                              <Header as='h4' textAlign='left'>Username to send to:</Header>
                               <AccountFormAccountId
                                  formLoader={formLoader}
                                  handleChange={handleChange}

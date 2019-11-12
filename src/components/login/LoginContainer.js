@@ -5,8 +5,9 @@ import {
    Container
 } from 'semantic-ui-react'
 
-import CheckBlueImage from '../../images/icon-check-blue.svg'
 import DenyImage from '../../images/icon-deny.svg'
+import ProblemsImage from '../../images/icon-problems.svg'
+import CheckBlueImage from '../../images/icon-check-blue.svg'
 
 import styled from 'styled-components'
 
@@ -19,18 +20,10 @@ const CustomContainer = styled(Container)`
          svg {
             width: 48px;
             height: 48px;
-
-            #icon-transactions {
-               stroke: #999;
-            }
          }
       }
-      .title {
-         padding-top: 30px;
-      }
       .cont {
-         padding: 32px 0 32px 32px;
-         background: #f8f8f8;
+         padding: 0 0 16px 0;
 
          img {
             height: 24px;
@@ -74,23 +67,92 @@ const CustomContainer = styled(Container)`
          width: 190px;
          margin-top: 0px;
          padding: 0 12px;
-         float: right;
+         float: left;
 
-         :first-of-type {
-            float: left;
+         &.blue {
+            float: right;
          }
       }
+      .more-information {
+         position: relative;
+         width: 200px;
+         height: 40px;
+         margin: 0 auto;
+         cursor: pointer;
+         color: #999;
+
+         font-size: 13px;
+         line-height: 40px;
+         border-radius: 20px;
+         
+         background: #f8f8f8;
+
+         :hover {
+            color: #24272a;
+         }
+         .circle {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background: #fca347;
+            color: #fff;
+            top: 5px;
+            right: 5px;
+
+            border-radius: 100%;
+            line-height: 30px;
+         }
+      }
+      .input {
+         width: 100%;
+
+         &.problem > input,
+         &.problem > input:focus {
+            background: url(${ProblemsImage}) right 22px center no-repeat;
+            background-size: 24px 24px;
+         }
+         &.success > input,
+         &.success > input:focus {
+            background: url(${CheckBlueImage}) right 22px center no-repeat;
+            background-size: 24px 24px;
+         }
+      }
+      input {
+         width: 100%;
+         height: 64px;
+         border: 4px solid #f8f8f8;
+         padding: 0 0 0 20px;
+         font-size: 18px;
+         color: #4a4f54;
+         font-weight: 400;
+         background-color: #f8f8f8;
+         position: relative;
+         :focus {
+            border-color: #f8f8f8;
+            background-color: #fff;
+         }
+         :valid {
+            background-color: #fff;
+         }
+      }
+      .alert-info {
+         height: 14px;
+         font-size: 14px;
+         font-weight: 600;
+         margin: 8px 0 0 0;
+         text-align: center;
+         color: #ff585d;
+      }
+      
       @media screen and (max-width: 991px) {
          .authorize {
             margin-top: 0px;
-            margin-bottom: -18px;
+            margin-bottom: 0px;
          }
          .but-sec {
             padding-top: 0px;
          }
          .cont {
-            padding: 16px 0 16px 32px;
-
             h3 {
                font-size: 14px !important;
             }
@@ -112,17 +174,13 @@ const CustomContainer = styled(Container)`
       @media screen and (max-width: 767px) {
          margin: 0px !important;
 
-         .cont {
-            padding: 16px 0 16px 16px;
-         }
          button {
             width: 140px;
             margin-top: 0px;
-            float: right;
-
-            :first-of-type {
-               float: left;
-            }
+            
+         }
+         #bottom {
+            border-top: 2px solid #f2f2f2;
          }
       }
    }
@@ -135,9 +193,7 @@ const LoginContainer = ({ children }) => (
 )
 
 LoginContainer.propTypes = {
-   loader: PropTypes.bool,
-   children: PropTypes.element,
-   appTitle: PropTypes.string
+   children: PropTypes.array
 }
 
 export default LoginContainer

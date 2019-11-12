@@ -34,8 +34,8 @@ const CustomContainer = styled(Container)`
       
       @media screen and (max-width: 767px) {
          .page-title {
-            padding-top: 14px;
-            text-align: center;
+            padding-top: 0px;
+            text-align: left;
 
             .column {
                padding: 0 0 6px 0;
@@ -44,10 +44,11 @@ const CustomContainer = styled(Container)`
                margin-bottom: 0px;
             }
             h2 {
-               font-size: 16px !important;
-               line-height: 22px !important;
+               font-size: 14px !important;
+               line-height: 18px !important;
                color: #999 !important;
-               padding-bottom: 24px;
+               padding-bottom: 12px;
+               margin-top: 0px;
 
                span {
                   line-height: 36px;
@@ -61,11 +62,10 @@ const CustomContainer = styled(Container)`
          }
       }
    }
-
 `
 
 /* eslint-disable jsx-a11y/accessible-emoji */
-const AccountFormContainer = ({ location, title, text, children, wide }) => (
+const AccountFormContainer = ({ location, title, text, children, wide, disclaimer = true }) => (
    <CustomContainer>
       <Grid stackable>
         <Grid.Row columns={wide ? `1` : `2`} className='page-title'>
@@ -83,7 +83,7 @@ const AccountFormContainer = ({ location, title, text, children, wide }) => (
 
       {children}
 
-      <Disclaimer />
+      {disclaimer && <Disclaimer />}
    </CustomContainer>
 )
 
@@ -95,7 +95,8 @@ AccountFormContainer.propTypes = {
       PropTypes.object
    ]),
    children: PropTypes.element,
-   wide: PropTypes.bool
+   wide: PropTypes.bool,
+   disclaimer: PropTypes.bool
 }
 
 export default AccountFormContainer

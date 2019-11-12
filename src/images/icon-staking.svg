@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="26px" height="26px" viewBox="0 0 26 26" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 57.1 (83088) - https://sketch.com -->
+    <title>icon-staking</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round">
+        <g id="node_empty" transform="translate(-34.000000, -648.000000)" stroke="#CCCCCC">
+            <g id="icon-staking" transform="translate(35.000000, 649.000000)">
+                <g>
+                    <rect id="Rectangle" stroke-width="2" x="0" y="0" width="24" height="24" rx="5"></rect>
+                    <circle id="Oval" stroke-width="2" cx="12" cy="12" r="3"></circle>
+                    <path d="M21.3333333,6 L24,6" id="Path" stroke-width="2"></path>
+                    <path d="M21.3333333,18 L24,18" id="Path" stroke-width="2"></path>
+                    <circle id="Oval" stroke-width="2" cx="12" cy="12" r="7.72"></circle>
+                    <path d="M12,4.28 L12,6" id="Path" stroke-width="2"></path>
+                    <path d="M12,18 L12,19.72" id="Path" stroke-width="2"></path>
+                    <path d="M19.72,12 L18,12" id="Path" stroke-width="2"></path>
+                    <path d="M6,12 L4.28,12" id="Path" stroke-width="2"></path>
+                    <path d="M17.4533333,6.54666667 L16.8533333,7.14666667" id="Path" stroke-width="2"></path>
+                    <path d="M7.14666667,16.8533333 L6.54666667,17.4533333" id="Path" stroke-width="2"></path>
+                    <path d="M17.4533333,17.4533333 L16.8533333,16.8533333" id="Path" stroke-width="2"></path>
+                    <path d="M7.14666667,7.14666667 L6.54666667,6.54666667" id="Path" stroke-width="2"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

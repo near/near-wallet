@@ -14,15 +14,16 @@ const CustomDiv = styled(`div`)`
       }
       
       input {
-         height: 80px;
-         border: 0px;
-         font-family: BwSeidoRound;
-         font-size: ${props => props.fontSize};
-         font-weight: 500;
-         line-height: 80px;
-         color: #4a4f54;
-         text-align: center;
-         padding: 0px;
+         height: 80px !important;
+         border: 0px !important;
+         font-family: BwSeidoRound !important;
+         font-size: ${props => props.fontSize} !important;
+         font-weight: 500 !important;
+         line-height: 80px !important;
+         color: #4a4f54 !important;
+         text-align: center !important;
+         padding: 0px !important;
+         background-color: #fff !important;
          
          ::placeholder { font-size: 5rem }
 
@@ -31,12 +32,12 @@ const CustomDiv = styled(`div`)`
          :focus::-moz-placeholder { color: transparent; }
          :focus:-ms-input-placeholder { color: transparent; }
 
-         -moz-appearance: textfield;
+         -moz-appearance: textfield !important;
 
          ::-webkit-outer-spin-button,
          ::-webkit-inner-spin-button {
-            -webkit-appearance: none;
-            margin: 0;
+            -webkit-appearance: none !important;
+            margin: 0 !important;
          }
       }
       .alert-info {

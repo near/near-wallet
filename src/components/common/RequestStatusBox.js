@@ -8,7 +8,7 @@ const RequestStatusBoxGrid = styled(Grid)`
       font-size: 18px;
       font-weight: 600;
       line-height: 64px;
-      margin: 36px 0 0 0;
+      margin: 16px 0 0 0;
       padding-left: 30px;
 
       &.problem {
@@ -31,10 +31,10 @@ const RequestStatusBoxGrid = styled(Grid)`
    @media screen and (max-width: 767px) {
       &&& .alert-info {
          line-height: 20px;
-         font-size: 14px;
+         font-size: 12px;
          padding: 0px !important;
-         text-align: center;
-         margin: 24px 0 0 0;
+         text-align: left;
+         margin: 24px 0 0 16px;
       }
 
       && {

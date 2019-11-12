@@ -1,14 +1,16 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
+import { Link, withRouter } from 'react-router-dom'
 
-import { Grid, Form, List } from 'semantic-ui-react'
+import { Grid } from 'semantic-ui-react'
 
 import MobileContainer from '../sign/MobileContainer'
 import FormButton from '../common/FormButton'
 import SelectAccountDropdown from './SelectAccountDropdown'
 
-import AuthorizeImage from '../../images/icon-authorize.svg'
+import IconProblems from '../../images/IconProblems'
+import IconAuthorize from '../../images/IconAuthorize'
 
 const LoginForm = ({
    dropdown,
@@ -20,7 +22,8 @@ const LoginForm = ({
    handleAllow,
    handleSelectAccount,
    redirectCreateAccount,
-   buttonLoader
+   buttonLoader,
+   match
 }) => (
    <MobileContainer>
       <Grid padded>
@@ -29,102 +32,69 @@ const LoginForm = ({
                textAlign='center'
                className='authorize'
             >
-               <img src={AuthorizeImage} />
+               {contractId && (
+                  <IconAuthorize color='#999' />
+               )}
+               {!contractId && (
+                  <IconProblems color='#fca347' />
+               )}
             </Grid.Column>
          </Grid.Row>
          <Grid.Row className='title'>
             <Grid.Column
-               as='h2'
+               as='h1'
+               className='font-benton'
                textAlign='center'
                computer={16}
                tablet={16}
                mobile={16}
             >
-               <span className='font-bold'>{appTitle} </span> is requesting
-               to use your NEAR account.
+               {contractId && (
+                  <Fragment>
+                     <div className='font-bold'>{appTitle}</div>
+                     <div className='h2'>is requesting to </div>
+                     <div className='h2'>access your account.</div>
+                  </Fragment>
+               )}
+               {!contractId && (
+                  <Fragment>
+                     <div className='font-bold'>{appTitle}</div>
+                     <div className='h2 font-benton'>is requesting <span className='font-bold'>full access</span></div>
+                     <div className='h2 font-benton'>to your account.</div>
+                  </Fragment>
+               )}
+            </Grid.Column>
+         </Grid.Row>
+         <Grid.Row>
+            <Grid.Column
+               textAlign='center'
+               computer={16}
+               tablet={16}
+               mobile={16}
+               className='color-black'
+            >
+               {contractId && (
+                  <div>This does not allow the app to transfer any tokens.</div>
+               )}
+               {!contractId && (
+                  <div>This provides access to <span className='font-bold'>all of your tokens</span>.<br />Proceed with caution!</div>
+               )}
             </Grid.Column>
          </Grid.Row>
          <Grid.Row centered>
             <Grid.Column
-               largeScreen={contractId ? 6 : 8}
-               computer={contractId ? 7 : 8}
-               tablet={contractId ? 8 : 10}
-               mobile={contractId ? 8 : 16}
+               largeScreen={12}
+               computer={14}
+               tablet={16}
                className='cont'
+               textAlign='center'
             >
-               {contractId &&
-                  <List className='border-right-light'>
-                     <List.Item as='h3'>This allows the app to:</List.Item>
-                     <List.Item className='list-item'>
-                        <List.Content className='color-black'>
-                           View your account name
-                        </List.Content>
-                     </List.Item>
-                     <List.Item className='list-item'>
-                        <List.Content className='color-black'>
-                           Interact with this app's smart contract on your behalf (e.g. calling functions)
-                        </List.Content>
-                     </List.Item>
-                     <List.Item className='list-item'>
-                        <List.Content className='color-black'>
-                           {'Use your NEAR balance for fees (limited to < 0.01 NEAR)'}
-                        </List.Content>
-                     </List.Item>
-                  </List>
-               }
-               {!contractId &&
-                  <List>
-                     <List.Item as='h3'>This allows the app to:</List.Item>
-                     <List.Item className='list-item'>
-                        <List.Content className='color-black'>
-                           Create new accounts
-                        </List.Content>
-                     </List.Item>
-                     <List.Item className='list-item'>
-                        <List.Content className='color-black'>
-                           Transfer tokens from your account to other accounts
-                        </List.Content>
-                     </List.Item>
-                     <List.Item className='list-item'>
-                        <List.Content className='color-black'>
-                           Deploy smart contracts
-                        </List.Content>
-                     </List.Item>
-                     <List.Item className='list-item'>
-                        <List.Content className='color-black'>
-                           Call functions on any smart contract
-                        </List.Content>
-                     </List.Item>
-                     <List.Item className='list-item'>
-                        <List.Content className='color-black'>
-                           Stake and unstake NEAR tokens
-                        </List.Content>
-                     </List.Item>
-                     <List.Item className='list-item'>
-                        <List.Content className='color-black'>
-                           Create and delete access keys
-                        </List.Content>
-                     </List.Item>
-                  </List>
-               }
+               <Link to={`${match.url}${match.url.substr(-1) === '/' ? '' : '/'}details`}>
+                  <div className='more-information'>
+                     More information
+                  </div>
+               </Link>
             </Grid.Column>
-            {contractId &&
-               <Grid.Column
-                  largeScreen={6}
-                  computer={7}
-                  tablet={8}
-                  className='cont'
-               >
-                  <List>
-                     <List.Item as='h3'>Does not allow:</List.Item>
-                     <List.Item className='list-item-deny'>
-                        <List.Content className='color-black'>
-                           Transfer NEAR tokens
-                        </List.Content>
-                     </List.Item>
-                  </List>
-               </Grid.Column>
-            }
          </Grid.Row>
       </Grid>
       <Grid padded>
@@ -141,42 +111,34 @@ const LoginForm = ({
          </Grid.Row>
          <Grid.Row centered className='but-sec'>
             <Grid.Column largeScreen={6} computer={8} tablet={10} mobile={16}>
-               <Form onSubmit={handleAllow}>
-                  <input
-                     type='hidden'
-                     name='accountId'
-                     value={account.accountId}
-                  />
+               <FormButton
+                  color='gray-white'
+                  onClick={handleDeny}
+               >
+                  DENY
+               </FormButton>
 
+               {contractId && (
                   <FormButton
-                     color='gray-white'
-                     onClick={handleDeny}
-                  >
-                     DENY
-                  </FormButton>
-
-                  <FormButton
-                     type='submit'
                      color='blue'
                      sending={buttonLoader}
+                     onClick={handleAllow}
                   >
                      ALLOW
                   </FormButton>
-               </Form>
+               )}
+               {!contractId && (
+                  <Link to={`${match.url}${match.url.substr(-1) === '/' ? '' : '/'}confirm`}>
+                     <FormButton
+                        color='blue'
+                        sending={buttonLoader}
+                     >
+                        ALLOW
+                     </FormButton>
+                  </Link>
+               )}
             </Grid.Column>
          </Grid.Row>
-         {contractId && (
-            <Grid.Row centered className='contract'>
-               <Grid.Column
-                  largeScreen={12}
-                  computer={14}
-                  tablet={16}
-                  textAlign='center'
-               >
-                  Contract: {contractId}
-               </Grid.Column>
-            </Grid.Row>
-         )}
       </Grid>
    </MobileContainer>
 )
@@ -193,4 +155,4 @@ const mapStateToProps = ({ account }) => ({
    account
 })
 
-export default connect(mapStateToProps)(LoginForm)
+export default connect(mapStateToProps)(withRouter(LoginForm))

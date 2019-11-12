@@ -17,10 +17,10 @@ const CustomButton = styled(Button)`
       border: 2px solid;
 
       width: 288px;
-      height: 60px;
+      height: 48px;
       border-radius: 30px;
       
-      font-size: 18px;
+      font-size: 14px;
 
       &.small {
          width: 110px;
@@ -33,9 +33,9 @@ const CustomButton = styled(Button)`
          font-size: 14px;
       }
 
-      &.blue {
-         border-color: #0072ce;
-         background: #0072ce;
+      &.red {
+         border-color: #ff585d;
+         background: #ff585d;
 
          :disabled {
             background: #e6e6e6;
@@ -45,8 +45,24 @@ const CustomButton = styled(Button)`
          :active,
          :hover,
          :focus {
+            border-color: #ff686c;
+            background: #ff686c;
+         }
+      }
+      &.blue {
+         border-color: #0072ce;
+         background: #0072ce;
+
+         :active,
+         :hover,
+         :focus {
             border-color: #4096db;
             background: #4096db;
+         }
+         :disabled {
+            background: #e6e6e6;
+            border-color: #e6e6e6;
+            opacity: 1 !important;
          }
       }
       &.seafoam-blue {
@@ -266,6 +282,9 @@ const CustomButton = styled(Button)`
       }
       &.bold {
          font-weight: 600;
+      }
+      @media screen and (max-width: 767px) {
+         width: 100%;
       }
    }
 `
