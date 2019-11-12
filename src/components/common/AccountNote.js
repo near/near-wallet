@@ -44,7 +44,11 @@ const AccountNote = () => (
       </List.Item>
       <List.Item>• Lowercase characters (a-z)</List.Item>
       <List.Item>• Digits (0-9)</List.Item>
-      <List.Item>• Characters (_-) can be used as separators</List.Item>
+      <List.Item>• Characters (_-) can be used as separators</List.Item><br></br>
+      <List.Item>
+         Your username CANNOT contain:
+      </List.Item>
+      <List.Item>• Characters "@" or "." </List.Item>
    </CustomList>
 )
 
