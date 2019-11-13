@@ -72,7 +72,7 @@ export function handleRefreshAccount(history, loader = true) {
 
 export function handleRefreshUrl(location) {
    return dispatch => {
-      const { title, app_url, contract_id, success_url, failure_url, public_key, transaction, callback, account_id, send, redirect_url } = parse(location.search)
+      const { title, app_url, contract_id, success_url, failure_url, public_key, transactions, callback, account_id, send, redirect_url } = parse(location.search)
       dispatch({
          type: REFRESH_URL,
          url: {
@@ -82,7 +82,7 @@ export function handleRefreshUrl(location) {
             success_url: success_url || '',
             failure_url: failure_url || '',
             public_key: public_key || '',
-            transaction: transaction || '',
+            transactions: transactions || '',
             callback: callback || ``,
             account_id: account_id || '',
             send: send || '',

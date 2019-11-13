@@ -2,6 +2,9 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 
+import { transactions as transaction, utils } from 'nearlib'
+import * as qs from 'query-string'
+
 import SignContainer from './SignContainer'
 import SignTransferReady from './SignTransferReady';
 import SignTransferSuccess from './SignTransferSuccess';
@@ -87,7 +90,7 @@ class Sign extends Component {
             {this.state.transferSuccess && <SignTransferSuccess handleDeny={this.handleDeny} />}
             {this.state.transferCancelled && <SignTransferCancelled handleDeny={this.handleDeny} />}
             {this.state.transferInsufficientFunds && <SignTransferInsufficientFunds handleDeny={this.handleDeny} handleAddFunds={this.handleAddFunds} />}
-            {this.state.transferDetails && <SignTransferDetails handleDetails={this.handleDetails} transactions={this.props.transactions} fees={this.props.fees} />}
+            {this.state.transferDetails && <SignTransferDetails handleDetails={this.handleDetails} transactions={this.state.transactions} fees={this.props.fees} />}
          </SignContainer>
       )
    }
@@ -95,8 +98,9 @@ class Sign extends Component {
 
 const mapDispatchToProps = {}
 
-const mapStateToProps = ({ account, transactions = [] }) => {
-   
+const mapStateToProps = ({ account, router: { location: { search } } }) => {
+   // TODO: Remove dummy data
+   /*
    transactions = [
       {
          signerId: 'cryptocorgis',
@@ -164,8 +168,12 @@ const mapStateToProps = ({ account, transactions = [] }) => {
             },
          ]
       }
-   ]
-   
+   ]*/
+   const { transactions: transactionsSerialized } = qs.parse(search)
+   const transactions = transactionsSerialized.split(',')
+      .map(str => Buffer.from(str, 'base64'))
+      .map(buffer => utils.serialize.deserialize(transaction.SCHEMA, transaction.Transaction, buffer))
+
    return {
       account,
       transactions,
