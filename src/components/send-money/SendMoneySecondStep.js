@@ -21,7 +21,7 @@ const SendMoneySecondStep = ({
    <MobileContainer>
       <Fragment>
          <PageContainer
-            title={`Send Money`}
+            title={`Send NEAR`}
             type='center'
          />
          <List className='list-top border'>
@@ -63,7 +63,7 @@ const SendMoneySecondStep = ({
                   CONFIRM & SEND
                </FormButton>
             </List.Item>
-            <List.Item className='confirmed'>Once confirmed, this is not undoable.</List.Item>
+            <List.Item className='confirmed'>Once confirmed, this cannot be undone.</List.Item>
             <List.Item className='goback border-top'>
                <FormButton
                   onClick={handleGoBack}

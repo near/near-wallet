@@ -54,7 +54,7 @@ const ContactsRemove = () => (
       </List.Item>
       <List.Item className='send-money border-top'>
          <Button as={Link} to='/send-money/marcin'>
-            SEND MONEY
+            SEND TOKENS
          </Button>
       </List.Item>
    </List>

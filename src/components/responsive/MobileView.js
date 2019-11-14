@@ -244,7 +244,7 @@ class MobileView extends Component {
                      <Link to='/send-money' onClick={this.handleDropdown}>
                         <Menu.Item className='main border'>
                            <Image src={SendImage} />
-                           SEND MONEY
+                           SEND TOKENS
                         </Menu.Item>
                      </Link>
 

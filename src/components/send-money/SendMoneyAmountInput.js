@@ -119,7 +119,7 @@ class SendMoneyAmountInput extends Component {
                </Segment>)}
             {amountDisplay  
                ? <Balance amount={amountDisplay} /> 
-               : "How much would you want to send?"}
+               : "How much do you want to send?"}
          </CustomDiv>
       )
    }
