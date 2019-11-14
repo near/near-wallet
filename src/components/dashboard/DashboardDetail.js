@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 
 import { withRouter } from 'react-router-dom'
 
-import { getAccessKeys } from '../../actions/account'
+import { getAccessKeys, getTransactions } from '../../actions/account'
 
 import DashboardSection from './DashboardSection'
 import DashboardActivity from './DashboardActivity'
@@ -25,10 +25,15 @@ class DashboardDetail extends Component {
 
    componentDidMount() {
       this.refreshAccessKeys()
+      this.refreshTransactions()
 
       this.setState(() => ({
          loader: true
       }))
+   }
+
+   refreshTransactions() {
+      this.props.getTransactions()
    }
 
    refreshAccessKeys = () => {
@@ -101,63 +106,25 @@ class DashboardDetail extends Component {
 }
 
 const mapDispatchToProps = {
-   getAccessKeys
+   getAccessKeys,
+   getTransactions
 }
 
-const mapStateToProps = ({ account, transactions = [] }) => {
-   transactions = [
-      {
-         signerId: 'cryptocorgis',
-         receiverId: 'account id',
-         actions: [
-            {
-               createAccount: {},
-            },
-            {
-               deployContract: {},
-            },
-            {
-               functionCall: {
-                  methodName: 'Method Name',
-                  args: [1,2,3],
-                  gas: 123
-               },
-            },
-            {
-               transfer: {
-                  deposit: 123
-               },
-            },
-            {
-               stake: {
-                  stake: 123,
-                  publicKey: 'dasdasadsdasdasadsadsadsdsaadsdas'
-               },
-            },
-            {
-               addKey: {
-                  publicKey: 'dasdasadsdasdasadsadsadsdsaadsdas',
-                  accessKey: {
-                     permission: {
-                        functionCall: {
-                           receiverId: 'receiver id'
-                        }
-                     }
-                  }
-               },
-            },
-            {
-               deleteKey: {
-                  publicKey: 'dasdasadsdasdasadsadsadsdsaadsdas'
-               },
-            },
-            {
-               deleteAccount: {},
-            }
-         ]
-      }
-   ]
-   
+const mapStateToProps = ({ account }) => {
+   const transactions = account.transactions 
+      ? account.transactions.reduce((x, t) => {
+            try {
+               t.actions = JSON.parse(t.actions)
+            } catch {}
+            return x.concat(t.actions.map((a) => {
+               return {
+                  ...t,
+                  action: typeof a == 'object' ? [a] : [{[a]: {}}]
+               }
+            }))
+         }, [])
+      : []
+
    return {
       ...account,
       authorizedApps: account.authorizedApps,

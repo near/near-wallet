@@ -11,16 +11,16 @@
     "account.available.error": "User not found.",
 
     "actions": {
-       "createAccount": "New account created: ${receiverId}",
-       "deleteAccount": "Account deleted: ${receiverId}",
-       "deployContract": "Contract deployed: ${receiverId}",
-       "functionCall": "Called method in contract: ${methodName}",
-       "transfer": "Transferred ${deposit}Ⓝ to ${receiverId}",
-       "stake": "Staked ${stake}Ⓝ",
-       "addKey": {
+       "CreateAccount": "New account created: ${receiverId}",
+       "DeleteAccount": "Account deleted: ${receiverId}",
+       "DeployContract": "Contract deployed: ${receiverId}",
+       "FunctionCall": "Called method in contract: ${methodName}",
+       "Transfer": "Transferred ${deposit}Ⓝ to ${receiverId}",
+       "Stake": "Staked ${stake}Ⓝ",
+       "AddKey": {
           "forContract": "Access key added for contract: ${permissionReceiverId}",
           "forReceiver": "New key added for ${receiverId}",
        },
-       "deleteKey": "Key deleted"
+       "DeleteKey": "Key deleted"
     }
 }

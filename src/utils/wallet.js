@@ -2,6 +2,7 @@ import * as nearlib from 'nearlib'
 import sendJson from 'fetch-send-json'
 import sha256 from 'js-sha256';
 import { findSeedPhraseKey } from './seed-phrase'
+import autobahn from 'autobahn-browser'
 
 const WALLET_CREATE_NEW_ACCOUNT_URL = `/create/`
 
@@ -10,6 +11,7 @@ const ACCOUNT_HELPER_URL = process.env.REACT_APP_ACCOUNT_HELPER_URL || 'https://
 const CONTRACT_CREATE_ACCOUNT_URL = `${ACCOUNT_HELPER_URL}/account`
 const NODE_URL = process.env.REACT_APP_NODE_URL || 'https://rpc.nearprotocol.com'
 const HELPER_KEY = process.env.REACT_APP_ACCOUNT_HELPER_KEY || '22skMptHjFWNyuEWY22ftn2AbLPSYpmYwGJRGwpNHbTV'
+const WAMP_NEAR_EXPLORER_URL = process.env.WAMP_NEAR_EXPLORER_URL || 'wss://near-explorer-wamp.onrender.com/ws'
 
 const KEY_UNIQUE_PREFIX = '_4:'
 const KEY_WALLET_ACCOUNTS = KEY_UNIQUE_PREFIX + 'wallet:accounts_v2'
@@ -99,6 +101,55 @@ export class Wallet {
    async getAccessKeys() {
       if (!this.accountId) return null
       return await this.getAccount(this.accountId).getAccessKeys()
+   }
+
+   async connectWapm(wamp) {
+      try {
+         return await new Promise((resolve, reject) => {
+            wamp.onopen = session => resolve(session)
+            wamp.onclose = reason => reject(reason)
+            wamp.open()
+         });
+      } catch (error) {
+         console.error('Connection failure due to:', error)
+         return
+      }
+   }
+
+   async getTransactions(accountId = '') {
+      if (!this.accountId) return null
+      if (!accountId) accountId = this.accountId
+
+      const wamp = new autobahn.Connection({
+         realm: 'near-explorer',
+         transports: [
+            {
+               url: WAMP_NEAR_EXPLORER_URL,
+               type: 'websocket'
+            }
+         ],
+         retry_if_unreachable: true,
+         max_retries: Number.MAX_SAFE_INTEGER,
+         max_retry_delay: 10
+      })
+
+      const wampSession = await this.connectWapm(wamp)
+      if (!wampSession) return
+
+      try {
+         return await wampSession.call(
+            'com.nearprotocol.testnet.explorer.select',
+            [
+               `SELECT * FROM transactions WHERE signer_id = :accountId OR receiver_id = :accountId`,
+               { accountId }
+            ]
+         );
+      } catch (error) {
+         console.error('Failed to call the query function due to:', error)
+         return
+      } finally {
+         wamp.close()
+      }
    }
 
    async removeAccessKey(publicKey) {

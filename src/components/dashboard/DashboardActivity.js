@@ -60,11 +60,11 @@ const DashboardActivity = ({ image, title, to, transactions }) => (
          </Grid.Column>
       </Grid.Row>
 
-      {transactions.map((transaction, i) => (
+      {transactions.slice(0,5).map((transaction, i) => (
          <ActionsList
             key={`a-${i}`}
             transaction={transaction} 
-            actions={transaction.actions}
+            actions={transaction.action}
             wide={false}
          />
       ))}

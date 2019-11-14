@@ -109,7 +109,6 @@ const CustomGridRow = styled(Grid.Row)`
 
 const ActionsList = ({ transaction, actions, wide }) => 
    actions
-      .slice(0,5)
       .map((a, i) => (
          <ActionRow 
             key={`action-${i}`} 
@@ -119,7 +118,7 @@ const ActionsList = ({ transaction, actions, wide }) =>
             wide={wide}
             i={i}
          />
-))
+      ))
 
 const ActionRow = ({ transaction, action, actionKind, wide, showSub = false, toggleShowSub, showSubOpen, i }) => (
    <CustomGridRow
@@ -164,34 +163,34 @@ const ActionRow = ({ transaction, action, actionKind, wide, showSub = false, tog
    </CustomGridRow>
 )
 
-const ActionMessage = ({ transaction, action: { addKey, functionCall, transfer, stake }, actionKind }) => (
+const ActionMessage = ({ transaction, action: { AddKey, FunctionCall, Transfer, Stake }, actionKind }) => (
    <Translate 
-      id={`actions.${actionKind}${actionKind === `addKey`
-         ? addKey.accessKey && typeof addKey.accessKey.permission === 'object'
+      id={`actions.${actionKind}${actionKind === `AddKey`
+         ? AddKey.access_key && typeof AddKey.access_key.permission === 'object'
             ? `.forContract`
             : `.forReceiver`
          : ''
       }`}
       data={{ 
-         receiverId: transaction.receiverId || '', 
-         methodName: functionCall ? functionCall.methodName : '', 
-         deposit: transfer ? transfer.deposit : '',
-         stake: stake ? stake.stake : '',
-         permissionReceiverId: (addKey && addKey.accessKey && typeof addKey.accessKey.permission === 'object') ? addKey.accessKey.permission.functionCall.receiverId : ''
+         receiverId: transaction.receiver_id || '', 
+         methodName: FunctionCall ? FunctionCall.methodName : '', 
+         deposit: Transfer ? Transfer.deposit : '',
+         stake: Stake ? Stake.stake : '',
+         permissionReceiverId: (AddKey && AddKey.access_key && typeof AddKey.access_key.permission === 'object') ? AddKey.access_key.permission.FunctionCall.receiver_id : ''
       }}
    />
 )
 
 const ActionIcon = ({ actionKind }) => (
    <div>
-      {actionKind === 'createAccount' && <IconTAcct />}
-      {actionKind === 'deleteAccount' && <IconTKeyDelete />}
-      {actionKind === 'deployContract' && <IconTContract />}
-      {actionKind === 'functionCall' && <IconTCall />}
-      {actionKind === 'transfer' && <IconTTransfer />}
-      {actionKind === 'stake' && <IconTStake />}
-      {actionKind === 'addKey' && <IconTKeyNew />}
-      {actionKind === 'deleteKey' && <IconTKeyDelete />}
+      {actionKind === 'CreateAccount' && <IconTAcct />}
+      {actionKind === 'DeleteAccount' && <IconTKeyDelete />}
+      {actionKind === 'DeployContract' && <IconTContract />}
+      {actionKind === 'FunctionCall' && <IconTCall />}
+      {actionKind === 'Transfer' && <IconTTransfer />}
+      {actionKind === 'Stake' && <IconTStake />}
+      {actionKind === 'AddKey' && <IconTKeyNew />}
+      {actionKind === 'DeleteKey' && <IconTKeyDelete />}
    </div>
 )
 

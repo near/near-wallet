@@ -104,7 +104,7 @@ export const redirectToApp = () => (dispatch, getState) => {
 
 const defaultCodesFor = (prefix) => () => ({ successCode: `${prefix}.success`, errorCode: `${prefix}.error` })
 
-export const { requestCode, setupAccountRecovery, recoverAccount, getAccessKeys, removeAccessKey, checkNewAccount, createNewAccount, checkAccountAvailable, clear, clearCode } = createActions({
+export const { requestCode, setupAccountRecovery, recoverAccount, getAccessKeys, removeAccessKey, checkNewAccount, createNewAccount, checkAccountAvailable, getTransactions, clear, clearCode } = createActions({
    REQUEST_CODE: [
       wallet.requestCode.bind(wallet),
       defaultCodesFor('account.requestCode')
@@ -131,6 +131,7 @@ export const { requestCode, setupAccountRecovery, recoverAccount, getAccessKeys,
       wallet.checkAccountAvailable.bind(wallet),
       defaultCodesFor('account.available')
    ],
+   GET_TRANSACTIONS: [wallet.getTransactions.bind(wallet), () => ({})],
    CLEAR: null,
    CLEAR_CODE: null
 })
