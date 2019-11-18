@@ -49,7 +49,7 @@ const CustomGrid = styled(Grid)`
    }
 `
 
-const DashboardActivity = ({ image, title, to, transactions }) => (
+const DashboardActivity = ({ image, title, to, transactions, maxItems }) => (
    <CustomGrid>
       <Grid.Row>
          <Grid.Column className='dashboard-header' textAlign='left' width={16}>
@@ -60,7 +60,7 @@ const DashboardActivity = ({ image, title, to, transactions }) => (
          </Grid.Column>
       </Grid.Row>
 
-      {transactions.slice(0,5).map((transaction, i) => (
+      {transactions.slice(0,maxItems).map((transaction, i) => (
          <ActionsList
             key={`a-${i}`}
             transaction={transaction} 
