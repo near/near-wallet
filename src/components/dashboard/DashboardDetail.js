@@ -112,17 +112,10 @@ const mapDispatchToProps = {
 
 const mapStateToProps = ({ account }) => {
    const transactions = account.transactions 
-      ? account.transactions.reduce((x, t) => {
-            try {
-               t.actions = JSON.parse(t.actions)
-            } catch {}
-            return x.concat(t.actions.map((a) => {
-               return {
-                  ...t,
-                  action: typeof a == 'object' ? [a] : [{[a]: {}}]
-               }
-            }))
-         }, [])
+      ? account.transactions.flatMap(t => t.actions.map((a) => ({
+         ...t,
+         action: typeof a == 'object' ? [a] : [{[a]: {}}]
+      })))
       : []
 
    return {

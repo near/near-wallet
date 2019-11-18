@@ -137,13 +137,17 @@ export class Wallet {
       if (!wampSession) return
 
       try {
-         return await wampSession.call(
+         const tx = await wampSession.call(
             'com.nearprotocol.testnet.explorer.select',
             [
                `SELECT * FROM transactions WHERE signer_id = :accountId OR receiver_id = :accountId`,
                { accountId }
             ]
-         );
+         )
+         return tx.map((t) => ({
+            ...t,
+            actions: JSON.parse(t.actions)
+         }))
       } catch (error) {
          console.error('Failed to call the query function due to:', error)
          return
