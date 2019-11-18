@@ -110,11 +110,14 @@ const mapDispatchToProps = {
    getTransactions
 }
 
+// make sure that an action is an object, for UI purpose
+const postprocessSerdeStruct = (action) => typeof action == 'object' ? [action] : [{[action]: {}}]
+
 const mapStateToProps = ({ account }) => {
    const transactions = account.transactions 
       ? account.transactions.flatMap(t => t.actions.map((a) => ({
          ...t,
-         action: typeof a == 'object' ? [a] : [{[a]: {}}]
+         action: postprocessSerdeStruct(a)
       })))
       : []
 
