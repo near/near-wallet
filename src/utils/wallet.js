@@ -129,8 +129,24 @@ export class Wallet {
          const tx = await wampSession.call(
             'com.nearprotocol.testnet.explorer.select',
             [
-               `SELECT * FROM transactions WHERE signer_id = :accountId OR receiver_id = :accountId`,
-               { accountId }
+               `
+                  SELECT 
+                     transactions.hash,
+                     transactions.signer_id, 
+                     transactions.receiver_id, 
+                     transactions.actions, 
+                     transactions.block_hash, 
+                     blocks.timestamp as blockTimestamp
+                  FROM 
+                     transactions
+                  LEFT JOIN blocks ON blocks.hash = transactions.block_hash
+                  WHERE 
+                     signer_id = :accountId 
+                     OR receiver_id = :accountId
+                  ORDER BY blocks.height DESC
+                  LIMIT :offset, :count
+               `,
+               { accountId, offset: 0, count: 5 }
             ]
          )
          return tx.map((t) => ({
