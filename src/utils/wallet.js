@@ -3,6 +3,7 @@ import sendJson from 'fetch-send-json'
 import sha256 from 'js-sha256';
 import { findSeedPhraseKey } from './seed-phrase'
 import autobahn from 'autobahn-browser'
+import { connectWapm } from './explorer-api.js'
 
 const WALLET_CREATE_NEW_ACCOUNT_URL = `/create/`
 
@@ -103,19 +104,7 @@ export class Wallet {
       return await this.getAccount(this.accountId).getAccessKeys()
    }
 
-   async connectWapm(wamp) {
-      try {
-         return await new Promise((resolve, reject) => {
-            wamp.onopen = session => resolve(session)
-            wamp.onclose = reason => reject(reason)
-            wamp.open()
-         });
-      } catch (error) {
-         console.error('Connection failure due to:', error)
-         return
-      }
-   }
-
+   
    async getTransactions(accountId = '') {
       if (!this.accountId) return null
       if (!accountId) accountId = this.accountId
@@ -133,7 +122,7 @@ export class Wallet {
          max_retry_delay: 10
       })
 
-      const wampSession = await this.connectWapm(wamp)
+      const wampSession = await connectWapm(wamp)
       if (!wampSession) return
 
       try {
