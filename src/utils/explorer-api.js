@@ -10,8 +10,7 @@ async function connectWamp(wamp) {
          wamp.open()
       });
    } catch (error) {
-      console.error('Connection failure due to:', error)
-      return
+      throw new Error(`Connection failure`)
    }
 }
 
@@ -64,8 +63,7 @@ export async function getTransactions(accountId = '') {
          actions: JSON.parse(t.actions)
       }))
    } catch (error) {
-      console.error('Failed to call the query function due to:', error)
-      return
+      throw new Error(`Failed to call the query function`)
    } finally {
       wamp.close()
    }
