@@ -6,7 +6,7 @@
   "dependencies": {
     "big.js": "^5.2.2",
     "bip39-light": "^1.0.7",
-    "connected-react-router": "^6.5.2",
+    "connected-react-router": "^6.6.0",
     "core-js": "^3.4.1",
     "ed25519-hd-key": "^1.0.0",
     "eslint": "5.16.0",
