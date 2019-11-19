@@ -5958,10 +5958,10 @@ nearley@^2.7.10:
     randexp "0.4.6"
     semver "^5.4.1"
 
-nearlib@^0.17.0:
-  version "0.17.0"
-  resolved "https://registry.yarnpkg.com/nearlib/-/nearlib-0.17.0.tgz#fd1c239b443007176e1199dba330597cc3518716"
-  integrity sha512-1Pek0Aoxdv1TXMKyD28OjPz3V1Zw6PpLyt4t2KBrPDIngwtjuJcujvVmE9jKDe3NAKSAC1TA2sW2iWQQT2wKDQ==
+nearlib@^0.17.1:
+  version "0.17.1"
+  resolved "https://registry.yarnpkg.com/nearlib/-/nearlib-0.17.1.tgz#98e14909aa00bf0070055bd87c5dc5d9f7c2cbe1"
+  integrity sha512-81CQzZsr10o48GWFNMBVDklJ3n0IreoNzVQnimVjvDhpTI0kDffS1bPb4ZXBqxx3Qg/qwaescjAOOAhIMtSWVw==
   dependencies:
     "@types/bn.js" "^4.11.5"
     bn.js "^5.0.0"
@@ -5970,6 +5970,7 @@ nearlib@^0.17.0:
     http-errors "^1.7.2"
     js-sha256 "^0.9.0"
     node-fetch "^2.3.0"
+    text-encoding "^0.7.0"
     tweetnacl "^1.0.1"
     typescript "^3.5.1"
 
@@ -8687,6 +8688,11 @@ test-exclude@^5.2.3:
     minimatch "^3.0.4"
     read-pkg-up "^4.0.0"
     require-main-filename "^2.0.0"
+
+text-encoding@^0.7.0:
+  version "0.7.0"
+  resolved "https://registry.yarnpkg.com/text-encoding/-/text-encoding-0.7.0.tgz#f895e836e45990624086601798ea98e8f36ee643"
+  integrity sha512-oJQ3f1hrOnbRLOcwKz0Liq2IcrvDeZRHXhd9RgLrsT+DjWY/nty1Hi7v3dtkaEYbPYe0mUoOfzRrMwfXXwgPUA==
 
 text-table@0.2.0, text-table@^0.2.0:
   version "0.2.0"
