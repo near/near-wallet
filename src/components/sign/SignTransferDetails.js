@@ -120,7 +120,7 @@ const TransactionsList = ({ transactions }) =>
    transactions.map((t, i) => (
       <div key={`item-${i}`} className='details-item'>
          <div className='title h3'>
-            For Contract: <span className='color-blue'>@{t.signerId}</span>
+            For Contract: <span className='color-blue'>@{t.receiverId}</span>
          </div>
          <ActionsList 
             transaction={t} 
