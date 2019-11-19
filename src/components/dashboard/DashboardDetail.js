@@ -57,7 +57,6 @@ class DashboardDetail extends Component {
    render() {
       const { loader, notice } = this.state
       const { authorizedApps, fullAccessKeys, transactions, amount, accountId } = this.props
-
       return (
          <PageContainer
             title={(

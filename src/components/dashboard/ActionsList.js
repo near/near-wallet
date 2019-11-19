@@ -175,7 +175,7 @@ const ActionMessage = ({ transaction, action: { AddKey, FunctionCall, Transfer, 
       }`}
       data={{ 
          receiverId: transaction.receiver_id || '', 
-         methodName: FunctionCall ? FunctionCall.methodName : '', 
+         methodName: FunctionCall ? FunctionCall.method_name : '', 
          deposit: Transfer ? <Balance amount={Transfer.deposit} /> : '',
          stake: Stake ? Stake.stake : '',
          permissionReceiverId: (AddKey && AddKey.access_key && typeof AddKey.access_key.permission === 'object') ? AddKey.access_key.permission.FunctionCall.receiver_id : ''
