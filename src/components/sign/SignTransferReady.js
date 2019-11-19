@@ -72,7 +72,7 @@ class SignTransferReady extends Component {
                         onClick={() => handleDetails(true)}
                      >
                         More information
-                        {sensitiveActionsCounter && <div className='circle'>{sensitiveActionsCounter > 9 ? '9+' : sensitiveActionsCounter}</div>}
+                        {sensitiveActionsCounter ? <div className='circle'>{sensitiveActionsCounter > 9 ? '9+' : sensitiveActionsCounter}</div> : ''}
                      </div>
                   </Grid.Column>
                </Grid.Row>
