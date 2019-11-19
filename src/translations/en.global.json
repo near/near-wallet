@@ -14,7 +14,7 @@
        "CreateAccount": "New account created: ${receiverId}",
        "DeleteAccount": "Account deleted: ${receiverId}",
        "DeployContract": "Contract deployed: ${receiverId}",
-       "FunctionCall": "Called method in contract: ${methodName}",
+       "FunctionCall": "Called method ${methodName} in contract @${receiverId}",
        "Transfer": "Transferred ${deposit}Ⓝ to ${receiverId}",
        "Stake": "Staked ${stake}Ⓝ",
        "AddKey": {
