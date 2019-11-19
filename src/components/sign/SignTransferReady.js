@@ -32,7 +32,7 @@ class SignTransferReady extends Component {
    }
 
    render() {
-      const { appTitle = 'CryptoCorgis', transferTransferring, handleAllow, handleDeny, account, handleDetails, sensitiveActionsCounter } = this.props
+      const { appTitle, transferTransferring, handleAllow, handleDeny, account, handleDetails, sensitiveActionsCounter } = this.props
       const { dropdown } = this.state
 
       return (

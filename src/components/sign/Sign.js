@@ -15,6 +15,7 @@ import SignTransferDetails from './SignTransferDetails';
 
 class Sign extends Component {
    state = {
+      appTitle: 'TODO: App Title',
       transferReady: false,
       transferTransferring: false,
       transferTransferringStart: false,
