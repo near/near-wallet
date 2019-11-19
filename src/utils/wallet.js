@@ -2,8 +2,6 @@ import * as nearlib from 'nearlib'
 import sendJson from 'fetch-send-json'
 import sha256 from 'js-sha256';
 import { findSeedPhraseKey } from './seed-phrase'
-import autobahn from 'autobahn-browser'
-import { connectWapm } from './explorer-api.js'
 
 const WALLET_CREATE_NEW_ACCOUNT_URL = `/create/`
 
@@ -12,7 +10,6 @@ const ACCOUNT_HELPER_URL = process.env.REACT_APP_ACCOUNT_HELPER_URL || 'https://
 const CONTRACT_CREATE_ACCOUNT_URL = `${ACCOUNT_HELPER_URL}/account`
 const NODE_URL = process.env.REACT_APP_NODE_URL || 'https://rpc.nearprotocol.com'
 const HELPER_KEY = process.env.REACT_APP_ACCOUNT_HELPER_KEY || '22skMptHjFWNyuEWY22ftn2AbLPSYpmYwGJRGwpNHbTV'
-const WAMP_NEAR_EXPLORER_URL = process.env.WAMP_NEAR_EXPLORER_URL || 'wss://near-explorer-wamp.onrender.com/ws'
 
 const KEY_UNIQUE_PREFIX = '_4:'
 const KEY_WALLET_ACCOUNTS = KEY_UNIQUE_PREFIX + 'wallet:accounts_v2'
@@ -102,63 +99,6 @@ export class Wallet {
    async getAccessKeys() {
       if (!this.accountId) return null
       return await this.getAccount(this.accountId).getAccessKeys()
-   }
-
-   
-   async getTransactions(accountId = '') {
-      if (!this.accountId) return null
-      if (!accountId) accountId = this.accountId
-
-      const wamp = new autobahn.Connection({
-         realm: 'near-explorer',
-         transports: [
-            {
-               url: WAMP_NEAR_EXPLORER_URL,
-               type: 'websocket'
-            }
-         ],
-         retry_if_unreachable: true,
-         max_retries: Number.MAX_SAFE_INTEGER,
-         max_retry_delay: 10
-      })
-
-      const wampSession = await connectWapm(wamp)
-      if (!wampSession) return
-
-      try {
-         const tx = await wampSession.call(
-            'com.nearprotocol.testnet.explorer.select',
-            [
-               `
-                  SELECT 
-                     transactions.hash,
-                     transactions.signer_id, 
-                     transactions.receiver_id, 
-                     transactions.actions, 
-                     transactions.block_hash, 
-                     blocks.timestamp as blockTimestamp
-                  FROM 
-                     transactions
-                  LEFT JOIN blocks ON blocks.hash = transactions.block_hash
-                  WHERE 
-                     signer_id = :accountId 
-                     OR receiver_id = :accountId
-                  ORDER BY blocks.height DESC
-                  LIMIT :offset, :count
-               `,
-               { accountId, offset: 0, count: 5 }
-            ]
-         )
-         return tx.map((t) => ({
-            ...t,
-            actions: JSON.parse(t.actions)
-         }))
-      } catch (error) {
-         console.error('Failed to call the query function due to:', error)
-         return
-      } finally {
-         wamp.close()
-      }
    }
 
    async removeAccessKey(publicKey) {

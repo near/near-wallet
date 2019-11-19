@@ -1,6 +1,7 @@
 import { parse, stringify } from 'query-string'
 import { createActions } from 'redux-actions'
 import { Wallet } from '../utils/wallet'
+import { getTransactions as getTransactionsApi } from '../utils/explorer-api'
 
 export const REFRESH_ACCOUNT = 'REFRESH_ACCOUNT'
 export const LOADER_ACCOUNT = 'LOADER_ACCOUNT'
@@ -131,7 +132,7 @@ export const { requestCode, setupAccountRecovery, recoverAccount, getAccessKeys,
       wallet.checkAccountAvailable.bind(wallet),
       defaultCodesFor('account.available')
    ],
-   GET_TRANSACTIONS: [wallet.getTransactions.bind(wallet), () => ({})],
+   GET_TRANSACTIONS: [getTransactionsApi.bind(wallet), () => ({})],
    CLEAR: null,
    CLEAR_CODE: null
 })
