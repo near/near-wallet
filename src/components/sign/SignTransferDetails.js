@@ -75,7 +75,7 @@ const CustomGrid = styled(Grid)`
    }
 `
 
-class SignTransferReady extends Component {
+class SignTransferDetails extends Component {
    render() {
       const { handleDetails, transactions, fees } = this.props
 
@@ -202,4 +202,4 @@ const mapDispatchToProps = {}
 
 const mapStateToProps = () => ({})
 
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(SignTransferReady))
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(SignTransferDetails))
