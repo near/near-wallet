@@ -1,5 +1,6 @@
 import { utils, transactions as transaction } from 'nearlib'
 import { handleActions } from 'redux-actions'
+import BN from 'bn.js'
 
 import { parseTransactionsToSign } from '../../actions/account'
 
@@ -14,6 +15,10 @@ export default transactionsToSignReducer = handleActions({
             ...state,
             sign: {
                 transactions,
+                totalAmount: allActions
+                    .filter(a => a.transfer)
+                    .map(a => a.transfer.deposit)
+                    .reduce((totalAmount, amount) => totalAmount.add(amount), new BN(0)).toString(),
                 fees: {
                     transactionFees: '', // TODO: Calculate total fees
                     gasLimit: allActions

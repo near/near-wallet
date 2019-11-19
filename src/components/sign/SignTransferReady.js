@@ -6,6 +6,7 @@ import FormButton from '../common/FormButton'
 import MobileContainer from './MobileContainer'
 import SignAnimatedArrow from './SignAnimatedArrow'
 import SelectAccountDropdown from '../login/SelectAccountDropdown'
+import Balance from '../common/Balance'
 
 import { handleRefreshAccount, switchAccount } from '../../actions/account'
 
@@ -32,7 +33,7 @@ class SignTransferReady extends Component {
    }
 
    render() {
-      const { appTitle, transferTransferring, handleAllow, handleDeny, account, handleDetails, sensitiveActionsCounter } = this.props
+      const { appTitle, totalAmount, transferTransferring, handleAllow, handleDeny, account, handleDetails, sensitiveActionsCounter } = this.props
       const { dropdown } = this.state
 
       return (
@@ -56,7 +57,7 @@ class SignTransferReady extends Component {
                   >
                      <div className='font-bold'>{appTitle}</div> 
                      <div className='h2'>is requesting to transfer</div>
-                     <div className='font-bold'> 1.345 Ⓝ</div>
+                     <div className='font-bold'><Balance amount={totalAmount} /></div>
                   </Grid.Column>
                </Grid.Row>
                <Grid.Row centered>
@@ -126,7 +127,8 @@ const mapDispatchToProps = {
 }
 
 const mapStateToProps = ({ account }) => ({
-   account
+   account,
+   ...account.sign
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(SignTransferReady))
