@@ -9,28 +9,22 @@ export default transactionsToSignReducer = handleActions({
             .map(str => Buffer.from(str, 'base64'))
             .map(buffer => utils.serialize.deserialize(transaction.SCHEMA, transaction.Transaction, buffer))
 
+        const allActions = transactions.flatMap(t => t.actions)
         return {
             ...state,
             sign: {
                 transactions,
                 fees: {
-                    transactionFees: '',
-                    gasLimit: transactions.reduce((c, t) =>
-                        c + t.actions.reduce((ca, a) =>
-                            Object.keys(a)[0] === 'functionCall'
-                                ? ca + a.functionCall.gas
-                                : ca
-                            , 0)
-                        , 0),
-                    gasPrice: ''
+                    transactionFees: '', // TODO: Calculate total fees
+                    gasLimit: allActions
+                        .filter(a => Object.keys(a)[0] === 'functionCall')
+                        .map(a => a.functionCall.gas)
+                        .reduce((totalGas, gas) => totalGas.add(gas)).toString(),
+                    gasPrice: '' // TODO: Where to get gas price?
                 },
-                sensitiveActionsCounter: transactions.reduce((c, t) =>
-                    c + t.actions.reduce((ca, a) =>
-                        ['deployContract', 'stake', 'deleteAccount'].indexOf(Object.keys(a)[0]) > -1
-                            ? ca + 1
-                            : ca
-                        , 0)
-                    , 0)
+                sensitiveActionsCounter: allActions
+                    .filter(a => ['deployContract', 'stake', 'deleteAccount'].indexOf(Object.keys(a)[0]) > -1)
+                    .length
             }
         }
     }
