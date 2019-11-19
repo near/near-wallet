@@ -200,6 +200,9 @@ const ActionWarrning = ({ actionKind }) => (
 
 const mapDispatchToProps = {}
 
-const mapStateToProps = () => ({})
+const mapStateToProps = ({ account }) => ({
+   account,
+   ...account.sign,
+})
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(SignTransferDetails))

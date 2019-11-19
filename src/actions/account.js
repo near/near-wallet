@@ -1,5 +1,5 @@
 import { parse, stringify } from 'query-string'
-import { createActions } from 'redux-actions'
+import { createActions, createAction } from 'redux-actions'
 import { Wallet } from '../utils/wallet'
 import { getTransactions as getTransactionsApi } from '../utils/explorer-api'
 
@@ -70,6 +70,8 @@ export function handleRefreshAccount(history, loader = true) {
    }
 }
 
+export const parseTransactionsToSign = createAction('PARSE_TRANSACTIONS_TO_SIGN')
+
 export function handleRefreshUrl(location) {
    return dispatch => {
       const { title, app_url, contract_id, success_url, failure_url, public_key, transactions, callback, account_id, send, redirect_url } = parse(location.search)
@@ -82,13 +84,16 @@ export function handleRefreshUrl(location) {
             success_url: success_url || '',
             failure_url: failure_url || '',
             public_key: public_key || '',
-            transactions: transactions || '',
             callback: callback || ``,
             account_id: account_id || '',
             send: send || '',
             redirect_url: redirect_url || '',
          }
       })
+
+      if (transactions) {
+         dispatch(parseTransactionsToSign(transactions))
+      }
    }
 }
 
