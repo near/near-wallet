@@ -15,8 +15,8 @@
        "DeleteAccount": "Account deleted: ${receiverId}",
        "DeployContract": "Contract deployed: ${receiverId}",
        "FunctionCall": "Called method ${methodName} in contract @${receiverId}",
-       "Transfer": "Transferred ${deposit}Ⓝ to ${receiverId}",
-       "Stake": "Staked ${stake}Ⓝ",
+       "Transfer": "Transferred ${deposit} to ${receiverId}",
+       "Stake": "Staked ${stake}",
        "AddKey": {
           "forContract": "Access key added for contract: ${permissionReceiverId}",
           "forReceiver": "New key added for ${receiverId}",

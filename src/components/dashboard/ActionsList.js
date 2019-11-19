@@ -1,6 +1,8 @@
 import React from 'react'
 import { Translate } from 'react-localize-redux'
 
+import Balance from '../common/Balance'
+
 import IconTAcct from '../../images/IconTAcct'
 import IconTKeyDelete from '../../images/IconTKeyDelete'
 import IconTContract from '../../images/IconTContract'
@@ -174,7 +176,7 @@ const ActionMessage = ({ transaction, action: { AddKey, FunctionCall, Transfer, 
       data={{ 
          receiverId: transaction.receiver_id || '', 
          methodName: FunctionCall ? FunctionCall.methodName : '', 
-         deposit: Transfer ? Transfer.deposit : '',
+         deposit: Transfer ? <Balance amount={Transfer.deposit} /> : '',
          stake: Stake ? Stake.stake : '',
          permissionReceiverId: (AddKey && AddKey.access_key && typeof AddKey.access_key.permission === 'object') ? AddKey.access_key.permission.FunctionCall.receiver_id : ''
       }}
