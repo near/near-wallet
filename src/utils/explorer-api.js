@@ -2,7 +2,7 @@ import autobahn from 'autobahn-browser'
 
 const WAMP_NEAR_EXPLORER_URL = process.env.WAMP_NEAR_EXPLORER_URL || 'wss://near-explorer-wamp.onrender.com/ws'
 
-async function connectWapm(wamp) {
+async function connectWamp(wamp) {
    try {
       return await new Promise((resolve, reject) => {
          wamp.onopen = session => resolve(session)
@@ -32,7 +32,7 @@ export async function getTransactions(accountId = '') {
       max_retry_delay: 10
    })
 
-   const wampSession = await connectWapm(wamp)
+   const wampSession = await connectWamp(wamp)
    if (!wampSession) return
 
    try {
