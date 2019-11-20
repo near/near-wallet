@@ -1,9 +1,7 @@
 import React from 'react'
 
-import { Link } from 'react-router-dom'
-
 import FormButton from '../common/FormButton'
-import ListItem from './ListItem'
+import ActionsList from './ActionsList'
 
 import { Grid, Header, Image } from 'semantic-ui-react'
 
@@ -51,7 +49,7 @@ const CustomGrid = styled(Grid)`
    }
 `
 
-const DashboardActivity = ({ image, title, to, activity }) => (
+const DashboardActivity = ({ image, title, to, transactions, maxItems }) => (
    <CustomGrid>
       <Grid.Row>
          <Grid.Column className='dashboard-header' textAlign='left' width={16}>
@@ -62,17 +60,22 @@ const DashboardActivity = ({ image, title, to, activity }) => (
          </Grid.Column>
       </Grid.Row>
 
-      {activity.map((row, i) => (
-         <ListItem key={`d-${i}`} row={row} />
+      {transactions.slice(0,maxItems).map((transaction, i) => (
+         <ActionsList
+            key={`a-${i}`}
+            transaction={transaction} 
+            actions={transaction.action}
+            wide={false}
+         />
       ))}
 
       <Grid.Row>
          <Grid.Column textAlign='left' width={16}>
-            <Link to={to}>
+            <a href={to}>
                <FormButton color='gray-blue' size='small'>
                   VIEW ALL
                </FormButton>
-            </Link>
+            </a>
          </Grid.Column>
       </Grid.Row>
    </CustomGrid>

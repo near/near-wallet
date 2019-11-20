@@ -4,12 +4,8 @@ import {
    LOADER_ACCOUNT,
    REFRESH_URL,
    requestCode,
-   setupAccountRecovery,
-   recoverAccount,
    getAccessKeys,
-   checkNewAccount,
-   createNewAccount,
-   checkAccountAvailable,
+   getTransactions,
    clear,
    clearCode,
    addAccessKey,
@@ -83,6 +79,13 @@ const accessKeys = handleActions({
       })
 }, initialState)
 
+const transactions = handleActions({
+   [getTransactions]: (state, { error, payload }) => ({
+      ...state,
+      transactions: error ? [] : payload
+   })
+}, initialState)
+
 // TODO: Migrate everything to redux-actions
 function account(state = {}, action) {
    switch (action.type) {
@@ -116,5 +119,6 @@ export default reduceReducers(
    requestResultClearReducer,
    reducer,
    accessKeys,
+   transactions,
    account
 )

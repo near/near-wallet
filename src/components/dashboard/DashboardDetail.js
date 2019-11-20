@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 
 import { withRouter } from 'react-router-dom'
 
-import { getAccessKeys } from '../../actions/account'
+import { getAccessKeys, getTransactions } from '../../actions/account'
 
 import DashboardSection from './DashboardSection'
 import DashboardActivity from './DashboardActivity'
@@ -13,78 +13,27 @@ import FormButton from '../common/FormButton'
 import Balance from '../common/Balance'
 
 import activityGreyImage from '../../images/icon-activity-grey.svg'
-import AccountGreyImage from '../../images/icon-account-grey.svg'
 import AuthorizedGreyImage from '../../images/icon-authorized-grey.svg'
-import ContactsGreyImage from '../../images/icon-contacts-grey.svg'
 
-import TStakeImage from '../../images/icon-t-stake.svg'
-import TTransferImage from '../../images/icon-t-transfer.svg'
-import AppDefaultImage from '../../images/icon-app-default.svg'
 import DashboardKeys from './DashboardKeys'
 
 class DashboardDetail extends Component {
    state = {
       loader: false,
-      notice: true,
-      activity: [],
-      authorizedApps: [],
-      newcontacts: []
+      notice: false
    }
 
    componentDidMount() {
       this.refreshAccessKeys()
+      this.refreshTransactions()
 
       this.setState(() => ({
          loader: true
       }))
+   }
 
-      // TODO: Remove fake data
-      false &&
-         setTimeout(() => {
-            this.setState(_ => ({
-               activity: [
-                  [
-                     TTransferImage,
-                     'Sent: 125 Ⓝ  to @jake.near',
-                     'Some details about this activity here',
-                     '3 min ago'
-                  ],
-                  [
-                     TStakeImage,
-                     'You Staked 10 tokens',
-                     'Some details about this activity here',
-                     '20 min ago'
-                  ],
-                  [
-                     TTransferImage,
-                     'Sent: 125 Ⓝ  to @vlad.near',
-                     'Some details about this activity here',
-                     '1 hr ago'
-                  ]
-               ],
-               authorizedApps: [
-                  [AppDefaultImage, 'NEAR Place', '', '3 hrs ago'],
-                  [AppDefaultImage, 'Cryptocats', '', '5 hrs ago'],
-                  [AppDefaultImage, 'Knights App', '', '2 days ago']
-               ],
-               newcontacts: [
-                  [
-                     AccountGreyImage,
-                     'Alex Skidanov ',
-                     '',
-                     'Connected 2 days ago'
-                  ],
-                  [AccountGreyImage, '@vlad.near', '', '2 days ago'],
-                  [
-                     AccountGreyImage,
-                     'Illia Polosukhin',
-                     '',
-                     'Connected 2 days ago'
-                  ]
-               ]
-               // loader: false
-            }))
-         }, 1000)
+   refreshTransactions() {
+      this.props.getTransactions()
    }
 
    refreshAccessKeys = () => {
@@ -106,15 +55,8 @@ class DashboardDetail extends Component {
    }
 
    render() {
-      const {
-         loader,
-         notice,
-         activity,
-         newcontacts
-      } = this.state
-
-      const { authorizedApps, fullAccessKeys, amount } = this.props
-
+      const { loader, notice } = this.state
+      const { authorizedApps, fullAccessKeys, transactions, amount, accountId } = this.props
       return (
          <PageContainer
             title={(
@@ -133,60 +75,59 @@ class DashboardDetail extends Component {
                </Link>
             )}
          >
-            <DashboardKeys
-               image={AuthorizedGreyImage}
-               title='Authorized Apps'
-               to='/authorized-apps'
-               accessKeys={authorizedApps}
-            />
-            <DashboardKeys
-               image={AuthorizedGreyImage}
-               title='Full Access Keys'
-               to='/full-access-keys'
-               accessKeys={fullAccessKeys}
-            />
-            {false ? (
-               <DashboardSection
-                  notice={notice}
-                  handleNotice={this.handleNotice}
-               >
-                  <DashboardActivity
-                     loader={loader}
-                     image={activityGreyImage}
-                     title='Activity'
-                     to='/'
-                     activity={activity}
-                  />
-                  <DashboardActivity
-                     loader={loader}
-                     image={AuthorizedGreyImage}
-                     title='Authorized Apps'
-                     to='/authorized-apps'
-                     activity={authorizedApps}
-                  />
-                  <DashboardActivity
-                     loader={loader}
-                     image={ContactsGreyImage}
-                     title='New Contacts'
-                     to='/contacts'
-                     activity={newcontacts}
-                  />
-               </DashboardSection>
-            ) : null}
+            <DashboardSection
+               notice={notice}
+               handleNotice={this.handleNotice}
+            >
+               <DashboardActivity
+                  loader={loader}
+                  image={activityGreyImage}
+                  title='Activity'
+                  to={`${process.env.EXPLORER_URL || 'https://explorer.nearprotocol.com'}/accounts/${accountId}`}
+                  transactions={transactions}
+                  maxItems={5}
+               />
+               <DashboardKeys
+                  image={AuthorizedGreyImage}
+                  title='Authorized Apps'
+                  to='/authorized-apps'
+                  accessKeys={authorizedApps}
+               />
+               <DashboardKeys
+                  image={AuthorizedGreyImage}
+                  title='Full Access Keys'
+                  to='/full-access-keys'
+                  accessKeys={fullAccessKeys}
+               />
+            </DashboardSection>
          </PageContainer>
       )
    }
 }
 
 const mapDispatchToProps = {
-   getAccessKeys
+   getAccessKeys,
+   getTransactions
 }
 
-const mapStateToProps = ({ account }) => ({
-   ...account,
-   authorizedApps: account.authorizedApps,
-   fullAccessKeys: account.fullAccessKeys
-})
+// make sure that an action is an object, for UI purpose
+const postprocessSerdeStruct = (action) => typeof action == 'object' ? [action] : [{[action]: {}}]
+
+const mapStateToProps = ({ account }) => {
+   const transactions = account.transactions 
+      ? account.transactions.flatMap(t => t.actions.map((a) => ({
+         ...t,
+         action: postprocessSerdeStruct(a)
+      })))
+      : []
+
+   return {
+      ...account,
+      authorizedApps: account.authorizedApps,
+      fullAccessKeys: account.fullAccessKeys,
+      transactions
+   }
+}
 
 export default connect(
    mapStateToProps,
