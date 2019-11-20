@@ -1,5 +1,6 @@
 import React from 'react'
 
+import Balance from '../common/Balance'
 import FormButton from '../common/FormButton'
 import MobileContainer from './MobileContainer'
 
@@ -7,7 +8,8 @@ import { Image, Grid } from 'semantic-ui-react'
 
 import CheckImage from '../../images/icon-check.svg'
 
-const SignTransferReady = ({ handleDeny }) => (
+// TODO: Why handleDeny? It's not an error.
+const SignTransferReady = ({ handleDeny, totalAmount }) => (
    <MobileContainer>
       <Grid padded>
          <Grid.Row centered>
@@ -24,9 +26,10 @@ const SignTransferReady = ({ handleDeny }) => (
                as='h2'
                textAlign='center'
             >
-               <span className='font-bold'>1.345 Ⓝ was transferred successfully</span>
+               <span className='font-bold'><Balance amount={totalAmount} /> was transferred successfully</span>
             </Grid.Column>
          </Grid.Row>
+         {/*
          <Grid.Row centered>
             <Grid.Column
                largeScreen={12}
@@ -46,6 +49,7 @@ const SignTransferReady = ({ handleDeny }) => (
                </div>
             </Grid.Column>
          </Grid.Row>
+         */}
       </Grid>
       <Grid padded>
          <Grid.Row>
@@ -61,6 +65,7 @@ const SignTransferReady = ({ handleDeny }) => (
                </FormButton>
             </Grid.Column>
          </Grid.Row>
+         {/*
          <Grid.Row centered className='contract'>
             <Grid.Column
                largeScreen={12}
@@ -71,6 +76,7 @@ const SignTransferReady = ({ handleDeny }) => (
                Contract: @contractname.near
             </Grid.Column>
          </Grid.Row>
+         */}
       </Grid>
    </MobileContainer>
 )

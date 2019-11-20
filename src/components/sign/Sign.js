@@ -88,7 +88,7 @@ class Sign extends Component {
          <SignContainer>
             {this.state.transferReady && <SignTransferReady {...this.state} handleAllow={this.handleAllow} handleDeny={this.handleDeny} handleDetails={this.handleDetails} sensitiveActionsCounter={this.props.sensitiveActionsCounter} />}
             {this.state.transferTransferring && <SignTransferTransferring {...this.state} />}
-            {this.state.transferSuccess && <SignTransferSuccess handleDeny={this.handleDeny} />}
+            {this.state.transferSuccess && <SignTransferSuccess handleDeny={this.handleDeny} totalAmount={this.props.totalAmount} />}
             {this.state.transferCancelled && <SignTransferCancelled handleDeny={this.handleDeny} />}
             {this.state.transferInsufficientFunds && <SignTransferInsufficientFunds handleDeny={this.handleDeny} handleAddFunds={this.handleAddFunds} />}
             {this.state.transferDetails && <SignTransferDetails handleDetails={this.handleDetails} transactions={this.state.transactions} fees={this.props.fees} />}
