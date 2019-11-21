@@ -1,5 +1,5 @@
 import * as bip39 from 'bip39-light'
-import { derivePath } from 'ed25519-hd-key'
+import { derivePath } from 'near-hd-key'
 import * as bs58 from 'bs58'
 import * as nacl from 'tweetnacl'
 
