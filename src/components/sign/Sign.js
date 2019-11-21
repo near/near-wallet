@@ -2,9 +2,6 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 
-import { transactions as transaction, utils } from 'nearlib'
-import * as qs from 'query-string'
-
 import SignContainer from './SignContainer'
 import SignTransferReady from './SignTransferReady';
 import SignTransferSuccess from './SignTransferSuccess';
@@ -13,28 +10,17 @@ import SignTransferInsufficientFunds from './SignTransferInsufficientFunds';
 import SignTransferTransferring from './SignTransferTransferring';
 import SignTransferDetails from './SignTransferDetails';
 
+import { signAndSendTransactions } from '../../actions/account'
+
 class Sign extends Component {
    state = {
       appTitle: 'TODO: App Title',
-      transferReady: false,
-      transferTransferring: false,
-      transferTransferringStart: false,
-      transferTransferringPending: false,
-      transferTransferringEnd: false,
-      transferSuccess: false,
-      transferCancelled: false,
-      transferInsufficientFunds: false,
       transferDetails: false,
-   }
-
-   componentDidMount = () => {
-      this.setState(() => ({
-         transferReady: true
-      }))
    }
 
    handleDeny = e => {
       e.preventDefault();
+      // TODO: Dispatch action for app redirect?
       if (this.props.account.url.callback) {
          window.location.href = this.props.account.url.callback
       }
@@ -45,61 +31,54 @@ class Sign extends Component {
    }
 
    handleAllow = e => {
-      this.setState(() => ({
-         transferReady: false,
-         transferTransferring: true,
-         transferTransferringStart: true
-      }))
+      // TODO: Submit transaction for real
+      // TODO: Remove all setState garbage
+      // TODO: Update status in reducer?
 
-      setTimeout(() => {
-         this.setState(() => ({
-            transferTransferringPending: true
-         }))
+      // TODO: Redirect immediately if submitting transaction isn't desired
 
-         //actions
-         setTimeout(() => {
-            this.setState(() => ({
-               transferTransferringEnd: true
-            }))
-
-            //finally
-            setTimeout(() => {
-               this.setState(() => ({
-                  transferTransferring: false,
-                  
-                  transferSuccess: true,
-                  // transferCancelled: true,
-                  // transferInsufficientFunds: true
-               }))
-            }, 1000);
-         }, 2500);
-      }, 500);
+      this.props.signAndSendTransactions(this.props.transactions, this.props.account.accountId);
    }
 
    handleDetails = (show) => {
       this.setState(() => ({
-         transferReady: !show,
          transferDetails: show
       }))
+   }
+
+   renderSubcomponent = () => {
+      switch (this.props.status) {
+         case 'needs-confirmation':
+            return <SignTransferReady {...this.state} handleAllow={this.handleAllow} handleDeny={this.handleDeny} handleDetails={this.handleDetails} sensitiveActionsCounter={this.props.sensitiveActionsCounter} />
+         case 'in-progress':
+            return <SignTransferTransferring {...this.state} />
+         case 'success':
+            return <SignTransferSuccess handleDeny={this.handleDeny} totalAmount={this.props.totalAmount} />
+         case 'error':
+            // TODO: Figure out how to handle different error types
+            return <SignTransferCancelled handleDeny={this.handleDeny} />
+            //return <SignTransferInsufficientFunds handleDeny={this.handleDeny} handleAddFunds={this.handleAddFunds} />
+         default:
+            return <b>Unexpected status: {this.props.status}</b>
+      }
    }
 
    render() {
       return (
          <SignContainer>
-            {this.state.transferReady && <SignTransferReady {...this.state} handleAllow={this.handleAllow} handleDeny={this.handleDeny} handleDetails={this.handleDetails} sensitiveActionsCounter={this.props.sensitiveActionsCounter} />}
-            {this.state.transferTransferring && <SignTransferTransferring {...this.state} />}
-            {this.state.transferSuccess && <SignTransferSuccess handleDeny={this.handleDeny} totalAmount={this.props.totalAmount} />}
-            {this.state.transferCancelled && <SignTransferCancelled handleDeny={this.handleDeny} />}
-            {this.state.transferInsufficientFunds && <SignTransferInsufficientFunds handleDeny={this.handleDeny} handleAddFunds={this.handleAddFunds} />}
-            {this.state.transferDetails && <SignTransferDetails handleDetails={this.handleDetails} transactions={this.state.transactions} fees={this.props.fees} />}
+            {this.state.transferDetails
+               ? <SignTransferDetails handleDetails={this.handleDetails} transactions={this.state.transactions} fees={this.props.fees} />
+               : this.renderSubcomponent()}
          </SignContainer>
       )
    }
 }
 
-const mapDispatchToProps = {}
+const mapDispatchToProps = {
+   signAndSendTransactions
+}
 
-const mapStateToProps = ({ account }) => {
+const mapStateToProps = ({ account, sign }) => {
    // TODO: Remove dummy data
    /*
    transactions = [
@@ -173,7 +152,7 @@ const mapStateToProps = ({ account }) => {
 
    return {
       account,
-      ...account.sign,
+      ...sign,
    }
 }
 

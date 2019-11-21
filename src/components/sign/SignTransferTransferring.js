@@ -5,7 +5,7 @@ import SignAnimatedArrow from './SignAnimatedArrow'
 
 import { Grid } from 'semantic-ui-react'
 
-const SignTransferReady = ({ transferTransferringStart, transferTransferringPending, transferTransferringEnd }) => (
+const SignTransferReady = ({ status }) => (
    <MobileContainer>
       <Grid padded>
          <Grid.Row centered>
@@ -14,9 +14,9 @@ const SignTransferReady = ({ transferTransferringStart, transferTransferringPend
                className='authorize'
             >
                <SignAnimatedArrow
-                  start={transferTransferringStart}
-                  pending={transferTransferringPending}
-                  end={transferTransferringEnd}
+                  start={true}
+                  pending={status === 'in-progress'}
+                  end={status === 'success'}
                />
             </Grid.Column>
          </Grid.Row>

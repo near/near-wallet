@@ -163,6 +163,13 @@ export const { recoverAccountSeedPhrase } = createActions({
    ],
 })
 
+export const { signAndSendTransactions } = createActions({
+   SIGN_AND_SEND_TRANSACTIONS: [
+      wallet.signAndSendTransactions.bind(wallet),
+      defaultCodesFor('account.signAndSendTransactions')
+   ]
+})
+
 export const { switchAccount } = createActions({
    SWITCH_ACCOUNT: wallet.selectAccount.bind(wallet)
 })

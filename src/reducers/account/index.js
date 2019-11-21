@@ -14,7 +14,6 @@ import {
    addAccessKeySeedPhrase,
    clearAlert
 } from '../../actions/account'
-import transactionsToSignReducer from './transactions-to-sign'
 
 const initialState = {
    formLoader: false,
@@ -121,7 +120,6 @@ export default reduceReducers(
    requestResultReducer,
    requestResultClearReducer,
    recoverCodeReducer,
-   transactionsToSignReducer,
    accessKeys,
    transactions,
    account
