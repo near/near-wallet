@@ -4,7 +4,6 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "autobahn-browser": "^19.10.1",
     "big.js": "^5.2.2",
     "bip39-light": "^1.0.7",
     "connected-react-router": "^6.6.0",
@@ -30,7 +29,8 @@
     "redux-thunk": "^2.3.0",
     "regenerator-runtime": "^0.13.3",
     "semantic-ui-react": "^0.88.1",
-    "styled-components": "^4.4.1"
+    "styled-components": "^4.4.1",
+    "wampy": "^5.0.2"
   },
   "scripts": {
     "predeploy": "yarn build",
