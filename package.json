@@ -37,7 +37,7 @@
     "deploy": "gh-pages -d dist/",
     "start": "parcel src/index.html",
     "prebuild": "rm -rf dist/",
-    "build": "parcel build src/index.html --experimental-scope-hoisting",
+    "build": "parcel build src/index.html",
     "test": "jest",
     "lint": "eslint --ext .js --ext .jsx .",
     "fix": "eslint --ext .js --ext .jsx . --fix"
