@@ -8,7 +8,7 @@
     "big.js": "^5.2.2",
     "bip39-light": "^1.0.7",
     "connected-react-router": "^6.6.0",
-    "core-js": "^3.4.1",
+    "core-js": "^3.4.2",
     "eslint": "5.16.0",
     "eslint-config-react-app": "^3.0.8",
     "fetch-send-json": "0.0.2",
