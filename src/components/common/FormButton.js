@@ -335,7 +335,11 @@ const FormButton = ({
 )
 
 FormButton.propTypes = {
-   children: PropTypes.string.isRequired,
+   children: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.object,
+      PropTypes.array,
+   ]),
    type: PropTypes.string,
    color: PropTypes.string,
    disabled: PropTypes.bool,
