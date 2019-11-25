@@ -95,7 +95,7 @@ class Routing extends Component {
                            />
                            <PrivateRoute
                               exact
-                              path='/setup-seed-phrase/:accountId'
+                              path='/setup-seed-phrase/:accountId/:verify?'
                               component={SetupSeedPhraseWithRouter}
                            />
                            <Route

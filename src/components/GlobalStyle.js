@@ -157,13 +157,16 @@ export default createGlobalStyle`
       }
    }
    .problem > .input > input,
-   .problem > .input > input:focus {
+   .problem > .input > input:focus,
+   .problem > input {
       border: 2px solid #ff585d !important;
       background: url(${ProblemsImage}) right 12px center no-repeat !important;
       background-size: 24px 24px !important;
    }
+
    .success > .input > input,
-   .success > .input > input:focus {
+   .success > .input > input:focus,
+   .success > input {
       background: url(${CheckBlueImage}) right 12px center no-repeat !important;
       background-size: 24px 24px !important;
    }
