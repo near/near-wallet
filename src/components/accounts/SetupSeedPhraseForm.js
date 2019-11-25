@@ -39,6 +39,19 @@ const CustomDiv = styled(`div`)`
             }
         }
     }
+
+    @media screen and (max-width: 991px) {
+        .buttons-row {
+            display: block;
+            
+            button {
+                width: 100% !important;
+            }
+            a > button {
+                margin-left: 0px !important;
+            }
+        }
+    }
 `
 
 const SetupSeedPhraseForm = ({
