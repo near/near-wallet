@@ -27,11 +27,11 @@
 
     "setupSeedPhrase": {
         "pageTitle": "Setup Recovery Phrase",
-        "pageText": "Write down this recovery phrase and keep it somewhere safe. This essential for recovery in the future."
+        "pageText": "Write down the following words IN ORDER and keep them somewhere safe. You cannot recover your account without them!"
     },
     "setupSeedPhraseVerify": {
-        "pageTitle": "Verify",
-        "pageText": "Enter the fallowing word from your recovery phrase.",
+        "pageTitle": "Verify Phrase",
+        "pageText": "Enter the following word from your recovery phrase to complete the setup process.",
         "startOverText": "Didn't write it down?"
     },
     "setupSeedPhraseSuccess": {
@@ -43,13 +43,13 @@
     "button": {
         "copyPhrase": "COPY PHRASE",
         "continue": "CONTINUE",
-        "verify": "VERIFY",
+        "verify": "VERIFY & COMPLETE",
         "startOver": "Start over"
     },
 
     "input": {
         "enterWord": {
-            "title": "Enter Word",
+            "title": "Word",
             "placeholder": ""
         }
     }
