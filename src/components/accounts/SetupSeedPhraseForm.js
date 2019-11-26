@@ -27,16 +27,6 @@ const CustomDiv = styled(`div`)`
             padding: 9px 12px;
             margin: 0 6px;
             line-height: 48px;
-            
-            .number {
-                user-select: none;
-                color: #999;
-                padding-right: 12px;
-                font-size: 12px;
-            }
-            .h4 {
-                letter-spacing: 2px;
-            }
         }
     }
 
@@ -54,6 +44,17 @@ const CustomDiv = styled(`div`)`
     }
 `
 
+const Number = styled(`span`)`
+    letter-spacing: 2px;
+
+    ::before {
+        content: '${props => props.number || 1}';
+        color: #999;
+        padding-right: 12px;
+        font-size: 12px;
+    }
+`
+
 const SetupSeedPhraseForm = ({
     seedPhrase,
     handleCopyPhrase,
@@ -63,8 +64,7 @@ const SetupSeedPhraseForm = ({
         <div id='seed-phrase'>
             {seedPhrase.split(' ').map((word, i) => (
                 <span className='single-phrase' key={`phrase-${i}`}>
-                    <span className='number'>{i+1}</span>
-                    <span className='h4'>{word} </span>
+                    <Number number={i + 1} className='h4'>{word} </Number>
                 </span>
             ))}
         </div>
