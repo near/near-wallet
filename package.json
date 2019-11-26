@@ -4,15 +4,10 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "autobahn-browser": "^19.10.1",
     "big.js": "^5.2.2",
     "bip39-light": "^1.0.7",
     "connected-react-router": "^6.6.0",
-    "core-js": "^3.4.1",
-    "eslint": "5.16.0",
-    "eslint-config-react-app": "^3.0.8",
     "fetch-send-json": "0.0.2",
-    "gh-pages": "^2.0.1",
     "js-sha256": "^0.9.0",
     "near-hd-key": "^1.0.0",
     "nearlib": "^0.17.2",
@@ -20,7 +15,6 @@
     "query-string": "^6.9.0",
     "react": "^16.12.0",
     "react-app-polyfill": "^1.0.4",
-    "react-dev-utils": "^9.1.0",
     "react-dom": "^16.12.0",
     "react-google-recaptcha": "^2.0.1",
     "react-localize-redux": "^3.5.3",
@@ -35,7 +29,8 @@
     "redux-thunk": "^2.3.0",
     "regenerator-runtime": "^0.13.3",
     "semantic-ui-react": "^0.88.1",
-    "styled-components": "^4.4.1"
+    "styled-components": "^4.4.1",
+    "wampy": "^5.0.2"
   },
   "scripts": {
     "predeploy": "yarn build",
@@ -63,13 +58,17 @@
     "babel-preset-env": "^1.7.0",
     "enzyme": "^3.10.0",
     "enzyme-adapter-react-16": "^1.15.1",
+    "eslint": "5.16.0",
+    "eslint-config-react-app": "^3.0.8",
     "eslint-plugin-flowtype": "^4.4.1",
     "eslint-plugin-import": "^2.18.2",
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-react": "^7.16.0",
+    "gh-pages": "^2.0.1",
     "jest": "^24.9.0",
-    "parcel": "^1.12.4",
+    "parcel-bundler": "^1.12.4",
     "parcel-plugin-bundle-visualiser": "^1.2.0",
-    "posthtml-expressions": "^1.1.1"
+    "posthtml-expressions": "^1.1.1",
+    "react-dev-utils": "^9.1.0"
   }
 }
