@@ -137,12 +137,21 @@ export const { requestCode, setupAccountRecovery, recoverAccount, getAccessKeys,
    CLEAR_CODE: null
 })
 
-export const { addAccessKey, clearAlert } = createActions({
+export const { addAccessKey, addAccessKeySeedPhrase, clearAlert } = createActions({
    ADD_ACCESS_KEY: [
       wallet.addAccessKey.bind(wallet),
       (accountId, contractId, publicKey, successUrl, title) => ({
          successCodeHeader: 'Success',
          successCodeDescription: title + ' is now authorized to use your account.',
+         errorCodeHeader: 'Error',
+         errorCodeDescription: '' 
+      })
+   ],
+   ADD_ACCESS_KEY_SEED_PHRASE: [
+      wallet.addAccessKey.bind(wallet),
+      () => ({
+         successCodeHeader: 'Success',
+         successCodeDescription: 'Seed phrase recovery setup is complete.',
          errorCodeHeader: 'Error',
          errorCodeDescription: '' 
       })
