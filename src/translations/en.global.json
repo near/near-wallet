@@ -9,7 +9,8 @@
     "account.create.error": "Username is taken. Try something else.",
     "account.available.success": "User found.",
     "account.available.error": "User not found.",
-
+    "account.verifySeedPhrase.error": "You entered the incorrect word",
+    
     "actions": {
        "CreateAccount": "New account created: @${receiverId}",
        "DeleteAccount": "Account deleted: @${receiverId}",
@@ -22,5 +23,34 @@
           "forReceiver": "New key added for @${receiverId}",
        },
        "DeleteKey": "Key deleted"
+    },
+
+    "setupSeedPhrase": {
+        "pageTitle": "Setup Recovery Phrase",
+        "pageText": "Write down the following words IN ORDER and keep them somewhere safe. You cannot recover your account without them!"
+    },
+    "setupSeedPhraseVerify": {
+        "pageTitle": "Verify Phrase",
+        "pageText": "Enter the following word from your recovery phrase to complete the setup process.",
+        "startOverText": "Didn't write it down?"
+    },
+    "setupSeedPhraseSuccess": {
+        "pageTitle": "Recovery Setup is Complete",
+        "pageText": "Use your Recovery Phrase to restore your account.",
+        "pageTextSecondLine": "Anyone with access to your Recovery Phrase can access your funds, so keep it offline somewhere safe and secure."
+    },
+    
+    "button": {
+        "copyPhrase": "COPY PHRASE",
+        "continue": "CONTINUE",
+        "verify": "VERIFY & COMPLETE",
+        "startOver": "Start over"
+    },
+
+    "input": {
+        "enterWord": {
+            "title": "Word",
+            "placeholder": ""
+        }
     }
 }

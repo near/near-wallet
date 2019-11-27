@@ -22,6 +22,12 @@ const CustomButton = styled(Button)`
       
       font-size: 14px;
 
+      svg {
+         width: 16px;
+         height: 16px;
+         margin: 0 0 -4px 8px;
+      }
+
       &.small {
          width: 110px;
          height: 40px;
@@ -71,6 +77,22 @@ const CustomButton = styled(Button)`
 
          :disabled {
             background: #e6e6e6;
+            border-color: #e6e6e6;
+            opacity: 1 !important;
+         }
+         :active,
+         :hover,
+         :focus {
+           opacity: 0.8;
+         }
+      }
+      &.seafoam-blue-white {
+         border-color: #6ad1e3;
+         background: #fff;
+         color: #6ad1e3;
+
+         :disabled {
+            background: #fff;
             border-color: #e6e6e6;
             opacity: 1 !important;
          }
@@ -313,7 +335,11 @@ const FormButton = ({
 )
 
 FormButton.propTypes = {
-   children: PropTypes.string.isRequired,
+   children: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.object,
+      PropTypes.array,
+   ]),
    type: PropTypes.string,
    color: PropTypes.string,
    disabled: PropTypes.bool,

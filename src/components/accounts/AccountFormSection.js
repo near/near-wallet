@@ -37,6 +37,9 @@ const CustomForm = styled(Form)`
             }
          }
       }
+      .input {
+         width: 100%;
+      }
       .input.sms {
          width: 122px;
          margin-right: 24px;
