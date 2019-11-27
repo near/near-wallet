@@ -71,8 +71,6 @@ class SetupSeedPhrase extends Component {
         this.props.addAccessKey(this.props.accountId, contractName, this.state.publicKey)
             .then(({ error }) => {
                 if (error) return
-                
-                this.props.history.push(`/setup-seed-phrase/${this.props.accountId}/success`)
                 this.props.redirectToApp()
             })
     }
@@ -126,22 +124,6 @@ class SetupSeedPhrase extends Component {
                                         />
                                     </AccountFormSection>
                                 </AccountFormContainer>
-                            )}
-                        />
-                        <Route 
-                            exact
-                            path={`/setup-seed-phrase/:accountId/success`}
-                            render={() => (
-                                <AccountFormContainer
-                                    title={translate('setupSeedPhraseSuccess.pageTitle')}
-                                    text={(
-                                        <Fragment>
-                                            {translate('setupSeedPhraseSuccess.pageText')}
-                                            <br/><br/>
-                                            {translate('setupSeedPhraseSuccess.pageTextSecondLine')}
-                                        </Fragment>
-                                    )}
-                                />
                             )}
                         />
                     </Fragment>
