@@ -8,8 +8,8 @@ const CustomDiv = styled(List)`
     border-bottom: 1px dotted black;
 `
 // denomination of one near in minimal non divisible units (attoNears)
-// NEAR_NOMINATION is 10 ** 18 one unit
-export const NOMINATION = 18
+// NEAR_NOMINATION is 10 ** 24 one unit
+export const NOMINATION = 24
 const REG = /(?=(\B)(\d{3})+$)/g;
 
 const Balance = ({ amount }) => {
