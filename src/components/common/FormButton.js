@@ -186,6 +186,8 @@ const CustomButton = styled(Button)`
          padding: 0;
          margin: 0;
 
+         border-radius: 0px;
+
          font-size: 14px;
          line-height: 14px;
          font-weight: 500;
