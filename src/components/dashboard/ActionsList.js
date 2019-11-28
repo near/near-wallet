@@ -1,6 +1,6 @@
 import React from 'react'
 import { Translate } from 'react-localize-redux'
-
+import moment from 'moment'
 import Balance from '../common/Balance'
 
 import IconTAcct from '../../images/IconTAcct'
@@ -57,6 +57,10 @@ const CustomGridRow = styled(Grid.Row)`
          padding-left: 0px;
          flex: 1;
          word-break: break-all;
+         display: flex;
+         align-items: center;
+         flex-direction: row !important;
+         justify-content: space-between;
       }
 
       .dropdown-image-right {
@@ -109,6 +113,25 @@ const CustomGridRow = styled(Grid.Row)`
    }
 `
 
+moment.updateLocale('en', {
+   relativeTime : {
+       future: "in %s",
+       past:   "%s ago",
+       s  : 'a few seconds',
+       ss : '%d seconds',
+       m:  "a minute",
+       mm: "%d min",
+       h:  "1 hr",
+       hh: "%d hrs",
+       d:  "1 day",
+       dd: "%d days",
+       M:  "1 month",
+       MM: "%d months",
+       y:  "1 year",
+       yy: "%d years"
+   }
+});
+
 const ActionsList = ({ transaction, actions, wide }) => 
    actions
       .map((a, i) => (
@@ -145,6 +168,9 @@ const ActionRow = ({ transaction, action, actionKind, wide, showSub = false, tog
                   action={action}
                   actionKind={actionKind}
                />
+               <ActionTimeStamp
+                  timeStamp={transaction.blockTimestamp}
+               />
             </Grid.Column>
          </Grid>
       </Grid.Column>
@@ -173,8 +199,8 @@ const ActionMessage = ({ transaction, action: { AddKey, FunctionCall, Transfer, 
             : `.forReceiver`
          : ''
       }`}
-      data={{ 
-         receiverId: transaction.receiver_id || '', 
+      data={{
+         receiverId: transaction.receiver_id || '',
          methodName: FunctionCall ? FunctionCall.method_name : '', 
          deposit: Transfer ? <Balance amount={Transfer.deposit} /> : '',
          stake: Stake ? Stake.stake : '',
@@ -194,6 +220,10 @@ const ActionIcon = ({ actionKind }) => (
       {actionKind === 'AddKey' && <IconTKeyNew />}
       {actionKind === 'DeleteKey' && <IconTKeyDelete />}
    </div>
+)
+
+const ActionTimeStamp = ({ timeStamp }) => (
+   <div className='font-small'>{moment(timeStamp).fromNow()}</div>
 )
 
 export default ActionsList

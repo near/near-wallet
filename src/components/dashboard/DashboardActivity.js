@@ -10,6 +10,8 @@ import styled from 'styled-components'
 const CustomGrid = styled(Grid)`
    &&& {
       margin-bottom: 20px;
+      margin-left: 0;
+      margin-right: 0;
 
       .row:first-child {
          padding-bottom: 0px;
