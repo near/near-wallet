@@ -34,8 +34,8 @@ const globalAlertReducer = handleActions({
       globalAlert: !!payload || error ? {
          success: !error,
          errorMessage: (error && payload && payload.toString()) || undefined,
-         messageCodeHeader: error ? payload.messageCode || meta.errorCodeHeader : meta.successCodeHeader,
-         messageCodeDescription: error ? payload.messageCode || meta.errorCodeDescription : meta.successCodeDescription,
+         messageCode: error ? payload.messageCode || meta.errorCode : meta.successCode,
+         data: meta.data
       } : undefined
    }),
    [clearAlert]: state => Object.keys(state).reduce((obj, key) => key !== 'globalAlert' ? (obj[key] = state[key], obj) : obj, {})

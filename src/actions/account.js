@@ -103,7 +103,7 @@ export const redirectToApp = () => (dispatch, getState) => {
    }, 1500)
 }
 
-const defaultCodesFor = (prefix) => () => ({ successCode: `${prefix}.success`, errorCode: `${prefix}.error` })
+const defaultCodesFor = (prefix, data) => () => ({ successCode: `${prefix}.success`, errorCode: `${prefix}.error`, data})
 
 export const { requestCode, setupAccountRecovery, recoverAccount, getAccessKeys, removeAccessKey, checkNewAccount, createNewAccount, checkAccountAvailable, getTransactions, clear, clearCode } = createActions({
    REQUEST_CODE: [
@@ -140,21 +140,11 @@ export const { requestCode, setupAccountRecovery, recoverAccount, getAccessKeys,
 export const { addAccessKey, addAccessKeySeedPhrase, clearAlert } = createActions({
    ADD_ACCESS_KEY: [
       wallet.addAccessKey.bind(wallet),
-      (accountId, contractId, publicKey, successUrl, title) => ({
-         successCodeHeader: 'Success',
-         successCodeDescription: title + ' is now authorized to use your account.',
-         errorCodeHeader: 'Error',
-         errorCodeDescription: '' 
-      })
+      (accountId, contractId, publicKey, successUrl, title) => defaultCodesFor('account.setupSeedPhrase', {title})
    ],
    ADD_ACCESS_KEY_SEED_PHRASE: [
       wallet.addAccessKey.bind(wallet),
-      () => ({
-         successCodeHeader: 'Success',
-         successCodeDescription: 'Seed phrase recovery setup is complete.',
-         errorCodeHeader: 'Error',
-         errorCodeDescription: '' 
-      })
+      defaultCodesFor('account.setupSeedPhrase')
    ],
    CLEAR_ALERT: null,
 })
