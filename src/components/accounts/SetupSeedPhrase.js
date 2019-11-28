@@ -125,6 +125,7 @@ class SetupSeedPhrase extends Component {
                                             handleStartOver={this.handleStartOver}
                                             formLoader={this.props.formLoader}
                                             requestStatus={this.state.requestStatus}
+                                            globalAlert={this.props.globalAlert}
                                         />
                                     </AccountFormSection>
                                 </AccountFormContainer>
