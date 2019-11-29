@@ -1,8 +1,7 @@
 import React from 'react'
 import { Translate } from 'react-localize-redux'
-import moment from 'moment'
+import { format } from 'timeago.js'
 import Balance from '../common/Balance'
-
 import IconTAcct from '../../images/IconTAcct'
 import IconTKeyDelete from '../../images/IconTKeyDelete'
 import IconTContract from '../../images/IconTContract'
@@ -10,12 +9,9 @@ import IconTCall from '../../images/IconTCall'
 import IconTTransfer from '../../images/IconTTransfer'
 import IconTStake from '../../images/IconTStake'
 import IconTKeyNew from '../../images/IconTKeyNew'
-
 import ArrowRight from '../../images/icon-arrow-right.svg'
 import ArrowBlkImage from '../../images/icon-arrow-blk.svg'
-
 import { Grid, Image } from 'semantic-ui-react'
-
 import styled from 'styled-components'
 
 const CustomGridRow = styled(Grid.Row)`
@@ -61,6 +57,11 @@ const CustomGridRow = styled(Grid.Row)`
          align-items: center;
          flex-direction: row !important;
          justify-content: space-between;
+
+         .time-stamp {
+            white-space: nowrap;
+            margin-left: 10px;
+         }
       }
 
       .dropdown-image-right {
@@ -112,25 +113,6 @@ const CustomGridRow = styled(Grid.Row)`
       }
    }
 `
-
-moment.updateLocale('en', {
-   relativeTime : {
-       future: "in %s",
-       past:   "%s ago",
-       s  : 'a few seconds',
-       ss : '%d seconds',
-       m:  "a minute",
-       mm: "%d min",
-       h:  "1 hr",
-       hh: "%d hrs",
-       d:  "1 day",
-       dd: "%d days",
-       M:  "1 month",
-       MM: "%d months",
-       y:  "1 year",
-       yy: "%d years"
-   }
-});
 
 const ActionsList = ({ transaction, actions, wide }) => 
    actions
@@ -223,7 +205,7 @@ const ActionIcon = ({ actionKind }) => (
 )
 
 const ActionTimeStamp = ({ timeStamp }) => (
-   <div className='font-small'>{moment(timeStamp).fromNow()}</div>
+   <div className='font-small time-stamp'>{format(timeStamp)}</div>
 )
 
 export default ActionsList
