@@ -30,6 +30,7 @@
     "regenerator-runtime": "^0.13.3",
     "semantic-ui-react": "^0.88.1",
     "styled-components": "^4.4.1",
+    "timeago.js": "^4.0.1",
     "wampy": "^5.0.2"
   },
   "scripts": {

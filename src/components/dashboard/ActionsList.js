@@ -1,8 +1,7 @@
 import React from 'react'
 import { Translate } from 'react-localize-redux'
-
+import { format } from 'timeago.js'
 import Balance from '../common/Balance'
-
 import IconTAcct from '../../images/IconTAcct'
 import IconTKeyDelete from '../../images/IconTKeyDelete'
 import IconTContract from '../../images/IconTContract'
@@ -10,12 +9,9 @@ import IconTCall from '../../images/IconTCall'
 import IconTTransfer from '../../images/IconTTransfer'
 import IconTStake from '../../images/IconTStake'
 import IconTKeyNew from '../../images/IconTKeyNew'
-
 import ArrowRight from '../../images/icon-arrow-right.svg'
 import ArrowBlkImage from '../../images/icon-arrow-blk.svg'
-
 import { Grid, Image } from 'semantic-ui-react'
-
 import styled from 'styled-components'
 
 const CustomGridRow = styled(Grid.Row)`
@@ -57,6 +53,15 @@ const CustomGridRow = styled(Grid.Row)`
          padding-left: 0px;
          flex: 1;
          word-break: break-all;
+         display: flex;
+         align-items: center;
+         flex-direction: row !important;
+         justify-content: space-between;
+
+         .time-stamp {
+            white-space: nowrap;
+            margin-left: 10px;
+         }
       }
 
       .dropdown-image-right {
@@ -145,6 +150,9 @@ const ActionRow = ({ transaction, action, actionKind, wide, showSub = false, tog
                   action={action}
                   actionKind={actionKind}
                />
+               <ActionTimeStamp
+                  timeStamp={transaction.blockTimestamp}
+               />
             </Grid.Column>
          </Grid>
       </Grid.Column>
@@ -173,8 +181,8 @@ const ActionMessage = ({ transaction, action: { AddKey, FunctionCall, Transfer, 
             : `.forReceiver`
          : ''
       }`}
-      data={{ 
-         receiverId: transaction.receiver_id || '', 
+      data={{
+         receiverId: transaction.receiver_id || '',
          methodName: FunctionCall ? FunctionCall.method_name : '', 
          deposit: Transfer ? <Balance amount={Transfer.deposit} /> : '',
          stake: Stake ? Stake.stake : '',
@@ -194,6 +202,10 @@ const ActionIcon = ({ actionKind }) => (
       {actionKind === 'AddKey' && <IconTKeyNew />}
       {actionKind === 'DeleteKey' && <IconTKeyDelete />}
    </div>
+)
+
+const ActionTimeStamp = ({ timeStamp }) => (
+   <div className='font-small time-stamp'>{format(timeStamp)}</div>
 )
 
 export default ActionsList
