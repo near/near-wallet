@@ -15,6 +15,11 @@ import styled from 'styled-components'
 
 const CustomPopup = styled(Popup)`
    &&& {
+      padding: 0px;
+      right: 12px !important;
+      top: 50px !important;
+      position: fixed !important;
+
       .account-dropdown {
          width: 290px;
          min-height: 100px;
@@ -123,7 +128,7 @@ const DesktopPopup = ({
             type='desktop'
          />
       }
-      position='bottom right'
+      position='right center'
       open={popupOpen}
       on='click'
       onClose={handleClose}
