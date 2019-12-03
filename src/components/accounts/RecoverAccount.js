@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from 'react'
+import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { isValidPhoneNumber } from 'react-phone-number-input'
 
@@ -91,7 +92,7 @@ class RecoverAccount extends Component {
          this.props.recoverAccount(this.state.phoneNumber, accountId, this.state.securityCode)
             .then(({ error }) => {
                if (error) return
-               this.props.redirectToApp()
+               this.props.redirectToApp(this.props.history)
             })
             .finally(() => {
                this.setState(() => ({
@@ -151,4 +152,4 @@ const mapStateToProps = ({ account }, { match }) => ({
 export const RecoverAccountWithRouter = connect(
    mapStateToProps, 
    mapDispatchToProps
-)(RecoverAccount)
+)(withRouter(RecoverAccount))

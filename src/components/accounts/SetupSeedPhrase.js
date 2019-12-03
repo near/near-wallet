@@ -23,10 +23,6 @@ class SetupSeedPhrase extends Component {
         this.refreshData()
     }
 
-    componentWillUnmount = () => {
-        this.props.clearAlert()
-    }
-
     refreshData = () => {
         const { seedPhrase, publicKey } = generateSeedPhrase()
         const wordId = Math.floor(Math.random() * 12)
@@ -75,7 +71,7 @@ class SetupSeedPhrase extends Component {
         this.props.addAccessKeySeedPhrase(this.props.accountId, contractName, this.state.publicKey)
             .then(({ error }) => {
                 if (error) return
-                this.props.redirectToApp()
+                this.props.redirectToApp(this.props.history)
             })
     }
 

@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 
 import { recoverAccountSeedPhrase, redirectToApp, checkAccountAvailable, clear } from '../../actions/account'
@@ -46,7 +47,7 @@ class RecoverAccountSeedPhrase extends Component {
       this.props.recoverAccountSeedPhrase(this.state.seedPhrase, accountId)
          .then(({ error }) => {
             if (error) return
-            this.props.redirectToApp()
+            this.props.redirectToApp(this.props.history)
          })
          .finally(() => {
             this.setState(() => ({
@@ -93,4 +94,4 @@ const mapStateToProps = ({ account }) => ({
 export const RecoverAccountSeedPhraseWithRouter = connect(
    mapStateToProps, 
    mapDispatchToProps
-)(RecoverAccountSeedPhrase)
+)(withRouter(RecoverAccountSeedPhrase))
