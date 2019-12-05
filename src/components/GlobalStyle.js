@@ -50,6 +50,17 @@ export default createGlobalStyle`
       text-decoration: underline;
    }
 
+   .link {
+      color: #0072ce;
+      cursor: pointer;
+
+      @media (min-width: 768px) {
+         &:hover {
+            text-decoration: underline;
+         }
+      }
+   }
+
    h1, .h1 {
       font-family: BwSeidoRound !important;
       font-size: 48px !important;

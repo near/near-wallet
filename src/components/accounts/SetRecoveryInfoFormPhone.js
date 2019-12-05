@@ -6,7 +6,7 @@ import PhoneInput from 'react-phone-number-input'
 import FormButton from '../common/FormButton'
 import AccountSkipThisStep from '../common/AccountSkipThisStep'
 
-const SetRecoveryInfoForm = ({
+const SetRecoveryInfoFormPhone = ({
    loader,
    formLoader,
    phoneNumber,
@@ -14,7 +14,8 @@ const SetRecoveryInfoForm = ({
    isLegit,
    requestStatus,
    handleChange,
-   skipRecoverySetup
+   skipRecoverySetup,
+   toggleBackupMethod
 }) => (
    <Fragment>
       {!sentSms && (
@@ -37,6 +38,9 @@ const SetRecoveryInfoForm = ({
                required
                tabIndex='2'
             />
+            <div className='link toggle-backup' onClick={toggleBackupMethod}>
+               Use email instead
+            </div>
          </Fragment>
       )}
 
@@ -70,7 +74,7 @@ const SetRecoveryInfoForm = ({
    </Fragment>
 )
 
-SetRecoveryInfoForm.propTypes = {
+SetRecoveryInfoFormPhone.propTypes = {
    loader: PropTypes.bool.isRequired,
    formLoader: PropTypes.bool.isRequired,
    phoneNumber: PropTypes.string,
@@ -80,4 +84,4 @@ SetRecoveryInfoForm.propTypes = {
    skipRecoverySetup: PropTypes.func,
 }
 
-export default SetRecoveryInfoForm
+export default SetRecoveryInfoFormPhone
