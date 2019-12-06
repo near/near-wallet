@@ -11,9 +11,9 @@
     "account.available.error": "User not found.",
     "account.verifySeedPhrase.error": "You entered the incorrect word",
     "account.setupSeedPhrase.success": "Seed phrase recovery setup is complete.",
-    "account.setupSeedPhrase.error": "",
+    "account.setupSeedPhrase.error": "An error occurred while setting up seed phrase recovery. Please try again!",
     "account.login.success": "${title} is now authorized to use your account.",
-    "account.login.error": "",
+    "account.login.error": "An error occurred while approving this action. Please try again!",
     
     "actions": {
         "CreateAccount": "New account created: @${receiverId}",
