@@ -5,7 +5,7 @@ import { Segment, Form } from 'semantic-ui-react'
 
 import styled from 'styled-components'
 
-import Balance, { NOMINATION, formatNEAR } from '../common/Balance'
+import { utils } from 'nearlib';
 
 const CustomDiv = styled(`div`)`
    &&&&& {
@@ -80,8 +80,7 @@ class SendMoneyAmountInput extends Component {
       }
       let amountAttoNear = ''
       if (value !== '') {
-         let input = new Big(value).times(new Big(10).pow(NOMINATION))
-         amountAttoNear = input.toFixed()
+         amountAttoNear = utils.format.parseNearAmount(input);
          let balance = new Big(this.props.amount)
          if (balance.sub(input).s < 0) {
             amountStatus = 'Not enough tokens.'
