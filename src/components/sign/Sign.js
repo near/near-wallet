@@ -150,6 +150,7 @@ const mapStateToProps = ({ account, sign }) => {
     ]
     */
 
+    // NOTE: Referrer won't be set properly in local dev environment. Underlying reason unknown.
     const { referrer } = account.url
     let referrerDomain;
     if (referrer) {
