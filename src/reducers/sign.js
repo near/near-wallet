@@ -4,7 +4,7 @@ import BN from 'bn.js'
 
 import { parseTransactionsToSign, signAndSendTransactions } from '../actions/account'
 
-export default transactionsToSignReducer = handleActions({
+const sign = handleActions({
     [parseTransactionsToSign]: (state, { payload }) => {
         const transactions = payload.split(',')
             .map(str => Buffer.from(str, 'base64'))
@@ -55,3 +55,5 @@ export default transactionsToSignReducer = handleActions({
 }, {
     status: 'needs-confirmation'
 })
+
+export default sign

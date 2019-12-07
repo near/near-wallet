@@ -6,7 +6,7 @@ import SignContainer from './SignContainer'
 import SignTransferReady from './SignTransferReady';
 import SignTransferSuccess from './SignTransferSuccess';
 import SignTransferCancelled from './SignTransferCancelled';
-import SignTransferInsufficientFunds from './SignTransferInsufficientFunds';
+// import SignTransferInsufficientFunds from './SignTransferInsufficientFunds';
 import SignTransferTransferring from './SignTransferTransferring';
 import SignTransferDetails from './SignTransferDetails';
 

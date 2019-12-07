@@ -217,7 +217,7 @@ export class Wallet {
 
    async signAndSendTransactions(transactions, accountId) {
       for (let { receiverId, nonce, blockHash, actions } of transactions) {
-         const [hash, signedTransaction] = await nearlib.transactions.signTransaction(receiverId, nonce, actions, blockHash, this.connection.signer, accountId, NETWORK_ID)
+         const [, signedTransaction] = await nearlib.transactions.signTransaction(receiverId, nonce, actions, blockHash, this.connection.signer, accountId, NETWORK_ID)
          await this.connection.provider.sendTransaction(signedTransaction)
       }
    }
