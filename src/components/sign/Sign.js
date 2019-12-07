@@ -14,7 +14,6 @@ import { signAndSendTransactions } from '../../actions/account'
 
 class Sign extends Component {
     state = {
-        appTitle: 'TODO: App Title',
         transferDetails: false,
     }
 
@@ -49,7 +48,7 @@ class Sign extends Component {
     renderSubcomponent = () => {
         switch (this.props.status) {
             case 'needs-confirmation':
-                return <SignTransferReady {...this.state} handleAllow={this.handleAllow} handleDeny={this.handleDeny} handleDetails={this.handleDetails} sensitiveActionsCounter={this.props.sensitiveActionsCounter} />
+                return <SignTransferReady {...this.state} appTitle={this.props.appTitle} handleAllow={this.handleAllow} handleDeny={this.handleDeny} handleDetails={this.handleDetails} sensitiveActionsCounter={this.props.sensitiveActionsCounter} />
             case 'in-progress':
                 return <SignTransferTransferring {...this.state} />
             case 'success':
@@ -151,9 +150,17 @@ const mapStateToProps = ({ account, sign }) => {
     ]
     */
 
+    const { referrer } = account.url
+    let referrerDomain;
+    if (referrer) {
+        const referrerUrl = new URL(account.url.referrer)
+        referrerDomain = referrerUrl.hostname
+    }
+
     return {
         account,
-        ...sign,
+        appTitle: referrerDomain,
+        ...sign
     }
 }
 

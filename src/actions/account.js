@@ -78,6 +78,7 @@ export function handleRefreshUrl(location) {
       dispatch({
          type: REFRESH_URL,
          url: {
+            referrer: document.referrer,
             title: title || '',
             app_url: app_url || '',
             contract_id: contract_id || '',
