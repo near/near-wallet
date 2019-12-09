@@ -2,11 +2,12 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { Segment, Form } from 'semantic-ui-react'
+import { BN } from 'bn.js'
 
 import styled from 'styled-components'
 
 import Balance, { formatNEAR } from '../common/Balance'
-import { utils } from 'nearlib';
+import { utils } from 'nearlib'
 
 const CustomDiv = styled(`div`)`
    &&&&& {
@@ -61,7 +62,6 @@ const CustomDiv = styled(`div`)`
    }
 `
 
-const Big = require('big.js')
 class SendMoneyAmountInput extends Component {
    state = {
       amountInput: this.props.defaultAmount ? formatNEAR(this.props.defaultAmount) : '',
@@ -82,8 +82,8 @@ class SendMoneyAmountInput extends Component {
       let amountInInternalFormat = ''
       if (value !== '') {
          amountInInternalFormat = utils.format.parseNearAmount(value);
-         let balance = new Big(this.props.amount)
-         if (balance.sub(new Big(amountInInternalFormat)).s < 0) {
+         let balance = new BN(this.props.amount)
+         if (balance.lt(new BN(amountInInternalFormat))) {
             amountStatus = 'Not enough tokens.'
          }
       }
