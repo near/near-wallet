@@ -79,20 +79,20 @@ class SendMoneyAmountInput extends Component {
       if (value && !this.isDecimalString(value)) {
          amountStatus = 'NO MORE THAN 5 DECIMAL DIGITS'
       }
-      let amountAttoNear = ''
+      let amountInInternalFormat = ''
       if (value !== '') {
-         amountAttoNear = utils.format.parseNearAmount(value);
+         amountInInternalFormat = utils.format.parseNearAmount(value);
          let balance = new Big(this.props.amount)
-         if (balance.sub(new Big(amountAttoNear)).s < 0) {
+         if (balance.sub(new Big(amountInInternalFormat)).s < 0) {
             amountStatus = 'Not enough tokens.'
          }
       }
       this.setState({
-         amountDisplay: amountAttoNear,
+         amountDisplay: amountInInternalFormat,
          amountInput: value,
          amountStatus
       })
-      this.props.handleChange(e, { name: 'amount', value: amountAttoNear })
+      this.props.handleChange(e, { name: 'amount', value: amountInInternalFormat })
       this.props.handleChange(e, { name: 'amountStatus', value: amountStatus })
    }
 

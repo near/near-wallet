@@ -13,8 +13,7 @@ describe('<Balance.js>', ()=>{
 
     it('balance should return properly for non 0 for 0.0987',()=>{
         let wrapper = shallow(<Balance amount={contextNull} />)
-        expect(wrapper.contains("<0.00001")).toEqual(true)
-                        
+        expect(wrapper.contains("<0.00001")).toEqual(true);                  
     })
 
     it('balance should return properly for small number',()=>{
