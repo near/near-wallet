@@ -5958,10 +5958,10 @@ nearley@^2.7.10:
     randexp "0.4.6"
     semver "^5.4.1"
 
-nearlib@^0.17.2:
-  version "0.17.2"
-  resolved "https://registry.yarnpkg.com/nearlib/-/nearlib-0.17.2.tgz#49257f06088ad9f093f384199d44b7eb57f24656"
-  integrity sha512-CRhuxrqHAF6vwm61vNaRLXJpFMRoCIVXifQmoZ6vcMeLJ4T4k0QS9+ft6D1zIR2JpwIEukoeCW/RQ3g6G9YsJQ==
+nearlib@^0.18.2:
+  version "0.18.2"
+  resolved "https://registry.yarnpkg.com/nearlib/-/nearlib-0.18.2.tgz#5bc0b7e90e84a18c5fbb62e902dfcc7df0a4cc68"
+  integrity sha512-DjaK62A8qzgBEb3XOoUxsfWbguMtGbht/4kWtyx0C06InHii3Y9rVd4G+5NYnjJxIANcSJ8EYKJ8Bd2UFr2jDw==
   dependencies:
     "@types/bn.js" "^4.11.5"
     bn.js "^5.0.0"
@@ -5972,7 +5972,6 @@ nearlib@^0.17.2:
     node-fetch "^2.3.0"
     text-encoding-utf-8 "^1.0.2"
     tweetnacl "^1.0.1"
-    typescript "^3.5.1"
 
 needle@^2.2.1:
   version "2.4.0"
@@ -8955,11 +8954,6 @@ typedarray@^0.0.6:
   version "0.0.6"
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
   integrity sha1-hnrHTjhkGHsdPUfZlqeOxciDB3c=
-
-typescript@^3.5.1:
-  version "3.7.2"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.7.2.tgz#27e489b95fa5909445e9fef5ee48d81697ad18fb"
-  integrity sha512-ml7V7JfiN2Xwvcer+XAf2csGO1bPBdRbFCkYBczNZggrBZ9c7G3riSUeJmqEU5uOtXNPMhE3n+R4FA/3YOAWOQ==
 
 u3@^0.1.0:
   version "0.1.0"
