@@ -78,7 +78,7 @@ class RecoverAccount extends Component {
       }))
 
       const accountId = this.state.accountId // || this.props.accountId;
-      if (!this.props.sentSms) {
+      if (!this.props.sentMessage) {
          this.props.requestCode(this.state.phoneNumber, accountId)
             .finally(() => {
                this.setState(() => ({
@@ -108,13 +108,13 @@ class RecoverAccount extends Component {
          ...this.state,
          isLegit: this.state.isLegit && !this.props.formLoader
       }
-      const { sentSms } = this.props
+      const { sentMessage } = this.props
       
       return (
          <AccountFormContainer 
-            wide={sentSms ? true : false}
-            title={sentSms ? `Enter your Code` : `Find your Account`}
-            text={sentSms ? (
+            wide={sentMessage ? true : false}
+            title={sentMessage ? `Enter your Code` : `Find your Account`}
+            text={sentMessage ? (
                <Fragment>
                   Your 6-digit code has been sent to: <span>{this.state.phoneNumber}</span>
                   <br/>

@@ -17,7 +17,7 @@ import Footer from './common/Footer'
 import PrivateRoute from './common/PrivateRoute'
 import DashboardDetailWithRouter from './dashboard/DashboardDetail'
 import { CreateAccountWithRouter } from './accounts/CreateAccount'
-import { SetRecoveryInfoWithRouter } from './accounts/SetRecoveryInfo'
+import { SetRecoveryMethodContainerWithRouter } from './accounts/SetRecoveryMethodContainer'
 import { RecoverAccountWithRouter } from './accounts/RecoverAccount'
 import { RecoverAccountSeedPhraseWithRouter } from './accounts/RecoverAccountSeedPhrase'
 import { LoginWithRouter } from './login/Login'
@@ -91,7 +91,7 @@ class Routing extends Component {
                            <PrivateRoute
                               exact
                               path='/set-recovery/:accountId'
-                              component={SetRecoveryInfoWithRouter}
+                              component={SetRecoveryMethodContainerWithRouter}
                            />
                            <PrivateRoute
                               exact

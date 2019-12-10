@@ -12,7 +12,7 @@ const RecoverAccountForm = ({
     loader,
     formLoader,
     phoneNumber,
-    sentSms,
+    sentMessage,
     isLegit,
     requestStatus,
     handleChange,
@@ -22,7 +22,7 @@ const RecoverAccountForm = ({
     accountId
 }) => (
    <Fragment>
-      {!sentSms && (
+      {!sentMessage && (
          <Fragment>
             <Header as='h4'>Username</Header>
             <AccountFormAccountId
@@ -52,7 +52,7 @@ const RecoverAccountForm = ({
          </Fragment>
       )}
 
-      {sentSms && (
+      {sentMessage && (
          <Fragment>
             <Header as='h4' className='digit-code empty'>&nbsp;</Header>
             <Input
@@ -80,7 +80,7 @@ const RecoverAccountForm = ({
             <div>Have a seed phrase?</div>
             <Link to='/recover-seed-phrase'>Recover using seed phrase</Link>
       </div>
-      {sentSms && (
+      {sentMessage && (
             <AccountStartOver
                handleStartOver={handleStartOver}
                handleResendCode={handleResendCode}
@@ -94,7 +94,7 @@ RecoverAccountForm.propTypes = {
     loader: PropTypes.bool.isRequired,
     formLoader: PropTypes.bool.isRequired,
     phoneNumber: PropTypes.string,
-    sentSms: PropTypes.bool,
+    sentMessage: PropTypes.bool,
     requestStatus: PropTypes.object,
     handleChange: PropTypes.func.isRequired,
     handleStartOver: PropTypes.func.isRequired,
