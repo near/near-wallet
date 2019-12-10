@@ -31,7 +31,8 @@ const SetupSeedPhraseVerify = ({
     handleChangeWord,
     handleStartOver,
     formLoader,
-    requestStatus
+    requestStatus,
+    globalAlert
 }) => (
     <CustomDiv>
         <h4><Translate id='input.enterWord.title' /> #{wordId + 1}</h4>
@@ -53,7 +54,7 @@ const SetupSeedPhraseVerify = ({
         <FormButton
             type='submit'
             color='blue'
-            disabled={!enterWord}
+            disabled={enterWord ? (globalAlert && globalAlert.success) : true}
             sending={formLoader}
         >
             <Translate id='button.verify' />

@@ -32,7 +32,7 @@ import { AddNodeWithRouter } from './node-staking/AddNode'
 import { NodeDetailsWithRouter } from './node-staking/NodeDetails'
 import { StakingWithRouter } from './node-staking/Staking'
 
-import { handleRefreshAccount, handleRefreshUrl } from '../actions/account'
+import { handleRefreshAccount, handleRefreshUrl, clearAlert, clear } from '../actions/account'
 
 import GlobalStyle from './GlobalStyle'
 import { SetupSeedPhraseWithRouter } from './accounts/SetupSeedPhrase'
@@ -57,15 +57,26 @@ class Routing extends Component {
    }
    
    componentDidMount = () => {
-      const { handleRefreshAccount, handleRefreshUrl, history, account } = this.props
+      const { handleRefreshAccount, handleRefreshUrl, history, account, clearAlert, clear } = this.props
+      
       if (!account.accountId) {
          const redirectUrl = history.location.pathname
          history.location.search = stringify({...parse(history.location.search), redirect_url: redirectUrl})
       }
+      
       handleRefreshAccount(history)
       handleRefreshUrl(history.location)
 
-      history.listen(() => handleRefreshAccount(history, false))
+      history.listen(() => {
+         handleRefreshAccount(history, false)
+         
+         const { state: { globalAlertPreventClear } = {} } = history.location
+         if (!globalAlertPreventClear) {
+            clearAlert()
+         }
+         
+         clear()
+      })
    }
 
    render() {
@@ -182,7 +193,9 @@ Routing.propTypes = {
 
 const mapDispatchToProps = {
    handleRefreshAccount,
-   handleRefreshUrl
+   handleRefreshUrl,
+   clearAlert,
+   clear
 }
 
 const mapStateToProps = ({ account }) => ({
