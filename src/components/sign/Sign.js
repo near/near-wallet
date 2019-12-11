@@ -6,166 +6,191 @@ import SignContainer from './SignContainer'
 import SignTransferReady from './SignTransferReady';
 import SignTransferSuccess from './SignTransferSuccess';
 import SignTransferCancelled from './SignTransferCancelled';
-// import SignTransferInsufficientFunds from './SignTransferInsufficientFunds';
+import SignTransferInsufficientFunds from './SignTransferInsufficientFunds';
 import SignTransferTransferring from './SignTransferTransferring';
 import SignTransferDetails from './SignTransferDetails';
 
-import { signAndSendTransactions } from '../../actions/account'
-
 class Sign extends Component {
-    state = {
-        transferDetails: false,
-    }
+   state = {
+      transferReady: false,
+      transferTransferring: false,
+      transferTransferringStart: false,
+      transferTransferringPending: false,
+      transferTransferringEnd: false,
+      transferSuccess: false,
+      transferCancelled: false,
+      transferInsufficientFunds: false,
+      transferDetails: false,
+   }
 
-    handleDeny = e => {
-        e.preventDefault();
-        // TODO: Dispatch action for app redirect?
-        if (this.props.account.url.callback) {
-            window.location.href = this.props.account.url.callback
-        }
-    }
+   componentDidMount = () => {
+      this.setState(() => ({
+         transferReady: true
+      }))
+   }
 
-    handleAddFunds = () => {
-        this.props.history.push('/profile')
-    }
+   handleDeny = e => {
+      e.preventDefault();
+      if (this.props.account.url.callback) {
+         window.location.href = this.props.account.url.callback
+      }
+   }
 
-    handleAllow = e => {
-        // TODO: Submit transaction for real
-        // TODO: Remove all setState garbage
-        // TODO: Update status in reducer?
+   handleAddFunds = () => {
+      this.props.history.push('/profile')
+   }
 
-        // TODO: Redirect immediately if submitting transaction isn't desired
+   handleAllow = e => {
+      this.setState(() => ({
+         transferReady: false,
+         transferTransferring: true,
+         transferTransferringStart: true
+      }))
 
-        this.props.signAndSendTransactions(this.props.transactions, this.props.account.accountId);
-    }
+      setTimeout(() => {
+         this.setState(() => ({
+            transferTransferringPending: true
+         }))
 
-    handleDetails = (show) => {
-        this.setState(() => ({
-            transferDetails: show
-        }))
-    }
+         //actions
+         setTimeout(() => {
+            this.setState(() => ({
+               transferTransferringEnd: true
+            }))
 
-    renderSubcomponent = () => {
-        switch (this.props.status) {
-            case 'needs-confirmation':
-                return <SignTransferReady {...this.state} appTitle={this.props.appTitle} handleAllow={this.handleAllow} handleDeny={this.handleDeny} handleDetails={this.handleDetails} sensitiveActionsCounter={this.props.sensitiveActionsCounter} />
-            case 'in-progress':
-                return <SignTransferTransferring {...this.state} />
-            case 'success':
-                return <SignTransferSuccess handleDeny={this.handleDeny} totalAmount={this.props.totalAmount} />
-            case 'error':
-                // TODO: Figure out how to handle different error types
-                return <SignTransferCancelled handleDeny={this.handleDeny} />
-            //return <SignTransferInsufficientFunds handleDeny={this.handleDeny} handleAddFunds={this.handleAddFunds} />
-            default:
-                return <b>Unexpected status: {this.props.status}</b>
-        }
-    }
+            //finally
+            setTimeout(() => {
+               this.setState(() => ({
+                  transferTransferring: false,
+                  
+                  transferSuccess: true,
+                  // transferCancelled: true,
+                  // transferInsufficientFunds: true
+               }))
+            }, 1000);
+         }, 2500);
+      }, 500);
+   }
 
-    render() {
-        return (
-            <SignContainer>
-                {this.state.transferDetails
-                    ? <SignTransferDetails handleDetails={this.handleDetails} transactions={this.state.transactions} fees={this.props.fees} />
-                    : this.renderSubcomponent()}
-            </SignContainer>
-        )
-    }
+   handleDetails = (show) => {
+      this.setState(() => ({
+         transferReady: !show,
+         transferDetails: show
+      }))
+   }
+
+   render() {
+      return (
+         <SignContainer>
+            {this.state.transferReady && <SignTransferReady {...this.state} handleAllow={this.handleAllow} handleDeny={this.handleDeny} handleDetails={this.handleDetails} sensitiveActionsCounter={this.props.sensitiveActionsCounter} />}
+            {this.state.transferTransferring && <SignTransferTransferring {...this.state} />}
+            {this.state.transferSuccess && <SignTransferSuccess handleDeny={this.handleDeny} />}
+            {this.state.transferCancelled && <SignTransferCancelled handleDeny={this.handleDeny} />}
+            {this.state.transferInsufficientFunds && <SignTransferInsufficientFunds handleDeny={this.handleDeny} handleAddFunds={this.handleAddFunds} />}
+            {this.state.transferDetails && <SignTransferDetails handleDetails={this.handleDetails} transactions={this.props.transactions} fees={this.props.fees} />}
+         </SignContainer>
+      )
+   }
 }
 
-const mapDispatchToProps = {
-    signAndSendTransactions
-}
+const mapDispatchToProps = {}
 
-const mapStateToProps = ({ account, sign }) => {
-    // TODO: Remove dummy data
-    /*
-    transactions = [
-        {
-            signerId: 'cryptocorgis',
-            receiverId: 'account id',
-            actions: [
-                {
-                    createAccount: {},
-                },
-                {
-                    deployContract: {},
-                },
-                {
-                    functionCall: {
-                        methodName: 'Method Name',
-                        args: [1, 2, 3],
-                        gas: 123
-                    },
-                },
-                {
-                    transfer: {
-                        deposit: 123
-                    },
-                },
-                {
-                    stake: {
-                        stake: 123,
-                        publicKey: 'dasdasadsdasdasadsadsadsdsaadsdas'
-                    },
-                },
-                {
-                    addKey: {
-                        publicKey: 'dasdasadsdasdasadsadsadsdsaadsdas',
-                        accessKey: {
-                            permission: {
-                                functionCall: {
-                                    receiverId: 'receiver id'
-                                }
-                            }
+const mapStateToProps = ({ account, transactions = [] }) => {
+   
+   transactions = [
+      {
+         signerId: 'cryptocorgis',
+         receiverId: 'account id',
+         actions: [
+            {
+               createAccount: {},
+            },
+            {
+               deployContract: {},
+            },
+            {
+               functionCall: {
+                  methodName: 'Method Name',
+                  args: [1,2,3],
+                  gas: 123
+               },
+            },
+            {
+               transfer: {
+                  deposit: 123
+               },
+            },
+            {
+               stake: {
+                  stake: 123,
+                  publicKey: 'dasdasadsdasdasadsadsadsdsaadsdas'
+               },
+            },
+            {
+               addKey: {
+                  publicKey: 'dasdasadsdasdasadsadsadsdsaadsdas',
+                  accessKey: {
+                     permission: {
+                        functionCall: {
+                           receiverId: 'receiver id'
                         }
-                    },
-                },
-                {
-                    deleteKey: {
-                        publicKey: 'dasdasadsdasdasadsadsadsdsaadsdas'
-                    },
-                },
-                {
-                    deleteAccount: {},
-                }
-            ]
-        },
-        {
-            signerId: 'cryptocorgis',
-            receiverId: 'account id',
-            actions: [
-                {
-                    deployContract: {}
-                },
-                {
-                    functionCall: {
-                        methodName: 'Method Name',
-                        args: [1, 2, 3],
-                        gas: 123
-                    },
-                },
-            ]
-        }
-    ]
-    */
-
-    // NOTE: Referrer won't be set properly in local dev environment. Underlying reason unknown.
-    const { referrer } = account.url
-    let referrerDomain;
-    if (referrer) {
-        const referrerUrl = new URL(account.url.referrer)
-        referrerDomain = referrerUrl.hostname
-    }
-
-    return {
-        account,
-        appTitle: referrerDomain,
-        ...sign
-    }
+                     }
+                  }
+               },
+            },
+            {
+               deleteKey: {
+                  publicKey: 'dasdasadsdasdasadsadsadsdsaadsdas'
+               },
+            },
+            {
+               deleteAccount: {},
+            }
+         ]
+      },
+      {
+         signerId: 'cryptocorgis',
+         receiverId: 'account id',
+         actions: [
+            {
+               deployContract: {}
+            },
+            {
+               functionCall: {
+                  methodName: 'Method Name',
+                  args: [1,2,3],
+                  gas: 123
+               },
+            },
+         ]
+      }
+   ]
+   
+   return {
+      account,
+      transactions,
+      fees: {
+         transactionFees: '',
+         gasLimit: transactions.reduce((c, t) => 
+            c + t.actions.reduce((ca, a) => 
+               Object.keys(a)[0] === 'functionCall'
+                  ? ca + a.functionCall.gas
+                  : ca
+            , 0)
+         , 0),
+         gasPrice: ''
+      },
+      sensitiveActionsCounter: transactions.reduce((c, t) => 
+         c + t.actions.reduce((ca, a) => 
+            ['deployContract', 'stake', 'deleteAccount'].indexOf(Object.keys(a)[0]) > -1
+               ? ca + 1
+               : ca
+         , 0)
+      , 0)
+   }
 }
 
 export const SignWithRouter = connect(
-    mapStateToProps,
-    mapDispatchToProps
+   mapStateToProps,
+   mapDispatchToProps
 )(withRouter(Sign))

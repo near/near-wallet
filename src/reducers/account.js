@@ -1,6 +1,4 @@
 import { handleActions, combineActions } from 'redux-actions'
-import reduceReducers from 'reduce-reducers'
-
 import {
    REFRESH_ACCOUNT,
    LOADER_ACCOUNT,
@@ -13,7 +11,8 @@ import {
    addAccessKey,
    addAccessKeySeedPhrase,
    clearAlert
-} from '../../actions/account'
+} from '../actions/account'
+import reduceReducers from 'reduce-reducers'
 
 const initialState = {
    formLoader: false,
@@ -61,7 +60,7 @@ const requestResultClearReducer = handleActions({
    [clear]: state => Object.keys(state).reduce((obj, key) => key !== 'requestStatus' ? (obj[key] = state[key], obj) : obj, {})
 }, initialState)
 
-const recoverCodeReducer = handleActions({
+const reducer = handleActions({
       [requestCode]: (state, { error, ready }) => {
          if (ready && !error) {
             return { ...state, sentSms: true }
@@ -119,7 +118,7 @@ export default reduceReducers(
    globalAlertReducer,
    requestResultReducer,
    requestResultClearReducer,
-   recoverCodeReducer,
+   reducer,
    accessKeys,
    transactions,
    account
