@@ -1,5 +1,5 @@
 import { parse, stringify } from 'query-string'
-import { createActions } from 'redux-actions'
+import { createActions, createAction } from 'redux-actions'
 import { Wallet } from '../utils/wallet'
 import { getTransactions as getTransactionsApi } from '../utils/explorer-api'
 
@@ -70,25 +70,31 @@ export function handleRefreshAccount(history, loader = true) {
    }
 }
 
+export const parseTransactionsToSign = createAction('PARSE_TRANSACTIONS_TO_SIGN')
+
 export function handleRefreshUrl(location) {
    return dispatch => {
-      const { title, app_url, contract_id, success_url, failure_url, public_key, transaction, callback, account_id, send, redirect_url } = parse(location.search)
+      const { title, app_url, contract_id, success_url, failure_url, public_key, transactions, callback, account_id, send, redirect_url } = parse(location.search)
       dispatch({
          type: REFRESH_URL,
          url: {
+            referrer: document.referrer,
             title: title || '',
             app_url: app_url || '',
             contract_id: contract_id || '',
             success_url: success_url || '',
             failure_url: failure_url || '',
             public_key: public_key || '',
-            transaction: transaction || '',
             callback: callback || ``,
             account_id: account_id || '',
             send: send || '',
             redirect_url: redirect_url || '',
          }
       })
+
+      if (transactions) {
+         dispatch(parseTransactionsToSign(transactions))
+      }
    }
 }
 
@@ -156,6 +162,13 @@ export const { recoverAccountSeedPhrase } = createActions({
       wallet.recoverAccountSeedPhrase.bind(wallet),
       () => defaultCodesFor('account.recoverAccount')
    ],
+})
+
+export const { signAndSendTransactions } = createActions({
+   SIGN_AND_SEND_TRANSACTIONS: [
+      wallet.signAndSendTransactions.bind(wallet),
+      defaultCodesFor('account.signAndSendTransactions')
+   ]
 })
 
 export const { switchAccount } = createActions({

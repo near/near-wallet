@@ -5,7 +5,6 @@ import { List } from 'semantic-ui-react';
 const CustomDiv = styled(List)`
     position: relative;
     display: inline;
-    border-bottom: 1px dotted black;
 `
 // denomination of one near in minimal non divisible units (attoNears)
 // NEAR_NOMINATION is 10 ** 18 one unit
@@ -16,17 +15,12 @@ const Balance = ({ amount }) => {
     if (!amount) {
         throw new Error("amount property should not be null")
     }
-    let amountShow = convertToShow(amount)
+    let amountShow = formatNEAR(amount)
     return (
         <CustomDiv>
             {amountShow} Ⓝ
         </CustomDiv>
     )
-}
-
-const convertToShow = (amount) => {
-    return  formatNEAR(amount)
-
 }
 
 export const formatNEAR = (amount) => {
