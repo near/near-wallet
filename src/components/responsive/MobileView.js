@@ -1,37 +1,29 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-
-import { withRouter, Link } from 'react-router-dom'
-
-import PropTypes from 'prop-types'
-
-import GlobalAlert from './GlobalAlert'
-import NodeAnimatedDot from '../node-staking/NodeAnimatedDot'
-
+import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import styled from 'styled-components';
+import NodeAnimatedDot from '../node-staking/NodeAnimatedDot';
 import {
-   Image,
-   Menu,
-   Responsive,
-   Segment,
-   List,
-   Button
-} from 'semantic-ui-react'
+    Image,
+    Menu,
+    Responsive,
+    Segment,
+    List,
+    Button
+} from 'semantic-ui-react';
+import PopupMenuTrigger from './PopupMenuTrigger';
+import GlobalAlert from './GlobalAlert';
 
-import PopupMenuTrigger from './PopupMenuTrigger'
-
-import SendImage from '../../images/icon-send.svg'
-import ContactsGreyImage from '../../images/icon-contacts.svg'
-import AuthorizedGreyImage from '../../images/icon-authorized.svg'
-import LogoutImage from '../../images/icon-logout.svg'
-import LogoImage from '../../images/wallet.png'
-import AccountGreyImage from '../../images/icon-account.svg'
-import RecentImage from '../../images/icon-recent.svg'
-import ActivityImage from '../../images/icon-activity.svg'
-import KeysImage from '../../images/icon-keys-grey.svg'
-
-import { handleRefreshAccount, switchAccount } from '../../actions/account'
-
-import styled from 'styled-components'
+// Images
+import SendImage from '../../images/icon-send.svg';
+import AuthorizedGreyImage from '../../images/icon-authorized.svg';
+import LogoImage from '../../images/wallet.png';
+import AccountGreyImage from '../../images/icon-account.svg';
+import RecentImage from '../../images/icon-recent.svg';
+import KeysImage from '../../images/icon-keys-grey.svg';
+//import ContactsGreyImage from '../../images/icon-contacts.svg';
+//import LogoutImage from '../../images/icon-logout.svg';
+//import ActivityImage from '../../images/icon-activity.svg';
 
 const CustomResponsive = styled(Responsive)`
    &&& {
@@ -155,178 +147,153 @@ const CustomResponsive = styled(Responsive)`
    }
 `
 
-const getWidth = () => {
-   const isSSR = typeof window === 'undefined'
-   return isSSR ? Responsive.onlyTablet.minWidth : window.innerWidth
-}
-
 class MobileView extends Component {
-   static propTypes = {
-      children: PropTypes.node
-   }
+    static propTypes = {
+        children: PropTypes.node
+    }
 
-   static defaultProps = {
-      children: ''
-   }
+    static defaultProps = {
+        children: ''
+    }
 
-   state = {
-      dropdown: true
-   }
+    state = {
+        dropdown: true
+    }
 
-   handleDropdown = () =>
-      this.setState(state => ({
-         dropdown: !state.dropdown
-      }))
+    handleDropdown = () => {
+        this.setState(prevState => ({
+            dropdown: !prevState.dropdown
+        }));
+    }
 
-   handleSelectAccount = accountId => {
-      this.props.switchAccount(accountId)
-      this.props.handleRefreshAccount(this.props.history)
-      this.handleDropdown()
-      this.props.history.push(`/`)
-   }
+    handleSelectAccount = accountId => {
+        this.props.switchAccount(accountId)
+        this.props.handleRefreshAccount(this.props.history)
+        this.handleDropdown()
+        this.props.history.push(`/`)
+    }
 
-   redirectCreateAccount = () => {
-      this.handleDropdown()
-      this.props.history.push('/create')
-   }
+    redirectCreateAccount = () => {
+        this.handleDropdown()
+        this.props.history.push('/create')
+    }
 
-   render() {
-      const { dropdown } = this.state
-      const { account } = this.props
+    render() {
+        const { dropdown } = this.state
+        const { account, showNavbarLinks, getWidth } = this.props
 
-      return (
-         <CustomResponsive
-            getWidth={getWidth}
-            maxWidth={Responsive.onlyTablet.maxWidth}
-         >
-            
-            <Segment basic className='navbar'>
-               <Menu className='navbar-main' borderless>
-                  <div className={`mainlogo ${this.props.location.pathname === `/node-staking` ? `node-staking` : ``}`}>
-                     <Link to='/'>
-                        <div>
-                           <Image src={LogoImage} />
-                           {this.props.location.pathname === `/node-staking` && <NodeAnimatedDot color='red' />}
+        return (
+            <CustomResponsive
+                getWidth={getWidth}
+                maxWidth={Responsive.onlyTablet.maxWidth}
+            >
+                <Segment basic className='navbar'>
+                    <Menu className='navbar-main' borderless>
+                        <div className={`mainlogo ${this.props.location.pathname === `/node-staking` ? `node-staking` : ``}`}>
+                            <Link to='/'>
+                                <div>
+                                    <Image src={LogoImage} />
+                                    {this.props.location.pathname === `/node-staking` && <NodeAnimatedDot color='red' />}
+                                </div>
+                            </Link>
                         </div>
-                     </Link>
-                  </div>
-
-                  {account.accountId && (
-                     <div className='trigger'>
-                        <PopupMenuTrigger
-                           account={account}
-                           handleClick={this.handleDropdown}
-                           type='mobile'
-                           dropdown={dropdown}
-                        />
-                     </div>
-                  )}
-               </Menu>
-               <Segment
-                  basic
-                  className={`navbar-sub ${dropdown ? `hide` : ``}`}
-               >
-                  <Menu.Menu>
-                     <Link to='/' onClick={this.handleDropdown}>
-                        <Menu.Item className='main'>
-                           <Image src={RecentImage} />
-                           SUMMARY
-                        </Menu.Item>
-                     </Link>
-                     {false ? (
-                        <Link to='/activity' onClick={this.handleDropdown}>
-                           <Menu.Item className='main'>
-                              <Image src={ActivityImage} />
-                              ACTIVITY
-                           </Menu.Item>
-                        </Link>
-                     ) : null}
-                     <Link to='/send-money' onClick={this.handleDropdown}>
-                        <Menu.Item className='main border'>
-                           <Image src={SendImage} />
-                           SEND TOKENS
-                        </Menu.Item>
-                     </Link>
-
-                     <Menu.Menu className='sub'>
-                        <Link to='/profile' onClick={this.handleDropdown}>
-                           <Menu.Item>
-                              <Image src={AccountGreyImage} />
-                              Profile
-                           </Menu.Item>
-                        </Link>
-                        {false ? (
-                           <Link to='/contacts' onClick={this.handleDropdown}>
-                              <Menu.Item>
-                                 <Image src={ContactsGreyImage} />
-                                 Contacts
-                              </Menu.Item>
-                           </Link>
-                        ) : null}
-                        <Link to='/authorized-apps' onClick={this.handleDropdown}>
-                           <Menu.Item>
-                              <Image src={AuthorizedGreyImage} />
-                              Authorized Apps
-                           </Menu.Item>
-                        </Link>
-                        <Link to='/full-access-keys' onClick={this.handleDropdown}>
-                           <Menu.Item>
-                              <Image src={KeysImage} />
-                              Full Access Keys
-                           </Menu.Item>
-                        </Link>
-                        {false ? (
-                           <Link to='/' onClick={this.handleDropdown}>
-                              <Menu.Item>
-                                 <Image src={LogoutImage} />
-                                 Logout
-                              </Menu.Item>
-                           </Link>
-                        ) : null}
-                     </Menu.Menu>
-                     <Segment basic className='switch-account'>
-                        <List>
-                           <List.Item as='h6'>SWITCH ACCOUNT</List.Item>
-
-                           {account.accounts &&
-                              Object.keys(account.accounts)
-                                 .filter(a => a !== account.accountId)
-                                 .map((account, i) => (
-                                    <List.Item
-                                       as='a'
-                                       key={`mf-${i}`}
-                                       onClick={() =>
-                                          this.handleSelectAccount(account)
-                                       }
-                                       className='account-title'
-                                    >
-                                       @{account}
-                                    </List.Item>
-                                 ))}
-                        </List>
-                        <Button onClick={this.redirectCreateAccount}>
-                           CREATE NEW ACCOUNT
-                        </Button>
-                     </Segment>
-                  </Menu.Menu>
-               </Segment>
-            </Segment>
-            <GlobalAlert />
-         </CustomResponsive>
-      )
-   }
+                        {showNavbarLinks &&
+                            <div className='trigger'>
+                                <PopupMenuTrigger
+                                    account={account}
+                                    handleClick={this.handleDropdown}
+                                    type='mobile'
+                                    dropdown={dropdown}
+                                />
+                            </div>
+                        }
+                    </Menu>
+                    <Segment basic className={`navbar-sub ${dropdown ? `hide` : ``}`}>
+                        <Menu.Menu>
+                            <Link to='/' onClick={this.handleDropdown}>
+                                <Menu.Item className='main'>
+                                    <Image src={RecentImage} />
+                                    SUMMARY
+                                </Menu.Item>
+                            </Link>
+                            {/*
+                                <Link to='/activity' onClick={this.handleDropdown}>
+                                    <Menu.Item className='main'>
+                                        <Image src={ActivityImage} />
+                                        ACTIVITY
+                                    </Menu.Item>
+                                </Link>
+                            */}
+                            <Link to='/send-money' onClick={this.handleDropdown}>
+                                <Menu.Item className='main border'>
+                                    <Image src={SendImage} />
+                                    SEND TOKENS
+                                </Menu.Item>
+                            </Link>
+                            <Menu.Menu className='sub'>
+                                <Link to='/profile' onClick={this.handleDropdown}>
+                                    <Menu.Item>
+                                        <Image src={AccountGreyImage} />
+                                        Profile
+                                    </Menu.Item>
+                                </Link>
+                                {/*
+                                    <Link to='/contacts' onClick={this.handleDropdown}>
+                                        <Menu.Item>
+                                            <Image src={ContactsGreyImage} />
+                                            Contacts
+                                        </Menu.Item>
+                                    </Link>
+                                */}
+                                <Link to='/authorized-apps' onClick={this.handleDropdown}>
+                                    <Menu.Item>
+                                        <Image src={AuthorizedGreyImage} />
+                                        Authorized Apps
+                                    </Menu.Item>
+                                </Link>
+                                <Link to='/full-access-keys' onClick={this.handleDropdown}>
+                                    <Menu.Item>
+                                        <Image src={KeysImage} />
+                                        Full Access Keys
+                                    </Menu.Item>
+                                </Link>
+                                {/*
+                                    <Link to='/' onClick={this.handleDropdown}>
+                                        <Menu.Item>
+                                            <Image src={LogoutImage} />
+                                            Logout
+                                        </Menu.Item>
+                                    </Link>
+                                */}
+                            </Menu.Menu>
+                            <Segment basic className='switch-account'>
+                                <List>
+                                    <List.Item as='h6'>SWITCH ACCOUNT</List.Item>
+                                    {account.accounts &&
+                                        Object.keys(account.accounts)
+                                            .filter(a => a !== account.accountId)
+                                            .map((account, i) => (
+                                                <List.Item
+                                                    as='a'
+                                                    key={`mf-${i}`}
+                                                    onClick={() => this.handleSelectAccount(account)}
+                                                    className='account-title'
+                                                >
+                                                    @{account}
+                                                </List.Item>
+                                            ))}
+                                </List>
+                                <Button onClick={this.redirectCreateAccount}>
+                                    CREATE NEW ACCOUNT
+                                </Button>
+                            </Segment>
+                        </Menu.Menu>
+                    </Segment>
+                </Segment>
+                <GlobalAlert />
+            </CustomResponsive>
+        )
+    }
 }
 
-const mapDispatchToProps = {
-   handleRefreshAccount,
-   switchAccount
-}
-
-const mapStateToProps = ({ account }) => ({
-   account
-})
-
-export default connect(
-   mapStateToProps,
-   mapDispatchToProps
-)(withRouter(MobileView))
+export default MobileView;
