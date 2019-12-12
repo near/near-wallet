@@ -71,7 +71,7 @@ class SetupSeedPhrase extends Component {
         this.props.addAccessKeySeedPhrase(this.props.accountId, contractName, this.state.publicKey)
             .then(({ error }) => {
                 if (error) return
-                this.props.redirectToApp(this.props.history)
+                this.props.redirectToApp()
             })
     }
 

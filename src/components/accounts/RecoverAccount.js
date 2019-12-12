@@ -92,7 +92,7 @@ class RecoverAccount extends Component {
          this.props.recoverAccount(this.state.phoneNumber, accountId, this.state.securityCode)
             .then(({ error }) => {
                if (error) return
-               this.props.redirectToApp(this.props.history)
+               this.props.redirectToApp()
             })
             .finally(() => {
                this.setState(() => ({
