@@ -61,7 +61,7 @@ export default createGlobalStyle`
       font-family: BwSeidoRound !important;
       font-size: 24px !important;
       font-weight: 500 !important;
-      line-height: 1.33;
+      line-height: 1.4;
       color: #24272a !important;
       margin: 0px;
    }
