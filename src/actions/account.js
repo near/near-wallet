@@ -167,7 +167,7 @@ export const { recoverAccountSeedPhrase } = createActions({
 export const { signAndSendTransactions } = createActions({
    SIGN_AND_SEND_TRANSACTIONS: [
       wallet.signAndSendTransactions.bind(wallet),
-      defaultCodesFor('account.signAndSendTransactions')
+      () => defaultCodesFor('account.signAndSendTransactions')
    ]
 })
 
