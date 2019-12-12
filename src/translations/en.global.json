@@ -56,5 +56,8 @@
             "title": "Word",
             "placeholder": ""
         }
-    }
+    },
+
+    "success": "Success",
+    "error": "Error"
 }
