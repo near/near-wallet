@@ -43,6 +43,12 @@ const analyticsMiddleware = store => next => action => {
   let details = {
     pathname: window.location.pathname,
   }
+  if (window.gtag && ACTIONS_TO_TRACK.includes(action.type)) {
+    window.gtag('event', 'action', {
+      event_category: action.type,
+      event_label: JSON.stringify(action.type)
+    })
+  }
   if (window.amplitude) {
     window.amplitude.getInstance().logEvent(action.type, details);
   }
