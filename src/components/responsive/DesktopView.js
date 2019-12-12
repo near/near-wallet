@@ -99,6 +99,11 @@ const CustomResponsive = styled(Responsive)`
     }
 `
 
+const LogoLink = styled(Link)`
+    display: block;
+    pointer-events: ${props => props.pointerEvents};
+`;
+
 class DesktopView extends Component {
     static propTypes = {
         children: PropTypes.node
@@ -152,12 +157,12 @@ class DesktopView extends Component {
                         <div className='left'>
                             <div>
                                 <div className={`mainlogo ${this.props.location.pathname === `/node-staking` ? `node-staking` : ``}`}>
-                                    <Link to='/'>
+                                    <LogoLink to='/' pointerEvents={showNavbarLinks ? 'all' : 'none'}>
                                         <div>
                                             <Image src={LogoImage} />
                                             {this.props.location.pathname === `/node-staking` && <NodeAnimatedDot color='red' />}
                                         </div>
-                                    </Link>
+                                    </LogoLink>
                                 </div>
                                 {showNavbarLinks &&
                                     <>

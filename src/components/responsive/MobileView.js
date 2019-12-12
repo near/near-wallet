@@ -145,7 +145,12 @@ const CustomResponsive = styled(Responsive)`
          }
       }
    }
-`
+`;
+
+const LogoLink = styled(Link)`
+    display: block;
+    pointer-events: ${props => props.pointerEvents};
+`;
 
 class MobileView extends Component {
     static propTypes = {
@@ -190,12 +195,12 @@ class MobileView extends Component {
                 <Segment basic className='navbar'>
                     <Menu className='navbar-main' borderless>
                         <div className={`mainlogo ${this.props.location.pathname === `/node-staking` ? `node-staking` : ``}`}>
-                            <Link to='/'>
+                            <LogoLink to='/' pointerEvents={showNavbarLinks ? 'all' : 'none'}>
                                 <div>
                                     <Image src={LogoImage} />
                                     {this.props.location.pathname === `/node-staking` && <NodeAnimatedDot color='red' />}
                                 </div>
-                            </Link>
+                            </LogoLink>
                         </div>
                         {showNavbarLinks &&
                             <div className='trigger'>
