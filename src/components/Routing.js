@@ -83,7 +83,6 @@ class Routing extends Component {
       return (
          <div className='App'>
             <GlobalStyle />
-
             <ConnectedRouter basename={PATH_PREFIX}  history={this.props.history}>
                <ThemeProvider theme={theme}>
                   <ResponsiveContainer>
