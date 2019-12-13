@@ -62,7 +62,7 @@ class SetRecoveryInfo extends Component {
          this.props.setupAccountRecovery(this.state.phoneNumber, this.props.accountId, this.state.securityCode)
             .then(({error}) => {
                if (error) return
-               this.props.redirectToApp(this.props.history)
+               this.props.redirectToApp()
             })
             .finally(() => {
                this.setState(() => ({

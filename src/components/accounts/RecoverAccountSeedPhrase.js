@@ -47,7 +47,7 @@ class RecoverAccountSeedPhrase extends Component {
       this.props.recoverAccountSeedPhrase(this.state.seedPhrase, accountId)
          .then(({ error }) => {
             if (error) return
-            this.props.redirectToApp(this.props.history)
+            this.props.redirectToApp()
          })
          .finally(() => {
             this.setState(() => ({

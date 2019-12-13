@@ -2,6 +2,7 @@ import { parse, stringify } from 'query-string'
 import { createActions, createAction } from 'redux-actions'
 import { Wallet } from '../utils/wallet'
 import { getTransactions as getTransactionsApi } from '../utils/explorer-api'
+import { push } from 'connected-react-router'
 
 export const REFRESH_ACCOUNT = 'REFRESH_ACCOUNT'
 export const LOADER_ACCOUNT = 'LOADER_ACCOUNT'
@@ -100,15 +101,15 @@ export function handleRefreshUrl(location) {
 
 const wallet = new Wallet()
 
-export const redirectToApp = (history) => (dispatch, getState) => {
+export const redirectToApp = () => (dispatch, getState) => {
    const { account: { url }} = getState()
-   history.push({
+   dispatch(push({
       pathname: url.redirect_url || '/',
       search: (url && (url.success_url || url.public_key)) ? `?${stringify(url)}` : '',
       state: {
          globalAlertPreventClear: true
       }
-   })
+   }))
 }
 
 const defaultCodesFor = (prefix, data) => ({ successCode: `${prefix}.success`, errorCode: `${prefix}.error`, data})

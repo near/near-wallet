@@ -128,7 +128,10 @@ const GlobalAlert = ({ globalAlert, clearAlert, closeIcom = true }) => (
                <Image className='left' src={globalAlert.success ? IconCheckImage : IconsProblemImage} />}
             <Message.Content>
                <Message.Header>
-                  {globalAlert.success ? 'Success' : 'Error'}
+                  {globalAlert.success
+                     ? <Translate id='success' />
+                     : <Translate id='error' />
+                  }
                </Message.Header>
                <Translate id={globalAlert.messageCode} data={globalAlert.data} />
             </Message.Content>
