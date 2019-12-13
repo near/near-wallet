@@ -39,8 +39,14 @@ class AccountFormAccountId extends Component {
    }
 
    render () {
-      const { formLoader, requestStatus } = this.props
-      const { accountId } = this.state
+      const {
+         formLoader,
+         requestStatus,
+         autoFocus,
+         handleBlur
+      } = this.props;
+
+      const { accountId } = this.state;
 
       return (
          <Fragment>
@@ -60,6 +66,7 @@ class AccountFormAccountId extends Component {
                autoCapitalize='off'
                spellCheck='false'
                tabIndex='1'
+               autoFocus={autoFocus && accountId.length === 0}
             />
             <Responsive as={RequestStatusBox} maxWidth={767} requestStatus={requestStatus} />
          </Fragment>
@@ -71,7 +78,12 @@ AccountFormAccountId.propTypes = {
    formLoader: PropTypes.bool.isRequired,
    handleChange: PropTypes.func.isRequired,
    type: PropTypes.string,
-   defaultAccountId: PropTypes.string
+   defaultAccountId: PropTypes.string,
+   autoFocus: PropTypes.bool
+}
+
+AccountFormAccountId.defaultProps = {
+   autoFocus: false
 }
 
 const mapDispatchToProps = {
