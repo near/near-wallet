@@ -1,6 +1,7 @@
 import React from 'react';
 import { withRouter, Link } from 'react-router-dom';
 import styled from 'styled-components';
+import { Translate } from 'react-localize-redux';
 
 // Images
 import EmailIcon from '../../images/icon-recover-email.svg';
@@ -119,23 +120,23 @@ const Button = styled(Link)`
 const RecoverAccount = () => {
     return (
         <Container className='ui container'>
-            <h1>Recover Your Account</h1>
-            <h2>If you’ve setup one or more account recovery methods, follow the instructions below to begin the recovery process.</h2>
+            <h1><Translate id='recoverAccount.pageTitle'/></h1>
+            <h2><Translate id='recoverAccount.pageText'/></h2>
             <Options>
                 <Option>
-                    <Header icon={EmailIcon}>Email<br/>Recovery</Header>
-                    <P>Check your email for a message from nearprotocol.com with the subject: <span>“Important: Near Wallet Recovery Email”.</span></P>
-                    <P>This message contains a magic link. Click the link to begin recovery!</P>
+                    <Header icon={EmailIcon}><Translate id='recoverAccount.email.title'/><br/><Translate id='recoverAccount.actionType'/></Header>
+                    <P><Translate id='recoverAccount.email.desc'/> <span><Translate id='recoverAccount.email.subject'/></span></P>
+                    <P><Translate id='recoverAccount.actionRequired'/></P>
                 </Option>
                 <Option>
-                    <Header icon={PhoneIcon}>Phone<br/>Recovery</Header>
-                    <P>Check your phone records for an SMS message from <span>+14086179592</span>.</P>
-                    <P>This message contains a magic link. Click the link to begin recovery!</P>
+                    <Header icon={PhoneIcon}><Translate id='recoverAccount.phone.title'/><br/><Translate id='recoverAccount.actionType'/></Header>
+                    <P><Translate id='recoverAccount.phone.desc'/> <span><Translate id='recoverAccount.phone.number'/></span></P>
+                    <P><Translate id='recoverAccount.actionRequired'/></P>
                 </Option>
                 <Option>
-                    <Header icon={PhraseIcon}>Seed Phrase<br/>Recovery</Header>
-                    <P>Make sure you have your 12 word recovery phrase, then click below to begin the recovery process.</P>
-                    <Button to='/recover-seed-phrase'>RECOVER ACCOUNT</Button>
+                    <Header icon={PhraseIcon}><Translate id='recoverAccount.phrase.title'/><br/><Translate id='recoverAccount.actionType'/></Header>
+                    <P><Translate id='recoverAccount.phrase.desc'/></P>
+                    <Button to='/recover-seed-phrase'><Translate id='recoverAccount.phrase.cta'/></Button>
                 </Option>
             </Options>
         </Container>
