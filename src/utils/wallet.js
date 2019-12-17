@@ -77,6 +77,8 @@ export class Wallet {
                   publicKey: await this.getPublicKey(accountId, networkId)
                }
             }
+
+            return inMemorySigner.signMessage(message, accountId, networkId)
          }
       }
       this.connection = nearlib.Connection.fromConfig({
