@@ -126,7 +126,7 @@ export default createGlobalStyle`
 
    input {
       font-family: "benton-sans",sans-serif !important;
-      font-size: 14px !important;
+      font-size: 16px !important;
       width: 100% !important;
       height: 48px !important;
       border: 2px solid #f8f8f8 !important;

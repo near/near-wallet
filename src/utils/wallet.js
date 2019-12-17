@@ -287,4 +287,11 @@ export class Wallet {
       const keyPair = nearlib.KeyPair.fromString(secretKey)
       await this.saveAndSelectAccount(accountId, keyPair)
    }
+
+   async signAndSendTransactions(transactions, accountId) {
+      for (let { receiverId, nonce, blockHash, actions } of transactions) {
+         const [, signedTransaction] = await nearlib.transactions.signTransaction(receiverId, nonce, actions, blockHash, this.connection.signer, accountId, NETWORK_ID)
+         await this.connection.provider.sendTransaction(signedTransaction)
+      }
+   }
 }

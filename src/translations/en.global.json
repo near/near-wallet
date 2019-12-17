@@ -10,19 +10,23 @@
     "account.available.success": "User found.",
     "account.available.error": "User not found.",
     "account.verifySeedPhrase.error": "You entered the incorrect word",
+    "account.setupSeedPhrase.success": "Seed phrase recovery setup is complete.",
+    "account.setupSeedPhrase.error": "An error occurred while setting up seed phrase recovery. Please try again!",
+    "account.login.success": "${title} is now authorized to use your account.",
+    "account.login.error": "An error occurred while approving this action. Please try again!",
     
     "actions": {
-       "CreateAccount": "New account created: @${receiverId}",
-       "DeleteAccount": "Account deleted: @${receiverId}",
-       "DeployContract": "Contract deployed: @${receiverId}",
-       "FunctionCall": "Called method: ${methodName} in contract: @${receiverId}",
-       "Transfer": "Transferred ${deposit} to @${receiverId}",
-       "Stake": "Staked ${stake}",
-       "AddKey": {
-          "forContract": "Access key added for contract: @${permissionReceiverId}",
-          "forReceiver": "New key added for @${receiverId}",
-       },
-       "DeleteKey": "Key deleted"
+        "CreateAccount": "New account created: @${receiverId}",
+        "DeleteAccount": "Account deleted: @${receiverId}",
+        "DeployContract": "Contract deployed: @${receiverId}",
+        "FunctionCall": "Called method: ${methodName} in contract: @${receiverId}",
+        "Transfer": "Transferred ${deposit} to @${receiverId}",
+        "Stake": "Staked ${stake}",
+        "AddKey": {
+            "forContract": "Access key added for contract: @${permissionReceiverId}",
+            "forReceiver": "New key added for @${receiverId}",
+        },
+        "DeleteKey": "Key deleted"
     },
 
     "setupSeedPhrase": {
@@ -52,5 +56,8 @@
             "title": "Word",
             "placeholder": ""
         }
-    }
+    },
+
+    "success": "Success",
+    "error": "Error"
 }

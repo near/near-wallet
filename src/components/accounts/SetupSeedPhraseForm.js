@@ -14,8 +14,8 @@ const CustomDiv = styled(`div`)`
         button {
             width: 250px !important;
         }
-        a > button {
-            margin-left: 24px !important;
+        > button:first-child {
+            display: none;
         }
     }
     #seed-phrase {
@@ -37,8 +37,8 @@ const CustomDiv = styled(`div`)`
             button {
                 width: 100% !important;
             }
-            a > button {
-                margin-left: 0px !important;
+            > button:first-child {
+                display: block;
             }
         }
     }
