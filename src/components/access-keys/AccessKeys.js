@@ -116,9 +116,11 @@ class AccessKeys extends Component {
                      />
                   )) : <AccessKeysEmpty />)}
             </PaginationBlock>
+            { false &&
             <FormButton onClick={() => this.props.addLedgerAccessKey(this.props.accountId).then(() => this.props.getAccessKeys()) }>
                Connect Ledger
             </FormButton>
+            }
          </PageContainer>
       )
    }
