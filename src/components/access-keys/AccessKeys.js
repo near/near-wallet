@@ -3,13 +3,14 @@ import { connect } from 'react-redux'
 
 import { withRouter } from 'react-router-dom'
 
-import { getAccessKeys, removeAccessKey } from '../../actions/account'
+import { getAccessKeys, removeAccessKey, addLedgerAccessKey } from '../../actions/account'
 
 import AccessKeysEmpty from './AccessKeysEmpty'
 import PaginationBlock from '../pagination/PaginationBlock'
 import PageContainer from '../common/PageContainer';
 
 import KeyListItem from '../dashboard/KeyListItem'
+import FormButton from '../common/FormButton'
 
 class AccessKeys extends Component {
    state = {
@@ -115,6 +116,9 @@ class AccessKeys extends Component {
                      />
                   )) : <AccessKeysEmpty />)}
             </PaginationBlock>
+            <FormButton onClick={() => this.props.addLedgerAccessKey(this.props.accountId).then(() => this.props.getAccessKeys()) }>
+               Connect Ledger
+            </FormButton>
          </PageContainer>
       )
    }
@@ -122,7 +126,8 @@ class AccessKeys extends Component {
 
 const mapDispatchToProps = {
    getAccessKeys,
-   removeAccessKey
+   removeAccessKey,
+   addLedgerAccessKey
 }
 
 const mapStateToPropsAuthorizedApps = ({ account }) => ({
