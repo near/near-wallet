@@ -6,7 +6,6 @@ import { ThemeProvider } from 'styled-components'
 import { Route, Switch } from 'react-router-dom'
 import { ConnectedRouter } from 'connected-react-router'
 import { withLocalize } from 'react-localize-redux';
-import { parse, stringify } from 'query-string'
 
 import translations_en from '../translations/en.global.json'
 
@@ -42,43 +41,38 @@ const theme = {}
 const PATH_PREFIX = process.env.PUBLIC_URL
 
 class Routing extends Component {
-   constructor(props) {
-      super(props)
+    constructor(props) {
+        super(props)
 
-      this.props.initialize({
-         languages: [
-            { name: "English", code: "en" },
-         ],
-         translation: {},
-         options: {
-            renderToStaticMarkup: false
-         }
-      })
-      this.props.addTranslationForLanguage(translations_en, "en")
-   }
-   
-   componentDidMount = () => {
-      const { handleRefreshAccount, handleRefreshUrl, history, account, clearAlert, clear } = this.props
-      
-      if (!account.accountId) {
-         const redirectUrl = history.location.pathname
-         history.location.search = stringify({...parse(history.location.search), redirect_url: redirectUrl})
-      }
-      
-      handleRefreshAccount(history)
-      handleRefreshUrl(history.location)
+        this.props.initialize({
+            languages: [
+                { name: "English", code: "en" },
+            ],
+            translation: {},
+            options: {
+                renderToStaticMarkup: false
+            }
+        })
+        this.props.addTranslationForLanguage(translations_en, "en")
+    }
+    
+    componentDidMount = () => {
+        const { handleRefreshAccount, handleRefreshUrl, history, clearAlert, clear } = this.props
+        
+        handleRefreshUrl()
+        handleRefreshAccount(history)
 
-      history.listen(() => {
-         handleRefreshAccount(history, false)
-         
-         const { state: { globalAlertPreventClear } = {} } = history.location
-         if (!globalAlertPreventClear) {
-            clearAlert()
-         }
-         
-         clear()
-      })
-   }
+        history.listen(() => {
+            handleRefreshAccount(history, false)
+            
+            const { state: { globalAlertPreventClear } = {} } = history.location
+            if (!globalAlertPreventClear) {
+                clearAlert()
+            }
+            
+            clear()
+        })
+    }
 
    render() {
       return (
@@ -193,21 +187,21 @@ class Routing extends Component {
 }
 
 Routing.propTypes = {
-   history: PropTypes.object.isRequired
+    history: PropTypes.object.isRequired
 }
 
 const mapDispatchToProps = {
-   handleRefreshAccount,
-   handleRefreshUrl,
-   clearAlert,
-   clear
+    handleRefreshAccount,
+    handleRefreshUrl,
+    clearAlert,
+    clear
 }
 
 const mapStateToProps = ({ account }) => ({
-   account
+    account
 })
 
 export default connect(
-   mapStateToProps,
-   mapDispatchToProps
+    mapStateToProps,
+    mapDispatchToProps
 )(withLocalize(Routing))
