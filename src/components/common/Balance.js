@@ -26,8 +26,8 @@ const convertToShow = (amount) => {
 }
 
 export const formatNEAR = (amount) => {
-    let ret =  utils.format.formatNearAmount(amount, 5)
-    if (ret.startsWith('0.00000')) {
+    let ret =  utils.format.formatNearAmount(amount, 5);
+    if (ret === '0') {
         return "<0.00001";
     }
     return ret;
