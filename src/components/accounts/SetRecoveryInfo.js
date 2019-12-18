@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { isValidPhoneNumber } from 'react-phone-number-input'
 
@@ -118,4 +119,4 @@ const mapStateToProps = ({ account }, { match }) => ({
    accountId: match.params.accountId
 })
 
-export const SetRecoveryInfoWithRouter = connect(mapStateToProps, mapDispatchToProps)(SetRecoveryInfo)
+export const SetRecoveryInfoWithRouter = connect(mapStateToProps, mapDispatchToProps)(withRouter(SetRecoveryInfo))

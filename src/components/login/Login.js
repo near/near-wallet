@@ -15,10 +15,6 @@ class Login extends Component {
       dropdown: false,
    }
 
-   componentWillUnmount = () => {
-      this.props.clearAlert()
-   }
-
    handleOnClick = () => {
       this.setState({
          dropdown: !this.state.dropdown

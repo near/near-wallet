@@ -126,7 +126,7 @@ export default createGlobalStyle`
 
    input {
       font-family: "benton-sans",sans-serif !important;
-      font-size: 14px !important;
+      font-size: 16px !important;
       width: 100% !important;
       height: 48px !important;
       border: 2px solid #f8f8f8 !important;
@@ -157,13 +157,16 @@ export default createGlobalStyle`
       }
    }
    .problem > .input > input,
-   .problem > .input > input:focus {
+   .problem > .input > input:focus,
+   .problem > input {
       border: 2px solid #ff585d !important;
       background: url(${ProblemsImage}) right 12px center no-repeat !important;
       background-size: 24px 24px !important;
    }
+
    .success > .input > input,
-   .success > .input > input:focus {
+   .success > .input > input:focus,
+   .success > input {
       background: url(${CheckBlueImage}) right 12px center no-repeat !important;
       background-size: 24px 24px !important;
    }
