@@ -5,7 +5,8 @@ import { Segment, Form } from 'semantic-ui-react'
 
 import styled from 'styled-components'
 
-import Balance, { NOMINATION, formatNEAR } from '../common/Balance'
+import Balance, { formatNEAR } from '../common/Balance'
+import { utils } from 'nearlib';
 
 const CustomDiv = styled(`div`)`
    &&&&& {
@@ -78,21 +79,20 @@ class SendMoneyAmountInput extends Component {
       if (value && !this.isDecimalString(value)) {
          amountStatus = 'NO MORE THAN 5 DECIMAL DIGITS'
       }
-      let amountAttoNear = ''
+      let amountInInternalFormat = ''
       if (value !== '') {
-         let input = new Big(value).times(new Big(10).pow(NOMINATION))
-         amountAttoNear = input.toFixed()
+         amountInInternalFormat = utils.format.parseNearAmount(value);
          let balance = new Big(this.props.amount)
-         if (balance.sub(input).s < 0) {
+         if (balance.sub(new Big(amountInInternalFormat)).s < 0) {
             amountStatus = 'Not enough tokens.'
          }
       }
       this.setState({
-         amountDisplay: amountAttoNear,
+         amountDisplay: amountInInternalFormat,
          amountInput: value,
          amountStatus
       })
-      this.props.handleChange(e, { name: 'amount', value: amountAttoNear })
+      this.props.handleChange(e, { name: 'amount', value: amountInInternalFormat })
       this.props.handleChange(e, { name: 'amountStatus', value: amountStatus })
    }
 
