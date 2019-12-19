@@ -6008,10 +6008,10 @@ nearley@^2.7.10:
     randexp "0.4.6"
     semver "^5.4.1"
 
-nearlib@^0.18.4:
-  version "0.18.5"
-  resolved "https://registry.yarnpkg.com/nearlib/-/nearlib-0.18.5.tgz#48b23637b8768785790b79f9af599eb0124b6175"
-  integrity sha512-6f3iNyq9cQpsByFo993nwsHQGaF8c2p5hqbqkf0vbIEWfROae9vPPYHBqqRp5hpW2j+3kHcgWKRDKXWe4k24EA==
+nearlib@^0.19.0:
+  version "0.19.0"
+  resolved "https://registry.yarnpkg.com/nearlib/-/nearlib-0.19.0.tgz#7a78e59a7f039421bb2aacd0c501aa2fb9cf379c"
+  integrity sha512-gF6shDtS+eN4P5Nqxj7/K6SpY2xGmVqOX1DwQX5gU8AZuzXNNsSXsZpA3nuyDCUAfrLr3tK23RhXo/Y+hS+lWg==
   dependencies:
     "@types/bn.js" "^4.11.5"
     bn.js "^5.0.0"
