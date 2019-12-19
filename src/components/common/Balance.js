@@ -1,15 +1,12 @@
 import React from 'react'
 import styled from 'styled-components'
 import { List } from 'semantic-ui-react';
+import { utils } from 'nearlib';
 
 const CustomDiv = styled(List)`
     position: relative;
     display: inline;
 `
-// denomination of one near in minimal non divisible units (attoNears)
-// NEAR_NOMINATION is 10 ** 18 one unit
-export const NOMINATION = 18
-const REG = /(?=(\B)(\d{3})+$)/g;
 
 const Balance = ({ amount }) => {
     if (!amount) {
@@ -24,18 +21,11 @@ const Balance = ({ amount }) => {
 }
 
 export const formatNEAR = (amount) => {
-    if (amount.length < NOMINATION - 5) {
-        return "<0.00001"
+    let ret =  utils.format.formatNearAmount(amount, 5);
+    if (ret === '0') {
+        return "<0.00001";
     }
-    else if (amount.length <= NOMINATION) {
-        let zeros = "0".repeat(NOMINATION)
-        return "0." + (zeros.substring(amount.length) + amount).slice(0, 5)
-    } else {
-        let len = amount.length - NOMINATION
-        let numInt = len > 3 ? amount.slice(0, len).replace(REG, ",") : amount.slice(0, len)
-        let numDec = amount.slice(len, amount.length)
-        return numInt + "." + numDec.slice(0, 5)
-    }
+    return ret;
 }
 
 export default Balance
