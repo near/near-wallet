@@ -21,6 +21,7 @@ const CreateAccountForm = ({
          formLoader={formLoader}
          handleChange={handleChange}
          type='create'
+         data-private={true}
       />
 
       {false ? (

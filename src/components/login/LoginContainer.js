@@ -187,7 +187,7 @@ const CustomContainer = styled(Container)`
 `
 
 const LoginContainer = ({ children }) => (
-   <CustomContainer>
+   <CustomContainer data-private>
       {children}
    </CustomContainer>
 )

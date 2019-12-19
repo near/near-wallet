@@ -205,7 +205,7 @@ const CustomList = styled(List)`
 `
 
 const SendMoneyContainer = ({ children }) => (
-   <CustomList>
+   <CustomList data-private={true}>
       {children}
    </CustomList>
 )

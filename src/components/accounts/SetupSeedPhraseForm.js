@@ -61,7 +61,7 @@ const SetupSeedPhraseForm = ({
     match
 }) => (
     <CustomDiv>
-        <div id='seed-phrase'>
+        <div id='seed-phrase' data-private>
             {seedPhrase.split(' ').map((word, i) => (
                 <span className='single-phrase' key={`phrase-${i}`}>
                     <Number number={i + 1} className='h4'>{word} </Number>

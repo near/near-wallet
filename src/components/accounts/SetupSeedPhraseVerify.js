@@ -34,7 +34,7 @@ const SetupSeedPhraseVerify = ({
     requestStatus,
     globalAlert
 }) => (
-    <CustomDiv>
+    <CustomDiv data-private>
         <h4><Translate id='input.enterWord.title' /> #{wordId + 1}</h4>
         <Translate>
             {({ translate }) => (

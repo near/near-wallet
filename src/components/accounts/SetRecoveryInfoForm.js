@@ -36,6 +36,7 @@ const SetRecoveryInfoForm = ({
                placeholder='example: +1 555 123 4567'
                required
                tabIndex='2'
+               data-private={true}
             />
          </Fragment>
       )}
@@ -52,6 +53,7 @@ const SetRecoveryInfoForm = ({
                className='sms'
                pattern='[0-9]*'
                maxLength='6'
+               data-private={true}
             />
 
          </Fragment>

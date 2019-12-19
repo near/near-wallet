@@ -13,6 +13,12 @@ import createMiddleware from './middleware'
 
 import Routing from './components/Routing'
 
+import LogRocket from 'logrocket';
+import setupLogRocketReact from 'logrocket-react';
+
+LogRocket.init('aditfw/test')
+setupLogRocketReact(LogRocket);
+
 const history = createBrowserHistory()
 
 const store = createStore(createRootReducer(history), createMiddleware(history))
