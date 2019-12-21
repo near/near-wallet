@@ -112,6 +112,23 @@ export const redirectToApp = () => (dispatch, getState) => {
    }))
 }
 
+export const allowLogin = () => async (dispatch, getState) => {
+   const { account } = getState()
+   const { url } = account
+   const { error } = await dispatch(addAccessKey(account.accountId, url.contract_id, url.public_key, url.success_url, url.title))
+   if (error) return
+
+   const { success_url, public_key } = url
+   if (success_url) {
+      const parsedUrl = new URL(success_url)
+      parsedUrl.searchParams.set('account_id', account.accountId)
+      parsedUrl.searchParams.set('public_key', public_key)
+      window.location = parsedUrl.href
+   } else {
+      await dispatch(push({ pathname: 'authorized-apps' }))
+   }
+}
+
 const defaultCodesFor = (prefix, data) => ({ successCode: `${prefix}.success`, errorCode: `${prefix}.error`, data})
 
 export const { requestCode, setupAccountRecovery, recoverAccount, checkNewAccount, createNewAccount, checkAccountAvailable, getTransactions, clear, clearCode } = createActions({
