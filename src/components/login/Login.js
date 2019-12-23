@@ -110,10 +110,10 @@ const mapDispatchToProps = {
 }
 
 const mapStateToProps = ({ account }) => ({
-   account
+    account
 })
 
 export const LoginWithRouter = connect(
-   mapStateToProps,
-   mapDispatchToProps
+    mapStateToProps,
+    mapDispatchToProps
 )(withRouter(Login))
