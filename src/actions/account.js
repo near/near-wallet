@@ -71,6 +71,53 @@ export function handleRefreshAccount(history, loader = true) {
     }
 }
 
+export function handleLoginUrl(location) {
+    return (dispatch, getState) => {
+        if (!location) {
+            location = getState().router.location
+        }
+
+        if (location.search === '') {
+            return false
+        }
+
+        const loginUrl = parse(location.search)
+
+        try {
+            sessionStorage.setItem('wallet:url', JSON.stringify(loginUrl))
+        } catch(err) {
+            console.warn(err)
+        }
+
+        dispatch({
+            type: REFRESH_URL,
+            url: loginUrl
+        })
+    }
+}
+
+export function handleRedirectUrl(previousLocation) {
+    return (dispatch, getState) => {
+        const { account: { url } } = getState()
+
+        const redirectUrl = {
+            ...url,
+            redirect_url: previousLocation.pathname,
+        }
+
+        try {
+            sessionStorage.setItem('wallet:url', JSON.stringify(redirectUrl))
+        } catch(err) {
+            console.warn(err)
+        }
+
+        dispatch({
+            type: REFRESH_URL,
+            url: redirectUrl
+        })
+    }
+}
+
 export const parseTransactionsToSign = createAction('PARSE_TRANSACTIONS_TO_SIGN')
 
 export function handleRefreshUrl() {
@@ -78,22 +125,16 @@ export function handleRefreshUrl() {
         const { router: { location } } = getState()
 
         let accountUrl = {
-            ...parse(location.search),
-            redirect_url: location.pathname,
-            referrer: document.referrer,
+            referrer: document.referrer
         }
 
         try {
-            const sessionStorageState = JSON.parse(sessionStorage.getItem('wallet:url'))
-
-            if (!sessionStorageState) {
-                sessionStorage.setItem('wallet:url', JSON.stringify(accountUrl))
-            }
-            else {
-                accountUrl = sessionStorageState
+            accountUrl = {
+                ...accountUrl,
+                ...JSON.parse(sessionStorage.getItem('wallet:url'))
             }
         } catch(err) {
-            console.log('sessionStorage unavailable')
+            console.warn(err)
         }
 
         dispatch({
