@@ -65,7 +65,8 @@ export class Wallet {
             return (await getLedgerKey(accountId)) || (await inMemorySigner.getPublicKey(accountId, networkId))
          },
          async signHash(hash, accountId, networkId) {
-            throw new Error('signHash not implemented on Ledger yet')
+            return inMemorySigner.signHash(hash, accountId, networkId);
+            // throw new Error('signHash not implemented on Ledger yet')
          },
          async signMessage(message, accountId, networkId) {
             if (await getLedgerKey(accountId)) {
