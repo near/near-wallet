@@ -39,8 +39,8 @@ async function getKeyMeta(publicKey) {
 
 export class Wallet {
    constructor() {
-      this.key_store = new nearlib.keyStores.BrowserLocalStorageKeyStore()
-      const inMemorySigner = new nearlib.InMemorySigner(this.key_store)
+      this.keyStore = new nearlib.keyStores.BrowserLocalStorageKeyStore()
+      const inMemorySigner = new nearlib.InMemorySigner(this.keyStore)
 
       async function getLedgerKey(accountId) {
          let state = store.getState()
@@ -215,7 +215,7 @@ export class Wallet {
    }
 
    async saveAndSelectAccount(accountId, keyPair) {
-      await this.key_store.setKey(NETWORK_ID, accountId, keyPair)
+      await this.keyStore.setKey(NETWORK_ID, accountId, keyPair)
       this.accounts[accountId] = true
       this.accountId = accountId
       this.save()
@@ -239,7 +239,10 @@ export class Wallet {
       return await this.getAccount(accountId).addKey(publicKey)  
    }
 
-
+   async getAvailableKeys() {
+      // TODO: Return additional keys (e.g. Ledger)
+      return [(await this.keyStore.getKey(NETWORK_ID, this.accountId)).publicKey]
+   }
 
    clearState() {
       this.accounts = {}
