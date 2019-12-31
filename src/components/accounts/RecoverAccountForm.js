@@ -45,7 +45,7 @@ const RecoverAccountForm = ({
                onChange={value =>
                   handleChange(null, { name: 'phoneNumber', value })
                }
-               placeholder='+1 555 123 4567'
+               placeholder='example: +1 555 123 4567'
                required
                tabIndex='2'
             />

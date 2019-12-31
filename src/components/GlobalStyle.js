@@ -2,7 +2,6 @@ import { createGlobalStyle } from 'styled-components'
 
 import ProblemsImage from '../images/icon-problems.svg'
 import CheckBlueImage from '../images/icon-check-blue.svg'
-import EmailIconBlack from '../images/email-icon-black.svg'
 
 export default createGlobalStyle`
   
@@ -122,24 +121,6 @@ export default createGlobalStyle`
 
       a:hover {
          color: #999 !important;
-      }
-   }
-
-   .username-input-icon {
-      &:after {
-         content: '';
-         background: url(${EmailIconBlack}) center no-repeat;
-         display: inline-block;
-         height: 16px;
-         width: 16px;
-         position: absolute;
-         left: 12px;
-         top: 24px;
-         pointer-events: none;
-      }
-
-      input {
-         padding-left: 34px !important;
       }
    }
 
