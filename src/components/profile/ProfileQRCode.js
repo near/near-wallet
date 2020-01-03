@@ -19,7 +19,7 @@ const CustomDiv = styled.div`
 
 const ProfileQRCode = ({ account }) => (
    <CustomDiv>
-        <h2>Scan to receive</h2>
+        <h2>Scan</h2>
         <QRCode
             bgColor="#FFFFFF"
             fgColor="#24272a"

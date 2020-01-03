@@ -96,6 +96,12 @@ const CustomResponsive = styled(Responsive)`
             margin-top: 26px;
             color: #6ad1e3;
         }
+
+        .navbar-icon {
+            &.receive {
+                transform: rotate(180deg);
+            }
+        }
     }
 `
 
@@ -189,7 +195,13 @@ class DesktopView extends Component {
                                         <div className='item'>
                                             <Link to='/send-money'>
                                                 <Image className='navbar-icon' src={SendImage} />
-                                                SEND TOKENS
+                                                SEND
+                                            </Link>
+                                        </div>
+                                        <div className='item'>
+                                            <Link to='/receive-money'>
+                                                <Image className='navbar-icon receive' src={SendImage} />
+                                                RECEIVE
                                             </Link>
                                         </div>
                                     </>
