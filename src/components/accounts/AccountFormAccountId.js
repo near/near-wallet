@@ -49,11 +49,11 @@ class AccountFormAccountId extends Component {
             <>
                 <CustomFormInput
                     loading={formLoader}
-                    className={`create ${requestStatus ? (requestStatus.success ? 'success' : 'problem') : ''}`}
+                    className={`create username-input-icon ${requestStatus ? (requestStatus.success ? 'success' : 'problem') : ''}`}
                     name='accountId'
                     value={accountId}
                     onChange={this.handleChangeAccountId}
-                    placeholder='example: satoshi.test'
+                    placeholder='satoshi.test'
                     maxLength='32'
                     required
                     autoComplete='off'
