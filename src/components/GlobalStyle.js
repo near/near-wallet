@@ -136,7 +136,8 @@ export default createGlobalStyle`
          width: 16px;
          position: absolute;
          left: 12px;
-         top: 24px;
+         top: calc(50% - -4px);
+         transform: translateY(-50%);
          pointer-events: none;
       }
       input {
@@ -164,6 +165,9 @@ export default createGlobalStyle`
       :valid {
          border-color: #e6e6e6 !important;
          background-color: #fff !important;
+      }
+      ::-webkit-input-placeholder {
+         line-height: normal !important;
       }
    }
 
