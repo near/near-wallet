@@ -110,6 +110,11 @@ const CustomResponsive = styled(Responsive)`
                   }
                }
             }
+
+            .receive {
+                transform: rotate(180deg);
+            }
+
             .switch-account {
                background: #000;
                padding: 0 1rem;
@@ -232,7 +237,13 @@ class MobileView extends Component {
                             <Link to='/send-money' onClick={this.handleDropdown}>
                                 <Menu.Item className='main border'>
                                     <Image src={SendImage} />
-                                    SEND TOKENS
+                                    SEND
+                                </Menu.Item>
+                            </Link>
+                            <Link to='/receive-money' onClick={this.handleDropdown}>
+                                <Menu.Item className='main border'>
+                                    <Image src={SendImage} className='receive'/>
+                                    RECEIVE
                                 </Menu.Item>
                             </Link>
                             <Menu.Menu className='sub'>

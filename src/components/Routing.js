@@ -25,6 +25,7 @@ import { ContactsWithRouter } from './contacts/Contacts'
 import { AuthorizedAppsWithRouter } from './access-keys/AccessKeys'
 import { FullAccessKeysWithRouter } from './access-keys/AccessKeys'
 import { SendMoneyWithRouter } from './send-money/SendMoney'
+import { ReceiveMoneyWithRouter } from './receive-money/ReceiveMoney'
 import { ProfileWithRouter } from './profile/Profile'
 import { SignWithRouter } from './sign/Sign'
 import { NodeStakingWithRouter } from './node-staking/NodeStaking'
@@ -141,6 +142,11 @@ class Routing extends Component {
                               exact
                               path='/send-money/:id?'
                               component={SendMoneyWithRouter}
+                           />
+                           <PrivateRoute
+                              exact
+                              path='/receive-money'
+                              component={ReceiveMoneyWithRouter}
                            />
                            <PrivateRoute
                               exact
