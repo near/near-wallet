@@ -50,7 +50,7 @@ const CustomForm = styled(Form)`
          .react-phone-number-input__country {
             position: absolute;
             top: 24px;
-            right: 12px;
+            left: 12px;
             z-index: 1;
 
             &-select-arrow {
@@ -58,6 +58,15 @@ const CustomForm = styled(Form)`
             }
          }
       }
+
+      .react-phone-number-input__phone {
+         padding-left: 34px !important;
+      }
+      
+      .react-phone-number-input__icon {
+         padding: 0;
+      }
+
       h4 {
          margin-bottom: 0px;
       }

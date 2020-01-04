@@ -2,6 +2,7 @@ import { createGlobalStyle } from 'styled-components'
 
 import ProblemsImage from '../images/icon-problems.svg'
 import CheckBlueImage from '../images/icon-check-blue.svg'
+import EmailIconBlack from '../images/email-icon-black.svg'
 
 export default createGlobalStyle`
   
@@ -124,6 +125,26 @@ export default createGlobalStyle`
       }
    }
 
+   .username-input-icon {
+      position: relative;
+      
+      &:after {
+         content: '';
+         background: url(${EmailIconBlack}) center no-repeat;
+         display: inline-block;
+         height: 16px;
+         width: 16px;
+         position: absolute;
+         left: 12px;
+         top: calc(50% - -4px);
+         transform: translateY(-50%);
+         pointer-events: none;
+      }
+      input {
+         padding-left: 34px !important;
+      }
+   }
+
    input {
       font-family: "benton-sans",sans-serif !important;
       font-size: 16px !important;
@@ -144,6 +165,9 @@ export default createGlobalStyle`
       :valid {
          border-color: #e6e6e6 !important;
          background-color: #fff !important;
+      }
+      ::-webkit-input-placeholder {
+         line-height: normal !important;
       }
    }
 
