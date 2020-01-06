@@ -5,7 +5,7 @@ import { Translate } from 'react-localize-redux'
 
 import AccountFormSection from './AccountFormSection'
 import AccountFormContainer from './AccountFormContainer'
-import { redirectToApp, addAccessKey } from '../../actions/account'
+import { redirectToApp, addAccessKeySeedPhrase, clearAlert } from '../../actions/account'
 import { generateSeedPhrase } from '../../utils/seed-phrase'
 import SetupSeedPhraseVerify from './SetupSeedPhraseVerify'
 
@@ -68,11 +68,9 @@ class SetupSeedPhrase extends Component {
         }
 
         const contractName = null;
-        this.props.addAccessKey(this.props.accountId, contractName, this.state.publicKey)
+        this.props.addAccessKeySeedPhrase(this.props.accountId, contractName, this.state.publicKey)
             .then(({ error }) => {
                 if (error) return
-                
-                this.props.history.push(`/setup-seed-phrase/${this.props.accountId}/success`)
                 this.props.redirectToApp()
             })
     }
@@ -123,25 +121,10 @@ class SetupSeedPhrase extends Component {
                                             handleStartOver={this.handleStartOver}
                                             formLoader={this.props.formLoader}
                                             requestStatus={this.state.requestStatus}
+                                            globalAlert={this.props.globalAlert}
                                         />
                                     </AccountFormSection>
                                 </AccountFormContainer>
-                            )}
-                        />
-                        <Route 
-                            exact
-                            path={`/setup-seed-phrase/:accountId/success`}
-                            render={() => (
-                                <AccountFormContainer
-                                    title={translate('setupSeedPhraseSuccess.pageTitle')}
-                                    text={(
-                                        <Fragment>
-                                            {translate('setupSeedPhraseSuccess.pageText')}
-                                            <br/><br/>
-                                            {translate('setupSeedPhraseSuccess.pageTextSecondLine')}
-                                        </Fragment>
-                                    )}
-                                />
                             )}
                         />
                     </Fragment>
@@ -153,7 +136,8 @@ class SetupSeedPhrase extends Component {
 
 const mapDispatchToProps = {
     redirectToApp,
-    addAccessKey
+    addAccessKeySeedPhrase,
+    clearAlert
 }
 
 const mapStateToProps = ({ account }, { match }) => ({

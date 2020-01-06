@@ -1,4 +1,6 @@
 import { handleActions, combineActions } from 'redux-actions'
+import reduceReducers from 'reduce-reducers'
+
 import {
    REFRESH_ACCOUNT,
    LOADER_ACCOUNT,
@@ -9,9 +11,9 @@ import {
    clear,
    clearCode,
    addAccessKey,
+   addAccessKeySeedPhrase,
    clearAlert
-} from '../actions/account'
-import reduceReducers from 'reduce-reducers'
+} from '../../actions/account'
 
 const initialState = {
    formLoader: false,
@@ -28,13 +30,13 @@ const loaderReducer = (state, { ready }) => {
 const globalAlertReducer = handleActions({
    // TODO: Reset state before action somehow. On navigate / start of other action?
    // TODO: Make this generic to avoid listing actions
-   [combineActions(addAccessKey)]: (state, { error, payload, meta }) => ({
+   [combineActions(addAccessKey, addAccessKeySeedPhrase)]: (state, { error, payload, meta }) => ({
       ...state,
       globalAlert: !!payload || error ? {
          success: !error,
          errorMessage: (error && payload && payload.toString()) || undefined,
-         messageCodeHeader: error ? payload.messageCode || meta.errorCodeHeader : meta.successCodeHeader,
-         messageCodeDescription: error ? payload.messageCode || meta.errorCodeDescription : meta.successCodeDescription,
+         messageCode: error ? payload.messageCode || meta.errorCode : meta.successCode,
+         data: meta.data
       } : undefined
    }),
    [clearAlert]: state => Object.keys(state).reduce((obj, key) => key !== 'globalAlert' ? (obj[key] = state[key], obj) : obj, {})
@@ -59,7 +61,7 @@ const requestResultClearReducer = handleActions({
    [clear]: state => Object.keys(state).reduce((obj, key) => key !== 'requestStatus' ? (obj[key] = state[key], obj) : obj, {})
 }, initialState)
 
-const reducer = handleActions({
+const recoverCodeReducer = handleActions({
       [requestCode]: (state, { error, ready }) => {
          if (ready && !error) {
             return { ...state, sentMessage: true }
@@ -97,7 +99,10 @@ function account(state = {}, action) {
       case LOADER_ACCOUNT: {
          return {
             ...state,
-            loader: action.loader
+            loader: action.loader,
+            // TODO: More robust reset when switching account
+            fullAccessKeys: undefined,
+            authorizedApps: undefined
          }
       }
       case REFRESH_URL: {
@@ -117,7 +122,7 @@ export default reduceReducers(
    globalAlertReducer,
    requestResultReducer,
    requestResultClearReducer,
-   reducer,
+   recoverCodeReducer,
    accessKeys,
    transactions,
    account

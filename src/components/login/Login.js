@@ -7,16 +7,12 @@ import LoginForm from './LoginForm'
 import LoginConfirm from './LoginConfirm'
 import LoginDetails from './LoginDetails'
 
-import { handleRefreshAccount, handleRefreshUrl, switchAccount, addAccessKey, clearAlert } from '../../actions/account'
+import { handleRefreshAccount, handleRefreshUrl, switchAccount, clearAlert, allowLogin } from '../../actions/account'
 
 class Login extends Component {
    state = {
       buttonLoader: false,
       dropdown: false,
-   }
-
-   componentWillUnmount = () => {
-      this.props.clearAlert()
    }
 
    handleOnClick = () => {
@@ -37,25 +33,7 @@ class Login extends Component {
          buttonLoader: true
       }))
 
-      const { account } = this.props
-      const { url } = account
-      this.props.addAccessKey(account.accountId, url.contract_id, url.public_key, url.success_url, url.title)
-         .then(({ error }) => {
-            if (error) return
-
-            const { success_url, public_key } = url
-            if (success_url) {
-               const parsedUrl = new URL(success_url)
-               parsedUrl.searchParams.set('account_id', account.accountId)
-               parsedUrl.searchParams.set('public_key', public_key)
-               window.location = parsedUrl.href
-            } else {
-               let nextUrl = `/authorized-apps`
-               setTimeout(() => {
-                  this.props.history.push(nextUrl)
-               }, 1500)
-            }
-         })
+      this.props.allowLogin()
          .finally(() => {
             this.setState(() => ({
                buttonLoader: false
@@ -127,7 +105,7 @@ const mapDispatchToProps = {
    handleRefreshAccount,
    handleRefreshUrl,
    switchAccount,
-   addAccessKey,
+   allowLogin,
    clearAlert
 }
 

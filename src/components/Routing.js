@@ -25,6 +25,7 @@ import { ContactsWithRouter } from './contacts/Contacts'
 import { AuthorizedAppsWithRouter } from './access-keys/AccessKeys'
 import { FullAccessKeysWithRouter } from './access-keys/AccessKeys'
 import { SendMoneyWithRouter } from './send-money/SendMoney'
+import { ReceiveMoneyWithRouter } from './receive-money/ReceiveMoney'
 import { ProfileWithRouter } from './profile/Profile'
 import { SignWithRouter } from './sign/Sign'
 import { NodeStakingWithRouter } from './node-staking/NodeStaking'
@@ -32,7 +33,7 @@ import { AddNodeWithRouter } from './node-staking/AddNode'
 import { NodeDetailsWithRouter } from './node-staking/NodeDetails'
 import { StakingWithRouter } from './node-staking/Staking'
 
-import { handleRefreshAccount, handleRefreshUrl } from '../actions/account'
+import { handleRefreshAccount, handleRefreshUrl, clearAlert, clear } from '../actions/account'
 
 import GlobalStyle from './GlobalStyle'
 import { SetupSeedPhraseWithRouter } from './accounts/SetupSeedPhrase'
@@ -57,22 +58,32 @@ class Routing extends Component {
    }
    
    componentDidMount = () => {
-      const { handleRefreshAccount, handleRefreshUrl, history, account } = this.props
+      const { handleRefreshAccount, handleRefreshUrl, history, account, clearAlert, clear } = this.props
+      
       if (!account.accountId) {
          const redirectUrl = history.location.pathname
          history.location.search = stringify({...parse(history.location.search), redirect_url: redirectUrl})
       }
+      
       handleRefreshAccount(history)
       handleRefreshUrl(history.location)
 
-      history.listen(() => handleRefreshAccount(history, false))
+      history.listen(() => {
+         handleRefreshAccount(history, false)
+         
+         const { state: { globalAlertPreventClear } = {} } = history.location
+         if (!globalAlertPreventClear) {
+            clearAlert()
+         }
+         
+         clear()
+      })
    }
 
    render() {
       return (
          <div className='App'>
             <GlobalStyle />
-
             <ConnectedRouter basename={PATH_PREFIX}  history={this.props.history}>
                <ThemeProvider theme={theme}>
                   <ResponsiveContainer>
@@ -134,6 +145,11 @@ class Routing extends Component {
                            />
                            <PrivateRoute
                               exact
+                              path='/receive-money'
+                              component={ReceiveMoneyWithRouter}
+                           />
+                           <PrivateRoute
+                              exact
                               path='/profile'
                               component={ProfileWithRouter}
                            />
@@ -182,7 +198,9 @@ Routing.propTypes = {
 
 const mapDispatchToProps = {
    handleRefreshAccount,
-   handleRefreshUrl
+   handleRefreshUrl,
+   clearAlert,
+   clear
 }
 
 const mapStateToProps = ({ account }) => ({

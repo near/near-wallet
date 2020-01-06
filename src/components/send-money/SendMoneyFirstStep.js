@@ -48,6 +48,7 @@ const SendMoneyFirstStep = ({
                                  formLoader={formLoader}
                                  handleChange={handleChange}
                                  defaultAccountId={accountId}
+                                 autoFocus={true}
                               />
                               <Responsive as={RequestStatusBox} minWidth={768} requestStatus={requestStatus} />
                            </List.Content>

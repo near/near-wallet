@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 
 import { recoverAccountSeedPhrase, redirectToApp, checkAccountAvailable, clear } from '../../actions/account'
@@ -93,4 +94,4 @@ const mapStateToProps = ({ account }) => ({
 export const RecoverAccountSeedPhraseWithRouter = connect(
    mapStateToProps, 
    mapDispatchToProps
-)(RecoverAccountSeedPhrase)
+)(withRouter(RecoverAccountSeedPhrase))

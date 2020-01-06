@@ -1,5 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { Translate } from 'react-localize-redux'
 
 import { Image, Container, Message } from 'semantic-ui-react'
 
@@ -127,11 +128,12 @@ const GlobalAlert = ({ globalAlert, clearAlert, closeIcom = true }) => (
                <Image className='left' src={globalAlert.success ? IconCheckImage : IconsProblemImage} />}
             <Message.Content>
                <Message.Header>
-                  {globalAlert.messageCodeHeader}
+                  {globalAlert.success
+                     ? <Translate id='success' />
+                     : <Translate id='error' />
+                  }
                </Message.Header>
-               {globalAlert.success
-                  ? globalAlert.messageCodeDescription
-                  : globalAlert.messageCodeDescription || globalAlert.errorMessage}
+               <Translate id={globalAlert.messageCode} data={globalAlert.data} />
             </Message.Content>
          </CustomMessage>
       </Container>
