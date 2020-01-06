@@ -15,7 +15,7 @@ import Routing from './components/Routing'
 
 const history = createBrowserHistory()
 
-const store = createStore(createRootReducer(history), createMiddleware(history))
+export const store = createStore(createRootReducer(history), createMiddleware(history))
 
 ReactDOM.render(
    <Provider store={store}>

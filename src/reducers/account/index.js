@@ -1,4 +1,6 @@
 import { handleActions, combineActions } from 'redux-actions'
+import reduceReducers from 'reduce-reducers'
+
 import {
    REFRESH_ACCOUNT,
    LOADER_ACCOUNT,
@@ -11,12 +13,11 @@ import {
    addAccessKey,
    addAccessKeySeedPhrase,
    clearAlert
-} from '../actions/account'
-import reduceReducers from 'reduce-reducers'
+} from '../../actions/account'
 
 const initialState = {
    formLoader: false,
-   sentSms: false
+   sentMessage: false
 }
 
 const loaderReducer = (state, { ready }) => {
@@ -60,15 +61,15 @@ const requestResultClearReducer = handleActions({
    [clear]: state => Object.keys(state).reduce((obj, key) => key !== 'requestStatus' ? (obj[key] = state[key], obj) : obj, {})
 }, initialState)
 
-const reducer = handleActions({
+const recoverCodeReducer = handleActions({
       [requestCode]: (state, { error, ready }) => {
          if (ready && !error) {
-            return { ...state, sentSms: true }
+            return { ...state, sentMessage: true }
          }
          return state
       },
       [clearCode]: (state, { error, ready }) => {
-         return { ...state, sentSms: false }
+         return { ...state, sentMessage: false }
       }
 }, initialState)
 
@@ -98,7 +99,10 @@ function account(state = {}, action) {
       case LOADER_ACCOUNT: {
          return {
             ...state,
-            loader: action.loader
+            loader: action.loader,
+            // TODO: More robust reset when switching account
+            fullAccessKeys: undefined,
+            authorizedApps: undefined
          }
       }
       case REFRESH_URL: {
@@ -118,7 +122,7 @@ export default reduceReducers(
    globalAlertReducer,
    requestResultReducer,
    requestResultClearReducer,
-   reducer,
+   recoverCodeReducer,
    accessKeys,
    transactions,
    account

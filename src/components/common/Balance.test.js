@@ -7,22 +7,22 @@ import Balance from './Balance'
 configure({adapter: new Adapter()});
 
 describe('<Balance.js>', ()=>{
-    const contextNull = '123456'
-    const contextSmall = "1"+"0".repeat(13) 
-    const contextBig = "1234567"+"0".repeat(15)
+    const contextTiny = '123456'
+    const contextSmall = "1"+"0".repeat(19)
+    const contextBig = "1234567"+"0".repeat(21)
 
     it('balance should return properly for non 0 for 0.0987',()=>{
-        let wrapper = shallow(<Balance amount={contextNull} />)
-        expect(wrapper.contains("<0.00001")).toEqual(true)
+        let wrapper = shallow(<Balance amount={contextTiny} />)
+        expect(wrapper.text()).toEqual("<0.00001 Ⓝ");
     })
 
     it('balance should return properly for small number',()=>{
         let wrapper = shallow(<Balance amount={contextSmall} />)
-        expect(wrapper.contains("0.00001")).toEqual(true);
+        expect(wrapper.text()).toEqual("0.00001 Ⓝ");
     })
 
     it('balance should return properly',()=>{
         let wrapper = shallow(<Balance amount={contextBig} />)
-        expect(wrapper.contains("1,234.56700")).toEqual(true);
+        expect(wrapper.text()).toEqual("1,234.567 Ⓝ");
     })
 })

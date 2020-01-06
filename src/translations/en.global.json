@@ -78,5 +78,8 @@
         },
         "actionType": "Recovery",
         "actionRequired": "This message contains a magic link. Click the link to begin recovery!"
-    }
+    },
+
+    "success": "Success",
+    "error": "Error"
 }

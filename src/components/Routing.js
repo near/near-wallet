@@ -17,7 +17,7 @@ import Footer from './common/Footer'
 import PrivateRoute from './common/PrivateRoute'
 import DashboardDetailWithRouter from './dashboard/DashboardDetail'
 import { CreateAccountWithRouter } from './accounts/CreateAccount'
-import { SetRecoveryInfoWithRouter } from './accounts/SetRecoveryInfo'
+import { SetRecoveryMethodContainerWithRouter } from './accounts/SetRecoveryMethodContainer'
 import { RecoverAccountWithRouter } from './accounts/RecoverAccount'
 import { RecoverAccountSeedPhraseWithRouter } from './accounts/RecoverAccountSeedPhrase'
 import { LoginWithRouter } from './login/Login'
@@ -25,6 +25,7 @@ import { ContactsWithRouter } from './contacts/Contacts'
 import { AuthorizedAppsWithRouter } from './access-keys/AccessKeys'
 import { FullAccessKeysWithRouter } from './access-keys/AccessKeys'
 import { SendMoneyWithRouter } from './send-money/SendMoney'
+import { ReceiveMoneyWithRouter } from './receive-money/ReceiveMoney'
 import { ProfileWithRouter } from './profile/Profile'
 import { SignWithRouter } from './sign/Sign'
 import { NodeStakingWithRouter } from './node-staking/NodeStaking'
@@ -83,7 +84,6 @@ class Routing extends Component {
       return (
          <div className='App'>
             <GlobalStyle />
-
             <ConnectedRouter basename={PATH_PREFIX}  history={this.props.history}>
                <ThemeProvider theme={theme}>
                   <ResponsiveContainer>
@@ -102,7 +102,7 @@ class Routing extends Component {
                            <PrivateRoute
                               exact
                               path='/set-recovery/:accountId'
-                              component={SetRecoveryInfoWithRouter}
+                              component={SetRecoveryMethodContainerWithRouter}
                            />
                            <PrivateRoute
                               exact
@@ -142,6 +142,11 @@ class Routing extends Component {
                               exact
                               path='/send-money/:id?'
                               component={SendMoneyWithRouter}
+                           />
+                           <PrivateRoute
+                              exact
+                              path='/receive-money'
+                              component={ReceiveMoneyWithRouter}
                            />
                            <PrivateRoute
                               exact
