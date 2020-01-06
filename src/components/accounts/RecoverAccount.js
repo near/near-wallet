@@ -1,155 +1,146 @@
-import React, { Component, Fragment } from 'react'
-import { withRouter } from 'react-router-dom'
-import { connect } from 'react-redux'
-import { isValidPhoneNumber } from 'react-phone-number-input'
+import React from 'react';
+import { withRouter, Link } from 'react-router-dom';
+import styled from 'styled-components';
+import { Translate } from 'react-localize-redux';
 
-import { requestCode, recoverAccount, redirectToApp, checkAccountAvailable, clear, clearCode } from '../../actions/account'
+// Images
+import EmailIcon from '../../images/icon-recover-email.svg';
+import PhoneIcon from '../../images/icon-recover-phone.svg';
+import PhraseIcon from '../../images/icon-recover-seedphrase.svg';
 
-import RecoverAccountForm from './RecoverAccountForm'
-import AccountFormSection from './AccountFormSection'
-import AccountFormContainer from './AccountFormContainer'
+const Container = styled.div`
+    h2 {
+      color: #4a4f54 !important;
+      margin-top: -20px;
+      max-width: 600px;
+      font-size: 20px !important;
 
-class RecoverAccount extends Component {
-   state = {
-      loader: false,
-      accountId: '',
-      phoneNumber: '',
-      isLegit: false,
-      resendLoader: false
-   }
+        @media (max-width: 767px) {
+            margin-top: -10px;
+            font-size: 16px !important;
+        }
+    }
+`;
 
-   componentDidMount = () => {}
+const Options = styled.div`
+    display: flex;
+    margin-top: 35px;
 
-   componentWillUnmount = () => {
-      this.props.clear()
-      this.props.clearCode()
-   }
+    @media (max-width: 767px) {
+        flex-direction: column;
+        margin-top: 10px;
+        padding-bottom: 40px;
+    }
+`;
 
-   handleChange = (e, { name, value }) => {
-      this.setState((state) => ({
-         [name]: value,
-         isLegit: name === 'accountId' ? state.isLegit : this.isLegitField(name, value)
-      }))
-   }
+const Option = styled.div`
+    flex: 1;
+    padding: 5px 40px 0 40px;
+    border-right: 3px solid #f5f5f5;
 
-   isLegitField(name, value) {
-      // TODO: Use some validation framework?
-      let validators = {
-         phoneNumber: isValidPhoneNumber,
-         securityCode: value => !!value.trim().match(/^\d{6}$/)
-      }
-      return validators[name](value);
-   }
+    &:first-of-type {
+        padding-left: 0;
+    }
 
-   handleStartOver = e => {
-      e.preventDefault()
+    &:last-of-type {
+        border: 0;
+    }
 
-      this.props.clearCode()
-      this.props.checkAccountAvailable(this.state.accountId)
+    @media (max-width: 767px) {
+        border: 0;
+        padding: 20px 0;
+    }
+`;
 
-      this.setState(() => ({
-         isLegit: true
-      }))
-   }
+const Header = styled.div`
+    display: flex;
+    align-items: center;
+    color: #24272a;
+    font-weight: 600;
+    font-size: 16px;
 
-   handleResendCode = e => {
-      e.preventDefault()
+    &:before {
+        content: '';
+        background: url(${props => props.icon});
+        background-repeat: no-repeat;
+        display: block;
+        width: 40px;
+        height: 40px;
+        margin-right: 15px;
+        margin-top: -5px;
+    }
+`;
 
-      this.setState(() => ({
-         resendLoader: true
-      }))
-      
-      this.props.requestCode(this.state.phoneNumber, this.state.accountId)
-         .finally(() => {
-            this.setState(() => ({
-               resendLoader: false
-            }))
-         })
-   }
+const P = styled.p`
+    color: #4a4f54;
 
-   handleSubmit = e => {
-      e.preventDefault()
+    &:first-of-type {
+        margin-top: 20px;
+    }
 
-      if (!this.state.isLegit) {
-         return false
-      }
+    span {
+        font-weight: 600;
+    }
+`;
 
-      this.setState(() => ({
-         loader: true
-      }))
+const Button = styled(Link)`
+    background-color: #6AD1E3;
+    font-weight: 600;
+    display: inline-block;
+    border: 0;
+    border-radius: 40px;
+    color: white;
+    outline: none;
+    cursor: pointer;
+    height: 40px;
+    width: 220px;
+    letter-spacing: 0.5px;
+    margin-top: 20px;
+    transition: 100ms;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-      const accountId = this.state.accountId // || this.props.accountId;
-      if (!this.props.sentMessage) {
-         this.props.requestCode(this.state.phoneNumber, accountId)
-            .finally(() => {
-               this.setState(() => ({
-                  loader: false,
-                  isLegit: false
-               }))
-               this.props.clear()
-            })
-      } else {
-         this.props.recoverAccount(this.state.phoneNumber, accountId, this.state.securityCode)
-            .then(({ error }) => {
-               if (error) return
-               this.props.redirectToApp()
-            })
-            .finally(() => {
-               this.setState(() => ({
-                  loader: false,
-                  isLegit: false
-               }))
-            })
-      }
-   }
+    &:hover {
+        background-color: #72dff2;
+        color: white;
+        text-decoration: none;
+    }
 
-   render() {
-      const combinedState = {
-         ...this.props,
-         ...this.state,
-         isLegit: this.state.isLegit && !this.props.formLoader
-      }
-      const { sentMessage } = this.props
-      
-      return (
-         <AccountFormContainer 
-            wide={sentMessage ? true : false}
-            title={sentMessage ? `Enter your Code` : `Find your Account`}
-            text={sentMessage ? (
-               <Fragment>
-                  Your 6-digit code has been sent to: <span>{this.state.phoneNumber}</span>
-                  <br/>
-                  Enter it below to recover the account: <span>@{this.state.accountId}</span>
-               </Fragment>
-            ) : `Enter your information associated with the account and we will send a recovery code.`}
-         >
-            <AccountFormSection requestStatus={this.props.requestStatus} handleSubmit={this.handleSubmit.bind(this)}>
-               <RecoverAccountForm
-                  {...combinedState}
-                  handleChange={this.handleChange}
-                  handleStartOver={this.handleStartOver}
-                  handleResendCode={this.handleResendCode}
-               />
-            </AccountFormSection>
-         </AccountFormContainer>
-      )
-   }
+    &::selection {
+        color: white;
+    }
+
+    @media (max-width: 767px) {
+        height: 48px;
+        width: 100%;
+    }
+`;
+
+const RecoverAccount = () => {
+    return (
+        <Container className='ui container'>
+            <h1><Translate id='recoverAccount.pageTitle'/></h1>
+            <h2><Translate id='recoverAccount.pageText'/></h2>
+            <Options>
+                <Option>
+                    <Header icon={EmailIcon}><Translate id='recoverAccount.email.title'/><br/><Translate id='recoverAccount.actionType'/></Header>
+                    <P><Translate id='recoverAccount.email.desc'/> <span><Translate id='recoverAccount.email.subject'/></span></P>
+                    <P><Translate id='recoverAccount.actionRequired'/></P>
+                </Option>
+                <Option>
+                    <Header icon={PhoneIcon}><Translate id='recoverAccount.phone.title'/><br/><Translate id='recoverAccount.actionType'/></Header>
+                    <P><Translate id='recoverAccount.phone.desc'/> <span><Translate id='recoverAccount.phone.number'/></span></P>
+                    <P><Translate id='recoverAccount.actionRequired'/></P>
+                </Option>
+                <Option>
+                    <Header icon={PhraseIcon}><Translate id='recoverAccount.phrase.title'/><br/><Translate id='recoverAccount.actionType'/></Header>
+                    <P><Translate id='recoverAccount.phrase.desc'/></P>
+                    <Button to='/recover-seed-phrase'><Translate id='recoverAccount.phrase.cta'/></Button>
+                </Option>
+            </Options>
+        </Container>
+    )
 }
 
-const mapDispatchToProps = {
-   requestCode, 
-   recoverAccount, 
-   redirectToApp,
-   checkAccountAvailable,
-   clear,
-   clearCode
-}
-
-const mapStateToProps = ({ account }, { match }) => ({
-   ...account
-})
-
-export const RecoverAccountWithRouter = connect(
-   mapStateToProps, 
-   mapDispatchToProps
-)(withRouter(RecoverAccount))
+export const RecoverAccountWithRouter = withRouter(RecoverAccount);
