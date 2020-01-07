@@ -87,8 +87,6 @@ class SetRecoveryMethodContainer extends Component {
         loader: false,
         phoneNumber: '',
         email: '',
-        validEmail: false,
-        isLegit: false,
         recoverWithEmail: true
     }
 
@@ -97,11 +95,8 @@ class SetRecoveryMethodContainer extends Component {
         this.props.clearCode();
     }
 
-    handlePhoneChange = (e, { name, value }) => {
-        this.setState(() => ({
-            [name]: value,
-            isLegit: this.isLegitField(name, value)
-        }))
+    handleFieldChange = (e, { name, value }) => {
+        this.setState(() => ({ [name]: value }))
     }
 
     handleToggleRecoverMethod = () => {
@@ -110,12 +105,17 @@ class SetRecoveryMethodContainer extends Component {
         }));
     }
 
-    isLegitField = (name, value) => {
+    isLegitField = (name) => {
         let validators = {
             phoneNumber: isValidPhoneNumber,
-            securityCode: value => !!value.trim().match(/^\d{6}$/)
+            email: validateEmail
         }
+        const value = this.state[name];
         return validators[name](value);
+    }
+
+    get isLegit() {
+        return this.state.recoverWithEmail ? this.isLegitField('email') : this.isLegitField('phoneNumber');
     }
 
     handleSubmitRecoverMethod = () => {
@@ -125,14 +125,6 @@ class SetRecoveryMethodContainer extends Component {
                 // Send magic link to email/phone
                 // Set this.props.sentMessage to true
             }
-        });
-    }
-
-    handleEmailChange = (e) => {
-        let value = e.target.value;
-        this.setState({
-            email: value,
-            validEmail: validateEmail(value)
         });
     }
 
@@ -153,7 +145,7 @@ class SetRecoveryMethodContainer extends Component {
         const combinedState = {
             ...this.props,
             ...this.state,
-            isLegit: this.state.isLegit && !this.props.formLoader
+            isLegit: this.isLegit && !this.props.formLoader
         }
 
         const { sentMessage, redirectToApp } = this.props;
@@ -165,8 +157,7 @@ class SetRecoveryMethodContainer extends Component {
                         <SetRecoveryMethod
                             {...combinedState}
                             toggleRecoverMethod={this.handleToggleRecoverMethod}
-                            handlePhoneChange={this.handlePhoneChange}
-                            handleEmailChange={this.handleEmailChange}
+                            handleFieldChange={this.handleFieldChange}
                             submitRecovery={this.handleSubmitRecoverMethod}
                         />
                         <AccountSkipThisStep skipRecoverySetup={this.skipRecoverySetup} />

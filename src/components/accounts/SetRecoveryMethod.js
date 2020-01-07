@@ -10,10 +10,8 @@ const SetRecoveryMethod = ({
     requestStatus,
     formLoader,
     phoneNumber,
-    handlePhoneChange,
-    handleEmailChange,
+    handleFieldChange,
     submitRecovery,
-    validEmail,
     isLegit,
     email,
     loader
@@ -36,7 +34,7 @@ const SetRecoveryMethod = ({
                     value={email}
                     className='email-input-wrapper'
                     type='text'
-                    onChange={handleEmailChange}
+                    onChange={handleFieldChange}
                 />
             }
             {!recoverWithEmail &&
@@ -44,7 +42,7 @@ const SetRecoveryMethod = ({
                     className={`create ${requestStatus ? requestStatus.success ? 'success' : 'problem' : ''} ${formLoader ? 'loading' : ''}`}
                     name='phoneNumber'
                     value={phoneNumber}
-                    onChange={value => handlePhoneChange(null, { name: 'phoneNumber', value })}
+                    onChange={value => handleFieldChange(null, { name: 'phoneNumber', value })}
                     placeholder='example: +1 555 123 4567'
                     required
                     tabIndex='2'
@@ -56,7 +54,7 @@ const SetRecoveryMethod = ({
             <FormButton
                 color='blue'
                 type='submit'
-                disabled={recoverWithEmail ? !validEmail : !isLegit}
+                disabled={!isLegit}
                 sending={loader}
             >
                 PROTECT ACCOUNT
@@ -73,10 +71,8 @@ SetRecoveryMethod.propTypes = {
     loader: PropTypes.bool.isRequired,
     phoneNumber: PropTypes.string,
     email: PropTypes.string,
-    handlePhoneChange: PropTypes.func.isRequired,
-    handleEmailChange: PropTypes.func.isRequired,
+    handleFieldChange: PropTypes.func.isRequired,
     submitRecovery: PropTypes.func.isRequired,
-    validEmail: PropTypes.bool.isRequired,
     isLegit: PropTypes.bool.isRequired,
 }
 
