@@ -3,13 +3,14 @@ import { connect } from 'react-redux';
 import styled from 'styled-components';
 import { isValidPhoneNumber } from 'react-phone-number-input';
 import { validateEmail } from '../../utils/account';
+import { generateSeedPhrase } from '../../utils/seed-phrase'
 import SetRecoveryMethod from './SetRecoveryMethod';
 import SetRecoveryMethodSuccess from  './SetRecoveryMethodSuccess';
 import AccountSkipThisStep from '../common/AccountSkipThisStep';
 import Disclaimer from '../common/Disclaimer';
 import {
     requestCode,
-    setupAccountRecovery,
+    setupRecoveryMessage,
     redirectToApp,
     clear,
     clearCode
@@ -122,6 +123,14 @@ class SetRecoveryMethodContainer extends Component {
 
         this.setState({ loader: true }, () => {
             if (!this.props.sentMessage) {
+                const { seedPhrase, publicKey } = generateSeedPhrase()
+
+                this.props.setupRecoveryMessage({...this.props, ...this.state, publicKey, seedPhrase })
+                    .then(({ error }) => {
+                        if (error) return
+
+                    })
+
                 // Send magic link to email/phone
                 // Set this.props.sentMessage to true
             }
@@ -179,7 +188,7 @@ class SetRecoveryMethodContainer extends Component {
 
 const mapDispatchToProps = {
     requestCode,
-    setupAccountRecovery,
+    setupRecoveryMessage,
     redirectToApp,
     clear,
     clearCode

@@ -134,7 +134,7 @@ export const allowLogin = () => async (dispatch, getState) => {
 
 const defaultCodesFor = (prefix, data) => ({ successCode: `${prefix}.success`, errorCode: `${prefix}.error`, data})
 
-export const { requestCode, setupAccountRecovery, recoverAccount, checkNewAccount, createNewAccount, checkAccountAvailable, getTransactions, clear, clearCode } = createActions({
+export const { requestCode, setupAccountRecovery, setupRecoveryMessage, recoverAccount, checkNewAccount, createNewAccount, checkAccountAvailable, getTransactions, clear, clearCode } = createActions({
    REQUEST_CODE: [
       wallet.requestCode.bind(wallet),
       () => defaultCodesFor('account.requestCode')
@@ -142,6 +142,10 @@ export const { requestCode, setupAccountRecovery, recoverAccount, checkNewAccoun
    SETUP_ACCOUNT_RECOVERY: [
       wallet.setupAccountRecovery.bind(wallet),
       () => defaultCodesFor('account.setupAccountRecovery')
+   ],
+   SETUP_RECOVERY_MESSAGE: [
+      wallet.setupRecoveryMessage.bind(wallet),
+      () => defaultCodesFor('account.setupRecoveryMessage')
    ],
    RECOVER_ACCOUNT: [
       wallet.recoverAccount.bind(wallet),
@@ -163,7 +167,6 @@ export const { requestCode, setupAccountRecovery, recoverAccount, checkNewAccoun
    CLEAR: null,
    CLEAR_CODE: null
 })
-
 
 
 export const { getAccessKeys, removeAccessKey, addLedgerAccessKey } = createActions({
