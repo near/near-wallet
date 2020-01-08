@@ -1,57 +1,125 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import { Link, withRouter } from 'react-router-dom'
-import styled from 'styled-components'
-import ProfileQRCode from '../profile/ProfileQRCode'
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
+import styled from 'styled-components';
+import { Responsive } from 'semantic-ui-react';
+import ProfileQRCode from '../profile/ProfileQRCode';
+import Divider from '../common/Divider';
 
 const Container = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    padding: 0 40px 50px 40px;
+    max-width: 450px;
     text-align: center;
+    margin: 0 auto;
+    color: #25282A;
+    padding: 20px 0 40px 0;
 
-    h1, h2 {
-        font-size: 32px !important;
-
-        @media (max-width: 767px) {
-            font-size: 26px !important;
-        }
+    .divider-container {
+        margin: 25px 0;
     }
 
-    .divider {
-        margin: -25px 0 15px 0;
-        position: relative;
-        background-color: white;
-        padding: 0 10px;
+    .qr-code-container {
+        margin-top: 25px;
+        max-width: 250px;
+    }
 
-        @media (max-width: 767px) {
-            margin: -10px 0 10px 0;
+    @media (min-width: 768px) {
+        padding: 30px 0 40px 0;
+
+        .divider-container {
+            margin: 35px 0;
         }
 
-        &:after {
-            content: '';
-            display: block;
-            width: 150px;
-            border-top: 3px solid #dadada;
-            position: absolute;
-            left: 50%;
-            top: 50%;
-            transform: translate(-50%, 0);
-            z-index: -1;
+        .qr-code-container {
+            margin-top: 35px;
         }
+
     }
 `
 
+const Title = styled.div`
+    font-size: 22px;
+    font-weight: 600;
+    align-self: flex-start;
+    font-family: BwSeidoRound !important;
+
+    @media (min-width: 768px) {
+        font-size: 36px;
+        align-self: center;
+    }
+`
+
+const Address = styled.div`
+    border: 1px dashed #dadada;
+    border-radius: 4px;
+    position: relative;
+    width: 100%;
+    padding: 15px;
+    font-size: 28px;
+    word-break: break-all;
+    line-height: normal;
+    margin-top: 25px;
+    font-weight: 600;
+
+    @media (min-width: 768px) {
+        padding: 15px 70px;
+        margin-top: 35px;
+    }
+`
+
+const CopyAddress = styled(Responsive)`
+    color: #0072CE;
+    margin-top: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    font-weight: 400;
+
+    @media (min-width: 768px) {
+        position: absolute;
+        right: 20px;
+        top: 50%;
+        transform: translateY(-50%);
+        margin: 0;
+    }
+`
+
+const UrlAddress = styled.div`
+    margin-top: 10px;
+`
+
 class ReceiveMoney extends Component {
+    constructor(props) {
+        super(props);
+        this.myRef = React.createRef();
+    }
+
+    handleCopyPhrase = e => {
+        const selection = window.getSelection();
+        selection.selectAllChildren(this.myRef.current);
+        document.execCommand('copy');
+    }
+
     render() {
         return (
-            <Container>
-                <h1>Send to: <Link to='/profile'>{this.props.account.accountId}</Link></h1>
-                <h2 className='divider'>or</h2>
-                <ProfileQRCode account={this.props.account} />
-            </Container>
+            <div className='ui container'>
+                <Container>
+                    <Title>Your address</Title>
+                    <Address>
+                        {this.props.account.accountId}
+                        <CopyAddress minWidth={768} onClick={this.handleCopyPhrase}>COPY</CopyAddress>
+                    </Address>
+                    <CopyAddress maxWidth={767} onClick={this.handleCopyPhrase}>Copy address URL</CopyAddress>
+                    <Divider/>
+                    <Title>Scan QR code</Title>
+                    <ProfileQRCode account={this.props.account}/>
+                    <UrlAddress ref={this.myRef}>
+                        {`${window.location.protocol}//${window.location.host}/send-money/${this.props.account.accountId}`}
+                    </UrlAddress>
+                </Container>
+            </div>
         )
     }
 }
