@@ -85,7 +85,6 @@ const Container = styled.div`
 class SetRecoveryMethodContainer extends Component {
 
     state = {
-        loader: false,
         phoneNumber: '',
         email: '',
         recoverWithEmail: true,
@@ -121,20 +120,16 @@ class SetRecoveryMethodContainer extends Component {
     }
 
     handleSubmitRecoverMethod = () => {
+        if (!this.state.sentMessage) {
+            const { seedPhrase, publicKey } = generateSeedPhrase()
 
-        this.setState({ loader: true }, () => {
-            if (!this.state.sentMessage) {
-                const { seedPhrase, publicKey } = generateSeedPhrase()
+            this.props.setupRecoveryMessage({...this.props, ...this.state, publicKey, seedPhrase })
+                .then(({ error }) => {
+                    if (error) return
 
-                this.props.setupRecoveryMessage({...this.props, ...this.state, publicKey, seedPhrase })
-                    .then(({ error }) => {
-                        if (error) return
-
-                        this.setState({ sentMessage: true })
-                    })
-
-            }
-        });
+                    this.setState({ sentMessage: true })
+                })
+        }
     }
 
     handleEnterNewRecoverValue = () => {

@@ -14,7 +14,6 @@ const SetRecoveryMethod = ({
     submitRecovery,
     isLegit,
     email,
-    loader
 }) => {
 
     return (
@@ -55,7 +54,7 @@ const SetRecoveryMethod = ({
                 color='blue'
                 type='submit'
                 disabled={!isLegit}
-                sending={loader}
+                sending={formLoader}
             >
                 PROTECT ACCOUNT
             </FormButton>
@@ -68,7 +67,6 @@ SetRecoveryMethod.propTypes = {
     toggleRecoverMethod: PropTypes.func.isRequired,
     requestStatus: PropTypes.object,
     formLoader: PropTypes.bool.isRequired,
-    loader: PropTypes.bool.isRequired,
     phoneNumber: PropTypes.string,
     email: PropTypes.string,
     handleFieldChange: PropTypes.func.isRequired,
