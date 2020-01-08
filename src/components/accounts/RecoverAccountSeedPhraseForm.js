@@ -8,7 +8,8 @@ const RecoverAccountSeedPhraseForm = ({
     formLoader,
     isLegit,
     handleChange,
-    accountId
+    accountId,
+    seedPhrase
 }) => (
         <Fragment>
             <Fragment>
@@ -24,6 +25,7 @@ const RecoverAccountSeedPhraseForm = ({
                     name='seedPhrase'
                     onChange={handleChange}
                     placeholder='correct horse battery staple'
+                    value={seedPhrase}
                     required
                     tabIndex='2'
                     pattern='[a-zA-Z ]*'

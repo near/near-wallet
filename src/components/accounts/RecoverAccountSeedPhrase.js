@@ -10,9 +10,17 @@ import AccountFormContainer from './AccountFormContainer'
 
 class RecoverAccountSeedPhrase extends Component {
    state = {
-      accountId: '',
-      seedPhrase: '',
-      isLegit: false
+      accountId: this.props.accountId,
+      seedPhrase: this.props.seedPhrase
+   }
+
+   // TODO: Use some validation framework?
+   validators = {
+      seedPhrase: value => true // TODO validate seed phrase
+   }
+
+   get isLegit() {
+      return Object.keys(this.validators).every(field => this.validators[field](this.state[field]))
    }
 
    componentDidMount = () => {}
@@ -22,24 +30,15 @@ class RecoverAccountSeedPhrase extends Component {
    }
 
    handleChange = (e, { name, value }) => {
-      this.setState((state) => ({
-         [name]: value,
-         isLegit: name === 'accountId' ? state.isLegit : this.isLegitField(name, value)
+      this.setState(() => ({
+         [name]: value
       }))
-   }
-
-   isLegitField(name, value) {
-      // TODO: Use some validation framework?
-      let validators = {
-         seedPhrase: value => true // TODO validate seed phrase
-      }
-      return validators[name](value);
    }
 
    handleSubmit = e => {
       e.preventDefault()
 
-      if (!this.state.isLegit) {
+      if (!this.isLegit) {
          return false
       }
 
@@ -49,18 +48,13 @@ class RecoverAccountSeedPhrase extends Component {
             if (error) return
             this.props.redirectToApp()
          })
-         .finally(() => {
-            this.setState(() => ({
-               isLegit: false
-            }))
-         })
    }
 
    render() {
       const combinedState = {
          ...this.props,
          ...this.state,
-         isLegit: this.state.isLegit && !this.props.formLoader
+         isLegit: this.isLegit && !this.props.formLoader
       }
       
       return (
@@ -87,8 +81,10 @@ const mapDispatchToProps = {
    clear
 }
 
-const mapStateToProps = ({ account }) => ({
-   ...account
+const mapStateToProps = ({ account }, { match }) => ({
+   ...account,
+   accountId: match.params.accountId || '',
+   seedPhrase: match.params.seedPhrase || '',
 })
 
 export const RecoverAccountSeedPhraseWithRouter = connect(

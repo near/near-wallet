@@ -116,7 +116,7 @@ class Routing extends Component {
                            />
                            <Route
                               exact
-                              path='/recover-seed-phrase'
+                              path='/recover-seed-phrase/:accountId?/:seedPhrase?'
                               component={RecoverAccountSeedPhraseWithRouter}
                            />
                            <PrivateRoute
