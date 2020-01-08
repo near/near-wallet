@@ -53,7 +53,6 @@ const SendMoneyFirstStep = ({
                                  requestStatus={requestStatus}
                                  autoFocus={true}
                               />
-                              <Responsive as={RequestStatusBox} minWidth={768} requestStatus={requestStatus} />
                            </List.Content>
                         </List.Item>
                      )}
