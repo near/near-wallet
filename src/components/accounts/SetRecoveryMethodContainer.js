@@ -88,7 +88,8 @@ class SetRecoveryMethodContainer extends Component {
         loader: false,
         phoneNumber: '',
         email: '',
-        recoverWithEmail: true
+        recoverWithEmail: true,
+        sentMessage: false
     }
 
     componentWillUnmount = () => {
@@ -122,26 +123,25 @@ class SetRecoveryMethodContainer extends Component {
     handleSubmitRecoverMethod = () => {
 
         this.setState({ loader: true }, () => {
-            if (!this.props.sentMessage) {
+            if (!this.state.sentMessage) {
                 const { seedPhrase, publicKey } = generateSeedPhrase()
 
                 this.props.setupRecoveryMessage({...this.props, ...this.state, publicKey, seedPhrase })
                     .then(({ error }) => {
                         if (error) return
 
+                        this.setState({ sentMessage: true })
                     })
 
-                // Send magic link to email/phone
-                // Set this.props.sentMessage to true
             }
         });
     }
 
     handleEnterNewRecoverValue = () => {
-        /* TODO: Set this.props.sentMessage to false */
         this.setState({
             email: '',
             phoneNumber: '',
+            sentMessage: false
         });
     }
 
@@ -157,7 +157,7 @@ class SetRecoveryMethodContainer extends Component {
             isLegit: this.isLegit && !this.props.formLoader
         }
 
-        const { sentMessage, redirectToApp } = this.props;
+        const { sentMessage } = this.state;
 
         return (
             <Container className='ui container'>
@@ -176,7 +176,7 @@ class SetRecoveryMethodContainer extends Component {
                 {sentMessage &&
                     <SetRecoveryMethodSuccess
                         {...combinedState}
-                        handleConfirmMessageReceived={redirectToApp}
+                        handleConfirmMessageReceived={this.props.redirectToApp}
                         handleEnterNewRecoverValue={this.handleEnterNewRecoverValue}
                     />
                 }
