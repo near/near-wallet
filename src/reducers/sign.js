@@ -15,8 +15,7 @@ const sign = handleActions({
             status: 'needs-confirmation',
             transactions,
             totalAmount: allActions
-                .filter(a => a.transfer)
-                .map(a => a.transfer.deposit)
+                .map(a => (a.transfer && a.transfer.deposit) || (a.functionCall && a.functionCall.deposit) || 0)
                 .reduce((totalAmount, amount) => totalAmount.add(amount), new BN(0)).toString(),
             fees: {
                 transactionFees: '', // TODO: Calculate total fees
