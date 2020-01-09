@@ -128,8 +128,8 @@ class LoginDetails extends Component {
                            <GlobalAlert 
                               globalAlert={{
                                  success: false,
-                                 messageCodeHeader: 'Warning',
-                                 messageCodeDescription: 'This allows access to your entire balance. Please proceed with caution.'
+                                 messageCodeHeader: 'warning',
+                                 messageCode: 'account.login.details.warning'
                               }}
                               closeIcom={false}
                            />
