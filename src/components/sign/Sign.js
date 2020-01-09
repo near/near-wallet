@@ -50,7 +50,7 @@ class Sign extends Component {
             case 'needs-confirmation':
                 return <SignTransferReady {...this.state} appTitle={this.props.appTitle} handleAllow={this.handleAllow} handleDeny={this.handleDeny} handleDetails={this.handleDetails} sensitiveActionsCounter={this.props.sensitiveActionsCounter} />
             case 'in-progress':
-                return <SignTransferTransferring {...this.state} />
+                return <SignTransferTransferring {...this.state} totalAmount={this.props.totalAmount}/>
             case 'success':
                 return <SignTransferSuccess handleDeny={this.handleDeny} totalAmount={this.props.totalAmount} />
             case 'error':

@@ -26,7 +26,11 @@ const SignTransferReady = ({ handleDeny, totalAmount }) => (
                     as='h2'
                     textAlign='center'
                 >
-                    <span className='font-bold'><Balance amount={totalAmount} /> was transferred successfully</span>
+                    {totalAmount > 0 ? (
+                        <span className='font-bold'><Balance amount={totalAmount} /> was transferred successfully</span>
+                    ) : (
+                        <span className='font-bold'>Authorization request successful</span>
+                    )}
                 </Grid.Column>
             </Grid.Row>
             {/*

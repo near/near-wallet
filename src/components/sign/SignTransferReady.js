@@ -55,9 +55,16 @@ class SignTransferReady extends Component {
                             tablet={16}
                             mobile={16}
                         >
-                            <div className='font-bold'>{appTitle ? appTitle : 'Unknown app'}</div> 
-                            <div className='h2'>is requesting to transfer</div>
-                            <div className='font-bold'><Balance amount={totalAmount} /></div>
+                            <div className='font-bold'>{appTitle ? appTitle : 'Unknown app'}</div>
+                            {totalAmount > 0 &&
+                                <>
+                                    <div className='h2'>is requesting to transfer</div>
+                                    <div className='font-bold'><Balance amount={totalAmount} /></div>
+                                </>
+                            }
+                            {totalAmount == 0 &&
+                                <div className='h2'>is requesting authorization</div>
+                            }
                         </Grid.Column>
                     </Grid.Row>
                     <Grid.Row centered>
