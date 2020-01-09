@@ -14,6 +14,7 @@
     "account.setupSeedPhrase.error": "An error occurred while setting up seed phrase recovery. Please try again!",
     "account.login.success": "${title} is now authorized to use your account.",
     "account.login.error": "An error occurred while approving this action. Please try again!",
+    "account.login.details.warning": "This allows access to your entire balance. Please proceed with caution.",
     
     "actions": {
         "CreateAccount": "New account created: @${receiverId}",
@@ -59,5 +60,6 @@
     },
 
     "success": "Success",
-    "error": "Error"
+    "error": "Error",
+    "warning": "Warning"
 }
