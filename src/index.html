@@ -34,7 +34,10 @@
       ;if(!n._iq.hasOwnProperty(e)){n._iq[e]={_q:[]};v(n._iq[e])}return n._iq[e]}
       ;e.amplitude=n})(window,document);
 
-      amplitude.getInstance().init('{{ WALLET_AMPLITUDE_ID || "" }}');
+      amplitude.getInstance().init('{{ WALLET_AMPLITUDE_ID || "" }}', null, {
+        includeUtm: true,
+        includeReferrer: true,
+      });
     </script>
     <meta charset="utf-8" />
     <link rel="shortcut icon" href="./favicon.ico" />
