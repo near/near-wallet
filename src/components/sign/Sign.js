@@ -7,15 +7,10 @@ import SignTransferReady from './SignTransferReady';
 import SignTransferSuccess from './SignTransferSuccess';
 import SignTransferCancelled from './SignTransferCancelled';
 // import SignTransferInsufficientFunds from './SignTransferInsufficientFunds';
-import SignTransferTransferring from './SignTransferTransferring';
-import SignTransferDetails from './SignTransferDetails';
-
+import SignTransferTransferring from './SignTransferTransferring'
 import { signAndSendTransactions } from '../../actions/account'
 
 class Sign extends Component {
-    state = {
-        transferDetails: false,
-    }
 
     handleDeny = e => {
         e.preventDefault();
@@ -39,12 +34,6 @@ class Sign extends Component {
         this.props.signAndSendTransactions(this.props.transactions, this.props.account.accountId);
     }
 
-    handleDetails = (show) => {
-        this.setState(() => ({
-            transferDetails: show
-        }))
-    }
-
     renderSubcomponent = () => {
         switch (this.props.status) {
             case 'needs-confirmation':
@@ -63,13 +52,7 @@ class Sign extends Component {
     }
 
     render() {
-        return (
-            <SignContainer>
-                {this.state.transferDetails
-                    ? <SignTransferDetails handleDetails={this.handleDetails} transactions={this.state.transactions} fees={this.props.fees} />
-                    : this.renderSubcomponent()}
-            </SignContainer>
-        )
+        return <SignContainer>{this.renderSubcomponent()}</SignContainer>;
     }
 }
 

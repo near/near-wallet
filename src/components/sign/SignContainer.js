@@ -6,6 +6,13 @@ import styled from 'styled-components'
 
 const CustomContainer = styled(Container)`
     &&& {
+
+        margin-top: 30px;
+
+        @media (min-width: 768px) {
+            margin-top: 50px;
+        }
+
         .authorize {
             margin-top: 30px;
             height: 48px;
@@ -124,7 +131,6 @@ const CustomContainer = styled(Container)`
         }
 
         @media screen and (max-width: 767px) {
-            margin: 0px !important;
 
             button {
                 width: 140px;
