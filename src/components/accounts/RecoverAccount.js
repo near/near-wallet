@@ -3,7 +3,7 @@ import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { isValidPhoneNumber } from 'react-phone-number-input'
 
-import { requestCode, recoverAccount, redirectToApp, checkAccountAvailable, clear, clearCode } from '../../actions/account'
+import { requestCode, recoverAccount, redirectToApp, checkAccountAvailable, clear, clearCode, handleRefreshAccount } from '../../actions/account'
 
 import RecoverAccountForm from './RecoverAccountForm'
 import AccountFormSection from './AccountFormSection'
@@ -92,6 +92,7 @@ class RecoverAccount extends Component {
          this.props.recoverAccount(this.state.phoneNumber, accountId, this.state.securityCode)
             .then(({ error }) => {
                if (error) return
+               this.props.handleRefreshAccount()
                this.props.redirectToApp()
             })
             .finally(() => {
@@ -142,7 +143,8 @@ const mapDispatchToProps = {
    redirectToApp,
    checkAccountAvailable,
    clear,
-   clearCode
+   clearCode,
+   handleRefreshAccount
 }
 
 const mapStateToProps = ({ account }, { match }) => ({
