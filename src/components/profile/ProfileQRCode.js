@@ -18,8 +18,7 @@ const CustomDiv = styled.div`
 `
 
 const ProfileQRCode = ({ account }) => (
-   <CustomDiv>
-        <h2>Scan</h2>
+   <CustomDiv className='qr-code-container'>
         <QRCode
             bgColor="#FFFFFF"
             fgColor="#24272a"
@@ -27,7 +26,7 @@ const ProfileQRCode = ({ account }) => (
             style={{ width: "100%" }}
             value={`${window.location.protocol}//${window.location.host}/send-money/${account.accountId}`}
         />
-        <p>Scan using phone camera to send payment to this address.</p>
+        <p>Use your phones camera app to send to this address.</p>
    </CustomDiv>
 )
 
