@@ -27,17 +27,30 @@ const Title = styled.div`
 
 const Desc = styled.div`
     font-size: 26px;
-    margin-top: 20px;
+    margin-top: 25px;
 `
 
-const BalanceWrapper = styled.div`
-    font-size: 26px;
-    margin-top: 20px;
-    font-weight: 600;
+const TransferAmount = styled.div`
+    margin-top: 25px;
+    text-align: center;
+
+    div {
+        font-size: 26px !important;
+        font-weight: 600;
+    }
+`
+
+const CurrentBalance = styled.div`
+    margin-top: 5px;
+    text-align: center;
+    color: #888888;
+    font-size: 14px;
+    font-weight: 400;
 `
 
 const MoreInfo = styled.div`
     background-color: #f5f5f5;
+    color: #888888;
     border-radius: 40px;
     cursor: pointer;
     padding: 10px 50px;
@@ -139,9 +152,16 @@ class SignTransferReady extends Component {
             <Container>
                 <SignAnimatedArrow animate={transferTransferring}/>
                 <Title>{appTitle || 'Unknown App'}</Title>
-                <Desc>is requesting&nbsp;{totalAmount > 0 ? 'to transfer' : 'authorization'}</Desc>
+                <Desc>is requesting&nbsp;{totalAmount > 0 ? 'the transfer of' : 'authorization'}</Desc>
                 {totalAmount > 0 &&
-                    <BalanceWrapper><Balance amount={totalAmount}/></BalanceWrapper>
+                    <>
+                        <TransferAmount>
+                            <Balance amount={totalAmount}/>
+                        </TransferAmount>
+                        <CurrentBalance>
+                            Current Balance: <Balance amount={account.amount}/>
+                        </CurrentBalance>
+                    </>
                 }
                 <MoreInfo onClick={this.handleToggleInfo}>
                     More information
