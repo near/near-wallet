@@ -17,7 +17,7 @@ class AccountFormAccountId extends Component {
     }
 
     handleChangeAccountId = (e, { name, value }) => {
-        if (value.match(/[^a-zA-Z0-9_-]/)) {
+        if ((this.props.type !== 'send-money' && value.match(/[^a-zA-Z0-9_-]/)) || value.match(/[^a-zA-Z0-9._-]/)) {
             return false
         }
 
