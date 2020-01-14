@@ -1,12 +1,10 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
-
 import SignContainer from './SignContainer'
-import SignTransferReady from './SignTransferReady';
-import SignTransferSuccess from './SignTransferSuccess';
-import SignTransferCancelled from './SignTransferCancelled';
-// import SignTransferInsufficientFunds from './SignTransferInsufficientFunds';
+import SignTransferReady from './SignTransferReady'
+import SignTransferSuccess from './SignTransferSuccess'
+import SignTransferCancelled from './SignTransferCancelled'
 import SignTransferTransferring from './SignTransferTransferring'
 import { signAndSendTransactions } from '../../actions/account'
 

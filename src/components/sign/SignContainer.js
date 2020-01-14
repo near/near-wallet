@@ -6,11 +6,12 @@ import styled from 'styled-components'
 
 const CustomContainer = styled(Container)`
     &&& {
-
         margin-top: 30px;
+        padding-bottom: 50vh;
 
         @media (min-width: 768px) {
             margin-top: 50px;
+            padding-bottom: 0;
         }
 
         .authorize {

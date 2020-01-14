@@ -2,12 +2,14 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import styled from 'styled-components'
+import { utils } from 'nearlib'
 import { handleRefreshAccount, switchAccount } from '../../actions/account'
 import SignAnimatedArrow from './SignAnimatedArrow'
 import SignTransferDetails from './SignTransferDetails'
 import SelectAccountDropdown from '../login/SelectAccountDropdown'
 import Balance from '../common/Balance'
 import Button from '../common/Button'
+import InlineNotification from '../common/InlineNotification'
 
 const Container = styled.div`
     max-width: 450px;
@@ -137,10 +139,13 @@ class SignTransferReady extends Component {
         this.props.history.push('/create')
     }
 
+    handleGoBack = () => {
+        // TODO: Send user back w/ error message?
+    }
+
     renderMainView = () => {
         const {
             appTitle,
-            transferTransferring,
             totalAmount,
             actionsCounter,
             account,
@@ -148,12 +153,16 @@ class SignTransferReady extends Component {
             handleDeny,
         } = this.props;
 
+        const transferAmount = utils.format.formatNearAmount(totalAmount);
+        const accountBalance = utils.format.formatNearAmount(account.amount);
+        let insufficientFunds = transferAmount > accountBalance;
+
         return (
             <Container>
-                <SignAnimatedArrow animate={transferTransferring}/>
+                <SignAnimatedArrow/>
                 <Title>{appTitle || 'Unknown App'}</Title>
-                <Desc>is requesting&nbsp;{totalAmount > 0 ? 'the transfer of' : 'authorization'}</Desc>
-                {totalAmount > 0 &&
+                <Desc>is requesting&nbsp;{transferAmount > 0 ? 'the transfer of' : 'authorization'}</Desc>
+                {transferAmount > 0 &&
                     <>
                         <TransferAmount>
                             <Balance amount={totalAmount}/>
@@ -161,6 +170,13 @@ class SignTransferReady extends Component {
                         <CurrentBalance>
                             Current Balance: <Balance amount={account.amount}/>
                         </CurrentBalance>
+                        <InlineNotification
+                            show={insufficientFunds}
+                            onClick={this.handleGoBack}
+                            message='Insufficient funds'
+                            theme='error'
+                            buttonMsg='Go back'
+                        />
                     </>
                 }
                 <MoreInfo onClick={this.handleToggleInfo}>
@@ -181,7 +197,12 @@ class SignTransferReady extends Component {
                     />
                     <ButtonWrapper>
                         <Button theme='secondary' onClick={handleDeny}>Deny</Button>
-                        <Button onClick={handleAllow}>Allow</Button>
+                        <Button
+                            onClick={handleAllow}
+                            disabled={transferAmount && insufficientFunds}
+                        >
+                            Allow
+                        </Button>
                     </ButtonWrapper>
                 </Footer>
             </Container>

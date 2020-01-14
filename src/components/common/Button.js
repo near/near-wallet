@@ -20,17 +20,29 @@ const StyledButton = styled.button`
     background-color: ${props => props.theme === 'secondary' ? "#ffffff" : "#0072CE"};
     border: 1px solid ${props => props.theme === 'secondary' ? "#cccccc" : "#0072CE"};
     color: ${props => props.theme === 'secondary' ? "#888888" : "white"};
-
+    
     @media (min-width: 768px) {
-        &:hover {
-            background-color: ${props => props.theme === 'secondary' ? "#cccccc" : "#007fe6"};
-            color: white;
+        &:enabled {
+            &:hover {
+                background-color: ${props => props.theme === 'secondary' ? "#cccccc" : "#007fe6"};
+                color: white;
+            }
         }
+    }
+
+    &:disabled {
+        opacity: 0.3;
+        cursor: not-allowed;
     }
 `
 
 const Button = (props) => (
-    <StyledButton theme={props.theme} className='styled-button' onClick={props.onClick}>
+    <StyledButton
+        theme={props.theme}
+        className='styled-button'
+        onClick={props.onClick}
+        disabled={props.disabled}
+    >
         {props.children}
     </StyledButton>
 )
