@@ -39,7 +39,7 @@ class AccountFormAccountId extends Component {
 
         const { accountId } = this.state
 
-        const requestStatusSameAccount = type !== 'create' && this.props.accountId === accountId && {
+        const requestStatusSameAccount = type === 'send-money' && this.props.accountId === accountId && {
             success: false,
             messageCode: 'account.available.errorSameAccount',
         }
@@ -62,7 +62,7 @@ class AccountFormAccountId extends Component {
                     tabIndex='1'
                     autoFocus={autoFocus && accountId.length === 0}
                 />
-                <Responsive as={RequestStatusBox} maxWidth={this.props.type === 'create' ? 767 : undefined} requestStatus={requestStatusSameAccount || requestStatus} />
+                <Responsive as={RequestStatusBox} maxWidth={this.props.type !== 'send-money' ? 767 : undefined} requestStatus={requestStatusSameAccount || requestStatus} />
             </>
         )
     }
