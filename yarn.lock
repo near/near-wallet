@@ -5904,6 +5904,11 @@ msgpack5@^3.4.1:
     readable-stream "^2.3.3"
     safe-buffer "^5.1.1"
 
+mustache@^3.2.1:
+  version "3.2.1"
+  resolved "https://registry.yarnpkg.com/mustache/-/mustache-3.2.1.tgz#89e78a9d207d78f2799b1e95764a25bf71a28322"
+  integrity sha512-RERvMFdLpaFfSRIEe632yDm5nsd0SDKn8hGmcUwswnyiE5mtdZLDybtHAz6hjJhawokF0hXvGLtx9mrQfm6FkA==
+
 mute-stream@0.0.7:
   version "0.0.7"
   resolved "https://registry.yarnpkg.com/mute-stream/-/mute-stream-0.0.7.tgz#3075ce93bc21b8fab43e1bc4da7e8115ed1e7bab"
@@ -5965,10 +5970,10 @@ nearley@^2.7.10:
     randexp "0.4.6"
     semver "^5.4.1"
 
-nearlib@^0.19.2:
-  version "0.19.2"
-  resolved "https://registry.yarnpkg.com/nearlib/-/nearlib-0.19.2.tgz#1cff4a8b5931ddb746c59d8e3343100efccc76a2"
-  integrity sha512-h1sPs5D8woGKCrNTITNC/srOsbnFHH5ESZVRX4pI8TAodQ3L1N7nqMSHdojRJ1WjQyxmBCU4Y811j9aufxKK9Q==
+nearlib@^0.20.0:
+  version "0.20.0"
+  resolved "https://registry.yarnpkg.com/nearlib/-/nearlib-0.20.0.tgz#8ab4104bee9e4c92f04922be2e5ac9578e4ed87a"
+  integrity sha512-Xo2DfXsJ6SB3cSnShK0/I/xoGIheATCNKAWOZpGIx3+LP2dEuQLB7T8mZkB+nmQGw54Ux9FS2XgqjSN2QpbROw==
   dependencies:
     "@types/bn.js" "^4.11.5"
     bn.js "^5.0.0"
@@ -5976,6 +5981,7 @@ nearlib@^0.19.2:
     error-polyfill "^0.1.2"
     http-errors "^1.7.2"
     js-sha256 "^0.9.0"
+    mustache "^3.2.1"
     node-fetch "^2.3.0"
     text-encoding-utf-8 "^1.0.2"
     tweetnacl "^1.0.1"
