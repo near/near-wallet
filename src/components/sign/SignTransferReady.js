@@ -174,7 +174,7 @@ class SignTransferReady extends Component {
                         </CurrentBalance>
                         <InlineNotification
                             show={insufficientFunds}
-                            onClick={this.handleGoBack}
+                            onClick={handleDeny}
                             message='Insufficient funds'
                             theme='error'
                             buttonMsg='Go back'
