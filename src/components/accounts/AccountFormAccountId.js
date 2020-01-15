@@ -17,7 +17,7 @@ class AccountFormAccountId extends Component {
     }
 
     handleChangeAccountId = (e, { name, value }) => {
-        if (value.match(/[^a-zA-Z0-9_-]/)) {
+        if (value.match(this.props.pattern)) {
             return false
         }
 
@@ -78,7 +78,8 @@ AccountFormAccountId.propTypes = {
 }
 
 AccountFormAccountId.defaultProps = {
-    autoFocus: false
+    autoFocus: false,
+    pattern: /[^a-zA-Z0-9._-]/
 }
 
 const mapDispatchToProps = {

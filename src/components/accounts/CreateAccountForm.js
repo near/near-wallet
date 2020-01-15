@@ -21,6 +21,7 @@ const CreateAccountForm = ({
          formLoader={formLoader}
          handleChange={handleChange}
          type='create'
+         pattern={/[^a-zA-Z0-9_-]/}
       />
 
       {false ? (
