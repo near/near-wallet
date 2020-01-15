@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import styled from 'styled-components'
-import { utils } from 'nearlib'
+import BN from 'bn.js'
 import { handleRefreshAccount, switchAccount } from '../../actions/account'
 import SignAnimatedArrow from './SignAnimatedArrow'
 import SignTransferDetails from './SignTransferDetails'
@@ -10,6 +10,7 @@ import SelectAccountDropdown from '../login/SelectAccountDropdown'
 import Balance from '../common/Balance'
 import Button from '../common/Button'
 import InlineNotification from '../common/InlineNotification'
+
 
 const Container = styled.div`
     max-width: 450px;
@@ -153,16 +154,17 @@ class SignTransferReady extends Component {
             handleDeny,
         } = this.props;
 
-        const transferAmount = utils.format.formatNearAmount(totalAmount);
-        const accountBalance = utils.format.formatNearAmount(account.amount);
-        let insufficientFunds = transferAmount > accountBalance;
+        const txTotalAmount = new BN(totalAmount); // TODO: add gas cost, etc
+        const accountBalance = new BN(account.amount);
+        const insufficientFunds = txTotalAmount.gt(accountBalance);
+        const isMonetaryTransaction = txTotalAmount.gt(new BN(0));
 
         return (
             <Container>
                 <SignAnimatedArrow/>
                 <Title>{appTitle || 'Unknown App'}</Title>
-                <Desc>is requesting&nbsp;{transferAmount > 0 ? 'the transfer of' : 'authorization'}</Desc>
-                {transferAmount > 0 &&
+                <Desc>is requesting&nbsp;{isMonetaryTransaction ? 'the transfer of' : 'authorization'}</Desc>
+                {isMonetaryTransaction &&
                     <>
                         <TransferAmount>
                             <Balance amount={totalAmount}/>
@@ -199,7 +201,7 @@ class SignTransferReady extends Component {
                         <Button theme='secondary' onClick={handleDeny}>Deny</Button>
                         <Button
                             onClick={handleAllow}
-                            disabled={transferAmount && insufficientFunds}
+                            disabled={isMonetaryTransaction && insufficientFunds}
                         >
                             Allow
                         </Button>
