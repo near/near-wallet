@@ -22,74 +22,75 @@ const RecoverAccountForm = ({
     accountId,
     checkAvailability
 }) => (
-   <Fragment>
-      {!sentSms && (
-         <Fragment>
-            <Header as='h4'>Username</Header>
-            <AccountFormAccountId
-               formLoader={formLoader}
-               handleChange={handleChange}
-               defaultAccountId={accountId}
-               checkAvailability={checkAvailability}
-            />
-            
-            <Header as='h4'>Phone Number</Header>
-            <PhoneInput
-               className={`create ${
-                  requestStatus
-                     ? requestStatus.success
-                        ? 'success'
-                        : 'problem'
-                     : ''
-               } ${formLoader ? 'loading' : ''}`}
-               name='phoneNumber'
-               value={phoneNumber}
-               onChange={value =>
-                  handleChange(null, { name: 'phoneNumber', value })
-               }
-               placeholder='+1 555 123 4567'
-               required
-               tabIndex='2'
-            />
-         </Fragment>
-      )}
+    <Fragment>
+        {!sentSms && (
+            <Fragment>
+                <Header as='h4'>Username</Header>
+                <AccountFormAccountId
+                    formLoader={formLoader}
+                    handleChange={handleChange}
+                    defaultAccountId={accountId}
+                    checkAvailability={checkAvailability}
+                    requestStatus={requestStatus}
+                />
+                
+                <Header as='h4'>Phone Number</Header>
+                <PhoneInput
+                    className={`create ${
+                        requestStatus
+                            ? requestStatus.success
+                                ? 'success'
+                                : 'problem'
+                            : ''
+                    } ${formLoader ? 'loading' : ''}`}
+                    name='phoneNumber'
+                    value={phoneNumber}
+                    onChange={value =>
+                        handleChange(null, { name: 'phoneNumber', value })
+                    }
+                    placeholder='+1 555 123 4567'
+                    required
+                    tabIndex='2'
+                />
+            </Fragment>
+        )}
 
-      {sentSms && (
-         <Fragment>
-            <Header as='h4' className='digit-code empty'>&nbsp;</Header>
-            <Input
-               name='securityCode'
-               onChange={handleChange}
-               placeholder='123456'
-               required
-               tabIndex='2'
-               className='sms'
-               pattern='[0-9]*'
-               maxLength='6'
-            />
-         </Fragment>
-      )}
+        {sentSms && (
+            <Fragment>
+                <Header as='h4' className='digit-code empty'>&nbsp;</Header>
+                <Input
+                    name='securityCode'
+                    onChange={handleChange}
+                    placeholder='123456'
+                    required
+                    tabIndex='2'
+                    className='sms'
+                    pattern='[0-9]*'
+                    maxLength='6'
+                />
+            </Fragment>
+        )}
 
-      <FormButton
+        <FormButton
             type='submit'
             color='blue'
             disabled={!isLegit}
             sending={loader}
-      >
+        >
             FIND MY ACCOUNT
-      </FormButton>
-      <div className='recover'>
+        </FormButton>
+        <div className='recover'>
             <div>Have a seed phrase?</div>
             <Link to='/recover-seed-phrase'>Recover using seed phrase</Link>
-      </div>
-      {sentSms && (
+        </div>
+        {sentSms && (
             <AccountStartOver
-               handleStartOver={handleStartOver}
-               handleResendCode={handleResendCode}
-               resendLoader={resendLoader}
+                handleStartOver={handleStartOver}
+                handleResendCode={handleResendCode}
+                resendLoader={resendLoader}
             />
-      )}
-   </Fragment>
+        )}
+    </Fragment>
 )
 
 RecoverAccountForm.propTypes = {
