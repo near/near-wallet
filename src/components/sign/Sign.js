@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
+import BN from 'bn.js'
 import SignContainer from './SignContainer'
 import SignTransferReady from './SignTransferReady'
 import SignTransferSuccess from './SignTransferSuccess'
@@ -33,17 +34,40 @@ class Sign extends Component {
     }
 
     renderSubcomponent = () => {
+
+        const txTotalAmount = new BN(this.props.totalAmount); // TODO: add gas cost, etc
+        const accountBalance = new BN(this.props.account.amount);
+        const insufficientFunds = txTotalAmount.gt(accountBalance);
+        const isMonetaryTransaction = txTotalAmount.gt(new BN(0));
+
         switch (this.props.status) {
             case 'needs-confirmation':
-                return <SignTransferReady {...this.state} appTitle={this.props.appTitle} handleAllow={this.handleAllow} handleDeny={this.handleDeny} handleDetails={this.handleDetails} sensitiveActionsCounter={this.props.sensitiveActionsCounter} />
+                return <SignTransferReady
+                            {...this.state}
+                            appTitle={this.props.appTitle}
+                            handleAllow={this.handleAllow}
+                            handleDeny={this.handleDeny}
+                            handleDetails={this.handleDetails}
+                            sensitiveActionsCounter={this.props.sensitiveActionsCounter}
+                            txTotalAmount={txTotalAmount}
+                            accountBalance={accountBalance}
+                            insufficientFunds={insufficientFunds}
+                            isMonetaryTransaction={isMonetaryTransaction}
+                        />
             case 'in-progress':
-                return <SignTransferTransferring {...this.state} totalAmount={this.props.totalAmount}/>
+                return <SignTransferTransferring
+                            {...this.state}
+                            isMonetaryTransaction={isMonetaryTransaction}
+                        />
             case 'success':
-                return <SignTransferSuccess handleDeny={this.handleDeny} totalAmount={this.props.totalAmount} />
+                return <SignTransferSuccess
+                            handleDeny={this.handleDeny}
+                            isMonetaryTransaction={isMonetaryTransaction}
+                            txTotalAmount={txTotalAmount}
+                        />
             case 'error':
                 // TODO: Figure out how to handle different error types
                 return <SignTransferCancelled handleDeny={this.handleDeny} />
-            //return <SignTransferInsufficientFunds handleDeny={this.handleDeny} handleAddFunds={this.handleAddFunds} />
             default:
                 return <b>Unexpected status: {this.props.status}</b>
         }

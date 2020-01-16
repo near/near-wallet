@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import styled from 'styled-components'
-import BN from 'bn.js'
 import { handleRefreshAccount, switchAccount } from '../../actions/account'
 import SignAnimatedArrow from './SignAnimatedArrow'
 import SignTransferDetails from './SignTransferDetails'
@@ -147,17 +146,15 @@ class SignTransferReady extends Component {
     renderMainView = () => {
         const {
             appTitle,
-            totalAmount,
             actionsCounter,
             account,
             handleAllow,
             handleDeny,
+            txTotalAmount,
+            accountBalance,
+            isMonetaryTransaction,
+            insufficientFunds
         } = this.props;
-
-        const txTotalAmount = new BN(totalAmount); // TODO: add gas cost, etc
-        const accountBalance = new BN(account.amount);
-        const insufficientFunds = txTotalAmount.gt(accountBalance);
-        const isMonetaryTransaction = txTotalAmount.gt(new BN(0));
 
         return (
             <Container>
@@ -167,10 +164,10 @@ class SignTransferReady extends Component {
                 {isMonetaryTransaction &&
                     <>
                         <TransferAmount>
-                            <Balance amount={totalAmount}/>
+                            <Balance amount={txTotalAmount}/>
                         </TransferAmount>
                         <CurrentBalance>
-                            Current Balance: <Balance amount={account.amount}/>
+                            Current Balance: <Balance amount={accountBalance}/>
                         </CurrentBalance>
                         <InlineNotification
                             show={insufficientFunds}
