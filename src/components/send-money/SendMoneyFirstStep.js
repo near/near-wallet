@@ -50,6 +50,7 @@ const SendMoneyFirstStep = ({
                                  handleChange={handleChange}
                                  defaultAccountId={accountId}
                                  checkAvailability={checkAvailability}
+                                 requestStatus={requestStatus}
                                  autoFocus={true}
                               />
                               <Responsive as={RequestStatusBox} minWidth={768} requestStatus={requestStatus} />
