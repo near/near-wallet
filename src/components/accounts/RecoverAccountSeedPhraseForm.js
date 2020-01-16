@@ -9,7 +9,8 @@ const RecoverAccountSeedPhraseForm = ({
     isLegit,
     handleChange,
     accountId,
-    checkAvailability
+    checkAvailability,
+    requestStatus
 }) => (
         <Fragment>
             <Fragment>
@@ -19,6 +20,7 @@ const RecoverAccountSeedPhraseForm = ({
                     handleChange={handleChange}
                     defaultAccountId={accountId}
                     checkAvailability={checkAvailability}
+                    requestStatus={requestStatus}
                 />
 
                 <Header as='h3'>Seed Phrase</Header>
