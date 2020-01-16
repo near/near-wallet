@@ -1,22 +1,18 @@
-import React, { Component, Fragment } from 'react';
-import PropTypes from 'prop-types';
-import { Form, Responsive } from 'semantic-ui-react';
-import styled from 'styled-components';
-import RequestStatusBox from '../common/RequestStatusBox';
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import { Form, Responsive } from 'semantic-ui-react'
+import RequestStatusBox from '../common/RequestStatusBox'
 import { ACCOUNT_CHECK_TIMEOUT } from '../../utils/wallet'
 
-const CustomFormInput = styled(Form.Input)`
-   
-`;
-
 class AccountFormAccountId extends Component {
-    
     state = {
         accountId: this.props.defaultAccountId || ''
     }
 
     handleChangeAccountId = (e, { name, value }) => {
-        if (value.match(this.props.pattern)) {
+        const { pattern, handleChange, checkAvailability } = this.props
+
+        if (value.match(pattern)) {
             return false
         }
 
@@ -24,12 +20,12 @@ class AccountFormAccountId extends Component {
             [name]: value.trim().toLowerCase()
         }))
 
-        this.props.handleChange(e, { name, value })
+        handleChange(e, { name, value })
 
         this.timeout && clearTimeout(this.timeout)
 
         this.timeout = setTimeout(() => {
-            this.props.checkAvailability(value)
+            checkAvailability(value)
         }, ACCOUNT_CHECK_TIMEOUT)
     }
 
@@ -38,13 +34,13 @@ class AccountFormAccountId extends Component {
             formLoader,
             requestStatus,
             autoFocus
-        } = this.props;
+        } = this.props
 
-        const { accountId } = this.state;
+        const { accountId } = this.state
 
         return (
             <>
-                <CustomFormInput
+                <Form.Input
                     loading={formLoader}
                     className={`create username-input-icon ${requestStatus ? (requestStatus.success ? 'success' : 'problem') : ''}`}
                     name='accountId'
