@@ -135,7 +135,7 @@ class SendMoney extends Component {
 
    render() {
       const { step } = this.state
-      const { formLoader, requestStatus } = this.props
+      const { formLoader, requestStatus, checkAccountAvailable } = this.props
 
       return (
          <SendMoneyContainer>
@@ -146,6 +146,7 @@ class SendMoney extends Component {
                   isLegitForm={this.isLegitForm}
                   formLoader={formLoader}
                   requestStatus={requestStatus}
+                  checkAvailability={checkAccountAvailable}
                   {...this.state}
                />
             )}

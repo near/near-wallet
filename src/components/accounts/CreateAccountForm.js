@@ -13,7 +13,8 @@ const CreateAccountForm = ({
    formLoader,
    handleChange,
    handleRecaptcha,
-   requestStatus
+   requestStatus,
+   checkAvailability
 }) => (
    <Fragment>
       <Header as='h4'>Choose a Username</Header>
@@ -22,6 +23,7 @@ const CreateAccountForm = ({
          handleChange={handleChange}
          type='create'
          pattern={/[^a-zA-Z0-9_-]/}
+         checkAvailability={checkAvailability}
       />
 
       {false ? (

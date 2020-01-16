@@ -54,7 +54,7 @@ class CreateAccount extends Component {
 
    render() {
       const { loader } = this.state
-      const { requestStatus, formLoader } = this.props
+      const { requestStatus, formLoader, checkNewAccount } = this.props
 
       return (
          <AccountFormContainer 
@@ -73,6 +73,7 @@ class CreateAccount extends Component {
                   formLoader={formLoader}
                   handleRecaptcha={this.handleRecaptcha}
                   handleChange={this.handleChange}
+                  checkAvailability={checkNewAccount}
                />
             </AccountFormSection>
          </AccountFormContainer>
