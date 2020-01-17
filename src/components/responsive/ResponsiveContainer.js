@@ -5,7 +5,6 @@ import { Responsive } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import MobileView from './MobileView';
 import DesktopView from './DesktopView';
-import { booleanLiteral } from '@babel/types';
 
 class ResponsiveContainer extends Component {
 
@@ -19,7 +18,7 @@ class ResponsiveContainer extends Component {
         const accounts = account.accounts;
         const signUpRoutes = ['create', 'set-recovery', 'setup-seed-phrase'];
         const currentBaseRoute = location.pathname.replace(/^\/([^\/]*).*$/, '$1');
-        
+
         return !signUpRoutes.includes(currentBaseRoute) || !!accounts && (currentBaseRoute === 'create' || Object.keys(accounts).length > 1);
     }
 
