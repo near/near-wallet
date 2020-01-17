@@ -19,21 +19,13 @@ class ResponsiveContainer extends Component {
         const signUpRoutes = ['create', 'set-recovery', 'setup-seed-phrase'];
         const currentBaseRoute = location.pathname.replace(/^\/([^\/]*).*$/, '$1');
 
-        if (signUpRoutes.includes(currentBaseRoute)) {
-            if (currentBaseRoute === signUpRoutes[0]) {
-                if (accounts)
-                    return true;
-                else
-                    return false;
-            } else {
-                if (accounts && Object.keys(accounts).length > 1)
-                    return true;
-                else
-                    return false;
-            }
-        } else {
+        if (signUpRoutes.includes(currentBaseRoute))
+            if (currentBaseRoute === signUpRoutes[0])
+                return accounts;
+            else
+                return accounts && Object.keys(accounts).length > 1;
+        else
             return true;
-        }
     }
 
     render() {
