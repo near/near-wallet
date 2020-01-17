@@ -13,173 +13,174 @@ import SendMoneyThirdStep from './SendMoneyThirdStep'
 import SendMoneyContainer from './SendMoneyContainer'
 
 class SendMoney extends Component {
-   state = {
-      loader: false,
-      step: 1,
-      note: '',
-      expandNote: false,
-      paramAccountId: false,
-      accountId: '',
-      amount: '',
-      amountStatus: ''
-   }
+    state = {
+        loader: false,
+        step: 1,
+        note: '',
+        expandNote: false,
+        paramAccountId: false,
+        accountId: '',
+        amount: '',
+        amountStatus: ''
+    }
 
-   componentDidMount() {
-      this.wallet = new Wallet()
-      const paramId = this.props.match.params.id
+    componentDidMount() {
+        this.wallet = new Wallet()
+        const paramId = this.props.match.params.id
 
-      this.setState(() => ({
-         loader: true
-      }))
-
-      if (paramId) {
-         this.props.checkAccountAvailable(paramId).then(({ error }) => {
-            this.setState(() => ({
-               loader: false,
-               accountId: paramId
-            }))
-
-            if (error) return
-
-            this.setState(() => ({
-               paramAccountId: true
-            }))
-         })
-      } else {
-         this.setState(() => ({
-            loader: false
-         }))
-      }
-   }
-
-   componentWillUnmount = () => {
-      this.props.clear()
-   }
-
-   handleGoBack = () => {
-      this.setState(() => ({
-         step: 1
-      }))
-   }
-
-   handleCancelTransfer = () => {
-      this.props.clear()
-
-      this.setState(() => ({
-         step: 1,
-         note: '',
-         amount: '',
-         accountId: '',
-         successMessage: false,
-         paramAccountId: false,
-      }))
-
-      this.props.history.push('/send-money')
-   }
-
-   handleNextStep = (e) => {
-      e.preventDefault()
-      const { step, accountId, amount} = this.state;
-
-      if (step === 2) {
-         this.setState(() => ({
+        this.setState(() => ({
             loader: true
-         }))
+        }))
 
-         this.wallet.sendMoney(accountId, amount)
-            .then(() => {
-               this.props.handleRefreshAccount(this.props.history, false)
+        if (paramId) {
+            this.props.checkAccountAvailable(paramId).then(({ error }) => {
+                this.setState(() => ({
+                    loader: false,
+                    accountId: paramId
+                }))
 
-               this.setState(state => ({
-                  step: state.step + 1
-               }))
+                if (error) return
+
+                this.setState(() => ({
+                    paramAccountId: true
+                }))
             })
-            .catch(console.error)
-            .finally(() => {
-               this.setState(() => ({
-                  loader: false
-               }))
-            })
-         return;
-      }
+        } else {
+            this.setState(() => ({
+                loader: false
+            }))
+        }
+    }
 
-      this.setState(state => ({
-         step: state.step + 1,
-         amount: state.amount
-      }))
-   }
+    componentWillUnmount = () => {
+        this.props.clear()
+    }
 
-   handleChange = (e, { name, value }) => {
-      this.setState(() => ({
-         [name]: value
-      }))
-   }
+    handleGoBack = () => {
+        this.setState(() => ({
+            step: 1
+        }))
+    }
 
-   handleRedirectDashboard = () => {
-      this.props.history.push(`/`)
-   }
+    handleCancelTransfer = () => {
+        this.props.clear()
 
-   handleExpandNote = () => {
-      this.setState(() => ({
-         expandNote: true
-      }))
-   }
+        this.setState(() => ({
+            step: 1,
+            note: '',
+            amount: '',
+            accountId: '',
+            successMessage: false,
+            paramAccountId: false,
+        }))
 
-   isLegitForm = () => {
-      const { paramAccountId, amount, amountStatus } = this.state
-      const { requestStatus } = this.props
-      return paramAccountId
-         ? ((amount) > 0 && amountStatus === '')
-         : (requestStatus && requestStatus.success && (amount) > 0 && amountStatus === '')
-   }
+        this.props.history.push('/send-money')
+    }
 
-   render() {
-      const { step } = this.state
-      const { formLoader, requestStatus } = this.props
+    handleNextStep = (e) => {
+        e.preventDefault()
+        const { step, accountId, amount} = this.state;
 
-      return (
-         <SendMoneyContainer>
-            {step === 1 && (
-               <SendMoneyFirstStep
-                  handleNextStep={this.handleNextStep}
-                  handleChange={this.handleChange}
-                  isLegitForm={this.isLegitForm}
-                  formLoader={formLoader}
-                  requestStatus={requestStatus}
-                  {...this.state}
-               />
-            )}
-            {step === 2 && (
-               <SendMoneySecondStep
-                  handleNextStep={this.handleNextStep}
-                  handleExpandNote={this.handleExpandNote}
-                  handleGoBack={this.handleGoBack}
-                  handleCancelTransfer={this.handleCancelTransfer}
-                  {...this.state}
-               />
-            )}
-            {step === 3 && (
-               <SendMoneyThirdStep 
-                  handleRedirectDashboard={this.handleRedirectDashboard}
-                  {...this.state} 
-               />
-            )}
-         </SendMoneyContainer>
-      )
-   }
+        if (step === 2) {
+            this.setState(() => ({
+                loader: true
+            }))
+
+            this.wallet.sendMoney(accountId, amount)
+                .then(() => {
+                    this.props.handleRefreshAccount(this.props.history, false)
+
+                    this.setState(state => ({
+                        step: state.step + 1
+                    }))
+                })
+                .catch(console.error)
+                .finally(() => {
+                    this.setState(() => ({
+                        loader: false
+                    }))
+                })
+            return;
+        }
+
+        this.setState(state => ({
+            step: state.step + 1,
+            amount: state.amount
+        }))
+    }
+
+    handleChange = (e, { name, value }) => {
+        this.setState(() => ({
+            [name]: value
+        }))
+    }
+
+    handleRedirectDashboard = () => {
+        this.props.history.push(`/`)
+    }
+
+    handleExpandNote = () => {
+        this.setState(() => ({
+            expandNote: true
+        }))
+    }
+
+    isLegitForm = () => {
+        const { paramAccountId, amount, amountStatus } = this.state
+        const { requestStatus } = this.props
+        return paramAccountId
+            ? ((amount) > 0 && amountStatus === '')
+            : (requestStatus && requestStatus.success && (amount) > 0 && amountStatus === '')
+    }
+
+    render() {
+        const { step } = this.state
+        const { formLoader, requestStatus, checkAccountAvailable } = this.props
+
+        return (
+            <SendMoneyContainer>
+                {step === 1 && (
+                    <SendMoneyFirstStep
+                        handleNextStep={this.handleNextStep}
+                        handleChange={this.handleChange}
+                        isLegitForm={this.isLegitForm}
+                        formLoader={formLoader}
+                        requestStatus={requestStatus}
+                        checkAvailability={checkAccountAvailable}
+                        {...this.state}
+                    />
+                )}
+                {step === 2 && (
+                    <SendMoneySecondStep
+                        handleNextStep={this.handleNextStep}
+                        handleExpandNote={this.handleExpandNote}
+                        handleGoBack={this.handleGoBack}
+                        handleCancelTransfer={this.handleCancelTransfer}
+                        {...this.state}
+                    />
+                )}
+                {step === 3 && (
+                    <SendMoneyThirdStep 
+                        handleRedirectDashboard={this.handleRedirectDashboard}
+                        {...this.state} 
+                    />
+                )}
+            </SendMoneyContainer>
+        )
+    }
 }
 
 const mapDispatchToProps = {
-   handleRefreshAccount,
-   checkAccountAvailable,
-   clear
+    handleRefreshAccount,
+    checkAccountAvailable,
+    clear
 }
 
 const mapStateToProps = ({ account }) => ({
-   ...account
+    ...account
 })
 
 export const SendMoneyWithRouter = connect(
-   mapStateToProps,
-   mapDispatchToProps
+    mapStateToProps,
+    mapDispatchToProps
 )(withRouter(SendMoney))

@@ -74,6 +74,7 @@ class RecoverAccountSeedPhrase extends Component {
                     <RecoverAccountSeedPhraseForm
                         {...combinedState}
                         handleChange={this.handleChange}
+                        checkAvailability={this.props.checkAccountAvailable}
                     />
                 </AccountFormSection>
             </AccountFormContainer>

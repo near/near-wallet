@@ -7,91 +7,92 @@ import AccountFormContainer from './AccountFormContainer'
 import { checkNewAccount, createNewAccount, clear, handleRefreshAccount } from '../../actions/account'
 
 class CreateAccount extends Component {
-   state = {
-      loader: false,
-      accountId: ''
-   }
+    state = {
+        loader: false,
+        accountId: ''
+    }
 
-   componentDidMount = () => {}
+    componentDidMount = () => {}
 
-   componentWillUnmount = () => {
-      this.props.clear()
-   }
+    componentWillUnmount = () => {
+        this.props.clear()
+    }
 
-   handleChange = (e, { name, value }) => {
-      this.setState(() => ({
-         [name]: value
-      }))
-   }
+    handleChange = (e, { name, value }) => {
+        this.setState(() => ({
+            [name]: value
+        }))
+    }
 
-   handleSubmit = e => {
-      e.preventDefault()
+    handleSubmit = e => {
+        e.preventDefault()
 
-      this.setState(() => ({
-         loader: true
-      }))
+        this.setState(() => ({
+            loader: true
+        }))
 
-      const { accountId } = this.state
+        const { accountId } = this.state
 
-      this.props.createNewAccount(accountId).then(({ error }) => {
-         if (error) return
+        this.props.createNewAccount(accountId).then(({ error }) => {
+            if (error) return
 
-         this.props.handleRefreshAccount()
+            this.props.handleRefreshAccount()
 
-         let nextUrl = process.env.DISABLE_PHONE_RECOVERY === 'yes' ? `/setup-seed-phrase/${accountId}` : `/set-recovery/${accountId}`
-         this.props.history.push(nextUrl)
-      })
-      .finally(() => {
-         this.setState(() => ({
-            loader: false
-         }))
-      })
-   }
+            let nextUrl = process.env.DISABLE_PHONE_RECOVERY === 'yes' ? `/setup-seed-phrase/${accountId}` : `/set-recovery/${accountId}`
+            this.props.history.push(nextUrl)
+        })
+        .finally(() => {
+            this.setState(() => ({
+                loader: false
+            }))
+        })
+    }
 
-   handleRecaptcha = value => {
-      console.log(value)
-   }
+    handleRecaptcha = value => {
+        console.log(value)
+    }
 
-   render() {
-      const { loader } = this.state
-      const { requestStatus, formLoader } = this.props
+    render() {
+        const { loader } = this.state
+        const { requestStatus, formLoader, checkNewAccount } = this.props
 
-      return (
-         <AccountFormContainer 
-            location={this.props.location}
-            title='Create Account'
-            text='Just choose a username and you’re all set.'
-         >
-            <AccountFormSection 
-               requestStatus={this.props.requestStatus}
-               handleSubmit={this.handleSubmit}
-               location={this.props.location}
+        return (
+            <AccountFormContainer 
+                location={this.props.location}
+                title='Create Account'
+                text='Just choose a username and you’re all set.'
             >
-               <CreateAccountForm
-                  loader={loader} 
-                  requestStatus={requestStatus}
-                  formLoader={formLoader}
-                  handleRecaptcha={this.handleRecaptcha}
-                  handleChange={this.handleChange}
-               />
-            </AccountFormSection>
-         </AccountFormContainer>
-      )
-   }
+                <AccountFormSection 
+                    requestStatus={this.props.requestStatus}
+                    handleSubmit={this.handleSubmit}
+                    location={this.props.location}
+                >
+                    <CreateAccountForm
+                        loader={loader} 
+                        requestStatus={requestStatus}
+                        formLoader={formLoader}
+                        handleRecaptcha={this.handleRecaptcha}
+                        handleChange={this.handleChange}
+                        checkAvailability={checkNewAccount}
+                    />
+                </AccountFormSection>
+            </AccountFormContainer>
+        )
+    }
 }
 
 const mapDispatchToProps = {
-   checkNewAccount,
-   createNewAccount,
-   clear,
-   handleRefreshAccount
+    checkNewAccount,
+    createNewAccount,
+    clear,
+    handleRefreshAccount
 }
 
 const mapStateToProps = ({ account }) => ({
-   ...account
+    ...account
 })
 
 export const CreateAccountWithRouter = connect(
-   mapStateToProps,
-   mapDispatchToProps
+    mapStateToProps,
+    mapDispatchToProps
 )(CreateAccount)

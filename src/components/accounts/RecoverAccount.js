@@ -110,7 +110,7 @@ class RecoverAccount extends Component {
             ...this.state,
             isLegit: this.state.isLegit && !this.props.formLoader
         }
-        const { sentSms } = this.props
+        const { sentSms, checkAccountAvailable } = this.props
         
         return (
             <AccountFormContainer 
@@ -130,6 +130,7 @@ class RecoverAccount extends Component {
                         handleChange={this.handleChange}
                         handleStartOver={this.handleStartOver}
                         handleResendCode={this.handleResendCode}
+                        checkAvailability={checkAccountAvailable}
                     />
                 </AccountFormSection>
             </AccountFormContainer>
