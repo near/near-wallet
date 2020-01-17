@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import { Responsive } from 'semantic-ui-react';
 import ProfileQRCode from '../profile/ProfileQRCode';
 import Divider from '../common/Divider';
+import Snackbar from '../common/Snackbar';
 
 const Container = styled.div`
     display: flex;
@@ -94,22 +95,36 @@ class ReceiveMoney extends Component {
     constructor(props) {
         super(props);
         this.myRef = React.createRef();
+
+        this.state = {
+            successSnackbar: false,
+        };
     }
 
     handleCopyPhrase = e => {
         const selection = window.getSelection();
         selection.selectAllChildren(this.myRef.current);
         document.execCommand('copy');
+        this.setState({ successSnackbar: true }, () => {
+            setTimeout(() => {
+                this.setState({successSnackbar: false});
+            }, 5500)
+        });
     }
 
     render() {
+
+        const {
+            successSnackbar
+        } = this.state;
+
         return (
             <div className='ui container'>
                 <Container>
                     <Title>Your address</Title>
                     <Address>
                         {this.props.account.accountId}
-                        <CopyAddress minWidth={768} onClick={this.handleCopyPhrase}>COPY</CopyAddress>
+                        <CopyAddress minWidth={768} onClick={this.handleCopyPhrase} title='Copy address URL'>COPY</CopyAddress>
                     </Address>
                     <CopyAddress maxWidth={767} onClick={this.handleCopyPhrase}>Copy address URL</CopyAddress>
                     <Divider/>
@@ -119,6 +134,12 @@ class ReceiveMoney extends Component {
                         {`${window.location.protocol}//${window.location.host}/send-money/${this.props.account.accountId}`}
                     </UrlAddress>
                 </Container>
+                <Snackbar
+                    theme='success'
+                    message='Address URL copied!'
+                    show={successSnackbar}
+                    onHide={() => this.setState({ successSnackbar: false })}
+                />
             </div>
         )
     }
