@@ -101,7 +101,7 @@ class ReceiveMoney extends Component {
         };
     }
 
-    handleCopyPhrase = e => {
+    handleCopyAddress = () => {
         const selection = window.getSelection();
         selection.selectAllChildren(this.myRef.current);
         document.execCommand('copy');
@@ -124,9 +124,9 @@ class ReceiveMoney extends Component {
                     <Title>Your address</Title>
                     <Address>
                         {this.props.account.accountId}
-                        <CopyAddress minWidth={768} onClick={this.handleCopyPhrase} title='Copy address URL'>COPY</CopyAddress>
+                        <CopyAddress minWidth={768} onClick={this.handleCopyAddress} title='Copy address URL'>COPY</CopyAddress>
                     </Address>
-                    <CopyAddress maxWidth={767} onClick={this.handleCopyPhrase}>Copy address URL</CopyAddress>
+                    <CopyAddress maxWidth={767} onClick={this.handleCopyAddress}>Copy address URL</CopyAddress>
                     <Divider/>
                     <Title>Scan QR code</Title>
                     <ProfileQRCode account={this.props.account}/>
