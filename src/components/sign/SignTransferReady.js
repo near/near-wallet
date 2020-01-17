@@ -1,26 +1,133 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
-
-import FormButton from '../common/FormButton'
-import MobileContainer from './MobileContainer'
+import styled from 'styled-components'
+import { handleRefreshAccount, switchAccount } from '../../actions/account'
 import SignAnimatedArrow from './SignAnimatedArrow'
+import SignTransferDetails from './SignTransferDetails'
 import SelectAccountDropdown from '../login/SelectAccountDropdown'
 import Balance from '../common/Balance'
+import Button from '../common/Button'
+import InlineNotification from '../common/InlineNotification'
 
-import { handleRefreshAccount, switchAccount } from '../../actions/account'
 
-import { Grid, Form } from 'semantic-ui-react'
+const Container = styled.div`
+    max-width: 450px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: 'benton-sans',sans-serif;
+    color: #25282A;
+`
+
+const Title = styled.div`
+    font-size: 26px;
+    font-weight: 600;
+    margin-top: 30px;
+`
+
+const Desc = styled.div`
+    font-size: 26px;
+    margin-top: 25px;
+`
+
+const TransferAmount = styled.div`
+    margin-top: 25px;
+    text-align: center;
+
+    div {
+        font-size: 26px !important;
+        font-weight: 600;
+    }
+`
+
+const CurrentBalance = styled.div`
+    margin-top: 5px;
+    text-align: center;
+    color: #888888;
+    font-size: 14px;
+    font-weight: 400;
+`
+
+const MoreInfo = styled.div`
+    background-color: #f5f5f5;
+    color: #888888;
+    border-radius: 40px;
+    cursor: pointer;
+    padding: 10px 50px;
+    margin-top: 30px;
+    height: 39px;
+    position: relative;
+`
+
+const ActionsCounter = styled.div`
+    height: 30px;
+    width: 30px;
+    background-color: orange;
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 6px;
+    font-size: 12px;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+`
+
+const Footer = styled.div`
+    width: 100%;
+    margin-top: 40px;
+
+    @media (max-width: 767px) {
+        position: fixed;
+        bottom: 0;
+        padding: 20px;
+        background-color: white;
+        border-top: 1px solid #f5f5f5;
+    }
+`
+
+const ButtonWrapper = styled.div`
+    display: flex;
+    width: 100%;
+    margin-top: 20px;
+
+    @media (min-width: 768px) {
+        margin-top: 20px;
+    }
+
+    button {
+        flex: 1;
+
+        &:last-of-type {
+            margin-left: 30px;
+
+            @media (min-width: 768px) {
+                margin-left: 50px;
+            }
+        }
+    }
+`
 
 class SignTransferReady extends Component {
     state = {
-        dropdown: false
+        dropdown: false,
+        showMoreInfo: false
     }
 
-    handleOnClick = () => {
-        this.setState({
-            dropdown: !this.state.dropdown
-        })
+    handleToggleDropdown = () => {
+        this.setState(prevState => ({
+            dropdown: !prevState.dropdown
+        }));
+    }
+
+    handleToggleInfo = () => {
+        this.setState(prevState => ({
+            showMoreInfo: !prevState.showMoreInfo
+        }));
     }
 
     handleSelectAccount = accountId => {
@@ -32,92 +139,81 @@ class SignTransferReady extends Component {
         this.props.history.push('/create')
     }
 
-    render() {
-        const { appTitle, totalAmount, transferTransferring, handleAllow, handleDeny, account, handleDetails, sensitiveActionsCounter } = this.props
-        const { dropdown } = this.state
+    handleGoBack = () => {
+        // TODO: Send user back w/ error message?
+    }
+
+    renderMainView = () => {
+        const {
+            appTitle,
+            actionsCounter,
+            account,
+            handleAllow,
+            handleDeny,
+            txTotalAmount,
+            accountBalance,
+            isMonetaryTransaction,
+            insufficientFunds
+        } = this.props;
 
         return (
-            <MobileContainer>
-                <Grid padded>
-                    <Grid.Row centered>
-                        <Grid.Column
-                            textAlign='center'
-                            className='authorize'
+            <Container>
+                <SignAnimatedArrow/>
+                <Title>{appTitle || 'Unknown App'}</Title>
+                <Desc>is requesting&nbsp;{isMonetaryTransaction ? 'the transfer of' : 'authorization'}</Desc>
+                {isMonetaryTransaction &&
+                    <>
+                        <TransferAmount>
+                            <Balance amount={txTotalAmount}/>
+                        </TransferAmount>
+                        <CurrentBalance>
+                            Current Balance: <Balance amount={accountBalance}/>
+                        </CurrentBalance>
+                        <InlineNotification
+                            show={insufficientFunds}
+                            onClick={handleDeny}
+                            message='Insufficient funds'
+                            theme='error'
+                            buttonMsg='Go back'
+                        />
+                    </>
+                }
+                <MoreInfo onClick={this.handleToggleInfo}>
+                    More information
+                    {actionsCounter &&
+                        <ActionsCounter>
+                            {actionsCounter > 9 ? '9+' : actionsCounter}
+                        </ActionsCounter>
+                    }
+                </MoreInfo>
+                <Footer>
+                    <SelectAccountDropdown
+                        handleOnClick={this.handleToggleDropdown}
+                        account={account}
+                        dropdown={this.state.dropdown}
+                        handleSelectAccount={this.handleSelectAccount}
+                        redirectCreateAccount={this.redirectCreateAccount}
+                    />
+                    <ButtonWrapper>
+                        <Button theme='secondary' onClick={handleDeny}>Deny</Button>
+                        <Button
+                            onClick={handleAllow}
+                            disabled={isMonetaryTransaction && insufficientFunds}
                         >
-                            <SignAnimatedArrow animate={transferTransferring}  />
-                        </Grid.Column>
-                    </Grid.Row>
-                    <Grid.Row className='title'>
-                        <Grid.Column
-                            className='h1'
-                            textAlign='center'
-                            computer={16}
-                            tablet={16}
-                            mobile={16}
-                        >
-                            <div className='font-bold'>{appTitle ? appTitle : 'Unknown app'}</div> 
-                            <div className='h2'>is requesting to transfer</div>
-                            <div className='font-bold'><Balance amount={totalAmount} /></div>
-                        </Grid.Column>
-                    </Grid.Row>
-                    <Grid.Row centered>
-                        <Grid.Column
-                            largeScreen={12}
-                            computer={14}
-                            tablet={16}
-                            className='cont'
-                            textAlign='center'
-                        >
-                            <div 
-                                className='more-information' 
-                                onClick={() => handleDetails(true)}
-                            >
-                                More information
-                                {sensitiveActionsCounter ? <div className='circle'>{sensitiveActionsCounter > 9 ? '9+' : sensitiveActionsCounter}</div> : ''}
-                            </div>
-                        </Grid.Column>
-                    </Grid.Row>
-                </Grid>
-                <Grid padded>
-                    <Grid.Row centered>
-                        <Grid.Column largeScreen={6} computer={8} tablet={10} mobile={16}>
-                            <SelectAccountDropdown
-                                handleOnClick={this.handleOnClick}
-                                account={account}
-                                dropdown={dropdown}
-                                handleSelectAccount={this.handleSelectAccount}
-                                redirectCreateAccount={this.redirectCreateAccount}
-                            />
-                        </Grid.Column>
-                    </Grid.Row>
-                    <Grid.Row centered className='but-sec'>
-                        <Grid.Column largeScreen={6} computer={8} tablet={10} mobile={16}>
-                            <Form onSubmit={handleAllow}>
-                                <input
-                                    type='hidden'
-                                    name='accountId'
-                                    // value={account.accountId}
-                                />
-
-                                <FormButton
-                                    color='gray-white'
-                                    onClick={handleDeny}
-                                >
-                                    DENY
-                                </FormButton>
-
-                                <FormButton
-                                    type='submit'
-                                    color='blue'
-                                >
-                                    ALLOW
-                                </FormButton>
-                            </Form>
-                        </Grid.Column>
-                    </Grid.Row>
-                </Grid>
-            </MobileContainer>
+                            Allow
+                        </Button>
+                    </ButtonWrapper>
+                </Footer>
+            </Container>
         )
+
+    }
+
+    render() {
+        if (this.state.showMoreInfo)
+            return <SignTransferDetails handleDetails={this.handleToggleInfo}/>;
+        else
+            return this.renderMainView();
     }
 }
 

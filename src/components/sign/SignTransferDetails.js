@@ -86,7 +86,7 @@ class SignTransferDetails extends Component {
                         <div className='top-back'>
                             <div 
                                 className='back-button h3 font-benton color-blue'
-                                onClick={() => handleDetails(false)}
+                                onClick={handleDetails}
                             >
                                 <div><IconArrowLeft color='#0072ce' /></div>
                                 <div>Back</div>

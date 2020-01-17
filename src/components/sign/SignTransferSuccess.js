@@ -9,7 +9,7 @@ import { Image, Grid } from 'semantic-ui-react'
 import CheckImage from '../../images/icon-check.svg'
 
 // TODO: Why handleDeny? It's not an error.
-const SignTransferReady = ({ handleDeny, totalAmount }) => (
+const SignTransferReady = ({ handleDeny, txTotalAmount, isMonetaryTransaction }) => (
     <MobileContainer>
         <Grid padded>
             <Grid.Row centered>
@@ -22,11 +22,12 @@ const SignTransferReady = ({ handleDeny, totalAmount }) => (
                 </Grid.Column>
             </Grid.Row>
             <Grid.Row className='title'>
-                <Grid.Column
-                    as='h2'
-                    textAlign='center'
-                >
-                    <span className='font-bold'><Balance amount={totalAmount} /> was transferred successfully</span>
+                <Grid.Column as='h2' textAlign='center'>
+                    {isMonetaryTransaction ? (
+                        <span className='font-bold'><Balance amount={txTotalAmount} /> was transferred successfully</span>
+                    ) : (
+                        <span className='font-bold'>Authorization request successful</span>
+                    )}
                 </Grid.Column>
             </Grid.Row>
             {/*

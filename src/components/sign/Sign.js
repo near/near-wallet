@@ -1,21 +1,15 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
-
+import BN from 'bn.js'
 import SignContainer from './SignContainer'
-import SignTransferReady from './SignTransferReady';
-import SignTransferSuccess from './SignTransferSuccess';
-import SignTransferCancelled from './SignTransferCancelled';
-// import SignTransferInsufficientFunds from './SignTransferInsufficientFunds';
-import SignTransferTransferring from './SignTransferTransferring';
-import SignTransferDetails from './SignTransferDetails';
-
+import SignTransferReady from './SignTransferReady'
+import SignTransferSuccess from './SignTransferSuccess'
+import SignTransferCancelled from './SignTransferCancelled'
+import SignTransferTransferring from './SignTransferTransferring'
 import { signAndSendTransactions } from '../../actions/account'
 
 class Sign extends Component {
-    state = {
-        transferDetails: false,
-    }
 
     handleDeny = e => {
         e.preventDefault();
@@ -39,37 +33,48 @@ class Sign extends Component {
         this.props.signAndSendTransactions(this.props.transactions, this.props.account.accountId);
     }
 
-    handleDetails = (show) => {
-        this.setState(() => ({
-            transferDetails: show
-        }))
-    }
-
     renderSubcomponent = () => {
+
+        const txTotalAmount = new BN(this.props.totalAmount); // TODO: add gas cost, etc
+        const accountBalance = new BN(this.props.account.amount);
+        const insufficientFunds = txTotalAmount.gt(accountBalance);
+        const isMonetaryTransaction = txTotalAmount.gt(new BN(0));
+
         switch (this.props.status) {
             case 'needs-confirmation':
-                return <SignTransferReady {...this.state} appTitle={this.props.appTitle} handleAllow={this.handleAllow} handleDeny={this.handleDeny} handleDetails={this.handleDetails} sensitiveActionsCounter={this.props.sensitiveActionsCounter} />
+                return <SignTransferReady
+                            {...this.state}
+                            appTitle={this.props.appTitle}
+                            handleAllow={this.handleAllow}
+                            handleDeny={this.handleDeny}
+                            handleDetails={this.handleDetails}
+                            sensitiveActionsCounter={this.props.sensitiveActionsCounter}
+                            txTotalAmount={txTotalAmount}
+                            accountBalance={accountBalance}
+                            insufficientFunds={insufficientFunds}
+                            isMonetaryTransaction={isMonetaryTransaction}
+                        />
             case 'in-progress':
-                return <SignTransferTransferring {...this.state} />
+                return <SignTransferTransferring
+                            {...this.state}
+                            isMonetaryTransaction={isMonetaryTransaction}
+                        />
             case 'success':
-                return <SignTransferSuccess handleDeny={this.handleDeny} totalAmount={this.props.totalAmount} />
+                return <SignTransferSuccess
+                            handleDeny={this.handleDeny}
+                            isMonetaryTransaction={isMonetaryTransaction}
+                            txTotalAmount={txTotalAmount}
+                        />
             case 'error':
                 // TODO: Figure out how to handle different error types
                 return <SignTransferCancelled handleDeny={this.handleDeny} />
-            //return <SignTransferInsufficientFunds handleDeny={this.handleDeny} handleAddFunds={this.handleAddFunds} />
             default:
                 return <b>Unexpected status: {this.props.status}</b>
         }
     }
 
     render() {
-        return (
-            <SignContainer>
-                {this.state.transferDetails
-                    ? <SignTransferDetails handleDetails={this.handleDetails} transactions={this.state.transactions} fees={this.props.fees} />
-                    : this.renderSubcomponent()}
-            </SignContainer>
-        )
+        return <SignContainer>{this.renderSubcomponent()}</SignContainer>;
     }
 }
 
@@ -78,77 +83,6 @@ const mapDispatchToProps = {
 }
 
 const mapStateToProps = ({ account, sign }) => {
-    // TODO: Remove dummy data
-    /*
-    transactions = [
-        {
-            signerId: 'cryptocorgis',
-            receiverId: 'account id',
-            actions: [
-                {
-                    createAccount: {},
-                },
-                {
-                    deployContract: {},
-                },
-                {
-                    functionCall: {
-                        methodName: 'Method Name',
-                        args: [1, 2, 3],
-                        gas: 123
-                    },
-                },
-                {
-                    transfer: {
-                        deposit: 123
-                    },
-                },
-                {
-                    stake: {
-                        stake: 123,
-                        publicKey: 'dasdasadsdasdasadsadsadsdsaadsdas'
-                    },
-                },
-                {
-                    addKey: {
-                        publicKey: 'dasdasadsdasdasadsadsadsdsaadsdas',
-                        accessKey: {
-                            permission: {
-                                functionCall: {
-                                    receiverId: 'receiver id'
-                                }
-                            }
-                        }
-                    },
-                },
-                {
-                    deleteKey: {
-                        publicKey: 'dasdasadsdasdasadsadsadsdsaadsdas'
-                    },
-                },
-                {
-                    deleteAccount: {},
-                }
-            ]
-        },
-        {
-            signerId: 'cryptocorgis',
-            receiverId: 'account id',
-            actions: [
-                {
-                    deployContract: {}
-                },
-                {
-                    functionCall: {
-                        methodName: 'Method Name',
-                        args: [1, 2, 3],
-                        gas: 123
-                    },
-                },
-            ]
-        }
-    ]
-    */
 
     // NOTE: Referrer won't be set properly in local dev environment. Underlying reason unknown.
     const { referrer } = account.url
