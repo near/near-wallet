@@ -94,59 +94,57 @@ class SetupSeedPhrase extends Component {
     render() {
 
         return (
-            <>
-                <Translate>
-                    {({ translate }) => (
-                        <Fragment>
-                            <Route 
-                                exact
-                                path={`/setup-seed-phrase/:accountId`}
-                                render={() => (
-                                    <AccountFormContainer
-                                        title={translate('setupSeedPhrase.pageTitle')}
-                                        text={translate('setupSeedPhrase.pageText')}
-                                    >
-                                        <AccountFormSection requestStatus={this.props.requestStatus}>
-                                            <SetupSeedPhraseForm
-                                                seedPhrase={this.state.seedPhrase}
-                                                handleCopyPhrase={this.handleCopyPhrase}
-                                            />
-                                        </AccountFormSection>
-                                    </AccountFormContainer>
-                                )}
-                            />
-                            <Route 
-                                exact
-                                path={`/setup-seed-phrase/:accountId/verify`}
-                                render={() => (
-                                    <AccountFormContainer
-                                        title={translate('setupSeedPhraseVerify.pageTitle')}
-                                        text={translate('setupSeedPhraseVerify.pageText')}
-                                    >
-                                        <AccountFormSection handleSubmit={this.handleSubmit} requestStatus={this.state.requestStatus}>
-                                            <SetupSeedPhraseVerify
-                                                enterWord={this.state.enterWord}
-                                                wordId={this.state.wordId}
-                                                handleChangeWord={this.handleChangeWord}
-                                                handleStartOver={this.handleStartOver}
-                                                formLoader={this.props.formLoader}
-                                                requestStatus={this.state.requestStatus}
-                                                globalAlert={this.props.globalAlert}
-                                            />
-                                        </AccountFormSection>
-                                    </AccountFormContainer>
-                                )}
-                            />
-                        </Fragment>
-                    )}
-                </Translate>
-                <Snackbar
-                    theme='success'
-                    message='Seed phrase copied!'
-                    show={this.state.successSnackbar}
-                    onHide={() => this.setState({ successSnackbar: false })}
-                />
-            </>
+            <Translate>
+                {({ translate }) => (
+                    <Fragment>
+                        <Route 
+                            exact
+                            path={`/setup-seed-phrase/:accountId`}
+                            render={() => (
+                                <AccountFormContainer
+                                    title={translate('setupSeedPhrase.pageTitle')}
+                                    text={translate('setupSeedPhrase.pageText')}
+                                >
+                                    <AccountFormSection requestStatus={this.props.requestStatus}>
+                                        <SetupSeedPhraseForm
+                                            seedPhrase={this.state.seedPhrase}
+                                            handleCopyPhrase={this.handleCopyPhrase}
+                                        />
+                                    </AccountFormSection>
+                                </AccountFormContainer>
+                            )}
+                        />
+                        <Route 
+                            exact
+                            path={`/setup-seed-phrase/:accountId/verify`}
+                            render={() => (
+                                <AccountFormContainer
+                                    title={translate('setupSeedPhraseVerify.pageTitle')}
+                                    text={translate('setupSeedPhraseVerify.pageText')}
+                                >
+                                    <AccountFormSection handleSubmit={this.handleSubmit} requestStatus={this.state.requestStatus}>
+                                        <SetupSeedPhraseVerify
+                                            enterWord={this.state.enterWord}
+                                            wordId={this.state.wordId}
+                                            handleChangeWord={this.handleChangeWord}
+                                            handleStartOver={this.handleStartOver}
+                                            formLoader={this.props.formLoader}
+                                            requestStatus={this.state.requestStatus}
+                                            globalAlert={this.props.globalAlert}
+                                        />
+                                    </AccountFormSection>
+                                </AccountFormContainer>
+                            )}
+                        />
+                        <Snackbar
+                            theme='success'
+                            message={translate('setupSeedPhrase.snackbarCopySuccess')}
+                            show={this.state.successSnackbar}
+                            onHide={() => this.setState({ successSnackbar: false })}
+                        />
+                    </Fragment>
+                )}
+            </Translate>
         )
     }
 }
