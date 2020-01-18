@@ -6,7 +6,7 @@ import { Translate } from 'react-localize-redux'
 import AccountFormSection from './AccountFormSection'
 import AccountFormContainer from './AccountFormContainer'
 import { redirectToApp, addAccessKeySeedPhrase, clearAlert } from '../../actions/account'
-import { generateSeedPhrase } from '../../utils/seed-phrase'
+import { generateSeedPhrase } from 'near-seed-phrase'
 import SetupSeedPhraseVerify from './SetupSeedPhraseVerify'
 
 import SetupSeedPhraseForm from './SetupSeedPhraseForm'

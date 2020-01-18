@@ -1,7 +1,7 @@
 import * as nearlib from 'nearlib'
 import sendJson from 'fetch-send-json'
 import sha256 from 'js-sha256';
-import { findSeedPhraseKey } from './seed-phrase'
+import { findSeedPhraseKey } from 'near-seed-phrase'
 import { createClient } from 'near-ledger-js'
 import { PublicKey } from 'nearlib/lib/utils'
 import { KeyType } from 'nearlib/lib/utils/key_pair'
