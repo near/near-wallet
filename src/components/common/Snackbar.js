@@ -1,10 +1,10 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import styled from 'styled-components'
-import closeIcon from '../../images/icon-close-white.svg'
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import styled from 'styled-components';
+import closeIcon from '../../images/icon-close-white.svg';
 
 // Add additional theme icons
-import successIcon from '../../images/icon-check-white.svg'
+import successIcon from '../../images/icon-check-white.svg';
 
 const Container = styled.div`
     position: fixed;
@@ -104,7 +104,7 @@ class Snackbar extends Component {
             onHide
         } = this.props;
 
-        if (show)
+        if (show) {
             return (
                 <Container className={this.state.animate ? 'show' : ''}>
                     <Wrapper className={`${theme}-theme`}>
@@ -115,9 +115,10 @@ class Snackbar extends Component {
                         }
                     </Wrapper>
                 </Container>
-            )
-        else
+            );
+        } else {
             return null;
+        }
     }
 }
 
