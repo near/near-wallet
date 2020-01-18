@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react'
 import { withRouter, Route } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { Translate } from 'react-localize-redux'
+import { snackbarDuration } from '../../utils/snackbar'
 
 import AccountFormSection from './AccountFormSection'
 import AccountFormContainer from './AccountFormContainer'
@@ -86,12 +87,13 @@ class SetupSeedPhrase extends Component {
         this.setState({ successSnackbar: true }, () => {
             setTimeout(() => {
                 this.setState({successSnackbar: false});
-            }, 5500)
+            }, snackbarDuration)
         });
 
     }
 
     render() {
+
         return (
             <>
                 <Translate>

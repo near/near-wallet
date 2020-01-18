@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
+import { snackbarDuration } from '../../utils/snackbar';
 import { Responsive } from 'semantic-ui-react';
 import ProfileQRCode from '../profile/ProfileQRCode';
 import Divider from '../common/Divider';
@@ -108,7 +109,7 @@ class ReceiveMoney extends Component {
         this.setState({ successSnackbar: true }, () => {
             setTimeout(() => {
                 this.setState({successSnackbar: false});
-            }, 5500)
+            }, snackbarDuration)
         });
     }
 
