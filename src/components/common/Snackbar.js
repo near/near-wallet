@@ -121,6 +121,8 @@ class Snackbar extends Component {
     }
 }
 
+const snackbarDuration = 5500;
+
 Snackbar.propTypes = {
     theme: PropTypes.string.isRequired,
     message: PropTypes.string.isRequired,
@@ -128,4 +130,4 @@ Snackbar.propTypes = {
     onHide: PropTypes.func,
 }
 
-export default Snackbar;
+export { Snackbar, snackbarDuration };

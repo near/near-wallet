@@ -2,11 +2,10 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
-import { snackbarDuration } from '../../utils/snackbar';
 import { Responsive } from 'semantic-ui-react';
 import ProfileQRCode from '../profile/ProfileQRCode';
 import Divider from '../common/Divider';
-import Snackbar from '../common/Snackbar';
+import {Snackbar, snackbarDuration } from '../common/Snackbar'
 
 const Container = styled.div`
     display: flex;
