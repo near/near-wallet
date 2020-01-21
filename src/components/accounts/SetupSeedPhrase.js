@@ -5,6 +5,7 @@ import { Translate } from 'react-localize-redux'
 
 import AccountFormSection from './AccountFormSection'
 import AccountFormContainer from './AccountFormContainer'
+import {Snackbar, snackbarDuration } from '../common/Snackbar'
 import { redirectToApp, addAccessKeySeedPhrase, clearAlert } from '../../actions/account'
 import { generateSeedPhrase } from 'near-seed-phrase'
 import SetupSeedPhraseVerify from './SetupSeedPhraseVerify'
@@ -16,7 +17,8 @@ class SetupSeedPhrase extends Component {
         seedPhrase: '',
         enterWord: '',
         wordId: null,
-        requestStatus: null
+        requestStatus: null,
+        successSnackbar: false
     }
 
     componentDidMount = () => {
@@ -76,14 +78,21 @@ class SetupSeedPhrase extends Component {
     }
 
     handleCopyPhrase = e => {
-        e.preventDefault()
-        const selection = window.getSelection()
-        selection.selectAllChildren(document.getElementById('seed-phrase'))
-        document.execCommand('copy')
-        selection.removeAllRanges()
+        e.preventDefault();
+        const selection = window.getSelection();
+        selection.selectAllChildren(document.getElementById('seed-phrase'));
+        document.execCommand('copy');
+        selection.removeAllRanges();
+        this.setState({ successSnackbar: true }, () => {
+            setTimeout(() => {
+                this.setState({successSnackbar: false});
+            }, snackbarDuration)
+        });
+
     }
 
     render() {
+
         return (
             <Translate>
                 {({ translate }) => (
@@ -126,6 +135,12 @@ class SetupSeedPhrase extends Component {
                                     </AccountFormSection>
                                 </AccountFormContainer>
                             )}
+                        />
+                        <Snackbar
+                            theme='success'
+                            message={translate('setupSeedPhrase.snackbarCopySuccess')}
+                            show={this.state.successSnackbar}
+                            onHide={() => this.setState({ successSnackbar: false })}
                         />
                     </Fragment>
                 )}
