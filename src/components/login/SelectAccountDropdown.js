@@ -16,6 +16,10 @@ const CustomSegment = styled(Segment)`
       padding: 0px;
       z-index: 1000;
 
+      &.disabled {
+         cursor: not-allowed;
+      }
+
       .segment {
          padding: 0px;
          position: absolute;
