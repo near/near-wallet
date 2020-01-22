@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import styled from 'styled-components';
 import { isValidPhoneNumber } from 'react-phone-number-input';
 import { validateEmail } from '../../utils/account';
-import { generateSeedPhrase } from '../../utils/seed-phrase'
+import { generateSeedPhrase } from 'near-seed-phrase';
 import SetRecoveryMethod from './SetRecoveryMethod';
 import SetRecoveryMethodSuccess from  './SetRecoveryMethodSuccess';
 import AccountSkipThisStep from '../common/AccountSkipThisStep';
