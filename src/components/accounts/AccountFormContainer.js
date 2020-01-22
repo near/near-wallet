@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Container, Grid, Header } from 'semantic-ui-react'
 import { parse } from 'query-string'
+import { Translate } from 'react-localize-redux'
 
 import Disclaimer from '../common/Disclaimer'
 
@@ -74,7 +75,7 @@ const AccountFormContainer = ({ location, title, text, children, wide, disclaime
                <Header as='h2'>{text}</Header>
                {location && parse(location.search).reset_accounts && (
                   <Header as='h3' className='color-blue'>
-                     You have been redirected to this page because we had to reset the developer accounts. Please create a new account. We apologize for the inconveience.
+                     <Translate id='account.create.errorAccountNotExist' />
                   </Header>
                )}
             </Grid.Column>

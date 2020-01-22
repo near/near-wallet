@@ -209,11 +209,14 @@ export class Wallet {
         this.checkNewAccount(accountId)
 
         const keyPair = nearlib.KeyPair.fromRandom('ed25519')
-        await sendJson('POST', CONTRACT_CREATE_ACCOUNT_URL, {
-            newAccountId: accountId,
-            newAccountPublicKey: keyPair.publicKey.toString()
-        })
-        await this.saveAndSelectAccount(accountId, keyPair);
+        try {
+            await sendJson('POST', CONTRACT_CREATE_ACCOUNT_URL, {
+                newAccountId: accountId,
+                newAccountPublicKey: keyPair.publicKey.toString()
+            })
+        } finally {
+            await this.saveAndSelectAccount(accountId, keyPair);
+        }
     }
 
     async saveAndSelectAccount(accountId, keyPair) {
@@ -250,6 +253,16 @@ export class Wallet {
         this.accounts = {}
         this.accountId = ''
         this.save()
+    }
+
+    clearAccountState() {
+        delete this.accounts[this.accountId]
+        this.accountId = ''
+        this.save()
+
+        if (!this.isEmpty()) {
+            this.selectAccount(Object.keys(this.accounts)[0])
+        }
     }
 
     getAccount(accountId) {
