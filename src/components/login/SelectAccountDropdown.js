@@ -92,7 +92,12 @@ const CustomSegment = styled(Segment)`
 `
 
 const SelectAccountDropdown = ({ handleOnClick, account, dropdown, handleSelectAccount, redirectCreateAccount, disabled }) => (
-   <CustomSegment basic onClick={!disabled ? handleOnClick : () => {}} className={disabled && 'disabled'}>
+   <CustomSegment
+      basic
+      onClick={!disabled ? handleOnClick : () => {}}
+      className={disabled && 'disabled'}
+      title={!disabled ? "Switch account" : "This app doesn't allow account changes"}
+   >
       <Segment basic>
          <div className='item list-title'>
             <div>@{account.accountId}</div>
