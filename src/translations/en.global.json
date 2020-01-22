@@ -14,6 +14,7 @@
     "account.setupSeedPhrase.error": "An error occurred while setting up seed phrase recovery. Please try again!",
     "account.login.success": "${title} is now authorized to use your account.",
     "account.login.error": "An error occurred while approving this action. Please try again!",
+    "account.login.details.warning": "This allows access to your entire balance. Please proceed with caution.",
     
     "actions": {
         "CreateAccount": "New account created: @${receiverId}",
@@ -31,7 +32,8 @@
 
     "setupSeedPhrase": {
         "pageTitle": "Setup Recovery Phrase",
-        "pageText": "Write down the following words IN ORDER and keep them somewhere safe. You cannot recover your account without them!"
+        "pageText": "Write down the following words IN ORDER and keep them somewhere safe. You cannot recover your account without them!",
+        "snackbarCopySuccess": "Seed phrase copied!"
     },
     "setupSeedPhraseVerify": {
         "pageTitle": "Verify Phrase",
@@ -42,6 +44,14 @@
         "pageTitle": "Recovery Setup is Complete",
         "pageText": "Use your Recovery Phrase to restore your account.",
         "pageTextSecondLine": "Anyone with access to your Recovery Phrase can access your funds, so keep it offline somewhere safe and secure."
+    },
+
+    "receivePage": {
+        "addressTitle": "Your address",
+        "qrCodeTitle": "Scan QR code",
+        "copyAddressLinkLong": "Copy address URL",
+        "copyAddressLinkShort": "COPY",
+        "snackbarCopySuccess": "Address URL copied!"
     },
     
     "button": {
@@ -81,5 +91,6 @@
     },
 
     "success": "Success",
-    "error": "Error"
+    "error": "Error",
+    "warning": "Warning"
 }

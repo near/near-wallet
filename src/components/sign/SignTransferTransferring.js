@@ -5,7 +5,7 @@ import SignAnimatedArrow from './SignAnimatedArrow'
 
 import { Grid } from 'semantic-ui-react'
 
-const SignTransferReady = ({ status }) => (
+const SignTransferReady = ({ status, isMonetaryTransaction }) => (
     <MobileContainer>
         <Grid padded>
             <Grid.Row centered>
@@ -25,7 +25,7 @@ const SignTransferReady = ({ status }) => (
                     as='h2'
                     textAlign='center'
                 >
-                    <span className='font-bold transferring-dots'>Transferring</span> 
+                    <span className='font-bold transferring-dots'>{isMonetaryTransaction ? 'Transferring' : 'Authorizing'}</span>
                 </Grid.Column>
             </Grid.Row>
         </Grid>

@@ -128,7 +128,7 @@ export const allowLogin = () => async (dispatch, getState) => {
       parsedUrl.searchParams.set('all_keys', allKeys.join(','))
       window.location = parsedUrl.href
    } else {
-      await dispatch(push({ pathname: 'authorized-apps' }))
+      await dispatch(push({ pathname: '/authorized-apps' }))
    }
 }
 

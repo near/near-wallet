@@ -24,7 +24,8 @@ const SendMoneyFirstStep = ({
    isLegitForm,
    formLoader,
    requestStatus,
-   amount
+   amount,
+   checkAvailability
 }) => {
    return (
       <Form autoComplete='off'>
@@ -48,6 +49,8 @@ const SendMoneyFirstStep = ({
                                  formLoader={formLoader}
                                  handleChange={handleChange}
                                  defaultAccountId={accountId}
+                                 checkAvailability={checkAvailability}
+                                 requestStatus={requestStatus}
                                  autoFocus={true}
                               />
                               <Responsive as={RequestStatusBox} minWidth={768} requestStatus={requestStatus} />

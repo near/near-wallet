@@ -13,27 +13,27 @@ class ResponsiveContainer extends Component {
         return isSSR ? Responsive.onlyTablet.minWidth : window.innerWidth;
     }
 
-    userInSignupFlow = () => {
+    showNavLinks = () => {
+        const { account, location } = this.props;
+        const accounts = account.accounts;
         const signUpRoutes = ['create', 'set-recovery', 'setup-seed-phrase'];
-        const currentBaseRoute = this.props.location.pathname.replace(/^\/([^\/]*).*$/, '$1');
-        return signUpRoutes.includes(currentBaseRoute);
+        const currentBaseRoute = location.pathname.replace(/^\/([^\/]*).*$/, '$1');
+
+        return !signUpRoutes.includes(currentBaseRoute) || !!accounts && (currentBaseRoute === 'create' || Object.keys(accounts).length > 1);
     }
 
     render() {
-        const { account } = this.props;
-
-        const showNavbarLinks = !this.userInSignupFlow() && account.accountId;
 
         return (
             <>
                 <DesktopView
                     {...this.props}
-                    showNavbarLinks={showNavbarLinks}
+                    showNavbarLinks={this.showNavLinks()}
                     getWidth={this.getWidth}
                 />
                 <MobileView
                     {...this.props}
-                    showNavbarLinks={showNavbarLinks}
+                    showNavbarLinks={this.showNavLinks()}
                     getWidth={this.getWidth}
                 />
                 <div className='main'>
