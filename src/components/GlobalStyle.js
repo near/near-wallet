@@ -51,6 +51,17 @@ export default createGlobalStyle`
       text-decoration: underline;
    }
 
+   .link {
+      color: #0072ce;
+      cursor: pointer;
+
+      @media (min-width: 768px) {
+         &:hover {
+            text-decoration: underline;
+         }
+      }
+   }
+
    h1, .h1 {
       font-family: BwSeidoRound !important;
       font-size: 48px !important;
@@ -62,7 +73,7 @@ export default createGlobalStyle`
       font-family: BwSeidoRound !important;
       font-size: 24px !important;
       font-weight: 500 !important;
-      line-height: 1.33;
+      line-height: 1.4;
       color: #24272a !important;
       margin: 0px;
    }

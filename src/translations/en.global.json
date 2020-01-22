@@ -68,6 +68,28 @@
         }
     },
 
+    "recoverAccount": {
+        "pageTitle": "Recover Your Account",
+        "pageText": "If you’ve setup one or more account recovery methods, follow the instructions below to begin the recovery process.",
+        "email": {
+            "title": "Email",
+            "desc": "Check your email for a message from nearprotocol.com with the subject:",
+            "subject": "\"Important: Near Wallet Recovery Email\"."
+        },
+        "phone": {
+            "title": "Phone",
+            "desc": "Check your phone records for an SMS message from",
+            "number": "+14086179592."
+        },
+        "phrase": {
+            "title": "Seed Phrase",
+            "desc": "Make sure you have your 12 word recovery phrase, then click below to begin the recovery process.",
+            "cta": "RECOVER ACCOUNT"
+        },
+        "actionType": "Recovery",
+        "actionRequired": "This message contains a magic link. Click the link to begin recovery!"
+    },
+
     "success": "Success",
     "error": "Error",
     "warning": "Warning"

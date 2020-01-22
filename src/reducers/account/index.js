@@ -17,7 +17,7 @@ import {
 
 const initialState = {
    formLoader: false,
-   sentSms: false
+   sentMessage: false
 }
 
 const loaderReducer = (state, { ready }) => {
@@ -64,12 +64,12 @@ const requestResultClearReducer = handleActions({
 const recoverCodeReducer = handleActions({
       [requestCode]: (state, { error, ready }) => {
          if (ready && !error) {
-            return { ...state, sentSms: true }
+            return { ...state, sentMessage: true }
          }
          return state
       },
       [clearCode]: (state, { error, ready }) => {
-         return { ...state, sentSms: false }
+         return { ...state, sentMessage: false }
       }
 }, initialState)
 

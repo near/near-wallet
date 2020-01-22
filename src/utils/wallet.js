@@ -275,6 +275,21 @@ export class Wallet {
         await this.validateCode(phoneNumber, accountId, { securityCode, signature: Buffer.from(signature).toString('base64') })
     }
 
+    async setupRecoveryMessage({ phoneNumber, email, accountId, seedPhrase, publicKey }) {
+        const account = this.getAccount(accountId)
+        const accountKeys = await account.getAccessKeys();
+        if (!accountKeys.some(it => it.public_key.endsWith(publicKey))) {
+            await account.addKey(publicKey);
+        }
+
+        return sendJson('POST', `${ACCOUNT_HELPER_URL}/account/sendRecoveryMessage`, {
+            accountId,
+            email,
+            phoneNumber,
+            seedPhrase
+        });
+    }
+
     async recoverAccount(phoneNumber, accountId, securityCode) {
         const keyPair = nearlib.KeyPair.fromRandom('ed25519')
         await this.validateCode(phoneNumber, accountId, { securityCode, publicKey: keyPair.publicKey.toString() })

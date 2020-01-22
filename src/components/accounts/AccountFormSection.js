@@ -37,6 +37,10 @@ const CustomForm = styled(Form)`
             }
          }
       }
+      .toggle-backup {
+         margin-top: 10px;
+         width: fit-content;
+      }
       .input {
          width: 100%;
       }
