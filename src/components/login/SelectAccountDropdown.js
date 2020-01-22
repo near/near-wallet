@@ -1,6 +1,7 @@
 import React from 'react';
 import { Segment } from 'semantic-ui-react';
 import styled from 'styled-components';
+import { Translate } from 'react-localize-redux';
 import AddBlueImage from '../../images/icon-add-blue.svg';
 import ArrowDownImage from '../../images/icon-arrow-down.svg';
 import ArrowUpImage from '../../images/icon-arrow-up.svg';
@@ -94,38 +95,46 @@ const SelectAccountDropdown = ({
     redirectCreateAccount,
     disabled
     }) => (
-    <CustomSegment
-        basic
-        onClick={!disabled ? handleOnClick : () => { }}
-        className={disabled && 'disabled'}
-        title={!disabled ? "Switch account" : "This app doesn't allow account changes"}
-    >
-        <Segment basic>
-            <div className='item list-title'>
-                <div>@{account.accountId}</div>
-                <div className='arrow' />
-            </div>
-            <div className={`${dropdown ? '' : 'hide'}`}>
-                <div className='list-scroll'>
-                    {account.accounts && Object.keys(account.accounts)
-                        .filter(a => a !== account.accountId)
-                        .map(a => (
-                            <div
-                                onClick={() => handleSelectAccount(a)}
-                                className='item'
-                                key={a}
-                            >@{a}</div>
-                        ))}
-                </div>
-                <div
-                    onClick={redirectCreateAccount}
-                    className='item list-create color-seafoam-blue'
-                >
-                    CREATE NEW ACCOUNT
-                </div>
-            </div>
-        </Segment>
-    </CustomSegment>
+    <Translate>
+        {({ translate }) => (
+            <CustomSegment
+                basic
+                onClick={!disabled ? handleOnClick : () => { }}
+                className={disabled && 'disabled'}
+                title={!disabled ? 
+                    translate('selectAccountDropdown.switchAccount') 
+                    : 
+                    translate('selectAccountDropdown.switchAccounthNotAllowed')
+                }
+            >
+                <Segment basic>
+                    <div className='item list-title'>
+                        <div>@{account.accountId}</div>
+                        <div className='arrow' />
+                    </div>
+                    <div className={`${dropdown ? '' : 'hide'}`}>
+                        <div className='list-scroll'>
+                            {account.accounts && Object.keys(account.accounts)
+                                .filter(a => a !== account.accountId)
+                                .map(a => (
+                                    <div
+                                        onClick={() => handleSelectAccount(a)}
+                                        className='item'
+                                        key={a}
+                                    >@{a}</div>
+                                ))}
+                        </div>
+                        <div
+                            onClick={redirectCreateAccount}
+                            className='item list-create color-seafoam-blue'
+                        >
+                            {translate('selectAccountDropdown.createAccount')}
+                        </div>
+                    </div>
+                </Segment>
+            </CustomSegment>
+        )}
+    </Translate>
 )
 
 export default SelectAccountDropdown;
