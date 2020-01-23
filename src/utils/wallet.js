@@ -8,8 +8,7 @@ import { KeyType } from 'nearlib/lib/utils/key_pair'
 import { store } from '..'
 import { getAccessKeys } from '../actions/account'
 
-export const WALLET_CREATE_NEW_ACCOUNT_URL = `/create`
-export const WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS = [`create`, 'set-recovery', 'setup-seed-phrase', 'recover-account', 'recover-seed-phrase']
+const WALLET_CREATE_NEW_ACCOUNT_URL = `/create/`
 
 const NETWORK_ID = process.env.REACT_APP_NETWORK_ID || 'default'
 const ACCOUNT_HELPER_URL = process.env.REACT_APP_ACCOUNT_HELPER_URL || 'https://near-contract-helper.onrender.com'
@@ -129,7 +128,7 @@ export class Wallet {
         //  let url = WALLET_CREATE_NEW_ACCOUNT_URL + "?" + $.param(param)
         let url =
             WALLET_CREATE_NEW_ACCOUNT_URL +
-            '/?' +
+            '?' +
             Object.keys(param).map(
                 (p, i) =>
                     `${i ? '&' : ''}${encodeURIComponent(p)}=${encodeURIComponent(

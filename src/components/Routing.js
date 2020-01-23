@@ -6,6 +6,7 @@ import { ThemeProvider } from 'styled-components'
 import { Route, Switch } from 'react-router-dom'
 import { ConnectedRouter } from 'connected-react-router'
 import { withLocalize } from 'react-localize-redux';
+import { parse, stringify } from 'query-string'
 
 import translations_en from '../translations/en.global.json'
 
@@ -32,9 +33,7 @@ import { AddNodeWithRouter } from './node-staking/AddNode'
 import { NodeDetailsWithRouter } from './node-staking/NodeDetails'
 import { StakingWithRouter } from './node-staking/Staking'
 
-import { WALLET_CREATE_NEW_ACCOUNT_URL, WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS } from '../utils/wallet'
-
-import { handleRefreshAccount, handleRefreshUrl, clearAlert, clear, handleRedirectUrl, handleLoginUrl } from '../actions/account'
+import { handleRefreshAccount, handleRefreshUrl, clearAlert, clear } from '../actions/account'
 
 import GlobalStyle from './GlobalStyle'
 import { SetupSeedPhraseWithRouter } from './accounts/SetupSeedPhrase'
@@ -43,50 +42,43 @@ const theme = {}
 const PATH_PREFIX = process.env.PUBLIC_URL
 
 class Routing extends Component {
-    constructor(props) {
-        super(props)
+   constructor(props) {
+      super(props)
 
-        this.props.initialize({
-            languages: [
-                { name: "English", code: "en" },
-            ],
-            translation: {},
-            options: {
-                renderToStaticMarkup: false
-            }
-        })
-        this.props.addTranslationForLanguage(translations_en, "en")
-    }
-    
-    componentDidMount = () => {
-        const { handleRefreshAccount, handleRefreshUrl, history, clearAlert, clear, handleRedirectUrl, handleLoginUrl, router } = this.props
-        
-        handleRefreshUrl()
-        handleRefreshAccount(history)
+      this.props.initialize({
+         languages: [
+            { name: "English", code: "en" },
+         ],
+         translation: {},
+         options: {
+            renderToStaticMarkup: false
+         }
+      })
+      this.props.addTranslationForLanguage(translations_en, "en")
+   }
+   
+   componentDidMount = () => {
+      const { handleRefreshAccount, handleRefreshUrl, history, account, clearAlert, clear } = this.props
+      
+      if (!account.accountId) {
+         const redirectUrl = history.location.pathname
+         history.location.search = stringify({...parse(history.location.search), redirect_url: redirectUrl})
+      }
+      
+      handleRefreshAccount(history)
+      handleRefreshUrl(history.location)
 
-        history.listen(() => {
-            if (history.location.pathname === WALLET_CREATE_NEW_ACCOUNT_URL || history.location.pathname === `${WALLET_CREATE_NEW_ACCOUNT_URL}/`) {
-                handleLoginUrl(router.location)
-                handleRedirectUrl(router.location)
-            }
-            if (![...WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS, 'login'].includes(history.location.pathname.split('/')[1])) {
-                try {
-                    sessionStorage.removeItem('wallet:url')
-                } catch(err) {
-                    console.warn(err)
-                }
-            }
-
-            handleRefreshAccount(history, false)
-            
-            const { state: { globalAlertPreventClear } = {} } = history.location
-            if (!globalAlertPreventClear) {
-                clearAlert()
-            }
-            
-            clear()
-        })
-    }
+      history.listen(() => {
+         handleRefreshAccount(history, false)
+         
+         const { state: { globalAlertPreventClear } = {} } = history.location
+         if (!globalAlertPreventClear) {
+            clearAlert()
+         }
+         
+         clear()
+      })
+   }
 
    render() {
       return (
@@ -201,24 +193,21 @@ class Routing extends Component {
 }
 
 Routing.propTypes = {
-    history: PropTypes.object.isRequired
+   history: PropTypes.object.isRequired
 }
 
 const mapDispatchToProps = {
-    handleRefreshAccount,
-    handleRefreshUrl,
-    clearAlert,
-    clear,
-    handleRedirectUrl,
-    handleLoginUrl
+   handleRefreshAccount,
+   handleRefreshUrl,
+   clearAlert,
+   clear
 }
 
-const mapStateToProps = ({ account, router }) => ({
-    account,
-    router
+const mapStateToProps = ({ account }) => ({
+   account
 })
 
 export default connect(
-    mapStateToProps,
-    mapDispatchToProps
+   mapStateToProps,
+   mapDispatchToProps
 )(withLocalize(Routing))
