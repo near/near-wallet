@@ -88,116 +88,116 @@ class Routing extends Component {
         })
     }
 
-   render() {
-      return (
-         <div className='App'>
-            <GlobalStyle />
-            <ConnectedRouter basename={PATH_PREFIX}  history={this.props.history}>
-               <ThemeProvider theme={theme}>
-                  <ResponsiveContainer>
-                     {this.props.account.loader === false && (
-                        <Switch>
-                           <PrivateRoute
-                              exact
-                              path='/'
-                              component={DashboardDetailWithRouter}
-                           />
-                           <Route
-                              exact
-                              path='/create'
-                              component={CreateAccountWithRouter}
-                           />
-                           <PrivateRoute
-                              exact
-                              path='/set-recovery/:accountId'
-                              component={SetRecoveryMethodContainerWithRouter}
-                           />
-                           <PrivateRoute
-                              exact
-                              path='/setup-seed-phrase/:accountId/:verify?'
-                              component={SetupSeedPhraseWithRouter}
-                           />
-                           <Route
-                              exact
-                              path='/recover-account'
-                              component={RecoverAccountWithRouter}
-                           />
-                           <Route
-                              exact
-                              path='/recover-seed-phrase/:accountId?/:seedPhrase?'
-                              component={RecoverAccountSeedPhraseWithRouter}
-                           />
-                           <PrivateRoute
-                              path='/login'
-                              component={LoginWithRouter}
-                           />
-                           <PrivateRoute
-                              exact
-                              path='/contacts'
-                              component={ContactsWithRouter}
-                           />
-                           <PrivateRoute
-                              exact
-                              path='/authorized-apps'
-                              component={AuthorizedAppsWithRouter}
-                           />
-                           <PrivateRoute
-                              exact
-                              path='/full-access-keys'
-                              component={FullAccessKeysWithRouter}
-                           />
-                           <PrivateRoute
-                              exact
-                              path='/send-money/:id?'
-                              component={SendMoneyWithRouter}
-                           />
-                           <PrivateRoute
-                              exact
-                              path='/receive-money'
-                              component={ReceiveMoneyWithRouter}
-                           />
-                           <PrivateRoute
-                              exact
-                              path='/profile'
-                              component={ProfileWithRouter}
-                           />
-                           <PrivateRoute
-                              exact
-                              path='/sign'
-                              component={SignWithRouter}
-                           />
-                           <PrivateRoute
-                              exact
-                              path='/node-staking'
-                              component={NodeStakingWithRouter}
-                           />
-                           <PrivateRoute
-                              exact
-                              path='/add-node'
-                              component={AddNodeWithRouter}
-                           />
-                           <PrivateRoute
-                              exact
-                              path='/node-details'
-                              component={NodeDetailsWithRouter}
-                           />
-                           <PrivateRoute
-                              exact
-                              path='/staking'
-                              component={StakingWithRouter}
-                           />
-                           <PrivateRoute 
-                              component={DashboardDetailWithRouter} 
-                           />
-                        </Switch>
-                     )}
-                     <Footer />
-                  </ResponsiveContainer>
-               </ThemeProvider>
-            </ConnectedRouter>
-         </div>
-      )
-   }
+    render() {
+        return (
+            <div className='App'>
+                <GlobalStyle />
+                <ConnectedRouter basename={PATH_PREFIX}  history={this.props.history}>
+                    <ThemeProvider theme={theme}>
+                        <ResponsiveContainer>
+                            {this.props.account.loader === false && (
+                                <Switch>
+                                    <PrivateRoute
+                                        exact
+                                        path='/'
+                                        component={DashboardDetailWithRouter}
+                                    />
+                                    <Route
+                                        exact
+                                        path='/create'
+                                        component={CreateAccountWithRouter}
+                                    />
+                                    <PrivateRoute
+                                        exact
+                                        path='/set-recovery/:accountId'
+                                        component={SetRecoveryMethodContainerWithRouter}
+                                    />
+                                    <PrivateRoute
+                                        exact
+                                        path='/setup-seed-phrase/:accountId/:verify?'
+                                        component={SetupSeedPhraseWithRouter}
+                                    />
+                                    <Route
+                                        exact
+                                        path='/recover-account'
+                                        component={RecoverAccountWithRouter}
+                                    />
+                                    <Route
+                                        exact
+                                        path='/recover-seed-phrase/:accountId?/:seedPhrase?'
+                                        component={RecoverAccountSeedPhraseWithRouter}
+                                    />
+                                    <PrivateRoute
+                                        path='/login'
+                                        component={LoginWithRouter}
+                                    />
+                                    <PrivateRoute
+                                        exact
+                                        path='/contacts'
+                                        component={ContactsWithRouter}
+                                    />
+                                    <PrivateRoute
+                                        exact
+                                        path='/authorized-apps'
+                                        component={AuthorizedAppsWithRouter}
+                                    />
+                                    <PrivateRoute
+                                        exact
+                                        path='/full-access-keys'
+                                        component={FullAccessKeysWithRouter}
+                                    />
+                                    <PrivateRoute
+                                        exact
+                                        path='/send-money/:id?'
+                                        component={SendMoneyWithRouter}
+                                    />
+                                    <PrivateRoute
+                                        exact
+                                        path='/receive-money'
+                                        component={ReceiveMoneyWithRouter}
+                                    />
+                                    <PrivateRoute
+                                        exact
+                                        path='/profile'
+                                        component={ProfileWithRouter}
+                                    />
+                                    <PrivateRoute
+                                        exact
+                                        path='/sign'
+                                        component={SignWithRouter}
+                                    />
+                                    <PrivateRoute
+                                        exact
+                                        path='/node-staking'
+                                        component={NodeStakingWithRouter}
+                                    />
+                                    <PrivateRoute
+                                        exact
+                                        path='/add-node'
+                                        component={AddNodeWithRouter}
+                                    />
+                                    <PrivateRoute
+                                        exact
+                                        path='/node-details'
+                                        component={NodeDetailsWithRouter}
+                                    />
+                                    <PrivateRoute
+                                        exact
+                                        path='/staking'
+                                        component={StakingWithRouter}
+                                    />
+                                    <PrivateRoute 
+                                        component={DashboardDetailWithRouter} 
+                                    />
+                                </Switch>
+                            )}
+                            <Footer />
+                        </ResponsiveContainer>
+                    </ThemeProvider>
+                </ConnectedRouter>
+            </div>
+        )
+    }
 }
 
 Routing.propTypes = {
