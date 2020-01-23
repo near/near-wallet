@@ -7,13 +7,17 @@ import LoginForm from './LoginForm'
 import LoginConfirm from './LoginConfirm'
 import LoginDetails from './LoginDetails'
 
-import { handleRefreshAccount, handleRefreshUrl, switchAccount, clearAlert, allowLogin } from '../../actions/account'
+import { handleRefreshAccount, handleRefreshUrl, switchAccount, clearAlert, allowLogin, handleLoginUrl } from '../../actions/account'
 
 class Login extends Component {
    state = {
       buttonLoader: false,
       dropdown: false,
    }
+
+   componentDidMount = () => {
+      this.props.handleLoginUrl()
+   }   
 
    handleOnClick = () => {
       this.setState({
@@ -106,7 +110,8 @@ const mapDispatchToProps = {
    handleRefreshUrl,
    switchAccount,
    allowLogin,
-   clearAlert
+   clearAlert,
+   handleLoginUrl
 }
 
 const mapStateToProps = ({ account }) => ({
