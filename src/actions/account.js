@@ -163,61 +163,60 @@ export const redirectToApp = () => (dispatch, getState) => {
 }
 
 export const allowLogin = () => async (dispatch, getState) => {
-   const { account } = getState()
-   const { url } = account
-   const { error } = await dispatch(addAccessKey(account.accountId, url.contract_id, url.public_key, url.success_url, url.title))
-   if (error) return
+    const { account } = getState()
+    const { url } = account
+    const { error } = await dispatch(addAccessKey(account.accountId, url.contract_id, url.public_key, url.success_url, url.title))
+    if (error) return
 
-   const { success_url, public_key } = url
-   if (success_url) {
-      const availableKeys = await wallet.getAvailableKeys();
-      const allKeys = availableKeys.map(key => key.toString());
-      const parsedUrl = new URL(success_url)
-      parsedUrl.searchParams.set('account_id', account.accountId)
-      parsedUrl.searchParams.set('public_key', public_key)
-      parsedUrl.searchParams.set('all_keys', allKeys.join(','))
-      window.location = parsedUrl.href
-   } else {
-      await dispatch(push({ pathname: '/authorized-apps' }))
-   }
+    const { success_url, public_key } = url
+    if (success_url) {
+        const availableKeys = await wallet.getAvailableKeys();
+        const allKeys = availableKeys.map(key => key.toString());
+        const parsedUrl = new URL(success_url)
+        parsedUrl.searchParams.set('account_id', account.accountId)
+        parsedUrl.searchParams.set('public_key', public_key)
+        parsedUrl.searchParams.set('all_keys', allKeys.join(','))
+        window.location = parsedUrl.href
+    } else {
+        await dispatch(push({ pathname: '/authorized-apps' }))
+    }
 }
 
 const defaultCodesFor = (prefix, data) => ({ successCode: `${prefix}.success`, errorCode: `${prefix}.error`, data})
 
 export const { requestCode, setupAccountRecovery, setupRecoveryMessage, recoverAccount, checkNewAccount, createNewAccount, checkAccountAvailable, getTransactions, clear, clearCode } = createActions({
-   REQUEST_CODE: [
-      wallet.requestCode.bind(wallet),
-      () => defaultCodesFor('account.requestCode')
-   ],
-   SETUP_ACCOUNT_RECOVERY: [
-      wallet.setupAccountRecovery.bind(wallet),
-      () => defaultCodesFor('account.setupAccountRecovery')
-   ],
-   SETUP_RECOVERY_MESSAGE: [
-      wallet.setupRecoveryMessage.bind(wallet),
-      () => defaultCodesFor('account.setupRecoveryMessage')
-   ],
-   RECOVER_ACCOUNT: [
-      wallet.recoverAccount.bind(wallet),
-      () => defaultCodesFor('account.recoverAccount')
-   ],
-   CHECK_NEW_ACCOUNT: [
-      wallet.checkNewAccount.bind(wallet),
-      () => defaultCodesFor('account.create')
-   ],
-   CREATE_NEW_ACCOUNT: [
-      wallet.createNewAccount.bind(wallet),
-      () => defaultCodesFor('account.create')
-   ],
-   CHECK_ACCOUNT_AVAILABLE: [
-      wallet.checkAccountAvailable.bind(wallet),
-      () => defaultCodesFor('account.available')
-   ],
-   GET_TRANSACTIONS: [getTransactionsApi.bind(wallet), () => ({})],
-   CLEAR: null,
-   CLEAR_CODE: null
+    REQUEST_CODE: [
+        wallet.requestCode.bind(wallet),
+        () => defaultCodesFor('account.requestCode')
+    ],
+    SETUP_ACCOUNT_RECOVERY: [
+        wallet.setupAccountRecovery.bind(wallet),
+        () => defaultCodesFor('account.setupAccountRecovery')
+    ],
+    SETUP_RECOVERY_MESSAGE: [
+        wallet.setupRecoveryMessage.bind(wallet),
+        () => defaultCodesFor('account.setupRecoveryMessage')
+    ],
+    RECOVER_ACCOUNT: [
+        wallet.recoverAccount.bind(wallet),
+        () => defaultCodesFor('account.recoverAccount')
+    ],
+    CHECK_NEW_ACCOUNT: [
+        wallet.checkNewAccount.bind(wallet),
+        () => defaultCodesFor('account.create')
+    ],
+    CREATE_NEW_ACCOUNT: [
+        wallet.createNewAccount.bind(wallet),
+        () => defaultCodesFor('account.create')
+    ],
+    CHECK_ACCOUNT_AVAILABLE: [
+        wallet.checkAccountAvailable.bind(wallet),
+        () => defaultCodesFor('account.available')
+    ],
+    GET_TRANSACTIONS: [getTransactionsApi.bind(wallet), () => ({})],
+    CLEAR: null,
+    CLEAR_CODE: null
 })
-
 
 export const { getAccessKeys, removeAccessKey, addLedgerAccessKey } = createActions({
     GET_ACCESS_KEYS: [wallet.getAccessKeys.bind(wallet), () => ({})],
