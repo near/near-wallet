@@ -53,12 +53,6 @@
         "copyAddressLinkShort": "COPY",
         "snackbarCopySuccess": "Address URL copied!"
     },
-
-    "selectAccountDropdown": {
-        "switchAccount": "Switch account",
-        "switchAccounthNotAllowed": "This app doesn't allow account changes",
-        "createAccount": "CREATE NEW ACCOUNT"
-    },
     
     "button": {
         "copyPhrase": "COPY PHRASE",

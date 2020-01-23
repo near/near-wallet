@@ -193,7 +193,6 @@ class SignTransferReady extends Component {
                         dropdown={this.state.dropdown}
                         handleSelectAccount={this.handleSelectAccount}
                         redirectCreateAccount={this.redirectCreateAccount}
-                        disabled={true}
                     />
                     <ButtonWrapper>
                         <Button theme='secondary' onClick={handleDeny}>Deny</Button>
