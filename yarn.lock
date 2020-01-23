@@ -6255,10 +6255,10 @@ nearley@^2.7.10:
     randexp "0.4.6"
     semver "^5.4.1"
 
-nearlib@^0.20.1:
-  version "0.20.1"
-  resolved "https://registry.yarnpkg.com/nearlib/-/nearlib-0.20.1.tgz#b2671e816c5e238aa7c7ab8035af877127cc52d0"
-  integrity sha512-nwC+2ZKHAQGxW2ENGEb0pZnh9gem65Kqt/Y+uA2PZvmWfloAwUTE9dfLmEzwciXQtLVXR18TROCfLNbasW1mVw==
+nearlib@^0.21.0:
+  version "0.21.0"
+  resolved "https://registry.yarnpkg.com/nearlib/-/nearlib-0.21.0.tgz#18e4edc2504fa1dfdb8a6a336ea2d0e20823bf06"
+  integrity sha512-FSHWxmMjYSh/zQ1x7FfR/o47kUmMyhWQuB+efJmX0C2GdNWeGNDrTmSpwsYDSDejLBkt6ayr4Nk7TsvdjJcgsQ==
   dependencies:
     "@types/bn.js" "^4.11.5"
     bn.js "^5.0.0"
