@@ -106,18 +106,19 @@ const KeyListItem = ({
             {FunctionCall
                // TODO: Use more reasonable markup like <b> instead of <span className='color-black'>
                ? <Grid.Column className='main-row-title'>
-                     contractId: <span className='color-black'>{contractId}</span>
+                     <span className='color-black'>{contractId}</span>
                      <span className='font-small'>
-                        <br />
-                        amount: {' '}
-                        <span className='color-black'><Balance amount={allowance} /></span>,
-                        publicKey:{' '}
+                        <br/>
+                        Fee Allowance:{' '}
+                        <span className='color-black'><Balance amount={allowance} /></span>
+                        <br/>
+                        Public Key:{' '}
                         <span className='color-black'>{publicKey}</span>
                      </span>
                   </Grid.Column>
                : <Grid.Column className='main-row-title'>
                      <span className='font-small'>
-                        publicKey:{' '}
+                        Public Key:{' '}
                         <span className='color-black'>{publicKey}</span>
                      </span>
                      {meta.type === 'ledger' ? <p>Ledger</p> : null}
