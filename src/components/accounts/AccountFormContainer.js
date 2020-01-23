@@ -7,6 +7,8 @@ import Disclaimer from '../common/Disclaimer'
 
 import styled from 'styled-components'
 
+import { classNames } from '../../utils/common'
+
 const CustomContainer = styled(Container)`
    &&&& {
       .page-title {
@@ -68,7 +70,7 @@ const CustomContainer = styled(Container)`
 const AccountFormContainer = ({ location, title, text, children, wide, disclaimer = true }) => (
    <CustomContainer>
       <Grid stackable>
-        <Grid.Row columns={wide ? `1` : `2`} className='page-title'>
+        <Grid.Row columns={wide ? `1` : `2`} className={classNames(['hello', {'conditional-class' : false}])}>
             <Grid.Column computer={wide ? 16 : 9} tablet={wide ? 16 : 8} mobile={16}>
                <Header as='h1'>{title}</Header>
                <Header as='h2'>{text}</Header>
