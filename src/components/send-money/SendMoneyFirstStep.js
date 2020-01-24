@@ -4,12 +4,14 @@ import {
     Header,
     TextArea,
     List,
-    Form
+    Form,
+    Responsive
 } from 'semantic-ui-react'
 
 import PageContainer from '../common/PageContainer'
 import MobileContainer from '../sign/MobileContainer'
 import FormButton from '../common/FormButton'
+import RequestStatusBox from '../common/RequestStatusBox'
 import AccountFormAccountId from '../accounts/AccountFormAccountId'
 import SendMoneyAmountInput from './SendMoneyAmountInput'
 
@@ -47,8 +49,11 @@ const SendMoneyFirstStep = ({
                                         formLoader={formLoader}
                                         handleChange={handleChange}
                                         defaultAccountId={accountId}
+                                        checkAvailability={checkAvailability}
+                                        requestStatus={requestStatus}
                                         autoFocus={true}
                                     />
+                                    <Responsive as={RequestStatusBox} minWidth={768} requestStatus={requestStatus} />
                                 </List.Content>
                             </List.Item>
                         )}
