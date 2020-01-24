@@ -115,6 +115,16 @@ class SendMoney extends Component {
         }))
     }
 
+    get requestStatusSameAccount() {
+        if (this.props.accountId !== this.state.accountId) {
+            return null
+        }
+        return {
+            success: false,
+            messageCode: 'account.available.errorSameAccount',
+        }
+    }
+        
     handleRedirectDashboard = () => {
         this.props.history.push(`/`)
     }
@@ -145,7 +155,7 @@ class SendMoney extends Component {
                         handleChange={this.handleChange}
                         isLegitForm={this.isLegitForm}
                         formLoader={formLoader}
-                        requestStatus={requestStatus}
+                        requestStatus={this.requestStatusSameAccount || requestStatus}
                         checkAvailability={checkAccountAvailable}
                         {...this.state}
                     />
