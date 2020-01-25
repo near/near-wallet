@@ -59,12 +59,20 @@
         "switchAccounthNotAllowed": "This app doesn't allow account changes",
         "createAccount": "CREATE NEW ACCOUNT"
     },
+
+    "recoverWithLink": {
+        "title": "Restore Account",
+        "pOne": "Click \"Continue\" to restore your account:",
+        "pTwo": "If this isn't your preferred browser, copy the URL and complete this process in your browser of choice.",
+        "snackbarCopySuccess": "Recover URL copied"
+    },
     
     "button": {
         "copyPhrase": "COPY PHRASE",
         "continue": "CONTINUE",
         "verify": "VERIFY & COMPLETE",
-        "startOver": "Start over"
+        "startOver": "Start over",
+        "copyUrl": "Copy Url"
     },
 
     "input": {

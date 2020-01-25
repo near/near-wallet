@@ -20,6 +20,7 @@ import { CreateAccountWithRouter } from './accounts/CreateAccount'
 import { SetRecoveryMethodContainerWithRouter } from './accounts/SetRecoveryMethodContainer'
 import { RecoverAccountWithRouter } from './accounts/RecoverAccount'
 import { RecoverAccountSeedPhraseWithRouter } from './accounts/RecoverAccountSeedPhrase'
+import { RecoverWithLinkWithRouter } from './accounts/RecoverWithLink'
 import { LoginWithRouter } from './login/Login'
 import { ContactsWithRouter } from './contacts/Contacts'
 import { AuthorizedAppsWithRouter } from './access-keys/AccessKeys'
@@ -118,6 +119,11 @@ class Routing extends Component {
                               exact
                               path='/recover-seed-phrase/:accountId?/:seedPhrase?'
                               component={RecoverAccountSeedPhraseWithRouter}
+                           />
+                           <Route
+                              exact
+                              path='/recover-with-link/:accountId?/:seedPhrase?'
+                              component={RecoverWithLinkWithRouter}
                            />
                            <PrivateRoute
                               path='/login'
