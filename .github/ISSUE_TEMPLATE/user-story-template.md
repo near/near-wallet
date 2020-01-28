@@ -19,6 +19,8 @@ As a USER who PRECONDITIONS, I want to DO_THING so I can ACCOMPLISH_GOAL.
 - [ ] Mobile ok
 - [ ] Tested
 
+## Unhappy Path
+
 
 ## Assets
 
