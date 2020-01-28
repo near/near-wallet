@@ -112,7 +112,7 @@ class RecoverWithLink extends Component {
             accountId: this.props.accountId,
             seedPhrase: this.props.seedPhrase,
             successSnackbar: false,
-            successView: false
+            successView: true
         };
     }
 
