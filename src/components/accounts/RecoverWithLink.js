@@ -112,14 +112,11 @@ class RecoverWithLink extends Component {
             accountId: this.props.accountId,
             seedPhrase: this.props.seedPhrase,
             successSnackbar: false,
-            successView: true
         };
     }
 
-    componentWillMount = () => {
-        if (!this.isLegit) {
-            this.setState({ successView: false });
-        }
+    get successView() {
+        return this.isLegit;
     }
 
     validators = {
@@ -153,7 +150,7 @@ class RecoverWithLink extends Component {
 
     render() {
 
-        if (this.state.successView) {
+        if (this.successView) {
             return (
                 <Translate>
                     {({ translate }) => (
