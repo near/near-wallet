@@ -20,7 +20,7 @@ const initialState = {
    sentMessage: false
 }
 
-const loaderReducerPendingStack = []
+const actionsPending = []
 
 const loaderReducer = (state, { type, ready }) => {
    if (typeof ready === 'undefined') {
@@ -28,11 +28,15 @@ const loaderReducer = (state, { type, ready }) => {
    }
 
    if (!ready) {
-      loaderReducerPendingStack.push(type)
+      actionsPending.push(type)
    } else {
-      loaderReducerPendingStack.pop()
+      actionsPending.pop()
    }
-   return { ...state, formLoader: !!loaderReducerPendingStack.length }
+   return { 
+      ...state, 
+      formLoader: !!actionsPending.length,
+      actionsPending
+   }
 }
 
 const globalAlertReducer = handleActions({
