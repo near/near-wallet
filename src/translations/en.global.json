@@ -9,6 +9,7 @@
     "account.create.error": "Username is taken. Try something else.",
     "account.available.success": "User found.",
     "account.available.error": "User not found.",
+    "account.available.errorSameAccount": "Cannot send to yourself.",
     "account.verifySeedPhrase.error": "You entered the incorrect word",
     "account.setupSeedPhrase.success": "Seed phrase recovery setup is complete.",
     "account.setupSeedPhrase.error": "An error occurred while setting up seed phrase recovery. Please try again!",
