@@ -150,7 +150,7 @@ class RecoverWithLink extends Component {
 
     render() {
 
-        if (!this.successView) {
+        if (this.successView) {
             return (
                 <Translate>
                     {({ translate }) => (
