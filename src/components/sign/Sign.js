@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
+import { push } from 'connected-react-router'
 import BN from 'bn.js'
 import SignContainer from './SignContainer'
 import SignTransferReady from './SignTransferReady'
@@ -14,23 +15,22 @@ class Sign extends Component {
     handleDeny = e => {
         e.preventDefault();
         // TODO: Dispatch action for app redirect?
-        if (this.props.account.url.callback) {
-            window.location.href = this.props.account.url.callback
+        if (this.props.callbackUrl) {
+            window.location.href = this.props.callbackUrl;
         }
     }
 
     handleAddFunds = () => {
-        this.props.history.push('/profile')
+        this.props.push('/profile')
     }
 
     handleAllow = e => {
-        // TODO: Submit transaction for real
-        // TODO: Remove all setState garbage
-        // TODO: Update status in reducer?
-
-        // TODO: Redirect immediately if submitting transaction isn't desired
-
-        this.props.signAndSendTransactions(this.props.transactions, this.props.account.accountId);
+        this.props.signAndSendTransactions(this.props.transactions, this.props.account.accountId)
+            .then(({ error }) => {
+                if (!error && this.props.callbackUrl) {
+                    window.location.href = this.props.callbackUrl;
+                }
+            });
     }
 
     renderSubcomponent = () => {
@@ -79,7 +79,8 @@ class Sign extends Component {
 }
 
 const mapDispatchToProps = {
-    signAndSendTransactions
+    signAndSendTransactions,
+    push
 }
 
 const mapStateToProps = ({ account, sign }) => {
