@@ -11,7 +11,26 @@ import { Snackbar, snackbarDuration } from '../common/Snackbar'
 import { Translate } from 'react-localize-redux'
 
 const Container = styled.div`
+    &.error {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding-top: 50px;
+        text-align: center;
 
+        div {
+            @media (min-width: 768px) {
+                max-width: 800px;
+            }
+        }
+
+        button {
+            margin-top: 35px;
+            @media (min-width: 768px) {
+                max-width: 300px;
+            }
+        }
+    }
 `
 
 const Title = styled.h1`
@@ -92,8 +111,20 @@ class RecoverWithLink extends Component {
         this.state = {
             accountId: this.props.accountId,
             seedPhrase: this.props.seedPhrase,
-            successSnackbar: false
+            successSnackbar: false,
         };
+    }
+
+    get successView() {
+        return this.isLegit;
+    }
+
+    validators = {
+        seedPhrase: value => true // TODO: Create helper to validate seed phrase
+    }
+
+    get isLegit() {
+        return Object.keys(this.validators).every(field => this.validators[field](this.state[field]));
     }
 
     handleCopyUrl = () => {
@@ -102,7 +133,7 @@ class RecoverWithLink extends Component {
         document.execCommand('copy');
         this.setState({ successSnackbar: true }, () => {
             setTimeout(() => {
-                this.setState({successSnackbar: false});
+                this.setState({ successSnackbar: false });
             }, snackbarDuration)
         });
     }
@@ -118,33 +149,49 @@ class RecoverWithLink extends Component {
     }
 
     render() {
-        
-        return (
-            <Translate>
-                {({ translate }) => (
-                    <Container className='ui container'>
-                        <Title>{translate('recoverWithLink.title')}</Title>
-                        <Desc>{translate('recoverWithLink.pOne')} <UserName>@{this.state.accountId}</UserName></Desc>
-                        <Desc last>{translate('recoverWithLink.pTwo')}</Desc>
-                        <ButtonWrapper>
-                            <Button onClick={this.handleContinue}>
-                                {translate('button.continue')}
+
+        if (!this.successView) {
+            return (
+                <Translate>
+                    {({ translate }) => (
+                        <Container className='ui container'>
+                            <Title>{translate('recoverWithLink.title')}</Title>
+                            <Desc>{translate('recoverWithLink.pOne')} <UserName>@{this.state.accountId}</UserName></Desc>
+                            <Desc last>{translate('recoverWithLink.pTwo')}</Desc>
+                            <ButtonWrapper>
+                                <Button onClick={this.handleContinue}>
+                                    {translate('button.continue')}
+                                </Button>
+                                <Button onClick={this.handleCopyUrl}>
+                                    {translate('button.copyUrl')}
+                                    <RecoverUrl ref={this.recoverUrl}>{window.location.href}</RecoverUrl>
+                                </Button>
+                            </ButtonWrapper>
+                            <Snackbar
+                                theme='success'
+                                message={translate('recoverWithLink.snackbarCopySuccess')}
+                                show={this.state.successSnackbar}
+                                onHide={() => this.setState({ successSnackbar: false })}
+                            />
+                        </Container>
+                    )}
+                </Translate>
+            )
+        } else {
+            return (
+                <Translate>
+                    {({ translate }) => (
+                        <Container className='ui container error'>
+                            <Title>{translate('recoverWithLink.errorTitle')}</Title>
+                            <Desc>{translate('recoverWithLink.errorP')}</Desc>
+                            <Button onClick={() => this.props.history.push('/create')}>
+                                {translate('button.createAccount')}
                             </Button>
-                            <Button onClick={this.handleCopyUrl}>
-                                {translate('button.copyUrl')}
-                                <RecoverUrl ref={this.recoverUrl}>{window.location.href}</RecoverUrl>
-                            </Button>
-                        </ButtonWrapper>
-                        <Snackbar
-                            theme='success'
-                            message={translate('recoverWithLink.snackbarCopySuccess')}
-                            show={this.state.successSnackbar}
-                            onHide={() => this.setState({ successSnackbar: false })}
-                        />
-                    </Container>
-                )}
-            </Translate>
-        )
+                        </Container>
+                    )}
+                </Translate>
+            )
+        }
     }
 }
 
