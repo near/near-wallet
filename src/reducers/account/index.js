@@ -17,25 +17,19 @@ import {
 
 const initialState = {
    formLoader: false,
-   sentMessage: false
+   sentMessage: false,
+   actionsPending: []
 }
-
-const actionsPending = []
 
 const loaderReducer = (state, { type, ready }) => {
    if (typeof ready === 'undefined') {
       return state
    }
 
-   if (!ready) {
-      actionsPending.push(type)
-   } else {
-      actionsPending.pop()
-   }
    return { 
       ...state, 
-      formLoader: !!actionsPending.length,
-      actionsPending
+      formLoader: !!state.actionsPending.length,
+      actionsPending: !ready ? [...state.actionsPending, type] : [...state.actionsPending.slice(0, -1)]
    }
 }
 
