@@ -26,7 +26,7 @@ const loaderReducer = (state, { type, ready }) => {
       return state
    }
 
-   const actionsPending = !ready ? [...state.actionsPending, type] : [...state.actionsPending.slice(0, -1)]
+   const actionsPending = !ready ? [...state.actionsPending, type] : state.actionsPending.slice(0, -1)
    return { 
       ...state, 
       formLoader: !!actionsPending.length,
