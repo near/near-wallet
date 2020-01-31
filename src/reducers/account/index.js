@@ -17,14 +17,21 @@ import {
 
 const initialState = {
    formLoader: false,
-   sentMessage: false
+   sentMessage: false,
+   actionsPending: []
 }
 
-const loaderReducer = (state, { ready }) => {
+const loaderReducer = (state, { type, ready }) => {
    if (typeof ready === 'undefined') {
       return state
    }
-   return { ...state, formLoader: !ready }
+
+   const actionsPending = !ready ? [...state.actionsPending, type] : state.actionsPending.slice(0, -1)
+   return { 
+      ...state, 
+      formLoader: !!actionsPending.length,
+      actionsPending
+   }
 }
 
 const globalAlertReducer = handleActions({

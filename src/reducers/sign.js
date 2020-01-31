@@ -5,14 +5,15 @@ import BN from 'bn.js'
 import { parseTransactionsToSign, signAndSendTransactions } from '../actions/account'
 
 const sign = handleActions({
-    [parseTransactionsToSign]: (state, { payload }) => {
-        const transactions = payload.split(',')
+    [parseTransactionsToSign]: (state, { payload: { transactions: transactionsString, callbackUrl } }) => {
+        const transactions = transactionsString.split(',')
             .map(str => Buffer.from(str, 'base64'))
             .map(buffer => utils.serialize.deserialize(transaction.SCHEMA, transaction.Transaction, buffer))
 
         const allActions = transactions.flatMap(t => t.actions)
         return {
             status: 'needs-confirmation',
+            callbackUrl,
             transactions,
             totalAmount: allActions
                 .map(a => (a.transfer && a.transfer.deposit) || (a.functionCall && a.functionCall.deposit) || 0)

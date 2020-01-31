@@ -8,8 +8,10 @@ export const REFRESH_ACCOUNT = 'REFRESH_ACCOUNT'
 export const LOADER_ACCOUNT = 'LOADER_ACCOUNT'
 export const REFRESH_URL = 'REFRESH_URL'
 
+// TODO: Refactor whole mess with handleRefreshAccount / handleLoginUrl / handleRedirectUrl / handleRefreshUrl into smaller and better scoped actions
 export function handleRefreshAccount(history, loader = true) {
     return (dispatch, getState) => {
+        // TODO: Use promise-based action with automated loading handler?
         if (loader) {
             dispatch({
                 type: LOADER_ACCOUNT,
@@ -33,6 +35,7 @@ export function handleRefreshAccount(history, loader = true) {
         wallet
             .loadAccount(accountId)
             .then(v => {
+                // TODO: Should use reducer instead to process loadAccount success results?
                 dispatch({
                     type: REFRESH_ACCOUNT,
                     data: {
@@ -142,9 +145,9 @@ export function handleRefreshUrl() {
             url: accountUrl
         })
 
-        const { transactions } = parse(location.search)
+        const { transactions, callbackUrl } = parse(location.search);
         if (transactions) {
-            dispatch(parseTransactionsToSign(transactions))
+            dispatch(parseTransactionsToSign({ transactions, callbackUrl }));
         }
     }
 }
