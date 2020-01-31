@@ -30,13 +30,13 @@ const CustomResponsive = styled(Responsive)`
       .navbar {
          padding: 0px;
          padding-bottom: 1rem;
-         
+
          &-main {
             background-color: #24272a;
             height: 72px;
             border-radius: 0;
             margin-bottom: 0;
-            
+
             .mainlogo {
                float: left;
                padding: 4px 10px 0px 0px;
@@ -81,7 +81,7 @@ const CustomResponsive = styled(Responsive)`
                border-top: 1px solid #4a4f54;
                color: #fff;
                letter-spacing: 2px;
-               
+
                &.border {
                   border-bottom: 1px solid #4a4f54;
                }
@@ -101,7 +101,7 @@ const CustomResponsive = styled(Responsive)`
                   padding: 8px 9px;
                   color: #8fd6bd;
                   letter-spacing: 2px;
-                  
+
                   img {
                      margin-top: -2px;
                      width: 18px;
@@ -251,7 +251,7 @@ class MobileView extends Component {
                                 </Menu.Item>
                             </Link>
                             <Menu.Menu className='sub'>
-                                <Link to='/profile' onClick={this.handleDropdown}>
+                                <Link to={`/profile/${account.accountId}`} onClick={this.handleDropdown}>
                                     <Menu.Item>
                                         <Image src={AccountGreyImage} />
                                         Profile
