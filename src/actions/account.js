@@ -24,16 +24,16 @@ export function handleRefreshAccount(history, loader = true) {
                 dispatch({
                     type: LOADER_ACCOUNT,
                     loader: false
-                })    
+                })
             }
 
             return false
         }
-        
+
         const accountId = wallet.getAccountId()
 
         wallet
-            .loadAccount(accountId, history)
+            .loadAccount(accountId)
             .then(v => {
                 // TODO: Should use reducer instead to process loadAccount success results?
                 dispatch({
@@ -54,7 +54,7 @@ export function handleRefreshAccount(history, loader = true) {
                 if (e.message && e.message.indexOf('does not exist while viewing') !== -1) {
                     // We have an account in the storage, but it doesn't exist on blockchain. We probably nuked storage so just redirect to create account
                     // TODO: Offer to remove specific account vs clearing everything?
-                    wallet.clearState()                    
+                    wallet.clearState()
                     wallet.redirectToCreateAccount(
                         {
                             reset_accounts: true
