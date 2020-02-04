@@ -143,12 +143,6 @@ export class Wallet {
         return !this.accounts || !Object.keys(this.accounts).length
     }
 
-    redirectIfEmpty(history) {
-        if (this.isEmpty()) {
-            this.redirectToCreateAccount({}, history)
-        }
-    }
-
     async loadAccount(accountId) {
         if (!(accountId in this.accounts)) {
             throw new Error('Account ' + accountId + " doesn't exist.")
