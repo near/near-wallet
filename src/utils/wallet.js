@@ -214,8 +214,14 @@ export class Wallet {
                 newAccountId: accountId,
                 newAccountPublicKey: keyPair.publicKey.toString()
             })
-        } finally {
             await this.saveAndSelectAccount(accountId, keyPair);
+        } catch(e) {
+            if (e.toString().indexOf('send_tx_commit has timed out') !== -1 || e instanceof TypeError) {
+                await this.saveAndSelectAccount(accountId, keyPair);
+            }
+            else {
+                throw e
+            }
         }
     }
 
