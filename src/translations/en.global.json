@@ -67,7 +67,7 @@
         "pTwo": "If this isn't your preferred browser, copy the URL and complete this process in your browser of choice.",
         "snackbarCopySuccess": "Recover URL copied",
         "errorTitle": "Account not found",
-        "errorP": "There is no account associated with this recovery link. This recovery method may have been updated or removed."
+        "errorP": "If you've enabled email recovery, please check your inbox for the latest message, as all earlier messages are considered invalid."
     },
     
     "button": {
