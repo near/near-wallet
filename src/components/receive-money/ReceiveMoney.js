@@ -65,6 +65,9 @@ const Address = styled.div`
     line-height: normal;
     margin-top: 25px;
     font-weight: 600;
+    position: relative;
+    background-color: white;
+    overflow: hidden;
 
     @media (min-width: 768px) {
         padding: 15px 70px;
@@ -89,7 +92,9 @@ const CopyAddress = styled(Responsive)`
 `
 
 const UrlAddress = styled.div`
-    margin-top: 10px;
+    position: absolute;
+    z-index: -1;
+    text-transform: initial;
 `
 
 class ReceiveMoney extends Component {
@@ -127,6 +132,9 @@ class ReceiveMoney extends Component {
                             <Title>{translate('receivePage.addressTitle')}</Title>
                             <Address>
                                 {this.props.account.accountId}
+                                <UrlAddress ref={this.myRef}>
+                                    {`${window.location.protocol}//${window.location.host}/send-money/${this.props.account.accountId}`}
+                                </UrlAddress>
                                 <CopyAddress
                                     minWidth={768}
                                     onClick={this.handleCopyAddress}
@@ -146,9 +154,6 @@ class ReceiveMoney extends Component {
                                 {translate('receivePage.qrCodeTitle')}
                             </Title>
                             <ProfileQRCode account={this.props.account}/>
-                            <UrlAddress ref={this.myRef}>
-                                {`${window.location.protocol}//${window.location.host}/send-money/${this.props.account.accountId}`}
-                            </UrlAddress>
                         </Container>
                         <Snackbar
                             theme='success'
