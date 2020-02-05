@@ -90,30 +90,32 @@ const PopupMenuTrigger = ({ account, handleClick, type, dropdown = false, locati
             )}
             {type === 'desktop' && <Image src={ArrowDownImage} />}
          </div>
-         <div className='overflow'>
-            <div className='account-name'>
-               {account.loader || !account.accountId ? (
-                  <Loader active inline size='mini' />
-               ) : (
-                  `@${account.accountId}`
-               )}
-            </div>
-            <div className={`account-tokens ${location.pathname === `/node-staking` ? `node-staking` : ``}`}>
-               {account.loader || !account.accountId ? (
-                  <Loader active inline size='mini' />
-               ) : (
-                     <div>
-                        {account.amount 
-                        ? <Balance amount={account.amount} /> 
-                        : 'NaN'}
-
-                        {location.pathname === '/node-staking' && (
-                           <div className='staking'>&nbsp;/ 202,250.0025</div>
-                        )}
-                     </div>
+         {account.accountId &&
+            <div className='overflow'>
+               <div className='account-name'>
+                  {account.loader ? (
+                     <Loader active inline size='mini' />
+                  ) : (
+                     `@${account.accountId}`
                   )}
+               </div>
+               <div className={`account-tokens ${location.pathname === `/node-staking` ? `node-staking` : ``}`}>
+                  {account.loader ? (
+                     <Loader active inline size='mini' />
+                  ) : (
+                        <div>
+                           {account.amount 
+                           ? <Balance amount={account.amount} /> 
+                           : 'NaN'}
+
+                           {location.pathname === '/node-staking' && (
+                              <div className='staking'>&nbsp;/ 202,250.0025</div>
+                           )}
+                        </div>
+                     )}
+               </div>
             </div>
-         </div>
+         }
       </div>
    </CustomDiv>
 )
