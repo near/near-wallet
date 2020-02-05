@@ -112,19 +112,8 @@ class RecoverWithLink extends Component {
             accountId: this.props.accountId,
             seedPhrase: this.props.seedPhrase,
             successSnackbar: false,
+            successView: true
         };
-    }
-
-    get successView() {
-        return this.isLegit;
-    }
-
-    validators = {
-        seedPhrase: value => true // TODO: Create helper to validate seed phrase
-    }
-
-    get isLegit() {
-        return Object.keys(this.validators).every(field => this.validators[field](this.state[field]));
     }
 
     handleCopyUrl = () => {
@@ -141,16 +130,18 @@ class RecoverWithLink extends Component {
     handleContinue = () => {
         this.props.recoverAccountSeedPhrase(this.state.seedPhrase, this.state.accountId)
             .then(({ error }) => {
-                if (error) return;
-                this.props.handleRefreshAccount();
-            }).then(() => {
-                this.props.history.push('/profile');
-            })
+                if (error) {
+                    this.setState({ successView: false });
+                } else {
+                    this.props.handleRefreshAccount();
+                    this.props.history.push('/profile');
+                }
+            });
     }
 
     render() {
 
-        if (this.successView) {
+        if (this.state.successView) {
             return (
                 <Translate>
                     {({ translate }) => (
