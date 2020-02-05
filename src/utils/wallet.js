@@ -9,7 +9,6 @@ import { store } from '..'
 import { getAccessKeys } from '../actions/account'
 
 export const WALLET_CREATE_NEW_ACCOUNT_URL = `/create`
-export const WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS = [`create`, 'set-recovery', 'setup-seed-phrase', 'recover-account', 'recover-seed-phrase']
 
 const NETWORK_ID = process.env.REACT_APP_NETWORK_ID || 'default'
 const ACCOUNT_HELPER_URL = process.env.REACT_APP_ACCOUNT_HELPER_URL || 'https://near-contract-helper.onrender.com'
@@ -117,26 +116,6 @@ export class Wallet {
 
     async sendMoney(receiverId, amount) {
         await this.getAccount(this.accountId).sendMoney(receiverId, amount)
-    }
-
-    redirectToCreateAccount(options = {}, history) {
-        const param = {
-            next_url: window.location.search
-        }
-        if (options.reset_accounts) {
-            param.reset_accounts = true
-        }
-        //  let url = WALLET_CREATE_NEW_ACCOUNT_URL + "?" + $.param(param)
-        let url =
-            WALLET_CREATE_NEW_ACCOUNT_URL +
-            '/?' +
-            Object.keys(param).map(
-                (p, i) =>
-                    `${i ? '&' : ''}${encodeURIComponent(p)}=${encodeURIComponent(
-                        param[p]
-                    )}`
-            )
-        history ? history.push(url) : window.location.replace(url)
     }
 
     isEmpty() {

@@ -4,9 +4,12 @@ import { Wallet } from '../utils/wallet'
 import { getTransactions as getTransactionsApi } from '../utils/explorer-api'
 import { push } from 'connected-react-router'
 
+import { WALLET_CREATE_NEW_ACCOUNT_URL } from '../utils/wallet'
+
 export const REFRESH_ACCOUNT = 'REFRESH_ACCOUNT'
 export const LOADER_ACCOUNT = 'LOADER_ACCOUNT'
 export const REFRESH_URL = 'REFRESH_URL'
+
 
 // TODO: Refactor whole mess with handleRefreshAccount / handleLoginUrl / handleRedirectUrl / handleRefreshUrl into smaller and better scoped actions
 export function handleRefreshAccount(history, loader = true) {
@@ -55,12 +58,9 @@ export function handleRefreshAccount(history, loader = true) {
                     // We have an account in the storage, but it doesn't exist on blockchain. We probably nuked storage so just redirect to create account
                     // TODO: Offer to remove specific account vs clearing everything?
                     wallet.clearAccountState()
-                    wallet.redirectToCreateAccount(
-                        {
-                            reset_accounts: true
-                        },
-                        history
-                    )
+                    dispatch(redirectToCreateAccount({
+                        reset_accounts: true
+                    }))
                 }
             })
             .finally(() => {
@@ -183,6 +183,13 @@ export const allowLogin = () => async (dispatch, getState) => {
     } else {
         await dispatch(push({ pathname: '/authorized-apps' }))
     }
+}
+
+const redirectToCreateAccount = (options = {}) => (dispatch) => {
+    dispatch(push({ 
+        pathname: WALLET_CREATE_NEW_ACCOUNT_URL,
+        search: stringify(options)
+    }))
 }
 
 const defaultCodesFor = (prefix, data) => ({ successCode: `${prefix}.success`, errorCode: `${prefix}.error`, data})

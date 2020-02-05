@@ -32,7 +32,7 @@ import { AddNodeWithRouter } from './node-staking/AddNode'
 import { NodeDetailsWithRouter } from './node-staking/NodeDetails'
 import { StakingWithRouter } from './node-staking/Staking'
 
-import { WALLET_CREATE_NEW_ACCOUNT_URL, WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS } from '../utils/wallet'
+import { WALLET_CREATE_NEW_ACCOUNT_URL } from '../utils/wallet'
 
 import { handleRefreshAccount, handleRefreshUrl, clearAlert, clear, handleRedirectUrl, handleLoginUrl } from '../actions/account'
 
@@ -41,6 +41,7 @@ import { SetupSeedPhraseWithRouter } from './accounts/SetupSeedPhrase'
 const theme = {}
 
 const PATH_PREFIX = process.env.PUBLIC_URL
+const WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS = [`create`, 'set-recovery', 'setup-seed-phrase', 'recover-account', 'recover-seed-phrase']
 
 class Routing extends Component {
     constructor(props) {
