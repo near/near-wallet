@@ -9,6 +9,7 @@ import ProfileSection from './ProfileSection'
 import ProfileYourKeys from './ProfileYourKeys'
 import ProfileNotice from './ProfileNotice'
 import ProfileQRCode from './ProfileQRCode';
+import RecoveryContainer from './Recovery/RecoveryContainer';
 
 class Profile extends Component {
    state = {
@@ -25,14 +26,15 @@ class Profile extends Component {
             title={`Account: @${account.accountId ? account.accountId : ``}`}
          >
             <ProfileSection>
-               <ProfileDetails account={this.props.account} />
+               <ProfileDetails account={account} />
                { false ?
                <ProfileYourKeys />
                : null }
                { false ?
                <ProfileNotice />
                : null }
-               <ProfileQRCode account={this.props.account} />
+               <RecoveryContainer account={account}/>
+               <ProfileQRCode account={account} />
             </ProfileSection>
          </PageContainer>
       )
