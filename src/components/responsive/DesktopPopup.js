@@ -16,7 +16,7 @@ const CustomPopup = styled(Popup)`
         padding: 0px;
         left: -50px !important;
         position: fixed !important;
-        top: ${props => props.loggedIn === true ? "15px !important" : "35px !important"};
+        top: ${props => props.loggedin === 'true' ? "15px !important" : "35px !important"};
 
         .account-dropdown {
             width: 290px;
@@ -121,7 +121,7 @@ const DesktopPopup = ({
     popupOpen
 }) => (
         <CustomPopup
-            loggedIn={account.accountId ? true : false}
+            loggedin={account.accountId ? 'true' : 'false'}
             trigger={
                 <PopupMenuTrigger
                     account={account}
