@@ -21,6 +21,29 @@ class Profile extends Component {
    render() {
       const { account } = this.props
 
+      // fakeAccount = this.props.account
+      const fakeAccount = {
+         recoveryMethods: [
+             {
+                 method: 'phone',
+                 enabled: false,
+                 timeStamp: 'Jan 8, 2020',
+                 info: '14157974834'
+             },
+             {
+                 method: 'email',
+                 enabled: false,
+                 timeStamp: 'Jan 1, 2020',
+                 info: 'useremail@mail.com'
+             },
+             {
+                 method: 'phrase',
+                 enabled: false,
+                 timeStamp: 'Jan 1, 2020'
+             }
+         ]
+      }
+
       return (
          <PageContainer
             title={`Account: @${account.accountId ? account.accountId : ``}`}
@@ -33,8 +56,8 @@ class Profile extends Component {
                { false ?
                <ProfileNotice />
                : null }
-               <RecoveryContainer account={account}/>
-               <ProfileQRCode account={account} />
+               <RecoveryContainer account={fakeAccount}/>
+               {/*<ProfileQRCode account={account} />*/}
             </ProfileSection>
          </PageContainer>
       )

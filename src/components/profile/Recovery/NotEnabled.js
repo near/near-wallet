@@ -10,7 +10,7 @@ const NotEnabledContainer = styled.div`
 
 const NotEnabled = (props) => (
     <NotEnabledContainer>
-        {props.method}
+        {props.title}
         <Button onClick={props.onEnable}>enable</Button>
     </NotEnabledContainer>
 )

@@ -38,46 +38,24 @@ const Header = styled.div`
 
 class RecoveryContainer extends Component {
 
+    handleEnableMethod = (method) => {
+        window.location.href = `${method !== 'phrase' ? '/set-recovery/' : '/setup-seed-phrase/'}${this.props.account.accountId}`
+    }
+ 
     render() {
 
         const { account } = this.props;
 
-        // fakeAccount = this.props.account
-        const fakeAccount = {
-            recoveryMethods: {
-                phone: {
-                    enabled: true,
-                    timeStamp: 'Jan 8, 2020'
-                },
-                email: {
-                    enabled: false,
-                    timeStamp: ''
-                },
-                phrase: {
-                    enabled: false,
-                    timeStamp: ''
-                }
-            }
-        }
-
         return (
             <Container>
                 <Header>Recovery Methods</Header>
-                <RecoveryMethod
-                    method='Phone Number'
-                    methodData={fakeAccount.recoveryMethods.phone}
-                    onEnable={() => {window.location.href = `/set-recovery/${account.accountId}`}}
-                />
-                <RecoveryMethod
-                    method='Email Address'
-                    methodData={fakeAccount.recoveryMethods.email}
-                    onEnable={() => {window.location.href = `/set-recovery/${account.accountId}`}}
-                />
-                <RecoveryMethod
-                    method='Seed Phrase'
-                    methodData={fakeAccount.recoveryMethods.phrase}
-                    onEnable={() => {window.location.href = `/setup-seed-phrase/${account.accountId}`}}
-                />
+                {account.recoveryMethods.map((method, i) =>
+                    <RecoveryMethod
+                        key={i}
+                        data={method}
+                        onEnable={() => this.handleEnableMethod(method.method)}
+                    />
+                )}
             </Container>
         );
     }
