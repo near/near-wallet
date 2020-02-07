@@ -7,11 +7,9 @@ const Container = styled.div`
 
     border: 2px solid #e6e6e6;
     border-radius: 6px;
-    color: black;
-    font-weight: 600;
     white-space: nowrap;
 
-    div {
+    > div {
         padding: 15px 20px;
         border-bottom: 2px solid #f8f8f8;
 

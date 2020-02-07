@@ -7,6 +7,7 @@ const StyledButton = styled.button`
     text-transform: uppercase;
     font-weight: 500;
     outline: none;
+    line-height: normal;
     letter-spacing: 1px;
     font-size: 15px;
     font-family: 'benton-sans',sans-serif;
@@ -42,6 +43,7 @@ const Button = (props) => (
         className='styled-button'
         onClick={props.onClick}
         disabled={props.disabled}
+        title={props.title}
     >
         {props.children}
     </StyledButton>

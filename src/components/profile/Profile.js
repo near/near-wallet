@@ -26,7 +26,7 @@ class Profile extends Component {
          recoveryMethods: [
              {
                  method: 'phone',
-                 enabled: false,
+                 enabled: true,
                  timeStamp: 'Jan 8, 2020',
                  info: '14157974834'
              },
@@ -38,7 +38,7 @@ class Profile extends Component {
              },
              {
                  method: 'phrase',
-                 enabled: false,
+                 enabled: true,
                  timeStamp: 'Jan 1, 2020'
              }
          ]
