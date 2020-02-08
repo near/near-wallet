@@ -48,7 +48,45 @@ const LinkButton = styled.div`
 `
 
 const DisableContainer = styled.div`
+    border: 2px solid #FF585D !important;
+    border-radius: 6px;
+    margin: -2px;
 
+    .top {
+        color: #24272a;
+        font-weight: 600;
+        white-space: normal;
+        line-height: 150%;
+
+        span {
+            font-weight: 400;
+        }
+    }
+
+    .bottom {
+        display: flex;
+        align-items: center;
+        margin-top: 10px;
+
+        button {
+            width: auto;
+
+            &:first-of-type {
+                background-color: #FF585D;
+                border: none;
+                padding: 5px 15px;
+            }
+
+            &:last-of-type {
+                background-color: transparent;
+                color: #999;
+                text-transform: capitalize;
+                text-decoration: underline;
+                border: none;
+                margin-left: 15px;
+            }
+        }
+    }
 `
 
 const LinkString = (props) => {
@@ -85,8 +123,14 @@ const Enabled = (props) => {
     } else {
         return (
             <DisableContainer>
-                Sure u want to disable?
-                <Button onClick={props.onToggleDisable}>Don't disable</Button>
+                <div className='top'>
+                    Are you sure you want to disable?<br/>
+                    <span>The magic link you received will be permanently disabled.</span>
+                </div>
+                <div className='bottom'>
+                    <Button>Disable {props.data.method}</Button>
+                    <Button onClick={props.onToggleDisable}>No, Keep {props.data.method}</Button>
+                </div>
             </DisableContainer>
         );
     }
