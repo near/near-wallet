@@ -125,7 +125,9 @@ const Enabled = (props) => {
             <DisableContainer>
                 <div className='top'>
                     Are you sure you want to disable?<br/>
-                    <span>The magic link you received will be permanently disabled.</span>
+                    <span>
+                        {`${props.data.method !== 'phrase' ? 'The magic link you received' : 'Your current seed phrase'} will be permanently disabled.`}
+                    </span>
                 </div>
                 <div className='bottom'>
                     <Button>Disable {props.data.method}</Button>
