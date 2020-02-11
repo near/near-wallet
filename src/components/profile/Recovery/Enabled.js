@@ -58,7 +58,7 @@ const DisableContainer = styled.div`
         white-space: normal;
         line-height: 150%;
 
-        span {
+        div {
             font-weight: 400;
         }
     }
@@ -84,6 +84,7 @@ const DisableContainer = styled.div`
                 text-decoration: underline;
                 border: none;
                 margin-left: 15px;
+                white-space: normal;
             }
         }
     }
@@ -114,9 +115,11 @@ const Enabled = (props) => {
                 </div>
                 <div className='bottom'>
                     {`Enabled ${props.data.timeStamp}`}
-                    <LinkButton onClick={props.onResend}>
-                        <LinkString {...props}/>
-                    </LinkButton>
+                    {props.data.method !== 'phrase' &&
+                        <LinkButton onClick={props.onResend}>
+                            <LinkString {...props}/>
+                        </LinkButton>
+                    }
                 </div>
             </EnabledContainer>
         );
@@ -124,10 +127,10 @@ const Enabled = (props) => {
         return (
             <DisableContainer>
                 <div className='top'>
-                    Are you sure you want to disable?<br/>
-                    <span>
+                    Are you sure you want to disable?
+                    <div>
                         {`${props.data.method !== 'phrase' ? 'The magic link you received' : 'Your current seed phrase'} will be permanently disabled.`}
-                    </span>
+                    </div>
                 </div>
                 <div className='bottom'>
                     <Button>Disable {props.data.method}</Button>

@@ -25,6 +25,11 @@ class Profile extends Component {
       const fakeAccount = {
          recoveryMethods: [
              {
+                 method: 'phrase',
+                 enabled: false,
+                 timeStamp: 'Jan 1, 2020'
+             },
+             {
                  method: 'phone',
                  enabled: true,
                  timeStamp: 'Jan 8, 2020',
@@ -35,11 +40,6 @@ class Profile extends Component {
                  enabled: false,
                  timeStamp: 'Jan 1, 2020',
                  info: 'useremail@mail.com'
-             },
-             {
-                 method: 'phrase',
-                 enabled: true,
-                 timeStamp: 'Jan 1, 2020'
              }
          ]
       }
@@ -56,7 +56,10 @@ class Profile extends Component {
                { false ?
                <ProfileNotice />
                : null }
-               <RecoveryContainer account={fakeAccount}/>
+               <RecoveryContainer
+                  account={fakeAccount}
+                  hasRecoveryMethod={fakeAccount.recoveryMethods.some((method) => method.enabled)}
+               />
                {/*<ProfileQRCode account={account} />*/}
             </ProfileSection>
          </PageContainer>

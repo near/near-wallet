@@ -33,6 +33,7 @@ class RecoveryMethod extends Component {
             return <Enabled
                         {...this.props}
                         onToggleDisable={this.handleToggleDisable}
+                        onResend={this.props.onResend}
                         disable={this.state.disable}
                         title={this.methodTitle}
                     />;
