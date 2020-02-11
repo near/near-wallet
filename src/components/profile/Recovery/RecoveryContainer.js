@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import RecoveryMethod from './RecoveryMethod';
 import RecoveryIcon from '../../../images/icon-recovery-grey.svg';
 import ErrorIcon from '../../../images/icon-problems.svg';
+import {Snackbar, snackbarDuration } from '../../common/Snackbar';
 
 const Container = styled.div`
 
@@ -72,12 +73,21 @@ const NoRecoveryMethod = styled.div`
 
 class RecoveryContainer extends Component {
 
+    state = {
+        successSnackbar: false,
+    };
+
     handleEnableMethod = (method) => {
         window.location.href = `${method !== 'phrase' ? '/set-recovery/' : '/setup-seed-phrase/'}${this.props.account.accountId}`
     }
 
     handleResendLink = (method) => {
         //TODO: Send sms/email depending on method
+        this.setState({ successSnackbar: true }, () => {
+            setTimeout(() => {
+                this.setState({successSnackbar: false});
+            }, snackbarDuration)
+        });
     }
  
     render() {
@@ -104,6 +114,12 @@ class RecoveryContainer extends Component {
                         onResend={() => this.handleResendLink(method.method)}
                     />
                 )}
+                <Snackbar
+                    theme='success'
+                    message='Recovery link sent!'
+                    show={this.state.successSnackbar}
+                    onHide={() => this.setState({ successSnackbar: false })}
+                />
             </Container>
         );
     }
