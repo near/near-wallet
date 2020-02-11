@@ -17,6 +17,7 @@ const Container = styled.div`
     transition: 250ms ease;
     bottom: 0px;
     pointer-events: none;
+    padding: 0 !important;
 
     @media (min-width: 768px) {
         width: 330px;
