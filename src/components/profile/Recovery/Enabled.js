@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import Button from '../../common/Button';
+import { Translate } from 'react-localize-redux';
 
 const EnabledContainer = styled.div`
     .top {
@@ -11,6 +12,21 @@ const EnabledContainer = styled.div`
         .title {
             font-weight: 600;
             color: #24272a;
+        }
+
+        .info {
+            text-overflow: ellipsis;
+            max-width: 140px;
+            white-space: nowrap;
+            overflow: hidden;
+
+            @media (min-width: 375px) {
+                max-width: 160px;
+            }
+
+            @media (min-width: 998px) {
+                max-width: 200px;
+            }
         }
 
         button {
@@ -55,7 +71,6 @@ const DisableContainer = styled.div`
     .top {
         color: #24272a;
         font-weight: 600;
-        white-space: normal;
         line-height: 150%;
 
         div {
@@ -84,22 +99,10 @@ const DisableContainer = styled.div`
                 text-decoration: underline;
                 border: none;
                 margin-left: 15px;
-                white-space: normal;
             }
         }
     }
 `
-
-const LinkString = (props) => {
-    switch (props.data.method) {
-        case 'email':
-            return 'Resend Email'
-        case 'phone':
-            return 'Resend SMS'
-        default:
-            return ''
-    }
-}
 
 const Enabled = (props) => {
 
@@ -109,15 +112,17 @@ const Enabled = (props) => {
                 <div className='top'>
                     <div>
                         <div className='title'>{props.title}</div>
-                        <div>{props.data.info}</div>
+                        <div className='info'>{props.data.info}</div>
                     </div>
-                    <Button onClick={props.onToggleDisable} title='Disable'>Disable</Button>
+                    <Button onClick={props.onToggleDisable} title='Disable'>
+                        <Translate id='button.disable'/>
+                    </Button>
                 </div>
                 <div className='bottom'>
-                    {`Enabled ${props.data.timeStamp}`}
+                    <Translate id='recoveryMgmt.enabled'/> {props.data.timeStamp}
                     {props.data.method !== 'phrase' &&
                         <LinkButton onClick={props.onResend}>
-                            <LinkString {...props}/>
+                            <Translate id={`recoveryMgmt.resend.${props.data.method}`}/>
                         </LinkButton>
                     }
                 </div>
@@ -127,14 +132,18 @@ const Enabled = (props) => {
         return (
             <DisableContainer>
                 <div className='top'>
-                    Are you sure you want to disable?
+                    <Translate id='recoveryMgmt.disableTitle'/>
                     <div>
-                        {`${props.data.method !== 'phrase' ? 'The magic link you received' : 'Your current seed phrase'} will be permanently disabled.`}
+                        <Translate id={`recoveryMgmt.${props.data.method !== 'phrase' ? 'disableTextLink' : 'disableTextPhrase'}`}/>
                     </div>
                 </div>
                 <div className='bottom'>
-                    <Button>Disable {props.data.method}</Button>
-                    <Button onClick={props.onToggleDisable}>No, Keep {props.data.method}</Button>
+                    <Button>
+                        <Translate id='button.disable'/> {props.data.method}
+                    </Button>
+                    <Button onClick={props.onToggleDisable}>
+                        <Translate id='recoveryMgmt.disableNo'/> {props.data.method}
+                    </Button>
                 </div>
             </DisableContainer>
         );

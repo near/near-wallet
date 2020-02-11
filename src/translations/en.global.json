@@ -69,6 +69,26 @@
         "errorTitle": "Account not found",
         "errorP": "If you've enabled email recovery, please check your inbox for the latest message, as all earlier messages are considered invalid."
     },
+
+    "recoveryMgmt": {
+        "title": "Recovery Methods",
+        "noRecoveryMethod": "You have no method to recover your account. please add a method below.",
+        "methodTitle": {
+            "phrase": "Seed Phrase",
+            "phone": "Phone Number",
+            "email": "Email Address"
+        },
+        "resend": {
+            "phone": "Resend SMS",
+            "email": "Resend Email"
+        },
+        "enabled": "Enabled",
+        "disableTitle": "Are you sure you want to disable?",
+        "disableTextLink": "The magic link you received will be permanently disabled.",
+        "disableTextPhrase": "Your current seed phrase will be permanently disabled.",
+        "disableNo": "No, keep",
+        "recoveryLinkSent": "Recovery Link Sent!"
+    },
     
     "button": {
         "copyPhrase": "COPY PHRASE",
@@ -76,7 +96,9 @@
         "verify": "VERIFY & COMPLETE",
         "startOver": "Start over",
         "copyUrl": "Copy Url",
-        "createAccount": "Create account"
+        "createAccount": "Create account",
+        "enable": "Enable",
+        "disable": "Disable"
     },
 
     "input": {

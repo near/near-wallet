@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Enabled from './Enabled';
 import NotEnabled from './NotEnabled';
+import { Translate } from 'react-localize-redux';
 
 class RecoveryMethod extends Component {
 
@@ -14,20 +15,9 @@ class RecoveryMethod extends Component {
         }));
     }
 
-    get methodTitle() {
-        switch (this.props.data.method) {
-            case 'email':
-                return 'Email Address'
-            case 'phone':
-                return 'Phone Number'
-            case 'phrase':
-                return 'Seed Phrase'
-            default:
-                return ''
-        }
-    }
-
     render() {
+
+        let methodTitle = <Translate id={`recoveryMgmt.methodTitle.${this.props.data.method}`}/>;
 
         if (this.props.data.enabled) {
             return <Enabled
@@ -35,13 +25,13 @@ class RecoveryMethod extends Component {
                         onToggleDisable={this.handleToggleDisable}
                         onResend={this.props.onResend}
                         disable={this.state.disable}
-                        title={this.methodTitle}
+                        title={methodTitle}
                     />;
         } else {
             return <NotEnabled 
                         {...this.props}
                         onEnable={this.props.onEnable}
-                        title={this.methodTitle}
+                        title={methodTitle}
                     />;
         }
     }

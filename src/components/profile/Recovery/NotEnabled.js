@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import Button from '../../common/Button';
+import { Translate } from 'react-localize-redux';
 
 const NotEnabledContainer = styled.div`
     display: flex;
@@ -13,7 +14,9 @@ const NotEnabledContainer = styled.div`
 const NotEnabled = (props) => (
     <NotEnabledContainer>
         {props.title}
-        <Button onClick={props.onEnable}>enable</Button>
+        <Button onClick={props.onEnable}>
+            <Translate id='button.enable'/>
+        </Button>
     </NotEnabledContainer>
 )
 

@@ -127,7 +127,10 @@ const snackbarDuration = 5500;
 
 Snackbar.propTypes = {
     theme: PropTypes.string.isRequired,
-    message: PropTypes.string.isRequired,
+    message: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.object
+    ]).isRequired,
     show: PropTypes.bool.isRequired,
     onHide: PropTypes.func,
 }

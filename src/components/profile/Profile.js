@@ -37,7 +37,7 @@ class Profile extends Component {
              },
              {
                  method: 'email',
-                 enabled: false,
+                 enabled: true,
                  timeStamp: 'Jan 1, 2020',
                  info: 'useremail@mail.com'
              }

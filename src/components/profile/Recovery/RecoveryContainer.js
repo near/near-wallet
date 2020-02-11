@@ -4,12 +4,12 @@ import RecoveryMethod from './RecoveryMethod';
 import RecoveryIcon from '../../../images/icon-recovery-grey.svg';
 import ErrorIcon from '../../../images/icon-problems.svg';
 import {Snackbar, snackbarDuration } from '../../common/Snackbar';
+import { Translate } from 'react-localize-redux';
 
 const Container = styled.div`
 
     border: 2px solid #e6e6e6;
     border-radius: 6px;
-    white-space: nowrap;
 
     > div {
         padding: 15px 20px;
@@ -53,7 +53,6 @@ const Title = styled.div`
 `
 
 const NoRecoveryMethod = styled.div`
-    white-space: normal;
     margin-top: 15px;
     color: #FF585D;
     display: flex;
@@ -97,12 +96,10 @@ class RecoveryContainer extends Component {
         return (
             <Container>
                 <Header>
-                    <Title>
-                        Recovery Methods
-                    </Title>
+                    <Title><Translate id='recoveryMgmt.title'/></Title>
                     {!hasRecoveryMethod &&
                         <NoRecoveryMethod>
-                            You have no method to recover your account. please add a method below.
+                            <Translate id='recoveryMgmt.noRecoveryMethod'/>
                         </NoRecoveryMethod>
                     }
                 </Header>
@@ -116,7 +113,7 @@ class RecoveryContainer extends Component {
                 )}
                 <Snackbar
                     theme='success'
-                    message='Recovery link sent!'
+                    message={<Translate id='recoveryMgmt.recoveryLinkSent'/>}
                     show={this.state.successSnackbar}
                     onHide={() => this.setState({ successSnackbar: false })}
                 />
