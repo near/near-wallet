@@ -58,7 +58,7 @@ const FooterGrid = styled(Grid)`
             width: 230px;
             height: 80px;
             padding: 20px 0;
-            background: #fff;
+            background: #f8f8f8;
             text-align: left;
 
             > img {
