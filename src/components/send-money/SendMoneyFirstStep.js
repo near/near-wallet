@@ -32,7 +32,7 @@ const SendMoneyFirstStep = ({
             <MobileContainer>
                 <Fragment>
                     <PageContainer
-                        title={`Send NEAR`}
+                        title={`Send`}
                         type='center'
                     />
                     <List className='list-top border'>
