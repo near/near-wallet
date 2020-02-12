@@ -70,7 +70,7 @@ class DashboardDetail extends Component {
             additional={(
                <Link to='/send-money'>
                   <FormButton color='green-white-arrow' >
-                     SEND TOKENS
+                     SEND
                   </FormButton>
                </Link>
             )}

@@ -120,13 +120,13 @@ const CustomButton = styled(Button)`
       }
       &.green-white-arrow {
          color: #5ace84;
+         font-weight: 600;
          border-color: #5ace84;
          background-color: #fff;
          background-image: url(${ArrowGrnImage});
          background-repeat: no-repeat;
          background-position: 90% center;
          background-size: 14px 20px;
-         padding-right: 70px;
 
          :disabled {
             color: e6e6e6;
