@@ -7,7 +7,7 @@ import styled from 'styled-components';
 // Images
 import AccountImage from '../../images/icon-account.svg';
 import AuthorizedGreyImage from '../../images/icon-authorized.svg';
-import KeysImage from '../../images/icon-keys-grey.svg';
+import KeysImage from '../../images/icon-keys.svg';
 //import ContactsGreyImage from '../../images/icon-contacts.svg';
 //import LogoutImage from '../../images/icon-logout.svg';
 
@@ -29,7 +29,7 @@ const CustomPopup = styled(Popup)`
             }
 
             .submenu {
-                margin: -20px;
+                margin: -20px -20px 0 -20px;
                 padding: 20px;
                 background: #fff;
 
@@ -44,11 +44,12 @@ const CustomPopup = styled(Popup)`
             
                 .item {
                     margin: 4px 0;
+                    display: flex;
                 }
             }
 
             .switch-account {
-                margin-top: 40px;
+                margin-top: 25px;
                 margin-bottom: 0px;
             }
 
@@ -56,7 +57,7 @@ const CustomPopup = styled(Popup)`
                 max-height: 226px;
                 overflow-y: auto;
                 width: 270px;
-                margin-top: 0px;
+                margin: 0px;
 
             > .item {
                 width: 250px;
@@ -89,12 +90,17 @@ const CustomPopup = styled(Popup)`
             letter-spacing: normal;
             text-overflow: ellipsis;
             overflow: hidden;
+
+            &:last-of-type {
+                border-bottom: 0;
+            }
         }
         button {
             width: 100%;
             border-radius: 30px;
             background: #fff;
             color: #6ad1e3;
+            margin: 20px 0 0 0;
 
             :hover {
                 background: #6ad1e3;

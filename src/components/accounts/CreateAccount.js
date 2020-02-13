@@ -53,8 +53,9 @@ class CreateAccount extends Component {
     }
 
     render() {
-        const { loader } = this.state
+        const { loader, accountId } = this.state
         const { requestStatus, formLoader, checkNewAccount } = this.props
+        const useRequestStatus = accountId.length > 0 ? requestStatus : undefined;
 
         return (
             <AccountFormContainer 
@@ -63,13 +64,13 @@ class CreateAccount extends Component {
                 text='Just choose a username and you’re all set.'
             >
                 <AccountFormSection 
-                    requestStatus={this.props.requestStatus}
+                    requestStatus={useRequestStatus}
                     handleSubmit={this.handleSubmit}
                     location={this.props.location}
                 >
                     <CreateAccountForm
                         loader={loader} 
-                        requestStatus={requestStatus}
+                        requestStatus={useRequestStatus}
                         formLoader={formLoader}
                         handleRecaptcha={this.handleRecaptcha}
                         handleChange={this.handleChange}

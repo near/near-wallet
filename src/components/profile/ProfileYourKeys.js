@@ -2,7 +2,7 @@ import React from 'react'
 
 import { List, Button, Image } from 'semantic-ui-react'
 
-import KeysGreyImage from '../../images/icon-keys-grey.svg'
+import KeysGreyImage from '../../images/icon-keys.svg'
 import DocGreyImage from '../../images/icon-doc-grey.svg'
 
 import styled from 'styled-components'

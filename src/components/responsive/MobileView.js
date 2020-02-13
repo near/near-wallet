@@ -20,7 +20,7 @@ import AuthorizedGreyImage from '../../images/icon-authorized.svg';
 import LogoImage from '../../images/wallet.png';
 import AccountGreyImage from '../../images/icon-account.svg';
 import RecentImage from '../../images/icon-recent.svg';
-import KeysImage from '../../images/icon-keys-grey.svg';
+import KeysImage from '../../images/icon-keys.svg';
 //import ContactsGreyImage from '../../images/icon-contacts.svg';
 //import LogoutImage from '../../images/icon-logout.svg';
 //import ActivityImage from '../../images/icon-activity.svg';

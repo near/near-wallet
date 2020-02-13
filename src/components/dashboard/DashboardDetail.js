@@ -14,6 +14,7 @@ import Balance from '../common/Balance'
 
 import activityGreyImage from '../../images/icon-activity-grey.svg'
 import AuthorizedGreyImage from '../../images/icon-authorized-grey.svg'
+import AccessKeysIcon from '../../images/icon-keys-grey.svg'
 
 import DashboardKeys from './DashboardKeys'
 
@@ -70,7 +71,7 @@ class DashboardDetail extends Component {
             additional={(
                <Link to='/send-money'>
                   <FormButton color='green-white-arrow' >
-                     SEND TOKENS
+                     SEND
                   </FormButton>
                </Link>
             )}
@@ -94,7 +95,7 @@ class DashboardDetail extends Component {
                   accessKeys={authorizedApps}
                />
                <DashboardKeys
-                  image={AuthorizedGreyImage}
+                  image={AccessKeysIcon}
                   title='Full Access Keys'
                   to='/full-access-keys'
                   accessKeys={fullAccessKeys}

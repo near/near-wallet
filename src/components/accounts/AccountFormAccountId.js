@@ -46,7 +46,7 @@ class AccountFormAccountId extends Component {
                     name='accountId'
                     value={accountId}
                     onChange={this.handleChangeAccountId}
-                    placeholder='satoshi.test'
+                    placeholder='username'
                     maxLength='32'
                     required
                     autoComplete='off'
