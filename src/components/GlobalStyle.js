@@ -279,6 +279,7 @@ export default createGlobalStyle`
 
    .button {
       font-family: "benton-sans",sans-serif !important;
+      line-height: normal !important;
    }
    
 
