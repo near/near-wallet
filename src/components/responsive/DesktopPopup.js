@@ -7,7 +7,7 @@ import styled from 'styled-components';
 // Images
 import AccountImage from '../../images/icon-account.svg';
 import AuthorizedGreyImage from '../../images/icon-authorized.svg';
-import KeysImage from '../../images/icon-keys-grey.svg';
+import KeysImage from '../../images/icon-keys.svg';
 //import ContactsGreyImage from '../../images/icon-contacts.svg';
 //import LogoutImage from '../../images/icon-logout.svg';
 
