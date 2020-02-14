@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { handleRefreshAccount, switchAccount } from '../../actions/account';
 import { Responsive } from 'semantic-ui-react';
@@ -16,7 +16,7 @@ class ResponsiveContainer extends Component {
     showNavLinks = () => {
         const { availableAccounts, location } = this.props;
         const signUpRoutes = ['create', 'set-recovery', 'setup-seed-phrase'];
-        const currentBaseRoute = location.pathname.replace(/^\/([^\/]*).*$/, '$1');
+        const currentBaseRoute = location.pathname.replace(/^\/([^/]*).*$/, '$1');
 
         return !signUpRoutes.includes(currentBaseRoute) || currentBaseRoute === 'create' || availableAccounts.length > 1;
     }
