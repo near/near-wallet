@@ -145,7 +145,7 @@ class DesktopView extends Component {
 
     render() {
         const { popupOpen } = this.state;
-        const { account, showNavbarLinks, getWidth } = this.props;
+        const { account, availableAccounts, showNavbarLinks, getWidth } = this.props;
 
         return (
             <CustomResponsive
@@ -226,6 +226,7 @@ class DesktopView extends Component {
                                     <div className='overflow'>
                                         <DesktopPopup
                                             account={account}
+                                            availableAccounts={availableAccounts}
                                             handleSelectAccount={this.handleSelectAccount}
                                             redirectCreateAccount={this.redirectCreateAccount}
                                             handleToggle={this.handleToggle}

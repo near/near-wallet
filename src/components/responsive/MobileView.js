@@ -190,7 +190,7 @@ class MobileView extends Component {
 
     render() {
         const { dropdown } = this.state
-        const { account, showNavbarLinks, getWidth } = this.props
+        const { account, availableAccounts, showNavbarLinks, getWidth } = this.props
 
         return (
             <CustomResponsive
@@ -285,19 +285,18 @@ class MobileView extends Component {
                             <Segment basic className='switch-account'>
                                 <List>
                                     <List.Item as='h6'>SWITCH ACCOUNT</List.Item>
-                                    {account.accounts &&
-                                        Object.keys(account.accounts)
-                                            .filter(a => a !== account.accountId)
-                                            .map((account, i) => (
-                                                <List.Item
-                                                    as='a'
-                                                    key={`mf-${i}`}
-                                                    onClick={() => this.handleSelectAccount(account)}
-                                                    className='account-title'
-                                                >
-                                                    @{account}
-                                                </List.Item>
-                                            ))}
+                                    {availableAccounts
+                                        .filter(a => a !== account.accountId)
+                                        .map((account, i) => (
+                                            <List.Item
+                                                as='a'
+                                                key={`mf-${i}`}
+                                                onClick={() => this.handleSelectAccount(account)}
+                                                className='account-title'
+                                            >
+                                                @{account}
+                                            </List.Item>
+                                        ))}
                                 </List>
                                 <Button onClick={this.redirectCreateAccount}>
                                     CREATE NEW ACCOUNT

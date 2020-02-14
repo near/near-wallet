@@ -15,6 +15,7 @@ import IconAuthorize from '../../images/IconAuthorize'
 const LoginForm = ({
    dropdown,
    account,
+   availableAccounts,
    appTitle,
    contractId,
    handleOnClick,
@@ -103,6 +104,7 @@ const LoginForm = ({
                <SelectAccountDropdown
                   handleOnClick={handleOnClick}
                   account={account}
+                  availableAccounts={availableAccounts}
                   dropdown={dropdown}
                   handleSelectAccount={handleSelectAccount}
                   redirectCreateAccount={redirectCreateAccount}
@@ -151,8 +153,9 @@ LoginForm.propTypes = {
    redirectCreateAccount: PropTypes.func.isRequired
 }
 
-const mapStateToProps = ({ account }) => ({
-   account
+const mapStateToProps = ({ account, availableAccounts }) => ({
+   account,
+   availableAccounts
 })
 
 export default connect(mapStateToProps)(withRouter(LoginForm))
