@@ -73,7 +73,7 @@ const DashboardActivity = ({ image, title, to, transactions, maxItems }) => (
 
       <Grid.Row>
          <Grid.Column textAlign='left' width={16}>
-            <a href={to}>
+            <a href={to} target='_blank' rel='noopener noreferrer'>
                <FormButton color='gray-blue' size='small'>
                   VIEW ALL
                </FormButton>
