@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import CreateAccountForm from './CreateAccountForm'
 import AccountFormSection from './AccountFormSection'
 import AccountFormContainer from './AccountFormContainer'
-import { checkNewAccount, createNewAccount, clear, handleRefreshAccount } from '../../actions/account'
+import { checkNewAccount, createNewAccount, clear, refreshAccount, resetAccounts } from '../../actions/account'
 
 class CreateAccount extends Component {
     state = {
@@ -12,7 +12,17 @@ class CreateAccount extends Component {
         accountId: ''
     }
 
-    componentDidMount = () => {}
+    componentDidMount = () => {
+        const { loginError, resetAccounts } = this.props
+
+        if (loginError) {
+            console.error('Error loading account:', loginError)
+
+            if (loginError.indexOf('does not exist while viewing') !== -1) {
+                resetAccounts()
+            }
+        }
+    }
 
     componentWillUnmount = () => {
         this.props.clear()
@@ -36,7 +46,7 @@ class CreateAccount extends Component {
         this.props.createNewAccount(accountId).then(({ error }) => {
             if (error) return
 
-            this.props.handleRefreshAccount()
+            this.props.refreshAccount()
 
             let nextUrl = process.env.DISABLE_PHONE_RECOVERY === 'yes' ? `/setup-seed-phrase/${accountId}` : `/set-recovery/${accountId}`
             this.props.history.push(nextUrl)
@@ -54,7 +64,7 @@ class CreateAccount extends Component {
 
     render() {
         const { loader, accountId } = this.state
-        const { requestStatus, formLoader, checkNewAccount } = this.props
+        const { requestStatus, formLoader, checkNewAccount, location, loginResetAccounts } = this.props
         const useRequestStatus = accountId.length > 0 ? requestStatus : undefined;
 
         return (
@@ -62,11 +72,12 @@ class CreateAccount extends Component {
                 location={this.props.location}
                 title='Create Account'
                 text='Just choose a username and you’re all set.'
+                loginResetAccounts={loginResetAccounts}
             >
                 <AccountFormSection 
                     requestStatus={useRequestStatus}
                     handleSubmit={this.handleSubmit}
-                    location={this.props.location}
+                    location={location}
                 >
                     <CreateAccountForm
                         loader={loader} 
@@ -86,7 +97,8 @@ const mapDispatchToProps = {
     checkNewAccount,
     createNewAccount,
     clear,
-    handleRefreshAccount
+    refreshAccount,
+    resetAccounts
 }
 
 const mapStateToProps = ({ account }) => ({

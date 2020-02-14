@@ -128,7 +128,7 @@ class DesktopView extends Component {
 
     handleSelectAccount = accountId => {
         this.props.switchAccount(accountId)
-        this.props.handleRefreshAccount(this.props.history)
+        this.props.refreshAccount()
         this.props.history.push(`/`)
     }
 

@@ -5,7 +5,7 @@ import styled from 'styled-components'
 import Button from '../common/Button'
 import { 
     recoverAccountSeedPhrase,
-    handleRefreshAccount 
+    refreshAccount 
 } from '../../actions/account'
 import { Snackbar, snackbarDuration } from '../common/Snackbar'
 import { Translate } from 'react-localize-redux'
@@ -133,7 +133,7 @@ class RecoverWithLink extends Component {
                 if (error) {
                     this.setState({ successView: false });
                 } else {
-                    this.props.handleRefreshAccount();
+                    this.props.refreshAccount();
                     this.props.history.push('/profile');
                 }
             });
@@ -188,7 +188,7 @@ class RecoverWithLink extends Component {
 
 const mapDispatchToProps = {
     recoverAccountSeedPhrase, 
-    handleRefreshAccount
+    refreshAccount
 }
 
 const mapStateToProps = ({ account }, { match }) => ({

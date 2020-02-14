@@ -33,9 +33,7 @@ import { AddNodeWithRouter } from './node-staking/AddNode'
 import { NodeDetailsWithRouter } from './node-staking/NodeDetails'
 import { StakingWithRouter } from './node-staking/Staking'
 
-import { WALLET_CREATE_NEW_ACCOUNT_URL, WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS } from '../utils/wallet'
-
-import { handleRefreshAccount, handleRefreshUrl, clearAlert, clear, handleRedirectUrl, handleLoginUrl } from '../actions/account'
+import { refreshAccount, handleRefreshUrl, clearAlert, clear, handleRedirectUrl, handleClearUrl } from '../actions/account'
 
 import GlobalStyle from './GlobalStyle'
 import { SetupSeedPhraseWithRouter } from './accounts/SetupSeedPhrase'
@@ -60,26 +58,16 @@ class Routing extends Component {
     }
 
     componentDidMount = () => {
-        const { handleRefreshAccount, handleRefreshUrl, history, clearAlert, clear, handleRedirectUrl, handleLoginUrl, router } = this.props
-
+        const { refreshAccount, handleRefreshUrl, history, clearAlert, clear, handleRedirectUrl, handleClearUrl, router } = this.props
+        
         handleRefreshUrl()
-        handleRefreshAccount(history)
+        refreshAccount()
 
         history.listen(() => {
-            if (history.location.pathname === WALLET_CREATE_NEW_ACCOUNT_URL || history.location.pathname === `${WALLET_CREATE_NEW_ACCOUNT_URL}/`) {
-                handleLoginUrl(router.location)
-                handleRedirectUrl(router.location)
-            }
-            if (![...WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS, 'login'].includes(history.location.pathname.split('/')[1])) {
-                try {
-                    sessionStorage.removeItem('wallet:url')
-                } catch(err) {
-                    console.warn(err)
-                }
-            }
-
-            handleRefreshAccount(history, false)
-
+            handleRedirectUrl(router.location)
+            handleClearUrl()
+            refreshAccount()
+            
             const { state: { globalAlertPreventClear } = {} } = history.location
             if (!globalAlertPreventClear) {
                 clearAlert()
@@ -211,12 +199,12 @@ Routing.propTypes = {
 }
 
 const mapDispatchToProps = {
-    handleRefreshAccount,
+    refreshAccount,
     handleRefreshUrl,
     clearAlert,
     clear,
     handleRedirectUrl,
-    handleLoginUrl
+    handleClearUrl
 }
 
 const mapStateToProps = ({ account, router }) => ({

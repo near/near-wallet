@@ -4,7 +4,7 @@ import { withRouter } from 'react-router-dom'
 import styled from 'styled-components'
 import { Translate } from 'react-localize-redux'
 
-import { handleRefreshAccount, switchAccount } from '../../actions/account'
+import { refreshAccount, switchAccount } from '../../actions/account'
 import SignAnimatedArrow from './SignAnimatedArrow'
 import SignTransferDetails from './SignTransferDetails'
 import SelectAccountDropdown from '../login/SelectAccountDropdown'
@@ -134,7 +134,7 @@ class SignTransferReady extends Component {
 
     handleSelectAccount = accountId => {
         this.props.switchAccount(accountId)
-        this.props.handleRefreshAccount(this.props.history)
+        this.props.refreshAccount()
     }
 
     redirectCreateAccount = () => {
@@ -228,7 +228,7 @@ class SignTransferReady extends Component {
 }
 
 const mapDispatchToProps = {
-    handleRefreshAccount,
+    refreshAccount,
     switchAccount,
 }
 
