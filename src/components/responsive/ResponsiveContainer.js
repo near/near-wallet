@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { handleRefreshAccount, switchAccount } from '../../actions/account';
 import { Responsive } from 'semantic-ui-react';
@@ -14,12 +14,11 @@ class ResponsiveContainer extends Component {
     }
 
     showNavLinks = () => {
-        const { account, location } = this.props;
-        const accounts = account.accounts;
+        const { availableAccounts, location } = this.props;
         const signUpRoutes = ['create', 'set-recovery', 'setup-seed-phrase'];
-        const currentBaseRoute = location.pathname.replace(/^\/([^\/]*).*$/, '$1');
+        const currentBaseRoute = location.pathname.replace(/^\/([^/]*).*$/, '$1');
 
-        return !signUpRoutes.includes(currentBaseRoute) || !!accounts && (currentBaseRoute === 'create' || Object.keys(accounts).length > 1);
+        return !signUpRoutes.includes(currentBaseRoute) || currentBaseRoute === 'create' || availableAccounts.length > 1;
     }
 
     render() {
@@ -44,8 +43,9 @@ class ResponsiveContainer extends Component {
     }
 }
 
-const mapStateToProps = ({ account }) => ({
-    account
+const mapStateToProps = ({ account, availableAccounts }) => ({
+    account,
+    availableAccounts
 })
 
 const mapDispatchToProps = {

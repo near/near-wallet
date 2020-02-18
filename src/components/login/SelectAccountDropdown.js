@@ -90,6 +90,7 @@ const CustomSegment = styled(Segment)`
 const SelectAccountDropdown = ({
     handleOnClick,
     account,
+    availableAccounts,
     dropdown,
     handleSelectAccount,
     redirectCreateAccount,
@@ -114,7 +115,7 @@ const SelectAccountDropdown = ({
                     </div>
                     <div className={`${dropdown ? '' : 'hide'}`}>
                         <div className='list-scroll'>
-                            {account.accounts && Object.keys(account.accounts)
+                            {availableAccounts
                                 .filter(a => a !== account.accountId)
                                 .map(a => (
                                     <div

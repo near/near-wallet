@@ -120,6 +120,7 @@ const CustomPopup = styled(Popup)`
 const DesktopPopup = ({
     account,
     handleSelectAccount,
+    availableAccounts,
     redirectCreateAccount,
     handleToggle,
     handleClose,
@@ -190,23 +191,22 @@ const DesktopPopup = ({
                     <List.Item as='h6'>SWITCH ACCOUNT</List.Item>
                 </List>
                 <List className='account-dropdown-scroll'>
-                    {account.accounts &&
-                        Object.keys(account.accounts)
-                            .filter(a => a !== account.accountId)
-                            .map((account, i) => (
-                                <List.Item
-                                    as='a'
-                                    key={`mf-${i}`}
-                                    onClick={() => {
-                                        handleSelectAccount(account)
-                                        handleClose()
-                                    }
-                                    }
-                                    className='account-title'
-                                >
-                                    @{account}
-                                </List.Item>
-                            ))}
+                    {availableAccounts
+                        .filter(a => a !== account.accountId)
+                        .map((account, i) => (
+                            <List.Item
+                                as='a'
+                                key={`mf-${i}`}
+                                onClick={() => {
+                                    handleSelectAccount(account)
+                                    handleClose()
+                                }
+                                }
+                                className='account-title'
+                            >
+                                @{account}
+                            </List.Item>
+                        ))}
                 </List>
                 <Button onClick={redirectCreateAccount}>CREATE NEW ACCOUNT</Button>
             </Segment>
