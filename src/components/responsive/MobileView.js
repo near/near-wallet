@@ -120,10 +120,10 @@ const CustomResponsive = styled(Responsive)`
                padding: 0 1rem;
                padding: 20px;
                .item {
-                  padding: 0 10px;
+                  padding: 0px;
                }
                h6.item {
-                  padding-bottom: 10px;
+                  padding-bottom: 5px;
                   border: 0px;
                }
                .account-title {
@@ -135,6 +135,10 @@ const CustomResponsive = styled(Responsive)`
                   letter-spacing: normal;
                   text-overflow: ellipsis;
                   overflow: hidden;
+
+                  &:last-of-type {
+                      border-bottom: 0;
+                  }
                }
                button {
                   width: 100%;
@@ -297,6 +301,7 @@ class MobileView extends Component {
                                                 @{account}
                                             </List.Item>
                                         ))}
+                                    {availableAccounts.length < 2 && 'You have no other accounts'}
                                 </List>
                                 <Button onClick={this.redirectCreateAccount}>
                                     CREATE NEW ACCOUNT

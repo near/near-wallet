@@ -207,6 +207,7 @@ const DesktopPopup = ({
                                 @{account}
                             </List.Item>
                         ))}
+                    {availableAccounts.length < 2 && 'You have no other accounts'}
                 </List>
                 <Button onClick={redirectCreateAccount}>CREATE NEW ACCOUNT</Button>
             </Segment>
