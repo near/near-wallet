@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { Button } from 'semantic-ui-react'
 
 import ArrowGrnImage from '../../images/icon-arrow-grn.svg'
-import ArrowRightImage from '../../images/icon-arrow-right.svg'
+import ArrowWhiteImage from '../../images/icon-arrow-white.svg'
 
 import styled from 'styled-components'
 
@@ -140,7 +140,7 @@ const CustomButton = styled(Button)`
             color: #fff;
             border-color: #61de8d;
             background-color: #61de8d;
-            background-image: url(${ArrowRightImage});
+            background-image: url(${ArrowWhiteImage});
          }
       }
       &.gray-white {

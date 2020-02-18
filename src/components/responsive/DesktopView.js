@@ -88,7 +88,7 @@ const CustomResponsive = styled(Responsive)`
                 color: #fff;
             }
             a:hover {
-                color: #6ad1e3;
+                color: #8FD6BD;
                 text-decoration: none;
             }
         }
