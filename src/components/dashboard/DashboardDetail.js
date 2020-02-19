@@ -92,12 +92,14 @@ class DashboardDetail extends Component {
                   image={AuthorizedGreyImage}
                   title='Authorized Apps'
                   to='/authorized-apps'
+                  empty='You have not authorized any apps'
                   accessKeys={authorizedApps}
                />
                <DashboardKeys
                   image={AccessKeysIcon}
                   title='Full Access Keys'
                   to='/full-access-keys'
+                  empty='You have no full access keys'
                   accessKeys={fullAccessKeys}
                />
             </DashboardSection>
