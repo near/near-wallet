@@ -54,7 +54,7 @@ const CustomGrid = styled(Grid)`
 `
 
 // TODO: Refactor common code with DashboardKeys
-const DashboardKeys = ({ image, title, to, accessKeys}) => (
+const DashboardKeys = ({ image, title, to, accessKeys, empty }) => (
    <CustomGrid>
       <Grid.Row>
          <Grid.Column className='dashboard-header' textAlign='left' width={16}>
@@ -64,18 +64,20 @@ const DashboardKeys = ({ image, title, to, accessKeys}) => (
             </Header>
          </Grid.Column>
       </Grid.Row>
-
       {accessKeys && accessKeys.map((key, i) => (
          <KeyListItem key={`d-${i}`} accessKey={key} />
       ))}
-
       <Grid.Row>
          <Grid.Column textAlign='left' width={16}>
-            <Link to={to}>
-               <FormButton color='gray-blue' size='small'>
-                  VIEW ALL
-               </FormButton>
-            </Link>
+            {accessKeys && accessKeys.length !== 0 ? (
+               <Link to={to}>
+                  <FormButton color='gray-blue' size='small'>
+                     VIEW ALL
+                  </FormButton>
+               </Link>
+            ) : (
+               `${empty}`
+            )}
          </Grid.Column>
       </Grid.Row>
    </CustomGrid>
