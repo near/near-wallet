@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-
+import { GoogleReCaptchaProvider, GoogleReCaptcha } from 'react-google-recaptcha-v3'
 import CreateAccountForm from './CreateAccountForm'
 import AccountFormSection from './AccountFormSection'
 import AccountFormContainer from './AccountFormContainer'
@@ -9,7 +9,8 @@ import { checkNewAccount, createNewAccount, clear, handleRefreshAccount } from '
 class CreateAccount extends Component {
     state = {
         loader: false,
-        accountId: ''
+        accountId: '',
+        recaptchaToken: ''
     }
 
     componentDidMount = () => {}
@@ -31,9 +32,9 @@ class CreateAccount extends Component {
             loader: true
         }))
 
-        const { accountId } = this.state
+        const { accountId, recaptchaToken } = this.state
 
-        this.props.createNewAccount(accountId).then(({ error }) => {
+        this.props.createNewAccount(accountId, recaptchaToken).then(({ error }) => {
             if (error) return
 
             this.props.handleRefreshAccount()
@@ -76,6 +77,9 @@ class CreateAccount extends Component {
                         handleChange={this.handleChange}
                         checkAvailability={checkNewAccount}
                     />
+                    <GoogleReCaptchaProvider reCaptchaKey="6LfSgNoUAAAAABKb2sk4Rs3TS0RMx9zrVwyTBSc6">
+                        <GoogleReCaptcha onVerify={token => this.setState({recaptchaToken: token})}/>
+                    </GoogleReCaptchaProvider>
                 </AccountFormSection>
             </AccountFormContainer>
         )
