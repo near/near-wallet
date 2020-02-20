@@ -26,7 +26,7 @@ import { AuthorizedAppsWithRouter } from './access-keys/AccessKeys'
 import { FullAccessKeysWithRouter } from './access-keys/AccessKeys'
 import { SendMoneyWithRouter } from './send-money/SendMoney'
 import { ReceiveMoneyWithRouter } from './receive-money/ReceiveMoney'
-import { ProfileWithRouter } from './profile/Profile'
+import { Profile } from './profile/Profile'
 import { SignWithRouter } from './sign/Sign'
 import { NodeStakingWithRouter } from './node-staking/NodeStaking'
 import { AddNodeWithRouter } from './node-staking/AddNode'
@@ -58,10 +58,10 @@ class Routing extends Component {
         })
         this.props.addTranslationForLanguage(translations_en, "en")
     }
-    
+
     componentDidMount = () => {
         const { handleRefreshAccount, handleRefreshUrl, history, clearAlert, clear, handleRedirectUrl, handleLoginUrl, router } = this.props
-        
+
         handleRefreshUrl()
         handleRefreshAccount(history)
 
@@ -79,12 +79,12 @@ class Routing extends Component {
             }
 
             handleRefreshAccount(history, false)
-            
+
             const { state: { globalAlertPreventClear } = {} } = history.location
             if (!globalAlertPreventClear) {
                 clearAlert()
             }
-            
+
             clear()
         })
     }
@@ -164,8 +164,8 @@ class Routing extends Component {
                                     />
                                     <PrivateRoute
                                         exact
-                                        path='/profile'
-                                        component={ProfileWithRouter}
+                                        path='/profile/:accountId'
+                                        component={Profile}
                                     />
                                     <PrivateRoute
                                         exact
@@ -192,8 +192,8 @@ class Routing extends Component {
                                         path='/staking'
                                         component={StakingWithRouter}
                                     />
-                                    <PrivateRoute 
-                                        component={DashboardDetailWithRouter} 
+                                    <PrivateRoute
+                                        component={DashboardDetailWithRouter}
                                     />
                                 </Switch>
                             )}

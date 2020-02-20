@@ -41,7 +41,7 @@ const CustomPopup = styled(Popup)`
                     line-height: 26px;
                     padding-left: 10px;
                 }
-            
+
                 .item {
                     margin: 4px 0;
                     display: flex;
@@ -146,7 +146,7 @@ const DesktopPopup = ({
                 <List className='submenu'>
                     <List.Item>
                         <List.Icon as={Image} src={AccountImage} />
-                        <List.Content as={Link} to='/profile' onClick={handleClose}>
+                        <List.Content as={Link} to={`/profile/${account.accountId}`} onClick={handleClose}>
                             Profile
                         </List.Content>
                     </List.Item>

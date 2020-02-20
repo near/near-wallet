@@ -8,6 +8,11 @@ export const REFRESH_ACCOUNT = 'REFRESH_ACCOUNT'
 export const LOADER_ACCOUNT = 'LOADER_ACCOUNT'
 export const REFRESH_URL = 'REFRESH_URL'
 
+export const loadAccount = createAction('LOAD_ACCOUNT',
+    accountId => wallet.getAccount(accountId).state(),
+    accountId => ({ accountId })
+)
+
 // TODO: Refactor whole mess with handleRefreshAccount / handleLoginUrl / handleRedirectUrl / handleRefreshUrl into smaller and better scoped actions
 export function handleRefreshAccount(history, loader = true) {
     return (dispatch, getState) => {

@@ -1,51 +1,29 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-
-import { withRouter } from 'react-router-dom'
+import React from 'react'
 
 import PageContainer from '../common/PageContainer';
 import ProfileDetails from './ProfileDetails'
 import ProfileSection from './ProfileSection'
-import ProfileYourKeys from './ProfileYourKeys'
-import ProfileNotice from './ProfileNotice'
 import ProfileQRCode from './ProfileQRCode';
+import { LOADING, NOT_FOUND, useAccount } from '../../hooks/allAccounts'
 
-class Profile extends Component {
-   state = {
-      loader: false
-   }
+export function Profile({ match }) {
+    const { accountId } = match.params
+    const account = useAccount(accountId)
 
-   componentDidMount() {}
+    if (account.__status === LOADING) {
+        return <PageContainer title="Loading..." />
+    }
 
-   render() {
-      const { account } = this.props
+    if (account.__status === NOT_FOUND) {
+        return <PageContainer title={`Account @${accountId} not found`} />
+    }
 
-      return (
-         <PageContainer
-            title={`Account: @${account.accountId ? account.accountId : ``}`}
-         >
+    return (
+        <PageContainer title={`Account: @${accountId}`}>
             <ProfileSection>
-               <ProfileDetails account={this.props.account} />
-               { false ?
-               <ProfileYourKeys />
-               : null }
-               { false ?
-               <ProfileNotice />
-               : null }
-               <ProfileQRCode account={this.props.account} />
+                <ProfileDetails account={account} />
+                <ProfileQRCode account={account} />
             </ProfileSection>
-         </PageContainer>
-      )
-   }
+        </PageContainer>
+    )
 }
-
-const mapDispatchToProps = {}
-
-const mapStateToProps = ({ account }) => ({
-   account
-})
-
-export const ProfileWithRouter = connect(
-   mapStateToProps,
-   mapDispatchToProps
-)(withRouter(Profile))
