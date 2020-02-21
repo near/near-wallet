@@ -10,9 +10,9 @@ import PhraseIcon from '../../images/icon-recover-seedphrase.svg';
 
 const Container = styled.div`
     h2 {
-      color: #4a4f54 !important;
-      margin-top: -20px;
-      max-width: 600px;
+        color: #4a4f54 !important;
+        margin-top: -20px;
+        max-width: 600px;
 
         @media (max-width: 767px) {
             margin-top: -10px;
