@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
+import { Translate } from 'react-localize-redux'
 import FormButton from '../common/FormButton';
 
 const Container = styled.div`
@@ -75,7 +76,7 @@ class SetRecoveryMethodSuccess extends Component {
                     color='blue'
                     onClick={handleConfirmMessageReceived}
                 >
-                    CONFIRM
+                    <Translate id='button.confirm' />
                 </FormButton>
                 <div className='re-enter'>
                     If you did not yet receive this {recoveryType}, or the above {recoverWithEmail ? 'email address' : 'phone number'} is incorrect, <span onClick={handleEnterNewRecoverValue} className='link'>click here</span> to Re-enter your {recoverWithEmail ? 'email address' : 'phone number'} and resend.

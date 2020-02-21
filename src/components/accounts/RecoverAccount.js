@@ -10,9 +10,9 @@ import PhraseIcon from '../../images/icon-recover-seedphrase.svg';
 
 const Container = styled.div`
     h2 {
-      color: #4a4f54 !important;
-      margin-top: -20px;
-      max-width: 600px;
+        color: #4a4f54 !important;
+        margin-top: -20px;
+        max-width: 600px;
 
         @media (max-width: 767px) {
             margin-top: -10px;
@@ -149,7 +149,7 @@ const RecoverAccount = () => {
                 <Option>
                     <Header icon={PhraseIcon}><Translate id='recoverAccount.phrase.title'/><br/><Translate id='recoverAccount.actionType'/></Header>
                     <P><Translate id='recoverAccount.phrase.desc'/></P>
-                    <Button to='/recover-seed-phrase'><Translate id='recoverAccount.phrase.cta'/></Button>
+                    <Button to='/recover-seed-phrase'><Translate id='button.recoverAccount' /></Button>
                 </Option>
             </Options>
         </Container>

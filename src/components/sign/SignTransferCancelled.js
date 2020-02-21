@@ -1,5 +1,5 @@
 import React from 'react'
-
+import { Translate } from 'react-localize-redux'
 import FormButton from '../common/FormButton'
 import MobileContainer from './MobileContainer'
 
@@ -44,7 +44,7 @@ const SignTransferCancelled = ({ handleDeny }) => (
                         color='gray-white'
                         onClick={handleDeny}
                     >
-                        CLOSE
+                        <Translate id='button.close' />
                     </FormButton>
                 </Grid.Column>
             </Grid.Row>

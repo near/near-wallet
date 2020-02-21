@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
+import { Translate } from 'react-localize-redux'
 import { Header } from 'semantic-ui-react'
 
 import ReCAPTCHA from 'react-google-recaptcha'
@@ -40,7 +41,7 @@ const CreateAccountForm = ({
             disabled={!(requestStatus && requestStatus.success)}
             sending={loader}
         >
-            CREATE ACCOUNT
+            <Translate id='button.createAccountCapital' />
         </FormButton>
         <div className='recover'>
             <div>Already have an account?</div>

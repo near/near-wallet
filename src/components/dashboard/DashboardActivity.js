@@ -1,5 +1,5 @@
 import React from 'react'
-
+import { Translate } from 'react-localize-redux'
 import FormButton from '../common/FormButton'
 import ActionsList from './ActionsList'
 
@@ -76,7 +76,7 @@ const DashboardActivity = ({ image, title, to, transactions, maxItems, accountId
             <Grid.Column textAlign='left' width={16}>
                 <a href={to} target='_blank' rel='noopener noreferrer'>
                     <FormButton color='gray-blue' size='small'>
-                        VIEW ALL
+                        <Translate id='button.viewAll' />
                     </FormButton>
                 </a>
             </Grid.Column>

@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Translate } from 'react-localize-redux'
 import { Input } from 'semantic-ui-react';
 import PhoneInput from 'react-phone-number-input';
 import FormButton from '../common/FormButton';
@@ -56,7 +57,7 @@ const SetRecoveryMethod = ({
                 disabled={!isLegit}
                 sending={formLoader}
             >
-                PROTECT ACCOUNT
+                <Translate id='button.protectAccount' />
             </FormButton>
         </form>
     );

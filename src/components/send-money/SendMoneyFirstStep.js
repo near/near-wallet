@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react'
+import { Translate } from 'react-localize-redux'
 
 import {
     Header,
@@ -16,16 +17,16 @@ import AccountFormAccountId from '../accounts/AccountFormAccountId'
 import SendMoneyAmountInput from './SendMoneyAmountInput'
 
 const SendMoneyFirstStep = ({
-   handleNextStep,
-   handleChange,
-   note,
-   paramAccountId,
-   accountId,
-   isLegitForm,
-   formLoader,
-   requestStatus,
-   amount,
-   checkAvailability
+    handleNextStep,
+    handleChange,
+    note,
+    paramAccountId,
+    accountId,
+    isLegitForm,
+    formLoader,
+    requestStatus,
+    amount,
+    checkAvailability
 }) => {
     return (
         <Form autoComplete='off'>
@@ -83,7 +84,7 @@ const SendMoneyFirstStep = ({
                                 color='green'
                                 disabled={!isLegitForm()}
                             >
-                                SEND
+                                <Translate id='button.send' />
                             </FormButton>
                         </List.Item>
                     </List>

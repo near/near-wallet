@@ -1,4 +1,5 @@
 import React from 'react'
+import { Translate } from 'react-localize-redux'
 
 import Balance from '../common/Balance'
 import FormButton from '../common/FormButton'
@@ -62,7 +63,7 @@ const SignTransferReady = ({ handleDeny, txTotalAmount, isMonetaryTransaction })
                         color='gray-white'
                         onClick={handleDeny}
                     >
-                        CLOSE
+                        <Translate id='button.close' />
                     </FormButton>
                 </Grid.Column>
             </Grid.Row>
