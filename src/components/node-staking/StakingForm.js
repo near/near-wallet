@@ -7,31 +7,31 @@ import FormButton from '../common/FormButton'
 import StakingFormAmount from './StakingFormAmount'
 
 const StakingForm = ({
-   loader,
-   handleChange,
-   isLegitForm
+    loader,
+    handleChange,
+    isLegitForm
 }) => (
-   <Fragment>
-      <Header as='h4'>Enter amount to stake</Header>
-      <StakingFormAmount
-         handleChange={handleChange}
-      />
-      
-      <FormButton
-         type='submit'
-         color='blue'
-         disabled={!isLegitForm()}
-         sending={loader}
-      >
-         <Translate id='button.stake' />
-      </FormButton>
-   </Fragment>
+    <Fragment>
+        <Header as='h4'>Enter amount to stake</Header>
+        <StakingFormAmount
+            handleChange={handleChange}
+        />
+        
+        <FormButton
+            type='submit'
+            color='blue'
+            disabled={!isLegitForm()}
+            sending={loader}
+        >
+            <Translate id='button.stake' />
+        </FormButton>
+    </Fragment>
 )
 
 StakingForm.propTypes = {
-   loader: PropTypes.bool.isRequired,
-   handleChange: PropTypes.func.isRequired,
-   isLegitForm: PropTypes.func.isRequired
+    loader: PropTypes.bool.isRequired,
+    handleChange: PropTypes.func.isRequired,
+    isLegitForm: PropTypes.func.isRequired
 }
 
 export default StakingForm
