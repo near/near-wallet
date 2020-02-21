@@ -15,197 +15,212 @@ import { Grid, Image } from 'semantic-ui-react'
 import styled from 'styled-components'
 
 const CustomGridRow = styled(Grid.Row)`
-   &&& {
-      margin-left: 20px;
-      border-left: 4px solid #f8f8f8;
+    &&& {
+        margin-left: 20px;
+        border-left: 4px solid #f8f8f8;
 
-      .col-image {
-         margin-left: -15px;
-         width: 40px;
-         flex: 0 0 40px;
-         padding-left: 0px;
+        .col-image {
+            margin-left: -15px;
+            width: 40px;
+            flex: 0 0 40px;
+            padding-left: 0px;
 
-         > div {
-            border: 1px solid #e6e6e6;
-            background: #fff;
-            border-radius: 100%;
+            > div {
+                border: 1px solid #e6e6e6;
+                background: #fff;
+                border-radius: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                position: relative;
+                width: 26px;
+                height: 26px;
+
+                svg {
+                    width: 12px;
+                    height: 12px;
+                }
+            }
+        }
+        &.wide {
+            margin-left: 0px;
+            border-left: 0px;
+        }
+        .main-row-title {
+            font-weight: 600;
+            width: auto;
+            padding-right: 0px;
+            padding-left: 0px;
+            flex: 1;
+            word-break: break-all;
             display: flex;
             align-items: center;
-            justify-content: center;
-            position: relative;
-            width: 26px;
-            height: 26px;
+            flex-direction: row !important;
+            justify-content: space-between;
 
-            svg {
-               width: 12px;
-               height: 12px;
+            .time-stamp {
+                white-space: nowrap;
+                margin-left: 10px;
             }
-         }
-      }
-      &.wide {
-         margin-left: 0px;
-         border-left: 0px;
-      }
-      .main-row-title {
-         font-weight: 600;
-         width: auto;
-         padding-right: 0px;
-         padding-left: 0px;
-         flex: 1;
-         word-break: break-all;
-         display: flex;
-         align-items: center;
-         flex-direction: row !important;
-         justify-content: space-between;
+        }
 
-         .time-stamp {
-            white-space: nowrap;
-            margin-left: 10px;
-         }
-      }
-
-      .dropdown-image-right {
-         width: 10px;
-         margin: 0 0 0 0;
-      }
-      .dropdown-image {
-         float: right;
-      }
-
-      &.dropdown-down {
-         background-color: #f8f8f8;
-
-         .dropdown-image-right {
+        .dropdown-image-right {
             width: 10px;
-            top: 0px;
-            left: 12px;
-         }
-      }
+            margin: 0 0 0 0;
+        }
+        .dropdown-image {
+            float: right;
+        }
 
-      &.showsub {
-         .dropdown-image-right {
-            left: -24px;
-         }
-      }
-      &.showsub.dropdown-down {
-         .dropdown-image-right {
-            left: -6px;
-         }
-      }
+        &.dropdown-down {
+            background-color: #f8f8f8;
 
-      @media screen and (max-width: 767px) {
-         &.showsub {
             .dropdown-image-right {
-               left: -14px;
+                width: 10px;
+                top: 0px;
+                left: 12px;
             }
-         }
-         &.showsub.dropdown-down {
-            .dropdown-image-right {
-               left: 4px;
-            }
-         }
+        }
 
-         .main-row-title {
-            a {
-               font-size: 14px;
+        &.showsub {
+            .dropdown-image-right {
+                left: -24px;
             }
-         }
-      }
-   }
+        }
+        &.showsub.dropdown-down {
+            .dropdown-image-right {
+                left: -6px;
+            }
+        }
+
+        @media screen and (max-width: 767px) {
+            &.showsub {
+                .dropdown-image-right {
+                    left: -14px;
+                }
+            }
+            &.showsub.dropdown-down {
+                .dropdown-image-right {
+                    left: 4px;
+                }
+            }
+
+            .main-row-title {
+                a {
+                    font-size: 14px;
+                }
+            }
+        }
+    }
 `
 
-const ActionsList = ({ transaction, actions, wide }) => 
-   actions
-      .map((a, i) => (
-         <ActionRow 
-            key={`action-${i}`} 
-            transaction={transaction} 
-            action={a} 
-            actionKind={Object.keys(a)[0]}  
-            wide={wide}
-            i={i}
-         />
-      ))
-
-const ActionRow = ({ transaction, action, actionKind, wide, showSub = false, toggleShowSub, showSubOpen, i }) => (
-   <CustomGridRow
-      verticalAlign='middle'
-      className={`${wide ? `wide` : ``} ${
-         showSub && showSubOpen === i ? `dropdown-down` : ``
-      } ${showSub ? `showsub` : ``}`}
-      onClick={() => wide && toggleShowSub(i, action)}
-   >
-      <Grid.Column
-         computer={wide ? 15 : 16}
-         tablet={wide ? 14 : 16}
-         mobile={wide ? 14 : 16}
-      >
-         <Grid verticalAlign='middle'>
-            <Grid.Column className='col-image'>
-               <ActionIcon actionKind={actionKind} />
-            </Grid.Column>
-            <Grid.Column className='main-row-title color-black border-bottom'>
-               <ActionMessage 
-                  transaction={transaction}
-                  action={action}
-                  actionKind={actionKind}
-               />
-               <ActionTimeStamp
-                  timeStamp={transaction.blockTimestamp}
-               />
-            </Grid.Column>
-         </Grid>
-      </Grid.Column>
-      {wide && (
-         <Grid.Column
-            computer={1}
-            tablet={2}
-            mobile={2}
-            textAlign='right'
-         >
-            <Image
-               src={showSub && showSubOpen === i ? ArrowBlkImage : ArrowRight}
-               className='dropdown-image dropdown-image-right'
+const ActionsList = ({ transaction, actions, wide, accountId }) => 
+    actions
+        .map((a, i) => (
+            <ActionRow 
+                key={`action-${i}`} 
+                transaction={transaction} 
+                action={a} 
+                actionKind={Object.keys(a)[0]}  
+                wide={wide}
+                i={i}
+                accountId={accountId}
             />
-            {/* <span className='font-small'>{row[3]}</span> */}
-         </Grid.Column>
-      )}
-   </CustomGridRow>
+        ))
+
+const ActionRow = ({ transaction, action, actionKind, wide, showSub = false, toggleShowSub, showSubOpen, i, accountId }) => (
+    <CustomGridRow
+        verticalAlign='middle'
+        className={`${wide ? `wide` : ``} ${
+            showSub && showSubOpen === i ? `dropdown-down` : ``
+        } ${showSub ? `showsub` : ``}`}
+        onClick={() => wide && toggleShowSub(i, action)}
+    >
+        <Grid.Column
+            computer={wide ? 15 : 16}
+            tablet={wide ? 14 : 16}
+            mobile={wide ? 14 : 16}
+        >
+            <Grid verticalAlign='middle'>
+                <Grid.Column className='col-image'>
+                    <ActionIcon actionKind={actionKind} />
+                </Grid.Column>
+                <Grid.Column className='main-row-title color-black border-bottom'>
+                    <ActionMessage 
+                        transaction={transaction}
+                        action={action}
+                        actionKind={actionKind}
+                        accountId={accountId}
+                    />
+                    <ActionTimeStamp
+                        timeStamp={transaction.blockTimestamp}
+                    />
+                </Grid.Column>
+            </Grid>
+        </Grid.Column>
+        {wide && (
+            <Grid.Column
+                computer={1}
+                tablet={2}
+                mobile={2}
+                textAlign='right'
+            >
+                <Image
+                    src={showSub && showSubOpen === i ? ArrowBlkImage : ArrowRight}
+                    className='dropdown-image dropdown-image-right'
+                />
+                {/* <span className='font-small'>{row[3]}</span> */}
+            </Grid.Column>
+        )}
+    </CustomGridRow>
 )
 
-const ActionMessage = ({ transaction, action: { AddKey, FunctionCall, Transfer, Stake }, actionKind }) => (
-   <Translate 
-      id={`actions.${actionKind}${actionKind === `AddKey`
-         ? AddKey.access_key && typeof AddKey.access_key.permission === 'object'
-            ? `.forContract`
-            : `.forReceiver`
-         : ''
-      }`}
-      data={{
-         receiverId: transaction.receiver_id || '',
-         methodName: FunctionCall ? FunctionCall.method_name : '', 
-         deposit: Transfer ? <Balance amount={Transfer.deposit} /> : '',
-         stake: Stake ? Stake.stake : '',
-         permissionReceiverId: (AddKey && AddKey.access_key && typeof AddKey.access_key.permission === 'object') ? AddKey.access_key.permission.FunctionCall.receiver_id : ''
-      }}
-   />
+const ActionMessage = ({ transaction, action, actionKind, accountId }) => (
+    <Translate 
+        id={translateId(transaction, action, actionKind, accountId)}
+        data={translateData(transaction, action)}
+    />
 )
+
+const translateId = (transaction, { AddKey }, actionKind, accountId) => (
+    `actions.${actionKind
+        }${actionKind === `AddKey`
+            ? AddKey.access_key && typeof AddKey.access_key.permission === 'object'
+                ? `.forContract`
+                : `.forReceiver`
+            : ''
+        }${actionKind === 'Transfer'
+            ? transaction.signer_id === accountId
+                ? '.transferred'
+                : '.received'
+            : ''
+    }`
+)
+
+const translateData = (transaction, { AddKey, FunctionCall, Transfer, Stake }) => ({
+    receiverId: transaction.receiver_id || '',
+    signerId: transaction.signer_id || '',
+    methodName: FunctionCall ? FunctionCall.method_name : '', 
+    deposit: Transfer ? <Balance amount={Transfer.deposit} /> : '',
+    stake: Stake ? Stake.stake : '',
+    permissionReceiverId: (AddKey && AddKey.access_key && typeof AddKey.access_key.permission === 'object') ? AddKey.access_key.permission.FunctionCall.receiver_id : ''
+})
 
 const ActionIcon = ({ actionKind }) => (
-   <div>
-      {actionKind === 'CreateAccount' && <IconTAcct />}
-      {actionKind === 'DeleteAccount' && <IconTKeyDelete />}
-      {actionKind === 'DeployContract' && <IconTContract />}
-      {actionKind === 'FunctionCall' && <IconTCall />}
-      {actionKind === 'Transfer' && <IconTTransfer />}
-      {actionKind === 'Stake' && <IconTStake />}
-      {actionKind === 'AddKey' && <IconTKeyNew />}
-      {actionKind === 'DeleteKey' && <IconTKeyDelete />}
-   </div>
+    <div>
+        {actionKind === 'CreateAccount' && <IconTAcct />}
+        {actionKind === 'DeleteAccount' && <IconTKeyDelete />}
+        {actionKind === 'DeployContract' && <IconTContract />}
+        {actionKind === 'FunctionCall' && <IconTCall />}
+        {actionKind === 'Transfer' && <IconTTransfer />}
+        {actionKind === 'Stake' && <IconTStake />}
+        {actionKind === 'AddKey' && <IconTKeyNew />}
+        {actionKind === 'DeleteKey' && <IconTKeyDelete />}
+    </div>
 )
 
 const ActionTimeStamp = ({ timeStamp }) => (
-   <div className='font-small time-stamp'>{format(timeStamp)}</div>
+    <div className='font-small time-stamp'>{format(timeStamp)}</div>
 )
 
 export default ActionsList
