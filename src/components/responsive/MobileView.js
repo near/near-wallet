@@ -28,134 +28,134 @@ import KeysImage from '../../images/icon-keys.svg';
 //import ActivityImage from '../../images/icon-activity.svg';
 
 const CustomResponsive = styled(Responsive)`
-   &&& {
-      .navbar {
-         padding: 0px;
-         padding-bottom: 1rem;
-
-         &-main {
-            background-color: #24272a;
-            height: 72px;
-            border-radius: 0;
-            margin-bottom: 0;
-
-            .mainlogo {
-               float: left;
-               padding: 4px 10px 0px 0px;
-
-               > a > div {
-                  width: 50px;
-                  overflow: hidden;
-                  > img.image {
-                     width: 160px;
-                     max-width: none;
-                  }
-               }
-            }
-            .node-staking {
-               > a > div {
-                  position: relative;
-               }
-               .node-dot {
-                  position: absolute;
-                  top: 24px;
-                  left: 24px;
-               }
-            }
-            .trigger {
-               width: 100%;
-               overflow: hidden;
-            }
-         }
-         &-sub {
-            margin: 0px;
+    &&& {
+        .navbar {
             padding: 0px;
-            background-color: #24272a;
-            &.hide {
-               display: none;
-            }
-            .main {
-               font-family: 'benton-sans', sans-serif;
-               font-weight: 400;
-               font-size: 14px;
-               padding: 18px 6px;
-               margin: 0 1rem;
-               border-top: 1px solid #4a4f54;
-               color: #fff;
-               letter-spacing: 2px;
+            padding-bottom: 1rem;
 
-               &.border {
-                  border-bottom: 1px solid #4a4f54;
-               }
-               img {
-                  margin-top: -4px;
-                  width: 24px;
-                  margin-right: 20px;
-                  display: inline-block !important;
-               }
-            }
-            .sub {
-               padding: 10px 1rem 0 1rem;
-               .item {
-                  font-family: 'benton-sans', sans-serif;
-                  font-weight: 400;
-                  font-size: 14px;
-                  padding: 8px 9px;
-                  color: #8fd6bd;
-                  letter-spacing: 2px;
+            &-main {
+                background-color: #24272a;
+                height: 72px;
+                border-radius: 0;
+                margin-bottom: 0;
 
-                  img {
-                     margin-top: -2px;
-                     width: 18px;
-                     margin-right: 22px;
-                     display: inline-block !important;
-                  }
-               }
-            }
+                .mainlogo {
+                    float: left;
+                    padding: 4px 10px 0px 0px;
 
-            .receive {
-                transform: rotate(180deg);
+                    > a > div {
+                        width: 50px;
+                        overflow: hidden;
+                        > img.image {
+                            width: 160px;
+                            max-width: none;
+                        }
+                    }
+                }
+                .node-staking {
+                    > a > div {
+                        position: relative;
+                    }
+                    .node-dot {
+                        position: absolute;
+                        top: 24px;
+                        left: 24px;
+                    }
+                }
+                .trigger {
+                    width: 100%;
+                    overflow: hidden;
+                }
             }
+            &-sub {
+                margin: 0px;
+                padding: 0px;
+                background-color: #24272a;
+                &.hide {
+                    display: none;
+                }
+                .main {
+                    font-family: 'benton-sans', sans-serif;
+                    font-weight: 400;
+                    font-size: 14px;
+                    padding: 18px 6px;
+                    margin: 0 1rem;
+                    border-top: 1px solid #4a4f54;
+                    color: #fff;
+                    letter-spacing: 2px;
 
-            .switch-account {
-               background: #000;
-               padding: 0 1rem;
-               padding: 20px;
-               .item {
-                  padding: 0px;
-               }
-               h6.item {
-                  padding-bottom: 5px;
-                  border: 0px;
-               }
-               .account-title {
-                  height: 40px;
-                  line-height: 40px;
-                  color: #fff;
-                  font-weight: 500;
-                  border-bottom: 1px solid #323434;
-                  letter-spacing: normal;
-                  text-overflow: ellipsis;
-                  overflow: hidden;
+                    &.border {
+                        border-bottom: 1px solid #4a4f54;
+                    }
+                    img {
+                        margin-top: -4px;
+                        width: 24px;
+                        margin-right: 20px;
+                        display: inline-block !important;
+                    }
+                }
+                .sub {
+                    padding: 10px 1rem 0 1rem;
+                    .item {
+                        font-family: 'benton-sans', sans-serif;
+                        font-weight: 400;
+                        font-size: 14px;
+                        padding: 8px 9px;
+                        color: #8fd6bd;
+                        letter-spacing: 2px;
 
-                  &:last-of-type {
-                      border-bottom: 0;
-                  }
-               }
-               button {
-                  width: 100%;
-                  border-radius: 30px;
-                  background: #24272a;
-                  color: #6ad1e3;
-                  :hover {
-                     background: #fff;
-                     color: #6ad1e3;
-                  }
-               }
+                        img {
+                            margin-top: -2px;
+                            width: 18px;
+                            margin-right: 22px;
+                            display: inline-block !important;
+                        }
+                    }
+                }
+
+                .receive {
+                     transform: rotate(180deg);
+                }
+
+                .switch-account {
+                    background: #000;
+                    padding: 0 1rem;
+                    padding: 20px;
+                    .item {
+                        padding: 0px;
+                    }
+                    h6.item {
+                        padding-bottom: 5px;
+                        border: 0px;
+                    }
+                    .account-title {
+                        height: 40px;
+                        line-height: 40px;
+                        color: #fff;
+                        font-weight: 500;
+                        border-bottom: 1px solid #323434;
+                        letter-spacing: normal;
+                        text-overflow: ellipsis;
+                        overflow: hidden;
+
+                        &:last-of-type {
+                             border-bottom: 0;
+                        }
+                    }
+                    button {
+                        width: 100%;
+                        border-radius: 30px;
+                        background: #24272a;
+                        color: #6ad1e3;
+                        :hover {
+                            background: #fff;
+                            color: #6ad1e3;
+                        }
+                    }
+                }
             }
-         }
-      }
-   }
+        }
+    }
 `;
 
 const LogoLink = styled(Link)`
