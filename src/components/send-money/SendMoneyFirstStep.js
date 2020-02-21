@@ -17,16 +17,16 @@ import AccountFormAccountId from '../accounts/AccountFormAccountId'
 import SendMoneyAmountInput from './SendMoneyAmountInput'
 
 const SendMoneyFirstStep = ({
-   handleNextStep,
-   handleChange,
-   note,
-   paramAccountId,
-   accountId,
-   isLegitForm,
-   formLoader,
-   requestStatus,
-   amount,
-   checkAvailability
+    handleNextStep,
+    handleChange,
+    note,
+    paramAccountId,
+    accountId,
+    isLegitForm,
+    formLoader,
+    requestStatus,
+    amount,
+    checkAvailability
 }) => {
     return (
         <Form autoComplete='off'>
