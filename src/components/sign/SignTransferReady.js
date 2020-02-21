@@ -153,7 +153,8 @@ class SignTransferReady extends Component {
             txTotalAmount,
             accountBalance,
             isMonetaryTransaction,
-            insufficientFunds
+            insufficientFunds,
+            availableAccounts
         } = this.props;
 
         return (
@@ -190,6 +191,7 @@ class SignTransferReady extends Component {
                     <SelectAccountDropdown
                         handleOnClick={this.handleToggleDropdown}
                         account={account}
+                        availableAccounts={availableAccounts}
                         dropdown={this.state.dropdown}
                         handleSelectAccount={this.handleSelectAccount}
                         redirectCreateAccount={this.redirectCreateAccount}
@@ -223,8 +225,9 @@ const mapDispatchToProps = {
     switchAccount,
 }
 
-const mapStateToProps = ({ account, sign }) => ({
+const mapStateToProps = ({ account, sign, availableAccounts }) => ({
     account,
+    availableAccounts,
     ...sign
 })
 
