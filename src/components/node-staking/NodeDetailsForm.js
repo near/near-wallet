@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
-
+import { Translate } from 'react-localize-redux'
 import { Header } from 'semantic-ui-react'
 
 import FormButton from '../common/FormButton'
@@ -32,7 +32,7 @@ const AddNodeForm = ({
          disabled={!isLegitForm()}
          sending={loader}
       >
-         SAVE CHANGES
+         <Translate id='button.saveChanges' />
       </FormButton>
       <br/>
       <FormButton
@@ -40,7 +40,7 @@ const AddNodeForm = ({
          color='red'
          sending={loaderRemoveNode}
       >
-         REMOVE NODE
+         <Translate id='button.removeNode' />
       </FormButton>
    </Fragment>
 )

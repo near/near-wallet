@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { Header } from 'semantic-ui-react'
-
+import { Translate } from 'react-localize-redux'
 import FormButton from '../common/FormButton'
 import AddNodeFormIp from './AddNodeFormIp'
 import AddNodeFormNick from './AddNodeFormNick'
@@ -29,7 +29,7 @@ const AddNodeForm = ({
          disabled={!isLegitForm()}
          sending={loader}
       >
-         ADD NODE
+         <Translate id='button.addNode' />
       </FormButton>
       <div className='recover font-small'>
          Your node must be setup via CLI before adding it here.

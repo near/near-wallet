@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-
+import { Translate } from 'react-localize-redux'
 import { withRouter } from 'react-router-dom'
 
 import { getAccessKeys, removeAccessKey, addLedgerAccessKey } from '../../actions/account'
@@ -118,7 +118,7 @@ class AccessKeys extends Component {
             </PaginationBlock>
             { false &&
             <FormButton onClick={() => this.props.addLedgerAccessKey(this.props.accountId).then(() => this.props.getAccessKeys()) }>
-               Connect Ledger
+                <Translate id='button.connectLedger' />
             </FormButton>
             }
          </PageContainer>

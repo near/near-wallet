@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react'
-
+import { Translate } from 'react-localize-redux'
 import { List } from 'semantic-ui-react'
 
 import PageContainer from '../common/PageContainer';
@@ -42,7 +42,7 @@ const SendMoneyThirdStep = ({ handleRedirectDashboard, note, amount, accountId }
                onClick={handleRedirectDashboard}
                color='seafoam-blue'
             >
-               GO TO DASHBOARD
+               <Translate id='button.goToDashboard' />
             </FormButton>
          </List>
       </Fragment>

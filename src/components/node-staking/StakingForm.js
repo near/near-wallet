@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
+import { Translate } from 'react-localize-redux'
 import { Header } from 'semantic-ui-react'
 
 import FormButton from '../common/FormButton'
@@ -22,7 +23,7 @@ const StakingForm = ({
          disabled={!isLegitForm()}
          sending={loader}
       >
-         STAKE
+         <Translate id='button.stake' />
       </FormButton>
    </Fragment>
 )

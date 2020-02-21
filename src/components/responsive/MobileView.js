@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import { Translate } from 'react-localize-redux'
+
 import NodeAnimatedDot from '../node-staking/NodeAnimatedDot';
 import {
     Image,
@@ -304,7 +306,7 @@ class MobileView extends Component {
                                     {availableAccounts.length < 2 && 'You have no other accounts'}
                                 </List>
                                 <Button onClick={this.redirectCreateAccount}>
-                                    CREATE NEW ACCOUNT
+                                    <Translate id='button.createNewAccount' />
                                 </Button>
                             </Segment>
                         </Menu.Menu>

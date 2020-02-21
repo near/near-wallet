@@ -149,7 +149,7 @@ const RecoverAccount = () => {
                 <Option>
                     <Header icon={PhraseIcon}><Translate id='recoverAccount.phrase.title'/><br/><Translate id='recoverAccount.actionType'/></Header>
                     <P><Translate id='recoverAccount.phrase.desc'/></P>
-                    <Button to='/recover-seed-phrase'><Translate id='recoverAccount.phrase.cta'/></Button>
+                    <Button to='/recover-seed-phrase'><Translate id='button.recoverAccount' /></Button>
                 </Option>
             </Options>
         </Container>

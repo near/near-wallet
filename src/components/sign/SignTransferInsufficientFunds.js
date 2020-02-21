@@ -1,6 +1,6 @@
 import React from 'react'
 import { withRouter } from 'react-router-dom'
-
+import { Translate } from 'react-localize-redux'
 import FormButton from '../common/FormButton'
 import MobileContainer from './MobileContainer'
 
@@ -44,14 +44,14 @@ const SignTransferInsufficientFunds = ({ handleDeny, handleAddFunds }) => (
                         color='gray-white'
                         onClick={handleDeny}
                     >
-                        CANCEL
+                        <Translate id='button.cancel' />
                     </FormButton>
                     <FormButton
                         type='submit'
                         color='blue'
                         onClick={handleAddFunds}
                     >
-                        ADD FUNDS
+                        <Translate id='button.addFunds' />
                     </FormButton>
                 </Grid.Column>
             </Grid.Row>

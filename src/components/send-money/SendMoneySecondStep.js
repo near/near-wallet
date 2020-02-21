@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react'
-
+import { Translate } from 'react-localize-redux'
 import { List, Header } from 'semantic-ui-react'
 
 import PageContainer from '../common/PageContainer';
@@ -60,7 +60,7 @@ const SendMoneySecondStep = ({
                   disabled={loader}
                   sending={loader}
                >
-                  CONFIRM & SEND
+                  <Translate id='button.confirmAndSend' />
                </FormButton>
             </List.Item>
             <List.Item className='confirmed'>Once confirmed, this cannot be undone.</List.Item>
@@ -70,7 +70,7 @@ const SendMoneySecondStep = ({
                   color='link bold'
                   disabled={loader}
                >
-                  Need to edit? Go Back
+                  <Translate id='button.needToEditGoBack' />
                </FormButton>
             </List.Item>
          </List>
@@ -80,7 +80,7 @@ const SendMoneySecondStep = ({
                   color='link gray bold'
                   disabled={loader}
                >
-               Cancel Transfer
+               <Translate id='button.cancelTransfer' />
             </FormButton>
          </List>
       </Fragment>

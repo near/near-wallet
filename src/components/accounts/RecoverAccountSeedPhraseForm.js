@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react'
+import { Translate } from 'react-localize-redux'
 import { Input, Header } from 'semantic-ui-react'
 
 import FormButton from '../common/FormButton'
@@ -43,7 +44,7 @@ const RecoverAccountSeedPhraseForm = ({
                 disabled={!isLegit}
                 sending={formLoader}
             >
-                FIND MY ACCOUNT
+                <Translate id='button.findMyAccount' />
             </FormButton>
         </Fragment>
     )

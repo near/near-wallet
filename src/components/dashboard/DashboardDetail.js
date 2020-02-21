@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
-
+import { Translate } from 'react-localize-redux'
 import { withRouter } from 'react-router-dom'
 
 import { getAccessKeys, getTransactions } from '../../actions/account'
@@ -71,7 +71,7 @@ class DashboardDetail extends Component {
                 additional={(
                     <Link to='/send-money'>
                         <FormButton color='green-white-arrow' >
-                            SEND
+                            <Translate id='button.send' />
                         </FormButton>
                     </Link>
                 )}

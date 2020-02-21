@@ -1,4 +1,5 @@
 import React from 'react'
+import { Translate } from 'react-localize-redux'
 
 import MainImage from '../common/MainImage'
 
@@ -46,7 +47,7 @@ const AccessKeysDeauthorize = ({ showSubData, handleDeauthorize }) => (
       </List.Item>
       <List.Item className='remove-connection'>
          <Button onClick={handleDeauthorize}>
-            DEAUTHORIZE
+            <Translate id='button.deauthorize' />
          </Button>
       </List.Item>
       <List.Item className='authorized-transactions'>

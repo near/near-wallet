@@ -1,5 +1,5 @@
 import React from 'react'
-
+import { Translate } from 'react-localize-redux'
 import { Link } from 'react-router-dom'
 
 import FormButton from '../common/FormButton'
@@ -72,7 +72,7 @@ const DashboardKeys = ({ image, title, to, accessKeys, empty }) => (
             {accessKeys && accessKeys.length !== 0 ? (
                <Link to={to}>
                   <FormButton color='gray-blue' size='small'>
-                     VIEW ALL
+                     <Translate id='button.viewAll' />
                   </FormButton>
                </Link>
             ) : (

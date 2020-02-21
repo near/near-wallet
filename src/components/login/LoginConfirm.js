@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
-
+import { Translate } from 'react-localize-redux'
 import { Grid, Input } from 'semantic-ui-react'
 
 import MobileContainer from '../sign/MobileContainer'
@@ -95,7 +95,7 @@ class LoginForm extends Component {
                         <FormButton
                            color='gray-white'
                         >
-                           CANCEL
+                           <Translate id='button.cancel' />
                         </FormButton>
                      </Link>
 
@@ -105,7 +105,7 @@ class LoginForm extends Component {
                         sending={buttonLoader}
                         onClick={this.handleConfirmSubmit}
                      >
-                        CONFIRM
+                        <Translate id='button.confirm' />
                      </FormButton>
                   </Grid.Column>
                </Grid.Row>

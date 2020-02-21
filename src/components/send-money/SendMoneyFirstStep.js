@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react'
+import { Translate } from 'react-localize-redux'
 
 import {
     Header,
@@ -83,7 +84,7 @@ const SendMoneyFirstStep = ({
                                 color='green'
                                 disabled={!isLegitForm()}
                             >
-                                SEND
+                                <Translate id='button.send' />
                             </FormButton>
                         </List.Item>
                     </List>

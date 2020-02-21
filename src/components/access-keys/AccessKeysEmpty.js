@@ -1,4 +1,5 @@
 import React from 'react'
+import { Translate } from 'react-localize-redux'
 import { Segment, Header } from 'semantic-ui-react'
 
 import FormButton from '../common/FormButton'
@@ -25,7 +26,9 @@ const AccessKeysEmpty = () => (
       <Header as='h2'>You have not connected your NEAR Wallet to any applications. When you do, you can manage them here.</Header>
       <Header as='h2'>See what's been built with NEAR:</Header>
       <a href='https://builtwithnear.com/' target='_blank' rel="noopener noreferrer">
-         <FormButton color='blue'>BROWSE APPS</FormButton>
+         <FormButton color='blue'>
+            <Translate id='button.browseApps' />
+         </FormButton>
       </a>
    </CustomSegment>
 )

@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import styled from 'styled-components'
+import { Translate } from 'react-localize-redux'
+
 import { handleRefreshAccount, switchAccount } from '../../actions/account'
 import SignAnimatedArrow from './SignAnimatedArrow'
 import SignTransferDetails from './SignTransferDetails'
@@ -175,7 +177,7 @@ class SignTransferReady extends Component {
                             onClick={handleDeny}
                             message='Insufficient funds'
                             theme='error'
-                            buttonMsg='Go back'
+                            buttonMsgId='button.goBack'
                         />
                     </>
                 }
@@ -198,12 +200,17 @@ class SignTransferReady extends Component {
                         disabled={true}
                     />
                     <ButtonWrapper>
-                        <Button theme='secondary' onClick={handleDeny}>Deny</Button>
+                        <Button 
+                            theme='secondary' 
+                            onClick={handleDeny}
+                        >
+                            <Translate id='button.deny' />
+                        </Button>
                         <Button
                             onClick={handleAllow}
                             disabled={isMonetaryTransaction && insufficientFunds}
                         >
-                            Allow
+                            <Translate id='button.allow' />
                         </Button>
                     </ButtonWrapper>
                 </Footer>

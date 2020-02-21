@@ -79,7 +79,32 @@
         "verify": "VERIFY & COMPLETE",
         "startOver": "Start over",
         "copyUrl": "Copy Url",
-        "createAccount": "Create account"
+        "createAccount": "Create account",
+        "connectLedger": "Connect Ledger",
+        "browseApps": "BROWSE APPS",
+        "createAccountCapital": "CREATE ACCOUNT",
+        "findMyAccount": "FIND MY ACCOUNT",
+        "protectAccount": "PROTECT ACCOUNT",
+        "confirm": "CONFIRM",
+        "viewAll": "VIEW ALL",
+        "send": "SEND",
+        "cancel": "CANCEL",
+        "deny": "DENY",
+        "allow": "ALLOW",
+        "addNode": "ADD NODE",
+        "saveChanges": "SAVE CHANGES",
+        "removeNode": "REMOVE NODE",
+        "stake": "STAKE",
+        "confirmAndSend": "CONFIRM & SEND",
+        "needToEditGoBack": "Need to edit? Go Back",
+        "cancelTransfer": "Cancel Transfer",
+        "goToDashboard": "GO TO DASHBOARD",
+        "close": "CLOSE",
+        "addFunds": "ADD FUNDS",
+        "deauthorize": "DEAUTHORIZE",
+        "recoverAccount": "RECOVER ACCOUNT",
+        "goBack": "Go back",
+        "createNewAccount": "CREATE NEW ACCOUNT"
     },
 
     "input": {
@@ -104,8 +129,7 @@
         },
         "phrase": {
             "title": "Seed Phrase",
-            "desc": "Make sure you have your 12 word recovery phrase, then click below to begin the recovery process.",
-            "cta": "RECOVER ACCOUNT"
+            "desc": "Make sure you have your 12 word recovery phrase, then click below to begin the recovery process."
         },
         "actionType": "Recovery",
         "actionRequired": "This message contains a magic link. Click the link to begin recovery!"

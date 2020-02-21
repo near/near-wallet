@@ -2,7 +2,7 @@ import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Link, withRouter } from 'react-router-dom'
-
+import { Translate } from 'react-localize-redux'
 import { Grid } from 'semantic-ui-react'
 
 import MobileContainer from '../sign/MobileContainer'
@@ -117,7 +117,7 @@ const LoginForm = ({
                   color='gray-white'
                   onClick={handleDeny}
                >
-                  DENY
+                  <Translate id='button.deny' />
                </FormButton>
 
                {contractId && (
@@ -126,7 +126,7 @@ const LoginForm = ({
                      sending={buttonLoader}
                      onClick={handleAllow}
                   >
-                     ALLOW
+                     <Translate id='button.allow' />
                   </FormButton>
                )}
                {!contractId && (
@@ -135,7 +135,7 @@ const LoginForm = ({
                         color='blue'
                         sending={buttonLoader}
                      >
-                        ALLOW
+                        <Translate id='button.allow' />
                      </FormButton>
                   </Link>
                )}

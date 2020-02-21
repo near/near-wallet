@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { Image, Segment, List, Button, Popup } from 'semantic-ui-react';
 import PopupMenuTrigger from './PopupMenuTrigger';
 import styled from 'styled-components';
+import { Translate } from 'react-localize-redux'
 
 // Images
 import AccountImage from '../../images/icon-account.svg';
@@ -209,7 +210,9 @@ const DesktopPopup = ({
                         ))}
                     {availableAccounts.length < 2 && 'You have no other accounts'}
                 </List>
-                <Button onClick={redirectCreateAccount}>CREATE NEW ACCOUNT</Button>
+                <Button onClick={redirectCreateAccount}>
+                    <Translate id='button.createNewAccount' />
+                </Button>
             </Segment>
         </CustomPopup>
     )
