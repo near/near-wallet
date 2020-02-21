@@ -7,40 +7,40 @@ import AddNodeFormIp from './AddNodeFormIp'
 import AddNodeFormNick from './AddNodeFormNick'
 
 const AddNodeForm = ({
-   loader,
-   handleChange,
-   isLegitForm
+    loader,
+    handleChange,
+    isLegitForm
 }) => (
-   <Fragment>
-      <Header as='h4'>Enter the IP Address of your Node</Header>
-      <AddNodeFormIp
-         handleChange={handleChange}
-      />
+    <Fragment>
+        <Header as='h4'>Enter the IP Address of your Node</Header>
+        <AddNodeFormIp
+            handleChange={handleChange}
+        />
 
-      <Header as='h4'>Give it a nickname (optional)</Header>
-      <AddNodeFormNick
-         handleChange={handleChange}
-      />
-      
-      
-      <FormButton
-         type='submit'
-         color='blue'
-         disabled={!isLegitForm()}
-         sending={loader}
-      >
-         <Translate id='button.addNode' />
-      </FormButton>
-      <div className='recover font-small'>
-         Your node must be setup via CLI before adding it here.
-      </div>
-   </Fragment>
+        <Header as='h4'>Give it a nickname (optional)</Header>
+        <AddNodeFormNick
+            handleChange={handleChange}
+        />
+        
+        
+        <FormButton
+            type='submit'
+            color='blue'
+            disabled={!isLegitForm()}
+            sending={loader}
+        >
+            <Translate id='button.addNode' />
+        </FormButton>
+        <div className='recover font-small'>
+            Your node must be setup via CLI before adding it here.
+        </div>
+    </Fragment>
 )
 
 AddNodeForm.propTypes = {
-   loader: PropTypes.bool.isRequired,
-   handleChange: PropTypes.func.isRequired,
-   isLegitForm: PropTypes.func.isRequired
+    loader: PropTypes.bool.isRequired,
+    handleChange: PropTypes.func.isRequired,
+    isLegitForm: PropTypes.func.isRequired
 }
 
 export default AddNodeForm
