@@ -87,6 +87,7 @@ class DashboardDetail extends Component {
                   to={`${process.env.EXPLORER_URL || 'https://explorer.nearprotocol.com'}/accounts/${accountId}`}
                   transactions={transactions}
                   maxItems={5}
+                  accountId={accountId}
                />
                <DashboardKeys
                   image={AuthorizedGreyImage}

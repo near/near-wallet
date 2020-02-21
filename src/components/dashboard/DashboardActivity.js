@@ -51,7 +51,7 @@ const CustomGrid = styled(Grid)`
    }
 `
 
-const DashboardActivity = ({ image, title, to, transactions, maxItems }) => (
+const DashboardActivity = ({ image, title, to, transactions, maxItems, accountId }) => (
    <CustomGrid>
       <Grid.Row>
          <Grid.Column className='dashboard-header' textAlign='left' width={16}>
@@ -68,6 +68,7 @@ const DashboardActivity = ({ image, title, to, transactions, maxItems }) => (
             transaction={transaction} 
             actions={transaction.action}
             wide={false}
+            accountId={accountId}
          />
       ))}
 

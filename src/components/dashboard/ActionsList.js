@@ -114,7 +114,7 @@ const CustomGridRow = styled(Grid.Row)`
    }
 `
 
-const ActionsList = ({ transaction, actions, wide }) => 
+const ActionsList = ({ transaction, actions, wide, accountId }) => 
    actions
       .map((a, i) => (
          <ActionRow 
@@ -124,10 +124,11 @@ const ActionsList = ({ transaction, actions, wide }) =>
             actionKind={Object.keys(a)[0]}  
             wide={wide}
             i={i}
+            accountId={accountId}
          />
       ))
 
-const ActionRow = ({ transaction, action, actionKind, wide, showSub = false, toggleShowSub, showSubOpen, i }) => (
+const ActionRow = ({ transaction, action, actionKind, wide, showSub = false, toggleShowSub, showSubOpen, i, accountId }) => (
    <CustomGridRow
       verticalAlign='middle'
       className={`${wide ? `wide` : ``} ${
@@ -149,6 +150,7 @@ const ActionRow = ({ transaction, action, actionKind, wide, showSub = false, tog
                   transaction={transaction}
                   action={action}
                   actionKind={actionKind}
+                  accountId={accountId}
                />
                <ActionTimeStamp
                   timeStamp={transaction.blockTimestamp}
@@ -173,23 +175,36 @@ const ActionRow = ({ transaction, action, actionKind, wide, showSub = false, tog
    </CustomGridRow>
 )
 
-const ActionMessage = ({ transaction, action: { AddKey, FunctionCall, Transfer, Stake }, actionKind }) => (
+const ActionMessage = ({ transaction, action, actionKind, accountId }) => (
    <Translate 
-      id={`actions.${actionKind}${actionKind === `AddKey`
+      id={translateId(transaction, action, actionKind, accountId)}
+      data={translateData(transaction, action)}
+   />
+)
+
+const translateId = (transaction, { AddKey }, actionKind, accountId) => (
+   `actions.${actionKind
+      }${actionKind === `AddKey`
          ? AddKey.access_key && typeof AddKey.access_key.permission === 'object'
             ? `.forContract`
             : `.forReceiver`
          : ''
-      }`}
-      data={{
-         receiverId: transaction.receiver_id || '',
-         methodName: FunctionCall ? FunctionCall.method_name : '', 
-         deposit: Transfer ? <Balance amount={Transfer.deposit} /> : '',
-         stake: Stake ? Stake.stake : '',
-         permissionReceiverId: (AddKey && AddKey.access_key && typeof AddKey.access_key.permission === 'object') ? AddKey.access_key.permission.FunctionCall.receiver_id : ''
-      }}
-   />
+      }${actionKind === 'Transfer'
+         ? transaction.signer_id === accountId
+            ? '.transferred'
+            : '.received'
+         : ''
+   }`
 )
+
+const translateData = (transaction, { AddKey, FunctionCall, Transfer, Stake }) => ({
+   receiverId: transaction.receiver_id || '',
+   signerId: transaction.signer_id || '',
+   methodName: FunctionCall ? FunctionCall.method_name : '', 
+   deposit: Transfer ? <Balance amount={Transfer.deposit} /> : '',
+   stake: Stake ? Stake.stake : '',
+   permissionReceiverId: (AddKey && AddKey.access_key && typeof AddKey.access_key.permission === 'object') ? AddKey.access_key.permission.FunctionCall.receiver_id : ''
+})
 
 const ActionIcon = ({ actionKind }) => (
    <div>
