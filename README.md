@@ -16,3 +16,10 @@ Dockerized Wallet
 
 Dockerized wallet operates as a micro-service. It uses nginx to serve the local static content. As the result, Wallet is
 not parametrizable with environment variables.
+
+Getting started
+===
+
+The commands to run this Docker setup are included in a script in the project root. Do the following to execute this script:
+
+`./build-image.sh`
