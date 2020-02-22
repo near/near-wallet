@@ -5,20 +5,19 @@ import { Translate } from 'react-localize-redux'
 
 import AccountFormSection from './AccountFormSection'
 import AccountFormContainer from './AccountFormContainer'
-import {Snackbar, snackbarDuration } from '../common/Snackbar'
 import { redirectToApp, addAccessKeySeedPhrase, clearAlert } from '../../actions/account'
 import { generateSeedPhrase } from 'near-seed-phrase'
 import SetupSeedPhraseVerify from './SetupSeedPhraseVerify'
 
 import SetupSeedPhraseForm from './SetupSeedPhraseForm'
+import { webShare } from '../../utils/common'
 
 class SetupSeedPhrase extends Component {
     state = {
         seedPhrase: '',
         enterWord: '',
         wordId: null,
-        requestStatus: null,
-        successSnackbar: false
+        requestStatus: null
     }
 
     componentDidMount = () => {
@@ -77,18 +76,8 @@ class SetupSeedPhrase extends Component {
             })
     }
 
-    handleCopyPhrase = e => {
-        e.preventDefault();
-        const selection = window.getSelection();
-        selection.selectAllChildren(document.getElementById('seed-phrase'));
-        document.execCommand('copy');
-        selection.removeAllRanges();
-        this.setState({ successSnackbar: true }, () => {
-            setTimeout(() => {
-                this.setState({successSnackbar: false});
-            }, snackbarDuration)
-        });
-
+    handleCopyPhrase = () => {
+        webShare({text: this.state.seedPhrase});
     }
 
     render() {
@@ -135,12 +124,6 @@ class SetupSeedPhrase extends Component {
                                     </AccountFormSection>
                                 </AccountFormContainer>
                             )}
-                        />
-                        <Snackbar
-                            theme='success'
-                            message={translate('setupSeedPhrase.snackbarCopySuccess')}
-                            show={this.state.successSnackbar}
-                            onHide={() => this.setState({ successSnackbar: false })}
                         />
                     </Fragment>
                 )}

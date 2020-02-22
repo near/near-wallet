@@ -7,6 +7,7 @@ import ProfileQRCode from '../profile/ProfileQRCode';
 import Divider from '../common/Divider';
 import { Translate } from 'react-localize-redux';
 import {Snackbar, snackbarDuration } from '../common/Snackbar';
+import { webShare, copyText } from '../../utils/common';
 
 const Container = styled.div`
     display: flex;
@@ -100,7 +101,7 @@ const UrlAddress = styled.div`
 class ReceiveMoney extends Component {
     constructor(props) {
         super(props);
-        this.myRef = React.createRef();
+        this.urlRef = React.createRef();
 
         this.state = {
             successSnackbar: false,
@@ -108,14 +109,23 @@ class ReceiveMoney extends Component {
     }
 
     handleCopyAddress = () => {
-        const selection = window.getSelection();
-        selection.selectAllChildren(this.myRef.current);
-        document.execCommand('copy');
+        webShare({
+            url: this.receiveUrl,
+            noSupportCallback: this.handleCopyDesktop
+        });
+    }
+
+    handleCopyDesktop = () => {
+        copyText(this.urlRef.current);
         this.setState({ successSnackbar: true }, () => {
             setTimeout(() => {
                 this.setState({successSnackbar: false});
             }, snackbarDuration)
         });
+    }
+
+    get receiveUrl() {
+        return `${window.location.protocol}//${window.location.host}/send-money/${this.props.account.accountId}`;
     }
 
     render() {
@@ -132,12 +142,12 @@ class ReceiveMoney extends Component {
                             <Title>{translate('receivePage.addressTitle')}</Title>
                             <Address>
                                 {this.props.account.accountId}
-                                <UrlAddress ref={this.myRef}>
-                                    {`${window.location.protocol}//${window.location.host}/send-money/${this.props.account.accountId}`}
+                                <UrlAddress ref={this.urlRef}>
+                                    {this.receiveUrl}
                                 </UrlAddress>
                                 <CopyAddress
                                     minWidth={768}
-                                    onClick={this.handleCopyAddress}
+                                    onClick={this.handleCopyDesktop}
                                     title={translate('receivePage.copyAddressLinkLong')}
                                 >
                                     {translate('receivePage.copyAddressLinkShort')}

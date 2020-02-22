@@ -17,4 +17,28 @@ const classNames = (names) => {
 
 }
 
-export { classNames };
+const webShare = (data) => {
+    if (navigator.share) { 
+        navigator.share({
+           title: data.title,
+           text: data.text,
+           url: data.url
+        }).then(() => {
+            if (typeof data.successCallback === 'function') {
+                data.successCallback();
+            }
+        }).catch(console.error);
+    } else {
+        if (typeof data.noSupportCallback === 'function') {
+            data.noSupportCallback();
+        }
+    }
+}
+
+const copyText = (el) => {
+    const selection = window.getSelection();
+    selection.selectAllChildren(el);
+    document.execCommand('copy');
+}
+
+export { classNames, webShare, copyText };
