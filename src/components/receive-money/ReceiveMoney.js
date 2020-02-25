@@ -7,7 +7,8 @@ import ProfileQRCode from '../profile/ProfileQRCode';
 import Divider from '../common/Divider';
 import { Translate } from 'react-localize-redux';
 import {Snackbar, snackbarDuration } from '../common/Snackbar';
-import { webShare, copyText } from '../../utils/common';
+import copyText from '../../utils/copyText'
+import isMobile from '../../utils/isMobile'
 
 const Container = styled.div`
     display: flex;
@@ -109,17 +110,22 @@ class ReceiveMoney extends Component {
     }
 
     handleCopyAddress = () => {
-        webShare({
-            url: this.receiveUrl,
-            noSupportCallback: this.handleCopyDesktop
-        });
+        if (navigator.share && isMobile()) {
+            navigator.share({
+                url: this.receiveUrl
+            }).catch(err => {
+                console.log(err.message);
+            });
+        } else {
+            this.handleCopyDesktop();
+        }
     }
 
     handleCopyDesktop = () => {
         copyText(this.urlRef.current);
         this.setState({ successSnackbar: true }, () => {
             setTimeout(() => {
-                this.setState({successSnackbar: false});
+                this.setState({ successSnackbar: false });
             }, snackbarDuration)
         });
     }

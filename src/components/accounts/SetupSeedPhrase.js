@@ -8,16 +8,18 @@ import AccountFormContainer from './AccountFormContainer'
 import { redirectToApp, addAccessKeySeedPhrase, clearAlert } from '../../actions/account'
 import { generateSeedPhrase } from 'near-seed-phrase'
 import SetupSeedPhraseVerify from './SetupSeedPhraseVerify'
-
 import SetupSeedPhraseForm from './SetupSeedPhraseForm'
-import { webShare } from '../../utils/common'
+import copyText from '../../utils/copyText'
+import isMobile from '../../utils/isMobile'
+import { Snackbar, snackbarDuration } from '../common/Snackbar'
 
 class SetupSeedPhrase extends Component {
     state = {
         seedPhrase: '',
         enterWord: '',
         wordId: null,
-        requestStatus: null
+        requestStatus: null,
+        successSnackbar: false
     }
 
     componentDidMount = () => {
@@ -77,7 +79,24 @@ class SetupSeedPhrase extends Component {
     }
 
     handleCopyPhrase = () => {
-        webShare({text: this.state.seedPhrase});
+        if (navigator.share && isMobile()) {
+            navigator.share({
+                text: this.state.seedPhrase
+            }).catch(err => {
+                console.log(err.message);
+            });
+        } else {
+            this.handleCopyDesktop();
+        }
+    }
+
+    handleCopyDesktop = () => {
+        copyText(document.getElementById('seed-phrase'));
+        this.setState({ successSnackbar: true }, () => {
+            setTimeout(() => {
+                this.setState({ successSnackbar: false });
+            }, snackbarDuration)
+        });
     }
 
     render() {
@@ -124,6 +143,12 @@ class SetupSeedPhrase extends Component {
                                     </AccountFormSection>
                                 </AccountFormContainer>
                             )}
+                        />
+                        <Snackbar
+                            theme='success'
+                            message={translate('setupSeedPhrase.snackbarCopySuccess')}
+                            show={this.state.successSnackbar}
+                            onHide={() => this.setState({ successSnackbar: false })}
                         />
                     </Fragment>
                 )}
