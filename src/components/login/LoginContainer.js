@@ -1,5 +1,4 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 
 import {
     Container
@@ -143,6 +142,14 @@ const CustomContainer = styled(Container)`
             text-align: center;
             color: #ff585d;
         }
+        .return-to-app {
+            padding: 1rem 0;
+            text-align: center;
+            button {
+                float: none;
+                width: 190px;
+            }
+        }
         
         @media screen and (max-width: 991px) {
             .authorize {
@@ -191,9 +198,5 @@ const LoginContainer = ({ children }) => (
         {children}
     </CustomContainer>
 )
-
-LoginContainer.propTypes = {
-    children: PropTypes.array
-}
 
 export default LoginContainer

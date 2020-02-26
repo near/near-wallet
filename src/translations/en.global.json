@@ -14,6 +14,7 @@
     "account.login.success": "${title} is now authorized to use your account.",
     "account.login.error": "An error occurred while approving this action. Please try again!",
     "account.login.details.warning": "This allows access to your entire balance. Please proceed with caution.",
+    "account.login.incorrectContractId.error": "The contract ${contractId} does not exist. This may be an issue with the application you are trying to use, or this contract may have been deleted. You will be redirected back to the application",
 
     "actions": {
         "CreateAccount": "New account created: @${receiverId}",

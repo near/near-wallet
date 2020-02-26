@@ -162,3 +162,7 @@ export const { switchAccount, refreshAccount, resetAccounts, refreshUrl } = crea
     RESET_ACCOUNTS: wallet.clearState.bind(wallet),
     REFRESH_URL: null
 })
+
+export const { checkContract } = createActions({
+    CHECK_CONTRACT: wallet.checkContract.bind(wallet)
+})
