@@ -145,6 +145,7 @@ const CustomContainer = styled(Container)`
         .return-to-app {
             padding: 1rem 0;
             text-align: center;
+
             button {
                 float: none;
                 width: 190px;
@@ -184,7 +185,6 @@ const CustomContainer = styled(Container)`
             button {
                 width: 140px;
                 margin-top: 0px;
-                
             }
             #bottom {
                 border-top: 2px solid #f2f2f2;
