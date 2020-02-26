@@ -13,12 +13,12 @@ class ResponsiveContainer extends Component {
         return isSSR ? Responsive.onlyTablet.minWidth : window.innerWidth;
     }
 
-    showNavLinks = () => {
+    get showNavLinks() {
         const { availableAccounts, location } = this.props;
         const signUpRoutes = ['create', 'set-recovery', 'setup-seed-phrase'];
         const currentBaseRoute = location.pathname.replace(/^\/([^/]*).*$/, '$1');
-
-        return !signUpRoutes.includes(currentBaseRoute) || currentBaseRoute === 'create' || availableAccounts.length > 1;
+        
+        return !signUpRoutes.includes(currentBaseRoute) || availableAccounts.length > 1 || (availableAccounts.length > 0 && currentBaseRoute === 'create');
     }
 
     render() {
@@ -27,12 +27,12 @@ class ResponsiveContainer extends Component {
             <>
                 <DesktopView
                     {...this.props}
-                    showNavbarLinks={this.showNavLinks()}
+                    showNavbarLinks={this.showNavLinks}
                     getWidth={this.getWidth}
                 />
                 <MobileView
                     {...this.props}
-                    showNavbarLinks={this.showNavLinks()}
+                    showNavbarLinks={this.showNavLinks}
                     getWidth={this.getWidth}
                 />
                 <div className='main'>
