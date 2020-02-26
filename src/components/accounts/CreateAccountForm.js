@@ -13,9 +13,11 @@ const CreateAccountForm = ({
     loader,
     formLoader,
     handleChange,
-    handleRecaptcha,
     requestStatus,
-    checkAvailability
+    checkAvailability,
+    userVerified,
+    recaptchaTwo,
+    verifyRecaptchaTwo
 }) => (
     <Fragment>
         <Header as='h4'><Translate id='createAccount.accountIdInput.title' /></Header>
@@ -27,18 +29,17 @@ const CreateAccountForm = ({
             checkAvailability={checkAvailability}
             requestStatus={requestStatus}
         />
-
-        {false ? (
+        {recaptchaTwo &&
             <ReCAPTCHA
-                sitekey='6LfNjp8UAAAAAByZu30I-2-an14USj3yVbbUI3eN'
-                onChange={handleRecaptcha}
+                sitekey='6LcZJtsUAAAAAN0hXzam-vEAPiFKMVsFY75Mn8AT'
+                onChange={verifyRecaptchaTwo}
+                style={{ marginTop: '25px' }}
             />
-        ) : null}
-        
+        }
         <FormButton
             type='submit'
             color='blue'
-            disabled={!(requestStatus && requestStatus.success)}
+            disabled={!(requestStatus && requestStatus.success && userVerified)}
             sending={loader}
         >
             <Translate id='button.createAccountCapital' />
@@ -54,7 +55,7 @@ CreateAccountForm.propTypes = {
     loader: PropTypes.bool.isRequired,
     formLoader: PropTypes.bool.isRequired,
     handleChange: PropTypes.func.isRequired,
-    handleRecaptcha: PropTypes.func.isRequired,
+    verifyRecaptchaTwo: PropTypes.func.isRequired,
     requestStatus: PropTypes.object
 }
 

@@ -11,7 +11,8 @@ class CreateAccount extends Component {
     state = {
         loader: false,
         accountId: '',
-        recaptchaToken: ''
+        userVerified: false,
+        recaptchaTwo: false
     }
 
     componentDidMount = () => {}
@@ -50,12 +51,25 @@ class CreateAccount extends Component {
         })
     }
 
-    handleRecaptcha = value => {
-        console.log(value)
+    verifyRecaptchaThree = (token) => {
+        /*
+            TODO:
+            - Verify recaptcha score on back-end using token
+                - if score is high -> this.setState({ userVerified: true });
+                - if score is low -> this.setState({ recaptchaTwo: true });
+        */
+    }
+
+    verifyRecaptchaTwo = (token) => {
+        /*
+            TODO:
+            - Verify recaptcha token on back-end
+                - if verified -> this.setState({ userVerified: true });
+        */
     }
 
     render() {
-        const { loader, accountId } = this.state
+        const { loader, accountId, userVerified, recaptchaTwo } = this.state
         const { requestStatus, formLoader, checkNewAccount } = this.props
         const useRequestStatus = accountId.length > 0 ? requestStatus : undefined;
 
@@ -74,12 +88,14 @@ class CreateAccount extends Component {
                         loader={loader} 
                         requestStatus={useRequestStatus}
                         formLoader={formLoader}
-                        handleRecaptcha={this.handleRecaptcha}
                         handleChange={this.handleChange}
                         checkAvailability={checkNewAccount}
+                        userVerified={userVerified}
+                        recaptchaTwo={recaptchaTwo}
+                        verifyRecaptchaTwo={this.verifyRecaptchaTwo}
                     />
                     <GoogleReCaptchaProvider reCaptchaKey="6LfSgNoUAAAAABKb2sk4Rs3TS0RMx9zrVwyTBSc6">
-                        <GoogleReCaptcha onVerify={token => this.setState({recaptchaToken: token})}/>
+                        <GoogleReCaptcha onVerify={this.verifyRecaptchaThree}/>
                     </GoogleReCaptchaProvider>
                 </AccountFormSection>
             </AccountFormContainer>
