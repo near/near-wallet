@@ -6325,6 +6325,14 @@ near-ledger-js@^0.0.4:
     "@ledgerhq/logs" "^4.70.0"
     bs58 "^4.0.1"
 
+near-openweb-js@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/near-openweb-js/-/near-openweb-js-0.1.0.tgz#60128d1e0a6270731af77ed4af11b12bac4483d9"
+  integrity sha512-ypDQHwh8ZfoijTng6m+ri7XjEXsIDaBH5t278bGglhGFYInW4POwSa0PRRoIAUHGGPa4DYsOPhxoxdzmUJT8kg==
+  dependencies:
+    nearlib "^0.21.0"
+    tweetnacl "^1.0.1"
+
 near-seed-phrase@^0.0.2:
   version "0.0.2"
   resolved "https://registry.yarnpkg.com/near-seed-phrase/-/near-seed-phrase-0.0.2.tgz#1ac4c64b2188e5dc479b6fe3a0966776919d9b49"
@@ -7800,6 +7808,14 @@ react-modal@^3.8.1:
     prop-types "^15.5.10"
     react-lifecycles-compat "^3.0.0"
     warning "^4.0.3"
+
+react-near-openweb@^0.1.2:
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/react-near-openweb/-/react-near-openweb-0.1.2.tgz#21d3d528983353d2dfd3f010f721bee9277e43b8"
+  integrity sha512-lWUOtlsmoH9Ec4EXEycxsYqCnshe2lzWGMs70PuLWesvXY/6XYx6ZLX/KBhKf9AuUlrDWHfcLB6RRGkncCjWYQ==
+  dependencies:
+    near-openweb-js "^0.1.0"
+    prop-types "^15.7.2"
 
 react-phone-number-input@2.3.11:
   version "2.3.11"

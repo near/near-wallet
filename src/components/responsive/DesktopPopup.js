@@ -11,6 +11,8 @@ import AuthorizedGreyImage from '../../images/icon-authorized.svg';
 import KeysImage from '../../images/icon-keys.svg';
 //import ContactsGreyImage from '../../images/icon-contacts.svg';
 //import LogoutImage from '../../images/icon-logout.svg';
+import { Profile } from 'react-near-openweb'
+import IconAccountGrey from '../../images/icon-account-grey.svg'
 
 const CustomPopup = styled(Popup)`
     &&& {
@@ -118,6 +120,29 @@ const CustomPopup = styled(Popup)`
 }
 `;
 
+const profileStyles = {
+    profile: {
+        whiteSpace: 'nowrap',
+        display: 'inline-block'
+    },
+    profileImage: {
+        height: '1.5em',
+        width: '1.5em',
+        borderRadius: '50%',
+        verticalAlign: 'middle'
+    },
+    profileName: {
+        overflowY: 'hidden',
+        marginLeft: '0.5em',
+        verticalAlign: 'middle'
+    },
+    profileDisplayName: {},
+    profileAccountId: {
+        color: '#333'
+    }
+};
+
+
 const DesktopPopup = ({
     account,
     handleSelectAccount,
@@ -205,7 +230,7 @@ const DesktopPopup = ({
                                 }
                                 className='account-title'
                             >
-                                @{account}
+                                <Profile accountId={account} forceShow={true} defaultProfileUrl={IconAccountGrey} styles={profileStyles}/>
                             </List.Item>
                         ))}
                     {availableAccounts.length < 2 && 'You have no other accounts'}

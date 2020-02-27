@@ -17,6 +17,7 @@
     "react-dom": "^16.12.0",
     "react-google-recaptcha": "^2.0.1",
     "react-localize-redux": "^3.5.3",
+    "react-near-openweb": "^0.1.2",
     "react-phone-number-input": "2.3.11",
     "react-qr-svg": "^2.2.1",
     "react-redux": "^7.2.0",

@@ -9,6 +9,9 @@ import MobileMenuImage from '../../images/icon-mobile-menu.svg'
 import CloseImage from '../../images/icon-close.svg'
 import ArrowDownImage from '../../images/icon-arrow-down.svg'
 
+import { Profile } from 'react-near-openweb'
+import IconAccountGrey from '../../images/icon-account-grey.svg'
+
 import styled from 'styled-components'
 
 const CustomDiv = styled('div')`
@@ -81,6 +84,30 @@ const CustomDiv = styled('div')`
    }
 `
 
+const profileStyles = {
+    profile: {
+        whiteSpace: 'nowrap',
+        display: 'inline-block'
+    },
+    profileImage: {
+        height: '1.5em',
+        width: '1.5em',
+        borderRadius: '50%',
+        verticalAlign: 'middle'
+    },
+    profileName: {
+        overflowY: 'hidden',
+        marginLeft: '0.5em',
+        verticalAlign: 'middle'
+    },
+    profileDisplayName: {
+        color: '#fff'
+    },
+    profileAccountId: {
+        color: '#bbb'
+    }
+};
+
 const PopupMenuTrigger = ({ account, handleClick, type, dropdown = false, location }) => (
    <CustomDiv onClick={handleClick}>
       <div>
@@ -96,7 +123,7 @@ const PopupMenuTrigger = ({ account, handleClick, type, dropdown = false, locati
                   {account.loader ? (
                      <Loader active inline size='mini' />
                   ) : (
-                     `@${account.accountId}`
+                     <Profile accountId={account.accountId} forceShow={true} defaultProfileUrl={IconAccountGrey} styles={profileStyles}/>
                   )}
                </div>
                <div className={`account-tokens ${location.pathname === `/node-staking` ? `node-staking` : ``}`}>
@@ -104,8 +131,8 @@ const PopupMenuTrigger = ({ account, handleClick, type, dropdown = false, locati
                      <Loader active inline size='mini' />
                   ) : (
                         <div>
-                           {account.amount 
-                           ? <Balance amount={account.amount} /> 
+                           {account.amount
+                           ? <Balance amount={account.amount} />
                            : 'NaN'}
 
                            {location.pathname === '/node-staking' && (
