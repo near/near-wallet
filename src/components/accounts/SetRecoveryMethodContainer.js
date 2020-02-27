@@ -43,6 +43,10 @@ const Container = styled.div`
             z-index: 1;
         }
 
+        .react-phone-number-input__icon {
+            border: none;
+        }
+
         .react-phone-number-input__country-select-arrow {
             display: none;
         }
@@ -50,6 +54,8 @@ const Container = styled.div`
 
     input {
         border-radius: 3px;
+        outline: none;
+        appearance: none;
     }
 
     h2 {
