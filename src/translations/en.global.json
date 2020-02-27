@@ -72,6 +72,19 @@
         "errorTitle": "Account not found",
         "errorP": "If you've enabled email recovery, please check your inbox for the latest message, as all earlier messages are considered invalid."
     },
+
+    "fullAccessKeys": {
+        "pageTitle": "Full Access Keys",
+        "authorizedTo": "AUTHORIZED TO",
+        "viewYourAccountName": "View your Account Name",
+        "submitAnyTransaction": "Submit any transaction on your behalf",
+        "useContract": "Use <b>${receiverId}</b> contract on your behalf",
+        "noKeys": "You have not connected your NEAR Wallet to any applications. When you do, you can manage them here.<br /><br />See what's been built with NEAR:"
+    },
+
+    "authorizedApps": {
+        "pageTitle": "Authorized Apps"
+    },
     
     "button": {
         "copyPhrase": "COPY PHRASE",
@@ -137,5 +150,7 @@
 
     "success": "Success",
     "error": "Error",
-    "warning": "Warning"
+    "warning": "Warning",
+    "total": "total",
+    "amount": "amount"
 }

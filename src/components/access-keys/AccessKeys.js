@@ -86,11 +86,11 @@ class AccessKeys extends Component {
 
         return (
             <PageContainer
-                title={title}
+                title={<Translate id={title} />}
                 additional={(
                     <h1>
                         {authorizedApps && authorizedApps.length}
-                        <span className='color-brown-grey'> total</span>
+                        <span className='color-brown-grey'> <Translate id='total' /></span>
                     </h1>
                 )}
             >
@@ -118,7 +118,7 @@ class AccessKeys extends Component {
                 </PaginationBlock>
                 { false &&
                 <FormButton onClick={() => this.props.addLedgerAccessKey(this.props.accountId).then(() => this.props.getAccessKeys()) }>
-                     <Translate id='button.connectLedger' />
+                    <Translate id='button.connectLedger' />
                 </FormButton>
                 }
             </PageContainer>
@@ -135,7 +135,7 @@ const mapDispatchToProps = {
 const mapStateToPropsAuthorizedApps = ({ account }) => ({
     ...account,
     authorizedApps: account.authorizedApps,
-    title: 'Authorized Apps'
+    title: 'authorizedApps.pageTitle'
 })
 
 export const AuthorizedAppsWithRouter = connect(
@@ -146,7 +146,7 @@ export const AuthorizedAppsWithRouter = connect(
 const mapStateToPropsFullAccess = ({ account }) => ({
     ...account,
     authorizedApps: account.fullAccessKeys,
-    title: 'Full Access Keys'
+    title: 'fullAccessKeys.pageTitle'
 })
 
 export const FullAccessKeysWithRouter = connect(
