@@ -118,7 +118,7 @@ const ResponsiveContainer = () => (
             <Item>
                <Item.Image src={LogoFooterImage} />
                <Item.Content>
-                  © 2019 NEAR Inc. All Rights Reserved.
+                  &copy; {new Date().getFullYear()} NEAR Inc. All Rights Reserved.
                   <br />
                   <a href='/'>Terms of Service</a>
                   <span className='color-brown-grey'>|</span>
