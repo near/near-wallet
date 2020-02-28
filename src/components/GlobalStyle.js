@@ -32,8 +32,9 @@ export default createGlobalStyle`
       }
    }
 
-
-   
+   .grecaptcha-badge {
+      visibility: hidden;
+   }
 
    .App {
       min-height: 100vh;
