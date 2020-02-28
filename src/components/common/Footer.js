@@ -1,5 +1,6 @@
 import React from 'react'
 import { Grid, Image, List, Item } from 'semantic-ui-react'
+import { Translate } from 'react-localize-redux'
 
 import LogoFooterImage from '../../images/near.svg'
 import NearkatImage from '../../images/footer-nearkat.svg'
@@ -118,11 +119,11 @@ const ResponsiveContainer = () => (
             <Item>
                <Item.Image src={LogoFooterImage} />
                <Item.Content>
-                  © 2019 NEAR Inc. All Rights Reserved.
+                  <Translate id='footer.copyrights' />
                   <br />
-                  <a href='/'>Terms of Service</a>
+                  <a href='/'><Translate id='footer.termsOfService' /></a>
                   <span className='color-brown-grey'>|</span>
-                  <a href='/'>Privacy Policy</a>
+                  <a href='/'><Translate id='footer.privacyPolicy' /></a>
                </Item.Content>
             </Item>
          </Item.Group>
@@ -133,9 +134,7 @@ const ResponsiveContainer = () => (
          className='learn-more'
          verticalAlign='middle'
       >
-         NEAR is a scalable computing and storage platform that changes how the
-         web works for better.{' '}
-         <a href='https://nearprotocol.com/'>Learn More</a>
+         <Translate id='footer.desc' /> <a href='https://nearprotocol.com/'><Translate id='footer.learnMore' /></a>
       </Grid.Column>
       <Grid.Column
          only='tablet computer'
@@ -147,10 +146,10 @@ const ResponsiveContainer = () => (
          className='help'
       >
          <List floated='right'>
-            <List.Item as='h3'>Need Help?</List.Item>
+            <List.Item as='h3'><Translate id='footer.needHelp' /></List.Item>
             <List.Item as='h3' className='color'>
                <a href='https://near.chat'>
-                  Contact Support
+                  <Translate id='footer.contactSupport' />
                </a>
             </List.Item>
             <Image className='nearkat' src={NearkatImage} />

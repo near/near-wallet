@@ -156,7 +156,16 @@
             "placeholder": "username"
         },
         "alreadyHaveAnAccount": "Already have an account?",
-        "recoverItHere": "Recover it here"
+        "recoverItHere": "Recover it here",
+        "note": {
+            "title": "NOTE",
+            "one": "Your username can contain any of the following:",
+            "two": "Lowercase characters (a-z)",
+            "three": "Digits (0-9)",
+            "four": "Characters (_-) can be used as separators",
+            "five": "Your username CANNOT contain:",
+            "six": "Characters \"@\" or \".\""
+        }
     },
 
     "recoverSeedPhrase": {
@@ -177,7 +186,6 @@
             "email": "Enter your email to make your account easily recoverable in the future.",
             "phoneNumber": "Enter your phone number to make your account easily recoverable in the future."
         },
-
         "emailInput": {
             "title": "Email Address",
             "placeholder": "example@email.com"
@@ -189,6 +197,11 @@
         "useInstead": {
             "email": "Use email instead",
             "phoneNumber": "Use phone instead"
+        },
+        "switchToManualBackup": {
+            "title": "Switch to Manual Backup",
+            "text": "With this option, you must write down and save a 12 word phrase to recover your account.",
+            "button": "Setup <span>Recovery Phrase</span>"
         }
     },
 
@@ -217,9 +230,26 @@
         }
     },
 
+    "disclaimer": {
+        "title": "DISCLAIMER",
+        "text": "This is a developers&apos; preview Wallet. It should be used for NEAR Protocol DevNet only. Learn more at "
+    },
+
+    "footer": {
+        "copyrights": "© 2019 NEAR Inc. All Rights Reserved.",
+        "termsOfService": "Terms of Service",
+        "privacyPolicy": "Privacy Policy",
+        "desc": "NEAR is a scalable computing and storage platform that changes how the web works for better.",
+        "learnMore": "Learn More",
+        "needHelp": "Need Help?",
+        "contactSupport": "Contact Support"
+    },
+
     "success": "Success",
     "error": "Error",
     "warning": "Warning",
     "total": "total",
-    "amount": "amount"
+    "amount": "amount",
+    "or": "OR",
+    "sending": "SENDING"
 }

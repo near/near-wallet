@@ -1,5 +1,6 @@
 import React from 'react'
 import { List } from 'semantic-ui-react'
+import { Translate } from 'react-localize-redux'
 
 import styled from 'styled-components'
 
@@ -38,17 +39,17 @@ const CustomList = styled(List)`
 
 const AccountNote = () => (
    <CustomList>
-      <List.Item className='title'>NOTE</List.Item>
+      <List.Item className='title'><Translate id='createAccount.note.title' /></List.Item>
       <List.Item>
-         Your username can contain any of the following:
+         <Translate id='createAccount.note.one' />
       </List.Item>
-      <List.Item>• Lowercase characters (a-z)</List.Item>
-      <List.Item>• Digits (0-9)</List.Item>
-      <List.Item>• Characters (_-) can be used as separators</List.Item><br></br>
+      <List.Item>• <Translate id='createAccount.note.two' /></List.Item>
+      <List.Item>• <Translate id='createAccount.note.three' /></List.Item>
+      <List.Item>• <Translate id='createAccount.note.four' /></List.Item><br></br>
       <List.Item>
-         Your username CANNOT contain:
+         <Translate id='createAccount.note.five' />
       </List.Item>
-      <List.Item>• Characters "@" or "." </List.Item>
+      <List.Item>• <Translate id='createAccount.note.six' /></List.Item>
    </CustomList>
 )
 

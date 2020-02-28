@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Button } from 'semantic-ui-react'
+import { Translate } from 'react-localize-redux'
 
 import ArrowGrnImage from '../../images/icon-arrow-grn.svg'
 import ArrowWhiteImage from '../../images/icon-arrow-white.svg'
@@ -330,7 +331,7 @@ const FormButton = ({
       tabIndex='3'
    >
       {sending
-         ? `SENDING`
+         ? <Translate id='sending' />
          : children
       }
    </CustomButton>
