@@ -26,9 +26,7 @@ const AccessKeysDeauthorize = ({ showSubData, handleDeauthorize }) => (
                                 {showSubData.access_key.permission.FunctionCall.receiver_id}
                             </List.Header>
                             <List.Item as='h5' className='color-blue'>
-                                <span className='color-black'>
-                                    amount:{" "}
-                                </span>
+                                <span className='color-black'><Translate id='amount' />: </span>
                                 <Balance amount={showSubData.access_key.permission.FunctionCall.allowance} />
                             </List.Item>
                         </React.Fragment>
@@ -55,20 +53,20 @@ const AccessKeysDeauthorize = ({ showSubData, handleDeauthorize }) => (
                 as='h6'
                 className='authorized-transactions-title border-top'
             >
-                AUTHORIZED TO
+                <Translate id='fullAccessKeys.authorizedTo' />
             </List.Item>
             <List.Item className='authorized-transactions-row color-black'>
-                View your Account Name
+                <Translate id='fullAccessKeys.viewYourAccountName' />
             </List.Item>
             {showSubData.access_key.permission === 'FullAccess'
                 ? <List.Item className='authorized-transactions-row color-black'>
-                    Submit any transaction on your behalf
+                    <Translate id='fullAccessKeys.submitAnyTransaction' />
                 </List.Item>
                 : null
             }
             {showSubData.access_key.permission.FunctionCall
                 ? <List.Item className='authorized-transactions-row color-black'>
-                    Use <b>{showSubData.access_key.permission.FunctionCall.receiver_id}</b> contract on your behalf
+                    <Translate id='fullAccessKeys.useContract' data={{ receiverId: showSubData.access_key.permission.FunctionCall.receiver_id }} />
                 </List.Item>
                 : null
             }

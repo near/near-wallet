@@ -18,7 +18,7 @@ const CreateAccountForm = ({
     checkAvailability
 }) => (
     <Fragment>
-        <Header as='h4'>Choose a Username</Header>
+        <Header as='h4'><Translate id='createAccount.accountIdInput.title' /></Header>
         <AccountFormAccountId
             formLoader={formLoader}
             handleChange={handleChange}
@@ -44,8 +44,8 @@ const CreateAccountForm = ({
             <Translate id='button.createAccountCapital' />
         </FormButton>
         <div className='recover'>
-            <div>Already have an account?</div>
-            <Link to={process.env.DISABLE_PHONE_RECOVERY === 'yes' ? '/recover-seed-phrase' : '/recover-account'}>Recover it here</Link>
+            <div><Translate id='createAccount.alreadyHaveAnAccount' /></div>
+            <Link to={process.env.DISABLE_PHONE_RECOVERY === 'yes' ? '/recover-seed-phrase' : '/recover-account'}><Translate id='createAccount.recoverItHere' /></Link>
         </div>
     </Fragment>
 )

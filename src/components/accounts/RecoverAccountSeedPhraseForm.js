@@ -16,7 +16,7 @@ const RecoverAccountSeedPhraseForm = ({
 }) => (
         <Fragment>
             <Fragment>
-                <Header as='h3'>Username</Header>
+                <Header as='h3'><Translate id='recoverSeedPhrase.accountIdInput.title' /></Header>
                 <AccountFormAccountId
                     formLoader={formLoader}
                     handleChange={handleChange}
@@ -25,17 +25,21 @@ const RecoverAccountSeedPhraseForm = ({
                     requestStatus={requestStatus}
                 />
 
-                <Header as='h3'>Seed Phrase</Header>
-                <Input
-                    name='seedPhrase'
-                    onChange={handleChange}
-                    placeholder='correct horse battery staple'
-                    value={seedPhrase}
-                    required
-                    tabIndex='2'
-                    pattern='[a-zA-Z ]*'
-                    style={{ width: '100%' }}
-                />
+                <Header as='h3'><Translate id='recoverSeedPhrase.seedPhraseInput.title' /></Header>
+                <Translate>
+                    {({ translate }) => (
+                        <Input
+                            name='seedPhrase'
+                            onChange={handleChange}
+                            placeholder={translate('recoverSeedPhrase.seedPhraseInput.placeholder')}
+                            value={seedPhrase}
+                            required
+                            tabIndex='2'
+                            pattern='[a-zA-Z ]*'
+                            style={{ width: '100%' }}
+                        />
+                    )}
+                </Translate>
             </Fragment>
 
             <FormButton
