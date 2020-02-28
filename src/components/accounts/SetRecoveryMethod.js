@@ -22,35 +22,41 @@ const SetRecoveryMethod = ({
             autoComplete='off'
             onSubmit={e => {e.preventDefault(); submitRecovery();}}
         >
-            <h1>Protect your Account</h1>
-            <h2>{`Enter your ${recoverWithEmail ? 'email' : 'phone number'} to make your account easily recoverable in the future.`}</h2>
-            <h4>{recoverWithEmail ? 'Email Address' : 'Phone Number'}</h4>
+            <h1><Translate id='setRecovery.pageTitle' /></h1>
+            <h2><Translate id={`setRecovery.pageText.${recoverWithEmail ? 'email' : 'phoneNumber'}`} /></h2>
+            <h4><Translate id={`setRecovery.${recoverWithEmail ? 'emailInput' : 'phoneInput'}.title`} /></h4>
             {recoverWithEmail &&
-                <Input
-                    name='email'
-                    placeholder='example@email.com'
-                    required
-                    tabIndex='2'
-                    value={email}
-                    className='email-input-wrapper'
-                    type='text'
-                    onChange={handleFieldChange}
-                />
+                <Translate>
+                    {({ translate }) => (
+                        <Input
+                            name='email'
+                            placeholder={translate('setRecovery.emailInput.placeholder')}
+                            required
+                            tabIndex='2'
+                            value={email}
+                            className='email-input-wrapper'
+                            type='text'
+                            onChange={handleFieldChange}
+                        />
+                    )}
+                </Translate>
             }
             {!recoverWithEmail &&
-                <PhoneInput
-                    className={`create ${requestStatus ? requestStatus.success ? 'success' : 'problem' : ''} ${formLoader ? 'loading' : ''}`}
-                    name='phoneNumber'
-                    value={phoneNumber}
-                    onChange={value => handleFieldChange(null, { name: 'phoneNumber', value })}
-                    placeholder='+1 415 123 4567'
-                    required
-                    tabIndex='2'
-                />
+                <Translate>
+                    {({ translate }) => (
+                        <PhoneInput
+                            className={`create ${requestStatus ? requestStatus.success ? 'success' : 'problem' : ''} ${formLoader ? 'loading' : ''}`}
+                            name='phoneNumber'
+                            value={phoneNumber}
+                            onChange={value => handleFieldChange(null, { name: 'phoneNumber', value })}
+                            placeholder={translate('setRecovery.phoneInput.placeholder')}
+                            required
+                            tabIndex='2'
+                        />
+                    )}
+                </Translate>
             }
-            <div className='link' onClick={toggleRecoverMethod}>
-                {`Use ${recoverWithEmail ? 'phone' : 'email'} instead`}
-            </div>
+            <div className='link' onClick={toggleRecoverMethod}><Translate id={`setRecovery.useInstead.${recoverWithEmail ? 'phoneNumber' : 'email'}`} /></div>
             <FormButton
                 color='blue'
                 type='submit'

@@ -89,7 +89,10 @@ const AccountFormContainer = ({ location, title, text, children, wide, disclaime
 
 AccountFormContainer.propTypes = {
    location: PropTypes.object,
-   title: PropTypes.string,
+   title: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.object
+   ]),
    text: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.object

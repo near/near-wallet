@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { Translate } from 'react-localize-redux'
 
 import CreateAccountForm from './CreateAccountForm'
 import AccountFormSection from './AccountFormSection'
@@ -60,8 +61,8 @@ class CreateAccount extends Component {
         return (
             <AccountFormContainer 
                 location={this.props.location}
-                title='Create Account'
-                text='Just choose a username and you’re all set.'
+                title={<Translate id='createAccount.pageTitle' />}
+                text={<Translate id='createAccount.pageText' />}
             >
                 <AccountFormSection 
                     requestStatus={useRequestStatus}
