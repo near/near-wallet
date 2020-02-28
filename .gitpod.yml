@@ -4,3 +4,7 @@ tasks:
 ports:
   - port: 1234
     onOpen: open-browser
+github:
+  prebuilds:
+    addCheck: true
+    addComment: true
