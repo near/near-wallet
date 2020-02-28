@@ -119,7 +119,7 @@ const ResponsiveContainer = () => (
                 <Item>
                     <Item.Image src={LogoFooterImage} />
                     <Item.Content>
-                        <Translate id='footer.copyrights' />
+                        &copy; {new Date().getFullYear()} <Translate id='footer.copyrights' />
                         <br />
                         <a href='/'><Translate id='footer.termsOfService' /></a>
                         <span className='color-brown-grey'>|</span>

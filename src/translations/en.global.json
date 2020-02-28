@@ -236,7 +236,7 @@
     },
 
     "footer": {
-        "copyrights": "© 2019 NEAR Inc. All Rights Reserved.",
+        "copyrights": "NEAR Inc. All Rights Reserved.",
         "termsOfService": "Terms of Service",
         "privacyPolicy": "Privacy Policy",
         "desc": "NEAR is a scalable computing and storage platform that changes how the web works for better.",
