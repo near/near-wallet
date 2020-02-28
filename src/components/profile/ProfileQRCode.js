@@ -8,6 +8,7 @@ const CustomDiv = styled.div`
 
     p {
         margin-top: 1em;
+        font-weight: 400;
     }
 `
 

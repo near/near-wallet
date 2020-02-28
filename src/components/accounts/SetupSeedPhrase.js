@@ -5,12 +5,13 @@ import { Translate } from 'react-localize-redux'
 
 import AccountFormSection from './AccountFormSection'
 import AccountFormContainer from './AccountFormContainer'
-import {Snackbar, snackbarDuration } from '../common/Snackbar'
 import { redirectToApp, addAccessKeySeedPhrase, clearAlert } from '../../actions/account'
 import { generateSeedPhrase } from 'near-seed-phrase'
 import SetupSeedPhraseVerify from './SetupSeedPhraseVerify'
-
 import SetupSeedPhraseForm from './SetupSeedPhraseForm'
+import copyText from '../../utils/copyText'
+import isMobile from '../../utils/isMobile'
+import { Snackbar, snackbarDuration } from '../common/Snackbar'
 
 class SetupSeedPhrase extends Component {
     state = {
@@ -77,18 +78,25 @@ class SetupSeedPhrase extends Component {
             })
     }
 
-    handleCopyPhrase = e => {
-        e.preventDefault();
-        const selection = window.getSelection();
-        selection.selectAllChildren(document.getElementById('seed-phrase'));
-        document.execCommand('copy');
-        selection.removeAllRanges();
+    handleCopyPhrase = () => {
+        if (navigator.share && isMobile()) {
+            navigator.share({
+                text: this.state.seedPhrase
+            }).catch(err => {
+                console.log(err.message);
+            });
+        } else {
+            this.handleCopyDesktop();
+        }
+    }
+
+    handleCopyDesktop = () => {
+        copyText(document.getElementById('seed-phrase'));
         this.setState({ successSnackbar: true }, () => {
             setTimeout(() => {
-                this.setState({successSnackbar: false});
+                this.setState({ successSnackbar: false });
             }, snackbarDuration)
         });
-
     }
 
     render() {
