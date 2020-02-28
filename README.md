@@ -23,3 +23,10 @@ Getting started
 To build locally, run this command in the project directory:
 
 `yarn && yarn start`
+
+Testing
+===
+
+To run tests:
+
+`yarn test`
