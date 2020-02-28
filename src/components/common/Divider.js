@@ -11,7 +11,7 @@ const Container = styled.div`
         content: '';
         display: block;
         width: 100%;
-        border-top: 1px solid #dadada;
+        border-top: 1px solid #e6e6e6;
         position: absolute;
         left: 50%;
         top: 50%;
