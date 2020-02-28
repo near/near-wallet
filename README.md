@@ -20,6 +20,6 @@ not parametrizable with environment variables.
 Getting started
 ===
 
-The commands to run this Docker setup are included in a script in the project root. Do the following to execute this script:
+To build locally, run this command in the project directory:
 
-`./build-image.sh`
+`yarn && yarn start`
