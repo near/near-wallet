@@ -103,12 +103,12 @@ class LoginDetails extends Component {
                                     <div className='title h3'>
                                         Transaction Allowance
                                     </div>
-                                    <div className='details-subitem font-bold color-charcoal-grey'>
+                                    <div className='details-subitem color-charcoal-grey'>
                                         <div className='desc font-small'>
                                             This app can use your NEAR for transaction fees
                                         </div>
                                         <div>
-                                            Total Allowance: .001Ⓝ
+                                            <b>Total Allowance: .001Ⓝ</b>
                                         </div>
                                     </div>
                                 </div>}
@@ -116,9 +116,9 @@ class LoginDetails extends Component {
                                     <div className='title h3'>
                                         Transaction Fees
                                     </div>
-                                    <div className='details-subitem font-bold color-charcoal-grey'>
-                                        <div>Gas Limit: {fees.gasLimit}</div>
-                                        <div>Gas price estimate is unavailable</div>
+                                    <div className='details-subitem color-charcoal-grey'>
+                                        <div><b>Gas Limit: {fees.gasLimit}</b></div>
+                                        <div><b>Gas price estimate is unavailable</b></div>
                                     </div>
                                 </div>}
                             </div>
@@ -194,7 +194,7 @@ const ActionsList = ({ transaction, actions }) =>
 ))
 
 const ActionRow = ({ transaction, action, actionKind }) => (
-    <div key={`subitem-`} className='details-subitem font-bold color-charcoal-grey'>
+    <div key={`subitem-`} className='details-subitem color-charcoal-grey'>
         <ActionMessage 
             transaction={transaction} 
             action={action} 
@@ -210,7 +210,9 @@ const ActionRow = ({ transaction, action, actionKind }) => (
 
 const ActionMessage = ({ transaction, action, actionKind }) => (
     <Translate>
-        {({ translate }) => actionKind === 'functionCall' && `${translate('login.details.function')}: ${action.functionCall.methodName}`}
+        <b>
+            {({ translate }) => actionKind === 'functionCall' && `${translate('login.details.function')}: ${action.functionCall.methodName}`}
+        </b>
     </Translate>
 )
 

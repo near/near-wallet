@@ -26,8 +26,8 @@ const NodeStakingNodes = ({ nodes }) => (
          {nodes.length ? nodes.map((node, i) => (
             <Grid.Row key={`nodes-${i}`}  as={Link} to='/node-details' className='border-top node'>
                <Grid.Column computer='11'>
-                  <span className='color-black font-bold'>
-                     AWS Instance #34
+                  <span className='color-black'>
+                     <b>AWS Instance #34</b>
                   </span>
                   <br/>
                   <span className='font-small'>
@@ -44,8 +44,8 @@ const NodeStakingNodes = ({ nodes }) => (
          )) : (
             <Grid.Row className='border-top'>
                <Grid.Column computer='16'>
-                  <span className='color-black font-bold'>
-                     Already have your node setup? Add it here.
+                  <span className='color-black'>
+                     <b>Already have your node setup? Add it here.</b>
                   </span>
                   <br/>
                   <span className='font-small'>

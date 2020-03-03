@@ -206,15 +206,9 @@ export default createGlobalStyle`
         background-size: 24px 24px !important;
     }
 
-
     b {
         font-weight: 600 !important;
     }
-    
-    .font-bold {
-        font-weight: 600 !important;
-    }
-
 
     .color-seafoam-blue {
         color: #6ad1e3 !important;

@@ -14,8 +14,8 @@ const NodeStakingSteps = () => (
       </Grid.Row>
       <Grid.Row className='border-top'>
          <Grid.Column computer='13'>
-            <span className='color-black font-bold'>
-               1. Setup & Run a Node via CLI
+            <span className='color-black'>
+               <b>1. Setup & Run a Node via CLI</b>
             </span>
             <br/>
             <span className="font-small">
@@ -28,8 +28,8 @@ const NodeStakingSteps = () => (
       </Grid.Row>
       <Grid.Row className='border-top'>
          <Grid.Column computer='13'>
-            <span className='color-black font-bold'>
-               2. Wait for Node to Sync
+            <span className='color-black'>
+               <b>2. Wait for Node to Sync</b>
             </span>
             <br/>
             <span className="font-small">
@@ -42,8 +42,8 @@ const NodeStakingSteps = () => (
       </Grid.Row>
       <Grid.Row className='border-top border-bottom'>
          <Grid.Column computer='13'>
-            <span className='color-black font-bold'>
-               3. Start Staking
+            <span className='color-black'>
+               <b>3. Start Staking</b>
             </span>
             <br/>
             <span className="font-small">

@@ -34,7 +34,7 @@ const CustomSegment = styled(Segment)`
 const AccountStartOver = ({ handleStartOver, handleResendCode, resendLoader }) => (
    <CustomSegment basic>
       <Segment basic className='border'>
-         <span className='font-bold'>Need to fix something? </span>
+         <b>Need to fix something? </b>
          <FormButton
             onClick={handleStartOver}
             color='link bold'
@@ -43,7 +43,7 @@ const AccountStartOver = ({ handleStartOver, handleResendCode, resendLoader }) =
          </FormButton>
       </Segment>
       <Segment basic>
-         <span className='font-bold'>Didn't receive the code?</span> Try this:
+         <b>Didn't receive the code?</b> Try this:
          <ul>
             <li>Be sure you entered the account username correctly</li>
             <li>Be sure you entered the correct phone number</li>

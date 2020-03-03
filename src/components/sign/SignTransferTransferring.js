@@ -25,7 +25,7 @@ const SignTransferReady = ({ status, isMonetaryTransaction }) => (
                     as='h2'
                     textAlign='center'
                 >
-                    <span className='font-bold transferring-dots'>{isMonetaryTransaction ? 'Transferring' : 'Authorizing'}</span>
+                    <span className='transferring-dots'><b>{isMonetaryTransaction ? 'Transferring' : 'Authorizing'}</b></span>
                 </Grid.Column>
             </Grid.Row>
         </Grid>

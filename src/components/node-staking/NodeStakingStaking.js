@@ -19,8 +19,8 @@ const NodeStakingStaking = ({ staking }) => (
       {staking.length ? staking.map((node, i) => (
          <Grid.Row key={`nodes-${i}`} as={Link} to='/staking' className='border-top node'>
             <Grid.Column computer='12'>
-               <span className='color-black font-bold'>
-                  You are staking Ⓝ 201,045.00
+               <span className='color-black'>
+                  <b>You are staking Ⓝ 201,045.00</b>
                </span>
                <br/>
                <span className='font-small'>

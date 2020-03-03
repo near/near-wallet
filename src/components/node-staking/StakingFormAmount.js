@@ -53,8 +53,8 @@ class StakingFormAmount extends Component {
                spellCheck='false'
                tabIndex='1'
             />
-            <CustomSegment basic textAlign='right' className={`color-black font-bold ${amountPercent <= 100 ? `` : `color-red`}`}>
-               {amountPercent}% of Total: {amount}
+            <CustomSegment basic textAlign='right' className={`color-black ${amountPercent <= 100 ? `` : `color-red`}`}>
+               <b>{amountPercent}% of Total: {amount}</b>
             </CustomSegment>
          </Fragment>
       )
