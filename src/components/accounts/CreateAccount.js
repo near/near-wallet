@@ -29,7 +29,6 @@ class CreateAccount extends Component {
         const { accountId, token } = this.state;
 
         this.setState({ loader: true });
-
         this.props.createNewAccount(accountId, token)
         .then(({ error, payload }) => {
             if (error) {
