@@ -76,7 +76,7 @@ const DashboardKeys = ({ image, title, to, accessKeys, empty }) => (
                         </FormButton>
                     </Link>
                 ) : (
-                    `${empty}`
+                    empty
                 )}
             </Grid.Column>
         </Grid.Row>

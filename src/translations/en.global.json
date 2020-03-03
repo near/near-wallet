@@ -79,11 +79,16 @@
         "viewYourAccountName": "View your Account Name",
         "submitAnyTransaction": "Submit any transaction on your behalf",
         "useContract": "Use <b>${receiverId}</b> contract on your behalf",
-        "noKeys": "You have not connected your NEAR Wallet to any applications. When you do, you can manage them here.<br /><br />See what's been built with NEAR:"
+        "noKeys": "You have not connected your NEAR Wallet to any applications. When you do, you can manage them here.<br /><br />See what's been built with NEAR:",
+        "dashboardNoKeys": "You have no full access keys"
     },
 
     "authorizedApps": {
-        "pageTitle": "Authorized Apps"
+        "pageTitle": "Authorized Apps",
+        "dashboardNoApps": "You have not authorized any apps",
+        "feeAllowance": "Fee Allowance",
+        "publicKey": "Public Key",
+        "ledger": "Ledger"
     },
     
     "button": {
@@ -243,6 +248,15 @@
         "learnMore": "Learn More",
         "needHelp": "Need Help?",
         "contactSupport": "Contact Support"
+    },
+
+    "dashboard": {
+        "activity": "Activity"
+    },
+
+    "balance": {
+        "balance": "Balance",
+        "balanceLoading": "Balance loading"
     },
 
     "success": "Success",

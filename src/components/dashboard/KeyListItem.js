@@ -1,4 +1,5 @@
 import React from 'react'
+import { Translate } from 'react-localize-redux'
 
 import { Grid, Image } from 'semantic-ui-react'
 
@@ -109,19 +110,19 @@ const KeyListItem = ({
                      <span className='color-black'>{contractId}</span>
                      <span className='font-small'>
                         <br/>
-                        Fee Allowance:{' '}
+                        <Translate id='authorizedApps.feeAllowance' />:{' '}
                         <span className='color-black'>{allowance ? <Balance amount={allowance} /> : 'N/A'}</span>
                         <br/>
-                        Public Key:{' '}
+                        <Translate id='authorizedApps.publicKey' />:{' '}
                         <span className='color-black'>{publicKey}</span>
                      </span>
                   </Grid.Column>
                : <Grid.Column className='main-row-title'>
                      <span className='font-small'>
-                        Public Key:{' '}
+                        <Translate id='authorizedApps.publicKey' />:{' '}
                         <span className='color-black'>{publicKey}</span>
                      </span>
-                     {meta.type === 'ledger' ? <p>Ledger</p> : null}
+                     {meta.type === 'ledger' ? <p><Translate id='authorizedApps.ledger' /></p> : null}
                   </Grid.Column>
             }
          </Grid>

@@ -63,10 +63,10 @@ class DashboardDetail extends Component {
                 title={(
                     amount
                         ? <Fragment>
-                            <span className='balance'>Balance: </span>
+                            <span className='balance'><Translate id='balance.balance' />: </span>
                             <Balance amount={amount} />
                         </Fragment>
-                        : "Balance loading"
+                        : <Translate id='balance.balanceLoading' />
                 )}
                 additional={(
                     <Link to='/send-money'>
@@ -83,7 +83,7 @@ class DashboardDetail extends Component {
                     <DashboardActivity
                         loader={loader}
                         image={activityGreyImage}
-                        title='Activity'
+                        title=<Translate id='dashboard.activity' />
                         to={`${process.env.EXPLORER_URL || 'https://explorer.nearprotocol.com'}/accounts/${accountId}`}
                         transactions={transactions}
                         maxItems={5}
@@ -91,16 +91,16 @@ class DashboardDetail extends Component {
                     />
                     <DashboardKeys
                         image={AuthorizedGreyImage}
-                        title='Authorized Apps'
+                        title=<Translate id='authorizedApps.pageTitle' />
                         to='/authorized-apps'
-                        empty='You have not authorized any apps'
+                        empty=<Translate id='authorizedApps.dashboardNoApps' />
                         accessKeys={authorizedApps}
                     />
                     <DashboardKeys
                         image={AccessKeysIcon}
-                        title='Full Access Keys'
+                        title=<Translate id='fullAccessKeys.pageTitle' />
                         to='/full-access-keys'
-                        empty='You have no full access keys'
+                        empty=<Translate id='fullAccessKeys.dashboardNoKeys' />
                         accessKeys={fullAccessKeys}
                     />
                 </DashboardSection>

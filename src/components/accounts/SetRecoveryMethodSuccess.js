@@ -56,11 +56,9 @@ class SetRecoveryMethodSuccess extends Component {
             handleEnterNewRecoverValue
         } = this.props;
 
-        // let recoveryType = 'email';
         let recoverValue = email;
 
         if (!recoverWithEmail) {
-            // recoveryType = 'SMS';
             recoverValue = phoneNumber;
         }
 
