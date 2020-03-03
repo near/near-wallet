@@ -11,11 +11,9 @@ class CreateAccount extends Component {
     state = {
         loader: false,
         accountId: '',
-        userVerified: false,
-        recaptchaTwo: false
+        token: '',
+        recaptchaFallback: false
     }
-
-    componentDidMount = () => {}
 
     componentWillUnmount = () => {
         this.props.clear()
@@ -27,49 +25,36 @@ class CreateAccount extends Component {
         }))
     }
 
-    handleSubmit = e => {
-        e.preventDefault()
+    handleCreateAccount = () => {
+        const { accountId, token } = this.state;
 
-        this.setState(() => ({
-            loader: true
-        }))
+        this.setState({ loader: true });
 
-        const { accountId, recaptchaToken } = this.state
+        this.props.createNewAccount(accountId, token)
+        .then(({ error, payload }) => {
+            if (error) {
+                if (payload.statusCode === 402) {
+                    this.setState({ recaptchaFallback: true });
+                }
+                this.setState({ loader: false });
+                return;
+            }
 
-        this.props.createNewAccount(accountId, recaptchaToken).then(({ error }) => {
-            if (error) return
-
-            this.props.handleRefreshAccount()
-
-            let nextUrl = process.env.DISABLE_PHONE_RECOVERY === 'yes' ? `/setup-seed-phrase/${accountId}` : `/set-recovery/${accountId}`
-            this.props.history.push(nextUrl)
-        })
-        .finally(() => {
-            this.setState(() => ({
-                loader: false
-            }))
-        })
+            this.handleCreateAccountSuccess();
+        });
     }
 
-    verifyRecaptchaThree = (token) => {
-        /*
-            TODO:
-            - Verify recaptcha score on back-end using token
-                - if score is high -> this.setState({ userVerified: true });
-                - if score is low -> this.setState({ recaptchaTwo: true });
-        */
-    }
+    handleCreateAccountSuccess = () => {
+        const { accountId } = this.state;
 
-    verifyRecaptchaTwo = (token) => {
-        /*
-            TODO:
-            - Verify recaptcha token on back-end
-                - if verified -> this.setState({ userVerified: true });
-        */
+        this.props.handleRefreshAccount();
+        let nextUrl = process.env.DISABLE_PHONE_RECOVERY === 'yes' ? `/setup-seed-phrase/${accountId}` : `/set-recovery/${accountId}`;
+        this.props.history.push(nextUrl);
+        this.setState({ loader: false });
     }
 
     render() {
-        const { loader, accountId, userVerified, recaptchaTwo } = this.state
+        const { loader, accountId, recaptchaFallback } = this.state
         const { requestStatus, formLoader, checkNewAccount } = this.props
         const useRequestStatus = accountId.length > 0 ? requestStatus : undefined;
 
@@ -81,7 +66,7 @@ class CreateAccount extends Component {
             >
                 <AccountFormSection 
                     requestStatus={useRequestStatus}
-                    handleSubmit={this.handleSubmit}
+                    handleSubmit={this.handleCreateAccount}
                     location={this.props.location}
                 >
                     <CreateAccountForm
@@ -89,13 +74,12 @@ class CreateAccount extends Component {
                         requestStatus={useRequestStatus}
                         formLoader={formLoader}
                         handleChange={this.handleChange}
+                        recaptchaFallback={recaptchaFallback}
+                        verifyRecaptcha={token => this.setState({ token: token }, this.handleCreateAccount)}
                         checkAvailability={checkNewAccount}
-                        userVerified={userVerified}
-                        recaptchaTwo={recaptchaTwo}
-                        verifyRecaptchaTwo={this.verifyRecaptchaTwo}
                     />
                     <GoogleReCaptchaProvider reCaptchaKey="6LfSgNoUAAAAABKb2sk4Rs3TS0RMx9zrVwyTBSc6">
-                        <GoogleReCaptcha onVerify={this.verifyRecaptchaThree}/>
+                        <GoogleReCaptcha onVerify={token => this.setState({ token: token })}/>
                     </GoogleReCaptchaProvider>
                 </AccountFormSection>
             </AccountFormContainer>

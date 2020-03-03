@@ -27,9 +27,8 @@ const CreateAccountForm = ({
     handleChange,
     requestStatus,
     checkAvailability,
-    userVerified,
-    recaptchaTwo,
-    verifyRecaptchaTwo
+    verifyRecaptcha,
+    recaptchaFallback
 }) => (
     <Fragment>
         <Header as='h4'><Translate id='createAccount.accountIdInput.title' /></Header>
@@ -44,17 +43,17 @@ const CreateAccountForm = ({
         <RecaptchaString>
             This site is protected by reCAPTCHA and the Google <a href='https://policies.google.com/privacy' target='_blank' rel='noopener noreferrer'>Privacy Policy</a> and <a href='https://policies.google.com/terms' target='_blank' rel='noopener noreferrer'>Terms of Service</a> apply.
         </RecaptchaString>
-        {recaptchaTwo &&
+        {recaptchaFallback &&
             <ReCAPTCHA
                 sitekey='6LcZJtsUAAAAAN0hXzam-vEAPiFKMVsFY75Mn8AT'
-                onChange={verifyRecaptchaTwo}
+                onChange={verifyRecaptcha}
                 style={{ marginTop: '25px' }}
             />
         }
         <FormButton
             type='submit'
             color='blue'
-            disabled={!(requestStatus && requestStatus.success && userVerified)}
+            disabled={!(requestStatus && requestStatus.success)}
             sending={loader}
         >
             <Translate id='button.createAccountCapital' />
@@ -70,7 +69,6 @@ CreateAccountForm.propTypes = {
     loader: PropTypes.bool.isRequired,
     formLoader: PropTypes.bool.isRequired,
     handleChange: PropTypes.func.isRequired,
-    verifyRecaptchaTwo: PropTypes.func.isRequired,
     requestStatus: PropTypes.object
 }
 
