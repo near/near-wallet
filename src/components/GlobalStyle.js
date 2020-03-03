@@ -32,7 +32,9 @@ export default createGlobalStyle`
       }
    }
 
-
+   .grecaptcha-badge {
+      visibility: hidden;
+   }
    
 
    .App {
