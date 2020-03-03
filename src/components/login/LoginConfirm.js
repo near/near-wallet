@@ -61,29 +61,33 @@ class LoginForm extends Component {
                             tablet={16}
                             mobile={16}
                         >
-                            <div className='font-bold'>Are you sure?</div>
-                            <div className='h2 font-benton'>You are granting <span className='font-bold'>full access</span> to {appTitle}!</div>
-                            <div className='h2 font-benton'><br /><span className='font-bold'>To confirm</span>, please enter your username below.</div>
+                            <div className='font-bold'><Translate id='login.confirm.pageTitle' /></div>
+                            <div className='h2 font-benton'><Translate id='login.confirm.pageText' data={{ appTitle }} /></div>
+                            <div className='h2 font-benton'><br /><Translate id='login.confirm.pageTextSecondLine' /></div>
                         </Grid.Column>
                     </Grid.Row>
                 </Grid>
                 <Grid padded>
                     <Grid.Row centered>
                         <Grid.Column largeScreen={6} computer={8} tablet={10} mobile={16}>
-                            <Input 
-                                name='accountId'
-                                value={accountId}
-                                onChange={this.handleChange}
-                                className={confirmStatus ? (confirmStatus === 'success' ? 'success' : 'problem') : ''}
-                                placeholder='Username'
-                                maxLength='32'
-                                required
-                                autoComplete='off'
-                                autoCorrect='off'
-                                autoCapitalize='off'
-                                spellCheck='false'
-                                tabIndex='1'
-                            />
+                            <Translate>
+                                {({ translate }) => (
+                                    <Input 
+                                        name='accountId'
+                                        value={accountId}
+                                        onChange={this.handleChange}
+                                        className={confirmStatus ? (confirmStatus === 'success' ? 'success' : 'problem') : ''}
+                                        placeholder={translate('login.confirm.username')}
+                                        maxLength='32'
+                                        required
+                                        autoComplete='off'
+                                        autoCorrect='off'
+                                        autoCapitalize='off'
+                                        spellCheck='false'
+                                        tabIndex='1'
+                                    />
+                                )}
+                            </Translate>
                             <div className='alert-info'>
                                 {confirmStatus === 'problem' && `Account name doesn't match`}
                             </div>

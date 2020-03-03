@@ -207,6 +207,10 @@ export default createGlobalStyle`
    }
 
 
+   b {
+      font-weight: 600 !important;
+   }
+   
    .font-bold {
       font-weight: 600 !important;
    }
