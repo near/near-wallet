@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Container, Grid, Header } from 'semantic-ui-react'
-import { parse } from 'query-string'
 
 import Disclaimer from '../common/Disclaimer'
 
@@ -65,14 +64,14 @@ const CustomContainer = styled(Container)`
 `
 
 /* eslint-disable jsx-a11y/accessible-emoji */
-const AccountFormContainer = ({ location, title, text, children, wide, disclaimer = true }) => (
+const AccountFormContainer = ({ location, title, text, children, wide, disclaimer = true, loginResetAccounts }) => (
     <CustomContainer>
         <Grid stackable>
           <Grid.Row columns={wide ? `1` : `2`} className='page-title'>
                 <Grid.Column computer={wide ? 16 : 9} tablet={wide ? 16 : 8} mobile={16}>
                     <Header as='h1'>{title}</Header>
                     <Header as='h2'>{text}</Header>
-                    {location && parse(location.search).reset_accounts && (
+                    {location && loginResetAccounts && (
                         <Header as='h3' className='color-blue'>
                             You have been redirected to this page because we had to reset the developer accounts. Please create a new account. We apologize for the inconveience.
                         </Header>
@@ -99,7 +98,8 @@ AccountFormContainer.propTypes = {
     ]),
     children: PropTypes.element,
     wide: PropTypes.bool,
-    disclaimer: PropTypes.bool
+    disclaimer: PropTypes.bool,
+    loginResetAccounts: PropTypes.bool
 }
 
 export default AccountFormContainer

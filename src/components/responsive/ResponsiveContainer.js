@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
-import { handleRefreshAccount, switchAccount } from '../../actions/account';
+import { refreshAccount, switchAccount } from '../../actions/account';
 import { Responsive } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import MobileView from './MobileView';
@@ -49,7 +49,7 @@ const mapStateToProps = ({ account, availableAccounts }) => ({
 })
 
 const mapDispatchToProps = {
-    handleRefreshAccount,
+    refreshAccount,
     switchAccount
 }
 

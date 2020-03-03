@@ -8,8 +8,9 @@ import { KeyType } from 'nearlib/lib/utils/key_pair'
 import { store } from '..'
 import { getAccessKeys } from '../actions/account'
 
-export const WALLET_CREATE_NEW_ACCOUNT_URL = `/create`
-export const WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS = [`create`, 'set-recovery', 'setup-seed-phrase', 'recover-account', 'recover-seed-phrase']
+export const WALLET_CREATE_NEW_ACCOUNT_URL = 'create'
+export const WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS = ['create', 'set-recovery', 'setup-seed-phrase', 'recover-account', 'recover-seed-phrase']
+export const WALLET_LOGIN_URL = 'login'
 
 const NETWORK_ID = process.env.REACT_APP_NETWORK_ID || 'default'
 const ACCOUNT_HELPER_URL = process.env.REACT_APP_ACCOUNT_HELPER_URL || 'https://near-contract-helper.onrender.com'
@@ -128,6 +129,7 @@ export class Wallet {
         }
         //  let url = WALLET_CREATE_NEW_ACCOUNT_URL + "?" + $.param(param)
         let url =
+            '/' +
             WALLET_CREATE_NEW_ACCOUNT_URL +
             '/?' +
             Object.keys(param).map(
@@ -149,11 +151,15 @@ export class Wallet {
         }
     }
 
-    async loadAccount(accountId) {
-        if (!(accountId in this.accounts)) {
-            throw new Error('Account ' + accountId + " doesn't exist.")
+    async loadAccount() {
+        if (this.isEmpty()) {
+            throw new Error('No account.')
         }
-        return await this.getAccount(this.accountId).state()
+        return {
+            ...await this.getAccount(this.accountId).state(),
+            accountId: this.accountId,
+            accounts: this.accounts
+        }
     }
 
     // TODO: Figure out whether wallet should work with any account or current one. Maybe make wallet account specific and switch whole Wallet?

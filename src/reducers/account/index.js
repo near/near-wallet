@@ -2,9 +2,6 @@ import { handleActions, combineActions } from 'redux-actions'
 import reduceReducers from 'reduce-reducers'
 
 import {
-   REFRESH_ACCOUNT,
-   LOADER_ACCOUNT,
-   REFRESH_URL,
    requestCode,
    getAccessKeys,
    getTransactions,
@@ -12,7 +9,10 @@ import {
    clearCode,
    addAccessKey,
    addAccessKeySeedPhrase,
-   clearAlert
+   clearAlert,
+   refreshUrl,
+   refreshAccount,
+   resetAccounts
 } from '../../actions/account'
 
 const initialState = {
@@ -95,33 +95,47 @@ const transactions = handleActions({
    })
 }, initialState)
 
-// TODO: Migrate everything to redux-actions
-function account(state = {}, action) {
-   switch (action.type) {
-      case REFRESH_ACCOUNT:
+const url = handleActions({
+   [refreshUrl]: (state, { payload }) => ({
+      ...state,
+      url: payload
+   })
+}, initialState)
+
+const account = handleActions({
+   [refreshAccount]: (state, { error, payload, ready, meta }) => {
+      if (!ready) {
          return {
             ...state,
-            ...action.data
-         }
-      case LOADER_ACCOUNT: {
-         return {
-            ...state,
-            loader: action.loader,
-            // TODO: More robust reset when switching account
-            fullAccessKeys: undefined,
-            authorizedApps: undefined
+            loader: meta.accountId !== state.accountId
          }
       }
-      case REFRESH_URL: {
+
+      if (error) {
          return {
             ...state,
-            url: action.url
+            loader: false,
+            loginError: payload.message
          }
       }
-      default:
-         return state
-   }
-}
+
+      return {
+         ...state,
+         accountId: payload.accountId,
+         amount: payload.amount,
+         stake: payload.stake,
+         nonce: payload.nonce,
+         code_hash: payload.code_hash,
+         accounts: payload.accounts,
+         loader: false,
+         loginResetAccounts: undefined
+      }
+   },
+   [resetAccounts]: (state) => ({
+      ...state,
+      loginResetAccounts: true
+   }),
+}, initialState)
 
 export default reduceReducers(
    initialState,
@@ -132,5 +146,6 @@ export default reduceReducers(
    recoverCodeReducer,
    accessKeys,
    transactions,
-   account
+   account,
+   url
 )

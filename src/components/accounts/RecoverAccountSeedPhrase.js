@@ -3,7 +3,7 @@ import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { Translate } from 'react-localize-redux'
 
-import { recoverAccountSeedPhrase, redirectToApp, checkAccountAvailable, clear, handleRefreshAccount } from '../../actions/account'
+import { recoverAccountSeedPhrase, redirectToApp, checkAccountAvailable, clear, refreshAccount } from '../../actions/account'
 
 import RecoverAccountSeedPhraseForm from './RecoverAccountSeedPhraseForm'
 import AccountFormSection from './AccountFormSection'
@@ -47,7 +47,7 @@ class RecoverAccountSeedPhrase extends Component {
         this.props.recoverAccountSeedPhrase(this.state.seedPhrase, accountId)
             .then(({ error }) => {
                 if (error) return
-                this.props.handleRefreshAccount()
+                this.props.refreshAccount()
                 this.props.redirectToApp()
             })
     }
@@ -82,7 +82,7 @@ const mapDispatchToProps = {
     redirectToApp,
     checkAccountAvailable,
     clear,
-    handleRefreshAccount
+    refreshAccount
 }
 
 const mapStateToProps = ({ account }, { match }) => ({
