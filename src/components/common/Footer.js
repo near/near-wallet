@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Component, Fragment } from 'react'
 import { Grid, Image, List, Item } from 'semantic-ui-react'
 import { Translate } from 'react-localize-redux'
 
@@ -84,7 +84,9 @@ const FooterGrid = styled(Grid)`
 
     @media screen and (max-width: 991px) {
         &&&& {
-            display: none;
+            &:not(.show-mobile) {
+                display: none;
+            }
         }
     }
 
@@ -104,58 +106,81 @@ const FooterGrid = styled(Grid)`
     }
 `
 
-const ResponsiveContainer = () => (
-    <FooterGrid columns={2}>
-        <Grid.Column
-            textAlign='left'
-            verticalAlign='middle'
-            widescreen={4}
-            largeScreen={6}
-            computer={7}
-            tablet={10}
-            mobile={16}
-        >
-            <Item.Group className='near-logo'>
-                <Item>
-                    <Item.Image src={LogoFooterImage} />
-                    <Item.Content>
-                        &copy; {new Date().getFullYear()} <Translate id='footer.copyrights' />
-                        <br />
-                        <a href='/'><Translate id='footer.termsOfService' /></a>
-                        <span className='color-brown-grey'>|</span>
-                        <a href='/'><Translate id='footer.privacyPolicy' /></a>
-                    </Item.Content>
-                </Item>
-            </Item.Group>
-        </Grid.Column>
-        <Grid.Column
-            only='computer'
-            computer={5}
-            className='learn-more'
-            verticalAlign='middle'
-        >
-            <Translate id='footer.desc' /> <a href='https://nearprotocol.com/'><Translate id='footer.learnMore' /></a>
-        </Grid.Column>
-        <Grid.Column
-            only='tablet computer'
-            widescreen={7}
-            largeScreen={5}
-            computer={4}
-            tablet={6}
-            textAlign='right'
-            className='help'
-        >
-            <List floated='right'>
-                <List.Item as='h3'><Translate id='footer.needHelp' /></List.Item>
-                <List.Item as='h3' className='color'>
-                    <a href='https://near.chat'>
-                        <Translate id='footer.contactSupport' />
-                    </a>
-                </List.Item>
-                <Image className='nearkat' src={NearkatImage} />
-            </List>
-        </Grid.Column>
-    </FooterGrid>
-)
+const MobileSpacer = styled.div`
+    height: 180px;
+    margin-top: 20px;
 
-export default ResponsiveContainer
+    @media (min-width: 768px) {
+        display: none;
+    }
+`
+
+class Footer extends Component {
+
+    get showMobileFooter() {
+        const noFooterRoutes = ['login', 'send-money', 'sign'];
+        const currentRoute = window.location.pathname.replace(/^\/([^/]*).*$/, '$1');
+        return !noFooterRoutes.includes(currentRoute);
+    }
+
+    render() {
+        return (
+            <>
+                {this.showMobileFooter && <MobileSpacer/>}
+                <FooterGrid columns={2} className={this.showMobileFooter ? 'show-mobile' : ''}>
+                    <Grid.Column
+                        textAlign='left'
+                        verticalAlign='middle'
+                        widescreen={4}
+                        largeScreen={6}
+                        computer={7}
+                        tablet={10}
+                        mobile={16}
+                    >
+                        <Item.Group className='near-logo'>
+                            <Item>
+                                <Item.Image src={LogoFooterImage} />
+                                <Item.Content>
+                                    &copy; {new Date().getFullYear()} <Translate id='footer.copyrights' />
+                                    <br />
+                                    <a href='/'><Translate id='footer.termsOfService' /></a>
+                                    <span className='color-brown-grey'>|</span>
+                                    <a href='/'><Translate id='footer.privacyPolicy' /></a>
+                                </Item.Content>
+                            </Item>
+                        </Item.Group>
+                    </Grid.Column>
+                    <Grid.Column
+                        only='computer'
+                        computer={5}
+                        className='learn-more'
+                        verticalAlign='middle'
+                    >
+                        <Translate id='footer.desc' /> <a href='https://nearprotocol.com/'><Translate id='footer.learnMore' /></a>
+                    </Grid.Column>
+                    <Grid.Column
+                        only='tablet computer'
+                        widescreen={7}
+                        largeScreen={5}
+                        computer={4}
+                        tablet={6}
+                        textAlign='right'
+                        className='help'
+                    >
+                        <List floated='right'>
+                            <List.Item as='h3'><Translate id='footer.needHelp' /></List.Item>
+                            <List.Item as='h3' className='color'>
+                                <a href='https://near.chat'>
+                                    <Translate id='footer.contactSupport' />
+                                </a>
+                            </List.Item>
+                            <Image className='nearkat' src={NearkatImage} />
+                        </List>
+                    </Grid.Column>
+                </FooterGrid>
+            </>
+        )
+    }
+}
+
+export default Footer
