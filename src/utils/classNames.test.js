@@ -1,4 +1,4 @@
-import { classNames } from './common';
+import classNames from './classNames';
 
 test('returns string', () => {
     expect(classNames('single')).toBe('single');

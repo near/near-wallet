@@ -23,8 +23,9 @@ const CustomSegment = styled(Segment)`
 
 const AccessKeysEmpty = () => (
     <CustomSegment basic>
-        <Header as='h2'>You have not connected your NEAR Wallet to any applications. When you do, you can manage them here.</Header>
-        <Header as='h2'>See what's been built with NEAR:</Header>
+        <Header as='h2'>
+            <Translate id='fullAccessKeys.noKeys' />
+        </Header>
         <a href='https://builtwithnear.com/' target='_blank' rel="noopener noreferrer">
             <FormButton color='blue'>
                 <Translate id='button.browseApps' />

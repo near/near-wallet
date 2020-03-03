@@ -2,11 +2,13 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
-import { Responsive } from 'semantic-ui-react';
 import ProfileQRCode from '../profile/ProfileQRCode';
 import Divider from '../common/Divider';
 import { Translate } from 'react-localize-redux';
 import {Snackbar, snackbarDuration } from '../common/Snackbar';
+import copyText from '../../utils/copyText'
+import isMobile from '../../utils/isMobile'
+import iconShare from '../../images/icon-share-blue.svg'
 
 const Container = styled.div`
     display: flex;
@@ -43,9 +45,8 @@ const Container = styled.div`
 `
 
 const Title = styled.div`
-    font-size: 22px;
-    font-weight: 600;
-    align-self: flex-start;
+    font-size: 28px;
+    font-weight: 500;
     font-family: BwSeidoRound !important;
 
     @media (min-width: 768px) {
@@ -55,40 +56,44 @@ const Title = styled.div`
 `
 
 const Address = styled.div`
-    border: 1px dashed #dadada;
+    border: 1px solid #e6e6e6;
     border-radius: 4px;
     position: relative;
     width: 100%;
-    padding: 15px;
-    font-size: 28px;
+    font-size: 22px;
     word-break: break-all;
-    line-height: normal;
+    line-height: 120%;
     margin-top: 25px;
-    font-weight: 600;
+    font-weight: 500;
     position: relative;
     background-color: white;
     overflow: hidden;
+    padding: 15px 75px;
+    min-height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
     @media (min-width: 768px) {
-        padding: 15px 70px;
         margin-top: 35px;
+        font-size: 28px;
     }
 `
 
-const CopyAddress = styled(Responsive)`
+const CopyAddress = styled.div`
     color: #0072CE;
-    margin-top: 10px;
     font-size: 16px;
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    margin: 0;
     cursor: pointer;
-    font-weight: 400;
-
-    @media (min-width: 768px) {
-        position: absolute;
-        right: 20px;
-        top: 50%;
-        transform: translateY(-50%);
-        margin: 0;
-    }
+    font-weight: 600;
+    background-color: #f8f8f8;
+    border-radius: 4px;
+    padding: 6px 10px;
+    line-height: normal;
 `
 
 const UrlAddress = styled.div`
@@ -97,10 +102,23 @@ const UrlAddress = styled.div`
     text-transform: initial;
 `
 
+const MobileShare = styled.div`
+    background: url(${iconShare}) center no-repeat;
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    margin: 0;
+    background-color: #f8f8f8;
+    height: 40px;
+    width: 40px;
+    border-radius: 4px;
+`
+
 class ReceiveMoney extends Component {
     constructor(props) {
         super(props);
-        this.myRef = React.createRef();
+        this.urlRef = React.createRef();
 
         this.state = {
             successSnackbar: false,
@@ -108,14 +126,28 @@ class ReceiveMoney extends Component {
     }
 
     handleCopyAddress = () => {
-        const selection = window.getSelection();
-        selection.selectAllChildren(this.myRef.current);
-        document.execCommand('copy');
+        if (navigator.share && isMobile()) {
+            navigator.share({
+                url: this.receiveUrl
+            }).catch(err => {
+                console.log(err.message);
+            });
+        } else {
+            this.handleCopyDesktop();
+        }
+    }
+
+    handleCopyDesktop = () => {
+        copyText(this.urlRef.current);
         this.setState({ successSnackbar: true }, () => {
             setTimeout(() => {
-                this.setState({successSnackbar: false});
+                this.setState({ successSnackbar: false });
             }, snackbarDuration)
         });
+    }
+
+    get receiveUrl() {
+        return `${window.location.protocol}//${window.location.host}/send-money/${this.props.account.accountId}`;
     }
 
     render() {
@@ -130,25 +162,19 @@ class ReceiveMoney extends Component {
                     <div className='ui container'>
                         <Container>
                             <Title>{translate('receivePage.addressTitle')}</Title>
-                            <Address>
-                                {this.props.account.accountId}
-                                <UrlAddress ref={this.myRef}>
-                                    {`${window.location.protocol}//${window.location.host}/send-money/${this.props.account.accountId}`}
+                            <Address onClick={this.handleCopyAddress}>
+                                @{this.props.account.accountId}
+                                <UrlAddress ref={this.urlRef}>
+                                    {this.receiveUrl}
                                 </UrlAddress>
-                                <CopyAddress
-                                    minWidth={768}
-                                    onClick={this.handleCopyAddress}
-                                    title={translate('receivePage.copyAddressLinkLong')}
-                                >
-                                    {translate('receivePage.copyAddressLinkShort')}
-                                </CopyAddress>
+                                {navigator.share && isMobile() ? (
+                                    <MobileShare/>
+                                ) : (
+                                    <CopyAddress title={translate('receivePage.copyAddressLinkLong')}>
+                                        {translate('receivePage.copyAddressLinkShort')}
+                                    </CopyAddress>
+                                )}
                             </Address>
-                            <CopyAddress
-                                maxWidth={767}
-                                onClick={this.handleCopyAddress}
-                            >
-                                {translate('receivePage.copyAddressLinkLong')}
-                            </CopyAddress>
                             <Divider/>
                             <Title>
                                 {translate('receivePage.qrCodeTitle')}

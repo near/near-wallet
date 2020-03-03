@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Form, Responsive } from 'semantic-ui-react'
+import { Translate } from 'react-localize-redux'
+
 import RequestStatusBox from '../common/RequestStatusBox'
 import { ACCOUNT_CHECK_TIMEOUT } from '../../utils/wallet'
 
@@ -40,22 +42,26 @@ class AccountFormAccountId extends Component {
 
         return (
             <>
-                <Form.Input
-                    loading={formLoader}
-                    className={`create username-input-icon ${requestStatus ? (requestStatus.success ? 'success' : 'problem') : ''}`}
-                    name='accountId'
-                    value={accountId}
-                    onChange={this.handleChangeAccountId}
-                    placeholder='username'
-                    maxLength='32'
-                    required
-                    autoComplete='off'
-                    autoCorrect='off'
-                    autoCapitalize='off'
-                    spellCheck='false'
-                    tabIndex='1'
-                    autoFocus={autoFocus && accountId.length === 0}
-                />
+                <Translate>
+                    {({ translate }) => (
+                        <Form.Input
+                            loading={formLoader}
+                            className={`create username-input-icon ${requestStatus ? (requestStatus.success ? 'success' : 'problem') : ''}`}
+                            name='accountId'
+                            value={accountId}
+                            onChange={this.handleChangeAccountId}
+                            placeholder={translate('createAccount.accountIdInput.placeholder')}
+                            maxLength='32'
+                            required
+                            autoComplete='off'
+                            autoCorrect='off'
+                            autoCapitalize='off'
+                            spellCheck='false'
+                            tabIndex='1'
+                            autoFocus={autoFocus && accountId.length === 0}
+                        />
+                    )}
+                </Translate>
                 <Responsive as={RequestStatusBox} maxWidth={767} requestStatus={requestStatus} />
             </>
         )

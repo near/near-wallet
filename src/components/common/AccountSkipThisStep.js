@@ -1,5 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
+import { Translate } from 'react-localize-redux'
+
 import DocImg from '../../images/icon-phrase.svg';
 
 const SetUpPhraseBlock = styled.div`
@@ -31,7 +33,7 @@ const SetUpPhraseBlock = styled.div`
         margin-top: 10px;
         display: inline-block !important;
 
-        span {
+        > span > span {
             font-weight: 600;
         }
    }
@@ -39,11 +41,9 @@ const SetUpPhraseBlock = styled.div`
 
 const AccountSkipThisStep = ({ skipRecoverySetup }) => (
     <SetUpPhraseBlock>
-        <div className='headline'>Switch to Manual Backup</div>
-        <div className='desc'>With this option, you must write down and save a 12 word phrase to recover your account.</div>
-        <div className='button' onClick={skipRecoverySetup}>
-            Setup <span>Recovery Phrase</span>
-        </div>
+        <div className='headline'><Translate id='setRecovery.switchToManualBackup.title' /></div>
+        <div className='desc'><Translate id='setRecovery.switchToManualBackup.text' /></div>
+        <div className='button' onClick={skipRecoverySetup}><Translate id='setRecovery.switchToManualBackup.button' /></div>
     </SetUpPhraseBlock>
 )
 

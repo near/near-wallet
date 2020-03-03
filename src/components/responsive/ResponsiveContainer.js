@@ -14,9 +14,9 @@ class ResponsiveContainer extends Component {
     }
 
     get showNavLinks() {
-        const { availableAccounts, location } = this.props;
+        const { availableAccounts } = this.props;
         const signUpRoutes = ['create', 'set-recovery', 'setup-seed-phrase'];
-        const currentBaseRoute = location.pathname.replace(/^\/([^/]*).*$/, '$1');
+        const currentBaseRoute = window.location.pathname.replace(/^\/([^/]*).*$/, '$1');
         
         return !signUpRoutes.includes(currentBaseRoute) || availableAccounts.length > 1 || (availableAccounts.length > 0 && currentBaseRoute === 'create');
     }

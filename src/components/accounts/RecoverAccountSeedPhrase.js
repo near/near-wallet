@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
+import { Translate } from 'react-localize-redux'
 
 import { recoverAccountSeedPhrase, redirectToApp, checkAccountAvailable, clear, refreshAccount } from '../../actions/account'
 
@@ -61,8 +62,8 @@ class RecoverAccountSeedPhrase extends Component {
         return (
             <AccountFormContainer 
                 wide={true} 
-                title="Recover using Seed Phrase"
-                text={"Enter the backup seed phrase associated with the account"}
+                title={<Translate id='recoverSeedPhrase.pageTitle' />}
+                text={<Translate id='recoverSeedPhrase.pageText' />}
             >
                 <AccountFormSection requestStatus={this.props.requestStatus} handleSubmit={this.handleSubmit.bind(this)}>
                     <RecoverAccountSeedPhraseForm

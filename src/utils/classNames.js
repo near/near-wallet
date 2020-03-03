@@ -14,7 +14,6 @@ const classNames = (names) => {
     } 
 
     return Object.keys(names).filter(key => names[key]).join(" ");
-
 }
 
-export { classNames };
+export default classNames;

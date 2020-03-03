@@ -9,6 +9,8 @@ import {
 } from '../../actions/account'
 import { Snackbar, snackbarDuration } from '../common/Snackbar'
 import { Translate } from 'react-localize-redux'
+import copyText from '../../utils/copyText'
+import isMobile from '../../utils/isMobile'
 
 const Container = styled.div`
     &.error {
@@ -117,9 +119,19 @@ class RecoverWithLink extends Component {
     }
 
     handleCopyUrl = () => {
-        const selection = window.getSelection();
-        selection.selectAllChildren(this.recoverUrl.current);
-        document.execCommand('copy');
+        if (navigator.share && isMobile()) {
+            navigator.share({
+                url: window.location.href
+            }).catch(err => {
+                console.log(err.message);
+            });
+        } else {
+            this.handleCopyDesktop();
+        }
+    }
+
+    handleCopyDesktop = () => {
+        copyText(this.recoverUrl.current);
         this.setState({ successSnackbar: true }, () => {
             setTimeout(() => {
                 this.setState({ successSnackbar: false });

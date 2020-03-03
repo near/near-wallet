@@ -51,7 +51,8 @@ class Routing extends Component {
             ],
             translation: {},
             options: {
-                renderToStaticMarkup: false
+                renderToStaticMarkup: false,
+                renderInnerHtml: true
             }
         })
         this.props.addTranslationForLanguage(translations_en, "en")
