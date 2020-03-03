@@ -3,17 +3,20 @@
 [![Build Status](https://travis-ci.com/nearprotocol/near-wallet.svg?branch=master)](https://travis-ci.com/nearprotocol/near-wallet)
 [![Gitpod Ready-to-Code](https://img.shields.io/badge/Gitpod-Ready--to--Code-blue?logo=gitpod)](https://gitpod.io/#https://github.com/nearprotocol/near-wallet) 
 
-This is in-browser web-based wallet for working with NEAR DevNet accounts. This wallet stores account keys in open text using the localStorage under https://wallet.nearprotocol.com domain on user's machine.
+This is in-browser web-based wallet for working with NEAR accounts. This wallet stores account keys in open text using the localStorage under https://wallet.nearprotocol.com domain on user's machine.
 
-> NEAR Wallet features UI and usability designed by a backend engineer and should not be considered a final product.
+WARNING: This wallet shouldn't be used as the only signer for high-value accounts. Make sure to use hardware wallet when substantial amount of NEAR tokens is involved.
 
-`nearlib.js` is integrated with this wallet and uses cross-domain iframe messaging to communicate to sign transactions. This is would be secure since the account keys are never exposed to the app. But,we (NEAR) still have some work to do to prevent other security issues with application authorization, transaction verification and signing.
-
-DISCLAIMER: This is a developers' preview Wallet. It should be used for NEAR Protocol DevNet only. Learn more at https://wallet.nearprotocol.com
-
-
-Dockerized Wallet
+Getting started
 ===
 
-Dockerized wallet operates as a micro-service. It uses nginx to serve the local static content. As the result, Wallet is
-not parametrizable with environment variables.
+To build locally, run this command in the project directory:
+
+`yarn && yarn start`
+
+Testing
+===
+
+To run tests:
+
+`yarn test`
