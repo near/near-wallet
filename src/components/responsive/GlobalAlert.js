@@ -44,7 +44,7 @@ const CustomMessage = styled(Message)`
         .content {
             color: #999;
             line-height: 20px;
-            word-break: break-all;
+            word-break: break-word;
 
             .header {
                 font-size: 18px;
