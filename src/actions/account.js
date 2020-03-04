@@ -80,6 +80,7 @@ export const allowLogin = () => async (dispatch, getState) => {
 
     const { success_url, public_key } = url
     if (success_url) {
+        dispatch(clearAlert())
         const availableKeys = await wallet.getAvailableKeys();
         const allKeys = availableKeys.map(key => key.toString());
         const parsedUrl = new URL(success_url)
