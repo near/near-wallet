@@ -22,7 +22,7 @@ const SignTransferCancelled = ({ handleDeny }) => (
                 <Grid.Column
                     textAlign='center'
                 >
-                    <h2 className='font-bold'>Transaction cancelled</h2>
+                    <h2><b>Transaction cancelled</b></h2>
                 </Grid.Column>
             </Grid.Row>
             <Grid.Row className='sub'>

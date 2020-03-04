@@ -29,7 +29,7 @@ const SendMoneyThirdStep = ({ handleRedirectDashboard, note, amount, accountId }
                 <List.Item>@{accountId}</List.Item>
                 {note && (
                     <List.Item className='with-note'>
-                        <span className='font-bold'>with note:</span>
+                        <b>with note:</b>
                         <br />
                         {note}
                     </List.Item>
