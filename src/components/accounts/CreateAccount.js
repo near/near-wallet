@@ -78,7 +78,7 @@ class CreateAccount extends Component {
             >
                 <AccountFormSection 
                     requestStatus={useRequestStatus}
-                    handleSubmit={this.handleSubmit}
+                    handleSubmit={this.handleCreateAccount}
                     location={location}
                 >
                     <CreateAccountForm
