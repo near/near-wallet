@@ -25,9 +25,9 @@ const SignTransferReady = ({ handleDeny, txTotalAmount, isMonetaryTransaction })
             <Grid.Row className='title'>
                 <Grid.Column as='h2' textAlign='center'>
                     {isMonetaryTransaction ? (
-                        <span className='font-bold'><Balance amount={txTotalAmount} /> was transferred successfully</span>
+                        <b><Balance amount={txTotalAmount} /> was transferred successfully</b>
                     ) : (
-                        <span className='font-bold'>Authorization request successful</span>
+                        <b>Authorization request successful</b>
                     )}
                 </Grid.Column>
             </Grid.Row>

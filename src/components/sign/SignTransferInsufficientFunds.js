@@ -25,7 +25,7 @@ const SignTransferInsufficientFunds = ({ handleDeny, handleAddFunds }) => (
                     as='h2'
                     textAlign='center'
                 >
-                    <span className='font-bold'>Insufficient Funds</span>
+                    <b>Insufficient Funds</b>
                 </Grid.Column>
             </Grid.Row>
             <Grid.Row className='sub'>

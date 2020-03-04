@@ -79,11 +79,16 @@
         "viewYourAccountName": "View your Account Name",
         "submitAnyTransaction": "Submit any transaction on your behalf",
         "useContract": "Use <b>${receiverId}</b> contract on your behalf",
-        "noKeys": "You have not connected your NEAR Wallet to any applications. When you do, you can manage them here.<br /><br />See what's been built with NEAR:"
+        "noKeys": "You have not connected your NEAR Wallet to any applications. When you do, you can manage them here.<br /><br />See what's been built with NEAR:",
+        "dashboardNoKeys": "You have no full access keys"
     },
 
     "authorizedApps": {
-        "pageTitle": "Authorized Apps"
+        "pageTitle": "Authorized Apps",
+        "dashboardNoApps": "You have not authorized any apps",
+        "feeAllowance": "Fee Allowance",
+        "publicKey": "Public Key",
+        "ledger": "Ledger"
     },
     
     "button": {
@@ -117,7 +122,8 @@
         "deauthorize": "DEAUTHORIZE",
         "recoverAccount": "RECOVER ACCOUNT",
         "goBack": "Go back",
-        "createNewAccount": "CREATE NEW ACCOUNT"
+        "createNewAccount": "CREATE NEW ACCOUNT",
+        "moreInformation": "More information"
     },
 
     "input": {
@@ -245,11 +251,51 @@
         "contactSupport": "Contact Support"
     },
 
+    "dashboard": {
+        "activity": "Activity"
+    },
+
+    "balance": {
+        "balance": "Balance",
+        "balanceLoading": "Balance loading"
+    },
+
+    "login": {
+        "form": {
+            "isRequestingTo": "is requesting to",
+            "accessYourAccount": "access your account.",
+            "isRequestingFullAccess": "is requesting <b>full access</b>",
+            "toYourAccount.": "to your account.",
+            "thisDoesNotAllow": "This does not allow the app to transfer any tokens.",
+            "thisProvidesAccess": "This provides access to <b>all of your tokens</b>.<br />Proceed with caution!"
+        },
+        "confirm": {
+            "pageTitle": "Are you sure?",
+            "pageText": "You are granting <b>full access</b> to ${appTitle}!",
+            "pageTextSecondLine": "<b>To confirm</b>, please enter your username below.",
+            "username": "Username"
+        },
+        "details": {
+            "detailedDescription": "Detailed description of transaction",
+            "thisAllows": "This allows ${appTitle} to:",
+            "createNewAccounts": "Create new accounts",
+            "transferTokens": "Transfer tokens from your account to other accounts",
+            "deploySmartContracts": "Deploy smart contracts",
+            "callFunctions": "Call functions on any smart contract",
+            "stakeAndUnstake": "Stake and unstake NEAR tokens",
+            "createAndDeleteAccessKeys": "Create and delete access keys",
+            "forContract": "For Contract",
+            "function": "Function",
+            "noDescription": "No description specified for this method"
+        }
+    },
+
     "success": "Success",
     "error": "Error",
     "warning": "Warning",
     "total": "total",
     "amount": "amount",
     "or": "OR",
-    "sending": "SENDING"
+    "sending": "SENDING",
+    "back": "Back"
 }

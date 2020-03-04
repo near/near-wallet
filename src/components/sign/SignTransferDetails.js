@@ -142,7 +142,7 @@ const ActionsList = ({ transaction, actions }) =>
 ))
 
 const ActionRow = ({ transaction, action, actionKind }) => (
-    <div key={`subitem-`} className='details-subitem font-bold color-charcoal-grey'>
+    <div key={`subitem-`} className='details-subitem color-charcoal-grey'>
         <ActionMessage 
             transaction={transaction} 
             action={action} 
@@ -158,14 +158,16 @@ const ActionRow = ({ transaction, action, actionKind }) => (
 
 const ActionMessage = ({ transaction, action, actionKind }) => (
     <Fragment>
-        {actionKind === 'createAccount' && `Creating Account: '${transaction.receiverId}'`}
-        {actionKind === 'deployContract' && `Deploying Contract: '${transaction.receiverId}'`}
-        {actionKind === 'functionCall' && `Calling function: '${action.functionCall.methodName}'`}
-        {actionKind === 'transfer' && `Transferring: ${action.transfer.deposit}Ⓝ to '${transaction.receiverId}'`}
-        {actionKind === 'stake' && `Staking: ${action.stake.stake}Ⓝ ${action.stake.publicKey.substring(0, 15)}...`}
-        {actionKind === 'addKey' && `Adding access key`}
-        {actionKind === 'deleteKey' && `Deleting access key`}
-        {actionKind === 'deleteAccount' && `Deleting account: '${transaction.receiverId}'`}
+        <b>
+            {actionKind === 'createAccount' && `Creating Account: '${transaction.receiverId}'`}
+            {actionKind === 'deployContract' && `Deploying Contract: '${transaction.receiverId}'`}
+            {actionKind === 'functionCall' && `Calling function: '${action.functionCall.methodName}'`}
+            {actionKind === 'transfer' && `Transferring: ${action.transfer.deposit}Ⓝ to '${transaction.receiverId}'`}
+            {actionKind === 'stake' && `Staking: ${action.stake.stake}Ⓝ ${action.stake.publicKey.substring(0, 15)}...`}
+            {actionKind === 'addKey' && `Adding access key`}
+            {actionKind === 'deleteKey' && `Deleting access key`}
+            {actionKind === 'deleteAccount' && `Deleting account: '${transaction.receiverId}'`}
+        </b>
     </Fragment>
 )
 

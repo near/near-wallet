@@ -52,16 +52,16 @@ const LoginForm = ({
                 >
                     {contractId && (
                         <Fragment>
-                            <div className='font-bold'>{appTitle}</div>
-                            <div className='h2'>is requesting to </div>
-                            <div className='h2'>access your account.</div>
+                            <div><b>{appTitle}</b></div>
+                            <div className='h2'><Translate id='login.form.isRequestingTo' /> </div>
+                            <div className='h2'><Translate id='login.form.accessYourAccount' /></div>
                         </Fragment>
                     )}
                     {!contractId && (
                         <Fragment>
-                            <div className='font-bold'>{appTitle}</div>
-                            <div className='h2 font-benton'>is requesting <span className='font-bold'>full access</span></div>
-                            <div className='h2 font-benton'>to your account.</div>
+                            <div><b>{appTitle}</b></div>
+                            <div className='h2 font-benton'><Translate id='login.form.isRequestingFullAccess' /></div>
+                            <div className='h2 font-benton'><Translate id='login.form.toYourAccount' /></div>
                         </Fragment>
                     )}
                 </Grid.Column>
@@ -75,10 +75,10 @@ const LoginForm = ({
                     className='color-black'
                 >
                     {contractId && (
-                        <div>This does not allow the app to transfer any tokens.</div>
+                        <div><Translate id='login.form.thisDoesNotAllow' /></div>
                     )}
                     {!contractId && (
-                        <div>This provides access to <span className='font-bold'>all of your tokens</span>.<br />Proceed with caution!</div>
+                        <div><Translate id='login.form.thisProvidesAccess' /></div>
                     )}
                 </Grid.Column>
             </Grid.Row>
@@ -92,7 +92,7 @@ const LoginForm = ({
                 >
                     <Link to={`${match.url}${match.url.substr(-1) === '/' ? '' : '/'}details`}>
                         <div className='more-information'>
-                            More information
+                            <Translate id='button.moreInformation' />
                         </div>
                     </Link>
                 </Grid.Column>

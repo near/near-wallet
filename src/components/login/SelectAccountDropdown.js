@@ -102,10 +102,9 @@ const SelectAccountDropdown = ({
                 basic
                 onClick={!disabled ? handleOnClick : () => { }}
                 className={disabled && 'disabled'}
-                title={!disabled ? 
-                    translate('selectAccountDropdown.switchAccount') 
-                    : 
-                    translate('selectAccountDropdown.switchAccounthNotAllowed')
+                title={!disabled 
+                    ? translate('selectAccountDropdown.switchAccount') 
+                    : translate('selectAccountDropdown.switchAccounthNotAllowed')
                 }
             >
                 <Segment basic>
