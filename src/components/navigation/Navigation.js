@@ -7,6 +7,10 @@ import MobileContainer from './MobileContainer';
 
 class Navigation extends Component {
 
+    state = {
+        menuOpen: false
+    }
+
     get showNavLinks() {
         const { availableAccounts } = this.props;
         const signUpRoutes = ['create', 'set-recovery', 'setup-seed-phrase'];
@@ -15,10 +19,31 @@ class Navigation extends Component {
         return !signUpRoutes.includes(currentBaseRoute) || availableAccounts.length > 1 || (availableAccounts.length > 0 && currentBaseRoute === 'create');
     }
 
+    toggleMenu = () => {
+        this.setState(prevState => ({
+            menuOpen: !prevState.menuOpen
+        }));
+    }
+
+    handleSelectAccount = accountId => {
+        this.props.switchAccount(accountId)
+        this.props.refreshAccount()
+    }
+
     render() {
+
+        const { menuOpen } = this.state;
+
         return (
             <>
-                <DesktopContainer/>
+                <DesktopContainer
+                    menuOpen={menuOpen}
+                    toggleMenu={this.toggleMenu}
+                    closeMenu={this.state.menuOpen ? () => this.setState({ menuOpen: false }) : null }
+                    selectAccount={this.handleSelectAccount}
+                    showNavLinks={this.showNavLinks}
+                    {...this.props}
+                />
                 <MobileContainer/>
             </>
         )

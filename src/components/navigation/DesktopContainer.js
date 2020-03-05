@@ -1,14 +1,19 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import logo from '../../images/wallet.png';
-import summaryIcon from '../../images/icon-recent.svg';
-import arrowIcon from '../../images/icon-send.svg';
 import helpIcon from '../../images/icon-help.svg';
+import Logo from './Logo';
+import NavLinks from './NavLinks';
+import UserBalance from './UserBalance';
+import UserName from './UserName';
+import DesktopMenu from './DesktopMenu';
+import ClickOutside from '../common/ClickOutside';
 
 const Container = styled.div`
     display: none;
     color: white;
+    position: relative;
+    font-size: 15px;
+    margin-bottom: 20px;
     box-shadow: 0px 5px 9px -1px rgba(0,0,0,0.17);
 
     @media (min-width: 769px) {
@@ -26,56 +31,25 @@ const Container = styled.div`
     img {
         width: 180px;
     }
+
+    .click-outside {
+        position: relative;
+    }
 `
 
-const Logo = styled(Link)`
-    background: url(${logo});
-    background-size: 100%;
-    background-repeat: no-repeat;
-    width: 180px;
-    height: 70px;
-`
-
-const NavLink = styled(Link)`
-    display: flex;
-    align-items: center;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    margin-left: 25px;
-    cursor: pointer;
-    transition: 100ms;
+const Help = styled.a`
     color: white;
-
-    &:hover {
-        color: #8FD6BD;
-        text-decoration: none;
-    }
-
-    &:before {
-        content: '';
-        background: url(${props => props.icon});
-        background-repeat: no-repeat;
-        display: inline-block;
-        width: 23px;
-        height: 23px;
-        margin-right: 10px;
-
-    }
-
-    &:last-of-type {
-        &:before {
-            transform: rotate(180deg);
-        }
-    }
-
-`
-
-const Help = styled.div`
     display: flex;
     align-items: center;
     margin-left: auto;
     text-transform: uppercase;
     cursor: pointer;
+    line-height: normal;
+
+    &:hover {
+        color: white;
+        text-decoration: none;
+    }
 
     &:before {
         content: '';
@@ -92,10 +66,10 @@ const User = styled.div`
     border-left: 2px solid #5d5f60;
     position: relative;
     min-width: 150px;
-    max-width: 160px;
+    max-width: 190px;
     margin-left: 20px;
     padding: 0 50px 0 20px;
-    font-size: 15px;
+    font-size: 16px;
     cursor: pointer;
     user-select: none;
 
@@ -112,31 +86,52 @@ const User = styled.div`
         height: 9px;
         width: 9px;
     }
-`
 
-const Username = styled.div`
-    overflow: hidden;
-    text-overflow: ellipsis;
-`
-
-const Balance = styled.div`
-    color: #8FD6BD;
-    margin-top: 3px;
+    &.open {
+        &:after {
+            transform: rotate(135deg) translateY(-50%);
+            top: calc(50% - 6px);
+            right: 25px;
+            border-width: 0px 0px 1px 1px;
+        }
+    }
 `
 
 class DesktopContainer extends Component {
     render() {
+
+        const {
+            account,
+            menuOpen,
+            toggleMenu,
+            closeMenu,
+            availableAccounts,
+            selectAccount,
+            showNavLinks
+        } = this.props;
+
         return (
             <Container>
-                <Logo to='/'/>
-                <NavLink icon={summaryIcon} to='/'>Summary</NavLink>
-                <NavLink icon={arrowIcon} to='/send-money'>Send</NavLink>
-                <NavLink icon={arrowIcon} to='/receive-money'>Receive</NavLink>
-                <Help>Help</Help>
-                <User>
-                    <Username>@patricadasdasdak</Username>
-                    <Balance>10.3 Ⓝ</Balance>
-                </User>
+                <Logo/>
+                {showNavLinks &&
+                    <>
+                        <NavLinks/>
+                        <Help href='http://near.chat/'>Help</Help>
+                        <ClickOutside onClickOutside={closeMenu}>
+                            <User onClick={toggleMenu} className={menuOpen ? 'open' : ''}>
+                                <UserName accountId={account.accountId}/>
+                                <UserBalance amount={account.amount}/>
+                            </User>
+                            <DesktopMenu
+                                show={menuOpen}
+                                toggleMenu={toggleMenu}
+                                accountId={account.accountId}
+                                accounts={availableAccounts}
+                                selectAccount={selectAccount}
+                            />
+                        </ClickOutside>
+                    </>
+                }
             </Container>
         )
     }
