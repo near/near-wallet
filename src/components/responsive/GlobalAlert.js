@@ -113,11 +113,11 @@ const CustomMessage = styled(Message)`
     }
 `
 
-const GlobalAlert = ({ globalAlert, clearAlert, closeIcom = true }) => (
+const GlobalAlert = ({ globalAlert, clearAlert, closeIcon = true }) => (
     globalAlert ?
         <Container>
             <CustomMessage icon className={globalAlert.success ? 'success' : 'error'}>
-                {closeIcom && (
+                {closeIcon && (
                     <Image
                         onClick={clearAlert}
                         src={CloseImage}

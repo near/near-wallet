@@ -132,7 +132,7 @@ class LoginDetails extends Component {
                                             messageCodeHeader: 'warning',
                                             messageCode: 'account.login.details.warning'
                                         }}
-                                        closeIcom={false}
+                                        closeIcon={false}
                                     />
                                 </div>
                                 <div className='details-item'>

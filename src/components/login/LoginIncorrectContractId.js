@@ -15,7 +15,7 @@ const LoginIncorrectContractId = ({ contractId, failureUrl }) => (
                     contractId
                 }
             }}
-            closeIcom={false}
+            closeIcon={false}
         />
         <div className='return-to-app'>
             <FormButton
