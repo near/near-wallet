@@ -265,7 +265,7 @@
             "isRequestingTo": "is requesting to",
             "accessYourAccount": "access your account.",
             "isRequestingFullAccess": "is requesting <b>full access</b>",
-            "toYourAccount.": "to your account.",
+            "toYourAccount": "to your account.",
             "thisDoesNotAllow": "This does not allow the app to transfer any tokens.",
             "thisProvidesAccess": "This provides access to <b>all of your tokens</b>.<br />Proceed with caution!"
         },
