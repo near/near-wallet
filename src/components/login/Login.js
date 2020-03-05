@@ -8,7 +8,7 @@ import LoginConfirm from './LoginConfirm'
 import LoginDetails from './LoginDetails'
 import LoginIncorrectContractId from './LoginIncorrectContractId'
 
-import { refreshAccount, handleRefreshUrl, switchAccount, clearAlert, allowLogin, checkContract } from '../../actions/account'
+import { refreshAccount, handleRefreshUrl, switchAccount, clearAlert, allowLogin } from '../../actions/account'
 
 class Login extends Component {
     state = {
@@ -57,49 +57,47 @@ class Login extends Component {
 
         return (
             <LoginContainer>
-                <>
-                    <Route
-                        exact
-                        path={`${match.url}`}
-                        render={(props) => (
-                            <LoginForm
-                                {...this.state}
-                                {...props}
-                                appTitle={url && url.title}
-                                contractId={url && url.contract_id}
-                                handleOnClick={this.handleOnClick}
-                                handleDeny={this.handleDeny}
-                                handleAllow={this.handleAllow}
-                                handleSelectAccount={this.handleSelectAccount}
-                                redirectCreateAccount={this.redirectCreateAccount}
-                                handleDetails={this.handleDetails}
-                            />
-                        )}
-                    />
-                    <Route 
-                        exact
-                        path={`${match.url}/details`}
-                        render={(props) => (
-                            <LoginDetails
-                                {...props}
-                                contractId={url && url.contract_id}
-                                appTitle={url && url.title}
-                            />
-                        )}
-                    />
-                    <Route 
-                        exact
-                        path={`${match.url}/confirm`}
-                        render={(props) => (
-                            <LoginConfirm
-                                {...props}
-                                buttonLoader={this.state.buttonLoader}
-                                appTitle={url && url.title}
-                                handleAllow={this.handleAllow}
-                            />
-                        )}
-                    />
-                </>
+                <Route
+                    exact
+                    path={`${match.url}`}
+                    render={(props) => (
+                        <LoginForm
+                            {...this.state}
+                            {...props}
+                            appTitle={url && url.title}
+                            contractId={url && url.contract_id}
+                            handleOnClick={this.handleOnClick}
+                            handleDeny={this.handleDeny}
+                            handleAllow={this.handleAllow}
+                            handleSelectAccount={this.handleSelectAccount}
+                            redirectCreateAccount={this.redirectCreateAccount}
+                            handleDetails={this.handleDetails}
+                        />
+                    )}
+                />
+                <Route 
+                    exact
+                    path={`${match.url}/details`}
+                    render={(props) => (
+                        <LoginDetails
+                            {...props}
+                            contractId={url && url.contract_id}
+                            appTitle={url && url.title}
+                        />
+                    )}
+                />
+                <Route 
+                    exact
+                    path={`${match.url}/confirm`}
+                    render={(props) => (
+                        <LoginConfirm
+                            {...props}
+                            buttonLoader={this.state.buttonLoader}
+                            appTitle={url && url.title}
+                            handleAllow={this.handleAllow}
+                        />
+                    )}
+                />
                 <Route 
                     exact
                     path={`${match.url}/incorrect-contract-id`}
@@ -120,8 +118,7 @@ const mapDispatchToProps = {
     handleRefreshUrl,
     switchAccount,
     allowLogin,
-    clearAlert,
-    checkContract
+    clearAlert
 }
 
 const mapStateToProps = ({ account }) => ({
