@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { withRouter, Route } from 'react-router-dom'
-import { parse } from 'query-string'
 
 import LoginContainer from './LoginContainer'
 import LoginForm from './LoginForm'
@@ -14,27 +13,7 @@ import { refreshAccount, handleRefreshUrl, switchAccount, clearAlert, allowLogin
 class Login extends Component {
     state = {
         buttonLoader: false,
-        dropdown: false,
-        contractCorrect: false
-    }
-
-    componentDidMount = () => {
-        const { checkContract, history, match, account: { url } } = this.props
-        const contractId = url.contract_id || parse(history.location.search).contract_id
-
-        if (contractId && !this.state.contractCorrect) {
-            checkContract(contractId)
-                .then(({ error }) => {
-                    if (error) {
-                        history.push(`${match.path}/incorrect-contract-id`)
-                        return
-                    }
-
-                    this.setState(() => ({
-                        contractCorrect: true
-                    }))
-                })
-        }
+        dropdown: false
     }
 
     handleOnClick = () => {
@@ -74,67 +53,63 @@ class Login extends Component {
 
     render() {
         const { account: { url }, match } = this.props
-        const { contractCorrect } = this.state
+        // const { contractCorrect } = this.state
 
         return (
             <LoginContainer>
-                {(!url.contract_id || (url.contract_id && contractCorrect)) && (
-                    <>
-                        <Route
-                            exact
-                            path={`${match.url}`}
-                            render={(props) => (
-                                <LoginForm
-                                    {...this.state}
-                                    {...props}
-                                    appTitle={url && url.title}
-                                    contractId={url && url.contract_id}
-                                    handleOnClick={this.handleOnClick}
-                                    handleDeny={this.handleDeny}
-                                    handleAllow={this.handleAllow}
-                                    handleSelectAccount={this.handleSelectAccount}
-                                    redirectCreateAccount={this.redirectCreateAccount}
-                                    handleDetails={this.handleDetails}
-                                />
-                            )}
-                        />
-                        <Route 
-                            exact
-                            path={`${match.url}/details`}
-                            render={(props) => (
-                                <LoginDetails
-                                    {...props}
-                                    contractId={url && url.contract_id}
-                                    appTitle={url && url.title}
-                                />
-                            )}
-                        />
-                        <Route 
-                            exact
-                            path={`${match.url}/confirm`}
-                            render={(props) => (
-                                <LoginConfirm
-                                    {...props}
-                                    buttonLoader={this.state.buttonLoader}
-                                    appTitle={url && url.title}
-                                    handleAllow={this.handleAllow}
-                                />
-                            )}
-                        />
-                    </>
-                )}
-                {!contractCorrect && (
-                    <Route 
+                <>
+                    <Route
                         exact
-                        path={`${match.url}/incorrect-contract-id`}
-                        render={() => (
-                            <LoginIncorrectContractId
-                                contractId={url.contract_id}
-                                failureUrl={url.failure_url}
+                        path={`${match.url}`}
+                        render={(props) => (
+                            <LoginForm
+                                {...this.state}
+                                {...props}
+                                appTitle={url && url.title}
+                                contractId={url && url.contract_id}
+                                handleOnClick={this.handleOnClick}
+                                handleDeny={this.handleDeny}
+                                handleAllow={this.handleAllow}
+                                handleSelectAccount={this.handleSelectAccount}
+                                redirectCreateAccount={this.redirectCreateAccount}
+                                handleDetails={this.handleDetails}
                             />
                         )}
                     />
-                )}
+                    <Route 
+                        exact
+                        path={`${match.url}/details`}
+                        render={(props) => (
+                            <LoginDetails
+                                {...props}
+                                contractId={url && url.contract_id}
+                                appTitle={url && url.title}
+                            />
+                        )}
+                    />
+                    <Route 
+                        exact
+                        path={`${match.url}/confirm`}
+                        render={(props) => (
+                            <LoginConfirm
+                                {...props}
+                                buttonLoader={this.state.buttonLoader}
+                                appTitle={url && url.title}
+                                handleAllow={this.handleAllow}
+                            />
+                        )}
+                    />
+                </>
+                <Route 
+                    exact
+                    path={`${match.url}/incorrect-contract-id`}
+                    render={() => (
+                        <LoginIncorrectContractId
+                            contractId={url.contract_id}
+                            failureUrl={url.failure_url}
+                        />
+                    )}
+                />
             </LoginContainer>
         )
     }

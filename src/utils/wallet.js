@@ -186,13 +186,6 @@ export class Wallet {
         }
     }
 
-    async checkContract(contractId) {
-        if (!this.isLegitAccountId(contractId)) {
-            throw new Error('Invalid contractId.')
-        }
-        return await this.getAccount(contractId).state()
-    }
-
     async checkNewAccount(accountId) {
         if (!this.isLegitAccountId(accountId)) {
             throw new Error('Invalid username.')

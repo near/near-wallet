@@ -13,50 +13,70 @@ export const loadAccount = createAction('LOAD_ACCOUNT',
     accountId => ({ accountId })
 )
 
-export function handleRedirectUrl(previousLocation) {
-    return (dispatch, getState) => {
-        const { pathname } = getState().router.location
-        if (pathname.split('/')[1] === WALLET_CREATE_NEW_ACCOUNT_URL) {
-            let url = {
-                ...getState().account.url,
-                redirect_url: previousLocation.pathname
-            }
-            saveState(url)
-            dispatch(refreshUrl(url))
+export const handleRedirectUrl = (previousLocation) => (dispatch, getState) => {
+    const { pathname } = getState().router.location
+    if (pathname.split('/')[1] === WALLET_CREATE_NEW_ACCOUNT_URL) {
+        let url = {
+            ...getState().account.url,
+            redirect_url: previousLocation.pathname
         }
+        saveState(url)
+        dispatch(refreshUrl(url))
     }
 }
 
-export function handleClearUrl() {
-    return (dispatch, getState) => {
-        const { pathname } = getState().router.location
-        if (![...WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS, WALLET_LOGIN_URL].includes(pathname.split('/')[1])) {
-            clearState()
-            dispatch(refreshUrl({}))
-        }
+export const handleClearUrl = () => (dispatch, getState) => {
+    const { pathname } = getState().router.location
+    if (![...WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS, WALLET_LOGIN_URL].includes(pathname.split('/')[1])) {
+        clearState()
+        dispatch(refreshUrl({}))
     }
 }
 
 export const parseTransactionsToSign = createAction('PARSE_TRANSACTIONS_TO_SIGN')
 
-export function handleRefreshUrl() {
-    return (dispatch, getState) => {
-        const { pathname, search } = getState().router.location
+export const handleRefreshUrl = () => (dispatch, getState) => {
+    const { pathname, search } = getState().router.location
+    const parsedUrl = parse(search)
+    
+    if (pathname.split('/')[1] === WALLET_LOGIN_URL && search !== '') {
+        saveState(parsedUrl)
+        dispatch(refreshUrl(parsedUrl))
+        dispatch(checkContractId())
+    }
+    else {
+        dispatch(refreshUrl({
+            referrer: document.referrer,
+            ...loadState()
+        }))
+    }
 
-        if (pathname.split('/')[1] === WALLET_LOGIN_URL && search !== '') {
-            saveState(parse(search))
-            dispatch(refreshUrl(parse(search)))
+    const { transactions, callbackUrl } = parsedUrl
+    if (transactions) {
+        dispatch(parseTransactionsToSign({ transactions, callbackUrl }))
+    }
+}
+
+const checkContractId = () => async (dispatch, getState) => {
+    const { contract_id } = getState().account.url
+
+    if (contract_id) {
+        const redirectIncorrectContractId = () => {
+            console.error('Invalid contractId:', contract_id)
+            dispatch(push({ pathname: `/${WALLET_LOGIN_URL}/incorrect-contract-id` }))
         }
-        else {
-            dispatch(refreshUrl({
-                referrer: document.referrer,
-                ...loadState()
-            }))
+        
+        if (!wallet.isLegitAccountId(contract_id)) {
+            redirectIncorrectContractId()
+            return
         }
 
-        const { transactions, callbackUrl } = parse(search);
-        if (transactions) {
-            dispatch(parseTransactionsToSign({ transactions, callbackUrl }));
+        try {
+            await wallet.getAccount(contract_id).state()
+        } catch(error) {
+            if (error.message.indexOf('does not exist while viewing') !== -1) {
+                redirectIncorrectContractId()
+            }
         }
     }
 }
@@ -161,8 +181,4 @@ export const { switchAccount, refreshAccount, resetAccounts, refreshUrl } = crea
     ],
     RESET_ACCOUNTS: wallet.clearState.bind(wallet),
     REFRESH_URL: null
-})
-
-export const { checkContract } = createActions({
-    CHECK_CONTRACT: wallet.checkContract.bind(wallet)
 })
