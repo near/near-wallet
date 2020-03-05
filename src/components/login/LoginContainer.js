@@ -73,22 +73,23 @@ const CustomContainer = styled(Container)`
             }
         }
         .more-information {
-            position: relative;
+            float: none;
             width: 200px;
             height: 40px;
-            margin: 0 auto;
             cursor: pointer;
             color: #999;
-
             font-size: 13px;
-            line-height: 40px;
             border-radius: 20px;
-            
             background: #f8f8f8;
+            border: 0px;
 
             :hover {
                 color: #24272a;
             }
+            :focus {
+                outline: 0;
+            }
+            
             .circle {
                 position: absolute;
                 width: 30px;
