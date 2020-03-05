@@ -9,7 +9,7 @@
     "js-sha256": "^0.9.0",
     "near-ledger-js": "^0.0.4",
     "near-seed-phrase": "^0.0.2",
-    "nearlib": "^0.21.0",
+    "nearlib": "^0.22.0",
     "prop-types": "^15.7.2",
     "query-string": "^6.11.1",
     "react": "^16.13.0",
