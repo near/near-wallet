@@ -1,6 +1,5 @@
 import * as nearlib from 'nearlib'
 import sendJson from 'fetch-send-json'
-import sha256 from 'js-sha256';
 import { findSeedPhraseKey } from 'near-seed-phrase'
 import { createClient } from 'near-ledger-js'
 import { PublicKey } from 'nearlib/lib/utils'
@@ -16,7 +15,6 @@ const NETWORK_ID = process.env.REACT_APP_NETWORK_ID || 'default'
 const ACCOUNT_HELPER_URL = process.env.REACT_APP_ACCOUNT_HELPER_URL || 'https://near-contract-helper.onrender.com'
 const CONTRACT_CREATE_ACCOUNT_URL = `${ACCOUNT_HELPER_URL}/account`
 const NODE_URL = process.env.REACT_APP_NODE_URL || 'https://rpc.nearprotocol.com'
-const HELPER_KEY = process.env.REACT_APP_ACCOUNT_HELPER_KEY || '22skMptHjFWNyuEWY22ftn2AbLPSYpmYwGJRGwpNHbTV'
 
 const KEY_UNIQUE_PREFIX = '_4:'
 const KEY_WALLET_ACCOUNTS = KEY_UNIQUE_PREFIX + 'wallet:accounts_v2'
@@ -244,7 +242,7 @@ export class Wallet {
         const rawPublicKey = await client.getPublicKey()
         const publicKey = new PublicKey(KeyType.ED25519, rawPublicKey)
         await setKeyMeta(publicKey, { type: 'ledger' })
-        return await this.getAccount(accountId).addKey(publicKey)  
+        return await this.getAccount(accountId).addKey(publicKey)
     }
 
     async getAvailableKeys() {
@@ -266,22 +264,6 @@ export class Wallet {
         return sendJson('POST', `${ACCOUNT_HELPER_URL}/account/${phoneNumber}/${accountId}/requestCode`)
     }
 
-    async validateCode(phoneNumber, accountId, postData) {
-        return sendJson('POST', `${ACCOUNT_HELPER_URL}/account/${phoneNumber}/${accountId}/validateCode`, postData)
-    }
-
-    async setupAccountRecovery(phoneNumber, accountId, securityCode) {
-        const account = this.getAccount(accountId)
-        const accountKeys = await account.getAccessKeys();
-        if (!accountKeys.some(it => it.public_key.endsWith(HELPER_KEY))) {
-            await account.addKey(HELPER_KEY);
-        }
-
-        const hash =  Uint8Array.from(sha256.array(Buffer.from(securityCode)));
-        const { signature } = await this.connection.signer.signHash(hash, accountId, NETWORK_ID)
-        await this.validateCode(phoneNumber, accountId, { securityCode, signature: Buffer.from(signature).toString('base64') })
-    }
-
     async setupRecoveryMessage({ phoneNumber, email, accountId, seedPhrase, publicKey }) {
         const account = this.getAccount(accountId)
         const accountKeys = await account.getAccessKeys();
@@ -295,12 +277,6 @@ export class Wallet {
             phoneNumber,
             seedPhrase
         });
-    }
-
-    async recoverAccount(phoneNumber, accountId, securityCode) {
-        const keyPair = nearlib.KeyPair.fromRandom('ed25519')
-        await this.validateCode(phoneNumber, accountId, { securityCode, publicKey: keyPair.publicKey.toString() })
-        await this.saveAndSelectAccount(accountId, keyPair)
     }
 
     async recoverAccountSeedPhrase(seedPhrase, accountId) {

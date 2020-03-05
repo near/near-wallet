@@ -1,8 +1,6 @@
 {
     "account.requestCode.success": "Sent SMS with code.",
     "account.requestCode.error": "Failed to send SMS with code.",
-    "account.setupAccountRecovery.success": "Success",
-    "account.setupAccountRecovery.error": "Failed to setup account recovery.",
     "account.recoverAccount.success": "Success",
     "account.recoverAccount.error": "Failed to recover account.",
     "account.create.success": "Congrats! This name is available.",
@@ -16,7 +14,7 @@
     "account.login.success": "${title} is now authorized to use your account.",
     "account.login.error": "An error occurred while approving this action. Please try again!",
     "account.login.details.warning": "This allows access to your entire balance. Please proceed with caution.",
-    
+
     "actions": {
         "CreateAccount": "New account created: @${receiverId}",
         "DeleteAccount": "Account deleted: @${receiverId}",
@@ -90,7 +88,7 @@
         "publicKey": "Public Key",
         "ledger": "Ledger"
     },
-    
+
     "button": {
         "copyPhrase": "COPY PHRASE",
         "continue": "CONTINUE",
