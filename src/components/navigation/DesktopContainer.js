@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import logo from '../../images/wallet.png';
 import summaryIcon from '../../images/icon-recent.svg';
@@ -27,7 +28,15 @@ const Container = styled.div`
     }
 `
 
-const NavLink = styled.div`
+const Logo = styled(Link)`
+    background: url(${logo});
+    background-size: 100%;
+    background-repeat: no-repeat;
+    width: 180px;
+    height: 70px;
+`
+
+const NavLink = styled(Link)`
     display: flex;
     align-items: center;
     text-transform: uppercase;
@@ -35,9 +44,11 @@ const NavLink = styled.div`
     margin-left: 25px;
     cursor: pointer;
     transition: 100ms;
+    color: white;
 
     &:hover {
         color: #8FD6BD;
+        text-decoration: none;
     }
 
     &:before {
@@ -117,10 +128,10 @@ class DesktopContainer extends Component {
     render() {
         return (
             <Container>
-                <img src={logo} alt='NEAR logo'/>
-                <NavLink icon={summaryIcon}>Summary</NavLink>
-                <NavLink icon={arrowIcon}>Send</NavLink>
-                <NavLink icon={arrowIcon}>Receive</NavLink>
+                <Logo to='/'/>
+                <NavLink icon={summaryIcon} to='/'>Summary</NavLink>
+                <NavLink icon={arrowIcon} to='/send-money'>Send</NavLink>
+                <NavLink icon={arrowIcon} to='/receive-money'>Receive</NavLink>
                 <Help>Help</Help>
                 <User>
                     <Username>@patricadasdasdak</Username>
