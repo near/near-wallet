@@ -4,19 +4,24 @@ import { Link } from 'react-router-dom';
 import logo from '../../images/wallet.png';
 
 const StyledLogo = styled(Link)`
-    width: 60px;
     background: url(${logo});
-    background-size: 180px;
+    background-size: 100%;
     background-repeat: no-repeat;
+    background-position: left center;
+    display: block;
     height: 70px;
+    background-size: 160px;
+    width: 52px;
 
-    @media (min-width: 992px) {
+
+    @media (min-width: 900px) {
+        background-size: 180px;
         width: 180px;
     }
 `
 
 const Logo = () => (
-    <StyledLogo to='/'/>
+    <StyledLogo to='/' className='logo'/>
 )
 
 export default Logo;

@@ -44,7 +44,9 @@ class Navigation extends Component {
                     showNavLinks={this.showNavLinks}
                     {...this.props}
                 />
-                <MobileContainer/>
+                <MobileContainer
+                    {...this.props}
+                />
             </>
         )
     }
