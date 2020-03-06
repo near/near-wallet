@@ -24,6 +24,12 @@ const UserLink = styled(Link)`
         text-decoration: none;
     }
 
+    @media (max-width: 768px) {
+        &:hover {
+            color: #8FD6BD;
+        }
+    }
+
     @media (min-width: 769px) {
         color: #0072CE;
 

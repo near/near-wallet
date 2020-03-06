@@ -4,33 +4,66 @@ import Logo from './Logo';
 import UserBalance from './UserBalance';
 import UserName from './UserName';
 import MenuButton from './MenuButton';
+import NavLinks from './NavLinks';
+import UserLinks from './UserLinks';
+import UserAccounts from './UserAccounts';
+import CreateAccountBtn from './CreateAccountBtn';
 
 const Container = styled.div`
     display: none;
     color: white;
-    position: relative;
     font-size: 15px;
     margin-bottom: 20px;
-    box-shadow: 0px 5px 9px -1px rgba(0,0,0,0.17);
     font-family: 'benton-sans',sans-serif;
     background-color: #24272a;
-    position: sticky;
     height: 70px;
     top: 0;
     z-index: 1000;
-    align-items: center;
+    padding: 0 15px;
 
     @media (max-width: 768px) {
-        display: flex;
+        display: block;
     }
+
+    .user-links {
+        margin-top: 15px;
+
+        a {
+            padding: 10px 0;
+        }
+    }
+
+    h6 {
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        font-weight: 500;
+    }
+
+    &.show {
+        height: 100vh;
+        overflow-y: auto;
+        overflow-x: hidden;
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        left: 0;
+    }
+`
+
+const Collapsed = styled.div`
+    height: 70px;
+    display: flex;
+    align-items: center;
 
     .logo {
-        margin-left: 7px;
+        margin-left: -12px;
     }
 
-    .hamburger {
-        margin-left: auto;
-        margin-right: 20px;
+    .menu-btn {
+        position: absolute;
+        right: 20px;
+        top: 25px;
     }
 `
 
@@ -38,19 +71,53 @@ const User = styled.div`
     margin-left: 10px;
 `
 
+const LowerSection = styled.div`
+    background-color: black;
+    margin: 10px -20px 0 -20px;
+    padding: 20px 20px 100px 20px;
+`
+
 class MobileContainer extends Component {
     render() {
 
-        const { account } = this.props;
+        const {
+            account,
+            selectAccount,
+            availableAccounts,
+            menuOpen,
+            toggleMenu,
+            showNavLinks
+        } = this.props;
 
         return (
-            <Container>
-                <Logo/>
-                <User>
-                    <UserName accountId={account.accountId}/>
-                    <UserBalance amount={account.amount}/>
-                </User>
-                <MenuButton/>
+            <Container className={menuOpen ? 'show' : ''}>
+                <Collapsed>
+                    <Logo/>
+                    {showNavLinks &&
+                        <>
+                            <User>
+                                <UserName accountId={account.accountId}/>
+                                <UserBalance amount={account.amount}/>
+                            </User>
+                            <MenuButton onClick={toggleMenu} open={menuOpen}/>
+                        </>
+                    }
+                </Collapsed>
+                {menuOpen &&
+                    <>
+                        <NavLinks/>
+                        <UserLinks/>
+                        <LowerSection>
+                            <h6>Switch Account</h6>
+                            <UserAccounts
+                                accounts={availableAccounts}
+                                accountId={account.accountId}
+                                selectAccount={selectAccount}
+                            />
+                            <CreateAccountBtn/>
+                        </LowerSection>
+                    </>
+                }
             </Container>
         )
     }

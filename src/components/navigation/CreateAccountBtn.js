@@ -7,7 +7,7 @@ const Button = styled(Link)`
     text-transform: uppercase;
     background-color: #24272A;
     color: #8FD6BD;
-    font-weight: 600;
+    font-weight: 500;
     border-radius: 40px;
     padding: 10px;
     margin-top: 20px;
@@ -16,10 +16,12 @@ const Button = styled(Link)`
     justify-content: center;
     line-height: normal;
     transition: 100ms;
+    letter-spacing: 1px;
 
     @media (min-width: 769px) {
         background-color: white;
         color: #6AD1E3;
+        font-weight: 600;
 
         :hover {
             color: white;

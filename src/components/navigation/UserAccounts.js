@@ -15,10 +15,15 @@ const Account = styled(Link)`
     text-overflow: ellipsis;
     color: white;
     padding: 12px 0;
-    border-bottom: 1px solid #e6e6e6;
+    border-bottom: 1px solid #404040;
 
     :last-of-type {
         border-bottom: 0;
+    }
+
+    :hover {
+        color: white;
+        text-decoration: none;
     }
 
     @media (min-width: 769px) {

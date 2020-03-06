@@ -38,5 +38,5 @@ ClickOutside.propTypes = {
     children: PropTypes.oneOfType([
         PropTypes.element,
         PropTypes.array
-    ]),
+    ])
 };

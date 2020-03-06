@@ -13,7 +13,7 @@ class Navigation extends Component {
 
     get showNavLinks() {
         const { availableAccounts } = this.props;
-        const signUpRoutes = ['create', 'set-recovery', 'setup-seed-phrase'];
+        const signUpRoutes = ['create', 'set-recovery', 'setup-seed-phrase', 'recover-account', 'recover-seed-phrase'];
         const currentBaseRoute = window.location.pathname.replace(/^\/([^/]*).*$/, '$1');
         
         return !signUpRoutes.includes(currentBaseRoute) || availableAccounts.length > 1 || (availableAccounts.length > 0 && currentBaseRoute === 'create');
@@ -28,6 +28,7 @@ class Navigation extends Component {
     handleSelectAccount = accountId => {
         this.props.switchAccount(accountId)
         this.props.refreshAccount()
+        this.setState({ menuOpen: false });
     }
 
     render() {
@@ -39,12 +40,15 @@ class Navigation extends Component {
                 <DesktopContainer
                     menuOpen={menuOpen}
                     toggleMenu={this.toggleMenu}
-                    closeMenu={this.state.menuOpen ? () => this.setState({ menuOpen: false }) : null }
                     selectAccount={this.handleSelectAccount}
                     showNavLinks={this.showNavLinks}
                     {...this.props}
                 />
                 <MobileContainer
+                    menuOpen={menuOpen}
+                    toggleMenu={this.toggleMenu}
+                    selectAccount={this.handleSelectAccount}
+                    showNavLinks={this.showNavLinks}
                     {...this.props}
                 />
             </>

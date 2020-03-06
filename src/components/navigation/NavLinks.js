@@ -6,22 +6,58 @@ import arrowIcon from '../../images/icon-send.svg';
 
 const Container = styled.div`
     display: flex;
-    align-items: center;
+
+    @media (max-width: 768px) {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    @media (min-width: 769px) {
+        align-items: center;
+    }
 `
 
 const NavLink = styled(Link)`
     display: flex;
     align-items: center;
     text-transform: uppercase;
-    letter-spacing: 1px;
-    margin-left: 25px;
+    letter-spacing: 2px;
     cursor: pointer;
     transition: 100ms;
     color: white;
 
-    &:hover {
-        color: #8FD6BD;
-        text-decoration: none;
+
+    @media (max-width: 768px) {
+        width: 100%;
+        height: 65px;
+        border-bottom: 1px solid #404040;
+        font-size: 14px;
+
+        &:hover {
+            text-decoration: none;
+            color: white;
+        }
+
+        &:first-of-type {
+            border-top: 1px solid #404040;
+        }
+
+        &:before {
+            margin-right: 15px;
+        }
+    }
+
+    @media (min-width: 769px) {
+        margin-left: 25px;
+
+        &:hover {
+            color: #8FD6BD;
+            text-decoration: none;
+        }
+
+        &:before {
+            margin-right: 10px;
+        }
     }
 
     &:before {
@@ -31,8 +67,6 @@ const NavLink = styled(Link)`
         display: inline-block;
         width: 23px;
         height: 23px;
-        margin-right: 10px;
-
     }
 
     &:last-of-type {

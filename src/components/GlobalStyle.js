@@ -29,6 +29,7 @@ export default createGlobalStyle`
             font-family: "benton-sans",sans-serif;
             font-weight: 500;
             font-size: 14px !important;
+            -webkit-overflow-scrolling: touch;
         }
     }
 

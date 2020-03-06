@@ -6,7 +6,6 @@ import NavLinks from './NavLinks';
 import UserBalance from './UserBalance';
 import UserName from './UserName';
 import DesktopMenu from './DesktopMenu';
-import ClickOutside from '../common/ClickOutside';
 
 const Container = styled.div`
     display: none;
@@ -86,15 +85,6 @@ const User = styled.div`
         height: 9px;
         width: 9px;
     }
-
-    &.open {
-        &:after {
-            transform: rotate(135deg) translateY(-50%);
-            top: calc(50% - 6px);
-            right: 25px;
-            border-width: 0px 0px 1px 1px;
-        }
-    }
 `
 
 class DesktopContainer extends Component {
@@ -104,7 +94,6 @@ class DesktopContainer extends Component {
             account,
             menuOpen,
             toggleMenu,
-            closeMenu,
             availableAccounts,
             selectAccount,
             showNavLinks
@@ -117,19 +106,17 @@ class DesktopContainer extends Component {
                     <>
                         <NavLinks/>
                         <Help href='http://near.chat/'>Help</Help>
-                        <ClickOutside onClickOutside={closeMenu}>
-                            <User onClick={toggleMenu} className={menuOpen ? 'open' : ''}>
-                                <UserName accountId={account.accountId}/>
-                                <UserBalance amount={account.amount}/>
-                            </User>
-                            <DesktopMenu
-                                show={menuOpen}
-                                toggleMenu={toggleMenu}
-                                accountId={account.accountId}
-                                accounts={availableAccounts}
-                                selectAccount={selectAccount}
-                            />
-                        </ClickOutside>
+                        <User onClick={toggleMenu}>
+                            <UserName accountId={account.accountId}/>
+                            <UserBalance amount={account.amount}/>
+                        </User>
+                        <DesktopMenu
+                            show={menuOpen}
+                            toggleMenu={toggleMenu}
+                            accountId={account.accountId}
+                            accounts={availableAccounts}
+                            selectAccount={selectAccount}
+                        />
                     </>
                 }
             </Container>
