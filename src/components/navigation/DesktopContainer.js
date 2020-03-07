@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import helpIcon from '../../images/icon-help.svg';
+import userIcon from '../../images/user-icon-grey.svg';
 import Logo from './Logo';
 import NavLinks from './NavLinks';
 import UserBalance from './UserBalance';
@@ -11,7 +12,7 @@ const Container = styled.div`
     display: none;
     color: white;
     position: relative;
-    font-size: 15px;
+    font-size: 14px;
     margin-bottom: 20px;
     box-shadow: 0px 5px 9px -1px rgba(0,0,0,0.17);
 
@@ -44,6 +45,7 @@ const Help = styled.a`
     text-transform: uppercase;
     cursor: pointer;
     line-height: normal;
+    letter-spacing: 2px;
 
     &:hover {
         color: white;
@@ -65,18 +67,39 @@ const User = styled.div`
     border-left: 2px solid #5d5f60;
     position: relative;
     min-width: 150px;
-    max-width: 190px;
+    max-width: 280px;
     margin-left: 20px;
     padding: 0 50px 0 20px;
     font-size: 16px;
     cursor: pointer;
     user-select: none;
+    display: flex;
+    align-items: center;
+
+    .user-name {
+        margin-left: 10px;
+    }
+
+    .user-balance {
+        margin-left: 10px;
+        white-space: nowrap;
+        background-color: black;
+        padding: 2px 10px;
+        border-radius: 40px;
+        line-height: normal;
+        font-size: 14px;
+    }
+
+    @media (max-width: 920px) {
+        flex-direction: column;
+        align-items: flex-start;
+    }
 
     &:after {
         content: '';
-        border-color: #f8f8f8;
+        border-color: #f8f8f8a1;
         border-style: solid;
-        border-width: 1px 1px 0 0;
+        border-width: 2px 2px 0 0;
         display: inline-block;
         position: absolute;
         right: 25px;
@@ -84,6 +107,23 @@ const User = styled.div`
         transform: rotate(135deg) translateY(-50%);
         height: 9px;
         width: 9px;
+    }
+`
+
+const UserIcon = styled.div`
+    display: none;
+    background: url(${userIcon});
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 21px;
+    min-width: 35px;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    background-color: #545454;
+
+    @media (min-width: 940px) {
+        display: inline-block;
     }
 `
 
@@ -105,8 +145,9 @@ class DesktopContainer extends Component {
                 {showNavLinks &&
                     <>
                         <NavLinks/>
-                        <Help href='http://near.chat/'>Help</Help>
+                        <Help href='http://near.chat/' target='_blank' rel='noopener noreferrer'>Help</Help>
                         <User onClick={toggleMenu}>
+                            <UserIcon/>
                             <UserName accountId={account.accountId}/>
                             <UserBalance amount={account.amount}/>
                         </User>

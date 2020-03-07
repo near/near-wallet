@@ -12,7 +12,7 @@ const MenuBtn = styled.div`
 
     div {
         width: 22px;
-        height: 1px;
+        height: 2px;
         background-color: white;
         position: absolute;
 

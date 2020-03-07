@@ -4,7 +4,6 @@ import Balance from '../common/Balance';
 
 const StyledBalance = styled.div`
     color: #8FD6BD;
-    margin-top: 3px;
 `
 
 const UserBalance = ({ amount }) => (
