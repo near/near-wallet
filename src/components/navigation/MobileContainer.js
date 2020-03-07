@@ -18,7 +18,7 @@ const Container = styled.div`
     background-color: #24272a;
     height: 70px;
     top: 0;
-    z-index: 1000;
+    z-index: 2000;
     padding: 0 15px;
 
     @media (max-width: 768px) {

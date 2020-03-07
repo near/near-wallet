@@ -88,6 +88,8 @@ const User = styled.div`
         border-radius: 40px;
         line-height: normal;
         font-size: 14px;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 
     @media (max-width: 920px) {
