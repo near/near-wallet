@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import { Translate } from 'react-localize-redux';
 
 const Button = styled(Link)`
     display: block;
@@ -32,7 +33,9 @@ const Button = styled(Link)`
 `
 
 const CreateAccountBtn = () => (
-    <Button to='/create'>Create new account</Button>
+    <Button to='/create'>
+        <Translate id='button.createNewAccount' />
+    </Button>
 )
 
 export default CreateAccountBtn;
