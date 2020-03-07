@@ -67,7 +67,7 @@ const User = styled.div`
     border-left: 2px solid #5d5f60;
     position: relative;
     min-width: 150px;
-    max-width: 280px;
+    max-width: 300px;
     margin-left: 20px;
     padding: 0 50px 0 20px;
     font-size: 16px;
@@ -90,6 +90,7 @@ const User = styled.div`
         font-size: 14px;
         overflow: hidden;
         text-overflow: ellipsis;
+        min-width: 53px;
     }
 
     @media (max-width: 920px) {

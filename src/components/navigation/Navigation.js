@@ -11,6 +11,20 @@ class Navigation extends Component {
         menuOpen: false
     }
 
+    componentDidMount() {
+        document.addEventListener('keydown', this.handleKeyDown);
+    }
+
+    componentWillUnmount() {
+        document.removeEventListener('keydown', this.handleKeyDown);
+    }
+
+    handleKeyDown = (e) => {
+        if (e.key === 'Escape' && this.state.menuOpen) {
+            this.setState({ menuOpen: false });
+        }
+    }
+
     get showNavLinks() {
         const { availableAccounts } = this.props;
         const signUpRoutes = ['create', 'set-recovery', 'setup-seed-phrase', 'recover-account', 'recover-seed-phrase'];

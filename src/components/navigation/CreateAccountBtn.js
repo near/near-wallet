@@ -19,6 +19,11 @@ const Button = styled(Link)`
     transition: 100ms;
     letter-spacing: 1px;
 
+    &:hover {
+        text-decoration: none;
+        color: #8FD6BD;
+    }
+
     @media (min-width: 769px) {
         background-color: white;
         color: #6AD1E3;
@@ -34,7 +39,7 @@ const Button = styled(Link)`
 
 const CreateAccountBtn = () => (
     <Button to='/create'>
-        <Translate id='button.createNewAccount' />
+        <Translate id='button.createNewAccount'/>
     </Button>
 )
 
