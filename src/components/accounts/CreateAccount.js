@@ -10,11 +10,13 @@ import { checkNewAccount, createNewAccount, clear, refreshAccount, resetAccounts
 class CreateAccount extends Component {
     state = {
         loader: false,
-        accountId: ''
+        accountId: '',
+        fundingKey: null
     }
 
     componentDidMount = () => {
-        const { loginError, resetAccounts } = this.props
+        const { loginError, resetAccounts } = this.props;
+        this.handleFundingKey();
 
         if (loginError) {
             console.error('Error loading account:', loginError)
@@ -23,6 +25,10 @@ class CreateAccount extends Component {
                 resetAccounts()
             }
         }
+    }
+
+    handleFundingKey = () => {
+        this.setState({fundingKey: new URLSearchParams(window.location.search).get('funding_key')});
     }
 
     componentWillUnmount = () => {
