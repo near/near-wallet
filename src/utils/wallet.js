@@ -36,7 +36,6 @@ const fundingConfig = {
 };
 
 const LINKDROP_CONTRACT_ID = 'linkdrop-test-1';
-const BOATLOAD_OF_GAS = '10000000000000000';
 
 async function setKeyMeta(publicKey, meta) {
     localStorage.setItem(`keyMeta:${publicKey}`, JSON.stringify(meta))
@@ -255,8 +254,7 @@ export class Wallet {
         const publicKey = keyPair.publicKey.toString().split(':')[1]
         await contract.create_account_and_claim({
             new_account_id: accountId,
-            new_public_key: publicKey},
-            BOATLOAD_OF_GAS
+            new_public_key: publicKey}
         ).catch(err => console.log(err));
     }
 
