@@ -228,8 +228,7 @@ export class Wallet {
 
         if (fundingKey) {
             await this.createNewAccountLinkdrop(accountId, fundingKey, keyPair);
-            window.localStorage.removeItem(`nearlib:keystore:${LINKDROP_CONTRACT_ID}:default`)
-            // TODO: Figure out better solution than adding and removing from local storage
+            await this.keyStore.removeKey(NETWORK_ID, LINKDROP_CONTRACT_ID)
 
         } else {
             await sendJson('POST', CONTRACT_CREATE_ACCOUNT_URL, {
@@ -243,7 +242,11 @@ export class Wallet {
 
     async createNewAccountLinkdrop(accountId, fundingKey, keyPair) {
         const near = await nearlib.connect(fundingConfig);
-        window.localStorage.setItem(`nearlib:keystore:${LINKDROP_CONTRACT_ID}:default`, `ed25519:${fundingKey}`)
+        await this.keyStore.setKey(
+            NETWORK_ID, LINKDROP_CONTRACT_ID, 
+            nearlib.KeyPair.fromString(fundingKey)
+        )
+
         const contract = await near.loadContract(LINKDROP_CONTRACT_ID, {
             viewMethods: [],
             changeMethods: ['create_account_and_claim', 'claim'],
