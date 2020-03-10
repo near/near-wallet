@@ -48,11 +48,11 @@ class CreateAccount extends Component {
             loader: true
         }))
 
-        const { accountId } = this.state
+        const { accountId, fundingKey } = this.state
 
-        this.props.createNewAccount(accountId).then(({ error }) => {
-            if (error) return
-
+        this.props.createNewAccount(accountId, fundingKey).then(({ error }) => {
+            if (error) return;
+                
             this.props.refreshAccount()
 
             let nextUrl = process.env.DISABLE_PHONE_RECOVERY === 'yes' ? `/setup-seed-phrase/${accountId}` : `/set-recovery/${accountId}`
