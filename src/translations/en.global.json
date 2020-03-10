@@ -236,7 +236,7 @@
 
     "disclaimer": {
         "title": "DISCLAIMER",
-        "text": "This is a developers&apos; preview Wallet. It should be used for NEAR Protocol DevNet only. Learn more at "
+        "text": "This is NOT a developers&apos; preview Wallet. It should be used for NEAR Protocol DevNet only. Learn more at "
     },
 
     "footer": {
