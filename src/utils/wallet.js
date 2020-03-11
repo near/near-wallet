@@ -25,16 +25,6 @@ const ACCOUNT_ID_REGEX = /^(([a-z\d]+[-_])*[a-z\d]+[.@])*([a-z\d]+[-_])*[a-z\d]+
 export const ACCOUNT_ID_SUFFIX = process.env.REACT_APP_ACCOUNT_ID_SUFFIX || '.test'
 export const ACCOUNT_CHECK_TIMEOUT = 500
 
-const fundingConfig = {
-    networkId: 'default',
-    nodeUrl: NODE_URL,
-    walletUrl: "http://wallet.nearprotocol.com",
-    masterAccount: 'linkdrop-test-1',
-    deps: {
-        keyStore: new nearlib.keyStores.BrowserLocalStorageKeyStore()
-    }
-};
-
 const LINKDROP_CONTRACT_ID = 'linkdrop-test-1';
 
 async function setKeyMeta(publicKey, meta) {
@@ -240,7 +230,15 @@ export class Wallet {
     }
 
     async createNewAccountLinkdrop(accountId, fundingKey, keyPair) {
-        const near = await nearlib.connect(fundingConfig);
+        const near = await nearlib.connect({
+            networkId: NETWORK_ID,
+            nodeUrl: NODE_URL,
+            masterAccount: 'linkdrop-test-1',
+            deps: {
+                keyStore: this.keyStore
+            }
+        });
+
         await this.keyStore.setKey(
             NETWORK_ID, LINKDROP_CONTRACT_ID, 
             nearlib.KeyPair.fromString(fundingKey)
