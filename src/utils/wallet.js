@@ -230,30 +230,23 @@ export class Wallet {
     }
 
     async createNewAccountLinkdrop(accountId, fundingKey, keyPair) {
-        const near = await nearlib.connect({
-            networkId: NETWORK_ID,
-            nodeUrl: NODE_URL,
-            masterAccount: 'linkdrop-test-1',
-            deps: {
-                keyStore: this.keyStore
-            }
-        });
+        const account = this.getAccount(LINKDROP_CONTRACT_ID);
 
         await this.keyStore.setKey(
             NETWORK_ID, LINKDROP_CONTRACT_ID, 
             nearlib.KeyPair.fromString(fundingKey)
         )
 
-        const contract = await near.loadContract(LINKDROP_CONTRACT_ID, {
+        const contract = new nearlib.Contract(account, LINKDROP_CONTRACT_ID, {
             viewMethods: [],
             changeMethods: ['create_account_and_claim', 'claim'],
             sender: LINKDROP_CONTRACT_ID
         });
-        const publicKey = keyPair.publicKey.toString().split(':')[1]
+        const publicKey = keyPair.publicKey.toString().replace('ed25519:', '');
         await contract.create_account_and_claim({
             new_account_id: accountId,
-            new_public_key: publicKey}
-        ).catch(err => console.log(err));
+            new_public_key: publicKey
+        });
     }
 
     async saveAndSelectAccount(accountId, keyPair) {
