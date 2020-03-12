@@ -153,6 +153,26 @@ class Wallet {
         }
     }
 
+    async refreshAccount() {
+        try {
+            return await this.loadAccount()
+        } catch (error) {
+            console.error('Error loading account:', error)
+
+            if (error.toString().indexOf('does not exist while viewing') !== -1) {
+                this.clearAccountState()
+                this.selectAccount(Object.keys(this.accounts)[0])
+                return {
+                    loginResetAccount: true,
+                    globalAlertPreventClear: this.isEmpty(),
+                    ...(!this.isEmpty() && await this.loadAccount())
+                }
+            }
+
+            throw error
+        }
+    }
+
     async loadAccount() {
         if (this.isEmpty()) {
             throw new Error('No account.')
@@ -377,6 +397,12 @@ class Wallet {
 
     clearState() {
         this.accounts = {}
+        this.accountId = ''
+        this.save()
+    }
+
+    clearAccountState() {
+        delete this.accounts[this.accountId]
         this.accountId = ''
         this.save()
     }
