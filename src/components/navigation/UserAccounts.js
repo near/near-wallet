@@ -3,8 +3,11 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 const Wrapper = styled.div`
-    max-height: 150px;
-    overflow-y: auto;
+
+    @media (min-width: 769px) {
+        max-height: 150px;
+        overflow-y: auto;
+    }
     
     div {
         margin-top: 5px;

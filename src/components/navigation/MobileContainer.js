@@ -26,6 +26,10 @@ const Container = styled.div`
     left: 0;
     box-shadow: 0px 5px 9px -1px rgba(0,0,0,0.17);
 
+    ::-webkit-scrollbar {
+        display: none;
+    }
+
     @media (max-width: 768px) {
         display: block;
     }
@@ -75,7 +79,7 @@ const User = styled.div`
 const LowerSection = styled.div`
     background-color: black;
     margin: 10px -20px 0 -20px;
-    padding: 20px 20px 100px 20px;
+    padding: 20px 20px 100% 20px;
 `
 
 class MobileContainer extends Component {
