@@ -122,35 +122,8 @@ class Wallet {
         await this.getAccount(this.accountId).sendMoney(receiverId, amount)
     }
 
-    redirectToCreateAccount(options = {}, history) {
-        const param = {
-            next_url: window.location.search
-        }
-        if (options.reset_accounts) {
-            param.reset_accounts = true
-        }
-        //  let url = WALLET_CREATE_NEW_ACCOUNT_URL + "?" + $.param(param)
-        let url =
-            '/' +
-            WALLET_CREATE_NEW_ACCOUNT_URL +
-            '/?' +
-            Object.keys(param).map(
-                (p, i) =>
-                    `${i ? '&' : ''}${encodeURIComponent(p)}=${encodeURIComponent(
-                        param[p]
-                    )}`
-            )
-        history ? history.push(url) : window.location.replace(url)
-    }
-
     isEmpty() {
         return !this.accounts || !Object.keys(this.accounts).length
-    }
-
-    redirectIfEmpty(history) {
-        if (this.isEmpty()) {
-            this.redirectToCreateAccount({}, history)
-        }
     }
 
     async refreshAccount() {
