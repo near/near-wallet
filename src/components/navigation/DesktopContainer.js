@@ -22,9 +22,11 @@ const Container = styled.div`
 
     font-family: 'benton-sans',sans-serif;
     background-color: #24272a;
-    position: sticky;
+    position: fixed;
     height: 70px;
     top: 0;
+    left: 0;
+    right: 0;
     z-index: 1000;
     align-items: center;
 
@@ -46,7 +48,7 @@ const Help = styled.a`
     cursor: pointer;
     line-height: normal;
     letter-spacing: 2px;
-
+    
     &:hover {
         color: white;
         text-decoration: none;
@@ -67,7 +69,7 @@ const User = styled.div`
     border-left: 2px solid #5d5f60;
     position: relative;
     min-width: 150px;
-    max-width: 300px;
+    max-width: 310px;
     margin-left: 20px;
     padding: 0 50px 0 20px;
     font-size: 16px;
@@ -78,6 +80,7 @@ const User = styled.div`
 
     .user-name {
         margin-left: 10px;
+        max-width: 100px;
     }
 
     .user-balance {
@@ -88,9 +91,6 @@ const User = styled.div`
         border-radius: 40px;
         line-height: normal;
         font-size: 14px;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        min-width: 53px;
     }
 
     @media (max-width: 920px) {

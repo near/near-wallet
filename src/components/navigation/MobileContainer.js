@@ -20,6 +20,11 @@ const Container = styled.div`
     top: 0;
     z-index: 2000;
     padding: 0 15px;
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    box-shadow: 0px 5px 9px -1px rgba(0,0,0,0.17);
 
     @media (max-width: 768px) {
         display: block;
@@ -40,14 +45,10 @@ const Container = styled.div`
     }
 
     &.show {
-        height: 100vh;
+        height: 100%;
+        bottom: 0;
         overflow-y: auto;
         overflow-x: hidden;
-        position: fixed;
-        top: 0;
-        bottom: 0;
-        right: 0;
-        left: 0;
     }
 `
 

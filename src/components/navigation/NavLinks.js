@@ -26,6 +26,20 @@ const NavLink = styled(Link)`
     transition: 100ms;
     color: white;
 
+    &:before {
+        content: '';
+        background: url(${props => props.icon});
+        background-repeat: no-repeat;
+        display: inline-block;
+        width: 23px;
+        height: 23px;
+    }
+
+    &:last-of-type {
+        &:before {
+            transform: rotate(180deg);
+        }
+    }
 
     @media (max-width: 768px) {
         width: 100%;
@@ -49,6 +63,10 @@ const NavLink = styled(Link)`
     @media (min-width: 769px) {
         margin-left: 25px;
 
+        &:last-of-type {
+            margin-right: 15px;
+        }
+
         &:hover {
             color: #8FD6BD;
             text-decoration: none;
@@ -58,22 +76,6 @@ const NavLink = styled(Link)`
             margin-right: 10px;
         }
     }
-
-    &:before {
-        content: '';
-        background: url(${props => props.icon});
-        background-repeat: no-repeat;
-        display: inline-block;
-        width: 23px;
-        height: 23px;
-    }
-
-    &:last-of-type {
-        &:before {
-            transform: rotate(180deg);
-        }
-    }
-
 `
 
 const NavLinks = () => (

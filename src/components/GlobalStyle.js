@@ -39,6 +39,7 @@ export default createGlobalStyle`
     .App {
         min-height: 100vh;
         padding-bottom: 200px;
+        padding-top: 80px;
 
         .main {
             padding-bottom: 200px;

@@ -11,6 +11,7 @@ const StyledLogo = styled(Link)`
     display: block;
     height: 70px;
     background-size: 160px;
+    min-width: 52px;
     width: 52px;
 
 

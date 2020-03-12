@@ -43,6 +43,8 @@ const Menu = styled.div`
 const LowerSection = styled.div`
     padding: 20px;
     background-color: #f8f8f8;
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
 `
 
 const DesktopMenu = ({ show, accountId, accounts, selectAccount, toggleMenu }) => {

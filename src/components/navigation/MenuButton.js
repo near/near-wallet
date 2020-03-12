@@ -9,6 +9,7 @@ const MenuBtn = styled.div`
     min-height: 21px;
     max-height: 21px;
     position: relative;
+    overflow: visible;
 
     div {
         width: 22px;
@@ -18,7 +19,6 @@ const MenuBtn = styled.div`
 
         :nth-child(1) {
             top: 0;
-            transition: 400ms;
         }
     
         :nth-child(2) {
@@ -29,12 +29,13 @@ const MenuBtn = styled.div`
     
         :nth-child(3) {
             bottom: 0;
-            transition: 400ms;
         }
     }
 
     &.open {
         div {
+            width: 26px;
+
             :nth-child(1) {
                 transform: rotate(45deg);
                 top: 0;
@@ -44,9 +45,7 @@ const MenuBtn = styled.div`
                 margin: auto;
             }
             :nth-child(2) {
-                opacity: 0;
-                visibility: hidden;
-                background-color: transparent;
+                display: none;
             }
             :nth-child(3) {
                 transform: rotate(-45deg);
