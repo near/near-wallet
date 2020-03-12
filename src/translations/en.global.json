@@ -17,7 +17,7 @@
                 "create": "Checking availability",
                 "check": "Checking"
             },
-            "errorAccountNotExist": "You have been redirected to this page because we had to reset the developer accounts. Please create a new account. We apologize for the inconveience."
+            "errorAccountNotExist": "There was a problem creating your account. Please try again!"
         },
         "available": {
             "success": "User found.",
