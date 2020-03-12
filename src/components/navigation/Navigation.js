@@ -11,16 +11,25 @@ class Navigation extends Component {
         menuOpen: false
     }
 
-    componentDidMount() {
-        document.addEventListener('keydown', this.handleKeyDown);
+    componentDidUpdate(prevState) {
+
+        const { menuOpen } = this.state;
+
+        if (menuOpen !== prevState.menuOpen) {
+            if (menuOpen) {
+                document.addEventListener('keydown', this.handleMenu);
+                document.addEventListener('click', this.handleMenu);
+            } else {
+                document.removeEventListener('keydown', this.handleMenu);
+                document.removeEventListener('click', this.handleMenu);
+            }
+        }
     }
 
-    componentWillUnmount() {
-        document.removeEventListener('keydown', this.handleKeyDown);
-    }
-
-    handleKeyDown = (e) => {
-        if (e.key === 'Escape' && this.state.menuOpen) {
+    handleMenu = (e) => {
+        const desktopMenu = document.getElementById('desktop-menu');
+        const mobileMenu = document.getElementById('mobile-menu');
+        if (e.key === 'Escape' || e.target.tagName === 'BUTTON' || e.target.tagName === 'A' || (!desktopMenu.contains(e.target) && !mobileMenu.contains(e.target))) {
             this.setState({ menuOpen: false });
         }
     }

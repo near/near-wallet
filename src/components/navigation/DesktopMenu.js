@@ -3,11 +3,10 @@ import styled from 'styled-components';
 import UserLinks from './UserLinks';
 import UserAccounts from './UserAccounts';
 import CreateAccountBtn from './CreateAccountBtn';
-import ClickOutside from '../common/ClickOutside';
 
 const Menu = styled.div`
     position: absolute;
-    top: 55px;
+    top: 85px;
     right: 40px;
     border-radius: 4px;
     background-color: white;
@@ -18,7 +17,7 @@ const Menu = styled.div`
     :after {
         content: '';
         position: absolute;
-        top: -7px;
+        top: -6px;
         right: 25px;
         width: 12px;
         height: 12px;
@@ -51,20 +50,18 @@ const DesktopMenu = ({ show, accountId, accounts, selectAccount, toggleMenu }) =
 
     if (show) {
         return (
-            <ClickOutside onClickOutside={toggleMenu}>
-                <Menu>
-                    <UserLinks accountId={accountId}/>
-                    <LowerSection>
-                        <h6>Switch Account</h6>
-                        <UserAccounts
-                            accounts={accounts}
-                            accountId={accountId}
-                            selectAccount={selectAccount}
-                        />
-                        <CreateAccountBtn/>
-                    </LowerSection>
-                </Menu>
-            </ClickOutside>
+            <Menu id='desktop-menu'>
+                <UserLinks accountId={accountId}/>
+                <LowerSection>
+                    <h6>Switch Account</h6>
+                    <UserAccounts
+                        accounts={accounts}
+                        accountId={accountId}
+                        selectAccount={selectAccount}
+                    />
+                    <CreateAccountBtn/>
+                </LowerSection>
+            </Menu>
         )
     }
     return null;

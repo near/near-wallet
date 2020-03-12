@@ -17,10 +17,8 @@ export default class ClickOutside extends Component {
 
     handleClickOutside = (e) => {
             const isOutside = this.wrapperRef && !this.wrapperRef.contains(e.target);
-            const clickIsFunction = typeof this.props.onClickOutside === 'function';
-            const isClickable = this.props.clickInside && (e.target.tagName === 'BUTTON' || e.target.tagName === 'A');
 
-        if ((isOutside || isClickable) && clickIsFunction) {
+        if (isOutside) {
             this.props.onClickOutside();
         }
     }
@@ -39,6 +37,7 @@ ClickOutside.defaultProps = {
 }
 
 ClickOutside.propTypes = {
+    onClickOutside: PropTypes.func.isRequired,
     children: PropTypes.oneOfType([
         PropTypes.element,
         PropTypes.array

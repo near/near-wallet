@@ -95,7 +95,7 @@ class MobileContainer extends Component {
         } = this.props;
 
         return (
-            <Container className={menuOpen ? 'show' : ''}>
+            <Container className={menuOpen ? 'show' : ''} id='mobile-menu'>
                 <Collapsed>
                     <Logo/>
                     {showNavLinks &&
