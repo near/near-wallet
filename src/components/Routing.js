@@ -12,7 +12,6 @@ import translations_en from '../translations/en.global.json'
 import '../index.css'
 
 import Navigation from './navigation/Navigation'
-import ResponsiveContainer from './responsive/ResponsiveContainer'
 import Footer from './common/Footer'
 import PrivateRoute from './common/PrivateRoute'
 import DashboardDetailWithRouter from './dashboard/DashboardDetail'
