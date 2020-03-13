@@ -19,16 +19,19 @@ const MenuBtn = styled.div`
 
         :nth-child(1) {
             top: 0;
+            transition: 300ms;
         }
     
         :nth-child(2) {
             top: 0px;
             bottom: 0;
             margin: auto;
+            transition: 100ms;
         }
     
         :nth-child(3) {
             bottom: 0;
+            transition: 300ms;
         }
     }
 
@@ -45,7 +48,8 @@ const MenuBtn = styled.div`
                 margin: auto;
             }
             :nth-child(2) {
-                display: none;
+                opacity: 0;
+                visibility: none;
             }
             :nth-child(3) {
                 transform: rotate(-45deg);

@@ -25,6 +25,7 @@ const Container = styled.div`
     right: 0;
     left: 0;
     box-shadow: 0px 5px 9px -1px rgba(0,0,0,0.17);
+    transition: 300ms;
 
     ::-webkit-scrollbar {
         display: none;
