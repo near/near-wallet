@@ -59,13 +59,13 @@ class Routing extends Component {
     }
 
     componentDidMount = () => {
-        const { refreshAccount, handleRefreshUrl, history, clearAlert, clear, handleRedirectUrl, handleClearUrl, router } = this.props
+        const { refreshAccount, handleRefreshUrl, history, clearAlert, clear, handleRedirectUrl, handleClearUrl } = this.props
         
         handleRefreshUrl()
         refreshAccount()
 
         history.listen(() => {
-            handleRedirectUrl(router.location)
+            handleRedirectUrl(this.props.router.location)
             handleClearUrl()
             refreshAccount()
             
