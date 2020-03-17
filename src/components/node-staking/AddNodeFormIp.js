@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Form } from 'semantic-ui-react'
+import { Translate } from 'react-localize-redux'
 
 import styled from 'styled-components'
 
@@ -28,18 +29,22 @@ class AddNodeFormIp extends Component {
       const { ipAddress } = this.state
 
       return (
-         <CustomFormInput
-            className='create'
-            name='ipAddress'
-            onChange={this.handleChangeIp}
-            placeholder='example: 0.0.0.0'
-            required
-            value={ipAddress}
-            autoComplete='off'
-            autoCorrect='off'
-            spellCheck='false'
-            tabIndex='1'
-         />
+         <Translate>
+            {({ translate }) => (
+               <CustomFormInput
+                  className='create'
+                  name='ipAddress'
+                  onChange={this.handleChangeIp}
+                  placeholder={translate('addNode.ipAddressInput.placeholder')}
+                  required
+                  value={ipAddress}
+                  autoComplete='off'
+                  autoCorrect='off'
+                  spellCheck='false'
+                  tabIndex='1'
+               />
+            )}
+         </Translate>
       )
    }
 }

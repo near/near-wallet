@@ -288,6 +288,62 @@
         }
     },
 
+    "addNode": {
+        "pageTitle": "Add a Node",
+        "pageText": "Setup your Node via CLI, then add it here.",
+        "ipAddressInput": {
+            "title": "Enter the IP Address of your Node",
+            "placeholder": "example: 0.0.0.0"
+        },
+        "nicknameInput": {
+            "title": "Give it a nickname (optional)",
+            "placeholder": "example: AWS Instance"
+        },
+        "desc": "Your node must be setup via CLI before adding it here."
+    },
+    "nodeDetails": {
+        "pageTitle": "Node Details",
+        "pageText": "Update the details of your node."
+    },
+    "nodeStaking": {
+        "pageTitle": "Node & Staking",
+        "pageText": "@nodeandstaking.near",
+        "steps": {
+            "title": "To run a node or stake, please fallow these steps:",
+            "one": {
+                "title": "1. Setup & Run a Node via CLI",
+                "desc": "Instructions available in the Docs"
+            },
+            "two": {
+                "title": "2. Wait for Node to Sync",
+                "desc": "An out of sync node cannot produce or validate"
+            },
+            "three": {
+                "title": "3. Start Staking",
+                "desc": "Stake from here or CLI. See docs for help."
+            }
+        },
+        "nodes": {
+            "title": "Nodes",
+            "noNode": {
+                "title": "Already have your node setup? Add it here.",
+                "text": "This connects your node to your wallet account."
+            }
+        },
+        "staking": {
+            "title": "Staking",
+            "youAreStaking": "You are staking"
+        }
+    },
+    "staking": {
+        "pageTitle": "Staking",
+        "pageText": "Setup your Node via CLI, then add it here.",
+        "amountStakingInput": {
+            "title": "Enter amount to stake",
+            "placeholder": "example: 15"
+        }
+    },
+
     "success": "Success",
     "error": "Error",
     "warning": "Warning",
@@ -295,5 +351,7 @@
     "amount": "amount",
     "or": "OR",
     "sending": "SENDING",
-    "back": "Back"
+    "back": "Back",
+    "of": "of",
+    "ofTotal": "of Total"
 }

@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Form } from 'semantic-ui-react'
+import { Translate } from 'react-localize-redux'
 
 import styled from 'styled-components'
 
@@ -23,18 +24,22 @@ class AddNodeFormNick extends Component {
       const { nickname } = this.state
 
       return (
-         <CustomFormInput
-            className='create'
-            name='nickname'
-            onChange={this.handleChangeNick}
-            placeholder='example: AWS Instance'
-            required
-            value={nickname}
-            autoComplete='off'
-            autoCorrect='off'
-            spellCheck='false'
-            tabIndex='2'
-         />
+         <Translate>
+            {({ translate }) => (
+               <CustomFormInput
+                  className='create'
+                  name='nickname'
+                  onChange={this.handleChangeNick}
+                  placeholder={translate('addNode.nicknameInput.placeholder')}
+                  required
+                  value={nickname}
+                  autoComplete='off'
+                  autoCorrect='off'
+                  spellCheck='false'
+                  tabIndex='2'
+               />
+            )}
+         </Translate>
       )
    }
 }

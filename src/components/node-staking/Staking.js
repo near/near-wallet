@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-
 import { withRouter } from 'react-router-dom'
+import { Translate } from 'react-localize-redux'
 
 import AccountFormContainer from '../accounts/AccountFormContainer'
 import AccountFormSection from '../accounts/AccountFormSection'
@@ -46,8 +46,8 @@ class Staking extends Component {
 
       return (
          <AccountFormContainer 
-            title='Staking'
-            text='Setup your Node via CLI, then add it here.'
+            title={<Translate id='staking.pageTitle' />}
+            text={<Translate id='staking.pageText' />}
             disclaimer={false}
          >
             <AccountFormSection 

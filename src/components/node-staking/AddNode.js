@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Translate } from 'react-localize-redux'
 
 import { withRouter } from 'react-router-dom'
 
@@ -48,8 +49,8 @@ class AddNode extends Component {
       return (
          <AccountFormContainer 
             location={this.props.location}
-            title='Add a Node'
-            text='Setup your Node via CLI, then add it here.'
+            title={<Translate id='addNode.pageTitle' />}
+            text={<Translate id='addNode.pageText' />}
             disclaimer={false}
          >
             <AccountFormSection 

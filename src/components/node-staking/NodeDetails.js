@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-
 import { withRouter } from 'react-router-dom'
+import { Translate } from 'react-localize-redux'
 
 import AccountFormContainer from '../accounts/AccountFormContainer'
 import AccountFormSection from '../accounts/AccountFormSection'
@@ -62,8 +62,8 @@ class NodeDetails extends Component {
 
       return (
          <AccountFormContainer 
-            title='Node Details'
-            text='Update the details of your node.'
+            title={<Translate id='nodeDetails.pageTitle' />}
+            text={<Translate id='nodeDetails.pageText' />}
             disclaimer={false}
          >
             <AccountFormSection 

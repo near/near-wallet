@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-
 import { withRouter } from 'react-router-dom'
+import { Translate } from 'react-localize-redux'
 
 import NodeStakingContainer from './NodeStakingContainer'
 import PageContainer from '../common/PageContainer'
@@ -23,8 +23,8 @@ class NodeStaking extends Component {
       return (
          <NodeStakingContainer>
             <PageContainer
-               title='Node & Staking'
-               additional={<h1>@nodeandstaking.near</h1>}
+               title={<Translate id='nodeStaking.pageTitle' />}
+               additional={<h1><Translate id='nodeStaking.pageText' /></h1>}
             />
             {!nodes.length && <NodeStakingSteps />}
             <NodeStakingNodes
