@@ -7463,10 +7463,10 @@ postcss@^7.0.0, postcss@^7.0.1, postcss@^7.0.11, postcss@^7.0.14, postcss@^7.0.1
     source-map "^0.6.1"
     supports-color "^6.1.0"
 
-posthtml-expressions@^1.1.1:
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/posthtml-expressions/-/posthtml-expressions-1.1.1.tgz#7663a1a5a39259dcad44b67c897c34eb420d942c"
-  integrity sha512-89Afc2rys3YCs/G+SxV3jVgWuQ/SSPujgYVIJj9raKkQjBbHn6RxmZpiJBbru/WEtVp+/s705DXCk4MfnvsJoQ==
+posthtml-expressions@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/posthtml-expressions/-/posthtml-expressions-1.2.0.tgz#d869363a61f2036f6aaf3c5698b3c664e47453c6"
+  integrity sha512-R8Rx6/xAMlRlbWk1fMX3eNYt8D9atI9t1jNtc3gWqFw9BgWay0ehlNVwEc3ZLIsreboIU4vI4D5Z0cAtzhzohA==
   dependencies:
     fclone "^1.0.11"
 
