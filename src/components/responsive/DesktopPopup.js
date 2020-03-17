@@ -1,9 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Image, Segment, List, Button, Popup } from 'semantic-ui-react';
-import PopupMenuTrigger from './PopupMenuTrigger';
-import styled from 'styled-components';
 import { Translate } from 'react-localize-redux'
+import styled from 'styled-components';
+
+import PopupMenuTrigger from './PopupMenuTrigger';
 
 // Images
 import AccountImage from '../../images/icon-account.svg';
@@ -148,14 +149,14 @@ const DesktopPopup = ({
                     <List.Item>
                         <List.Icon as={Image} src={AccountImage} />
                         <List.Content as={Link} to={`/profile/${account.accountId}`} onClick={handleClose}>
-                            Profile
+                            <Translate id='desktopPopup.profile' />
                         </List.Content>
                     </List.Item>
                     {/*
                         <List.Item>
                             <List.Icon as={Image} src={ContactsGreyImage} />
                             <List.Content as={Link} to='/contacts' onClick={handleClose}>
-                                Contacts
+                                <Translate id='desktopPopup.contacts' />
                             </List.Content>
                         </List.Item>
                     */}
@@ -166,7 +167,7 @@ const DesktopPopup = ({
                             to='/authorized-apps'
                             onClick={handleClose}
                         >
-                            Authorized Apps
+                            <Translate id='desktopPopup.authorizedApps' />
                         </List.Content>
                     </List.Item>
                     <List.Item>
@@ -176,20 +177,20 @@ const DesktopPopup = ({
                             to='/full-access-keys'
                             onClick={handleClose}
                         >
-                            Full Access Keys
+                            <Translate id='desktopPopup.fullAccessKeys' />
                         </List.Content>
                     </List.Item>
                     {/*
                         <List.Item>
                             <List.Icon as={Image} src={LogoutImage} />
                             <List.Content as={Link} to='/logout' onClick={handleClose}>
-                                Logout
+                                <Translate id='desktopPopup.logout' />
                             </List.Content>
                         </List.Item>
                     */}
                 </List>
                 <List className='switch-account'>
-                    <List.Item as='h6'>SWITCH ACCOUNT</List.Item>
+                    <List.Item as='h6'><Translate id='desktopPopup.switchAccount' /></List.Item>
                 </List>
                 <List className='account-dropdown-scroll'>
                     {availableAccounts
@@ -208,7 +209,7 @@ const DesktopPopup = ({
                                 @{account}
                             </List.Item>
                         ))}
-                    {availableAccounts.length < 2 && 'You have no other accounts'}
+                    {availableAccounts.length < 2 && <Translate id='desktopPopup.noAccount' />}
                 </List>
                 <Button onClick={redirectCreateAccount}>
                     <Translate id='button.createNewAccount' />

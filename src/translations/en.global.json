@@ -364,6 +364,16 @@
         }
     },
 
+    "desktopPopup": {
+        "profile": "Profile",
+        "contacts": "Contacts",
+        "authorizedApps": "Authorized Apps",
+        "fullAccessKeys": "Full Access Keys",
+        "logout": "Logout",
+        "switchAccount": "SWITCH ACCOUNT",
+        "noAccount": "You have no other accounts"
+    },
+
     "success": "Success",
     "error": "Error",
     "warning": "Warning",
