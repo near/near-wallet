@@ -190,20 +190,20 @@ class DesktopView extends Component {
                                                         className='navbar-icon'
                                                         src={ActivityImage}
                                                     />
-                                                    <Translate id='desktopView.summary' />
+                                                    <Translate id='desktopView.activity' />
                                                 </Link>
                                             </div>
                                         */}
                                         <div className='item'>
                                             <Link to='/send-money'>
                                                 <Image className='navbar-icon' src={SendImage} />
-                                                <Translate id='desktopView.summary' />
+                                                <Translate id='desktopView.send' />
                                             </Link>
                                         </div>
                                         <div className='item'>
                                             <Link to='/receive-money'>
                                                 <Image className='navbar-icon receive' src={SendImage} />
-                                                <Translate id='desktopView.summary' />
+                                                <Translate id='desktopView.receive' />
                                             </Link>
                                         </div>
                                     </>
