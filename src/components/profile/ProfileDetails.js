@@ -1,6 +1,6 @@
 import React from 'react'
-
 import { Link } from 'react-router-dom'
+import { Translate } from 'react-localize-redux'
 
 import { Popup, Grid, Image } from 'semantic-ui-react'
 
@@ -69,21 +69,21 @@ const ProfileDetails = ({ account }) => (
             as='h6'
             className='color-charcoal-grey'
          >
-            PROFILE
+            <Translate id='profile.details.profile' />
          </Grid.Column>
          <Grid.Column computer='4' as='h6' textAlign='center' only='tablet'>
-            VISIBLE TO
+            <Translate id='profile.details.visibleTo' />
          </Grid.Column>
       </Grid.Row>
       <Grid.Row className='border-top'>
          <Grid.Column computer='3' tablet='3' mobile='4' className='title'>
-            Username
+            <Translate id='profile.details.username' />
          </Grid.Column>
          <Grid.Column computer='7' tablet='7' mobile='9'>
             @{account.accountId}
          </Grid.Column>
          <Grid.Column computer='4' tablet='4' textAlign='center' only='tablet'>
-            Public
+            <Translate id='profile.details.public' />
          </Grid.Column>
          <Grid.Column computer='2' tablet='2' mobile='3' textAlign='right'>
             <Popup
@@ -95,12 +95,9 @@ const ProfileDetails = ({ account }) => (
                hoverable
                position='left center'
             >
-               <Popup.Header>Why is this locked?</Popup.Header>
+               <Popup.Header><Translate id='profile.details.lockPopup.title' /></Popup.Header>
                <Popup.Content>
-                  Your username is your unique identifier in the system and cannot be changed
-                  because data and asset ownership is tied to it.
-                  However you are welcome to <Link to="/create">create another account</Link> with desired name
-                  and transfer assets as needed.
+                  <Translate id='profile.details.lockPopup.text' data={{'link': <Link to="/create"><Translate id='profile.details.lockPopup.createAnotherAccount' /></Link>}} />
                   {` `}
                   {false ?
                      <a href='/'>Learn more</a>
@@ -269,7 +266,7 @@ const ProfileDetails = ({ account }) => (
 
       <Grid.Row className='border-top'>
          <Grid.Column computer='3' tablet='3' mobile='4' className='title'>
-            Balance
+            <Translate id='profile.details.balance' />
          </Grid.Column>
          <Grid.Column computer='7' tablet='7' mobile='9'>
             {account.amount 
@@ -277,7 +274,7 @@ const ProfileDetails = ({ account }) => (
             : "NaN"}
          </Grid.Column>
          <Grid.Column computer='4' tablet='4' textAlign='center' only='tablet'>
-            Public
+            <Translate id='profile.details.public' />
          </Grid.Column>
          <Grid.Column as="div">
          </Grid.Column>
