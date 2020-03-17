@@ -374,6 +374,13 @@
         "noAccount": "You have no other accounts"
     },
 
+    "desktopView": {
+        "summary": "SUMMARY",
+        "activity": "ACTIVITY",
+        "send": "SEND",
+        "receive": "RECEIVE"
+    },
+
     "success": "Success",
     "error": "Error",
     "warning": "Warning",

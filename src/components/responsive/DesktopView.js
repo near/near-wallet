@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Image, Responsive, Segment, Visibility } from 'semantic-ui-react';
+import { Translate } from 'react-localize-redux'
+
 import DesktopPopup from './DesktopPopup';
 import GlobalAlert from './GlobalAlert';
 import NodeAnimatedDot from '../node-staking/NodeAnimatedDot';
@@ -178,7 +180,7 @@ class DesktopView extends Component {
                                                     className='navbar-icon'
                                                     src={RecentImage}
                                                 />
-                                                SUMMARY
+                                                <Translate id='desktopView.summary' />
                                             </Link>
                                         </div>
                                         {/*
@@ -188,20 +190,20 @@ class DesktopView extends Component {
                                                         className='navbar-icon'
                                                         src={ActivityImage}
                                                     />
-                                                    ACTIVITY
+                                                    <Translate id='desktopView.summary' />
                                                 </Link>
                                             </div>
                                         */}
                                         <div className='item'>
                                             <Link to='/send-money'>
                                                 <Image className='navbar-icon' src={SendImage} />
-                                                SEND
+                                                <Translate id='desktopView.summary' />
                                             </Link>
                                         </div>
                                         <div className='item'>
                                             <Link to='/receive-money'>
                                                 <Image className='navbar-icon receive' src={SendImage} />
-                                                RECEIVE
+                                                <Translate id='desktopView.summary' />
                                             </Link>
                                         </div>
                                     </>
