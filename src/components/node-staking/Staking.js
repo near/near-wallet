@@ -7,61 +7,61 @@ import AccountFormSection from '../accounts/AccountFormSection'
 import StakingForm from './StakingForm'
 
 class Staking extends Component {
-   state = {
-      loader: false,
-      amountStaking: ''
-   }
+    state = {
+        loader: false,
+        amountStaking: ''
+    }
 
-   handleChange = (e, { name, value }) => {
-      this.setState(() => ({
-         [name]: value
-      }))
-   }
+    handleChange = (e, { name, value }) => {
+        this.setState(() => ({
+            [name]: value
+        }))
+    }
 
-   handleSubmit = e => {
-      e.preventDefault()
+    handleSubmit = e => {
+        e.preventDefault()
 
-      if (!this.isLegitForm()) {
-         return false
-      }
+        if (!this.isLegitForm()) {
+            return false
+        }
 
-      this.setState(() => ({
-         loader: true
-      }))
+        this.setState(() => ({
+            loader: true
+        }))
 
-      setTimeout(() => {
-         this.setState(() => ({
-            loader: false
-         }))
-      }, 1500);
+        setTimeout(() => {
+            this.setState(() => ({
+                loader: false
+            }))
+        }, 1500);
 
-   }
+    }
 
-   isLegitForm = () => {
-      return this.state.amountStaking
-   }
+    isLegitForm = () => {
+        return this.state.amountStaking
+    }
 
-   render() {
-      const { loader } = this.state
+    render() {
+        const { loader } = this.state
 
-      return (
-         <AccountFormContainer 
-            title={<Translate id='staking.pageTitle' />}
-            text={<Translate id='staking.pageText' />}
-            disclaimer={false}
-         >
-            <AccountFormSection 
-               handleSubmit={this.handleSubmit}
+        return (
+            <AccountFormContainer 
+                title={<Translate id='staking.pageTitle' />}
+                text={<Translate id='staking.pageText' />}
+                disclaimer={false}
             >
-               <StakingForm
-                  loader={loader}
-                  handleChange={this.handleChange}
-                  isLegitForm={this.isLegitForm}
-               />
-            </AccountFormSection>
-         </AccountFormContainer>
-      )
-   }
+                <AccountFormSection 
+                    handleSubmit={this.handleSubmit}
+                >
+                    <StakingForm
+                        loader={loader}
+                        handleChange={this.handleChange}
+                        isLegitForm={this.isLegitForm}
+                    />
+                </AccountFormSection>
+            </AccountFormContainer>
+        )
+    }
 }
 
 export const StakingWithRouter = withRouter(Staking)
