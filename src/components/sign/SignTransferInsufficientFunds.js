@@ -25,7 +25,7 @@ const SignTransferInsufficientFunds = ({ handleDeny, handleAddFunds }) => (
                     as='h2'
                     textAlign='center'
                 >
-                    <b>Insufficient Funds</b>
+                    <b><Translate id='sign.insufficientFunds' /></b>
                 </Grid.Column>
             </Grid.Row>
             <Grid.Row className='sub'>
@@ -33,7 +33,7 @@ const SignTransferInsufficientFunds = ({ handleDeny, handleAddFunds }) => (
                     textAlign='center'
                     computer={16}
                 >
-                    Here are some details that will help you.
+                    <Translate id='sign.hereAreSomeDetails' />
                 </Grid.Column>
             </Grid.Row>
         </Grid>
@@ -62,7 +62,7 @@ const SignTransferInsufficientFunds = ({ handleDeny, handleAddFunds }) => (
                     tablet={16}
                     textAlign='center'
                 >
-                    Contract: @contractname.near
+                    <Translate id='sign.contract' /> @contractname.near
                 </Grid.Column>
             </Grid.Row>
         </Grid>

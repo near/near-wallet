@@ -31,6 +31,16 @@
         },
         "DeleteKey": "Key deleted"
     },
+    "actionsSign": {
+        "createAccount": "Creating Account: ${receiverId}",
+        "deployContract": "Deploying Contract: ${receiverId}",
+        "functionCall": "Calling function: ${methodName}",
+        "transfer": "Transferring: ${deposit}Ⓝ to ${receiverId}",
+        "stake": "Staking: ${stake}Ⓝ ${publicKey}...",
+        "addKey": "Adding access key",
+        "deleteKey": "Deleting access key",
+        "deleteAccount": "Deleting account: ${receiverId}"
+    },
 
     "setupSeedPhrase": {
         "pageTitle": "Setup Recovery Phrase",
@@ -398,6 +408,38 @@
         "to": "to",
         "onceConfirmed": "Once confirmed, this cannot be undone.",
         "wasSentTo": "was sent to:"
+    },
+
+    "sign": {
+        "unexpectedStatus": "Unexpected status",
+        "transactionCancelled": "Transaction cancelled",
+        "nothingHasBeenTransferred": "Nothing has been transferred.",
+        "details": {
+            "detailedDescription": "Detailed description of transaction",
+            "transactionFees": "Transaction Fees",
+            "gasLimit": "Gas Limit",
+            "gasPriceUnavailable": "Gas price estimate is unavailable",
+            "forContract": "For Contract"
+        },
+        "ActionWarrning": {
+            "functionCall": "No description specified for this function.",
+            "deployContract": "You are about to deploy a contract to your account! This contract can access your NEAR balance, and interact with other contracts on your behalf.",
+            "stake": "You are about to stake NEAR tokens. These tokens will be locked, and are at risk of being lost if your validator becomes unresponsive.",
+            "deleteAccount": "You are about to delete your account! Your NEAR balance will be destroyed, and all of your account data deleted."
+        },
+        "insufficientFunds": "Insufficient Funds",
+        "hereAreSomeDetails": "Here are some details that will help you.",
+        "contract": "Contract:",
+        "unknownApp": "Unknown App",
+        "isRequesting": {
+            "transferOf": "is requesting the transfer of",
+            "authorization": "is requesting authorization"
+        },
+        "currentBalance": "Current Balance",
+        "wasTransferredSuccessfully": "was transferred successfully",
+        "authorizationRequestSuccessful": "Authorization request successful",
+        "transferring": "Transferring",
+        "authorizing": "Authorizing"
     },
 
     "success": "Success",
