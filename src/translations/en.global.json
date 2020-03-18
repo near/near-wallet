@@ -1,19 +1,37 @@
 {
-    "account.requestCode.success": "Sent SMS with code.",
-    "account.requestCode.error": "Failed to send SMS with code.",
-    "account.recoverAccount.success": "Success",
-    "account.recoverAccount.error": "Failed to recover account.",
-    "account.create.success": "Congrats! This name is available.",
-    "account.create.error": "Username is taken. Try something else.",
-    "account.available.success": "User found.",
-    "account.available.error": "User not found.",
-    "account.available.errorSameAccount": "Cannot send to yourself.",
-    "account.verifySeedPhrase.error": "You entered the incorrect word",
-    "account.setupSeedPhrase.success": "Seed phrase recovery setup is complete.",
-    "account.setupSeedPhrase.error": "An error occurred while setting up seed phrase recovery. Please try again!",
-    "account.login.success": "${title} is now authorized to use your account.",
-    "account.login.error": "An error occurred while approving this action. Please try again!",
-    "account.login.details.warning": "This allows access to your entire balance. Please proceed with caution.",
+    "account": {
+        "requestCode": {
+            "success": "Sent SMS with code.",
+            "error": "Failed to send SMS with code."
+        },
+        "recoverAccount": {
+            "success": "Success",
+            "error": "Failed to recover account."
+        },
+        "create": {
+            "success": "Congrats! This name is available.",
+            "error": "Username is taken. Try something else."
+        },
+        "available": {
+            "success": "User found.",
+            "error": "User not found.",
+            "errorSameAccount": "Cannot send to yourself."
+        },
+        "verifySeedPhrase": {
+            "error": "You entered the incorrect word"
+        },
+        "setupSeedPhrase": {
+            "success": "Seed phrase recovery setup is complete.",
+            "error": "An error occurred while setting up seed phrase recovery. Please try again!"
+        },
+        "login": {
+            "success": "${title} is now authorized to use your account.",
+            "error": "An error occurred while approving this action. Please try again!",
+            "details": {
+                "warning": "This allows access to your entire balance. Please proceed with caution."
+            }
+        }
+    },
 
     "actions": {
         "CreateAccount": "New account created: @${receiverId}",
