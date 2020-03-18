@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { Segment, Form } from 'semantic-ui-react'
 import { BN } from 'bn.js'
+import { Translate } from 'react-localize-redux'
 
 import styled from 'styled-components'
 
@@ -65,7 +66,7 @@ const CustomDiv = styled(`div`)`
 class SendMoneyAmountInput extends Component {
    state = {
       amountInput: this.props.defaultAmount ? formatNEAR(this.props.defaultAmount) : '',
-      amountStatus: '',
+      amountStatusId: '',
       amountDisplay: ''
    }
 
@@ -75,29 +76,29 @@ class SendMoneyAmountInput extends Component {
    }
 
    handleChangeAmount = (e, { name, value }) => {
-      let amountStatus = ''
+      let amountStatusId = ''
       if (value && !this.isDecimalString(value)) {
-         amountStatus = 'NO MORE THAN 5 DECIMAL DIGITS'
+         amountStatusId = 'sendMoney.amountStatusId.noMoreThan'
       }
       let amountInInternalFormat = ''
       if (value !== '') {
          amountInInternalFormat = utils.format.parseNearAmount(value);
          let balance = new BN(this.props.amount)
          if (balance.lt(new BN(amountInInternalFormat))) {
-            amountStatus = 'Not enough tokens.'
+            amountStatusId = 'sendMoney.amountStatusId.notEnoughTokens'
          }
       }
       this.setState({
          amountDisplay: amountInInternalFormat,
          amountInput: value,
-         amountStatus
+         amountStatusId
       })
       this.props.handleChange(e, { name: 'amount', value: amountInInternalFormat })
-      this.props.handleChange(e, { name: 'amountStatus', value: amountStatus })
+      this.props.handleChange(e, { name: 'amountStatusId', value: amountStatusId })
    }
 
    render() {
-      const { amountInput, amountStatus, amountDisplay} = this.state
+      const { amountInput, amountStatusId, amountDisplay} = this.state
       const fontSize = amountInput.length > 11 ? 32 : amountInput.length > 8 ? 38 : amountInput.length > 5 ? 50 : 72
 
       return (
@@ -113,13 +114,13 @@ class SendMoneyAmountInput extends Component {
                tabIndex='2'
                required={true}
             />
-            {amountStatus && (
+            {amountStatusId && (
                <Segment basic textAlign='center' className='alert-info problem'>
-                  {amountStatus}
+                  <Translate id={amountStatusId} />
                </Segment>)}
             {amountDisplay  
                ? <Balance amount={amountDisplay} /> 
-               : "How much do you want to send?"}
+               : <Translate id='sendMoney.amountStatusId.howMuch' />}
          </CustomDiv>
       )
    }
