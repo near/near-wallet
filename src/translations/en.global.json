@@ -184,31 +184,21 @@
         }
     },
 
-    "setRecovery": {
+    "setupRecovery": {
         "pageTitle": "Protect your Account",
-        "pageText": {
-            "email": "Enter your email to make your account easily recoverable in the future.",
-            "phoneNumber": "Enter your phone number to make your account easily recoverable in the future."
-        },
-        "emailInput": {
-            "title": "Email Address",
-            "placeholder": "example@email.com"
-        },
-        "phoneInput": {
-            "title": "Phone Number",
-            "placeholder": "example: +1 555 123 4567"
-        },
-        "useInstead": {
-            "email": "Use email instead",
-            "phoneNumber": "Use phone instead"
-        },
-        "switchToManualBackup": {
-            "title": "Switch to Manual Backup",
-            "text": "With this option, you must write down and save a 12 word phrase to recover your account.",
-            "button": "Setup <span>Recovery Phrase</span>"
-        }
+        "subTitleOne": "Select the method you would like to use if you ever need to recover your account.",
+        "subTitleTwo": "Email recovery is the default option, but you are welcome to select an alternative method. You may change or add additional recovery methods later.",
+        "basicSecurity": "Basic Security",
+        "emailTitle": "Email Recovery",
+        "emailDesc": "Enter your email address below and receive a magic recovery link",
+        "emailPlaceholder": "example@email.com",
+        "phoneTitle": "Phone Recovery",
+        "phoneDesc": "Enter your phone number below and receive a magic recovery link",
+        "phonePlaceholder": "+1 415 797 8554",
+        "advancedSecurity": "Advanced Security",
+        "phraseTitle": "Recovery Seed Phrase",
+        "phraseDesc": "If you choose to use this method, NEAR will be unable to assist in account recovery in event that you lose or forget your recovery phrase."
     },
-
     "setRecoveryConfirm": {
         "pageTitle": "Confirm Recovery Setup",
         "pageText": {
