@@ -51,7 +51,7 @@ class InlineNotification extends Component {
     render() {
 
         const {
-            message,
+            messageId,
             buttonMsgId,
             theme,
             onClick,
@@ -61,7 +61,7 @@ class InlineNotification extends Component {
         if (show)
             return <Container className={`${theme}-theme`} onClick={onClick}>
                         <Icon className='theme-icon'/>
-                        {message}
+                        <Translate id={messageId} />
                         {onClick && buttonMsgId &&
                             <Button role='button'>
                                 <Translate id={buttonMsgId} />
@@ -74,7 +74,7 @@ class InlineNotification extends Component {
 }
 
 InlineNotification.propTypes = {
-    message: PropTypes.string.isRequired,
+    messageId: PropTypes.string.isRequired,
     theme: PropTypes.string.isRequired,
     show: PropTypes.bool.isRequired,
     onClick: PropTypes.func,
