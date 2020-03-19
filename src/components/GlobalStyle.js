@@ -168,15 +168,18 @@ export default createGlobalStyle`
         background-color: #f8f8f8 !important;
         position: relative !important;
         margin-top: 8px !important;
+        outline: none;
+        border-radius: 4px;
+
+        ::placeholder {
+            color: #999999;
+        }
 
         :focus {
             border-color: #e6e6e6 !important;
             background-color: #fff !important;
         }
-        :valid {
-            border-color: #e6e6e6 !important;
-            background-color: #fff !important;
-        }
+
         ::-webkit-input-placeholder {
             line-height: normal !important;
         }
