@@ -114,7 +114,7 @@ const CustomForm = styled(Form)`
 `
 
 const AccountFormSection = ({ handleSubmit, requestStatus, location, children }) => (
-    <CustomForm autoComplete='off' onSubmit={handleSubmit}>
+    <CustomForm autoComplete='off' onSubmit={(e) => {handleSubmit(); e.preventDefault();}}>
         <Grid>
             <Grid.Column computer={9} tablet={8} mobile={16}>
                 {children}

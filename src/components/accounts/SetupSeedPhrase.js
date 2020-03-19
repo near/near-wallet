@@ -56,8 +56,7 @@ class SetupSeedPhrase extends Component {
         this.props.history.push(`/setup-seed-phrase/${this.props.accountId}`)
     }
 
-    handleSubmit = e => {
-        e.preventDefault()
+    handleSubmit = () => {
 
         const { seedPhrase, enterWord, wordId } = this.state
         if (enterWord !== seedPhrase.split(' ')[wordId]) {
