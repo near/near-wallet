@@ -6,13 +6,14 @@ import LoginContainer from './LoginContainer'
 import LoginForm from './LoginForm'
 import LoginConfirm from './LoginConfirm'
 import LoginDetails from './LoginDetails'
+import LoginIncorrectContractId from './LoginIncorrectContractId'
 
 import { refreshAccount, handleRefreshUrl, switchAccount, clearAlert, allowLogin } from '../../actions/account'
 
 class Login extends Component {
     state = {
         buttonLoader: false,
-        dropdown: false,
+        dropdown: false
     }
 
     handleOnClick = () => {
@@ -51,7 +52,8 @@ class Login extends Component {
     }
 
     render() {
-        const { account, match } = this.props
+        const { account: { url }, match } = this.props
+        // const { contractCorrect } = this.state
 
         return (
             <LoginContainer>
@@ -62,8 +64,8 @@ class Login extends Component {
                         <LoginForm
                             {...this.state}
                             {...props}
-                            appTitle={account.url && account.url.title}
-                            contractId={account.url && account.url.contract_id}
+                            appTitle={url && url.title}
+                            contractId={url && url.contract_id}
                             handleOnClick={this.handleOnClick}
                             handleDeny={this.handleDeny}
                             handleAllow={this.handleAllow}
@@ -79,8 +81,8 @@ class Login extends Component {
                     render={(props) => (
                         <LoginDetails
                             {...props}
-                            contractId={account.url && account.url.contract_id}
-                            appTitle={account.url && account.url.title}
+                            contractId={url && url.contract_id}
+                            appTitle={url && url.title}
                         />
                     )}
                 />
@@ -91,8 +93,18 @@ class Login extends Component {
                         <LoginConfirm
                             {...props}
                             buttonLoader={this.state.buttonLoader}
-                            appTitle={account.url && account.url.title}
+                            appTitle={url && url.title}
                             handleAllow={this.handleAllow}
+                        />
+                    )}
+                />
+                <Route 
+                    exact
+                    path={`${match.url}/incorrect-contract-id`}
+                    render={() => (
+                        <LoginIncorrectContractId
+                            contractId={url.contract_id}
+                            failureUrl={url.failure_url}
                         />
                     )}
                 />
