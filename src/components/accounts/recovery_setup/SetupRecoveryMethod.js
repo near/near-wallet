@@ -17,20 +17,31 @@ import Input from '../../common/Input';
 const Container = styled.div`
     
     button {
+        margin-top: 50px;
         @media (min-width: 768px) {
-            width: auto;
-            padding: 0 40px;
+            width: 290px;
+        }
+    }
+
+    h2 {
+        max-width: 800px;
+        color: #4a4f54 !important;
+        
+        :last-of-type {
+            margin-top: 25px;
         }
     }
 
 `
 
 const OptionHeader = styled.h4`
-
+    margin-top: 40px;
 `
 
 const OptionSubHeader = styled.div`
-
+    margin-top: 10px;
+    max-width: 540px;
+    line-height: 150%;
 `
 
 class SetupRecoveryMethod extends Component {

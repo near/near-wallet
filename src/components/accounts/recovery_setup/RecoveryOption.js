@@ -13,6 +13,7 @@ const Container = styled.div`
     cursor: pointer;
     position: relative;
     margin-left: 35px;
+    margin-top: 20px;
 
     :before {
         content: '';
@@ -76,6 +77,14 @@ const Title = styled.div`
 
 const SubTitle = styled.div`
     margin-top: 10px;
+
+    @media (max-width: 767px) {
+        display: none;
+
+        &.active {
+            display: block;
+        }
+    }
 `
 
 const Icon = (props) => {
@@ -104,7 +113,9 @@ const RecoveryOption = ({
             <Header>
                 <Icon option={option}/>
                 <Title>{title}</Title>
-                <SubTitle>{desc}</SubTitle>
+                <SubTitle className={active ? 'active' : ''}>
+                    {desc}
+                </SubTitle>
             </Header>
             {active ? children : ''}
         </Container>
