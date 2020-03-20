@@ -229,68 +229,68 @@ class MobileView extends Component {
                             <Link to='/' onClick={this.handleDropdown}>
                                 <Menu.Item className='main'>
                                     <Image src={RecentImage} />
-                                    SUMMARY
+                                    <Translate id='desktopView.summary' />
                                 </Menu.Item>
                             </Link>
                             {/*
                                 <Link to='/activity' onClick={this.handleDropdown}>
                                     <Menu.Item className='main'>
                                         <Image src={ActivityImage} />
-                                        ACTIVITY
+                                        <Translate id='desktopView.activity' />
                                     </Menu.Item>
                                 </Link>
                             */}
                             <Link to='/send-money' onClick={this.handleDropdown}>
                                 <Menu.Item className='main border'>
                                     <Image src={SendImage} />
-                                    SEND
+                                    <Translate id='desktopView.send' />
                                 </Menu.Item>
                             </Link>
                             <Link to='/receive-money' onClick={this.handleDropdown}>
                                 <Menu.Item className='main border'>
                                     <Image src={SendImage} className='receive'/>
-                                    RECEIVE
+                                    <Translate id='desktopView.receive' />
                                 </Menu.Item>
                             </Link>
                             <Menu.Menu className='sub'>
                                 <Link to={`/profile/${account.accountId}`} onClick={this.handleDropdown}>
                                     <Menu.Item>
                                         <Image src={AccountGreyImage} />
-                                        Profile
+                                        <Translate id='desktopPopup.profile' />
                                     </Menu.Item>
                                 </Link>
                                 {/*
                                     <Link to='/contacts' onClick={this.handleDropdown}>
                                         <Menu.Item>
                                             <Image src={ContactsGreyImage} />
-                                            Contacts
+                                            <Translate id='desktopPopup.contacts' />
                                         </Menu.Item>
                                     </Link>
                                 */}
                                 <Link to='/authorized-apps' onClick={this.handleDropdown}>
                                     <Menu.Item>
                                         <Image src={AuthorizedGreyImage} />
-                                        Authorized Apps
+                                        <Translate id='desktopPopup.authorizedApps' />
                                     </Menu.Item>
                                 </Link>
                                 <Link to='/full-access-keys' onClick={this.handleDropdown}>
                                     <Menu.Item>
                                         <Image src={KeysImage} />
-                                        Full Access Keys
+                                        <Translate id='desktopPopup.fullAccessKeys' />
                                     </Menu.Item>
                                 </Link>
                                 {/*
                                     <Link to='/' onClick={this.handleDropdown}>
                                         <Menu.Item>
                                             <Image src={LogoutImage} />
-                                            Logout
+                                            <Translate id='desktopPopup.logout' />
                                         </Menu.Item>
                                     </Link>
                                 */}
                             </Menu.Menu>
                             <Segment basic className='switch-account'>
                                 <List>
-                                    <List.Item as='h6'>SWITCH ACCOUNT</List.Item>
+                                    <List.Item as='h6'><Translate id='desktopPopup.switchAccount' /></List.Item>
                                     {availableAccounts
                                         .filter(a => a !== account.accountId)
                                         .map((account, i) => (
@@ -303,7 +303,7 @@ class MobileView extends Component {
                                                 @{account}
                                             </List.Item>
                                         ))}
-                                    {availableAccounts.length < 2 && 'You have no other accounts'}
+                                    {availableAccounts.length < 2 && <Translate id='desktopPopup.noAccount' />}
                                 </List>
                                 <Button onClick={this.redirectCreateAccount}>
                                     <Translate id='button.createNewAccount' />

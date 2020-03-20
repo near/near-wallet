@@ -162,27 +162,27 @@ class SignTransferReady extends Component {
         return (
             <Container>
                 <SignAnimatedArrow/>
-                <Title>{appTitle || 'Unknown App'}</Title>
-                <Desc>is requesting&nbsp;{isMonetaryTransaction ? 'the transfer of' : 'authorization'}</Desc>
+                <Title>{appTitle || <Translate id='sign.unknownApp' />}</Title>
+                <Desc><Translate id={`sign.isRequesting.${isMonetaryTransaction ? 'transferOf' : 'authorization'}`} /></Desc>
                 {isMonetaryTransaction &&
                     <>
                         <TransferAmount>
                             <Balance amount={txTotalAmount}/>
                         </TransferAmount>
                         <CurrentBalance>
-                            Current Balance: <Balance amount={accountBalance}/>
+                            <Translate id='sign.currentBalance' />: <Balance amount={accountBalance}/>
                         </CurrentBalance>
                         <InlineNotification
                             show={insufficientFunds}
                             onClick={handleDeny}
-                            message='Insufficient funds'
+                            messageId='sign.insufficientFunds'
                             theme='error'
                             buttonMsgId='button.goBack'
                         />
                     </>
                 }
                 <MoreInfo onClick={this.handleToggleInfo}>
-                    More information
+                    <Translate id='button.moreInformation' />
                     {actionsCounter &&
                         <ActionsCounter>
                             {actionsCounter > 9 ? '9+' : actionsCounter}

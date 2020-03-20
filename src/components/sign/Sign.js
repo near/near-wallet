@@ -3,6 +3,8 @@ import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import { push } from 'connected-react-router'
 import BN from 'bn.js'
+import { Translate } from 'react-localize-redux'
+
 import SignContainer from './SignContainer'
 import SignTransferReady from './SignTransferReady'
 import SignTransferSuccess from './SignTransferSuccess'
@@ -69,7 +71,7 @@ class Sign extends Component {
                 // TODO: Figure out how to handle different error types
                 return <SignTransferCancelled handleDeny={this.handleDeny} />
             default:
-                return <b>Unexpected status: {this.props.status}</b>
+                return <b><Translate id='sign.unexpectedStatus' />: {this.props.status}</b>
         }
     }
 

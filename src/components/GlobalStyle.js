@@ -7,14 +7,14 @@ import EmailIconBlack from '../images/email-icon-black.svg'
 export default createGlobalStyle`
   
   * {
-    box-sizing: inherit;
+        box-sizing: inherit;
     }
 
-    #root {
+   #root {
         min-height: 100vh;
         position: relative;
-    }
-    html {
+   }
+   html {
         box-sizing: border-box;
         min-height: 100vh;
         height: auto !important;
@@ -30,11 +30,12 @@ export default createGlobalStyle`
             font-weight: 500;
             font-size: 14px !important;
         }
+   }
+
+    .grecaptcha-badge {
+        visibility: hidden;
     }
-
-
-    
-
+   
     .App {
         min-height: 100vh;
 
@@ -138,7 +139,7 @@ export default createGlobalStyle`
 
     .username-input-icon {
         position: relative;
-        
+      
         &:after {
             content: '';
             background: url(${EmailIconBlack}) center no-repeat;
@@ -206,9 +207,11 @@ export default createGlobalStyle`
         background-size: 24px 24px !important;
     }
 
+
     b {
         font-weight: 600 !important;
     }
+
 
     .color-seafoam-blue {
         color: #6ad1e3 !important;
@@ -279,7 +282,7 @@ export default createGlobalStyle`
         font-family: "benton-sans",sans-serif !important;
         line-height: normal !important;
     }
-    
+   
 
 
     .box {
@@ -333,7 +336,7 @@ export default createGlobalStyle`
             font-weight: 100 !important;
         }
     }
-    
+   
 
     .transactions-block .item {
         margin-left: 10px !important;
