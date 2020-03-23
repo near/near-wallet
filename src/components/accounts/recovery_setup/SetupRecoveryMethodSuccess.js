@@ -1,4 +1,5 @@
-import React, { Component } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Translate } from 'react-localize-redux'
 import FormButton from '../../common/FormButton';
@@ -45,44 +46,48 @@ const Container = styled.div`
     }
 `
 
-class SetRecoveryMethodSuccess extends Component {
+const SetRecoveryMethodSuccess = ({
+    option,
+    phoneNumber,
+    email,
+    onConfirm,
+    onGoBack
+}) => {
 
-    render() {
-        const {
-            option,
-            phoneNumber,
-            email,
-            onConfirm,
-            onGoBack
-        } = this.props;
-
-        let useEmail = true;
-        if (option !== 'email') {
-            useEmail = false;
-        }
-
-        return (
-            <Container className='ui container'>
-                <h1><Translate id='setRecoveryConfirm.pageTitle' /></h1>
-                <div className='desc one'><Translate id={`setRecoveryConfirm.pageText.one.${useEmail ? 'email' : 'phoneNumber'}`} /></div>
-                <div className='desc two'><Translate id={`setRecoveryConfirm.pageText.two.${useEmail ? 'email' : 'phoneNumber'}`} /></div>
-                <div className='desc recover-value'>
-                    {useEmail ? email : phoneNumber}
-                </div>
-                <FormButton
-                    color='blue'
-                    onClick={onConfirm}
-                >
-                    <Translate id='button.confirm' />
-                </FormButton>
-                <div className='re-enter'>
-                    <Translate id={`setRecoveryConfirm.reenter.one.${useEmail ? 'email' : 'phoneNumber'}`} />
-                    <span onClick={onGoBack} className='link'><Translate id='setRecoveryConfirm.reenter.link'/></span>
-                    <Translate id={`setRecoveryConfirm.reenter.two.${useEmail ? 'email' : 'phoneNumber'}`} />
-                </div>
-            </Container>
-        );
+    let useEmail = true;
+    if (option !== 'email') {
+        useEmail = false;
     }
+
+    return (
+        <Container className='ui container'>
+            <h1><Translate id='setRecoveryConfirm.pageTitle' /></h1>
+            <div className='desc one'><Translate id={`setRecoveryConfirm.pageText.one.${useEmail ? 'email' : 'phoneNumber'}`} /></div>
+            <div className='desc two'><Translate id={`setRecoveryConfirm.pageText.two.${useEmail ? 'email' : 'phoneNumber'}`} /></div>
+            <div className='desc recover-value'>
+                {useEmail ? email : phoneNumber}
+            </div>
+            <FormButton
+                color='blue'
+                onClick={onConfirm}
+            >
+                <Translate id='button.confirm' />
+            </FormButton>
+            <div className='re-enter'>
+                <Translate id={`setRecoveryConfirm.reenter.one.${useEmail ? 'email' : 'phoneNumber'}`} />
+                <span onClick={onGoBack} className='link'><Translate id='setRecoveryConfirm.reenter.link'/></span>
+                <Translate id={`setRecoveryConfirm.reenter.two.${useEmail ? 'email' : 'phoneNumber'}`} />
+            </div>
+        </Container>
+    )
+}
+
+SetRecoveryMethodSuccess.propTypes = {
+    email: PropTypes.string,
+    phoneNumber: PropTypes.string,
+    option: PropTypes.string.isRequired,
+    onGoBack: PropTypes.func.isRequired,
+    onConfirm: PropTypes.func.isRequired
 }
 
 export default SetRecoveryMethodSuccess;

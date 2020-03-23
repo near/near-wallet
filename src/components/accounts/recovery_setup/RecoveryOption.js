@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import EmailIcon from '../../svg/EmailIcon';
 import PhoneIcon from '../../svg/PhoneIcon';
@@ -162,6 +163,16 @@ const RecoveryOption = ({
             {active && children}
         </Container>
     )
+}
+
+RecoveryOption.propTypes = {
+    children: PropTypes.oneOfType([
+        PropTypes.array,
+        PropTypes.object
+    ]),
+    option: PropTypes.string.isRequired,
+    onClick: PropTypes.func.isRequired,
+    active: PropTypes.bool.isRequired
 }
 
 export default RecoveryOption;
