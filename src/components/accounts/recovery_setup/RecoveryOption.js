@@ -125,6 +125,10 @@ const Title = styled.div`
     color: #24272a;
     font-weight: 500;
     font-family: BwSeidoRound;
+
+    span {
+        color: #FF585D;
+    }
 `
 
 const Icon = ({option}) => {
@@ -147,14 +151,15 @@ const RecoveryOption = ({
     active
 }) => {
     return (
-        <Container onClick={onClick} className={active ? 'active' : ''}>
+        <Container onClick={onClick} className={active && 'active'}>
             <Header>
                 <Icon option={option}/>
                 <Title>
                     <Translate id={`setupRecovery.${option}Title`}/>
+                    {active && option !== 'phrase' && <span>*</span>}
                 </Title>
             </Header>
-            {active ? children : null}
+            {active && children}
         </Container>
     )
 }
