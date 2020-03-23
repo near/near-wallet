@@ -16,7 +16,6 @@ export async function getTransactions(accountId = '') {
                     transactions.hash,
                     transactions.signer_id, 
                     transactions.receiver_id, 
-                    transactions.actions, 
                     transactions.block_hash, 
                     blocks.timestamp as blockTimestamp
                 FROM 
@@ -39,8 +38,23 @@ export async function getTransactions(accountId = '') {
             }
         }
     ));
-    return tx.map((t) => ({
-        ...t,
-        actions: JSON.parse(t.actions)
-    }))
+    
+    tx.map(async t => {
+        const actions = await new Promise((require, reject) => wamp.call(
+            'com.nearprotocol.testnet.explorer.select',
+            [
+                `SELECT actions.action_type as kind, 
+                        actions.action_args as args
+                FROM actions
+                WHERE actions.transaction_hash = :hash
+                ORDER BY actions.action_index`,
+                  {
+                    hash: t.hash
+                  }
+            ]
+        ))
+        tx.actions = actions
+    })
+    
+    return tx
 }
