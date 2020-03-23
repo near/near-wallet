@@ -101,6 +101,7 @@
         "createAccountCapital": "CREATE ACCOUNT",
         "findMyAccount": "FIND MY ACCOUNT",
         "protectAccount": "PROTECT ACCOUNT",
+        "setupPhrase": "SETUP RECOVERY PHRASE",
         "confirm": "CONFIRM",
         "viewAll": "VIEW ALL",
         "send": "SEND",

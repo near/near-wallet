@@ -152,7 +152,7 @@ class SetupRecoveryMethod extends Component {
                         disabled={!this.isValidInput}
                         sending={this.props.formLoader}
                     >
-                        {option !== 'phrase' ? 'Protect Account' : 'Setup Recovery Phrase'}
+                        <Translate id={`button.${option !== 'phrase' ? 'protectAccount' : 'setupPhrase'}`}/>
                     </FormButton>
                 </Container>
             )
