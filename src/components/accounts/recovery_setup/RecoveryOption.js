@@ -3,6 +3,8 @@ import styled from 'styled-components';
 import EmailIcon from '../../svg/EmailIcon';
 import PhoneIcon from '../../svg/PhoneIcon';
 import PhraseIcon from '../../svg/PhraseIcon';
+import { Translate } from 'react-localize-redux';
+import IntFlagIcon from '../../../images/int-flag-small.svg';
 
 const Container = styled.div`
     background-color: #F8F8F8;
@@ -52,6 +54,56 @@ const Container = styled.div`
             stroke: #0072CE !important;
         }
     }
+
+    input {
+        margin-top: 20px !important;
+    }
+
+    .react-phone-number-input {
+        position: relative;
+
+        .react-phone-number-input__country {
+            position: absolute;
+            right: 0;
+            z-index: 1;
+            top: 50%;
+            transform: translateY(calc(-50% + 10px));
+        }
+
+        .react-phone-number-input__icon { 
+            &:not(.react-phone-number-input__icon--international) {
+                margin-right: 5px;
+            }
+        }
+
+        .react-phone-number-input__icon--international {
+            svg {
+                display: none;
+            }
+            
+            background-image: url(${IntFlagIcon});
+            background-repeat: no-repeat;
+        }
+
+        .react-phone-number-input__icon {
+            border: 0;
+        }
+
+        .react-phone-number-input__country-select-arrow {
+            width: 8px;
+            height: 8px;
+            border-color: black;
+            border-width: 0 1px 1px 0;
+            transform: rotate(45deg);
+            margin-top: -1px;
+            margin-left: 5px;
+            margin-right: 5px;
+        }
+
+        select {
+            font-size: 16px;
+        }
+    }
 `
 
 const Header = styled.div`
@@ -75,20 +127,8 @@ const Title = styled.div`
     font-family: BwSeidoRound;
 `
 
-const SubTitle = styled.div`
-    margin-top: 10px;
-
-    @media (max-width: 767px) {
-        display: none;
-
-        &.active {
-            display: block;
-        }
-    }
-`
-
-const Icon = (props) => {
-    switch (props.option) {
+const Icon = ({option}) => {
+    switch (option) {
         case 'email':
             return <EmailIcon/>
         case 'phone':
@@ -102,8 +142,6 @@ const Icon = (props) => {
 
 const RecoveryOption = ({
     children,
-    title,
-    desc,
     option,
     onClick,
     active
@@ -112,12 +150,11 @@ const RecoveryOption = ({
         <Container onClick={onClick} className={active ? 'active' : ''}>
             <Header>
                 <Icon option={option}/>
-                <Title>{title}</Title>
-                <SubTitle className={active ? 'active' : ''}>
-                    {desc}
-                </SubTitle>
+                <Title>
+                    <Translate id={`setupRecovery.${option}Title`}/>
+                </Title>
             </Header>
-            {active ? children : ''}
+            {active ? children : null}
         </Container>
     )
 }

@@ -187,19 +187,16 @@
     "setupRecovery": {
         "pageTitle": "Protect your Account",
         "subTitleOne": "Select the method you would like to use if you ever need to recover your account.",
-        "subTitleTwo": "Email recovery is the default option, but you are welcome to select an alternative method. You may change or add additional recovery methods later.",
         "basicSecurity": "Basic Security",
-        "basicSecurityDesc": "These recovery options allow you to recover your account via a magic link sent to your device.",
+        "basicSecurityDesc": "Enter your email address or phone number and receive a magic link",
         "emailTitle": "Email Recovery",
-        "emailDesc": "Enter your email address below and receive a magic recovery link",
         "emailPlaceholder": "example@email.com",
         "phoneTitle": "Phone Recovery",
         "phoneDesc": "Enter your phone number below and receive a magic recovery link",
         "phonePlaceholder": "+1 415 797 8554",
         "advancedSecurity": "Advanced Security",
-        "advancedSecurityDesc": "If you choose to use this method, NEAR will be unable to assist in account recovery in event that you lose or forget your recovery phrase.",
-        "phraseTitle": "Recovery Phrase",
-        "phraseDesc": "Recover your account using a secure 12 word recovery phrase. You will need to manually record your phrase"
+        "advancedSecurityDesc": "Write down a 12 word recovery phrase and store it securely.",
+        "phraseTitle": "Recovery Phrase"
     },
     "setRecoveryConfirm": {
         "pageTitle": "Confirm Recovery Setup",
