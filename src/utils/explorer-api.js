@@ -53,7 +53,15 @@ export async function getTransactions(accountId = '') {
                   }
             ]
         ))
-        tx.actions = actions
+        tx.actions = actions.map(action => {
+              if (typeof action === "string") {
+                return { [action]: {} };
+              } else {
+                return {
+                  [action.kind]: JSON.parse(action.args)
+                };
+              }
+            });
     })
     
     return tx
