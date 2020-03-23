@@ -118,11 +118,15 @@ class SetupRecoveryMethod extends Component {
                         option='email'
                         active={option === 'email'}
                     >
-                        <input 
-                            placeholder='example@email.com'
-                            value={email}
-                            onChange={e => this.setState({ email: e.target.value })}
-                        />
+                        <Translate>
+                            {({ translate }) => (
+                                <input 
+                                    placeholder={translate('setupRecovery.emailPlaceholder')}
+                                    value={email}
+                                    onChange={e => this.setState({ email: e.target.value })}
+                                />
+                            )}
+                        </Translate>
                     </RecoveryOption>
                     <RecoveryOption
                         onClick={() => this.setState({ option: 'phone' })}
