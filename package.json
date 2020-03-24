@@ -12,10 +12,11 @@
     "nearlib": "^0.22.0",
     "prop-types": "^15.7.2",
     "query-string": "^6.11.1",
-    "react": "^16.13.0",
+    "react": "^16.13.1",
     "react-app-polyfill": "^1.0.6",
-    "react-dom": "^16.13.0",
+    "react-dom": "^16.13.1",
     "react-google-recaptcha": "^2.0.1",
+    "react-google-recaptcha-v3": "^1.4.1",
     "react-localize-redux": "^3.5.3",
     "react-phone-number-input": "2.3.11",
     "react-qr-svg": "^2.2.1",
@@ -26,7 +27,7 @@
     "redux": "^4.0.5",
     "redux-actions": "^2.6.5",
     "redux-thunk": "^2.3.0",
-    "regenerator-runtime": "^0.13.3",
+    "regenerator-runtime": "^0.13.5",
     "semantic-ui-react": "^0.88.1",
     "styled-components": "^4.4.1",
     "timeago.js": "^4.0.2",
@@ -49,10 +50,10 @@
     "not op_mini all"
   ],
   "devDependencies": {
-    "@babel/core": "^7.8.6",
+    "@babel/core": "^7.9.0",
     "@babel/plugin-proposal-class-properties": "^7.8.3",
-    "@babel/preset-env": "^7.8.6",
-    "@babel/preset-react": "^7.8.3",
+    "@babel/preset-env": "^7.9.0",
+    "@babel/preset-react": "^7.9.4",
     "babel-eslint": "^10.1.0",
     "babel-jest": "^25.1.0",
     "babel-preset-env": "^1.7.0",
@@ -63,12 +64,12 @@
     "eslint-plugin-flowtype": "^4.6.0",
     "eslint-plugin-import": "^2.20.1",
     "eslint-plugin-jsx-a11y": "^6.2.3",
-    "eslint-plugin-react": "^7.18.3",
+    "eslint-plugin-react": "^7.19.0",
     "gh-pages": "^2.2.0",
     "jest": "^25.1.0",
     "parcel-bundler": "^1.12.4",
     "parcel-plugin-bundle-visualiser": "^1.2.0",
-    "posthtml-expressions": "^1.1.1",
-    "react-dev-utils": "^10.2.0"
+    "posthtml-expressions": "^1.3.0",
+    "react-dev-utils": "^10.2.1"
   }
 }

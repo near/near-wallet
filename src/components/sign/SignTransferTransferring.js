@@ -1,4 +1,5 @@
 import React from 'react'
+import { Translate } from 'react-localize-redux'
 
 import MobileContainer from './MobileContainer'
 import SignAnimatedArrow from './SignAnimatedArrow'
@@ -25,7 +26,7 @@ const SignTransferReady = ({ status, isMonetaryTransaction }) => (
                     as='h2'
                     textAlign='center'
                 >
-                    <span className='transferring-dots'><b>{isMonetaryTransaction ? 'Transferring' : 'Authorizing'}</b></span>
+                    <span className='transferring-dots'><b><Translate id={`sign.${isMonetaryTransaction ? 'transferring' : 'authorizing'}`} /></b></span>
                 </Grid.Column>
             </Grid.Row>
         </Grid>

@@ -1,19 +1,40 @@
 {
-    "account.requestCode.success": "Sent SMS with code.",
-    "account.requestCode.error": "Failed to send SMS with code.",
-    "account.recoverAccount.success": "Success",
-    "account.recoverAccount.error": "Failed to recover account.",
-    "account.create.success": "Congrats! This name is available.",
-    "account.create.error": "Username is taken. Try something else.",
-    "account.available.success": "User found.",
-    "account.available.error": "User not found.",
-    "account.available.errorSameAccount": "Cannot send to yourself.",
-    "account.verifySeedPhrase.error": "You entered the incorrect word",
-    "account.setupSeedPhrase.success": "Seed phrase recovery setup is complete.",
-    "account.setupSeedPhrase.error": "An error occurred while setting up seed phrase recovery. Please try again!",
-    "account.login.success": "${title} is now authorized to use your account.",
-    "account.login.error": "An error occurred while approving this action. Please try again!",
-    "account.login.details.warning": "This allows access to your entire balance. Please proceed with caution.",
+    "account": {
+        "requestCode": {
+            "success": "Sent SMS with code.",
+            "error": "Failed to send SMS with code."
+        },
+        "recoverAccount": {
+            "success": "Success",
+            "error": "Failed to recover account."
+        },
+        "create": {
+            "success": "Congrats! This name is available.",
+            "error": "Username is taken. Try something else."
+        },
+        "available": {
+            "success": "User found.",
+            "error": "User not found.",
+            "errorSameAccount": "Cannot send to yourself."
+        },
+        "verifySeedPhrase": {
+            "error": "You entered the incorrect word"
+        },
+        "setupSeedPhrase": {
+            "success": "Seed phrase recovery setup is complete.",
+            "error": "An error occurred while setting up seed phrase recovery. Please try again!"
+        },
+        "login": {
+            "success": "${title} is now authorized to use your account.",
+            "error": "An error occurred while approving this action. Please try again!",
+            "details": {
+                "warning": "This allows access to your entire balance. Please proceed with caution."
+            },
+            "incorrectContractId": {
+                "error": "The contract ${contractId} does not exist. This may be an issue with the application you are trying to use, or this contract may have been deleted. You will be redirected back to the application"
+            }
+        }
+    },
 
     "actions": {
         "CreateAccount": "New account created: @${receiverId}",
@@ -30,6 +51,16 @@
             "forReceiver": "New key added for @${receiverId}"
         },
         "DeleteKey": "Key deleted"
+    },
+    "actionsSign": {
+        "createAccount": "Creating Account: ${receiverId}",
+        "deployContract": "Deploying Contract: ${receiverId}",
+        "functionCall": "Calling function: ${methodName}",
+        "transfer": "Transferring: ${deposit}Ⓝ to ${receiverId}",
+        "stake": "Staking: ${stake}Ⓝ ${publicKey}...",
+        "addKey": "Adding access key",
+        "deleteKey": "Deleting access key",
+        "deleteAccount": "Deleting account: ${receiverId}"
     },
 
     "setupSeedPhrase": {
@@ -101,6 +132,7 @@
         "createAccountCapital": "CREATE ACCOUNT",
         "findMyAccount": "FIND MY ACCOUNT",
         "protectAccount": "PROTECT ACCOUNT",
+        "setupPhrase": "SETUP RECOVERY PHRASE",
         "confirm": "CONFIRM",
         "viewAll": "VIEW ALL",
         "send": "SEND",
@@ -184,31 +216,20 @@
         }
     },
 
-    "setRecovery": {
-        "pageTitle": "Protect your Account",
-        "pageText": {
-            "email": "Enter your email to make your account easily recoverable in the future.",
-            "phoneNumber": "Enter your phone number to make your account easily recoverable in the future."
-        },
-        "emailInput": {
-            "title": "Email Address",
-            "placeholder": "example@email.com"
-        },
-        "phoneInput": {
-            "title": "Phone Number",
-            "placeholder": "example: +1 555 123 4567"
-        },
-        "useInstead": {
-            "email": "Use email instead",
-            "phoneNumber": "Use phone instead"
-        },
-        "switchToManualBackup": {
-            "title": "Switch to Manual Backup",
-            "text": "With this option, you must write down and save a 12 word phrase to recover your account.",
-            "button": "Setup <span>Recovery Phrase</span>"
-        }
+    "setupRecovery": {
+        "header": "Protect your Account",
+        "subHeader": "Select an account recovery method:",
+        "basicSecurity": "Basic Security",
+        "basicSecurityDesc": "Enter your email address or phone number and receive a magic link",
+        "emailTitle": "Email Recovery",
+        "emailPlaceholder": "example@email.com",
+        "phoneTitle": "Phone Recovery",
+        "phoneDesc": "Enter your phone number below and receive a magic recovery link",
+        "phonePlaceholder": "+1 415 797 8554",
+        "advancedSecurity": "Advanced Security",
+        "advancedSecurityDesc": "Write down a 12 word recovery phrase and store it securely.",
+        "phraseTitle": "Recovery Phrase"
     },
-
     "setRecoveryConfirm": {
         "pageTitle": "Confirm Recovery Setup",
         "pageText": {
@@ -288,6 +309,150 @@
         }
     },
 
+    "addNode": {
+        "pageTitle": "Add a Node",
+        "pageText": "Setup your Node via CLI, then add it here.",
+        "ipAddressInput": {
+            "title": "Enter the IP Address of your Node",
+            "placeholder": "example: 0.0.0.0"
+        },
+        "nicknameInput": {
+            "title": "Give it a nickname (optional)",
+            "placeholder": "example: AWS Instance"
+        },
+        "desc": "Your node must be setup via CLI before adding it here."
+    },
+    "nodeDetails": {
+        "pageTitle": "Node Details",
+        "pageText": "Update the details of your node."
+    },
+    "nodeStaking": {
+        "pageTitle": "Node & Staking",
+        "pageText": "@nodeandstaking.near",
+        "steps": {
+            "title": "To run a node or stake, please fallow these steps:",
+            "one": {
+                "title": "1. Setup & Run a Node via CLI",
+                "desc": "Instructions available in the Docs"
+            },
+            "two": {
+                "title": "2. Wait for Node to Sync",
+                "desc": "An out of sync node cannot produce or validate"
+            },
+            "three": {
+                "title": "3. Start Staking",
+                "desc": "Stake from here or CLI. See docs for help."
+            }
+        },
+        "nodes": {
+            "title": "Nodes",
+            "noNode": {
+                "title": "Already have your node setup? Add it here.",
+                "text": "This connects your node to your wallet account."
+            }
+        },
+        "staking": {
+            "title": "Staking",
+            "youAreStaking": "You are staking"
+        }
+    },
+    "staking": {
+        "pageTitle": "Staking",
+        "pageText": "Setup your Node via CLI, then add it here.",
+        "amountStakingInput": {
+            "title": "Enter amount to stake",
+            "placeholder": "example: 15"
+        }
+    },
+    "profile": {
+        "pageTitle": {
+            "loading": "Loading...",
+            "notFound": "Account @${accountId} not found",
+            "default": "Account: @${accountId}"
+        },
+        "details": {
+            "profile": "PROFILE",
+            "visibleTo": "VISIBLE TO",
+            "username": "Username",
+            "public": "Public",
+            "balance": "Balance",
+            "lockPopup": {
+                "title": "Why is this locked?",
+                "text": "Your username is your unique identifier in the system and cannot be changed because data and asset ownership is tied to it. However you are welcome to ${link} with desired name and transfer assets as needed.",
+                "createAnotherAccount": "create another account"
+            },
+            "qrDesc": "Use your phone's camera app to send to this address"
+        }
+    },
+
+    "desktopPopup": {
+        "profile": "Profile",
+        "contacts": "Contacts",
+        "authorizedApps": "Authorized Apps",
+        "fullAccessKeys": "Full Access Keys",
+        "logout": "Logout",
+        "switchAccount": "SWITCH ACCOUNT",
+        "noAccount": "You have no other accounts"
+    },
+
+    "desktopView": {
+        "summary": "SUMMARY",
+        "activity": "ACTIVITY",
+        "send": "SEND",
+        "receive": "RECEIVE"
+    },
+
+    "sendMoney": {
+        "pageTitle": {
+            "success": "Success!",
+            "default": "Send"
+        },
+        "accountIdInput": {
+            "title": "Username to send to:"
+        },
+        "amountStatusId": {
+            "noMoreThan": "NO MORE THAN 5 DECIMAL DIGITS",
+            "notEnoughTokens": "Not enough tokens.",
+            "howMuch": "How much do you want to send?"
+        },
+        "youAreSending": "You are sending",
+        "to": "to",
+        "onceConfirmed": "Once confirmed, this cannot be undone.",
+        "wasSentTo": "was sent to:"
+    },
+
+    "sign": {
+        "unexpectedStatus": "Unexpected status",
+        "transactionCancelled": "Transaction cancelled",
+        "nothingHasBeenTransferred": "Nothing has been transferred.",
+        "details": {
+            "detailedDescription": "Detailed description of transaction",
+            "transactionFees": "Transaction Fees",
+            "gasLimit": "Gas Limit",
+            "gasPriceUnavailable": "Gas price estimate is unavailable",
+            "forContract": "For Contract"
+        },
+        "ActionWarrning": {
+            "functionCall": "No description specified for this function.",
+            "deployContract": "You are about to deploy a contract to your account! This contract can access your NEAR balance, and interact with other contracts on your behalf.",
+            "stake": "You are about to stake NEAR tokens. These tokens will be locked, and are at risk of being lost if your validator becomes unresponsive.",
+            "deleteAccount": "You are about to delete your account! Your NEAR balance will be destroyed, and all of your account data deleted."
+        },
+        "insufficientFunds": "Insufficient Funds",
+        "hereAreSomeDetails": "Here are some details that will help you.",
+        "contract": "Contract:",
+        "unknownApp": "Unknown App",
+        "isRequesting": {
+            "transferOf": "is requesting the transfer of",
+            "authorization": "is requesting authorization"
+        },
+        "currentBalance": "Current Balance",
+        "wasTransferredSuccessfully": "was transferred successfully",
+        "authorizationRequestSuccessful": "Authorization request successful",
+        "transferring": "Transferring",
+        "authorizing": "Authorizing"
+    },
+
     "success": "Success",
     "error": "Error",
     "warning": "Warning",
@@ -295,5 +460,7 @@
     "amount": "amount",
     "or": "OR",
     "sending": "SENDING",
-    "back": "Back"
+    "back": "Back",
+    "of": "of",
+    "ofTotal": "of Total"
 }

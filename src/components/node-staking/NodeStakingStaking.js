@@ -1,4 +1,5 @@
 import React from 'react'
+import { Translate } from 'react-localize-redux'
 import { Link } from 'react-router-dom'
 
 import { Grid, Image } from 'semantic-ui-react'
@@ -13,18 +14,18 @@ const NodeStakingStaking = ({ staking }) => (
                 <div className='svg'>
                     <StakingImage />
                 </div>
-                <h2>Staking</h2>
+                <h2><Translate id='nodeStaking.staking.title' /></h2>
             </Grid.Column>
         </Grid.Row>
         {staking.length ? staking.map((node, i) => (
             <Grid.Row key={`nodes-${i}`} as={Link} to='/staking' className='border-top node'>
                 <Grid.Column computer='12'>
                     <span className='color-black'>
-                        <b>You are staking Ⓝ 201,045.00</b>
+                        <b><Translate id='nodeStaking.staking.youAreStaking' /> Ⓝ 201,045.00</b>
                     </span>
                     <br/>
                     <span className='font-small'>
-                        99% of 202,250.0025 total
+                        99% <Translate id='of' /> 202,250.0025 <Translate id='total' />
                     </span>
                 </Grid.Column>
                 <Grid.Column verticalAlign='middle' computer='4'>

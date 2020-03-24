@@ -33,7 +33,7 @@ const SendMoneyFirstStep = ({
             <MobileContainer>
                 <Fragment>
                     <PageContainer
-                        title={`Send`}
+                        title={<Translate id='sendMoney.pageTitle.default' />}
                         type='center'
                     />
                     <List className='list-top border'>
@@ -45,7 +45,7 @@ const SendMoneyFirstStep = ({
                         ) : (
                             <List.Item>
                                 <List.Content>
-                                    <Header as='h4' textAlign='left'>Username to send to:</Header>
+                                    <Header as='h4' textAlign='left'><Translate id='sendMoney.accountIdInput.title' /></Header>
                                     <AccountFormAccountId
                                         formLoader={formLoader}
                                         handleChange={handleChange}

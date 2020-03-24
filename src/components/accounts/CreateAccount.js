@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Translate } from 'react-localize-redux'
-
+import { GoogleReCaptchaProvider, GoogleReCaptcha } from 'react-google-recaptcha-v3'
 import CreateAccountForm from './CreateAccountForm'
 import AccountFormSection from './AccountFormSection'
 import AccountFormContainer from './AccountFormContainer'
@@ -11,7 +11,9 @@ class CreateAccount extends Component {
     state = {
         loader: false,
         accountId: '',
-        fundingKey: null
+        fundingKey: null,
+        token: '',
+        recaptchaFallback: false
     }
 
     componentDidMount = () => {
@@ -41,36 +43,35 @@ class CreateAccount extends Component {
         }))
     }
 
-    handleSubmit = e => {
-        e.preventDefault()
+    handleCreateAccount = () => {
+        const { accountId, token, fundingKey } = this.state;
 
-        this.setState(() => ({
-            loader: true
-        }))
+        this.setState({ loader: true });
+        this.props.createNewAccount(accountId, fundingKey, token)
+        .then(({ error, payload }) => {
+            if (error) {
+                if (payload.statusCode === 402) {
+                    this.setState({ recaptchaFallback: true });
+                }
+                this.setState({ loader: false });
+                return;
+            }
 
-        const { accountId, fundingKey } = this.state
-
-        this.props.createNewAccount(accountId, fundingKey).then(({ error }) => {
-            if (error) return;
-                
-            this.props.refreshAccount()
-
-            let nextUrl = process.env.DISABLE_PHONE_RECOVERY === 'yes' ? `/setup-seed-phrase/${accountId}` : `/set-recovery/${accountId}`
-            this.props.history.push(nextUrl)
-        })
-        .finally(() => {
-            this.setState(() => ({
-                loader: false
-            }))
-        })
+            this.handleCreateAccountSuccess();
+        });
     }
 
-    handleRecaptcha = value => {
-        console.log(value)
+    handleCreateAccountSuccess = () => {
+        const { accountId } = this.state;
+
+        this.props.refreshAccount();
+        let nextUrl = process.env.DISABLE_PHONE_RECOVERY === 'yes' ? `/setup-seed-phrase/${accountId}` : `/set-recovery/${accountId}`;
+        this.props.history.push(nextUrl);
+        this.setState({ loader: false });
     }
 
     render() {
-        const { loader, accountId } = this.state
+        const { loader, accountId, recaptchaFallback } = this.state
         const { requestStatus, formLoader, checkNewAccount, location, loginResetAccounts } = this.props
         const useRequestStatus = accountId.length > 0 ? requestStatus : undefined;
 
@@ -83,17 +84,21 @@ class CreateAccount extends Component {
             >
                 <AccountFormSection 
                     requestStatus={useRequestStatus}
-                    handleSubmit={this.handleSubmit}
+                    handleSubmit={this.handleCreateAccount}
                     location={location}
                 >
                     <CreateAccountForm
                         loader={loader} 
                         requestStatus={useRequestStatus}
                         formLoader={formLoader}
-                        handleRecaptcha={this.handleRecaptcha}
                         handleChange={this.handleChange}
+                        recaptchaFallback={recaptchaFallback}
+                        verifyRecaptcha={token => this.setState({ token: token }, this.handleCreateAccount)}
                         checkAvailability={checkNewAccount}
                     />
+                    <GoogleReCaptchaProvider reCaptchaKey="6LfSgNoUAAAAABKb2sk4Rs3TS0RMx9zrVwyTBSc6">
+                        <GoogleReCaptcha onVerify={token => this.setState({ token: token })}/>
+                    </GoogleReCaptchaProvider>
                 </AccountFormSection>
             </AccountFormContainer>
         )

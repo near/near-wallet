@@ -1,5 +1,4 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 
 import {
     Container
@@ -74,22 +73,23 @@ const CustomContainer = styled(Container)`
             }
         }
         .more-information {
-            position: relative;
+            float: none;
             width: 200px;
             height: 40px;
-            margin: 0 auto;
             cursor: pointer;
             color: #999;
-
             font-size: 13px;
-            line-height: 40px;
             border-radius: 20px;
-            
             background: #f8f8f8;
+            border: 0px;
 
             :hover {
                 color: #24272a;
             }
+            :focus {
+                outline: 0;
+            }
+            
             .circle {
                 position: absolute;
                 width: 30px;
@@ -143,6 +143,15 @@ const CustomContainer = styled(Container)`
             text-align: center;
             color: #ff585d;
         }
+        .return-to-app {
+            padding: 1rem 0;
+            text-align: center;
+
+            button {
+                float: none;
+                width: 190px;
+            }
+        }
         
         @media screen and (max-width: 991px) {
             .authorize {
@@ -177,7 +186,6 @@ const CustomContainer = styled(Container)`
             button {
                 width: 140px;
                 margin-top: 0px;
-                
             }
             #bottom {
                 border-top: 2px solid #f2f2f2;
@@ -191,9 +199,5 @@ const LoginContainer = ({ children }) => (
         {children}
     </CustomContainer>
 )
-
-LoginContainer.propTypes = {
-    children: PropTypes.array
-}
 
 export default LoginContainer
