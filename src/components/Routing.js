@@ -100,7 +100,7 @@ class Routing extends Component {
                                 <PrivateRoute
                                     exact
                                     path='/set-recovery/:accountId'
-                                    component={SetRecoveryMethodContainerWithRouter}
+                                    component={SetupRecoveryMethodWithRouter}
                                 />
                                 <PrivateRoute
                                     exact
