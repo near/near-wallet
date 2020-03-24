@@ -78,11 +78,51 @@ const User = styled.div`
     display: flex;
     align-items: center;
 
+    @media (min-width: 1050px) {
+        max-width: 355px;
+    }
+
+    @media (min-width: 1200px) {
+        max-width: 425px;
+    }
+
+    @media (min-width: 1350px) {
+        max-width: 500px;
+    }
+
+    @media (min-width: 1350px) {
+        max-width: 650px;
+    }
+
+    @media (min-width: 1500px) {
+        max-width: 700px;
+    }
+
     .user-name {
         white-space: nowrap;
         margin-left: 10px;
         max-width: 100px;
-    }
+
+        @media (min-width: 769px) {
+            max-width: 125px;
+        }
+
+        @media (min-width: 1050px) {
+            max-width: 170px;
+        }
+
+        @media (min-width: 1200px) {
+            max-width: 215px;
+        }
+
+        @media (min-width: 1350px) {
+            max-width: 255px;
+        }
+
+        @media (min-width: 1500px) {
+            max-width: 295px;
+        }
+    } 
 
     .user-balance {
         margin-left: 10px;
@@ -95,6 +135,14 @@ const User = styled.div`
         border-radius: 40px;
         line-height: normal;
         font-size: 14px;
+
+        @media (min-width: 1200px) {
+            max-width: 110px;
+        }
+
+        @media (min-width: 1350px) {
+            max-width: 155px;
+        }
     }
 
     @media (max-width: 920px) {
