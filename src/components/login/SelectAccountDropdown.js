@@ -12,7 +12,6 @@ const CustomSegment = styled(Segment)`
         width: 100%;
         height: 50px;
         padding: 0px;
-        z-index: 1000;
 
         &.disabled {
             cursor: not-allowed;
