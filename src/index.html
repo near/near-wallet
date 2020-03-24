@@ -1,109 +1,109 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id={{ WALLET_GA_MEASUREMENT_ID || '' }}"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      window.gtag = function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', '{{ WALLET_GA_MEASUREMENT_ID || "" }}');
-    </script>
-    <script type="text/javascript">
-      (function(e,t){var n=e.amplitude||{_q:[],_iq:{}};var r=t.createElement("script")
-      ;r.type="text/javascript"
-      ;r.integrity="sha384-d/yhnowERvm+7eCU79T/bYjOiMmq4F11ElWYLmt0ktvYEVgqLDazh4+gW9CKMpYW"
-      ;r.crossOrigin="anonymous";r.async=true
-      ;r.src="https://cdn.amplitude.com/libs/amplitude-5.2.2-min.gz.js"
-      ;r.onload=function(){if(!e.amplitude.runQueuedFunctions){
-      console.log("[Amplitude] Error: could not load SDK")}}
-      ;var i=t.getElementsByTagName("script")[0];i.parentNode.insertBefore(r,i)
-      ;function s(e,t){e.prototype[t]=function(){
-      this._q.push([t].concat(Array.prototype.slice.call(arguments,0)));return this}}
-      var o=function(){this._q=[];return this}
-      ;var a=["add","append","clearAll","prepend","set","setOnce","unset"]
-      ;for(var u=0;u<a.length;u++){s(o,a[u])}n.Identify=o;var c=function(){this._q=[]
-      ;return this}
-      ;var l=["setProductId","setQuantity","setPrice","setRevenueType","setEventProperties"]
-      ;for(var p=0;p<l.length;p++){s(c,l[p])}n.Revenue=c
-      ;var d=["init","logEvent","logRevenue","setUserId","setUserProperties","setOptOut","setVersionName","setDomain","setDeviceId","setGlobalUserProperties","identify","clearUserProperties","setGroup","logRevenueV2","regenerateDeviceId","groupIdentify","onInit","logEventWithTimestamp","logEventWithGroups","setSessionId","resetSessionId"]
-      ;function v(e){function t(t){e[t]=function(){
-      e._q.push([t].concat(Array.prototype.slice.call(arguments,0)))}}
-      for(var n=0;n<d.length;n++){t(d[n])}}v(n);n.getInstance=function(e){
-      e=(!e||e.length===0?"$default_instance":e).toLowerCase()
-      ;if(!n._iq.hasOwnProperty(e)){n._iq[e]={_q:[]};v(n._iq[e])}return n._iq[e]}
-      ;e.amplitude=n})(window,document);
+    <head>
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id={{ WALLET_GA_MEASUREMENT_ID || '' }}"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            window.gtag = function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', '{{ WALLET_GA_MEASUREMENT_ID || "" }}');
+        </script>
+        <script type="text/javascript">
+            (function(e,t){var n=e.amplitude||{_q:[],_iq:{}};var r=t.createElement("script")
+            ;r.type="text/javascript"
+            ;r.integrity="sha384-d/yhnowERvm+7eCU79T/bYjOiMmq4F11ElWYLmt0ktvYEVgqLDazh4+gW9CKMpYW"
+            ;r.crossOrigin="anonymous";r.async=true
+            ;r.src="https://cdn.amplitude.com/libs/amplitude-5.2.2-min.gz.js"
+            ;r.onload=function(){if(!e.amplitude.runQueuedFunctions){
+            console.log("[Amplitude] Error: could not load SDK")}}
+            ;var i=t.getElementsByTagName("script")[0];i.parentNode.insertBefore(r,i)
+            ;function s(e,t){e.prototype[t]=function(){
+            this._q.push([t].concat(Array.prototype.slice.call(arguments,0)));return this}}
+            var o=function(){this._q=[];return this}
+            ;var a=["add","append","clearAll","prepend","set","setOnce","unset"]
+            ;for(var u=0;u<a.length;u++){s(o,a[u])}n.Identify=o;var c=function(){this._q=[]
+            ;return this}
+            ;var l=["setProductId","setQuantity","setPrice","setRevenueType","setEventProperties"]
+            ;for(var p=0;p<l.length;p++){s(c,l[p])}n.Revenue=c
+            ;var d=["init","logEvent","logRevenue","setUserId","setUserProperties","setOptOut","setVersionName","setDomain","setDeviceId","setGlobalUserProperties","identify","clearUserProperties","setGroup","logRevenueV2","regenerateDeviceId","groupIdentify","onInit","logEventWithTimestamp","logEventWithGroups","setSessionId","resetSessionId"]
+            ;function v(e){function t(t){e[t]=function(){
+            e._q.push([t].concat(Array.prototype.slice.call(arguments,0)))}}
+            for(var n=0;n<d.length;n++){t(d[n])}}v(n);n.getInstance=function(e){
+            e=(!e||e.length===0?"$default_instance":e).toLowerCase()
+            ;if(!n._iq.hasOwnProperty(e)){n._iq[e]={_q:[]};v(n._iq[e])}return n._iq[e]}
+            ;e.amplitude=n})(window,document);
 
-      amplitude.getInstance().init('{{ WALLET_AMPLITUDE_ID || "" }}', null, {
-        includeUtm: true,
-        includeReferrer: true,
-      });
-    </script>
-    <meta charset="utf-8" />
-    <link rel="shortcut icon" href="./favicon.ico" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, shrink-to-fit=no"
-    />
-    <meta name="theme-color" content="#000000" />
-    <!--
-      manifest.json provides metadata used when your web app is installed on a
-      user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
-    -->
-    <link rel="manifest" href="./manifest.json" />
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css"></link>
-    <link rel="stylesheet" href="https://unpkg.com/react-phone-number-input@2.x/bundle/style.css"/>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Code+Pro">
-    <link rel="stylesheet" href="https://use.typekit.net/pqx2pko.css">
-    <title>NEAR TestNet Wallet</title>
+            amplitude.getInstance().init('{{ WALLET_AMPLITUDE_ID || "" }}', null, {
+                includeUtm: true,
+                includeReferrer: true,
+            });
+        </script>
+        <meta charset="utf-8" />
+        <link rel="shortcut icon" href="./favicon.ico" />
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1, shrink-to-fit=no"
+        />
+        <meta name="theme-color" content="#000000" />
+        <!--
+            manifest.json provides metadata used when your web app is installed on a
+            user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
+        -->
+        <link rel="manifest" href="./manifest.json" />
+        <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css"></link>
+        <link rel="stylesheet" href="https://unpkg.com/react-phone-number-input@2.x/bundle/style.css"/>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Code+Pro">
+        <link rel="stylesheet" href="https://use.typekit.net/pqx2pko.css">
+        <title>NEAR TestNet Wallet</title>
 
-    
-    <!-- Start Single Page Apps for GitHub Pages -->
-    <script type="text/javascript">
-      // Single Page Apps for GitHub Pages
-      // https://github.com/rafrex/spa-github-pages
-      // Copyright (c) 2016 Rafael Pedicini, licensed under the MIT License
-      // ----------------------------------------------------------------------
-      // This script checks to see if a redirect is present in the query string
-      // and converts it back into the correct url and adds it to the
-      // browser's history using window.history.replaceState(...),
-      // which won't cause the browser to attempt to load the new url.
-      // When the single page app is loaded further down in this file,
-      // the correct url will be waiting in the browser's history for
-      // the single page app to route accordingly.
-      (function(l) {
-        if (l.search) {
-          var q = {};
-          l.search.slice(1).split('&').forEach(function(v) {
-            var a = v.split('=');
-            q[a[0]] = a.slice(1).join('=').replace(/~and~/g, '&');
-          });
-          if (q.p !== undefined) {
-            window.history.replaceState(null, null,
-              l.pathname.slice(0, -1) + (q.p || '') +
-              (q.q ? ('?' + q.q) : '') +
-              l.hash
-            );
-          }
-        }
-      }(window.location))
-    </script>
-    <!-- End Single Page Apps for GitHub Pages -->
+        
+        <!-- Start Single Page Apps for GitHub Pages -->
+        <script type="text/javascript">
+            // Single Page Apps for GitHub Pages
+            // https://github.com/rafrex/spa-github-pages
+            // Copyright (c) 2016 Rafael Pedicini, licensed under the MIT License
+            // ----------------------------------------------------------------------
+            // This script checks to see if a redirect is present in the query string
+            // and converts it back into the correct url and adds it to the
+            // browser's history using window.history.replaceState(...),
+            // which won't cause the browser to attempt to load the new url.
+            // When the single page app is loaded further down in this file,
+            // the correct url will be waiting in the browser's history for
+            // the single page app to route accordingly.
+            (function(l) {
+                if (l.search) {
+                    var q = {};
+                    l.search.slice(1).split('&').forEach(function(v) {
+                        var a = v.split('=');
+                        q[a[0]] = a.slice(1).join('=').replace(/~and~/g, '&');
+                    });
+                    if (q.p !== undefined) {
+                        window.history.replaceState(null, null,
+                            l.pathname.slice(0, -1) + (q.p || '') +
+                            (q.q ? ('?' + q.q) : '') +
+                            l.hash
+                        );
+                    }
+                }
+            }(window.location))
+        </script>
+        <!-- End Single Page Apps for GitHub Pages -->
 
-  </head>
-  <body>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="root"></div>
-    <!--
-      This HTML file is a template.
-      If you open it directly in the browser, you will see an empty page.
+    </head>
+    <body>
+        <noscript>You need to enable JavaScript to run this app.</noscript>
+        <div id="root"></div>
+        <!--
+            This HTML file is a template.
+            If you open it directly in the browser, you will see an empty page.
 
-      You can add webfonts, meta tags, or analytics to this file.
-      The build step will place the bundled scripts into the <body> tag.
+            You can add webfonts, meta tags, or analytics to this file.
+            The build step will place the bundled scripts into the <body> tag.
 
-      To begin the development, run `npm start` or `yarn start`.
-      To create a production bundle, use `npm run build` or `yarn build`.
-    -->
-    <script src="./index.js"></script>
-  </body>
+            To begin the development, run `npm start` or `yarn start`.
+            To create a production bundle, use `npm run build` or `yarn build`.
+        -->
+        <script src="./index.js"></script>
+    </body>
 </html>
