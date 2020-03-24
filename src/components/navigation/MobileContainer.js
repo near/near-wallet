@@ -31,7 +31,7 @@ const Container = styled.div`
         display: none;
     }
 
-    @media (max-width: 768px) {
+    @media (max-width: 991px) {
         display: block;
     }
 

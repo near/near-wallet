@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 const Wrapper = styled.div`
 
-    @media (min-width: 769px) {
+    @media (min-width: 992px) {
         max-height: 150px;
         overflow-y: auto;
     }
@@ -32,7 +32,7 @@ const Account = styled(Link)`
         text-decoration: none;
     }
 
-    @media (min-width: 769px) {
+    @media (min-width: 992px) {
         color: #4a4f54;
         border-bottom: 2px solid #e6e6e6;
 
