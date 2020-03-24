@@ -29,6 +29,7 @@ export default createGlobalStyle`
             font-family: "benton-sans",sans-serif;
             font-weight: 500;
             font-size: 14px !important;
+            -webkit-overflow-scrolling: touch;
         }
    }
 
@@ -38,6 +39,8 @@ export default createGlobalStyle`
    
     .App {
         min-height: 100vh;
+        padding-bottom: 200px;
+        padding-top: 80px;
 
         .main {
             padding-bottom: 200px;
