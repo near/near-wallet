@@ -238,7 +238,6 @@ export class Wallet {
         )
 
         const contract = new nearlib.Contract(account, LINKDROP_CONTRACT_ID, {
-            viewMethods: [],
             changeMethods: ['create_account_and_claim', 'claim'],
             sender: LINKDROP_CONTRACT_ID
         });
