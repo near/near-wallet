@@ -79,6 +79,7 @@ const User = styled.div`
     align-items: center;
 
     .user-name {
+        white-space: nowrap;
         margin-left: 10px;
         max-width: 100px;
     }
@@ -86,6 +87,9 @@ const User = styled.div`
     .user-balance {
         margin-left: 10px;
         white-space: nowrap;
+        max-width: 80px;
+        overflow: hidden;
+        text-overflow: ellipsis;
         background-color: black;
         padding: 2px 10px;
         border-radius: 40px;
