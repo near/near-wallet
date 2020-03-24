@@ -109,8 +109,8 @@ class SetupRecoveryMethod extends Component {
         if (!success) {
             return (
                 <Container className='ui container'>
-                    <h1><Translate id='setupRecovery.pageTitle'/></h1>
-                    <h2><Translate id='setupRecovery.subTitleOne'/></h2>
+                    <h1><Translate id='setupRecovery.header'/></h1>
+                    <h2><Translate id='setupRecovery.subHeader'/></h2>
                     <OptionHeader><Translate id='setupRecovery.basicSecurity'/></OptionHeader>
                     <OptionSubHeader><Translate id='setupRecovery.basicSecurityDesc'/></OptionSubHeader>
                     <RecoveryOption

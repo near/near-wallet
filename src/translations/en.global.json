@@ -186,8 +186,8 @@
     },
 
     "setupRecovery": {
-        "pageTitle": "Protect your Account",
-        "subTitleOne": "Select the method you would like to use if you ever need to recover your account.",
+        "header": "Protect your Account",
+        "subHeader": "Select an account recovery method:",
         "basicSecurity": "Basic Security",
         "basicSecurityDesc": "Enter your email address or phone number and receive a magic link",
         "emailTitle": "Email Recovery",
