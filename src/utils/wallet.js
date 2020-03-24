@@ -26,7 +26,6 @@ export const ACCOUNT_ID_SUFFIX = process.env.REACT_APP_ACCOUNT_ID_SUFFIX || '.te
 export const ACCOUNT_CHECK_TIMEOUT = 500
 
 const LINKDROP_CONTRACT_ID = 'linkdrop-test-1';
-const BOATLOAD_OF_GAS = '10000000000000000';
 
 async function setKeyMeta(publicKey, meta) {
     localStorage.setItem(`keyMeta:${publicKey}`, JSON.stringify(meta))
@@ -247,7 +246,7 @@ export class Wallet {
         await contract.create_account_and_claim({
             new_account_id: accountId,
             new_public_key: publicKey
-        }, BOATLOAD_OF_GAS);
+        });
     }
 
     async saveAndSelectAccount(accountId, keyPair) {
