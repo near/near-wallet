@@ -28,7 +28,7 @@ class CreateAccount extends Component {
     }
 
     handleFundingKey = () => {
-        this.setState({fundingKey: new URLSearchParams(window.location.search).get('funding_key')});
+        this.setState({fundingKey: this.props.match.params.fundingKey});
     }
 
     componentWillUnmount = () => {
