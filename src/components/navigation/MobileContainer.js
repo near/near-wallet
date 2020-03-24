@@ -112,7 +112,7 @@ class MobileContainer extends Component {
                 {menuOpen &&
                     <>
                         <NavLinks/>
-                        <UserLinks/>
+                        <UserLinks accountId={account.accountId}/>
                         <LowerSection>
                             <h6>Switch Account</h6>
                             <UserAccounts
