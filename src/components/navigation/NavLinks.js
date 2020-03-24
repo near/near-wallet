@@ -7,12 +7,12 @@ import arrowIcon from '../../images/icon-send.svg';
 const Container = styled.div`
     display: flex;
 
-    @media (max-width: 768px) {
+    @media (max-width: 991px) {
         flex-direction: column;
         align-items: flex-start;
     }
 
-    @media (min-width: 769px) {
+    @media (min-width: 992x) {
         align-items: center;
     }
 `
@@ -41,7 +41,7 @@ const NavLink = styled(Link)`
         }
     }
 
-    @media (max-width: 768px) {
+    @media (max-width: 991px) {
         width: 100%;
         height: 65px;
         border-bottom: 1px solid #404040;
@@ -60,7 +60,7 @@ const NavLink = styled(Link)`
         }
     }
 
-    @media (min-width: 769px) {
+    @media (min-width: 992px) {
         margin-left: 25px;
 
         &:last-of-type {

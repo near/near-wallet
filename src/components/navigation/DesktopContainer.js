@@ -16,7 +16,7 @@ const Container = styled.div`
     margin-bottom: 20px;
     box-shadow: 0px 5px 9px -1px rgba(0,0,0,0.17);
 
-    @media (min-width: 769px) {
+    @media (min-width: 992px) {
         display: flex;
     }
 
