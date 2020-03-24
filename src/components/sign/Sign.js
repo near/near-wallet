@@ -40,7 +40,7 @@ class Sign extends Component {
 
         const txTotalAmount = new BN(this.props.totalAmount); // TODO: add gas cost, etc
         const accountBalance = new BN(this.props.account.amount);
-        const insufficientFunds = true//txTotalAmount.gt(accountBalance);
+        const insufficientFunds = txTotalAmount.gt(accountBalance);
         const isMonetaryTransaction = txTotalAmount.gt(new BN(0));
 
         switch (this.props.status) {
