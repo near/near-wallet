@@ -36,8 +36,7 @@ class RecoverAccountSeedPhrase extends Component {
         }))
     }
 
-    handleSubmit = e => {
-        e.preventDefault()
+    handleSubmit = () => {
 
         if (!this.isLegit) {
             return false
@@ -65,7 +64,7 @@ class RecoverAccountSeedPhrase extends Component {
                 title={<Translate id='recoverSeedPhrase.pageTitle' />}
                 text={<Translate id='recoverSeedPhrase.pageText' />}
             >
-                <AccountFormSection requestStatus={this.props.requestStatus} handleSubmit={this.handleSubmit.bind(this)}>
+                <AccountFormSection requestStatus={this.props.requestStatus} handleSubmit={this.handleSubmit}>
                     <RecoverAccountSeedPhraseForm
                         {...combinedState}
                         handleChange={this.handleChange}

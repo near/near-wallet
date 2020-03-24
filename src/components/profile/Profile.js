@@ -1,4 +1,5 @@
 import React from 'react'
+import { Translate } from 'react-localize-redux'
 
 import PageContainer from '../common/PageContainer';
 import ProfileDetails from './ProfileDetails'
@@ -11,15 +12,15 @@ export function Profile({ match }) {
     const account = useAccount(accountId)
 
     if (account.__status === LOADING) {
-        return <PageContainer title="Loading..." />
+        return <PageContainer title={<Translate id='profile.pageTitle.loading' />} />
     }
 
     if (account.__status === NOT_FOUND) {
-        return <PageContainer title={`Account @${accountId} not found`} />
+        return <PageContainer title={<Translate id='profile.pageTitle.notFound' data={{ accountId }} />} />
     }
 
     return (
-        <PageContainer title={`Account: @${accountId}`}>
+        <PageContainer title={<Translate id='profile.pageTitle.default' data={{ accountId }} />}>
             <ProfileSection>
                 <ProfileDetails account={account} />
                 <ProfileQRCode account={account} />

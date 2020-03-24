@@ -1,4 +1,5 @@
 import React from 'react'
+import { Translate } from 'react-localize-redux'
 
 import { Grid, Image } from 'semantic-ui-react'
 
@@ -9,17 +10,17 @@ const NodeStakingSteps = () => (
     <Grid padded>
         <Grid.Row>
             <Grid.Column as='h2' textAlign='center'>
-                To run a node or stake, please fallow these steps:
+                <Translate id='nodeStaking.steps.title' />
             </Grid.Column>
         </Grid.Row>
         <Grid.Row className='border-top'>
             <Grid.Column computer='13'>
                 <span className='color-black'>
-                    <b>1. Setup & Run a Node via CLI</b>
+                    <b><Translate id='nodeStaking.steps.one.title' /></b>
                 </span>
                 <br/>
                 <span className="font-small">
-                    Instructions available in the Docs
+                    <Translate id='nodeStaking.steps.one.desc' />
                 </span>
             </Grid.Column>
             <Grid.Column verticalAlign='middle' computer='3'>
@@ -29,11 +30,11 @@ const NodeStakingSteps = () => (
         <Grid.Row className='border-top'>
             <Grid.Column computer='13'>
                 <span className='color-black'>
-                    <b>2. Wait for Node to Sync</b>
+                    <b><Translate id='nodeStaking.steps.two.title' /></b>
                 </span>
                 <br/>
                 <span className="font-small">
-                    An out of sync node cannot produce or validate
+                    <Translate id='nodeStaking.steps.two.desc' />
                 </span>
             </Grid.Column>
             <Grid.Column verticalAlign='middle' computer='3'>
@@ -43,11 +44,11 @@ const NodeStakingSteps = () => (
         <Grid.Row className='border-top border-bottom'>
             <Grid.Column computer='13'>
                 <span className='color-black'>
-                    <b>3. Start Staking</b>
+                    <b><Translate id='nodeStaking.steps.three.title' /></b>
                 </span>
                 <br/>
                 <span className="font-small">
-                    Stake from here or CLI. See docs for help.
+                    <Translate id='nodeStaking.steps.three.desc' />
                 </span>
             </Grid.Column>
             <Grid.Column verticalAlign='middle' computer='3'>

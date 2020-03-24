@@ -1,6 +1,8 @@
 import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
+import { Translate } from 'react-localize-redux'
+
 import { Form, Segment } from 'semantic-ui-react'
 
 import styled from 'styled-components'
@@ -39,22 +41,26 @@ class StakingFormAmount extends Component {
 
         return (
             <Fragment>
-                <CustomFormInput
-                    className={`create ${
-                        amountStaking ? (amountPercent <= 100 ? 'success' : 'problem') : ''
-                    }`}
-                    name='amountStaking'
-                    onChange={this.handleChangeAccountId}
-                    placeholder='example: 15'
-                    required
-                    value={amountStaking}
-                    autoComplete='off'
-                    autoCorrect='off'
-                    spellCheck='false'
-                    tabIndex='1'
-                />
+                <Translate>
+                    {({ translate }) => (
+                        <CustomFormInput
+                            className={`create ${
+                                amountStaking ? (amountPercent <= 100 ? 'success' : 'problem') : ''
+                            }`}
+                            name='amountStaking'
+                            onChange={this.handleChangeAccountId}
+                            placeholder={translate('staking.amountStakingInput.placeholder')}
+                            required
+                            value={amountStaking}
+                            autoComplete='off'
+                            autoCorrect='off'
+                            spellCheck='false'
+                            tabIndex='1'
+                        />
+                    )}
+                </Translate>
                 <CustomSegment basic textAlign='right' className={`color-black ${amountPercent <= 100 ? `` : `color-red`}`}>
-                    <b>{amountPercent}% of Total: {amount}</b>
+                    <b>{amountPercent}% <Translate id='ofTotal' />: {amount}</b>
                 </CustomSegment>
             </Fragment>
         )
