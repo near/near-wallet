@@ -23,7 +23,8 @@ class Sign extends Component {
     }
 
     handleAddFunds = () => {
-        this.props.push('/profile')
+        // TODO: Should this use Redux action to navigate
+        this.props.push(`/profile/${this.props.account.accountId}`)
     }
 
     handleAllow = e => {
