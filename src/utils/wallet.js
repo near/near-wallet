@@ -25,8 +25,6 @@ const ACCOUNT_ID_REGEX = /^(([a-z\d]+[-_])*[a-z\d]+[.@])*([a-z\d]+[-_])*[a-z\d]+
 export const ACCOUNT_ID_SUFFIX = process.env.REACT_APP_ACCOUNT_ID_SUFFIX || '.test'
 export const ACCOUNT_CHECK_TIMEOUT = 500
 
-const LINKDROP_CONTRACT_ID = 'linkdrop-test-1';
-
 async function setKeyMeta(publicKey, meta) {
     localStorage.setItem(`keyMeta:${publicKey}`, JSON.stringify(meta))
 }
@@ -211,13 +209,13 @@ export class Wallet {
         }
     }
 
-    async createNewAccount(accountId, fundingKey) {
+    async createNewAccount(accountId, fundingKey, fundingContract) {
         this.checkNewAccount(accountId);
         const keyPair = nearlib.KeyPair.fromRandom('ed25519');
 
-        if (fundingKey) {
-            await this.createNewAccountLinkdrop(accountId, fundingKey, keyPair);
-            await this.keyStore.removeKey(NETWORK_ID, LINKDROP_CONTRACT_ID)
+        if (fundingKey && fundingContract) {
+            await this.createNewAccountLinkdrop(accountId, fundingKey, fundingContract, keyPair);
+            await this.keyStore.removeKey(NETWORK_ID, fundingContract)
 
         } else {
             await sendJson('POST', CONTRACT_CREATE_ACCOUNT_URL, {
@@ -229,17 +227,17 @@ export class Wallet {
 
     }
 
-    async createNewAccountLinkdrop(accountId, fundingKey, keyPair) {
-        const account = this.getAccount(LINKDROP_CONTRACT_ID);
+    async createNewAccountLinkdrop(accountId, fundingKey, fundingContract, keyPair) {
+        const account = this.getAccount(fundingContract);
 
         await this.keyStore.setKey(
-            NETWORK_ID, LINKDROP_CONTRACT_ID, 
+            NETWORK_ID, fundingContract,
             nearlib.KeyPair.fromString(fundingKey)
         )
 
-        const contract = new nearlib.Contract(account, LINKDROP_CONTRACT_ID, {
+        const contract = new nearlib.Contract(account, fundingContract, {
             changeMethods: ['create_account_and_claim', 'claim'],
-            sender: LINKDROP_CONTRACT_ID
+            sender: fundingContract
         });
         const publicKey = keyPair.publicKey.toString().replace('ed25519:', '');
         await contract.create_account_and_claim({

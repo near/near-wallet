@@ -11,14 +11,12 @@ class CreateAccount extends Component {
     state = {
         loader: false,
         accountId: '',
-        fundingKey: null,
         token: '',
         recaptchaFallback: false
     }
 
     componentDidMount = () => {
         const { loginError, resetAccounts } = this.props;
-        this.handleFundingKey();
 
         if (loginError) {
             console.error('Error loading account:', loginError)
@@ -27,10 +25,6 @@ class CreateAccount extends Component {
                 resetAccounts()
             }
         }
-    }
-
-    handleFundingKey = () => {
-        this.setState({fundingKey: this.props.match.params.fundingKey});
     }
 
     componentWillUnmount = () => {
@@ -44,10 +38,13 @@ class CreateAccount extends Component {
     }
 
     handleCreateAccount = () => {
-        const { accountId, token, fundingKey } = this.state;
+        const { accountId, token } = this.state;
+
+        const fundingKey = this.props.match.params.fundingKey;
+        const fundingContract = this.props.match.params.fundingContract;
 
         this.setState({ loader: true });
-        this.props.createNewAccount(accountId, fundingKey, token)
+        this.props.createNewAccount(accountId, fundingKey, fundingContract, token)
         .then(({ error, payload }) => {
             if (error) {
                 if (payload.statusCode === 402) {

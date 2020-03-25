@@ -94,7 +94,7 @@ class Routing extends Component {
                                 />
                                 <Route
                                     exact
-                                    path='/create/:fundingKey?'
+                                    path='/create/:fundingContract?/:fundingKey?'
                                     component={CreateAccountWithRouter}
                                 />
                                 <PrivateRoute
