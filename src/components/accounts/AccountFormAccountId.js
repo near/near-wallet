@@ -17,6 +17,8 @@ const InputWrapper = styled.div`
         transform: translateY(calc(-50% + 4px));
         pointer-events: none;
         font-weight: 400;
+        color: rgba(0,0,0,.87);
+        font-size: 16px;
     }
 `
 class AccountFormAccountId extends Component {
@@ -75,7 +77,10 @@ class AccountFormAccountId extends Component {
                                 tabIndex='1'
                                 autoFocus={autoFocus && accountId.length === 0}
                             />
-                            {type === 'create' && <span className='network'>{ACCOUNT_ID_SUFFIX}</span>}
+                            {type === 'create' && 
+                                <span className='network'>
+                                    {ACCOUNT_ID_SUFFIX}
+                                </span>}
                         </InputWrapper>
                     )}
                 </Translate>
