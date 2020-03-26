@@ -5,7 +5,6 @@ import { Translate } from 'react-localize-redux'
 
 const RequestStatusBoxGrid = styled(Grid)`
     &&& .alert-info {
-        font-size: 15px;
         font-weight: 600;
         padding-left: 15px;
 
@@ -47,7 +46,7 @@ const RequestStatusBoxGrid = styled(Grid)`
  */
 const RequestStatusBox = ({ requestStatus }) => (
     requestStatus ?
-        <RequestStatusBoxGrid>
+        <RequestStatusBoxGrid className='status-wrapper'>
             <Grid.Column className={`alert-info ${requestStatus.success ? 'success' : 'problem'}`}>
                 <Translate id={requestStatus.messageCode} />
             </Grid.Column>

@@ -35,7 +35,7 @@ class AccountFormAccountId extends Component {
             [name]: value.trim().toLowerCase()
         }))
 
-        handleChange(value);
+        handleChange(e, { name, value })
 
         this.timeout && clearTimeout(this.timeout)
 
@@ -48,7 +48,8 @@ class AccountFormAccountId extends Component {
         const {
             formLoader,
             requestStatus,
-            autoFocus
+            autoFocus,
+            type
         } = this.props
 
         const { accountId } = this.state
@@ -74,11 +75,11 @@ class AccountFormAccountId extends Component {
                                 tabIndex='1'
                                 autoFocus={autoFocus && accountId.length === 0}
                             />
-                            <span className='network'>{ACCOUNT_ID_SUFFIX}</span>
+                            {type === 'create' && <span className='network'>{ACCOUNT_ID_SUFFIX}</span>}
                         </InputWrapper>
                     )}
                 </Translate>
-                <Responsive as={RequestStatusBox} requestStatus={requestStatus} />
+                <RequestStatusBox requestStatus={requestStatus} />
             </>
         )
     }

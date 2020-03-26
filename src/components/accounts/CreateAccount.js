@@ -32,11 +32,11 @@ class CreateAccount extends Component {
         this.props.clear()
     }
 
-    handleChange = (value) => {
+    handleChange = (e, { name, value }) => {
         if (value.length > 0) {
-            this.setState({accountId: `${value}${ACCOUNT_ID_SUFFIX}`});
+            this.setState({[name]: `${value}${ACCOUNT_ID_SUFFIX}`})
         } else {
-            this.setState({accountId: value});
+            this.setState({[name]: value})
         }
     }
 

@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import { Translate } from 'react-localize-redux'
@@ -8,6 +8,14 @@ import ReCAPTCHA from 'react-google-recaptcha'
 
 import FormButton from '../common/FormButton'
 import AccountFormAccountId from './AccountFormAccountId'
+
+const Container = styled.div`
+    @media (min-width: 768px) and (max-width: 991px) {
+        .status-wrapper {
+            margin: -10px 0 -15px 0;
+        }
+    }
+`
 
 const RecaptchaString = styled.div`
     margin-bottom: -10px;
@@ -30,7 +38,7 @@ const CreateAccountForm = ({
     requestStatus,
     checkAvailability
 }) => (
-    <Fragment>
+    <Container>
         <Header as='h4'><Translate id='createAccount.accountIdInput.title' /></Header>
         <AccountFormAccountId
             formLoader={formLoader}
@@ -39,6 +47,7 @@ const CreateAccountForm = ({
             pattern={/[^a-zA-Z0-9_-]/}
             checkAvailability={checkAvailability}
             requestStatus={requestStatus}
+
         />
         <RecaptchaString>
             This site is protected by reCAPTCHA and the Google <a href='https://policies.google.com/privacy' target='_blank' rel='noopener noreferrer'>Privacy Policy</a> and <a href='https://policies.google.com/terms' target='_blank' rel='noopener noreferrer'>Terms of Service</a> apply.
@@ -64,7 +73,7 @@ const CreateAccountForm = ({
             <div><Translate id='createAccount.alreadyHaveAnAccount' /></div>
             <Link to={process.env.DISABLE_PHONE_RECOVERY === 'yes' ? '/recover-seed-phrase' : '/recover-account'}><Translate id='createAccount.recoverItHere' /></Link>
         </div>
-    </Fragment>
+    </Container>
 )
 
 CreateAccountForm.propTypes = {

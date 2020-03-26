@@ -111,10 +111,7 @@ const CustomList = styled(List)`
                 text-align: left;
             }
             .alert-info {
-                margin: 0 0 0 0;
-                padding: 8px 0;
-                line-height: 34px;
-                font-size: 14px;
+                margin-top: 15px;
             }
             .amount {
                 margin-top: 12px;
@@ -196,8 +193,7 @@ const CustomList = styled(List)`
                     }
                 }
                 .alert-info {
-                    margin: 0 0 0 14px;
-                    font-size: 12px;
+                    margin: 25px 0 10px 0;
                 }
             }
         }
