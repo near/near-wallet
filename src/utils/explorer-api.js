@@ -1,6 +1,7 @@
 import { Wampy } from 'wampy'
 
 const WAMP_NEAR_EXPLORER_URL = process.env.WAMP_NEAR_EXPLORER_URL || 'wss://near-explorer-wamp.onrender.com/ws'
+const WAMP_NEAR_EXPLORER_TOPIC_PREFIX = process.env.WAMP_NEAR_EXPLORER_TOPIC_PREFIX || 'com.nearprotocol.testnet.explorer'
 
 const wamp = new Wampy(WAMP_NEAR_EXPLORER_URL, { realm: 'near-explorer' })
 
@@ -9,7 +10,7 @@ export async function getTransactions(accountId = '') {
     if (!accountId) accountId = this.accountId
 
     const tx = await new Promise((resolve, reject) => wamp.call(
-        'com.nearprotocol.testnet.explorer.select',
+        `${WAMP_NEAR_EXPLORER_TOPIC_PREFIX}.select`,
         [
             `
                 SELECT 
