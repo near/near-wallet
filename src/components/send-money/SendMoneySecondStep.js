@@ -21,18 +21,18 @@ const SendMoneySecondStep = ({
     <MobileContainer>
         <Fragment>
             <PageContainer
-                title={`Send`}
+                title={<Translate id='sendMoney.pageTitle.default' />}
                 type='center'
             />
             <List className='list-top border'>
-                <List.Item as='h2' className='sending'>You are sending</List.Item>
+                <List.Item as='h2' className='sending'><Translate id='sendMoney.youAreSending' /></List.Item>
                 <List.Item className='amount-sending border-bottom'>
                     {amount 
                     ? <Balance amount={amount} /> 
                     : "NaN"}
                 </List.Item>
                 <List.Item className='to'>
-                    <Header as='h2'>to</Header>
+                    <Header as='h2'><Translate id='sendMoney.to' /></Header>
                 </List.Item>
                 <List.Item as='h2'>{accountId}</List.Item>
                 <List.Item>@{accountId}</List.Item>
@@ -63,7 +63,7 @@ const SendMoneySecondStep = ({
                         <Translate id='button.confirmAndSend' />
                     </FormButton>
                 </List.Item>
-                <List.Item className='confirmed'>Once confirmed, this cannot be undone.</List.Item>
+                <List.Item className='confirmed'><Translate id='sendMoney.onceConfirmed' /></List.Item>
                 <List.Item className='goback border-top'>
                     <FormButton
                         onClick={handleGoBack}

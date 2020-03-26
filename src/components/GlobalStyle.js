@@ -7,14 +7,14 @@ import EmailIconBlack from '../images/email-icon-black.svg'
 export default createGlobalStyle`
   
   * {
-    box-sizing: inherit;
+        box-sizing: inherit;
     }
 
-    #root {
+   #root {
         min-height: 100vh;
         position: relative;
-    }
-    html {
+   }
+   html {
         box-sizing: border-box;
         min-height: 100vh;
         height: auto !important;
@@ -29,14 +29,18 @@ export default createGlobalStyle`
             font-family: "benton-sans",sans-serif;
             font-weight: 500;
             font-size: 14px !important;
+            -webkit-overflow-scrolling: touch;
         }
+   }
+
+    .grecaptcha-badge {
+        visibility: hidden;
     }
-
-
-    
-
+   
     .App {
         min-height: 100vh;
+        padding-bottom: 200px;
+        padding-top: 80px;
 
         .main {
             padding-bottom: 200px;
@@ -138,7 +142,7 @@ export default createGlobalStyle`
 
     .username-input-icon {
         position: relative;
-        
+      
         &:after {
             content: '';
             background: url(${EmailIconBlack}) center no-repeat;
@@ -168,15 +172,19 @@ export default createGlobalStyle`
         background-color: #f8f8f8 !important;
         position: relative !important;
         margin-top: 8px !important;
+        outline: none;
+        appearance: none;
+        border-radius: 4px;
+
+        ::placeholder {
+            color: #999999;
+        }
 
         :focus {
             border-color: #e6e6e6 !important;
             background-color: #fff !important;
         }
-        :valid {
-            border-color: #e6e6e6 !important;
-            background-color: #fff !important;
-        }
+
         ::-webkit-input-placeholder {
             line-height: normal !important;
         }
@@ -206,9 +214,11 @@ export default createGlobalStyle`
         background-size: 24px 24px !important;
     }
 
+
     b {
         font-weight: 600 !important;
     }
+
 
     .color-seafoam-blue {
         color: #6ad1e3 !important;
@@ -279,7 +289,7 @@ export default createGlobalStyle`
         font-family: "benton-sans",sans-serif !important;
         line-height: normal !important;
     }
-    
+   
 
 
     .box {
@@ -333,7 +343,7 @@ export default createGlobalStyle`
             font-weight: 100 !important;
         }
     }
-    
+   
 
     .transactions-block .item {
         margin-left: 10px !important;

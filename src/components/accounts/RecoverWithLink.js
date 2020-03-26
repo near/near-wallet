@@ -146,7 +146,8 @@ class RecoverWithLink extends Component {
                     this.setState({ successView: false });
                 } else {
                     this.props.refreshAccount();
-                    this.props.history.push('/profile');
+                    // TODO: Should this use Redux action to navigate?
+                    this.props.history.push(`/profile/${this.state.accountId}`);
                 }
             });
     }

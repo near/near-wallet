@@ -91,9 +91,9 @@ const LoginForm = ({
                     textAlign='center'
                 >
                     <Link to={`${match.url}${match.url.substr(-1) === '/' ? '' : '/'}details`}>
-                        <div className='more-information'>
+                        <button className='more-information'>
                             <Translate id='button.moreInformation' />
-                        </div>
+                        </button>
                     </Link>
                 </Grid.Column>
             </Grid.Row>

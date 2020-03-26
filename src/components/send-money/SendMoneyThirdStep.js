@@ -12,7 +12,7 @@ const SendMoneyThirdStep = ({ handleRedirectDashboard, note, amount, accountId }
     <MobileContainer>
         <Fragment>
             <PageContainer
-                title={`Success!`}
+                title={<Translate id='sendMoney.pageTitle.success' />}
                 type='center'
             />
             <List className='list-top'>
@@ -23,7 +23,7 @@ const SendMoneyThirdStep = ({ handleRedirectDashboard, note, amount, accountId }
                     {amount 
                     ? <Balance amount={amount} /> 
                     : "NaN"}
-                        <span> was sent to:</span>
+                        <span> <Translate id='sendMoney.wasSentTo' /></span>
                 </List.Item>
                 <List.Item as='h2'>{accountId}</List.Item>
                 <List.Item>@{accountId}</List.Item>

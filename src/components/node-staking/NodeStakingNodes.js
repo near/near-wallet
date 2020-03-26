@@ -1,5 +1,5 @@
 import React from 'react'
-
+import { Translate } from 'react-localize-redux'
 import { Link } from 'react-router-dom'
 
 import { Grid, Image } from 'semantic-ui-react'
@@ -15,7 +15,7 @@ const NodeStakingNodes = ({ nodes }) => (
                 <div className='svg'>
                     <NodesImage />
                 </div>
-                <h2>Nodes</h2>
+                <h2><Translate id='nodeStaking.nodes.title' /></h2>
             </Grid.Column>
             <Grid.Column verticalAlign='middle' computer='3'>
                 <Link to='/add-node'>
@@ -45,11 +45,11 @@ const NodeStakingNodes = ({ nodes }) => (
                 <Grid.Row className='border-top'>
                     <Grid.Column computer='16'>
                         <span className='color-black'>
-                            <b>Already have your node setup? Add it here.</b>
+                            <b><Translate id='nodeStaking.nodes.noNode.title' /></b>
                         </span>
                         <br/>
                         <span className='font-small'>
-                            This connects your node to your wallet account.
+                            <Translate id='nodeStaking.nodes.noNode.text' />
                         </span>
                     </Grid.Column>
                 </Grid.Row>
