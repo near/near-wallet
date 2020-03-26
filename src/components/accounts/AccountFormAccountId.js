@@ -1,11 +1,24 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import styled from 'styled-components'
 import { Form, Responsive } from 'semantic-ui-react'
 import { Translate } from 'react-localize-redux'
 
 import RequestStatusBox from '../common/RequestStatusBox'
-import { ACCOUNT_CHECK_TIMEOUT } from '../../utils/wallet'
+import { ACCOUNT_CHECK_TIMEOUT, ACCOUNT_ID_SUFFIX } from '../../utils/wallet'
 
+const InputWrapper = styled.div`
+    position: relative;
+
+    .network {
+        position: absolute;
+        right: 20px;
+        top: 50%;
+        transform: translateY(calc(-50% + 4px));
+        pointer-events: none;
+        font-weight: 400;
+    }
+`
 class AccountFormAccountId extends Component {
     state = {
         accountId: this.props.defaultAccountId || ''
@@ -22,7 +35,7 @@ class AccountFormAccountId extends Component {
             [name]: value.trim().toLowerCase()
         }))
 
-        handleChange(e, { name, value })
+        handleChange(value);
 
         this.timeout && clearTimeout(this.timeout)
 
@@ -44,25 +57,28 @@ class AccountFormAccountId extends Component {
             <>
                 <Translate>
                     {({ translate }) => (
-                        <Form.Input
-                            loading={formLoader}
-                            className={`create username-input-icon ${requestStatus ? (requestStatus.success ? 'success' : 'problem') : ''}`}
-                            name='accountId'
-                            value={accountId}
-                            onChange={this.handleChangeAccountId}
-                            placeholder={translate('createAccount.accountIdInput.placeholder')}
-                            maxLength='32'
-                            required
-                            autoComplete='off'
-                            autoCorrect='off'
-                            autoCapitalize='off'
-                            spellCheck='false'
-                            tabIndex='1'
-                            autoFocus={autoFocus && accountId.length === 0}
-                        />
+                        <InputWrapper>
+                            <Form.Input
+                                loading={formLoader}
+                                className={` username-input-icon ${requestStatus ? (requestStatus.success ? 'success' : 'problem') : ''}`}
+                                name='accountId'
+                                value={accountId}
+                                onChange={this.handleChangeAccountId}
+                                placeholder={translate('createAccount.accountIdInput.placeholder')}
+                                maxLength='32'
+                                required
+                                autoComplete='off'
+                                autoCorrect='off'
+                                autoCapitalize='off'
+                                spellCheck='false'
+                                tabIndex='1'
+                                autoFocus={autoFocus && accountId.length === 0}
+                            />
+                            <span className='network'>{ACCOUNT_ID_SUFFIX}</span>
+                        </InputWrapper>
                     )}
                 </Translate>
-                <Responsive as={RequestStatusBox} maxWidth={767} requestStatus={requestStatus} />
+                <Responsive as={RequestStatusBox} requestStatus={requestStatus} />
             </>
         )
     }

@@ -6,6 +6,7 @@ import CreateAccountForm from './CreateAccountForm'
 import AccountFormSection from './AccountFormSection'
 import AccountFormContainer from './AccountFormContainer'
 import { checkNewAccount, createNewAccount, clear, refreshAccount, resetAccounts } from '../../actions/account'
+import { ACCOUNT_ID_SUFFIX } from '../../utils/wallet'
 
 class CreateAccount extends Component {
     state = {
@@ -31,10 +32,12 @@ class CreateAccount extends Component {
         this.props.clear()
     }
 
-    handleChange = (e, { name, value }) => {
-        this.setState(() => ({
-            [name]: value
-        }))
+    handleChange = (value) => {
+        if (value.length > 0) {
+            this.setState({accountId: `${value}${ACCOUNT_ID_SUFFIX}`});
+        } else {
+            this.setState({accountId: value});
+        }
     }
 
     handleCreateAccount = () => {

@@ -5,11 +5,9 @@ import { Translate } from 'react-localize-redux'
 
 const RequestStatusBoxGrid = styled(Grid)`
     &&& .alert-info {
-        font-size: 18px;
+        font-size: 15px;
         font-weight: 600;
-        line-height: 64px;
-        margin: 16px 0 0 0;
-        padding-left: 30px;
+        padding-left: 15px;
 
         &.problem {
             color: #ff585d;
@@ -30,11 +28,9 @@ const RequestStatusBoxGrid = styled(Grid)`
 
     @media screen and (max-width: 767px) {
         &&& .alert-info {
-            line-height: 20px;
             font-size: 12px;
             padding: 0px !important;
-            text-align: left;
-            margin: 24px 0 0 16px;
+            margin: 10px 0 5px 15px;
         }
 
         && {

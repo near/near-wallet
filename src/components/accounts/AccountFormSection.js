@@ -120,7 +120,6 @@ const AccountFormSection = ({ handleSubmit, requestStatus, location, children })
                 {children}
             </Grid.Column>
             <Grid.Column computer={7} tablet={8} mobile={16}>
-                <Responsive as={RequestStatusBox} minWidth={768} requestStatus={requestStatus} />
                 {location && <AccountNote />}
             </Grid.Column>
         </Grid>
