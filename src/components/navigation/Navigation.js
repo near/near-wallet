@@ -4,7 +4,6 @@ import { refreshAccount, switchAccount } from '../../actions/account';
 import { connect } from 'react-redux';
 import DesktopContainer from './DesktopContainer';
 import MobileContainer from './MobileContainer';
-
 class Navigation extends Component {
 
     state = {
@@ -17,21 +16,29 @@ class Navigation extends Component {
 
         if (menuOpen !== prevState.menuOpen) {
             if (menuOpen) {
-                document.addEventListener('keydown', this.handleMenu);
-                document.addEventListener('click', this.handleMenu);
+                document.addEventListener('keydown', this.handleKeyDown);
+                document.addEventListener('click', this.handleClick);
             } else {
-                document.removeEventListener('keydown', this.handleMenu);
-                document.removeEventListener('click', this.handleMenu);
+                document.removeEventListener('keydown', this.handleKeyDown);
+                document.removeEventListener('click', this.handleClick);
             }
         }
     }
 
-    handleMenu = (e) => {
-        const desktopMenu = document.getElementById('desktop-menu');
-        const mobileMenu = document.getElementById('mobile-menu');
-        if (e.key === 'Escape' || e.target.tagName === 'BUTTON' || e.target.tagName === 'A' || (!desktopMenu.contains(e.target) && !mobileMenu.contains(e.target))) {
+    handleKeyDown = (e) => {
+        if (e.keyCode === 27) {
             this.setState({ menuOpen: false });
         }
+    }
+
+    handleClick = (e) => {
+        const desktopMenu = document.getElementById('desktop-menu');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        if (e.target.tagName === 'BUTTON' || e.target.tagName === 'A' || (!desktopMenu.contains(e.target) && !mobileMenu.contains(e.target))) {
+            this.setState({ menuOpen: false });
+        }
+
     }
 
     get showNavLinks() {
