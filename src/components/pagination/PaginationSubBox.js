@@ -133,6 +133,18 @@ const CustomList = styled(List)`
             }
          }
       }
+      .title {
+         width: 100%;
+      }
+      .publickey {
+         width: 100%;
+         margin-top: 12px;
+
+         .item {
+            text-overflow: ellipsis;
+            overflow: hidden;
+         }
+      }
       @media screen and (max-width: 991px) {
          .img {
             top: 6px;
@@ -159,8 +171,8 @@ const CustomList = styled(List)`
          top: -80px;
 
          .img {
-            top: 0;
-            right: 2px;
+            top: -12px;
+            right: 8px;
          }
          > .item {
             padding: 0px;

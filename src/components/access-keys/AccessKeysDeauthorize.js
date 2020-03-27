@@ -30,7 +30,7 @@ const AccessKeysDeauthorize = ({
                         />
                     </List.Item>
                 }
-                <List.Item>
+                <List.Item className='publickey'>
                     {showSubData.access_key.permission.FunctionCall
                         ? <React.Fragment>
                             <List.Header as='h2'>
@@ -43,12 +43,7 @@ const AccessKeysDeauthorize = ({
                         </React.Fragment>
                         : null
                     }
-                    <List.Item as='h5' className='color-blue' style={{
-                        // TODO: Better way to fit public key
-                        textOverflow: 'ellipsis',
-                        overflow: 'hidden',
-                        width: '30em'
-                    }}>
+                    <List.Item className='color-blue'>
                         {showSubData.public_key}
                     </List.Item>
                 </List.Item>
