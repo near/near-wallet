@@ -2,10 +2,10 @@ import React from 'react'
 import { Translate } from 'react-localize-redux'
 
 import MainImage from '../common/MainImage'
-import FormButton from '../common/FormButton'
 import Balance from '../common/Balance'
+import AccessKeysDeauthorizeConfirm from './AccessKeysDeauthorizeConfirm'
 
-import { List, Button, Input, Form } from 'semantic-ui-react'
+import { List, Button } from 'semantic-ui-react'
 
 const AccessKeysDeauthorize = ({
     showSubData, 
@@ -56,49 +56,13 @@ const AccessKeysDeauthorize = ({
         </List.Item>
         <List.Item className='remove-connection'>
             {confirm ? (
-                <Form onSubmit={(e) => handleConfirmSubmit(e)}>
-                    <Translate>
-                        {({ translate }) => (
-                            <Input 
-                                name='accountId'
-                                value={accountId}
-                                onChange={handleChange}
-                                className={confirmStatus ? (confirmStatus === 'success' ? 'success' : 'problem') : ''}
-                                placeholder={translate('login.confirm.username')}
-                                maxLength='32'
-                                required
-                                autoComplete='off'
-                                autoCorrect='off'
-                                autoCapitalize='off'
-                                spellCheck='false'
-                                tabIndex='1'
-                                autoFocus={true}
-                            />
-                        )}
-                    </Translate>
-                    <div className='alert-info'>
-                        {confirmStatus === 'problem' && `Account name doesn't match`}
-                    </div>
-                    <div className='confirm'>
-                        <FormButton
-                            color='gray-white'
-                            onClick={handleConfirmClear}
-                            size='small'
-                            type='button'
-                        >
-                            <Translate id='button.cancel' />
-                        </FormButton>
-
-                        <FormButton
-                            color='blue'
-                            disabled={confirmStatus !== 'problem' && accountId ? false : true}
-                            size='small'
-                            type='submit'
-                        >
-                            <Translate id='button.confirm' />
-                        </FormButton>
-                    </div>
-                </Form>
+                <AccessKeysDeauthorizeConfirm 
+                    handleConfirmSubmit={handleConfirmSubmit}
+                    handleChange={handleChange}
+                    accountId={accountId}
+                    confirmStatus={confirmStatus}
+                    handleConfirmClear={handleConfirmClear}
+                />
             ) : (
                 <Button className='deauthorize' onClick={showSubData.access_key.permission === 'FullAccess' ? handleConfirm : handleDeauthorize}>
                     <Translate id='button.deauthorize' />
