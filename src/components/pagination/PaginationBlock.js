@@ -155,7 +155,14 @@ class PaginationBlock extends Component {
          subPage,
          showSubData,
          toggleCloseSub,
-         handleDeauthorize
+         handleDeauthorize,
+         handleConfirm, 
+         handleConfirmSubmit, 
+         handleChange,
+         handleConfirmClear,
+         accountId,
+         confirm,
+         confirmStatus
       } = this.props
 
       const {
@@ -228,6 +235,13 @@ class PaginationBlock extends Component {
                      subPage={subPage}
                      showSubData={showSubData}
                      handleDeauthorize={handleDeauthorize}
+                     handleConfirm={handleConfirm}
+                     handleConfirmSubmit={handleConfirmSubmit}
+                     handleChange={handleChange}
+                     accountId={accountId}
+                     confirm={confirm}
+                     confirmStatus={confirmStatus}
+                     handleConfirmClear={handleConfirmClear}
                   />
                </Grid.Column>
             </Grid.Row>

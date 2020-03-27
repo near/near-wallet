@@ -18,6 +18,9 @@ class AccessKeys extends Component {
         showSub: false,
         showSubOpen: 0,
         showSubData: null,
+        accountId: '',
+        confirm: false,
+        confirmStatus: '',
         authorizedApps: [],
         filterTypes: [
             { img: '', name: 'ALL' },
@@ -25,6 +28,43 @@ class AccessKeys extends Component {
             { img: '', name: 'ALL' },
             { img: '', name: 'ALL' }
         ]
+    }
+
+    handleConfirm = () => {
+        this.setState((state) => ({
+            confirm: !state.confirm
+        }))
+    }
+
+    handleConfirmSubmit = (e) => {
+        e.preventDefault()
+
+        if (this.state.accountId === this.props.accountId) {
+            this.setState(() => ({
+                confirmStatus: 'success'
+            }))
+            this.handleDeauthorize()
+        }
+        else {
+            this.setState(() => ({
+                confirmStatus: 'problem'
+            }))
+        }
+    }
+
+    handleChange = (e, { name, value }) => {
+        this.setState(() => ({
+            [name]: value,
+            confirmStatus: ''
+        }))
+    }
+
+    handleConfirmClear = () => {
+        this.setState(() => ({
+            accountId: '',
+            confirm: false,
+            confirmStatus: '',
+        }))
     }
 
     toggleShowSub = (i, accessKey) => {
@@ -35,6 +75,8 @@ class AccessKeys extends Component {
             showSubOpen: i,
             showSubData: accessKey
         }))
+
+        this.handleConfirmClear()
     }
 
     toggleCloseSub = () => {
@@ -43,6 +85,8 @@ class AccessKeys extends Component {
             showSubOpen: 0,
             showSubData: null
         }))
+
+        this.handleConfirmClear()
     }
 
     handleDeauthorize = () => {
@@ -79,7 +123,10 @@ class AccessKeys extends Component {
             filterTypes,
             showSub,
             showSubOpen,
-            showSubData
+            showSubData,
+            accountId,
+            confirm,
+            confirmStatus
         } = this.state
 
         const { authorizedApps, title } = this.props
@@ -102,6 +149,13 @@ class AccessKeys extends Component {
                     toggleCloseSub={this.toggleCloseSub}
                     subPage='access-keys'
                     handleDeauthorize={this.handleDeauthorize}
+                    handleConfirm={this.handleConfirm}
+                    handleConfirmSubmit={this.handleConfirmSubmit}
+                    handleChange={this.handleChange}
+                    handleConfirmClear={this.handleConfirmClear}
+                    accountId={accountId}
+                    confirm={confirm}
+                    confirmStatus={confirmStatus}
                 >
                     {authorizedApps && (authorizedApps.length 
                         ? authorizedApps.map((accessKey, i) => (

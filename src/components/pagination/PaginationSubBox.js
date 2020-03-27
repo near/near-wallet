@@ -47,7 +47,7 @@ const CustomList = styled(List)`
          }
       }
       .remove-connection {
-         > button {
+         button.deauthorize {
             width: 100%;
             background-color: #ff585d;
             border: 2px solid #ff585d;
@@ -61,6 +61,26 @@ const CustomList = styled(List)`
                color: #ff585d;
             }
          }
+         .input {
+            width: 100%;
+         }
+         .confirm > button {
+            width: 45%;
+            margin-top: 8px;
+            margin-bottom: 6px;
+
+            :first-of-type {
+               margin-right: 10%;
+            }
+         }
+         .alert-info {
+            height: 14px;
+            font-size: 14px;
+            font-weight: 600;
+            margin: 8px 0 0 0;
+            text-align: center;
+            color: #ff585d;
+        }
       }
       .recent-transactions {
          background-color: #f8f8f8;
@@ -175,7 +195,7 @@ const CustomList = styled(List)`
    }
 `
 
-const PaginationShowSubBox = ({ toggleCloseSub, subPage, showSubData, handleDeauthorize }) => (
+const PaginationShowSubBox = ({ toggleCloseSub, subPage, showSubData, handleDeauthorize, handleConfirm, handleConfirmSubmit, handleChange, handleConfirmClear, accountId, confirm, confirmStatus }) => (
    <CustomList className='box'>
       <List.Item className='img'>
          <Image
@@ -188,6 +208,13 @@ const PaginationShowSubBox = ({ toggleCloseSub, subPage, showSubData, handleDeau
             <AccessKeysDeauthorize 
                showSubData={showSubData}
                handleDeauthorize={handleDeauthorize}
+               handleConfirm={handleConfirm}
+               handleConfirmSubmit={handleConfirmSubmit}
+               handleChange={handleChange}
+               accountId={accountId}
+               confirm={confirm}
+               confirmStatus={confirmStatus}
+               handleConfirmClear={handleConfirmClear}
             />
          ) : (
             <ContactsRemove

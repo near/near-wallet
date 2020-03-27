@@ -2,11 +2,22 @@ import React from 'react'
 import { Translate } from 'react-localize-redux'
 
 import MainImage from '../common/MainImage'
-
-import { List, Button } from 'semantic-ui-react'
+import FormButton from '../common/FormButton'
 import Balance from '../common/Balance'
 
-const AccessKeysDeauthorize = ({ showSubData, handleDeauthorize }) => (
+import { List, Button, Input, Form } from 'semantic-ui-react'
+
+const AccessKeysDeauthorize = ({
+    showSubData, 
+    handleDeauthorize,
+    accountId,
+    confirm,
+    confirmStatus,
+    handleConfirm,
+    handleConfirmSubmit,
+    handleChange,
+    handleConfirmClear
+}) => (
     // TODO: Simplify layout as seems too much unnecessary nesting, while can use simple html tags, etc
     <List>
         <List.Item>
@@ -44,9 +55,55 @@ const AccessKeysDeauthorize = ({ showSubData, handleDeauthorize }) => (
             </List>
         </List.Item>
         <List.Item className='remove-connection'>
-            <Button onClick={handleDeauthorize}>
-                <Translate id='button.deauthorize' />
-            </Button>
+            {confirm ? (
+                <Form onSubmit={(e) => handleConfirmSubmit(e)}>
+                    <Translate>
+                        {({ translate }) => (
+                            <Input 
+                                name='accountId'
+                                value={accountId}
+                                onChange={handleChange}
+                                className={confirmStatus ? (confirmStatus === 'success' ? 'success' : 'problem') : ''}
+                                placeholder={translate('login.confirm.username')}
+                                maxLength='32'
+                                required
+                                autoComplete='off'
+                                autoCorrect='off'
+                                autoCapitalize='off'
+                                spellCheck='false'
+                                tabIndex='1'
+                                autoFocus={true}
+                            />
+                        )}
+                    </Translate>
+                    <div className='alert-info'>
+                        {confirmStatus === 'problem' && `Account name doesn't match`}
+                    </div>
+                    <div className='confirm'>
+                        <FormButton
+                            color='gray-white'
+                            onClick={handleConfirmClear}
+                            size='small'
+                            type='button'
+                        >
+                            <Translate id='button.cancel' />
+                        </FormButton>
+
+                        <FormButton
+                            color='blue'
+                            disabled={confirmStatus !== 'problem' && accountId ? false : true}
+                            size='small'
+                            type='submit'
+                        >
+                            <Translate id='button.confirm' />
+                        </FormButton>
+                    </div>
+                </Form>
+            ) : (
+                <Button className='deauthorize' onClick={showSubData.access_key.permission === 'FullAccess' ? handleConfirm : handleDeauthorize}>
+                    <Translate id='button.deauthorize' />
+                </Button>
+            )}
         </List.Item>
         <List.Item className='authorized-transactions'>
             <List.Item
