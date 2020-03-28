@@ -18,9 +18,97 @@ const CustomList = styled(List)`
         height: 100%;
         padding: 0 0;
 
-        > .item {
-            padding: 18px 20px;
+        .deauthorize-box {
+            .top {
+                padding: 2em 1.5em;
+
+                &.contacts {
+                    padding: 2em 1.5em 0;
+                }
+                .details {
+                    width: 100%;
+                    margin-top: 1em;
+
+                    h2 {
+                        margin-top: -1em;
+                    }
+                    .publickey {
+                        text-overflow: ellipsis;
+                        overflow: hidden;
+                    }
+                }
+                .remove-connection {
+                    padding-top: 0.5em;
+                    padding-bottom: 0.5em;
+
+                    button.red {
+                        width: 100%;
+                        margin-top: 12px;
+                        margin-bottom: 6px;
+                    }
+                    .input {
+                        width: 100%;
+                    }
+                    .confirm > button {
+                        width: 45%;
+                        margin-top: 8px;
+                        margin-bottom: 6px;
+
+                        :first-of-type {
+                            margin-right: 10%;
+                        }
+                    }
+                    .alert-info {
+                        height: 14px;
+                        font-size: 14px;
+                        font-weight: 600;
+                        margin: 8px 0 0 0;
+                        text-align: center;
+                        color: #ff585d;
+                    }
+                }
+                .authorized-transactions {
+                    background-color: #fff;
+                    margin: 0 0 0 0;
+                    padding-top: 0px;
+                    
+                    .title {
+                        padding: 12px 0 0 24px !important;
+                        background: url(${MTransactionImage}) no-repeat left 14px;
+                        background-size: 12px auto;
+                    }
+                    .row {
+                        margin: 0 0 0 24px;
+                        padding: 12px 0 0 32px !important;
+                        background: url(${CheckBlueImage}) no-repeat left 14px;
+                        line-height: 32px;
+                    }
+                    .row:last-child {
+                        border-bottom: 0px solid #e6e6e6;
+                    }
+                }
+            }
+            .recent-transactions {
+                background-color: #f8f8f8;
+                margin: 0 0 0 0;
+                padding: 1em 1.5em;
+
+                .title {
+                    padding: 0 0 0 24px !important;
+                    background: url(${MTransactionImage}) no-repeat left 2px;
+                    background-size: 12px auto;
+                }
+                .row {
+                    margin: 0 24px 0 24px;
+                    padding: 12px 0 !important;
+                    border-bottom: 2px solid #e6e6e6;
+                }
+                .row:last-child {
+                    border-bottom: 0px solid #e6e6e6;
+                }
+            }
         }
+
         .img {
             width: 20px;
             position: absolute;
@@ -46,96 +134,16 @@ const CustomList = styled(List)`
                 line-height: 20px;
             }
         }
-        .remove-connection {
-            button.red {
+        
+        .send {
+            padding: 0 1.5em;
+            
+            button {
                 width: 100%;
-                margin-top: 12px;
-                margin-bottom: 6px;
-            }
-            .input {
-                width: 100%;
-            }
-            .confirm > button {
-                width: 45%;
-                margin-top: 8px;
-                margin-bottom: 6px;
-
-                :first-of-type {
-                    margin-right: 10%;
-                }
-            }
-            .alert-info {
-                height: 14px;
-                font-size: 14px;
-                font-weight: 600;
-                margin: 8px 0 0 0;
-                text-align: center;
-                color: #ff585d;
-          }
-        }
-        .recent-transactions {
-            background-color: #f8f8f8;
-            margin: 0 0 0 0;
-        }
-        .recent-transactions-title {
-            padding: 0 0 0 24px;
-            background: url(${MTransactionImage}) no-repeat left 2px;
-            background-size: 12px auto;
-        }
-        .recent-transactions-row {
-            margin: 0 0 0 24px;
-            padding: 12px 0;
-            border-bottom: 2px solid #e6e6e6;
-        }
-        .recent-transactions-row:last-child {
-            border-bottom: 0px solid #e6e6e6;
-        }
-        .authorized-transactions {
-            background-color: #fff;
-            margin: 0 0 0 0;
-            padding-top: 0px;
-        }
-        .authorized-transactions-title {
-            padding: 12px 0 0 24px;
-            background: url(${MTransactionImage}) no-repeat left 14px;
-            background-size: 12px auto;
-        }
-        .authorized-transactions-row {
-            margin: 0 0 0 24px;
-            padding: 12px 0 0 32px;
-            background: url(${CheckBlueImage}) no-repeat left 14px;
-            line-height: 32px;
-        }
-        .authorized-transactions-row:last-child {
-            border-bottom: 0px solid #e6e6e6;
-        }
-        .send-money {
-            > .button {
-                width: 100%;
-                background-color: #5ace84;
-                border: 2px solid #5ace84;
-                border-radius: 25px;
-                color: #fff;
-                font-weight: 600;
-
-                :hover {
-                    background-color: #fff;
-                    color: #5ace84;
-                }
+                margin-top: 1em;
             }
         }
-        .title {
-            width: 100%;
-        }
-        .publickey {
-            width: 100%;
-            margin-top: 12px;
-
-            .item {
-                text-overflow: ellipsis;
-                overflow: hidden;
-            }
-        }
+        
         @media screen and (max-width: 991px) {
             .img {
                 top: 6px;
@@ -165,34 +173,41 @@ const CustomList = styled(List)`
                 top: -12px;
                 right: 8px;
             }
-            > .item {
-                padding: 0px;
+            .deauthorize-box {
+                .top {
+                    padding: 1em 0 1em 0;
 
-                h2 {
-                    font-size: 32px !important;
-                }
-                > .list {
-                    padding: 0;
-                }
-                .title {
-                    width: 100%;
-                    padding-bottom: 12px;
-                    
-                    > .item {
-                        width: 100%;
-                        text-align: center;
-                        margin-left: 0;
+                    &.contacts {
+                        padding: 2em 0 0;
                     }
-                    .image {
-                        > div {
-                            margin: 0 auto;
+
+                    h2 {
+                        font-size: 32px !important;
+                    }
+                    .title {
+                        padding-bottom: 12px;
+                        .image {
+                            > div {
+                                margin: 0 auto;
+                            }
                         }
                     }
+                    .remove-connection {
+                        padding-top: 0px;
+                        border-top: 2px solid #e6e6e6;
+                    }
+                }
+                .recent-transactions {
+                    margin: 0 -1em;
+                    padding: 1em 1em;
                 }
             }
-            .remove-connection {
-                padding-top: 0px;
-                border-top: 2px solid #e6e6e6;
+            .send {
+                padding: 0 0;
+                
+                button {
+                    width: 100%;
+                }
             }
         }
     }

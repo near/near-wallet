@@ -6,8 +6,6 @@ import Balance from '../common/Balance'
 import AccessKeysDeauthorizeConfirm from './AccessKeysDeauthorizeConfirm'
 import FormButton from '../common/FormButton'
 
-import { List } from 'semantic-ui-react'
-
 const AccessKeysDeauthorize = ({
     showSubData, 
     handleDeauthorize,
@@ -20,118 +18,107 @@ const AccessKeysDeauthorize = ({
     handleConfirmClear,
     buttonLoader
 }) => (
-    // TODO: Simplify layout as seems too much unnecessary nesting, while can use simple html tags, etc
-    <List>
-        <List.Item>
-            <List horizontal className='title'>
-                {false &&
-                    <List.Item className='image'>
-                        <MainImage
-                            src={showSubData.image}
-                            size='big'
-                        />
-                    </List.Item>
-                }
-                <List.Item className='publickey'>
-                    {showSubData.access_key.permission.FunctionCall
-                        ? <React.Fragment>
-                            <List.Header as='h2'>
-                                {showSubData.access_key.permission.FunctionCall.receiver_id}
-                            </List.Header>
-                            <List.Item as='h5' className='color-blue'>
-                                <span className='color-black'><Translate id='amount' />: </span>
-                                <Balance amount={showSubData.access_key.permission.FunctionCall.allowance} />
-                            </List.Item>
-                        </React.Fragment>
-                        : null
+    <div className='deauthorize-box'>
+        <div className='top'>
+            <div>
+                <div className='title'>
+                    {false &&
+                        <div className='image'>
+                            <MainImage
+                                src={showSubData.image}
+                                size='big'
+                            />
+                        </div>
                     }
-                    <List.Item className='color-blue'>
-                        {showSubData.public_key}
-                    </List.Item>
-                </List.Item>
-            </List>
-        </List.Item>
-        <List.Item className='remove-connection'>
-            {confirm ? (
-                <AccessKeysDeauthorizeConfirm 
-                    handleConfirmSubmit={handleConfirmSubmit}
-                    handleChange={handleChange}
-                    accountId={accountId}
-                    confirmStatus={confirmStatus}
-                    handleConfirmClear={handleConfirmClear}
-                    buttonLoader={buttonLoader}
-                />
-            ) : (
-                <FormButton
-                    className='deauthorize'
-                    color='red'
-                    sending={buttonLoader}
-                    onClick={showSubData.access_key.permission === 'FullAccess' ? handleConfirm : handleDeauthorize}
-                >
-                    <Translate id='button.deauthorize' />
-                </FormButton>
-            )}
-        </List.Item>
-        <List.Item className='authorized-transactions'>
-            <List.Item
-                as='h6'
-                className='authorized-transactions-title border-top'
-            >
-                <Translate id='fullAccessKeys.authorizedTo' />
-            </List.Item>
-            <List.Item className='authorized-transactions-row color-black'>
-                <Translate id='fullAccessKeys.viewYourAccountName' />
-            </List.Item>
-            {showSubData.access_key.permission === 'FullAccess'
-                ? <List.Item className='authorized-transactions-row color-black'>
-                    <Translate id='fullAccessKeys.submitAnyTransaction' />
-                </List.Item>
-                : null
-            }
-            {showSubData.access_key.permission.FunctionCall
-                ? <List.Item className='authorized-transactions-row color-black'>
-                    <Translate id='fullAccessKeys.useContract' data={{ receiverId: showSubData.access_key.permission.FunctionCall.receiver_id }} />
-                </List.Item>
-                : null
-            }
-        </List.Item>
+                    <div className='details'>
+                        {showSubData.access_key.permission.FunctionCall
+                            ? <>
+                                <h2>
+                                    {showSubData.access_key.permission.FunctionCall.receiver_id}
+                                </h2>
+                                <h5 className='color-blue'>
+                                    <span className='color-black'><Translate id='amount' />: </span>
+                                    <Balance amount={showSubData.access_key.permission.FunctionCall.allowance} />
+                                </h5>
+                            </>
+                            : null
+                        }
+                        <div className='publickey color-blue'>
+                            {showSubData.public_key}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div className='remove-connection'>
+                {confirm ? (
+                    <AccessKeysDeauthorizeConfirm 
+                        handleConfirmSubmit={handleConfirmSubmit}
+                        handleChange={handleChange}
+                        accountId={accountId}
+                        confirmStatus={confirmStatus}
+                        handleConfirmClear={handleConfirmClear}
+                        buttonLoader={buttonLoader}
+                    />
+                ) : (
+                    <FormButton
+                        className='deauthorize'
+                        color='red'
+                        sending={buttonLoader}
+                        onClick={showSubData.access_key.permission === 'FullAccess' ? handleConfirm : handleDeauthorize}
+                    >
+                        <Translate id='button.deauthorize' />
+                    </FormButton>
+                )}
+            </div>
+            <div className='authorized-transactions'>
+                <h6 className='title border-top'>
+                    <Translate id='fullAccessKeys.authorizedTo' />
+                </h6>
+                <div className='row color-black'>
+                    <Translate id='fullAccessKeys.viewYourAccountName' />
+                </div>
+                {showSubData.access_key.permission === 'FullAccess'
+                    ? <div className='row color-black'>
+                        <Translate id='fullAccessKeys.submitAnyTransaction' />
+                    </div>
+                    : null
+                }
+                {showSubData.access_key.permission.FunctionCall
+                    ? <div className='row color-black'>
+                        <Translate id='fullAccessKeys.useContract' data={{ receiverId: showSubData.access_key.permission.FunctionCall.receiver_id }} />
+                    </div>
+                    : null
+                }
+            </div>
+        </div>
         {false && (
-            <List.Item className='recent-transactions'>
-                <List.Item
-                    as='h6'
-                    className='recent-transactions-title border-top'
-                >
+            <div className='recent-transactions'>
+                <h6 className='title border-top'>
                     RECENT TRANSACTIONS
-                </List.Item>
-                <List.Item className='recent-transactions-row border-top'>
-                    <List.Header>
-                        Another thing here
-                    </List.Header>
-                    <List.Item>3h ago</List.Item>
-                </List.Item>
-                <List.Item className='recent-transactions-row border-top'>
-                    <List.Header>
-                        Another Thing Happened
-                    </List.Header>
-                    <List.Item>3d ago</List.Item>
-                </List.Item>
-                <List.Item className='recent-transactions-row border-top'>
-                    <List.Header>
-                        In-app purchase: 20 Ⓝ
-                    </List.Header>
-                    <List.Item>1w ago</List.Item>
-                </List.Item>
-                <List.Item className='recent-transactions-row border-top'>
-                    <List.Header>Staked: 10 Ⓝ</List.Header>
-                    <List.Item>2w ago</List.Item>
-                </List.Item>
-                <List.Item className='recent-transactions-row border-top'>
-                    <List.Header>Authorized</List.Header>
-                    <List.Item>2w ago</List.Item>
-                </List.Item>
-            </List.Item>
+                </h6>
+                <div className='row border-top'>
+                    <b className='color-black'>Another thing here</b>
+                    <div>3h ago</div>
+                </div>
+                <div className='row border-top'>
+                    <b className='color-black'>Another Thing Happened</b>
+                    <div>3d ago</div>
+                </div>
+                <div className='row border-top'>
+                    <b className='color-black'>In-app purchase: 20 Ⓝ</b>
+                    <div>1w ago</div>
+                </div>
+                <div className='row border-top'>
+                    <b className='color-black'>Staked: 10 Ⓝ</b>
+                    <div>2w ago</div>
+                </div>
+                <div className='row border-top'>
+                    <b className='color-black'>Authorized</b>
+                    <div>2w ago</div>
+                </div>
+            </div>
         )}
-    </List>
+    </div>
 )
 
 export default AccessKeysDeauthorize
