@@ -162,7 +162,8 @@ class PaginationBlock extends Component {
          handleConfirmClear,
          accountId,
          confirm,
-         confirmStatus
+         confirmStatus,
+         buttonLoader
       } = this.props
 
       const {
@@ -242,6 +243,7 @@ class PaginationBlock extends Component {
                      confirm={confirm}
                      confirmStatus={confirmStatus}
                      handleConfirmClear={handleConfirmClear}
+                     buttonLoader={buttonLoader}
                   />
                </Grid.Column>
             </Grid.Row>

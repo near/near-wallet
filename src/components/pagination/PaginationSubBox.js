@@ -47,19 +47,10 @@ const CustomList = styled(List)`
          }
       }
       .remove-connection {
-         button.deauthorize {
+         button.red {
             width: 100%;
-            background-color: #ff585d;
-            border: 2px solid #ff585d;
-            border-radius: 25px;
-            color: #fff;
-            font-weight: 600;
             margin-top: 12px;
-
-            :hover {
-               background: #fff;
-               color: #ff585d;
-            }
+            margin-bottom: 6px;
          }
          .input {
             width: 100%;
@@ -207,7 +198,20 @@ const CustomList = styled(List)`
    }
 `
 
-const PaginationShowSubBox = ({ toggleCloseSub, subPage, showSubData, handleDeauthorize, handleConfirm, handleConfirmSubmit, handleChange, handleConfirmClear, accountId, confirm, confirmStatus }) => (
+const PaginationShowSubBox = ({ 
+   toggleCloseSub,
+   subPage,
+   showSubData,
+   handleDeauthorize,
+   handleConfirm,
+   handleConfirmSubmit,
+   handleChange,
+   handleConfirmClear,
+   accountId,
+   confirm,
+   confirmStatus,
+   buttonLoader
+}) => (
    <CustomList className='box'>
       <List.Item className='img'>
          <Image
@@ -227,6 +231,7 @@ const PaginationShowSubBox = ({ toggleCloseSub, subPage, showSubData, handleDeau
                confirm={confirm}
                confirmStatus={confirmStatus}
                handleConfirmClear={handleConfirmClear}
+               buttonLoader={buttonLoader}
             />
          ) : (
             <ContactsRemove

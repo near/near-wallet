@@ -27,7 +27,8 @@ class AccessKeys extends Component {
             { img: '', name: 'ALL' },
             { img: '', name: 'ALL' },
             { img: '', name: 'ALL' }
-        ]
+        ],
+        buttonLoader: false
     }
 
     handleConfirm = () => {
@@ -64,6 +65,7 @@ class AccessKeys extends Component {
             accountId: '',
             confirm: false,
             confirmStatus: '',
+            buttonLoader: false
         }))
     }
 
@@ -93,7 +95,8 @@ class AccessKeys extends Component {
         const publicKey = this.state.showSubData.public_key
 
         this.setState(() => ({
-            loader: true
+            loader: true,
+            buttonLoader: true
         }))
 
         this.props.removeAccessKey(publicKey).then(() => {
@@ -126,7 +129,8 @@ class AccessKeys extends Component {
             showSubData,
             accountId,
             confirm,
-            confirmStatus
+            confirmStatus,
+            buttonLoader
         } = this.state
 
         const { authorizedApps, title } = this.props
@@ -156,6 +160,7 @@ class AccessKeys extends Component {
                     accountId={accountId}
                     confirm={confirm}
                     confirmStatus={confirmStatus}
+                    buttonLoader={buttonLoader}
                 >
                     {authorizedApps && (authorizedApps.length 
                         ? authorizedApps.map((accessKey, i) => (

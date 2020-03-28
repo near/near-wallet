@@ -4,8 +4,9 @@ import { Translate } from 'react-localize-redux'
 import MainImage from '../common/MainImage'
 import Balance from '../common/Balance'
 import AccessKeysDeauthorizeConfirm from './AccessKeysDeauthorizeConfirm'
+import FormButton from '../common/FormButton'
 
-import { List, Button } from 'semantic-ui-react'
+import { List } from 'semantic-ui-react'
 
 const AccessKeysDeauthorize = ({
     showSubData, 
@@ -16,7 +17,8 @@ const AccessKeysDeauthorize = ({
     handleConfirm,
     handleConfirmSubmit,
     handleChange,
-    handleConfirmClear
+    handleConfirmClear,
+    buttonLoader
 }) => (
     // TODO: Simplify layout as seems too much unnecessary nesting, while can use simple html tags, etc
     <List>
@@ -57,11 +59,17 @@ const AccessKeysDeauthorize = ({
                     accountId={accountId}
                     confirmStatus={confirmStatus}
                     handleConfirmClear={handleConfirmClear}
+                    buttonLoader={buttonLoader}
                 />
             ) : (
-                <Button className='deauthorize' onClick={showSubData.access_key.permission === 'FullAccess' ? handleConfirm : handleDeauthorize}>
+                <FormButton
+                    className='deauthorize'
+                    color='red'
+                    sending={buttonLoader}
+                    onClick={showSubData.access_key.permission === 'FullAccess' ? handleConfirm : handleDeauthorize}
+                >
                     <Translate id='button.deauthorize' />
-                </Button>
+                </FormButton>
             )}
         </List.Item>
         <List.Item className='authorized-transactions'>
