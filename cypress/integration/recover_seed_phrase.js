@@ -1,6 +1,8 @@
 describe('Recover w/ seed phrase', function() {
     it('Enters username and phrase', function() {
 
+        this.skip() // Skip this test for now
+
         //cy.visit('https://wallet.nearprotocol.com')
         cy.visit('http://localhost:1234')
 
