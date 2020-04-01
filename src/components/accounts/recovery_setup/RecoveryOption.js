@@ -152,7 +152,7 @@ const RecoveryOption = ({
     active
 }) => {
     return (
-        <Container onClick={onClick} className={active && 'active'}>
+        <Container onClick={onClick} className={`${option} ${active ? 'active' : ''}`}>
             <Header>
                 <Icon option={option}/>
                 <Title>
