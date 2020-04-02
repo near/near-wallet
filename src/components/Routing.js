@@ -8,7 +8,7 @@ import { ConnectedRouter } from 'connected-react-router'
 import { withLocalize } from 'react-localize-redux';
 
 import translations_en from '../translations/en.global.json'
-
+import GlobalAlert from './responsive/GlobalAlert'
 import '../index.css'
 
 import Navigation from './navigation/Navigation'
@@ -85,6 +85,7 @@ class Routing extends Component {
                 <ConnectedRouter basename={PATH_PREFIX}  history={this.props.history}>
                     <ThemeProvider theme={theme}>
                         <Navigation/>
+                        <GlobalAlert/>
                         {this.props.account.loader === false && (
                             <Switch>
                                 <PrivateRoute
