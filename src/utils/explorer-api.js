@@ -71,6 +71,5 @@ export async function getTransactions(accountId = '') {
             });
         })
     )
-    console.log(tx)
     return tx
 }
