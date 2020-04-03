@@ -146,10 +146,16 @@ class Wallet {
                 this.selectAccount(nextAccountId)
 
                 return {
-                    loginResetAccount: true,
-                    loginResetAccountPreventClear: accountIdNotConfirmed,
-                    loginResetAccountNotConfirmed: accountId,
+                    resetAccount: {
+                        reset: true,
+                        preventClear: accountIdNotConfirmed,
+                        accountIdNotConfirmed: accountId
+                    },
                     globalAlertPreventClear: accountIdNotConfirmed || this.isEmpty(),
+                    globalAlert: {
+                        success: false,
+                        messageCode: 'account.create.errorAccountNotExist'
+                    },
                     ...(!this.isEmpty() && !accountIdNotConfirmed && await this.loadAccount())
                 }
             }
