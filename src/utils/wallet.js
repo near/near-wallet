@@ -149,7 +149,7 @@ class Wallet {
                     resetAccount: {
                         reset: true,
                         preventClear: accountIdNotConfirmed,
-                        accountIdNotConfirmed: accountId
+                        accountIdNotConfirmed: accountIdNotConfirmed ? accountId : ''
                     },
                     globalAlertPreventClear: accountIdNotConfirmed || this.isEmpty(),
                     globalAlert: {
