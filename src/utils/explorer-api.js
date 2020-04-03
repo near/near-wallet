@@ -17,14 +17,13 @@ export async function getTransactions(accountId = '') {
                     transactions.signer_id, 
                     transactions.receiver_id, 
                     transactions.block_hash, 
-                    blocks.timestamp as blockTimestamp
+                    transactions.block_timestamp
                 FROM 
                     transactions
-                LEFT JOIN blocks ON blocks.hash = transactions.block_hash
                 WHERE 
                     signer_id = :accountId 
                     OR receiver_id = :accountId
-                ORDER BY blocks.height DESC
+                ORDER BY block_timestamp DESC
                 LIMIT :offset, :count
             `,
             { accountId, offset: 0, count: 5 }
@@ -39,8 +38,9 @@ export async function getTransactions(accountId = '') {
         }
     ));
     
-    tx.map(async t => {
-        const actions = await new Promise((require, reject) => wamp.call(
+    await Promise.all(
+        tx.map(async t => {
+        const actions = await new Promise((resolve, reject) => wamp.call(
             'com.nearprotocol.testnet.explorer.select',
             [
                 `SELECT actions.action_type as kind, 
@@ -51,18 +51,26 @@ export async function getTransactions(accountId = '') {
                   {
                     hash: t.hash
                   }
-            ]
-        ))
-        tx.actions = actions.map(action => {
+            ],
+            {
+                onSuccess(dataArr) {
+                    resolve(dataArr[0])
+                },
+                onError(err) {
+                    reject(err);
+                }
+            }
+            ))
+        t.actions = actions.map(action => {
               if (typeof action === "string") {
                 return { [action]: {} };
-              } else {
-                return {
-                  [action.kind]: JSON.parse(action.args)
-                };
               }
+            return {
+                [action.kind]: JSON.parse(action.args)
+            };
             });
-    })
-    
+        })
+    )
+    console.log(tx)
     return tx
 }
