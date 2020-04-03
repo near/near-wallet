@@ -5,7 +5,7 @@ import FormButton from '../common/FormButton'
 
 import { Input, Form } from 'semantic-ui-react'
 
-const AccessKeysDeauthorizeConfirm = ({ handleConfirmSubmit, handleChange, accountId, confirmStatus, handleConfirmClear, buttonLoader }) => (
+const AccessKeysDeauthorizeConfirm = ({ handleConfirmSubmit, handleChange, accountId, confirmStatus, handleConfirmClear, formLoader }) => (
     <Form onSubmit={(e) => handleConfirmSubmit(e)}>
         <Translate>
             {({ translate }) => (
@@ -44,7 +44,7 @@ const AccessKeysDeauthorizeConfirm = ({ handleConfirmSubmit, handleChange, accou
                 disabled={confirmStatus !== 'problem' && accountId ? false : true}
                 size='small'
                 type='submit'
-                sending={buttonLoader}
+                sending={formLoader}
             >
                 <Translate id='button.confirm' />
             </FormButton>

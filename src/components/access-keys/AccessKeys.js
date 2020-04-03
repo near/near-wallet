@@ -14,7 +14,6 @@ import FormButton from '../common/FormButton'
 
 class AccessKeys extends Component {
     state = {
-        loader: true,
         showSub: false,
         showSubOpen: 0,
         showSubData: null,
@@ -27,8 +26,7 @@ class AccessKeys extends Component {
             { img: '', name: 'ALL' },
             { img: '', name: 'ALL' },
             { img: '', name: 'ALL' }
-        ],
-        buttonLoader: false
+        ]
     }
 
     handleConfirm = () => {
@@ -64,8 +62,7 @@ class AccessKeys extends Component {
         this.setState(() => ({
             accountId: '',
             confirm: false,
-            confirmStatus: '',
-            buttonLoader: false
+            confirmStatus: ''
         }))
     }
 
@@ -94,11 +91,6 @@ class AccessKeys extends Component {
     handleDeauthorize = () => {
         const publicKey = this.state.showSubData.public_key
 
-        this.setState(() => ({
-            loader: true,
-            buttonLoader: true
-        }))
-
         this.props.removeAccessKey(publicKey).then(() => {
             this.toggleCloseSub()
             this.refreshAccessKeys()
@@ -106,15 +98,7 @@ class AccessKeys extends Component {
     }
 
     refreshAccessKeys = () => {
-        this.setState(() => ({
-            loader: true
-        }))
-
-        this.props.getAccessKeys().then(() => {
-            this.setState(() => ({
-                loader: false
-            }))
-        })
+        this.props.getAccessKeys()
     }
 
     componentDidMount() {
@@ -129,11 +113,10 @@ class AccessKeys extends Component {
             showSubData,
             accountId,
             confirm,
-            confirmStatus,
-            buttonLoader
+            confirmStatus
         } = this.state
 
-        const { authorizedApps, title } = this.props
+        const { authorizedApps, title, formLoader } = this.props
 
         return (
             <PageContainer
@@ -160,7 +143,7 @@ class AccessKeys extends Component {
                     accountId={accountId}
                     confirm={confirm}
                     confirmStatus={confirmStatus}
-                    buttonLoader={buttonLoader}
+                    formLoader={formLoader}
                 >
                     {authorizedApps && (authorizedApps.length 
                         ? authorizedApps.map((accessKey, i) => (

@@ -16,7 +16,7 @@ const AccessKeysDeauthorize = ({
     handleConfirmSubmit,
     handleChange,
     handleConfirmClear,
-    buttonLoader
+    formLoader
 }) => (
     <div className='deauthorize-box'>
         <div className='top'>
@@ -57,13 +57,13 @@ const AccessKeysDeauthorize = ({
                         accountId={accountId}
                         confirmStatus={confirmStatus}
                         handleConfirmClear={handleConfirmClear}
-                        buttonLoader={buttonLoader}
+                        formLoader={formLoader}
                     />
                 ) : (
                     <FormButton
                         className='deauthorize'
                         color='red'
-                        sending={buttonLoader}
+                        sending={formLoader}
                         onClick={showSubData.access_key.permission === 'FullAccess' ? handleConfirm : handleDeauthorize}
                     >
                         <Translate id='button.deauthorize' />
