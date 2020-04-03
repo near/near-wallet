@@ -113,8 +113,12 @@ const account = handleActions({
             }
         }
 
-        const resetAccountState = {
+        const resetAccountState = state.loginResetAccountPreventClear ? {
+            loginResetAccountPreventClear: false
+        } : {
             loginResetAccount: payload.loginResetAccount,
+            loginResetAccountPreventClear: payload.loginResetAccountPreventClear,
+            loginResetAccountNotConfirmed: payload.loginResetAccountNotConfirmed,
             globalAlertPreventClear: payload.globalAlertPreventClear,
             globalAlert: payload.loginResetAccount ? {
                 success: false,

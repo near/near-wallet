@@ -63,7 +63,7 @@ const StyledContainer = styled(Container)`
 class CreateAccount extends Component {
     state = {
         loader: false,
-        accountId: '',
+        accountId: this.props.loginResetAccountNotConfirmed || '',
         token: ''
     }
 
@@ -107,8 +107,8 @@ class CreateAccount extends Component {
     }
 
     render() {
-        const { loader, accountId } = this.state
-        const { requestStatus, formLoader, checkNewAccount, loginResetAccounts, clear, setFormLoader } = this.props
+        const { loader, accountId, recaptchaFallback } = this.state
+        const { requestStatus, formLoader, checkNewAccount, loginResetAccountNotConfirmed, clear, setFormLoader } = this.props
         const useRequestStatus = accountId.length > 0 ? requestStatus : undefined;
 
         return (
@@ -127,6 +127,7 @@ class CreateAccount extends Component {
                         accountId={accountId}
                         clearRequestStatus={clear}
                         setFormLoader={setFormLoader}
+                        defaultAccountId={loginResetAccountNotConfirmed}
                     />
                     <AccountNote/>
                     <FormButton
