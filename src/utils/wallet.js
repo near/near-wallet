@@ -209,15 +209,41 @@ export class Wallet {
         }
     }
 
-    async createNewAccount(accountId) {
-        this.checkNewAccount(accountId)
+    async createNewAccount(accountId, fundingKey, fundingContract) {
+        this.checkNewAccount(accountId);
+        const keyPair = nearlib.KeyPair.fromRandom('ed25519');
 
-        const keyPair = nearlib.KeyPair.fromRandom('ed25519')
-        await sendJson('POST', CONTRACT_CREATE_ACCOUNT_URL, {
-            newAccountId: accountId,
-            newAccountPublicKey: keyPair.publicKey.toString()
-        })
+        if (fundingKey && fundingContract) {
+            await this.createNewAccountLinkdrop(accountId, fundingKey, fundingContract, keyPair);
+            await this.keyStore.removeKey(NETWORK_ID, fundingContract)
+
+        } else {
+            await sendJson('POST', CONTRACT_CREATE_ACCOUNT_URL, {
+                newAccountId: accountId,
+                newAccountPublicKey: keyPair.publicKey.toString()
+            })
+        }
         await this.saveAndSelectAccount(accountId, keyPair);
+
+    }
+
+    async createNewAccountLinkdrop(accountId, fundingKey, fundingContract, keyPair) {
+        const account = this.getAccount(fundingContract);
+
+        await this.keyStore.setKey(
+            NETWORK_ID, fundingContract,
+            nearlib.KeyPair.fromString(fundingKey)
+        )
+
+        const contract = new nearlib.Contract(account, fundingContract, {
+            changeMethods: ['create_account_and_claim', 'claim'],
+            sender: fundingContract
+        });
+        const publicKey = keyPair.publicKey.toString().replace('ed25519:', '');
+        await contract.create_account_and_claim({
+            new_account_id: accountId,
+            new_public_key: publicKey
+        });
     }
 
     async saveAndSelectAccount(accountId, keyPair) {

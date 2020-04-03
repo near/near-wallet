@@ -29,6 +29,7 @@ export default createGlobalStyle`
             font-family: "benton-sans",sans-serif;
             font-weight: 500;
             font-size: 14px !important;
+            -webkit-overflow-scrolling: touch;
         }
    }
 
@@ -38,6 +39,8 @@ export default createGlobalStyle`
    
     .App {
         min-height: 100vh;
+        padding-bottom: 200px;
+        padding-top: 80px;
 
         .main {
             padding-bottom: 200px;
@@ -169,15 +172,19 @@ export default createGlobalStyle`
         background-color: #f8f8f8 !important;
         position: relative !important;
         margin-top: 8px !important;
+        outline: none;
+        appearance: none;
+        border-radius: 4px;
+
+        ::placeholder {
+            color: #999999;
+        }
 
         :focus {
             border-color: #e6e6e6 !important;
             background-color: #fff !important;
         }
-        :valid {
-            border-color: #e6e6e6 !important;
-            background-color: #fff !important;
-        }
+
         ::-webkit-input-placeholder {
             line-height: normal !important;
         }

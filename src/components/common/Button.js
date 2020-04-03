@@ -39,7 +39,7 @@ const StyledButton = styled.button`
 const Button = (props) => (
     <StyledButton
         theme={props.theme}
-        className='styled-button'
+        className={props.className}
         onClick={props.onClick}
         disabled={props.disabled}
     >
