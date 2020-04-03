@@ -1,6 +1,7 @@
+import sendJson from 'fetch-send-json'
 import { parse, stringify } from 'query-string'
 import { createActions, createAction } from 'redux-actions'
-import { wallet } from '../utils/wallet'
+import { ACCOUNT_HELPER_URL, wallet } from '../utils/wallet'
 import { getTransactions as getTransactionsApi } from '../utils/explorer-api'
 import { push } from 'connected-react-router'
 import { loadState, saveState, clearState } from '../utils/sessionStorage'
@@ -8,6 +9,14 @@ import { WALLET_CREATE_NEW_ACCOUNT_URL, WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS, WAL
 
 export const loadAccount = createAction('LOAD_ACCOUNT',
     accountId => wallet.getAccount(accountId).state(),
+    accountId => ({ accountId })
+)
+
+export const loadRecoveryMethods = createAction('LOAD_RECOVERY_METHODS',
+    async accountId => sendJson('POST', `${ACCOUNT_HELPER_URL}/account/recoveryMethods`, {
+        accountId: wallet.accountId,
+        ...(await wallet.signatureFor(wallet.accountId))
+    }),
     accountId => ({ accountId })
 )
 
@@ -151,7 +160,18 @@ export const { addAccessKey, addAccessKeySeedPhrase, clearAlert } = createAction
         (accountId, contractId, publicKey, successUrl, title) => defaultCodesFor('account.login', {title})
     ],
     ADD_ACCESS_KEY_SEED_PHRASE: [
-        wallet.addAccessKey.bind(wallet),
+        async (accountId, contractName, publicKey) => {
+            const [walletReturnData] = await Promise.all([
+                wallet.addAccessKey(accountId, contractName, publicKey),
+                sendJson('POST', `${ACCOUNT_HELPER_URL}/account/seedPhraseAdded`, {
+                    accountId,
+                    publicKey,
+                    ...(await wallet.signatureFor(accountId))
+                })
+            ]);
+
+            return walletReturnData;
+        },
         () => defaultCodesFor('account.setupSeedPhrase')
     ],
     CLEAR_ALERT: null,

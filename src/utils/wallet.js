@@ -10,9 +10,9 @@ import { getAccessKeys } from '../actions/account'
 export const WALLET_CREATE_NEW_ACCOUNT_URL = 'create'
 export const WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS = ['create', 'set-recovery', 'setup-seed-phrase', 'recover-account', 'recover-seed-phrase']
 export const WALLET_LOGIN_URL = 'login'
+export const ACCOUNT_HELPER_URL = process.env.REACT_APP_ACCOUNT_HELPER_URL || 'https://near-contract-helper.onrender.com'
 
 const NETWORK_ID = process.env.REACT_APP_NETWORK_ID || 'default'
-const ACCOUNT_HELPER_URL = process.env.REACT_APP_ACCOUNT_HELPER_URL || 'https://near-contract-helper.onrender.com'
 const CONTRACT_CREATE_ACCOUNT_URL = `${ACCOUNT_HELPER_URL}/account`
 const NODE_URL = process.env.REACT_APP_NODE_URL || 'https://rpc.nearprotocol.com'
 
@@ -63,10 +63,6 @@ class Wallet {
         this.signer = {
             async getPublicKey(accountId, networkId) {
                 return (await getLedgerKey(accountId)) || (await inMemorySigner.getPublicKey(accountId, networkId))
-            },
-            async signHash(hash, accountId, networkId) {
-                return inMemorySigner.signHash(hash, accountId, networkId);
-                // throw new Error('signHash not implemented on Ledger yet')
             },
             async signMessage(message, accountId, networkId) {
                 if (await getLedgerKey(accountId)) {
@@ -288,6 +284,13 @@ class Wallet {
 
     requestCode(phoneNumber, accountId) {
         return sendJson('POST', `${ACCOUNT_HELPER_URL}/account/${phoneNumber}/${accountId}/requestCode`)
+    }
+
+    async signatureFor(accountId) {
+        const blockNumber = String((await this.connection.provider.status()).sync_info.latest_block_height);
+        const signed = await this.signer.signMessage(Buffer.from(blockNumber), accountId, NETWORK_ID);
+        const blockNumberSignature = Buffer.from(signed.signature).toString('base64');
+        return { blockNumber, blockNumberSignature };
     }
 
     async setupRecoveryMessage({ phoneNumber, email, accountId, seedPhrase, publicKey }) {
