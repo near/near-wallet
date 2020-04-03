@@ -11,7 +11,10 @@ export const WALLET_CREATE_NEW_ACCOUNT_URL = 'create'
 export const WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS = ['create', 'set-recovery', 'setup-seed-phrase', 'recover-account', 'recover-seed-phrase']
 export const WALLET_LOGIN_URL = 'login'
 
-const NETWORK_ID = process.env.REACT_APP_NETWORK_ID || 'default'
+export const NETWORK_ID = process.env.REACT_APP_NETWORK_ID || 'testnet'
+export const IS_MAINNET = NETWORK_ID === 'mainnet'
+export const ACCOUNT_ID_SUFFIX = process.env.REACT_APP_ACCOUNT_ID_SUFFIX || '.test'
+
 const ACCOUNT_HELPER_URL = process.env.REACT_APP_ACCOUNT_HELPER_URL || 'https://near-contract-helper.onrender.com'
 const CONTRACT_CREATE_ACCOUNT_URL = `${ACCOUNT_HELPER_URL}/account`
 const NODE_URL = process.env.REACT_APP_NODE_URL || 'https://rpc.nearprotocol.com'
@@ -22,7 +25,6 @@ const KEY_ACTIVE_ACCOUNT_ID = KEY_UNIQUE_PREFIX + 'wallet:active_account_id_v2'
 const ACCESS_KEY_FUNDING_AMOUNT = process.env.REACT_APP_ACCESS_KEY_FUNDING_AMOUNT || '100000000'
 
 const ACCOUNT_ID_REGEX = /^(([a-z\d]+[-_])*[a-z\d]+[.@])*([a-z\d]+[-_])*[a-z\d]+$/
-export const ACCOUNT_ID_SUFFIX = process.env.REACT_APP_ACCOUNT_ID_SUFFIX || '.test'
 export const ACCOUNT_CHECK_TIMEOUT = 500
 
 async function setKeyMeta(publicKey, meta) {
