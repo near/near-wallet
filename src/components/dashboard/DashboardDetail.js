@@ -124,6 +124,7 @@ const mapStateToProps = ({ account }) => {
             action: postprocessSerdeStruct(a)
         })))
         : []
+        
     return {
         ...account,
         authorizedApps: account.authorizedApps,
