@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import helpIcon from '../../images/icon-help-white.svg';
-import { NETWORK_ID, IS_MAINNET } from '../../utils/wallet';
+import { CURRENT_NETWORK, IS_MAINNET } from '../../utils/wallet';
 import { Modal } from 'semantic-ui-react';
 import Button from './Button';
 
@@ -53,11 +53,11 @@ const NetworkBanner = () => {
             <Container>
                 <Modal 
                     size='mini'
-                    trigger={<Button>You are using NEAR&nbsp;<Name>{NETWORK_ID}</Name></Button>}
+                    trigger={<Button>You are using NEAR&nbsp;<Name>{CURRENT_NETWORK}</Name></Button>}
                     closeIcon
                 >
-                    <Header>What is NEAR <Name>{NETWORK_ID}</Name>?</Header>
-                    <Name>{NETWORK_ID}</Name> is for testing purposes only. Tokens and other assets have no value. Accounts created on <Name>{NETWORK_ID}</Name> do not transfer to Mainnet.
+                    <Header>What is NEAR <Name>{CURRENT_NETWORK}</Name>?</Header>
+                    <Name>{CURRENT_NETWORK}</Name> is for testing purposes only. Tokens and other assets have no value. Accounts created on <Name>{CURRENT_NETWORK}</Name> do not transfer to Mainnet.
                 </Modal>
             </Container>
         )
