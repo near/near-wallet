@@ -387,12 +387,6 @@ class Wallet {
         return availableKeys
     }
 
-    clearState() {
-        this.accounts = {}
-        this.accountId = ''
-        this.save()
-    }
-
     clearAccountState() {
         delete this.accounts[this.accountId]
         removeAccountConfirmed(this.accountId, NETWORK_ID)
