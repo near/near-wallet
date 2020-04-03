@@ -37,7 +37,7 @@ async function getKeyMeta(publicKey) {
     }
 }
 
-export class Wallet {
+class Wallet {
     constructor() {
         this.keyStore = new nearlib.keyStores.BrowserLocalStorageKeyStore()
         const inMemorySigner = new nearlib.InMemorySigner(this.keyStore)
@@ -325,3 +325,5 @@ export class Wallet {
         }
     }
 }
+
+export const wallet = new Wallet()

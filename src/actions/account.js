@@ -1,12 +1,10 @@
 import { parse, stringify } from 'query-string'
 import { createActions, createAction } from 'redux-actions'
-import { Wallet } from '../utils/wallet'
+import { wallet } from '../utils/wallet'
 import { getTransactions as getTransactionsApi } from '../utils/explorer-api'
 import { push } from 'connected-react-router'
 import { loadState, saveState, clearState } from '../utils/sessionStorage'
 import { WALLET_CREATE_NEW_ACCOUNT_URL, WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS, WALLET_LOGIN_URL } from '../utils/wallet'
-
-const wallet = new Wallet()
 
 export const loadAccount = createAction('LOAD_ACCOUNT',
     accountId => wallet.getAccount(accountId).state(),
@@ -38,7 +36,7 @@ export const parseTransactionsToSign = createAction('PARSE_TRANSACTIONS_TO_SIGN'
 export const handleRefreshUrl = () => (dispatch, getState) => {
     const { pathname, search } = getState().router.location
     const parsedUrl = parse(search)
-    
+
     if (pathname.split('/')[1] === WALLET_LOGIN_URL && search !== '') {
         saveState(parsedUrl)
         dispatch(refreshUrl(parsedUrl))
@@ -65,7 +63,7 @@ const checkContractId = () => async (dispatch, getState) => {
             console.error('Invalid contractId:', contract_id)
             dispatch(push({ pathname: `/${WALLET_LOGIN_URL}/incorrect-contract-id` }))
         }
-        
+
         if (!wallet.isLegitAccountId(contract_id)) {
             redirectIncorrectContractId()
             return
