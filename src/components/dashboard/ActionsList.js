@@ -66,7 +66,7 @@ const CustomGridRow = styled(Grid.Row)`
 
         .dropdown-image-right {
             width: 10px;
-            margin: 0 0 0 0;
+            margin: 0;
         }
         .dropdown-image {
             float: right;

@@ -56,7 +56,7 @@ const PaginationBlockGrid = styled(Grid)`
     }
 
     &&& .show-sub {
-        padding: 0 0 0 0;
+        padding: 0;
         margin-top: -16px;
     }
 

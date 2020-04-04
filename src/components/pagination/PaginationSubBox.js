@@ -69,7 +69,7 @@ const CustomList = styled(List)`
                 }
                 .authorized-transactions {
                     background-color: #fff;
-                    margin: 0 0 0 0;
+                    margin: 0;
                     padding-top: 0px;
                     
                     .title {
@@ -90,7 +90,7 @@ const CustomList = styled(List)`
             }
             .recent-transactions {
                 background-color: #f8f8f8;
-                margin: 0 0 0 0;
+                margin: 0;
                 padding: 1em 1.5em;
 
                 .title {
