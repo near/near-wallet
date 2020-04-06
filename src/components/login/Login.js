@@ -21,8 +21,7 @@ class Login extends Component {
         })
     }
 
-    handleDeny = e => {
-        e.preventDefault();
+    handleDeny = () => {
         const failureUrl = this.props.account.url.failure_url;
         failureUrl ? window.location.href = failureUrl : this.props.redirectToApp();
     }
