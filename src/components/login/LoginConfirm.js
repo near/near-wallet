@@ -76,7 +76,7 @@ class LoginForm extends Component {
                                         name='accountId'
                                         value={accountId}
                                         onChange={this.handleChange}
-                                        className={confirmStatus ? (confirmStatus === 'success' ? 'success' : 'problem') : ''}
+                                        className={`username-input-icon ${confirmStatus ? (confirmStatus === 'success' ? 'success' : 'problem') : ''}`}
                                         placeholder={translate('login.confirm.username')}
                                         maxLength='32'
                                         required
