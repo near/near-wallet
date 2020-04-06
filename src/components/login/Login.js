@@ -50,13 +50,12 @@ class Login extends Component {
 
     render() {
         const { account: { url }, match } = this.props
-        // const { contractCorrect } = this.state
 
         return (
             <LoginContainer>
                 <Route
                     exact
-                    path={`${match.url}`}
+                    path={match.url}
                     render={(props) => (
                         <LoginForm
                             {...this.state}
