@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 
 import { withRouter } from 'react-router-dom'
 
-import { Wallet } from '../../utils/wallet'
+import { wallet } from '../../utils/wallet'
 
 import { refreshAccount, checkAccountAvailable, clear } from '../../actions/account'
 
@@ -25,7 +25,6 @@ class SendMoney extends Component {
     }
 
     componentDidMount() {
-        this.wallet = new Wallet()
         const paramId = this.props.match.params.id
 
         this.setState(() => ({
@@ -86,7 +85,7 @@ class SendMoney extends Component {
                 loader: true
             }))
 
-            this.wallet.sendMoney(accountId, amount)
+            wallet.sendMoney(accountId, amount)
                 .then(() => {
                     this.props.refreshAccount()
 
@@ -124,7 +123,7 @@ class SendMoney extends Component {
             messageCode: 'account.available.errorSameAccount',
         }
     }
-        
+
     handleRedirectDashboard = () => {
         this.props.history.push(`/`)
     }
@@ -170,9 +169,9 @@ class SendMoney extends Component {
                     />
                 )}
                 {step === 3 && (
-                    <SendMoneyThirdStep 
+                    <SendMoneyThirdStep
                         handleRedirectDashboard={this.handleRedirectDashboard}
-                        {...this.state} 
+                        {...this.state}
                     />
                 )}
             </SendMoneyContainer>
