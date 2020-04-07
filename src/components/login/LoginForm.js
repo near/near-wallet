@@ -130,14 +130,13 @@ const LoginForm = ({
                         </FormButton>
                     )}
                     {!contractId && (
-                        <Link to={`${match.url}${match.url.substr(-1) === '/' ? '' : '/'}confirm`}>
-                            <FormButton
-                                color='blue'
-                                sending={buttonLoader}
-                            >
-                                <Translate id='button.allow' />
-                            </FormButton>
-                        </Link>
+                        <FormButton
+                            to={`${match.url}${match.url.substr(-1) === '/' ? '' : '/'}confirm`}
+                            color='blue'
+                            sending={buttonLoader}
+                        >
+                            <Translate id='button.allow' />
+                        </FormButton>
                     )}
                 </Grid.Column>
             </Grid.Row>

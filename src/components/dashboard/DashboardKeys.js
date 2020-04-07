@@ -1,6 +1,5 @@
 import React from 'react'
 import { Translate } from 'react-localize-redux'
-import { Link } from 'react-router-dom'
 
 import FormButton from '../common/FormButton'
 import KeyListItem from './KeyListItem'
@@ -70,11 +69,13 @@ const DashboardKeys = ({ image, title, to, accessKeys, empty }) => (
         <Grid.Row>
             <Grid.Column textAlign='left' width={16}>
                 {accessKeys && accessKeys.length !== 0 ? (
-                    <Link to={to}>
-                        <FormButton color='gray-blue' size='small'>
-                            <Translate id='button.viewAll' />
-                        </FormButton>
-                    </Link>
+                    <FormButton
+                        to={to}
+                        color='gray-blue'
+                        size='small'
+                    >
+                        <Translate id='button.viewAll' />
+                    </FormButton>
                 ) : (
                     empty
                 )}
