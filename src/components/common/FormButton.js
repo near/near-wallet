@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Button } from 'semantic-ui-react'
 import { Translate } from 'react-localize-redux'
+import { withRouter } from 'react-router'
 
 import ArrowGrnImage from '../../images/icon-arrow-grn.svg'
 import ArrowWhiteImage from '../../images/icon-arrow-white.svg'
@@ -321,13 +322,18 @@ const FormButton = ({
     disabled = false,
     onClick,
     sending = false,
-    size = ''
+    size = '',
+    to,
+    history
 }) => (
     <CustomButton
         type={type}
         className={`${color} ${size} ${sending ? `dots` : ``}`}
         disabled={disabled}
-        onClick={onClick}
+        onClick={(e) => {
+            onClick && onClick(e)
+            to && history.push(to)
+        }}
         tabIndex='3'
     >
         {sending
@@ -338,17 +344,14 @@ const FormButton = ({
 )
 
 FormButton.propTypes = {
-    children: PropTypes.oneOfType([
-        PropTypes.string,
-        PropTypes.object,
-        PropTypes.array,
-    ]),
+    children: PropTypes.node.isRequired,
     type: PropTypes.string,
     color: PropTypes.string,
     disabled: PropTypes.bool,
     onClick: PropTypes.func,
     sending: PropTypes.bool,
     size: PropTypes.string,
+    to: PropTypes.string
 }
 
-export default FormButton
+export default withRouter(FormButton)
