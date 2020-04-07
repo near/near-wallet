@@ -67,53 +67,54 @@ class LoginForm extends Component {
                         </Grid.Column>
                     </Grid.Row>
                 </Grid>
-                <Grid padded>
-                    <Grid.Row centered>
-                        <Grid.Column largeScreen={6} computer={8} tablet={10} mobile={16}>
-                            <Translate>
-                                {({ translate }) => (
-                                    <Input 
-                                        name='accountId'
-                                        value={accountId}
-                                        onChange={this.handleChange}
-                                        className={`username-input-icon ${confirmStatus ? (confirmStatus === 'success' ? 'success' : 'problem') : ''}`}
-                                        placeholder={translate('login.confirm.username')}
-                                        maxLength='32'
-                                        required
-                                        autoComplete='off'
-                                        autoCorrect='off'
-                                        autoCapitalize='off'
-                                        spellCheck='false'
-                                        tabIndex='1'
-                                    />
-                                )}
-                            </Translate>
-                            <div className='alert-info'>
-                                {confirmStatus === 'problem' && `Account name doesn't match`}
-                            </div>
-                        </Grid.Column>
-                    </Grid.Row>
-                    <Grid.Row centered className='but-sec'>
-                        <Grid.Column largeScreen={6} computer={8} tablet={10} mobile={16}>
-                            <Link to='/login'>
+                <form onSubmit={e => {this.handleConfirmSubmit(); e.preventDefault();}}>
+                    <Grid padded>
+                        <Grid.Row centered>
+                            <Grid.Column largeScreen={6} computer={8} tablet={10} mobile={16}>
+                                <Translate>
+                                    {({ translate }) => (
+                                        <Input 
+                                            name='accountId'
+                                            value={accountId}
+                                            onChange={this.handleChange}
+                                            className={`username-input-icon ${confirmStatus ? (confirmStatus === 'success' ? 'success' : 'problem') : ''}`}
+                                            placeholder={translate('login.confirm.username')}
+                                            maxLength='32'
+                                            required
+                                            autoComplete='off'
+                                            autoCorrect='off'
+                                            autoCapitalize='off'
+                                            spellCheck='false'
+                                            tabIndex='1'
+                                        />
+                                    )}
+                                </Translate>
+                                <div className='alert-info'>
+                                    {confirmStatus === 'problem' && `Account name doesn't match`}
+                                </div>
+                            </Grid.Column>
+                        </Grid.Row>
+                        <Grid.Row centered className='but-sec'>
+                            <Grid.Column largeScreen={6} computer={8} tablet={10} mobile={16}>
                                 <FormButton
                                     color='gray-white'
+                                    type='button'
+                                    onClick={this.props.history.goBack}
                                 >
                                     <Translate id='button.cancel' />
                                 </FormButton>
-                            </Link>
-
-                            <FormButton
-                                color='blue'
-                                disabled={confirmStatus !== 'problem' && accountId ? false : true}
-                                sending={buttonLoader}
-                                onClick={this.handleConfirmSubmit}
-                            >
-                                <Translate id='button.confirm' />
-                            </FormButton>
-                        </Grid.Column>
-                    </Grid.Row>
-                </Grid>
+                                <FormButton
+                                    color='blue'
+                                    disabled={confirmStatus !== 'problem' && accountId ? false : true}
+                                    sending={buttonLoader}
+                                    type='submit'
+                                >
+                                    <Translate id='button.confirm' />
+                                </FormButton>
+                            </Grid.Column>
+                        </Grid.Row>
+                    </Grid>
+                </form>
             </MobileContainer>
 )}}
 
