@@ -23,7 +23,12 @@ class Login extends Component {
 
     handleDeny = () => {
         const failureUrl = this.props.account.url.failure_url;
-        failureUrl ? window.location.href = failureUrl : this.props.redirectToApp();
+
+        if (failureUrl) {
+            window.location.href = failureUrl;
+        } else {
+            this.props.redirectToApp();
+        }
     }
 
     handleAllow = () => {
