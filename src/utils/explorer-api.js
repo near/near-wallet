@@ -35,5 +35,6 @@ export async function getTransactions(accountId = '') {
         }
     ));
     
-    return tx
+    return tx.map(t => ({
+        ...t}))
 }
