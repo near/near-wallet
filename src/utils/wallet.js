@@ -11,7 +11,7 @@ export const WALLET_CREATE_NEW_ACCOUNT_URL = 'create'
 export const WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS = ['create', 'set-recovery', 'setup-seed-phrase', 'recover-account', 'recover-seed-phrase']
 export const WALLET_LOGIN_URL = 'login'
 
-export const IS_MAINNET = process.env.IS_MAINNET || false
+export const IS_MAINNET = process.env.REACT_APP_IS_MAINNET || false
 export const ACCOUNT_ID_SUFFIX = process.env.REACT_APP_ACCOUNT_ID_SUFFIX || '.test'
 
 const NETWORK_ID = process.env.REACT_APP_NETWORK_ID || 'default'
