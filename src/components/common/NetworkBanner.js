@@ -1,12 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
 import helpIcon from '../../images/icon-help-white.svg';
-import { CURRENT_NETWORK, IS_MAINNET } from '../../utils/wallet';
+import { IS_MAINNET, NODE_URL } from '../../utils/wallet';
 import { Modal } from 'semantic-ui-react';
 import Button from './Button';
 
 const Container = styled.div`
     color: white;
+    background-color: #0072CE;
     position: fixed;
     height: 35px;
     top: 0;
@@ -17,17 +18,19 @@ const Container = styled.div`
     align-items: center;
     justify-content: center;
 
-    button {
-        padding: 0;
-        height: 100%;
-        line-height: normal;
-        border-radius: 0;
-        text-transform: initial;
-        letter-spacing: 0.5px;
+    a {
+        color: white;
 
         :hover {
-            background-color: #0072CE !important;
+            color: white;
+            text-decoration: underline;
         }
+    }
+
+    .trigger-string {
+        display: flex;
+        align-items: center;
+        cursor: pointer;
 
         :after {
             content: '';
@@ -35,6 +38,7 @@ const Container = styled.div`
             height: 18px;
             width: 18px;
             margin: 0 0 0 6px;
+            display: inline-block;
         }
     }
 `
@@ -43,21 +47,24 @@ const Header = styled.h4`
     margin-bottom: 5px !important;
 `
 
-const Name = styled.span`
-    text-transform: capitalize;
-`
-
 const NetworkBanner = () => {
     if (!IS_MAINNET) {
         return (
             <Container>
                 <Modal 
                     size='mini'
-                    trigger={<Button>You are using NEAR&nbsp;<Name>{CURRENT_NETWORK}</Name></Button>}
+                    trigger={
+                        <div className='trigger-string'>
+                            Test-only Wallet&nbsp;
+                            (<a href={`${NODE_URL}/status`} target='_blank' rel='noopener noreferrer' onClick={e => e.stopPropagation()}>
+                                {NODE_URL.replace(/^(?:https?:\/\/)?(?:www\.)?/i, "").split('/')[0]}
+                            </a>)
+                        </div>
+                    }
                     closeIcon
                 >
-                    <Header>What is NEAR <Name>{CURRENT_NETWORK}</Name>?</Header>
-                    <Name>{CURRENT_NETWORK}</Name> is for testing purposes only. Tokens and other assets have no value. Accounts created on <Name>{CURRENT_NETWORK}</Name> do not transfer to Mainnet.
+                    <Header>NEAR test Wallet</Header>
+                    NEAR test Wallet is for testing purposes only. Tokens and other assets have no value. Accounts created do not transfer to Mainnet.
                 </Modal>
             </Container>
         )
