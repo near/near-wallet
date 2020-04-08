@@ -12,20 +12,16 @@ export async function getTransactions(accountId = '') {
     const tx = await new Promise((resolve, reject) => wamp.call(
         `${WAMP_NEAR_EXPLORER_TOPIC_PREFIX}.select`,
         [
-            `
-                SELECT 
-                    transactions.hash,
-                    transactions.signer_id, 
-                    transactions.receiver_id, 
-                    transactions.block_hash, 
-                    transactions.block_timestamp
-                FROM 
-                    transactions
-                WHERE 
-                    signer_id = :accountId 
-                    OR receiver_id = :accountId
-                ORDER BY block_timestamp DESC
-                LIMIT :offset, :count
+            `SELECT 
+                    hash, signer_id, receiver_id, block_hash, 
+                    block_timestamp, action_type as kind, action_args as args
+            from 
+                (SELECT hash, signer_id,  receiver_id, block_hash,  block_timestamp
+                    FROM  transactions
+                    WHERE  signer_id = :accountId OR receiver_id = :accountId
+                    ORDER BY block_timestamp DESC
+                    LIMIT :offset ,:count) as transactions
+                    LEFT JOIN actions ON actions.transaction_hash = transactions.hash
             `,
             { accountId, offset: 0, count: 5 }
         ],
@@ -39,38 +35,5 @@ export async function getTransactions(accountId = '') {
         }
     ));
     
-    await Promise.all(
-        tx.map(async t => {
-        const actions = await new Promise((resolve, reject) => wamp.call(
-            'com.nearprotocol.testnet.explorer.select',
-            [
-                `SELECT actions.action_type as kind, 
-                        actions.action_args as args
-                FROM actions
-                WHERE actions.transaction_hash = :hash
-                ORDER BY actions.action_index`,
-                  {
-                    hash: t.hash
-                  }
-            ],
-            {
-                onSuccess(dataArr) {
-                    resolve(dataArr[0])
-                },
-                onError(err) {
-                    reject(err);
-                }
-            }
-            ))
-        t.actions = actions.map(action => {
-              if (typeof action === "string") {
-                return { [action]: {} };
-              }
-            return {
-                [action.kind]: JSON.parse(action.args)
-            };
-            });
-        })
-    )
     return tx
 }
