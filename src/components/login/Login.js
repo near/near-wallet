@@ -60,7 +60,7 @@ class Login extends Component {
             <LoginContainer>
                 <Route
                     exact
-                    path={match.url}
+                    path={`${match.url}`}
                     render={(props) => (
                         <LoginForm
                             {...this.state}
