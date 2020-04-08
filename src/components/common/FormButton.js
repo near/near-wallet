@@ -324,11 +324,12 @@ const FormButton = ({
     sending = false,
     size = '',
     to,
-    history
+    history,
+    className
 }) => (
     <CustomButton
         type={type}
-        className={`${color} ${size} ${sending ? `dots` : ``}`}
+        className={`${color} ${size} ${sending ? `dots` : ``} ${className}`}
         disabled={disabled}
         onClick={(e) => {
             onClick && onClick(e)
@@ -351,7 +352,8 @@ FormButton.propTypes = {
     onClick: PropTypes.func,
     sending: PropTypes.bool,
     size: PropTypes.string,
-    to: PropTypes.string
+    to: PropTypes.string,
+    className: PropTypes.string
 }
 
 export default withRouter(FormButton)
