@@ -66,7 +66,6 @@ const DashboardActivity = ({ image, title, to, transactions, maxItems, accountId
             <ActionsList
                 key={`a-${i}`}
                 transaction={transaction} 
-                actions={transaction.action}
                 wide={false}
                 accountId={accountId}
             />

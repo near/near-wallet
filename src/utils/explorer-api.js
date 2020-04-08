@@ -12,16 +12,14 @@ export async function getTransactions(accountId = '') {
     const tx = await new Promise((resolve, reject) => wamp.call(
         `${WAMP_NEAR_EXPLORER_TOPIC_PREFIX}.select`,
         [
-            `SELECT 
-                    hash, signer_id, receiver_id, block_hash, 
-                    block_timestamp, action_type as kind, action_args as args
-            from 
-                (SELECT hash, signer_id,  receiver_id, block_hash,  block_timestamp
-                    FROM  transactions
-                    WHERE  signer_id = :accountId OR receiver_id = :accountId
-                    ORDER BY block_timestamp DESC
-                    LIMIT :offset ,:count) as transactions
-                    LEFT JOIN actions ON actions.transaction_hash = transactions.hash
+        `SELECT 
+            transactions.hash, transactions.signer_id, transactions.receiver_id, transactions.block_hash, 
+            transactions.block_timestamp, actions.action_type as kind, actions.action_args as args
+        FROM transactions
+        LEFT JOIN actions ON actions.transaction_hash = transactions.hash
+        WHERE transactions.signer_id = :accountId OR transactions.receiver_id = :accountId
+        ORDER BY block_timestamp DESC
+        LIMIT :offset, :count
             `,
             { accountId, offset: 0, count: 5 }
         ],

@@ -114,15 +114,9 @@ const mapDispatchToProps = {
     getTransactions
 }
 
-// make sure that an action is an object, for UI purpose
-const postprocessSerdeStruct = (action) => typeof action == 'object' ? [{[action.kind]: [action.args]}] : [{[action]: {}}]
-
 const mapStateToProps = ({ account }) => {
     const transactions = account.transactions 
-        ? account.transactions.map(t => ({
-            ...t,
-            action: postprocessSerdeStruct(t)
-        }))
+        ? account.transactions
         : []
 
     return {
