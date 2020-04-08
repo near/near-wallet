@@ -64,7 +64,7 @@ const NetworkBanner = () => {
                     closeIcon
                 >
                     <Header>NEAR test Wallet</Header>
-                    NEAR test Wallet is for testing purposes only. Tokens and other assets have no value. Accounts created do not transfer to Mainnet.
+                    This wallet (and network) are for testing purposes only. Tokens and other assets have no value. Accounts created do not transfer to Mainnet.
                 </Modal>
             </Container>
         )
