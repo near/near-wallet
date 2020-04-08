@@ -114,27 +114,23 @@ const CustomGridRow = styled(Grid.Row)`
     }
 `
 
-const ActionsList = ({ transaction, actions, wide, accountId }) => 
-    actions
-        .map((a, i) => (
-            <ActionRow 
-                key={`action-${i}`} 
-                transaction={transaction} 
-                action={a} 
-                actionKind={Object.keys(a)[0]}  
-                wide={wide}
-                i={i}
-                accountId={accountId}
-            />
-        ))
+const ActionsList = ({ transaction, wide, accountId }) => (
+    <ActionRow 
+        transaction={transaction} 
+        actionArgs={JSON.parse(transaction.args)} 
+        actionKind={transaction.kind}  
+        wide={wide}
+        accountId={accountId}
+    />
+)
 
-const ActionRow = ({ transaction, action, actionKind, wide, showSub = false, toggleShowSub, showSubOpen, i, accountId }) => (
+const ActionRow = ({ transaction, actionArgs, actionKind, wide, showSub = false, accountId }) => (
     <CustomGridRow
         verticalAlign='middle'
         className={`${wide ? `wide` : ``} ${
-            showSub && showSubOpen === i ? `dropdown-down` : ``
+            showSub ? `dropdown-down` : ``
         } ${showSub ? `showsub` : ``}`}
-        onClick={() => wide && toggleShowSub(i, action)}
+        onClick={() => wide}
     >
         <Grid.Column
             computer={wide ? 15 : 16}
@@ -148,7 +144,7 @@ const ActionRow = ({ transaction, action, actionKind, wide, showSub = false, tog
                 <Grid.Column className='main-row-title color-black border-bottom'>
                     <ActionMessage 
                         transaction={transaction}
-                        action={action}
+                        actionArgs={actionArgs}
                         actionKind={actionKind}
                         accountId={accountId}
                     />
@@ -166,7 +162,7 @@ const ActionRow = ({ transaction, action, actionKind, wide, showSub = false, tog
                 textAlign='right'
             >
                 <Image
-                    src={showSub && showSubOpen === i ? ArrowBlkImage : ArrowRight}
+                    src={showSub ? ArrowBlkImage : ArrowRight}
                     className='dropdown-image dropdown-image-right'
                 />
                 {/* <span className='font-small'>{row[3]}</span> */}
@@ -175,17 +171,17 @@ const ActionRow = ({ transaction, action, actionKind, wide, showSub = false, tog
     </CustomGridRow>
 )
 
-const ActionMessage = ({ transaction, action, actionKind, accountId }) => (
+const ActionMessage = ({ transaction, actionArgs, actionKind, accountId }) => (
     <Translate 
-        id={translateId(transaction, action, actionKind, accountId)}
-        data={translateData(transaction, action)}
+        id={translateId(transaction, actionArgs, actionKind, accountId)}
+        data={translateData(transaction, actionArgs, actionKind)}
     />
 )
 
-const translateId = (transaction, { AddKey }, actionKind, accountId) => (
+const translateId = (transaction, actionArgs, actionKind, accountId) => (
     `actions.${actionKind
         }${actionKind === `AddKey`
-            ? AddKey.access_key && typeof AddKey.access_key.permission === 'object'
+            ? actionArgs.access_key && typeof actionArgs.access_key.permission === 'object'
                 ? `.forContract`
                 : `.forReceiver`
             : ''
@@ -197,13 +193,13 @@ const translateId = (transaction, { AddKey }, actionKind, accountId) => (
     }`
 )
 
-const translateData = (transaction, { AddKey, FunctionCall, Transfer, Stake }) => ({
+const translateData = (transaction, actionArgs, actionKind) => ({
     receiverId: transaction.receiver_id || '',
     signerId: transaction.signer_id || '',
-    methodName: FunctionCall ? FunctionCall.method_name : '', 
-    deposit: Transfer ? <Balance amount={Transfer.deposit} /> : '',
-    stake: Stake ? Stake.stake : '',
-    permissionReceiverId: (AddKey && AddKey.access_key && typeof AddKey.access_key.permission === 'object') ? AddKey.access_key.permission.FunctionCall.receiver_id : ''
+    methodName: actionKind === "FunctionCall" ? actionArgs.method_name : '', 
+    deposit: actionKind === "Transfer" ? <Balance amount={actionArgs.deposit} /> : '',
+    stake: actionKind === "Stake" ? actionArgs.stake : '',
+    permissionReceiverId: (actionKind === "AddKey" && actionArgs.access_key && typeof actionArgs.access_key.permission === 'object') ? actionArgs.access_key.permission.FunctionCall.receiver_id : ''
 })
 
 const ActionIcon = ({ actionKind }) => (

@@ -83,7 +83,7 @@ class DashboardDetail extends Component {
                     <DashboardActivity
                         loader={loader}
                         image={activityGreyImage}
-                        title=<Translate id='dashboard.activity' />
+                        title={<Translate id='dashboard.activity' />}
                         to={`${process.env.EXPLORER_URL || 'https://explorer.nearprotocol.com'}/accounts/${accountId}`}
                         transactions={transactions}
                         maxItems={5}
@@ -91,16 +91,16 @@ class DashboardDetail extends Component {
                     />
                     <DashboardKeys
                         image={AuthorizedGreyImage}
-                        title=<Translate id='authorizedApps.pageTitle' />
+                        title={<Translate id='authorizedApps.pageTitle' />}
                         to='/authorized-apps'
-                        empty=<Translate id='authorizedApps.dashboardNoApps' />
+                        empty={<Translate id='authorizedApps.dashboardNoApps' />}
                         accessKeys={authorizedApps}
                     />
                     <DashboardKeys
                         image={AccessKeysIcon}
-                        title=<Translate id='fullAccessKeys.pageTitle' />
+                        title={<Translate id='fullAccessKeys.pageTitle' />}
                         to='/full-access-keys'
-                        empty=<Translate id='fullAccessKeys.dashboardNoKeys' />
+                        empty={<Translate id='fullAccessKeys.dashboardNoKeys' />}
                         accessKeys={fullAccessKeys}
                     />
                 </DashboardSection>
@@ -114,15 +114,9 @@ const mapDispatchToProps = {
     getTransactions
 }
 
-// make sure that an action is an object, for UI purpose
-const postprocessSerdeStruct = (action) => typeof action == 'object' ? [action] : [{[action]: {}}]
-
 const mapStateToProps = ({ account }) => {
     const transactions = account.transactions 
-        ? account.transactions.flatMap(t => t.actions.map((a) => ({
-            ...t,
-            action: postprocessSerdeStruct(a)
-        })))
+        ? account.transactions
         : []
 
     return {

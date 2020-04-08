@@ -12,22 +12,14 @@ export async function getTransactions(accountId = '') {
     const tx = await new Promise((resolve, reject) => wamp.call(
         `${WAMP_NEAR_EXPLORER_TOPIC_PREFIX}.select`,
         [
-            `
-                SELECT 
-                    transactions.hash,
-                    transactions.signer_id, 
-                    transactions.receiver_id, 
-                    transactions.actions, 
-                    transactions.block_hash, 
-                    blocks.timestamp as blockTimestamp
-                FROM 
-                    transactions
-                LEFT JOIN blocks ON blocks.hash = transactions.block_hash
-                WHERE 
-                    signer_id = :accountId 
-                    OR receiver_id = :accountId
-                ORDER BY blocks.height DESC
-                LIMIT :offset, :count
+        `SELECT 
+            transactions.hash, transactions.signer_id, transactions.receiver_id, transactions.block_hash, 
+            transactions.block_timestamp, actions.action_type as kind, actions.action_args as args
+        FROM transactions
+        LEFT JOIN actions ON actions.transaction_hash = transactions.hash
+        WHERE transactions.signer_id = :accountId OR transactions.receiver_id = :accountId
+        ORDER BY block_timestamp DESC
+        LIMIT :offset, :count
             `,
             { accountId, offset: 0, count: 5 }
         ],
@@ -40,8 +32,7 @@ export async function getTransactions(accountId = '') {
             }
         }
     ));
-    return tx.map((t) => ({
-        ...t,
-        actions: JSON.parse(t.actions)
-    }))
+    
+    return tx.map(t => ({
+        ...t}))
 }
