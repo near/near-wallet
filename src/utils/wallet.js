@@ -302,8 +302,8 @@ class Wallet {
     async saveAndSelectAccount(accountId, keyPair) {
         await this.saveAccount(accountId, keyPair)
         this.accountId = accountId
-        setAccountConfirmed(this.accountId, false)
         this.save()
+        setAccountConfirmed(this.accountId, false)
     }
 
     async saveAccount(accountId, keyPair) {

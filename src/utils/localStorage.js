@@ -1,25 +1,13 @@
 import { keyAccountConfirmed } from './wallet'
 
 export const setAccountConfirmed = (accountId, confirmed) => {
-    try {
-        localStorage.setItem(keyAccountConfirmed(accountId), confirmed)
-    } catch (err) {
-        console.warn(err)
-    }
+    localStorage.setItem(keyAccountConfirmed(accountId), confirmed)
 }
 
 export const getAccountConfirmed = (accountId) => {
-    try {
-        return localStorage.getItem(keyAccountConfirmed(accountId)) === 'true'
-    } catch (err) {
-        console.warn(err)
-    }
+    return localStorage.getItem(keyAccountConfirmed(accountId)) === 'true'
 }
 
 export const removeAccountConfirmed = (accountId) => {
-    try {
-        localStorage.removeItem(keyAccountConfirmed(accountId))
-    } catch (err) {
-        console.warn(err)
-    }
+    localStorage.removeItem(keyAccountConfirmed(accountId))
 }
