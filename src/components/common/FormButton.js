@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { Button } from 'semantic-ui-react'
 import { Translate } from 'react-localize-redux'
 import { withRouter } from 'react-router'
+import classNames from '../../utils/classNames'
 
 import ArrowGrnImage from '../../images/icon-arrow-grn.svg'
 import ArrowWhiteImage from '../../images/icon-arrow-white.svg'
@@ -322,14 +323,14 @@ const FormButton = ({
     disabled = false,
     onClick,
     sending = false,
-    size = '',
+    size,
     linkTo,
     history,
     className
 }) => (
     <CustomButton
         type={type}
-        className={`${color} ${size} ${sending ? `dots` : ``} ${className}`}
+        className={classNames([color, size, className, {'dots': sending}])}
         disabled={disabled}
         onClick={(e) => {
             onClick && onClick(e)
