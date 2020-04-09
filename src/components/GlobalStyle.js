@@ -3,6 +3,7 @@ import { createGlobalStyle } from 'styled-components'
 import ProblemsImage from '../images/icon-problems.svg'
 import CheckBlueImage from '../images/icon-check-blue.svg'
 import EmailIconBlack from '../images/email-icon-black.svg'
+import CloseBtn from '../images/close-btn.svg'
 
 export default createGlobalStyle`
   
@@ -35,16 +36,6 @@ export default createGlobalStyle`
 
     .grecaptcha-badge {
         visibility: hidden;
-    }
-   
-    .App {
-        min-height: 100vh;
-        padding-bottom: 200px;
-        padding-top: 80px;
-
-        .main {
-            padding-bottom: 200px;
-        }
     }
 
     a {
@@ -393,14 +384,6 @@ export default createGlobalStyle`
         font-family: "benton-sans",sans-serif !important;
     }
 
-    @media screen and (max-width: 991px) {
-        .App {
-            .main {
-                padding-bottom: 0px;
-            }
-        }
-    }
-
     @media screen and (max-width: 767px) {
         h1, .h1 {
             font-size: 28px !important;
@@ -422,6 +405,30 @@ export default createGlobalStyle`
         }
         .box .column {
             padding: 16px 18px !important;
+        }
+    }
+
+    .ui {
+        &.dimmer {
+            .modal {
+                line-height: normal;
+                padding: 25px;
+
+                .close {
+                    top: 10px !important;
+                    right: 10px !important;
+                    background: url(${CloseBtn}) center no-repeat;
+                    background-size: 100%;
+                    height: 25px;
+                    width: 25px;
+                    padding: 0;
+                    margin: 0;
+
+                    :before {
+                        display: none;
+                    }
+                }
+            }
         }
     }
 `
