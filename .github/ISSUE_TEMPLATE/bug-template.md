@@ -2,7 +2,7 @@
 name: Bug Template
 about: Use this to file bugs.
 title: ''
-labels: ''
+labels: 'bug'
 assignees: ''
 
 ---
