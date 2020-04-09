@@ -323,7 +323,7 @@ const FormButton = ({
     onClick,
     sending = false,
     size = '',
-    to,
+    linkTo,
     history,
     className
 }) => (
@@ -333,7 +333,7 @@ const FormButton = ({
         disabled={disabled}
         onClick={(e) => {
             onClick && onClick(e)
-            to && history.push(to)
+            linkTo && history.push(linkTo)
         }}
         tabIndex='3'
     >
@@ -352,7 +352,7 @@ FormButton.propTypes = {
     onClick: PropTypes.func,
     sending: PropTypes.bool,
     size: PropTypes.string,
-    to: PropTypes.string,
+    linkTo: PropTypes.string,
     className: PropTypes.string
 }
 

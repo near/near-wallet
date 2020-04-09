@@ -70,7 +70,7 @@ const DashboardKeys = ({ image, title, to, accessKeys, empty }) => (
             <Grid.Column textAlign='left' width={16}>
                 {accessKeys && accessKeys.length !== 0 ? (
                     <FormButton
-                        to={to}
+                        linkTo={to}
                         color='gray-blue'
                         size='small'
                     >

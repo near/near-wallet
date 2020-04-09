@@ -69,7 +69,7 @@ class DashboardDetail extends Component {
                 )}
                 additional={(
                     <FormButton 
-                        to='/send-money'
+                        linkTo='/send-money'
                         color='green-white-arrow'
                     >
                         <Translate id='button.send' />

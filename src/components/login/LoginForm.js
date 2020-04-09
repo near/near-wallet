@@ -91,7 +91,7 @@ const LoginForm = ({
                     textAlign='center'
                 >
                     <FormButton
-                        to={`${match.url}${match.url.substr(-1) === '/' ? '' : '/'}details`}
+                        linkTo={`${match.url}${match.url.substr(-1) === '/' ? '' : '/'}details`}
                         className='more-information'
                     >
                         <Translate id='button.moreInformation' />
@@ -132,7 +132,7 @@ const LoginForm = ({
                     )}
                     {!contractId && (
                         <FormButton
-                            to={`${match.url}${match.url.substr(-1) === '/' ? '' : '/'}confirm`}
+                            linkTo={`${match.url}${match.url.substr(-1) === '/' ? '' : '/'}confirm`}
                             color='blue'
                             sending={buttonLoader}
                         >

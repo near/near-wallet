@@ -77,7 +77,7 @@ const SetupSeedPhraseForm = ({
                 <IconMCopy color='#6ad1e3' />
             </FormButton>
             <FormButton
-                to={`${match.url}${match.url.substr(-1) === '/' ? '' : '/'}verify`}
+                linkTo={`${match.url}${match.url.substr(-1) === '/' ? '' : '/'}verify`}
                 color='blue'
             >
                 <Translate id='button.continue' />
