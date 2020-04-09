@@ -36,7 +36,8 @@ const CreateAccountForm = ({
     verifyRecaptcha,
     recaptchaFallback,
     requestStatus,
-    checkAvailability
+    checkAvailability,
+    accountId
 }) => (
     <Container>
         <Header as='h4'><Translate id='createAccount.accountIdInput.title' /></Header>
@@ -47,6 +48,7 @@ const CreateAccountForm = ({
             pattern={/[^a-zA-Z0-9_-]/}
             checkAvailability={checkAvailability}
             requestStatus={requestStatus}
+            accountId={accountId}
 
         />
         <RecaptchaString>

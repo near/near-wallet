@@ -80,11 +80,12 @@ class AccountFormAccountId extends Component {
                             {type === 'create' && 
                                 <span className='network'>
                                     {ACCOUNT_ID_SUFFIX}
-                                </span>}
+                                </span>
+                            }
                         </InputWrapper>
                     )}
                 </Translate>
-                <RequestStatusBox requestStatus={requestStatus} />
+                <RequestStatusBox requestStatus={requestStatus} accountId={this.props.accountId}/>
             </>
         )
     }

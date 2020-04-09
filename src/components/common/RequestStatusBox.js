@@ -44,11 +44,11 @@ const RequestStatusBoxGrid = styled(Grid)`
  * @param requestStatus.success {boolean} true if request was succesful
  * @param requestStatus.messageCode {string} localization code of status message to display
  */
-const RequestStatusBox = ({ requestStatus }) => (
+const RequestStatusBox = ({ requestStatus, accountId }) => (
     requestStatus ?
         <RequestStatusBoxGrid className='status-wrapper'>
             <Grid.Column className={`alert-info ${requestStatus.success ? 'success' : 'problem'}`}>
-                <Translate id={requestStatus.messageCode} />
+                <Translate id={requestStatus.messageCode} data={{ accountId: accountId }}/>
             </Grid.Column>
         </RequestStatusBoxGrid>
         : null

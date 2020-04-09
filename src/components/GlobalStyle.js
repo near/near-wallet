@@ -2,7 +2,7 @@ import { createGlobalStyle } from 'styled-components'
 
 import ProblemsImage from '../images/icon-problems.svg'
 import CheckBlueImage from '../images/icon-check-blue.svg'
-import EmailIconBlack from '../images/email-icon-black.svg'
+import EmailIconGray from '../images/email-icon-gray.svg'
 
 export default createGlobalStyle`
   
@@ -145,10 +145,10 @@ export default createGlobalStyle`
       
         &:after {
             content: '';
-            background: url(${EmailIconBlack}) center no-repeat;
+            background: url(${EmailIconGray}) center no-repeat;
             display: inline-block;
-            height: 16px;
-            width: 16px;
+            height: 17px;
+            width: 17px;
             position: absolute;
             left: 12px;
             top: calc(50% - -4px);
