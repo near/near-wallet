@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
 import { withRouter, Link } from 'react-router-dom'
+import { Translate } from 'react-localize-redux'
 
 import IconArrowLeft from '../../images/IconArrowLeft'
 import IconProblems from '../../images/IconProblems'
@@ -89,25 +90,25 @@ class LoginDetails extends Component {
                             <Link to='/login'>
                                 <div className='back-button h3 font-benton color-blue'>
                                     <div><IconArrowLeft color='#0072ce' /></div>
-                                    <div>Back</div>
+                                    <div><Translate id='back' /></div>
                                 </div>
                             </Link>
                         </div>
                         {contractId && (
                             <div className='details'>
-                                <div className='details-item title h3'>Detailed description of transaction</div>
+                                <div className='details-item title h3'><Translate id='login.details.detailedDescription' /></div>
                                 <TransactionsList transactions={transactions} />
 
                                 {false && <div className='details-item'>
                                     <div className='title h3'>
                                         Transaction Allowance
                                     </div>
-                                    <div className='details-subitem font-bold color-charcoal-grey'>
+                                    <div className='details-subitem color-charcoal-grey'>
                                         <div className='desc font-small'>
                                             This app can use your NEAR for transaction fees
                                         </div>
                                         <div>
-                                            Total Allowance: .001Ⓝ
+                                            <b>Total Allowance: .001Ⓝ</b>
                                         </div>
                                     </div>
                                 </div>}
@@ -115,9 +116,9 @@ class LoginDetails extends Component {
                                     <div className='title h3'>
                                         Transaction Fees
                                     </div>
-                                    <div className='details-subitem font-bold color-charcoal-grey'>
-                                        <div>Gas Limit: {fees.gasLimit}</div>
-                                        <div>Gas price estimate is unavailable</div>
+                                    <div className='details-subitem color-charcoal-grey'>
+                                        <div><b>Gas Limit: {fees.gasLimit}</b></div>
+                                        <div><b>Gas price estimate is unavailable</b></div>
                                     </div>
                                 </div>}
                             </div>
@@ -131,30 +132,31 @@ class LoginDetails extends Component {
                                             messageCodeHeader: 'warning',
                                             messageCode: 'account.login.details.warning'
                                         }}
-                                        closeIcom={false}
+                                        closeIcon={false}
                                     />
                                 </div>
                                 <div className='details-item'>
                                     <div className='title h3'>
-                                        This allows {appTitle} to:
+                                        <Translate id='login.details.thisAllows' data={{ appTitle }} />
                                     </div>
                                     <div className='details-subitem color-charcoal-grey'>
-                                        <div>Create new accounts</div>
+                                        <div><Translate id='login.details.createNewAccounts' /></div>
                                     </div>
                                     <div className='details-subitem color-charcoal-grey'>
-                                        <div>Transfer tokens from your account to other accounts</div>
+                                        <div>
+                                        <Translate id='login.details.transferTokens' /></div>
                                     </div>
                                     <div className='details-subitem color-charcoal-grey'>
-                                        <div>Deploy smart contracts</div>
+                                        <div><Translate id='login.details.deploySmartContracts' /></div>
                                     </div>
                                     <div className='details-subitem color-charcoal-grey'>
-                                        <div>Call functions on any smart contract</div>
+                                        <div><Translate id='login.details.callFunctions' /></div>
                                     </div>
                                     <div className='details-subitem color-charcoal-grey'>
-                                        <div>Stake and unstake NEAR tokens</div>
+                                        <div><Translate id='login.details.stakeAndUnstake' /></div>
                                     </div>
                                     <div className='details-subitem color-charcoal-grey'>
-                                        <div>Create and delete access keys</div>
+                                        <div><Translate id='login.details.createAndDeleteAccessKeys' /></div>
                                     </div>
                                 </div>
                             </div>
@@ -170,7 +172,7 @@ const TransactionsList = ({ transactions }) =>
     transactions.map((t, i) => (
         <div key={`item-${i}`} className='details-item'>
             <div className='title h3'>
-                For Contract: <a href={`${process.env.EXPLORER_URL || 'https://explorer.nearprotocol.com'}/accounts/${t.signerId}`} target='_blank' rel="noopener noreferrer" className='color-blue'>@{t.signerId}</a>
+                <Translate id='login.details.forContract' />: <a href={`${process.env.EXPLORER_URL || 'https://explorer.nearprotocol.com'}/accounts/${t.signerId}`} target='_blank' rel="noopener noreferrer" className='color-blue'>@{t.signerId}</a>
             </div>
             {false &&  <ActionsList 
                 transaction={t} 
@@ -192,7 +194,7 @@ const ActionsList = ({ transaction, actions }) =>
 ))
 
 const ActionRow = ({ transaction, action, actionKind }) => (
-    <div key={`subitem-`} className='details-subitem font-bold color-charcoal-grey'>
+    <div key={`subitem-`} className='details-subitem color-charcoal-grey'>
         <ActionMessage 
             transaction={transaction} 
             action={action} 
@@ -207,9 +209,11 @@ const ActionRow = ({ transaction, action, actionKind }) => (
 )
 
 const ActionMessage = ({ transaction, action, actionKind }) => (
-    <Fragment>
-        {actionKind === 'functionCall' && `Function: ${action.functionCall.methodName}`}
-    </Fragment>
+    <Translate>
+        <b>
+            {({ translate }) => actionKind === 'functionCall' && `${translate('login.details.function')}: ${action.functionCall.methodName}`}
+        </b>
+    </Translate>
 )
 
 const ActionWarrning = ({ actionKind }) => (
@@ -217,7 +221,7 @@ const ActionWarrning = ({ actionKind }) => (
         {actionKind === 'functionCall' && (
             <Fragment>
                 <div className='icon'><IconProblems color='#999' /></div>
-                No description specified for this method
+                <Translate id='login.details.noDescription' />
             </Fragment>
         )}
     </Fragment>

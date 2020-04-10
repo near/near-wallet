@@ -10,14 +10,13 @@ import PhraseIcon from '../../images/icon-recover-seedphrase.svg';
 
 const Container = styled.div`
     h2 {
-      color: #4a4f54 !important;
-      margin-top: -20px;
-      max-width: 600px;
-      font-size: 20px !important;
+        color: #4a4f54 !important;
+        margin-top: -20px;
+        max-width: 600px;
 
         @media (max-width: 767px) {
             margin-top: -10px;
-            font-size: 16px !important;
+            font-size: 18px !important;
         }
     }
 `;
@@ -35,20 +34,29 @@ const Options = styled.div`
 
 const Option = styled.div`
     flex: 1;
-    padding: 5px 40px 0 40px;
-    border-right: 3px solid #f5f5f5;
 
-    &:first-of-type {
-        padding-left: 0;
-    }
+    @media (min-width: 768px) {
+        padding: 5px 40px 0 40px;
+        border-right: 3px solid #f5f5f5;
 
-    &:last-of-type {
-        border: 0;
+        &:first-of-type {
+            padding-left: 0;
+        }
+    
+        &:last-of-type {
+            border: 0;
+        }
     }
 
     @media (max-width: 767px) {
-        border: 0;
-        padding: 20px 0;
+        border: 3px solid #f5f5f5;
+        border-radius: 6px;
+        padding: 15px;
+        margin-bottom: 20px;
+
+        &:first-of-type {
+            margin-top: 15px;
+        }
     }
 `;
 
@@ -73,6 +81,11 @@ const Header = styled.div`
 
 const P = styled.p`
     color: #4a4f54;
+    font-size: 15px;
+
+    @media (min-width: 768px) {
+        font-size: 16px;
+    }
 
     &:first-of-type {
         margin-top: 20px;
@@ -136,7 +149,7 @@ const RecoverAccount = () => {
                 <Option>
                     <Header icon={PhraseIcon}><Translate id='recoverAccount.phrase.title'/><br/><Translate id='recoverAccount.actionType'/></Header>
                     <P><Translate id='recoverAccount.phrase.desc'/></P>
-                    <Button to='/recover-seed-phrase'><Translate id='recoverAccount.phrase.cta'/></Button>
+                    <Button to='/recover-seed-phrase'><Translate id='button.recoverAccount' /></Button>
                 </Option>
             </Options>
         </Container>

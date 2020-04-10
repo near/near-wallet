@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
+import { Translate } from 'react-localize-redux'
 
 import IconArrowLeft from '../../images/IconArrowLeft'
 import IconProblems from '../../images/IconProblems'
@@ -89,22 +90,22 @@ class SignTransferDetails extends Component {
                                 onClick={handleDetails}
                             >
                                 <div><IconArrowLeft color='#0072ce' /></div>
-                                <div>Back</div>
+                                <div><Translate id='back' /></div>
                             </div>
                         </div>
                         <div className='details'>
-                            <div className='details-item title h3'>Detailed description of transaction</div>
+                            <div className='details-item title h3'><Translate id='sign.details.detailedDescription' /></div>
                             <TransactionsList transactions={transactions} />
 
                             <div className='details-item'>
                                 <div className='title h3'>
-                                    Transaction Fees
+                                    <Translate id='sign.details.transactionFees' />
                                     {/* .00042Ⓝ */}
                                 </div>
                                 {/* {t.fees} */}
                                 <div className='details-subitem color-charcoal-grey'>
-                                    <div>Gas Limit: {fees.gasLimit}</div>
-                                    <div>Gas price estimate is unavailable</div>
+                                    <div><Translate id='sign.details.gasLimit' />: {fees.gasLimit}</div>
+                                    <div><Translate id='sign.details.gasPriceUnavailable' /></div>
                                     {/* <div>Gas Price: .000000021Ⓝ</div> */}
                                 </div>
                             </div>
@@ -120,7 +121,7 @@ const TransactionsList = ({ transactions }) =>
     transactions.map((t, i) => (
         <div key={`item-${i}`} className='details-item'>
             <div className='title h3'>
-                For Contract: <span className='color-blue'>@{t.receiverId}</span>
+                <Translate id='sign.details.forContract' />: <span className='color-blue'>@{t.receiverId}</span>
             </div>
             <ActionsList 
                 transaction={t} 
@@ -142,11 +143,11 @@ const ActionsList = ({ transaction, actions }) =>
 ))
 
 const ActionRow = ({ transaction, action, actionKind }) => (
-    <div key={`subitem-`} className='details-subitem font-bold color-charcoal-grey'>
+    <div key={`subitem-`} className='details-subitem color-charcoal-grey'>
         <ActionMessage 
             transaction={transaction} 
             action={action} 
-            actionKind={actionKind} 
+            actionKind={actionKind}
         />
         <div className='desc font-small'>
             <ActionWarrning 
@@ -157,16 +158,18 @@ const ActionRow = ({ transaction, action, actionKind }) => (
 )
 
 const ActionMessage = ({ transaction, action, actionKind }) => (
-    <Fragment>
-        {actionKind === 'createAccount' && `Creating Account: '${transaction.receiverId}'`}
-        {actionKind === 'deployContract' && `Deploying Contract: '${transaction.receiverId}'`}
-        {actionKind === 'functionCall' && `Calling function: '${action.functionCall.methodName}'`}
-        {actionKind === 'transfer' && `Transferring: ${action.transfer.deposit}Ⓝ to '${transaction.receiverId}'`}
-        {actionKind === 'stake' && `Staking: ${action.stake.stake}Ⓝ ${action.stake.publicKey.substring(0, 15)}...`}
-        {actionKind === 'addKey' && `Adding access key`}
-        {actionKind === 'deleteKey' && `Deleting access key`}
-        {actionKind === 'deleteAccount' && `Deleting account: '${transaction.receiverId}'`}
-    </Fragment>
+    <b>
+        <Translate 
+            id={`actionsSign.${actionKind}`}
+            data={{
+                receiverId: transaction.receiver_id || '',
+                methodName: action.functionCall ? action.functionCall.methodName : '',
+                deposit: action.transfer ? action.transfer.deposit : '',
+                stake: action.stake ? action.stake.stake : '',
+                publicKey: action.stake ? action.stake.publicKey.substring(0, 15) : ''
+            }}
+        />
+    </b>
 )
 
 const ActionWarrning = ({ actionKind }) => (
@@ -174,25 +177,25 @@ const ActionWarrning = ({ actionKind }) => (
         {actionKind === 'functionCall' && (
             <Fragment>
                 <div className='icon'><IconProblems color='#999' /></div>
-                No description specified for this function
+                <Translate id='sign.ActionWarrning.functionCall' />
             </Fragment>
         )}
         {actionKind === 'deployContract' && (
             <Fragment>
                 <div className='icon'><IconProblems color='#fca347' /></div>
-                You are about to deploy a contract to your account! This contract can access your NEAR balance, and interact with other contracts on your behalf.
+                <Translate id='sign.ActionWarrning.deployContract' />
             </Fragment>
         )}
         {actionKind === 'stake' && (
             <Fragment>
                 <div className='icon'><IconProblems color='#fca347' /></div>
-                You are about to stake NEAR tokens. These tokens will be locked, and are at risk of being lost if your validator becomes unresponsive.
+                <Translate id='sign.ActionWarrning.stake' />
             </Fragment>
         )}
         {actionKind === 'deleteAccount' && (
             <Fragment>
                 <div className='icon'><IconProblems color='#fca347' /></div>
-                You are about to delete your account! Your NEAR balance will be destroyed, and all of your account data deleted.
+                <Translate id='sign.ActionWarrning.deleteAccount' />
             </Fragment>
         )}
     </Fragment>

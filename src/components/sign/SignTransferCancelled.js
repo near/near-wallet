@@ -1,5 +1,5 @@
 import React from 'react'
-
+import { Translate } from 'react-localize-redux'
 import FormButton from '../common/FormButton'
 import MobileContainer from './MobileContainer'
 
@@ -22,7 +22,7 @@ const SignTransferCancelled = ({ handleDeny }) => (
                 <Grid.Column
                     textAlign='center'
                 >
-                    <h2 className='font-bold'>Transaction cancelled</h2>
+                    <h2><b><Translate id='sign.transactionCancelled' /></b></h2>
                 </Grid.Column>
             </Grid.Row>
             <Grid.Row className='sub'>
@@ -30,7 +30,7 @@ const SignTransferCancelled = ({ handleDeny }) => (
                     textAlign='center'
                     computer={16}
                 >
-                    Nothing has been transferred.
+                    <Translate id='sign.nothingHasBeenTransferred' />
                 </Grid.Column>
             </Grid.Row>
         </Grid>
@@ -44,7 +44,7 @@ const SignTransferCancelled = ({ handleDeny }) => (
                         color='gray-white'
                         onClick={handleDeny}
                     >
-                        CLOSE
+                        <Translate id='button.close' />
                     </FormButton>
                 </Grid.Column>
             </Grid.Row>

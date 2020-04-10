@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link, withRouter } from 'react-router-dom'
+import { withRouter } from 'react-router-dom'
 import { Translate } from 'react-localize-redux'
 
 import FormButton from '../common/FormButton'
@@ -76,11 +76,12 @@ const SetupSeedPhraseForm = ({
                 <Translate id='button.copyPhrase' />
                 <IconMCopy color='#6ad1e3' />
             </FormButton>
-            <Link to={`${match.url}${match.url.substr(-1) === '/' ? '' : '/'}verify`}>
-                <FormButton color='blue'>
-                    <Translate id='button.continue' />
-                </FormButton>
-            </Link>
+            <FormButton
+                linkTo={`${match.url}${match.url.substr(-1) === '/' ? '' : '/'}verify`}
+                color='blue'
+            >
+                <Translate id='button.continue' />
+            </FormButton>
         </div>
     </CustomDiv>
 )

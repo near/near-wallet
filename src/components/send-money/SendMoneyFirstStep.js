@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react'
+import { Translate } from 'react-localize-redux'
 
 import {
     Header,
@@ -16,23 +17,23 @@ import AccountFormAccountId from '../accounts/AccountFormAccountId'
 import SendMoneyAmountInput from './SendMoneyAmountInput'
 
 const SendMoneyFirstStep = ({
-   handleNextStep,
-   handleChange,
-   note,
-   paramAccountId,
-   accountId,
-   isLegitForm,
-   formLoader,
-   requestStatus,
-   amount,
-   checkAvailability
+    handleNextStep,
+    handleChange,
+    note,
+    paramAccountId,
+    accountId,
+    isLegitForm,
+    formLoader,
+    requestStatus,
+    amount,
+    checkAvailability
 }) => {
     return (
         <Form autoComplete='off'>
             <MobileContainer>
                 <Fragment>
                     <PageContainer
-                        title={`Send NEAR`}
+                        title={<Translate id='sendMoney.pageTitle.default' />}
                         type='center'
                     />
                     <List className='list-top border'>
@@ -44,7 +45,7 @@ const SendMoneyFirstStep = ({
                         ) : (
                             <List.Item>
                                 <List.Content>
-                                    <Header as='h4' textAlign='left'>Username to send to:</Header>
+                                    <Header as='h4' textAlign='left'><Translate id='sendMoney.accountIdInput.title' /></Header>
                                     <AccountFormAccountId
                                         formLoader={formLoader}
                                         handleChange={handleChange}
@@ -53,7 +54,6 @@ const SendMoneyFirstStep = ({
                                         requestStatus={requestStatus}
                                         autoFocus={true}
                                     />
-                                    <Responsive as={RequestStatusBox} minWidth={768} requestStatus={requestStatus} />
                                 </List.Content>
                             </List.Item>
                         )}
@@ -83,7 +83,7 @@ const SendMoneyFirstStep = ({
                                 color='green'
                                 disabled={!isLegitForm()}
                             >
-                                SEND
+                                <Translate id='button.send' />
                             </FormButton>
                         </List.Item>
                     </List>

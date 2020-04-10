@@ -1,4 +1,5 @@
 import React from 'react'
+import { Translate } from 'react-localize-redux'
 
 import Balance from '../common/Balance'
 import FormButton from '../common/FormButton'
@@ -24,9 +25,9 @@ const SignTransferReady = ({ handleDeny, txTotalAmount, isMonetaryTransaction })
             <Grid.Row className='title'>
                 <Grid.Column as='h2' textAlign='center'>
                     {isMonetaryTransaction ? (
-                        <span className='font-bold'><Balance amount={txTotalAmount} /> was transferred successfully</span>
+                        <b><Balance amount={txTotalAmount} /> <Translate id='sign.wasTransferredSuccessfully' /></b>
                     ) : (
-                        <span className='font-bold'>Authorization request successful</span>
+                        <b><Translate id='sign.authorizationRequestSuccessful' /></b>
                     )}
                 </Grid.Column>
             </Grid.Row>
@@ -62,7 +63,7 @@ const SignTransferReady = ({ handleDeny, txTotalAmount, isMonetaryTransaction })
                         color='gray-white'
                         onClick={handleDeny}
                     >
-                        CLOSE
+                        <Translate id='button.close' />
                     </FormButton>
                 </Grid.Column>
             </Grid.Row>

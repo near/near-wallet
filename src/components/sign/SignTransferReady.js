@@ -2,7 +2,9 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import styled from 'styled-components'
-import { handleRefreshAccount, switchAccount } from '../../actions/account'
+import { Translate } from 'react-localize-redux'
+
+import { refreshAccount, switchAccount } from '../../actions/account'
 import SignAnimatedArrow from './SignAnimatedArrow'
 import SignTransferDetails from './SignTransferDetails'
 import SelectAccountDropdown from '../login/SelectAccountDropdown'
@@ -25,6 +27,8 @@ const Title = styled.div`
     font-size: 26px;
     font-weight: 600;
     margin-top: 30px;
+    text-align: center;
+    line-height: normal;
 `
 
 const Desc = styled.div`
@@ -132,7 +136,7 @@ class SignTransferReady extends Component {
 
     handleSelectAccount = accountId => {
         this.props.switchAccount(accountId)
-        this.props.handleRefreshAccount(this.props.history)
+        this.props.refreshAccount()
     }
 
     redirectCreateAccount = () => {
@@ -153,33 +157,34 @@ class SignTransferReady extends Component {
             txTotalAmount,
             accountBalance,
             isMonetaryTransaction,
-            insufficientFunds
+            insufficientFunds,
+            availableAccounts
         } = this.props;
 
         return (
             <Container>
                 <SignAnimatedArrow/>
-                <Title>{appTitle || 'Unknown App'}</Title>
-                <Desc>is requesting&nbsp;{isMonetaryTransaction ? 'the transfer of' : 'authorization'}</Desc>
+                <Title>{appTitle || <Translate id='sign.unknownApp' />}</Title>
+                <Desc><Translate id={`sign.isRequesting.${isMonetaryTransaction ? 'transferOf' : 'authorization'}`} /></Desc>
                 {isMonetaryTransaction &&
                     <>
                         <TransferAmount>
                             <Balance amount={txTotalAmount}/>
                         </TransferAmount>
                         <CurrentBalance>
-                            Current Balance: <Balance amount={accountBalance}/>
+                            <Translate id='sign.currentBalance' />: <Balance amount={accountBalance}/>
                         </CurrentBalance>
                         <InlineNotification
                             show={insufficientFunds}
                             onClick={handleDeny}
-                            message='Insufficient funds'
+                            messageId='sign.insufficientFunds'
                             theme='error'
-                            buttonMsg='Go back'
+                            buttonMsgId='button.goBack'
                         />
                     </>
                 }
                 <MoreInfo onClick={this.handleToggleInfo}>
-                    More information
+                    <Translate id='button.moreInformation' />
                     {actionsCounter &&
                         <ActionsCounter>
                             {actionsCounter > 9 ? '9+' : actionsCounter}
@@ -190,18 +195,24 @@ class SignTransferReady extends Component {
                     <SelectAccountDropdown
                         handleOnClick={this.handleToggleDropdown}
                         account={account}
+                        availableAccounts={availableAccounts}
                         dropdown={this.state.dropdown}
                         handleSelectAccount={this.handleSelectAccount}
                         redirectCreateAccount={this.redirectCreateAccount}
                         disabled={true}
                     />
                     <ButtonWrapper>
-                        <Button theme='secondary' onClick={handleDeny}>Deny</Button>
+                        <Button 
+                            theme='secondary' 
+                            onClick={handleDeny}
+                        >
+                            <Translate id='button.deny' />
+                        </Button>
                         <Button
                             onClick={handleAllow}
                             disabled={isMonetaryTransaction && insufficientFunds}
                         >
-                            Allow
+                            <Translate id='button.allow' />
                         </Button>
                     </ButtonWrapper>
                 </Footer>
@@ -219,12 +230,13 @@ class SignTransferReady extends Component {
 }
 
 const mapDispatchToProps = {
-    handleRefreshAccount,
+    refreshAccount,
     switchAccount,
 }
 
-const mapStateToProps = ({ account, sign }) => ({
+const mapStateToProps = ({ account, sign, availableAccounts }) => ({
     account,
+    availableAccounts,
     ...sign
 })
 

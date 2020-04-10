@@ -1,6 +1,6 @@
 import React from 'react'
 import { withRouter } from 'react-router-dom'
-
+import { Translate } from 'react-localize-redux'
 import FormButton from '../common/FormButton'
 import MobileContainer from './MobileContainer'
 
@@ -25,7 +25,7 @@ const SignTransferInsufficientFunds = ({ handleDeny, handleAddFunds }) => (
                     as='h2'
                     textAlign='center'
                 >
-                    <span className='font-bold'>Insufficient Funds</span>
+                    <b><Translate id='sign.insufficientFunds' /></b>
                 </Grid.Column>
             </Grid.Row>
             <Grid.Row className='sub'>
@@ -33,7 +33,7 @@ const SignTransferInsufficientFunds = ({ handleDeny, handleAddFunds }) => (
                     textAlign='center'
                     computer={16}
                 >
-                    Here are some details that will help you.
+                    <Translate id='sign.hereAreSomeDetails' />
                 </Grid.Column>
             </Grid.Row>
         </Grid>
@@ -44,14 +44,14 @@ const SignTransferInsufficientFunds = ({ handleDeny, handleAddFunds }) => (
                         color='gray-white'
                         onClick={handleDeny}
                     >
-                        CANCEL
+                        <Translate id='button.cancel' />
                     </FormButton>
                     <FormButton
                         type='submit'
                         color='blue'
                         onClick={handleAddFunds}
                     >
-                        ADD FUNDS
+                        <Translate id='button.addFunds' />
                     </FormButton>
                 </Grid.Column>
             </Grid.Row>
@@ -62,7 +62,7 @@ const SignTransferInsufficientFunds = ({ handleDeny, handleAddFunds }) => (
                     tablet={16}
                     textAlign='center'
                 >
-                    Contract: @contractname.near
+                    <Translate id='sign.contract' /> @contractname.near
                 </Grid.Column>
             </Grid.Row>
         </Grid>

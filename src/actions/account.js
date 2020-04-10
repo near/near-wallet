@@ -1,158 +1,92 @@
+import sendJson from 'fetch-send-json'
 import { parse, stringify } from 'query-string'
 import { createActions, createAction } from 'redux-actions'
-import { Wallet } from '../utils/wallet'
+import { ACCOUNT_HELPER_URL, wallet } from '../utils/wallet'
 import { getTransactions as getTransactionsApi } from '../utils/explorer-api'
 import { push } from 'connected-react-router'
+import { loadState, saveState, clearState } from '../utils/sessionStorage'
+import { WALLET_CREATE_NEW_ACCOUNT_URL, WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS, WALLET_LOGIN_URL } from '../utils/wallet'
 
-export const REFRESH_ACCOUNT = 'REFRESH_ACCOUNT'
-export const LOADER_ACCOUNT = 'LOADER_ACCOUNT'
-export const REFRESH_URL = 'REFRESH_URL'
+export const loadAccount = createAction('LOAD_ACCOUNT',
+    accountId => wallet.getAccount(accountId).state(),
+    accountId => ({ accountId })
+)
 
-// TODO: Refactor whole mess with handleRefreshAccount / handleLoginUrl / handleRedirectUrl / handleRefreshUrl into smaller and better scoped actions
-export function handleRefreshAccount(history, loader = true) {
-    return (dispatch, getState) => {
-        // TODO: Use promise-based action with automated loading handler?
-        if (loader) {
-            dispatch({
-                type: LOADER_ACCOUNT,
-                loader: true
-            })
+export const loadRecoveryMethods = createAction('LOAD_RECOVERY_METHODS',
+    async accountId => sendJson('POST', `${ACCOUNT_HELPER_URL}/account/recoveryMethods`, {
+        accountId: wallet.accountId,
+        ...(await wallet.signatureFor(wallet.accountId))
+    }),
+    accountId => ({ accountId })
+)
+
+export const handleRedirectUrl = (previousLocation) => (dispatch, getState) => {
+    const { pathname } = getState().router.location
+    if (pathname.split('/')[1] === WALLET_CREATE_NEW_ACCOUNT_URL) {
+        let url = {
+            ...getState().account.url,
+            redirect_url: previousLocation.pathname
         }
-
-        if (wallet.isEmpty()) {
-            if (loader) {
-                dispatch({
-                    type: LOADER_ACCOUNT,
-                    loader: false
-                })
-            }
-
-            return false
-        }
-
-        const accountId = wallet.getAccountId()
-
-        wallet
-            .loadAccount(accountId)
-            .then(v => {
-                // TODO: Should use reducer instead to process loadAccount success results?
-                dispatch({
-                    type: REFRESH_ACCOUNT,
-                    data: {
-                        accountId: accountId,
-                        amount: v['amount'] || 0,
-                        stake: v['stake'],
-                        nonce: v['nonce'],
-                        code_hash: v['code_hash'],
-                        accounts: wallet.accounts
-                    }
-                })
-            })
-            .catch(e => {
-                console.error('Error loading account:', e)
-
-                if (e.message && e.message.indexOf('does not exist while viewing') !== -1) {
-                    // We have an account in the storage, but it doesn't exist on blockchain. We probably nuked storage so just redirect to create account
-                    // TODO: Offer to remove specific account vs clearing everything?
-                    wallet.clearState()
-                    wallet.redirectToCreateAccount(
-                        {
-                            reset_accounts: true
-                        },
-                        history
-                    )
-                }
-            })
-            .finally(() => {
-                if (loader) {
-                    dispatch({
-                        type: LOADER_ACCOUNT,
-                        loader: false
-                    })
-                }
-            })
+        saveState(url)
+        dispatch(refreshUrl(url))
     }
 }
 
-export function handleLoginUrl(location) {
-    return (dispatch, getState) => {
-        if (!location) {
-            location = getState().router.location
-        }
-
-        if (location.search === '') {
-            return false
-        }
-
-        const loginUrl = parse(location.search)
-
-        try {
-            sessionStorage.setItem('wallet:url', JSON.stringify(loginUrl))
-        } catch(err) {
-            console.warn(err)
-        }
-
-        dispatch({
-            type: REFRESH_URL,
-            url: loginUrl
-        })
-    }
-}
-
-export function handleRedirectUrl(previousLocation) {
-    return (dispatch, getState) => {
-        const { account: { url } } = getState()
-
-        const redirectUrl = {
-            ...url,
-            redirect_url: previousLocation.pathname,
-        }
-
-        try {
-            sessionStorage.setItem('wallet:url', JSON.stringify(redirectUrl))
-        } catch(err) {
-            console.warn(err)
-        }
-
-        dispatch({
-            type: REFRESH_URL,
-            url: redirectUrl
-        })
+export const handleClearUrl = () => (dispatch, getState) => {
+    const { pathname } = getState().router.location
+    if (![...WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS, WALLET_LOGIN_URL].includes(pathname.split('/')[1])) {
+        clearState()
+        dispatch(refreshUrl({}))
     }
 }
 
 export const parseTransactionsToSign = createAction('PARSE_TRANSACTIONS_TO_SIGN')
 
-export function handleRefreshUrl() {
-    return (dispatch, getState) => {
-        const { router: { location } } = getState()
+export const handleRefreshUrl = () => (dispatch, getState) => {
+    const { pathname, search } = getState().router.location
+    const parsedUrl = parse(search)
 
-        let accountUrl = {
-            referrer: document.referrer
-        }
+    if (pathname.split('/')[1] === WALLET_LOGIN_URL && search !== '') {
+        saveState(parsedUrl)
+        dispatch(refreshUrl(parsedUrl))
+        dispatch(checkContractId())
+    }
+    else {
+        dispatch(refreshUrl({
+            referrer: document.referrer,
+            ...loadState()
+        }))
+    }
 
-        try {
-            accountUrl = {
-                ...accountUrl,
-                ...JSON.parse(sessionStorage.getItem('wallet:url'))
-            }
-        } catch(err) {
-            console.warn(err)
-        }
-
-        dispatch({
-            type: REFRESH_URL,
-            url: accountUrl
-        })
-
-        const { transactions, callbackUrl } = parse(location.search);
-        if (transactions) {
-            dispatch(parseTransactionsToSign({ transactions, callbackUrl }));
-        }
+    const { transactions, callbackUrl } = parsedUrl
+    if (transactions) {
+        dispatch(parseTransactionsToSign({ transactions, callbackUrl }))
     }
 }
 
-const wallet = new Wallet()
+const checkContractId = () => async (dispatch, getState) => {
+    const { contract_id } = getState().account.url
+
+    if (contract_id) {
+        const redirectIncorrectContractId = () => {
+            console.error('Invalid contractId:', contract_id)
+            dispatch(push({ pathname: `/${WALLET_LOGIN_URL}/incorrect-contract-id` }))
+        }
+
+        if (!wallet.isLegitAccountId(contract_id)) {
+            redirectIncorrectContractId()
+            return
+        }
+
+        try {
+            await wallet.getAccount(contract_id).state()
+        } catch(error) {
+            if (error.message.indexOf('does not exist while viewing') !== -1) {
+                redirectIncorrectContractId()
+            }
+        }
+    }
+}
 
 export const redirectToApp = () => (dispatch, getState) => {
     const { account: { url }} = getState()
@@ -173,6 +107,7 @@ export const allowLogin = () => async (dispatch, getState) => {
 
     const { success_url, public_key } = url
     if (success_url) {
+        dispatch(clearAlert())
         const availableKeys = await wallet.getAvailableKeys();
         const allKeys = availableKeys.map(key => key.toString());
         const parsedUrl = new URL(success_url)
@@ -187,22 +122,14 @@ export const allowLogin = () => async (dispatch, getState) => {
 
 const defaultCodesFor = (prefix, data) => ({ successCode: `${prefix}.success`, errorCode: `${prefix}.error`, data})
 
-export const { requestCode, setupAccountRecovery, setupRecoveryMessage, recoverAccount, checkNewAccount, createNewAccount, checkAccountAvailable, getTransactions, clear, clearCode } = createActions({
+export const { requestCode, setupRecoveryMessage, checkNewAccount, createNewAccount, checkAccountAvailable, getTransactions, clear, clearCode } = createActions({
     REQUEST_CODE: [
         wallet.requestCode.bind(wallet),
         () => defaultCodesFor('account.requestCode')
     ],
-    SETUP_ACCOUNT_RECOVERY: [
-        wallet.setupAccountRecovery.bind(wallet),
-        () => defaultCodesFor('account.setupAccountRecovery')
-    ],
     SETUP_RECOVERY_MESSAGE: [
         wallet.setupRecoveryMessage.bind(wallet),
         () => defaultCodesFor('account.setupRecoveryMessage')
-    ],
-    RECOVER_ACCOUNT: [
-        wallet.recoverAccount.bind(wallet),
-        () => defaultCodesFor('account.recoverAccount')
     ],
     CHECK_NEW_ACCOUNT: [
         wallet.checkNewAccount.bind(wallet),
@@ -233,7 +160,18 @@ export const { addAccessKey, addAccessKeySeedPhrase, clearAlert } = createAction
         (accountId, contractId, publicKey, successUrl, title) => defaultCodesFor('account.login', {title})
     ],
     ADD_ACCESS_KEY_SEED_PHRASE: [
-        wallet.addAccessKey.bind(wallet),
+        async (accountId, contractName, publicKey) => {
+            const [walletReturnData] = await Promise.all([
+                wallet.addAccessKey(accountId, contractName, publicKey),
+                sendJson('POST', `${ACCOUNT_HELPER_URL}/account/seedPhraseAdded`, {
+                    accountId,
+                    publicKey,
+                    ...(await wallet.signatureFor(accountId))
+                })
+            ]);
+
+            return walletReturnData;
+        },
         () => defaultCodesFor('account.setupSeedPhrase')
     ],
     CLEAR_ALERT: null,
@@ -253,6 +191,12 @@ export const { signAndSendTransactions } = createActions({
     ]
 })
 
-export const { switchAccount } = createActions({
-    SWITCH_ACCOUNT: wallet.selectAccount.bind(wallet)
+export const { switchAccount, refreshAccount, resetAccounts, refreshUrl } = createActions({
+    SWITCH_ACCOUNT: wallet.selectAccount.bind(wallet),
+    REFRESH_ACCOUNT: [
+        wallet.loadAccount.bind(wallet),
+        () => ({ accountId: wallet.getAccountId(), })
+    ],
+    RESET_ACCOUNTS: wallet.clearState.bind(wallet),
+    REFRESH_URL: null
 })

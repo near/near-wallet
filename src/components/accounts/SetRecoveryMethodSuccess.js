@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
+import { Translate } from 'react-localize-redux'
 import FormButton from '../common/FormButton';
 
 const Container = styled.div`
@@ -55,19 +56,17 @@ class SetRecoveryMethodSuccess extends Component {
             handleEnterNewRecoverValue
         } = this.props;
 
-        let recoveryType = 'email';
         let recoverValue = email;
 
         if (!recoverWithEmail) {
-            recoveryType = 'SMS';
             recoverValue = phoneNumber;
         }
 
         return (
             <Container>
-                <h1>Confirm Recovery Setup</h1>
-                <div className='desc one'>You should have received an {recoveryType} with a magic link. If you ever lose access to your account, simply click the link, and your account will be restored.</div>
-                <div className='desc two'>Please confirm receipt of this {recoveryType} at:</div>
+                <h1><Translate id='setRecoveryConfirm.pageTitle' /></h1>
+                <div className='desc one'><Translate id={`setRecoveryConfirm.pageText.one.${recoverWithEmail ? 'email' : 'phoneNumber'}`} /></div>
+                <div className='desc two'><Translate id={`setRecoveryConfirm.pageText.two.${recoverWithEmail ? 'email' : 'phoneNumber'}`} /></div>
                 <div className='desc recover-value'>
                     {recoverValue}
                 </div>
@@ -75,10 +74,12 @@ class SetRecoveryMethodSuccess extends Component {
                     color='blue'
                     onClick={handleConfirmMessageReceived}
                 >
-                    CONFIRM
+                    <Translate id='button.confirm' />
                 </FormButton>
                 <div className='re-enter'>
-                    If you did not yet receive this {recoveryType}, or the above {recoverWithEmail ? 'email address' : 'phone number'} is incorrect, <span onClick={handleEnterNewRecoverValue} className='link'>click here</span> to Re-enter your {recoverWithEmail ? 'email address' : 'phone number'} and resend.
+                    <Translate id={`setRecoveryConfirm.reenter.one.${recoverWithEmail ? 'email' : 'phoneNumber'}`} />
+                    <span onClick={handleEnterNewRecoverValue} className='link'><Translate id='setRecoveryConfirm.reenter.link' /></span>
+                    <Translate id={`setRecoveryConfirm.reenter.two.${recoverWithEmail ? 'email' : 'phoneNumber'}`} />
                 </div>
             </Container>
         );

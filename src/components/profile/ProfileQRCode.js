@@ -1,5 +1,5 @@
 import React from 'react'
-
+import { Translate } from 'react-localize-redux'
 import styled from 'styled-components'
 import { QRCode } from "react-qr-svg";
 
@@ -8,6 +8,7 @@ const CustomDiv = styled.div`
 
     p {
         margin-top: 1em;
+        font-weight: 400;
     }
 `
 
@@ -20,7 +21,7 @@ const ProfileQRCode = ({ account }) => (
             style={{ width: "100%" }}
             value={`${window.location.protocol}//${window.location.host}/send-money/${account.accountId}`}
         />
-        <p>Use your phone's camera app to send to this address</p>
+        <p><Translate id='profile.details.qrDesc' /></p>
    </CustomDiv>
 )
 

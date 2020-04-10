@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
+import { Translate } from 'react-localize-redux'
 
 // Add additional theme icons
 import errorIcon from '../../images/icon-problems.svg'
@@ -50,8 +51,8 @@ class InlineNotification extends Component {
     render() {
 
         const {
-            message,
-            buttonMsg,
+            messageId,
+            buttonMsgId,
             theme,
             onClick,
             show
@@ -60,9 +61,11 @@ class InlineNotification extends Component {
         if (show)
             return <Container className={`${theme}-theme`} onClick={onClick}>
                         <Icon className='theme-icon'/>
-                        {message}
-                        {onClick && buttonMsg &&
-                            <Button role='button'>{buttonMsg}</Button>
+                        <Translate id={messageId} />
+                        {onClick && buttonMsgId &&
+                            <Button role='button'>
+                                <Translate id={buttonMsgId} />
+                            </Button>
                         }
                     </Container>;
         else
@@ -71,11 +74,11 @@ class InlineNotification extends Component {
 }
 
 InlineNotification.propTypes = {
-    message: PropTypes.string.isRequired,
+    messageId: PropTypes.string.isRequired,
     theme: PropTypes.string.isRequired,
     show: PropTypes.bool.isRequired,
     onClick: PropTypes.func,
-    buttonMsg: PropTypes.string,
+    buttonMsgId: PropTypes.string,
 }
 
 export default InlineNotification;

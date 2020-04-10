@@ -12,7 +12,6 @@ const CustomSegment = styled(Segment)`
         width: 100%;
         height: 50px;
         padding: 0px;
-        z-index: 1000;
 
         &.disabled {
             cursor: not-allowed;
@@ -90,6 +89,7 @@ const CustomSegment = styled(Segment)`
 const SelectAccountDropdown = ({
     handleOnClick,
     account,
+    availableAccounts,
     dropdown,
     handleSelectAccount,
     redirectCreateAccount,
@@ -101,10 +101,9 @@ const SelectAccountDropdown = ({
                 basic
                 onClick={!disabled ? handleOnClick : () => { }}
                 className={disabled && 'disabled'}
-                title={!disabled ? 
-                    translate('selectAccountDropdown.switchAccount') 
-                    : 
-                    translate('selectAccountDropdown.switchAccounthNotAllowed')
+                title={!disabled 
+                    ? translate('selectAccountDropdown.switchAccount') 
+                    : translate('selectAccountDropdown.switchAccounthNotAllowed')
                 }
             >
                 <Segment basic>
@@ -114,7 +113,7 @@ const SelectAccountDropdown = ({
                     </div>
                     <div className={`${dropdown ? '' : 'hide'}`}>
                         <div className='list-scroll'>
-                            {account.accounts && Object.keys(account.accounts)
+                            {availableAccounts
                                 .filter(a => a !== account.accountId)
                                 .map(a => (
                                     <div

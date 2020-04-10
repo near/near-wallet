@@ -6,18 +6,14 @@ import LoginContainer from './LoginContainer'
 import LoginForm from './LoginForm'
 import LoginConfirm from './LoginConfirm'
 import LoginDetails from './LoginDetails'
-
-import { handleRefreshAccount, handleRefreshUrl, switchAccount, clearAlert, allowLogin, handleLoginUrl } from '../../actions/account'
+import LoginIncorrectContractId from './LoginIncorrectContractId'
+import { refreshAccount, handleRefreshUrl, switchAccount, clearAlert, allowLogin, redirectToApp } from '../../actions/account'
 
 class Login extends Component {
     state = {
         buttonLoader: false,
-        dropdown: false,
+        dropdown: false
     }
-
-    componentDidMount = () => {
-        this.props.handleLoginUrl()
-    }    
 
     handleOnClick = () => {
         this.setState({
@@ -25,10 +21,13 @@ class Login extends Component {
         })
     }
 
-    handleDeny = e => {
-        e.preventDefault();
-        if (this.props.account.url.failure_url) {
-            window.location.href = this.props.account.url.failure_url
+    handleDeny = () => {
+        const failureUrl = this.props.account.url.failure_url;
+
+        if (failureUrl) {
+            window.location.href = failureUrl;
+        } else {
+            this.props.redirectToApp();
         }
     }
 
@@ -47,7 +46,7 @@ class Login extends Component {
 
     handleSelectAccount = accountId => {
         this.props.switchAccount(accountId)
-        this.props.handleRefreshAccount(this.props.history)
+        this.props.refreshAccount()
     }
 
     redirectCreateAccount = () => {
@@ -55,7 +54,7 @@ class Login extends Component {
     }
 
     render() {
-        const { account, match } = this.props
+        const { account: { url }, match } = this.props
 
         return (
             <LoginContainer>
@@ -66,8 +65,8 @@ class Login extends Component {
                         <LoginForm
                             {...this.state}
                             {...props}
-                            appTitle={account.url && account.url.title}
-                            contractId={account.url && account.url.contract_id}
+                            appTitle={url && url.title}
+                            contractId={url && url.contract_id}
                             handleOnClick={this.handleOnClick}
                             handleDeny={this.handleDeny}
                             handleAllow={this.handleAllow}
@@ -83,8 +82,8 @@ class Login extends Component {
                     render={(props) => (
                         <LoginDetails
                             {...props}
-                            contractId={account.url && account.url.contract_id}
-                            appTitle={account.url && account.url.title}
+                            contractId={url && url.contract_id}
+                            appTitle={url && url.title}
                         />
                     )}
                 />
@@ -95,8 +94,18 @@ class Login extends Component {
                         <LoginConfirm
                             {...props}
                             buttonLoader={this.state.buttonLoader}
-                            appTitle={account.url && account.url.title}
+                            appTitle={url && url.title}
                             handleAllow={this.handleAllow}
+                        />
+                    )}
+                />
+                <Route 
+                    exact
+                    path={`${match.url}/incorrect-contract-id`}
+                    render={() => (
+                        <LoginIncorrectContractId
+                            contractId={url.contract_id}
+                            failureUrl={url.failure_url}
                         />
                     )}
                 />
@@ -106,12 +115,12 @@ class Login extends Component {
 }
 
 const mapDispatchToProps = {
-    handleRefreshAccount,
+    refreshAccount,
     handleRefreshUrl,
     switchAccount,
     allowLogin,
     clearAlert,
-    handleLoginUrl
+    redirectToApp
 }
 
 const mapStateToProps = ({ account }) => ({

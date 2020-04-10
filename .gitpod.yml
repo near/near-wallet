@@ -1,0 +1,10 @@
+tasks:
+  - init: yarn && yarn build
+    command: yarn start
+ports:
+  - port: 1234
+    onOpen: open-browser
+github:
+  prebuilds:
+    addCheck: true
+    addBadge: true

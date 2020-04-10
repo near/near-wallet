@@ -1,4 +1,6 @@
 import React from 'react';
+import { Translate } from 'react-localize-redux'
+
 import styled from 'styled-components';
 
 const Container = styled.div`
@@ -11,7 +13,7 @@ const Container = styled.div`
         content: '';
         display: block;
         width: 100%;
-        border-top: 1px solid #dadada;
+        border-top: 1px solid #e6e6e6;
         position: absolute;
         left: 50%;
         top: 50%;
@@ -31,7 +33,7 @@ const Wrapper = styled.div`
 const Divider = (props) => (
     <Container className='divider-container'>
         <Wrapper className='divider-wrapper'>
-            {props.title || 'OR'}
+            {props.title || <Translate id='or' />}
         </Wrapper>
     </Container>
 )
