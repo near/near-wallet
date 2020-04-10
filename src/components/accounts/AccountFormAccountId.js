@@ -3,24 +3,39 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { Form, Responsive } from 'semantic-ui-react'
 import { Translate } from 'react-localize-redux'
+import InfoIcon from '../svg/InfoIcon.js'
 
 import RequestStatusBox from '../common/RequestStatusBox'
 import { ACCOUNT_CHECK_TIMEOUT, ACCOUNT_ID_SUFFIX } from '../../utils/wallet'
 
 const InputWrapper = styled.div`
     position: relative;
+`
 
-    .network {
-        position: absolute;
-        right: 20px;
-        top: 50%;
-        transform: translateY(calc(-50% + 4px));
-        pointer-events: none;
-        font-weight: 400;
-        color: rgba(0,0,0,.87);
-        font-size: 16px;
+const DomainName = styled.div`
+    position: absolute;
+    right: 8px;
+    top: calc(8px + 8px);
+    bottom: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    font-weight: 400;
+    color: #4a4f54;
+    font-size: 16px;
+    padding: 0 10px;
+    line-height: normal;
+    background-color: #f8f8f8;
+    cursor: pointer;
+
+    svg {
+        width: 17px;
+        height: 17px;
+        margin-left: 6px;
     }
 `
+
 class AccountFormAccountId extends Component {
     state = {
         accountId: this.props.defaultAccountId || ''
@@ -78,9 +93,10 @@ class AccountFormAccountId extends Component {
                                 autoFocus={autoFocus && accountId.length === 0}
                             />
                             {type === 'create' && 
-                                <span className='network'>
+                                <DomainName>
                                     {ACCOUNT_ID_SUFFIX}
-                                </span>
+                                    <InfoIcon/>
+                                </DomainName>
                             }
                         </InputWrapper>
                     )}

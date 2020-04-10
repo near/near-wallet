@@ -150,13 +150,13 @@ export default createGlobalStyle`
             height: 17px;
             width: 17px;
             position: absolute;
-            left: 12px;
+            left: 15px;
             top: calc(50% - -4px);
             transform: translateY(-50%);
             pointer-events: none;
         }
         input {
-            padding-left: 34px !important;
+            padding-left: 37px !important;
         }
     }
 
