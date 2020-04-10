@@ -189,7 +189,7 @@
         "pageText": "Just choose a username and you’re all set.",
         "accountIdInput": {
             "title": "Choose a Username",
-            "placeholder": "username"
+            "placeholder": "Example: satoshi"
         },
         "alreadyHaveAnAccount": "Already have an account?",
         "recoverItHere": "Recover it here",

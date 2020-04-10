@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import { Form, Responsive } from 'semantic-ui-react'
+import { Form, Modal } from 'semantic-ui-react'
 import { Translate } from 'react-localize-redux'
 import InfoIcon from '../svg/InfoIcon.js'
 
@@ -34,6 +34,10 @@ const DomainName = styled.div`
         height: 17px;
         margin-left: 6px;
     }
+`
+
+const Header = styled.h4`
+    margin-bottom: 5px !important;
 `
 
 class AccountFormAccountId extends Component {
@@ -80,7 +84,7 @@ class AccountFormAccountId extends Component {
                         <InputWrapper>
                             <Form.Input
                                 loading={formLoader}
-                                className={` username-input-icon ${requestStatus ? (requestStatus.success ? 'success' : 'problem') : ''}`}
+                                className={`${requestStatus ? (requestStatus.success ? 'success' : 'problem') : ''}`}
                                 name='accountId'
                                 value={accountId}
                                 onChange={this.handleChangeAccountId}
@@ -94,11 +98,15 @@ class AccountFormAccountId extends Component {
                                 tabIndex='1'
                                 autoFocus={autoFocus && accountId.length === 0}
                             />
-                            {type === 'create' && 
-                                <DomainName>
-                                    {ACCOUNT_ID_SUFFIX}
-                                    <InfoIcon/>
-                                </DomainName>
+                            {type === 'create' &&
+                                <Modal
+                                    size='mini'
+                                    trigger={<DomainName>{ACCOUNT_ID_SUFFIX}<InfoIcon/></DomainName>}
+                                    closeIcon
+                                >
+                                    <Header>Top Level Accounts</Header>
+                                    Account names are similar to domain names. Only the @testnet account can create accounts such as @yourname.testnet, and only @yourname.testnet can create @app.yourname.testnet. All accounts created in this wallet use the .testnet Top Level Account (TLA). To learn more about account names and creating your own TLA, visit the <a rel='noopener noreferrer' href='https://docs.nearprotocol.com/docs/concepts/account'>docs</a>.
+                                </Modal>
                             }
                         </InputWrapper>
                     )}

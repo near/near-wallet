@@ -88,7 +88,7 @@ class CreateAccount extends Component {
                     location={location}
                 >
                     <CreateAccountForm
-                        loader={loader} 
+                        loader={loader}
                         requestStatus={useRequestStatus}
                         formLoader={formLoader}
                         handleChange={this.handleChange}
