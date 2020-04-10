@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 import ActiveMethod from './ActiveMethod';
 import InactiveMethod from './InactiveMethod';
@@ -78,7 +79,7 @@ class RecoveryContainer extends Component {
     };
 
     handleEnableMethod = (method) => {
-        window.location.href = `${method !== 'phrase' ? '/set-recovery/' : '/setup-seed-phrase/'}${this.props.account.accountId}`
+        this.props.history.push(`${method !== 'phrase' ? '/set-recovery/' : '/setup-seed-phrase/'}${this.props.accountId}`);
     }
 
     handleResendLink = (method) => {
@@ -132,4 +133,4 @@ class RecoveryContainer extends Component {
     }
 }
 
-export default RecoveryContainer;
+export default withRouter (RecoveryContainer);
