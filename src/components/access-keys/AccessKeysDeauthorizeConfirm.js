@@ -27,7 +27,7 @@ const AccessKeysDeauthorizeConfirm = ({ handleConfirmSubmit, handleChange, accou
             )}
         </Translate>
         <div className='alert-info'>
-            {confirmStatus === 'problem' && 'Account name doesn\'t match'}
+            {confirmStatus === 'problem' && <Translate id='account.nameDoesntMatch' />}
         </div>
         <div className='confirm'>
             <FormButton
