@@ -1,12 +1,15 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 import ActiveMethod from './ActiveMethod';
 import InactiveMethod from './InactiveMethod';
 import RecoveryIcon from '../../../images/icon-recovery-grey.svg';
 import ErrorIcon from '../../../images/icon-problems.svg';
-import {Snackbar, snackbarDuration } from '../../common/Snackbar';
+import { Snackbar, snackbarDuration } from '../../common/Snackbar';
 import { Translate } from 'react-localize-redux';
+import { generateSeedPhrase } from 'near-seed-phrase';
+import { setupRecoveryMessage } from '../../../actions/account';
 
 const Container = styled.div`
 
@@ -83,26 +86,41 @@ class RecoveryContainer extends Component {
     }
 
     handleResendLink = (method) => {
-        //TODO: Send sms/email depending on method
-        this.setState({ successSnackbar: true }, () => {
-            setTimeout(() => {
-                this.setState({successSnackbar: false});
-            }, snackbarDuration)
-        });
+        //TODO: Delete old key before sending
+        const { seedPhrase, publicKey } = generateSeedPhrase();
+        const { accountId, setupRecoveryMessage } = this.props;
+        const { kind, detail } = method;
+        let phoneNumber, email;
+
+        if (kind === 'email') {
+            email = detail;
+        } else if (kind === 'phone') {
+            phoneNumber = detail;
+        }
+
+        setupRecoveryMessage({ accountId, phoneNumber, email, publicKey, seedPhrase })
+            .then(({ error }) => {
+                if (error) return
+
+                this.setState({ successSnackbar: true }, () => {
+                    setTimeout(() => {
+                        this.setState({successSnackbar: false});
+                    }, snackbarDuration)
+                });
+            })
     }
  
     render() {
 
         const { activeMethods } = this.props;
-
         const allMethods = ['email', 'phone', 'phrase'];
         const inactiveMethods = allMethods.filter((method) => !activeMethods.map(method => method.kind).includes(method));
-
+        
         return (
             <Container>
                 <Header>
                     <Title><Translate id='recoveryMgmt.title'/></Title>
-                    {false &&
+                    {!activeMethods.length &&
                         <NoRecoveryMethod>
                             <Translate id='recoveryMgmt.noRecoveryMethod'/>
                         </NoRecoveryMethod>
@@ -112,7 +130,7 @@ class RecoveryContainer extends Component {
                     <ActiveMethod
                         key={i}
                         data={method}
-                        onResend={() => this.handleResendLink(method.kind)}
+                        onResend={() => this.handleResendLink(method)}
                     />
                 )}
                 {inactiveMethods.map((method, i) =>
@@ -133,4 +151,10 @@ class RecoveryContainer extends Component {
     }
 }
 
-export default withRouter (RecoveryContainer);
+const mapDispatchToProps = {
+    setupRecoveryMessage
+}
+
+const mapStateToProps = () => ({})
+
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(RecoveryContainer));
