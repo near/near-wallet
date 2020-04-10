@@ -11,13 +11,16 @@ const NotEnabledContainer = styled.div`
     color: #24272a;
 `
 
-const NotEnabled = (props) => (
+const InactiveMethod = ({
+    kind,
+    onEnable
+}) => (
     <NotEnabledContainer>
-        {props.title}
-        <Button onClick={props.onEnable}>
+        <Translate id={`recoveryMgmt.methodTitle.${kind}`}/>
+        <Button onClick={onEnable}>
             <Translate id='button.enable'/>
         </Button>
     </NotEnabledContainer>
 )
 
-export default NotEnabled;
+export default InactiveMethod;

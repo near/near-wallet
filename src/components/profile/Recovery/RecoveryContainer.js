@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import RecoveryMethod from './RecoveryMethod';
+import ActiveMethod from './ActiveMethod';
+import InactiveMethod from './InactiveMethod';
 import RecoveryIcon from '../../../images/icon-recovery-grey.svg';
 import ErrorIcon from '../../../images/icon-problems.svg';
 import {Snackbar, snackbarDuration } from '../../common/Snackbar';
@@ -91,24 +92,33 @@ class RecoveryContainer extends Component {
  
     render() {
 
-        const { account, hasRecoveryMethod } = this.props;
+        const { activeMethods } = this.props;
+
+        const allMethods = ['email', 'phone', 'phrase'];
+        const inactiveMethods = allMethods.filter((method) => !activeMethods.map(method => method.kind).includes(method));
 
         return (
             <Container>
                 <Header>
                     <Title><Translate id='recoveryMgmt.title'/></Title>
-                    {!hasRecoveryMethod &&
+                    {false &&
                         <NoRecoveryMethod>
                             <Translate id='recoveryMgmt.noRecoveryMethod'/>
                         </NoRecoveryMethod>
                     }
                 </Header>
-                {account.recoveryMethods.map((method, i) =>
-                    <RecoveryMethod
+                {activeMethods.map((method, i) =>
+                    <ActiveMethod
                         key={i}
                         data={method}
-                        onEnable={() => this.handleEnableMethod(method.method)}
-                        onResend={() => this.handleResendLink(method.method)}
+                        onResend={() => this.handleResendLink(method.kind)}
+                    />
+                )}
+                {inactiveMethods.map((method, i) =>
+                    <InactiveMethod
+                        key={i}
+                        kind={method}
+                        onEnable={() => this.handleEnableMethod(method)}
                     />
                 )}
                 <Snackbar
