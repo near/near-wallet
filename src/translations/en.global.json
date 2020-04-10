@@ -33,7 +33,8 @@
             "incorrectContractId": {
                 "error": "The contract ${contractId} does not exist. This may be an issue with the application you are trying to use, or this contract may have been deleted. You will be redirected back to the application"
             }
-        }
+        },
+        "nameDoesntMatch": "Account name doesn't match"
     },
 
     "actions": {
