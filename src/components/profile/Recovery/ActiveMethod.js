@@ -31,7 +31,7 @@ const EnabledContainer = styled.div`
 
         button {
             color: #FF585D;
-            background-color: rgba(255, 88, 93, 0.1);
+            background-color: #f8f8f8;
             border: none;
 
             &:hover {
