@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import helpIcon from '../../images/icon-help-white.svg';
 import { IS_MAINNET, NODE_URL } from '../../utils/wallet';
 import { Modal } from 'semantic-ui-react';
-import Button from './Button';
 
 const Container = styled.div`
     color: white;

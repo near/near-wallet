@@ -1,10 +1,44 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Form, Responsive } from 'semantic-ui-react'
+import styled from 'styled-components'
+import { Form, Modal } from 'semantic-ui-react'
 import { Translate } from 'react-localize-redux'
+import InfoIcon from '../svg/InfoIcon.js'
 
 import RequestStatusBox from '../common/RequestStatusBox'
-import { ACCOUNT_CHECK_TIMEOUT } from '../../utils/wallet'
+import { ACCOUNT_CHECK_TIMEOUT, ACCOUNT_ID_SUFFIX } from '../../utils/wallet'
+
+const InputWrapper = styled.div`
+    position: relative;
+`
+
+const DomainName = styled.div`
+    position: absolute;
+    right: 8px;
+    top: calc(8px + 8px);
+    bottom: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    font-weight: 400;
+    color: #4a4f54;
+    font-size: 16px;
+    padding: 0 10px;
+    line-height: normal;
+    background-color: #f8f8f8;
+    cursor: pointer;
+
+    svg {
+        width: 17px;
+        height: 17px;
+        margin-left: 6px;
+    }
+`
+
+const Header = styled.h4`
+    margin-bottom: 5px !important;
+`
 
 class AccountFormAccountId extends Component {
     state = {
@@ -37,7 +71,8 @@ class AccountFormAccountId extends Component {
         const {
             formLoader,
             requestStatus,
-            autoFocus
+            autoFocus,
+            type
         } = this.props
 
         const { accountId } = this.state
@@ -46,25 +81,37 @@ class AccountFormAccountId extends Component {
             <>
                 <Translate>
                     {({ translate }) => (
-                        <Form.Input
-                            loading={formLoader}
-                            className={`create username-input-icon ${requestStatus ? (requestStatus.success ? 'success' : 'problem') : ''}`}
-                            name='accountId'
-                            value={accountId}
-                            onChange={this.handleChangeAccountId}
-                            placeholder={translate('createAccount.accountIdInput.placeholder')}
-                            maxLength='32'
-                            required
-                            autoComplete='off'
-                            autoCorrect='off'
-                            autoCapitalize='off'
-                            spellCheck='false'
-                            tabIndex='1'
-                            autoFocus={autoFocus && accountId.length === 0}
-                        />
+                        <InputWrapper>
+                            <Form.Input
+                                loading={formLoader}
+                                className={`${requestStatus ? (requestStatus.success ? 'success' : 'problem') : ''}`}
+                                name='accountId'
+                                value={accountId}
+                                onChange={this.handleChangeAccountId}
+                                placeholder={translate('createAccount.accountIdInput.placeholder')}
+                                maxLength='32'
+                                required
+                                autoComplete='off'
+                                autoCorrect='off'
+                                autoCapitalize='off'
+                                spellCheck='false'
+                                tabIndex='1'
+                                autoFocus={autoFocus && accountId.length === 0}
+                            />
+                            {type === 'create' &&
+                                <Modal
+                                    size='mini'
+                                    trigger={<DomainName>{ACCOUNT_ID_SUFFIX}<InfoIcon/></DomainName>}
+                                    closeIcon
+                                >
+                                    <Header>Top Level Accounts</Header>
+                                    Account names are similar to domain names. Only the @testnet account can create accounts such as @yourname.testnet, and only @yourname.testnet can create @app.yourname.testnet. All accounts created in this wallet use the .testnet Top Level Account (TLA). To learn more about account names and creating your own TLA, visit the <a rel='noopener noreferrer' href='https://docs.nearprotocol.com/docs/concepts/account'>docs</a>.
+                                </Modal>
+                            }
+                        </InputWrapper>
                     )}
                 </Translate>
-                <Responsive as={RequestStatusBox} maxWidth={767} requestStatus={requestStatus} />
+                <RequestStatusBox requestStatus={requestStatus} accountId={this.props.accountId}/>
             </>
         )
     }

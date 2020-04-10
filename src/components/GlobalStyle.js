@@ -2,7 +2,7 @@ import { createGlobalStyle } from 'styled-components'
 
 import ProblemsImage from '../images/icon-problems.svg'
 import CheckBlueImage from '../images/icon-check-blue.svg'
-import EmailIconBlack from '../images/email-icon-black.svg'
+import EmailIconGray from '../images/email-icon-gray.svg'
 import CloseBtn from '../images/close-btn.svg'
 
 export default createGlobalStyle`
@@ -136,18 +136,18 @@ export default createGlobalStyle`
       
         &:after {
             content: '';
-            background: url(${EmailIconBlack}) center no-repeat;
+            background: url(${EmailIconGray}) center no-repeat;
             display: inline-block;
-            height: 16px;
-            width: 16px;
+            height: 17px;
+            width: 17px;
             position: absolute;
-            left: 12px;
+            left: 15px;
             top: calc(50% - -4px);
             transform: translateY(-50%);
             pointer-events: none;
         }
         input {
-            padding-left: 34px !important;
+            padding-left: 37px !important;
         }
     }
 
@@ -194,15 +194,12 @@ export default createGlobalStyle`
     .problem > .input > input:focus,
     .problem > input {
         border: 2px solid #ff585d !important;
-        background: url(${ProblemsImage}) right 12px center no-repeat !important;
-        background-size: 24px 24px !important;
     }
 
     .success > .input > input,
     .success > .input > input:focus,
     .success > input {
-        background: url(${CheckBlueImage}) right 12px center no-repeat !important;
-        background-size: 24px 24px !important;
+        border: 2px solid #6ad1e3 !important;
     }
 
 

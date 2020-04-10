@@ -9,7 +9,7 @@
             "error": "Failed to recover account."
         },
         "create": {
-            "success": "Congrats! This name is available.",
+            "success": "Congrats! ${accountId} is available.",
             "error": "Username is taken. Try something else."
         },
         "available": {
@@ -189,7 +189,7 @@
         "pageText": "Just choose a username and you’re all set.",
         "accountIdInput": {
             "title": "Choose a Username",
-            "placeholder": "username"
+            "placeholder": "Example: satoshi"
         },
         "alreadyHaveAnAccount": "Already have an account?",
         "recoverItHere": "Recover it here",

@@ -196,8 +196,7 @@ const CustomList = styled(List)`
                     }
                 }
                 .alert-info {
-                    margin: 0 0 0 14px;
-                    font-size: 12px;
+                    margin: 25px 0 10px 0;
                 }
             }
         }

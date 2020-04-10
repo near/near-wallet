@@ -116,11 +116,10 @@ const CustomForm = styled(Form)`
 const AccountFormSection = ({ handleSubmit, requestStatus, location, children }) => (
     <CustomForm autoComplete='off' onSubmit={(e) => {handleSubmit(); e.preventDefault();}}>
         <Grid>
-            <Grid.Column computer={9} tablet={8} mobile={16}>
+            <Grid.Column computer={8} tablet={8} mobile={16}>
                 {children}
             </Grid.Column>
             <Grid.Column computer={7} tablet={8} mobile={16}>
-                <Responsive as={RequestStatusBox} minWidth={768} requestStatus={requestStatus} />
                 {location && <AccountNote />}
             </Grid.Column>
         </Grid>

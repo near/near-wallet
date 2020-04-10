@@ -6,6 +6,7 @@ import CreateAccountForm from './CreateAccountForm'
 import AccountFormSection from './AccountFormSection'
 import AccountFormContainer from './AccountFormContainer'
 import { checkNewAccount, createNewAccount, clear, refreshAccount, resetAccounts } from '../../actions/account'
+import { ACCOUNT_ID_SUFFIX } from '../../utils/wallet'
 
 class CreateAccount extends Component {
     state = {
@@ -32,9 +33,11 @@ class CreateAccount extends Component {
     }
 
     handleChange = (e, { name, value }) => {
-        this.setState(() => ({
-            [name]: value
-        }))
+        if (value.length > 0) {
+            this.setState({[name]: `${value}${ACCOUNT_ID_SUFFIX}`})
+        } else {
+            this.setState({[name]: value})
+        }
     }
 
     handleCreateAccount = () => {
@@ -85,13 +88,14 @@ class CreateAccount extends Component {
                     location={location}
                 >
                     <CreateAccountForm
-                        loader={loader} 
+                        loader={loader}
                         requestStatus={useRequestStatus}
                         formLoader={formLoader}
                         handleChange={this.handleChange}
                         recaptchaFallback={recaptchaFallback}
                         verifyRecaptcha={token => this.setState({ token: token }, this.handleCreateAccount)}
                         checkAvailability={checkNewAccount}
+                        accountId={accountId}
                     />
                     <GoogleReCaptchaProvider reCaptchaKey="6LfSgNoUAAAAABKb2sk4Rs3TS0RMx9zrVwyTBSc6">
                         <GoogleReCaptcha onVerify={token => this.setState({ token: token })}/>
