@@ -17,7 +17,7 @@ class CreateAccount extends Component {
     }
 
     componentDidMount = () => {
-        const { loginError, resetAccounts } = this.props
+        const { loginError, resetAccounts } = this.props;
 
         if (loginError) {
             console.error('Error loading account:', loginError)
@@ -43,8 +43,11 @@ class CreateAccount extends Component {
     handleCreateAccount = () => {
         const { accountId, token } = this.state;
 
+        const fundingKey = this.props.match.params.fundingKey;
+        const fundingContract = this.props.match.params.fundingContract;
+
         this.setState({ loader: true });
-        this.props.createNewAccount(accountId, token)
+        this.props.createNewAccount(accountId, fundingKey, fundingContract, token)
         .then(({ error, payload }) => {
             if (error) {
                 if (payload.statusCode === 402) {

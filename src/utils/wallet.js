@@ -10,11 +10,14 @@ import { getAccessKeys } from '../actions/account'
 export const WALLET_CREATE_NEW_ACCOUNT_URL = 'create'
 export const WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS = ['create', 'set-recovery', 'setup-seed-phrase', 'recover-account', 'recover-seed-phrase']
 export const WALLET_LOGIN_URL = 'login'
+export const ACCOUNT_HELPER_URL = process.env.REACT_APP_ACCOUNT_HELPER_URL || 'https://near-contract-helper.onrender.com'
+
+export const IS_MAINNET = process.env.REACT_APP_IS_MAINNET === 'true' || process.env.REACT_APP_IS_MAINNET === 'yes'
+export const ACCOUNT_ID_SUFFIX = process.env.REACT_APP_ACCOUNT_ID_SUFFIX || '.test'
 
 const NETWORK_ID = process.env.REACT_APP_NETWORK_ID || 'default'
-const ACCOUNT_HELPER_URL = process.env.REACT_APP_ACCOUNT_HELPER_URL || 'https://near-contract-helper.onrender.com'
 const CONTRACT_CREATE_ACCOUNT_URL = `${ACCOUNT_HELPER_URL}/account`
-const NODE_URL = process.env.REACT_APP_NODE_URL || 'https://rpc.nearprotocol.com'
+export const NODE_URL = process.env.REACT_APP_NODE_URL || 'https://rpc.nearprotocol.com'
 
 const KEY_UNIQUE_PREFIX = '_4:'
 const KEY_WALLET_ACCOUNTS = KEY_UNIQUE_PREFIX + 'wallet:accounts_v2'
@@ -22,7 +25,6 @@ const KEY_ACTIVE_ACCOUNT_ID = KEY_UNIQUE_PREFIX + 'wallet:active_account_id_v2'
 const ACCESS_KEY_FUNDING_AMOUNT = process.env.REACT_APP_ACCESS_KEY_FUNDING_AMOUNT || '100000000'
 
 const ACCOUNT_ID_REGEX = /^(([a-z\d]+[-_])*[a-z\d]+[.@])*([a-z\d]+[-_])*[a-z\d]+$/
-export const ACCOUNT_ID_SUFFIX = process.env.REACT_APP_ACCOUNT_ID_SUFFIX || '.test'
 export const ACCOUNT_CHECK_TIMEOUT = 500
 
 async function setKeyMeta(publicKey, meta) {
@@ -37,7 +39,7 @@ async function getKeyMeta(publicKey) {
     }
 }
 
-export class Wallet {
+class Wallet {
     constructor() {
         this.keyStore = new nearlib.keyStores.BrowserLocalStorageKeyStore()
         const inMemorySigner = new nearlib.InMemorySigner(this.keyStore)
@@ -63,10 +65,6 @@ export class Wallet {
         this.signer = {
             async getPublicKey(accountId, networkId) {
                 return (await getLedgerKey(accountId)) || (await inMemorySigner.getPublicKey(accountId, networkId))
-            },
-            async signHash(hash, accountId, networkId) {
-                return inMemorySigner.signHash(hash, accountId, networkId);
-                // throw new Error('signHash not implemented on Ledger yet')
             },
             async signMessage(message, accountId, networkId) {
                 if (await getLedgerKey(accountId)) {
@@ -209,15 +207,41 @@ export class Wallet {
         }
     }
 
-    async createNewAccount(accountId) {
-        this.checkNewAccount(accountId)
+    async createNewAccount(accountId, fundingKey, fundingContract) {
+        this.checkNewAccount(accountId);
+        const keyPair = nearlib.KeyPair.fromRandom('ed25519');
 
-        const keyPair = nearlib.KeyPair.fromRandom('ed25519')
-        await sendJson('POST', CONTRACT_CREATE_ACCOUNT_URL, {
-            newAccountId: accountId,
-            newAccountPublicKey: keyPair.publicKey.toString()
-        })
+        if (fundingKey && fundingContract) {
+            await this.createNewAccountLinkdrop(accountId, fundingKey, fundingContract, keyPair);
+            await this.keyStore.removeKey(NETWORK_ID, fundingContract)
+
+        } else {
+            await sendJson('POST', CONTRACT_CREATE_ACCOUNT_URL, {
+                newAccountId: accountId,
+                newAccountPublicKey: keyPair.publicKey.toString()
+            })
+        }
         await this.saveAndSelectAccount(accountId, keyPair);
+
+    }
+
+    async createNewAccountLinkdrop(accountId, fundingKey, fundingContract, keyPair) {
+        const account = this.getAccount(fundingContract);
+
+        await this.keyStore.setKey(
+            NETWORK_ID, fundingContract,
+            nearlib.KeyPair.fromString(fundingKey)
+        )
+
+        const contract = new nearlib.Contract(account, fundingContract, {
+            changeMethods: ['create_account_and_claim', 'claim'],
+            sender: fundingContract
+        });
+        const publicKey = keyPair.publicKey.toString().replace('ed25519:', '');
+        await contract.create_account_and_claim({
+            new_account_id: accountId,
+            new_public_key: publicKey
+        });
     }
 
     async saveAndSelectAccount(accountId, keyPair) {
@@ -264,6 +288,13 @@ export class Wallet {
         return sendJson('POST', `${ACCOUNT_HELPER_URL}/account/${phoneNumber}/${accountId}/requestCode`)
     }
 
+    async signatureFor(accountId) {
+        const blockNumber = String((await this.connection.provider.status()).sync_info.latest_block_height);
+        const signed = await this.signer.signMessage(Buffer.from(blockNumber), accountId, NETWORK_ID);
+        const blockNumberSignature = Buffer.from(signed.signature).toString('base64');
+        return { blockNumber, blockNumberSignature };
+    }
+
     async setupRecoveryMessage({ phoneNumber, email, accountId, seedPhrase, publicKey }) {
         const account = this.getAccount(accountId)
         const accountKeys = await account.getAccessKeys();
@@ -299,3 +330,5 @@ export class Wallet {
         }
     }
 }
+
+export const wallet = new Wallet()

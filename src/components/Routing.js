@@ -1,18 +1,19 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import { ThemeProvider } from 'styled-components'
+import styled, { ThemeProvider } from 'styled-components'
 
 import { Route, Switch } from 'react-router-dom'
 import { ConnectedRouter } from 'connected-react-router'
 import { withLocalize } from 'react-localize-redux';
 
 import translations_en from '../translations/en.global.json'
-
+import GlobalAlert from './responsive/GlobalAlert'
 import '../index.css'
 
 import Navigation from './navigation/Navigation'
 import Footer from './common/Footer'
+import NetworkBanner from './common/NetworkBanner'
 import PrivateRoute from './common/PrivateRoute'
 import DashboardDetailWithRouter from './dashboard/DashboardDetail'
 import { CreateAccountWithRouter } from './accounts/CreateAccount'
@@ -32,7 +33,7 @@ import { NodeStakingWithRouter } from './node-staking/NodeStaking'
 import { AddNodeWithRouter } from './node-staking/AddNode'
 import { NodeDetailsWithRouter } from './node-staking/NodeDetails'
 import { StakingWithRouter } from './node-staking/Staking'
-
+import { IS_MAINNET } from '../utils/wallet'
 import { refreshAccount, handleRefreshUrl, clearAlert, clear, handleRedirectUrl, handleClearUrl } from '../actions/account'
 
 import GlobalStyle from './GlobalStyle'
@@ -41,6 +42,22 @@ const theme = {}
 
 const PATH_PREFIX = process.env.PUBLIC_URL
 
+const Container = styled.div`
+    min-height: 100vh;
+    padding-bottom: 200px;
+    padding-top: ${props => props.mainnet ? '75px' : '120px'};
+    .main {
+        padding-bottom: 200px;
+    }
+
+    @media (max-width: 991px) {
+        .App {
+            .main {
+                padding-bottom: 0px;
+            }
+        }
+    }
+`
 class Routing extends Component {
     constructor(props) {
         super(props)
@@ -79,12 +96,15 @@ class Routing extends Component {
     }
 
     render() {
+
         return (
-            <div className='App'>
+            <Container className='App' mainnet={IS_MAINNET ? true : false}>
                 <GlobalStyle />
                 <ConnectedRouter basename={PATH_PREFIX}  history={this.props.history}>
                     <ThemeProvider theme={theme}>
+                        <NetworkBanner/>
                         <Navigation/>
+                        <GlobalAlert/>
                         {this.props.account.loader === false && (
                             <Switch>
                                 <PrivateRoute
@@ -94,7 +114,7 @@ class Routing extends Component {
                                 />
                                 <Route
                                     exact
-                                    path='/create'
+                                    path='/create/:fundingContract?/:fundingKey?'
                                     component={CreateAccountWithRouter}
                                 />
                                 <PrivateRoute
@@ -189,7 +209,7 @@ class Routing extends Component {
                         <Footer />
                     </ThemeProvider>
                 </ConnectedRouter>
-            </div>
+            </Container>
         )
     }
 }

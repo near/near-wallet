@@ -7,6 +7,7 @@ import NavLinks from './NavLinks';
 import UserBalance from './UserBalance';
 import UserName from './UserName';
 import DesktopMenu from './DesktopMenu';
+import { IS_MAINNET } from '../../utils/wallet';
 
 const Container = styled.div`
     display: none;
@@ -24,7 +25,7 @@ const Container = styled.div`
     background-color: #24272a;
     position: fixed;
     height: 70px;
-    top: 0;
+    top: ${IS_MAINNET ? '0' : '35px'};
     left: 0;
     right: 0;
     z-index: 1000;

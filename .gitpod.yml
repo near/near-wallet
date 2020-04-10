@@ -7,4 +7,4 @@ ports:
 github:
   prebuilds:
     addCheck: true
-    addComment: true
+    addBadge: true

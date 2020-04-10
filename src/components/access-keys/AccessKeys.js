@@ -14,10 +14,12 @@ import FormButton from '../common/FormButton'
 
 class AccessKeys extends Component {
     state = {
-        loader: true,
         showSub: false,
         showSubOpen: 0,
         showSubData: null,
+        accountId: '',
+        confirm: false,
+        confirmStatus: '',
         authorizedApps: [],
         filterTypes: [
             { img: '', name: 'ALL' },
@@ -25,6 +27,43 @@ class AccessKeys extends Component {
             { img: '', name: 'ALL' },
             { img: '', name: 'ALL' }
         ]
+    }
+
+    handleConfirm = () => {
+        this.setState((state) => ({
+            confirm: !state.confirm
+        }))
+    }
+
+    handleConfirmSubmit = (e) => {
+        e.preventDefault()
+
+        if (this.state.accountId === this.props.accountId) {
+            this.setState(() => ({
+                confirmStatus: 'success'
+            }))
+            this.handleDeauthorize()
+        }
+        else {
+            this.setState(() => ({
+                confirmStatus: 'problem'
+            }))
+        }
+    }
+
+    handleChange = (e, { name, value }) => {
+        this.setState(() => ({
+            [name]: value,
+            confirmStatus: ''
+        }))
+    }
+
+    handleConfirmClear = () => {
+        this.setState(() => ({
+            accountId: '',
+            confirm: false,
+            confirmStatus: ''
+        }))
     }
 
     toggleShowSub = (i, accessKey) => {
@@ -35,6 +74,8 @@ class AccessKeys extends Component {
             showSubOpen: i,
             showSubData: accessKey
         }))
+
+        this.handleConfirmClear()
     }
 
     toggleCloseSub = () => {
@@ -43,14 +84,12 @@ class AccessKeys extends Component {
             showSubOpen: 0,
             showSubData: null
         }))
+
+        this.handleConfirmClear()
     }
 
     handleDeauthorize = () => {
         const publicKey = this.state.showSubData.public_key
-
-        this.setState(() => ({
-            loader: true
-        }))
 
         this.props.removeAccessKey(publicKey).then(() => {
             this.toggleCloseSub()
@@ -59,15 +98,7 @@ class AccessKeys extends Component {
     }
 
     refreshAccessKeys = () => {
-        this.setState(() => ({
-            loader: true
-        }))
-
-        this.props.getAccessKeys().then(() => {
-            this.setState(() => ({
-                loader: false
-            }))
-        })
+        this.props.getAccessKeys()
     }
 
     componentDidMount() {
@@ -79,10 +110,13 @@ class AccessKeys extends Component {
             filterTypes,
             showSub,
             showSubOpen,
-            showSubData
+            showSubData,
+            accountId,
+            confirm,
+            confirmStatus
         } = this.state
 
-        const { authorizedApps, title } = this.props
+        const { authorizedApps, title, formLoader } = this.props
 
         return (
             <PageContainer
@@ -102,6 +136,14 @@ class AccessKeys extends Component {
                     toggleCloseSub={this.toggleCloseSub}
                     subPage='access-keys'
                     handleDeauthorize={this.handleDeauthorize}
+                    handleConfirm={this.handleConfirm}
+                    handleConfirmSubmit={this.handleConfirmSubmit}
+                    handleChange={this.handleChange}
+                    handleConfirmClear={this.handleConfirmClear}
+                    accountId={accountId}
+                    confirm={confirm}
+                    confirmStatus={confirmStatus}
+                    formLoader={formLoader}
                 >
                     {authorizedApps && (authorizedApps.length 
                         ? authorizedApps.map((accessKey, i) => (

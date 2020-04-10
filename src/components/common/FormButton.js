@@ -2,6 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Button } from 'semantic-ui-react'
 import { Translate } from 'react-localize-redux'
+import { withRouter } from 'react-router'
+import classNames from '../../utils/classNames'
 
 import ArrowGrnImage from '../../images/icon-arrow-grn.svg'
 import ArrowWhiteImage from '../../images/icon-arrow-white.svg'
@@ -52,8 +54,12 @@ const CustomButton = styled(Button)`
             :active,
             :hover,
             :focus {
-                border-color: #ff686c;
-                background: #ff686c;
+                border-color: #ff585d;
+                background: #fff;
+                color: #ff585d;
+            }
+            &.dots {
+                color: #fff;
             }
         }
         &.blue {
@@ -321,13 +327,19 @@ const FormButton = ({
     disabled = false,
     onClick,
     sending = false,
-    size = ''
+    size,
+    linkTo,
+    history,
+    className
 }) => (
     <CustomButton
         type={type}
-        className={`${color} ${size} ${sending ? `dots` : ``}`}
+        className={classNames([color, size, className, {'dots': sending}])}
         disabled={disabled}
-        onClick={onClick}
+        onClick={(e) => {
+            onClick && onClick(e)
+            linkTo && history.push(linkTo)
+        }}
         tabIndex='3'
     >
         {sending
@@ -338,17 +350,15 @@ const FormButton = ({
 )
 
 FormButton.propTypes = {
-    children: PropTypes.oneOfType([
-        PropTypes.string,
-        PropTypes.object,
-        PropTypes.array,
-    ]),
+    children: PropTypes.node.isRequired,
     type: PropTypes.string,
     color: PropTypes.string,
     disabled: PropTypes.bool,
     onClick: PropTypes.func,
     sending: PropTypes.bool,
     size: PropTypes.string,
+    linkTo: PropTypes.string,
+    className: PropTypes.string
 }
 
-export default FormButton
+export default withRouter(FormButton)

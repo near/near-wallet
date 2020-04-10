@@ -10,7 +10,7 @@ import RecoveryOption from './RecoveryOption';
 import FormButton from '../../common/FormButton';
 import SetupRecoveryMethodSuccess from './SetupRecoveryMethodSuccess';
 
-const Container = styled.div`
+const Container = styled.form`
 
     margin-bottom: 100px;
     
@@ -108,7 +108,7 @@ class SetupRecoveryMethod extends Component {
 
         if (!success) {
             return (
-                <Container className='ui container'>
+                <Container className='ui container' onSubmit={e => {this.handleNext(); e.preventDefault();}}>
                     <h1><Translate id='setupRecovery.header'/></h1>
                     <h2><Translate id='setupRecovery.subHeader'/></h2>
                     <OptionHeader><Translate id='setupRecovery.basicSecurity'/></OptionHeader>
@@ -152,7 +152,7 @@ class SetupRecoveryMethod extends Component {
                     />
                     <FormButton
                         color='blue'
-                        onClick={this.handleNext}
+                        type='submit'
                         disabled={!this.isValidInput}
                         sending={this.props.formLoader}
                     >

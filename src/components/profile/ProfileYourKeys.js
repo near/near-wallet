@@ -76,7 +76,7 @@ const CustomList = styled(List)`
                     }
                     .download {
                         float: right;
-                        margin: 0 0 0 0;
+                        margin: 0;
                     }
                 }
             }

@@ -44,12 +44,14 @@ class AccountFormAccountId extends Component {
     handleChangeAccountId = (e, { name, value }) => {
         const { pattern, handleChange, checkAvailability } = this.props
 
+        value = value.trim().toLowerCase()
+
         if (value.match(pattern)) {
             return false
         }
 
         this.setState(() => ({
-            [name]: value.trim().toLowerCase()
+            [name]: value
         }))
 
         handleChange(e, { name, value })

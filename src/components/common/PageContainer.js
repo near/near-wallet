@@ -70,7 +70,7 @@ const CustomContainer = styled(Container)`
                     margin-bottom: 12px;
 
                     .column {
-                        padding: 0 0 0 0;
+                        padding: 0;
                     }
                     .balance {
                         display: none;

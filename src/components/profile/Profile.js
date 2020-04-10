@@ -6,10 +6,15 @@ import ProfileDetails from './ProfileDetails'
 import ProfileSection from './ProfileSection'
 import ProfileQRCode from './ProfileQRCode';
 import { LOADING, NOT_FOUND, useAccount } from '../../hooks/allAccounts'
+import { useRecoveryMethods } from '../../hooks/recoveryMethods'
 
 export function Profile({ match }) {
     const { accountId } = match.params
     const account = useAccount(accountId)
+    const recoveryMethods = useRecoveryMethods(account.accountId)
+    React.useEffect(() => {
+        console.log('recoveryMethods:', recoveryMethods)
+    }, [recoveryMethods])
 
     if (account.__status === LOADING) {
         return <PageContainer title={<Translate id='profile.pageTitle.loading' />} />

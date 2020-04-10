@@ -8,6 +8,7 @@ import NavLinks from './NavLinks';
 import UserLinks from './UserLinks';
 import UserAccounts from './UserAccounts';
 import CreateAccountBtn from './CreateAccountBtn';
+import { IS_MAINNET } from '../../utils/wallet';
 
 const Container = styled.div`
     display: none;
@@ -17,11 +18,10 @@ const Container = styled.div`
     font-family: 'benton-sans',sans-serif;
     background-color: #24272a;
     height: 70px;
-    top: 0;
-    z-index: 2000;
+    top: ${IS_MAINNET ? '0' : '35px'};
+    z-index: 1000;
     padding: 0 15px;
     position: fixed;
-    top: 0;
     right: 0;
     left: 0;
     box-shadow: 0px 5px 9px -1px rgba(0,0,0,0.17);
@@ -51,6 +51,7 @@ const Container = styled.div`
 
     &.show {
         height: 100%;
+        top: 0;
         bottom: 0;
         overflow-y: auto;
         overflow-x: hidden;

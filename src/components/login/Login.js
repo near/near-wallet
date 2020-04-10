@@ -7,8 +7,7 @@ import LoginForm from './LoginForm'
 import LoginConfirm from './LoginConfirm'
 import LoginDetails from './LoginDetails'
 import LoginIncorrectContractId from './LoginIncorrectContractId'
-
-import { refreshAccount, handleRefreshUrl, switchAccount, clearAlert, allowLogin } from '../../actions/account'
+import { refreshAccount, handleRefreshUrl, switchAccount, clearAlert, allowLogin, redirectToApp } from '../../actions/account'
 
 class Login extends Component {
     state = {
@@ -22,10 +21,13 @@ class Login extends Component {
         })
     }
 
-    handleDeny = e => {
-        e.preventDefault();
-        if (this.props.account.url.failure_url) {
-            window.location.href = this.props.account.url.failure_url
+    handleDeny = () => {
+        const failureUrl = this.props.account.url.failure_url;
+
+        if (failureUrl) {
+            window.location.href = failureUrl;
+        } else {
+            this.props.redirectToApp();
         }
     }
 
@@ -53,7 +55,6 @@ class Login extends Component {
 
     render() {
         const { account: { url }, match } = this.props
-        // const { contractCorrect } = this.state
 
         return (
             <LoginContainer>
@@ -118,7 +119,8 @@ const mapDispatchToProps = {
     handleRefreshUrl,
     switchAccount,
     allowLogin,
-    clearAlert
+    clearAlert,
+    redirectToApp
 }
 
 const mapStateToProps = ({ account }) => ({
