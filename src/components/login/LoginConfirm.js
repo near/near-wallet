@@ -89,7 +89,7 @@ class LoginForm extends Component {
                                     )}
                                 </Translate>
                                 <div className='alert-info'>
-                                    {confirmStatus === 'problem' && `Account name doesn't match`}
+                                    {confirmStatus === 'problem' && <Translate id='account.nameDoesntMatch' />}
                                 </div>
                             </Grid.Column>
                         </Grid.Row>
