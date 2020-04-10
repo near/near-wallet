@@ -63,7 +63,7 @@ class AccountFormAccountId extends Component {
         this.timeout && clearTimeout(this.timeout)
 
         this.timeout = setTimeout(() => {
-            checkAvailability(value)
+            checkAvailability(this.props.accountId)
         }, ACCOUNT_CHECK_TIMEOUT)
     }
 
