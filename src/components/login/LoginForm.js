@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { Link, withRouter } from 'react-router-dom'
+import { withRouter } from 'react-router-dom'
 import { Translate } from 'react-localize-redux'
 import { Grid } from 'semantic-ui-react'
 
@@ -90,11 +90,12 @@ const LoginForm = ({
                     className='cont'
                     textAlign='center'
                 >
-                    <Link to={`${match.url}${match.url.substr(-1) === '/' ? '' : '/'}details`}>
-                        <button className='more-information'>
-                            <Translate id='button.moreInformation' />
-                        </button>
-                    </Link>
+                    <FormButton
+                        linkTo={`${match.url}${match.url.substr(-1) === '/' ? '' : '/'}details`}
+                        className='more-information'
+                    >
+                        <Translate id='button.moreInformation' />
+                    </FormButton>
                 </Grid.Column>
             </Grid.Row>
         </Grid>
@@ -130,14 +131,13 @@ const LoginForm = ({
                         </FormButton>
                     )}
                     {!contractId && (
-                        <Link to={`${match.url}${match.url.substr(-1) === '/' ? '' : '/'}confirm`}>
-                            <FormButton
-                                color='blue'
-                                sending={buttonLoader}
-                            >
-                                <Translate id='button.allow' />
-                            </FormButton>
-                        </Link>
+                        <FormButton
+                            linkTo={`${match.url}${match.url.substr(-1) === '/' ? '' : '/'}confirm`}
+                            color='blue'
+                            sending={buttonLoader}
+                        >
+                            <Translate id='button.allow' />
+                        </FormButton>
                     )}
                 </Grid.Column>
             </Grid.Row>

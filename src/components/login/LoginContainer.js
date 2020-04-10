@@ -72,7 +72,7 @@ const CustomContainer = styled(Container)`
                 float: right;
             }
         }
-        .more-information {
+        button.more-information {
             float: none;
             width: 200px;
             height: 40px;
@@ -82,9 +82,11 @@ const CustomContainer = styled(Container)`
             border-radius: 20px;
             background: #f8f8f8;
             border: 0px;
+            letter-spacing: 0px;
 
             :hover {
                 color: #24272a;
+                background: #f8f8f8;
             }
             :focus {
                 outline: 0;

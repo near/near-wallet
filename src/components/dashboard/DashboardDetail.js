@@ -1,6 +1,5 @@
 import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
-import { Link } from 'react-router-dom'
 import { Translate } from 'react-localize-redux'
 import { withRouter } from 'react-router-dom'
 
@@ -69,11 +68,12 @@ class DashboardDetail extends Component {
                         : <Translate id='balance.balanceLoading' />
                 )}
                 additional={(
-                    <Link to='/send-money'>
-                        <FormButton color='green-white-arrow' >
-                            <Translate id='button.send' />
-                        </FormButton>
-                    </Link>
+                    <FormButton 
+                        linkTo='/send-money'
+                        color='green-white-arrow'
+                    >
+                        <Translate id='button.send' />
+                    </FormButton>
                 )}
             >
                 <DashboardSection
