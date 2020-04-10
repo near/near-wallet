@@ -2,62 +2,71 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 
 import MainImage from '../common/MainImage'
-
-import { List, Button } from 'semantic-ui-react'
+import FormButton from '../common/FormButton'
 
 import AccountGreyImage from '../../images/icon-account-grey.svg'
 
 const ContactsRemove = () => (
-    <List>
-        <List.Item>
-            <List horizontal className='title'>
-                {false &&
-                    <List.Item>
-                        <MainImage 
-                            src={AccountGreyImage} 
-                            size='medium'
-                        />
-                    </List.Item>
-                }
-                <List.Item>
-                    <List.Header as='h2'>
-                        Alex Skidanov
-                    </List.Header>
-                    <List.Item as='h5'>@alex.near</List.Item>
-                </List.Item>
-            </List>
-        </List.Item>
-        <List.Item className='remove-connection'>
-            <Button>REMOVE CONNECTION</Button>
-        </List.Item>
-        <List.Item className='recent-transactions'>
-            <List.Item
-                as='h6'
-                className='recent-transactions-title border-top'
-            >
+
+    <div className='deauthorize-box'>
+        <div className='top contacts'>
+            <div>
+                <div className='title'>
+                    {false &&
+                        <div className='image'>
+                            <MainImage 
+                                src={AccountGreyImage} 
+                                size='medium'
+                            />
+                        </div>
+                    }
+                    <div className='details'>
+                        <h2>
+                            Alex Skidanov
+                        </h2>
+                        <h5>
+                            @alex.near
+                        </h5>
+                    </div>
+                </div>
+            </div>
+            <div className='remove-connection'>
+                <FormButton
+                    className='deauthorize'
+                    color='red'
+                >
+                    REMOVE CONNECTION
+                </FormButton>
+            </div>
+        </div>
+        <div className='recent-transactions'>
+            <h6 className='title border-top'>
                 RECENT TRANSACTIONS
-            </List.Item>
-            <List.Item className='recent-transactions-row border-top'>
-                <List.Header>You sent 20 Ⓝ</List.Header>
-                <List.Item>3h ago</List.Item>
-            </List.Item>
-            <List.Item className='recent-transactions-row border-top'>
-                <List.Header>Alex sent you 1020 Ⓝ</List.Header>
-                <List.Item>3d ago</List.Item>
-            </List.Item>
-            <List.Item className='recent-transactions-row border-top'>
-                <List.Header>
-                    You and Alex played NEAR Chess
-                </List.Header>
-                <List.Item>1w ago</List.Item>
-            </List.Item>
-        </List.Item>
-        <List.Item className='send-money border-top'>
-            <Button as={Link} to='/send-money/marcin'>
-                SEND TOKENS
-            </Button>
-        </List.Item>
-    </List>
+            </h6>
+            <div className='row border-top'>
+                <b className='color-black'>You sent 20 Ⓝ</b>
+                <div>3h ago</div>
+            </div>
+            <div className='row border-top'>
+                <b className='color-black'>Alex sent you 1020 Ⓝ</b>
+                <div>3d ago</div>
+            </div>
+            <div className='row border-top'>
+                <b className='color-black'>You and Alex played NEAR Chess</b>
+                <div>1w ago</div>
+            </div>
+        </div>
+        <div className='send'>
+            <Link to='/send-money/marcin'>
+                <FormButton
+                    className='deauthorize'
+                    color='green'
+                >
+                    SEND
+                </FormButton>
+            </Link>
+        </div>
+    </div>
 )
 
 export default ContactsRemove

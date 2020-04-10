@@ -52,8 +52,12 @@ const CustomButton = styled(Button)`
             :active,
             :hover,
             :focus {
-                border-color: #ff686c;
-                background: #ff686c;
+                border-color: #ff585d;
+                background: #fff;
+                color: #ff585d;
+            }
+            &.dots {
+                color: #fff;
             }
         }
         &.blue {

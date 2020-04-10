@@ -111,7 +111,7 @@ const CustomList = styled(List)`
                 text-align: left;
             }
             .alert-info {
-                margin: 0 0 0 0;
+                margin: 0;
                 padding: 8px 0;
                 line-height: 34px;
                 font-size: 14px;
