@@ -262,9 +262,8 @@ class Wallet {
 
     async addLedgerAccessKey(accountId) {
         const client = await createClient()
-        window.client = client
         const rawPublicKey = await client.getPublicKey()
-        const publicKey = new PublicKey(KeyType.ED25519, rawPublicKey)
+        const publicKey = new PublicKey({ keyType: KeyType.ED25519, data: rawPublicKey })
         await setKeyMeta(publicKey, { type: 'ledger' })
         return await this.getAccount(accountId).addKey(publicKey)
     }
