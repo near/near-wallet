@@ -9,7 +9,7 @@ import ErrorIcon from '../../../images/icon-problems.svg';
 import { Snackbar, snackbarDuration } from '../../common/Snackbar';
 import { Translate } from 'react-localize-redux';
 import { generateSeedPhrase } from 'near-seed-phrase';
-import { setupRecoveryMessage } from '../../../actions/account';
+import { setupRecoveryMessage, deleteRecoveryMethod, loadRecoveryMethods } from '../../../actions/account';
 
 const Container = styled.div`
 
@@ -85,6 +85,14 @@ class RecoveryContainer extends Component {
         this.props.history.push(`${method !== 'phrase' ? '/set-recovery/' : '/setup-seed-phrase/'}${this.props.accountId}`);
     }
 
+    handleDeleteMethod = (method) => {
+        this.props.deleteRecoveryMethod(method)
+            .then(({ error }) => {
+                if (error) return
+                this.props.loadRecoveryMethods(this.props.accountId)
+        })
+    }
+
     handleResendLink = (method) => {
         //TODO: Delete old key before sending
         const { seedPhrase, publicKey } = generateSeedPhrase();
@@ -131,6 +139,7 @@ class RecoveryContainer extends Component {
                         key={i}
                         data={method}
                         onResend={() => this.handleResendLink(method)}
+                        onDelete={() => this.handleDeleteMethod(method)}
                     />
                 )}
                 {inactiveMethods.map((method, i) =>
@@ -152,7 +161,9 @@ class RecoveryContainer extends Component {
 }
 
 const mapDispatchToProps = {
-    setupRecoveryMessage
+    setupRecoveryMessage,
+    deleteRecoveryMethod,
+    loadRecoveryMethods
 }
 
 const mapStateToProps = () => ({})

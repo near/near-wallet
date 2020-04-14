@@ -25,7 +25,7 @@ export function Profile({ match }) {
         <PageContainer title={<Translate id='profile.pageTitle.default' data={{ accountId }} />}>
             <ProfileSection>
                 <ProfileDetails account={account} />
-                <RecoveryContainer activeMethods={recoveryMethods} accountId={accountId}/>
+                <RecoveryContainer accountId={accountId} activeMethods={recoveryMethods}/>
             </ProfileSection>
         </PageContainer>
     )

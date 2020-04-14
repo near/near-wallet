@@ -20,6 +20,17 @@ export const loadRecoveryMethods = createAction('LOAD_RECOVERY_METHODS',
     accountId => ({ accountId })
 )
 
+export const deleteRecoveryMethod = createAction('DELETE_RECOVERY_METHOD',
+    async recoveryMethod => Promise.all([
+        sendJson('POST', `${ACCOUNT_HELPER_URL}/account/deleteRecoveryMethod`, {
+            accountId: wallet.accountId,
+            recoveryMethod: recoveryMethod.kind,
+            ...(await wallet.signatureFor(wallet.accountId))
+        }),
+        wallet.removeAccessKey(recoveryMethod.publicKey)
+    ])
+)
+
 export const handleRedirectUrl = (previousLocation) => (dispatch, getState) => {
     const { pathname } = getState().router.location
     if (pathname.split('/')[1] === WALLET_CREATE_NEW_ACCOUNT_URL) {

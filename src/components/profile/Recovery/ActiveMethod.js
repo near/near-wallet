@@ -118,7 +118,7 @@ class ActiveMethod extends Component {
 
     render() {
 
-        const { data, onResend } = this.props;
+        const { data, onResend, onDelete } = this.props;
 
         if (!this.state.disable) {
             return (
@@ -154,7 +154,7 @@ class ActiveMethod extends Component {
                         </div>
                     </div>
                     <div className='bottom'>
-                        <Button>
+                        <Button onClick={onDelete}>
                             <Translate id='button.disable'/> {data.kind}
                         </Button>
                         <Button onClick={this.handleToggleDisable}>

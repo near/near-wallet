@@ -13,7 +13,7 @@ export function useRecoveryMethods(accountId) {
     const dispatch = useDispatch()
 
     useEffect(() => {
-        if (accountId === wallet.getAccountId() && !recoveryMethods) {
+        if (accountId === wallet.getAccountId()) {
             dispatch(loadRecoveryMethods(accountId))
         }
     }, [accountId])
