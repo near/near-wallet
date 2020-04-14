@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 import Button from '../../common/Button';
+import FormButton from '../../common/FormButton';
 
 const EnabledContainer = styled.div`
     .top {
@@ -64,41 +65,45 @@ const LinkButton = styled.div`
 `
 
 const DisableContainer = styled.div`
-    border: 2px solid #FF585D !important;
-    border-radius: 6px;
-    margin: -2px;
+    && {
+        border: 2px solid #FF585D !important;
+        border-radius: 6px;
+        margin: -2px;
 
-    .top {
-        color: #24272a;
-        font-weight: 600;
-        line-height: 150%;
+        .top {
+            color: #24272a;
+            font-weight: 600;
+            line-height: 150%;
 
-        div {
-            font-weight: 400;
-        }
-    }
-
-    .bottom {
-        display: flex;
-        align-items: center;
-        margin-top: 10px;
-
-        button {
-            width: auto;
-
-            &:first-of-type {
-                background-color: #FF585D;
-                border: none;
-                padding: 5px 15px;
+            div {
+                font-weight: 400;
             }
+        }
 
-            &:last-of-type {
-                background-color: transparent;
-                color: #999;
-                text-transform: capitalize;
-                text-decoration: underline;
-                border: none;
-                margin-left: 15px;
+        .bottom {
+            display: flex;
+            align-items: center;
+            margin-top: 10px;
+
+            button {
+                width: auto !important;
+                margin-top: 0;
+
+                &:first-of-type {
+                    background-color: #FF585D;
+                    border: none;
+                    padding: 5px 15px;
+                    text-transform: uppercase;
+                }
+
+                &:last-of-type {
+                    background-color: transparent;
+                    color: #999;
+                    text-transform: capitalize;
+                    text-decoration: underline;
+                    border: none;
+                    margin-left: 15px;
+                }
             }
         }
     }
@@ -119,6 +124,7 @@ class ActiveMethod extends Component {
     render() {
 
         const { data, onResend, onDelete } = this.props;
+        const deletingMethod = this.props.deletingMethod === data.kind;
 
         if (!this.state.disable) {
             return (
@@ -154,9 +160,14 @@ class ActiveMethod extends Component {
                         </div>
                     </div>
                     <div className='bottom'>
-                        <Button onClick={onDelete}>
+                        <FormButton
+                            onClick={onDelete}
+                            color='red small'
+                            disabled={deletingMethod}
+                            sending={deletingMethod}
+                        >
                             <Translate id='button.disable'/> {data.kind}
-                        </Button>
+                        </FormButton>
                         <Button onClick={this.handleToggleDisable}>
                             <Translate id='recoveryMgmt.disableNo'/> {data.kind}
                         </Button>

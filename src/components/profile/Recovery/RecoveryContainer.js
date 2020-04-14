@@ -79,6 +79,7 @@ class RecoveryContainer extends Component {
 
     state = {
         successSnackbar: false,
+        deletingMethod: ''
     };
 
     handleEnableMethod = (method) => {
@@ -86,10 +87,14 @@ class RecoveryContainer extends Component {
     }
 
     handleDeleteMethod = (method) => {
+        this.setState({ deletingMethod: method.kind })
         this.props.deleteRecoveryMethod(method)
             .then(({ error }) => {
                 if (error) return
                 this.props.loadRecoveryMethods(this.props.accountId)
+                    .then(() => {
+                        this.setState({ deletingMethod: '' })
+                    })
         })
     }
 
@@ -120,35 +125,42 @@ class RecoveryContainer extends Component {
  
     render() {
 
-        const { activeMethods } = this.props;
+        const { activeMethods, account } = this.props;
+        const { deletingMethod } = this.state;
         const allMethods = ['email', 'phone', 'phrase'];
         const inactiveMethods = allMethods.filter((method) => !activeMethods.map(method => method.kind).includes(method));
-        
+        const loadingMethods = account.actionsPending.includes('LOAD_RECOVERY_METHODS');
+
         return (
             <Container>
                 <Header>
                     <Title><Translate id='recoveryMgmt.title'/></Title>
-                    {!activeMethods.length &&
+                    {!activeMethods.length && !loadingMethods &&
                         <NoRecoveryMethod>
                             <Translate id='recoveryMgmt.noRecoveryMethod'/>
                         </NoRecoveryMethod>
                     }
                 </Header>
-                {activeMethods.map((method, i) =>
-                    <ActiveMethod
-                        key={i}
-                        data={method}
-                        onResend={() => this.handleResendLink(method)}
-                        onDelete={() => this.handleDeleteMethod(method)}
-                    />
-                )}
-                {inactiveMethods.map((method, i) =>
-                    <InactiveMethod
-                        key={i}
-                        kind={method}
-                        onEnable={() => this.handleEnableMethod(method)}
-                    />
-                )}
+                {!loadingMethods &&
+                    <>
+                        {activeMethods.map((method, i) =>
+                            <ActiveMethod
+                                key={i}
+                                data={method}
+                                onResend={() => this.handleResendLink(method)}
+                                onDelete={() => this.handleDeleteMethod(method)}
+                                deletingMethod={deletingMethod}
+                            />
+                        )}
+                        {inactiveMethods.map((method, i) =>
+                            <InactiveMethod
+                                key={i}
+                                kind={method}
+                                onEnable={() => this.handleEnableMethod(method)}
+                            />
+                        )}
+                    </>
+                }
                 <Snackbar
                     theme='success'
                     message={<Translate id='recoveryMgmt.recoveryLinkSent'/>}
@@ -166,6 +178,8 @@ const mapDispatchToProps = {
     loadRecoveryMethods
 }
 
-const mapStateToProps = () => ({})
+const mapStateToProps = ({ account }) => ({
+    account
+})
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(RecoveryContainer));
