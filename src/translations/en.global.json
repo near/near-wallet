@@ -10,7 +10,8 @@
         },
         "create": {
             "success": "Congrats! ${accountId} is available.",
-            "error": "Username is taken. Try something else."
+            "error": "Username is taken. Try something else.",
+            "errorInvalidAccountIdLength": "Username must be between 2 and 64 characters"
         },
         "available": {
             "success": "User found.",

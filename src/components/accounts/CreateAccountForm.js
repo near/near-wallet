@@ -37,7 +37,8 @@ const CreateAccountForm = ({
     recaptchaFallback,
     requestStatus,
     checkAvailability,
-    accountId
+    accountId,
+    requestStatusInvalidAccountIdLength
 }) => (
     <Container>
         <Header as='h4'><Translate id='createAccount.accountIdInput.title' /></Header>
@@ -49,7 +50,7 @@ const CreateAccountForm = ({
             checkAvailability={checkAvailability}
             requestStatus={requestStatus}
             accountId={accountId}
-
+            requestStatusInvalidAccountIdLength={requestStatusInvalidAccountIdLength}
         />
         <RecaptchaString>
             This site is protected by reCAPTCHA and the Google <a href='https://policies.google.com/privacy' target='_blank' rel='noopener noreferrer'>Privacy Policy</a> and <a href='https://policies.google.com/terms' target='_blank' rel='noopener noreferrer'>Terms of Service</a> apply.

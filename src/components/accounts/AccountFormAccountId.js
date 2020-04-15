@@ -46,19 +46,23 @@ class AccountFormAccountId extends Component {
     }
 
     handleChangeAccountId = (e, { name, value }) => {
-        const { pattern, handleChange, checkAvailability, type } = this.props
+        const { pattern, handleChange, checkAvailability, type, requestStatusInvalidAccountIdLength } = this.props
 
         value = value.trim().toLowerCase()
 
         if (value.match(pattern)) {
             return false
         }
-
+        
         this.setState(() => ({
             [name]: value
         }))
-
+        
         handleChange(e, { name, value })
+        
+        if (type === 'create' && requestStatusInvalidAccountIdLength(value)) {
+            return false
+        }
 
         this.timeout && clearTimeout(this.timeout)
 
@@ -89,7 +93,6 @@ class AccountFormAccountId extends Component {
                                 value={accountId}
                                 onChange={this.handleChangeAccountId}
                                 placeholder={translate('createAccount.accountIdInput.placeholder')}
-                                maxLength='32'
                                 required
                                 autoComplete='off'
                                 autoCorrect='off'

@@ -70,6 +70,17 @@ class CreateAccount extends Component {
         this.setState({ loader: false });
     }
 
+    requestStatusInvalidAccountIdLength = (accountId) => {
+        const accountIdWithoutSuffix = (accountId || this.state.accountId).split('.')[0]
+        if (accountIdWithoutSuffix.length && (accountIdWithoutSuffix.length < 2 || accountIdWithoutSuffix.length > 64)) {
+            return {
+                success: false,
+                messageCode: 'account.create.errorInvalidAccountIdLength'
+            }
+        }
+        return false
+    }
+
     render() {
         const { loader, accountId, recaptchaFallback } = this.state
         const { requestStatus, formLoader, checkNewAccount, location, loginResetAccounts } = this.props
@@ -82,20 +93,21 @@ class CreateAccount extends Component {
                 text={<Translate id='createAccount.pageText' />}
                 loginResetAccounts={loginResetAccounts}
             >
-                <AccountFormSection
-                    requestStatus={useRequestStatus}
+                <AccountFormSection 
+                    requestStatus={this.requestStatusInvalidAccountIdLength() || useRequestStatus}
                     handleSubmit={this.handleCreateAccount}
                     location={location}
                 >
                     <CreateAccountForm
                         loader={loader}
-                        requestStatus={useRequestStatus}
+                        requestStatus={this.requestStatusInvalidAccountIdLength() || useRequestStatus}
                         formLoader={formLoader}
                         handleChange={this.handleChange}
                         recaptchaFallback={recaptchaFallback}
                         verifyRecaptcha={token => this.setState({ token: token }, this.handleCreateAccount)}
                         checkAvailability={checkNewAccount}
                         accountId={accountId}
+                        requestStatusInvalidAccountIdLength={this.requestStatusInvalidAccountIdLength}
                     />
                     <GoogleReCaptchaProvider reCaptchaKey="6LfSgNoUAAAAABKb2sk4Rs3TS0RMx9zrVwyTBSc6">
                         <GoogleReCaptcha onVerify={token => this.setState({ token: token })}/>
