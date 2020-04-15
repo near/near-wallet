@@ -108,7 +108,7 @@ class RecoveryContainer extends Component {
 
     handleResendLink = (method) => {
         const { seedPhrase, publicKey } = generateSeedPhrase();
-        const { accountId, sendNewRecoveryLink } = this.props;
+        const { accountId, sendNewRecoveryLink, loadRecoveryMethods } = this.props;
         const { kind, detail } = method;
         let phoneNumber, email;
 
@@ -121,9 +121,9 @@ class RecoveryContainer extends Component {
         this.setState({ resendingLink: method.kind })
         sendNewRecoveryLink({ accountId, phoneNumber, email, publicKey, seedPhrase, method })
             .then(({ error }) => {
-                if (error) {
-                    console.log(error)
-                }
+                if (error) return
+
+                loadRecoveryMethods(accountId);
                 this.setState({ successSnackbar: true, resendingLink: '' }, () => {
                     setTimeout(() => {
                         this.setState({successSnackbar: false});
