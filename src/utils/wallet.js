@@ -314,6 +314,7 @@ class Wallet {
         await sendJson('POST', `${ACCOUNT_HELPER_URL}/account/deleteRecoveryMethod`, {
             accountId: wallet.accountId,
             recoveryMethod: method.kind,
+            publicKey: method.publicKey,
             ...(await wallet.signatureFor(wallet.accountId))
         }).then(({ error }) => {
             if (error) return
