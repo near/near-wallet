@@ -84,7 +84,8 @@ class RecoveryContainer extends Component {
 
     state = {
         successSnackbar: false,
-        deletingMethod: ''
+        deletingMethod: '',
+        resendingLink: ''
     };
 
     handleEnableMethod = (method) => {
@@ -117,12 +118,13 @@ class RecoveryContainer extends Component {
             phoneNumber = detail;
         }
 
+        this.setState({ resendingLink: method.kind })
         sendNewRecoveryLink({ accountId, phoneNumber, email, publicKey, seedPhrase, method })
             .then(({ error }) => {
                 if (error) {
                     console.log(error)
                 }
-                this.setState({ successSnackbar: true }, () => {
+                this.setState({ successSnackbar: true, resendingLink: '' }, () => {
                     setTimeout(() => {
                         this.setState({successSnackbar: false});
                     }, snackbarDuration)
@@ -133,7 +135,7 @@ class RecoveryContainer extends Component {
     render() {
 
         const { activeMethods, account } = this.props;
-        const { deletingMethod, successSnackbar } = this.state;
+        const { deletingMethod, resendingLink, successSnackbar } = this.state;
         const allMethods = ['email', 'phone', 'phrase'];
         const inactiveMethods = allMethods.filter((method) => !activeMethods.map(method => method.kind).includes(method));
         const loadingMethods = account.actionsPending.includes('LOAD_RECOVERY_METHODS') || account.actionsPending.includes('REFRESH_ACCOUNT');
@@ -157,6 +159,7 @@ class RecoveryContainer extends Component {
                                 onResend={() => this.handleResendLink(method)}
                                 onDelete={() => this.handleDeleteMethod(method)}
                                 deletingMethod={deletingMethod}
+                                resendingLink={resendingLink}
                             />
                         )}
                         {inactiveMethods.map((method, i) =>

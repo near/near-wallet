@@ -5,62 +5,63 @@ import Button from '../../common/Button';
 import FormButton from '../../common/FormButton';
 
 const EnabledContainer = styled.div`
-    .top {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
+    &&& {
+        .top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
 
-        .title {
-            font-weight: 600;
-            color: #24272a;
-        }
-
-        .info {
-            text-overflow: ellipsis;
-            max-width: 140px;
-            white-space: nowrap;
-            overflow: hidden;
-
-            @media (min-width: 375px) {
-                max-width: 160px;
+            .title {
+                font-weight: 600;
+                color: #24272a;
             }
 
-            @media (min-width: 998px) {
-                max-width: 200px;
+            .info {
+                text-overflow: ellipsis;
+                max-width: 140px;
+                white-space: nowrap;
+                overflow: hidden;
+
+                @media (min-width: 375px) {
+                    max-width: 180px;
+                }
+
+                @media (min-width: 998px) {
+                    max-width: 200px;
+                }
+            }
+
+            button {
+                color: #FF585D;
+                background-color: #f8f8f8;
+                border: none;
+
+                &:hover {
+                    color: white;
+                    background-color: #FF585D;
+                }
             }
         }
 
-        button {
-            color: #FF585D;
-            background-color: #f8f8f8;
-            border: none;
+        .bottom {
+            display: flex;
+            margin-top: 20px;
 
-            &:hover {
-                color: white;
-                background-color: #FF585D;
+            button {
+                text-decoration: none;
+                margin-left: 10px;
+                text-transform: capitalize !important;
+
+                :before {
+                    content: '';
+                    width: 1px;
+                    height: 12px;
+                    display: inline-block;
+                    background-color: #e6e6e6;
+                    margin-right: 10px;
+                }
             }
         }
-    }
-
-    .bottom {
-        display: flex;
-        margin-top: 20px;
-    }
-`
-
-const LinkButton = styled.div`
-    color: #0072CE;
-    margin-left: 10px;
-    display: flex;
-    cursor: pointer;
-
-    &:before {
-        content: '';
-        width: 1px;
-        height: 100%;
-        display: inline-block;
-        background-color: #e6e6e6;
-        margin-right: 10px;
     }
 `
 
@@ -126,6 +127,7 @@ class ActiveMethod extends Component {
 
         const { data, onResend, onDelete } = this.props;
         const deletingMethod = this.props.deletingMethod === data.kind;
+        const resendingLink = this.props.resendingLink === data.kind;
 
         if (!this.state.disable) {
             return (
@@ -144,9 +146,14 @@ class ActiveMethod extends Component {
                     <div className='bottom'>
                         <Translate id='recoveryMgmt.enabled'/> {new Date(data.createdAt).toDateString().replace(/^\S+\s/,'')}
                         {data.kind !== 'phrase' &&
-                            <LinkButton onClick={onResend}>
+                            <FormButton 
+                                onClick={onResend}
+                                color='link'
+                                disabled={resendingLink}
+                                sending={resendingLink}
+                            >
                                 <Translate id={`recoveryMgmt.resend.${data.kind}`}/>
-                            </LinkButton>
+                            </FormButton>
                         }
                     </div>
                 </EnabledContainer>
