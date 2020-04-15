@@ -94,6 +94,7 @@ const DisableContainer = styled.div`
                     border: none;
                     padding: 5px 15px;
                     text-transform: uppercase;
+                    width: 151px !important;
                 }
 
                 &:last-of-type {

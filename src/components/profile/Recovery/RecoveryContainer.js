@@ -118,6 +118,16 @@ class RecoveryContainer extends Component {
         }
 
         sendNewRecoveryLink({ accountId, phoneNumber, email, publicKey, seedPhrase, method })
+            .then(({ error }) => {
+                if (error) {
+                    console.log(error)
+                }
+                this.setState({ successSnackbar: true }, () => {
+                    setTimeout(() => {
+                        this.setState({successSnackbar: false});
+                    }, snackbarDuration)
+                });
+            })
     }
  
     render() {
@@ -126,7 +136,7 @@ class RecoveryContainer extends Component {
         const { deletingMethod, successSnackbar } = this.state;
         const allMethods = ['email', 'phone', 'phrase'];
         const inactiveMethods = allMethods.filter((method) => !activeMethods.map(method => method.kind).includes(method));
-        const loadingMethods = account.actionsPending.includes('LOAD_RECOVERY_METHODS');
+        const loadingMethods = account.actionsPending.includes('LOAD_RECOVERY_METHODS') || account.actionsPending.includes('REFRESH_ACCOUNT');
 
         return (
             <Container>
