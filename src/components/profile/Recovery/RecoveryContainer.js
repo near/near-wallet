@@ -9,7 +9,12 @@ import ErrorIcon from '../../../images/icon-problems.svg';
 import { Snackbar, snackbarDuration } from '../../common/Snackbar';
 import { Translate } from 'react-localize-redux';
 import { generateSeedPhrase } from 'near-seed-phrase';
-import { setupRecoveryMessage, deleteRecoveryMethod, loadRecoveryMethods } from '../../../actions/account';
+import {
+    setupRecoveryMessage,
+    deleteRecoveryMethod,
+    loadRecoveryMethods,
+    sendNewRecoveryLink
+} from '../../../actions/account';
 
 const Container = styled.div`
 
@@ -83,25 +88,26 @@ class RecoveryContainer extends Component {
     };
 
     handleEnableMethod = (method) => {
-        this.props.history.push(`${method !== 'phrase' ? '/set-recovery/' : '/setup-seed-phrase/'}${this.props.accountId}`);
+        const { history, accountId } = this.props;
+
+        history.push(`${method !== 'phrase' ? '/set-recovery/' : '/setup-seed-phrase/'}${accountId}`);
     }
 
     handleDeleteMethod = (method) => {
+        const { deleteRecoveryMethod, loadRecoveryMethods, accountId } = this.props;
+
         this.setState({ deletingMethod: method.kind })
-        this.props.deleteRecoveryMethod(method)
+        deleteRecoveryMethod(method)
             .then(({ error }) => {
                 if (error) return
-                this.props.loadRecoveryMethods(this.props.accountId)
-                    .then(() => {
-                        this.setState({ deletingMethod: '' })
-                    })
+                loadRecoveryMethods(accountId);
+                this.setState({ deletingMethod: '' });
         })
     }
 
     handleResendLink = (method) => {
-        //TODO: Delete old key before sending
         const { seedPhrase, publicKey } = generateSeedPhrase();
-        const { accountId, setupRecoveryMessage } = this.props;
+        const { accountId, sendNewRecoveryLink } = this.props;
         const { kind, detail } = method;
         let phoneNumber, email;
 
@@ -111,22 +117,13 @@ class RecoveryContainer extends Component {
             phoneNumber = detail;
         }
 
-        setupRecoveryMessage({ accountId, phoneNumber, email, publicKey, seedPhrase })
-            .then(({ error }) => {
-                if (error) return
-
-                this.setState({ successSnackbar: true }, () => {
-                    setTimeout(() => {
-                        this.setState({successSnackbar: false});
-                    }, snackbarDuration)
-                });
-            })
+        sendNewRecoveryLink({ accountId, phoneNumber, email, publicKey, seedPhrase, method })
     }
  
     render() {
 
         const { activeMethods, account } = this.props;
-        const { deletingMethod } = this.state;
+        const { deletingMethod, successSnackbar } = this.state;
         const allMethods = ['email', 'phone', 'phrase'];
         const inactiveMethods = allMethods.filter((method) => !activeMethods.map(method => method.kind).includes(method));
         const loadingMethods = account.actionsPending.includes('LOAD_RECOVERY_METHODS');
@@ -164,7 +161,7 @@ class RecoveryContainer extends Component {
                 <Snackbar
                     theme='success'
                     message={<Translate id='recoveryMgmt.recoveryLinkSent'/>}
-                    show={this.state.successSnackbar}
+                    show={successSnackbar}
                     onHide={() => this.setState({ successSnackbar: false })}
                 />
             </Container>
@@ -175,7 +172,8 @@ class RecoveryContainer extends Component {
 const mapDispatchToProps = {
     setupRecoveryMessage,
     deleteRecoveryMethod,
-    loadRecoveryMethods
+    loadRecoveryMethods,
+    sendNewRecoveryLink
 }
 
 const mapStateToProps = ({ account }) => ({

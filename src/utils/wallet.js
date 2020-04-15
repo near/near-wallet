@@ -310,6 +310,25 @@ class Wallet {
         });
     }
 
+    async deleteRecoveryMethod(method) {
+        await sendJson('POST', `${ACCOUNT_HELPER_URL}/account/deleteRecoveryMethod`, {
+            accountId: wallet.accountId,
+            recoveryMethod: method.kind,
+            ...(await wallet.signatureFor(wallet.accountId))
+        }).then(({ error }) => {
+            if (error) return
+            this.removeAccessKey(method.publicKey)
+        })
+    }
+
+    async sendNewRecoveryLink({ phoneNumber, email, accountId, seedPhrase, publicKey, method }) {
+        await this.setupRecoveryMessage({ accountId, phoneNumber, email, publicKey, seedPhrase })
+            .then(({ error }) => {
+                if (error) return
+                this.deleteRecoveryMethod(method);
+            })
+    }
+
     async recoverAccountSeedPhrase(seedPhrase, accountId) {
         const account = this.getAccount(accountId)
         const accessKeys = await account.getAccessKeys()
