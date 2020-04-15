@@ -5,14 +5,12 @@ import {
     Header,
     TextArea,
     List,
-    Form,
-    Responsive
+    Form
 } from 'semantic-ui-react'
 
 import PageContainer from '../common/PageContainer'
 import MobileContainer from '../sign/MobileContainer'
 import FormButton from '../common/FormButton'
-import RequestStatusBox from '../common/RequestStatusBox'
 import AccountFormAccountId from '../accounts/AccountFormAccountId'
 import SendMoneyAmountInput from './SendMoneyAmountInput'
 

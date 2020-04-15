@@ -93,7 +93,6 @@ class CreateAccount extends Component {
                 loginResetAccounts={loginResetAccounts}
             >
                 <AccountFormSection 
-                    requestStatus={this.requestStatusInvalidAccountIdLength() || useRequestStatus}
                     handleSubmit={this.handleCreateAccount}
                     location={location}
                 >

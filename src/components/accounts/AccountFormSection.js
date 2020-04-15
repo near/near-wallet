@@ -1,7 +1,6 @@
 import React from 'react'
-import { Form, Grid, Responsive } from 'semantic-ui-react'
+import { Form, Grid } from 'semantic-ui-react'
 
-import RequestStatusBox from '../common/RequestStatusBox'
 import AccountNote from '../common/AccountNote'
 
 import styled from 'styled-components'
@@ -113,7 +112,7 @@ const CustomForm = styled(Form)`
     }
 `
 
-const AccountFormSection = ({ handleSubmit, requestStatus, location, children }) => (
+const AccountFormSection = ({ handleSubmit, location, children }) => (
     <CustomForm autoComplete='off' onSubmit={(e) => {handleSubmit(); e.preventDefault();}}>
         <Grid>
             <Grid.Column computer={8} tablet={8} mobile={16}>
