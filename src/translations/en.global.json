@@ -209,11 +209,11 @@
         "pageTitle": "Recover using Seed Phrase",
         "pageText": "Enter the backup seed phrase associated with the account.",
         "accountIdInput": {
-            "title": "Choose a Username"
+            "title": "Username"
         },
         "seedPhraseInput": {
-            "title": "Seed Phrase",
-            "placeholder": "correct horse battery staple"
+            "title": "Seed Phrase (12 words)",
+            "placeholder": "correct horse battery staple..."
         }
     },
 
