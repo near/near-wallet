@@ -115,9 +115,9 @@
             "email": "Resend Email"
         },
         "enabled": "Enabled",
-        "disableTitle": "Are you sure you want to disable?",
-        "disableTextLink": "The magic link you received will be permanently disabled.",
-        "disableTextPhrase": "Your current seed phrase will be permanently disabled.",
+        "disableTitle": "Are you sure you want to disable this method?",
+        "disableTextLink": "The magic link you received will be permanently deactivated.",
+        "disableTextPhrase": "Your current seed phrase will be permanently deactivated.",
         "disableInputPlaceholder": "Enter your username to confirm",
         "disableNo": "No, keep",
         "recoveryLinkSent": "Recovery Link Sent!"
