@@ -44,6 +44,7 @@ const Button = (props) => (
         onClick={props.onClick}
         disabled={props.disabled}
         title={props.title}
+        type={props.type}
     >
         {props.children}
     </StyledButton>

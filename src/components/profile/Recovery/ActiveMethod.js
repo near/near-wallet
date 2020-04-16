@@ -65,11 +65,12 @@ const EnabledContainer = styled.div`
     }
 `
 
-const DisableContainer = styled.div`
+const DisableContainer = styled.form`
     && {
         border: 2px solid #FF585D !important;
         border-radius: 6px;
         margin: -2px;
+        padding: 15px 20px;
 
         .top {
             color: #24272a;
@@ -114,7 +115,8 @@ const DisableContainer = styled.div`
 class ActiveMethod extends Component {
 
     state = {
-        disable: false
+        disable: false,
+        username: ''
     };
 
     handleToggleDisable = () => {
@@ -125,11 +127,12 @@ class ActiveMethod extends Component {
 
     render() {
 
-        const { data, onResend, onDelete } = this.props;
+        const { disable, username } = this.state;
+        const { data, onResend, onDelete, accountId } = this.props;
         const deletingMethod = this.props.deletingMethod === data.kind;
         const resendingLink = this.props.resendingLink === data.kind;
 
-        if (!this.state.disable) {
+        if (!disable) {
             return (
                 <EnabledContainer>
                     <div className='top'>
@@ -160,23 +163,33 @@ class ActiveMethod extends Component {
             );
         } else {
             return (
-                <DisableContainer>
+                <DisableContainer onSubmit={e => {onDelete(); e.preventDefault();}}>
                     <div className='top'>
                         <Translate id='recoveryMgmt.disableTitle'/>
                         <div>
                             <Translate id={`recoveryMgmt.${data.kind !== 'phrase' ? 'disableTextLink' : 'disableTextPhrase'}`}/>
                         </div>
                     </div>
+                    <Translate>
+                        {({ translate }) => (
+                            <input
+                                placeholder={translate('recoveryMgmt.disableInputPlaceholder')}
+                                value={username}
+                                onChange={e => this.setState({ username: e.target.value })}
+                                spellCheck='false'
+                            />
+                        )}
+                    </Translate>
                     <div className='bottom'>
                         <FormButton
-                            onClick={onDelete}
+                            type='submit'
                             color='red small'
-                            disabled={deletingMethod}
+                            disabled={deletingMethod || username !== accountId}
                             sending={deletingMethod}
                         >
                             <Translate id='button.disable'/> {data.kind}
                         </FormButton>
-                        <Button onClick={this.handleToggleDisable}>
+                        <Button type='button' onClick={this.handleToggleDisable}>
                             <Translate id='recoveryMgmt.disableNo'/> {data.kind}
                         </Button>
                     </div>

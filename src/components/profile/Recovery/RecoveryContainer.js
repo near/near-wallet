@@ -134,7 +134,7 @@ class RecoveryContainer extends Component {
  
     render() {
 
-        const { activeMethods, account } = this.props;
+        const { activeMethods, account, accountId } = this.props;
         const { deletingMethod, resendingLink, successSnackbar } = this.state;
         const allMethods = ['email', 'phone', 'phrase'];
         const inactiveMethods = allMethods.filter((method) => !activeMethods.map(method => method.kind).includes(method));
@@ -160,6 +160,7 @@ class RecoveryContainer extends Component {
                                 onDelete={() => this.handleDeleteMethod(method)}
                                 deletingMethod={deletingMethod}
                                 resendingLink={resendingLink}
+                                accountId={accountId}
                             />
                         )}
                         {inactiveMethods.map((method, i) =>

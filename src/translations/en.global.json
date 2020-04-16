@@ -118,6 +118,7 @@
         "disableTitle": "Are you sure you want to disable?",
         "disableTextLink": "The magic link you received will be permanently disabled.",
         "disableTextPhrase": "Your current seed phrase will be permanently disabled.",
+        "disableInputPlaceholder": "Enter your username to confirm",
         "disableNo": "No, keep",
         "recoveryLinkSent": "Recovery Link Sent!"
     },
