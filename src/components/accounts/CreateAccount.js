@@ -127,7 +127,7 @@ class CreateAccount extends Component {
                         accountId={accountId}
                         clearRequestStatus={clear}
                         setFormLoader={setFormLoader}
-                        defaultAccountId={resetAccount && resetAccount.accountIdNotConfirmed}
+                        defaultAccountId={resetAccount && resetAccount.accountIdNotConfirmed.split('.')[0]}
                     />
                     <AccountNote/>
                     <FormButton
