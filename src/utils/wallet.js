@@ -316,18 +316,13 @@ class Wallet {
             recoveryMethod: method.kind,
             publicKey: method.publicKey,
             ...(await wallet.signatureFor(wallet.accountId))
-        }).then(({ error }) => {
-            if (error) return
-            this.removeAccessKey(method.publicKey)
         })
+        this.removeAccessKey(method.publicKey)
     }
 
     async sendNewRecoveryLink({ phoneNumber, email, accountId, seedPhrase, publicKey, method }) {
         await this.setupRecoveryMessage({ accountId, phoneNumber, email, publicKey, seedPhrase })
-            .then(({ error }) => {
-                if (error) return
-                this.deleteRecoveryMethod(method);
-            })
+        this.deleteRecoveryMethod(method)
     }
 
     async recoverAccountSeedPhrase(seedPhrase, accountId) {
