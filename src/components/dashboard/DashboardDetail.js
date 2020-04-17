@@ -114,18 +114,9 @@ const mapDispatchToProps = {
     getTransactions
 }
 
-const mapStateToProps = ({ account }) => {
-    const transactions = account.transactions 
-        ? account.transactions
-        : []
-
-    return {
-        ...account,
-        authorizedApps: account.authorizedApps,
-        fullAccessKeys: account.fullAccessKeys,
-        transactions
-    }
-}
+const mapStateToProps = ({ account }) => ({
+    ...account
+})
 
 export default connect(
     mapStateToProps,

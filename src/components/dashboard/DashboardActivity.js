@@ -62,7 +62,7 @@ const DashboardActivity = ({ image, title, to, transactions, maxItems, accountId
             </Grid.Column>
         </Grid.Row>
 
-        {transactions.slice(0,maxItems).map((transaction, i) => (
+        {transactions && transactions.slice(0,maxItems).map((transaction, i) => (
             <ActionsList
                 key={`a-${i}`}
                 transaction={transaction} 
