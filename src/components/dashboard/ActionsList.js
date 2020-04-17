@@ -13,6 +13,7 @@ import ArrowRight from '../../images/icon-arrow-right.svg'
 import ArrowBlkImage from '../../images/icon-arrow-blk.svg'
 import { Grid, Image } from 'semantic-ui-react'
 import styled from 'styled-components'
+import classNames from '../../utils/classNames'
 
 const CustomGridRow = styled(Grid.Row)`
     &&& {
@@ -58,9 +59,10 @@ const CustomGridRow = styled(Grid.Row)`
             flex-direction: row !important;
             justify-content: space-between;
 
-            .time-stamp {
-                white-space: nowrap;
+            div {
+                text-align: right;
                 margin-left: 10px;
+                white-space: nowrap;
             }
         }
 
@@ -148,9 +150,14 @@ const ActionRow = ({ transaction, actionArgs, actionKind, wide, showSub = false,
                         actionKind={actionKind}
                         accountId={accountId}
                     />
-                    <ActionTimeStamp
-                        timeStamp={transaction.block_timestamp}
-                    />
+                    <div>
+                        <ActionTimeStamp
+                            timeStamp={transaction.block_timestamp}
+                        />
+                        <ActionStatus 
+                            status={transaction.status} 
+                        />
+                    </div>
                 </Grid.Column>
             </Grid>
         </Grid.Column>
@@ -216,7 +223,32 @@ const ActionIcon = ({ actionKind }) => (
 )
 
 const ActionTimeStamp = ({ timeStamp }) => (
-    <div className='font-small time-stamp'>{format(timeStamp)}</div>
+    <div className='font-small'>{format(timeStamp)}</div>
+)
+
+const TX_STATUS = {
+    NotStarted: {
+        text: 'Not started',
+        color: ''
+    },
+    Started: {
+        text: 'Started',
+        color: 'color-seafoam-blue'
+    },
+    Failure: {
+        text: 'Failed',
+        color: 'color-red'
+    },
+    SuccessValue: {
+        text: 'Succeeded',
+        color: 'color-green'
+    }
+}
+
+const ActionStatus = ({ status }) => (
+    <div className={classNames(['font-small', TX_STATUS[status].color])}>
+        <b>{TX_STATUS[status].text}</b>
+    </div>
 )
 
 export default ActionsList
