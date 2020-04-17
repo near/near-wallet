@@ -459,6 +459,15 @@
         "authorizing": "Authorizing"
     },
 
+    "transaction": {
+        "status": {
+            "notStarted": "Not started",
+            "started": "Started",
+            "failed": "Failed",
+            "succeeded": "Succeeded"
+        }
+    },
+
     "success": "Success",
     "error": "Error",
     "warning": "Warning",

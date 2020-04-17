@@ -228,26 +228,26 @@ const ActionTimeStamp = ({ timeStamp }) => (
 
 const TX_STATUS = {
     NotStarted: {
-        text: 'Not started',
+        textId: 'notStarted',
         color: ''
     },
     Started: {
-        text: 'Started',
+        textId: 'started',
         color: 'color-seafoam-blue'
     },
     Failure: {
-        text: 'Failed',
+        textId: 'failed',
         color: 'color-red'
     },
     SuccessValue: {
-        text: 'Succeeded',
+        textId: 'succeeded',
         color: 'color-green'
     }
 }
 
 const ActionStatus = ({ status }) => (
     <div className={classNames(['font-small', TX_STATUS[status].color])}>
-        <b>{TX_STATUS[status].text}</b>
+        <b><Translate id={`transaction.status.${TX_STATUS[status].textId}`} /></b>
     </div>
 )
 
