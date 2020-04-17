@@ -4,7 +4,7 @@ import { Translate } from 'react-localize-redux'
 import FormButton from '../common/FormButton'
 import KeyListItem from './KeyListItem'
 
-import { Grid, Header, Image } from 'semantic-ui-react'
+import { Grid, Image } from 'semantic-ui-react'
 
 import styled from 'styled-components'
 

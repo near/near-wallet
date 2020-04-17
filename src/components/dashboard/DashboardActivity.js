@@ -4,7 +4,7 @@ import FormButton from '../common/FormButton'
 import ActionsList from './ActionsList'
 import classNames from '../../utils/classNames'
 
-import { Grid, Header, Image } from 'semantic-ui-react'
+import { Grid, Image } from 'semantic-ui-react'
 
 import styled from 'styled-components'
 
