@@ -17,6 +17,8 @@ import AccessKeysIcon from '../../images/icon-keys-grey.svg'
 
 import DashboardKeys from './DashboardKeys'
 
+import { TRANSACTIONS_REFRESH_INTERVAL } from '../../utils/wallet'
+
 class DashboardDetail extends Component {
     state = {
         loader: false,
@@ -27,9 +29,17 @@ class DashboardDetail extends Component {
         this.refreshAccessKeys()
         this.refreshTransactions()
 
+        this.interval = setInterval(() => {
+            this.refreshTransactions()
+        }, TRANSACTIONS_REFRESH_INTERVAL)
+
         this.setState(() => ({
             loader: true
         }))
+    }
+
+    componentWillUnmount = () => {
+        clearInterval(this.interval)
     }
 
     refreshTransactions() {

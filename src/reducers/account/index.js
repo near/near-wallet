@@ -91,7 +91,7 @@ const accessKeys = handleActions({
 const transactions = handleActions({
     [getTransactions]: (state, { error, payload }) => ({
         ...state,
-        transactions: error ? [] : payload
+        transactions: error ? [] : (payload || state.transactions)
     })
 }, initialState)
 
