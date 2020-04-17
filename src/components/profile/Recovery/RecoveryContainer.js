@@ -15,6 +15,7 @@ import {
     loadRecoveryMethods,
     sendNewRecoveryLink
 } from '../../../actions/account';
+import SkeletonLoading from '../../common/SkeletonLoading';
 
 const Container = styled.div`
 
@@ -138,19 +139,19 @@ class RecoveryContainer extends Component {
         const { deletingMethod, resendingLink, successSnackbar } = this.state;
         const allMethods = ['email', 'phone', 'phrase'];
         const inactiveMethods = allMethods.filter((method) => !activeMethods.map(method => method.kind).includes(method));
-        const loadingMethods = account.actionsPending.includes('LOAD_RECOVERY_METHODS') || account.actionsPending.includes('REFRESH_ACCOUNT');
+        const loading = account.actionsPending.includes('LOAD_RECOVERY_METHODS') || account.actionsPending.includes('REFRESH_ACCOUNT');
 
         return (
             <Container>
                 <Header>
                     <Title><Translate id='recoveryMgmt.title'/></Title>
-                    {!activeMethods.length && !loadingMethods &&
+                    {!activeMethods.length && !loading &&
                         <NoRecoveryMethod>
                             <Translate id='recoveryMgmt.noRecoveryMethod'/>
                         </NoRecoveryMethod>
                     }
                 </Header>
-                {!loadingMethods &&
+                {!loading &&
                     <>
                         {activeMethods.map((method, i) =>
                             <ActiveMethod
@@ -172,6 +173,11 @@ class RecoveryContainer extends Component {
                         )}
                     </>
                 }
+                <SkeletonLoading 
+                    height='50px'
+                    number={3}
+                    show={loading}
+                />
                 <Snackbar
                     theme='success'
                     message={<Translate id='recoveryMgmt.recoveryLinkSent'/>}
