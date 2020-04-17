@@ -2,6 +2,7 @@ import React from 'react'
 import { Translate } from 'react-localize-redux'
 import FormButton from '../common/FormButton'
 import ActionsList from './ActionsList'
+import classNames from '../../utils/classNames'
 
 import { Grid, Header, Image } from 'semantic-ui-react'
 
@@ -48,17 +49,49 @@ const CustomGrid = styled(Grid)`
             display: inline-block;
             margin: -4px 10px 0 8px;
         }
+
+        .dots {
+            :after {
+                content: '.';
+                animation: link 1s steps(5, end) infinite;
+            
+                @keyframes link {
+                    0%, 20% {
+                        color: rgba(0,0,0,0);
+                        text-shadow:
+                            .3em 0 0 rgba(0,0,0,0),
+                            .6em 0 0 rgba(0,0,0,0);
+                    }
+                    40% {
+                        color: #24272a;
+                        text-shadow:
+                            .3em 0 0 rgba(0,0,0,0),
+                            .6em 0 0 rgba(0,0,0,0);
+                    }
+                    60% {
+                        text-shadow:
+                            .3em 0 0 #24272a,
+                            .6em 0 0 rgba(0,0,0,0);
+                    }
+                    80%, 100% {
+                        text-shadow:
+                            .3em 0 0 #24272a,
+                            .6em 0 0 #24272a;
+                    }
+                }
+            }
+        }
     }
 `
 
-const DashboardActivity = ({ image, title, to, transactions, accountId }) => (
+const DashboardActivity = ({ image, title, to, transactions, accountId, formLoader }) => (
     <CustomGrid>
         <Grid.Row>
             <Grid.Column className='dashboard-header' textAlign='left' width={16}>
-                <Header className='h2'>
+                <h2 className={classNames({'dots': formLoader})}>
                     <Image className='column-icon' src={image} />
                     {title}
-                </Header>
+                </h2>
             </Grid.Column>
         </Grid.Row>
 

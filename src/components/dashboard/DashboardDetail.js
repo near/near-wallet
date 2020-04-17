@@ -66,7 +66,7 @@ class DashboardDetail extends Component {
 
     render() {
         const { loader, notice } = this.state
-        const { authorizedApps, fullAccessKeys, transactions, amount, accountId } = this.props
+        const { authorizedApps, fullAccessKeys, transactions, amount, accountId, formLoader } = this.props
         return (
             <PageContainer
                 title={(
@@ -97,6 +97,7 @@ class DashboardDetail extends Component {
                         to={`${process.env.EXPLORER_URL || 'https://explorer.nearprotocol.com'}/accounts/${accountId}`}
                         transactions={transactions}
                         accountId={accountId}
+                        formLoader={formLoader}
                     />
                     <DashboardKeys
                         image={AuthorizedGreyImage}

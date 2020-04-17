@@ -57,10 +57,10 @@ const DashboardKeys = ({ image, title, to, accessKeys, empty }) => (
     <CustomGrid>
         <Grid.Row>
             <Grid.Column className='dashboard-header' textAlign='left' width={16}>
-                <Header className='h2'>
+                <h2>
                     <Image className='column-icon' src={image} />
                     {title}
-                </Header>
+                </h2>
             </Grid.Column>
         </Grid.Row>
         {accessKeys && accessKeys.map((key, i) => (
