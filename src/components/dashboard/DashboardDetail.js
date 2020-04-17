@@ -86,7 +86,6 @@ class DashboardDetail extends Component {
                         title={<Translate id='dashboard.activity' />}
                         to={`${process.env.EXPLORER_URL || 'https://explorer.nearprotocol.com'}/accounts/${accountId}`}
                         transactions={transactions}
-                        maxItems={5}
                         accountId={accountId}
                     />
                     <DashboardKeys
