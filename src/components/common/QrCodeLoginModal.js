@@ -78,7 +78,8 @@ const Overlay = styled.div`
 const Instructions = styled.div`
     color: white;
     text-align: center;
-    margin-top: 10px;
+    max-width: 250px;
+    margin: 10px auto 0 auto;
 `
 
 const QrCode = ({ loginLink, loader }) => {
@@ -109,7 +110,7 @@ class QrCodeLoginModal extends Component {
     }
 
     handleCreateLink = () => {
-        // this.setState({ loader: true });
+        this.setState({ loader: true });
         // const { accountId, createMagicLink } = this.props;
         // const { seedPhrase, publicKey } = generateSeedPhrase();
         // createMagicLink({ accountId, publicKey, seedPhrase })
