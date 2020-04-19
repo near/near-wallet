@@ -111,14 +111,10 @@ class QrCodeLoginModal extends Component {
 
     handleCreateLink = () => {
         this.setState({ loader: true });
-        // const { accountId, createMagicLink } = this.props;
-        // const { seedPhrase, publicKey } = generateSeedPhrase();
-        // createMagicLink({ accountId, publicKey, seedPhrase })
-        //     .then(link => this.setState({loginLink: link.payload, loader: false}))
-
-        setTimeout(() => {
-            this.setState({ loader: false, loginLink: 'https://wallet.nearprotocol.com/recover-with-link/user/seedphrase' });
-        }, 3000)
+        const { accountId, createMagicLink } = this.props;
+        const { seedPhrase, publicKey } = generateSeedPhrase();
+        createMagicLink({ accountId, publicKey, seedPhrase })
+            .then(link => this.setState({loginLink: link.payload, loader: false}))
     }
 
     render() {
