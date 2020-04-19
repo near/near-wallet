@@ -29,6 +29,13 @@ const RecaptchaString = styled.div`
     }
 `
 
+const QrCodeLoginBtn = styled(Link)`
+    font-weight: 600;
+    margin-top: 5px;
+    text-decoration: underline;
+    display: inline-block;
+`
+
 const CreateAccountForm = ({
     loader,
     formLoader,
@@ -75,6 +82,7 @@ const CreateAccountForm = ({
             <div><Translate id='createAccount.alreadyHaveAnAccount' /></div>
             <Link to={process.env.DISABLE_PHONE_RECOVERY === 'yes' ? '/recover-seed-phrase' : '/recover-account'}><Translate id='createAccount.recoverItHere' /></Link>
         </div>
+        <QrCodeLoginBtn to='/add-device'>Use logged in device</QrCodeLoginBtn>
     </Container>
 )
 
