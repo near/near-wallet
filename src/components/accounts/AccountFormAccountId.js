@@ -46,7 +46,7 @@ class AccountFormAccountId extends Component {
     }
 
     handleChangeAccountId = (e, { name, value }) => {
-        const { pattern, handleChange, checkAvailability } = this.props
+        const { pattern, handleChange, checkAvailability, type } = this.props
 
         value = value.trim().toLowerCase()
 
@@ -63,7 +63,7 @@ class AccountFormAccountId extends Component {
         this.timeout && clearTimeout(this.timeout)
 
         this.timeout = setTimeout(() => {
-            checkAvailability(value)
+            checkAvailability(type === 'create' ? this.props.accountId : value)
         }, ACCOUNT_CHECK_TIMEOUT)
     }
 
