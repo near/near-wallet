@@ -2,7 +2,8 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux';
 import { withRouter, Link } from 'react-router-dom'
 import { generateSeedPhrase } from 'near-seed-phrase'
-import { Modal, Loader } from 'semantic-ui-react'
+import { Modal } from 'semantic-ui-react'
+import Spinner from '../svg/Spinner'
 import { QRCode } from "react-qr-svg"
 import { createMagicLink } from '../../actions/account'
 import styled from 'styled-components'
@@ -60,10 +61,13 @@ const QrContainer = styled.div`
         max-width: 300px;
     }
 
-    .loader {
-        :after {
-            border-color: #0072CE white white !important;
-        }
+    .qr-spinner {
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        margin: auto;
     }
 `
 
@@ -85,7 +89,7 @@ const Instructions = styled.div`
     margin: 10px auto 0 auto;
 `
 
-const QrCode = ({ loginLink, loader }) => {
+const QrCode = ({ loginLink }) => {
     return (
         <QrContainer>
             <QRCode
@@ -95,10 +99,10 @@ const QrCode = ({ loginLink, loader }) => {
                 style={{ width: "100%" }}
                 value={loginLink}
             />
-            {loader && !loginLink &&
+            {!loginLink &&
                 <>
                     <Overlay/>
-                    <Loader/>
+                    <Spinner className='qr-spinner'/>
                 </>
             }
         </QrContainer>
@@ -108,21 +112,19 @@ const QrCode = ({ loginLink, loader }) => {
 class QrCodeLoginModal extends Component {
 
     state = {
-        loginLink: '',
-        loader: false
+        loginLink: ''
     }
 
     handleCreateLink = () => {
-        this.setState({ loader: true });
         const { accountId, createMagicLink } = this.props;
         const { seedPhrase, publicKey } = generateSeedPhrase();
         createMagicLink({ accountId, publicKey, seedPhrase })
-            .then(link => this.setState({loginLink: link.payload, loader: false}))
+            .then(link => this.setState({ loginLink: link.payload }))
     }
 
     render() {
 
-        const { loginLink, loader } = this.state;
+        const { loginLink } = this.state;
 
         return (
             <CustomModal 
@@ -133,8 +135,7 @@ class QrCodeLoginModal extends Component {
                 closeIcon
             >
                 <QrCode 
-                    loginLink={loginLink} 
-                    loader={loader}
+                    loginLink={loginLink}
                 />
                 {/* TODO: Show 'Send as SMS' alternative */}
                 <Instructions>
