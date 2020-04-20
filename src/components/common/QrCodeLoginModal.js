@@ -72,7 +72,7 @@ const QrContainer = styled.div`
 `
 
 const Overlay = styled.div`
-    opacity: 90%;
+    opacity: 0.9;
     position: absolute;
     top: 0;
     left: 0;
