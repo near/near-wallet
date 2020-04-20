@@ -29,7 +29,7 @@ const CustomModal = styled(Modal)`
     }
 `
 
-const AddDeviceBtn = styled.div`
+const AddDeviceBtn = styled.button`
     display: flex;
     align-items: center;
     justify-content: center;
@@ -37,6 +37,9 @@ const AddDeviceBtn = styled.div`
     border-radius: 4px;
     height: 40px;
     font-weight: 600;
+    box-shadow: none;
+    width: 100%;
+    border: 0;
     text-transform: uppercase;
     margin-top: 20px;
     cursor: pointer;
@@ -126,6 +129,7 @@ class QrCodeLoginModal extends Component {
                 size='mini'
                 trigger={<AddDeviceBtn type='button'>Login on another device</AddDeviceBtn>}
                 onOpen={this.handleCreateLink}
+                onClose={() => this.setState({ loginLink: '' })}
                 closeIcon
             >
                 <QrCode 
