@@ -27,14 +27,13 @@ const Balance = ({ amount }) => {
 
 export const formatNEAR = (amount) => {
     let ret =  utils.format.formatNearAmount(amount, FRAC_DIGITS)
-    if (ret === '0') {
-        return `<${
-            !FRAC_DIGITS 
-                ? `0` 
-                : `0.${'0'.repeat((FRAC_DIGITS || 1) - 1)}1`
-        }`
+
+    if (amount === '0') {
+        return amount;
+    } else if (ret === '0') {
+        return `<${!FRAC_DIGITS ? `0` : `0.${'0'.repeat((FRAC_DIGITS || 1) - 1)}1`}`;
     }
-    return ret
+    return ret;
 }
 
 const showInYocto = (amountStr) => {
