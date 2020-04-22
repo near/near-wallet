@@ -326,7 +326,16 @@ class Wallet {
     }
 
     async recoverAccountSeedPhrase(seedPhrase, accountId) {
-        const account = this.getAccount(accountId)
+        const tempKeyStore = new nearlib.keyStores.InMemoryKeyStore()
+
+        const connection = nearlib.Connection.fromConfig({
+            networkId: NETWORK_ID,
+            provider: { type: 'JsonRpcProvider', args: { url: NODE_URL + '/' } },
+            signer: new nearlib.InMemorySigner(tempKeyStore)
+        })
+
+        const account = new nearlib.Account(connection, accountId)
+
         const accessKeys = await account.getAccessKeys()
         const publicKeys = accessKeys.map(it => it.public_key)
         const { secretKey } = findSeedPhraseKey(seedPhrase, publicKeys)
@@ -335,7 +344,13 @@ class Wallet {
         }
 
         const keyPair = nearlib.KeyPair.fromString(secretKey)
-        await this.saveAndSelectAccount(accountId, keyPair)
+        await tempKeyStore.setKey(NETWORK_ID, accountId, keyPair)
+
+        // generate new keypair for this browser
+        const newKeyPair = nearlib.KeyPair.fromRandom('ed25519')
+        await account.addKey(newKeyPair.publicKey)
+
+        await this.saveAndSelectAccount(accountId, newKeyPair)
     }
 
     async signAndSendTransactions(transactions, accountId) {
