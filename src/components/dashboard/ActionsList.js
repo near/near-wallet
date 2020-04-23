@@ -115,17 +115,18 @@ const CustomGridRow = styled(Grid.Row)`
     }
 `
 
-const ActionsList = ({ transaction, wide, accountId }) => (
+const ActionsList = ({ transaction, wide, accountId, getTransactionStatus }) => (
     <ActionRow 
         transaction={transaction} 
         actionArgs={JSON.parse(transaction.args)} 
         actionKind={transaction.kind}  
         wide={wide}
         accountId={accountId}
+        getTransactionStatus={getTransactionStatus}
     />
 )
 
-const ActionRow = ({ transaction, actionArgs, actionKind, wide, showSub = false, accountId }) => (
+const ActionRow = ({ transaction, actionArgs, actionKind, wide, showSub = false, accountId, getTransactionStatus }) => {
     <CustomGridRow
         verticalAlign='middle'
         className={`${wide ? `wide` : ``} ${

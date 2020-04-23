@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { Translate } from 'react-localize-redux'
 import { withRouter } from 'react-router-dom'
 
-import { getAccessKeys, getTransactions } from '../../actions/account'
+import { getAccessKeys, getTransactions, getTransactionStatus } from '../../actions/account'
 
 import DashboardSection from './DashboardSection'
 import DashboardActivity from './DashboardActivity'
@@ -66,7 +66,7 @@ class DashboardDetail extends Component {
 
     render() {
         const { loader, notice } = this.state
-        const { authorizedApps, fullAccessKeys, transactions, amount, accountId, formLoader } = this.props
+        const { authorizedApps, fullAccessKeys, transactions, amount, accountId, formLoader, getTransactionStatus } = this.props
         return (
             <PageContainer
                 title={(
@@ -98,6 +98,7 @@ class DashboardDetail extends Component {
                         transactions={transactions}
                         accountId={accountId}
                         formLoader={formLoader}
+                        getTransactionStatus={getTransactionStatus}
                     />
                     <DashboardKeys
                         image={AuthorizedGreyImage}
@@ -121,7 +122,8 @@ class DashboardDetail extends Component {
 
 const mapDispatchToProps = {
     getAccessKeys,
-    getTransactions
+    getTransactions,
+    getTransactionStatus
 }
 
 const mapStateToProps = ({ account }) => ({
