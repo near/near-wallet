@@ -129,13 +129,15 @@ const ActionsList = ({ transaction, wide, accountId, getTransactionStatus }) => 
 )
 
 const ActionRow = ({ transaction, actionArgs, actionKind, wide, showSub = false, accountId, getTransactionStatus }) => {
+    const { checkStatus, status, hash, signer_id, block_timestamp } = transaction
+
     useEffect(() => {
-        const interval = (transaction.checkStatus) && setInterval((() => {
-            getTransactionStatus(transaction.hash, transaction.signer_id)
+        const interval = (checkStatus) && setInterval((() => {
+            getTransactionStatus(hash, signer_id)
         })(), TRANSACTIONS_REFRESH_INTERVAL)
 
         return () => clearInterval(interval)
-    }, [transaction.hash])
+    }, [hash])
 
     return (
         <CustomGridRow
@@ -163,10 +165,10 @@ const ActionRow = ({ transaction, actionArgs, actionKind, wide, showSub = false,
                         />
                         <div>
                             <ActionTimeStamp
-                                timeStamp={transaction.block_timestamp}
+                                timeStamp={block_timestamp}
                             />
                             <ActionStatus 
-                                status={transaction.status} 
+                                status={status} 
                             />
                         </div>
                     </Grid.Column>
