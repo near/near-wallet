@@ -461,10 +461,10 @@
 
     "transaction": {
         "status": {
-            "notStarted": "Not started",
-            "started": "Started",
-            "failed": "Failed",
-            "succeeded": "Succeeded"
+            "NotStarted": "Not started",
+            "Started": "Started",
+            "Failure": "Failed",
+            "SuccessValue": "Succeeded"
         }
     },
 

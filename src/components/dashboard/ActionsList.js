@@ -239,29 +239,17 @@ const ActionTimeStamp = ({ timeStamp }) => (
     <div className='font-small'>{format(timeStamp)}</div>
 )
 
-const TX_STATUS = {
-    NotStarted: {
-        textId: 'notStarted',
-        color: ''
-    },
-    Started: {
-        textId: 'started',
-        color: 'color-seafoam-blue'
-    },
-    Failure: {
-        textId: 'failed',
-        color: 'color-red'
-    },
-    SuccessValue: {
-        textId: 'succeeded',
-        color: 'color-green'
-    }
+const TX_STATUS_COLOR = {
+    NotStarted: '',
+    Started: 'color-seafoam-blue',
+    Failure: 'color-red',
+    SuccessValue: 'color-green'
 }
 
 const ActionStatus = ({ status }) => (
-    <div className={classNames(['font-small', status && TX_STATUS[status].color])}>
+    <div className={classNames(['font-small', status && TX_STATUS_COLOR[status]])}>
         {status
-            ? <b><Translate id={`transaction.status.${TX_STATUS[status].textId}`} /></b>
+            ? <b><Translate id={`transaction.status.${status}`} /></b>
             : <div className='dots'>checking status</div>}
     </div>
 )
