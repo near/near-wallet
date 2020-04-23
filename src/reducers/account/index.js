@@ -12,7 +12,8 @@ import {
     clearAlert,
     refreshUrl,
     refreshAccount,
-    resetAccounts
+    resetAccounts,
+    getTransactionStatus
 } from '../../actions/account'
 
 const initialState = {
@@ -92,7 +93,25 @@ const transactions = handleActions({
     [getTransactions]: (state, { error, payload }) => ({
         ...state,
         transactions: error ? [] : (payload || state.transactions)
-    })
+    }),
+    [getTransactionStatus]: (state, { payload, ready, meta }) => {
+        let newTX = []
+        
+        if (ready) {
+            const newStatus = Object.keys(payload.status)[0]
+
+            newTX = state.transactions.map((t) => ({
+                ...t,
+                checkStatus: ['SuccessValue', 'Failure'].includes(newStatus) ? false : t.checkStatus,
+                status: t.hash === meta.hash ? newStatus : t.status
+            }))
+        }
+
+        return ({
+            ...state,
+            transactions: newTX.length ? newTX : state.transactions
+        })
+    }
 }, initialState)
 
 const url = handleActions({
