@@ -90,10 +90,31 @@ const accessKeys = handleActions({
 }, initialState)
 
 const transactions = handleActions({
-    [getTransactions]: (state, { error, payload }) => ({
-        ...state,
-        transactions: error ? [] : (payload || state.transactions)
-    }),
+    [getTransactions]: (state, { error, payload, ready }) => {
+        let transactions =  ready ? payload : state.transactions
+
+        if (state.transactions && ready) {
+            const hash = state.transactions.reduce((h, t) => ({
+                ...h,
+                [t.hash]: t
+            }), {})
+
+            transactions = payload.map((t) => (
+                Object.keys(hash).includes(t.hash)
+                    ? {
+                        ...t,
+                        status: hash[t.hash].status,
+                        checkStatus: hash[t.hash].checkStatus
+                    } 
+                    : t
+            ))
+        }
+
+        return ({
+            ...state,
+            transactions: error ? [] : transactions
+        })
+    },
     [getTransactionStatus]: (state, { payload, ready, meta }) => {
         let newTX = []
         
