@@ -417,7 +417,8 @@
         "amountStatusId": {
             "noMoreThan": "NO MORE THAN 5 DECIMAL DIGITS",
             "notEnoughTokens": "Not enough tokens.",
-            "howMuch": "How much do you want to send?"
+            "howMuch": "How much do you want to send?",
+            "available": "Available Balance:"
         },
         "youAreSending": "You are sending",
         "to": "to",
@@ -450,7 +451,7 @@
             "transferOf": "is requesting the transfer of",
             "authorization": "is requesting authorization"
         },
-        "currentBalance": "Current Balance",
+        "availableBalance": "Available Balance",
         "wasTransferredSuccessfully": "was transferred successfully",
         "authorizationRequestSuccessful": "Authorization request successful",
         "transferring": "Transferring",

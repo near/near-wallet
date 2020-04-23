@@ -6,6 +6,7 @@ import { PublicKey } from 'nearlib/lib/utils'
 import { KeyType } from 'nearlib/lib/utils/key_pair'
 import { store } from '..'
 import { getAccessKeys } from '../actions/account'
+import { BN } from 'bn.js'
 
 export const WALLET_CREATE_NEW_ACCOUNT_URL = 'create'
 export const WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS = ['create', 'set-recovery', 'setup-seed-phrase', 'recover-account', 'recover-seed-phrase']
@@ -282,6 +283,29 @@ class Wallet {
 
     getAccount(accountId) {
         return new nearlib.Account(this.connection, accountId)
+    }
+
+    getAccountBalance(type) {
+        const state = store.getState()
+        const account = state.account;
+
+        const minimum = new BN('1059799993200009639475150') // TODO: account.storageUsage (bytes) * cost per byte
+        const staked = new BN(account.locked)
+        const availableBalance = new BN(account.amount).sub(staked.add(minimum))
+
+        let balance = new BN(account.amount)
+
+        if (type === 'minimum') {
+            balance = minimum
+        }
+        else if (type === 'staked') {
+            balance = staked
+        }
+        else if (type === 'available') {
+            balance = availableBalance
+        }
+        
+        return balance.toString()
     }
 
     requestCode(phoneNumber, accountId) {

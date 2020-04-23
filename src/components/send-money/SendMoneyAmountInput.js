@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import { Segment, Form } from 'semantic-ui-react'
 import { BN } from 'bn.js'
 import { Translate } from 'react-localize-redux'
-
+import { wallet } from '../../utils/wallet'
 import styled from 'styled-components'
 
 import Balance, { formatNEAR } from '../common/Balance'
@@ -83,7 +83,7 @@ class SendMoneyAmountInput extends Component {
         let amountInInternalFormat = ''
         if (value !== '') {
             amountInInternalFormat = utils.format.parseNearAmount(value);
-            let balance = new BN(this.props.amount)
+            let balance = new BN(wallet.getAccountBalance('available'))
             if (balance.lt(new BN(amountInInternalFormat))) {
                 amountStatusId = 'sendMoney.amountStatusId.notEnoughTokens'
             }
@@ -96,6 +96,16 @@ class SendMoneyAmountInput extends Component {
         this.props.handleChange(e, { name: 'amount', value: amountInInternalFormat })
         this.props.handleChange(e, { name: 'amountStatusId', value: amountStatusId })
     }
+
+    renderAvailableBalance = () => (
+        <>
+            <Translate id='sendMoney.amountStatusId.howMuch' />
+            <div style={{ marginTop: '5px'}}>
+                <Translate id='sendMoney.amountStatusId.available'/>
+                <Balance amount={wallet.getAccountBalance('available')}/>
+            </div>
+        </>
+    )
 
     render() {
         const { amountInput, amountStatusId, amountDisplay} = this.state
@@ -118,9 +128,7 @@ class SendMoneyAmountInput extends Component {
                     <Segment basic textAlign='center' className='alert-info problem'>
                         <Translate id={amountStatusId} />
                     </Segment>)}
-                {amountDisplay  
-                    ? <Balance amount={amountDisplay} /> 
-                    : <Translate id='sendMoney.amountStatusId.howMuch' />}
+                {amountDisplay ? <Balance amount={amountDisplay} /> : this.renderAvailableBalance()}
             </CustomDiv>
         )
     }

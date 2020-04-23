@@ -155,7 +155,7 @@ class SignTransferReady extends Component {
             handleAllow,
             handleDeny,
             txTotalAmount,
-            accountBalance,
+            availableBalance,
             isMonetaryTransaction,
             insufficientFunds,
             availableAccounts
@@ -172,7 +172,7 @@ class SignTransferReady extends Component {
                             <Balance amount={txTotalAmount}/>
                         </TransferAmount>
                         <CurrentBalance>
-                            <Translate id='sign.currentBalance' />: <Balance amount={accountBalance}/>
+                            <Translate id='sign.availableBalance' />: <Balance amount={availableBalance}/>
                         </CurrentBalance>
                         <InlineNotification
                             show={insufficientFunds}

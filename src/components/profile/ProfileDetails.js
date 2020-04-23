@@ -3,9 +3,9 @@ import { Link } from 'react-router-dom'
 import { Translate } from 'react-localize-redux'
 
 import { Popup, Grid, Image } from 'semantic-ui-react'
-
+import { wallet } from '../../utils/wallet'
 import MainImage from '../common/MainImage'
-import AccountBalance from '../common/AccountBalance'
+import Balance from '../common/Balance'
 
 import AccountGreyImage from '../../images/icon-account-grey.svg'
 import LockImage from '../../images/icon-lock.svg'
@@ -271,7 +271,7 @@ const ProfileDetails = ({ account }) => (
                 <Translate id='profile.details.totalBalance'/>
             </Grid.Column>
             <Grid.Column computer='6' tablet='6' mobile='4'>
-                <AccountBalance/>
+                <Balance amount={wallet.getAccountBalance()}/>
             </Grid.Column>
             <Grid.Column computer='4' tablet='4' textAlign='center' only='tablet'>
                 <Translate id='profile.details.public' />
@@ -285,7 +285,7 @@ const ProfileDetails = ({ account }) => (
                 <Translate id='profile.details.minBalance'/>
             </Grid.Column>
             <Grid.Column computer='6' tablet='6' mobile='4'>
-                <AccountBalance  type='minimum'/> 
+                <Balance  amount={wallet.getAccountBalance('minimum')}/> 
             </Grid.Column>
             <Grid.Column computer='4' tablet='4' textAlign='center' only='tablet'>
                 <Translate id='profile.details.public' />
@@ -299,7 +299,7 @@ const ProfileDetails = ({ account }) => (
                 <Translate id='profile.details.staked'/>
             </Grid.Column>
             <Grid.Column computer='6' tablet='6' mobile='4'>
-                <AccountBalance  type='staked'/>
+                <Balance  amount={wallet.getAccountBalance('staked')}/>
             </Grid.Column>
             <Grid.Column computer='4' tablet='4' textAlign='center' only='tablet'>
                 <Translate id='profile.details.public' />
@@ -313,7 +313,7 @@ const ProfileDetails = ({ account }) => (
                 <Translate id='profile.details.availableBalance'/>
             </Grid.Column>
             <Grid.Column computer='6' tablet='6' mobile='4'>
-                <AccountBalance  type='available'/>
+                <Balance  amount={wallet.getAccountBalance('available')}/>
             </Grid.Column>
             <Grid.Column computer='4' tablet='4' textAlign='center' only='tablet'>
                 <Translate id='profile.details.public' />
