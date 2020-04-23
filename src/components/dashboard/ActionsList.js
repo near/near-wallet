@@ -250,7 +250,7 @@ const ActionStatus = ({ status }) => (
     <div className={classNames(['font-small', status && TX_STATUS_COLOR[status]])}>
         {status
             ? <b><Translate id={`transaction.status.${status}`} /></b>
-            : <div className='dots'>checking status</div>}
+            : <div className='dots'><Translate id={'transaction.status.checkingStatus'} /></div>}
     </div>
 )
 
