@@ -45,10 +45,10 @@ export async function getTransactions(accountId = '') {
         }
     ));
     
-    return Promise.all(tx.map(async t => ({
+    return tx.map((t, i) => ({
         ...t,
-        status: Object.keys((await transactionExtraInfo(t)).status)[0]
-    })))
+        checkStatus: !(i && t.hash === tx[i - 1].hash)
+    }))
 }
 
 const transactionExtraInfo = ({ hash, signer_id }) => wallet.connection.provider.sendJsonRpc('tx', [hash, signer_id])
