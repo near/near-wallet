@@ -2,7 +2,7 @@ import sendJson from 'fetch-send-json'
 import { parse, stringify } from 'query-string'
 import { createActions, createAction } from 'redux-actions'
 import { ACCOUNT_HELPER_URL, wallet } from '../utils/wallet'
-import { getTransactions as getTransactionsApi } from '../utils/explorer-api'
+import { getTransactions as getTransactionsApi, transactionExtraInfo } from '../utils/explorer-api'
 import { push } from 'connected-react-router'
 import { loadState, saveState, clearState } from '../utils/sessionStorage'
 import { WALLET_CREATE_NEW_ACCOUNT_URL, WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS, WALLET_LOGIN_URL } from '../utils/wallet'
@@ -122,7 +122,7 @@ export const allowLogin = () => async (dispatch, getState) => {
 
 const defaultCodesFor = (prefix, data) => ({ successCode: `${prefix}.success`, errorCode: `${prefix}.error`, data})
 
-export const { requestCode, setupRecoveryMessage, checkNewAccount, createNewAccount, checkAccountAvailable, getTransactions, clear, clearCode } = createActions({
+export const { requestCode, setupRecoveryMessage, checkNewAccount, createNewAccount, checkAccountAvailable, getTransactions, getTransactionStatus, clear, clearCode } = createActions({
     REQUEST_CODE: [
         wallet.requestCode.bind(wallet),
         () => defaultCodesFor('account.requestCode')
@@ -144,6 +144,10 @@ export const { requestCode, setupRecoveryMessage, checkNewAccount, createNewAcco
         () => defaultCodesFor('account.available')
     ],
     GET_TRANSACTIONS: [getTransactionsApi.bind(wallet), () => ({})],
+    GET_TRANSACTION_STATUS: [
+        ((transactionExtraInfo.bind(wallet))),
+        (hash) => ({ hash })
+    ],
     CLEAR: null,
     CLEAR_CODE: null
 })
