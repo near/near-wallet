@@ -51,4 +51,4 @@ export async function getTransactions(accountId = '') {
     }))
 }
 
-const transactionExtraInfo = ({ hash, signer_id }) => wallet.connection.provider.sendJsonRpc('tx', [hash, signer_id])
+export const transactionExtraInfo = (hash, signer_id) => wallet.connection.provider.sendJsonRpc('tx', [hash, signer_id])
