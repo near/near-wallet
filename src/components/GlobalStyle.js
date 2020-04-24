@@ -230,6 +230,9 @@ export default createGlobalStyle`
     .color-red {
         color: #ff585d !important;
     }
+    .color-green {
+        color: #5ace84 !important;
+    }
 
     .ui.popup > .header {
         font-weight: 600 !important;
