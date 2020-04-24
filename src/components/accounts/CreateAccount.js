@@ -34,7 +34,7 @@ class CreateAccount extends Component {
 
     handleChange = (e, { name, value }) => {
         if (value.length > 0) {
-            this.setState({[name]: `${value}${ACCOUNT_ID_SUFFIX}`})
+            this.setState({[name]: `${value}.${ACCOUNT_ID_SUFFIX}`})
         } else {
             this.setState({[name]: value})
         }
@@ -76,13 +76,13 @@ class CreateAccount extends Component {
         const useRequestStatus = accountId.length > 0 ? requestStatus : undefined;
 
         return (
-            <AccountFormContainer 
+            <AccountFormContainer
                 location={this.props.location}
                 title={<Translate id='createAccount.pageTitle' />}
                 text={<Translate id='createAccount.pageText' />}
                 loginResetAccounts={loginResetAccounts}
             >
-                <AccountFormSection 
+                <AccountFormSection
                     requestStatus={useRequestStatus}
                     handleSubmit={this.handleCreateAccount}
                     location={location}

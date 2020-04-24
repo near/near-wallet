@@ -149,7 +149,7 @@ const ActionRow = ({ transaction, actionArgs, actionKind, wide, showSub = false,
                         accountId={accountId}
                     />
                     <ActionTimeStamp
-                        timeStamp={transaction.blockTimestamp}
+                        timeStamp={transaction.block_timestamp}
                     />
                 </Grid.Column>
             </Grid>
