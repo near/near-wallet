@@ -101,11 +101,11 @@ class AccountFormAccountId extends Component {
                             {type === 'create' &&
                                 <Modal
                                     size='mini'
-                                    trigger={<DomainName>{ACCOUNT_ID_SUFFIX}<InfoIcon/></DomainName>}
+                                    trigger={<DomainName>.{ACCOUNT_ID_SUFFIX}<InfoIcon/></DomainName>}
                                     closeIcon
                                 >
-                                    <Header>Top Level Accounts</Header>
-                                    Account names are similar to domain names. Only the @testnet account can create accounts such as @yourname.testnet, and only @yourname.testnet can create @app.yourname.testnet. All accounts created in this wallet use the .testnet Top Level Account (TLA). To learn more about account names and creating your own TLA, visit the <a rel='noopener noreferrer' href='https://docs.nearprotocol.com/docs/concepts/account'>docs</a>.
+                                    <Header>{translate('topLevelAccounts.header')}</Header>
+                                    {translate('topLevelAccounts.body', { suffix: ACCOUNT_ID_SUFFIX })}
                                 </Modal>
                             }
                         </InputWrapper>
