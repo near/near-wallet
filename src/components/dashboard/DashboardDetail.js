@@ -30,7 +30,7 @@ class DashboardDetail extends Component {
         this.refreshTransactions()
 
         this.interval = setInterval(() => {
-            this.refreshTransactions()
+            !document.hidden && this.refreshTransactions()
         }, TRANSACTIONS_REFRESH_INTERVAL)
 
         this.setState(() => ({

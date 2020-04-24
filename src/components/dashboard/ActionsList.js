@@ -130,14 +130,16 @@ const ActionsList = ({ transaction, wide, accountId, getTransactionStatus }) => 
 
 const ActionRow = ({ transaction, actionArgs, actionKind, wide, showSub = false, accountId, getTransactionStatus }) => {
     const { checkStatus, status, hash, signer_id, block_timestamp } = transaction
+    const getTransactionStatusConditions = () => checkStatus && !document.hidden && getTransactionStatus(hash, signer_id)
 
     useEffect(() => {
-        const interval = (checkStatus) && setInterval((() => {
-            getTransactionStatus(hash, signer_id)
-        })(), TRANSACTIONS_REFRESH_INTERVAL)
+        getTransactionStatusConditions()
+        const interval = setInterval(() => {
+            getTransactionStatusConditions()
+        }, TRANSACTIONS_REFRESH_INTERVAL)
 
         return () => clearInterval(interval)
-    }, [hash])
+    }, [hash, checkStatus])
 
     return (
         <CustomGridRow
