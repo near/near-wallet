@@ -189,7 +189,7 @@ class Wallet {
             throw new Error('Invalid username.')
         }
         if (accountId.match(/.*[.@].*/)) {
-            if (!accountId.endsWith(ACCOUNT_ID_SUFFIX)) {
+            if (!accountId.endsWith(`.${ACCOUNT_ID_SUFFIX}`)) {
                 throw new Error('Characters `.` and `@` have special meaning and cannot be used as part of normal account name.');
             }
         }
