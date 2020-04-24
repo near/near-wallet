@@ -465,7 +465,8 @@
             "Started": "Started",
             "Failure": "Failed",
             "SuccessValue": "Succeeded",
-            "checkingStatus": "checking status"
+            "checkingStatus": "checking status",
+            "notAvailable": "Status not available"
         }
     },
 

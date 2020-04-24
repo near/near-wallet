@@ -245,7 +245,8 @@ const TX_STATUS_COLOR = {
     NotStarted: '',
     Started: 'color-seafoam-blue',
     Failure: 'color-red',
-    SuccessValue: 'color-green'
+    SuccessValue: 'color-green',
+    notAvailable: 'color-red'
 }
 
 const ActionStatus = ({ status }) => (
