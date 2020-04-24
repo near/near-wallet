@@ -96,15 +96,15 @@ const transactions = handleActions({
         if (state.transactions && ready) {
             const hash = state.transactions.reduce((h, t) => ({
                 ...h,
-                [t.hash]: t
+                [t.hash_with_index]: t
             }), {})
 
             transactions = payload.map((t) => (
-                Object.keys(hash).includes(t.hash)
+                Object.keys(hash).includes(t.hash_with_index)
                     ? {
                         ...t,
-                        status: hash[t.hash].status,
-                        checkStatus: hash[t.hash].checkStatus
+                        status: hash[t.hash_with_index].status,
+                        checkStatus: hash[t.hash_with_index].checkStatus
                     } 
                     : t
             ))
