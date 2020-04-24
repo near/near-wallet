@@ -91,28 +91,25 @@ const accessKeys = handleActions({
 
 const transactions = handleActions({
     [getTransactions]: (state, { error, payload, ready }) => {
-        let transactions =  ready ? payload : state.transactions
-
-        if (state.transactions && ready && !error) {
-            const hash = state.transactions.reduce((h, t) => ({
-                ...h,
-                [t.hash_with_index]: t
-            }), {})
-
-            transactions = payload.map((t) => (
-                Object.keys(hash).includes(t.hash_with_index)
-                    ? {
-                        ...t,
-                        status: hash[t.hash_with_index].status,
-                        checkStatus: hash[t.hash_with_index].checkStatus
-                    } 
-                    : t
-            ))
-        }
-
+        const hash = state.transactions && state.transactions.reduce((h, t) => ({
+            ...h,
+            [t.hash_with_index]: t
+        }), {})
+        
         return ({
             ...state,
-            transactions: error ? [] : transactions
+            transactions: (ready && !error) 
+                ? payload.map((t) => (
+                    (hash && Object.keys(hash).includes(t.hash_with_index))
+                        ? {
+                            ...t,
+                            status: hash[t.hash_with_index].status,
+                            checkStatus: hash[t.hash_with_index].checkStatus
+                        } 
+                        : t
+                ))
+                : state.transactions
+
         })
     },
     [getTransactionStatus]: (state, { error, payload, ready, meta }) => ({
