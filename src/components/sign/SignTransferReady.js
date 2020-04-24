@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import styled from 'styled-components'
 import { Translate } from 'react-localize-redux'
-
+import InfoPopup from '../common/InfoPopup'
 import { refreshAccount, switchAccount } from '../../actions/account'
 import SignAnimatedArrow from './SignAnimatedArrow'
 import SignTransferDetails from './SignTransferDetails'
@@ -52,6 +52,13 @@ const CurrentBalance = styled.div`
     color: #888888;
     font-size: 14px;
     font-weight: 400;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .list {
+        margin: 0 !important;
+    }
 `
 
 const MoreInfo = styled.div`
@@ -172,7 +179,9 @@ class SignTransferReady extends Component {
                             <Balance amount={txTotalAmount}/>
                         </TransferAmount>
                         <CurrentBalance>
-                            <Translate id='sign.availableBalance' />: <Balance amount={availableBalance}/>
+                            <Translate id='sign.availableBalance' />:&nbsp;
+                            <Balance amount={availableBalance}/>
+                            <InfoPopup content={<Translate id='availableBalanceInfo'/>}/>
                         </CurrentBalance>
                         <InlineNotification
                             show={insufficientFunds}

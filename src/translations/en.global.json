@@ -276,7 +276,7 @@
     },
 
     "balance": {
-        "balance": "Balance",
+        "balance": "Total Balance",
         "balanceLoading": "Balance loading"
     },
 
@@ -377,7 +377,7 @@
             "username": "Username",
             "public": "Public",
             "totalBalance": "Total Balance",
-            "minBalance": "Min. Balance",
+            "minBalance": "Minimum Balance",
             "staked": "Staked",
             "availableBalance": "Available Balance",
             "lockPopup": {
@@ -459,6 +459,8 @@
     },
 
     "availableBalanceInfo": "”Available Balance” is your current spendable NEAR balance. This will be lower than your Total Balance. To view a complete breakdown of your NEAR balance, visit your Profile.", 
+    "availableBalanceProfile": "”Available Balance” is your current spendable NEAR balance. This will be lower than your Total Balance.",
+    "minimumBalance": "The purpose of ”Minimum Balance” is to cover your accounts state rent. It is derived from multiplying account size (in bytes) by cost per byte.",
 
     "success": "Success",
     "error": "Error",

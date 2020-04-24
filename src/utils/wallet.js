@@ -289,7 +289,7 @@ class Wallet {
         const state = store.getState()
         const account = state.account;
 
-        const stateStaked = new BN('1059799993200009639475150') // TODO: account.storageUsage (bytes) * cost per byte
+        const stateStaked = new BN('0') // TODO: account.storageUsage (bytes) * cost per byte
         const staked = new BN(account.locked)
         const totalBalance = new BN(account.amount).add(staked)
         const availableBalance = totalBalance.sub(staked).sub(stateStaked)

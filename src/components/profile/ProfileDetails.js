@@ -75,7 +75,7 @@ const ProfileDetails = ({ account }) => (
             >
                 <Translate id='profile.details.profile' />
             </Grid.Column>
-            <Grid.Column computer='4' as='h6' textAlign='center' only='tablet'>
+            <Grid.Column computer='4' as='h6' textAlign='center' only='tablet' className='color-charcoal-grey'>
                 <Translate id='profile.details.visibleTo' />
             </Grid.Column>
         </Grid.Row>
@@ -285,6 +285,7 @@ const ProfileDetails = ({ account }) => (
         <Grid.Row className='border-top'>
             <Grid.Column computer='4' tablet='4' mobile='7' className='title'>
                 <Translate id='profile.details.minBalance'/>
+                <InfoPopup content={<Translate id='minimumBalance'/>}/>
             </Grid.Column>
             <Grid.Column computer='6' tablet='6' mobile='4'>
                 <Balance  amount={wallet.getAccountBalance('minimum')}/> 
@@ -313,7 +314,7 @@ const ProfileDetails = ({ account }) => (
         <Grid.Row className='border-top'>
             <Grid.Column computer='4' tablet='4' mobile='7' className='title'>
                 <Translate id='profile.details.availableBalance'/>
-                <InfoPopup content={<Translate id='availableBalanceInfo'/>}/>
+                <InfoPopup content={<Translate id='availableBalanceProfile'/>}/>
             </Grid.Column>
             <Grid.Column computer='6' tablet='6' mobile='4'>
                 <Balance  amount={wallet.getAccountBalance('available')}/>

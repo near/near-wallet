@@ -6,7 +6,7 @@ import { BN } from 'bn.js'
 import { Translate } from 'react-localize-redux'
 import { wallet } from '../../utils/wallet'
 import styled from 'styled-components'
-
+import InfoPopup from '../common/InfoPopup'
 import Balance, { formatNEAR } from '../common/Balance'
 import { utils } from 'nearlib'
 
@@ -63,6 +63,17 @@ const CustomDiv = styled(`div`)`
     }
 `
 
+const AvailableBalance = styled.div`
+    margin-top: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .list {
+        padding: 0 !important;
+    }
+`
+
 class SendMoneyAmountInput extends Component {
     state = {
         amountInput: this.props.defaultAmount ? formatNEAR(this.props.defaultAmount) : '',
@@ -97,16 +108,6 @@ class SendMoneyAmountInput extends Component {
         this.props.handleChange(e, { name: 'amountStatusId', value: amountStatusId })
     }
 
-    renderAvailableBalance = () => (
-        <>
-            <Translate id='sendMoney.amountStatusId.howMuch' />
-            <div style={{ marginTop: '5px'}}>
-                <Translate id='sendMoney.amountStatusId.available'/>
-                <Balance amount={wallet.getAccountBalance('available')}/>
-            </div>
-        </>
-    )
-
     render() {
         const { amountInput, amountStatusId, amountDisplay} = this.state
         const fontSize = amountInput.length > 11 ? 32 : amountInput.length > 8 ? 38 : amountInput.length > 5 ? 50 : 72
@@ -128,7 +129,18 @@ class SendMoneyAmountInput extends Component {
                     <Segment basic textAlign='center' className='alert-info problem'>
                         <Translate id={amountStatusId} />
                     </Segment>)}
-                {amountDisplay ? <Balance amount={amountDisplay} /> : this.renderAvailableBalance()}
+                {amountDisplay ? (
+                    <Balance amount={amountDisplay} /> 
+                ) : (
+                    <>
+                        <Translate id='sendMoney.amountStatusId.howMuch' />
+                        <AvailableBalance>
+                            <Translate id='sendMoney.amountStatusId.available'/>&nbsp;
+                            <Balance amount={wallet.getAccountBalance('available')}/>
+                            <InfoPopup content={<Translate id='availableBalanceInfo'/>}/>
+                        </AvailableBalance>
+                    </>
+                )}
             </CustomDiv>
         )
     }
