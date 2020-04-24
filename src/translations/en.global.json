@@ -460,7 +460,7 @@
 
     "availableBalanceInfo": "”Available Balance” is your current spendable NEAR balance. This will be lower than your Total Balance. To view a complete breakdown of your NEAR balance, visit your Profile.", 
     "availableBalanceProfile": "”Available Balance” is your current spendable NEAR balance. This will be lower than your Total Balance.",
-    "minimumBalance": "The purpose of ”Minimum Balance” is to cover your accounts state rent. It is derived from multiplying account size (in bytes) by cost per byte.",
+    "minimumBalance": "This is the minimum NEAR balance your account must maintain to remain active. This balance represents the storage space your account is using on the NEAR blockchain, and will go up or down as you use more or less space.",
 
     "success": "Success",
     "error": "Error",
