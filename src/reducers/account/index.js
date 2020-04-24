@@ -93,7 +93,7 @@ const transactions = handleActions({
     [getTransactions]: (state, { error, payload, ready }) => {
         let transactions =  ready ? payload : state.transactions
 
-        if (state.transactions && ready) {
+        if (state.transactions && ready && !error) {
             const hash = state.transactions.reduce((h, t) => ({
                 ...h,
                 [t.hash_with_index]: t
@@ -115,24 +115,24 @@ const transactions = handleActions({
             transactions: error ? [] : transactions
         })
     },
-    [getTransactionStatus]: (state, { payload, ready, meta }) => {
-        let newTX = []
-        
-        if (ready) {
-            const newStatus = Object.keys(payload.status)[0]
-
-            newTX = state.transactions.map((t) => ({
-                ...t,
-                checkStatus: ['SuccessValue', 'Failure'].includes(newStatus) ? false : t.checkStatus,
-                status: t.hash === meta.hash ? newStatus : t.status
-            }))
-        }
-
-        return ({
-            ...state,
-            transactions: newTX.length ? newTX : state.transactions
-        })
-    }
+    [getTransactionStatus]: (state, { error, payload, ready, meta }) => ({
+        ...state,
+        transactions: state.transactions.map((t) => (
+            t.hash === meta.hash
+                ? {
+                    ...t,
+                    checkStatus: (ready && !error) 
+                        ? !['SuccessValue', 'Failure'].includes(Object.keys(payload.status)[0]) 
+                        : false,
+                    status: (ready && !error) 
+                        ? Object.keys(payload.status)[0] 
+                        : error 
+                            ? 'notAvailable' 
+                            : ''
+                }
+                : t
+        ))
+    })
 }, initialState)
 
 const url = handleActions({
