@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
 import { Translate } from 'react-localize-redux'
 import { withRouter } from 'react-router-dom'
-
+import { wallet } from '../../utils/wallet'
 import { getAccessKeys, getTransactions } from '../../actions/account'
 
 import DashboardSection from './DashboardSection'
@@ -63,7 +63,7 @@ class DashboardDetail extends Component {
                     amount
                         ? <Fragment>
                             <span className='balance'><Translate id='balance.balance' />: </span>
-                            <Balance amount={amount} />
+                            <Balance  amount={wallet.getAccountBalance()}/> 
                         </Fragment>
                         : <Translate id='balance.balanceLoading' />
                 )}

@@ -373,6 +373,9 @@ export default createGlobalStyle`
     .ui.left.center.popup:before {
         box-shadow: 1px -1px 0 0 #eee;
     }
+    .ui.top.center.popup:before {
+        box-shadow: 1px 1px 0px 0px #eee;
+    }
     .ui.bottom.right.popup:before {
         box-shadow: -1px -1px 0 0 #eee;
     }

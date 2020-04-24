@@ -458,6 +458,8 @@
         "authorizing": "Authorizing"
     },
 
+    "availableBalanceInfo": "”Available Balance” is your current spendable NEAR balance. This will be lower than your Total Balance. To view a complete breakdown of your NEAR balance, visit your Profile.", 
+
     "success": "Success",
     "error": "Error",
     "warning": "Warning",
