@@ -24,7 +24,7 @@ const KEY_UNIQUE_PREFIX = '_4:'
 const KEY_WALLET_ACCOUNTS = KEY_UNIQUE_PREFIX + 'wallet:accounts_v2'
 const KEY_ACTIVE_ACCOUNT_ID = KEY_UNIQUE_PREFIX + 'wallet:active_account_id_v2'
 const ACCESS_KEY_FUNDING_AMOUNT = process.env.REACT_APP_ACCESS_KEY_FUNDING_AMOUNT || '100000000'
-const ACCOUNT_COST_PER_BYTE = process.env.ACCOUNT_COST_PER_BYTE || '90900000000000000000'
+const ACCOUNT_COST_PER_BYTE = process.env.REACT_APP_ACCOUNT_COST_PER_BYTE || '90900000000000000000'
 const ACCOUNT_ID_REGEX = /^(([a-z\d]+[-_])*[a-z\d]+[.@])*([a-z\d]+[-_])*[a-z\d]+$/
 export const ACCOUNT_CHECK_TIMEOUT = 500
 
@@ -291,7 +291,6 @@ class Wallet {
 
         const costPerByte = new BN(ACCOUNT_COST_PER_BYTE)
         const stateStaked = new BN(account.storageUsage).mul(costPerByte)
-
         const staked = new BN(account.locked)
         const totalBalance = new BN(account.amount).add(staked)
         const availableBalance = totalBalance.sub(staked).sub(stateStaked)
