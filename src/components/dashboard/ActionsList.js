@@ -220,7 +220,7 @@ const translateData = (transaction, actionArgs, actionKind) => ({
     signerId: transaction.signer_id || '',
     methodName: actionKind === "FunctionCall" ? actionArgs.method_name : '', 
     deposit: actionKind === "Transfer" ? <Balance amount={actionArgs.deposit} /> : '',
-    stake: actionKind === "Stake" ? actionArgs.stake : '',
+    stake: actionKind === "Stake" ? <Balance amount={actionArgs.stake} />  : '',
     permissionReceiverId: (actionKind === "AddKey" && actionArgs.access_key && typeof actionArgs.access_key.permission === 'object') ? actionArgs.access_key.permission.FunctionCall.receiver_id : ''
 })
 
