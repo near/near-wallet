@@ -58,22 +58,19 @@ class AccountFormAccountId extends Component {
         this.setState(() => ({
             [name]: value
         }))
-
+        
         handleChange(e, { name, value })
 
-        if (type === 'create' && this.requestStatusInvalidAccountIdLength(value)) {
-            return false
-        }
-        
         this.timeout && clearTimeout(this.timeout)
 
         this.timeout = setTimeout(() => 
-            checkAvailability(type === 'create' ? this.props.accountId : value)
+            !(type === 'create' && this.requestStatusInvalidAccountIdLength())
+                && checkAvailability(type === 'create' ? this.props.accountId : value)
         , ACCOUNT_CHECK_TIMEOUT)
     }
 
-    requestStatusInvalidAccountIdLength = (value) => {
-        const accountIdWithoutSuffix = value.split(`.${ACCOUNT_ID_SUFFIX}`)[0]
+    requestStatusInvalidAccountIdLength = () => {
+        const accountIdWithoutSuffix = this.state.accountId.split(`.${ACCOUNT_ID_SUFFIX}`)[0]
         if (accountIdWithoutSuffix.length && (accountIdWithoutSuffix.length < 2 || accountIdWithoutSuffix.length > 64)) {
             this.setState(() => ({
                 requestStatus: {
