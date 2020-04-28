@@ -7,7 +7,7 @@ import NavLinks from './NavLinks';
 import UserBalance from './UserBalance';
 import UserName from './UserName';
 import DesktopMenu from './DesktopMenu';
-import { IS_MAINNET, wallet } from '../../utils/wallet';
+import { IS_MAINNET } from '../../utils/wallet';
 
 const Container = styled.div`
     display: none;
@@ -205,7 +205,7 @@ class DesktopContainer extends Component {
                         <User onClick={toggleMenu}>
                             <UserIcon/>
                             <UserName accountId={account.accountId}/>
-                            <UserBalance amount={wallet.getAccountBalance()}/>
+                            <UserBalance/>
                         </User>
                         <DesktopMenu
                             show={menuOpen}

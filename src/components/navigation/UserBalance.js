@@ -7,9 +7,9 @@ const StyledBalance = styled.div`
     color: #8FD6BD;
 `
 
-const UserBalance = ({ amount }) => (
+const UserBalance = () => (
     <StyledBalance className='user-balance'>
-        {amount && <Balance amount={wallet.getAccountBalance()}/>}
+        <Balance amount={wallet.getAccountBalance()}/>
     </StyledBalance>
 )
 

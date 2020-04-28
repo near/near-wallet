@@ -104,7 +104,7 @@ class MobileContainer extends Component {
                         <>
                             <User>
                                 <UserName accountId={account.accountId}/>
-                                <UserBalance amount={account.amount}/>
+                                <UserBalance/>
                             </User>
                             <MenuButton onClick={toggleMenu} open={menuOpen}/>
                         </>
