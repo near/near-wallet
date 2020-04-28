@@ -42,7 +42,8 @@ const Header = styled.h4`
 
 class AccountFormAccountId extends Component {
     state = {
-        accountId: this.props.defaultAccountId || ''
+        accountId: this.props.defaultAccountId || '',
+        requestStatus: undefined
     }
 
     handleChangeAccountId = (e, { name, value }) => {
@@ -57,18 +58,37 @@ class AccountFormAccountId extends Component {
         this.setState(() => ({
             [name]: value
         }))
-        
+
         handleChange(e, { name, value })
-        
-        if (type === 'create' && requestStatusInvalidAccountIdLength(value)) {
+
+        if (type === 'create' && this.requestStatusInvalidAccountIdLength(value)) {
             return false
         }
-
+        
         this.timeout && clearTimeout(this.timeout)
 
-        this.timeout = setTimeout(() => {
+        this.timeout = setTimeout(() => 
             checkAvailability(type === 'create' ? this.props.accountId : value)
-        }, ACCOUNT_CHECK_TIMEOUT)
+        , ACCOUNT_CHECK_TIMEOUT)
+    }
+
+    requestStatusInvalidAccountIdLength = (value) => {
+        const accountIdWithoutSuffix = value.split(`.${ACCOUNT_ID_SUFFIX}`)[0]
+        if (accountIdWithoutSuffix.length && (accountIdWithoutSuffix.length < 2 || accountIdWithoutSuffix.length > 64)) {
+            this.setState(() => ({
+                requestStatus: {
+                    success: false,
+                    messageCode: 'account.create.errorInvalidAccountIdLength'
+                }
+            }))
+            return true
+        }
+        else {
+            this.setState(() => ({
+                requestStatus: undefined
+            }))
+            return false
+        }
     }
 
     render() {
@@ -114,7 +134,7 @@ class AccountFormAccountId extends Component {
                         </InputWrapper>
                     )}
                 </Translate>
-                <RequestStatusBox requestStatus={requestStatus} accountId={this.props.accountId}/>
+                <RequestStatusBox requestStatus={this.state.requestStatus || requestStatus} accountId={this.props.accountId}/>
             </>
         )
     }
