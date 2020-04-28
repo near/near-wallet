@@ -22,7 +22,8 @@ export async function getTransactions(accountId = '') {
                     transactions.block_timestamp, 
                     actions.action_type as kind, 
                     actions.action_args as args,
-                    actions.action_index || ':' || transactions.hash as hash_with_index
+                    actions.action_index || ':' || transactions.hash as hash_with_index,
+                    :accountId as query_account_id
                 FROM 
                     transactions
                 LEFT JOIN actions ON actions.transaction_hash = transactions.hash

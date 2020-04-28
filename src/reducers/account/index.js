@@ -92,7 +92,16 @@ const accessKeys = handleActions({
 
 const transactions = handleActions({
     [getTransactions]: (state, { error, payload, ready }) => {
-        const hash = state.transactions && state.transactions.reduce((h, t) => ({
+        const { transactions } = state
+
+        if (!ready && transactions && transactions[0].query_account_id !== state.accountId) {
+            return {
+                ...state,
+                transactions: undefined
+            }
+        }
+
+        const hash = transactions && transactions.reduce((h, t) => ({
             ...h,
             [t.hash_with_index]: t
         }), {})
@@ -109,8 +118,7 @@ const transactions = handleActions({
                         } 
                         : t
                 ))
-                : state.transactions
-
+                : transactions
         })
     },
     [getTransactionStatus]: (state, { error, payload, ready, meta }) => ({
