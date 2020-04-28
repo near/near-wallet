@@ -99,10 +99,31 @@
         "pOne": "Click \"Continue\" to restore your account:",
         "pTwo": "If this isn't your preferred browser, copy the URL and complete this process in your browser of choice.",
         "snackbarCopySuccess": "Recover URL copied",
-        "errorTitle": "Account not found",
-        "errorP": "If you've enabled email recovery, please check your inbox for the latest message, as all earlier messages are considered invalid."
+        "errorTitle": "Link Expired",
+        "errorP": "Please check your email or phone for the most recent message. Links in all earlier messages are invalid."
     },
 
+    "recoveryMgmt": {
+        "title": "Recovery Methods",
+        "noRecoveryMethod": "You have no method to recover your account. please add a method below.",
+        "methodTitle": {
+            "phrase": "Seed Phrase",
+            "phone": "Phone Number",
+            "email": "Email Address"
+        },
+        "resend": {
+            "phone": "Resend SMS",
+            "email": "Resend Email"
+        },
+        "enabled": "Enabled",
+        "disableTitle": "Are you sure you want to disable this method?",
+        "disableTextLink": "The magic link you received will be permanently deactivated.",
+        "disableTextPhrase": "Your current seed phrase will be permanently deactivated.",
+        "disableInputPlaceholder": "Enter your username to confirm",
+        "disableNo": "No, keep",
+        "recoveryLinkSent": "Recovery Link Sent!"
+    },
+    
     "fullAccessKeys": {
         "pageTitle": "Full Access Keys",
         "authorizedTo": "AUTHORIZED TO",
@@ -128,6 +149,8 @@
         "startOver": "Start over",
         "copyUrl": "Copy Url",
         "createAccount": "Create account",
+        "enable": "Enable",
+        "disable": "Disable",
         "connectLedger": "Connect Ledger",
         "browseApps": "BROWSE APPS",
         "createAccountCapital": "CREATE ACCOUNT",
