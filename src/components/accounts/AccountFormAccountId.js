@@ -43,7 +43,7 @@ const Header = styled.h4`
 class AccountFormAccountId extends Component {
     state = {
         accountId: this.props.defaultAccountId || '',
-        requestStatus: undefined
+        invalidAccountIdLength: false
     }
 
     handleChangeAccountId = (e, { name, value }) => {
@@ -64,45 +64,56 @@ class AccountFormAccountId extends Component {
         this.timeout && clearTimeout(this.timeout)
 
         this.timeout = setTimeout(() => 
-            !(type === 'create' && this.requestStatusInvalidAccountIdLength())
+            !(type === 'create' && this.handleCheckAccountIdLength())
                 && checkAvailability(type === 'create' ? this.props.accountId : value)
         , ACCOUNT_CHECK_TIMEOUT)
     }
 
-    get getLoaderRequestStatus() {
+    handleCheckAccountIdLength = () => {
+        const accountIdWithoutSuffix = this.state.accountId.split(`.${ACCOUNT_ID_SUFFIX}`)[0]
+
+        if (accountIdWithoutSuffix.length && (accountIdWithoutSuffix.length < 2 || accountIdWithoutSuffix.length > 64)) {
+            return !this.setState(() => ({
+                invalidAccountIdLength: true
+            }))
+        }
+        else {
+            this.setState(() => ({
+                invalidAccountIdLength: false
+            }))
+        }
+    }
+
+    get loaderRequestStatus() {
         return {
         success: true,
         messageCode: 'account.create.checkingAvailablity'
     }}
 
-    requestStatusInvalidAccountIdLength = () => {
-        const accountIdWithoutSuffix = this.state.accountId.split(`.${ACCOUNT_ID_SUFFIX}`)[0]
-        if (accountIdWithoutSuffix.length && (accountIdWithoutSuffix.length < 2 || accountIdWithoutSuffix.length > 64)) {
-            this.setState(() => ({
-                requestStatus: {
-                    success: false,
-                    messageCode: 'account.create.errorInvalidAccountIdLength'
-                }
-            }))
-            return true
-        }
-        else {
-            this.setState(() => ({
-                requestStatus: undefined
-            }))
-            return false
-        }
+    get accountIdLengthRequestStatus() {
+        return {
+        success: false,
+        messageCode: 'account.create.errorInvalidAccountIdLength'
+    }}
+
+    handleRequestStatus = () => {
+        return this.props.formLoader
+            ? this.loaderRequestStatus
+            : this.state.invalidAccountIdLength
+                ? this.accountIdLengthRequestStatus
+                : this.props.requestStatus
     }
 
     render() {
         const {
             formLoader,
-            requestStatus,
             autoFocus,
             type
         } = this.props
 
         const { accountId } = this.state
+
+        const requestStatus = this.handleRequestStatus()
 
         return (
             <>
@@ -137,7 +148,7 @@ class AccountFormAccountId extends Component {
                         </InputWrapper>
                     )}
                 </Translate>
-                <RequestStatusBox dots={formLoader} requestStatus={formLoader && this.getLoaderRequestStatus || this.state.requestStatus || requestStatus} accountId={this.props.accountId}/>
+                <RequestStatusBox dots={formLoader} requestStatus={requestStatus} accountId={this.props.accountId}/>
             </>
         )
     }
