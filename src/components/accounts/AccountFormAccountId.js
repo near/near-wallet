@@ -77,6 +77,7 @@ class AccountFormAccountId extends Component {
             this.setState(() => ({
                 invalidAccountIdLength: true
             }))
+            this.props.clearRequestStatus()
             return true
         }
         else {
