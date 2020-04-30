@@ -2,6 +2,7 @@ import React from 'react'
 import { Grid } from 'semantic-ui-react'
 import styled from 'styled-components'
 import { Translate } from 'react-localize-redux'
+import classNames from '../../utils/classNames'
 
 const RequestStatusBoxGrid = styled(Grid)`
     &&& .alert-info {
@@ -81,7 +82,7 @@ const RequestStatusBoxGrid = styled(Grid)`
 const RequestStatusBox = ({ requestStatus, accountId, dots }) => (
     requestStatus ?
         <RequestStatusBoxGrid className='status-wrapper'>
-            <Grid.Column className={`alert-info ${requestStatus.success ? 'success' : 'problem'} ${dots ? 'dots' : ''}`}>
+            <Grid.Column className={classNames(['alert-info', {'success': requestStatus.success}, {'problem': !requestStatus.success}, {'dots': dots}])}>
                 <Translate id={requestStatus.messageCode} data={{ accountId: accountId }}/>
             </Grid.Column>
         </RequestStatusBoxGrid>
