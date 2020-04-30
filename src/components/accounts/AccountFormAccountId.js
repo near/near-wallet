@@ -47,7 +47,7 @@ class AccountFormAccountId extends Component {
     }
 
     handleChangeAccountId = (e, { name, value }) => {
-        const { pattern, handleChange, checkAvailability, type, requestStatusInvalidAccountIdLength } = this.props
+        const { pattern, handleChange, checkAvailability, type } = this.props
 
         value = value.trim().toLowerCase()
 
@@ -68,6 +68,12 @@ class AccountFormAccountId extends Component {
                 && checkAvailability(type === 'create' ? this.props.accountId : value)
         , ACCOUNT_CHECK_TIMEOUT)
     }
+
+    get getLoaderRequestStatus() {
+        return {
+        success: true,
+        messageCode: 'account.create.checkingAvailablity'
+    }}
 
     requestStatusInvalidAccountIdLength = () => {
         const accountIdWithoutSuffix = this.state.accountId.split(`.${ACCOUNT_ID_SUFFIX}`)[0]
@@ -131,7 +137,7 @@ class AccountFormAccountId extends Component {
                         </InputWrapper>
                     )}
                 </Translate>
-                <RequestStatusBox requestStatus={this.state.requestStatus || requestStatus} accountId={this.props.accountId}/>
+                <RequestStatusBox dots={formLoader} requestStatus={formLoader && this.getLoaderRequestStatus || this.state.requestStatus || requestStatus} accountId={this.props.accountId}/>
             </>
         )
     }
