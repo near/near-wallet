@@ -38,7 +38,6 @@ const CreateAccountForm = ({
     requestStatus,
     checkAvailability,
     accountId,
-    requestStatusInvalidAccountIdLength,
     clearRequestStatus
 }) => (
     <Container>
@@ -51,7 +50,6 @@ const CreateAccountForm = ({
             checkAvailability={checkAvailability}
             requestStatus={requestStatus}
             accountId={accountId}
-            requestStatusInvalidAccountIdLength={requestStatusInvalidAccountIdLength}
             clearRequestStatus={clearRequestStatus}
         />
         <RecaptchaString>
