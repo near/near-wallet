@@ -38,7 +38,8 @@ const CreateAccountForm = ({
     requestStatus,
     checkAvailability,
     accountId,
-    clearRequestStatus
+    clearRequestStatus,
+    setFormLoader
 }) => (
     <Container>
         <Header as='h4'><Translate id='createAccount.accountIdInput.title' /></Header>
@@ -51,6 +52,7 @@ const CreateAccountForm = ({
             requestStatus={requestStatus}
             accountId={accountId}
             clearRequestStatus={clearRequestStatus}
+            setFormLoader={setFormLoader}
         />
         <RecaptchaString>
             This site is protected by reCAPTCHA and the Google <a href='https://policies.google.com/privacy' target='_blank' rel='noopener noreferrer'>Privacy Policy</a> and <a href='https://policies.google.com/terms' target='_blank' rel='noopener noreferrer'>Terms of Service</a> apply.

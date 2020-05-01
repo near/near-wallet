@@ -5,7 +5,7 @@ import { GoogleReCaptchaProvider, GoogleReCaptcha } from 'react-google-recaptcha
 import CreateAccountForm from './CreateAccountForm'
 import AccountFormSection from './AccountFormSection'
 import AccountFormContainer from './AccountFormContainer'
-import { checkNewAccount, createNewAccount, clear, refreshAccount, resetAccounts } from '../../actions/account'
+import { checkNewAccount, createNewAccount, clear, refreshAccount, resetAccounts, setFormLoader } from '../../actions/account'
 import { ACCOUNT_ID_SUFFIX } from '../../utils/wallet'
 
 class CreateAccount extends Component {
@@ -71,7 +71,7 @@ class CreateAccount extends Component {
 
     render() {
         const { loader, accountId, recaptchaFallback } = this.state
-        const { requestStatus, formLoader, checkNewAccount, location, loginResetAccounts, clear } = this.props
+        const { requestStatus, formLoader, checkNewAccount, location, loginResetAccounts, clear, setFormLoader } = this.props
         const useRequestStatus = accountId.length > 0 ? requestStatus : undefined;
 
         return (
@@ -95,6 +95,7 @@ class CreateAccount extends Component {
                         checkAvailability={checkNewAccount}
                         accountId={accountId}
                         clearRequestStatus={clear}
+                        setFormLoader={setFormLoader}
                     />
                     <GoogleReCaptchaProvider reCaptchaKey="6LfSgNoUAAAAABKb2sk4Rs3TS0RMx9zrVwyTBSc6">
                         <GoogleReCaptcha onVerify={token => this.setState({ token: token })}/>
@@ -110,7 +111,8 @@ const mapDispatchToProps = {
     createNewAccount,
     clear,
     refreshAccount,
-    resetAccounts
+    resetAccounts,
+    setFormLoader
 }
 
 const mapStateToProps = ({ account }) => ({
