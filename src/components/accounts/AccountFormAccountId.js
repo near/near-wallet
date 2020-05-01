@@ -97,7 +97,6 @@ class AccountFormAccountId extends Component {
 
     get loaderRequestStatus() {
         return {
-            success: false,
             messageCode: 'account.create.checkingAvailablity'
     }}
 
@@ -134,7 +133,7 @@ class AccountFormAccountId extends Component {
                     {({ translate }) => (
                         <InputWrapper type={type}>
                             <Form.Input
-                                className={requestStatus && classNames([{'success': requestStatus.success}, {'problem': !requestStatus.success}])}
+                                className={requestStatus && classNames([{'success': requestStatus.success}, {'problem': requestStatus.success === false}])}
                                 name='accountId'
                                 value={accountId}
                                 onChange={this.handleChangeAccountId}
