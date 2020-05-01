@@ -10,6 +10,10 @@ import { ACCOUNT_CHECK_TIMEOUT, ACCOUNT_ID_SUFFIX } from '../../utils/wallet'
 
 const InputWrapper = styled.div`
     position: relative;
+
+    input {
+        padding-right: ${props => props.type === 'create' ? '120px' : '12px'} !important;
+    }
 `
 
 const DomainName = styled.div`
@@ -127,9 +131,8 @@ class AccountFormAccountId extends Component {
             <>
                 <Translate>
                     {({ translate }) => (
-                        <InputWrapper>
+                        <InputWrapper type={type}>
                             <Form.Input
-                                loading={formLoader}
                                 className={`${requestStatus ? (requestStatus.success ? 'success' : 'problem') : ''}`}
                                 name='accountId'
                                 value={accountId}
