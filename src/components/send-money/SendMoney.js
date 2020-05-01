@@ -5,7 +5,7 @@ import { withRouter } from 'react-router-dom'
 
 import { wallet } from '../../utils/wallet'
 
-import { refreshAccount, checkAccountAvailable, clear } from '../../actions/account'
+import { refreshAccount, checkAccountAvailable, clear, setFormLoader } from '../../actions/account'
 
 import SendMoneyFirstStep from './SendMoneyFirstStep'
 import SendMoneySecondStep from './SendMoneySecondStep'
@@ -144,7 +144,7 @@ class SendMoney extends Component {
 
     render() {
         const { step } = this.state
-        const { formLoader, requestStatus, checkAccountAvailable } = this.props
+        const { formLoader, requestStatus, checkAccountAvailable, setFormLoader, clear } = this.props
 
         return (
             <SendMoneyContainer>
@@ -156,6 +156,8 @@ class SendMoney extends Component {
                         formLoader={formLoader}
                         requestStatus={this.requestStatusSameAccount || requestStatus}
                         checkAvailability={checkAccountAvailable}
+                        clearRequestStatus={clear}
+                        setFormLoader={setFormLoader}
                         {...this.state}
                     />
                 )}
@@ -182,7 +184,8 @@ class SendMoney extends Component {
 const mapDispatchToProps = {
     refreshAccount,
     checkAccountAvailable,
-    clear
+    clear,
+    setFormLoader
 }
 
 const mapStateToProps = ({ account }) => ({
