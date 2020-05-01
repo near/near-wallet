@@ -26,7 +26,8 @@ const SendMoneyFirstStep = ({
     amount,
     checkAvailability,
     clearRequestStatus,
-    setFormLoader
+    setFormLoader,
+    stateAccountId
 }) => {
     return (
         <Form autoComplete='off'>
@@ -55,6 +56,7 @@ const SendMoneyFirstStep = ({
                                         autoFocus={true}
                                         setFormLoader={setFormLoader}
                                         clearRequestStatus={clearRequestStatus}
+                                        stateAccountId={stateAccountId}
                                     />
                                 </List.Content>
                             </List.Item>
