@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import { Form, Modal } from 'semantic-ui-react'
 import { Translate } from 'react-localize-redux'
 import InfoIcon from '../svg/InfoIcon.js'
+import classNames from '../../utils/classNames'
 
 import RequestStatusBox from '../common/RequestStatusBox'
 import { ACCOUNT_CHECK_TIMEOUT, ACCOUNT_ID_SUFFIX } from '../../utils/wallet'
@@ -96,14 +97,14 @@ class AccountFormAccountId extends Component {
 
     get loaderRequestStatus() {
         return {
-        success: true,
-        messageCode: 'account.create.checkingAvailablity'
+            success: false,
+            messageCode: 'account.create.checkingAvailablity'
     }}
 
     get accountIdLengthRequestStatus() {
         return {
-        success: false,
-        messageCode: 'account.create.errorInvalidAccountIdLength'
+            success: false,
+            messageCode: 'account.create.errorInvalidAccountIdLength'
     }}
 
     handleRequestStatus = () => (
@@ -133,7 +134,7 @@ class AccountFormAccountId extends Component {
                     {({ translate }) => (
                         <InputWrapper type={type}>
                             <Form.Input
-                                className={`${requestStatus ? (requestStatus.success ? 'success' : 'problem') : ''}`}
+                                className={requestStatus && classNames([{'success': requestStatus.success}, {'problem': !requestStatus.success}])}
                                 name='accountId'
                                 value={accountId}
                                 onChange={this.handleChangeAccountId}
