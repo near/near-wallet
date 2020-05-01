@@ -47,7 +47,7 @@ class AccountFormAccountId extends Component {
     }
 
     handleChangeAccountId = (e, { name, value }) => {
-        const { pattern, handleChange, checkAvailability, type } = this.props
+        const { pattern, handleChange, type } = this.props
 
         value = value.trim().toLowerCase()
 
@@ -63,36 +63,32 @@ class AccountFormAccountId extends Component {
 
         this.timeout && clearTimeout(this.timeout)
 
-        !this.props.formLoader && this.props.setFormLoader(!this.handleCheckAccountIdLength(value))
+        !this.props.formLoader && this.props.setFormLoader(this.checkAccountIdLength(value))
 
         this.props.requestStatus && this.props.clearRequestStatus()
 
+        this.state.invalidAccountIdLength && this.handleAccountIdLengthState(value)
+
         this.timeout = setTimeout(() => (
-            value
-                && !(type === 'create' && this.handleCheckAccountIdLength(value, true))
-                && checkAvailability(type === 'create' ? this.props.accountId : value)
+            this.handleCheckAvailability(value, type)
         ), ACCOUNT_CHECK_TIMEOUT)
     }
 
-    handleCheckAccountIdLength = (accountId, setInvalidState = false) => {
-        !accountId.length && this.setState(() => ({
-            invalidAccountIdLength: false
-        }))
+    checkAccountIdLength = (accountId) => accountId.length >= 2 && accountId.length <= 64
 
-        if ((accountId.length < 2 || accountId.length > 64)) {
-            setInvalidState && this.setState(() => ({
-                invalidAccountIdLength: true
-            }))
-            this.props.clearRequestStatus()
-            
-            return true
-        }
-        else {
-            this.setState(() => ({
-                invalidAccountIdLength: false
-            }))
-        }
-    }
+    handleAccountIdLengthState = (accountId) => this.setState(() => ({
+        invalidAccountIdLength: !!accountId && !this.checkAccountIdLength(accountId)
+    }))
+
+    handleCheckAvailability = (accountId, type) => (
+        accountId
+            && !(
+                type === 'create' 
+                && (!this.handleAccountIdLengthState(accountId) 
+                && !this.checkAccountIdLength(accountId))
+            )
+            && this.props.checkAvailability(type === 'create' ? this.props.accountId : accountId) 
+    )
 
     get loaderRequestStatus() {
         return {
