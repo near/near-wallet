@@ -22,7 +22,9 @@ const RecoverAccountSeedPhraseForm = ({
     accountId,
     seedPhrase,
     checkAvailability,
-    requestStatus
+    requestStatus,
+    clearRequestStatus,
+    setFormLoader
 }) => (
         <Container>
             <Fragment>
@@ -33,6 +35,8 @@ const RecoverAccountSeedPhraseForm = ({
                     defaultAccountId={accountId}
                     checkAvailability={checkAvailability}
                     requestStatus={requestStatus}
+                    clearRequestStatus={clearRequestStatus}
+                    setFormLoader={setFormLoader}
                 />
 
                 <Header as='h3'><Translate id='recoverSeedPhrase.seedPhraseInput.title' /></Header>
