@@ -12,7 +12,10 @@
             "success": "Congrats! ${accountId} is available.",
             "error": "Username is taken. Try something else.",
             "errorInvalidAccountIdLength": "Username must be between 2 and 64 characters",
-            "checkingAvailablity": "checking availability"
+            "checkingAvailablity": {
+                "create": "Checking availability",
+                "check": "Checking"
+            }
         },
         "available": {
             "success": "User found.",

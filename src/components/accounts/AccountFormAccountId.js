@@ -99,7 +99,7 @@ class AccountFormAccountId extends Component {
 
     get loaderRequestStatus() {
         return {
-            messageCode: 'account.create.checkingAvailablity'
+            messageCode: `account.create.checkingAvailablity.${this.props.type}`
     }}
 
     get accountIdLengthRequestStatus() {
@@ -137,7 +137,7 @@ class AccountFormAccountId extends Component {
         const { accountId } = this.state
 
         const requestStatus = this.handleRequestStatus()
-
+        
         return (
             <>
                 <Translate>
@@ -186,7 +186,8 @@ AccountFormAccountId.propTypes = {
 
 AccountFormAccountId.defaultProps = {
     autoFocus: false,
-    pattern: /[^a-zA-Z0-9._-]/
+    pattern: /[^a-zA-Z0-9._-]/,
+    type: 'check'
 }
 
 export default AccountFormAccountId
