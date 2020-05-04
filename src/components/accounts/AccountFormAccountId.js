@@ -11,6 +11,8 @@ import { ACCOUNT_CHECK_TIMEOUT, ACCOUNT_ID_SUFFIX } from '../../utils/wallet'
 
 const InputWrapper = styled.div`
     position: relative;
+    margin-bottom: 24px !important;
+    margin: 0;
 
     input {
         padding-right: ${props => props.type === 'create' ? '120px' : '12px'} !important;
@@ -137,7 +139,7 @@ class AccountFormAccountId extends Component {
         const { accountId } = this.state
 
         const requestStatus = this.handleRequestStatus()
-        
+
         return (
             <>
                 <Translate>

@@ -6,13 +6,6 @@ import FormButton from '../common/FormButton'
 import AccountFormAccountId from './AccountFormAccountId'
 
 const Container = styled.div`
-    .status-wrapper {
-        margin-top: 0;
-
-        @media (min-width: 767px) and (max-width: 991px) {
-            margin-left: 0;
-        }
-    }
 `
 
 const RecoverAccountSeedPhraseForm = ({
