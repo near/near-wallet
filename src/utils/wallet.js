@@ -254,12 +254,19 @@ class Wallet {
     }
 
     async addAccessKey(accountId, contractId, publicKey) {
-        return await this.getAccount(accountId).addKey(
-            publicKey,
-            contractId,
-            '', // methodName
-            ACCESS_KEY_FUNDING_AMOUNT
-        )
+        try {
+            return await this.getAccount(accountId).addKey(
+                publicKey,
+                contractId,
+                '', // methodName
+                ACCESS_KEY_FUNDING_AMOUNT
+            )
+        } catch (e) {
+            if (e.type === 'AddKeyAlreadyExists') {
+                return true;
+            }
+            throw e;
+        }
     }
 
     async addLedgerAccessKey(accountId) {
