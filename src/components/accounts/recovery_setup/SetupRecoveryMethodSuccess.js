@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Translate } from 'react-localize-redux'
 import FormButton from '../../common/FormButton';
 
-const Container = styled.div`
+const Container = styled.form`
     display: flex !important;
     flex-direction: column;
     align-items: flex-start;
@@ -44,15 +44,27 @@ const Container = styled.div`
             line-height: 100%;
         }
     }
+
+    input {
+        width: 100%;
+        margin-top: 20px !important;
+
+        @media (min-width: 768px) {
+            max-width: 288px;
+        }
+    }
 `
 
 const SetRecoveryMethodSuccess = ({
     option,
-    phoneNumber,
-    email,
     onConfirm,
-    onGoBack
+    onGoBack,
+    email,
+    phoneNumber,
+    loading
 }) => {
+
+    const [code, setCode] = useState('');
 
     let useEmail = true;
     if (option !== 'email') {
@@ -60,16 +72,25 @@ const SetRecoveryMethodSuccess = ({
     }
 
     return (
-        <Container className='ui container'>
-            <h1><Translate id='setRecoveryConfirm.pageTitle' /></h1>
-            <div className='desc one'><Translate id={`setRecoveryConfirm.pageText.one.${useEmail ? 'email' : 'phoneNumber'}`} /></div>
-            <div className='desc two'><Translate id={`setRecoveryConfirm.pageText.two.${useEmail ? 'email' : 'phoneNumber'}`} /></div>
-            <div className='desc recover-value'>
-                {useEmail ? email : phoneNumber}
-            </div>
+        <Container className='ui container' onSubmit={e => {onConfirm(code); e.preventDefault();}}>
+            <h1><Translate id='setRecoveryConfirm.pageTitle'/> {useEmail ? 'Email' : 'Phone'}</h1>
+            <div className='desc one'><Translate id='setRecoveryConfirm.pageText'/> {useEmail ? email : phoneNumber}</div>
+            <Translate>
+                {({ translate }) => (
+                    <input
+                        type='number'
+                        placeholder={translate('setRecoveryConfirm.inputPlaceholder')}
+                        aria-label={translate('setRecoveryConfirm.inputPlaceholder')}
+                        value={code}
+                        onChange={e => setCode(e.target.value)}
+                    />
+                )}
+            </Translate>
             <FormButton
                 color='blue'
-                onClick={onConfirm}
+                type='submit'
+                disabled={code.length < 6}
+                sending={loading}
             >
                 <Translate id='button.confirm' />
             </FormButton>

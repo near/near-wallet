@@ -2,10 +2,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 import { Translate } from 'react-localize-redux';
-import { generateSeedPhrase } from 'near-seed-phrase';
 import PhoneInput, { isValidPhoneNumber } from 'react-phone-number-input';
 import { validateEmail } from '../../../utils/account';
-import { setupRecoveryMessage, redirectToApp } from '../../../actions/account';
+import { initializeRecoveryMethod, setupRecoveryMessage, redirectToApp } from '../../../actions/account';
 import RecoveryOption from './RecoveryOption';
 import FormButton from '../../common/FormButton';
 import SetupRecoveryMethodSuccess from './SetupRecoveryMethodSuccess';
@@ -74,23 +73,31 @@ class SetupRecoveryMethod extends Component {
         const { option } = this.state;
 
         if (option === 'phone' || option === 'email') {
-            this.handleSendLink();
+            this.handleSendCode();
         } else {
             let phraseUrl = `/setup-seed-phrase/${this.props.accountId}`;
             this.props.history.push(phraseUrl);
         }
     }
 
-    handleSendLink = () => {
-        const { seedPhrase, publicKey } = generateSeedPhrase();
-        const accountId = this.props.accountId;
+    handleSendCode = () => {
         const { phoneNumber, email } = this.state;
+        const  { accountId, initializeRecoveryMethod } = this.props;
 
-        this.props.setupRecoveryMessage({ accountId, phoneNumber, email ,publicKey, seedPhrase })
+        initializeRecoveryMethod({ accountId, phoneNumber, email })
+        this.setState({ success: true })
+        
+    }
+
+    handleSetupRecoveryMethod = (securityCode) => {
+        const { phoneNumber, email } = this.state;
+        const  { accountId, setupRecoveryMessage, redirectToApp } = this.props;
+
+        setupRecoveryMessage({ accountId, phoneNumber, email, securityCode })
             .then(({ error }) => {
-                if (error) return
+                if (error) return;
 
-                this.setState({ success: true });
+                redirectToApp();
             })
     }
 
@@ -166,8 +173,9 @@ class SetupRecoveryMethod extends Component {
                     option={option}
                     phoneNumber={phoneNumber}
                     email={email}
-                    onConfirm={this.props.redirectToApp}
+                    onConfirm={this.handleSetupRecoveryMethod}
                     onGoBack={this.handleGoBack}
+                    loading={this.props.formLoader}
                 />
             )
         }
@@ -176,7 +184,8 @@ class SetupRecoveryMethod extends Component {
 
 const mapDispatchToProps = {
     setupRecoveryMessage,
-    redirectToApp
+    redirectToApp,
+    initializeRecoveryMethod
 }
 
 const mapStateToProps = ({ account }, { match }) => ({

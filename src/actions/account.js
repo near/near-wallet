@@ -122,10 +122,14 @@ export const allowLogin = () => async (dispatch, getState) => {
 
 const defaultCodesFor = (prefix, data) => ({ successCode: `${prefix}.success`, errorCode: `${prefix}.error`, data})
 
-export const { requestCode, setupRecoveryMessage, deleteRecoveryMethod, sendNewRecoveryLink, checkNewAccount, createNewAccount, checkAccountAvailable, getTransactions, getTransactionStatus, clear, clearCode } = createActions({
-    REQUEST_CODE: [
-        wallet.requestCode.bind(wallet),
-        () => defaultCodesFor('account.requestCode')
+export const { initializeRecoveryMethod, setupRecoveryMessage, deleteRecoveryMethod, sendNewRecoveryLink, checkNewAccount, createNewAccount, checkAccountAvailable, getTransactions, getTransactionStatus, clear, clearCode } = createActions({
+    INITIALIZE_RECOVERY_METHOD: [
+        wallet.initializeRecoveryMethod.bind(wallet),
+        () => defaultCodesFor('account.initializeRecoveryMethod')
+    ],
+    VALIDATE_SECURITY_CODE: [
+        wallet.validateSecurityCode.bind(wallet),
+        () => defaultCodesFor('account.validateSecurityCode')
     ],
     SETUP_RECOVERY_MESSAGE: [
         wallet.setupRecoveryMessage.bind(wallet),

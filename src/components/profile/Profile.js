@@ -12,6 +12,7 @@ export function Profile({ match }) {
     const { accountId } = match.params
     const account = useAccount(accountId)
     const recoveryMethods = useRecoveryMethods(account.accountId)
+    const confirmedRecoveryMethods = recoveryMethods.filter(method => method.confirmed)
 
     if (account.__status === LOADING) {
         return <PageContainer title={<Translate id='profile.pageTitle.loading' />} />
@@ -27,7 +28,7 @@ export function Profile({ match }) {
                 <ProfileDetails account={account} />
                 <RecoveryContainer
                     accountId={accountId}
-                    activeMethods={recoveryMethods}
+                    activeMethods={confirmedRecoveryMethods}
                 />
             </ProfileSection>
         </PageContainer>

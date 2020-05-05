@@ -8,7 +8,6 @@ import RecoveryIcon from '../../../images/icon-recovery-grey.svg';
 import ErrorIcon from '../../../images/icon-problems.svg';
 import { Snackbar, snackbarDuration } from '../../common/Snackbar';
 import { Translate } from 'react-localize-redux';
-import { generateSeedPhrase } from 'near-seed-phrase';
 import {
     setupRecoveryMessage,
     deleteRecoveryMethod,
@@ -108,19 +107,10 @@ class RecoveryContainer extends Component {
     }
 
     handleResendLink = (method) => {
-        const { seedPhrase, publicKey } = generateSeedPhrase();
         const { accountId, sendNewRecoveryLink, loadRecoveryMethods } = this.props;
-        const { kind, detail } = method;
-        let phoneNumber, email;
-
-        if (kind === 'email') {
-            email = detail;
-        } else if (kind === 'phone') {
-            phoneNumber = detail;
-        }
-
+        
         this.setState({ resendingLink: method.kind })
-        sendNewRecoveryLink({ accountId, phoneNumber, email, publicKey, seedPhrase, method })
+        sendNewRecoveryLink({ method })
             .then(({ error }) => {
                 if (error) return
 
