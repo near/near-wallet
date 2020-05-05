@@ -8,7 +8,6 @@ const RequestStatusBoxContainer = styled.div`
     margin-top: -20px;
     padding-bottom: 4px;
     line-height: 16px;
-    font-size: 12px;
 
     &.problem {
         color: #ff585d;
@@ -49,6 +48,10 @@ const RequestStatusBoxContainer = styled.div`
                 }
             }
         }
+    }
+
+    @media screen and (max-width: 991px) {
+        font-size: 12px;
     }
   }
 `

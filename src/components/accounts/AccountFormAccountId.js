@@ -11,7 +11,7 @@ import { ACCOUNT_CHECK_TIMEOUT, ACCOUNT_ID_SUFFIX } from '../../utils/wallet'
 
 const InputWrapper = styled.div`
     position: relative;
-    margin-bottom: 24px !important;
+    margin-bottom: 30px !important;
     margin: 0;
 
     input {
