@@ -59,6 +59,7 @@ class CreateAccount extends Component {
 
             this.handleCreateAccountSuccess();
         });
+        this.props.setFormLoader(false)
     }
 
     handleCreateAccountSuccess = () => {
