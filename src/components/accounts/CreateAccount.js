@@ -111,7 +111,7 @@ class CreateAccount extends Component {
     handleLoginWithGoogle = async () => {
         const TorusSdk = await import("@toruslabs/torus-direct-web-sdk");
         const torusdirectsdk = new TorusSdk({
-            baseUrl: "http://localhost:1234/torus-support/",
+            baseUrl: `${window.location.origin}/torus-support/`,
             GOOGLE_CLIENT_ID: "206857959151-uebr6impkept4p3q6qv3e2bdevs9mro6.apps.googleusercontent.com",
             proxyContractAddress: "0x4023d2a0D330bF11426B12C6144Cfb96B7fa6183", // details for test net
             network: "ropsten", // details for test net
