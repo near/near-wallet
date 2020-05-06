@@ -78,22 +78,32 @@ class SetupRecoveryMethod extends Component {
             let phraseUrl = `/setup-seed-phrase/${this.props.accountId}`;
             this.props.history.push(phraseUrl);
         }
+
+    }
+
+    get method() {
+        const { phoneNumber, email, option } = this.state;
+
+        const method = {
+            kind: option === 'email' ? 'email' : 'phone',
+            detail: option === 'email' ? email : phoneNumber
+        }
+
+        return method;
     }
 
     handleSendCode = () => {
-        const { phoneNumber, email } = this.state;
         const  { accountId, initializeRecoveryMethod } = this.props;
 
-        initializeRecoveryMethod({ accountId, phoneNumber, email })
+        initializeRecoveryMethod(accountId, this.method);
         this.setState({ success: true })
         
     }
 
     handleSetupRecoveryMethod = (securityCode) => {
-        const { phoneNumber, email } = this.state;
         const  { accountId, setupRecoveryMessage, redirectToApp } = this.props;
 
-        setupRecoveryMessage({ accountId, phoneNumber, email, securityCode })
+        setupRecoveryMessage(accountId, this.method, securityCode)
             .then(({ error }) => {
                 if (error) return;
 

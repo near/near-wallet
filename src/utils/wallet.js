@@ -294,27 +294,25 @@ class Wallet {
         return { blockNumber, blockNumberSignature };
     }
 
-    async initializeRecoveryMethod({accountId, phoneNumber, email}) {
+    async initializeRecoveryMethod(accountId, method) {
         await sendJson('POST', `${ACCOUNT_HELPER_URL}/account/initializeRecoveryMethod`, {
             accountId,
-            phoneNumber,
-            email,
+            method,
             ...(await wallet.signatureFor(accountId))
         });
     }
 
-    async validateSecurityCode({accountId, phoneNumber, email, securityCode}) {
+    async validateSecurityCode(accountId, method, securityCode) {
         await sendJson('POST', `${ACCOUNT_HELPER_URL}/account/validateSecurityCode`, {
             accountId,
-            phoneNumber,
-            email,
+            method,
             securityCode,
             ...(await wallet.signatureFor(accountId))
         });
     }
 
-    async setupRecoveryMessage({ accountId, phoneNumber, email, securityCode }) {
-        await this.validateSecurityCode({ accountId, phoneNumber, email, securityCode });
+    async setupRecoveryMessage(accountId, method, securityCode) {
+        await this.validateSecurityCode(accountId, method, securityCode);
 
         const { seedPhrase, publicKey } = generateSeedPhrase();
         const account = this.getAccount(accountId)
@@ -325,8 +323,7 @@ class Wallet {
 
         return sendJson('POST', `${ACCOUNT_HELPER_URL}/account/sendRecoveryMessage`, {
             accountId,
-            email,
-            phoneNumber,
+            method,
             seedPhrase
         });
     }
@@ -337,7 +334,7 @@ class Wallet {
         await this.removeAccessKey(oldKey)
     }
 
-    async sendNewRecoveryLink({ method }) {
+    async sendNewRecoveryLink(method) {
         const accountId = this.accountId;
         const { seedPhrase, publicKey } = generateSeedPhrase();
 
@@ -354,7 +351,7 @@ class Wallet {
     async deleteRecoveryMethod(method) {
         await sendJson('POST', `${ACCOUNT_HELPER_URL}/account/deleteRecoveryMethod`, {
             accountId: wallet.accountId,
-            recoveryMethod: method.kind,
+            kind: method.kind,
             publicKey: method.publicKey,
             ...(await wallet.signatureFor(wallet.accountId))
         })

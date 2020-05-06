@@ -9,7 +9,6 @@ import ErrorIcon from '../../../images/icon-problems.svg';
 import { Snackbar, snackbarDuration } from '../../common/Snackbar';
 import { Translate } from 'react-localize-redux';
 import {
-    setupRecoveryMessage,
     deleteRecoveryMethod,
     loadRecoveryMethods,
     sendNewRecoveryLink
@@ -110,7 +109,7 @@ class RecoveryContainer extends Component {
         const { accountId, sendNewRecoveryLink, loadRecoveryMethods } = this.props;
         
         this.setState({ resendingLink: method.kind })
-        sendNewRecoveryLink({ method })
+        sendNewRecoveryLink(method)
             .then(({ error }) => {
                 if (error) return
 
@@ -180,7 +179,6 @@ class RecoveryContainer extends Component {
 }
 
 const mapDispatchToProps = {
-    setupRecoveryMessage,
     deleteRecoveryMethod,
     loadRecoveryMethods,
     sendNewRecoveryLink
