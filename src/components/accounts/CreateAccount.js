@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { Translate } from 'react-localize-redux'
-import { checkNewAccount, createNewAccount, refreshAccount, checkNearDropBalance } from '../../actions/account'
+import { checkNewAccount, createNewAccount, refreshAccount, checkNearDropBalance, redirectToApp } from '../../actions/account'
 import { clearLocalAlert } from '../../actions/status'
 import { ACCOUNT_ID_SUFFIX } from '../../utils/wallet'
 import Container from '../common/styled/Container.css'
@@ -108,6 +108,25 @@ class CreateAccount extends Component {
         }
     }
 
+    handleLoginWithGoogle = async () => {
+        const TorusSdk = await import("@toruslabs/torus-direct-web-sdk");
+        const torusdirectsdk = new TorusSdk({
+            baseUrl: "http://localhost:1234/torus-support/",
+            GOOGLE_CLIENT_ID: "206857959151-uebr6impkept4p3q6qv3e2bdevs9mro6.apps.googleusercontent.com",
+            proxyContractAddress: "0x4023d2a0D330bF11426B12C6144Cfb96B7fa6183", // details for test net
+            network: "ropsten", // details for test net
+        });
+        Object.defineProperty(torusdirectsdk.config, 'redirect_uri', { value: `${torusdirectsdk.config.baseUrl}redirect.html` });
+                     
+        await torusdirectsdk.init();
+        const loginDetails = await torusdirectsdk.triggerLogin('google', 'google-near');
+
+        await wallet.createOrRecoverAccountFromTorus(loginDetails);
+
+        this.props.refreshAccount()
+        this.props.redirectToApp()
+    }
+
     handleCreateAccount = async () => {
         const { accountId } = this.state;
         const { 
@@ -164,6 +183,9 @@ class CreateAccount extends Component {
                         <div className='alternatives' onClick={() => {Mixpanel.track("CA Click import existing account button")}}>
                             <Link to={process.env.DISABLE_PHONE_RECOVERY === 'yes' ? '/recover-seed-phrase' : '/recover-account'}><Translate id='createAccount.recoverItHere' /></Link>
                         </div>
+                        <div>
+                            <a href="#" onClick={(e) => { e.preventDefault(); this.handleLoginWithGoogle() }}>Login with Google</a>
+                        </div>
                     </form>
                 </StyledContainer>
             )
@@ -185,6 +207,7 @@ const mapDispatchToProps = {
     createNewAccount,
     clearLocalAlert,
     refreshAccount,
+    redirectToApp,
     checkNearDropBalance
 }
 
