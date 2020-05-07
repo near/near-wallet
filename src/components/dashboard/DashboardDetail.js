@@ -41,7 +41,9 @@ class DashboardDetail extends Component {
     }
 
     refreshTransactions() {
-        this.props.getTransactions()
+        const { getTransactions, accountId } = this.props
+        
+        getTransactions(accountId)
     }
 
     refreshAccessKeys = () => {
