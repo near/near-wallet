@@ -186,6 +186,7 @@ class SetupRecoveryMethod extends Component {
                     onConfirm={this.handleSetupRecoveryMethod}
                     onGoBack={this.handleGoBack}
                     loading={this.props.formLoader}
+                    requestStatus={this.props.requestStatus}
                 />
             )
         }

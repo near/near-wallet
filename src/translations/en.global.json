@@ -263,6 +263,7 @@
         "pageTitle": "Verify",
         "pageText": "We've sent a 6 digit code to",
         "inputPlaceholder": "Enter 6 digit code",
+        "invalidCode": "Please check your security code.",
         "reenter": {
             "one": {
                 "email": "If you did not yet receive this email, or the above email address is incorrect, ",

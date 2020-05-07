@@ -129,8 +129,8 @@ class ActiveMethod extends Component {
 
         const { disable, username } = this.state;
         const { data, onResend, onDelete, accountId } = this.props;
-        const deletingMethod = this.props.deletingMethod === data.kind;
-        const resendingLink = this.props.resendingLink === data.kind;
+        const deletingMethod = this.props.deletingMethod === data.detail;
+        const resendingLink = this.props.resendingLink === data.detail;
 
         if (!disable) {
             return (

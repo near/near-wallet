@@ -96,7 +96,7 @@ class RecoveryContainer extends Component {
     handleDeleteMethod = (method) => {
         const { deleteRecoveryMethod, loadRecoveryMethods, accountId } = this.props;
 
-        this.setState({ deletingMethod: method.kind })
+        this.setState({ deletingMethod: method.detail })
         deleteRecoveryMethod(method)
             .then(({ error }) => {
                 if (error) return
@@ -108,7 +108,7 @@ class RecoveryContainer extends Component {
     handleResendLink = (method) => {
         const { accountId, sendNewRecoveryLink, loadRecoveryMethods } = this.props;
         
-        this.setState({ resendingLink: method.kind })
+        this.setState({ resendingLink: method.detail })
         sendNewRecoveryLink(method)
             .then(({ error }) => {
                 if (error) return

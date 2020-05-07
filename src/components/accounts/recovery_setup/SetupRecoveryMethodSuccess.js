@@ -61,7 +61,8 @@ const SetRecoveryMethodSuccess = ({
     onGoBack,
     email,
     phoneNumber,
-    loading
+    loading,
+    requestStatus
 }) => {
 
     const [code, setCode] = useState('');
@@ -71,19 +72,28 @@ const SetRecoveryMethodSuccess = ({
         useEmail = false;
     }
 
+    const invalidCode = requestStatus && requestStatus.messageCode === 'account.setupRecoveryMessage.error';
+
     return (
         <Container className='ui container' onSubmit={e => {onConfirm(code); e.preventDefault();}}>
             <h1><Translate id='setRecoveryConfirm.pageTitle'/> {useEmail ? 'Email' : 'Phone'}</h1>
             <div className='desc one'><Translate id='setRecoveryConfirm.pageText'/> {useEmail ? email : phoneNumber}</div>
             <Translate>
                 {({ translate }) => (
-                    <input
-                        type='number'
-                        placeholder={translate('setRecoveryConfirm.inputPlaceholder')}
-                        aria-label={translate('setRecoveryConfirm.inputPlaceholder')}
-                        value={code}
-                        onChange={e => setCode(e.target.value)}
-                    />
+                    <>
+                        <input
+                            type='number'
+                            placeholder={translate('setRecoveryConfirm.inputPlaceholder')}
+                            aria-label={translate('setRecoveryConfirm.inputPlaceholder')}
+                            value={code}
+                            onChange={e => setCode(e.target.value)}
+                        />
+                        {invalidCode && 
+                            <div style={{color: '#ff585d', marginTop: '5px'}}>
+                                {translate('setRecoveryConfirm.invalidCode')}
+                            </div>
+                        }
+                    </>
                 )}
             </Translate>
             <FormButton
