@@ -43,7 +43,7 @@ async function getKeyMeta(publicKey) {
 
 class Wallet {
     constructor() {
-        this.keyStore = new nearlib.keyStores.BrowserLocalStorageKeyStore(window.localStorage, 'nearlib')
+        this.keyStore = new nearlib.keyStores.BrowserLocalStorageKeyStore()
         const inMemorySigner = new nearlib.InMemorySigner(this.keyStore)
 
         async function getLedgerKey(accountId) {
