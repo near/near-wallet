@@ -22,8 +22,7 @@ export async function getTransactions(accountId = '') {
                     transactions.block_timestamp, 
                     actions.action_type as kind, 
                     actions.action_args as args,
-                    actions.action_index || ':' || transactions.hash as hash_with_index,
-                    :accountId as query_account_id
+                    actions.action_index || ':' || transactions.hash as hash_with_index
                 FROM 
                     transactions
                 LEFT JOIN actions ON actions.transaction_hash = transactions.hash
@@ -49,7 +48,8 @@ export async function getTransactions(accountId = '') {
     
     return tx.map((t, i) => ({
         ...t,
-        checkStatus: !(i && t.hash === tx[i - 1].hash)
+        checkStatus: !(i && t.hash === tx[i - 1].hash),
+        query_account_id: accountId
     }))
 }
 
