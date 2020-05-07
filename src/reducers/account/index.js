@@ -91,15 +91,8 @@ const accessKeys = handleActions({
 }, initialState)
 
 const transactions = handleActions({
-    [getTransactions]: (state, { error, payload, ready }) => {
-        const { transactions } = state
-
-        if (!ready && transactions && transactions[0].query_account_id !== state.accountId) {
-            return {
-                ...state,
-                transactions: undefined
-            }
-        }
+    [getTransactions]: (state, { error, payload, ready, meta }) => {
+        const transactions = state.transactions ? state.transactions[meta.accountId] : undefined
 
         const hash = transactions && transactions.reduce((h, t) => ({
             ...h,
@@ -108,36 +101,41 @@ const transactions = handleActions({
         
         return ({
             ...state,
-            transactions: (ready && !error) 
-                ? payload.map((t) => (
-                    (hash && Object.keys(hash).includes(t.hash_with_index))
-                        ? {
-                            ...t,
-                            status: hash[t.hash_with_index].status,
-                            checkStatus: hash[t.hash_with_index].checkStatus
-                        } 
-                        : t
-                ))
-                : transactions
+            transactions: {
+                [meta.accountId]: (ready && !error) 
+                    ? payload[meta.accountId].map((t) => (
+                        (hash && Object.keys(hash).includes(t.hash_with_index))
+                            ? {
+                                ...t,
+                                status: hash[t.hash_with_index].status,
+                                checkStatus: hash[t.hash_with_index].checkStatus
+                            } 
+                            : t
+                    ))
+                    : transactions
+            }
         })
     },
     [getTransactionStatus]: (state, { error, payload, ready, meta }) => ({
         ...state,
-        transactions: state.transactions.map((t) => (
-            t.hash === meta.hash
-                ? {
-                    ...t,
-                    checkStatus: (ready && !error) 
-                        ? !['SuccessValue', 'Failure'].includes(Object.keys(payload.status)[0]) 
-                        : false,
-                    status: (ready && !error) 
-                        ? Object.keys(payload.status)[0] 
-                        : error 
-                            ? 'notAvailable' 
-                            : ''
-                }
-                : t
-        ))
+        transactions: state.transactions 
+            ? {[meta.accountId]: state.transactions[meta.accountId].map((t) => (
+                t.hash === meta.hash
+                    ? {
+                        ...t,
+                        checkStatus: (ready && !error) 
+                            ? !['SuccessValue', 'Failure'].includes(Object.keys(payload.status)[0]) 
+                            : false,
+                        status: (ready && !error) 
+                            ? Object.keys(payload.status)[0] 
+                            : error 
+                                ? 'notAvailable' 
+                                : ''
+                    }
+                    : t
+            ))}
+            : undefined
+        
     })
 }, initialState)
 
