@@ -8,6 +8,7 @@ import { ConnectedRouter } from 'connected-react-router'
 import { withLocalize } from 'react-localize-redux';
 
 import translations_en from '../translations/en.global.json'
+import translations_ru from '../translations/ru.global.json'
 import GlobalAlert from './responsive/GlobalAlert'
 import '../index.css'
 
@@ -65,6 +66,7 @@ class Routing extends Component {
         this.props.initialize({
             languages: [
                 { name: "English", code: "en" },
+                { name: "Russian", code: "ru" },
             ],
             translation: {},
             options: {
@@ -72,7 +74,10 @@ class Routing extends Component {
                 renderInnerHtml: true
             }
         })
+        // TODO: Figure out how to load only necessary translatuons dynamically
         this.props.addTranslationForLanguage(translations_en, "en")
+        this.props.addTranslationForLanguage(translations_ru, "ru")
+        this.props.setActiveLanguage('ru')
     }
 
     componentDidMount = () => {
