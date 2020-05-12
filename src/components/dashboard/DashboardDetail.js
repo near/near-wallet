@@ -17,7 +17,7 @@ import AccessKeysIcon from '../../images/icon-keys-grey.svg'
 
 import DashboardKeys from './DashboardKeys'
 
-import { TRANSACTIONS_REFRESH_INTERVAL } from '../../utils/wallet'
+import { TRANSACTIONS_REFRESH_INTERVAL, EXPLORER_URL } from '../../utils/wallet'
 
 class DashboardDetail extends Component {
     state = {
@@ -94,7 +94,7 @@ class DashboardDetail extends Component {
                         loader={loader}
                         image={activityGreyImage}
                         title={<Translate id='dashboard.activity' />}
-                        to={`${process.env.EXPLORER_URL || 'https://explorer.nearprotocol.com'}/accounts/${accountId}`}
+                        to={`${EXPLORER_URL}/accounts/${accountId}`}
                         transactions={transactions}
                         accountId={accountId}
                         formLoader={formLoader}
