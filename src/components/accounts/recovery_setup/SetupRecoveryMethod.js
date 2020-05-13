@@ -5,7 +5,7 @@ import { Translate } from 'react-localize-redux';
 import { generateSeedPhrase } from 'near-seed-phrase';
 import PhoneInput, { isValidPhoneNumber } from 'react-phone-number-input';
 import { validateEmail } from '../../../utils/account';
-import { setupRecoveryMessage, redirectToApp } from '../../../actions/account';
+import { setupRecoveryMessage, redirectToApp, loadRecoveryMethods } from '../../../actions/account';
 import RecoveryOption from './RecoveryOption';
 import FormButton from '../../common/FormButton';
 import SetupRecoveryMethodSuccess from './SetupRecoveryMethodSuccess';
@@ -52,7 +52,29 @@ class SetupRecoveryMethod extends Component {
         option: 'email',
         phoneNumber: '',
         email: '',
-        success: false
+        success: false,
+        activeMethods: []
+    }
+
+    componentDidMount() {
+        const {loadRecoveryMethods, accountId, router } = this.props;
+        const { activeMethods, method } = router.location;
+
+        if (method) {
+            this.setState({ option: method });
+        }
+
+        if (activeMethods) {
+            this.setState({ activeMethods: activeMethods });
+        } else {
+            loadRecoveryMethods(accountId)
+                .then(({ error, payload }) => {
+                    if (error) return;
+                    this.setState({
+                        activeMethods: payload.map(method => method.kind)
+                    });
+                })
+        }
     }
 
     get isValidInput() {
@@ -71,11 +93,11 @@ class SetupRecoveryMethod extends Component {
     }
 
     handleNext = () => {
-        const { option } = this.state;
-
-        if (option === 'phone' || option === 'email') {
-            this.handleSendLink();
-        } else {
+        const { option, activeMethods } = this.state;
+        
+        if ((option === 'email' && !activeMethods.includes('email')) || (option === 'phone' && !activeMethods.includes('phone'))) {
+            this.handleSendLink()
+        } else if (option === 'phrase' && !activeMethods.includes('phrase')) {
             let phraseUrl = `/setup-seed-phrase/${this.props.accountId}`;
             this.props.history.push(phraseUrl);
         }
@@ -104,7 +126,9 @@ class SetupRecoveryMethod extends Component {
 
     render() {
 
-        const { option, phoneNumber, email, success } = this.state;
+        const { option, phoneNumber, email, success, activeMethods } = this.state;
+        const { actionsPending, formLoader, redirectToApp } = this.props;
+        const sendingMessage = actionsPending.includes('SETUP_RECOVERY_MESSAGE');
 
         if (!success) {
             return (
@@ -116,7 +140,8 @@ class SetupRecoveryMethod extends Component {
                     <RecoveryOption
                         onClick={() => this.setState({ option: 'email' })}
                         option='email'
-                        active={option === 'email'}
+                        active={option}
+                        disabled={activeMethods.includes('email')}
                     >
                         <Translate>
                             {({ translate }) => (
@@ -131,7 +156,8 @@ class SetupRecoveryMethod extends Component {
                     <RecoveryOption
                         onClick={() => this.setState({ option: 'phone' })}
                         option='phone'
-                        active={option === 'phone'}
+                        active={option}
+                        disabled={activeMethods.includes('phone')}
                     >
                         <Translate>
                             {({ translate }) => (
@@ -148,13 +174,14 @@ class SetupRecoveryMethod extends Component {
                     <RecoveryOption
                         onClick={() => this.setState({ option: 'phrase' })}
                         option='phrase'
-                        active={option === 'phrase'}
+                        active={option}
+                        disabled={activeMethods.includes('phrase')}
                     />
                     <FormButton
                         color='blue'
                         type='submit'
                         disabled={!this.isValidInput}
-                        sending={this.props.formLoader}
+                        sending={formLoader && sendingMessage}
                     >
                         <Translate id={`button.${option !== 'phrase' ? 'protectAccount' : 'setupPhrase'}`}/>
                     </FormButton>
@@ -166,7 +193,7 @@ class SetupRecoveryMethod extends Component {
                     option={option}
                     phoneNumber={phoneNumber}
                     email={email}
-                    onConfirm={this.props.redirectToApp}
+                    onConfirm={redirectToApp}
                     onGoBack={this.handleGoBack}
                 />
             )
@@ -176,12 +203,15 @@ class SetupRecoveryMethod extends Component {
 
 const mapDispatchToProps = {
     setupRecoveryMessage,
-    redirectToApp
+    redirectToApp,
+    loadRecoveryMethods
 }
 
-const mapStateToProps = ({ account }, { match }) => ({
+const mapStateToProps = ({ account, router, recoveryMethods }, { match }) => ({
     ...account,
-    accountId: match.params.accountId
+    router,
+    accountId: match.params.accountId,
+    recoveryMethods
 })
 
 export const SetupRecoveryMethodWithRouter = connect(mapStateToProps, mapDispatchToProps)(SetupRecoveryMethod);

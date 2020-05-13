@@ -31,7 +31,7 @@ const Container = styled.div`
         }
     }
 
-    button {
+    button, a {
         font-size: 14px;
         width: 100px;
         font-weight: 600;
@@ -88,12 +88,6 @@ class RecoveryContainer extends Component {
         deletingMethod: '',
         resendingLink: ''
     };
-
-    handleEnableMethod = (method) => {
-        const { history, accountId } = this.props;
-
-        history.push(`${method !== 'phrase' ? '/set-recovery/' : '/setup-seed-phrase/'}${accountId}`);
-    }
 
     handleDeleteMethod = (method) => {
         const { deleteRecoveryMethod, loadRecoveryMethods, accountId } = this.props;
@@ -167,8 +161,9 @@ class RecoveryContainer extends Component {
                         {inactiveMethods.map((method, i) =>
                             <InactiveMethod
                                 key={i}
-                                kind={method}
-                                onEnable={() => this.handleEnableMethod(method)}
+                                method={method}
+                                accountId={accountId}
+                                activeMethods={activeMethods}
                             />
                         )}
                     </>
