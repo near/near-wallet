@@ -21,7 +21,6 @@
     "react-phone-number-input": "2.3.11",
     "react-qr-svg": "^2.2.2",
     "react-redux": "^7.2.0",
-    "react-redux-loading": "^1.0.1",
     "react-router-dom": "^5.2.0",
     "reduce-reducers": "^1.0.4",
     "redux": "^4.0.5",
