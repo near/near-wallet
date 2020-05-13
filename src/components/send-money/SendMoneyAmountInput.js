@@ -48,8 +48,8 @@ const CustomDiv = styled(`div`)`
             margin: 0;
             padding: 8px 0;
             line-height: 34px;
-            font-size: 14px;
             text-align: center;
+            
             &.problem {
                 color: #ff585d;
             }
@@ -59,6 +59,12 @@ const CustomDiv = styled(`div`)`
             &.segment {
                 padding: 0px !important;
             }
+        }
+    }
+
+    @media screen and (max-width: 991px) {
+        .alert-info {
+            font-size: 12px;
         }
     }
 `

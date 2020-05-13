@@ -203,12 +203,13 @@ export const { signAndSendTransactions } = createActions({
     ]
 })
 
-export const { switchAccount, refreshAccount, resetAccounts, refreshUrl } = createActions({
+export const { switchAccount, refreshAccount, resetAccounts, refreshUrl, setFormLoader } = createActions({
     SWITCH_ACCOUNT: wallet.selectAccount.bind(wallet),
     REFRESH_ACCOUNT: [
         wallet.loadAccount.bind(wallet),
         () => ({ accountId: wallet.getAccountId(), })
     ],
     RESET_ACCOUNTS: wallet.clearState.bind(wallet),
-    REFRESH_URL: null
+    REFRESH_URL: null,
+    SET_FORM_LOADER: null
 })

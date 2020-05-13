@@ -13,7 +13,8 @@ import {
     refreshUrl,
     refreshAccount,
     resetAccounts,
-    getTransactionStatus
+    getTransactionStatus,
+    setFormLoader
 } from '../../actions/account'
 
 const initialState = {
@@ -172,6 +173,10 @@ const account = handleActions({
         ...state,
         loginResetAccounts: true
     }),
+    [setFormLoader]: (state, { payload }) => ({
+        ...state,
+        formLoader: payload
+    })
 }, initialState)
 
 export default reduceReducers(

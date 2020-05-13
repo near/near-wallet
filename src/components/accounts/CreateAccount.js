@@ -5,7 +5,7 @@ import { GoogleReCaptchaProvider, GoogleReCaptcha } from 'react-google-recaptcha
 import CreateAccountForm from './CreateAccountForm'
 import AccountFormSection from './AccountFormSection'
 import AccountFormContainer from './AccountFormContainer'
-import { checkNewAccount, createNewAccount, clear, refreshAccount, resetAccounts } from '../../actions/account'
+import { checkNewAccount, createNewAccount, clear, refreshAccount, resetAccounts, setFormLoader } from '../../actions/account'
 import { ACCOUNT_ID_SUFFIX } from '../../utils/wallet'
 
 class CreateAccount extends Component {
@@ -42,23 +42,27 @@ class CreateAccount extends Component {
 
     handleCreateAccount = () => {
         const { accountId, token } = this.state;
+        const { match, createNewAccount, setFormLoader } = this.props
 
-        const fundingKey = this.props.match.params.fundingKey;
-        const fundingContract = this.props.match.params.fundingContract;
+        const fundingKey = match.params.fundingKey;
+        const fundingContract = match.params.fundingContract;
 
         this.setState({ loader: true });
-        this.props.createNewAccount(accountId, fundingKey, fundingContract, token)
-        .then(({ error, payload }) => {
-            if (error) {
-                if (payload.statusCode === 402) {
-                    this.setState({ recaptchaFallback: true });
+        
+        createNewAccount(accountId, fundingKey, fundingContract, token)
+            .then(({ error, payload }) => {
+                if (error) {
+                    if (payload.statusCode === 402) {
+                        this.setState({ recaptchaFallback: true });
+                    }
+                    this.setState({ loader: false });
+                    return;
                 }
-                this.setState({ loader: false });
-                return;
-            }
 
-            this.handleCreateAccountSuccess();
-        });
+                this.handleCreateAccountSuccess();
+            });
+        
+        setFormLoader(false)
     }
 
     handleCreateAccountSuccess = () => {
@@ -67,12 +71,11 @@ class CreateAccount extends Component {
         this.props.refreshAccount();
         let nextUrl = process.env.DISABLE_PHONE_RECOVERY === 'yes' ? `/setup-seed-phrase/${accountId}` : `/set-recovery/${accountId}`;
         this.props.history.push(nextUrl);
-        this.setState({ loader: false });
     }
 
     render() {
         const { loader, accountId, recaptchaFallback } = this.state
-        const { requestStatus, formLoader, checkNewAccount, location, loginResetAccounts } = this.props
+        const { requestStatus, formLoader, checkNewAccount, location, loginResetAccounts, clear, setFormLoader } = this.props
         const useRequestStatus = accountId.length > 0 ? requestStatus : undefined;
 
         return (
@@ -82,8 +85,7 @@ class CreateAccount extends Component {
                 text={<Translate id='createAccount.pageText' />}
                 loginResetAccounts={loginResetAccounts}
             >
-                <AccountFormSection
-                    requestStatus={useRequestStatus}
+                <AccountFormSection 
                     handleSubmit={this.handleCreateAccount}
                     location={location}
                 >
@@ -96,6 +98,8 @@ class CreateAccount extends Component {
                         verifyRecaptcha={token => this.setState({ token: token }, this.handleCreateAccount)}
                         checkAvailability={checkNewAccount}
                         accountId={accountId}
+                        clearRequestStatus={clear}
+                        setFormLoader={setFormLoader}
                     />
                     <GoogleReCaptchaProvider reCaptchaKey="6LfSgNoUAAAAABKb2sk4Rs3TS0RMx9zrVwyTBSc6">
                         <GoogleReCaptcha onVerify={token => this.setState({ token: token })}/>
@@ -111,7 +115,8 @@ const mapDispatchToProps = {
     createNewAccount,
     clear,
     refreshAccount,
-    resetAccounts
+    resetAccounts,
+    setFormLoader
 }
 
 const mapStateToProps = ({ account }) => ({
