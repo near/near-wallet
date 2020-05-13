@@ -8051,12 +8051,13 @@ react-qr-svg@^2.2.2:
     prop-types "^15.5.8"
     qr.js "0.0.0"
 
-react-redux-loading@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/react-redux-loading/-/react-redux-loading-1.0.1.tgz#b03685c6c0304681b3097a27a3e6ee9b534fd699"
-  integrity sha512-FXEW1fCU7yeJHDuJ1OTG3VUHtllpw6ezenVVl/b64f25MCxd9Vsnm+N/4g5/rx89/FGGr+IMMVO3cpLhvxqLTw==
+react-redux-loading@^4.6.1:
+  version "4.6.1"
+  resolved "https://registry.yarnpkg.com/react-redux-loading/-/react-redux-loading-4.6.1.tgz#29b3e3d90625b00cd795423fd9cdb1b4ca09438e"
+  integrity sha512-MrpabKX0LTwqVq/gQjffV44GvVN7F1nZD7Ur1g8twYt4D/Yoq3ezL2f3nQybcXkmlMuYH6YFXgalLKoDDmPIrg==
   dependencies:
-    prop-types "^15.5.6"
+    prop-types "^15.6.2"
+    react-lifecycles-compat "^3.0.2"
 
 react-redux@^7.2.0:
   version "7.2.0"
