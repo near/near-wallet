@@ -3,9 +3,11 @@ import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
 import Button from '../common/Button'
+import FormButton from '../common/FormButton'
 import { 
     recoverAccountSeedPhrase,
-    refreshAccount 
+    refreshAccount,
+    redirectToApp
 } from '../../actions/account'
 import { Snackbar, snackbarDuration } from '../common/Snackbar'
 import { Translate } from 'react-localize-redux'
@@ -74,6 +76,10 @@ const ButtonWrapper = styled.div`
 
         @media (min-width: 768px) {
             max-width: 300px;
+        }
+
+        &:first-of-type {
+            margin-top: 0 !important;
         }
 
         &:last-of-type {
@@ -145,27 +151,29 @@ class RecoverWithLink extends Component {
                 if (error) {
                     this.setState({ successView: false });
                 } else {
-                    this.props.refreshAccount();
-                    // TODO: Should this use Redux action to navigate?
-                    this.props.history.push(`/profile/${this.state.accountId}`);
+                    this.props.refreshAccount()
+                    this.props.redirectToApp()
                 }
             });
     }
 
     render() {
 
-        if (this.state.successView) {
+        const { accountId, successSnackbar, successView } = this.state
+        const { formLoader, history } = this.props
+
+        if (successView) {
             return (
                 <Translate>
                     {({ translate }) => (
                         <Container className='ui container'>
                             <Title>{translate('recoverWithLink.title')}</Title>
-                            <Desc>{translate('recoverWithLink.pOne')} <UserName>@{this.state.accountId}</UserName></Desc>
+                            <Desc>{translate('recoverWithLink.pOne')} <UserName>@{accountId}</UserName></Desc>
                             <Desc last>{translate('recoverWithLink.pTwo')}</Desc>
                             <ButtonWrapper>
-                                <Button onClick={this.handleContinue}>
+                                <FormButton onClick={this.handleContinue} disabled={formLoader} sending={formLoader}>
                                     {translate('button.continue')}
-                                </Button>
+                                </FormButton>
                                 <Button onClick={this.handleCopyUrl}>
                                     {translate('button.copyUrl')}
                                     <RecoverUrl ref={this.recoverUrl}>{window.location.href}</RecoverUrl>
@@ -174,7 +182,7 @@ class RecoverWithLink extends Component {
                             <Snackbar
                                 theme='success'
                                 message={translate('recoverWithLink.snackbarCopySuccess')}
-                                show={this.state.successSnackbar}
+                                show={successSnackbar}
                                 onHide={() => this.setState({ successSnackbar: false })}
                             />
                         </Container>
@@ -188,7 +196,7 @@ class RecoverWithLink extends Component {
                         <Container className='ui container error'>
                             <Title>{translate('recoverWithLink.errorTitle')}</Title>
                             <Desc>{translate('recoverWithLink.errorP')}</Desc>
-                            <Button onClick={() => this.props.history.push('/create')}>
+                            <Button onClick={() => history.push('/create')}>
                                 {translate('button.createAccount')}
                             </Button>
                         </Container>
@@ -201,7 +209,8 @@ class RecoverWithLink extends Component {
 
 const mapDispatchToProps = {
     recoverAccountSeedPhrase, 
-    refreshAccount
+    refreshAccount,
+    redirectToApp
 }
 
 const mapStateToProps = ({ account }, { match }) => ({

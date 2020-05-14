@@ -1,7 +1,5 @@
 import { createGlobalStyle } from 'styled-components'
 
-import ProblemsImage from '../images/icon-problems.svg'
-import CheckBlueImage from '../images/icon-check-blue.svg'
 import EmailIconGray from '../images/email-icon-gray.svg'
 import CloseBtn from '../images/close-btn.svg'
 
@@ -229,6 +227,9 @@ export default createGlobalStyle`
     }
     .color-red {
         color: #ff585d !important;
+    }
+    .color-green {
+        color: #5ace84 !important;
     }
 
     .ui.popup > .header {
