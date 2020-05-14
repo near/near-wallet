@@ -74,7 +74,7 @@ class Routing extends Component {
                 renderInnerHtml: true
             }
         })
-        // TODO: Figure out how to load only necessary translatuons dynamically
+        // TODO: Figure out how to load only necessary translations dynamically
         this.props.addTranslationForLanguage(translations_en, "en")
         this.props.addTranslationForLanguage(translations_ru, "ru")
         this.props.setActiveLanguage('ru')
