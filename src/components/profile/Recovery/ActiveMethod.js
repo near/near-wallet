@@ -176,6 +176,7 @@ class ActiveMethod extends Component {
                                 placeholder={translate('recoveryMgmt.disableInputPlaceholder')}
                                 value={username}
                                 onChange={e => this.setState({ username: e.target.value })}
+                                autocomplete='off'
                                 spellCheck='false'
                             />
                         )}
