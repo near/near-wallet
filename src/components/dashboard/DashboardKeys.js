@@ -4,7 +4,7 @@ import { Translate } from 'react-localize-redux'
 import FormButton from '../common/FormButton'
 import KeyListItem from './KeyListItem'
 
-import { Grid, Header, Image } from 'semantic-ui-react'
+import { Grid, Image } from 'semantic-ui-react'
 
 import styled from 'styled-components'
 
@@ -57,10 +57,10 @@ const DashboardKeys = ({ image, title, to, accessKeys, empty }) => (
     <CustomGrid>
         <Grid.Row>
             <Grid.Column className='dashboard-header' textAlign='left' width={16}>
-                <Header className='h2'>
+                <h2>
                     <Image className='column-icon' src={image} />
                     {title}
-                </Header>
+                </h2>
             </Grid.Column>
         </Grid.Row>
         {accessKeys && accessKeys.map((key, i) => (

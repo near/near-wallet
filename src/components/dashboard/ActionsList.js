@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Translate } from 'react-localize-redux'
 import { format } from 'timeago.js'
 import Balance from '../common/Balance'
@@ -13,6 +13,9 @@ import ArrowRight from '../../images/icon-arrow-right.svg'
 import ArrowBlkImage from '../../images/icon-arrow-blk.svg'
 import { Grid, Image } from 'semantic-ui-react'
 import styled from 'styled-components'
+import classNames from '../../utils/classNames'
+
+import { TRANSACTIONS_REFRESH_INTERVAL } from '../../utils/wallet'
 
 const CustomGridRow = styled(Grid.Row)`
     &&& {
@@ -49,8 +52,7 @@ const CustomGridRow = styled(Grid.Row)`
         .main-row-title {
             font-weight: 600;
             width: auto;
-            padding-right: 0px;
-            padding-left: 0px;
+            padding: 8px 0;
             flex: 1;
             word-break: break-all;
             display: flex;
@@ -58,9 +60,10 @@ const CustomGridRow = styled(Grid.Row)`
             flex-direction: row !important;
             justify-content: space-between;
 
-            .time-stamp {
-                white-space: nowrap;
+            div {
+                text-align: right;
                 margin-left: 10px;
+                white-space: nowrap;
             }
         }
 
@@ -114,62 +117,81 @@ const CustomGridRow = styled(Grid.Row)`
     }
 `
 
-const ActionsList = ({ transaction, wide, accountId }) => (
+const ActionsList = ({ transaction, wide, accountId, getTransactionStatus }) => (
     <ActionRow 
         transaction={transaction} 
         actionArgs={JSON.parse(transaction.args)} 
         actionKind={transaction.kind}  
         wide={wide}
         accountId={accountId}
+        getTransactionStatus={getTransactionStatus}
     />
 )
 
-const ActionRow = ({ transaction, actionArgs, actionKind, wide, showSub = false, accountId }) => (
-    <CustomGridRow
-        verticalAlign='middle'
-        className={`${wide ? `wide` : ``} ${
-            showSub ? `dropdown-down` : ``
-        } ${showSub ? `showsub` : ``}`}
-        onClick={() => wide}
-    >
-        <Grid.Column
-            computer={wide ? 15 : 16}
-            tablet={wide ? 14 : 16}
-            mobile={wide ? 14 : 16}
+const ActionRow = ({ transaction, actionArgs, actionKind, wide, showSub = false, accountId, getTransactionStatus }) => {
+    const { checkStatus, status, hash, signer_id, block_timestamp } = transaction
+    const getTransactionStatusConditions = () => checkStatus && !document.hidden && getTransactionStatus(hash, signer_id)
+
+    useEffect(() => {
+        getTransactionStatusConditions()
+        const interval = setInterval(() => {
+            getTransactionStatusConditions()
+        }, TRANSACTIONS_REFRESH_INTERVAL)
+
+        return () => clearInterval(interval)
+    }, [hash, checkStatus])
+
+    return (
+        <CustomGridRow
+            verticalAlign='middle'
+            className={`${wide ? `wide` : ``} ${
+                showSub ? `dropdown-down` : ``
+            } ${showSub ? `showsub` : ``}`}
+            onClick={() => wide}
         >
-            <Grid verticalAlign='middle'>
-                <Grid.Column className='col-image'>
-                    <ActionIcon actionKind={actionKind} />
-                </Grid.Column>
-                <Grid.Column className='main-row-title color-black border-bottom'>
-                    <ActionMessage 
-                        transaction={transaction}
-                        actionArgs={actionArgs}
-                        actionKind={actionKind}
-                        accountId={accountId}
-                    />
-                    <ActionTimeStamp
-                        timeStamp={transaction.block_timestamp}
-                    />
-                </Grid.Column>
-            </Grid>
-        </Grid.Column>
-        {wide && (
             <Grid.Column
-                computer={1}
-                tablet={2}
-                mobile={2}
-                textAlign='right'
+                computer={wide ? 15 : 16}
+                tablet={wide ? 14 : 16}
+                mobile={wide ? 14 : 16}
             >
-                <Image
-                    src={showSub ? ArrowBlkImage : ArrowRight}
-                    className='dropdown-image dropdown-image-right'
-                />
-                {/* <span className='font-small'>{row[3]}</span> */}
+                <Grid verticalAlign='middle'>
+                    <Grid.Column className='col-image'>
+                        <ActionIcon actionKind={actionKind} />
+                    </Grid.Column>
+                    <Grid.Column className='main-row-title color-black border-bottom'>
+                        <ActionMessage 
+                            transaction={transaction}
+                            actionArgs={actionArgs}
+                            actionKind={actionKind}
+                            accountId={accountId}
+                        />
+                        <div>
+                            <ActionTimeStamp
+                                timeStamp={block_timestamp}
+                            />
+                            <ActionStatus 
+                                status={status} 
+                            />
+                        </div>
+                    </Grid.Column>
+                </Grid>
             </Grid.Column>
-        )}
-    </CustomGridRow>
-)
+            {wide && (
+                <Grid.Column
+                    computer={1}
+                    tablet={2}
+                    mobile={2}
+                    textAlign='right'
+                >
+                    <Image
+                        src={showSub ? ArrowBlkImage : ArrowRight}
+                        className='dropdown-image dropdown-image-right'
+                    />
+                    {/* <span className='font-small'>{row[3]}</span> */}
+                </Grid.Column>
+            )}
+        </CustomGridRow>
+)}
 
 const ActionMessage = ({ transaction, actionArgs, actionKind, accountId }) => (
     <Translate 
@@ -198,7 +220,7 @@ const translateData = (transaction, actionArgs, actionKind) => ({
     signerId: transaction.signer_id || '',
     methodName: actionKind === "FunctionCall" ? actionArgs.method_name : '', 
     deposit: actionKind === "Transfer" ? <Balance amount={actionArgs.deposit} /> : '',
-    stake: actionKind === "Stake" ? actionArgs.stake : '',
+    stake: actionKind === "Stake" ? <Balance amount={actionArgs.stake} />  : '',
     permissionReceiverId: (actionKind === "AddKey" && actionArgs.access_key && typeof actionArgs.access_key.permission === 'object') ? actionArgs.access_key.permission.FunctionCall.receiver_id : ''
 })
 
@@ -216,7 +238,21 @@ const ActionIcon = ({ actionKind }) => (
 )
 
 const ActionTimeStamp = ({ timeStamp }) => (
-    <div className='font-small time-stamp'>{format(timeStamp)}</div>
+    <div className='font-small'>{format(timeStamp)}</div>
+)
+
+const TX_STATUS_COLOR = {
+    NotStarted: '',
+    Started: 'color-seafoam-blue',
+    Failure: 'color-red',
+    SuccessValue: 'color-green',
+    notAvailable: 'color-red'
+}
+
+const ActionStatus = ({ status }) => (
+    <div className={classNames(['font-small', {[TX_STATUS_COLOR[status]]: status, 'dots': !status}])}>
+        <Translate id={`transaction.status.${status || 'checkingStatus'}`} />
+    </div>
 )
 
 export default ActionsList

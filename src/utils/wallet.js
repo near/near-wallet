@@ -12,9 +12,9 @@ export const WALLET_CREATE_NEW_ACCOUNT_URL = 'create'
 export const WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS = ['create', 'set-recovery', 'setup-seed-phrase', 'recover-account', 'recover-seed-phrase']
 export const WALLET_LOGIN_URL = 'login'
 export const ACCOUNT_HELPER_URL = process.env.REACT_APP_ACCOUNT_HELPER_URL || 'https://near-contract-helper.onrender.com'
-
+export const EXPLORER_URL = process.env.EXPLORER_URL || 'https://explorer.testnet.near.org';
 export const IS_MAINNET = process.env.REACT_APP_IS_MAINNET === 'true' || process.env.REACT_APP_IS_MAINNET === 'yes'
-export const ACCOUNT_ID_SUFFIX = process.env.REACT_APP_ACCOUNT_ID_SUFFIX || '.test'
+export const ACCOUNT_ID_SUFFIX = process.env.REACT_APP_ACCOUNT_ID_SUFFIX || 'testnet'
 
 const NETWORK_ID = process.env.REACT_APP_NETWORK_ID || 'default'
 const CONTRACT_CREATE_ACCOUNT_URL = `${ACCOUNT_HELPER_URL}/account`
@@ -26,7 +26,9 @@ const KEY_ACTIVE_ACCOUNT_ID = KEY_UNIQUE_PREFIX + 'wallet:active_account_id_v2'
 const ACCESS_KEY_FUNDING_AMOUNT = process.env.REACT_APP_ACCESS_KEY_FUNDING_AMOUNT || '100000000'
 const ACCOUNT_COST_PER_BYTE = process.env.REACT_APP_ACCOUNT_COST_PER_BYTE || '90900000000000000000'
 const ACCOUNT_ID_REGEX = /^(([a-z\d]+[-_])*[a-z\d]+[.@])*([a-z\d]+[-_])*[a-z\d]+$/
+
 export const ACCOUNT_CHECK_TIMEOUT = 500
+export const TRANSACTIONS_REFRESH_INTERVAL = 10000
 
 async function setKeyMeta(publicKey, meta) {
     localStorage.setItem(`keyMeta:${publicKey}`, JSON.stringify(meta))
@@ -42,7 +44,7 @@ async function getKeyMeta(publicKey) {
 
 class Wallet {
     constructor() {
-        this.keyStore = new nearlib.keyStores.BrowserLocalStorageKeyStore()
+        this.keyStore = new nearlib.keyStores.BrowserLocalStorageKeyStore(window.localStorage, 'nearlib:keystore:')
         const inMemorySigner = new nearlib.InMemorySigner(this.keyStore)
 
         async function getLedgerKey(accountId) {
@@ -190,7 +192,7 @@ class Wallet {
             throw new Error('Invalid username.')
         }
         if (accountId.match(/.*[.@].*/)) {
-            if (!accountId.endsWith(ACCOUNT_ID_SUFFIX)) {
+            if (!accountId.endsWith(`.${ACCOUNT_ID_SUFFIX}`)) {
                 throw new Error('Characters `.` and `@` have special meaning and cannot be used as part of normal account name.');
             }
         }
@@ -253,19 +255,25 @@ class Wallet {
     }
 
     async addAccessKey(accountId, contractId, publicKey) {
-        return await this.getAccount(accountId).addKey(
-            publicKey,
-            contractId,
-            '', // methodName
-            ACCESS_KEY_FUNDING_AMOUNT
-        )
+        try {
+            return await this.getAccount(accountId).addKey(
+                publicKey,
+                contractId,
+                '', // methodName
+                ACCESS_KEY_FUNDING_AMOUNT
+            )
+        } catch (e) {
+            if (e.type === 'AddKeyAlreadyExists') {
+                return true;
+            }
+            throw e;
+        }
     }
 
     async addLedgerAccessKey(accountId) {
         const client = await createClient()
-        window.client = client
         const rawPublicKey = await client.getPublicKey()
-        const publicKey = new PublicKey(KeyType.ED25519, rawPublicKey)
+        const publicKey = new PublicKey({ keyType: KeyType.ED25519, data: rawPublicKey })
         await setKeyMeta(publicKey, { type: 'ledger' })
         return await this.getAccount(accountId).addKey(publicKey)
     }
@@ -336,8 +344,32 @@ class Wallet {
         });
     }
 
+    async deleteRecoveryMethod(method) {
+        await sendJson('POST', `${ACCOUNT_HELPER_URL}/account/deleteRecoveryMethod`, {
+            accountId: wallet.accountId,
+            recoveryMethod: method.kind,
+            publicKey: method.publicKey,
+            ...(await wallet.signatureFor(wallet.accountId))
+        })
+        await this.removeAccessKey(method.publicKey)
+    }
+
+    async sendNewRecoveryLink({ phoneNumber, email, accountId, seedPhrase, publicKey, method }) {
+        await this.setupRecoveryMessage({ accountId, phoneNumber, email, publicKey, seedPhrase })
+        await this.deleteRecoveryMethod(method)
+    }
+
     async recoverAccountSeedPhrase(seedPhrase, accountId) {
-        const account = this.getAccount(accountId)
+        const tempKeyStore = new nearlib.keyStores.InMemoryKeyStore()
+
+        const connection = nearlib.Connection.fromConfig({
+            networkId: NETWORK_ID,
+            provider: { type: 'JsonRpcProvider', args: { url: NODE_URL + '/' } },
+            signer: new nearlib.InMemorySigner(tempKeyStore)
+        })
+
+        const account = new nearlib.Account(connection, accountId)
+
         const accessKeys = await account.getAccessKeys()
         const publicKeys = accessKeys.map(it => it.public_key)
         const { secretKey } = findSeedPhraseKey(seedPhrase, publicKeys)
@@ -346,7 +378,13 @@ class Wallet {
         }
 
         const keyPair = nearlib.KeyPair.fromString(secretKey)
-        await this.saveAndSelectAccount(accountId, keyPair)
+        await tempKeyStore.setKey(NETWORK_ID, accountId, keyPair)
+
+        // generate new keypair for this browser
+        const newKeyPair = nearlib.KeyPair.fromRandom('ed25519')
+        await account.addKey(newKeyPair.publicKey)
+
+        await this.saveAndSelectAccount(accountId, newKeyPair)
     }
 
     async signAndSendTransactions(transactions, accountId) {

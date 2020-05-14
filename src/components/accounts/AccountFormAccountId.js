@@ -4,12 +4,19 @@ import styled from 'styled-components'
 import { Form, Modal } from 'semantic-ui-react'
 import { Translate } from 'react-localize-redux'
 import InfoIcon from '../svg/InfoIcon.js'
+import classNames from '../../utils/classNames'
 
 import RequestStatusBox from '../common/RequestStatusBox'
 import { ACCOUNT_CHECK_TIMEOUT, ACCOUNT_ID_SUFFIX } from '../../utils/wallet'
 
 const InputWrapper = styled.div`
     position: relative;
+    margin-bottom: 30px !important;
+    margin: 0;
+
+    input {
+        padding-right: ${props => props.type === 'create' ? '120px' : '12px'} !important;
+    }
 `
 
 const DomainName = styled.div`
@@ -42,54 +49,108 @@ const Header = styled.h4`
 
 class AccountFormAccountId extends Component {
     state = {
-        accountId: this.props.defaultAccountId || ''
+        accountId: this.props.defaultAccountId || '',
+        invalidAccountIdLength: false
     }
 
     handleChangeAccountId = (e, { name, value }) => {
-        const { pattern, handleChange, checkAvailability, type } = this.props
+        const { pattern, handleChange, type } = this.props
 
         value = value.trim().toLowerCase()
 
         if (value.match(pattern)) {
             return false
         }
-
+        
         this.setState(() => ({
             [name]: value
         }))
-
+        
         handleChange(e, { name, value })
 
-        this.timeout && clearTimeout(this.timeout)
+        !this.props.formLoader && this.checkAccountIdLength(value) && this.props.setFormLoader(true)
+        this.props.formLoader && !this.checkAccountIdLength(value) && this.props.setFormLoader(false)
 
-        this.timeout = setTimeout(() => {
-            checkAvailability(type === 'create' ? this.props.accountId : value)
-        }, ACCOUNT_CHECK_TIMEOUT)
+        this.props.requestStatus && this.props.clearRequestStatus()
+
+        this.state.invalidAccountIdLength && this.handleAccountIdLengthState(value)
+
+        this.timeout && clearTimeout(this.timeout)
+        this.timeout = setTimeout(() => (
+            this.handleCheckAvailability(value, type)
+        ), ACCOUNT_CHECK_TIMEOUT)
     }
+
+    checkAccountIdLength = (accountId) => accountId.length >= 2 && accountId.length <= 64
+
+    handleAccountIdLengthState = (accountId) => this.setState(() => ({
+        invalidAccountIdLength: !!accountId && !this.checkAccountIdLength(accountId)
+    }))
+
+    handleCheckAvailability = (accountId, type) => (
+        accountId
+            && !(
+                type === 'create' 
+                && (!this.handleAccountIdLengthState(accountId) 
+                && !this.checkAccountIdLength(accountId))
+            )
+            && this.props.checkAvailability(type === 'create' ? this.props.accountId : accountId) 
+    )
+
+    checkSameAccount = () => this.props.type !== 'create' && this.props.stateAccountId === this.state.accountId
+
+    get loaderRequestStatus() {
+        return {
+            messageCode: `account.create.checkingAvailablity.${this.props.type}`
+    }}
+
+    get accountIdLengthRequestStatus() {
+        return {
+            success: false,
+            messageCode: 'account.create.errorInvalidAccountIdLength'
+    }}
+
+    get sameAccountRequestStatus() {
+        return {
+            success: false,
+            messageCode: 'account.available.errorSameAccount'
+        }
+    }
+
+    handleRequestStatus = () => (
+        this.state.accountId
+            ? this.props.formLoader
+                ? this.loaderRequestStatus
+                : this.state.invalidAccountIdLength
+                    ? this.accountIdLengthRequestStatus
+                    : this.checkSameAccount()
+                        ? this.sameAccountRequestStatus
+                        : this.props.requestStatus
+            : null
+    )
 
     render() {
         const {
             formLoader,
-            requestStatus,
             autoFocus,
             type
         } = this.props
 
         const { accountId } = this.state
 
+        const requestStatus = this.handleRequestStatus()
+
         return (
             <>
                 <Translate>
                     {({ translate }) => (
-                        <InputWrapper>
+                        <InputWrapper type={type}>
                             <Form.Input
-                                loading={formLoader}
-                                className={`${requestStatus ? (requestStatus.success ? 'success' : 'problem') : ''}`}
+                                className={requestStatus && classNames([{'success': requestStatus.success}, {'problem': requestStatus.success === false}])}
                                 name='accountId'
                                 value={accountId}
                                 onChange={this.handleChangeAccountId}
                                 placeholder={translate('createAccount.accountIdInput.placeholder')}
-                                maxLength='32'
                                 required
                                 autoComplete='off'
                                 autoCorrect='off'
@@ -101,17 +162,17 @@ class AccountFormAccountId extends Component {
                             {type === 'create' &&
                                 <Modal
                                     size='mini'
-                                    trigger={<DomainName>{ACCOUNT_ID_SUFFIX}<InfoIcon/></DomainName>}
+                                    trigger={<DomainName>.{ACCOUNT_ID_SUFFIX}<InfoIcon/></DomainName>}
                                     closeIcon
                                 >
-                                    <Header>Top Level Accounts</Header>
-                                    Account names are similar to domain names. Only the @testnet account can create accounts such as @yourname.testnet, and only @yourname.testnet can create @app.yourname.testnet. All accounts created in this wallet use the .testnet Top Level Account (TLA). To learn more about account names and creating your own TLA, visit the <a rel='noopener noreferrer' href='https://docs.nearprotocol.com/docs/concepts/account'>docs</a>.
+                                    <Header>{translate('topLevelAccounts.header')}</Header>
+                                    {translate('topLevelAccounts.body', { suffix: ACCOUNT_ID_SUFFIX })}
                                 </Modal>
                             }
                         </InputWrapper>
                     )}
                 </Translate>
-                <RequestStatusBox requestStatus={requestStatus} accountId={this.props.accountId}/>
+                <RequestStatusBox dots={formLoader} requestStatus={requestStatus} accountId={this.props.accountId}/>
             </>
         )
     }
@@ -127,7 +188,8 @@ AccountFormAccountId.propTypes = {
 
 AccountFormAccountId.defaultProps = {
     autoFocus: false,
-    pattern: /[^a-zA-Z0-9._-]/
+    pattern: /[^a-zA-Z0-9._-]/,
+    type: 'check'
 }
 
 export default AccountFormAccountId

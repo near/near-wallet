@@ -1,7 +1,7 @@
 # NEAR DevNet Wallet
 
-[![Build Status](https://travis-ci.com/nearprotocol/near-wallet.svg?branch=master)](https://travis-ci.com/nearprotocol/near-wallet)
-[![Gitpod Ready-to-Code](https://img.shields.io/badge/Gitpod-Ready--to--Code-blue?logo=gitpod)](https://gitpod.io/#https://github.com/nearprotocol/near-wallet) 
+[![Build Status](https://travis-ci.com/near/near-wallet.svg?branch=master)](https://travis-ci.com/near/near-wallet)
+[![Gitpod Ready-to-Code](https://img.shields.io/badge/Gitpod-Ready--to--Code-blue?logo=gitpod)](https://gitpod.io/#https://github.com/near/near-wallet) 
 
 This is in-browser web-based wallet for working with NEAR accounts. This wallet stores account keys in open text using the localStorage under https://wallet.nearprotocol.com domain on user's machine.
 

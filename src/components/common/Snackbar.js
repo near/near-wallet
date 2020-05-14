@@ -17,6 +17,7 @@ const Container = styled.div`
     transition: 250ms ease;
     bottom: 0px;
     pointer-events: none;
+    padding: 0 !important;
 
     @media (min-width: 768px) {
         width: 330px;
@@ -126,7 +127,10 @@ const snackbarDuration = 5500;
 
 Snackbar.propTypes = {
     theme: PropTypes.string.isRequired,
-    message: PropTypes.string.isRequired,
+    message: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.object
+    ]).isRequired,
     show: PropTypes.bool.isRequired,
     onHide: PropTypes.func,
 }

@@ -3,7 +3,7 @@ import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { Translate } from 'react-localize-redux'
 
-import { recoverAccountSeedPhrase, redirectToApp, checkAccountAvailable, clear, refreshAccount } from '../../actions/account'
+import { recoverAccountSeedPhrase, redirectToApp, checkAccountAvailable, clear, refreshAccount, setFormLoader } from '../../actions/account'
 
 import RecoverAccountSeedPhraseForm from './RecoverAccountSeedPhraseForm'
 import AccountFormSection from './AccountFormSection'
@@ -57,7 +57,7 @@ class RecoverAccountSeedPhrase extends Component {
             ...this.state,
             isLegit: this.isLegit && !this.props.formLoader
         }
-        
+
         return (
             <AccountFormContainer 
                 wide={true} 
@@ -69,6 +69,8 @@ class RecoverAccountSeedPhrase extends Component {
                         {...combinedState}
                         handleChange={this.handleChange}
                         checkAvailability={this.props.checkAccountAvailable}
+                        clearRequestStatus={clear}
+                        setFormLoader={this.props.setFormLoader}
                     />
                 </AccountFormSection>
             </AccountFormContainer>
@@ -81,7 +83,8 @@ const mapDispatchToProps = {
     redirectToApp,
     checkAccountAvailable,
     clear,
-    refreshAccount
+    refreshAccount,
+    setFormLoader
 }
 
 const mapStateToProps = ({ account }, { match }) => ({

@@ -15,6 +15,7 @@ const Container = styled.div`
     position: relative;
     font-size: 14px;
     margin-bottom: 20px;
+    padding-left: 15px;
     box-shadow: 0px 5px 9px -1px rgba(0,0,0,0.17);
 
     @media (min-width: 992px) {

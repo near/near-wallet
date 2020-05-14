@@ -3,8 +3,7 @@ import { connect } from 'react-redux'
 import { Translate } from 'react-localize-redux'
 import { withRouter } from 'react-router-dom'
 import { wallet } from '../../utils/wallet'
-import { getAccessKeys, getTransactions } from '../../actions/account'
-
+import { getAccessKeys, getTransactions, getTransactionStatus } from '../../actions/account'
 import DashboardSection from './DashboardSection'
 import DashboardActivity from './DashboardActivity'
 import PageContainer from '../common/PageContainer'
@@ -17,6 +16,8 @@ import AccessKeysIcon from '../../images/icon-keys-grey.svg'
 
 import DashboardKeys from './DashboardKeys'
 
+import { TRANSACTIONS_REFRESH_INTERVAL, EXPLORER_URL } from '../../utils/wallet'
+
 class DashboardDetail extends Component {
     state = {
         loader: false,
@@ -27,9 +28,17 @@ class DashboardDetail extends Component {
         this.refreshAccessKeys()
         this.refreshTransactions()
 
+        this.interval = setInterval(() => {
+            !document.hidden && this.refreshTransactions()
+        }, TRANSACTIONS_REFRESH_INTERVAL)
+
         this.setState(() => ({
             loader: true
         }))
+    }
+
+    componentWillUnmount = () => {
+        clearInterval(this.interval)
     }
 
     refreshTransactions() {
@@ -56,7 +65,7 @@ class DashboardDetail extends Component {
 
     render() {
         const { loader, notice } = this.state
-        const { authorizedApps, fullAccessKeys, transactions, amount, accountId } = this.props
+        const { authorizedApps, fullAccessKeys, transactions, amount, accountId, formLoader, getTransactionStatus } = this.props
         return (
             <PageContainer
                 title={(
@@ -84,10 +93,11 @@ class DashboardDetail extends Component {
                         loader={loader}
                         image={activityGreyImage}
                         title={<Translate id='dashboard.activity' />}
-                        to={`${process.env.EXPLORER_URL || 'https://explorer.nearprotocol.com'}/accounts/${accountId}`}
+                        to={`${EXPLORER_URL}/accounts/${accountId}`}
                         transactions={transactions}
-                        maxItems={5}
                         accountId={accountId}
+                        formLoader={formLoader}
+                        getTransactionStatus={getTransactionStatus}
                     />
                     <DashboardKeys
                         image={AuthorizedGreyImage}
@@ -111,21 +121,13 @@ class DashboardDetail extends Component {
 
 const mapDispatchToProps = {
     getAccessKeys,
-    getTransactions
+    getTransactions,
+    getTransactionStatus
 }
 
-const mapStateToProps = ({ account }) => {
-    const transactions = account.transactions 
-        ? account.transactions
-        : []
-
-    return {
-        ...account,
-        authorizedApps: account.authorizedApps,
-        fullAccessKeys: account.fullAccessKeys,
-        transactions
-    }
-}
+const mapStateToProps = ({ account }) => ({
+    ...account
+})
 
 export default connect(
     mapStateToProps,

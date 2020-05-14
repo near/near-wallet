@@ -10,7 +10,12 @@
         },
         "create": {
             "success": "Congrats! ${accountId} is available.",
-            "error": "Username is taken. Try something else."
+            "error": "Username is taken. Try something else.",
+            "errorInvalidAccountIdLength": "Username must be between 2 and 64 characters",
+            "checkingAvailablity": {
+                "create": "Checking availability",
+                "check": "Checking"
+            }
         },
         "available": {
             "success": "User found.",
@@ -99,10 +104,31 @@
         "pOne": "Click \"Continue\" to restore your account:",
         "pTwo": "If this isn't your preferred browser, copy the URL and complete this process in your browser of choice.",
         "snackbarCopySuccess": "Recover URL copied",
-        "errorTitle": "Account not found",
-        "errorP": "If you've enabled email recovery, please check your inbox for the latest message, as all earlier messages are considered invalid."
+        "errorTitle": "Link Expired",
+        "errorP": "Please check your email or phone for the most recent message. Links in all earlier messages are invalid."
     },
 
+    "recoveryMgmt": {
+        "title": "Recovery Methods",
+        "noRecoveryMethod": "You have no method to recover your account. please add a method below.",
+        "methodTitle": {
+            "phrase": "Seed Phrase",
+            "phone": "Phone Number",
+            "email": "Email Address"
+        },
+        "resend": {
+            "phone": "Resend SMS",
+            "email": "Resend Email"
+        },
+        "enabled": "Enabled",
+        "disableTitle": "Are you sure you want to disable this method?",
+        "disableTextLink": "The magic link you received will be permanently deactivated.",
+        "disableTextPhrase": "Your current seed phrase will be permanently deactivated.",
+        "disableInputPlaceholder": "Enter your username to confirm",
+        "disableNo": "No, keep",
+        "recoveryLinkSent": "Recovery Link Sent!"
+    },
+    
     "fullAccessKeys": {
         "pageTitle": "Full Access Keys",
         "authorizedTo": "AUTHORIZED TO",
@@ -128,6 +154,8 @@
         "startOver": "Start over",
         "copyUrl": "Copy Url",
         "createAccount": "Create account",
+        "enable": "Enable",
+        "disable": "Disable",
         "connectLedger": "Connect Ledger",
         "browseApps": "BROWSE APPS",
         "createAccountCapital": "CREATE ACCOUNT",
@@ -203,6 +231,11 @@
             "five": "Your username CANNOT contain:",
             "six": "Characters \"@\" or \".\""
         }
+    },
+
+    "topLevelAccounts": {
+        "header": "Top Level Accounts",
+        "body": "Account names are similar to domain names. Only the @${suffix} account can create accounts such as @yourname.${suffix}, and only @yourname.${suffix} can create @app.yourname.${suffix}. All accounts created in this wallet use the .${suffix} Top Level Account (TLA). To learn more about account names and creating your own TLA, visit the <a rel='noopener noreferrer' href='https://docs.nearprotocol.com/docs/concepts/account'>docs</a>."
     },
 
     "recoverSeedPhrase": {
@@ -457,10 +490,21 @@
         "transferring": "Transferring",
         "authorizing": "Authorizing"
     },
-
+    
     "availableBalanceInfo": "”Available Balance” is your current spendable NEAR balance. This will be lower than your Total Balance. To view a complete breakdown of your NEAR balance, visit your Profile.", 
     "availableBalanceProfile": "”Available Balance” is your current spendable NEAR balance. This will be lower than your Total Balance.",
     "minimumBalance": "This is the minimum NEAR balance your account must maintain to remain active. This balance represents the storage space your account is using on the NEAR blockchain, and will go up or down as you use more or less space.",
+    
+    "transaction": {
+        "status": {
+            "NotStarted": "Not started",
+            "Started": "Started",
+            "Failure": "Failed",
+            "SuccessValue": "Succeeded",
+            "checkingStatus": "checking status",
+            "notAvailable": "Status not available"
+        }
+    },
 
     "success": "Success",
     "error": "Error",

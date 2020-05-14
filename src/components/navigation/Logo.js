@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import logo from '../../images/wallet.png';
+import logo from '../../images/wallet.svg';
 
 const StyledLogo = styled(Link)`
     background: url(${logo});
@@ -10,14 +10,14 @@ const StyledLogo = styled(Link)`
     background-position: left center;
     display: block;
     height: 70px;
-    background-size: 160px;
-    min-width: 52px;
-    width: 52px;
+    background-size: 130px;
+    min-width: 39px;
+    width: 39px;
 
 
     @media (min-width: 900px) {
-        background-size: 180px;
-        width: 180px;
+        background-size: 155px;
+        width: 155px;
     }
 `
 
