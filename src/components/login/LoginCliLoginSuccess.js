@@ -1,4 +1,5 @@
 import React from 'react'
+import { Translate } from 'react-localize-redux'
 import { Grid, Image } from 'semantic-ui-react'
 import IconCheckImage from '../../images/icon-check.svg'
 
@@ -21,7 +22,7 @@ const LoginCliLoginSuccess = () => (
                 tablet={16}
                 mobile={16}
             >
-                You've successfully authorized NEAR Shell!
+                <Translate id='login.cliLoginSuccess.pageTitle' />
             </Grid.Column>
         </Grid.Row>
         <Grid.Row>
@@ -32,7 +33,7 @@ const LoginCliLoginSuccess = () => (
                 mobile={16}
                 className='color-black'
             >
-                Please close this window and follow the instructions in the terminal.
+                <Translate id='login.cliLoginSuccess.pageText' />
             </Grid.Column>
         </Grid.Row>
     </Grid>
