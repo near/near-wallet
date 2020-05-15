@@ -7,7 +7,6 @@ import LoginForm from './LoginForm'
 import LoginConfirm from './LoginConfirm'
 import LoginDetails from './LoginDetails'
 import LoginIncorrectContractId from './LoginIncorrectContractId'
-import LoginCliLoginSuccess from './LoginCliLoginSuccess'
 import { refreshAccount, handleRefreshUrl, switchAccount, clearAlert, allowLogin, redirectToApp } from '../../actions/account'
 
 class Login extends Component {
@@ -108,13 +107,6 @@ class Login extends Component {
                             contractId={url.contract_id}
                             failureUrl={url.failure_url}
                         />
-                    )}
-                />
-                <Route 
-                    exact
-                    path={`${match.url}/cli-login-success`}
-                    render={() => (
-                        <LoginCliLoginSuccess />
                     )}
                 />
             </LoginContainer>
