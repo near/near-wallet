@@ -65,14 +65,24 @@ class DashboardDetail extends Component {
 
     render() {
         const { loader, notice } = this.state
-        const { authorizedApps, fullAccessKeys, transactions, amount, accountId, formLoader, getTransactionStatus } = this.props
+
+        const { 
+            authorizedApps, 
+            fullAccessKeys, 
+            transactions,
+            accountId, 
+            formLoader, 
+            getTransactionStatus, 
+            balance 
+        } = this.props
+
         return (
             <PageContainer
                 title={(
-                    amount
+                    balance
                         ? <Fragment>
                             <span className='balance'><Translate id='balance.balance' />: </span>
-                            <Balance  amount={wallet.getAccountBalance()}/> 
+                            <Balance amount={balance.total}/> 
                         </Fragment>
                         : <Translate id='balance.balanceLoading' />
                 )}

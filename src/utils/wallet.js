@@ -1,4 +1,4 @@
-import * as nearlib from 'nearlib'
+import * as nearlib from 'near-api-js'
 import sendJson from 'fetch-send-json'
 import { findSeedPhraseKey } from 'near-seed-phrase'
 import { createClient } from 'near-ledger-js'
@@ -24,7 +24,6 @@ const KEY_UNIQUE_PREFIX = '_4:'
 const KEY_WALLET_ACCOUNTS = KEY_UNIQUE_PREFIX + 'wallet:accounts_v2'
 const KEY_ACTIVE_ACCOUNT_ID = KEY_UNIQUE_PREFIX + 'wallet:active_account_id_v2'
 const ACCESS_KEY_FUNDING_AMOUNT = process.env.REACT_APP_ACCESS_KEY_FUNDING_AMOUNT || '100000000'
-const ACCOUNT_COST_PER_BYTE = process.env.REACT_APP_ACCOUNT_COST_PER_BYTE || '90900000000000000000'
 const ACCOUNT_ID_REGEX = /^(([a-z\d]+[-_])*[a-z\d]+[.@])*([a-z\d]+[-_])*[a-z\d]+$/
 
 export const ACCOUNT_CHECK_TIMEOUT = 500
@@ -156,6 +155,7 @@ class Wallet {
         }
         return {
             ...await this.getAccount(this.accountId).state(),
+            balance: await this.getBalance(),
             accountId: this.accountId,
             accounts: this.accounts
         }
@@ -293,29 +293,12 @@ class Wallet {
         return new nearlib.Account(this.connection, accountId)
     }
 
-    getAccountBalance(type) {
-        const state = store.getState()
-        const account = state.account;
-
-        const costPerByte = new BN(ACCOUNT_COST_PER_BYTE)
-        const stateStaked = new BN(account.storageUsage).mul(costPerByte)
-        const staked = new BN(account.locked)
-        const totalBalance = new BN(account.amount).add(staked)
-        const availableBalance = totalBalance.sub(staked).sub(stateStaked)
-
-        let balance = totalBalance
-
-        if (type === 'minimum') {
-            balance = stateStaked
+    async getBalance(accountId) {
+        let userAccountId = this.accountId;
+        if (accountId) {
+            userAccountId = accountId;
         }
-        else if (type === 'staked') {
-            balance = staked
-        }
-        else if (type === 'available') {
-            balance = availableBalance
-        }
-        
-        return balance.toString()
+        return await this.getAccount(userAccountId).getAccountBalance()
     }
 
     requestCode(phoneNumber, accountId) {

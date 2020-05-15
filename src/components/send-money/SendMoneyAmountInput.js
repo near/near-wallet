@@ -4,11 +4,10 @@ import PropTypes from 'prop-types'
 import { Segment, Form } from 'semantic-ui-react'
 import { BN } from 'bn.js'
 import { Translate } from 'react-localize-redux'
-import { wallet } from '../../utils/wallet'
 import styled from 'styled-components'
 import InfoPopup from '../common/InfoPopup'
 import Balance, { formatNEAR } from '../common/Balance'
-import { utils } from 'nearlib'
+import { utils } from 'near-api-js'
 
 const CustomDiv = styled(`div`)`
     &&&&& {
@@ -100,7 +99,7 @@ class SendMoneyAmountInput extends Component {
         let amountInInternalFormat = ''
         if (value !== '') {
             amountInInternalFormat = utils.format.parseNearAmount(value);
-            let balance = new BN(wallet.getAccountBalance('available'))
+            let balance = new BN(this.props.balance.available)
             if (balance.lt(new BN(amountInInternalFormat))) {
                 amountStatusId = 'sendMoney.amountStatusId.notEnoughTokens'
             }
@@ -142,7 +141,7 @@ class SendMoneyAmountInput extends Component {
                         <Translate id='sendMoney.amountStatusId.howMuch' />
                         <AvailableBalance>
                             <Translate id='sendMoney.amountStatusId.available'/>&nbsp;
-                            <Balance amount={wallet.getAccountBalance('available')}/>
+                            <Balance amount={this.props.balance.available}/>
                             <InfoPopup content={<Translate id='availableBalanceInfo'/>}/>
                         </AvailableBalance>
                     </>

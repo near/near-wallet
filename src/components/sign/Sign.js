@@ -4,7 +4,6 @@ import { withRouter } from 'react-router-dom'
 import { push } from 'connected-react-router'
 import BN from 'bn.js'
 import { Translate } from 'react-localize-redux'
-import { wallet } from '../../utils/wallet'
 import SignContainer from './SignContainer'
 import SignTransferReady from './SignTransferReady'
 import SignTransferSuccess from './SignTransferSuccess'
@@ -39,7 +38,7 @@ class Sign extends Component {
     renderSubcomponent = () => {
 
         const txTotalAmount = new BN(this.props.totalAmount); // TODO: add gas cost, etc
-        const availableBalance = new BN(wallet.getAccountBalance('available'));
+        const availableBalance = new BN(this.props.account.balance.available);
         const insufficientFunds = txTotalAmount.gt(availableBalance);
         const isMonetaryTransaction = txTotalAmount.gt(new BN(0));
 

@@ -168,7 +168,8 @@ const account = handleActions({
             storageUsage: payload.storage_usage,
             accounts: payload.accounts,
             loader: false,
-            loginResetAccounts: undefined
+            loginResetAccounts: undefined,
+            balance: payload.balance
         }
     },
     [resetAccounts]: (state) => ({

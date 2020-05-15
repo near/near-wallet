@@ -162,10 +162,10 @@ class SignTransferReady extends Component {
             handleAllow,
             handleDeny,
             txTotalAmount,
-            availableBalance,
             isMonetaryTransaction,
             insufficientFunds,
-            availableAccounts
+            availableAccounts,
+            availableBalance
         } = this.props;
 
         return (
@@ -180,7 +180,7 @@ class SignTransferReady extends Component {
                         </TransferAmount>
                         <CurrentBalance>
                             <Translate id='sign.availableBalance' />:&nbsp;
-                            <Balance amount={availableBalance}/>
+                            {availableBalance && <Balance amount={availableBalance}/>}
                             <InfoPopup content={<Translate id='availableBalanceInfo'/>}/>
                         </CurrentBalance>
                         <InlineNotification
