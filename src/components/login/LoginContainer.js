@@ -16,9 +16,10 @@ const CustomContainer = styled(Container)`
             margin-top: 30px;
             height: 48px;
 
-            svg {
+            svg, img {
                 width: 48px;
                 height: 48px;
+                margin: 0 auto;
             }
         }
         .cont {
