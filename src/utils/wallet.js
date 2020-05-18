@@ -6,7 +6,6 @@ import { PublicKey } from 'nearlib/lib/utils'
 import { KeyType } from 'nearlib/lib/utils/key_pair'
 import { store } from '..'
 import { getAccessKeys } from '../actions/account'
-import { BN } from 'bn.js'
 
 export const WALLET_CREATE_NEW_ACCOUNT_URL = 'create'
 export const WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS = ['create', 'set-recovery', 'setup-seed-phrase', 'recover-account', 'recover-seed-phrase']

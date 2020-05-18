@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom'
 import { Translate } from 'react-localize-redux'
 
 import { Popup, Grid, Image } from 'semantic-ui-react'
-import { wallet } from '../../utils/wallet'
 import MainImage from '../common/MainImage'
 import Balance from '../common/Balance'
 import InfoPopup from '../common/InfoPopup'

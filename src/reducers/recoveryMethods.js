@@ -4,7 +4,7 @@ import { loadRecoveryMethods } from '../actions/account'
 const initialState = {}
 
 const reducer = (state, event) => {
-    const { error, meta: { accountId }, payload, ready } = event
+    const { error, payload, ready } = event
 
     if (!ready || error) return state
 

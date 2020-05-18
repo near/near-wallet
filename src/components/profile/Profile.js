@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import { Translate } from 'react-localize-redux'
 import { useSelector } from 'react-redux'
 
