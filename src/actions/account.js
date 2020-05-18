@@ -205,7 +205,10 @@ export const { switchAccount, refreshAccount, refreshAccountExternal, resetAccou
         () => ({ accountId: wallet.getAccountId(), })
     ],
     REFRESH_ACCOUNT_EXTERNAL: [
-        () => wallet.getAccount().state(),
+        async (accountId) => ({
+            ...await wallet.getAccount(accountId).state(),
+            balance: await wallet.getBalance(accountId)
+        }),
         accountId => ({ accountId })
     ],
     RESET_ACCOUNTS: wallet.clearState.bind(wallet),
