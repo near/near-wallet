@@ -7,7 +7,7 @@ import { push } from 'connected-react-router'
 import { loadState, saveState, clearState } from '../utils/sessionStorage'
 import { WALLET_CREATE_NEW_ACCOUNT_URL, WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS, WALLET_LOGIN_URL } from '../utils/wallet'
 
-export const loadAccount = createAction('LOAD_ACCOUNT',
+export const refreshAccountExternal = createAction('REFRESH_ACCOUNT_EXTERNAL',
     accountId => wallet.getAccount(accountId).state(),
     accountId => ({ accountId })
 )

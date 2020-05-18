@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { LOADING, NOT_FOUND } from '../reducers/allAccounts'
-import { loadAccount } from '../actions/account'
+import { refreshAccountExternal } from '../actions/account'
 
 export { LOADING, NOT_FOUND }
 
@@ -14,7 +14,7 @@ export function useAccount(accountId) {
     const dispatch = useDispatch()
 
     useEffect(() => {
-        if (account.__status === LOADING) dispatch(loadAccount(accountId))
+        if (account.__status === LOADING) dispatch(refreshAccountExternal(accountId))
     }, [accountId])
 
     return account
