@@ -312,6 +312,15 @@ class Wallet {
         return { blockNumber, blockNumberSignature };
     }
 
+    async getRecoveryMethods() {
+        return {
+            accountId: wallet.accountId,
+            data: await sendJson('POST', `${ACCOUNT_HELPER_URL}/account/recoveryMethods`, {
+                accountId: wallet.accountId,
+                ...(await wallet.signatureFor(wallet.accountId))
+        })}
+    }
+
     async setupRecoveryMessage({ phoneNumber, email, accountId, seedPhrase, publicKey }) {
         const account = this.getAccount(accountId)
         const accountKeys = await account.getAccessKeys();

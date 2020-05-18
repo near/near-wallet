@@ -8,11 +8,8 @@ import { loadState, saveState, clearState } from '../utils/sessionStorage'
 import { WALLET_CREATE_NEW_ACCOUNT_URL, WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS, WALLET_LOGIN_URL } from '../utils/wallet'
 
 export const loadRecoveryMethods = createAction('LOAD_RECOVERY_METHODS',
-    async accountId => sendJson('POST', `${ACCOUNT_HELPER_URL}/account/recoveryMethods`, {
-        accountId: wallet.accountId,
-        ...(await wallet.signatureFor(wallet.accountId))
-    }),
-    accountId => ({ accountId })
+    wallet.getRecoveryMethods.bind(wallet),
+    () => ({})
 )
 
 export const handleRedirectUrl = (previousLocation) => (dispatch, getState) => {

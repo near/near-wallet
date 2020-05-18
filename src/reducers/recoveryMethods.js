@@ -9,7 +9,7 @@ const reducer = (state, event) => {
     if (!ready || error) return state
 
     // payload is an array of recoveryMethods
-    return { ...state, [accountId]: payload }
+    return { ...state, [payload.accountId]: payload.data }
 }
 
 export default handleAction(loadRecoveryMethods, reducer, initialState)
