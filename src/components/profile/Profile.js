@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from 'react'
 import { Translate } from 'react-localize-redux'
+import { useSelector } from 'react-redux'
 
 import PageContainer from '../common/PageContainer';
 import ProfileDetails from './ProfileDetails'
 import ProfileSection from './ProfileSection'
 import RecoveryContainer from './Recovery/RecoveryContainer'
 import { LOADING, NOT_FOUND, useAccount } from '../../hooks/allAccounts'
-import { useRecoveryMethods } from '../../hooks/recoveryMethods'
 
 export function Profile({ match }) {
     const { accountId } = match.params
     const account = useAccount(accountId)
-    const recoveryMethods = useRecoveryMethods(account.accountId)
+    const loginAccountId = useSelector(state => state.account.accountId)
 
     if (account.__status === LOADING) {
         return <PageContainer title={<Translate id='profile.pageTitle.loading' />} />
@@ -25,10 +25,9 @@ export function Profile({ match }) {
         <PageContainer title={<Translate id='profile.pageTitle.default' data={{ accountId }} />}>
             <ProfileSection>
                 <ProfileDetails account={account}/>
-                <RecoveryContainer
-                    accountId={accountId}
-                    activeMethods={recoveryMethods}
-                />
+                {accountId === loginAccountId && (
+                    <RecoveryContainer />
+                )}
             </ProfileSection>
         </PageContainer>
     )
