@@ -7892,10 +7892,10 @@ postcss@^7.0.0, postcss@^7.0.1, postcss@^7.0.11, postcss@^7.0.14, postcss@^7.0.1
     source-map "^0.6.1"
     supports-color "^6.1.0"
 
-posthtml-expressions@^1.4.0:
-  version "1.4.0"
-  resolved "https://registry.yarnpkg.com/posthtml-expressions/-/posthtml-expressions-1.4.0.tgz#1ae97cdc5e2e29e59f046d81106639aca0870184"
-  integrity sha512-1UvsE9ubNu2fJQWMF7AXb/7P98n2loQiOHZWzwABoYeYkZjmEc1wQRCVMxatJqrzsjL+6efs0TYuPbCwEGIV1w==
+posthtml-expressions@^1.4.1:
+  version "1.4.1"
+  resolved "https://registry.yarnpkg.com/posthtml-expressions/-/posthtml-expressions-1.4.1.tgz#abb9af66d2594be330fcd44cfc327d9db4bd6b7a"
+  integrity sha512-XGDLatbRKMphCy1H8ZO3sdQiR31zbPI+0Ghu8/4CuZ1x+Nu188w86URy3/bd+5f8WApCHseaR7Sr58AZZp1yhA==
   dependencies:
     fclone "^1.0.11"
 
