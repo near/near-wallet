@@ -9,7 +9,9 @@ const initialAccountState = { __status: LOADING }
 
 export function useAccount(accountId) {
     const account = useSelector(state =>
-        state.allAccounts[accountId] || initialAccountState
+        state.account.accountId === accountId
+            ? state.account
+            : state.allAccounts[accountId] || initialAccountState
     )
     const dispatch = useDispatch()
 
