@@ -7,17 +7,11 @@ import ProfileSection from './ProfileSection'
 import RecoveryContainer from './Recovery/RecoveryContainer'
 import { LOADING, NOT_FOUND, useAccount } from '../../hooks/allAccounts'
 import { useRecoveryMethods } from '../../hooks/recoveryMethods'
-import { wallet } from '../../utils/wallet'
 
 export function Profile({ match }) {
     const { accountId } = match.params
     const account = useAccount(accountId)
     const recoveryMethods = useRecoveryMethods(account.accountId)
-    const [balance, setBalance] = useState({});
-
-    useEffect(() => {
-        wallet.getBalance(accountId).then(balance => { setBalance(balance)})
-    }, [account.__status]);
 
     if (account.__status === LOADING) {
         return <PageContainer title={<Translate id='profile.pageTitle.loading' />} />
@@ -30,7 +24,7 @@ export function Profile({ match }) {
     return (
         <PageContainer title={<Translate id='profile.pageTitle.default' data={{ accountId }} />}>
             <ProfileSection>
-                <ProfileDetails accountId={accountId} balance={balance}/>
+                <ProfileDetails account={account}/>
                 <RecoveryContainer
                     accountId={accountId}
                     activeMethods={recoveryMethods}
