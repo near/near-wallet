@@ -18,6 +18,8 @@ import PrivateRoute from './common/PrivateRoute'
 import DashboardDetailWithRouter from './dashboard/DashboardDetail'
 import { CreateAccountWithRouter } from './accounts/CreateAccount'
 import { SetupRecoveryMethodWithRouter } from './accounts/recovery_setup/SetupRecoveryMethod'
+import { SetupLedgerWithRouter } from './accounts/ledger/SetupLedger'
+import { SetupLedgerSuccessWithRouter } from './accounts/ledger/SetupLedgerSuccess'
 import { RecoverAccountWithRouter } from './accounts/RecoverAccount'
 import { RecoverAccountSeedPhraseWithRouter } from './accounts/RecoverAccountSeedPhrase'
 import { RecoverWithLinkWithRouter } from './accounts/RecoverWithLink'
@@ -121,6 +123,16 @@ class Routing extends Component {
                                     exact
                                     path='/set-recovery/:accountId'
                                     component={SetupRecoveryMethodWithRouter}
+                                />
+                                <PrivateRoute
+                                    exact
+                                    path='/setup-ledger/:accountId'
+                                    component={SetupLedgerWithRouter}
+                                />
+                                <PrivateRoute
+                                    exact
+                                    path='/setup-ledger-success/:accountId'
+                                    component={SetupLedgerSuccessWithRouter}
                                 />
                                 <PrivateRoute
                                     exact
