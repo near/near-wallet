@@ -137,15 +137,13 @@ class SendMoneyAmountInput extends Component {
                 {amountDisplay ? (
                     <Balance amount={amountDisplay} /> 
                 ) : (
-                    <>
-                        <Translate id='sendMoney.amountStatusId.howMuch' />
-                        <AvailableBalance>
-                            <Translate id='sendMoney.amountStatusId.available'/>&nbsp;
-                            <Balance amount={this.props.balance.available}/>
-                            <InfoPopup content={<Translate id='availableBalanceInfo'/>}/>
-                        </AvailableBalance>
-                    </>
+                    <Translate id='sendMoney.amountStatusId.howMuch' />
                 )}
+                <AvailableBalance>
+                    <Translate id='sendMoney.amountStatusId.available'/>&nbsp;
+                    <Balance amount={this.props.balance.available}/>
+                    <InfoPopup content={<Translate id='availableBalanceInfo'/>}/>
+                </AvailableBalance>
             </CustomDiv>
         )
     }
