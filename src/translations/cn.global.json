@@ -6,7 +6,7 @@
         },
         "recoverAccount": {
             "success": "成功。",
-            "error": "恢复帐号失败。"
+            "error": "恢复账户失败。"
         },
         "create": {
             "success": "恭喜! ${accountId} 可被注册。",
@@ -30,7 +30,7 @@
             "error": "在设置助记词恢复方式时发生了错误，请重试。"
         },
         "login": {
-            "success": "${title} 现已授权使用你的帐号。",
+            "success": "${title} 现已授权使用你的账户。",
             "error": "在授权此操作时发生了错误，请重试。",
             "details": {
                 "warning": "这将可以访问你的所有余额，请谨慎操作。"
@@ -39,12 +39,12 @@
                 "error": "合约 ${contractId} 不存在。这可能是你正在使用的应用的问题，或者可能是合约已经被删除。你将重新回到应用。"
             }
         },
-        "nameDoesntMatch": "帐号名称不匹配"
+        "nameDoesntMatch": "账户名称不匹配"
     },
 
     "actions": {
-        "CreateAccount": "新帐号已创建：@${receiverId}",
-        "DeleteAccount": "帐号已删除：@${receiverId}",
+        "CreateAccount": "新账户已创建：@${receiverId}",
+        "DeleteAccount": "账户已删除：@${receiverId}",
         "DeployContract": "合约已经部署：@${receiverId}",
         "FunctionCall": "函数已调用：合约 @${receiverId} 的 ${methodName}",
         "Transfer": {
@@ -59,19 +59,19 @@
         "DeleteKey": "密钥已删除"
     },
     "actionsSign": {
-        "createAccount": "正在创建帐号：${receiverId}",
+        "createAccount": "正在创建账户：${receiverId}",
         "deployContract": "正在部署合约：${receiverId}",
         "functionCall": "正在调用函数：${methodName}",
         "transfer": "正在转账：${deposit}&#9411; 至 ${receiverId}",
         "stake": "正在质押：${stake}&#9411; ${publicKey}...",
         "addKey": "正在新增访问密钥",
         "deleteKey": "正在删除访问密钥",
-        "deleteAccount": "正在删除帐号：${receiverId}"
+        "deleteAccount": "正在删除账户：${receiverId}"
     },
 
     "setupSeedPhrase": {
         "pageTitle": "设置恢复助记词",
-        "pageText": "请按顺序记录以下助记词，并安全保管它们。没有助记词你将无法恢复帐号！",
+        "pageText": "请按顺序记录以下助记词，并安全保管它们。没有助记词你将无法恢复账户！",
         "snackbarCopySuccess": "助记词已复制！"
     },
     "setupSeedPhraseVerify": {
@@ -81,8 +81,8 @@
     },
     "setupSeedPhraseSuccess": {
         "pageTitle": "恢复设置已完成",
-        "pageText": "使用助记词来恢复你的帐号。",
-        "pageTextSecondLine": "任何能够查看你的助记词的人都可以访问你的帐号，因此请离线安全地保存助记词。"
+        "pageText": "使用助记词来恢复你的账户。",
+        "pageTextSecondLine": "任何能够查看你的助记词的人都可以访问你的账户，因此请离线安全地保存助记词。"
     },
 
     "receivePage": {
@@ -94,23 +94,23 @@
     },
 
     "selectAccountDropdown": {
-        "switchAccount": "切换帐号",
-        "switchAccounthNotAllowed": "该应用不支持帐号切换",
-        "createAccount": "创建新的帐号"
+        "switchAccount": "切换账户",
+        "switchAccounthNotAllowed": "该应用不支持账户切换",
+        "createAccount": "创建新的账户"
     },
 
     "recoverWithLink": {
-        "title": "恢复帐号",
-        "pOne": "点击 \"继续\" 恢复你的帐号：",
-        "pTwo": "如果这不是你偏好的浏览器，请复制链接并在你偏好的h浏览器中完成恢复流程。",
+        "title": "恢复账户",
+        "pOne": "点击 \"继续\" 恢复你的账户：",
+        "pTwo": "如果这不是你偏好的浏览器，请复制链接并在你偏好的浏览器中完成恢复流程。",
         "snackbarCopySuccess": "恢复链接已复制",
         "errorTitle": "链接已过期",
         "errorP": "请检查你的 Email 或手机最新消息，之前消息里的链接已经无效。"
     },
 
     "recoveryMgmt": {
-        "title": "帐号恢复方式",
-        "noRecoveryMethod": "你还不能恢复帐号，请先添加以下至少一种方式。",
+        "title": "账户恢复方式",
+        "noRecoveryMethod": "你还不能恢复账户，请先添加以下至少一种方式。",
         "methodTitle": {
             "phrase": "助记词",
             "phone": "手机号",
@@ -121,7 +121,7 @@
             "email": "重新发送 Email"
         },
         "enabled": "已启用",
-        "disableTitle": "是否确定禁用该恢复帐号方式？",
+        "disableTitle": "是否确定禁用该恢复账户方式？",
         "disableTextLink": "你收到的恢复链接将会被永久禁用。",
         "disableTextPhrase": "当前助记词将会被永久禁用。",
         "disableInputPlaceholder": "请输入用户名确认",
@@ -132,7 +132,7 @@
     "fullAccessKeys": {
         "pageTitle": "完全访问密钥",
         "authorizedTo": "已授权",
-        "viewYourAccountName": "查看你的帐号名称",
+        "viewYourAccountName": "查看你的账户名称",
         "submitAnyTransaction": "代表你发起交易",
         "useContract": "代表你使用 <b>${receiverId}</b> 合约",
         "noKeys": "你没有将 NEAR 钱包连接至任何应用。当连接后，你可以在这里管理。<br /><br />查看基于 NEAR 开发的应用：",
@@ -153,14 +153,14 @@
         "verify": "验证并完成",
         "startOver": "重新开始",
         "copyUrl": "复制链接",
-        "createAccount": "创建帐号",
+        "createAccount": "创建账户",
         "enable": "启用",
         "disable": "禁用",
         "connectLedger": "连接账本",
         "browseApps": "浏览应用",
-        "createAccountCapital": "创建帐号",
-        "findMyAccount": "查找我的帐号",
-        "protectAccount": "保护帐号",
+        "createAccountCapital": "创建账户",
+        "findMyAccount": "查找我的账户",
+        "protectAccount": "保护账户",
         "setupPhrase": "设置助记词",
         "confirm": "确认",
         "viewAll": "查看全部",
@@ -175,13 +175,13 @@
         "confirmAndSend": "确认并发送",
         "needToEditGoBack": "需要修改？请返回",
         "cancelTransfer": "取消转账",
-        "goToDashboard": "访问仪表台",
+        "goToDashboard": "访问概览页",
         "close": "关闭",
         "addFunds": "充值",
         "deauthorize": "取消授权",
-        "recoverAccount": "恢复帐号",
+        "recoverAccount": "恢复账户",
         "goBack": "返回",
-        "createNewAccount": "创建新的帐号",
+        "createNewAccount": "创建新的账户",
         "moreInformation": "更多信息"
     },
 
@@ -193,8 +193,8 @@
     },
 
     "recoverAccount": {
-        "pageTitle": "恢复你的帐号",
-        "pageText": "如果你已经设置帐号恢复方式，请根据以下步骤开始恢复流程。",
+        "pageTitle": "恢复你的账户",
+        "pageText": "如果你已经设置账户恢复方式，请根据以下步骤开始恢复流程。",
         "email": {
             "title": "Email",
             "desc": "请检查来自 nearprotocol.com 地址的邮件，标题是：",
@@ -207,21 +207,21 @@
         },
         "phrase": {
             "title": "助记词",
-            "desc": "请确认已准备 12 个单词组成的助记词，然后点击下方开始恢复帐号流程。"
+            "desc": "请确认已准备 12 个单词组成的助记词，然后点击下方开始恢复账户流程。"
         },
         "actionType": "恢复",
-        "actionRequired": "此消息包含恢复链接，请点击链接开始恢复帐号流程！"
+        "actionRequired": "此消息包含恢复链接，请点击链接开始恢复账户流程！"
     },
 
     "createAccount": {
-        "pageTitle": "创建新的帐号",
+        "pageTitle": "创建新的账户",
         "pageText": "只需要输入用户名即完成注册。",
         "accountIdInput": {
             "title": "输入用户名",
             "placeholder": "例如：satoshi"
         },
-        "alreadyHaveAnAccount": "已经拥有帐号？",
-        "recoverItHere": "恢复帐号",
+        "alreadyHaveAnAccount": "已经拥有账户？",
+        "recoverItHere": "恢复账户",
         "note": {
             "title": "备注",
             "one": "你的用户名可以输入以下任何字符：",
@@ -234,13 +234,13 @@
     },
 
     "topLevelAccounts": {
-        "header": "顶级帐号",
-        "body": "帐号名称类似于域名，只有 @${suffix} 才能创建比如 @yourname.${suffix} 的帐号，并且只有 @yourname.${suffix} 可以创建 @app.yourname.${suffix}。所有在此钱包创建的帐号都使用 .${suffix} 顶级帐号（TLA）。了解更多关于帐号名称和创建你的顶级帐号（TLA），请访问 <a rel='noopener noreferrer' href='https://docs.nearprotocol.com/docs/concepts/account'>NEAR 文档</a>。"
+        "header": "顶级账户",
+        "body": "账户名称类似于域名，只有 @${suffix} 才能创建比如 @yourname.${suffix} 的账户，并且只有 @yourname.${suffix} 可以创建 @app.yourname.${suffix}。所有在此钱包创建的账户都使用 .${suffix} 顶级账户（TLA）。了解更多关于账户名称和创建你的顶级账户（TLA），请访问 <a rel='noopener noreferrer' href='https://docs.nearprotocol.com/docs/concepts/account'>NEAR 文档</a>。"
     },
 
     "recoverSeedPhrase": {
-        "pageTitle": "通过助记词恢复帐号",
-        "pageText": "请输入与此帐号关联的助记词。",
+        "pageTitle": "通过助记词恢复账户",
+        "pageText": "请输入与此账户关联的助记词。",
         "accountIdInput": {
             "title": "用户名"
         },
@@ -251,13 +251,13 @@
     },
 
     "setupRecovery": {
-        "header": "保护你的帐号",
-        "subHeader": "请选择一种帐号恢复方式：",
+        "header": "保护你的账户",
+        "subHeader": "请设置一种账户恢复方式：",
         "basicSecurity": "基础安全",
         "basicSecurityDesc": "请输入你的 Email 地址或手机号以获取恢复链接",
-        "emailTitle": "Email 恢复",
+        "emailTitle": "Email 方式",
         "emailPlaceholder": "example@email.com",
-        "phoneTitle": "手机恢复",
+        "phoneTitle": "手机短信方式",
         "phoneDesc": "请输入你的手机号以获取恢复链接",
         "phonePlaceholder": "+1 415 797 8554",
         "advancedSecurity": "高级安全",
@@ -265,11 +265,11 @@
         "phraseTitle": "恢复助记词"
     },
     "setRecoveryConfirm": {
-        "pageTitle": "确认恢复设置",
+        "pageTitle": "确认恢复方式设置",
         "pageText": {
             "one": {
-                "email": "你应该已经收到一封包含恢复链接的邮件。如果你确认已丢失帐号的访问，请点击链接，并且恢复你的帐号。",
-                "phoneNumber": "你应该已经收到一条包含恢复链接的短信。如果你确认已丢失帐号的访问，请点击链接，并且恢复你的帐号。"
+                "email": "你应该已经收到一封包含恢复链接的邮件。如果你确认已丢失账户的访问，请点击链接，并且恢复你的账户。",
+                "phoneNumber": "你应该已经收到一条包含恢复链接的短信。如果你确认已丢失账户的访问，请点击链接，并且恢复你的账户。"
             },
             "two": {
                 "email": "请确认邮件的接收者：",
@@ -298,7 +298,7 @@
         "copyrights": "NEAR Inc. 版权所有。",
         "termsOfService": "服务条款",
         "privacyPolicy": "隐私策略",
-        "desc": "NEAR 是一个可扩展的计算和存储平台，将改善 Web 工作方式。",
+        "desc": "NEAR 是开放性网络 (Open Web) 的基础架构, 提供了一个去中心化存储和计算平台。",
         "learnMore": "了解更多",
         "needHelp": "需要帮助？",
         "contactSupport": "联系客服"
@@ -316,9 +316,9 @@
     "login": {
         "form": {
             "isRequestingTo": "正在请求",
-            "accessYourAccount": "访问你的帐号。",
+            "accessYourAccount": "访问你的账户。",
             "isRequestingFullAccess": "正在请求<b>完全访问</b>",
-            "toYourAccount": "你的帐号。",
+            "toYourAccount": "你的账户。",
             "thisDoesNotAllow": "不允许该应用转账任何通证。",
             "thisProvidesAccess": "提供<b>所有通证</b>操作权限。<br />请谨慎操作！"
         },
@@ -331,8 +331,8 @@
         "details": {
             "detailedDescription": "交易的详细描述",
             "thisAllows": "这将允许 ${appTitle}：",
-            "createNewAccounts": "创建新的帐号",
-            "transferTokens": "从你的帐号向其他帐号发送通证",
+            "createNewAccounts": "创建新的账户",
+            "transferTokens": "从你的账户向其他账户发送通证",
             "deploySmartContracts": "部署智能合约",
             "callFunctions": "在任何智能合约上调用函数",
             "stakeAndUnstake": "质押和取消质押 NEAR 通证",
@@ -382,7 +382,7 @@
             "title": "节点",
             "noNode": {
                 "title": "已经配置完节点？在这里添加。",
-                "text": "这将连接你的节点至你的钱包帐号。"
+                "text": "这将连接你的节点至你的钱包账户。"
             }
         },
         "staking": {
@@ -401,8 +401,8 @@
     "profile": {
         "pageTitle": {
             "loading": "正在加载...",
-            "notFound": "帐号 @${accountId} 未找到",
-            "default": "帐号：@${accountId}"
+            "notFound": "账户 @${accountId} 未找到",
+            "default": "账户：@${accountId}"
         },
         "details": {
             "profile": "资料",
@@ -413,9 +413,9 @@
             "lockPopup": {
                 "title": "为何是锁定？",
                 "text": "用户名是你在系统中的唯一识别号，并且与数据和资产绑定，因此无法修改。但是你可以${link}以使用想要的名字，并在需要时转账资产。",
-                "createAnotherAccount": "创建其他帐号"
+                "createAnotherAccount": "创建其他账户"
             },
-            "qrDesc": "使用你的手机相机来发送至该地址"
+            "qrDesc": "可以使用手机相机来扫描该二维码"
         }
     },
 
@@ -425,8 +425,8 @@
         "authorizedApps": "已授权应用",
         "fullAccessKeys": "完全访问密钥",
         "logout": "登出",
-        "switchAccount": "切换帐号",
-        "noAccount": "你还没有其他帐号"
+        "switchAccount": "切换账户",
+        "noAccount": "你还没有其他账户"
     },
 
     "desktopView": {
@@ -468,9 +468,9 @@
         },
         "ActionWarrning": {
             "functionCall": "该函数没有描述。",
-            "deployContract": "你正在向你的帐号部署合约！该合约可以访问你的 NEAR 余额，并代表你和其他合约交互。",
+            "deployContract": "你正在向你的账户部署合约！该合约可以访问你的 NEAR 余额，并代表你和其他合约交互。",
             "stake": "你正在质押 NEAR 通证。这些通证将会被锁定，并且如果你的验证节点无法即时响应，这些通证有丢失风险。",
-            "deleteAccount": "你将要删除你的帐号！你的 NEAR 余额将被清空，并且你的帐号数据都将被删除。"
+            "deleteAccount": "你将要删除你的账户！你的 NEAR 余额将被清空，并且你的账户数据都将被删除。"
         },
         "insufficientFunds": "资产不足",
         "hereAreSomeDetails": "这里是能够帮助你的一些信息。",
