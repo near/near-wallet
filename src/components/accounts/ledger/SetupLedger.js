@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import Container from './Style.css';
-import Modal from "../../common/modal/Modal";
+import Theme from './PageTheme.css';
+import InstructionsModal from './InstructionsModal';
+import LedgerIcon from '../../svg/LedgerIcon';
+import FormButton from '../../common/FormButton';
 
 const SetupLedger = () => {
 
@@ -9,19 +11,17 @@ const SetupLedger = () => {
     const toggleShowInstructions = () => setShowInstructions(!showInstructions);
 
     return (
-        <Container>
-            <div onClick={toggleShowInstructions}>these instructions</div>
-            {showInstructions &&
-                <Modal
-                    id='instructions-modal'
-                    isOpen={showInstructions}
-                    onClose={toggleShowInstructions}
-                    closeButton={true}
-                >
-                    <div>Install NEAR on your Ledger device</div>
-                </Modal>
+        <Theme>
+            <h1>Connect your Ledger device</h1>
+            <LedgerIcon/>
+            <p>To enable a Ledger hardware wallet to maintain custody of your account, connect your Ledger device to your computer and open the NEAR app.</p>
+            <p>If you have not yet installed the NEAR application on your device, follow <span className='link' onClick={toggleShowInstructions}>these instructions</span>.</p>
+            <FormButton>Connect to ledger</FormButton>
+            <button className='link'>Cancel</button>
+            {showInstructions && 
+                <InstructionsModal open={showInstructions} onClose={toggleShowInstructions}/>
             }
-        </Container>
+        </Theme>
     );
 }
 

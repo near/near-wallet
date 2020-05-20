@@ -65,12 +65,13 @@ const CustomButton = styled(Button)`
         &.blue {
             border-color: #0072ce;
             background: #0072ce;
+            text-transform: uppercase;
 
             :active,
             :hover,
             :focus {
-                border-color: #4096db;
-                background: #4096db;
+                border-color: #007fe6;
+                background: #007fe6;
             }
             :disabled {
                 background: #e6e6e6;
@@ -154,6 +155,7 @@ const CustomButton = styled(Button)`
             color: #cccccc;
             border-color: #cccccc;
             background: #fff;
+            text-transform: uppercase;
 
             :disabled {
                 border-color: #e6e6e6;
@@ -228,6 +230,7 @@ const CustomButton = styled(Button)`
             color: #fff;
             border-color: #cccccc;
             background-color: #cccccc;
+            cursor: default;
 
             :active,
             :hover,
@@ -330,10 +333,12 @@ const FormButton = ({
     size,
     linkTo,
     history,
-    className
+    className,
+    id
 }) => (
     <CustomButton
         type={type}
+        id={id}
         className={classNames([color, size, className, {'dots': sending}])}
         disabled={disabled}
         onClick={(e) => {

@@ -1,13 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import Container from './Style.css';
+import Theme from './PageTheme.css';
 import Modal from "../../common/modal/Modal";
 
 const SetupLedgerSuccess = () => {
     return (
-        <Container>
+        <Theme>
             Ledger has secured your account
-        </Container>
+        </Theme>
     );
 }
 

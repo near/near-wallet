@@ -10,12 +10,15 @@ function Modal(props) {
     const { isOpen, onClose, id, modalSize, modalClass, children, closeButton } = props;
     const [fadeType, setFadeType] = useState(null);
 
-    useEffect(() => { 
+    useEffect(() => {
+        const closeEl = document.getElementById('close-button');
+        closeEl && closeEl.addEventListener('click', handleClick, false);
         window.addEventListener('keydown', onEscKeyDown, false);
         setTimeout(() => setFadeType('in'), 0);
 
         return () => {
             window.removeEventListener('keydown', onEscKeyDown, false);
+            closeEl && closeEl.removeEventListener('click', handleClick, false);
         }
 
     },[]);
@@ -42,13 +45,13 @@ function Modal(props) {
     return ReactDom.createPortal(
         <StyledModal
             id={id}
-            className={`wrapper ${'size-' + modalSize} fade-${fadeType} ${modalClass}`}
+            className={`modal-wrapper ${'size-' + modalSize} fade-${fadeType} ${modalClass}`} // TODO: fix undefined
             role='dialog'
             modalSize={modalSize}
             onTransitionEnd={transitionEnd}
         >
             <div className='modal'>
-                {closeButton && <CloseButton onClick={handleClick}/>}
+                {closeButton && <CloseButton device={closeButton} onClick={handleClick}/>}
                 {children}
             </div>
             <div className='background' onMouseDown={handleClick} ref={background}/>

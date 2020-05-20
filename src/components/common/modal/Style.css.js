@@ -17,7 +17,7 @@ const Style = styled.div`
             case 'lg': return '800'; 
             case 'sm': return '400'; 
             case 'xs': return '300'; 
-            default: return '600';
+            default: return '650';
         }
     }}px;
     margin: 40px auto;
