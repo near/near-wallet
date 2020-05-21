@@ -7,7 +7,6 @@ export default createGlobalStyle`
         flex-direction: column;
         align-items: center;
         padding: 40px 25px !important;
-        font-family: BwSeidoRound !important;
 
         h2 {
             text-align: center;

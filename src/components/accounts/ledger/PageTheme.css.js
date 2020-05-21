@@ -7,7 +7,6 @@ const PageTheme = styled.div`
         align-items: center;
         margin: 30px 14px 0 14px;
         max-width: 800px;
-        font-family: BwSeidoRound !important;
 
         @media (min-width: 768px) {
             margin: 30px auto 0 auto;

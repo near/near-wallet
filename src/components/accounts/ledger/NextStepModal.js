@@ -3,6 +3,7 @@ import Modal from "../../common/modal/Modal";
 import ModalTheme from './ModalTheme';
 import MobileActionSheet from '../../common/modal/MobileActionSheet';
 import FormButton from '../../common/FormButton';
+import { Translate } from 'react-localize-redux';
 
 const NextStepModal = ({ nextStep, onClose }) => {
     return (
@@ -14,11 +15,13 @@ const NextStepModal = ({ nextStep, onClose }) => {
         >
             <ModalTheme/>
             <MobileActionSheet/>
-            <h2>Remove existing recovery methods?</h2>
-            <p>Before removing your existing recovery methods, make sure that you have recorded and securely stored your Ledger seed phrase.</p>
-            <p className='color-red'>If you lose access to your seed phrase, NEAR Inc. will be unable to assist you in recovery of your account and its funds.</p>
-            <FormButton>Confirm</FormButton>
-            <button className='link' id='close-button'>Cancel</button>
+            <h2><Translate id={`setupLedgerSuccess.nextStep.header.${nextStep}`}/></h2>
+            <p><Translate id={`setupLedgerSuccess.nextStep.one.${nextStep}`}/></p>
+            {nextStep === 'remove' && 
+                <p className='color-red'><Translate id={`setupLedgerSuccess.nextStep.two.${nextStep}`}/></p>
+            }
+            <FormButton><Translate id='button.confirm'/></FormButton>
+            <button className='link' id='close-button'><Translate id='button.cancel'/></button>
         </Modal>
     );
 }

@@ -220,10 +220,6 @@ export default createGlobalStyle`
         font-weight: 600 !important;
     }
 
-    .black {
-        color: #24272a;
-    }
-
     .color-seafoam-blue {
         color: #6ad1e3 !important;
     }

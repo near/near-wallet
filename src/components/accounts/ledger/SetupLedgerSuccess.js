@@ -4,6 +4,7 @@ import Theme from './PageTheme.css';
 import HardwareDeviceIcon from '../../svg/HardwareDeviceIcon';
 import NextStepModal from './NextStepModal';
 import FormButton from '../../common/FormButton';
+import { Translate } from 'react-localize-redux';
 
 const SetupLedgerSuccess = () => {
 
@@ -11,12 +12,12 @@ const SetupLedgerSuccess = () => {
 
     return (
         <Theme>
-            <h1>Ledger has secured your account!</h1>
+            <h1><Translate id='setupLedgerSuccess.header'/></h1>
             <HardwareDeviceIcon/>
-            <p>We recommend that you now remove your existing recovery methods and other devices.</p>
-            <p className='color-red'>Maintaining multiple recovery methods and devices increases the vulnerability of your account.</p>
-            <FormButton onClick={() => setNextStep('remove')}>Remove existing methods</FormButton>
-            <button className='link' onClick={() => setNextStep('keep')}>Keep existing methods</button>
+            <p><Translate id='setupLedgerSuccess.one'/></p>
+            <p className='color-red'><Translate id='setupLedgerSuccess.two'/></p>
+            <FormButton onClick={() => setNextStep('remove')}><Translate id='setupLedgerSuccess.primaryCta'/></FormButton>
+            <button className='link' onClick={() => setNextStep('keep')}><Translate id='setupLedgerSuccess.secondaryCta'/></button>
             {nextStep && 
                 <NextStepModal nextStep={nextStep} onClose={() => setNextStep(false)}/>
             }

@@ -3,6 +3,7 @@ import Modal from "../../common/modal/Modal";
 import ModalTheme from './ModalTheme';
 import MobileActionSheet from '../../common/modal/MobileActionSheet';
 import FormButton from '../../common/FormButton';
+import { Translate } from 'react-localize-redux';
 
 const InstructionsModal = ({ open, onClose }) => {
     return (
@@ -14,14 +15,16 @@ const InstructionsModal = ({ open, onClose }) => {
         >
             <ModalTheme/>
             <MobileActionSheet/>
-            <h2>Install NEAR on your Ledger device</h2>
+            <h2><Translate id='setupLedgerSteps.header'/></h2>
             <ol>
-                <li>Open <span className='link'>Ledger Live</span> and navigate to your <span className='black'>Settings</span>.</li>
-                <li>Under <span className='black'>Experimental Features</span>, make sure that <span className='black'>Developer Mode</span> is switched <span className='black'>on</span>.</li>
-                <li>Return to the <span className='black'>Manager</span> tab and search for <span className='black'>NEAR</span>.</li>
-                <li>Follow the instructions to install the <span className='black'>NEAR application</span> on your device.</li>
+                <li><Translate id='setupLedgerSteps.one'/></li>
+                <li><Translate id='setupLedgerSteps.two'/></li>
+                <li><Translate id='setupLedgerSteps.three'/></li>
+                <li><Translate id='setupLedgerSteps.four'/></li>
             </ol>
-            <FormButton color='gray-white' id='close-button'>Dismiss</FormButton>
+            <FormButton color='gray-white' id='close-button'>
+                <Translate id='button.dismiss'/>
+            </FormButton>
         </Modal>
     );
 }

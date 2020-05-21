@@ -4,6 +4,7 @@ import Theme from './PageTheme.css';
 import InstructionsModal from './InstructionsModal';
 import LedgerIcon from '../../svg/LedgerIcon';
 import FormButton from '../../common/FormButton';
+import { Translate } from 'react-localize-redux';
 
 const SetupLedger = () => {
 
@@ -12,12 +13,12 @@ const SetupLedger = () => {
 
     return (
         <Theme>
-            <h1>Connect your Ledger device</h1>
+            <h1><Translate id='setupLedger.header'/></h1>
             <LedgerIcon/>
-            <p>To enable a Ledger hardware wallet to maintain custody of your account, connect your Ledger device to your computer and open the NEAR app.</p>
-            <p>If you have not yet installed the NEAR application on your device, follow <span className='link' onClick={toggleShowInstructions}>these instructions</span>.</p>
-            <FormButton>Connect to ledger</FormButton>
-            <button className='link'>Cancel</button>
+            <p><Translate id='setupLedger.one'/></p>
+            <p><Translate id='setupLedger.two'/> <span className='link' onClick={toggleShowInstructions}><Translate id='setupLedger.twoLink'/></span>.</p>
+            <FormButton><Translate id='button.connectLedger'/></FormButton>
+            <button className='link'><Translate id='button.cancel'/></button>
             {showInstructions && 
                 <InstructionsModal open={showInstructions} onClose={toggleShowInstructions}/>
             }

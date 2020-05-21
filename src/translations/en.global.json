@@ -156,7 +156,7 @@
         "createAccount": "Create account",
         "enable": "Enable",
         "disable": "Disable",
-        "connectLedger": "Connect Ledger",
+        "connectLedger": "Connect to Ledger",
         "browseApps": "BROWSE APPS",
         "createAccountCapital": "CREATE ACCOUNT",
         "findMyAccount": "FIND MY ACCOUNT",
@@ -165,7 +165,7 @@
         "confirm": "CONFIRM",
         "viewAll": "VIEW ALL",
         "send": "SEND",
-        "cancel": "CANCEL",
+        "cancel": "Cancel",
         "deny": "DENY",
         "allow": "ALLOW",
         "addNode": "ADD NODE",
@@ -182,7 +182,8 @@
         "recoverAccount": "RECOVER ACCOUNT",
         "goBack": "Go back",
         "createNewAccount": "CREATE NEW ACCOUNT",
-        "moreInformation": "More information"
+        "moreInformation": "More information",
+        "dismiss": "Dismiss"
     },
 
     "input": {
@@ -507,5 +508,41 @@
     "sending": "SENDING",
     "back": "Back",
     "of": "of",
-    "ofTotal": "of Total"
+    "ofTotal": "of Total",
+
+    "setupLedger": {
+        "header": "Connect your Ledger device",
+        "one": "To enable a Ledger hardware wallet to maintain custody of your account, connect your Ledger device to your computer and open the NEAR app.",
+        "two": "If you have not yet installed the NEAR application on your device, follow",
+        "twoLink": "these instructions"
+    },
+
+    "setupLedgerSteps": {
+        "header": "Install NEAR on your Ledger device",
+        "one": "Open <span class='link'>Ledger Live</span> and navigate to your <span class='color-black'>Settings</span>.",
+        "two": "Under <span class='color-black'>Experimental Features</span>, make sure that <span class='color-black'>Developer Mode</span> is switched <span class='color-black'>on</span>.",
+        "three": "Return to the <span class='color-black'>Manager</span> tab and search for <span class='color-black'>NEAR</span>.",
+        "four": "Follow the instructions to install the <span class='color-black'>NEAR application</span> on your device."
+    },
+
+    "setupLedgerSuccess": {
+        "header": "Ledger has secured your account!",
+        "one": "We recommend that you now remove your existing recovery methods and other devices.",
+        "two": "Maintaining multiple recovery methods and devices increases the vulnerability of your account.",
+        "primaryCta": "Remove existing methods",
+        "secondaryCta": "Keep existing meethods",
+        "nextStep": {
+            "header": {
+                "remove": "Remove existing recovery methods?",
+                "keep": "Keep existing recovery methods?"
+            },
+            "one": {
+                "remove": "Before removing your existing recovery methods, make sure that you have recorded and securely stored your Ledger seed phrase.",
+                "keep": "<span class='color-red'>Maintaining multiple recovery methods and devices increases the vulnerability of your account.</span>"
+            },
+            "two": {
+                "remove": "If you lose access to your seed phrase, NEAR Inc. will be unable to assist you in recovery of your account and its funds."
+            }
+        }
+    }
 }
