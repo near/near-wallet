@@ -126,12 +126,12 @@ class Routing extends Component {
                                 />
                                 <PrivateRoute
                                     exact
-                                    path='/setup-ledger/:accountId'
+                                    path='/setup-ledger'
                                     component={SetupLedgerWithRouter}
                                 />
                                 <PrivateRoute
                                     exact
-                                    path='/setup-ledger-success/:accountId'
+                                    path='/setup-ledger-success'
                                     component={SetupLedgerSuccessWithRouter}
                                 />
                                 <PrivateRoute

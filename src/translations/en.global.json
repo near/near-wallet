@@ -157,6 +157,7 @@
         "enable": "Enable",
         "disable": "Disable",
         "connectLedger": "Connect to Ledger",
+        "retry": "Retry",
         "browseApps": "BROWSE APPS",
         "createAccountCapital": "CREATE ACCOUNT",
         "findMyAccount": "FIND MY ACCOUNT",
@@ -506,6 +507,7 @@
     "amount": "amount",
     "or": "OR",
     "sending": "SENDING",
+    "connecting": "Connecting",
     "back": "Back",
     "of": "of",
     "ofTotal": "of Total",
@@ -519,7 +521,7 @@
 
     "setupLedgerSteps": {
         "header": "Install NEAR on your Ledger device",
-        "one": "Open <span class='link'>Ledger Live</span> and navigate to your <span class='color-black'>Settings</span>.",
+        "one": "Open <a href='https://www.ledger.com/ledger-live' target='_blank'>Ledger Live</a> and navigate to your <span class='color-black'>Settings</span>.",
         "two": "Under <span class='color-black'>Experimental Features</span>, make sure that <span class='color-black'>Developer Mode</span> is switched <span class='color-black'>on</span>.",
         "three": "Return to the <span class='color-black'>Manager</span> tab and search for <span class='color-black'>NEAR</span>.",
         "four": "Follow the instructions to install the <span class='color-black'>NEAR application</span> on your device."

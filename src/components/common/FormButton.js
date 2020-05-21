@@ -330,6 +330,7 @@ const FormButton = ({
     disabled = false,
     onClick,
     sending = false,
+    sendingString,
     size,
     linkTo,
     history,
@@ -348,7 +349,7 @@ const FormButton = ({
         tabIndex='3'
     >
         {sending
-            ? <Translate id='sending' />
+            ? <Translate id={sendingString ? sendingString : 'sending'} />
             : children
         }
     </CustomButton>
