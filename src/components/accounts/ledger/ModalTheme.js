@@ -21,15 +21,21 @@ export default createGlobalStyle`
             padding: 40px 75px !important;
         }
 
-        ol {
+        ol, p {
 
             @media (min-width: 500px) {
                 max-width: 400px;
             }
+        }
 
-            li {
-                padding-left: 10px;
-                margin-top: 20px;
+        li {
+            padding-left: 10px;
+            margin-top: 20px;
+        }
+
+        p {
+            :first-of-type {
+                margin-top: 30px;
             }
         }
 
@@ -40,8 +46,12 @@ export default createGlobalStyle`
                 width: 300px;
             }
 
-            &.gray-white {
+            .blue, .primary-gray {
                 margin-top: 30px;
+            }
+
+            :last-of-type {
+                margin-top: 25px;
             }
         }
     }

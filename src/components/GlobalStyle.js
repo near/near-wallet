@@ -47,6 +47,9 @@ export default createGlobalStyle`
     .link {
         color: #0072ce;
         cursor: pointer;
+        background-color: transparent;
+        outline: none;
+        border: 0;
 
         @media (min-width: 768px) {
             &:hover {
