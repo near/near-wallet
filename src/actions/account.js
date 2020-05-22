@@ -36,22 +36,26 @@ export const parseTransactionsToSign = createAction('PARSE_TRANSACTIONS_TO_SIGN'
 
 export const handleRefreshUrl = () => (dispatch, getState) => {
     const { pathname, search } = getState().router.location
-    const parsedUrl = {
-        referrer: document.referrer,
-        ...parse(search)
-    }
+    const currentPage = pathname.split('/')[1]
 
-    if ([WALLET_LOGIN_URL, WALLET_SIGN_URL].includes(pathname.split('/')[1]) && search !== '') {
-        saveState(parsedUrl)
-        dispatch(refreshUrl(parsedUrl))
-        dispatch(checkContractId())
-    } else {
-        dispatch(refreshUrl(loadState()))
-    }
+    if ([...WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS, WALLET_LOGIN_URL, WALLET_SIGN_URL].includes(currentPage)) {
+        const parsedUrl = {
+            referrer: document.referrer,
+            ...parse(search)
+        }
 
-    const { transactions, callbackUrl } = getState().account.url
-    if (transactions) {
-        dispatch(parseTransactionsToSign({ transactions, callbackUrl }))
+        if ([WALLET_LOGIN_URL, WALLET_SIGN_URL].includes(currentPage) && search !== '') {
+            saveState(parsedUrl)
+            dispatch(refreshUrl(parsedUrl))
+            dispatch(checkContractId())
+        } else {
+            dispatch(refreshUrl(loadState()))
+        }
+
+        const { transactions, callbackUrl } = getState().account.url
+        if (transactions) {
+            dispatch(parseTransactionsToSign({ transactions, callbackUrl }))
+        }
     }
 }
 
