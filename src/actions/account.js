@@ -49,7 +49,7 @@ export const handleRefreshUrl = () => (dispatch, getState) => {
         dispatch(refreshUrl(loadState()))
     }
 
-    const { transactions, callbackUrl } = parsedUrl
+    const { transactions, callbackUrl } = getState().account.url
     if (transactions) {
         dispatch(parseTransactionsToSign({ transactions, callbackUrl }))
     }
