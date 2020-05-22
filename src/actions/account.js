@@ -5,7 +5,7 @@ import { ACCOUNT_HELPER_URL, wallet } from '../utils/wallet'
 import { getTransactions as getTransactionsApi, transactionExtraInfo } from '../utils/explorer-api'
 import { push } from 'connected-react-router'
 import { loadState, saveState, clearState } from '../utils/sessionStorage'
-import { WALLET_CREATE_NEW_ACCOUNT_URL, WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS, WALLET_LOGIN_URL } from '../utils/wallet'
+import { WALLET_CREATE_NEW_ACCOUNT_URL, WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS, WALLET_LOGIN_URL, WALLET_SIGN_URL } from '../utils/wallet'
 
 export const loadRecoveryMethods = createAction('LOAD_RECOVERY_METHODS',
     wallet.getRecoveryMethods.bind(wallet),
@@ -36,18 +36,17 @@ export const parseTransactionsToSign = createAction('PARSE_TRANSACTIONS_TO_SIGN'
 
 export const handleRefreshUrl = () => (dispatch, getState) => {
     const { pathname, search } = getState().router.location
-    const parsedUrl = parse(search)
+    const parsedUrl = {
+        referrer: document.referrer,
+        ...parse(search)
+    }
 
-    if (pathname.split('/')[1] === WALLET_LOGIN_URL && search !== '') {
+    if ([WALLET_LOGIN_URL, WALLET_SIGN_URL].includes(pathname.split('/')[1]) && search !== '') {
         saveState(parsedUrl)
         dispatch(refreshUrl(parsedUrl))
         dispatch(checkContractId())
-    }
-    else {
-        dispatch(refreshUrl({
-            referrer: document.referrer,
-            ...loadState()
-        }))
+    } else {
+        dispatch(refreshUrl(loadState()))
     }
 
     const { transactions, callbackUrl } = parsedUrl
