@@ -5,6 +5,7 @@ import PageContainer from '../common/PageContainer';
 import ProfileDetails from './ProfileDetails'
 import ProfileSection from './ProfileSection'
 import RecoveryContainer from './Recovery/RecoveryContainer'
+import HardwareDevices from './hardware_devices/HardwareDevices'
 import { LOADING, NOT_FOUND, useAccount } from '../../hooks/allAccounts'
 import { useRecoveryMethods } from '../../hooks/recoveryMethods'
 
@@ -29,6 +30,7 @@ export function Profile({ match }) {
                     accountId={accountId}
                     activeMethods={recoveryMethods}
                 />
+                <HardwareDevices/>
             </ProfileSection>
         </PageContainer>
     )

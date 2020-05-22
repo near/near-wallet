@@ -126,6 +126,10 @@ export default createGlobalStyle`
         font-family: "benton-sans",sans-serif !important;
     }
 
+    .font-rounded {
+        font-family: BwSeidoRound !important;
+    }
+
     .font-small {
         font-family: "benton-sans",sans-serif !important;
         font-size: 12px !important;
