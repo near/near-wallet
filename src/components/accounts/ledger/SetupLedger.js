@@ -5,6 +5,7 @@ import InstructionsModal from './InstructionsModal';
 import LedgerIcon from '../../svg/LedgerIcon';
 import FormButton from '../../common/FormButton';
 import { Translate } from 'react-localize-redux';
+import { addLedgerAccessKey } from '../../../actions/account'
 
 const SetupLedger = (props) => {
 
@@ -14,10 +15,12 @@ const SetupLedger = (props) => {
 
     const onClick = () => {
         setConnect('true');
+        props.addLedgerAccessKey(props.accountId)
+            .then(({ error }) => {
+                if (error) return;
 
-        setTimeout(() => {
-            props.history.push('/setup-ledger-success')
-        }, 3000);
+                props.history.push('/setup-ledger-success');
+            })
     }
 
     return (
@@ -38,7 +41,7 @@ const SetupLedger = (props) => {
 }
 
 const mapDispatchToProps = {
-
+    addLedgerAccessKey
 }
 
 const mapStateToProps = ({ account }) => ({
