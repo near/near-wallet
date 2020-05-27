@@ -109,7 +109,7 @@ class RecoveryContainer extends Component {
     }
 
     handleResendLink = (method) => {
-        const { account: { accountId }, sendNewRecoveryLink, loadRecoveryMethods } = this.props;
+        const { sendNewRecoveryLink, loadRecoveryMethods } = this.props;
         
         this.setState({ resendingLink: method.detail })
         sendNewRecoveryLink(method)
