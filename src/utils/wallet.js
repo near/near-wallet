@@ -53,11 +53,12 @@ class Wallet {
                 state = store.getState()
             }
             const accessKeys = state.account.fullAccessKeys
+            const ledgerOnly = false; // TEMP
             if (accessKeys && state.account.accountId === accountId) {
                 // TODO: Only use Ledger when it's the only available signer for given tx
                 // TODO: Use network ID
                 const ledgerKey = accessKeys.find(accessKey => accessKey.meta.type === 'ledger')
-                if (ledgerKey) {
+                if (ledgerKey && ledgerOnly) {
                     return PublicKey.from(ledgerKey.public_key)
                 }
             }

@@ -1,8 +1,15 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 import Card from '../../common/styled/Card.css';
 import FormButton from '../../common/FormButton';
 import HardwareDeviceIcon from '../../svg/HardwareDeviceIcon';
+import { 
+    loadRecoveryMethods, 
+    getAccessKeys,
+    removeAccessKey
+} from '../../../actions/account';
 
 const Container = styled(Card)`
     margin-top: 30px;
@@ -54,6 +61,7 @@ const Container = styled(Card)`
             letter-spacing: 0.5px !important;
             margin: 0 !important;
             padding: 0;
+            text-transform: uppercase;
         }
     }
 
@@ -63,7 +71,32 @@ const Container = styled(Card)`
     }
 `
 
-const HardwareDevices = () => {
+const HardwareDevices = ({ 
+    account,
+    loadRecoveryMethods, 
+    recoveryMethods,
+    getAccessKeys,
+    removeAccessKey
+}) => {
+    const [removing, setRemoving] = useState(false);
+    const keys = account.fullAccessKeys;
+    const hasLedger = keys && keys.find(key => key.meta.type === 'ledger');
+    const hasOtherMethods = recoveryMethods && recoveryMethods.some(method => method.confirmed);
+
+    useEffect(() => { 
+        getAccessKeys()
+        loadRecoveryMethods()
+    }, []);
+
+    const disableLedger = () => {
+        setRemoving(true);
+        removeAccessKey(hasLedger.public_key).then(() => {
+            getAccessKeys().then(() => {
+                setRemoving(false);
+            })
+        })
+    }
+
     return (
         <Container>
             <div className='header'>
@@ -76,13 +109,25 @@ const HardwareDevices = () => {
             <div className='device'>
                 <div className='name'>
                     Ledger Hardware Wallet
-                    {/*<div>Authorized</div>*/}
+                    {hasLedger && <div>Authorized</div>}
                 </div>
-                <FormButton linkTo='/setup-ledger'>Enable</FormButton>
+                {!hasLedger && <FormButton linkTo='/setup-ledger' color='blue'>Enable</FormButton>}
+                {hasLedger && <FormButton disabled={!hasOtherMethods || removing} color='gray-red' onClick={disableLedger} sending={removing}>Disable</FormButton>}
             </div>
-            {/*<i>In order to disable your ledger device, you must first enable an alternative recovery method.</i>*/}
+            {!hasOtherMethods && <i>In order to disable your ledger device, you must first enable an alternative recovery method.</i>}
         </Container>
     )
 }
 
-export default HardwareDevices;
+const mapDispatchToProps = {
+    loadRecoveryMethods,
+    getAccessKeys,
+    removeAccessKey,
+}
+
+const mapStateToProps = ({ account, recoveryMethods }) => ({
+    account,
+    recoveryMethods: recoveryMethods[account.accountId]
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(HardwareDevices));

@@ -170,6 +170,23 @@ const CustomButton = styled(Button)`
                 background: #cccccc;
             }
         }
+        &.gray-red {
+            color: #FF585D;
+            border: none;
+            background-color: #f8f8f8;
+
+            :hover,
+            :active,
+            :focus {
+                color: #fff;
+                background-color: #FF585D;
+            }
+
+            :disabled {
+                background-color: #CCCCCC;
+                color: white;
+            }
+        }
         &.gray-blue {
             color: #0072ce;
             border-color: #f8f8f8;
