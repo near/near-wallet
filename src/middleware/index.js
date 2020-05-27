@@ -2,6 +2,8 @@ import thunk from 'redux-thunk'
 import { applyMiddleware, compose } from 'redux'
 import { routerMiddleware } from 'connected-react-router'
 
+import * as Sentry from '@sentry/browser';
+
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
 
 /**
@@ -28,6 +30,7 @@ const readyStatePromise = store => next => action => {
         payload => next(makeAction(true, { payload })),
         error => {
             console.warn('Error in background action:', error)
+            Sentry.captureException(error);
             return next(makeAction(true, { error: true, payload: error }))
         }
     )
