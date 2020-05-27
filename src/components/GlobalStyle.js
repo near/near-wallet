@@ -1,7 +1,5 @@
 import { createGlobalStyle } from 'styled-components'
 
-import ProblemsImage from '../images/icon-problems.svg'
-import CheckBlueImage from '../images/icon-check-blue.svg'
 import EmailIconGray from '../images/email-icon-gray.svg'
 import CloseBtn from '../images/close-btn.svg'
 
@@ -375,6 +373,9 @@ export default createGlobalStyle`
     }
     .ui.left.center.popup:before {
         box-shadow: 1px -1px 0 0 #eee;
+    }
+    .ui.top.center.popup:before {
+        box-shadow: 1px 1px 0px 0px #eee;
     }
     .ui.bottom.right.popup:before {
         box-shadow: -1px -1px 0 0 #eee;

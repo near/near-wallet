@@ -4,11 +4,10 @@ import PropTypes from 'prop-types'
 import { Segment, Form } from 'semantic-ui-react'
 import { BN } from 'bn.js'
 import { Translate } from 'react-localize-redux'
-
 import styled from 'styled-components'
-
+import InfoPopup from '../common/InfoPopup'
 import Balance, { formatNEAR } from '../common/Balance'
-import { utils } from 'nearlib'
+import { utils } from 'near-api-js'
 
 const CustomDiv = styled(`div`)`
     &&&&& {
@@ -48,8 +47,8 @@ const CustomDiv = styled(`div`)`
             margin: 0;
             padding: 8px 0;
             line-height: 34px;
-            font-size: 14px;
             text-align: center;
+            
             &.problem {
                 color: #ff585d;
             }
@@ -60,6 +59,23 @@ const CustomDiv = styled(`div`)`
                 padding: 0px !important;
             }
         }
+    }
+
+    @media screen and (max-width: 991px) {
+        .alert-info {
+            font-size: 12px;
+        }
+    }
+`
+
+const AvailableBalance = styled.div`
+    margin-top: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .list {
+        padding: 0 !important;
     }
 `
 
@@ -83,7 +99,7 @@ class SendMoneyAmountInput extends Component {
         let amountInInternalFormat = ''
         if (value !== '') {
             amountInInternalFormat = utils.format.parseNearAmount(value);
-            let balance = new BN(this.props.amount)
+            let balance = new BN(this.props.balance.available)
             if (balance.lt(new BN(amountInInternalFormat))) {
                 amountStatusId = 'sendMoney.amountStatusId.notEnoughTokens'
             }
@@ -118,9 +134,16 @@ class SendMoneyAmountInput extends Component {
                     <Segment basic textAlign='center' className='alert-info problem'>
                         <Translate id={amountStatusId} />
                     </Segment>)}
-                {amountDisplay  
-                    ? <Balance amount={amountDisplay} /> 
-                    : <Translate id='sendMoney.amountStatusId.howMuch' />}
+                {amountDisplay ? (
+                    <Balance amount={amountDisplay} /> 
+                ) : (
+                    <Translate id='sendMoney.amountStatusId.howMuch' />
+                )}
+                <AvailableBalance>
+                    <Translate id='sendMoney.amountStatusId.available'/>&nbsp;
+                    <Balance amount={this.props.balance.available}/>
+                    <InfoPopup content={<Translate id='availableBalanceInfo'/>}/>
+                </AvailableBalance>
             </CustomDiv>
         )
     }

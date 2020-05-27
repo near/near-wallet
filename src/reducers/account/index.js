@@ -13,7 +13,8 @@ import {
     refreshUrl,
     refreshAccount,
     resetAccounts,
-    getTransactionStatus
+    getTransactionStatus,
+    setFormLoader
 } from '../../actions/account'
 
 const initialState = {
@@ -163,15 +164,22 @@ const account = handleActions({
             stake: payload.stake,
             nonce: payload.nonce,
             code_hash: payload.code_hash,
+            locked: payload.locked,
+            storageUsage: payload.storage_usage,
             accounts: payload.accounts,
             loader: false,
-            loginResetAccounts: undefined
+            loginResetAccounts: undefined,
+            balance: payload.balance
         }
     },
     [resetAccounts]: (state) => ({
         ...state,
         loginResetAccounts: true
     }),
+    [setFormLoader]: (state, { payload }) => ({
+        ...state,
+        formLoader: payload
+    })
 }, initialState)
 
 export default reduceReducers(

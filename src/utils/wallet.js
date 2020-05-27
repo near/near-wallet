@@ -1,9 +1,9 @@
-import * as nearlib from 'nearlib'
+import * as nearApiJs from 'near-api-js'
 import sendJson from 'fetch-send-json'
 import { findSeedPhraseKey } from 'near-seed-phrase'
 import { createClient } from 'near-ledger-js'
-import { PublicKey } from 'nearlib/lib/utils'
-import { KeyType } from 'nearlib/lib/utils/key_pair'
+import { PublicKey } from 'near-api-js/lib/utils'
+import { KeyType } from 'near-api-js/lib/utils/key_pair'
 import { store } from '..'
 import { getAccessKeys } from '../actions/account'
 import { generateSeedPhrase } from 'near-seed-phrase';
@@ -12,7 +12,7 @@ export const WALLET_CREATE_NEW_ACCOUNT_URL = 'create'
 export const WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS = ['create', 'set-recovery', 'setup-seed-phrase', 'recover-account', 'recover-seed-phrase']
 export const WALLET_LOGIN_URL = 'login'
 export const ACCOUNT_HELPER_URL = process.env.REACT_APP_ACCOUNT_HELPER_URL || 'https://near-contract-helper.onrender.com'
-
+export const EXPLORER_URL = process.env.EXPLORER_URL || 'https://explorer.testnet.near.org';
 export const IS_MAINNET = process.env.REACT_APP_IS_MAINNET === 'true' || process.env.REACT_APP_IS_MAINNET === 'yes'
 export const ACCOUNT_ID_SUFFIX = process.env.REACT_APP_ACCOUNT_ID_SUFFIX || 'testnet'
 
@@ -24,7 +24,6 @@ const KEY_UNIQUE_PREFIX = '_4:'
 const KEY_WALLET_ACCOUNTS = KEY_UNIQUE_PREFIX + 'wallet:accounts_v2'
 const KEY_ACTIVE_ACCOUNT_ID = KEY_UNIQUE_PREFIX + 'wallet:active_account_id_v2'
 const ACCESS_KEY_FUNDING_AMOUNT = process.env.REACT_APP_ACCESS_KEY_FUNDING_AMOUNT || '100000000'
-
 const ACCOUNT_ID_REGEX = /^(([a-z\d]+[-_])*[a-z\d]+[.@])*([a-z\d]+[-_])*[a-z\d]+$/
 
 export const ACCOUNT_CHECK_TIMEOUT = 500
@@ -44,8 +43,8 @@ async function getKeyMeta(publicKey) {
 
 class Wallet {
     constructor() {
-        this.keyStore = new nearlib.keyStores.BrowserLocalStorageKeyStore()
-        const inMemorySigner = new nearlib.InMemorySigner(this.keyStore)
+        this.keyStore = new nearApiJs.keyStores.BrowserLocalStorageKeyStore(window.localStorage, 'nearlib:keystore:')
+        const inMemorySigner = new nearApiJs.InMemorySigner(this.keyStore)
 
         async function getLedgerKey(accountId) {
             let state = store.getState()
@@ -83,7 +82,7 @@ class Wallet {
                 return inMemorySigner.signMessage(message, accountId, networkId)
             }
         }
-        this.connection = nearlib.Connection.fromConfig({
+        this.connection = nearApiJs.Connection.fromConfig({
             networkId: NETWORK_ID,
             provider: { type: 'JsonRpcProvider', args: { url: NODE_URL + '/' } },
             signer: this.signer
@@ -156,6 +155,7 @@ class Wallet {
         }
         return {
             ...await this.getAccount(this.accountId).state(),
+            balance: await this.getBalance(),
             accountId: this.accountId,
             accounts: this.accounts
         }
@@ -212,7 +212,7 @@ class Wallet {
 
     async createNewAccount(accountId, fundingKey, fundingContract) {
         this.checkNewAccount(accountId);
-        const keyPair = nearlib.KeyPair.fromRandom('ed25519');
+        const keyPair = nearApiJs.KeyPair.fromRandom('ed25519');
 
         if (fundingKey && fundingContract) {
             await this.createNewAccountLinkdrop(accountId, fundingKey, fundingContract, keyPair);
@@ -233,10 +233,10 @@ class Wallet {
 
         await this.keyStore.setKey(
             NETWORK_ID, fundingContract,
-            nearlib.KeyPair.fromString(fundingKey)
+            nearApiJs.KeyPair.fromString(fundingKey)
         )
 
-        const contract = new nearlib.Contract(account, fundingContract, {
+        const contract = new nearApiJs.Contract(account, fundingContract, {
             changeMethods: ['create_account_and_claim', 'claim'],
             sender: fundingContract
         });
@@ -255,19 +255,25 @@ class Wallet {
     }
 
     async addAccessKey(accountId, contractId, publicKey) {
-        return await this.getAccount(accountId).addKey(
-            publicKey,
-            contractId,
-            '', // methodName
-            ACCESS_KEY_FUNDING_AMOUNT
-        )
+        try {
+            return await this.getAccount(accountId).addKey(
+                publicKey,
+                contractId,
+                '', // methodName
+                ACCESS_KEY_FUNDING_AMOUNT
+            )
+        } catch (e) {
+            if (e.type === 'AddKeyAlreadyExists') {
+                return true;
+            }
+            throw e;
+        }
     }
 
     async addLedgerAccessKey(accountId) {
         const client = await createClient()
-        window.client = client
         const rawPublicKey = await client.getPublicKey()
-        const publicKey = new PublicKey(KeyType.ED25519, rawPublicKey)
+        const publicKey = new PublicKey({ keyType: KeyType.ED25519, data: rawPublicKey })
         await setKeyMeta(publicKey, { type: 'ledger' })
         return await this.getAccount(accountId).addKey(publicKey)
     }
@@ -284,7 +290,15 @@ class Wallet {
     }
 
     getAccount(accountId) {
-        return new nearlib.Account(this.connection, accountId)
+        return new nearApiJs.Account(this.connection, accountId)
+    }
+
+    async getBalance(accountId) {
+        let userAccountId = this.accountId;
+        if (accountId) {
+            userAccountId = accountId;
+        }
+        return await this.getAccount(userAccountId).getAccountBalance()
     }
 
     async signatureFor(accountId) {
@@ -311,10 +325,20 @@ class Wallet {
         });
     }
 
+    async getRecoveryMethods() {
+        return {
+            accountId: wallet.accountId,
+            data: await sendJson('POST', `${ACCOUNT_HELPER_URL}/account/recoveryMethods`, {
+                accountId: wallet.accountId,
+                ...(await wallet.signatureFor(wallet.accountId))
+        })}
+    }
+
     async setupRecoveryMessage(accountId, method, securityCode) {
         await this.validateSecurityCode(accountId, method, securityCode);
 
         const { seedPhrase, publicKey } = generateSeedPhrase();
+
         const account = this.getAccount(accountId)
         const accountKeys = await account.getAccessKeys();
         if (!accountKeys.some(it => it.public_key.endsWith(publicKey))) {
@@ -359,15 +383,15 @@ class Wallet {
     }
 
     async recoverAccountSeedPhrase(seedPhrase, accountId) {
-        const tempKeyStore = new nearlib.keyStores.InMemoryKeyStore()
+        const tempKeyStore = new nearApiJs.keyStores.InMemoryKeyStore()
 
-        const connection = nearlib.Connection.fromConfig({
+        const connection = nearApiJs.Connection.fromConfig({
             networkId: NETWORK_ID,
             provider: { type: 'JsonRpcProvider', args: { url: NODE_URL + '/' } },
-            signer: new nearlib.InMemorySigner(tempKeyStore)
+            signer: new nearApiJs.InMemorySigner(tempKeyStore)
         })
 
-        const account = new nearlib.Account(connection, accountId)
+        const account = new nearApiJs.Account(connection, accountId)
 
         const accessKeys = await account.getAccessKeys()
         const publicKeys = accessKeys.map(it => it.public_key)
@@ -376,11 +400,11 @@ class Wallet {
             throw new Error(`Cannot find matching public key for account ${accountId}`);
         }
 
-        const keyPair = nearlib.KeyPair.fromString(secretKey)
+        const keyPair = nearApiJs.KeyPair.fromString(secretKey)
         await tempKeyStore.setKey(NETWORK_ID, accountId, keyPair)
 
         // generate new keypair for this browser
-        const newKeyPair = nearlib.KeyPair.fromRandom('ed25519')
+        const newKeyPair = nearApiJs.KeyPair.fromRandom('ed25519')
         await account.addKey(newKeyPair.publicKey)
 
         await this.saveAndSelectAccount(accountId, newKeyPair)
@@ -388,7 +412,7 @@ class Wallet {
 
     async signAndSendTransactions(transactions, accountId) {
         for (let { receiverId, nonce, blockHash, actions } of transactions) {
-            const [, signedTransaction] = await nearlib.transactions.signTransaction(receiverId, nonce, actions, blockHash, this.connection.signer, accountId, NETWORK_ID)
+            const [, signedTransaction] = await nearApiJs.transactions.signTransaction(receiverId, nonce, actions, blockHash, this.connection.signer, accountId, NETWORK_ID)
             await this.connection.provider.sendTransaction(signedTransaction)
         }
     }

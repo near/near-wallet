@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
 import { withRouter, Link } from 'react-router-dom'
 import { Translate } from 'react-localize-redux'
+import { EXPLORER_URL } from '../../utils/wallet'
 
 import IconArrowLeft from '../../images/IconArrowLeft'
 import IconProblems from '../../images/IconProblems'
@@ -172,7 +173,7 @@ const TransactionsList = ({ transactions }) =>
     transactions.map((t, i) => (
         <div key={`item-${i}`} className='details-item'>
             <div className='title h3'>
-                <Translate id='login.details.forContract' />: <a href={`${process.env.EXPLORER_URL || 'https://explorer.nearprotocol.com'}/accounts/${t.signerId}`} target='_blank' rel="noopener noreferrer" className='color-blue'>@{t.signerId}</a>
+                <Translate id='login.details.forContract' />: <a href={`${EXPLORER_URL}/accounts/${t.signerId}`} target='_blank' rel="noopener noreferrer" className='color-blue'>@{t.signerId}</a>
             </div>
             {false &&  <ActionsList 
                 transaction={t} 

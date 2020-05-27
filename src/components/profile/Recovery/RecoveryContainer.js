@@ -36,7 +36,6 @@ const Container = styled.div`
         height: 40px;
         letter-spacing: 0.5px;
     }
-
 `
 
 const Header = styled.div`
@@ -87,33 +86,37 @@ class RecoveryContainer extends Component {
         resendingLink: ''
     };
 
+    componentDidMount = () => {
+        this.props.loadRecoveryMethods()
+    }
+
     handleEnableMethod = (method) => {
-        const { history, accountId } = this.props;
+        const { history, account: { accountId } } = this.props;
 
         history.push(`${method !== 'phrase' ? '/set-recovery/' : '/setup-seed-phrase/'}${accountId}`);
     }
 
     handleDeleteMethod = (method) => {
-        const { deleteRecoveryMethod, loadRecoveryMethods, accountId } = this.props;
+        const { deleteRecoveryMethod, loadRecoveryMethods } = this.props;
 
         this.setState({ deletingMethod: method.detail })
         deleteRecoveryMethod(method)
             .then(({ error }) => {
                 if (error) return
-                loadRecoveryMethods(accountId);
+                loadRecoveryMethods();
                 this.setState({ deletingMethod: '' });
         })
     }
 
     handleResendLink = (method) => {
-        const { accountId, sendNewRecoveryLink, loadRecoveryMethods } = this.props;
+        const { account: { accountId }, sendNewRecoveryLink, loadRecoveryMethods } = this.props;
         
         this.setState({ resendingLink: method.detail })
         sendNewRecoveryLink(method)
             .then(({ error }) => {
                 if (error) return
 
-                loadRecoveryMethods(accountId);
+                loadRecoveryMethods();
                 this.setState({ successSnackbar: true, resendingLink: '' }, () => {
                     setTimeout(() => {
                         this.setState({successSnackbar: false});
@@ -123,8 +126,7 @@ class RecoveryContainer extends Component {
     }
  
     render() {
-
-        const { activeMethods, account, accountId } = this.props;
+        const { recoveryMethods: activeMethods = [], account, account: { accountId } } = this.props;
         const { deletingMethod, resendingLink, successSnackbar } = this.state;
         const allMethods = ['email', 'phone', 'phrase'];
         const inactiveMethods = allMethods.filter((method) => !activeMethods.map(method => method.kind).includes(method));
@@ -184,8 +186,9 @@ const mapDispatchToProps = {
     sendNewRecoveryLink
 }
 
-const mapStateToProps = ({ account }) => ({
-    account
+const mapStateToProps = ({ account, recoveryMethods }) => ({
+    account,
+    recoveryMethods: recoveryMethods[account.accountId]
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(RecoveryContainer));

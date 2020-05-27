@@ -63,10 +63,6 @@ const Collapsed = styled.div`
     display: flex;
     align-items: center;
 
-    .logo {
-        margin-left: -12px;
-    }
-
     .menu-btn {
         position: absolute;
         right: 20px;
@@ -104,7 +100,7 @@ class MobileContainer extends Component {
                         <>
                             <User>
                                 <UserName accountId={account.accountId}/>
-                                <UserBalance amount={account.amount}/>
+                                <UserBalance balance={account.balance}/>
                             </User>
                             <MenuButton onClick={toggleMenu} open={menuOpen}/>
                         </>

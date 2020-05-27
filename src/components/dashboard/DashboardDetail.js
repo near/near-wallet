@@ -2,9 +2,7 @@ import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
 import { Translate } from 'react-localize-redux'
 import { withRouter } from 'react-router-dom'
-
 import { getAccessKeys, getTransactions, getTransactionStatus } from '../../actions/account'
-
 import DashboardSection from './DashboardSection'
 import DashboardActivity from './DashboardActivity'
 import PageContainer from '../common/PageContainer'
@@ -17,7 +15,7 @@ import AccessKeysIcon from '../../images/icon-keys-grey.svg'
 
 import DashboardKeys from './DashboardKeys'
 
-import { TRANSACTIONS_REFRESH_INTERVAL } from '../../utils/wallet'
+import { TRANSACTIONS_REFRESH_INTERVAL, EXPLORER_URL } from '../../utils/wallet'
 
 class DashboardDetail extends Component {
     state = {
@@ -66,14 +64,24 @@ class DashboardDetail extends Component {
 
     render() {
         const { loader, notice } = this.state
-        const { authorizedApps, fullAccessKeys, transactions, amount, accountId, formLoader, getTransactionStatus } = this.props
+
+        const { 
+            authorizedApps, 
+            fullAccessKeys, 
+            transactions,
+            accountId, 
+            formLoader, 
+            getTransactionStatus, 
+            balance 
+        } = this.props
+
         return (
             <PageContainer
                 title={(
-                    amount
+                    balance
                         ? <Fragment>
                             <span className='balance'><Translate id='balance.balance' />: </span>
-                            <Balance amount={amount} />
+                            <Balance amount={balance.total}/> 
                         </Fragment>
                         : <Translate id='balance.balanceLoading' />
                 )}
@@ -94,7 +102,7 @@ class DashboardDetail extends Component {
                         loader={loader}
                         image={activityGreyImage}
                         title={<Translate id='dashboard.activity' />}
-                        to={`${process.env.EXPLORER_URL || 'https://explorer.nearprotocol.com'}/accounts/${accountId}`}
+                        to={`${EXPLORER_URL}/accounts/${accountId}`}
                         transactions={transactions}
                         accountId={accountId}
                         formLoader={formLoader}
