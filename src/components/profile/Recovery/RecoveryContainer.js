@@ -8,9 +8,7 @@ import RecoveryIcon from '../../../images/icon-recovery-grey.svg';
 import ErrorIcon from '../../../images/icon-problems.svg';
 import { Snackbar, snackbarDuration } from '../../common/Snackbar';
 import { Translate } from 'react-localize-redux';
-import { generateSeedPhrase } from 'near-seed-phrase';
 import {
-    setupRecoveryMessage,
     deleteRecoveryMethod,
     loadRecoveryMethods,
     sendNewRecoveryLink
@@ -101,7 +99,7 @@ class RecoveryContainer extends Component {
     handleDeleteMethod = (method) => {
         const { deleteRecoveryMethod, loadRecoveryMethods } = this.props;
 
-        this.setState({ deletingMethod: method.kind })
+        this.setState({ deletingMethod: method.detail })
         deleteRecoveryMethod(method)
             .then(({ error }) => {
                 if (error) return
@@ -111,19 +109,10 @@ class RecoveryContainer extends Component {
     }
 
     handleResendLink = (method) => {
-        const { seedPhrase, publicKey } = generateSeedPhrase();
-        const { account: { accountId }, sendNewRecoveryLink, loadRecoveryMethods } = this.props;
-        const { kind, detail } = method;
-        let phoneNumber, email;
-
-        if (kind === 'email') {
-            email = detail;
-        } else if (kind === 'phone') {
-            phoneNumber = detail;
-        }
-
-        this.setState({ resendingLink: method.kind })
-        sendNewRecoveryLink({ accountId, phoneNumber, email, publicKey, seedPhrase, method })
+        const { sendNewRecoveryLink, loadRecoveryMethods } = this.props;
+        
+        this.setState({ resendingLink: method.detail })
+        sendNewRecoveryLink(method)
             .then(({ error }) => {
                 if (error) return
 
@@ -137,7 +126,8 @@ class RecoveryContainer extends Component {
     }
  
     render() {
-        const { recoveryMethods: activeMethods = [], account, account: { accountId } } = this.props;
+        const { recoveryMethods = [], account, account: { accountId } } = this.props;
+        const activeMethods = recoveryMethods.filter(method => method.confirmed);
         const { deletingMethod, resendingLink, successSnackbar } = this.state;
         const allMethods = ['email', 'phone', 'phrase'];
         const inactiveMethods = allMethods.filter((method) => !activeMethods.map(method => method.kind).includes(method));
@@ -192,7 +182,6 @@ class RecoveryContainer extends Component {
 }
 
 const mapDispatchToProps = {
-    setupRecoveryMessage,
     deleteRecoveryMethod,
     loadRecoveryMethods,
     sendNewRecoveryLink

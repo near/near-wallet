@@ -6,6 +6,7 @@ import { PublicKey } from 'near-api-js/lib/utils'
 import { KeyType } from 'near-api-js/lib/utils/key_pair'
 import { store } from '..'
 import { getAccessKeys } from '../actions/account'
+import { generateSeedPhrase } from 'near-seed-phrase';
 
 export const WALLET_CREATE_NEW_ACCOUNT_URL = 'create'
 export const WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS = ['create', 'set-recovery', 'setup-seed-phrase', 'recover-account', 'recover-seed-phrase']
@@ -300,15 +301,28 @@ class Wallet {
         return await this.getAccount(userAccountId).getAccountBalance()
     }
 
-    requestCode(phoneNumber, accountId) {
-        return sendJson('POST', `${ACCOUNT_HELPER_URL}/account/${phoneNumber}/${accountId}/requestCode`)
-    }
-
     async signatureFor(accountId) {
         const blockNumber = String((await this.connection.provider.status()).sync_info.latest_block_height);
         const signed = await this.signer.signMessage(Buffer.from(blockNumber), accountId, NETWORK_ID);
         const blockNumberSignature = Buffer.from(signed.signature).toString('base64');
         return { blockNumber, blockNumberSignature };
+    }
+
+    async initializeRecoveryMethod(accountId, method) {
+        await sendJson('POST', `${ACCOUNT_HELPER_URL}/account/initializeRecoveryMethod`, {
+            accountId,
+            method,
+            ...(await wallet.signatureFor(accountId))
+        });
+    }
+
+    async validateSecurityCode(accountId, method, securityCode) {
+        await sendJson('POST', `${ACCOUNT_HELPER_URL}/account/validateSecurityCode`, {
+            accountId,
+            method,
+            securityCode,
+            ...(await wallet.signatureFor(accountId))
+        });
     }
 
     async getRecoveryMethods() {
@@ -320,7 +334,11 @@ class Wallet {
         })}
     }
 
-    async setupRecoveryMessage({ phoneNumber, email, accountId, seedPhrase, publicKey }) {
+    async setupRecoveryMessage(accountId, method, securityCode) {
+        await this.validateSecurityCode(accountId, method, securityCode);
+
+        const { seedPhrase, publicKey } = generateSeedPhrase();
+
         const account = this.getAccount(accountId)
         const accountKeys = await account.getAccessKeys();
         if (!accountKeys.some(it => it.public_key.endsWith(publicKey))) {
@@ -329,25 +347,39 @@ class Wallet {
 
         return sendJson('POST', `${ACCOUNT_HELPER_URL}/account/sendRecoveryMessage`, {
             accountId,
-            email,
-            phoneNumber,
+            method,
             seedPhrase
         });
+    }
+
+    async replaceAccessKey(oldKey, newKey) {
+        const accountId = this.accountId;
+        await this.getAccount(accountId).addKey(newKey)
+        await this.removeAccessKey(oldKey)
+    }
+
+    async sendNewRecoveryLink(method) {
+        const accountId = this.accountId;
+        const { seedPhrase, publicKey } = generateSeedPhrase();
+
+        await sendJson('POST', `${ACCOUNT_HELPER_URL}/account/resendRecoveryLink`, {
+            accountId,
+            method,
+            seedPhrase,
+            publicKey,
+            ...(await wallet.signatureFor(accountId))
+        });
+        await this.replaceAccessKey(method.publicKey, publicKey);
     }
 
     async deleteRecoveryMethod(method) {
         await sendJson('POST', `${ACCOUNT_HELPER_URL}/account/deleteRecoveryMethod`, {
             accountId: wallet.accountId,
-            recoveryMethod: method.kind,
+            kind: method.kind,
             publicKey: method.publicKey,
             ...(await wallet.signatureFor(wallet.accountId))
         })
         await this.removeAccessKey(method.publicKey)
-    }
-
-    async sendNewRecoveryLink({ phoneNumber, email, accountId, seedPhrase, publicKey, method }) {
-        await this.setupRecoveryMessage({ accountId, phoneNumber, email, publicKey, seedPhrase })
-        await this.deleteRecoveryMethod(method)
     }
 
     async recoverAccountSeedPhrase(seedPhrase, accountId) {
