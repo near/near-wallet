@@ -340,6 +340,10 @@
             "forContract": "For Contract",
             "function": "Function",
             "noDescription": "No description specified for this method"
+        },
+        "cliLoginSuccess": {
+            "pageTitle": "You've successfully authorized NEAR Shell!",
+            "pageText": "Please close this window and follow the instructions in the terminal."
         }
     },
 
