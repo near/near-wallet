@@ -4,7 +4,6 @@ import reduceReducers from 'reduce-reducers'
 import {
     requestCode,
     getAccessKeys,
-    getTransactions,
     clear,
     clearCode,
     addAccessKey,
@@ -13,7 +12,6 @@ import {
     refreshUrl,
     refreshAccount,
     resetAccounts,
-    getTransactionStatus,
     setFormLoader
 } from '../../actions/account'
 
@@ -90,49 +88,6 @@ const accessKeys = handleActions({
     })
 }, initialState)
 
-const transactions = handleActions({
-    [getTransactions]: (state, { error, payload, ready }) => {
-        const hash = state.transactions && state.transactions.reduce((h, t) => ({
-            ...h,
-            [t.hash_with_index]: t
-        }), {})
-        
-        return ({
-            ...state,
-            transactions: (ready && !error) 
-                ? payload.map((t) => (
-                    (hash && Object.keys(hash).includes(t.hash_with_index))
-                        ? {
-                            ...t,
-                            status: hash[t.hash_with_index].status,
-                            checkStatus: hash[t.hash_with_index].checkStatus
-                        } 
-                        : t
-                ))
-                : state.transactions
-
-        })
-    },
-    [getTransactionStatus]: (state, { error, payload, ready, meta }) => ({
-        ...state,
-        transactions: state.transactions.map((t) => (
-            t.hash === meta.hash
-                ? {
-                    ...t,
-                    checkStatus: (ready && !error) 
-                        ? !['SuccessValue', 'Failure'].includes(Object.keys(payload.status)[0]) 
-                        : false,
-                    status: (ready && !error) 
-                        ? Object.keys(payload.status)[0] 
-                        : error 
-                            ? 'notAvailable' 
-                            : ''
-                }
-                : t
-        ))
-    })
-}, initialState)
-
 const url = handleActions({
     [refreshUrl]: (state, { payload }) => ({
         ...state,
@@ -190,7 +145,6 @@ export default reduceReducers(
     requestResultClearReducer,
     recoverCodeReducer,
     accessKeys,
-    transactions,
     account,
     url
 )

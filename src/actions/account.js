@@ -2,7 +2,6 @@ import sendJson from 'fetch-send-json'
 import { parse, stringify } from 'query-string'
 import { createActions, createAction } from 'redux-actions'
 import { ACCOUNT_HELPER_URL, wallet } from '../utils/wallet'
-import { getTransactions as getTransactionsApi, transactionExtraInfo } from '../utils/explorer-api'
 import { push } from 'connected-react-router'
 import { loadState, saveState, clearState } from '../utils/sessionStorage'
 import { WALLET_CREATE_NEW_ACCOUNT_URL, WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS, WALLET_LOGIN_URL, WALLET_SIGN_URL } from '../utils/wallet'
@@ -149,11 +148,6 @@ export const { initializeRecoveryMethod, setupRecoveryMessage, deleteRecoveryMet
     CHECK_ACCOUNT_AVAILABLE: [
         wallet.checkAccountAvailable.bind(wallet),
         () => defaultCodesFor('account.available')
-    ],
-    GET_TRANSACTIONS: [getTransactionsApi.bind(wallet), () => ({})],
-    GET_TRANSACTION_STATUS: [
-        ((transactionExtraInfo.bind(wallet))),
-        (hash) => ({ hash })
     ],
     CLEAR: null,
     CLEAR_CODE: null
