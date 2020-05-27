@@ -1,12 +1,13 @@
 import React from 'react'
 import styled from 'styled-components'
 import { List } from 'semantic-ui-react'
-import { utils } from 'nearlib'
+import { utils } from 'near-api-js'
 import { BN } from 'bn.js'
 
 const CustomDiv = styled(List)`
     position: relative;
     display: inline;
+    white-space: nowrap;
 `
 
 const FRAC_DIGITS = 5
@@ -16,6 +17,7 @@ const Balance = ({ amount }) => {
     if (!amount) {
         throw new Error('amount property should not be null')
     }
+    
     let amountShow = formatNEAR(amount)
 
     return (
@@ -27,14 +29,13 @@ const Balance = ({ amount }) => {
 
 export const formatNEAR = (amount) => {
     let ret =  utils.format.formatNearAmount(amount, FRAC_DIGITS)
-    if (ret === '0') {
-        return `<${
-            !FRAC_DIGITS 
-                ? `0` 
-                : `0.${'0'.repeat((FRAC_DIGITS || 1) - 1)}1`
-        }`
+
+    if (amount === '0') {
+        return amount;
+    } else if (ret === '0') {
+        return `<${!FRAC_DIGITS ? `0` : `0.${'0'.repeat((FRAC_DIGITS || 1) - 1)}1`}`;
     }
-    return ret
+    return ret;
 }
 
 const showInYocto = (amountStr) => {

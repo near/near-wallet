@@ -206,7 +206,7 @@ class DesktopContainer extends Component {
                         <User onClick={toggleMenu}>
                             <UserIcon/>
                             <UserName accountId={account.accountId}/>
-                            <UserBalance amount={account.amount}/>
+                            <UserBalance balance={account.balance}/>
                         </User>
                         <DesktopMenu
                             show={menuOpen}

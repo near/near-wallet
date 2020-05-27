@@ -4,7 +4,6 @@ import { withRouter } from 'react-router-dom'
 import { push } from 'connected-react-router'
 import BN from 'bn.js'
 import { Translate } from 'react-localize-redux'
-
 import SignContainer from './SignContainer'
 import SignTransferReady from './SignTransferReady'
 import SignTransferSuccess from './SignTransferSuccess'
@@ -39,8 +38,8 @@ class Sign extends Component {
     renderSubcomponent = () => {
 
         const txTotalAmount = new BN(this.props.totalAmount); // TODO: add gas cost, etc
-        const accountBalance = new BN(this.props.account.amount);
-        const insufficientFunds = txTotalAmount.gt(accountBalance);
+        const availableBalance = new BN(this.props.account.balance.available);
+        const insufficientFunds = txTotalAmount.gt(availableBalance);
         const isMonetaryTransaction = txTotalAmount.gt(new BN(0));
 
         switch (this.props.status) {
@@ -53,7 +52,7 @@ class Sign extends Component {
                             handleDetails={this.handleDetails}
                             sensitiveActionsCounter={this.props.sensitiveActionsCounter}
                             txTotalAmount={txTotalAmount}
-                            accountBalance={accountBalance}
+                            availableBalance={availableBalance}
                             insufficientFunds={insufficientFunds}
                             isMonetaryTransaction={isMonetaryTransaction}
                         />

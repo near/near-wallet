@@ -7,17 +7,9 @@ import { push } from 'connected-react-router'
 import { loadState, saveState, clearState } from '../utils/sessionStorage'
 import { WALLET_CREATE_NEW_ACCOUNT_URL, WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS, WALLET_LOGIN_URL } from '../utils/wallet'
 
-export const loadAccount = createAction('LOAD_ACCOUNT',
-    accountId => wallet.getAccount(accountId).state(),
-    accountId => ({ accountId })
-)
-
 export const loadRecoveryMethods = createAction('LOAD_RECOVERY_METHODS',
-    async accountId => sendJson('POST', `${ACCOUNT_HELPER_URL}/account/recoveryMethods`, {
-        accountId: wallet.accountId,
-        ...(await wallet.signatureFor(wallet.accountId))
-    }),
-    accountId => ({ accountId })
+    wallet.getRecoveryMethods.bind(wallet),
+    () => ({})
 )
 
 export const handleRedirectUrl = (previousLocation) => (dispatch, getState) => {
@@ -203,11 +195,18 @@ export const { signAndSendTransactions } = createActions({
     ]
 })
 
-export const { switchAccount, refreshAccount, resetAccounts, refreshUrl, setFormLoader } = createActions({
+export const { switchAccount, refreshAccount, refreshAccountExternal, resetAccounts, refreshUrl, setFormLoader } = createActions({
     SWITCH_ACCOUNT: wallet.selectAccount.bind(wallet),
     REFRESH_ACCOUNT: [
         wallet.loadAccount.bind(wallet),
         () => ({ accountId: wallet.getAccountId(), })
+    ],
+    REFRESH_ACCOUNT_EXTERNAL: [
+        async (accountId) => ({
+            ...await wallet.getAccount(accountId).state(),
+            balance: await wallet.getBalance(accountId)
+        }),
+        accountId => ({ accountId })
     ],
     RESET_ACCOUNTS: wallet.clearState.bind(wallet),
     REFRESH_URL: null,
