@@ -11,8 +11,6 @@ import { LOADING, NOT_FOUND, useAccount } from '../../hooks/allAccounts'
 export function Profile({ match }) {
     const { accountId } = match.params
     const account = useAccount(accountId)
-    const recoveryMethods = useRecoveryMethods(account.accountId)
-    const confirmedRecoveryMethods = recoveryMethods.filter(method => method.confirmed)
     const loginAccountId = useSelector(state => state.account.accountId)
 
     if (account.__status === LOADING) {
@@ -28,10 +26,7 @@ export function Profile({ match }) {
             <ProfileSection>
                 <ProfileDetails account={account} />
                 {accountId === loginAccountId && (
-                    <RecoveryContainer
-                        accountId={accountId}
-                        activeMethods={confirmedRecoveryMethods}
-                    />
+                    <RecoveryContainer />
                 )}
             </ProfileSection>
         </PageContainer>

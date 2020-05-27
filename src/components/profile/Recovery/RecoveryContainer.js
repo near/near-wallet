@@ -126,7 +126,8 @@ class RecoveryContainer extends Component {
     }
  
     render() {
-        const { recoveryMethods: activeMethods = [], account, account: { accountId } } = this.props;
+        const { recoveryMethods = [], account, account: { accountId } } = this.props;
+        const activeMethods = recoveryMethods.filter(method => method.confirmed);
         const { deletingMethod, resendingLink, successSnackbar } = this.state;
         const allMethods = ['email', 'phone', 'phrase'];
         const inactiveMethods = allMethods.filter((method) => !activeMethods.map(method => method.kind).includes(method));
