@@ -6743,10 +6743,10 @@ natural-compare@^1.4.0:
   resolved "https://registry.yarnpkg.com/natural-compare/-/natural-compare-1.4.0.tgz#4abebfeed7541f2c27acfb29bdbbd15c8d5ba4f7"
   integrity sha1-Sr6/7tdUHywnrPspvbvRXI1bpPc=
 
-near-api-js@^0.25.0:
-  version "0.25.0"
-  resolved "https://registry.yarnpkg.com/near-api-js/-/near-api-js-0.25.0.tgz#c210816c41b90897c5508dc4e0d15e4c481fb293"
-  integrity sha512-FreBjyfZ2aP8HjgTYMqJzxS0+teoCsQfsEVX3tOcKLWMMudy3lK9OZ4tj9J9f8Kzg1LyGHLHpkiqJedkq+UH0A==
+near-api-js@^0.25.1:
+  version "0.25.1"
+  resolved "https://registry.yarnpkg.com/near-api-js/-/near-api-js-0.25.1.tgz#4b2c05cc929cc42b76898ca12939aafc083505e9"
+  integrity sha512-z0LpHA+CmbOreaTCEl91/cus9K/S+hC3zLMf6L6UyxY+GUNDV1OqlvTZzsbrHxFnlbK45ZwebtZeOtLPOrDceQ==
   dependencies:
     "@types/bn.js" "^4.11.5"
     bn.js "^5.0.0"
@@ -6797,22 +6797,6 @@ nearley@^2.7.10:
     railroad-diagrams "^1.0.0"
     randexp "0.4.6"
     semver "^5.4.1"
-
-nearlib@^0.22.0:
-  version "0.22.0"
-  resolved "https://registry.yarnpkg.com/nearlib/-/nearlib-0.22.0.tgz#e7e9ed88752fb533c0920720f962f97395ddfec6"
-  integrity sha512-6yTc5Ti5oHFak8GSvuzHF7gTRIXRDIs822LiIqJWqoJ5emWktAZqWowS9taAazfG/joU2H0B3WX5Z46oIv4U0w==
-  dependencies:
-    "@types/bn.js" "^4.11.5"
-    bn.js "^5.0.0"
-    bs58 "^4.0.0"
-    error-polyfill "^0.1.2"
-    http-errors "^1.7.2"
-    js-sha256 "^0.9.0"
-    mustache "^4.0.0"
-    node-fetch "^2.3.0"
-    text-encoding-utf-8 "^1.0.2"
-    tweetnacl "^1.0.1"
 
 next-tick@~1.0.0:
   version "1.0.0"
