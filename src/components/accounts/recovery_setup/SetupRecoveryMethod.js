@@ -137,7 +137,8 @@ class SetupRecoveryMethod extends Component {
                     >
                         <Translate>
                             {({ translate }) => (
-                                <input 
+                                <input
+                                    type='email'
                                     placeholder={translate('setupRecovery.emailPlaceholder')}
                                     value={email}
                                     onChange={e => this.setState({ email: e.target.value })}
