@@ -6,6 +6,7 @@ import PhoneIcon from '../../svg/PhoneIcon';
 import PhraseIcon from '../../svg/PhraseIcon';
 import { Translate } from 'react-localize-redux';
 import IntFlagIcon from '../../../images/int-flag-small.svg';
+import classNames from '../../../utils/classNames'
 
 const Container = styled.div`
     background-color: #F8F8F8;
@@ -156,7 +157,7 @@ const RecoveryOption = ({
     problem
 }) => {
     return (
-        <Container onClick={onClick} className={`${active && 'active'} ${problem && 'inputProblem'}`}>
+        <Container onClick={onClick} className={classNames([{'active': active}, {'inputProblem': problem}])}>
             <Header>
                 <Icon option={option}/>
                 <Title>
