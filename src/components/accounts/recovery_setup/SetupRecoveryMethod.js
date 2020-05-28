@@ -8,6 +8,7 @@ import { initializeRecoveryMethod, setupRecoveryMessage, redirectToApp } from '.
 import RecoveryOption from './RecoveryOption';
 import FormButton from '../../common/FormButton';
 import SetupRecoveryMethodSuccess from './SetupRecoveryMethodSuccess';
+import classNames from '../../../utils/classNames'
 
 const Container = styled.form`
 
@@ -51,7 +52,9 @@ class SetupRecoveryMethod extends Component {
         option: 'email',
         phoneNumber: '',
         email: '',
-        success: false
+        success: false,
+        emailInvalid: false,
+        phoneInvalid: false
     }
 
     get isValidInput() {
@@ -119,9 +122,21 @@ class SetupRecoveryMethod extends Component {
         })
     }
 
+    handleBlurEmail = () => {
+        this.setState((state) => ({
+            emailInvalid: state.email !== '' && !this.isValidInput
+        }))
+    }
+
+    handleBlurPhone = () => {
+        this.setState((state) => ({
+            phoneInvalid: state.phoneNumber !== '' && !this.isValidInput
+        }))
+    }
+
     render() {
 
-        const { option, phoneNumber, email, success } = this.state;
+        const { option, phoneNumber, email, success, emailInvalid, phoneInvalid } = this.state;
 
         if (!success) {
             return (
@@ -134,13 +149,15 @@ class SetupRecoveryMethod extends Component {
                         onClick={() => this.setState({ option: 'email' })}
                         option='email'
                         active={option === 'email'}
+                        problem={option == 'email' && emailInvalid}
                     >
                         <Translate>
                             {({ translate }) => (
                                 <input 
                                     placeholder={translate('setupRecovery.emailPlaceholder')}
                                     value={email}
-                                    onChange={e => this.setState({ email: e.target.value })}
+                                    onChange={e => this.setState({ email: e.target.value, emailInvalid: false })}
+                                    onBlur={this.handleBlurEmail}
                                     tabIndex='1'
                                 />
                             )}
@@ -150,14 +167,16 @@ class SetupRecoveryMethod extends Component {
                         onClick={() => this.setState({ option: 'phone' })}
                         option='phone'
                         active={option === 'phone'}
+                        problem={option == 'phone' && phoneInvalid}
                     >
                         <Translate>
                             {({ translate }) => (
                                 <PhoneInput
                                     placeholder={translate('setupRecovery.phonePlaceholder')}
                                     value={phoneNumber}
-                                    onChange={value => this.setState({ phoneNumber: value })}
+                                    onChange={value => this.setState({ phoneNumber: value, phoneInvalid: false })}
                                     tabIndex='1'
+                                    onBlur={this.handleBlurPhone}
                                 />
                             )}
                         </Translate>

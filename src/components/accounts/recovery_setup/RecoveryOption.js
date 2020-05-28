@@ -55,6 +55,9 @@ const Container = styled.div`
             stroke: #0072CE !important;
         }
     }
+    &.inputProblem {
+        border-color: #ff585d;
+    }
 
     input {
         margin-top: 20px !important;
@@ -149,10 +152,11 @@ const RecoveryOption = ({
     children,
     option,
     onClick,
-    active
+    active,
+    problem
 }) => {
     return (
-        <Container onClick={onClick} className={active && 'active'}>
+        <Container onClick={onClick} className={`${active && 'active'} ${problem && 'inputProblem'}`}>
             <Header>
                 <Icon option={option}/>
                 <Title>
@@ -172,7 +176,8 @@ RecoveryOption.propTypes = {
     ]),
     option: PropTypes.string.isRequired,
     onClick: PropTypes.func.isRequired,
-    active: PropTypes.bool.isRequired
+    active: PropTypes.bool.isRequired,
+    problem: PropTypes.bool
 }
 
 export default RecoveryOption;
