@@ -141,6 +141,7 @@ class SetupRecoveryMethod extends Component {
                                     placeholder={translate('setupRecovery.emailPlaceholder')}
                                     value={email}
                                     onChange={e => this.setState({ email: e.target.value })}
+                                    tabIndex='1'
                                 />
                             )}
                         </Translate>
@@ -156,6 +157,7 @@ class SetupRecoveryMethod extends Component {
                                     placeholder={translate('setupRecovery.phonePlaceholder')}
                                     value={phoneNumber}
                                     onChange={value => this.setState({ phoneNumber: value })}
+                                    tabIndex='1'
                                 />
                             )}
                         </Translate>
