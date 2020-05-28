@@ -534,17 +534,17 @@
 
     "setupLedgerSuccess": {
         "header": "Ledger has secured your account!",
-        "one": "We recommend that you now remove your existing recovery methods and other devices.",
-        "two": "Maintaining multiple recovery methods and devices increases the vulnerability of your account.",
-        "primaryCta": "Remove existing methods",
-        "secondaryCta": "Keep existing meethods",
+        "one": "We recommend that you remove all existing keys (recovery methods and devices).",
+        "two": "Maintaining multiple keys increases the vulnerability of your account.",
+        "primaryCta": "Remove Existing Keys",
+        "secondaryCta": "Keep existing keys",
         "nextStep": {
             "header": {
-                "remove": "Remove existing recovery methods?",
-                "keep": "Keep existing recovery methods?"
+                "remove": "Confirm key removal",
+                "keep": "Keep existing keys?"
             },
             "one": {
-                "remove": "Before removing your existing recovery methods, make sure that you have recorded and securely stored your Ledger seed phrase.",
+                "remove": "Before removing your existing keys, make sure that you have recorded and securely stored your Ledger seed phrase.",
                 "keep": "<span class='color-red'>Maintaining multiple recovery methods and devices increases the vulnerability of your account.</span>"
             },
             "two": {
