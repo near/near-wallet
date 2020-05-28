@@ -1,7 +1,7 @@
-import React, { Component } from 'react'
+import React, { Component, createRef } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import { Form, Modal } from 'semantic-ui-react'
+import { Modal, Input } from 'semantic-ui-react'
 import { Translate } from 'react-localize-redux'
 import InfoIcon from '../svg/InfoIcon.js'
 import classNames from '../../utils/classNames'
@@ -17,6 +17,25 @@ const InputWrapper = styled.div`
     input {
         padding-right: ${props => props.type === 'create' ? '120px' : '12px'} !important;
     }
+    
+    .wrong-char {
+        input {
+            animation-duration: 0.4s;
+            animation-iteration-count: 1;
+            animation-name: border-blink;
+            background-color: #8fd6bd;
+
+            @keyframes border-blink {
+                0% {
+                    box-shadow: 0 0 0 0 rgba(255, 88, 93, 0.8);
+                }
+                100% {
+                    box-shadow: 0 0 0 6px rgba(255, 88, 93, 0);
+                }
+            }
+        }
+    }
+    
 `
 
 const DomainName = styled.div`
@@ -50,8 +69,11 @@ const Header = styled.h4`
 class AccountFormAccountId extends Component {
     state = {
         accountId: this.props.defaultAccountId || '',
-        invalidAccountIdLength: false
+        invalidAccountIdLength: false,
+        wrongChar: false
     }
+
+    input = createRef()
 
     handleChangeAccountId = (e, { name, value }) => {
         const { pattern, handleChange, type } = this.props
@@ -59,7 +81,21 @@ class AccountFormAccountId extends Component {
         value = value.trim().toLowerCase()
 
         if (value.match(pattern)) {
+            if (this.state.wrongChar) {
+                const el = this.input.current.inputRef.current;
+                el.style.animation = 'none';
+                el.offsetHeight;
+                el.style.animation = null; 
+            } else {
+                this.setState(() => ({
+                    wrongChar: true
+                }))
+            }
             return false
+        } else {
+            this.setState(() => ({
+                wrongChar: false
+            }))
         }
         
         this.setState(() => ({
@@ -136,7 +172,7 @@ class AccountFormAccountId extends Component {
             type
         } = this.props
 
-        const { accountId } = this.state
+        const { accountId, wrongChar } = this.state
 
         const requestStatus = this.handleRequestStatus()
 
@@ -145,9 +181,10 @@ class AccountFormAccountId extends Component {
                 <Translate>
                     {({ translate }) => (
                         <InputWrapper type={type}>
-                            <Form.Input
-                                className={requestStatus && classNames([{'success': requestStatus.success}, {'problem': requestStatus.success === false}])}
+                            <Input
+                                className={classNames([{'success': requestStatus && requestStatus.success}, {'problem': requestStatus && requestStatus.success === false}, {'wrong-char': wrongChar}])}
                                 name='accountId'
+                                ref={this.input}
                                 value={accountId}
                                 onChange={this.handleChangeAccountId}
                                 placeholder={translate('createAccount.accountIdInput.placeholder')}

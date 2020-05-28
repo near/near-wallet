@@ -106,6 +106,9 @@ const CustomList = styled(List)`
         }
 
         form {
+            .input {
+                width: 100%;
+            }
             h3 {
                 margin-bottom: 13px;
                 text-align: left;
