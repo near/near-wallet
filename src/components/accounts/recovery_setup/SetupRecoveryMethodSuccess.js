@@ -82,7 +82,7 @@ const SetRecoveryMethodSuccess = ({
                 {({ translate }) => (
                     <>
                         <input
-                            type='number'
+                            type='tel'
                             placeholder={translate('setRecoveryConfirm.inputPlaceholder')}
                             aria-label={translate('setRecoveryConfirm.inputPlaceholder')}
                             value={code}
