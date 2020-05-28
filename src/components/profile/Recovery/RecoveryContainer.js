@@ -53,7 +53,7 @@ const Title = styled.h2`
         height: 28px;
         display: inline-block;
         margin-right: 10px;
-        margin-top: -2px;
+        margin-top: -3px;
     }
 `
 

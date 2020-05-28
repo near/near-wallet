@@ -10,6 +10,7 @@ import {
     getAccessKeys,
     removeAccessKey
 } from '../../../actions/account';
+import ConfirmDisable from './ConfirmDisable';
 
 const Container = styled(Card)`
     margin-top: 30px;
@@ -78,7 +79,8 @@ const HardwareDevices = ({
     getAccessKeys,
     removeAccessKey
 }) => {
-    const [removing, setRemoving] = useState(false);
+    const [disabling, setDisabling] = useState(false);
+    const [confirmDisable, setConfirmDisable] = useState(false);
     const keys = account.fullAccessKeys;
     const hasLedger = keys && keys.find(key => key.meta.type === 'ledger');
     const hasOtherMethods = recoveryMethods && recoveryMethods.some(method => method.confirmed);
@@ -88,11 +90,12 @@ const HardwareDevices = ({
         loadRecoveryMethods()
     }, []);
 
-    const disableLedger = () => {
-        setRemoving(true);
+    const handleConfirmDisable = () => {
+        setDisabling(true);
         removeAccessKey(hasLedger.public_key).then(() => {
             getAccessKeys().then(() => {
-                setRemoving(false);
+                setDisabling(false);
+                setConfirmDisable(false);
             })
         })
     }
@@ -103,18 +106,32 @@ const HardwareDevices = ({
                 <HardwareDeviceIcon/>
                 <h2>Hardware Devices</h2>
             </div>
-            <div className='font-rounded'>
-                Improve the security of your account by entrusting your keys to a hardware wallet.
-            </div>
-            <div className='device'>
-                <div className='name'>
-                    Ledger Hardware Wallet
-                    {hasLedger && <div>Authorized</div>}
-                </div>
-                {!hasLedger && <FormButton linkTo='/setup-ledger' color='blue'>Enable</FormButton>}
-                {hasLedger && <FormButton disabled={!hasOtherMethods || removing} color='gray-red' onClick={disableLedger} sending={removing}>Disable</FormButton>}
-            </div>
-            {!hasOtherMethods && hasLedger && <i>In order to disable your ledger device, you must first enable an alternative recovery method.</i>}
+            {!confirmDisable ?
+                <>
+                    <div className='font-rounded'>Improve the security of your account by entrusting your keys to a hardware wallet.</div>
+                    <div className='device'>
+                        <div className='name'>
+                            Ledger Hardware Wallet
+                            {hasLedger && <div>Authorized</div>}
+                        </div>
+                        {!hasLedger ? 
+                            <FormButton linkTo='/setup-ledger' color='blue'>Enable</FormButton> 
+                            : 
+                            <FormButton disabled={!hasOtherMethods} color='gray-red' onClick={() => setConfirmDisable(true)}>Disable</FormButton>
+                        }
+                    </div>
+                </>
+                :
+                <ConfirmDisable 
+                    onConfirmDisable={handleConfirmDisable} 
+                    onKeepEnabled={() => setConfirmDisable(false)}
+                    accountId={account.accountId}
+                    disabling={disabling}
+                />
+            }
+            {!hasOtherMethods && hasLedger && 
+                <i>In order to disable your ledger device, you must first enable an alternative recovery method.</i>
+            }
         </Container>
     )
 }

@@ -37,7 +37,7 @@ const CustomButton = styled(Button)`
             border-radius: 20px;
             letter-spacing: 0;
             padding: 0px 0px;
-            font-weight: 600;
+            font-weight: 500;
             
             font-size: 14px;
         }
