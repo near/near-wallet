@@ -11,6 +11,6 @@ if (process.env.RENDER) {
     };
 
     system(`node_modules/.bin/sentry-cli releases files ${SENTRY_RELEASE} upload-sourcemaps dist/`);
-    system(`node_modules/.bin/sentry-cli releases set-commits --auto ${SENTRY_RELEASE}`);
+    system(`node_modules/.bin/sentry-cli releases set-commits ${SENTRY_RELEASE} --commit "near-wallet@${process.env.RENDER_GIT_COMMIT}"`);
     system(`node_modules/.bin/sentry-cli releases finalize ${SENTRY_RELEASE}`);
 }
