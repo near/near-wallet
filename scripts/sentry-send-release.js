@@ -1,4 +1,4 @@
-if (process.env.RENDER) {
+if (process.env.RENDER && process.env.SENTRY_AUTH_TOKEN) {
     const { SENTRY_RELEASE } = require('../src/utils/sentry');
     const { execSync } = require('child_process');
 
