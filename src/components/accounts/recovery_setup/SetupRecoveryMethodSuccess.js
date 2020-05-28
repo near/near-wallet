@@ -84,6 +84,7 @@ const SetRecoveryMethodSuccess = ({
                         <input
                             type='number'
                             pattern='[0-9]*'
+                            inputMode='numeric'
                             placeholder={translate('setRecoveryConfirm.inputPlaceholder')}
                             aria-label={translate('setRecoveryConfirm.inputPlaceholder')}
                             value={code}
