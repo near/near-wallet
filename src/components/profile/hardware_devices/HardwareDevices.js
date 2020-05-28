@@ -114,7 +114,7 @@ const HardwareDevices = ({
                 {!hasLedger && <FormButton linkTo='/setup-ledger' color='blue'>Enable</FormButton>}
                 {hasLedger && <FormButton disabled={!hasOtherMethods || removing} color='gray-red' onClick={disableLedger} sending={removing}>Disable</FormButton>}
             </div>
-            {!hasOtherMethods && <i>In order to disable your ledger device, you must first enable an alternative recovery method.</i>}
+            {!hasOtherMethods && hasLedger && <i>In order to disable your ledger device, you must first enable an alternative recovery method.</i>}
         </Container>
     )
 }
