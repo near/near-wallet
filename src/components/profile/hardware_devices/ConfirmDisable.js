@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import FormButton from '../../common/FormButton';
 import { Translate } from 'react-localize-redux';
@@ -47,8 +47,8 @@ const ConfirmDisable = ({ onConfirmDisable, onKeepEnabled, accountId, disabling 
 
     return (
         <Container onSubmit={e => {onConfirmDisable(); e.preventDefault();}}>
-            <div>Are you sure you want to disable Ledger?</div>
-            <div>Make sure you have other recovery methods setup before disabling.</div>
+            <div><Translate id='hardwareDevices.disable.title'/></div>
+            <div><Translate id='hardwareDevices.disable.desc'/></div>
             <Translate>
                 {({ translate }) => (
                     <input
@@ -67,14 +67,14 @@ const ConfirmDisable = ({ onConfirmDisable, onKeepEnabled, accountId, disabling 
                     sending={disabling}
                     disabled={(username !== accountId) || disabling}
                 >
-                    <Translate id='button.disable'/> Ledger
+                    <Translate id='hardwareDevices.disable.disable'/>
                 </FormButton>
                 <FormButton
                     onClick={onKeepEnabled}
                     color='link'
                     type='button'
                 >
-                    No, keep Ledger
+                    <Translate id='hardwareDevices.disable.keep'/>
                 </FormButton>
             </div>
         </Container>

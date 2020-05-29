@@ -11,6 +11,7 @@ import {
     removeAccessKey
 } from '../../../actions/account';
 import ConfirmDisable from './ConfirmDisable';
+import { Translate } from 'react-localize-redux';
 
 const Container = styled(Card)`
     margin-top: 30px;
@@ -104,20 +105,20 @@ const HardwareDevices = ({
         <Container>
             <div className='header'>
                 <HardwareDeviceIcon/>
-                <h2>Hardware Devices</h2>
+                <h2><Translate id='hardwareDevices.title'/></h2>
             </div>
             {!confirmDisable ?
                 <>
-                    <div className='font-rounded'>Improve the security of your account by entrusting your keys to a hardware wallet.</div>
+                    <div className='font-rounded'><Translate id='hardwareDevices.desc'/></div>
                     <div className='device'>
                         <div className='name'>
-                            Ledger Hardware Wallet
-                            {hasLedger && <div>Authorized</div>}
+                            <Translate id='hardwareDevices.ledger.title'/>
+                            {hasLedger && <div><Translate id='hardwareDevices.ledger.auth'/></div>}
                         </div>
                         {!hasLedger ? 
-                            <FormButton linkTo='/setup-ledger' color='blue'>Enable</FormButton> 
+                            <FormButton linkTo='/setup-ledger' color='blue'><Translate id='button.enable'/></FormButton> 
                             : 
-                            <FormButton disabled={!hasOtherMethods} color='gray-red' onClick={() => setConfirmDisable(true)}>Disable</FormButton>
+                            <FormButton disabled={!hasOtherMethods} color='gray-red' onClick={() => setConfirmDisable(true)}><Translate id='button.disable'/></FormButton>
                         }
                     </div>
                 </>
@@ -130,7 +131,7 @@ const HardwareDevices = ({
                 />
             }
             {!hasOtherMethods && hasLedger && 
-                <i>In order to disable your ledger device, you must first enable an alternative recovery method.</i>
+                <i><Translate id='hardwareDevices.ledger.disclaimer'/></i>
             }
         </Container>
     )

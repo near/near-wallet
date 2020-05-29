@@ -33,6 +33,8 @@ export default createGlobalStyle`
         }
 
         p {
+            text-align: center;
+            
             :first-of-type {
                 margin-top: 30px;
             }

@@ -128,6 +128,22 @@
         "disableNo": "No, keep",
         "recoveryLinkSent": "Recovery Link Sent!"
     },
+
+    "hardwareDevices": {
+        "title": "Hardware Devices",
+        "desc": "Improve the security of your account by entrusting your keys to a hardware wallet.",
+        "ledger": {
+            "title": "Ledger Hardware Wallet",
+            "auth": "Authorized",
+            "disclaimer": "In order to disable your ledger device, you must first enable an alternative recovery method."
+        },
+        "disable": {
+            "title": "Are you sure you want to disable Ledger?",
+            "desc": "Make sure you have other recovery methods setup before disabling.",
+            "disable": "Disable Ledger",
+            "keep": "No, keep Ledger"
+        }
+    },
     
     "fullAccessKeys": {
         "pageTitle": "Full Access Keys",
@@ -512,6 +528,7 @@
     "amount": "amount",
     "or": "OR",
     "sending": "SENDING",
+    "removingKeys": "Removing Keys",
     "connecting": "Connecting",
     "back": "Back",
     "of": "of",

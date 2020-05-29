@@ -177,6 +177,12 @@ class Wallet {
         return await this.getAccount(this.accountId).deleteKey(publicKey)
     }
 
+    async removeAllAccessKeys() {
+        // TODO: Call method in nearApi?
+        const waitFor = delay => new Promise(resolve => setTimeout(resolve, delay));
+        await waitFor(4000);
+    }
+
     async checkAccountAvailable(accountId) {
         if (!this.isLegitAccountId(accountId)) {
             throw new Error('Invalid username.')

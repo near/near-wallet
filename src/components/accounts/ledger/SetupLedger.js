@@ -32,7 +32,7 @@ const SetupLedger = (props) => {
             <FormButton onClick={onClick} sending={connect === 'true'} sendingString='connecting'>
                 <Translate id={`button.${connect !== 'fail' ? 'connectLedger' : 'retry'}`}/>
             </FormButton>
-            <button className='link'><Translate id='button.cancel'/></button>
+            <button className='link' onClick={() => props.history.goBack()}><Translate id='button.cancel'/></button>
             {showInstructions && 
                 <InstructionsModal open={showInstructions} onClose={toggleShowInstructions}/>
             }

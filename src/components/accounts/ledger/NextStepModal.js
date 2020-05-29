@@ -5,7 +5,7 @@ import MobileActionSheet from '../../common/modal/MobileActionSheet';
 import FormButton from '../../common/FormButton';
 import { Translate } from 'react-localize-redux';
 
-const NextStepModal = ({ nextStep, onClose }) => {
+const NextStepModal = ({ nextStep, onClose, onConfirm, removingkeys }) => {
     return (
         <Modal
             id='next-step-modal'
@@ -20,7 +20,14 @@ const NextStepModal = ({ nextStep, onClose }) => {
             {nextStep === 'remove' && 
                 <p className='color-red'><Translate id={`setupLedgerSuccess.nextStep.two.${nextStep}`}/></p>
             }
-            <FormButton><Translate id='button.confirm'/></FormButton>
+            <FormButton 
+                onClick={onConfirm} 
+                sending={removingkeys} 
+                disabled={removingkeys}
+                sendingString='removingKeys'
+            >
+                <Translate id='button.confirm'/>
+            </FormButton>
             <button className='link' id='close-button'><Translate id='button.cancel'/></button>
         </Modal>
     );

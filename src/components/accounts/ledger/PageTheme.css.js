@@ -25,7 +25,7 @@ const PageTheme = styled.div`
         }
 
         p {
-            max-width: 500px;
+            max-width: 445px;
 
             :first-of-type {
                 margin-top: 30px;
