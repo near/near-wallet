@@ -85,7 +85,7 @@ class AccountFormAccountId extends Component {
                 const el = this.input.current.inputRef.current
                 el.style.animation = 'none'
                 void el.offsetHeight
-                el.style.animation = null;
+                el.style.animation = null
             } else {
                 this.setState(() => ({
                     wrongChar: true
@@ -117,7 +117,10 @@ class AccountFormAccountId extends Component {
         ), ACCOUNT_CHECK_TIMEOUT)
     }
 
-    checkAccountIdLength = (accountId) => accountId.length >= 2 && accountId.length <= 64
+    checkAccountIdLength = (accountId) => {
+        const accountIdWithSuffix = `${accountId}.${ACCOUNT_ID_SUFFIX}`
+        return accountIdWithSuffix.length >= 2 && accountIdWithSuffix.length <= 64
+    }
 
     handleAccountIdLengthState = (accountId) => this.setState(() => ({
         invalidAccountIdLength: !!accountId && !this.checkAccountIdLength(accountId)
