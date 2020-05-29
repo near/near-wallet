@@ -67,11 +67,9 @@ class SetupRecoveryMethod extends Component {
             this.setState({ activeMethods: activeMethods });
         } else {
             loadRecoveryMethods(accountId)
-                .then(({ error, payload }) => {
-                    if (error) return;
-                    this.setState({
-                        activeMethods: payload.map(method => method.kind)
-                    });
+                .then(({ payload }) => {
+                    const confirmed = payload.data.filter(method => method.confirmed);
+                    this.setState({ activeMethods: confirmed.map(method => method.kind) });
                 })
         }
     }
@@ -92,15 +90,14 @@ class SetupRecoveryMethod extends Component {
     }
 
     handleNext = () => {
-        const { option, activeMethods } = this.state;
+        const { option } = this.state;
         
-        if ((option === 'email' && !activeMethods.includes('email')) || (option === 'phone' && !activeMethods.includes('phone'))) {
-            this.handleSendLink()
-        } else if (option === 'phrase' && !activeMethods.includes('phrase')) {
+        if (option === 'email' || option === 'phone') {
+            this.handleSendCode()
+        } else if (option === 'phrase') {
             let phraseUrl = `/setup-seed-phrase/${this.props.accountId}`;
             this.props.history.push(phraseUrl);
         }
-
     }
 
     get method() {
@@ -128,7 +125,6 @@ class SetupRecoveryMethod extends Component {
         setupRecoveryMessage(accountId, this.method, securityCode)
             .then(({ error }) => {
                 if (error) return;
-
                 redirectToApp();
             })
     }
@@ -144,7 +140,7 @@ class SetupRecoveryMethod extends Component {
     render() {
 
         const { option, phoneNumber, email, success, activeMethods } = this.state;
-        const { actionsPending, formLoader, redirectToApp } = this.props;
+        const { actionsPending, formLoader } = this.props;
         const sendingMessage = actionsPending.includes('SETUP_RECOVERY_MESSAGE');
 
         if (!success) {
