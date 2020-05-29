@@ -109,7 +109,7 @@ class LoginDetails extends Component {
                                             This app can use your NEAR for transaction fees
                                         </div>
                                         <div>
-                                            <b>Total Allowance: .001Ⓝ</b>
+                                            <b>Total Allowance: .001 &#9411;</b>
                                         </div>
                                     </div>
                                 </div>}

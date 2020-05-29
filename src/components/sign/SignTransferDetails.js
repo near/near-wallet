@@ -100,13 +100,13 @@ class SignTransferDetails extends Component {
                             <div className='details-item'>
                                 <div className='title h3'>
                                     <Translate id='sign.details.transactionFees' />
-                                    {/* .00042Ⓝ */}
+                                    {/* .00042 &#9411; */}
                                 </div>
                                 {/* {t.fees} */}
                                 <div className='details-subitem color-charcoal-grey'>
                                     <div><Translate id='sign.details.gasLimit' />: {fees.gasLimit}</div>
                                     <div><Translate id='sign.details.gasPriceUnavailable' /></div>
-                                    {/* <div>Gas Price: .000000021Ⓝ</div> */}
+                                    {/* <div>Gas Price: .000000021 &#9411;</div> */}
                                 </div>
                             </div>
                         </div>

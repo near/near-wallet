@@ -22,7 +22,7 @@ const Balance = ({ amount }) => {
 
     return (
         <CustomDiv title={showInYocto(amount)}>
-            {amountShow} Ⓝ
+            {amountShow} &#9411;
         </CustomDiv>
     )
 }
@@ -41,7 +41,7 @@ export const formatNEAR = (amount) => {
 const showInYocto = (amountStr) => {
     const amount = new BN(amountStr)
     if (amount.lte(YOCTO_NEAR_THRESHOLD)) {
-        return formatWithCommas(amountStr) + ' yoctoⓃ'
+        return formatWithCommas(amountStr) + ' yocto&#9411;'
     }
 }
 

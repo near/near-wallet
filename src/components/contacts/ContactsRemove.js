@@ -44,11 +44,11 @@ const ContactsRemove = () => (
                 RECENT TRANSACTIONS
             </h6>
             <div className='row border-top'>
-                <b className='color-black'>You sent 20 Ⓝ</b>
+                <b className='color-black'>You sent 20 &#9411;</b>
                 <div>3h ago</div>
             </div>
             <div className='row border-top'>
-                <b className='color-black'>Alex sent you 1020 Ⓝ</b>
+                <b className='color-black'>Alex sent you 1020 &#9411;</b>
                 <div>3d ago</div>
             </div>
             <div className='row border-top'>

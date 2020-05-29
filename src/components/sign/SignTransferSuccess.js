@@ -41,13 +41,13 @@ const SignTransferReady = ({ handleDeny, txTotalAmount, isMonetaryTransaction })
                     textAlign='center'
                 >
                     <div className="fees">
-                        Transaction cost: .00043 Ⓝ
+                        Transaction cost: .00043 &#9411;
                     </div>
                     <div className="gas">
                         Gas Limit: 21000
                     </div>
                     <div className="gas">
-                        Gas Price: .0000000021 Ⓝ
+                        Gas Price: .0000000021 &#9411;
                     </div>
                 </Grid.Column>
             </Grid.Row>

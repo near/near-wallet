@@ -105,11 +105,11 @@ const AccessKeysDeauthorize = ({
                     <div>3d ago</div>
                 </div>
                 <div className='row border-top'>
-                    <b className='color-black'>In-app purchase: 20 Ⓝ</b>
+                    <b className='color-black'>In-app purchase: 20 &#9411;</b>
                     <div>1w ago</div>
                 </div>
                 <div className='row border-top'>
-                    <b className='color-black'>Staked: 10 Ⓝ</b>
+                    <b className='color-black'>Staked: 10 &#9411;</b>
                     <div>2w ago</div>
                 </div>
                 <div className='row border-top'>
