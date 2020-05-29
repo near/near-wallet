@@ -8,7 +8,6 @@ import { initializeRecoveryMethod, setupRecoveryMessage, redirectToApp } from '.
 import RecoveryOption from './RecoveryOption';
 import FormButton from '../../common/FormButton';
 import SetupRecoveryMethodSuccess from './SetupRecoveryMethodSuccess';
-import classNames from '../../../utils/classNames'
 
 const Container = styled.form`
 
@@ -149,7 +148,7 @@ class SetupRecoveryMethod extends Component {
                         onClick={() => this.setState({ option: 'email' })}
                         option='email'
                         active={option === 'email'}
-                        problem={option == 'email' && emailInvalid}
+                        problem={option === 'email' && emailInvalid}
                     >
                         <Translate>
                             {({ translate }) => (
@@ -167,7 +166,7 @@ class SetupRecoveryMethod extends Component {
                         onClick={() => this.setState({ option: 'phone' })}
                         option='phone'
                         active={option === 'phone'}
-                        problem={option == 'phone' && phoneInvalid}
+                        problem={option === 'phone' && phoneInvalid}
                     >
                         <Translate>
                             {({ translate }) => (

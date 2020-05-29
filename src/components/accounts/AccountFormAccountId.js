@@ -82,10 +82,10 @@ class AccountFormAccountId extends Component {
 
         if (value.match(pattern)) {
             if (this.state.wrongChar) {
-                const el = this.input.current.inputRef.current;
-                el.style.animation = 'none';
-                el.offsetHeight;
-                el.style.animation = null; 
+                const el = this.input.current.inputRef.current
+                el.style.animation = 'none'
+                void el.offsetHeight
+                el.style.animation = null;
             } else {
                 this.setState(() => ({
                     wrongChar: true
