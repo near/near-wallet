@@ -265,17 +265,10 @@
         "phraseTitle": "Recovery Phrase"
     },
     "setRecoveryConfirm": {
-        "pageTitle": "Confirm Recovery Setup",
-        "pageText": {
-            "one": {
-                "email": "You should have received an email with a magic link. If you ever lose access to your account, simply click the link, and your account will be restored.",
-                "phoneNumber": "You should have received an SMS with a magic link. If you ever lose access to your account, simply click the link, and your account will be restored."
-            },
-            "two": {
-                "email": "Please confirm receipt of this email at:",
-                "phoneNumber": "Please confirm receipt of this SMS at:"
-            }
-        },
+        "pageTitle": "Verify",
+        "pageText": "We've sent a 6 digit code to",
+        "inputPlaceholder": "Enter 6 digit code",
+        "invalidCode": "Please check your security code.",
         "reenter": {
             "one": {
                 "email": "If you did not yet receive this email, or the above email address is incorrect, ",
@@ -309,7 +302,7 @@
     },
 
     "balance": {
-        "balance": "Balance",
+        "balance": "Total Balance",
         "balanceLoading": "Balance loading"
     },
 
@@ -340,6 +333,10 @@
             "forContract": "For Contract",
             "function": "Function",
             "noDescription": "No description specified for this method"
+        },
+        "cliLoginSuccess": {
+            "pageTitle": "You've successfully authorized NEAR Shell!",
+            "pageText": "Please close this window and follow the instructions in the terminal."
         }
     },
 
@@ -409,7 +406,10 @@
             "visibleTo": "VISIBLE TO",
             "username": "Username",
             "public": "Public",
-            "balance": "Balance",
+            "totalBalance": "Total Balance",
+            "minBalance": "Minimum Balance",
+            "staked": "Staked",
+            "availableBalance": "Available Balance",
             "lockPopup": {
                 "title": "Why is this locked?",
                 "text": "Your username is your unique identifier in the system and cannot be changed because data and asset ownership is tied to it. However you are welcome to ${link} with desired name and transfer assets as needed.",
@@ -447,7 +447,8 @@
         "amountStatusId": {
             "noMoreThan": "NO MORE THAN 5 DECIMAL DIGITS",
             "notEnoughTokens": "Not enough tokens.",
-            "howMuch": "How much do you want to send?"
+            "howMuch": "How much do you want to send?",
+            "available": "Available Balance:"
         },
         "youAreSending": "You are sending",
         "to": "to",
@@ -480,13 +481,17 @@
             "transferOf": "is requesting the transfer of",
             "authorization": "is requesting authorization"
         },
-        "currentBalance": "Current Balance",
+        "availableBalance": "Available Balance",
         "wasTransferredSuccessfully": "was transferred successfully",
         "authorizationRequestSuccessful": "Authorization request successful",
         "transferring": "Transferring",
         "authorizing": "Authorizing"
     },
-
+    
+    "availableBalanceInfo": "”Available Balance” is your current spendable NEAR balance. This will be lower than your Total Balance. To view a complete breakdown of your NEAR balance, visit your Profile.", 
+    "availableBalanceProfile": "”Available Balance” is your current spendable NEAR balance. This will be lower than your Total Balance.",
+    "minimumBalance": "This is the minimum NEAR balance your account must maintain to remain active. This balance represents the storage space your account is using on the NEAR blockchain, and will go up or down as you use more or less space.",
+    
     "transaction": {
         "status": {
             "NotStarted": "Not started",

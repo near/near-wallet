@@ -179,6 +179,16 @@ export default createGlobalStyle`
         }
     }
 
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+    input[type=number] {
+        -moz-appearance:textfield;
+    }
+
     .spinner {
         margin-right: 10px !important;
         :before,
@@ -373,6 +383,9 @@ export default createGlobalStyle`
     }
     .ui.left.center.popup:before {
         box-shadow: 1px -1px 0 0 #eee;
+    }
+    .ui.top.center.popup:before {
+        box-shadow: 1px 1px 0px 0px #eee;
     }
     .ui.bottom.right.popup:before {
         box-shadow: -1px -1px 0 0 #eee;

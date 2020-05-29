@@ -3,7 +3,8 @@ import { connect } from 'react-redux'
 import { Translate } from 'react-localize-redux'
 import { withRouter } from 'react-router-dom'
 
-import { getAccessKeys, getTransactions, getTransactionStatus } from '../../actions/account'
+import { getAccessKeys } from '../../actions/account'
+import { getTransactions, getTransactionStatus } from '../../actions/transactions'
 
 import DashboardSection from './DashboardSection'
 import DashboardActivity from './DashboardActivity'
@@ -43,7 +44,9 @@ class DashboardDetail extends Component {
     }
 
     refreshTransactions() {
-        this.props.getTransactions()
+        const { getTransactions, accountId } = this.props
+        
+        getTransactions(accountId)
     }
 
     refreshAccessKeys = () => {
@@ -66,14 +69,24 @@ class DashboardDetail extends Component {
 
     render() {
         const { loader, notice } = this.state
-        const { authorizedApps, fullAccessKeys, transactions, amount, accountId, formLoader, getTransactionStatus } = this.props
+
+        const { 
+            authorizedApps, 
+            fullAccessKeys, 
+            transactions,
+            accountId, 
+            formLoader, 
+            getTransactionStatus, 
+            balance 
+        } = this.props
+
         return (
             <PageContainer
                 title={(
-                    amount
+                    balance
                         ? <Fragment>
                             <span className='balance'><Translate id='balance.balance' />: </span>
-                            <Balance amount={amount} />
+                            <Balance amount={balance.total}/> 
                         </Fragment>
                         : <Translate id='balance.balanceLoading' />
                 )}
@@ -126,8 +139,9 @@ const mapDispatchToProps = {
     getTransactionStatus
 }
 
-const mapStateToProps = ({ account }) => ({
-    ...account
+const mapStateToProps = ({ account, transactions }) => ({
+    ...account,
+    transactions: transactions[account.accountId] || []
 })
 
 export default connect(

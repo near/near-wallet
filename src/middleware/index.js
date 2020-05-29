@@ -2,6 +2,8 @@ import thunk from 'redux-thunk'
 import { applyMiddleware, compose } from 'redux'
 import { routerMiddleware } from 'connected-react-router'
 
+import * as Sentry from '@sentry/browser';
+
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
 
 /**
@@ -28,6 +30,7 @@ const readyStatePromise = store => next => action => {
         payload => next(makeAction(true, { payload })),
         error => {
             console.warn('Error in background action:', error)
+            Sentry.captureException(error);
             return next(makeAction(true, { error: true, payload: error }))
         }
     )
@@ -43,14 +46,17 @@ const analyticsMiddleware = store => next => action => {
     let details = {
         pathname: window.location.pathname,
     }
+    if (action.type === 'ADD_ACCESS_KEY') {
+        details['appTitle'] = action.meta.data.title
+    }
     if (window.gtag && ACTIONS_TO_TRACK.includes(action.type)) {
         window.gtag('event', 'action', {
             event_category: action.type,
             event_label: JSON.stringify(action.type)
         })
     }
-    if (window.amplitude) {
-        window.amplitude.getInstance().logEvent(action.type, details);
+    if (window.mixpanel) {
+        window.mixpanel.track(action.type, details);
     }
     return next(action);
 }
