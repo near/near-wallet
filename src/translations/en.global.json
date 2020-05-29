@@ -29,6 +29,10 @@
             "success": "Seed phrase recovery setup is complete.",
             "error": "An error occurred while setting up seed phrase recovery. Please try again!"
         },
+        "setupRecoveryMessage": {
+            "success": "Recovery setup is complete.",
+            "error": "An error occurred while setting up your recovery method. Please try again!"
+        },
         "login": {
             "success": "${title} is now authorized to use your account.",
             "error": "An error occurred while approving this action. Please try again!",

@@ -95,8 +95,7 @@ class SetupRecoveryMethod extends Component {
         if (option === 'email' || option === 'phone') {
             this.handleSendCode()
         } else if (option === 'phrase') {
-            let phraseUrl = `/setup-seed-phrase/${this.props.accountId}`;
-            this.props.history.push(phraseUrl);
+            this.props.history.push(`/setup-seed-phrase/${this.props.accountId}`);
         }
     }
 
