@@ -189,7 +189,7 @@ RecoveryOption.propTypes = {
     ]),
     option: PropTypes.string.isRequired,
     onClick: PropTypes.func.isRequired,
-    active: PropTypes.string.isRequired
+    active: PropTypes.string.isRequired,
     problem: PropTypes.bool
 }
 
