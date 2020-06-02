@@ -18,7 +18,6 @@ class SendMoney extends Component {
         step: 1,
         note: '',
         expandNote: false,
-        paramAccountId: false,
         accountId: '',
         amount: '',
         amountStatus: ''
@@ -39,10 +38,6 @@ class SendMoney extends Component {
                 }))
 
                 if (error) return
-
-                this.setState(() => ({
-                    paramAccountId: true
-                }))
             })
         } else {
             this.setState(() => ({
@@ -69,8 +64,7 @@ class SendMoney extends Component {
             note: '',
             amount: '',
             accountId: '',
-            successMessage: false,
-            paramAccountId: false,
+            successMessage: false
         }))
 
         this.props.history.push('/send-money')
@@ -125,11 +119,9 @@ class SendMoney extends Component {
     }
 
     isLegitForm = () => {
-        const { paramAccountId, amount, amountStatus } = this.state
+        const { amount, amountStatus } = this.state
         const { requestStatus } = this.props
-        return paramAccountId
-            ? ((amount) > 0 && amountStatus === '')
-            : (requestStatus && requestStatus.success && (amount) > 0 && amountStatus === '')
+        return requestStatus && requestStatus.success && (amount) > 0 && amountStatus === ''
     }
 
     render() {
@@ -149,6 +141,7 @@ class SendMoney extends Component {
                         clearRequestStatus={clear}
                         setFormLoader={setFormLoader}
                         stateAccountId={accountId}
+                        defaultAccountId={this.props.match.params.id}
                         {...this.state}
                     />
                 )}

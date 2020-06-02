@@ -52,6 +52,8 @@ class SetupRecoveryMethod extends Component {
         phoneNumber: '',
         email: '',
         success: false,
+        emailInvalid: false,
+        phoneInvalid: false,
         activeMethods: []
     }
 
@@ -136,9 +138,20 @@ class SetupRecoveryMethod extends Component {
         })
     }
 
-    render() {
+    handleBlurEmail = () => {
+        this.setState((state) => ({
+            emailInvalid: state.email !== '' && !this.isValidInput
+        }))
+    }
 
-        const { option, phoneNumber, email, success, activeMethods } = this.state;
+    handleBlurPhone = () => {
+        this.setState((state) => ({
+            phoneInvalid: state.phoneNumber !== '' && !this.isValidInput
+        }))
+    }
+
+    render() {
+        const { option, phoneNumber, email, success, emailInvalid, phoneInvalid, activeMethods } = this.state;
         const { actionsPending } = this.props;
 
         if (!success) {
@@ -153,6 +166,7 @@ class SetupRecoveryMethod extends Component {
                         option='email'
                         active={option}
                         disabled={activeMethods.includes('email')}
+                        problem={option === 'email' && emailInvalid}
                     >
                         <Translate>
                             {({ translate }) => (
@@ -160,7 +174,9 @@ class SetupRecoveryMethod extends Component {
                                     type='email'
                                     placeholder={translate('setupRecovery.emailPlaceholder')}
                                     value={email}
-                                    onChange={e => this.setState({ email: e.target.value })}
+                                    onChange={e => this.setState({ email: e.target.value, emailInvalid: false })}
+                                    onBlur={this.handleBlurEmail}
+                                    tabIndex='1'
                                 />
                             )}
                         </Translate>
@@ -170,13 +186,16 @@ class SetupRecoveryMethod extends Component {
                         option='phone'
                         active={option}
                         disabled={activeMethods.includes('phone')}
+                        problem={option === 'phone' && phoneInvalid}
                     >
                         <Translate>
                             {({ translate }) => (
                                 <PhoneInput
                                     placeholder={translate('setupRecovery.phonePlaceholder')}
                                     value={phoneNumber}
-                                    onChange={value => this.setState({ phoneNumber: value })}
+                                    onChange={value => this.setState({ phoneNumber: value, phoneInvalid: false })}
+                                    tabIndex='1'
+                                    onBlur={this.handleBlurPhone}
                                 />
                             )}
                         </Translate>
