@@ -159,7 +159,7 @@ const RecoveryOption = ({
     option,
     onClick,
     active,
-    disabled
+    disabled,
     problem
 }) => {
 
