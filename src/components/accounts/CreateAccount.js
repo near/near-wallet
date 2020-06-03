@@ -63,7 +63,7 @@ const StyledContainer = styled(Container)`
 class CreateAccount extends Component {
     state = {
         loader: false,
-        accountId: (this.props.resetAccount && this.props.resetAccount.accountIdNotConfirmed) || '',
+        accountId: '',
         token: ''
     }
 
@@ -110,7 +110,7 @@ class CreateAccount extends Component {
         const { loader, accountId, recaptchaFallback } = this.state
         const { requestStatus, formLoader, checkNewAccount, resetAccount, clear, setFormLoader } = this.props
         const useRequestStatus = accountId.length > 0 ? requestStatus : undefined;
-
+        
         return (
             <StyledContainer className='small-centered'>
                 <form onSubmit={e => {this.handleCreateAccount(); e.preventDefault();}} autoComplete='off'>
