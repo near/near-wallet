@@ -2,12 +2,28 @@ import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { Translate } from 'react-localize-redux'
-
+import styled from 'styled-components'
 import { recoverAccountSeedPhrase, redirectToApp, checkAccountAvailable, clear, refreshAccount, setFormLoader } from '../../actions/account'
 
 import RecoverAccountSeedPhraseForm from './RecoverAccountSeedPhraseForm'
-import AccountFormSection from './AccountFormSection'
-import AccountFormContainer from './AccountFormContainer'
+import Container from '../common/styled/Container.css'
+
+const StyledContainer = styled(Container)`
+    .input {
+        width: 100%;
+    }
+
+    h3 {
+        :first-of-type {
+            margin-top: 30px !important;
+        }
+    }
+
+    button {
+        width: 100% !important;
+        margin-top: 50px !important;
+    }
+`
 
 class RecoverAccountSeedPhrase extends Component {
     state = {
@@ -59,12 +75,10 @@ class RecoverAccountSeedPhrase extends Component {
         }
 
         return (
-            <AccountFormContainer 
-                wide={true} 
-                title={<Translate id='recoverSeedPhrase.pageTitle' />}
-                text={<Translate id='recoverSeedPhrase.pageText' />}
-            >
-                <AccountFormSection requestStatus={this.props.requestStatus} handleSubmit={this.handleSubmit}>
+            <StyledContainer className='small-centered'>
+                <h1><Translate id='recoverSeedPhrase.pageTitle' /></h1>
+                <h2><Translate id='recoverSeedPhrase.pageText' /></h2>
+                <form onSubmit={e => {this.handleSubmit(); e.preventDefault();}} autoComplete='off'>
                     <RecoverAccountSeedPhraseForm
                         {...combinedState}
                         handleChange={this.handleChange}
@@ -72,8 +86,8 @@ class RecoverAccountSeedPhrase extends Component {
                         clearRequestStatus={clear}
                         setFormLoader={this.props.setFormLoader}
                     />
-                </AccountFormSection>
-            </AccountFormContainer>
+                </form>
+            </StyledContainer>
         )
     }
 }

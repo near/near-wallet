@@ -12,8 +12,9 @@ const CustomDiv = styled(`div`)`
         display: flex;
 
         button {
-            width: 250px !important;
+            width: 100% !important;
         }
+
         > button:first-child {
             display: none;
         }
@@ -21,12 +22,16 @@ const CustomDiv = styled(`div`)`
     #seed-phrase {
         flex-wrap: wrap;
         user-select: all;
+        margin: 35px 0;
+        display: flex;
 
         .single-phrase {
             background: #f8f8f8;
-            padding: 9px 12px;
-            margin: 0 6px;
+            padding: 0px 12px;
+            margin: 5px;
             line-height: 48px;
+            flex: 1;
+            min-width: 100px;
         }
     }
 
@@ -34,9 +39,6 @@ const CustomDiv = styled(`div`)`
         .buttons-row {
             display: block;
             
-            button {
-                width: 100% !important;
-            }
             > button:first-child {
                 display: block;
             }

@@ -8,7 +8,20 @@ import FormButton from '../common/FormButton'
 
 import styled from 'styled-components'
 
-const CustomDiv = styled(`div`)`
+const CustomDiv = styled.div`
+
+    .blue, .input {
+        width: 100% !important;
+    }
+
+    h4 {
+        margin-top: 20px;
+    }
+
+    .blue {
+        margin-top: 40px !important;
+    }
+
     .start-over {
         padding: 20px 0 0 0;
         color: #24272a;

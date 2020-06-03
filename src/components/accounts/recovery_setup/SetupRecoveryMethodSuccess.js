@@ -3,32 +3,9 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Translate } from 'react-localize-redux'
 import FormButton from '../../common/FormButton';
+import Container from '../../common/styled/Container.css'
 
-const Container = styled.form`
-    display: flex !important;
-    flex-direction: column;
-    align-items: flex-start;
-
-    .desc {
-        color: #4a4f54;
-        font-family: BwSeidoRound !important;
-        line-height: 130%;
-        font-size: 20px;
-        max-width: 800px;
-        
-        &.one {
-            margin-top: -10px;
-        }
-
-        &.two {
-            margin-top: 10px;
-        }
-
-        @media (max-width: 767px) {
-            font-size: 18px;
-        }
-    }
-
+const StyledContainer = styled(Container)`
     .recover-value {
         background-color: #f8f8f8;
         padding: 3px 10px;
@@ -38,20 +15,18 @@ const Container = styled.form`
     .re-enter {
         border-top: 2px solid #f8f8f8;
         margin-top: 30px;
-
-        @media (max-width: 767px) {
-            padding-top: 10px;
-            line-height: 100%;
-        }
+        padding-top: 10px;
+        line-height: normal;
     }
 
     input {
         width: 100%;
-        margin-top: 20px !important;
+        margin-top: 30px !important;
+    }
 
-        @media (min-width: 768px) {
-            max-width: 288px;
-        }
+    button {
+        width: 100% !important;
+        margin-top: 40px !important;
     }
 `
 
@@ -75,41 +50,43 @@ const SetRecoveryMethodSuccess = ({
     const invalidCode = requestStatus && requestStatus.messageCode === 'account.setupRecoveryMessage.error';
 
     return (
-        <Container className='ui container' onSubmit={e => {onConfirm(code); e.preventDefault();}}>
-            <h1><Translate id='setRecoveryConfirm.pageTitle'/> {useEmail ? 'Email' : 'Phone'}</h1>
-            <div className='desc one'><Translate id='setRecoveryConfirm.pageText'/> {useEmail ? email : phoneNumber}</div>
-            <Translate>
-                {({ translate }) => (
-                    <>
-                        <input
-                            type='number'
-                            placeholder={translate('setRecoveryConfirm.inputPlaceholder')}
-                            aria-label={translate('setRecoveryConfirm.inputPlaceholder')}
-                            value={code}
-                            onChange={e => setCode(e.target.value)}
-                        />
-                        {invalidCode && 
-                            <div style={{color: '#ff585d', marginTop: '5px'}}>
-                                {translate('setRecoveryConfirm.invalidCode')}
-                            </div>
-                        }
-                    </>
-                )}
-            </Translate>
-            <FormButton
-                color='blue'
-                type='submit'
-                disabled={code.length < 6}
-                sending={loading}
-            >
-                <Translate id='button.confirm' />
-            </FormButton>
+        <StyledContainer className='small-centered'>
+            <form onSubmit={e => {onConfirm(code); e.preventDefault();}} autoComplete='off'>
+                <h1><Translate id='setRecoveryConfirm.pageTitle'/> {useEmail ? 'Email' : 'Phone'}</h1>
+                <h2><Translate id='setRecoveryConfirm.pageText'/> {useEmail ? email : phoneNumber}</h2>
+                <Translate>
+                    {({ translate }) => (
+                        <>
+                            <input
+                                type='number'
+                                placeholder={translate('setRecoveryConfirm.inputPlaceholder')}
+                                aria-label={translate('setRecoveryConfirm.inputPlaceholder')}
+                                value={code}
+                                onChange={e => setCode(e.target.value)}
+                            />
+                            {invalidCode && 
+                                <div style={{color: '#ff585d', marginTop: '5px'}}>
+                                    {translate('setRecoveryConfirm.invalidCode')}
+                                </div>
+                            }
+                        </>
+                    )}
+                </Translate>
+                <FormButton
+                    color='blue'
+                    type='submit'
+                    disabled={code.length < 6}
+                    sending={loading}
+                >
+                    <Translate id='button.confirm' />
+                </FormButton>
+            </form>
             <div className='re-enter'>
                 <Translate id={`setRecoveryConfirm.reenter.one.${useEmail ? 'email' : 'phoneNumber'}`} />
                 <span onClick={onGoBack} className='link'><Translate id='setRecoveryConfirm.reenter.link'/></span>
                 <Translate id={`setRecoveryConfirm.reenter.two.${useEmail ? 'email' : 'phoneNumber'}`} />
             </div>
-        </Container>
+        </StyledContainer>
     )
 }
 
