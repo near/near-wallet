@@ -11,13 +11,38 @@ import Container from '../common/styled/Container.css'
 
 const StyledContainer = styled(Container)`
 
+    h1, h2 {
+        text-align: center;
+    }
+
+    h2 {
+        margin-top: 20px;
+    }
+
+    @media (min-width: 992px) {
+        h1, h2 {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        h2 {
+            margin-top: 20px;
+        }
+    }
+
 `;
 
 const Options = styled.div`
     display: flex;
     flex-direction: column;
-    margin-top: 10px;
+    margin-top: 40px;
     padding-bottom: 40px;
+
+    @media (min-width: 992px) {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
 `;
 
 const Option = styled.div`
@@ -27,8 +52,9 @@ const Option = styled.div`
     padding: 15px;
     margin-bottom: 25px;
 
-    &:first-of-type {
-        margin-top: 15px;
+    @media (min-width: 992px) {
+        margin: 20px;
+        min-height: 241px !important;
     }
 `;
 
@@ -94,7 +120,7 @@ const Button = styled(Link)`
 
 const RecoverAccount = () => {
     return (
-        <StyledContainer className='small-centered'>
+        <StyledContainer>
             <h1><Translate id='recoverAccount.pageTitle'/></h1>
             <h2><Translate id='recoverAccount.pageText'/></h2>
             <Options>
