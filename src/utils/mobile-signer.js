@@ -1,12 +1,22 @@
-import { Signer } from 'near-api-js'
+import { Signer, utils } from 'near-api-js'
+
+const { PublicKey } = utils.key_pair;
 
 export class MobileSigner extends Signer {
+    async createKey(accountId, networkId) {
+        return PublicKey.fromString(await callMethod('createKey', { accountId, networkId }))
+    }
+
     async getPublicKey(accountId, networkId) {
-        return callMethod('getPublicKey', { accountId, networkId })
+        return PublicKey.fromString(await callMethod('getPublicKey', { accountId, networkId }))
     }
 
     async signMessage(message, accountId, networkId) {
-        const signature = Buffer.from(await callMethod('signMessage', { message, accountId, networkId}), 'base64');
+        const signature = Buffer.from(await callMethod('signMessage', {
+            message: Buffer.from(message).toString('base64'),
+            accountId,
+            networkId
+        }), 'base64');
         return {
             signature,
             publicKey: await this.getPublicKey(accountId, networkId)
