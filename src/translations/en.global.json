@@ -164,6 +164,7 @@
     },
 
     "button": {
+        "signIn": "Sign In",
         "copyPhrase": "COPY PHRASE",
         "continue": "CONTINUE",
         "verify": "VERIFY & COMPLETE",
@@ -569,5 +570,10 @@
                 "remove": "If you lose access to your seed phrase, NEAR Inc. will be unable to assist you in recovery of your account and its funds."
             }
         }
+    },
+
+    "signInLedger": {
+        "header": "Sign in with your Ledger device",
+        "one": "Make sure your ledger is connected securely, and that the NEAR app is open on the device."
     }
 }

@@ -23,6 +23,7 @@ import { SetupLedgerSuccessWithRouter } from './accounts/ledger/SetupLedgerSucce
 import { RecoverAccountWithRouter } from './accounts/RecoverAccount'
 import { RecoverAccountSeedPhraseWithRouter } from './accounts/RecoverAccountSeedPhrase'
 import { RecoverWithLinkWithRouter } from './accounts/RecoverWithLink'
+import { SignInWithLedgerWithRouter } from './accounts/ledger/SignInLedger'
 import { LoginWithRouter } from './login/Login'
 import { LoginCliLoginSuccess } from './login/LoginCliLoginSuccess'
 import { ContactsWithRouter } from './contacts/Contacts'
@@ -154,6 +155,11 @@ class Routing extends Component {
                                     exact
                                     path='/recover-with-link/:accountId?/:seedPhrase?'
                                     component={RecoverWithLinkWithRouter}
+                                />
+                                <Route
+                                    exact
+                                    path='/sign-in-ledger'
+                                    component={SignInWithLedgerWithRouter}
                                 />
                                 <PrivateRoute
                                     path='/login'
