@@ -47,19 +47,18 @@ class Wallet {
         this.keyStore = new nearApiJs.keyStores.BrowserLocalStorageKeyStore(window.localStorage, 'nearlib:keystore:')
         const inMemorySigner = new nearApiJs.InMemorySigner(this.keyStore)
 
-        async function getLedgerKey(accountId) {
+        async function getLedgerKey(accountId, networkId) {
             let state = store.getState()
             if (!state.account.fullAccessKeys) {
                 await store.dispatch(getAccessKeys(accountId))
                 state = store.getState()
             }
             const accessKeys = state.account.fullAccessKeys
-            const ledgerOnly = false; // TEMP
             if (accessKeys && state.account.accountId === accountId) {
-                // TODO: Only use Ledger when it's the only available signer for given tx
-                // TODO: Use network ID
+                const localPublicKey = await inMemorySigner.getPublicKey(accountId, networkId)
+                const localKey = localPublicKey && accessKeys.find(({ public_key }) => public_key === localPublicKey.toString())
                 const ledgerKey = accessKeys.find(accessKey => accessKey.meta.type === 'ledger')
-                if (ledgerKey && ledgerOnly) {
+                if (ledgerKey && !localKey) {
                     return PublicKey.from(ledgerKey.public_key)
                 }
             }
@@ -167,7 +166,7 @@ class Wallet {
     async getAccessKeys() {
         if (!this.accountId) return null
 
-        const accessKeys =  await this.getAccount(this.accountId).getAccessKeys()
+        const accessKeys = await this.getAccount(this.accountId).getAccessKeys()
         return Promise.all(accessKeys.map(async (accessKey) => ({
             ...accessKey,
             meta: await getKeyMeta(accessKey.public_key)
@@ -178,10 +177,20 @@ class Wallet {
         return await this.getAccount(this.accountId).deleteKey(publicKey)
     }
 
-    async removeAllAccessKeys() {
-        // TODO: Call method in nearApi?
-        const waitFor = delay => new Promise(resolve => setTimeout(resolve, delay));
-        await waitFor(4000);
+    async removeNonLedgerAccessKeys() {
+        const accessKeys =  await this.getAccessKeys()
+        const account = this.getAccount(this.accountId)
+        const keysToRemove = accessKeys.filter(({
+            access_key: { permission },
+            meta: { type }
+        }) => permission === 'FullAccess' || type === 'ledger')
+
+        // NOTE: This key isn't used to call actual contract method, just used to verify connection with account in private DB
+        const keyPair = KeyPair.fromRandom('ed25519')
+        await account.addKey(keyPair.getPublicKey(), this.accountId, '__wallet__metadata', '0') 
+        for (const { public_key } of keysToRemove) {
+            await account.deleteKey(public_key);
+        }
     }
 
     async checkAccountAvailable(accountId) {
