@@ -45,6 +45,7 @@ async function getKeyMeta(publicKey) {
 class Wallet {
     constructor() {
         this.keyStore = new nearApiJs.keyStores.BrowserLocalStorageKeyStore(window.localStorage, 'nearlib:keystore:')
+        // TODO: Make this available as this.inMemorySigner for explicit signing
         const inMemorySigner = new nearApiJs.InMemorySigner(this.keyStore)
 
         async function getLedgerKey(accountId, networkId) {
@@ -187,7 +188,10 @@ class Wallet {
 
         // NOTE: This key isn't used to call actual contract method, just used to verify connection with account in private DB
         const keyPair = KeyPair.fromRandom('ed25519')
+        // TODO: Should reuse local key? Or replace one in keyStore?
         await account.addKey(keyPair.getPublicKey(), this.accountId, '__wallet__metadata', '0') 
+
+        // TODO: Remove local key (if still active) last
         for (const { public_key } of keysToRemove) {
             await account.deleteKey(public_key);
         }
