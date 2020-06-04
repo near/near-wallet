@@ -8,6 +8,16 @@ export default createGlobalStyle`
         align-items: center;
         padding: 40px 25px !important;
 
+        svg {
+            margin: 20px 0;
+        }
+
+        button {
+            svg {
+                margin: 0;
+            }
+        }
+
         h2 {
             text-align: center;
 
@@ -54,12 +64,6 @@ export default createGlobalStyle`
             :last-of-type {
                 margin-top: 25px;
             }
-        }
-    }
-
-    #ledger-confirm-action-modal {
-        svg {
-            margin: 20px 0;
         }
     }
 `;
