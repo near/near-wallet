@@ -12,7 +12,7 @@ export default createGlobalStyle`
             text-align: center;
 
             @media (max-width: 500px) {
-                max-width: 70%
+                max-width: 85%
             }
         }
 
@@ -54,6 +54,12 @@ export default createGlobalStyle`
             :last-of-type {
                 margin-top: 25px;
             }
+        }
+    }
+
+    #ledger-confirm-action-modal {
+        svg {
+            margin: 20px 0;
         }
     }
 `;

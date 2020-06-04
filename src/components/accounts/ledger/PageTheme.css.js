@@ -21,7 +21,7 @@ const PageTheme = styled.div`
         }
 
         svg {
-            margin-top: 10px;
+            margin: 20px 0;
         }
 
         p {

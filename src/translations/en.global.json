@@ -201,7 +201,8 @@
         "goBack": "Go back",
         "createNewAccount": "CREATE NEW ACCOUNT",
         "moreInformation": "More information",
-        "dismiss": "Dismiss"
+        "dismiss": "Dismiss",
+        "cancelOperation": "Cancel Operation"
     },
 
     "input": {
@@ -575,5 +576,10 @@
     "signInLedger": {
         "header": "Sign in with your Ledger device",
         "one": "Make sure your ledger is connected securely, and that the NEAR app is open on the device."
+    },
+
+    "confirmLedgerModal": {
+        "header": "Please confirm the operation on your device...",
+        "one": "You will need to confirm your sign-in details on your Ledger."
     }
 }
