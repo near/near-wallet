@@ -130,11 +130,7 @@ const GlobalAlert = ({ globalAlert, clearAlert, closeIcon = true }) => (
                     <Message.Header>
                         <Translate id={globalAlert.messageCodeHeader || (globalAlert.success ? 'success' : 'error')} />
                     </Message.Header>
-                    {globalAlert.messageCode !== undefined ?
-                        <Translate id={globalAlert.messageCode} data={globalAlert.data}/>
-                        :
-                        <>{globalAlert.errorMessage}</>
-                    }
+                    <Translate id={globalAlert.messageCode} data={globalAlert.data}/>
                 </Message.Content>
             </CustomMessage>
         </Container>

@@ -568,5 +568,8 @@
                 "remove": "If you lose access to your seed phrase, NEAR Inc. will be unable to assist you in recovery of your account and its funds."
             }
         }
-    }
+    },
+
+    "U2FNotSupported": "U2F browser support is needed for Ledger. Please use Chrome, Opera or Firefox with a U2F extension. Also make sure you're on an HTTPS connection.",
+    "U2F_4": "Failed to sign with Ledger device: U2F DEVICE_INELIGIBLE. Please make sure that your Ledger device is connected and unlocked."
 }
