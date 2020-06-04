@@ -165,6 +165,7 @@
 
     "button": {
         "signIn": "Sign In",
+        "signingIn": "Signing In",
         "copyPhrase": "COPY PHRASE",
         "continue": "CONTINUE",
         "verify": "VERIFY & COMPLETE",
@@ -575,7 +576,8 @@
 
     "signInLedger": {
         "header": "Sign in with your Ledger device",
-        "one": "Make sure your ledger is connected securely, and that the NEAR app is open on the device."
+        "one": "Make sure your ledger is connected securely, and that the NEAR app is open on the device.",
+        "error": "Please check that your device is connected and the NEAR app is open."
     },
 
     "confirmLedgerModal": {

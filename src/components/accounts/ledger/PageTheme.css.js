@@ -36,7 +36,7 @@ const PageTheme = styled.div`
             margin-top: 25px;
 
             :first-of-type {
-                width: 300px;
+                width: 350px;
 
                 @media (max-width: 500px) {
                     width: 100%;
