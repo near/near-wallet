@@ -9,6 +9,7 @@ import {
     clearCode,
     addAccessKey,
     addAccessKeySeedPhrase,
+    addLedgerAccessKey,
     clearAlert,
     refreshUrl,
     refreshAccount,
@@ -39,7 +40,7 @@ const loaderReducer = (state, { type, ready }) => {
 const globalAlertReducer = handleActions({
     // TODO: Reset state before action somehow. On navigate / start of other action?
     // TODO: Make this generic to avoid listing actions
-    [combineActions(addAccessKey, addAccessKeySeedPhrase)]: (state, { error, payload, meta }) => ({
+    [combineActions(addAccessKey, addAccessKeySeedPhrase, addLedgerAccessKey)]: (state, { error, payload, meta }) => ({
         ...state,
         globalAlert: !!payload || error ? {
             success: !error,

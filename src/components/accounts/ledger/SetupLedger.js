@@ -17,8 +17,9 @@ const SetupLedger = (props) => {
         setConnect('true');
         props.addLedgerAccessKey(props.accountId)
             .then(({ error }) => {
-                if (error) return;
-
+                if (error) {
+                    return setConnect('fail');
+                }
                 props.history.push('/setup-ledger-success');
             })
     }
