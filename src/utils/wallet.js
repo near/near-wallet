@@ -1,4 +1,5 @@
 import * as nearApiJs from 'near-api-js'
+import { KeyPair } from 'near-api-js'
 import sendJson from 'fetch-send-json'
 import { findSeedPhraseKey } from 'near-seed-phrase'
 import { createClient } from 'near-ledger-js'
@@ -219,7 +220,7 @@ class Wallet {
 
     async createNewAccount(accountId, fundingKey, fundingContract) {
         this.checkNewAccount(accountId);
-        const keyPair = nearApiJs.KeyPair.fromRandom('ed25519');
+        const keyPair = KeyPair.fromRandom('ed25519');
 
         if (fundingKey && fundingContract) {
             await this.createNewAccountLinkdrop(accountId, fundingKey, fundingContract, keyPair);
@@ -240,7 +241,7 @@ class Wallet {
 
         await this.keyStore.setKey(
             NETWORK_ID, fundingContract,
-            nearApiJs.KeyPair.fromString(fundingKey)
+            KeyPair.fromString(fundingKey)
         )
 
         const contract = new nearApiJs.Contract(account, fundingContract, {
@@ -407,11 +408,11 @@ class Wallet {
             throw new Error(`Cannot find matching public key for account ${accountId}`);
         }
 
-        const keyPair = nearApiJs.KeyPair.fromString(secretKey)
+        const keyPair = KeyPair.fromString(secretKey)
         await tempKeyStore.setKey(NETWORK_ID, accountId, keyPair)
 
         // generate new keypair for this browser
-        const newKeyPair = nearApiJs.KeyPair.fromRandom('ed25519')
+        const newKeyPair = KeyPair.fromRandom('ed25519')
         await account.addKey(newKeyPair.publicKey)
 
         await this.saveAndSelectAccount(accountId, newKeyPair)
