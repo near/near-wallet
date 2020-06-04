@@ -171,7 +171,7 @@ class CreateAccount extends Component {
                     }
                     <div className='alternatives-title'><Translate id='createAccount.alreadyHaveAnAccount'/></div>
                     <div className='alternatives'>
-                        <Link to='sign-in-ledger'><Translate id='createAccount.signInLedger'/></Link>
+                        <Link to='/sign-in-ledger'><Translate id='createAccount.signInLedger'/></Link>
                         &nbsp;or&nbsp;
                         <Link to={process.env.DISABLE_PHONE_RECOVERY === 'yes' ? '/recover-seed-phrase' : '/recover-account'}><Translate id='createAccount.recoverItHere' /></Link>
                     </div>
