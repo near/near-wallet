@@ -6,7 +6,7 @@ import styled, { ThemeProvider } from 'styled-components'
 import { Route, Switch } from 'react-router-dom'
 import { ConnectedRouter } from 'connected-react-router'
 import { withLocalize } from 'react-localize-redux';
-
+import ScrollToTop from '../utils/ScrollToTop'
 import translations_en from '../translations/en.global.json'
 import GlobalAlert from './responsive/GlobalAlert'
 import '../index.css'
@@ -103,6 +103,7 @@ class Routing extends Component {
                 <GlobalStyle />
                 <ConnectedRouter basename={PATH_PREFIX}  history={this.props.history}>
                     <ThemeProvider theme={theme}>
+                        <ScrollToTop/>
                         <NetworkBanner/>
                         <Navigation/>
                         <GlobalAlert/>
