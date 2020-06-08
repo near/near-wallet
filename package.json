@@ -61,7 +61,7 @@
     "eslint": "5.16.0",
     "eslint-config-react-app": "^3.0.8",
     "eslint-plugin-flowtype": "^5.1.1",
-    "eslint-plugin-import": "^2.20.2",
+    "eslint-plugin-import": "^2.21.1",
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-react": "^7.20.0",
     "gh-pages": "^2.2.0",
