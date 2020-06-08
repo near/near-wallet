@@ -16,6 +16,10 @@ const CustomList = styled(List)`
         h1 {
             padding: 0;
         }
+
+        .list {
+            padding: 0;
+        }
         
         .amount-sent {
             padding: 24px 0 24px 0;
