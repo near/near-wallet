@@ -141,7 +141,7 @@ class SendMoney extends Component {
                         clearRequestStatus={clear}
                         setFormLoader={setFormLoader}
                         stateAccountId={accountId}
-                        defaultAccountId={this.props.match.params.id}
+                        defaultAccountId={this.props.match.params.id || this.state.accountId}
                         {...this.state}
                     />
                 )}
