@@ -46,6 +46,12 @@ class SendMoney extends Component {
         }
     }
 
+    componentDidUpdate(prevProps, prevState) {
+        if (prevState.step !== this.state.step && prevState.step < this.state.step) {
+            window.scrollTo(0, 0);
+        }
+    }
+
     componentWillUnmount = () => {
         this.props.clear()
     }
@@ -72,7 +78,7 @@ class SendMoney extends Component {
 
     handleNextStep = (e) => {
         e.preventDefault()
-        const { step, accountId, amount} = this.state;
+        const { step, accountId, amount } = this.state;
 
         if (step === 2) {
             this.setState(() => ({
