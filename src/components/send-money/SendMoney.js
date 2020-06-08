@@ -50,6 +50,18 @@ class SendMoney extends Component {
         if (prevState.step !== this.state.step && prevState.step < this.state.step) {
             window.scrollTo(0, 0);
         }
+
+        if (prevProps.location.key !== this.props.location.key && this.state.step !== 1) {
+            this.props.clear()
+
+            this.setState(() => ({
+                step: 1,
+                note: '',
+                amount: '',
+                accountId: '',
+                successMessage: false
+            }))
+        }
     }
 
     componentWillUnmount = () => {
@@ -64,16 +76,7 @@ class SendMoney extends Component {
 
     handleCancelTransfer = () => {
         this.props.clear()
-
-        this.setState(() => ({
-            step: 1,
-            note: '',
-            amount: '',
-            accountId: '',
-            successMessage: false
-        }))
-
-        this.props.history.push('/send-money')
+        this.props.history.push('/')
     }
 
     handleNextStep = (e) => {
