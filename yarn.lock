@@ -7620,10 +7620,10 @@ react-google-recaptcha-v3@^1.4.1:
   dependencies:
     hoist-non-react-statics "3.3.2"
 
-react-google-recaptcha@^2.0.1:
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/react-google-recaptcha/-/react-google-recaptcha-2.0.1.tgz#3276b29659493f7ca2a5b7739f6c239293cdf1d8"
-  integrity sha512-4Y8awVnarn7+gdVpu8uvSmRJzzlMMoXqdhLoyToTOfVK6oM+NaChNI8NShnu75Q2YGHLvR1IA1FWZesuYHwn5w==
+react-google-recaptcha@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/react-google-recaptcha/-/react-google-recaptcha-2.1.0.tgz#9f6f4954ce49c1dedabc2c532347321d892d0a16"
+  integrity sha512-K9jr7e0CWFigi8KxC3WPvNqZZ47df2RrMAta6KmRoE4RUi7Ys6NmNjytpXpg4HI/svmQJLKR+PncEPaNJ98DqQ==
   dependencies:
     prop-types "^15.5.0"
     react-async-script "^1.1.1"

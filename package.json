@@ -16,7 +16,7 @@
     "react": "^16.13.1",
     "react-app-polyfill": "^1.0.6",
     "react-dom": "^16.13.1",
-    "react-google-recaptcha": "^2.0.1",
+    "react-google-recaptcha": "^2.1.0",
     "react-google-recaptcha-v3": "^1.4.1",
     "react-localize-redux": "^3.5.3",
     "react-phone-number-input": "2.3.11",
