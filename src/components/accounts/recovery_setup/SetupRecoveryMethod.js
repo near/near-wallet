@@ -71,6 +71,12 @@ class SetupRecoveryMethod extends Component {
         }
     }
 
+    componentDidUpdate(prevProps, prevState) {
+        if (prevState.success !== this.state.success) {
+            window.scrollTo(0, 0);
+        }
+    }
+
     handleNext = () => {
         const { option } = this.state;
 
