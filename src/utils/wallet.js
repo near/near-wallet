@@ -45,8 +45,7 @@ async function getKeyMeta(publicKey) {
 class Wallet {
     constructor() {
         this.keyStore = new nearApiJs.keyStores.BrowserLocalStorageKeyStore(window.localStorage, 'nearlib:keystore:')
-        // TODO: Make this available as this.inMemorySigner for explicit signing
-        const inMemorySigner = new nearApiJs.InMemorySigner(this.keyStore)
+        this.inMemorySigner = new nearApiJs.InMemorySigner(this.keyStore)
 
         async function getLedgerKey(accountId, networkId) {
             let state = store.getState()
@@ -56,8 +55,7 @@ class Wallet {
             }
             const accessKeys = state.account.fullAccessKeys
             if (accessKeys && state.account.accountId === accountId) {
-                const localPublicKey = await inMemorySigner.getPublicKey(accountId, networkId)
-                const localKey = localPublicKey && accessKeys.find(({ public_key }) => public_key === localPublicKey.toString())
+                const localKey = await this.getLocalAccessKey()
                 const ledgerKey = accessKeys.find(accessKey => accessKey.meta.type === 'ledger')
                 if (ledgerKey && !localKey) {
                     return PublicKey.from(ledgerKey.public_key)
@@ -68,7 +66,7 @@ class Wallet {
 
         this.signer = {
             async getPublicKey(accountId, networkId) {
-                return (await getLedgerKey(accountId)) || (await inMemorySigner.getPublicKey(accountId, networkId))
+                return (await getLedgerKey(accountId)) || (await this.inMemorySigner.getPublicKey(accountId, networkId))
             },
             async signMessage(message, accountId, networkId) {
                 if (await getLedgerKey(accountId)) {
@@ -81,7 +79,7 @@ class Wallet {
                     }
                 }
 
-                return inMemorySigner.signMessage(message, accountId, networkId)
+                return this.inMemorySigner.signMessage(message, accountId, networkId)
             }
         }
         this.connection = nearApiJs.Connection.fromConfig({
@@ -93,6 +91,11 @@ class Wallet {
             localStorage.getItem(KEY_WALLET_ACCOUNTS) || '{}'
         )
         this.accountId = localStorage.getItem(KEY_ACTIVE_ACCOUNT_ID) || ''
+    }
+
+    async getLocalAccessKey() {
+        const localPublicKey = await this.inMemorySigner.getPublicKey(accountId, networkId)
+        return localPublicKey && accessKeys.find(({ public_key }) => public_key === localPublicKey.toString())
     }
 
     save() {
@@ -188,13 +191,19 @@ class Wallet {
 
         // NOTE: This key isn't used to call actual contract method, just used to verify connection with account in private DB
         const keyPair = KeyPair.fromRandom('ed25519')
-        // TODO: Should reuse local key? Or replace one in keyStore?
         await account.addKey(keyPair.getPublicKey(), this.accountId, '__wallet__metadata', '0') 
 
-        // TODO: Remove local key (if still active) last
+        const localAccessKey = await this.getLocalAccessKey()
         for (const { public_key } of keysToRemove) {
-            await account.deleteKey(public_key);
+            if (localAccessKey && public_key === localAccessKey.public_key) {
+                continue;
+            }
+            await account.deleteKey(public_key)
         }
+        if (localAccessKey) {
+            await account.deleteKey(localAccessKey.public_key)
+        }
+        this.keyStore.setKey(NETWORK_ID, this.accountId, keyPair)
     }
 
     async checkAccountAvailable(accountId) {
