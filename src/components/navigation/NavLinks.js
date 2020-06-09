@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import summaryIcon from '../../images/icon-recent.svg';
 import arrowIcon from '../../images/icon-send.svg';
+import { Translate } from 'react-localize-redux';
 
 const Container = styled.div`
     display: flex;
@@ -80,9 +81,9 @@ const NavLink = styled(Link)`
 
 const NavLinks = () => (
     <Container className='nav-links'>
-        <NavLink icon={summaryIcon} to='/'>Summary</NavLink>
-        <NavLink icon={arrowIcon} to='/send-money'>Send</NavLink>
-        <NavLink icon={arrowIcon} to='/receive-money'>Receive</NavLink>
+        <NavLink icon={summaryIcon} to='/'><Translate id='link.summary'/></NavLink>
+        <NavLink icon={arrowIcon} to='/send-money'><Translate id='link.send'/></NavLink>
+        <NavLink icon={arrowIcon} to='/receive-money'><Translate id='link.receive'/></NavLink>
     </Container>
 )
 

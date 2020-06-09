@@ -94,11 +94,13 @@ class SetupRecoveryMethod extends Component {
 
     handleNext = () => {
         const { option } = this.state;
-        
-        if (option === 'email' || option === 'phone') {
-            this.handleSendCode()
-        } else if (option === 'phrase') {
-            this.props.history.push(`/setup-seed-phrase/${this.props.accountId}`);
+
+        if (option === 'phone' || option === 'email') {
+            this.handleSendCode();
+            window.scrollTo(0, 0);
+        } else {
+            let phraseUrl = `/setup-seed-phrase/${this.props.accountId}`;
+            this.props.history.push(phraseUrl);
         }
     }
 
