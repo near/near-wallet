@@ -57,8 +57,8 @@ class SetupSeedPhrase extends Component {
     }
 
     handleSubmit = () => {
-
-        const { seedPhrase, enterWord, wordId } = this.state
+        const { redirectToApp, url, history, accountId, addAccessKeySeedPhrase } = this.props
+        const { seedPhrase, enterWord, wordId, publicKey } = this.state
         if (enterWord !== seedPhrase.split(' ')[wordId]) {
             this.setState(() => ({
                 requestStatus: {
@@ -70,10 +70,15 @@ class SetupSeedPhrase extends Component {
         }
 
         const contractName = null;
-        this.props.addAccessKeySeedPhrase(this.props.accountId, contractName, this.state.publicKey)
+        addAccessKeySeedPhrase(accountId, contractName, publicKey)
             .then(({ error }) => {
                 if (error) return
-                this.props.redirectToApp()
+
+                if (url && Object.entries(url).length !== 0) {
+                    redirectToApp();
+                } else {
+                    history.push(`/profile/${accountId}`)
+                }
             })
     }
 

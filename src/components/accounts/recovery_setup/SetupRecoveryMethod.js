@@ -122,12 +122,17 @@ class SetupRecoveryMethod extends Component {
     }
 
     handleSetupRecoveryMethod = (securityCode) => {
-        const  { accountId, setupRecoveryMessage, redirectToApp } = this.props;
+        const  { accountId, setupRecoveryMessage, redirectToApp, url, history } = this.props;
 
         setupRecoveryMessage(accountId, this.method, securityCode)
             .then(({ error }) => {
                 if (error) return;
-                redirectToApp();
+
+                if (url && Object.entries(url).length !== 0) {
+                    redirectToApp();
+                } else {
+                    history.push(`/profile/${accountId}`)
+                }
             })
     }
 
