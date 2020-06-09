@@ -56,21 +56,22 @@ class SetupRecoveryMethod extends Component {
     }
 
     componentDidMount() {
-        const {loadRecoveryMethods, accountId, router } = this.props;
-        const { activeMethods, method } = router.location;
+        const { loadRecoveryMethods, accountId, router, recoveryMethods } = this.props;
+        const { method } = router.location;
 
         if (method) {
             this.setState({ option: method });
         }
 
-        if (activeMethods) {
-            this.setState({ activeMethods: activeMethods });
-        } else {
+        if (Object.keys(recoveryMethods).length === 0) {
             loadRecoveryMethods(accountId)
                 .then(({ payload }) => {
                     const confirmed = payload.data.filter(method => method.confirmed);
                     this.setState({ activeMethods: confirmed.map(method => method.kind) });
                 })
+        } else {
+            const confirmed = recoveryMethods[accountId].filter(method => method.confirmed)
+            this.setState({ activeMethods: confirmed.map(method => method.kind) });
         }
     }
 

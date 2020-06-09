@@ -33,8 +33,7 @@ const InactiveMethod = ({ method, accountId, activeMethods }) => (
         <Translate id={`recoveryMgmt.methodTitle.${method}`}/>
         <Button to={{
             pathname: `${method !== 'phrase' ? '/set-recovery/' : '/setup-seed-phrase/'}${accountId}`,
-            method: method,
-            activeMethods: activeMethods.map(method => method.kind)
+            method: method
         }}>
             <Translate id='button.enable'/>
         </Button>
