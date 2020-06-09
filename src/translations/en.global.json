@@ -452,7 +452,8 @@
             "noMoreThan": "NO MORE THAN 5 DECIMAL DIGITS",
             "notEnoughTokens": "Not enough tokens.",
             "howMuch": "How much do you want to send?",
-            "available": "Available Balance:"
+            "available": "Available Balance:",
+            "sending": "Sending:"
         },
         "youAreSending": "You are sending",
         "to": "to",
