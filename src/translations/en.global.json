@@ -185,6 +185,15 @@
         "moreInformation": "More information"
     },
 
+    "link": {
+        "summary": "SUMMARY",
+        "send": "SEND",
+        "receive": "RECEIVE",
+        "profile": "Profile",
+        "authorizedApps": "Authorized Apps",
+        "fullAccessKeys": "Full Access Keys"
+    },
+
     "input": {
         "enterWord": {
             "title": "Word",
@@ -417,23 +426,6 @@
             },
             "qrDesc": "Use your phone's camera app to send to this address"
         }
-    },
-
-    "desktopPopup": {
-        "profile": "Profile",
-        "contacts": "Contacts",
-        "authorizedApps": "Authorized Apps",
-        "fullAccessKeys": "Full Access Keys",
-        "logout": "Logout",
-        "switchAccount": "SWITCH ACCOUNT",
-        "noAccount": "You have no other accounts"
-    },
-
-    "desktopView": {
-        "summary": "SUMMARY",
-        "activity": "ACTIVITY",
-        "send": "SEND",
-        "receive": "RECEIVE"
     },
 
     "sendMoney": {
