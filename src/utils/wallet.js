@@ -47,7 +47,7 @@ class Wallet {
         this.keyStore = new nearApiJs.keyStores.BrowserLocalStorageKeyStore(window.localStorage, 'nearlib:keystore:')
         this.inMemorySigner = new nearApiJs.InMemorySigner(this.keyStore)
 
-        async function getLedgerKey(accountId, networkId) {
+        const getLedgerKey = async (accountId, networkId) => {
             let state = store.getState()
             if (!state.account.fullAccessKeys) {
                 await store.dispatch(getAccessKeys(accountId))
@@ -55,7 +55,7 @@ class Wallet {
             }
             const accessKeys = state.account.fullAccessKeys
             if (accessKeys && state.account.accountId === accountId) {
-                const localKey = await this.getLocalAccessKey()
+                const localKey = await this.getLocalAccessKey(accessKeys)
                 const ledgerKey = accessKeys.find(accessKey => accessKey.meta.type === 'ledger')
                 if (ledgerKey && !localKey) {
                     return PublicKey.from(ledgerKey.public_key)
@@ -64,9 +64,10 @@ class Wallet {
             return null
         }
 
+        const inMemorySigner = this.inMemorySigner
         this.signer = {
             async getPublicKey(accountId, networkId) {
-                return (await getLedgerKey(accountId)) || (await this.inMemorySigner.getPublicKey(accountId, networkId))
+                return (await getLedgerKey(accountId)) || (await inMemorySigner.getPublicKey(accountId, networkId))
             },
             async signMessage(message, accountId, networkId) {
                 if (await getLedgerKey(accountId)) {
@@ -79,7 +80,7 @@ class Wallet {
                     }
                 }
 
-                return this.inMemorySigner.signMessage(message, accountId, networkId)
+                return inMemorySigner.signMessage(message, accountId, networkId)
             }
         }
         this.connection = nearApiJs.Connection.fromConfig({
@@ -93,8 +94,8 @@ class Wallet {
         this.accountId = localStorage.getItem(KEY_ACTIVE_ACCOUNT_ID) || ''
     }
 
-    async getLocalAccessKey() {
-        const localPublicKey = await this.inMemorySigner.getPublicKey(accountId, networkId)
+    async getLocalAccessKey(accessKeys) {
+        const localPublicKey = await this.inMemorySigner.getPublicKey(this.accountId, NETWORK_ID)
         return localPublicKey && accessKeys.find(({ public_key }) => public_key === localPublicKey.toString())
     }
 
@@ -187,13 +188,13 @@ class Wallet {
         const keysToRemove = accessKeys.filter(({
             access_key: { permission },
             meta: { type }
-        }) => permission === 'FullAccess' || type === 'ledger')
+        }) => permission === 'FullAccess' && type !== 'ledger')
 
         // NOTE: This key isn't used to call actual contract method, just used to verify connection with account in private DB
         const keyPair = KeyPair.fromRandom('ed25519')
         await account.addKey(keyPair.getPublicKey(), this.accountId, '__wallet__metadata', '0') 
 
-        const localAccessKey = await this.getLocalAccessKey()
+        const localAccessKey = await this.getLocalAccessKey(accessKeys)
         for (const { public_key } of keysToRemove) {
             if (localAccessKey && public_key === localAccessKey.public_key) {
                 continue;
@@ -333,7 +334,7 @@ class Wallet {
 
     async signatureFor(accountId) {
         const blockNumber = String((await this.connection.provider.status()).sync_info.latest_block_height);
-        const signed = await this.signer.signMessage(Buffer.from(blockNumber), accountId, NETWORK_ID);
+        const signed = await this.inMemorySigner.signMessage(Buffer.from(blockNumber), accountId, NETWORK_ID);
         const blockNumberSignature = Buffer.from(signed.signature).toString('base64');
         return { blockNumber, blockNumberSignature };
     }
