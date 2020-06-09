@@ -46,6 +46,24 @@ class SendMoney extends Component {
         }
     }
 
+    componentDidUpdate(prevProps, prevState) {
+        if (prevState.step !== this.state.step && prevState.step < this.state.step) {
+            window.scrollTo(0, 0);
+        }
+
+        if (prevProps.location.key !== this.props.location.key && this.state.step !== 1) {
+            this.props.clear()
+
+            this.setState(() => ({
+                step: 1,
+                note: '',
+                amount: '',
+                accountId: '',
+                successMessage: false
+            }))
+        }
+    }
+
     componentWillUnmount = () => {
         this.props.clear()
     }
@@ -58,21 +76,12 @@ class SendMoney extends Component {
 
     handleCancelTransfer = () => {
         this.props.clear()
-
-        this.setState(() => ({
-            step: 1,
-            note: '',
-            amount: '',
-            accountId: '',
-            successMessage: false
-        }))
-
-        this.props.history.push('/send-money')
+        this.props.history.push('/')
     }
 
     handleNextStep = (e) => {
         e.preventDefault()
-        const { step, accountId, amount} = this.state;
+        const { step, accountId, amount } = this.state;
 
         if (step === 2) {
             this.setState(() => ({
@@ -141,7 +150,7 @@ class SendMoney extends Component {
                         clearRequestStatus={clear}
                         setFormLoader={setFormLoader}
                         stateAccountId={accountId}
-                        defaultAccountId={this.props.match.params.id}
+                        defaultAccountId={this.props.match.params.id || this.state.accountId}
                         {...this.state}
                     />
                 )}
