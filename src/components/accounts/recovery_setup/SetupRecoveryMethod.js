@@ -65,15 +65,15 @@ class SetupRecoveryMethod extends Component {
             this.setState({ option: method });
         }
 
-        if (Object.keys(recoveryMethods).length === 0) {
+        if (recoveryMethods[accountId]) {
+            const confirmed = recoveryMethods[accountId].filter(method => method.confirmed)
+            this.setState({ activeMethods: confirmed.map(method => method.kind) });
+        } else {
             loadRecoveryMethods(accountId)
                 .then(({ payload }) => {
                     const confirmed = payload.data.filter(method => method.confirmed);
                     this.setState({ activeMethods: confirmed.map(method => method.kind) });
                 })
-        } else {
-            const confirmed = recoveryMethods[accountId].filter(method => method.confirmed)
-            this.setState({ activeMethods: confirmed.map(method => method.kind) });
         }
     }
 
