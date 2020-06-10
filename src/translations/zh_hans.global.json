@@ -189,8 +189,11 @@
         "summary": "概览",
         "send": "发送",
         "receive": "接收",
+        "help": "帮助",
         "profile": "资料",
         "authorizedApps": "已授权应用",
+        "switchAccount": "切换账号",
+        "noAccount": "你未登录其他账号",
         "fullAccessKeys": "完全访问密钥"
     },
 
@@ -207,12 +210,12 @@
         "email": {
             "title": "Email",
             "desc": "请检查来自 nearprotocol.com 地址的邮件，标题是：",
-            "subject": "\"重要：NEAR 钱包恢复邮件\"."
+            "subject": "\"重要：NEAR 钱包恢复邮件\"。"
         },
         "phone": {
             "title": "手机",
             "desc": "在你的手机上检查来自以下手机号的短信：",
-            "number": "+14086179592."
+            "number": "+14086179592。"
         },
         "phrase": {
             "title": "助记词",
@@ -416,7 +419,7 @@
             "username": "用户名",
             "public": "公开",
             "totalBalance": "余额",
-            "minBalance": "最少余额",
+            "minBalance": "保留余额",
             "staked": "已质押",
             "availableBalance": "可用余额",
             "lockPopup": {
@@ -483,7 +486,7 @@
 
     "availableBalanceInfo": "「可用余额」是指你当前账号内可消耗 NEAR 通证，可用余额少于你的「总余额」。查看你 NEAR 余额的详细构成，请访问你的资料。", 
     "availableBalanceProfile": "「可用余额」是指你当前账号内可消耗 NEAR 通证，可用余额少于你的总共余额。",
-    "minimumBalance": "这是维持你账号活跃状态的 NEAR 通证「最少余额」，该余额代表你正在使用的 NEAR 区块链存储空间，会在使用量变化后对应变化。",
+    "minimumBalance": "这是维持你账号活跃状态的 NEAR 通证「保留余额」，该余额代表你正在使用的 NEAR 区块链存储空间，会在使用量变化后产生对应变化。",
 
     "transaction": {
         "status": {

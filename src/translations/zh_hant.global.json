@@ -189,8 +189,11 @@
         "summary": "概覽",
         "send": "發送",
         "receive": "接收",
+        "help": "幫助",
         "profile": "資料",
         "authorizedApps": "已授權應用",
+        "switchAccount": "切換賬號",
+        "noAccount": "你未登錄其他賬號",
         "fullAccessKeys": "完全訪問密鑰"
     },
 
@@ -207,12 +210,12 @@
         "email": {
             "title": "Email",
             "desc": "請檢查來自 nearprotocol.com 地址的郵件，標題是：",
-            "subject": "\"重要：NEAR 錢包恢復郵件\"."
+            "subject": "\"重要：NEAR 錢包恢復郵件\"。"
         },
         "phone": {
             "title": "手機",
             "desc": "在你的手機上檢查來自以下手機號的短信：",
-            "number": "+14086179592."
+            "number": "+14086179592。"
         },
         "phrase": {
             "title": "助記詞",
@@ -421,7 +424,7 @@
             "availableBalance": "可用餘額",
             "lockPopup": {
                 "title": "為何是鎖定？",
-                "text": "用戶名是你在系統中的唯一識別號，並且與數據和資產綁定，因此無法修改。但是你可以${link}以使用想要的名字，並在需要時轉賬資產。 ",
+                "text": "用戶名是你在系統中的唯一識別號，並且與數據和資產綁定，因此無法修改。但是你可以${link}以使用想要的名字，並在需要時轉賬資產。",
                 "createAnotherAccount": "創建其他賬戶"
             },
             "qrDesc": "可以使用手機相機來掃描該二維碼"
@@ -481,9 +484,9 @@
         "authorizing": "正在授權"
     },
 
-    "availableBalanceInfo": "「可用餘額」是指你當前賬號內可消耗 NEAR 通證，可用餘額少於你的「總餘額」。查看你 NEAR 餘額的詳細構成，請訪問你的資料。 ",
-    "availableBalanceProfile": "「可用餘額」是指你當前賬號內可消耗 NEAR 通證，可用餘額少於你的總共餘額。 ",
-    "minimumBalance": "這是維持你賬號活躍狀態的 NEAR 通證「最少餘額」，該餘額代表你正在使用的 NEAR 區塊鏈存儲空間，會在使用量變化後對應變化。 ",
+    "availableBalanceInfo": "「可用餘額」是指你當前賬號內可消耗 NEAR 通證，可用餘額少於你的「總餘額」。查看你 NEAR 餘額的詳細構成，請訪問你的資料。",
+    "availableBalanceProfile": "「可用餘額」是指你當前賬號內可消耗 NEAR 通證，可用餘額少於你的總共餘額。",
+    "minimumBalance": "這是維持你賬號活躍狀態的 NEAR 通證「保留餘額」，該餘額代表你正在使用的 NEAR 區塊鏈存儲空間，會在使用量變化後產生對應變化。",
 
     "transaction": {
         "status": {

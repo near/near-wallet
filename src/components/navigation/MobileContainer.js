@@ -9,6 +9,7 @@ import UserLinks from './UserLinks';
 import UserAccounts from './UserAccounts';
 import CreateAccountBtn from './CreateAccountBtn';
 import { IS_MAINNET } from '../../utils/wallet';
+import { Translate } from 'react-localize-redux';
 
 const Container = styled.div`
     display: none;
@@ -111,7 +112,7 @@ class MobileContainer extends Component {
                         <NavLinks/>
                         <UserLinks accountId={account.accountId}/>
                         <LowerSection>
-                            <h6>Switch Account</h6>
+                            <h6><Translate id='link.switchAccount'/></h6>
                             <UserAccounts
                                 accounts={availableAccounts}
                                 accountId={account.accountId}
