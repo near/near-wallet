@@ -62,8 +62,8 @@
         "createAccount": "正在创建账户：${receiverId}",
         "deployContract": "正在部署合约：${receiverId}",
         "functionCall": "正在调用函数：${methodName}",
-        "transfer": "正在转账：${deposit}&#9411; 至 ${receiverId}",
-        "stake": "正在质押：${stake}&#9411; ${publicKey}...",
+        "transfer": "正在转账：${deposit} &#9411; 至 ${receiverId}",
+        "stake": "正在质押：${stake} &#9411; ${publicKey}...",
         "addKey": "正在新增访问密钥",
         "deleteKey": "正在删除访问密钥",
         "deleteAccount": "正在删除账户：${receiverId}"
@@ -185,6 +185,15 @@
         "moreInformation": "更多信息"
     },
 
+    "link": {
+        "summary": "概览",
+        "send": "发送",
+        "receive": "接收",
+        "profile": "资料",
+        "authorizedApps": "已授权应用",
+        "fullAccessKeys": "完全访问密钥"
+    },
+
     "input": {
         "enterWord": {
             "title": "助记词",
@@ -265,17 +274,10 @@
         "phraseTitle": "恢复助记词"
     },
     "setRecoveryConfirm": {
-        "pageTitle": "确认恢复方式设置",
-        "pageText": {
-            "one": {
-                "email": "你应该已经收到一封包含恢复链接的邮件。如果你确认已丢失账户的访问，请点击链接，并且恢复你的账户。",
-                "phoneNumber": "你应该已经收到一条包含恢复链接的短信。如果你确认已丢失账户的访问，请点击链接，并且恢复你的账户。"
-            },
-            "two": {
-                "email": "请确认邮件的接收者：",
-                "phoneNumber": "请确认短信的接收者："
-            }
-        },
+        "pageTitle": "验证",
+        "pageText": "我们已经发送 6 位数字码至",
+        "inputPlaceholder": "请输入 6 位数字码",
+        "invalidCode": "请检查你的安全码。",
         "reenter": {
             "one": {
                 "email": "如果你没有收到邮件，或者上面的 Email 地址输入错误，",
@@ -309,7 +311,7 @@
     },
 
     "balance": {
-        "balance": "余额",
+        "balance": "总余额",
         "balanceLoading": "余额加载中"
     },
 
@@ -340,6 +342,10 @@
             "forContract": "合约",
             "function": "函数",
             "noDescription": "该方法没有详细描述"
+        },
+        "cliLoginSuccess": {
+            "pageTitle": "你已经成功授权 NEAR Shell！",
+            "pageText": "请关闭该窗口，并按照终端内的指导操作。"
         }
     },
 
@@ -409,7 +415,10 @@
             "visibleTo": "是否公开",
             "username": "用户名",
             "public": "公开",
-            "balance": "余额",
+            "totalBalance": "余额",
+            "minBalance": "最少余额",
+            "staked": "已质押",
+            "availableBalance": "可用余额",
             "lockPopup": {
                 "title": "为何是锁定？",
                 "text": "用户名是你在系统中的唯一识别号，并且与数据和资产绑定，因此无法修改。但是你可以${link}以使用想要的名字，并在需要时转账资产。",
@@ -417,23 +426,6 @@
             },
             "qrDesc": "可以使用手机相机来扫描该二维码"
         }
-    },
-
-    "desktopPopup": {
-        "profile": "资料",
-        "contacts": "联系人",
-        "authorizedApps": "已授权应用",
-        "fullAccessKeys": "完全访问密钥",
-        "logout": "登出",
-        "switchAccount": "切换账户",
-        "noAccount": "你还没有其他账户"
-    },
-
-    "desktopView": {
-        "summary": "概览",
-        "activity": "动态",
-        "send": "发送",
-        "receive": "接收"
     },
 
     "sendMoney": {
@@ -447,7 +439,9 @@
         "amountStatusId": {
             "noMoreThan": "不可超过 5 位数",
             "notEnoughTokens": "没有足够的通证。",
-            "howMuch": "你想要发送多少通证？"
+            "howMuch": "你想要发送多少通证？",
+            "available": "可用余额：",
+            "sending": "正在发送："
         },
         "youAreSending": "你正在发送",
         "to": "至",
@@ -480,12 +474,16 @@
             "transferOf": "正在请求转账",
             "authorization": "正在请求授权"
         },
-        "currentBalance": "当前余额",
+        "availableBalance": "可用余额",
         "wasTransferredSuccessfully": "被成功转账",
         "authorizationRequestSuccessful": "授权请求成功",
         "transferring": "正在转账",
         "authorizing": "正在授权"
     },
+
+    "availableBalanceInfo": "「可用余额」是指你当前账号内可消耗 NEAR 通证，可用余额少于你的「总余额」。查看你 NEAR 余额的详细构成，请访问你的资料。", 
+    "availableBalanceProfile": "「可用余额」是指你当前账号内可消耗 NEAR 通证，可用余额少于你的总共余额。",
+    "minimumBalance": "这是维持你账号活跃状态的 NEAR 通证「最少余额」，该余额代表你正在使用的 NEAR 区块链存储空间，会在使用量变化后对应变化。",
 
     "transaction": {
         "status": {
@@ -506,6 +504,6 @@
     "or": "或",
     "sending": "发送中",
     "back": "返回",
-    "of": "的",
+    "of": "/",
     "ofTotal": "占总数"
 }
