@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 import helpIcon from '../../images/icon-help.svg';
 import userIcon from '../../images/user-icon-grey.svg';
@@ -202,7 +203,9 @@ class DesktopContainer extends Component {
                 {showNavLinks &&
                     <>
                         <NavLinks/>
-                        <Help href='http://near.chat/' target='_blank' rel='noopener noreferrer'>Help</Help>
+                        <Help href='http://near.chat/' target='_blank' rel='noopener noreferrer'>
+                            <Translate id='desktopView.help' />
+                        </Help>
                         <User onClick={toggleMenu}>
                             <UserIcon/>
                             <UserName accountId={account.accountId}/>

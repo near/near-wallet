@@ -1,4 +1,5 @@
 import React from 'react';
+import { Translate } from 'react-localize-redux';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -50,7 +51,7 @@ const UserAccounts = ({ accounts, accountId, selectAccount }) => (
                 @{account}
             </Account>
         ))}
-        {accounts.length < 2 && <div>You have no other accounts</div>}
+        {accounts.length < 2 && <div><Translate id='desktopPopup.noAccount' /></div>}
     </Wrapper>
 )
 

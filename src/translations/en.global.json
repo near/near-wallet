@@ -433,7 +433,8 @@
         "summary": "SUMMARY",
         "activity": "ACTIVITY",
         "send": "SEND",
-        "receive": "RECEIVE"
+        "receive": "RECEIVE",
+        "help": "HELP"
     },
 
     "sendMoney": {

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 import Logo from './Logo';
 import UserBalance from './UserBalance';
@@ -111,7 +112,7 @@ class MobileContainer extends Component {
                         <NavLinks/>
                         <UserLinks accountId={account.accountId}/>
                         <LowerSection>
-                            <h6>Switch Account</h6>
+                            <h6><Translate id='desktopPopup.switchAccount' /></h6>
                             <UserAccounts
                                 accounts={availableAccounts}
                                 accountId={account.accountId}

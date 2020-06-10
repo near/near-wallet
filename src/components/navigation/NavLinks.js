@@ -1,4 +1,5 @@
 import React from 'react';
+import { Translate } from 'react-localize-redux';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import summaryIcon from '../../images/icon-recent.svg';
@@ -80,9 +81,9 @@ const NavLink = styled(Link)`
 
 const NavLinks = () => (
     <Container className='nav-links'>
-        <NavLink icon={summaryIcon} to='/'>Summary</NavLink>
-        <NavLink icon={arrowIcon} to='/send-money'>Send</NavLink>
-        <NavLink icon={arrowIcon} to='/receive-money'>Receive</NavLink>
+        <NavLink icon={summaryIcon} to='/'><Translate id='desktopView.summary' /></NavLink>
+        <NavLink icon={arrowIcon} to='/send-money'><Translate id='desktopView.send' /></NavLink>
+        <NavLink icon={arrowIcon} to='/receive-money'><Translate id='desktopView.receive' /></NavLink>
     </Container>
 )
 
