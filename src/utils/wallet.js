@@ -339,30 +339,33 @@ class Wallet {
         return { blockNumber, blockNumberSignature };
     }
 
+    async postSignedJson(path, options) {
+        return await sendJson('POST', ACCOUNT_HELPER_URL + path, {
+            ...options,
+            ...(await this.signatureFor(this.accountId))
+        });
+    }
+
     async initializeRecoveryMethod(accountId, method) {
-        await sendJson('POST', `${ACCOUNT_HELPER_URL}/account/initializeRecoveryMethod`, {
+        return await this.postSignedJson('/account/initializeRecoveryMethod', {
             accountId,
-            method,
-            ...(await this.signatureFor(accountId))
+            method
         });
     }
 
     async validateSecurityCode(accountId, method, securityCode) {
-        await sendJson('POST', `${ACCOUNT_HELPER_URL}/account/validateSecurityCode`, {
+        return await this.postSignedJson('/account/validateSecurityCode', {
             accountId,
             method,
-            securityCode,
-            ...(await this.signatureFor(accountId))
+            securityCode
         });
     }
 
     async getRecoveryMethods() {
         return {
             accountId: this.accountId,
-            data: await sendJson('POST', `${ACCOUNT_HELPER_URL}/account/recoveryMethods`, {
-                accountId: this.accountId,
-                ...(await this.signatureFor(this.accountId))
-        })}
+            data: await this.postSignedJson('/account/recoveryMethods', { accountId: this.accountId })
+        }
     }
 
     async setupRecoveryMessage(accountId, method, securityCode) {
@@ -393,22 +396,20 @@ class Wallet {
         const accountId = this.accountId;
         const { seedPhrase, publicKey } = generateSeedPhrase();
 
-        await sendJson('POST', `${ACCOUNT_HELPER_URL}/account/resendRecoveryLink`, {
+        await this.postSignedJson('/account/resendRecoveryLink', {
             accountId,
             method,
             seedPhrase,
-            publicKey,
-            ...(await this.signatureFor(accountId))
+            publicKey
         });
         await this.replaceAccessKey(method.publicKey, publicKey);
     }
 
     async deleteRecoveryMethod({ kind, publicKey }) {
-        await sendJson('POST', `${ACCOUNT_HELPER_URL}/account/deleteRecoveryMethod`, {
+        await this.postSignedJson('/account/deleteRecoveryMethod', {
             accountId: this.accountId,
             kind,
-            publicKey,
-            ...(await this.signatureFor(this.accountId))
+            publicKey
         })
         await this.removeAccessKey(publicKey)
     }
