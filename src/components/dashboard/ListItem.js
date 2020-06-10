@@ -144,7 +144,7 @@ const ListItem = ({
                         <span className='font-small'>
                             <br />
                             amount:
-                            <span className='color-black'>{row[2]}&#9411;</span>, publicKey:{' '}
+                            <span className='color-black'>{row[2]} &#9411;</span>, publicKey:{' '}
                             <span className='color-black'>{row[3]}</span>
                         </span>
                     )}

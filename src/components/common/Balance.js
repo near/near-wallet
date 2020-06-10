@@ -1,13 +1,16 @@
 import React from 'react'
 import styled from 'styled-components'
-import { List } from 'semantic-ui-react'
 import { utils } from 'near-api-js'
 import { BN } from 'bn.js'
 
-const CustomDiv = styled(List)`
+const CustomDiv = styled.div`
     position: relative;
     display: inline;
     white-space: nowrap;
+`
+
+const TokenUnit = styled.span`
+    margin-left: .2em;
 `
 
 const FRAC_DIGITS = 5
@@ -22,7 +25,8 @@ const Balance = ({ amount }) => {
 
     return (
         <CustomDiv title={showInYocto(amount)}>
-            {amountShow} &#9411;
+            {amountShow}
+            <TokenUnit>&#9411;</TokenUnit>
         </CustomDiv>
     )
 }
@@ -41,7 +45,7 @@ export const formatNEAR = (amount) => {
 const showInYocto = (amountStr) => {
     const amount = new BN(amountStr)
     if (amount.lte(YOCTO_NEAR_THRESHOLD)) {
-        return formatWithCommas(amountStr) + ' yocto&#9411;'
+        return formatWithCommas(amountStr) + ' yocto'
     }
 }
 

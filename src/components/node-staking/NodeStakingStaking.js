@@ -21,7 +21,7 @@ const NodeStakingStaking = ({ staking }) => (
             <Grid.Row key={`nodes-${i}`} as={Link} to='/staking' className='border-top node'>
                 <Grid.Column computer='12'>
                     <span className='color-black'>
-                        <b><Translate id='nodeStaking.staking.youAreStaking' />&#9411; 201,045.00</b>
+                        <b><Translate id='nodeStaking.staking.youAreStaking' />201,045.00 &#9411;</b>
                     </span>
                     <br/>
                     <span className='font-small'>

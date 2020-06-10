@@ -62,8 +62,8 @@
         "createAccount": "Creating Account: ${receiverId}",
         "deployContract": "Deploying Contract: ${receiverId}",
         "functionCall": "Calling function: ${methodName}",
-        "transfer": "Transferring: ${deposit}&#9411; to ${receiverId}",
-        "stake": "Staking: ${stake}&#9411; ${publicKey}...",
+        "transfer": "Transferring: ${deposit} &#9411; to ${receiverId}",
+        "stake": "Staking: ${stake} &#9411; ${publicKey}...",
         "addKey": "Adding access key",
         "deleteKey": "Deleting access key",
         "deleteAccount": "Deleting account: ${receiverId}"
