@@ -42,7 +42,6 @@ const RecoverAccountSeedPhraseForm = ({
                             value={seedPhrase}
                             required
                             tabIndex='2'
-                            pattern='[a-zA-Z ]*'
                             style={{ width: '100%' }}
                         />
                     )}

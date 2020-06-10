@@ -6,7 +6,7 @@ import styled, { ThemeProvider } from 'styled-components'
 import { Route, Switch } from 'react-router-dom'
 import { ConnectedRouter } from 'connected-react-router'
 import { withLocalize } from 'react-localize-redux';
-
+import ScrollToTop from '../utils/ScrollToTop'
 import translations_en from '../translations/en.global.json'
 import translations_cn from '../translations/cn.global.json'
 import GlobalAlert from './responsive/GlobalAlert'
@@ -23,6 +23,7 @@ import { RecoverAccountWithRouter } from './accounts/RecoverAccount'
 import { RecoverAccountSeedPhraseWithRouter } from './accounts/RecoverAccountSeedPhrase'
 import { RecoverWithLinkWithRouter } from './accounts/RecoverWithLink'
 import { LoginWithRouter } from './login/Login'
+import { LoginCliLoginSuccess } from './login/LoginCliLoginSuccess'
 import { ContactsWithRouter } from './contacts/Contacts'
 import { AuthorizedAppsWithRouter } from './access-keys/AccessKeys'
 import { FullAccessKeysWithRouter } from './access-keys/AccessKeys'
@@ -107,6 +108,7 @@ class Routing extends Component {
                 <GlobalStyle />
                 <ConnectedRouter basename={PATH_PREFIX}  history={this.props.history}>
                     <ThemeProvider theme={theme}>
+                        <ScrollToTop/>
                         <NetworkBanner/>
                         <Navigation/>
                         <GlobalAlert/>
@@ -205,6 +207,11 @@ class Routing extends Component {
                                     exact
                                     path='/staking'
                                     component={StakingWithRouter}
+                                />
+                                <Route
+                                    exact
+                                    path='/cli-login-success'
+                                    component={LoginCliLoginSuccess}
                                 />
                                 <PrivateRoute
                                     component={DashboardDetailWithRouter}

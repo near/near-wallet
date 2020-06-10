@@ -18,7 +18,6 @@ class SendMoney extends Component {
         step: 1,
         note: '',
         expandNote: false,
-        paramAccountId: false,
         accountId: '',
         amount: '',
         amountStatus: ''
@@ -39,14 +38,28 @@ class SendMoney extends Component {
                 }))
 
                 if (error) return
-
-                this.setState(() => ({
-                    paramAccountId: true
-                }))
             })
         } else {
             this.setState(() => ({
                 loader: false
+            }))
+        }
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        if (prevState.step !== this.state.step && prevState.step < this.state.step) {
+            window.scrollTo(0, 0);
+        }
+
+        if (prevProps.location.key !== this.props.location.key && this.state.step !== 1) {
+            this.props.clear()
+
+            this.setState(() => ({
+                step: 1,
+                note: '',
+                amount: '',
+                accountId: '',
+                successMessage: false
             }))
         }
     }
@@ -63,22 +76,12 @@ class SendMoney extends Component {
 
     handleCancelTransfer = () => {
         this.props.clear()
-
-        this.setState(() => ({
-            step: 1,
-            note: '',
-            amount: '',
-            accountId: '',
-            successMessage: false,
-            paramAccountId: false,
-        }))
-
-        this.props.history.push('/send-money')
+        this.props.history.push('/')
     }
 
     handleNextStep = (e) => {
         e.preventDefault()
-        const { step, accountId, amount} = this.state;
+        const { step, accountId, amount } = this.state;
 
         if (step === 2) {
             this.setState(() => ({
@@ -125,11 +128,9 @@ class SendMoney extends Component {
     }
 
     isLegitForm = () => {
-        const { paramAccountId, amount, amountStatus } = this.state
+        const { amount, amountStatus } = this.state
         const { requestStatus } = this.props
-        return paramAccountId
-            ? ((amount) > 0 && amountStatus === '')
-            : (requestStatus && requestStatus.success && (amount) > 0 && amountStatus === '')
+        return requestStatus && requestStatus.success && (amount) > 0 && amountStatus === ''
     }
 
     render() {
@@ -149,6 +150,7 @@ class SendMoney extends Component {
                         clearRequestStatus={clear}
                         setFormLoader={setFormLoader}
                         stateAccountId={accountId}
+                        defaultAccountId={this.props.match.params.id || this.state.accountId}
                         {...this.state}
                     />
                 )}

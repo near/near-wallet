@@ -2,7 +2,7 @@ const KEY_WALLET_URL = 'wallet:url'
 
 export const loadState = () => {
     try {
-        return JSON.parse(sessionStorage.getItem(KEY_WALLET_URL))
+        return JSON.parse(sessionStorage.getItem(KEY_WALLET_URL)) || {}
     } catch(err) {
         console.warn(err)
     }

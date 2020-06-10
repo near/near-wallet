@@ -3,7 +3,8 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import accountIcon from '../../images/icon-account.svg';
 import arrowAuth from '../../images/icon-authorized.svg';
-import iconKeys from '../../images/icon-keys.svg'
+import iconKeys from '../../images/icon-keys.svg';
+import { Translate } from 'react-localize-redux';
 
 const Container = styled.div`
     display: flex;
@@ -53,9 +54,9 @@ const UserLink = styled(Link)`
 
 const UserLinks = ({ accountId }) => (
     <Container className='user-links'>
-        <UserLink icon={accountIcon} to={`/profile/${accountId}`}>Profile</UserLink>
-        <UserLink icon={arrowAuth} to='/authorized-apps'>Authorized Apps</UserLink>
-        <UserLink icon={iconKeys} to='/full-access-keys'>Full Access Keys</UserLink>
+        <UserLink icon={accountIcon} to={`/profile/${accountId}`}><Translate id='link.profile'/></UserLink>
+        <UserLink icon={arrowAuth} to='/authorized-apps'><Translate id='link.authorizedApps'/></UserLink>
+        <UserLink icon={iconKeys} to='/full-access-keys'><Translate id='link.fullAccessKeys'/></UserLink>
     </Container>
 )
 

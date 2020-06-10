@@ -6,9 +6,8 @@ const WAMP_NEAR_EXPLORER_TOPIC_PREFIX = process.env.WAMP_NEAR_EXPLORER_TOPIC_PRE
 
 const wamp = new Wampy(WAMP_NEAR_EXPLORER_URL, { realm: 'near-explorer' })
 
-export async function getTransactions(accountId = '') {
-    if (!this.accountId) return null
-    if (!accountId) accountId = this.accountId
+export async function getTransactions(accountId) {
+    if (!accountId) return {}
 
     const tx = await new Promise((resolve, reject) => wamp.call(
         `${WAMP_NEAR_EXPLORER_TOPIC_PREFIX}.select`,
@@ -45,11 +44,13 @@ export async function getTransactions(accountId = '') {
             }
         }
     ));
-    
-    return tx.map((t, i) => ({
-        ...t,
-        checkStatus: !(i && t.hash === tx[i - 1].hash)
-    }))
+
+    return {
+        [accountId]: tx.map((t, i) => ({
+            ...t,
+            checkStatus: !(i && t.hash === tx[i - 1].hash)
+        }))
+    }
 }
 
 export const transactionExtraInfo = (hash, signer_id) => wallet.connection.provider.sendJsonRpc('tx', [hash, signer_id])
