@@ -343,7 +343,7 @@ class Wallet {
         await sendJson('POST', `${ACCOUNT_HELPER_URL}/account/initializeRecoveryMethod`, {
             accountId,
             method,
-            ...(await wallet.signatureFor(accountId))
+            ...(await this.signatureFor(accountId))
         });
     }
 
@@ -352,16 +352,16 @@ class Wallet {
             accountId,
             method,
             securityCode,
-            ...(await wallet.signatureFor(accountId))
+            ...(await this.signatureFor(accountId))
         });
     }
 
     async getRecoveryMethods() {
         return {
-            accountId: wallet.accountId,
+            accountId: this.accountId,
             data: await sendJson('POST', `${ACCOUNT_HELPER_URL}/account/recoveryMethods`, {
-                accountId: wallet.accountId,
-                ...(await wallet.signatureFor(wallet.accountId))
+                accountId: this.accountId,
+                ...(await this.signatureFor(this.accountId))
         })}
     }
 
@@ -398,19 +398,19 @@ class Wallet {
             method,
             seedPhrase,
             publicKey,
-            ...(await wallet.signatureFor(accountId))
+            ...(await this.signatureFor(accountId))
         });
         await this.replaceAccessKey(method.publicKey, publicKey);
     }
 
-    async deleteRecoveryMethod(method) {
+    async deleteRecoveryMethod({ kind, publicKey }) {
         await sendJson('POST', `${ACCOUNT_HELPER_URL}/account/deleteRecoveryMethod`, {
-            accountId: wallet.accountId,
-            kind: method.kind,
-            publicKey: method.publicKey,
-            ...(await wallet.signatureFor(wallet.accountId))
+            accountId: this.accountId,
+            kind,
+            publicKey,
+            ...(await this.signatureFor(this.accountId))
         })
-        await this.removeAccessKey(method.publicKey)
+        await this.removeAccessKey(publicKey)
     }
 
     async recoverAccountSeedPhrase(seedPhrase, accountId) {
