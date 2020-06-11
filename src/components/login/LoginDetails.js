@@ -35,6 +35,15 @@ const CustomGrid = styled(Grid)`
             padding: 12px 0px;
             border-bottom: 1px solid #e6e6e6;
 
+            ul {
+                padding-left: 20px;
+            }
+            
+            li {
+                color: #4a4f54;
+                padding: 5px 0;
+            }
+
             &.alert {
                 .content {
                     word-break: break-word;
@@ -140,25 +149,14 @@ class LoginDetails extends Component {
                                     <div className='title h3'>
                                         <Translate id='login.details.thisAllows' data={{ appTitle }} />
                                     </div>
-                                    <div className='details-subitem color-charcoal-grey'>
-                                        <div><Translate id='login.details.createNewAccounts' /></div>
-                                    </div>
-                                    <div className='details-subitem color-charcoal-grey'>
-                                        <div>
-                                        <Translate id='login.details.transferTokens' /></div>
-                                    </div>
-                                    <div className='details-subitem color-charcoal-grey'>
-                                        <div><Translate id='login.details.deploySmartContracts' /></div>
-                                    </div>
-                                    <div className='details-subitem color-charcoal-grey'>
-                                        <div><Translate id='login.details.callFunctions' /></div>
-                                    </div>
-                                    <div className='details-subitem color-charcoal-grey'>
-                                        <div><Translate id='login.details.stakeAndUnstake' /></div>
-                                    </div>
-                                    <div className='details-subitem color-charcoal-grey'>
-                                        <div><Translate id='login.details.createAndDeleteAccessKeys' /></div>
-                                    </div>
+                                    <ul>
+                                        <li><Translate id='login.details.createNewAccounts' /></li>
+                                        <li><Translate id='login.details.transferTokens' /></li>
+                                        <li><Translate id='login.details.deploySmartContracts' /></li>
+                                        <li><Translate id='login.details.callFunctions' /></li>
+                                        <li><Translate id='login.details.stakeAndUnstake' /></li>
+                                        <li><Translate id='login.details.createAndDeleteAccessKeys' /></li>
+                                    </ul>
                                 </div>
                             </div>
                         )}
