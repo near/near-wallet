@@ -94,7 +94,7 @@ class SetupRecoveryMethod extends Component {
 
     handleNext = () => {
         const { option } = this.state;
-        
+
         if (option === 'email' || option === 'phone') {
             this.handleSendCode()
             window.scrollTo(0, 0);
@@ -123,7 +123,7 @@ class SetupRecoveryMethod extends Component {
     }
 
     handleSetupRecoveryMethod = (securityCode) => {
-        const  { accountId, setupRecoveryMessage, redirectToApp, url, history } = this.props;
+        const  { accountId, setupRecoveryMessage, redirectToApp } = this.props;
 
         setupRecoveryMessage(accountId, this.method, securityCode)
             .then(({ error }) => {
