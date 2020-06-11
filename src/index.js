@@ -15,7 +15,10 @@ import createMiddleware from './middleware'
 
 import Routing from './components/Routing'
 
+import mixpanel from 'mixpanel-browser'
+
 initSentry();
+mixpanel.init("4a10180da7af8d6d0728154d535aa7bb", {'property_blacklist': ['$current_url']});
 
 const history = createBrowserHistory()
 

@@ -3,6 +3,7 @@ import { applyMiddleware, compose } from 'redux'
 import { routerMiddleware } from 'connected-react-router'
 
 import * as Sentry from '@sentry/browser';
+import mixpanel from 'mixpanel-browser';
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
 
@@ -50,17 +51,9 @@ const analyticsMiddleware = store => next => action => {
     if (action.type === 'ADD_ACCESS_KEY') {
         details['appTitle'] = action.meta.data.title
     }
-    if (window.gtag && ACTIONS_TO_TRACK.includes(action.type)) {
-        window.gtag('event', 'action', {
-            event_category: action.type,
-            event_label: JSON.stringify(action.type)
-        })
-    }
-    if (window.mixpanel) {
-        let property_blacklist = details.pathname.includes('recover-with-link') ? ['$current_url'] : [];
-        window.mixpanel.init("4a10180da7af8d6d0728154d535aa7bb", {'property_blacklist': property_blacklist});
-        window.mixpanel.track(action.type, details);
-    }
+
+    mixpanel.track(action.type, details);
+
     return next(action);
 }
 
