@@ -143,7 +143,7 @@ class RecoveryContainer extends Component {
                         </NoRecoveryMethod>
                     }
                 </Header>
-                {!loading &&
+                {this.props.recoveryMethods &&
                     <>
                         {activeMethods.map((method, i) =>
                             <ActiveMethod
@@ -168,7 +168,7 @@ class RecoveryContainer extends Component {
                 <SkeletonLoading 
                     height='50px'
                     number={3}
-                    show={loading}
+                    show={!this.props.recoveryMethods}
                 />
                 <Snackbar
                     theme='success'

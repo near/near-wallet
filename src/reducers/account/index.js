@@ -12,12 +12,14 @@ import {
     refreshUrl,
     refreshAccount,
     resetAccounts,
-    setFormLoader
+    setFormLoader,
+    loadRecoveryMethods
 } from '../../actions/account'
 
 const initialState = {
     formLoader: false,
     sentMessage: false,
+    recoveryMethods: {},
     actionsPending: []
 }
 
@@ -95,6 +97,13 @@ const url = handleActions({
     })
 }, initialState)
 
+const recoveryMethods = handleActions({
+    [loadRecoveryMethods]: (state, { payload }) => ({
+        ...state,
+        recoveryMethods: payload
+    })
+}, initialState)
+
 const account = handleActions({
     [refreshAccount]: (state, { error, payload, ready, meta }) => {
         if (!ready) {
@@ -146,5 +155,6 @@ export default reduceReducers(
     recoverCodeReducer,
     accessKeys,
     account,
-    url
+    url,
+    recoveryMethods
 )

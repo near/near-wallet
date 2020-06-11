@@ -178,6 +178,7 @@ class ActiveMethod extends Component {
                                 onChange={e => this.setState({ username: e.target.value })}
                                 autoComplete='off'
                                 spellCheck='false'
+                                disabled={deletingMethod}
                             />
                         )}
                     </Translate>
