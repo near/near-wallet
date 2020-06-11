@@ -87,7 +87,7 @@ export const redirectToProfile = () => (dispatch) => dispatch(push({ pathname: '
 export const redirectToApp = (fallback) => (dispatch, getState) => {
     const { account: { url }} = getState()
     dispatch(push({
-        pathname: (url && url.redirect_url) || fallback || '/',
+        pathname: (url && url.redirect_url !== '/' && url.redirect_url) || fallback || '/',
         search: (url && (url.success_url || url.public_key)) ? `?${stringify(url)}` : '',
         state: {
             globalAlertPreventClear: true
