@@ -128,12 +128,7 @@ class SetupRecoveryMethod extends Component {
         setupRecoveryMessage(accountId, this.method, securityCode)
             .then(({ error }) => {
                 if (error) return;
-
-                if (url && Object.entries(url).length !== 0) {
-                    redirectToApp();
-                } else {
-                    history.push(`/profile/${accountId}`)
-                }
+                redirectToApp('/profile');
             })
     }
 

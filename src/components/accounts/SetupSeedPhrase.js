@@ -73,12 +73,7 @@ class SetupSeedPhrase extends Component {
         addAccessKeySeedPhrase(accountId, contractName, publicKey)
             .then(({ error }) => {
                 if (error) return
-
-                if (url && Object.entries(url).length !== 0) {
-                    redirectToApp();
-                } else {
-                    history.push(`/profile/${accountId}`)
-                }
+                redirectToApp('/profile');
             })
     }
 
