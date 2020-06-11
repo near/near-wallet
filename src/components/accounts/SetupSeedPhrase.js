@@ -57,7 +57,7 @@ class SetupSeedPhrase extends Component {
     }
 
     handleSubmit = () => {
-        const { redirectToApp, url, history, accountId, addAccessKeySeedPhrase } = this.props
+        const { redirectToApp, accountId, addAccessKeySeedPhrase } = this.props
         const { seedPhrase, enterWord, wordId, publicKey } = this.state
         if (enterWord !== seedPhrase.split(' ')[wordId]) {
             this.setState(() => ({
