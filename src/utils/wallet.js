@@ -74,9 +74,10 @@ class Wallet {
                     // TODO: Use network ID
                     const client = await createClient()
                     const signature = await client.sign(message)
+                    const publicKey = await this.getPublicKey(accountId, networkId)
                     return {
                         signature,
-                        publicKey: await this.getPublicKey(accountId, networkId)
+                        publicKey
                     }
                 }
 
@@ -190,21 +191,35 @@ class Wallet {
             meta: { type }
         }) => permission === 'FullAccess' && type !== 'ledger')
 
-        // NOTE: This key isn't used to call actual contract method, just used to verify connection with account in private DB
-        const keyPair = KeyPair.fromRandom('ed25519')
-        await account.addKey(keyPair.getPublicKey(), this.accountId, '__wallet__metadata', '0') 
 
         const localAccessKey = await this.getLocalAccessKey(accessKeys)
+
+        const WALLET_METADATA_METHOD = '__wallet__metadata'
+        let newLocalKeyPair
+        if (!localAccessKey || (!localAccessKey.access_key.permission.FunctionCall ||
+                !localAccessKey.access_key.permission.FunctionCall.method_names.includes(WALLET_METADATA_METHOD))) {
+            // NOTE: This key isn't used to call actual contract method, just used to verify connection with account in private DB
+            newLocalKeyPair = KeyPair.fromRandom('ed25519')
+            await account.addKey(newLocalKeyPair.getPublicKey(), this.accountId, WALLET_METADATA_METHOD, '0')
+        }
+
         for (const { public_key } of keysToRemove) {
             if (localAccessKey && public_key === localAccessKey.public_key) {
                 continue;
             }
             await account.deleteKey(public_key)
         }
-        if (localAccessKey) {
-            await account.deleteKey(localAccessKey.public_key)
+        if (newLocalKeyPair) {
+            if (localAccessKey) {
+                await account.deleteKey(localAccessKey.public_key)
+            }
+            await this.keyStore.setKey(NETWORK_ID, this.accountId, newLocalKeyPair)
         }
-        this.keyStore.setKey(NETWORK_ID, this.accountId, keyPair)
+
+        const { data: recoveryMethods } =  await this.getRecoveryMethods();
+        for (const recoveryMethod of recoveryMethods) {
+            this.deleteRecoveryMethod(recoveryMethod)
+        }
     }
 
     async checkAccountAvailable(accountId) {

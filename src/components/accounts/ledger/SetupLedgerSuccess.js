@@ -12,14 +12,12 @@ const SetupLedgerSuccess = (props) => {
     const [nextStep, setNextStep] = useState('');
     const removingkeys = props.actionsPending.includes('REMOVE_NON_LEDGER_ACCESS_KEYS');
 
-    const handleConfirm = () => {
+    const handleConfirm = async () => {
         if (nextStep === 'keep') {
             goToProfile()
         } else if (nextStep === 'remove') {
-            props.removeNonLedgerAccessKeys()
-            .then(() => {
-                goToProfile()
-            })
+            await props.removeNonLedgerAccessKeys()
+            goToProfile()
         }
     }
 
