@@ -94,9 +94,11 @@
     },
 
     "selectAccountDropdown": {
-        "switchAccount": "Switch account",
+        "switchAccount": "Switch Sccount",
+        "selectAccount": "Select Account",
         "switchAccounthNotAllowed": "This app doesn't allow account changes",
-        "createAccount": "CREATE NEW ACCOUNT"
+        "createAccount": "Create New Account",
+        "noOtherAccounts": "You have no other accounts"
     },
 
     "recoverWithLink": {
