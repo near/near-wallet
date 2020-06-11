@@ -175,7 +175,7 @@ class Routing extends Component {
                                 />
                                 <PrivateRoute
                                     exact
-                                    path='/profile/:accountId'
+                                    path='/profile/:accountId?'
                                     component={Profile}
                                 />
                                 <PrivateRoute
