@@ -44,7 +44,8 @@ const ACTIONS_TO_TRACK = ['CREATE_NEW_ACCOUNT','ADD_ACCESS_KEY',
 
 const analyticsMiddleware = store => next => action => {
     let details = {
-        pathname: window.location.pathname,
+        pathname: !window.location.pathname.includes('recover-with-link') ? 
+            window.location.pathname : 'recover-with-link'
     }
     if (action.type === 'ADD_ACCESS_KEY') {
         details['appTitle'] = action.meta.data.title
@@ -56,6 +57,8 @@ const analyticsMiddleware = store => next => action => {
         })
     }
     if (window.mixpanel) {
+        let property_blacklist = details.pathname.includes('recover-with-link') ? ['$current_url'] : [];
+        window.mixpanel.init("4a10180da7af8d6d0728154d535aa7bb", {'property_blacklist': property_blacklist});
         window.mixpanel.track(action.type, details);
     }
     return next(action);
