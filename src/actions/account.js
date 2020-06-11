@@ -82,6 +82,8 @@ const checkContractId = () => async (dispatch, getState) => {
     }
 }
 
+export const redirectToProfile = () => (dispatch) => dispatch(push({ pathname: '/profile' }))
+
 export const redirectToApp = () => (dispatch, getState) => {
     const { account: { url }} = getState()
     dispatch(push({

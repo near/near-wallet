@@ -97,6 +97,7 @@ class SetupRecoveryMethod extends Component {
         
         if (option === 'email' || option === 'phone') {
             this.handleSendCode()
+            window.scrollTo(0, 0);
         } else if (option === 'phrase') {
             this.props.history.push(`/setup-seed-phrase/${this.props.accountId}`);
         }

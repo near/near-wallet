@@ -9,9 +9,9 @@ import RecoveryContainer from './Recovery/RecoveryContainer'
 import { LOADING, NOT_FOUND, useAccount } from '../../hooks/allAccounts'
 
 export function Profile({ match }) {
-    const { accountId } = match.params
-    const account = useAccount(accountId)
     const loginAccountId = useSelector(state => state.account.accountId)
+    const accountId = match.params.accountId || loginAccountId
+    const account = useAccount(accountId)
 
     if (account.__status === LOADING) {
         return <PageContainer title={<Translate id='profile.pageTitle.loading' />} />
