@@ -37,7 +37,7 @@ const CustomButton = styled(Button)`
             border-radius: 20px;
             letter-spacing: 0;
             padding: 0px 0px;
-            font-weight: 600;
+            font-weight: 500;
             
             font-size: 14px;
         }
@@ -65,12 +65,13 @@ const CustomButton = styled(Button)`
         &.blue {
             border-color: #0072ce;
             background: #0072ce;
+            text-transform: uppercase;
 
             :active,
             :hover,
             :focus {
-                border-color: #4096db;
-                background: #4096db;
+                border-color: #007fe6;
+                background: #007fe6;
             }
             :disabled {
                 background: #e6e6e6;
@@ -154,6 +155,7 @@ const CustomButton = styled(Button)`
             color: #cccccc;
             border-color: #cccccc;
             background: #fff;
+            text-transform: uppercase;
 
             :disabled {
                 border-color: #e6e6e6;
@@ -166,6 +168,23 @@ const CustomButton = styled(Button)`
                 color: #fff;
                 border-color: #cccccc;
                 background: #cccccc;
+            }
+        }
+        &.gray-red {
+            color: #FF585D;
+            border: none;
+            background-color: #f8f8f8;
+
+            :hover,
+            :active,
+            :focus {
+                color: #fff;
+                background-color: #FF585D;
+            }
+
+            :disabled {
+                background-color: #CCCCCC;
+                color: white;
             }
         }
         &.gray-blue {
@@ -228,6 +247,7 @@ const CustomButton = styled(Button)`
             color: #fff;
             border-color: #cccccc;
             background-color: #cccccc;
+            cursor: default;
 
             :active,
             :hover,
@@ -327,13 +347,16 @@ const FormButton = ({
     disabled = false,
     onClick,
     sending = false,
+    sendingString,
     size,
     linkTo,
     history,
-    className
+    className,
+    id
 }) => (
     <CustomButton
         type={type}
+        id={id}
         className={classNames([color, size, className, {'dots': sending}])}
         disabled={disabled}
         onClick={(e) => {
@@ -343,7 +366,7 @@ const FormButton = ({
         tabIndex='3'
     >
         {sending
-            ? <Translate id='sending' />
+            ? <Translate id={sendingString ? sendingString : 'sending'} />
             : children
         }
     </CustomButton>

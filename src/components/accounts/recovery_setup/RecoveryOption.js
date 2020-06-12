@@ -6,7 +6,7 @@ import PhoneIcon from '../../svg/PhoneIcon';
 import PhraseIcon from '../../svg/PhraseIcon';
 import { Translate } from 'react-localize-redux';
 import IntFlagIcon from '../../../images/int-flag-small.svg';
-import classNames from '../../../utils/classNames'
+import classNames from '../../../utils/classNames';
 
 const Container = styled.div`
     background-color: #F8F8F8;
@@ -109,6 +109,11 @@ const Container = styled.div`
             font-size: 16px;
         }
     }
+
+    &.disabled {
+        opacity: 0.3;
+        cursor: not-allowed;
+    }
 `
 
 const Header = styled.div`
@@ -154,10 +159,17 @@ const RecoveryOption = ({
     option,
     onClick,
     active,
+    disabled,
     problem
 }) => {
+
+    active = active === option;
+
     return (
-        <Container onClick={onClick} className={classNames([{'active': active}, {'inputProblem': problem}])}>
+        <Container 
+            onClick={!disabled ? onClick : undefined} 
+            className={classNames([{active: active && !disabled, disabled, inputProblem: problem}])}
+        >
             <Header>
                 <Icon option={option}/>
                 <Title>
@@ -165,7 +177,7 @@ const RecoveryOption = ({
                     {active && option !== 'phrase' && <span>*</span>}
                 </Title>
             </Header>
-            {active && children}
+            {!disabled && active && children}
         </Container>
     )
 }
@@ -177,7 +189,7 @@ RecoveryOption.propTypes = {
     ]),
     option: PropTypes.string.isRequired,
     onClick: PropTypes.func.isRequired,
-    active: PropTypes.bool.isRequired,
+    active: PropTypes.string.isRequired,
     problem: PropTypes.bool
 }
 

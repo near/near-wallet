@@ -29,6 +29,10 @@
             "success": "Seed phrase recovery setup is complete.",
             "error": "An error occurred while setting up seed phrase recovery. Please try again!"
         },
+        "setupRecoveryMessage": {
+            "success": "Recovery setup is complete.",
+            "error": "An error occurred while setting up your recovery method. Please try again!"
+        },
         "login": {
             "success": "${title} is now authorized to use your account.",
             "error": "An error occurred while approving this action. Please try again!",
@@ -128,6 +132,22 @@
         "disableNo": "No, keep",
         "recoveryLinkSent": "Recovery Link Sent!"
     },
+
+    "hardwareDevices": {
+        "title": "Hardware Devices",
+        "desc": "Improve the security of your account by entrusting your keys to a hardware wallet.",
+        "ledger": {
+            "title": "Ledger Hardware Wallet",
+            "auth": "Authorized",
+            "disclaimer": "In order to disable your ledger device, you must first enable an alternative recovery method."
+        },
+        "disable": {
+            "title": "Are you sure you want to disable Ledger?",
+            "desc": "Make sure you have other recovery methods setup before disabling.",
+            "disable": "Disable Ledger",
+            "keep": "No, keep Ledger"
+        }
+    },
     
     "fullAccessKeys": {
         "pageTitle": "Full Access Keys",
@@ -156,7 +176,8 @@
         "createAccount": "Create account",
         "enable": "Enable",
         "disable": "Disable",
-        "connectLedger": "Connect Ledger",
+        "connectLedger": "Connect to Ledger",
+        "retry": "Retry",
         "browseApps": "BROWSE APPS",
         "createAccountCapital": "CREATE ACCOUNT",
         "findMyAccount": "FIND MY ACCOUNT",
@@ -165,7 +186,7 @@
         "confirm": "CONFIRM",
         "viewAll": "VIEW ALL",
         "send": "SEND",
-        "cancel": "CANCEL",
+        "cancel": "Cancel",
         "deny": "DENY",
         "allow": "ALLOW",
         "addNode": "ADD NODE",
@@ -182,7 +203,8 @@
         "recoverAccount": "RECOVER ACCOUNT",
         "goBack": "Go back",
         "createNewAccount": "CREATE NEW ACCOUNT",
-        "moreInformation": "More information"
+        "moreInformation": "More information",
+        "dismiss": "Dismiss"
     },
 
     "link": {
@@ -503,7 +525,52 @@
     "amount": "amount",
     "or": "OR",
     "sending": "SENDING",
+    "removingKeys": "Removing Keys",
+    "connecting": "Connecting",
     "back": "Back",
     "of": "of",
-    "ofTotal": "of Total"
+    "ofTotal": "of Total",
+
+    "setupLedger": {
+        "header": "Connect your Ledger device",
+        "one": "To enable a Ledger hardware wallet to maintain custody of your account, connect your Ledger device to your computer and open the NEAR app.",
+        "two": "If you have not yet installed the NEAR application on your device, follow",
+        "twoLink": "these instructions"
+    },
+
+    "setupLedgerSteps": {
+        "header": "Install NEAR on your Ledger device",
+        "one": "Open <a href='https://www.ledger.com/ledger-live' target='_blank'>Ledger Live</a> and navigate to your <span class='color-black'>Settings</span>.",
+        "two": "Under <span class='color-black'>Experimental Features</span>, make sure that <span class='color-black'>Developer Mode</span> is switched <span class='color-black'>on</span>.",
+        "three": "Return to the <span class='color-black'>Manager</span> tab and search for <span class='color-black'>NEAR</span>.",
+        "four": "Follow the instructions to install the <span class='color-black'>NEAR application</span> on your device."
+    },
+
+    "setupLedgerSuccess": {
+        "header": "Ledger has secured your account!",
+        "one": "We recommend that you remove all existing keys (recovery methods and devices).",
+        "two": "Maintaining multiple keys increases the vulnerability of your account.",
+        "primaryCta": "Remove Existing Keys",
+        "secondaryCta": "Keep existing keys",
+        "nextStep": {
+            "header": {
+                "remove": "Confirm key removal",
+                "keep": "Keep existing keys?"
+            },
+            "one": {
+                "remove": "Before removing your existing keys, make sure that you have recorded and securely stored your Ledger seed phrase.",
+                "keep": "<span class='color-red'>Maintaining multiple recovery methods and devices increases the vulnerability of your account.</span>"
+            },
+            "two": {
+                "remove": "If you lose access to your seed phrase, NEAR Inc. will be unable to assist you in recovery of your account and its funds."
+            }
+        }
+    },
+
+    "errors": {
+        "ledger": {
+            "U2FNotSupported": "U2F browser support is needed for Ledger. Please use Chrome, Opera or Firefox with a U2F extension. Also make sure you're on an HTTPS connection.",
+            "U2F_4": "Failed to sign with Ledger device: U2F DEVICE_INELIGIBLE. Please make sure that your Ledger device is connected and unlocked."
+        }
+    }
 }

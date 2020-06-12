@@ -158,9 +158,6 @@ class AccessKeys extends Component {
                             />
                         )) : <AccessKeysEmpty />)}
                 </PaginationBlock>
-                <FormButton onClick={() => this.props.addLedgerAccessKey(this.props.accountId).then(() => this.props.getAccessKeys()) }>
-                    <Translate id='button.connectLedger' />
-                </FormButton>
             </PageContainer>
         )
     }

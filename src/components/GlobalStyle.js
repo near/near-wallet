@@ -47,6 +47,9 @@ export default createGlobalStyle`
     .link {
         color: #0072ce;
         cursor: pointer;
+        background-color: transparent;
+        outline: none;
+        border: 0;
 
         @media (min-width: 768px) {
             &:hover {
@@ -57,10 +60,22 @@ export default createGlobalStyle`
 
     h1, .h1 {
         font-family: BwSeidoRound !important;
-        font-size: 48px !important;
         font-weight: 500 !important;
-        line-height: 100px;
         color: #24272a;
+        font-size: calc(28px + (40 - 28) * ((100vw - 300px) / (1600 - 300)));
+        word-wrap: break-word;
+
+        @media (max-width: 300px) {
+            h1 {
+                font-size: 28px;
+            }
+        }
+
+        @media (min-width: 1600px) {
+            h1 {
+                font-size: 40px;
+            }
+        }
     }
     h2, .h2 {
         font-family: BwSeidoRound !important;
@@ -109,6 +124,10 @@ export default createGlobalStyle`
 
     .font-benton {
         font-family: "benton-sans",sans-serif !important;
+    }
+
+    .font-rounded {
+        font-family: BwSeidoRound !important;
     }
 
     .font-small {
@@ -215,7 +234,6 @@ export default createGlobalStyle`
         font-weight: 600 !important;
     }
 
-
     .color-seafoam-blue {
         color: #6ad1e3 !important;
     }
@@ -287,9 +305,9 @@ export default createGlobalStyle`
     .button {
         font-family: "benton-sans",sans-serif !important;
         line-height: normal !important;
+        cursor: pointer;
+        outline: none;
     }
-   
-
 
     .box {
         border: 2px solid #e6e6e6;
@@ -399,7 +417,6 @@ export default createGlobalStyle`
         h1, .h1 {
             font-size: 28px !important;
             font-weight: 500;
-            line-height: 50px;
             color: #24272a;
         }
         h2, .h2 {

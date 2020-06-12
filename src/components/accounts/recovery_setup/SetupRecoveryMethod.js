@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { Translate } from 'react-localize-redux';
 import PhoneInput, { isValidPhoneNumber } from 'react-phone-number-input';
 import { validateEmail } from '../../../utils/account';
-import { initializeRecoveryMethod, setupRecoveryMessage, redirectToApp } from '../../../actions/account';
+import { initializeRecoveryMethod, setupRecoveryMessage, redirectToApp, loadRecoveryMethods } from '../../../actions/account';
 import RecoveryOption from './RecoveryOption';
 import FormButton from '../../common/FormButton';
 import SetupRecoveryMethodSuccess from './SetupRecoveryMethodSuccess';
@@ -53,7 +53,28 @@ class SetupRecoveryMethod extends Component {
         email: '',
         success: false,
         emailInvalid: false,
-        phoneInvalid: false
+        phoneInvalid: false,
+        activeMethods: []
+    }
+
+    componentDidMount() {
+        const { loadRecoveryMethods, accountId, router, recoveryMethods } = this.props;
+        const { method } = router.location;
+
+        if (method) {
+            this.setState({ option: method });
+        }
+
+        if (recoveryMethods[accountId]) {
+            const confirmed = recoveryMethods[accountId].filter(method => method.confirmed)
+            this.setState({ activeMethods: confirmed.map(method => method.kind) });
+        } else {
+            loadRecoveryMethods(accountId)
+                .then(({ payload }) => {
+                    const confirmed = payload.data.filter(method => method.confirmed);
+                    this.setState({ activeMethods: confirmed.map(method => method.kind) });
+                })
+        }
     }
 
     get isValidInput() {
@@ -74,14 +95,12 @@ class SetupRecoveryMethod extends Component {
     handleNext = () => {
         const { option } = this.state;
 
-        if (option === 'phone' || option === 'email') {
-            this.handleSendCode();
+        if (option === 'email' || option === 'phone') {
+            this.handleSendCode()
             window.scrollTo(0, 0);
-        } else {
-            let phraseUrl = `/setup-seed-phrase/${this.props.accountId}`;
-            this.props.history.push(phraseUrl);
+        } else if (option === 'phrase') {
+            this.props.history.push(`/setup-seed-phrase/${this.props.accountId}`);
         }
-
     }
 
     get method() {
@@ -109,8 +128,7 @@ class SetupRecoveryMethod extends Component {
         setupRecoveryMessage(accountId, this.method, securityCode)
             .then(({ error }) => {
                 if (error) return;
-
-                redirectToApp();
+                redirectToApp('/profile');
             })
     }
 
@@ -135,8 +153,8 @@ class SetupRecoveryMethod extends Component {
     }
 
     render() {
-
-        const { option, phoneNumber, email, success, emailInvalid, phoneInvalid } = this.state;
+        const { option, phoneNumber, email, success, emailInvalid, phoneInvalid, activeMethods } = this.state;
+        const { actionsPending } = this.props;
 
         if (!success) {
             return (
@@ -148,7 +166,8 @@ class SetupRecoveryMethod extends Component {
                     <RecoveryOption
                         onClick={() => this.setState({ option: 'email' })}
                         option='email'
-                        active={option === 'email'}
+                        active={option}
+                        disabled={activeMethods.includes('email')}
                         problem={option === 'email' && emailInvalid}
                     >
                         <Translate>
@@ -167,7 +186,8 @@ class SetupRecoveryMethod extends Component {
                     <RecoveryOption
                         onClick={() => this.setState({ option: 'phone' })}
                         option='phone'
-                        active={option === 'phone'}
+                        active={option}
+                        disabled={activeMethods.includes('phone')}
                         problem={option === 'phone' && phoneInvalid}
                     >
                         <Translate>
@@ -187,13 +207,14 @@ class SetupRecoveryMethod extends Component {
                     <RecoveryOption
                         onClick={() => this.setState({ option: 'phrase' })}
                         option='phrase'
-                        active={option === 'phrase'}
+                        active={option}
+                        disabled={activeMethods.includes('phrase')}
                     />
                     <FormButton
                         color='blue'
                         type='submit'
                         disabled={!this.isValidInput}
-                        sending={this.props.formLoader}
+                        sending={actionsPending.includes('INITIALIZE_RECOVERY_METHOD')}
                     >
                         <Translate id={`button.${option !== 'phrase' ? 'protectAccount' : 'setupPhrase'}`}/>
                     </FormButton>
@@ -207,7 +228,7 @@ class SetupRecoveryMethod extends Component {
                     email={email}
                     onConfirm={this.handleSetupRecoveryMethod}
                     onGoBack={this.handleGoBack}
-                    loading={this.props.formLoader}
+                    loading={actionsPending.includes('SETUP_RECOVERY_MESSAGE')}
                     requestStatus={this.props.requestStatus}
                 />
             )
@@ -218,12 +239,15 @@ class SetupRecoveryMethod extends Component {
 const mapDispatchToProps = {
     setupRecoveryMessage,
     redirectToApp,
+    loadRecoveryMethods,
     initializeRecoveryMethod
 }
 
-const mapStateToProps = ({ account }, { match }) => ({
+const mapStateToProps = ({ account, router, recoveryMethods }, { match }) => ({
     ...account,
-    accountId: match.params.accountId
+    router,
+    accountId: match.params.accountId,
+    recoveryMethods
 })
 
 export const SetupRecoveryMethodWithRouter = connect(mapStateToProps, mapDispatchToProps)(SetupRecoveryMethod);
