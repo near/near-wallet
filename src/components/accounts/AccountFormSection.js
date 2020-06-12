@@ -61,6 +61,10 @@ const CustomForm = styled(Form)`
                 }
             }
         }
+        .seed-phrase-header {
+            margin-top: 0px;
+            padding-top: 1rem;
+        }
 
         .react-phone-number-input__phone {
             padding-left: 34px !important;

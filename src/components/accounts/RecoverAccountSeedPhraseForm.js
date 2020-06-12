@@ -32,7 +32,7 @@ const RecoverAccountSeedPhraseForm = ({
                     setFormLoader={setFormLoader}
                 />
 
-                <Header as='h4'><Translate id='recoverSeedPhrase.seedPhraseInput.title' /></Header>
+                <Header as='h4' className='seed-phrase-header'><Translate id='recoverSeedPhrase.seedPhraseInput.title' /></Header>
                 <Translate>
                     {({ translate }) => (
                         <Input
