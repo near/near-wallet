@@ -91,7 +91,7 @@ class CreateAccount extends Component {
         }
     }
 
-    handleCreateAccount = () => {
+    handleCreateAccount = async () => {
         const { accountId, token } = this.state;
         const { match, createNewAccount, setFormLoader } = this.props
 
@@ -100,17 +100,14 @@ class CreateAccount extends Component {
 
         this.setState({ loader: true });
         
-        createNewAccount(accountId, fundingKey, fundingContract, token)
-            .then(({ error, payload }) => {
-                if (error) {
-                    this.setState({ loader: false });
-                    return;
-                }
-
-                this.handleCreateAccountSuccess();
-            });
+        try {
+            await createNewAccount(accountId, fundingKey, fundingContract, token)
+        } finally {
+            this.setState({ loader: false });
+            setFormLoader(false)
+        }
         
-        setFormLoader(false)
+        this.handleCreateAccountSuccess();
     }
 
     handleCreateAccountSuccess = () => {
