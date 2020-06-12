@@ -17,7 +17,8 @@ class RecoverAccountSeedPhrase extends Component {
 
     // TODO: Use some validation framework?
     validators = {
-        seedPhrase: value => true // TODO validate seed phrase
+        accountId: value => this.props.requestStatus && this.props.requestStatus.success,
+        seedPhrase: value => value.length // TODO validate seed phrase
     }
 
     get isLegit() {
