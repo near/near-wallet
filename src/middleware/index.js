@@ -48,7 +48,7 @@ if (process.env.MIXPANEL_TOKEN) {
 }
 
 const analyticsMiddleware = store => next => action => {
-    let details = {
+    const details = {
         pathname: !window.location.pathname.includes('recover-with-link') ? 
             window.location.pathname : 'recover-with-link'
     }
