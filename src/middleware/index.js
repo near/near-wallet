@@ -2,8 +2,8 @@ import thunk from 'redux-thunk'
 import { applyMiddleware, compose } from 'redux'
 import { routerMiddleware } from 'connected-react-router'
 
-import * as Sentry from '@sentry/browser';
-import mixpanel from 'mixpanel-browser';
+import * as Sentry from '@sentry/browser'
+import mixpanel from 'mixpanel-browser'
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
 
