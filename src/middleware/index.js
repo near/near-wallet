@@ -30,11 +30,15 @@ const readyStatePromise = store => next => action => {
 
     next(makeAction(false))
     return action.payload.then(
-        payload => next(makeAction(true, { payload })),
+        payload => {
+            next(makeAction(true, { payload }))
+            return payload
+        },
         error => {
             console.warn('Error in background action:', error)
             Sentry.captureException(error);
-            return next(makeAction(true, { error: true, payload: error }))
+            next(makeAction(true, { error: true, payload: error }))
+            throw error
         }
     )
 }
