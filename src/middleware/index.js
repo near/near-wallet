@@ -49,12 +49,6 @@ const analyticsMiddleware = store => next => action => {
     if (action.type === 'ADD_ACCESS_KEY') {
         details['appTitle'] = action.meta.data.title
     }
-    if (window.gtag && ACTIONS_TO_TRACK.includes(action.type)) {
-        window.gtag('event', 'action', {
-            event_category: action.type,
-            event_label: JSON.stringify(action.type)
-        })
-    }
     if (window.mixpanel) {
         window.mixpanel.track(action.type, details);
     }
