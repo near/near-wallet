@@ -155,10 +155,11 @@ export const { initializeRecoveryMethod, validateSecurityCode, setupRecoveryMess
     CLEAR_CODE: null
 })
 
-export const { getAccessKeys, removeAccessKey, addLedgerAccessKey } = createActions({
+export const { getAccessKeys, removeAccessKey, addLedgerAccessKey, removeNonLedgerAccessKeys } = createActions({
     GET_ACCESS_KEYS: [wallet.getAccessKeys.bind(wallet), () => ({})],
     REMOVE_ACCESS_KEY: [wallet.removeAccessKey.bind(wallet), () => ({})],
-    ADD_LEDGER_ACCESS_KEY: [wallet.addLedgerAccessKey.bind(wallet), () => ({})],
+    ADD_LEDGER_ACCESS_KEY: [wallet.addLedgerAccessKey.bind(wallet), () => defaultCodesFor('errors.ledger')],
+    REMOVE_NON_LEDGER_ACCESS_KEYS: [wallet.removeNonLedgerAccessKeys.bind(wallet), () => ({})],
 })
 
 export const { addAccessKey, addAccessKeySeedPhrase, clearAlert } = createActions({

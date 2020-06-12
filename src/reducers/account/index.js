@@ -43,7 +43,7 @@ const globalAlertReducer = handleActions({
         globalAlert: !!payload || error ? {
             success: !error,
             errorMessage: (error && payload && payload.toString()) || undefined,
-            messageCode: error ? payload.messageCode || meta.errorCode : meta.successCode,
+            messageCode: error ? payload.messageCode || meta.errorCode || payload.id : meta.successCode,
             data: meta.data
         } : undefined
     }),
@@ -59,7 +59,8 @@ const requestResultReducer = (state, { error, payload, meta }) => {
         requestStatus: !!payload || error ? {
             success: !error,
             errorMessage: (error && payload && payload.toString()) || undefined,
-            messageCode: error ? payload.messageCode || meta.errorCode : meta.successCode 
+            messageCode: error ? payload.messageCode || meta.errorCode : meta.successCode,
+            id: payload.id || undefined
         } : undefined
     }
 }

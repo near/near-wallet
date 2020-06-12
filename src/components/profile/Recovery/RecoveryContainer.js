@@ -32,7 +32,7 @@ const Container = styled.div`
     button, a {
         font-size: 14px;
         width: 100px;
-        font-weight: 600;
+        font-weight: 500;
         height: 40px;
         letter-spacing: 0.5px;
     }
@@ -42,10 +42,7 @@ const Header = styled.div`
     padding: 20px !important;
 `
 
-const Title = styled.div`
-    font-family: BwSeidoRound;
-    color: #24272a;
-    font-size: 22px;
+const Title = styled.h2`
     display: flex;
     align-items: center;
 
@@ -56,7 +53,7 @@ const Title = styled.div`
         height: 28px;
         display: inline-block;
         margin-right: 10px;
-        margin-top: -2px;
+        margin-top: -3px;
     }
 `
 

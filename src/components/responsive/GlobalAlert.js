@@ -113,29 +113,40 @@ const CustomMessage = styled(Message)`
     }
 `
 
-const GlobalAlert = ({ globalAlert, clearAlert, closeIcon = true }) => (
-    globalAlert ?
-        <Container>
-            <CustomMessage icon className={globalAlert.success ? 'success' : 'error'}>
-                {closeIcon && (
-                    <Image
-                        onClick={clearAlert}
-                        src={CloseImage}
-                        className='close white'
-                    />
-                )}
-                {globalAlert && 
-                    <Image className='left' src={globalAlert.success ? IconCheckImage : IconsProblemImage} />}
-                <Message.Content>
-                    <Message.Header>
-                        <Translate id={globalAlert.messageCodeHeader || (globalAlert.success ? 'success' : 'error')} />
-                    </Message.Header>
-                    <Translate id={globalAlert.messageCode} data={globalAlert.data} />
-                </Message.Content>
-            </CustomMessage>
-        </Container>
-    : null
-)
+const GlobalAlert = ({ globalAlert, clearAlert, closeIcon = true }) => {
+
+    const onMissingTranslation = () => {
+        if (!globalAlert.success) {
+            return 'Sorry an error has occurred. You may want to try again.';
+        }
+    };
+
+    if (globalAlert) {
+        return (
+            <Container>
+                <CustomMessage icon className={globalAlert.success ? 'success' : 'error'}>
+                    {closeIcon && (
+                        <Image
+                            onClick={clearAlert}
+                            src={CloseImage}
+                            className='close white'
+                        />
+                    )}
+                    {globalAlert &&
+                        <Image className='left' src={globalAlert.success ? IconCheckImage : IconsProblemImage} />}
+                    <Message.Content>
+                        <Message.Header>
+                            <Translate id={globalAlert.messageCodeHeader || (globalAlert.success ? 'success' : 'error')} />
+                        </Message.Header>
+                        <Translate id={globalAlert.messageCode} data={globalAlert.data} options={{ onMissingTranslation }} />
+                    </Message.Content>
+                </CustomMessage>
+            </Container>
+        )
+    } else {
+        return null;
+    }
+}
 
 const mapDispatchToProps = {
     clearAlert

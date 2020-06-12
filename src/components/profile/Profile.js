@@ -6,6 +6,7 @@ import PageContainer from '../common/PageContainer';
 import ProfileDetails from './ProfileDetails'
 import ProfileSection from './ProfileSection'
 import RecoveryContainer from './Recovery/RecoveryContainer'
+import HardwareDevices from './hardware_devices/HardwareDevices'
 import { LOADING, NOT_FOUND, useAccount } from '../../hooks/allAccounts'
 
 export function Profile({ match }) {
@@ -28,6 +29,7 @@ export function Profile({ match }) {
                 {accountId === loginAccountId && (
                     <RecoveryContainer />
                 )}
+                <HardwareDevices/>
             </ProfileSection>
         </PageContainer>
     )
