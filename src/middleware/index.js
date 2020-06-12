@@ -2,7 +2,8 @@ import thunk from 'redux-thunk'
 import { applyMiddleware, compose } from 'redux'
 import { routerMiddleware } from 'connected-react-router'
 
-import * as Sentry from '@sentry/browser';
+import * as Sentry from '@sentry/browser'
+import mixpanel from 'mixpanel-browser'
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
 
@@ -42,6 +43,10 @@ const readyStatePromise = store => next => action => {
 const ACTIONS_TO_TRACK = ['CREATE_NEW_ACCOUNT','ADD_ACCESS_KEY', 
 'SETUP_ACCOUNT_RECOVERY', 'RECOVER_ACCOUNT','REMOVE_ACCESS_KEY']
 
+if (process.env.MIXPANEL_TOKEN) {
+    mixpanel.init(process.env.MIXPANEL_TOKEN)
+}
+
 const analyticsMiddleware = store => next => action => {
     let details = {
         pathname: window.location.pathname,
@@ -49,8 +54,8 @@ const analyticsMiddleware = store => next => action => {
     if (action.type === 'ADD_ACCESS_KEY') {
         details['appTitle'] = action.meta.data.title
     }
-    if (window.mixpanel) {
-        window.mixpanel.track(action.type, details);
+    if (process.env.MIXPANEL_TOKEN) {
+        mixpanel.track(action.type, details);
     }
     return next(action);
 }
