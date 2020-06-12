@@ -21,7 +21,7 @@ const RecoverAccountSeedPhraseForm = ({
 }) => (
         <Container>
             <Fragment>
-                <Header as='h3'><Translate id='recoverSeedPhrase.accountIdInput.title' /></Header>
+                <Header as='h4'><Translate id='recoverSeedPhrase.accountIdInput.title' /></Header>
                 <AccountFormAccountId
                     formLoader={formLoader}
                     handleChange={handleChange}
@@ -32,7 +32,7 @@ const RecoverAccountSeedPhraseForm = ({
                     setFormLoader={setFormLoader}
                 />
 
-                <Header as='h3'><Translate id='recoverSeedPhrase.seedPhraseInput.title' /></Header>
+                <Header as='h4'><Translate id='recoverSeedPhrase.seedPhraseInput.title' /></Header>
                 <Translate>
                     {({ translate }) => (
                         <Input
