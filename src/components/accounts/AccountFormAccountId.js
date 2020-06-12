@@ -172,7 +172,9 @@ class AccountFormAccountId extends Component {
                     ? this.accountIdLengthRequestStatus
                     : this.checkSameAccount()
                         ? this.sameAccountRequestStatus
-                        : this.props.requestStatus
+                        : this.checkInvalidSeedPhrase()
+                            ? this.invalidSeedPhraseRequestStatus
+                            : this.props.requestStatus
             : null
     )
 
