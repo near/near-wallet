@@ -81,10 +81,13 @@ const HardwareDevices = () => {
     const account = useSelector(({ account }) => account);
     const recoveryMethods = useRecoveryMethods(account.accountId);
 
-    const keys = account.fullAccessKeys;
-    const ledgerKey = keys && keys.find(key => key.meta.type === 'ledger');
+    const keys = account.fullAccessKeys || [];
+    const ledgerKey = keys.find(key => key.meta.type === 'ledger');
     const hasLedger = !!ledgerKey
-    const hasOtherMethods = recoveryMethods && recoveryMethods.some(method => method.confirmed);
+
+    const recoveryKeys = recoveryMethods.map(key => key.publicKey)
+    const publicKeys = keys.map(key => key.public_key)
+    const hasOtherMethods = publicKeys.some(key => recoveryKeys.includes(key))
 
     useEffect(() => { 
         dispatch(getAccessKeys())
@@ -92,7 +95,6 @@ const HardwareDevices = () => {
 
     const handleConfirmDisable = async () => {
         setDisabling(true);
-        // TODO: Check if there is existing local full access key, add it if needed before disabling Ledger
         // TODO: Should move to explicit action to disable Ledger
         const { error } = await dispatch(removeAccessKey(ledgerKey.public_key))
         if (!error) {
