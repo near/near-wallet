@@ -11,6 +11,7 @@ import AccountFormContainer from './AccountFormContainer'
 
 class RecoverAccountSeedPhrase extends Component {
     state = {
+        loader: false,
         accountId: this.props.accountId,
         seedPhrase: this.props.seedPhrase
     }
@@ -43,9 +44,13 @@ class RecoverAccountSeedPhrase extends Component {
             return false
         }
 
+        this.setState({ loader: true });
+
         const accountId = this.state.accountId
         this.props.recoverAccountSeedPhrase(this.state.seedPhrase, accountId)
             .then(({ error }) => {
+                this.setState({ loader: false });
+
                 if (error) return
                 this.props.refreshAccount()
                 this.props.redirectToApp()
@@ -72,6 +77,7 @@ class RecoverAccountSeedPhrase extends Component {
                         checkAvailability={this.props.checkAccountAvailable}
                         clearRequestStatus={clear}
                         setFormLoader={this.props.setFormLoader}
+                        loader={this.state.loader}
                     />
                 </AccountFormSection>
             </AccountFormContainer>
