@@ -44,7 +44,7 @@ const ACTIONS_TO_TRACK = ['CREATE_NEW_ACCOUNT','ADD_ACCESS_KEY',
 'SETUP_ACCOUNT_RECOVERY', 'RECOVER_ACCOUNT','REMOVE_ACCESS_KEY']
 
 if (process.env.MIXPANEL_TOKEN) {
-    mixpanel.init(process.env.MIXPANEL_TOKEN)
+    mixpanel.init(process.env.MIXPANEL_TOKEN, {'property_blacklist': ['$current_url']})
 }
 
 const analyticsMiddleware = store => next => action => {
