@@ -7,6 +7,8 @@ import mixpanel from 'mixpanel-browser'
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
 
+const RECOVER_WITH_LINK_URL = 'recover-with-link'
+
 /**
  * Lets you dispatch special actions with a { promise } field.
  *
@@ -48,9 +50,9 @@ if (process.env.MIXPANEL_TOKEN) {
 }
 
 const analyticsMiddleware = store => next => action => {
-    const details = {
-        pathname: !window.location.pathname.includes('recover-with-link') ? 
-            window.location.pathname : 'recover-with-link'
+    let details = {
+        pathname: !window.location.pathname.includes(RECOVER_WITH_LINK_URL) ? 
+            window.location.pathname : RECOVER_WITH_LINK_URL
     }
     if (action.type === 'ADD_ACCESS_KEY') {
         details['appTitle'] = action.meta.data.title
