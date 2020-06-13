@@ -69,8 +69,8 @@ const AccountFormContainer = ({ location, title, text, children, wide, disclaime
         <Grid stackable>
           <Grid.Row columns={wide ? `1` : `2`} className='page-title'>
                 <Grid.Column computer={wide ? 16 : 9} tablet={wide ? 16 : 8} mobile={16}>
-                    <Header as='h1'>{title}</Header>
-                    <Header as='h2'>{text}</Header>
+                    <h1>{title}</h1>
+                    <h2>{text}</h2>
                     {location && loginResetAccounts && (
                         <Header as='h3' className='color-blue'>
                             You have been redirected to this page because we had to reset the developer accounts. Please create a new account. We apologize for the inconveience.
