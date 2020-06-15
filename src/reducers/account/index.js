@@ -3,8 +3,8 @@ import reduceReducers from 'reduce-reducers'
 
 import {
     requestCode,
+    setupRecoveryMessage,
     getAccessKeys,
-    getTransactions,
     clear,
     clearCode,
     addAccessKey,
@@ -40,12 +40,12 @@ const loaderReducer = (state, { type, ready }) => {
 const globalAlertReducer = handleActions({
     // TODO: Reset state before action somehow. On navigate / start of other action?
     // TODO: Make this generic to avoid listing actions
-    [combineActions(addAccessKey, addAccessKeySeedPhrase, signInWithLedger)]: (state, { error, payload, meta }) => ({
+    [combineActions(addAccessKey, addAccessKeySeedPhrase, setupRecoveryMessage, signInWithLedger)]: (state, { error, payload, meta }) => ({
         ...state,
         globalAlert: !!payload || error ? {
             success: !error,
             errorMessage: (error && payload && payload.toString()) || undefined,
-            messageCode: error ? payload.messageCode || meta.errorCode : meta.successCode,
+            messageCode: error ? payload.messageCode || meta.errorCode || payload.id : meta.successCode,
             data: meta.data
         } : undefined
     }),
@@ -61,7 +61,8 @@ const requestResultReducer = (state, { error, payload, meta }) => {
         requestStatus: !!payload || error ? {
             success: !error,
             errorMessage: (error && payload && payload.toString()) || undefined,
-            messageCode: error ? payload.messageCode || meta.errorCode : meta.successCode 
+            messageCode: error ? payload.messageCode || meta.errorCode : meta.successCode,
+            id: payload.id || undefined
         } : undefined
     }
 }
@@ -88,49 +89,6 @@ const accessKeys = handleActions({
         ...state,
         authorizedApps: payload && payload.filter(it => it.access_key && it.access_key.permission.FunctionCall),
         fullAccessKeys: payload && payload.filter(it => it.access_key && it.access_key.permission === 'FullAccess'),
-    })
-}, initialState)
-
-const transactions = handleActions({
-    [getTransactions]: (state, { error, payload, ready }) => {
-        const hash = state.transactions && state.transactions.reduce((h, t) => ({
-            ...h,
-            [t.hash_with_index]: t
-        }), {})
-        
-        return ({
-            ...state,
-            transactions: (ready && !error) 
-                ? payload.map((t) => (
-                    (hash && Object.keys(hash).includes(t.hash_with_index))
-                        ? {
-                            ...t,
-                            status: hash[t.hash_with_index].status,
-                            checkStatus: hash[t.hash_with_index].checkStatus
-                        } 
-                        : t
-                ))
-                : state.transactions
-
-        })
-    },
-    [getTransactionStatus]: (state, { error, payload, ready, meta }) => ({
-        ...state,
-        transactions: state.transactions.map((t) => (
-            t.hash === meta.hash
-                ? {
-                    ...t,
-                    checkStatus: (ready && !error) 
-                        ? !['SuccessValue', 'Failure'].includes(Object.keys(payload.status)[0]) 
-                        : false,
-                    status: (ready && !error) 
-                        ? Object.keys(payload.status)[0] 
-                        : error 
-                            ? 'notAvailable' 
-                            : ''
-                }
-                : t
-        ))
     })
 }, initialState)
 
@@ -191,7 +149,6 @@ export default reduceReducers(
     requestResultClearReducer,
     recoverCodeReducer,
     accessKeys,
-    transactions,
     account,
     url
 )

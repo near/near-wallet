@@ -29,6 +29,10 @@
             "success": "Seed phrase recovery setup is complete.",
             "error": "An error occurred while setting up seed phrase recovery. Please try again!"
         },
+        "setupRecoveryMessage": {
+            "success": "Recovery setup is complete.",
+            "error": "An error occurred while setting up your recovery method. Please try again!"
+        },
         "login": {
             "success": "${title} is now authorized to use your account.",
             "error": "An error occurred while approving this action. Please try again!",
@@ -204,6 +208,15 @@
         "moreInformation": "More information",
         "dismiss": "Dismiss",
         "cancelOperation": "Cancel Operation"
+    },
+
+    "link": {
+        "summary": "SUMMARY",
+        "send": "SEND",
+        "receive": "RECEIVE",
+        "profile": "Profile",
+        "authorizedApps": "Authorized Apps",
+        "fullAccessKeys": "Full Access Keys"
     },
 
     "input": {
@@ -441,23 +454,6 @@
         }
     },
 
-    "desktopPopup": {
-        "profile": "Profile",
-        "contacts": "Contacts",
-        "authorizedApps": "Authorized Apps",
-        "fullAccessKeys": "Full Access Keys",
-        "logout": "Logout",
-        "switchAccount": "SWITCH ACCOUNT",
-        "noAccount": "You have no other accounts"
-    },
-
-    "desktopView": {
-        "summary": "SUMMARY",
-        "activity": "ACTIVITY",
-        "send": "SEND",
-        "receive": "RECEIVE"
-    },
-
     "sendMoney": {
         "pageTitle": {
             "success": "Success!",
@@ -470,7 +466,8 @@
             "noMoreThan": "NO MORE THAN 5 DECIMAL DIGITS",
             "notEnoughTokens": "Not enough tokens.",
             "howMuch": "How much do you want to send?",
-            "available": "Available Balance:"
+            "available": "Available Balance:",
+            "sending": "Sending:"
         },
         "youAreSending": "You are sending",
         "to": "to",
@@ -583,5 +580,12 @@
     "confirmLedgerModal": {
         "header": "Please confirm the operation on your device...",
         "one": "You will need to confirm your sign-in details on your Ledger."
+    },
+    
+    "errors": {
+        "ledger": {
+            "U2FNotSupported": "U2F browser support is needed for Ledger. Please use Chrome, Opera or Firefox with a U2F extension. Also make sure you're on an HTTPS connection.",
+            "U2F_4": "Failed to sign with Ledger device: U2F DEVICE_INELIGIBLE. Please make sure that your Ledger device is connected and unlocked."
+        }
     }
 }

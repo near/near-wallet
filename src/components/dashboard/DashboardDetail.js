@@ -2,7 +2,10 @@ import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
 import { Translate } from 'react-localize-redux'
 import { withRouter } from 'react-router-dom'
-import { getAccessKeys, getTransactions, getTransactionStatus } from '../../actions/account'
+
+import { getAccessKeys } from '../../actions/account'
+import { getTransactions, getTransactionStatus } from '../../actions/transactions'
+
 import DashboardSection from './DashboardSection'
 import DashboardActivity from './DashboardActivity'
 import PageContainer from '../common/PageContainer'
@@ -41,7 +44,9 @@ class DashboardDetail extends Component {
     }
 
     refreshTransactions() {
-        this.props.getTransactions()
+        const { getTransactions, accountId } = this.props
+        
+        getTransactions(accountId)
     }
 
     refreshAccessKeys = () => {
@@ -134,8 +139,9 @@ const mapDispatchToProps = {
     getTransactionStatus
 }
 
-const mapStateToProps = ({ account }) => ({
-    ...account
+const mapStateToProps = ({ account, transactions }) => ({
+    ...account,
+    transactions: transactions[account.accountId] || []
 })
 
 export default connect(

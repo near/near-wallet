@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { connect } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 import Card from '../../common/styled/Card.css';
 import FormButton from '../../common/FormButton';
 import HardwareDeviceIcon from '../../svg/HardwareDeviceIcon';
 import { 
-    loadRecoveryMethods, 
     getAccessKeys,
     removeAccessKey
 } from '../../../actions/account';
+import { useRecoveryMethods } from '../../../hooks/recoveryMethods';
 import ConfirmDisable from './ConfirmDisable';
 import { Translate } from 'react-localize-redux';
 
@@ -73,32 +73,36 @@ const Container = styled(Card)`
     }
 `
 
-const HardwareDevices = ({ 
-    account,
-    loadRecoveryMethods, 
-    recoveryMethods,
-    getAccessKeys,
-    removeAccessKey
-}) => {
+const HardwareDevices = () => {
     const [disabling, setDisabling] = useState(false);
     const [confirmDisable, setConfirmDisable] = useState(false);
-    const keys = account.fullAccessKeys;
-    const hasLedger = keys && keys.find(key => key.meta.type === 'ledger');
-    const hasOtherMethods = recoveryMethods && recoveryMethods.some(method => method.confirmed);
+
+    const dispatch = useDispatch();
+    const account = useSelector(({ account }) => account);
+    const recoveryMethods = useRecoveryMethods(account.accountId);
+
+    const keys = account.fullAccessKeys || [];
+    const ledgerKey = keys.find(key => key.meta.type === 'ledger');
+    const hasLedger = !!ledgerKey
+
+    const recoveryKeys = recoveryMethods.map(key => key.publicKey)
+    const publicKeys = keys.map(key => key.public_key)
+    const hasOtherMethods = publicKeys.some(key => recoveryKeys.includes(key))
 
     useEffect(() => { 
-        getAccessKeys()
-        loadRecoveryMethods()
+        dispatch(getAccessKeys())
     }, []);
 
-    const handleConfirmDisable = () => {
+    const handleConfirmDisable = async () => {
         setDisabling(true);
-        removeAccessKey(hasLedger.public_key).then(() => {
-            getAccessKeys().then(() => {
-                setDisabling(false);
-                setConfirmDisable(false);
-            })
-        })
+        // TODO: Should move to explicit action to disable Ledger
+        const { error } = await dispatch(removeAccessKey(ledgerKey.public_key))
+        if (!error) {
+            setConfirmDisable(false);
+        }
+        // TODO: Reload of keys should trigger automatically after any change action?
+        await dispatch(getAccessKeys())
+        setDisabling(false);
     }
 
     return (
@@ -137,15 +141,5 @@ const HardwareDevices = ({
     )
 }
 
-const mapDispatchToProps = {
-    loadRecoveryMethods,
-    getAccessKeys,
-    removeAccessKey,
-}
 
-const mapStateToProps = ({ account, recoveryMethods }) => ({
-    account,
-    recoveryMethods: recoveryMethods[account.accountId]
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(HardwareDevices));
+export default withRouter(HardwareDevices);

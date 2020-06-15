@@ -59,6 +59,7 @@ const SetRecoveryMethodSuccess = ({
                         <>
                             <input
                                 type='number'
+                                pattern='[0-9]*'
                                 placeholder={translate('setRecoveryConfirm.inputPlaceholder')}
                                 aria-label={translate('setRecoveryConfirm.inputPlaceholder')}
                                 value={code}
@@ -75,7 +76,7 @@ const SetRecoveryMethodSuccess = ({
                 <FormButton
                     color='blue'
                     type='submit'
-                    disabled={code.length < 6}
+                    disabled={code.length !== 6 || loading}
                     sending={loading}
                 >
                     <Translate id='button.confirm' />

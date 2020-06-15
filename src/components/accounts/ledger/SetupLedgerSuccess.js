@@ -5,21 +5,19 @@ import HardwareDeviceIcon from '../../svg/HardwareDeviceIcon';
 import NextStepModal from './NextStepModal';
 import FormButton from '../../common/FormButton';
 import { Translate } from 'react-localize-redux';
-import { removeAllAccessKeys } from '../../../actions/account';
+import { removeNonLedgerAccessKeys } from '../../../actions/account';
 
 const SetupLedgerSuccess = (props) => {
 
     const [nextStep, setNextStep] = useState('');
-    const removingkeys = props.actionsPending.includes('REMOVE_ALL_ACCESS_KEYS');
+    const removingkeys = props.actionsPending.includes('REMOVE_NON_LEDGER_ACCESS_KEYS');
 
-    const handleConfirm = () => {
+    const handleConfirm = async () => {
         if (nextStep === 'keep') {
             goToProfile()
         } else if (nextStep === 'remove') {
-            props.removeAllAccessKeys()
-            .then(() => {
-                goToProfile()
-            })
+            await props.removeNonLedgerAccessKeys()
+            goToProfile()
         }
     }
 
@@ -48,7 +46,7 @@ const SetupLedgerSuccess = (props) => {
 }
 
 const mapDispatchToProps = {
-    removeAllAccessKeys
+    removeNonLedgerAccessKeys
 }
 
 const mapStateToProps = ({ account }) => ({

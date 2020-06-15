@@ -13,6 +13,14 @@ const CustomList = styled(List)`
         text-align: center;
         margin: 0 auto 0 auto;
         
+        h1 {
+            padding: 0;
+        }
+
+        .list {
+            padding: 0;
+        }
+        
         .amount-sent {
             padding: 24px 0 24px 0;
         }
@@ -106,6 +114,9 @@ const CustomList = styled(List)`
         }
 
         form {
+            .input {
+                width: 100%;
+            }
             h3 {
                 margin-bottom: 13px;
                 text-align: left;

@@ -6,6 +6,7 @@ import LedgerIcon from '../../svg/LedgerIcon';
 import FormButton from '../../common/FormButton';
 import { Translate } from 'react-localize-redux';
 import { addLedgerAccessKey } from '../../../actions/account'
+import GlobalAlert from '../../responsive/GlobalAlert'
 
 const SetupLedger = (props) => {
 
@@ -17,14 +18,23 @@ const SetupLedger = (props) => {
         setConnect('true');
         props.addLedgerAccessKey(props.accountId)
             .then(({ error }) => {
-                if (error) return;
-
+                if (error) {
+                    return setConnect('fail');
+                }
                 props.history.push('/setup-ledger-success');
             })
     }
 
     return (
         <Theme>
+            {props.requestStatus &&
+                <GlobalAlert 
+                    globalAlert={{
+                        messageCode: `errors.ledger.${props.requestStatus.id}`
+                    }}
+                    closeIcon={false}
+                />
+            }
             <h1><Translate id='setupLedger.header'/></h1>
             <LedgerIcon/>
             <p><Translate id='setupLedger.one'/></p>

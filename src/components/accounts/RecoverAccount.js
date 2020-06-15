@@ -29,7 +29,6 @@ const StyledContainer = styled(Container)`
             margin-top: 20px;
         }
     }
-
 `;
 
 const Options = styled.div`

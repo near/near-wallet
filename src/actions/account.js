@@ -2,10 +2,9 @@ import sendJson from 'fetch-send-json'
 import { parse, stringify } from 'query-string'
 import { createActions, createAction } from 'redux-actions'
 import { ACCOUNT_HELPER_URL, wallet } from '../utils/wallet'
-import { getTransactions as getTransactionsApi, transactionExtraInfo } from '../utils/explorer-api'
 import { push } from 'connected-react-router'
 import { loadState, saveState, clearState } from '../utils/sessionStorage'
-import { WALLET_CREATE_NEW_ACCOUNT_URL, WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS, WALLET_LOGIN_URL } from '../utils/wallet'
+import { WALLET_CREATE_NEW_ACCOUNT_URL, WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS, WALLET_LOGIN_URL, WALLET_SIGN_URL } from '../utils/wallet'
 
 export const loadRecoveryMethods = createAction('LOAD_RECOVERY_METHODS',
     wallet.getRecoveryMethods.bind(wallet),
@@ -26,7 +25,7 @@ export const handleRedirectUrl = (previousLocation) => (dispatch, getState) => {
 
 export const handleClearUrl = () => (dispatch, getState) => {
     const { pathname } = getState().router.location
-    if (![...WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS, WALLET_LOGIN_URL].includes(pathname.split('/')[1])) {
+    if (![...WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS, WALLET_LOGIN_URL, WALLET_SIGN_URL].includes(pathname.split('/')[1])) {
         clearState()
         dispatch(refreshUrl({}))
     }
@@ -36,23 +35,26 @@ export const parseTransactionsToSign = createAction('PARSE_TRANSACTIONS_TO_SIGN'
 
 export const handleRefreshUrl = () => (dispatch, getState) => {
     const { pathname, search } = getState().router.location
-    const parsedUrl = parse(search)
+    const currentPage = pathname.split('/')[1]
 
-    if (pathname.split('/')[1] === WALLET_LOGIN_URL && search !== '') {
-        saveState(parsedUrl)
-        dispatch(refreshUrl(parsedUrl))
-        dispatch(checkContractId())
-    }
-    else {
-        dispatch(refreshUrl({
+    if ([...WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS, WALLET_LOGIN_URL, WALLET_SIGN_URL].includes(currentPage)) {
+        const parsedUrl = {
             referrer: document.referrer,
-            ...loadState()
-        }))
-    }
+            ...parse(search)
+        }
 
-    const { transactions, callbackUrl } = parsedUrl
-    if (transactions) {
-        dispatch(parseTransactionsToSign({ transactions, callbackUrl }))
+        if ([WALLET_LOGIN_URL, WALLET_SIGN_URL].includes(currentPage) && search !== '') {
+            saveState(parsedUrl)
+            dispatch(refreshUrl(parsedUrl))
+            dispatch(checkContractId())
+        } else {
+            dispatch(refreshUrl(loadState()))
+        }
+
+        const { transactions, callbackUrl } = getState().account.url
+        if (transactions) {
+            dispatch(parseTransactionsToSign({ transactions, callbackUrl }))
+        }
     }
 }
 
@@ -80,10 +82,12 @@ const checkContractId = () => async (dispatch, getState) => {
     }
 }
 
-export const redirectToApp = () => (dispatch, getState) => {
+export const redirectToProfile = () => (dispatch) => dispatch(push({ pathname: '/profile' }))
+
+export const redirectToApp = (fallback) => (dispatch, getState) => {
     const { account: { url }} = getState()
     dispatch(push({
-        pathname: url.redirect_url || '/',
+        pathname: (url && url.redirect_url !== '/' && url.redirect_url) || fallback || '/',
         search: (url && (url.success_url || url.public_key)) ? `?${stringify(url)}` : '',
         state: {
             globalAlertPreventClear: true
@@ -114,7 +118,7 @@ export const allowLogin = () => async (dispatch, getState) => {
 
 const defaultCodesFor = (prefix, data) => ({ successCode: `${prefix}.success`, errorCode: `${prefix}.error`, data})
 
-export const { initializeRecoveryMethod, setupRecoveryMessage, deleteRecoveryMethod, sendNewRecoveryLink, checkNewAccount, createNewAccount, checkAccountAvailable, getTransactions, getTransactionStatus, clear, clearCode } = createActions({
+export const { initializeRecoveryMethod, validateSecurityCode, setupRecoveryMessage, deleteRecoveryMethod, sendNewRecoveryLink, checkNewAccount, createNewAccount, checkAccountAvailable, getTransactions, getTransactionStatus, clear, clearCode } = createActions({
     INITIALIZE_RECOVERY_METHOD: [
         wallet.initializeRecoveryMethod.bind(wallet),
         () => defaultCodesFor('account.initializeRecoveryMethod')
@@ -147,21 +151,16 @@ export const { initializeRecoveryMethod, setupRecoveryMessage, deleteRecoveryMet
         wallet.checkAccountAvailable.bind(wallet),
         () => defaultCodesFor('account.available')
     ],
-    GET_TRANSACTIONS: [getTransactionsApi.bind(wallet), () => ({})],
-    GET_TRANSACTION_STATUS: [
-        ((transactionExtraInfo.bind(wallet))),
-        (hash) => ({ hash })
-    ],
     CLEAR: null,
     CLEAR_CODE: null
 })
 
-export const { getAccessKeys, removeAccessKey, addLedgerAccessKey, signInWithLedger, removeAllAccessKeys } = createActions({
+export const { getAccessKeys, removeAccessKey, addLedgerAccessKey, signInWithLedger, removeNonLedgerAccessKeys } = createActions({
     GET_ACCESS_KEYS: [wallet.getAccessKeys.bind(wallet), () => ({})],
     REMOVE_ACCESS_KEY: [wallet.removeAccessKey.bind(wallet), () => ({})],
-    ADD_LEDGER_ACCESS_KEY: [wallet.addLedgerAccessKey.bind(wallet), () => ({})],
+    ADD_LEDGER_ACCESS_KEY: [wallet.addLedgerAccessKey.bind(wallet), () => defaultCodesFor('errors.ledger')],
     SIGN_IN_WITH_LEDGER: [wallet.signInWithLedger.bind(wallet), () => defaultCodesFor('signInLedger')],
-    REMOVE_ALL_ACCESS_KEYS: [wallet.removeAllAccessKeys.bind(wallet), () => ({})],
+    REMOVE_NON_LEDGER_ACCESS_KEYS: [wallet.removeNonLedgerAccessKeys.bind(wallet), () => ({})]
 })
 
 export const { addAccessKey, addAccessKeySeedPhrase, clearAlert } = createActions({

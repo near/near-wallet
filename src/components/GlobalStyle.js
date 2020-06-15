@@ -198,6 +198,16 @@ export default createGlobalStyle`
         }
     }
 
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+    input[type=number] {
+        -moz-appearance:textfield;
+    }
+
     .spinner {
         margin-right: 10px !important;
         :before,
