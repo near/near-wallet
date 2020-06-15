@@ -98,7 +98,7 @@
     },
 
     "selectAccountDropdown": {
-        "switchAccount": "Switch Sccount",
+        "switchAccount": "Switch Account",
         "selectAccount": "Select Account",
         "switchAccounthNotAllowed": "This app doesn't allow account changes",
         "createAccount": "Create New Account",
@@ -137,7 +137,7 @@
 
     "hardwareDevices": {
         "title": "Hardware Devices",
-        "desc": "Improve the security of your account by entrusting your keys to a hardware wallet.",
+        "desc": "Improve the security of your account by using a hardware wallet.",
         "ledger": {
             "title": "Ledger Hardware Wallet",
             "auth": "Authorized",
@@ -535,8 +535,8 @@
 
     "setupLedger": {
         "header": "Connect your Ledger device",
-        "one": "To enable a Ledger hardware wallet to maintain custody of your account, connect your Ledger device to your computer and open the NEAR app.",
-        "two": "If you have not yet installed the NEAR application on your device, follow",
+        "one": "Connect your Ledger to your computer or mobile device via USB, then open the NEAR application on your Ledger.",
+        "two": "If you have not yet installed the NEAR Ledger app, follow",
         "twoLink": "these instructions"
     },
 
