@@ -99,7 +99,9 @@ class RecoveryContainer extends Component {
         this.setState({ deletingMethod: method.detail })
         deleteRecoveryMethod(method)
             .then(({ error }) => {
-                if (error) return
+                if (error) {
+                    this.setState({ deletingMethod: '' });
+                }
                 loadRecoveryMethods();
                 this.setState({ deletingMethod: '' });
         })
