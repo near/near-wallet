@@ -18,7 +18,6 @@ import {
 const initialState = {
     formLoader: false,
     sentMessage: false,
-    recoveryMethods: {},
     actionsPending: []
 }
 
