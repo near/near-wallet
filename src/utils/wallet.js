@@ -116,7 +116,95 @@ class Wallet {
     }
 
     async sendMoney(receiverId, amount) {
+        // hijack this method call to callmultisig transfer instead
+        if (wallet.sendMoneyMultisig) {
+            await wallet.sendMoneyMultisig(receiverId, amount)
+            return;
+        }
         await this.getAccount(this.accountId).sendMoney(receiverId, amount)
+    }
+
+    async sendMoneyMultisig(receiverId, amount) {
+        /********************************
+        @warning timeout errors fuck this whole flow up since it requires 3 seperate txs
+        1. add_request (client)
+        2. confirm (key 1 client)
+        3. confirm (key 2 backend, currently simulated here on the client)
+        ********************************/
+        const BOATLOAD_OF_GAS ='200000000000000' // 2 * 10 ** 14
+        const account = await this.getAccount(this.accountId)
+         // the contract is our accountId
+        const contractName = account.accountId
+        // 3 keys were added to multisig contract with limited access (this account)
+        const ms1 = '53vQtF3UEUSersHHKVtcjxM1sVqfogtXJaHyUuticiXhQHuV88KeV3ZHwnq2fQCPk6dLMAcUp9K32LjMP3z62H16'
+        const ms2 = '4BXHc3HL4sAwweSLV6ePf9b6T9XRTaoJoF9myh7GFMur5pixdWfnxsLWaEoZNVG9YNmU5mNSoCEKbVtzMt9ez3pv'
+        const ms3 = 'sTJKESDUQdkAWsu2bMUh3NwjJBxCdzQHdzaNipy5eP3j3taAbcMxMcKjFvU8VXRoPzdn6MCTiNPchohMHRn4xva'
+        // set the first key
+        await this.keyStore.setKey(
+            NETWORK_ID, account.accountId,
+            nearApiJs.KeyPair.fromString(ms1)
+        )
+        let contract = new nearApiJs.Contract(account, contractName, {
+            viewMethods: ['get_request_nonce'],
+            changeMethods: ['add_request', 'delete_request', 'confirm'],
+            sender: contractName
+        });
+        // get the request nonce use in batch tx to add and confirm 
+        const request_id = await contract.get_request_nonce().catch((e) => { console.log(e) })
+        let error
+        const res1 = await contract.add_request({ request: {
+            receiver_id: receiverId,
+            actions: [
+                { type: 'Transfer', amount }
+            ]
+        }}).catch((e) => error = e)
+        if (error) {
+            console.log(error)
+            return
+        }
+        /********************************
+        We're going to want to automate this, the reason we can't batch is because LAKs can't do batch TXs
+        ********************************/
+        const conf1 = window.confirm('Transfer request added. Would you like to confirm?')
+        if (!conf1) {
+            //clean up request
+            await contract.delete_request({ request_id })
+            return
+        }
+        const res2 = await contract.confirm({ request_id }).catch((e) => error = e)
+        if (error) {
+            console.log(error)
+            return
+        }
+        const conf2 = window.confirm('First confirmation successful. Would you like to confirm again?')
+        if (!conf2) {
+            //clean up request
+            await contract.delete_request({ request_id })
+            return
+        }
+        // set the second key
+        await this.keyStore.setKey(
+            NETWORK_ID, account.accountId,
+            nearApiJs.KeyPair.fromString(ms2)
+        )
+        contract = new nearApiJs.Contract(account, account.accountId, {
+            changeMethods: ['confirm'],
+            sender: account.accountId
+        });
+        const res3 = await contract.confirm({ request_id }).catch((e) => error = e)
+        if (error) {
+            console.log(error)
+            return
+        }
+        console.log(res3)
+        /********************************
+        LAKs can't batch so add_request,confirm in one TX fails
+        ********************************/
+        // const te = new TextEncoder()
+        // const res = await contract.account.signAndSendTransaction(contractName, [
+        //     nearApiJs.transactions.functionCall('add_request', te.encode(args1), BOATLOAD_OF_GAS),
+        //     nearApiJs.transactions.functionCall('confirm', te.encode(args2), BOATLOAD_OF_GAS),
+        // ]).catch((e) => console.log(e))
     }
 
     redirectToCreateAccount(options = {}, history) {
@@ -151,9 +239,11 @@ class Wallet {
     }
 
     async loadAccount() {
+
         if (this.isEmpty()) {
             throw new Error('No account.')
         }
+        
         return {
             ...await this.getAccount(this.accountId).state(),
             balance: await this.getBalance(),
@@ -212,6 +302,10 @@ class Wallet {
     }
 
     async createNewAccount(accountId, fundingKey, fundingContract) {
+        
+        // accountId = accountId.split('.')[0]
+        // console.log(accountId)
+
         this.checkNewAccount(accountId);
         const keyPair = nearApiJs.KeyPair.fromRandom('ed25519');
 
@@ -225,6 +319,7 @@ class Wallet {
                 newAccountPublicKey: keyPair.publicKey.toString()
             })
         }
+
         await this.saveAndSelectAccount(accountId, keyPair);
 
     }
@@ -236,16 +331,16 @@ class Wallet {
             NETWORK_ID, fundingContract,
             nearApiJs.KeyPair.fromString(fundingKey)
         )
-
         const contract = new nearApiJs.Contract(account, fundingContract, {
             changeMethods: ['create_account_and_claim', 'claim'],
             sender: fundingContract
         });
         const publicKey = keyPair.publicKey.toString().replace('ed25519:', '');
+
         await contract.create_account_and_claim({
             new_account_id: accountId,
             new_public_key: publicKey
-        });
+        })
     }
 
     async saveAndSelectAccount(accountId, keyPair) {

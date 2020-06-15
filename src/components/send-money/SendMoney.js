@@ -84,11 +84,10 @@ class SendMoney extends Component {
             this.setState(() => ({
                 loader: true
             }))
-
+            
             wallet.sendMoney(accountId, amount)
                 .then(() => {
                     this.props.refreshAccount()
-
                     this.setState(state => ({
                         step: state.step + 1
                     }))
@@ -99,6 +98,7 @@ class SendMoney extends Component {
                         loader: false
                     }))
                 })
+            
             return;
         }
 

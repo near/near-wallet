@@ -23,7 +23,7 @@ class CreateAccount extends Component {
             console.error('Error loading account:', loginError)
 
             if (loginError.indexOf('does not exist while viewing') !== -1) {
-                resetAccounts()
+                // resetAccounts()
             }
         }
     }
@@ -51,6 +51,7 @@ class CreateAccount extends Component {
         
         createNewAccount(accountId, fundingKey, fundingContract, token)
             .then(({ error, payload }) => {
+
                 if (error) {
                     if (payload.statusCode === 402) {
                         this.setState({ recaptchaFallback: true });
@@ -69,6 +70,7 @@ class CreateAccount extends Component {
         const { accountId } = this.state;
 
         this.props.refreshAccount();
+
         let nextUrl = process.env.DISABLE_PHONE_RECOVERY === 'yes' ? `/setup-seed-phrase/${accountId}` : `/set-recovery/${accountId}`;
         this.props.history.push(nextUrl);
     }
