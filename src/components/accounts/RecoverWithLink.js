@@ -15,6 +15,12 @@ import copyText from '../../utils/copyText'
 import isMobile from '../../utils/isMobile'
 
 const Container = styled.div`
+    margin-top: 5px;
+
+    @media (min-width: 768px) {
+        margin-top: 32px;
+    }
+    
     &.error {
         display: flex;
         flex-direction: column;

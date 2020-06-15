@@ -8,6 +8,7 @@
     "connected-react-router": "^6.6.0",
     "fetch-send-json": "0.0.2",
     "js-sha256": "^0.9.0",
+    "mixpanel-browser": "^2.37.0",
     "near-api-js": "^0.25.1",
     "near-ledger-js": "^0.0.4",
     "near-seed-phrase": "^0.0.2",
@@ -68,7 +69,6 @@
     "jest": "^26.0.1",
     "parcel-bundler": "^1.12.4",
     "parcel-plugin-bundle-visualiser": "^1.2.0",
-    "posthtml-expressions": "^1.4.1",
     "react-dev-utils": "^10.2.1"
   }
 }

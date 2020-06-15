@@ -101,7 +101,7 @@ const SetRecoveryMethodSuccess = ({
             <FormButton
                 color='blue'
                 type='submit'
-                disabled={code.length !== 6}
+                disabled={code.length !== 6 || loading}
                 sending={loading}
             >
                 <Translate id='button.confirm' />

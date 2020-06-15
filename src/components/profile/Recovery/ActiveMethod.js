@@ -88,24 +88,18 @@ const DisableContainer = styled.form`
             margin-top: 10px;
 
             button {
-                width: auto !important;
                 margin-top: 0;
 
                 &:first-of-type {
-                    background-color: #FF585D;
-                    border: none;
                     padding: 5px 15px;
                     text-transform: uppercase;
-                    width: 151px !important;
+                    width: 152px;
                 }
 
                 &:last-of-type {
-                    background-color: transparent;
                     color: #999;
-                    text-transform: capitalize;
-                    text-decoration: underline;
-                    border: none;
                     margin-left: 15px;
+                    padding: 5px;
                 }
             }
         }
@@ -191,9 +185,9 @@ class ActiveMethod extends Component {
                         >
                             <Translate id='button.disable'/> {data.kind}
                         </FormButton>
-                        <Button type='button' onClick={this.handleToggleDisable}>
+                        <FormButton type='button' color='link' onClick={this.handleToggleDisable}>
                             <Translate id='recoveryMgmt.disableNo'/> {data.kind}
-                        </Button>
+                        </FormButton>
                     </div>
                 </DisableContainer>
             );

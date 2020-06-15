@@ -3,6 +3,7 @@ import reduceReducers from 'reduce-reducers'
 
 import {
     requestCode,
+    setupRecoveryMessage,
     getAccessKeys,
     clear,
     clearCode,
@@ -37,12 +38,12 @@ const loaderReducer = (state, { type, ready }) => {
 const globalAlertReducer = handleActions({
     // TODO: Reset state before action somehow. On navigate / start of other action?
     // TODO: Make this generic to avoid listing actions
-    [combineActions(addAccessKey, addAccessKeySeedPhrase)]: (state, { error, payload, meta }) => ({
+    [combineActions(addAccessKey, addAccessKeySeedPhrase, setupRecoveryMessage)]: (state, { error, payload, meta }) => ({
         ...state,
         globalAlert: !!payload || error ? {
             success: !error,
             errorMessage: (error && payload && payload.toString()) || undefined,
-            messageCode: error ? payload.messageCode || meta.errorCode : meta.successCode,
+            messageCode: error ? payload.messageCode || meta.errorCode || payload.id : meta.successCode,
             data: meta.data
         } : undefined
     }),
@@ -58,7 +59,8 @@ const requestResultReducer = (state, { error, payload, meta }) => {
         requestStatus: !!payload || error ? {
             success: !error,
             errorMessage: (error && payload && payload.toString()) || undefined,
-            messageCode: error ? payload.messageCode || meta.errorCode : meta.successCode 
+            messageCode: error ? payload.messageCode || meta.errorCode : meta.successCode,
+            id: payload.id || undefined
         } : undefined
     }
 }

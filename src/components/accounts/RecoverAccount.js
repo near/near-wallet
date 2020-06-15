@@ -9,14 +9,22 @@ import PhoneIcon from '../../images/icon-recover-phone.svg';
 import PhraseIcon from '../../images/icon-recover-seedphrase.svg';
 
 const Container = styled.div`
-    h2 {
-        color: #4a4f54 !important;
-        margin-top: -20px;
-        max-width: 600px;
 
-        @media (max-width: 767px) {
-            margin-top: -10px;
-            font-size: 18px !important;
+    margin-top: 5px;
+
+    @media (max-width: 767px) {
+        h2 {
+            color: #999 !important;
+            font-size: 14px !important;
+        }
+    }
+
+    @media (min-width: 768px) {
+        margin-top: 32px;
+
+        h2 {
+            color: #4a4f54 !important;
+            max-width: 700px;
         }
     }
 `;
