@@ -535,7 +535,7 @@
 
     "setupLedger": {
         "header": "Connect your Ledger device",
-        "one": "Connect your Ledger to your computer or mobile device via USB, then open the NEAR application on your Ledger.",
+        "one": "Connect your Ledger to your computer or mobile device via USB, then open the NEAR application.",
         "two": "If you have not yet installed the NEAR Ledger app, follow",
         "twoLink": "these instructions"
     },
