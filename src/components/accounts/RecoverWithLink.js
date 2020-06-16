@@ -146,7 +146,7 @@ class RecoverWithLink extends Component {
     }
 
     handleContinue = () => {
-        this.props.recoverAccountSeedPhrase(this.state.seedPhrase, this.state.accountId)
+        this.props.recoverAccountSeedPhrase(this.state.seedPhrase)
             .then(({ error }) => {
                 if (error) {
                     this.setState({ successView: false });

@@ -46,8 +46,7 @@ class RecoverAccountSeedPhrase extends Component {
 
         this.setState({ loader: true });
 
-        const accountId = this.state.accountId
-        this.props.recoverAccountSeedPhrase(this.state.seedPhrase, accountId)
+        this.props.recoverAccountSeedPhrase(this.state.seedPhrase)
             .then(({ error }) => {
                 this.setState({ loader: false });
 
