@@ -45,6 +45,22 @@ class RecoverAccountSeedPhrase extends Component {
             })
     }
 
+    checkInvalidSeedPhrase = () => this.props.requestStatus.errorMessage && this.props.requestStatus.errorMessage.includes('Cannot find matching public key')
+
+    handleRequestStatus = () => (
+        this.props.requestStatus
+            ? this.checkInvalidSeedPhrase()
+                ? this.invalidSeedPhraseRequestStatus
+                : this.props.requestStatus
+            : null
+    )
+
+    get invalidSeedPhraseRequestStatus() {
+        return {
+            success: false,
+            messageCode: 'account.recoverAccount.errorInvalidSeedPhrase'
+    }}
+
     render() {
         const combinedState = {
             ...this.props,
@@ -62,6 +78,7 @@ class RecoverAccountSeedPhrase extends Component {
                     <RecoverAccountSeedPhraseForm
                         {...combinedState}
                         handleChange={this.handleChange}
+                        requestStatus={this.handleRequestStatus()}
                     />
                 </AccountFormSection>
             </AccountFormContainer>
