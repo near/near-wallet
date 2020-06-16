@@ -22,17 +22,6 @@ const RecoverAccountSeedPhraseForm = ({
 }) => (
         <Container>
             <Fragment>
-                <Header as='h4'><Translate id='recoverSeedPhrase.accountIdInput.title' /></Header>
-                <AccountFormAccountId
-                    formLoader={formLoader}
-                    handleChange={handleChange}
-                    defaultAccountId={accountId}
-                    checkAvailability={checkAvailability}
-                    requestStatus={requestStatus}
-                    clearRequestStatus={clearRequestStatus}
-                    setFormLoader={setFormLoader}
-                />
-
                 <Header as='h4' className='seed-phrase-header'><Translate id='recoverSeedPhrase.seedPhraseInput.title' /></Header>
                 <Translate>
                     {({ translate }) => (
