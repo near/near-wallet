@@ -3,7 +3,7 @@ import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { Translate } from 'react-localize-redux'
 
-import { recoverAccountSeedPhrase, redirectToApp, refreshAccount } from '../../actions/account'
+import { recoverAccountSeedPhrase, redirectToApp, refreshAccount, clear } from '../../actions/account'
 
 import RecoverAccountSeedPhraseForm from './RecoverAccountSeedPhraseForm'
 import AccountFormSection from './AccountFormSection'
@@ -29,10 +29,11 @@ class RecoverAccountSeedPhrase extends Component {
         this.setState(() => ({
             [name]: value
         }))
+
+        this.props.clear()
     }
 
     handleSubmit = () => {
-
         if (!this.isLegit) {
             return false
         }
@@ -65,7 +66,7 @@ class RecoverAccountSeedPhrase extends Component {
         const combinedState = {
             ...this.props,
             ...this.state,
-            isLegit: this.isLegit && !this.props.formLoader
+            isLegit: this.isLegit && !(this.props.requestStatus && this.props.requestStatus.success === false)
         }
 
         return (
@@ -89,7 +90,8 @@ class RecoverAccountSeedPhrase extends Component {
 const mapDispatchToProps = {
     recoverAccountSeedPhrase, 
     redirectToApp,
-    refreshAccount
+    refreshAccount,
+    clear
 }
 
 const mapStateToProps = ({ account }, { match }) => ({
