@@ -12,8 +12,7 @@ const RecoverAccountSeedPhraseForm = ({
     isLegit,
     handleChange,
     seedPhrase,
-    requestStatus,
-    loader
+    requestStatus
 }) => (
         <Container>
             <Fragment>
@@ -37,7 +36,7 @@ const RecoverAccountSeedPhraseForm = ({
                 type='submit'
                 color='blue'
                 disabled={!isLegit}
-                sending={loader}
+                sending={formLoader}
             >
                 <Translate id='button.findMyAccount' />
             </FormButton>

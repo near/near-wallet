@@ -11,7 +11,6 @@ import AccountFormContainer from './AccountFormContainer'
 
 class RecoverAccountSeedPhrase extends Component {
     state = {
-        loader: false,
         seedPhrase: this.props.seedPhrase
     }
 
@@ -38,12 +37,8 @@ class RecoverAccountSeedPhrase extends Component {
             return false
         }
 
-        this.setState({ loader: true });
-
         this.props.recoverAccountSeedPhrase(this.state.seedPhrase)
             .then(({ error }) => {
-                this.setState({ loader: false });
-
                 if (error) return
                 this.props.refreshAccount()
                 this.props.redirectToApp()
@@ -67,7 +62,6 @@ class RecoverAccountSeedPhrase extends Component {
                     <RecoverAccountSeedPhraseForm
                         {...combinedState}
                         handleChange={this.handleChange}
-                        loader={this.state.loader}
                     />
                 </AccountFormSection>
             </AccountFormContainer>
