@@ -3,8 +3,12 @@ import { Translate } from 'react-localize-redux'
 import { Input, Header } from 'semantic-ui-react'
 import styled from 'styled-components'
 import FormButton from '../common/FormButton'
+import RequestStatusBox from '../common/RequestStatusBox'
 
 const Container = styled.div`
+    .input {
+        padding-bottom: 30px;
+    }
 `
 
 const RecoverAccountSeedPhraseForm = ({
@@ -21,15 +25,16 @@ const RecoverAccountSeedPhraseForm = ({
                     {({ translate }) => (
                         <Input
                             name='seedPhrase'
+                            value={seedPhrase}
                             onChange={handleChange}
                             placeholder={translate('recoverSeedPhrase.seedPhraseInput.placeholder')}
-                            value={seedPhrase}
                             required
-                            tabIndex='2'
+                            tabIndex='1'
                             style={{ width: '100%' }}
                         />
                     )}
                 </Translate>
+                <RequestStatusBox requestStatus={requestStatus} />
             </Fragment>
 
             <FormButton
