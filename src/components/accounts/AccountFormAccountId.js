@@ -138,8 +138,6 @@ class AccountFormAccountId extends Component {
 
     checkSameAccount = () => this.props.type !== 'create' && this.props.stateAccountId === this.state.accountId
 
-    checkInvalidSeedPhrase = () => this.props.type !== 'create' && this.props.requestStatus.errorMessage && this.props.requestStatus.errorMessage.includes('Error: Cannot find matching public key for account')
-
     get loaderRequestStatus() {
         return {
             messageCode: `account.create.checkingAvailablity.${this.props.type}`
@@ -158,12 +156,6 @@ class AccountFormAccountId extends Component {
         }
     }
 
-    get invalidSeedPhraseRequestStatus() {
-        return {
-            success: false,
-            messageCode: 'account.recoverAccount.errorInvalidSeedPhrase'
-    }}
-
     handleRequestStatus = () => (
         this.state.accountId
             ? this.props.formLoader
@@ -172,9 +164,7 @@ class AccountFormAccountId extends Component {
                     ? this.accountIdLengthRequestStatus
                     : this.checkSameAccount()
                         ? this.sameAccountRequestStatus
-                        : this.checkInvalidSeedPhrase()
-                            ? this.invalidSeedPhraseRequestStatus
-                            : this.props.requestStatus
+                        : this.props.requestStatus
             : null
     )
 
