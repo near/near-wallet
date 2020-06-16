@@ -4,6 +4,7 @@ import { Input, Header } from 'semantic-ui-react'
 import styled from 'styled-components'
 import FormButton from '../common/FormButton'
 import RequestStatusBox from '../common/RequestStatusBox'
+import classNames from '../../utils/classNames'
 
 const Container = styled.div`
     .input {
@@ -27,6 +28,7 @@ const RecoverAccountSeedPhraseForm = ({
                             name='seedPhrase'
                             value={seedPhrase}
                             onChange={handleChange}
+                            className={classNames([{'success': requestStatus && requestStatus.success}, {'problem': requestStatus && requestStatus.success === false}])}
                             placeholder={translate('recoverSeedPhrase.seedPhraseInput.placeholder')}
                             required
                             tabIndex='1'
