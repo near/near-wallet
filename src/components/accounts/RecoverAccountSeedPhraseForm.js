@@ -9,6 +9,10 @@ import classNames from '../../utils/classNames'
 const Container = styled.div`
     .input {
         padding-bottom: 30px;
+
+        input {
+            width: 100%;
+        }
     }
 `
 
@@ -32,7 +36,6 @@ const RecoverAccountSeedPhraseForm = ({
                             placeholder={translate('recoverSeedPhrase.seedPhraseInput.placeholder')}
                             required
                             tabIndex='1'
-                            style={{ width: '100%' }}
                         />
                     )}
                 </Translate>
