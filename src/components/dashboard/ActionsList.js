@@ -22,6 +22,10 @@ const CustomGridRow = styled(Grid.Row)`
         margin-left: 20px;
         border-left: 4px solid #f8f8f8;
 
+        .list {
+            margin-left: 0 !important;
+        }
+
         .col-image {
             margin-left: -15px;
             width: 40px;
