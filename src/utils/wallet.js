@@ -436,7 +436,7 @@ class Wallet {
         const accountId = await getAccountId(publicKey)
 
         if (!accountId) {
-            throw new Error(`Cannot find matching public key for account ${accountId}`);
+            throw new Error(`Cannot find matching public key`);
         }
         
         const tempKeyStore = new nearApiJs.keyStores.InMemoryKeyStore()
