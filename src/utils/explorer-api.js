@@ -54,3 +54,32 @@ export async function getTransactions(accountId) {
 }
 
 export const transactionExtraInfo = (hash, signer_id) => wallet.connection.provider.sendJsonRpc('tx', [hash, signer_id])
+
+export async function getAccountId(publicKey) {
+    if (!publicKey) return {}
+
+    const accountId = await new Promise((resolve, reject) => wamp.call(
+        `${WAMP_NEAR_EXPLORER_TOPIC_PREFIX}.select`,
+        [
+            `
+                SELECT
+                    account_id
+                FROM 
+                    access_keys
+                WHERE 
+                    public_key = :publicKey
+            `,
+            { publicKey }
+        ],
+        {
+            onSuccess(dataArr) {
+                resolve(dataArr[0][0] && dataArr[0][0].account_id)
+            },
+            onError(err) {
+                reject(err);
+            }
+        }
+    ));
+
+    return accountId
+}
