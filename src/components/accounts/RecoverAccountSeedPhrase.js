@@ -3,7 +3,7 @@ import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { Translate } from 'react-localize-redux'
 
-import { recoverAccountSeedPhrase, redirectToApp, checkAccountAvailable, clear, refreshAccount, setFormLoader } from '../../actions/account'
+import { recoverAccountSeedPhrase, redirectToApp, refreshAccount } from '../../actions/account'
 
 import RecoverAccountSeedPhraseForm from './RecoverAccountSeedPhraseForm'
 import AccountFormSection from './AccountFormSection'
@@ -12,13 +12,11 @@ import AccountFormContainer from './AccountFormContainer'
 class RecoverAccountSeedPhrase extends Component {
     state = {
         loader: false,
-        accountId: this.props.accountId,
         seedPhrase: this.props.seedPhrase
     }
 
     // TODO: Use some validation framework?
     validators = {
-        accountId: value => this.props.requestStatus && this.props.requestStatus.success,
         seedPhrase: value => value.length // TODO validate seed phrase
     }
 
@@ -27,10 +25,6 @@ class RecoverAccountSeedPhrase extends Component {
     }
 
     componentDidMount = () => {}
-
-    componentWillUnmount = () => {
-        this.props.clear()
-    }
 
     handleChange = (e, { name, value }) => {
         this.setState(() => ({
@@ -73,9 +67,6 @@ class RecoverAccountSeedPhrase extends Component {
                     <RecoverAccountSeedPhraseForm
                         {...combinedState}
                         handleChange={this.handleChange}
-                        checkAvailability={this.props.checkAccountAvailable}
-                        clearRequestStatus={clear}
-                        setFormLoader={this.props.setFormLoader}
                         loader={this.state.loader}
                     />
                 </AccountFormSection>
@@ -87,15 +78,11 @@ class RecoverAccountSeedPhrase extends Component {
 const mapDispatchToProps = {
     recoverAccountSeedPhrase, 
     redirectToApp,
-    checkAccountAvailable,
-    clear,
-    refreshAccount,
-    setFormLoader
+    refreshAccount
 }
 
 const mapStateToProps = ({ account }, { match }) => ({
     ...account,
-    accountId: match.params.accountId || '',
     seedPhrase: match.params.seedPhrase || '',
 })
 

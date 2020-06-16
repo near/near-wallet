@@ -3,7 +3,6 @@ import { Translate } from 'react-localize-redux'
 import { Input, Header } from 'semantic-ui-react'
 import styled from 'styled-components'
 import FormButton from '../common/FormButton'
-import AccountFormAccountId from './AccountFormAccountId'
 
 const Container = styled.div`
 `
@@ -12,12 +11,8 @@ const RecoverAccountSeedPhraseForm = ({
     formLoader,
     isLegit,
     handleChange,
-    accountId,
     seedPhrase,
-    checkAvailability,
     requestStatus,
-    clearRequestStatus,
-    setFormLoader,
     loader
 }) => (
         <Container>
