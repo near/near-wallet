@@ -1,25 +1,24 @@
-import React, { useState } from 'react';
-import { connect } from 'react-redux';
+import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import Theme from './PageTheme.css';
 import LedgerImage from '../../svg/LedgerImage';
 import FormButton from '../../common/FormButton';
 import { Translate } from 'react-localize-redux';
 import LedgerConfirmActionModal from './LedgerConfirmActionModal';
-import { signInWithLedger } from '../../../actions/account';
+import { signInWithLedger, clear, redirectToProfile } from '../../../actions/account';
 
-const SignInLedger = (props) => {
+export function SignInLedger(props) {
+    const dispatch = useDispatch();
+    const account = useSelector(({ account }) => account);
+    const signingIn = account.actionsPending.includes('SIGN_IN_WITH_LEDGER')
 
-    const [signingIn, setSigningIn] = useState('');
+    const handleSignIn = async () => {
 
-    const handleSignIn = () => {
-        setSigningIn('true');
-        props.signInWithLedger()
-            .then(({ error }) => {
-                if (error) {
-                    return setSigningIn('fail')
-                }
-                props.history.push('/');
-        })
+        const { error } = await dispatch(signInWithLedger())
+
+        if (!error) {
+            dispatch(redirectToProfile())
+        }
     }
 
     return (
@@ -29,25 +28,15 @@ const SignInLedger = (props) => {
             <p><Translate id='signInLedger.one'/></p>
             <FormButton
                 onClick={handleSignIn}
-                sending={signingIn === 'true'}
+                sending={signingIn}
                 sendingString='button.signingIn'
             >
-                <Translate id={`button.${signingIn === 'fail' ? 'retry' : 'signIn'}`}/>
+                <Translate id={`button.${account.requestStatus && !account.requestStatus.success ? 'retry' : 'signIn'}`}/>
             </FormButton>
             <button className='link' onClick={() => props.history.goBack()}><Translate id='button.cancel'/></button>
             {signingIn &&
-                <LedgerConfirmActionModal open={signingIn} onClose={() => setSigningIn('')}/>
+                <LedgerConfirmActionModal open={signingIn} onClose={() => dispatch(clear())}/>
             }
         </Theme>
     );
 }
-
-const mapDispatchToProps = {
-    signInWithLedger
-}
-
-const mapStateToProps = ({ account }) => ({
-    ...account
-})
-
-export const SignInWithLedgerWithRouter = connect(mapStateToProps, mapDispatchToProps)(SignInLedger);
