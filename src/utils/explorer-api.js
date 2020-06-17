@@ -73,7 +73,7 @@ export async function getAccountId(publicKey) {
         ],
         {
             onSuccess(dataArr) {
-                resolve(dataArr[0][0] && dataArr[0][0].account_id)
+                resolve(dataArr[0][0] && dataArr[0][dataArr[0].length - 1].account_id)
             },
             onError(err) {
                 reject(err);
