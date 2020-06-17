@@ -120,7 +120,7 @@ class Wallet {
         if (wallet.sendMoneyMultisig) {
             await wallet.sendMoneyMultisig(receiverId, amount)
             return;
-        }
+        }   
         await this.getAccount(this.accountId).sendMoney(receiverId, amount)
     }
 
@@ -137,8 +137,8 @@ class Wallet {
         const contractName = account.accountId
         // 3 keys were added to multisig contract with limited access (this account)
         const ms1 = '53vQtF3UEUSersHHKVtcjxM1sVqfogtXJaHyUuticiXhQHuV88KeV3ZHwnq2fQCPk6dLMAcUp9K32LjMP3z62H16'
-        const ms2 = '4BXHc3HL4sAwweSLV6ePf9b6T9XRTaoJoF9myh7GFMur5pixdWfnxsLWaEoZNVG9YNmU5mNSoCEKbVtzMt9ez3pv'
-        const ms3 = 'sTJKESDUQdkAWsu2bMUh3NwjJBxCdzQHdzaNipy5eP3j3taAbcMxMcKjFvU8VXRoPzdn6MCTiNPchohMHRn4xva'
+        // const ms2 = '4BXHc3HL4sAwweSLV6ePf9b6T9XRTaoJoF9myh7GFMur5pixdWfnxsLWaEoZNVG9YNmU5mNSoCEKbVtzMt9ez3pv'
+        // const ms3 = 'sTJKESDUQdkAWsu2bMUh3NwjJBxCdzQHdzaNipy5eP3j3taAbcMxMcKjFvU8VXRoPzdn6MCTiNPchohMHRn4xva'
         // set the first key
         await this.keyStore.setKey(
             NETWORK_ID, account.accountId,
@@ -165,38 +165,50 @@ class Wallet {
         /********************************
         We're going to want to automate this, the reason we can't batch is because LAKs can't do batch TXs
         ********************************/
-        const conf1 = window.confirm('Transfer request added. Would you like to confirm?')
-        if (!conf1) {
-            //clean up request
-            await contract.delete_request({ request_id })
-            return
-        }
+        // const conf1 = window.confirm('Transfer request added. Would you like to confirm?')
+        // if (!conf1) {
+        //     //clean up request
+        //     await contract.delete_request({ request_id })
+        //     return
+        // }
         const res2 = await contract.confirm({ request_id }).catch((e) => error = e)
         if (error) {
             console.log(error)
             return
         }
-        const conf2 = window.confirm('First confirmation successful. Would you like to confirm again?')
+        const conf2 = window.confirm('Your request was added. A code to confirm has been sent to your device')
         if (!conf2) {
             //clean up request
             await contract.delete_request({ request_id })
             return
         }
-        // set the second key
-        await this.keyStore.setKey(
-            NETWORK_ID, account.accountId,
-            nearApiJs.KeyPair.fromString(ms2)
-        )
-        contract = new nearApiJs.Contract(account, account.accountId, {
-            changeMethods: ['confirm'],
-            sender: account.accountId
-        });
-        const res3 = await contract.confirm({ request_id }).catch((e) => error = e)
-        if (error) {
-            console.log(error)
-            return
-        }
+
+        // 938423
+        const code = window.prompt('Please enter the code sent to your device to confirm your request.')
+        const res3 = await fetch('http://localhost:3000/2fa/verifyConfirmationCode', {
+            method: 'POST',
+            body: JSON.stringify({
+                accountId: contractName,
+                code,
+                requestId: request_id
+            })
+        }).then((res) => res.json()).catch((e) => console.log(e))
         console.log(res3)
+        // // set the second key
+        // await this.keyStore.setKey(
+        //     NETWORK_ID, account.accountId,
+        //     nearApiJs.KeyPair.fromString(ms2)
+        // )
+        // contract = new nearApiJs.Contract(account, account.accountId, {
+        //     changeMethods: ['confirm'],
+        //     sender: account.accountId
+        // });
+        // const res3 = await contract.confirm({ request_id }).catch((e) => error = e)
+        // if (error) {
+        //     console.log(error)
+        //     return
+        // }
+        // console.log(res3)
         /********************************
         LAKs can't batch so add_request,confirm in one TX fails
         ********************************/
