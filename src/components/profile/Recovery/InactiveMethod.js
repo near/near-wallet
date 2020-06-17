@@ -28,7 +28,7 @@ const Button = styled(Link)`
     }
 `
 
-const InactiveMethod = ({ method, accountId, activeMethods }) => (
+const InactiveMethod = ({ method, accountId }) => (
     <NotEnabledContainer>
         <Translate id={`recoveryMgmt.methodTitle.${method}`}/>
         <Button to={{
