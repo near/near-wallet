@@ -2,44 +2,32 @@ import React, { Fragment } from 'react'
 import { Translate } from 'react-localize-redux'
 import { Input, Header } from 'semantic-ui-react'
 import FormButton from '../common/FormButton'
-import AccountFormAccountId from './AccountFormAccountId'
+import RequestStatusBox from '../common/RequestStatusBox'
+import classNames from '../../utils/classNames'
 
 const RecoverAccountSeedPhraseForm = ({
     formLoader,
     isLegit,
     handleChange,
-    accountId,
     seedPhrase,
-    checkAvailability,
-    requestStatus,
-    clearRequestStatus,
-    setFormLoader
+    requestStatus
 }) => (
         <>
-            <Header as='h3'><Translate id='recoverSeedPhrase.accountIdInput.title' /></Header>
-            <AccountFormAccountId
-                formLoader={formLoader}
-                handleChange={handleChange}
-                defaultAccountId={accountId}
-                checkAvailability={checkAvailability}
-                requestStatus={requestStatus}
-                clearRequestStatus={clearRequestStatus}
-                setFormLoader={setFormLoader}
-            />
             <Header as='h3'><Translate id='recoverSeedPhrase.seedPhraseInput.title' /></Header>
             <Translate>
                 {({ translate }) => (
                     <Input
                         name='seedPhrase'
-                        onChange={handleChange}
-                        placeholder={translate('recoverSeedPhrase.seedPhraseInput.placeholder')}
                         value={seedPhrase}
+                        onChange={handleChange}
+                        className={classNames([{'success': requestStatus && requestStatus.success}, {'problem': requestStatus && requestStatus.success === false}])}
+                        placeholder={translate('recoverSeedPhrase.seedPhraseInput.placeholder')}
                         required
-                        tabIndex='2'
-                        style={{ width: '100%' }}
+                        tabIndex='1'
                     />
                 )}
             </Translate>
+            <RequestStatusBox requestStatus={requestStatus} />
             <FormButton
                 type='submit'
                 color='blue'

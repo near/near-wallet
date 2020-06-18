@@ -1,13 +1,14 @@
 import * as nearApiJs from 'near-api-js'
 import { KeyPair } from 'near-api-js'
 import sendJson from 'fetch-send-json'
-import { findSeedPhraseKey } from 'near-seed-phrase'
+import { parseSeedPhrase } from 'near-seed-phrase'
 import { createClient } from 'near-ledger-js'
 import { PublicKey } from 'near-api-js/lib/utils'
 import { KeyType } from 'near-api-js/lib/utils/key_pair'
 import { store } from '..'
 import { getAccessKeys } from '../actions/account'
 import { generateSeedPhrase } from 'near-seed-phrase';
+import { getAccountId } from './explorer-api'
 
 export const WALLET_CREATE_NEW_ACCOUNT_URL = 'create'
 export const WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS = ['create', 'set-recovery', 'setup-seed-phrase', 'recover-account', 'recover-seed-phrase']
@@ -436,7 +437,14 @@ class Wallet {
         await this.removeAccessKey(publicKey)
     }
 
-    async recoverAccountSeedPhrase(seedPhrase, accountId) {
+    async recoverAccountSeedPhrase(seedPhrase) {
+        const { publicKey, secretKey } = parseSeedPhrase(seedPhrase)
+        const accountId = await getAccountId(publicKey)
+
+        if (!accountId) {
+            throw new Error(`Cannot find matching public key`);
+        }
+        
         const tempKeyStore = new nearApiJs.keyStores.InMemoryKeyStore()
 
         const connection = nearApiJs.Connection.fromConfig({
@@ -446,13 +454,6 @@ class Wallet {
         })
 
         const account = new nearApiJs.Account(connection, accountId)
-
-        const accessKeys = await account.getAccessKeys()
-        const publicKeys = accessKeys.map(it => it.public_key)
-        const { secretKey } = findSeedPhraseKey(seedPhrase, publicKeys)
-        if (!secretKey) {
-            throw new Error(`Cannot find matching public key for account ${accountId}`);
-        }
 
         const keyPair = KeyPair.fromString(secretKey)
         await tempKeyStore.setKey(NETWORK_ID, accountId, keyPair)
