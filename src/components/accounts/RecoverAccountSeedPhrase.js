@@ -3,7 +3,7 @@ import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { Translate } from 'react-localize-redux'
 
-import { recoverAccountSeedPhrase, redirectToApp, checkAccountAvailable, clear, refreshAccount, setFormLoader } from '../../actions/account'
+import { recoverAccountSeedPhrase, redirectToApp, refreshAccount, clear } from '../../actions/account'
 
 import RecoverAccountSeedPhraseForm from './RecoverAccountSeedPhraseForm'
 import AccountFormSection from './AccountFormSection'
@@ -11,13 +11,12 @@ import AccountFormContainer from './AccountFormContainer'
 
 class RecoverAccountSeedPhrase extends Component {
     state = {
-        accountId: this.props.accountId,
         seedPhrase: this.props.seedPhrase
     }
 
     // TODO: Use some validation framework?
     validators = {
-        seedPhrase: value => true // TODO validate seed phrase
+        seedPhrase: value => !!value.length // TODO validate seed phrase
     }
 
     get isLegit() {
@@ -26,24 +25,20 @@ class RecoverAccountSeedPhrase extends Component {
 
     componentDidMount = () => {}
 
-    componentWillUnmount = () => {
-        this.props.clear()
-    }
-
     handleChange = (e, { name, value }) => {
         this.setState(() => ({
             [name]: value
         }))
+
+        this.props.clear()
     }
 
     handleSubmit = () => {
-
         if (!this.isLegit) {
             return false
         }
 
-        const accountId = this.state.accountId
-        this.props.recoverAccountSeedPhrase(this.state.seedPhrase, accountId)
+        this.props.recoverAccountSeedPhrase(this.state.seedPhrase)
             .then(({ error }) => {
                 if (error) return
                 this.props.refreshAccount()
@@ -51,11 +46,28 @@ class RecoverAccountSeedPhrase extends Component {
             })
     }
 
+    isSeedPhraseValid = () => !(this.props.requestStatus.errorMessage && this.props.requestStatus.errorMessage.includes('Cannot find matching public key'))
+
+    get requestStatusWithFormValidation() {
+        return this.props.requestStatus
+            ? this.isSeedPhraseValid()
+                ? this.props.requestStatus
+                : this.invalidSeedPhraseRequestStatus
+            : null
+    }
+
+    get invalidSeedPhraseRequestStatus() {
+        return {
+            success: false,
+            messageCode: 'account.recoverAccount.errorInvalidSeedPhrase'
+        }
+    }
+
     render() {
         const combinedState = {
             ...this.props,
             ...this.state,
-            isLegit: this.isLegit && !this.props.formLoader
+            isLegit: this.isLegit && !(this.props.requestStatus && this.props.requestStatus.success === false)
         }
 
         return (
@@ -64,13 +76,11 @@ class RecoverAccountSeedPhrase extends Component {
                 title={<Translate id='recoverSeedPhrase.pageTitle' />}
                 text={<Translate id='recoverSeedPhrase.pageText' />}
             >
-                <AccountFormSection requestStatus={this.props.requestStatus} handleSubmit={this.handleSubmit}>
+                <AccountFormSection handleSubmit={this.handleSubmit}>
                     <RecoverAccountSeedPhraseForm
                         {...combinedState}
                         handleChange={this.handleChange}
-                        checkAvailability={this.props.checkAccountAvailable}
-                        clearRequestStatus={clear}
-                        setFormLoader={this.props.setFormLoader}
+                        requestStatus={this.requestStatusWithFormValidation}
                     />
                 </AccountFormSection>
             </AccountFormContainer>
@@ -81,15 +91,12 @@ class RecoverAccountSeedPhrase extends Component {
 const mapDispatchToProps = {
     recoverAccountSeedPhrase, 
     redirectToApp,
-    checkAccountAvailable,
-    clear,
     refreshAccount,
-    setFormLoader
+    clear
 }
 
 const mapStateToProps = ({ account }, { match }) => ({
     ...account,
-    accountId: match.params.accountId || '',
     seedPhrase: match.params.seedPhrase || '',
 })
 
