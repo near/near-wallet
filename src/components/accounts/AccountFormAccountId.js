@@ -136,7 +136,7 @@ class AccountFormAccountId extends Component {
             && this.props.checkAvailability(type === 'create' ? this.props.accountId : accountId) 
     )
 
-    checkSameAccount = () => this.props.type !== 'create' && this.props.stateAccountId === this.state.accountId
+    isSameAccount = () => this.props.type !== 'create' && this.props.stateAccountId === this.state.accountId
 
     get loaderRequestStatus() {
         return {
@@ -162,7 +162,7 @@ class AccountFormAccountId extends Component {
                 ? this.loaderRequestStatus
                 : this.state.invalidAccountIdLength
                     ? this.accountIdLengthRequestStatus
-                    : this.checkSameAccount()
+                    : this.isSameAccount()
                         ? this.sameAccountRequestStatus
                         : this.props.requestStatus
             : null
