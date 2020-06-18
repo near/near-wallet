@@ -3,49 +3,43 @@ import { Translate } from 'react-localize-redux'
 import { Input, Header } from 'semantic-ui-react'
 import styled from 'styled-components'
 import FormButton from '../common/FormButton'
-import AccountFormAccountId from './AccountFormAccountId'
+import RequestStatusBox from '../common/RequestStatusBox'
+import classNames from '../../utils/classNames'
 
 const Container = styled.div`
+    .input {
+        padding-bottom: 30px;
+
+        input {
+            width: 100%;
+        }
+    }
 `
 
 const RecoverAccountSeedPhraseForm = ({
     formLoader,
     isLegit,
     handleChange,
-    accountId,
     seedPhrase,
-    checkAvailability,
-    requestStatus,
-    clearRequestStatus,
-    setFormLoader
+    requestStatus
 }) => (
         <Container>
             <Fragment>
-                <Header as='h3'><Translate id='recoverSeedPhrase.accountIdInput.title' /></Header>
-                <AccountFormAccountId
-                    formLoader={formLoader}
-                    handleChange={handleChange}
-                    defaultAccountId={accountId}
-                    checkAvailability={checkAvailability}
-                    requestStatus={requestStatus}
-                    clearRequestStatus={clearRequestStatus}
-                    setFormLoader={setFormLoader}
-                />
-
-                <Header as='h3'><Translate id='recoverSeedPhrase.seedPhraseInput.title' /></Header>
+                <Header as='h4' className='seed-phrase-header'><Translate id='recoverSeedPhrase.seedPhraseInput.title' /></Header>
                 <Translate>
                     {({ translate }) => (
                         <Input
                             name='seedPhrase'
-                            onChange={handleChange}
-                            placeholder={translate('recoverSeedPhrase.seedPhraseInput.placeholder')}
                             value={seedPhrase}
+                            onChange={handleChange}
+                            className={classNames([{'success': requestStatus && requestStatus.success}, {'problem': requestStatus && requestStatus.success === false}])}
+                            placeholder={translate('recoverSeedPhrase.seedPhraseInput.placeholder')}
                             required
-                            tabIndex='2'
-                            style={{ width: '100%' }}
+                            tabIndex='1'
                         />
                     )}
                 </Translate>
+                <RequestStatusBox requestStatus={requestStatus} />
             </Fragment>
 
             <FormButton

@@ -6,7 +6,8 @@
         },
         "recoverAccount": {
             "success": "Success",
-            "error": "Failed to recover account."
+            "error": "Failed to recover account.",
+            "errorInvalidSeedPhrase": "Seed phrase is invalid"
         },
         "create": {
             "success": "Congrats! ${accountId} is available.",

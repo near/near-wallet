@@ -62,7 +62,7 @@ export default createGlobalStyle`
         font-family: BwSeidoRound !important;
         font-weight: 500 !important;
         color: #24272a;
-        font-size: calc(28px + (40 - 28) * ((100vw - 300px) / (1600 - 300)));
+        font-size: calc(28px + (40 - 28) * ((100vw - 300px) / (1600 - 300))) !important;
         word-wrap: break-word;
 
         @media (max-width: 300px) {

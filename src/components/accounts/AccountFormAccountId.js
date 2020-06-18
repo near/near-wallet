@@ -136,18 +136,20 @@ class AccountFormAccountId extends Component {
             && this.props.checkAvailability(type === 'create' ? this.props.accountId : accountId) 
     )
 
-    checkSameAccount = () => this.props.type !== 'create' && this.props.stateAccountId === this.state.accountId
+    isSameAccount = () => this.props.type !== 'create' && this.props.stateAccountId === this.state.accountId
 
     get loaderRequestStatus() {
         return {
             messageCode: `account.create.checkingAvailablity.${this.props.type}`
-    }}
+        }
+    }
 
     get accountIdLengthRequestStatus() {
         return {
             success: false,
             messageCode: 'account.create.errorInvalidAccountIdLength'
-    }}
+        }
+    }
 
     get sameAccountRequestStatus() {
         return {
@@ -156,17 +158,17 @@ class AccountFormAccountId extends Component {
         }
     }
 
-    handleRequestStatus = () => (
-        this.state.accountId
+    get requestStatusWithFormValidation() {
+        return this.state.accountId
             ? this.props.formLoader
                 ? this.loaderRequestStatus
                 : this.state.invalidAccountIdLength
                     ? this.accountIdLengthRequestStatus
-                    : this.checkSameAccount()
+                    : this.isSameAccount()
                         ? this.sameAccountRequestStatus
                         : this.props.requestStatus
             : null
-    )
+    }
 
     render() {
         const {
@@ -177,7 +179,7 @@ class AccountFormAccountId extends Component {
 
         const { accountId, wrongChar } = this.state
 
-        const requestStatus = this.handleRequestStatus()
+        const requestStatus = this.requestStatusWithFormValidation
 
         return (
             <>
