@@ -13,9 +13,9 @@ const StyledContainer = styled(Container)`
         margin-bottom: 30px;
     }
 
-    h3 {
+    h4 {
         :first-of-type {
-            margin-top: 30px !important;
+            margin: 30px 0 0 0 !important;
         }
     }
 

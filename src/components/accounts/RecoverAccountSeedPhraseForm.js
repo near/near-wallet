@@ -13,7 +13,7 @@ const RecoverAccountSeedPhraseForm = ({
     requestStatus
 }) => (
         <>
-            <Header as='h3'><Translate id='recoverSeedPhrase.seedPhraseInput.title' /></Header>
+            <h4><Translate id='recoverSeedPhrase.seedPhraseInput.title' /></h4>
             <Translate>
                 {({ translate }) => (
                     <Input
