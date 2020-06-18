@@ -10,6 +10,7 @@ import Container from '../common/styled/Container.css'
 const StyledContainer = styled(Container)`
     .input {
         width: 100%;
+        margin-bottom: 30px;
     }
 
     h3 {
@@ -20,7 +21,7 @@ const StyledContainer = styled(Container)`
 
     button {
         width: 100% !important;
-        margin-top: 50px !important;
+        margin-top: 30px !important;
     }
 `
 

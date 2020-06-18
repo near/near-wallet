@@ -10,6 +10,10 @@ import styled from 'styled-components'
 
 const CustomDiv = styled.div`
 
+    input {
+        margin-bottom: 30px !important;
+    }
+
     .blue, .input {
         width: 100% !important;
     }
@@ -19,7 +23,7 @@ const CustomDiv = styled.div`
     }
 
     .blue {
-        margin-top: 40px !important;
+        margin-top: 20px !important;
     }
 
     .start-over {
@@ -63,7 +67,7 @@ const SetupSeedPhraseVerify = ({
                 />
             )}
         </Translate>
-        <Responsive as={RequestStatusBox} maxWidth={767} requestStatus={requestStatus} />
+        <Responsive as={RequestStatusBox} requestStatus={requestStatus} />
         <FormButton
             type='submit'
             color='blue'
