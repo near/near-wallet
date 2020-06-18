@@ -14,15 +14,14 @@ const SetupLedger = (props) => {
     const [connect, setConnect] = useState(false);
     const toggleShowInstructions = () => setShowInstructions(!showInstructions);
 
-    const onClick = () => {
+    const onClick = async () => {
         setConnect('true');
-        props.addLedgerAccessKey(props.accountId)
-            .then(({ error }) => {
-                if (error) {
-                    return setConnect('fail');
-                }
-                props.history.push('/setup-ledger-success');
-            })
+        try {
+            await props.addLedgerAccessKey(props.accountId)
+        } catch (e) {
+            return setConnect('fail');
+        }
+        props.history.push('/setup-ledger-success');
     }
 
     return (
