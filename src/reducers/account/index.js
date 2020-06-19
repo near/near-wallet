@@ -40,9 +40,9 @@ const loaderReducer = (state, { type, ready }) => {
 const globalAlertReducer = handleActions({
     // TODO: Reset state before action somehow. On navigate / start of other action?
     // TODO: Make this generic to avoid listing actions
-    [combineActions(addAccessKey, addAccessKeySeedPhrase, setupRecoveryMessage, deleteRecoveryMethod, sendNewRecoveryLink)]: (state, { error, payload, meta }) => ({
+    [combineActions(addAccessKey, addAccessKeySeedPhrase, setupRecoveryMessage, deleteRecoveryMethod, sendNewRecoveryLink)]: (state, { error, ready, payload, meta }) => ({
         ...state,
-        globalAlert: !!payload || error ? {
+        globalAlert: ready ? {
             success: !error,
             errorMessage: (error && payload && payload.toString()) || undefined,
             messageCode: error ? payload.messageCode || meta.errorCode || payload.id : meta.successCode,
@@ -52,17 +52,17 @@ const globalAlertReducer = handleActions({
     [clearAlert]: state => Object.keys(state).reduce((obj, key) => key !== 'globalAlert' ? (obj[key] = state[key], obj) : obj, {})
 }, initialState)
 
-const requestResultReducer = (state, { error, payload, meta }) => {
+const requestResultReducer = (state, { error, ready, payload, meta }) => {
     if (!meta || !meta.successCode) {
         return state
     }
     return {
         ...(state || initialState),
-        requestStatus: !!payload || error ? {
+        requestStatus: ready ? {
             success: !error,
             errorMessage: (error && payload && payload.toString()) || undefined,
             messageCode: error ? payload.messageCode || meta.errorCode : meta.successCode,
-            id: payload.id || undefined
+            id: (payload && payload.id) || undefined
         } : undefined
     }
 }
