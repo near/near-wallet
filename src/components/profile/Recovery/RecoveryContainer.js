@@ -87,7 +87,7 @@ const RecoveryContainer = () => {
     const allKinds = ['email', 'phone', 'phrase'];
     const currentActiveKinds = new Set(activeMethods.map(method => method.kind));
     const missingKinds = allKinds.filter(kind => !currentActiveKinds.has(kind))
-    missingKinds.forEach(element => activeMethods.push({kind: element}));
+    missingKinds.forEach(kind => activeMethods.push({kind: kind}));
 
     const loading = account.actionsPending.includes('LOAD_RECOVERY_METHODS') || account.actionsPending.includes('REFRESH_ACCOUNT');
 
