@@ -27,9 +27,11 @@ export function Profile({ match }) {
             <ProfileSection>
                 <ProfileDetails account={account} />
                 {accountId === loginAccountId && (
-                    <RecoveryContainer />
+                    <>
+                        <RecoveryContainer/>
+                        <HardwareDevices/>
+                    </>
                 )}
-                <HardwareDevices/>
             </ProfileSection>
         </PageContainer>
     )

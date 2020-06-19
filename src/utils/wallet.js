@@ -419,7 +419,7 @@ class Wallet {
             seedPhrase,
             publicKey
         });
-        await this.replaceAccessKey(method.publicKey, publicKey);
+        await this.replaceAccessKey(method.publicKey, publicKey)
     }
 
     async deleteRecoveryMethod({ kind, publicKey }) {
