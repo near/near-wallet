@@ -34,6 +34,10 @@
             "success": "Recovery setup is complete.",
             "error": "An error occurred while setting up your recovery method. Please try again!"
         },
+        "sendNewRecoveryLink": {
+            "success": "Recovery link successfully sent!",
+            "error": "Failed to resend. Please try again."
+        },
         "login": {
             "success": "${title} is now authorized to use your account.",
             "error": "An error occurred while approving this action. Please try again!",

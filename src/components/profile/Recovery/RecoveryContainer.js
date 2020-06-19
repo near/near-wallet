@@ -5,7 +5,6 @@ import styled from 'styled-components';
 import RecoveryMethod from './RecoveryMethod';
 import RecoveryIcon from '../../../images/icon-recovery-grey.svg';
 import ErrorIcon from '../../../images/icon-problems.svg';
-import { Snackbar, snackbarDuration } from '../../common/Snackbar';
 import { Translate } from 'react-localize-redux';
 import {
     deleteRecoveryMethod,
@@ -76,8 +75,7 @@ const NoRecoveryMethod = styled.div`
 `
 
 const RecoveryContainer = () => {
-
-    const [successSnackbar, setSuccessSnackbar] = useState(false);
+    
     const [deletingMethod, setDeletingMethod] = useState('');
     const [resendingLink, setResendingLink] = useState('');
 
@@ -111,8 +109,6 @@ const RecoveryContainer = () => {
 
         if (!error) {
             dispatch(loadRecoveryMethods())
-            setSuccessSnackbar(true)
-            setTimeout(() => {setSuccessSnackbar(false)}, snackbarDuration)
         }
 
         setResendingLink('')
@@ -167,12 +163,6 @@ const RecoveryContainer = () => {
                 height='50px'
                 number={3}
                 show={loading}
-            />
-            <Snackbar
-                theme='success'
-                message={<Translate id='recoveryMgmt.recoveryLinkSent' />}
-                show={successSnackbar}
-                onHide={() => setSuccessSnackbar(false)}
             />
         </Container>
     );

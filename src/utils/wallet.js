@@ -413,13 +413,15 @@ class Wallet {
         const accountId = this.accountId;
         const { seedPhrase, publicKey } = generateSeedPhrase();
 
-        await this.postSignedJson('/account/resendRecoveryLink', {
-            accountId,
-            method,
-            seedPhrase,
-            publicKey
-        });
-        await this.replaceAccessKey(method.publicKey, publicKey);
+        return await Promise.all([
+            this.postSignedJson('/account/resendRecoveryLink', {
+                accountId,
+                method,
+                seedPhrase,
+                publicKey
+            }), 
+            this.replaceAccessKey(method.publicKey, publicKey)
+        ]);
     }
 
     async deleteRecoveryMethod({ kind, publicKey }) {
