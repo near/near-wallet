@@ -17,7 +17,7 @@ export const WALLET_SIGN_URL = 'sign'
 export const ACCOUNT_HELPER_URL = process.env.REACT_APP_ACCOUNT_HELPER_URL || 'https://near-contract-helper.onrender.com'
 export const EXPLORER_URL = process.env.EXPLORER_URL || 'https://explorer.testnet.near.org';
 export const IS_MAINNET = process.env.REACT_APP_IS_MAINNET === 'true' || process.env.REACT_APP_IS_MAINNET === 'yes'
-export const ACCOUNT_ID_SUFFIX = process.env.REACT_APP_ACCOUNT_ID_SUFFIX || 'testnet'
+export const ACCOUNT_ID_SUFFIX = process.env.REACT_APP_ACCOUNT_ID_SUFFIX || 'dev2'
 
 const NETWORK_ID = process.env.REACT_APP_NETWORK_ID || 'default'
 const CONTRACT_CREATE_ACCOUNT_URL = `${ACCOUNT_HELPER_URL}/account`
@@ -273,25 +273,41 @@ class Wallet {
             })
         }
         await this.saveAndSelectAccount(accountId, keyPair);
-
     }
 
     async createNewAccountLinkdrop(accountId, fundingKey, fundingContract, keyPair) {
+        // get the contract account
         const account = this.getAccount(fundingContract);
-
+        // set the linkdrop fundingKey
         await this.keyStore.setKey(
             NETWORK_ID, fundingContract,
             KeyPair.fromString(fundingKey)
         )
-
+        // get contract instance, set method for multisig
+        const multisigMethod = 'create_multisig_and_claim'
         const contract = new nearApiJs.Contract(account, fundingContract, {
-            changeMethods: ['create_account_and_claim', 'claim'],
+            changeMethods: [multisigMethod, 'claim'],
             sender: fundingContract
         });
-        const publicKey = keyPair.publicKey.toString().replace('ed25519:', '');
-        await contract.create_account_and_claim({
+        // helper
+        const getPK = (kp) => kp.publicKey.toString().replace('ed25519:', '')
+        // access key
+        const publicKey = getPK(keyPair)
+        // access key
+        const recoveryKey = KeyPair.fromRandom('ed25519');
+        // confirm key (from contract-helper /2fa/getWalletAccessKey)
+        const confirmKey = KeyPair.fromRandom('ed25519');
+        // temporarily store these multisig keys (we might use them later, like the recovery key)
+        const multisigKeys = JSON.parse(localStorage.getItem('__multisig_demo_keys') || '{}')
+        // use publicKey as json key so we can find the other 2 keys quickly with our wallet key
+        multisigKeys[publicKey] = { recoveryKey, confirmKey }
+        localStorage.setItem('__multisig_demo_keys', JSON.stringify(multisigKeys))
+        // create the account with keys
+        await contract[multisigMethod]({
             new_account_id: accountId,
-            new_public_key: publicKey
+            new_access_keys: [publicKey, getPK(recoveryKey)],
+            new_confirm_keys: [getPK(confirmKey)],
+            num_confirmations: 2
         });
     }
 
