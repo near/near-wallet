@@ -85,8 +85,9 @@ const RecoveryContainer = () => {
     const activeMethods = useRecoveryMethods(accountId).filter(method => method.confirmed);
 
     const allKinds = ['email', 'phone', 'phrase'];
-    const activeKinds = activeMethods.map(method => method.kind)
-    const uniqueActiveKinds = [...new Set(activeKinds)]
+    const currentActiveKinds = new Set(activeMethods.map(method => method.kind));
+    const missingKinds = allKinds.filter(kind => !currentActiveKinds.has(kind))
+    missingKinds.forEach(element => activeMethods.push({kind: element}));
 
     const loading = account.actionsPending.includes('LOAD_RECOVERY_METHODS') || account.actionsPending.includes('REFRESH_ACCOUNT');
 
@@ -112,18 +113,6 @@ const RecoveryContainer = () => {
         }
 
         setResendingLink('')
-    }
-
-    if (!allKinds.every(i => uniqueActiveKinds.includes(i))) {
-        if (!uniqueActiveKinds.includes('email')) {
-            activeMethods.push({kind:'email'})
-        }
-        if (!uniqueActiveKinds.includes('phone')) {
-            activeMethods.push({kind:'phone'})
-        }
-        if (!uniqueActiveKinds.includes('phrase')) {
-            activeMethods.push({kind:'phrase'})
-        }
     }
 
     const sortedActiveMethods = activeMethods.sort((a, b) => {
