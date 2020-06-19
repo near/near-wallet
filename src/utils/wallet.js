@@ -406,22 +406,21 @@ class Wallet {
     async replaceAccessKey(oldKey, newKey) {
         const accountId = this.accountId;
         await this.getAccount(accountId).addKey(newKey)
-        await this.removeAccessKey(oldKey)
+        return await this.removeAccessKey(oldKey)
     }
 
     async sendNewRecoveryLink(method) {
         const accountId = this.accountId;
         const { seedPhrase, publicKey } = generateSeedPhrase();
 
-        return await Promise.all([
-            this.postSignedJson('/account/resendRecoveryLink', {
-                accountId,
-                method,
-                seedPhrase,
-                publicKey
-            }), 
-            this.replaceAccessKey(method.publicKey, publicKey)
-        ]);
+        await this.postSignedJson('/account/resendRecoveryLink', {
+            accountId,
+            method,
+            seedPhrase,
+            publicKey
+        })
+        return await this.replaceAccessKey(method.publicKey, publicKey)
+
     }
 
     async deleteRecoveryMethod({ kind, publicKey }) {
