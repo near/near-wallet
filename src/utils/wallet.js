@@ -272,8 +272,8 @@ class Wallet {
                 newAccountPublicKey: keyPair.publicKey.toString()
             })
         }
-        await this.saveAndSelectAccount(accountId, keyPair);
 
+        await this.saveAndSelectAccount(accountId, keyPair);
     }
 
     async createNewAccountLinkdrop(accountId, fundingKey, fundingContract, keyPair) {
@@ -296,10 +296,14 @@ class Wallet {
     }
 
     async saveAndSelectAccount(accountId, keyPair) {
-        await this.keyStore.setKey(NETWORK_ID, accountId, keyPair)
-        this.accounts[accountId] = true
+        await this.saveAccount(accountId, keyPair)
         this.accountId = accountId
         this.save()
+    }
+
+    async saveAccount(accountId, keyPair) {
+        await this.keyStore.setKey(NETWORK_ID, accountId, keyPair)
+        this.accounts[accountId] = true
     }
 
     async addAccessKey(accountId, contractId, publicKey) {
