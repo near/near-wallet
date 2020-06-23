@@ -182,7 +182,7 @@ export default createGlobalStyle`
         margin-top: 8px !important;
         outline: none;
         appearance: none;
-        border-radius: 4px;
+        border-radius: 4px !important;
 
         ::placeholder {
             color: #999999;

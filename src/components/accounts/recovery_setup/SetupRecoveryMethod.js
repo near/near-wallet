@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 import { Translate } from 'react-localize-redux';
+import 'react-phone-number-input/style.css'
 import PhoneInput, { isValidPhoneNumber } from 'react-phone-number-input';
 import { validateEmail } from '../../../utils/account';
 import { initializeRecoveryMethod, setupRecoveryMessage, redirectToApp, loadRecoveryMethods } from '../../../actions/account';
