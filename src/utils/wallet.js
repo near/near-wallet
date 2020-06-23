@@ -467,6 +467,11 @@ class Wallet {
                 await this.saveAccount(accountId, newKeyPair)
             }
         }))
+
+        return {
+            numberOfAccounts: accountsIds.length,
+            accountList: accountsIds.flatMap((accountId) => accountId.account_id).join(', ')
+        }
     }
 
     async signAndSendTransactions(transactions, accountId) {
