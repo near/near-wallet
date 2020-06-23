@@ -1,5 +1,5 @@
 import { createGlobalStyle } from 'styled-components'
-
+import 'semantic-ui-css/semantic.min.css'
 import EmailIconGray from '../images/email-icon-gray.svg'
 import CloseBtn from '../images/close-btn.svg'
 
