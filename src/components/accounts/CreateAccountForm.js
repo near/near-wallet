@@ -16,7 +16,7 @@ const RecaptchaString = styled.div`
     margin-bottom: -10px;
     font-size: 12px;
     padding-top: 24px;
-    font-weight: 400;
+    font-weight: 300;
 
     a {
         color: inherit;

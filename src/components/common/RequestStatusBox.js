@@ -4,7 +4,7 @@ import { Translate } from 'react-localize-redux'
 import classNames from '../../utils/classNames'
 
 const RequestStatusBoxContainer = styled.div`
-    font-weight: 600;
+    font-weight: 500;
     margin-top: -20px;
     padding-bottom: 4px;
     line-height: 16px;

@@ -72,7 +72,7 @@ const Header = styled.div`
     display: flex;
     align-items: center;
     color: #24272a;
-    font-weight: 600;
+    font-weight: 500;
     font-size: 16px;
 
     &:before {
@@ -100,13 +100,13 @@ const P = styled.p`
     }
 
     span {
-        font-weight: 600;
+        font-weight: 500;
     }
 `;
 
 const Button = styled(Link)`
     background-color: #6AD1E3;
-    font-weight: 600;
+    font-weight: 500;
     display: inline-block;
     border: 0;
     border-radius: 40px;

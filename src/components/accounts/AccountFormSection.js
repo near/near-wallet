@@ -26,7 +26,7 @@ const CustomForm = styled(Form)`
             margin-top: 12px;
             color: #24272a;
             line-height: 24px;
-            font-weight: 600;
+            font-weight: 500;
 
             a {
                 text-decoration: underline;

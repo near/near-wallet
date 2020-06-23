@@ -13,7 +13,6 @@ import styled from 'styled-components'
 const CustomButton = styled(Button)`
     &&& {
         color: #fff;
-        font-weight: 500;
         letter-spacing: 2px;
 
         margin: 24px 0 0 0;
@@ -37,7 +36,6 @@ const CustomButton = styled(Button)`
             border-radius: 20px;
             letter-spacing: 0;
             padding: 0px 0px;
-            font-weight: 500;
             
             font-size: 14px;
         }
@@ -128,13 +126,13 @@ const CustomButton = styled(Button)`
         }
         &.green-white-arrow {
             color: #5ace84;
-            font-weight: 600;
             border-color: #5ace84;
             background-color: #fff;
             background-image: url(${ArrowGrnImage});
             background-repeat: no-repeat;
             background-position: 90% center;
             background-size: 14px 20px;
+            font-weight: 500 !important;
 
             :disabled {
                 color: e6e6e6;
@@ -216,7 +214,6 @@ const CustomButton = styled(Button)`
 
             font-size: 14px;
             line-height: 14px;
-            font-weight: 500;
             background: none;
             border: none;
             display: inline;
@@ -332,7 +329,7 @@ const CustomButton = styled(Button)`
             }
         }
         &.bold {
-            font-weight: 600;
+            font-weight: 500;
         }
         @media screen and (max-width: 767px) {
             width: 100%;
