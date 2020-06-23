@@ -272,8 +272,8 @@ class Wallet {
                 newAccountPublicKey: keyPair.publicKey.toString()
             })
         }
-        await this.saveAndSelectAccount(accountId, keyPair);
 
+        await this.saveAndSelectAccount(accountId, keyPair);
     }
 
     async createNewAccountLinkdrop(accountId, fundingKey, fundingContract, keyPair) {
@@ -296,10 +296,14 @@ class Wallet {
     }
 
     async saveAndSelectAccount(accountId, keyPair) {
-        await this.keyStore.setKey(NETWORK_ID, accountId, keyPair)
-        this.accounts[accountId] = true
+        await this.saveAccount(accountId, keyPair)
         this.accountId = accountId
         this.save()
+    }
+
+    async saveAccount(accountId, keyPair) {
+        await this.keyStore.setKey(NETWORK_ID, accountId, keyPair)
+        this.accounts[accountId] = true
     }
 
     async addAccessKey(accountId, contractId, publicKey) {
@@ -433,12 +437,12 @@ class Wallet {
 
     async recoverAccountSeedPhrase(seedPhrase) {
         const { publicKey, secretKey } = parseSeedPhrase(seedPhrase)
-        const accountId = await getAccountId(publicKey)
+        const accountsIds = await getAccountId(publicKey)
 
-        if (!accountId) {
+        if (!accountsIds.length) {
             throw new Error(`Cannot find matching public key`);
         }
-        
+
         const tempKeyStore = new nearApiJs.keyStores.InMemoryKeyStore()
 
         const connection = nearApiJs.Connection.fromConfig({
@@ -447,16 +451,27 @@ class Wallet {
             signer: new nearApiJs.InMemorySigner(tempKeyStore)
         })
 
-        const account = new nearApiJs.Account(connection, accountId)
+        await Promise.all(accountsIds.map(async ({ account_id: accountId }, i, { length }) => {
+            const account = new nearApiJs.Account(connection, accountId)
 
-        const keyPair = KeyPair.fromString(secretKey)
-        await tempKeyStore.setKey(NETWORK_ID, accountId, keyPair)
+            const keyPair = KeyPair.fromString(secretKey)
+            await tempKeyStore.setKey(NETWORK_ID, accountId, keyPair)
 
-        // generate new keypair for this browser
-        const newKeyPair = KeyPair.fromRandom('ed25519')
-        await account.addKey(newKeyPair.publicKey)
+            // generate new keypair for this browser
+            const newKeyPair = KeyPair.fromRandom('ed25519')
+            await account.addKey(newKeyPair.publicKey)
 
-        await this.saveAndSelectAccount(accountId, newKeyPair)
+            if (i === length - 1) {
+                await this.saveAndSelectAccount(accountId, newKeyPair)
+            } else {
+                await this.saveAccount(accountId, newKeyPair)
+            }
+        }))
+
+        return {
+            numberOfAccounts: accountsIds.length,
+            accountList: accountsIds.flatMap((accountId) => accountId.account_id).join(', ')
+        }
     }
 
     async signAndSendTransactions(transactions, accountId) {

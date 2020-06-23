@@ -15,7 +15,8 @@ import {
     resetAccounts,
     setFormLoader,
     deleteRecoveryMethod,
-    sendNewRecoveryLink
+    sendNewRecoveryLink,
+    recoverAccountSeedPhrase
 } from '../../actions/account'
 
 const initialState = {
@@ -40,13 +41,16 @@ const loaderReducer = (state, { type, ready }) => {
 const globalAlertReducer = handleActions({
     // TODO: Reset state before action somehow. On navigate / start of other action?
     // TODO: Make this generic to avoid listing actions
-    [combineActions(addAccessKey, addAccessKeySeedPhrase, setupRecoveryMessage, deleteRecoveryMethod, sendNewRecoveryLink)]: (state, { error, ready, payload, meta }) => ({
+    [combineActions(addAccessKey, addAccessKeySeedPhrase, setupRecoveryMessage, deleteRecoveryMethod, sendNewRecoveryLink, recoverAccountSeedPhrase)]: (state, { error, ready, payload, meta }) => ({
         ...state,
         globalAlert: ready ? {
             success: !error,
             errorMessage: (error && payload && payload.toString()) || undefined,
             messageCode: error ? payload.messageCode || meta.errorCode || payload.id : meta.successCode,
-            data: meta.data
+            data: {
+                ...meta.data,
+                ...payload
+            }
         } : undefined
     }),
     [clearAlert]: state => Object.keys(state).reduce((obj, key) => key !== 'globalAlert' ? (obj[key] = state[key], obj) : obj, {})

@@ -77,7 +77,5 @@ export async function getAccountId(publicKey) {
         publicKey
     }
 
-    const accountsId = await queryExplorer(sql, params)
-
-    return accountsId[0] && accountsId[accountsId.length - 1].account_id
+    return await queryExplorer(sql, params)
 }
