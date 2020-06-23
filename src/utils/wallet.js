@@ -437,12 +437,12 @@ class Wallet {
 
     async recoverAccountSeedPhrase(seedPhrase) {
         const { publicKey, secretKey } = parseSeedPhrase(seedPhrase)
-        const accountId = await getAccountId(publicKey)
+        const accountsIds = await getAccountId(publicKey)
 
-        if (!accountId) {
+        if (!accountsIds.length) {
             throw new Error(`Cannot find matching public key`);
         }
-        
+
         const tempKeyStore = new nearApiJs.keyStores.InMemoryKeyStore()
 
         const connection = nearApiJs.Connection.fromConfig({
@@ -451,16 +451,22 @@ class Wallet {
             signer: new nearApiJs.InMemorySigner(tempKeyStore)
         })
 
-        const account = new nearApiJs.Account(connection, accountId)
+        await Promise.all(accountsIds.map(async ({ account_id: accountId }, i, { length }) => {
+            const account = new nearApiJs.Account(connection, accountId)
 
-        const keyPair = KeyPair.fromString(secretKey)
-        await tempKeyStore.setKey(NETWORK_ID, accountId, keyPair)
+            const keyPair = KeyPair.fromString(secretKey)
+            await tempKeyStore.setKey(NETWORK_ID, accountId, keyPair)
 
-        // generate new keypair for this browser
-        const newKeyPair = KeyPair.fromRandom('ed25519')
-        await account.addKey(newKeyPair.publicKey)
+            // generate new keypair for this browser
+            const newKeyPair = KeyPair.fromRandom('ed25519')
+            await account.addKey(newKeyPair.publicKey)
 
-        await this.saveAndSelectAccount(accountId, newKeyPair)
+            if (i === length - 1) {
+                await this.saveAndSelectAccount(accountId, newKeyPair)
+            } else {
+                await this.saveAccount(accountId, newKeyPair)
+            }
+        }))
     }
 
     async signAndSendTransactions(transactions, accountId) {
