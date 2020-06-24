@@ -440,7 +440,9 @@ class Wallet {
         const accountsIds = await getAccountId(publicKey)
 
         if (!accountsIds.length) {
-            throw new Error(`Cannot find matching public key`);
+            const error = new Error(`Cannot find matching public key`)
+            error.messageCode = 'account.recoverAccount.errorInvalidSeedPhrase'
+            throw error
         }
 
         const tempKeyStore = new nearApiJs.keyStores.InMemoryKeyStore()
