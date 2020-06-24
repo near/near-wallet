@@ -22,7 +22,7 @@ const CustomGridRow = styled(Grid.Row)`
         }
 
         .main-row-title {
-            font-weight: 600;
+            font-weight: 500;
             width: auto;
             padding-right: 0px;
             flex: 1;

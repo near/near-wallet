@@ -23,7 +23,7 @@ const CustomGrid = styled(Grid)`
                 font-weight: 600;
             }
             .title {
-                font-weight: 600;
+                font-weight: 500;
                 color: #24272a;
                 display: flex;
                 align-items: center;

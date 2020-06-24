@@ -64,7 +64,6 @@ const Address = styled.div`
     word-break: break-all;
     line-height: 120%;
     margin-top: 25px;
-    font-weight: 500;
     position: relative;
     background-color: white;
     overflow: hidden;
@@ -89,7 +88,6 @@ const CopyAddress = styled.div`
     transform: translateY(-50%);
     margin: 0;
     cursor: pointer;
-    font-weight: 600;
     background-color: #f8f8f8;
     border-radius: 4px;
     padding: 6px 10px;

@@ -26,6 +26,7 @@ const NavLink = styled(Link)`
     cursor: pointer;
     transition: 100ms;
     color: white;
+    padding-top: 2px;
 
     &:before {
         content: '';
@@ -34,6 +35,7 @@ const NavLink = styled(Link)`
         display: inline-block;
         width: 23px;
         height: 23px;
+        margin-top: -2px;
     }
 
     &:last-of-type {
