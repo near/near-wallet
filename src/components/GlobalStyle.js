@@ -308,6 +308,10 @@ export default createGlobalStyle`
         cursor: pointer;
         outline: none;
         font-weight: 400 !important;
+
+        &.link {
+            line-height: normal !important;
+        }
     }
 
     .box {
