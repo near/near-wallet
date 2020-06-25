@@ -9,6 +9,7 @@ import { store } from '..'
 import { getAccessKeys } from '../actions/account'
 import { generateSeedPhrase } from 'near-seed-phrase';
 import { getAccountId } from './explorer-api'
+import { WalletError } from './walletError'
 
 export const WALLET_CREATE_NEW_ACCOUNT_URL = 'create'
 export const WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS = ['create', 'set-recovery', 'setup-seed-phrase', 'recover-account', 'recover-seed-phrase']
@@ -440,9 +441,7 @@ class Wallet {
         const accountsIds = await getAccountId(publicKey)
 
         if (!accountsIds.length) {
-            const error = new Error(`Cannot find matching public key`)
-            error.messageCode = 'account.recoverAccount.errorInvalidSeedPhrase'
-            throw error
+            throw new WalletError('Cannot find matching public key', 'account.recoverAccount.errorInvalidSeedPhrase', { aaa: 'bbb' })
         }
 
         const tempKeyStore = new nearApiJs.keyStores.InMemoryKeyStore()
