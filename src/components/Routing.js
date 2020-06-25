@@ -180,16 +180,20 @@ class Routing extends Component {
                                     path='/full-access-keys'
                                     component={FullAccessKeysWithRouter}
                                 />
-                                <PrivateRoute
-                                    exact
-                                    path='/send-money/:id?'
-                                    component={SendMoneyWithRouter}
-                                />
-                                <PrivateRoute
-                                    exact
-                                    path='/receive-money'
-                                    component={ReceiveMoneyWithRouter}
-                                />
+                                {!IS_MAINNET &&
+                                    <PrivateRoute
+                                        exact
+                                        path='/send-money/:id?'
+                                        component={SendMoneyWithRouter}
+                                    />
+                                }
+                                {!IS_MAINNET &&
+                                    <PrivateRoute
+                                        exact
+                                        path='/receive-money'
+                                        component={ReceiveMoneyWithRouter}
+                                    />
+                                }
                                 <PrivateRoute
                                     exact
                                     path='/profile/:accountId?'
