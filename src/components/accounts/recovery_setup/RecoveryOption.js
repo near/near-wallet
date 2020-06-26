@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import EmailIcon from '../../svg/EmailIcon';
 import PhoneIcon from '../../svg/PhoneIcon';
 import PhraseIcon from '../../svg/PhraseIcon';
+import HardwareDeviceIcon from '../../svg/HardwareDeviceIcon';
 import { Translate } from 'react-localize-redux';
 import IntFlagIcon from '../../../images/int-flag-small.svg';
 import classNames from '../../../utils/classNames';
@@ -30,6 +31,10 @@ const Container = styled.div`
         border-radius: 50%;
     }
 
+    path {
+        stroke: #8dd4bd;
+    }
+
     &.active {
         border-color: #0072CE;
         background-color: white;
@@ -52,7 +57,7 @@ const Container = styled.div`
             border-right: 2px solid white;
         }
 
-        .icon {
+        .icon, path {
             stroke: #0072CE !important;
         }
     }
@@ -149,6 +154,8 @@ const Icon = ({option}) => {
             return <PhoneIcon/>
         case 'phrase':
             return <PhraseIcon/>
+        case 'ledger':
+            return <HardwareDeviceIcon/>
         default:
             return
     }
@@ -174,7 +181,7 @@ const RecoveryOption = ({
                 <Icon option={option}/>
                 <Title>
                     <Translate id={`setupRecovery.${option}Title`}/>
-                    {active && option !== 'phrase' && <span>*</span>}
+                    {active && option !== 'phrase' && option !== 'ledger' && <span>*</span>}
                 </Title>
             </Header>
             {!disabled && active && children}

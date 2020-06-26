@@ -5,7 +5,7 @@ import { Translate } from 'react-localize-redux';
 import 'react-phone-number-input/style.css'
 import PhoneInput, { isValidPhoneNumber } from 'react-phone-number-input';
 import { validateEmail } from '../../../utils/account';
-import { initializeRecoveryMethod, setupRecoveryMessage, redirectToApp, loadRecoveryMethods } from '../../../actions/account';
+import { initializeRecoveryMethod, setupRecoveryMessage, redirectToApp, loadRecoveryMethods, getAccessKeys } from '../../../actions/account';
 import RecoveryOption from './RecoveryOption';
 import FormButton from '../../common/FormButton';
 import SetupRecoveryMethodSuccess from './SetupRecoveryMethodSuccess';
@@ -59,8 +59,10 @@ class SetupRecoveryMethod extends Component {
     }
 
     componentDidMount() {
-        const { loadRecoveryMethods, accountId, router, recoveryMethods } = this.props;
+        const { loadRecoveryMethods, accountId, router, recoveryMethods, getAccessKeys } = this.props;
         const { method } = router.location;
+
+        getAccessKeys()
 
         if (method) {
             this.setState({ option: method });
@@ -88,6 +90,8 @@ class SetupRecoveryMethod extends Component {
                 return isValidPhoneNumber(phoneNumber)
             case 'phrase':
                 return true
+            case 'ledger':
+                return true
             default:
                 return false
         }
@@ -101,6 +105,8 @@ class SetupRecoveryMethod extends Component {
             window.scrollTo(0, 0);
         } else if (option === 'phrase') {
             this.props.history.push(`/setup-seed-phrase/${this.props.accountId}`);
+        } else if (option === 'ledger') {
+            this.props.history.push(`/setup-ledger`);
         }
     }
 
@@ -155,7 +161,11 @@ class SetupRecoveryMethod extends Component {
 
     render() {
         const { option, phoneNumber, email, success, emailInvalid, phoneInvalid, activeMethods } = this.state;
-        const { actionsPending } = this.props;
+        const { actionsPending, fullAccessKeys } = this.props;
+
+        const keys = fullAccessKeys || [];
+        const ledgerKey = keys.find(key => key.meta.type === 'ledger');
+        const hasLedger = !!ledgerKey // TODO: reference a global hasLedger variable and share with HardwareDevices.js
 
         if (!success) {
             return (
@@ -206,6 +216,12 @@ class SetupRecoveryMethod extends Component {
                     <OptionHeader><Translate id='setupRecovery.advancedSecurity'/></OptionHeader>
                     <OptionSubHeader><Translate id='setupRecovery.advancedSecurityDesc'/></OptionSubHeader>
                     <RecoveryOption
+                        onClick={() => this.setState({ option: 'ledger' })}
+                        option='ledger'
+                        active={option}
+                        disabled={hasLedger}
+                    />
+                    <RecoveryOption
                         onClick={() => this.setState({ option: 'phrase' })}
                         option='phrase'
                         active={option}
@@ -241,7 +257,8 @@ const mapDispatchToProps = {
     setupRecoveryMessage,
     redirectToApp,
     loadRecoveryMethods,
-    initializeRecoveryMethod
+    initializeRecoveryMethod,
+    getAccessKeys
 }
 
 const mapStateToProps = ({ account, router, recoveryMethods }, { match }) => ({
