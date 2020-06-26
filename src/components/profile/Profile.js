@@ -7,6 +7,7 @@ import ProfileDetails from './ProfileDetails'
 import ProfileSection from './ProfileSection'
 import RecoveryContainer from './Recovery/RecoveryContainer'
 import HardwareDevices from './hardware_devices/HardwareDevices'
+import TwoFactorAuth from './two_factor/TwoFactorAuth'
 import { LOADING, NOT_FOUND, useAccount } from '../../hooks/allAccounts'
 
 export function Profile({ match }) {
@@ -29,6 +30,7 @@ export function Profile({ match }) {
                 {accountId === loginAccountId && (
                     <>
                         <RecoveryContainer/>
+                        <TwoFactorAuth/>
                         <HardwareDevices/>
                     </>
                 )}

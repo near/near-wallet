@@ -155,7 +155,16 @@
             "keep": "No, keep Ledger"
         }
     },
-    
+
+    "twoFactor": {
+        "title": "Two-Factor Authentication",
+        "desc": "Verify with a secondary device when signing in to your account.",
+        "email": "Email Address",
+        "phone": "Phone Number",
+        "notEnabled": "2FA Not Enabled",
+        "active": "Active"
+    },
+
     "fullAccessKeys": {
         "pageTitle": "Full Access Keys",
         "authorizedTo": "AUTHORIZED TO",
