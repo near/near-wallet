@@ -10,7 +10,6 @@ import ScrollToTop from '../utils/ScrollToTop'
 import translations_en from '../translations/en.global.json'
 import GlobalAlert from './responsive/GlobalAlert'
 import '../index.css'
-
 import Navigation from './navigation/Navigation'
 import Footer from './common/Footer'
 import NetworkBanner from './common/NetworkBanner'
@@ -20,6 +19,7 @@ import { CreateAccountWithRouter } from './accounts/CreateAccount'
 import { SetupRecoveryMethodWithRouter } from './accounts/recovery_setup/SetupRecoveryMethod'
 import { SetupLedgerWithRouter } from './accounts/ledger/SetupLedger'
 import { SetupLedgerSuccessWithRouter } from './accounts/ledger/SetupLedgerSuccess'
+import { EnableTwoFactor } from './accounts/two_factor/EnableTwoFactor'
 import { RecoverAccountWithRouter } from './accounts/RecoverAccount'
 import { RecoverAccountSeedPhraseWithRouter } from './accounts/RecoverAccountSeedPhrase'
 import { RecoverWithLinkWithRouter } from './accounts/RecoverWithLink'
@@ -140,6 +140,11 @@ class Routing extends Component {
                                     exact
                                     path='/setup-seed-phrase/:accountId/:verify?'
                                     component={SetupSeedPhraseWithRouter}
+                                />
+                                <PrivateRoute
+                                    exact
+                                    path='/enable-two-factor'
+                                    component={EnableTwoFactor}
                                 />
                                 <Route
                                     exact
