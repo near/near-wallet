@@ -2,7 +2,6 @@ import * as nearApiJs from 'near-api-js'
 import { KeyPair } from 'near-api-js'
 import sendJson from 'fetch-send-json'
 import { parseSeedPhrase } from 'near-seed-phrase'
-import { createClient } from 'near-ledger-js'
 import { PublicKey } from 'near-api-js/lib/utils'
 import { KeyType } from 'near-api-js/lib/utils/key_pair'
 import { store } from '..'
@@ -50,32 +49,16 @@ class Wallet {
         this.keyStore = new nearApiJs.keyStores.BrowserLocalStorageKeyStore(window.localStorage, 'nearlib:keystore:')
         this.inMemorySigner = new nearApiJs.InMemorySigner(this.keyStore)
 
-        const getLedgerKey = async (accountId, networkId) => {
-            let state = store.getState()
-            if (!state.account.fullAccessKeys) {
-                await store.dispatch(getAccessKeys(accountId))
-                state = store.getState()
-            }
-            const accessKeys = state.account.fullAccessKeys
-            if (accessKeys && state.account.accountId === accountId) {
-                const localKey = await this.getLocalAccessKey(accessKeys)
-                const ledgerKey = accessKeys.find(accessKey => accessKey.meta.type === 'ledger')
-                if (ledgerKey && !localKey) {
-                    return PublicKey.from(ledgerKey.public_key)
-                }
-            }
-            return null
-        }
-
         const inMemorySigner = this.inMemorySigner
+        const wallet = this
         this.signer = {
             async getPublicKey(accountId, networkId) {
-                return (await getLedgerKey(accountId)) || (await inMemorySigner.getPublicKey(accountId, networkId))
+                return (await wallet.getLedgerKey(accountId)) || (await inMemorySigner.getPublicKey(accountId, networkId))
             },
             async signMessage(message, accountId, networkId) {
-                if (await getLedgerKey(accountId)) {
-                    // TODO: Use network ID
-                    const client = await createClient()
+                if (await wallet.getLedgerKey(accountId)) {
+                    const { createLedgerU2FClient } = await import('./ledger.js')
+                    const client = await createLedgerU2FClient()
                     const signature = await client.sign(message)
                     const publicKey = await this.getPublicKey(accountId, networkId)
                     return {
@@ -101,6 +84,23 @@ class Wallet {
     async getLocalAccessKey(accessKeys) {
         const localPublicKey = await this.inMemorySigner.getPublicKey(this.accountId, NETWORK_ID)
         return localPublicKey && accessKeys.find(({ public_key }) => public_key === localPublicKey.toString())
+    }
+
+    async getLedgerKey(accountId, networkId) {
+        let state = store.getState()
+        if (!state.account.fullAccessKeys) {
+            await store.dispatch(getAccessKeys(accountId))
+            state = store.getState()
+        }
+        const accessKeys = state.account.fullAccessKeys
+        if (accessKeys && state.account.accountId === accountId) {
+            const localKey = await this.getLocalAccessKey(accessKeys)
+            const ledgerKey = accessKeys.find(accessKey => accessKey.meta.type === 'ledger')
+            if (ledgerKey && !localKey) {
+                return PublicKey.from(ledgerKey.public_key)
+            }
+        }
+        return null
     }
 
     save() {
@@ -324,7 +324,8 @@ class Wallet {
     }
 
     async addLedgerAccessKey(accountId) {
-        const client = await createClient()
+        const { createLedgerU2FClient } = await import('./ledger.js')
+        const client = await createLedgerU2FClient()
         const rawPublicKey = await client.getPublicKey()
         const publicKey = new PublicKey({ keyType: KeyType.ED25519, data: rawPublicKey })
         await setKeyMeta(publicKey, { type: 'ledger' })
@@ -332,8 +333,12 @@ class Wallet {
     }
 
     async getAvailableKeys() {
-        // TODO: Return additional keys (e.g. Ledger)
-        return [(await this.keyStore.getKey(NETWORK_ID, this.accountId)).publicKey]
+        const availableKeys = [(await this.keyStore.getKey(NETWORK_ID, this.accountId)).publicKey]
+        const ledgerKey = await this.getLedgerKey(this.accountId)
+        if (ledgerKey) {
+            availableKeys.push(ledgerKey.toString())
+        }
+        return availableKeys
     }
 
     clearState() {
