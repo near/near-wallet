@@ -144,7 +144,7 @@
         "title": "Hardware Devices",
         "desc": "Improve the security of your account by using a hardware wallet.",
         "ledger": {
-            "title": "Ledger Hardware Wallet",
+            "title": "Ledger Nano S",
             "auth": "Authorized",
             "disclaimer": "In order to disable your ledger device, you must first enable an alternative recovery method."
         },
@@ -540,7 +540,7 @@
 
     "setupLedger": {
         "header": "Connect your Ledger device",
-        "one": "Connect your Ledger to your computer or mobile device via USB, then open the NEAR application.",
+        "one": "Connect your Ledger Nano S to your computer or mobile device via USB and <b>open the NEAR application</b>.",
         "two": "If you have not yet installed the NEAR Ledger app, follow",
         "twoLink": "these instructions"
     },

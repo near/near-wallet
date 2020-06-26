@@ -58,6 +58,10 @@ export default createGlobalStyle`
         }
     }
 
+    .underline {
+        text-decoration: underline;
+    }
+
     h1, .h1 {
         font-family: BwSeidoRound !important;
         font-weight: 500 !important;
