@@ -38,9 +38,9 @@ const SetupLedger = (props) => {
             <h1><Translate id='setupLedger.header'/></h1>
             <LedgerIcon/>
             <p><Translate id='setupLedger.one'/></p>
-            <p><Translate id='setupLedger.two'/> <span className='link' onClick={toggleShowInstructions}><Translate id='setupLedger.twoLink'/></span>.</p>
+            <p><Translate id='setupLedger.two'/> <span className='link underline' onClick={toggleShowInstructions}><Translate id='setupLedger.twoLink'/></span>.</p>
             <FormButton onClick={onClick} sending={connect === 'true'} sendingString='connecting'>
-                <Translate id={`button.${connect !== 'fail' ? 'connectLedger' : 'retry'}`}/>
+                <Translate id={`button.${connect !== 'fail' ? 'continue' : 'retry'}`}/>
             </FormButton>
             <button className='link' onClick={() => props.history.goBack()}><Translate id='button.cancel'/></button>
             {showInstructions && 
