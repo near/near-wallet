@@ -8,7 +8,7 @@ import { validateEmail } from '../../../utils/account';
 import { initializeRecoveryMethod, setupRecoveryMessage, redirectToApp, loadRecoveryMethods, getAccessKeys } from '../../../actions/account';
 import RecoveryOption from './RecoveryOption';
 import FormButton from '../../common/FormButton';
-import SetupRecoveryMethodSuccess from './SetupRecoveryMethodSuccess';
+import EnterVerificationCode from '../EnterVerificationCode';
 
 const Container = styled.form`
 
@@ -239,12 +239,13 @@ class SetupRecoveryMethod extends Component {
             )
         } else {
             return (
-                <SetupRecoveryMethodSuccess
+                <EnterVerificationCode
                     option={option}
                     phoneNumber={phoneNumber}
                     email={email}
                     onConfirm={this.handleSetupRecoveryMethod}
                     onGoBack={this.handleGoBack}
+                    onResend={this.handleSendCode}
                     loading={actionsPending.includes('SETUP_RECOVERY_MESSAGE')}
                     requestStatus={this.props.requestStatus}
                 />

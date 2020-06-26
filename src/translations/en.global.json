@@ -178,6 +178,7 @@
         "copyPhrase": "COPY PHRASE",
         "continue": "CONTINUE",
         "verify": "VERIFY & COMPLETE",
+        "verifyCodeEnable": "Verify Code & Enable", 
         "startOver": "Start over",
         "copyUrl": "Copy Url",
         "createAccount": "Create account",
@@ -305,9 +306,9 @@
     },
     "setRecoveryConfirm": {
         "pageTitle": "Verify",
-        "pageText": "We've sent a 6 digit code to",
+        "pageText": "We've sent a 6-digit verification code to the ${option} you provided:",
         "inputPlaceholder": "Enter 6 digit code",
-        "invalidCode": "Please check your security code.",
+        "invalidCode": "Invalid code",
         "reenter": {
             "one": {
                 "email": "If you did not yet receive this email, or the above email address is incorrect, ",

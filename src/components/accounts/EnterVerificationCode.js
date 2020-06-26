@@ -2,47 +2,41 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Translate } from 'react-localize-redux'
-import FormButton from '../../common/FormButton';
+import FormButton from '../common/FormButton';
 
 const Container = styled.form`
     display: flex !important;
     flex-direction: column;
     align-items: flex-start;
 
-    .desc {
-        color: #4a4f54;
-        font-family: BwSeidoRound !important;
-        line-height: 130%;
-        font-size: 20px;
+    h2 {
         max-width: 800px;
-        
-        &.one {
-            margin-top: -10px;
-        }
-
-        &.two {
-            margin-top: 10px;
-        }
+        color: #4a4f54 !important;
 
         @media (max-width: 767px) {
-            font-size: 18px;
+            font-size: 14px !important;
+            line-height: 18px !important;
+            color: #999 !important;
+            margin-bottom: -15px;
         }
+
+        span {
+            color: #24272a;
+        }
+    }
+
+    h4 {
+        margin-top: 40px;
+    }
+
+    p {
+        margin-top: 40px;
     }
 
     .recover-value {
         background-color: #f8f8f8;
         padding: 3px 10px;
         color: #24272a;
-    }
-
-    .re-enter {
-        border-top: 2px solid #f8f8f8;
-        margin-top: 30px;
-
-        @media (max-width: 767px) {
-            padding-top: 10px;
-            line-height: 100%;
-        }
     }
 
     input {
@@ -55,10 +49,11 @@ const Container = styled.form`
     }
 `
 
-const SetRecoveryMethodSuccess = ({
+const EnterVerificationCode = ({
     option,
     onConfirm,
     onGoBack,
+    onResend,
     email,
     phoneNumber,
     loading,
@@ -76,8 +71,9 @@ const SetRecoveryMethodSuccess = ({
 
     return (
         <Container className='ui container' onSubmit={e => {onConfirm(code); e.preventDefault();}}>
-            <h1><Translate id='setRecoveryConfirm.pageTitle'/> {useEmail ? 'Email' : 'Phone'}</h1>
-            <div className='desc one'><Translate id='setRecoveryConfirm.pageText'/> {useEmail ? email : phoneNumber}</div>
+            <h1>Enter Verification Code</h1>
+            <h2><Translate id='setRecoveryConfirm.pageText' data={{option}}/> <span>{useEmail ? email : phoneNumber}</span></h2>
+            <h4>Enter your 6-digit verification code</h4>
             <Translate>
                 {({ translate }) => (
                     <>
@@ -85,8 +81,8 @@ const SetRecoveryMethodSuccess = ({
                             type='number'
                             pattern='[0-9]*'
                             inputMode='numeric'
-                            placeholder={translate('setRecoveryConfirm.inputPlaceholder')}
-                            aria-label={translate('setRecoveryConfirm.inputPlaceholder')}
+                            placeholder='Verification Code'
+                            aria-label='Verification Code'
                             value={code}
                             onChange={e => setCode(e.target.value)}
                         />
@@ -104,18 +100,14 @@ const SetRecoveryMethodSuccess = ({
                 disabled={code.length !== 6 || loading}
                 sending={loading}
             >
-                <Translate id='button.confirm' />
+                <Translate id='button.verifyCodeEnable' />
             </FormButton>
-            <div className='re-enter'>
-                <Translate id={`setRecoveryConfirm.reenter.one.${useEmail ? 'email' : 'phoneNumber'}`} />
-                <span onClick={onGoBack} className='link'><Translate id='setRecoveryConfirm.reenter.link'/></span>
-                <Translate id={`setRecoveryConfirm.reenter.two.${useEmail ? 'email' : 'phoneNumber'}`} />
-            </div>
+            <p>Didn't recieve your code? <span onClick={onResend} className='link'>Resend your code</span>, or <span onClick={onGoBack} className='link'>send to a different email address</span>.</p>
         </Container>
     )
 }
 
-SetRecoveryMethodSuccess.propTypes = {
+EnterVerificationCode.propTypes = {
     email: PropTypes.string,
     phoneNumber: PropTypes.string,
     option: PropTypes.string.isRequired,
@@ -123,4 +115,4 @@ SetRecoveryMethodSuccess.propTypes = {
     onConfirm: PropTypes.func.isRequired
 }
 
-export default SetRecoveryMethodSuccess;
+export default EnterVerificationCode;
