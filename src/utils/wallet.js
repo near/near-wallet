@@ -2,7 +2,6 @@ import * as nearApiJs from 'near-api-js'
 import { KeyPair } from 'near-api-js'
 import sendJson from 'fetch-send-json'
 import { parseSeedPhrase } from 'near-seed-phrase'
-import { createClient } from 'near-ledger-js'
 import { PublicKey } from 'near-api-js/lib/utils'
 import { KeyType } from 'near-api-js/lib/utils/key_pair'
 import { store } from '..'
@@ -73,8 +72,8 @@ class Wallet {
             },
             async signMessage(message, accountId, networkId) {
                 if (await getLedgerKey(accountId)) {
-                    // TODO: Use network ID
-                    const client = await createClient()
+                    const { createLedgerU2FClient } = await import('./ledger.js')
+                    const client = await createLedgerU2FClient()
                     const signature = await client.sign(message)
                     const publicKey = await this.getPublicKey(accountId, networkId)
                     return {
@@ -323,7 +322,8 @@ class Wallet {
     }
 
     async addLedgerAccessKey(accountId) {
-        const client = await createClient()
+        const { createLedgerU2FClient } = await import('./ledger.js')
+        const client = await createLedgerU2FClient()
         const rawPublicKey = await client.getPublicKey()
         const publicKey = new PublicKey({ keyType: KeyType.ED25519, data: rawPublicKey })
         await setKeyMeta(publicKey, { type: 'ledger' })
