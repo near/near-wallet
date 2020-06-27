@@ -320,7 +320,7 @@
         "title": "Enter Verification Code",
         "pageText": "We've sent a 6-digit verification code to the ${option} you provided:",
         "inputHeader": "Enter your 6-digit verification code",
-        "inputPlaceholder": "Enter 6 digit code",
+        "inputPlaceholder": "Verification Code",
         "invalidCode": "Invalid code",
         "didNotRecive": "Didn't receive your code?",
         "resendCode": "Resend your code",

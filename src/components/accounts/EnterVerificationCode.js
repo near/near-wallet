@@ -81,8 +81,8 @@ const EnterVerificationCode = ({
                             type='number'
                             pattern='[0-9]*'
                             inputMode='numeric'
-                            placeholder='Verification Code'
-                            aria-label='Verification Code'
+                            placeholder={translate('setRecoveryConfirm.inputPlaceholder')}
+                            aria-label={translate('setRecoveryConfirm.inputPlaceholder')}
                             value={code}
                             onChange={e => setCode(e.target.value)}
                         />
