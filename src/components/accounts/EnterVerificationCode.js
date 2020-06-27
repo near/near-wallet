@@ -71,9 +71,9 @@ const EnterVerificationCode = ({
 
     return (
         <Container className='ui container' onSubmit={e => {onConfirm(code); e.preventDefault();}}>
-            <h1>Enter Verification Code</h1>
+            <h1><Translate id='setRecoveryConfirm.title'/></h1>
             <h2><Translate id='setRecoveryConfirm.pageText' data={{option}}/> <span>{useEmail ? email : phoneNumber}</span></h2>
-            <h4>Enter your 6-digit verification code</h4>
+            <h4><Translate id='setRecoveryConfirm.inputHeader'/></h4>
             <Translate>
                 {({ translate }) => (
                     <>
@@ -102,7 +102,7 @@ const EnterVerificationCode = ({
             >
                 <Translate id='button.verifyCodeEnable' />
             </FormButton>
-            <p>Didn't recieve your code? <span onClick={onResend} className='link'>Resend your code</span>, or <span onClick={onGoBack} className='link'>send to a different email address</span>.</p>
+            <p><Translate id='setRecoveryConfirm.didNotRecive'/> <span onClick={onResend} className='link'><Translate id='setRecoveryConfirm.resendCode'/></span>, <Translate id='setRecoveryConfirm.or'/> <span onClick={onGoBack} className='link'><Translate id='setRecoveryConfirm.sendToDifferent'/></span>.</p>
         </Container>
     )
 }

@@ -314,10 +314,15 @@
         "phraseTitle": "Recovery Phrase"
     },
     "setRecoveryConfirm": {
-        "pageTitle": "Verify",
+        "title": "Enter Verification Code",
         "pageText": "We've sent a 6-digit verification code to the ${option} you provided:",
+        "inputHeader": "Enter your 6-digit verification code",
         "inputPlaceholder": "Enter 6 digit code",
         "invalidCode": "Invalid code",
+        "didNotRecive": "Didn't receive your code?",
+        "resendCode": "Resend your code",
+        "or": "or",
+        "sendToDifferent": "send to a different email address",
         "reenter": {
             "one": {
                 "email": "If you did not yet receive this email, or the above email address is incorrect, ",
