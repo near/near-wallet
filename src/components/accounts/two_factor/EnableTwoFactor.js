@@ -43,9 +43,9 @@ export function EnableTwoFactor() {
 
     return (
         <Container className='ui container' onSubmit={e => {handleNext(); e.preventDefault();}}>
-            <h1>Enable Two-Factor Authentication</h1>
-            <h2>We highly encourage you to enable two-factor authentication. Update this copy.</h2>
-            <h4>Select Authentication Meethod<span>*</span></h4>
+            <h1><Translate id='twoFactor.enable' /></h1>
+            <h2><Translate id='twoFactor.subHeader' /></h2>
+            <h4><Translate id='twoFactor.select' /><span>*</span></h4>
             <TwoFactorOption
                 onClick={() => setOption('email')}
                 option='email'
