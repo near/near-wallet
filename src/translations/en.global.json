@@ -165,7 +165,8 @@
         "email": "Email Address",
         "phone": "Phone Number",
         "notEnabled": "2FA Not Enabled",
-        "active": "Active"
+        "active": "Active",
+        "promptDesc": "We highly recommend that you set up a two-factor authentication method to increase the security of your account and assests"
     },
 
     "fullAccessKeys": {
@@ -189,6 +190,7 @@
     "button": {
         "copyPhrase": "COPY PHRASE",
         "continue": "CONTINUE",
+        "continueSetup": "Continue to Setup",
         "verify": "VERIFY & COMPLETE",
         "verifyCodeEnable": "Verify Code & Enable", 
         "startOver": "Start over",
@@ -207,6 +209,7 @@
         "viewAll": "VIEW ALL",
         "send": "SEND",
         "cancel": "Cancel",
+        "skip": "Skip",
         "deny": "DENY",
         "allow": "ALLOW",
         "addNode": "ADD NODE",

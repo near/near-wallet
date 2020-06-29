@@ -13,6 +13,7 @@ import '../index.css'
 import Navigation from './navigation/Navigation'
 import Footer from './common/Footer'
 import NetworkBanner from './common/NetworkBanner'
+import EnableTwoFactorPromptModal from '../components/accounts/two_factor/EnableTwoFactorPromptModal'
 import PrivateRoute from './common/PrivateRoute'
 import DashboardDetailWithRouter from './dashboard/DashboardDetail'
 import { CreateAccountWithRouter } from './accounts/CreateAccount'
@@ -109,6 +110,7 @@ class Routing extends Component {
                         <NetworkBanner/>
                         <Navigation/>
                         <GlobalAlert/>
+                        {/*<EnableTwoFactorPromptModal open={true}/>*/}
                         {this.props.account.loader === false && (
                             <Switch>
                                 <PrivateRoute
