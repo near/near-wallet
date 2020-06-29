@@ -166,7 +166,15 @@
         "phone": "Phone Number",
         "notEnabled": "2FA Not Enabled",
         "active": "Active",
-        "promptDesc": "We highly recommend that you set up a two-factor authentication method to increase the security of your account and assests"
+        "promptDesc": "We highly recommend that you set up a two-factor authentication method to increase the security of your account and assests",
+        "verify": {
+            "title": "Enter Two-Factor Verification Code",
+            "desc": "A 6-digit verification code has been sent to:",
+            "inputLabel": "Enter your 6-digit verification code",
+            "placeholder": "Verification Code",
+            "didntReceive": "Didn't receive your code?",
+            "resend": "Resend"
+        }
     },
 
     "fullAccessKeys": {

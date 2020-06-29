@@ -423,6 +423,10 @@ export default createGlobalStyle`
         font-family: "benton-sans",sans-serif !important;
     }
 
+    .font-bw {
+        font-family: BwSeidoRound !important;
+    }
+
     @media screen and (max-width: 767px) {
         h1, .h1 {
             font-size: 28px !important;
