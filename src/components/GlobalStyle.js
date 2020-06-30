@@ -32,10 +32,6 @@ export default createGlobalStyle`
         }
    }
 
-    .grecaptcha-badge {
-        visibility: hidden;
-    }
-
     a {
         color: #0072ce;
     }
