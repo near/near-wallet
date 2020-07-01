@@ -123,7 +123,13 @@ class Wallet {
     }
 
     getAccountId() {
-        return this.accountId
+        const tempAccount = getTempAccount()
+        // temp account was set during create account
+        if (tempAccount && tempAccount.accountId) {
+            return tempAccount.accountId
+        } else {
+            return this.accountId
+        }
     }
 
     selectAccount(accountId) {
@@ -177,7 +183,9 @@ class Wallet {
         const tempAccount = getTempAccount()
         // temp account was set during create account
         if (tempAccount && tempAccount.accountId) {
+            // console.log('temp account')
             return {
+                temp: true,
                 balance: 0,
                 accountId: tempAccount.accountId,
             }
@@ -426,6 +434,19 @@ class Wallet {
         }
     }
 
+    async createNewAccountForTempAccount(accountId) {
+        // create account because recovery is validated
+        if (!accountId) {
+            // updated to get tempAccount.accountId
+            accountId = this.getAccountId()
+        }
+        const newAccount = await this.createNewAccount(accountId)
+        console.log('account created', newAccount)
+        // remove the temp account, we now have a real account on chain
+        delTempAccount()
+        return newAccount
+    }
+
     async setupRecoveryMessage(accountId, method, securityCode) {
         // temp account was set during create account
         const tempAccount = getTempAccount()
@@ -439,11 +460,9 @@ class Wallet {
             console.log('INVALID CODE', securityCodeResult)
             return
         }
-        // create account because recovery is validated
-        const newAccount = await this.createNewAccount(accountId)
-        console.log('account created', newAccount)
-        // remove the temp account, we now have a real account on chain
-        delTempAccount()
+
+        // added method above, also used for seed recovery
+        await createNewAccountForTempAccount(accountId)
 
         // now send recovery seed phrase
         const { seedPhrase, publicKey } = generateSeedPhrase();

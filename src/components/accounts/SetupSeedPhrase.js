@@ -27,6 +27,7 @@ class SetupSeedPhrase extends Component {
     }
 
     refreshData = () => {
+        // console.log('new seed phrase')
         const { seedPhrase, publicKey } = generateSeedPhrase()
         const wordId = Math.floor(Math.random() * 12)
 
@@ -59,6 +60,9 @@ class SetupSeedPhrase extends Component {
     handleSubmit = () => {
         const { redirectToApp, accountId, addAccessKeySeedPhrase } = this.props
         const { seedPhrase, enterWord, wordId, publicKey } = this.state
+        
+        console.log(enterWord, seedPhrase)
+
         if (enterWord !== seedPhrase.split(' ')[wordId]) {
             this.setState(() => ({
                 requestStatus: {

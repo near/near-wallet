@@ -177,6 +177,12 @@ export const { addAccessKey, addAccessKeySeedPhrase, clearAlert } = createAction
     ],
     ADD_ACCESS_KEY_SEED_PHRASE: [
         async (accountId, contractName, publicKey) => {
+            const account = await wallet.loadAccount()
+            console.log(account)
+            // account wasn't created yet
+            if (account.temp) {
+                await wallet.createNewAccountForTempAccount(accountId)
+            }
             const [walletReturnData] = await Promise.all([
                 wallet.addAccessKey(accountId, contractName, publicKey),
                 sendJson('POST', `${ACCOUNT_HELPER_URL}/account/seedPhraseAdded`, {
@@ -211,7 +217,7 @@ export const { switchAccount, refreshAccount, refreshAccountExternal, resetAccou
     SWITCH_ACCOUNT: wallet.selectAccount.bind(wallet),
     REFRESH_ACCOUNT: [
         wallet.loadAccount.bind(wallet),
-        () => ({ accountId: wallet.getAccountId(), })
+        () => ({ accountId: wallet.getAccountId() })
     ],
     REFRESH_ACCOUNT_EXTERNAL: [
         async (accountId) => ({

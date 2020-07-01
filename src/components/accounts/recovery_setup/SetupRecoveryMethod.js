@@ -74,6 +74,10 @@ class SetupRecoveryMethod extends Component {
         } else {
             loadRecoveryMethods(accountId)
                 .then(({ payload }) => {
+                    if (!payload.data) {
+                        this.setState({ activeMethods: [] });
+                        return;
+                    }
                     const confirmed = payload.data.filter(method => method.confirmed);
                     this.setState({ activeMethods: confirmed.map(method => method.kind) });
                 })
