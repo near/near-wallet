@@ -151,7 +151,7 @@ const TwoFactorOption = ({
         <Container onClick={onClick} className={classNames([{active: active, inputProblem: problem}])}>
             <Header>
                 {option === 'email' ? <EmailIcon/> : <PhoneIcon/>}
-                <Title><Translate id={`setupRecovery.${option}Title`}/></Title>
+                <Title><Translate id={`twoFactor.${option}`}/></Title>
             </Header>
             {active && children}
         </Container>

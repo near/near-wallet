@@ -170,6 +170,7 @@
         "phone": "Phone Number",
         "notEnabled": "2FA Not Enabled",
         "active": "Active",
+        "since": "since",
         "promptDesc": "We highly recommend that you set up a two-factor authentication method to increase the security of your account and assests",
         "verify": {
             "title": "Enter Two-Factor Verification Code",

@@ -44,14 +44,11 @@ export function EnableTwoFactor(props) {
     const dispatch = useDispatch();
     const account = useSelector(({ account }) => account);
     const accountId = account.accountId;
-    const recoveryMethods = useRecoveryMethods(accountId);
 
     const [initiated, setInitiated] = useState(false);
     const [option, setOption] = useState('email');
     const [email, setEmail] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
-
-    console.log(recoveryMethods);
 
     const method = {
         kind: `2fa-${option}`,

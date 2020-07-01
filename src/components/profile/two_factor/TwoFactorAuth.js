@@ -1,11 +1,13 @@
 import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 import Card from '../../common/styled/Card.css';
 import FormButton from '../../common/FormButton';
 import { Translate } from 'react-localize-redux';
 import KeysIcon from '../../svg/KeysIcon';
-import TwoFactorMethod from './TwoFactorMethod';
+import { useRecoveryMethods } from '../../../hooks/recoveryMethods';
+import SkeletonLoading from '../../common/SkeletonLoading';
 
 const Container = styled(Card)`
 // TODO: write once
@@ -69,9 +71,18 @@ const Container = styled(Card)`
     }
 `
 
-const TwoFactorAuth = () => {
+const TwoFactorAuth = (props) => {
 
-    const hasTwoFactor = true;
+    const dispatch = useDispatch();
+    const account = useSelector(({ account }) => account);
+    const accountId = account.accountId;
+    const loading = account.actionsPending.includes('LOAD_RECOVERY_METHODS') || account.actionsPending.includes('REFRESH_ACCOUNT');
+    const activeTwoFactor = useRecoveryMethods(accountId).filter(method => method.kind.includes('2fa'))[0];
+
+    const handleDisable = () => {
+        console.log('disable two factor')
+    }
+
     return (
         <Container>
             <div className='header'>
@@ -79,15 +90,38 @@ const TwoFactorAuth = () => {
                 <h2><Translate id='twoFactor.title'/></h2>
             </div>
             <div className='font-rounded'><Translate id='twoFactor.desc'/></div>
-            {hasTwoFactor &&
-                <TwoFactorMethod/>
+            {activeTwoFactor && !loading &&
+                <div className='method'>
+                    <div className='top'>
+                        <div>
+                            <div className='title'>
+                                <Translate id={`twoFactor.${activeTwoFactor.kind === '2fa-email' ? 'email' : 'phone'}`}/>
+                            </div>
+                            <div>{activeTwoFactor.detail}</div>
+                        </div>
+                        <FormButton onClick={handleDisable} className='gray-red'><Translate id='button.disable'/></FormButton>
+                    </div>
+                    <div className='bottom'>
+                        <span className='color-green'>
+                            <Translate id='twoFactor.active'/>
+                        </span> <Translate id='twoFactor.since'/> {new Date(activeTwoFactor.createdAt).toDateString().replace(/^\S+\s/,'')}
+                    </div>
+                </div>
             }
-            {!hasTwoFactor &&
+            {!activeTwoFactor && !loading &&
                 <div className='method'>
                     <div className='top'>
                         <div className='title'><Translate id='twoFactor.notEnabled'/></div>
-                        <FormButton><Translate id='button.enable'/></FormButton>
+                        <FormButton onClick={() => props.history.push('/enable-two-factor')}><Translate id='button.enable'/></FormButton>
                     </div>
+                </div>
+            }
+            {loading &&
+                <div className='method'>
+                    <SkeletonLoading
+                        height='50px'
+                        show={loading}
+                    />
                 </div>
             }
         </Container>
