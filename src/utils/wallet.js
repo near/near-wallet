@@ -37,6 +37,9 @@ export const setTempAccount = (accountId) => {
         accountId, // keyPair: KeyPair.fromRandom('ed25519')
     }))
 }
+export const delTempAccount = () => {
+    localStorage.removeItem(`__tempAccount`)
+}
 export const getTempAccount = () => {
     return JSON.parse(localStorage.getItem(`__tempAccount`) || '{}')
 }
@@ -439,6 +442,8 @@ class Wallet {
         // create account because recovery is validated
         const newAccount = await this.createNewAccount(accountId)
         console.log('account created', newAccount)
+        // remove the temp account, we now have a real account on chain
+        delTempAccount()
 
         // now send recovery seed phrase
         const { seedPhrase, publicKey } = generateSeedPhrase();
@@ -447,6 +452,7 @@ class Wallet {
         if (!accountKeys.some(it => it.public_key.endsWith(publicKey))) {
             await account.addKey(publicKey);
         }
+
         return sendJson('POST', `${ACCOUNT_HELPER_URL}/account/sendRecoveryMessage`, {
             accountId,
             method,
