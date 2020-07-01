@@ -32,6 +32,18 @@ const ACCOUNT_ID_REGEX = /^(([a-z\d]+[-_])*[a-z\d]+\.)*([a-z\d]+[-_])*[a-z\d]+$/
 export const ACCOUNT_CHECK_TIMEOUT = 500
 export const TRANSACTIONS_REFRESH_INTERVAL = 10000
 
+export const setTempAccount = (accountId) => {
+    localStorage.setItem(`__tempAccount`, JSON.stringify({
+        accountId, // keyPair: KeyPair.fromRandom('ed25519')
+    }))
+}
+export const getTempAccount = () => {
+    return JSON.parse(localStorage.getItem(`__tempAccount`) || '{}')
+}
+
+// const test = getTempAccount()
+// console.log('keyPair', test.keyPair)
+
 async function setKeyMeta(publicKey, meta) {
     localStorage.setItem(`keyMeta:${publicKey}`, JSON.stringify(meta))
 }
@@ -159,6 +171,15 @@ class Wallet {
     }
 
     async loadAccount() {
+        const tempAccount = getTempAccount()
+        // temp account was set during create account
+        if (tempAccount && tempAccount.accountId) {
+            return {
+                balance: 0,
+                accountId: tempAccount.accountId,
+            }
+        }
+        // else load account normally from api
         if (this.isEmpty()) {
             throw new Error('No account.')
         }
@@ -261,7 +282,6 @@ class Wallet {
     async createNewAccount(accountId, fundingKey, fundingContract) {
         this.checkNewAccount(accountId);
         const keyPair = KeyPair.fromRandom('ed25519');
-
         if (fundingKey && fundingContract) {
             await this.createNewAccountLinkdrop(accountId, fundingKey, fundingContract, keyPair);
             await this.keyStore.removeKey(NETWORK_ID, fundingContract)
@@ -272,7 +292,6 @@ class Wallet {
                 newAccountPublicKey: keyPair.publicKey.toString()
             })
         }
-
         await this.saveAndSelectAccount(accountId, keyPair);
     }
 
@@ -374,8 +393,23 @@ class Wallet {
         });
     }
 
+    async initializeRecoveryMethodForTempAccount(accountId, method) {
+        return await sendJson('POST', ACCOUNT_HELPER_URL + '/account/initializeRecoveryMethodForTempAccount', {
+            accountId,
+            method,
+        });
+    }
+
     async validateSecurityCode(accountId, method, securityCode) {
         return await this.postSignedJson('/account/validateSecurityCode', {
+            accountId,
+            method,
+            securityCode
+        });
+    }
+
+    async validateSecurityCodeForTempAccount(accountId, method, securityCode) {
+        return await sendJson('POST', ACCOUNT_HELPER_URL + '/account/validateSecurityCodeForTempAccount', {
             accountId,
             method,
             securityCode
@@ -390,16 +424,29 @@ class Wallet {
     }
 
     async setupRecoveryMessage(accountId, method, securityCode) {
-        await this.validateSecurityCode(accountId, method, securityCode);
+        // temp account was set during create account
+        const tempAccount = getTempAccount()
+        let securityCodeResult
+        if (tempAccount && tempAccount.accountId) {
+            securityCodeResult = await this.validateSecurityCodeForTempAccount(accountId, method, securityCode);
+        } else {
+            securityCodeResult = await this.validateSecurityCode(accountId, method, securityCode);
+        }
+        if (!securityCodeResult || securityCodeResult.length === 0) {
+            console.log('INVALID CODE', securityCodeResult)
+            return
+        }
+        // create account because recovery is validated
+        const newAccount = await this.createNewAccount(accountId)
+        console.log('account created', newAccount)
 
+        // now send recovery seed phrase
         const { seedPhrase, publicKey } = generateSeedPhrase();
-
         const account = this.getAccount(accountId)
         const accountKeys = await account.getAccessKeys();
         if (!accountKeys.some(it => it.public_key.endsWith(publicKey))) {
             await account.addKey(publicKey);
         }
-
         return sendJson('POST', `${ACCOUNT_HELPER_URL}/account/sendRecoveryMessage`, {
             accountId,
             method,

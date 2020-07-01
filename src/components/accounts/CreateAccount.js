@@ -6,7 +6,7 @@ import CreateAccountForm from './CreateAccountForm'
 import AccountFormSection from './AccountFormSection'
 import AccountFormContainer from './AccountFormContainer'
 import { checkNewAccount, createNewAccount, clear, refreshAccount, resetAccounts, setFormLoader } from '../../actions/account'
-import { ACCOUNT_ID_SUFFIX } from '../../utils/wallet'
+import { ACCOUNT_ID_SUFFIX, setTempAccount } from '../../utils/wallet'
 
 class CreateAccount extends Component {
     state = {
@@ -46,32 +46,42 @@ class CreateAccount extends Component {
 
         const fundingKey = match.params.fundingKey;
         const fundingContract = match.params.fundingContract;
-
-        this.setState({ loader: true });
+        let nextUrl = `/set-recovery/${accountId}`;
+        if (fundingKey && fundingContract) {
+            nextUrl = `/set-recovery/${accountId}/${fundingKey}/${fundingContract}`;
+        }
         
-        createNewAccount(accountId, fundingKey, fundingContract, token)
-            .then(({ error, payload }) => {
-                if (error) {
-                    if (payload.statusCode === 402) {
-                        this.setState({ recaptchaFallback: true });
-                    }
-                    this.setState({ loader: false });
-                    return;
-                }
-
-                this.handleCreateAccountSuccess();
-            });
         
+        // console.log(nextUrl)
+        // creates a temp keypair (wallet.js) that we will recover on account creation after the user has confirmed a recovery method
+        setTempAccount(accountId)
         setFormLoader(false)
-    }
-
-    handleCreateAccountSuccess = () => {
-        const { accountId } = this.state;
-
-        this.props.refreshAccount();
-        let nextUrl = process.env.DISABLE_PHONE_RECOVERY === 'yes' ? `/setup-seed-phrase/${accountId}` : `/set-recovery/${accountId}`;
         this.props.history.push(nextUrl);
+
+        // this.setState({ loader: true });
+        
+        // createNewAccount(accountId, fundingKey, fundingContract, token)
+        //     .then(({ error, payload }) => {
+        //         if (error) {
+        //             if (payload.statusCode === 402) {
+        //                 this.setState({ recaptchaFallback: true });
+        //             }
+        //             this.setState({ loader: false });
+        //             return;
+        //         }
+
+        //         this.handleCreateAccountSuccess();
+        //     });
+        
     }
+
+    // handleCreateAccountSuccess = () => {
+    //     const { accountId } = this.state;
+
+    //     this.props.refreshAccount();
+    //     let nextUrl = process.env.DISABLE_PHONE_RECOVERY === 'yes' ? `/setup-seed-phrase/${accountId}` : `/set-recovery/${accountId}`;
+    //     this.props.history.push(nextUrl);
+    // }
 
     render() {
         const { loader, accountId, recaptchaFallback } = this.state

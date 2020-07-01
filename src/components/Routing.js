@@ -111,8 +111,8 @@ class Routing extends Component {
                         <NetworkBanner/>
                         <Navigation/>
                         <GlobalAlert/>
-                        {/*<EnableTwoFactorPromptModal/>*/}
-                        {/*<TwoFactorVerifyModal/>*/}
+                        {/* <EnableTwoFactorPromptModal/> */}
+                        {/* <TwoFactorVerifyModal/> */}
                         {this.props.account.loader === false && (
                             <Switch>
                                 <PrivateRoute
@@ -125,9 +125,9 @@ class Routing extends Component {
                                     path='/create/:fundingContract?/:fundingKey?'
                                     component={CreateAccountWithRouter}
                                 />
-                                <PrivateRoute
+                                <Route
                                     exact
-                                    path='/set-recovery/:accountId'
+                                    path='/set-recovery/:accountId/:fundingContract?/:fundingKey?'
                                     component={SetupRecoveryMethodWithRouter}
                                 />
                                 <PrivateRoute
