@@ -462,7 +462,7 @@ class Wallet {
         }
 
         // added method above, also used for seed recovery
-        await createNewAccountForTempAccount(accountId)
+        await this.createNewAccountForTempAccount(accountId)
 
         // now send recovery seed phrase
         const { seedPhrase, publicKey } = generateSeedPhrase();
