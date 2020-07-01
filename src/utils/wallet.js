@@ -427,6 +427,27 @@ class Wallet {
         });
     }
 
+    async initTwoFactor(accountId, method) {
+        return await sendJson('POST', ACCOUNT_HELPER_URL + '/2fa/init', {
+            accountId,
+            method
+        });
+    }
+
+    async reInitTwoFactor(accountId, method) {
+        return await sendJson('POST', ACCOUNT_HELPER_URL + '/2fa/send', {
+            accountId,
+            method
+        });
+    }
+
+    async verifyTwoFactor(accountId, securityCode) {
+        return await sendJson('POST', ACCOUNT_HELPER_URL + '/2fa/verify', {
+            accountId,
+            securityCode
+        });
+    }
+
     async getRecoveryMethods() {
         return {
             accountId: this.accountId,
