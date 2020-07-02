@@ -9,6 +9,7 @@ import RecoveryContainer from './Recovery/RecoveryContainer'
 import HardwareDevices from './hardware_devices/HardwareDevices'
 import TwoFactorAuth from './two_factor/TwoFactorAuth'
 import { LOADING, NOT_FOUND, useAccount } from '../../hooks/allAccounts'
+import { wallet } from '../../utils/wallet'
 
 export function Profile({ match }) {
     const loginAccountId = useSelector(state => state.account.accountId)
@@ -27,6 +28,7 @@ export function Profile({ match }) {
         <PageContainer title={<Translate id='profile.pageTitle.default' data={{ accountId }} />}>
             <ProfileSection>
                 <ProfileDetails account={account} />
+                <button onClick={() => wallet.deployMultisig()}>Test</button>
                 {accountId === loginAccountId && (
                     <>
                         <RecoveryContainer/>

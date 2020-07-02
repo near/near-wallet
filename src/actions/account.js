@@ -118,7 +118,7 @@ export const allowLogin = () => async (dispatch, getState) => {
 
 const defaultCodesFor = (prefix, data) => ({ successCode: `${prefix}.success`, errorCode: `${prefix}.error`, data})
 
-export const { initializeRecoveryMethod, initializeRecoveryMethodForTempAccount, validateSecurityCode, validateSecurityCodeForTempAccount, initTwoFactor, reInitTwoFactor, verifyTwoFactor, setupRecoveryMessage, deleteRecoveryMethod, sendNewRecoveryLink, checkNewAccount, createNewAccount, checkAccountAvailable, getTransactions, getTransactionStatus, clear, clearCode } = createActions({
+export const { initializeRecoveryMethod, initializeRecoveryMethodForTempAccount, validateSecurityCode, validateSecurityCodeForTempAccount, initTwoFactor, reInitTwoFactor, verifyTwoFactor, deployMultisig, setupRecoveryMessage, deleteRecoveryMethod, sendNewRecoveryLink, checkNewAccount, createNewAccount, checkAccountAvailable, getTransactions, getTransactionStatus, clear, clearCode } = createActions({
     INITIALIZE_RECOVERY_METHOD: [
         wallet.initializeRecoveryMethod.bind(wallet),
         () => defaultCodesFor('account.initializeRecoveryMethod')
@@ -146,6 +146,10 @@ export const { initializeRecoveryMethod, initializeRecoveryMethodForTempAccount,
     VERIFY_TWO_FACTOR: [
         wallet.verifyTwoFactor.bind(wallet),
         () => defaultCodesFor('account.verifyTwoFactor')
+    ],
+    DEPLOY_MULTISIG: [
+        wallet.deployMultisig.bind(wallet),
+        () => defaultCodesFor('account.deployMultisig')
     ],
     SETUP_RECOVERY_MESSAGE: [
         wallet.setupRecoveryMessage.bind(wallet),

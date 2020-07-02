@@ -455,6 +455,68 @@ class Wallet {
         }
     }
 
+    /********************************
+    Deploys 2/3 multisig contract with keys from contract-helper and localStorage
+
+    @todo check account has enough near to actually do this
+    ********************************/
+    async deployMultisig() {
+        const accountData = await this.loadAccount()
+        console.log(accountData)
+        if (accountData.temp) {
+            console.log('cannot deploy multisig until account is created on chain')
+            return
+        }
+        const { accountId } = accountData
+        const account = this.getAccount(accountId)
+        console.log(account)
+        const accountKeys = await account.getAccessKeys();
+        console.log(accountKeys)
+
+        /********************************
+        @todo get recovery methods from server as well
+        get the public key for recovery and the type seed phrase FAK or other LAK
+        ********************************/
+
+        const res = await fetch('https://helper.testnet.near.org/2fa/getAccessKey', {
+            method: 'POST',
+            body: JSON.stringify({ accountId })
+        }).then((res) => res.json()).catch((e) => console.log(e))
+        if (!res || !res.success) {
+            console.log('error getting publicKey from contract-helper')
+            return
+        }
+        console.log(res.publicKey)
+
+        const wasmBytes = await fetch('./multisig.wasm').then((res) => res.arrayBuffer())
+        console.log(wasmBytes)
+
+        return { success: true }
+
+        const methodNamesLAK = ["add_request","add_request_and_confirm","delete_request","confirm"];
+        const methodNamesConfirm = ["confirm"];
+        const newArgs = new Uint8Array(new TextEncoder().encode({"num_confirmations": 2}));
+        const result = await account.signAndSendTransaction(contractName, [
+            // localStorage key as LAK
+            nearApiJs.transactions.addKey(publicKey1, nearApiJs.transactions.functionCallAccessKey(accountId, methodNamesLAK, null)),
+            // email/sms seed recovery link is a LAK
+            nearApiJs.transactions.addKey(publicKey2, nearApiJs.transactions.functionCallAccessKey(accountId, methodNamesLAK, null)),
+            // seed phrase recovery key is FAK
+            nearApiJs.transactions.addKey(publicKey3),
+            // contract helper is limited to confirming multisig requests only
+            nearApiJs.transactions.addKey(res.publicKey, nearApiJs.transactions.functionCallAccessKey(accountId, methodNamesConfirm, null)),
+            // deploy and initialize contract
+            nearApiJs.transactions.deployContract(wasmBytes),
+            nearApiJs.transactions.functionCall("new", newArgs, 10000000000000, "0"),
+            // delete FAK from account (the one we just used to deploy contract)
+            nearApiJs.transactions.deleteKey(res.publicKey),
+        ]).catch((e) => {
+
+        });
+
+        return { success: !!result, result }
+    }
+
     async createNewAccountForTempAccount(accountId) {
         // create account because recovery is validated
         if (!accountId) {

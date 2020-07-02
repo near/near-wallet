@@ -8,7 +8,8 @@ import FormButton from '../../common/FormButton';
 import {
     initTwoFactor,
     reInitTwoFactor,
-    verifyTwoFactor
+    verifyTwoFactor,
+    deployMultisig
 } from '../../../actions/account';
 import { useRecoveryMethods } from '../../../hooks/recoveryMethods';
 import EnterVerificationCode from '../EnterVerificationCode'
@@ -72,8 +73,20 @@ export function EnableTwoFactor(props) {
         if (!error) {
             console.log('confirmed')
             props.history.push('/profile')
+            // no error so let's deploy contract
+            // handleDeployMultisig()
         }
     }
+
+    const handleDeployMultisig = async () => {
+        const { error } = await dispatch(deployMultisig())
+
+        if (!error) {
+            console.log('confirmed')
+        }
+    }
+
+    
 
     const handleResend = async () => {
 
