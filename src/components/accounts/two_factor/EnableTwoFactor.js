@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { Translate } from 'react-localize-redux';
 import TwoFactorOption from './TwoFactorOption';
 import PhoneInput, { isValidPhoneNumber } from 'react-phone-number-input';
+import { validateEmail } from '../../../utils/account';
 import FormButton from '../../common/FormButton';
 import {
     initTwoFactor,
@@ -50,11 +51,26 @@ export function EnableTwoFactor(props) {
     const [option, setOption] = useState('email');
     const [email, setEmail] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
+    const recoveryMethods = useRecoveryMethods(accountId);
 
     const method = {
         kind: `2fa-${option}`,
         detail: option === 'email' ? email : phoneNumber
     }
+
+    useEffect(() => { 
+        const email = recoveryMethods.filter(method => method.kind === 'email')[0];
+        const phone = recoveryMethods.filter(method => method.kind === 'phone')[0];
+
+        if (email) {
+            setEmail(email.detail)
+        }
+
+        if (phone) {
+            setPhoneNumber(phone.detail)
+        }
+        
+    }, [recoveryMethods]);
 
     const handleNext = async () => {
 
@@ -86,8 +102,6 @@ export function EnableTwoFactor(props) {
         }
     }
 
-    
-
     const handleResend = async () => {
 
         const { error } = await dispatch(reInitTwoFactor(accountId, method))
@@ -99,6 +113,17 @@ export function EnableTwoFactor(props) {
 
     const handleGoBack = () => {
         setInitiated(false)
+    }
+
+    const isValidInput = () => {
+        switch (option) {
+            case 'email':
+                return validateEmail(email)
+            case 'phone':
+                return isValidPhoneNumber(phoneNumber)
+            default:
+                return false
+        }
     }
 
     if (!initiated) {
@@ -143,8 +168,8 @@ export function EnableTwoFactor(props) {
                 <FormButton
                     color='blue'
                     type='submit'
-                    disabled={false}
-                    sending={false}
+                    disabled={!isValidInput()}
+                    sending={account.actionsPending.includes('INIT_TWO_FACTOR')}
                 >
                     <Translate id={`button.continue`}/>
                 </FormButton>
@@ -159,7 +184,7 @@ export function EnableTwoFactor(props) {
                 onConfirm={handleConfirm}
                 onGoBack={handleGoBack}
                 onResend={handleResend}
-                loading={false}
+                loading={account.actionsPending.includes('VERIFY_TWO_FACTOR')}
                 requestStatus={props.requestStatus}
             />
         )
