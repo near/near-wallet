@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Translate } from 'react-localize-redux';
+import FormButton from '../../common/FormButton';
 
 const Container = styled.div`
     max-width: 350px;
@@ -28,15 +29,48 @@ const Container = styled.div`
     }
 `
 
-const TwoFactorVerifyInput = () => {
+const TwoFactorVerifyInput = ({
+    onConfirm,
+    loading = false,
+    requestStatus,
+}) => {
+    
+    const [code, setCode] = useState('');
+
+    const invalidCode = requestStatus && requestStatus.messageCode === 'account.setupRecoveryMessage.error';
+
     return (
         <Container>
             <div className='color-black font-bw'><Translate id='twoFactor.verify.inputLabel'/></div>
             <Translate>
                 {({ translate }) => (
-                    <input placeholder={translate('twoFactor.verify.placeholder')}/>
+                    <>
+                        <input
+                            type='number'
+                            pattern='[0-9]*'
+                            inputMode='numeric'
+                            placeholder={translate('setRecoveryConfirm.inputPlaceholder')}
+                            aria-label={translate('setRecoveryConfirm.inputPlaceholder')}
+                            value={code}
+                            onChange={e => setCode(e.target.value)}
+                        />
+                        {invalidCode && 
+                            <div style={{color: '#ff585d', marginTop: '5px'}}>
+                                {translate('setRecoveryConfirm.invalidCode')}
+                            </div>
+                        }
+                    </>
                 )}
             </Translate>
+            <FormButton
+                onClick={() => onConfirm(code)}
+                color='blue'
+                type='submit'
+                disabled={code.length !== 6 || loading}
+                sending={loading}
+            >
+                <Translate id='button.verifyCodeEnable' />
+            </FormButton>
             <div><Translate id='twoFactor.verify.didntReceive'/> <span className='color-blue'><Translate id='twoFactor.verify.resend'/></span></div>
         </Container>
     )

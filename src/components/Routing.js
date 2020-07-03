@@ -39,7 +39,7 @@ import { AddNodeWithRouter } from './node-staking/AddNode'
 import { NodeDetailsWithRouter } from './node-staking/NodeDetails'
 import { StakingWithRouter } from './node-staking/Staking'
 import { IS_MAINNET } from '../utils/wallet'
-import { refreshAccount, handleRefreshUrl, clearAlert, clear, handleRedirectUrl, handleClearUrl } from '../actions/account'
+import { refreshAccount, handleRefreshUrl, clearAlert, clear, handleRedirectUrl, handleClearUrl, promptTwoFactor } from '../actions/account'
 
 import GlobalStyle from './GlobalStyle'
 import { SetupSeedPhraseWithRouter } from './accounts/SetupSeedPhrase'
@@ -112,7 +112,12 @@ class Routing extends Component {
                         <Navigation/>
                         <GlobalAlert/>
                         {/* <EnableTwoFactorPromptModal/> */}
-                        {/* <TwoFactorVerifyModal/> */}
+                        { 
+                            this.props.account.requestPending &&
+                            <TwoFactorVerifyModal
+                                onClose={() => promptTwoFactor(false)}    
+                            />
+                        }
                         {this.props.account.loader === false && (
                             <Switch>
                                 <PrivateRoute

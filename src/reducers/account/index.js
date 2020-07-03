@@ -23,7 +23,8 @@ import {
 const initialState = {
     formLoader: false,
     sentMessage: false,
-    actionsPending: []
+    requestPending: false,
+    actionsPending: [],
 }
 
 const loaderReducer = (state, { type, ready }) => {
@@ -61,6 +62,15 @@ const requestResultReducer = (state, { error, ready, payload, meta }) => {
     if (!meta || !meta.successCode) {
         return state
     }
+
+    // any generic store update to state (e.g. the flag requestPending)
+    if (payload && payload.store) {
+        return {
+            ...state,
+            ...payload.store
+        }
+    }
+
     return {
         ...(state || initialState),
         requestStatus: ready ? {
@@ -106,6 +116,7 @@ const url = handleActions({
 
 const account = handleActions({
     [refreshAccount]: (state, { error, payload, ready, meta }) => {
+
         if (!ready) {
             return {
                 ...state,
