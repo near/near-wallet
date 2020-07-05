@@ -419,7 +419,7 @@
             "username": "用戶名",
             "public": "公開",
             "totalBalance": "餘額",
-            "minBalance": "最少餘額",
+            "minBalance": "保留餘額",
             "staked": "已質押",
             "availableBalance": "可用餘額",
             "lockPopup": {

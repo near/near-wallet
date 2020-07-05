@@ -80,7 +80,8 @@ class Routing extends Component {
         // TODO: Figure out how to load only necessary translatuons dynamically
         this.props.addTranslationForLanguage(translations_en, "en")
         this.props.addTranslationForLanguage(translations_zh_hans, "zh-hans")
-        this.props.setActiveLanguage('zh-hans')
+        this.props.addTranslationForLanguage(translations_zh_hant, "zh-hant")
+        this.props.setActiveLanguage('en')
     }
 
     componentDidMount = () => {
