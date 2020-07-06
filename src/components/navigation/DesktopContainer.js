@@ -50,6 +50,7 @@ const Help = styled.a`
     cursor: pointer;
     line-height: normal;
     letter-spacing: 2px;
+    padding-top: 4px;
     
     &:hover {
         color: white;
@@ -64,6 +65,7 @@ const Help = styled.a`
         width: 23px;
         height: 23px;
         margin-right: 10px;
+        margin-top: -5px;
     }
 `
 

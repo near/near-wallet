@@ -47,7 +47,7 @@ const DomainName = styled.div`
     align-items: center;
     justify-content: center;
     border-radius: 4px;
-    font-weight: 400;
+    font-weight: 300;
     color: #4a4f54;
     font-size: 16px;
     padding: 0 10px;

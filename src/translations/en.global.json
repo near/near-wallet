@@ -5,8 +5,8 @@
             "error": "Failed to send SMS with code."
         },
         "recoverAccount": {
-            "success": "Success",
-            "error": "Failed to recover account.",
+            "success": "Recover using Seed Phrase is complete.<br/><b>${numberOfAccounts} account(s)</b> have been successfully recovered: <b>${accountList}</b>.<br/>The last one is set as active.",
+            "error": "Failed to recover account. Seed phrase is invalid.",
             "errorInvalidSeedPhrase": "Seed phrase is invalid"
         },
         "create": {
@@ -33,6 +33,10 @@
         "setupRecoveryMessage": {
             "success": "Recovery setup is complete.",
             "error": "An error occurred while setting up your recovery method. Please try again!"
+        },
+        "sendNewRecoveryLink": {
+            "success": "Recovery link successfully sent!",
+            "error": "Failed to resend. Please try again."
         },
         "login": {
             "success": "${title} is now authorized to use your account.",
@@ -140,7 +144,7 @@
         "title": "Hardware Devices",
         "desc": "Improve the security of your account by using a hardware wallet.",
         "ledger": {
-            "title": "Ledger Hardware Wallet",
+            "title": "Ledger Nano S",
             "auth": "Authorized",
             "disclaimer": "In order to disable your ledger device, you must first enable an alternative recovery method."
         },
@@ -540,7 +544,7 @@
 
     "setupLedger": {
         "header": "Connect your Ledger device",
-        "one": "Connect your Ledger to your computer or mobile device via USB, then open the NEAR application.",
+        "one": "Connect your Ledger Nano S to your computer or mobile device via USB and <b>open the NEAR application</b>.",
         "two": "If you have not yet installed the NEAR Ledger app, follow",
         "twoLink": "these instructions"
     },

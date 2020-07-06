@@ -3,11 +3,9 @@ import styled from 'styled-components'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { Translate } from 'react-localize-redux'
-import { GoogleReCaptchaProvider, GoogleReCaptcha } from 'react-google-recaptcha-v3'
 import { checkNewAccount, createNewAccount, clear, refreshAccount, resetAccounts, setFormLoader } from '../../actions/account'
 import { ACCOUNT_ID_SUFFIX } from '../../utils/wallet'
 import Container from '../common/styled/Container.css'
-import ReCAPTCHA from 'react-google-recaptcha'
 
 import FormButton from '../common/FormButton'
 import AccountFormAccountId from './AccountFormAccountId'
@@ -66,8 +64,7 @@ class CreateAccount extends Component {
     state = {
         loader: false,
         accountId: '',
-        token: '',
-        recaptchaFallback: false
+        token: ''
     }
 
     componentDidMount = () => {
@@ -106,9 +103,6 @@ class CreateAccount extends Component {
         createNewAccount(accountId, fundingKey, fundingContract, token)
             .then(({ error, payload }) => {
                 if (error) {
-                    if (payload.statusCode === 402) {
-                        this.setState({ recaptchaFallback: true });
-                    }
                     this.setState({ loader: false });
                     return;
                 }
@@ -128,7 +122,7 @@ class CreateAccount extends Component {
     }
 
     render() {
-        const { loader, accountId, recaptchaFallback } = this.state
+        const { loader, accountId } = this.state
         const { requestStatus, formLoader, checkNewAccount, loginResetAccounts, clear, setFormLoader } = this.props
         const useRequestStatus = accountId.length > 0 ? requestStatus : undefined;
 
@@ -162,25 +156,12 @@ class CreateAccount extends Component {
                     >
                         <Translate id='button.createAccountCapital'/>
                     </FormButton>
-                    {recaptchaFallback &&
-                        <ReCAPTCHA
-                            sitekey='6LcZJtsUAAAAAN0hXzam-vEAPiFKMVsFY75Mn8AT'
-                            onChange={token => this.setState({ token: token }, this.handleCreateAccount)}
-                            style={{ marginTop: '25px' }}
-                        />
-                    }
                     <div className='alternatives-title'><Translate id='createAccount.alreadyHaveAnAccount'/></div>
                     <div className='alternatives'>
                         <Link to='/sign-in-ledger'><Translate id='createAccount.signInLedger'/></Link>
                         &nbsp;or&nbsp;
                         <Link to={process.env.DISABLE_PHONE_RECOVERY === 'yes' ? '/recover-seed-phrase' : '/recover-account'}><Translate id='createAccount.recoverItHere' /></Link>
                     </div>
-                    <div className='recaptcha-disclaimer'>
-                        This site is protected by reCAPTCHA and the Google <a href='https://policies.google.com/privacy' target='_blank' rel='noopener noreferrer'>Privacy Policy</a> and <a href='https://policies.google.com/terms' target='_blank' rel='noopener noreferrer'>Terms of Service</a> apply.
-                    </div>
-                    <GoogleReCaptchaProvider reCaptchaKey="6LfSgNoUAAAAABKb2sk4Rs3TS0RMx9zrVwyTBSc6">
-                        <GoogleReCaptcha onVerify={token => this.setState({ token: token })}/>
-                    </GoogleReCaptchaProvider>
                 </form>
             </StyledContainer>
         )

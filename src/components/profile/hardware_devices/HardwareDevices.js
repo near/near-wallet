@@ -37,6 +37,7 @@ const Container = styled(Card)`
 
     .font-rounded {
         margin-top: 15px;
+        font-weight: 500;
     }
 
     .device {
@@ -48,7 +49,7 @@ const Container = styled(Card)`
         padding: 20px 20px 0 20px;
 
         .name {
-            font-weight: 600;
+            font-weight: 500;
             color: #24272a;
 
             div {

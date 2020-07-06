@@ -1,5 +1,5 @@
 import { createGlobalStyle } from 'styled-components'
-
+import 'semantic-ui-css/semantic.min.css'
 import EmailIconGray from '../images/email-icon-gray.svg'
 import CloseBtn from '../images/close-btn.svg'
 
@@ -26,15 +26,11 @@ export default createGlobalStyle`
             position: relative;
             color: #999;
             font-family: "benton-sans",sans-serif;
-            font-weight: 500;
+            font-weight: 400;
             font-size: 14px !important;
             -webkit-overflow-scrolling: touch;
         }
    }
-
-    .grecaptcha-badge {
-        visibility: hidden;
-    }
 
     a {
         color: #0072ce;
@@ -56,6 +52,10 @@ export default createGlobalStyle`
                 text-decoration: underline;
             }
         }
+    }
+
+    .underline {
+        text-decoration: underline;
     }
 
     h1, .h1 {
@@ -114,7 +114,7 @@ export default createGlobalStyle`
         font-family: "benton-sans",sans-serif !important;
         font-size: 12px !important;
         line-height: 18px;
-        font-weight: 600;
+        font-weight: 500;
         color: #999999;
         margin: 0px !important;
         letter-spacing: 1.5px !important;
@@ -132,7 +132,7 @@ export default createGlobalStyle`
         font-family: "benton-sans",sans-serif !important;
         font-size: 12px !important;
         color: #999 !important;
-        font-weight: 500 !important;
+        font-weight: 400 !important;
 
         a {
             font-family: "benton-sans",sans-serif !important;
@@ -174,13 +174,13 @@ export default createGlobalStyle`
         border: 2px solid #f8f8f8 !important;
         padding: 0 0 0 20px !important;
         color: #4a4f54 !important;
-        font-weight: 400 !important;
+        font-weight: 300 !important;
         background-color: #f8f8f8 !important;
         position: relative !important;
         margin-top: 8px !important;
         outline: none;
         appearance: none;
-        border-radius: 4px;
+        border-radius: 4px !important;
 
         ::placeholder {
             color: #999999;
@@ -300,11 +300,16 @@ export default createGlobalStyle`
     }
 
 
-    .button {
+    button, .button {
         font-family: "benton-sans",sans-serif !important;
-        line-height: normal !important;
+        line-height: 1.8 !important;
         cursor: pointer;
         outline: none;
+        font-weight: 400 !important;
+
+        &.link {
+            line-height: normal !important;
+        }
     }
 
     .box {
@@ -391,11 +396,12 @@ export default createGlobalStyle`
     .ui.popup>.header, .ui.popup {
         color: #999;
         font-family: "benton-sans",sans-serif;
-        font-weight: 500;
+        font-weight: 500 !important;
         font-size: 14px !important;
     }
     .ui.popup {
         border: 1px solid #eee;
+        font-weight: 400 !important;
     }
     .ui.left.center.popup:before {
         box-shadow: 1px -1px 0 0 #eee;
@@ -437,7 +443,7 @@ export default createGlobalStyle`
     .ui {
         &.dimmer {
             .modal {
-                line-height: normal;
+                line-height: 140%;
                 padding: 25px;
 
                 .close {
