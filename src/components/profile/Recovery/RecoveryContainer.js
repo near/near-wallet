@@ -82,7 +82,7 @@ const RecoveryContainer = () => {
     const dispatch = useDispatch();
     const account = useSelector(({ account }) => account);
     const accountId = account.accountId;
-    const activeMethods = useRecoveryMethods(accountId).filter(method => method.confirmed);
+    const activeMethods = useRecoveryMethods(accountId).filter(method => method.publicKey);
 
     const allKinds = ['email', 'phone', 'phrase'];
     const currentActiveKinds = new Set(activeMethods.map(method => method.kind));
