@@ -28,6 +28,10 @@ const KEY_WALLET_ACCOUNTS = KEY_UNIQUE_PREFIX + 'wallet:accounts_v2'
 const KEY_ACTIVE_ACCOUNT_ID = KEY_UNIQUE_PREFIX + 'wallet:active_account_id_v2'
 const ACCESS_KEY_FUNDING_AMOUNT = process.env.REACT_APP_ACCESS_KEY_FUNDING_AMOUNT || '100000000'
 const ACCOUNT_ID_REGEX = /^(([a-z\d]+[-_])*[a-z\d]+\.)*([a-z\d]+[-_])*[a-z\d]+$/
+const ACCOUNT_NO_CODE_HASH = '11111111111111111111111111111111'
+const METHOD_NAMES_LAK = ["add_request", "add_request_and_confirm", "delete_request", "confirm"]
+const METHOD_NAMES_CONFIRM = ["confirm"]
+
 
 export const ACCOUNT_CHECK_TIMEOUT = 500
 export const TRANSACTIONS_REFRESH_INTERVAL = 10000
@@ -131,8 +135,8 @@ class Wallet {
         this.accountId = localStorage.getItem(KEY_ACTIVE_ACCOUNT_ID) || ''
     }
 
-    async get2faMethod() {
-        return (await this.getRecoveryMethods()).data.filter((m) => m.kind.indexOf('2fa-') > -1).map(({ kind, detail }) => ({ kind, detail }))[0]
+    async get2faMethod(account) {
+        return (await this.getRecoveryMethods(account)).data.filter((m) => m.kind.indexOf('2fa-') > -1).map(({ kind, detail }) => ({ kind, detail }))[0]
     }
 
     async getLocalAccessKey(accessKeys) {
@@ -169,12 +173,11 @@ class Wallet {
     
     async sendMoney(receiverId, amount) {
         const { accountId } = this
-        const account = this.getAccount(accountId)
-        const state = await account.state()
-        if (state.code_hash === '11111111111111111111111111111111') {
-            await account.sendMoney(receiverId, amount)
-        } else {
+        const { account, has2fa } = await this.getAccountAndState(accountId)
+        if (has2fa) {
             await this.sendMoneyMultisig(account, receiverId, amount)
+        } else {
+            await account.sendMoney(receiverId, amount)
         }
     }
     /********************************
@@ -212,7 +215,6 @@ class Wallet {
     Sync function gets multisig contract instance for the current account
     ********************************/
     getContract(account) {
-        console.log(account)
         // multisig account
         return new nearApiJs.Contract(account, account.accountId, {
             viewMethods: ['get_request_nonce'],
@@ -451,6 +453,13 @@ class Wallet {
         return new nearApiJs.Account(this.connection, accountId)
     }
 
+    async getAccountAndState(accountId) {
+        const account = this.getAccount(accountId)
+        const state = await account.state()
+        const has2fa = state.code_hash !== ACCOUNT_NO_CODE_HASH
+        return { account, state, has2fa }
+    }
+
     async getBalance(accountId) {
         let userAccountId = this.accountId;
         if (accountId) {
@@ -459,17 +468,20 @@ class Wallet {
         return await this.getAccount(userAccountId).getAccountBalance()
     }
 
-    async signatureFor(accountId) {
-        const blockNumber = String((await this.connection.provider.status()).sync_info.latest_block_height);
-        const signed = await this.inMemorySigner.signMessage(Buffer.from(blockNumber), accountId, NETWORK_ID);
+    async signatureFor(accountId, account) {
+        if (!account) {
+            account = this
+        }
+        const blockNumber = String((await account.connection.provider.status()).sync_info.latest_block_height);
+        const signed = await account.inMemorySigner.signMessage(Buffer.from(blockNumber), accountId, NETWORK_ID);
         const blockNumberSignature = Buffer.from(signed.signature).toString('base64');
         return { blockNumber, blockNumberSignature };
     }
 
-    async postSignedJson(path, options) {
+    async postSignedJson(path, options, account) {
         return await sendJson('POST', ACCOUNT_HELPER_URL + path, {
             ...options,
-            ...(await this.signatureFor(this.accountId))
+            ...(await this.signatureFor(account ? account.accountId : this.accountId, account))
         });
     }
 
@@ -533,10 +545,11 @@ class Wallet {
         });
     }
 
-    async getRecoveryMethods() {
+    async getRecoveryMethods(account) {
+        const accountId = account ? account.accountId : this.accountId
         return {
-            accountId: this.accountId,
-            data: await this.postSignedJson('/account/recoveryMethods', { accountId: this.accountId })
+            accountId,
+            data: await this.postSignedJson('/account/recoveryMethods', { accountId }, account)
         }
     }
 
@@ -592,15 +605,14 @@ class Wallet {
         /********************************
         Key updates, multisig deployment and initialization 
         ********************************/
-        const methodNamesLAK = ["add_request", "add_request_and_confirm", "delete_request", "confirm"];
-        const methodNamesConfirm = ["confirm"];
+        
         const newArgs = new Uint8Array(new TextEncoder().encode(JSON.stringify({ 'num_confirmations': 2 })));
         const result = await account.signAndSendTransaction(accountId, [
             // delete FAKs and add them as LAKs
             ...fak2lak.map((pk) => nearApiJs.transactions.deleteKey(pk)),
-            ...fak2lak.map((pk) => nearApiJs.transactions.addKey(pk, nearApiJs.transactions.functionCallAccessKey(accountId, methodNamesLAK, null))),
+            ...fak2lak.map((pk) => nearApiJs.transactions.addKey(pk, nearApiJs.transactions.functionCallAccessKey(accountId, METHOD_NAMES_LAK, null))),
             // confirmOnlyKey
-            nearApiJs.transactions.addKey(confirmOnlyKey, nearApiJs.transactions.functionCallAccessKey(accountId, methodNamesConfirm, null)),
+            nearApiJs.transactions.addKey(confirmOnlyKey, nearApiJs.transactions.functionCallAccessKey(accountId, METHOD_NAMES_CONFIRM, null)),
             // deploy and initialize contract
             nearApiJs.transactions.deployContract(contractBytes),
             nearApiJs.transactions.functionCall('new', newArgs, 10000000000000, '0'),
@@ -685,7 +697,7 @@ class Wallet {
         await this.removeAccessKey(publicKey)
     }
 
-    async recoverAccountSeedPhrase(seedPhrase) {
+    async recoverAccountSeedPhrase(seedPhrase, fromLink = false) {
         const { publicKey, secretKey } = parseSeedPhrase(seedPhrase)
         const accountsIds = await getAccountId(publicKey)
 
@@ -701,16 +713,57 @@ class Wallet {
             signer: new nearApiJs.InMemorySigner(tempKeyStore)
         })
 
+        let prompt2fa = false
+
         await Promise.all(accountsIds.map(async ({ account_id: accountId }, i, { length }) => {
             const account = new nearApiJs.Account(connection, accountId)
-
+            
             const keyPair = KeyPair.fromString(secretKey)
             await tempKeyStore.setKey(NETWORK_ID, accountId, keyPair)
-
-            // generate new keypair for this browser
+            
+            // generate new keypair
             const newKeyPair = KeyPair.fromRandom('ed25519')
-            await account.addKey(newKeyPair.publicKey)
-
+            // check if multisig deployed IF NOT fromLink (using full access key seed phrase)
+            const state = await account.state()
+            console.log('state', state)
+            if (fromLink && state.code_hash !== ACCOUNT_NO_CODE_HASH) {
+                const contract = this.getContract(account)
+                const request_id = await this.getNextRequestId(contract)
+                const public_key = newKeyPair.publicKey.toString().replace('ed25519:', '')
+                const addKeyAction = {
+                    type: 'AddKey', public_key,
+                    // default is going to be METHOD_NAMES_LAK, custom permissions not working atm, requires update to contract
+                    // permission: {
+                    //     receiver_id: accountId,
+                    //     method_names: METHOD_NAMES_LAK
+                    // }
+                }
+                // send request
+                const request = {
+                    receiver_id: accountId,
+                    actions: [addKeyAction]
+                }
+                await this.addRequestAndConfirm(contract, request)
+                // request successfully added to multisig?
+                const request_id_after = await this.getNextRequestId(contract)
+                console.log('request_idsss', request_id_after, request_id)
+                if (request_id_after > request_id) {
+                    const data = { request_id, request }
+                    // needed prove to contract helper we're signer of account
+                    account.keyStore = tempKeyStore
+                    account.inMemorySigner = new nearApiJs.InMemorySigner(tempKeyStore)
+                    console.log('account', account)
+                    const method = await this.get2faMethod(account)
+                    await sendJson('POST', ACCOUNT_HELPER_URL + '/2fa/send', { accountId, method, data })
+                    console.log('/2fa/send', { accountId, method, data })
+                    addRequest(data.request_id, data.request)
+                    // prompt 2fa modal
+                    prompt2fa = true
+                }
+            } else {
+                // no multisig: add new keypair for this browser
+                await account.addKey(newKeyPair.publicKey)
+            }
             if (i === length - 1) {
                 await this.saveAndSelectAccount(accountId, newKeyPair)
             } else {
@@ -720,7 +773,8 @@ class Wallet {
 
         return {
             numberOfAccounts: accountsIds.length,
-            accountList: accountsIds.flatMap((accountId) => accountId.account_id).join(', ')
+            accountList: accountsIds.flatMap((accountId) => accountId.account_id).join(', '),
+            prompt2fa
         }
     }
 

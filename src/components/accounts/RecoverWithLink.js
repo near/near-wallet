@@ -7,7 +7,8 @@ import FormButton from '../common/FormButton'
 import { 
     recoverAccountSeedPhrase,
     refreshAccount,
-    redirectToProfile
+    redirectToProfile,
+    promptTwoFactor,
 } from '../../actions/account'
 import { Snackbar, snackbarDuration } from '../common/Snackbar'
 import { Translate } from 'react-localize-redux'
@@ -152,13 +153,18 @@ class RecoverWithLink extends Component {
     }
 
     handleContinue = () => {
-        this.props.recoverAccountSeedPhrase(this.state.seedPhrase)
-            .then(({ error }) => {
+        this.props.recoverAccountSeedPhrase(this.state.seedPhrase, true)
+            .then(({ error, prompt2fa }) => {
                 if (error) {
                     this.setState({ successView: false });
                 } else {
-                    this.props.refreshAccount()
-                    this.props.redirectToProfile()
+                    // ??? we must refresh and redirect to profile after 2fa is complete
+                    if (prompt2fa) {
+                        this.props.promptTwoFactor()
+                    } else {
+                        this.props.refreshAccount()
+                        this.props.redirectToProfile()
+                    }
                 }
             });
     }
