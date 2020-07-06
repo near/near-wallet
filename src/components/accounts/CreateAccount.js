@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Translate } from 'react-localize-redux'
-import { GoogleReCaptchaProvider, GoogleReCaptcha } from 'react-google-recaptcha-v3'
 import CreateAccountForm from './CreateAccountForm'
 import AccountFormSection from './AccountFormSection'
 import AccountFormContainer from './AccountFormContainer'
@@ -12,8 +11,7 @@ class CreateAccount extends Component {
     state = {
         loader: false,
         accountId: '',
-        token: '',
-        recaptchaFallback: false
+        token: ''
     }
 
     componentDidMount = () => {
@@ -52,9 +50,6 @@ class CreateAccount extends Component {
         createNewAccount(accountId, fundingKey, fundingContract, token)
             .then(({ error, payload }) => {
                 if (error) {
-                    if (payload.statusCode === 402) {
-                        this.setState({ recaptchaFallback: true });
-                    }
                     this.setState({ loader: false });
                     return;
                 }
@@ -74,7 +69,7 @@ class CreateAccount extends Component {
     }
 
     render() {
-        const { loader, accountId, recaptchaFallback } = this.state
+        const { loader, accountId } = this.state
         const { requestStatus, formLoader, checkNewAccount, location, loginResetAccounts, clear, setFormLoader } = this.props
         const useRequestStatus = accountId.length > 0 ? requestStatus : undefined;
 
@@ -94,16 +89,11 @@ class CreateAccount extends Component {
                         requestStatus={useRequestStatus}
                         formLoader={formLoader}
                         handleChange={this.handleChange}
-                        recaptchaFallback={recaptchaFallback}
-                        verifyRecaptcha={token => this.setState({ token: token }, this.handleCreateAccount)}
                         checkAvailability={checkNewAccount}
                         accountId={accountId}
                         clearRequestStatus={clear}
                         setFormLoader={setFormLoader}
                     />
-                    <GoogleReCaptchaProvider reCaptchaKey="6LfSgNoUAAAAABKb2sk4Rs3TS0RMx9zrVwyTBSc6">
-                        <GoogleReCaptcha onVerify={token => this.setState({ token: token })}/>
-                    </GoogleReCaptchaProvider>
                 </AccountFormSection>
             </AccountFormContainer>
         )
