@@ -330,6 +330,10 @@ class Wallet {
     }
 
     async signInWithLedger() {
+        const publicKey = await this.getLedgerPublicKey()
+        const accountsIds = await getAccountId(publicKey.toString())
+        
+    
         // TODO: Lookup account with Ledger Key
         const waitFor = delay => new Promise(resolve => setTimeout(resolve, delay));
         await waitFor(5000);
