@@ -113,9 +113,14 @@ class Routing extends Component {
                         <GlobalAlert/>
                         {/* <EnableTwoFactorPromptModal/> */}
                         { 
-                            this.props.account.requestPending &&
+                            this.props.account.requestPending !== null &&
                             <TwoFactorVerifyModal
-                                onClose={() => promptTwoFactor(false)}    
+                                onClose={(verified) => {
+                                    const { account, promptTwoFactor } = this.props
+                                    // requestPending is Promise, resolve with verified from how Modal closed, verified or closed by user
+                                    account.requestPending(verified)
+                                    promptTwoFactor(null)
+                                }}
                             />
                         }
                         {this.props.account.loader === false && (
@@ -266,7 +271,8 @@ const mapDispatchToProps = {
     clearAlert,
     clear,
     handleRedirectUrl,
-    handleClearUrl
+    handleClearUrl,
+    promptTwoFactor
 }
 
 const mapStateToProps = ({ account, router }) => ({

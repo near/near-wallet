@@ -23,7 +23,7 @@ import {
 const initialState = {
     formLoader: false,
     sentMessage: false,
-    requestPending: false,
+    requestPending: null,
     actionsPending: [],
 }
 

@@ -16,7 +16,7 @@ const TwoFactorVerifyModal = ({ open, onClose }) => {
         <Modal
             id='two-factor-verify-modal'
             isOpen={open}
-            onClose={() => dispatch(onClose())}
+            onClose={() => onClose(false)}
             closeButton='desktop'
         >
             <ModalTheme/>
@@ -25,9 +25,9 @@ const TwoFactorVerifyModal = ({ open, onClose }) => {
             <p className='font-bw'><Translate id='twoFactor.verify.desc'/></p>
             <p className='color-black font-bw' style={{ marginTop: '-10px', fontWeight: '500' }}>email@email.com</p>
             <TwoFactorVerifyInput
-                onConfirm={(code) => {
-                    dispatch(verifyTwoFactor(null, code))
-                    if (onClose) dispatch(onClose())
+                onConfirm={async (code) => {
+                    await dispatch(verifyTwoFactor(null, code))
+                    if (onClose) onClose(true)
                 }}
             />
             <FormButton>

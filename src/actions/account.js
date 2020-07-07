@@ -154,7 +154,7 @@ export const { initializeRecoveryMethod, initializeRecoveryMethodForTempAccount,
         () => defaultCodesFor('account.verifyTwoFactor')
     ],
     PROMPT_TWO_FACTOR: [
-        (requestPending = true) => {
+        (requestPending = null) => {
             return ({ store: { requestPending } })
         },
         () => defaultCodesFor('account.promptTwoFactor')

@@ -8,7 +8,6 @@ import {
     recoverAccountSeedPhrase,
     refreshAccount,
     redirectToProfile,
-    promptTwoFactor,
 } from '../../actions/account'
 import { Snackbar, snackbarDuration } from '../common/Snackbar'
 import { Translate } from 'react-localize-redux'
