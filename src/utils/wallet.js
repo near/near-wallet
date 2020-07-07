@@ -108,10 +108,6 @@ class Wallet {
         localStorage.setItem(KEY_WALLET_ACCOUNTS, JSON.stringify(this.accounts))
     }
 
-    getAccountId() {
-        return this.accountId
-    }
-
     selectAccount(accountId) {
         if (!(accountId in this.accounts)) {
             return false
