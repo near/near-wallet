@@ -62,7 +62,7 @@ export async function getTransactions(accountId) {
 
 export const transactionExtraInfo = (hash, signer_id) => wallet.connection.provider.sendJsonRpc('tx', [hash, signer_id])
 
-export async function getAccountId(publicKey) {
+export async function getAccountIds(publicKey) {
     if (!publicKey) return {}
 
     const sql = `
@@ -77,5 +77,5 @@ export async function getAccountId(publicKey) {
         publicKey
     }
 
-    return await queryExplorer(sql, params)
+    return (await queryExplorer(sql, params)).map(({ account_id }) => account_id)
 }

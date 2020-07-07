@@ -7,7 +7,7 @@ import { KeyType } from 'near-api-js/lib/utils/key_pair'
 import { store } from '..'
 import { getAccessKeys } from '../actions/account'
 import { generateSeedPhrase } from 'near-seed-phrase';
-import { getAccountId } from './explorer-api'
+import { getAccountIds } from './explorer-api'
 import { WalletError } from './walletError'
 
 export const WALLET_CREATE_NEW_ACCOUNT_URL = 'create'
@@ -453,7 +453,7 @@ class Wallet {
 
     async recoverAccountSeedPhrase(seedPhrase) {
         const { publicKey, secretKey } = parseSeedPhrase(seedPhrase)
-        const accountsIds = await getAccountId(publicKey)
+        const accountsIds = await getAccountIds(publicKey)
 
         if (!accountsIds.length) {
             throw new WalletError('Cannot find matching public key', 'account.recoverAccount.errorInvalidSeedPhrase', { publicKey })
@@ -467,7 +467,7 @@ class Wallet {
             signer: new nearApiJs.InMemorySigner(tempKeyStore)
         })
 
-        await Promise.all(accountsIds.map(async ({ account_id: accountId }, i, { length }) => {
+        await Promise.all(accountsIds.map(async (accountId, i) => {
             const account = new nearApiJs.Account(connection, accountId)
 
             const keyPair = KeyPair.fromString(secretKey)
@@ -477,7 +477,7 @@ class Wallet {
             const newKeyPair = KeyPair.fromRandom('ed25519')
             await account.addKey(newKeyPair.publicKey)
 
-            if (i === length - 1) {
+            if (i === accountIds.length - 1) {
                 await this.saveAndSelectAccount(accountId, newKeyPair)
             } else {
                 await this.saveAccount(accountId, newKeyPair)
