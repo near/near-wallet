@@ -324,10 +324,7 @@ class Wallet {
     }
 
     async addLedgerAccessKey(accountId) {
-        const { createLedgerU2FClient } = await import('./ledger.js')
-        const client = await createLedgerU2FClient()
-        const rawPublicKey = await client.getPublicKey()
-        const publicKey = new PublicKey({ keyType: KeyType.ED25519, data: rawPublicKey })
+        const publicKey = await this.getLedgerPublicKey()
         await setKeyMeta(publicKey, { type: 'ledger' })
         return await this.getAccount(accountId).addKey(publicKey)
     }
@@ -336,6 +333,13 @@ class Wallet {
         // TODO: Lookup account with Ledger Key
         const waitFor = delay => new Promise(resolve => setTimeout(resolve, delay));
         await waitFor(5000);
+    }
+
+    async getLedgerPublicKey() {
+        const { createLedgerU2FClient } = await import('./ledger.js')
+        const client = await createLedgerU2FClient()
+        const rawPublicKey = await client.getPublicKey()
+        return new PublicKey({ keyType: KeyType.ED25519, data: rawPublicKey })
     }
 
     async getAvailableKeys() {
