@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { Grid, Image, List, Item } from 'semantic-ui-react'
 import { Translate } from 'react-localize-redux'
-import LanguageToggle from './LangSwitcher'
 import LogoFooterImage from '../../images/near.svg'
 import NearkatImage from '../../images/footer-nearkat.svg'
 
@@ -146,8 +145,6 @@ class Footer extends Component {
                                     <a href='/'><Translate id='footer.termsOfService' /></a>
                                     <span className='color-brown-grey'>|</span>
                                     <a href='/'><Translate id='footer.privacyPolicy' /></a>
-                                    <span className='color-brown-grey'>|</span>
-                                    <LanguageToggle />
                                 </Item.Content>
                             </Item>
                         </Item.Group>
