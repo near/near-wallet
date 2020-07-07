@@ -1,0 +1,512 @@
+{
+    "account": {
+        "requestCode": {
+            "success": "短信已成功发送。",
+            "error": "发送短信失败。"
+        },
+        "recoverAccount": {
+            "success": "成功。",
+            "error": "恢复账户失败。"
+        },
+        "create": {
+            "success": "恭喜! ${accountId} 可被注册。",
+            "error": "用户名已被注册，请尝试其他。",
+            "errorInvalidAccountIdLength": "用户名的长度需为 2 至 64 个字符。",
+            "checkingAvailablity": {
+                "create": "正在检查可用性",
+                "check": "正在检查"
+            }
+        },
+        "available": {
+            "success": "该用户已找到。",
+            "error": "无法找到该用户。",
+            "errorSameAccount": "无法向你自己发送。"
+        },
+        "verifySeedPhrase": {
+            "error": "你输入了错误的助记词"
+        },
+        "setupSeedPhrase": {
+            "success": "助记词恢复设置已经完成。",
+            "error": "在设置助记词恢复方式时发生了错误，请重试。"
+        },
+        "login": {
+            "success": "${title} 现已授权使用你的账户。",
+            "error": "在授权此操作时发生了错误，请重试。",
+            "details": {
+                "warning": "这将可以访问你的所有余额，请谨慎操作。"
+            },
+            "incorrectContractId": {
+                "error": "合约 ${contractId} 不存在。这可能是你正在使用的应用的问题，或者可能是合约已经被删除。你将重新回到应用。"
+            }
+        },
+        "nameDoesntMatch": "账户名称不匹配"
+    },
+
+    "actions": {
+        "CreateAccount": "新账户已创建：@${receiverId}",
+        "DeleteAccount": "账户已删除：@${receiverId}",
+        "DeployContract": "合约已经部署：@${receiverId}",
+        "FunctionCall": "函数已调用：合约 @${receiverId} 的 ${methodName}",
+        "Transfer": {
+            "transferred": "已转账 ${deposit} 至 @${receiverId}",
+            "received": "收到来自 @${signerId} 的转账 ${deposit} "
+        },
+        "Stake": "已质押 ${stake}",
+        "AddKey": {
+            "forContract": "已为合约添加访问密钥：@${permissionReceiverId}",
+            "forReceiver": "已为 @${receiverId} 新增密钥"
+        },
+        "DeleteKey": "密钥已删除"
+    },
+    "actionsSign": {
+        "createAccount": "正在创建账户：${receiverId}",
+        "deployContract": "正在部署合约：${receiverId}",
+        "functionCall": "正在调用函数：${methodName}",
+        "transfer": "正在转账：${deposit} &#9411; 至 ${receiverId}",
+        "stake": "正在质押：${stake} &#9411; ${publicKey}...",
+        "addKey": "正在新增访问密钥",
+        "deleteKey": "正在删除访问密钥",
+        "deleteAccount": "正在删除账户：${receiverId}"
+    },
+
+    "setupSeedPhrase": {
+        "pageTitle": "设置恢复助记词",
+        "pageText": "请按顺序记录以下助记词，并安全保管它们。没有助记词你将无法恢复账户！",
+        "snackbarCopySuccess": "助记词已复制！"
+    },
+    "setupSeedPhraseVerify": {
+        "pageTitle": "验证助记词",
+        "pageText": "请根据你的助记词输入以下单词完成设置。",
+        "startOverText": "没有记录下来？"
+    },
+    "setupSeedPhraseSuccess": {
+        "pageTitle": "恢复设置已完成",
+        "pageText": "使用助记词来恢复你的账户。",
+        "pageTextSecondLine": "任何能够查看你的助记词的人都可以访问你的账户，因此请离线安全地保存助记词。"
+    },
+
+    "receivePage": {
+        "addressTitle": "你的地址",
+        "qrCodeTitle": "扫描二维码",
+        "copyAddressLinkLong": "复制地址链接",
+        "copyAddressLinkShort": "复制",
+        "snackbarCopySuccess": "地址链接已复制！"
+    },
+
+    "selectAccountDropdown": {
+        "switchAccount": "切换账户",
+        "switchAccounthNotAllowed": "该应用不支持账户切换",
+        "createAccount": "创建新的账户"
+    },
+
+    "recoverWithLink": {
+        "title": "恢复账户",
+        "pOne": "点击 \"继续\" 恢复你的账户：",
+        "pTwo": "如果这不是你偏好的浏览器，请复制链接并在你偏好的浏览器中完成恢复流程。",
+        "snackbarCopySuccess": "恢复链接已复制",
+        "errorTitle": "链接已过期",
+        "errorP": "请检查你的 Email 或手机最新消息，之前消息里的链接已经无效。"
+    },
+
+    "recoveryMgmt": {
+        "title": "账户恢复方式",
+        "noRecoveryMethod": "你还不能恢复账户，请先添加以下至少一种方式。",
+        "methodTitle": {
+            "phrase": "助记词",
+            "phone": "手机号",
+            "email": "Email 地址"
+        },
+        "resend": {
+            "phone": "重新发送短信",
+            "email": "重新发送 Email"
+        },
+        "enabled": "已启用",
+        "disableTitle": "是否确定禁用该恢复账户方式？",
+        "disableTextLink": "你收到的恢复链接将会被永久禁用。",
+        "disableTextPhrase": "当前助记词将会被永久禁用。",
+        "disableInputPlaceholder": "请输入用户名确认",
+        "disableNo": "不，保留。",
+        "recoveryLinkSent": "恢复链接已发送！"
+    },
+    
+    "fullAccessKeys": {
+        "pageTitle": "完全访问密钥",
+        "authorizedTo": "已授权",
+        "viewYourAccountName": "查看你的账户名称",
+        "submitAnyTransaction": "代表你发起交易",
+        "useContract": "代表你使用 <b>${receiverId}</b> 合约",
+        "noKeys": "你没有将 NEAR 钱包连接至任何应用。当连接后，你可以在这里管理。<br /><br />查看基于 NEAR 开发的应用：",
+        "dashboardNoKeys": "你没有完全访问密钥"
+    },
+
+    "authorizedApps": {
+        "pageTitle": "已授权应用",
+        "dashboardNoApps": "你还未授权任何应用",
+        "feeAllowance": "费用配额",
+        "publicKey": "公钥",
+        "ledger": "账本"
+    },
+
+    "button": {
+        "copyPhrase": "复制助记词",
+        "continue": "继续",
+        "verify": "验证并完成",
+        "startOver": "重新开始",
+        "copyUrl": "复制链接",
+        "createAccount": "创建账户",
+        "enable": "启用",
+        "disable": "禁用",
+        "connectLedger": "连接账本",
+        "browseApps": "浏览应用",
+        "createAccountCapital": "创建账户",
+        "findMyAccount": "查找我的账户",
+        "protectAccount": "保护账户",
+        "setupPhrase": "设置助记词",
+        "confirm": "确认",
+        "viewAll": "查看全部",
+        "send": "发送",
+        "cancel": "取消",
+        "deny": "拒绝",
+        "allow": "允许",
+        "addNode": "添加更多",
+        "saveChanges": "保存更改",
+        "removeNode": "删除模式",
+        "stake": "质押",
+        "confirmAndSend": "确认并发送",
+        "needToEditGoBack": "需要修改？请返回",
+        "cancelTransfer": "取消转账",
+        "goToDashboard": "访问概览页",
+        "close": "关闭",
+        "addFunds": "充值",
+        "deauthorize": "取消授权",
+        "recoverAccount": "恢复账户",
+        "goBack": "返回",
+        "createNewAccount": "创建新的账户",
+        "moreInformation": "更多信息"
+    },
+
+    "link": {
+        "summary": "概览",
+        "send": "发送",
+        "receive": "接收",
+        "help": "帮助",
+        "profile": "资料",
+        "authorizedApps": "已授权应用",
+        "switchAccount": "切换账号",
+        "noAccount": "你未登录其他账号",
+        "fullAccessKeys": "完全访问密钥"
+    },
+
+    "input": {
+        "enterWord": {
+            "title": "助记词",
+            "placeholder": ""
+        }
+    },
+
+    "recoverAccount": {
+        "pageTitle": "恢复你的账户",
+        "pageText": "如果你已经设置账户恢复方式，请根据以下步骤开始恢复流程。",
+        "email": {
+            "title": "Email",
+            "desc": "请检查来自 nearprotocol.com 地址的邮件，标题是：",
+            "subject": "\"重要：NEAR 钱包恢复邮件\"。"
+        },
+        "phone": {
+            "title": "手机",
+            "desc": "在你的手机上检查来自以下手机号的短信：",
+            "number": "+14086179592。"
+        },
+        "phrase": {
+            "title": "助记词",
+            "desc": "请确认已准备 12 个单词组成的助记词，然后点击下方开始恢复账户流程。"
+        },
+        "actionType": "恢复",
+        "actionRequired": "此消息包含恢复链接，请点击链接开始恢复账户流程！"
+    },
+
+    "createAccount": {
+        "pageTitle": "创建新的账户",
+        "pageText": "只需要输入用户名即完成注册。",
+        "accountIdInput": {
+            "title": "输入用户名",
+            "placeholder": "例如：satoshi"
+        },
+        "alreadyHaveAnAccount": "已经拥有账户？",
+        "recoverItHere": "恢复账户",
+        "note": {
+            "title": "备注",
+            "one": "你的用户名可以输入以下任何字符：",
+            "two": "小写英文字母 (a-z)",
+            "three": "数字 (0-9)",
+            "four": "字符 (_-) 用于分割",
+            "five": "你的用户名不可以包括：",
+            "six": "符号 \"@\" or \".\""
+        }
+    },
+
+    "topLevelAccounts": {
+        "header": "顶级账户",
+        "body": "账户名称类似于域名，只有 @${suffix} 才能创建比如 @yourname.${suffix} 的账户，并且只有 @yourname.${suffix} 可以创建 @app.yourname.${suffix}。所有在此钱包创建的账户都使用 .${suffix} 顶级账户（TLA）。了解更多关于账户名称和创建你的顶级账户（TLA），请访问 <a rel='noopener noreferrer' href='https://docs.nearprotocol.com/docs/concepts/account'>NEAR 文档</a>。"
+    },
+
+    "recoverSeedPhrase": {
+        "pageTitle": "通过助记词恢复账户",
+        "pageText": "请输入与此账户关联的助记词。",
+        "accountIdInput": {
+            "title": "用户名"
+        },
+        "seedPhraseInput": {
+            "title": "助记词（12 个单词）",
+            "placeholder": "correct horse battery staple..."
+        }
+    },
+
+    "setupRecovery": {
+        "header": "保护你的账户",
+        "subHeader": "请设置一种账户恢复方式：",
+        "basicSecurity": "基础安全",
+        "basicSecurityDesc": "请输入你的 Email 地址或手机号以获取恢复链接",
+        "emailTitle": "Email 方式",
+        "emailPlaceholder": "example@email.com",
+        "phoneTitle": "手机短信方式",
+        "phoneDesc": "请输入你的手机号以获取恢复链接",
+        "phonePlaceholder": "+1 415 797 8554",
+        "advancedSecurity": "高级安全",
+        "advancedSecurityDesc": "记录 12 个单词组成的助记词，并安全保存。",
+        "phraseTitle": "恢复助记词"
+    },
+    "setRecoveryConfirm": {
+        "pageTitle": "验证",
+        "pageText": "我们已经发送 6 位数字码至",
+        "inputPlaceholder": "请输入 6 位数字码",
+        "invalidCode": "请检查你的安全码。",
+        "reenter": {
+            "one": {
+                "email": "如果你没有收到邮件，或者上面的 Email 地址输入错误，",
+                "phoneNumber": "如果你没有收到短信，或上面的手机号输入错误，"
+            },
+            "link": "点击此处",
+            "two": {
+                "email": "重新输入 Email 地址并重新发送。",
+                "phoneNumber": "重新输入手机号并重新发送。"
+            }
+        }
+    },
+
+    "disclaimer": {
+        "title": "声明",
+        "text": "这是开发者的预览版钱包，仅限用于 NEAR 协议 DevNet。了解更多："
+    },
+
+    "footer": {
+        "copyrights": "NEAR Inc. 版权所有。",
+        "termsOfService": "服务条款",
+        "privacyPolicy": "隐私策略",
+        "desc": "NEAR 是开放性网络 (Open Web) 的基础架构, 提供了一个去中心化存储和计算平台。",
+        "learnMore": "了解更多",
+        "needHelp": "需要帮助？",
+        "contactSupport": "联系客服"
+    },
+
+    "dashboard": {
+        "activity": "动态"
+    },
+
+    "balance": {
+        "balance": "总余额",
+        "balanceLoading": "余额加载中"
+    },
+
+    "login": {
+        "form": {
+            "isRequestingTo": "正在请求",
+            "accessYourAccount": "访问你的账户。",
+            "isRequestingFullAccess": "正在请求<b>完全访问</b>",
+            "toYourAccount": "你的账户。",
+            "thisDoesNotAllow": "不允许该应用转账任何通证。",
+            "thisProvidesAccess": "提供<b>所有通证</b>操作权限。<br />请谨慎操作！"
+        },
+        "confirm": {
+            "pageTitle": "是否确认？",
+            "pageText": "你正在向 ${appTitle} 授权<b>完全访问</b>！",
+            "pageTextSecondLine": "<b>为确认授权</b>，请输入你的用户名。",
+            "username": "用户名"
+        },
+        "details": {
+            "detailedDescription": "交易的详细描述",
+            "thisAllows": "这将允许 ${appTitle}：",
+            "createNewAccounts": "创建新的账户",
+            "transferTokens": "从你的账户向其他账户发送通证",
+            "deploySmartContracts": "部署智能合约",
+            "callFunctions": "在任何智能合约上调用函数",
+            "stakeAndUnstake": "质押和取消质押 NEAR 通证",
+            "createAndDeleteAccessKeys": "创建和删除访问密钥",
+            "forContract": "合约",
+            "function": "函数",
+            "noDescription": "该方法没有详细描述"
+        },
+        "cliLoginSuccess": {
+            "pageTitle": "你已经成功授权 NEAR Shell！",
+            "pageText": "请关闭该窗口，并按照终端内的指导操作。"
+        }
+    },
+
+    "addNode": {
+        "pageTitle": "添加节点",
+        "pageText": "通过命令行配置你的节点，并在这里添加。",
+        "ipAddressInput": {
+            "title": "请输入你的节点 IP 地址",
+            "placeholder": "例如：0.0.0.0"
+        },
+        "nicknameInput": {
+            "title": "请设置一个昵称（可选）",
+            "placeholder": "例如：AWS Instance"
+        },
+        "desc": "在此添加前，请先通过命令行配置你的节点。"
+    },
+    "nodeDetails": {
+        "pageTitle": "节点详情",
+        "pageText": "更新节点的详细信息。"
+    },
+    "nodeStaking": {
+        "pageTitle": "节点和质押",
+        "pageText": "@nodeandstaking.near",
+        "steps": {
+            "title": "为运行节点或质押，请执行以下步骤：",
+            "one": {
+                "title": "1. 通过命令行配置并运行节点",
+                "desc": "具体操作步骤可以查看文档"
+            },
+            "two": {
+                "title": "2. 等待节点同步",
+                "desc": "未同步节点无法产生或验证区块。"
+            },
+            "three": {
+                "title": "3. 开始质押",
+                "desc": "从这里或者命令行进行质押。可以查看文档寻找帮助。"
+            }
+        },
+        "nodes": {
+            "title": "节点",
+            "noNode": {
+                "title": "已经配置完节点？在这里添加。",
+                "text": "这将连接你的节点至你的钱包账户。"
+            }
+        },
+        "staking": {
+            "title": "质押",
+            "youAreStaking": "正在进行质押"
+        }
+    },
+    "staking": {
+        "pageTitle": "质押",
+        "pageText": "通过命令行配置你的节点，并在这里添加。",
+        "amountStakingInput": {
+            "title": "请输入质押数量",
+            "placeholder": "例如：15"
+        }
+    },
+    "profile": {
+        "pageTitle": {
+            "loading": "正在加载...",
+            "notFound": "账户 @${accountId} 未找到",
+            "default": "账户：@${accountId}"
+        },
+        "details": {
+            "profile": "资料",
+            "visibleTo": "是否公开",
+            "username": "用户名",
+            "public": "公开",
+            "totalBalance": "余额",
+            "minBalance": "保留余额",
+            "staked": "已质押",
+            "availableBalance": "可用余额",
+            "lockPopup": {
+                "title": "为何是锁定？",
+                "text": "用户名是你在系统中的唯一识别号，并且与数据和资产绑定，因此无法修改。但是你可以${link}以使用想要的名字，并在需要时转账资产。",
+                "createAnotherAccount": "创建其他账户"
+            },
+            "qrDesc": "可以使用手机相机来扫描该二维码"
+        }
+    },
+
+    "sendMoney": {
+        "pageTitle": {
+            "success": "成功！",
+            "default": "发送"
+        },
+        "accountIdInput": {
+            "title": "发送至用户名："
+        },
+        "amountStatusId": {
+            "noMoreThan": "不可超过 5 位数",
+            "notEnoughTokens": "没有足够的通证。",
+            "howMuch": "你想要发送多少通证？",
+            "available": "可用余额：",
+            "sending": "正在发送："
+        },
+        "youAreSending": "你正在发送",
+        "to": "至",
+        "onceConfirmed": "一旦确认，这将不可撤销。",
+        "wasSentTo": "被发送至："
+    },
+
+    "sign": {
+        "unexpectedStatus": "意外状态",
+        "transactionCancelled": "交易取消",
+        "nothingHasBeenTransferred": "没有进行转账。",
+        "details": {
+            "detailedDescription": "交易的详细描述",
+            "transactionFees": "交易费",
+            "gasLimit": "Gas 限制",
+            "gasPriceUnavailable": "Gas 价格估计不可用",
+            "forContract": "合约"
+        },
+        "ActionWarrning": {
+            "functionCall": "该函数没有描述。",
+            "deployContract": "你正在向你的账户部署合约！该合约可以访问你的 NEAR 余额，并代表你和其他合约交互。",
+            "stake": "你正在质押 NEAR 通证。这些通证将会被锁定，并且如果你的验证节点无法即时响应，这些通证有丢失风险。",
+            "deleteAccount": "你将要删除你的账户！你的 NEAR 余额将被清空，并且你的账户数据都将被删除。"
+        },
+        "insufficientFunds": "资产不足",
+        "hereAreSomeDetails": "这里是能够帮助你的一些信息。",
+        "contract": "合约：",
+        "unknownApp": "未知应用",
+        "isRequesting": {
+            "transferOf": "正在请求转账",
+            "authorization": "正在请求授权"
+        },
+        "availableBalance": "可用余额",
+        "wasTransferredSuccessfully": "被成功转账",
+        "authorizationRequestSuccessful": "授权请求成功",
+        "transferring": "正在转账",
+        "authorizing": "正在授权"
+    },
+
+    "availableBalanceInfo": "「可用余额」是指你当前账号内可消耗 NEAR 通证，可用余额少于你的「总余额」。查看你 NEAR 余额的详细构成，请访问你的资料。", 
+    "availableBalanceProfile": "「可用余额」是指你当前账号内可消耗 NEAR 通证，可用余额少于你的总共余额。",
+    "minimumBalance": "这是维持你账号活跃状态的 NEAR 通证「保留余额」，该余额代表你正在使用的 NEAR 区块链存储空间，会在使用量变化后产生对应变化。",
+
+    "transaction": {
+        "status": {
+            "NotStarted": "未开始",
+            "Started": "已开始",
+            "Failure": "失败",
+            "SuccessValue": "成功",
+            "checkingStatus": "检查状态",
+            "notAvailable": "状态不可用"
+        }
+    },
+
+    "success": "成功",
+    "error": "失败",
+    "warning": "警告",
+    "total": "总共",
+    "amount": "数量",
+    "or": "或",
+    "sending": "发送中",
+    "back": "返回",
+    "of": "/",
+    "ofTotal": "占总数"
+}
