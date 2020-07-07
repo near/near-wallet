@@ -66,24 +66,27 @@ const Container = styled.div`
 class Routing extends Component {
     constructor(props) {
         super(props)
+        const languages = [
+            { name: "English", code: "en" },
+            { name: "简体中文", code: "zh-hans" },
+            { name: "繁體中文", code: "zh-hant" }
+        ]
+
+        const defaultLanguage =
+            localStorage.getItem("languageCode") || languages[0];
 
         this.props.initialize({
-            languages: [
-                { name: "English", code: "en" },
-                { name: "Simplified Chinese", code: "zh-hans" },
-                { name: "Traditional Chinese", code: "zh-hant" }
-            ],
-            translation: {},
+            languages,
             options: {
+                defaultLanguage,
                 renderToStaticMarkup: false,
                 renderInnerHtml: true
             }
         })
-        // TODO: Figure out how to load only necessary translatuons dynamically
+        // TODO: Figure out how to load only necessary translations dynamically
         this.props.addTranslationForLanguage(translations_en, "en")
         this.props.addTranslationForLanguage(translations_zh_hans, "zh-hans")
         this.props.addTranslationForLanguage(translations_zh_hant, "zh-hant")
-        this.props.setActiveLanguage('en')
     }
 
     componentDidMount = () => {
@@ -105,6 +108,16 @@ class Routing extends Component {
             clear()
         })
     }
+
+    componentDidUpdate(prevProps) {
+        const prevLangCode = prevProps.activeLanguage && prevProps.activeLanguage.code;
+        const curLangCode = this.props.activeLanguage && this.props.activeLanguage.code;
+        const hasLanguageChanged = prevLangCode !== curLangCode;
+
+        if (hasLanguageChanged) {
+            localStorage.setItem("languageCode", curLangCode);
+          }
+      }
 
     render() {
 
