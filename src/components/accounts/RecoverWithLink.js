@@ -154,17 +154,12 @@ class RecoverWithLink extends Component {
 
     handleContinue = () => {
         this.props.recoverAccountSeedPhrase(this.state.seedPhrase, true)
-            .then(({ error, prompt2fa }) => {
+            .then(({ error }) => {
                 if (error) {
                     this.setState({ successView: false });
                 } else {
-                    // ??? we must refresh and redirect to profile after 2fa is complete
-                    if (prompt2fa) {
-                        this.props.promptTwoFactor()
-                    } else {
-                        this.props.refreshAccount()
-                        this.props.redirectToProfile()
-                    }
+                    this.props.refreshAccount()
+                    this.props.redirectToProfile()
                 }
             });
     }

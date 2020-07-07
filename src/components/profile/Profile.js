@@ -32,7 +32,10 @@ export function Profile({ match }) {
             <ProfileSection>
                 <ProfileDetails account={account} />
                 <button onClick={async () => {
-                    dispatch(sendTwoFactor())
+                    // dispatch(sendTwoFactor())
+                    /********************************
+                    @todo figure out better way to handle recovery + other actions case
+                    ********************************/
                     dispatch(promptTwoFactor())
                 }}>promptTwoFactor</button>
                 <button onClick={async () => console.log(await wallet.getRecoveryMethods())}>getRecoveryMethods</button>

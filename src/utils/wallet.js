@@ -6,7 +6,7 @@ import { createClient } from 'near-ledger-js'
 import { PublicKey } from 'near-api-js/lib/utils'
 import { KeyType } from 'near-api-js/lib/utils/key_pair'
 import { store } from '..'
-import { getAccessKeys } from '../actions/account'
+import { getAccessKeys, promptTwoFactor } from '../actions/account'
 import { generateSeedPhrase } from 'near-seed-phrase';
 import { getAccountId } from './explorer-api'
 
@@ -40,16 +40,11 @@ export const TRANSACTIONS_REFRESH_INTERVAL = 10000
 /********************************
 Managing 2fa requests
 ********************************/
-export const addRequest = (requestId, request) => {
-    const requests = getRequests()
-    requests[requestId] = request
-    setRequests(requests)
+export const getRequestId = () => {
+    return localStorage.getItem(`__multisigRequestId`)
 }
-export const getRequests = () => {
-    return JSON.parse(localStorage.getItem(`__multisigRequests`) || '{}')
-}
-export const setRequests = (requests) => {
-    localStorage.setItem(`__multisigRequests`, requests)
+export const setRequestId = (request_id) => {
+    localStorage.setItem(`__multisigRequestId`, request_id)
 }
 // helpers
 const splitPK = (pk) => pk.split(':')[1]
@@ -197,9 +192,7 @@ class Wallet {
             // request was successfully added, send verification code to 2fa method
             const data = { request_id, request }
             const method = await this.get2faMethod()
-            await sendJson('POST', ACCOUNT_HELPER_URL + '/2fa/send', { accountId, method, data })
-            // add request to local storage
-            addRequest(data.request_id, data.request)
+            await this.sendTwoFactor(accountId, method, request_id, data)
         }
     }
     /********************************
@@ -526,17 +519,32 @@ class Wallet {
         return this.sendTwoFactor(accountId, method)
     }
 
-    async sendTwoFactor(accountId, method) {
+    async sendTwoFactor(accountId, method, requestId = '-1', data = {}) {
         if (!accountId) accountId = this.accountId
         if (!method) method = await this.get2faMethod()
-        return await sendJson('POST', ACCOUNT_HELPER_URL + '/2fa/send', {
+        // add request to local storage
+        setRequestId(requestId)
+        const serverResponse = sendJson('POST', ACCOUNT_HELPER_URL + '/2fa/send', {
             accountId,
-            method
-        });
+            method,
+            requestId
+        }).catch((e) => console.log('/2fa/send failed', e));
+        if (requestId !== '-1') {
+            // we know the requestId of what we want to confirm so pop the modal now and wait on that
+            return await store.dispatch(promptTwoFactor(true))
+        } else {
+            // wait for sever response to reture
+            return await serverResponse
+        }
     }
 
     // requestId is optional, if included the server will try to confirm requestId
-    async verifyTwoFactor(accountId, securityCode, requestId) {
+    async verifyTwoFactor(accountId, securityCode) {
+        const requestId = getRequestId()
+        if (!requestId) {
+            console.log('there was no requestId in localStorage')
+            return
+        }
         if (!accountId) accountId = this.accountId
         return await sendJson('POST', ACCOUNT_HELPER_URL + '/2fa/verify', {
             accountId,
@@ -713,8 +721,6 @@ class Wallet {
             signer: new nearApiJs.InMemorySigner(tempKeyStore)
         })
 
-        let prompt2fa = false
-
         await Promise.all(accountsIds.map(async ({ account_id: accountId }, i, { length }) => {
             const account = new nearApiJs.Account(connection, accountId)
             
@@ -746,7 +752,7 @@ class Wallet {
                 await this.addRequestAndConfirm(contract, request)
                 // request successfully added to multisig?
                 const request_id_after = await this.getNextRequestId(contract)
-                console.log('request_idsss', request_id_after, request_id)
+                console.log('request_ids', request_id_after, request_id)
                 if (request_id_after > request_id) {
                     const data = { request_id, request }
                     // needed prove to contract helper we're signer of account
@@ -754,11 +760,7 @@ class Wallet {
                     account.inMemorySigner = new nearApiJs.InMemorySigner(tempKeyStore)
                     console.log('account', account)
                     const method = await this.get2faMethod(account)
-                    await sendJson('POST', ACCOUNT_HELPER_URL + '/2fa/send', { accountId, method, data })
-                    console.log('/2fa/send', { accountId, method, data })
-                    addRequest(data.request_id, data.request)
-                    // prompt 2fa modal
-                    prompt2fa = true
+                    await this.sendTwoFactor(accountId, method, request_id, data)
                 }
             } else {
                 // no multisig: add new keypair for this browser

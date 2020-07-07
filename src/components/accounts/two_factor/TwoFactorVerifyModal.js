@@ -26,9 +26,7 @@ const TwoFactorVerifyModal = ({ open, onClose }) => {
             <p className='color-black font-bw' style={{ marginTop: '-10px', fontWeight: '500' }}>email@email.com</p>
             <TwoFactorVerifyInput
                 onConfirm={(code) => {
-                    const requestId = window.prompt('verify and confirm which requestId?')
-                    console.log('requestId', requestId)
-                    dispatch(verifyTwoFactor(null, code, requestId))
+                    dispatch(verifyTwoFactor(null, code))
                     if (onClose) dispatch(onClose())
                 }}
             />
