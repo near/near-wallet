@@ -218,8 +218,11 @@
         "summary": "SUMMARY",
         "send": "SEND",
         "receive": "RECEIVE",
+        "help": "HELP",
         "profile": "Profile",
         "authorizedApps": "Authorized Apps",
+        "switchAccount": "Switch account",
+        "noAccount": "You have no other accounts",
         "fullAccessKeys": "Full Access Keys"
     },
 

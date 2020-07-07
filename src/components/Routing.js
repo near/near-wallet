@@ -8,6 +8,8 @@ import { ConnectedRouter } from 'connected-react-router'
 import { withLocalize } from 'react-localize-redux';
 import ScrollToTop from '../utils/ScrollToTop'
 import translations_en from '../translations/en.global.json'
+import translations_zh_hans from '../translations/zh_hans.global.json'
+import translations_zh_hant from '../translations/zh_hant.global.json'
 import GlobalAlert from './responsive/GlobalAlert'
 import '../index.css'
 
@@ -68,6 +70,8 @@ class Routing extends Component {
         this.props.initialize({
             languages: [
                 { name: "English", code: "en" },
+                { name: "Simplified Chinese", code: "zh-hans" },
+                { name: "Traditional Chinese", code: "zh-hant" }
             ],
             translation: {},
             options: {
@@ -75,7 +79,11 @@ class Routing extends Component {
                 renderInnerHtml: true
             }
         })
+        // TODO: Figure out how to load only necessary translatuons dynamically
         this.props.addTranslationForLanguage(translations_en, "en")
+        this.props.addTranslationForLanguage(translations_zh_hans, "zh-hans")
+        this.props.addTranslationForLanguage(translations_zh_hant, "zh-hant")
+        this.props.setActiveLanguage('en')
     }
 
     componentDidMount = () => {
