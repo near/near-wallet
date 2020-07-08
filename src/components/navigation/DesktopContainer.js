@@ -207,6 +207,10 @@ const Lang = styled.div`
         z-index: -1;
     }
 
+    &:last-child {
+        margin-right: 15px;
+    }
+
     .lang-selector {
         background: transparent url(${languagesIcon}) no-repeat 5px center / 20px 20px;
         border: 0;
@@ -237,14 +241,16 @@ class DesktopContainer extends Component {
             <Container>
                 <Logo/>
                 {showNavLinks &&
+                    <NavLinks/>
+                }
+                <Help href='http://near.chat/' target='_blank' rel='noopener noreferrer'>
+                    <Translate id='link.help'/>
+                </Help>
+                <Lang>
+                    <LanguageToggle />
+                </Lang>
+                {showNavLinks &&
                     <>
-                        <NavLinks/>
-                        <Help href='http://near.chat/' target='_blank' rel='noopener noreferrer'>
-                            <Translate id='link.help'/>
-                        </Help>
-                        <Lang>
-                            <LanguageToggle />
-                        </Lang>
                         <User onClick={toggleMenu}>
                             <UserIcon/>
                             <UserName accountId={account.accountId}/>
