@@ -597,5 +597,11 @@
             "U2FNotSupported": "U2F browser support is needed for Ledger. Please use Chrome, Opera or Firefox with a U2F extension. Also make sure you're on an HTTPS connection.",
             "U2F_4": "Failed to sign with Ledger device: U2F DEVICE_INELIGIBLE. Please make sure that your Ledger device is connected and unlocked."
         }
+    },
+
+    "networkBanner": {
+        "title": "Test-only Wallet",
+        "header": "NEAR test Wallet",
+        "desc": "This wallet (and network) are for testing purposes only. Tokens and other assets have no value. Accounts created do not transfer to Mainnet."
     }
 }
