@@ -5,11 +5,11 @@ import styled, { ThemeProvider } from 'styled-components'
 
 import { Route, Switch } from 'react-router-dom'
 import { ConnectedRouter } from 'connected-react-router'
-import { withLocalize } from 'react-localize-redux';
-import ScrollToTop from '../utils/ScrollToTop'
+import { withLocalize } from 'react-localize-redux'
 import translations_en from '../translations/en.global.json'
-import translations_zh_hans from '../translations/zh_hans.global.json'
-import translations_zh_hant from '../translations/zh_hant.global.json'
+import translations_zh_hans from '../translations/zh-hans.global.json'
+import translations_zh_hant from '../translations/zh-hant.global.json'
+import ScrollToTop from '../utils/ScrollToTop'
 import GlobalAlert from './responsive/GlobalAlert'
 import '../index.css'
 
@@ -72,8 +72,7 @@ class Routing extends Component {
             { name: "繁體中文", code: "zh-hant" }
         ]
 
-        const defaultLanguage =
-            localStorage.getItem("languageCode") || languages[0];
+        const defaultLanguage = localStorage.getItem("languageCode") || languages[0].code
 
         this.props.initialize({
             languages,
@@ -110,14 +109,24 @@ class Routing extends Component {
     }
 
     componentDidUpdate(prevProps) {
-        const prevLangCode = prevProps.activeLanguage && prevProps.activeLanguage.code;
-        const curLangCode = this.props.activeLanguage && this.props.activeLanguage.code;
-        const hasLanguageChanged = prevLangCode !== curLangCode;
+        const prevLangCode = prevProps.activeLanguage && prevProps.activeLanguage.code
+        const curLangCode = this.props.activeLanguage && this.props.activeLanguage.code
+        const hasLanguageChanged = prevLangCode !== curLangCode
 
         if (hasLanguageChanged) {
-            localStorage.setItem("languageCode", curLangCode);
-          }
-      }
+            // this.addTranslationsForActiveLanguage(curLangCode)
+            localStorage.setItem("languageCode", curLangCode)
+        }
+    }
+
+    /* addTranslationsForActiveLanguage(activeLang) {
+        console.log(activeLang)
+        import(`../translations/${activeLang}.global.json`).then(
+            translations => {
+                this.props.addTranslationForLanguage(translations, activeLang);
+            }
+        );
+    } */
 
     render() {
 
