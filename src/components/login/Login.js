@@ -54,7 +54,7 @@ class Login extends Component {
     }
 
     render() {
-        const { account: { url }, match } = this.props
+        const { account: { url }, match, appTitle } = this.props
 
         return (
             <LoginContainer>
@@ -65,7 +65,7 @@ class Login extends Component {
                         <LoginForm
                             {...this.state}
                             {...props}
-                            appTitle={url && url.title}
+                            appTitle={appTitle}
                             contractId={url && url.contract_id}
                             handleOnClick={this.handleOnClick}
                             handleDeny={this.handleDeny}
@@ -123,9 +123,19 @@ const mapDispatchToProps = {
     redirectToApp
 }
 
-const mapStateToProps = ({ account }) => ({
-    account
-})
+const mapStateToProps = ({ account }) => {
+    const { referrer } = account.url
+    let referrerDomain;
+    if (referrer) {
+        const referrerUrl = new URL(account.url.referrer)
+        referrerDomain = referrerUrl.hostname
+    }
+
+    return {
+        account,
+        appTitle: referrerDomain
+    }
+}
 
 export const LoginWithRouter = connect(
     mapStateToProps,
