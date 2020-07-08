@@ -9,14 +9,10 @@ import styled from 'styled-components'
 
 const CustomDiv = styled(`div`)`
     .buttons-row {
-        display: flex;
+        display: block;
 
         button {
             width: 100% !important;
-        }
-
-        > button:first-child {
-            display: none;
         }
     }
     #seed-phrase {
@@ -32,16 +28,6 @@ const CustomDiv = styled(`div`)`
             margin: 5px;
             flex: 1;
             min-width: 125px;
-        }
-    }
-
-    @media screen and (max-width: 991px) {
-        .buttons-row {
-            display: block;
-            
-            > button:first-child {
-                display: block;
-            }
         }
     }
 `
