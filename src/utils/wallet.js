@@ -183,9 +183,10 @@ class Wallet {
 
     async removeNonLedgerAccessKeys() {
         const accessKeys =  await this.getAccessKeys()
-        const localAccessKey = await this.getLocalAccessKey(accountId, accessKeys)
+        const localAccessKey = await this.getLocalAccessKey(this.accountId, accessKeys)
         const account = this.getAccount(this.accountId)
         const keysToRemove = accessKeys.filter(({
+            public_key,
             access_key: { permission },
             meta: { type }
         }) => permission === 'FullAccess' && type !== 'ledger' && !(localAccessKey && public_key === localAccessKey.public_key))
@@ -194,7 +195,7 @@ class Wallet {
             await account.deleteKey(public_key)
         }
 
-        let newLocalKeyPair = await this.addWalletMetadataAccessKeyIfNeeded(accountId, localAccessKey)
+        let newLocalKeyPair = await this.addWalletMetadataAccessKeyIfNeeded(this.accountId, localAccessKey)
         if (newLocalKeyPair) {
             if (localAccessKey) {
                 await account.deleteKey(localAccessKey.public_key)
