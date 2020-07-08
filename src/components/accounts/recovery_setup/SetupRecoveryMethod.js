@@ -9,29 +9,14 @@ import { initializeRecoveryMethod, setupRecoveryMessage, redirectToApp, loadReco
 import RecoveryOption from './RecoveryOption';
 import FormButton from '../../common/FormButton';
 import SetupRecoveryMethodSuccess from './SetupRecoveryMethodSuccess';
+import Container from '../../common/styled/Container.css'
 
-const Container = styled.form`
-
-    margin-bottom: 100px;
+const StyledContainer = styled(Container)`
     
     button {
         text-transform: uppercase !important;
         margin-top: 50px !important;
-        @media (min-width: 768px) {
-            width: 290px !important;
-        }
-    }
-
-    h2 {
-        max-width: 800px;
-        color: #4a4f54 !important;
-
-        @media (max-width: 767px) {
-            font-size: 14px !important;
-            line-height: 18px !important;
-            color: #999 !important;
-            margin-bottom: -15px;
-        }
+        width: 100% !important;
     }
 
 `
@@ -159,67 +144,69 @@ class SetupRecoveryMethod extends Component {
 
         if (!success) {
             return (
-                <Container className='ui container' onSubmit={e => {this.handleNext(); e.preventDefault();}}>
-                    <h1><Translate id='setupRecovery.header'/></h1>
-                    <h2><Translate id='setupRecovery.subHeader'/></h2>
-                    <OptionHeader><Translate id='setupRecovery.basicSecurity'/></OptionHeader>
-                    <OptionSubHeader><Translate id='setupRecovery.basicSecurityDesc'/></OptionSubHeader>
-                    <RecoveryOption
-                        onClick={() => this.setState({ option: 'email' })}
-                        option='email'
-                        active={option}
-                        disabled={activeMethods.includes('email')}
-                        problem={option === 'email' && emailInvalid}
-                    >
-                        <Translate>
-                            {({ translate }) => (
-                                <input
-                                    type='email'
-                                    placeholder={translate('setupRecovery.emailPlaceholder')}
-                                    value={email}
-                                    onChange={e => this.setState({ email: e.target.value, emailInvalid: false })}
-                                    onBlur={this.handleBlurEmail}
-                                    tabIndex='1'
-                                />
-                            )}
-                        </Translate>
-                    </RecoveryOption>
-                    <RecoveryOption
-                        onClick={() => this.setState({ option: 'phone' })}
-                        option='phone'
-                        active={option}
-                        disabled={activeMethods.includes('phone')}
-                        problem={option === 'phone' && phoneInvalid}
-                    >
-                        <Translate>
-                            {({ translate }) => (
-                                <PhoneInput
-                                    placeholder={translate('setupRecovery.phonePlaceholder')}
-                                    value={phoneNumber}
-                                    onChange={value => this.setState({ phoneNumber: value, phoneInvalid: false })}
-                                    tabIndex='1'
-                                    onBlur={this.handleBlurPhone}
-                                />
-                            )}
-                        </Translate>
-                    </RecoveryOption>
-                    <OptionHeader><Translate id='setupRecovery.advancedSecurity'/></OptionHeader>
-                    <OptionSubHeader><Translate id='setupRecovery.advancedSecurityDesc'/></OptionSubHeader>
-                    <RecoveryOption
-                        onClick={() => this.setState({ option: 'phrase' })}
-                        option='phrase'
-                        active={option}
-                        disabled={activeMethods.includes('phrase')}
-                    />
-                    <FormButton
-                        color='blue'
-                        type='submit'
-                        disabled={!this.isValidInput}
-                        sending={actionsPending.includes('INITIALIZE_RECOVERY_METHOD')}
-                    >
-                        <Translate id={`button.${option !== 'phrase' ? 'protectAccount' : 'setupPhrase'}`}/>
-                    </FormButton>
-                </Container>
+                <StyledContainer className='small-centered'>
+                    <form onSubmit={e => {this.handleNext(); e.preventDefault();}}>
+                        <h1><Translate id='setupRecovery.header'/></h1>
+                        <h2><Translate id='setupRecovery.subHeader'/></h2>
+                        <OptionHeader><Translate id='setupRecovery.basicSecurity'/></OptionHeader>
+                        <OptionSubHeader><Translate id='setupRecovery.basicSecurityDesc'/></OptionSubHeader>
+                        <RecoveryOption
+                            onClick={() => this.setState({ option: 'email' })}
+                            option='email'
+                            active={option}
+                            disabled={activeMethods.includes('email')}
+                            problem={option === 'email' && emailInvalid}
+                        >
+                            <Translate>
+                                {({ translate }) => (
+                                    <input 
+                                        type='email'
+                                        placeholder={translate('setupRecovery.emailPlaceholder')}
+                                        value={email}
+                                        onChange={e => this.setState({ email: e.target.value, emailInvalid: false })}
+                                        onBlur={this.handleBlurEmail}
+                                        tabIndex='1'
+                                    />
+                                )}
+                            </Translate>
+                        </RecoveryOption>
+                        <RecoveryOption
+                            onClick={() => this.setState({ option: 'phone' })}
+                            option='phone'
+                            active={option}
+                            disabled={activeMethods.includes('phone')}
+                            problem={option === 'phone' && phoneInvalid}
+                        >
+                            <Translate>
+                                {({ translate }) => (
+                                    <PhoneInput
+                                        placeholder={translate('setupRecovery.phonePlaceholder')}
+                                        value={phoneNumber}
+                                        onChange={value => this.setState({ phoneNumber: value, phoneInvalid: false })}
+                                        tabIndex='1'
+                                        onBlur={this.handleBlurPhone}
+                                    />
+                                )}
+                            </Translate>
+                        </RecoveryOption>
+                        <OptionHeader><Translate id='setupRecovery.advancedSecurity'/></OptionHeader>
+                        <OptionSubHeader><Translate id='setupRecovery.advancedSecurityDesc'/></OptionSubHeader>
+                        <RecoveryOption
+                            onClick={() => this.setState({ option: 'phrase' })}
+                            option='phrase'
+                            active={option}
+                            disabled={activeMethods.includes('phrase')}
+                        />
+                        <FormButton
+                            color='blue'
+                            type='submit'
+                            disabled={!this.isValidInput}
+                            sending={actionsPending.includes('INITIALIZE_RECOVERY_METHOD')}
+                        >
+                            <Translate id={`button.${option !== 'phrase' ? 'protectAccount' : 'setupPhrase'}`}/>
+                        </FormButton>
+                    </form>
+                </StyledContainer>
             )
         } else {
             return (

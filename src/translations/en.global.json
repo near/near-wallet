@@ -79,7 +79,7 @@
     },
 
     "setupSeedPhrase": {
-        "pageTitle": "Setup Recovery Phrase",
+        "pageTitle": "Setup Phrase",
         "pageText": "Write down the following words IN ORDER and keep them somewhere safe. You cannot recover your account without them!",
         "snackbarCopySuccess": "Seed phrase copied!"
     },
@@ -175,6 +175,8 @@
     },
 
     "button": {
+        "signIn": "Sign In",
+        "signingIn": "Signing In",
         "copyPhrase": "COPY PHRASE",
         "continue": "CONTINUE",
         "verify": "VERIFY & COMPLETE",
@@ -211,7 +213,8 @@
         "goBack": "Go back",
         "createNewAccount": "CREATE NEW ACCOUNT",
         "moreInformation": "More information",
-        "dismiss": "Dismiss"
+        "dismiss": "Dismiss",
+        "cancelOperation": "Cancel Operation"
     },
 
     "link": {
@@ -258,11 +261,12 @@
         "pageTitle": "Create Account",
         "pageText": "Just choose a username and you’re all set.",
         "accountIdInput": {
-            "title": "Choose a Username",
+            "title": "Username",
             "placeholder": "Example: satoshi"
         },
         "alreadyHaveAnAccount": "Already have an account?",
-        "recoverItHere": "Recover it here",
+        "recoverItHere": "Recover your account",
+        "signInLedger": "Sign in with Ledger",
         "note": {
             "title": "NOTE",
             "one": "Your username can contain any of the following:",
@@ -577,6 +581,17 @@
         }
     },
 
+    "signInLedger": {
+        "header": "Sign in with your Ledger device",
+        "one": "Make sure your ledger is connected securely, and that the NEAR app is open on the device.",
+        "error": "Please check that your device is connected and the NEAR app is open."
+    },
+
+    "confirmLedgerModal": {
+        "header": "Please confirm the operation on your device...",
+        "one": "You will need to confirm your sign-in details on your Ledger."
+    },
+    
     "errors": {
         "ledger": {
             "U2FNotSupported": "U2F browser support is needed for Ledger. Please use Chrome, Opera or Firefox with a U2F extension. Also make sure you're on an HTTPS connection.",

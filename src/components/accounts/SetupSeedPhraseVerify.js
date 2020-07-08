@@ -8,7 +8,24 @@ import FormButton from '../common/FormButton'
 
 import styled from 'styled-components'
 
-const CustomDiv = styled(`div`)`
+const CustomDiv = styled.div`
+
+    input {
+        margin-bottom: 30px !important;
+    }
+
+    .blue, .input {
+        width: 100% !important;
+    }
+
+    h4 {
+        margin-top: 20px;
+    }
+
+    .blue {
+        margin-top: 20px !important;
+    }
+
     .start-over {
         padding: 20px 0 0 0;
         color: #24272a;
@@ -50,7 +67,7 @@ const SetupSeedPhraseVerify = ({
                 />
             )}
         </Translate>
-        <Responsive as={RequestStatusBox} maxWidth={767} requestStatus={requestStatus} />
+        <Responsive as={RequestStatusBox} requestStatus={requestStatus} />
         <FormButton
             type='submit'
             color='blue'

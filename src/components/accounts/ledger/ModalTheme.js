@@ -8,11 +8,21 @@ export default createGlobalStyle`
         align-items: center;
         padding: 40px 25px !important;
 
+        svg {
+            margin: 20px 0;
+        }
+
+        button {
+            svg {
+                margin: 0;
+            }
+        }
+
         h2 {
             text-align: center;
 
             @media (max-width: 500px) {
-                max-width: 70%
+                max-width: 85%
             }
         }
 
