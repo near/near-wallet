@@ -47,7 +47,9 @@ const theme = {}
 
 const PATH_PREFIX = process.env.PUBLIC_URL
 
-const onMissingTranslation = ({ defaultTranslation }) => defaultTranslation
+const onMissingTranslation = ({ translationId }) => {
+    return `${translationId}`
+  };
 
 const Container = styled.div`
     min-height: 100vh;
@@ -73,7 +75,7 @@ class Routing extends Component {
             { name: "简体中文", code: "zh-hans" },
             { name: "繁體中文", code: "zh-hant" }
         ]
-
+        
         const defaultLanguage = localStorage.getItem("languageCode") || languages[0].code
 
         this.props.initialize({
@@ -85,10 +87,12 @@ class Routing extends Component {
                 renderInnerHtml: true
             }
         })
+        
         // TODO: Figure out how to load only necessary translations dynamically
         this.props.addTranslationForLanguage(translations_en, "en")
         this.props.addTranslationForLanguage(translations_zh_hans, "zh-hans")
         this.props.addTranslationForLanguage(translations_zh_hant, "zh-hant")
+        // this.addTranslationsForActiveLanguage(defaultLanguage)
     }
 
     componentDidMount = () => {
@@ -122,14 +126,14 @@ class Routing extends Component {
         }
     }
 
-    /* addTranslationsForActiveLanguage(activeLang) {
-        console.log(activeLang)
-        import(`../translations/${activeLang}.global.json`).then(
-            translations => {
-                this.props.addTranslationForLanguage(translations, activeLang);
-            }
-        );
-    } */
+    // addTranslationsForActiveLanguage(activeLang) {
+    //     import(`../translations/${activeLang}.global.json`).then(
+    //         translations => {
+    //             console.log(translations)
+    //             this.props.addTranslationForLanguage(translations, activeLang);
+    //         }
+    //     );
+    // }
 
     render() {
 
