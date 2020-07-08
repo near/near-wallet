@@ -546,10 +546,10 @@ class Wallet {
         const requestData = getRequest()
         console.log(requestData)
         let { requestId } = requestData
-        if (!requestId) {
+        if (!requestId && requestId !== 0) {
             console.log('no pending multisig requestId found, assuming account setup')
+            requestId = -1
         }
-        requestId = -1
         // try to get a accountId for the request
         if (!accountId) accountId = requestData.accountId || this.accountId
         if (!accountId) {
@@ -583,8 +583,8 @@ class Wallet {
             return
         }
         // get multisig contract to deploy
-        const contractBytes = new Uint8Array(await fetch('./multisig.wasm').then((res) => res.arrayBuffer()))
-        console.log(contractBytes)
+        const contractBytes = new Uint8Array(await fetch('/multisig.wasm').then((res) => res.arrayBuffer()))
+        console.log('contractBytes', contractBytes)
         // get account
         const { accountId } = accountData
         const account = this.getAccount(accountId)
@@ -599,14 +599,14 @@ class Wallet {
         const recoveryMethods = await this.getRecoveryMethods()
         console.log('recoveryMethods', recoveryMethods)
         const recoveryKeysED = recoveryMethods.data.map((rm) => rm.publicKey)
-        // 3. get recovery keys that are NOT seed phrases
-        const fak2lak = recoveryMethods.data.filter((rm) => rm.kind !== 'phrase').map((rm) => toPK(rm.publicKey))
+        // 3. get recovery keys that are NOT seed phrases && NOT null publicKey
+        const fak2lak = recoveryMethods.data.filter(({ kind, publicKey }) => kind !== 'phrase' && publicKey !== null).map((rm) => toPK(rm.publicKey))
         // 4. push localStorage keys that are NOT recovery keys
         fak2lak.push(...accountKeys.filter((ak) => !recoveryKeysED.includes(ak.public_key)).map((ak) => toPK(ak.public_key)))
         // these are the keys we need to convert to limited access keys
         console.log('fak2lak', fak2lak)
         // 5. get the server public key for this accountId (confirmOnlyKey)
-        const getAccessKey = await fetch('https://helper.testnet.near.org/2fa/getAccessKey', {
+        const getAccessKey = await fetch(ACCOUNT_HELPER_URL + '/2fa/getAccessKey', {
             method: 'POST',
             body: JSON.stringify({ accountId })
         }).then((res) => res.json()).catch((e) => console.log(e))
@@ -619,13 +619,11 @@ class Wallet {
 
         const confirm = window.confirm('deploy contract?')
         if (!confirm) return
-
         /********************************
         Key updates, multisig deployment and initialization 
         ********************************/
-        
         const newArgs = new Uint8Array(new TextEncoder().encode(JSON.stringify({ 'num_confirmations': 2 })));
-        const result = await account.signAndSendTransaction(accountId, [
+        const actions = [
             // delete FAKs and add them as LAKs
             ...fak2lak.map((pk) => nearApiJs.transactions.deleteKey(pk)),
             ...fak2lak.map((pk) => nearApiJs.transactions.addKey(pk, nearApiJs.transactions.functionCallAccessKey(accountId, METHOD_NAMES_LAK, null))),
@@ -634,9 +632,11 @@ class Wallet {
             // deploy and initialize contract
             nearApiJs.transactions.deployContract(contractBytes),
             nearApiJs.transactions.functionCall('new', newArgs, 10000000000000, '0'),
-        ]).catch((e) => {
+        ]
+        console.log('actions', actions)
+        const result = await account.signAndSendTransaction(accountId, actions).catch((e) => {
             console.trace(e)
-        });
+        })
         console.log(result)
 
         return { success: !!result, result }

@@ -10,6 +10,7 @@ import HardwareDevices from './hardware_devices/HardwareDevices'
 import TwoFactorAuth from './two_factor/TwoFactorAuth'
 import { LOADING, NOT_FOUND, useAccount } from '../../hooks/allAccounts'
 import { wallet } from '../../utils/wallet'
+import { promptTwoFactor } from '../../actions/account';
 
 export function Profile({ match }) {
     const loginAccountId = useSelector(state => state.account.accountId)
@@ -30,9 +31,12 @@ export function Profile({ match }) {
         <PageContainer title={<Translate id='profile.pageTitle.default' data={{ accountId }} />}>
             <ProfileSection>
                 <ProfileDetails account={account} />
+                {/* 
                 <button onClick={async () => console.log(await wallet.getRecoveryMethods())}>getRecoveryMethods</button>
                 <button onClick={async () => console.log(await wallet.getAccessKeys())}>getAccessKeys</button>
                 <button onClick={() => wallet.deployMultisig()}>deployMultisig</button>
+                <button onClick={async () => dispatch(promptTwoFactor(() => {}))}>verifyRequest</button>
+                 */}
                 {accountId === loginAccountId && (
                     <>
                         <RecoveryContainer/>
