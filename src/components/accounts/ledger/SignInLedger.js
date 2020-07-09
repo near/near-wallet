@@ -5,7 +5,7 @@ import LedgerImage from '../../svg/LedgerImage';
 import FormButton from '../../common/FormButton';
 import { Translate } from 'react-localize-redux';
 import LedgerConfirmActionModal from './LedgerConfirmActionModal';
-import { signInWithLedger, clear, redirectToProfile } from '../../../actions/account';
+import { signInWithLedger, clear, redirectToApp, refreshAccount } from '../../../actions/account';
 
 export function SignInLedger(props) {
     const dispatch = useDispatch();
@@ -13,8 +13,13 @@ export function SignInLedger(props) {
     const signingIn = account.actionsPending.includes('SIGN_IN_WITH_LEDGER')
 
     const handleSignIn = async () => {
-        await dispatch(signInWithLedger())
-        dispatch(redirectToProfile())
+
+        const { error } = await dispatch(signInWithLedger())
+
+        if (!error) {
+            dispatch(refreshAccount())
+            dispatch(redirectToApp())
+        }
     }
 
     return (
