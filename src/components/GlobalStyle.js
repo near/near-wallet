@@ -32,10 +32,6 @@ export default createGlobalStyle`
         }
    }
 
-    .grecaptcha-badge {
-        visibility: hidden;
-    }
-
     a {
         color: #0072ce;
     }
@@ -74,12 +70,6 @@ export default createGlobalStyle`
                 font-size: 28px;
             }
         }
-
-        @media (min-width: 1600px) {
-            h1 {
-                font-size: 40px;
-            }
-        }
     }
     h2, .h2 {
         font-family: BwSeidoRound !important;
@@ -88,6 +78,10 @@ export default createGlobalStyle`
         line-height: 1.4;
         color: #24272a !important;
         margin: 0px;
+
+        @media (max-width: 767px) {
+            font-size: 18px !important;
+        }
     }
     h3, .h3 {
         font-family: BwSeidoRound !important;
@@ -434,13 +428,13 @@ export default createGlobalStyle`
             color: #24272a;
         }
         h2, .h2 {
-            font-size: 22px !important;
+            font-size: 18px !important;
             font-weight: 600;
             line-height: 1.33;
             margin: 0px;
         }
         h3, .h3 {
-            font-size: 18px !important;
+            font-size: 16px !important;
             font-weight: 500;
             line-height: 1.33;
             margin: 0px;

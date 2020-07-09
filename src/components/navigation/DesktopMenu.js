@@ -1,8 +1,10 @@
 import React from 'react';
+import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 import UserLinks from './UserLinks';
 import UserAccounts from './UserAccounts';
 import CreateAccountBtn from './CreateAccountBtn';
+import LanguageToggle from '../common/LangSwitcher';
 
 const Menu = styled.div`
     position: absolute;
@@ -33,6 +35,10 @@ const Menu = styled.div`
         padding: 20px;
     }
 
+    .lang-switcher {
+        padding: 0 20px 20px;
+    }
+
     h6 {
         text-transform: uppercase;
         font-size: 13px !important;
@@ -52,8 +58,11 @@ const DesktopMenu = ({ show, accountId, accounts, selectAccount, toggleMenu }) =
         return (
             <Menu id='desktop-menu'>
                 <UserLinks accountId={accountId}/>
+                <div className="lang-switcher">
+                    <LanguageToggle />
+                </div>
                 <LowerSection>
-                    <h6>Switch Account</h6>
+                    <h6><Translate id='link.switchAccount'/></h6>
                     <UserAccounts
                         accounts={accounts}
                         accountId={accountId}

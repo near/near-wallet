@@ -2,13 +2,13 @@ import * as nearApiJs from 'near-api-js'
 import { KeyPair } from 'near-api-js'
 import sendJson from 'fetch-send-json'
 import { parseSeedPhrase } from 'near-seed-phrase'
-import { createClient } from 'near-ledger-js'
 import { PublicKey } from 'near-api-js/lib/utils'
 import { KeyType } from 'near-api-js/lib/utils/key_pair'
 import { store } from '..'
 import { getAccessKeys, promptTwoFactor } from '../actions/account'
 import { generateSeedPhrase } from 'near-seed-phrase';
-import { getAccountId } from './explorer-api'
+import { getAccountIds } from './explorer-api'
+import { WalletError } from './walletError'
 
 export const WALLET_CREATE_NEW_ACCOUNT_URL = 'create'
 export const WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS = ['create', 'set-recovery', 'setup-seed-phrase', 'recover-account', 'recover-seed-phrase']
@@ -32,6 +32,8 @@ const ACCOUNT_NO_CODE_HASH = '11111111111111111111111111111111'
 const METHOD_NAMES_LAK = ["add_request", "add_request_and_confirm", "delete_request", "confirm"]
 const METHOD_NAMES_CONFIRM = ["confirm"]
 
+
+const WALLET_METADATA_METHOD = '__wallet__metadata'
 
 export const ACCOUNT_CHECK_TIMEOUT = 500
 export const TRANSACTIONS_REFRESH_INTERVAL = 10000
@@ -82,32 +84,16 @@ class Wallet {
         this.keyStore = new nearApiJs.keyStores.BrowserLocalStorageKeyStore(window.localStorage, 'nearlib:keystore:')
         this.inMemorySigner = new nearApiJs.InMemorySigner(this.keyStore)
 
-        const getLedgerKey = async (accountId, networkId) => {
-            let state = store.getState()
-            if (!state.account.fullAccessKeys) {
-                await store.dispatch(getAccessKeys(accountId))
-                state = store.getState()
-            }
-            const accessKeys = state.account.fullAccessKeys
-            if (accessKeys && state.account.accountId === accountId) {
-                const localKey = await this.getLocalAccessKey(accessKeys)
-                const ledgerKey = accessKeys.find(accessKey => accessKey.meta.type === 'ledger')
-                if (ledgerKey && !localKey) {
-                    return PublicKey.from(ledgerKey.public_key)
-                }
-            }
-            return null
-        }
-
         const inMemorySigner = this.inMemorySigner
+        const wallet = this
         this.signer = {
             async getPublicKey(accountId, networkId) {
-                return (await getLedgerKey(accountId)) || (await inMemorySigner.getPublicKey(accountId, networkId))
+                return (await wallet.getLedgerKey(accountId)) || (await inMemorySigner.getPublicKey(accountId, networkId))
             },
             async signMessage(message, accountId, networkId) {
-                if (await getLedgerKey(accountId)) {
-                    // TODO: Use network ID
-                    const client = await createClient()
+                if (await wallet.getLedgerKey(accountId)) {
+                    const { createLedgerU2FClient } = await import('./ledger.js')
+                    const client = await createLedgerU2FClient()
                     const signature = await client.sign(message)
                     const publicKey = await this.getPublicKey(accountId, networkId)
                     return {
@@ -139,6 +125,19 @@ class Wallet {
         return localPublicKey && accessKeys.find(({ public_key }) => public_key === localPublicKey.toString())
     }
 
+    async getLedgerKey(accountId) {
+        // TODO: Cache keys / record Ledger status for account more efficiently
+        const accessKeys = await this.getAccessKeys(accountId)
+        if (accessKeys) {
+            const localKey = await this.getLocalAccessKey(accountId, accessKeys)
+            const ledgerKey = accessKeys.find(accessKey => accessKey.meta.type === 'ledger')
+            if (ledgerKey && (!localKey || localKey.permission !== 'FullAccess')) {
+                return PublicKey.from(ledgerKey.public_key)
+            }
+        }
+        return null
+    }
+
     save() {
         localStorage.setItem(KEY_ACTIVE_ACCOUNT_ID, this.accountId)
         localStorage.setItem(KEY_WALLET_ACCOUNTS, JSON.stringify(this.accounts))
@@ -153,7 +152,7 @@ class Wallet {
             return this.accountId
         }
     }
-    
+
     selectAccount(accountId) {
         if (!(accountId in this.accounts)) {
             return false
@@ -274,10 +273,11 @@ class Wallet {
     }
 
     // TODO: Figure out whether wallet should work with any account or current one. Maybe make wallet account specific and switch whole Wallet?
-    async getAccessKeys() {
-        if (!this.accountId) return null
+    async getAccessKeys(accountId) {
+        accountId = accountId || this.accountId
+        if (!accountId) return null
 
-        const accessKeys = await this.getAccount(this.accountId).getAccessKeys()
+        const accessKeys = await this.getAccount(accountId).getAccessKeys()
         return Promise.all(accessKeys.map(async (accessKey) => ({
             ...accessKey,
             meta: await getKeyMeta(accessKey.public_key)
@@ -289,15 +289,14 @@ class Wallet {
     }
 
     async removeNonLedgerAccessKeys() {
-        const accessKeys = await this.getAccessKeys()
+        const accessKeys =  await this.getAccessKeys()
+        const localAccessKey = await this.getLocalAccessKey(this.accountId, accessKeys)
         const account = this.getAccount(this.accountId)
         const keysToRemove = accessKeys.filter(({
+            public_key,
             access_key: { permission },
             meta: { type }
-        }) => permission === 'FullAccess' && type !== 'ledger')
-
-
-        const localAccessKey = await this.getLocalAccessKey(accessKeys)
+        }) => permission === 'FullAccess' && type !== 'ledger' && !(localAccessKey && public_key === localAccessKey.public_key))
 
         const WALLET_METADATA_METHOD = '__wallet__metadata'
         let newLocalKeyPair
@@ -309,11 +308,9 @@ class Wallet {
         }
 
         for (const { public_key } of keysToRemove) {
-            if (localAccessKey && public_key === localAccessKey.public_key) {
-                continue;
-            }
             await account.deleteKey(public_key)
         }
+
         if (newLocalKeyPair) {
             if (localAccessKey) {
                 await account.deleteKey(localAccessKey.public_key)
@@ -406,7 +403,9 @@ class Wallet {
     }
 
     async saveAccount(accountId, keyPair) {
-        await this.keyStore.setKey(NETWORK_ID, accountId, keyPair)
+        if (keyPair) {
+            await this.keyStore.setKey(NETWORK_ID, accountId, keyPair)
+        }
         this.accounts[accountId] = true
     }
 
@@ -427,16 +426,62 @@ class Wallet {
     }
 
     async addLedgerAccessKey(accountId) {
-        const client = await createClient()
-        const rawPublicKey = await client.getPublicKey()
-        const publicKey = new PublicKey({ keyType: KeyType.ED25519, data: rawPublicKey })
+        const publicKey = await this.getLedgerPublicKey()
         await setKeyMeta(publicKey, { type: 'ledger' })
         return await this.getAccount(accountId).addKey(publicKey)
     }
 
+    async addWalletMetadataAccessKeyIfNeeded(accountId, localAccessKey) {
+        if (!localAccessKey || (!localAccessKey.access_key.permission.FunctionCall ||
+                !localAccessKey.access_key.permission.FunctionCall.method_names.includes(WALLET_METADATA_METHOD))) {
+            // NOTE: This key isn't used to call actual contract method, just used to verify connection with account in private DB
+            const newLocalKeyPair = KeyPair.fromRandom('ed25519')
+            const account = this.getAccount(accountId)
+            await account.addKey(newLocalKeyPair.getPublicKey(), accountId, WALLET_METADATA_METHOD, '0')
+            return newLocalKeyPair
+        }
+
+        return null
+    }
+
+    async signInWithLedger() {
+        const publicKey = await this.getLedgerPublicKey()
+        await setKeyMeta(publicKey, { type: 'ledger' })
+        const accountIds = await getAccountIds(publicKey.toString())
+
+        for (let i = 0; i < accountIds.length; i++) {
+            const accountId = accountIds[i]
+            const accessKeys =  await this.getAccessKeys(accountId)
+            const localAccessKey = await this.getLocalAccessKey(accountId, accessKeys)
+            let newKeyPair = await this.addWalletMetadataAccessKeyIfNeeded(accountId, localAccessKey)
+
+            if (i === accountIds.length - 1) {
+                await this.saveAndSelectAccount(accountId, newKeyPair)
+            } else {
+                await this.saveAccount(accountId, newKeyPair)
+            }
+        }
+
+        return {
+            numberOfAccounts: accountIds.length,
+            accountList: accountIds.flatMap((accountId) => accountId).join(', ')
+        }
+    }
+
+    async getLedgerPublicKey() {
+        const { createLedgerU2FClient } = await import('./ledger.js')
+        const client = await createLedgerU2FClient()
+        const rawPublicKey = await client.getPublicKey()
+        return new PublicKey({ keyType: KeyType.ED25519, data: rawPublicKey })
+    }
+
     async getAvailableKeys() {
-        // TODO: Return additional keys (e.g. Ledger)
-        return [(await this.keyStore.getKey(NETWORK_ID, this.accountId)).publicKey]
+        const availableKeys = [(await this.keyStore.getKey(NETWORK_ID, this.accountId)).publicKey]
+        const ledgerKey = await this.getLedgerKey(this.accountId)
+        if (ledgerKey) {
+            availableKeys.push(ledgerKey.toString())
+        }
+        return availableKeys
     }
 
     clearState() {
@@ -720,10 +765,10 @@ class Wallet {
 
     async recoverAccountSeedPhrase(seedPhrase, fromLink = false) {
         const { publicKey, secretKey } = parseSeedPhrase(seedPhrase)
-        const accountsIds = await getAccountId(publicKey)
+        const accountIds = await getAccountIds(publicKey)
 
-        if (!accountsIds.length) {
-            throw new Error(`Cannot find matching public key`);
+        if (!accountIds.length) {
+            throw new WalletError('Cannot find matching public key', 'account.recoverAccount.errorInvalidSeedPhrase', { publicKey })
         }
 
         const tempKeyStore = new nearApiJs.keyStores.InMemoryKeyStore()
@@ -734,7 +779,7 @@ class Wallet {
             signer: new nearApiJs.InMemorySigner(tempKeyStore)
         })
 
-        await Promise.all(accountsIds.map(async ({ account_id: accountId }, i, { length }) => {
+        await Promise.all(accountIds.map(async (accountId, i) => {
             const account = new nearApiJs.Account(connection, accountId)
             // recovery keypair
             const keyPair = KeyPair.fromString(secretKey)
@@ -782,7 +827,7 @@ class Wallet {
                 // (3) no multisig is deployed - add FAK directly
                 await account.addKey(newKeyPair.publicKey)
             }
-            if (i === length - 1) {
+            if (i === accountIds.length - 1) {
                 await this.saveAndSelectAccount(accountId, newKeyPair)
             } else {
                 await this.saveAccount(accountId, newKeyPair)
@@ -790,8 +835,8 @@ class Wallet {
         }))
 
         return {
-            numberOfAccounts: accountsIds.length,
-            accountList: accountsIds.flatMap((accountId) => accountId.account_id).join(', '),
+            numberOfAccounts: accountIds.length,
+            accountList: accountIds.flatMap((accountId) => accountId.account_id).join(', '),
         }
     }
 

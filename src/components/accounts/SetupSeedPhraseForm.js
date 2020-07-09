@@ -9,37 +9,25 @@ import styled from 'styled-components'
 
 const CustomDiv = styled(`div`)`
     .buttons-row {
-        display: flex;
+        display: block;
 
         button {
-            width: 250px !important;
-        }
-        > button:first-child {
-            display: none;
+            width: 100% !important;
         }
     }
     #seed-phrase {
         flex-wrap: wrap;
         user-select: all;
+        margin: 35px 0;
+        display: flex;
 
         .single-phrase {
             background: #f8f8f8;
-            padding: 9px 12px;
-            margin: 0 6px;
-            line-height: 48px;
-        }
-    }
-
-    @media screen and (max-width: 991px) {
-        .buttons-row {
-            display: block;
-            
-            button {
-                width: 100% !important;
-            }
-            > button:first-child {
-                display: block;
-            }
+            padding: 12px;
+            line-break: anywhere;
+            margin: 5px;
+            flex: 1;
+            min-width: 125px;
         }
     }
 `

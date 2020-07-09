@@ -2,12 +2,28 @@ import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { Translate } from 'react-localize-redux'
-
+import styled from 'styled-components'
 import { recoverAccountSeedPhrase, redirectToApp, refreshAccount, clear } from '../../actions/account'
-
 import RecoverAccountSeedPhraseForm from './RecoverAccountSeedPhraseForm'
-import AccountFormSection from './AccountFormSection'
-import AccountFormContainer from './AccountFormContainer'
+import Container from '../common/styled/Container.css'
+
+const StyledContainer = styled(Container)`
+    .input {
+        width: 100%;
+        margin-bottom: 30px;
+    }
+
+    h4 {
+        :first-of-type {
+            margin: 30px 0 0 0 !important;
+        }
+    }
+
+    button {
+        width: 100% !important;
+        margin-top: 30px !important;
+    }
+`
 
 class RecoverAccountSeedPhrase extends Component {
     state = {
@@ -46,23 +62,6 @@ class RecoverAccountSeedPhrase extends Component {
             })
     }
 
-    isSeedPhraseValid = () => !(this.props.requestStatus.errorMessage && this.props.requestStatus.errorMessage.includes('Cannot find matching public key'))
-
-    get requestStatusWithFormValidation() {
-        return this.props.requestStatus
-            ? this.isSeedPhraseValid()
-                ? this.props.requestStatus
-                : this.invalidSeedPhraseRequestStatus
-            : null
-    }
-
-    get invalidSeedPhraseRequestStatus() {
-        return {
-            success: false,
-            messageCode: 'account.recoverAccount.errorInvalidSeedPhrase'
-        }
-    }
-
     render() {
         const combinedState = {
             ...this.props,
@@ -71,19 +70,16 @@ class RecoverAccountSeedPhrase extends Component {
         }
 
         return (
-            <AccountFormContainer 
-                wide={true} 
-                title={<Translate id='recoverSeedPhrase.pageTitle' />}
-                text={<Translate id='recoverSeedPhrase.pageText' />}
-            >
-                <AccountFormSection handleSubmit={this.handleSubmit}>
+            <StyledContainer className='small-centered'>
+                <h1><Translate id='recoverSeedPhrase.pageTitle' /></h1>
+                <h2><Translate id='recoverSeedPhrase.pageText' /></h2>
+                <form onSubmit={e => {this.handleSubmit(); e.preventDefault();}} autoComplete='off'>
                     <RecoverAccountSeedPhraseForm
                         {...combinedState}
                         handleChange={this.handleChange}
-                        requestStatus={this.requestStatusWithFormValidation}
                     />
-                </AccountFormSection>
-            </AccountFormContainer>
+                </form>
+            </StyledContainer>
         )
     }
 }

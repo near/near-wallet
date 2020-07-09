@@ -172,6 +172,7 @@ const CustomButton = styled(Button)`
             color: #FF585D;
             border: none;
             background-color: #f8f8f8;
+            text-transform: uppercase;
 
             :hover,
             :active,

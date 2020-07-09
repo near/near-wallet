@@ -14,11 +14,12 @@ function Modal(props) {
         const closeEl = document.getElementById('close-button');
         closeEl && closeEl.addEventListener('click', handleClick, false);
         window.addEventListener('keydown', onEscKeyDown, false);
-        setTimeout(() => setFadeType('in'), 0);
+        const fadeIn = setTimeout(() => setFadeType('in'), 0);
 
         return () => {
             window.removeEventListener('keydown', onEscKeyDown, false);
             closeEl && closeEl.removeEventListener('click', handleClick, false);
+            clearTimeout(fadeIn);
         }
 
     },[]);

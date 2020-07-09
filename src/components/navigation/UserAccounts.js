@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import { Translate } from 'react-localize-redux';
 
 const Wrapper = styled.div`
 
@@ -50,7 +51,7 @@ const UserAccounts = ({ accounts, accountId, selectAccount }) => (
                 @{account}
             </Account>
         ))}
-        {accounts.length < 2 && <div>You have no other accounts</div>}
+        {accounts.length < 2 && <div><Translate id='link.noAccount'/></div>}
     </Wrapper>
 )
 
