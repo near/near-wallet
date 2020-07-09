@@ -77,35 +77,26 @@ const TwoFactorAuth = (props) => {
     const loading = account.actionsPending.includes('LOAD_RECOVERY_METHODS') || account.actionsPending.includes('REFRESH_ACCOUNT');
     const [method, setMethod] = useState();
     const [multiSigDeployed, setMultiSigDeployed] = useState();
-    let isMounted = true;
-
 
     useEffect(() => {
+        let isMounted = true;
 
         const handleGetTwoFactor = async () => {
             setMethod(await wallet.get2faMethod())
         };
 
-        if (isMounted) {
-            handleGetTwoFactor()
-        }
-        
-        return () => { isMounted = false }
-    }, [method]);
-
-    useEffect(() => {
-
         const checkMultiSigDeployed = async () => { 
             const accountState = await wallet.getAccountAndState(account.accountId);
             setMultiSigDeployed(accountState.has2fa)
         };
-        
+
         if (isMounted) {
+            handleGetTwoFactor()
             checkMultiSigDeployed()
         }
-
+        
         return () => { isMounted = false }
-    }, [multiSigDeployed !== undefined]);
+    }, []);
 
     return (
         <Container>

@@ -120,8 +120,8 @@ class Wallet {
         return (await this.getRecoveryMethods(account)).data.filter((m) => m.kind.indexOf('2fa-') > -1).map(({ kind, detail, createdAt }) => ({ kind, detail, createdAt }))[0]
     }
 
-    async getLocalAccessKey(accessKeys) {
-        const localPublicKey = await this.inMemorySigner.getPublicKey(this.accountId, NETWORK_ID)
+    async getLocalAccessKey(accountId, accessKeys) {
+        const localPublicKey = await this.inMemorySigner.getPublicKey(accountId, NETWORK_ID)
         return localPublicKey && accessKeys.find(({ public_key }) => public_key === localPublicKey.toString())
     }
 
