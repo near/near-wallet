@@ -36,21 +36,22 @@ class Sign extends Component {
     }
 
     renderSubcomponent = () => {
+        const { account: { url, balance }, totalAmount, sensitiveActionsCounter, status } = this.props
 
-        const txTotalAmount = new BN(this.props.totalAmount); // TODO: add gas cost, etc
-        const availableBalance = new BN(this.props.account.balance.available);
+        const txTotalAmount = new BN(totalAmount); // TODO: add gas cost, etc
+        const availableBalance = new BN(balance.available);
         const insufficientFunds = txTotalAmount.gt(availableBalance);
         const isMonetaryTransaction = txTotalAmount.gt(new BN(0));
 
-        switch (this.props.status) {
+        switch (status) {
             case 'needs-confirmation':
                 return <SignTransferReady
                             {...this.state}
-                            appTitle={this.props.account.url.referrer}
+                            appTitle={url && url.referrer}
                             handleAllow={this.handleAllow}
                             handleDeny={this.handleDeny}
                             handleDetails={this.handleDetails}
-                            sensitiveActionsCounter={this.props.sensitiveActionsCounter}
+                            sensitiveActionsCounter={sensitiveActionsCounter}
                             txTotalAmount={txTotalAmount}
                             availableBalance={availableBalance}
                             insufficientFunds={insufficientFunds}
@@ -71,7 +72,7 @@ class Sign extends Component {
                 // TODO: Figure out how to handle different error types
                 return <SignTransferCancelled handleDeny={this.handleDeny} />
             default:
-                return <b><Translate id='sign.unexpectedStatus' />: {this.props.status}</b>
+                return <b><Translate id='sign.unexpectedStatus' />: {status}</b>
         }
     }
 
