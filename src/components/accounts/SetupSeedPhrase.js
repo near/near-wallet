@@ -55,7 +55,7 @@ class SetupSeedPhrase extends Component {
         this.props.history.push(`/setup-seed-phrase/${this.props.accountId}`)
     }
 
-    handleSubmit = () => {
+    handleSubmit = async () => {
         const { redirectToApp, accountId, addAccessKeySeedPhrase } = this.props
         const { seedPhrase, enterWord, wordId, publicKey } = this.state
         if (enterWord !== seedPhrase.split(' ')[wordId]) {
@@ -69,11 +69,9 @@ class SetupSeedPhrase extends Component {
         }
 
         const contractName = null;
-        addAccessKeySeedPhrase(accountId, contractName, publicKey)
-            .then(({ error }) => {
-                if (error) return
-                redirectToApp('/profile');
-            })
+
+        await addAccessKeySeedPhrase(accountId, contractName, publicKey)
+        redirectToApp('/profile');
     }
 
     handleCopyPhrase = () => {

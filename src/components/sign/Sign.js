@@ -26,13 +26,11 @@ class Sign extends Component {
         this.props.push(`/profile/${this.props.account.accountId}`)
     }
 
-    handleAllow = e => {
-        this.props.signAndSendTransactions(this.props.transactions, this.props.account.accountId)
-            .then(({ error }) => {
-                if (!error && this.props.callbackUrl) {
-                    window.location.href = this.props.callbackUrl;
-                }
-            });
+    handleAllow = async () => {
+        await this.props.signAndSendTransactions(this.props.transactions, this.props.account.accountId)
+        if (this.props.callbackUrl) {
+            window.location.href = this.props.callbackUrl;
+        }
     }
 
     renderSubcomponent = () => {

@@ -13,12 +13,8 @@ export function SignInLedger(props) {
     const signingIn = account.actionsPending.includes('SIGN_IN_WITH_LEDGER')
 
     const handleSignIn = async () => {
-
-        const { error } = await dispatch(signInWithLedger())
-
-        if (!error) {
-            dispatch(redirectToProfile())
-        }
+        await dispatch(signInWithLedger())
+        dispatch(redirectToProfile())
     }
 
     return (

@@ -56,7 +56,7 @@ class SetupRecoveryMethod extends Component {
             this.setState({ activeMethods: confirmed.map(method => method.kind) });
         } else {
             loadRecoveryMethods(accountId)
-                .then(({ payload }) => {
+                .then((payload) => {
                     const confirmed = payload.data.filter(method => method.confirmed);
                     this.setState({ activeMethods: confirmed.map(method => method.kind) });
                 })
@@ -108,14 +108,11 @@ class SetupRecoveryMethod extends Component {
         
     }
 
-    handleSetupRecoveryMethod = (securityCode) => {
+    handleSetupRecoveryMethod = async (securityCode) => {
         const  { accountId, setupRecoveryMessage, redirectToApp } = this.props;
 
-        setupRecoveryMessage(accountId, this.method, securityCode)
-            .then(({ error }) => {
-                if (error) return;
-                redirectToApp('/profile');
-            })
+        await setupRecoveryMessage(accountId, this.method, securityCode)
+        redirectToApp('/profile');
     }
 
     handleGoBack = () => {

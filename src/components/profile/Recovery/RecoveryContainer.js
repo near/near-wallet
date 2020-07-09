@@ -92,27 +92,27 @@ const RecoveryContainer = () => {
     const loading = account.actionsPending.includes('LOAD_RECOVERY_METHODS') || account.actionsPending.includes('REFRESH_ACCOUNT');
 
     const handleDeleteMethod = async (method) => {
-
         setDeletingMethod(method.publicKey)
-        const { error } = await dispatch(deleteRecoveryMethod(method))
 
-        if (!error) {
-            dispatch(loadRecoveryMethods())
+        try {
+            await dispatch(deleteRecoveryMethod(method))
+        } finally {
+            setDeletingMethod('')
         }
 
-        setDeletingMethod('')
+        dispatch(loadRecoveryMethods())
     }
 
     const handleResendLink = async (method) => {
-
         setResendingLink(method.publicKey)
-        const { error } = await dispatch(sendNewRecoveryLink(method))
 
-        if (!error) {
-            dispatch(loadRecoveryMethods())
+        try {
+            await dispatch(sendNewRecoveryLink(method))
+        } finally {
+            setResendingLink('')
         }
 
-        setResendingLink('')
+        dispatch(loadRecoveryMethods())
     }
 
     const sortedActiveMethods = activeMethods.sort((a, b) => {
