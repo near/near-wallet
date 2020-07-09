@@ -14,7 +14,7 @@ export function useRecoveryMethods(accountId) {
 
     useEffect(() => {
         if (accountId === wallet.getAccountId()) {
-            dispatch(loadRecoveryMethods(accountId))
+            dispatch(loadRecoveryMethods())
         }
     }, [accountId])
 
