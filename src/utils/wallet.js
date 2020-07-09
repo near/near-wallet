@@ -94,7 +94,7 @@ class Wallet {
         if (accessKeys) {
             const localKey = await this.getLocalAccessKey(accountId, accessKeys)
             const ledgerKey = accessKeys.find(accessKey => accessKey.meta.type === 'ledger')
-            if (ledgerKey && !localKey) {
+            if (ledgerKey && (!localKey || localKey.permission !== 'FullAccess')) {
                 return PublicKey.from(ledgerKey.public_key)
             }
         }
