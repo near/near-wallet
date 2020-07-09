@@ -665,8 +665,8 @@ class Wallet {
         const confirmOnlyKey = toPK(getAccessKey.publicKey)
         console.log('confirmOnlyKey', confirmOnlyKey)
 
-        const confirm = window.confirm('deploy contract?')
-        if (!confirm) return
+        // const confirm = window.confirm('deploy contract?')
+        // if (!confirm) return
         /********************************
         Key updates, multisig deployment and initialization 
         ********************************/
