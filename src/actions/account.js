@@ -39,7 +39,7 @@ export const handleRefreshUrl = () => (dispatch, getState) => {
 
     if ([...WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS, WALLET_LOGIN_URL, WALLET_SIGN_URL].includes(currentPage)) {
         const parsedUrl = {
-            referrer: document.referrer,
+            referrer: document.referrer && new URL(document.referrer).hostname,
             ...parse(search)
         }
 

@@ -52,14 +52,14 @@ const LoginForm = ({
                 >
                     {contractId && (
                         <Fragment>
-                            <div><b>{appTitle}</b></div>
+                            <div><b>{appTitle || <Translate id='sign.unknownApp' />}</b></div>
                             <div className='h2'><Translate id='login.form.isRequestingTo' /> </div>
                             <div className='h2'><Translate id='login.form.accessYourAccount' /></div>
                         </Fragment>
                     )}
                     {!contractId && (
                         <Fragment>
-                            <div><b>{appTitle}</b></div>
+                            <div><b>{appTitle || <Translate id='sign.unknownApp' />}</b></div>
                             <div className='h2 font-benton'><Translate id='login.form.isRequestingFullAccess' /></div>
                             <div className='h2 font-benton'><Translate id='login.form.toYourAccount' /></div>
                         </Fragment>
