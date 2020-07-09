@@ -117,7 +117,7 @@ class Wallet {
     }
 
     async get2faMethod(account) {
-        return (await this.getRecoveryMethods(account)).data.filter((m) => m.kind.indexOf('2fa-') > -1).map(({ kind, detail }) => ({ kind, detail }))[0]
+        return (await this.getRecoveryMethods(account)).data.filter((m) => m.kind.indexOf('2fa-') > -1).map(({ kind, detail, createdAt }) => ({ kind, detail, createdAt }))[0]
     }
 
     async getLocalAccessKey(accessKeys) {

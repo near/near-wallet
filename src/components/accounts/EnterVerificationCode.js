@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Translate } from 'react-localize-redux'
-import FormButton from '../../common/FormButton';
-import Container from '../../common/styled/Container.css'
+import FormButton from '../common/FormButton';
+import Container from '../common/styled/Container.css'
 
 const StyledContainer = styled(Container)`
     .recover-value {
