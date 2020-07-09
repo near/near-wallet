@@ -46,7 +46,7 @@ class Sign extends Component {
             case 'needs-confirmation':
                 return <SignTransferReady
                             {...this.state}
-                            appTitle={this.props.appTitle}
+                            appTitle={this.props.account.url.referrer}
                             handleAllow={this.handleAllow}
                             handleDeny={this.handleDeny}
                             handleDetails={this.handleDetails}
@@ -85,22 +85,10 @@ const mapDispatchToProps = {
     push
 }
 
-const mapStateToProps = ({ account, sign }) => {
-
-    // NOTE: Referrer won't be set properly in local dev environment. Underlying reason unknown.
-    const { referrer } = account.url
-    let referrerDomain;
-    if (referrer) {
-        const referrerUrl = new URL(account.url.referrer)
-        referrerDomain = referrerUrl.hostname
-    }
-
-    return {
-        account,
-        appTitle: referrerDomain,
-        ...sign
-    }
-}
+const mapStateToProps = ({ account, sign }) => ({
+    account,
+    ...sign
+})
 
 export const SignWithRouter = connect(
     mapStateToProps,
