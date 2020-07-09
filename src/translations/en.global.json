@@ -584,6 +584,7 @@
     "signInLedger": {
         "header": "Sign in with your Ledger device",
         "one": "Make sure your ledger is connected securely, and that the NEAR app is open on the device.",
+        "success": "Recover using Seed Phrase is complete.<br/><b>${numberOfAccounts} account(s)</b> have been successfully recovered: <b>${accountList}</b>.<br/>The last one is set as active.",
         "error": "Please check that your device is connected and the NEAR app is open."
     },
 

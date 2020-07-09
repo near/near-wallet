@@ -158,7 +158,7 @@ export const { getAccessKeys, removeAccessKey, addLedgerAccessKey, signInWithLed
     GET_ACCESS_KEYS: [wallet.getAccessKeys.bind(wallet), () => ({})],
     REMOVE_ACCESS_KEY: [wallet.removeAccessKey.bind(wallet), () => ({})],
     ADD_LEDGER_ACCESS_KEY: [wallet.addLedgerAccessKey.bind(wallet), () => defaultCodesFor('errors.ledger')],
-    SIGN_IN_WITH_LEDGER: [wallet.signInWithLedger.bind(wallet), () => defaultCodesFor('account.recoverAccount')],
+    SIGN_IN_WITH_LEDGER: [wallet.signInWithLedger.bind(wallet), () => defaultCodesFor('signInLedger')],
     REMOVE_NON_LEDGER_ACCESS_KEYS: [wallet.removeNonLedgerAccessKeys.bind(wallet), () => ({})]
 })
 
