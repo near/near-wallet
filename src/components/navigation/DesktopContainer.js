@@ -212,16 +212,15 @@ const Lang = styled.div`
     }
 
     .lang-selector {
+        appearance: none;
         background: transparent url(${languagesIcon}) no-repeat 5px center / 20px 20px;
         border: 0;
         color: transparent;
+        cursor: pointer;
         height: 32px;
+        outline: none;
         user-select: none;
         width: 54px;
-
-        &:active {
-            outline: none;
-        }
     }
 `
 
