@@ -17,7 +17,7 @@ export const WALLET_SIGN_URL = 'sign'
 export const ACCOUNT_HELPER_URL = process.env.REACT_APP_ACCOUNT_HELPER_URL || 'https://near-contract-helper-2fa.onrender.com'
 export const EXPLORER_URL = process.env.EXPLORER_URL || 'https://explorer.testnet.near.org';
 export const IS_MAINNET = process.env.REACT_APP_IS_MAINNET === 'true' || process.env.REACT_APP_IS_MAINNET === 'yes'
-export const ACCOUNT_ID_SUFFIX = process.env.REACT_APP_ACCOUNT_ID_SUFFIX || 'testnet'
+export const ACCOUNT_ID_SUFFIX = 'dev2' || process.env.REACT_APP_ACCOUNT_ID_SUFFIX || 'testnet'
 
 const NETWORK_ID = process.env.REACT_APP_NETWORK_ID || 'default'
 const CONTRACT_CREATE_ACCOUNT_URL = `${ACCOUNT_HELPER_URL}/account`
@@ -361,11 +361,11 @@ class Wallet {
         }
     }
 
-    async createNewAccount(accountId, fundingKey, fundingContract) {
+    async createNewAccount(accountId, fundingContract, fundingKey) {
         this.checkNewAccount(accountId);
         const keyPair = KeyPair.fromRandom('ed25519');
         if (fundingKey && fundingContract) {
-            await this.createNewAccountLinkdrop(accountId, fundingKey, fundingContract, keyPair);
+            await this.createNewAccountLinkdrop(accountId, fundingContract, fundingKey, keyPair);
             await this.keyStore.removeKey(NETWORK_ID, fundingContract)
 
         } else {
@@ -377,13 +377,16 @@ class Wallet {
         await this.saveAndSelectAccount(accountId, keyPair);
     }
 
-    async createNewAccountLinkdrop(accountId, fundingKey, fundingContract, keyPair) {
+    async createNewAccountLinkdrop(accountId, fundingContract, fundingKey, keyPair) {
         const account = this.getAccount(fundingContract);
+
 
         await this.keyStore.setKey(
             NETWORK_ID, fundingContract,
             KeyPair.fromString(fundingKey)
         )
+
+        console.log(this.keyStore, KeyPair.fromString(fundingKey))
 
         const contract = new nearApiJs.Contract(account, fundingContract, {
             changeMethods: ['create_account_and_claim', 'claim'],
@@ -642,20 +645,20 @@ class Wallet {
         return { success: !!result, result }
     }
 
-    async createNewAccountForTempAccount(accountId) {
+    async createNewAccountForTempAccount(accountId, fundingContract, fundingKey) {
         // create account because recovery is validated
         if (!accountId) {
             // updated to get tempAccount.accountId
             accountId = this.getAccountId()
         }
-        const newAccount = await this.createNewAccount(accountId)
+        const newAccount = await this.createNewAccount(accountId, fundingContract, fundingKey)
         console.log('account created', newAccount)
         // remove the temp account, we now have a real account on chain
         delTempAccount()
         return newAccount
     }
 
-    async setupRecoveryMessage(accountId, method, securityCode) {
+    async setupRecoveryMessage(accountId, method, securityCode, fundingContract, fundingKey) {
         // temp account was set during create account
         const tempAccount = getTempAccount()
         let securityCodeResult
@@ -671,7 +674,7 @@ class Wallet {
         // if this is a tempAccount we'll create a new account now
         if (tempAccount && tempAccount.accountId) {
             // added method above, also used for seed recovery
-            await this.createNewAccountForTempAccount(accountId)
+            await this.createNewAccountForTempAccount(accountId, fundingContract, fundingKey)
         }
         // now send recovery seed phrase
         const { seedPhrase, publicKey } = generateSeedPhrase();

@@ -90,7 +90,7 @@ export function EnableTwoFactor(props) {
             console.log('confirmed')
             props.history.push('/profile')
             // no error so let's deploy contract
-            // handleDeployMultisig()
+            handleDeployMultisig()
         }
     }
 

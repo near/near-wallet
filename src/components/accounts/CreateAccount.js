@@ -48,40 +48,14 @@ class CreateAccount extends Component {
         const fundingContract = match.params.fundingContract;
         let nextUrl = `/set-recovery/${accountId}`;
         if (fundingKey && fundingContract) {
-            nextUrl = `/set-recovery/${accountId}/${fundingKey}/${fundingContract}`;
+            nextUrl = `/set-recovery/${accountId}/${fundingContract}/${fundingKey}`;
         }
         
-        
-        // console.log(nextUrl)
-        // creates a temp keypair (wallet.js) that we will recover on account creation after the user has confirmed a recovery method
         setTempAccount(accountId)
         setFormLoader(false)
-        this.props.history.push(nextUrl);
-
-        // this.setState({ loader: true });
-        
-        // createNewAccount(accountId, fundingKey, fundingContract, token)
-        //     .then(({ error, payload }) => {
-        //         if (error) {
-        //             if (payload.statusCode === 402) {
-        //                 this.setState({ recaptchaFallback: true });
-        //             }
-        //             this.setState({ loader: false });
-        //             return;
-        //         }
-
-        //         this.handleCreateAccountSuccess();
-        //     });
+        this.props.history.push(nextUrl)
         
     }
-
-    // handleCreateAccountSuccess = () => {
-    //     const { accountId } = this.state;
-
-    //     this.props.refreshAccount();
-    //     let nextUrl = process.env.DISABLE_PHONE_RECOVERY === 'yes' ? `/setup-seed-phrase/${accountId}` : `/set-recovery/${accountId}`;
-    //     this.props.history.push(nextUrl);
-    // }
 
     render() {
         const { loader, accountId, recaptchaFallback } = this.state

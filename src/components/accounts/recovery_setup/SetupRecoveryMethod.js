@@ -134,9 +134,14 @@ class SetupRecoveryMethod extends Component {
     }
 
     handleSetupRecoveryMethod = (securityCode) => {
-        const  { accountId, setupRecoveryMessage, redirectToApp } = this.props;
+        const  { accountId, setupRecoveryMessage, redirectToApp, match } = this.props;
 
-        setupRecoveryMessage(accountId, this.method, securityCode)
+        const fundingContract = match.params.fundingContract;
+        const fundingKey = match.params.fundingKey;
+
+        console.log(fundingContract, fundingKey)
+
+        setupRecoveryMessage(accountId, this.method, securityCode, fundingContract, fundingKey)
             .then(({ error }) => {
                 if (error) return;
                 redirectToApp('/profile');
