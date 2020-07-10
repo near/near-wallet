@@ -7,7 +7,7 @@ import MobileActionSheet from '../../common/modal/MobileActionSheet';
 import FormButton from '../../common/FormButton';
 import { Translate } from 'react-localize-redux';
 import TwoFactorVerifyInput from './TwoFactorVerifyInput';
-import { verifyTwoFactor, clearAlert } from '../../../actions/account';
+import { verifyTwoFactor, clearAlert, resendTwoFactor } from '../../../actions/account';
 import { wallet } from '../../../utils/wallet';
 
 const Form = styled.form`
@@ -50,8 +50,11 @@ const TwoFactorVerifyModal = ({ open, onClose }) => {
     }
 
     const handleResend = async () => {
-        console.log('resend')
-        // TODO
+        const { error } = await dispatch(resendTwoFactor())
+
+        if (!error) {
+            console.log('resent')
+        }
     }
 
     const handleChange = (code) => {
