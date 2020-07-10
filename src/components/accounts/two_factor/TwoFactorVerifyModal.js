@@ -43,6 +43,9 @@ const TwoFactorVerifyModal = ({ open, onClose }) => {
 
     const handleVerifyCode = async () => {
         await dispatch(verifyTwoFactor(null, code))
+        if (onClose)  {
+            onClose(true)
+        }
     }
 
     const handleResend = async () => {
