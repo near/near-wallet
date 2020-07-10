@@ -6,7 +6,8 @@
         },
         "recoverAccount": {
             "success": "成功。",
-            "error": "恢復賬戶失敗。"
+            "error": "恢復賬戶失敗。",
+            "errorInvalidSeedPhrase": "助記詞無效"
         },
         "create": {
             "success": "恭喜! ${accountId} 可被註冊。",
@@ -28,6 +29,14 @@
         "setupSeedPhrase": {
             "success": "助記詞恢復設置已經完成。",
             "error": "在設置助記詞恢復方式時發生了錯誤，請重試。"
+        },
+        "setupRecoveryMessage": {
+            "success": "賬戶恢復設置已完成。",
+            "error": "設置賬戶恢復方式時發生錯誤，請重試。"
+        },
+        "sendNewRecoveryLink": {
+            "success": "賬戶恢復鏈接已經發送！",
+            "error": "賬戶恢復鏈接發送失敗，請重試。"
         },
         "login": {
             "success": "${title} 現已授權使用你的賬戶。",
@@ -95,8 +104,10 @@
 
     "selectAccountDropdown": {
         "switchAccount": "切換賬戶",
+        "selectAccount": "選擇賬戶",
         "switchAccounthNotAllowed": "該應用不支持賬戶切換",
-        "createAccount": "創建新的賬戶"
+        "createAccount": "創建新的賬戶",
+        "noOtherAccounts": "你沒有其他賬戶"
     },
 
     "recoverWithLink": {
@@ -128,6 +139,22 @@
         "disableNo": "不，保留。",
         "recoveryLinkSent": "恢復鏈接已發送！"
     },
+
+    "hardwareDevices": {
+        "title": "硬件錢包",
+        "desc": "通過硬件錢包加強賬戶安全性。",
+        "ledger": {
+            "title": "Ledger Nano S",
+            "auth": "已授權",
+            "disclaimer": "在禁用硬件錢包前，必須開啟其他賬戶恢復方式。"
+        },
+        "disable": {
+            "title": "你是否確定禁用硬件錢包？",
+            "desc": "禁用前請確保已經開啟其他賬戶恢復方式。",
+            "disable": "禁用",
+            "keep": "取消"
+        }
+    },
     
     "fullAccessKeys": {
         "pageTitle": "完全訪問密鑰",
@@ -157,6 +184,7 @@
         "enable": "啟用",
         "disable": "禁用",
         "connectLedger": "連接賬本",
+        "retry": "重試",
         "browseApps": "瀏覽應用",
         "createAccountCapital": "創建賬戶",
         "findMyAccount": "查找我的賬戶",
@@ -182,7 +210,8 @@
         "recoverAccount": "恢復賬戶",
         "goBack": "返回",
         "createNewAccount": "創建新的賬戶",
-        "moreInformation": "更多信息"
+        "moreInformation": "更多信息",
+        "dismiss": "關閉"
     },
 
     "link": {
@@ -506,7 +535,52 @@
     "amount": "數量",
     "or": "或",
     "sending": "發送中",
+    "removingKeys": "刪除密鑰",
+    "connecting": "連接中",
     "back": "返回",
     "of": "/",
-    "ofTotal": "佔總數"
+    "ofTotal": "佔總數",
+
+    "setupLedger": {
+        "header": "綁定至你的硬件錢包",
+        "one": "通過 USB 連接 Ledger Nano S 至你的電腦或手機，並<b>打開 NEAR 應用</b>。",
+        "two": "如果你還沒有安裝 NEAR 賬本應用，請按照",
+        "twoLink": "步驟安裝"
+    },
+
+    "setupLedgerSteps": {
+        "header": "在硬件錢包上安裝 NEAR",
+        "one": "打開<a href='https://www.ledger.com/ledger-live' target='_blank'>Ledger Live</a> 並切換到你的<span class='color-black '>設置</span>。",
+        "two": "在<span class='color-black'>試驗性功能</span>中，確保<span class='color-black'>開發者模式</span>已經<span class='color -black'>開啟</span>。",
+        "three": "返回至<span class='color-black'>管理器</span> Tab 並蒐索 <span class='color-black'>NEAR</span>。",
+        "four": "根據步驟在設備上安裝 <span class='color-black'>NEAR 應用</span>。"
+    },
+
+    "setupLedgerSuccess": {
+        "header": "你的賬戶已通過硬件錢包保護！",
+        "one": "我們推薦你刪除其他所有密鑰（恢復方式和設備）。",
+        "two": "保留多個密鑰增加了賬戶被盜的風險。",
+        "primaryCta": "刪除其他密鑰",
+        "secondaryCta": "保留密鑰",
+        "nextStep": {
+            "header": {
+                "remove": "確認刪除密鑰",
+                "keep": "保留密鑰？"
+            },
+            "one": {
+                "remove": "在刪除現有密鑰前，請確認已經安全記錄和保存錢包的助記詞。",
+                "keep": "<span class='color-red'>保留多個恢復方式和設備增加了賬戶被盜的風險。</span>"
+            },
+            "two": {
+                "remove": "如果你丟失了助記詞，NEAR 公司將無法幫你恢復賬戶和資產。"
+            }
+        }
+    },
+
+    "errors": {
+        "ledger": {
+            "U2FNotSupported": "硬件錢包需要 U2F 瀏覽器支持。請使用 Chrome、Opera 或 Firefox 安裝 U2F 擴展，並確保你是通過 HTTPS 加密連接。",
+            "U2F_4": "無法通過硬件錢包登錄：U2F DEVICE_INELIGIBLE。請確保 Ledger 設備已連接並解鎖。"
+        }
+    }
 }

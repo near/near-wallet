@@ -6,7 +6,8 @@
         },
         "recoverAccount": {
             "success": "成功。",
-            "error": "恢复账户失败。"
+            "error": "恢复账户失败。",
+            "errorInvalidSeedPhrase": "助记词无效"
         },
         "create": {
             "success": "恭喜! ${accountId} 可被注册。",
@@ -28,6 +29,14 @@
         "setupSeedPhrase": {
             "success": "助记词恢复设置已经完成。",
             "error": "在设置助记词恢复方式时发生了错误，请重试。"
+        },
+        "setupRecoveryMessage": {
+            "success": "账户恢复设置已完成。",
+            "error": "设置账户恢复方式时发生错误，请重试。"
+        },
+        "sendNewRecoveryLink": {
+            "success": "账户恢复链接已经发送！",
+            "error": "账户恢复链接发送失败，请重试。"
         },
         "login": {
             "success": "${title} 现已授权使用你的账户。",
@@ -95,8 +104,10 @@
 
     "selectAccountDropdown": {
         "switchAccount": "切换账户",
+        "selectAccount": "选择账户",
         "switchAccounthNotAllowed": "该应用不支持账户切换",
-        "createAccount": "创建新的账户"
+        "createAccount": "创建新的账户",
+        "noOtherAccounts": "你没有其他账户"
     },
 
     "recoverWithLink": {
@@ -128,6 +139,22 @@
         "disableNo": "不，保留。",
         "recoveryLinkSent": "恢复链接已发送！"
     },
+
+    "hardwareDevices": {
+        "title": "硬件钱包",
+        "desc": "通过硬件钱包加强账户安全性。",
+        "ledger": {
+            "title": "Ledger Nano S",
+            "auth": "已授权",
+            "disclaimer": "在禁用硬件钱包前，必须开启其他账户恢复方式。"
+        },
+        "disable": {
+            "title": "你是否确定禁用硬件钱包？",
+            "desc": "禁用前请确保已经开启其他账户恢复方式。",
+            "disable": "禁用",
+            "keep": "取消"
+        }
+    },
     
     "fullAccessKeys": {
         "pageTitle": "完全访问密钥",
@@ -157,6 +184,7 @@
         "enable": "启用",
         "disable": "禁用",
         "connectLedger": "连接账本",
+        "retry": "重试",
         "browseApps": "浏览应用",
         "createAccountCapital": "创建账户",
         "findMyAccount": "查找我的账户",
@@ -182,7 +210,8 @@
         "recoverAccount": "恢复账户",
         "goBack": "返回",
         "createNewAccount": "创建新的账户",
-        "moreInformation": "更多信息"
+        "moreInformation": "更多信息",
+        "dismiss": "关闭"
     },
 
     "link": {
@@ -506,7 +535,52 @@
     "amount": "数量",
     "or": "或",
     "sending": "发送中",
+    "removingKeys": "删除密钥",
+    "connecting": "连接中",
     "back": "返回",
     "of": "/",
-    "ofTotal": "占总数"
+    "ofTotal": "占总数",
+
+    "setupLedger": {
+        "header": "绑定至你的硬件钱包",
+        "one": "通过 USB 连接 Ledger Nano S 至你的电脑或手机，并<b>打开 NEAR 应用</b>。",
+        "two": "如果你还没有安装 NEAR 账本应用，请按照",
+        "twoLink": "步骤安装"
+    },
+
+    "setupLedgerSteps": {
+        "header": "在硬件钱包上安装 NEAR",
+        "one": "打开 <a href='https://www.ledger.com/ledger-live' target='_blank'>Ledger Live</a> 并切换到你的<span class='color-black'>设置</span>。",
+        "two": "在<span class='color-black'>试验性功能</span>中，确保<span class='color-black'>开发者模式</span>已经<span class='color-black'>开启</span>。",
+        "three": "返回至<span class='color-black'>管理器</span> Tab 并搜索 <span class='color-black'>NEAR</span>。",
+        "four": "根据步骤在设备上安装 <span class='color-black'>NEAR 应用</span>。"
+    },
+
+    "setupLedgerSuccess": {
+        "header": "你的账户已通过硬件钱包保护！",
+        "one": "我们推荐你删除其他所有密钥（恢复方式和设备）。",
+        "two": "保留多个密钥增加了账户被盗的风险。",
+        "primaryCta": "删除其他密钥",
+        "secondaryCta": "保留密钥",
+        "nextStep": {
+            "header": {
+                "remove": "确认删除密钥",
+                "keep": "保留密钥？"
+            },
+            "one": {
+                "remove": "在删除现有密钥前，请确认已经安全记录和保存钱包的助记词。",
+                "keep": "<span class='color-red'>保留多个恢复方式和设备增加了账户被盗的风险。</span>"
+            },
+            "two": {
+                "remove": "如果你丢失了助记词，NEAR 公司将无法帮你恢复账户和资产。"
+            }
+        }
+    },
+
+    "errors": {
+        "ledger": {
+            "U2FNotSupported": "硬件钱包需要 U2F 浏览器支持。请使用 Chrome、Opera 或 Firefox 安装 U2F 扩展，并确保你是通过 HTTPS 加密连接。",
+            "U2F_4": "无法通过硬件钱包登录：U2F DEVICE_INELIGIBLE。请确保 Ledger 设备已连接并解锁。"
+        }
+    }
 }
