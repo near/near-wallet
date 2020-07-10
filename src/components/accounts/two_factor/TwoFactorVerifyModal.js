@@ -42,8 +42,9 @@ const TwoFactorVerifyModal = ({ open, onClose }) => {
     }, []);
 
     const handleVerifyCode = async () => {
-        await dispatch(verifyTwoFactor(null, code))
-        if (onClose)  {
+        const { error } = await dispatch(verifyTwoFactor(null, code))
+
+        if (!error && onClose) {
             onClose(true)
         }
     }
