@@ -50,6 +50,7 @@ const TwoFactorVerifyInput = ({
                             aria-label={translate('setRecoveryConfirm.inputPlaceholder')}
                             value={code}
                             onChange={e => onChange(e.target.value)}
+                            autoFocus={true}
                         />
                         {error && code.length > 0 &&
                             <div style={{color: '#ff585d', marginTop: '5px'}}>
