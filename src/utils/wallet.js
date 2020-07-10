@@ -557,13 +557,17 @@ class Wallet {
     }
 
     async initTwoFactor(accountId, method) {
-        return await sendJson('POST', ACCOUNT_HELPER_URL + '/2fa/init', {
+        // clear any previous requests in localStorage (for verifyTwoFactor)
+        setRequest({})
+        return await this.postSignedJson('/2fa/init', {
             accountId,
             method
         });
     }
 
     async reInitTwoFactor(accountId, method) {
+        // clear any previous requests in localStorage (for verifyTwoFactor)
+        setRequest({})
         return this.sendTwoFactor(accountId, method)
     }
 
@@ -572,7 +576,7 @@ class Wallet {
         if (!method) method = await this.get2faMethod()
         // add request to local storage
         setRequest({ accountId, requestId, data })
-        const serverResponse = sendJson('POST', ACCOUNT_HELPER_URL + '/2fa/send', {
+        const serverResponse = this.postSignedJson('/2fa/send', {
             accountId,
             method,
             requestId,
@@ -616,7 +620,7 @@ class Wallet {
             console.error('no pending multisig accountId found')
             return
         }
-        return await sendJson('POST', ACCOUNT_HELPER_URL + '/2fa/verify', {
+        return await this.postSignedJson('/2fa/verify', {
             accountId,
             securityCode,
             requestId
@@ -666,10 +670,9 @@ class Wallet {
         // these are the keys we need to convert to limited access keys
         console.log('fak2lak', fak2lak)
         // 5. get the server public key for this accountId (confirmOnlyKey)
-        const getAccessKey = await fetch(ACCOUNT_HELPER_URL + '/2fa/getAccessKey', {
-            method: 'POST',
-            body: JSON.stringify({ accountId })
-        }).then((res) => res.json()).catch((e) => console.log(e))
+        const getAccessKey = await this.postSignedJson('/2fa/getAccessKey', {
+            accountId
+        })
         if (!getAccessKey || !getAccessKey.success || !getAccessKey.publicKey) {
             console.log('error getting publicKey from contract-helper')
             return
@@ -740,6 +743,11 @@ class Wallet {
         if (!accountKeys.some(it => it.public_key.endsWith(publicKey))) {
             await account.addKey(publicKey);
         }
+        /********************************
+        Can we send signed JSON here? Should we?
+        @warning is this a vulnerability?
+        this.postSignedJson(ACCOUNT_HELPER_URL
+        ********************************/
         return sendJson('POST', `${ACCOUNT_HELPER_URL}/account/sendRecoveryMessage`, {
             accountId,
             method,
