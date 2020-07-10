@@ -17,7 +17,7 @@ export const WALLET_SIGN_URL = 'sign'
 export const ACCOUNT_HELPER_URL = process.env.REACT_APP_ACCOUNT_HELPER_URL || 'https://near-contract-helper-2fa.onrender.com'
 export const EXPLORER_URL = process.env.EXPLORER_URL || 'https://explorer.testnet.near.org';
 export const IS_MAINNET = process.env.REACT_APP_IS_MAINNET === 'true' || process.env.REACT_APP_IS_MAINNET === 'yes'
-export const ACCOUNT_ID_SUFFIX = 'dev2' || process.env.REACT_APP_ACCOUNT_ID_SUFFIX || 'testnet'
+export const ACCOUNT_ID_SUFFIX = process.env.REACT_APP_ACCOUNT_ID_SUFFIX || 'testnet'
 
 const NETWORK_ID = process.env.REACT_APP_NETWORK_ID || 'default'
 const CONTRACT_CREATE_ACCOUNT_URL = `${ACCOUNT_HELPER_URL}/account`
@@ -567,18 +567,18 @@ class Wallet {
         return this.sendTwoFactor(accountId, method)
     }
 
-    async sendTwoFactor(accountId, method, requestId = '-1', data = {}) {
+    async sendTwoFactor(accountId, method, requestId = -1, data = {}) {
         if (!accountId) accountId = this.accountId
         if (!method) method = await this.get2faMethod()
         // add request to local storage
-        setRequest({ accountId, requestId })
+        setRequest({ accountId, requestId, data })
         const serverResponse = sendJson('POST', ACCOUNT_HELPER_URL + '/2fa/send', {
             accountId,
             method,
             requestId,
             data
         }).catch((e) => console.log('/2fa/send failed', e));
-        if (requestId !== '-1') {
+        if (requestId !== -1) {
             // we know the requestId of what we want to confirm so pop the modal now and wait on that
             return new Promise((resolve) => {
                 store.dispatch(promptTwoFactor(resolve))
@@ -587,6 +587,18 @@ class Wallet {
             // wait for sever response to reture
             return await serverResponse
         }
+    }
+
+    async resendTwoFactor() {
+        if (!accountId) accountId = this.accountId
+        if (!method) method = await this.get2faMethod()
+        const requestData = getRequest()
+        let { requestId, data } = requestData
+        if (!requestId && requestId !== 0) {
+            console.log('no pending multisig requestId found, assuming account setup')
+            requestId = -1
+        }
+        return this.sendTwoFactor(accountId, method, requestId, data)
     }
 
     // requestId is optional, if included the server will try to confirm requestId
