@@ -76,7 +76,7 @@ const TwoFactorVerifyModal = ({ open, onClose }) => {
             <MobileActionSheet/>
             <h2><Translate id='twoFactor.verify.title'/></h2>
             <p className='font-bw'><Translate id='twoFactor.verify.desc'/></p>
-            <p className='color-black font-bw' style={{ marginTop: '-10px', fontWeight: '500' }}>{method && method.detail}</p>
+            <p className='color-black font-bw' style={{ marginTop: '-10px', fontWeight: '500', height: '19px'}}>{method && method.detail}</p>
             <Form onSubmit={e => {handleVerifyCode(); e.preventDefault();}}>
                 <TwoFactorVerifyInput
                     code={code}
