@@ -6,25 +6,25 @@ import FormButton from '../common/FormButton';
 import Container from '../common/styled/Container.css'
 
 const StyledContainer = styled(Container)`
-    .recover-value {
-        background-color: #f8f8f8;
-        padding: 3px 10px;
-        color: #24272a;
-    }
-    .re-enter {
-        border-top: 2px solid #f8f8f8;
+
+    h4 {
         margin-top: 30px;
-        padding-top: 10px;
-        line-height: normal;
     }
+    
     input {
         width: 100%;
-        margin-top: 30px !important;
+        margin-top: 8px !important;
     }
 
     button {
         width: 100% !important;
         margin-top: 40px !important;
+    }
+
+    p {
+        :last-of-type {
+            margin-top: 30px;
+        }
     }
 `
 
@@ -64,6 +64,7 @@ const EnterVerificationCode = ({
                                 aria-label={translate('setRecoveryConfirm.inputPlaceholder')}
                                 value={code}
                                 onChange={e => setCode(e.target.value)}
+                                autoFocus={true}
                             />
                             {invalidCode && 
                                 <div style={{color: '#ff585d', marginTop: '5px'}}>
