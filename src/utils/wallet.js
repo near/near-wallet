@@ -589,7 +589,7 @@ class Wallet {
         }
     }
 
-    async resendTwoFactor() {
+    async resendTwoFactor(accountId, method) {
         if (!accountId) accountId = this.accountId
         if (!method) method = await this.get2faMethod()
         const requestData = getRequest()
