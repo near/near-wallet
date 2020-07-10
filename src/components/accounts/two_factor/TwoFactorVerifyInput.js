@@ -30,14 +30,11 @@ const Container = styled.div`
 `
 
 const TwoFactorVerifyInput = ({
-    onConfirm,
-    loading = false,
-    requestStatus,
+    onChange,
+    onResend,
+    code,
+    error,
 }) => {
-    
-    const [code, setCode] = useState('');
-
-    const invalidCode = requestStatus && requestStatus.messageCode === 'account.setupRecoveryMessage.error';
 
     return (
         <Container>
@@ -52,9 +49,9 @@ const TwoFactorVerifyInput = ({
                             placeholder={translate('setRecoveryConfirm.inputPlaceholder')}
                             aria-label={translate('setRecoveryConfirm.inputPlaceholder')}
                             value={code}
-                            onChange={e => setCode(e.target.value)}
+                            onChange={e => onChange(e.target.value)}
                         />
-                        {invalidCode && 
+                        {error && code.length > 0 &&
                             <div style={{color: '#ff585d', marginTop: '5px'}}>
                                 {translate('setRecoveryConfirm.invalidCode')}
                             </div>
@@ -62,16 +59,7 @@ const TwoFactorVerifyInput = ({
                     </>
                 )}
             </Translate>
-            <FormButton
-                onClick={() => onConfirm(code)}
-                color='blue'
-                type='submit'
-                disabled={code.length !== 6 || loading}
-                sending={loading}
-            >
-                <Translate id='button.verifyCodeEnable' />
-            </FormButton>
-            <div><Translate id='twoFactor.verify.didntReceive'/> <span className='color-blue'><Translate id='twoFactor.verify.resend'/></span></div>
+            <div onClick={onResend}><Translate id='twoFactor.verify.didntReceive'/> <span className='color-blue'><Translate id='twoFactor.verify.resend'/></span></div>
         </Container>
     )
 }

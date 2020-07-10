@@ -1,16 +1,62 @@
-import React from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import styled from 'styled-components';
+import { useDispatch, useSelector } from 'react-redux';
 import Modal from "../../common/modal/Modal";
 import ModalTheme from '../ledger/ModalTheme';
 import MobileActionSheet from '../../common/modal/MobileActionSheet';
 import FormButton from '../../common/FormButton';
 import { Translate } from 'react-localize-redux';
 import TwoFactorVerifyInput from './TwoFactorVerifyInput';
-import { verifyTwoFactor } from '../../../actions/account';
+import { verifyTwoFactor, clearAlert } from '../../../actions/account';
+import { wallet } from '../../../utils/wallet';
+
+const Form = styled.form`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+`
 
 const TwoFactorVerifyModal = ({ open, onClose }) => {
 
-    const dispatch = useDispatch()
+    const [method, setMethod] = useState();
+    const [code, setCode] = useState('');
+    const dispatch = useDispatch();
+    const account = useSelector(({ account }) => account);
+    const loading = account.actionsPending.includes('VERIFY_TWO_FACTOR');
+    const error = account.globalAlert && account.globalAlert.messageCode === 'account.verifyTwoFactor.error';
+    console.log(account)
+
+    useEffect(() => {
+        let isMounted = true;
+
+        const handleGetTwoFactor = async () => {
+            setMethod(await wallet.get2faMethod())
+        };
+
+        if (isMounted) {
+            handleGetTwoFactor()
+        }
+        
+        return () => { isMounted = false }
+    }, []);
+
+    const handleVerifyCode = async () => {
+        await dispatch(verifyTwoFactor(null, code))
+    }
+
+    const handleResend = async () => {
+        console.log('resend')
+        // TODO
+    }
+
+    const handleChange = (code) => {
+        setCode(code);
+
+        if (account.globalAlert) {
+            dispatch(clearAlert())
+        }
+    }
     
     return (
         <Modal
@@ -23,17 +69,19 @@ const TwoFactorVerifyModal = ({ open, onClose }) => {
             <MobileActionSheet/>
             <h2><Translate id='twoFactor.verify.title'/></h2>
             <p className='font-bw'><Translate id='twoFactor.verify.desc'/></p>
-            <p className='color-black font-bw' style={{ marginTop: '-10px', fontWeight: '500' }}>email@email.com</p>
-            <TwoFactorVerifyInput
-                onConfirm={async (code) => {
-                    await dispatch(verifyTwoFactor(null, code))
-                    if (onClose) onClose(true)
-                }}
-            />
-            <FormButton>
-                <Translate id='button.continueSetup'/>
-            </FormButton>
-            <button className='link color-red' id='close-button'><Translate id='button.cancel'/></button>
+            <p className='color-black font-bw' style={{ marginTop: '-10px', fontWeight: '500' }}>{method && method.detail}</p>
+            <Form onSubmit={e => {handleVerifyCode(); e.preventDefault();}}>
+                <TwoFactorVerifyInput
+                    code={code}
+                    onChange={handleChange}
+                    onResend={handleResend}
+                    error={error}
+                />
+                <FormButton type='submit' disabled={code.length !== 6 || loading || error} sending={loading}>
+                    <Translate id='button.verifyCode'/>
+                </FormButton>
+                <button className='link color-red' id='close-button'><Translate id='button.cancel'/></button>
+            </Form>
         </Modal>
     );
 }

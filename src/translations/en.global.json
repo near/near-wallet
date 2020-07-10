@@ -207,6 +207,7 @@
         "continue": "CONTINUE",
         "continueSetup": "Continue to Setup",
         "verify": "VERIFY & COMPLETE",
+        "verifyCode": "Verify Code",
         "verifyCodeEnable": "Verify Code & Enable", 
         "startOver": "Start over",
         "copyUrl": "Copy Url",
