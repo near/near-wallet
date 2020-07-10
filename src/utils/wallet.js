@@ -833,7 +833,13 @@ class Wallet {
                     }
                 } else {
                     // (2) multisig + FAK recovery with seed phrase - add LAK directly
-                    await account.addKey(newKeyPair.publicKey, nearApiJs.transactions.functionCallAccessKey(accountId, METHOD_NAMES_LAK, null))
+                    const actions = [
+                        nearApiJs.transactions.addKey(newKeyPair.publicKey, nearApiJs.transactions.functionCallAccessKey(accountId, METHOD_NAMES_LAK, null))
+                    ]
+                    const result = await account.signAndSendTransaction(accountId, actions).catch((e) => {
+                        console.trace(e)
+                    })
+                    console.log(result)
                 }
             } else {
                 // (3) no multisig is deployed - add FAK directly
