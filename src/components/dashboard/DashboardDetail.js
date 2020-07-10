@@ -118,7 +118,7 @@ class DashboardDetail extends Component {
                         title={<Translate id='authorizedApps.pageTitle' />}
                         to='/authorized-apps'
                         empty={<Translate id='authorizedApps.dashboardNoApps' />}
-                        accessKeys={authorizedApps}
+                        accessKeys={authorizedApps && authorizedApps.filter(key => key.access_key.permission.FunctionCall.receiver_id !== accountId)}
                     />
                     <DashboardKeys
                         image={AccessKeysIcon}
