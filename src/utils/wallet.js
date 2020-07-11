@@ -423,7 +423,6 @@ class Wallet {
     async addAccessKey(accountId, contractId, publicKey) {
         const { account, has2fa } = await this.getAccountAndState()
 
-        console.log(account, has2fa, publicKey)
         if (has2fa) {
             const request = {
                 receiver_id: contractId || account.accountId,
@@ -535,7 +534,8 @@ class Wallet {
     async signatureFor(account) {
         const { accountId } = account
         const blockNumber = String((await account.connection.provider.status()).sync_info.latest_block_height);
-        const signed = await account.inMemorySigner.signMessage(Buffer.from(blockNumber), accountId, NETWORK_ID);
+        const signer = account.inMemorySigner || account.connection.signer
+        const signed = await signer.signMessage(Buffer.from(blockNumber), accountId, NETWORK_ID);
         const blockNumberSignature = Buffer.from(signed.signature).toString('base64');
         return { blockNumber, blockNumberSignature };
     }
@@ -740,11 +740,12 @@ class Wallet {
             // updated to get tempAccount.accountId
             accountId = this.getAccountId()
         }
-        const newAccount = await this.createNewAccount(accountId, fundingContract, fundingKey)
-        console.log('account created', newAccount)
+        await this.createNewAccount(accountId, fundingContract, fundingKey)
+        const account = this.getAccount(accountId)
+        console.log('account created', account)
         // remove the temp account, we now have a real account on chain
         delTempAccount()
-        return newAccount
+        return account
     }
 
     async setupRecoveryMessage(accountId, method, securityCode, fundingContract, fundingKey) {

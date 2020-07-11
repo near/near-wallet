@@ -202,17 +202,17 @@ export const { addAccessKey, addAccessKeySeedPhrase, clearAlert } = createAction
     ],
     ADD_ACCESS_KEY_SEED_PHRASE: [
         async (accountId, contractName, publicKey) => {
-            const account = await wallet.loadAccount()
+            let account = await wallet.loadAccount()
             // account wasn't created yet
             if (account.temp) {
-                await wallet.createNewAccountForTempAccount(accountId)
+                account = await wallet.createNewAccountForTempAccount(accountId)
             }
             const [walletReturnData] = await Promise.all([
                 wallet.addAccessKey(accountId, contractName, publicKey),
                 sendJson('POST', `${ACCOUNT_HELPER_URL}/account/seedPhraseAdded`, {
                     accountId,
                     publicKey,
-                    ...(await wallet.signatureFor(accountId))
+                    ...(await wallet.signatureFor(account))
                 })
             ]);
 
