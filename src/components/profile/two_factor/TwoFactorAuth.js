@@ -114,7 +114,7 @@ const TwoFactorAuth = (props) => {
                             </div>
                             <div>{method.detail}</div>
                         </div>
-                        <FormButton onClick={() => {}} className='gray-red'><Translate id='button.disable'/></FormButton>
+                        {/*<FormButton onClick={() => {}} className='gray-red'><Translate id='button.disable'/></FormButton>*/}
                     </div>
                     <div className='bottom'>
                         <span className='color-green'>
