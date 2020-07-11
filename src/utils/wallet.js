@@ -42,6 +42,7 @@ export const TRANSACTIONS_REFRESH_INTERVAL = 10000
 /********************************
 Managing 2fa requests
 ********************************/
+let tempTwoFactorAccount = null
 export const getRequest = () => {
     return JSON.parse(localStorage.getItem(`__multisigRequest`) || `{}`)
 }
@@ -169,29 +170,30 @@ class Wallet {
         const { accountId } = this
         const { account, has2fa } = await this.getAccountAndState(accountId)
         if (has2fa) {
-            await this.sendMoneyMultisig(account, receiverId, amount)
+            const request = {
+                receiver_id: receiverId,
+                actions: [{ type: 'Transfer', amount }]
+            }
+            await this.makeTwoFactorRequest(account, request)
         } else {
             await account.sendMoney(receiverId, amount)
         }
     }
     /********************************
-    Multisig Methods
+    Multisig Requests
     ********************************/
-    async sendMoneyMultisig(account, receiverId, amount) {
-        const {accountId} = account
+    async makeTwoFactorRequest(account, request) {
+        console.log(account, request)
+        const { accountId } = account
         const contract = this.getContract(account)
         const request_id = await this.getNextRequestId(contract)
-        const request = {
-            receiver_id: receiverId,
-            actions: [{ type: 'Transfer', amount }]
-        }
         await this.addRequestAndConfirm(contract, request)
         const request_id_after = await this.getNextRequestId(contract)
         if (request_id_after > request_id) {
             // request was successfully added, send verification code to 2fa method
             const data = { request_id, request }
             const method = await this.get2faMethod()
-            await this.sendTwoFactor(accountId, method, request_id, data)
+            return await this.sendTwoFactor(accountId, method, request_id, data)
         }
     }
     /********************************
@@ -285,7 +287,16 @@ class Wallet {
     }
 
     async removeAccessKey(publicKey) {
-        return await this.getAccount(this.accountId).deleteKey(publicKey)
+        const { account, has2fa } = await this.getAccountAndState()
+        if (has2fa) {
+            const request = {
+                receiver_id: this.accountId,
+                actions: [{ type: 'DeleteKey', public_key: publicKey.split('ed25519:')[1] }]
+            }
+            return await this.makeTwoFactorRequest(account, request)
+        } else {
+            return await this.getAccount(this.accountId).deleteKey(publicKey)
+        }
     }
 
     async removeNonLedgerAccessKeys() {
@@ -410,18 +421,29 @@ class Wallet {
     }
 
     async addAccessKey(accountId, contractId, publicKey) {
-        try {
-            return await this.getAccount(accountId).addKey(
-                publicKey,
-                contractId,
-                '', // methodName
-                ACCESS_KEY_FUNDING_AMOUNT
-            )
-        } catch (e) {
-            if (e.type === 'AddKeyAlreadyExists') {
-                return true;
+        const { account, has2fa } = await this.getAccountAndState()
+
+        console.log(account, has2fa, publicKey)
+        if (has2fa) {
+            const request = {
+                receiver_id: contractId || account.accountId,
+                actions: [{ type: 'AddKey', public_key: publicKey.split('ed25519:')[1] }]
             }
-            throw e;
+            return await this.makeTwoFactorRequest(account, request)
+        } else {
+            try {
+                return await this.getAccount(accountId).addKey(
+                    publicKey,
+                    contractId,
+                    '', // methodName
+                    ACCESS_KEY_FUNDING_AMOUNT
+                )
+            } catch (e) {
+                if (e.type === 'AddKeyAlreadyExists') {
+                    return true;
+                }
+                throw e;
+            }
         }
     }
 
@@ -496,6 +518,7 @@ class Wallet {
 
     async getAccountAndState(accountId) {
         const account = this.getAccount(accountId)
+        account.accountId = this.accountId
         const state = await account.state()
         const has2fa = state.code_hash !== ACCOUNT_NO_CODE_HASH
         return { account, state, has2fa }
@@ -509,51 +532,52 @@ class Wallet {
         return await this.getAccount(userAccountId).getAccountBalance()
     }
 
-    async signatureFor(accountId, account) {
-        if (!account) {
-            account = this
-        }
+    async signatureFor(account) {
+        const { accountId } = account
         const blockNumber = String((await account.connection.provider.status()).sync_info.latest_block_height);
         const signed = await account.inMemorySigner.signMessage(Buffer.from(blockNumber), accountId, NETWORK_ID);
         const blockNumberSignature = Buffer.from(signed.signature).toString('base64');
         return { blockNumber, blockNumberSignature };
     }
 
-    async postSignedJson(path, options, account) {
+    async postSignedJson(path, options) {
+        // if there's a tempTwoFactorAccount (recovery with 2fa) use that vs. this
         return await sendJson('POST', ACCOUNT_HELPER_URL + path, {
             ...options,
-            ...(await this.signatureFor(account ? account.accountId : this.accountId, account))
+            ...(await this.signatureFor(tempTwoFactorAccount ? tempTwoFactorAccount : this))
         });
     }
 
     async initializeRecoveryMethod(accountId, method) {
-        return await this.postSignedJson('/account/initializeRecoveryMethod', {
-            accountId,
-            method
-        });
-    }
-
-    async initializeRecoveryMethodForTempAccount(accountId, method) {
-        return await sendJson('POST', ACCOUNT_HELPER_URL + '/account/initializeRecoveryMethodForTempAccount', {
-            accountId,
-            method,
-        });
+        const tempAccount = getTempAccount()
+        if (tempAccount && tempAccount.accountId) {
+            return await sendJson('POST', ACCOUNT_HELPER_URL + '/account/initializeRecoveryMethodForTempAccount', {
+                accountId,
+                method,
+            });
+        } else {
+            return await this.postSignedJson('/account/initializeRecoveryMethod', {
+                accountId,
+                method
+            });
+        }
     }
 
     async validateSecurityCode(accountId, method, securityCode) {
-        return await this.postSignedJson('/account/validateSecurityCode', {
-            accountId,
-            method,
-            securityCode
-        });
-    }
-
-    async validateSecurityCodeForTempAccount(accountId, method, securityCode) {
-        return await sendJson('POST', ACCOUNT_HELPER_URL + '/account/validateSecurityCodeForTempAccount', {
-            accountId,
-            method,
-            securityCode
-        });
+        const tempAccount = getTempAccount()
+        if (tempAccount && tempAccount.accountId) {
+            return await sendJson('POST', ACCOUNT_HELPER_URL + '/account/validateSecurityCodeForTempAccount', {
+                accountId,
+                method,
+                securityCode
+            });
+        } else {
+            return await this.postSignedJson('/account/validateSecurityCode', {
+                accountId,
+                method,
+                securityCode
+            });
+        }
     }
 
     async initTwoFactor(accountId, method) {
@@ -585,7 +609,12 @@ class Wallet {
         if (requestId !== -1) {
             // we know the requestId of what we want to confirm so pop the modal now and wait on that
             return new Promise((resolve) => {
-                store.dispatch(promptTwoFactor(resolve))
+                store.dispatch(promptTwoFactor((verified) => {
+                    if (verified) {
+                        tempTwoFactorAccount = null
+                    }
+                    resolve(verified)
+                }))
             })
         } else {
             // wait for sever response to reture
@@ -738,10 +767,18 @@ class Wallet {
         }
         // now send recovery seed phrase
         const { seedPhrase, publicKey } = generateSeedPhrase();
-        const account = this.getAccount(accountId)
+        const { account, has2fa } = await this.getAccountAndState(accountId)
         const accountKeys = await account.getAccessKeys();
-        if (!accountKeys.some(it => it.public_key.endsWith(publicKey))) {
-            await account.addKey(publicKey);
+        if (has2fa) {
+            const request = {
+                receiver_id: account.accountId,
+                actions: [{ type: 'AddKey', public_key: publicKey.split('ed25519:')[1] }]
+            }
+            await this.makeTwoFactorRequest(account, request)
+        } else {
+            if (!accountKeys.some(it => it.public_key.endsWith(publicKey))) {
+                await account.addKey(publicKey);
+            }
         }
         /********************************
         Can we send signed JSON here? Should we?
@@ -775,12 +812,13 @@ class Wallet {
     }
 
     async deleteRecoveryMethod({ kind, publicKey }) {
+        const res = await this.removeAccessKey(publicKey)
+        console.log('deleteRecoveryMethod', res)
         await this.postSignedJson('/account/deleteRecoveryMethod', {
             accountId: this.accountId,
             kind,
             publicKey
         })
-        await this.removeAccessKey(publicKey)
     }
 
     async recoverAccountSeedPhrase(seedPhrase, fromLink = false) {
@@ -798,9 +836,11 @@ class Wallet {
             provider: { type: 'JsonRpcProvider', args: { url: NODE_URL + '/' } },
             signer: new nearApiJs.InMemorySigner(tempKeyStore)
         })
-
         await Promise.all(accountIds.map(async (accountId, i) => {
             const account = new nearApiJs.Account(connection, accountId)
+            account.accountId = accountId
+            this.accountId = accountId
+            tempTwoFactorAccount = account
             // recovery keypair
             const keyPair = KeyPair.fromString(secretKey)
             await tempKeyStore.setKey(NETWORK_ID, accountId, keyPair)
@@ -808,7 +848,6 @@ class Wallet {
             const newKeyPair = KeyPair.fromRandom('ed25519')
             // check if multisig deployed
             const state = await account.state()
-            console.log('state', state)
             /********************************
             Cases: (1) multisig + LAK recovery, (2) multisig + FAK recovery with seed phrase, (3) no multisig
             ********************************/
@@ -829,13 +868,11 @@ class Wallet {
                     await this.addRequestAndConfirm(contract, request)
                     // request successfully added to multisig?
                     const request_id_after = await this.getNextRequestId(contract)
-                    console.log('request_ids', request_id_after, request_id)
                     if (request_id_after > request_id) {
                         const data = { request_id, request }
                         // needed prove to contract helper we're signer of account
                         account.keyStore = tempKeyStore
                         account.inMemorySigner = new nearApiJs.InMemorySigner(tempKeyStore)
-                        console.log('account', account)
                         const method = await this.get2faMethod(account)
                         await this.sendTwoFactor(accountId, method, request_id, data)
                     }

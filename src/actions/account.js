@@ -120,22 +120,14 @@ export const allowLogin = () => async (dispatch, getState) => {
 
 const defaultCodesFor = (prefix, data) => ({ successCode: `${prefix}.success`, errorCode: `${prefix}.error`, data})
 
-export const { initializeRecoveryMethod, initializeRecoveryMethodForTempAccount, validateSecurityCode, validateSecurityCodeForTempAccount, initTwoFactor, reInitTwoFactor, sendTwoFactor, resendTwoFactor, verifyTwoFactor, promptTwoFactor, deployMultisig, setupRecoveryMessage, deleteRecoveryMethod, sendNewRecoveryLink, checkNewAccount, createNewAccount, checkAccountAvailable, getTransactions, getTransactionStatus, clear, clearCode } = createActions({
+export const { initializeRecoveryMethod, validateSecurityCode, initTwoFactor, reInitTwoFactor, sendTwoFactor, resendTwoFactor, verifyTwoFactor, promptTwoFactor, deployMultisig, setupRecoveryMessage, deleteRecoveryMethod, sendNewRecoveryLink, checkNewAccount, createNewAccount, checkAccountAvailable, getTransactions, getTransactionStatus, clear, clearCode } = createActions({
     INITIALIZE_RECOVERY_METHOD: [
         wallet.initializeRecoveryMethod.bind(wallet),
-        () => defaultCodesFor('account.initializeRecoveryMethod')
-    ],
-    INITIALIZE_RECOVERY_METHOD_FOR_TEMP_ACCOUNT: [
-        wallet.initializeRecoveryMethodForTempAccount.bind(wallet),
         () => defaultCodesFor('account.initializeRecoveryMethod')
     ],
     VALIDATE_SECURITY_CODE: [
         wallet.validateSecurityCode.bind(wallet),
         () => defaultCodesFor('account.validateSecurityCode')
-    ],
-    VALIDATE_SECURITY_CODE_FOR_TEMP_ACCOUNT: [
-        wallet.validateSecurityCodeForTempAccount.bind(wallet),
-        () => defaultCodesFor('account.validateSecurityCodeForTempAccount')
     ],
     INIT_TWO_FACTOR: [
         wallet.initTwoFactor.bind(wallet),
@@ -211,7 +203,6 @@ export const { addAccessKey, addAccessKeySeedPhrase, clearAlert } = createAction
     ADD_ACCESS_KEY_SEED_PHRASE: [
         async (accountId, contractName, publicKey) => {
             const account = await wallet.loadAccount()
-            console.log(account)
             // account wasn't created yet
             if (account.temp) {
                 await wallet.createNewAccountForTempAccount(accountId)

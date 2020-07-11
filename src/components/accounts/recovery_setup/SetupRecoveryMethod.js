@@ -5,7 +5,7 @@ import { Translate } from 'react-localize-redux';
 import 'react-phone-number-input/style.css'
 import PhoneInput, { isValidPhoneNumber } from 'react-phone-number-input';
 import { validateEmail } from '../../../utils/account';
-import { initializeRecoveryMethodForTempAccount, setupRecoveryMessage, redirectToApp, loadRecoveryMethods, getAccessKeys } from '../../../actions/account';
+import { initializeRecoveryMethod, setupRecoveryMessage, redirectToApp, loadRecoveryMethods, getAccessKeys } from '../../../actions/account';
 import RecoveryOption from './RecoveryOption';
 import FormButton from '../../common/FormButton';
 import EnterVerificationCode from '../EnterVerificationCode';
@@ -111,9 +111,9 @@ class SetupRecoveryMethod extends Component {
     }
 
     handleSendCode = () => {
-        const  { accountId, initializeRecoveryMethodForTempAccount } = this.props;
+        const  { accountId, initializeRecoveryMethod } = this.props;
 
-        initializeRecoveryMethodForTempAccount(accountId, this.method);
+        initializeRecoveryMethod(accountId, this.method);
         this.setState({ success: true })
         
     }
@@ -252,7 +252,7 @@ const mapDispatchToProps = {
     setupRecoveryMessage,
     redirectToApp,
     loadRecoveryMethods,
-    initializeRecoveryMethodForTempAccount,
+    initializeRecoveryMethod,
     getAccessKeys
 }
 
