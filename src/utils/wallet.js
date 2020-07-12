@@ -369,20 +369,46 @@ class Wallet {
         }
     }
 
+    /********************************
+    Check account was created before saving 10 retries, 1s each
+    ********************************/
+    async checkAccountAndSave(accountId, keyPair) {
+        return new Promise((resolve, reject) => {
+            let attempts = 0
+            const retries = 10
+            const check = async () => {
+                attempts++
+                console.log(`attempt: ${attempts}, checking for account: ${accountId}`)
+                if (attempts >= retries) {
+                    reject('account cannot be found')
+                    return
+                }
+                try {
+                    await this.getAccount(accountId).state()
+                    resolve(await this.saveAndSelectAccount(accountId, keyPair));
+                } catch (e) {
+                    setTimeout(check, 1000)
+                }
+            }
+            check()
+        })
+    }
+
     async createNewAccount(accountId, fundingContract, fundingKey) {
         this.checkNewAccount(accountId);
         const keyPair = KeyPair.fromRandom('ed25519');
         if (fundingKey && fundingContract) {
             await this.createNewAccountLinkdrop(accountId, fundingContract, fundingKey, keyPair);
             await this.keyStore.removeKey(NETWORK_ID, fundingContract)
-
         } else {
             await sendJson('POST', CONTRACT_CREATE_ACCOUNT_URL, {
                 newAccountId: accountId,
                 newAccountPublicKey: keyPair.publicKey.toString()
+            }).catch((e) => {
+                console.log(e)
             })
         }
-        await this.saveAndSelectAccount(accountId, keyPair);
+        await this.checkAccountAndSave(accountId, keyPair);
     }
 
     async createNewAccountLinkdrop(accountId, fundingContract, fundingKey, keyPair) {
@@ -751,7 +777,7 @@ class Wallet {
     async setupRecoveryMessage(accountId, method, securityCode, fundingContract, fundingKey) {
         // temp account was set during create account
         const tempAccount = getTempAccount()
-        let securityCodeResult = await this.validateSecurityCodeForTempAccount(accountId, method, securityCode);
+        let securityCodeResult = await this.validateSecurityCode(accountId, method, securityCode);
         if (!securityCodeResult || securityCodeResult.length === 0) {
             console.log('INVALID CODE', securityCodeResult)
             return
