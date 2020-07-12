@@ -751,12 +751,7 @@ class Wallet {
     async setupRecoveryMessage(accountId, method, securityCode, fundingContract, fundingKey) {
         // temp account was set during create account
         const tempAccount = getTempAccount()
-        let securityCodeResult
-        if (tempAccount && tempAccount.accountId) {
-            securityCodeResult = await this.validateSecurityCodeForTempAccount(accountId, method, securityCode);
-        } else {
-            securityCodeResult = await this.validateSecurityCode(accountId, method, securityCode);
-        }
+        let securityCodeResult = await this.validateSecurityCodeForTempAccount(accountId, method, securityCode);
         if (!securityCodeResult || securityCodeResult.length === 0) {
             console.log('INVALID CODE', securityCodeResult)
             return
