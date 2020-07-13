@@ -119,7 +119,7 @@ class SetupRecoveryMethod extends Component {
     }
 
     handleSetupRecoveryMethod = (securityCode) => {
-        const  { accountId, setupRecoveryMessage, redirectToApp, match } = this.props;
+        const  { accountId, setupRecoveryMessage, redirectToApp, match, history } = this.props;
 
         const fundingContract = match.params.fundingContract;
         const fundingKey = match.params.fundingKey;
@@ -127,7 +127,12 @@ class SetupRecoveryMethod extends Component {
         setupRecoveryMessage(accountId, this.method, securityCode, fundingContract, fundingKey)
             .then(({ error }) => {
                 if (error) return;
-                redirectToApp('/profile');
+
+                if (fundingContract && fundingKey) {
+                    history.push('/enable-two-factor')
+                } else {
+                    redirectToApp('/profile');
+                }
             })
     }
 
