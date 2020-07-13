@@ -87,8 +87,7 @@ export function EnableTwoFactor(props) {
         const { error } = await dispatch(verifyTwoFactor(accountId, securityCode))
 
         if (!error) {
-            console.log('confirmed')
-            props.history.push('/profile')
+            console.log('confirmed security code')
             // no error so let's deploy contract
             handleDeployMultisig()
         }
@@ -98,7 +97,8 @@ export function EnableTwoFactor(props) {
         const { error } = await dispatch(deployMultisig())
 
         if (!error) {
-            console.log('confirmed')
+            console.log('deployed multisig')
+            props.history.push('/profile')
         }
     }
 
@@ -184,7 +184,7 @@ export function EnableTwoFactor(props) {
                 onConfirm={handleConfirm}
                 onGoBack={handleGoBack}
                 onResend={handleResend}
-                loading={account.actionsPending.includes('VERIFY_TWO_FACTOR')}
+                loading={account.actionsPending.includes('VERIFY_TWO_FACTOR') || account.actionsPending.includes('DEPLOY_MULTISIG')}
                 requestStatus={props.requestStatus}
             />
         )

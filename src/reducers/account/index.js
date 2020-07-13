@@ -18,7 +18,7 @@ import {
     deleteRecoveryMethod,
     sendNewRecoveryLink,
     recoverAccountSeedPhrase,
-    verifyTwoFactor
+    deployMultisig
 } from '../../actions/account'
 
 const initialState = {
@@ -44,7 +44,7 @@ const loaderReducer = (state, { type, ready }) => {
 const globalAlertReducer = handleActions({
     // TODO: Reset state before action somehow. On navigate / start of other action?
     // TODO: Make this generic to avoid listing actions
-    [combineActions(addAccessKey, addAccessKeySeedPhrase, setupRecoveryMessage, signInWithLedger, deleteRecoveryMethod, sendNewRecoveryLink, recoverAccountSeedPhrase, verifyTwoFactor)]: (state, { error, ready, payload, meta }) => ({
+    [combineActions(addAccessKey, addAccessKeySeedPhrase, setupRecoveryMessage, signInWithLedger, deleteRecoveryMethod, sendNewRecoveryLink, recoverAccountSeedPhrase, deployMultisig)]: (state, { error, ready, payload, meta }) => ({
         ...state,
         globalAlert: ready ? {
             success: !error,
