@@ -80,7 +80,7 @@ const PublicInfoRow = ({ children, titleId, infoId }) => (
 const PublicBalanceRow = ({ titleId, infoId, amount }) =>
     <PublicInfoRow titleId={titleId} infoId={infoId}>{amount && <Balance amount={amount}/>}</PublicInfoRow>
 
-const ProfileDetails = ({ account: { accountId, balance: { total, stateStaked, staked, available } } }) => (
+const ProfileDetails = ({ account: { accountId, balance: { total, stateStaked, staked, ownersBalance, available } } }) => (
     <CustomGrid>
         <Grid.Row>
             <Grid.Column
@@ -130,6 +130,7 @@ const ProfileDetails = ({ account: { accountId, balance: { total, stateStaked, s
         <PublicBalanceRow titleId='profile.details.totalBalance' amount={total}/>
         <PublicBalanceRow titleId='profile.details.minBalance' infoId='minimumBalance' amount={stateStaked}/>
         <PublicBalanceRow titleId='profile.details.staked' amount={staked}/>
+        <PublicBalanceRow titleId='profile.details.ownersBalance' amount={ownersBalance}/>
         <PublicBalanceRow titleId='profile.details.availableBalance' infoId='availableBalanceProfile' amount={available}/>
     </CustomGrid>
 )

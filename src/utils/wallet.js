@@ -400,11 +400,18 @@ class Wallet {
     }
 
     async getBalance(accountId) {
-        let userAccountId = this.accountId;
-        if (accountId) {
-            userAccountId = accountId;
-        }
-        return await this.getAccount(userAccountId).getAccountBalance()
+        accountId = accountId || this.accountId
+
+        const account = this.getAccount(accountId)
+        const balance = await account.getAccountBalance()
+
+        // TODO: Should lockup contract balance be retrieved separately?
+        // TODO: Unhardcode lockup account name
+        const lockupAccountId = 'lockup-test.vg.betanet'
+        // TODO: Makes sense for a lockup contract to return whole state as JSON instead of method per property
+        const ownersBalance = await account.viewFunction(lockupAccountId, "get_owners_balance", {})
+
+        return { ...balance, ownersBalance }
     }
 
     async signatureFor(accountId) {
