@@ -17,7 +17,7 @@ export const WALLET_SIGN_URL = 'sign'
 export const ACCOUNT_HELPER_URL = process.env.REACT_APP_ACCOUNT_HELPER_URL || 'https://near-contract-helper-2fa.onrender.com'
 export const EXPLORER_URL = process.env.EXPLORER_URL || 'https://explorer.testnet.near.org';
 export const IS_MAINNET = process.env.REACT_APP_IS_MAINNET === 'true' || process.env.REACT_APP_IS_MAINNET === 'yes'
-export const ACCOUNT_ID_SUFFIX = 'dev2' || process.env.REACT_APP_ACCOUNT_ID_SUFFIX || 'testnet'
+export const ACCOUNT_ID_SUFFIX = process.env.REACT_APP_ACCOUNT_ID_SUFFIX || 'testnet'
 
 const NETWORK_ID = process.env.REACT_APP_NETWORK_ID || 'default'
 const CONTRACT_CREATE_ACCOUNT_URL = `${ACCOUNT_HELPER_URL}/account`
@@ -263,12 +263,10 @@ class Wallet {
         const tempAccount = getTempAccount()
         // temp account was set during create account
         if (tempAccount && tempAccount.accountId) {
-            if (tempAccount.accountId !== '') {
-                return {
-                    temp: true,
-                    balance: 0,
-                    accountId: tempAccount.accountId,
-                }
+            return {
+                temp: true,
+                balance: 0,
+                accountId: tempAccount.accountId,
             }
         }
 
@@ -795,12 +793,13 @@ class Wallet {
 
     async setupRecoveryMessage(accountId, method, securityCode, fundingContract, fundingKey) {
         // temp account was set during create account
-        const tempAccount = this.loadAccount()
+        console.log('setupRecoveryMessage', accountId)
         let securityCodeResult = await this.validateSecurityCode(accountId, method, securityCode);
         if (!securityCodeResult || securityCodeResult.length === 0) {
             console.log('INVALID CODE', securityCodeResult)
             return
         }
+        const tempAccount = getTempAccount()
         // if this is a tempAccount we'll create a new account now
         if (tempAccount && tempAccount.accountId) {
             // added method above, also used for seed recovery
