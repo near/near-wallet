@@ -440,7 +440,6 @@ class Wallet {
             new_account_id: accountId,
             new_public_key: publicKey
         });
-        setLinkdropData({})
     }
 
     async saveAndSelectAccount(accountId, keyPair) {

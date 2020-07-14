@@ -5,7 +5,7 @@ import { Translate } from 'react-localize-redux';
 import 'react-phone-number-input/style.css'
 import PhoneInput, { isValidPhoneNumber } from 'react-phone-number-input';
 import { validateEmail } from '../../../utils/account';
-import { getLinkdropData } from '../../../utils/wallet'
+import { getLinkdropData, setLinkdropData } from '../../../utils/wallet'
 import { initializeRecoveryMethod, setupRecoveryMessage, redirectToApp, loadRecoveryMethods, getAccessKeys } from '../../../actions/account';
 import RecoveryOption from './RecoveryOption';
 import FormButton from '../../common/FormButton';
@@ -127,6 +127,7 @@ class SetupRecoveryMethod extends Component {
                 if (error) return;
                 const linkdropData = getLinkdropData()
                 if (linkdropData.fundingKey) {
+                    setLinkdropData({})
                     history.push('/enable-two-factor')
                 } else {
                     redirectToApp('/profile');
