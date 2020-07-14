@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { Translate } from 'react-localize-redux'
 import { checkNewAccount, createNewAccount, clear, refreshAccount, resetAccounts, setFormLoader } from '../../actions/account'
-import { ACCOUNT_ID_SUFFIX, setTempAccount } from '../../utils/wallet'
+import { ACCOUNT_ID_SUFFIX, setTempAccount, setLinkdropData } from '../../utils/wallet'
 import Container from '../common/styled/Container.css'
 
 import FormButton from '../common/FormButton'
@@ -57,8 +57,8 @@ const StyledContainer = styled(Container)`
         justify-content: center;
         margin-top: 5px;
     }
-
 `
+
 class CreateAccount extends Component {
     state = {
         loader: false,
@@ -70,7 +70,7 @@ class CreateAccount extends Component {
         const { loginError, resetAccounts } = this.props;
 
         if (loginError) {
-            console.error('Error loading account:', loginError)
+            // console.error('Error loading account:', loginError)
 
             if (loginError.indexOf('does not exist while viewing') !== -1) {
                 resetAccounts()
@@ -94,12 +94,11 @@ class CreateAccount extends Component {
         const { accountId, token } = this.state;
         const { match, createNewAccount, setFormLoader } = this.props
 
-        const fundingKey = match.params.fundingKey;
         const fundingContract = match.params.fundingContract;
+        const fundingKey = match.params.fundingKey;
+        setLinkdropData({ fundingContract, fundingKey })
+
         let nextUrl = `/set-recovery/${accountId}`;
-        if (fundingKey && fundingContract) {
-            nextUrl = `/set-recovery/${accountId}/${fundingContract}/${fundingKey}`;
-        }
         
         setTempAccount(accountId)
         setFormLoader(false)

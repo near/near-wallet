@@ -114,7 +114,7 @@ class Routing extends Component {
         return (
             <Container className='App' mainnet={IS_MAINNET ? true : false}>
                 <GlobalStyle />
-                <ConnectedRouter basename={PATH_PREFIX}  history={this.props.history}>
+                <ConnectedRouter basename={PATH_PREFIX} history={this.props.history}>
                     <ThemeProvider theme={theme}>
                         <ScrollToTop/>
                         <NetworkBanner/>
@@ -146,7 +146,7 @@ class Routing extends Component {
                                 />
                                 <Route
                                     exact
-                                    path='/set-recovery/:accountId/:fundingContract?/:fundingKey?'
+                                    path='/set-recovery/:accountId'
                                     component={SetupRecoveryMethodWithRouter}
                                 />
                                 <PrivateRoute

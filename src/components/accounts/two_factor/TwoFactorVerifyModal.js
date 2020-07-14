@@ -25,7 +25,7 @@ const TwoFactorVerifyModal = ({ open, onClose }) => {
     const account = useSelector(({ account }) => account);
     const loading = account.actionsPending.includes('VERIFY_TWO_FACTOR');
     const error = account.globalAlert && account.globalAlert.messageCode === 'account.verifyTwoFactor.error';
-    console.log(account)
+    // console.log(account)
 
     useEffect(() => {
         let isMounted = true;

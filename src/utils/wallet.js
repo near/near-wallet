@@ -17,7 +17,7 @@ export const WALLET_SIGN_URL = 'sign'
 export const ACCOUNT_HELPER_URL = process.env.REACT_APP_ACCOUNT_HELPER_URL || 'https://near-contract-helper-2fa.onrender.com'
 export const EXPLORER_URL = process.env.EXPLORER_URL || 'https://explorer.testnet.near.org';
 export const IS_MAINNET = process.env.REACT_APP_IS_MAINNET === 'true' || process.env.REACT_APP_IS_MAINNET === 'yes'
-export const ACCOUNT_ID_SUFFIX = process.env.REACT_APP_ACCOUNT_ID_SUFFIX || 'testnet'
+export const ACCOUNT_ID_SUFFIX = 'dev2' || process.env.REACT_APP_ACCOUNT_ID_SUFFIX || 'testnet'
 
 const NETWORK_ID = process.env.REACT_APP_NETWORK_ID || 'default'
 const CONTRACT_CREATE_ACCOUNT_URL = `${ACCOUNT_HELPER_URL}/account`
@@ -38,7 +38,15 @@ const WALLET_METADATA_METHOD = '__wallet__metadata'
 export const ACCOUNT_CHECK_TIMEOUT = 500
 export const TRANSACTIONS_REFRESH_INTERVAL = 10000
 
-
+/********************************
+Linkdrop data
+********************************/
+export const getLinkdropData = () => {
+    return JSON.parse(localStorage.getItem(`__linkdropData`) || `{}`)
+}
+export const setLinkdropData = (data) => {
+    return localStorage.setItem(`__linkdropData`, JSON.stringify(data))
+}
 /********************************
 Managing 2fa requests
 ********************************/
@@ -255,14 +263,15 @@ class Wallet {
         const tempAccount = getTempAccount()
         // temp account was set during create account
         if (tempAccount && tempAccount.accountId) {
-            // console.log('temp account')
-            return {
-                temp: true,
-                balance: 0,
-                accountId: tempAccount.accountId,
+            if (tempAccount.accountId !== '') {
+                return {
+                    temp: true,
+                    balance: 0,
+                    accountId: tempAccount.accountId,
+                }
             }
         }
-        // else load account normally from api
+
         if (this.isEmpty()) {
             throw new Error('No account.')
         }
@@ -397,6 +406,13 @@ class Wallet {
     async createNewAccount(accountId, fundingContract, fundingKey) {
         this.checkNewAccount(accountId);
         const keyPair = KeyPair.fromRandom('ed25519');
+        if (!fundingKey) {
+            const linkdropData = getLinkdropData()
+            if (linkdropData && linkdropData.fundingKey) {
+                let {} = { fundingContract, fundingKey } = linkdropData
+            }
+        }
+        console.log('fundingKey, fundingContract', fundingKey, fundingContract)
         if (fundingKey && fundingContract) {
             await this.createNewAccountLinkdrop(accountId, fundingContract, fundingKey, keyPair);
             await this.keyStore.removeKey(NETWORK_ID, fundingContract)
@@ -413,15 +429,10 @@ class Wallet {
 
     async createNewAccountLinkdrop(accountId, fundingContract, fundingKey, keyPair) {
         const account = this.getAccount(fundingContract);
-
-
         await this.keyStore.setKey(
             NETWORK_ID, fundingContract,
             KeyPair.fromString(fundingKey)
         )
-
-        console.log(this.keyStore, KeyPair.fromString(fundingKey))
-
         const contract = new nearApiJs.Contract(account, fundingContract, {
             changeMethods: ['create_account_and_claim', 'claim'],
             sender: fundingContract
@@ -431,6 +442,7 @@ class Wallet {
             new_account_id: accountId,
             new_public_key: publicKey
         });
+        setLinkdropData({})
     }
 
     async saveAndSelectAccount(accountId, keyPair) {
@@ -693,14 +705,21 @@ class Wallet {
     /********************************
     Deploys 2/3 multisig contract with keys from contract-helper and localStorage
     @todo check account has enough near to actually do this
+
+    const tempAccount = getTempAccount()
+    // temp account was set during create account
+    if (tempAccount && tempAccount.accountId) {
+        // console.log('temp account')
+        return {
+            temp: true,
+            balance: 0,
+            accountId: tempAccount.accountId,
+        }
+    }
+    // else load account normally from api
     ********************************/
     async deployMultisig() {
         const accountData = await this.loadAccount()
-        console.log(accountData)
-        if (accountData.temp) {
-            console.log('cannot deploy multisig until account is created on chain')
-            return
-        }
         // get multisig contract to deploy
         const contractBytes = new Uint8Array(await fetch('/multisig.wasm').then((res) => res.arrayBuffer()))
         console.log('contractBytes', contractBytes)
@@ -776,7 +795,7 @@ class Wallet {
 
     async setupRecoveryMessage(accountId, method, securityCode, fundingContract, fundingKey) {
         // temp account was set during create account
-        const tempAccount = getTempAccount()
+        const tempAccount = this.loadAccount()
         let securityCodeResult = await this.validateSecurityCode(accountId, method, securityCode);
         if (!securityCodeResult || securityCodeResult.length === 0) {
             console.log('INVALID CODE', securityCodeResult)
