@@ -60,6 +60,26 @@ const CustomGrid = styled(Grid)`
     }
 `
 
+const PublicInfoRow = ({ children, titleId, infoId }) => (
+    <Grid.Row className='border-top'>
+        <Grid.Column computer='4' tablet='4' mobile='7' className='title'>
+            <Translate id={titleId} />
+            {infoId ? <InfoPopup content={<Translate id={infoId}/>} /> : null}
+        </Grid.Column>
+        <Grid.Column computer='6' tablet='6' mobile='4'>
+            {children}
+        </Grid.Column>
+        <Grid.Column computer='4' tablet='4' textAlign='center' only='tablet'>
+            <Translate id='profile.details.public' />
+        </Grid.Column>
+        <Grid.Column as="div">
+        </Grid.Column>
+    </Grid.Row>
+)
+
+const PublicBalanceRow = ({ titleId, infoId, amount }) =>
+    <PublicInfoRow titleId={titleId} infoId={infoId}>{amount && <Balance amount={amount}/>}</PublicInfoRow>
+
 const ProfileDetails = ({ account: { accountId, balance: { total, stateStaked, staked, available } } }) => (
     <CustomGrid>
         <Grid.Row>
@@ -107,65 +127,10 @@ const ProfileDetails = ({ account: { accountId, balance: { total, stateStaked, s
                 </Popup>
             </Grid.Column>
         </Grid.Row>
-
-        <Grid.Row className='border-top'>
-            <Grid.Column computer='4' tablet='4' mobile='7' className='title'>
-                <Translate id='profile.details.totalBalance'/>
-            </Grid.Column>
-            <Grid.Column computer='6' tablet='6' mobile='4'>
-                {total && <Balance amount={total}/>}
-            </Grid.Column>
-            <Grid.Column computer='4' tablet='4' textAlign='center' only='tablet'>
-                <Translate id='profile.details.public' />
-            </Grid.Column>
-            <Grid.Column as="div">
-            </Grid.Column>
-        </Grid.Row>
-
-        <Grid.Row className='border-top'>
-            <Grid.Column computer='4' tablet='4' mobile='7' className='title'>
-                <Translate id='profile.details.minBalance'/>
-                <InfoPopup content={<Translate id='minimumBalance'/>}/>
-            </Grid.Column>
-            <Grid.Column computer='6' tablet='6' mobile='4'>
-                {stateStaked && <Balance amount={stateStaked}/>}
-            </Grid.Column>
-            <Grid.Column computer='4' tablet='4' textAlign='center' only='tablet'>
-                <Translate id='profile.details.public' />
-            </Grid.Column>
-            <Grid.Column as="div">
-            </Grid.Column>
-        </Grid.Row>
-
-        <Grid.Row className='border-top'>
-            <Grid.Column computer='4' tablet='4' mobile='7' className='title'>
-                <Translate id='profile.details.staked'/>
-            </Grid.Column>
-            <Grid.Column computer='6' tablet='6' mobile='4'>
-                {staked && <Balance amount={staked}/>}
-            </Grid.Column>
-            <Grid.Column computer='4' tablet='4' textAlign='center' only='tablet'>
-                <Translate id='profile.details.public' />
-            </Grid.Column>
-            <Grid.Column as="div">
-            </Grid.Column>
-        </Grid.Row>
-
-        <Grid.Row className='border-top'>
-            <Grid.Column computer='4' tablet='4' mobile='7' className='title'>
-                <Translate id='profile.details.availableBalance'/>
-                <InfoPopup content={<Translate id='availableBalanceProfile'/>}/>
-            </Grid.Column>
-            <Grid.Column computer='6' tablet='6' mobile='4'>
-                {available && <Balance amount={available}/>}
-            </Grid.Column>
-            <Grid.Column computer='4' tablet='4' textAlign='center' only='tablet'>
-                <Translate id='profile.details.public' />
-            </Grid.Column>
-            <Grid.Column as="div">
-            </Grid.Column>
-        </Grid.Row>
-
+        <PublicBalanceRow titleId='profile.details.totalBalance' amount={total}/>
+        <PublicBalanceRow titleId='profile.details.minBalance' infoId='minimumBalance' amount={stateStaked}/>
+        <PublicBalanceRow titleId='profile.details.staked' amount={staked}/>
+        <PublicBalanceRow titleId='profile.details.availableBalance' infoId='availableBalanceProfile' amount={available}/>
     </CustomGrid>
 )
 
