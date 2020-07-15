@@ -13,6 +13,14 @@ const CustomList = styled(List)`
         text-align: center;
         margin: 0 auto 0 auto;
         
+        h1 {
+            padding: 0;
+        }
+
+        .list {
+            padding: 0;
+        }
+        
         .amount-sent {
             padding: 24px 0 24px 0;
         }
@@ -106,18 +114,14 @@ const CustomList = styled(List)`
         }
 
         form {
+            .input {
+                width: 100%;
+            }
             h3 {
                 margin-bottom: 13px;
                 text-align: left;
             }
-            .alert-info {
-                margin: 0;
-                padding: 8px 0;
-                line-height: 34px;
-                font-size: 14px;
-            }
             .amount {
-                margin-top: 12px;
                 margin-bottom: 0px;
                 padding-top: 12px;
             }
@@ -194,9 +198,6 @@ const CustomList = styled(List)`
                             border: 0px;
                         }
                     }
-                }
-                .alert-info {
-                    margin: 25px 0 10px 0;
                 }
             }
         }

@@ -5,7 +5,6 @@ const StyledButton = styled.button`
     border-radius: 40px;
     padding: 5px;
     text-transform: uppercase;
-    font-weight: 500;
     outline: none;
     line-height: normal;
     letter-spacing: 1px;
@@ -19,7 +18,7 @@ const StyledButton = styled.button`
     justify-content: center;
     transition: all 150ms ease;
     background-color: ${props => props.theme === 'secondary' ? "#ffffff" : "#0072CE"};
-    border: 1px solid ${props => props.theme === 'secondary' ? "#cccccc" : "#0072CE"};
+    border: 2px solid ${props => props.theme === 'secondary' ? "#cccccc" : "#0072CE"};
     color: ${props => props.theme === 'secondary' ? "#888888" : "white"};
     
     @media (min-width: 768px) {

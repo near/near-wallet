@@ -3,8 +3,8 @@ import reduceReducers from 'reduce-reducers'
 
 import {
     requestCode,
+    setupRecoveryMessage,
     getAccessKeys,
-    getTransactions,
     clear,
     clearCode,
     addAccessKey,
@@ -13,7 +13,11 @@ import {
     refreshUrl,
     refreshAccount,
     resetAccounts,
-    getTransactionStatus
+    setFormLoader,
+    signInWithLedger,
+    deleteRecoveryMethod,
+    sendNewRecoveryLink,
+    recoverAccountSeedPhrase
 } from '../../actions/account'
 
 const initialState = {
@@ -38,28 +42,32 @@ const loaderReducer = (state, { type, ready }) => {
 const globalAlertReducer = handleActions({
     // TODO: Reset state before action somehow. On navigate / start of other action?
     // TODO: Make this generic to avoid listing actions
-    [combineActions(addAccessKey, addAccessKeySeedPhrase)]: (state, { error, payload, meta }) => ({
+    [combineActions(addAccessKey, addAccessKeySeedPhrase, setupRecoveryMessage, signInWithLedger, deleteRecoveryMethod, sendNewRecoveryLink, recoverAccountSeedPhrase)]: (state, { error, ready, payload, meta }) => ({
         ...state,
-        globalAlert: !!payload || error ? {
+        globalAlert: ready ? {
             success: !error,
             errorMessage: (error && payload && payload.toString()) || undefined,
-            messageCode: error ? payload.messageCode || meta.errorCode : meta.successCode,
-            data: meta.data
+            messageCode: error ? payload.messageCode || meta.errorCode || payload.id : meta.successCode,
+            data: {
+                ...meta.data,
+                ...payload
+            }
         } : undefined
     }),
     [clearAlert]: state => Object.keys(state).reduce((obj, key) => key !== 'globalAlert' ? (obj[key] = state[key], obj) : obj, {})
 }, initialState)
 
-const requestResultReducer = (state, { error, payload, meta }) => {
+const requestResultReducer = (state, { error, ready, payload, meta }) => {
     if (!meta || !meta.successCode) {
         return state
     }
     return {
         ...(state || initialState),
-        requestStatus: !!payload || error ? {
+        requestStatus: ready ? {
             success: !error,
             errorMessage: (error && payload && payload.toString()) || undefined,
-            messageCode: error ? payload.messageCode || meta.errorCode : meta.successCode 
+            messageCode: error ? payload.messageCode || meta.errorCode : meta.successCode,
+            id: (payload && payload.id) || undefined
         } : undefined
     }
 }
@@ -89,49 +97,6 @@ const accessKeys = handleActions({
     })
 }, initialState)
 
-const transactions = handleActions({
-    [getTransactions]: (state, { error, payload, ready }) => {
-        const hash = state.transactions && state.transactions.reduce((h, t) => ({
-            ...h,
-            [t.hash_with_index]: t
-        }), {})
-        
-        return ({
-            ...state,
-            transactions: (ready && !error) 
-                ? payload.map((t) => (
-                    (hash && Object.keys(hash).includes(t.hash_with_index))
-                        ? {
-                            ...t,
-                            status: hash[t.hash_with_index].status,
-                            checkStatus: hash[t.hash_with_index].checkStatus
-                        } 
-                        : t
-                ))
-                : state.transactions
-
-        })
-    },
-    [getTransactionStatus]: (state, { error, payload, ready, meta }) => ({
-        ...state,
-        transactions: state.transactions.map((t) => (
-            t.hash === meta.hash
-                ? {
-                    ...t,
-                    checkStatus: (ready && !error) 
-                        ? !['SuccessValue', 'Failure'].includes(Object.keys(payload.status)[0]) 
-                        : false,
-                    status: (ready && !error) 
-                        ? Object.keys(payload.status)[0] 
-                        : error 
-                            ? 'notAvailable' 
-                            : ''
-                }
-                : t
-        ))
-    })
-}, initialState)
-
 const url = handleActions({
     [refreshUrl]: (state, { payload }) => ({
         ...state,
@@ -140,7 +105,7 @@ const url = handleActions({
 }, initialState)
 
 const account = handleActions({
-    [refreshAccount]: (state, { error, payload, ready, meta }) => {
+    [refreshAccount]: (state, { payload, ready, meta }) => {
         if (!ready) {
             return {
                 ...state,
@@ -148,30 +113,29 @@ const account = handleActions({
             }
         }
 
-        if (error) {
-            return {
-                ...state,
-                loader: false,
-                loginError: payload.message
-            }
+        const resetAccountState = {
+            globalAlertPreventClear: payload.globalAlertPreventClear,
+            resetAccount: (state.resetAccount && state.resetAccount.preventClear) ? {
+                ...state.resetAccount,
+                preventClear: false
+            } : payload.resetAccount
         }
-
+        
         return {
             ...state,
-            accountId: payload.accountId,
-            amount: payload.amount,
-            stake: payload.stake,
-            nonce: payload.nonce,
-            code_hash: payload.code_hash,
-            accounts: payload.accounts,
-            loader: false,
-            loginResetAccounts: undefined
+            ...payload,
+            ...resetAccountState,
+            loader: false
         }
     },
     [resetAccounts]: (state) => ({
         ...state,
         loginResetAccounts: true
     }),
+    [setFormLoader]: (state, { payload }) => ({
+        ...state,
+        formLoader: payload
+    })
 }, initialState)
 
 export default reduceReducers(
@@ -182,7 +146,6 @@ export default reduceReducers(
     requestResultClearReducer,
     recoverCodeReducer,
     accessKeys,
-    transactions,
     account,
     url
 )

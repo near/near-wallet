@@ -12,7 +12,7 @@ const EnabledContainer = styled.div`
             align-items: center;
 
             .title {
-                font-weight: 600;
+                font-weight: 500;
                 color: #24272a;
             }
 
@@ -51,6 +51,7 @@ const EnabledContainer = styled.div`
                 text-decoration: none;
                 margin-left: 10px;
                 text-transform: capitalize !important;
+                font-weight: 400 !important;
 
                 :before {
                     content: '';
@@ -88,24 +89,18 @@ const DisableContainer = styled.form`
             margin-top: 10px;
 
             button {
-                width: auto !important;
                 margin-top: 0;
 
                 &:first-of-type {
-                    background-color: #FF585D;
-                    border: none;
                     padding: 5px 15px;
                     text-transform: uppercase;
-                    width: 151px !important;
+                    width: 155px;
                 }
 
                 &:last-of-type {
-                    background-color: transparent;
                     color: #999;
-                    text-transform: capitalize;
-                    text-decoration: underline;
-                    border: none;
                     margin-left: 15px;
+                    padding: 5px;
                 }
             }
         }
@@ -128,9 +123,7 @@ class ActiveMethod extends Component {
     render() {
 
         const { disable, username } = this.state;
-        const { data, onResend, onDelete, accountId } = this.props;
-        const deletingMethod = this.props.deletingMethod === data.kind;
-        const resendingLink = this.props.resendingLink === data.kind;
+        const { data, onResend, onDelete, accountId, deletingMethod, resendingLink } = this.props;
 
         if (!disable) {
             return (
@@ -176,7 +169,9 @@ class ActiveMethod extends Component {
                                 placeholder={translate('recoveryMgmt.disableInputPlaceholder')}
                                 value={username}
                                 onChange={e => this.setState({ username: e.target.value })}
+                                autoComplete='off'
                                 spellCheck='false'
+                                disabled={deletingMethod}
                             />
                         )}
                     </Translate>
@@ -189,9 +184,9 @@ class ActiveMethod extends Component {
                         >
                             <Translate id='button.disable'/> {data.kind}
                         </FormButton>
-                        <Button type='button' onClick={this.handleToggleDisable}>
+                        <FormButton type='button' color='link' onClick={this.handleToggleDisable}>
                             <Translate id='recoveryMgmt.disableNo'/> {data.kind}
-                        </Button>
+                        </FormButton>
                     </div>
                 </DisableContainer>
             );

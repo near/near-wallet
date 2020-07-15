@@ -3,10 +3,9 @@ import { Link } from 'react-router-dom'
 import { Translate } from 'react-localize-redux'
 
 import { Popup, Grid, Image } from 'semantic-ui-react'
-
 import MainImage from '../common/MainImage'
 import Balance from '../common/Balance'
-
+import InfoPopup from '../common/InfoPopup'
 import AccountGreyImage from '../../images/icon-account-grey.svg'
 import LockImage from '../../images/icon-lock.svg'
 
@@ -17,13 +16,17 @@ const CustomGrid = styled(Grid)`
         .row {
             padding-top: 12px;
             padding-bottom: 12px;
+            align-items: center;
+            min-height: 58px;
 
             .edit-link {
                 font-weight: 600;
             }
             .title {
-                font-weight: 600;
+                font-weight: 500;
                 color: #24272a;
+                display: flex;
+                align-items: center;
             }
         }
 
@@ -59,7 +62,7 @@ const CustomGrid = styled(Grid)`
     }
 `
 
-const ProfileDetails = ({ account }) => (
+const ProfileDetails = ({ account: { accountId, balance: { total, stateStaked, staked, available } } }) => (
     <CustomGrid>
         <Grid.Row>
             <Grid.Column
@@ -71,21 +74,21 @@ const ProfileDetails = ({ account }) => (
             >
                 <Translate id='profile.details.profile' />
             </Grid.Column>
-            <Grid.Column computer='4' as='h6' textAlign='center' only='tablet'>
+            <Grid.Column computer='4' as='h6' textAlign='center' only='tablet' className='color-charcoal-grey'>
                 <Translate id='profile.details.visibleTo' />
             </Grid.Column>
         </Grid.Row>
         <Grid.Row className='border-top'>
-            <Grid.Column computer='3' tablet='3' mobile='4' className='title'>
+            <Grid.Column computer='4' tablet='4' mobile='7' className='title'>
                 <Translate id='profile.details.username' />
             </Grid.Column>
-            <Grid.Column computer='7' tablet='7' mobile='9'>
-                @{account.accountId}
+            <Grid.Column computer='6' tablet='6' mobile='4'>
+                @{accountId}
             </Grid.Column>
             <Grid.Column computer='4' tablet='4' textAlign='center' only='tablet'>
                 <Translate id='profile.details.public' />
             </Grid.Column>
-            <Grid.Column computer='2' tablet='2' mobile='3' textAlign='right'>
+            <Grid.Column computer='2' tablet='2' mobile='5' textAlign='right'>
                 <Popup
                     trigger={
                         <div className='locked'>
@@ -265,13 +268,11 @@ const ProfileDetails = ({ account }) => (
         </div> : null}
 
         <Grid.Row className='border-top'>
-            <Grid.Column computer='3' tablet='3' mobile='4' className='title'>
-                <Translate id='profile.details.balance' />
+            <Grid.Column computer='4' tablet='4' mobile='7' className='title'>
+                <Translate id='profile.details.totalBalance'/>
             </Grid.Column>
-            <Grid.Column computer='7' tablet='7' mobile='9'>
-                {account.amount 
-                ? <Balance amount={account.amount} /> 
-                : "NaN"}
+            <Grid.Column computer='6' tablet='6' mobile='4'>
+                {total && <Balance amount={total}/>}
             </Grid.Column>
             <Grid.Column computer='4' tablet='4' textAlign='center' only='tablet'>
                 <Translate id='profile.details.public' />
@@ -279,6 +280,51 @@ const ProfileDetails = ({ account }) => (
             <Grid.Column as="div">
             </Grid.Column>
         </Grid.Row>
+
+        <Grid.Row className='border-top'>
+            <Grid.Column computer='4' tablet='4' mobile='7' className='title'>
+                <Translate id='profile.details.minBalance'/>
+                <InfoPopup content={<Translate id='minimumBalance'/>}/>
+            </Grid.Column>
+            <Grid.Column computer='6' tablet='6' mobile='4'>
+                {stateStaked && <Balance amount={stateStaked}/>}
+            </Grid.Column>
+            <Grid.Column computer='4' tablet='4' textAlign='center' only='tablet'>
+                <Translate id='profile.details.public' />
+            </Grid.Column>
+            <Grid.Column as="div">
+            </Grid.Column>
+        </Grid.Row>
+
+        <Grid.Row className='border-top'>
+            <Grid.Column computer='4' tablet='4' mobile='7' className='title'>
+                <Translate id='profile.details.staked'/>
+            </Grid.Column>
+            <Grid.Column computer='6' tablet='6' mobile='4'>
+                {staked && <Balance amount={staked}/>}
+            </Grid.Column>
+            <Grid.Column computer='4' tablet='4' textAlign='center' only='tablet'>
+                <Translate id='profile.details.public' />
+            </Grid.Column>
+            <Grid.Column as="div">
+            </Grid.Column>
+        </Grid.Row>
+
+        <Grid.Row className='border-top'>
+            <Grid.Column computer='4' tablet='4' mobile='7' className='title'>
+                <Translate id='profile.details.availableBalance'/>
+                <InfoPopup content={<Translate id='availableBalanceProfile'/>}/>
+            </Grid.Column>
+            <Grid.Column computer='6' tablet='6' mobile='4'>
+                {available && <Balance amount={available}/>}
+            </Grid.Column>
+            <Grid.Column computer='4' tablet='4' textAlign='center' only='tablet'>
+                <Translate id='profile.details.public' />
+            </Grid.Column>
+            <Grid.Column as="div">
+            </Grid.Column>
+        </Grid.Row>
+
     </CustomGrid>
 )
 

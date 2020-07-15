@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import helpIcon from '../../images/icon-help-white.svg';
 import { IS_MAINNET, NODE_URL } from '../../utils/wallet';
 import { Modal } from 'semantic-ui-react';
+import { Translate } from 'react-localize-redux';
 
 const Container = styled.div`
     color: white;
@@ -54,7 +55,7 @@ const NetworkBanner = () => {
                     size='mini'
                     trigger={
                         <div className='trigger-string'>
-                            Test-only Wallet&nbsp;
+                            <Translate id='networkBanner.title' />&nbsp;
                             (<a href={`${NODE_URL}/status`} target='_blank' rel='noopener noreferrer' onClick={e => e.stopPropagation()}>
                                 {NODE_URL.replace(/^(?:https?:\/\/)?(?:www\.)?/i, "").split('/')[0]}
                             </a>)
@@ -62,8 +63,8 @@ const NetworkBanner = () => {
                     }
                     closeIcon
                 >
-                    <Header>NEAR test Wallet</Header>
-                    This wallet (and network) are for testing purposes only. Tokens and other assets have no value. Accounts created do not transfer to Mainnet.
+                    <Header><Translate id='networkBanner.header' /></Header>
+                    <Translate id='networkBanner.desc' />
                 </Modal>
             </Container>
         )

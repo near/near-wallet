@@ -7,7 +7,7 @@ import FormButton from '../common/FormButton'
 import { 
     recoverAccountSeedPhrase,
     refreshAccount,
-    redirectToApp
+    redirectToProfile
 } from '../../actions/account'
 import { Snackbar, snackbarDuration } from '../common/Snackbar'
 import { Translate } from 'react-localize-redux'
@@ -15,6 +15,12 @@ import copyText from '../../utils/copyText'
 import isMobile from '../../utils/isMobile'
 
 const Container = styled.div`
+    margin-top: 5px;
+
+    @media (min-width: 768px) {
+        margin-top: 32px;
+    }
+    
     &.error {
         display: flex;
         flex-direction: column;
@@ -145,16 +151,14 @@ class RecoverWithLink extends Component {
         });
     }
 
-    handleContinue = () => {
-        this.props.recoverAccountSeedPhrase(this.state.seedPhrase, this.state.accountId)
-            .then(({ error }) => {
-                if (error) {
-                    this.setState({ successView: false });
-                } else {
-                    this.props.refreshAccount()
-                    this.props.redirectToApp()
-                }
-            });
+    handleContinue = async () => {
+        try {
+            await this.props.recoverAccountSeedPhrase(this.state.seedPhrase)
+            this.props.refreshAccount()
+            this.props.redirectToProfile()
+        } catch (error) {
+            this.setState({ successView: false });
+        }
     }
 
     render() {
@@ -210,7 +214,7 @@ class RecoverWithLink extends Component {
 const mapDispatchToProps = {
     recoverAccountSeedPhrase, 
     refreshAccount,
-    redirectToApp
+    redirectToProfile
 }
 
 const mapStateToProps = ({ account }, { match }) => ({

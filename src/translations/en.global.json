@@ -5,12 +5,19 @@
             "error": "Failed to send SMS with code."
         },
         "recoverAccount": {
-            "success": "Success",
-            "error": "Failed to recover account."
+            "success": "Recover using Seed Phrase is complete.<br/><b>${numberOfAccounts} account(s)</b> have been successfully recovered: <b>${accountList}</b>.<br/>The last one is set as active.",
+            "error": "Failed to recover account. Seed phrase is invalid.",
+            "errorInvalidSeedPhrase": "Seed phrase is invalid"
         },
         "create": {
             "success": "Congrats! ${accountId} is available.",
-            "error": "Username is taken. Try something else."
+            "error": "Username is taken. Try something else.",
+            "errorInvalidAccountIdLength": "Username must be between 2 and 64 characters",
+            "checkingAvailablity": {
+                "create": "Checking availability",
+                "check": "Checking"
+            },
+            "errorAccountNotExist": "There was a problem creating your account. Please try again!"
         },
         "available": {
             "success": "User found.",
@@ -23,6 +30,14 @@
         "setupSeedPhrase": {
             "success": "Seed phrase recovery setup is complete.",
             "error": "An error occurred while setting up seed phrase recovery. Please try again!"
+        },
+        "setupRecoveryMessage": {
+            "success": "Recovery setup is complete.",
+            "error": "An error occurred while setting up your recovery method. Please try again!"
+        },
+        "sendNewRecoveryLink": {
+            "success": "Recovery link successfully sent!",
+            "error": "Failed to resend. Please try again."
         },
         "login": {
             "success": "${title} is now authorized to use your account.",
@@ -65,7 +80,7 @@
     },
 
     "setupSeedPhrase": {
-        "pageTitle": "Setup Recovery Phrase",
+        "pageTitle": "Setup Phrase",
         "pageText": "Write down the following words IN ORDER and keep them somewhere safe. You cannot recover your account without them!",
         "snackbarCopySuccess": "Seed phrase copied!"
     },
@@ -89,9 +104,11 @@
     },
 
     "selectAccountDropdown": {
-        "switchAccount": "Switch account",
+        "switchAccount": "Switch Account",
+        "selectAccount": "Select Account",
         "switchAccounthNotAllowed": "This app doesn't allow account changes",
-        "createAccount": "CREATE NEW ACCOUNT"
+        "createAccount": "Create New Account",
+        "noOtherAccounts": "You have no other accounts"
     },
 
     "recoverWithLink": {
@@ -123,6 +140,22 @@
         "disableNo": "No, keep",
         "recoveryLinkSent": "Recovery Link Sent!"
     },
+
+    "hardwareDevices": {
+        "title": "Hardware Devices",
+        "desc": "Improve the security of your account by using a hardware wallet.",
+        "ledger": {
+            "title": "Ledger Nano S",
+            "auth": "Authorized",
+            "disclaimer": "In order to disable your ledger device, you must first enable an alternative recovery method."
+        },
+        "disable": {
+            "title": "Are you sure you want to disable Ledger?",
+            "desc": "Make sure you have other recovery methods setup before disabling.",
+            "disable": "Disable Ledger",
+            "keep": "No, keep Ledger"
+        }
+    },
     
     "fullAccessKeys": {
         "pageTitle": "Full Access Keys",
@@ -143,6 +176,8 @@
     },
 
     "button": {
+        "signIn": "Sign In",
+        "signingIn": "Signing In",
         "copyPhrase": "COPY PHRASE",
         "continue": "CONTINUE",
         "verify": "VERIFY & COMPLETE",
@@ -151,7 +186,8 @@
         "createAccount": "Create account",
         "enable": "Enable",
         "disable": "Disable",
-        "connectLedger": "Connect Ledger",
+        "connectLedger": "Connect to Ledger",
+        "retry": "Retry",
         "browseApps": "BROWSE APPS",
         "createAccountCapital": "CREATE ACCOUNT",
         "findMyAccount": "FIND MY ACCOUNT",
@@ -160,7 +196,7 @@
         "confirm": "CONFIRM",
         "viewAll": "VIEW ALL",
         "send": "SEND",
-        "cancel": "CANCEL",
+        "cancel": "Cancel",
         "deny": "DENY",
         "allow": "ALLOW",
         "addNode": "ADD NODE",
@@ -177,7 +213,21 @@
         "recoverAccount": "RECOVER ACCOUNT",
         "goBack": "Go back",
         "createNewAccount": "CREATE NEW ACCOUNT",
-        "moreInformation": "More information"
+        "moreInformation": "More information",
+        "dismiss": "Dismiss",
+        "cancelOperation": "Cancel Operation"
+    },
+
+    "link": {
+        "summary": "SUMMARY",
+        "send": "SEND",
+        "receive": "RECEIVE",
+        "help": "HELP",
+        "profile": "Profile",
+        "authorizedApps": "Authorized Apps",
+        "switchAccount": "Switch account",
+        "noAccount": "You have no other accounts",
+        "fullAccessKeys": "Full Access Keys"
     },
 
     "input": {
@@ -212,11 +262,12 @@
         "pageTitle": "Create Account",
         "pageText": "Just choose a username and you’re all set.",
         "accountIdInput": {
-            "title": "Choose a Username",
+            "title": "Username",
             "placeholder": "Example: satoshi"
         },
         "alreadyHaveAnAccount": "Already have an account?",
-        "recoverItHere": "Recover it here",
+        "recoverItHere": "Recover your account",
+        "signInLedger": "Sign in with Ledger",
         "note": {
             "title": "NOTE",
             "one": "Your username can contain any of the following:",
@@ -260,17 +311,10 @@
         "phraseTitle": "Recovery Phrase"
     },
     "setRecoveryConfirm": {
-        "pageTitle": "Confirm Recovery Setup",
-        "pageText": {
-            "one": {
-                "email": "You should have received an email with a magic link. If you ever lose access to your account, simply click the link, and your account will be restored.",
-                "phoneNumber": "You should have received an SMS with a magic link. If you ever lose access to your account, simply click the link, and your account will be restored."
-            },
-            "two": {
-                "email": "Please confirm receipt of this email at:",
-                "phoneNumber": "Please confirm receipt of this SMS at:"
-            }
-        },
+        "pageTitle": "Verify",
+        "pageText": "We've sent a 6 digit code to",
+        "inputPlaceholder": "Enter 6 digit code",
+        "invalidCode": "Please check your security code.",
         "reenter": {
             "one": {
                 "email": "If you did not yet receive this email, or the above email address is incorrect, ",
@@ -304,7 +348,7 @@
     },
 
     "balance": {
-        "balance": "Balance",
+        "balance": "Total Balance",
         "balanceLoading": "Balance loading"
     },
 
@@ -335,6 +379,10 @@
             "forContract": "For Contract",
             "function": "Function",
             "noDescription": "No description specified for this method"
+        },
+        "cliLoginSuccess": {
+            "pageTitle": "You've successfully authorized NEAR Shell!",
+            "pageText": "Please close this window and follow the instructions in the terminal."
         }
     },
 
@@ -404,7 +452,10 @@
             "visibleTo": "VISIBLE TO",
             "username": "Username",
             "public": "Public",
-            "balance": "Balance",
+            "totalBalance": "Total Balance",
+            "minBalance": "Minimum Balance",
+            "staked": "Staked",
+            "availableBalance": "Available Balance",
             "lockPopup": {
                 "title": "Why is this locked?",
                 "text": "Your username is your unique identifier in the system and cannot be changed because data and asset ownership is tied to it. However you are welcome to ${link} with desired name and transfer assets as needed.",
@@ -412,23 +463,6 @@
             },
             "qrDesc": "Use your phone's camera app to send to this address"
         }
-    },
-
-    "desktopPopup": {
-        "profile": "Profile",
-        "contacts": "Contacts",
-        "authorizedApps": "Authorized Apps",
-        "fullAccessKeys": "Full Access Keys",
-        "logout": "Logout",
-        "switchAccount": "SWITCH ACCOUNT",
-        "noAccount": "You have no other accounts"
-    },
-
-    "desktopView": {
-        "summary": "SUMMARY",
-        "activity": "ACTIVITY",
-        "send": "SEND",
-        "receive": "RECEIVE"
     },
 
     "sendMoney": {
@@ -442,7 +476,9 @@
         "amountStatusId": {
             "noMoreThan": "NO MORE THAN 5 DECIMAL DIGITS",
             "notEnoughTokens": "Not enough tokens.",
-            "howMuch": "How much do you want to send?"
+            "howMuch": "How much do you want to send?",
+            "available": "Available Balance:",
+            "sending": "Sending:"
         },
         "youAreSending": "You are sending",
         "to": "to",
@@ -475,13 +511,17 @@
             "transferOf": "is requesting the transfer of",
             "authorization": "is requesting authorization"
         },
-        "currentBalance": "Current Balance",
+        "availableBalance": "Available Balance",
         "wasTransferredSuccessfully": "was transferred successfully",
         "authorizationRequestSuccessful": "Authorization request successful",
         "transferring": "Transferring",
         "authorizing": "Authorizing"
     },
-
+    
+    "availableBalanceInfo": "”Available Balance” is your current spendable NEAR balance. This will be lower than your Total Balance. To view a complete breakdown of your NEAR balance, visit your Profile.", 
+    "availableBalanceProfile": "”Available Balance” is your current spendable NEAR balance. This will be lower than your Total Balance.",
+    "minimumBalance": "This is the minimum NEAR balance your account must maintain to remain active. This balance represents the storage space your account is using on the NEAR blockchain, and will go up or down as you use more or less space.",
+    
     "transaction": {
         "status": {
             "NotStarted": "Not started",
@@ -500,7 +540,70 @@
     "amount": "amount",
     "or": "OR",
     "sending": "SENDING",
+    "removingKeys": "Removing Keys",
+    "connecting": "Connecting",
     "back": "Back",
     "of": "of",
-    "ofTotal": "of Total"
+    "ofTotal": "of Total",
+
+    "setupLedger": {
+        "header": "Connect your Ledger device",
+        "one": "Connect your Ledger Nano S to your computer or mobile device via USB and <b>open the NEAR application</b>.",
+        "two": "If you have not yet installed the NEAR Ledger app, follow",
+        "twoLink": "these instructions"
+    },
+
+    "setupLedgerSteps": {
+        "header": "Install NEAR on your Ledger device",
+        "one": "Open <a href='https://www.ledger.com/ledger-live' target='_blank'>Ledger Live</a> and navigate to your <span class='color-black'>Settings</span>.",
+        "two": "Under <span class='color-black'>Experimental Features</span>, make sure that <span class='color-black'>Developer Mode</span> is switched <span class='color-black'>on</span>.",
+        "three": "Return to the <span class='color-black'>Manager</span> tab and search for <span class='color-black'>NEAR</span>.",
+        "four": "Follow the instructions to install the <span class='color-black'>NEAR application</span> on your device."
+    },
+
+    "setupLedgerSuccess": {
+        "header": "Ledger has secured your account!",
+        "one": "We recommend that you remove all existing keys (recovery methods and devices).",
+        "two": "Maintaining multiple keys increases the vulnerability of your account.",
+        "primaryCta": "Remove Existing Keys",
+        "secondaryCta": "Keep existing keys",
+        "nextStep": {
+            "header": {
+                "remove": "Confirm key removal",
+                "keep": "Keep existing keys?"
+            },
+            "one": {
+                "remove": "Before removing your existing keys, make sure that you have recorded and securely stored your Ledger seed phrase.",
+                "keep": "<span class='color-red'>Maintaining multiple recovery methods and devices increases the vulnerability of your account.</span>"
+            },
+            "two": {
+                "remove": "If you lose access to your seed phrase, NEAR Inc. will be unable to assist you in recovery of your account and its funds."
+            }
+        }
+    },
+
+    "signInLedger": {
+        "header": "Sign in with your Ledger device",
+        "one": "Make sure your ledger is connected securely, and that the NEAR app is open on the device.",
+        "success": "You’ve successfully signed in.<br/><b>${numberOfAccounts} account(s)</b> have been successfully recovered: <b>${accountList}</b>.<br/>The last one is set as active.",
+        "error": "Please check that your device is connected and the NEAR app is open."
+    },
+
+    "confirmLedgerModal": {
+        "header": "Please confirm the operation on your device...",
+        "one": "You will need to confirm your sign-in details on your Ledger."
+    },
+    
+    "errors": {
+        "ledger": {
+            "U2FNotSupported": "U2F browser support is needed for Ledger. Please use Chrome, Opera or Firefox with a U2F extension. Also make sure you're on an HTTPS connection.",
+            "U2F_4": "Failed to sign with Ledger device: U2F DEVICE_INELIGIBLE. Please make sure that your Ledger device is connected and unlocked."
+        }
+    },
+
+    "networkBanner": {
+        "title": "Test-only Wallet",
+        "header": "NEAR test Wallet",
+        "desc": "This wallet (and network) are for testing purposes only. Tokens and other assets have no value. Accounts created do not transfer to Mainnet."
+    }
 }

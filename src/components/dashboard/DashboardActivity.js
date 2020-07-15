@@ -95,7 +95,7 @@ const DashboardActivity = ({ image, title, to, transactions, accountId, formLoad
             </Grid.Column>
         </Grid.Row>
 
-        {transactions && transactions.map((transaction, i) => (
+        {transactions.map((transaction, i) => (
             <ActionsList
                 key={`a-${i}`}
                 transaction={transaction} 

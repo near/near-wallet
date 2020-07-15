@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
 import { withRouter, Link } from 'react-router-dom'
 import { Translate } from 'react-localize-redux'
+import { EXPLORER_URL } from '../../utils/wallet'
 
 import IconArrowLeft from '../../images/IconArrowLeft'
 import IconProblems from '../../images/IconProblems'
@@ -33,6 +34,15 @@ const CustomGrid = styled(Grid)`
         .details-item {
             padding: 12px 0px;
             border-bottom: 1px solid #e6e6e6;
+
+            ul {
+                padding-left: 20px;
+            }
+            
+            li {
+                color: #4a4f54;
+                padding: 5px 0;
+            }
 
             &.alert {
                 .content {
@@ -139,25 +149,14 @@ class LoginDetails extends Component {
                                     <div className='title h3'>
                                         <Translate id='login.details.thisAllows' data={{ appTitle }} />
                                     </div>
-                                    <div className='details-subitem color-charcoal-grey'>
-                                        <div><Translate id='login.details.createNewAccounts' /></div>
-                                    </div>
-                                    <div className='details-subitem color-charcoal-grey'>
-                                        <div>
-                                        <Translate id='login.details.transferTokens' /></div>
-                                    </div>
-                                    <div className='details-subitem color-charcoal-grey'>
-                                        <div><Translate id='login.details.deploySmartContracts' /></div>
-                                    </div>
-                                    <div className='details-subitem color-charcoal-grey'>
-                                        <div><Translate id='login.details.callFunctions' /></div>
-                                    </div>
-                                    <div className='details-subitem color-charcoal-grey'>
-                                        <div><Translate id='login.details.stakeAndUnstake' /></div>
-                                    </div>
-                                    <div className='details-subitem color-charcoal-grey'>
-                                        <div><Translate id='login.details.createAndDeleteAccessKeys' /></div>
-                                    </div>
+                                    <ul>
+                                        <li><Translate id='login.details.createNewAccounts' /></li>
+                                        <li><Translate id='login.details.transferTokens' /></li>
+                                        <li><Translate id='login.details.deploySmartContracts' /></li>
+                                        <li><Translate id='login.details.callFunctions' /></li>
+                                        <li><Translate id='login.details.stakeAndUnstake' /></li>
+                                        <li><Translate id='login.details.createAndDeleteAccessKeys' /></li>
+                                    </ul>
                                 </div>
                             </div>
                         )}
@@ -172,7 +171,7 @@ const TransactionsList = ({ transactions }) =>
     transactions.map((t, i) => (
         <div key={`item-${i}`} className='details-item'>
             <div className='title h3'>
-                <Translate id='login.details.forContract' />: <a href={`${process.env.EXPLORER_URL || 'https://explorer.nearprotocol.com'}/accounts/${t.signerId}`} target='_blank' rel="noopener noreferrer" className='color-blue'>@{t.signerId}</a>
+                <Translate id='login.details.forContract' />: <a href={`${EXPLORER_URL}/accounts/${t.signerId}`} target='_blank' rel="noopener noreferrer" className='color-blue'>@{t.signerId}</a>
             </div>
             {false &&  <ActionsList 
                 transaction={t} 

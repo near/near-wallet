@@ -22,6 +22,10 @@ const CustomGridRow = styled(Grid.Row)`
         margin-left: 20px;
         border-left: 4px solid #f8f8f8;
 
+        .list {
+            margin-left: 0 !important;
+        }
+
         .col-image {
             margin-left: -15px;
             width: 40px;
@@ -50,7 +54,7 @@ const CustomGridRow = styled(Grid.Row)`
             border-left: 0px;
         }
         .main-row-title {
-            font-weight: 600;
+            font-weight: 500;
             width: auto;
             padding: 8px 0;
             flex: 1;
@@ -130,7 +134,7 @@ const ActionsList = ({ transaction, wide, accountId, getTransactionStatus }) => 
 
 const ActionRow = ({ transaction, actionArgs, actionKind, wide, showSub = false, accountId, getTransactionStatus }) => {
     const { checkStatus, status, hash, signer_id, block_timestamp } = transaction
-    const getTransactionStatusConditions = () => checkStatus && !document.hidden && getTransactionStatus(hash, signer_id)
+    const getTransactionStatusConditions = () => checkStatus && !document.hidden && getTransactionStatus(hash, signer_id, accountId)
 
     useEffect(() => {
         getTransactionStatusConditions()

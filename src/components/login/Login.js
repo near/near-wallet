@@ -65,7 +65,7 @@ class Login extends Component {
                         <LoginForm
                             {...this.state}
                             {...props}
-                            appTitle={url && url.title}
+                            appTitle={url && url.referrer}
                             contractId={url && url.contract_id}
                             handleOnClick={this.handleOnClick}
                             handleDeny={this.handleDeny}
@@ -124,7 +124,8 @@ const mapDispatchToProps = {
 }
 
 const mapStateToProps = ({ account }) => ({
-    account
+    account,
+    appTitle: account.url.referrer
 })
 
 export const LoginWithRouter = connect(

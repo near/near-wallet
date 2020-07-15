@@ -1,0 +1,586 @@
+{
+    "account": {
+        "requestCode": {
+            "success": "短信已成功發送。",
+            "error": "發送短信失敗。"
+        },
+        "recoverAccount": {
+            "success": "成功。",
+            "error": "恢復賬戶失敗。",
+            "errorInvalidSeedPhrase": "助記詞無效"
+        },
+        "create": {
+            "success": "恭喜! ${accountId} 可被註冊。",
+            "error": "用戶名已被註冊，請嘗試其他。",
+            "errorInvalidAccountIdLength": "用戶名的長度需為 2 至 64 個字符。",
+            "checkingAvailablity": {
+                "create": "正在檢查可用性",
+                "check": "正在檢查"
+            }
+        },
+        "available": {
+            "success": "該用戶已找到。",
+            "error": "無法找到該用戶。",
+            "errorSameAccount": "無法向你自己發送。"
+        },
+        "verifySeedPhrase": {
+            "error": "你輸入了錯誤的助記詞"
+        },
+        "setupSeedPhrase": {
+            "success": "助記詞恢復設置已經完成。",
+            "error": "在設置助記詞恢復方式時發生了錯誤，請重試。"
+        },
+        "setupRecoveryMessage": {
+            "success": "賬戶恢復設置已完成。",
+            "error": "設置賬戶恢復方式時發生錯誤，請重試。"
+        },
+        "sendNewRecoveryLink": {
+            "success": "賬戶恢復鏈接已經發送！",
+            "error": "賬戶恢復鏈接發送失敗，請重試。"
+        },
+        "login": {
+            "success": "${title} 現已授權使用你的賬戶。",
+            "error": "在授權此操作時發生了錯誤，請重試。",
+            "details": {
+                "warning": "這將可以訪問你的所有餘額，請謹慎操作。"
+            },
+            "incorrectContractId": {
+                "error": "合約 ${contractId} 不存在。這可能是你正在使用的應用的問題，或者可能是合約已經被刪除。你將重新回到應用。"
+            }
+        },
+        "nameDoesntMatch": "賬戶名稱不匹配"
+    },
+
+    "actions": {
+        "CreateAccount": "新賬戶已創建：@${receiverId}",
+        "DeleteAccount": "賬戶已刪除：@${receiverId}",
+        "DeployContract": "合約已經部署：@${receiverId}",
+        "FunctionCall": "函數已調用：合約 @${receiverId} 的 ${methodName}",
+        "Transfer": {
+            "transferred": "已轉賬 ${deposit} 至 @${receiverId}",
+            "received": "收到來自 @${signerId} 的轉賬 ${deposit} "
+        },
+        "Stake": "已質押 ${stake}",
+        "AddKey": {
+            "forContract": "已為合約添加訪問密鑰：@${permissionReceiverId}",
+            "forReceiver": "已為 @${receiverId} 新增密鑰"
+        },
+        "DeleteKey": "密鑰已刪除"
+    },
+    "actionsSign": {
+        "createAccount": "正在創建賬戶：${receiverId}",
+        "deployContract": "正在部署合約：${receiverId}",
+        "functionCall": "正在調用函數：${methodName}",
+        "transfer": "正在轉賬：${deposit} &#9411; 至 ${receiverId}",
+        "stake": "正在質押：${stake} &#9411; ${publicKey}...",
+        "addKey": "正在新增訪問密鑰",
+        "deleteKey": "正在刪除訪問密鑰",
+        "deleteAccount": "正在刪除賬戶：${receiverId}"
+    },
+
+    "setupSeedPhrase": {
+        "pageTitle": "設置恢復助記詞",
+        "pageText": "請按順序記錄以下助記詞，並安全保管它們。沒有助記詞你將無法恢復賬戶！",
+        "snackbarCopySuccess": "助記詞已復制！"
+    },
+    "setupSeedPhraseVerify": {
+        "pageTitle": "驗證助記詞",
+        "pageText": "請根據你的助記詞輸入以下單詞完成設置。",
+        "startOverText": "沒有記錄下來？"
+    },
+    "setupSeedPhraseSuccess": {
+        "pageTitle": "恢復設置已完成",
+        "pageText": "使用助記詞來恢復你的賬戶。",
+        "pageTextSecondLine": "任何能夠查看你的助記詞的人都可以訪問你的賬戶，因此請離線安全地保存助記詞。"
+    },
+
+    "receivePage": {
+        "addressTitle": "你的地址",
+        "qrCodeTitle": "掃描二維碼",
+        "copyAddressLinkLong": "複製地址鏈接",
+        "copyAddressLinkShort": "複製",
+        "snackbarCopySuccess": "地址鏈接已復制！"
+    },
+
+    "selectAccountDropdown": {
+        "switchAccount": "切換賬戶",
+        "selectAccount": "選擇賬戶",
+        "switchAccounthNotAllowed": "該應用不支持賬戶切換",
+        "createAccount": "創建新的賬戶",
+        "noOtherAccounts": "你沒有其他賬戶"
+    },
+
+    "recoverWithLink": {
+        "title": "恢復賬戶",
+        "pOne": "點擊 \"繼續\" 恢復你的賬戶：",
+        "pTwo": "如果這不是你偏好的瀏覽器，請複制鏈接並在你偏好的瀏覽器中完成恢復流程。",
+        "snackbarCopySuccess": "恢復鏈接已復制",
+        "errorTitle": "鏈接已過期",
+        "errorP": "請檢查你的 Email 或手機最新消息，之前消息裡的鏈接已經無效。"
+    },
+
+    "recoveryMgmt": {
+        "title": "賬戶恢復方式",
+        "noRecoveryMethod": "你還不能恢復賬戶，請先添加以下至少一種方式。",
+        "methodTitle": {
+            "phrase": "助記詞",
+            "phone": "手機號",
+            "email": "Email 地址"
+        },
+        "resend": {
+            "phone": "重新發送短信",
+            "email": "重新發送 Email"
+        },
+        "enabled": "已啟用",
+        "disableTitle": "是否確定禁用該恢復賬戶方式？",
+        "disableTextLink": "你收到的恢復鏈接將會被永久禁用。",
+        "disableTextPhrase": "當前助記詞將會被永久禁用。",
+        "disableInputPlaceholder": "請輸入用戶名確認",
+        "disableNo": "不，保留。",
+        "recoveryLinkSent": "恢復鏈接已發送！"
+    },
+
+    "hardwareDevices": {
+        "title": "硬件錢包",
+        "desc": "通過硬件錢包加強賬戶安全性。",
+        "ledger": {
+            "title": "Ledger Nano S",
+            "auth": "已授權",
+            "disclaimer": "在禁用硬件錢包前，必須開啟其他賬戶恢復方式。"
+        },
+        "disable": {
+            "title": "你是否確定禁用硬件錢包？",
+            "desc": "禁用前請確保已經開啟其他賬戶恢復方式。",
+            "disable": "禁用",
+            "keep": "取消"
+        }
+    },
+    
+    "fullAccessKeys": {
+        "pageTitle": "完全訪問密鑰",
+        "authorizedTo": "已授權",
+        "viewYourAccountName": "查看你的賬戶名稱",
+        "submitAnyTransaction": "代表你發起交易",
+        "useContract": "代表你使用 <b>${receiverId}</b> 合約",
+        "noKeys": "你沒有將 NEAR 錢包連接至任何應用。當連接後，你可以在這裡管理。<br /><br />查看基於 NEAR 開發的應用：",
+        "dashboardNoKeys": "你沒有完全訪問密鑰"
+    },
+
+    "authorizedApps": {
+        "pageTitle": "已授權應用",
+        "dashboardNoApps": "你還未授權任何應用",
+        "feeAllowance": "費用配額",
+        "publicKey": "公鑰",
+        "ledger": "賬本"
+    },
+
+    "button": {
+        "copyPhrase": "複製助記詞",
+        "continue": "繼續",
+        "verify": "驗證並完成",
+        "startOver": "重新開始",
+        "copyUrl": "複製鏈接",
+        "createAccount": "創建賬戶",
+        "enable": "啟用",
+        "disable": "禁用",
+        "connectLedger": "連接賬本",
+        "retry": "重試",
+        "browseApps": "瀏覽應用",
+        "createAccountCapital": "創建賬戶",
+        "findMyAccount": "查找我的賬戶",
+        "protectAccount": "保護賬戶",
+        "setupPhrase": "設置助記詞",
+        "confirm": "確認",
+        "viewAll": "查看全部",
+        "send": "發送",
+        "cancel": "取消",
+        "deny": "拒絕",
+        "allow": "允許",
+        "addNode": "添加更多",
+        "saveChanges": "保存更改",
+        "removeNode": "刪除模式",
+        "stake": "質押",
+        "confirmAndSend": "確認並發送",
+        "needToEditGoBack": "需要修改？請返回",
+        "cancelTransfer": "取消轉賬",
+        "goToDashboard": "訪問概覽頁",
+        "close": "關閉",
+        "addFunds": "充值",
+        "deauthorize": "取消授權",
+        "recoverAccount": "恢復賬戶",
+        "goBack": "返回",
+        "createNewAccount": "創建新的賬戶",
+        "moreInformation": "更多信息",
+        "dismiss": "關閉"
+    },
+
+    "link": {
+        "summary": "概覽",
+        "send": "發送",
+        "receive": "接收",
+        "help": "幫助",
+        "profile": "資料",
+        "authorizedApps": "已授權應用",
+        "switchAccount": "切換賬號",
+        "noAccount": "你未登錄其他賬號",
+        "fullAccessKeys": "完全訪問密鑰"
+    },
+
+    "input": {
+        "enterWord": {
+            "title": "助記詞",
+            "placeholder": ""
+        }
+    },
+
+    "recoverAccount": {
+        "pageTitle": "恢復你的賬戶",
+        "pageText": "如果你已經設置賬戶恢復方式，請根據以下步驟開始恢復流程。",
+        "email": {
+            "title": "Email",
+            "desc": "請檢查來自 nearprotocol.com 地址的郵件，標題是：",
+            "subject": "\"重要：NEAR 錢包恢復郵件\"。"
+        },
+        "phone": {
+            "title": "手機",
+            "desc": "在你的手機上檢查來自以下手機號的短信：",
+            "number": "+14086179592。"
+        },
+        "phrase": {
+            "title": "助記詞",
+            "desc": "請確認已準備 12 個單詞組成的助記詞，然後點擊下方開始恢復賬戶流程。"
+        },
+        "actionType": "恢復",
+        "actionRequired": "此消息包含恢復鏈接，請點擊鏈接開始恢復賬戶流程！"
+    },
+
+    "createAccount": {
+        "pageTitle": "創建新的賬戶",
+        "pageText": "只需要輸入用戶名即完成註冊。",
+        "accountIdInput": {
+            "title": "輸入用戶名",
+            "placeholder": "例如：satoshi"
+        },
+        "alreadyHaveAnAccount": "已經擁有賬戶？",
+        "recoverItHere": "恢復賬戶",
+        "note": {
+            "title": "備註",
+            "one": "你的用戶名可以輸入以下任何字符：",
+            "two": "小寫英文字母 (a-z)",
+            "three": "數字 (0-9)",
+            "four": "字符 (_-) 用於分割",
+            "five": "你的用戶名不可以包括：",
+            "six": "符號 \"@\" or \".\""
+        }
+    },
+
+    "topLevelAccounts": {
+        "header": "頂級賬戶",
+        "body": "賬戶名稱類似於域名，只有@${suffix} 才能創建比如@yourname.${suffix} 的賬戶，並且只有@yourname.${suffix} 可以創建@app.yourname.${suffix} 。所有在此錢包創建的賬戶都使用.${suffix} 頂級賬戶（TLA）。了解更多關於賬戶名稱和創建你的頂級賬戶（TLA），請訪問<a rel='noopener noreferrer' href=' https://docs.nearprotocol.com/docs/concepts/account'>NEAR 文檔</a>。"
+    },
+
+    "recoverSeedPhrase": {
+        "pageTitle": "通過助記詞恢復賬戶",
+        "pageText": "請輸入與此賬戶關聯的助記詞。",
+        "accountIdInput": {
+            "title": "用戶名"
+        },
+        "seedPhraseInput": {
+            "title": "助記詞（12 個單詞）",
+            "placeholder": "correct horse battery staple..."
+        }
+    },
+
+    "setupRecovery": {
+        "header": "保護你的賬戶",
+        "subHeader": "請設置一種賬戶恢復方式：",
+        "basicSecurity": "基礎安全",
+        "basicSecurityDesc": "請輸入你的 Email 地址或手機號以獲取恢復鏈接",
+        "emailTitle": "Email 方式",
+        "emailPlaceholder": "example@email.com",
+        "phoneTitle": "手機短信方式",
+        "phoneDesc": "請輸入你的手機號以獲取恢復鏈接",
+        "phonePlaceholder": "+1 415 797 8554",
+        "advancedSecurity": "高級安全",
+        "advancedSecurityDesc": "記錄 12 個單詞組成的助記詞，並安全保存。",
+        "phraseTitle": "恢復助記詞"
+    },
+    "setRecoveryConfirm": {
+        "pageTitle": "驗證",
+        "pageText": "我們已經發送 6 位數字碼至",
+        "inputPlaceholder": "請輸入 6 位數字碼",
+        "invalidCode": "請檢查你的安全碼。",
+        "reenter": {
+            "one": {
+                "email": "如果你沒有收到郵件，或者上面的 Email 地址輸入錯誤，",
+                "phoneNumber": "如果你沒有收到短信，或上面的手機號輸入錯誤，"
+            },
+            "link": "點擊此處",
+            "two": {
+                "email": "重新輸入 Email 地址並重新發送。",
+                "phoneNumber": "重新輸入手機號並重新發送。"
+            }
+        }
+    },
+
+    "disclaimer": {
+        "title": "聲明",
+        "text": "這是開發者的預覽版錢包，僅限用於 NEAR 協議 De​​vNet。了解更多："
+    },
+
+    "footer": {
+        "copyrights": "NEAR Inc. 版權所有。",
+        "termsOfService": "服務條款",
+        "privacyPolicy": "隱私策略",
+        "desc": "NEAR 是開放性網絡 (Open Web) 的基礎架構, 提供了一個去中心化存儲和計算平台。",
+        "learnMore": "了解更多",
+        "needHelp": "需要幫助？",
+        "contactSupport": "聯繫客服"
+    },
+
+    "dashboard": {
+        "activity": "動態"
+    },
+
+    "balance": {
+        "balance": "總餘額",
+        "balanceLoading": "餘額加載中"
+    },
+
+    "login": {
+        "form": {
+            "isRequestingTo": "正在請求",
+            "accessYourAccount": "訪問你的賬戶。",
+            "isRequestingFullAccess": "正在請求<b>完全訪問</b>",
+            "toYourAccount": "你的賬戶。",
+            "thisDoesNotAllow": "不允許該應用轉賬任何通證。",
+            "thisProvidesAccess": "提供<b>所有通證</b>操作權限。<br />請謹慎操作！"
+        },
+        "confirm": {
+            "pageTitle": "是否確認？",
+            "pageText": "你正在向 ${appTitle} 授權<b>完全訪問</b>！",
+            "pageTextSecondLine": "<b>為確認授權</b>，請輸入你的用戶名。",
+            "username": "用戶名"
+        },
+        "details": {
+            "detailedDescription": "交易的詳細描述",
+            "thisAllows": "這將允許 ${appTitle}：",
+            "createNewAccounts": "創建新的賬戶",
+            "transferTokens": "從你的賬戶向其他賬戶發送通證",
+            "deploySmartContracts": "部署智能合約",
+            "callFunctions": "在任何智能合約上調用函數",
+            "stakeAndUnstake": "質押和取消質押 NEAR 通證",
+            "createAndDeleteAccessKeys": "創建和刪除訪問密鑰",
+            "forContract": "合約",
+            "function": "函數",
+            "noDescription": "該方法沒有詳細描述"
+        },
+        "cliLoginSuccess": {
+            "pageTitle": "你已經成功授權 NEAR Shell！",
+            "pageText": "請關閉該窗口，並按照終端內的指導操作。"
+        }
+    },
+
+    "addNode": {
+        "pageTitle": "添加節點",
+        "pageText": "通過命令行配置你的節點，並在這裡添加。",
+        "ipAddressInput": {
+            "title": "請輸入你的節點 IP 地址",
+            "placeholder": "例如：0.0.0.0"
+        },
+        "nicknameInput": {
+            "title": "請設置一個暱稱（可選）",
+            "placeholder": "例如：AWS Instance"
+        },
+        "desc": "在此添加前，請先通過命令行配置你的節點。"
+    },
+    "nodeDetails": {
+        "pageTitle": "節點詳情",
+        "pageText": "更新節點的詳細信息。"
+    },
+    "nodeStaking": {
+        "pageTitle": "節點和質押",
+        "pageText": "@nodeandstaking.near",
+        "steps": {
+            "title": "為運行節點或質押，請執行以下步驟：",
+            "one": {
+                "title": "1. 通過命令行配置並運行節點",
+                "desc": "具體操作步驟可以查看文檔"
+            },
+            "two": {
+                "title": "2. 等待節點同步",
+                "desc": "未同步節點無法產生或驗證區塊。"
+            },
+            "three": {
+                "title": "3. 開始質押",
+                "desc": "從這里或者命令行進行質押。可以查看文檔尋找幫助。"
+            }
+        },
+        "nodes": {
+            "title": "節點",
+            "noNode": {
+                "title": "已經配置完節點？在這裡添加。",
+                "text": "這將連接你的節點至你的錢包賬戶。"
+            }
+        },
+        "staking": {
+            "title": "質押",
+            "youAreStaking": "正在進行質押"
+        }
+    },
+    "staking": {
+        "pageTitle": "質押",
+        "pageText": "通過命令行配置你的節點，並在這裡添加。",
+        "amountStakingInput": {
+            "title": "請輸入質押數量",
+            "placeholder": "例如：15"
+        }
+    },
+    "profile": {
+        "pageTitle": {
+            "loading": "正在加載...",
+            "notFound": "賬戶 @${accountId} 未找到",
+            "default": "賬戶：@${accountId}"
+        },
+        "details": {
+            "profile": "資料",
+            "visibleTo": "是否公開",
+            "username": "用戶名",
+            "public": "公開",
+            "totalBalance": "餘額",
+            "minBalance": "保留餘額",
+            "staked": "已質押",
+            "availableBalance": "可用餘額",
+            "lockPopup": {
+                "title": "為何是鎖定？",
+                "text": "用戶名是你在系統中的唯一識別號，並且與數據和資產綁定，因此無法修改。但是你可以${link}以使用想要的名字，並在需要時轉賬資產。",
+                "createAnotherAccount": "創建其他賬戶"
+            },
+            "qrDesc": "可以使用手機相機來掃描該二維碼"
+        }
+    },
+
+    "sendMoney": {
+        "pageTitle": {
+            "success": "成功！",
+            "default": "發送"
+        },
+        "accountIdInput": {
+            "title": "發送至用戶名："
+        },
+        "amountStatusId": {
+            "noMoreThan": "不可超過 5 位數",
+            "notEnoughTokens": "沒有足夠的通證。",
+            "howMuch": "你想要發送多少通證？",
+            "available": "可用餘額：",
+            "sending": "正在發送："
+        },
+        "youAreSending": "你正在發送",
+        "to": "至",
+        "onceConfirmed": "一旦確認，這將不可撤銷。",
+        "wasSentTo": "被發送至："
+    },
+
+    "sign": {
+        "unexpectedStatus": "意外狀態",
+        "transactionCancelled": "交易取消",
+        "nothingHasBeenTransferred": "沒有進行轉賬。",
+        "details": {
+            "detailedDescription": "交易的詳細描述",
+            "transactionFees": "交易費",
+            "gasLimit": "Gas 限制",
+            "gasPriceUnavailable": "Gas 價格估計不可用",
+            "forContract": "合約"
+        },
+        "ActionWarrning": {
+            "functionCall": "該函數沒有描述。",
+            "deployContract": "你正在向你的賬戶部署合約！該合約可以訪問你的 NEAR 餘額，並代表你和其他合約交互。",
+            "stake": "你正在質押 NEAR 通證。這些通證將會被鎖定，並且如果你的驗證節點無法即時響應，這些通證有丟失風險。",
+            "deleteAccount": "你將要刪除你的賬戶！你的 NEAR 餘額將被清空，並且你的賬戶數據都將被刪除。"
+        },
+        "insufficientFunds": "資產不足",
+        "hereAreSomeDetails": "這裡是能夠幫助你的一些信息。",
+        "contract": "合約：",
+        "unknownApp": "未知應用",
+        "isRequesting": {
+            "transferOf": "正在請求轉賬",
+            "authorization": "正在請求授權"
+        },
+        "availableBalance": "可用餘額",
+        "wasTransferredSuccessfully": "被成功轉賬",
+        "authorizationRequestSuccessful": "授權請求成功",
+        "transferring": "正在轉賬",
+        "authorizing": "正在授權"
+    },
+
+    "availableBalanceInfo": "「可用餘額」是指你當前賬號內可消耗 NEAR 通證，可用餘額少於你的「總餘額」。查看你 NEAR 餘額的詳細構成，請訪問你的資料。",
+    "availableBalanceProfile": "「可用餘額」是指你當前賬號內可消耗 NEAR 通證，可用餘額少於你的總共餘額。",
+    "minimumBalance": "這是維持你賬號活躍狀態的 NEAR 通證「保留餘額」，該餘額代表你正在使用的 NEAR 區塊鏈存儲空間，會在使用量變化後產生對應變化。",
+
+    "transaction": {
+        "status": {
+            "NotStarted": "未開始",
+            "Started": "已開始",
+            "Failure": "失敗",
+            "SuccessValue": "成功",
+            "checkingStatus": "檢查狀態",
+            "notAvailable": "狀態不可用"
+        }
+    },
+
+    "success": "成功",
+    "error": "失敗",
+    "warning": "警告",
+    "total": "總共",
+    "amount": "數量",
+    "or": "或",
+    "sending": "發送中",
+    "removingKeys": "刪除密鑰",
+    "connecting": "連接中",
+    "back": "返回",
+    "of": "/",
+    "ofTotal": "佔總數",
+
+    "setupLedger": {
+        "header": "綁定至你的硬件錢包",
+        "one": "通過 USB 連接 Ledger Nano S 至你的電腦或手機，並<b>打開 NEAR 應用</b>。",
+        "two": "如果你還沒有安裝 NEAR 賬本應用，請按照",
+        "twoLink": "步驟安裝"
+    },
+
+    "setupLedgerSteps": {
+        "header": "在硬件錢包上安裝 NEAR",
+        "one": "打開<a href='https://www.ledger.com/ledger-live' target='_blank'>Ledger Live</a> 並切換到你的<span class='color-black '>設置</span>。",
+        "two": "在<span class='color-black'>試驗性功能</span>中，確保<span class='color-black'>開發者模式</span>已經<span class='color -black'>開啟</span>。",
+        "three": "返回至<span class='color-black'>管理器</span> Tab 並蒐索 <span class='color-black'>NEAR</span>。",
+        "four": "根據步驟在設備上安裝 <span class='color-black'>NEAR 應用</span>。"
+    },
+
+    "setupLedgerSuccess": {
+        "header": "你的賬戶已通過硬件錢包保護！",
+        "one": "我們推薦你刪除其他所有密鑰（恢復方式和設備）。",
+        "two": "保留多個密鑰增加了賬戶被盜的風險。",
+        "primaryCta": "刪除其他密鑰",
+        "secondaryCta": "保留密鑰",
+        "nextStep": {
+            "header": {
+                "remove": "確認刪除密鑰",
+                "keep": "保留密鑰？"
+            },
+            "one": {
+                "remove": "在刪除現有密鑰前，請確認已經安全記錄和保存錢包的助記詞。",
+                "keep": "<span class='color-red'>保留多個恢復方式和設備增加了賬戶被盜的風險。</span>"
+            },
+            "two": {
+                "remove": "如果你丟失了助記詞，NEAR 公司將無法幫你恢復賬戶和資產。"
+            }
+        }
+    },
+
+    "errors": {
+        "ledger": {
+            "U2FNotSupported": "硬件錢包需要 U2F 瀏覽器支持。請使用 Chrome、Opera 或 Firefox 安裝 U2F 擴展，並確保你是通過 HTTPS 加密連接。",
+            "U2F_4": "無法通過硬件錢包登錄：U2F DEVICE_INELIGIBLE。請確保 Ledger 設備已連接並解鎖。"
+        }
+    }
+}
