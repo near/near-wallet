@@ -102,23 +102,31 @@ class CreateAccount extends Component {
         setFormLoader(false)
         
         this.setState({ loader: true });
-        
-        try {
-            await createNewAccount(accountId, fundingKey, fundingContract, token)
-        } finally {
-            this.setState({ loader: false });
-            setFormLoader(false)
-        }
-        
-        this.handleCreateAccountSuccess();
-    }
-
-    handleCreateAccountSuccess = () => {
-        const { accountId } = this.state;
-
-        this.props.refreshAccount();
         let nextUrl = process.env.DISABLE_PHONE_RECOVERY === 'yes' ? `/setup-seed-phrase/${accountId}` : `/set-recovery/${accountId}`;
         this.props.history.push(nextUrl);
+
+        /********************************
+        Deprecated create account here in favor of creating account after recovery is confirmed
+        ********************************/
+
+    //     try {
+    //         await createNewAccount(accountId, fundingKey, fundingContract, token)
+    //     } finally {
+    //         this.setState({ loader: false });
+    //         setFormLoader(false)
+    //     }
+        
+    //     this.handleCreateAccountSuccess();
+    // }
+
+    // handleCreateAccountSuccess = () => {
+    //     const { accountId } = this.state;
+
+    //     this.props.refreshAccount();
+    //     let nextUrl = process.env.DISABLE_PHONE_RECOVERY === 'yes' ? `/setup-seed-phrase/${accountId}` : `/set-recovery/${accountId}`;
+    //     this.props.history.push(nextUrl);
+    // }
+
     }
 
     render() {
