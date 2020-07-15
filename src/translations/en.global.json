@@ -16,7 +16,8 @@
             "checkingAvailablity": {
                 "create": "Checking availability",
                 "check": "Checking"
-            }
+            },
+            "errorAccountNotExist": "There was a problem creating your account. Please try again!"
         },
         "available": {
             "success": "User found.",

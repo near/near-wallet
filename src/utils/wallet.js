@@ -9,6 +9,7 @@ import { getAccessKeys } from '../actions/account'
 import { generateSeedPhrase } from 'near-seed-phrase';
 import { getAccountIds } from './explorer-api'
 import { WalletError } from './walletError'
+import { setAccountConfirmed, getAccountConfirmed, removeAccountConfirmed} from './localStorage'
 
 export const WALLET_CREATE_NEW_ACCOUNT_URL = 'create'
 export const WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS = ['create', 'set-recovery', 'setup-seed-phrase', 'recover-account', 'recover-seed-phrase', 'sign-in-ledger']
@@ -28,6 +29,7 @@ const KEY_WALLET_ACCOUNTS = KEY_UNIQUE_PREFIX + 'wallet:accounts_v2'
 const KEY_ACTIVE_ACCOUNT_ID = KEY_UNIQUE_PREFIX + 'wallet:active_account_id_v2'
 const ACCESS_KEY_FUNDING_AMOUNT = process.env.REACT_APP_ACCESS_KEY_FUNDING_AMOUNT || '100000000'
 const ACCOUNT_ID_REGEX = /^(([a-z\d]+[-_])*[a-z\d]+\.)*([a-z\d]+[-_])*[a-z\d]+$/
+export const keyAccountConfirmed = (accountId) => `wallet.account:${accountId}:${NETWORK_ID}:confirmed`
 
 const WALLET_METADATA_METHOD = '__wallet__metadata'
 
@@ -122,34 +124,44 @@ class Wallet {
         await this.getAccount(this.accountId).sendMoney(receiverId, amount)
     }
 
-    redirectToCreateAccount(options = {}, history) {
-        const param = {
-            next_url: window.location.search
-        }
-        if (options.reset_accounts) {
-            param.reset_accounts = true
-        }
-        //  let url = WALLET_CREATE_NEW_ACCOUNT_URL + "?" + $.param(param)
-        let url =
-            '/' +
-            WALLET_CREATE_NEW_ACCOUNT_URL +
-            '/?' +
-            Object.keys(param).map(
-                (p, i) =>
-                    `${i ? '&' : ''}${encodeURIComponent(p)}=${encodeURIComponent(
-                        param[p]
-                    )}`
-            )
-        history ? history.push(url) : window.location.replace(url)
-    }
-
     isEmpty() {
         return !this.accounts || !Object.keys(this.accounts).length
     }
 
-    redirectIfEmpty(history) {
-        if (this.isEmpty()) {
-            this.redirectToCreateAccount({}, history)
+    async refreshAccount() {
+        try {
+            const account = await this.loadAccount()
+            setAccountConfirmed(this.accountId, true)
+            return account
+        } catch (error) {
+            console.error('Error loading account:', error)
+
+            if (error.toString().indexOf('does not exist while viewing') !== -1) {
+                const accountId = this.accountId
+                const accountIdNotConfirmed = !getAccountConfirmed(accountId)
+                
+                this.clearAccountState()
+                const nextAccountId = Object.keys(this.accounts).find((account) => (
+                    getAccountConfirmed(account)
+                )) || Object.keys(this.accounts)[0]
+                this.selectAccount(nextAccountId)
+
+                return {
+                    resetAccount: {
+                        reset: true,
+                        preventClear: accountIdNotConfirmed,
+                        accountIdNotConfirmed: accountIdNotConfirmed ? accountId : ''
+                    },
+                    globalAlertPreventClear: accountIdNotConfirmed || this.isEmpty(),
+                    globalAlert: {
+                        success: false,
+                        messageCode: 'account.create.errorAccountNotExist'
+                    },
+                    ...(!this.isEmpty() && !accountIdNotConfirmed && await this.loadAccount())
+                }
+            }
+
+            throw error
         }
     }
 
@@ -247,18 +259,25 @@ class Wallet {
         this.checkNewAccount(accountId);
         const keyPair = KeyPair.fromRandom('ed25519');
 
-        if (fundingKey && fundingContract) {
-            await this.createNewAccountLinkdrop(accountId, fundingKey, fundingContract, keyPair);
-            await this.keyStore.removeKey(NETWORK_ID, fundingContract)
-
-        } else {
-            await sendJson('POST', CONTRACT_CREATE_ACCOUNT_URL, {
-                newAccountId: accountId,
-                newAccountPublicKey: keyPair.publicKey.toString()
-            })
+        try {
+            if (fundingKey && fundingContract) {
+                await this.createNewAccountLinkdrop(accountId, fundingKey, fundingContract, keyPair)
+                await this.keyStore.removeKey(NETWORK_ID, fundingContract)
+            } else {
+                await sendJson('POST', CONTRACT_CREATE_ACCOUNT_URL, {
+                    newAccountId: accountId,
+                    newAccountPublicKey: keyPair.publicKey.toString()
+                })
+            }
+            await this.saveAndSelectAccount(accountId, keyPair);
+        } catch(e) {
+            if (e.type === 'TimeoutError' || e.type === 'RetriesExceeded' || e instanceof TypeError) {
+                await this.saveAndSelectAccount(accountId, keyPair)
+            }
+            else {
+                throw e
+            }
         }
-
-        await this.saveAndSelectAccount(accountId, keyPair);
     }
 
     async createNewAccountLinkdrop(accountId, fundingKey, fundingContract, keyPair) {
@@ -284,6 +303,7 @@ class Wallet {
         await this.saveAccount(accountId, keyPair)
         this.accountId = accountId
         this.save()
+        setAccountConfirmed(this.accountId, false)
     }
 
     async saveAccount(accountId, keyPair) {
@@ -368,8 +388,9 @@ class Wallet {
         return availableKeys
     }
 
-    clearState() {
-        this.accounts = {}
+    clearAccountState() {
+        delete this.accounts[this.accountId]
+        removeAccountConfirmed(this.accountId)
         this.accountId = ''
         this.save()
     }

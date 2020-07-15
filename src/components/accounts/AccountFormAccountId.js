@@ -73,6 +73,13 @@ class AccountFormAccountId extends Component {
     }
 
     input = createRef()
+    componentDidMount = () => {
+        const { defaultAccountId } = this.props
+        const { accountId } = this.state
+        if (defaultAccountId) {
+            this.handleChangeAccountId({}, { name: 'accountId', value: accountId})
+        }
+    }
 
     handleChangeAccountId = (e, { name, value }) => {
         const { pattern, handleChange, type } = this.props

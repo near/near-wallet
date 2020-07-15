@@ -106,9 +106,9 @@ class Routing extends Component {
             handleRedirectUrl(this.props.router.location)
             handleClearUrl()
             refreshAccount()
-            
+
             const { state: { globalAlertPreventClear } = {} } = history.location
-            if (!globalAlertPreventClear) {
+            if (!globalAlertPreventClear && !this.props.account.globalAlertPreventClear) {
                 clearAlert()
             }
 

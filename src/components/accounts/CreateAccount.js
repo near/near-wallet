@@ -67,18 +67,6 @@ class CreateAccount extends Component {
         token: ''
     }
 
-    componentDidMount = () => {
-        const { loginError, resetAccounts } = this.props;
-
-        if (loginError) {
-            console.error('Error loading account:', loginError)
-
-            if (loginError.indexOf('does not exist while viewing') !== -1) {
-                resetAccounts()
-            }
-        }
-    }
-
     componentWillUnmount = () => {
         this.props.clear()
     }
@@ -119,20 +107,15 @@ class CreateAccount extends Component {
     }
 
     render() {
-        const { loader, accountId } = this.state
-        const { requestStatus, formLoader, checkNewAccount, loginResetAccounts, clear, setFormLoader } = this.props
+        const { loader, accountId, recaptchaFallback } = this.state
+        const { requestStatus, formLoader, checkNewAccount, resetAccount, clear, setFormLoader } = this.props
         const useRequestStatus = accountId.length > 0 ? requestStatus : undefined;
-
+        
         return (
             <StyledContainer className='small-centered'>
                 <form onSubmit={e => {this.handleCreateAccount(); e.preventDefault();}} autoComplete='off'>
                     <h1><Translate id='createAccount.pageTitle'/></h1>
                     <h2>Just choose a username and you're all set!</h2>
-                    {loginResetAccounts &&
-                        <h3 className='color-blue'>
-                            You have been redirected to this page because we had to reset the developer accounts. Please create a new account. We apologize for the inconveience.
-                        </h3>
-                    }
                     <h6><Translate id='createAccount.accountIdInput.title'/></h6>
                     <AccountFormAccountId
                         formLoader={formLoader}
@@ -144,6 +127,7 @@ class CreateAccount extends Component {
                         accountId={accountId}
                         clearRequestStatus={clear}
                         setFormLoader={setFormLoader}
+                        defaultAccountId={resetAccount && resetAccount.accountIdNotConfirmed.split('.')[0]}
                     />
                     <AccountNote/>
                     <FormButton

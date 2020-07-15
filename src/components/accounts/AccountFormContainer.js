@@ -64,18 +64,13 @@ const CustomContainer = styled(Container)`
 `
 
 /* eslint-disable jsx-a11y/accessible-emoji */
-const AccountFormContainer = ({ location, title, text, children, wide, disclaimer = true, loginResetAccounts }) => (
+const AccountFormContainer = ({ title, text, children, wide, disclaimer = true }) => (
     <CustomContainer>
         <Grid stackable>
           <Grid.Row columns={wide ? `1` : `2`} className='page-title'>
                 <Grid.Column computer={wide ? 16 : 9} tablet={wide ? 16 : 8} mobile={16}>
                     <h1>{title}</h1>
                     <h2>{text}</h2>
-                    {location && loginResetAccounts && (
-                        <Header as='h3' className='color-blue'>
-                            You have been redirected to this page because we had to reset the developer accounts. Please create a new account. We apologize for the inconveience.
-                        </Header>
-                    )}
                 </Grid.Column>
             </Grid.Row>
         </Grid>
@@ -87,7 +82,6 @@ const AccountFormContainer = ({ location, title, text, children, wide, disclaime
 )
 
 AccountFormContainer.propTypes = {
-    location: PropTypes.object,
     title: PropTypes.oneOfType([
         PropTypes.string,
         PropTypes.object
@@ -98,8 +92,7 @@ AccountFormContainer.propTypes = {
     ]),
     children: PropTypes.element,
     wide: PropTypes.bool,
-    disclaimer: PropTypes.bool,
-    loginResetAccounts: PropTypes.bool
+    disclaimer: PropTypes.bool
 }
 
 export default AccountFormContainer
