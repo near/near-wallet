@@ -17,7 +17,7 @@ export const WALLET_SIGN_URL = 'sign'
 export const ACCOUNT_HELPER_URL = process.env.REACT_APP_ACCOUNT_HELPER_URL || 'https://near-contract-helper-2fa.onrender.com'
 export const EXPLORER_URL = process.env.EXPLORER_URL || 'https://explorer.testnet.near.org';
 export const IS_MAINNET = process.env.REACT_APP_IS_MAINNET === 'true' || process.env.REACT_APP_IS_MAINNET === 'yes'
-export const ACCOUNT_ID_SUFFIX = process.env.REACT_APP_ACCOUNT_ID_SUFFIX || 'testnet'
+export const ACCOUNT_ID_SUFFIX = 'dev2' || process.env.REACT_APP_ACCOUNT_ID_SUFFIX || 'testnet'
 
 const NETWORK_ID = process.env.REACT_APP_NETWORK_ID || 'default'
 const CONTRACT_CREATE_ACCOUNT_URL = `${ACCOUNT_HELPER_URL}/account`
@@ -269,7 +269,6 @@ class Wallet {
                 accountId: tempAccount.accountId,
             }
         }
-
         if (this.isEmpty()) {
             throw new Error('No account.')
         }
@@ -862,7 +861,10 @@ class Wallet {
 
     async recoverAccountSeedPhrase(seedPhrase, fromLink = false) {
         const { publicKey, secretKey } = parseSeedPhrase(seedPhrase)
+
+        console.log(accountIds, publicKey)
         const accountIds = await getAccountIds(publicKey)
+        console.log(accountIds, publicKey)
 
         if (!accountIds.length) {
             throw new WalletError('Cannot find matching public key', 'account.recoverAccount.errorInvalidSeedPhrase', { publicKey })

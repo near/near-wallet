@@ -89,16 +89,20 @@ class Routing extends Component {
         this.props.setActiveLanguage('en')
     }
 
-    componentDidMount = () => {
+    componentDidMount = async () => {
         const { refreshAccount, handleRefreshUrl, history, clearAlert, clear, handleRedirectUrl, handleClearUrl } = this.props
         
         handleRefreshUrl()
         refreshAccount()
-
-        history.listen(() => {
+        
+        history.listen(async () => {
             handleRedirectUrl(this.props.router.location)
             handleClearUrl()
-            refreshAccount()
+            const res = await refreshAccount()
+            // if we get an error refreshing an account and not on /create, go there
+            if (res.error && window.location.pathname !== '/create') {
+                history.push('/create')
+            }
             
             const { state: { globalAlertPreventClear } = {} } = history.location
             if (!globalAlertPreventClear) {

@@ -4,7 +4,7 @@ import { createActions, createAction } from 'redux-actions'
 import { ACCOUNT_HELPER_URL, wallet } from '../utils/wallet'
 import { push } from 'connected-react-router'
 import { loadState, saveState, clearState } from '../utils/sessionStorage'
-import { WALLET_CREATE_NEW_ACCOUNT_URL, WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS, WALLET_LOGIN_URL, WALLET_SIGN_URL, setTempAccount, getTempAccount } from '../utils/wallet'
+import { WALLET_CREATE_NEW_ACCOUNT_URL, WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS, WALLET_LOGIN_URL, WALLET_SIGN_URL, setTempAccount, setLinkdropData } from '../utils/wallet'
 
 export const loadRecoveryMethods = createAction('LOAD_RECOVERY_METHODS',
     wallet.getRecoveryMethods.bind(wallet),
@@ -23,15 +23,18 @@ export const handleRedirectUrl = (previousLocation) => (dispatch, getState) => {
     }
 }
 
-const clearTempAccount = () => {
+const clearTempData = () => {
+    console.log('clearing temp data')
     // temp account was set during create account
     setTempAccount('')
+    setLinkdropData({})
+    
 }
 
 export const handleClearUrl = () => (dispatch, getState) => {
     const { pathname } = getState().router.location
     if (![...WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS, WALLET_LOGIN_URL, WALLET_SIGN_URL].includes(pathname.split('/')[1])) {
-        clearTempAccount()
+        clearTempData()
         clearState()
         dispatch(refreshUrl({}))
     }
@@ -62,7 +65,7 @@ export const handleRefreshUrl = () => (dispatch, getState) => {
             dispatch(parseTransactionsToSign({ transactions, callbackUrl }))
         }
     } else {
-        clearTempAccount()
+        clearTempData()
     }
 }
 
