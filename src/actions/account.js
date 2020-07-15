@@ -24,11 +24,8 @@ export const handleRedirectUrl = (previousLocation) => (dispatch, getState) => {
 }
 
 const clearTempData = () => {
-    console.log('clearing temp data')
-    // temp account was set during create account
     setTempAccount('')
     setLinkdropData({})
-    
 }
 
 export const handleClearUrl = () => (dispatch, getState) => {

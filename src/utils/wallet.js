@@ -17,7 +17,7 @@ export const WALLET_SIGN_URL = 'sign'
 export const ACCOUNT_HELPER_URL = process.env.REACT_APP_ACCOUNT_HELPER_URL || 'https://near-contract-helper-2fa.onrender.com'
 export const EXPLORER_URL = process.env.EXPLORER_URL || 'https://explorer.testnet.near.org';
 export const IS_MAINNET = process.env.REACT_APP_IS_MAINNET === 'true' || process.env.REACT_APP_IS_MAINNET === 'yes'
-export const ACCOUNT_ID_SUFFIX = 'dev2' || process.env.REACT_APP_ACCOUNT_ID_SUFFIX || 'testnet'
+export const ACCOUNT_ID_SUFFIX = process.env.REACT_APP_ACCOUNT_ID_SUFFIX || 'testnet'
 
 const NETWORK_ID = process.env.REACT_APP_NETWORK_ID || 'default'
 const CONTRACT_CREATE_ACCOUNT_URL = `${ACCOUNT_HELPER_URL}/account`
@@ -859,17 +859,26 @@ class Wallet {
         })
     }
 
-    async recoverAccountSeedPhrase(seedPhrase, fromLink = false, accountId) {
+    async recoverAccountSeedPhrase(seedPhrase, use2fa = false, accountId) {
         const { publicKey, secretKey } = parseSeedPhrase(seedPhrase)
+
+        console.log('recovering account with publicKey', publicKey)
 
         const accountIds = await getAccountIds(publicKey)
         // if we don't find accountIds we can push one from the link (email/sms ONLY)
         if (accountId) {
             accountIds.push(accountId)
         }
-        
+
         if (!accountIds.length) {
-            throw new WalletError('Cannot find matching public key', 'account.recoverAccount.errorInvalidSeedPhrase', { publicKey })
+            // hopefully an unlikely scenario after we fix indexer
+            const userProvidedAccountId = window.prompt('Cannot find Account Name. Please enter the name of the account to recover.')
+            if (!userProvidedAccountId || !userProvidedAccountId.length) {
+                throw new WalletError('Cannot find matching public key', 'account.recoverAccount.errorInvalidSeedPhrase', { publicKey })
+            }
+            accountIds.push(userProvidedAccountId)
+            // if user provided seed phrase it's probably a LAK
+            use2fa = true
         }
 
         const tempKeyStore = new nearApiJs.keyStores.InMemoryKeyStore()
@@ -895,7 +904,7 @@ class Wallet {
             Cases: (1) multisig + LAK recovery, (2) multisig + FAK recovery with seed phrase, (3) no multisig
             ********************************/
             if (state.code_hash !== ACCOUNT_NO_CODE_HASH) {
-                if (fromLink) {
+                if (use2fa) {
                     // (1) multisig + LAK recovery - add LAK using multisig 
                     const contract = this.getContract(account)
                     const request_id = await this.getNextRequestId(contract)
