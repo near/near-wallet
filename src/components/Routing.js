@@ -7,6 +7,7 @@ import { Route, Switch } from 'react-router-dom'
 import { ConnectedRouter } from 'connected-react-router'
 import { withLocalize } from 'react-localize-redux'
 import translations_en from '../translations/en.global.json'
+import translations_ru from '../translations/ru.global.json'
 import translations_zh_hans from '../translations/zh-hans.global.json'
 import translations_zh_hant from '../translations/zh-hant.global.json'
 import ScrollToTop from '../utils/ScrollToTop'
@@ -73,6 +74,7 @@ class Routing extends Component {
         super(props)
         const languages = [
             { name: "English", code: "en" },
+            { name: "Русский", code: "ru" },
             { name: "简体中文", code: "zh-hans" },
             { name: "繁體中文", code: "zh-hant" }
         ]
@@ -91,6 +93,7 @@ class Routing extends Component {
         
         // TODO: Figure out how to load only necessary translations dynamically
         this.props.addTranslationForLanguage(translations_en, "en")
+        this.props.addTranslationForLanguage(translations_ru, "ru")
         this.props.addTranslationForLanguage(translations_zh_hans, "zh-hans")
         this.props.addTranslationForLanguage(translations_zh_hant, "zh-hant")
         // this.addTranslationsForActiveLanguage(defaultLanguage)
