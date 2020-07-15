@@ -51,14 +51,13 @@ const DomainName = styled.div`
     color: #4a4f54;
     font-size: 16px;
     padding: 0 10px;
-    line-height: normal;
     background-color: #f8f8f8;
     cursor: pointer;
 
     svg {
         width: 17px;
         height: 17px;
-        margin-left: 6px;
+        margin: -2px 0 0 6px;
     }
 `
 
@@ -74,6 +73,13 @@ class AccountFormAccountId extends Component {
     }
 
     input = createRef()
+    componentDidMount = () => {
+        const { defaultAccountId } = this.props
+        const { accountId } = this.state
+        if (defaultAccountId) {
+            this.handleChangeAccountId({}, { name: 'accountId', value: accountId})
+        }
+    }
 
     handleChangeAccountId = (e, { name, value }) => {
         const { pattern, handleChange, type } = this.props

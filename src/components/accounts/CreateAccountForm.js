@@ -19,7 +19,8 @@ const CreateAccountForm = ({
     checkAvailability,
     accountId,
     clearRequestStatus,
-    setFormLoader
+    setFormLoader,
+    defaultAccountId
 }) => (
     <Container>
         <Header as='h4'><Translate id='createAccount.accountIdInput.title' /></Header>
@@ -33,7 +34,9 @@ const CreateAccountForm = ({
             accountId={accountId}
             clearRequestStatus={clearRequestStatus}
             setFormLoader={setFormLoader}
-        />  
+            defaultAccountId={defaultAccountId}
+        />
+        
         <FormButton
             type='submit'
             color='blue'

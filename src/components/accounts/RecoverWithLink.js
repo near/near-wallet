@@ -151,16 +151,14 @@ class RecoverWithLink extends Component {
         });
     }
 
-    handleContinue = () => {
-        this.props.recoverAccountSeedPhrase(this.state.seedPhrase, true, this.props.match.params.accountId)
-            .then(({ error }) => {
-                if (error) {
-                    this.setState({ successView: false });
-                } else {
-                    this.props.refreshAccount()
-                    this.props.redirectToProfile()
-                }
-            });
+    handleContinue = async () => {
+        try {
+            await this.props.recoverAccountSeedPhrase(this.state.seedPhrase, this.props.match.params.accountId)
+            this.props.refreshAccount()
+            this.props.redirectToProfile()
+        } catch (error) {
+            this.setState({ successView: false });
+        }
     }
 
     render() {

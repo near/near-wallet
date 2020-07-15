@@ -3,11 +3,13 @@ import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 import helpIcon from '../../images/icon-help.svg';
 import userIcon from '../../images/user-icon-grey.svg';
+import languagesIcon from '../../images/icon-languages.svg';
 import Logo from './Logo';
 import NavLinks from './NavLinks';
 import UserBalance from './UserBalance';
 import UserName from './UserName';
 import DesktopMenu from './DesktopMenu';
+import LanguageToggle from '../common/LangSwitcher';
 import { IS_MAINNET } from '../../utils/wallet';
 
 const Container = styled.div`
@@ -49,9 +51,8 @@ const Help = styled.a`
     margin-left: auto;
     text-transform: uppercase;
     cursor: pointer;
-    line-height: normal;
     letter-spacing: 2px;
-    padding-top: 4px;
+    padding-top: 2px;
     
     &:hover {
         color: white;
@@ -66,7 +67,7 @@ const Help = styled.a`
         width: 23px;
         height: 23px;
         margin-right: 10px;
-        margin-top: -5px;
+        margin-top: -2px;
     }
 `
 
@@ -187,6 +188,42 @@ const UserIcon = styled.div`
     }
 `
 
+const Lang = styled.div`
+    margin-left: 20px;
+    position: relative;
+
+    &:after {
+        content: '';
+        border-color: #f8f8f8a1;
+        border-style: solid;
+        border-width: 2px 2px 0 0;
+        display: inline-block;
+        position: absolute;
+        right: 10px;
+        top: calc(50% - 10px);
+        transform: rotate(135deg) translateY(-50%);
+        height: 9px;
+        width: 9px;
+        z-index: -1;
+    }
+
+    &:last-child {
+        margin-right: 15px;
+    }
+
+    .lang-selector {
+        appearance: none;
+        background: transparent url(${languagesIcon}) no-repeat 5px center / 20px 20px;
+        border: 0;
+        color: transparent;
+        cursor: pointer;
+        height: 32px;
+        outline: none;
+        user-select: none;
+        width: 54px;
+    }
+`
+
 class DesktopContainer extends Component {
     render() {
 
@@ -203,11 +240,16 @@ class DesktopContainer extends Component {
             <Container>
                 <Logo/>
                 {showNavLinks &&
+                    <NavLinks/>
+                }
+                <Help href='http://near.chat/' target='_blank' rel='noopener noreferrer'>
+                    <Translate id='link.help'/>
+                </Help>
+                <Lang>
+                    <LanguageToggle />
+                </Lang>
+                {showNavLinks &&
                     <>
-                        <NavLinks/>
-                        <Help href='http://near.chat/' target='_blank' rel='noopener noreferrer'>
-                            <Translate id='link.help'/>
-                        </Help>
                         <User onClick={toggleMenu}>
                             <UserIcon/>
                             <UserName accountId={account.accountId}/>

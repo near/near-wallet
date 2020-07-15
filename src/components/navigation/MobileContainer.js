@@ -9,6 +9,7 @@ import UserLinks from './UserLinks';
 import UserAccounts from './UserAccounts';
 import CreateAccountBtn from './CreateAccountBtn';
 import LanguageToggle from '../common/LangSwitcher';
+import languagesIcon from '../../images/icon-languages.svg';
 import { IS_MAINNET } from '../../utils/wallet';
 import { Translate } from 'react-localize-redux';
 
@@ -43,10 +44,6 @@ const Container = styled.div`
         a {
             padding: 10px 0;
         }
-    }
-
-    .lang-switcher {
-        padding: 20px 20px 20px 35px;
     }
 
     h6 {
@@ -86,6 +83,55 @@ const LowerSection = styled.div`
     padding: 20px 20px 100% 20px;
 `
 
+const Lang = styled.div`
+    border-top: 1px solid #404040;
+    margin-top: 15px;
+    padding: 15px 0;
+    position: relative;
+
+    &:after {
+        content: '';
+        border-color: #f8f8f8a1;
+        border-style: solid;
+        border-width: 2px 2px 0 0;
+        display: inline-block;
+        position: absolute;
+        right: 10px;
+        top: calc(50% - 10px);
+        transform: rotate(135deg) translateY(-50%);
+        height: 9px;
+        width: 9px;
+        z-index: -1;
+    }
+
+    &:last-child {
+        border-top: 0;
+        margin-top: 0;
+        margin-left: auto;
+        padding: 0;
+
+        .lang-selector {
+            color: transparent;
+            width: 54px;
+        }
+    }
+
+    .lang-selector {
+        appearance: none;
+        background: transparent url(${languagesIcon}) no-repeat 2px center / 24px 24px;
+        border: 0;
+        color: #f8f8f8;
+        height: 32px;
+        outline: none;
+        padding-left: 36px;
+        width: 100%;
+
+        &:active {
+            outline: none;
+        }
+    }
+`
+
 class MobileContainer extends Component {
     render() {
 
@@ -111,14 +157,19 @@ class MobileContainer extends Component {
                             <MenuButton onClick={toggleMenu} open={menuOpen}/>
                         </>
                     }
+                    {!showNavLinks &&
+                        <Lang>
+                            <LanguageToggle />
+                        </Lang>
+                    }
                 </Collapsed>
                 {menuOpen &&
                     <>
                         <NavLinks/>
                         <UserLinks accountId={account.accountId}/>
-                        <div className="lang-switcher">
+                        <Lang>
                             <LanguageToggle />
-                        </div>
+                        </Lang>
                         <LowerSection>
                             <h6><Translate id='link.switchAccount'/></h6>
                             <UserAccounts

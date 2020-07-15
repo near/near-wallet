@@ -116,7 +116,7 @@ const url = handleActions({
 }, initialState)
 
 const account = handleActions({
-    [refreshAccount]: (state, { error, payload, ready, meta }) => {
+    [refreshAccount]: (state, { payload, ready, meta }) => {
 
         if (!ready) {
             return {
@@ -125,27 +125,19 @@ const account = handleActions({
             }
         }
 
-        if (error) {
-            return {
-                ...state,
-                loader: false,
-                loginError: payload.message
-            }
+        const resetAccountState = {
+            globalAlertPreventClear: payload.globalAlertPreventClear,
+            resetAccount: (state.resetAccount && state.resetAccount.preventClear) ? {
+                ...state.resetAccount,
+                preventClear: false
+            } : payload.resetAccount
         }
-
+        
         return {
             ...state,
-            accountId: payload.accountId,
-            amount: payload.amount,
-            stake: payload.stake,
-            nonce: payload.nonce,
-            code_hash: payload.code_hash,
-            locked: payload.locked,
-            storageUsage: payload.storage_usage,
-            accounts: payload.accounts,
-            loader: false,
-            loginResetAccounts: undefined,
-            balance: payload.balance
+            ...payload,
+            ...resetAccountState,
+            loader: false
         }
     },
     [resetAccounts]: (state) => ({

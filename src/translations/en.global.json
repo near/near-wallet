@@ -16,7 +16,8 @@
             "checkingAvailablity": {
                 "create": "Checking availability",
                 "check": "Checking"
-            }
+            },
+            "errorAccountNotExist": "There was a problem creating your account. Please try again!"
         },
         "available": {
             "success": "User found.",
@@ -620,6 +621,7 @@
     "signInLedger": {
         "header": "Sign in with your Ledger device",
         "one": "Make sure your ledger is connected securely, and that the NEAR app is open on the device.",
+        "success": "You’ve successfully signed in.<br/><b>${numberOfAccounts} account(s)</b> have been successfully recovered: <b>${accountList}</b>.<br/>The last one is set as active.",
         "error": "Please check that your device is connected and the NEAR app is open."
     },
 

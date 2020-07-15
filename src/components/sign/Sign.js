@@ -26,31 +26,30 @@ class Sign extends Component {
         this.props.push(`/profile/${this.props.account.accountId}`)
     }
 
-    handleAllow = e => {
-        this.props.signAndSendTransactions(this.props.transactions, this.props.account.accountId)
-            .then(({ error }) => {
-                if (!error && this.props.callbackUrl) {
-                    window.location.href = this.props.callbackUrl;
-                }
-            });
+    handleAllow = async () => {
+        await this.props.signAndSendTransactions(this.props.transactions, this.props.account.accountId)
+        if (this.props.callbackUrl) {
+            window.location.href = this.props.callbackUrl;
+        }
     }
 
     renderSubcomponent = () => {
+        const { account: { url, balance }, totalAmount, sensitiveActionsCounter, status } = this.props
 
-        const txTotalAmount = new BN(this.props.totalAmount); // TODO: add gas cost, etc
-        const availableBalance = new BN(this.props.account.balance.available);
+        const txTotalAmount = new BN(totalAmount); // TODO: add gas cost, etc
+        const availableBalance = new BN(balance.available);
         const insufficientFunds = txTotalAmount.gt(availableBalance);
         const isMonetaryTransaction = txTotalAmount.gt(new BN(0));
 
-        switch (this.props.status) {
+        switch (status) {
             case 'needs-confirmation':
                 return <SignTransferReady
                             {...this.state}
-                            appTitle={this.props.appTitle}
+                            appTitle={url && url.referrer}
                             handleAllow={this.handleAllow}
                             handleDeny={this.handleDeny}
                             handleDetails={this.handleDetails}
-                            sensitiveActionsCounter={this.props.sensitiveActionsCounter}
+                            sensitiveActionsCounter={sensitiveActionsCounter}
                             txTotalAmount={txTotalAmount}
                             availableBalance={availableBalance}
                             insufficientFunds={insufficientFunds}
@@ -71,7 +70,7 @@ class Sign extends Component {
                 // TODO: Figure out how to handle different error types
                 return <SignTransferCancelled handleDeny={this.handleDeny} />
             default:
-                return <b><Translate id='sign.unexpectedStatus' />: {this.props.status}</b>
+                return <b><Translate id='sign.unexpectedStatus' />: {status}</b>
         }
     }
 
@@ -85,22 +84,10 @@ const mapDispatchToProps = {
     push
 }
 
-const mapStateToProps = ({ account, sign }) => {
-
-    // NOTE: Referrer won't be set properly in local dev environment. Underlying reason unknown.
-    const { referrer } = account.url
-    let referrerDomain;
-    if (referrer) {
-        const referrerUrl = new URL(account.url.referrer)
-        referrerDomain = referrerUrl.hostname
-    }
-
-    return {
-        account,
-        appTitle: referrerDomain,
-        ...sign
-    }
-}
+const mapStateToProps = ({ account, sign }) => ({
+    account,
+    ...sign
+})
 
 export const SignWithRouter = connect(
     mapStateToProps,

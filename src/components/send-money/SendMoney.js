@@ -23,26 +23,19 @@ class SendMoney extends Component {
         amountStatus: ''
     }
 
-    componentDidMount() {
-        const paramId = this.props.match.params.id
+    async componentDidMount() {
+        const accountId = this.props.match.params.id
+        if (!accountId) return;
 
+        // TODO: Why not use global loader?
         this.setState(() => ({
             loader: true
         }))
-
-        if (paramId) {
-            this.props.checkAccountAvailable(paramId).then(({ error }) => {
-                this.setState(() => ({
-                    loader: false,
-                    accountId: paramId
-                }))
-
-                if (error) return
-            })
-        } else {
-            this.setState(() => ({
-                loader: false
-            }))
+        try {
+            // TODO: Does this show error through middleware?
+            await this.props.checkAccountAvailable(accountId);
+        } finally {
+            this.setState(() => ({ accountId, loader: false }))
         }
     }
 

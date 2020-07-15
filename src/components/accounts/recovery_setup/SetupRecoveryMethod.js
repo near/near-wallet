@@ -119,20 +119,23 @@ class SetupRecoveryMethod extends Component {
         
     }
 
-    handleSetupRecoveryMethod = (securityCode) => {
+    handleSetupRecoveryMethod = async (securityCode) => {
         const  { accountId, setupRecoveryMessage, redirectToApp, history } = this.props;
 
-        setupRecoveryMessage(accountId, this.method, securityCode)
-            .then(({ error }) => {
-                if (error) return;
-                const linkdropData = getLinkdropData()
-                if (linkdropData.fundingKey) {
-                    setLinkdropData({})
-                    history.push('/enable-two-factor')
-                } else {
-                    redirectToApp('/profile');
-                }
-            })
+        const { error } = await setupRecoveryMessage(accountId, this.method, securityCode)
+
+        if (error) {
+            return;
+        }
+
+        const linkdropData = getLinkdropData()
+        if (linkdropData.fundingKey) {
+            setLinkdropData({})
+            history.push('/enable-two-factor')
+        } else {
+            redirectToApp('/profile');
+        }
+
     }
 
     handleGoBack = () => {

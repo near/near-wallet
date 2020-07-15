@@ -97,13 +97,15 @@ const HardwareDevices = () => {
     const handleConfirmDisable = async () => {
         setDisabling(true);
         // TODO: Should move to explicit action to disable Ledger
-        const { error } = await dispatch(removeAccessKey(ledgerKey.public_key))
-        if (!error) {
-            setConfirmDisable(false);
+        try {
+            await dispatch(removeAccessKey(ledgerKey.public_key))
+        } finally {
+            // TODO: Reload of keys should trigger automatically after any change action?
+            await dispatch(getAccessKeys())
+            setDisabling(false);
         }
-        // TODO: Reload of keys should trigger automatically after any change action?
-        await dispatch(getAccessKeys())
-        setDisabling(false);
+
+        setConfirmDisable(false);
     }
 
     return (

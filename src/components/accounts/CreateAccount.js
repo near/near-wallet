@@ -90,37 +90,47 @@ class CreateAccount extends Component {
         }
     }
 
-    handleCreateAccount = () => {
+    handleCreateAccount = async () => {
         const { accountId, token } = this.state;
         const { match, createNewAccount, setFormLoader } = this.props
 
         const fundingContract = match.params.fundingContract;
         const fundingKey = match.params.fundingKey;
         setLinkdropData({ fundingContract, fundingKey })
-
-        let nextUrl = `/set-recovery/${accountId}`;
         
         setTempAccount(accountId)
         setFormLoader(false)
-        this.props.history.push(nextUrl)
         
+        this.setState({ loader: true });
+        
+        try {
+            await createNewAccount(accountId, fundingKey, fundingContract, token)
+        } finally {
+            this.setState({ loader: false });
+            setFormLoader(false)
+        }
+        
+        this.handleCreateAccountSuccess();
+    }
+
+    handleCreateAccountSuccess = () => {
+        const { accountId } = this.state;
+
+        this.props.refreshAccount();
+        let nextUrl = process.env.DISABLE_PHONE_RECOVERY === 'yes' ? `/setup-seed-phrase/${accountId}` : `/set-recovery/${accountId}`;
+        this.props.history.push(nextUrl);
     }
 
     render() {
-        const { loader, accountId } = this.state
-        const { requestStatus, formLoader, checkNewAccount, loginResetAccounts, clear, setFormLoader } = this.props
+        const { loader, accountId, recaptchaFallback } = this.state
+        const { requestStatus, formLoader, checkNewAccount, resetAccount, clear, setFormLoader } = this.props
         const useRequestStatus = accountId.length > 0 ? requestStatus : undefined;
-
+        
         return (
             <StyledContainer className='small-centered'>
                 <form onSubmit={e => {this.handleCreateAccount(); e.preventDefault();}} autoComplete='off'>
                     <h1><Translate id='createAccount.pageTitle'/></h1>
                     <h2>Just choose a username and you're all set!</h2>
-                    {loginResetAccounts &&
-                        <h3 className='color-blue'>
-                            You have been redirected to this page because we had to reset the developer accounts. Please create a new account. We apologize for the inconveience.
-                        </h3>
-                    }
                     <h6><Translate id='createAccount.accountIdInput.title'/></h6>
                     <AccountFormAccountId
                         formLoader={formLoader}
@@ -132,6 +142,7 @@ class CreateAccount extends Component {
                         accountId={accountId}
                         clearRequestStatus={clear}
                         setFormLoader={setFormLoader}
+                        defaultAccountId={resetAccount && resetAccount.accountIdNotConfirmed.split('.')[0]}
                     />
                     <AccountNote/>
                     <FormButton

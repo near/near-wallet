@@ -5,11 +5,12 @@ import styled, { ThemeProvider } from 'styled-components'
 
 import { Route, Switch } from 'react-router-dom'
 import { ConnectedRouter } from 'connected-react-router'
-import { withLocalize } from 'react-localize-redux';
-import ScrollToTop from '../utils/ScrollToTop'
+import { withLocalize } from 'react-localize-redux'
 import translations_en from '../translations/en.global.json'
-import translations_zh_hans from '../translations/zh_hans.global.json'
-import translations_zh_hant from '../translations/zh_hant.global.json'
+import translations_ru from '../translations/ru.global.json'
+import translations_zh_hans from '../translations/zh-hans.global.json'
+import translations_zh_hant from '../translations/zh-hant.global.json'
+import ScrollToTop from '../utils/ScrollToTop'
 import GlobalAlert from './responsive/GlobalAlert'
 import '../index.css'
 import Navigation from './navigation/Navigation'
@@ -50,6 +51,10 @@ const theme = {}
 
 const PATH_PREFIX = process.env.PUBLIC_URL
 
+const onMissingTranslation = ({ translationId }) => {
+    return `${translationId}`
+  };
+
 const Container = styled.div`
     min-height: 100vh;
     padding-bottom: 200px;
@@ -69,24 +74,31 @@ const Container = styled.div`
 class Routing extends Component {
     constructor(props) {
         super(props)
+        const languages = [
+            { name: "English", code: "en" },
+            { name: "Русский", code: "ru" },
+            { name: "简体中文", code: "zh-hans" },
+            { name: "繁體中文", code: "zh-hant" }
+        ]
+        
+        const defaultLanguage = localStorage.getItem("languageCode") || languages[0].code
 
         this.props.initialize({
-            languages: [
-                { name: "English", code: "en" },
-                { name: "Simplified Chinese", code: "zh-hans" },
-                { name: "Traditional Chinese", code: "zh-hant" }
-            ],
-            translation: {},
+            languages,
             options: {
+                defaultLanguage,
+                onMissingTranslation,
                 renderToStaticMarkup: false,
                 renderInnerHtml: true
             }
         })
-        // TODO: Figure out how to load only necessary translatuons dynamically
+        
+        // TODO: Figure out how to load only necessary translations dynamically
         this.props.addTranslationForLanguage(translations_en, "en")
+        this.props.addTranslationForLanguage(translations_ru, "ru")
         this.props.addTranslationForLanguage(translations_zh_hans, "zh-hans")
         this.props.addTranslationForLanguage(translations_zh_hant, "zh-hant")
-        this.props.setActiveLanguage('en')
+        // this.addTranslationsForActiveLanguage(defaultLanguage)
     }
 
     componentDidMount = async () => {
@@ -103,15 +115,35 @@ class Routing extends Component {
             if (res.error && ['/', '/profile', '/send-money'].includes(window.location.pathname)) {
                 history.push('/create')
             }
-            
+
             const { state: { globalAlertPreventClear } = {} } = history.location
-            if (!globalAlertPreventClear) {
+            if (!globalAlertPreventClear && !this.props.account.globalAlertPreventClear) {
                 clearAlert()
             }
 
             clear()
         })
     }
+
+    componentDidUpdate(prevProps) {
+        const prevLangCode = prevProps.activeLanguage && prevProps.activeLanguage.code
+        const curLangCode = this.props.activeLanguage && this.props.activeLanguage.code
+        const hasLanguageChanged = prevLangCode !== curLangCode
+
+        if (hasLanguageChanged) {
+            // this.addTranslationsForActiveLanguage(curLangCode)
+            localStorage.setItem("languageCode", curLangCode)
+        }
+    }
+
+    // addTranslationsForActiveLanguage(activeLang) {
+    //     import(`../translations/${activeLang}.global.json`).then(
+    //         translations => {
+    //             console.log(translations)
+    //             this.props.addTranslationForLanguage(translations, activeLang);
+    //         }
+    //     );
+    // }
 
     render() {
 
