@@ -422,11 +422,10 @@ class Wallet {
                 let {} = { fundingContract, fundingKey } = linkdropData
             }
         }
-        console.log('fundingKey, fundingContract', fundingKey, fundingContract)
 
         try {
-            if (fundingKey && fundingContract) {
-                await this.createNewAccountLinkdrop(accountId, fundingKey, fundingContract, keyPair)
+            if (fundingContract && fundingKey) {
+                await this.createNewAccountLinkdrop(accountId, fundingContract, fundingKey, keyPair)
                 await this.keyStore.removeKey(NETWORK_ID, fundingContract)
             } else {
                 await sendJson('POST', CONTRACT_CREATE_ACCOUNT_URL, {
@@ -446,6 +445,9 @@ class Wallet {
     }
 
     async createNewAccountLinkdrop(accountId, fundingContract, fundingKey, keyPair) {
+
+        console.log(fundingContract, fundingKey)
+        
         const account = this.getAccount(fundingContract);
         await this.keyStore.setKey(
             NETWORK_ID, fundingContract,

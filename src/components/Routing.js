@@ -112,7 +112,7 @@ class Routing extends Component {
             handleClearUrl()
             const res = await refreshAccount()
             // if we get an error refreshing an account and not on /create, go there
-            if (res.error && ['/', '/profile', '/send-money'].includes(window.location.pathname)) {
+            if (res.error && ['/', '/profile', '/send-money', '/login'].includes(window.location.pathname)) {
                 history.push('/create')
             }
 
