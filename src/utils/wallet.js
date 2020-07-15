@@ -859,13 +859,15 @@ class Wallet {
         })
     }
 
-    async recoverAccountSeedPhrase(seedPhrase, fromLink = false) {
+    async recoverAccountSeedPhrase(seedPhrase, fromLink = false, accountId) {
         const { publicKey, secretKey } = parseSeedPhrase(seedPhrase)
 
-        console.log(accountIds, publicKey)
         const accountIds = await getAccountIds(publicKey)
-        console.log(accountIds, publicKey)
-
+        // if we don't find accountIds we can push one from the link (email/sms ONLY)
+        if (accountId) {
+            accountIds.push(accountId)
+        }
+        
         if (!accountIds.length) {
             throw new WalletError('Cannot find matching public key', 'account.recoverAccount.errorInvalidSeedPhrase', { publicKey })
         }
