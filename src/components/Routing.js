@@ -233,13 +233,11 @@ class Routing extends Component {
                                         component={SendMoneyWithRouter}
                                     />
                                 }
-                                {!IS_MAINNET &&
-                                    <PrivateRoute
-                                        exact
-                                        path='/receive-money'
-                                        component={ReceiveMoneyWithRouter}
-                                    />
-                                }
+                                <PrivateRoute
+                                    exact
+                                    path='/receive-money'
+                                    component={ReceiveMoneyWithRouter}
+                                />
                                 <PrivateRoute
                                     exact
                                     path='/profile/:accountId?'
