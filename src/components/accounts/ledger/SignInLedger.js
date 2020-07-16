@@ -10,7 +10,12 @@ import { signInWithLedger, clear, redirectToApp, refreshAccount } from '../../..
 export function SignInLedger(props) {
     const dispatch = useDispatch();
     const account = useSelector(({ account }) => account);
-    const signingIn = account.actionsPending.includes('SIGN_IN_WITH_LEDGER')
+
+    const gettingAccounts = account.actionsPending.includes('GET_LEDGER_ACCOUNT_IDS')
+    const addingAccounts = account.actionsPending.includes('ADD_LEDGER_ACCOUNT_ID')
+    const savingAccounts = account.actionsPending.includes('SAVE_AND_SELECT_LEDGER_ACCOUNTS')
+    const signingIn = gettingAccounts || addingAccounts || savingAccounts
+
 
     const handleSignIn = async () => {
 
