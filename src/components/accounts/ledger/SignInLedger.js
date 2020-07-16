@@ -50,8 +50,15 @@ export function SignInLedger(props) {
                 <Translate id={`button.${account.requestStatus && !account.requestStatus.success ? 'retry' : 'signIn'}`}/>
             </FormButton>
             <button className='link' onClick={() => props.history.goBack()}><Translate id='button.cancel'/></button>
+
             {signingIn &&
-                <LedgerConfirmActionModal open={signingIn} onClose={() => dispatch(clear())}/>
+                <LedgerConfirmActionModal 
+                    open={signingIn} 
+                    onClose={() => dispatch(clear())}
+                    ledgerAccounts={ledgerAccounts} 
+                    gettingAccounts={gettingAccounts}
+                    addingAccounts={addingAccounts}
+                />
             }
         </Theme>
     );

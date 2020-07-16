@@ -6,7 +6,7 @@ import FormButton from '../../common/FormButton';
 import { Translate } from 'react-localize-redux';
 import LedgerImage from '../../svg/LedgerImage';
 
-const LedgerConfirmActionModal = ({ open, onClose }) => {
+const LedgerConfirmActionModal = ({ open, onClose, ledgerAccounts, gettingAccounts, addingAccounts }) => {
     return (
         <Modal
             id='ledger-confirm-action-modal'
@@ -17,11 +17,35 @@ const LedgerConfirmActionModal = ({ open, onClose }) => {
             <ModalTheme/>
             <MobileActionSheet/>
             <h2><Translate id='confirmLedgerModal.header'/></h2>
+
             <LedgerImage animate={true}/>
-            <p><Translate id='confirmLedgerModal.one'/></p>
-            <FormButton color='gray-red' id='close-button'>
+            {/* <p><Translate id='confirmLedgerModal.one'/></p> */}
+            
+            {gettingAccounts && (
+                <h3>
+                    Please confirm public key on your device
+                </h3>
+            )}
+            {addingAccounts && (
+                <div>
+                    <h3>
+                        Confirm add key operation for each account separately:
+                        {ledgerAccounts.map((account) => (
+                            <div style={{ display: 'flex', paddingTop: '1rem', color: account.status === 'pending' ? '#999' : account.status === 'success' ? '#5ace84' : '' }}>
+                                <div style={{ flex: '70%' }}>
+                                    {account.accountId}
+                                </div>
+                                <div style={{ flex: '30%', textAlign: 'right' }}>
+                                    {account.status}
+                                </div>
+                            </div>
+                        ))}
+                    </h3>
+                </div>
+            )}
+            {/* <FormButton color='gray-red' id='close-button'>
                 <Translate id='button.cancelOperation'/>
-            </FormButton>
+            </FormButton> */}
         </Modal>
     );
 }
