@@ -40,7 +40,7 @@ import { NodeStakingWithRouter } from './node-staking/NodeStaking'
 import { AddNodeWithRouter } from './node-staking/AddNode'
 import { NodeDetailsWithRouter } from './node-staking/NodeDetails'
 import { StakingWithRouter } from './node-staking/Staking'
-import { IS_MAINNET } from '../utils/wallet'
+import { IS_MAINNET, DISABLE_SEND_MONEY } from '../utils/wallet'
 import { refreshAccount, handleRefreshUrl, clearAlert, clear, handleRedirectUrl, handleClearUrl } from '../actions/account'
 
 import GlobalStyle from './GlobalStyle'
@@ -142,7 +142,7 @@ class Routing extends Component {
     render() {
 
         return (
-            <Container className='App' mainnet={IS_MAINNET ? true : false}>
+            <Container className='App' mainnet={IS_MAINNET}>
                 <GlobalStyle />
                 <ConnectedRouter basename={PATH_PREFIX}  history={this.props.history}>
                     <ThemeProvider theme={theme}>
@@ -226,7 +226,7 @@ class Routing extends Component {
                                     path='/full-access-keys'
                                     component={FullAccessKeysWithRouter}
                                 />
-                                {!IS_MAINNET &&
+                                {!DISABLE_SEND_MONEY &&
                                     <PrivateRoute
                                         exact
                                         path='/send-money/:id?'
