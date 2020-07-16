@@ -56,7 +56,6 @@ class SetupRecoveryMethod extends Component {
         }
 
         this.setRecoveryMethods()
-
     }
 
     setRecoveryMethods = () => {

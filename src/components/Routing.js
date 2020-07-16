@@ -105,17 +105,23 @@ class Routing extends Component {
         const { refreshAccount, handleRefreshUrl, history, clearAlert, clear, handleRedirectUrl, handleClearUrl } = this.props
         
         handleRefreshUrl()
-        refreshAccount()
+        try {
+            await refreshAccount()
+        } catch (e) {
+            console.log(e)
+        }
         
         history.listen(async () => {
             handleRedirectUrl(this.props.router.location)
             handleClearUrl()
-            const res = await refreshAccount()
-            // if we get an error refreshing an account and not on /create, go there
-            if (res.error && ['/', '/profile', '/send-money', '/login'].includes(window.location.pathname)) {
-                history.push('/create')
+            try {
+                await refreshAccount()
+            } catch (e) {
+                // if we get an error refreshing an account and not on /create, go there
+                if (['/', '/profile', '/send-money', '/login'].includes(window.location.pathname)) {
+                    history.push('/create')
+                }
             }
-
             const { state: { globalAlertPreventClear } = {} } = history.location
             if (!globalAlertPreventClear && !this.props.account.globalAlertPreventClear) {
                 clearAlert()
