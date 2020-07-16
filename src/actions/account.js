@@ -115,6 +115,17 @@ export const allowLogin = () => async (dispatch, getState) => {
     }
 }
 
+export const signInWithLedger = () => async (dispatch, getState) => {
+    await dispatch(getLedgerAccountIds())
+    
+    const accountIds = Object.keys(getState().account.signInWithLedger)
+    for (let i = 0; i < accountIds.length; i++) {
+        await dispatch(addLedgerAccountId(accountIds[i]))
+    }
+
+    return dispatch(saveAndSelectLedgerAccounts(getState().account.signInWithLedger))
+}
+
 const defaultCodesFor = (prefix, data) => ({ successCode: `${prefix}.success`, errorCode: `${prefix}.error`, data})
 
 export const { initializeRecoveryMethod, validateSecurityCode, setupRecoveryMessage, deleteRecoveryMethod, sendNewRecoveryLink, checkNewAccount, createNewAccount, checkAccountAvailable, getTransactions, getTransactionStatus, clear, clearCode } = createActions({
