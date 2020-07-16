@@ -350,27 +350,35 @@ class Wallet {
         return null
     }
 
-    async signInWithLedger() {
+    async getLedgerAccountIds() {
         const publicKey = await this.getLedgerPublicKey()
         await setKeyMeta(publicKey, { type: 'ledger' })
-        const accountIds = await getAccountIds(publicKey.toString())
+        return await getAccountIds(publicKey.toString())
+    }
+
+    async addLedgerAccountId(accountId) {
+        const accessKeys =  await this.getAccessKeys(accountId)
+        const localAccessKey = await this.getLocalAccessKey(accountId, accessKeys)
+        return await this.addWalletMetadataAccessKeyIfNeeded(accountId, localAccessKey)
+    }
+
+    async saveAndSelectLedgerAccounts(accounts) {
+        const accountIds = Object.keys(accounts)
+        const newKeyPairs = Object.values(accounts)
 
         for (let i = 0; i < accountIds.length; i++) {
             const accountId = accountIds[i]
-            const accessKeys =  await this.getAccessKeys(accountId)
-            const localAccessKey = await this.getLocalAccessKey(accountId, accessKeys)
-            let newKeyPair = await this.addWalletMetadataAccessKeyIfNeeded(accountId, localAccessKey)
-
+            const newKeyPair = newKeyPairs[i]
             if (i === accountIds.length - 1) {
-                await this.saveAndSelectAccount(accountId, newKeyPair)
+                await wallet.saveAndSelectAccount(accountId, newKeyPair)
             } else {
-                await this.saveAccount(accountId, newKeyPair)
+                await wallet.saveAccount(accountId, newKeyPair)
             }
         }
 
         return {
             numberOfAccounts: accountIds.length,
-            accountList: accountIds.flatMap((accountId) => accountId).join(', ')
+            accountList: accountIds.join(', ')
         }
     }
 
