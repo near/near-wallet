@@ -32,10 +32,10 @@ export function Profile({ match }) {
             <ProfileSection>
                 <ProfileDetails account={account} />
                 
-                <button onClick={async () => console.log(await wallet.getRecoveryMethods())}>getRecoveryMethods</button>
+                {/* <button onClick={async () => console.log(await wallet.getRecoveryMethods())}>getRecoveryMethods</button>
                 <button onClick={async () => console.log(await wallet.getAccessKeys())}>getAccessKeys</button>
                 <button onClick={() => wallet.deployMultisig()}>deployMultisig</button>
-                <button onClick={async () => dispatch(promptTwoFactor(() => {}))}>verifyRequest</button>
+                <button onClick={async () => dispatch(promptTwoFactor(() => {}))}>verifyRequest</button> */}
                 
                 {accountId === loginAccountId && (
                     <>

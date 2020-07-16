@@ -60,12 +60,10 @@ class SetupRecoveryMethod extends Component {
     }
 
     setRecoveryMethods = () => {
-        console.log('getting methods')
         if (this.props.recoveryMethods[this.props.accountId]) {
             const confirmed = this.props.recoveryMethods[this.props.accountId].filter(method => method.confirmed)
             this.setState({ activeMethods: confirmed.map(method => method.kind) });
         } else {
-
             if (!this.state.hasFetchedMethods) {
                 this.getMethods()
             }
