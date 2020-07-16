@@ -17,7 +17,10 @@ import {
     signInWithLedger,
     deleteRecoveryMethod,
     sendNewRecoveryLink,
-    recoverAccountSeedPhrase
+    recoverAccountSeedPhrase,
+    getLedgerAccountIds,
+    addLedgerAccountId,
+    saveAndSelectLedgerAccounts
 } from '../../actions/account'
 
 const initialState = {
@@ -136,6 +139,30 @@ const account = handleActions({
         ...state,
         formLoader: payload
     })
+}, initialState)
+
+const ledger = handleActions({
+    [getLedgerAccountIds]: (state, { error, payload, ready, meta }) => {
+        return {
+            ...state,
+            signInWithLedger: payload && payload.reduce((r, accountId) => ({
+                ...r,
+                [accountId]: ''
+            }), {})
+        }
+    },
+    [addLedgerAccountId]: (state, { error, payload, ready, meta }) => {
+        return {
+            ...state,
+            signInWithLedger: {
+                ...state.signInWithLedger,
+                [meta.accountId]: ready ? payload : 'waiting'
+            }
+        }
+    },
+    [saveAndSelectLedgerAccounts]: (state, { error, payload, ready, meta }) => {
+        return state
+    },
 }, initialState)
 
 export default reduceReducers(
