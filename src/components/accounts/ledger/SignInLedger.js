@@ -6,6 +6,7 @@ import FormButton from '../../common/FormButton';
 import { Translate } from 'react-localize-redux';
 import LedgerConfirmActionModal from './LedgerConfirmActionModal';
 import { signInWithLedger, clear, redirectToApp, refreshAccount } from '../../../actions/account';
+import RequestStatusBox from '../../common/RequestStatusBox'
 
 export function SignInLedger(props) {
     const dispatch = useDispatch();
@@ -28,7 +29,6 @@ export function SignInLedger(props) {
     })
 
     const handleSignIn = async () => {
-
         const { error } = await dispatch(signInWithLedger())
 
         if (!error) {
@@ -42,6 +42,10 @@ export function SignInLedger(props) {
             <h1><Translate id='signInLedger.header'/></h1>
             <LedgerImage/>
             <p><Translate id='signInLedger.one'/></p>
+
+            <br/>
+            <RequestStatusBox requestStatus={account.requestStatus}/>
+
             <FormButton
                 onClick={handleSignIn}
                 sending={signingIn}
