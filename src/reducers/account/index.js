@@ -143,6 +143,13 @@ const account = handleActions({
 
 const ledger = handleActions({
     [getLedgerAccountIds]: (state, { error, payload, ready, meta }) => {
+        if (error) {
+            return {
+                ...state,
+                signInWithLedger: undefined
+            }
+        }
+
         return {
             ...state,
             signInWithLedger: payload && payload.reduce((r, accountId) => ({
@@ -152,6 +159,13 @@ const ledger = handleActions({
         }
     },
     [addLedgerAccountId]: (state, { error, payload, ready, meta }) => {
+        if (error) {
+            return {
+                ...state,
+                signInWithLedger: undefined
+            }
+        }
+
         return {
             ...state,
             signInWithLedger: {
@@ -161,6 +175,13 @@ const ledger = handleActions({
         }
     },
     [saveAndSelectLedgerAccounts]: (state, { error, payload, ready, meta }) => {
+        if (error) {
+            return {
+                ...state,
+                signInWithLedger: undefined
+            }
+        }
+
         return state
     },
 }, initialState)
@@ -174,5 +195,6 @@ export default reduceReducers(
     recoverCodeReducer,
     accessKeys,
     account,
-    url
+    url,
+    ledger
 )
