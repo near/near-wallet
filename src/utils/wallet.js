@@ -482,10 +482,22 @@ class Wallet {
         const { account, has2fa } = await this.getAccountAndState()
 
         if (has2fa) {
+            // always will be adding key to our account
             const request = {
-                receiver_id: contractId || account.accountId,
+                receiver_id: account.accountId,
                 actions: [{ type: 'AddKey', public_key: publicKey.split('ed25519:')[1] }]
             }
+            /********************************
+            @todo for login to apps, need to add permissions
+            ********************************/
+            // if (contractId && contractId !== account.accountId) {
+            //     request.actions[0].permission = {
+            //         allowance: '0', // unlimited
+            //         receiver_id: contractId,
+            //         method_names: ['send'],
+            //     }
+            // }
+            // console.log(request)
             return await this.makeTwoFactorRequest(account, request)
         } else {
             try {
