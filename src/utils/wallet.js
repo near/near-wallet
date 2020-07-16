@@ -804,12 +804,7 @@ class Wallet {
             nearApiJs.transactions.functionCall('new', newArgs, 10000000000000, '0'),
         ]
         console.log('actions', actions)
-        const result = await account.signAndSendTransaction(accountId, actions).catch((e) => {
-            console.trace(e)
-        })
-        console.log(result)
-
-        return { success: !!result, result }
+        return await account.signAndSendTransaction(accountId, actions);
     }
 
     async createNewAccountForTempAccount(accountId, fundingContract, fundingKey) {

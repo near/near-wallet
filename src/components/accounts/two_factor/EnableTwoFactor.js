@@ -10,7 +10,8 @@ import {
     initTwoFactor,
     reInitTwoFactor,
     verifyTwoFactor,
-    deployMultisig
+    deployMultisig,
+    redirectToApp
 } from '../../../actions/account';
 import { useRecoveryMethods } from '../../../hooks/recoveryMethods';
 import EnterVerificationCode from '../EnterVerificationCode'
@@ -85,12 +86,13 @@ export function EnableTwoFactor(props) {
     }
 
     const handleDeployMultisig = async () => {
-        const { error } = await dispatch(deployMultisig())
 
-        if (!error) {
-            console.log('deployed multisig')
-            props.history.push('/profile')
+        try {
+            await dispatch(deployMultisig())
+        } catch(e) {
+            console.log('Not able to deploy multisig')
         }
+        return dispatch(redirectToApp('/profile'))
     }
 
     const handleResend = async () => {

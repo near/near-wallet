@@ -41,11 +41,12 @@ class SetupRecoveryMethod extends Component {
         success: false,
         emailInvalid: false,
         phoneInvalid: false,
-        activeMethods: []
+        activeMethods: [],
+        hasFetchedMethods: false
     }
 
     componentDidMount() {
-        const { loadRecoveryMethods, accountId, router, recoveryMethods, getAccessKeys } = this.props;
+        const { router, getAccessKeys } = this.props;
         const { method } = router.location;
 
         getAccessKeys()
@@ -54,20 +55,32 @@ class SetupRecoveryMethod extends Component {
             this.setState({ option: method });
         }
 
-        if (recoveryMethods[accountId]) {
-            const confirmed = recoveryMethods[accountId].filter(method => method.confirmed)
+        this.setRecoveryMethods()
+
+    }
+
+    setRecoveryMethods = () => {
+        if (this.props.recoveryMethods[this.props.accountId]) {
+            const confirmed = this.props.recoveryMethods[this.props.accountId].filter(method => method.confirmed)
             this.setState({ activeMethods: confirmed.map(method => method.kind) });
         } else {
-            loadRecoveryMethods(accountId)
-                .then(({ payload }) => {
-                    if (!payload.data) {
-                        this.setState({ activeMethods: [] });
-                        return;
-                    }
-                    const confirmed = payload.data.filter(method => method.confirmed);
-                    this.setState({ activeMethods: confirmed.map(method => method.kind) });
-                })
+            if (!this.state.hasFetchedMethods) {
+                this.getMethods()
+            }
         }
+    }
+
+    getMethods = async () => {
+
+        try {
+            await this.props.loadRecoveryMethods()
+        } catch(e) {
+            console.log(e)
+        } finally {
+            this.setState({ hasFetchedMethods: true })
+            return this.setRecoveryMethods()
+        }
+
     }
 
     get isValidInput() {
