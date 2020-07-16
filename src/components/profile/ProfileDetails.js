@@ -9,6 +9,8 @@ import LockImage from '../../images/icon-lock.svg'
 
 import styled from 'styled-components'
 
+import BN from 'bn.js'
+
 const CustomGrid = styled(Grid)`
     &&& {
         .row {
@@ -80,7 +82,20 @@ const PublicInfoRow = ({ children, titleId, infoId }) => (
 const PublicBalanceRow = ({ titleId, infoId, amount }) =>
     <PublicInfoRow titleId={titleId} infoId={infoId}>{amount && <Balance amount={amount}/>}</PublicInfoRow>
 
-const ProfileDetails = ({ account: { accountId, balance: { total, stateStaked, staked, ownersBalance, available } } }) => (
+const ProfileDetails = ({
+    account: {
+        accountId,
+        balance: {
+            total,
+            stateStaked,
+            staked,
+            ownersBalance,
+            lockedAmount,
+            unvestedAmount,
+            available
+        }
+    }
+}) => (
     <CustomGrid>
         <Grid.Row>
             <Grid.Column
@@ -130,8 +145,15 @@ const ProfileDetails = ({ account: { accountId, balance: { total, stateStaked, s
         <PublicBalanceRow titleId='profile.details.totalBalance' amount={total}/>
         <PublicBalanceRow titleId='profile.details.minBalance' infoId='minimumBalance' amount={stateStaked}/>
         <PublicBalanceRow titleId='profile.details.staked' amount={staked}/>
-        <PublicBalanceRow titleId='profile.details.ownersBalance' amount={ownersBalance}/>
-        <PublicBalanceRow titleId='profile.details.availableBalance' infoId='availableBalanceProfile' amount={available}/>
+        {lockedAmount !== undefined
+            ? <>
+                <PublicBalanceRow titleId='profile.details.locked' amount={new BN(lockedAmount).sub(new BN(unvestedAmount))}/>
+                <PublicBalanceRow titleId='profile.details.unvested' amount={unvestedAmount}/>
+                <PublicBalanceRow titleId='profile.details.unlocked' amount={ownersBalance}/>
+                <PublicBalanceRow titleId='profile.details.availableBalance' infoId='availableBalanceProfile' amount={available}/>
+            </>
+            : null
+        }
     </CustomGrid>
 )
 

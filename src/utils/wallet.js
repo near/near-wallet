@@ -4,12 +4,11 @@ import sendJson from 'fetch-send-json'
 import { parseSeedPhrase } from 'near-seed-phrase'
 import { PublicKey } from 'near-api-js/lib/utils'
 import { KeyType } from 'near-api-js/lib/utils/key_pair'
-import { store } from '..'
-import { getAccessKeys } from '../actions/account'
 import { generateSeedPhrase } from 'near-seed-phrase';
 import { getAccountIds } from './explorer-api'
 import { WalletError } from './walletError'
 import { setAccountConfirmed, getAccountConfirmed, removeAccountConfirmed} from './localStorage'
+import BN from 'bn.js'
 
 export const WALLET_CREATE_NEW_ACCOUNT_URL = 'create'
 export const WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS = ['create', 'set-recovery', 'setup-seed-phrase', 'recover-account', 'recover-seed-phrase', 'sign-in-ledger']
@@ -19,6 +18,7 @@ export const ACCOUNT_HELPER_URL = process.env.REACT_APP_ACCOUNT_HELPER_URL || 'h
 export const EXPLORER_URL = process.env.EXPLORER_URL || 'https://explorer.testnet.near.org';
 export const IS_MAINNET = process.env.REACT_APP_IS_MAINNET === 'true' || process.env.REACT_APP_IS_MAINNET === 'yes'
 export const ACCOUNT_ID_SUFFIX = process.env.REACT_APP_ACCOUNT_ID_SUFFIX || 'testnet'
+export const LOCKUP_ACCOUNT_ID_SUFFIX = process.env.LOCKUP_ACCOUNT_ID_SUFFIX || 'lockup'
 
 const NETWORK_ID = process.env.REACT_APP_NETWORK_ID || 'default'
 const CONTRACT_CREATE_ACCOUNT_URL = `${ACCOUNT_HELPER_URL}/account`
@@ -405,13 +405,36 @@ class Wallet {
         const account = this.getAccount(accountId)
         const balance = await account.getAccountBalance()
 
-        // TODO: Should lockup contract balance be retrieved separately?
-        // TODO: Unhardcode lockup account name
-        const lockupAccountId = 'lockup-test.vg.betanet'
-        // TODO: Makes sense for a lockup contract to return whole state as JSON instead of method per property
-        const ownersBalance = await account.viewFunction(lockupAccountId, "get_owners_balance", {})
+        // TODO: Should lockup contract balance be retrieved separately only when needed?
+        const lockupAccountId = accountId + '.' + LOCKUP_ACCOUNT_ID_SUFFIX
+        try {
+            // TODO: Makes sense for a lockup contract to return whole state as JSON instead of method per property
+            const [
+                ownersBalance,
+                liquidOwnersBalance,
+                lockedAmount,
+                unvestedAmount
+            ] = await Promise.all([
+                'get_owners_balance',
+                'get_liquid_owners_balance',
+                'get_locked_amount',
+                'get_unvested_amount'
+            ].map(methodName => account.viewFunction(lockupAccountId, methodName)))
 
-        return { ...balance, ownersBalance }
+            return {
+                ...balance,
+                ownersBalance,
+                liquidOwnersBalance,
+                lockedAmount,
+                unvestedAmount,
+                total: new BN(balance.total).add(new BN(lockedAmount)).add(new BN(ownersBalance)).toString()
+            }
+        } catch (error) {
+            if (error.message.match(/Account ".+" doesn't exist/)) {
+                return balance
+            }
+            throw error
+        }
     }
 
     async signatureFor(accountId) {
