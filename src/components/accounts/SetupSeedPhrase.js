@@ -59,9 +59,6 @@ class SetupSeedPhrase extends Component {
     handleSubmit = async () => {
         const { redirectToApp, accountId, addAccessKeySeedPhrase } = this.props
         const { seedPhrase, enterWord, wordId, publicKey } = this.state
-        
-        console.log(enterWord, seedPhrase)
-
         if (enterWord !== seedPhrase.split(' ')[wordId]) {
             this.setState(() => ({
                 requestStatus: {
@@ -71,9 +68,7 @@ class SetupSeedPhrase extends Component {
             }))
             return false
         }
-
         const contractName = null;
-
         await addAccessKeySeedPhrase(accountId, contractName, publicKey)
         redirectToApp('/profile');
     }

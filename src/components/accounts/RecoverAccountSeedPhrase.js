@@ -55,7 +55,7 @@ class RecoverAccountSeedPhrase extends Component {
         }
 
         const { accountId, seedPhrase } = this.state
-        await this.props.recoverAccountSeedPhrase(seedPhrase, accountId)
+        await this.props.recoverAccountSeedPhrase(seedPhrase, false, accountId, true)
         this.props.refreshAccount()
         this.props.redirectToApp()
     }

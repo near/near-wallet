@@ -60,7 +60,12 @@ export const setRequest = (data) => {
     localStorage.setItem(`__multisigRequest`, JSON.stringify(data))
 }
 // helpers
-const splitPK = (pk) => pk.split(':')[1]
+const splitPK = (pk) => {
+    if (typeof pk !== 'string') {
+        pk = pk.toString()
+    }
+    return pk.replace('ed25519:', '')
+}
 const toPK = (pk) => nearApiJs.utils.PublicKey.from(pk)
 
 export const setTempAccount = (accountId) => {
@@ -193,8 +198,10 @@ class Wallet {
     Multisig Requests
     ********************************/
     async makeTwoFactorRequest(account, request) {
-        console.log(account, request)
+        // override account if we're recovering with 2fa
+        if (tempTwoFactorAccount) account = tempTwoFactorAccount
         const { accountId } = account
+        console.log('makeTwoFactorRequest', accountId, request, account)
         const contract = this.getContract(account)
         const request_id = await this.getNextRequestId(contract)
         await this.addRequestAndConfirm(contract, request)
@@ -309,7 +316,7 @@ class Wallet {
         if (has2fa) {
             const request = {
                 receiver_id: this.accountId,
-                actions: [{ type: 'DeleteKey', public_key: publicKey.split('ed25519:')[1] }]
+                actions: [{ type: 'DeleteKey', public_key: splitPK(publicKey) }]
             }
             return await this.makeTwoFactorRequest(account, request)
         } else {
@@ -478,26 +485,31 @@ class Wallet {
         this.accounts[accountId] = true
     }
 
-    async addAccessKey(accountId, contractId, publicKey) {
+    async addAccessKey(accountId, contractId, publicKey, fullAccess = false) {
         const { account, has2fa } = await this.getAccountAndState()
-
         if (has2fa) {
-            // always will be adding key to our account
-            const request = {
-                receiver_id: account.accountId,
-                actions: [{ type: 'AddKey', public_key: publicKey.split('ed25519:')[1] }]
+            // default method names will be limited access key multisig contract methods
+            let method_names = METHOD_NAMES_LAK
+            if (contractId !== accountId) {
+                method_names = []
             }
-            /********************************
-            @todo for login to apps, need to add permissions
-            ********************************/
-            // if (contractId && contractId !== account.accountId) {
-            //     request.actions[0].permission = {
-            //         allowance: '0', // unlimited
-            //         receiver_id: contractId,
-            //         method_names: ['send'],
-            //     }
-            // }
-            // console.log(request)
+            const request = {
+                // always adding keys to our account
+                receiver_id: account.accountId,
+                actions: [{
+                    type: 'AddKey',
+                    public_key: splitPK(publicKey),
+                    // a full access key has no permission
+                    ...(!fullAccess ? {
+                        permission: {
+                            // not always adding a key FOR our account
+                            receiver_id: contractId,
+                            allowance: '0',
+                            method_names
+                        }
+                    } : null)
+                }]
+            }
             return await this.makeTwoFactorRequest(account, request)
         } else {
             try {
@@ -613,6 +625,7 @@ class Wallet {
 
     async postSignedJson(path, options) {
         // if there's a tempTwoFactorAccount (recovery with 2fa) use that vs. this
+        console.log('tempTwoFactorAccount', tempTwoFactorAccount)
         return await sendJson('POST', ACCOUNT_HELPER_URL + path, {
             ...options,
             ...(await this.signatureFor(tempTwoFactorAccount ? tempTwoFactorAccount : this))
@@ -671,12 +684,17 @@ class Wallet {
         if (!method) method = await this.get2faMethod()
         // add request to local storage
         setRequest({ accountId, requestId, data })
+
+        console.log(accountId, requestId, data)
+        console.log('tempTwoFactorAccount', tempTwoFactorAccount)
+
         const serverResponse = this.postSignedJson('/2fa/send', {
             accountId,
             method,
             requestId,
             data
         }).catch((e) => console.log('/2fa/send failed', e));
+        
         if (requestId !== -1) {
             // we know the requestId of what we want to confirm so pop the modal now and wait on that
             return new Promise((resolve) => {
@@ -840,11 +858,12 @@ class Wallet {
         const { account, has2fa } = await this.getAccountAndState(accountId)
         const accountKeys = await account.getAccessKeys();
         if (has2fa) {
-            const request = {
-                receiver_id: account.accountId,
-                actions: [{ type: 'AddKey', public_key: publicKey.split('ed25519:')[1] }]
-            }
-            await this.makeTwoFactorRequest(account, request)
+            await this.addAccessKey(account.accountId, account.accountId, splitPK(publicKey))
+            // const request = {
+            //     receiver_id: account.accountId,
+            //     actions: [{ type: 'AddKey', public_key: splitPK(publicKey) }]
+            // }
+            // await this.makeTwoFactorRequest(account, request)
         } else {
             if (!accountKeys.some(it => it.public_key.endsWith(publicKey))) {
                 await account.addKey(publicKey);
@@ -891,14 +910,14 @@ class Wallet {
         })
     }
 
-    async recoverAccountSeedPhrase(seedPhrase, use2fa = false, accountId) {
+    async recoverAccountSeedPhrase(seedPhrase, use2fa = false, accountId, fromSeedPhraseRecovery = false) {
         const { publicKey, secretKey } = parseSeedPhrase(seedPhrase)
 
         console.log('recovering account with publicKey', publicKey)
 
         const accountIds = await getAccountIds(publicKey)
         // if we don't find accountIds we can push one from the link (email/sms ONLY)
-        if (accountId) {
+        if (accountId && !accountIds.includes(accountId)) {
             accountIds.push(accountId)
         }
 
@@ -910,7 +929,9 @@ class Wallet {
             }
             accountIds.push(userProvidedAccountId)
             // if user provided seed phrase it's probably a LAK
-            use2fa = true
+            if (!fromSeedPhraseRecovery) {
+                use2fa = true
+            }
         }
 
         const tempKeyStore = new nearApiJs.keyStores.InMemoryKeyStore()
@@ -924,10 +945,13 @@ class Wallet {
             const account = new nearApiJs.Account(connection, accountId)
             account.accountId = accountId
             this.accountId = accountId
-            tempTwoFactorAccount = account
             // recovery keypair
             const keyPair = KeyPair.fromString(secretKey)
             await tempKeyStore.setKey(NETWORK_ID, accountId, keyPair)
+            account.keyStore = tempKeyStore
+            account.inMemorySigner = new nearApiJs.InMemorySigner(tempKeyStore)
+            // this will replace the signer when we postSignedJson
+            tempTwoFactorAccount = account
             // generate new keypair
             const newKeyPair = KeyPair.fromRandom('ed25519')
             // check if multisig deployed
@@ -937,29 +961,7 @@ class Wallet {
             ********************************/
             if (state.code_hash !== ACCOUNT_NO_CODE_HASH) {
                 if (use2fa) {
-                    // (1) multisig + LAK recovery - add LAK using multisig 
-                    const contract = this.getContract(account)
-                    const request_id = await this.getNextRequestId(contract)
-                    const public_key = newKeyPair.publicKey.toString().replace('ed25519:', '')
-                    const addKeyAction = {
-                        type: 'AddKey', public_key,
-                    }
-                    // send request
-                    const request = {
-                        receiver_id: accountId,
-                        actions: [addKeyAction]
-                    }
-                    await this.addRequestAndConfirm(contract, request)
-                    // request successfully added to multisig?
-                    const request_id_after = await this.getNextRequestId(contract)
-                    if (request_id_after > request_id) {
-                        const data = { request_id, request }
-                        // needed prove to contract helper we're signer of account
-                        account.keyStore = tempKeyStore
-                        account.inMemorySigner = new nearApiJs.InMemorySigner(tempKeyStore)
-                        const method = await this.get2faMethod(account)
-                        await this.sendTwoFactor(accountId, method, request_id, data)
-                    }
+                    await this.addAccessKey(accountId, accountId, splitPK(newKeyPair.publicKey))
                 } else {
                     // (2) multisig + FAK recovery with seed phrase - add LAK directly
                     const actions = [
