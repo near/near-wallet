@@ -12,7 +12,7 @@ const EnabledContainer = styled.div`
             align-items: center;
 
             .title {
-                font-weight: 600;
+                font-weight: 500;
                 color: #24272a;
             }
 
@@ -51,6 +51,7 @@ const EnabledContainer = styled.div`
                 text-decoration: none;
                 margin-left: 10px;
                 text-transform: capitalize !important;
+                font-weight: 400 !important;
 
                 :before {
                     content: '';
@@ -93,7 +94,7 @@ const DisableContainer = styled.form`
                 &:first-of-type {
                     padding: 5px 15px;
                     text-transform: uppercase;
-                    width: 152px;
+                    width: 155px;
                 }
 
                 &:last-of-type {
@@ -122,9 +123,7 @@ class ActiveMethod extends Component {
     render() {
 
         const { disable, username } = this.state;
-        const { data, onResend, onDelete, accountId } = this.props;
-        const deletingMethod = this.props.deletingMethod === data.detail;
-        const resendingLink = this.props.resendingLink === data.detail;
+        const { data, onResend, onDelete, accountId, deletingMethod, resendingLink } = this.props;
 
         if (!disable) {
             return (

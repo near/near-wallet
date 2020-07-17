@@ -5,9 +5,12 @@ import styled, { ThemeProvider } from 'styled-components'
 
 import { Route, Switch } from 'react-router-dom'
 import { ConnectedRouter } from 'connected-react-router'
-import { withLocalize } from 'react-localize-redux';
-import ScrollToTop from '../utils/ScrollToTop'
+import { withLocalize } from 'react-localize-redux'
 import translations_en from '../translations/en.global.json'
+import translations_ru from '../translations/ru.global.json'
+import translations_zh_hans from '../translations/zh-hans.global.json'
+import translations_zh_hant from '../translations/zh-hant.global.json'
+import ScrollToTop from '../utils/ScrollToTop'
 import GlobalAlert from './responsive/GlobalAlert'
 import '../index.css'
 
@@ -23,6 +26,7 @@ import { SetupLedgerSuccessWithRouter } from './accounts/ledger/SetupLedgerSucce
 import { RecoverAccountWithRouter } from './accounts/RecoverAccount'
 import { RecoverAccountSeedPhraseWithRouter } from './accounts/RecoverAccountSeedPhrase'
 import { RecoverWithLinkWithRouter } from './accounts/RecoverWithLink'
+import { SignInLedger } from './accounts/ledger/SignInLedger'
 import { LoginWithRouter } from './login/Login'
 import { LoginCliLoginSuccess } from './login/LoginCliLoginSuccess'
 import { ContactsWithRouter } from './contacts/Contacts'
@@ -36,7 +40,7 @@ import { NodeStakingWithRouter } from './node-staking/NodeStaking'
 import { AddNodeWithRouter } from './node-staking/AddNode'
 import { NodeDetailsWithRouter } from './node-staking/NodeDetails'
 import { StakingWithRouter } from './node-staking/Staking'
-import { IS_MAINNET } from '../utils/wallet'
+import { IS_MAINNET, DISABLE_SEND_MONEY } from '../utils/wallet'
 import { refreshAccount, handleRefreshUrl, clearAlert, clear, handleRedirectUrl, handleClearUrl } from '../actions/account'
 
 import GlobalStyle from './GlobalStyle'
@@ -44,6 +48,10 @@ import { SetupSeedPhraseWithRouter } from './accounts/SetupSeedPhrase'
 const theme = {}
 
 const PATH_PREFIX = process.env.PUBLIC_URL
+
+const onMissingTranslation = ({ translationId }) => {
+    return `${translationId}`
+  };
 
 const Container = styled.div`
     min-height: 100vh;
@@ -64,18 +72,31 @@ const Container = styled.div`
 class Routing extends Component {
     constructor(props) {
         super(props)
+        const languages = [
+            { name: "English", code: "en" },
+            { name: "Русский", code: "ru" },
+            { name: "简体中文", code: "zh-hans" },
+            { name: "繁體中文", code: "zh-hant" }
+        ]
+        
+        const defaultLanguage = localStorage.getItem("languageCode") || languages[0].code
 
         this.props.initialize({
-            languages: [
-                { name: "English", code: "en" },
-            ],
-            translation: {},
+            languages,
             options: {
+                defaultLanguage,
+                onMissingTranslation,
                 renderToStaticMarkup: false,
                 renderInnerHtml: true
             }
         })
+        
+        // TODO: Figure out how to load only necessary translations dynamically
         this.props.addTranslationForLanguage(translations_en, "en")
+        this.props.addTranslationForLanguage(translations_ru, "ru")
+        this.props.addTranslationForLanguage(translations_zh_hans, "zh-hans")
+        this.props.addTranslationForLanguage(translations_zh_hant, "zh-hant")
+        // this.addTranslationsForActiveLanguage(defaultLanguage)
     }
 
     componentDidMount = () => {
@@ -88,9 +109,9 @@ class Routing extends Component {
             handleRedirectUrl(this.props.router.location)
             handleClearUrl()
             refreshAccount()
-            
+
             const { state: { globalAlertPreventClear } = {} } = history.location
-            if (!globalAlertPreventClear) {
+            if (!globalAlertPreventClear && !this.props.account.globalAlertPreventClear) {
                 clearAlert()
             }
 
@@ -98,10 +119,30 @@ class Routing extends Component {
         })
     }
 
+    componentDidUpdate(prevProps) {
+        const prevLangCode = prevProps.activeLanguage && prevProps.activeLanguage.code
+        const curLangCode = this.props.activeLanguage && this.props.activeLanguage.code
+        const hasLanguageChanged = prevLangCode !== curLangCode
+
+        if (hasLanguageChanged) {
+            // this.addTranslationsForActiveLanguage(curLangCode)
+            localStorage.setItem("languageCode", curLangCode)
+        }
+    }
+
+    // addTranslationsForActiveLanguage(activeLang) {
+    //     import(`../translations/${activeLang}.global.json`).then(
+    //         translations => {
+    //             console.log(translations)
+    //             this.props.addTranslationForLanguage(translations, activeLang);
+    //         }
+    //     );
+    // }
+
     render() {
 
         return (
-            <Container className='App' mainnet={IS_MAINNET ? true : false}>
+            <Container className='App' mainnet={IS_MAINNET}>
                 <GlobalStyle />
                 <ConnectedRouter basename={PATH_PREFIX}  history={this.props.history}>
                     <ThemeProvider theme={theme}>
@@ -148,6 +189,11 @@ class Routing extends Component {
                                 />
                                 <Route
                                     exact
+                                    path='/recover-seed-phrase/:seedPhrase?'
+                                    component={RecoverAccountSeedPhraseWithRouter}
+                                />
+                                <Route
+                                    exact
                                     path='/recover-seed-phrase/:accountId?/:seedPhrase?'
                                     component={RecoverAccountSeedPhraseWithRouter}
                                 />
@@ -155,6 +201,11 @@ class Routing extends Component {
                                     exact
                                     path='/recover-with-link/:accountId?/:seedPhrase?'
                                     component={RecoverWithLinkWithRouter}
+                                />
+                                <Route
+                                    exact
+                                    path='/sign-in-ledger'
+                                    component={SignInLedger}
                                 />
                                 <PrivateRoute
                                     path='/login'
@@ -175,11 +226,13 @@ class Routing extends Component {
                                     path='/full-access-keys'
                                     component={FullAccessKeysWithRouter}
                                 />
-                                <PrivateRoute
-                                    exact
-                                    path='/send-money/:id?'
-                                    component={SendMoneyWithRouter}
-                                />
+                                {!DISABLE_SEND_MONEY &&
+                                    <PrivateRoute
+                                        exact
+                                        path='/send-money/:id?'
+                                        component={SendMoneyWithRouter}
+                                    />
+                                }
                                 <PrivateRoute
                                     exact
                                     path='/receive-money'

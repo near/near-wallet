@@ -7,8 +7,8 @@ const NotEnabledContainer = styled.div`
     display: flex;
     align-items: center;
     justify-content: space-between;
-    font-weight: 600;
     color: #24272a;
+    font-weight: 500;
 `
 
 const Button = styled(Link)`
@@ -28,7 +28,7 @@ const Button = styled(Link)`
     }
 `
 
-const InactiveMethod = ({ method, accountId, activeMethods }) => (
+const InactiveMethod = ({ method, accountId }) => (
     <NotEnabledContainer>
         <Translate id={`recoveryMgmt.methodTitle.${method}`}/>
         <Button to={{

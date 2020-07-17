@@ -5,7 +5,6 @@ const StyledButton = styled.button`
     border-radius: 40px;
     padding: 5px;
     text-transform: uppercase;
-    font-weight: 500;
     outline: none;
     line-height: normal;
     letter-spacing: 1px;

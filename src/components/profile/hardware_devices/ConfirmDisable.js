@@ -31,7 +31,7 @@ const Container = styled.form`
         .red {
             text-transform: uppercase;
             padding: 5px 15px;
-            width: 152px;
+            width: 155px;
         }
     
         .link {

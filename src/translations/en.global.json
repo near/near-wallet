@@ -5,8 +5,9 @@
             "error": "Failed to send SMS with code."
         },
         "recoverAccount": {
-            "success": "Success",
-            "error": "Failed to recover account."
+            "success": "Recover using Seed Phrase is complete.<br/><b>${numberOfAccounts} account(s)</b> have been successfully recovered: <b>${accountList}</b>.<br/>The last one is set as active.",
+            "error": "Failed to recover account. Seed phrase is invalid.",
+            "errorInvalidSeedPhrase": "Seed phrase is invalid"
         },
         "create": {
             "success": "Congrats! ${accountId} is available.",
@@ -15,7 +16,8 @@
             "checkingAvailablity": {
                 "create": "Checking availability",
                 "check": "Checking"
-            }
+            },
+            "errorAccountNotExist": "There was a problem creating your account. Please try again!"
         },
         "available": {
             "success": "User found.",
@@ -32,6 +34,10 @@
         "setupRecoveryMessage": {
             "success": "Recovery setup is complete.",
             "error": "An error occurred while setting up your recovery method. Please try again!"
+        },
+        "sendNewRecoveryLink": {
+            "success": "Recovery link successfully sent!",
+            "error": "Failed to resend. Please try again."
         },
         "login": {
             "success": "${title} is now authorized to use your account.",
@@ -74,7 +80,7 @@
     },
 
     "setupSeedPhrase": {
-        "pageTitle": "Setup Recovery Phrase",
+        "pageTitle": "Setup Phrase",
         "pageText": "Write down the following words IN ORDER and keep them somewhere safe. You cannot recover your account without them!",
         "snackbarCopySuccess": "Seed phrase copied!"
     },
@@ -139,7 +145,7 @@
         "title": "Hardware Devices",
         "desc": "Improve the security of your account by using a hardware wallet.",
         "ledger": {
-            "title": "Ledger Hardware Wallet",
+            "title": "Ledger Nano S",
             "auth": "Authorized",
             "disclaimer": "In order to disable your ledger device, you must first enable an alternative recovery method."
         },
@@ -170,6 +176,8 @@
     },
 
     "button": {
+        "signIn": "Sign In",
+        "signingIn": "Signing In",
         "copyPhrase": "COPY PHRASE",
         "continue": "CONTINUE",
         "verify": "VERIFY & COMPLETE",
@@ -206,15 +214,19 @@
         "goBack": "Go back",
         "createNewAccount": "CREATE NEW ACCOUNT",
         "moreInformation": "More information",
-        "dismiss": "Dismiss"
+        "dismiss": "Dismiss",
+        "cancelOperation": "Cancel Operation"
     },
 
     "link": {
         "summary": "SUMMARY",
         "send": "SEND",
         "receive": "RECEIVE",
+        "help": "HELP",
         "profile": "Profile",
         "authorizedApps": "Authorized Apps",
+        "switchAccount": "Switch account",
+        "noAccount": "You have no other accounts",
         "fullAccessKeys": "Full Access Keys"
     },
 
@@ -250,11 +262,12 @@
         "pageTitle": "Create Account",
         "pageText": "Just choose a username and you’re all set.",
         "accountIdInput": {
-            "title": "Choose a Username",
+            "title": "Username",
             "placeholder": "Example: satoshi"
         },
         "alreadyHaveAnAccount": "Already have an account?",
-        "recoverItHere": "Recover it here",
+        "recoverItHere": "Recover your account",
+        "signInLedger": "Sign in with Ledger",
         "note": {
             "title": "NOTE",
             "one": "Your username can contain any of the following:",
@@ -442,6 +455,9 @@
             "totalBalance": "Total Balance",
             "minBalance": "Minimum Balance",
             "staked": "Staked",
+            "locked": "Locked",
+            "unvested": "Unvested",
+            "unlocked": "Unlocked",
             "availableBalance": "Available Balance",
             "lockPopup": {
                 "title": "Why is this locked?",
@@ -535,7 +551,7 @@
 
     "setupLedger": {
         "header": "Connect your Ledger device",
-        "one": "Connect your Ledger to your computer or mobile device via USB, then open the NEAR application.",
+        "one": "Connect your Ledger Nano S to your computer or mobile device via USB and <b>open the NEAR application</b>.",
         "two": "If you have not yet installed the NEAR Ledger app, follow",
         "twoLink": "these instructions"
     },
@@ -569,10 +585,28 @@
         }
     },
 
+    "signInLedger": {
+        "header": "Sign in with your Ledger device",
+        "one": "Make sure your ledger is connected securely, and that the NEAR app is open on the device.",
+        "success": "You’ve successfully signed in.<br/><b>${numberOfAccounts} account(s)</b> have been successfully recovered: <b>${accountList}</b>.<br/>The last one is set as active.",
+        "error": "Please check that your device is connected and the NEAR app is open."
+    },
+
+    "confirmLedgerModal": {
+        "header": "Please confirm the operation on your device...",
+        "one": "You will need to confirm your sign-in details on your Ledger."
+    },
+    
     "errors": {
         "ledger": {
             "U2FNotSupported": "U2F browser support is needed for Ledger. Please use Chrome, Opera or Firefox with a U2F extension. Also make sure you're on an HTTPS connection.",
             "U2F_4": "Failed to sign with Ledger device: U2F DEVICE_INELIGIBLE. Please make sure that your Ledger device is connected and unlocked."
         }
+    },
+
+    "networkBanner": {
+        "title": "Test-only Wallet",
+        "header": "NEAR test Wallet",
+        "desc": "This wallet (and network) are for testing purposes only. Tokens and other assets have no value. Accounts created do not transfer to Mainnet."
     }
 }

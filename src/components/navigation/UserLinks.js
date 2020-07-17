@@ -18,7 +18,6 @@ const UserLink = styled(Link)`
     transition: 100ms;
     padding: 8px 0;
     color: #8FD6BD;
-    font-weight: 500;
     transition: 100ms;
 
     :hover {

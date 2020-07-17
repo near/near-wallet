@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import summaryIcon from '../../images/icon-recent.svg';
 import arrowIcon from '../../images/icon-send.svg';
 import { Translate } from 'react-localize-redux';
+import { DISABLE_SEND_MONEY } from '../../utils/wallet';
 
 const Container = styled.div`
     display: flex;
@@ -26,6 +27,7 @@ const NavLink = styled(Link)`
     cursor: pointer;
     transition: 100ms;
     color: white;
+    padding-top: 2px;
 
     &:before {
         content: '';
@@ -34,11 +36,12 @@ const NavLink = styled(Link)`
         display: inline-block;
         width: 23px;
         height: 23px;
+        margin-top: -2px;
     }
 
     &:last-of-type {
         &:before {
-            transform: rotate(180deg);
+            transform: rotate('180deg');
         }
     }
 
@@ -82,7 +85,9 @@ const NavLink = styled(Link)`
 const NavLinks = () => (
     <Container className='nav-links'>
         <NavLink icon={summaryIcon} to='/'><Translate id='link.summary'/></NavLink>
-        <NavLink icon={arrowIcon} to='/send-money'><Translate id='link.send'/></NavLink>
+        {!DISABLE_SEND_MONEY &&
+            <NavLink icon={arrowIcon} to='/send-money'><Translate id='link.send'/></NavLink>
+        }
         <NavLink icon={arrowIcon} to='/receive-money'><Translate id='link.receive'/></NavLink>
     </Container>
 )

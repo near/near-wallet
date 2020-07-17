@@ -39,7 +39,7 @@ export const handleRefreshUrl = () => (dispatch, getState) => {
 
     if ([...WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS, WALLET_LOGIN_URL, WALLET_SIGN_URL].includes(currentPage)) {
         const parsedUrl = {
-            referrer: document.referrer,
+            referrer: document.referrer && new URL(document.referrer).hostname,
             ...parse(search)
         }
 
@@ -98,8 +98,7 @@ export const redirectToApp = (fallback) => (dispatch, getState) => {
 export const allowLogin = () => async (dispatch, getState) => {
     const { account } = getState()
     const { url } = account
-    const { error } = await dispatch(addAccessKey(account.accountId, url.contract_id, url.public_key, url.success_url, url.title))
-    if (error) return
+    await dispatch(addAccessKey(account.accountId, url.contract_id, url.public_key, url.success_url, url.title))
 
     const { success_url, public_key } = url
     if (success_url) {
@@ -155,11 +154,12 @@ export const { initializeRecoveryMethod, validateSecurityCode, setupRecoveryMess
     CLEAR_CODE: null
 })
 
-export const { getAccessKeys, removeAccessKey, addLedgerAccessKey, removeNonLedgerAccessKeys } = createActions({
+export const { getAccessKeys, removeAccessKey, addLedgerAccessKey, signInWithLedger, removeNonLedgerAccessKeys } = createActions({
     GET_ACCESS_KEYS: [wallet.getAccessKeys.bind(wallet), () => ({})],
     REMOVE_ACCESS_KEY: [wallet.removeAccessKey.bind(wallet), () => ({})],
     ADD_LEDGER_ACCESS_KEY: [wallet.addLedgerAccessKey.bind(wallet), () => defaultCodesFor('errors.ledger')],
-    REMOVE_NON_LEDGER_ACCESS_KEYS: [wallet.removeNonLedgerAccessKeys.bind(wallet), () => ({})],
+    SIGN_IN_WITH_LEDGER: [wallet.signInWithLedger.bind(wallet), () => defaultCodesFor('signInLedger')],
+    REMOVE_NON_LEDGER_ACCESS_KEYS: [wallet.removeNonLedgerAccessKeys.bind(wallet), () => ({})]
 })
 
 export const { addAccessKey, addAccessKeySeedPhrase, clearAlert } = createActions({
@@ -199,11 +199,11 @@ export const { signAndSendTransactions } = createActions({
     ]
 })
 
-export const { switchAccount, refreshAccount, refreshAccountExternal, resetAccounts, refreshUrl, setFormLoader } = createActions({
+export const { switchAccount, refreshAccount, refreshAccountExternal, refreshUrl, setFormLoader } = createActions({
     SWITCH_ACCOUNT: wallet.selectAccount.bind(wallet),
     REFRESH_ACCOUNT: [
-        wallet.loadAccount.bind(wallet),
-        () => ({ accountId: wallet.getAccountId(), })
+        wallet.refreshAccount.bind(wallet),
+        () => ({ accountId: wallet.accountId })
     ],
     REFRESH_ACCOUNT_EXTERNAL: [
         async (accountId) => ({
@@ -212,7 +212,6 @@ export const { switchAccount, refreshAccount, refreshAccountExternal, resetAccou
         }),
         accountId => ({ accountId })
     ],
-    RESET_ACCOUNTS: wallet.clearState.bind(wallet),
     REFRESH_URL: null,
     SET_FORM_LOADER: null
 })

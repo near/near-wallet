@@ -47,18 +47,17 @@ const DomainName = styled.div`
     align-items: center;
     justify-content: center;
     border-radius: 4px;
-    font-weight: 400;
+    font-weight: 300;
     color: #4a4f54;
     font-size: 16px;
     padding: 0 10px;
-    line-height: normal;
     background-color: #f8f8f8;
     cursor: pointer;
 
     svg {
         width: 17px;
         height: 17px;
-        margin-left: 6px;
+        margin: -2px 0 0 6px;
     }
 `
 
@@ -74,6 +73,13 @@ class AccountFormAccountId extends Component {
     }
 
     input = createRef()
+    componentDidMount = () => {
+        const { defaultAccountId } = this.props
+        const { accountId } = this.state
+        if (defaultAccountId) {
+            this.handleChangeAccountId({}, { name: 'accountId', value: accountId})
+        }
+    }
 
     handleChangeAccountId = (e, { name, value }) => {
         const { pattern, handleChange, type } = this.props
@@ -136,18 +142,20 @@ class AccountFormAccountId extends Component {
             && this.props.checkAvailability(type === 'create' ? this.props.accountId : accountId) 
     )
 
-    checkSameAccount = () => this.props.type !== 'create' && this.props.stateAccountId === this.state.accountId
+    isSameAccount = () => this.props.type !== 'create' && this.props.stateAccountId === this.state.accountId
 
     get loaderRequestStatus() {
         return {
             messageCode: `account.create.checkingAvailablity.${this.props.type}`
-    }}
+        }
+    }
 
     get accountIdLengthRequestStatus() {
         return {
             success: false,
             messageCode: 'account.create.errorInvalidAccountIdLength'
-    }}
+        }
+    }
 
     get sameAccountRequestStatus() {
         return {
@@ -156,17 +164,17 @@ class AccountFormAccountId extends Component {
         }
     }
 
-    handleRequestStatus = () => (
-        this.state.accountId
+    get requestStatusWithFormValidation() {
+        return this.state.accountId
             ? this.props.formLoader
                 ? this.loaderRequestStatus
                 : this.state.invalidAccountIdLength
                     ? this.accountIdLengthRequestStatus
-                    : this.checkSameAccount()
+                    : this.isSameAccount()
                         ? this.sameAccountRequestStatus
                         : this.props.requestStatus
             : null
-    )
+    }
 
     render() {
         const {
@@ -177,7 +185,7 @@ class AccountFormAccountId extends Component {
 
         const { accountId, wrongChar } = this.state
 
-        const requestStatus = this.handleRequestStatus()
+        const requestStatus = this.requestStatusWithFormValidation
 
         return (
             <>

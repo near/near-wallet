@@ -26,7 +26,7 @@ const CustomForm = styled(Form)`
             margin-top: 12px;
             color: #24272a;
             line-height: 24px;
-            font-weight: 600;
+            font-weight: 500;
 
             a {
                 text-decoration: underline;
@@ -60,6 +60,10 @@ const CustomForm = styled(Form)`
                     display: none;
                 }
             }
+        }
+        .seed-phrase-header {
+            margin-top: 0px;
+            padding-top: 1rem;
         }
 
         .react-phone-number-input__phone {

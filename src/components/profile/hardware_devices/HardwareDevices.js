@@ -37,6 +37,7 @@ const Container = styled(Card)`
 
     .font-rounded {
         margin-top: 15px;
+        font-weight: 500;
     }
 
     .device {
@@ -48,7 +49,7 @@ const Container = styled(Card)`
         padding: 20px 20px 0 20px;
 
         .name {
-            font-weight: 600;
+            font-weight: 500;
             color: #24272a;
 
             div {
@@ -96,13 +97,15 @@ const HardwareDevices = () => {
     const handleConfirmDisable = async () => {
         setDisabling(true);
         // TODO: Should move to explicit action to disable Ledger
-        const { error } = await dispatch(removeAccessKey(ledgerKey.public_key))
-        if (!error) {
-            setConfirmDisable(false);
+        try {
+            await dispatch(removeAccessKey(ledgerKey.public_key))
+        } finally {
+            // TODO: Reload of keys should trigger automatically after any change action?
+            await dispatch(getAccessKeys())
+            setDisabling(false);
         }
-        // TODO: Reload of keys should trigger automatically after any change action?
-        await dispatch(getAccessKeys())
-        setDisabling(false);
+
+        setConfirmDisable(false);
     }
 
     return (
