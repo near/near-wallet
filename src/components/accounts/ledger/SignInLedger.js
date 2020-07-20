@@ -17,16 +17,14 @@ export function SignInLedger(props) {
     const savingAccounts = account.actionsPending.includes('SAVE_AND_SELECT_LEDGER_ACCOUNTS')
     const signingIn = gettingAccounts || addingAccounts || savingAccounts
 
-    const ledgerAccounts = addingAccounts && Object.keys(account.signInWithLedger).map((accountId) => {
-        return {
-            accountId,
-            status: account.signInWithLedger[accountId] === 'waiting'
-                ? 'confirm'
-                : typeof account.signInWithLedger[accountId] === 'object'
-                    ? 'success'
-                    : 'pending'
-        }
-    })
+    const ledgerAccounts = addingAccounts && Object.keys(account.signInWithLedger).map((accountId) => ({
+        accountId,
+        status: account.signInWithLedger[accountId] === 'waiting'
+            ? 'confirm'
+            : typeof account.signInWithLedger[accountId] === 'object'
+                ? 'success'
+                : 'pending'
+    }))
 
     const handleSignIn = async () => {
         const { error } = await dispatch(signInWithLedger())
@@ -42,10 +40,8 @@ export function SignInLedger(props) {
             <h1><Translate id='signInLedger.header'/></h1>
             <LedgerImage/>
             <p><Translate id='signInLedger.one'/></p>
-
             <br/>
             <RequestStatusBox requestStatus={account.requestStatus}/>
-
             <FormButton
                 onClick={handleSignIn}
                 sending={signingIn}

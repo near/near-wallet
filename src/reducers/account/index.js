@@ -142,7 +142,7 @@ const account = handleActions({
 }, initialState)
 
 const ledger = handleActions({
-    [getLedgerAccountIds]: (state, { error, payload, ready, meta }) => {
+    [getLedgerAccountIds]: (state, { error, payload }) => {
         if (error) {
             return {
                 ...state,
@@ -174,7 +174,7 @@ const ledger = handleActions({
             }
         }
     },
-    [saveAndSelectLedgerAccounts]: (state, { error, payload, ready, meta }) => {
+    [saveAndSelectLedgerAccounts]: (state, { error }) => {
         if (error) {
             return {
                 ...state,
