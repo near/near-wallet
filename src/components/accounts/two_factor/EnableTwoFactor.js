@@ -44,6 +44,7 @@ export function EnableTwoFactor(props) {
     const [email, setEmail] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
     const recoveryMethods = useRecoveryMethods(accountId);
+    const loading = account.actionsPending.some(action => ['INIT_TWO_FACTOR', 'VERIFY_TWO_FACTOR', 'DEPLOY_MULTISIG'].includes(action))
 
     const method = {
         kind: `2fa-${option}`,
@@ -168,8 +169,8 @@ export function EnableTwoFactor(props) {
                     <FormButton
                         color='blue'
                         type='submit'
-                        disabled={!isValidInput()}
-                        sending={account.actionsPending.includes('INIT_TWO_FACTOR')}
+                        disabled={!isValidInput() || loading}
+                        sending={loading}
                     >
                         <Translate id={`button.continue`}/>
                     </FormButton>
@@ -185,7 +186,7 @@ export function EnableTwoFactor(props) {
                 onConfirm={handleConfirm}
                 onGoBack={handleGoBack}
                 onResend={handleResend}
-                loading={account.actionsPending.includes('VERIFY_TWO_FACTOR') || account.actionsPending.includes('DEPLOY_MULTISIG')}
+                loading={loading}
                 requestStatus={props.requestStatus}
             />
         )
