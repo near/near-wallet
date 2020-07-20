@@ -221,11 +221,11 @@ class Routing extends Component {
                                     path='/authorized-apps'
                                     component={AuthorizedAppsWithRouter}
                                 />
-                                {/*<PrivateRoute
+                                <PrivateRoute
                                     exact
                                     path='/full-access-keys'
                                     component={FullAccessKeysWithRouter}
-                                />*/}
+                                />
                                 {!DISABLE_SEND_MONEY &&
                                     <PrivateRoute
                                         exact
