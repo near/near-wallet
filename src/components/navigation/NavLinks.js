@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import summaryIcon from '../../images/icon-recent.svg';
 import arrowIcon from '../../images/icon-send.svg';
 import { Translate } from 'react-localize-redux';
-import { IS_MAINNET } from '../../utils/wallet';
+import { DISABLE_SEND_MONEY } from '../../utils/wallet';
 
 const Container = styled.div`
     display: flex;
@@ -41,7 +41,7 @@ const NavLink = styled(Link)`
 
     &:last-of-type {
         &:before {
-            transform: rotate(${!IS_MAINNET ? '180deg' : '0deg'});
+            transform: rotate('180deg');
         }
     }
 
@@ -85,12 +85,10 @@ const NavLink = styled(Link)`
 const NavLinks = () => (
     <Container className='nav-links'>
         <NavLink icon={summaryIcon} to='/'><Translate id='link.summary'/></NavLink>
-        {!IS_MAINNET &&
-            <>
-                <NavLink icon={arrowIcon} to='/send-money'><Translate id='link.send'/></NavLink>
-                <NavLink icon={arrowIcon} to='/receive-money'><Translate id='link.receive'/></NavLink>
-            </>
+        {!DISABLE_SEND_MONEY &&
+            <NavLink icon={arrowIcon} to='/send-money'><Translate id='link.send'/></NavLink>
         }
+        <NavLink icon={arrowIcon} to='/receive-money'><Translate id='link.receive'/></NavLink>
     </Container>
 )
 

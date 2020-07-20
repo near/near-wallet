@@ -10,6 +10,7 @@ import { generateSeedPhrase } from 'near-seed-phrase';
 import { getAccountIds } from './explorer-api'
 import { WalletError } from './walletError'
 import { setAccountConfirmed, getAccountConfirmed, removeAccountConfirmed} from './localStorage'
+import BN from 'bn.js'
 
 export const WALLET_CREATE_NEW_ACCOUNT_URL = 'create'
 export const WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS = ['create', 'set-recovery', 'setup-seed-phrase', 'recover-account', 'recover-seed-phrase', 'sign-in-ledger']
@@ -18,7 +19,9 @@ export const WALLET_SIGN_URL = 'sign'
 export const ACCOUNT_HELPER_URL = process.env.REACT_APP_ACCOUNT_HELPER_URL || 'https://near-contract-helper-2fa.onrender.com'
 export const EXPLORER_URL = process.env.EXPLORER_URL || 'https://explorer.testnet.near.org';
 export const IS_MAINNET = process.env.REACT_APP_IS_MAINNET === 'true' || process.env.REACT_APP_IS_MAINNET === 'yes'
+export const DISABLE_SEND_MONEY = process.env.DISABLE_SEND_MONEY === 'true' || process.env.DISABLE_SEND_MONEY === 'yes'
 export const ACCOUNT_ID_SUFFIX = process.env.REACT_APP_ACCOUNT_ID_SUFFIX || 'testnet'
+export const LOCKUP_ACCOUNT_ID_SUFFIX = process.env.LOCKUP_ACCOUNT_ID_SUFFIX || 'lockup'
 
 const NETWORK_ID = process.env.REACT_APP_NETWORK_ID || 'default'
 const CONTRACT_CREATE_ACCOUNT_URL = `${ACCOUNT_HELPER_URL}/account`
@@ -607,11 +610,41 @@ class Wallet {
     }
 
     async getBalance(accountId) {
-        let userAccountId = this.accountId;
-        if (accountId) {
-            userAccountId = accountId;
+        accountId = accountId || this.accountId
+
+        const account = this.getAccount(accountId)
+        const balance = await account.getAccountBalance()
+
+        // TODO: Should lockup contract balance be retrieved separately only when needed?
+        const lockupAccountId = accountId + '.' + LOCKUP_ACCOUNT_ID_SUFFIX
+        try {
+            // TODO: Makes sense for a lockup contract to return whole state as JSON instead of method per property
+            const [
+                ownersBalance,
+                liquidOwnersBalance,
+                lockedAmount,
+                unvestedAmount
+            ] = await Promise.all([
+                'get_owners_balance',
+                'get_liquid_owners_balance',
+                'get_locked_amount',
+                'get_unvested_amount'
+            ].map(methodName => account.viewFunction(lockupAccountId, methodName)))
+
+            return {
+                ...balance,
+                ownersBalance,
+                liquidOwnersBalance,
+                lockedAmount,
+                unvestedAmount,
+                total: new BN(balance.total).add(new BN(lockedAmount)).add(new BN(ownersBalance)).toString()
+            }
+        } catch (error) {
+            if (error.message.match(/Account ".+" doesn't exist/)) {
+                return balance
+            }
+            throw error
         }
-        return await this.getAccount(userAccountId).getAccountBalance()
     }
 
     async signatureFor(account) {

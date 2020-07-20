@@ -491,6 +491,9 @@
             "totalBalance": "Total Balance",
             "minBalance": "Minimum Balance",
             "staked": "Staked",
+            "locked": "Locked",
+            "unvested": "Unvested",
+            "unlocked": "Unlocked",
             "availableBalance": "Available Balance",
             "lockPopup": {
                 "title": "Why is this locked?",
