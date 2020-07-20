@@ -66,11 +66,17 @@ export function EnableTwoFactor(props) {
 
     const handleNext = async () => {
 
-        const { error } = await dispatch(initTwoFactor(accountId, method))
+        const { confirmed, error } = await dispatch(initTwoFactor(accountId, method))
 
         if (!error) {
-            console.log('init success')
-            setInitiated(true)
+            // found recovery method matching 2fa method, so we can deploy the multisig contract
+            if (confirmed) {
+                handleDeployMultisig()
+            } else {
+                // verify code first
+                console.log('init success')
+                setInitiated(true)
+            }
         }
     }
 
