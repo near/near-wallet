@@ -14,7 +14,6 @@ import {
     refreshAccount,
     resetAccounts,
     setFormLoader,
-    signInWithLedger,
     deleteRecoveryMethod,
     sendNewRecoveryLink,
     recoverAccountSeedPhrase,
