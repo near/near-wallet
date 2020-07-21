@@ -102,15 +102,6 @@ export function EnableTwoFactor(props) {
         return dispatch(redirectToApp('/profile'))
     }
 
-    const handleResend = async () => {
-
-        const { error } = await dispatch(reInitTwoFactor(accountId, method))
-
-        if (!error) {
-            console.log('re-init success')
-        }
-    }
-
     const handleGoBack = () => {
         setInitiated(false)
     }
@@ -185,7 +176,7 @@ export function EnableTwoFactor(props) {
                 email={email}
                 onConfirm={handleConfirm}
                 onGoBack={handleGoBack}
-                onResend={handleResend}
+                onResend={handleNext}
                 loading={loading}
                 requestStatus={props.requestStatus}
             />
