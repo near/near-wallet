@@ -142,14 +142,14 @@ const ProfileDetails = ({
                 </Popup>
             </Grid.Column>
         </Grid.Row>
-        <PublicBalanceRow titleId='profile.details.totalBalance' amount={total}/>
+        <PublicBalanceRow titleId='profile.details.totalBalance' infoId='totalBalance' amount={total}/>
         <PublicBalanceRow titleId='profile.details.minBalance' infoId='minimumBalance' amount={stateStaked}/>
-        <PublicBalanceRow titleId='profile.details.staked' amount={staked}/>
+        <PublicBalanceRow titleId='profile.details.staked' infoId='stakedBalance' amount={staked}/>
         {lockedAmount !== undefined
             ? <>
-                <PublicBalanceRow titleId='profile.details.locked' amount={new BN(lockedAmount).sub(new BN(unvestedAmount))}/>
-                <PublicBalanceRow titleId='profile.details.unvested' amount={unvestedAmount}/>
-                <PublicBalanceRow titleId='profile.details.unlocked' amount={ownersBalance}/>
+                <PublicBalanceRow titleId='profile.details.locked' infoId='lockedBalance' amount={new BN(lockedAmount).sub(new BN(unvestedAmount))}/>
+                <PublicBalanceRow titleId='profile.details.unvested' infoId='unvestedBalance' amount={unvestedAmount}/>
+                <PublicBalanceRow titleId='profile.details.unlocked' infoId='unlockedBalance' amount={ownersBalance}/>
                 <PublicBalanceRow titleId='profile.details.availableBalance' infoId='availableBalanceProfile' amount={available}/>
             </>
             : null
