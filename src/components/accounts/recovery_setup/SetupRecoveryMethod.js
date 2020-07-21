@@ -134,9 +134,9 @@ class SetupRecoveryMethod extends Component {
     handleSetupRecoveryMethod = async (securityCode) => {
         const  { accountId, setupRecoveryMessage, redirectToApp, history } = this.props;
 
-        const { error } = await setupRecoveryMessage(accountId, this.method, securityCode)
-
-        if (error) {
+        try {
+            await setupRecoveryMessage(accountId, this.method, securityCode)
+        } catch(e) {
             return;
         }
 
