@@ -20,11 +20,7 @@ export function SignInLedger(props) {
 
     const ledgerAccounts = addingAccounts && Object.keys(ledger.signInWithLedger).map((accountId) => ({
         accountId,
-        status: ledger.signInWithLedger[accountId] === 'waiting'
-            ? 'confirm'
-            : typeof ledger.signInWithLedger[accountId] === 'object'
-                ? 'success'
-                : 'pending'
+        status: ledger.signInWithLedger[accountId].status
     }))
 
     const handleSignIn = async () => {

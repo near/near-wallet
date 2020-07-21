@@ -375,11 +375,10 @@ class Wallet {
 
     async saveAndSelectLedgerAccounts(accounts) {
         const accountIds = Object.keys(accounts)
-        const newKeyPairs = Object.values(accounts)
 
         for (let i = 0; i < accountIds.length; i++) {
             const accountId = accountIds[i]
-            const newKeyPair = newKeyPairs[i]
+            const newKeyPair = accounts[accountId].key
             if (i === accountIds.length - 1) {
                 await this.saveAndSelectAccount(accountId, newKeyPair)
             } else {
