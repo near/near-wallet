@@ -97,9 +97,10 @@ export function EnableTwoFactor(props) {
         try {
             await dispatch(deployMultisig())
         } catch(e) {
-            console.log('Not able to deploy multisig')
+            return;
+        } finally {
+            dispatch(redirectToApp('/profile'))
         }
-        return dispatch(redirectToApp('/profile'))
     }
 
     const handleGoBack = () => {
