@@ -161,7 +161,6 @@ class Routing extends Component {
                         <NetworkBanner/>
                         <Navigation/>
                         <GlobalAlert/>
-                        {/* <EnableTwoFactorPromptModal/> */}
                         { 
                             this.props.account.requestPending !== null &&
                             <TwoFactorVerifyModal
