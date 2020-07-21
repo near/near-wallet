@@ -381,9 +381,9 @@ class Wallet {
             const accountId = accountIds[i]
             const newKeyPair = newKeyPairs[i]
             if (i === accountIds.length - 1) {
-                await wallet.saveAndSelectAccount(accountId, newKeyPair)
+                await this.saveAndSelectAccount(accountId, newKeyPair)
             } else {
-                await wallet.saveAccount(accountId, newKeyPair)
+                await this.saveAccount(accountId, newKeyPair)
             }
         }
 
