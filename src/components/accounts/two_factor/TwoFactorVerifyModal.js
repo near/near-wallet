@@ -24,8 +24,6 @@ const TwoFactorVerifyModal = ({ open, onClose }) => {
     const dispatch = useDispatch();
     const account = useSelector(({ account }) => account);
     const loading = account.actionsPending.includes('VERIFY_TWO_FACTOR');
-    const error = account.requestStatus && account.requestStatus.messageCode === 'account.verifyTwoFactor.error';
-    // console.log(account)
 
     useEffect(() => {
         let isMounted = true;
@@ -82,7 +80,7 @@ const TwoFactorVerifyModal = ({ open, onClose }) => {
                     code={code}
                     onChange={handleChange}
                     onResend={handleResend}
-                    error={error}
+                    account={account}
                 />
                 <FormButton type='submit' disabled={code.length !== 6 || loading} sending={loading}>
                     <Translate id='button.verifyCode'/>
