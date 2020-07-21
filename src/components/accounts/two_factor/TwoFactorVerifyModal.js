@@ -7,8 +7,7 @@ import MobileActionSheet from '../../common/modal/MobileActionSheet';
 import FormButton from '../../common/FormButton';
 import { Translate } from 'react-localize-redux';
 import TwoFactorVerifyInput from './TwoFactorVerifyInput';
-import { verifyTwoFactor, clearAlert, resendTwoFactor } from '../../../actions/account';
-import { wallet } from '../../../utils/wallet';
+import { verifyTwoFactor, clearAlert, resendTwoFactor, get2faMethod } from '../../../actions/account';
 
 const Form = styled.form`
     display: flex;
@@ -29,7 +28,7 @@ const TwoFactorVerifyModal = ({ open, onClose }) => {
         let isMounted = true;
 
         const handleGetTwoFactor = async () => {
-            setMethod(await wallet.get2faMethod())
+            setMethod(await dispatch(get2faMethod()))
         };
 
         if (isMounted) {

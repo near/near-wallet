@@ -130,7 +130,7 @@ export const allowLogin = () => async (dispatch, getState) => {
 
 const defaultCodesFor = (prefix, data) => ({ successCode: `${prefix}.success`, errorCode: `${prefix}.error`, data})
 
-export const { initializeRecoveryMethod, validateSecurityCode, initTwoFactor, reInitTwoFactor, sendTwoFactor, resendTwoFactor, verifyTwoFactor, promptTwoFactor, deployMultisig, setupRecoveryMessage, deleteRecoveryMethod, sendNewRecoveryLink, checkNewAccount, createNewAccount, checkAccountAvailable, getTransactions, getTransactionStatus, clear, clearCode } = createActions({
+export const { initializeRecoveryMethod, validateSecurityCode, initTwoFactor, reInitTwoFactor, sendTwoFactor, resendTwoFactor, verifyTwoFactor, promptTwoFactor, deployMultisig, get2faMethod, getAccountAndState, setupRecoveryMessage, deleteRecoveryMethod, sendNewRecoveryLink, checkNewAccount, createNewAccount, checkAccountAvailable, getTransactions, getTransactionStatus, clear, clearCode } = createActions({
     INITIALIZE_RECOVERY_METHOD: [
         wallet.initializeRecoveryMethod.bind(wallet),
         () => defaultCodesFor('account.initializeRecoveryMethod')
@@ -168,6 +168,14 @@ export const { initializeRecoveryMethod, validateSecurityCode, initTwoFactor, re
     DEPLOY_MULTISIG: [
         wallet.deployMultisig.bind(wallet),
         () => defaultCodesFor('account.deployMultisig')
+    ],
+    GET_2FA_METHOD: [
+        wallet.get2faMethod.bind(wallet),
+        () => defaultCodesFor('account.get2faMethod')
+    ],
+    GET_ACCOUNT_AND_STATE: [
+        wallet.getAccountAndState.bind(wallet),
+        () => defaultCodesFor('account.getAccountAndState')
     ],
     SETUP_RECOVERY_MESSAGE: [
         wallet.setupRecoveryMessage.bind(wallet),

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 import Card from '../../common/styled/Card.css';
@@ -7,11 +7,9 @@ import FormButton from '../../common/FormButton';
 import { Translate } from 'react-localize-redux';
 import KeysIcon from '../../svg/KeysIcon';
 import SkeletonLoading from '../../common/SkeletonLoading';
-import { wallet } from '../../../utils/wallet';
+import { get2faMethod, getAccountAndState } from '../../../actions/account';
 
 const Container = styled(Card)`
-// TODO: write once
-
     margin-top: 30px;
 
     .header {
@@ -74,6 +72,7 @@ const Container = styled(Card)`
 const TwoFactorAuth = (props) => {
 
     const account = useSelector(({ account }) => account);
+    const dispatch = useDispatch();
     const loading = account.actionsPending.includes('LOAD_RECOVERY_METHODS') || account.actionsPending.includes('REFRESH_ACCOUNT');
     const [method, setMethod] = useState();
     const [multiSigDeployed, setMultiSigDeployed] = useState();
@@ -82,12 +81,21 @@ const TwoFactorAuth = (props) => {
         let isMounted = true;
 
         const handleGetTwoFactor = async () => {
-            setMethod(await wallet.get2faMethod())
+            setMethod(await dispatch(get2faMethod()))
         };
 
         const checkMultiSigDeployed = async () => { 
-            const accountState = await wallet.getAccountAndState(account.accountId);
-            setMultiSigDeployed(accountState.has2fa)
+            let response;
+            try {
+                response = await dispatch(getAccountAndState(account.accountId))
+            } catch(e) {
+                return;
+            } finally {
+                if (response && response.has2fa) {
+                    setMultiSigDeployed(response.has2fa)
+                }
+            }
+
         };
 
         if (isMounted) {
