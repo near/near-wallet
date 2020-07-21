@@ -118,12 +118,12 @@ export const allowLogin = () => async (dispatch, getState) => {
 export const signInWithLedger = () => async (dispatch, getState) => {
     await dispatch(getLedgerAccountIds())
     
-    const accountIds = Object.keys(getState().account.signInWithLedger)
+    const accountIds = Object.keys(getState().ledger.signInWithLedger)
     for (let i = 0; i < accountIds.length; i++) {
         await dispatch(addLedgerAccountId(accountIds[i]))
     }
 
-    return dispatch(saveAndSelectLedgerAccounts(getState().account.signInWithLedger))
+    return dispatch(saveAndSelectLedgerAccounts(getState().ledger.signInWithLedger))
 }
 
 const defaultCodesFor = (prefix, data) => ({ successCode: `${prefix}.success`, errorCode: `${prefix}.error`, data})

@@ -11,17 +11,18 @@ import RequestStatusBox from '../../common/RequestStatusBox'
 export function SignInLedger(props) {
     const dispatch = useDispatch();
     const account = useSelector(({ account }) => account);
+    const ledger = useSelector(({ ledger }) => ledger);
 
     const gettingAccounts = account.actionsPending.includes('GET_LEDGER_ACCOUNT_IDS')
     const addingAccounts = account.actionsPending.includes('ADD_LEDGER_ACCOUNT_ID')
     const savingAccounts = account.actionsPending.includes('SAVE_AND_SELECT_LEDGER_ACCOUNTS')
     const signingIn = gettingAccounts || addingAccounts || savingAccounts
 
-    const ledgerAccounts = addingAccounts && Object.keys(account.signInWithLedger).map((accountId) => ({
+    const ledgerAccounts = addingAccounts && Object.keys(ledger.signInWithLedger).map((accountId) => ({
         accountId,
-        status: account.signInWithLedger[accountId] === 'waiting'
+        status: ledger.signInWithLedger[accountId] === 'waiting'
             ? 'confirm'
-            : typeof account.signInWithLedger[accountId] === 'object'
+            : typeof ledger.signInWithLedger[accountId] === 'object'
                 ? 'success'
                 : 'pending'
     }))
