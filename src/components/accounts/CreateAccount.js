@@ -96,7 +96,14 @@ class CreateAccount extends Component {
 
         const fundingContract = match.params.fundingContract;
         const fundingKey = match.params.fundingKey;
-        setLinkdropData({ fundingContract, fundingKey })
+        // arrived from a linkdrop link
+        if (fundingContract && fundingKey) {
+            setLinkdropData({ fundingContract, fundingKey })
+        } else {
+            // not a linkdrop link, clear any existing linkdrop data (if any)
+            setLinkdropData({})
+        }
+        
         
         setTempAccount(accountId)
         setFormLoader(false)
