@@ -11,7 +11,7 @@ import { WalletError } from './walletError'
 import { setAccountConfirmed, getAccountConfirmed, removeAccountConfirmed} from './localStorage'
 import BN from 'bn.js'
 
-import { getRequest, twoFactorRequest, sendTwoFactorRequest, twoFactorAddKey, twoFactorDeploy } from './twoFactor'
+import { getRequest, setRequest, twoFactorRequest, sendTwoFactorRequest, twoFactorAddKey, twoFactorDeploy } from './twoFactor'
 
 export const WALLET_CREATE_NEW_ACCOUNT_URL = 'create'
 export const WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS = ['create', 'set-recovery', 'setup-seed-phrase', 'recover-account', 'recover-seed-phrase', 'sign-in-ledger']
@@ -64,7 +64,7 @@ export const splitPK = (pk) => {
     }
     return pk.replace('ed25519:', '')
 }
-const toPK = (pk) => nearApiJs.utils.PublicKey.from(pk)
+export const toPK = (pk) => nearApiJs.utils.PublicKey.from(pk)
 
 export const setTempAccount = (accountId) => {
     localStorage.setItem(`__tempAccount`, JSON.stringify({
@@ -135,7 +135,7 @@ class Wallet {
     @todo remove patching, update calls and actions
     ********************************/
     async deployMultisig() {
-        twoFactorDeploy(this)
+        return await twoFactorDeploy(this)
     }
 
     async sendTwoFactor(accountId, method, requestId = -1, data = {}) {

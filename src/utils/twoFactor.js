@@ -1,7 +1,7 @@
 import * as nearApiJs from 'near-api-js'
 import { store } from '..'
 import { promptTwoFactor } from '../actions/account'
-import { METHOD_NAMES_LAK, METHOD_NAMES_CONFIRM, ACCESS_KEY_FUNDING_AMOUNT, splitPK } from './wallet'
+import { METHOD_NAMES_LAK, METHOD_NAMES_CONFIRM, ACCESS_KEY_FUNDING_AMOUNT, splitPK, toPK } from './wallet'
 /********************************
 Helpers
 ********************************/
@@ -143,5 +143,6 @@ export const twoFactorDeploy = async (wallet) => {
         nearApiJs.transactions.deployContract(contractBytes),
         nearApiJs.transactions.functionCall('new', newArgs, 10000000000000, '0'),
     ]
+    console.log('deploying multisig contract')
     return await account.signAndSendTransaction(accountId, actions);
 }
