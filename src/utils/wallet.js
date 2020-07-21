@@ -30,11 +30,13 @@ export const NODE_URL = process.env.REACT_APP_NODE_URL || 'https://rpc.nearproto
 const KEY_UNIQUE_PREFIX = '_4:'
 const KEY_WALLET_ACCOUNTS = KEY_UNIQUE_PREFIX + 'wallet:accounts_v2'
 const KEY_ACTIVE_ACCOUNT_ID = KEY_UNIQUE_PREFIX + 'wallet:active_account_id_v2'
-const ACCESS_KEY_FUNDING_AMOUNT = process.env.REACT_APP_ACCESS_KEY_FUNDING_AMOUNT || '100000000'
+const ACCESS_KEY_FUNDING_AMOUNT = process.env.REACT_APP_ACCESS_KEY_FUNDING_AMOUNT || nearApiJs.utils.format.parseNearAmount('0.01')
 const ACCOUNT_ID_REGEX = /^(([a-z\d]+[-_])*[a-z\d]+\.)*([a-z\d]+[-_])*[a-z\d]+$/
 const ACCOUNT_NO_CODE_HASH = '11111111111111111111111111111111'
 const METHOD_NAMES_LAK = ["add_request", "add_request_and_confirm", "delete_request", "confirm"]
 const METHOD_NAMES_CONFIRM = ["confirm"]
+
+console.log('ACCESS_KEY_FUNDING_AMOUNT', ACCESS_KEY_FUNDING_AMOUNT)
 
 export const keyAccountConfirmed = (accountId) => `wallet.account:${accountId}:${NETWORK_ID}:confirmed`
 
@@ -490,11 +492,15 @@ class Wallet {
 
     async addAccessKey(accountId, contractId, publicKey, fullAccess = false) {
         const { account, has2fa } = await this.getAccountAndState()
+        let allowance = ACCESS_KEY_FUNDING_AMOUNT
         if (has2fa) {
             // default method names will be limited access key multisig contract methods
             let method_names = METHOD_NAMES_LAK
             if (contractId !== accountId) {
-                method_names = []
+                fullAccess = false
+                method_names = ['']
+            } else {
+                allowance = '0'
             }
             const request = {
                 // always adding keys to our account
@@ -507,7 +513,7 @@ class Wallet {
                         permission: {
                             // not always adding a key FOR our account
                             receiver_id: contractId,
-                            allowance: '0',
+                            allowance,
                             method_names
                         }
                     } : null)
