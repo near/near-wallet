@@ -34,12 +34,14 @@ export const handleClearUrl = () => (dispatch, getState) => {
 export const parseTransactionsToSign = createAction('PARSE_TRANSACTIONS_TO_SIGN')
 
 export const handleRefreshUrl = () => (dispatch, getState) => {
-    const { pathname, search } = getState().router.location
+    const { pathname, search, state } = getState().router.location
     const currentPage = pathname.split('/')[1]
 
     if ([...WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS, WALLET_LOGIN_URL, WALLET_SIGN_URL].includes(currentPage)) {
+        const referrer = state.referrer || document.referrer
+
         const parsedUrl = {
-            referrer: document.referrer && new URL(document.referrer).hostname,
+            referrer: referrer && new URL(referrer).hostname,
             ...parse(search)
         }
 
