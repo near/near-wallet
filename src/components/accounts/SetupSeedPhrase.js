@@ -26,7 +26,6 @@ class SetupSeedPhrase extends Component {
     }
 
     refreshData = () => {
-        // console.log('new seed phrase')
         const { seedPhrase, publicKey } = generateSeedPhrase()
         const wordId = Math.floor(Math.random() * 12)
 
