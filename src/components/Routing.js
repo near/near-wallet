@@ -155,8 +155,7 @@ class Routing extends Component {
                             <Switch>
                                 <Redirect from="//*" to={{
                                     pathname: '/*',
-                                    search: search,
-                                    state: { referrer: document.referrer }
+                                    search: search
                                 }} />
                                 <PrivateRoute
                                     exact
