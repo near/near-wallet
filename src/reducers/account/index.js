@@ -17,8 +17,6 @@ import {
     deleteRecoveryMethod,
     sendNewRecoveryLink,
     recoverAccountSeedPhrase,
-    getLedgerAccountIds,
-    addLedgerAccountId,
     saveAndSelectLedgerAccounts
 } from '../../actions/account'
 
