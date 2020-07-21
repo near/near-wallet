@@ -40,18 +40,14 @@ const TwoFactorVerifyModal = ({ open, onClose }) => {
     }, []);
 
     const handleVerifyCode = async () => {
-        const { error } = await dispatch(verifyTwoFactor(null, code))
-
-        if (!error && onClose) {
-            onClose(true)
-        }
-    }
-
-    const handleResend = async () => {
-        const { error } = await dispatch(resendTwoFactor())
-
-        if (!error) {
-            console.log('resent')
+        try {
+            await dispatch(verifyTwoFactor(null, code))
+        } catch(e) {
+            return;
+        } finally {
+            if (onClose) {
+                onClose(true)
+            }
         }
     }
 
@@ -79,7 +75,7 @@ const TwoFactorVerifyModal = ({ open, onClose }) => {
                 <TwoFactorVerifyInput
                     code={code}
                     onChange={handleChange}
-                    onResend={handleResend}
+                    onResend={() => dispatch(resendTwoFactor())}
                     account={account}
                 />
                 <FormButton type='submit' disabled={code.length !== 6 || loading} sending={loading}>
