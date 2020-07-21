@@ -167,7 +167,7 @@ class Wallet {
     async reInitTwoFactor(accountId, method) {
         // clear any previous requests in localStorage (for verifyTwoFactor)
         setRequest({})
-        return sendTwoFactor(this, accountId, method)
+        return this.sendTwoFactor(this, accountId, method)
     }
 
     async resendTwoFactor(accountId, method) {
@@ -179,7 +179,7 @@ class Wallet {
             console.log('no pending multisig requestId found, assuming account setup')
             requestId = -1
         }
-        return sendTwoFactor(this, accountId, method, requestId, data)
+        return this.sendTwoFactor(this, accountId, method, requestId, data)
     }
 
     // requestId is optional, if included the server will try to confirm requestId
