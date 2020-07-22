@@ -125,7 +125,7 @@ const mapDispatchToProps = {
 
 const mapStateToProps = ({ account }) => ({
     account,
-    appTitle: account.url.referrer
+    appTitle: account.url && account.url.referrer
 })
 
 export const LoginWithRouter = connect(
