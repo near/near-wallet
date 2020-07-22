@@ -1,7 +1,7 @@
-import sendJson from 'fetch-send-json'
+
 import { parse, stringify } from 'query-string'
 import { createActions, createAction } from 'redux-actions'
-import { ACCOUNT_HELPER_URL, wallet } from '../utils/wallet'
+import { wallet } from '../utils/wallet'
 import { push } from 'connected-react-router'
 import { loadState, saveState, clearState } from '../utils/sessionStorage'
 import {

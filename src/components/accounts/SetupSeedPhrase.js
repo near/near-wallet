@@ -53,7 +53,7 @@ class SetupSeedPhrase extends Component {
 
     handleStartOver = e => {
         const {
-            history, accountId, fundingContract, fundingKey,
+            history, isNew, accountId, fundingContract, fundingKey,
         } = this.props
 
         this.refreshData()

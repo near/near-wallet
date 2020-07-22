@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { Translate } from 'react-localize-redux'
 import { checkNewAccount, createNewAccount, clear, refreshAccount, resetAccounts, setFormLoader } from '../../actions/account'
-import { ACCOUNT_ID_SUFFIX, setTempAccount } from '../../utils/wallet'
+import { ACCOUNT_ID_SUFFIX } from '../../utils/wallet'
 import Container from '../common/styled/Container.css'
 
 import FormButton from '../common/FormButton'
@@ -91,9 +91,9 @@ class CreateAccount extends Component {
     }
 
     handleCreateAccount = async () => {
-        const { accountId, token } = this.state;
+        const { accountId } = this.state;
         const { 
-            createNewAccount, setFormLoader,
+            setFormLoader,
             fundingContract, fundingKey,
         } = this.props
 
@@ -111,7 +111,7 @@ class CreateAccount extends Component {
     }
 
     render() {
-        const { loader, accountId, recaptchaFallback } = this.state
+        const { loader, accountId } = this.state
         const { requestStatus, formLoader, checkNewAccount, resetAccount, clear, setFormLoader } = this.props
         const useRequestStatus = accountId.length > 0 ? requestStatus : undefined;
         

@@ -1,7 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { Translate } from 'react-localize-redux';
-import FormButton from '../../common/FormButton';
 
 const Container = styled.div`
     max-width: 350px;

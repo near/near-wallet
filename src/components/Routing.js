@@ -16,7 +16,7 @@ import '../index.css'
 import Navigation from './navigation/Navigation'
 import Footer from './common/Footer'
 import NetworkBanner from './common/NetworkBanner'
-import EnableTwoFactorPromptModal from '../components/accounts/two_factor/EnableTwoFactorPromptModal'
+// import EnableTwoFactorPromptModal from '../components/accounts/two_factor/EnableTwoFactorPromptModal'
 import TwoFactorVerifyModal from '../components/accounts/two_factor/TwoFactorVerifyModal'
 import PrivateRoute from './common/PrivateRoute'
 import DashboardDetailWithRouter from './dashboard/DashboardDetail'
@@ -103,7 +103,7 @@ class Routing extends Component {
     componentDidMount = async () => {
         const { 
             refreshAccount, handleRefreshUrl,
-            router, history, clearAlert,
+            history, clearAlert,
             clear, handleRedirectUrl, handleClearUrl
         } = this.props
         

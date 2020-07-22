@@ -8,7 +8,6 @@ import { validateEmail } from '../../../utils/account';
 import FormButton from '../../common/FormButton';
 import {
     initTwoFactor,
-    reInitTwoFactor,
     verifyTwoFactor,
     deployMultisig,
     redirectToApp
