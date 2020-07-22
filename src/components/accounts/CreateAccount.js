@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { Translate } from 'react-localize-redux'
 import { checkNewAccount, createNewAccount, clear, refreshAccount, resetAccounts, setFormLoader } from '../../actions/account'
-import { ACCOUNT_ID_SUFFIX, setTempAccount, setLinkdropData } from '../../utils/wallet'
+import { ACCOUNT_ID_SUFFIX, setTempAccount } from '../../utils/wallet'
 import Container from '../common/styled/Container.css'
 
 import FormButton from '../common/FormButton'
@@ -92,24 +92,21 @@ class CreateAccount extends Component {
 
     handleCreateAccount = async () => {
         const { accountId, token } = this.state;
-        const { match, createNewAccount, setFormLoader } = this.props
+        const { 
+            createNewAccount, setFormLoader,
+            fundingContract, fundingKey,
+        } = this.props
 
-        const fundingContract = match.params.fundingContract;
-        const fundingKey = match.params.fundingKey;
-        // arrived from a linkdrop link
-        if (fundingContract && fundingKey) {
-            setLinkdropData({ fundingContract, fundingKey })
-        } else {
-            // not a linkdrop link, clear any existing linkdrop data (if any)
-            setLinkdropData({})
-        }
-        
-        
-        setTempAccount(accountId)
         setFormLoader(false)
         
         this.setState({ loader: true });
-        let nextUrl = process.env.DISABLE_PHONE_RECOVERY === 'yes' ? `/setup-seed-phrase/${accountId}` : `/set-recovery/${accountId}`;
+
+        const linkdropParams = fundingContract ? `${fundingContract}/${fundingKey}` : ``
+        let nextUrl = process.env.DISABLE_PHONE_RECOVERY === 'yes' ?
+            `/setup-seed-phrase/${accountId}/phrase/1/${linkdropParams}` :
+            `/set-recovery/${accountId}/1/${linkdropParams}`;
+
+
         this.props.history.push(nextUrl);
     }
 
@@ -165,8 +162,10 @@ const mapDispatchToProps = {
     setFormLoader
 }
 
-const mapStateToProps = ({ account }) => ({
-    ...account
+const mapStateToProps = ({ account }, { match }) => ({
+    ...account,
+    fundingContract: match.params.fundingContract,
+    fundingKey: match.params.fundingKey,
 })
 
 export const CreateAccountWithRouter = connect(

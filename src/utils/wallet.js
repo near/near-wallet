@@ -47,17 +47,6 @@ const WALLET_METADATA_METHOD = '__wallet__metadata'
 export const ACCOUNT_CHECK_TIMEOUT = 500
 export const TRANSACTIONS_REFRESH_INTERVAL = 10000
 
-/********************************
-Linkdrop data
-********************************/
-export const getLinkdropData = () => {
-    return JSON.parse(localStorage.getItem(`__linkdropData`) || `{}`)
-}
-export const setLinkdropData = (data) => {
-    return localStorage.setItem(`__linkdropData`, JSON.stringify(data))
-}
-
-// helpers
 export const splitPK = (pk) => {
     if (typeof pk !== 'string') {
         pk = pk.toString()
@@ -65,21 +54,6 @@ export const splitPK = (pk) => {
     return pk.replace('ed25519:', '')
 }
 export const toPK = (pk) => nearApiJs.utils.PublicKey.from(pk)
-
-export const setTempAccount = (accountId) => {
-    localStorage.setItem(`__tempAccount`, JSON.stringify({
-        accountId, // keyPair: KeyPair.fromRandom('ed25519')
-    }))
-}
-export const delTempAccount = () => {
-    localStorage.removeItem(`__tempAccount`)
-}
-export const getTempAccount = () => {
-    return JSON.parse(localStorage.getItem(`__tempAccount`) || '{}')
-}
-
-// const test = getTempAccount()
-// console.log('keyPair', test.keyPair)
 
 async function setKeyMeta(publicKey, meta) {
     localStorage.setItem(`keyMeta:${publicKey}`, JSON.stringify(meta))
@@ -226,13 +200,7 @@ class Wallet {
     }
 
     getAccountId() {
-        const tempAccount = getTempAccount()
-        // temp account was set during create account
-        if (tempAccount && tempAccount.accountId) {
-            return tempAccount.accountId
-        } else {
-            return this.accountId
-        }
+        return this.accountId
     }
 
     selectAccount(accountId) {
@@ -271,7 +239,7 @@ class Wallet {
             setAccountConfirmed(this.accountId, true)
             return account
         } catch (error) {
-            console.error('Error loading account:', error)
+            console.log('Error loading account:', error.message)
 
             if (error.toString().indexOf('does not exist while viewing') !== -1) {
                 const accountId = this.accountId
@@ -303,15 +271,6 @@ class Wallet {
     }
 
     async loadAccount() {
-        const tempAccount = getTempAccount()
-        // temp account was set during create account
-        if (tempAccount && tempAccount.accountId) {
-            return {
-                temp: true,
-                balance: 0,
-                accountId: tempAccount.accountId,
-            }
-        }
         if (this.isEmpty()) {
             throw new Error('No account.')
         }
@@ -447,13 +406,6 @@ class Wallet {
         this.checkNewAccount(accountId);
         const keyPair = KeyPair.fromRandom('ed25519');
 
-        if (!fundingKey) {
-            const linkdropData = getLinkdropData()
-            if (linkdropData && linkdropData.fundingKey) {
-                let {} = { fundingContract, fundingKey } = linkdropData
-            }
-        }
-
         try {
             if (fundingContract && fundingKey) {
                 await this.createNewAccountLinkdrop(accountId, fundingContract, fundingKey, keyPair)
@@ -515,12 +467,16 @@ class Wallet {
             return await twoFactorAddKey(this, account, contractId, publicKey, fullAccess)
         } else {
             try {
-                return await this.getAccount(accountId).addKey(
-                    publicKey,
-                    contractId,
-                    '', // methodName
-                    ACCESS_KEY_FUNDING_AMOUNT
-                )
+                if (fullAccess) {
+                    return await this.getAccount(accountId).addKey(publicKey)
+                } else {
+                    return await this.getAccount(accountId).addKey(
+                        publicKey,
+                        contractId,
+                        '', // methodName
+                        ACCESS_KEY_FUNDING_AMOUNT
+                    )
+                }
             } catch (e) {
                 if (e.type === 'AddKeyAlreadyExists') {
                     return true;
@@ -663,9 +619,8 @@ class Wallet {
         });
     }
 
-    async initializeRecoveryMethod(accountId, method) {
-        const tempAccount = getTempAccount()
-        if (tempAccount && tempAccount.accountId) {
+    async initializeRecoveryMethod(accountId, method, isNew) {
+        if (isNew) {
             return await sendJson('POST', ACCOUNT_HELPER_URL + '/account/initializeRecoveryMethodForTempAccount', {
                 accountId,
                 method,
@@ -678,9 +633,8 @@ class Wallet {
         }
     }
 
-    async validateSecurityCode(accountId, method, securityCode) {
-        const tempAccount = getTempAccount()
-        if (tempAccount && tempAccount.accountId) {
+    async validateSecurityCode(accountId, method, securityCode, isNew) {
+        if (isNew) {
             return await sendJson('POST', ACCOUNT_HELPER_URL + '/account/validateSecurityCodeForTempAccount', {
                 accountId,
                 method,
@@ -703,35 +657,18 @@ class Wallet {
         }
     }
 
-    async createNewAccountForTempAccount(accountId, fundingContract, fundingKey) {
-        // create account because recovery is validated
-        if (!accountId) {
-            // updated to get tempAccount.accountId
-            accountId = this.getAccountId()
-        }
-        await this.createNewAccount(accountId, fundingContract, fundingKey)
-        const account = this.getAccount(accountId)
-        console.log('account created', account)
-        // remove the temp account, we now have a real account on chain
-        delTempAccount()
-        return account
-    }
-
-    async setupRecoveryMessage(accountId, method, securityCode, fundingContract, fundingKey) {
-        // temp account was set during create account
-        console.log('setupRecoveryMessage', accountId)
-        let securityCodeResult = await this.validateSecurityCode(accountId, method, securityCode);
+    async setupRecoveryMessage(accountId, method, securityCode, isNew, fundingContract, fundingKey) {
+        // validate the code
+        let securityCodeResult = await this.validateSecurityCode(accountId, method, securityCode, isNew);
         if (!securityCodeResult || securityCodeResult.length === 0) {
             console.log('INVALID CODE', securityCodeResult)
             return
         }
-        const tempAccount = getTempAccount()
-        // if this is a tempAccount we'll create a new account now
-        if (tempAccount && tempAccount.accountId) {
-            // added method above, also used for seed recovery
-            await this.createNewAccountForTempAccount(accountId, fundingContract, fundingKey)
+        // create account if new
+        if (isNew) {
+            await this.createNewAccount(accountId, fundingContract, fundingKey)
         }
-        // now send recovery seed phrase
+        // now finish recovery method setup
         const { seedPhrase, publicKey } = generateSeedPhrase();
         const { account, has2fa } = await this.getAccountAndState(accountId)
         const accountKeys = await account.getAccessKeys();

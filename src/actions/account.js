@@ -6,7 +6,6 @@ import { push } from 'connected-react-router'
 import { loadState, saveState, clearState } from '../utils/sessionStorage'
 import {
     WALLET_CREATE_NEW_ACCOUNT_URL, WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS, WALLET_LOGIN_URL, WALLET_SIGN_URL,
-    setTempAccount, setLinkdropData
 } from '../utils/wallet'
 
 export const loadRecoveryMethods = createAction('LOAD_RECOVERY_METHODS',
@@ -26,15 +25,11 @@ export const handleRedirectUrl = (previousLocation) => (dispatch, getState) => {
     }
 }
 
-const clearTempData = () => {
-    setTempAccount('')
-    setLinkdropData({})
-}
 
 export const handleClearUrl = () => (dispatch, getState) => {
     const { pathname } = getState().router.location
     if (![...WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS, WALLET_LOGIN_URL, WALLET_SIGN_URL].includes(pathname.split('/')[1])) {
-        clearTempData()
+
         clearState()
         dispatch(refreshUrl({}))
     }
@@ -64,8 +59,6 @@ export const handleRefreshUrl = () => (dispatch, getState) => {
         if (transactions) {
             dispatch(parseTransactionsToSign({ transactions, callbackUrl }))
         }
-    } else {
-        clearTempData()
     }
 }
 
@@ -219,11 +212,9 @@ export const { addAccessKey, addAccessKeySeedPhrase, clearAlert } = createAction
         (accountId, contractId, publicKey, successUrl, title) => defaultCodesFor('account.login', {title})
     ],
     ADD_ACCESS_KEY_SEED_PHRASE: [
-        async (accountId, contractName, publicKey) => {
-            let account = await wallet.loadAccount()
-            // account wasn't created yet
-            if (account.temp) {
-                account = await wallet.createNewAccountForTempAccount(accountId)
+        async (accountId, contractName, publicKey, isNew, fundingContract, fundingKey) => {
+            if (isNew) {
+                await wallet.createNewAccount(accountId, fundingContract, fundingKey)
             }
             const res = await wallet.addAccessKey(accountId, contractName, publicKey, true)
             if (res) {
@@ -256,10 +247,8 @@ export const { signAndSendTransactions } = createActions({
 export const { switchAccount, refreshAccount, refreshAccountExternal, refreshUrl, setFormLoader } = createActions({
     SWITCH_ACCOUNT: wallet.selectAccount.bind(wallet),
     REFRESH_ACCOUNT: [
-        wallet.loadAccount.bind(wallet),
-        () => ({ accountId: wallet.getAccountId() })
-        // wallet.refreshAccount.bind(wallet),
-        // () => ({ accountId: wallet.accountId })
+        wallet.refreshAccount.bind(wallet),
+        () => ({ accountId: wallet.accountId })
     ],
     REFRESH_ACCOUNT_EXTERNAL: [
         async (accountId) => ({

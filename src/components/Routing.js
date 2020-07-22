@@ -42,7 +42,7 @@ import { NodeStakingWithRouter } from './node-staking/NodeStaking'
 import { AddNodeWithRouter } from './node-staking/AddNode'
 import { NodeDetailsWithRouter } from './node-staking/NodeDetails'
 import { StakingWithRouter } from './node-staking/Staking'
-import { IS_MAINNET, DISABLE_SEND_MONEY } from '../utils/wallet'
+import { IS_MAINNET, DISABLE_SEND_MONEY, WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS } from '../utils/wallet'
 import { refreshAccount, handleRefreshUrl, clearAlert, clear, handleRedirectUrl, handleClearUrl, promptTwoFactor } from '../actions/account'
 import GlobalStyle from './GlobalStyle'
 import { SetupSeedPhraseWithRouter } from './accounts/SetupSeedPhrase'
@@ -101,26 +101,22 @@ class Routing extends Component {
     }
 
     componentDidMount = async () => {
-        const { refreshAccount, handleRefreshUrl, history, clearAlert, clear, handleRedirectUrl, handleClearUrl } = this.props
+        const { 
+            refreshAccount, handleRefreshUrl,
+            router, history, clearAlert,
+            clear, handleRedirectUrl, handleClearUrl
+        } = this.props
         
         handleRefreshUrl()
-        try {
-            await refreshAccount()
-        } catch (e) {
-            console.log(e)
-        }
+        refreshAccount()
         
         history.listen(async () => {
             handleRedirectUrl(this.props.router.location)
             handleClearUrl()
-            try {
+            if (!WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS.find((path) => this.props.router.location.pathname.indexOf(path) > -1)) {
                 await refreshAccount()
-            } catch (e) {
-                // if we get an error refreshing an account and not on /create, go there
-                if (['/', '/profile', '/send-money', '/login'].includes(window.location.pathname)) {
-                    history.push('/create')
-                }
             }
+
             const { state: { globalAlertPreventClear } = {} } = history.location
             if (!globalAlertPreventClear && !this.props.account.globalAlertPreventClear) {
                 clearAlert()
@@ -186,8 +182,13 @@ class Routing extends Component {
                                 />
                                 <Route
                                     exact
-                                    path='/set-recovery/:accountId'
+                                    path='/set-recovery/:accountId/:isNew?/:fundingContract?/:fundingKey?'
                                     component={SetupRecoveryMethodWithRouter}
+                                />
+                                <Route
+                                    exact
+                                    path='/setup-seed-phrase/:accountId/:verify/:isNew?/:fundingContract?/:fundingKey?'
+                                    component={SetupSeedPhraseWithRouter}
                                 />
                                 <PrivateRoute
                                     exact
@@ -198,11 +199,6 @@ class Routing extends Component {
                                     exact
                                     path='/setup-ledger-success'
                                     component={SetupLedgerSuccessWithRouter}
-                                />
-                                <PrivateRoute
-                                    exact
-                                    path='/setup-seed-phrase/:accountId/:verify?'
-                                    component={SetupSeedPhraseWithRouter}
                                 />
                                 <PrivateRoute
                                     exact

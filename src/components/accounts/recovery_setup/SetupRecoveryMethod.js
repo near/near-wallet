@@ -5,7 +5,6 @@ import { Translate } from 'react-localize-redux';
 import 'react-phone-number-input/style.css'
 import PhoneInput, { isValidPhoneNumber } from 'react-phone-number-input';
 import { validateEmail } from '../../../utils/account';
-import { getLinkdropData, setLinkdropData } from '../../../utils/wallet'
 import { initializeRecoveryMethod, setupRecoveryMessage, redirectToApp, loadRecoveryMethods, getAccessKeys } from '../../../actions/account';
 import RecoveryOption from './RecoveryOption';
 import FormButton from '../../common/FormButton';
@@ -102,11 +101,16 @@ class SetupRecoveryMethod extends Component {
     handleNext = () => {
         const { option } = this.state;
 
+        const {
+            isNew, accountId, fundingContract, fundingKey,
+        } = this.props
+        const phraseUrl = `/setup-seed-phrase/${accountId}/phrase/${isNew ? '1' : '0'}/${fundingContract ? `${fundingContract}/${fundingKey}/` : ``}`
+
         if (option === 'email' || option === 'phone') {
             this.handleSendCode()
             window.scrollTo(0, 0);
         } else if (option === 'phrase') {
-            this.props.history.push(`/setup-seed-phrase/${this.props.accountId}`);
+            this.props.history.push(phraseUrl);
         } else if (option === 'ledger') {
             this.props.history.push(`/setup-ledger`);
         }
@@ -124,25 +128,26 @@ class SetupRecoveryMethod extends Component {
     }
 
     handleSendCode = () => {
-        const  { accountId, initializeRecoveryMethod } = this.props;
+        const  { accountId, initializeRecoveryMethod, isNew } = this.props;
 
-        initializeRecoveryMethod(accountId, this.method);
+        initializeRecoveryMethod(accountId, this.method, isNew);
         this.setState({ success: true })
         
     }
 
     handleSetupRecoveryMethod = async (securityCode) => {
-        const  { accountId, setupRecoveryMessage, redirectToApp, history } = this.props;
+        const  {
+            accountId, setupRecoveryMessage, redirectToApp, history,
+            isNew, fundingContract, fundingKey,
+        } = this.props;
 
         try {
-            await setupRecoveryMessage(accountId, this.method, securityCode)
+            await setupRecoveryMessage(accountId, this.method, securityCode, isNew, fundingContract, fundingKey)
         } catch(e) {
             return;
         }
 
-        const linkdropData = getLinkdropData()
-        if (linkdropData.fundingKey) {
-            setLinkdropData({})
+        if (fundingContract) {
             history.push('/enable-two-factor')
         } else {
             redirectToApp('/profile');
@@ -279,6 +284,9 @@ const mapStateToProps = ({ account, router, recoveryMethods }, { match }) => ({
     ...account,
     router,
     accountId: match.params.accountId,
+    isNew: !!parseInt(match.params.isNew),
+    fundingContract: match.params.fundingContract,
+    fundingKey: match.params.fundingKey,
     recoveryMethods
 })
 

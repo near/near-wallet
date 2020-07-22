@@ -47,31 +47,39 @@ const SetupSeedPhraseForm = ({
     seedPhrase,
     handleCopyPhrase,
     match
-}) => (
-    <CustomDiv>
-        <div id='seed-phrase'>
-            {seedPhrase.split(' ').map((word, i) => (
-                <span className='single-phrase' key={`phrase-${i}`}>
-                    <Number number={i + 1} className='h4'>{word} </Number>
-                </span>
-            ))}
-        </div>
-        <div className='buttons-row'>
-            <FormButton
-                onClick={handleCopyPhrase}
-                color='seafoam-blue-white'
-            >
-                <Translate id='button.copyPhrase' />
-                <IconMCopy color='#6ad1e3' />
-            </FormButton>
-            <FormButton
-                linkTo={`${match.url}${match.url.substr(-1) === '/' ? '' : '/'}verify`}
-                color='blue'
-            >
-                <Translate id='button.continue' />
-            </FormButton>
-        </div>
-    </CustomDiv>
-)
+}) => {
+    const getUrl = (verify) => {
+        const {
+            isNew, accountId, fundingContract, fundingKey,
+        } = match.params
+        return `/setup-seed-phrase/${accountId}/${verify ? 'verify' : 'phrase'}/${isNew ? '1' : '0'}/${fundingContract ? `${fundingContract}/${fundingKey}/` : ``}`
+    }
+    return (
+        <CustomDiv>
+            <div id='seed-phrase'>
+                {seedPhrase.split(' ').map((word, i) => (
+                    <span className='single-phrase' key={`phrase-${i}`}>
+                        <Number number={i + 1} className='h4'>{word} </Number>
+                    </span>
+                ))}
+            </div>
+            <div className='buttons-row'>
+                <FormButton
+                    onClick={handleCopyPhrase}
+                    color='seafoam-blue-white'
+                >
+                    <Translate id='button.copyPhrase' />
+                    <IconMCopy color='#6ad1e3' />
+                </FormButton>
+                <FormButton
+                    linkTo={getUrl(true)}
+                    color='blue'
+                >
+                    <Translate id='button.continue' />
+                </FormButton>
+            </div>
+        </CustomDiv>
+    )
+}
 
 export default withRouter(SetupSeedPhraseForm)
