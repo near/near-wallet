@@ -508,7 +508,18 @@ class Wallet {
     async signInWithLedger() {
         const publicKey = await this.getLedgerPublicKey()
         await setKeyMeta(publicKey, { type: 'ledger' })
-        const accountIds = await getAccountIds(publicKey.toString())
+        const accountIds = (
+            (await Promise.all(
+                (await getAccountIds(publicKey.toString()))
+                    .map(async (accountId) => 
+                        await this.getAccount(accountId).findAccessKey()
+                            ? accountId
+                            : null
+                    )
+                )
+            )
+            .filter(accountId => accountId)
+        )
 
         for (let i = 0; i < accountIds.length; i++) {
             const accountId = accountIds[i]
