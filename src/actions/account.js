@@ -103,7 +103,7 @@ export const redirectToApp = (fallback) => (dispatch, getState) => {
 export const allowLogin = () => async (dispatch, getState) => {
     const { account } = getState()
     const { url } = account
-    await dispatch(addAccessKey(account.accountId, url.contract_id, url.public_key, url.success_url, url.title))
+    await dispatch(addAccessKey(account.accountId, url.contract_id, url.public_key))
 
     const { success_url, public_key } = url
     if (success_url) {
