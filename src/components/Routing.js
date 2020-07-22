@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import styled, { ThemeProvider } from 'styled-components'
 
-import { Route, Switch } from 'react-router-dom'
+import { Route, Switch, Redirect } from 'react-router-dom'
 import { ConnectedRouter } from 'connected-react-router'
 import { withLocalize } from 'react-localize-redux'
 import translations_en from '../translations/en.global.json'
@@ -147,6 +147,7 @@ class Routing extends Component {
     // }
 
     render() {
+        const { search } = this.props.router.location
 
         return (
             <Container className='App' mainnet={IS_MAINNET}>
@@ -170,6 +171,10 @@ class Routing extends Component {
                         }
                         {this.props.account.loader === false && (
                             <Switch>
+                                <Redirect from="//*" to={{
+                                    pathname: '/*',
+                                    search: search
+                                }} />
                                 <PrivateRoute
                                     exact
                                     path='/'

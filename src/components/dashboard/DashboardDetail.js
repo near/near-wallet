@@ -18,7 +18,7 @@ import AccessKeysIcon from '../../images/icon-keys-grey.svg'
 
 import DashboardKeys from './DashboardKeys'
 
-import { TRANSACTIONS_REFRESH_INTERVAL, EXPLORER_URL } from '../../utils/wallet'
+import { TRANSACTIONS_REFRESH_INTERVAL, EXPLORER_URL, ENABLE_FULL_ACCESS_KEYS } from '../../utils/wallet'
 
 class DashboardDetail extends Component {
     state = {
@@ -120,13 +120,15 @@ class DashboardDetail extends Component {
                         empty={<Translate id='authorizedApps.dashboardNoApps' />}
                         accessKeys={authorizedApps}
                     />
-                    <DashboardKeys
-                        image={AccessKeysIcon}
-                        title={<Translate id='fullAccessKeys.pageTitle' />}
-                        to='/full-access-keys'
-                        empty={<Translate id='fullAccessKeys.dashboardNoKeys' />}
-                        accessKeys={fullAccessKeys}
-                    />
+                    {ENABLE_FULL_ACCESS_KEYS &&
+                        <DashboardKeys
+                            image={AccessKeysIcon}
+                            title={<Translate id='fullAccessKeys.pageTitle' />}
+                            to='/full-access-keys'
+                            empty={<Translate id='fullAccessKeys.dashboardNoKeys' />}
+                            accessKeys={fullAccessKeys}
+                        />
+                    }
                 </DashboardSection>
             </PageContainer>
         )
