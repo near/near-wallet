@@ -123,7 +123,7 @@ const HardwareDevices = () => {
                             {hasLedger && <div><Translate id='hardwareDevices.ledger.auth'/></div>}
                         </div>
                         {!hasLedger ? 
-                            <FormButton linkTo='/setup-ledger' color='blue'><Translate id='button.enable'/></FormButton> 
+                            <FormButton linkTo={`/setup-ledger/${account.accountId}`} color='blue'><Translate id='button.enable'/></FormButton> 
                             : 
                             <FormButton disabled={!hasOtherMethods} color='gray-red' onClick={() => setConfirmDisable(true)}><Translate id='button.disable'/></FormButton>
                         }

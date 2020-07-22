@@ -5,7 +5,7 @@ import InstructionsModal from './InstructionsModal';
 import LedgerIcon from '../../svg/LedgerIcon';
 import FormButton from '../../common/FormButton';
 import { Translate } from 'react-localize-redux';
-import { addLedgerAccessKey } from '../../../actions/account'
+import { addLedgerAccessKey, createNewAccount, refreshAccount, removeNonLedgerAccessKeys } from '../../../actions/account'
 import GlobalAlert from '../../responsive/GlobalAlert'
 
 const SetupLedger = (props) => {
@@ -13,20 +13,46 @@ const SetupLedger = (props) => {
     const [showInstructions, setShowInstructions] = useState(false);
     const [connect, setConnect] = useState(false);
     const toggleShowInstructions = () => setShowInstructions(!showInstructions);
+    const loading = props.actionsPending.some(action => ['CREATE_NEW_ACCOUNT', 'ADD_LEDGER_ACCESS_KEY', 'REFRESH_ACCOUNT', 'REMOVE_NON_LEDGER_ACCESS_KEYS'].includes(action))
 
-    const onClick = async () => {
-        setConnect('true');
+    const handleClick = async () => {
+        setConnect('')
+        
+        if (props.isNew) {
+            await handleCreateAccount()
+        }
+        await handleSetupLedger()
+
+        if (props.isNew) {
+            await props.removeNonLedgerAccessKeys()
+            props.history.push('/profile');
+        } else {
+            props.history.push('/setup-ledger-success');
+        }
+    }
+
+    const handleCreateAccount = async () => {
         try {
-            await props.addLedgerAccessKey(props.accountId)
-        } catch (e) {
+            await props.createNewAccount(props.accountId, props.fundingContract, props.fundingKey)
+        } catch(e) {
+            console.log(e)
             return setConnect('fail');
         }
-        props.history.push('/setup-ledger-success');
+    }
+
+    const handleSetupLedger = async () => {
+        try {
+            await props.addLedgerAccessKey(props.accountId)
+            await props.refreshAccount()
+        } catch (e) {
+            console.log(e);
+            return setConnect('fail');
+        }
     }
 
     return (
         <Theme>
-            {props.requestStatus &&
+            {props.requestStatus && !props.requestStatus.success &&
                 <GlobalAlert 
                     globalAlert={{
                         messageCode: `errors.ledger.${props.requestStatus.id}`
@@ -38,7 +64,7 @@ const SetupLedger = (props) => {
             <LedgerIcon/>
             <p><Translate id='setupLedger.one'/></p>
             <p><Translate id='setupLedger.two'/> <span className='link underline' onClick={toggleShowInstructions}><Translate id='setupLedger.twoLink'/></span>.</p>
-            <FormButton onClick={onClick} sending={connect === 'true'} sendingString='connecting'>
+            <FormButton onClick={handleClick} sending={loading} sendingString='connecting'>
                 <Translate id={`button.${connect !== 'fail' ? 'continue' : 'retry'}`}/>
             </FormButton>
             <button className='link' onClick={() => props.history.goBack()}><Translate id='button.cancel'/></button>
@@ -50,11 +76,18 @@ const SetupLedger = (props) => {
 }
 
 const mapDispatchToProps = {
-    addLedgerAccessKey
+    addLedgerAccessKey,
+    createNewAccount,
+    refreshAccount,
+    removeNonLedgerAccessKeys
 }
 
-const mapStateToProps = ({ account }) => ({
-    ...account
+const mapStateToProps = ({ account }, { match }) => ({
+    ...account,
+    accountId: match.params.accountId,
+    isNew: !!parseInt(match.params.isNew),
+    fundingContract: match.params.fundingContract,
+    fundingKey: match.params.fundingKey,
 })
 
 export const SetupLedgerWithRouter = connect(mapStateToProps, mapDispatchToProps)(SetupLedger);

@@ -190,9 +190,9 @@ class Routing extends Component {
                                     path='/setup-seed-phrase/:accountId/:verify/:isNew?/:fundingContract?/:fundingKey?'
                                     component={SetupSeedPhraseWithRouter}
                                 />
-                                <PrivateRoute
+                                <Route
                                     exact
-                                    path='/setup-ledger'
+                                    path='/setup-ledger/:accountId/:isNew?/:fundingContract?/:fundingKey?'
                                     component={SetupLedgerWithRouter}
                                 />
                                 <PrivateRoute

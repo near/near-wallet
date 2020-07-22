@@ -3,7 +3,7 @@ import { withRouter, Route } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { Translate } from 'react-localize-redux'
 
-import { redirectToApp, addAccessKeySeedPhrase, clearAlert } from '../../actions/account'
+import { redirectToApp, addAccessKeySeedPhrase, clearAlert, refreshAccount } from '../../actions/account'
 import { generateSeedPhrase } from 'near-seed-phrase'
 import SetupSeedPhraseVerify from './SetupSeedPhraseVerify'
 import SetupSeedPhraseForm from './SetupSeedPhraseForm'
@@ -63,7 +63,7 @@ class SetupSeedPhrase extends Component {
     handleSubmit = async () => {
         const { 
             accountId, isNew, fundingContract, fundingKey,
-            redirectToApp, addAccessKeySeedPhrase
+            redirectToApp, addAccessKeySeedPhrase, refreshAccount
         } = this.props
         const { seedPhrase, enterWord, wordId, publicKey } = this.state
         if (enterWord !== seedPhrase.split(' ')[wordId]) {
@@ -77,6 +77,7 @@ class SetupSeedPhrase extends Component {
         }
         const contractName = null;
         await addAccessKeySeedPhrase(accountId, contractName, publicKey, isNew, fundingContract, fundingKey)
+        await refreshAccount()
         redirectToApp('/profile');
     }
 

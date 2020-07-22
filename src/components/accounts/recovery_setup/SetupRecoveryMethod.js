@@ -112,7 +112,8 @@ class SetupRecoveryMethod extends Component {
         } else if (option === 'phrase') {
             this.props.history.push(phraseUrl);
         } else if (option === 'ledger') {
-            this.props.history.push(`/setup-ledger`);
+            const ledgerUrl = `/setup-ledger/${accountId}/${isNew ? '1' : '0'}/${fundingContract ? `${fundingContract}/${fundingKey}/` : ``}`
+            this.props.history.push(ledgerUrl);
         }
     }
 
