@@ -187,7 +187,7 @@ class Routing extends Component {
                                 />
                                 <Route
                                     exact
-                                    path='/setup-seed-phrase/:accountId/:verify/:isNew?/:fundingContract?/:fundingKey?'
+                                    path='/setup-seed-phrase/:accountId/:phrase/:isNew?/:fundingContract?/:fundingKey?'
                                     component={SetupSeedPhraseWithRouter}
                                 />
                                 <Route

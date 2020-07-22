@@ -159,7 +159,8 @@ class SetupSeedPhrase extends Component {
 const mapDispatchToProps = {
     redirectToApp,
     addAccessKeySeedPhrase,
-    clearAlert
+    clearAlert,
+    refreshAccount
 }
 
 const mapStateToProps = ({ account }, { match }) => ({
