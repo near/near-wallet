@@ -7,7 +7,7 @@ import FormButton from '../../common/FormButton';
 import HardwareDeviceIcon from '../../svg/HardwareDeviceIcon';
 import { 
     getAccessKeys,
-    removeAccessKey
+    disableLedger
 } from '../../../actions/account';
 import { useRecoveryMethods } from '../../../hooks/recoveryMethods';
 import ConfirmDisable from './ConfirmDisable';
@@ -95,17 +95,17 @@ const HardwareDevices = () => {
     }, []);
 
     const handleConfirmDisable = async () => {
-        setDisabling(true);
-        // TODO: Should move to explicit action to disable Ledger
         try {
-            await dispatch(removeAccessKey(ledgerKey.public_key))
+            setDisabling(true)
+            await dispatch(disableLedger());
+        } catch(e) {
+            console.log(e)
+            return;
         } finally {
-            // TODO: Reload of keys should trigger automatically after any change action?
             await dispatch(getAccessKeys())
-            setDisabling(false);
+            setDisabling(false)
+            setConfirmDisable(false);
         }
-
-        setConfirmDisable(false);
     }
 
     return (

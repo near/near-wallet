@@ -494,6 +494,17 @@ class Wallet {
         return await this.getAccount(accountId).addKey(publicKey)
     }
 
+    async disableLedger() {
+        const account = this.getAccount(this.accountId)
+        const keyPair = KeyPair.fromRandom('ed25519')
+        await account.addKey(keyPair.publicKey)
+        await this.keyStore.setKey(NETWORK_ID, this.accountId, keyPair)
+
+        const publicKey = await this.getLedgerPublicKey()
+        await this.removeAccessKey(publicKey)
+        return await this.getAccessKeys(this.accountId)
+    }
+
     async addWalletMetadataAccessKeyIfNeeded(accountId, localAccessKey) {
         if (!localAccessKey || (!localAccessKey.access_key.permission.FunctionCall ||
                 !localAccessKey.access_key.permission.FunctionCall.method_names.includes(WALLET_METADATA_METHOD))) {

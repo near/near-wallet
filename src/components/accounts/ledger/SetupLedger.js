@@ -17,36 +17,23 @@ const SetupLedger = (props) => {
 
     const handleClick = async () => {
         setConnect('')
-        
-        if (props.isNew) {
-            await handleCreateAccount()
-        }
-        await handleSetupLedger()
+
+        try {
+            if (props.isNew) {
+                await props.createNewAccount(props.accountId, props.fundingContract, props.fundingKey)
+            }
+            await props.addLedgerAccessKey(props.accountId)
+            await props.refreshAccount()
+        } catch(e) {
+            console.log(e)
+            return setConnect('fail');
+        } 
 
         if (props.isNew) {
             await props.removeNonLedgerAccessKeys()
             props.history.push('/profile');
         } else {
             props.history.push('/setup-ledger-success');
-        }
-    }
-
-    const handleCreateAccount = async () => {
-        try {
-            await props.createNewAccount(props.accountId, props.fundingContract, props.fundingKey)
-        } catch(e) {
-            console.log(e)
-            return setConnect('fail');
-        }
-    }
-
-    const handleSetupLedger = async () => {
-        try {
-            await props.addLedgerAccessKey(props.accountId)
-            await props.refreshAccount()
-        } catch (e) {
-            console.log(e);
-            return setConnect('fail');
         }
     }
 
