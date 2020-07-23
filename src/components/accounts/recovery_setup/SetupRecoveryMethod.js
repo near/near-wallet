@@ -182,7 +182,7 @@ class SetupRecoveryMethod extends Component {
 
         const keys = fullAccessKeys || [];
         const ledgerKey = keys.find(key => key.meta.type === 'ledger');
-        const hasLedger = !!ledgerKey // TODO: reference a global hasLedger variable and share with HardwareDevices.js
+        const hasLedger = !!ledgerKey && this.props.accountId === this.props.activeAccountId // TODO: reference a global hasLedger variable and share with HardwareDevices.js
 
         if (!success) {
             return (
@@ -285,6 +285,7 @@ const mapStateToProps = ({ account, router, recoveryMethods }, { match }) => ({
     ...account,
     router,
     accountId: match.params.accountId,
+    activeAccountId: account.accountId,
     isNew: !!parseInt(match.params.isNew),
     fundingContract: match.params.fundingContract,
     fundingKey: match.params.fundingKey,
