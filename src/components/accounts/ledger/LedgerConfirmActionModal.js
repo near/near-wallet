@@ -22,13 +22,13 @@ const LedgerConfirmActionModal = ({ open, onClose, ledgerAccounts, gettingAccoun
             
             {gettingAccounts && (
                 <h3>
-                    Please confirm public key on your device
+                    Confirm public key
                 </h3>
             )}
             {addingAccounts && (
                 <div>
                     <h3>
-                        Confirm add key operation for each account separately:
+                        Confirm the add key operation for each account:
                         {ledgerAccounts.map((account) => (
                             <div style={{ display: 'flex', paddingTop: '1rem', color: account.status === 'pending' ? '#999' : account.status === 'success' ? '#5ace84' : '' }}>
                                 <div style={{ flex: '70%' }}>
