@@ -188,7 +188,6 @@ class Wallet {
     ********************************/
 
     async getLedgerKey() {
-        // TODO: Cache keys / record Ledger status for account more efficiently
         const accessKeys = await this.getAccessKeys(this.accountId)
         if (accessKeys) {
             const localKey = await this.getLocalAccessKey(this.accountId, accessKeys)
