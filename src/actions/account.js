@@ -218,6 +218,13 @@ export const { signAndSendTransactions } = createActions({
     ]
 })
 
+export const { sendMoney } = createActions({
+    SEND_MONEY: [
+        wallet.sendMoney.bind(wallet),
+        () => defaultCodesFor('account.sendMoney')
+    ]
+})
+
 export const { switchAccount, refreshAccount, refreshAccountExternal, refreshUrl, setFormLoader } = createActions({
     SWITCH_ACCOUNT: wallet.selectAccount.bind(wallet),
     REFRESH_ACCOUNT: [
