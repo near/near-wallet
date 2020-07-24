@@ -81,21 +81,19 @@ class SendMoney extends Component {
                 loader: true
             }))
 
-            this.props.sendMoney(accountId, amount)
-                .then(() => {
-                    this.props.refreshAccount()
+            try {
+                await this.props.sendMoney(accountId, fundingKey, fundingContract, token)
 
-                    this.setState(state => ({
-                        step: state.step + 1
-                    }))
-                })
-                .catch(console.error)
-                .finally(() => {
-                    this.setState(() => ({
-                        loader: false
-                    }))
-                })
+                this.props.refreshAccount()
 
+                this.setState(state => ({
+                    step: state.step + 1
+                }))
+            } finally {
+                this.setState(() => ({
+                    loader: false
+                }))
+            }
 
             return
         }
