@@ -5,7 +5,7 @@ import { Translate } from 'react-localize-redux';
 import 'react-phone-number-input/style.css'
 import PhoneInput, { isValidPhoneNumber } from 'react-phone-number-input';
 import { validateEmail } from '../../../utils/account';
-import { initializeRecoveryMethod, setupRecoveryMessage, redirectToApp, loadRecoveryMethods, getAccessKeys, getLedgerKey } from '../../../actions/account';
+import { initializeRecoveryMethod, setupRecoveryMessage, redirectToApp, loadRecoveryMethods, getAccessKeys, getLedgerKey, refreshAccount } from '../../../actions/account';
 import RecoveryOption from './RecoveryOption';
 import FormButton from '../../common/FormButton';
 import EnterVerificationCode from '../EnterVerificationCode';
@@ -45,7 +45,7 @@ class SetupRecoveryMethod extends Component {
     }
 
     componentDidMount() {
-        const { router, getAccessKeys, getLedgerKey } = this.props;
+        const { router, getAccessKeys, getLedgerKey, accountId, activeAccountId } = this.props;
         const { method } = router.location;
         
         getAccessKeys()
@@ -55,7 +55,9 @@ class SetupRecoveryMethod extends Component {
             this.setState({ option: method });
         }
 
-        this.setRecoveryMethods()
+        if (accountId === activeAccountId) {
+            this.setRecoveryMethods()
+        }
     }
 
     setRecoveryMethods = () => {
@@ -140,12 +142,14 @@ class SetupRecoveryMethod extends Component {
     handleSetupRecoveryMethod = async (securityCode) => {
         const  {
             accountId, setupRecoveryMessage, redirectToApp, history,
-            isNew, fundingContract, fundingKey,
+            isNew, fundingContract, fundingKey, refreshAccount
         } = this.props;
 
         try {
             await setupRecoveryMessage(accountId, this.method, securityCode, isNew, fundingContract, fundingKey)
+            await refreshAccount()
         } catch(e) {
+            console.log(e);
             return;
         }
 
@@ -276,7 +280,8 @@ const mapDispatchToProps = {
     loadRecoveryMethods,
     initializeRecoveryMethod,
     getAccessKeys,
-    getLedgerKey
+    getLedgerKey,
+    refreshAccount
 }
 
 const mapStateToProps = ({ account, router, recoveryMethods }, { match }) => ({

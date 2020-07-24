@@ -699,7 +699,6 @@ class Wallet {
         // create account if new
         if (isNew) {
             await this.createNewAccount(accountId, fundingContract, fundingKey)
-            await this.refreshAccount()
         }
         // now finish recovery method setup
         const { seedPhrase, publicKey } = generateSeedPhrase();
@@ -724,16 +723,24 @@ class Wallet {
         });
     }
 
-
-    async replaceAccessKey(oldKey, newKey) {
-        const accountId = this.accountId;
-        await this.getAccount(accountId).addKey(newKey)
-        await this.removeAccessKey(oldKey)
-    }
-
     async sendNewRecoveryLink(method) {
         const accountId = this.accountId;
+        const { account, has2fa } = await this.getAccountAndState(accountId)
         const { seedPhrase, publicKey } = generateSeedPhrase();
+        const accessKeys =  await this.getAccessKeys()
+        const currentKeys = accessKeys.map(key => key.public_key)
+
+        if (has2fa) {
+            await this.addAccessKey(accountId, accountId, splitPK(publicKey))
+        } else {
+            if (!currentKeys.includes(publicKey)) {
+                await account.addKey(publicKey)
+            }
+        }
+
+        if (currentKeys.includes(method.publicKey)) {
+            await this.removeAccessKey(method.publicKey)
+        }
 
         await this.postSignedJson('/account/resendRecoveryLink', {
             accountId,
@@ -741,7 +748,6 @@ class Wallet {
             seedPhrase,
             publicKey
         });
-        await this.replaceAccessKey(method.publicKey, publicKey)
     }
 
     async deleteRecoveryMethod({ kind, publicKey }) {
