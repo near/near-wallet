@@ -344,7 +344,12 @@ class Wallet {
 
         const { data: recoveryMethods } = await this.getRecoveryMethods();
         for (const recoveryMethod of recoveryMethods) {
-            this.deleteRecoveryMethod(recoveryMethod)
+            try {
+                await this.deleteRecoveryMethod(recoveryMethod)
+            } catch(e) {
+                console.log(e)
+                return;
+            }
         }
     }
 
@@ -740,8 +745,13 @@ class Wallet {
     }
 
     async deleteRecoveryMethod({ kind, publicKey }) {
-        const res = await this.removeAccessKey(publicKey)
-        console.log('deleteRecoveryMethod', res)
+        const accessKeys =  await this.getAccessKeys()
+        const pubKeys = accessKeys.map(key => key.public_key)
+
+        if (pubKeys.includes(publicKey)) {
+            await this.removeAccessKey(publicKey)
+        }
+
         await this.postSignedJson('/account/deleteRecoveryMethod', {
             accountId: this.accountId,
             kind,
