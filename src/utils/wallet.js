@@ -122,8 +122,12 @@ class Wallet {
         return twoFactorRequest(this, account, request, await this.get2faMethod())
     }
 
-    async get2faMethod(account) {
-        return (await this.getRecoveryMethods(account)).data.filter((m) => m.kind.indexOf('2fa-') > -1).map(({ kind, detail, createdAt }) => ({ kind, detail, createdAt }))[0]
+    async get2faMethod() {
+        const account = this.getAccount(this.accountId);
+        const { has2fa } = await this.getAccountAndState();
+        if (has2fa) {
+            return (await this.getRecoveryMethods(account)).data.filter((m) => m.kind.indexOf('2fa-') > -1).map(({ kind, detail, createdAt }) => ({ kind, detail, createdAt }))[0]
+        }
     }
 
     async getLocalAccessKey(accountId, accessKeys) {
@@ -183,11 +187,11 @@ class Wallet {
     End Two Factor
     ********************************/
 
-    async getLedgerKey(accountId) {
+    async getLedgerKey() {
         // TODO: Cache keys / record Ledger status for account more efficiently
-        const accessKeys = await this.getAccessKeys(accountId)
+        const accessKeys = await this.getAccessKeys(this.accountId)
         if (accessKeys) {
-            const localKey = await this.getLocalAccessKey(accountId, accessKeys)
+            const localKey = await this.getLocalAccessKey(this.accountId, accessKeys)
             const ledgerKey = accessKeys.find(accessKey => accessKey.meta.type === 'ledger')
             if (ledgerKey && (!localKey || localKey.permission !== 'FullAccess')) {
                 return PublicKey.from(ledgerKey.public_key)
@@ -691,6 +695,7 @@ class Wallet {
         // create account if new
         if (isNew) {
             await this.createNewAccount(accountId, fundingContract, fundingKey)
+            await this.refreshAccount()
         }
         // now finish recovery method setup
         const { seedPhrase, publicKey } = generateSeedPhrase();

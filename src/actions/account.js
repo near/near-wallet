@@ -123,7 +123,7 @@ export const allowLogin = () => async (dispatch, getState) => {
 
 const defaultCodesFor = (prefix, data) => ({ successCode: `${prefix}.success`, errorCode: `${prefix}.error`, data})
 
-export const { initializeRecoveryMethod, validateSecurityCode, initTwoFactor, reInitTwoFactor, sendTwoFactor, resendTwoFactor, verifyTwoFactor, promptTwoFactor, deployMultisig, get2faMethod, getAccountAndState, setupRecoveryMessage, deleteRecoveryMethod, sendNewRecoveryLink, checkNewAccount, createNewAccount, checkAccountAvailable, getTransactions, getTransactionStatus, clear, clearCode } = createActions({
+export const { initializeRecoveryMethod, validateSecurityCode, initTwoFactor, reInitTwoFactor, sendTwoFactor, resendTwoFactor, verifyTwoFactor, promptTwoFactor, deployMultisig, get2faMethod, getLedgerKey, getAccountAndState, setupRecoveryMessage, deleteRecoveryMethod, sendNewRecoveryLink, checkNewAccount, createNewAccount, checkAccountAvailable, getTransactions, getTransactionStatus, clear, clearCode } = createActions({
     INITIALIZE_RECOVERY_METHOD: [
         wallet.initializeRecoveryMethod.bind(wallet),
         () => defaultCodesFor('account.initializeRecoveryMethod')
@@ -165,6 +165,10 @@ export const { initializeRecoveryMethod, validateSecurityCode, initTwoFactor, re
     GET_2FA_METHOD: [
         wallet.get2faMethod.bind(wallet),
         () => defaultCodesFor('account.get2faMethod')
+    ],
+    GET_LEDGER_KEY: [
+        wallet.getLedgerKey.bind(wallet),
+        () => defaultCodesFor('account.LedgerKey')
     ],
     GET_ACCOUNT_AND_STATE: [
         wallet.getAccountAndState.bind(wallet),

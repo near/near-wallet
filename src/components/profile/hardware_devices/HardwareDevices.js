@@ -7,7 +7,8 @@ import FormButton from '../../common/FormButton';
 import HardwareDeviceIcon from '../../svg/HardwareDeviceIcon';
 import { 
     getAccessKeys,
-    disableLedger
+    disableLedger,
+    getLedgerKey
 } from '../../../actions/account';
 import { useRecoveryMethods } from '../../../hooks/recoveryMethods';
 import ConfirmDisable from './ConfirmDisable';
@@ -75,20 +76,17 @@ const Container = styled(Card)`
 `
 
 const HardwareDevices = () => {
+
     const [disabling, setDisabling] = useState(false);
     const [confirmDisable, setConfirmDisable] = useState(false);
-
     const dispatch = useDispatch();
     const account = useSelector(({ account }) => account);
     const recoveryMethods = useRecoveryMethods(account.accountId);
-
     const keys = account.fullAccessKeys || [];
-    const ledgerKey = keys.find(key => key.meta.type === 'ledger');
-    const hasLedger = !!ledgerKey
-
     const recoveryKeys = recoveryMethods.map(key => key.publicKey)
     const publicKeys = keys.map(key => key.public_key)
     const hasOtherMethods = publicKeys.some(key => recoveryKeys.includes(key))
+    const hasLedger = account.ledgerKey !== null;
 
     useEffect(() => { 
         dispatch(getAccessKeys())
@@ -103,11 +101,12 @@ const HardwareDevices = () => {
             return;
         } finally {
             await dispatch(getAccessKeys())
+            await dispatch(getLedgerKey())
             setDisabling(false)
             setConfirmDisable(false);
         }
     }
-
+    
     return (
         <Container>
             <div className='header'>

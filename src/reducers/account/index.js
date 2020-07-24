@@ -18,7 +18,9 @@ import {
     deleteRecoveryMethod,
     sendNewRecoveryLink,
     recoverAccountSeedPhrase,
-    deployMultisig
+    deployMultisig,
+    get2faMethod,
+    getLedgerKey
 } from '../../actions/account'
 
 const initialState = {
@@ -26,6 +28,8 @@ const initialState = {
     sentMessage: false,
     requestPending: null,
     actionsPending: [],
+    twoFactor: null,
+    ledgerKey: null
 }
 
 const loaderReducer = (state, { type, ready }) => {
@@ -115,6 +119,20 @@ const url = handleActions({
     })
 }, initialState)
 
+const twoFactor = handleActions({
+    [get2faMethod]: (state, { payload }) => ({
+        ...state,
+        twoFactor: payload
+    })
+}, initialState)
+
+const ledgerKey = handleActions({
+    [getLedgerKey]: (state, { payload }) => ({
+        ...state,
+        ledgerKey: payload
+    })
+}, initialState)
+
 const account = handleActions({
     [refreshAccount]: (state, { payload, ready, meta }) => {
 
@@ -159,5 +177,7 @@ export default reduceReducers(
     recoverCodeReducer,
     accessKeys,
     account,
-    url
+    url,
+    twoFactor,
+    ledgerKey
 )

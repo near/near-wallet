@@ -5,7 +5,7 @@ import { Translate } from 'react-localize-redux';
 import 'react-phone-number-input/style.css'
 import PhoneInput, { isValidPhoneNumber } from 'react-phone-number-input';
 import { validateEmail } from '../../../utils/account';
-import { initializeRecoveryMethod, setupRecoveryMessage, redirectToApp, loadRecoveryMethods, getAccessKeys } from '../../../actions/account';
+import { initializeRecoveryMethod, setupRecoveryMessage, redirectToApp, loadRecoveryMethods, getAccessKeys, getLedgerKey } from '../../../actions/account';
 import RecoveryOption from './RecoveryOption';
 import FormButton from '../../common/FormButton';
 import EnterVerificationCode from '../EnterVerificationCode';
@@ -45,10 +45,11 @@ class SetupRecoveryMethod extends Component {
     }
 
     componentDidMount() {
-        const { router, getAccessKeys } = this.props;
+        const { router, getAccessKeys, getLedgerKey } = this.props;
         const { method } = router.location;
-
+        
         getAccessKeys()
+        getLedgerKey()
 
         if (method) {
             this.setState({ option: method });
@@ -178,11 +179,7 @@ class SetupRecoveryMethod extends Component {
 
     render() {
         const { option, phoneNumber, email, success, emailInvalid, phoneInvalid, activeMethods } = this.state;
-        const { actionsPending, fullAccessKeys } = this.props;
-
-        const keys = fullAccessKeys || [];
-        const ledgerKey = keys.find(key => key.meta.type === 'ledger');
-        const hasLedger = !!ledgerKey && this.props.accountId === this.props.activeAccountId // TODO: reference a global hasLedger variable and share with HardwareDevices.js
+        const { actionsPending, accountId, activeAccountId, ledgerKey } = this.props;
 
         if (!success) {
             return (
@@ -237,7 +234,7 @@ class SetupRecoveryMethod extends Component {
                             onClick={() => this.setState({ option: 'ledger' })}
                             option='ledger'
                             active={option}
-                            disabled={hasLedger}
+                            disabled={ledgerKey !== null && accountId === activeAccountId}
                         />
                         <RecoveryOption
                             onClick={() => this.setState({ option: 'phrase' })}
@@ -278,7 +275,8 @@ const mapDispatchToProps = {
     redirectToApp,
     loadRecoveryMethods,
     initializeRecoveryMethod,
-    getAccessKeys
+    getAccessKeys,
+    getLedgerKey
 }
 
 const mapStateToProps = ({ account, router, recoveryMethods }, { match }) => ({
