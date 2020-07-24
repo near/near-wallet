@@ -74,7 +74,8 @@ class SendMoney extends Component {
 
     handleNextStep = (e) => {
         e.preventDefault()
-        const { step, accountId, amount } = this.state;
+        const { step, accountId, amount } = this.state
+        const { sendMoney, refreshAccount } = this.props
 
         if (step === 2) {
             this.setState(() => ({
@@ -82,9 +83,9 @@ class SendMoney extends Component {
             }))
 
             try {
-                await this.props.sendMoney(accountId, fundingKey, fundingContract, token)
+                await sendMoney(accountId, amount)
 
-                this.props.refreshAccount()
+                refreshAccount()
 
                 this.setState(state => ({
                     step: state.step + 1
