@@ -120,6 +120,7 @@ export const twoFactorRemoveKey = (wallet, account, publicKey) => {
 @patrick move to wallet.js and import addKeyAction, deleteKeyAction
 in wallet.js
 if using inside async function `return await twoFactorRequest(this, account, request)`
+@note set fullAccess false if you're adding a LAK, otherwise adds a FAK if contractId === accountId (user accountId)
 ********************************/
 export const exampleAddRemoveKey = (wallet, account, addPublicKey, fullAccess = false, removePublicKey) => {
     const request = {
