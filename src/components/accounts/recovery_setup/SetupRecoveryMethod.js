@@ -45,7 +45,7 @@ class SetupRecoveryMethod extends Component {
     }
 
     componentDidMount() {
-        const { router, getAccessKeys, getLedgerKey, accountId, activeAccountId } = this.props;
+        const { router, getAccessKeys, getLedgerKey, accountId, activeAccountId, isNew } = this.props;
         const { method } = router.location;
         
         getAccessKeys()
@@ -55,13 +55,13 @@ class SetupRecoveryMethod extends Component {
             this.setState({ option: method });
         }
 
-        if (accountId === activeAccountId) {
+        if (!isNew) {
             this.setRecoveryMethods()
         }
     }
 
     setRecoveryMethods = () => {
-        if (this.props.recoveryMethods[this.props.accountId]) {
+        if (this.props.recoveryMethods[this.props.activeAccountId]) {
             const confirmed = this.props.recoveryMethods[this.props.accountId].filter(method => method.confirmed)
             this.setState({ activeMethods: confirmed.map(method => method.kind) });
         } else {
