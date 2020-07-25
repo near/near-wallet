@@ -19,6 +19,33 @@ const getContract = (account) => {
         sender: account.accountId
     });
 }
+export const addKeyAction = (account, publicKey, contractId, fullAccess = false) => {
+    const { accountId } = account
+    if (!contractId) contractId = accountId
+    // default method names will be limited access key multisig contract methods
+    let allowance = ACCESS_KEY_FUNDING_AMOUNT
+    let method_names = METHOD_NAMES_LAK
+    if (contractId !== accountId) {
+        fullAccess = false
+        method_names = ['']
+    } else {
+        allowance = '0'
+    }
+    return {
+        type: 'AddKey',
+        public_key: splitPK(publicKey),
+        // a full access key has no permission
+        ...(!fullAccess ? {
+            permission: {
+                // not always adding a key FOR our account
+                receiver_id: contractId,
+                allowance,
+                method_names
+            }
+        } : null)
+    }
+}
+export const deleteKeyAction = (publicKey) => ({ type: 'DeleteKey', public_key: splitPK(publicKey) })
 /********************************
 Exports
 ********************************/
@@ -72,36 +99,40 @@ export const twoFactorRequest = async (wallet, account, request) => {
         return await sendTwoFactorRequest(wallet, accountId, method, request_id, data)
     }
 }
-export const twoFactorAddKey = (wallet, account, contractId, publicKey, fullAccess = false) => {
-    const {accountId} = account
-    // default method names will be limited access key multisig contract methods
-    let allowance = ACCESS_KEY_FUNDING_AMOUNT
-    let method_names = METHOD_NAMES_LAK
-    if (contractId !== accountId) {
-        fullAccess = false
-        method_names = ['']
-    } else {
-        allowance = '0'
-    }
+// returns twoFactorRequest promise
+export const twoFactorAddKey = (wallet, account, publicKey, contractId, fullAccess = false) => {
     const request = {
-        // always adding keys to our account
         receiver_id: account.accountId,
-        actions: [{
-            type: 'AddKey',
-            public_key: splitPK(publicKey),
-            // a full access key has no permission
-            ...(!fullAccess ? {
-                permission: {
-                    // not always adding a key FOR our account
-                    receiver_id: contractId,
-                    allowance,
-                    method_names
-                }
-            } : null)
-        }]
+        actions: [addKeyAction(account, publicKey, contractId, fullAccess)]
     }
     return twoFactorRequest(wallet, account, request)
 }
+// returns twoFactorRequest promise
+export const twoFactorRemoveKey = (wallet, account, publicKey) => {
+    const request = {
+        receiver_id: account.accountId,
+        actions: [deleteKeyAction(publicKey)]
+    }
+    return twoFactorRequest(wallet, account, request)
+}
+
+/********************************
+@patrick move to wallet.js and import addKeyAction, deleteKeyAction
+in wallet.js
+if using inside async function `return await twoFactorRequest(this, account, request)`
+********************************/
+export const exampleAddRemoveKey = (wallet, account, addPublicKey, fullAccess = false, removePublicKey) => {
+    const request = {
+        receiver_id: account.accountId,
+        actions: [
+            addKeyAction(account, addPublicKey, account.accountId, fullAccess),
+            deleteKeyAction(removePublicKey)
+        ]
+    }
+    return twoFactorRequest(wallet, account, request)
+}
+
+
 /********************************
 Deploys 2/3 multisig contract with keys from contract-helper and localStorage
 @todo check account has enough near to actually do this

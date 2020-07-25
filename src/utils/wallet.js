@@ -11,7 +11,7 @@ import { WalletError } from './walletError'
 import { setAccountConfirmed, getAccountConfirmed, removeAccountConfirmed} from './localStorage'
 import BN from 'bn.js'
 
-import { getRequest, setRequest, twoFactorRequest, sendTwoFactorRequest, twoFactorAddKey, twoFactorDeploy } from './twoFactor'
+import { getRequest, setRequest, twoFactorRequest, sendTwoFactorRequest, twoFactorAddKey, twoFactorRemoveKey, twoFactorDeploy } from './twoFactor'
 
 export const WALLET_CREATE_NEW_ACCOUNT_URL = 'create'
 export const WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS = ['create', 'set-recovery', 'setup-seed-phrase', 'recover-account', 'recover-seed-phrase', 'sign-in-ledger']
@@ -302,11 +302,7 @@ class Wallet {
     async removeAccessKey(publicKey) {
         const { account, has2fa } = await this.getAccountAndState()
         if (has2fa) {
-            const request = {
-                receiver_id: this.accountId,
-                actions: [{ type: 'DeleteKey', public_key: splitPK(publicKey) }]
-            }
-            return await this.makeTwoFactorRequest(account, request)
+            return await twoFactorRemoveKey(this, account, publicKey)
         } else {
             return await this.getAccount(this.accountId).deleteKey(publicKey)
         }
@@ -474,7 +470,7 @@ class Wallet {
             contractId = account.accountId
         }
         if (has2fa) {
-            return await twoFactorAddKey(this, account, contractId, publicKey, fullAccess)
+            return await twoFactorAddKey(this, account, publicKey, contractId, fullAccess)
         } else {
             try {
                 if (fullAccess) {
