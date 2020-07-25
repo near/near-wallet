@@ -43,7 +43,7 @@ class Navigation extends Component {
 
     get showNavLinks() {
         const { availableAccounts } = this.props;
-        const signUpRoutes = ['create', 'set-recovery', 'setup-seed-phrase', 'recover-account', 'recover-seed-phrase', 'sign-in-ledger', 'setup-ledger'];
+        const signUpRoutes = ['create', 'set-recovery', 'setup-seed-phrase', 'recover-account', 'recover-seed-phrase', 'sign-in-ledger', 'setup-ledger', 'recover-with-link'];
         const currentBaseRoute = window.location.pathname.replace(/^\/([^/]*).*$/, '$1');
         
         return !signUpRoutes.includes(currentBaseRoute) || availableAccounts.length > 1 || (availableAccounts.length > 0 && currentBaseRoute === 'create');
