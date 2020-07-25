@@ -45,7 +45,7 @@ class SetupRecoveryMethod extends Component {
     }
 
     componentDidMount() {
-        const { router, getAccessKeys, getLedgerKey, accountId, activeAccountId, isNew } = this.props;
+        const { router, getAccessKeys, getLedgerKey, isNew } = this.props;
         const { method } = router.location;
         
         getAccessKeys()

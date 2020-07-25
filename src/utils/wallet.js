@@ -11,7 +11,7 @@ import { WalletError } from './walletError'
 import { setAccountConfirmed, getAccountConfirmed, removeAccountConfirmed} from './localStorage'
 import BN from 'bn.js'
 
-import { getRequest, setRequest, twoFactorRequest, sendTwoFactorRequest, twoFactorAddKey, twoFactorRemoveKey, twoFactorDeploy } from './twoFactor'
+import { getRequest, setRequest, twoFactorRequest, sendTwoFactorRequest, twoFactorAddKey, twoFactorRemoveKey, twoFactorDeploy, addKeyAction, deleteKeyAction } from './twoFactor'
 
 export const WALLET_CREATE_NEW_ACCOUNT_URL = 'create'
 export const WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS = ['create', 'set-recovery', 'setup-seed-phrase', 'recover-account', 'recover-seed-phrase', 'sign-in-ledger']
@@ -722,28 +722,30 @@ class Wallet {
     async sendNewRecoveryLink(method) {
         const accountId = this.accountId;
         const { account, has2fa } = await this.getAccountAndState(accountId)
-        const { seedPhrase, publicKey } = generateSeedPhrase();
-        const accessKeys =  await this.getAccessKeys()
-        const currentKeys = accessKeys.map(key => key.public_key)
+        const { seedPhrase, publicKey } = generateSeedPhrase()
 
         if (has2fa) {
-            await this.addAccessKey(accountId, accountId, splitPK(publicKey))
-        } else {
-            if (!currentKeys.includes(publicKey)) {
-                await account.addKey(publicKey)
+            const request = {
+                receiver_id: accountId,
+                actions: [
+                    addKeyAction(account, publicKey, accountId),
+                    deleteKeyAction(method.publicKey)
+                ]
             }
-        }
-
-        if (currentKeys.includes(method.publicKey)) {
+    
+            await twoFactorRequest(this, account, request)
+        } else {
+            await account.addKey(publicKey)
             await this.removeAccessKey(method.publicKey)
         }
 
-        await this.postSignedJson('/account/resendRecoveryLink', {
+        return await this.postSignedJson('/account/resendRecoveryLink', {
             accountId,
             method,
             seedPhrase,
             publicKey
         });
+
     }
 
     async deleteRecoveryMethod({ kind, publicKey }) {
