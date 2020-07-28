@@ -217,11 +217,6 @@ class Routing extends Component {
                                 />
                                 <Route
                                     exact
-                                    path='/recover-seed-phrase/:seedPhrase?'
-                                    component={RecoverAccountSeedPhraseWithRouter}
-                                />
-                                <Route
-                                    exact
                                     path='/recover-seed-phrase/:accountId?/:seedPhrase?'
                                     component={RecoverAccountSeedPhraseWithRouter}
                                 />

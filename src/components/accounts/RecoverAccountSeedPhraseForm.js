@@ -10,9 +10,24 @@ const RecoverAccountSeedPhraseForm = ({
     isLegit,
     handleChange,
     seedPhrase,
+    accountId,
     requestStatus
 }) => (
         <>
+            <h4><Translate id='recoverSeedPhrase.accountIdInput.title' /></h4>
+            <Translate>
+                {({ translate }) => (
+                    <Input
+                        name='accountId'
+                        value={accountId}
+                        onChange={handleChange}
+                        className={classNames([{'success': requestStatus && requestStatus.success}, {'problem': requestStatus && requestStatus.success === false}])}
+                        placeholder={translate('recoverSeedPhrase.accountIdInput.title')}
+                        required
+                        tabIndex='1'
+                    />
+                )}
+            </Translate>
             <h4><Translate id='recoverSeedPhrase.seedPhraseInput.title' /></h4>
             <Translate>
                 {({ translate }) => (
@@ -23,7 +38,7 @@ const RecoverAccountSeedPhraseForm = ({
                         className={classNames([{'success': requestStatus && requestStatus.success}, {'problem': requestStatus && requestStatus.success === false}])}
                         placeholder={translate('recoverSeedPhrase.seedPhraseInput.placeholder')}
                         required
-                        tabIndex='1'
+                        tabIndex='2'
                     />
                 )}
             </Translate>
