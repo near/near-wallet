@@ -184,8 +184,10 @@
         "startOver": "Start over",
         "copyUrl": "Copy Url",
         "createAccount": "Create account",
+        "recoverYourAccount": "Recover your account",
         "enable": "Enable",
         "disable": "Disable",
+        "signInLedger": "Sign in with Ledger",
         "connectLedger": "Connect to Ledger",
         "retry": "Retry",
         "browseApps": "BROWSE APPS",
@@ -215,7 +217,8 @@
         "createNewAccount": "CREATE NEW ACCOUNT",
         "moreInformation": "More information",
         "dismiss": "Dismiss",
-        "cancelOperation": "Cancel Operation"
+        "cancelOperation": "Cancel Operation",
+        "subscribe": "Subscribe"
     },
 
     "link": {
@@ -613,5 +616,16 @@
         "title": "Test-only Wallet",
         "header": "NEAR test Wallet",
         "desc": "This wallet (and network) are for testing purposes only. Tokens and other assets have no value. Accounts created do not transfer to Mainnet."
+    },
+
+    "landing": {
+        "title":"NEAR is here.",
+        "desc": "Securely store your NEAR tokens and compatible assets with <span>NEAR Wallet</span>.",
+        "or": "or"
+    },
+    
+    "emailSubscribe": {
+        "title": "Subscribe for updates. <span>No fluff, just what you need to know.</span>",
+        "placeholder": "Your email..."
     }
 }
