@@ -121,9 +121,9 @@ export function GuestLanding() {
                 <h1><Translate id='landing.title' /></h1>
                 <h3><Translate id='landing.desc' /></h3>
                 <div className='buttons'>
-                    <FormButton><Translate id='button.signInLedger' /></FormButton>
+                    <FormButton linkTo='/sign-in-ledger'><Translate id='button.signInLedger' /></FormButton>
                     <span><Translate id='landing.or' /></span>
-                    <FormButton className='link'><Translate id='button.recoverYourAccount' /></FormButton>
+                    <FormButton linkTo='/recover-account' className='link'><Translate id='button.recoverYourAccount' /></FormButton>
                 </div>
                 <img src={SignUpPhoneImg} alt='Sign up'/>
             </Container>

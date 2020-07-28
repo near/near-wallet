@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import { Translate } from 'react-localize-redux'
 
@@ -60,17 +60,24 @@ const Container = styled.div`
         border: none;
         font-weight: 500 !important;
         padding: 4px 30px;
+        transition: 100ms;
+
+        &:hover {
+            background-color: #ff6d71;
+        }
     }
 `
 
 export default function EmailSubscribe() {
+    const [email, setEmail] = useState('');
+
     return (
         <Container className='email-subscribe'>
             <Translate id='emailSubscribe.title' />
-            <form onSubmit={() => {}}>
+            <form action={`https://nearprotocol.us14.list-manage.com/subscribe/post?u=faedf5dec8739fb92e05b4131&amp;id=4470dc6b88&MERGE0=${email}`} method="post" target="_blank" novalidate>
                 <Translate>
                     {({ translate }) => (
-                        <input placeholder={translate('emailSubscribe.placeholder')}/>
+                        <input placeholder={translate('emailSubscribe.placeholder')} value={email} onChange={e => setEmail(e.target.value)}/>
                     )}
                 </Translate>
                 <button type='submit'><Translate id='button.subscribe' /></button>
