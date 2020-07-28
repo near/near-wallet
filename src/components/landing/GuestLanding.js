@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import LandingBackground from './LandingBackground'
 import Container from '../common/styled/Container.css'
 import FormButton from '../common/FormButton'
-import SignUpPhoneImg from '../../images/create-phone.png'
+import SignUpPhoneImg from '../../images/create-phone.svg'
 import EmailSubscribe from './EmailSubscribe'
 
 const StyledContainer = styled.div`
@@ -17,6 +17,7 @@ const StyledContainer = styled.div`
         @media (max-width: 767px) {
             margin: 0;
             overflow: hidden;
+            margin-top: -13px;
         }
 
         svg {
@@ -29,6 +30,12 @@ const StyledContainer = styled.div`
 
             @media (max-width: 992px) {
                 top: -120px;
+            }
+
+            @media (max-width: 470px) {
+                top: -86px;
+                width: 900px;
+                left: unset;
             }
         }
 
@@ -98,16 +105,23 @@ const StyledContainer = styled.div`
         }
 
         img {
-            margin-top: -25px;
+            margin-left: -60px;
+            margin-top: 65px;
+            width: 500px;
+
+            @media (min-width: 768px) {
+                width: 700px;
+            }
         }
 
         .email-subscribe {
-            margin-top: -215px;
+            margin-top: -140px;
             margin-bottom: 50px;
             padding-top: 80px;
 
             @media (max-width: 767px) {
                 margin-bottom: 0;
+                margin-top: -100px;
             }
         }
     }

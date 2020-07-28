@@ -11,16 +11,12 @@ const Container = styled.div`
     font-weight: 500;
     color: white;
 
-    @media (max-width: 768px) {
-        margin: -215px -5px 50px -5px;
-        border-radius: 0;
+    @media (max-width: 767px) {
         padding: 100px 20px 50px 20px;
     }
 
-    span {
-        span {
-            color: #FAE058;
-        }
+    @media (max-width: 660px) {
+        border-radius: 0;
     }
 
     form {
@@ -30,7 +26,7 @@ const Container = styled.div`
         padding: 5px;
         margin-top: 20px;
 
-        @media (max-width: 768px) {
+        @media (max-width: 767px) {
             flex-direction: column;
             background-color: transparent;
 
@@ -74,7 +70,7 @@ export default function EmailSubscribe() {
     return (
         <Container className='email-subscribe'>
             <Translate id='emailSubscribe.title' />
-            <form action={`https://nearprotocol.us14.list-manage.com/subscribe/post?u=faedf5dec8739fb92e05b4131&amp;id=4470dc6b88&MERGE0=${email}`} method="post" target="_blank" novalidate>
+            <form action={`https://nearprotocol.us14.list-manage.com/subscribe/post?u=faedf5dec8739fb92e05b4131&amp;id=4470dc6b88&MERGE0=${email}`} method="post" target="_blank" noValidate>
                 <Translate>
                     {({ translate }) => (
                         <input placeholder={translate('emailSubscribe.placeholder')} value={email} onChange={e => setEmail(e.target.value)}/>
