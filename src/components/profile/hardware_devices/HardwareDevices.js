@@ -2,7 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
+import { Translate } from 'react-localize-redux';
 import Card from '../../common/styled/Card.css';
+
 import FormButton from '../../common/FormButton';
 import HardwareDeviceIcon from '../../svg/HardwareDeviceIcon';
 import { 
@@ -11,7 +13,7 @@ import {
 } from '../../../actions/account';
 import { useRecoveryMethods } from '../../../hooks/recoveryMethods';
 import ConfirmDisable from './ConfirmDisable';
-import { Translate } from 'react-localize-redux';
+import LedgerConfirmActionModal from '../../accounts/ledger/LedgerConfirmActionModal'
 
 const Container = styled(Card)`
     margin-top: 30px;
@@ -107,6 +109,8 @@ const HardwareDevices = () => {
         setConfirmDisable(false);
     }
 
+    const showModal = account.actionsPending.includes('REMOVE_ACCESS_KEY') && account.ledger.hasLedger
+
     return (
         <Container>
             <div className='header'>
@@ -139,6 +143,14 @@ const HardwareDevices = () => {
             {!hasOtherMethods && hasLedger && 
                 <i><Translate id='hardwareDevices.ledger.disclaimer'/></i>
             }
+
+            {showModal && (
+                <LedgerConfirmActionModal 
+                    open={true}
+                    onClose={() => onClose()} 
+                    textId='confirmLedgerModal.one'
+                />
+            )}
         </Container>
     )
 }
