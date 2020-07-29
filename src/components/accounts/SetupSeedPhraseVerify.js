@@ -5,6 +5,7 @@ import { Translate } from 'react-localize-redux'
 
 import RequestStatusBox from '../common/RequestStatusBox'
 import FormButton from '../common/FormButton'
+import LedgerConfirmActionModal from './ledger/LedgerConfirmActionModal'
 
 import styled from 'styled-components'
 
@@ -49,7 +50,9 @@ const SetupSeedPhraseVerify = ({
     handleStartOver,
     formLoader,
     requestStatus,
-    globalAlert
+    globalAlert,
+    showModal,
+    onClose
 }) => (
     <CustomDiv>
         <h4><Translate id='input.enterWord.title' /> #{wordId + 1}</h4>
@@ -86,6 +89,14 @@ const SetupSeedPhraseVerify = ({
                 <Translate id='button.startOver' />
             </FormButton>
         </div>
+
+        {showModal && (
+            <LedgerConfirmActionModal 
+                open={true}
+                onClose={() => onClose()} 
+                textId='confirmLedgerModal.one'
+            />
+        )}
     </CustomDiv>
 )
 
