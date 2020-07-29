@@ -70,7 +70,7 @@ const Container = styled.div`
         }
     }
 
-    .mobile-menu,
+    #mobile-menu,
     .desktop-menu {
         top: ${props => props.showBanner ? '35px' : '0'};
     }
