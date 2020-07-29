@@ -10,7 +10,6 @@ import UserAccounts from './UserAccounts';
 import CreateAccountBtn from './CreateAccountBtn';
 import LanguageToggle from '../common/LangSwitcher';
 import languagesIcon from '../../images/icon-languages.svg';
-import { IS_MAINNET } from '../../utils/wallet';
 import { Translate } from 'react-localize-redux';
 
 const Container = styled.div`
@@ -21,7 +20,7 @@ const Container = styled.div`
     font-family: 'benton-sans',sans-serif;
     background-color: #24272a;
     height: 70px;
-    top: ${IS_MAINNET ? '0' : '35px'};
+    top: 0;
     z-index: 1000;
     padding: 0 15px;
     position: fixed;

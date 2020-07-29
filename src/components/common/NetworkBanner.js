@@ -47,7 +47,7 @@ const Header = styled.h4`
     margin-bottom: 5px !important;
 `
 
-const NetworkBanner = () => {
+const NetworkBanner = (props) => {
     if (!IS_MAINNET) {
         return (
             <Container>
@@ -68,8 +68,15 @@ const NetworkBanner = () => {
                 </Modal>
             </Container>
         )
+    } else if (IS_MAINNET && !props.accountId) {
+        return (
+            <Container>
+                <Translate id='landing.banner' />
+            </Container>
+        )
+    } else {
+        return null
     }
-    return null
 }
 
 export default NetworkBanner;
