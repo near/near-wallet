@@ -8,6 +8,7 @@ import { Grid } from 'semantic-ui-react'
 import MobileContainer from '../sign/MobileContainer'
 import FormButton from '../common/FormButton'
 import SelectAccountDropdown from './SelectAccountDropdown'
+import LedgerConfirmActionModal from '../accounts/ledger/LedgerConfirmActionModal'
 
 import IconProblems from '../../images/IconProblems'
 import IconAuthorize from '../../images/IconAuthorize'
@@ -24,7 +25,10 @@ const LoginForm = ({
     handleSelectAccount,
     redirectCreateAccount,
     buttonLoader,
-    match
+    match,
+    hasLedger,
+    formLoader,
+    onClose
 }) => (
     <MobileContainer>
         <Grid padded>
@@ -141,6 +145,13 @@ const LoginForm = ({
                     )}
                 </Grid.Column>
             </Grid.Row>
+            {hasLedger && formLoader && (
+                <LedgerConfirmActionModal 
+                    open={true}
+                    onClose={() => onClose()} 
+                    textId='confirmLedgerModal.one'
+                />
+            )}
         </Grid>
     </MobileContainer>
 )

@@ -7,7 +7,7 @@ import LoginForm from './LoginForm'
 import LoginConfirm from './LoginConfirm'
 import LoginDetails from './LoginDetails'
 import LoginIncorrectContractId from './LoginIncorrectContractId'
-import { refreshAccount, handleRefreshUrl, switchAccount, clearAlert, allowLogin, redirectToApp } from '../../actions/account'
+import { refreshAccount, handleRefreshUrl, switchAccount, clearAlert, allowLogin, redirectToApp, clear } from '../../actions/account'
 
 class Login extends Component {
     state = {
@@ -55,7 +55,7 @@ class Login extends Component {
     }
 
     render() {
-        const { account: { url }, match } = this.props
+        const { account: { url, ledger, formLoader }, match, clear } = this.props
 
         return (
             <LoginContainer>
@@ -74,6 +74,9 @@ class Login extends Component {
                             handleSelectAccount={this.handleSelectAccount}
                             redirectCreateAccount={this.redirectCreateAccount}
                             handleDetails={this.handleDetails}
+                            hasLedger={ledger.hasLedger}
+                            formLoader={formLoader}
+                            onClose={clear}
                         />
                     )}
                 />
@@ -121,7 +124,8 @@ const mapDispatchToProps = {
     switchAccount,
     allowLogin,
     clearAlert,
-    redirectToApp
+    redirectToApp,
+    clear
 }
 
 const mapStateToProps = ({ account }) => ({
