@@ -155,6 +155,7 @@ class SendMoney extends Component {
                         handleGoBack={this.handleGoBack}
                         handleCancelTransfer={this.handleCancelTransfer}
                         hasLedger={ledger.hasLedger}
+                        onClose={clear}
                         {...this.state}
                     />
                 )}
@@ -174,7 +175,8 @@ const mapDispatchToProps = {
     checkAccountAvailable,
     clear,
     setFormLoader,
-    sendMoney
+    sendMoney,
+    clear
 }
 
 const mapStateToProps = ({ account }) => ({

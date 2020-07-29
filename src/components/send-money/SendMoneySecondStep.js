@@ -18,7 +18,8 @@ const SendMoneySecondStep = ({
     amount,
     accountId,
     loader,
-    hasLedger
+    hasLedger,
+    onClose
 }) => (
     <MobileContainer>
         <Fragment>
@@ -88,7 +89,7 @@ const SendMoneySecondStep = ({
             {hasLedger && loader && (
                 <LedgerConfirmActionModal 
                     open={true}
-                    onClose={() => {}} 
+                    onClose={() => onClose()} 
                     textId='confirmLedgerModal.one'
                 />
             )}
