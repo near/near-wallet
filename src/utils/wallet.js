@@ -169,11 +169,18 @@ class Wallet {
 
     async loadAccount() {
         if (!this.isEmpty()) {
+            const accessKeys = await this.getAccessKeys() || []
+            const ledgerKey = accessKeys.find(key => key.meta.type === 'ledger')
+            
             return {
                 ...await this.getAccount(this.accountId).state(),
                 balance: await this.getBalance(),
                 accountId: this.accountId,
-                accounts: this.accounts
+                accounts: this.accounts,
+                ledger: {
+                    ledgerKey,
+                    hasLedger: !!ledgerKey
+                }
             }
         }
     }
