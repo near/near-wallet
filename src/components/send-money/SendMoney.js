@@ -5,7 +5,7 @@ import { withRouter } from 'react-router-dom'
 
 import { wallet } from '../../utils/wallet'
 
-import { refreshAccount, checkAccountAvailable, clear, setFormLoader, sendMoney } from '../../actions/account'
+import { refreshAccount, checkAccountAvailable, clear, setFormLoader, sendMoney, getAccessKeys } from '../../actions/account'
 
 import SendMoneyFirstStep from './SendMoneyFirstStep'
 import SendMoneySecondStep from './SendMoneySecondStep'
@@ -24,6 +24,8 @@ class SendMoney extends Component {
     }
 
     async componentDidMount() {
+        this.props.getAccessKeys()
+        
         const accountId = this.props.match.params.id
         if (!accountId) return;
 
@@ -72,7 +74,7 @@ class SendMoney extends Component {
         this.props.history.push('/')
     }
 
-    handleNextStep = (e) => {
+    handleNextStep = async (e) => {
         e.preventDefault()
         const { step, accountId, amount } = this.state
         const { sendMoney, refreshAccount } = this.props
@@ -173,7 +175,8 @@ const mapDispatchToProps = {
     checkAccountAvailable,
     clear,
     setFormLoader,
-    sendMoney
+    sendMoney,
+    getAccessKeys
 }
 
 const mapStateToProps = ({ account }) => ({
