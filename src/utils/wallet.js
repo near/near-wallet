@@ -11,7 +11,12 @@ import { WalletError } from './walletError'
 import { setAccountConfirmed, getAccountConfirmed, removeAccountConfirmed} from './localStorage'
 import BN from 'bn.js'
 
-import { getRequest, setRequest, twoFactorRequest, sendTwoFactorRequest, twoFactorAddKey, twoFactorRemoveKey, twoFactorDeploy, addKeyAction, deleteKeyAction } from './twoFactor'
+import { 
+    getRequest, setRequest, twoFactorRequest, sendTwoFactorRequest, 
+    twoFactorAddKey, twoFactorRemoveKey, twoFactorDeploy,
+    addKeyAction, deleteKeyAction,
+    METHOD_NAMES_LAK,
+} from './twoFactor'
 
 export const WALLET_CREATE_NEW_ACCOUNT_URL = 'create'
 export const WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS = ['create', 'set-recovery', 'setup-seed-phrase', 'recover-account', 'recover-seed-phrase', 'sign-in-ledger']
@@ -24,8 +29,6 @@ export const DISABLE_SEND_MONEY = process.env.DISABLE_SEND_MONEY === 'true' || p
 export const ACCOUNT_ID_SUFFIX = process.env.REACT_APP_ACCOUNT_ID_SUFFIX || 'testnet'
 export const LOCKUP_ACCOUNT_ID_SUFFIX = process.env.LOCKUP_ACCOUNT_ID_SUFFIX || 'lockup'
 // required by twoFactor.js
-export const METHOD_NAMES_LAK = ["add_request", "add_request_and_confirm", "delete_request", "confirm"]
-export const METHOD_NAMES_CONFIRM = ["confirm"]
 export const ACCESS_KEY_FUNDING_AMOUNT = process.env.REACT_APP_ACCESS_KEY_FUNDING_AMOUNT || nearApiJs.utils.format.parseNearAmount('0.01')
 
 export const ENABLE_FULL_ACCESS_KEYS = process.env.ENABLE_FULL_ACCESS_KEYS === 'yes'
@@ -39,8 +42,6 @@ const KEY_WALLET_ACCOUNTS = KEY_UNIQUE_PREFIX + 'wallet:accounts_v2'
 const KEY_ACTIVE_ACCOUNT_ID = KEY_UNIQUE_PREFIX + 'wallet:active_account_id_v2'
 const ACCOUNT_ID_REGEX = /^(([a-z\d]+[-_])*[a-z\d]+\.)*([a-z\d]+[-_])*[a-z\d]+$/
 const ACCOUNT_NO_CODE_HASH = '11111111111111111111111111111111'
-
-console.log('ACCESS_KEY_FUNDING_AMOUNT', ACCESS_KEY_FUNDING_AMOUNT)
 
 export const keyAccountConfirmed = (accountId) => `wallet.account:${accountId}:${NETWORK_ID}:confirmed`
 
