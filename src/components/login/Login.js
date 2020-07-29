@@ -31,17 +31,18 @@ class Login extends Component {
         }
     }
 
-    handleAllow = () => {
+    handleAllow = async () => {
         this.setState(() => ({
             buttonLoader: true
         }))
 
-        this.props.allowLogin()
-            .finally(() => {
-                this.setState(() => ({
-                    buttonLoader: false
-                }))
-            })
+        try {
+            await this.props.allowLogin()
+        } finally {
+            this.setState(() => ({
+                buttonLoader: false
+            }))
+        }
     }
 
     handleSelectAccount = accountId => {
