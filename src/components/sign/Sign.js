@@ -34,7 +34,7 @@ class Sign extends Component {
     }
 
     renderSubcomponent = () => {
-        const { account: { url, balance }, totalAmount, sensitiveActionsCounter, status } = this.props
+        const { account: { url, balance, ledger, formLoader }, totalAmount, sensitiveActionsCounter, status } = this.props
 
         const txTotalAmount = new BN(totalAmount); // TODO: add gas cost, etc
         const availableBalance = new BN(balance.available);
@@ -59,6 +59,8 @@ class Sign extends Component {
                 return <SignTransferTransferring
                             {...this.state}
                             isMonetaryTransaction={isMonetaryTransaction}
+                            hasLedger={ledger.hasLedger}
+                            formLoader={formLoader}
                         />
             case 'success':
                 return <SignTransferSuccess

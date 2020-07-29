@@ -3,10 +3,11 @@ import { Translate } from 'react-localize-redux'
 
 import MobileContainer from './MobileContainer'
 import SignAnimatedArrow from './SignAnimatedArrow'
+import LedgerConfirmActionModal from '../accounts/ledger/LedgerConfirmActionModal'
 
 import { Grid } from 'semantic-ui-react'
 
-const SignTransferReady = ({ status, isMonetaryTransaction }) => (
+const SignTransferReady = ({ status, isMonetaryTransaction, hasLedger, formLoader }) => (
     <MobileContainer>
         <Grid padded>
             <Grid.Row centered>
@@ -41,6 +42,13 @@ const SignTransferReady = ({ status, isMonetaryTransaction }) => (
                     {/* Contract: @contractname.near */}
                 </Grid.Column>
             </Grid.Row>
+            {hasLedger && formLoader && (
+                <LedgerConfirmActionModal 
+                    open={true}
+                    onClose={() => onClose()} 
+                    textId='confirmLedgerModal.one'
+                />
+            )}
         </Grid>
     </MobileContainer>
 )
