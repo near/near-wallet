@@ -183,8 +183,8 @@
         "verify": "VERIFY & COMPLETE",
         "startOver": "Start over",
         "copyUrl": "Copy Url",
-        "createAccount": "Create account",
-        "recoverYourAccount": "Recover your account",
+        "createAccount": "Create Account",
+        "recoverYourAccount": "Recover your Account",
         "enable": "Enable",
         "disable": "Disable",
         "signInLedger": "Sign in with Ledger",
@@ -621,7 +621,8 @@
     "landing": {
         "title":"NEAR is here.",
         "desc": "Securely store your NEAR tokens and compatible assets with <span>NEAR Wallet</span>.",
-        "or": "or"
+        "or": "or",
+        "banner": "NEAR Wallet is in Private Beta"
     },
     
     "emailSubscribe": {

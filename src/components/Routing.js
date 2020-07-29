@@ -57,7 +57,7 @@ const onMissingTranslation = ({ translationId }) => {
 const Container = styled.div`
     min-height: 100vh;
     padding-bottom: 200px;
-    padding-top: ${props => props.mainnet ? '75px' : '120px'};
+    padding-top: ${props => props.showBanner ? '120px' : '75px'};
     .main {
         padding-bottom: 200px;
     }
@@ -68,6 +68,11 @@ const Container = styled.div`
                 padding-bottom: 0px;
             }
         }
+    }
+
+    .mobile-menu,
+    .desktop-menu {
+        top: ${props => props.showBanner ? '35px' : '0'};
     }
 `
 class Routing extends Component {
@@ -144,12 +149,12 @@ class Routing extends Component {
         const { search } = this.props.router.location
 
         return (
-            <Container className='App' mainnet={IS_MAINNET}>
+            <Container className='App' showBanner={(IS_MAINNET && !this.props.account.accountId) || !IS_MAINNET}>
                 <GlobalStyle />
                 <ConnectedRouter basename={PATH_PREFIX}  history={this.props.history}>
                     <ThemeProvider theme={theme}>
                         <ScrollToTop/>
-                        <NetworkBanner/>
+                        <NetworkBanner accountId={this.props.account.accountId}/>
                         <Navigation/>
                         <GlobalAlert/>
                         {this.props.account.loader === false && (
@@ -158,15 +163,10 @@ class Routing extends Component {
                                     pathname: '/*',
                                     search: search
                                 }} />
-                                <PrivateRoute
-                                    exact
-                                    path='/' 
-                                    component={DashboardDetailWithRouter}
-                                />
                                 <Route
                                     exact
-                                    path='/landing'
-                                    component={GuestLanding}
+                                    path='/' 
+                                    component={!this.props.account.accountId ? GuestLanding : DashboardDetailWithRouter}
                                 />
                                 <Route
                                     exact

@@ -10,7 +10,6 @@ import UserBalance from './UserBalance';
 import UserName from './UserName';
 import DesktopMenu from './DesktopMenu';
 import LanguageToggle from '../common/LangSwitcher';
-import { IS_MAINNET } from '../../utils/wallet';
 
 const Container = styled.div`
     display: none;
@@ -29,7 +28,7 @@ const Container = styled.div`
     background-color: #24272a;
     position: fixed;
     height: 70px;
-    top: ${IS_MAINNET ? '0' : '35px'};
+    top: 0;
     left: 0;
     right: 0;
     z-index: 1000;
@@ -237,7 +236,7 @@ class DesktopContainer extends Component {
         } = this.props;
 
         return (
-            <Container>
+            <Container className='desktop-menu'>
                 <Logo/>
                 {showNavLinks &&
                     <NavLinks/>

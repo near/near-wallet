@@ -6,6 +6,7 @@ import Container from '../common/styled/Container.css'
 import FormButton from '../common/FormButton'
 import SignUpPhoneImg from '../../images/create-phone.svg'
 import EmailSubscribe from './EmailSubscribe'
+import { IS_MAINNET } from '../../utils/wallet'
 
 const StyledContainer = styled.div`
 
@@ -104,10 +105,19 @@ const StyledContainer = styled.div`
             }
         }
 
+        .img-wrapper {
+            min-height: 300px;
+
+            @media (min-width: 768px) {
+                min-height: 600px;
+            }
+        }
+
         img {
             margin-left: -60px;
             margin-top: 65px;
             width: 500px;
+            height: auto;
 
             @media (min-width: 768px) {
                 width: 700px;
@@ -135,11 +145,15 @@ export function GuestLanding() {
                 <h1><Translate id='landing.title' /></h1>
                 <h3><Translate id='landing.desc' /></h3>
                 <div className='buttons'>
-                    <FormButton linkTo='/sign-in-ledger'><Translate id='button.signInLedger' /></FormButton>
+                    {IS_MAINNET ? 
+                        <FormButton linkTo='/sign-in-ledger'><Translate id='button.signInLedger' /></FormButton>
+                        :
+                        <FormButton linkTo='/create'><Translate id='button.createAccount' /></FormButton>
+                    }
                     <span><Translate id='landing.or' /></span>
                     <FormButton linkTo='/recover-account' className='link'><Translate id='button.recoverYourAccount' /></FormButton>
                 </div>
-                <img src={SignUpPhoneImg} alt='Sign up'/>
+                <div className='img-wrapper'><img src={SignUpPhoneImg} alt='Sign up'/></div>
             </Container>
             <EmailSubscribe/>
         </StyledContainer>
