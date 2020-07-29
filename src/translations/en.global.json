@@ -175,7 +175,10 @@
         "dashboardNoApps": "You have not authorized any apps",
         "feeAllowance": "Fee Allowance",
         "publicKey": "Public Key",
-        "ledger": "Ledger"
+        "ledger": "Ledger",
+        "removeAccessKey": {
+            "error": "Please check that your device is connected and the NEAR app is open."
+        }
     },
 
     "button": {
