@@ -167,7 +167,10 @@ export const { initializeRecoveryMethod, validateSecurityCode, setupRecoveryMess
 
 export const { getAccessKeys, removeAccessKey, addLedgerAccessKey, removeNonLedgerAccessKeys, getLedgerAccountIds, addLedgerAccountId, saveAndSelectLedgerAccounts } = createActions({
     GET_ACCESS_KEYS: [wallet.getAccessKeys.bind(wallet), () => ({})],
-    REMOVE_ACCESS_KEY: [wallet.removeAccessKey.bind(wallet), () => ({})],
+    REMOVE_ACCESS_KEY: [
+        wallet.removeAccessKey.bind(wallet),
+        () => defaultCodesFor('authorizedApps.removeAccessKey', { onlyError: true })
+    ],
     ADD_LEDGER_ACCESS_KEY: [wallet.addLedgerAccessKey.bind(wallet), () => defaultCodesFor('errors.ledger')],
     REMOVE_NON_LEDGER_ACCESS_KEYS: [wallet.removeNonLedgerAccessKeys.bind(wallet), () => ({})],
     GET_LEDGER_ACCOUNT_IDS: [wallet.getLedgerAccountIds.bind(wallet), () => defaultCodesFor('signInLedger.getLedgerAccountIds')],
