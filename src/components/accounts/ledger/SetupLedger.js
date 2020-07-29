@@ -5,8 +5,9 @@ import InstructionsModal from './InstructionsModal';
 import LedgerIcon from '../../svg/LedgerIcon';
 import FormButton from '../../common/FormButton';
 import { Translate } from 'react-localize-redux';
-import { addLedgerAccessKey } from '../../../actions/account'
+import { addLedgerAccessKey, clear } from '../../../actions/account'
 import GlobalAlert from '../../responsive/GlobalAlert'
+import LedgerConfirmActionModal from './LedgerConfirmActionModal'
 
 const SetupLedger = (props) => {
 
@@ -23,6 +24,10 @@ const SetupLedger = (props) => {
         }
         props.history.push('/setup-ledger-success');
     }
+
+    const { actionsPending, ledger } = props
+
+    const showModal = actionsPending.includes('ADD_LEDGER_ACCESS_KEY')
 
     return (
         <Theme>
@@ -45,12 +50,21 @@ const SetupLedger = (props) => {
             {showInstructions && 
                 <InstructionsModal open={showInstructions} onClose={toggleShowInstructions}/>
             }
+
+            {showModal && (
+                <LedgerConfirmActionModal 
+                    open={true}
+                    onClose={() => props.clear()} 
+                    textId='confirmLedgerModal.one'
+                />
+            )}
         </Theme>
     );
 }
 
 const mapDispatchToProps = {
-    addLedgerAccessKey
+    addLedgerAccessKey,
+    clear
 }
 
 const mapStateToProps = ({ account }) => ({
