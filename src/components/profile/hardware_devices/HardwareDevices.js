@@ -83,8 +83,7 @@ const HardwareDevices = () => {
     const recoveryMethods = useRecoveryMethods(account.accountId);
 
     const keys = account.fullAccessKeys || [];
-    const ledgerKey = keys.find(key => key.meta.type === 'ledger');
-    const hasLedger = !!ledgerKey
+    const { hasLedger, ledgerKey } = account.ledger
 
     const recoveryKeys = recoveryMethods.map(key => key.publicKey)
     const publicKeys = keys.map(key => key.public_key)
