@@ -42,6 +42,7 @@ const KEY_WALLET_ACCOUNTS = KEY_UNIQUE_PREFIX + 'wallet:accounts_v2'
 const KEY_ACTIVE_ACCOUNT_ID = KEY_UNIQUE_PREFIX + 'wallet:active_account_id_v2'
 const ACCOUNT_ID_REGEX = /^(([a-z\d]+[-_])*[a-z\d]+\.)*([a-z\d]+[-_])*[a-z\d]+$/
 const ACCOUNT_NO_CODE_HASH = '11111111111111111111111111111111'
+const MULTISIG_CONTRACT_HASHES = process.env.MULTISIG_CONTRACT_HASHES || ['7GQStUCd8bmCK43bzD8PRh7sD2uyyeMJU5h8Rj3kXXJk'];
 
 export const keyAccountConfirmed = (accountId) => `wallet.account:${accountId}:${NETWORK_ID}:confirmed`
 
@@ -589,7 +590,7 @@ class Wallet {
         const account = this.getAccount(accountId)
         account.accountId = this.accountId
         const state = await account.state()
-        const has2fa = state.code_hash !== ACCOUNT_NO_CODE_HASH
+        const has2fa = MULTISIG_CONTRACT_HASHES.includes(state.code_hash)
         return { account, state, has2fa }
     }
 
@@ -811,7 +812,7 @@ class Wallet {
             // check if multisig deployed
             const state = await account.state()
             // 3 cases for how we recover and add a key
-            if (state.code_hash !== ACCOUNT_NO_CODE_HASH) {
+            if (MULTISIG_CONTRACT_HASHES.includes(state.code_hash)) {
                 if (use2fa) {
                     // (1) multisig + LAK recovery, (2) multisig + FAK recovery with seed phrase, (3) no multisig  
                     await this.addAccessKey(accountId, accountId, splitPK(newKeyPair.publicKey))
