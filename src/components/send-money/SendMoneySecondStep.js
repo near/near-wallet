@@ -16,7 +16,8 @@ const SendMoneySecondStep = ({
     note,
     amount,
     accountId,
-    loader
+    loader,
+    hasLedger
 }) => (
     <MobileContainer>
         <Fragment>

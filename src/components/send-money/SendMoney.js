@@ -131,7 +131,8 @@ class SendMoney extends Component {
 
     render() {
         const { step } = this.state
-        const { formLoader, requestStatus, checkAccountAvailable, setFormLoader, clear, accountId } = this.props
+        const { formLoader, requestStatus, checkAccountAvailable, setFormLoader, clear, accountId, fullAccessKeys } = this.props
+        const hasLedger = fullAccessKeys && !!fullAccessKeys.find(key => key.meta.type === 'ledger')
 
         return (
             <SendMoneyContainer>
@@ -156,6 +157,7 @@ class SendMoney extends Component {
                         handleExpandNote={this.handleExpandNote}
                         handleGoBack={this.handleGoBack}
                         handleCancelTransfer={this.handleCancelTransfer}
+                        hasLedger={hasLedger}
                         {...this.state}
                     />
                 )}
