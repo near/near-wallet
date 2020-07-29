@@ -21,6 +21,10 @@ const StyledContainer = styled.div`
             margin-top: -13px;
         }
 
+        @media (max-width: 470px) {
+            margin-top: -50px;
+        }
+
         svg {
             opacity: 0.4;
             position: absolute;
