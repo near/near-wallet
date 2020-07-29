@@ -221,7 +221,7 @@ export const { signAndSendTransactions } = createActions({
 export const { sendMoney } = createActions({
     SEND_MONEY: [
         wallet.sendMoney.bind(wallet),
-        () => defaultCodesFor('account.sendMoney')
+        () => defaultCodesFor('account.sendMoney', { onlyError: true })
     ]
 })
 
