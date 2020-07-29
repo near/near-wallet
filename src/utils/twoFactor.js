@@ -16,9 +16,9 @@ const deleteUnconfirmedRequests = async (contract) => {
     }
     console.log(request_ids)
     const promises = []
-    // try to unconfirmed requests using current pk
+    // try to unconfirmed requests using current pk, catch exceptions, fail fast so other promises can run
     for (let i = 0; i < request_ids.length; i++) {
-        promises.push(contract.delete_request({ request_id: request_ids[i] }))
+        promises.push(contract.delete_request({ request_id: request_ids[i] }).catch((e) => console.log(e)))
     }
     try {
         await Promise.all(promises)
