@@ -6,7 +6,7 @@ import FormButton from '../../common/FormButton';
 import { Translate } from 'react-localize-redux';
 import LedgerImage from '../../svg/LedgerImage';
 
-const LedgerConfirmActionModal = ({ open, onClose }) => {
+const LedgerConfirmActionModal = ({ open, onClose, textId }) => {
     return (
         <Modal
             id='ledger-confirm-action-modal'
@@ -18,7 +18,7 @@ const LedgerConfirmActionModal = ({ open, onClose }) => {
             <MobileActionSheet/>
             <h2><Translate id='confirmLedgerModal.header'/></h2>
             <LedgerImage animate={true}/>
-            <p><Translate id='confirmLedgerModal.one'/></p>
+            <p><Translate id={textId}/></p>
             <FormButton color='gray-red' id='close-button'>
                 <Translate id='button.cancelOperation'/>
             </FormButton>
