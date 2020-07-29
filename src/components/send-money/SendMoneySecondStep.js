@@ -6,6 +6,7 @@ import PageContainer from '../common/PageContainer';
 import MobileContainer from '../sign/MobileContainer'
 import FormButton from '../common/FormButton'
 import Balance from '../common/Balance'
+import LedgerConfirmActionModal from '../accounts/ledger/LedgerConfirmActionModal';
 
 const SendMoneySecondStep = ({
     handleNextStep,
@@ -84,6 +85,12 @@ const SendMoneySecondStep = ({
                     <Translate id='button.cancelTransfer' />
                 </FormButton>
             </List>
+            {hasLedger && loader && (
+                <LedgerConfirmActionModal 
+                    open={true}
+                    onClose={() => {}} 
+                />
+            )}
         </Fragment>
     </MobileContainer>
 )
