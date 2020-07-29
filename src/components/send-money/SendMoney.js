@@ -5,7 +5,7 @@ import { withRouter } from 'react-router-dom'
 
 import { wallet } from '../../utils/wallet'
 
-import { refreshAccount, checkAccountAvailable, clear, setFormLoader, sendMoney, getAccessKeys } from '../../actions/account'
+import { refreshAccount, checkAccountAvailable, clear, setFormLoader, sendMoney } from '../../actions/account'
 
 import SendMoneyFirstStep from './SendMoneyFirstStep'
 import SendMoneySecondStep from './SendMoneySecondStep'
@@ -24,8 +24,6 @@ class SendMoney extends Component {
     }
 
     async componentDidMount() {
-        this.props.getAccessKeys()
-        
         const accountId = this.props.match.params.id
         if (!accountId) return;
 
@@ -131,8 +129,7 @@ class SendMoney extends Component {
 
     render() {
         const { step } = this.state
-        const { formLoader, requestStatus, checkAccountAvailable, setFormLoader, clear, accountId, fullAccessKeys } = this.props
-        const hasLedger = fullAccessKeys && !!fullAccessKeys.find(key => key.meta.type === 'ledger')
+        const { formLoader, requestStatus, checkAccountAvailable, setFormLoader, clear, accountId, ledger } = this.props
 
         return (
             <SendMoneyContainer>
@@ -157,7 +154,7 @@ class SendMoney extends Component {
                         handleExpandNote={this.handleExpandNote}
                         handleGoBack={this.handleGoBack}
                         handleCancelTransfer={this.handleCancelTransfer}
-                        hasLedger={hasLedger}
+                        hasLedger={ledger.hasLedger}
                         {...this.state}
                     />
                 )}
@@ -177,8 +174,7 @@ const mapDispatchToProps = {
     checkAccountAvailable,
     clear,
     setFormLoader,
-    sendMoney,
-    getAccessKeys
+    sendMoney
 }
 
 const mapStateToProps = ({ account }) => ({
