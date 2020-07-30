@@ -69,12 +69,8 @@ class CreateAccount extends Component {
     componentDidMount = () => {
         const { loginError, resetAccounts } = this.props;
 
-        if (loginError) {
-            // console.error('Error loading account:', loginError)
-
-            if (loginError.indexOf('does not exist while viewing') !== -1) {
-                resetAccounts()
-            }
+        if (loginError && loginError.indexOf('does not exist while viewing') !== -1) {
+            resetAccounts()
         }
     }
 
