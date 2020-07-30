@@ -25,7 +25,7 @@ const ledger = handleActions({
             signInWithLedger: payload && payload.reduce((r, accountId) => ({
                 ...r,
                 [accountId]: {
-                    status: 'pending'
+                    status: 'waiting'
                 }
             }), {})
         }
@@ -44,7 +44,7 @@ const ledger = handleActions({
                 ...state.signInWithLedger,
                 [meta.accountId]: {
                     key: payload,
-                    status: ready ? 'success' : 'waiting'
+                    status: ready ? 'success' : 'pending'
                 }
             }
         }
