@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import styled, { ThemeProvider } from 'styled-components'
 
-import { Route, Switch } from 'react-router-dom'
+import { Route, Switch, Redirect } from 'react-router-dom'
 import { ConnectedRouter } from 'connected-react-router'
 import { withLocalize } from 'react-localize-redux'
 import translations_en from '../translations/en.global.json'
@@ -34,6 +34,7 @@ import { AuthorizedAppsWithRouter } from './access-keys/AccessKeys'
 import { FullAccessKeysWithRouter } from './access-keys/AccessKeys'
 import { SendMoneyWithRouter } from './send-money/SendMoney'
 import { ReceiveMoneyWithRouter } from './receive-money/ReceiveMoney'
+import { GuestLanding } from './landing/GuestLanding'
 import { Profile } from './profile/Profile'
 import { SignWithRouter } from './sign/Sign'
 import { NodeStakingWithRouter } from './node-staking/NodeStaking'
@@ -56,7 +57,7 @@ const onMissingTranslation = ({ translationId }) => {
 const Container = styled.div`
     min-height: 100vh;
     padding-bottom: 200px;
-    padding-top: ${props => props.mainnet ? '75px' : '120px'};
+    padding-top: ${props => props.showBanner ? '120px' : '75px'};
     .main {
         padding-bottom: 200px;
     }
@@ -67,6 +68,11 @@ const Container = styled.div`
                 padding-bottom: 0px;
             }
         }
+    }
+
+    #mobile-menu,
+    .desktop-menu {
+        top: ${props => props.showBanner ? '35px' : '0'};
     }
 `
 class Routing extends Component {
@@ -140,22 +146,27 @@ class Routing extends Component {
     // }
 
     render() {
+        const { search } = this.props.router.location
 
         return (
-            <Container className='App' mainnet={IS_MAINNET}>
+            <Container className='App' showBanner={(IS_MAINNET && !this.props.account.accountId) || !IS_MAINNET}>
                 <GlobalStyle />
                 <ConnectedRouter basename={PATH_PREFIX}  history={this.props.history}>
                     <ThemeProvider theme={theme}>
                         <ScrollToTop/>
-                        <NetworkBanner/>
+                        <NetworkBanner accountId={this.props.account.accountId}/>
                         <Navigation/>
                         <GlobalAlert/>
                         {this.props.account.loader === false && (
                             <Switch>
-                                <PrivateRoute
+                                <Redirect from="//*" to={{
+                                    pathname: '/*',
+                                    search: search
+                                }} />
+                                <Route
                                     exact
-                                    path='/'
-                                    component={DashboardDetailWithRouter}
+                                    path='/' 
+                                    component={!this.props.account.accountId ? GuestLanding : DashboardDetailWithRouter}
                                 />
                                 <Route
                                     exact
