@@ -6,6 +6,7 @@ import { Grid, Input } from 'semantic-ui-react'
 
 import MobileContainer from '../sign/MobileContainer'
 import FormButton from '../common/FormButton'
+import LedgerConfirmActionModal from '../accounts/ledger/LedgerConfirmActionModal'
 
 import IconHelp from '../../images/IconHelp'
 
@@ -37,7 +38,7 @@ class LoginForm extends Component {
     }
 
     render() {
-        const { appTitle, buttonLoader } = this.props
+        const { appTitle, buttonLoader, hasLedger, formLoader, onClose } = this.props
         const { accountId, confirmStatus } = this.state
 
         return (
@@ -113,6 +114,14 @@ class LoginForm extends Component {
                             </Grid.Column>
                         </Grid.Row>
                     </Grid>
+
+                    {hasLedger && formLoader && (
+                        <LedgerConfirmActionModal 
+                            open={true}
+                            onClose={() => onClose()} 
+                            textId='confirmLedgerModal.subtext.loginFullAccess'
+                        />
+                    )}
                 </form>
             </MobileContainer>
 )}}

@@ -100,6 +100,9 @@ class Login extends Component {
                             buttonLoader={this.state.buttonLoader}
                             appTitle={url && url.title}
                             handleAllow={this.handleAllow}
+                            hasLedger={ledger.hasLedger}
+                            formLoader={formLoader}
+                            onClose={clear}
                         />
                     )}
                 />
