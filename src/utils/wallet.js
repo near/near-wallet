@@ -22,7 +22,7 @@ export const WALLET_CREATE_NEW_ACCOUNT_URL = 'create'
 export const WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS = ['create', 'set-recovery', 'setup-seed-phrase', 'recover-account', 'recover-seed-phrase', 'sign-in-ledger']
 export const WALLET_LOGIN_URL = 'login'
 export const WALLET_SIGN_URL = 'sign'
-export const ACCOUNT_HELPER_URL = process.env.REACT_APP_ACCOUNT_HELPER_URL || 'https://near-contract-helper.onrender.com'
+export const ACCOUNT_HELPER_URL = process.env.REACT_APP_ACCOUNT_HELPER_URL || 'https://near-contract-helper-2fa.onrender.com'
 export const EXPLORER_URL = process.env.EXPLORER_URL || 'https://explorer.testnet.near.org';
 export const IS_MAINNET = process.env.REACT_APP_IS_MAINNET === 'true' || process.env.REACT_APP_IS_MAINNET === 'yes'
 export const DISABLE_SEND_MONEY = process.env.DISABLE_SEND_MONEY === 'true' || process.env.DISABLE_SEND_MONEY === 'yes'
@@ -41,7 +41,6 @@ const KEY_UNIQUE_PREFIX = '_4:'
 const KEY_WALLET_ACCOUNTS = KEY_UNIQUE_PREFIX + 'wallet:accounts_v2'
 const KEY_ACTIVE_ACCOUNT_ID = KEY_UNIQUE_PREFIX + 'wallet:active_account_id_v2'
 const ACCOUNT_ID_REGEX = /^(([a-z\d]+[-_])*[a-z\d]+\.)*([a-z\d]+[-_])*[a-z\d]+$/
-const ACCOUNT_NO_CODE_HASH = '11111111111111111111111111111111'
 const MULTISIG_CONTRACT_HASHES = process.env.MULTISIG_CONTRACT_HASHES || ['7GQStUCd8bmCK43bzD8PRh7sD2uyyeMJU5h8Rj3kXXJk'];
 
 export const keyAccountConfirmed = (accountId) => `wallet.account:${accountId}:${NETWORK_ID}:confirmed`
@@ -51,7 +50,7 @@ const WALLET_METADATA_METHOD = '__wallet__metadata'
 export const ACCOUNT_CHECK_TIMEOUT = 500
 export const TRANSACTIONS_REFRESH_INTERVAL = 10000
 
-export const convertPKForContrat = (pk) => {
+export const convertPKForContract = (pk) => {
     if (typeof pk !== 'string') {
         pk = pk.toString()
     }
@@ -106,6 +105,12 @@ class Wallet {
             localStorage.getItem(KEY_WALLET_ACCOUNTS) || '{}'
         )
         this.accountId = localStorage.getItem(KEY_ACTIVE_ACCOUNT_ID) || ''
+
+        window.test = async() => console.log(await this.postSignedJson('/2fa/verify', {
+            accountId: this.accountId,
+            securityCode:159363,
+            requestId: 0
+        }));
     }
 
     /********************************
@@ -383,31 +388,6 @@ class Wallet {
         if (!!remoteAccount) {
             throw new Error('Account ' + accountId + ' already exists.')
         }
-    }
-
-    /********************************
-    Check account was created before saving 10 retries, 1s each
-    ********************************/
-    async checkAccountAndSave(accountId, keyPair) {
-        return new Promise((resolve, reject) => {
-            let attempts = 0
-            const retries = 10
-            const check = async () => {
-                attempts++
-                console.log(`attempt: ${attempts}, checking for account: ${accountId}`)
-                if (attempts >= retries) {
-                    reject('account cannot be found')
-                    return
-                }
-                try {
-                    await this.getAccount(accountId).state()
-                    resolve(await this.saveAndSelectAccount(accountId, keyPair));
-                } catch (e) {
-                    setTimeout(check, 1000)
-                }
-            }
-            check()
-        })
     }
 
     async createNewAccount(accountId, fundingContract, fundingKey) {
@@ -703,17 +683,12 @@ class Wallet {
         const { account, has2fa } = await this.getAccountAndState(accountId)
         const accountKeys = await account.getAccessKeys();
         if (has2fa) {
-            await this.addAccessKey(account.accountId, account.accountId, convertPKForContrat(publicKey))
+            await this.addAccessKey(account.accountId, account.accountId, convertPKForContract(publicKey))
         } else {
             if (!accountKeys.some(it => it.public_key.endsWith(publicKey))) {
                 await account.addKey(publicKey);
             }
         }
-        /********************************
-        Can we send signed JSON here? Should we?
-        @warning is this a vulnerability?
-        this.postSignedJson(ACCOUNT_HELPER_URL
-        ********************************/
         return sendJson('POST', `${ACCOUNT_HELPER_URL}/account/sendRecoveryMessage`, {
             accountId,
             method,
@@ -771,7 +746,6 @@ class Wallet {
         console.log('recovering account with publicKey', publicKey)
 
         const accountIds = await getAccountIds(publicKey)
-        // if we don't find accountIds we can push one from the link (email/sms ONLY)
         if (accountId && !accountIds.includes(accountId)) {
             accountIds.push(accountId)
         }
@@ -783,7 +757,6 @@ class Wallet {
                 throw new WalletError('Cannot find matching public key', 'account.recoverAccount.errorInvalidSeedPhrase', { publicKey })
             }
             accountIds.push(userProvidedAccountId)
-            // if user provided seed phrase it's probably a LAK
             if (!fromSeedPhraseRecovery) {
                 use2fa = true
             }
@@ -800,24 +773,17 @@ class Wallet {
             const account = new nearApiJs.Account(connection, accountId)
             account.accountId = accountId
             this.accountId = accountId
-            // recovery keypair
             const keyPair = KeyPair.fromString(secretKey)
             await tempKeyStore.setKey(NETWORK_ID, accountId, keyPair)
             account.keyStore = tempKeyStore
             account.inMemorySigner = new nearApiJs.InMemorySigner(tempKeyStore)
-            // this will replace the signer when we postSignedJson
             this.tempTwoFactorAccount = account
-            // generate new keypair
             const newKeyPair = KeyPair.fromRandom('ed25519')
-            // check if multisig deployed
             const state = await account.state()
-            // 3 cases for how we recover and add a key
             if (MULTISIG_CONTRACT_HASHES.includes(state.code_hash)) {
                 if (use2fa) {
-                    // (1) multisig + LAK recovery, (2) multisig + FAK recovery with seed phrase, (3) no multisig  
-                    await this.addAccessKey(accountId, accountId, convertPKForContrat(newKeyPair.publicKey))
+                    await this.addAccessKey(accountId, accountId, convertPKForContract(newKeyPair.publicKey))
                 } else {
-                    // (2) multisig + FAK recovery with seed phrase - add LAK directly
                     const actions = [
                         nearApiJs.transactions.addKey(newKeyPair.publicKey, nearApiJs.transactions.functionCallAccessKey(accountId, METHOD_NAMES_LAK, null))
                     ]
@@ -827,7 +793,6 @@ class Wallet {
                     console.log(result)
                 }
             } else {
-                // (3) no multisig is deployed - add FAK directly
                 await account.addKey(newKeyPair.publicKey)
             }
             if (i === accountIds.length - 1) {
