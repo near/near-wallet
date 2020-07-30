@@ -55,7 +55,7 @@ const SetupLedger = (props) => {
                 <LedgerConfirmActionModal 
                     open={true}
                     onClose={() => props.clear()} 
-                    textId='confirmLedgerModal.one'
+                    textId='confirmLedgerModal.subtext.enableLedger'
                 />
             )}
         </Theme>

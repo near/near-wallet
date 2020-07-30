@@ -149,7 +149,7 @@ const LoginForm = ({
                 <LedgerConfirmActionModal 
                     open={true}
                     onClose={() => onClose()} 
-                    textId='confirmLedgerModal.one'
+                    textId='confirmLedgerModal.subtext.login'
                 />
             )}
         </Grid>

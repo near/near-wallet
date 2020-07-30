@@ -121,7 +121,7 @@ const GlobalAlert = ({ globalAlert, clearAlert, closeIcon = true }) => {
         }
     };
 
-    if (globalAlert && !(globalAlert.data.onlyError && globalAlert.success)) {
+    if (globalAlert && !(globalAlert.data && globalAlert.data.onlyError && globalAlert.success)) {
         return (
             <Container>
                 <CustomMessage icon className={globalAlert.success ? 'success' : 'error'}>

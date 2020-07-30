@@ -90,7 +90,7 @@ const SendMoneySecondStep = ({
                 <LedgerConfirmActionModal 
                     open={true}
                     onClose={() => onClose()} 
-                    textId='confirmLedgerModal.one'
+                    textId='confirmLedgerModal.subtext.sendMoney'
                 />
             )}
         </Fragment>

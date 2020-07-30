@@ -628,7 +628,18 @@
 
     "confirmLedgerModal": {
         "header": "Please confirm the operation on your device...",
-        "one": "You will need to confirm your sign-in details on your Ledger."
+        "one": "You will need to confirm your sign-in details on your Ledger.",
+        "subtext": {
+            "sendMoney": "You will need to confirm transfer details on your Ledger.",
+            "sign": "You will need to confirm deposit details on your Ledger.",
+            "login": "You will need to confirm login details on your Ledger.",
+            "authorizedApps": "You will need to confirm delete key details on your Ledger.",
+            "enableSeedPhrase": "You will need to confirm full access details on your Ledger.",
+            "disableRecoveryMethod": "You will need to confirm delete key details on your Ledger.",
+            "enableRecoveryMethod": "You will need to confirm full access details on your Ledger.",
+            "enableLedger": "You will need to confirm public key details on your Ledger.",
+            "disableLedger": "You will need to confirm delete key details on your Ledger."
+        }
     },
     
     "errors": {

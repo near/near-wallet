@@ -168,7 +168,7 @@ class AccessKeys extends Component {
                             <LedgerConfirmActionModal 
                                 open={true}
                                 onClose={() => clear()} 
-                                textId='confirmLedgerModal.one'
+                                textId='confirmLedgerModal.subtext.authorizedApps'
                             />
                         )}
                     </>
