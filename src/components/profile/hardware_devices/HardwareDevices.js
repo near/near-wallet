@@ -9,7 +9,8 @@ import FormButton from '../../common/FormButton';
 import HardwareDeviceIcon from '../../svg/HardwareDeviceIcon';
 import { 
     getAccessKeys,
-    removeAccessKey
+    removeAccessKey,
+    clear
 } from '../../../actions/account';
 import { useRecoveryMethods } from '../../../hooks/recoveryMethods';
 import ConfirmDisable from './ConfirmDisable';
@@ -147,7 +148,7 @@ const HardwareDevices = () => {
             {showModal && (
                 <LedgerConfirmActionModal 
                     open={true}
-                    onClose={() => onClose()} 
+                    onClose={() => dispatch(clear())} 
                     textId='confirmLedgerModal.subtext.disableLedger'
                 />
             )}

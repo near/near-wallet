@@ -3,8 +3,6 @@ import { connect } from 'react-redux'
 
 import { withRouter } from 'react-router-dom'
 
-import { wallet } from '../../utils/wallet'
-
 import { refreshAccount, checkAccountAvailable, clear, setFormLoader, sendMoney } from '../../actions/account'
 
 import SendMoneyFirstStep from './SendMoneyFirstStep'
@@ -175,8 +173,7 @@ const mapDispatchToProps = {
     checkAccountAvailable,
     clear,
     setFormLoader,
-    sendMoney,
-    clear
+    sendMoney
 }
 
 const mapStateToProps = ({ account }) => ({

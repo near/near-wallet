@@ -7,7 +7,7 @@ import LedgerConfirmActionModal from '../accounts/ledger/LedgerConfirmActionModa
 
 import { Grid } from 'semantic-ui-react'
 
-const SignTransferReady = ({ status, isMonetaryTransaction, hasLedger, formLoader }) => (
+const SignTransferReady = ({ status, isMonetaryTransaction, hasLedger, formLoader, onClose }) => (
     <MobileContainer>
         <Grid padded>
             <Grid.Row centered>

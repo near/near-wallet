@@ -25,7 +25,7 @@ const SetupLedger = (props) => {
         props.history.push('/setup-ledger-success');
     }
 
-    const { actionsPending, ledger } = props
+    const { actionsPending } = props
 
     const showModal = actionsPending.includes('ADD_LEDGER_ACCESS_KEY')
 

@@ -9,7 +9,8 @@ import { Translate } from 'react-localize-redux';
 import {
     deleteRecoveryMethod,
     loadRecoveryMethods,
-    sendNewRecoveryLink
+    sendNewRecoveryLink,
+    clear
 } from '../../../actions/account';
 import SkeletonLoading from '../../common/SkeletonLoading';
 import { useRecoveryMethods } from '../../../hooks/recoveryMethods';
@@ -160,7 +161,7 @@ const RecoveryContainer = () => {
             {showModal && (
                 <LedgerConfirmActionModal 
                     open={true}
-                    onClose={() => onClose()} 
+                    onClose={() => dispatch(clear())} 
                     textId='confirmLedgerModal.subtext.disableRecoveryMethod'
                 />
             )}

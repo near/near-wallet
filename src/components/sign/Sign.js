@@ -9,7 +9,7 @@ import SignTransferReady from './SignTransferReady'
 import SignTransferSuccess from './SignTransferSuccess'
 import SignTransferCancelled from './SignTransferCancelled'
 import SignTransferTransferring from './SignTransferTransferring'
-import { signAndSendTransactions } from '../../actions/account'
+import { signAndSendTransactions, clear } from '../../actions/account'
 
 class Sign extends Component {
 
@@ -61,6 +61,7 @@ class Sign extends Component {
                             isMonetaryTransaction={isMonetaryTransaction}
                             hasLedger={ledger.hasLedger}
                             formLoader={formLoader}
+                            onClose={clear}
                         />
             case 'success':
                 return <SignTransferSuccess
@@ -83,7 +84,8 @@ class Sign extends Component {
 
 const mapDispatchToProps = {
     signAndSendTransactions,
-    push
+    push,
+    clear
 }
 
 const mapStateToProps = ({ account, sign }) => ({
