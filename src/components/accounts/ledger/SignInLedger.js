@@ -23,6 +23,9 @@ export function SignInLedger(props) {
         status: ledger.signInWithLedger[accountId].status
     }))
 
+    const accountsApproved = Object.keys(ledger.signInWithLedger || {}).reduce((a, accountId) => ledger.signInWithLedger[accountId].status === 'success' ? a + 1 : a, 0)
+    const totalAccounts = Object.keys(ledger.signInWithLedger || {}).length
+
     const handleSignIn = async () => {
         const { error } = await dispatch(signInWithLedger())
 
@@ -55,6 +58,8 @@ export function SignInLedger(props) {
                     ledgerAccounts={ledgerAccounts} 
                     gettingAccounts={gettingAccounts}
                     addingAccounts={addingAccounts}
+                    accountsApproved={accountsApproved}
+                    totalAccounts={totalAccounts}
                 />
             }
         </Theme>
