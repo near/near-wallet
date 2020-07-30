@@ -76,7 +76,7 @@ class SetupRecoveryMethod extends Component {
         try {
             await this.props.loadRecoveryMethods()
         } catch(e) {
-            console.log(e)
+            throw(e)
         } finally {
             this.setState({ hasFetchedMethods: true })
             return this.setRecoveryMethods()
@@ -149,8 +149,7 @@ class SetupRecoveryMethod extends Component {
             await setupRecoveryMessage(accountId, this.method, securityCode, isNew, fundingContract, fundingKey)
             await refreshAccount()
         } catch(e) {
-            console.log(e);
-            return;
+            throw(e)
         }
 
         if (fundingContract) {

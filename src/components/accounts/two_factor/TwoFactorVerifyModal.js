@@ -42,7 +42,7 @@ const TwoFactorVerifyModal = ({ open, onClose }) => {
         try {
             await dispatch(verifyTwoFactor(null, code))
         } catch(e) {
-            return;
+            throw(e)
         } finally {
             if (onClose) {
                 onClose(true)
