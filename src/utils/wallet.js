@@ -105,17 +105,12 @@ class Wallet {
             localStorage.getItem(KEY_WALLET_ACCOUNTS) || '{}'
         )
         this.accountId = localStorage.getItem(KEY_ACTIVE_ACCOUNT_ID) || ''
-
-        window.test = async() => console.log(await this.postSignedJson('/2fa/verify', {
-            accountId: this.accountId,
-            securityCode:159363,
-            requestId: 0
-        }));
     }
 
     /********************************
     Two Factor
-    @todo remove patching, update calls and actions
+    @todo remove patching, update calls and actions, import / get wallet instance
+    // create instance of twoFactor object inside 
     ********************************/
     async deployMultisig() {
         return await twoFactorDeploy(this)

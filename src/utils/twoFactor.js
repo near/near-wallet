@@ -13,6 +13,7 @@ const LAK_ALLOWANCE = process.env.LAK_ALLOWANCE || '10000000000000'
 /********************************
 Helpers
 ********************************/
+// TBD nonce issues, will have to test this seperately
 const deleteUnconfirmedRequests = async (contract) => {
     const request_ids = await contract.list_request_ids().catch((e) => { console.log(e) })
     if (!request_ids || request_ids.length === 0) {
@@ -20,6 +21,8 @@ const deleteUnconfirmedRequests = async (contract) => {
     }
     const promises = []
     // try to unconfirmed requests using current pk, catch exceptions, fail fast so other promises can run
+
+    // let's log these until we debug the nonce / timeout
     for (const request_id of request_ids) {
         promises.push(contract.delete_request({ request_id }).catch((e) => console.log(e)))
     }
