@@ -70,7 +70,7 @@ export function EnableTwoFactor(props) {
         try {
             response = await dispatch(initTwoFactor(accountId, method))
         } catch(e) {
-            return;
+            throw(e)
         } finally {
             if (response && response.confirmed) {
                 handleDeployMultisig()
@@ -85,7 +85,7 @@ export function EnableTwoFactor(props) {
         try {
             await dispatch(verifyTwoFactor(accountId, securityCode))
         } catch(e) {
-            return;
+            throw(e)
         } finally {
             handleDeployMultisig()
         }
@@ -96,7 +96,7 @@ export function EnableTwoFactor(props) {
         try {
             await dispatch(deployMultisig())
         } catch(e) {
-            return;
+            throw(e)
         } finally {
             dispatch(redirectToApp('/profile'))
         }

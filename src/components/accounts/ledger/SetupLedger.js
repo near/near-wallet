@@ -25,8 +25,8 @@ const SetupLedger = (props) => {
             await props.addLedgerAccessKey(props.accountId)
             await props.refreshAccount()
         } catch(e) {
-            console.log(e)
-            return setConnect('fail');
+            setConnect('fail');
+            throw(e);
         } 
 
         if (props.isNew) {
