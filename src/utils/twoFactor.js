@@ -1,7 +1,7 @@
 import * as nearApiJs from 'near-api-js'
 import { store } from '..'
 import { promptTwoFactor } from '../actions/account'
-import { ACCESS_KEY_FUNDING_AMOUNT, splitPK, toPK } from './wallet'
+import { ACCESS_KEY_FUNDING_AMOUNT, convertPKForContrat, toPK } from './wallet'
 
 export const METHOD_NAMES_LAK = ['add_request', 'add_request_and_confirm', 'delete_request', 'confirm']
 const VIEW_METHODS = ['get_request_nonce', 'list_request_ids']
@@ -14,11 +14,10 @@ const deleteUnconfirmedRequests = async (contract) => {
     if (!request_ids || request_ids.length === 0) {
         return
     }
-    console.log(request_ids)
     const promises = []
     // try to unconfirmed requests using current pk, catch exceptions, fail fast so other promises can run
-    for (let i = 0; i < request_ids.length; i++) {
-        promises.push(contract.delete_request({ request_id: request_ids[i] }).catch((e) => console.log(e)))
+    for (request_id of request_ids) {
+        promises.push(contract.delete_request({ request_id }).catch((e) => console.log(e)))
     }
     try {
         await Promise.all(promises)
@@ -28,10 +27,18 @@ const deleteUnconfirmedRequests = async (contract) => {
     }
 }
 const getNextRequestId = async (contract) => {
-    return contract.get_request_nonce().catch((e) => { console.log(e) })
+    try {
+        return contract.get_request_nonce()
+    } catch (e) {
+        throw(e)
+    }
 }
 const addRequestAndConfirm = async (contract, request) => {
-    return contract.add_request_and_confirm({ request }).catch((e) => console.log(e))
+    try {
+        return contract.add_request_and_confirm({ request })
+    } catch (e) {
+        throw(e)
+    }
 }
 const getContract = (account) => {
     return new nearApiJs.Contract(account, account.accountId, {
@@ -56,7 +63,7 @@ export const addKeyAction = (account, publicKey, contractId, fullAccess = false)
     }
     return {
         type: 'AddKey',
-        public_key: splitPK(publicKey),
+        public_key: convertPKForContrat(publicKey),
         ...(!fullAccess ? {
             permission: {
                 receiver_id: contractId,
@@ -67,7 +74,7 @@ export const addKeyAction = (account, publicKey, contractId, fullAccess = false)
     }
 }
 
-export const deleteKeyAction = (publicKey) => ({ type: 'DeleteKey', public_key: splitPK(publicKey) })
+export const deleteKeyAction = (publicKey) => ({ type: 'DeleteKey', public_key: convertPKForContrat(publicKey) })
 
 export const getRequest = () => {
     return JSON.parse(localStorage.getItem(`__multisigRequest`) || `{}`)
@@ -82,32 +89,24 @@ export const sendTwoFactorRequest = async (wallet, accountId, method, requestId 
     if (!method) method = await wallet.get2faMethod()
     // add request to local storage
     setRequest({ accountId, requestId, data })
-
-    const serverResponse = wallet.postSignedJson('/2fa/send', {
-        accountId,
-        method,
-        requestId,
-        data
-    }).catch((e) => console.log('/2fa/send failed', e));
-    
     if (requestId !== -1) {
-        return new Promise((resolve) => {
-            store.dispatch(promptTwoFactor((verified) => {
-                if (verified) {
-                    wallet.tempTwoFactorAccount = null
-                }
-                resolve(verified)
-            }))
+        return store.dispatch(promptTwoFactor(true)).payload.store.promise
+    }
+    try {
+        return await wallet.postSignedJson('/2fa/send', {
+            accountId,
+            method,
+            requestId,
+            data
         })
-    } else {
-        return await serverResponse
+    } catch (e) {
+        throw(e)
     }
 }
 
 export const twoFactorRequest = async (wallet, account, request) => {
     if (wallet.tempTwoFactorAccount) account = wallet.tempTwoFactorAccount
     const { accountId } = account
-    console.log('makeTwoFactorRequest', accountId, request, account)
     const contract = getContract(account)
     await deleteUnconfirmedRequests(contract)
     const request_id = await getNextRequestId(contract)
@@ -146,7 +145,7 @@ export const twoFactorDeploy = async (wallet) => {
     // get account
     const { accountId } = accountData
     const account = wallet.getAccount(accountId)
-    // 1. get localstorage keys
+    // 1. get current account access keys
     const accountKeys = await account.getAccessKeys();
     // 2. get recovery method keys
     const recoveryMethods = await wallet.getRecoveryMethods()
@@ -161,8 +160,7 @@ export const twoFactorDeploy = async (wallet) => {
         accountId
     })
     if (!getAccessKey || !getAccessKey.success || !getAccessKey.publicKey) {
-        console.log('error getting publicKey from contract-helper')
-        return
+        throw new Error('error getting publicKey from contract-helper')
     }
     const confirmOnlyKey = toPK(getAccessKey.publicKey)
     const newArgs = new Uint8Array(new TextEncoder().encode(JSON.stringify({ 'num_confirmations': 2 })));
@@ -176,6 +174,6 @@ export const twoFactorDeploy = async (wallet) => {
         nearApiJs.transactions.deployContract(contractBytes),
         nearApiJs.transactions.functionCall('new', newArgs, 10000000000000, '0'),
     ]
-    console.log('deploying multisig contract')
+    console.log('deploying multisig contract for', accountId)
     return await account.signAndSendTransaction(accountId, actions);
 }

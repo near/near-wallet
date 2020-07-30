@@ -154,7 +154,18 @@ export const { initializeRecoveryMethod, validateSecurityCode, initTwoFactor, re
     ],
     PROMPT_TWO_FACTOR: [
         (requestPending = null) => {
-            return ({ store: { requestPending } })
+            let promise
+            if (requestPending !== null) {
+                promise = new Promise((resolve) => {
+                    requestPending = (verified) => {
+                        if (verified) {
+                            wallet.tempTwoFactorAccount = null
+                        }
+                        resolve(verified)
+                    }
+                })
+            }
+            return ({ store: { requestPending, promise } })
         },
         () => defaultCodesFor('account.promptTwoFactor')
     ],

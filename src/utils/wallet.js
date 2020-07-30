@@ -22,7 +22,7 @@ export const WALLET_CREATE_NEW_ACCOUNT_URL = 'create'
 export const WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS = ['create', 'set-recovery', 'setup-seed-phrase', 'recover-account', 'recover-seed-phrase', 'sign-in-ledger']
 export const WALLET_LOGIN_URL = 'login'
 export const WALLET_SIGN_URL = 'sign'
-export const ACCOUNT_HELPER_URL = process.env.REACT_APP_ACCOUNT_HELPER_URL || 'https://near-contract-helper-2fa.onrender.com'
+export const ACCOUNT_HELPER_URL = process.env.REACT_APP_ACCOUNT_HELPER_URL || 'https://near-contract-helper.onrender.com'
 export const EXPLORER_URL = process.env.EXPLORER_URL || 'https://explorer.testnet.near.org';
 export const IS_MAINNET = process.env.REACT_APP_IS_MAINNET === 'true' || process.env.REACT_APP_IS_MAINNET === 'yes'
 export const DISABLE_SEND_MONEY = process.env.DISABLE_SEND_MONEY === 'true' || process.env.DISABLE_SEND_MONEY === 'yes'
@@ -51,7 +51,7 @@ const WALLET_METADATA_METHOD = '__wallet__metadata'
 export const ACCOUNT_CHECK_TIMEOUT = 500
 export const TRANSACTIONS_REFRESH_INTERVAL = 10000
 
-export const splitPK = (pk) => {
+export const convertPKForContrat = (pk) => {
     if (typeof pk !== 'string') {
         pk = pk.toString()
     }
@@ -703,7 +703,7 @@ class Wallet {
         const { account, has2fa } = await this.getAccountAndState(accountId)
         const accountKeys = await account.getAccessKeys();
         if (has2fa) {
-            await this.addAccessKey(account.accountId, account.accountId, splitPK(publicKey))
+            await this.addAccessKey(account.accountId, account.accountId, convertPKForContrat(publicKey))
         } else {
             if (!accountKeys.some(it => it.public_key.endsWith(publicKey))) {
                 await account.addKey(publicKey);
@@ -815,7 +815,7 @@ class Wallet {
             if (MULTISIG_CONTRACT_HASHES.includes(state.code_hash)) {
                 if (use2fa) {
                     // (1) multisig + LAK recovery, (2) multisig + FAK recovery with seed phrase, (3) no multisig  
-                    await this.addAccessKey(accountId, accountId, splitPK(newKeyPair.publicKey))
+                    await this.addAccessKey(accountId, accountId, convertPKForContrat(newKeyPair.publicKey))
                 } else {
                     // (2) multisig + FAK recovery with seed phrase - add LAK directly
                     const actions = [
