@@ -638,7 +638,8 @@
             "disableRecoveryMethod": "You will need to confirm delete key details on your Ledger.",
             "enableRecoveryMethod": "You will need to confirm full access details on your Ledger.",
             "enableLedger": "You will need to confirm public key details on your Ledger.",
-            "disableLedger": "You will need to confirm delete key details on your Ledger."
+            "disableLedger": "You will need to confirm delete key details on your Ledger.",
+            "loginFullAccess": "You will need to confirm full access details on your Ledger."
         }
     },
     
