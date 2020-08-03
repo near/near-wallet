@@ -11,17 +11,19 @@ import RequestStatusBox from '../../common/RequestStatusBox'
 export function SignInLedger(props) {
     const dispatch = useDispatch();
     const account = useSelector(({ account }) => account);
-    const ledger = useSelector(({ ledger }) => ledger);
+    const signInWithLedger = useSelector(({ ledger }) => ledger.signInWithLedger);
 
-    const ledgerAccounts = Object.keys(ledger.signInWithLedger || {}).map((accountId) => ({
+    const signInWithLedgerKeys = Object.keys(signInWithLedger || {})
+
+    const ledgerAccounts = signInWithLedgerKeys.map((accountId) => ({
         accountId,
-        status: ledger.signInWithLedger[accountId].status
+        status: signInWithLedger[accountId].status
     }))
     
-    const accountsApproved = Object.keys(ledger.signInWithLedger || {}).reduce((a, accountId) => ledger.signInWithLedger[accountId].status === 'success' ? a + 1 : a, 0)
-    const totalAccounts = Object.keys(ledger.signInWithLedger || {}).length
+    const accountsApproved = signInWithLedgerKeys.reduce((a, accountId) => signInWithLedger[accountId].status === 'success' ? a + 1 : a, 0)
+    const totalAccounts = signInWithLedgerKeys.length
     
-    const signingIn = ledger.signInWithLedger !== undefined
+    const signingIn = signInWithLedger !== undefined
 
     const handleSignIn = async () => {
         const { error } = await dispatch(signInWithLedger())
