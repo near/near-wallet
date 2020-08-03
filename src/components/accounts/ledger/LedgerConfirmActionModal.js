@@ -101,6 +101,9 @@ const AnimateList = styled.div`
             > div:first-of-type {
                 opacity: 0.4;
             }
+            h3 {
+                color: #aaaaaa !important;
+            }
         }
 
         .status {
@@ -116,6 +119,9 @@ const AnimateList = styled.div`
 `
 
 const LedgerConfirmActionModal = ({ open, onClose, ledgerAccounts, accountsApproved, totalAccounts }) => {
+    
+    const animationScope = Math.min(Math.max(accountsApproved - 1, 0), totalAccounts - 3)
+
     return (
         <Modal
             id='ledger-confirm-action-modal'
@@ -140,7 +146,7 @@ const LedgerConfirmActionModal = ({ open, onClose, ledgerAccounts, accountsAppro
                         <div>
                             {accountsApproved}/{totalAccounts} account(s) approved
                         </div>
-                        <AnimateList className={accountsApproved ? 'animate' : ''} animate={accountsApproved}>
+                        <AnimateList className='animate' animate={animationScope}>
                             {ledgerAccounts.map((account) => (
                                 <div key={account.accountId} className={`row ${account.status}`}>
                                     <UserIcon>
