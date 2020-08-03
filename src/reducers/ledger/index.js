@@ -22,12 +22,14 @@ const ledger = handleActions({
 
         return {
             ...state,
-            signInWithLedger: payload && payload.reduce((r, accountId) => ({
-                ...r,
-                [accountId]: {
-                    status: 'waiting'
-                }
-            }), {})
+            signInWithLedger: payload 
+                ? payload.reduce((r, accountId) => ({
+                    ...r,
+                    [accountId]: {
+                        status: 'waiting'
+                    }
+                }), {})
+                : {}
         }
     },
     [addLedgerAccountId]: (state, { error, payload, ready, meta }) => {
@@ -58,7 +60,7 @@ const ledger = handleActions({
         }
 
         return state
-    },
+    }
 }, initialState)
 
 export default reduceReducers(
