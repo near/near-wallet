@@ -715,19 +715,22 @@ class Wallet {
 
     }
 
-    async deleteRecoveryMethod({ kind, publicKey }) {
+    async deleteRecoveryMethod({ kind, publicKey }, deleteAllowed = true) {
         const accessKeys =  await this.getAccessKeys()
         const pubKeys = accessKeys.map(key => key.public_key)
 
-        if (pubKeys.includes(publicKey)) {
-            await this.removeAccessKey(publicKey)
+        if (deleteAllowed) {
+            if (pubKeys.includes(publicKey)) {
+                await this.removeAccessKey(publicKey)
+            }
+            await this.postSignedJson('/account/deleteRecoveryMethod', {
+                accountId: this.accountId,
+                kind,
+                publicKey
+            })
+        } else {
+            throw new WalletError('Cannot delete last recovery method', 'errors.recoveryMethods.lastMethod')
         }
-
-        await this.postSignedJson('/account/deleteRecoveryMethod', {
-            accountId: this.accountId,
-            kind,
-            publicKey
-        })
     }
 
     async recoverAccountSeedPhrase(seedPhrase, use2fa = false, accountId, fromSeedPhraseRecovery = false) {
