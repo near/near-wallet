@@ -607,6 +607,16 @@
         "saveAndSelectLedgerAccounts": {
             "success": "You’ve successfully signed in.<br/><b>${numberOfAccounts} account(s)</b> have been successfully recovered: <b>${accountList}</b>.<br/>The last one is set as active.",
             "error": "Please check that your device is connected and the NEAR app is open."
+        },
+        "modal": {
+            "confirmPublicKey": "Confirm public key",
+            "ledgerMustAdd": "Ledger must add an access key for each account protected by your device:",
+            "accountsApproved": "account(s) approved",
+            "status": {
+                "success": "Approved",
+                "pending": "Pending",
+                "waiting": "Up next"
+            }
         }
     },
 

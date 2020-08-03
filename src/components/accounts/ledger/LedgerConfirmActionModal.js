@@ -136,13 +136,14 @@ const LedgerConfirmActionModal = ({ open, onClose, ledgerAccounts, accountsAppro
             <div>
                 <H4>
                     {!ledgerAccounts.length
-                        ? 'Confirm public key'
-                        : 'Ledger must add an access key for each account protected by your device:'}
+                        ? <Translate id='signInLedger.modal.confirmPublicKey'/>
+                        : <Translate id='signInLedger.modal.ledgerMustAdd'/>
+                    }
                 </H4>
                 {!!ledgerAccounts.length && (
                     <>
                         <div>
-                            {accountsApproved}/{totalAccounts} account(s) approved
+                            {accountsApproved}/{totalAccounts} <Translate id='signInLedger.modal.accountsApproved'/>
                         </div>
                         <AnimateList animate={animationScope}>
                             {ledgerAccounts.map((account) => (
@@ -154,15 +155,7 @@ const LedgerConfirmActionModal = ({ open, onClose, ledgerAccounts, accountsAppro
                                         @{account.accountId}
                                     </h3>
                                     <div className='status'>
-                                        {account.status === 'success' && (
-                                            'Approved'
-                                        )}
-                                        {account.status === 'pending' && (
-                                            'Pending'
-                                        )}
-                                        {account.status === 'waiting' && (
-                                            'Up next'
-                                        )}
+                                        <Translate id={`signInLedger.modal.status.${account.status}`}/>
                                     </div>
                                 </div>
                             ))}
