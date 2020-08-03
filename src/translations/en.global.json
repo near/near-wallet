@@ -605,7 +605,7 @@
             "error": "Access to one of the accounts was rejected. No accounts were recovered.<br>To continue, you must authorize read-only access to each account on your Ledger device. Please try again."
         },
         "saveAndSelectLedgerAccounts": {
-            "success": "You’ve successfully signed in.<br/><b>${numberOfAccounts} account(s)</b> have been successfully recovered: <b>${accountList}</b>.<br/>The last one is set as active.",
+            "success": "You’ve successfully signed in.<br/><b>${numberOfAccounts} account(s) were recovered.</b> Your most recently created account has been set to active.",
             "error": "Please check that your device is connected and the NEAR app is open."
         },
         "modal": {

@@ -387,8 +387,7 @@ class Wallet {
         }
 
         return {
-            numberOfAccounts: accountIds.length,
-            accountList: accountIds.join(', ')
+            numberOfAccounts: accountIds.length
         }
     }
 
