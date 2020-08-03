@@ -11,19 +11,19 @@ import RequestStatusBox from '../../common/RequestStatusBox'
 export function SignInLedger(props) {
     const dispatch = useDispatch();
     const account = useSelector(({ account }) => account);
-    const signInWithLedger = useSelector(({ ledger }) => ledger.signInWithLedger);
+    const signInWithLedgerState = useSelector(({ ledger }) => ledger.signInWithLedger);
 
-    const signInWithLedgerKeys = Object.keys(signInWithLedger || {})
+    const signInWithLedgerKeys = Object.keys(signInWithLedgerState || {})
 
     const ledgerAccounts = signInWithLedgerKeys.map((accountId) => ({
         accountId,
-        status: signInWithLedger[accountId].status
+        status: signInWithLedgerState[accountId].status
     }))
     
-    const accountsApproved = signInWithLedgerKeys.reduce((a, accountId) => signInWithLedger[accountId].status === 'success' ? a + 1 : a, 0)
+    const accountsApproved = signInWithLedgerKeys.reduce((a, accountId) => signInWithLedgerState[accountId].status === 'success' ? a + 1 : a, 0)
     const totalAccounts = signInWithLedgerKeys.length
     
-    const signingIn = signInWithLedger !== undefined
+    const signingIn = signInWithLedgerState !== undefined
 
     const handleSignIn = async () => {
         const { error } = await dispatch(signInWithLedger())
@@ -38,7 +38,7 @@ export function SignInLedger(props) {
         <Theme>
             <h1><Translate id='signInLedger.header'/></h1>
             <LedgerImage/>
-            <p><Translate id='signInLedger.one'/></p>
+            <p className='center'><Translate id='signInLedger.one'/></p>
             <br/>
             <RequestStatusBox requestStatus={account.requestStatus}/>
             <FormButton
