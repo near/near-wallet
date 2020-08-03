@@ -115,7 +115,7 @@ const AnimateList = styled.div`
     }
 `
 
-const LedgerConfirmActionModal = ({ open, onClose, ledgerAccounts, gettingAccounts, addingAccounts, accountsApproved, totalAccounts }) => {
+const LedgerConfirmActionModal = ({ open, onClose, ledgerAccounts, accountsApproved, totalAccounts }) => {
     return (
         <Modal
             id='ledger-confirm-action-modal'
@@ -131,11 +131,11 @@ const LedgerConfirmActionModal = ({ open, onClose, ledgerAccounts, gettingAccoun
 
             <div>
                 <H4>
-                    {gettingAccounts
+                    {!ledgerAccounts.length
                         ? 'Confirm public key'
                         : 'Ledger must add an access key for each account protected by your device:'}
                 </H4>
-                {addingAccounts && (
+                {!!ledgerAccounts.length && (
                     <>
                         <div>
                             {accountsApproved}/{totalAccounts} account(s) approved

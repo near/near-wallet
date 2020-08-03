@@ -13,18 +13,15 @@ export function SignInLedger(props) {
     const account = useSelector(({ account }) => account);
     const ledger = useSelector(({ ledger }) => ledger);
 
-    const gettingAccounts = account.actionsPending.includes('GET_LEDGER_ACCOUNT_IDS')
-    const addingAccounts = account.actionsPending.includes('ADD_LEDGER_ACCOUNT_ID')
-    const savingAccounts = account.actionsPending.includes('SAVE_AND_SELECT_LEDGER_ACCOUNTS')
-    const signingIn = gettingAccounts || addingAccounts || savingAccounts
-
-    const ledgerAccounts = addingAccounts && Object.keys(ledger.signInWithLedger).map((accountId) => ({
+    const ledgerAccounts = Object.keys(ledger.signInWithLedger || {}).map((accountId) => ({
         accountId,
         status: ledger.signInWithLedger[accountId].status
     }))
-
+    
     const accountsApproved = Object.keys(ledger.signInWithLedger || {}).reduce((a, accountId) => ledger.signInWithLedger[accountId].status === 'success' ? a + 1 : a, 0)
     const totalAccounts = Object.keys(ledger.signInWithLedger || {}).length
+    
+    const signingIn = ledger.signInWithLedger !== undefined
 
     const handleSignIn = async () => {
         const { error } = await dispatch(signInWithLedger())
@@ -56,8 +53,6 @@ export function SignInLedger(props) {
                     open={signingIn} 
                     onClose={() => dispatch(clear())}
                     ledgerAccounts={ledgerAccounts} 
-                    gettingAccounts={gettingAccounts}
-                    addingAccounts={addingAccounts}
                     accountsApproved={accountsApproved}
                     totalAccounts={totalAccounts}
                 />
