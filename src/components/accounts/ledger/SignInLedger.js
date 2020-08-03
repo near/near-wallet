@@ -4,7 +4,7 @@ import Theme from './PageTheme.css';
 import LedgerImage from '../../svg/LedgerImage';
 import FormButton from '../../common/FormButton';
 import { Translate } from 'react-localize-redux';
-import LedgerConfirmActionModal from './LedgerConfirmActionModal';
+import LedgerSignInModal from './LedgerSignInModal';
 import { signInWithLedger, clear, redirectToApp, refreshAccount } from '../../../actions/account';
 import RequestStatusBox from '../../common/RequestStatusBox'
 
@@ -51,7 +51,7 @@ export function SignInLedger(props) {
             <button className='link' onClick={() => props.history.goBack()}><Translate id='button.cancel'/></button>
 
             {signingIn &&
-                <LedgerConfirmActionModal 
+                <LedgerSignInModal 
                     open={signingIn} 
                     onClose={() => dispatch(clear())}
                     ledgerAccounts={ledgerAccounts} 
