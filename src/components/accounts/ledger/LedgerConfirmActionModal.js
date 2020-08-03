@@ -40,11 +40,9 @@ const AnimateList = styled.div`
     height: 180px;
     overflow: hidden;
 
-    &.animate {
-        & > div:first-of-type {
-            margin-top: ${props => `-${props.animate * 60}px`};
-            transition: 1s;
-        }
+    & > div:first-of-type {
+        margin-top: ${props => `-${props.animate * 60}px`};
+        transition: 1s;
     }
 
     .row {
@@ -146,7 +144,7 @@ const LedgerConfirmActionModal = ({ open, onClose, ledgerAccounts, accountsAppro
                         <div>
                             {accountsApproved}/{totalAccounts} account(s) approved
                         </div>
-                        <AnimateList className='animate' animate={animationScope}>
+                        <AnimateList animate={animationScope}>
                             {ledgerAccounts.map((account) => (
                                 <div key={account.accountId} className={`row ${account.status}`}>
                                     <UserIcon>
