@@ -10,29 +10,32 @@ export const METHOD_NAMES_LAK = ['add_request', 'add_request_and_confirm', 'dele
 const VIEW_METHODS = ['get_request_nonce', 'list_request_ids']
 const METHOD_NAMES_CONFIRM = ['confirm']
 const LAK_ALLOWANCE = process.env.LAK_ALLOWANCE || '10000000000000'
+const actionTypes = {
+    'functionCall': 'FunctionCall'
+}
 /********************************
 Helpers
 ********************************/
-// TBD nonce issues, will have to test this seperately
-const deleteUnconfirmedRequests = async (contract) => {
-    const request_ids = await contract.list_request_ids().catch((e) => { console.log(e) })
-    if (!request_ids || request_ids.length === 0) {
-        return
-    }
-    const promises = []
-    // try to unconfirmed requests using current pk, catch exceptions, fail fast so other promises can run
+// WIP: nonce issues causing havoc with this method
+// const deleteUnconfirmedRequests = async (contract) => {
+//     const request_ids = await contract.list_request_ids().catch((e) => { console.log(e) })
+//     if (!request_ids || request_ids.length === 0) {
+//         return
+//     }
+//     const promises = []
+//     // try to unconfirmed requests using current pk, catch exceptions, fail fast so other promises can run
 
-    // let's log these until we debug the nonce / timeout
-    for (const request_id of request_ids) {
-        promises.push(contract.delete_request({ request_id }).catch((e) => console.log(e)))
-    }
-    try {
-        await Promise.all(promises)
-    } catch (e) {
-        // take no action if request cannot be deleted (probably due to cooldown period for new request)
-        console.log(e)
-    }
-}
+//     // let's log these until we debug the nonce / timeout
+//     for (const request_id of request_ids) {
+//         promises.push(contract.delete_request({ request_id }).catch((e) => console.log(e)))
+//     }
+//     try {
+//         await Promise.all(promises)
+//     } catch (e) {
+//         // take no action if request cannot be deleted (probably due to cooldown period for new request)
+//         console.log(e)
+//     }
+// }
 const getNextRequestId = async (contract) => {
     try {
         return contract.get_request_nonce()
@@ -145,6 +148,27 @@ export const twoFactorRemoveKey = (wallet, account, publicKey) => {
         actions: [deleteKeyAction(publicKey)]
     }
     return twoFactorRequest(wallet, account, request)
+}
+
+export const twoFactorSignAndSendTransactions = async (wallet, account, transactions) => {
+    for (let { receiverId, nonce, blockHash, actions } of transactions) {
+        console.log(receiverId, nonce, blockHash, actions)
+        actions = actions.map((a) => {
+            const action = {
+                ...a[a.enum],
+                type: actionTypes[a.enum],
+            }
+            if (action.gas) action.gas = action.gas.toString()
+            if (action.deposit) action.deposit = action.deposit.toString()
+            if (action.args) action.args = btoa(new TextDecoder().decode(new Uint8Array(action.args)))
+            if (action.methodName) {
+                action.method_name = action.methodName
+                delete action.methodName
+            }
+            return action
+        })
+        await twoFactorRequest(wallet, account, { receiver_id: receiverId, actions })
+    }
 }
 /********************************
 Deploys 2/3 multisig contract with keys from contract-helper and localStorage

@@ -15,6 +15,7 @@ import {
     getRequest, setRequest, twoFactorRequest, sendTwoFactorRequest, 
     twoFactorAddKey, twoFactorRemoveKey, twoFactorDeploy,
     addKeyAction, deleteKeyAction,
+    twoFactorSignAndSendTransactions,
     METHOD_NAMES_LAK,
 } from './twoFactor'
 
@@ -802,6 +803,11 @@ class Wallet {
     }
 
     async signAndSendTransactions(transactions, accountId) {
+        const { account, has2fa } = await this.getAccountAndState()
+        if (has2fa) {
+            await twoFactorSignAndSendTransactions(this, account, transactions)
+            return
+        }
         for (let { receiverId, nonce, blockHash, actions } of transactions) {
             const [, signedTransaction] = await nearApiJs.transactions.signTransaction(receiverId, nonce, actions, blockHash, this.connection.signer, accountId, NETWORK_ID)
             await this.connection.provider.sendTransaction(signedTransaction)
