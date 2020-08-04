@@ -532,7 +532,7 @@ class Wallet {
     }
 
     async postSignedJson(path, options) {
-        // if there's a tempTwoFactorAccount (recovery with 2fa) use that vs. this
+        // if there's a tempTwoFactorAccount (recovery with 2fa) use that account
         return await sendJson('POST', ACCOUNT_HELPER_URL + path, {
             ...options,
             ...(await this.signatureFor(this.tempTwoFactorAccount ? this.tempTwoFactorAccount : this))
@@ -607,9 +607,6 @@ class Wallet {
     }
 
     async sendNewRecoveryLink(method) {
-
-        console.log(`async sendNewRecoveryLink(method) {`)
-
         const accountId = this.accountId;
         const { account, has2fa } = await this.getAccountAndState(accountId)
         const { seedPhrase, publicKey } = generateSeedPhrase()
@@ -650,9 +647,6 @@ class Wallet {
 
     async recoverAccountSeedPhrase(seedPhrase, accountId, fromSeedPhraseRecovery = true) {
         const { publicKey, secretKey } = parseSeedPhrase(seedPhrase)
-
-        console.log('recovering account with publicKey', publicKey)
-
         const accountIds = await getAccountIds(publicKey)
         if (accountId && !accountIds.includes(accountId)) {
             accountIds.push(accountId)

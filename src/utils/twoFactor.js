@@ -47,7 +47,6 @@ export class TwoFactor {
         const requestData = getRequest()
         let { requestId, data } = requestData
         if (!requestId && requestId !== 0) {
-            console.log('no pending multisig requestId found, assuming account setup')
             requestId = -1
         }
         return this.sendRequest(accountId, method, requestId, data)
@@ -61,13 +60,11 @@ export class TwoFactor {
         const requestData = getRequest()
         let { requestId } = requestData
         if (!requestId && requestId !== 0) {
-            console.log('no pending multisig requestId found, assuming account setup')
             requestId = -1
         }
         // try to get a accountId for the request
         if (!accountId) accountId = requestData.accountId || this.wallet.accountId
         if (!accountId) {
-            console.error('no pending multisig accountId found')
             return
         }
         return await this.wallet.postSignedJson('/2fa/verify', {
@@ -93,7 +90,7 @@ export class TwoFactor {
             changeMethods: METHOD_NAMES_LAK,
             sender: account.accountId
         });
-        // await deleteUnconfirmedRequests(contract)
+        await deleteUnconfirmedRequests(contract)
         const request_id = await getNextRequestId(contract)
         try {
             await contract.add_request_and_confirm({ request })
@@ -143,7 +140,6 @@ export class TwoFactor {
 
     async signAndSendTransactions(account, transactions) {
         for (let { receiverId, nonce, blockHash, actions } of transactions) {
-            console.log(receiverId, nonce, blockHash, actions)
             actions = actions.map((a) => {
                 const action = {
                     ...a[a.enum],
@@ -212,26 +208,19 @@ export class TwoFactor {
     }
 }
 
-// WIP: nonce issues causing havoc with this method
-// const deleteUnconfirmedRequests = async (contract) => {
-//     const request_ids = await contract.list_request_ids().catch((e) => { console.log(e) })
-//     if (!request_ids || request_ids.length === 0) {
-//         return
-//     }
-//     const promises = []
-//     // try to unconfirmed requests using current pk, catch exceptions, fail fast so other promises can run
-
-//     // let's log these until we debug the nonce / timeout
-//     for (const request_id of request_ids) {
-//         promises.push(contract.delete_request({ request_id }).catch((e) => console.log(e)))
-//     }
-//     try {
-//         await Promise.all(promises)
-//     } catch (e) {
-//         // take no action if request cannot be deleted (probably due to cooldown period for new request)
-//         console.log(e)
-//     }
-// }
+const deleteUnconfirmedRequests = async (contract) => {
+    const request_ids = await contract.list_request_ids().catch((e) => { console.log(e) })
+    if (!request_ids || request_ids.length === 0) {
+        return
+    }
+    for (const request_id of request_ids) {
+        try {
+            await contract.delete_request({ request_id })
+        } catch(e) {
+            console.log(e)
+        }
+    }
+}
 
 const getNextRequestId = async (contract) => {
     try {
