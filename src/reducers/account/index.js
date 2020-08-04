@@ -114,11 +114,11 @@ const account = handleActions({
         }
 
         const resetAccountState = {
-            globalAlertPreventClear: payload.globalAlertPreventClear,
+            globalAlertPreventClear: payload && payload.globalAlertPreventClear,
             resetAccount: (state.resetAccount && state.resetAccount.preventClear) ? {
                 ...state.resetAccount,
                 preventClear: false
-            } : payload.resetAccount
+            } : payload && payload.resetAccount
         }
         
         return {
