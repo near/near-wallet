@@ -43,6 +43,7 @@ import { NodeDetailsWithRouter } from './node-staking/NodeDetails'
 import { StakingWithRouter } from './node-staking/Staking'
 import { IS_MAINNET, DISABLE_SEND_MONEY } from '../utils/wallet'
 import { refreshAccount, handleRefreshUrl, clearAlert, clear, handleRedirectUrl, handleClearUrl } from '../actions/account'
+import LedgerConfirmActionModal from './accounts/ledger/LedgerConfirmActionModal';
 
 import GlobalStyle from './GlobalStyle'
 import { SetupSeedPhraseWithRouter } from './accounts/SetupSeedPhrase'
@@ -157,6 +158,7 @@ class Routing extends Component {
                         <NetworkBanner accountId={this.props.account.accountId}/>
                         <Navigation/>
                         <GlobalAlert/>
+                        <LedgerConfirmActionModal/>
                         {this.props.account.loader === false && (
                             <Switch>
                                 <Redirect from="//*" to={{
