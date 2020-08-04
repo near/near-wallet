@@ -41,6 +41,18 @@ const loaderReducer = (state, { type, ready }) => {
     }
 }
 
+const ledgerModalReducer = handleActions({
+    [sendMoney]: (state, { ready, meta }) => ({
+        ...state,
+        ledger: {
+            ...state.ledger,
+            modal: {
+                show: !ready,
+            }
+        }
+    })
+}, initialState)
+
 const globalAlertReducer = handleActions({
     // TODO: Reset state before action somehow. On navigate / start of other action?
     // TODO: Make this generic to avoid listing actions
@@ -149,5 +161,6 @@ export default reduceReducers(
     recoverCodeReducer,
     accessKeys,
     account,
-    url
+    url,
+    ledgerModalReducer
 )
