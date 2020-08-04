@@ -158,10 +158,10 @@ export const { initializeRecoveryMethod, validateSecurityCode, initTwoFactor, re
             if (requestPending !== null) {
                 promise = new Promise((resolve) => {
                     requestPending = (verified) => {
+                        resolve(verified)
                         if (verified) {
                             wallet.tempTwoFactorAccount = null
                         }
-                        resolve(verified)
                     }
                 })
             }

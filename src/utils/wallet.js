@@ -352,6 +352,10 @@ class Wallet {
         this.accounts[accountId] = true
     }
 
+
+    /********************************
+    recovering a second account attempts to call this method with the currently logged in account and not the tempKeyStore 
+    ********************************/
     async addAccessKey(accountId, contractId, publicKey, fullAccess = false) {
         const { account, has2fa } = await this.getAccountAndState()
         if (!contractId) {
@@ -603,6 +607,9 @@ class Wallet {
     }
 
     async sendNewRecoveryLink(method) {
+
+        console.log(`async sendNewRecoveryLink(method) {`)
+
         const accountId = this.accountId;
         const { account, has2fa } = await this.getAccountAndState(accountId)
         const { seedPhrase, publicKey } = generateSeedPhrase()

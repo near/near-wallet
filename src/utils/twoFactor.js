@@ -55,8 +55,10 @@ export class TwoFactor {
 
     // requestId is optional, if included the server will try to confirm requestId
     async verifyTwoFactor(accountId, securityCode) {
+        if (this.wallet.tempTwoFactorAccount) {
+            accountId = this.wallet.tempTwoFactorAccount.accountId
+        }
         const requestData = getRequest()
-        console.log(requestData)
         let { requestId } = requestData
         if (!requestId && requestId !== 0) {
             console.log('no pending multisig requestId found, assuming account setup')
