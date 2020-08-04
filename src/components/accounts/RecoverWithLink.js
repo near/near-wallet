@@ -153,7 +153,7 @@ class RecoverWithLink extends Component {
 
     handleContinue = async () => {
         try {
-            await this.props.recoverAccountSeedPhrase(this.state.seedPhrase, true, this.props.match.params.accountId)
+            await this.props.recoverAccountSeedPhrase(this.state.seedPhrase, this.props.match.params.accountId, false)
             this.props.refreshAccount()
             this.props.redirectToProfile()
         } catch (error) {

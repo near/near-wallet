@@ -20,7 +20,6 @@ export class TwoFactor {
     }
 
     async get2faMethod() {
-        console.log('here', this.wallet)
         const { account, has2fa } = await this.wallet.getAccountAndState();
         if (has2fa) {
             return (await this.wallet.getRecoveryMethods(account)).data.filter((m) => m.kind.indexOf('2fa-') > -1).map(({ kind, detail, createdAt }) => ({ kind, detail, createdAt }))[0]

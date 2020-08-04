@@ -25,6 +25,7 @@ const RecoverAccountSeedPhraseForm = ({
                         placeholder={translate('recoverSeedPhrase.accountIdInput.title')}
                         required
                         tabIndex='1'
+                        spellCheck='false'
                     />
                 )}
             </Translate>

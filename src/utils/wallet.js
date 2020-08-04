@@ -641,7 +641,7 @@ class Wallet {
         }
     }
 
-    async recoverAccountSeedPhrase(seedPhrase, use2fa = false, accountId, fromSeedPhraseRecovery = false) {
+    async recoverAccountSeedPhrase(seedPhrase, accountId, fromSeedPhraseRecovery = true) {
         const { publicKey, secretKey } = parseSeedPhrase(seedPhrase)
 
         console.log('recovering account with publicKey', publicKey)
@@ -649,18 +649,6 @@ class Wallet {
         const accountIds = await getAccountIds(publicKey)
         if (accountId && !accountIds.includes(accountId)) {
             accountIds.push(accountId)
-        }
-
-        if (!accountIds.length) {
-            // hopefully an unlikely scenario after we fix indexer
-            const userProvidedAccountId = window.prompt('Cannot find Account Name. Please enter the name of the account to recover.')
-            if (!userProvidedAccountId || !userProvidedAccountId.length) {
-                throw new WalletError('Cannot find matching public key', 'account.recoverAccount.errorInvalidSeedPhrase', { publicKey })
-            }
-            accountIds.push(userProvidedAccountId)
-            if (!fromSeedPhraseRecovery) {
-                use2fa = true
-            }
         }
 
         const tempKeyStore = new nearApiJs.keyStores.InMemoryKeyStore()
@@ -681,8 +669,10 @@ class Wallet {
             this.tempTwoFactorAccount = account
             const newKeyPair = KeyPair.fromRandom('ed25519')
             const state = await account.state()
-            if (MULTISIG_CONTRACT_HASHES.includes(state.code_hash)) {
-                if (use2fa) {
+            const isMultiSigAccount = MULTISIG_CONTRACT_HASHES.includes(state.code_hash)
+            
+            if (isMultiSigAccount) {
+                if (!fromSeedPhraseRecovery) {
                     await this.addAccessKey(accountId, accountId, convertPKForContract(newKeyPair.publicKey))
                 } else {
                     const actions = [
@@ -696,6 +686,7 @@ class Wallet {
             } else {
                 await account.addKey(newKeyPair.publicKey)
             }
+
             if (i === accountIds.length - 1) {
                 await this.saveAndSelectAccount(accountId, newKeyPair)
             } else {
