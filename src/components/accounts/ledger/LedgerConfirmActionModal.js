@@ -25,8 +25,7 @@ const LedgerConfirmActionModal = () => {
                 <MobileActionSheet/>
                 <h2><Translate id='confirmLedgerModal.header'/></h2>
                 <LedgerImage animate={true}/>
-                <p><Translate id={}/></p>
-                <FormButton color='gray-red' id='close-button'>
+                <p><Translate id={ledger.modal.textId}/></p>
                     <Translate id='button.cancelOperation'/>
                 </FormButton>
             </Modal>

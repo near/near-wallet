@@ -48,6 +48,7 @@ const ledgerModalReducer = handleActions({
             ...state.ledger,
             modal: {
                 show: !ready,
+                textId: `${meta.prefix}.modal`
             }
         }
     })

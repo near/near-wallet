@@ -126,7 +126,7 @@ export const signInWithLedger = () => async (dispatch, getState) => {
     return dispatch(saveAndSelectLedgerAccounts(getState().ledger.signInWithLedger))
 }
 
-const defaultCodesFor = (prefix, data) => ({ successCode: `${prefix}.success`, errorCode: `${prefix}.error`, data})
+const defaultCodesFor = (prefix, data) => ({ successCode: `${prefix}.success`, errorCode: `${prefix}.error`, prefix, data})
 
 export const { initializeRecoveryMethod, validateSecurityCode, setupRecoveryMessage, deleteRecoveryMethod, sendNewRecoveryLink, checkNewAccount, createNewAccount, checkAccountAvailable, getTransactions, getTransactionStatus, clear, clearCode } = createActions({
     INITIALIZE_RECOVERY_METHOD: [
