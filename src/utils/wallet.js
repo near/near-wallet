@@ -357,7 +357,7 @@ class Wallet {
             (await Promise.all(
                 (await getAccountIds(publicKey.toString()))
                     .map(async (accountId) => 
-                        await this.getAccount(accountId).findAccessKey()
+                        await this.signer.getPublicKey(accountId, NETWORK_ID)
                             ? accountId
                             : null
                     )
