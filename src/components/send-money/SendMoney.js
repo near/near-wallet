@@ -127,7 +127,7 @@ class SendMoney extends Component {
 
     render() {
         const { step } = this.state
-        const { formLoader, requestStatus, checkAccountAvailable, setFormLoader, clear, accountId, ledger } = this.props
+        const { formLoader, requestStatus, checkAccountAvailable, setFormLoader, clear, accountId } = this.props
 
         return (
             <SendMoneyContainer>
@@ -152,8 +152,6 @@ class SendMoney extends Component {
                         handleExpandNote={this.handleExpandNote}
                         handleGoBack={this.handleGoBack}
                         handleCancelTransfer={this.handleCancelTransfer}
-                        hasLedger={ledger.hasLedger}
-                        onClose={clear}
                         {...this.state}
                     />
                 )}
