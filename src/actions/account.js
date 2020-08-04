@@ -133,23 +133,23 @@ export const { initializeRecoveryMethod, validateSecurityCode, initTwoFactor, re
         () => defaultCodesFor('account.validateSecurityCode')
     ],
     INIT_TWO_FACTOR: [
-        wallet.initTwoFactor.bind(wallet),
+        wallet.twoFactor.initTwoFactor.bind(wallet.twoFactor),
         () => defaultCodesFor('account.initTwoFactor')
     ],
     REINIT_TWO_FACTOR: [
-        wallet.reInitTwoFactor.bind(wallet),
+        wallet.twoFactor.reInitTwoFactor.bind(wallet.twoFactor),
         () => defaultCodesFor('account.reInitTwoFactor')
     ],
     SEND_TWO_FACTOR: [
-        wallet.sendTwoFactor.bind(wallet),
+        wallet.twoFactor.sendRequest.bind(wallet.twoFactor),
         () => defaultCodesFor('account.sendTwoFactor')
     ],
     RESEND_TWO_FACTOR: [
-        wallet.resendTwoFactor.bind(wallet),
+        wallet.twoFactor.resend.bind(wallet.twoFactor),
         () => defaultCodesFor('account.resendTwoFactor')
     ],
     VERIFY_TWO_FACTOR: [
-        wallet.verifyTwoFactor.bind(wallet),
+        wallet.twoFactor.verifyTwoFactor.bind(wallet.twoFactor),
         () => defaultCodesFor('account.verifyTwoFactor')
     ],
     PROMPT_TWO_FACTOR: [
@@ -170,11 +170,11 @@ export const { initializeRecoveryMethod, validateSecurityCode, initTwoFactor, re
         () => defaultCodesFor('account.promptTwoFactor')
     ],
     DEPLOY_MULTISIG: [
-        wallet.deployMultisig.bind(wallet),
+        wallet.twoFactor.deployMultisig.bind(wallet.twoFactor),
         () => defaultCodesFor('account.deployMultisig')
     ],
     GET_2FA_METHOD: [
-        wallet.get2faMethod.bind(wallet),
+        wallet.twoFactor.get2faMethod.bind(wallet.twoFactor),
         () => defaultCodesFor('account.get2faMethod')
     ],
     GET_LEDGER_KEY: [

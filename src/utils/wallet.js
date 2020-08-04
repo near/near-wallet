@@ -11,13 +11,7 @@ import { WalletError } from './walletError'
 import { setAccountConfirmed, getAccountConfirmed, removeAccountConfirmed} from './localStorage'
 import BN from 'bn.js'
 
-import { 
-    getRequest, setRequest, twoFactorRequest, sendTwoFactorRequest, 
-    twoFactorAddKey, twoFactorRemoveKey, twoFactorDeploy,
-    addKeyAction, deleteKeyAction,
-    twoFactorSignAndSendTransactions,
-    METHOD_NAMES_LAK,
-} from './twoFactor'
+import { TwoFactor, METHOD_NAMES_LAK } from './twoFactor'
 
 export const WALLET_CREATE_NEW_ACCOUNT_URL = 'create'
 export const WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS = ['create', 'set-recovery', 'setup-seed-phrase', 'recover-account', 'recover-seed-phrase', 'sign-in-ledger']
@@ -106,89 +100,14 @@ class Wallet {
             localStorage.getItem(KEY_WALLET_ACCOUNTS) || '{}'
         )
         this.accountId = localStorage.getItem(KEY_ACTIVE_ACCOUNT_ID) || ''
-    }
 
-    /********************************
-    Two Factor
-    @todo remove patching, update calls and actions, import / get wallet instance
-    // create instance of twoFactor object inside 
-    ********************************/
-    async deployMultisig() {
-        return await twoFactorDeploy(this)
-    }
-
-    async sendTwoFactor(accountId, method, requestId = -1, data = {}) {
-        return sendTwoFactorRequest(this, accountId, method, requestId, data)
-    }
-
-    async makeTwoFactorRequest(account, request) {
-        return twoFactorRequest(this, account, request, await this.get2faMethod())
-    }
-
-    async get2faMethod() {
-        const account = this.getAccount(this.accountId);
-        const { has2fa } = await this.getAccountAndState();
-        if (has2fa) {
-            return (await this.getRecoveryMethods(account)).data.filter((m) => m.kind.indexOf('2fa-') > -1).map(({ kind, detail, createdAt }) => ({ kind, detail, createdAt }))[0]
-        }
+        this.twoFactor = new TwoFactor(this)
     }
 
     async getLocalAccessKey(accountId, accessKeys) {
         const localPublicKey = await this.inMemorySigner.getPublicKey(accountId, NETWORK_ID)
         return localPublicKey && accessKeys.find(({ public_key }) => public_key === localPublicKey.toString())
     }
-
-    async initTwoFactor(accountId, method) {
-        // clear any previous requests in localStorage (for verifyTwoFactor)
-        setRequest({})
-        return await this.postSignedJson('/2fa/init', {
-            accountId,
-            method
-        });
-    }
-
-    async reInitTwoFactor(accountId, method) {
-        // clear any previous requests in localStorage (for verifyTwoFactor)
-        setRequest({})
-        return this.sendTwoFactor(this, accountId, method)
-    }
-
-    async resendTwoFactor(accountId, method) {
-        if (!accountId) accountId = this.accountId
-        if (!method) method = await this.get2faMethod()
-        const requestData = getRequest()
-        let { requestId, data } = requestData
-        if (!requestId && requestId !== 0) {
-            console.log('no pending multisig requestId found, assuming account setup')
-            requestId = -1
-        }
-        return this.sendTwoFactor(this, accountId, method, requestId, data)
-    }
-
-    // requestId is optional, if included the server will try to confirm requestId
-    async verifyTwoFactor(accountId, securityCode) {
-        const requestData = getRequest()
-        console.log(requestData)
-        let { requestId } = requestData
-        if (!requestId && requestId !== 0) {
-            console.log('no pending multisig requestId found, assuming account setup')
-            requestId = -1
-        }
-        // try to get a accountId for the request
-        if (!accountId) accountId = requestData.accountId || this.accountId
-        if (!accountId) {
-            console.error('no pending multisig accountId found')
-            return
-        }
-        return await this.postSignedJson('/2fa/verify', {
-            accountId,
-            securityCode,
-            requestId
-        });
-    }
-    /********************************
-    End Two Factor
-    ********************************/
 
     async getLedgerKey() {
         const accessKeys = await this.getAccessKeys(this.accountId)
@@ -223,11 +142,7 @@ class Wallet {
         const { accountId } = this
         const { account, has2fa } = await this.getAccountAndState(accountId)
         if (has2fa) {
-            const request = {
-                receiver_id: receiverId,
-                actions: [{ type: 'Transfer', amount }]
-            }
-            await this.makeTwoFactorRequest(account, request)
+            await this.twoFactor.sendMoney(account, receiverId, amount)
         } else {
             await account.sendMoney(receiverId, amount)
         }
@@ -301,7 +216,7 @@ class Wallet {
     async removeAccessKey(publicKey) {
         const { account, has2fa } = await this.getAccountAndState()
         if (has2fa) {
-            return await twoFactorRemoveKey(this, account, publicKey)
+            return await this.twoFactor.removeKey(account, publicKey)
         } else {
             return await this.getAccount(this.accountId).deleteKey(publicKey)
         }
@@ -443,7 +358,7 @@ class Wallet {
             contractId = account.accountId
         }
         if (has2fa) {
-            return await twoFactorAddKey(this, account, publicKey, contractId, fullAccess)
+            return await this.twoFactor.addKey(account, publicKey, contractId, fullAccess)
         } else {
             try {
                 if (fullAccess) {
@@ -693,15 +608,15 @@ class Wallet {
         const { seedPhrase, publicKey } = generateSeedPhrase()
 
         if (has2fa) {
-            const request = {
-                receiver_id: accountId,
-                actions: [
-                    addKeyAction(account, publicKey, accountId),
-                    deleteKeyAction(method.publicKey)
-                ]
-            }
-    
-            await twoFactorRequest(this, account, request)
+            // const request = {
+            //     receiver_id: accountId,
+            //     actions: [
+            //         addKeyAction(account, publicKey, accountId),
+            //         deleteKeyAction(method.publicKey)
+            //     ]
+            // }
+            // await this.twoFactor.request(account, request)
+            await this.twoFactor.rotateKeys(account, publicKey, method.publicKey)
         } else {
             await account.addKey(publicKey)
             await this.removeAccessKey(method.publicKey)
@@ -805,7 +720,7 @@ class Wallet {
     async signAndSendTransactions(transactions, accountId) {
         const { account, has2fa } = await this.getAccountAndState()
         if (has2fa) {
-            await twoFactorSignAndSendTransactions(this, account, transactions)
+            await this.twoFactor.signAndSendTransactions(account, transactions)
             return
         }
         for (let { receiverId, nonce, blockHash, actions } of transactions) {
