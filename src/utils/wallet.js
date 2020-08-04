@@ -608,14 +608,6 @@ class Wallet {
         const { seedPhrase, publicKey } = generateSeedPhrase()
 
         if (has2fa) {
-            // const request = {
-            //     receiver_id: accountId,
-            //     actions: [
-            //         addKeyAction(account, publicKey, accountId),
-            //         deleteKeyAction(method.publicKey)
-            //     ]
-            // }
-            // await this.twoFactor.request(account, request)
             await this.twoFactor.rotateKeys(account, publicKey, method.publicKey)
         } else {
             await account.addKey(publicKey)
