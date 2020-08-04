@@ -47,7 +47,8 @@
             },
             "incorrectContractId": {
                 "error": "The contract ${contractId} does not exist. This may be an issue with the application you are trying to use, or this contract may have been deleted. You will be redirected back to the application"
-            }
+            },
+            "modal": "You will need to confirm login details on your Ledger."
         },
         "nameDoesntMatch": "Account name doesn't match",
         "sendMoney": {
@@ -632,7 +633,6 @@
         "one": "You will need to confirm your sign-in details on your Ledger.",
         "subtext": {
             "sign": "You will need to confirm deposit details on your Ledger.",
-            "login": "You will need to confirm login details on your Ledger.",
             "authorizedApps": "You will need to confirm delete key details on your Ledger.",
             "enableSeedPhrase": "You will need to confirm full access details on your Ledger.",
             "disableRecoveryMethod": "You will need to confirm delete key details on your Ledger.",

@@ -74,9 +74,6 @@ class Login extends Component {
                             handleSelectAccount={this.handleSelectAccount}
                             redirectCreateAccount={this.redirectCreateAccount}
                             handleDetails={this.handleDetails}
-                            hasLedger={ledger.hasLedger}
-                            formLoader={formLoader}
-                            onClose={clear}
                         />
                     )}
                 />
@@ -100,9 +97,6 @@ class Login extends Component {
                             buttonLoader={this.state.buttonLoader}
                             appTitle={url && url.title}
                             handleAllow={this.handleAllow}
-                            hasLedger={ledger.hasLedger}
-                            formLoader={formLoader}
-                            onClose={clear}
                         />
                     )}
                 />
