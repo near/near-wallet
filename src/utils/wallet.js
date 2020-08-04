@@ -168,14 +168,13 @@ class Wallet {
     }
 
     async loadAccount() {
-        if (this.isEmpty()) {
-            throw new Error('No account.')
-        }
-        return {
-            ...await this.getAccount(this.accountId).state(),
-            balance: await this.getBalance(),
-            accountId: this.accountId,
-            accounts: this.accounts
+        if (!this.isEmpty()) {
+            return {
+                ...await this.getAccount(this.accountId).state(),
+                balance: await this.getBalance(),
+                accountId: this.accountId,
+                accounts: this.accounts
+            }
         }
     }
 
