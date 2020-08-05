@@ -3,12 +3,11 @@ import { connect } from 'react-redux'
 import { Translate } from 'react-localize-redux'
 import { withRouter } from 'react-router-dom'
 
-import { getAccessKeys, removeAccessKey, addLedgerAccessKey, clear } from '../../actions/account'
+import { getAccessKeys, removeAccessKey, addLedgerAccessKey } from '../../actions/account'
 
 import AccessKeysEmpty from './AccessKeysEmpty'
 import PaginationBlock from '../pagination/PaginationBlock'
 import PageContainer from '../common/PageContainer';
-import LedgerConfirmActionModal from '../accounts/ledger/LedgerConfirmActionModal'
 
 import KeyListItem from '../dashboard/KeyListItem'
 
@@ -118,9 +117,7 @@ class AccessKeys extends Component {
             confirmStatus
         } = this.state
 
-        const { authorizedApps, title, formLoader, ledger, actionsPending, clear } = this.props
-
-        const showModal = actionsPending.includes('REMOVE_ACCESS_KEY') && ledger.hasLedger
+        const { authorizedApps, title, formLoader } = this.props
 
         return (
             <PageContainer
@@ -149,28 +146,18 @@ class AccessKeys extends Component {
                     confirmStatus={confirmStatus}
                     formLoader={formLoader}
                 >
-                    <>
-                        {authorizedApps && (authorizedApps.length 
-                            ? authorizedApps.map((accessKey, i) => (
-                                <KeyListItem
-                                    key={`a-${i}`}
-                                    accessKey={accessKey}
-                                    i={i}
-                                    wide={true}
-                                    showSub={showSub}
-                                    toggleShowSub={this.toggleShowSub}
-                                    showSubOpen={showSubOpen}
-                                />
-                            )) : <AccessKeysEmpty />)}
-                        
-                        {showModal && (
-                            <LedgerConfirmActionModal 
-                                open={true}
-                                onClose={() => clear()} 
-                                textId='confirmLedgerModal.subtext.authorizedApps'
+                    {authorizedApps && (authorizedApps.length 
+                        ? authorizedApps.map((accessKey, i) => (
+                            <KeyListItem
+                                key={`a-${i}`}
+                                accessKey={accessKey}
+                                i={i}
+                                wide={true}
+                                showSub={showSub}
+                                toggleShowSub={this.toggleShowSub}
+                                showSubOpen={showSubOpen}
                             />
-                        )}
-                    </>
+                        )) : <AccessKeysEmpty />)}
                 </PaginationBlock>
             </PageContainer>
         )
@@ -180,8 +167,7 @@ class AccessKeys extends Component {
 const mapDispatchToProps = {
     getAccessKeys,
     removeAccessKey,
-    addLedgerAccessKey,
-    clear
+    addLedgerAccessKey
 }
 
 const mapStateToPropsAuthorizedApps = ({ account }) => ({

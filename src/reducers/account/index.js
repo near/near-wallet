@@ -43,7 +43,7 @@ const loaderReducer = (state, { type, ready }) => {
 }
 
 const ledgerModalReducer = handleActions({
-    [combineActions(sendMoney, addAccessKey, signAndSendTransactions)]: (state, { ready, meta }) => ({
+    [combineActions(sendMoney, addAccessKey, signAndSendTransactions, removeAccessKey)]: (state, { ready, meta }) => ({
         ...state,
         ledger: {
             ...state.ledger,

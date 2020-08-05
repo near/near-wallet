@@ -182,7 +182,8 @@
         "publicKey": "Public Key",
         "ledger": "Ledger",
         "removeAccessKey": {
-            "error": "Please check that your device is connected and the NEAR app is open."
+            "error": "Please check that your device is connected and the NEAR app is open.",
+            "modal": "You will need to confirm delete key details on your Ledger."
         }
     },
 
@@ -635,7 +636,6 @@
         "header": "Please confirm the operation on your device...",
         "one": "You will need to confirm your sign-in details on your Ledger.",
         "subtext": {
-            "authorizedApps": "You will need to confirm delete key details on your Ledger.",
             "enableSeedPhrase": "You will need to confirm full access details on your Ledger.",
             "disableRecoveryMethod": "You will need to confirm delete key details on your Ledger.",
             "enableRecoveryMethod": "You will need to confirm full access details on your Ledger.",
