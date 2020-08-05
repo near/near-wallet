@@ -309,10 +309,14 @@ class Wallet {
     }
 
     async saveAccount(accountId, keyPair) {
+        await this.setKey(accountId, keyPair)
+        this.accounts[accountId] = true
+    }
+
+    async setKey(accountId, keyPair) {
         if (keyPair) {
             await this.keyStore.setKey(NETWORK_ID, accountId, keyPair)
         }
-        this.accounts[accountId] = true
     }
 
     async addAccessKey(accountId, contractId, publicKey) {
@@ -372,9 +376,7 @@ class Wallet {
         const localAccessKey = await this.getLocalAccessKey(accountId, accessKeys)
 
         const newKeyPair = await this.addWalletMetadataAccessKeyIfNeeded(accountId, localAccessKey)
-        if (newKeyPair) {
-            await this.keyStore.setKey(NETWORK_ID, accountId, newKeyPair)
-        }
+        await this.setKey(accountId, newKeyPair)
     }
 
     async saveAndSelectLedgerAccounts(accounts) {
