@@ -9,12 +9,10 @@ import { Translate } from 'react-localize-redux';
 import {
     deleteRecoveryMethod,
     loadRecoveryMethods,
-    sendNewRecoveryLink,
-    clear
+    sendNewRecoveryLink
 } from '../../../actions/account';
 import SkeletonLoading from '../../common/SkeletonLoading';
 import { useRecoveryMethods } from '../../../hooks/recoveryMethods';
-import LedgerConfirmActionModal from '../../accounts/ledger/LedgerConfirmActionModal'
 
 const Container = styled.div`
 
@@ -129,8 +127,6 @@ const RecoveryContainer = () => {
         return 0;
     });
 
-    const showModal = account.actionsPending.includes('DELETE_RECOVERY_METHOD') && account.ledger.hasLedger
-
     return (
         <Container>
             <Header>
@@ -157,14 +153,6 @@ const RecoveryContainer = () => {
                 number={3}
                 show={loading}
             />
-
-            {showModal && (
-                <LedgerConfirmActionModal 
-                    open={true}
-                    onClose={() => dispatch(clear())} 
-                    textId='confirmLedgerModal.subtext.disableRecoveryMethod'
-                />
-            )}
         </Container>
     );
 }
