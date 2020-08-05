@@ -9,12 +9,10 @@ import FormButton from '../../common/FormButton';
 import HardwareDeviceIcon from '../../svg/HardwareDeviceIcon';
 import { 
     getAccessKeys,
-    removeAccessKey,
-    clear
+    removeAccessKey
 } from '../../../actions/account';
 import { useRecoveryMethods } from '../../../hooks/recoveryMethods';
 import ConfirmDisable from './ConfirmDisable';
-import LedgerConfirmActionModal from '../../accounts/ledger/LedgerConfirmActionModal'
 
 const Container = styled(Card)`
     margin-top: 30px;
@@ -110,8 +108,6 @@ const HardwareDevices = () => {
         setConfirmDisable(false);
     }
 
-    const showModal = account.actionsPending.includes('REMOVE_ACCESS_KEY') && account.ledger.hasLedger
-
     return (
         <Container>
             <div className='header'>
@@ -144,14 +140,6 @@ const HardwareDevices = () => {
             {!hasOtherMethods && hasLedger && 
                 <i><Translate id='hardwareDevices.ledger.disclaimer'/></i>
             }
-
-            {showModal && (
-                <LedgerConfirmActionModal 
-                    open={true}
-                    onClose={() => dispatch(clear())} 
-                    textId='confirmLedgerModal.subtext.disableLedger'
-                />
-            )}
         </Container>
     )
 }
