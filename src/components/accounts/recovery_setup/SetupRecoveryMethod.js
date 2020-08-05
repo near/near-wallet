@@ -5,7 +5,7 @@ import { Translate } from 'react-localize-redux';
 import 'react-phone-number-input/style.css'
 import PhoneInput, { isValidPhoneNumber } from 'react-phone-number-input';
 import { validateEmail } from '../../../utils/account';
-import { initializeRecoveryMethod, setupRecoveryMessage, redirectToApp, loadRecoveryMethods, clear } from '../../../actions/account';
+import { initializeRecoveryMethod, setupRecoveryMessage, redirectToApp, loadRecoveryMethods } from '../../../actions/account';
 import RecoveryOption from './RecoveryOption';
 import FormButton from '../../common/FormButton';
 import SetupRecoveryMethodSuccess from './SetupRecoveryMethodSuccess';
@@ -137,9 +137,7 @@ class SetupRecoveryMethod extends Component {
 
     render() {
         const { option, phoneNumber, email, success, emailInvalid, phoneInvalid, activeMethods } = this.state;
-        const { actionsPending, ledger } = this.props;
-
-        const showModal = actionsPending.includes('SETUP_RECOVERY_MESSAGE') && ledger.hasLedger
+        const { actionsPending } = this.props;
 
         if (!success) {
             return (
@@ -217,8 +215,6 @@ class SetupRecoveryMethod extends Component {
                     onGoBack={this.handleGoBack}
                     loading={actionsPending.includes('SETUP_RECOVERY_MESSAGE')}
                     requestStatus={this.props.requestStatus}
-                    showModal={showModal}
-                    onClose={clear}
                 />
             )
         }
@@ -229,8 +225,7 @@ const mapDispatchToProps = {
     setupRecoveryMessage,
     redirectToApp,
     loadRecoveryMethods,
-    initializeRecoveryMethod,
-    clear
+    initializeRecoveryMethod
 }
 
 const mapStateToProps = ({ account, router, recoveryMethods }, { match }) => ({

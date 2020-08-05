@@ -5,7 +5,6 @@ import { Translate } from 'react-localize-redux'
 
 import FormButton from '../../common/FormButton';
 import Container from '../../common/styled/Container.css'
-import LedgerConfirmActionModal from '../ledger/LedgerConfirmActionModal'
 
 const StyledContainer = styled(Container)`
     .recover-value {
@@ -39,9 +38,7 @@ const SetRecoveryMethodSuccess = ({
     email,
     phoneNumber,
     loading,
-    requestStatus,
-    showModal,
-    onClose
+    requestStatus
 }) => {
 
     const [code, setCode] = useState('');
@@ -91,14 +88,6 @@ const SetRecoveryMethodSuccess = ({
                 <span onClick={onGoBack} className='link'><Translate id='setRecoveryConfirm.reenter.link'/></span>
                 <Translate id={`setRecoveryConfirm.reenter.two.${useEmail ? 'email' : 'phoneNumber'}`} />
             </div>
-
-            {showModal && (
-                <LedgerConfirmActionModal 
-                    open={true}
-                    onClose={() => onClose()} 
-                    textId='confirmLedgerModal.subtext.enableRecoveryMethod'
-                />
-            )}
         </StyledContainer>
     )
 }

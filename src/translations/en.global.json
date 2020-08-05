@@ -34,7 +34,8 @@
         },
         "setupRecoveryMessage": {
             "success": "Recovery setup is complete.",
-            "error": "An error occurred while setting up your recovery method. Please try again!"
+            "error": "An error occurred while setting up your recovery method. Please try again!",
+            "modal": "You will need to confirm full access details on your Ledger."
         },
         "sendNewRecoveryLink": {
             "success": "Recovery link successfully sent!",
@@ -640,7 +641,6 @@
         "header": "Please confirm the operation on your device...",
         "one": "You will need to confirm your sign-in details on your Ledger.",
         "subtext": {
-            "enableRecoveryMethod": "You will need to confirm full access details on your Ledger.",
             "enableLedger": "You will need to confirm public key details on your Ledger.",
             "disableLedger": "You will need to confirm delete key details on your Ledger.",
             "loginFullAccess": "You will need to confirm full access details on your Ledger."
