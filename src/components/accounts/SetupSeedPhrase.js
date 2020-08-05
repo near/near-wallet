@@ -3,7 +3,7 @@ import { withRouter, Route } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { Translate } from 'react-localize-redux'
 
-import { redirectToApp, addAccessKeySeedPhrase, clearAlert, clear } from '../../actions/account'
+import { redirectToApp, addAccessKeySeedPhrase, clearAlert } from '../../actions/account'
 import { generateSeedPhrase } from 'near-seed-phrase'
 import SetupSeedPhraseVerify from './SetupSeedPhraseVerify'
 import SetupSeedPhraseForm from './SetupSeedPhraseForm'
@@ -96,11 +96,6 @@ class SetupSeedPhrase extends Component {
     }
 
     render() {
-
-        const { ledger, actionsPending } = this.props
-
-        const showModal = actionsPending.includes('ADD_ACCESS_KEY_SEED_PHRASE') && ledger.hasLedger
-
         return (
             <Translate>
                 {({ translate }) => (
@@ -135,8 +130,6 @@ class SetupSeedPhrase extends Component {
                                             formLoader={this.props.formLoader}
                                             requestStatus={this.state.requestStatus}
                                             globalAlert={this.props.globalAlert}
-                                            showModal={showModal}
-                                            onClose={clear}
                                         />
                                     </form>
                                 </Container>
@@ -158,8 +151,7 @@ class SetupSeedPhrase extends Component {
 const mapDispatchToProps = {
     redirectToApp,
     addAccessKeySeedPhrase,
-    clearAlert,
-    clear
+    clearAlert
 }
 
 const mapStateToProps = ({ account }, { match }) => ({

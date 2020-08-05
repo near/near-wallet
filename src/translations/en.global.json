@@ -29,7 +29,8 @@
         },
         "setupSeedPhrase": {
             "success": "Seed phrase recovery setup is complete.",
-            "error": "An error occurred while setting up seed phrase recovery. Please try again!"
+            "error": "An error occurred while setting up seed phrase recovery. Please try again!",
+            "modal": "You will need to confirm full access details on your Ledger."
         },
         "setupRecoveryMessage": {
             "success": "Recovery setup is complete.",
@@ -636,7 +637,6 @@
         "header": "Please confirm the operation on your device...",
         "one": "You will need to confirm your sign-in details on your Ledger.",
         "subtext": {
-            "enableSeedPhrase": "You will need to confirm full access details on your Ledger.",
             "disableRecoveryMethod": "You will need to confirm delete key details on your Ledger.",
             "enableRecoveryMethod": "You will need to confirm full access details on your Ledger.",
             "enableLedger": "You will need to confirm public key details on your Ledger.",
