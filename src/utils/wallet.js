@@ -253,11 +253,7 @@ class Wallet {
 
         const { data: recoveryMethods } = await this.getRecoveryMethods();
         for (const recoveryMethod of recoveryMethods) {
-            try {
-                await this.deleteRecoveryMethod(recoveryMethod)
-            } catch(e) {
-                throw(e)
-            }
+            await this.deleteRecoveryMethod(recoveryMethod)
         }
     }
 

@@ -96,8 +96,6 @@ const HardwareDevices = () => {
         try {
             setDisabling(true)
             await dispatch(disableLedger());
-        } catch(e) {
-            throw(e)
         } finally {
             await dispatch(getAccessKeys())
             await dispatch(getLedgerKey())

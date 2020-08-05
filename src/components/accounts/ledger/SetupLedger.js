@@ -26,7 +26,7 @@ const SetupLedger = (props) => {
             await props.refreshAccount()
         } catch(e) {
             setConnect('fail');
-            throw(e);
+            throw e;
         } 
 
         if (props.isNew) {

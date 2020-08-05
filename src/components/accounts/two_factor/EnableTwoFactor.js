@@ -69,8 +69,6 @@ export function EnableTwoFactor(props) {
         let response;
         try {
             response = await dispatch(initTwoFactor(accountId, method))
-        } catch(e) {
-            throw(e)
         } finally {
             if (response && response.confirmed) {
                 handleDeployMultisig()
@@ -81,25 +79,13 @@ export function EnableTwoFactor(props) {
     }
 
     const handleConfirm = async (securityCode) => {
-
-        try {
-            await dispatch(verifyTwoFactor(accountId, securityCode))
-        } catch(e) {
-            throw(e)
-        } finally {
-            handleDeployMultisig()
-        }
+        await dispatch(verifyTwoFactor(accountId, securityCode))
+        handleDeployMultisig()
     }
 
     const handleDeployMultisig = async () => {
-
-        try {
-            await dispatch(deployMultisig())
-        } catch(e) {
-            throw(e)
-        } finally {
-            dispatch(redirectToApp('/profile'))
-        }
+        await dispatch(deployMultisig())
+        dispatch(redirectToApp('/profile'))
     }
 
     const handleGoBack = () => {

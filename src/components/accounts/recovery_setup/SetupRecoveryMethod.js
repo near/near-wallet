@@ -73,15 +73,9 @@ class SetupRecoveryMethod extends Component {
 
     getMethods = async () => {
 
-        try {
-            await this.props.loadRecoveryMethods()
-        } catch(e) {
-            throw(e)
-        } finally {
-            this.setState({ hasFetchedMethods: true })
-            return this.setRecoveryMethods()
-        }
-
+        await this.props.loadRecoveryMethods()
+        this.setState({ hasFetchedMethods: true })
+        return this.setRecoveryMethods()
     }
 
     get isValidInput() {
@@ -145,12 +139,8 @@ class SetupRecoveryMethod extends Component {
             isNew, fundingContract, fundingKey, refreshAccount
         } = this.props;
 
-        try {
-            await setupRecoveryMessage(accountId, this.method, securityCode, isNew, fundingContract, fundingKey)
-            await refreshAccount()
-        } catch(e) {
-            throw(e)
-        }
+        await setupRecoveryMessage(accountId, this.method, securityCode, isNew, fundingContract, fundingKey)
+        await refreshAccount()
 
         if (fundingContract) {
             history.push('/enable-two-factor')

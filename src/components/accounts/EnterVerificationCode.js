@@ -83,7 +83,10 @@ const EnterVerificationCode = ({
                     <Translate id='button.verifyCodeEnable' />
                 </FormButton>
             </form>
-            <p><Translate id='setRecoveryConfirm.didNotRecive'/> <span onClick={onResend} className='link'><Translate id='setRecoveryConfirm.resendCode'/></span>, <Translate id='setRecoveryConfirm.or'/> <span onClick={onGoBack} className='link'><Translate id='setRecoveryConfirm.sendToDifferent'/></span>.</p>
+            <p>
+                <Translate id='setRecoveryConfirm.didNotRecive'/> <span onClick={onResend} className='link'><Translate id='setRecoveryConfirm.resendCode'/></span>,
+                &nbsp;<Translate id='setRecoveryConfirm.or'/> &nbsp;<span onClick={onGoBack} className='link'><Translate id='setRecoveryConfirm.sendToDifferent'/></span>.
+            </p>
         </StyledContainer>
     )
 }
