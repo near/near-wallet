@@ -648,6 +648,9 @@
         },
         "recoveryMethods": {
             "lastMethod": "Cannot delete your last recovery method. Unless you have Ledger enabled, you need to keep at least one recovery method active to ensure recoverability of your account."
+        },
+        "twoFactor": {
+            "userCancelled": "Two factor authentication was cancelled."
         }
     },
 
