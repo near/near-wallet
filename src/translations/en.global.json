@@ -641,7 +641,6 @@
         "header": "Please confirm the operation on your device...",
         "one": "You will need to confirm your sign-in details on your Ledger.",
         "subtext": {
-            "enableLedger": "You will need to confirm public key details on your Ledger.",
             "disableLedger": "You will need to confirm delete key details on your Ledger.",
             "loginFullAccess": "You will need to confirm full access details on your Ledger."
         }
@@ -650,7 +649,8 @@
     "errors": {
         "ledger": {
             "U2FNotSupported": "U2F browser support is needed for Ledger. Please use Chrome, Opera or Firefox with a U2F extension. Also make sure you're on an HTTPS connection.",
-            "U2F_4": "Failed to sign with Ledger device: U2F DEVICE_INELIGIBLE. Please make sure that your Ledger device is connected and unlocked."
+            "U2F_4": "Failed to sign with Ledger device: U2F DEVICE_INELIGIBLE. Please make sure that your Ledger device is connected and unlocked.",
+            "modal": "You will need to confirm public key details on your Ledger."
         }
     },
 

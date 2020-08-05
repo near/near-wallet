@@ -9,10 +9,9 @@ import MobileActionSheet from '../../common/modal/MobileActionSheet';
 import LedgerImage from '../../svg/LedgerImage';
 
 const LedgerConfirmActionModal = () => {
+    const { ledger, actionsPending } = useSelector(({ account }) => account)
 
-    const ledger = useSelector(({ account }) => account.ledger)
-
-    return (ledger && ledger.hasLedger && ledger.modal && ledger.modal.show)
+    return (ledger && (ledger.hasLedger || actionsPending.includes('ADD_LEDGER_ACCESS_KEY')) && ledger.modal && ledger.modal.show)
         ? (
             <Modal
                 id='ledger-confirm-action-modal'
