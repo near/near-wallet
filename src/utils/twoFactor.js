@@ -85,10 +85,7 @@ export class TwoFactor {
     async request(account, request) {
         if (this.wallet.tempTwoFactorAccount) account = this.wallet.tempTwoFactorAccount
         const { accountId } = account
-        const contract = new nearApiJs.Contract(account, account.accountId, {
-            viewMethods: VIEW_METHODS,
-            changeMethods: METHOD_NAMES_LAK,
-        });
+        const contract = getContract(account, accountId)
         await deleteUnconfirmedRequests(contract)
         const request_id = await contract.get_request_nonce()
         await contract.add_request_and_confirm({ request })
@@ -198,6 +195,14 @@ export class TwoFactor {
         console.log('deploying multisig contract for', accountId)
         return await account.signAndSendTransaction(accountId, actions);
     }
+}
+
+
+const getContract = (account, accountId) => {
+    return new nearApiJs.Contract(account, account.accountId, {
+        viewMethods: VIEW_METHODS,
+        changeMethods: METHOD_NAMES_LAK,
+    });
 }
 
 const deleteUnconfirmedRequests = async (contract) => {

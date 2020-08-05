@@ -159,9 +159,8 @@ export const { initializeRecoveryMethod, validateSecurityCode, initTwoFactor, re
                 promise = new Promise((resolve) => {
                     requestPending = (verified) => {
                         resolve(verified)
-                        if (verified) {
-                            wallet.tempTwoFactorAccount = null
-                        }
+                        // if the user was recovering, they should start over
+                        wallet.tempTwoFactorAccount = null
                     }
                 })
             }
