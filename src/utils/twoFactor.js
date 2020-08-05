@@ -88,16 +88,11 @@ export class TwoFactor {
         const contract = new nearApiJs.Contract(account, account.accountId, {
             viewMethods: VIEW_METHODS,
             changeMethods: METHOD_NAMES_LAK,
-            sender: account.accountId
         });
         await deleteUnconfirmedRequests(contract)
-        const request_id = await getNextRequestId(contract)
-        try {
-            await contract.add_request_and_confirm({ request })
-        } catch (e) {
-            throw(e)
-        }
-        const request_id_after = await getNextRequestId(contract)
+        const request_id = await contract.get_request_nonce()
+        await contract.add_request_and_confirm({ request })
+        const request_id_after = await contract.get_request_nonce()
         if (request_id_after > request_id) {
             const data = { request_id, request }
             const method = await this.get2faMethod()
@@ -109,7 +104,8 @@ export class TwoFactor {
         const {accountId} = account
         const accessKeys = await this.wallet.getAccessKeys(accountId)
         if (accessKeys.find((ak) => ak.public_key.toString() === publicKey)) {
-            throw new Error(`key already exists for account ${accountId}`)
+            // TODO check access key receiver_id matches contractId desired
+            return true
         }
         const request = {
             receiver_id: account.accountId,
@@ -139,7 +135,7 @@ export class TwoFactor {
     }
 
     async signAndSendTransactions(account, transactions) {
-        for (let { receiverId, nonce, blockHash, actions } of transactions) {
+        for (let { receiverId, actions } of transactions) {
             actions = actions.map((a) => {
                 const action = {
                     ...a[a.enum],
@@ -147,7 +143,8 @@ export class TwoFactor {
                 }
                 if (action.gas) action.gas = action.gas.toString()
                 if (action.deposit) action.deposit = action.deposit.toString()
-                if (action.args) action.args = btoa(new TextDecoder().decode(new Uint8Array(action.args)))
+                
+                if (action.args) action.args = Buffer.from(actions.args).toString('base64')
                 if (action.methodName) {
                     action.method_name = action.methodName
                     delete action.methodName
@@ -188,13 +185,8 @@ export class TwoFactor {
         const recoveryKeysED = recoveryMethods.data.map((rm) => rm.publicKey)
         const fak2lak = recoveryMethods.data.filter(({ kind, publicKey }) => kind !== 'phrase' && publicKey !== null).map((rm) => toPK(rm.publicKey))
         fak2lak.push(...accountKeys.filter((ak) => !recoveryKeysED.includes(ak.public_key)).map((ak) => toPK(ak.public_key)))
-        const getAccessKey = await this.wallet.postSignedJson('/2fa/getAccessKey', {
-            accountId
-        })
-        if (!getAccessKey || !getAccessKey.success || !getAccessKey.publicKey) {
-            throw new Error('error getting publicKey from contract-helper')
-        }
-        const confirmOnlyKey = toPK(getAccessKey.publicKey)
+        const getPublicKey = await this.wallet.postSignedJson('/2fa/getAccessKey', { accountId })
+        const confirmOnlyKey = toPK(getPublicKey.publicKey)
         const newArgs = new Uint8Array(new TextEncoder().encode(JSON.stringify({ 'num_confirmations': 2 })));
         const actions = [
             ...fak2lak.map((pk) => deleteKey(pk)),
@@ -217,16 +209,8 @@ const deleteUnconfirmedRequests = async (contract) => {
         try {
             await contract.delete_request({ request_id })
         } catch(e) {
-            console.log(e)
+            console.warn(e)
         }
-    }
-}
-
-const getNextRequestId = async (contract) => {
-    try {
-        return contract.get_request_nonce()
-    } catch (e) {
-        throw(e)
     }
 }
 

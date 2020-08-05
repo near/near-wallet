@@ -356,10 +356,7 @@ class Wallet {
     recovering a second account attempts to call this method with the currently logged in account and not the tempKeyStore 
     ********************************/
     async addAccessKey(accountId, contractId, publicKey, fullAccess = false) {
-        const { account, has2fa } = await this.getAccountAndState()
-        if (!contractId) {
-            contractId = account.accountId
-        }
+        const { account, has2fa } = await this.getAccountAndState(accountId)
         if (has2fa) {
             return await this.twoFactor.addKey(account, publicKey, contractId, fullAccess)
         } else {
@@ -477,7 +474,6 @@ class Wallet {
 
     async getAccountAndState(accountId) {
         const account = this.getAccount(accountId)
-        account.accountId = this.accountId
         const state = await account.state()
         const has2fa = MULTISIG_CONTRACT_HASHES.includes(state.code_hash)
         return { account, state, has2fa }
@@ -660,7 +656,6 @@ class Wallet {
         })
         await Promise.all(accountIds.map(async (accountId, i) => {
             const account = new nearApiJs.Account(connection, accountId)
-            account.accountId = accountId
             this.accountId = accountId
             const keyPair = KeyPair.fromString(secretKey)
             await tempKeyStore.setKey(NETWORK_ID, accountId, keyPair)
@@ -678,10 +673,7 @@ class Wallet {
                     const actions = [
                         nearApiJs.transactions.addKey(newKeyPair.publicKey, nearApiJs.transactions.functionCallAccessKey(accountId, METHOD_NAMES_LAK, null))
                     ]
-                    const result = await account.signAndSendTransaction(accountId, actions).catch((e) => {
-                        console.trace(e)
-                    })
-                    console.log(result)
+                    await account.signAndSendTransaction(accountId, actions)
                 }
             } else {
                 await account.addKey(newKeyPair.publicKey)

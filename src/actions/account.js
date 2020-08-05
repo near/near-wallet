@@ -181,10 +181,6 @@ export const { initializeRecoveryMethod, validateSecurityCode, initTwoFactor, re
         wallet.getLedgerKey.bind(wallet),
         () => defaultCodesFor('account.LedgerKey')
     ],
-    GET_ACCOUNT_AND_STATE: [
-        wallet.getAccountAndState.bind(wallet),
-        () => defaultCodesFor('account.getAccountAndState')
-    ],
     SETUP_RECOVERY_MESSAGE: [
         wallet.setupRecoveryMessage.bind(wallet),
         () => defaultCodesFor('account.setupRecoveryMessage')
