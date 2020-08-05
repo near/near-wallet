@@ -1,5 +1,6 @@
 import * as nearApiJs from 'near-api-js'
 import { store } from '..'
+import { WalletError } from './walletError'
 import { promptTwoFactor } from '../actions/account'
 import { ACCESS_KEY_FUNDING_AMOUNT, convertPKForContract, toPK } from './wallet'
 
@@ -168,7 +169,11 @@ export class TwoFactor {
             throw(e)
         }
         if (requestId !== -1) {
-            return store.dispatch(promptTwoFactor(true)).payload.store.promise
+            const result = await store.dispatch(promptTwoFactor(true)).payload.store.promise
+            if (!result) {
+                throw new WalletError('Request was cancelled.', 'errors.twoFactor.userCancelled')
+            }
+            return result
         }
     }
 
