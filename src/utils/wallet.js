@@ -213,7 +213,7 @@ class Wallet {
     }
 
     async removeAccessKey(publicKey) {
-        const { account, has2fa } = await this.getAccountAndState()
+        const { account, has2fa } = await this.getAccountAndState(this.accountId)
         if (has2fa) {
             return await this.twoFactor.removeKey(account, publicKey)
         } else {
@@ -693,7 +693,7 @@ class Wallet {
     }
 
     async signAndSendTransactions(transactions, accountId) {
-        const { account, has2fa } = await this.getAccountAndState()
+        const { account, has2fa } = await this.getAccountAndState(accountId)
         if (has2fa) {
             await this.twoFactor.signAndSendTransactions(account, transactions)
             return
