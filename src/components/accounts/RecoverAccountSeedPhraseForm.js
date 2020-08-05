@@ -26,6 +26,7 @@ const RecoverAccountSeedPhraseForm = ({
                         required
                         tabIndex='1'
                         spellCheck='false'
+                        autoCapitalize='off'
                     />
                 )}
             </Translate>
