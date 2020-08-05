@@ -19,7 +19,8 @@ import {
     recoverAccountSeedPhrase,
     saveAndSelectLedgerAccounts,
     sendMoney,
-    removeAccessKey
+    removeAccessKey,
+    signAndSendTransactions
 } from '../../actions/account'
 
 const initialState = {
@@ -42,7 +43,7 @@ const loaderReducer = (state, { type, ready }) => {
 }
 
 const ledgerModalReducer = handleActions({
-    [combineActions(sendMoney, addAccessKey)]: (state, { ready, meta }) => ({
+    [combineActions(sendMoney, addAccessKey, signAndSendTransactions)]: (state, { ready, meta }) => ({
         ...state,
         ledger: {
             ...state.ledger,

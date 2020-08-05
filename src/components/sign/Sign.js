@@ -9,7 +9,7 @@ import SignTransferReady from './SignTransferReady'
 import SignTransferSuccess from './SignTransferSuccess'
 import SignTransferCancelled from './SignTransferCancelled'
 import SignTransferTransferring from './SignTransferTransferring'
-import { signAndSendTransactions, clear } from '../../actions/account'
+import { signAndSendTransactions } from '../../actions/account'
 
 class Sign extends Component {
 
@@ -34,7 +34,7 @@ class Sign extends Component {
     }
 
     renderSubcomponent = () => {
-        const { account: { url, balance, ledger, formLoader }, totalAmount, sensitiveActionsCounter, status } = this.props
+        const { account: { url, balance }, totalAmount, sensitiveActionsCounter, status } = this.props
 
         const txTotalAmount = new BN(totalAmount); // TODO: add gas cost, etc
         const availableBalance = new BN(balance.available);
@@ -59,9 +59,6 @@ class Sign extends Component {
                 return <SignTransferTransferring
                             {...this.state}
                             isMonetaryTransaction={isMonetaryTransaction}
-                            hasLedger={ledger.hasLedger}
-                            formLoader={formLoader}
-                            onClose={clear}
                         />
             case 'success':
                 return <SignTransferSuccess
@@ -84,8 +81,7 @@ class Sign extends Component {
 
 const mapDispatchToProps = {
     signAndSendTransactions,
-    push,
-    clear
+    push
 }
 
 const mapStateToProps = ({ account, sign }) => ({
