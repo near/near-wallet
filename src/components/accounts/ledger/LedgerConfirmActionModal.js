@@ -1,5 +1,5 @@
 import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Translate } from 'react-localize-redux';
 
 import Modal from "../../common/modal/Modal";

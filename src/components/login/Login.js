@@ -55,7 +55,7 @@ class Login extends Component {
     }
 
     render() {
-        const { account: { url, ledger, formLoader }, match, clear } = this.props
+        const { account: { url }, match } = this.props
 
         return (
             <LoginContainer>
