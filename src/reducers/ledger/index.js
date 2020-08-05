@@ -45,7 +45,6 @@ const ledger = handleActions({
             signInWithLedger: {
                 ...state.signInWithLedger,
                 [meta.accountId]: {
-                    key: payload,
                     status: ready ? 'success' : 'pending'
                 }
             }

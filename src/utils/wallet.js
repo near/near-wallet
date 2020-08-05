@@ -370,7 +370,11 @@ class Wallet {
     async addLedgerAccountId(accountId) {
         const accessKeys =  await this.getAccessKeys(accountId)
         const localAccessKey = await this.getLocalAccessKey(accountId, accessKeys)
-        return await this.addWalletMetadataAccessKeyIfNeeded(accountId, localAccessKey)
+
+        const newKeyPair = await this.addWalletMetadataAccessKeyIfNeeded(accountId, localAccessKey)
+        if (newKeyPair) {
+            await this.keyStore.setKey(NETWORK_ID, accountId, newKeyPair)
+        }
     }
 
     async saveAndSelectLedgerAccounts(accounts) {
@@ -378,11 +382,10 @@ class Wallet {
 
         for (let i = 0; i < accountIds.length; i++) {
             const accountId = accountIds[i]
-            const newKeyPair = accounts[accountId].key
             if (i === accountIds.length - 1) {
-                await this.saveAndSelectAccount(accountId, newKeyPair)
+                await this.saveAndSelectAccount(accountId)
             } else {
-                await this.saveAccount(accountId, newKeyPair)
+                await this.saveAccount(accountId)
             }
         }
 
