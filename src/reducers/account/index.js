@@ -43,19 +43,6 @@ const loaderReducer = (state, { type, ready }) => {
     }
 }
 
-const ledgerModalReducer = handleActions({
-    [combineActions(sendMoney, addAccessKey, signAndSendTransactions, removeAccessKey, addAccessKeySeedPhrase, deleteRecoveryMethod, setupRecoveryMessage, addLedgerAccessKey)]: (state, { ready, meta, type }) => ({
-        ...state,
-        ledger: {
-            ...state.ledger,
-            modal: {
-                show: !ready && (state.ledger.hasLedger || type === 'ADD_LEDGER_ACCESS_KEY'),
-                textId: `${meta.prefix}.modal`
-            }
-        }
-    })
-}, initialState)
-
 const globalAlertReducer = handleActions({
     // TODO: Reset state before action somehow. On navigate / start of other action?
     // TODO: Make this generic to avoid listing actions
@@ -141,10 +128,7 @@ const account = handleActions({
         return {
             ...state,
             ...payload,
-            ledger: {
-                ...state.ledger,
-                ...payload.ledger
-            },
+            ledger: undefined,
             ...resetAccountState,
             loader: false
         }
@@ -168,6 +152,5 @@ export default reduceReducers(
     recoverCodeReducer,
     accessKeys,
     account,
-    url,
-    ledgerModalReducer
+    url
 )

@@ -9,9 +9,9 @@ import MobileActionSheet from '../../common/modal/MobileActionSheet';
 import LedgerImage from '../../svg/LedgerImage';
 
 const LedgerConfirmActionModal = () => {
-    const { ledger } = useSelector(({ account }) => account)
+    const { modal } = useSelector(({ ledger }) => ledger)
 
-    return (ledger && ledger.modal && ledger.modal.show)
+    return (modal && modal.show)
         ? (
             <Modal
                 id='ledger-confirm-action-modal'
@@ -21,7 +21,7 @@ const LedgerConfirmActionModal = () => {
                 <MobileActionSheet/>
                 <h2><Translate id='confirmLedgerModal.header'/></h2>
                 <LedgerImage animate={true}/>
-                <p><Translate id={ledger.modal.textId}/></p>
+                <p><Translate id={modal.textId}/></p>
             </Modal>
         )
         : null

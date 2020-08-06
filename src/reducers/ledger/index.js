@@ -1,15 +1,34 @@
-import { handleActions } from 'redux-actions'
+import { handleActions, combineActions } from 'redux-actions'
 import reduceReducers from 'reduce-reducers'
 
 import {
     getLedgerAccountIds,
     addLedgerAccountId,
-    saveAndSelectLedgerAccounts
+    saveAndSelectLedgerAccounts,
+    refreshAccount,
+    sendMoney,
+    addAccessKey,
+    signAndSendTransactions,
+    removeAccessKey,
+    addAccessKeySeedPhrase,
+    deleteRecoveryMethod,
+    setupRecoveryMessage,
+    addLedgerAccessKey
 } from '../../actions/account'
 
 const initialState = {
-    
+    modal: {}
 }
+
+const ledgerModalReducer = handleActions({
+    [combineActions(sendMoney, addAccessKey, signAndSendTransactions, removeAccessKey, addAccessKeySeedPhrase, deleteRecoveryMethod, setupRecoveryMessage, addLedgerAccessKey)]: (state, { ready, meta, type }) => ({
+        ...state,
+        modal: {
+            show: !ready && (state.hasLedger || type === 'ADD_LEDGER_ACCESS_KEY'),
+            textId: `${meta.prefix}.modal`
+        }
+    })
+}, initialState)
 
 const ledger = handleActions({
     [getLedgerAccountIds]: (state, { error, payload }) => {
@@ -59,10 +78,17 @@ const ledger = handleActions({
         }
 
         return state
-    }
+    },
+    [refreshAccount]: (state, { payload, ready, meta }) => {
+        return {
+            ...state,
+            ...(payload && payload.ledger)
+        }
+    },
 }, initialState)
 
 export default reduceReducers(
     initialState,
-    ledger
+    ledger,
+    ledgerModalReducer
 )
