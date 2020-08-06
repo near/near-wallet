@@ -8,6 +8,15 @@ const PageTheme = styled.div`
         margin: 30px 14px 0 14px;
         max-width: 800px;
 
+        .alert-info {
+            text-align: center;
+            line-height: 20px;
+        }
+
+        .center {
+            text-align: center;
+        }
+
         @media (min-width: 768px) {
             margin: 30px auto 0 auto;
         }

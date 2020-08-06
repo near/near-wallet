@@ -14,10 +14,10 @@ import {
     refreshAccount,
     resetAccounts,
     setFormLoader,
-    signInWithLedger,
     deleteRecoveryMethod,
     sendNewRecoveryLink,
-    recoverAccountSeedPhrase
+    recoverAccountSeedPhrase,
+    saveAndSelectLedgerAccounts
 } from '../../actions/account'
 
 const initialState = {
@@ -42,7 +42,7 @@ const loaderReducer = (state, { type, ready }) => {
 const globalAlertReducer = handleActions({
     // TODO: Reset state before action somehow. On navigate / start of other action?
     // TODO: Make this generic to avoid listing actions
-    [combineActions(addAccessKey, addAccessKeySeedPhrase, setupRecoveryMessage, signInWithLedger, deleteRecoveryMethod, sendNewRecoveryLink, recoverAccountSeedPhrase)]: (state, { error, ready, payload, meta }) => ({
+    [combineActions(addAccessKey, addAccessKeySeedPhrase, setupRecoveryMessage, saveAndSelectLedgerAccounts, deleteRecoveryMethod, sendNewRecoveryLink, recoverAccountSeedPhrase)]: (state, { error, ready, payload, meta }) => ({
         ...state,
         globalAlert: ready ? {
             success: !error,
@@ -114,11 +114,11 @@ const account = handleActions({
         }
 
         const resetAccountState = {
-            globalAlertPreventClear: payload.globalAlertPreventClear,
+            globalAlertPreventClear: payload && payload.globalAlertPreventClear,
             resetAccount: (state.resetAccount && state.resetAccount.preventClear) ? {
                 ...state.resetAccount,
                 preventClear: false
-            } : payload.resetAccount
+            } : payload && payload.resetAccount
         }
         
         return {
