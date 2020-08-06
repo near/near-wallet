@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { Translate } from 'react-localize-redux'
-import { checkNewAccount, createNewAccount, clear, refreshAccount, resetAccounts, setFormLoader } from '../../actions/account'
+import { checkNewAccount, createNewAccount, clear, refreshAccount, setFormLoader } from '../../actions/account'
 import { ACCOUNT_ID_SUFFIX } from '../../utils/wallet'
 import Container from '../common/styled/Container.css'
 
@@ -64,14 +64,6 @@ class CreateAccount extends Component {
         loader: false,
         accountId: '',
         token: ''
-    }
-
-    componentDidMount = () => {
-        const { loginError, resetAccounts } = this.props;
-
-        if (loginError && loginError.indexOf('does not exist while viewing') !== -1) {
-            resetAccounts()
-        }
     }
 
     componentWillUnmount = () => {
@@ -154,7 +146,6 @@ const mapDispatchToProps = {
     createNewAccount,
     clear,
     refreshAccount,
-    resetAccounts,
     setFormLoader
 }
 
