@@ -141,6 +141,10 @@ const account = handleActions({
         return {
             ...state,
             ...payload,
+            ledger: {
+                ...state.ledger,
+                ...payload.ledger
+            },
             ...resetAccountState,
             loader: false
         }
