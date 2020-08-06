@@ -19,9 +19,7 @@ import {
     recoverAccountSeedPhrase,
     saveAndSelectLedgerAccounts,
     sendMoney,
-    removeAccessKey,
-    signAndSendTransactions,
-    addLedgerAccessKey
+    removeAccessKey
 } from '../../actions/account'
 
 const initialState = {

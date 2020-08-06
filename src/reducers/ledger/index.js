@@ -51,7 +51,7 @@ const ledger = handleActions({
                 : {}
         }
     },
-    [addLedgerAccountId]: (state, { error, payload, ready, meta }) => {
+    [addLedgerAccountId]: (state, { error, ready, meta }) => {
         if (error) {
             return {
                 ...state,
@@ -79,7 +79,7 @@ const ledger = handleActions({
 
         return state
     },
-    [refreshAccount]: (state, { payload, ready, meta }) => {
+    [refreshAccount]: (state, { payload }) => {
         return {
             ...state,
             ...(payload && payload.ledger)

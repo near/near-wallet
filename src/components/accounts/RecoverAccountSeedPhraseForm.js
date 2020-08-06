@@ -1,6 +1,6 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import { Translate } from 'react-localize-redux'
-import { Input, Header } from 'semantic-ui-react'
+import { Input } from 'semantic-ui-react'
 import FormButton from '../common/FormButton'
 import RequestStatusBox from '../common/RequestStatusBox'
 import classNames from '../../utils/classNames'
