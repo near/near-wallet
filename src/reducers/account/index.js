@@ -9,6 +9,7 @@ import {
     clearCode,
     addAccessKey,
     addAccessKeySeedPhrase,
+    promptTwoFactor,
     clearAlert,
     refreshUrl,
     refreshAccount,
@@ -69,14 +70,6 @@ const requestResultReducer = (state, { error, ready, payload, meta }) => {
         return state
     }
 
-    // any generic store update to state (e.g. the flag requestPending)
-    if (payload && payload.store) {
-        return {
-            ...state,
-            ...payload.store
-        }
-    }
-
     return {
         ...(state || initialState),
         requestStatus: ready ? {
@@ -124,6 +117,13 @@ const twoFactor = handleActions({
     [get2faMethod]: (state, { payload }) => ({
         ...state,
         twoFactor: payload
+    })
+}, initialState)
+
+const twoFactorPrompt = handleActions({
+    [promptTwoFactor]: (state, { payload }) => ({
+        ...state,
+        requestPending: payload.requestPending
     })
 }, initialState)
 
@@ -180,5 +180,6 @@ export default reduceReducers(
     account,
     url,
     twoFactor,
+    twoFactorPrompt,
     ledgerKey
 )

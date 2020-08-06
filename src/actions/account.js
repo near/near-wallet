@@ -163,7 +163,7 @@ export const { initializeRecoveryMethod, validateSecurityCode, initTwoFactor, re
         () => defaultCodesFor('account.verifyTwoFactor')
     ],
     PROMPT_TWO_FACTOR: [
-        (requestPending = null) => {
+        (requestPending) => {
             let promise
             if (requestPending !== null) {
                 promise = new Promise((resolve, reject) => {
@@ -177,7 +177,7 @@ export const { initializeRecoveryMethod, validateSecurityCode, initTwoFactor, re
                     }
                 })
             }
-            return ({ store: { requestPending, promise } })
+            return ({ requestPending, promise })
         },
         () => defaultCodesFor('account.promptTwoFactor')
     ],
@@ -247,13 +247,12 @@ export const { addAccessKey, addAccessKeySeedPhrase, clearAlert } = createAction
             if (isNew) {
                 await wallet.createNewAccount(accountId, fundingContract, fundingKey)
             }
-            const res = await wallet.addAccessKey(accountId, contractName, publicKey, true)
-            if (res) {
-                wallet.postSignedJson.bind(wallet)('/account/seedPhraseAdded', {
-                    accountId,
-                    publicKey,
-                })
-            }
+            const fullAccess = true;
+            const res = await wallet.addAccessKey(accountId, contractName, publicKey, fullAccess)
+            wallet.postSignedJson('/account/seedPhraseAdded', {
+                accountId,
+                publicKey,
+            })
             return res
         },
         () => defaultCodesFor('account.setupSeedPhrase')
