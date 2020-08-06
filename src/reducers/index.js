@@ -8,6 +8,7 @@ import account from './account'
 import transactions from './transactions'
 import sign from './sign'
 import recoveryMethods from '../reducers/recoveryMethods'
+import ledger from './ledger'
 
 export default (history) => combineReducers({
     localize: localizeReducer,
@@ -17,5 +18,6 @@ export default (history) => combineReducers({
     transactions,
     sign,
     recoveryMethods,
+    ledger,
     router: connectRouter(history)
 })

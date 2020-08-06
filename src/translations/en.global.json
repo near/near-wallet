@@ -632,8 +632,28 @@
     "signInLedger": {
         "header": "Sign in with your Ledger device",
         "one": "Make sure your ledger is connected securely, and that the NEAR app is open on the device.",
-        "success": "You’ve successfully signed in.<br/><b>${numberOfAccounts} account(s)</b> have been successfully recovered: <b>${accountList}</b>.<br/>The last one is set as active.",
-        "error": "Please check that your device is connected and the NEAR app is open."
+        "getLedgerAccountIds": {
+            "success": "",
+            "error": "Public key access was rejected. No accounts were recovered.<br/>To continue, you must allow NEAR Wallet to view your public key. Please try again."
+        },
+        "addLedgerAccountId": {
+            "success": "",
+            "error": "Access to one of the accounts was rejected. No accounts were recovered.<br>To continue, you must authorize read-only access to each account on your Ledger device. Please try again."
+        },
+        "saveAndSelectLedgerAccounts": {
+            "success": "You’ve successfully signed in.<br/><b>${numberOfAccounts} account(s) were recovered.</b> Your most recently created account has been set to active.",
+            "error": "Please check that your device is connected and the NEAR app is open."
+        },
+        "modal": {
+            "confirmPublicKey": "Confirm public key",
+            "ledgerMustAdd": "Ledger must add an access key for each account protected by your device:",
+            "accountsApproved": "account(s) approved",
+            "status": {
+                "success": "Approved",
+                "pending": "Pending",
+                "waiting": "Up next"
+            }
+        }
     },
 
     "confirmLedgerModal": {

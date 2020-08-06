@@ -120,6 +120,16 @@ export const allowLogin = () => async (dispatch, getState) => {
     }
 }
 
+export const signInWithLedger = () => async (dispatch, getState) => {
+    await dispatch(getLedgerAccountIds())
+    
+    const accountIds = Object.keys(getState().ledger.signInWithLedger)
+    for (let i = 0; i < accountIds.length; i++) {
+        await dispatch(addLedgerAccountId(accountIds[i]))
+    }
+
+    return dispatch(saveAndSelectLedgerAccounts(getState().ledger.signInWithLedger))
+}
 
 const defaultCodesFor = (prefix, data) => ({ successCode: `${prefix}.success`, errorCode: `${prefix}.error`, data})
 
@@ -211,13 +221,20 @@ export const { initializeRecoveryMethod, validateSecurityCode, initTwoFactor, re
     CLEAR_CODE: null
 })
 
-export const { getAccessKeys, removeAccessKey, addLedgerAccessKey, signInWithLedger, removeNonLedgerAccessKeys, disableLedger } = createActions({
+export const { getAccessKeys, removeAccessKey, addLedgerAccessKey, removeNonLedgerAccessKeys, getLedgerAccountIds, addLedgerAccountId, saveAndSelectLedgerAccounts } = createActions({
     GET_ACCESS_KEYS: [wallet.getAccessKeys.bind(wallet), () => ({})],
     REMOVE_ACCESS_KEY: [wallet.removeAccessKey.bind(wallet), () => ({})],
     ADD_LEDGER_ACCESS_KEY: [wallet.addLedgerAccessKey.bind(wallet), () => defaultCodesFor('errors.ledger')],
-    SIGN_IN_WITH_LEDGER: [wallet.signInWithLedger.bind(wallet), () => defaultCodesFor('signInLedger')],
     REMOVE_NON_LEDGER_ACCESS_KEYS: [wallet.removeNonLedgerAccessKeys.bind(wallet), () => ({})],
-    DISABLE_LEDGER: [wallet.disableLedger.bind(wallet), () => defaultCodesFor('errors.ledger')]
+    GET_LEDGER_ACCOUNT_IDS: [wallet.getLedgerAccountIds.bind(wallet), () => defaultCodesFor('signInLedger.getLedgerAccountIds')],
+    ADD_LEDGER_ACCOUNT_ID: [
+        wallet.addLedgerAccountId.bind(wallet),
+        (accountId) => ({
+            accountId,
+            ...defaultCodesFor('signInLedger.addLedgerAccountId')
+        })
+    ],
+    SAVE_AND_SELECT_LEDGER_ACCOUNTS: [wallet.saveAndSelectLedgerAccounts.bind(wallet), () => defaultCodesFor('signInLedger.saveAndSelectLedgerAccounts')]
 })
 
 export const { addAccessKey, addAccessKeySeedPhrase, clearAlert } = createActions({

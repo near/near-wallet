@@ -341,10 +341,14 @@ class Wallet {
     }
 
     async saveAccount(accountId, keyPair) {
+        await this.setKey(accountId, keyPair)
+        this.accounts[accountId] = true
+    }
+
+    async setKey(accountId, keyPair) {
         if (keyPair) {
             await this.keyStore.setKey(NETWORK_ID, accountId, keyPair)
         }
-        this.accounts[accountId] = true
     }
 
 
@@ -406,14 +410,15 @@ class Wallet {
         return null
     }
 
-    async signInWithLedger() {
+    async getLedgerAccountIds() {
         const publicKey = await this.getLedgerPublicKey()
         await setKeyMeta(publicKey, { type: 'ledger' })
-        const accountIds = (
+
+        return (
             (await Promise.all(
                 (await getAccountIds(publicKey.toString()))
                     .map(async (accountId) => 
-                        await this.getAccount(accountId).findAccessKey()
+                        await this.signer.getPublicKey(accountId, NETWORK_ID)
                             ? accountId
                             : null
                     )
@@ -421,23 +426,30 @@ class Wallet {
             )
             .filter(accountId => accountId)
         )
+    }
+
+    async addLedgerAccountId(accountId) {
+        const accessKeys =  await this.getAccessKeys(accountId)
+        const localAccessKey = await this.getLocalAccessKey(accountId, accessKeys)
+
+        const newKeyPair = await this.addWalletMetadataAccessKeyIfNeeded(accountId, localAccessKey)
+        await this.setKey(accountId, newKeyPair)
+    }
+
+    async saveAndSelectLedgerAccounts(accounts) {
+        const accountIds = Object.keys(accounts)
 
         for (let i = 0; i < accountIds.length; i++) {
             const accountId = accountIds[i]
-            const accessKeys =  await this.getAccessKeys(accountId)
-            const localAccessKey = await this.getLocalAccessKey(accountId, accessKeys)
-            let newKeyPair = await this.addWalletMetadataAccessKeyIfNeeded(accountId, localAccessKey)
-
             if (i === accountIds.length - 1) {
-                await this.saveAndSelectAccount(accountId, newKeyPair)
+                await this.saveAndSelectAccount(accountId)
             } else {
-                await this.saveAccount(accountId, newKeyPair)
+                await this.saveAccount(accountId)
             }
         }
 
         return {
-            numberOfAccounts: accountIds.length,
-            accountList: accountIds.flatMap((accountId) => accountId).join(', ')
+            numberOfAccounts: accountIds.length
         }
     }
 
