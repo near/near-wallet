@@ -91,10 +91,6 @@ const HardwareDevices = () => {
     const publicKeys = keys.map(key => key.public_key)
     const hasOtherMethods = publicKeys.some(key => recoveryKeys.includes(key))
 
-    useEffect(() => { 
-        dispatch(getAccessKeys())
-    }, []);
-
     const handleConfirmDisable = async () => {
         setDisabling(true);
         // TODO: Should move to explicit action to disable Ledger
