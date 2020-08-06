@@ -139,13 +139,8 @@ class Wallet {
     }
     
     async sendMoney(receiverId, amount) {
-        const { accountId } = this
-        const { account, has2fa } = await this.getAccountAndState(accountId)
-        if (has2fa) {
-            await this.twoFactor.sendMoney(account, receiverId, amount)
-        } else {
-            await account.sendMoney(receiverId, amount)
-        }
+        const account = this.getAccount(this.accountId)
+        await account.sendMoney(receiverId, amount)
     }
     
     isEmpty() {
@@ -213,12 +208,7 @@ class Wallet {
     }
 
     async removeAccessKey(publicKey) {
-        const { account, has2fa } = await this.getAccountAndState(this.accountId)
-        if (has2fa) {
-            return await this.twoFactor.removeKey(account, publicKey)
-        } else {
-            return await this.getAccount(this.accountId).deleteKey(publicKey)
-        }
+        return await this.getAccount(this.accountId).deleteKey(publicKey)
     }
 
     async removeNonLedgerAccessKeys() {
@@ -356,27 +346,22 @@ class Wallet {
     recovering a second account attempts to call this method with the currently logged in account and not the tempKeyStore 
     ********************************/
     async addAccessKey(accountId, contractId, publicKey, fullAccess = false) {
-        const { account, has2fa } = await this.getAccountAndState(accountId)
-        if (has2fa) {
-            return await this.twoFactor.addKey(account, publicKey, contractId, fullAccess)
-        } else {
-            try {
-                if (fullAccess) {
-                    return await this.getAccount(accountId).addKey(publicKey)
-                } else {
-                    return await this.getAccount(accountId).addKey(
-                        publicKey,
-                        contractId,
-                        '', // methodName
-                        ACCESS_KEY_FUNDING_AMOUNT
-                    )
-                }
-            } catch (e) {
-                if (e.type === 'AddKeyAlreadyExists') {
-                    return true;
-                }
-                throw e;
+        try {
+            if (fullAccess) {
+                return await this.getAccount(accountId).addKey(publicKey)
+            } else {
+                return await this.getAccount(accountId).addKey(
+                    publicKey,
+                    contractId,
+                    '', // methodName
+                    ACCESS_KEY_FUNDING_AMOUNT
+                )
             }
+        } catch (e) {
+            if (e.type === 'AddKeyAlreadyExists') {
+                return true;
+            }
+            throw e;
         }
     }
 
@@ -477,7 +462,7 @@ class Wallet {
     }
 
     getAccount(accountId) {
-        return new nearApiJs.Account(this.connection, accountId)
+        return this.twoFactor.getAccount(this.connection, accountId);
     }
 
     async getAccountAndState(accountId) {
@@ -596,6 +581,7 @@ class Wallet {
         const { account, has2fa } = await this.getAccountAndState(accountId)
         const accountKeys = await account.getAccessKeys();
         if (has2fa) {
+            // TODO: How does this work directly without twoFactor?
             await this.addAccessKey(account.accountId, account.accountId, convertPKForContract(publicKey))
         } else {
             if (!accountKeys.some(it => it.public_key.endsWith(publicKey))) {
@@ -617,6 +603,7 @@ class Wallet {
         if (has2fa) {
             await this.twoFactor.rotateKeys(account, publicKey, method.publicKey)
         } else {
+            // TODO: Should rotate keys in one transaction?
             await account.addKey(publicKey)
             await this.removeAccessKey(method.publicKey)
         }
@@ -702,6 +689,7 @@ class Wallet {
 
     async signAndSendTransactions(transactions, accountId) {
         const { account, has2fa } = await this.getAccountAndState(accountId)
+        // TODO
         if (has2fa) {
             await this.twoFactor.signAndSendTransactions(account, transactions)
             return

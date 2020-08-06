@@ -4,15 +4,39 @@ import { WalletError } from './walletError'
 import { promptTwoFactor } from '../actions/account'
 import { ACCESS_KEY_FUNDING_AMOUNT, convertPKForContract, toPK } from './wallet'
 
-const { transactions: {
-    deleteKey, addKey, functionCall, functionCallAccessKey, deployContract
-}} = nearApiJs
+const {
+    transactions: { deleteKey, addKey, functionCall, functionCallAccessKey, deployContract },
+    Account
+} = nearApiJs
+
 export const METHOD_NAMES_LAK = ['add_request', 'add_request_and_confirm', 'delete_request', 'confirm']
 const VIEW_METHODS = ['get_request_nonce', 'list_request_ids']
 const METHOD_NAMES_CONFIRM = ['confirm']
 const LAK_ALLOWANCE = process.env.LAK_ALLOWANCE || '10000000000000'
 const actionTypes = {
     'functionCall': 'FunctionCall'
+}
+// TODO: Parse it from env variable, cannot just pass array
+const MULTISIG_CONTRACT_HASHES = process.env.MULTISIG_CONTRACT_HASHES || ['7GQStUCd8bmCK43bzD8PRh7sD2uyyeMJU5h8Rj3kXXJk'];
+
+
+class TwoFactorAccount extends Account {
+    constructor(connection, accountId, twoFactor) {
+        super(connection, accountId);
+        this.twoFactor = twoFactor;
+    }
+
+    async signAndSendTransaction(receiverId, actions) {
+        const state = await this.state()
+        const has2fa = MULTISIG_CONTRACT_HASHES.includes(state.code_hash)
+
+        if (has2fa) {
+            return this.twoFactor.signAndSendTransactions(this, [{ receiverId, actions }]);
+            // TODO: Should this wait for smth else as well (like request confirmed?)
+        }
+
+        return super.signAndSendTransaction(receiverId, actions);
+    }
 }
 
 export class TwoFactor {
@@ -25,6 +49,10 @@ export class TwoFactor {
         if (has2fa) {
             return (await this.wallet.getRecoveryMethods(account)).data.filter((m) => m.kind.indexOf('2fa-') > -1).map(({ kind, detail, createdAt }) => ({ kind, detail, createdAt }))[0]
         }
+    }
+
+    getAccount(connection, accountId) {
+        return new TwoFactorAccount(connection, accountId, this);
     }
 
     async initTwoFactor(accountId, method) {
@@ -86,7 +114,7 @@ export class TwoFactor {
     async request(account, request) {
         if (this.wallet.tempTwoFactorAccount) account = this.wallet.tempTwoFactorAccount
         const { accountId } = account
-        const contract = getContract(account, accountId)
+        const contract = getContract(account)
         await deleteUnconfirmedRequests(contract)
         const request_id = await contract.get_request_nonce()
         await contract.add_request_and_confirm({ request })
@@ -135,18 +163,26 @@ export class TwoFactor {
     async signAndSendTransactions(account, transactions) {
         for (let { receiverId, actions } of transactions) {
             actions = actions.map((a) => {
+                const lowercaseType = a.enum
+                const { gas, deposit, args, methodName } = a[lowercaseType]
+
+                console.log('a', a);
+                const type = lowercaseType[0].toUpperCase() + lowercaseType.substring(1)
                 const action = {
-                    ...a[a.enum],
-                    type: actionTypes[a.enum],
+                    type,
+                    gas: gas && gas.toString() || undefined,
+                    deposit: deposit && deposit.toString() || undefined,
+                    args: args && Buffer.from(args).toString('base64') || undefined,
+                    method_name: methodName
                 }
-                if (action.gas) action.gas = action.gas.toString()
-                if (action.deposit) action.deposit = action.deposit.toString()
-                
-                if (action.args) action.args = Buffer.from(actions.args).toString('base64')
-                if (action.methodName) {
-                    action.method_name = action.methodName
-                    delete action.methodName
+
+                // TODO: Why rename is needed? Shoud just make contract match near-api-js names?
+                if (action.type === 'Transfer') {
+                    action.amount = action.deposit
+                    delete action.deposit
                 }
+
+                console.log('action', action)
                 return action
             })
             await this.request(account, { receiver_id: receiverId, actions })
@@ -181,7 +217,7 @@ export class TwoFactor {
         const accountData = await this.wallet.loadAccount()
         const contractBytes = new Uint8Array(await (await fetch('/multisig.wasm')).arrayBuffer())
         const { accountId } = accountData
-        const account = this.wallet.getAccount(accountId)
+        const account = new Account(this.wallet.connection, this.wallet.accountId)
         const accountKeys = await account.getAccessKeys();
         const recoveryMethods = await this.wallet.getRecoveryMethods()
         const recoveryKeysED = recoveryMethods.data.map((rm) => rm.publicKey)
@@ -203,7 +239,10 @@ export class TwoFactor {
 }
 
 
-const getContract = (account, accountId) => {
+const getContract = (account) => {
+    // NOTE: Need to avoid using non-raw Account
+    // TODO: Avoid creating new instance each time? Or use per-connection nonce cache in near-api-js?
+    account = new Account(account.connection, account.accountId)
     return new nearApiJs.Contract(account, account.accountId, {
         viewMethods: VIEW_METHODS,
         changeMethods: METHOD_NAMES_LAK,
