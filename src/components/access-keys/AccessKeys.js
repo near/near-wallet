@@ -102,10 +102,6 @@ class AccessKeys extends Component {
         this.props.getAccessKeys()
     }
 
-    componentDidMount() {
-        this.refreshAccessKeys()
-    }
-
     render() {
         const {
             filterTypes,
