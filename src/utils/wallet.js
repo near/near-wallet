@@ -12,6 +12,7 @@ import { setAccountConfirmed, getAccountConfirmed, removeAccountConfirmed} from 
 import BN from 'bn.js'
 
 import { TwoFactor, METHOD_NAMES_LAK } from './twoFactor'
+import { Staking } from './staking'
 
 export const WALLET_CREATE_NEW_ACCOUNT_URL = 'create'
 export const WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS = ['create', 'set-recovery', 'setup-seed-phrase', 'recover-account', 'recover-seed-phrase', 'sign-in-ledger']
@@ -102,6 +103,7 @@ class Wallet {
         this.accountId = localStorage.getItem(KEY_ACTIVE_ACCOUNT_ID) || ''
 
         this.twoFactor = new TwoFactor(this)
+        this.staking = new Staking(this)
     }
 
     async getLocalAccessKey(accountId, accessKeys) {
