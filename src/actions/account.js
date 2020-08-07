@@ -1,12 +1,10 @@
-
+import sendJson from 'fetch-send-json'
 import { parse, stringify } from 'query-string'
 import { createActions, createAction } from 'redux-actions'
-import { wallet } from '../utils/wallet'
+import { ACCOUNT_HELPER_URL, wallet } from '../utils/wallet'
 import { push } from 'connected-react-router'
 import { loadState, saveState, clearState } from '../utils/sessionStorage'
-import {
-    WALLET_CREATE_NEW_ACCOUNT_URL, WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS, WALLET_LOGIN_URL, WALLET_SIGN_URL,
-} from '../utils/wallet'
+import { WALLET_CREATE_NEW_ACCOUNT_URL, WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS, WALLET_LOGIN_URL, WALLET_SIGN_URL } from '../utils/wallet'
 
 export const loadRecoveryMethods = createAction('LOAD_RECOVERY_METHODS',
     wallet.getRecoveryMethods.bind(wallet),
@@ -25,11 +23,9 @@ export const handleRedirectUrl = (previousLocation) => (dispatch, getState) => {
     }
 }
 
-
 export const handleClearUrl = () => (dispatch, getState) => {
     const { pathname } = getState().router.location
     if (![...WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS, WALLET_LOGIN_URL, WALLET_SIGN_URL].includes(pathname.split('/')[1])) {
-
         clearState()
         dispatch(refreshUrl({}))
     }
@@ -99,11 +95,10 @@ export const redirectToApp = (fallback) => (dispatch, getState) => {
     }))
 }
 
-
 export const allowLogin = () => async (dispatch, getState) => {
     const { account } = getState()
     const { url } = account
-    await dispatch(addAccessKey(account.accountId, url.contract_id, url.public_key))
+    await dispatch(addAccessKey(account.accountId, url.contract_id, url.public_key, url.success_url, url.title))
 
     const { success_url, public_key } = url
     if (success_url) {
@@ -133,7 +128,7 @@ export const signInWithLedger = () => async (dispatch, getState) => {
 
 const defaultCodesFor = (prefix, data) => ({ successCode: `${prefix}.success`, errorCode: `${prefix}.error`, data})
 
-export const { initializeRecoveryMethod, validateSecurityCode, initTwoFactor, reInitTwoFactor, sendTwoFactor, resendTwoFactor, verifyTwoFactor, promptTwoFactor, deployMultisig, get2faMethod, getLedgerKey, setupRecoveryMessage, deleteRecoveryMethod, sendNewRecoveryLink, checkNewAccount, createNewAccount, checkAccountAvailable, getTransactions, getTransactionStatus, clear, clearCode } = createActions({
+export const { initializeRecoveryMethod, validateSecurityCode, setupRecoveryMessage, deleteRecoveryMethod, sendNewRecoveryLink, checkNewAccount, createNewAccount, checkAccountAvailable, getTransactions, getTransactionStatus, clear, clearCode } = createActions({
     INITIALIZE_RECOVERY_METHOD: [
         wallet.initializeRecoveryMethod.bind(wallet),
         () => defaultCodesFor('account.initializeRecoveryMethod')
@@ -141,57 +136,6 @@ export const { initializeRecoveryMethod, validateSecurityCode, initTwoFactor, re
     VALIDATE_SECURITY_CODE: [
         wallet.validateSecurityCode.bind(wallet),
         () => defaultCodesFor('account.validateSecurityCode')
-    ],
-    INIT_TWO_FACTOR: [
-        wallet.twoFactor.initTwoFactor.bind(wallet.twoFactor),
-        () => defaultCodesFor('account.initTwoFactor')
-    ],
-    REINIT_TWO_FACTOR: [
-        wallet.twoFactor.reInitTwoFactor.bind(wallet.twoFactor),
-        () => defaultCodesFor('account.reInitTwoFactor')
-    ],
-    SEND_TWO_FACTOR: [
-        wallet.twoFactor.sendRequest.bind(wallet.twoFactor),
-        () => defaultCodesFor('account.sendTwoFactor')
-    ],
-    RESEND_TWO_FACTOR: [
-        wallet.twoFactor.resend.bind(wallet.twoFactor),
-        () => defaultCodesFor('account.resendTwoFactor')
-    ],
-    VERIFY_TWO_FACTOR: [
-        wallet.twoFactor.verifyTwoFactor.bind(wallet.twoFactor),
-        () => defaultCodesFor('account.verifyTwoFactor')
-    ],
-    PROMPT_TWO_FACTOR: [
-        (requestPending) => {
-            let promise
-            if (requestPending !== null) {
-                promise = new Promise((resolve, reject) => {
-                    requestPending = (verified) => {
-                        resolve(verified)
-                        // if the user was recovering, they should start over
-                        wallet.tempTwoFactorAccount = null
-                        if (!verified) {
-                            reject('user closed or unverified code')
-                        }
-                    }
-                })
-            }
-            return ({ requestPending, promise })
-        },
-        () => defaultCodesFor('account.promptTwoFactor')
-    ],
-    DEPLOY_MULTISIG: [
-        wallet.twoFactor.deployMultisig.bind(wallet.twoFactor),
-        () => defaultCodesFor('account.deployMultisig')
-    ],
-    GET_2FA_METHOD: [
-        wallet.twoFactor.get2faMethod.bind(wallet.twoFactor),
-        () => defaultCodesFor('account.get2faMethod')
-    ],
-    GET_LEDGER_KEY: [
-        wallet.getLedgerKey.bind(wallet),
-        () => defaultCodesFor('account.LedgerKey')
     ],
     SETUP_RECOVERY_MESSAGE: [
         wallet.setupRecoveryMessage.bind(wallet),
@@ -243,17 +187,17 @@ export const { addAccessKey, addAccessKeySeedPhrase, clearAlert } = createAction
         (accountId, contractId, publicKey, successUrl, title) => defaultCodesFor('account.login', {title})
     ],
     ADD_ACCESS_KEY_SEED_PHRASE: [
-        async (accountId, contractName, publicKey, isNew, fundingContract, fundingKey) => {
-            if (isNew) {
-                await wallet.createNewAccount(accountId, fundingContract, fundingKey)
-            }
-            const fullAccess = true;
-            const res = await wallet.addAccessKey(accountId, contractName, publicKey, fullAccess)
-            wallet.postSignedJson('/account/seedPhraseAdded', {
-                accountId,
-                publicKey,
-            })
-            return res
+        async (accountId, contractName, publicKey) => {
+            const [walletReturnData] = await Promise.all([
+                wallet.addAccessKey(accountId, contractName, publicKey),
+                sendJson('POST', `${ACCOUNT_HELPER_URL}/account/seedPhraseAdded`, {
+                    accountId,
+                    publicKey,
+                    ...(await wallet.signatureFor(accountId))
+                })
+            ]);
+
+            return walletReturnData;
         },
         () => defaultCodesFor('account.setupSeedPhrase')
     ],
@@ -267,14 +211,10 @@ export const { recoverAccountSeedPhrase } = createActions({
     ],
 })
 
-export const { signAndSendTransactions, sendMoney } = createActions({
+export const { signAndSendTransactions } = createActions({
     SIGN_AND_SEND_TRANSACTIONS: [
         wallet.signAndSendTransactions.bind(wallet),
         () => defaultCodesFor('account.signAndSendTransactions')
-    ],
-    SEND_MONEY: [
-        wallet.sendMoney.bind(wallet),
-        () => defaultCodesFor('account.sendMoney')
     ]
 })
 
