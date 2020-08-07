@@ -13,6 +13,7 @@ export function useAccount(accountId) {
             ? state.account
             : state.allAccounts[accountId] || initialAccountState
     )
+
     const dispatch = useDispatch()
 
     useEffect(() => {

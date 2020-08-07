@@ -13,16 +13,17 @@ import translations_zh_hant from '../translations/zh-hant.global.json'
 import ScrollToTop from '../utils/ScrollToTop'
 import GlobalAlert from './responsive/GlobalAlert'
 import '../index.css'
-
 import Navigation from './navigation/Navigation'
 import Footer from './common/Footer'
 import NetworkBanner from './common/NetworkBanner'
+import TwoFactorVerifyModal from '../components/accounts/two_factor/TwoFactorVerifyModal'
 import PrivateRoute from './common/PrivateRoute'
 import DashboardDetailWithRouter from './dashboard/DashboardDetail'
 import { CreateAccountWithRouter } from './accounts/CreateAccount'
 import { SetupRecoveryMethodWithRouter } from './accounts/recovery_setup/SetupRecoveryMethod'
 import { SetupLedgerWithRouter } from './accounts/ledger/SetupLedger'
 import { SetupLedgerSuccessWithRouter } from './accounts/ledger/SetupLedgerSuccess'
+import { EnableTwoFactor } from './accounts/two_factor/EnableTwoFactor'
 import { RecoverAccountWithRouter } from './accounts/RecoverAccount'
 import { RecoverAccountSeedPhraseWithRouter } from './accounts/RecoverAccountSeedPhrase'
 import { RecoverWithLinkWithRouter } from './accounts/RecoverWithLink'
@@ -41,9 +42,8 @@ import { NodeStakingWithRouter } from './node-staking/NodeStaking'
 import { AddNodeWithRouter } from './node-staking/AddNode'
 import { NodeDetailsWithRouter } from './node-staking/NodeDetails'
 import { StakingWithRouter } from './node-staking/Staking'
-import { IS_MAINNET, DISABLE_SEND_MONEY } from '../utils/wallet'
-import { refreshAccount, handleRefreshUrl, clearAlert, clear, handleRedirectUrl, handleClearUrl } from '../actions/account'
-
+import { IS_MAINNET, DISABLE_SEND_MONEY, WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS } from '../utils/wallet'
+import { refreshAccount, handleRefreshUrl, clearAlert, clear, handleRedirectUrl, handleClearUrl, promptTwoFactor } from '../actions/account'
 import GlobalStyle from './GlobalStyle'
 import { SetupSeedPhraseWithRouter } from './accounts/SetupSeedPhrase'
 const theme = {}
@@ -105,16 +105,22 @@ class Routing extends Component {
         // this.addTranslationsForActiveLanguage(defaultLanguage)
     }
 
-    componentDidMount = () => {
-        const { refreshAccount, handleRefreshUrl, history, clearAlert, clear, handleRedirectUrl, handleClearUrl } = this.props
+    componentDidMount = async () => {
+        const { 
+            refreshAccount, handleRefreshUrl,
+            history, clearAlert,
+            clear, handleRedirectUrl, handleClearUrl
+        } = this.props
         
         handleRefreshUrl()
         refreshAccount()
-
-        history.listen(() => {
+        
+        history.listen(async () => {
             handleRedirectUrl(this.props.router.location)
             handleClearUrl()
-            refreshAccount()
+            if (!WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS.find((path) => this.props.router.location.pathname.indexOf(path) > -1)) {
+                await refreshAccount()
+            }
 
             const { state: { globalAlertPreventClear } = {} } = history.location
             if (!globalAlertPreventClear && !this.props.account.globalAlertPreventClear) {
@@ -151,12 +157,24 @@ class Routing extends Component {
         return (
             <Container className='App' showBanner={(IS_MAINNET && !this.props.account.accountId) || !IS_MAINNET}>
                 <GlobalStyle />
-                <ConnectedRouter basename={PATH_PREFIX}  history={this.props.history}>
+                <ConnectedRouter basename={PATH_PREFIX} history={this.props.history}>
                     <ThemeProvider theme={theme}>
                         <ScrollToTop/>
                         <NetworkBanner accountId={this.props.account.accountId}/>
                         <Navigation/>
                         <GlobalAlert/>
+                        { 
+                            this.props.account.requestPending !== null &&
+                            <TwoFactorVerifyModal
+                                onClose={(verified) => {
+                                    const { account, promptTwoFactor } = this.props
+                                    // requestPending will resolve (verified == true) or reject the Promise being awaited in the method that dispatched promptTwoFactor
+                                    account.requestPending(verified)
+                                    // clears requestPending and closes the modal
+                                    promptTwoFactor(null)
+                                }}
+                            />
+                        }
                         {this.props.account.loader === false && (
                             <Switch>
                                 <Redirect from="//*" to={{
@@ -173,14 +191,19 @@ class Routing extends Component {
                                     path='/create/:fundingContract?/:fundingKey?'
                                     component={CreateAccountWithRouter}
                                 />
-                                <PrivateRoute
+                                <Route
                                     exact
-                                    path='/set-recovery/:accountId'
+                                    path='/set-recovery/:accountId/:isNew?/:fundingContract?/:fundingKey?'
                                     component={SetupRecoveryMethodWithRouter}
                                 />
-                                <PrivateRoute
+                                <Route
                                     exact
-                                    path='/setup-ledger'
+                                    path='/setup-seed-phrase/:accountId/:phrase/:isNew?/:fundingContract?/:fundingKey?'
+                                    component={SetupSeedPhraseWithRouter}
+                                />
+                                <Route
+                                    exact
+                                    path='/setup-ledger/:accountId/:isNew?/:fundingContract?/:fundingKey?'
                                     component={SetupLedgerWithRouter}
                                 />
                                 <PrivateRoute
@@ -190,18 +213,13 @@ class Routing extends Component {
                                 />
                                 <PrivateRoute
                                     exact
-                                    path='/setup-seed-phrase/:accountId/:verify?'
-                                    component={SetupSeedPhraseWithRouter}
+                                    path='/enable-two-factor'
+                                    component={EnableTwoFactor}
                                 />
                                 <Route
                                     exact
                                     path='/recover-account'
                                     component={RecoverAccountWithRouter}
-                                />
-                                <Route
-                                    exact
-                                    path='/recover-seed-phrase/:seedPhrase?'
-                                    component={RecoverAccountSeedPhraseWithRouter}
                                 />
                                 <Route
                                     exact
@@ -307,7 +325,8 @@ const mapDispatchToProps = {
     clearAlert,
     clear,
     handleRedirectUrl,
-    handleClearUrl
+    handleClearUrl,
+    promptTwoFactor
 }
 
 const mapStateToProps = ({ account, router }) => ({
