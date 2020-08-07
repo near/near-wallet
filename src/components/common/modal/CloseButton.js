@@ -14,6 +14,7 @@ const Container = styled.button`
     min-height: 35px;
     max-height: 35px;
     background-color: transparent;
+    margin-top: 0 !important;
 
     &.mobile {
         @media (min-width: 650px) {
