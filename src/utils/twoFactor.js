@@ -168,7 +168,7 @@ export class TwoFactor {
         } catch (e) {
             throw(e)
         }
-        if (requestId !== -1) {
+        if (requestId !== -1 && !store.getState().account.requestPending) {
             const result = await store.dispatch(promptTwoFactor(true)).payload.promise
             if (!result) {
                 throw new WalletError('Request was cancelled.', 'errors.twoFactor.userCancelled')
