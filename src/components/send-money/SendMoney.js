@@ -3,7 +3,9 @@ import { connect } from 'react-redux'
 
 import { withRouter } from 'react-router-dom'
 
-import { refreshAccount, checkAccountAvailable, clear, setFormLoader, sendMoney, clearAlert } from '../../actions/account'
+import { wallet } from '../../utils/wallet'
+
+import { refreshAccount, checkAccountAvailable, clear, setFormLoader } from '../../actions/account'
 
 import SendMoneyFirstStep from './SendMoneyFirstStep'
 import SendMoneySecondStep from './SendMoneySecondStep'
@@ -79,14 +81,13 @@ class SendMoney extends Component {
                 loader: true
             }))
 
-            this.props.sendMoney(accountId, amount)
+            wallet.sendMoney(accountId, amount)
                 .then(() => {
                     this.props.refreshAccount()
 
                     this.setState(state => ({
                         step: state.step + 1
                     }))
-                    this.props.clearAlert()
                 })
                 .catch(console.error)
                 .finally(() => {
@@ -170,9 +171,7 @@ const mapDispatchToProps = {
     refreshAccount,
     checkAccountAvailable,
     clear,
-    setFormLoader,
-    sendMoney,
-    clearAlert
+    setFormLoader
 }
 
 const mapStateToProps = ({ account }) => ({
