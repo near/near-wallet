@@ -13,9 +13,6 @@ export const METHOD_NAMES_LAK = ['add_request', 'add_request_and_confirm', 'dele
 const VIEW_METHODS = ['get_request_nonce', 'list_request_ids']
 const METHOD_NAMES_CONFIRM = ['confirm']
 const LAK_ALLOWANCE = process.env.LAK_ALLOWANCE || '10000000000000'
-const actionTypes = {
-    'functionCall': 'FunctionCall'
-}
 // TODO: Parse it from env variable, cannot just pass array
 const MULTISIG_CONTRACT_HASHES = process.env.MULTISIG_CONTRACT_HASHES || ['7GQStUCd8bmCK43bzD8PRh7sD2uyyeMJU5h8Rj3kXXJk'];
 
@@ -103,14 +100,6 @@ export class TwoFactor {
         });
     }
 
-    async sendMoney(account, receiver_id, amount) {
-        const request = {
-            receiver_id,
-            actions: [{ type: 'Transfer', amount }]
-        }
-        return await this.request(account, request)
-    }
-
     async request(account, request) {
         if (this.wallet.tempTwoFactorAccount) account = this.wallet.tempTwoFactorAccount
         const { accountId } = account
@@ -124,28 +113,6 @@ export class TwoFactor {
             const method = await this.get2faMethod()
             return await this.sendRequest(accountId, method, request_id, data)
         }
-    }
-
-    async addKey(account, publicKey, contractId, fullAccess = false) {
-        const {accountId} = account
-        const accessKeys = await this.wallet.getAccessKeys(accountId)
-        if (accessKeys.find((ak) => ak.public_key.toString() === publicKey)) {
-            // TODO check access key receiver_id matches contractId desired
-            return true
-        }
-        const request = {
-            receiver_id: account.accountId,
-            actions: [addKeyAction(account, publicKey, contractId, fullAccess)]
-        }
-        return await this.request(account, request)
-    }
-
-    async removeKey(account, publicKey) {
-        const request = {
-            receiver_id: account.accountId,
-            actions: [deleteKeyAction(publicKey)]
-        }
-        return await this.request(account, request)
     }
 
     async rotateKeys(account, addPublicKey, removePublicKey) {
@@ -271,6 +238,8 @@ const setRequest = (data) => {
     localStorage.setItem(`__multisigRequest`, JSON.stringify(data))
 }
 
+
+// TODO: Remove this stuff (instead do part of it when converting actions)
 const addKeyAction = (account, publicKey, contractId, fullAccess = false) => {
     const { accountId } = account
     if (!contractId) contractId = accountId
