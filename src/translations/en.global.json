@@ -258,7 +258,8 @@
             "desc": "Make sure you have your 12 word recovery phrase, then click below to begin the recovery process."
         },
         "actionType": "Recovery",
-        "actionRequired": "This message contains a magic link. Click the link to begin recovery!"
+        "actionRequired": "This message contains a magic link. Click the link to begin recovery!",
+        "cannotResend": "This message was sent when you enabled email/phone recovery. We only send this message once, and cannot resend it."
     },
 
     "createAccount": {
