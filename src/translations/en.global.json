@@ -41,6 +41,10 @@
             "success": "Recovery link successfully sent!",
             "error": "Failed to resend. Please try again."
         },
+        "verifyTwoFactor": {
+            "success": "Two Factor Authentication successfully setup!",
+            "error": "Two Factor Authentication setup failed. Please try again."
+        },
         "login": {
             "success": "${title} is now authorized to use your account.",
             "error": "An error occurred while approving this action. Please try again!",
@@ -169,7 +173,29 @@
             "keep": "No, keep Ledger"
         }
     },
-    
+
+    "twoFactor": {
+        "enable": "Enable Two-Factor Authentication",
+        "subHeader": "Two factor authentication adds an extra layer of security to your account. With 2FA enabled, all transactions must be confirmed using SMS or email.",
+        "select": "Select Authentication Method",
+        "title": "Two-Factor Authentication",
+        "desc": "Protect your account by requiring confirmation via SMS or email when authorizing transactions.",
+        "email": "Email Address",
+        "phone": "Phone Number",
+        "notEnabled": "2FA Not Enabled",
+        "active": "Active",
+        "since": "since",
+        "promptDesc": "We highly recommend that you set up a two-factor authentication method to increase the security of your account and assests",
+        "verify": {
+            "title": "Enter Two-Factor Verification Code",
+            "desc": "A 6-digit verification code has been sent to:",
+            "inputLabel": "Enter your 6-digit verification code",
+            "placeholder": "Verification Code",
+            "didntReceive": "Didn't receive your code?",
+            "resend": "Resend"
+        }
+    },
+
     "fullAccessKeys": {
         "pageTitle": "Full Access Keys",
         "authorizedTo": "AUTHORIZED TO",
@@ -197,7 +223,10 @@
         "signingIn": "Signing In",
         "copyPhrase": "COPY PHRASE",
         "continue": "CONTINUE",
+        "continueSetup": "Continue to Setup",
         "verify": "VERIFY & COMPLETE",
+        "verifyCode": "Verify Code",
+        "verifyCodeEnable": "Verify Code & Enable", 
         "startOver": "Start over",
         "copyUrl": "Copy Url",
         "createAccount": "Create Account",
@@ -216,6 +245,7 @@
         "viewAll": "VIEW ALL",
         "send": "SEND",
         "cancel": "Cancel",
+        "skip": "Skip",
         "deny": "DENY",
         "allow": "ALLOW",
         "addNode": "ADD NODE",
@@ -275,7 +305,8 @@
             "desc": "Make sure you have your 12 word recovery phrase, then click below to begin the recovery process."
         },
         "actionType": "Recovery",
-        "actionRequired": "This message contains a magic link. Click the link to begin recovery!"
+        "actionRequired": "This message contains a magic link. Click the link to begin recovery!",
+        "cannotResend": "This message was sent when you enabled email/phone recovery. We only send this message once, and cannot resend it."
     },
 
     "createAccount": {
@@ -327,14 +358,20 @@
         "phoneDesc": "Enter your phone number below and receive a magic recovery link",
         "phonePlaceholder": "+1 415 797 8554",
         "advancedSecurity": "Advanced Security",
-        "advancedSecurityDesc": "Write down a 12 word recovery phrase and store it securely.",
+        "advancedSecurityDesc": "Secure your account keys with a Ledger device, or recover your account using a 12 word recovery phrase.",
+        "ledgerTitle": "Ledger Nano S",
         "phraseTitle": "Recovery Phrase"
     },
     "setRecoveryConfirm": {
-        "pageTitle": "Verify",
-        "pageText": "We've sent a 6 digit code to",
-        "inputPlaceholder": "Enter 6 digit code",
-        "invalidCode": "Please check your security code.",
+        "title": "Enter Verification Code",
+        "pageText": "We've sent a 6-digit verification code to the ${option} you provided:",
+        "inputHeader": "Enter your 6-digit verification code",
+        "inputPlaceholder": "Verification Code",
+        "invalidCode": "Invalid code",
+        "didNotRecive": "Didn't receive your code?",
+        "resendCode": "Resend your code",
+        "or": "or",
+        "sendToDifferent": "send to a different email address",
         "reenter": {
             "one": {
                 "email": "If you did not yet receive this email, or the above email address is incorrect, ",
@@ -645,8 +682,14 @@
     "errors": {
         "ledger": {
             "U2FNotSupported": "U2F browser support is needed for Ledger. Please use Chrome, Opera or Firefox with a U2F extension. Also make sure you're on an HTTPS connection.",
-            "U2F_4": "Failed to sign with Ledger device: U2F DEVICE_INELIGIBLE. Please make sure that your Ledger device is connected and unlocked.",
-            "modal": "You will need to confirm public key details on your Ledger."
+            "U2F_4": "Failed to sign with Ledger device: U2F DEVICE_INELIGIBLE. Please make sure that your Ledger device is connected and unlocked."
+        },
+        "modal": "You will need to confirm public key details on your Ledger.",
+        "recoveryMethods": {
+            "lastMethod": "Cannot delete your last recovery method. Unless you have Ledger enabled, you need to keep at least one recovery method active to ensure recoverability of your account."
+        },
+        "twoFactor": {
+            "userCancelled": "The action was cancelled."
         }
     },
 

@@ -2,39 +2,37 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Translate } from 'react-localize-redux'
-
-import FormButton from '../../common/FormButton';
-import Container from '../../common/styled/Container.css'
+import FormButton from '../common/FormButton';
+import Container from '../common/styled/Container.css'
 
 const StyledContainer = styled(Container)`
-    .recover-value {
-        background-color: #f8f8f8;
-        padding: 3px 10px;
-        color: #24272a;
-    }
 
-    .re-enter {
-        border-top: 2px solid #f8f8f8;
+    h4 {
         margin-top: 30px;
-        padding-top: 10px;
-        line-height: normal;
     }
-
+    
     input {
         width: 100%;
-        margin-top: 30px !important;
+        margin-top: 8px !important;
     }
 
     button {
         width: 100% !important;
         margin-top: 40px !important;
     }
+
+    p {
+        :last-of-type {
+            margin-top: 30px;
+        }
+    }
 `
 
-const SetRecoveryMethodSuccess = ({
+const EnterVerificationCode = ({
     option,
     onConfirm,
     onGoBack,
+    onResend,
     email,
     phoneNumber,
     loading,
@@ -53,8 +51,9 @@ const SetRecoveryMethodSuccess = ({
     return (
         <StyledContainer className='small-centered'>
             <form onSubmit={e => {onConfirm(code); e.preventDefault();}} autoComplete='off'>
-                <h1><Translate id='setRecoveryConfirm.pageTitle'/> {useEmail ? 'Email' : 'Phone'}</h1>
-                <h2><Translate id='setRecoveryConfirm.pageText'/> {useEmail ? email : phoneNumber}</h2>
+                <h1><Translate id='setRecoveryConfirm.title'/></h1>
+                <h2><Translate id='setRecoveryConfirm.pageText' data={{option}}/> <span>{useEmail ? email : phoneNumber}</span></h2>
+                <h4><Translate id='setRecoveryConfirm.inputHeader'/></h4>
                 <Translate>
                     {({ translate }) => (
                         <>
@@ -65,6 +64,7 @@ const SetRecoveryMethodSuccess = ({
                                 aria-label={translate('setRecoveryConfirm.inputPlaceholder')}
                                 value={code}
                                 onChange={e => setCode(e.target.value)}
+                                autoFocus={true}
                             />
                             {invalidCode && 
                                 <div style={{color: '#ff585d', marginTop: '5px'}}>
@@ -80,19 +80,18 @@ const SetRecoveryMethodSuccess = ({
                     disabled={code.length !== 6 || loading}
                     sending={loading}
                 >
-                    <Translate id='button.confirm' />
+                    <Translate id='button.verifyCodeEnable' />
                 </FormButton>
             </form>
-            <div className='re-enter'>
-                <Translate id={`setRecoveryConfirm.reenter.one.${useEmail ? 'email' : 'phoneNumber'}`} />
-                <span onClick={onGoBack} className='link'><Translate id='setRecoveryConfirm.reenter.link'/></span>
-                <Translate id={`setRecoveryConfirm.reenter.two.${useEmail ? 'email' : 'phoneNumber'}`} />
-            </div>
+            <p>
+                <Translate id='setRecoveryConfirm.didNotRecive'/> <span onClick={onResend} className='link'><Translate id='setRecoveryConfirm.resendCode'/></span>,
+                &nbsp;<Translate id='setRecoveryConfirm.or'/> &nbsp;<span onClick={onGoBack} className='link'><Translate id='setRecoveryConfirm.sendToDifferent'/></span>.
+            </p>
         </StyledContainer>
     )
 }
 
-SetRecoveryMethodSuccess.propTypes = {
+EnterVerificationCode.propTypes = {
     email: PropTypes.string,
     phoneNumber: PropTypes.string,
     option: PropTypes.string.isRequired,
@@ -100,4 +99,4 @@ SetRecoveryMethodSuccess.propTypes = {
     onConfirm: PropTypes.func.isRequired
 }
 
-export default SetRecoveryMethodSuccess;
+export default EnterVerificationCode;
