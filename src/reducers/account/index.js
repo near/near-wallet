@@ -18,7 +18,7 @@ import {
     deleteRecoveryMethod,
     sendNewRecoveryLink,
     recoverAccountSeedPhrase,
-    removeAccessKey
+    removeAccessKey,
     deployMultisig,
     get2faMethod,
     getLedgerKey,
