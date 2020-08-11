@@ -10,6 +10,10 @@ import RecoveryOption from './RecoveryOption';
 import FormButton from '../../common/FormButton';
 import EnterVerificationCode from '../EnterVerificationCode';
 import Container from '../../common/styled/Container.css';
+import { MULTISIG_MIN_AMOUNT } from '../../../utils/wallet';
+import { formatNEAR } from '../../common/Balance';
+import { BN } from 'bn.js';
+import { utils } from 'near-api-js';
 
 const StyledContainer = styled(Container)`
     
@@ -139,15 +143,21 @@ class SetupRecoveryMethod extends Component {
             isNew, fundingContract, fundingKey, refreshAccount
         } = this.props;
 
-        await setupRecoveryMessage(accountId, this.method, securityCode, isNew, fundingContract, fundingKey)
-        await refreshAccount()
+        let account;
 
-        if (fundingContract) {
-            history.push('/enable-two-factor')
-        } else {
-            redirectToApp('/profile');
+        try {
+            await setupRecoveryMessage(accountId, this.method, securityCode, isNew, fundingContract, fundingKey)
+            account = await refreshAccount()
+        } finally {
+            const availableBalance = new BN(account.balance.available)
+            const multisigMinAmount = new BN(utils.format.parseNearAmount(MULTISIG_MIN_AMOUNT))
+
+            if (fundingContract && multisigMinAmount.lt(availableBalance)) {
+                history.push('/enable-two-factor')
+            } else {
+                redirectToApp('/profile');
+            }
         }
-
     }
 
     handleGoBack = () => {
