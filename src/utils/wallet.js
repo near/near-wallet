@@ -708,7 +708,10 @@ class Wallet {
         }
         for (let { receiverId, nonce, blockHash, actions } of transactions) {
             const [, signedTransaction] = await nearApiJs.transactions.signTransaction(receiverId, nonce, actions, blockHash, this.connection.signer, accountId, NETWORK_ID)
-            await this.connection.provider.sendTransaction(signedTransaction)
+            let { status } = await this.connection.provider.sendTransaction(signedTransaction)
+            if (status.Failure !== undefined) {
+                throw new Error('Transaction failure')
+            }
         }
     }
 }
