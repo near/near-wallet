@@ -15,6 +15,7 @@ import {
 import { useRecoveryMethods } from '../../../hooks/recoveryMethods';
 import EnterVerificationCode from '../EnterVerificationCode'
 import Container from '../../common/styled/Container.css'
+import { onKeyDown } from '../../../hooks/eventListeners'
 
 const StyledContainer = styled(Container)`
 
@@ -45,12 +46,18 @@ export function EnableTwoFactor(props) {
     const recoveryMethods = useRecoveryMethods(accountId);
     const loading = account.actionsPending.some(action => ['INIT_TWO_FACTOR', 'VERIFY_TWO_FACTOR', 'DEPLOY_MULTISIG'].includes(action))
 
+    onKeyDown(e => {
+        if (e.keyCode === 13 && isValidInput() && !loading) {
+            handleNext()
+        }
+    });
+
     const method = {
         kind: `2fa-${option}`,
         detail: option === 'email' ? email : phoneNumber
     }
 
-    useEffect(() => { 
+    useEffect(() => {
         const email = recoveryMethods.filter(method => method.kind === 'email')[0];
         const phone = recoveryMethods.filter(method => method.kind === 'phone')[0];
 
@@ -61,7 +68,7 @@ export function EnableTwoFactor(props) {
         if (phone) {
             setPhoneNumber(phone.detail)
         }
-        
+
     }, [recoveryMethods]);
 
     const handleNext = async () => {
@@ -106,7 +113,7 @@ export function EnableTwoFactor(props) {
     if (!initiated) {
         return (
             <StyledContainer className='small-centered'>
-                <form onSubmit={e => {handleNext(); e.preventDefault();}}>
+                <form onSubmit={e => { handleNext(); e.preventDefault(); }}>
                     <h1><Translate id='twoFactor.enable' /></h1>
                     <h2><Translate id='twoFactor.subHeader' /></h2>
                     <h4><Translate id='twoFactor.select' /><span>*</span></h4>
@@ -149,7 +156,7 @@ export function EnableTwoFactor(props) {
                         disabled={!isValidInput() || loading}
                         sending={loading}
                     >
-                        <Translate id={`button.continue`}/>
+                        <Translate id={`button.continue`} />
                     </FormButton>
                 </form>
             </StyledContainer>
