@@ -297,7 +297,7 @@ class Wallet {
         await contract.create_account_and_claim({
             new_account_id: accountId,
             new_public_key: publicKey
-        });
+        }, "100000000000000");
     }
 
     async saveAndSelectAccount(accountId, keyPair) {
