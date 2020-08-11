@@ -110,10 +110,14 @@ class Wallet {
         return localPublicKey && accessKeys.find(({ public_key }) => public_key === localPublicKey.toString())
     }
 
-    async getLedgerKey() {
-        const accessKeys = await this.getAccessKeys(this.accountId)
+    async getLedgerKey(accountId) {
+        // TODO: All callers should specify accountId explicitly
+        accountId = accountId || this.accountId
+        // TODO: Refactor so that every account just stores a flag if it's on Ledger?
+
+        const accessKeys = await this.getAccessKeys(accountId)
         if (accessKeys) {
-            const localKey = await this.getLocalAccessKey(this.accountId, accessKeys)
+            const localKey = await this.getLocalAccessKey(accountId, accessKeys)
             const ledgerKey = accessKeys.find(accessKey => accessKey.meta.type === 'ledger')
             if (ledgerKey && (!localKey || localKey.permission !== 'FullAccess')) {
                 return PublicKey.from(ledgerKey.public_key)
@@ -413,20 +417,19 @@ class Wallet {
 
     async getLedgerAccountIds() {
         const publicKey = await this.getLedgerPublicKey()
+        // TODO: getXXX methods shouldn't be modifying the state
         await setKeyMeta(publicKey, { type: 'ledger' })
 
-        return (
-            (await Promise.all(
-                (await getAccountIds(publicKey.toString()))
-                    .map(async (accountId) => 
-                        await this.signer.getPublicKey(accountId, NETWORK_ID)
-                            ? accountId
-                            : null
-                    )
-                )
+        const accountIds = await getAccountIds(publicKey.toString())
+        return (await Promise.all(
+            accountIds
+                .map(async (accountId) => {
+                    const accountKeys = await this.getAccount(accountId).getAccessKeys();
+                    return accountKeys.find(({ public_key }) => public_key == publicKey.toString()) ? accountId : null
+                })
             )
-            .filter(accountId => accountId)
         )
+        .filter(accountId => accountId)
     }
 
     async addLedgerAccountId(accountId) {
