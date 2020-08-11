@@ -196,11 +196,20 @@ class Wallet {
 
     async loadAccount() {
         if (!this.isEmpty()) {
+            const accessKeys = await this.getAccessKeys() || []
+            const ledgerKey = accessKeys.find(key => key.meta.type === 'ledger')
+            
             return {
                 ...await this.getAccount(this.accountId).state(),
                 balance: await this.getBalance(),
                 accountId: this.accountId,
-                accounts: this.accounts
+                accounts: this.accounts,
+                authorizedApps: accessKeys.filter(it => it.access_key && it.access_key.permission.FunctionCall),
+                fullAccessKeys: accessKeys.filter(it => it.access_key && it.access_key.permission === 'FullAccess'),
+                ledger: {
+                    ledgerKey,
+                    hasLedger: !!ledgerKey
+                }
             }
         }
     }

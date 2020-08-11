@@ -103,7 +103,6 @@ class SetupSeedPhrase extends Component {
     }
 
     render() {
-
         return (
             <Translate>
                 {({ translate }) => (

@@ -6,27 +6,31 @@ const Container = styled.svg`
     &.animate {
         @keyframes pulse {
             0%   {r: 0px;}
-            80%  {r:20.6228px;}
+            16%  {r:20.6228px;}
+            20% {r: 9px; opacity: 0;}
             100% {r: 9px; opacity: 0;}
         }
     
         .circles {
             animation-name: pulse;
-            animation-duration: 1s;
+            animation-duration: 5s;
             animation-fill-mode: forwards;
             animation-delay: 0.5s;
+            animation-iteration-count: infinite;
         }
 
         @keyframes show {
-            from {opacity: 0;}
-            to {opacity: 1;}
+            0% {opacity: 0;}
+            20% {opacity: 1;}
+            100% {opacity: 1;}
         }
 
         .checkmark {
             animation-name: show;
-            animation-duration: 0.2s;
+            animation-duration: 5s;
             animation-fill-mode: forwards;
-            animation-delay: 1s;
+            animation-delay: 0.5s;
+            animation-iteration-count: infinite;
         }
 
     }

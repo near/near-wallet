@@ -3,7 +3,6 @@ import { connect } from 'react-redux'
 import { Translate } from 'react-localize-redux'
 import { withRouter } from 'react-router-dom'
 
-import { getAccessKeys } from '../../actions/account'
 import { getTransactions, getTransactionStatus } from '../../actions/transactions'
 
 import DashboardSection from './DashboardSection'
@@ -27,7 +26,6 @@ class DashboardDetail extends Component {
     }
 
     componentDidMount() {
-        this.refreshAccessKeys()
         this.refreshTransactions()
 
         this.interval = setInterval(() => {
@@ -47,18 +45,6 @@ class DashboardDetail extends Component {
         const { getTransactions, accountId } = this.props
         
         getTransactions(accountId)
-    }
-
-    refreshAccessKeys = () => {
-        this.setState(() => ({
-            loader: true
-        }))
-
-        this.props.getAccessKeys().then(() => {
-            this.setState(() => ({
-                loader: false
-            }))
-        })
     }
 
     handleNotice = () => {
@@ -136,7 +122,6 @@ class DashboardDetail extends Component {
 }
 
 const mapDispatchToProps = {
-    getAccessKeys,
     getTransactions,
     getTransactionStatus
 }

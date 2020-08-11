@@ -87,21 +87,19 @@ class AccessKeys extends Component {
         this.handleConfirmClear()
     }
 
-    handleDeauthorize = () => {
+    handleDeauthorize = async () => {
         const publicKey = this.state.showSubData.public_key
 
-        this.props.removeAccessKey(publicKey).then(() => {
+        try {
+            await this.props.removeAccessKey(publicKey)
+        } finally {
             this.toggleCloseSub()
             this.refreshAccessKeys()
-        })
+        }
     }
 
     refreshAccessKeys = () => {
         this.props.getAccessKeys()
-    }
-
-    componentDidMount() {
-        this.refreshAccessKeys()
     }
 
     render() {
