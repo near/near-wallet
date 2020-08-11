@@ -13,6 +13,10 @@ import { signAndSendTransactions } from '../../actions/account'
 
 class Sign extends Component {
 
+    state = {
+        sending: false,
+    }
+
     handleDeny = e => {
         e.preventDefault();
         // TODO: Dispatch action for app redirect?
@@ -27,8 +31,8 @@ class Sign extends Component {
     }
 
     handleAllow = async () => {
+        this.setState({ sending: true })
         await this.props.signAndSendTransactions(this.props.transactions, this.props.account.accountId)
-        console.log('came back')
         if (this.props.callbackUrl) {
             window.location.href = this.props.callbackUrl;
         }
