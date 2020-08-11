@@ -160,6 +160,7 @@ class SignTransferReady extends Component {
             appTitle,
             actionsCounter,
             account,
+            sending,
             handleAllow,
             handleDeny,
             txTotalAmount,
@@ -221,7 +222,7 @@ class SignTransferReady extends Component {
                         <FormButton
                             onClick={handleAllow}
                             disabled={isMonetaryTransaction && insufficientFunds}
-                            sending={false}
+                            sending={sending}
                         >
                             <Translate id='button.allow' />
                         </FormButton>
