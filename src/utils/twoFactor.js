@@ -4,6 +4,8 @@ import { WalletError } from './walletError'
 import { promptTwoFactor } from '../actions/account'
 import { ACCESS_KEY_FUNDING_AMOUNT, convertPKForContract, toPK } from './wallet'
 
+window.nearApiJs = nearApiJs
+
 const { transactions: {
     deleteKey, addKey, functionCall, functionCallAccessKey, deployContract
 }} = nearApiJs
@@ -140,8 +142,7 @@ export class TwoFactor {
                 }
                 if (action.gas) action.gas = action.gas.toString()
                 if (action.deposit) action.deposit = action.deposit.toString()
-                
-                if (action.args) action.args = Buffer.from(actions.args).toString('base64')
+                if (action.args && Array.isArray(action.args)) action.args = Buffer.from(action.args).toString('base64')
                 if (action.methodName) {
                     action.method_name = action.methodName
                     delete action.methodName

@@ -268,7 +268,11 @@ export const { recoverAccountSeedPhrase } = createActions({
     ],
 })
 
-export const { signAndSendTransactions, sendMoney } = createActions({
+export const { signAndSendTransactions, setSignTransactionStatus, sendMoney } = createActions({
+    SET_SIGN_TRANSACTION_STATUS: [
+        (status) => ({ status }),
+        () => defaultCodesFor('account.setSignTransactionStatus')
+    ],
     SIGN_AND_SEND_TRANSACTIONS: [
         wallet.signAndSendTransactions.bind(wallet),
         () => defaultCodesFor('account.signAndSendTransactions')

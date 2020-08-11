@@ -11,6 +11,8 @@ import { WalletError } from './walletError'
 import { setAccountConfirmed, getAccountConfirmed, removeAccountConfirmed} from './localStorage'
 import BN from 'bn.js'
 
+import { store } from '..'
+import { setSignTransactionStatus } from '../actions/account'
 import { TwoFactor, METHOD_NAMES_LAK } from './twoFactor'
 
 export const WALLET_CREATE_NEW_ACCOUNT_URL = 'create'
@@ -706,6 +708,7 @@ class Wallet {
             await this.twoFactor.signAndSendTransactions(account, transactions)
             return
         }
+        store.dispatch(setSignTransactionStatus('in-progress'))
         for (let { receiverId, nonce, blockHash, actions } of transactions) {
             const [, signedTransaction] = await nearApiJs.transactions.signTransaction(receiverId, nonce, actions, blockHash, this.connection.signer, accountId, NETWORK_ID)
             await this.connection.provider.sendTransaction(signedTransaction)
