@@ -5,7 +5,7 @@ import InstructionsModal from './InstructionsModal';
 import LedgerIcon from '../../svg/LedgerIcon';
 import FormButton from '../../common/FormButton';
 import { Translate } from 'react-localize-redux';
-import { addLedgerAccessKey, createNewAccount, refreshAccount, removeNonLedgerAccessKeys } from '../../../actions/account'
+import { addLedgerAccessKey, createNewAccount, refreshAccount, removeNonLedgerAccessKeys, redirectToApp } from '../../../actions/account'
 import GlobalAlert from '../../responsive/GlobalAlert'
 
 const SetupLedger = (props) => {
@@ -31,7 +31,7 @@ const SetupLedger = (props) => {
 
         if (props.isNew) {
             await props.removeNonLedgerAccessKeys()
-            props.history.push('/profile');
+            props.redirectToApp('/profile')
         } else {
             props.history.push('/setup-ledger-success');
         }
@@ -66,7 +66,8 @@ const mapDispatchToProps = {
     addLedgerAccessKey,
     createNewAccount,
     refreshAccount,
-    removeNonLedgerAccessKeys
+    removeNonLedgerAccessKeys,
+    redirectToApp
 }
 
 const mapStateToProps = ({ account }, { match }) => ({

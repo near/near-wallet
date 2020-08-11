@@ -50,10 +50,15 @@ const Option = styled.div`
     border-radius: 6px;
     padding: 15px;
     margin-bottom: 25px;
+    min-height: 217px;
 
     @media (min-width: 992px) {
         margin: 20px;
-        min-height: 241px !important;
+        min-height: 331px;
+    }
+
+    @media (min-width: 1200px) {
+        min-height: 275px;
     }
 `;
 
@@ -127,11 +132,13 @@ const RecoverAccount = () => {
                     <Header icon={EmailIcon}><Translate id='recoverAccount.email.title'/><br/><Translate id='recoverAccount.actionType'/></Header>
                     <P><Translate id='recoverAccount.email.desc'/> <span><Translate id='recoverAccount.email.subject'/></span></P>
                     <P><Translate id='recoverAccount.actionRequired'/></P>
+                    <P><Translate id='recoverAccount.cannotResend'/></P>
                 </Option>
                 <Option>
                     <Header icon={PhoneIcon}><Translate id='recoverAccount.phone.title'/><br/><Translate id='recoverAccount.actionType'/></Header>
                     <P><Translate id='recoverAccount.phone.desc'/> <span><Translate id='recoverAccount.phone.number'/></span></P>
                     <P><Translate id='recoverAccount.actionRequired'/></P>
+                    <P><Translate id='recoverAccount.cannotResend'/></P>
                 </Option>
                 <Option>
                     <Header icon={PhraseIcon}><Translate id='recoverAccount.phrase.title'/><br/><Translate id='recoverAccount.actionType'/></Header>

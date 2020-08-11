@@ -4,13 +4,15 @@ import { WalletError } from './walletError'
 import { promptTwoFactor } from '../actions/account'
 import { ACCESS_KEY_FUNDING_AMOUNT, convertPKForContract, toPK } from './wallet'
 
+window.nearApiJs = nearApiJs
+
 const { transactions: {
     deleteKey, addKey, functionCall, functionCallAccessKey, deployContract
 }} = nearApiJs
 export const METHOD_NAMES_LAK = ['add_request', 'add_request_and_confirm', 'delete_request', 'confirm']
 const VIEW_METHODS = ['get_request_nonce', 'list_request_ids']
 const METHOD_NAMES_CONFIRM = ['confirm']
-const LAK_ALLOWANCE = process.env.LAK_ALLOWANCE || '10000000000000'
+const LAK_ALLOWANCE = process.env.LAK_ALLOWANCE || '1000000000000000000000'
 const actionTypes = {
     'functionCall': 'FunctionCall'
 }
@@ -18,6 +20,9 @@ const actionTypes = {
 export class TwoFactor {
     constructor(wallet) {
         this.wallet = wallet
+
+        window.wallet = wallet
+        window.nearApiJs = nearApiJs
     }
 
     async get2faMethod() {
@@ -46,11 +51,11 @@ export class TwoFactor {
         if (!accountId) accountId = this.wallet.accountId
         if (!method) method = await this.get2faMethod()
         const requestData = getRequest()
-        let { requestId, data } = requestData
+        let { requestId } = requestData
         if (!requestId && requestId !== 0) {
             requestId = -1
         }
-        return this.sendRequest(accountId, method, requestId, data)
+        return this.sendRequest(accountId, method, requestId)
     }
 
     // requestId is optional, if included the server will try to confirm requestId
@@ -92,9 +97,8 @@ export class TwoFactor {
         await contract.add_request_and_confirm({ request })
         const request_id_after = await contract.get_request_nonce()
         if (request_id_after > request_id) {
-            const data = { request_id, request }
             const method = await this.get2faMethod()
-            return await this.sendRequest(accountId, method, request_id, data)
+            return await this.sendRequest(accountId, method, request_id)
         }
     }
 
@@ -141,8 +145,7 @@ export class TwoFactor {
                 }
                 if (action.gas) action.gas = action.gas.toString()
                 if (action.deposit) action.deposit = action.deposit.toString()
-                
-                if (action.args) action.args = Buffer.from(actions.args).toString('base64')
+                if (action.args && Array.isArray(action.args)) action.args = Buffer.from(action.args).toString('base64')
                 if (action.methodName) {
                     action.method_name = action.methodName
                     delete action.methodName
@@ -153,22 +156,21 @@ export class TwoFactor {
         }
     }
 
-    async sendRequest(accountId, method, requestId = -1, data = {}) {
+    async sendRequest(accountId, method, requestId = -1) {
         if (!accountId) accountId = this.wallet.accountId
         if (!method) method = await this.get2faMethod()
         // add request to local storage
-        setRequest({ accountId, requestId, data })
+        setRequest({ accountId, requestId })
         try {
             await this.wallet.postSignedJson('/2fa/send', {
                 accountId,
                 method,
                 requestId,
-                data
             })
         } catch (e) {
             throw(e)
         }
-        if (requestId !== -1) {
+        if (requestId !== -1 && !store.getState().account.requestPending) {
             const result = await store.dispatch(promptTwoFactor(true)).payload.promise
             if (!result) {
                 throw new WalletError('Request was cancelled.', 'errors.twoFactor.userCancelled')

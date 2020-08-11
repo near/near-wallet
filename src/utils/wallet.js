@@ -11,6 +11,8 @@ import { WalletError } from './walletError'
 import { setAccountConfirmed, getAccountConfirmed, removeAccountConfirmed} from './localStorage'
 import BN from 'bn.js'
 
+import { store } from '..'
+import { setSignTransactionStatus } from '../actions/account'
 import { TwoFactor, METHOD_NAMES_LAK } from './twoFactor'
 import { Staking } from './staking'
 
@@ -37,7 +39,7 @@ const KEY_UNIQUE_PREFIX = '_4:'
 const KEY_WALLET_ACCOUNTS = KEY_UNIQUE_PREFIX + 'wallet:accounts_v2'
 const KEY_ACTIVE_ACCOUNT_ID = KEY_UNIQUE_PREFIX + 'wallet:active_account_id_v2'
 const ACCOUNT_ID_REGEX = /^(([a-z\d]+[-_])*[a-z\d]+\.)*([a-z\d]+[-_])*[a-z\d]+$/
-const MULTISIG_CONTRACT_HASHES = process.env.MULTISIG_CONTRACT_HASHES || ['7GQStUCd8bmCK43bzD8PRh7sD2uyyeMJU5h8Rj3kXXJk'];
+const MULTISIG_CONTRACT_HASHES = process.env.MULTISIG_CONTRACT_HASHES || ['7GQStUCd8bmCK43bzD8PRh7sD2uyyeMJU5h8Rj3kXXJk', 'AEE3vt6S3pS2s7K6HXnZc46VyMyJcjygSMsaafFh67DF'];
 
 export const keyAccountConfirmed = (accountId) => `wallet.account:${accountId}:${NETWORK_ID}:confirmed`
 
@@ -708,6 +710,7 @@ class Wallet {
             await this.twoFactor.signAndSendTransactions(account, transactions)
             return
         }
+        store.dispatch(setSignTransactionStatus('in-progress'))
         for (let { receiverId, nonce, blockHash, actions } of transactions) {
             const [, signedTransaction] = await nearApiJs.transactions.signTransaction(receiverId, nonce, actions, blockHash, this.connection.signer, accountId, NETWORK_ID)
             await this.connection.provider.sendTransaction(signedTransaction)

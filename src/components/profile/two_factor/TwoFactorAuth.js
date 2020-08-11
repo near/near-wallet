@@ -58,6 +58,7 @@ const Container = styled(Card)`
                 justify-content: center;
                 padding: 0;
                 margin: 0;
+                letter-spacing: 0.5px !important;
             }
         }
 
