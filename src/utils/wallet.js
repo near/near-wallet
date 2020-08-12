@@ -108,52 +108,36 @@ class Wallet {
         this.staking = new Staking(this)
     }
 
-    async getLocalAccessKey(accountId, accessKeys) {
-        const localPublicKey = await this.inMemorySigner.getPublicKey(accountId, NETWORK_ID)
-        return localPublicKey && accessKeys.find(({ public_key }) => public_key === localPublicKey.toString())
+    getAccount(accountId) {
+        return this.has2fa ? this.twoFactor : new nearApiJs.Account(this.connection, accountId)
     }
 
-    async getLedgerKey() {
-        const accessKeys = await this.getAccessKeys(this.accountId)
-        if (accessKeys) {
-            const localKey = await this.getLocalAccessKey(this.accountId, accessKeys)
-            const ledgerKey = accessKeys.find(accessKey => accessKey.meta.type === 'ledger')
-            if (ledgerKey && (!localKey || localKey.permission !== 'FullAccess')) {
-                return PublicKey.from(ledgerKey.public_key)
-            }
-        }
-        return null
+    async getAccountAndState(accountId) {
+        const account = this.getAccount(accountId)
+        const state = await account.state()
+        const has2fa = MULTISIG_CONTRACT_HASHES.includes(state.code_hash)
+        return { account, state, has2fa }
     }
 
-    save() {
-        localStorage.setItem(KEY_ACTIVE_ACCOUNT_ID, this.accountId)
-        localStorage.setItem(KEY_WALLET_ACCOUNTS, JSON.stringify(this.accounts))
-    }
-
-    selectAccount(accountId) {
-        if (!(accountId in this.accounts)) {
-            return false
-        }
-        this.accountId = accountId
-        this.save()
-    }
-    
-    isLegitAccountId(accountId) {
-        return ACCOUNT_ID_REGEX.test(accountId)
-    }
-    
-    async sendMoney(receiverId, amount) {
-        const { accountId } = this
-        const { account, has2fa } = await this.getAccountAndState(accountId)
-        if (has2fa) {
-            await this.twoFactor.sendMoney(account, receiverId, amount)
-        } else {
-            await account.sendMoney(receiverId, amount)
-        }
-    }
-    
     isEmpty() {
         return !this.accounts || !Object.keys(this.accounts).length
+    }
+
+    async loadAccount() {
+        if (!this.isEmpty()) {
+            const state = await this.getAccount(this.accountId).state()
+            const has2fa = MULTISIG_CONTRACT_HASHES.includes(state.code_hash)
+            if (has2fa) {
+                this.twoFactor = new TwoFactor(this)
+            }
+            return {
+                ...state,
+                has2fa,
+                balance: await this.getBalance(),
+                accountId: this.accountId,
+                accounts: this.accounts
+            }
+        }
     }
 
     async refreshAccount() {
@@ -193,16 +177,47 @@ class Wallet {
         }
     }
 
-    async loadAccount() {
-        if (!this.isEmpty()) {
-            return {
-                ...await this.getAccount(this.accountId).state(),
-                balance: await this.getBalance(),
-                accountId: this.accountId,
-                accounts: this.accounts
+    async getLocalAccessKey(accountId, accessKeys) {
+        const localPublicKey = await this.inMemorySigner.getPublicKey(accountId, NETWORK_ID)
+        return localPublicKey && accessKeys.find(({ public_key }) => public_key === localPublicKey.toString())
+    }
+
+    async getLedgerKey() {
+        const accessKeys = await this.getAccessKeys(this.accountId)
+        if (accessKeys) {
+            const localKey = await this.getLocalAccessKey(this.accountId, accessKeys)
+            const ledgerKey = accessKeys.find(accessKey => accessKey.meta.type === 'ledger')
+            if (ledgerKey && (!localKey || localKey.permission !== 'FullAccess')) {
+                return PublicKey.from(ledgerKey.public_key)
             }
         }
+        return null
     }
+
+    save() {
+        localStorage.setItem(KEY_ACTIVE_ACCOUNT_ID, this.accountId)
+        localStorage.setItem(KEY_WALLET_ACCOUNTS, JSON.stringify(this.accounts))
+    }
+
+    selectAccount(accountId) {
+        if (!(accountId in this.accounts)) {
+            return false
+        }
+        this.accountId = accountId
+        this.save()
+    }
+    
+    isLegitAccountId(accountId) {
+        return ACCOUNT_ID_REGEX.test(accountId)
+    }
+    
+    async sendMoney(receiverId, amount) {
+        const { accountId } = this
+        const account = this.getAccount(accountId)
+        await account.sendMoney(receiverId, amount)
+    }
+    
+    
 
     // TODO: Figure out whether wallet should work with any account or current one. Maybe make wallet account specific and switch whole Wallet?
     async getAccessKeys(accountId) {
@@ -217,12 +232,7 @@ class Wallet {
     }
 
     async removeAccessKey(publicKey) {
-        const { account, has2fa } = await this.getAccountAndState(this.accountId)
-        if (has2fa) {
-            return await this.twoFactor.removeKey(account, publicKey)
-        } else {
-            return await this.getAccount(this.accountId).deleteKey(publicKey)
-        }
+        return await this.getAccount(this.accountId).deleteKey(publicKey)
     }
 
     async removeNonLedgerAccessKeys() {
@@ -480,17 +490,6 @@ class Wallet {
         this.save()
     }
 
-    getAccount(accountId) {
-        return new nearApiJs.Account(this.connection, accountId)
-    }
-
-    async getAccountAndState(accountId) {
-        const account = this.getAccount(accountId)
-        const state = await account.state()
-        const has2fa = MULTISIG_CONTRACT_HASHES.includes(state.code_hash)
-        return { account, state, has2fa }
-    }
-
     async getBalance(accountId) {
         accountId = accountId || this.accountId
 
@@ -713,7 +712,8 @@ class Wallet {
         store.dispatch(setSignTransactionStatus('in-progress'))
         for (let { receiverId, nonce, blockHash, actions } of transactions) {
             const [, signedTransaction] = await nearApiJs.transactions.signTransaction(receiverId, nonce, actions, blockHash, this.connection.signer, accountId, NETWORK_ID)
-            await this.connection.provider.sendTransaction(signedTransaction)
+            const res = await this.connection.provider.sendTransaction(signedTransaction)
+            console.log(res)
         }
     }
 }

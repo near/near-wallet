@@ -4,11 +4,10 @@ import { WalletError } from './walletError'
 import { promptTwoFactor } from '../actions/account'
 import { ACCESS_KEY_FUNDING_AMOUNT, convertPKForContract, toPK } from './wallet'
 
-window.nearApiJs = nearApiJs
-
-const { transactions: {
-    deleteKey, addKey, functionCall, functionCallAccessKey, deployContract
-}} = nearApiJs
+const { 
+    Account,
+    transactions: { deleteKey, addKey, functionCall, functionCallAccessKey, deployContract }
+} = nearApiJs
 export const METHOD_NAMES_LAK = ['add_request', 'add_request_and_confirm', 'delete_request', 'confirm']
 const VIEW_METHODS = ['get_request_nonce', 'list_request_ids']
 const METHOD_NAMES_CONFIRM = ['confirm']
@@ -17,12 +16,10 @@ const actionTypes = {
     'functionCall': 'FunctionCall'
 }
 
-export class TwoFactor {
+export class TwoFactor extends Account {
     constructor(wallet) {
+        super(wallet.connection, wallet.accountId)
         this.wallet = wallet
-
-        window.wallet = wallet
-        window.nearApiJs = nearApiJs
     }
 
     async get2faMethod() {
@@ -94,7 +91,8 @@ export class TwoFactor {
         const contract = getContract(account, accountId)
         await deleteUnconfirmedRequests(contract)
         const request_id = await contract.get_request_nonce()
-        await contract.add_request_and_confirm({ request })
+        const res = await contract.add_request_and_confirm({ request })
+        console.log('add_request_and_confirm', res)
         const request_id_after = await contract.get_request_nonce()
         if (request_id_after > request_id) {
             const method = await this.get2faMethod()
@@ -114,6 +112,10 @@ export class TwoFactor {
             actions: [addKeyAction(account, publicKey, contractId, fullAccess)]
         }
         return await this.request(account, request)
+    }
+
+    async deleteKey(publicKey) {
+        this.removeKey(this, publicKey)
     }
 
     async removeKey(account, publicKey) {
@@ -170,12 +172,13 @@ export class TwoFactor {
         } catch (e) {
             throw(e)
         }
-        if (requestId !== -1 && !store.getState().account.requestPending) {
-            const result = await store.dispatch(promptTwoFactor(true)).payload.promise
-            if (!result) {
+        if (requestId !== -1) {
+            const { verified, txResponse } = await store.dispatch(promptTwoFactor(true)).payload.promise
+            if (!verified) {
                 throw new WalletError('Request was cancelled.', 'errors.twoFactor.userCancelled')
             }
-            return result
+            console.log('confirm', txResponse)
+            return txResponse
         }
     }
 

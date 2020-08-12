@@ -39,13 +39,14 @@ const TwoFactorVerifyModal = ({ open, onClose }) => {
     }, []);
 
     const handleVerifyCode = async () => {
+        let result
         try {
-            await dispatch(verifyTwoFactor(account.accountId, code))
+            result = await dispatch(verifyTwoFactor(account.accountId, code))
         } catch(e) {
             throw(e)
         } finally {
             if (onClose) {
-                onClose(true)
+                onClose(true, result.res)
             }
         }
     }
