@@ -123,20 +123,25 @@ class Wallet {
         return !this.accounts || !Object.keys(this.accounts).length
     }
 
+    async loadAccountAndState() {
+        const state = await this.getAccount(this.accountId).state()
+        const has2fa = MULTISIG_CONTRACT_HASHES.includes(state.code_hash)
+        if (has2fa) {
+            this.twoFactor = new TwoFactor(this)
+            this.has2fa = has2fa
+        }
+        return {
+            ...state,
+            has2fa,
+            balance: await this.getBalance(),
+            accountId: this.accountId,
+            accounts: this.accounts
+        }
+    }
+
     async loadAccount() {
         if (!this.isEmpty()) {
-            const state = await this.getAccount(this.accountId).state()
-            const has2fa = MULTISIG_CONTRACT_HASHES.includes(state.code_hash)
-            if (has2fa) {
-                this.twoFactor = new TwoFactor(this)
-            }
-            return {
-                ...state,
-                has2fa,
-                balance: await this.getBalance(),
-                accountId: this.accountId,
-                accounts: this.accounts
-            }
+            return await this.loadAccountAndState()
         }
     }
 
@@ -364,33 +369,24 @@ class Wallet {
             await this.keyStore.setKey(NETWORK_ID, accountId, keyPair)
         }
     }
-
-
-    /********************************
-    recovering a second account attempts to call this method with the currently logged in account and not the tempKeyStore 
-    ********************************/
+    
     async addAccessKey(accountId, contractId, publicKey, fullAccess = false) {
-        const { account, has2fa } = await this.getAccountAndState(accountId)
-        if (has2fa) {
-            return await this.twoFactor.addKey(account, publicKey, contractId, fullAccess)
-        } else {
-            try {
-                if (fullAccess) {
-                    return await this.getAccount(accountId).addKey(publicKey)
-                } else {
-                    return await this.getAccount(accountId).addKey(
-                        publicKey,
-                        contractId,
-                        '', // methodName
-                        ACCESS_KEY_FUNDING_AMOUNT
-                    )
-                }
-            } catch (e) {
-                if (e.type === 'AddKeyAlreadyExists') {
-                    return true;
-                }
-                throw e;
+        try {
+            if (fullAccess) {
+                return await this.getAccount(accountId).addKey(publicKey, fullAccess)
+            } else {
+                return await this.getAccount(accountId).addKey(
+                    publicKey,
+                    contractId,
+                    '', // methodName
+                    ACCESS_KEY_FUNDING_AMOUNT
+                )
             }
+        } catch (e) {
+            if (e.type === 'AddKeyAlreadyExists') {
+                return true;
+            }
+            throw e;
         }
     }
 
@@ -613,12 +609,11 @@ class Wallet {
     }
 
     async sendNewRecoveryLink(method) {
-        const accountId = this.accountId;
-        const { account, has2fa } = await this.getAccountAndState(accountId)
+        const { accountId } = this
+        const account = this.getAccount(accountId)
         const { seedPhrase, publicKey } = generateSeedPhrase()
-
-        if (has2fa) {
-            await this.twoFactor.rotateKeys(account, publicKey, method.publicKey)
+        if (account.rotateKeys) {
+            await account.rotateKeys(publicKey, method.publicKey)
         } else {
             await account.addKey(publicKey)
             await this.removeAccessKey(method.publicKey)
@@ -660,34 +655,25 @@ class Wallet {
 
         const tempKeyStore = new nearApiJs.keyStores.InMemoryKeyStore()
 
-        const connection = nearApiJs.Connection.fromConfig({
+        this.connection = nearApiJs.Connection.fromConfig({
             networkId: NETWORK_ID,
             provider: { type: 'JsonRpcProvider', args: { url: NODE_URL + '/' } },
             signer: new nearApiJs.InMemorySigner(tempKeyStore)
         })
         await Promise.all(accountIds.map(async (accountId, i) => {
-            const account = new nearApiJs.Account(connection, accountId)
             this.accountId = accountId
+            const account = await this.loadAccountAndState()
             const keyPair = KeyPair.fromString(secretKey)
+            console.log(keyPair)
             await tempKeyStore.setKey(NETWORK_ID, accountId, keyPair)
             account.keyStore = tempKeyStore
             account.inMemorySigner = new nearApiJs.InMemorySigner(tempKeyStore)
             this.tempTwoFactorAccount = account
             const newKeyPair = KeyPair.fromRandom('ed25519')
-            const state = await account.state()
-            const isMultiSigAccount = MULTISIG_CONTRACT_HASHES.includes(state.code_hash)
-            
-            if (isMultiSigAccount) {
-                if (!fromSeedPhraseRecovery) {
-                    await this.addAccessKey(accountId, accountId, convertPKForContract(newKeyPair.publicKey))
-                } else {
-                    const actions = [
-                        nearApiJs.transactions.addKey(newKeyPair.publicKey, nearApiJs.transactions.functionCallAccessKey(accountId, METHOD_NAMES_LAK, null))
-                    ]
-                    await account.signAndSendTransaction(accountId, actions)
-                }
+            if (!fromSeedPhraseRecovery) {
+                await this.addAccessKey(accountId, accountId, newKeyPair.publicKey, false)
             } else {
-                await account.addKey(newKeyPair.publicKey)
+                await this.addAccessKey(accountId, accountId, newKeyPair.publicKey, true)
             }
 
             if (i === accountIds.length - 1) {

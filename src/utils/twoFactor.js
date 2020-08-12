@@ -22,6 +22,14 @@ export class TwoFactor extends Account {
         this.wallet = wallet
     }
 
+    getAccount() {
+        let account = this
+        if (this.wallet.tempTwoFactorAccount) {
+            account = this.wallet.tempTwoFactorAccount
+        }
+        return account
+    }
+
     async get2faMethod() {
         const { account, has2fa } = await this.wallet.getAccountAndState(this.wallet.accountId);
         if (has2fa) {
@@ -77,20 +85,22 @@ export class TwoFactor extends Account {
         });
     }
 
-    async sendMoney(account, receiver_id, amount) {
+    async sendMoney(receiver_id, amount) {
         const request = {
             receiver_id,
             actions: [{ type: 'Transfer', amount }]
         }
-        return await this.request(account, request)
+        return await this.request(request)
     }
 
-    async request(account, request) {
-        if (this.wallet.tempTwoFactorAccount) account = this.wallet.tempTwoFactorAccount
+    async request(request) {
+        const account = this.getAccount()
         const { accountId } = account
         const contract = getContract(account, accountId)
-        await deleteUnconfirmedRequests(contract)
+        // await deleteUnconfirmedRequests(contract)
+        console.log(account)
         const request_id = await contract.get_request_nonce()
+        console.log('request_id', request_id)
         const res = await contract.add_request_and_confirm({ request })
         console.log('add_request_and_confirm', res)
         const request_id_after = await contract.get_request_nonce()
@@ -100,42 +110,40 @@ export class TwoFactor extends Account {
         }
     }
 
-    async addKey(account, publicKey, contractId, fullAccess = false) {
-        const {accountId} = account
-        const accessKeys = await this.wallet.getAccessKeys(accountId)
+    async addKey(publicKey, fullAccess) {
+        const account = this.getAccount()
+        const { accountId } = account
+        const accessKeys = await this.getAccessKeys(accountId)
         if (accessKeys.find((ak) => ak.public_key.toString() === publicKey)) {
             // TODO check access key receiver_id matches contractId desired
             return true
         }
+        publicKey = convertPKForContract(publicKey)
         const request = {
             receiver_id: account.accountId,
-            actions: [addKeyAction(account, publicKey, contractId, fullAccess)]
+            actions: [addKeyAction(publicKey, accountId, fullAccess === true)]
         }
-        return await this.request(account, request)
+        return await this.request(request)
     }
 
     async deleteKey(publicKey) {
-        this.removeKey(this, publicKey)
-    }
-
-    async removeKey(account, publicKey) {
         const request = {
             receiver_id: account.accountId,
             actions: [deleteKeyAction(publicKey)]
         }
-        return await this.request(account, request)
+        return await this.request(request)
     }
 
-    async rotateKeys(account, addPublicKey, removePublicKey) {
-        const { accountId } = account
+    async rotateKeys(addPublicKey, removePublicKey) {
+        const { accountId } = this.getAccount()
         const request = {
             receiver_id: accountId,
             actions: [
-                addKeyAction(account, addPublicKey, accountId),
+                addKeyAction(addPublicKey, accountId, false),
                 deleteKeyAction(removePublicKey)
             ]
         }
-        return await this.request(account, request)
+        return await this.request(request)
     }
 
     async signAndSendTransactions(account, transactions) {
@@ -154,7 +162,7 @@ export class TwoFactor extends Account {
                 }
                 return action
             })
-            await this.request(account, { receiver_id: receiverId, actions })
+            await this.request({ receiver_id: receiverId, actions })
         }
     }
 
@@ -237,23 +245,15 @@ const setRequest = (data) => {
     localStorage.setItem(`__multisigRequest`, JSON.stringify(data))
 }
 
-const addKeyAction = (account, publicKey, contractId, fullAccess = false) => {
-    const { accountId } = account
-    if (!contractId) contractId = accountId
+const addKeyAction = (publicKey, accountId, fullAccess) => {
     let allowance = ACCESS_KEY_FUNDING_AMOUNT
     let method_names = METHOD_NAMES_LAK
-    if (contractId !== accountId) {
-        fullAccess = false
-        method_names = ['']
-    } else {
-        allowance = '0'
-    }
     return {
         type: 'AddKey',
         public_key: convertPKForContract(publicKey),
         ...(!fullAccess ? {
             permission: {
-                receiver_id: contractId,
+                receiver_id: accountId,
                 allowance,
                 method_names
             }
