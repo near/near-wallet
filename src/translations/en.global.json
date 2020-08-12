@@ -652,7 +652,8 @@
         "one": "Make sure your ledger is connected securely, and that the NEAR app is open on the device.",
         "getLedgerAccountIds": {
             "success": "",
-            "error": "Public key access was rejected. No accounts were recovered.<br/>To continue, you must allow NEAR Wallet to view your public key. Please try again."
+            "error": "Public key access was rejected. No accounts were recovered.<br/>To continue, you must allow NEAR Wallet to view your public key. Please try again.",
+            "noAccounts": "No accounts are associated with this Ledger device. You must first create an account, then add this Ledger to it to login."
         },
         "addLedgerAccountId": {
             "success": "",

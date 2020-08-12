@@ -430,7 +430,7 @@ class Wallet {
         await setKeyMeta(publicKey, { type: 'ledger' })
 
         const accountIds = await getAccountIds(publicKey.toString())
-        return (await Promise.all(
+        const checkedAccountIds = (await Promise.all(
             accountIds
                 .map(async (accountId) => {
                     const accountKeys = await this.getAccount(accountId).getAccessKeys();
@@ -439,6 +439,12 @@ class Wallet {
             )
         )
         .filter(accountId => accountId)
+
+        if (!checkedAccountIds.length) {
+            throw new WalletError('No accounts were found.', 'signInLedger.getLedgerAccountIds.noAccounts')
+        }
+
+        return checkedAccountIds
     }
 
     async addLedgerAccountId(accountId) {
