@@ -12,7 +12,7 @@ const { transactions: {
 export const METHOD_NAMES_LAK = ['add_request', 'add_request_and_confirm', 'delete_request', 'confirm']
 const VIEW_METHODS = ['get_request_nonce', 'list_request_ids']
 const METHOD_NAMES_CONFIRM = ['confirm']
-const LAK_ALLOWANCE = process.env.LAK_ALLOWANCE || '1000000000000000000000'
+const LAK_ALLOWANCE = process.env.LAK_ALLOWANCE || '10000000000000'
 const actionTypes = {
     'functionCall': 'FunctionCall'
 }
