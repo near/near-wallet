@@ -111,6 +111,8 @@ class Wallet {
 
         this.twoFactor = new TwoFactor(this)
         this.staking = new Staking(this)
+
+        console.log(this)
     }
 
     getAccount(accountId) {
@@ -597,14 +599,9 @@ class Wallet {
         }
         // now finish recovery method setup
         const { seedPhrase, publicKey } = generateSeedPhrase();
-        const { account, has2fa } = await this.getAccountAndState(accountId)
-        const accountKeys = await account.getAccessKeys();
-        if (has2fa) {
-            await this.addAccessKey(account.accountId, account.accountId, convertPKForContract(publicKey))
-        } else {
-            if (!accountKeys.some(it => it.public_key.endsWith(publicKey))) {
-                await account.addKey(publicKey);
-            }
+        const accountKeys = await this.getAccount().getAccessKeys();
+        if (!accountKeys.some(it => it.public_key.endsWith(publicKey))) {
+            await this.addAccessKey(accountId, accountId, publicKey)
         }
         return sendJson('POST', `${ACCOUNT_HELPER_URL}/account/sendRecoveryMessage`, {
             accountId,
@@ -659,7 +656,6 @@ class Wallet {
         }
 
         const tempKeyStore = new nearApiJs.keyStores.InMemoryKeyStore()
-
         this.connection = nearApiJs.Connection.fromConfig({
             networkId: NETWORK_ID,
             provider: { type: 'JsonRpcProvider', args: { url: NODE_URL + '/' } },
@@ -667,20 +663,16 @@ class Wallet {
         })
         await Promise.all(accountIds.map(async (accountId, i) => {
             this.accountId = accountId
-            const account = await this.loadAccountAndState()
+            await this.loadAccountAndState()
+            const account = this.getAccount()
             const keyPair = KeyPair.fromString(secretKey)
-            console.log(keyPair)
             await tempKeyStore.setKey(NETWORK_ID, accountId, keyPair)
             account.keyStore = tempKeyStore
             account.inMemorySigner = new nearApiJs.InMemorySigner(tempKeyStore)
             this.tempTwoFactorAccount = account
             const newKeyPair = KeyPair.fromRandom('ed25519')
-            if (!fromSeedPhraseRecovery) {
-                await this.addAccessKey(accountId, accountId, newKeyPair.publicKey, false)
-            } else {
-                await this.addAccessKey(accountId, accountId, newKeyPair.publicKey, true)
-            }
 
+            await this.addAccessKey(accountId, accountId, newKeyPair.publicKey, fromSeedPhraseRecovery)
             if (i === accountIds.length - 1) {
                 await this.saveAndSelectAccount(accountId, newKeyPair)
             } else {
@@ -695,8 +687,7 @@ class Wallet {
     }
 
     async signAndSendTransactions(transactions, accountId) {
-        const { account, has2fa } = await this.getAccountAndState(accountId)
-        if (has2fa) {
+        if (this.has2fa) {
             await this.twoFactor.signAndSendTransactions(account, transactions)
             return
         }

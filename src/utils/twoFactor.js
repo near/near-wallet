@@ -85,29 +85,78 @@ export class TwoFactor extends Account {
         });
     }
 
+    async request(request) {
+        const account = this.getAccount()
+        const { accountId } = account
+        const contract = getContract(account, accountId)
+        await deleteUnconfirmedRequests(contract)
+        const request_id = await contract.get_request_nonce()
+        const res = await contract.add_request_and_confirm({ request })
+        const request_id_after = await contract.get_request_nonce()
+        if (request_id_after > request_id) {
+            const method = await this.get2faMethod()
+            return await this.sendRequest(accountId, method, request_id)
+        }
+    }
+
+    async sendRequest(accountId, method, requestId = -1) {
+        if (!accountId) accountId = this.wallet.accountId
+        if (!method) method = await this.get2faMethod()
+        // add request to local storage
+        setRequest({ accountId, requestId })
+        try {
+            await this.wallet.postSignedJson('/2fa/send', {
+                accountId,
+                method,
+                requestId,
+            })
+        } catch (e) {
+            throw(e)
+        }
+        if (requestId !== -1) {
+            const { verified, txResponse } = await store.dispatch(promptTwoFactor(true)).payload.promise
+            if (!verified) {
+                throw new WalletError('Request was cancelled.', 'errors.twoFactor.userCancelled')
+            }
+            console.log('confirm', txResponse)
+            return txResponse
+        }
+    }
+
+    async deployMultisig() {
+        const accountData = await this.wallet.loadAccount()
+        const contractBytes = new Uint8Array(await (await fetch('/multisig.wasm')).arrayBuffer())
+        const { accountId } = accountData
+        const account = this.wallet.getAccount(accountId)
+        const accountKeys = await account.getAccessKeys();
+        const recoveryMethods = await this.wallet.getRecoveryMethods()
+        const recoveryKeysED = recoveryMethods.data.map((rm) => rm.publicKey)
+        const fak2lak = recoveryMethods.data.filter(({ kind, publicKey }) => kind !== 'phrase' && publicKey !== null).map((rm) => toPK(rm.publicKey))
+        fak2lak.push(...accountKeys.filter((ak) => !recoveryKeysED.includes(ak.public_key)).map((ak) => toPK(ak.public_key)))
+        const getPublicKey = await this.wallet.postSignedJson('/2fa/getAccessKey', { accountId })
+        const confirmOnlyKey = toPK(getPublicKey.publicKey)
+        const newArgs = new Uint8Array(new TextEncoder().encode(JSON.stringify({ 'num_confirmations': 2 })));
+        const actions = [
+            ...fak2lak.map((pk) => deleteKey(pk)),
+            ...fak2lak.map((pk) => addKey(pk, functionCallAccessKey(accountId, METHOD_NAMES_LAK, null))),
+            addKey(confirmOnlyKey, functionCallAccessKey(accountId, METHOD_NAMES_CONFIRM, null)),
+            deployContract(contractBytes),
+            functionCall('new', newArgs, LAK_ALLOWANCE, '0'),
+        ]
+        console.log('deploying multisig contract for', accountId)
+        return await account.signAndSendTransaction(accountId, actions);
+    }
+
+    /********************************
+    Account overrides
+    ********************************/
+
     async sendMoney(receiver_id, amount) {
         const request = {
             receiver_id,
             actions: [{ type: 'Transfer', amount }]
         }
         return await this.request(request)
-    }
-
-    async request(request) {
-        const account = this.getAccount()
-        const { accountId } = account
-        const contract = getContract(account, accountId)
-        // await deleteUnconfirmedRequests(contract)
-        console.log(account)
-        const request_id = await contract.get_request_nonce()
-        console.log('request_id', request_id)
-        const res = await contract.add_request_and_confirm({ request })
-        console.log('add_request_and_confirm', res)
-        const request_id_after = await contract.get_request_nonce()
-        if (request_id_after > request_id) {
-            const method = await this.get2faMethod()
-            return await this.sendRequest(accountId, method, request_id)
-        }
     }
 
     async addKey(publicKey, fullAccess) {
@@ -165,58 +214,9 @@ export class TwoFactor extends Account {
             await this.request({ receiver_id: receiverId, actions })
         }
     }
-
-    async sendRequest(accountId, method, requestId = -1) {
-        if (!accountId) accountId = this.wallet.accountId
-        if (!method) method = await this.get2faMethod()
-        // add request to local storage
-        setRequest({ accountId, requestId })
-        try {
-            await this.wallet.postSignedJson('/2fa/send', {
-                accountId,
-                method,
-                requestId,
-            })
-        } catch (e) {
-            throw(e)
-        }
-        if (requestId !== -1) {
-            const { verified, txResponse } = await store.dispatch(promptTwoFactor(true)).payload.promise
-            if (!verified) {
-                throw new WalletError('Request was cancelled.', 'errors.twoFactor.userCancelled')
-            }
-            console.log('confirm', txResponse)
-            return txResponse
-        }
-    }
-
-    async deployMultisig() {
-        const accountData = await this.wallet.loadAccount()
-        const contractBytes = new Uint8Array(await (await fetch('/multisig.wasm')).arrayBuffer())
-        const { accountId } = accountData
-        const account = this.wallet.getAccount(accountId)
-        const accountKeys = await account.getAccessKeys();
-        const recoveryMethods = await this.wallet.getRecoveryMethods()
-        const recoveryKeysED = recoveryMethods.data.map((rm) => rm.publicKey)
-        const fak2lak = recoveryMethods.data.filter(({ kind, publicKey }) => kind !== 'phrase' && publicKey !== null).map((rm) => toPK(rm.publicKey))
-        fak2lak.push(...accountKeys.filter((ak) => !recoveryKeysED.includes(ak.public_key)).map((ak) => toPK(ak.public_key)))
-        const getPublicKey = await this.wallet.postSignedJson('/2fa/getAccessKey', { accountId })
-        const confirmOnlyKey = toPK(getPublicKey.publicKey)
-        const newArgs = new Uint8Array(new TextEncoder().encode(JSON.stringify({ 'num_confirmations': 2 })));
-        const actions = [
-            ...fak2lak.map((pk) => deleteKey(pk)),
-            ...fak2lak.map((pk) => addKey(pk, functionCallAccessKey(accountId, METHOD_NAMES_LAK, null))),
-            addKey(confirmOnlyKey, functionCallAccessKey(accountId, METHOD_NAMES_CONFIRM, null)),
-            deployContract(contractBytes),
-            functionCall('new', newArgs, LAK_ALLOWANCE, '0'),
-        ]
-        console.log('deploying multisig contract for', accountId)
-        return await account.signAndSendTransaction(accountId, actions);
-    }
 }
 
-
-const getContract = (account, accountId) => {
+const getContract = (account) => {
     return new nearApiJs.Contract(account, account.accountId, {
         viewMethods: VIEW_METHODS,
         changeMethods: METHOD_NAMES_LAK,
