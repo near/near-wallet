@@ -192,7 +192,9 @@
             "inputLabel": "Enter your 6-digit verification code",
             "placeholder": "Verification Code",
             "didntReceive": "Didn't receive your code?",
-            "resend": "Resend"
+            "resend": "Resend",
+            "resending": "Sending...",
+            "resent": "Code sent!"
         }
     },
 
