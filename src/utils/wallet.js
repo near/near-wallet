@@ -12,7 +12,8 @@ import { setAccountConfirmed, getAccountConfirmed, removeAccountConfirmed} from 
 import BN from 'bn.js'
 
 import { store } from '..'
-import { setSignTransactionStatus } from '../actions/account'
+import { setSignTransactionStatus, setLedgerSignTx } from '../actions/account'
+
 import { TwoFactor, METHOD_NAMES_LAK } from './twoFactor'
 
 export const WALLET_CREATE_NEW_ACCOUNT_URL = 'create'
@@ -91,6 +92,7 @@ class Wallet {
                     const { createLedgerU2FClient } = await import('./ledger.js')
                     const client = await createLedgerU2FClient()
                     const signature = await client.sign(message)
+                    await store.dispatch(setLedgerSignTx(true))
                     const publicKey = await this.getPublicKey(accountId, networkId)
                     return {
                         signature,
