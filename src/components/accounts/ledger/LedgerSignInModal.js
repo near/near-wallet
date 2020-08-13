@@ -55,6 +55,10 @@ const AnimateList = styled.div`
             background: #8fd6bd;
             color: #1f825f;
         }
+        &.confirm .status {
+            background: #6ad1e3;
+            color: #14889d;
+        }
         &.pending .status {
             background: #f4c898;
             color: #ae6816;
