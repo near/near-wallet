@@ -134,7 +134,7 @@ const LedgerSignInModal = ({ open, onClose, ledgerAccounts, accountsApproved, to
         >
             <ModalTheme/>
             <MobileActionSheet/>
-            <h2><Translate id='confirmLedgerModal.header'/></h2>
+            <h2><Translate id='confirmLedgerModal.header.confirm'/></h2>
             <LedgerImage animate={true}/>
 
             <div>
