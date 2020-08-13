@@ -19,7 +19,6 @@ const actionTypes = {
 export class TwoFactor extends Account {
     constructor(wallet) {
         super(wallet.connection, wallet.accountId)
-        console.log('twoFactor constructor', wallet.accountId)
         this.accountId = wallet.accountId
         this.wallet = wallet
     }
@@ -200,7 +199,8 @@ export class TwoFactor extends Account {
                     ...a[a.enum],
                     type: actionTypes[a.enum],
                 }
-                if (action.gas) action.gas = action.gas.toString()
+                // TODO determine what gas each action needs attached, needs gasEstimation
+                if (action.gas) action.gas = '100000000000000'
                 if (action.deposit) action.deposit = action.deposit.toString()
                 if (action.args && Array.isArray(action.args)) action.args = Buffer.from(action.args).toString('base64')
                 if (action.methodName) {
