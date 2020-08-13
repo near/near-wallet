@@ -112,7 +112,11 @@ class Wallet {
     }
 
     getAccount(accountId, isCheck = false) {
-        return this.has2fa && !isCheck ? this.twoFactor : new nearApiJs.Account(this.connection, accountId)
+        if (!isCheck && this.has2fa && this.twoFactor.accountId === accountId) {
+            return this.twoFactor;
+        } else {
+            return new nearApiJs.Account(this.connection, accountId)
+        }
     }
 
     async getAccountAndState(accountId) {
@@ -225,8 +229,6 @@ class Wallet {
         await account.sendMoney(receiverId, amount)
     }
     
-    
-
     // TODO: Figure out whether wallet should work with any account or current one. Maybe make wallet account specific and switch whole Wallet?
     async getAccessKeys(accountId) {
         accountId = accountId || this.accountId
@@ -376,7 +378,7 @@ class Wallet {
     async addAccessKey(accountId, contractId, publicKey, fullAccess = false) {
         try {
             if (fullAccess) {
-                return await this.getAccount(accountId).addKey(publicKey, fullAccess)
+                return await this.getAccount(accountId).addKey(publicKey)
             } else {
                 return await this.getAccount(accountId).addKey(
                     publicKey,

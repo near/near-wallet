@@ -158,7 +158,8 @@ export class TwoFactor extends Account {
         return await this.request(request)
     }
 
-    async addKey(publicKey, fullAccess) {
+    async addKey(publicKey, notFullAccess) {
+        const fullAccess = notFullAccess === undefined
         const account = this.getAccount()
         const { accountId } = account
         const accessKeys = await this.getAccessKeys(accountId)
@@ -169,7 +170,7 @@ export class TwoFactor extends Account {
         publicKey = convertPKForContract(publicKey)
         const request = {
             receiver_id: account.accountId,
-            actions: [addKeyAction(publicKey, accountId, fullAccess === true)]
+            actions: [addKeyAction(publicKey, accountId, fullAccess)]
         }
         return await this.request(request)
     }

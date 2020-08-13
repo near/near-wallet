@@ -250,7 +250,7 @@ export const { addAccessKey, addAccessKeySeedPhrase, clearAlert } = createAction
             }
             const fullAccess = true;
             const res = await wallet.addAccessKey(accountId, contractName, publicKey, fullAccess)
-            wallet.postSignedJson('/account/seedPhraseAdded', {
+            await wallet.postSignedJson('/account/seedPhraseAdded', {
                 accountId,
                 publicKey,
             })
