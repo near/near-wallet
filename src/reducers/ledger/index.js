@@ -67,7 +67,7 @@ const ledger = handleActions({
             signInWithLedger: {
                 ...state.signInWithLedger,
                 [meta.accountId]: {
-                    status: ready ? 'success' : 'pending'
+                    status: ready ? 'success' : 'confirm'
                 }
             }
         }
@@ -88,14 +88,23 @@ const ledger = handleActions({
             ...(payload && payload.ledger)
         }
     },
-    [setLedgerTxSigned]: (state, { payload }) => {
+    [setLedgerTxSigned]: (state, { payload, meta }) => {
+        const signInWithLedger = state.signInWithLedger && {
+            ...state.signInWithLedger,
+            [meta.accountId]: {
+                status: (state.signInWithLedger[meta.accountId].status === 'confirm' && payload.status)
+                    ? 'pending'
+                    : state.signInWithLedger[meta.accountId].status
+            }
+        }
+
         return {
             ...state,
             modal: {
                 ...state.modal,
-                txSigned: payload
-            }
-            
+                txSigned: payload.status
+            },
+            signInWithLedger
         }
     },
 }, initialState)
