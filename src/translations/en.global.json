@@ -684,7 +684,10 @@
     },
 
     "confirmLedgerModal": {
-        "header": "Please confirm the operation on your device...",
+        "header": {
+            "confirm": "Please confirm the operation on your device...",
+            "processing": "Processing"
+        },
         "one": "You will need to confirm your sign-in details on your Ledger."
     },
     
