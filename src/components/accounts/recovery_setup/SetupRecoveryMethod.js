@@ -11,7 +11,6 @@ import FormButton from '../../common/FormButton';
 import EnterVerificationCode from '../EnterVerificationCode';
 import Container from '../../common/styled/Container.css';
 import { MULTISIG_MIN_AMOUNT } from '../../../utils/wallet';
-import { formatNEAR } from '../../common/Balance';
 import { BN } from 'bn.js';
 import { utils } from 'near-api-js';
 

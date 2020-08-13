@@ -73,7 +73,6 @@ class SendMoney extends Component {
     handleNextStep = async (e) => {
         e.preventDefault()
         const { step, accountId, amount } = this.state
-        const { sendMoney, refreshAccount } = this.props
 
         if (step === 2) {
             this.setState(() => ({

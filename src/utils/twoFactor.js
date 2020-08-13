@@ -46,11 +46,11 @@ export class TwoFactor {
         if (!accountId) accountId = this.wallet.accountId
         if (!method) method = await this.get2faMethod()
         const requestData = getRequest()
-        let { requestId, data } = requestData
+        let { requestId } = requestData
         if (!requestId && requestId !== 0) {
             requestId = -1
         }
-        return this.sendRequest(accountId, method, requestId, data)
+        return this.sendRequest(accountId, method, requestId)
     }
 
     // requestId is optional, if included the server will try to confirm requestId
@@ -92,9 +92,8 @@ export class TwoFactor {
         await contract.add_request_and_confirm({ request })
         const request_id_after = await contract.get_request_nonce()
         if (request_id_after > request_id) {
-            const data = { request_id, request }
             const method = await this.get2faMethod()
-            return await this.sendRequest(accountId, method, request_id, data)
+            return await this.sendRequest(accountId, method, request_id)
         }
     }
 
@@ -141,8 +140,7 @@ export class TwoFactor {
                 }
                 if (action.gas) action.gas = action.gas.toString()
                 if (action.deposit) action.deposit = action.deposit.toString()
-                
-                if (action.args) action.args = Buffer.from(actions.args).toString('base64')
+                if (action.args && Array.isArray(action.args)) action.args = Buffer.from(action.args).toString('base64')
                 if (action.methodName) {
                     action.method_name = action.methodName
                     delete action.methodName
@@ -153,17 +151,16 @@ export class TwoFactor {
         }
     }
 
-    async sendRequest(accountId, method, requestId = -1, data = {}) {
+    async sendRequest(accountId, method, requestId = -1) {
         if (!accountId) accountId = this.wallet.accountId
         if (!method) method = await this.get2faMethod()
         // add request to local storage
-        setRequest({ accountId, requestId, data })
+        setRequest({ accountId, requestId })
         try {
             await this.wallet.postSignedJson('/2fa/send', {
                 accountId,
                 method,
                 requestId,
-                data
             })
         } catch (e) {
             throw(e)
@@ -201,7 +198,6 @@ export class TwoFactor {
         return await account.signAndSendTransaction(accountId, actions);
     }
 }
-
 
 const getContract = (account, accountId) => {
     return new nearApiJs.Contract(account, account.accountId, {
