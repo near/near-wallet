@@ -124,6 +124,7 @@ class Wallet {
     }
 
     async loadAccountAndState() {
+        this.twoFactor = this.has2fa = null
         const state = await this.getAccount(this.accountId).state()
         const has2fa = MULTISIG_CONTRACT_HASHES.includes(state.code_hash)
         if (has2fa) {
