@@ -17,13 +17,15 @@ const Container = styled.div`
             margin-top: 10px;
 
             span {
-                font-weigth: 400;
-                cursor: pointer;
-
-                &:hover {
-                    text-decoration: underline;
-                }
+                margin-left: 3px;
             }
+        }
+    }
+
+    .color-blue {
+        &:hover {
+            text-decoration: underline;
+            cursor: pointer;
         }
     }
 `
@@ -33,6 +35,7 @@ const TwoFactorVerifyInput = ({
     onResend,
     code,
     account,
+    resendCode
 }) => {
 
     return (
@@ -59,7 +62,12 @@ const TwoFactorVerifyInput = ({
                     </>
                 )}
             </Translate>
-            <div onClick={onResend}><Translate id='twoFactor.verify.didntReceive'/> <span className='color-blue'><Translate id='twoFactor.verify.resend'/></span></div>
+            <div onClick={!resendCode ? onResend : null}>
+                <Translate id='twoFactor.verify.didntReceive'/>
+                {!resendCode && <span className='color-blue'><Translate id='twoFactor.verify.resend'/></span>}
+                {resendCode === 'resending' && <span><Translate id='twoFactor.verify.resending'/></span>}
+                {resendCode === 'resent' && <span className='color-green'><Translate id='twoFactor.verify.resent'/></span>}
+            </div>
         </Container>
     )
 }

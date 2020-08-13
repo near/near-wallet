@@ -20,6 +20,7 @@ const TwoFactorVerifyModal = ({ open, onClose }) => {
 
     const [method, setMethod] = useState();
     const [code, setCode] = useState('');
+    const [resendCode, setResendCode] = useState();
     const dispatch = useDispatch();
     const account = useSelector(({ account }) => account);
     const loading = account.actionsPending.includes('VERIFY_TWO_FACTOR');
@@ -57,6 +58,19 @@ const TwoFactorVerifyModal = ({ open, onClose }) => {
             dispatch(clearAlert())
         }
     }
+
+    const handleResendCode = async () => {
+        setResendCode('resending')
+        try {
+            await dispatch(resendTwoFactor())
+        } catch(e) {
+            setResendCode()
+            throw e
+        } finally {
+            setResendCode('resent')
+            setTimeout(() => { setResendCode() }, 3000)
+        }
+    }
     
     return (
         <Modal
@@ -74,8 +88,9 @@ const TwoFactorVerifyModal = ({ open, onClose }) => {
                 <TwoFactorVerifyInput
                     code={code}
                     onChange={handleChange}
-                    onResend={() => dispatch(resendTwoFactor())}
+                    onResend={handleResendCode}
                     account={account}
+                    resendCode={resendCode}
                 />
                 <FormButton type='submit' disabled={code.length !== 6 || loading} sending={loading}>
                     <Translate id='button.verifyCode'/>
