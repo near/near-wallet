@@ -4,8 +4,6 @@ import { WalletError } from './walletError'
 import { promptTwoFactor } from '../actions/account'
 import { ACCESS_KEY_FUNDING_AMOUNT, convertPKForContract, toPK } from './wallet'
 
-window.nearApiJs = nearApiJs
-
 const { transactions: {
     deleteKey, addKey, functionCall, functionCallAccessKey, deployContract
 }} = nearApiJs
@@ -20,9 +18,6 @@ const actionTypes = {
 export class TwoFactor {
     constructor(wallet) {
         this.wallet = wallet
-
-        window.wallet = wallet
-        window.nearApiJs = nearApiJs
     }
 
     async get2faMethod() {
