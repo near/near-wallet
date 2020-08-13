@@ -678,7 +678,8 @@
             "status": {
                 "success": "Approved",
                 "pending": "Pending",
-                "waiting": "Up next"
+                "waiting": "Up next",
+                "confirm": "Confirm"
             }
         }
     },
