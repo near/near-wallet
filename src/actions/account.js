@@ -129,6 +129,7 @@ export const signInWithLedger = () => async (dispatch, getState) => {
     const accountIds = Object.keys(getState().ledger.signInWithLedger)
     for (let i = 0; i < accountIds.length; i++) {
         await dispatch(addLedgerAccountId(accountIds[i]))
+        await dispatch(setLedgerTxSigned(false, accountIds[i]))
     }
 
     return dispatch(saveAndSelectLedgerAccounts(getState().ledger.signInWithLedger))
