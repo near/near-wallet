@@ -124,7 +124,6 @@ class Wallet {
     }
 
     async loadAccountAndState() {
-        this.accountId = localStorage.getItem(KEY_ACTIVE_ACCOUNT_ID)
         this.twoFactor = this.has2fa = null
         const state = await this.getAccount(this.accountId).state()
         const has2fa = MULTISIG_CONTRACT_HASHES.includes(state.code_hash)
@@ -659,6 +658,9 @@ class Wallet {
         await Promise.all(accountIds.map(async (accountId, i) => {
             this.accountId = accountId
             await this.loadAccountAndState()
+            if (fromSeedPhraseRecovery) {
+                this.has2fa = false
+            }
             const account = this.getAccount()
             const keyPair = KeyPair.fromString(secretKey)
             await tempKeyStore.setKey(NETWORK_ID, accountId, keyPair)

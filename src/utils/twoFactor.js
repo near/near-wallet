@@ -74,6 +74,7 @@ export class TwoFactor extends Account {
         if (!requestId && requestId !== 0) {
             requestId = -1
         }
+        if (!accountId) accountId = this.getAccount().accountId
         return await this.wallet.postSignedJson('/2fa/verify', {
             accountId,
             securityCode,
