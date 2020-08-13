@@ -115,7 +115,7 @@ class Wallet {
         return !this.accounts || !Object.keys(this.accounts).length
     }
 
-    getAccount(accountId) {
+    getAccount(accountId = this.accountId) {
         if (this.has2fa && this.twoFactor.accountId === accountId) {
             return this.twoFactor;
         } else {
@@ -124,6 +124,7 @@ class Wallet {
     }
 
     async loadAccountAndState() {
+        this.accountId = localStorage.getItem(KEY_ACTIVE_ACCOUNT_ID)
         this.twoFactor = this.has2fa = null
         const state = await this.getAccount(this.accountId).state()
         const has2fa = MULTISIG_CONTRACT_HASHES.includes(state.code_hash)
@@ -134,6 +135,7 @@ class Wallet {
         return {
             ...state,
             has2fa,
+            twoFactor: this.twoFactor,
             balance: await this.getBalance(),
             accountId: this.accountId,
             accounts: this.accounts
@@ -570,8 +572,9 @@ class Wallet {
         }
     }
 
-    async getRecoveryMethods(account) {
-        const accountId = account ? account.accountId : this.accountId
+    async getRecoveryMethods() {
+        const account = this.getAccount()
+        const { accountId } = account
         return {
             accountId,
             data: await this.postSignedJson('/account/recoveryMethods', { accountId }, account)

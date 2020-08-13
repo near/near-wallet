@@ -19,6 +19,8 @@ const actionTypes = {
 export class TwoFactor extends Account {
     constructor(wallet) {
         super(wallet.connection, wallet.accountId)
+        console.log('twoFactor constructor', wallet.accountId)
+        this.accountId = wallet.accountId
         this.wallet = wallet
     }
 
@@ -34,7 +36,7 @@ export class TwoFactor extends Account {
         if (!this.wallet.has2fa) {
             return null
         }
-        return (await this.wallet.getRecoveryMethods(this.getAccount()))
+        return (await this.wallet.getRecoveryMethods())
             .data.filter((m) => m.kind.indexOf('2fa-') > -1)
             .map(({ kind, detail, createdAt }) => ({ kind, detail, createdAt }))[0]
     }
@@ -66,17 +68,11 @@ export class TwoFactor extends Account {
     }
 
     // requestId is optional, if included the server will try to confirm requestId
-    async verifyTwoFactor(securityCode) {
-        const { accountId } = this.getAccount()
+    async verifyTwoFactor(accountId, securityCode) {
         const requestData = getRequest()
         let { requestId } = requestData
         if (!requestId && requestId !== 0) {
             requestId = -1
-        }
-        // try to get a accountId for the request
-        if (!accountId) accountId = requestData.accountId || this.wallet.accountId
-        if (!accountId) {
-            return
         }
         return await this.wallet.postSignedJson('/2fa/verify', {
             accountId,

@@ -7,7 +7,6 @@ import PhoneInput, { isValidPhoneNumber } from 'react-phone-number-input';
 import { validateEmail } from '../../../utils/account';
 import FormButton from '../../common/FormButton';
 import {
-    refreshAccount,
     initTwoFactor,
     verifyTwoFactor,
     deployMultisig,
@@ -80,13 +79,12 @@ export function EnableTwoFactor(props) {
     }
 
     const handleConfirm = async (securityCode) => {
-        await dispatch(verifyTwoFactor(securityCode))
+        await dispatch(verifyTwoFactor(accountId, securityCode))
         handleDeployMultisig()
     }
 
     const handleDeployMultisig = async () => {
         await dispatch(deployMultisig())
-        await dispatch(refreshAccount())
         dispatch(redirectToApp('/profile'))
     }
 
