@@ -111,8 +111,8 @@ class Wallet {
         this.twoFactor = new TwoFactor(this)
     }
 
-    getAccount(accountId) {
-        return this.has2fa ? this.twoFactor : new nearApiJs.Account(this.connection, accountId)
+    getAccount(accountId, isCheck = false) {
+        return this.has2fa && !isCheck ? this.twoFactor : new nearApiJs.Account(this.connection, accountId)
     }
 
     async getAccountAndState(accountId) {
@@ -304,7 +304,7 @@ class Wallet {
         }
         let remoteAccount = null
         try {
-            remoteAccount = await this.getAccount(accountId).state()
+            remoteAccount = await this.getAccount(accountId, true).state()
         } catch (e) {
             return true
         }
