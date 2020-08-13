@@ -87,7 +87,7 @@ export class TwoFactor extends Account {
         const contract = getContract(account, accountId)
         await deleteUnconfirmedRequests(contract)
         const request_id = await contract.get_request_nonce()
-        const res = await contract.add_request_and_confirm({ request })
+        await contract.add_request_and_confirm({ request })
         const request_id_after = await contract.get_request_nonce()
         if (request_id_after > request_id) {
             const method = await this.get2faMethod()

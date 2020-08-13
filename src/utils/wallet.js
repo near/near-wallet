@@ -691,7 +691,7 @@ class Wallet {
         store.dispatch(setSignTransactionStatus('in-progress'))
         for (let { receiverId, nonce, blockHash, actions } of transactions) {
             const [, signedTransaction] = await nearApiJs.transactions.signTransaction(receiverId, nonce, actions, blockHash, this.connection.signer, accountId, NETWORK_ID)
-            const res = await this.connection.provider.sendTransaction(signedTransaction)
+            await this.connection.provider.sendTransaction(signedTransaction)
         }
     }
 }
