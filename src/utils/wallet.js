@@ -441,7 +441,7 @@ class Wallet {
             accountIds
                 .map(async (accountId) => {
                     const accountKeys = await this.getAccount(accountId).getAccessKeys();
-                    return accountKeys.find(({ public_key }) => public_key == publicKey.toString()) ? accountId : null
+                    return accountKeys.find(({ public_key }) => public_key === publicKey.toString()) ? accountId : null
                 })
             )
         )

@@ -199,7 +199,6 @@ export class TwoFactor {
     }
 }
 
-
 const getContract = (account, accountId) => {
     return new nearApiJs.Contract(account, account.accountId, {
         viewMethods: VIEW_METHODS,
