@@ -118,7 +118,6 @@ export class TwoFactor extends Account {
             if (!verified) {
                 throw new WalletError('Request was cancelled.', 'errors.twoFactor.userCancelled')
             }
-            console.log('confirm', txResponse)
             return txResponse
         }
     }
