@@ -27,9 +27,11 @@ class Sign extends Component {
     }
 
     handleAllow = async () => {
-        await this.props.signAndSendTransactions(this.props.transactions, this.props.account.accountId)
-        if (this.props.callbackUrl) {
-            window.location.href = this.props.callbackUrl;
+        const { signAndSendTransactions, transactions, account, callbackUrl} = this.props
+
+        await signAndSendTransactions(transactions, account.accountId)
+        if (callbackUrl) {
+            window.location.href = callbackUrl;
         }
     }
 
