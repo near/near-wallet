@@ -79,7 +79,7 @@ export function EnableTwoFactor(props) {
     }
 
     const handleConfirm = async (securityCode) => {
-        await dispatch(verifyTwoFactor(accountId, securityCode))
+        await dispatch(verifyTwoFactor(securityCode))
         handleDeployMultisig()
     }
 

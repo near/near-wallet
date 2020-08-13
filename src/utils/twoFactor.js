@@ -24,17 +24,19 @@ export class TwoFactor extends Account {
 
     getAccount() {
         let account = this
-        if (this.wallet.tempTwoFactorAccount) {
-            account = this.wallet.tempTwoFactorAccount
+        if (this.wallet.recoveryAccount) {
+            account = this.wallet.recoveryAccount
         }
         return account
     }
 
     async get2faMethod() {
-        const { account, has2fa } = await this.wallet.getAccountAndState(this.wallet.accountId);
-        if (has2fa) {
-            return (await this.wallet.getRecoveryMethods(account)).data.filter((m) => m.kind.indexOf('2fa-') > -1).map(({ kind, detail, createdAt }) => ({ kind, detail, createdAt }))[0]
+        if (!this.wallet.has2fa) {
+            return null
         }
+        return (await this.wallet.getRecoveryMethods(this.getAccount()))
+            .data.filter((m) => m.kind.indexOf('2fa-') > -1)
+            .map(({ kind, detail, createdAt }) => ({ kind, detail, createdAt }))[0]
     }
 
     async initTwoFactor(accountId, method) {
@@ -64,10 +66,8 @@ export class TwoFactor extends Account {
     }
 
     // requestId is optional, if included the server will try to confirm requestId
-    async verifyTwoFactor(accountId, securityCode) {
-        if (this.wallet.tempTwoFactorAccount) {
-            accountId = this.wallet.tempTwoFactorAccount.accountId
-        }
+    async verifyTwoFactor(securityCode) {
+        const { accountId } = this.getAccount()
         const requestData = getRequest()
         let { requestId } = requestData
         if (!requestId && requestId !== 0) {
@@ -195,7 +195,7 @@ export class TwoFactor extends Account {
         return await this.request(request)
     }
 
-    async signAndSendTransactions(account, transactions) {
+    async signAndSendTransactions(transactions) {
         for (let { receiverId, actions } of transactions) {
             actions = actions.map((a) => {
                 const action = {

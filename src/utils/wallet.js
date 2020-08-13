@@ -111,23 +111,16 @@ class Wallet {
         this.twoFactor = new TwoFactor(this)
     }
 
-    getAccount(accountId, isCheck = false) {
-        if (!isCheck && this.has2fa && this.twoFactor.accountId === accountId) {
+    isEmpty() {
+        return !this.accounts || !Object.keys(this.accounts).length
+    }
+
+    getAccount(accountId) {
+        if (this.has2fa && this.twoFactor.accountId === accountId) {
             return this.twoFactor;
         } else {
             return new nearApiJs.Account(this.connection, accountId)
         }
-    }
-
-    async getAccountAndState(accountId) {
-        const account = this.getAccount(accountId)
-        const state = await account.state()
-        const has2fa = MULTISIG_CONTRACT_HASHES.includes(state.code_hash)
-        return { account, state, has2fa }
-    }
-
-    isEmpty() {
-        return !this.accounts || !Object.keys(this.accounts).length
     }
 
     async loadAccountAndState() {
@@ -306,7 +299,7 @@ class Wallet {
         }
         let remoteAccount = null
         try {
-            remoteAccount = await this.getAccount(accountId, true).state()
+            remoteAccount = await this.getAccount(accountId).state()
         } catch (e) {
             return true
         }
@@ -539,10 +532,10 @@ class Wallet {
     }
 
     async postSignedJson(path, options) {
-        // if there's a tempTwoFactorAccount (recovery with 2fa) use that account
+        // if there's a recoveryAccount (recovery with 2fa) use that account
         return await sendJson('POST', ACCOUNT_HELPER_URL + path, {
             ...options,
-            ...(await this.signatureFor(this.tempTwoFactorAccount ? this.tempTwoFactorAccount : this))
+            ...(await this.signatureFor(this.recoveryAccount ? this.recoveryAccount : this))
         });
     }
 
@@ -667,7 +660,7 @@ class Wallet {
             await tempKeyStore.setKey(NETWORK_ID, accountId, keyPair)
             account.keyStore = tempKeyStore
             account.inMemorySigner = new nearApiJs.InMemorySigner(tempKeyStore)
-            this.tempTwoFactorAccount = account
+            this.recoveryAccount = account
             const newKeyPair = KeyPair.fromRandom('ed25519')
 
             await this.addAccessKey(accountId, accountId, newKeyPair.publicKey, fromSeedPhraseRecovery)
@@ -686,7 +679,7 @@ class Wallet {
 
     async signAndSendTransactions(transactions, accountId) {
         if (this.has2fa) {
-            await this.twoFactor.signAndSendTransactions(account, transactions)
+            await this.twoFactor.signAndSendTransactions(transactions)
             return
         }
         store.dispatch(setSignTransactionStatus('in-progress'))
