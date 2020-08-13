@@ -14,7 +14,8 @@ import {
     deleteRecoveryMethod,
     setupRecoveryMessage,
     addLedgerAccessKey,
-    getLedgerPublicKey
+    getLedgerPublicKey,
+    setLedgerTxSigned
 } from '../../actions/account'
 
 const initialState = {
@@ -85,6 +86,16 @@ const ledger = handleActions({
         return {
             ...state,
             ...(payload && payload.ledger)
+        }
+    },
+    [setLedgerTxSigned]: (state, { payload }) => {
+        return {
+            ...state,
+            modal: {
+                ...state.modal,
+                txSigned: payload
+            }
+            
         }
     },
 }, initialState)
