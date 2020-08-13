@@ -19,7 +19,7 @@ const LedgerConfirmActionModal = () => {
             >
                 <ModalTheme/>
                 <MobileActionSheet/>
-                <h2>
+                <h2 className={modal.txSigned ? 'dots' : ''}>
                     <Translate id={`confirmLedgerModal.header.${modal.txSigned ? 'processing' : 'confirm'}`}/>
                 </h2>
                 <LedgerImage animate={true}/>
