@@ -173,6 +173,7 @@ export class TwoFactor extends Account {
     }
 
     async deleteKey(publicKey) {
+        const account = this.getAccount()
         const request = {
             receiver_id: account.accountId,
             actions: [deleteKeyAction(publicKey)]
