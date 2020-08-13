@@ -15,7 +15,9 @@ export const loadRecoveryMethods = createAction('LOAD_RECOVERY_METHODS',
 
 export const handleRedirectUrl = (previousLocation) => (dispatch, getState) => {
     const { pathname } = getState().router.location
-    if (pathname.split('/')[1] === WALLET_CREATE_NEW_ACCOUNT_URL) {
+    const isValidRedirectUrl = previousLocation.pathname.includes(WALLET_LOGIN_URL) || previousLocation.pathname.includes(WALLET_SIGN_URL)
+
+    if (pathname.split('/')[1] === WALLET_CREATE_NEW_ACCOUNT_URL && isValidRedirectUrl) {
         let url = {
             ...getState().account.url,
             redirect_url: previousLocation.pathname
