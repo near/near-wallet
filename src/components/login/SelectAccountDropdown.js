@@ -5,6 +5,7 @@ import { Translate } from 'react-localize-redux';
 import AddBlueImage from '../../images/icon-add-blue.svg';
 import ArrowDownImage from '../../images/icon-arrow-down.svg';
 import ArrowUpImage from '../../images/icon-arrow-up.svg';
+import { DISABLE_CREATE_ACCOUNT } from '../../utils/wallet';
 
 const CustomSegment = styled(Segment)`
     &&& {
@@ -138,13 +139,15 @@ const SelectAccountDropdown = ({
                                 <div className='item'>{translate('selectAccountDropdown.noOtherAccounts')}</div>
                             }
                         </div>
-                        <div
-                            onClick={redirectCreateAccount}
-                            className='item list-create color-seafoam-blue'
-                            title={translate('selectAccountDropdown.createAccount')}
-                        >
-                            {translate('selectAccountDropdown.createAccount')}
-                        </div>
+                        {!DISABLE_CREATE_ACCOUNT &&
+                            <div
+                                onClick={redirectCreateAccount}
+                                className='item list-create color-seafoam-blue'
+                                title={translate('selectAccountDropdown.createAccount')}
+                            >
+                                {translate('selectAccountDropdown.createAccount')}
+                            </div>
+                        }
                     </div>
                 </Segment>
             </CustomSegment>
