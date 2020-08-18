@@ -92,14 +92,15 @@ const RecoveryContainer = () => {
     const loading = account.actionsPending.includes('LOAD_RECOVERY_METHODS') || account.actionsPending.includes('REFRESH_ACCOUNT');
 
     const handleDeleteMethod = async (method) => {
-        setDeletingMethod(method.publicKey)
+
+        const deleteAllowed = [...currentActiveKinds].length > 1 || account.ledgerKey;
 
         try {
-            await dispatch(deleteRecoveryMethod(method))
+            setDeletingMethod(method.publicKey)
+            await dispatch(deleteRecoveryMethod(method, deleteAllowed))
         } finally {
             setDeletingMethod('')
         }
-
         dispatch(loadRecoveryMethods())
     }
 

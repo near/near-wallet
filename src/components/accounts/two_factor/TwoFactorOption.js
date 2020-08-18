@@ -1,10 +1,7 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import EmailIcon from '../../svg/EmailIcon';
 import PhoneIcon from '../../svg/PhoneIcon';
-import PhraseIcon from '../../svg/PhraseIcon';
-import HardwareDeviceIcon from '../../svg/HardwareDeviceIcon';
 import { Translate } from 'react-localize-redux';
 import IntFlagIcon from '../../../images/int-flag-small.svg';
 import classNames from '../../../utils/classNames';
@@ -72,6 +69,8 @@ const Container = styled.div`
     .react-phone-number-input {
         position: relative;
 
+        // TODO: Move phone input style to common
+
         .react-phone-number-input__country {
             position: absolute;
             right: 0;
@@ -114,11 +113,6 @@ const Container = styled.div`
             font-size: 16px;
         }
     }
-
-    &.disabled {
-        opacity: 0.3;
-        cursor: not-allowed;
-    }
 `
 
 const Header = styled.div`
@@ -140,64 +134,27 @@ const Title = styled.div`
     color: #24272a;
     font-weight: 500;
     font-family: BwSeidoRound;
-
-    span {
-        color: #FF585D;
-    }
 `
 
-const Icon = ({option}) => {
-    switch (option) {
-        case 'email':
-            return <EmailIcon/>
-        case 'phone':
-            return <PhoneIcon/>
-        case 'phrase':
-            return <PhraseIcon/>
-        case 'ledger':
-            return <HardwareDeviceIcon/>
-        default:
-            return
-    }
-}
-
-const RecoveryOption = ({
+const TwoFactorOption = ({
     children,
     option,
     onClick,
     active,
-    disabled,
     problem
 }) => {
 
     active = active === option;
 
     return (
-        <Container 
-            onClick={!disabled ? onClick : undefined} 
-            className={classNames([{active: active && !disabled, disabled, inputProblem: problem}])}
-        >
+        <Container onClick={onClick} className={classNames([{active: active, inputProblem: problem}])}>
             <Header>
-                <Icon option={option}/>
-                <Title>
-                    <Translate id={`setupRecovery.${option}Title`}/>
-                    {active && option !== 'phrase' && option !== 'ledger' && <span>*</span>}
-                </Title>
+                {option === 'email' ? <EmailIcon/> : <PhoneIcon/>}
+                <Title><Translate id={`twoFactor.${option}`}/></Title>
             </Header>
-            {!disabled && active && children}
+            {active && children}
         </Container>
     )
 }
 
-RecoveryOption.propTypes = {
-    children: PropTypes.oneOfType([
-        PropTypes.array,
-        PropTypes.object
-    ]),
-    option: PropTypes.string.isRequired,
-    onClick: PropTypes.func.isRequired,
-    active: PropTypes.string.isRequired,
-    problem: PropTypes.bool
-}
-
-export default RecoveryOption;
+export default TwoFactorOption;

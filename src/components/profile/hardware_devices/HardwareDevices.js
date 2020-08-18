@@ -1,17 +1,19 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
+import { Translate } from 'react-localize-redux';
 import Card from '../../common/styled/Card.css';
+
 import FormButton from '../../common/FormButton';
 import HardwareDeviceIcon from '../../svg/HardwareDeviceIcon';
 import { 
     getAccessKeys,
-    removeAccessKey
+    disableLedger,
+    getLedgerKey
 } from '../../../actions/account';
 import { useRecoveryMethods } from '../../../hooks/recoveryMethods';
 import ConfirmDisable from './ConfirmDisable';
-import { Translate } from 'react-localize-redux';
 
 const Container = styled(Card)`
     margin-top: 30px;
@@ -75,39 +77,30 @@ const Container = styled(Card)`
 `
 
 const HardwareDevices = () => {
+
     const [disabling, setDisabling] = useState(false);
     const [confirmDisable, setConfirmDisable] = useState(false);
-
     const dispatch = useDispatch();
     const account = useSelector(({ account }) => account);
     const recoveryMethods = useRecoveryMethods(account.accountId);
-
     const keys = account.fullAccessKeys || [];
-    const ledgerKey = keys.find(key => key.meta.type === 'ledger');
-    const hasLedger = !!ledgerKey
-
     const recoveryKeys = recoveryMethods.map(key => key.publicKey)
     const publicKeys = keys.map(key => key.public_key)
     const hasOtherMethods = publicKeys.some(key => recoveryKeys.includes(key))
-
-    useEffect(() => { 
-        dispatch(getAccessKeys())
-    }, []);
+    const hasLedger = account.ledgerKey !== null;
 
     const handleConfirmDisable = async () => {
-        setDisabling(true);
-        // TODO: Should move to explicit action to disable Ledger
         try {
-            await dispatch(removeAccessKey(ledgerKey.public_key))
+            setDisabling(true)
+            await dispatch(disableLedger());
         } finally {
-            // TODO: Reload of keys should trigger automatically after any change action?
             await dispatch(getAccessKeys())
-            setDisabling(false);
+            await dispatch(getLedgerKey())
+            setDisabling(false)
+            setConfirmDisable(false);
         }
-
-        setConfirmDisable(false);
     }
-
+    
     return (
         <Container>
             <div className='header'>
@@ -123,7 +116,7 @@ const HardwareDevices = () => {
                             {hasLedger && <div><Translate id='hardwareDevices.ledger.auth'/></div>}
                         </div>
                         {!hasLedger ? 
-                            <FormButton linkTo='/setup-ledger' color='blue'><Translate id='button.enable'/></FormButton> 
+                            <FormButton linkTo={`/setup-ledger/${account.accountId}`} color='blue'><Translate id='button.enable'/></FormButton> 
                             : 
                             <FormButton disabled={!hasOtherMethods} color='gray-red' onClick={() => setConfirmDisable(true)}><Translate id='button.disable'/></FormButton>
                         }

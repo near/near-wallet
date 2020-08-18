@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import UserLinks from './UserLinks';
 import UserAccounts from './UserAccounts';
 import CreateAccountBtn from './CreateAccountBtn';
+import { DISABLE_CREATE_ACCOUNT } from '../../utils/wallet';
 
 const Menu = styled.div`
     position: absolute;
@@ -60,7 +61,7 @@ const DesktopMenu = ({ show, accountId, accounts, selectAccount, toggleMenu }) =
                         accountId={accountId}
                         selectAccount={selectAccount}
                     />
-                    <CreateAccountBtn/>
+                    {!DISABLE_CREATE_ACCOUNT && <CreateAccountBtn/>}
                 </LowerSection>
             </Menu>
         )

@@ -2,7 +2,7 @@ import { utils, transactions as transaction } from 'near-api-js'
 import { handleActions } from 'redux-actions'
 import BN from 'bn.js'
 
-import { parseTransactionsToSign, signAndSendTransactions } from '../actions/account'
+import { parseTransactionsToSign, signAndSendTransactions, setSignTransactionStatus } from '../actions/account'
 
 const sign = handleActions({
     [parseTransactionsToSign]: (state, { payload: { transactions: transactionsString, callbackUrl } }) => {
@@ -32,10 +32,11 @@ const sign = handleActions({
         }
     },
     [signAndSendTransactions]: (state, { error, payload, ready }) => {
+
         if (!ready) {
             return {
                 ...state,
-                status: 'in-progress',
+                status: 'needs-confirmation'
             }
         }
 
@@ -50,6 +51,12 @@ const sign = handleActions({
         return {
             ...state,
             status: 'success'
+        }
+    },
+    [setSignTransactionStatus]: (state, { payload }) => {
+        return {
+            ...state,
+            status: payload.status
         }
     }
 }, {

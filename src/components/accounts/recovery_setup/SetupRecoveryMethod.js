@@ -5,11 +5,14 @@ import { Translate } from 'react-localize-redux';
 import 'react-phone-number-input/style.css'
 import PhoneInput, { isValidPhoneNumber } from 'react-phone-number-input';
 import { validateEmail } from '../../../utils/account';
-import { initializeRecoveryMethod, setupRecoveryMessage, redirectToApp, loadRecoveryMethods } from '../../../actions/account';
+import { initializeRecoveryMethod, setupRecoveryMessage, redirectToApp, loadRecoveryMethods, getAccessKeys, getLedgerKey, refreshAccount, get2faMethod } from '../../../actions/account';
 import RecoveryOption from './RecoveryOption';
 import FormButton from '../../common/FormButton';
-import SetupRecoveryMethodSuccess from './SetupRecoveryMethodSuccess';
-import Container from '../../common/styled/Container.css'
+import EnterVerificationCode from '../EnterVerificationCode';
+import Container from '../../common/styled/Container.css';
+import { MULTISIG_MIN_AMOUNT } from '../../../utils/wallet';
+import { BN } from 'bn.js';
+import { utils } from 'near-api-js';
 
 const StyledContainer = styled(Container)`
     
@@ -40,27 +43,46 @@ class SetupRecoveryMethod extends Component {
         success: false,
         emailInvalid: false,
         phoneInvalid: false,
-        activeMethods: []
+        activeMethods: [],
+        hasFetchedMethods: false
     }
 
     componentDidMount() {
-        const { loadRecoveryMethods, accountId, router, recoveryMethods } = this.props;
+        const { router, getAccessKeys, getLedgerKey, isNew, twoFactor, get2faMethod } = this.props;
         const { method } = router.location;
+        
+        getAccessKeys()
+        getLedgerKey()
 
         if (method) {
             this.setState({ option: method });
         }
 
-        if (recoveryMethods[accountId]) {
-            const confirmed = recoveryMethods[accountId].filter(method => method.confirmed)
+        if (!isNew) {
+            this.setRecoveryMethods()
+
+            if (!twoFactor) {
+                get2faMethod()
+            }
+        }
+    }
+
+    setRecoveryMethods = () => {
+        if (this.props.recoveryMethods[this.props.activeAccountId]) {
+            const confirmed = this.props.recoveryMethods[this.props.accountId].filter(method => method.confirmed)
             this.setState({ activeMethods: confirmed.map(method => method.kind) });
         } else {
-            loadRecoveryMethods(accountId)
-                .then((payload) => {
-                    const confirmed = payload.data.filter(method => method.confirmed);
-                    this.setState({ activeMethods: confirmed.map(method => method.kind) });
-                })
+            if (!this.state.hasFetchedMethods) {
+                this.getMethods()
+            }
         }
+    }
+
+    getMethods = async () => {
+
+        await this.props.loadRecoveryMethods()
+        this.setState({ hasFetchedMethods: true })
+        return this.setRecoveryMethods()
     }
 
     get isValidInput() {
@@ -73,6 +95,8 @@ class SetupRecoveryMethod extends Component {
                 return isValidPhoneNumber(phoneNumber)
             case 'phrase':
                 return true
+            case 'ledger':
+                return true
             default:
                 return false
         }
@@ -81,11 +105,19 @@ class SetupRecoveryMethod extends Component {
     handleNext = () => {
         const { option } = this.state;
 
+        const {
+            isNew, accountId, fundingContract, fundingKey,
+        } = this.props
+        const phraseUrl = `/setup-seed-phrase/${accountId}/phrase/${isNew ? '1' : '0'}/${fundingContract ? `${fundingContract}/${fundingKey}/` : ``}`
+
         if (option === 'email' || option === 'phone') {
             this.handleSendCode()
             window.scrollTo(0, 0);
         } else if (option === 'phrase') {
-            this.props.history.push(`/setup-seed-phrase/${this.props.accountId}`);
+            this.props.history.push(phraseUrl);
+        } else if (option === 'ledger') {
+            const ledgerUrl = `/setup-ledger/${accountId}/${isNew ? '1' : '0'}/${fundingContract ? `${fundingContract}/${fundingKey}/` : ``}`
+            this.props.history.push(ledgerUrl);
         }
     }
 
@@ -101,18 +133,34 @@ class SetupRecoveryMethod extends Component {
     }
 
     handleSendCode = () => {
-        const  { accountId, initializeRecoveryMethod } = this.props;
+        const  { accountId, initializeRecoveryMethod, isNew } = this.props;
 
-        initializeRecoveryMethod(accountId, this.method);
+        initializeRecoveryMethod(accountId, this.method, isNew);
         this.setState({ success: true })
         
     }
 
     handleSetupRecoveryMethod = async (securityCode) => {
-        const  { accountId, setupRecoveryMessage, redirectToApp } = this.props;
+        const  {
+            accountId, setupRecoveryMessage, redirectToApp, history,
+            isNew, fundingContract, fundingKey, refreshAccount
+        } = this.props;
 
-        await setupRecoveryMessage(accountId, this.method, securityCode)
-        redirectToApp('/profile');
+        let account;
+
+        try {
+            await setupRecoveryMessage(accountId, this.method, securityCode, isNew, fundingContract, fundingKey)
+            account = await refreshAccount()
+        } finally {
+            const availableBalance = new BN(account.balance.available)
+            const multisigMinAmount = new BN(utils.format.parseNearAmount(MULTISIG_MIN_AMOUNT))
+
+            if (fundingContract && multisigMinAmount.lt(availableBalance)) {
+                history.push('/enable-two-factor')
+            } else {
+                redirectToApp('/profile');
+            }
+        }
     }
 
     handleGoBack = () => {
@@ -137,7 +185,7 @@ class SetupRecoveryMethod extends Component {
 
     render() {
         const { option, phoneNumber, email, success, emailInvalid, phoneInvalid, activeMethods } = this.state;
-        const { actionsPending } = this.props;
+        const { actionsPending, accountId, activeAccountId, ledgerKey, twoFactor, isNew } = this.props;
 
         if (!success) {
             return (
@@ -188,6 +236,14 @@ class SetupRecoveryMethod extends Component {
                         </RecoveryOption>
                         <OptionHeader><Translate id='setupRecovery.advancedSecurity'/></OptionHeader>
                         <OptionSubHeader><Translate id='setupRecovery.advancedSecurityDesc'/></OptionSubHeader>
+                        {(isNew || (!isNew && !twoFactor)) &&
+                            <RecoveryOption
+                                onClick={() => this.setState({ option: 'ledger' })}
+                                option='ledger'
+                                active={option}
+                                disabled={ledgerKey !== null && accountId === activeAccountId}
+                            />
+                        }
                         <RecoveryOption
                             onClick={() => this.setState({ option: 'phrase' })}
                             option='phrase'
@@ -207,12 +263,13 @@ class SetupRecoveryMethod extends Component {
             )
         } else {
             return (
-                <SetupRecoveryMethodSuccess
+                <EnterVerificationCode
                     option={option}
                     phoneNumber={phoneNumber}
                     email={email}
                     onConfirm={this.handleSetupRecoveryMethod}
                     onGoBack={this.handleGoBack}
+                    onResend={this.handleSendCode}
                     loading={actionsPending.includes('SETUP_RECOVERY_MESSAGE')}
                     requestStatus={this.props.requestStatus}
                 />
@@ -225,13 +282,21 @@ const mapDispatchToProps = {
     setupRecoveryMessage,
     redirectToApp,
     loadRecoveryMethods,
-    initializeRecoveryMethod
+    initializeRecoveryMethod,
+    getAccessKeys,
+    getLedgerKey,
+    refreshAccount,
+    get2faMethod
 }
 
 const mapStateToProps = ({ account, router, recoveryMethods }, { match }) => ({
     ...account,
     router,
     accountId: match.params.accountId,
+    activeAccountId: account.accountId,
+    isNew: !!parseInt(match.params.isNew),
+    fundingContract: match.params.fundingContract,
+    fundingKey: match.params.fundingKey,
     recoveryMethods
 })
 

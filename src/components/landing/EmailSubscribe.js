@@ -57,6 +57,7 @@ const Container = styled.div`
         font-weight: 500 !important;
         padding: 4px 30px;
         transition: 100ms;
+        word-break: keep-all;
 
         &:hover {
             background-color: #ff6d71;

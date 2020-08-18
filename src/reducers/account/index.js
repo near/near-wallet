@@ -9,6 +9,7 @@ import {
     clearCode,
     addAccessKey,
     addAccessKeySeedPhrase,
+    promptTwoFactor,
     clearAlert,
     refreshUrl,
     refreshAccount,
@@ -17,13 +18,21 @@ import {
     deleteRecoveryMethod,
     sendNewRecoveryLink,
     recoverAccountSeedPhrase,
+    removeAccessKey,
+    deployMultisig,
+    get2faMethod,
+    getLedgerKey,
+    sendMoney,
     saveAndSelectLedgerAccounts
 } from '../../actions/account'
 
 const initialState = {
     formLoader: false,
     sentMessage: false,
-    actionsPending: []
+    requestPending: null,
+    actionsPending: [],
+    twoFactor: null,
+    ledgerKey: null
 }
 
 const loaderReducer = (state, { type, ready }) => {
@@ -42,7 +51,7 @@ const loaderReducer = (state, { type, ready }) => {
 const globalAlertReducer = handleActions({
     // TODO: Reset state before action somehow. On navigate / start of other action?
     // TODO: Make this generic to avoid listing actions
-    [combineActions(addAccessKey, addAccessKeySeedPhrase, setupRecoveryMessage, saveAndSelectLedgerAccounts, deleteRecoveryMethod, sendNewRecoveryLink, recoverAccountSeedPhrase)]: (state, { error, ready, payload, meta }) => ({
+    [combineActions(addAccessKey, addAccessKeySeedPhrase, setupRecoveryMessage, saveAndSelectLedgerAccounts, deleteRecoveryMethod, sendNewRecoveryLink, recoverAccountSeedPhrase, deployMultisig, sendMoney, removeAccessKey)]: (state, { error, ready, payload, meta }) => ({
         ...state,
         globalAlert: ready ? {
             success: !error,
@@ -61,6 +70,7 @@ const requestResultReducer = (state, { error, ready, payload, meta }) => {
     if (!meta || !meta.successCode) {
         return state
     }
+
     return {
         ...(state || initialState),
         requestStatus: ready ? {
@@ -92,7 +102,7 @@ const recoverCodeReducer = handleActions({
 const accessKeys = handleActions({
     [getAccessKeys]: (state, { error, payload }) => ({
         ...state,
-        authorizedApps: payload && payload.filter(it => it.access_key && it.access_key.permission.FunctionCall),
+        authorizedApps: payload && payload.filter(it => it.access_key && it.access_key.permission.FunctionCall && it.access_key.permission.FunctionCall.receiver_id !== state.accountId),
         fullAccessKeys: payload && payload.filter(it => it.access_key && it.access_key.permission === 'FullAccess'),
     })
 }, initialState)
@@ -104,8 +114,30 @@ const url = handleActions({
     })
 }, initialState)
 
+const twoFactor = handleActions({
+    [get2faMethod]: (state, { payload }) => ({
+        ...state,
+        twoFactor: payload
+    })
+}, initialState)
+
+const twoFactorPrompt = handleActions({
+    [promptTwoFactor]: (state, { payload }) => ({
+        ...state,
+        requestPending: payload.requestPending
+    })
+}, initialState)
+
+const ledgerKey = handleActions({
+    [getLedgerKey]: (state, { payload }) => ({
+        ...state,
+        ledgerKey: payload
+    })
+}, initialState)
+
 const account = handleActions({
     [refreshAccount]: (state, { payload, ready, meta }) => {
+
         if (!ready) {
             return {
                 ...state,
@@ -124,6 +156,7 @@ const account = handleActions({
         return {
             ...state,
             ...payload,
+            ledger: undefined,
             ...resetAccountState,
             loader: false
         }
@@ -147,5 +180,8 @@ export default reduceReducers(
     recoverCodeReducer,
     accessKeys,
     account,
-    url
+    url,
+    twoFactor,
+    twoFactorPrompt,
+    ledgerKey
 )

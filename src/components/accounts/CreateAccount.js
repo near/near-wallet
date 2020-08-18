@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { Translate } from 'react-localize-redux'
-import { checkNewAccount, createNewAccount, clear, refreshAccount, resetAccounts, setFormLoader } from '../../actions/account'
+import { checkNewAccount, createNewAccount, clear, refreshAccount, setFormLoader } from '../../actions/account'
 import { ACCOUNT_ID_SUFFIX } from '../../utils/wallet'
 import Container from '../common/styled/Container.css'
 
@@ -57,7 +57,6 @@ const StyledContainer = styled(Container)`
         justify-content: center;
         margin-top: 5px;
     }
-
 `
 
 class CreateAccount extends Component {
@@ -80,34 +79,27 @@ class CreateAccount extends Component {
     }
 
     handleCreateAccount = async () => {
-        const { accountId, token } = this.state;
-        const { match, createNewAccount, setFormLoader } = this.props
-
-        const fundingKey = match.params.fundingKey;
-        const fundingContract = match.params.fundingContract;
-
-        this.setState({ loader: true });
-        
-        try {
-            await createNewAccount(accountId, fundingKey, fundingContract, token)
-        } finally {
-            this.setState({ loader: false });
-            setFormLoader(false)
-        }
-        
-        this.handleCreateAccountSuccess();
-    }
-
-    handleCreateAccountSuccess = () => {
         const { accountId } = this.state;
+        const { 
+            setFormLoader,
+            fundingContract, fundingKey,
+        } = this.props
 
-        this.props.refreshAccount();
-        let nextUrl = process.env.DISABLE_PHONE_RECOVERY === 'yes' ? `/setup-seed-phrase/${accountId}` : `/set-recovery/${accountId}`;
+        setFormLoader(false)
+        
+        this.setState({ loader: true });
+
+        const linkdropParams = fundingContract ? `${fundingContract}/${fundingKey}` : ``
+        let nextUrl = process.env.DISABLE_PHONE_RECOVERY === 'yes' ?
+            `/setup-seed-phrase/${accountId}/phrase/1/${linkdropParams}` :
+            `/set-recovery/${accountId}/1/${linkdropParams}`;
+
+
         this.props.history.push(nextUrl);
     }
 
     render() {
-        const { loader, accountId, recaptchaFallback } = this.state
+        const { loader, accountId } = this.state
         const { requestStatus, formLoader, checkNewAccount, resetAccount, clear, setFormLoader } = this.props
         const useRequestStatus = accountId.length > 0 ? requestStatus : undefined;
         
@@ -115,7 +107,7 @@ class CreateAccount extends Component {
             <StyledContainer className='small-centered'>
                 <form onSubmit={e => {this.handleCreateAccount(); e.preventDefault();}} autoComplete='off'>
                     <h1><Translate id='createAccount.pageTitle'/></h1>
-                    <h2>Just choose a username and you're all set!</h2>
+                    <h2><Translate id='createAccount.pageText'/></h2>
                     <h6><Translate id='createAccount.accountIdInput.title'/></h6>
                     <AccountFormAccountId
                         formLoader={formLoader}
@@ -140,7 +132,7 @@ class CreateAccount extends Component {
                     <div className='alternatives-title'><Translate id='createAccount.alreadyHaveAnAccount'/></div>
                     <div className='alternatives'>
                         <Link to='/sign-in-ledger'><Translate id='createAccount.signInLedger'/></Link>
-                        &nbsp;or&nbsp;
+                        &nbsp; <Translate id='or'/> &nbsp;
                         <Link to={process.env.DISABLE_PHONE_RECOVERY === 'yes' ? '/recover-seed-phrase' : '/recover-account'}><Translate id='createAccount.recoverItHere' /></Link>
                     </div>
                 </form>
@@ -154,12 +146,13 @@ const mapDispatchToProps = {
     createNewAccount,
     clear,
     refreshAccount,
-    resetAccounts,
     setFormLoader
 }
 
-const mapStateToProps = ({ account }) => ({
-    ...account
+const mapStateToProps = ({ account }, { match }) => ({
+    ...account,
+    fundingContract: match.params.fundingContract,
+    fundingKey: match.params.fundingKey,
 })
 
 export const CreateAccountWithRouter = connect(

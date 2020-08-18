@@ -11,6 +11,7 @@ import SelectAccountDropdown from '../login/SelectAccountDropdown'
 import Balance from '../common/Balance'
 import Button from '../common/Button'
 import InlineNotification from '../common/InlineNotification'
+import FormButton from '../common/FormButton'
 
 
 const Container = styled.div`
@@ -114,10 +115,10 @@ const ButtonWrapper = styled.div`
         flex: 1;
 
         &:last-of-type {
-            margin-left: 30px;
+            margin-left: 30px !important;
 
             @media (min-width: 768px) {
-                margin-left: 50px;
+                margin-left: 50px !important;
             }
         }
     }
@@ -159,6 +160,7 @@ class SignTransferReady extends Component {
             appTitle,
             actionsCounter,
             account,
+            sending,
             handleAllow,
             handleDeny,
             txTotalAmount,
@@ -217,12 +219,13 @@ class SignTransferReady extends Component {
                         >
                             <Translate id='button.deny' />
                         </Button>
-                        <Button
+                        <FormButton
                             onClick={handleAllow}
                             disabled={isMonetaryTransaction && insufficientFunds}
+                            sending={sending}
                         >
                             <Translate id='button.allow' />
-                        </Button>
+                        </FormButton>
                     </ButtonWrapper>
                 </Footer>
             </Container>
