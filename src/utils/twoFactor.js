@@ -146,13 +146,13 @@ export class TwoFactor extends Account {
     Account overrides
     ********************************/
 
-    async sendMoney(receiver_id, amount) {
-        const request = {
-            receiver_id,
-            actions: [{ type: 'Transfer', amount }]
-        }
-        return await this.request(request)
-    }
+    // async sendMoney(receiver_id, amount) {
+    //     const request = {
+    //         receiver_id,
+    //         actions: [{ type: 'Transfer', amount }]
+    //     }
+    //     return await this.request(request)
+    // }
 
     async addKey(publicKey, notFullAccess) {
         const fullAccess = notFullAccess === undefined
@@ -192,27 +192,44 @@ export class TwoFactor extends Account {
         return await this.request(request)
     }
 
+    async signAndSendTransaction(receiverId, actions) {
+        const args = new Uint8Array(new TextEncoder().encode(JSON.stringify({
+            receiver_id: receiverId,
+            actions: convertActions(actions)
+        })));
+        const res = await super.signAndSendTransaction(this.wallet.accountId, [
+            functionCall('add_request_and_confirm', args)
+        ])
+        console.log(res)
+        // await this.request({ receiver_id: receiverId, actions: convertActions(actions) })
+    }
+
     async signAndSendTransactions(transactions) {
+        console.log(transactions)
+        const results = []
         for (let { receiverId, actions } of transactions) {
-            actions = actions.map((a) => {
-                const action = {
-                    ...a[a.enum],
-                    type: actionTypes[a.enum],
-                }
-                // TODO determine what gas each action needs attached, needs gasEstimation
-                if (action.gas) action.gas = '100000000000000'
-                if (action.deposit) action.deposit = action.deposit.toString()
-                if (action.args && Array.isArray(action.args)) action.args = Buffer.from(action.args).toString('base64')
-                if (action.methodName) {
-                    action.method_name = action.methodName
-                    delete action.methodName
-                }
-                return action
-            })
-            await this.request({ receiver_id: receiverId, actions })
+            results.push(await this.request({ receiver_id: receiverId, actions: convertActions(actions) }))
+            
         }
+        return results
     }
 }
+
+const convertActions = (actions) => actions.map((a) => {
+    const action = {
+        ...a[a.enum],
+        type: actionTypes[a.enum],
+    }
+    // TODO determine what gas each action needs attached, needs gasEstimation
+    if (action.gas) action.gas = '100000000000000'
+    if (action.deposit) action.deposit = action.deposit.toString()
+    if (action.args && Array.isArray(action.args)) action.args = Buffer.from(action.args).toString('base64')
+    if (action.methodName) {
+        action.method_name = action.methodName
+        delete action.methodName
+    }
+    return action
+})
 
 const getContract = (account) => {
     return new nearApiJs.Contract(account, account.accountId, {
