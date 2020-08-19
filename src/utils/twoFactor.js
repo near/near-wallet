@@ -12,12 +12,6 @@ export const METHOD_NAMES_LAK = ['add_request', 'add_request_and_confirm', 'dele
 const VIEW_METHODS = ['get_request_nonce', 'list_request_ids']
 const METHOD_NAMES_CONFIRM = ['confirm']
 const GAS_2FA = process.env.REACT_APP_GAS_2FA || '100000000000000'
-const actionTypes = {
-    'addKey': 'AddKey',
-    'deleteKey': 'DeleteKey',
-    'transfer': 'Transfer',
-    'functionCall': 'FunctionCall'
-}
 
 export class TwoFactor extends Account {
     constructor(wallet) {
@@ -141,7 +135,6 @@ export class TwoFactor extends Account {
         }
         await deleteUnconfirmedRequests(contract)
         const requestId = await contract.get_request_nonce()
-
         const args = new Uint8Array(new TextEncoder().encode(JSON.stringify({
             request: {
                 receiver_id: receiverId,
@@ -167,20 +160,20 @@ export class TwoFactor extends Account {
 }
 
 const convertActions = (actions, accountId, receiverId) => actions.map((a) => {
+    const type = a.enum
+    const { gas, publicKey, methodName, args } = a[type]
     const action = {
-        ...a[a.enum],
-        type: actionTypes[a.enum],
+        ...a[type],
+        type: type[0].toUpperCase() + type.substr(1),
+        gas: gas && gas.toString() || undefined,
+        public_key: publicKey && convertPKForContract(publicKey) || undefined,
+        method_name: methodName,
+        args: args && Buffer.from(args).toString('base64') || undefined,
     }
-    // TODO determine what gas each action needs attached, needs gasEstimation
-    if (action.gas) action.gas = GAS_2FA
-    if (action.functionCall) {
-        action.gas = GAS_2FA
-        delete action.functionCall
-    }
-    
-    if (action.publicKey) {
-        action.public_key = convertPKForContract(action.publicKey)
-        delete action.publicKey
+    delete action.publicKey
+    delete action.methodName
+    if (action.deposit) {
+        action.deposit = action.amount = action.deposit.toString()
     }
     if (action.accessKey) {
         if (receiverId === accountId && action.accessKey.permission.enum !== 'fullAccess') {
@@ -195,15 +188,6 @@ const convertActions = (actions, accountId, receiverId) => actions.map((a) => {
             action.permission = { receiver_id, allowance, method_names }
         }
         delete action.accessKey
-    }
-    if (action.deposit) {
-        action.amount = action.deposit.toString()
-        action.deposit = action.amount
-    }
-    if (action.args && Array.isArray(action.args)) action.args = Buffer.from(action.args).toString('base64')
-    if (action.methodName) {
-        action.method_name = action.methodName
-        delete action.methodName
     }
     return action
 })
