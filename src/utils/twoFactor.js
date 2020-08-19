@@ -13,6 +13,7 @@ const VIEW_METHODS = ['get_request_nonce', 'list_request_ids']
 const METHOD_NAMES_CONFIRM = ['confirm']
 const LAK_ALLOWANCE = process.env.LAK_ALLOWANCE || '10000000000000'
 const actionTypes = {
+    'transfer': 'Transfer',
     'functionCall': 'FunctionCall'
 }
 
@@ -193,15 +194,17 @@ export class TwoFactor extends Account {
     }
 
     async signAndSendTransaction(receiverId, actions) {
+        console.log(actions)
         const args = new Uint8Array(new TextEncoder().encode(JSON.stringify({
-            receiver_id: receiverId,
-            actions: convertActions(actions)
+            request: {
+                receiver_id: receiverId,
+                actions: convertActions(actions)
+            }
         })));
         const res = await super.signAndSendTransaction(this.wallet.accountId, [
-            functionCall('add_request_and_confirm', args)
+            functionCall('add_request_and_confirm', args, LAK_ALLOWANCE, '0')
         ])
         console.log(res)
-        // await this.request({ receiver_id: receiverId, actions: convertActions(actions) })
     }
 
     async signAndSendTransactions(transactions) {
@@ -222,7 +225,9 @@ const convertActions = (actions) => actions.map((a) => {
     }
     // TODO determine what gas each action needs attached, needs gasEstimation
     if (action.gas) action.gas = '100000000000000'
-    if (action.deposit) action.deposit = action.deposit.toString()
+    if (action.deposit) {
+        action.deposit = action.amount = action.deposit.toString()
+    }
     if (action.args && Array.isArray(action.args)) action.args = Buffer.from(action.args).toString('base64')
     if (action.methodName) {
         action.method_name = action.methodName
