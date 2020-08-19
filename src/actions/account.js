@@ -169,12 +169,12 @@ export const { initializeRecoveryMethod, validateSecurityCode, initTwoFactor, re
             let promise
             if (requestPending !== null) {
                 promise = new Promise((resolve, reject) => {
-                    requestPending = (verified) => {
+                    requestPending = (verified, error) => {
                         resolve(verified)
                         // if the user was recovering, they should start over
                         wallet.tempTwoFactorAccount = null
                         if (!verified) {
-                            reject('user closed or unverified code')
+                            reject(error)
                         }
                     }
                 })
