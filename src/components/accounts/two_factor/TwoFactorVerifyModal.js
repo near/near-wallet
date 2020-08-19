@@ -77,7 +77,7 @@ const TwoFactorVerifyModal = ({ open, onClose }) => {
         <Modal
             id='two-factor-verify-modal'
             isOpen={open}
-            onClose={() => onClose(false)}
+            onClose={() => onClose(false, 'The action has been cancelled')}
             closeButton='desktop'
         >
             <ModalTheme/>
