@@ -136,11 +136,11 @@ export class TwoFactor extends Account {
         const account = this.getAccount()
         const { accountId } = account
         const contract = getContract(account)
+        if (actions[0]?.functionCall?.methodName === 'delete_request') {
+            return await super.signAndSendTransaction(accountId, actions)
+        }
+        await deleteUnconfirmedRequests(contract)
         const requestId = await contract.get_request_nonce()
-
-        // console.log(receiverId)
-        // console.log(actions, convertActions(actions, accountId, receiverId))
-        // throw new WalletError('Error creating request')
 
         const args = new Uint8Array(new TextEncoder().encode(JSON.stringify({
             request: {
@@ -173,6 +173,10 @@ const convertActions = (actions, accountId, receiverId) => actions.map((a) => {
     }
     // TODO determine what gas each action needs attached, needs gasEstimation
     if (action.gas) action.gas = GAS_2FA
+    if (action.functionCall) {
+        action.gas = GAS_2FA
+        delete action.functionCall
+    }
     
     if (action.publicKey) {
         action.public_key = convertPKForContract(action.publicKey)
@@ -212,16 +216,10 @@ const getContract = (account) => {
 }
 
 const deleteUnconfirmedRequests = async (contract) => {
-    const request_ids = await contract.list_request_ids().catch((e) => { console.log(e) })
-    if (!request_ids || request_ids.length === 0) {
-        return
-    }
+    const request_ids = await contract.list_request_ids()
     for (const request_id of request_ids) {
-        try {
-            await contract.delete_request({ request_id })
-        } catch(e) {
-            console.warn(e)
-        }
+        // TODO discuss if need to show these errors; request cooldown prevents deletion and contract panics. Error is pretty useless to console.warn
+        await contract.delete_request({ request_id }).catch((e) => {})
     }
 }
 
