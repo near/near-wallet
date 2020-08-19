@@ -165,7 +165,11 @@ export class TwoFactor {
             try {
                 return await store.dispatch(promptTwoFactor(true)).payload.promise
             } catch (e) {
-                throw new WalletError('Request was cancelled.', 'errors.twoFactor.userCancelled')
+                if (e.message.indexOf('not valid') > -1) {
+                    // TODO @patrick please update messaging/translation for invalid 2fa code
+                    throw new WalletError(e.message, 'errors.twoFactor.userCancelled')
+                }
+                throw e
             }
         }
     }

@@ -111,8 +111,6 @@ class Wallet {
         this.accountId = localStorage.getItem(KEY_ACTIVE_ACCOUNT_ID) || ''
 
         this.twoFactor = new TwoFactor(this)
-
-        console.log(this)
     }
 
     async getLocalAccessKey(accountId, accessKeys) {
