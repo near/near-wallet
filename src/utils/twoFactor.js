@@ -11,8 +11,10 @@ const {
 export const METHOD_NAMES_LAK = ['add_request', 'add_request_and_confirm', 'delete_request', 'confirm']
 const VIEW_METHODS = ['get_request_nonce', 'list_request_ids']
 const METHOD_NAMES_CONFIRM = ['confirm']
-const LAK_ALLOWANCE = process.env.LAK_ALLOWANCE || '10000000000000'
+const GAS_2FA = process.env.REACT_APP_GAS_2FA || '100000000000000'
 const actionTypes = {
+    'addKey': 'AddKey',
+    'deleteKey': 'DeleteKey',
     'transfer': 'Transfer',
     'functionCall': 'FunctionCall'
 }
@@ -50,21 +52,19 @@ export class TwoFactor extends Account {
         });
     }
 
-    async reInitTwoFactor(accountId, method) {
+    async reInitTwoFactor() {
         // clear any previous requests in localStorage (for verifyTwoFactor)
         setRequest({})
-        return this.sendRequest(accountId, method)
+        return this.sendRequest()
     }
 
-    async resend(accountId, method) {
-        if (!accountId) accountId = this.wallet.accountId
-        if (!method) method = await this.get2faMethod()
+    async resend() {
         const requestData = getRequest()
         let { requestId } = requestData
         if (!requestId && requestId !== 0) {
             requestId = -1
         }
-        return this.sendRequest(accountId, method, requestId)
+        return this.sendRequest(requestId)
     }
 
     // requestId is optional, if included the server will try to confirm requestId
@@ -82,34 +82,15 @@ export class TwoFactor extends Account {
         });
     }
 
-    async request(request) {
-        const account = this.getAccount()
-        const { accountId } = account
-        const contract = getContract(account, accountId)
-        await deleteUnconfirmedRequests(contract)
-        const request_id = await contract.get_request_nonce()
-        await contract.add_request_and_confirm({ request })
-        const request_id_after = await contract.get_request_nonce()
-        if (request_id_after > request_id) {
-            const method = await this.get2faMethod()
-            return await this.sendRequest(accountId, method, request_id)
-        }
-    }
-
-    async sendRequest(accountId, method, requestId = -1) {
-        if (!accountId) accountId = this.wallet.accountId
-        if (!method) method = await this.get2faMethod()
-        // add request to local storage
+    async sendRequest(requestId = -1) {
+        const { accountId } = this.wallet
+        const method = await this.get2faMethod()
         setRequest({ accountId, requestId })
-        try {
-            await this.wallet.postSignedJson('/2fa/send', {
-                accountId,
-                method,
-                requestId,
-            })
-        } catch (e) {
-            throw(e)
-        }
+        await this.wallet.postSignedJson('/2fa/send', {
+            accountId,
+            method,
+            requestId,
+        })
         if (requestId !== -1) {
             const { verified, txResponse } = await store.dispatch(promptTwoFactor(true)).payload.promise
             if (!verified) {
@@ -134,99 +115,86 @@ export class TwoFactor extends Account {
         const newArgs = new Uint8Array(new TextEncoder().encode(JSON.stringify({ 'num_confirmations': 2 })));
         const actions = [
             ...fak2lak.map((pk) => deleteKey(pk)),
-            ...fak2lak.map((pk) => addKey(pk, functionCallAccessKey(accountId, METHOD_NAMES_LAK, null))),
-            addKey(confirmOnlyKey, functionCallAccessKey(accountId, METHOD_NAMES_CONFIRM, null)),
+            ...fak2lak.map((pk) => addKey(pk, functionCallAccessKey(accountId, METHOD_NAMES_LAK, ACCESS_KEY_FUNDING_AMOUNT))),
+            addKey(confirmOnlyKey, functionCallAccessKey(accountId, METHOD_NAMES_CONFIRM, ACCESS_KEY_FUNDING_AMOUNT)),
             deployContract(contractBytes),
-            functionCall('new', newArgs, LAK_ALLOWANCE, '0'),
+            functionCall('new', newArgs, GAS_2FA, '0'),
         ]
         console.log('deploying multisig contract for', accountId)
         return await account.signAndSendTransaction(accountId, actions);
     }
 
-    /********************************
-    Account overrides
-    ********************************/
-
-    // async sendMoney(receiver_id, amount) {
-    //     const request = {
-    //         receiver_id,
-    //         actions: [{ type: 'Transfer', amount }]
-    //     }
-    //     return await this.request(request)
-    // }
-
-    async addKey(publicKey, notFullAccess) {
-        const fullAccess = notFullAccess === undefined
-        const account = this.getAccount()
-        const { accountId } = account
-        const accessKeys = await this.getAccessKeys(accountId)
-        if (accessKeys.find((ak) => ak.public_key.toString() === publicKey)) {
-            // TODO check access key receiver_id matches contractId desired
-            return true
-        }
-        publicKey = convertPKForContract(publicKey)
-        const request = {
-            receiver_id: account.accountId,
-            actions: [addKeyAction(publicKey, accountId, fullAccess)]
-        }
-        return await this.request(request)
-    }
-
-    async deleteKey(publicKey) {
-        const account = this.getAccount()
-        const request = {
-            receiver_id: account.accountId,
-            actions: [deleteKeyAction(publicKey)]
-        }
-        return await this.request(request)
-    }
-
     async rotateKeys(addPublicKey, removePublicKey) {
         const { accountId } = this.getAccount()
-        const request = {
-            receiver_id: accountId,
-            actions: [
-                addKeyAction(addPublicKey, accountId, false),
-                deleteKeyAction(removePublicKey)
-            ]
-        }
-        return await this.request(request)
+        return await this.signAndSendTransaction(accountId, [
+            addKey(addPublicKey, functionCallAccessKey(accountId, METHOD_NAMES_LAK, ACCESS_KEY_FUNDING_AMOUNT)),
+            deleteKey(removePublicKey)
+        ])
     }
 
     async signAndSendTransaction(receiverId, actions) {
-        console.log(actions)
+        const account = this.getAccount()
+        const { accountId } = account
+        const contract = getContract(account)
+        const requestId = await contract.get_request_nonce()
+
+        // console.log(receiverId)
+        // console.log(actions, convertActions(actions, accountId, receiverId))
+        // throw new WalletError('Error creating request')
+
         const args = new Uint8Array(new TextEncoder().encode(JSON.stringify({
             request: {
                 receiver_id: receiverId,
-                actions: convertActions(actions)
+                actions: convertActions(actions, accountId, receiverId)
             }
         })));
-        const res = await super.signAndSendTransaction(this.wallet.accountId, [
-            functionCall('add_request_and_confirm', args, LAK_ALLOWANCE, '0')
-        ])
-        console.log(res)
+        try {
+            await super.signAndSendTransaction(accountId, [
+                functionCall('add_request_and_confirm', args, GAS_2FA, '0')
+            ])
+            await this.sendRequest(requestId)
+        } catch (e) {
+            console.log(e)
+            throw new WalletError('Error creating request')
+        }
     }
 
     async signAndSendTransactions(transactions) {
-        console.log(transactions)
-        const results = []
         for (let { receiverId, actions } of transactions) {
-            results.push(await this.request({ receiver_id: receiverId, actions: convertActions(actions) }))
-            
+            await this.signAndSendTransaction(receiverId, actions)
         }
-        return results
     }
 }
 
-const convertActions = (actions) => actions.map((a) => {
+const convertActions = (actions, accountId, receiverId) => actions.map((a) => {
     const action = {
         ...a[a.enum],
         type: actionTypes[a.enum],
     }
     // TODO determine what gas each action needs attached, needs gasEstimation
-    if (action.gas) action.gas = '100000000000000'
+    if (action.gas) action.gas = GAS_2FA
+    
+    if (action.publicKey) {
+        action.public_key = convertPKForContract(action.publicKey)
+        delete action.publicKey
+    }
+    if (action.accessKey) {
+        if (receiverId === accountId && action.accessKey.permission.enum !== 'fullAccess') {
+            action.permission = {
+                receiver_id: accountId,
+                allowance: ACCESS_KEY_FUNDING_AMOUNT,
+                method_names: METHOD_NAMES_LAK,
+            }
+        }
+        if (action.accessKey.permission.enum === 'functionCall') {
+            const { receiverId: receiver_id, methodNames: method_names, allowance,  } = action.accessKey.permission.functionCall
+            action.permission = { receiver_id, allowance, method_names }
+        }
+        delete action.accessKey
+    }
     if (action.deposit) {
-        action.deposit = action.amount = action.deposit.toString()
+        action.amount = action.deposit.toString()
+        action.deposit = action.amount
     }
     if (action.args && Array.isArray(action.args)) action.args = Buffer.from(action.args).toString('base64')
     if (action.methodName) {
@@ -264,21 +232,3 @@ const getRequest = () => {
 const setRequest = (data) => {
     localStorage.setItem(`__multisigRequest`, JSON.stringify(data))
 }
-
-const addKeyAction = (publicKey, accountId, fullAccess) => {
-    let allowance = ACCESS_KEY_FUNDING_AMOUNT
-    let method_names = METHOD_NAMES_LAK
-    return {
-        type: 'AddKey',
-        public_key: convertPKForContract(publicKey),
-        ...(!fullAccess ? {
-            permission: {
-                receiver_id: accountId,
-                allowance,
-                method_names
-            }
-        } : null)
-    }
-}
-
-const deleteKeyAction = (publicKey) => ({ type: 'DeleteKey', public_key: convertPKForContract(publicKey) })
