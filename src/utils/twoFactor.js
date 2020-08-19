@@ -167,7 +167,7 @@ export class TwoFactor {
             } catch (e) {
                 if (e.message.indexOf('not valid') > -1) {
                     // TODO @patrick please update messaging/translation for invalid 2fa code
-                    throw new WalletError(e.message, 'errors.twoFactor.userCancelled')
+                    throw new WalletError(e.message, 'errors.twoFactor.invalidCode')
                 }
                 throw e
             }

@@ -70,7 +70,6 @@ const TwoFactorVerifyModal = ({ open, onClose }) => {
         }
     }
     
-    // TODO @patrick please update messaging/translation
     const handleCancelClose = () => onClose(false, new WalletError('Request was cancelled.', 'errors.twoFactor.userCancelled'))
     
     return (
@@ -97,7 +96,7 @@ const TwoFactorVerifyModal = ({ open, onClose }) => {
                     <Translate id='button.verifyCode'/>
                 </FormButton>
             </Form>
-            <button onClick={handleCancelClose} className='link color-red' id='close-button'><Translate id='button.cancel'/></button>
+            <button onClick={handleCancelClose} className='link color-red'><Translate id='button.cancel'/></button>
         </Modal>
     );
 }
