@@ -17,7 +17,7 @@ import AccessKeysIcon from '../../images/icon-keys-grey.svg'
 
 import DashboardKeys from './DashboardKeys'
 
-import { TRANSACTIONS_REFRESH_INTERVAL, EXPLORER_URL, ENABLE_FULL_ACCESS_KEYS } from '../../utils/wallet'
+import { TRANSACTIONS_REFRESH_INTERVAL, EXPLORER_URL, ENABLE_FULL_ACCESS_KEYS, DISABLE_SEND_MONEY } from '../../utils/wallet'
 
 class DashboardDetail extends Component {
     state = {
@@ -76,7 +76,7 @@ class DashboardDetail extends Component {
                         </Fragment>
                         : <Translate id='balance.balanceLoading' />
                 )}
-                additional={(
+                additional={!DISABLE_SEND_MONEY && (
                     <FormButton 
                         linkTo='/send-money'
                         color='green-white-arrow'
