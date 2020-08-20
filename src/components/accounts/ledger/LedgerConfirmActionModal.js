@@ -1,29 +1,30 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
+import { Translate } from 'react-localize-redux';
+
 import Modal from "../../common/modal/Modal";
 import ModalTheme from './ModalTheme';
 import MobileActionSheet from '../../common/modal/MobileActionSheet';
-import FormButton from '../../common/FormButton';
-import { Translate } from 'react-localize-redux';
+
 import LedgerImage from '../../svg/LedgerImage';
 
-const LedgerConfirmActionModal = ({ open, onClose }) => {
-    return (
-        <Modal
-            id='ledger-confirm-action-modal'
-            isOpen={open}
-            onClose={onClose}
-            closeButton='desktop'
-        >
-            <ModalTheme/>
-            <MobileActionSheet/>
-            <h2><Translate id='confirmLedgerModal.header'/></h2>
-            <LedgerImage animate={true}/>
-            <p><Translate id='confirmLedgerModal.one'/></p>
-            <FormButton color='gray-red' id='close-button'>
-                <Translate id='button.cancelOperation'/>
-            </FormButton>
-        </Modal>
-    );
+const LedgerConfirmActionModal = () => {
+    const { modal } = useSelector(({ ledger }) => ledger)
+
+    return (modal && modal.show)
+        ? (
+            <Modal
+                id='ledger-confirm-action-modal'
+                closeButton='desktop'
+            >
+                <ModalTheme/>
+                <MobileActionSheet/>
+                <h2><Translate id='confirmLedgerModal.header'/></h2>
+                <LedgerImage animate={true}/>
+                <p><Translate id={modal.textId}/></p>
+            </Modal>
+        )
+        : null
 }
 
 export default LedgerConfirmActionModal;

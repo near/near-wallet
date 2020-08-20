@@ -15,7 +15,9 @@ export const loadRecoveryMethods = createAction('LOAD_RECOVERY_METHODS',
 
 export const handleRedirectUrl = (previousLocation) => (dispatch, getState) => {
     const { pathname } = getState().router.location
-    if (pathname.split('/')[1] === WALLET_CREATE_NEW_ACCOUNT_URL) {
+    const isValidRedirectUrl = previousLocation.pathname.includes(WALLET_LOGIN_URL) || previousLocation.pathname.includes(WALLET_SIGN_URL)
+
+    if (pathname.split('/')[1] === WALLET_CREATE_NEW_ACCOUNT_URL && isValidRedirectUrl) {
         let url = {
             ...getState().account.url,
             redirect_url: previousLocation.pathname
@@ -131,7 +133,7 @@ export const signInWithLedger = () => async (dispatch, getState) => {
     return dispatch(saveAndSelectLedgerAccounts(getState().ledger.signInWithLedger))
 }
 
-const defaultCodesFor = (prefix, data) => ({ successCode: `${prefix}.success`, errorCode: `${prefix}.error`, data})
+const defaultCodesFor = (prefix, data) => ({ successCode: `${prefix}.success`, errorCode: `${prefix}.error`, prefix, data})
 
 export const { initializeRecoveryMethod, validateSecurityCode, initTwoFactor, reInitTwoFactor, sendTwoFactor, resendTwoFactor, verifyTwoFactor, promptTwoFactor, deployMultisig, get2faMethod, getLedgerKey, setupRecoveryMessage, deleteRecoveryMethod, sendNewRecoveryLink, checkNewAccount, createNewAccount, checkAccountAvailable, getTransactions, getTransactionStatus, clear, clearCode } = createActions({
     INITIALIZE_RECOVERY_METHOD: [
@@ -167,13 +169,14 @@ export const { initializeRecoveryMethod, validateSecurityCode, initTwoFactor, re
             let promise
             if (requestPending !== null) {
                 promise = new Promise((resolve, reject) => {
-                    requestPending = (verified, txResponse) => {
-                        resolve({verified, txResponse})
-                        // if the user was recovering, they should start over
-                        wallet.recoveryAccount = null
-                        if (!verified) {
-                            reject('user closed or unverified code')
+                    requestPending = (verified, error) => {
+                        if (verified) {
+                            resolve(verified)
+                        } else {
+                            reject(error)
                         }
+                        // if the user was recovering, they should start over
+                        wallet.tempTwoFactorAccount = null
                     }
                 })
             }
@@ -223,7 +226,10 @@ export const { initializeRecoveryMethod, validateSecurityCode, initTwoFactor, re
 
 export const { getAccessKeys, removeAccessKey, addLedgerAccessKey, disableLedger, removeNonLedgerAccessKeys, getLedgerAccountIds, addLedgerAccountId, saveAndSelectLedgerAccounts } = createActions({
     GET_ACCESS_KEYS: [wallet.getAccessKeys.bind(wallet), () => ({})],
-    REMOVE_ACCESS_KEY: [wallet.removeAccessKey.bind(wallet), () => ({})],
+    REMOVE_ACCESS_KEY: [
+        wallet.removeAccessKey.bind(wallet),
+        () => defaultCodesFor('authorizedApps.removeAccessKey', { onlyError: true })
+    ],
     ADD_LEDGER_ACCESS_KEY: [wallet.addLedgerAccessKey.bind(wallet), () => defaultCodesFor('errors.ledger')],
     DISABLE_LEDGER: [wallet.disableLedger.bind(wallet), () => defaultCodesFor('errors.ledger')],
     REMOVE_NON_LEDGER_ACCESS_KEYS: [wallet.removeNonLedgerAccessKeys.bind(wallet), () => ({})],
@@ -279,7 +285,7 @@ export const { signAndSendTransactions, setSignTransactionStatus, sendMoney } = 
     ],
     SEND_MONEY: [
         wallet.sendMoney.bind(wallet),
-        () => defaultCodesFor('account.sendMoney')
+        () => defaultCodesFor('account.sendMoney', { onlyError: true })
     ]
 })
 

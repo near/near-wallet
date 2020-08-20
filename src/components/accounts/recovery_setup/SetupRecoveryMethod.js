@@ -5,11 +5,14 @@ import { Translate } from 'react-localize-redux';
 import 'react-phone-number-input/style.css'
 import PhoneInput, { isValidPhoneNumber } from 'react-phone-number-input';
 import { validateEmail } from '../../../utils/account';
-import { initializeRecoveryMethod, setupRecoveryMessage, redirectToApp, loadRecoveryMethods, getAccessKeys, getLedgerKey, refreshAccount } from '../../../actions/account';
+import { initializeRecoveryMethod, setupRecoveryMessage, redirectToApp, loadRecoveryMethods, getAccessKeys, getLedgerKey, refreshAccount, get2faMethod } from '../../../actions/account';
 import RecoveryOption from './RecoveryOption';
 import FormButton from '../../common/FormButton';
 import EnterVerificationCode from '../EnterVerificationCode';
 import Container from '../../common/styled/Container.css';
+import { MULTISIG_MIN_AMOUNT } from '../../../utils/wallet';
+import { BN } from 'bn.js';
+import { utils } from 'near-api-js';
 
 const StyledContainer = styled(Container)`
     
@@ -45,7 +48,7 @@ class SetupRecoveryMethod extends Component {
     }
 
     componentDidMount() {
-        const { router, getAccessKeys, getLedgerKey, isNew } = this.props;
+        const { router, getAccessKeys, getLedgerKey, isNew, twoFactor, get2faMethod } = this.props;
         const { method } = router.location;
         
         getAccessKeys()
@@ -57,6 +60,10 @@ class SetupRecoveryMethod extends Component {
 
         if (!isNew) {
             this.setRecoveryMethods()
+
+            if (!twoFactor) {
+                get2faMethod()
+            }
         }
     }
 
@@ -139,15 +146,21 @@ class SetupRecoveryMethod extends Component {
             isNew, fundingContract, fundingKey, refreshAccount
         } = this.props;
 
-        await setupRecoveryMessage(accountId, this.method, securityCode, isNew, fundingContract, fundingKey)
-        await refreshAccount()
+        let account;
 
-        if (fundingContract) {
-            history.push('/enable-two-factor')
-        } else {
-            redirectToApp('/profile');
+        try {
+            await setupRecoveryMessage(accountId, this.method, securityCode, isNew, fundingContract, fundingKey)
+            account = await refreshAccount()
+        } finally {
+            const availableBalance = new BN(account.balance.available)
+            const multisigMinAmount = new BN(utils.format.parseNearAmount(MULTISIG_MIN_AMOUNT))
+
+            if (fundingContract && multisigMinAmount.lt(availableBalance)) {
+                history.push('/enable-two-factor')
+            } else {
+                redirectToApp('/profile');
+            }
         }
-
     }
 
     handleGoBack = () => {
@@ -172,7 +185,7 @@ class SetupRecoveryMethod extends Component {
 
     render() {
         const { option, phoneNumber, email, success, emailInvalid, phoneInvalid, activeMethods } = this.state;
-        const { actionsPending, accountId, activeAccountId, ledgerKey } = this.props;
+        const { actionsPending, accountId, activeAccountId, ledgerKey, twoFactor, isNew } = this.props;
 
         if (!success) {
             return (
@@ -223,12 +236,14 @@ class SetupRecoveryMethod extends Component {
                         </RecoveryOption>
                         <OptionHeader><Translate id='setupRecovery.advancedSecurity'/></OptionHeader>
                         <OptionSubHeader><Translate id='setupRecovery.advancedSecurityDesc'/></OptionSubHeader>
-                        <RecoveryOption
-                            onClick={() => this.setState({ option: 'ledger' })}
-                            option='ledger'
-                            active={option}
-                            disabled={ledgerKey !== null && accountId === activeAccountId}
-                        />
+                        {(isNew || (!isNew && !twoFactor)) &&
+                            <RecoveryOption
+                                onClick={() => this.setState({ option: 'ledger' })}
+                                option='ledger'
+                                active={option}
+                                disabled={ledgerKey !== null && accountId === activeAccountId}
+                            />
+                        }
                         <RecoveryOption
                             onClick={() => this.setState({ option: 'phrase' })}
                             option='phrase'
@@ -270,7 +285,8 @@ const mapDispatchToProps = {
     initializeRecoveryMethod,
     getAccessKeys,
     getLedgerKey,
-    refreshAccount
+    refreshAccount,
+    get2faMethod
 }
 
 const mapStateToProps = ({ account, router, recoveryMethods }, { match }) => ({

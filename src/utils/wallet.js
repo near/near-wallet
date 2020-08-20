@@ -22,8 +22,10 @@ export const WALLET_SIGN_URL = 'sign'
 export const ACCOUNT_HELPER_URL = process.env.REACT_APP_ACCOUNT_HELPER_URL || 'https://near-contract-helper.onrender.com'
 export const EXPLORER_URL = process.env.EXPLORER_URL || 'https://explorer.testnet.near.org';
 export const IS_MAINNET = process.env.REACT_APP_IS_MAINNET === 'true' || process.env.REACT_APP_IS_MAINNET === 'yes'
+export const DISABLE_CREATE_ACCOUNT = process.env.DISABLE_CREATE_ACCOUNT === 'true' || process.env.DISABLE_CREATE_ACCOUNT === 'yes'
 export const DISABLE_SEND_MONEY = process.env.DISABLE_SEND_MONEY === 'true' || process.env.DISABLE_SEND_MONEY === 'yes'
 export const ACCOUNT_ID_SUFFIX = process.env.REACT_APP_ACCOUNT_ID_SUFFIX || 'testnet'
+export const MULTISIG_MIN_AMOUNT = process.env.REACT_APP_MULTISIG_MIN_AMOUNT || '100'
 export const LOCKUP_ACCOUNT_ID_SUFFIX = process.env.LOCKUP_ACCOUNT_ID_SUFFIX || 'lockup'
 // required by twoFactor.js
 export const ACCESS_KEY_FUNDING_AMOUNT = process.env.REACT_APP_ACCESS_KEY_FUNDING_AMOUNT || nearApiJs.utils.format.parseNearAmount('0.01')
@@ -44,6 +46,7 @@ const MULTISIG_CONTRACT_HASHES = process.env.MULTISIG_CONTRACT_HASHES || [
     // https://github.com/near/core-contracts/blob/fb595e6ec09014d392e9874c2c5d6bbc910362c7/multisig/src/lib.rs
     'AEE3vt6S3pS2s7K6HXnZc46VyMyJcjygSMsaafFh67DF'
 ];
+
 
 export const keyAccountConfirmed = (accountId) => `wallet.account:${accountId}:${NETWORK_ID}:confirmed`
 
@@ -124,6 +127,9 @@ class Wallet {
     }
 
     async loadAccountAndState() {
+        const accessKeys = await this.getAccessKeys() || []
+        const ledgerKey = accessKeys.find(key => key.meta.type === 'ledger')
+            
         this.twoFactor = this.has2fa = null
         const state = await this.getAccount(this.accountId).state()
         const has2fa = MULTISIG_CONTRACT_HASHES.includes(state.code_hash)
@@ -137,7 +143,20 @@ class Wallet {
             twoFactor: this.twoFactor,
             balance: await this.getBalance(),
             accountId: this.accountId,
-            accounts: this.accounts
+            accounts: this.accounts,
+            authorizedApps: accessKeys.filter(it => (
+                it.access_key 
+                && it.access_key.permission.FunctionCall 
+                && it.access_key.permission.FunctionCall.receiver_id !== this.accountId
+            )),
+            fullAccessKeys: accessKeys.filter(it => (
+                it.access_key
+                 && it.access_key.permission === 'FullAccess'
+            )),
+            ledger: {
+                ledgerKey,
+                hasLedger: !!ledgerKey
+            }
         }
     }
 
@@ -189,10 +208,14 @@ class Wallet {
         return localPublicKey && accessKeys.find(({ public_key }) => public_key === localPublicKey.toString())
     }
 
-    async getLedgerKey() {
-        const accessKeys = await this.getAccessKeys(this.accountId)
+    async getLedgerKey(accountId) {
+        // TODO: All callers should specify accountId explicitly
+        accountId = accountId || this.accountId
+        // TODO: Refactor so that every account just stores a flag if it's on Ledger?
+
+        const accessKeys = await this.getAccessKeys(accountId)
         if (accessKeys) {
-            const localKey = await this.getLocalAccessKey(this.accountId, accessKeys)
+            const localKey = await this.getLocalAccessKey(accountId, accessKeys)
             const ledgerKey = accessKeys.find(accessKey => accessKey.meta.type === 'ledger')
             if (ledgerKey && (!localKey || localKey.permission !== 'FullAccess')) {
                 return PublicKey.from(ledgerKey.public_key)
@@ -422,20 +445,25 @@ class Wallet {
 
     async getLedgerAccountIds() {
         const publicKey = await this.getLedgerPublicKey()
+        // TODO: getXXX methods shouldn't be modifying the state
         await setKeyMeta(publicKey, { type: 'ledger' })
 
-        return (
-            (await Promise.all(
-                (await getAccountIds(publicKey.toString()))
-                    .map(async (accountId) => 
-                        await this.signer.getPublicKey(accountId, NETWORK_ID)
-                            ? accountId
-                            : null
-                    )
+        const accountIds = await getAccountIds(publicKey.toString())
+        const checkedAccountIds = (await Promise.all(
+            accountIds
+                .map(async (accountId) => {
+                    const accountKeys = await this.getAccount(accountId).getAccessKeys();
+                    return accountKeys.find(({ public_key }) => public_key === publicKey.toString()) ? accountId : null
+                })
                 )
             )
             .filter(accountId => accountId)
-        )
+
+        if (!checkedAccountIds.length) {
+            throw new WalletError('No accounts were found.', 'signInLedger.getLedgerAccountIds.noAccounts')
+        }
+
+        return checkedAccountIds
     }
 
     async addLedgerAccountId(accountId) {
@@ -691,7 +719,11 @@ class Wallet {
         store.dispatch(setSignTransactionStatus('in-progress'))
         for (let { receiverId, nonce, blockHash, actions } of transactions) {
             const [, signedTransaction] = await nearApiJs.transactions.signTransaction(receiverId, nonce, actions, blockHash, this.connection.signer, accountId, NETWORK_ID)
-            await this.connection.provider.sendTransaction(signedTransaction)
+            let { status, transaction } = await this.connection.provider.sendTransaction(signedTransaction)
+
+            if (status.Failure !== undefined) {
+                throw new Error(`Transaction failure for transaction hash: ${transaction.hash}, receiver_id: ${transaction.receiver_id} .`)
+            }
         }
     }
 }

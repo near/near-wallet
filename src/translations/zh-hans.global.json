@@ -16,7 +16,8 @@
             "checkingAvailablity": {
                 "create": "正在检查可用性",
                 "check": "正在检查"
-            }
+            },
+            "errorAccountNotExist": "创建账户出错，请重试！"
         },
         "available": {
             "success": "该用户已找到。",
@@ -37,6 +38,10 @@
         "sendNewRecoveryLink": {
             "success": "账户恢复链接已经发送！",
             "error": "账户恢复链接发送失败，请重试。"
+        },
+        "verifyTwoFactor": {
+            "success": "两步验证设置成功！",
+            "error": "两步验证设置失败，请重试。"
         },
         "login": {
             "success": "${title} 现已授权使用你的账户。",
@@ -155,6 +160,28 @@
             "keep": "取消"
         }
     },
+
+    "twoFactor": {
+        "enable": "开启两步验证",
+        "subHeader": "两步验证将为你的账户提供额外的安全保护。开启两步验证后，所有交易操作必须通过短信或 Email 确认。",
+        "select": "选择验证方式",
+        "title": "两步验证",
+        "desc": "通过两步验证保护你的账户，在授权交易时必须通过短信或 Email 确认。",
+        "email": "Email 地址",
+        "phone": "手机号",
+        "notEnabled": "两步验证未开启",
+        "active": "已开启",
+        "since": "自",
+        "promptDesc": "我们强烈建议你开启两步验证的方式来增强你的账户和资产安全性。",
+        "verify": {
+            "title": "输入两步验证码",
+            "desc": "一组 6 位验证代码已经发送至：",
+            "inputLabel": "输入你的 6 位验证码",
+            "placeholder": "验证码",
+            "didntReceive": "未收到验证码？",
+            "resend": "重新发送"
+        }
+    },
     
     "fullAccessKeys": {
         "pageTitle": "完全访问密钥",
@@ -175,15 +202,22 @@
     },
 
     "button": {
+        "signIn": "登录",
+        "signingIn": "正在登录",
         "copyPhrase": "复制助记词",
         "continue": "继续",
+        "continueSetup": "继续设置",
         "verify": "验证并完成",
+        "verifyCode": "验证代码",
+        "verifyCodeEnable": "验证代码并开启", 
         "startOver": "重新开始",
         "copyUrl": "复制链接",
         "createAccount": "创建账户",
+        "recoverYourAccount": "恢复账户",
         "enable": "启用",
         "disable": "禁用",
-        "connectLedger": "连接账本",
+        "signInLedger": "通过 Ledger 登录",
+        "connectLedger": "绑定 Ledger",
         "retry": "重试",
         "browseApps": "浏览应用",
         "createAccountCapital": "创建账户",
@@ -194,6 +228,7 @@
         "viewAll": "查看全部",
         "send": "发送",
         "cancel": "取消",
+        "skip": "跳过",
         "deny": "拒绝",
         "allow": "允许",
         "addNode": "添加更多",
@@ -211,7 +246,9 @@
         "goBack": "返回",
         "createNewAccount": "创建新的账户",
         "moreInformation": "更多信息",
-        "dismiss": "关闭"
+        "dismiss": "关闭",
+        "cancelOperation": "取消操作",
+        "subscribe": "订阅"
     },
 
     "link": {
@@ -239,7 +276,7 @@
         "email": {
             "title": "Email",
             "desc": "请检查来自 nearprotocol.com 地址的邮件，标题是：",
-            "subject": "\"重要：NEAR 钱包恢复邮件\"。"
+            "subject": "「重要：NEAR 钱包恢复邮件」。"
         },
         "phone": {
             "title": "手机",
@@ -251,7 +288,8 @@
             "desc": "请确认已准备 12 个单词组成的助记词，然后点击下方开始恢复账户流程。"
         },
         "actionType": "恢复",
-        "actionRequired": "此消息包含恢复链接，请点击链接开始恢复账户流程！"
+        "actionRequired": "此消息包含恢复链接，请点击链接开始恢复账户流程！",
+        "cannotResend": "此消息是在开启 Email/手机号恢复时发送。我们只发送一次，并且无法重新发送。"
     },
 
     "createAccount": {
@@ -263,6 +301,7 @@
         },
         "alreadyHaveAnAccount": "已经拥有账户？",
         "recoverItHere": "恢复账户",
+        "signInLedger": "通过 Ledger 登录",
         "note": {
             "title": "备注",
             "one": "你的用户名可以输入以下任何字符：",
@@ -270,7 +309,7 @@
             "three": "数字 (0-9)",
             "four": "字符 (_-) 用于分割",
             "five": "你的用户名不可以包括：",
-            "six": "符号 \"@\" or \".\""
+            "six": "符号 \"@\" 或 \".\""
         }
     },
 
@@ -303,13 +342,19 @@
         "phonePlaceholder": "+1 415 797 8554",
         "advancedSecurity": "高级安全",
         "advancedSecurityDesc": "记录 12 个单词组成的助记词，并安全保存。",
+        "ledgerTitle": "Ledger Nano S",
         "phraseTitle": "恢复助记词"
     },
     "setRecoveryConfirm": {
-        "pageTitle": "验证",
-        "pageText": "我们已经发送 6 位数字码至",
-        "inputPlaceholder": "请输入 6 位数字码",
-        "invalidCode": "请检查你的安全码。",
+        "title": "输入验证码",
+        "pageText": "我们已经发送 6 位验证码至 ${option}：",
+        "inputHeader": "输入 6 位验证码",
+        "inputPlaceholder": "验证码",
+        "invalidCode": "无效验证码",
+        "didNotRecive": "未收到验证码？",
+        "resendCode": "重新发送",
+        "or": "或",
+        "sendToDifferent": "发送至其他 Email 邮箱",
         "reenter": {
             "one": {
                 "email": "如果你没有收到邮件，或者上面的 Email 地址输入错误，",
@@ -449,7 +494,10 @@
             "public": "公开",
             "totalBalance": "余额",
             "minBalance": "保留余额",
-            "staked": "已质押",
+            "staked": "已质押的",
+            "locked": "锁定的",
+            "unvested": "未兑现的",
+            "unlocked": "未锁的",
             "availableBalance": "可用余额",
             "lockPopup": {
                 "title": "为何是锁定？",
@@ -516,6 +564,11 @@
     "availableBalanceInfo": "「可用余额」是指你当前账号内可消耗 NEAR 通证，可用余额少于你的「总余额」。查看你 NEAR 余额的详细构成，请访问你的资料。", 
     "availableBalanceProfile": "「可用余额」是指你当前账号内可消耗 NEAR 通证，可用余额少于你的总共余额。",
     "minimumBalance": "这是维持你账号活跃状态的 NEAR 通证「保留余额」，该余额代表你正在使用的 NEAR 区块链存储空间，会在使用量变化后产生对应变化。",
+    "totalBalance": "所有余额包括所有你拥有的 NEAR 通证。许多情况，你将无法立刻使用所有余额（比如如果是锁定的、委托的或质押的）。想了解你可以立刻使用、转账、委托或质押的 NEAR 通证，请查看可用余额部分。",
+    "stakedBalance": "NEAR 被用于支持验证节点并加强网络。当你决定不质押 NEAR，则需要等待一些时间才能出现在「可用余额」，NEAR 需要花 3 epochs（约 36 小时）取消质押。",
+    "unvestedBalance": "未兑现的 NEAR 属于你，但还未实际可使用。你可以委托或质押这些 NEAR，奖励也将归属于你。当 NEAR 兑现后，将出现在锁定的或未锁定的余额中。",
+    "lockedBalance": "NEAR 锁定在锁定合约中，但无法取出。你可能仍委托或质押着这些 NEAR。一旦 NEAR 解锁，你可以在未锁定余额中查看，并选择取出（转移到「可用余额」）。",
+    "unlockedBalance": "NEAR 仍在锁定合约中，并可以取出。如果你选择取出，它将出现于「可用余额」。",
 
     "transaction": {
         "status": {
@@ -557,7 +610,7 @@
     },
 
     "setupLedgerSuccess": {
-        "header": "你的账户已通过硬件钱包保护！",
+        "header": "你的账户已通过 Ledger 硬件保护！",
         "one": "我们推荐你删除其他所有密钥（恢复方式和设备）。",
         "two": "保留多个密钥增加了账户被盗的风险。",
         "primaryCta": "删除其他密钥",
@@ -577,10 +630,66 @@
         }
     },
 
+    "signInLedger": {
+        "header": "通过 Ledger 硬件登录",
+        "one": "请确认硬件钱包已经安全连接，并且 NEAR 应用已经打开。",
+        "getLedgerAccountIds": {
+            "success": "",
+            "error": "公钥访问被拒绝，恢复账户失败。<br/>若要继续，需要允许 NEAR 钱包访问你的公钥，请再重试。"
+        },
+        "addLedgerAccountId": {
+            "success": "",
+            "error": "账户的访问被拒绝，恢复账户失败。<br/>若要继续，需要在 Ledger 设备上授权每个账户的只读访问，请再重试。"
+        },
+        "saveAndSelectLedgerAccounts": {
+            "success": "你已经成功登录。<br/><b>${numberOfAccounts} 个账户</b>已经成功恢复：<b>${accountList}</b>。<br/>最后一个账户设置为活跃账户。",
+        "error": "请检查硬件钱包已经安全连接，并且 NEAR 应用已经打开。"
+        },
+        "modal": {
+            "confirmPublicKey": "确认公钥",
+            "ledgerMustAdd": "Ledger 必须为每个账户添加访问密钥：",
+            "accountsApproved": "账户已授权",
+            "status": {
+                "success": "授权",
+                "pending": "请求",
+                "waiting": "下一个"
+            }
+        }
+    },
+
+    "confirmLedgerModal": {
+        "header": "请在设备上确认操作...",
+        "one": "你需要在 Ledger 硬件设备上确认登录细节。"
+    },
+
     "errors": {
         "ledger": {
-            "U2FNotSupported": "硬件钱包需要 U2F 浏览器支持。请使用 Chrome、Opera 或 Firefox 安装 U2F 扩展，并确保你是通过 HTTPS 加密连接。",
+            "U2FNotSupported": "Ledger 硬件钱包需要 U2F 浏览器支持。请使用 Chrome、Opera 或 Firefox 安装 U2F 扩展，并确保你是通过 HTTPS 加密连接。",
             "U2F_4": "无法通过硬件钱包登录：U2F DEVICE_INELIGIBLE。请确保 Ledger 设备已连接并解锁。"
+        },
+        "recoveryMethods": {
+            "lastMethod": "无法删除最后一个恢复方式。除非你添加了 Ledger，你需要保留至少一种账户恢复方式。"
+        },
+        "twoFactor": {
+            "userCancelled": "此操作已被取消。"
         }
+    },
+
+    "networkBanner": {
+        "title": "测试网钱包",
+        "header": "NEAR 测试钱包",
+        "desc": "当前钱包（和网络）仅供测试。测试网通证和其他资产均无价值。测试网账户不会迁移至主网。"
+    },
+    
+    "landing": {
+        "title":"NEAR 已经到来。",
+        "desc": "通过 <span>NEAR 钱包</span>安全地存储你的 NEAR 通证和其他资产。",
+        "or": "或",
+        "banner": "NEAR 钱包已经在内测"
+    },
+    
+    "emailSubscribe": {
+        "title": "早期测试注册",
+        "placeholder": "你的 Email..."
     }
 }

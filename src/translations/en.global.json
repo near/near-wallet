@@ -29,11 +29,13 @@
         },
         "setupSeedPhrase": {
             "success": "Seed phrase recovery setup is complete.",
-            "error": "An error occurred while setting up seed phrase recovery. Please try again!"
+            "error": "An error occurred while setting up seed phrase recovery. Please try again!",
+            "modal": "You will need to confirm full access details on your Ledger."
         },
         "setupRecoveryMessage": {
             "success": "Recovery setup is complete.",
-            "error": "An error occurred while setting up your recovery method. Please try again!"
+            "error": "An error occurred while setting up your recovery method. Please try again!",
+            "modal": "You will need to confirm full access details on your Ledger."
         },
         "sendNewRecoveryLink": {
             "success": "Recovery link successfully sent!",
@@ -51,9 +53,20 @@
             },
             "incorrectContractId": {
                 "error": "The contract ${contractId} does not exist. This may be an issue with the application you are trying to use, or this contract may have been deleted. You will be redirected back to the application"
-            }
+            },
+            "modal": "You will need to confirm login details on your Ledger."
         },
-        "nameDoesntMatch": "Account name doesn't match"
+        "nameDoesntMatch": "Account name doesn't match",
+        "sendMoney": {
+            "error": "Please check that your device is connected and the NEAR app is open.",
+            "modal": "You will need to confirm transfer details on your Ledger."
+        },
+        "signAndSendTransactions": {
+            "modal": "You will need to confirm deposit details on your Ledger."
+        },
+        "deleteRecoveryMethod": {
+            "modal": "You will need to confirm delete key details on your Ledger."
+        }
     },
 
     "actions": {
@@ -179,7 +192,9 @@
             "inputLabel": "Enter your 6-digit verification code",
             "placeholder": "Verification Code",
             "didntReceive": "Didn't receive your code?",
-            "resend": "Resend"
+            "resend": "Resend",
+            "resending": "Sending...",
+            "resent": "Code sent!"
         }
     },
 
@@ -198,7 +213,11 @@
         "dashboardNoApps": "You have not authorized any apps",
         "feeAllowance": "Fee Allowance",
         "publicKey": "Public Key",
-        "ledger": "Ledger"
+        "ledger": "Ledger",
+        "removeAccessKey": {
+            "error": "Please check that your device is connected and the NEAR app is open.",
+            "modal": "You will need to confirm delete key details on your Ledger."
+        }
     },
 
     "button": {
@@ -635,7 +654,8 @@
         "one": "Make sure your ledger is connected securely, and that the NEAR app is open on the device.",
         "getLedgerAccountIds": {
             "success": "",
-            "error": "Public key access was rejected. No accounts were recovered.<br/>To continue, you must allow NEAR Wallet to view your public key. Please try again."
+            "error": "Public key access was rejected. No accounts were recovered.<br/>To continue, you must allow NEAR Wallet to view your public key. Please try again.",
+            "noAccounts": "No accounts are associated with this Ledger device. You must first create an account, then add this Ledger to it to login."
         },
         "addLedgerAccountId": {
             "success": "",
@@ -665,13 +685,15 @@
     "errors": {
         "ledger": {
             "U2FNotSupported": "U2F browser support is needed for Ledger. Please use Chrome, Opera or Firefox with a U2F extension. Also make sure you're on an HTTPS connection.",
-            "U2F_4": "Failed to sign with Ledger device: U2F DEVICE_INELIGIBLE. Please make sure that your Ledger device is connected and unlocked."
+            "U2F_4": "Failed to sign with Ledger device: U2F DEVICE_INELIGIBLE. Please make sure that your Ledger device is connected and unlocked.",
+            "modal": "You will need to confirm public key details on your Ledger."
         },
         "recoveryMethods": {
             "lastMethod": "Cannot delete your last recovery method. Unless you have Ledger enabled, you need to keep at least one recovery method active to ensure recoverability of your account."
         },
         "twoFactor": {
-            "userCancelled": "The action was cancelled."
+            "userCancelled": "2FA code was not verified correctly.",
+            "invalidCode": "Invalid 2FA code. Please try again."
         }
     },
 

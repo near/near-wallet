@@ -7,7 +7,7 @@ import LoginForm from './LoginForm'
 import LoginConfirm from './LoginConfirm'
 import LoginDetails from './LoginDetails'
 import LoginIncorrectContractId from './LoginIncorrectContractId'
-import { refreshAccount, handleRefreshUrl, switchAccount, clearAlert, allowLogin, redirectToApp } from '../../actions/account'
+import { refreshAccount, handleRefreshUrl, switchAccount, clearAlert, allowLogin, redirectToApp, clear } from '../../actions/account'
 
 class Login extends Component {
     state = {
@@ -31,17 +31,18 @@ class Login extends Component {
         }
     }
 
-    handleAllow = () => {
+    handleAllow = async () => {
         this.setState(() => ({
             buttonLoader: true
         }))
 
-        this.props.allowLogin()
-            .finally(() => {
-                this.setState(() => ({
-                    buttonLoader: false
-                }))
-            })
+        try {
+            await this.props.allowLogin()
+        } finally {
+            this.setState(() => ({
+                buttonLoader: false
+            }))
+        }
     }
 
     handleSelectAccount = accountId => {
@@ -120,7 +121,8 @@ const mapDispatchToProps = {
     switchAccount,
     allowLogin,
     clearAlert,
-    redirectToApp
+    redirectToApp,
+    clear
 }
 
 const mapStateToProps = ({ account }) => ({

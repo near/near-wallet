@@ -19,9 +19,10 @@ const Container = styled.div`
     }
 
     &.small-centered {
-        max-width: 460px;
+        max-width: 490px;
 
-        h1, h2 {
+        h1,
+        h2 {
             text-align: center;
         }
     }

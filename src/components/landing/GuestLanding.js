@@ -6,7 +6,7 @@ import Container from '../common/styled/Container.css'
 import FormButton from '../common/FormButton'
 import SignUpPhoneImg from '../../images/create-phone.svg'
 import EmailSubscribe from './EmailSubscribe'
-import { IS_MAINNET } from '../../utils/wallet'
+import { DISABLE_CREATE_ACCOUNT } from '../../utils/wallet'
 
 const StyledContainer = styled.div`
 
@@ -145,10 +145,9 @@ export function GuestLanding() {
                 <h1><Translate id='landing.title' /></h1>
                 <h3><Translate id='landing.desc' /></h3>
                 <div className='buttons'>
-                    {IS_MAINNET ? 
-                        <FormButton linkTo='/sign-in-ledger'><Translate id='button.signInLedger' /></FormButton>
-                        :
-                        <FormButton linkTo='/create'><Translate id='button.createAccount' /></FormButton>
+                    {DISABLE_CREATE_ACCOUNT
+                        ? <FormButton linkTo='/sign-in-ledger'><Translate id='button.signInLedger' /></FormButton>
+                        : <FormButton linkTo='/create'><Translate id='button.createAccount' /></FormButton>
                     }
                     <span><Translate id='landing.or' /></span>
                     <FormButton linkTo='/recover-account' className='link'><Translate id='button.recoverYourAccount' /></FormButton>

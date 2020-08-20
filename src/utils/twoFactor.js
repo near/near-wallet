@@ -12,6 +12,7 @@ export const METHOD_NAMES_LAK = ['add_request', 'add_request_and_confirm', 'dele
 const VIEW_METHODS = ['get_request_nonce', 'list_request_ids']
 const METHOD_NAMES_CONFIRM = ['confirm']
 const GAS_2FA = process.env.REACT_APP_GAS_2FA || '100000000000000'
+const ALLOWANCE_2FA = process.env.ALLOWANCE_2FA || nearApiJs.utils.format.parseNearAmount('1')
 
 export class TwoFactor extends Account {
     constructor(wallet) {
@@ -85,12 +86,15 @@ export class TwoFactor extends Account {
             method,
             requestId,
         })
-        if (requestId !== -1) {
-            const { verified, txResponse } = await store.dispatch(promptTwoFactor(true)).payload.promise
-            if (!verified) {
-                throw new WalletError('Request was cancelled.', 'errors.twoFactor.userCancelled')
+        if (requestId !== -1 && !store.getState().account.requestPending) {
+            try {
+                return await store.dispatch(promptTwoFactor(true)).payload.promise
+            } catch (e) {
+                if (e.message.indexOf('not valid') > -1) {
+                    throw new WalletError(e.message, 'errors.twoFactor.invalidCode')
+                }
+                throw e
             }
-            return txResponse
         }
     }
 
@@ -109,8 +113,8 @@ export class TwoFactor extends Account {
         const newArgs = new Uint8Array(new TextEncoder().encode(JSON.stringify({ 'num_confirmations': 2 })));
         const actions = [
             ...fak2lak.map((pk) => deleteKey(pk)),
-            ...fak2lak.map((pk) => addKey(pk, functionCallAccessKey(accountId, METHOD_NAMES_LAK, ACCESS_KEY_FUNDING_AMOUNT))),
-            addKey(confirmOnlyKey, functionCallAccessKey(accountId, METHOD_NAMES_CONFIRM, ACCESS_KEY_FUNDING_AMOUNT)),
+            ...fak2lak.map((pk) => addKey(pk, functionCallAccessKey(accountId, METHOD_NAMES_LAK, ALLOWANCE_2FA))),
+            addKey(confirmOnlyKey, functionCallAccessKey(accountId, METHOD_NAMES_CONFIRM, ALLOWANCE_2FA)),
             deployContract(contractBytes),
             functionCall('new', newArgs, GAS_2FA, '0'),
         ]
@@ -121,7 +125,7 @@ export class TwoFactor extends Account {
     async rotateKeys(addPublicKey, removePublicKey) {
         const { accountId } = this.getAccount()
         return await this.signAndSendTransaction(accountId, [
-            addKey(addPublicKey, functionCallAccessKey(accountId, METHOD_NAMES_LAK, ACCESS_KEY_FUNDING_AMOUNT)),
+            addKey(addPublicKey, functionCallAccessKey(accountId, METHOD_NAMES_LAK, ALLOWANCE_2FA)),
             deleteKey(removePublicKey)
         ])
     }
@@ -142,9 +146,10 @@ export class TwoFactor extends Account {
             }
         })));
         try {
-            await super.signAndSendTransaction(accountId, [
+            const res = await super.signAndSendTransaction(accountId, [
                 functionCall('add_request_and_confirm', args, GAS_2FA, '0')
             ])
+            console.log(res)
             await this.sendRequest(requestId)
         } catch (e) {
             console.log(e)
@@ -179,7 +184,7 @@ const convertActions = (actions, accountId, receiverId) => actions.map((a) => {
         if (receiverId === accountId && action.accessKey.permission.enum !== 'fullAccess') {
             action.permission = {
                 receiver_id: accountId,
-                allowance: ACCESS_KEY_FUNDING_AMOUNT,
+                allowance: ALLOWANCE_2FA,
                 method_names: METHOD_NAMES_LAK,
             }
         }
