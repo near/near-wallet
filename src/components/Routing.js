@@ -169,10 +169,10 @@ class Routing extends Component {
                         { 
                             this.props.account.requestPending !== null &&
                             <TwoFactorVerifyModal
-                                onClose={(verified) => {
+                                onClose={(verified, error) => {
                                     const { account, promptTwoFactor } = this.props
                                     // requestPending will resolve (verified == true) or reject the Promise being awaited in the method that dispatched promptTwoFactor
-                                    account.requestPending(verified)
+                                    account.requestPending(verified, error)
                                     // clears requestPending and closes the modal
                                     promptTwoFactor(null)
                                 }}

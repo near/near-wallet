@@ -7,6 +7,7 @@ import MobileActionSheet from '../../common/modal/MobileActionSheet';
 import FormButton from '../../common/FormButton';
 import { Translate } from 'react-localize-redux';
 import TwoFactorVerifyInput from './TwoFactorVerifyInput';
+import { WalletError } from '../../../utils/walletError'
 import { verifyTwoFactor, clearAlert, resendTwoFactor, get2faMethod } from '../../../actions/account';
 
 const Form = styled.form`
@@ -40,15 +41,8 @@ const TwoFactorVerifyModal = ({ open, onClose }) => {
     }, []);
 
     const handleVerifyCode = async () => {
-        try {
-            await dispatch(verifyTwoFactor(account.accountId, code))
-        } catch(e) {
-            throw(e)
-        } finally {
-            if (onClose) {
-                onClose(true)
-            }
-        }
+        await dispatch(verifyTwoFactor(account.accountId, code))
+        onClose(true)
     }
 
     const handleChange = (code) => {
@@ -72,11 +66,13 @@ const TwoFactorVerifyModal = ({ open, onClose }) => {
         }
     }
     
+    const handleCancelClose = () => onClose(false, new WalletError('Request was cancelled.', 'errors.twoFactor.userCancelled'))
+    
     return (
         <Modal
             id='two-factor-verify-modal'
             isOpen={open}
-            onClose={() => onClose(false)}
+            onClose={handleCancelClose}
             closeButton='desktop'
         >
             <ModalTheme/>
@@ -95,8 +91,8 @@ const TwoFactorVerifyModal = ({ open, onClose }) => {
                 <FormButton type='submit' disabled={code.length !== 6 || loading} sending={loading}>
                     <Translate id='button.verifyCode'/>
                 </FormButton>
-                <button className='link color-red' id='close-button'><Translate id='button.cancel'/></button>
             </Form>
+            <button onClick={handleCancelClose} className='link color-red'><Translate id='button.cancel'/></button>
         </Modal>
     );
 }
