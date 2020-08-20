@@ -156,21 +156,20 @@ export class TwoFactor {
         if (!method) method = await this.get2faMethod()
         // add request to local storage
         setRequest({ accountId, requestId })
-        try {
-            await this.wallet.postSignedJson('/2fa/send', {
-                accountId,
-                method,
-                requestId,
-            })
-        } catch (e) {
-            throw(e)
-        }
+        await this.wallet.postSignedJson('/2fa/send', {
+            accountId,
+            method,
+            requestId,
+        })
         if (requestId !== -1 && !store.getState().account.requestPending) {
-            const result = await store.dispatch(promptTwoFactor(true)).payload.promise
-            if (!result) {
-                throw new WalletError('Request was cancelled.', 'errors.twoFactor.userCancelled')
+            try {
+                return await store.dispatch(promptTwoFactor(true)).payload.promise
+            } catch (e) {
+                if (e.message.indexOf('not valid') > -1) {
+                    throw new WalletError(e.message, 'errors.twoFactor.invalidCode')
+                }
+                throw e
             }
-            return result
         }
     }
 
