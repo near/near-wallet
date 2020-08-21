@@ -2,7 +2,7 @@ import * as nearApiJs from 'near-api-js'
 import { store } from '..'
 import { WalletError } from './walletError'
 import { promptTwoFactor } from '../actions/account'
-import { ACCESS_KEY_FUNDING_AMOUNT, convertPKForContract, toPK } from './wallet'
+import { convertPKForContract, toPK } from './wallet'
 
 const { 
     Account,
@@ -146,13 +146,11 @@ export class TwoFactor extends Account {
             }
         })));
         try {
-            const res = await super.signAndSendTransaction(accountId, [
+            await super.signAndSendTransaction(accountId, [
                 functionCall('add_request_and_confirm', args, GAS_2FA, '0')
             ])
-            console.log(res)
             await this.sendRequest(requestId)
         } catch (e) {
-            console.log(e)
             throw new WalletError('Error creating request')
         }
     }
@@ -170,10 +168,10 @@ const convertActions = (actions, accountId, receiverId) => actions.map((a) => {
     const action = {
         ...a[type],
         type: type[0].toUpperCase() + type.substr(1),
-        gas: gas && gas.toString() || undefined,
-        public_key: publicKey && convertPKForContract(publicKey) || undefined,
+        gas: (gas && gas.toString()) || undefined,
+        public_key: (publicKey && convertPKForContract(publicKey)) || undefined,
         method_name: methodName,
-        args: args && Buffer.from(args).toString('base64') || undefined,
+        args: (args && Buffer.from(args).toString('base64')) || undefined,
     }
     delete action.publicKey
     delete action.methodName
