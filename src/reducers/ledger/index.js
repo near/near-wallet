@@ -13,7 +13,8 @@ import {
     addAccessKeySeedPhrase,
     deleteRecoveryMethod,
     setupRecoveryMessage,
-    addLedgerAccessKey
+    addLedgerAccessKey,
+    getLedgerPublicKey
 } from '../../actions/account'
 
 const initialState = {
@@ -21,10 +22,10 @@ const initialState = {
 }
 
 const ledgerModalReducer = handleActions({
-    [combineActions(sendMoney, addAccessKey, signAndSendTransactions, removeAccessKey, addAccessKeySeedPhrase, deleteRecoveryMethod, setupRecoveryMessage, addLedgerAccessKey)]: (state, { ready, meta, type }) => ({
+    [combineActions(sendMoney, addAccessKey, signAndSendTransactions, removeAccessKey, addAccessKeySeedPhrase, deleteRecoveryMethod, setupRecoveryMessage, addLedgerAccessKey, getLedgerPublicKey)]: (state, { ready, meta, type }) => ({
         ...state,
         modal: {
-            show: !ready && (state.hasLedger || type === 'ADD_LEDGER_ACCESS_KEY'),
+            show: !ready && (state.hasLedger || type === 'ADD_LEDGER_ACCESS_KEY' || type === 'GET_LEDGER_PUBLIC_KEY'),
             textId: `${meta.prefix}.modal`
         }
     })

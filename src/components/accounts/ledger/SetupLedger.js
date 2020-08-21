@@ -5,7 +5,7 @@ import InstructionsModal from './InstructionsModal';
 import LedgerIcon from '../../svg/LedgerIcon';
 import FormButton from '../../common/FormButton';
 import { Translate } from 'react-localize-redux';
-import { addLedgerAccessKey, createNewAccount, refreshAccount, removeNonLedgerAccessKeys, redirectToApp } from '../../../actions/account'
+import { addLedgerAccessKey, createNewAccount, refreshAccount, redirectToApp, getLedgerPublicKey } from '../../../actions/account'
 import GlobalAlert from '../../responsive/GlobalAlert'
 
 const SetupLedger = (props) => {
@@ -13,16 +13,17 @@ const SetupLedger = (props) => {
     const [showInstructions, setShowInstructions] = useState(false);
     const [connect, setConnect] = useState(false);
     const toggleShowInstructions = () => setShowInstructions(!showInstructions);
-    const loading = props.actionsPending.some(action => ['CREATE_NEW_ACCOUNT', 'ADD_LEDGER_ACCESS_KEY', 'REFRESH_ACCOUNT', 'REMOVE_NON_LEDGER_ACCESS_KEYS'].includes(action))
 
     const handleClick = async () => {
         setConnect('')
 
         try {
+            const ledgerPublicKey = await props.getLedgerPublicKey()
             if (props.isNew) {
-                await props.createNewAccount(props.accountId, props.fundingContract, props.fundingKey)
+                await props.createNewAccount(props.accountId, props.fundingContract, props.fundingKey, ledgerPublicKey)
+            } else {
+                await props.addLedgerAccessKey(props.accountId, ledgerPublicKey)
             }
-            await props.addLedgerAccessKey(props.accountId)
             await props.refreshAccount()
         } catch(e) {
             setConnect('fail');
@@ -30,7 +31,6 @@ const SetupLedger = (props) => {
         } 
 
         if (props.isNew) {
-            await props.removeNonLedgerAccessKeys()
             props.redirectToApp('/profile')
         } else {
             props.history.push('/setup-ledger-success');
@@ -51,7 +51,7 @@ const SetupLedger = (props) => {
             <LedgerIcon/>
             <p><Translate id='setupLedger.one'/></p>
             <p><Translate id='setupLedger.two'/> <span className='link underline' onClick={toggleShowInstructions}><Translate id='setupLedger.twoLink'/></span>.</p>
-            <FormButton onClick={handleClick} sending={loading} sendingString='connecting'>
+            <FormButton onClick={handleClick} sending={props.formLoader} sendingString='connecting'>
                 <Translate id={`button.${connect !== 'fail' ? 'continue' : 'retry'}`}/>
             </FormButton>
             <button className='link' onClick={() => props.history.goBack()}><Translate id='button.cancel'/></button>
@@ -66,8 +66,8 @@ const mapDispatchToProps = {
     addLedgerAccessKey,
     createNewAccount,
     refreshAccount,
-    removeNonLedgerAccessKeys,
-    redirectToApp
+    redirectToApp,
+    getLedgerPublicKey
 }
 
 const mapStateToProps = ({ account }, { match }) => ({

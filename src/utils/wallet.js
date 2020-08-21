@@ -352,15 +352,15 @@ class Wallet {
 
     async createNewAccountLinkdrop(accountId, fundingContract, fundingKey, keyPair) {
         const account = this.getAccount(fundingContract);
-        await this.keyStore.setKey(
-            NETWORK_ID, fundingContract,
-            KeyPair.fromString(fundingKey)
-        )
+        await this.keyStore.setKey(NETWORK_ID, fundingContract, KeyPair.fromString(fundingKey))
+
         const contract = new nearApiJs.Contract(account, fundingContract, {
             changeMethods: ['create_account_and_claim', 'claim'],
             sender: fundingContract
         });
+
         const publicKey = keyPair.publicKey.toString().replace('ed25519:', '');
+
         await contract.create_account_and_claim({
             new_account_id: accountId,
             new_public_key: publicKey
@@ -368,10 +368,17 @@ class Wallet {
     }
 
     async saveAndSelectAccount(accountId, keyPair) {
-        await this.saveAccount(accountId, keyPair)
-        this.accountId = accountId
-        this.save()
-        setAccountConfirmed(this.accountId, false)
+        if (keyPair.secretKey) {
+            await this.saveAccount(accountId, keyPair)
+            this.accountId = accountId
+            this.save()
+            setAccountConfirmed(this.accountId, false)
+        } else {
+            this.accounts[accountId] = true
+            this.accountId = accountId
+            this.save()
+            await this.addLedgerAccountId(accountId)
+        }
     }
 
     async saveAccount(accountId, keyPair) {
@@ -414,10 +421,9 @@ class Wallet {
         }
     }
 
-    async addLedgerAccessKey(accountId) {
-        const publicKey = await this.getLedgerPublicKey()
-        await setKeyMeta(publicKey, { type: 'ledger' })
-        return await this.getAccount(accountId).addKey(publicKey)
+    async addLedgerAccessKey(accountId, ledgerPublicKey) {
+        await setKeyMeta(ledgerPublicKey, { type: 'ledger' })
+        return await this.getAccount(accountId).addKey(ledgerPublicKey)
     }
 
     async disableLedger() {
