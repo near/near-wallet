@@ -146,20 +146,15 @@ class SetupRecoveryMethod extends Component {
             isNew, fundingContract, fundingKey, refreshAccount
         } = this.props;
 
-        let account;
+        await setupRecoveryMessage(accountId, this.method, securityCode, isNew, fundingContract, fundingKey)
+        const account = await refreshAccount()
+        const availableBalance = new BN(account.balance.available)
+        const multisigMinAmount = new BN(utils.format.parseNearAmount(MULTISIG_MIN_AMOUNT))
 
-        try {
-            await setupRecoveryMessage(accountId, this.method, securityCode, isNew, fundingContract, fundingKey)
-            account = await refreshAccount()
-        } finally {
-            const availableBalance = new BN(account.balance.available)
-            const multisigMinAmount = new BN(utils.format.parseNearAmount(MULTISIG_MIN_AMOUNT))
-
-            if (fundingContract && multisigMinAmount.lt(availableBalance)) {
-                history.push('/enable-two-factor')
-            } else {
-                redirectToApp('/profile');
-            }
+        if (fundingContract && multisigMinAmount.lt(availableBalance)) {
+            history.push('/enable-two-factor')
+        } else {
+            redirectToApp('/profile');
         }
     }
 
