@@ -231,7 +231,9 @@ class SetupRecoveryMethod extends Component {
                         </RecoveryOption>
                         <OptionHeader><Translate id='setupRecovery.advancedSecurity'/></OptionHeader>
                         <OptionSubHeader><Translate id='setupRecovery.advancedSecurityDesc'/></OptionSubHeader>
-                        {(isNew || (!isNew && !twoFactor)) &&
+                        {
+                            // TODO: Re-enable for new accounts when account loss bug is fixed https://github.com/near/near-wallet/issues/828
+                            !isNew && !twoFactor &&
                             <RecoveryOption
                                 onClick={() => this.setState({ option: 'ledger' })}
                                 option='ledger'
