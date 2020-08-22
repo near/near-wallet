@@ -66,6 +66,9 @@
         },
         "deleteRecoveryMethod": {
             "modal": "You will need to confirm delete key details on your Ledger."
+        },
+        "LedgerPublicKey": {
+            "modal": "You will need to confirm public key access on your Ledger"
         }
     },
 
