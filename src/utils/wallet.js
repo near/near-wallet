@@ -322,6 +322,7 @@ class Wallet {
     async createNewAccount(accountId, fundingContract, fundingKey) {
         this.checkNewAccount(accountId);
         const keyPair = KeyPair.fromRandom('ed25519');
+        this.saveAccount(accountId, keyPair)
 
         try {
             if (fundingContract && fundingKey) {
