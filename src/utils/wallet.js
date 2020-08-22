@@ -27,9 +27,8 @@ export const DISABLE_SEND_MONEY = process.env.DISABLE_SEND_MONEY === 'true' || p
 export const ACCOUNT_ID_SUFFIX = process.env.REACT_APP_ACCOUNT_ID_SUFFIX || 'testnet'
 export const MULTISIG_MIN_AMOUNT = process.env.REACT_APP_MULTISIG_MIN_AMOUNT || '100'
 export const LOCKUP_ACCOUNT_ID_SUFFIX = process.env.LOCKUP_ACCOUNT_ID_SUFFIX || 'lockup'
-// required by twoFactor.js
 export const ACCESS_KEY_FUNDING_AMOUNT = process.env.REACT_APP_ACCESS_KEY_FUNDING_AMOUNT || nearApiJs.utils.format.parseNearAmount('0.01')
-
+export const LINKDROP_GAS = process.env.LINKDROP_GAS || '100000000000000'
 export const ENABLE_FULL_ACCESS_KEYS = process.env.ENABLE_FULL_ACCESS_KEYS === 'yes'
 
 const NETWORK_ID = process.env.REACT_APP_NETWORK_ID || 'default'
@@ -359,7 +358,7 @@ class Wallet {
         await contract.create_account_and_claim({
             new_account_id: accountId,
             new_public_key: publicKey
-        });
+        }, LINKDROP_GAS);
     }
 
     async saveAndSelectAccount(accountId, keyPair) {
