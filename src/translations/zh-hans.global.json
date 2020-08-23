@@ -606,7 +606,8 @@
         "one": "打开 <a href='https://www.ledger.com/ledger-live' target='_blank'>Ledger Live</a> 并切换到你的<span class='color-black'>设置</span>。",
         "two": "在<span class='color-black'>试验性功能</span>中，确保<span class='color-black'>开发者模式</span>已经<span class='color-black'>开启</span>。",
         "three": "返回至<span class='color-black'>管理器</span> Tab 并搜索 <span class='color-black'>NEAR</span>。",
-        "four": "根据步骤在设备上安装 <span class='color-black'>NEAR 应用</span>。"
+        "four": "根据步骤在设备上安装 <span class='color-black'>NEAR 应用</span>。",
+        "five": ""
     },
 
     "setupLedgerSuccess": {
