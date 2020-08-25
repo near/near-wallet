@@ -643,8 +643,6 @@ class Wallet {
         const { account, has2fa } = await this.getAccountAndState(accountId)
         const accountKeys = await account.getAccessKeys();
 
-        // TODO: Do we need to generate a NEW public key and then save it to account and localStorage?
-
         if (has2fa) {
             await this.addAccessKey(account.accountId, account.accountId, convertPKForContract(publicKey))
         } else {
