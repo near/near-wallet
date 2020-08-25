@@ -11,8 +11,9 @@ const {
 export const METHOD_NAMES_LAK = ['add_request', 'add_request_and_confirm', 'delete_request', 'confirm']
 const VIEW_METHODS = ['get_request_nonce', 'list_request_ids']
 const METHOD_NAMES_CONFIRM = ['confirm']
-const GAS_2FA = process.env.REACT_APP_GAS_2FA || '100000000000000'
-const ALLOWANCE_2FA = process.env.ALLOWANCE_2FA || nearApiJs.utils.format.parseNearAmount('1')
+
+const WALLET_2FA_ALLOWANCE = process.env.WALLET_2FA_ALLOWANCE || nearApiJs.utils.format.parseNearAmount('1')
+const WALLET_2FA_GAS = process.env.WALLET_2FA_GAS || '100000000000000'
 
 export class TwoFactor extends Account {
     constructor(wallet) {
@@ -33,9 +34,7 @@ export class TwoFactor extends Account {
         if (!this.wallet.has2fa) {
             return null
         }
-        return (await this.wallet.getRecoveryMethods())
-            .data.filter((m) => m.kind.indexOf('2fa-') > -1)
-            .map(({ kind, detail, createdAt }) => ({ kind, detail, createdAt }))[0]
+        return (await this.wallet.getRecoveryMethods()).data.find((m) => m.kind.indexOf('2fa-') > -1)
     }
 
     async initTwoFactor(accountId, method) {
@@ -113,10 +112,10 @@ export class TwoFactor extends Account {
         const newArgs = new Uint8Array(new TextEncoder().encode(JSON.stringify({ 'num_confirmations': 2 })));
         const actions = [
             ...fak2lak.map((pk) => deleteKey(pk)),
-            ...fak2lak.map((pk) => addKey(pk, functionCallAccessKey(accountId, METHOD_NAMES_LAK, ALLOWANCE_2FA))),
-            addKey(confirmOnlyKey, functionCallAccessKey(accountId, METHOD_NAMES_CONFIRM, ALLOWANCE_2FA)),
+            ...fak2lak.map((pk) => addKey(pk, functionCallAccessKey(accountId, METHOD_NAMES_LAK, WALLET_2FA_ALLOWANCE))),
+            addKey(confirmOnlyKey, functionCallAccessKey(accountId, METHOD_NAMES_CONFIRM, WALLET_2FA_ALLOWANCE)),
             deployContract(contractBytes),
-            functionCall('new', newArgs, GAS_2FA, '0'),
+            functionCall('new', newArgs, WALLET_2FA_GAS, '0'),
         ]
         console.log('deploying multisig contract for', accountId)
         return await account.signAndSendTransaction(accountId, actions);
@@ -125,7 +124,7 @@ export class TwoFactor extends Account {
     async rotateKeys(addPublicKey, removePublicKey) {
         const { accountId } = this.getAccount()
         return await this.signAndSendTransaction(accountId, [
-            addKey(addPublicKey, functionCallAccessKey(accountId, METHOD_NAMES_LAK, ALLOWANCE_2FA)),
+            addKey(addPublicKey, functionCallAccessKey(accountId, METHOD_NAMES_LAK, WALLET_2FA_ALLOWANCE)),
             deleteKey(removePublicKey)
         ])
     }
@@ -147,7 +146,7 @@ export class TwoFactor extends Account {
         })));
         try {
             await super.signAndSendTransaction(accountId, [
-                functionCall('add_request_and_confirm', args, GAS_2FA, '0')
+                functionCall('add_request_and_confirm', args, WALLET_2FA_GAS, '0')
             ])
             await this.sendRequest(requestId)
         } catch (e) {
@@ -164,33 +163,27 @@ export class TwoFactor extends Account {
 
 const convertActions = (actions, accountId, receiverId) => actions.map((a) => {
     const type = a.enum
-    const { gas, publicKey, methodName, args } = a[type]
+    const { gas, publicKey, methodName, args, deposit, accessKey } = a[type]
     const action = {
-        ...a[type],
         type: type[0].toUpperCase() + type.substr(1),
         gas: (gas && gas.toString()) || undefined,
         public_key: (publicKey && convertPKForContract(publicKey)) || undefined,
         method_name: methodName,
         args: (args && Buffer.from(args).toString('base64')) || undefined,
+        amount: (deposit && deposit.toString()) || undefined,
     }
-    delete action.publicKey
-    delete action.methodName
-    if (action.deposit) {
-        action.deposit = action.amount = action.deposit.toString()
-    }
-    if (action.accessKey) {
-        if (receiverId === accountId && action.accessKey.permission.enum !== 'fullAccess') {
+    if (accessKey) {
+        if (receiverId === accountId && accessKey.permission.enum !== 'fullAccess') {
             action.permission = {
                 receiver_id: accountId,
-                allowance: ALLOWANCE_2FA,
+                allowance: WALLET_2FA_ALLOWANCE,
                 method_names: METHOD_NAMES_LAK,
             }
         }
-        if (action.accessKey.permission.enum === 'functionCall') {
+        if (accessKey.permission.enum === 'functionCall') {
             const { receiverId: receiver_id, methodNames: method_names, allowance,  } = action.accessKey.permission.functionCall
             action.permission = { receiver_id, allowance, method_names }
         }
-        delete action.accessKey
     }
     return action
 })
