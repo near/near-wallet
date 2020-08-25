@@ -588,14 +588,14 @@ class Wallet {
             await sendJson('POST', ACCOUNT_HELPER_URL + '/account/initializeRecoveryMethodForTempAccount', {
                 accountId,
                 method,
-                seedPhrase: [seedPhrase]
+                seedPhrase
             });
             return seedPhrase;
         } else {
             await this.postSignedJson('/account/initializeRecoveryMethod', {
                 accountId,
                 method,
-                seedPhrase: [seedPhrase]
+                seedPhrase
             });
             return seedPhrase;
         }
