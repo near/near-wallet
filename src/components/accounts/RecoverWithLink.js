@@ -13,6 +13,7 @@ import { Snackbar, snackbarDuration } from '../common/Snackbar'
 import { Translate } from 'react-localize-redux'
 import copyText from '../../utils/copyText'
 import isMobile from '../../utils/isMobile'
+import { DISABLE_CREATE_ACCOUNT } from '../../utils/wallet'
 
 const Container = styled.div`
     margin-top: 5px;
@@ -200,9 +201,11 @@ class RecoverWithLink extends Component {
                         <Container className='ui container error'>
                             <Title>{translate('recoverWithLink.errorTitle')}</Title>
                             <Desc>{translate('recoverWithLink.errorP')}</Desc>
-                            <Button onClick={() => history.push('/create')}>
-                                {translate('button.createAccount')}
-                            </Button>
+                            {!DISABLE_CREATE_ACCOUNT &&
+                                <Button onClick={() => history.push('/create')}>
+                                    {translate('button.createAccount')}
+                                </Button>
+                            }
                         </Container>
                     )}
                 </Translate>
