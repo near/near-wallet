@@ -100,10 +100,7 @@ const ledger = handleActions({
 
         return {
             ...state,
-            modal: {
-                ...state.modal,
-                txSigned: payload.status
-            },
+            txSigned: payload.status,
             signInWithLedger
         }
     },
