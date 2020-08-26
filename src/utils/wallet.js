@@ -583,22 +583,17 @@ class Wallet {
 
     async initializeRecoveryMethod(accountId, method, isNew) {
         const { seedPhrase } = generateSeedPhrase()
-
-        if (isNew) {
-            await sendJson('POST', ACCOUNT_HELPER_URL + '/account/initializeRecoveryMethodForTempAccount', {
-                accountId,
-                method,
-                seedPhrase
-            });
-            return seedPhrase;
-        } else {
-            await this.postSignedJson('/account/initializeRecoveryMethod', {
-                accountId,
-                method,
-                seedPhrase
-            });
-            return seedPhrase;
+        const body = {
+            accountId,
+            method,
+            seedPhrase
         }
+        if (isNew) {
+            await sendJson('POST', ACCOUNT_HELPER_URL + '/account/initializeRecoveryMethodForTempAccount', body);
+        } else {
+            await this.postSignedJson('/account/initializeRecoveryMethod', body);
+        }
+        return seedPhrase;
     }
 
     async validateSecurityCode(accountId, method, securityCode, isNew) {
