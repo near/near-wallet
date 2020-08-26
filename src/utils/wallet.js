@@ -43,7 +43,9 @@ const MULTISIG_CONTRACT_HASHES = process.env.MULTISIG_CONTRACT_HASHES || [
     // https://github.com/near/core-contracts/blob/fa3e2c6819ef790fdb1ec9eed6b4104cd13eb4b7/multisig/src/lib.rs
     '7GQStUCd8bmCK43bzD8PRh7sD2uyyeMJU5h8Rj3kXXJk',
     // https://github.com/near/core-contracts/blob/fb595e6ec09014d392e9874c2c5d6bbc910362c7/multisig/src/lib.rs
-    'AEE3vt6S3pS2s7K6HXnZc46VyMyJcjygSMsaafFh67DF'
+    'AEE3vt6S3pS2s7K6HXnZc46VyMyJcjygSMsaafFh67DF',
+    // https://github.com/near/core-contracts/blob/636e7e43f1205f4d81431fad0be39c5cb65455f1/multisig/src/lib.rs (minified)
+    '45gayUD7tUKFc3vvGwzoPEeFS6RjdQWu7SHGpxAJe13F'
 ];
 
 export const keyAccountConfirmed = (accountId) => `wallet.account:${accountId}:${NETWORK_ID}:confirmed`
