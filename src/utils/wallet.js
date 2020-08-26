@@ -597,19 +597,15 @@ class Wallet {
     }
 
     async validateSecurityCode(accountId, method, securityCode, isNew) {
-        if (isNew) {
-            return await sendJson('POST', ACCOUNT_HELPER_URL + '/account/validateSecurityCodeForTempAccount', {
-                accountId,
-                method,
-                securityCode
-            });
-        } else {
-            return await this.postSignedJson('/account/validateSecurityCode', {
-                accountId,
-                method,
-                securityCode
-            });
+        const body = {
+            accountId,
+            method,
+            securityCode
         }
+        if (isNew) {
+            return await sendJson('POST', ACCOUNT_HELPER_URL + '/account/validateSecurityCodeForTempAccount', body);
+        }
+        return await this.postSignedJson('/account/validateSecurityCode', body);
     }
 
     async getRecoveryMethods(account) {
