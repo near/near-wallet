@@ -639,16 +639,21 @@ class Wallet {
             await this.createNewAccount(accountId, fundingContract, fundingKey, recoveryKeyPair)
         }
 
-        const { publicKey } = generateSeedPhrase();
+        const newKeyPair = KeyPair.fromRandom('ed25519')
+        const newPublicKey = newKeyPair.publicKey
         const { account, has2fa } = await this.getAccountAndState(accountId)
         const accountKeys = await account.getAccessKeys();
 
         if (has2fa) {
-            await this.addAccessKey(account.accountId, account.accountId, convertPKForContract(publicKey))
+            await this.addAccessKey(account.accountId, account.accountId, convertPKForContract(newPublicKey))
         } else {
-            if (!accountKeys.some(it => it.public_key.endsWith(publicKey))) {
-                await account.addKey(publicKey);
+            if (!accountKeys.some(it => it.public_key.endsWith(newPublicKey))) {
+                await account.addKey(newPublicKey);
             }
+        }
+
+        if (isNew) {
+            await this.saveAccount(accountId, newKeyPair)
         }
     }
 
