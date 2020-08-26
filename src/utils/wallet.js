@@ -630,7 +630,7 @@ class Wallet {
             await this.createNewAccount(accountId, fundingContract, fundingKey, recoveryKeyPair)
         }
 
-        const newKeyPair = KeyPair.fromRandom('ed25519')
+        const newKeyPair = isNew ? KeyPair.fromRandom('ed25519') : recoveryKeyPair
         const newPublicKey = newKeyPair.publicKey
         const { account, has2fa } = await this.getAccountAndState(accountId)
         const accountKeys = await account.getAccessKeys();
