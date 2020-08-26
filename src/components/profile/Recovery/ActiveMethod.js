@@ -123,7 +123,7 @@ class ActiveMethod extends Component {
     render() {
 
         const { disable, username } = this.state;
-        const { data, onResend, onDelete, accountId, deletingMethod, resendingLink } = this.props;
+        const { data, onDelete, accountId, deletingMethod } = this.props;
 
         if (!disable) {
             return (
@@ -141,16 +141,6 @@ class ActiveMethod extends Component {
                     </div>
                     <div className='bottom'>
                         <Translate id='recoveryMgmt.enabled'/> {new Date(data.createdAt).toDateString().replace(/^\S+\s/,'')}
-                        {data.kind !== 'phrase' &&
-                            <FormButton 
-                                onClick={onResend}
-                                color='link'
-                                disabled={resendingLink}
-                                sending={resendingLink}
-                            >
-                                <Translate id={`recoveryMgmt.resend.${data.kind}`}/>
-                            </FormButton>
-                        }
                     </div>
                 </EnabledContainer>
             );

@@ -648,27 +648,6 @@ class Wallet {
         }
     }
 
-    async sendNewRecoveryLink(method) {
-        const accountId = this.accountId;
-        const { account, has2fa } = await this.getAccountAndState(accountId)
-        const { seedPhrase, publicKey } = generateSeedPhrase()
-
-        if (has2fa) {
-            await this.twoFactor.rotateKeys(account, publicKey, method.publicKey)
-        } else {
-            await account.addKey(publicKey)
-            await this.removeAccessKey(method.publicKey)
-        }
-
-        return await this.postSignedJson('/account/resendRecoveryLink', {
-            accountId,
-            method,
-            seedPhrase,
-            publicKey
-        });
-
-    }
-
     async deleteRecoveryMethod({ kind, publicKey }, deleteAllowed = true) {
         const accessKeys =  await this.getAccessKeys()
         const pubKeys = accessKeys.map(key => key.public_key)
