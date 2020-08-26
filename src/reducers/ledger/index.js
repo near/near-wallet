@@ -28,7 +28,7 @@ const ledgerModalReducer = handleActions({
         ...state,
         modal: {
             show: !ready && (state.hasLedger || type === 'ADD_LEDGER_ACCESS_KEY' || type === 'GET_LEDGER_PUBLIC_KEY'),
-            textId: !ready && `${meta.prefix}.modal`
+            textId: !ready ? `${meta.prefix}.modal` : undefined
         }
     })
 }, initialState)
