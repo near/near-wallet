@@ -352,14 +352,14 @@
     "setupRecovery": {
         "header": "Protect your Account",
         "subHeader": "Select an account recovery method:",
-        "basicSecurity": "Basic Security",
+        "basicSecurity": "Less Secure",
         "basicSecurityDesc": "Enter your email address or phone number and receive a magic link",
         "emailTitle": "Email Recovery",
         "emailPlaceholder": "example@email.com",
         "phoneTitle": "Phone Recovery",
         "phoneDesc": "Enter your phone number below and receive a magic recovery link",
         "phonePlaceholder": "+1 415 797 8554",
-        "advancedSecurity": "Advanced Security",
+        "advancedSecurity": "Most Secure (Recommended)",
         "advancedSecurityDesc": "Secure your account keys with a Ledger device, or recover your account using a 12 word recovery phrase.",
         "ledgerTitle": "Ledger Nano S",
         "phraseTitle": "Recovery Phrase"
