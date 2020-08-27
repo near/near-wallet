@@ -232,7 +232,7 @@ export const { getAccessKeys, removeAccessKey, addLedgerAccessKey, disableLedger
         wallet.removeAccessKey.bind(wallet),
         () => defaultCodesFor('authorizedApps.removeAccessKey', { onlyError: true })
     ],
-    ADD_LEDGER_ACCESS_KEY: [wallet.addLedgerAccessKey.bind(wallet), () => defaultCodesFor('errors.ledger')],
+    ADD_LEDGER_ACCESS_KEY: [wallet.addLedgerAccessKey.bind(wallet), () => defaultCodesFor('errors.ledger', { onlyError: true })],
     DISABLE_LEDGER: [wallet.disableLedger.bind(wallet), () => defaultCodesFor('errors.ledger')],
     REMOVE_NON_LEDGER_ACCESS_KEYS: [wallet.removeNonLedgerAccessKeys.bind(wallet), () => ({})],
     GET_LEDGER_ACCOUNT_IDS: [wallet.getLedgerAccountIds.bind(wallet), () => defaultCodesFor('signInLedger.getLedgerAccountIds')],
@@ -298,7 +298,7 @@ export const { signAndSendTransactions, setSignTransactionStatus, sendMoney } = 
     ],
     SIGN_AND_SEND_TRANSACTIONS: [
         wallet.signAndSendTransactions.bind(wallet),
-        () => defaultCodesFor('account.signAndSendTransactions')
+        () => defaultCodesFor('account.signAndSendTransactions', { onlyError: true })
     ],
     SEND_MONEY: [
         wallet.sendMoney.bind(wallet),
