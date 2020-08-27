@@ -693,11 +693,13 @@
     },
     
     "errors": {
+        "type": {
+            "RetriesExceeded": "Exceeded maximum attempts for this transaction."
+        },
         "ledger": {
             "U2FNotSupported": "U2F browser support is needed for Ledger. Please use Chrome, Opera or Firefox with a U2F extension. Also make sure you're on an HTTPS connection.",
             "U2F_4": "Failed to sign with Ledger device: U2F DEVICE_INELIGIBLE. Please make sure that your Ledger device is connected and unlocked.",
-            "modal": "You will need to confirm public key details on your Ledger.",
-            "RetriesExceeded": "Exceeded maximum attempts for this transaction."
+            "modal": "You will need to confirm public key details on your Ledger."
         },
         "recoveryMethods": {
             "lastMethod": "Cannot delete your last recovery method. Unless you have Ledger enabled, you need to keep at least one recovery method active to ensure recoverability of your account."
