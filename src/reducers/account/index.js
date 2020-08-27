@@ -57,7 +57,7 @@ const globalAlertReducer = handleActions({
         globalAlert: ready ? {
             success: !error,
             errorMessage: (error && payload && payload.toString()) || undefined,
-            messageCode: error ? payload.messageCode || meta.errorCode || payload.id : meta.successCode,
+            messageCode: error ? `errors.ledger.${payload.type}` || payload.messageCode || meta.errorCode || payload.id : meta.successCode,
             data: {
                 ...meta.data,
                 ...payload
