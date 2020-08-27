@@ -52,9 +52,7 @@ const theme = {}
 
 const PATH_PREFIX = process.env.PUBLIC_URL
 
-const onMissingTranslation = ({ translationId }) => {
-    return `${translationId}`
-  };
+const onMissingTranslation = ({ defaultTranslation }) => defaultTranslation;
 
 const Container = styled.div`
     min-height: 100vh;
@@ -87,12 +85,12 @@ class Routing extends Component {
             { name: "繁體中文", code: "zh-hant" }
         ]
         
-        const defaultLanguage = localStorage.getItem("languageCode") || languages[0].code
+        const activeLang = localStorage.getItem("languageCode") || languages[0].code
 
         this.props.initialize({
             languages,
             options: {
-                defaultLanguage,
+                defaultLanguage: 'en',
                 onMissingTranslation,
                 renderToStaticMarkup: false,
                 renderInnerHtml: true
@@ -104,6 +102,8 @@ class Routing extends Component {
         this.props.addTranslationForLanguage(translations_ru, "ru")
         this.props.addTranslationForLanguage(translations_zh_hans, "zh-hans")
         this.props.addTranslationForLanguage(translations_zh_hant, "zh-hant")
+
+        this.props.setActiveLanguage(activeLang)
         // this.addTranslationsForActiveLanguage(defaultLanguage)
     }
 
