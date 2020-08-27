@@ -37,7 +37,7 @@ const OptionSubHeader = styled.div`
 class SetupRecoveryMethod extends Component {
 
     state = {
-        option: 'email',
+        option: 'phrase',
         phoneNumber: '',
         email: '',
         success: false,
@@ -189,6 +189,24 @@ class SetupRecoveryMethod extends Component {
                     <form onSubmit={e => {this.handleNext(); e.preventDefault();}}>
                         <h1><Translate id='setupRecovery.header'/></h1>
                         <h2><Translate id='setupRecovery.subHeader'/></h2>
+                        <OptionHeader><Translate id='setupRecovery.advancedSecurity'/></OptionHeader>
+                        <OptionSubHeader><Translate id='setupRecovery.advancedSecurityDesc'/></OptionSubHeader>
+                        {
+                            // TODO: Re-enable for new accounts when account loss bug is fixed https://github.com/near/near-wallet/issues/828
+                            !isNew && !twoFactor &&
+                            <RecoveryOption
+                                onClick={() => this.setState({ option: 'ledger' })}
+                                option='ledger'
+                                active={option}
+                                disabled={ledgerKey !== null && accountId === activeAccountId}
+                            />
+                        }
+                        <RecoveryOption
+                            onClick={() => this.setState({ option: 'phrase' })}
+                            option='phrase'
+                            active={option}
+                            disabled={activeMethods.includes('phrase')}
+                        />
                         <OptionHeader><Translate id='setupRecovery.basicSecurity'/></OptionHeader>
                         <OptionSubHeader><Translate id='setupRecovery.basicSecurityDesc'/></OptionSubHeader>
                         <RecoveryOption
@@ -230,24 +248,6 @@ class SetupRecoveryMethod extends Component {
                                 )}
                             </Translate>
                         </RecoveryOption>
-                        <OptionHeader><Translate id='setupRecovery.advancedSecurity'/></OptionHeader>
-                        <OptionSubHeader><Translate id='setupRecovery.advancedSecurityDesc'/></OptionSubHeader>
-                        {
-                            // TODO: Re-enable for new accounts when account loss bug is fixed https://github.com/near/near-wallet/issues/828
-                            !isNew && !twoFactor &&
-                            <RecoveryOption
-                                onClick={() => this.setState({ option: 'ledger' })}
-                                option='ledger'
-                                active={option}
-                                disabled={ledgerKey !== null && accountId === activeAccountId}
-                            />
-                        }
-                        <RecoveryOption
-                            onClick={() => this.setState({ option: 'phrase' })}
-                            option='phrase'
-                            active={option}
-                            disabled={activeMethods.includes('phrase')}
-                        />
                         <FormButton
                             color='blue'
                             type='submit'
