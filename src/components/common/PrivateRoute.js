@@ -10,7 +10,7 @@ const PrivateRoute = ({component: Component, account, ...rest}) => (
                 ? (
                     <Redirect
                         to={{
-                            pathname: '/create/',
+                            pathname: '/',
                         }}
                     />
                 )
