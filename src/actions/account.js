@@ -7,6 +7,7 @@ import { loadState, saveState, clearState } from '../utils/sessionStorage'
 import {
     WALLET_CREATE_NEW_ACCOUNT_URL, WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS, WALLET_LOGIN_URL, WALLET_SIGN_URL,
 } from '../utils/wallet'
+import { KeyPair } from 'near-api-js'
 
 export const loadRecoveryMethods = createAction('LOAD_RECOVERY_METHODS',
     wallet.getRecoveryMethods.bind(wallet),
@@ -135,7 +136,7 @@ export const signInWithLedger = () => async (dispatch, getState) => {
 
 const defaultCodesFor = (prefix, data) => ({ successCode: `${prefix}.success`, errorCode: `${prefix}.error`, prefix, data})
 
-export const { initializeRecoveryMethod, validateSecurityCode, initTwoFactor, reInitTwoFactor, sendTwoFactor, resendTwoFactor, verifyTwoFactor, promptTwoFactor, deployMultisig, get2faMethod, getLedgerKey, setupRecoveryMessage, deleteRecoveryMethod, sendNewRecoveryLink, checkNewAccount, createNewAccount, checkAccountAvailable, getTransactions, getTransactionStatus, clear, clearCode } = createActions({
+export const { initializeRecoveryMethod, validateSecurityCode, initTwoFactor, reInitTwoFactor, sendTwoFactor, resendTwoFactor, verifyTwoFactor, promptTwoFactor, deployMultisig, get2faMethod, getLedgerKey, setupRecoveryMessage, deleteRecoveryMethod, checkNewAccount, createNewAccount, checkAccountAvailable, getTransactions, getTransactionStatus, clear, clearCode } = createActions({
     INITIALIZE_RECOVERY_METHOD: [
         wallet.initializeRecoveryMethod.bind(wallet),
         () => defaultCodesFor('account.initializeRecoveryMethod')
@@ -204,10 +205,6 @@ export const { initializeRecoveryMethod, validateSecurityCode, initTwoFactor, re
         wallet.deleteRecoveryMethod.bind(wallet),
         () => defaultCodesFor('account.deleteRecoveryMethod')
     ],
-    SEND_NEW_RECOVERY_LINK: [
-        wallet.sendNewRecoveryLink.bind(wallet),
-        () => defaultCodesFor('account.sendNewRecoveryLink')
-    ],
     CHECK_NEW_ACCOUNT: [
         wallet.checkNewAccount.bind(wallet),
         () => defaultCodesFor('account.create')
@@ -250,17 +247,25 @@ export const { addAccessKey, addAccessKeySeedPhrase, clearAlert } = createAction
         (accountId, contractId, publicKey, successUrl, title) => defaultCodesFor('account.login', {title})
     ],
     ADD_ACCESS_KEY_SEED_PHRASE: [
-        async (accountId, contractName, publicKey, isNew, fundingContract, fundingKey) => {
+        async (accountId, contractName, recoveryKeyPair, isNew, fundingContract, fundingKey) => {
             if (isNew) {
-                await wallet.createNewAccount(accountId, fundingContract, fundingKey)
+                await wallet.createNewAccount(accountId, fundingContract, fundingKey, recoveryKeyPair)
             }
+
+            const publicKey = recoveryKeyPair.publicKey.toString()
             const fullAccess = true;
-            const res = await wallet.addAccessKey(accountId, contractName, publicKey, fullAccess)
-            wallet.postSignedJson('/account/seedPhraseAdded', {
-                accountId,
-                publicKey,
-            })
-            return res
+
+            if (!isNew) {
+                await wallet.addAccessKey(accountId, contractName, publicKey, fullAccess)
+            }
+            await wallet.postSignedJson('/account/seedPhraseAdded', { accountId, publicKey })
+
+            if (isNew) {
+                const newKeyPair = KeyPair.fromRandom('ed25519')
+                const newPublicKey = newKeyPair.publicKey
+                await wallet.addAccessKey(accountId, accountId, newPublicKey, fullAccess)
+                await wallet.saveAccount(accountId, newKeyPair)
+            }
         },
         () => defaultCodesFor('account.setupSeedPhrase')
     ],

@@ -8,8 +8,7 @@ import ErrorIcon from '../../../images/icon-problems.svg';
 import { Translate } from 'react-localize-redux';
 import {
     deleteRecoveryMethod,
-    loadRecoveryMethods,
-    sendNewRecoveryLink
+    loadRecoveryMethods
 } from '../../../actions/account';
 import SkeletonLoading from '../../common/SkeletonLoading';
 import { useRecoveryMethods } from '../../../hooks/recoveryMethods';
@@ -104,18 +103,6 @@ const RecoveryContainer = () => {
         dispatch(loadRecoveryMethods())
     }
 
-    const handleResendLink = async (method) => {
-        setResendingLink(method.publicKey)
-
-        try {
-            await dispatch(sendNewRecoveryLink(method))
-        } finally {
-            setResendingLink('')
-        }
-
-        dispatch(loadRecoveryMethods())
-    }
-
     const sortedActiveMethods = activeMethods.sort((a, b) => {
         let kindA = a.kind
         let kindB = b.kind
@@ -143,9 +130,7 @@ const RecoveryContainer = () => {
                     key={i}
                     method={method}
                     accountId={accountId}
-                    resendingLink={resendingLink === method.publicKey}
                     deletingMethod={deletingMethod === method.publicKey}
-                    onResend={() => handleResendLink(method)}
                     onDelete={() => handleDeleteMethod(method)}
                 />
             )}

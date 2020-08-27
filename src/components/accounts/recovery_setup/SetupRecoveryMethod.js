@@ -44,7 +44,8 @@ class SetupRecoveryMethod extends Component {
         emailInvalid: false,
         phoneInvalid: false,
         activeMethods: [],
-        hasFetchedMethods: false
+        hasFetchedMethods: false,
+        recoverySeedPhrase: null
     }
 
     componentDidMount() {
@@ -132,12 +133,12 @@ class SetupRecoveryMethod extends Component {
         return method;
     }
 
-    handleSendCode = () => {
+    handleSendCode = async () => {
         const  { accountId, initializeRecoveryMethod, isNew } = this.props;
 
-        initializeRecoveryMethod(accountId, this.method, isNew);
-        this.setState({ success: true })
-        
+        const recoverySeedPhrase = await initializeRecoveryMethod(accountId, this.method, isNew);
+
+        this.setState({ success: true, recoverySeedPhrase: recoverySeedPhrase })
     }
 
     handleSetupRecoveryMethod = async (securityCode) => {
@@ -146,7 +147,7 @@ class SetupRecoveryMethod extends Component {
             isNew, fundingContract, fundingKey, refreshAccount
         } = this.props;
 
-        await setupRecoveryMessage(accountId, this.method, securityCode, isNew, fundingContract, fundingKey)
+        await setupRecoveryMessage(accountId, this.method, securityCode, isNew, fundingContract, fundingKey, this.state.recoverySeedPhrase)
         const account = await refreshAccount()
         const availableBalance = new BN(account.balance.available)
         const multisigMinAmount = new BN(utils.format.parseNearAmount(MULTISIG_MIN_AMOUNT))

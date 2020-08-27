@@ -319,9 +319,14 @@ class Wallet {
         }
     }
 
-    async createNewAccount(accountId, fundingContract, fundingKey) {
+    async createNewAccount(accountId, fundingContract, fundingKey, recoveryKeyPair = null) {
         this.checkNewAccount(accountId);
-        const keyPair = KeyPair.fromRandom('ed25519');
+        let keyPair = KeyPair.fromRandom('ed25519');
+
+        if (recoveryKeyPair) {
+            keyPair = recoveryKeyPair
+        }
+
         this.saveAccount(accountId, keyPair)
 
         try {
@@ -577,33 +582,30 @@ class Wallet {
     }
 
     async initializeRecoveryMethod(accountId, method, isNew) {
-        if (isNew) {
-            return await sendJson('POST', ACCOUNT_HELPER_URL + '/account/initializeRecoveryMethodForTempAccount', {
-                accountId,
-                method,
-            });
-        } else {
-            return await this.postSignedJson('/account/initializeRecoveryMethod', {
-                accountId,
-                method
-            });
+        const { seedPhrase } = generateSeedPhrase()
+        const body = {
+            accountId,
+            method,
+            seedPhrase
         }
+        if (isNew) {
+            await sendJson('POST', ACCOUNT_HELPER_URL + '/account/initializeRecoveryMethodForTempAccount', body);
+        } else {
+            await this.postSignedJson('/account/initializeRecoveryMethod', body);
+        }
+        return seedPhrase;
     }
 
     async validateSecurityCode(accountId, method, securityCode, isNew) {
-        if (isNew) {
-            return await sendJson('POST', ACCOUNT_HELPER_URL + '/account/validateSecurityCodeForTempAccount', {
-                accountId,
-                method,
-                securityCode
-            });
-        } else {
-            return await this.postSignedJson('/account/validateSecurityCode', {
-                accountId,
-                method,
-                securityCode
-            });
+        const body = {
+            accountId,
+            method,
+            securityCode
         }
+        if (isNew) {
+            return await sendJson('POST', ACCOUNT_HELPER_URL + '/account/validateSecurityCodeForTempAccount', body);
+        }
+        return await this.postSignedJson('/account/validateSecurityCode', body);
     }
 
     async getRecoveryMethods(account) {
@@ -614,54 +616,36 @@ class Wallet {
         }
     }
 
-    async setupRecoveryMessage(accountId, method, securityCode, isNew, fundingContract, fundingKey) {
-        // validate the code
+    async setupRecoveryMessage(accountId, method, securityCode, isNew, fundingContract, fundingKey, recoverySeedPhrase) {
+        const { secretKey } = parseSeedPhrase(recoverySeedPhrase)
+        const recoveryKeyPair = KeyPair.fromString(secretKey)
+
         let securityCodeResult = await this.validateSecurityCode(accountId, method, securityCode, isNew);
         if (!securityCodeResult || securityCodeResult.length === 0) {
             console.log('INVALID CODE', securityCodeResult)
             return
         }
-        // create account if new
+
         if (isNew) {
-            await this.createNewAccount(accountId, fundingContract, fundingKey)
+            await this.createNewAccount(accountId, fundingContract, fundingKey, recoveryKeyPair)
         }
-        // now finish recovery method setup
-        const { seedPhrase, publicKey } = generateSeedPhrase();
+
+        const newKeyPair = isNew ? KeyPair.fromRandom('ed25519') : recoveryKeyPair
+        const newPublicKey = newKeyPair.publicKey
         const { account, has2fa } = await this.getAccountAndState(accountId)
         const accountKeys = await account.getAccessKeys();
+
         if (has2fa) {
-            await this.addAccessKey(account.accountId, account.accountId, convertPKForContract(publicKey))
+            await this.addAccessKey(account.accountId, account.accountId, convertPKForContract(newPublicKey))
         } else {
-            if (!accountKeys.some(it => it.public_key.endsWith(publicKey))) {
-                await account.addKey(publicKey);
+            if (!accountKeys.some(it => it.public_key.endsWith(newPublicKey))) {
+                await account.addKey(newPublicKey);
             }
         }
-        return sendJson('POST', `${ACCOUNT_HELPER_URL}/account/sendRecoveryMessage`, {
-            accountId,
-            method,
-            seedPhrase
-        });
-    }
 
-    async sendNewRecoveryLink(method) {
-        const accountId = this.accountId;
-        const { account, has2fa } = await this.getAccountAndState(accountId)
-        const { seedPhrase, publicKey } = generateSeedPhrase()
-
-        if (has2fa) {
-            await this.twoFactor.rotateKeys(account, publicKey, method.publicKey)
-        } else {
-            await account.addKey(publicKey)
-            await this.removeAccessKey(method.publicKey)
+        if (isNew) {
+            await this.saveAccount(accountId, newKeyPair)
         }
-
-        return await this.postSignedJson('/account/resendRecoveryLink', {
-            accountId,
-            method,
-            seedPhrase,
-            publicKey
-        });
-
     }
 
     async deleteRecoveryMethod({ kind, publicKey }, deleteAllowed = true) {
