@@ -272,27 +272,9 @@
         "advancedSecurityDesc": "Запишите фразу из 12 слов и надежно храните её.",
         "phraseTitle": "Мнемоническая фраза"
     },
+    
     "setRecoveryConfirm": {
-        "title": "Enter Verification Code",
-        "pageText": "We've sent a 6-digit verification code to the ${option} you provided:",
-        "inputHeader": "Enter your 6-digit verification code",
-        "inputPlaceholder": "Verification Code",
-        "invalidCode": "Invalid code",
-        "didNotRecive": "Didn't receive your code?",
-        "resendCode": "Resend your code",
-        "or": "or",
-        "sendToDifferent": "send to a different email address",
-        "reenter": {
-            "one": {
-                "email": "If you did not yet receive this email, or the above email address is incorrect, ",
-                "phoneNumber": "If you did not yet receive this SMS, or the above phone number is incorrect, "
-            },
-            "link": "click here",
-            "two": {
-                "email": " to Re-enter your email address and resend.",
-                "phoneNumber": " to Re-enter your phone number and resend."
-            }
-        }
+        "pageText": "We've sent a 6-digit verification code to the ${option} you provided:"
     },
 
     "disclaimer": {
