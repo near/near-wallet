@@ -11,6 +11,9 @@ import copyText from '../../utils/copyText'
 import isMobile from '../../utils/isMobile'
 import { Snackbar, snackbarDuration } from '../common/Snackbar'
 import Container from '../common/styled/Container.css'
+import { BN } from 'bn.js'
+import { utils, KeyPair } from 'near-api-js'
+import { MULTISIG_MIN_AMOUNT } from '../../utils/wallet'
 
 class SetupSeedPhrase extends Component {
     state = {
@@ -27,7 +30,8 @@ class SetupSeedPhrase extends Component {
 
     refreshData = () => {
 
-        const { seedPhrase, publicKey } = generateSeedPhrase()
+        const { seedPhrase, publicKey, secretKey } = generateSeedPhrase()
+        const recoveryKeyPair = KeyPair.fromString(secretKey)
         const wordId = Math.floor(Math.random() * 12)
 
         this.setState((prevState) => ({
@@ -36,7 +40,8 @@ class SetupSeedPhrase extends Component {
             publicKey,
             wordId,
             enterWord: '',
-            requestStatus: null
+            requestStatus: null,
+            recoveryKeyPair
         }))
     }
 
@@ -63,9 +68,9 @@ class SetupSeedPhrase extends Component {
     handleSubmit = async () => {
         const { 
             accountId, isNew, fundingContract, fundingKey,
-            redirectToApp, addAccessKeySeedPhrase, refreshAccount
+            redirectToApp, addAccessKeySeedPhrase, refreshAccount, history
         } = this.props
-        const { seedPhrase, enterWord, wordId, publicKey } = this.state
+        const { seedPhrase, enterWord, wordId, recoveryKeyPair } = this.state
         if (enterWord !== seedPhrase.split(' ')[wordId]) {
             this.setState(() => ({
                 requestStatus: {
@@ -75,10 +80,22 @@ class SetupSeedPhrase extends Component {
             }))
             return false
         }
-        const contractName = null;
-        await addAccessKeySeedPhrase(accountId, contractName, publicKey, isNew, fundingContract, fundingKey)
-        await refreshAccount()
-        redirectToApp('/profile');
+
+        let account;
+
+        try {
+            await addAccessKeySeedPhrase(accountId, recoveryKeyPair, isNew, fundingContract, fundingKey)
+            account = await refreshAccount()
+        } finally {
+            const availableBalance = new BN(account.balance.available)
+            const multisigMinAmount = new BN(utils.format.parseNearAmount(MULTISIG_MIN_AMOUNT))
+
+            if (fundingContract && multisigMinAmount.lt(availableBalance)) {
+                history.push('/enable-two-factor')
+            } else {
+                redirectToApp('/profile');
+            }
+        }
     }
 
     handleCopyPhrase = () => {
@@ -103,7 +120,6 @@ class SetupSeedPhrase extends Component {
     }
 
     render() {
-
         return (
             <Translate>
                 {({ translate }) => (

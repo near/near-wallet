@@ -70,9 +70,9 @@ class SendMoney extends Component {
         this.props.history.push('/')
     }
 
-    handleNextStep = (e) => {
+    handleNextStep = async (e) => {
         e.preventDefault()
-        const { step, accountId, amount } = this.state;
+        const { step, accountId, amount } = this.state
 
         if (step === 2) {
             this.setState(() => ({

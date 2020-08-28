@@ -29,11 +29,13 @@
         },
         "setupSeedPhrase": {
             "success": "Seed phrase recovery setup is complete.",
-            "error": "An error occurred while setting up seed phrase recovery. Please try again!"
+            "error": "An error occurred while setting up seed phrase recovery. Please try again!",
+            "modal": "You will need to confirm full access details on your Ledger."
         },
         "setupRecoveryMessage": {
             "success": "Recovery setup is complete.",
-            "error": "An error occurred while setting up your recovery method. Please try again!"
+            "error": "An error occurred while setting up your recovery method. Please try again!",
+            "modal": "You will need to confirm full access details on your Ledger."
         },
         "sendNewRecoveryLink": {
             "success": "Recovery link successfully sent!",
@@ -51,9 +53,23 @@
             },
             "incorrectContractId": {
                 "error": "The contract ${contractId} does not exist. This may be an issue with the application you are trying to use, or this contract may have been deleted. You will be redirected back to the application"
-            }
+            },
+            "modal": "You will need to confirm login details on your Ledger."
         },
-        "nameDoesntMatch": "Account name doesn't match"
+        "nameDoesntMatch": "Account name doesn't match",
+        "sendMoney": {
+            "error": "Please check that your device is connected and the NEAR app is open.",
+            "modal": "You will need to confirm transfer details on your Ledger."
+        },
+        "signAndSendTransactions": {
+            "modal": "You will need to confirm deposit details on your Ledger."
+        },
+        "deleteRecoveryMethod": {
+            "modal": "You will need to confirm delete key details on your Ledger."
+        },
+        "LedgerPublicKey": {
+            "modal": "You will need to confirm public key access on your Ledger"
+        }
     },
 
     "actions": {
@@ -179,7 +195,9 @@
             "inputLabel": "Enter your 6-digit verification code",
             "placeholder": "Verification Code",
             "didntReceive": "Didn't receive your code?",
-            "resend": "Resend"
+            "resend": "Resend",
+            "resending": "Sending...",
+            "resent": "Code sent!"
         }
     },
 
@@ -198,7 +216,11 @@
         "dashboardNoApps": "You have not authorized any apps",
         "feeAllowance": "Fee Allowance",
         "publicKey": "Public Key",
-        "ledger": "Ledger"
+        "ledger": "Ledger",
+        "removeAccessKey": {
+            "error": "Please check that your device is connected and the NEAR app is open.",
+            "modal": "You will need to confirm delete key details on your Ledger."
+        }
     },
 
     "button": {
@@ -288,7 +310,8 @@
             "desc": "Make sure you have your 12 word recovery phrase, then click below to begin the recovery process."
         },
         "actionType": "Recovery",
-        "actionRequired": "This message contains a magic link. Click the link to begin recovery!"
+        "actionRequired": "This message contains a magic link. Click the link to begin recovery!",
+        "cannotResend": "This message was sent when you enabled email/phone recovery. We only send this message once, and cannot resend it."
     },
 
     "createAccount": {
@@ -332,14 +355,14 @@
     "setupRecovery": {
         "header": "Protect your Account",
         "subHeader": "Select an account recovery method:",
-        "basicSecurity": "Basic Security",
+        "basicSecurity": "Less Secure",
         "basicSecurityDesc": "Enter your email address or phone number and receive a magic link",
         "emailTitle": "Email Recovery",
         "emailPlaceholder": "example@email.com",
         "phoneTitle": "Phone Recovery",
         "phoneDesc": "Enter your phone number below and receive a magic recovery link",
         "phonePlaceholder": "+1 415 797 8554",
-        "advancedSecurity": "Advanced Security",
+        "advancedSecurity": "Most Secure (Recommended)",
         "advancedSecurityDesc": "Secure your account keys with a Ledger device, or recover your account using a 12 word recovery phrase.",
         "ledgerTitle": "Ledger Nano S",
         "phraseTitle": "Recovery Phrase"
@@ -353,7 +376,9 @@
         "didNotRecive": "Didn't receive your code?",
         "resendCode": "Resend your code",
         "or": "or",
-        "sendToDifferent": "send to a different email address",
+        "sendToDifferent": "send to a different",
+        "email": "email address",
+        "phone": "phone number",
         "reenter": {
             "one": {
                 "email": "If you did not yet receive this email, or the above email address is incorrect, ",
@@ -602,10 +627,11 @@
 
     "setupLedgerSteps": {
         "header": "Install NEAR on your Ledger device",
-        "one": "Open <a href='https://www.ledger.com/ledger-live' target='_blank'>Ledger Live</a> and navigate to your <span class='color-black'>Settings</span>.",
-        "two": "Under <span class='color-black'>Experimental Features</span>, make sure that <span class='color-black'>Developer Mode</span> is switched <span class='color-black'>on</span>.",
-        "three": "Return to the <span class='color-black'>Manager</span> tab and search for <span class='color-black'>NEAR</span>.",
-        "four": "Follow the instructions to install the <span class='color-black'>NEAR application</span> on your device."
+        "one": "Open <a href='https://www.ledger.com/ledger-live' target='_blank'>Ledger Live,</a> install any firmware updates available.",
+        "two": "Navigate to your <span class='color-black'>Settings</span>.",
+        "three": "Under <span class='color-black'>Experimental Features</span>, make sure that <span class='color-black'>Developer Mode</span> is switched <span class='color-black'>on</span>.",
+        "four": "Return to the <span class='color-black'>Manager</span> tab and search for <span class='color-black'>NEAR</span>.",
+        "five": "Follow the instructions to install the <span class='color-black'>NEAR application</span> on your device."
     },
 
     "setupLedgerSuccess": {
@@ -634,7 +660,8 @@
         "one": "Make sure your ledger is connected securely, and that the NEAR app is open on the device.",
         "getLedgerAccountIds": {
             "success": "",
-            "error": "Public key access was rejected. No accounts were recovered.<br/>To continue, you must allow NEAR Wallet to view your public key. Please try again."
+            "error": "Public key access was rejected. No accounts were recovered.<br/>To continue, you must allow NEAR Wallet to view your public key. Please try again.",
+            "noAccounts": "No accounts are associated with this Ledger device. You must first create an account, then add this Ledger to it to login."
         },
         "addLedgerAccountId": {
             "success": "",
@@ -664,13 +691,15 @@
     "errors": {
         "ledger": {
             "U2FNotSupported": "U2F browser support is needed for Ledger. Please use Chrome, Opera or Firefox with a U2F extension. Also make sure you're on an HTTPS connection.",
-            "U2F_4": "Failed to sign with Ledger device: U2F DEVICE_INELIGIBLE. Please make sure that your Ledger device is connected and unlocked."
+            "U2F_4": "Failed to sign with Ledger device: U2F DEVICE_INELIGIBLE. Please make sure that your Ledger device is connected and unlocked.",
+            "modal": "You will need to confirm public key details on your Ledger."
         },
         "recoveryMethods": {
             "lastMethod": "Cannot delete your last recovery method. Unless you have Ledger enabled, you need to keep at least one recovery method active to ensure recoverability of your account."
         },
         "twoFactor": {
-            "userCancelled": "The action was cancelled."
+            "userCancelled": "2FA code was not verified correctly.",
+            "invalidCode": "Invalid 2FA code. Please try again."
         }
     },
 

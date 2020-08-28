@@ -3,7 +3,6 @@ import { connect } from 'react-redux'
 import { Translate } from 'react-localize-redux'
 import { withRouter } from 'react-router-dom'
 
-import { getAccessKeys } from '../../actions/account'
 import { getTransactions, getTransactionStatus } from '../../actions/transactions'
 
 import DashboardSection from './DashboardSection'
@@ -18,7 +17,7 @@ import AccessKeysIcon from '../../images/icon-keys-grey.svg'
 
 import DashboardKeys from './DashboardKeys'
 
-import { TRANSACTIONS_REFRESH_INTERVAL, EXPLORER_URL, ENABLE_FULL_ACCESS_KEYS } from '../../utils/wallet'
+import { TRANSACTIONS_REFRESH_INTERVAL, EXPLORER_URL, ENABLE_FULL_ACCESS_KEYS, DISABLE_SEND_MONEY } from '../../utils/wallet'
 
 class DashboardDetail extends Component {
     state = {
@@ -27,7 +26,6 @@ class DashboardDetail extends Component {
     }
 
     componentDidMount() {
-        this.refreshAccessKeys()
         this.refreshTransactions()
 
         this.interval = setInterval(() => {
@@ -47,18 +45,6 @@ class DashboardDetail extends Component {
         const { getTransactions, accountId } = this.props
         
         getTransactions(accountId)
-    }
-
-    refreshAccessKeys = () => {
-        this.setState(() => ({
-            loader: true
-        }))
-
-        this.props.getAccessKeys().then(() => {
-            this.setState(() => ({
-                loader: false
-            }))
-        })
     }
 
     handleNotice = () => {
@@ -90,7 +76,7 @@ class DashboardDetail extends Component {
                         </Fragment>
                         : <Translate id='balance.balanceLoading' />
                 )}
-                additional={(
+                additional={!DISABLE_SEND_MONEY && (
                     <FormButton 
                         linkTo='/send-money'
                         color='green-white-arrow'
@@ -136,7 +122,6 @@ class DashboardDetail extends Component {
 }
 
 const mapDispatchToProps = {
-    getAccessKeys,
     getTransactions,
     getTransactionStatus
 }

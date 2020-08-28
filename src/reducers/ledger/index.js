@@ -1,15 +1,36 @@
-import { handleActions } from 'redux-actions'
+import { handleActions, combineActions } from 'redux-actions'
 import reduceReducers from 'reduce-reducers'
 
 import {
     getLedgerAccountIds,
     addLedgerAccountId,
-    saveAndSelectLedgerAccounts
+    saveAndSelectLedgerAccounts,
+    refreshAccount,
+    sendMoney,
+    addAccessKey,
+    signAndSendTransactions,
+    removeAccessKey,
+    addAccessKeySeedPhrase,
+    deleteRecoveryMethod,
+    setupRecoveryMessage,
+    addLedgerAccessKey,
+    getLedgerPublicKey
 } from '../../actions/account'
 
 const initialState = {
-    
+    modal: {}
 }
+
+// TODO: Avoid listing all individual actions. Two approaches possible: 1) use meta to set a flag 2) dispatch action from Signer when signing is actually requested
+const ledgerModalReducer = handleActions({
+    [combineActions(sendMoney, addAccessKey, signAndSendTransactions, removeAccessKey, addAccessKeySeedPhrase, deleteRecoveryMethod, setupRecoveryMessage, addLedgerAccessKey, getLedgerPublicKey)]: (state, { ready, meta, type }) => ({
+        ...state,
+        modal: {
+            show: !ready && (state.hasLedger || type === 'ADD_LEDGER_ACCESS_KEY' || type === 'GET_LEDGER_PUBLIC_KEY'),
+            textId: `${meta.prefix}.modal`
+        }
+    })
+}, initialState)
 
 const ledger = handleActions({
     [getLedgerAccountIds]: (state, { error, payload }) => {
@@ -32,7 +53,7 @@ const ledger = handleActions({
                 : {}
         }
     },
-    [addLedgerAccountId]: (state, { error, payload, ready, meta }) => {
+    [addLedgerAccountId]: (state, { error, ready, meta }) => {
         if (error) {
             return {
                 ...state,
@@ -59,10 +80,17 @@ const ledger = handleActions({
         }
 
         return state
-    }
+    },
+    [refreshAccount]: (state, { payload }) => {
+        return {
+            ...state,
+            ...(payload && payload.ledger)
+        }
+    },
 }, initialState)
 
 export default reduceReducers(
     initialState,
-    ledger
+    ledger,
+    ledgerModalReducer
 )

@@ -42,17 +42,17 @@ import { NodeStakingWithRouter } from './node-staking/NodeStaking'
 import { AddNodeWithRouter } from './node-staking/AddNode'
 import { NodeDetailsWithRouter } from './node-staking/NodeDetails'
 import { StakingWithRouter } from './node-staking/Staking'
-import { IS_MAINNET, DISABLE_SEND_MONEY, WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS } from '../utils/wallet'
+import { IS_MAINNET, DISABLE_SEND_MONEY, WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS, DISABLE_CREATE_ACCOUNT } from '../utils/wallet'
 import { refreshAccount, handleRefreshUrl, clearAlert, clear, handleRedirectUrl, handleClearUrl, promptTwoFactor } from '../actions/account'
+import LedgerConfirmActionModal from './accounts/ledger/LedgerConfirmActionModal';
+
 import GlobalStyle from './GlobalStyle'
 import { SetupSeedPhraseWithRouter } from './accounts/SetupSeedPhrase'
 const theme = {}
 
 const PATH_PREFIX = process.env.PUBLIC_URL
 
-const onMissingTranslation = ({ translationId }) => {
-    return `${translationId}`
-  };
+const onMissingTranslation = ({ defaultTranslation }) => defaultTranslation;
 
 const Container = styled.div`
     min-height: 100vh;
@@ -85,12 +85,12 @@ class Routing extends Component {
             { name: "繁體中文", code: "zh-hant" }
         ]
         
-        const defaultLanguage = localStorage.getItem("languageCode") || languages[0].code
+        const activeLang = localStorage.getItem("languageCode") || languages[0].code
 
         this.props.initialize({
             languages,
             options: {
-                defaultLanguage,
+                defaultLanguage: 'en',
                 onMissingTranslation,
                 renderToStaticMarkup: false,
                 renderInnerHtml: true
@@ -102,6 +102,8 @@ class Routing extends Component {
         this.props.addTranslationForLanguage(translations_ru, "ru")
         this.props.addTranslationForLanguage(translations_zh_hans, "zh-hans")
         this.props.addTranslationForLanguage(translations_zh_hant, "zh-hant")
+
+        this.props.setActiveLanguage(activeLang)
         // this.addTranslationsForActiveLanguage(defaultLanguage)
     }
 
@@ -163,13 +165,14 @@ class Routing extends Component {
                         <NetworkBanner accountId={this.props.account.accountId}/>
                         <Navigation/>
                         <GlobalAlert/>
+                        <LedgerConfirmActionModal/>
                         { 
                             this.props.account.requestPending !== null &&
                             <TwoFactorVerifyModal
-                                onClose={(verified) => {
+                                onClose={(verified, error) => {
                                     const { account, promptTwoFactor } = this.props
                                     // requestPending will resolve (verified == true) or reject the Promise being awaited in the method that dispatched promptTwoFactor
-                                    account.requestPending(verified)
+                                    account.requestPending(verified, error)
                                     // clears requestPending and closes the modal
                                     promptTwoFactor(null)
                                 }}
@@ -188,7 +191,7 @@ class Routing extends Component {
                                 />
                                 <Route
                                     exact
-                                    path='/create/:fundingContract?/:fundingKey?'
+                                    path={DISABLE_CREATE_ACCOUNT ? '/create/:fundingContract/:fundingKey' : '/create/:fundingContract?/:fundingKey?'}
                                     component={CreateAccountWithRouter}
                                 />
                                 <Route

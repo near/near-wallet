@@ -150,10 +150,10 @@ const ProfileDetails = ({
                 <PublicBalanceRow titleId='profile.details.locked' infoId='lockedBalance' amount={new BN(lockedAmount).sub(new BN(unvestedAmount))}/>
                 <PublicBalanceRow titleId='profile.details.unvested' infoId='unvestedBalance' amount={unvestedAmount}/>
                 <PublicBalanceRow titleId='profile.details.unlocked' infoId='unlockedBalance' amount={ownersBalance}/>
-                <PublicBalanceRow titleId='profile.details.availableBalance' infoId='availableBalanceProfile' amount={available}/>
             </>
             : null
         }
+        <PublicBalanceRow titleId='profile.details.availableBalance' infoId='availableBalanceProfile' amount={available}/>
     </CustomGrid>
 )
 

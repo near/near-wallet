@@ -1,8 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
+import { Translate } from 'react-localize-redux';
 import Card from '../../common/styled/Card.css';
+
 import FormButton from '../../common/FormButton';
 import HardwareDeviceIcon from '../../svg/HardwareDeviceIcon';
 import { 
@@ -12,7 +14,6 @@ import {
 } from '../../../actions/account';
 import { useRecoveryMethods } from '../../../hooks/recoveryMethods';
 import ConfirmDisable from './ConfirmDisable';
-import { Translate } from 'react-localize-redux';
 
 const Container = styled(Card)`
     margin-top: 30px;
@@ -87,10 +88,6 @@ const HardwareDevices = () => {
     const publicKeys = keys.map(key => key.public_key)
     const hasOtherMethods = publicKeys.some(key => recoveryKeys.includes(key))
     const hasLedger = account.ledgerKey !== null;
-
-    useEffect(() => { 
-        dispatch(getAccessKeys())
-    }, []);
 
     const handleConfirmDisable = async () => {
         try {
