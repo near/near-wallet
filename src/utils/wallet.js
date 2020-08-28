@@ -114,6 +114,8 @@ class Wallet {
 
         this.twoFactor = new TwoFactor(this)
         this.staking = new Staking(this)
+
+        console.log(this)
     }
 
     async getLocalAccessKey(accountId, accessKeys) {

@@ -53,4 +53,16 @@ export class Staking {
         }
         return this.validators
     }
+
+    async stake() {
+        const { functionCall } = nearAPI.transactions
+        const actions = []
+        if (gtZero(depositAmount)) {
+            actions.push(functionCall('deposit', new Uint8Array(), BOATLOAD_OF_GAS, depositAmount))
+        }
+        actions.push(functionCall('stake', new TextEncoder().encode(JSON.stringify({amount})), BOATLOAD_OF_GAS))
+        const account = walletConnection.account()
+        account.signAndSendTransaction(selectedContract, actions)
+
+    }
 }
