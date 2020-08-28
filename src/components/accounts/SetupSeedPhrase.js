@@ -80,12 +80,11 @@ class SetupSeedPhrase extends Component {
             }))
             return false
         }
-        const contractName = null;
 
         let account;
 
         try {
-            await addAccessKeySeedPhrase(accountId, contractName, recoveryKeyPair, isNew, fundingContract, fundingKey)
+            await addAccessKeySeedPhrase(accountId, recoveryKeyPair, isNew, fundingContract, fundingKey)
             account = await refreshAccount()
         } finally {
             const availableBalance = new BN(account.balance.available)

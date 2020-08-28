@@ -319,51 +319,42 @@ class Wallet {
         }
     }
 
-    async createNewAccount(accountId, fundingContract, fundingKey, recoveryKeyPair = null) {
+    async createNewAccount(accountId, fundingContract, fundingKey, publicKey, useLedger=false) {
         this.checkNewAccount(accountId);
-        let keyPair = KeyPair.fromRandom('ed25519');
 
-        if (recoveryKeyPair) {
-            keyPair = recoveryKeyPair
+        if (useLedger) {
+            await setKeyMeta(publicKey, { type: 'ledger' })
         }
 
-        this.saveAccount(accountId, keyPair)
-
-        try {
-            if (fundingContract && fundingKey) {
-                await this.createNewAccountLinkdrop(accountId, fundingContract, fundingKey, keyPair)
-                await this.keyStore.removeKey(NETWORK_ID, fundingContract)
-            } else {
-                await sendJson('POST', CONTRACT_CREATE_ACCOUNT_URL, {
-                    newAccountId: accountId,
-                    newAccountPublicKey: keyPair.publicKey.toString()
-                })
-            }
-            await this.saveAndSelectAccount(accountId, keyPair);
-        } catch(e) {
-            if (e.type === 'TimeoutError' || e.type === 'RetriesExceeded' || e instanceof TypeError) {
-                await this.saveAndSelectAccount(accountId, keyPair)
-            }
-            else {
-                throw e
-            }
+        if (fundingContract && fundingKey) {
+            await this.createNewAccountLinkdrop(accountId, fundingContract, fundingKey, publicKey)
+            await this.keyStore.removeKey(NETWORK_ID, fundingContract)
+        } else {
+            await sendJson('POST', CONTRACT_CREATE_ACCOUNT_URL, {
+                newAccountId: accountId,
+                newAccountPublicKey: publicKey.toString()
+            })
         }
+
+        if (useLedger) {
+            await this.addLedgerAccountId(accountId)
+        }
+
+        await this.saveAndSelectAccount(accountId);
     }
 
-    async createNewAccountLinkdrop(accountId, fundingContract, fundingKey, keyPair) {
+    async createNewAccountLinkdrop(accountId, fundingContract, fundingKey, publicKey) {
         const account = this.getAccount(fundingContract);
-        await this.keyStore.setKey(
-            NETWORK_ID, fundingContract,
-            KeyPair.fromString(fundingKey)
-        )
+        await this.keyStore.setKey(NETWORK_ID, fundingContract, KeyPair.fromString(fundingKey))
+
         const contract = new nearApiJs.Contract(account, fundingContract, {
             changeMethods: ['create_account_and_claim', 'claim'],
             sender: fundingContract
         });
-        const publicKey = keyPair.publicKey.toString().replace('ed25519:', '');
+
         await contract.create_account_and_claim({
             new_account_id: accountId,
-            new_public_key: publicKey
+            new_public_key: publicKey.toString().replace('ed25519:', '')
         }, LINKDROP_GAS);
     }
 
@@ -371,6 +362,7 @@ class Wallet {
         await this.saveAccount(accountId, keyPair)
         this.accountId = accountId
         this.save()
+        // TODO: What does setAccountConfirmed do?
         setAccountConfirmed(this.accountId, false)
     }
 
@@ -389,6 +381,7 @@ class Wallet {
     /********************************
     recovering a second account attempts to call this method with the currently logged in account and not the tempKeyStore 
     ********************************/
+    // TODO: Why is fullAccess needed? Everything without contractId should be full access.
     async addAccessKey(accountId, contractId, publicKey, fullAccess = false) {
         const { account, has2fa } = await this.getAccountAndState(accountId)
         if (has2fa) {
@@ -414,10 +407,9 @@ class Wallet {
         }
     }
 
-    async addLedgerAccessKey(accountId) {
-        const publicKey = await this.getLedgerPublicKey()
-        await setKeyMeta(publicKey, { type: 'ledger' })
-        return await this.getAccount(accountId).addKey(publicKey)
+    async addLedgerAccessKey(accountId, ledgerPublicKey) {
+        await setKeyMeta(ledgerPublicKey, { type: 'ledger' })
+        return await this.getAccount(accountId).addKey(ledgerPublicKey)
     }
 
     async disableLedger() {
@@ -627,7 +619,8 @@ class Wallet {
         }
 
         if (isNew) {
-            await this.createNewAccount(accountId, fundingContract, fundingKey, recoveryKeyPair)
+            await wallet.saveAccount(accountId, recoveryKeyPair);
+            await this.createNewAccount(accountId, fundingContract, fundingKey, recoveryKeyPair.publicKey)
         }
 
         const newKeyPair = isNew ? KeyPair.fromRandom('ed25519') : recoveryKeyPair

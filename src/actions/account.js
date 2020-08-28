@@ -136,7 +136,7 @@ export const signInWithLedger = () => async (dispatch, getState) => {
 
 const defaultCodesFor = (prefix, data) => ({ successCode: `${prefix}.success`, errorCode: `${prefix}.error`, prefix, data})
 
-export const { initializeRecoveryMethod, validateSecurityCode, initTwoFactor, reInitTwoFactor, sendTwoFactor, resendTwoFactor, verifyTwoFactor, promptTwoFactor, deployMultisig, get2faMethod, getLedgerKey, setupRecoveryMessage, deleteRecoveryMethod, checkNewAccount, createNewAccount, checkAccountAvailable, getTransactions, getTransactionStatus, clear, clearCode } = createActions({
+export const { initializeRecoveryMethod, validateSecurityCode, initTwoFactor, reInitTwoFactor, sendTwoFactor, resendTwoFactor, verifyTwoFactor, promptTwoFactor, deployMultisig, get2faMethod, getLedgerKey, getLedgerPublicKey, setupRecoveryMessage, deleteRecoveryMethod, checkNewAccount, createNewAccount, checkAccountAvailable, getTransactions, getTransactionStatus, clear, clearCode } = createActions({
     INITIALIZE_RECOVERY_METHOD: [
         wallet.initializeRecoveryMethod.bind(wallet),
         () => defaultCodesFor('account.initializeRecoveryMethod')
@@ -197,6 +197,10 @@ export const { initializeRecoveryMethod, validateSecurityCode, initTwoFactor, re
         wallet.getLedgerKey.bind(wallet),
         () => defaultCodesFor('account.LedgerKey')
     ],
+    GET_LEDGER_PUBLIC_KEY: [
+        wallet.getLedgerPublicKey.bind(wallet),
+        () => defaultCodesFor('account.LedgerPublicKey')
+    ],
     SETUP_RECOVERY_MESSAGE: [
         wallet.setupRecoveryMessage.bind(wallet),
         () => defaultCodesFor('account.setupRecoveryMessage')
@@ -247,24 +251,25 @@ export const { addAccessKey, addAccessKeySeedPhrase, clearAlert } = createAction
         (accountId, contractId, publicKey, successUrl, title) => defaultCodesFor('account.login', {title})
     ],
     ADD_ACCESS_KEY_SEED_PHRASE: [
-        async (accountId, contractName, recoveryKeyPair, isNew, fundingContract, fundingKey) => {
+        async (accountId, recoveryKeyPair, isNew, fundingContract, fundingKey) => {
             if (isNew) {
-                await wallet.createNewAccount(accountId, fundingContract, fundingKey, recoveryKeyPair)
+                await wallet.saveAccount(accountId, recoveryKeyPair);
+                await wallet.createNewAccount(accountId, fundingContract, fundingKey, recoveryKeyPair.publicKey)
             }
 
             const publicKey = recoveryKeyPair.publicKey.toString()
+            const contractName = null;
             const fullAccess = true;
 
-            if (!isNew) {
-                await wallet.addAccessKey(accountId, contractName, publicKey, fullAccess)
-            }
             await wallet.postSignedJson('/account/seedPhraseAdded', { accountId, publicKey })
 
             if (isNew) {
                 const newKeyPair = KeyPair.fromRandom('ed25519')
                 const newPublicKey = newKeyPair.publicKey
-                await wallet.addAccessKey(accountId, accountId, newPublicKey, fullAccess)
+                await wallet.addAccessKey(accountId, contractName, newPublicKey, fullAccess)
                 await wallet.saveAccount(accountId, newKeyPair)
+            } else {
+                await wallet.addAccessKey(accountId, contractName, publicKey, fullAccess)
             }
         },
         () => defaultCodesFor('account.setupSeedPhrase')
