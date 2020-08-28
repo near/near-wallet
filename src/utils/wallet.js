@@ -619,6 +619,7 @@ class Wallet {
         }
 
         if (isNew) {
+            await wallet.saveAccount(accountId, recoveryKeyPair);
             await this.createNewAccount(accountId, fundingContract, fundingKey, recoveryKeyPair.publicKey)
         }
 

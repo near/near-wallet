@@ -253,6 +253,7 @@ export const { addAccessKey, addAccessKeySeedPhrase, clearAlert } = createAction
     ADD_ACCESS_KEY_SEED_PHRASE: [
         async (accountId, recoveryKeyPair, isNew, fundingContract, fundingKey) => {
             if (isNew) {
+                await wallet.saveAccount(accountId, recoveryKeyPair);
                 await wallet.createNewAccount(accountId, fundingContract, fundingKey, recoveryKeyPair.publicKey)
             }
 
