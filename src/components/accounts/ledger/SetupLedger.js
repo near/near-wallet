@@ -18,9 +18,11 @@ const SetupLedger = (props) => {
         setConnect('')
 
         try {
+            // TODO: No need for separate Redux action, just move inside of createNewAccount and addLedgerAccessKey
             const ledgerPublicKey = await props.getLedgerPublicKey()
             if (props.isNew) {
-                await props.createNewAccount(props.accountId, props.fundingContract, props.fundingKey, ledgerPublicKey)
+                const useLedger = true
+                await props.createNewAccount(props.accountId, props.fundingContract, props.fundingKey, ledgerPublicKey, useLedger)
             } else {
                 await props.addLedgerAccessKey(props.accountId, ledgerPublicKey)
             }
