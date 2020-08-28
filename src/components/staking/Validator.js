@@ -46,7 +46,7 @@ const Validator = (props) => {
             placeholder={`Amount to Stake`}
         />
         <br />
-        <FormButton onClick={() => history.push('/validator/' + accountId)}>Submit Stake</FormButton>
+        <FormButton onClick={() => console.log(amount)}>Submit Stake</FormButton>
     </Root>)
 }
 
