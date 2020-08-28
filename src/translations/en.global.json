@@ -363,7 +363,7 @@
         "phoneDesc": "Enter your phone number below and receive a magic recovery link",
         "phonePlaceholder": "+1 415 797 8554",
         "advancedSecurity": "Most Secure (Recommended)",
-        "advancedSecurityDesc": "Write down a 12 word seed phrase, or secure your account with your Ledger device.",
+        "advancedSecurityDesc": "Write down a 12 word seed (recovery) phrase, or secure your account with your Ledger device.",
         "ledgerTitle": "Ledger Nano S or X",
         "phraseTitle": "Recovery Phrase"
     },
