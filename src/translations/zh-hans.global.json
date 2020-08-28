@@ -29,11 +29,13 @@
         },
         "setupSeedPhrase": {
             "success": "助记词恢复设置已经完成。",
-            "error": "在设置助记词恢复方式时发生了错误，请重试。"
+            "error": "在设置助记词恢复方式时发生了错误，请重试。",
+            "modal": "请在 Ledger 设备上确认完全访问的信息。"
         },
         "setupRecoveryMessage": {
             "success": "账户恢复设置已完成。",
-            "error": "设置账户恢复方式时发生错误，请重试。"
+            "error": "设置账户恢复方式时发生错误，请重试。",
+            "modal": "请在 Ledger 设备上确认完全访问的信息。"
         },
         "sendNewRecoveryLink": {
             "success": "账户恢复链接已经发送！",
@@ -51,9 +53,20 @@
             },
             "incorrectContractId": {
                 "error": "合约 ${contractId} 不存在。这可能是你正在使用的应用的问题，或者可能是合约已经被删除。你将重新回到应用。"
-            }
+            },
+            "modal": "请在 Ledger 设备上确认完全访问的详细信息。"
         },
-        "nameDoesntMatch": "账户名称不匹配"
+        "nameDoesntMatch": "账户名称不匹配",
+        "sendMoney": {
+            "error": "请检查你的设备已经连接并打开了 NEAR 应用。",
+            "modal": "请在 Ledger 设备上确认交易信息。"
+        },
+        "signAndSendTransactions": {
+            "modal": "请在 Ledger 设备上确认存款信息。"
+        },
+        "deleteRecoveryMethod": {
+            "modal": "请在 Ledger 设备上确认删除密钥信息。"
+        }
     },
 
     "actions": {
@@ -179,7 +192,9 @@
             "inputLabel": "输入你的 6 位验证码",
             "placeholder": "验证码",
             "didntReceive": "未收到验证码？",
-            "resend": "重新发送"
+            "resend": "重新发送",
+            "resending": "发送中...",
+            "resent": "验证码已发送！"
         }
     },
     
@@ -198,7 +213,11 @@
         "dashboardNoApps": "你还未授权任何应用",
         "feeAllowance": "费用配额",
         "publicKey": "公钥",
-        "ledger": "账本"
+        "ledger": "Ledger",
+        "removeAccessKey": {
+            "error": "请检查你的设备已经连接并打开了 NEAR 应用。",
+            "modal": "请在 Ledger 设备上确认删除密钥信息。"
+        }
     },
 
     "button": {
@@ -606,7 +625,8 @@
         "one": "打开 <a href='https://www.ledger.com/ledger-live' target='_blank'>Ledger Live</a> 并切换到你的<span class='color-black'>设置</span>。",
         "two": "在<span class='color-black'>试验性功能</span>中，确保<span class='color-black'>开发者模式</span>已经<span class='color-black'>开启</span>。",
         "three": "返回至<span class='color-black'>管理器</span> Tab 并搜索 <span class='color-black'>NEAR</span>。",
-        "four": "根据步骤在设备上安装 <span class='color-black'>NEAR 应用</span>。"
+        "four": "根据步骤在设备上安装 <span class='color-black'>NEAR 应用</span>。",
+        "five": ""
     },
 
     "setupLedgerSuccess": {
@@ -635,7 +655,8 @@
         "one": "请确认硬件钱包已经安全连接，并且 NEAR 应用已经打开。",
         "getLedgerAccountIds": {
             "success": "",
-            "error": "公钥访问被拒绝，恢复账户失败。<br/>若要继续，需要允许 NEAR 钱包访问你的公钥，请再重试。"
+            "error": "公钥访问被拒绝，恢复账户失败。<br/>若要继续，需要允许 NEAR 钱包访问你的公钥，请再重试。",
+            "noAccounts": "该 Ledger 设备没有绑定任何账户，你需要先创建一个账户，并将此账户绑定至 Ledger 才能登录。"
         },
         "addLedgerAccountId": {
             "success": "",
@@ -659,19 +680,21 @@
 
     "confirmLedgerModal": {
         "header": "请在设备上确认操作...",
-        "one": "你需要在 Ledger 硬件设备上确认登录细节。"
+        "one": "请在 Ledger 硬件设备上确认登录细节。"
     },
 
     "errors": {
         "ledger": {
             "U2FNotSupported": "Ledger 硬件钱包需要 U2F 浏览器支持。请使用 Chrome、Opera 或 Firefox 安装 U2F 扩展，并确保你是通过 HTTPS 加密连接。",
-            "U2F_4": "无法通过硬件钱包登录：U2F DEVICE_INELIGIBLE。请确保 Ledger 设备已连接并解锁。"
+            "U2F_4": "无法通过硬件钱包登录：U2F DEVICE_INELIGIBLE。请确保 Ledger 设备已连接并解锁。",
+            "modal": "请在 Ledger 设备上确认公钥信息。"
         },
         "recoveryMethods": {
             "lastMethod": "无法删除最后一个恢复方式。除非你添加了 Ledger，你需要保留至少一种账户恢复方式。"
         },
         "twoFactor": {
-            "userCancelled": "此操作已被取消。"
+            "userCancelled": "此操作已被取消。",
+            "invalidCode": "无效的两步验证码，请重试。"
         }
     },
 

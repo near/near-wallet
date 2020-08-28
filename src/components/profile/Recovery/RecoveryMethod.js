@@ -5,9 +5,7 @@ import InactiveMethod from './InactiveMethod';
 const RecoveryMethod = ({
     method,
     accountId,
-    resendingLink,
     deletingMethod,
-    onResend,
     onDelete
 }) => {
 
@@ -15,10 +13,8 @@ const RecoveryMethod = ({
         return (
             <ActiveMethod
                 data={method}
-                onResend={onResend}
                 onDelete={onDelete}
                 deletingMethod={deletingMethod}
-                resendingLink={resendingLink}
                 accountId={accountId}
             />
         )

@@ -138,6 +138,7 @@ export class TwoFactor extends Account {
         }
         await deleteUnconfirmedRequests(contract)
         const requestId = await contract.get_request_nonce()
+
         const args = new Uint8Array(new TextEncoder().encode(JSON.stringify({
             request: {
                 receiver_id: receiverId,

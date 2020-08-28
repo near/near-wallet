@@ -66,6 +66,9 @@
         },
         "deleteRecoveryMethod": {
             "modal": "You will need to confirm delete key details on your Ledger."
+        },
+        "LedgerPublicKey": {
+            "modal": "You will need to confirm public key access on your Ledger"
         }
     },
 
@@ -352,14 +355,14 @@
     "setupRecovery": {
         "header": "Protect your Account",
         "subHeader": "Select an account recovery method:",
-        "basicSecurity": "Basic Security",
+        "basicSecurity": "Less Secure",
         "basicSecurityDesc": "Enter your email address or phone number and receive a magic link",
         "emailTitle": "Email Recovery",
         "emailPlaceholder": "example@email.com",
         "phoneTitle": "Phone Recovery",
         "phoneDesc": "Enter your phone number below and receive a magic recovery link",
         "phonePlaceholder": "+1 415 797 8554",
-        "advancedSecurity": "Advanced Security",
+        "advancedSecurity": "Most Secure (Recommended)",
         "advancedSecurityDesc": "Secure your account keys with a Ledger device, or recover your account using a 12 word recovery phrase.",
         "ledgerTitle": "Ledger Nano S",
         "phraseTitle": "Recovery Phrase"
@@ -373,7 +376,9 @@
         "didNotRecive": "Didn't receive your code?",
         "resendCode": "Resend your code",
         "or": "or",
-        "sendToDifferent": "send to a different email address",
+        "sendToDifferent": "send to a different",
+        "email": "email address",
+        "phone": "phone number",
         "reenter": {
             "one": {
                 "email": "If you did not yet receive this email, or the above email address is incorrect, ",
@@ -622,10 +627,11 @@
 
     "setupLedgerSteps": {
         "header": "Install NEAR on your Ledger device",
-        "one": "Open <a href='https://www.ledger.com/ledger-live' target='_blank'>Ledger Live</a> and navigate to your <span class='color-black'>Settings</span>.",
-        "two": "Under <span class='color-black'>Experimental Features</span>, make sure that <span class='color-black'>Developer Mode</span> is switched <span class='color-black'>on</span>.",
-        "three": "Return to the <span class='color-black'>Manager</span> tab and search for <span class='color-black'>NEAR</span>.",
-        "four": "Follow the instructions to install the <span class='color-black'>NEAR application</span> on your device."
+        "one": "Open <a href='https://www.ledger.com/ledger-live' target='_blank'>Ledger Live,</a> install any firmware updates available.",
+        "two": "Navigate to your <span class='color-black'>Settings</span>.",
+        "three": "Under <span class='color-black'>Experimental Features</span>, make sure that <span class='color-black'>Developer Mode</span> is switched <span class='color-black'>on</span>.",
+        "four": "Return to the <span class='color-black'>Manager</span> tab and search for <span class='color-black'>NEAR</span>.",
+        "five": "Follow the instructions to install the <span class='color-black'>NEAR application</span> on your device."
     },
 
     "setupLedgerSuccess": {

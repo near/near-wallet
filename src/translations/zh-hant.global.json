@@ -29,11 +29,13 @@
         },
         "setupSeedPhrase": {
             "success": "助記詞恢復設置已經完成。",
-            "error": "在設置助記詞恢復方式時發生了錯誤，請重試。"
+            "error": "在設置助記詞恢復方式時發生了錯誤，請重試。",
+            "modal": "請在 Ledger 設備上確認完全訪問的信息。"
         },
         "setupRecoveryMessage": {
             "success": "賬戶恢復設置已完成。",
-            "error": "設置賬戶恢復方式時發生錯誤，請重試。"
+            "error": "設置賬戶恢復方式時發生錯誤，請重試。",
+            "modal": "請在 Ledger 設備上確認完全訪問的信息。"
         },
         "sendNewRecoveryLink": {
             "success": "賬戶恢復鏈接已經發送！",
@@ -51,9 +53,20 @@
             },
             "incorrectContractId": {
                 "error": "合約 ${contractId} 不存在。這可能是妳正在使用的應用的問題，或者可能是合約已經被刪除。妳將重新回到應用。"
-            }
+            },
+            "modal": "請在 Ledger 設備上確認完全訪問的詳細信息。"
         },
-        "nameDoesntMatch": "賬戶名稱不匹配"
+        "nameDoesntMatch": "賬戶名稱不匹配",
+        "sendMoney": {
+            "error": "請檢查你的設備已經連接並打開了 NEAR 應用。",
+            "modal": "請在 Ledger 設備上確認交易信息。"
+        },
+        "signAndSendTransactions": {
+            "modal": "請在 Ledger 設備上確認存款信息。"
+        },
+        "deleteRecoveryMethod": {
+            "modal": "請在 Ledger 設備上確認刪除密鑰信息。"
+        }
     },
 
     "actions": {
@@ -179,7 +192,9 @@
             "inputLabel": "輸入妳的 6 位驗證碼",
             "placeholder": "驗證碼",
             "didntReceive": "未收到驗證碼？",
-            "resend": "重新發送"
+            "resend": "重新發送",
+            "resending": "發送中...",
+            "resent": "驗證碼已發送！"
         }
     },
     
@@ -198,7 +213,11 @@
         "dashboardNoApps": "妳還未授權任何應用",
         "feeAllowance": "費用配額",
         "publicKey": "公鑰",
-        "ledger": "賬本"
+        "ledger": "Ledger",
+        "removeAccessKey": {
+            "error": "請檢查你的設備已經連接並打開了 NEAR 應用。",
+            "modal": "請在 Ledger 設備上確認刪除密鑰信息。"
+        }
     },
 
     "button": {
@@ -511,185 +530,189 @@
     "sendMoney": {
         "pageTitle": {
             "success": "成功！",
-            "default": "发送"
+            "default": "發送"
         },
         "accountIdInput": {
-            "title": "发送至用户名："
+            "title": "發送至用戶名："
         },
         "amountStatusId": {
-            "noMoreThan": "不可超过 5 位数",
-            "notEnoughTokens": "没有足够的通证。",
-            "howMuch": "你想要发送多少通证？",
-            "available": "可用余额：",
-            "sending": "正在发送："
+            "noMoreThan": "不可超過 5 位數",
+            "notEnoughTokens": "沒有足夠的通證。",
+            "howMuch": "你想要發送多少通證？",
+            "available": "可用餘額：",
+            "sending": "正在發送："
         },
-        "youAreSending": "你正在发送",
+        "youAreSending": "你正在發送",
         "to": "至",
-        "onceConfirmed": "一旦确认，这将不可撤销。",
-        "wasSentTo": "被发送至："
+        "onceConfirmed": "一旦確認，這將不可撤銷。",
+        "wasSentTo": "被發送至："
     },
 
     "sign": {
-        "unexpectedStatus": "意外状态",
+        "unexpectedStatus": "意外狀態",
         "transactionCancelled": "交易取消",
-        "nothingHasBeenTransferred": "没有进行转账。",
+        "nothingHasBeenTransferred": "沒有進行轉賬。",
         "details": {
-            "detailedDescription": "交易的详细描述",
-            "transactionFees": "交易费",
+            "detailedDescription": "交易的詳細描述",
+            "transactionFees": "交易費",
             "gasLimit": "Gas 限制",
-            "gasPriceUnavailable": "Gas 价格估计不可用",
-            "forContract": "合约"
+            "gasPriceUnavailable": "Gas 價格估計不可用",
+            "forContract": "合約"
         },
         "ActionWarrning": {
-            "functionCall": "该函数没有描述。",
-            "deployContract": "你正在向你的账户部署合约！该合约可以访问你的 NEAR 余额，并代表你和其他合约交互。",
-            "stake": "你正在质押 NEAR 通证。这些通证将会被锁定，并且如果你的验证节点无法即时响应，这些通证有丢失风险。",
-            "deleteAccount": "你将要删除你的账户！你的 NEAR 余额将被清空，并且你的账户数据都将被删除。"
+            "functionCall": "該函數沒有描述。",
+            "deployContract": "你正在向你的賬戶部署合約！該合約可以訪問你的 NEAR 餘額，並代表你和其他合約交互。",
+            "stake": "你正在質押 NEAR 通證。這些通證將會被鎖定，並且如果你的驗證節點無法即時響應，這些通證有丟失風險。",
+            "deleteAccount": "你將要刪除你的賬戶！你的 NEAR 餘額將被清空，並且你的賬戶數據都將被刪除。"
         },
-        "insufficientFunds": "资产不足",
-        "hereAreSomeDetails": "这里是能够帮助你的一些信息。",
-        "contract": "合约：",
-        "unknownApp": "未知应用",
+        "insufficientFunds": "資產不足",
+        "hereAreSomeDetails": "這裡是能夠幫助你的一些信息。",
+        "contract": "合約：",
+        "unknownApp": "未知應用",
         "isRequesting": {
-            "transferOf": "正在请求转账",
-            "authorization": "正在请求授权"
+            "transferOf": "正在請求轉賬",
+            "authorization": "正在請求授權"
         },
-        "availableBalance": "可用余额",
-        "wasTransferredSuccessfully": "被成功转账",
-        "authorizationRequestSuccessful": "授权请求成功",
-        "transferring": "正在转账",
-        "authorizing": "正在授权"
+        "availableBalance": "可用餘額",
+        "wasTransferredSuccessfully": "被成功轉賬",
+        "authorizationRequestSuccessful": "授權請求成功",
+        "transferring": "正在轉賬",
+        "authorizing": "正在授權"
     },
 
-    "availableBalanceInfo": "「可用余额」是指你当前账号内可消耗 NEAR 通证，可用余额少于你的「总余额」。查看你 NEAR 余额的详细构成，请访问你的资料。", 
-    "availableBalanceProfile": "「可用余额」是指你当前账号内可消耗 NEAR 通证，可用余额少于你的总共余额。",
-    "minimumBalance": "这是维持你账号活跃状态的 NEAR 通证「保留余额」，该余额代表你正在使用的 NEAR 区块链存储空间，会在使用量变化后产生对应变化。",
-    "totalBalance": "所有余额包括所有你拥有的 NEAR 通证。许多情况，你将无法立刻使用所有余额（比如如果是锁定的、委托的或质押的）。想了解你可以立刻使用、转账、委托或质押的 NEAR 通证，请查看可用余额部分。",
-    "stakedBalance": "NEAR 被用于支持验证节点并加强网络。当你决定不质押 NEAR，则需要等待一些时间才能出现在「可用余额」，NEAR 需要花 3 epochs（约 36 小时）取消质押。",
-    "unvestedBalance": "未兑现的 NEAR 属于你，但还未实际可使用。你可以委托或质押这些 NEAR，奖励也将归属于你。当 NEAR 兑现后，将出现在锁定的或未锁定的余额中。",
-    "lockedBalance": "NEAR 锁定在锁定合约中，但无法取出。你可能仍委托或质押着这些 NEAR。一旦 NEAR 解锁，你可以在未锁定余额中查看，并选择取出（转移到「可用余额」）。",
-    "unlockedBalance": "NEAR 仍在锁定合约中，并可以取出。如果你选择取出，它将出现于「可用余额」。",
-
+    "availableBalanceInfo": "「可用餘額」是指你當前賬號內可消耗 NEAR 通證，可用餘額少於你的「總餘額」。查看你 NEAR 餘額的詳細構成，請訪問你的資料。 ",
+    "availableBalanceProfile": "「可用餘額」是指你當前賬號內可消耗 NEAR 通證，可用餘額少於你的總共餘額。 ",
+    "minimumBalance": "這是維持你賬號活躍狀態的 NEAR 通證「保留餘額」，該餘額代表你正在使用的 NEAR 區塊鏈存儲空間，會在使用量變化後產生對應變化。 ",
+    "totalBalance": "所有餘額包括所有你擁有的NEAR 通證。許多情況，你將無法立刻使用所有餘額（比如如果是鎖定的、委託的或質押的）。想了解你可以立刻使用、轉賬、委託或質押的NEAR 通證，請查看可用餘額部分。",
+    "stakedBalance": "NEAR 被用於支持驗證節點並加強網絡。當你決定不質押 NEAR，則需要等待一些時間才能出現在「可用餘額」，NEAR 需要花 3 epochs（約 36 小時）取消質押。 ",
+    "unvestedBalance": "未兌現的 NEAR 屬於你，但還未實際可使用。你可以委託或質押這些NEAR，獎勵也將歸屬於你。當 NEAR 兌現後，將出現在鎖定的或未鎖定的餘額中。",
+    "lockedBalance": "NEAR 鎖定在鎖定合約中，但無法取出。你可能仍委託或質押著這些NEAR。一旦NEAR 解鎖，你可以在未鎖定餘額中查看，並選擇取出（轉移到「可用餘額」） 。 ",
+    "unlockedBalance": "NEAR 仍在鎖定合約中，並可以取出。如果你選擇取出，它將出現於「可用餘額」。 ",
+    
     "transaction": {
         "status": {
-            "NotStarted": "未开始",
-            "Started": "已开始",
-            "Failure": "失败",
+            "NotStarted": "未開始",
+            "Started": "已開始",
+            "Failure": "失敗",
             "SuccessValue": "成功",
-            "checkingStatus": "检查状态",
-            "notAvailable": "状态不可用"
+            "checkingStatus": "檢查狀態",
+            "notAvailable": "狀態不可用"
         }
     },
 
     "success": "成功",
-    "error": "失败",
+    "error": "失敗",
     "warning": "警告",
-    "total": "总共",
-    "amount": "数量",
+    "total": "總共",
+    "amount": "數量",
     "or": "或",
-    "sending": "发送中",
-    "removingKeys": "删除密钥",
-    "connecting": "连接中",
+    "sending": "發送中",
+    "removingKeys": "刪除密鑰",
+    "connecting": "連接中",
     "back": "返回",
     "of": "/",
-    "ofTotal": "占总数",
+    "ofTotal": "佔總數",
 
     "setupLedger": {
-        "header": "绑定至你的硬件钱包",
-        "one": "通过 USB 连接 Ledger Nano S 至你的电脑或手机，并<b>打开 NEAR 应用</b>。",
-        "two": "如果你还没有安装 NEAR 账本应用，请按照",
-        "twoLink": "步骤安装"
+        "header": "綁定至你的硬件錢包",
+        "one": "通過 USB 連接 Ledger Nano S 至你的電腦或手機，並<b>打開 NEAR 應用</b>。",
+        "two": "如果你還沒有安裝 NEAR 賬本應用，請按照",
+        "twoLink": "步驟安裝"
     },
 
     "setupLedgerSteps": {
-        "header": "在硬件钱包上安装 NEAR",
-        "one": "打开 <a href='https://www.ledger.com/ledger-live' target='_blank'>Ledger Live</a> 并切换到你的<span class='color-black'>设置</span>。",
-        "two": "在<span class='color-black'>试验性功能</span>中，确保<span class='color-black'>开发者模式</span>已经<span class='color-black'>开启</span>。",
-        "three": "返回至<span class='color-black'>管理器</span> Tab 并搜索 <span class='color-black'>NEAR</span>。",
-        "four": "根据步骤在设备上安装 <span class='color-black'>NEAR 应用</span>。"
+        "header": "在硬件錢包上安裝 NEAR",
+        "one": "打開 <a href='https://www.ledger.com/ledger-live' target='_blank'>Ledger Live</a> 並切換到你的<span class='color-black '>設置</span>。",
+        "two": "在<span class='color-black'>試驗性功能</span>中，確保<span class='color-black'>開發者模式</span>已經<span class='color -black'>開啟</span>。",
+        "three": "返回至<span class='color-black'>管理器</span> Tab 並搜索 <span class='color-black'>NEAR</span>。",
+        "four": "根據步驟在設備上安裝 <span class='color-black'>NEAR 應用</span>。",
+        "five": ""
     },
 
     "setupLedgerSuccess": {
-        "header": "你的账户已通过 Ledger 硬件保护！",
-        "one": "我们推荐你删除其他所有密钥（恢复方式和设备）。",
-        "two": "保留多个密钥增加了账户被盗的风险。",
-        "primaryCta": "删除其他密钥",
-        "secondaryCta": "保留密钥",
+        "header": "你的賬戶已通過 Ledger 硬件保護！",
+        "one": "我們推薦你刪除其他所有密鑰（恢復方式和設備）。",
+        "two": "保留多個密鑰增加了賬戶被盜的風險。",
+        "primaryCta": "刪除其他密鑰",
+        "secondaryCta": "保留密鑰",
         "nextStep": {
             "header": {
-                "remove": "确认删除密钥",
-                "keep": "保留密钥？"
+                "remove": "確認刪除密鑰",
+                "keep": "保留密鑰？"
             },
             "one": {
-                "remove": "在删除现有密钥前，请确认已经安全记录和保存钱包的助记词。",
-                "keep": "<span class='color-red'>保留多个恢复方式和设备增加了账户被盗的风险。</span>"
+                "remove": "在刪除現有密鑰前，請確認已經安全記錄和保存錢包的助記詞。",
+                "keep": "<span class='color-red'>保留多個恢復方式和設備增加了賬戶被盜的風險。</span>"
             },
             "two": {
-                "remove": "如果你丢失了助记词，NEAR 公司将无法帮你恢复账户和资产。"
+                "remove": "如果你丟失了助記詞，NEAR 公司將無法幫你恢復賬戶和資產。"
             }
         }
     },
 
     "signInLedger": {
-        "header": "通过 Ledger 硬件登录",
-        "one": "请确认硬件钱包已经安全连接，并且 NEAR 应用已经打开。",
+        "header": "通過 Ledger 硬件登錄",
+        "one": "請確認硬件錢包已經安全連接，並且 NEAR 應用已經打開。",
         "getLedgerAccountIds": {
             "success": "",
-            "error": "公钥访问被拒绝，恢复账户失败。<br/>若要继续，需要允许 NEAR 钱包访问你的公钥，请再重试。"
+            "error": "公鑰訪問被拒絕，恢復賬戶失敗。<br/>若要繼續，需要允許 NEAR 錢包訪問你的公鑰，請再重試。",
+            "noAccounts": "該 Ledger 設備沒有綁定任何賬戶，你需要先創建一個賬戶，並將此賬戶綁定至 Ledger 才能登錄。"
         },
         "addLedgerAccountId": {
             "success": "",
-            "error": "账户的访问被拒绝，恢复账户失败。<br/>若要继续，需要在 Ledger 设备上授权每个账户的只读访问，请再重试。"
+            "error": "賬戶的訪問被拒絕，恢復賬戶失敗。<br/>若要繼續，需要在 Ledger 設備上授權每個賬戶的只讀訪問，請再重試。"
         },
         "saveAndSelectLedgerAccounts": {
-            "success": "你已经成功登录。<br/><b>${numberOfAccounts} 个账户</b>已经成功恢复：<b>${accountList}</b>。<br/>最后一个账户设置为活跃账户。",
-        "error": "请检查硬件钱包已经安全连接，并且 NEAR 应用已经打开。"
+            "success": "你已經成功登錄。<br/><b>${numberOfAccounts} 個賬戶</b>已經成功恢復：<b>${accountList}</b>。<br/>最後一個賬戶設置為活躍賬戶。",
+        "error": "請檢查硬件錢包已經安全連接，並且 NEAR 應用已經打開。"
         },
         "modal": {
-            "confirmPublicKey": "确认公钥",
-            "ledgerMustAdd": "Ledger 必须为每个账户添加访问密钥：",
-            "accountsApproved": "账户已授权",
+            "confirmPublicKey": "確認公鑰",
+            "ledgerMustAdd": "Ledger 必須為每個賬戶添加訪問密鑰：",
+            "accountsApproved": "賬戶已授權",
             "status": {
-                "success": "授权",
-                "pending": "请求",
-                "waiting": "下一个"
+                "success": "授權",
+                "pending": "請求",
+                "waiting": "下一個"
             }
         }
     },
 
     "confirmLedgerModal": {
-        "header": "请在设备上确认操作...",
-        "one": "你需要在 Ledger 硬件设备上确认登录细节。"
+        "header": "請在設備上確認操作...",
+        "one": "請在 Ledger 硬件設備上確認登錄細節。"
     },
 
     "errors": {
         "ledger": {
-            "U2FNotSupported": "Ledger 硬件钱包需要 U2F 浏览器支持。请使用 Chrome、Opera 或 Firefox 安装 U2F 扩展，并确保你是通过 HTTPS 加密连接。",
-            "U2F_4": "无法通过硬件钱包登录：U2F DEVICE_INELIGIBLE。请确保 Ledger 设备已连接并解锁。"
+            "U2FNotSupported": "Ledger 硬件錢包需要 U2F 瀏覽器支持。請使用 Chrome、Opera 或 Firefox 安裝 U2F 擴展，並確保你是通過 HTTPS 加密連接。",
+            "U2F_4": "無法通過硬件錢包登錄：U2F DEVICE_INELIGIBLE。請確保 Ledger 設備已連接並解鎖。",
+            "modal": "請在 Ledger 設備上確認公鑰信息。"
         },
         "recoveryMethods": {
-            "lastMethod": "无法删除最后一个恢复方式。除非你添加了 Ledger，你需要保留至少一种账户恢复方式。"
+            "lastMethod": "無法刪除最後一個恢復方式。除非你添加了 Ledger，你需要保留至少一種賬戶恢復方式。"
         },
         "twoFactor": {
-            "userCancelled": "此操作已被取消。"
+            "userCancelled": "此操作已被取消。",
+            "invalidCode": "無效的兩步驗證碼，請重試。"
         }
     },
 
     "networkBanner": {
-        "title": "测试网钱包",
-        "header": "NEAR 测试钱包",
-        "desc": "当前钱包（和网络）仅供测试。测试网通证和其他资产均无价值。测试网账户不会迁移至主网。"
+        "title": "測試網錢包",
+        "header": "NEAR 測試錢包",
+        "desc": "當前錢包（和網絡）僅供測試。測試網通證和其他資產均無價值。測試網賬戶不會遷移至主網。"
     },
     
     "landing": {
-        "title":"NEAR 已经到来。",
-        "desc": "通过 <span>NEAR 钱包</span>安全地存储你的 NEAR 通证和其他资产。",
+        "title":"NEAR 已經到來。",
+        "desc": "通過 <span>NEAR 錢包</span>安全地存儲你的 NEAR 通證和其他資產。",
         "or": "或",
-        "banner": "NEAR 钱包已经在内测"
+        "banner": "NEAR 錢包已經在內測"
     },
     
     "emailSubscribe": {
-        "title": "早期测试注册",
+        "title": "早期測試註冊",
         "placeholder": "你的 Email..."
     }
 }
