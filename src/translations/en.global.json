@@ -373,7 +373,9 @@
         "didNotRecive": "Didn't receive your code?",
         "resendCode": "Resend your code",
         "or": "or",
-        "sendToDifferent": "send to a different email address",
+        "sendToDifferent": "send to a different",
+        "email": "email address",
+        "phone": "phone number",
         "reenter": {
             "one": {
                 "email": "If you did not yet receive this email, or the above email address is incorrect, ",
