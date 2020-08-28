@@ -191,6 +191,12 @@ class SetupRecoveryMethod extends Component {
                         <h2><Translate id='setupRecovery.subHeader'/></h2>
                         <OptionHeader><Translate id='setupRecovery.advancedSecurity'/></OptionHeader>
                         <OptionSubHeader><Translate id='setupRecovery.advancedSecurityDesc'/></OptionSubHeader>
+                        <RecoveryOption
+                            onClick={() => this.setState({ option: 'phrase' })}
+                            option='phrase'
+                            active={option}
+                            disabled={activeMethods.includes('phrase')}
+                        />
                         {
                             !twoFactor &&
                             <RecoveryOption
@@ -200,12 +206,6 @@ class SetupRecoveryMethod extends Component {
                                 disabled={ledgerKey !== null && accountId === activeAccountId}
                             />
                         }
-                        <RecoveryOption
-                            onClick={() => this.setState({ option: 'phrase' })}
-                            option='phrase'
-                            active={option}
-                            disabled={activeMethods.includes('phrase')}
-                        />
                         <OptionHeader><Translate id='setupRecovery.basicSecurity'/></OptionHeader>
                         <OptionSubHeader><Translate id='setupRecovery.basicSecurityDesc'/></OptionSubHeader>
                         <RecoveryOption
