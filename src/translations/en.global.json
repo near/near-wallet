@@ -165,7 +165,7 @@
         "title": "Hardware Devices",
         "desc": "Improve the security of your account by using a hardware wallet.",
         "ledger": {
-            "title": "Ledger Nano S",
+            "title": "Ledger Nano S or X",
             "auth": "Authorized",
             "disclaimer": "In order to disable your ledger device, you must first enable an alternative recovery method."
         },
@@ -363,8 +363,8 @@
         "phoneDesc": "Enter your phone number below and receive a magic recovery link",
         "phonePlaceholder": "+1 415 797 8554",
         "advancedSecurity": "Most Secure (Recommended)",
-        "advancedSecurityDesc": "Secure your account keys with a Ledger device, or recover your account using a 12 word recovery phrase.",
-        "ledgerTitle": "Ledger Nano S",
+        "advancedSecurityDesc": "Write down a 12 word seed (recovery) phrase, or secure your account with your Ledger device.",
+        "ledgerTitle": "Ledger Nano S or X",
         "phraseTitle": "Recovery Phrase"
     },
     "setRecoveryConfirm": {
@@ -620,7 +620,7 @@
 
     "setupLedger": {
         "header": "Connect your Ledger device",
-        "one": "Connect your Ledger Nano S to your computer or mobile device via USB and <b>open the NEAR application</b>.",
+        "one": "Connect your Ledger Nano S or X to your computer or mobile device via USB and <b>open the NEAR application</b>.",
         "two": "If you have not yet installed the NEAR Ledger app, follow",
         "twoLink": "these instructions"
     },
