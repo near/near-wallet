@@ -50,7 +50,7 @@ const Staking = (props) => {
                     return re.test(name) && name !== accountId
                 }).map(({ name }) => <p key={name} onClick={() => setAccountId(name)}>{name}</p>)
             }
-            <FormButton onClick={() => history.push('/validator/' + accountId)}>Stake NEAR</FormButton>
+            <FormButton onClick={() => history.push('/validator/' + accountId)}>View Validator</FormButton>
         </> :
         <h2>Loading</h2>
         }

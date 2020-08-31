@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { connect, useDispatch } from 'react-redux';
 import { withRouter } from 'react-router-dom'
 import { Translate } from 'react-localize-redux'
-import { getValidators } from '../../actions/staking'
+import { getValidators, stake } from '../../actions/staking'
 
 import styled from 'styled-components'
 import { Input as _Input } from 'semantic-ui-react'
@@ -33,8 +33,6 @@ const Validator = (props) => {
     }, [])
 
     if (!validator) return <h2>Loading</h2>
-
-    console.log(validator)
     
     return (<Root>
         <h1>{validator.name}</h1>
@@ -46,7 +44,10 @@ const Validator = (props) => {
             placeholder={`Amount to Stake`}
         />
         <br />
-        <FormButton onClick={() => console.log(amount)}>Submit Stake</FormButton>
+        <FormButton onClick={() => {
+            console.log('stake', amount)
+            stake(validator.name, amount)
+        }}>Submit Stake</FormButton>
     </Root>)
 }
 

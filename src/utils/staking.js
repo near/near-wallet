@@ -1,4 +1,7 @@
 import * as nearApiJs from 'near-api-js'
+import { toNear, gtZero, BOATLOAD_OF_GAS } from './amounts'
+
+const oneHunTgas = '100000000000000'
 
 const stakingMethods = {
 	viewMethods: [
@@ -54,15 +57,18 @@ export class Staking {
         return this.validators
     }
 
-    async stake() {
-        const { functionCall } = nearAPI.transactions
+    async stake(receiverId, amount) {
+        amount = toNear(amount)
+        const { functionCall } = nearApiJs.transactions
         const actions = []
-        if (gtZero(depositAmount)) {
-            actions.push(functionCall('deposit', new Uint8Array(), BOATLOAD_OF_GAS, depositAmount))
+        if (gtZero(amount)) {
+            actions.push(functionCall('deposit_and_stake', new Uint8Array(), oneHunTgas, amount))
         }
-        actions.push(functionCall('stake', new TextEncoder().encode(JSON.stringify({amount})), BOATLOAD_OF_GAS))
-        const account = walletConnection.account()
-        account.signAndSendTransaction(selectedContract, actions)
+        const account = this.wallet.getAccount()
+        console.log(account, receiverId, actions)
+        this.wallet.signAndSendTransactions([{
+            receiverId, actions
+        }], this.wallet.accountId)
 
     }
 }
