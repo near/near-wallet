@@ -279,7 +279,10 @@ export const { addAccessKey, addAccessKeySeedPhrase, clearAlert } = createAction
 
             await wallet.postSignedJson('/account/seedPhraseAdded', { accountId, publicKey })
         },
-        () => defaultCodesFor('account.setupSeedPhrase')
+        (accountId, recoveryKeyPair, isNew) => ({
+            ...defaultCodesFor('account.setupSeedPhrase'),
+            isNew
+        })
     ],
     CLEAR_ALERT: null,
 })
