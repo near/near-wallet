@@ -204,7 +204,10 @@ export const { initializeRecoveryMethod, validateSecurityCode, initTwoFactor, re
     ],
     SETUP_RECOVERY_MESSAGE: [
         wallet.setupRecoveryMessage.bind(wallet),
-        () => defaultCodesFor('account.setupRecoveryMessage')
+        (accountId, method, securityCode, isNew) => ({
+            ...defaultCodesFor('account.setupRecoveryMessage'),
+            isNew
+        })
     ],
     DELETE_RECOVERY_METHOD: [
         wallet.deleteRecoveryMethod.bind(wallet),
