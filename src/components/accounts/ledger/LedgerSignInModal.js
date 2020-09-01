@@ -120,7 +120,7 @@ const AnimateList = styled.div`
     }
 `
 
-const LedgerSignInModal = ({ open, onClose, ledgerAccounts, accountsApproved, totalAccounts }) => {
+const LedgerSignInModal = ({ open, onClose, ledgerAccounts, accountsApproved, totalAccounts, txSigned }) => {
     
     const animationScope = Math.min(Math.max(accountsApproved - 1, 0), totalAccounts - 3)
 
@@ -134,7 +134,9 @@ const LedgerSignInModal = ({ open, onClose, ledgerAccounts, accountsApproved, to
         >
             <ModalTheme/>
             <MobileActionSheet/>
-            <h2><Translate id='confirmLedgerModal.header.confirm'/></h2>
+            <h2 className={(txSigned && !ledgerAccounts.length) ? 'dots' : ''}>
+                <Translate id={`confirmLedgerModal.header.${(txSigned && !ledgerAccounts.length) ? 'processing' : 'confirm'}`}/>
+            </h2>
             <LedgerImage animate={true}/>
 
             <div>
