@@ -52,6 +52,9 @@ const AnimateList = styled.div`
         height: 60px;
         align-items: center;
 
+        &.success .status {
+            text-align: right;
+        }
         &.confirm .status {
             background: #6ad1e3;
             color: #14889d;
