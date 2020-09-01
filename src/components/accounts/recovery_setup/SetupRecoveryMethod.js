@@ -291,7 +291,7 @@ const mapStateToProps = ({ account, router, recoveryMethods }, { match }) => ({
     router,
     accountId: match.params.accountId,
     activeAccountId: account.accountId,
-    isNew: !!parseInt(match.params.isNew),
+    isNew: match.params.isNew === '1',
     fundingContract: match.params.fundingContract,
     fundingKey: match.params.fundingKey,
     recoveryMethods

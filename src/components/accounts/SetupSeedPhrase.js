@@ -183,7 +183,7 @@ const mapStateToProps = ({ account }, { match }) => ({
     ...account,
     verify: match.params.verify,
     accountId: match.params.accountId,
-    isNew: !!parseInt(match.params.isNew),
+    isNew: match.params.isNew === '1',
     fundingContract: match.params.fundingContract,
     fundingKey: match.params.fundingKey,
 })
