@@ -1,3 +1,6 @@
+
+
+import { wallet } from '../utils/wallet'
 import { createActions } from 'redux-actions'
 
 const defaultCodesFor = (prefix, data) => ({ successCode: `${prefix}.success`, errorCode: `${prefix}.error`, prefix, data})

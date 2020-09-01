@@ -1,7 +1,7 @@
 import * as nearApiJs from 'near-api-js'
 import { toNear, gtZero, BOATLOAD_OF_GAS } from './amounts'
 
-const oneHunTgas = '100000000000000'
+const oneHunTgas = '200000000000000'
 
 const stakingMethods = {
 	viewMethods: [
@@ -28,9 +28,9 @@ export class Staking {
         this.provider = wallet.connection.provider
         this.validators = []
 
-        window.staking = this
-        window.wallet = this.wallet
-        window.nearApiJs = nearApiJs
+        // window.staking = this
+        // window.wallet = this.wallet
+        // window.nearApiJs = nearApiJs
     }
 
     async getValidatorInstance(account, validatorName) {
