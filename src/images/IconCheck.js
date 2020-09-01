@@ -3,10 +3,10 @@ import styled from 'styled-components'
 
 const CustomSvg = styled.svg`
     &&& {
-        width: 26px;
+        width: 30px;
         margin: 0px;
 
-        .cls-1{
+        polyline {
             fill: none;
             stroke: ${props => props.color};
             stroke-linecap: round;
@@ -19,11 +19,6 @@ const CustomSvg = styled.svg`
 export default ({ color, stroke }) => (
     <CustomSvg color={color} stroke={stroke} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 38 38">
         <title>icon-check</title>
-        <g id="Layer_2" data-name="Layer 2">
-            <g id="Layer_1-2" data-name="Layer 1">
-                <circle className="cls-1" cx="19" cy="19" r="18"/>
-                <polyline className="cls-1" points="10 20.5 16 26.5 28 11.5"/>
-            </g>
-        </g>
+        <polyline points="10 20.5 16 26.5 28 11.5"/>
     </CustomSvg>
 )
