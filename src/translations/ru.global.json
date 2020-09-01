@@ -272,29 +272,9 @@
         "advancedSecurityDesc": "Запишите фразу из 12 слов и надежно храните её.",
         "phraseTitle": "Мнемоническая фраза"
     },
+    
     "setRecoveryConfirm": {
-        "pageTitle": "Подтвердите выбранный метод восстановления",
-        "pageText": {
-            "one": {
-                "email": "Вы должны были получить письмо с волшебной ссылкой. Если вы когда-нибудь потеряете доступ к своей учетной записи, просто нажмите на ссылку, и ваша учетная запись будет восстановлена.",
-                "phoneNumber": "Вы должны были получить SMS-сообщение с волшебной ссылкой. Если вы когда-нибудь потеряете доступ к своей учетной записи, просто нажмите на ссылку, и ваша учетная запись будет восстановлена."
-            },
-            "two": {
-                "email": "Пожалуйста, подтвердите получение этого письма по адресу:",
-                "phoneNumber": "Пожалуйста, подтвердите получение этого SMS-сообщения по номеру:"
-            }
-        },
-        "reenter": {
-            "one": {
-                "email": "Если вы еще получили это письмо или указанный выше адрес электронной почты неверен, ",
-                "phoneNumber": "Если вы еще не получили SMS-сообщение, или указанный выше номер телефона неверн, "
-            },
-            "link": "Нажмите здесь",
-            "two": {
-                "email": " чтобы повторно ввести свой адрес электронной почты и повторить отправку.",
-                "phoneNumber": " чтобы повторно ввести свой номер телефона и повторить попытку."
-            }
-        }
+        "pageText": "We've sent a 6-digit verification code to the ${option} you provided:"
     },
 
     "disclaimer": {
@@ -521,5 +501,41 @@
         "title": "Тестовый кошелек",
         "header": "Тестовый кошелек",
         "desc": "Этот кошелек (и сеть) доступны только для целей тестирования. Токены и другие активы не имеют ценности. Созданные аккаунты не будут перенесены в Mainnet."
+    },
+
+    "setupLedger": {
+        "one": "Connect your Ledger Nano S to your computer or mobile device via USB and <b>open the NEAR application</b>."
+    },
+
+    "setupLedgerSteps": {
+        "one": "Open <a href='https://www.ledger.com/ledger-live' target='_blank'>Ledger Live,</a> install any firmware updates available.",
+        "two": "Navigate to your <span class='color-black'>Settings</span>.",
+        "three": "Under <span class='color-black'>Experimental Features</span>, make sure that <span class='color-black'>Developer Mode</span> is switched <span class='color-black'>on</span>.",
+        "four": "Return to the <span class='color-black'>Manager</span> tab and search for <span class='color-black'>NEAR</span>.",
+        "five": "Follow the instructions to install the <span class='color-black'>NEAR application</span> on your device."
+    },
+
+    "setupLedgerSuccess": {
+        "nextStep": {
+            "one": {
+                "keep": "<span class='color-red'>Maintaining multiple recovery methods and devices increases the vulnerability of your account.</span>"
+            }
+        }
+    },
+
+    "signInLedger": {
+        "getLedgerAccountIds": {
+            "error": "Public key access was rejected. No accounts were recovered.<br/>To continue, you must allow NEAR Wallet to view your public key. Please try again."
+        },
+        "addLedgerAccountId": {
+            "error": "Access to one of the accounts was rejected. No accounts were recovered.<br>To continue, you must authorize read-only access to each account on your Ledger device. Please try again."
+        },
+        "saveAndSelectLedgerAccounts": {
+            "success": "You’ve successfully signed in.<br/><b>${numberOfAccounts} account(s) were recovered.</b> Your most recently created account has been set to active."
+        }
+    },
+
+    "landing": {
+        "desc": "Securely store your NEAR tokens and compatible assets with <span>NEAR Wallet</span>."
     }
 }

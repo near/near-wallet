@@ -37,14 +37,15 @@ const OptionSubHeader = styled.div`
 class SetupRecoveryMethod extends Component {
 
     state = {
-        option: 'email',
+        option: 'phrase',
         phoneNumber: '',
         email: '',
         success: false,
         emailInvalid: false,
         phoneInvalid: false,
         activeMethods: [],
-        hasFetchedMethods: false
+        hasFetchedMethods: false,
+        recoverySeedPhrase: null
     }
 
     componentDidMount() {
@@ -132,12 +133,12 @@ class SetupRecoveryMethod extends Component {
         return method;
     }
 
-    handleSendCode = () => {
+    handleSendCode = async () => {
         const  { accountId, initializeRecoveryMethod, isNew } = this.props;
 
-        initializeRecoveryMethod(accountId, this.method, isNew);
-        this.setState({ success: true })
-        
+        const recoverySeedPhrase = await initializeRecoveryMethod(accountId, this.method, isNew);
+
+        this.setState({ success: true, recoverySeedPhrase: recoverySeedPhrase })
     }
 
     handleSetupRecoveryMethod = async (securityCode) => {
@@ -146,20 +147,15 @@ class SetupRecoveryMethod extends Component {
             isNew, fundingContract, fundingKey, refreshAccount
         } = this.props;
 
-        let account;
+        await setupRecoveryMessage(accountId, this.method, securityCode, isNew, fundingContract, fundingKey, this.state.recoverySeedPhrase)
+        const account = await refreshAccount()
+        const availableBalance = new BN(account.balance.available)
+        const multisigMinAmount = new BN(utils.format.parseNearAmount(MULTISIG_MIN_AMOUNT))
 
-        try {
-            await setupRecoveryMessage(accountId, this.method, securityCode, isNew, fundingContract, fundingKey)
-            account = await refreshAccount()
-        } finally {
-            const availableBalance = new BN(account.balance.available)
-            const multisigMinAmount = new BN(utils.format.parseNearAmount(MULTISIG_MIN_AMOUNT))
-
-            if (fundingContract && multisigMinAmount.lt(availableBalance)) {
-                history.push('/enable-two-factor')
-            } else {
-                redirectToApp('/profile');
-            }
+        if (fundingContract && multisigMinAmount.lt(availableBalance)) {
+            history.push('/enable-two-factor')
+        } else {
+            redirectToApp('/profile');
         }
     }
 
@@ -193,6 +189,23 @@ class SetupRecoveryMethod extends Component {
                     <form onSubmit={e => {this.handleNext(); e.preventDefault();}}>
                         <h1><Translate id='setupRecovery.header'/></h1>
                         <h2><Translate id='setupRecovery.subHeader'/></h2>
+                        <OptionHeader><Translate id='setupRecovery.advancedSecurity'/></OptionHeader>
+                        <OptionSubHeader><Translate id='setupRecovery.advancedSecurityDesc'/></OptionSubHeader>
+                        <RecoveryOption
+                            onClick={() => this.setState({ option: 'phrase' })}
+                            option='phrase'
+                            active={option}
+                            disabled={activeMethods.includes('phrase')}
+                        />
+                        {
+                            !twoFactor &&
+                            <RecoveryOption
+                                onClick={() => this.setState({ option: 'ledger' })}
+                                option='ledger'
+                                active={option}
+                                disabled={ledgerKey !== null && accountId === activeAccountId}
+                            />
+                        }
                         <OptionHeader><Translate id='setupRecovery.basicSecurity'/></OptionHeader>
                         <OptionSubHeader><Translate id='setupRecovery.basicSecurityDesc'/></OptionSubHeader>
                         <RecoveryOption
@@ -234,24 +247,6 @@ class SetupRecoveryMethod extends Component {
                                 )}
                             </Translate>
                         </RecoveryOption>
-                        <OptionHeader><Translate id='setupRecovery.advancedSecurity'/></OptionHeader>
-                        <OptionSubHeader><Translate id='setupRecovery.advancedSecurityDesc'/></OptionSubHeader>
-                        {
-                            // TODO: Re-enable for new accounts when account loss bug is fixed https://github.com/near/near-wallet/issues/828
-                            !isNew && !twoFactor &&
-                            <RecoveryOption
-                                onClick={() => this.setState({ option: 'ledger' })}
-                                option='ledger'
-                                active={option}
-                                disabled={ledgerKey !== null && accountId === activeAccountId}
-                            />
-                        }
-                        <RecoveryOption
-                            onClick={() => this.setState({ option: 'phrase' })}
-                            option='phrase'
-                            active={option}
-                            disabled={activeMethods.includes('phrase')}
-                        />
                         <FormButton
                             color='blue'
                             type='submit'

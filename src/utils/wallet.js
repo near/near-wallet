@@ -27,9 +27,8 @@ export const DISABLE_SEND_MONEY = process.env.DISABLE_SEND_MONEY === 'true' || p
 export const ACCOUNT_ID_SUFFIX = process.env.REACT_APP_ACCOUNT_ID_SUFFIX || 'testnet'
 export const MULTISIG_MIN_AMOUNT = process.env.REACT_APP_MULTISIG_MIN_AMOUNT || '100'
 export const LOCKUP_ACCOUNT_ID_SUFFIX = process.env.LOCKUP_ACCOUNT_ID_SUFFIX || 'lockup'
-// required by twoFactor.js
 export const ACCESS_KEY_FUNDING_AMOUNT = process.env.REACT_APP_ACCESS_KEY_FUNDING_AMOUNT || nearApiJs.utils.format.parseNearAmount('0.01')
-
+export const LINKDROP_GAS = process.env.LINKDROP_GAS || '100000000000000'
 export const ENABLE_FULL_ACCESS_KEYS = process.env.ENABLE_FULL_ACCESS_KEYS === 'yes'
 
 const NETWORK_ID = process.env.REACT_APP_NETWORK_ID || 'default'
@@ -44,7 +43,11 @@ const MULTISIG_CONTRACT_HASHES = process.env.MULTISIG_CONTRACT_HASHES || [
     // https://github.com/near/core-contracts/blob/fa3e2c6819ef790fdb1ec9eed6b4104cd13eb4b7/multisig/src/lib.rs
     '7GQStUCd8bmCK43bzD8PRh7sD2uyyeMJU5h8Rj3kXXJk',
     // https://github.com/near/core-contracts/blob/fb595e6ec09014d392e9874c2c5d6bbc910362c7/multisig/src/lib.rs
-    'AEE3vt6S3pS2s7K6HXnZc46VyMyJcjygSMsaafFh67DF'
+    'AEE3vt6S3pS2s7K6HXnZc46VyMyJcjygSMsaafFh67DF',
+    // https://github.com/near/core-contracts/blob/636e7e43f1205f4d81431fad0be39c5cb65455f1/multisig/src/lib.rs
+    '8DKTSceSbxVgh4ANXwqmRqGyPWCuZAR1fCqGPXUjD5nZ',
+    // https://github.com/near/core-contracts/blob/f93c146d87a779a2063a30d2c1567701306fcae4/multisig/res/multisig.wasm
+    '55E7imniT2uuYrECn17qJAk9fLcwQW4ftNSwmCJL5Di',
 ];
 
 export const keyAccountConfirmed = (accountId) => `wallet.account:${accountId}:${NETWORK_ID}:confirmed`
@@ -320,53 +323,50 @@ class Wallet {
         }
     }
 
-    async createNewAccount(accountId, fundingContract, fundingKey) {
+    async createNewAccount(accountId, fundingContract, fundingKey, publicKey, useLedger=false) {
         this.checkNewAccount(accountId);
-        const keyPair = KeyPair.fromRandom('ed25519');
-        this.saveAccount(accountId, keyPair)
 
-        try {
-            if (fundingContract && fundingKey) {
-                await this.createNewAccountLinkdrop(accountId, fundingContract, fundingKey, keyPair)
-                await this.keyStore.removeKey(NETWORK_ID, fundingContract)
-            } else {
-                await sendJson('POST', CONTRACT_CREATE_ACCOUNT_URL, {
-                    newAccountId: accountId,
-                    newAccountPublicKey: keyPair.publicKey.toString()
-                })
-            }
-            await this.saveAndSelectAccount(accountId, keyPair);
-        } catch(e) {
-            if (e.type === 'TimeoutError' || e.type === 'RetriesExceeded' || e instanceof TypeError) {
-                await this.saveAndSelectAccount(accountId, keyPair)
-            }
-            else {
-                throw e
-            }
+        if (useLedger) {
+            await setKeyMeta(publicKey, { type: 'ledger' })
         }
+
+        if (fundingContract && fundingKey) {
+            await this.createNewAccountLinkdrop(accountId, fundingContract, fundingKey, publicKey)
+            await this.keyStore.removeKey(NETWORK_ID, fundingContract)
+        } else {
+            await sendJson('POST', CONTRACT_CREATE_ACCOUNT_URL, {
+                newAccountId: accountId,
+                newAccountPublicKey: publicKey.toString()
+            })
+        }
+
+        if (useLedger) {
+            await this.addLedgerAccountId(accountId)
+        }
+
+        await this.saveAndSelectAccount(accountId);
     }
 
-    async createNewAccountLinkdrop(accountId, fundingContract, fundingKey, keyPair) {
+    async createNewAccountLinkdrop(accountId, fundingContract, fundingKey, publicKey) {
         const account = this.getAccount(fundingContract);
-        await this.keyStore.setKey(
-            NETWORK_ID, fundingContract,
-            KeyPair.fromString(fundingKey)
-        )
+        await this.keyStore.setKey(NETWORK_ID, fundingContract, KeyPair.fromString(fundingKey))
+
         const contract = new nearApiJs.Contract(account, fundingContract, {
             changeMethods: ['create_account_and_claim', 'claim'],
             sender: fundingContract
         });
-        const publicKey = keyPair.publicKey.toString().replace('ed25519:', '');
+
         await contract.create_account_and_claim({
             new_account_id: accountId,
-            new_public_key: publicKey
-        }, "100000000000000");
+            new_public_key: publicKey.toString().replace('ed25519:', '')
+        }, LINKDROP_GAS);
     }
 
     async saveAndSelectAccount(accountId, keyPair) {
         await this.saveAccount(accountId, keyPair)
         this.accountId = accountId
         this.save()
+        // TODO: What does setAccountConfirmed do?
         setAccountConfirmed(this.accountId, false)
     }
 
@@ -385,6 +385,7 @@ class Wallet {
     /********************************
     recovering a second account attempts to call this method with the currently logged in account and not the tempKeyStore 
     ********************************/
+    // TODO: Why is fullAccess needed? Everything without contractId should be full access.
     async addAccessKey(accountId, contractId, publicKey, fullAccess = false) {
         const { account, has2fa } = await this.getAccountAndState(accountId)
         if (has2fa) {
@@ -410,10 +411,9 @@ class Wallet {
         }
     }
 
-    async addLedgerAccessKey(accountId) {
-        const publicKey = await this.getLedgerPublicKey()
-        await setKeyMeta(publicKey, { type: 'ledger' })
-        return await this.getAccount(accountId).addKey(publicKey)
+    async addLedgerAccessKey(accountId, ledgerPublicKey) {
+        await setKeyMeta(ledgerPublicKey, { type: 'ledger' })
+        return await this.getAccount(accountId).addKey(ledgerPublicKey)
     }
 
     async disableLedger() {
@@ -578,33 +578,30 @@ class Wallet {
     }
 
     async initializeRecoveryMethod(accountId, method, isNew) {
-        if (isNew) {
-            return await sendJson('POST', ACCOUNT_HELPER_URL + '/account/initializeRecoveryMethodForTempAccount', {
-                accountId,
-                method,
-            });
-        } else {
-            return await this.postSignedJson('/account/initializeRecoveryMethod', {
-                accountId,
-                method
-            });
+        const { seedPhrase } = generateSeedPhrase()
+        const body = {
+            accountId,
+            method,
+            seedPhrase
         }
+        if (isNew) {
+            await sendJson('POST', ACCOUNT_HELPER_URL + '/account/initializeRecoveryMethodForTempAccount', body);
+        } else {
+            await this.postSignedJson('/account/initializeRecoveryMethod', body);
+        }
+        return seedPhrase;
     }
 
     async validateSecurityCode(accountId, method, securityCode, isNew) {
-        if (isNew) {
-            return await sendJson('POST', ACCOUNT_HELPER_URL + '/account/validateSecurityCodeForTempAccount', {
-                accountId,
-                method,
-                securityCode
-            });
-        } else {
-            return await this.postSignedJson('/account/validateSecurityCode', {
-                accountId,
-                method,
-                securityCode
-            });
+        const body = {
+            accountId,
+            method,
+            securityCode
         }
+        if (isNew) {
+            return await sendJson('POST', ACCOUNT_HELPER_URL + '/account/validateSecurityCodeForTempAccount', body);
+        }
+        return await this.postSignedJson('/account/validateSecurityCode', body);
     }
 
     async getRecoveryMethods(account) {
@@ -615,54 +612,37 @@ class Wallet {
         }
     }
 
-    async setupRecoveryMessage(accountId, method, securityCode, isNew, fundingContract, fundingKey) {
-        // validate the code
+    async setupRecoveryMessage(accountId, method, securityCode, isNew, fundingContract, fundingKey, recoverySeedPhrase) {
+        const { secretKey } = parseSeedPhrase(recoverySeedPhrase)
+        const recoveryKeyPair = KeyPair.fromString(secretKey)
+
         let securityCodeResult = await this.validateSecurityCode(accountId, method, securityCode, isNew);
         if (!securityCodeResult || securityCodeResult.length === 0) {
             console.log('INVALID CODE', securityCodeResult)
             return
         }
-        // create account if new
+
         if (isNew) {
-            await this.createNewAccount(accountId, fundingContract, fundingKey)
+            await wallet.saveAccount(accountId, recoveryKeyPair);
+            await this.createNewAccount(accountId, fundingContract, fundingKey, recoveryKeyPair.publicKey)
         }
-        // now finish recovery method setup
-        const { seedPhrase, publicKey } = generateSeedPhrase();
+
+        const newKeyPair = isNew ? KeyPair.fromRandom('ed25519') : recoveryKeyPair
+        const newPublicKey = newKeyPair.publicKey
         const { account, has2fa } = await this.getAccountAndState(accountId)
         const accountKeys = await account.getAccessKeys();
+
         if (has2fa) {
-            await this.addAccessKey(account.accountId, account.accountId, convertPKForContract(publicKey))
+            await this.addAccessKey(account.accountId, account.accountId, convertPKForContract(newPublicKey))
         } else {
-            if (!accountKeys.some(it => it.public_key.endsWith(publicKey))) {
-                await account.addKey(publicKey);
+            if (!accountKeys.some(it => it.public_key.endsWith(newPublicKey))) {
+                await account.addKey(newPublicKey);
             }
         }
-        return sendJson('POST', `${ACCOUNT_HELPER_URL}/account/sendRecoveryMessage`, {
-            accountId,
-            method,
-            seedPhrase
-        });
-    }
 
-    async sendNewRecoveryLink(method) {
-        const accountId = this.accountId;
-        const { account, has2fa } = await this.getAccountAndState(accountId)
-        const { seedPhrase, publicKey } = generateSeedPhrase()
-
-        if (has2fa) {
-            await this.twoFactor.rotateKeys(account, publicKey, method.publicKey)
-        } else {
-            await account.addKey(publicKey)
-            await this.removeAccessKey(method.publicKey)
+        if (isNew) {
+            await this.saveAccount(accountId, newKeyPair)
         }
-
-        return await this.postSignedJson('/account/resendRecoveryLink', {
-            accountId,
-            method,
-            seedPhrase,
-            publicKey
-        });
-
     }
 
     async deleteRecoveryMethod({ kind, publicKey }, deleteAllowed = true) {
