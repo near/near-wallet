@@ -7,6 +7,7 @@ import ModalTheme from './ModalTheme';
 import MobileActionSheet from '../../common/modal/MobileActionSheet';
 import LedgerImage from '../../svg/LedgerImage';
 import UserIconGrey from '../../../images/UserIconGrey';
+import IconCheck from '../../../images/IconCheck'
 
 const UserIcon = styled.div`
     background-size: 21px;
@@ -51,10 +52,6 @@ const AnimateList = styled.div`
         height: 60px;
         align-items: center;
 
-        &.success .status {
-            background: #8fd6bd;
-            color: #1f825f;
-        }
         &.confirm .status {
             background: #6ad1e3;
             color: #14889d;
@@ -159,7 +156,10 @@ const LedgerSignInModal = ({ open, onClose, ledgerAccounts, accountsApproved, to
                                         @{account.accountId}
                                     </h3>
                                     <div className='status'>
-                                        <Translate id={`signInLedger.modal.status.${account.status}`}/>
+                                        {account.status !== 'success' 
+                                            ? <Translate id={`signInLedger.modal.status.${account.status}`}/>
+                                            : <IconCheck color='#5ace84' stroke='3px' />
+                                        }
                                     </div>
                                 </div>
                             ))}
