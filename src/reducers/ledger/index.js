@@ -44,6 +44,7 @@ const ledger = handleActions({
 
         return {
             ...state,
+            txSign: undefined,
             signInWithLedger: payload 
                 ? payload.reduce((r, accountId) => ({
                     ...r,
