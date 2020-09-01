@@ -90,7 +90,7 @@ const ledger = handleActions({
         }
     },
     [setLedgerTxSigned]: (state, { payload, meta }) => {
-        const signInWithLedger = state.signInWithLedger && {
+        const signInWithLedger = Object.keys(state.signInWithLedger).length && {
             ...state.signInWithLedger,
             [meta.accountId]: {
                 status: (state.signInWithLedger[meta.accountId].status === 'confirm' && payload.status)
