@@ -12,6 +12,7 @@ export function SignInLedger(props) {
     const dispatch = useDispatch();
     const account = useSelector(({ account }) => account);
     const signInWithLedgerState = useSelector(({ ledger }) => ledger.signInWithLedger);
+    const txSigned = useSelector(({ ledger }) => ledger.txSigned);
 
     const signInWithLedgerKeys = Object.keys(signInWithLedgerState || {})
 
@@ -57,6 +58,7 @@ export function SignInLedger(props) {
                     ledgerAccounts={ledgerAccounts} 
                     accountsApproved={accountsApproved}
                     totalAccounts={totalAccounts}
+                    txSigned={txSigned}
                 />
             }
         </Theme>

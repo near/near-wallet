@@ -678,17 +678,24 @@
             "status": {
                 "success": "Approved",
                 "pending": "Pending",
-                "waiting": "Up next"
+                "waiting": "Up next",
+                "confirm": "Confirm"
             }
         }
     },
 
     "confirmLedgerModal": {
-        "header": "Please confirm the operation on your device...",
+        "header": {
+            "confirm": "Please confirm the operation on your device...",
+            "processing": "Processing"
+        },
         "one": "You will need to confirm your sign-in details on your Ledger."
     },
     
     "errors": {
+        "type": {
+            "RetriesExceeded": "Exceeded maximum attempts for this transaction."
+        },
         "ledger": {
             "U2FNotSupported": "U2F browser support is needed for Ledger. Please use Chrome, Opera or Firefox with a U2F extension. Also make sure you're on an HTTPS connection.",
             "U2F_4": "Failed to sign with Ledger device: U2F DEVICE_INELIGIBLE. Please make sure that your Ledger device is connected and unlocked.",

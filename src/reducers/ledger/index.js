@@ -14,7 +14,8 @@ import {
     deleteRecoveryMethod,
     setupRecoveryMessage,
     addLedgerAccessKey,
-    getLedgerPublicKey
+    getLedgerPublicKey,
+    setLedgerTxSigned
 } from '../../actions/account'
 
 const initialState = {
@@ -27,7 +28,7 @@ const ledgerModalReducer = handleActions({
         ...state,
         modal: {
             show: !ready && (state.hasLedger || type === 'ADD_LEDGER_ACCESS_KEY' || type === 'GET_LEDGER_PUBLIC_KEY'),
-            textId: `${meta.prefix}.modal`
+            textId: !ready ? `${meta.prefix}.modal` : undefined
         }
     })
 }, initialState)
@@ -43,6 +44,7 @@ const ledger = handleActions({
 
         return {
             ...state,
+            txSign: undefined,
             signInWithLedger: payload 
                 ? payload.reduce((r, accountId) => ({
                     ...r,
@@ -66,7 +68,7 @@ const ledger = handleActions({
             signInWithLedger: {
                 ...state.signInWithLedger,
                 [meta.accountId]: {
-                    status: ready ? 'success' : 'pending'
+                    status: ready ? 'success' : 'confirm'
                 }
             }
         }
@@ -85,6 +87,22 @@ const ledger = handleActions({
         return {
             ...state,
             ...(payload && payload.ledger)
+        }
+    },
+    [setLedgerTxSigned]: (state, { payload, meta }) => {
+        const signInWithLedger = Object.keys(state.signInWithLedger).length && {
+            ...state.signInWithLedger,
+            [meta.accountId]: {
+                status: (state.signInWithLedger[meta.accountId].status === 'confirm' && payload.status)
+                    ? 'pending'
+                    : state.signInWithLedger[meta.accountId].status
+            }
+        }
+
+        return {
+            ...state,
+            txSigned: payload.status,
+            signInWithLedger
         }
     },
 }, initialState)
