@@ -181,7 +181,7 @@ class SetupRecoveryMethod extends Component {
 
     render() {
         const { option, phoneNumber, email, success, emailInvalid, phoneInvalid, activeMethods } = this.state;
-        const { actionsPending, accountId, activeAccountId, ledgerKey, twoFactor, isNew } = this.props;
+        const { actionsPending, accountId, activeAccountId, ledgerKey, twoFactor } = this.props;
 
         if (!success) {
             return (

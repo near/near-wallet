@@ -6,7 +6,6 @@ import { PublicKey } from 'near-api-js/lib/utils'
 import { KeyType } from 'near-api-js/lib/utils/key_pair'
 
 import { generateSeedPhrase } from 'near-seed-phrase';
-import { getAccountIds } from './explorer-api'
 import { WalletError } from './walletError'
 import { setAccountConfirmed, getAccountConfirmed, removeAccountConfirmed} from './localStorage'
 import BN from 'bn.js'
@@ -444,10 +443,7 @@ class Wallet {
         const publicKey = await this.getLedgerPublicKey()
         // TODO: getXXX methods shouldn't be modifying the state
         await setKeyMeta(publicKey, { type: 'ledger' })
-
-        // TODO: switch to indexer when working properly for keys added / deleted by contracts (e.g. linkdrop)
-        // const accountIds = await getAccountIds(publicKey.toString())
-        const accountIds = await fetch(`https://near-contract-helper-2fa.onrender.com/publicKey/${publicKey}/accounts`).then((res) => res.json())
+        const accountIds = sendJson('GET', `${ACCOUNT_HELPER_URL}/publicKey/${publicKey}/accounts`)
 
         const checkedAccountIds = (await Promise.all(
             accountIds
@@ -668,12 +664,7 @@ class Wallet {
 
     async recoverAccountSeedPhrase(seedPhrase, accountId, fromSeedPhraseRecovery = true) {
         const { publicKey, secretKey } = parseSeedPhrase(seedPhrase)
-        // TODO: switch to indexer when working properly for keys added / deleted by contracts (e.g. linkdrop)
-        // const accountIds = await getAccountIds(publicKey)
-        const accountIds = await fetch(`https://near-contract-helper-2fa.onrender.com/publicKey/${publicKey}/accounts`).then((res) => res.json())
-
-        console.log(accountIds)
-
+        const accountIds = sendJson('GET', `${ACCOUNT_HELPER_URL}/publicKey/${publicKey}/accounts`)
         if (accountId && !accountIds.includes(accountId)) {
             accountIds.push(accountId)
         }
