@@ -136,7 +136,7 @@ export const signInWithLedger = () => async (dispatch, getState) => {
 
 const defaultCodesFor = (prefix, data) => ({ successCode: `${prefix}.success`, errorCode: `${prefix}.error`, prefix, data})
 
-export const { initializeRecoveryMethod, validateSecurityCode, initTwoFactor, reInitTwoFactor, sendTwoFactor, resendTwoFactor, verifyTwoFactor, promptTwoFactor, deployMultisig, get2faMethod, getLedgerKey, getLedgerPublicKey, setupRecoveryMessage, deleteRecoveryMethod, checkNewAccount, createNewAccount, checkAccountAvailable, getTransactions, getTransactionStatus, clear, clearCode } = createActions({
+export const { initializeRecoveryMethod, validateSecurityCode, initTwoFactor, reInitTwoFactor, sendTwoFactor, resendTwoFactor, verifyTwoFactor, promptTwoFactor, deployMultisig, checkCanEnableTwoFactor, get2faMethod, getLedgerKey, getLedgerPublicKey, setupRecoveryMessage, deleteRecoveryMethod, checkNewAccount, createNewAccount, checkAccountAvailable, getTransactions, getTransactionStatus, clear, clearCode } = createActions({
     INITIALIZE_RECOVERY_METHOD: [
         wallet.initializeRecoveryMethod.bind(wallet),
         () => defaultCodesFor('account.initializeRecoveryMethod')
@@ -188,6 +188,10 @@ export const { initializeRecoveryMethod, validateSecurityCode, initTwoFactor, re
     DEPLOY_MULTISIG: [
         wallet.twoFactor.deployMultisig.bind(wallet.twoFactor),
         () => defaultCodesFor('account.deployMultisig')
+    ],
+    CHECK_CAN_ENABLE_TWO_FACTOR: [
+        wallet.twoFactor.checkCanEnableTwoFactor.bind(wallet.twoFactor),
+        () => defaultCodesFor('account.checkCanEnableTwoFactor')
     ],
     GET_2FA_METHOD: [
         wallet.twoFactor.get2faMethod.bind(wallet.twoFactor),
