@@ -261,8 +261,6 @@ export const { addAccessKey, addAccessKeySeedPhrase, clearAlert } = createAction
             const contractName = null;
             const fullAccess = true;
 
-            await wallet.postSignedJson('/account/seedPhraseAdded', { accountId, publicKey })
-
             if (isNew) {
                 const newKeyPair = KeyPair.fromRandom('ed25519')
                 const newPublicKey = newKeyPair.publicKey
@@ -271,6 +269,8 @@ export const { addAccessKey, addAccessKeySeedPhrase, clearAlert } = createAction
             } else {
                 await wallet.addAccessKey(accountId, contractName, publicKey, fullAccess)
             }
+
+            await wallet.postSignedJson('/account/seedPhraseAdded', { accountId, publicKey })
         },
         () => defaultCodesFor('account.setupSeedPhrase')
     ],
