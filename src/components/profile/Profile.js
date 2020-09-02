@@ -37,7 +37,7 @@ export function Profile({ match }) {
                 {accountId === loginAccountId && (
                     <>
                         <RecoveryContainer/>
-                        {!account.ledgerKey && account.canEnableTwoFactor && <TwoFactorAuth/>}
+                        {!account.ledgerKey && <TwoFactorAuth/>}
                         {!account.twoFactor && <HardwareDevices/>}
                     </>
                 )}
