@@ -443,9 +443,7 @@ class Wallet {
         const publicKey = await this.getLedgerPublicKey()
         // TODO: getXXX methods shouldn't be modifying the state
         await setKeyMeta(publicKey, { type: 'ledger' })
-        const accountIds = sendJson('GET', `${ACCOUNT_HELPER_URL}/publicKey/${publicKey}/accounts`)
-
-        console.log(accountIds)
+        const accountIds = await sendJson('GET', `${ACCOUNT_HELPER_URL}/publicKey/${publicKey}/accounts`)
 
         const checkedAccountIds = (await Promise.all(
             accountIds
@@ -666,7 +664,7 @@ class Wallet {
 
     async recoverAccountSeedPhrase(seedPhrase, accountId, fromSeedPhraseRecovery = true) {
         const { publicKey, secretKey } = parseSeedPhrase(seedPhrase)
-        const accountIds = sendJson('GET', `${ACCOUNT_HELPER_URL}/publicKey/${publicKey}/accounts`)
+        const accountIds = await sendJson('GET', `${ACCOUNT_HELPER_URL}/publicKey/${publicKey}/accounts`)
         if (accountId && !accountIds.includes(accountId)) {
             accountIds.push(accountId)
         }
