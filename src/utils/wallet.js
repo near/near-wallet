@@ -5,7 +5,7 @@ import { parseSeedPhrase } from 'near-seed-phrase'
 import { PublicKey } from 'near-api-js/lib/utils'
 import { KeyType } from 'near-api-js/lib/utils/key_pair'
 
-import { getAccountIds } from './explorer-api'
+import { getAccountIds } from './helper-api'
 import { generateSeedPhrase } from 'near-seed-phrase';
 import { WalletError } from './walletError'
 import { setAccountConfirmed, getAccountConfirmed, removeAccountConfirmed} from './localStorage'
