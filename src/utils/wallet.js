@@ -445,6 +445,8 @@ class Wallet {
         await setKeyMeta(publicKey, { type: 'ledger' })
         const accountIds = sendJson('GET', `${ACCOUNT_HELPER_URL}/publicKey/${publicKey}/accounts`)
 
+        console.log(accountIds)
+
         const checkedAccountIds = (await Promise.all(
             accountIds
                 .map(async (accountId) => {
