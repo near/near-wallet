@@ -76,7 +76,6 @@ const NoRecoveryMethod = styled.div`
 const RecoveryContainer = () => {
     
     const [deletingMethod, setDeletingMethod] = useState('');
-    const [resendingLink, setResendingLink] = useState('');
 
     const dispatch = useDispatch();
     const account = useSelector(({ account }) => account);

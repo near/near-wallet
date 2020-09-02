@@ -5,8 +5,8 @@ import { parseSeedPhrase } from 'near-seed-phrase'
 import { PublicKey } from 'near-api-js/lib/utils'
 import { KeyType } from 'near-api-js/lib/utils/key_pair'
 
+import { getAccountIds } from './helper-api'
 import { generateSeedPhrase } from 'near-seed-phrase';
-import { getAccountIds } from './explorer-api'
 import { WalletError } from './walletError'
 import { setAccountConfirmed, getAccountConfirmed, removeAccountConfirmed} from './localStorage'
 import BN from 'bn.js'
@@ -444,8 +444,8 @@ class Wallet {
         const publicKey = await this.getLedgerPublicKey()
         // TODO: getXXX methods shouldn't be modifying the state
         await setKeyMeta(publicKey, { type: 'ledger' })
+        const accountIds = await getAccountIds(publicKey)
 
-        const accountIds = await getAccountIds(publicKey.toString())
         const checkedAccountIds = (await Promise.all(
             accountIds
                 .map(async (accountId) => {
