@@ -28,7 +28,7 @@ const ledgerModalReducer = handleActions({
     [combineActions(sendMoney, addAccessKey, signAndSendTransactions, removeAccessKey, addAccessKeySeedPhrase, deleteRecoveryMethod, setupRecoveryMessage, addLedgerAccessKey, getLedgerPublicKey, createNewAccount)]: (state, { ready, meta, type }) => ({
         ...state,
         modal: {
-            show: !meta.isNew && !ready && (state.hasLedger || type === 'ADD_LEDGER_ACCESS_KEY' || type === 'GET_LEDGER_PUBLIC_KEY' || type === 'CREATE_NEW_ACCOUNT'),
+            show: !meta.isNew && !ready && (state.hasLedger || type === 'ADD_LEDGER_ACCESS_KEY' || type === 'GET_LEDGER_PUBLIC_KEY'),
             textId: !ready ? `${meta.prefix}.modal` : undefined
         },
         txSigned: ready ? undefined : state.txSigned
