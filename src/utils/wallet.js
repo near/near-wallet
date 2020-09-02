@@ -5,6 +5,7 @@ import { parseSeedPhrase } from 'near-seed-phrase'
 import { PublicKey } from 'near-api-js/lib/utils'
 import { KeyType } from 'near-api-js/lib/utils/key_pair'
 
+import { getAccountIds } from './explorer-api'
 import { generateSeedPhrase } from 'near-seed-phrase';
 import { WalletError } from './walletError'
 import { setAccountConfirmed, getAccountConfirmed, removeAccountConfirmed} from './localStorage'
@@ -443,7 +444,7 @@ class Wallet {
         const publicKey = await this.getLedgerPublicKey()
         // TODO: getXXX methods shouldn't be modifying the state
         await setKeyMeta(publicKey, { type: 'ledger' })
-        const accountIds = await sendJson('GET', `${ACCOUNT_HELPER_URL}/publicKey/${publicKey}/accounts`)
+        const accountIds = await getAccountIds(publicKey)
 
         const checkedAccountIds = (await Promise.all(
             accountIds
@@ -664,7 +665,7 @@ class Wallet {
 
     async recoverAccountSeedPhrase(seedPhrase, accountId, fromSeedPhraseRecovery = true) {
         const { publicKey, secretKey } = parseSeedPhrase(seedPhrase)
-        const accountIds = await sendJson('GET', `${ACCOUNT_HELPER_URL}/publicKey/${publicKey}/accounts`)
+        const accountIds = await getAccountIds(publicKey)
         if (accountId && !accountIds.includes(accountId)) {
             accountIds.push(accountId)
         }

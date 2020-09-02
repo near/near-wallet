@@ -1,5 +1,5 @@
 import { Wampy } from 'wampy'
-import { wallet } from './wallet'
+import { wallet, ACCOUNT_HELPER_URL } from './wallet'
 
 const WAMP_NEAR_EXPLORER_URL = process.env.WAMP_NEAR_EXPLORER_URL || 'wss://near-explorer-wamp.onrender.com/ws'
 const WAMP_NEAR_EXPLORER_TOPIC_PREFIX = process.env.WAMP_NEAR_EXPLORER_TOPIC_PREFIX || 'com.nearprotocol.testnet.explorer'
@@ -63,6 +63,9 @@ export async function getTransactions(accountId) {
 export const transactionExtraInfo = (hash, signer_id) => wallet.connection.provider.sendJsonRpc('tx', [hash, signer_id])
 
 export async function getAccountIds(publicKey) {
+    
+    return await fetch(`${ACCOUNT_HELPER_URL}/publicKey/${publicKey}/accounts`).then((res) => res.json())
+    
     if (!publicKey) return {}
 
     const sql = `
