@@ -182,8 +182,8 @@ const LedgerSignInModal = ({
                         <Translate id='enterAccountNameLedgerModal.header'/>
                     </h2>
                     <LedgerImage animate={false}/>
-                    <h4><Translate id='enterAccountNameLedgerModal.one'/></h4>
 
+                    <h4><Translate id='enterAccountNameLedgerModal.one'/></h4>
                     <AccountFormAccountId
                         formLoader={formLoader}
                         handleChange={handleChange}

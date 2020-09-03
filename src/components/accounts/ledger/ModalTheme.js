@@ -13,9 +13,18 @@ export default createGlobalStyle`
         }
 
         button {
+            margin-top: 0px !important; 
+
             svg {
                 margin: 0;
             }
+        }
+
+        input {
+            width: 300px !important;
+        }
+        h4 {
+            margin-top: 2rem;
         }
 
         h2 {
