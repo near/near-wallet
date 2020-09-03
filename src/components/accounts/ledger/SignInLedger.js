@@ -29,14 +29,7 @@ export function SignInLedger(props) {
     
     const signingIn = !!signInWithLedgerStatus
 
-    const handleCheckAccountAvailable = (accountId) => {
-        dispatch(checkAccountAvailable(accountId))
-    }
-    const handleSetFormLoader = (xxx) => {
-        dispatch(setFormLoader(xxx))
-    }
-
-    const handleChange = (e, { name, value }) => {
+    const handleChange = (e, { value }) => {
         setAccountId(value)
     }
 
@@ -92,8 +85,8 @@ export function SignInLedger(props) {
                     accountId={accountId}
                     handleChange={handleChange}
                     requestStatus={account.requestStatus}
-                    checkAccountAvailable={handleCheckAccountAvailable}
-                    setFormLoader={handleSetFormLoader}
+                    checkAccountAvailable={(accountId) => dispatch(checkAccountAvailable(accountId))}
+                    setFormLoader={(state) => dispatch(setFormLoader(state))}
                     formLoader={account.formLoader}
                     clearRequestStatus={clear}
                     stateAccountId={account.accountId}
