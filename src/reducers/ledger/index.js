@@ -26,13 +26,13 @@ const initialState = {
 
 // TODO: Avoid listing all individual actions. Two approaches possible: 1) use meta to set a flag 2) dispatch action from Signer when signing is actually requested
 const ledgerModalReducer = handleActions({
-    [combineActions(sendMoney, addAccessKey, signAndSendTransactions, removeAccessKey, addAccessKeySeedPhrase, deleteRecoveryMethod, setupRecoveryMessage, addLedgerAccessKey, getLedgerPublicKey, connectLedger, createNewAccount)]: (state, { ready, meta, type }) => ({
+    [combineActions(sendMoney, addAccessKey, signAndSendTransactions, removeAccessKey, addAccessKeySeedPhrase, deleteRecoveryMethod, setupRecoveryMessage, addLedgerAccessKey, getLedgerPublicKey, connectLedger, createNewAccount)]: (state, { ready, meta, type, error }) => ({
         ...state,
         modal: {
             show: !meta.isNew && !ready && (state.hasLedger || type === 'ADD_LEDGER_ACCESS_KEY' || type === 'GET_LEDGER_PUBLIC_KEY'),
             textId: !ready ? `${meta.prefix}.modal` : undefined
         },
-        txSigned: ready ? undefined : state.txSigned
+        txSigned: (error || ready) ? undefined : state.txSigned
     })
 }, initialState)
 
@@ -47,7 +47,7 @@ const ledger = handleActions({
 
         return {
             ...state,
-            txSign: undefined,
+            signInWithLedgerStatus: !ready ? 'confirm public key' : 'confirm accounts',
             signInWithLedger: payload 
                 ? payload.reduce((r, accountId) => ({
                     ...r,
