@@ -237,7 +237,7 @@ export const { initializeRecoveryMethod, validateSecurityCode, initTwoFactor, re
     CLEAR_CODE: null
 })
 
-export const { getAccessKeys, removeAccessKey, addLedgerAccessKey, connectLedger, disableLedger, removeNonLedgerAccessKeys, getLedgerAccountIds, addLedgerAccountId, saveAndSelectLedgerAccounts, setLedgerTxSigned } = createActions({
+export const { getAccessKeys, removeAccessKey, addLedgerAccessKey, connectLedger, disableLedger, removeNonLedgerAccessKeys, getLedgerAccountIds, addLedgerAccountId, saveAndSelectLedgerAccounts, setLedgerTxSigned, clearSignInWithLedgerModalState } = createActions({
     GET_ACCESS_KEYS: [wallet.getAccessKeys.bind(wallet), () => ({})],
     REMOVE_ACCESS_KEY: [
         wallet.removeAccessKey.bind(wallet),
@@ -261,7 +261,8 @@ export const { getAccessKeys, removeAccessKey, addLedgerAccessKey, connectLedger
         (status, accountId) => ({
             accountId
         })
-    ]
+    ],
+    CLEAR_SIGN_IN_WITH_LEDGER_MODAL_STATE: null
 })
 
 export const { addAccessKey, addAccessKeySeedPhrase, clearAlert } = createActions({
