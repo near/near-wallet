@@ -20,6 +20,8 @@ import {
     createNewAccount
 } from '../../actions/account'
 
+import { HIDE_SIGN_IN_WITH_LEDGER_ENTER_ACCOUNT_ID_MODAL } from '../../utils/wallet'
+
 const initialState = {
     modal: {}
 }
@@ -41,7 +43,7 @@ const ledger = handleActions({
         if (error) {
             return {
                 ...state,
-                signInWithLedgerStatus: payload.messageCode === 'signInLedger.getLedgerAccountIds.noAccounts' ? 'enter-accountId' : undefined,
+                signInWithLedgerStatus: (payload.messageCode === 'signInLedger.getLedgerAccountIds.noAccounts' && !HIDE_SIGN_IN_WITH_LEDGER_ENTER_ACCOUNT_ID_MODAL) ? 'enter-accountId' : undefined,
                 signInWithLedger: undefined,
                 txSigned: undefined
             }

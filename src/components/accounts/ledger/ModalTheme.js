@@ -13,7 +13,7 @@ export default createGlobalStyle`
         }
 
         button {
-            margin-top: 0px !important; 
+            margin-top: 4px !important; 
 
             svg {
                 margin: 0;
