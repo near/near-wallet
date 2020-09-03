@@ -154,25 +154,34 @@ const LedgerSignInModal = ({
         >
             <ModalTheme/>
             <MobileActionSheet/>
-            {signInWithLedgerStatus === 'confirm public key' && (
-                <>
-                    <h2 className={(txSigned && !ledgerAccounts.length) ? 'dots' : ''}>
-                        <Translate id={`confirmLedgerModal.header.${(txSigned && !ledgerAccounts.length) ? 'processing' : 'confirm'}`}/>
-                    </h2>
-                    <LedgerImage animate={!txSigned}/>
 
-                    <div>
-                        <H4>
-                            {!txSigned && <Translate id='signInLedger.modal.confirmPublicKey'/>}
-                        </H4>
-                    </div>
-                </>
+            {signInWithLedgerStatus === 'confirm public key' && (!txSigned
+                    ? (
+                        <>
+                            <h2>
+                                <Translate id={'confirmLedgerModal.header.confirm'}/>
+                            </h2>
+                            <LedgerImage animate={true}/>
+                            <div>
+                                <H4><Translate id='signInLedger.modal.confirmPublicKey'/></H4>
+                            </div>
+                        </>        
+                    )
+                    : (
+                        <>
+                            <h2 className={'dots'}>
+                                <Translate id={'confirmLedgerModal.header.processing'}/>
+                            </h2>
+                            <LedgerImage animate={false}/>
+                        </>
+                    )
             )}
             {signInWithLedgerStatus === 'additional accountId' && (
                 <>
-                    <h2><Translate id='enterAccountNameLedgerModal.header'/></h2>
+                    <h2>
+                        <Translate id='enterAccountNameLedgerModal.header'/>
+                    </h2>
                     <LedgerImage animate={false}/>
-
                     <h4><Translate id='enterAccountNameLedgerModal.one'/></h4>
 
                     <AccountFormAccountId
