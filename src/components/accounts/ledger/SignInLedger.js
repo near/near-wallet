@@ -41,6 +41,16 @@ export function SignInLedger(props) {
         }
     }
 
+    const handleAdditionalAccountId = async () => {
+        setLoader(true)
+        const { error } = await dispatch(signInWithLedgerAddAndSaveAccounts([accountId]))
+        setLoader(false)
+        
+        if (!error) {
+            refreshAndRedirect()
+        }
+    }
+
     const refreshAndRedirect = () => {
         dispatch(refreshAccount())
         dispatch(redirectToApp())
