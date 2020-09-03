@@ -9,7 +9,7 @@ import MobileActionSheet from '../../common/modal/MobileActionSheet';
 import LedgerImage from '../../svg/LedgerImage';
 
 const LedgerConfirmActionModal = () => {
-    const { modal } = useSelector(({ ledger }) => ledger)
+    const { modal, txSigned } = useSelector(({ ledger }) => ledger)
 
     return (modal && modal.show)
         ? (
@@ -19,8 +19,10 @@ const LedgerConfirmActionModal = () => {
             >
                 <ModalTheme/>
                 <MobileActionSheet/>
-                <h2><Translate id='confirmLedgerModal.header'/></h2>
-                <LedgerImage animate={true}/>
+                <h2 className={txSigned ? 'dots' : ''}>
+                    <Translate id={`confirmLedgerModal.header.${txSigned ? 'processing' : 'confirm'}`}/>
+                </h2>
+                <LedgerImage animate={!txSigned}/>
                 <p><Translate id={modal.textId}/></p>
             </Modal>
         )

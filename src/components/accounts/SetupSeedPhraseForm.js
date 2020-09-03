@@ -48,6 +48,7 @@ const SetupSeedPhraseForm = ({
     handleCopyPhrase,
     match: { params: { isNew, accountId, fundingContract, fundingKey } }
 }) => {
+
     return (
         <CustomDiv>
             <div id='seed-phrase'>
@@ -66,7 +67,7 @@ const SetupSeedPhraseForm = ({
                     <IconMCopy color='#6ad1e3' />
                 </FormButton>
                 <FormButton
-                    linkTo={`/setup-seed-phrase/${accountId}/verify/${isNew ? '1' : '0'}/${fundingContract ? `${fundingContract}/${fundingKey}/` : ``}`}
+                    linkTo={`/setup-seed-phrase/${accountId}/verify/${ isNew }/${fundingContract ? `${fundingContract}/${fundingKey}/` : ``}`}
                     color='blue'
                 >
                     <Translate id='button.continue' />

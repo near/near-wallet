@@ -181,7 +181,7 @@ class SetupRecoveryMethod extends Component {
 
     render() {
         const { option, phoneNumber, email, success, emailInvalid, phoneInvalid, activeMethods } = this.state;
-        const { actionsPending, accountId, activeAccountId, ledgerKey, twoFactor, isNew } = this.props;
+        const { actionsPending, accountId, activeAccountId, ledgerKey, twoFactor } = this.props;
 
         if (!success) {
             return (
@@ -191,6 +191,12 @@ class SetupRecoveryMethod extends Component {
                         <h2><Translate id='setupRecovery.subHeader'/></h2>
                         <OptionHeader><Translate id='setupRecovery.advancedSecurity'/></OptionHeader>
                         <OptionSubHeader><Translate id='setupRecovery.advancedSecurityDesc'/></OptionSubHeader>
+                        <RecoveryOption
+                            onClick={() => this.setState({ option: 'phrase' })}
+                            option='phrase'
+                            active={option}
+                            disabled={activeMethods.includes('phrase')}
+                        />
                         {
                             !twoFactor &&
                             <RecoveryOption
@@ -200,12 +206,6 @@ class SetupRecoveryMethod extends Component {
                                 disabled={ledgerKey !== null && accountId === activeAccountId}
                             />
                         }
-                        <RecoveryOption
-                            onClick={() => this.setState({ option: 'phrase' })}
-                            option='phrase'
-                            active={option}
-                            disabled={activeMethods.includes('phrase')}
-                        />
                         <OptionHeader><Translate id='setupRecovery.basicSecurity'/></OptionHeader>
                         <OptionSubHeader><Translate id='setupRecovery.basicSecurityDesc'/></OptionSubHeader>
                         <RecoveryOption
@@ -291,7 +291,7 @@ const mapStateToProps = ({ account, router, recoveryMethods }, { match }) => ({
     router,
     accountId: match.params.accountId,
     activeAccountId: account.accountId,
-    isNew: !!parseInt(match.params.isNew),
+    isNew: match.params.isNew === '1',
     fundingContract: match.params.fundingContract,
     fundingKey: match.params.fundingKey,
     recoveryMethods

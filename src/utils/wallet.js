@@ -5,14 +5,15 @@ import { parseSeedPhrase } from 'near-seed-phrase'
 import { PublicKey } from 'near-api-js/lib/utils'
 import { KeyType } from 'near-api-js/lib/utils/key_pair'
 
+import { getAccountIds } from './helper-api'
 import { generateSeedPhrase } from 'near-seed-phrase';
-import { getAccountIds } from './explorer-api'
 import { WalletError } from './walletError'
 import { setAccountConfirmed, getAccountConfirmed, removeAccountConfirmed} from './localStorage'
 import BN from 'bn.js'
 
 import { store } from '..'
-import { setSignTransactionStatus } from '../actions/account'
+import { setSignTransactionStatus, setLedgerTxSigned } from '../actions/account'
+
 import { TwoFactor } from './twoFactor'
 
 export const WALLET_CREATE_NEW_ACCOUNT_URL = 'create'
@@ -45,7 +46,9 @@ const MULTISIG_CONTRACT_HASHES = process.env.MULTISIG_CONTRACT_HASHES || [
     // https://github.com/near/core-contracts/blob/fb595e6ec09014d392e9874c2c5d6bbc910362c7/multisig/src/lib.rs
     'AEE3vt6S3pS2s7K6HXnZc46VyMyJcjygSMsaafFh67DF',
     // https://github.com/near/core-contracts/blob/636e7e43f1205f4d81431fad0be39c5cb65455f1/multisig/src/lib.rs
-    '8DKTSceSbxVgh4ANXwqmRqGyPWCuZAR1fCqGPXUjD5nZ'
+    '8DKTSceSbxVgh4ANXwqmRqGyPWCuZAR1fCqGPXUjD5nZ',
+    // https://github.com/near/core-contracts/blob/f93c146d87a779a2063a30d2c1567701306fcae4/multisig/res/multisig.wasm
+    '55E7imniT2uuYrECn17qJAk9fLcwQW4ftNSwmCJL5Di',
 ];
 
 
@@ -92,6 +95,7 @@ class Wallet {
                     const { createLedgerU2FClient } = await import('./ledger.js')
                     const client = await createLedgerU2FClient()
                     const signature = await client.sign(message)
+                    await store.dispatch(setLedgerTxSigned(true, accountId))
                     const publicKey = await this.getPublicKey(accountId, networkId)
                     return {
                         signature,
@@ -448,10 +452,11 @@ class Wallet {
 
     async getLedgerAccountIds() {
         const publicKey = await this.getLedgerPublicKey()
+        await store.dispatch(setLedgerTxSigned(true))
         // TODO: getXXX methods shouldn't be modifying the state
         await setKeyMeta(publicKey, { type: 'ledger' })
+        const accountIds = await getAccountIds(publicKey)
 
-        const accountIds = await getAccountIds(publicKey.toString())
         const checkedAccountIds = (await Promise.all(
             accountIds
                 .map(async (accountId) => {
