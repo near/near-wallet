@@ -695,6 +695,10 @@
         },
         "one": "You will need to confirm your sign-in details on your Ledger."
     },
+    "enterAccountNameLedgerModal": {
+        "header": "Enter account name",
+        "one": "Enter the name of the account you’re signing in to"
+    },
     
     "errors": {
         "type": {

@@ -191,7 +191,7 @@ const LedgerSignInModal = ({
                         disabled={formLoader || !requestStatus?.success}
                         sending={loader}
                     >
-                        CONFIRM
+                        <Translate id='button.confirm'/>
                     </FormButton>
                 </>
             )}
