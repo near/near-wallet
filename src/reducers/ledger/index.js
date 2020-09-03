@@ -17,7 +17,8 @@ import {
     getLedgerPublicKey,
     connectLedger,
     setLedgerTxSigned,
-    createNewAccount
+    createNewAccount,
+    clearSignInWithLedgerModalState
 } from '../../actions/account'
 
 import { HIDE_SIGN_IN_WITH_LEDGER_ENTER_ACCOUNT_ID_MODAL } from '../../utils/wallet'
@@ -31,7 +32,7 @@ const ledgerModalReducer = handleActions({
     [combineActions(sendMoney, addAccessKey, signAndSendTransactions, removeAccessKey, addAccessKeySeedPhrase, deleteRecoveryMethod, setupRecoveryMessage, addLedgerAccessKey, getLedgerPublicKey, connectLedger, createNewAccount)]: (state, { ready, meta, type, error }) => ({
         ...state,
         modal: {
-            show: !meta.isNew && !ready && (state.hasLedger || type === 'ADD_LEDGER_ACCESS_KEY' || type === 'GET_LEDGER_PUBLIC_KEY'),
+            show: !meta.isNew && !ready && (state.hasLedger || type === 'ADD_LEDGER_ACCESS_KEY' || type === 'GET_LEDGER_PUBLIC_KEY' || type === 'CREATE_NEW_ACCOUNT'),
             textId: !ready ? `${meta.prefix}.modal` : undefined
         },
         txSigned: (error || ready) ? undefined : state.txSigned
@@ -123,6 +124,14 @@ const ledger = handleActions({
             signInWithLedger
         }
     },
+    [clearSignInWithLedgerModalState]: (state, { payload, meta }) => {
+        return {
+            ...state,
+            txSigned: undefined,
+            signInWithLedgerStatus: undefined,
+            signInWithLedger: undefined
+        }
+    }
 }, initialState)
 
 export default reduceReducers(
