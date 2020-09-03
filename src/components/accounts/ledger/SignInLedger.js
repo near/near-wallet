@@ -13,7 +13,8 @@ export function SignInLedger(props) {
     const account = useSelector(({ account }) => account);
     const signInWithLedgerState = useSelector(({ ledger }) => ledger.signInWithLedger);
     const txSigned = useSelector(({ ledger }) => ledger.txSigned);
-
+    const signInWithLedgerStatus = useSelector(({ ledger }) => ledger.signInWithLedgerStatus);
+    
     const signInWithLedgerKeys = Object.keys(signInWithLedgerState || {})
 
     const ledgerAccounts = signInWithLedgerKeys.map((accountId) => ({
@@ -24,7 +25,7 @@ export function SignInLedger(props) {
     const accountsApproved = signInWithLedgerKeys.reduce((a, accountId) => signInWithLedgerState[accountId].status === 'success' ? a + 1 : a, 0)
     const totalAccounts = signInWithLedgerKeys.length
     
-    const signingIn = signInWithLedgerState !== undefined || txSigned
+    const signingIn = !!signInWithLedgerStatus
 
     const handleSignIn = async () => {
         const { error } = await dispatch(signInWithLedger())
