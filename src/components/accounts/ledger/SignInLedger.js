@@ -37,9 +37,13 @@ export function SignInLedger(props) {
         const { error } = await dispatch(signInWithLedger())
 
         if (!error) {
-            dispatch(refreshAccount())
-            dispatch(redirectToApp())
+            refreshAndRedirect()
         }
+    }
+
+    const refreshAndRedirect = () => {
+        dispatch(refreshAccount())
+        dispatch(redirectToApp())
     }
 
     return (
