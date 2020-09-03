@@ -5,7 +5,17 @@ import LedgerImage from '../../svg/LedgerImage';
 import FormButton from '../../common/FormButton';
 import { Translate } from 'react-localize-redux';
 import LedgerSignInModal from './LedgerSignInModal';
-import { signInWithLedger, clear, redirectToApp, refreshAccount, setLedgerTxSigned, signInWithLedgerAddAndSaveAccounts, checkAccountAvailable, setFormLoader } from '../../../actions/account';
+import { 
+    signInWithLedger, 
+    clear, 
+    redirectToApp, 
+    refreshAccount, 
+    setLedgerTxSigned, 
+    signInWithLedgerAddAndSaveAccounts, 
+    checkAccountAvailable, 
+    setFormLoader, 
+    clearSignInWithLedgerModalState
+} from '../../../actions/account';
 import RequestStatusBox from '../../common/RequestStatusBox'
 
 export function SignInLedger(props) {
@@ -88,9 +98,10 @@ export function SignInLedger(props) {
                     checkAccountAvailable={(accountId) => dispatch(checkAccountAvailable(accountId))}
                     setFormLoader={(state) => dispatch(setFormLoader(state))}
                     formLoader={account.formLoader}
-                    clearRequestStatus={clear}
+                    clearRequestStatus={() => dispatch(clear())}
                     stateAccountId={account.accountId}
                     loader={loader}
+                    clearSignInWithLedgerModalState={() => dispatch(clearSignInWithLedgerModalState())}
                 />
             }
         </Theme>
