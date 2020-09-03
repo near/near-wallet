@@ -15,7 +15,8 @@ const stakingMethods = {
 	],
 	changeMethods: [
 		'ping',
-		'deposit',
+        'deposit',
+        'deposit_and_stake',
 		'withdraw',
 		'stake',
 		'unstake',
@@ -58,17 +59,45 @@ export class Staking {
     }
 
     async stake(receiverId, amount) {
-        amount = toNear(amount)
         const { functionCall } = nearApiJs.transactions
-        const actions = []
-        if (gtZero(amount)) {
-            actions.push(functionCall('deposit_and_stake', new Uint8Array(), oneHunTgas, amount))
-        }
-        const account = this.wallet.getAccount()
-        console.log(account, receiverId, actions)
-        this.wallet.signAndSendTransactions([{
-            receiverId, actions
-        }], this.wallet.accountId)
+        amount = toNear(amount)
 
+        const account_id = this.wallet.accountId
+        const { account, has2fa } = await this.wallet.getAccountAndState(account_id)
+
+        if (has2fa) {
+            const actions = [functionCall('deposit_and_stake', {}, oneHunTgas, amount)]
+
+            const res = this.wallet.twoFactor.signAndSendTransactions(account, [{receiverId, actions}])
+            console.log(res)
+            return res
+        }
+
+        const contract = await new nearApiJs.Contract(account, receiverId, {
+            ...stakingMethods,
+            sender: account_id
+        })
+        try {
+            const res = await contract.deposit_and_stake({}, oneHunTgas, amount)
+            console.log(res)
+        } catch (e) {
+            console.warn(e)
+        }
+
+        // const { functionCall } = nearApiJs.transactions
+        // const actions = []
+        // if (gtZero(amount)) {
+        //     actions.push(functionCall('deposit_and_stake', {}, oneHunTgas, amount))
+        // }
+        // console.log(this.wallet)
+        
+        // const res = await contract.get_account_staked_balance({ account_id })
+        // console.log(res)
+
+        // account.signAndSendTransaction(receiverId, actions)
+
+        // this.wallet.signAndSendTransactions([{
+        //     receiverId, actions
+        // }], this.wallet.accountId)
     }
 }

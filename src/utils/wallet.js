@@ -392,7 +392,7 @@ class Wallet {
     recovering a second account attempts to call this method with the currently logged in account and not the tempKeyStore 
     ********************************/
     // TODO: Why is fullAccess needed? Everything without contractId should be full access.
-    async addAccessKey(accountId, contractId, publicKey, fullAccess = false) {
+    async addAccessKey(accountId, contractId, publicKey, fullAccess = false, methodNames) {
         const { account, has2fa } = await this.getAccountAndState(accountId)
         if (has2fa) {
             return await this.twoFactor.addKey(account, publicKey, contractId, fullAccess)
@@ -404,7 +404,7 @@ class Wallet {
                     return await this.getAccount(accountId).addKey(
                         publicKey,
                         contractId,
-                        '', // methodName
+                        methodNames ? methodNames : '',
                         ACCESS_KEY_FUNDING_AMOUNT
                     )
                 }
