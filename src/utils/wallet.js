@@ -625,7 +625,7 @@ class Wallet {
 
         const newKeyPair = isNew ? KeyPair.fromRandom('ed25519') : recoveryKeyPair
         const newPublicKey = newKeyPair.publicKey
-        const accountKeys = await account.getAccessKeys();
+        const accountKeys = await this.getAccount(accountId).getAccessKeys();
 
         if (!accountKeys.some(it => it.public_key.endsWith(newPublicKey))) {
             await this.addAccessKey(accountId, accountId, newPublicKey)
