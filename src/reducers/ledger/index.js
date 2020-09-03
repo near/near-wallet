@@ -42,6 +42,8 @@ const ledger = handleActions({
             return {
                 ...state,
                 signInWithLedgerStatus: payload.messageCode === 'signInLedger.getLedgerAccountIds.noAccounts' ? 'additional accountId' : undefined,
+                signInWithLedger: undefined,
+                txSigned: undefined
             }
         }
 
@@ -62,7 +64,9 @@ const ledger = handleActions({
         if (error) {
             return {
                 ...state,
-                signInWithLedger: undefined
+                signInWithLedgerStatus: undefined,
+                signInWithLedger: undefined,
+                txSigned: undefined
             }
         }
 
@@ -76,15 +80,22 @@ const ledger = handleActions({
             }
         }
     },
-    [saveAndSelectLedgerAccounts]: (state, { error }) => {
+    [saveAndSelectLedgerAccounts]: (state, { error, ready }) => {
         if (error) {
             return {
                 ...state,
+                signInWithLedgerStatus: undefined,
                 signInWithLedger: undefined
             }
         }
 
-        return state
+        return ready 
+            ? {
+                ...state,
+                signInWithLedgerStatus: ready ? undefined : state.signInWithLedgerStatus,
+                signInWithLedger: undefined
+            }
+            : state
     },
     [refreshAccount]: (state, { payload }) => {
         return {
