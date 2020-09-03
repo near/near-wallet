@@ -10,7 +10,6 @@ import {
     clear, 
     redirectToApp, 
     refreshAccount, 
-    setLedgerTxSigned, 
     signInWithLedgerAddAndSaveAccounts, 
     checkAccountAvailable, 
     setFormLoader, 
