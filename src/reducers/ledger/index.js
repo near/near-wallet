@@ -14,7 +14,9 @@ import {
     deleteRecoveryMethod,
     setupRecoveryMessage,
     addLedgerAccessKey,
-    getLedgerPublicKey
+    getLedgerPublicKey,
+    setLedgerTxSigned,
+    createNewAccount
 } from '../../actions/account'
 
 const initialState = {
@@ -23,12 +25,13 @@ const initialState = {
 
 // TODO: Avoid listing all individual actions. Two approaches possible: 1) use meta to set a flag 2) dispatch action from Signer when signing is actually requested
 const ledgerModalReducer = handleActions({
-    [combineActions(sendMoney, addAccessKey, signAndSendTransactions, removeAccessKey, addAccessKeySeedPhrase, deleteRecoveryMethod, setupRecoveryMessage, addLedgerAccessKey, getLedgerPublicKey)]: (state, { ready, meta, type }) => ({
+    [combineActions(sendMoney, addAccessKey, signAndSendTransactions, removeAccessKey, addAccessKeySeedPhrase, deleteRecoveryMethod, setupRecoveryMessage, addLedgerAccessKey, getLedgerPublicKey, createNewAccount)]: (state, { ready, meta, type }) => ({
         ...state,
         modal: {
-            show: !ready && (state.hasLedger || type === 'ADD_LEDGER_ACCESS_KEY' || type === 'GET_LEDGER_PUBLIC_KEY'),
-            textId: `${meta.prefix}.modal`
-        }
+            show: !meta.isNew && !ready && (state.hasLedger || type === 'ADD_LEDGER_ACCESS_KEY' || type === 'GET_LEDGER_PUBLIC_KEY'),
+            textId: !ready ? `${meta.prefix}.modal` : undefined
+        },
+        txSigned: ready ? undefined : state.txSigned
     })
 }, initialState)
 
@@ -43,6 +46,7 @@ const ledger = handleActions({
 
         return {
             ...state,
+            txSign: undefined,
             signInWithLedger: payload 
                 ? payload.reduce((r, accountId) => ({
                     ...r,
@@ -66,7 +70,7 @@ const ledger = handleActions({
             signInWithLedger: {
                 ...state.signInWithLedger,
                 [meta.accountId]: {
-                    status: ready ? 'success' : 'pending'
+                    status: ready ? 'success' : 'confirm'
                 }
             }
         }
@@ -85,6 +89,24 @@ const ledger = handleActions({
         return {
             ...state,
             ...(payload && payload.ledger)
+        }
+    },
+    [setLedgerTxSigned]: (state, { payload, meta }) => {
+        const signInWithLedger = (meta.accountId && Object.keys(state.signInWithLedger || {}).length )
+            ? {
+                ...state.signInWithLedger,
+                [meta.accountId]: {
+                    status: (state.signInWithLedger[meta.accountId].status === 'confirm' && payload.status)
+                        ? 'pending'
+                        : state.signInWithLedger[meta.accountId].status
+                }
+            }
+            : undefined
+
+        return {
+            ...state,
+            txSigned: payload.status,
+            signInWithLedger
         }
     },
 }, initialState)

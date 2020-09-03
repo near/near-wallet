@@ -17,7 +17,8 @@
                 "create": "Checking availability",
                 "check": "Checking"
             },
-            "errorAccountNotExist": "There was a problem creating your account. Please try again!"
+            "errorAccountNotExist": "There was a problem creating your account. Please try again!",
+            "modal": "You will need to confirm add a key for new account on your Ledger."
         },
         "available": {
             "success": "User found.",
@@ -165,7 +166,7 @@
         "title": "Hardware Devices",
         "desc": "Improve the security of your account by using a hardware wallet.",
         "ledger": {
-            "title": "Ledger Nano S",
+            "title": "Ledger Nano S or X",
             "auth": "Authorized",
             "disclaimer": "In order to disable your ledger device, you must first enable an alternative recovery method."
         },
@@ -363,8 +364,8 @@
         "phoneDesc": "Enter your phone number below and receive a magic recovery link",
         "phonePlaceholder": "+1 415 797 8554",
         "advancedSecurity": "Most Secure (Recommended)",
-        "advancedSecurityDesc": "Secure your account keys with a Ledger device, or recover your account using a 12 word recovery phrase.",
-        "ledgerTitle": "Ledger Nano S",
+        "advancedSecurityDesc": "Write down a 12 word seed (recovery) phrase, or secure your account with your Ledger device.",
+        "ledgerTitle": "Ledger Nano S or X",
         "phraseTitle": "Recovery Phrase"
     },
     "setRecoveryConfirm": {
@@ -620,7 +621,7 @@
 
     "setupLedger": {
         "header": "Connect your Ledger device",
-        "one": "Connect your Ledger Nano S to your computer or mobile device via USB and <b>open the NEAR application</b>.",
+        "one": "Connect your Ledger Nano S or X to your computer or mobile device via USB and <b>open the NEAR application</b>.",
         "two": "If you have not yet installed the NEAR Ledger app, follow",
         "twoLink": "these instructions"
     },
@@ -678,17 +679,24 @@
             "status": {
                 "success": "Approved",
                 "pending": "Pending",
-                "waiting": "Up next"
+                "waiting": "Up next",
+                "confirm": "Confirm"
             }
         }
     },
 
     "confirmLedgerModal": {
-        "header": "Please confirm the operation on your device...",
+        "header": {
+            "confirm": "Please confirm the operation on your device...",
+            "processing": "Processing"
+        },
         "one": "You will need to confirm your sign-in details on your Ledger."
     },
     
     "errors": {
+        "type": {
+            "RetriesExceeded": "Exceeded maximum attempts for this transaction."
+        },
         "ledger": {
             "U2FNotSupported": "U2F browser support is needed for Ledger. Please use Chrome, Opera or Firefox with a U2F extension. Also make sure you're on an HTTPS connection.",
             "U2F_4": "Failed to sign with Ledger device: U2F DEVICE_INELIGIBLE. Please make sure that your Ledger device is connected and unlocked.",
