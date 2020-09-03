@@ -8,6 +8,8 @@ import MobileActionSheet from '../../common/modal/MobileActionSheet';
 import LedgerImage from '../../svg/LedgerImage';
 import UserIconGrey from '../../../images/UserIconGrey';
 import IconCheck from '../../../images/IconCheck'
+import FormButton from '../../common/FormButton';
+import AccountFormAccountId from '../../accounts/AccountFormAccountId'
 
 const UserIcon = styled.div`
     background-size: 21px;
@@ -127,7 +129,16 @@ const LedgerSignInModal = ({
     accountsApproved, 
     totalAccounts, 
     txSigned, 
+    handleAdditionalAccountId, 
     signInWithLedgerStatus, 
+    accountId, 
+    handleChange, 
+    checkAccountAvailable, 
+    requestStatus, 
+    setFormLoader, 
+    formLoader, 
+    clearRequestStatus, 
+    stateAccountId, 
 }) => {
     
     const animationScope = Math.min(Math.max(accountsApproved - 1, 0), totalAccounts - 3)
@@ -158,6 +169,28 @@ const LedgerSignInModal = ({
             )}
             {signInWithLedgerStatus === 'additional accountId' && (
                 <>
+                    <h2><Translate id='enterAccountNameLedgerModal.header'/></h2>
+                    <LedgerImage animate={false}/>
+
+                    <h4><Translate id='enterAccountNameLedgerModal.one'/></h4>
+
+                    <AccountFormAccountId
+                        formLoader={formLoader}
+                        handleChange={handleChange}
+                        checkAvailability={checkAccountAvailable}
+                        requestStatus={requestStatus}
+                        autoFocus={true}
+                        setFormLoader={setFormLoader}
+                        clearRequestStatus={clearRequestStatus}
+                        stateAccountId={stateAccountId}
+                    />
+
+                    <FormButton
+                        onClick={handleAdditionalAccountId}
+                        disabled={formLoader || !requestStatus?.success}
+                    >
+                        CONFIRM
+                    </FormButton>
                 </>
             )}
             {signInWithLedgerStatus === 'confirm accounts' && (
