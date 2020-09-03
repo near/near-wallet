@@ -15,7 +15,8 @@ import {
     setupRecoveryMessage,
     addLedgerAccessKey,
     getLedgerPublicKey,
-    setLedgerTxSigned
+    setLedgerTxSigned,
+    createNewAccount
 } from '../../actions/account'
 
 const initialState = {
@@ -24,12 +25,13 @@ const initialState = {
 
 // TODO: Avoid listing all individual actions. Two approaches possible: 1) use meta to set a flag 2) dispatch action from Signer when signing is actually requested
 const ledgerModalReducer = handleActions({
-    [combineActions(sendMoney, addAccessKey, signAndSendTransactions, removeAccessKey, addAccessKeySeedPhrase, deleteRecoveryMethod, setupRecoveryMessage, addLedgerAccessKey, getLedgerPublicKey)]: (state, { ready, meta, type }) => ({
+    [combineActions(sendMoney, addAccessKey, signAndSendTransactions, removeAccessKey, addAccessKeySeedPhrase, deleteRecoveryMethod, setupRecoveryMessage, addLedgerAccessKey, getLedgerPublicKey, createNewAccount)]: (state, { ready, meta, type }) => ({
         ...state,
         modal: {
-            show: !ready && (state.hasLedger || type === 'ADD_LEDGER_ACCESS_KEY' || type === 'GET_LEDGER_PUBLIC_KEY'),
+            show: !meta.isNew && !ready && (state.hasLedger || type === 'ADD_LEDGER_ACCESS_KEY' || type === 'GET_LEDGER_PUBLIC_KEY'),
             textId: !ready ? `${meta.prefix}.modal` : undefined
-        }
+        },
+        txSigned: ready ? undefined : state.txSigned
     })
 }, initialState)
 
@@ -90,14 +92,16 @@ const ledger = handleActions({
         }
     },
     [setLedgerTxSigned]: (state, { payload, meta }) => {
-        const signInWithLedger = Object.keys(state.signInWithLedger).length && {
-            ...state.signInWithLedger,
-            [meta.accountId]: {
-                status: (state.signInWithLedger[meta.accountId].status === 'confirm' && payload.status)
-                    ? 'pending'
-                    : state.signInWithLedger[meta.accountId].status
+        const signInWithLedger = (meta.accountId && Object.keys(state.signInWithLedger || {}).length )
+            ? {
+                ...state.signInWithLedger,
+                [meta.accountId]: {
+                    status: (state.signInWithLedger[meta.accountId].status === 'confirm' && payload.status)
+                        ? 'pending'
+                        : state.signInWithLedger[meta.accountId].status
+                }
             }
-        }
+            : undefined
 
         return {
             ...state,

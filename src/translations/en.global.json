@@ -17,7 +17,8 @@
                 "create": "Checking availability",
                 "check": "Checking"
             },
-            "errorAccountNotExist": "There was a problem creating your account. Please try again!"
+            "errorAccountNotExist": "There was a problem creating your account. Please try again!",
+            "modal": "You will need to confirm add a key for new account on your Ledger."
         },
         "available": {
             "success": "User found.",

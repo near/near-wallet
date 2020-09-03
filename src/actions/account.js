@@ -204,7 +204,10 @@ export const { initializeRecoveryMethod, validateSecurityCode, initTwoFactor, re
     ],
     SETUP_RECOVERY_MESSAGE: [
         wallet.setupRecoveryMessage.bind(wallet),
-        () => defaultCodesFor('account.setupRecoveryMessage')
+        (accountId, method, securityCode, isNew) => ({
+            ...defaultCodesFor('account.setupRecoveryMessage'),
+            isNew
+        })
     ],
     DELETE_RECOVERY_METHOD: [
         wallet.deleteRecoveryMethod.bind(wallet),
@@ -279,7 +282,10 @@ export const { addAccessKey, addAccessKeySeedPhrase, clearAlert } = createAction
 
             await wallet.postSignedJson('/account/seedPhraseAdded', { accountId, publicKey })
         },
-        () => defaultCodesFor('account.setupSeedPhrase')
+        (accountId, recoveryKeyPair, isNew) => ({
+            ...defaultCodesFor('account.setupSeedPhrase'),
+            isNew
+        })
     ],
     CLEAR_ALERT: null,
 })
