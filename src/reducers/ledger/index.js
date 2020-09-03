@@ -37,11 +37,11 @@ const ledgerModalReducer = handleActions({
 }, initialState)
 
 const ledger = handleActions({
-    [getLedgerAccountIds]: (state, { error, payload }) => {
+    [getLedgerAccountIds]: (state, { error, payload, ready }) => {
         if (error) {
             return {
                 ...state,
-                signInWithLedger: undefined
+                signInWithLedgerStatus: payload.messageCode === 'signInLedger.getLedgerAccountIds.noAccounts' ? 'additional accountId' : undefined,
             }
         }
 
