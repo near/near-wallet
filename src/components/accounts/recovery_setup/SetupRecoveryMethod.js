@@ -181,7 +181,7 @@ class SetupRecoveryMethod extends Component {
 
     render() {
         const { option, phoneNumber, email, success, emailInvalid, phoneInvalid, activeMethods } = this.state;
-        const { actionsPending, accountId, activeAccountId, ledgerKey, twoFactor, isNew } = this.props;
+        const { actionsPending, accountId, activeAccountId, ledgerKey, twoFactor } = this.props;
 
         if (!success) {
             return (
@@ -291,7 +291,7 @@ const mapStateToProps = ({ account, router, recoveryMethods }, { match }) => ({
     router,
     accountId: match.params.accountId,
     activeAccountId: account.accountId,
-    isNew: !!parseInt(match.params.isNew),
+    isNew: match.params.isNew === '1',
     fundingContract: match.params.fundingContract,
     fundingKey: match.params.fundingKey,
     recoveryMethods

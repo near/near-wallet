@@ -7,6 +7,7 @@ import ModalTheme from './ModalTheme';
 import MobileActionSheet from '../../common/modal/MobileActionSheet';
 import LedgerImage from '../../svg/LedgerImage';
 import UserIconGrey from '../../../images/UserIconGrey';
+import IconCheck from '../../../images/IconCheck'
 
 const UserIcon = styled.div`
     background-size: 21px;
@@ -52,8 +53,11 @@ const AnimateList = styled.div`
         align-items: center;
 
         &.success .status {
-            background: #8fd6bd;
-            color: #1f825f;
+            text-align: right;
+        }
+        &.confirm .status {
+            background: #6ad1e3;
+            color: #14889d;
         }
         &.pending .status {
             background: #f4c898;
@@ -116,7 +120,7 @@ const AnimateList = styled.div`
     }
 `
 
-const LedgerSignInModal = ({ open, onClose, ledgerAccounts, accountsApproved, totalAccounts }) => {
+const LedgerSignInModal = ({ open, onClose, ledgerAccounts, accountsApproved, totalAccounts, txSigned }) => {
     
     const animationScope = Math.min(Math.max(accountsApproved - 1, 0), totalAccounts - 3)
 
@@ -130,7 +134,9 @@ const LedgerSignInModal = ({ open, onClose, ledgerAccounts, accountsApproved, to
         >
             <ModalTheme/>
             <MobileActionSheet/>
-            <h2><Translate id='confirmLedgerModal.header'/></h2>
+            <h2 className={(txSigned && !ledgerAccounts.length) ? 'dots' : ''}>
+                <Translate id={`confirmLedgerModal.header.${(txSigned && !ledgerAccounts.length) ? 'processing' : 'confirm'}`}/>
+            </h2>
             <LedgerImage animate={true}/>
 
             <div>
@@ -155,7 +161,10 @@ const LedgerSignInModal = ({ open, onClose, ledgerAccounts, accountsApproved, to
                                         @{account.accountId}
                                     </h3>
                                     <div className='status'>
-                                        <Translate id={`signInLedger.modal.status.${account.status}`}/>
+                                        {account.status !== 'success' 
+                                            ? <Translate id={`signInLedger.modal.status.${account.status}`}/>
+                                            : <IconCheck color='#5ace84' stroke='3px' />
+                                        }
                                     </div>
                                 </div>
                             ))}

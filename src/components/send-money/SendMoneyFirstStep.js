@@ -27,7 +27,8 @@ const SendMoneyFirstStep = ({
     clearRequestStatus,
     setFormLoader,
     stateAccountId,
-    defaultAccountId
+    defaultAccountId,
+    amountStatusId
 }) => (
     <Form autoComplete='off'>
         <MobileContainer>
@@ -77,7 +78,7 @@ const SendMoneyFirstStep = ({
                         <FormButton
                             onClick={handleNextStep}
                             color='green'
-                            disabled={!isLegitForm()}
+                            disabled={!isLegitForm() || amountStatusId.includes('notEnoughTokens')}
                         >
                             <Translate id='button.send' />
                         </FormButton>

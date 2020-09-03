@@ -5,14 +5,15 @@ import { parseSeedPhrase } from 'near-seed-phrase'
 import { PublicKey } from 'near-api-js/lib/utils'
 import { KeyType } from 'near-api-js/lib/utils/key_pair'
 
+import { getAccountIds } from './helper-api'
 import { generateSeedPhrase } from 'near-seed-phrase';
-import { getAccountIds } from './explorer-api'
 import { WalletError } from './walletError'
 import { setAccountConfirmed, getAccountConfirmed, removeAccountConfirmed} from './localStorage'
 import BN from 'bn.js'
 
 import { store } from '..'
-import { setSignTransactionStatus } from '../actions/account'
+import { setSignTransactionStatus, setLedgerTxSigned } from '../actions/account'
+
 import { TwoFactor, METHOD_NAMES_LAK } from './twoFactor'
 
 export const WALLET_CREATE_NEW_ACCOUNT_URL = 'create'
@@ -93,6 +94,7 @@ class Wallet {
                     const { createLedgerU2FClient } = await import('./ledger.js')
                     const client = await createLedgerU2FClient()
                     const signature = await client.sign(message)
+                    await store.dispatch(setLedgerTxSigned(true, accountId))
                     const publicKey = await this.getPublicKey(accountId, networkId)
                     return {
                         signature,
@@ -442,10 +444,11 @@ class Wallet {
 
     async getLedgerAccountIds() {
         const publicKey = await this.getLedgerPublicKey()
+        await store.dispatch(setLedgerTxSigned(true))
         // TODO: getXXX methods shouldn't be modifying the state
         await setKeyMeta(publicKey, { type: 'ledger' })
+        const accountIds = await getAccountIds(publicKey)
 
-        const accountIds = await getAccountIds(publicKey.toString())
         const checkedAccountIds = (await Promise.all(
             accountIds
                 .map(async (accountId) => {

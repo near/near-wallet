@@ -2,11 +2,14 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
 const Container = styled.svg`
+    .checkmark {
+        opacity: 1;
+    }
 
     &.animate {
         @keyframes pulse {
-            0%   {r: 0px;}
-            16%  {r:20.6228px;}
+            0% {r: 0px;}
+            16% {r:20.6228px;}
             20% {r: 9px; opacity: 0;}
             100% {r: 9px; opacity: 0;}
         }
@@ -32,7 +35,6 @@ const Container = styled.svg`
             animation-delay: 0.5s;
             animation-iteration-count: infinite;
         }
-
     }
 `
 
@@ -53,7 +55,7 @@ const LedgerImage = ({ animate }) => {
             <rect y="85.2336" width="53.4647" height="2.32455" fill={`url(#gradient${id})`}/>
             <circle opacity="0.3" cx="91.4325" cy="67.4121" r='0' fill="#0072CE" className='circles'/>
             <circle opacity="0.3" cx="133.274" cy="67.4121" r='0' fill="#0072CE" className='circles'/>
-            <path d="M117.333 83L110 90.3333L106.667 87" stroke="#8FD6BD" style={{ opacity: 0 }} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className='checkmark'/>
+            <path d="M117.333 83L110 90.3333L106.667 87" stroke="#8FD6BD" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className='checkmark'/>
             <defs>
                 <linearGradient id={`gradient${id}`} x1="53.4647" y1="86.3959" x2="0.387428" y2="86.3959" gradientUnits="userSpaceOnUse">
                 <stop stopColor="#0E0E0E"/>
