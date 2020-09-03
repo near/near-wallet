@@ -120,7 +120,15 @@ const AnimateList = styled.div`
     }
 `
 
-const LedgerSignInModal = ({ open, onClose, ledgerAccounts, accountsApproved, totalAccounts, txSigned }) => {
+const LedgerSignInModal = ({ 
+    open, 
+    onClose, 
+    ledgerAccounts, 
+    accountsApproved, 
+    totalAccounts, 
+    txSigned, 
+    signInWithLedgerStatus, 
+}) => {
     
     const animationScope = Math.min(Math.max(accountsApproved - 1, 0), totalAccounts - 3)
 
@@ -134,20 +142,31 @@ const LedgerSignInModal = ({ open, onClose, ledgerAccounts, accountsApproved, to
         >
             <ModalTheme/>
             <MobileActionSheet/>
-            <h2 className={(txSigned && !ledgerAccounts.length) ? 'dots' : ''}>
-                <Translate id={`confirmLedgerModal.header.${(txSigned && !ledgerAccounts.length) ? 'processing' : 'confirm'}`}/>
-            </h2>
-            <LedgerImage animate={true}/>
+            {signInWithLedgerStatus === 'confirm public key' && (
+                <>
+                    <h2 className={(txSigned && !ledgerAccounts.length) ? 'dots' : ''}>
+                        <Translate id={`confirmLedgerModal.header.${(txSigned && !ledgerAccounts.length) ? 'processing' : 'confirm'}`}/>
+                    </h2>
+                    <LedgerImage animate={!txSigned}/>
 
-            <div>
-                <H4>
-                    {!ledgerAccounts.length
-                        ? <Translate id='signInLedger.modal.confirmPublicKey'/>
-                        : <Translate id='signInLedger.modal.ledgerMustAdd'/>
-                    }
-                </H4>
-                {!!ledgerAccounts.length && (
-                    <>
+                    <div>
+                        <H4>
+                            {!txSigned && <Translate id='signInLedger.modal.confirmPublicKey'/>}
+                        </H4>
+                    </div>
+                </>
+            )}
+            {signInWithLedgerStatus === 'confirm accounts' && (
+                <>
+                    <h2>
+                        <Translate id={'confirmLedgerModal.header.confirm'}/>
+                    </h2>
+                    <LedgerImage animate={true}/>
+
+                    <div>
+                        <H4>
+                            <Translate id='signInLedger.modal.ledgerMustAdd'/>
+                        </H4>
                         <div>
                             {accountsApproved}/{totalAccounts} <Translate id='signInLedger.modal.accountsApproved'/>
                         </div>
@@ -169,9 +188,9 @@ const LedgerSignInModal = ({ open, onClose, ledgerAccounts, accountsApproved, to
                                 </div>
                             ))}
                         </AnimateList>
-                    </>
-                )}
-            </div>
+                    </div>
+                </>
+            )}
         </Modal>
     );
 }
