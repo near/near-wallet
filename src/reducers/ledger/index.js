@@ -41,7 +41,7 @@ const ledger = handleActions({
         if (error) {
             return {
                 ...state,
-                signInWithLedgerStatus: payload.messageCode === 'signInLedger.getLedgerAccountIds.noAccounts' ? 'additional accountId' : undefined,
+                signInWithLedgerStatus: payload.messageCode === 'signInLedger.getLedgerAccountIds.noAccounts' ? 'enter-accountId' : undefined,
                 signInWithLedger: undefined,
                 txSigned: undefined
             }
@@ -49,7 +49,7 @@ const ledger = handleActions({
 
         return {
             ...state,
-            signInWithLedgerStatus: !ready ? 'confirm public key' : 'confirm accounts',
+            signInWithLedgerStatus: !ready ? 'confirm-public-key' : 'confirm-accounts',
             signInWithLedger: payload 
                 ? payload.reduce((r, accountId) => ({
                     ...r,

@@ -155,7 +155,7 @@ const LedgerSignInModal = ({
             <ModalTheme/>
             <MobileActionSheet/>
 
-            {signInWithLedgerStatus === 'confirm public key' && (!txSigned
+            {signInWithLedgerStatus === 'confirm-public-key' && (!txSigned
                     ? (
                         <>
                             <h2>
@@ -176,7 +176,7 @@ const LedgerSignInModal = ({
                         </>
                     )
             )}
-            {signInWithLedgerStatus === 'additional accountId' && (
+            {signInWithLedgerStatus === 'enter-accountId' && (
                 <>
                     <h2>
                         <Translate id='enterAccountNameLedgerModal.header'/>
@@ -204,7 +204,7 @@ const LedgerSignInModal = ({
                     </FormButton>
                 </>
             )}
-            {signInWithLedgerStatus === 'confirm accounts' && (
+            {signInWithLedgerStatus === 'confirm-accounts' && (
                 <>
                     <h2>
                         <Translate id={'confirmLedgerModal.header.confirm'}/>
