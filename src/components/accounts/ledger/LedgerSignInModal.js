@@ -156,6 +156,10 @@ const LedgerSignInModal = ({
                     </div>
                 </>
             )}
+            {signInWithLedgerStatus === 'additional accountId' && (
+                <>
+                </>
+            )}
             {signInWithLedgerStatus === 'confirm accounts' && (
                 <>
                     <h2>
