@@ -139,6 +139,7 @@ const LedgerSignInModal = ({
     formLoader, 
     clearRequestStatus, 
     stateAccountId, 
+    loader 
 }) => {
     
     const animationScope = Math.min(Math.max(accountsApproved - 1, 0), totalAccounts - 3)
@@ -188,6 +189,7 @@ const LedgerSignInModal = ({
                     <FormButton
                         onClick={handleAdditionalAccountId}
                         disabled={formLoader || !requestStatus?.success}
+                        sending={loader}
                     >
                         CONFIRM
                     </FormButton>

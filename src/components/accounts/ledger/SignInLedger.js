@@ -12,6 +12,8 @@ export function SignInLedger(props) {
     const dispatch = useDispatch();
 
     const [accountId, setAccountId] = useState('');
+    const [loader, setLoader] = useState(false);
+
     const account = useSelector(({ account }) => account);
     const signInWithLedgerState = useSelector(({ ledger }) => ledger.signInWithLedger);
     const txSigned = useSelector(({ ledger }) => ledger.txSigned);
@@ -97,6 +99,7 @@ export function SignInLedger(props) {
                     formLoader={account.formLoader}
                     clearRequestStatus={clear}
                     stateAccountId={account.accountId}
+                    loader={loader}
                 />
             }
         </Theme>
