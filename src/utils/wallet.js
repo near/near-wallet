@@ -454,7 +454,14 @@ class Wallet {
             // NOTE: This key isn't used to call actual contract method, just used to verify connection with account in private DB
             const newLocalKeyPair = KeyPair.fromRandom('ed25519')
             const account = this.getAccount(accountId)
-            await account.addKey(newLocalKeyPair.getPublicKey(), accountId, WALLET_METADATA_METHOD, '0')
+            try {
+                await account.addKey(newLocalKeyPair.getPublicKey(), accountId, WALLET_METADATA_METHOD, '0')
+            } catch (error) {
+                if (error.type === 'KeyNotFound') {
+                    throw new WalletError('No accounts were found.', 'signInLedger.getLedgerAccountIds.noAccounts')
+                }
+                throw error
+            }
             return newLocalKeyPair
         }
 
