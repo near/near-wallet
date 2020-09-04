@@ -12,7 +12,7 @@ import { setAccountConfirmed, getAccountConfirmed, removeAccountConfirmed} from 
 import BN from 'bn.js'
 
 import { store } from '..'
-import { setSignTransactionStatus, setLedgerTxSigned } from '../actions/account'
+import { setSignTransactionStatus, setLedgerTxSigned, showLedgerModal } from '../actions/account'
 
 import { TwoFactor, METHOD_NAMES_LAK } from './twoFactor'
 
@@ -92,6 +92,7 @@ class Wallet {
             },
             async signMessage(message, accountId, networkId) {
                 if (await wallet.getLedgerKey(accountId)) {
+                    store.dispatch(showLedgerModal({show: true}))
                     const { createLedgerU2FClient } = await import('./ledger.js')
                     const client = await createLedgerU2FClient()
                     const signature = await client.sign(message)
