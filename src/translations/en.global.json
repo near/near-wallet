@@ -226,6 +226,19 @@
         }
     },
 
+    "ledgerSignTxModal": {
+        "SEND_MONEY": "You will need to confirm transfer details on your Ledger.",
+        "ADD_ACCESS_KEY": "You will need to confirm login details on your Ledger.",
+        "SET_SIGN_TRANSACTION_STATUS": "You will need to confirm deposit details on your Ledger.",
+        "REMOVE_ACCESS_KEY": "You will need to confirm delete key details on your Ledger.",
+        "ADD_ACCESS_KEY_SEED_PHRASE": "You will need to confirm full access details on your Ledger.",
+        "DELETE_RECOVERY_METHOD": "You will need to confirm delete key details on your Ledger.",
+        "SETUP_RECOVERY_MESSAGE": "You will need to confirm full access details on your Ledger.",
+        "ADD_LEDGER_ACCESS_KEY": "You will need to confirm public key details on your Ledger.",
+        "GET_LEDGER_PUBLIC_KEY": "You will need to confirm public key access on your Ledger.",
+        "CREATE_NEW_ACCOUNT": "You will need to confirm add a key for new account on your Ledger."
+    },
+
     "button": {
         "signIn": "Sign In",
         "signingIn": "Signing In",
