@@ -524,6 +524,10 @@ class Wallet {
     async getLedgerPublicKey() {
         const { createLedgerU2FClient } = await import('./ledger.js')
         const client = await createLedgerU2FClient()
+
+        const [ action ] = store.getState().account.actionsPending.slice(-1)
+        store.dispatch(showLedgerModal({show: true, action}))
+        
         const rawPublicKey = await client.getPublicKey()
         return new PublicKey({ keyType: KeyType.ED25519, data: rawPublicKey })
     }
