@@ -92,9 +92,7 @@ class Wallet {
             },
             async signMessage(message, accountId, networkId) {
                 if (await wallet.getLedgerKey(accountId)) {
-                    const [ action ] = store.getState().account.actionsPending.slice(-1)
-                    store.dispatch(showLedgerModal({show: true, action}))
-
+                    this.dispatchShowLedgerModal(true)
                     const { createLedgerU2FClient } = await import('./ledger.js')
                     const client = await createLedgerU2FClient()
                     const signature = await client.sign(message)
@@ -524,10 +522,7 @@ class Wallet {
     async getLedgerPublicKey() {
         const { createLedgerU2FClient } = await import('./ledger.js')
         const client = await createLedgerU2FClient()
-
-        const [ action ] = store.getState().account.actionsPending.slice(-1)
-        store.dispatch(showLedgerModal({show: true, action}))
-        
+        this.dispatchShowLedgerModal(true)
         const rawPublicKey = await client.getPublicKey()
         return new PublicKey({ keyType: KeyType.ED25519, data: rawPublicKey })
     }
@@ -767,6 +762,11 @@ class Wallet {
                 throw new Error(`Transaction failure for transaction hash: ${transaction.hash}, receiver_id: ${transaction.receiver_id} .`)
             }
         }
+    }
+
+    dispatchShowLedgerModal(show) {
+        const [ action ] = store.getState().account.actionsPending.slice(-1)
+        store.dispatch(showLedgerModal({show, action}))
     }
 }
 
