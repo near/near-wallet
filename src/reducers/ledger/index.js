@@ -42,6 +42,7 @@ const ledger = handleActions({
 
         return {
             ...state,
+            txSigned: ready ? undefined : state.txSigned,
             signInWithLedgerStatus: !ready ? 'confirm-public-key' : 'confirm-accounts',
             signInWithLedger: payload 
                 ? payload.reduce((r, accountId) => ({
