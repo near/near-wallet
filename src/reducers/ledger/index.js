@@ -18,7 +18,8 @@ import {
     connectLedger,
     setLedgerTxSigned,
     createNewAccount,
-    clearSignInWithLedgerModalState
+    clearSignInWithLedgerModalState,
+    showLedgerModal
 } from '../../actions/account'
 
 import { HIDE_SIGN_IN_WITH_LEDGER_ENTER_ACCOUNT_ID_MODAL } from '../../utils/wallet'
@@ -139,6 +140,7 @@ const ledger = handleActions({
             modal: {
                 ...state.modal,
                 show: !state.signInWithLedgerStatus && payload.show,
+                action: payload.action,
             }
         }
     },
