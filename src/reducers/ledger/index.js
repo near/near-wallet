@@ -75,6 +75,7 @@ const ledger = handleActions({
 
         return {
             ...state,
+            signInWithLedgerStatus: 'confirm-accounts',
             signInWithLedger: {
                 ...state.signInWithLedger,
                 [meta.accountId]: {
