@@ -84,7 +84,7 @@ const HardwareDevices = () => {
     const account = useSelector(({ account }) => account);
     const recoveryMethods = useRecoveryMethods(account.accountId);
     const keys = account.fullAccessKeys || [];
-    const recoveryKeys = recoveryMethods.map(key => key.publicKey)
+    const recoveryKeys = recoveryMethods.filter(method => method.kind !== 'ledger').map(key => key.publicKey)
     const publicKeys = keys.map(key => key.public_key)
     const hasOtherMethods = publicKeys.some(key => recoveryKeys.includes(key))
     const hasLedger = account.ledgerKey !== null;
