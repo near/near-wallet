@@ -424,6 +424,16 @@ class Wallet {
         await this.postSignedJson('/account/ledgerKeyAdded', { accountId, publicKey: ledgerPublicKey.toString() })
     }
 
+    async connectLedger(ledgerPublicKey) {
+        const accessKeys =  await this.getAccessKeys()
+        const ledgerKeyConfirmed = accessKeys.map(key => key.public_key).includes(ledgerPublicKey.toString())
+
+        if (ledgerKeyConfirmed) {
+            await setKeyMeta(ledgerPublicKey, { type: 'ledger' })
+        }
+
+    }
+
     async disableLedger() {
         const account = this.getAccount(this.accountId)
         const keyPair = KeyPair.fromRandom('ed25519')
