@@ -43,6 +43,7 @@ export function SignInLedger(props) {
     }
 
     const handleSignIn = async () => {
+        setLoader(false)
         const { error } = await dispatch(signInWithLedger())
 
         if (!error) {
