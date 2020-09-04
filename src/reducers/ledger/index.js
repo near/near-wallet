@@ -132,7 +132,16 @@ const ledger = handleActions({
             signInWithLedgerStatus: undefined,
             signInWithLedger: undefined
         }
-    }
+    },
+    [showLedgerModal]: (state, { payload }) => {
+        return {
+            ...state,
+            modal: {
+                ...state.modal,
+                show: !state.signInWithLedgerStatus && payload.show,
+            }
+        }
+    },
 }, initialState)
 
 export default reduceReducers(
