@@ -130,6 +130,16 @@ class SignTransferReady extends Component {
         showMoreInfo: false
     }
 
+    componentDidMount() {
+        // NOTE: We need to make sure to use signer ID from transactions as account to sign
+        // TODO: Do this for signing process without changing current account in wallet globally
+        const { signerId } = this.props.transactions[0]
+        console.log('signerId', signerId, this.props);
+        if (signerId !== this.props.account.accountId) {
+            this.handleSelectAccount(signerId)
+        }
+    }
+
     handleToggleDropdown = () => {
         this.setState(prevState => ({
             dropdown: !prevState.dropdown
