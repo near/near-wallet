@@ -92,7 +92,7 @@ class Wallet {
             },
             async signMessage(message, accountId, networkId) {
                 if (await wallet.getLedgerKey(accountId)) {
-                    this.dispatchShowLedgerModal(true)
+                    wallet.dispatchShowLedgerModal(true)
                     const { createLedgerU2FClient } = await import('./ledger.js')
                     const client = await createLedgerU2FClient()
                     const signature = await client.sign(message)

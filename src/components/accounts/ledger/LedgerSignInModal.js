@@ -215,10 +215,10 @@ const LedgerSignInModal = ({
             )}
             {signInWithLedgerStatus === 'confirm-accounts' && (
                 <>
-                    <h2>
-                        <Translate id={'confirmLedgerModal.header.confirm'}/>
+                    <h2 className={txSigned? 'dots' : ''}>
+                        <Translate id={`confirmLedgerModal.header.${txSigned ? 'processing' : 'confirm'}`}/>
                     </h2>
-                    <LedgerImage animate={true}/>
+                    <LedgerImage animate={txSigned ? false : true}/>
 
                     <div>
                         <H4>
