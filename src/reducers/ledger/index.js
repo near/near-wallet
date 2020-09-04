@@ -1,4 +1,4 @@
-import { handleActions, combineActions } from 'redux-actions'
+import { handleActions } from 'redux-actions'
 import reduceReducers from 'reduce-reducers'
 
 import {
@@ -6,18 +6,7 @@ import {
     addLedgerAccountId,
     saveAndSelectLedgerAccounts,
     refreshAccount,
-    sendMoney,
-    addAccessKey,
-    signAndSendTransactions,
-    removeAccessKey,
-    addAccessKeySeedPhrase,
-    deleteRecoveryMethod,
-    setupRecoveryMessage,
-    addLedgerAccessKey,
-    getLedgerPublicKey,
-    connectLedger,
     setLedgerTxSigned,
-    createNewAccount,
     clearSignInWithLedgerModalState,
     showLedgerModal
 } from '../../actions/account'
@@ -28,7 +17,7 @@ const initialState = {
     modal: {}
 }
 
-const ledgerModalReducer = (state, { error, ready, payload, meta, type }) => {
+const ledgerModalReducer = (state, { error, ready, type }) => {
     if (state.modal?.show && type === state.modal?.action && (ready || error)) {
         return {
             ...state,
@@ -126,7 +115,7 @@ const ledger = handleActions({
             signInWithLedger
         }
     },
-    [clearSignInWithLedgerModalState]: (state, { payload, meta }) => {
+    [clearSignInWithLedgerModalState]: (state) => {
         return {
             ...state,
             txSigned: undefined,
