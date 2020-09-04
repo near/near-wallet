@@ -81,11 +81,13 @@ const RecoveryContainer = () => {
     const account = useSelector(({ account }) => account);
     const accountId = account.accountId;
     const activeMethods = useRecoveryMethods(accountId).filter(method => method.confirmed && method.publicKey && method.kind !== 'ledger');
-
     const allKinds = ['email', 'phone', 'phrase'];
     const currentActiveKinds = new Set(activeMethods.map(method => method.kind));
     const missingKinds = allKinds.filter(kind => !currentActiveKinds.has(kind))
-    missingKinds.forEach(kind => activeMethods.push({kind: kind}));
+
+    if (!account.ledgerKey) {
+        missingKinds.forEach(kind => activeMethods.push({kind: kind}));
+    }
 
     const loading = account.actionsPending.includes('LOAD_RECOVERY_METHODS') || account.actionsPending.includes('REFRESH_ACCOUNT');
 
@@ -114,32 +116,36 @@ const RecoveryContainer = () => {
         return 0;
     });
 
-    return (
-        <Container>
-            <Header>
-                <Title><Translate id='recoveryMgmt.title' /></Title>
-                {!loading && !sortedActiveMethods.some(method => method.publicKey) &&
-                    <NoRecoveryMethod>
-                        <Translate id='recoveryMgmt.noRecoveryMethod' />
-                    </NoRecoveryMethod>
-                }
-            </Header>
-            {!loading && sortedActiveMethods.map((method, i) =>
-                <RecoveryMethod
-                    key={i}
-                    method={method}
-                    accountId={accountId}
-                    deletingMethod={deletingMethod === method.publicKey}
-                    onDelete={() => handleDeleteMethod(method)}
+    if (!account.ledgerKey || activeMethods.length) {
+        return (
+            <Container>
+                <Header>
+                    <Title><Translate id='recoveryMgmt.title' /></Title>
+                    {!loading && !sortedActiveMethods.some(method => method.publicKey) &&
+                        <NoRecoveryMethod>
+                            <Translate id='recoveryMgmt.noRecoveryMethod' />
+                        </NoRecoveryMethod>
+                    }
+                </Header>
+                {!loading && sortedActiveMethods.map((method, i) =>
+                    <RecoveryMethod
+                        key={i}
+                        method={method}
+                        accountId={accountId}
+                        deletingMethod={deletingMethod === method.publicKey}
+                        onDelete={() => handleDeleteMethod(method)}
+                    />
+                )}
+                <SkeletonLoading
+                    height='50px'
+                    number={3}
+                    show={loading}
                 />
-            )}
-            <SkeletonLoading
-                height='50px'
-                number={3}
-                show={loading}
-            />
-        </Container>
-    );
+            </Container>
+        );
+    } else {
+        return null;
+    }
 }
 
 export default withRouter(RecoveryContainer);
