@@ -187,6 +187,7 @@
         "email": "Email Address",
         "phone": "Phone Number",
         "notEnabled": "2FA Not Enabled",
+        "notEnoughBalance": "To enable 2FA, your account requires a minimum available balance of",
         "active": "Active",
         "since": "since",
         "promptDesc": "We highly recommend that you set up a two-factor authentication method to increase the security of your account and assests",

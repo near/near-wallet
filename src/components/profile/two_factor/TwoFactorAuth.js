@@ -7,6 +7,9 @@ import FormButton from '../../common/FormButton';
 import { Translate } from 'react-localize-redux';
 import KeysIcon from '../../svg/KeysIcon';
 import SkeletonLoading from '../../common/SkeletonLoading';
+import { MULTISIG_MIN_AMOUNT } from '../../../utils/wallet'
+import Balance from '../../common/Balance'
+import { utils } from 'near-api-js'
 
 const Container = styled(Card)`
     margin-top: 30px;
@@ -66,6 +69,10 @@ const Container = styled(Card)`
             margin-top: 20px;
         }
 
+        .color-red {
+            margin-top: 20px;
+        }
+
     }
 `
 
@@ -104,8 +111,13 @@ const TwoFactorAuth = (props) => {
                 <div className='method'>
                     <div className='top'>
                         <div className='title'><Translate id='twoFactor.notEnabled'/></div>
-                        <FormButton onClick={() => props.history.push('/enable-two-factor')}><Translate id='button.enable'/></FormButton>
+                        <FormButton onClick={() => props.history.push('/enable-two-factor')} disabled={!account.canEnableTwoFactor}><Translate id='button.enable'/></FormButton>
                     </div>
+                    {!account.canEnableTwoFactor && 
+                        <div className='color-red'>
+                            <Translate id='twoFactor.notEnoughBalance'/> <Balance amount={utils.format.parseNearAmount(MULTISIG_MIN_AMOUNT)}/>
+                        </div>
+                    }
                 </div>
             }
             {loading &&

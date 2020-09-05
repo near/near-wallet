@@ -5,14 +5,11 @@ import { Translate } from 'react-localize-redux';
 import 'react-phone-number-input/style.css'
 import PhoneInput, { isValidPhoneNumber } from 'react-phone-number-input';
 import { validateEmail } from '../../../utils/account';
-import { initializeRecoveryMethod, setupRecoveryMessage, redirectToApp, loadRecoveryMethods, getAccessKeys, getLedgerKey, refreshAccount, get2faMethod } from '../../../actions/account';
+import { initializeRecoveryMethod, setupRecoveryMessage, redirectToApp, loadRecoveryMethods, getAccessKeys, getLedgerKey, refreshAccount, get2faMethod, checkCanEnableTwoFactor } from '../../../actions/account';
 import RecoveryOption from './RecoveryOption';
 import FormButton from '../../common/FormButton';
 import EnterVerificationCode from '../EnterVerificationCode';
 import Container from '../../common/styled/Container.css';
-import { MULTISIG_MIN_AMOUNT } from '../../../utils/wallet';
-import { BN } from 'bn.js';
-import { utils } from 'near-api-js';
 
 const StyledContainer = styled(Container)`
     
@@ -149,10 +146,9 @@ class SetupRecoveryMethod extends Component {
 
         await setupRecoveryMessage(accountId, this.method, securityCode, isNew, fundingContract, fundingKey, this.state.recoverySeedPhrase)
         const account = await refreshAccount()
-        const availableBalance = new BN(account.balance.available)
-        const multisigMinAmount = new BN(utils.format.parseNearAmount(MULTISIG_MIN_AMOUNT))
+        const promptTwoFactor = await this.props.checkCanEnableTwoFactor(account)
 
-        if (fundingContract && multisigMinAmount.lt(availableBalance)) {
+        if (fundingContract && promptTwoFactor) {
             history.push('/enable-two-factor')
         } else {
             redirectToApp('/profile');
@@ -283,7 +279,8 @@ const mapDispatchToProps = {
     getAccessKeys,
     getLedgerKey,
     refreshAccount,
-    get2faMethod
+    get2faMethod,
+    checkCanEnableTwoFactor
 }
 
 const mapStateToProps = ({ account, router, recoveryMethods }, { match }) => ({
