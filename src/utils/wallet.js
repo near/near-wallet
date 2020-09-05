@@ -26,7 +26,7 @@ export const IS_MAINNET = process.env.REACT_APP_IS_MAINNET === 'true' || process
 export const DISABLE_CREATE_ACCOUNT = process.env.DISABLE_CREATE_ACCOUNT === 'true' || process.env.DISABLE_CREATE_ACCOUNT === 'yes'
 export const DISABLE_SEND_MONEY = process.env.DISABLE_SEND_MONEY === 'true' || process.env.DISABLE_SEND_MONEY === 'yes'
 export const ACCOUNT_ID_SUFFIX = process.env.REACT_APP_ACCOUNT_ID_SUFFIX || 'testnet'
-export const MULTISIG_MIN_AMOUNT = process.env.REACT_APP_MULTISIG_MIN_AMOUNT || '100'
+export const MULTISIG_MIN_AMOUNT = process.env.REACT_APP_MULTISIG_MIN_AMOUNT || '40'
 export const LOCKUP_ACCOUNT_ID_SUFFIX = process.env.LOCKUP_ACCOUNT_ID_SUFFIX || 'lockup'
 export const ACCESS_KEY_FUNDING_AMOUNT = process.env.REACT_APP_ACCESS_KEY_FUNDING_AMOUNT || nearApiJs.utils.format.parseNearAmount('0.01')
 export const LINKDROP_GAS = process.env.LINKDROP_GAS || '100000000000000'
@@ -286,7 +286,8 @@ class Wallet {
         }
 
         const { data: recoveryMethods } = await this.getRecoveryMethods();
-        for (const recoveryMethod of recoveryMethods) {
+        const methodsToRemove = recoveryMethods.filter(method => method.kind !== 'ledger')
+        for (const recoveryMethod of methodsToRemove) {
             await this.deleteRecoveryMethod(recoveryMethod)
         }
     }
@@ -347,6 +348,10 @@ class Wallet {
         }
 
         await this.saveAndSelectAccount(accountId);
+
+        if (useLedger) {
+            await this.postSignedJson('/account/ledgerKeyAdded', { accountId, publicKey: publicKey.toString() })
+        }
     }
 
     async createNewAccountLinkdrop(accountId, fundingContract, fundingKey, publicKey) {
@@ -415,7 +420,18 @@ class Wallet {
 
     async addLedgerAccessKey(accountId, ledgerPublicKey) {
         await setKeyMeta(ledgerPublicKey, { type: 'ledger' })
-        return await this.getAccount(accountId).addKey(ledgerPublicKey)
+        await this.getAccount(accountId).addKey(ledgerPublicKey)
+        await this.postSignedJson('/account/ledgerKeyAdded', { accountId, publicKey: ledgerPublicKey.toString() })
+    }
+
+    async connectLedger(ledgerPublicKey) {
+        const accessKeys =  await this.getAccessKeys()
+        const ledgerKeyConfirmed = accessKeys.map(key => key.public_key).includes(ledgerPublicKey.toString())
+
+        if (ledgerKeyConfirmed) {
+            await setKeyMeta(ledgerPublicKey, { type: 'ledger' })
+        }
+
     }
 
     async disableLedger() {
@@ -426,7 +442,10 @@ class Wallet {
 
         const publicKey = await this.getLedgerPublicKey()
         await this.removeAccessKey(publicKey)
-        return await this.getAccessKeys(this.accountId)
+        await this.getAccessKeys(this.accountId)
+
+        await this.deleteRecoveryMethod({ kind: 'ledger', publicKey: publicKey.toString() })
+        
     }
 
     async addWalletMetadataAccessKeyIfNeeded(accountId, localAccessKey) {

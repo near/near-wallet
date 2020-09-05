@@ -2,7 +2,9 @@ import * as nearApiJs from 'near-api-js'
 import { store } from '..'
 import { WalletError } from './walletError'
 import { promptTwoFactor } from '../actions/account'
-import { ACCESS_KEY_FUNDING_AMOUNT, convertPKForContract, toPK } from './wallet'
+import { ACCESS_KEY_FUNDING_AMOUNT, convertPKForContract, toPK, MULTISIG_MIN_AMOUNT } from './wallet'
+import { utils } from 'near-api-js'
+import { BN } from 'bn.js'
 
 const { transactions: {
     deleteKey, addKey, functionCall, functionCallAccessKey, deployContract
@@ -18,6 +20,12 @@ const actionTypes = {
 export class TwoFactor {
     constructor(wallet) {
         this.wallet = wallet
+    }
+
+    async checkCanEnableTwoFactor(account) {
+        const availableBalance = new BN(account.balance.available)
+        const multisigMinAmount = new BN(utils.format.parseNearAmount(MULTISIG_MIN_AMOUNT))
+        return multisigMinAmount.lt(availableBalance)
     }
 
     async get2faMethod() {

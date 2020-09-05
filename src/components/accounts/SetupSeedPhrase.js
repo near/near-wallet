@@ -3,7 +3,7 @@ import { withRouter, Route } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { Translate } from 'react-localize-redux'
 
-import { redirectToApp, addAccessKeySeedPhrase, clearAlert, refreshAccount } from '../../actions/account'
+import { redirectToApp, addAccessKeySeedPhrase, clearAlert, refreshAccount, checkCanEnableTwoFactor } from '../../actions/account'
 import { generateSeedPhrase } from 'near-seed-phrase'
 import SetupSeedPhraseVerify from './SetupSeedPhraseVerify'
 import SetupSeedPhraseForm from './SetupSeedPhraseForm'
@@ -11,10 +11,7 @@ import copyText from '../../utils/copyText'
 import isMobile from '../../utils/isMobile'
 import { Snackbar, snackbarDuration } from '../common/Snackbar'
 import Container from '../common/styled/Container.css'
-import { BN } from 'bn.js'
-import { utils, KeyPair } from 'near-api-js'
-import { MULTISIG_MIN_AMOUNT } from '../../utils/wallet'
-
+import { KeyPair } from 'near-api-js'
 class SetupSeedPhrase extends Component {
     state = {
         seedPhrase: '',
@@ -83,18 +80,14 @@ class SetupSeedPhrase extends Component {
 
         let account;
 
-        try {
-            await addAccessKeySeedPhrase(accountId, recoveryKeyPair, isNew, fundingContract, fundingKey)
-            account = await refreshAccount()
-        } finally {
-            const availableBalance = new BN(account.balance.available)
-            const multisigMinAmount = new BN(utils.format.parseNearAmount(MULTISIG_MIN_AMOUNT))
+        await addAccessKeySeedPhrase(accountId, recoveryKeyPair, isNew, fundingContract, fundingKey)
+        account = await refreshAccount()
+        const promptTwoFactor = await this.props.checkCanEnableTwoFactor(account)
 
-            if (fundingContract && multisigMinAmount.lt(availableBalance)) {
-                history.push('/enable-two-factor')
-            } else {
-                redirectToApp('/profile');
-            }
+        if (fundingContract && promptTwoFactor) {
+            history.push('/enable-two-factor')
+        } else {
+            redirectToApp('/profile');
         }
     }
 
@@ -176,7 +169,8 @@ const mapDispatchToProps = {
     redirectToApp,
     addAccessKeySeedPhrase,
     clearAlert,
-    refreshAccount
+    refreshAccount,
+    checkCanEnableTwoFactor
 }
 
 const mapStateToProps = ({ account }, { match }) => ({
