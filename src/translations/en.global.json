@@ -168,7 +168,8 @@
         "ledger": {
             "title": "Ledger Nano S or X",
             "auth": "Authorized",
-            "disclaimer": "In order to disable your ledger device, you must first enable an alternative recovery method."
+            "disclaimer": "In order to disable your ledger device, you must first enable an alternative recovery method.",
+            "connect": "Your ledger is not currently connected. We advise that you re-connect your Ledger to ensure your account is secured."
         },
         "disable": {
             "title": "Are you sure you want to disable Ledger?",
@@ -242,6 +243,7 @@
         "disable": "Disable",
         "signInLedger": "Sign in with Ledger",
         "connectLedger": "Connect to Ledger",
+        "connect": "Connect",
         "retry": "Retry",
         "browseApps": "BROWSE APPS",
         "createAccountCapital": "CREATE ACCOUNT",

@@ -286,7 +286,8 @@ class Wallet {
         }
 
         const { data: recoveryMethods } = await this.getRecoveryMethods();
-        for (const recoveryMethod of recoveryMethods) {
+        const methodsToRemove = recoveryMethods.filter(method => method.kind !== 'ledger')
+        for (const recoveryMethod of methodsToRemove) {
             await this.deleteRecoveryMethod(recoveryMethod)
         }
     }
@@ -347,6 +348,10 @@ class Wallet {
         }
 
         await this.saveAndSelectAccount(accountId);
+
+        if (useLedger) {
+            await this.postSignedJson('/account/ledgerKeyAdded', { accountId, publicKey: publicKey.toString() })
+        }
     }
 
     async createNewAccountLinkdrop(accountId, fundingContract, fundingKey, publicKey) {
@@ -415,7 +420,18 @@ class Wallet {
 
     async addLedgerAccessKey(accountId, ledgerPublicKey) {
         await setKeyMeta(ledgerPublicKey, { type: 'ledger' })
-        return await this.getAccount(accountId).addKey(ledgerPublicKey)
+        await this.getAccount(accountId).addKey(ledgerPublicKey)
+        await this.postSignedJson('/account/ledgerKeyAdded', { accountId, publicKey: ledgerPublicKey.toString() })
+    }
+
+    async connectLedger(ledgerPublicKey) {
+        const accessKeys =  await this.getAccessKeys()
+        const ledgerKeyConfirmed = accessKeys.map(key => key.public_key).includes(ledgerPublicKey.toString())
+
+        if (ledgerKeyConfirmed) {
+            await setKeyMeta(ledgerPublicKey, { type: 'ledger' })
+        }
+
     }
 
     async disableLedger() {
@@ -426,7 +442,10 @@ class Wallet {
 
         const publicKey = await this.getLedgerPublicKey()
         await this.removeAccessKey(publicKey)
-        return await this.getAccessKeys(this.accountId)
+        await this.getAccessKeys(this.accountId)
+
+        await this.deleteRecoveryMethod({ kind: 'ledger', publicKey: publicKey.toString() })
+        
     }
 
     async addWalletMetadataAccessKeyIfNeeded(accountId, localAccessKey) {
