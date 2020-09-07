@@ -1,7 +1,7 @@
 import * as nearApiJs from 'near-api-js'
 import { toNear, gtZero, BOATLOAD_OF_GAS } from './amounts'
 
-const oneHunTgas = '200000000000000'
+const GAS_STAKE = '40000000000000'
 
 const stakingMethods = {
 	viewMethods: [
@@ -66,7 +66,7 @@ export class Staking {
         const { account, has2fa } = await this.wallet.getAccountAndState(account_id)
 
         if (has2fa) {
-            const actions = [functionCall('deposit_and_stake', {}, oneHunTgas, amount)]
+            const actions = [functionCall('deposit_and_stake', {}, GAS_STAKE, amount)]
 
             const res = this.wallet.twoFactor.signAndSendTransactions(account, [{receiverId, actions}])
             console.log(res)
@@ -78,7 +78,7 @@ export class Staking {
             sender: account_id
         })
         try {
-            const res = await contract.deposit_and_stake({}, oneHunTgas, amount)
+            const res = await contract.deposit_and_stake({}, GAS_STAKE, amount)
             console.log(res)
         } catch (e) {
             console.warn(e)
