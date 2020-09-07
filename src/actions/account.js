@@ -127,7 +127,7 @@ export const signInWithLedger = () => async (dispatch, getState) => {
     await dispatch(getLedgerAccountIds())
 
     const accountIds = Object.keys(getState().ledger.signInWithLedger)
-    await dispatch(signInWithLedgerAddAndSaveAccounts(accountIds))
+    return await dispatch(signInWithLedgerAddAndSaveAccounts(accountIds))
 }
 
 export const signInWithLedgerAddAndSaveAccounts = (accountIds) => async (dispatch, getState) => {
