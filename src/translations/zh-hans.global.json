@@ -355,7 +355,7 @@
     },
     "setRecoveryConfirm": {
         "title": "输入验证码",
-        "pageText": "我们已经发送 6 位验证码至 ${option}：",
+        "pageText": "我们已经发送 6 位验证码至",
         "inputHeader": "输入 6 位验证码",
         "inputPlaceholder": "验证码",
         "invalidCode": "无效验证码",
@@ -374,7 +374,7 @@
                 "phoneNumber": "重新输入手机号并重新发送。"
             }
         },
-        "email": "Email 地址",
+        "email": "Email",
         "phone": "手机号"
     },
     "disclaimer": {

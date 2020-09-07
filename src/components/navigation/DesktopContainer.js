@@ -214,12 +214,19 @@ const Lang = styled.div`
         appearance: none;
         background: transparent url(${languagesIcon}) no-repeat 5px center / 20px 20px;
         border: 0;
-        color: transparent;
         cursor: pointer;
+        font-size: 16px;
         height: 32px;
+        line-height: 32px;
         outline: none;
+        padding-right: 54px;
+        text-indent: 54px;
         user-select: none;
         width: 54px;
+
+        &::-ms-expand {
+            display: none;
+        }
     }
 `
 
