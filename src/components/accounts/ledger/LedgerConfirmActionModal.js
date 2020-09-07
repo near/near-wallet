@@ -23,7 +23,7 @@ const LedgerConfirmActionModal = () => {
                     <Translate id={`confirmLedgerModal.header.${txSigned ? 'processing' : 'confirm'}`}/>
                 </h2>
                 <LedgerImage animate={!txSigned}/>
-                <p><Translate id={modal.textId}/></p>
+                {!txSigned && <p><Translate id={modal.textId}/></p>}
             </Modal>
         )
         : null
