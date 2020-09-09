@@ -339,8 +339,8 @@
         },
         "invalidLinkDrop": {
             "title": "Link Invalid",
-            "one": "This NEAR Drop link has been claimed.",
-            "two": "NEAR Drop links can only be used once to create a single account, after which the link will expire."
+            "one": "This NEAR Drop has been claimed.",
+            "two": "NEAR Drops can only be used to create a single account, after which the link will expire."
         }
     },
 
