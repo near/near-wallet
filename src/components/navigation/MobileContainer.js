@@ -120,13 +120,18 @@ const Lang = styled.div`
         background: transparent url(${languagesIcon}) no-repeat 2px center / 24px 24px;
         border: 0;
         color: #f8f8f8;
+        cursor: pointer;
+        font-size: 16px;
         height: 32px;
+        line-height: 32px;
         outline: none;
-        text-indent: 54px;
+        padding-right: 54px;
         width: 100%;
     }
 
     &.mobile-lang .lang-selector  {
+        text-indent: 36px;
+
         &:active,
         &:focus,
         &:hover {

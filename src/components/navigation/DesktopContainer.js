@@ -220,7 +220,7 @@ const Lang = styled.div`
         line-height: 32px;
         outline: none;
         padding-right: 54px;
-        text-indent: 54px;
+        
         user-select: none;
         width: 54px;
 
