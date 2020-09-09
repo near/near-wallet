@@ -687,12 +687,9 @@ class Wallet {
 
     async recoverAccountSeedPhrase(seedPhrase, accountId, fromSeedPhraseRecovery = true) {
         const { publicKey, secretKey } = parseSeedPhrase(seedPhrase)
-        const accountIds = await getAccountIds(publicKey)
-        if (accountId && !accountIds.includes(accountId)) {
-            accountIds.push(accountId)
-        }
 
         const tempKeyStore = new nearApiJs.keyStores.InMemoryKeyStore()
+        const accountIds = accountId ? [accountId] : await getAccountIds(publicKey)
 
         const connection = nearApiJs.Connection.fromConfig({
             networkId: NETWORK_ID,
