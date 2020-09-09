@@ -274,7 +274,7 @@
     },
     
     "setRecoveryConfirm": {
-        "pageText": "We've sent a 6-digit verification code to the ${option} you provided:"
+        "pageText": "We've sent a 6-digit verification code to the "
     },
 
     "disclaimer": {

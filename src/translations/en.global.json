@@ -373,7 +373,7 @@
     },
     "setRecoveryConfirm": {
         "title": "Enter Verification Code",
-        "pageText": "We've sent a 6-digit verification code to the ${option} you provided:",
+        "pageText": "We've sent a 6-digit verification code to the ",
         "inputHeader": "Enter your 6-digit verification code",
         "inputPlaceholder": "Verification Code",
         "invalidCode": "Invalid code",
