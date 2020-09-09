@@ -355,7 +355,7 @@
     },
     "setRecoveryConfirm": {
         "title": "輸入驗證碼",
-        "pageText": "我們已經發送 6 位驗證碼至 ${option}：",
+        "pageText": "我們已經發送 6 位驗證碼至",
         "inputHeader": "輸入 6 位驗證碼",
         "inputPlaceholder": "驗證碼",
         "invalidCode": "無效驗證碼",
