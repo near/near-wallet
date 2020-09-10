@@ -336,6 +336,11 @@
             "four": "Characters (_-) can be used as separators",
             "five": "Your username CANNOT contain:",
             "six": "Characters \"@\" or \".\""
+        },
+        "invalidLinkDrop": {
+            "title": "Link Invalid",
+            "one": "This NEAR Drop has been claimed.",
+            "two": "NEAR Drops can only be used to create a single account, after which the link will expire."
         }
     },
 

@@ -354,6 +354,19 @@ class Wallet {
         }
     }
 
+    async checkNearDropBalance(fundingContract, fundingKey) {
+        const account = this.getAccount(fundingContract)
+
+        const contract = new nearApiJs.Contract(account, fundingContract, {
+            viewMethods: ['get_key_balance'],
+            sender: fundingContract
+        });
+
+        const key = KeyPair.fromString(fundingKey).publicKey.toString()
+
+        return await contract.get_key_balance({ key })
+    }
+
     async createNewAccountLinkdrop(accountId, fundingContract, fundingKey, publicKey) {
         const account = this.getAccount(fundingContract);
         await this.keyStore.setKey(NETWORK_ID, fundingContract, KeyPair.fromString(fundingKey))
