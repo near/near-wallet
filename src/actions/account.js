@@ -17,8 +17,11 @@ export const loadRecoveryMethods = createAction('LOAD_RECOVERY_METHODS',
 export const handleRedirectUrl = (previousLocation) => (dispatch, getState) => {
     const { pathname } = getState().router.location
     const isValidRedirectUrl = previousLocation.pathname.includes(WALLET_LOGIN_URL) || previousLocation.pathname.includes(WALLET_SIGN_URL)
+    const page = pathname.split('/')[1]
+    const guestLandingPage = !page && !wallet.accountId
+    const createAccountPage = page === WALLET_CREATE_NEW_ACCOUNT_URL
 
-    if (pathname.split('/')[1] === WALLET_CREATE_NEW_ACCOUNT_URL && isValidRedirectUrl) {
+    if ((guestLandingPage || createAccountPage) && isValidRedirectUrl) {
         let url = {
             ...getState().account.url,
             redirect_url: previousLocation.pathname
@@ -31,8 +34,11 @@ export const handleRedirectUrl = (previousLocation) => (dispatch, getState) => {
 
 export const handleClearUrl = () => (dispatch, getState) => {
     const { pathname } = getState().router.location
-    if (![...WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS, WALLET_LOGIN_URL, WALLET_SIGN_URL].includes(pathname.split('/')[1])) {
+    const page = pathname.split('/')[1]
+    const guestLandingPage = !page && !wallet.accountId
+    const saveUrlPages = [...WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS, WALLET_LOGIN_URL, WALLET_SIGN_URL].includes(page)
 
+    if (!guestLandingPage && !saveUrlPages) {
         clearState()
         dispatch(refreshUrl({}))
     }
