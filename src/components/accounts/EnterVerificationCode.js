@@ -52,7 +52,7 @@ const EnterVerificationCode = ({
         <StyledContainer className='small-centered'>
             <form onSubmit={e => {onConfirm(code); e.preventDefault();}} autoComplete='off'>
                 <h1><Translate id='setRecoveryConfirm.title'/></h1>
-                <h2><Translate id='setRecoveryConfirm.pageText' data={{option}}/> <span>{useEmail ? email : phoneNumber}</span></h2>
+                <h2><Translate id='setRecoveryConfirm.pageText'/> <Translate id={useEmail ? 'setRecoveryConfirm.email': 'setRecoveryConfirm.phone'}/> <span>{useEmail ? email : phoneNumber}</span></h2>
                 <h4><Translate id='setRecoveryConfirm.inputHeader'/></h4>
                 <Translate>
                     {({ translate }) => (
