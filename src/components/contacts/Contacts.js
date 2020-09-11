@@ -49,7 +49,7 @@ class Contacts extends Component {
             this.setState(_ => ({
                 activity: [
                     [AccountGreyImage, 'Alex Skidanov ', 'Connected 2 days ago', ''],
-                    [AccountGreyImage, '@vlad.near', '2 days ago', ''],
+                    [AccountGreyImage, 'vlad.near', '2 days ago', ''],
                     [
                         AccountGreyImage,
                         'Illia Polosukhin',
@@ -57,7 +57,7 @@ class Contacts extends Component {
                         ''
                     ],
                     [AccountGreyImage, 'Alex Skidanov ', 'Connected 2 days ago', ''],
-                    [AccountGreyImage, '@vlad.near', '2 days ago', ''],
+                    [AccountGreyImage, 'vlad.near', '2 days ago', ''],
                     [
                         AccountGreyImage,
                         'Illia Polosukhin',
@@ -65,7 +65,7 @@ class Contacts extends Component {
                         ''
                     ],
                     [AccountGreyImage, 'Alex Skidanov ', 'Connected 2 days ago', ''],
-                    [AccountGreyImage, '@vlad.near', '2 days ago', ''],
+                    [AccountGreyImage, 'vlad.near', '2 days ago', ''],
                     [
                         AccountGreyImage,
                         'Illia Polosukhin',

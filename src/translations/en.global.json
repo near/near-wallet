@@ -74,18 +74,18 @@
     },
 
     "actions": {
-        "CreateAccount": "New account created: @${receiverId}",
-        "DeleteAccount": "Account deleted: @${receiverId}",
-        "DeployContract": "Contract deployed: @${receiverId}",
-        "FunctionCall": "Called method: ${methodName} in contract: @${receiverId}",
+        "CreateAccount": "New account created: ${receiverId}",
+        "DeleteAccount": "Account deleted: ${receiverId}",
+        "DeployContract": "Contract deployed: ${receiverId}",
+        "FunctionCall": "Called method: ${methodName} in contract: ${receiverId}",
         "Transfer": {
-            "transferred": "Transferred ${deposit} to @${receiverId}",
-            "received": "Received ${deposit} from @${signerId}"
+            "transferred": "Transferred ${deposit} to ${receiverId}",
+            "received": "Received ${deposit} from ${signerId}"
         },
         "Stake": "Staked ${stake}",
         "AddKey": {
-            "forContract": "Access key added for contract: @${permissionReceiverId}",
-            "forReceiver": "New key added for @${receiverId}"
+            "forContract": "Access key added for contract: ${permissionReceiverId}",
+            "forReceiver": "New key added for ${receiverId}"
         },
         "DeleteKey": "Key deleted"
     },
@@ -346,7 +346,7 @@
 
     "topLevelAccounts": {
         "header": "Top Level Accounts",
-        "body": "Account names are similar to domain names. Only the @${suffix} account can create accounts such as @yourname.${suffix}, and only @yourname.${suffix} can create @app.yourname.${suffix}. All accounts created in this wallet use the .${suffix} Top Level Account (TLA). To learn more about account names and creating your own TLA, visit the <a rel='noopener noreferrer' href='https://docs.nearprotocol.com/docs/concepts/account'>docs</a>."
+        "body": "Account names are similar to domain names. Only the ${suffix} account can create accounts such as yourname.${suffix}, and only yourname.${suffix} can create app.yourname.${suffix}. All accounts created in this wallet use the .${suffix} Top Level Account (TLA). To learn more about account names and creating your own TLA, visit the <a rel='noopener noreferrer' href='https://docs.nearprotocol.com/docs/concepts/account'>docs</a>."
     },
 
     "recoverSeedPhrase": {
@@ -478,7 +478,7 @@
     },
     "nodeStaking": {
         "pageTitle": "Node & Staking",
-        "pageText": "@nodeandstaking.near",
+        "pageText": "nodeandstaking.near",
         "steps": {
             "title": "To run a node or stake, please fallow these steps:",
             "one": {
@@ -517,8 +517,8 @@
     "profile": {
         "pageTitle": {
             "loading": "Loading...",
-            "notFound": "Account @${accountId} not found",
-            "default": "Account: @${accountId}"
+            "notFound": "Account ${accountId} not found",
+            "default": "Account: ${accountId}"
         },
         "details": {
             "profile": "PROFILE",

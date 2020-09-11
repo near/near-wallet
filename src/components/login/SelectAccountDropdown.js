@@ -120,7 +120,7 @@ const SelectAccountDropdown = ({
             >
                 <Segment basic>
                     <div className='item list-title'>
-                        {dropdown ? translate('button.close') : <div>@{account.accountId}</div>}
+                        {dropdown ? translate('button.close') : <div>{account.accountId}</div>}
                         <div className='arrow' />
                     </div>
                     <div className={`${dropdown ? '' : 'hide'}`}>
@@ -133,7 +133,7 @@ const SelectAccountDropdown = ({
                                         className='item'
                                         key={a}
                                         title={translate('selectAccountDropdown.selectAccount')}
-                                    >@{a}</div>
+                                    >{a}</div>
                                 ))}
                             {availableAccounts.length < 2 &&
                                 <div className='item'>{translate('selectAccountDropdown.noOtherAccounts')}</div>
