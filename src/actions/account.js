@@ -295,6 +295,8 @@ export const { addAccessKey, addAccessKeySeedPhrase, clearAlert } = createAction
                 await wallet.createNewAccount(accountId, fundingContract, fundingKey, recoveryKeyPair.publicKey)
             }
 
+            throw "OOPS";
+
             const publicKey = recoveryKeyPair.publicKey.toString()
             const contractName = null;
             const fullAccess = true;
