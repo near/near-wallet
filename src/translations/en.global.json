@@ -512,6 +512,26 @@
         "amountStakingInput": {
             "title": "Enter amount to stake",
             "placeholder": "example: 15"
+        },
+        "staking": {
+            "title": "Staking",
+            "desc": "Stake your NEAR tokens with a validator",
+            "button": "Stake NEAR",
+            "currentValidators": "Your Current Validators"
+        },
+        "balanceBox": {
+            "staked": {
+                "title": "Total amount staked",
+                "info": "What does Total amount staked mean?"
+            },
+            "unclaimed": {
+                "title": "Unclaimed rewards",
+                "info": "What does Unclaimed rewardsd mean?"
+            },
+            "available": {
+                "title": "Available for withdrawal",
+                "info": "What does Available for withdrawal mean?"
+            }
         }
     },
     "profile": {
