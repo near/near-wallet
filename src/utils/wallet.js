@@ -475,7 +475,15 @@ class Wallet {
     }
 
     async getLedgerAccountIds() {
-        const publicKey = await this.getLedgerPublicKey()
+        let publicKey
+        try {
+            publicKey = await this.getLedgerPublicKey()
+        } catch (error) {
+            if (error.id === 'U2FNotSupported') {
+                throw new WalletError(error.message, 'signInLedger.getLedgerAccountIds.U2FNotSupported')
+            }
+            throw error
+        }
         await store.dispatch(setLedgerTxSigned(true))
         // TODO: getXXX methods shouldn't be modifying the state
         await setKeyMeta(publicKey, { type: 'ledger' })
