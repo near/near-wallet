@@ -651,6 +651,16 @@ class Wallet {
         const { secretKey } = parseSeedPhrase(recoverySeedPhrase)
         const recoveryKeyPair = KeyPair.fromString(secretKey)
 
+        // TODO: Remove isNew parameter from everywhere. Stuff available on chain should be queried from chain.
+        try {
+            await wallet.getAccount(accountId).state();
+            isNew = false;
+        } catch (e) {
+            if (e.toString().includes(`does not exist while viewing`)) {
+                isNew = true;
+            }
+        }
+
         let securityCodeResult = await this.validateSecurityCode(accountId, method, securityCode, isNew);
         if (!securityCodeResult || securityCodeResult.length === 0) {
             console.log('INVALID CODE', securityCodeResult)

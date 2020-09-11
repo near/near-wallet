@@ -277,6 +277,19 @@ export const { addAccessKey, addAccessKeySeedPhrase, clearAlert } = createAction
     ],
     ADD_ACCESS_KEY_SEED_PHRASE: [
         async (accountId, recoveryKeyPair, isNew, fundingContract, fundingKey) => {
+            // TODO: Should this be 2 different actions when you add to existing account / create new one?
+            // TODO: Refactor to "create with public key" action which will save metadata in CH in generic way for all methods?
+
+            // TODO: Remove isNew parameter from everywhere. Stuff available on chain should be queried from chain.
+            try {
+                await wallet.getAccount(accountId).state();
+                isNew = false;
+            } catch (e) {
+                if (e.toString().includes(`does not exist while viewing`)) {
+                    isNew = true;
+                }
+            }
+
             if (isNew) {
                 await wallet.saveAccount(accountId, recoveryKeyPair);
                 await wallet.createNewAccount(accountId, fundingContract, fundingKey, recoveryKeyPair.publicKey)
