@@ -16,6 +16,7 @@ import {
     clearSignInWithLedgerModalState
 } from '../../../actions/account';
 import RequestStatusBox from '../../common/RequestStatusBox'
+import { controller as controllerHelperApi } from '../../../utils/helper-api'
 
 export function SignInLedger(props) {
     const dispatch = useDispatch();
@@ -85,7 +86,7 @@ export function SignInLedger(props) {
             {signingIn &&
                 <LedgerSignInModal 
                     open={signingIn} 
-                    onClose={() => dispatch(clear())}
+                    onClose={() => controllerHelperApi.abort()}
                     ledgerAccounts={ledgerAccounts} 
                     accountsApproved={accountsApproved}
                     totalAccounts={totalAccounts}
