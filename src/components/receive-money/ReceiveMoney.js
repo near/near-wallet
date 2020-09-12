@@ -161,7 +161,7 @@ class ReceiveMoney extends Component {
                         <Container>
                             <Title>{translate('receivePage.addressTitle')}</Title>
                             <Address onClick={this.handleCopyAddress}>
-                                @{this.props.account.accountId}
+                                {this.props.account.accountId}
                                 <UrlAddress ref={this.urlRef}>
                                     {this.receiveUrl}
                                 </UrlAddress>

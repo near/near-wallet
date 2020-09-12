@@ -356,6 +356,19 @@ class Wallet {
         }
     }
 
+    async checkNearDropBalance(fundingContract, fundingKey) {
+        const account = this.getAccount(fundingContract)
+
+        const contract = new nearApiJs.Contract(account, fundingContract, {
+            viewMethods: ['get_key_balance'],
+            sender: fundingContract
+        });
+
+        const key = KeyPair.fromString(fundingKey).publicKey.toString()
+
+        return await contract.get_key_balance({ key })
+    }
+
     async createNewAccountLinkdrop(accountId, fundingContract, fundingKey, publicKey) {
         const account = this.getAccount(fundingContract);
         await this.keyStore.setKey(NETWORK_ID, fundingContract, KeyPair.fromString(fundingKey))
@@ -471,7 +484,15 @@ class Wallet {
     }
 
     async getLedgerAccountIds() {
-        const publicKey = await this.getLedgerPublicKey()
+        let publicKey
+        try {
+            publicKey = await this.getLedgerPublicKey()
+        } catch (error) {
+            if (error.id === 'U2FNotSupported') {
+                throw new WalletError(error.message, 'signInLedger.getLedgerAccountIds.U2FNotSupported')
+            }
+            throw error
+        }
         await store.dispatch(setLedgerTxSigned(true))
         // TODO: getXXX methods shouldn't be modifying the state
         await setKeyMeta(publicKey, { type: 'ledger' })
@@ -657,6 +678,16 @@ class Wallet {
         const { secretKey } = parseSeedPhrase(recoverySeedPhrase)
         const recoveryKeyPair = KeyPair.fromString(secretKey)
 
+        // TODO: Remove isNew parameter from everywhere. Stuff available on chain should be queried from chain.
+        try {
+            await wallet.getAccount(accountId).state();
+            isNew = false;
+        } catch (e) {
+            if (e.toString().includes(`does not exist while viewing`)) {
+                isNew = true;
+            }
+        }
+
         let securityCodeResult = await this.validateSecurityCode(accountId, method, securityCode, isNew);
         if (!securityCodeResult || securityCodeResult.length === 0) {
             console.log('INVALID CODE', securityCodeResult)
@@ -706,12 +737,9 @@ class Wallet {
 
     async recoverAccountSeedPhrase(seedPhrase, accountId, fromSeedPhraseRecovery = true) {
         const { publicKey, secretKey } = parseSeedPhrase(seedPhrase)
-        const accountIds = await getAccountIds(publicKey)
-        if (accountId && !accountIds.includes(accountId)) {
-            accountIds.push(accountId)
-        }
 
         const tempKeyStore = new nearApiJs.keyStores.InMemoryKeyStore()
+        const accountIds = accountId ? [accountId] : await getAccountIds(publicKey)
 
         const connection = nearApiJs.Connection.fromConfig({
             networkId: NETWORK_ID,

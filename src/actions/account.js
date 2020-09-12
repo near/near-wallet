@@ -17,8 +17,11 @@ export const loadRecoveryMethods = createAction('LOAD_RECOVERY_METHODS',
 export const handleRedirectUrl = (previousLocation) => (dispatch, getState) => {
     const { pathname } = getState().router.location
     const isValidRedirectUrl = previousLocation.pathname.includes(WALLET_LOGIN_URL) || previousLocation.pathname.includes(WALLET_SIGN_URL)
+    const page = pathname.split('/')[1]
+    const guestLandingPage = !page && !wallet.accountId
+    const createAccountPage = page === WALLET_CREATE_NEW_ACCOUNT_URL
 
-    if (pathname.split('/')[1] === WALLET_CREATE_NEW_ACCOUNT_URL && isValidRedirectUrl) {
+    if ((guestLandingPage || createAccountPage) && isValidRedirectUrl) {
         let url = {
             ...getState().account.url,
             redirect_url: previousLocation.pathname
@@ -31,8 +34,11 @@ export const handleRedirectUrl = (previousLocation) => (dispatch, getState) => {
 
 export const handleClearUrl = () => (dispatch, getState) => {
     const { pathname } = getState().router.location
-    if (![...WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS, WALLET_LOGIN_URL, WALLET_SIGN_URL].includes(pathname.split('/')[1])) {
+    const page = pathname.split('/')[1]
+    const guestLandingPage = !page && !wallet.accountId
+    const saveUrlPages = [...WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS, WALLET_LOGIN_URL, WALLET_SIGN_URL].includes(page)
 
+    if (!guestLandingPage && !saveUrlPages) {
         clearState()
         dispatch(refreshUrl({}))
     }
@@ -141,7 +147,7 @@ export const signInWithLedgerAddAndSaveAccounts = (accountIds) => async (dispatc
 
 const defaultCodesFor = (prefix, data) => ({ successCode: `${prefix}.success`, errorCode: `${prefix}.error`, prefix, data})
 
-export const { initializeRecoveryMethod, validateSecurityCode, initTwoFactor, reInitTwoFactor, sendTwoFactor, resendTwoFactor, verifyTwoFactor, promptTwoFactor, deployMultisig, checkCanEnableTwoFactor, get2faMethod, getLedgerKey, getLedgerPublicKey, setupRecoveryMessage, deleteRecoveryMethod, checkNewAccount, createNewAccount, checkAccountAvailable, getTransactions, getTransactionStatus, clear, clearCode } = createActions({
+export const { initializeRecoveryMethod, validateSecurityCode, initTwoFactor, reInitTwoFactor, sendTwoFactor, resendTwoFactor, verifyTwoFactor, promptTwoFactor, deployMultisig, checkCanEnableTwoFactor, get2faMethod, getLedgerKey, getLedgerPublicKey, setupRecoveryMessage, deleteRecoveryMethod, checkNearDropBalance, checkNewAccount, createNewAccount, checkAccountAvailable, getTransactions, getTransactionStatus, clear, clearCode } = createActions({
     INITIALIZE_RECOVERY_METHOD: [
         wallet.initializeRecoveryMethod.bind(wallet),
         () => defaultCodesFor('account.initializeRecoveryMethod')
@@ -218,6 +224,10 @@ export const { initializeRecoveryMethod, validateSecurityCode, initTwoFactor, re
         wallet.deleteRecoveryMethod.bind(wallet),
         () => defaultCodesFor('account.deleteRecoveryMethod')
     ],
+    CHECK_NEAR_DROP_BALANCE: [
+        wallet.checkNearDropBalance.bind(wallet),
+        () => defaultCodesFor('account.nearDropBalance')
+    ],
     CHECK_NEW_ACCOUNT: [
         wallet.checkNewAccount.bind(wallet),
         () => defaultCodesFor('account.create')
@@ -270,6 +280,19 @@ export const { addAccessKey, addAccessKeySeedPhrase, clearAlert } = createAction
     ],
     ADD_ACCESS_KEY_SEED_PHRASE: [
         async (accountId, recoveryKeyPair, isNew, fundingContract, fundingKey) => {
+            // TODO: Should this be 2 different actions when you add to existing account / create new one?
+            // TODO: Refactor to "create with public key" action which will save metadata in CH in generic way for all methods?
+
+            // TODO: Remove isNew parameter from everywhere. Stuff available on chain should be queried from chain.
+            try {
+                await wallet.getAccount(accountId).state();
+                isNew = false;
+            } catch (e) {
+                if (e.toString().includes(`does not exist while viewing`)) {
+                    isNew = true;
+                }
+            }
+
             if (isNew) {
                 await wallet.saveAccount(accountId, recoveryKeyPair);
                 await wallet.createNewAccount(accountId, fundingContract, fundingKey, recoveryKeyPair.publicKey)

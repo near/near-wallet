@@ -100,7 +100,7 @@ const Lang = styled.div`
         transform: rotate(135deg) translateY(-50%);
         height: 9px;
         width: 9px;
-        z-index: -1;
+        z-index: 1;
     }
 
     &:last-child {
@@ -110,7 +110,7 @@ const Lang = styled.div`
         padding: 0;
 
         .lang-selector {
-            color: transparent;
+            color: #24272a;
             width: 54px;
         }
     }
@@ -120,13 +120,27 @@ const Lang = styled.div`
         background: transparent url(${languagesIcon}) no-repeat 2px center / 24px 24px;
         border: 0;
         color: #f8f8f8;
+        cursor: pointer;
+        font-size: 16px;
         height: 32px;
+        line-height: 32px;
         outline: none;
-        padding-left: 36px;
+        padding-right: 54px;
         width: 100%;
+    }
 
-        &:active {
-            outline: none;
+    &.mobile-lang .lang-selector  {
+        text-indent: 36px;
+
+        &:active,
+        &:focus,
+        &:hover {
+            background-color: #24272a;
+            color: #f8f8f8;
+
+            option {
+                border: 0;
+            }
         }
     }
 `
@@ -166,7 +180,7 @@ class MobileContainer extends Component {
                     <>
                         <NavLinks/>
                         <UserLinks accountId={account.accountId}/>
-                        <Lang>
+                        <Lang className="mobile-lang">
                             <LanguageToggle />
                         </Lang>
                         <LowerSection>

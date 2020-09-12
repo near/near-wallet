@@ -60,18 +60,18 @@
     },
 
     "actions": {
-        "CreateAccount": "New account created: @${receiverId}",
-        "DeleteAccount": "Account deleted: @${receiverId}",
-        "DeployContract": "Contract deployed: @${receiverId}",
-        "FunctionCall": "Called method: ${methodName} in contract: @${receiverId}",
+        "CreateAccount": "New account created: ${receiverId}",
+        "DeleteAccount": "Account deleted: ${receiverId}",
+        "DeployContract": "Contract deployed: ${receiverId}",
+        "FunctionCall": "Called method: ${methodName} in contract: ${receiverId}",
         "Transfer": {
-            "transferred": "Transferred ${deposit} to @${receiverId}",
-            "received": "Received ${deposit} from @${signerId}"
+            "transferred": "Transferred ${deposit} to ${receiverId}",
+            "received": "Received ${deposit} from ${signerId}"
         },
         "Stake": "Staked ${stake}",
         "AddKey": {
-            "forContract": "Access key added for contract: @${permissionReceiverId}",
-            "forReceiver": "New key added for @${receiverId}"
+            "forContract": "Access key added for contract: ${permissionReceiverId}",
+            "forReceiver": "New key added for ${receiverId}"
         },
         "DeleteKey": "Key deleted"
     },
@@ -334,12 +334,17 @@
             "four": "Characters (_-) can be used as separators",
             "five": "Your username CANNOT contain:",
             "six": "Characters \"@\" or \".\""
+        },
+        "invalidLinkDrop": {
+            "title": "Link Invalid",
+            "one": "This NEAR Drop has been claimed.",
+            "two": "NEAR Drops can only be used to create a single account, after which the link will expire."
         }
     },
 
     "topLevelAccounts": {
         "header": "Top Level Accounts",
-        "body": "Account names are similar to domain names. Only the @${suffix} account can create accounts such as @yourname.${suffix}, and only @yourname.${suffix} can create @app.yourname.${suffix}. All accounts created in this wallet use the .${suffix} Top Level Account (TLA). To learn more about account names and creating your own TLA, visit the <a rel='noopener noreferrer' href='https://docs.nearprotocol.com/docs/concepts/account'>docs</a>."
+        "body": "Account names are similar to domain names. Only the ${suffix} account can create accounts such as yourname.${suffix}, and only yourname.${suffix} can create app.yourname.${suffix}. All accounts created in this wallet use the .${suffix} Top Level Account (TLA). To learn more about account names and creating your own TLA, visit the <a rel='noopener noreferrer' href='https://docs.nearprotocol.com/docs/concepts/account'>docs</a>."
     },
 
     "recoverSeedPhrase": {
@@ -371,7 +376,7 @@
     },
     "setRecoveryConfirm": {
         "title": "Enter Verification Code",
-        "pageText": "We've sent a 6-digit verification code to the ${option} you provided:",
+        "pageText": "We've sent a 6-digit verification code to the ",
         "inputHeader": "Enter your 6-digit verification code",
         "inputPlaceholder": "Verification Code",
         "invalidCode": "Invalid code",
@@ -471,7 +476,7 @@
     },
     "nodeStaking": {
         "pageTitle": "Node & Staking",
-        "pageText": "@nodeandstaking.near",
+        "pageText": "nodeandstaking.near",
         "steps": {
             "title": "To run a node or stake, please fallow these steps:",
             "one": {
@@ -510,8 +515,8 @@
     "profile": {
         "pageTitle": {
             "loading": "Loading...",
-            "notFound": "Account @${accountId} not found",
-            "default": "Account: @${accountId}"
+            "notFound": "Account ${accountId} not found",
+            "default": "Account: ${accountId}"
         },
         "details": {
             "profile": "PROFILE",
@@ -664,7 +669,8 @@
             "success": "",
             "error": "Public key access was rejected. No accounts were recovered.<br/>To continue, you must allow NEAR Wallet to view your public key. Please try again.",
             "noAccounts": "No accounts are associated with this Ledger device. You must first create an account, then add this Ledger to it to login.",
-            "aborted": "Action was aborted."
+            "aborted": "Action was aborted.",
+            "U2FNotSupported": "U2F browser support is needed for Ledger. Please use Chrome, Opera or Firefox with U2F extension."
         },
         "addLedgerAccountId": {
             "success": "",

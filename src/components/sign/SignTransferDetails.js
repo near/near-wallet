@@ -121,7 +121,7 @@ const TransactionsList = ({ transactions }) =>
     transactions.map((t, i) => (
         <div key={`item-${i}`} className='details-item'>
             <div className='title h3'>
-                <Translate id='sign.details.forContract' />: <span className='color-blue'>@{t.receiverId}</span>
+                <Translate id='sign.details.forContract' />: <span className='color-blue'>{t.receiverId}</span>
             </div>
             <ActionsList 
                 transaction={t} 

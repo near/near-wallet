@@ -234,7 +234,7 @@ const LedgerSignInModal = ({
                                         <UserIconGrey color='#9a9a9a' />
                                     </UserIcon>
                                     <h3>
-                                        @{account.accountId}
+                                        {account.accountId}
                                     </h3>
                                     <div className='status'>
                                         {account.status !== 'success' 
