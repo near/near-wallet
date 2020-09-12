@@ -131,8 +131,12 @@ export const allowLogin = () => async (dispatch, getState) => {
 
 export const signInWithLedger = () => async (dispatch, getState) => {
     await dispatch(getLedgerAccountIds())
-    
+
     const accountIds = Object.keys(getState().ledger.signInWithLedger)
+    return await dispatch(signInWithLedgerAddAndSaveAccounts(accountIds))
+}
+
+export const signInWithLedgerAddAndSaveAccounts = (accountIds) => async (dispatch, getState) => {
     for (let i = 0; i < accountIds.length; i++) {
         await dispatch(addLedgerAccountId(accountIds[i]))
         await dispatch(setLedgerTxSigned(false, accountIds[i]))
@@ -214,10 +218,7 @@ export const { initializeRecoveryMethod, validateSecurityCode, initTwoFactor, re
     ],
     SETUP_RECOVERY_MESSAGE: [
         wallet.setupRecoveryMessage.bind(wallet),
-        (accountId, method, securityCode, isNew) => ({
-            ...defaultCodesFor('account.setupRecoveryMessage'),
-            isNew
-        })
+        () => defaultCodesFor('account.setupRecoveryMessage')
     ],
     DELETE_RECOVERY_METHOD: [
         wallet.deleteRecoveryMethod.bind(wallet),
@@ -243,7 +244,7 @@ export const { initializeRecoveryMethod, validateSecurityCode, initTwoFactor, re
     CLEAR_CODE: null
 })
 
-export const { getAccessKeys, removeAccessKey, addLedgerAccessKey, connectLedger, disableLedger, removeNonLedgerAccessKeys, getLedgerAccountIds, addLedgerAccountId, saveAndSelectLedgerAccounts, setLedgerTxSigned } = createActions({
+export const { getAccessKeys, removeAccessKey, addLedgerAccessKey, connectLedger, disableLedger, removeNonLedgerAccessKeys, getLedgerAccountIds, addLedgerAccountId, saveAndSelectLedgerAccounts, setLedgerTxSigned, clearSignInWithLedgerModalState, showLedgerModal } = createActions({
     GET_ACCESS_KEYS: [wallet.getAccessKeys.bind(wallet), () => ({})],
     REMOVE_ACCESS_KEY: [
         wallet.removeAccessKey.bind(wallet),
@@ -267,7 +268,9 @@ export const { getAccessKeys, removeAccessKey, addLedgerAccessKey, connectLedger
         (status, accountId) => ({
             accountId
         })
-    ]
+    ],
+    CLEAR_SIGN_IN_WITH_LEDGER_MODAL_STATE: null,
+    SHOW_LEDGER_MODAL: null
 })
 
 export const { addAccessKey, addAccessKeySeedPhrase, clearAlert } = createActions({
@@ -310,10 +313,7 @@ export const { addAccessKey, addAccessKeySeedPhrase, clearAlert } = createAction
 
             await wallet.postSignedJson('/account/seedPhraseAdded', { accountId, publicKey })
         },
-        (accountId, recoveryKeyPair, isNew) => ({
-            ...defaultCodesFor('account.setupSeedPhrase'),
-            isNew
-        })
+        () => defaultCodesFor('account.setupSeedPhrase')
     ],
     CLEAR_ALERT: null,
 })

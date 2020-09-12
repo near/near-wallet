@@ -171,7 +171,7 @@ const TransactionsList = ({ transactions }) =>
     transactions.map((t, i) => (
         <div key={`item-${i}`} className='details-item'>
             <div className='title h3'>
-                <Translate id='login.details.forContract' />: <a href={`${EXPLORER_URL}/accounts/${t.signerId}`} target='_blank' rel="noopener noreferrer" className='color-blue'>@{t.signerId}</a>
+                <Translate id='login.details.forContract' />: <a href={`${EXPLORER_URL}/accounts/${t.signerId}`} target='_blank' rel="noopener noreferrer" className='color-blue'>{t.signerId}</a>
             </div>
             {false &&  <ActionsList 
                 transaction={t} 

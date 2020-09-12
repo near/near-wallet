@@ -1,19 +1,32 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import Theme from './PageTheme.css';
 import LedgerImage from '../../svg/LedgerImage';
 import FormButton from '../../common/FormButton';
 import { Translate } from 'react-localize-redux';
 import LedgerSignInModal from './LedgerSignInModal';
-import { signInWithLedger, clear, redirectToApp, refreshAccount } from '../../../actions/account';
+import { 
+    signInWithLedger, 
+    clear, 
+    redirectToApp, 
+    refreshAccount, 
+    signInWithLedgerAddAndSaveAccounts, 
+    checkAccountAvailable, 
+    setFormLoader, 
+    clearSignInWithLedgerModalState
+} from '../../../actions/account';
 import RequestStatusBox from '../../common/RequestStatusBox'
+import { controller as controllerHelperApi } from '../../../utils/helper-api'
 
 export function SignInLedger(props) {
     const dispatch = useDispatch();
-    const account = useSelector(({ account }) => account);
-    const signInWithLedgerState = useSelector(({ ledger }) => ledger.signInWithLedger);
-    const txSigned = useSelector(({ ledger }) => ledger.txSigned);
 
+    const [accountId, setAccountId] = useState('');
+    const [loader, setLoader] = useState(false);
+
+    const account = useSelector(({ account }) => account);
+    const { signInWithLedger: signInWithLedgerState, txSigned, signInWithLedgerStatus} = useSelector(({ ledger }) => ledger);
+    
     const signInWithLedgerKeys = Object.keys(signInWithLedgerState || {})
 
     const ledgerAccounts = signInWithLedgerKeys.map((accountId) => ({
@@ -24,15 +37,34 @@ export function SignInLedger(props) {
     const accountsApproved = signInWithLedgerKeys.reduce((a, accountId) => signInWithLedgerState[accountId].status === 'success' ? a + 1 : a, 0)
     const totalAccounts = signInWithLedgerKeys.length
     
-    const signingIn = signInWithLedgerState !== undefined || txSigned
+    const signingIn = !!signInWithLedgerStatus
+
+    const handleChange = (e, { value }) => {
+        setAccountId(value)
+    }
 
     const handleSignIn = async () => {
+        setLoader(false)
         const { error } = await dispatch(signInWithLedger())
 
         if (!error) {
-            dispatch(refreshAccount())
-            dispatch(redirectToApp())
+            refreshAndRedirect()
         }
+    }
+
+    const handleAdditionalAccountId = async () => {
+        setLoader(true)
+        const { error } = await dispatch(signInWithLedgerAddAndSaveAccounts([accountId]))
+        setLoader(false)
+        
+        if (!error) {
+            refreshAndRedirect()
+        }
+    }
+
+    const refreshAndRedirect = () => {
+        dispatch(refreshAccount())
+        dispatch(redirectToApp())
     }
 
     return (
@@ -54,11 +86,23 @@ export function SignInLedger(props) {
             {signingIn &&
                 <LedgerSignInModal 
                     open={signingIn} 
-                    onClose={() => dispatch(clear())}
+                    onClose={() => controllerHelperApi.abort()}
                     ledgerAccounts={ledgerAccounts} 
                     accountsApproved={accountsApproved}
                     totalAccounts={totalAccounts}
                     txSigned={txSigned}
+                    handleAdditionalAccountId={handleAdditionalAccountId}
+                    signInWithLedgerStatus={signInWithLedgerStatus}
+                    accountId={accountId}
+                    handleChange={handleChange}
+                    requestStatus={account.requestStatus}
+                    checkAccountAvailable={(accountId) => dispatch(checkAccountAvailable(accountId))}
+                    setFormLoader={(state) => dispatch(setFormLoader(state))}
+                    formLoader={account.formLoader}
+                    clearRequestStatus={() => dispatch(clear())}
+                    stateAccountId={account.accountId}
+                    loader={loader}
+                    clearSignInWithLedgerModalState={() => dispatch(clearSignInWithLedgerModalState())}
                 />
             }
         </Theme>

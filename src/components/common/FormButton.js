@@ -226,6 +226,7 @@ const CustomButton = styled(Button)`
             :focus {
                 text-decoration: none;
                 color: #0072ce;
+                background-color: transparent;
             }
 
             &.gray {

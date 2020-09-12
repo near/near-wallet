@@ -73,18 +73,18 @@
         }
     },
     "actions": {
-        "CreateAccount": "新賬戶已創建：@${receiverId}",
-        "DeleteAccount": "賬戶已刪除：@${receiverId}",
-        "DeployContract": "合約已經部署：@${receiverId}",
-        "FunctionCall": "函數已調用：合約 @${receiverId} 的 ${methodName}",
+        "CreateAccount": "新賬戶已創建：${receiverId}",
+        "DeleteAccount": "賬戶已刪除：${receiverId}",
+        "DeployContract": "合約已經部署：${receiverId}",
+        "FunctionCall": "函數已調用：合約 ${receiverId} 的 ${methodName}",
         "Transfer": {
-            "transferred": "已轉賬 ${deposit} 至 @${receiverId}",
-            "received": "收到來自 @${signerId} 的轉賬 ${deposit} "
+            "transferred": "已轉賬 ${deposit} 至 ${receiverId}",
+            "received": "收到來自 ${signerId} 的轉賬 ${deposit} "
         },
         "Stake": "已質押 ${stake}",
         "AddKey": {
-            "forContract": "已為合約添加訪問密鑰：@${permissionReceiverId}",
-            "forReceiver": "已為 @${receiverId} 新增密鑰"
+            "forContract": "已為合約添加訪問密鑰：${permissionReceiverId}",
+            "forReceiver": "已為 ${receiverId} 新增密鑰"
         },
         "DeleteKey": "密鑰已刪除"
     },
@@ -325,7 +325,7 @@
     },
     "topLevelAccounts": {
         "header": "頂級賬戶",
-        "body": "賬戶名稱類似於域名，只有 @${suffix} 才能創建比如 @yourname.${suffix} 的賬戶，並且只有 @yourname.${suffix} 可以創建 @app.yourname.${suffix}。所有在此錢包創建的賬戶都使用 .${suffix} 頂級賬戶（TLA）。了解更多關於賬戶名稱和創建妳的頂級賬戶（TLA），請訪問 <a rel='noopener noreferrer' href='https://docs.nearprotocol.com/docs/concepts/account'>NEAR 文檔</a>。"
+        "body": "賬戶名稱類似於域名，只有 ${suffix} 才能創建比如 yourname.${suffix} 的賬戶，並且只有 yourname.${suffix} 可以創建 app.yourname.${suffix}。所有在此錢包創建的賬戶都使用 .${suffix} 頂級賬戶（TLA）。了解更多關於賬戶名稱和創建妳的頂級賬戶（TLA），請訪問 <a rel='noopener noreferrer' href='https://docs.nearprotocol.com/docs/concepts/account'>NEAR 文檔</a>。"
     },
     "recoverSeedPhrase": {
         "pageTitle": "通過助記詞恢復賬戶",
@@ -449,7 +449,7 @@
     },
     "nodeStaking": {
         "pageTitle": "節點和質押",
-        "pageText": "@nodeandstaking.near",
+        "pageText": "nodeandstaking.near",
         "steps": {
             "title": "為運行節點或質押，請執行以下步驟：",
             "one": {
@@ -488,8 +488,8 @@
     "profile": {
         "pageTitle": {
             "loading": "正在加載...",
-            "notFound": "賬戶 @${accountId} 未找到",
-            "default": "賬戶：@${accountId}"
+            "notFound": "賬戶 ${accountId} 未找到",
+            "default": "賬戶：${accountId}"
         },
         "details": {
             "profile": "資料",

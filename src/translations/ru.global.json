@@ -38,18 +38,18 @@
     },
 
     "actions": {
-        "CreateAccount": "Новая учетная запись создана: @${receiverId}",
-        "DeleteAccount": "Имя пользователя удалено: @${receiverId}",
-        "DeployContract": "Контракт развернут: @${receiverId}",
-        "FunctionCall": "Вызов метода: ${methodName} в контракте: @${receiverId}",
+        "CreateAccount": "Новая учетная запись создана: ${receiverId}",
+        "DeleteAccount": "Имя пользователя удалено: ${receiverId}",
+        "DeployContract": "Контракт развернут: ${receiverId}",
+        "FunctionCall": "Вызов метода: ${methodName} в контракте: ${receiverId}",
         "Transfer": {
-            "transferred": "Отправлено ${deposit} к @${receiverId}",
-            "received": "Получено ${deposit} от @${signerId}"
+            "transferred": "Отправлено ${deposit} к ${receiverId}",
+            "received": "Получено ${deposit} от ${signerId}"
         },
         "Stake": "Стейкинг ${stake}",
         "AddKey": {
-            "forContract": "Ключ доступа для контракта: @${permissionReceiverId} добавлен",
-            "forReceiver": "Новый ключ для @${receiverId} добавлен"
+            "forContract": "Ключ доступа для контракта: ${permissionReceiverId} добавлен",
+            "forReceiver": "Новый ключ для ${receiverId} добавлен"
         },
         "DeleteKey": "Ключ удален"
     },
@@ -243,7 +243,7 @@
 
     "topLevelAccounts": {
         "header": "Учетные записи верхнего уровня",
-        "body": "Имена учетных записей похожи на доменные имена. Только учетная запись @${suffix} может создавать такие учетные записи, как @yourname.${suffix}, и только @yourname.${suffix} в тестовом режиме, ваше имя @app.yourname.${suffix}. Все учетные записи созданные в этом кошельке, используют .${suffix} Учетные записи верхнего уровня (TLA). Чтобы узанть больше об именах учетных записей и создать собственную учетную запись верхнего уровня, прочтите документацию <a rel='noopener noreferrer' href='https://docs.near.org/docs/concepts/account'>docs</a>."
+        "body": "Имена учетных записей похожи на доменные имена. Только учетная запись ${suffix} может создавать такие учетные записи, как yourname.${suffix}, и только yourname.${suffix} в тестовом режиме, ваше имя app.yourname.${suffix}. Все учетные записи созданные в этом кошельке, используют .${suffix} Учетные записи верхнего уровня (TLA). Чтобы узанть больше об именах учетных записей и создать собственную учетную запись верхнего уровня, прочтите документацию <a rel='noopener noreferrer' href='https://docs.near.org/docs/concepts/account'>docs</a>."
     },
 
     "recoverSeedPhrase": {
@@ -350,7 +350,7 @@
     },
     "nodeStaking": {
         "pageTitle": "Узел и Стейкинг",
-        "pageText": "@nodeandstaking.near",
+        "pageText": "nodeandstaking.near",
         "steps": {
             "title": "Чтобы запустить узел или стейкинг, выполните следующие действия:",
             "one": {
@@ -389,8 +389,8 @@
     "profile": {
         "pageTitle": {
             "loading": "Загрузка...",
-            "notFound": "Имя пользователя @${accountId} не найдено",
-            "default": "Имя пользователя: @${accountId}"
+            "notFound": "Имя пользователя ${accountId} не найдено",
+            "default": "Имя пользователя: ${accountId}"
         },
         "details": {
             "profile": "ПРОФИЛЬ",

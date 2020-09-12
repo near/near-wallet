@@ -173,7 +173,7 @@ class RecoverWithLink extends Component {
                     {({ translate }) => (
                         <Container className='ui container'>
                             <Title>{translate('recoverWithLink.title')}</Title>
-                            <Desc>{translate('recoverWithLink.pOne')} <UserName>@{accountId}</UserName></Desc>
+                            <Desc>{translate('recoverWithLink.pOne')} <UserName>{accountId}</UserName></Desc>
                             <Desc last>{translate('recoverWithLink.pTwo')}</Desc>
                             <ButtonWrapper>
                                 <FormButton onClick={this.handleContinue} disabled={formLoader} sending={formLoader}>

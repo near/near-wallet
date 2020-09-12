@@ -48,7 +48,7 @@ const UserAccounts = ({ accounts, accountId, selectAccount }) => (
     <Wrapper>
         {accounts.filter(a => a !== accountId).map((account, i) => (
             <Account key={`link-${i}`} onClick={() => selectAccount(account)} to='/'>
-                @{account}
+                {account}
             </Account>
         ))}
         {accounts.length < 2 && <div><Translate id='link.noAccount'/></div>}

@@ -17,8 +17,7 @@
                 "create": "Checking availability",
                 "check": "Checking"
             },
-            "errorAccountNotExist": "There was a problem creating your account. Please try again!",
-            "modal": "You will need to confirm add a key for new account on your Ledger."
+            "errorAccountNotExist": "There was a problem creating your account. Please try again!"
         },
         "available": {
             "success": "User found.",
@@ -30,13 +29,11 @@
         },
         "setupSeedPhrase": {
             "success": "Seed phrase recovery setup is complete.",
-            "error": "An error occurred while setting up seed phrase recovery. Please try again!",
-            "modal": "You will need to confirm full access details on your Ledger."
+            "error": "An error occurred while setting up seed phrase recovery. Please try again!"
         },
         "setupRecoveryMessage": {
             "success": "Recovery setup is complete.",
-            "error": "An error occurred while setting up your recovery method. Please try again!",
-            "modal": "You will need to confirm full access details on your Ledger."
+            "error": "An error occurred while setting up your recovery method. Please try again!"
         },
         "sendNewRecoveryLink": {
             "success": "Recovery link successfully sent!",
@@ -54,38 +51,27 @@
             },
             "incorrectContractId": {
                 "error": "The contract ${contractId} does not exist. This may be an issue with the application you are trying to use, or this contract may have been deleted. You will be redirected back to the application"
-            },
-            "modal": "You will need to confirm login details on your Ledger."
+            }
         },
         "nameDoesntMatch": "Account name doesn't match",
         "sendMoney": {
-            "error": "Please check that your device is connected and the NEAR app is open.",
-            "modal": "You will need to confirm transfer details on your Ledger."
-        },
-        "signAndSendTransactions": {
-            "modal": "You will need to confirm deposit details on your Ledger."
-        },
-        "deleteRecoveryMethod": {
-            "modal": "You will need to confirm delete key details on your Ledger."
-        },
-        "LedgerPublicKey": {
-            "modal": "You will need to confirm public key access on your Ledger"
+            "error": "Please check that your device is connected and the NEAR app is open."
         }
     },
 
     "actions": {
-        "CreateAccount": "New account created: @${receiverId}",
-        "DeleteAccount": "Account deleted: @${receiverId}",
-        "DeployContract": "Contract deployed: @${receiverId}",
-        "FunctionCall": "Called method: ${methodName} in contract: @${receiverId}",
+        "CreateAccount": "New account created: ${receiverId}",
+        "DeleteAccount": "Account deleted: ${receiverId}",
+        "DeployContract": "Contract deployed: ${receiverId}",
+        "FunctionCall": "Called method: ${methodName} in contract: ${receiverId}",
         "Transfer": {
-            "transferred": "Transferred ${deposit} to @${receiverId}",
-            "received": "Received ${deposit} from @${signerId}"
+            "transferred": "Transferred ${deposit} to ${receiverId}",
+            "received": "Received ${deposit} from ${signerId}"
         },
         "Stake": "Staked ${stake}",
         "AddKey": {
-            "forContract": "Access key added for contract: @${permissionReceiverId}",
-            "forReceiver": "New key added for @${receiverId}"
+            "forContract": "Access key added for contract: ${permissionReceiverId}",
+            "forReceiver": "New key added for ${receiverId}"
         },
         "DeleteKey": "Key deleted"
     },
@@ -221,9 +207,21 @@
         "publicKey": "Public Key",
         "ledger": "Ledger",
         "removeAccessKey": {
-            "error": "Please check that your device is connected and the NEAR app is open.",
-            "modal": "You will need to confirm delete key details on your Ledger."
+            "error": "Please check that your device is connected and the NEAR app is open."
         }
+    },
+
+    "ledgerSignTxModal": {
+        "SEND_MONEY": "You will need to confirm transfer details on your Ledger.",
+        "ADD_ACCESS_KEY": "You will need to confirm login details on your Ledger.",
+        "SET_SIGN_TRANSACTION_STATUS": "You will need to confirm deposit details on your Ledger.",
+        "REMOVE_ACCESS_KEY": "You will need to confirm delete key details on your Ledger.",
+        "ADD_ACCESS_KEY_SEED_PHRASE": "You will need to confirm full access details on your Ledger.",
+        "DELETE_RECOVERY_METHOD": "You will need to confirm delete key details on your Ledger.",
+        "SETUP_RECOVERY_MESSAGE": "You will need to confirm full access details on your Ledger.",
+        "ADD_LEDGER_ACCESS_KEY": "You will need to confirm public key details on your Ledger.",
+        "GET_LEDGER_PUBLIC_KEY": "You will need to confirm public key access on your Ledger.",
+        "CREATE_NEW_ACCOUNT": "You will need to confirm add a key for new account on your Ledger."
     },
 
     "button": {
@@ -346,7 +344,7 @@
 
     "topLevelAccounts": {
         "header": "Top Level Accounts",
-        "body": "Account names are similar to domain names. Only the @${suffix} account can create accounts such as @yourname.${suffix}, and only @yourname.${suffix} can create @app.yourname.${suffix}. All accounts created in this wallet use the .${suffix} Top Level Account (TLA). To learn more about account names and creating your own TLA, visit the <a rel='noopener noreferrer' href='https://docs.nearprotocol.com/docs/concepts/account'>docs</a>."
+        "body": "Account names are similar to domain names. Only the ${suffix} account can create accounts such as yourname.${suffix}, and only yourname.${suffix} can create app.yourname.${suffix}. All accounts created in this wallet use the .${suffix} Top Level Account (TLA). To learn more about account names and creating your own TLA, visit the <a rel='noopener noreferrer' href='https://docs.nearprotocol.com/docs/concepts/account'>docs</a>."
     },
 
     "recoverSeedPhrase": {
@@ -478,7 +476,7 @@
     },
     "nodeStaking": {
         "pageTitle": "Node & Staking",
-        "pageText": "@nodeandstaking.near",
+        "pageText": "nodeandstaking.near",
         "steps": {
             "title": "To run a node or stake, please fallow these steps:",
             "one": {
@@ -517,8 +515,8 @@
     "profile": {
         "pageTitle": {
             "loading": "Loading...",
-            "notFound": "Account @${accountId} not found",
-            "default": "Account: @${accountId}"
+            "notFound": "Account ${accountId} not found",
+            "default": "Account: ${accountId}"
         },
         "details": {
             "profile": "PROFILE",
@@ -670,7 +668,9 @@
         "getLedgerAccountIds": {
             "success": "",
             "error": "Public key access was rejected. No accounts were recovered.<br/>To continue, you must allow NEAR Wallet to view your public key. Please try again.",
-            "noAccounts": "No accounts are associated with this Ledger device. You must first create an account, then add this Ledger to it to login."
+            "noAccounts": "No accounts are associated with this Ledger device. You must first create an account, then add this Ledger to it to login.",
+            "aborted": "Action was aborted.",
+            "U2FNotSupported": "U2F browser support is needed for Ledger. Please use Chrome, Opera or Firefox with U2F extension."
         },
         "addLedgerAccountId": {
             "success": "",
@@ -700,6 +700,10 @@
         },
         "one": "You will need to confirm your sign-in details on your Ledger."
     },
+    "enterAccountNameLedgerModal": {
+        "header": "Enter account name",
+        "one": "Enter the name of the account you’re signing in to"
+    },
     
     "errors": {
         "type": {
@@ -707,8 +711,7 @@
         },
         "ledger": {
             "U2FNotSupported": "U2F browser support is needed for Ledger. Please use Chrome, Opera or Firefox with a U2F extension. Also make sure you're on an HTTPS connection.",
-            "U2F_4": "Failed to sign with Ledger device: U2F DEVICE_INELIGIBLE. Please make sure that your Ledger device is connected and unlocked.",
-            "modal": "You will need to confirm public key details on your Ledger."
+            "U2F_4": "Failed to sign with Ledger device: U2F DEVICE_INELIGIBLE. Please make sure that your Ledger device is connected and unlocked."
         },
         "recoveryMethods": {
             "lastMethod": "Cannot delete your last recovery method. Unless you have Ledger enabled, you need to keep at least one recovery method active to ensure recoverability of your account."

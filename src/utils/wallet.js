@@ -12,7 +12,7 @@ import { setAccountConfirmed, getAccountConfirmed, removeAccountConfirmed} from 
 import BN from 'bn.js'
 
 import { store } from '..'
-import { setSignTransactionStatus, setLedgerTxSigned } from '../actions/account'
+import { setSignTransactionStatus, setLedgerTxSigned, showLedgerModal } from '../actions/account'
 
 import { TwoFactor, METHOD_NAMES_LAK } from './twoFactor'
 
@@ -31,6 +31,7 @@ export const LOCKUP_ACCOUNT_ID_SUFFIX = process.env.LOCKUP_ACCOUNT_ID_SUFFIX || 
 export const ACCESS_KEY_FUNDING_AMOUNT = process.env.REACT_APP_ACCESS_KEY_FUNDING_AMOUNT || nearApiJs.utils.format.parseNearAmount('0.01')
 export const LINKDROP_GAS = process.env.LINKDROP_GAS || '100000000000000'
 export const ENABLE_FULL_ACCESS_KEYS = process.env.ENABLE_FULL_ACCESS_KEYS === 'yes'
+export const HIDE_SIGN_IN_WITH_LEDGER_ENTER_ACCOUNT_ID_MODAL = process.env.HIDE_SIGN_IN_WITH_LEDGER_ENTER_ACCOUNT_ID_MODAL
 
 const NETWORK_ID = process.env.REACT_APP_NETWORK_ID || 'default'
 const CONTRACT_CREATE_ACCOUNT_URL = `${ACCOUNT_HELPER_URL}/account`
@@ -91,6 +92,7 @@ class Wallet {
             },
             async signMessage(message, accountId, networkId) {
                 if (await wallet.getLedgerKey(accountId)) {
+                    wallet.dispatchShowLedgerModal(true)
                     const { createLedgerU2FClient } = await import('./ledger.js')
                     const client = await createLedgerU2FClient()
                     const signature = await client.sign(message)
@@ -467,7 +469,14 @@ class Wallet {
             // NOTE: This key isn't used to call actual contract method, just used to verify connection with account in private DB
             const newLocalKeyPair = KeyPair.fromRandom('ed25519')
             const account = this.getAccount(accountId)
-            await account.addKey(newLocalKeyPair.getPublicKey(), accountId, WALLET_METADATA_METHOD, '0')
+            try {
+                await account.addKey(newLocalKeyPair.getPublicKey(), accountId, WALLET_METADATA_METHOD, '0')
+            } catch (error) {
+                if (error.type === 'KeyNotFound') {
+                    throw new WalletError('No accounts were found.', 'signInLedger.getLedgerAccountIds.noAccounts')
+                }
+                throw error
+            }
             return newLocalKeyPair
         }
 
@@ -475,11 +484,28 @@ class Wallet {
     }
 
     async getLedgerAccountIds() {
-        const publicKey = await this.getLedgerPublicKey()
+        let publicKey
+        try {
+            publicKey = await this.getLedgerPublicKey()
+        } catch (error) {
+            if (error.id === 'U2FNotSupported') {
+                throw new WalletError(error.message, 'signInLedger.getLedgerAccountIds.U2FNotSupported')
+            }
+            throw error
+        }
         await store.dispatch(setLedgerTxSigned(true))
         // TODO: getXXX methods shouldn't be modifying the state
         await setKeyMeta(publicKey, { type: 'ledger' })
-        const accountIds = await getAccountIds(publicKey)
+
+        let accountIds
+        try {
+            accountIds = await getAccountIds(publicKey)
+        } catch (error) {
+            if (error.name === 'AbortError') {
+                throw new WalletError('Fetch aborted.', 'signInLedger.getLedgerAccountIds.aborted')
+            }
+            throw error
+        }
 
         const checkedAccountIds = (await Promise.all(
             accountIds
@@ -526,6 +552,7 @@ class Wallet {
     async getLedgerPublicKey() {
         const { createLedgerU2FClient } = await import('./ledger.js')
         const client = await createLedgerU2FClient()
+        this.dispatchShowLedgerModal(true)
         const rawPublicKey = await client.getPublicKey()
         return new PublicKey({ keyType: KeyType.ED25519, data: rawPublicKey })
     }
@@ -772,6 +799,11 @@ class Wallet {
                 throw new Error(`Transaction failure for transaction hash: ${transaction.hash}, receiver_id: ${transaction.receiver_id} .`)
             }
         }
+    }
+
+    dispatchShowLedgerModal(show) {
+        const [ action ] = store.getState().account.actionsPending.slice(-1)
+        store.dispatch(showLedgerModal({show, action}))
     }
 }
 
