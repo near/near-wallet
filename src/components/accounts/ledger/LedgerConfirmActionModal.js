@@ -16,6 +16,7 @@ const LedgerConfirmActionModal = () => {
             <Modal
                 id='ledger-confirm-action-modal'
                 closeButton='desktop'
+                onClose={() => {}}
             >
                 <ModalTheme/>
                 <MobileActionSheet/>
