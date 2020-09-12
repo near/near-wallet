@@ -8,6 +8,8 @@ import MobileActionSheet from '../../common/modal/MobileActionSheet';
 import LedgerImage from '../../svg/LedgerImage';
 import UserIconGrey from '../../../images/UserIconGrey';
 import IconCheck from '../../../images/IconCheck'
+import FormButton from '../../common/FormButton';
+import AccountFormAccountId from '../../accounts/AccountFormAccountId'
 
 const UserIcon = styled.div`
     background-size: 21px;
@@ -120,7 +122,26 @@ const AnimateList = styled.div`
     }
 `
 
-const LedgerSignInModal = ({ open, onClose, ledgerAccounts, accountsApproved, totalAccounts, txSigned }) => {
+const LedgerSignInModal = ({ 
+    open, 
+    onClose, 
+    ledgerAccounts, 
+    accountsApproved, 
+    totalAccounts, 
+    txSigned, 
+    handleAdditionalAccountId, 
+    signInWithLedgerStatus, 
+    accountId, 
+    handleChange, 
+    checkAccountAvailable, 
+    requestStatus, 
+    setFormLoader, 
+    formLoader, 
+    clearRequestStatus, 
+    stateAccountId, 
+    loader,
+    clearSignInWithLedgerModalState
+}) => {
     
     const animationScope = Math.min(Math.max(accountsApproved - 1, 0), totalAccounts - 3)
 
@@ -134,20 +155,75 @@ const LedgerSignInModal = ({ open, onClose, ledgerAccounts, accountsApproved, to
         >
             <ModalTheme/>
             <MobileActionSheet/>
-            <h2 className={(txSigned && !ledgerAccounts.length) ? 'dots' : ''}>
-                <Translate id={`confirmLedgerModal.header.${(txSigned && !ledgerAccounts.length) ? 'processing' : 'confirm'}`}/>
-            </h2>
-            <LedgerImage animate={true}/>
 
-            <div>
-                <H4>
-                    {!ledgerAccounts.length
-                        ? <Translate id='signInLedger.modal.confirmPublicKey'/>
-                        : <Translate id='signInLedger.modal.ledgerMustAdd'/>
-                    }
-                </H4>
-                {!!ledgerAccounts.length && (
-                    <>
+            {signInWithLedgerStatus === 'confirm-public-key' && (!txSigned
+                    ? (
+                        <>
+                            <h2>
+                                <Translate id={'confirmLedgerModal.header.confirm'}/>
+                            </h2>
+                            <LedgerImage animate={true}/>
+                            <div>
+                                <H4><Translate id='signInLedger.modal.confirmPublicKey'/></H4>
+                            </div>
+                        </>        
+                    )
+                    : (
+                        <>
+                            <h2 className={'dots'}>
+                                <Translate id={'confirmLedgerModal.header.processing'}/>
+                            </h2>
+                            <LedgerImage animate={false}/>
+                        </>
+                    )
+            )}
+            {signInWithLedgerStatus === 'enter-accountId' && (
+                <>
+                    <h2>
+                        <Translate id='enterAccountNameLedgerModal.header'/>
+                    </h2>
+                    <LedgerImage animate={false}/>
+
+                    <h4><Translate id='enterAccountNameLedgerModal.one'/></h4>
+                    <AccountFormAccountId
+                        formLoader={formLoader}
+                        handleChange={handleChange}
+                        checkAvailability={checkAccountAvailable}
+                        requestStatus={requestStatus}
+                        autoFocus={true}
+                        setFormLoader={setFormLoader}
+                        clearRequestStatus={clearRequestStatus}
+                        stateAccountId={stateAccountId}
+                    />
+
+
+                    <FormButton
+                        onClick={handleAdditionalAccountId}
+                        disabled={formLoader || !requestStatus?.success}
+                        sending={loader}
+                    >
+                        <Translate id='button.confirm'/>
+                    </FormButton>
+
+                    <FormButton
+                        onClick={clearSignInWithLedgerModalState}
+                        className='link'
+                    >
+                        <Translate id='button.cancel'/>
+                    </FormButton>
+                </>
+            )}
+            {signInWithLedgerStatus === 'confirm-accounts' && (
+                <>
+                    <h2 className={txSigned? 'dots' : ''}>
+                        <Translate id={`confirmLedgerModal.header.${txSigned ? 'processing' : 'confirm'}`}/>
+                    </h2>
+                    <LedgerImage animate={txSigned ? false : true}/>
+
+                    <div>
+                        <H4>
+                            <Translate id='signInLedger.modal.ledgerMustAdd'/>
+                        </H4>
                         <div>
                             {accountsApproved}/{totalAccounts} <Translate id='signInLedger.modal.accountsApproved'/>
                         </div>
@@ -169,9 +245,9 @@ const LedgerSignInModal = ({ open, onClose, ledgerAccounts, accountsApproved, to
                                 </div>
                             ))}
                         </AnimateList>
-                    </>
-                )}
-            </div>
+                    </div>
+                </>
+            )}
         </Modal>
     );
 }

@@ -16,14 +16,28 @@ const LedgerConfirmActionModal = () => {
             <Modal
                 id='ledger-confirm-action-modal'
                 closeButton='desktop'
+                onClose={() => {}}
             >
                 <ModalTheme/>
                 <MobileActionSheet/>
-                <h2 className={txSigned ? 'dots' : ''}>
-                    <Translate id={`confirmLedgerModal.header.${txSigned ? 'processing' : 'confirm'}`}/>
-                </h2>
-                <LedgerImage animate={!txSigned}/>
-                <p><Translate id={modal.textId}/></p>
+                {!txSigned
+                    ? (
+                        <>
+                            <h2>
+                                <Translate id={'confirmLedgerModal.header.confirm'}/>
+                            </h2>
+                            <LedgerImage animate={true}/>
+                            <p><Translate id={modal.textId}/></p>
+                        </>
+                    ) : (
+                        <>
+                            <h2 className={'dots'}>
+                                <Translate id={'confirmLedgerModal.header.processing'}/>
+                            </h2>
+                            <LedgerImage animate={false}/>
+                        </>
+                    )
+                }
             </Modal>
         )
         : null
