@@ -73,18 +73,18 @@
         }
     },
     "actions": {
-        "CreateAccount": "新账户已创建：@${receiverId}",
-        "DeleteAccount": "账户已删除：@${receiverId}",
-        "DeployContract": "合约已经部署：@${receiverId}",
-        "FunctionCall": "函数已调用：合约 @${receiverId} 的 ${methodName}",
+        "CreateAccount": "新账户已创建：${receiverId}",
+        "DeleteAccount": "账户已删除：${receiverId}",
+        "DeployContract": "合约已经部署：${receiverId}",
+        "FunctionCall": "函数已调用：合约 ${receiverId} 的 ${methodName}",
         "Transfer": {
-            "transferred": "已转账 ${deposit} 至 @${receiverId}",
-            "received": "收到来自 @${signerId} 的转账 ${deposit} "
+            "transferred": "已转账 ${deposit} 至 ${receiverId}",
+            "received": "收到来自 ${signerId} 的转账 ${deposit} "
         },
         "Stake": "已质押 ${stake}",
         "AddKey": {
-            "forContract": "已为合约添加访问密钥：@${permissionReceiverId}",
-            "forReceiver": "已为 @${receiverId} 新增密钥"
+            "forContract": "已为合约添加访问密钥：${permissionReceiverId}",
+            "forReceiver": "已为 ${receiverId} 新增密钥"
         },
         "DeleteKey": "密钥已删除"
     },
@@ -325,7 +325,7 @@
     },
     "topLevelAccounts": {
         "header": "顶级账户",
-        "body": "账户名称类似于域名，只有 @${suffix} 才能创建比如 @yourname.${suffix} 的账户，并且只有 @yourname.${suffix} 可以创建 @app.yourname.${suffix}。所有在此钱包创建的账户都使用 .${suffix} 顶级账户（TLA）。了解更多关于账户名称和创建你的顶级账户（TLA），请访问 <a rel='noopener noreferrer' href='https://docs.nearprotocol.com/docs/concepts/account'>NEAR 文档</a>。"
+        "body": "账户名称类似于域名，只有 ${suffix} 才能创建比如 yourname.${suffix} 的账户，并且只有 yourname.${suffix} 可以创建 app.yourname.${suffix}。所有在此钱包创建的账户都使用 .${suffix} 顶级账户（TLA）。了解更多关于账户名称和创建你的顶级账户（TLA），请访问 <a rel='noopener noreferrer' href='https://docs.nearprotocol.com/docs/concepts/account'>NEAR 文档</a>。"
     },
     "recoverSeedPhrase": {
         "pageTitle": "通过助记词恢复账户",
@@ -449,7 +449,7 @@
     },
     "nodeStaking": {
         "pageTitle": "节点和质押",
-        "pageText": "@nodeandstaking.near",
+        "pageText": "nodeandstaking.near",
         "steps": {
             "title": "为运行节点或质押，请执行以下步骤：",
             "one": {
@@ -488,8 +488,8 @@
     "profile": {
         "pageTitle": {
             "loading": "正在加载...",
-            "notFound": "账户 @${accountId} 未找到",
-            "default": "账户：@${accountId}"
+            "notFound": "账户 ${accountId} 未找到",
+            "default": "账户：${accountId}"
         },
         "details": {
             "profile": "资料",
