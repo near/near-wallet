@@ -475,7 +475,16 @@ class Wallet {
         await store.dispatch(setLedgerTxSigned(true))
         // TODO: getXXX methods shouldn't be modifying the state
         await setKeyMeta(publicKey, { type: 'ledger' })
-        const accountIds = await getAccountIds(publicKey)
+
+        let accountIds
+        try {
+            accountIds = await getAccountIds(publicKey)
+        } catch (error) {
+            if (error.name === 'AbortError') {
+                throw new WalletError('Fetch aborted.', 'signInLedger.getLedgerAccountIds.aborted')
+            }
+            throw error
+        }
 
         const checkedAccountIds = (await Promise.all(
             accountIds
