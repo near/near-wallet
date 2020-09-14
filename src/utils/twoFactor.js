@@ -6,9 +6,10 @@ import { ACCESS_KEY_FUNDING_AMOUNT, convertPKForContract, toPK, MULTISIG_MIN_AMO
 import { utils } from 'near-api-js'
 import { BN } from 'bn.js'
 
-const { transactions: {
-    deleteKey, addKey, functionCall, functionCallAccessKey, deployContract
-}} = nearApiJs
+const { 
+    utils: { PublicKey },
+    transactions: { deleteKey, addKey, functionCall, functionCallAccessKey, deployContract }
+} = nearApiJs
 export const METHOD_NAMES_LAK = ['add_request', 'add_request_and_confirm', 'delete_request', 'confirm']
 const VIEW_METHODS = ['get_request_nonce', 'list_request_ids']
 const METHOD_NAMES_CONFIRM = ['confirm']
@@ -186,11 +187,13 @@ export class TwoFactor {
         const contractBytes = new Uint8Array(await (await fetch('/multisig.wasm')).arrayBuffer())
         const { accountId } = accountData
         const account = this.wallet.getAccount(accountId)
-        const accountKeys = await account.getAccessKeys();
-        const recoveryMethods = await this.wallet.getRecoveryMethods()
-        const recoveryKeysED = recoveryMethods.data.map((rm) => rm.publicKey)
-        const fak2lak = recoveryMethods.data.filter(({ kind, publicKey }) => kind !== 'phrase' && publicKey !== null).map((rm) => toPK(rm.publicKey))
-        fak2lak.push(...accountKeys.filter((ak) => !recoveryKeysED.includes(ak.public_key)).map((ak) => toPK(ak.public_key)))
+        // replace account keys & recovery keys with limited access keys; DO NOT replace seed phrase keys
+        const accountKeys = (await account.getAccessKeys()).map((ak) => ak.public_key)
+        const seedPhraseKeys = (await this.wallet.getRecoveryMethods()).data
+            .filter(({ kind, publicKey }) => kind === 'phrase' && publicKey !== null && accountKeys.includes(publicKey))
+            .map((rm) => rm.publicKey)
+        const fak2lak = accountKeys.filter((k) => !seedPhraseKeys.includes(k)).map((k) => PublicKey.from(k))
+
         const getPublicKey = await this.wallet.postSignedJson('/2fa/getAccessKey', { accountId })
         const confirmOnlyKey = toPK(getPublicKey.publicKey)
         const newArgs = new Uint8Array(new TextEncoder().encode(JSON.stringify({ 'num_confirmations': 2 })));
