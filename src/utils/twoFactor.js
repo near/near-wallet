@@ -203,9 +203,6 @@ export class TwoFactor {
                 .filter((k) => !!k && accountKeys.includes(k))
         ])]
 
-        console.log(fak2lak)
-        return
-
         const getPublicKey = await this.wallet.postSignedJson('/2fa/getAccessKey', { accountId })
         const confirmOnlyKey = toPK(getPublicKey.publicKey)
         const newArgs = new Uint8Array(new TextEncoder().encode(JSON.stringify({ 'num_confirmations': 2 })));
