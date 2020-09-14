@@ -189,7 +189,6 @@ export class TwoFactor {
         const account = this.wallet.getAccount(accountId)
         // replace account keys & recovery keys with limited access keys; DO NOT replace seed phrase keys
         const accountKeys = (await account.getAccessKeys()).map((ak) => ak.public_key)
-            .filter((k) => k.indexOf('9t9') === -1)
         const recoveryMethods = await this.wallet.getRecoveryMethods()
         const seedPhraseKeys = recoveryMethods.data
             .filter(({ kind, publicKey }) => kind === 'phrase' && publicKey !== null)
