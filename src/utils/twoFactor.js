@@ -204,7 +204,7 @@ export class TwoFactor {
             deployContract(contractBytes),
             functionCall('new', newArgs, LAK_ALLOWANCE, '0'),
         ]
-        console.log('deploying multisig contract for', accountId, actions)
+        console.log('deploying multisig contract for', accountId)
         return await account.signAndSendTransaction(accountId, actions);
     }
 }
