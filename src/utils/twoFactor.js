@@ -190,9 +190,8 @@ export class TwoFactor {
         const accountKeys = (await account.getAccessKeys()).map((ak) => ak.public_key)
         const recoveryMethods = await this.wallet.getRecoveryMethods()
         const seedPhraseKeys = recoveryMethods.data
-            .filter(({ kind, publicKey }) => kind === 'phrase' && publicKey !== null)
+            .filter(({ kind, publicKey }) => kind === 'phrase' && publicKey !== null && accountKeys.includes(publicKey))
             .map((rm) => rm.publicKey)
-            .filter((k) => !!k && accountKeys.includes(k))
         const fak2lak = [...new Set([
             ...accountKeys.filter((k) => !seedPhraseKeys.includes(k)),
             ...recoveryMethods.data
