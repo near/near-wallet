@@ -188,17 +188,10 @@ export class TwoFactor {
         const account = this.wallet.getAccount(accountId)
         // replace account keys & recovery keys with limited access keys; DO NOT replace seed phrase keys
         const accountKeys = (await account.getAccessKeys()).map((ak) => ak.public_key)
-        const recoveryMethods = await this.wallet.getRecoveryMethods()
-        const seedPhraseKeys = recoveryMethods.data
+        const seedPhraseKeys = (await this.wallet.getRecoveryMethods()).data
             .filter(({ kind, publicKey }) => kind === 'phrase' && publicKey !== null && accountKeys.includes(publicKey))
             .map((rm) => rm.publicKey)
-        const fak2lak = [...new Set([
-            ...accountKeys.filter((k) => !seedPhraseKeys.includes(k)),
-            ...recoveryMethods.data
-                .filter(({ kind, publicKey }) => kind !== 'phrase' && publicKey !== null)
-                .map((rm) => rm.publicKey)
-                .filter((k) => !!k && accountKeys.includes(k))
-        ])]
+        const fak2lak = accountKeys.filter((k) => !seedPhraseKeys.includes(k))
 
         const getPublicKey = await this.wallet.postSignedJson('/2fa/getAccessKey', { accountId })
         const confirmOnlyKey = toPK(getPublicKey.publicKey)
