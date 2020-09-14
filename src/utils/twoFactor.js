@@ -20,7 +20,6 @@ const actionTypes = {
 export class TwoFactor {
     constructor(wallet) {
         this.wallet = wallet
-        window.twoFactor = this
     }
 
     async checkCanEnableTwoFactor(account) {
