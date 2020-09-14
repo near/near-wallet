@@ -20,6 +20,7 @@ const actionTypes = {
 export class TwoFactor {
     constructor(wallet) {
         this.wallet = wallet
+        window.twoFactor = this
     }
 
     async checkCanEnableTwoFactor(account) {
@@ -186,11 +187,25 @@ export class TwoFactor {
         const contractBytes = new Uint8Array(await (await fetch('/multisig.wasm')).arrayBuffer())
         const { accountId } = accountData
         const account = this.wallet.getAccount(accountId)
-        const accountKeys = await account.getAccessKeys();
+        // replace account keys & recovery keys with limited access keys; DO NOT replace seed phrase keys
+        const accountKeys = (await account.getAccessKeys()).map((ak) => ak.public_key)
+            .filter((k) => k.indexOf('9t9') === -1)
         const recoveryMethods = await this.wallet.getRecoveryMethods()
-        const recoveryKeysED = recoveryMethods.data.map((rm) => rm.publicKey)
-        const fak2lak = recoveryMethods.data.filter(({ kind, publicKey }) => kind !== 'phrase' && publicKey !== null).map((rm) => toPK(rm.publicKey))
-        fak2lak.push(...accountKeys.filter((ak) => !recoveryKeysED.includes(ak.public_key)).map((ak) => toPK(ak.public_key)))
+        const seedPhraseKeys = recoveryMethods.data
+            .filter(({ kind, publicKey }) => kind === 'phrase' && publicKey !== null)
+            .map((rm) => rm.publicKey)
+            .filter((k) => !!k && accountKeys.includes(k))
+        const fak2lak = [...new Set([
+            ...accountKeys.filter((k) => !seedPhraseKeys.includes(k)),
+            ...recoveryMethods.data
+                .filter(({ kind, publicKey }) => kind !== 'phrase' && publicKey !== null)
+                .map((rm) => rm.publicKey)
+                .filter((k) => !!k && accountKeys.includes(k))
+        ])]
+
+        console.log(fak2lak)
+        return
+
         const getPublicKey = await this.wallet.postSignedJson('/2fa/getAccessKey', { accountId })
         const confirmOnlyKey = toPK(getPublicKey.publicKey)
         const newArgs = new Uint8Array(new TextEncoder().encode(JSON.stringify({ 'num_confirmations': 2 })));
