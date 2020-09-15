@@ -80,7 +80,7 @@ const RecoveryContainer = () => {
     const dispatch = useDispatch();
     const account = useSelector(({ account }) => account);
     const accountId = account.accountId;
-    const fullAccessKeys = account.fullAccessKeys.map(key => key.public_key)
+    const fullAccessKeys = account.fullAccessKeys && account.fullAccessKeys.map(key => key.public_key)
     const activeMethods = useRecoveryMethods(accountId).filter(method => fullAccessKeys.includes(method.publicKey) && method.kind !== 'ledger');
     const allKinds = ['email', 'phone', 'phrase'];
     const currentActiveKinds = new Set(activeMethods.map(method => method.kind));
