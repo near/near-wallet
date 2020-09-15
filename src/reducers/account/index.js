@@ -103,14 +103,11 @@ const recoverCodeReducer = handleActions({
 }, initialState)
 
 const accessKeys = handleActions({
-    [getAccessKeys]: (state, { error, payload }) => {
-        console.log(payload)
-        return ({
-            ...state,
-            authorizedApps: payload && payload.filter(it => it.access_key && it.access_key.permission.FunctionCall && it.access_key.permission.FunctionCall.receiver_id !== state.accountId),
-            fullAccessKeys: payload && payload.filter(it => it.access_key && it.access_key.permission === 'FullAccess'),
-        })
-    }
+    [getAccessKeys]: (state, { error, payload }) => ({
+        ...state,
+        authorizedApps: payload && payload.filter(it => it.access_key && it.access_key.permission.FunctionCall && it.access_key.permission.FunctionCall.receiver_id !== state.accountId),
+        fullAccessKeys: payload && payload.filter(it => it.access_key && it.access_key.permission === 'FullAccess'),
+    })
 }, initialState)
 
 const url = handleActions({
