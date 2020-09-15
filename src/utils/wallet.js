@@ -590,6 +590,10 @@ class Wallet {
         const balance = await account.getAccountBalance()
 
         // TODO: Should lockup contract balance be retrieved separately only when needed?
+        if (!accountId.endsWith(`.${ACCOUNT_ID_SUFFIX}`)) {
+            // NOTE: No lockup for TLA as then it gets ambiguous
+            return balance
+        }
         const re = new RegExp(`\.${ACCOUNT_ID_SUFFIX}$`);
         const lockupAccountId = accountId.replace(re, '.' + LOCKUP_ACCOUNT_ID_SUFFIX)
         try {
