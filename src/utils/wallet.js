@@ -26,7 +26,7 @@ export const DISABLE_CREATE_ACCOUNT = process.env.DISABLE_CREATE_ACCOUNT === 'tr
 export const DISABLE_SEND_MONEY = process.env.DISABLE_SEND_MONEY === 'true' || process.env.DISABLE_SEND_MONEY === 'yes'
 export const ACCOUNT_ID_SUFFIX = process.env.REACT_APP_ACCOUNT_ID_SUFFIX || 'testnet'
 export const MULTISIG_MIN_AMOUNT = process.env.REACT_APP_MULTISIG_MIN_AMOUNT || '100'
-export const LOCKUP_ACCOUNT_ID_SUFFIX = process.env.LOCKUP_ACCOUNT_ID_SUFFIX || 'lockup.m0'
+export const LOCKUP_ACCOUNT_ID_SUFFIX = process.env.LOCKUP_ACCOUNT_ID_SUFFIX || 'lockup'
 export const ACCESS_KEY_FUNDING_AMOUNT = process.env.REACT_APP_ACCESS_KEY_FUNDING_AMOUNT || nearApiJs.utils.format.parseNearAmount('0.01')
 export const LINKDROP_GAS = process.env.LINKDROP_GAS || '100000000000000'
 export const ENABLE_FULL_ACCESS_KEYS = process.env.ENABLE_FULL_ACCESS_KEYS === 'yes'
@@ -207,7 +207,6 @@ class Wallet {
         if (!this.isEmpty()) {
             const accessKeys = await this.getAccessKeys() || []
             const ledgerKey = accessKeys.find(key => key.meta.type === 'ledger')
-            console.log("Testing")
             return {
                 ...await this.getAccount(this.accountId).state(),
                 balance: await this.getBalance(),
@@ -543,9 +542,6 @@ class Wallet {
                 'get_unvested_amount'
             ].map(methodName => account.viewFunction(lockupAccountId, methodName)))
 
-            console.log(ownersBalance)
-            console.log(lockedAmount)
-            console.log(lockupAccountId)
             return {
                 ...balance,
                 ownersBalance,
