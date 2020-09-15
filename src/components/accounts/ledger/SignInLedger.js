@@ -71,6 +71,10 @@ export function SignInLedger(props) {
         if (signInWithLedgerStatus === 'confirm-public-key') {
             controllerHelperApi.abort()
         }
+        if (signInWithLedgerStatus === 'enter-accountId') {
+            dispatch(clearSignInWithLedgerModalState())
+        }
+    }
 
     return (
         <Theme>
