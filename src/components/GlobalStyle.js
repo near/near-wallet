@@ -206,6 +206,13 @@ export default createGlobalStyle`
         -moz-appearance:textfield;
     }
 
+    .input-sub-label {
+        font-size: 12px;
+        font-style: italic;
+        text-align: left;
+        margin-top: 10px;
+    }
+
     .spinner {
         margin-right: 10px !important;
         :before,

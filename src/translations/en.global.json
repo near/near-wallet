@@ -11,8 +11,8 @@
         },
         "create": {
             "success": "Congrats! ${accountId} is available.",
-            "error": "Username is taken. Try something else.",
-            "errorInvalidAccountIdLength": "Username must be between 2 and 64 characters",
+            "error": "Account ID is taken. Try something else.",
+            "errorInvalidAccountIdLength": "Account ID must be between 2 and 64 characters",
             "checkingAvailablity": {
                 "create": "Checking availability",
                 "check": "Checking"
@@ -143,7 +143,7 @@
         "disableTitle": "Are you sure you want to disable this method?",
         "disableTextLink": "The magic link you received will be permanently deactivated.",
         "disableTextPhrase": "Your current seed phrase will be permanently deactivated.",
-        "disableInputPlaceholder": "Enter your username to confirm",
+        "disableInputPlaceholder": "Enter your account ID to confirm",
         "disableNo": "No, keep",
         "recoveryLinkSent": "Recovery Link Sent!"
     },
@@ -291,6 +291,11 @@
         "enterWord": {
             "title": "Word",
             "placeholder": ""
+        },
+        "accountId": {
+            "title": "Account ID",
+            "placeholder": "e.g. johndoe.near",
+            "subLabel": "Your account ID must include a Top Level Account such as <b>.near</b>"
         }
     },
 
@@ -318,9 +323,9 @@
 
     "createAccount": {
         "pageTitle": "Create Account",
-        "pageText": "Just choose a username and you’re all set.",
+        "pageText": "Just choose an account ID and you’re all set.",
         "accountIdInput": {
-            "title": "Username",
+            "title": "Account ID",
             "placeholder": "Example: satoshi"
         },
         "alreadyHaveAnAccount": "Already have an account?",
@@ -328,11 +333,11 @@
         "signInLedger": "Sign in with Ledger",
         "note": {
             "title": "NOTE",
-            "one": "Your username can contain any of the following:",
+            "one": "Your account ID can contain any of the following:",
             "two": "Lowercase characters (a-z)",
             "three": "Digits (0-9)",
             "four": "Characters (_-) can be used as separators",
-            "five": "Your username CANNOT contain:",
+            "five": "Your account ID CANNOT contain:",
             "six": "Characters \"@\" or \".\""
         },
         "invalidLinkDrop": {
@@ -350,9 +355,6 @@
     "recoverSeedPhrase": {
         "pageTitle": "Recover using Seed Phrase",
         "pageText": "Enter the backup seed phrase associated with the account.",
-        "accountIdInput": {
-            "title": "Username"
-        },
         "seedPhraseInput": {
             "title": "Seed Phrase (12 words)",
             "placeholder": "correct horse battery staple..."
@@ -435,8 +437,8 @@
         "confirm": {
             "pageTitle": "Are you sure?",
             "pageText": "You are granting <b>full access</b> to ${appTitle}!",
-            "pageTextSecondLine": "<b>To confirm</b>, please enter your username below.",
-            "username": "Username"
+            "pageTextSecondLine": "<b>To confirm</b>, please enter your account ID below.",
+            "username": "Account ID"
         },
         "details": {
             "detailedDescription": "Detailed description of transaction",
@@ -521,7 +523,7 @@
         "details": {
             "profile": "PROFILE",
             "visibleTo": "VISIBLE TO",
-            "username": "Username",
+            "username": "Account ID",
             "public": "Public",
             "totalBalance": "Total Balance",
             "minBalance": "Minimum Balance",
@@ -532,7 +534,7 @@
             "availableBalance": "Available Balance",
             "lockPopup": {
                 "title": "Why is this locked?",
-                "text": "Your username is your unique identifier in the system and cannot be changed because data and asset ownership is tied to it. However you are welcome to ${link} with desired name and transfer assets as needed.",
+                "text": "Your account ID is your unique identifier in the system and cannot be changed because data and asset ownership is tied to it. However you are welcome to ${link} with desired name and transfer assets as needed.",
                 "createAnotherAccount": "create another account"
             },
             "qrDesc": "Use your phone's camera app to send to this address"
@@ -545,7 +547,7 @@
             "default": "Send"
         },
         "accountIdInput": {
-            "title": "Username to send to:"
+            "title": "Account ID to send to:"
         },
         "amountStatusId": {
             "noMoreThan": "NO MORE THAN 5 DECIMAL DIGITS",
