@@ -221,7 +221,8 @@
         "SETUP_RECOVERY_MESSAGE": "You will need to confirm full access details on your Ledger.",
         "ADD_LEDGER_ACCESS_KEY": "You will need to confirm public key details on your Ledger.",
         "GET_LEDGER_PUBLIC_KEY": "You will need to confirm public key access on your Ledger.",
-        "CREATE_NEW_ACCOUNT": "You will need to confirm add a key for new account on your Ledger."
+        "CREATE_NEW_ACCOUNT": "You will need to confirm add a key for new account on your Ledger.",
+        "SIGN_AND_SEND_TRANSACTIONS": "You will need to confirm deposit details on your Ledger."
     },
 
     "button": {
