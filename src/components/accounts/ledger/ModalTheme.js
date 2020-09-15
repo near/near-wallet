@@ -24,8 +24,8 @@ export default createGlobalStyle`
             }
         }
 
-        input {
-            width: 300px !important;
+        .input {
+            width: 100%;
         }
         h4 {
             margin-top: 2rem;
