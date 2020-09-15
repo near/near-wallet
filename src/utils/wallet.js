@@ -218,11 +218,12 @@ class Wallet {
                 balance: await this.getBalance(),
                 accountId: this.accountId,
                 accounts: this.accounts,
+                accessKeys,
                 authorizedApps: accessKeys.filter(it => (
                     it.access_key 
                     && it.access_key.permission.FunctionCall 
                     && it.access_key.permission.FunctionCall.receiver_id !== this.accountId
-                )),
+                )), 
                 fullAccessKeys: accessKeys.filter(it => (
                     it.access_key
                      && it.access_key.permission === 'FullAccess'
@@ -594,7 +595,7 @@ class Wallet {
             // NOTE: No lockup for TLA as then it gets ambiguous
             return balance
         }
-        const re = new RegExp(`\.${ACCOUNT_ID_SUFFIX}$`);
+        const re = new RegExp(`\\.${ACCOUNT_ID_SUFFIX}$`);
         const lockupAccountId = accountId.replace(re, '.' + LOCKUP_ACCOUNT_ID_SUFFIX)
         try {
             // TODO: Makes sense for a lockup contract to return whole state as JSON instead of method per property
