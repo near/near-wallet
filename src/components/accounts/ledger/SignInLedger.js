@@ -68,8 +68,9 @@ export function SignInLedger(props) {
     }
 
     const onClose = () => {
-        controllerHelperApi.abort()
-    }
+        if (signInWithLedgerStatus === 'confirm-public-key') {
+            controllerHelperApi.abort()
+        }
 
     return (
         <Theme>
