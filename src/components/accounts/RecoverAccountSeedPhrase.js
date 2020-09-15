@@ -10,6 +10,9 @@ import Container from '../common/styled/Container.css'
 const StyledContainer = styled(Container)`
     .input {
         width: 100%;
+    }
+
+    .input-sub-label {
         margin-bottom: 30px;
     }
 
