@@ -67,6 +67,10 @@ export function SignInLedger(props) {
         dispatch(redirectToApp())
     }
 
+    const onClose = () => {
+        controllerHelperApi.abort()
+    }
+
     return (
         <Theme>
             <h1><Translate id='signInLedger.header'/></h1>
@@ -86,7 +90,7 @@ export function SignInLedger(props) {
             {signingIn &&
                 <LedgerSignInModal 
                     open={signingIn} 
-                    onClose={() => controllerHelperApi.abort()}
+                    onClose={onClose}
                     ledgerAccounts={ledgerAccounts} 
                     accountsApproved={accountsApproved}
                     totalAccounts={totalAccounts}
