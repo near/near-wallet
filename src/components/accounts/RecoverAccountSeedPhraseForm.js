@@ -30,7 +30,7 @@ const RecoverAccountSeedPhraseForm = ({
                             autoCapitalize='off'
                             autoCorrect='off'
                             autoComplete='off'
-                            autoFocus='true'
+                            autoFocus={true}
                         />
                         <div className='input-sub-label'>{translate('input.accountId.subLabel')}</div>
                     </>
