@@ -1,7 +1,49 @@
 import * as nearApiJs from 'near-api-js'
 import { toNear, gtZero, BOATLOAD_OF_GAS } from './amounts'
 
+
+import { queryExplorer } from './explorer-api'
+
+
+export async function getStakingTransactions(accountId) {
+    if (!accountId) return {}
+
+    const sql = `
+        SELECT
+            transactions.hash, 
+            transactions.signer_id,
+            transactions.block_timestamp, 
+            actions.action_type as kind, 
+            actions.action_args as args,
+            actions.action_args::json->>'method_name' as method_name
+        FROM 
+            transactions
+        LEFT JOIN actions ON actions.transaction_hash = transactions.hash
+        WHERE 
+            transactions.signer_id = :accountId
+        ORDER BY 
+            block_timestamp DESC
+        LIMIT 
+            :offset, :count
+    `
+
+    const params = {
+        accountId, 
+        offset: 0, 
+        count: 5
+    }
+
+    const tx = await queryExplorer(sql, params)
+
+    console.log(tx)
+}
+
+getStakingTransactions('za5.testnet')
+
+
+
 const GAS_STAKE = '40000000000000'
+
 
 const stakingMethods = {
 	viewMethods: [
@@ -67,7 +109,6 @@ export class Staking {
 
         if (has2fa) {
             const actions = [functionCall('deposit_and_stake', {}, GAS_STAKE, amount)]
-
             const res = this.wallet.twoFactor.signAndSendTransactions(account, [{receiverId, actions}])
             console.log(res)
             return res
@@ -83,21 +124,5 @@ export class Staking {
         } catch (e) {
             console.warn(e)
         }
-
-        // const { functionCall } = nearApiJs.transactions
-        // const actions = []
-        // if (gtZero(amount)) {
-        //     actions.push(functionCall('deposit_and_stake', {}, oneHunTgas, amount))
-        // }
-        // console.log(this.wallet)
-        
-        // const res = await contract.get_account_staked_balance({ account_id })
-        // console.log(res)
-
-        // account.signAndSendTransaction(receiverId, actions)
-
-        // this.wallet.signAndSendTransactions([{
-        //     receiverId, actions
-        // }], this.wallet.accountId)
     }
 }
