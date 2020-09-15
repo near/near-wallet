@@ -591,7 +591,7 @@ class Wallet {
         const balance = await account.getAccountBalance()
 
         // TODO: Should lockup contract balance be retrieved separately only when needed?
-        const re = new RegExp(`\.${ACCOUNT_ID_SUFFIX}$`);
+        const re = new RegExp(`.${ACCOUNT_ID_SUFFIX}$`);
         const lockupAccountId = accountId.replace(re, '.' + LOCKUP_ACCOUNT_ID_SUFFIX)
         try {
             // TODO: Makes sense for a lockup contract to return whole state as JSON instead of method per property
