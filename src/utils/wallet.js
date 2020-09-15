@@ -218,11 +218,12 @@ class Wallet {
                 balance: await this.getBalance(),
                 accountId: this.accountId,
                 accounts: this.accounts,
+                accessKeys,
                 authorizedApps: accessKeys.filter(it => (
                     it.access_key 
                     && it.access_key.permission.FunctionCall 
                     && it.access_key.permission.FunctionCall.receiver_id !== this.accountId
-                )),
+                )), 
                 fullAccessKeys: accessKeys.filter(it => (
                     it.access_key
                      && it.access_key.permission === 'FullAccess'
