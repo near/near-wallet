@@ -591,6 +591,10 @@ class Wallet {
         const balance = await account.getAccountBalance()
 
         // TODO: Should lockup contract balance be retrieved separately only when needed?
+        if (!accountId.endsWith(`.${ACCOUNT_ID_SUFFIX}`)) {
+            // NOTE: No lockup for TLA as then it gets ambiguous
+            return balance
+        }
         const re = new RegExp(`\\.${ACCOUNT_ID_SUFFIX}$`);
         const lockupAccountId = accountId.replace(re, '.' + LOCKUP_ACCOUNT_ID_SUFFIX)
         try {
@@ -616,7 +620,7 @@ class Wallet {
                 total: new BN(balance.total).add(new BN(lockedAmount)).add(new BN(ownersBalance)).toString()
             }
         } catch (error) {
-            if (error.message.match(/Account ".+" doesn't exist/)) {
+            if (error.message.match(/Account ".+" doesn't exist/) || error.message.includes('cannot find contract code for account')) {
                 return balance
             }
             throw error
