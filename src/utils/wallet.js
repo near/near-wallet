@@ -213,17 +213,17 @@ class Wallet {
         if (!this.isEmpty()) {
             const accessKeys = await this.getAccessKeys() || []
             const ledgerKey = accessKeys.find(key => key.meta.type === 'ledger')
-            
             return {
                 ...await this.getAccount(this.accountId).state(),
                 balance: await this.getBalance(),
                 accountId: this.accountId,
                 accounts: this.accounts,
+                accessKeys,
                 authorizedApps: accessKeys.filter(it => (
                     it.access_key 
                     && it.access_key.permission.FunctionCall 
                     && it.access_key.permission.FunctionCall.receiver_id !== this.accountId
-                )),
+                )), 
                 fullAccessKeys: accessKeys.filter(it => (
                     it.access_key
                      && it.access_key.permission === 'FullAccess'
@@ -484,15 +484,7 @@ class Wallet {
     }
 
     async getLedgerAccountIds() {
-        let publicKey
-        try {
-            publicKey = await this.getLedgerPublicKey()
-        } catch (error) {
-            if (error.id === 'U2FNotSupported') {
-                throw new WalletError(error.message, 'signInLedger.getLedgerAccountIds.U2FNotSupported')
-            }
-            throw error
-        }
+        const publicKey = await this.getLedgerPublicKey()
         await store.dispatch(setLedgerTxSigned(true))
         // TODO: getXXX methods shouldn't be modifying the state
         await setKeyMeta(publicKey, { type: 'ledger' })
@@ -591,7 +583,12 @@ class Wallet {
         const balance = await account.getAccountBalance()
 
         // TODO: Should lockup contract balance be retrieved separately only when needed?
-        const lockupAccountId = accountId + '.' + LOCKUP_ACCOUNT_ID_SUFFIX
+        if (!accountId.endsWith(`.${ACCOUNT_ID_SUFFIX}`)) {
+            // NOTE: No lockup for TLA as then it gets ambiguous
+            return balance
+        }
+        const re = new RegExp(`\\.${ACCOUNT_ID_SUFFIX}$`);
+        const lockupAccountId = accountId.replace(re, '.' + LOCKUP_ACCOUNT_ID_SUFFIX)
         try {
             // TODO: Makes sense for a lockup contract to return whole state as JSON instead of method per property
             const [
@@ -615,7 +612,7 @@ class Wallet {
                 total: new BN(balance.total).add(new BN(lockedAmount)).add(new BN(ownersBalance)).toString()
             }
         } catch (error) {
-            if (error.message.match(/Account ".+" doesn't exist/)) {
+            if (error.message.match(/Account ".+" doesn't exist/) || error.message.includes('cannot find contract code for account')) {
                 return balance
             }
             throw error

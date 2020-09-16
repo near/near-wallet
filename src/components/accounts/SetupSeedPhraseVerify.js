@@ -76,16 +76,6 @@ const SetupSeedPhraseVerify = ({
         >
             <Translate id='button.verify' />
         </FormButton>
-
-        <div className='start-over h4'>
-            <Translate id='setupSeedPhraseVerify.startOverText' />
-            <FormButton
-                onClick={handleStartOver}
-                color='link'
-            >
-                <Translate id='button.startOver' />
-            </FormButton>
-        </div>
     </CustomDiv>
 )
 

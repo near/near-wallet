@@ -46,11 +46,13 @@ class RecoverAccountSeedPhrase extends Component {
     componentDidMount = () => {}
 
     handleChange = (e, { name, value }) => {
-        this.setState(() => ({
-            [name]: value
-        }))
+        if (!(name === 'accountId' && value.match(/[^a-zA-Z0-9._-]/))) {
+            this.setState(() => ({
+                [name]: value
+            }))
 
-        this.props.clear()
+            this.props.clear()
+        }
     }
 
     handleSubmit = async () => {
