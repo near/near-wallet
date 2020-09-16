@@ -120,8 +120,6 @@ class Wallet {
 
         this.twoFactor = new TwoFactor(this)
         this.staking = new Staking(this)
-
-        console.log(this)
     }
 
     async getLocalAccessKey(accountId, accessKeys) {
@@ -217,6 +215,7 @@ class Wallet {
         if (!this.isEmpty()) {
             const accessKeys = await this.getAccessKeys() || []
             const ledgerKey = accessKeys.find(key => key.meta.type === 'ledger')
+            
             return {
                 ...await this.getAccount(this.accountId).state(),
                 balance: await this.getBalance(),

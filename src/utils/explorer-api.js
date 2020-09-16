@@ -13,8 +13,9 @@ export const queryExplorer = (sql, params) => new Promise((resolve, reject) => w
         onSuccess(dataArr) {
             resolve(dataArr[0]);
         },
-        onError(err) {
-            reject(err);
+        onError(...args) {
+            console.log(args)
+            reject(args);
         }
     }
 ));

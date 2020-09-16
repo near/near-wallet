@@ -1,50 +1,9 @@
 import * as nearApiJs from 'near-api-js'
 import { toNear, gtZero, BOATLOAD_OF_GAS } from './amounts'
-
-
 import { queryExplorer } from './explorer-api'
 
-
-export async function getStakingTransactions(accountId) {
-    if (!accountId) return {}
-
-    const sql = `
-        SELECT
-            transactions.hash, 
-            transactions.signer_id,
-            transactions.block_timestamp, 
-            actions.action_type as kind, 
-            actions.action_args as args,
-            actions.action_args::json->>'method_name' as method_name
-        FROM 
-            transactions
-        LEFT JOIN actions ON actions.transaction_hash = transactions.hash
-        WHERE 
-            transactions.signer_id = :accountId
-        ORDER BY 
-            block_timestamp DESC
-        LIMIT 
-            :offset, :count
-    `
-
-    const params = {
-        accountId, 
-        offset: 0, 
-        count: 5
-    }
-
-    const tx = await queryExplorer(sql, params)
-
-    console.log(tx)
-}
-
-getStakingTransactions('za5.testnet')
-
-
-
-const GAS_STAKE = '40000000000000'
-
-
+const { functionCall } = nearApiJs.transactions
+const GAS_STAKE = '100000000000000' // 100 Tgas
 const stakingMethods = {
 	viewMethods: [
 		'get_account_staked_balance',
@@ -83,7 +42,11 @@ export class Staking {
     async getValidators() {
         const res = await this.provider.validators()
         const account = this.wallet.getAccount()
+        const stakingTxs = await getStakingTransactions(this.wallet.accountId)
+        const validatorIdsStaked = stakingTxs.map((tx) => tx.receiver_id)
         const validatorIds = res.current_validators.map((v) => v.account_id)
+            // .filter((v) => validatorIdsStaked.includes(v))
+            // console.log('validatorIds', validatorIds)
         for (validator of validatorIds) {
             const validator = {
                 name: validator,
@@ -100,29 +63,82 @@ export class Staking {
         return this.validators
     }
 
-    async stake(receiverId, amount) {
-        const { functionCall } = nearApiJs.transactions
+    async stake(validatorId, amount) {
         amount = toNear(amount)
-
+        let receiverId = validatorId
         const account_id = this.wallet.accountId
         const { account, has2fa } = await this.wallet.getAccountAndState(account_id)
 
-        if (has2fa) {
-            const actions = [functionCall('deposit_and_stake', {}, GAS_STAKE, amount)]
-            const res = this.wallet.twoFactor.signAndSendTransactions(account, [{receiverId, actions}])
-            console.log(res)
-            return res
-        }
+        const useLockup = window.confirm('use lockup?')
+        const lockupId = 'matt2.lockup.m0'
 
-        const contract = await new nearApiJs.Contract(account, receiverId, {
-            ...stakingMethods,
-            sender: account_id
-        })
-        try {
-            const res = await contract.deposit_and_stake({}, GAS_STAKE, amount)
-            console.log(res)
-        } catch (e) {
-            console.warn(e)
+        // create actions
+        const actions = []
+        if (useLockup) {
+            actions.push(
+                functionCall('select_staking_pool', { staking_pool_account_id: validatorId }, GAS_STAKE),
+                functionCall('deposit_and_stake', { amount }, GAS_STAKE)
+            )
+            receiverId = lockupId
+        } else {
+            actions.push(functionCall('deposit_and_stake', {}, GAS_STAKE, amount))
         }
+        // complete tx
+        let res
+        if (has2fa) {
+            res = await this.wallet.signAndSendTransactions(account, [{receiverId, actions}])
+        } else {
+            res = await account.signAndSendTransaction(receiverId, actions)
+        }
+        console.log(res)
+        return res
     }
+}
+
+async function getStakingTransactions(accountId) {
+    if (!accountId) return {}
+    const sql = `
+        SELECT
+            transactions.hash, 
+            transactions.signer_id,
+            transactions.receiver_id,
+            transactions.block_timestamp, 
+            actions.action_type as kind, 
+            actions.action_args as args
+        FROM 
+            transactions
+        LEFT JOIN actions ON actions.transaction_hash = transactions.hash
+        WHERE 
+            transactions.signer_id = :accountId
+            AND
+            (
+                (
+                    json_extract(actions.action_args, '$.method_name') like '%stake'
+                    AND
+                    transactions.receiver_id in (:validators)
+                )
+                OR
+                (
+                    json_extract(actions.action_args, '$.method_name') = 'add_request_and_confirm'
+                    AND
+                    json_extract(actions.action_args, '$.request.actions.method_name') like '%stake'
+                    AND
+                    json_extract(actions.action_args, '$.request.receiver_id') in (:validators)
+                )
+            )   
+        ORDER BY 
+            block_timestamp DESC
+        LIMIT 
+            :offset, :count
+    `
+    const params = {
+        accountId, 
+        offset: 0, 
+        count: 100,
+        validators: ['alexandruast.pool.f863973.m0', 'aquarius.pool.f863973.m0']
+    }
+
+    const tx = await queryExplorer(sql, params)
+
+    return Array.isArray(tx) ? tx : []
 }

@@ -9,7 +9,6 @@ const initialState = {
 
 const stakingHandlers = handleActions({
     [getValidators]: (state, { error, payload }) => {
-        console.log(state, error, payload)
         return {
             ...state,
             validators: payload || []
