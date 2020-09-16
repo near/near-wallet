@@ -17,8 +17,11 @@ export const loadRecoveryMethods = createAction('LOAD_RECOVERY_METHODS',
 export const handleRedirectUrl = (previousLocation) => (dispatch, getState) => {
     const { pathname } = getState().router.location
     const isValidRedirectUrl = previousLocation.pathname.includes(WALLET_LOGIN_URL) || previousLocation.pathname.includes(WALLET_SIGN_URL)
+    const page = pathname.split('/')[1]
+    const guestLandingPage = !page && !wallet.accountId
+    const createAccountPage = page === WALLET_CREATE_NEW_ACCOUNT_URL
 
-    if (pathname.split('/')[1] === WALLET_CREATE_NEW_ACCOUNT_URL && isValidRedirectUrl) {
+    if ((guestLandingPage || createAccountPage) && isValidRedirectUrl) {
         let url = {
             ...getState().account.url,
             redirect_url: previousLocation.pathname
@@ -31,8 +34,11 @@ export const handleRedirectUrl = (previousLocation) => (dispatch, getState) => {
 
 export const handleClearUrl = () => (dispatch, getState) => {
     const { pathname } = getState().router.location
-    if (![...WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS, WALLET_LOGIN_URL, WALLET_SIGN_URL].includes(pathname.split('/')[1])) {
+    const page = pathname.split('/')[1]
+    const guestLandingPage = !page && !wallet.accountId
+    const saveUrlPages = [...WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS, WALLET_LOGIN_URL, WALLET_SIGN_URL].includes(page)
 
+    if (!guestLandingPage && !saveUrlPages) {
         clearState()
         dispatch(refreshUrl({}))
     }
@@ -125,8 +131,12 @@ export const allowLogin = () => async (dispatch, getState) => {
 
 export const signInWithLedger = () => async (dispatch, getState) => {
     await dispatch(getLedgerAccountIds())
-    
+
     const accountIds = Object.keys(getState().ledger.signInWithLedger)
+    return await dispatch(signInWithLedgerAddAndSaveAccounts(accountIds))
+}
+
+export const signInWithLedgerAddAndSaveAccounts = (accountIds) => async (dispatch, getState) => {
     for (let i = 0; i < accountIds.length; i++) {
         await dispatch(addLedgerAccountId(accountIds[i]))
         await dispatch(setLedgerTxSigned(false, accountIds[i]))
@@ -137,7 +147,7 @@ export const signInWithLedger = () => async (dispatch, getState) => {
 
 const defaultCodesFor = (prefix, data) => ({ successCode: `${prefix}.success`, errorCode: `${prefix}.error`, prefix, data})
 
-export const { initializeRecoveryMethod, validateSecurityCode, initTwoFactor, reInitTwoFactor, sendTwoFactor, resendTwoFactor, verifyTwoFactor, promptTwoFactor, deployMultisig, get2faMethod, getLedgerKey, getLedgerPublicKey, setupRecoveryMessage, deleteRecoveryMethod, checkNewAccount, createNewAccount, checkAccountAvailable, getTransactions, getTransactionStatus, clear, clearCode } = createActions({
+export const { initializeRecoveryMethod, validateSecurityCode, initTwoFactor, reInitTwoFactor, sendTwoFactor, resendTwoFactor, verifyTwoFactor, promptTwoFactor, deployMultisig, checkCanEnableTwoFactor, get2faMethod, getLedgerKey, getLedgerPublicKey, setupRecoveryMessage, deleteRecoveryMethod, checkNearDropBalance, checkNewAccount, createNewAccount, checkAccountAvailable, getTransactions, getTransactionStatus, clear, clearCode } = createActions({
     INITIALIZE_RECOVERY_METHOD: [
         wallet.initializeRecoveryMethod.bind(wallet),
         () => defaultCodesFor('account.initializeRecoveryMethod')
@@ -190,6 +200,10 @@ export const { initializeRecoveryMethod, validateSecurityCode, initTwoFactor, re
         wallet.twoFactor.deployMultisig.bind(wallet.twoFactor),
         () => defaultCodesFor('account.deployMultisig')
     ],
+    CHECK_CAN_ENABLE_TWO_FACTOR: [
+        wallet.twoFactor.checkCanEnableTwoFactor.bind(wallet.twoFactor),
+        () => defaultCodesFor('account.checkCanEnableTwoFactor')
+    ],
     GET_2FA_METHOD: [
         wallet.twoFactor.get2faMethod.bind(wallet.twoFactor),
         () => defaultCodesFor('account.get2faMethod')
@@ -204,14 +218,15 @@ export const { initializeRecoveryMethod, validateSecurityCode, initTwoFactor, re
     ],
     SETUP_RECOVERY_MESSAGE: [
         wallet.setupRecoveryMessage.bind(wallet),
-        (accountId, method, securityCode, isNew) => ({
-            ...defaultCodesFor('account.setupRecoveryMessage'),
-            isNew
-        })
+        () => defaultCodesFor('account.setupRecoveryMessage')
     ],
     DELETE_RECOVERY_METHOD: [
         wallet.deleteRecoveryMethod.bind(wallet),
         () => defaultCodesFor('account.deleteRecoveryMethod')
+    ],
+    CHECK_NEAR_DROP_BALANCE: [
+        wallet.checkNearDropBalance.bind(wallet),
+        () => defaultCodesFor('account.nearDropBalance')
     ],
     CHECK_NEW_ACCOUNT: [
         wallet.checkNewAccount.bind(wallet),
@@ -229,13 +244,14 @@ export const { initializeRecoveryMethod, validateSecurityCode, initTwoFactor, re
     CLEAR_CODE: null
 })
 
-export const { getAccessKeys, removeAccessKey, addLedgerAccessKey, disableLedger, removeNonLedgerAccessKeys, getLedgerAccountIds, addLedgerAccountId, saveAndSelectLedgerAccounts, setLedgerTxSigned } = createActions({
+export const { getAccessKeys, removeAccessKey, addLedgerAccessKey, connectLedger, disableLedger, removeNonLedgerAccessKeys, getLedgerAccountIds, addLedgerAccountId, saveAndSelectLedgerAccounts, setLedgerTxSigned, clearSignInWithLedgerModalState, showLedgerModal } = createActions({
     GET_ACCESS_KEYS: [wallet.getAccessKeys.bind(wallet), () => ({})],
     REMOVE_ACCESS_KEY: [
         wallet.removeAccessKey.bind(wallet),
         () => defaultCodesFor('authorizedApps.removeAccessKey', { onlyError: true })
     ],
     ADD_LEDGER_ACCESS_KEY: [wallet.addLedgerAccessKey.bind(wallet), () => defaultCodesFor('errors.ledger', { onlyError: true })],
+    CONNECT_LEDGER: [wallet.connectLedger.bind(wallet), () => defaultCodesFor('errors.ledger')],
     DISABLE_LEDGER: [wallet.disableLedger.bind(wallet), () => defaultCodesFor('errors.ledger')],
     REMOVE_NON_LEDGER_ACCESS_KEYS: [wallet.removeNonLedgerAccessKeys.bind(wallet), () => ({})],
     GET_LEDGER_ACCOUNT_IDS: [wallet.getLedgerAccountIds.bind(wallet), () => defaultCodesFor('signInLedger.getLedgerAccountIds')],
@@ -252,7 +268,9 @@ export const { getAccessKeys, removeAccessKey, addLedgerAccessKey, disableLedger
         (status, accountId) => ({
             accountId
         })
-    ]
+    ],
+    CLEAR_SIGN_IN_WITH_LEDGER_MODAL_STATE: null,
+    SHOW_LEDGER_MODAL: null
 })
 
 export const { addAccessKey, addAccessKeySeedPhrase, clearAlert } = createActions({
@@ -262,6 +280,19 @@ export const { addAccessKey, addAccessKeySeedPhrase, clearAlert } = createAction
     ],
     ADD_ACCESS_KEY_SEED_PHRASE: [
         async (accountId, recoveryKeyPair, isNew, fundingContract, fundingKey) => {
+            // TODO: Should this be 2 different actions when you add to existing account / create new one?
+            // TODO: Refactor to "create with public key" action which will save metadata in CH in generic way for all methods?
+
+            // TODO: Remove isNew parameter from everywhere. Stuff available on chain should be queried from chain.
+            try {
+                await wallet.getAccount(accountId).state();
+                isNew = false;
+            } catch (e) {
+                if (e.toString().includes(`does not exist while viewing`)) {
+                    isNew = true;
+                }
+            }
+
             if (isNew) {
                 await wallet.saveAccount(accountId, recoveryKeyPair);
                 await wallet.createNewAccount(accountId, fundingContract, fundingKey, recoveryKeyPair.publicKey)
@@ -282,10 +313,7 @@ export const { addAccessKey, addAccessKeySeedPhrase, clearAlert } = createAction
 
             await wallet.postSignedJson('/account/seedPhraseAdded', { accountId, publicKey })
         },
-        (accountId, recoveryKeyPair, isNew) => ({
-            ...defaultCodesFor('account.setupSeedPhrase'),
-            isNew
-        })
+        () => defaultCodesFor('account.setupSeedPhrase')
     ],
     CLEAR_ALERT: null,
 })

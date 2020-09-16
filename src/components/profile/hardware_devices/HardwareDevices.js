@@ -10,7 +10,9 @@ import HardwareDeviceIcon from '../../svg/HardwareDeviceIcon';
 import { 
     getAccessKeys,
     disableLedger,
-    getLedgerKey
+    getLedgerKey,
+    connectLedger,
+    getLedgerPublicKey
 } from '../../../actions/account';
 import { useRecoveryMethods } from '../../../hooks/recoveryMethods';
 import ConfirmDisable from './ConfirmDisable';
@@ -74,6 +76,11 @@ const Container = styled(Card)`
         margin-top: 20px;
         display: block;
     }
+
+    .color-red {
+        margin-top: 20px;
+    }
+
 `
 
 const HardwareDevices = () => {
@@ -84,10 +91,12 @@ const HardwareDevices = () => {
     const account = useSelector(({ account }) => account);
     const recoveryMethods = useRecoveryMethods(account.accountId);
     const keys = account.fullAccessKeys || [];
-    const recoveryKeys = recoveryMethods.map(key => key.publicKey)
+    const recoveryKeys = recoveryMethods.filter(method => method.kind !== 'ledger').map(key => key.publicKey)
     const publicKeys = keys.map(key => key.public_key)
     const hasOtherMethods = publicKeys.some(key => recoveryKeys.includes(key))
-    const hasLedger = account.ledgerKey !== null;
+    const hasLedger = recoveryMethods.filter(method => method.kind === 'ledger').map(key => key.publicKey).some(key => publicKeys.includes(key))
+    const ledgerIsConnected = account.ledgerKey !== null;
+    const hasLedgerButNotConnected = hasLedger && !ledgerIsConnected
 
     const handleConfirmDisable = async () => {
         try {
@@ -98,6 +107,22 @@ const HardwareDevices = () => {
             await dispatch(getLedgerKey())
             setDisabling(false)
             setConfirmDisable(false);
+        }
+    }
+
+    const handleConnectLedger = async () => {
+        const ledgerPublicKey = await dispatch(getLedgerPublicKey())
+        await dispatch(connectLedger(ledgerPublicKey))
+        await dispatch(getLedgerKey())
+    }
+
+    const getActionButton = () => {
+        if (ledgerIsConnected) {
+            return <FormButton disabled={!hasOtherMethods} color='gray-red' onClick={() => setConfirmDisable(true)}><Translate id='button.disable'/></FormButton>
+        } else if (hasLedgerButNotConnected) {
+            return <FormButton color='blue' onClick={handleConnectLedger}><Translate id='button.connect'/></FormButton>
+        } else {
+            return <FormButton linkTo={`/setup-ledger/${account.accountId}`} color='blue'><Translate id='button.enable'/></FormButton> 
         }
     }
     
@@ -113,13 +138,9 @@ const HardwareDevices = () => {
                     <div className='device'>
                         <div className='name'>
                             <Translate id='hardwareDevices.ledger.title'/>
-                            {hasLedger && <div><Translate id='hardwareDevices.ledger.auth'/></div>}
+                            {ledgerIsConnected && <div><Translate id='hardwareDevices.ledger.auth'/></div>}
                         </div>
-                        {!hasLedger ? 
-                            <FormButton linkTo={`/setup-ledger/${account.accountId}`} color='blue'><Translate id='button.enable'/></FormButton> 
-                            : 
-                            <FormButton disabled={!hasOtherMethods} color='gray-red' onClick={() => setConfirmDisable(true)}><Translate id='button.disable'/></FormButton>
-                        }
+                        {getActionButton()}
                     </div>
                 </>
                 :
@@ -130,8 +151,11 @@ const HardwareDevices = () => {
                     disabling={disabling}
                 />
             }
-            {!hasOtherMethods && hasLedger && 
+            {!hasOtherMethods && ledgerIsConnected && 
                 <i><Translate id='hardwareDevices.ledger.disclaimer'/></i>
+            }
+            {hasLedgerButNotConnected &&
+                <div className='color-red'><Translate id='hardwareDevices.ledger.connect'/></div>
             }
         </Container>
     )

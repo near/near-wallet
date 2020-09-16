@@ -116,7 +116,7 @@ const ProfileDetails = ({
                 <Translate id='profile.details.username' />
             </Grid.Column>
             <Grid.Column computer='6' tablet='6' mobile='4'>
-                @{accountId}
+                {accountId}
             </Grid.Column>
             <Grid.Column computer='4' tablet='4' textAlign='center' only='tablet'>
                 <Translate id='profile.details.public' />

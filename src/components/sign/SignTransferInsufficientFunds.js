@@ -62,7 +62,7 @@ const SignTransferInsufficientFunds = ({ handleDeny, handleAddFunds }) => (
                     tablet={16}
                     textAlign='center'
                 >
-                    <Translate id='sign.contract' /> @contractname.near
+                    <Translate id='sign.contract' /> contractname.near
                 </Grid.Column>
             </Grid.Row>
         </Grid>

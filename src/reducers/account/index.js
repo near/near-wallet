@@ -19,6 +19,7 @@ import {
     recoverAccountSeedPhrase,
     removeAccessKey,
     deployMultisig,
+    checkCanEnableTwoFactor,
     get2faMethod,
     getLedgerKey,
     sendMoney,
@@ -32,6 +33,7 @@ const initialState = {
     sentMessage: false,
     requestPending: null,
     actionsPending: [],
+    canEnableTwoFactor: null,
     twoFactor: null,
     ledgerKey: null
 }
@@ -115,6 +117,13 @@ const url = handleActions({
     })
 }, initialState)
 
+const canEnableTwoFactor = handleActions({
+    [checkCanEnableTwoFactor]: (state, { payload }) => ({
+        ...state,
+        canEnableTwoFactor: payload
+    })
+}, initialState)
+
 const twoFactor = handleActions({
     [get2faMethod]: (state, { payload }) => ({
         ...state,
@@ -182,6 +191,7 @@ export default reduceReducers(
     accessKeys,
     account,
     url,
+    canEnableTwoFactor,
     twoFactor,
     twoFactorPrompt,
     ledgerKey

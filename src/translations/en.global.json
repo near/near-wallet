@@ -11,14 +11,13 @@
         },
         "create": {
             "success": "Congrats! ${accountId} is available.",
-            "error": "Username is taken. Try something else.",
-            "errorInvalidAccountIdLength": "Username must be between 2 and 64 characters",
+            "error": "Account ID is taken. Try something else.",
+            "errorInvalidAccountIdLength": "Account ID must be between 2 and 64 characters",
             "checkingAvailablity": {
                 "create": "Checking availability",
                 "check": "Checking"
             },
-            "errorAccountNotExist": "There was a problem creating your account. Please try again!",
-            "modal": "You will need to confirm add a key for new account on your Ledger."
+            "errorAccountNotExist": "There was a problem creating your account. Please try again!"
         },
         "available": {
             "success": "User found.",
@@ -30,13 +29,11 @@
         },
         "setupSeedPhrase": {
             "success": "Seed phrase recovery setup is complete.",
-            "error": "An error occurred while setting up seed phrase recovery. Please try again!",
-            "modal": "You will need to confirm full access details on your Ledger."
+            "error": "An error occurred while setting up seed phrase recovery. Please try again!"
         },
         "setupRecoveryMessage": {
             "success": "Recovery setup is complete.",
-            "error": "An error occurred while setting up your recovery method. Please try again!",
-            "modal": "You will need to confirm full access details on your Ledger."
+            "error": "An error occurred while setting up your recovery method. Please try again!"
         },
         "sendNewRecoveryLink": {
             "success": "Recovery link successfully sent!",
@@ -54,38 +51,27 @@
             },
             "incorrectContractId": {
                 "error": "The contract ${contractId} does not exist. This may be an issue with the application you are trying to use, or this contract may have been deleted. You will be redirected back to the application"
-            },
-            "modal": "You will need to confirm login details on your Ledger."
+            }
         },
         "nameDoesntMatch": "Account name doesn't match",
         "sendMoney": {
-            "error": "Please check that your device is connected and the NEAR app is open.",
-            "modal": "You will need to confirm transfer details on your Ledger."
-        },
-        "signAndSendTransactions": {
-            "modal": "You will need to confirm deposit details on your Ledger."
-        },
-        "deleteRecoveryMethod": {
-            "modal": "You will need to confirm delete key details on your Ledger."
-        },
-        "LedgerPublicKey": {
-            "modal": "You will need to confirm public key access on your Ledger"
+            "error": "Please check that your device is connected and the NEAR app is open."
         }
     },
 
     "actions": {
-        "CreateAccount": "New account created: @${receiverId}",
-        "DeleteAccount": "Account deleted: @${receiverId}",
-        "DeployContract": "Contract deployed: @${receiverId}",
-        "FunctionCall": "Called method: ${methodName} in contract: @${receiverId}",
+        "CreateAccount": "New account created: ${receiverId}",
+        "DeleteAccount": "Account deleted: ${receiverId}",
+        "DeployContract": "Contract deployed: ${receiverId}",
+        "FunctionCall": "Called method: ${methodName} in contract: ${receiverId}",
         "Transfer": {
-            "transferred": "Transferred ${deposit} to @${receiverId}",
-            "received": "Received ${deposit} from @${signerId}"
+            "transferred": "Transferred ${deposit} to ${receiverId}",
+            "received": "Received ${deposit} from ${signerId}"
         },
         "Stake": "Staked ${stake}",
         "AddKey": {
-            "forContract": "Access key added for contract: @${permissionReceiverId}",
-            "forReceiver": "New key added for @${receiverId}"
+            "forContract": "Access key added for contract: ${permissionReceiverId}",
+            "forReceiver": "New key added for ${receiverId}"
         },
         "DeleteKey": "Key deleted"
     },
@@ -157,7 +143,7 @@
         "disableTitle": "Are you sure you want to disable this method?",
         "disableTextLink": "The magic link you received will be permanently deactivated.",
         "disableTextPhrase": "Your current seed phrase will be permanently deactivated.",
-        "disableInputPlaceholder": "Enter your username to confirm",
+        "disableInputPlaceholder": "Enter your account ID to confirm",
         "disableNo": "No, keep",
         "recoveryLinkSent": "Recovery Link Sent!"
     },
@@ -168,7 +154,8 @@
         "ledger": {
             "title": "Ledger Nano S or X",
             "auth": "Authorized",
-            "disclaimer": "In order to disable your ledger device, you must first enable an alternative recovery method."
+            "disclaimer": "In order to disable your ledger device, you must first enable an alternative recovery method.",
+            "connect": "Your ledger is not currently connected. We advise that you re-connect your Ledger to ensure your account is secured."
         },
         "disable": {
             "title": "Are you sure you want to disable Ledger?",
@@ -187,6 +174,7 @@
         "email": "Email Address",
         "phone": "Phone Number",
         "notEnabled": "2FA Not Enabled",
+        "notEnoughBalance": "To enable 2FA, your account requires a minimum available balance of",
         "active": "Active",
         "since": "since",
         "promptDesc": "We highly recommend that you set up a two-factor authentication method to increase the security of your account and assests",
@@ -219,9 +207,21 @@
         "publicKey": "Public Key",
         "ledger": "Ledger",
         "removeAccessKey": {
-            "error": "Please check that your device is connected and the NEAR app is open.",
-            "modal": "You will need to confirm delete key details on your Ledger."
+            "error": "Please check that your device is connected and the NEAR app is open."
         }
+    },
+
+    "ledgerSignTxModal": {
+        "SEND_MONEY": "You will need to confirm transfer details on your Ledger.",
+        "ADD_ACCESS_KEY": "You will need to confirm login details on your Ledger.",
+        "SET_SIGN_TRANSACTION_STATUS": "You will need to confirm deposit details on your Ledger.",
+        "REMOVE_ACCESS_KEY": "You will need to confirm delete key details on your Ledger.",
+        "ADD_ACCESS_KEY_SEED_PHRASE": "You will need to confirm full access details on your Ledger.",
+        "DELETE_RECOVERY_METHOD": "You will need to confirm delete key details on your Ledger.",
+        "SETUP_RECOVERY_MESSAGE": "You will need to confirm full access details on your Ledger.",
+        "ADD_LEDGER_ACCESS_KEY": "You will need to confirm public key details on your Ledger.",
+        "GET_LEDGER_PUBLIC_KEY": "You will need to confirm public key access on your Ledger.",
+        "CREATE_NEW_ACCOUNT": "You will need to confirm add a key for new account on your Ledger."
     },
 
     "button": {
@@ -241,6 +241,7 @@
         "disable": "Disable",
         "signInLedger": "Sign in with Ledger",
         "connectLedger": "Connect to Ledger",
+        "connect": "Connect",
         "retry": "Retry",
         "browseApps": "BROWSE APPS",
         "createAccountCapital": "CREATE ACCOUNT",
@@ -290,6 +291,11 @@
         "enterWord": {
             "title": "Word",
             "placeholder": ""
+        },
+        "accountId": {
+            "title": "Account ID",
+            "placeholder": "e.g. johndoe.near",
+            "subLabel": "Your account ID must include a Top Level Account such as <b>.near</b>"
         }
     },
 
@@ -317,9 +323,9 @@
 
     "createAccount": {
         "pageTitle": "Create Account",
-        "pageText": "Just choose a username and you’re all set.",
+        "pageText": "Just choose an account ID and you’re all set.",
         "accountIdInput": {
-            "title": "Username",
+            "title": "Account ID",
             "placeholder": "Example: satoshi"
         },
         "alreadyHaveAnAccount": "Already have an account?",
@@ -327,26 +333,28 @@
         "signInLedger": "Sign in with Ledger",
         "note": {
             "title": "NOTE",
-            "one": "Your username can contain any of the following:",
+            "one": "Your account ID can contain any of the following:",
             "two": "Lowercase characters (a-z)",
             "three": "Digits (0-9)",
             "four": "Characters (_-) can be used as separators",
-            "five": "Your username CANNOT contain:",
+            "five": "Your account ID CANNOT contain:",
             "six": "Characters \"@\" or \".\""
+        },
+        "invalidLinkDrop": {
+            "title": "Link Invalid",
+            "one": "This NEAR Drop has been claimed.",
+            "two": "NEAR Drops can only be used to create a single account, after which the link will expire."
         }
     },
 
     "topLevelAccounts": {
         "header": "Top Level Accounts",
-        "body": "Account names are similar to domain names. Only the @${suffix} account can create accounts such as @yourname.${suffix}, and only @yourname.${suffix} can create @app.yourname.${suffix}. All accounts created in this wallet use the .${suffix} Top Level Account (TLA). To learn more about account names and creating your own TLA, visit the <a rel='noopener noreferrer' href='https://docs.nearprotocol.com/docs/concepts/account'>docs</a>."
+        "body": "Account names are similar to domain names. Only the ${suffix} account can create accounts such as yourname.${suffix}, and only yourname.${suffix} can create app.yourname.${suffix}. All accounts created in this wallet use the .${suffix} Top Level Account (TLA). To learn more about account names and creating your own TLA, visit the <a rel='noopener noreferrer' href='https://docs.nearprotocol.com/docs/concepts/account'>docs</a>."
     },
 
     "recoverSeedPhrase": {
         "pageTitle": "Recover using Seed Phrase",
         "pageText": "Enter the backup seed phrase associated with the account.",
-        "accountIdInput": {
-            "title": "Username"
-        },
         "seedPhraseInput": {
             "title": "Seed Phrase (12 words)",
             "placeholder": "correct horse battery staple..."
@@ -370,7 +378,7 @@
     },
     "setRecoveryConfirm": {
         "title": "Enter Verification Code",
-        "pageText": "We've sent a 6-digit verification code to the ${option} you provided:",
+        "pageText": "We've sent a 6-digit verification code to the ",
         "inputHeader": "Enter your 6-digit verification code",
         "inputPlaceholder": "Verification Code",
         "invalidCode": "Invalid code",
@@ -429,8 +437,8 @@
         "confirm": {
             "pageTitle": "Are you sure?",
             "pageText": "You are granting <b>full access</b> to ${appTitle}!",
-            "pageTextSecondLine": "<b>To confirm</b>, please enter your username below.",
-            "username": "Username"
+            "pageTextSecondLine": "<b>To confirm</b>, please enter your account ID below.",
+            "username": "Account ID"
         },
         "details": {
             "detailedDescription": "Detailed description of transaction",
@@ -470,7 +478,7 @@
     },
     "nodeStaking": {
         "pageTitle": "Node & Staking",
-        "pageText": "@nodeandstaking.near",
+        "pageText": "nodeandstaking.near",
         "steps": {
             "title": "To run a node or stake, please fallow these steps:",
             "one": {
@@ -509,13 +517,13 @@
     "profile": {
         "pageTitle": {
             "loading": "Loading...",
-            "notFound": "Account @${accountId} not found",
-            "default": "Account: @${accountId}"
+            "notFound": "Account ${accountId} not found",
+            "default": "Account: ${accountId}"
         },
         "details": {
             "profile": "PROFILE",
             "visibleTo": "VISIBLE TO",
-            "username": "Username",
+            "username": "Account ID",
             "public": "Public",
             "totalBalance": "Total Balance",
             "minBalance": "Minimum Balance",
@@ -526,7 +534,7 @@
             "availableBalance": "Available Balance",
             "lockPopup": {
                 "title": "Why is this locked?",
-                "text": "Your username is your unique identifier in the system and cannot be changed because data and asset ownership is tied to it. However you are welcome to ${link} with desired name and transfer assets as needed.",
+                "text": "Your account ID is your unique identifier in the system and cannot be changed because data and asset ownership is tied to it. However you are welcome to ${link} with desired name and transfer assets as needed.",
                 "createAnotherAccount": "create another account"
             },
             "qrDesc": "Use your phone's camera app to send to this address"
@@ -539,7 +547,7 @@
             "default": "Send"
         },
         "accountIdInput": {
-            "title": "Username to send to:"
+            "title": "Account ID to send to:"
         },
         "amountStatusId": {
             "noMoreThan": "NO MORE THAN 5 DECIMAL DIGITS",
@@ -662,7 +670,9 @@
         "getLedgerAccountIds": {
             "success": "",
             "error": "Public key access was rejected. No accounts were recovered.<br/>To continue, you must allow NEAR Wallet to view your public key. Please try again.",
-            "noAccounts": "No accounts are associated with this Ledger device. You must first create an account, then add this Ledger to it to login."
+            "noAccounts": "No accounts are associated with this Ledger device. You must first create an account, then add this Ledger to it to login.",
+            "aborted": "Action was aborted.",
+            "U2FNotSupported": "U2F browser support is needed for Ledger. Please use Chrome, Opera or Firefox with U2F extension."
         },
         "addLedgerAccountId": {
             "success": "",
@@ -692,6 +702,10 @@
         },
         "one": "You will need to confirm your sign-in details on your Ledger."
     },
+    "enterAccountNameLedgerModal": {
+        "header": "Enter account name",
+        "one": "Enter the name of the account you’re signing in to"
+    },
     
     "errors": {
         "type": {
@@ -699,8 +713,7 @@
         },
         "ledger": {
             "U2FNotSupported": "U2F browser support is needed for Ledger. Please use Chrome, Opera or Firefox with a U2F extension. Also make sure you're on an HTTPS connection.",
-            "U2F_4": "Failed to sign with Ledger device: U2F DEVICE_INELIGIBLE. Please make sure that your Ledger device is connected and unlocked.",
-            "modal": "You will need to confirm public key details on your Ledger."
+            "U2F_4": "Failed to sign with Ledger device: U2F DEVICE_INELIGIBLE. Please make sure that your Ledger device is connected and unlocked."
         },
         "recoveryMethods": {
             "lastMethod": "Cannot delete your last recovery method. Unless you have Ledger enabled, you need to keep at least one recovery method active to ensure recoverability of your account."

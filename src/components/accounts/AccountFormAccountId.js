@@ -35,7 +35,6 @@ const InputWrapper = styled.div`
             }
         }
     }
-    
 `
 
 const DomainName = styled.div`
@@ -198,7 +197,7 @@ class AccountFormAccountId extends Component {
                                 ref={this.input}
                                 value={accountId}
                                 onChange={this.handleChangeAccountId}
-                                placeholder={translate('createAccount.accountIdInput.placeholder')}
+                                placeholder={type === 'create' ? translate('createAccount.accountIdInput.placeholder') : translate('input.accountId.placeholder')}
                                 required
                                 autoComplete='off'
                                 autoCorrect='off'
@@ -207,6 +206,7 @@ class AccountFormAccountId extends Component {
                                 tabIndex='1'
                                 autoFocus={autoFocus && accountId.length === 0}
                             />
+                            {type !== 'create' && <div className='input-sub-label'>{translate('input.accountId.subLabel')}</div>}
                             {type === 'create' &&
                                 <Modal
                                     size='mini'

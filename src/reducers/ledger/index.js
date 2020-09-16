@@ -1,4 +1,4 @@
-import { handleActions, combineActions } from 'redux-actions'
+import { handleActions } from 'redux-actions'
 import reduceReducers from 'reduce-reducers'
 
 import {
@@ -6,47 +6,44 @@ import {
     addLedgerAccountId,
     saveAndSelectLedgerAccounts,
     refreshAccount,
-    sendMoney,
-    addAccessKey,
-    signAndSendTransactions,
-    removeAccessKey,
-    addAccessKeySeedPhrase,
-    deleteRecoveryMethod,
-    setupRecoveryMessage,
-    addLedgerAccessKey,
-    getLedgerPublicKey,
     setLedgerTxSigned,
-    createNewAccount
+    clearSignInWithLedgerModalState,
+    showLedgerModal
 } from '../../actions/account'
+
+import { HIDE_SIGN_IN_WITH_LEDGER_ENTER_ACCOUNT_ID_MODAL } from '../../utils/wallet'
 
 const initialState = {
     modal: {}
 }
 
-// TODO: Avoid listing all individual actions. Two approaches possible: 1) use meta to set a flag 2) dispatch action from Signer when signing is actually requested
-const ledgerModalReducer = handleActions({
-    [combineActions(sendMoney, addAccessKey, signAndSendTransactions, removeAccessKey, addAccessKeySeedPhrase, deleteRecoveryMethod, setupRecoveryMessage, addLedgerAccessKey, getLedgerPublicKey, createNewAccount)]: (state, { ready, meta, type }) => ({
-        ...state,
-        modal: {
-            show: !meta.isNew && !ready && (state.hasLedger || type === 'ADD_LEDGER_ACCESS_KEY' || type === 'GET_LEDGER_PUBLIC_KEY'),
-            textId: !ready ? `${meta.prefix}.modal` : undefined
-        },
-        txSigned: ready ? undefined : state.txSigned
-    })
-}, initialState)
+const ledgerModalReducer = (state, { error, ready, type }) => {
+    if (state.modal?.show && type === state.modal?.action && (ready || error)) {
+        return {
+            ...state,
+            modal: undefined,
+            txSigned: undefined
+        }
+    }
+
+    return state
+}
 
 const ledger = handleActions({
-    [getLedgerAccountIds]: (state, { error, payload }) => {
+    [getLedgerAccountIds]: (state, { error, payload, ready }) => {
         if (error) {
             return {
                 ...state,
-                signInWithLedger: undefined
+                signInWithLedgerStatus: (payload.messageCode === 'signInLedger.getLedgerAccountIds.noAccounts' && !HIDE_SIGN_IN_WITH_LEDGER_ENTER_ACCOUNT_ID_MODAL) ? 'enter-accountId' : undefined,
+                signInWithLedger: undefined,
+                txSigned: undefined
             }
         }
 
         return {
             ...state,
-            txSign: undefined,
+            txSigned: ready ? undefined : state.txSigned,
+            signInWithLedgerStatus: !ready ? 'confirm-public-key' : 'confirm-accounts',
             signInWithLedger: payload 
                 ? payload.reduce((r, accountId) => ({
                     ...r,
@@ -61,12 +58,15 @@ const ledger = handleActions({
         if (error) {
             return {
                 ...state,
-                signInWithLedger: undefined
+                signInWithLedgerStatus: undefined,
+                signInWithLedger: undefined,
+                txSigned: undefined
             }
         }
 
         return {
             ...state,
+            signInWithLedgerStatus: 'confirm-accounts',
             signInWithLedger: {
                 ...state.signInWithLedger,
                 [meta.accountId]: {
@@ -75,15 +75,22 @@ const ledger = handleActions({
             }
         }
     },
-    [saveAndSelectLedgerAccounts]: (state, { error }) => {
+    [saveAndSelectLedgerAccounts]: (state, { error, ready }) => {
         if (error) {
             return {
                 ...state,
+                signInWithLedgerStatus: undefined,
                 signInWithLedger: undefined
             }
         }
 
-        return state
+        return ready 
+            ? {
+                ...state,
+                signInWithLedgerStatus: ready ? undefined : state.signInWithLedgerStatus,
+                signInWithLedger: undefined
+            }
+            : state
     },
     [refreshAccount]: (state, { payload }) => {
         return {
@@ -107,6 +114,25 @@ const ledger = handleActions({
             ...state,
             txSigned: payload.status,
             signInWithLedger
+        }
+    },
+    [clearSignInWithLedgerModalState]: (state) => {
+        return {
+            ...state,
+            txSigned: undefined,
+            signInWithLedgerStatus: undefined,
+            signInWithLedger: undefined
+        }
+    },
+    [showLedgerModal]: (state, { payload }) => {
+        return {
+            ...state,
+            modal: {
+                ...state.modal,
+                show: !state.signInWithLedgerStatus && payload.show,
+                action: payload.action,
+                textId: `ledgerSignTxModal.${payload.action}`
+            }
         }
     },
 }, initialState)

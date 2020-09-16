@@ -8,7 +8,7 @@ const StyledUserName = styled.div`
 
 const UserName = ({ accountId }) => (
     <StyledUserName className='user-name'>
-        {accountId && `@${accountId}`}
+        {accountId && `${accountId}`}
     </StyledUserName>
 )
 

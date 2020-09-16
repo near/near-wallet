@@ -12,7 +12,7 @@ import { setAccountConfirmed, getAccountConfirmed, removeAccountConfirmed} from 
 import BN from 'bn.js'
 
 import { store } from '..'
-import { setSignTransactionStatus, setLedgerTxSigned } from '../actions/account'
+import { setSignTransactionStatus, setLedgerTxSigned, showLedgerModal } from '../actions/account'
 
 import { TwoFactor, METHOD_NAMES_LAK } from './twoFactor'
 import { Staking } from './staking'
@@ -27,11 +27,12 @@ export const IS_MAINNET = process.env.REACT_APP_IS_MAINNET === 'true' || process
 export const DISABLE_CREATE_ACCOUNT = process.env.DISABLE_CREATE_ACCOUNT === 'true' || process.env.DISABLE_CREATE_ACCOUNT === 'yes'
 export const DISABLE_SEND_MONEY = process.env.DISABLE_SEND_MONEY === 'true' || process.env.DISABLE_SEND_MONEY === 'yes'
 export const ACCOUNT_ID_SUFFIX = process.env.REACT_APP_ACCOUNT_ID_SUFFIX || 'testnet'
-export const MULTISIG_MIN_AMOUNT = process.env.REACT_APP_MULTISIG_MIN_AMOUNT || '100'
+export const MULTISIG_MIN_AMOUNT = process.env.REACT_APP_MULTISIG_MIN_AMOUNT || '40'
 export const LOCKUP_ACCOUNT_ID_SUFFIX = process.env.LOCKUP_ACCOUNT_ID_SUFFIX || 'lockup'
 export const ACCESS_KEY_FUNDING_AMOUNT = process.env.REACT_APP_ACCESS_KEY_FUNDING_AMOUNT || nearApiJs.utils.format.parseNearAmount('0.01')
 export const LINKDROP_GAS = process.env.LINKDROP_GAS || '100000000000000'
 export const ENABLE_FULL_ACCESS_KEYS = process.env.ENABLE_FULL_ACCESS_KEYS === 'yes'
+export const HIDE_SIGN_IN_WITH_LEDGER_ENTER_ACCOUNT_ID_MODAL = process.env.HIDE_SIGN_IN_WITH_LEDGER_ENTER_ACCOUNT_ID_MODAL
 
 const NETWORK_ID = process.env.REACT_APP_NETWORK_ID || 'default'
 const CONTRACT_CREATE_ACCOUNT_URL = `${ACCOUNT_HELPER_URL}/account`
@@ -92,6 +93,7 @@ class Wallet {
             },
             async signMessage(message, accountId, networkId) {
                 if (await wallet.getLedgerKey(accountId)) {
+                    wallet.dispatchShowLedgerModal(true)
                     const { createLedgerU2FClient } = await import('./ledger.js')
                     const client = await createLedgerU2FClient()
                     const signature = await client.sign(message)
@@ -215,7 +217,6 @@ class Wallet {
         if (!this.isEmpty()) {
             const accessKeys = await this.getAccessKeys() || []
             const ledgerKey = accessKeys.find(key => key.meta.type === 'ledger')
-            
             return {
                 ...await this.getAccount(this.accountId).state(),
                 balance: await this.getBalance(),
@@ -290,7 +291,8 @@ class Wallet {
         }
 
         const { data: recoveryMethods } = await this.getRecoveryMethods();
-        for (const recoveryMethod of recoveryMethods) {
+        const methodsToRemove = recoveryMethods.filter(method => method.kind !== 'ledger')
+        for (const recoveryMethod of methodsToRemove) {
             await this.deleteRecoveryMethod(recoveryMethod)
         }
     }
@@ -351,6 +353,23 @@ class Wallet {
         }
 
         await this.saveAndSelectAccount(accountId);
+
+        if (useLedger) {
+            await this.postSignedJson('/account/ledgerKeyAdded', { accountId, publicKey: publicKey.toString() })
+        }
+    }
+
+    async checkNearDropBalance(fundingContract, fundingKey) {
+        const account = this.getAccount(fundingContract)
+
+        const contract = new nearApiJs.Contract(account, fundingContract, {
+            viewMethods: ['get_key_balance'],
+            sender: fundingContract
+        });
+
+        const key = KeyPair.fromString(fundingKey).publicKey.toString()
+
+        return await contract.get_key_balance({ key })
     }
 
     async createNewAccountLinkdrop(accountId, fundingContract, fundingKey, publicKey) {
@@ -419,7 +438,18 @@ class Wallet {
 
     async addLedgerAccessKey(accountId, ledgerPublicKey) {
         await setKeyMeta(ledgerPublicKey, { type: 'ledger' })
-        return await this.getAccount(accountId).addKey(ledgerPublicKey)
+        await this.getAccount(accountId).addKey(ledgerPublicKey)
+        await this.postSignedJson('/account/ledgerKeyAdded', { accountId, publicKey: ledgerPublicKey.toString() })
+    }
+
+    async connectLedger(ledgerPublicKey) {
+        const accessKeys =  await this.getAccessKeys()
+        const ledgerKeyConfirmed = accessKeys.map(key => key.public_key).includes(ledgerPublicKey.toString())
+
+        if (ledgerKeyConfirmed) {
+            await setKeyMeta(ledgerPublicKey, { type: 'ledger' })
+        }
+
     }
 
     async disableLedger() {
@@ -430,7 +460,10 @@ class Wallet {
 
         const publicKey = await this.getLedgerPublicKey()
         await this.removeAccessKey(publicKey)
-        return await this.getAccessKeys(this.accountId)
+        await this.getAccessKeys(this.accountId)
+
+        await this.deleteRecoveryMethod({ kind: 'ledger', publicKey: publicKey.toString() })
+        
     }
 
     async addWalletMetadataAccessKeyIfNeeded(accountId, localAccessKey) {
@@ -439,7 +472,14 @@ class Wallet {
             // NOTE: This key isn't used to call actual contract method, just used to verify connection with account in private DB
             const newLocalKeyPair = KeyPair.fromRandom('ed25519')
             const account = this.getAccount(accountId)
-            await account.addKey(newLocalKeyPair.getPublicKey(), accountId, WALLET_METADATA_METHOD, '0')
+            try {
+                await account.addKey(newLocalKeyPair.getPublicKey(), accountId, WALLET_METADATA_METHOD, '0')
+            } catch (error) {
+                if (error.type === 'KeyNotFound') {
+                    throw new WalletError('No accounts were found.', 'signInLedger.getLedgerAccountIds.noAccounts')
+                }
+                throw error
+            }
             return newLocalKeyPair
         }
 
@@ -447,11 +487,28 @@ class Wallet {
     }
 
     async getLedgerAccountIds() {
-        const publicKey = await this.getLedgerPublicKey()
+        let publicKey
+        try {
+            publicKey = await this.getLedgerPublicKey()
+        } catch (error) {
+            if (error.id === 'U2FNotSupported') {
+                throw new WalletError(error.message, 'signInLedger.getLedgerAccountIds.U2FNotSupported')
+            }
+            throw error
+        }
         await store.dispatch(setLedgerTxSigned(true))
         // TODO: getXXX methods shouldn't be modifying the state
         await setKeyMeta(publicKey, { type: 'ledger' })
-        const accountIds = await getAccountIds(publicKey)
+
+        let accountIds
+        try {
+            accountIds = await getAccountIds(publicKey)
+        } catch (error) {
+            if (error.name === 'AbortError') {
+                throw new WalletError('Fetch aborted.', 'signInLedger.getLedgerAccountIds.aborted')
+            }
+            throw error
+        }
 
         const checkedAccountIds = (await Promise.all(
             accountIds
@@ -498,6 +555,7 @@ class Wallet {
     async getLedgerPublicKey() {
         const { createLedgerU2FClient } = await import('./ledger.js')
         const client = await createLedgerU2FClient()
+        this.dispatchShowLedgerModal(true)
         const rawPublicKey = await client.getPublicKey()
         return new PublicKey({ keyType: KeyType.ED25519, data: rawPublicKey })
     }
@@ -536,7 +594,8 @@ class Wallet {
         const balance = await account.getAccountBalance()
 
         // TODO: Should lockup contract balance be retrieved separately only when needed?
-        const lockupAccountId = accountId + '.' + LOCKUP_ACCOUNT_ID_SUFFIX
+        const re = new RegExp(`\.${ACCOUNT_ID_SUFFIX}$`);
+        const lockupAccountId = accountId.replace(re, '.' + LOCKUP_ACCOUNT_ID_SUFFIX)
         try {
             // TODO: Makes sense for a lockup contract to return whole state as JSON instead of method per property
             const [
@@ -623,6 +682,16 @@ class Wallet {
         const { secretKey } = parseSeedPhrase(recoverySeedPhrase)
         const recoveryKeyPair = KeyPair.fromString(secretKey)
 
+        // TODO: Remove isNew parameter from everywhere. Stuff available on chain should be queried from chain.
+        try {
+            await wallet.getAccount(accountId).state();
+            isNew = false;
+        } catch (e) {
+            if (e.toString().includes(`does not exist while viewing`)) {
+                isNew = true;
+            }
+        }
+
         let securityCodeResult = await this.validateSecurityCode(accountId, method, securityCode, isNew);
         if (!securityCodeResult || securityCodeResult.length === 0) {
             console.log('INVALID CODE', securityCodeResult)
@@ -672,12 +741,9 @@ class Wallet {
 
     async recoverAccountSeedPhrase(seedPhrase, accountId, fromSeedPhraseRecovery = true) {
         const { publicKey, secretKey } = parseSeedPhrase(seedPhrase)
-        const accountIds = await getAccountIds(publicKey)
-        if (accountId && !accountIds.includes(accountId)) {
-            accountIds.push(accountId)
-        }
 
         const tempKeyStore = new nearApiJs.keyStores.InMemoryKeyStore()
+        const accountIds = accountId ? [accountId] : await getAccountIds(publicKey)
 
         const connection = nearApiJs.Connection.fromConfig({
             networkId: NETWORK_ID,
@@ -737,6 +803,11 @@ class Wallet {
                 throw new Error(`Transaction failure for transaction hash: ${transaction.hash}, receiver_id: ${transaction.receiver_id} .`)
             }
         }
+    }
+
+    dispatchShowLedgerModal(show) {
+        const [ action ] = store.getState().account.actionsPending.slice(-1)
+        store.dispatch(showLedgerModal({show, action}))
     }
 }
 

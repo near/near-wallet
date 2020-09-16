@@ -17,7 +17,8 @@
                 "create": "正在檢查可用性",
                 "check": "正在檢查"
             },
-            "errorAccountNotExist": "創建賬戶出錯，請重試！"
+            "errorAccountNotExist": "創建賬戶出錯，請重試！",
+            "modal": "請在 Ledger 設備上確認添加新賬戶密鑰。"
         },
         "available": {
             "success": "該用戶已找到。",
@@ -66,22 +67,24 @@
         },
         "deleteRecoveryMethod": {
             "modal": "請在 Ledger 設備上確認刪除密鑰信息。"
+        },
+        "LedgerPublicKey": {
+            "modal": "請在 Ledger 設備上確認公鑰訪問。"
         }
     },
-
     "actions": {
-        "CreateAccount": "新賬戶已創建：@${receiverId}",
-        "DeleteAccount": "賬戶已刪除：@${receiverId}",
-        "DeployContract": "合約已經部署：@${receiverId}",
-        "FunctionCall": "函數已調用：合約 @${receiverId} 的 ${methodName}",
+        "CreateAccount": "新賬戶已創建：${receiverId}",
+        "DeleteAccount": "賬戶已刪除：${receiverId}",
+        "DeployContract": "合約已經部署：${receiverId}",
+        "FunctionCall": "函數已調用：合約 ${receiverId} 的 ${methodName}",
         "Transfer": {
-            "transferred": "已轉賬 ${deposit} 至 @${receiverId}",
-            "received": "收到來自 @${signerId} 的轉賬 ${deposit} "
+            "transferred": "已轉賬 ${deposit} 至 ${receiverId}",
+            "received": "收到來自 ${signerId} 的轉賬 ${deposit} "
         },
         "Stake": "已質押 ${stake}",
         "AddKey": {
-            "forContract": "已為合約添加訪問密鑰：@${permissionReceiverId}",
-            "forReceiver": "已為 @${receiverId} 新增密鑰"
+            "forContract": "已為合約添加訪問密鑰：${permissionReceiverId}",
+            "forReceiver": "已為 ${receiverId} 新增密鑰"
         },
         "DeleteKey": "密鑰已刪除"
     },
@@ -95,7 +98,6 @@
         "deleteKey": "正在刪除訪問密鑰",
         "deleteAccount": "正在刪除賬戶：${receiverId}"
     },
-
     "setupSeedPhrase": {
         "pageTitle": "設置恢復助記詞",
         "pageText": "請按順序記錄以下助記詞，並安全保管它們。沒有助記詞妳將無法恢復賬戶！",
@@ -111,7 +113,6 @@
         "pageText": "使用助記詞來恢復妳的賬戶。",
         "pageTextSecondLine": "任何能夠查看妳的助記詞的人都可以訪問妳的賬戶，因此請離線安全地保存助記詞。"
     },
-
     "receivePage": {
         "addressTitle": "妳的地址",
         "qrCodeTitle": "掃描二維碼",
@@ -119,7 +120,6 @@
         "copyAddressLinkShort": "復制",
         "snackbarCopySuccess": "地址鏈接已復制！"
     },
-
     "selectAccountDropdown": {
         "switchAccount": "切換賬戶",
         "selectAccount": "選擇賬戶",
@@ -127,7 +127,6 @@
         "createAccount": "創建新的賬戶",
         "noOtherAccounts": "妳沒有其他賬戶"
     },
-
     "recoverWithLink": {
         "title": "恢復賬戶",
         "pOne": "點擊 \"繼續\" 恢復妳的賬戶：",
@@ -136,7 +135,6 @@
         "errorTitle": "鏈接已過期",
         "errorP": "請檢查妳的 Email 或手機最新消息，之前消息裏的鏈接已經無效。"
     },
-
     "recoveryMgmt": {
         "title": "賬戶恢復方式",
         "noRecoveryMethod": "妳還不能恢復賬戶，請先添加以下至少壹種方式。",
@@ -157,14 +155,14 @@
         "disableNo": "不，保留。",
         "recoveryLinkSent": "恢復鏈接已發送！"
     },
-
     "hardwareDevices": {
         "title": "硬件錢包",
         "desc": "通過硬件錢包加強賬戶安全性。",
         "ledger": {
             "title": "Ledger Nano S",
             "auth": "已授權",
-            "disclaimer": "在禁用硬件錢包前，必須開啟其他賬戶恢復方式。"
+            "disclaimer": "在禁用硬件錢包前，必須開啟其他賬戶恢復方式。",
+            "connect": "你的 Ledger 設備目前沒有連接，我們建議你重新連接確保賬戶安全。"
         },
         "disable": {
             "title": "妳是否確定禁用硬件錢包？",
@@ -173,7 +171,6 @@
             "keep": "取消"
         }
     },
-
     "twoFactor": {
         "enable": "開啟兩步驗證",
         "subHeader": "兩步驗證將為妳的賬戶提供額外的安全保護。開啟兩步驗證後，所有交易操作必須通過短信或 Email 確認。",
@@ -195,9 +192,9 @@
             "resend": "重新發送",
             "resending": "發送中...",
             "resent": "驗證碼已發送！"
-        }
+        },
+        "notEnoughBalance": "為開啟兩步驗證，你的賬戶需要最少餘額 "
     },
-    
     "fullAccessKeys": {
         "pageTitle": "完全訪問密鑰",
         "authorizedTo": "已授權",
@@ -207,7 +204,6 @@
         "noKeys": "妳沒有將 NEAR 錢包連接至任何應用。當連接後，妳可以在這裏管理。<br /><br />查看基於 NEAR 開發的應用：",
         "dashboardNoKeys": "妳沒有完全訪問密鑰"
     },
-
     "authorizedApps": {
         "pageTitle": "已授權應用",
         "dashboardNoApps": "妳還未授權任何應用",
@@ -219,7 +215,6 @@
             "modal": "請在 Ledger 設備上確認刪除密鑰信息。"
         }
     },
-
     "button": {
         "signIn": "登錄",
         "signingIn": "正在登錄",
@@ -228,7 +223,7 @@
         "continueSetup": "繼續設置",
         "verify": "驗證並完成",
         "verifyCode": "驗證代碼",
-        "verifyCodeEnable": "驗證代碼並開啟", 
+        "verifyCodeEnable": "驗證代碼並開啟",
         "startOver": "重新開始",
         "copyUrl": "復制鏈接",
         "createAccount": "創建賬戶",
@@ -267,9 +262,9 @@
         "moreInformation": "更多信息",
         "dismiss": "關閉",
         "cancelOperation": "取消操作",
-        "subscribe": "訂閱"
+        "subscribe": "訂閱",
+        "connect": "連接"
     },
-
     "link": {
         "summary": "概覽",
         "send": "發送",
@@ -281,14 +276,17 @@
         "noAccount": "妳未登錄其他賬號",
         "fullAccessKeys": "完全訪問密鑰"
     },
-
     "input": {
         "enterWord": {
             "title": "助記詞",
             "placeholder": ""
+        },
+        "accountId": {
+            "title": "Account ID",
+            "placeholder": "e.g. johndoe.near",
+            "subLabel": "Your account ID must include a Top Level Account such as <b>.near</b>"
         }
     },
-
     "recoverAccount": {
         "pageTitle": "恢復妳的賬戶",
         "pageText": "如果妳已經設置賬戶恢復方式，請根據以下步驟開始恢復流程。",
@@ -310,7 +308,6 @@
         "actionRequired": "此消息包含恢復鏈接，請點擊鏈接開始恢復賬戶流程！",
         "cannotResend": "此消息是在開啟 Email/手機號恢復時發送。我們只發送壹次，並且無法重新發送。"
     },
-
     "createAccount": {
         "pageTitle": "創建新的賬戶",
         "pageText": "只需要輸入用戶名即完成註冊。",
@@ -331,12 +328,10 @@
             "six": "符號 \"@\" 或 \".\""
         }
     },
-
     "topLevelAccounts": {
         "header": "頂級賬戶",
-        "body": "賬戶名稱類似於域名，只有 @${suffix} 才能創建比如 @yourname.${suffix} 的賬戶，並且只有 @yourname.${suffix} 可以創建 @app.yourname.${suffix}。所有在此錢包創建的賬戶都使用 .${suffix} 頂級賬戶（TLA）。了解更多關於賬戶名稱和創建妳的頂級賬戶（TLA），請訪問 <a rel='noopener noreferrer' href='https://docs.nearprotocol.com/docs/concepts/account'>NEAR 文檔</a>。"
+        "body": "賬戶名稱類似於域名，只有 ${suffix} 才能創建比如 yourname.${suffix} 的賬戶，並且只有 yourname.${suffix} 可以創建 app.yourname.${suffix}。所有在此錢包創建的賬戶都使用 .${suffix} 頂級賬戶（TLA）。了解更多關於賬戶名稱和創建妳的頂級賬戶（TLA），請訪問 <a rel='noopener noreferrer' href='https://docs.nearprotocol.com/docs/concepts/account'>NEAR 文檔</a>。"
     },
-
     "recoverSeedPhrase": {
         "pageTitle": "通過助記詞恢復賬戶",
         "pageText": "請輸入與此賬戶關聯的助記詞。",
@@ -348,7 +343,6 @@
             "placeholder": "correct horse battery staple..."
         }
     },
-
     "setupRecovery": {
         "header": "保護妳的賬戶",
         "subHeader": "請設置壹種賬戶恢復方式：",
@@ -366,7 +360,7 @@
     },
     "setRecoveryConfirm": {
         "title": "輸入驗證碼",
-        "pageText": "我們已經發送 6 位驗證碼至 ${option}：",
+        "pageText": "我們已經發送 6 位驗證碼至",
         "inputHeader": "輸入 6 位驗證碼",
         "inputPlaceholder": "驗證碼",
         "invalidCode": "無效驗證碼",
@@ -384,14 +378,14 @@
                 "email": "重新輸入 Email 地址並重新發送。",
                 "phoneNumber": "重新輸入手機號並重新發送。"
             }
-        }
+        },
+        "email": "Email",
+        "phone": "手機號"
     },
-
     "disclaimer": {
         "title": "聲明",
         "text": "這是開發者的預覽版錢包，僅限用於 NEAR 協議 DevNet。了解更多："
     },
-
     "footer": {
         "copyrights": "NEAR Inc. 版權所有。",
         "termsOfService": "服務條款",
@@ -401,16 +395,13 @@
         "needHelp": "需要幫助？",
         "contactSupport": "聯系客服"
     },
-
     "dashboard": {
         "activity": "動態"
     },
-
     "balance": {
         "balance": "總余額",
         "balanceLoading": "余額加載中"
     },
-
     "login": {
         "form": {
             "isRequestingTo": "正在請求",
@@ -444,7 +435,6 @@
             "pageText": "請關閉該窗口，並按照終端內的指導操作。"
         }
     },
-
     "addNode": {
         "pageTitle": "添加節點",
         "pageText": "通過命令行配置妳的節點，並在這裏添加。",
@@ -464,7 +454,7 @@
     },
     "nodeStaking": {
         "pageTitle": "節點和質押",
-        "pageText": "@nodeandstaking.near",
+        "pageText": "nodeandstaking.near",
         "steps": {
             "title": "為運行節點或質押，請執行以下步驟：",
             "one": {
@@ -503,8 +493,8 @@
     "profile": {
         "pageTitle": {
             "loading": "正在加載...",
-            "notFound": "賬戶 @${accountId} 未找到",
-            "default": "賬戶：@${accountId}"
+            "notFound": "賬戶 ${accountId} 未找到",
+            "default": "賬戶：${accountId}"
         },
         "details": {
             "profile": "資料",
@@ -526,7 +516,6 @@
             "qrDesc": "可以使用手機相機來掃描該二維碼"
         }
     },
-
     "sendMoney": {
         "pageTitle": {
             "success": "成功！",
@@ -547,7 +536,6 @@
         "onceConfirmed": "一旦確認，這將不可撤銷。",
         "wasSentTo": "被發送至："
     },
-
     "sign": {
         "unexpectedStatus": "意外狀態",
         "transactionCancelled": "交易取消",
@@ -579,7 +567,6 @@
         "transferring": "正在轉賬",
         "authorizing": "正在授權"
     },
-
     "availableBalanceInfo": "「可用餘額」是指你當前賬號內可消耗 NEAR 通證，可用餘額少於你的「總餘額」。查看你 NEAR 餘額的詳細構成，請訪問你的資料。 ",
     "availableBalanceProfile": "「可用餘額」是指你當前賬號內可消耗 NEAR 通證，可用餘額少於你的總共餘額。 ",
     "minimumBalance": "這是維持你賬號活躍狀態的 NEAR 通證「保留餘額」，該餘額代表你正在使用的 NEAR 區塊鏈存儲空間，會在使用量變化後產生對應變化。 ",
@@ -588,7 +575,6 @@
     "unvestedBalance": "未兌現的 NEAR 屬於你，但還未實際可使用。你可以委託或質押這些NEAR，獎勵也將歸屬於你。當 NEAR 兌現後，將出現在鎖定的或未鎖定的餘額中。",
     "lockedBalance": "NEAR 鎖定在鎖定合約中，但無法取出。你可能仍委託或質押著這些NEAR。一旦NEAR 解鎖，你可以在未鎖定餘額中查看，並選擇取出（轉移到「可用餘額」） 。 ",
     "unlockedBalance": "NEAR 仍在鎖定合約中，並可以取出。如果你選擇取出，它將出現於「可用餘額」。 ",
-    
     "transaction": {
         "status": {
             "NotStarted": "未開始",
@@ -599,7 +585,6 @@
             "notAvailable": "狀態不可用"
         }
     },
-
     "success": "成功",
     "error": "失敗",
     "warning": "警告",
@@ -612,14 +597,12 @@
     "back": "返回",
     "of": "/",
     "ofTotal": "佔總數",
-
     "setupLedger": {
         "header": "綁定至你的硬件錢包",
         "one": "通過 USB 連接 Ledger Nano S 至你的電腦或手機，並<b>打開 NEAR 應用</b>。",
         "two": "如果你還沒有安裝 NEAR 賬本應用，請按照",
         "twoLink": "步驟安裝"
     },
-
     "setupLedgerSteps": {
         "header": "在硬件錢包上安裝 NEAR",
         "one": "打開 <a href='https://www.ledger.com/ledger-live' target='_blank'>Ledger Live</a> 並切換到你的<span class='color-black '>設置</span>。",
@@ -628,7 +611,6 @@
         "four": "根據步驟在設備上安裝 <span class='color-black'>NEAR 應用</span>。",
         "five": ""
     },
-
     "setupLedgerSuccess": {
         "header": "你的賬戶已通過 Ledger 硬件保護！",
         "one": "我們推薦你刪除其他所有密鑰（恢復方式和設備）。",
@@ -649,7 +631,6 @@
             }
         }
     },
-
     "signInLedger": {
         "header": "通過 Ledger 硬件登錄",
         "one": "請確認硬件錢包已經安全連接，並且 NEAR 應用已經打開。",
@@ -664,7 +645,7 @@
         },
         "saveAndSelectLedgerAccounts": {
             "success": "你已經成功登錄。<br/><b>${numberOfAccounts} 個賬戶</b>已經成功恢復：<b>${accountList}</b>。<br/>最後一個賬戶設置為活躍賬戶。",
-        "error": "請檢查硬件錢包已經安全連接，並且 NEAR 應用已經打開。"
+            "error": "請檢查硬件錢包已經安全連接，並且 NEAR 應用已經打開。"
         },
         "modal": {
             "confirmPublicKey": "確認公鑰",
@@ -673,16 +654,18 @@
             "status": {
                 "success": "授權",
                 "pending": "請求",
-                "waiting": "下一個"
+                "waiting": "下一個",
+                "confirm": "Confirm"
             }
         }
     },
-
     "confirmLedgerModal": {
-        "header": "請在設備上確認操作...",
+        "header": {
+            "confirm": "請在設備上確認此操作...",
+            "processing": "正在處理"
+        },
         "one": "請在 Ledger 硬件設備上確認登錄細節。"
     },
-
     "errors": {
         "ledger": {
             "U2FNotSupported": "Ledger 硬件錢包需要 U2F 瀏覽器支持。請使用 Chrome、Opera 或 Firefox 安裝 U2F 擴展，並確保你是通過 HTTPS 加密連接。",
@@ -695,22 +678,22 @@
         "twoFactor": {
             "userCancelled": "此操作已被取消。",
             "invalidCode": "無效的兩步驗證碼，請重試。"
+        },
+        "type": {
+            "RetriesExceeded": "此交易超出最大重試次數。"
         }
     },
-
     "networkBanner": {
         "title": "測試網錢包",
         "header": "NEAR 測試錢包",
         "desc": "當前錢包（和網絡）僅供測試。測試網通證和其他資產均無價值。測試網賬戶不會遷移至主網。"
     },
-    
     "landing": {
-        "title":"NEAR 已經到來。",
+        "title": "NEAR 已經到來。",
         "desc": "通過 <span>NEAR 錢包</span>安全地存儲你的 NEAR 通證和其他資產。",
         "or": "或",
         "banner": "NEAR 錢包已經在內測"
     },
-    
     "emailSubscribe": {
         "title": "早期測試註冊",
         "placeholder": "你的 Email..."

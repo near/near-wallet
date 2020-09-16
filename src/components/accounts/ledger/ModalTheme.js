@@ -13,9 +13,23 @@ export default createGlobalStyle`
         }
 
         button {
+            margin-top: 4px !important; 
+
+            &.link {
+                padding-top: 12px !important;
+            }
+
             svg {
                 margin: 0;
             }
+        }
+
+        input {
+            width: 300px !important;
+        }
+        h4 {
+            margin-top: 2rem;
+            text-align: center;
         }
 
         h2 {
