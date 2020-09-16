@@ -44,7 +44,7 @@ const Container = styled.div`
 
 export default function BalanceBox({
     title,
-    number,
+    amount,
     info,
     version
 }) {
@@ -61,7 +61,7 @@ export default function BalanceBox({
                             {translate(info)}
                         </Modal>
                     </div>
-                    <Balance amount={number} />
+                    <Balance amount={amount} />
                 </Container>
             )}
         </Translate>

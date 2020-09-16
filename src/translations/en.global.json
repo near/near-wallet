@@ -532,6 +532,12 @@
                 "title": "Available for withdrawal",
                 "info": "What does Available for withdrawal mean?"
             }
+        },
+        "validatorBox": {
+            "fee": "Fee",
+            "staking": "Staking",
+            "near": "NEAR",
+            "cta": "view" 
         }
     },
     "profile": {

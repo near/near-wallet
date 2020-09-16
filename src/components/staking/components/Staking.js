@@ -1,6 +1,8 @@
 import React from 'react'
 import FormButton from '../../common/FormButton'
 import BalanceBox from './BalanceBox'
+import ValidatorBox from './ValidatorBox'
+import ListWrapper from './ListWrapper'
 import { Translate } from 'react-localize-redux'
 
 export default function Staking() {
@@ -12,19 +14,37 @@ export default function Staking() {
             <BalanceBox
                 title='staking.balanceBox.staked.title'
                 info='staking.balanceBox.staked.info'
-                number='200000000000000000000000000'
+                amount='200000000000000000000000000'
             />
             <BalanceBox
                 title='staking.balanceBox.unclaimed.title'
                 info='staking.balanceBox.unclaimed.info'
-                number='200000000000000000000000000'
+                amount='200000000000000000000000000'
             />
             <BalanceBox
                 title='staking.balanceBox.available.title'
                 info='staking.balanceBox.available.info'
-                number='200000000000000000000000000'
+                amount='200000000000000000000000000'
             />
             <h3><Translate id='staking.staking.currentValidators' /></h3>
+            <ListWrapper>
+                <ValidatorBox
+                    validator='Nils.near'
+                    fee='1.23%'
+                    amount='23.442525'
+                />
+                <ValidatorBox
+                    validator='Nils.near'
+                    fee='1.23%'
+                    amount='23.442525'
+                />
+                <ValidatorBox
+                    validator='Nils.near'
+                    amount='23.442525'
+                    fee='1.23%'
+                    clickable={false}
+                />
+            </ListWrapper>
         </>
     )
 }
