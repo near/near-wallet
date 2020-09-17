@@ -147,7 +147,7 @@ export const signInWithLedgerAddAndSaveAccounts = (accountIds) => async (dispatc
 
 const defaultCodesFor = (prefix, data) => ({ successCode: `${prefix}.success`, errorCode: `${prefix}.error`, prefix, data})
 
-export const { initializeRecoveryMethod, validateSecurityCode, initTwoFactor, reInitTwoFactor, sendTwoFactor, resendTwoFactor, verifyTwoFactor, promptTwoFactor, deployMultisig, checkCanEnableTwoFactor, get2faMethod, getLedgerKey, getLedgerPublicKey, setupRecoveryMessage, deleteRecoveryMethod, checkNearDropBalance, checkNewAccount, createNewAccount, checkAccountAvailable, getTransactions, getTransactionStatus, clear, clearCode } = createActions({
+export const { initializeRecoveryMethod, validateSecurityCode, initTwoFactor, reInitTwoFactor, sendTwoFactor, resendTwoFactor, verifyTwoFactor, promptTwoFactor, deployMultisig, checkCanEnableTwoFactor, get2faMethod, getLedgerKey, getLedgerPublicKey, setupRecoveryMessage, deleteRecoveryMethod, checkNearDropBalance, checkIsNew, checkNewAccount, createNewAccount, checkAccountAvailable, getTransactions, getTransactionStatus, clear, clearCode } = createActions({
     INITIALIZE_RECOVERY_METHOD: [
         wallet.initializeRecoveryMethod.bind(wallet),
         () => defaultCodesFor('account.initializeRecoveryMethod')
@@ -228,6 +228,10 @@ export const { initializeRecoveryMethod, validateSecurityCode, initTwoFactor, re
         wallet.checkNearDropBalance.bind(wallet),
         () => defaultCodesFor('account.nearDropBalance')
     ],
+    CHECK_IS_NEW: [
+        wallet.checkIsNew.bind(wallet),
+        () => defaultCodesFor('account.create')
+    ],
     CHECK_NEW_ACCOUNT: [
         wallet.checkNewAccount.bind(wallet),
         () => defaultCodesFor('account.create')
@@ -273,44 +277,49 @@ export const { getAccessKeys, removeAccessKey, addLedgerAccessKey, connectLedger
     SHOW_LEDGER_MODAL: null
 })
 
-export const { addAccessKey, addAccessKeySeedPhrase, clearAlert } = createActions({
+export const handleAddAccessKeySeedPhrase = (accountId, recoveryKeyPair) => async (dispatch) => {
+    await dispatch(addAccessKeySeedPhrase(accountId, recoveryKeyPair))
+    dispatch(redirectToProfile())
+}
+
+export const handleCreateAccountWithSeedPhrase = (accountId, recoveryKeyPair, fundingContract, fundingKey) => async (dispatch) => {
+    await dispatch(createAccountWithSeedPhrase(accountId, recoveryKeyPair, fundingContract, fundingKey))
+    const account = await wallet.refreshAccount()
+    const promptTwoFactor = await wallet.twoFactor.checkCanEnableTwoFactor(account)
+
+    if (promptTwoFactor) {
+        dispatch(push({ pathname: '/enable-two-factor' }))
+    } else {
+        dispatch(redirectToApp('/profile'))
+    }
+}
+
+export const { addAccessKey, createAccountWithSeedPhrase, addAccessKeySeedPhrase, clearAlert } = createActions({
     ADD_ACCESS_KEY: [
         wallet.addAccessKey.bind(wallet),
-        (accountId, contractId, publicKey, successUrl, title) => defaultCodesFor('account.login', {title})
+        (title) => defaultCodesFor('account.login', {title})
     ],
-    ADD_ACCESS_KEY_SEED_PHRASE: [
-        async (accountId, recoveryKeyPair, isNew, fundingContract, fundingKey) => {
-            // TODO: Should this be 2 different actions when you add to existing account / create new one?
-            // TODO: Refactor to "create with public key" action which will save metadata in CH in generic way for all methods?
-
-            // TODO: Remove isNew parameter from everywhere. Stuff available on chain should be queried from chain.
-            try {
-                await wallet.getAccount(accountId).state();
-                isNew = false;
-            } catch (e) {
-                if (e.toString().includes(`does not exist while viewing`)) {
-                    isNew = true;
-                }
-            }
-
-            if (isNew) {
-                await wallet.saveAccount(accountId, recoveryKeyPair);
-                await wallet.createNewAccount(accountId, fundingContract, fundingKey, recoveryKeyPair.publicKey)
-            }
-
+    CREATE_ACCOUNT_WITH_SEED_PHRASE: [
+        async (accountId, recoveryKeyPair, fundingContract, fundingKey) => {
+            await wallet.saveAccount(accountId, recoveryKeyPair);
+            await wallet.createNewAccount(accountId, fundingContract, fundingKey, recoveryKeyPair.publicKey)
             const publicKey = recoveryKeyPair.publicKey.toString()
             const contractName = null;
             const fullAccess = true;
-
-            if (isNew) {
-                const newKeyPair = KeyPair.fromRandom('ed25519')
-                const newPublicKey = newKeyPair.publicKey
-                await wallet.addAccessKey(accountId, contractName, newPublicKey, fullAccess)
-                await wallet.saveAccount(accountId, newKeyPair)
-            } else {
-                await wallet.addAccessKey(accountId, contractName, publicKey, fullAccess)
-            }
-
+            const newKeyPair = KeyPair.fromRandom('ed25519')
+            const newPublicKey = newKeyPair.publicKey
+            await wallet.addAccessKey(accountId, contractName, newPublicKey, fullAccess)
+            await wallet.saveAccount(accountId, newKeyPair)
+            await wallet.postSignedJson('/account/seedPhraseAdded', { accountId, publicKey })
+        },
+        () => defaultCodesFor('account.createAccountSeedPhrase')
+    ],
+    ADD_ACCESS_KEY_SEED_PHRASE: [
+        async (accountId, recoveryKeyPair) => {
+            const publicKey = recoveryKeyPair.publicKey.toString()
+            const contractName = null;
+            const fullAccess = true;
+            await wallet.addAccessKey(accountId, contractName, publicKey, fullAccess)
             await wallet.postSignedJson('/account/seedPhraseAdded', { accountId, publicKey })
         },
         () => defaultCodesFor('account.setupSeedPhrase')

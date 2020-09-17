@@ -328,10 +328,23 @@ class Wallet {
         }
     }
 
-    async createNewAccount(accountId, fundingContract, fundingKey, publicKey, useLedger=false) {
+    async checkIsNew(accountId) {
+        let response
+        try {
+            response = await this.checkNewAccount(accountId)
+        } catch(e) {
+            return false
+        }
+        return response
+    }
+
+    async createNewAccount(accountId, fundingContract, fundingKey, publicKey) {
         this.checkNewAccount(accountId);
 
+        let useLedger = publicKey ? false : true
+
         if (useLedger) {
+            publicKey = await this.getLedgerPublicKey()
             await setKeyMeta(publicKey, { type: 'ledger' })
         }
 
@@ -433,7 +446,8 @@ class Wallet {
         }
     }
 
-    async addLedgerAccessKey(accountId, ledgerPublicKey) {
+    async addLedgerAccessKey(accountId) {
+        const ledgerPublicKey = await this.getLedgerPublicKey()
         await setKeyMeta(ledgerPublicKey, { type: 'ledger' })
         await this.getAccount(accountId).addKey(ledgerPublicKey)
         await this.postSignedJson('/account/ledgerKeyAdded', { accountId, publicKey: ledgerPublicKey.toString() })
@@ -636,8 +650,9 @@ class Wallet {
         });
     }
 
-    async initializeRecoveryMethod(accountId, method, isNew) {
+    async initializeRecoveryMethod(accountId, method) {
         const { seedPhrase } = generateSeedPhrase()
+        const isNew = await this.checkIsNew(accountId)
         const body = {
             accountId,
             method,
@@ -671,19 +686,10 @@ class Wallet {
         }
     }
 
-    async setupRecoveryMessage(accountId, method, securityCode, isNew, fundingContract, fundingKey, recoverySeedPhrase) {
+    async setupRecoveryMessage(accountId, method, securityCode, fundingContract, fundingKey, recoverySeedPhrase) {
         const { secretKey } = parseSeedPhrase(recoverySeedPhrase)
         const recoveryKeyPair = KeyPair.fromString(secretKey)
-
-        // TODO: Remove isNew parameter from everywhere. Stuff available on chain should be queried from chain.
-        try {
-            await wallet.getAccount(accountId).state();
-            isNew = false;
-        } catch (e) {
-            if (e.toString().includes(`does not exist while viewing`)) {
-                isNew = true;
-            }
-        }
+        const isNew = await this.checkIsNew(accountId)
 
         let securityCodeResult = await this.validateSecurityCode(accountId, method, securityCode, isNew);
         if (!securityCodeResult || securityCodeResult.length === 0) {

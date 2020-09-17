@@ -117,8 +117,8 @@ class CreateAccount extends Component {
 
         const linkdropParams = fundingContract ? `${fundingContract}/${fundingKey}` : ``
         let nextUrl = process.env.DISABLE_PHONE_RECOVERY === 'yes' ?
-            `/setup-seed-phrase/${accountId}/phrase/1/${linkdropParams}` :
-            `/set-recovery/${accountId}/1/${linkdropParams}`;
+            `/setup-seed-phrase/${accountId}/phrase/${linkdropParams}` :
+            `/set-recovery/${accountId}/${linkdropParams}`;
 
 
         this.props.history.push(nextUrl);
