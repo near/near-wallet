@@ -287,7 +287,7 @@ export const handleCreateAccountWithSeedPhrase = (accountId, recoveryKeyPair, fu
     const account = await wallet.refreshAccount()
     const promptTwoFactor = await wallet.twoFactor.checkCanEnableTwoFactor(account)
 
-    if (promptTwoFactor) {
+    if (fundingContract && promptTwoFactor) {
         dispatch(push({ pathname: '/enable-two-factor' }))
     } else {
         dispatch(redirectToApp('/profile'))
