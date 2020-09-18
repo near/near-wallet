@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { connect } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
 import Theme from './PageTheme.css';
 import HardwareDeviceIcon from '../../svg/HardwareDeviceIcon';
 import NextStepModal from './NextStepModal';
@@ -11,11 +11,16 @@ const SetupLedgerSuccess = (props) => {
 
     const [nextStep, setNextStep] = useState('');
     const removingkeys = props.actionsPending.includes('REMOVE_NON_LEDGER_ACCESS_KEYS');
+    const { hasLedger } = useSelector(({ ledger }) => ledger)
 
     const handleConfirm = async () => {
         if (nextStep === 'keep') {
             goToProfile()
         } else if (nextStep === 'remove') {
+            if (hasLedger) {
+                setNextStep('')
+            }
+
             await props.removeNonLedgerAccessKeys()
             goToProfile()
         }
