@@ -51,7 +51,6 @@ class SetupRecoveryMethod extends Component {
         success: false,
         emailInvalid: false,
         phoneInvalid: false,
-        activeMethods: [],
         recoverySeedPhrase: null
     }
 
@@ -62,34 +61,12 @@ class SetupRecoveryMethod extends Component {
         if (method) {
             this.setState({ option: method });
         }
-        this.handleCheckIsNew()
-    }
 
-    handleCheckIsNew = async () => {
-        const isNew = await this.props.checkIsNew(this.props.accountId)
-
-        if (!isNew) {
-            await this.props.getLedgerKey()
-            await this.setRecoveryMethods()
-
-            if (!this.props.twoFactor) {
-                await this.props.get2faMethod()
-            }
+        if (this.props.activeAccountId) {
+            this.props.loadRecoveryMethods()
+            this.props.getLedgerKey()
+            this.props.get2faMethod()
         }
-    }
-
-    setRecoveryMethods = async () => {
-        if (this.props.recoveryMethods[this.props.activeAccountId]) {
-            const confirmed = this.props.recoveryMethods[this.props.accountId].filter(method => method.confirmed)
-            this.setState({ activeMethods: confirmed.map(method => method.kind) });
-        } else {
-            await this.getMethods()
-        }
-    }
-
-    getMethods = async () => {
-        await this.props.loadRecoveryMethods()
-        await this.setRecoveryMethods()
     }
 
     get isValidInput() {
@@ -181,8 +158,13 @@ class SetupRecoveryMethod extends Component {
     }
 
     render() {
-        const { option, phoneNumber, email, success, emailInvalid, phoneInvalid, activeMethods } = this.state;
+        const { option, phoneNumber, email, success, emailInvalid, phoneInvalid } = this.state;
         const { actionsPending, accountId, activeAccountId, ledgerKey, twoFactor } = this.props;
+
+        let activeMethods = []
+        if (this.props.recoveryMethods[this.props.activeAccountId]) {
+            activeMethods = this.props.recoveryMethods[this.props.activeAccountId].filter(method => method.confirmed).map(method => method.kind)
+        }
 
         if (!success) {
             return (

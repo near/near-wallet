@@ -288,7 +288,7 @@ export const handleAddAccessKeySeedPhrase = (accountId, recoveryKeyPair) => asyn
 
 export const handleCreateAccountWithSeedPhrase = (accountId, recoveryKeyPair, fundingContract, fundingKey) => async (dispatch) => {
     await dispatch(createAccountWithSeedPhrase(accountId, recoveryKeyPair, fundingContract, fundingKey))
-    const account = await wallet.refreshAccount()
+    const account = await dispatch(refreshAccount())
     const promptTwoFactor = await wallet.twoFactor.checkCanEnableTwoFactor(account)
 
     if (fundingContract && promptTwoFactor) {

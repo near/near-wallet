@@ -12,7 +12,7 @@ import { setAccountConfirmed, getAccountConfirmed, removeAccountConfirmed} from 
 import BN from 'bn.js'
 
 import { store } from '..'
-import { setSignTransactionStatus, setLedgerTxSigned, showLedgerModal, redirectToApp, redirectTo } from '../actions/account'
+import { setSignTransactionStatus, setLedgerTxSigned, showLedgerModal, redirectToApp, redirectTo, refreshAccount } from '../actions/account'
 
 import { TwoFactor, METHOD_NAMES_LAK } from './twoFactor'
 
@@ -703,7 +703,7 @@ class Wallet {
         const newPublicKey = newKeyPair.publicKey
         await this.addNewAccessKeyToAccount(accountId, newPublicKey)
         await this.saveAccount(accountId, newKeyPair)
-        const account = await this.loadAccount()
+        const account = await store.dispatch(refreshAccount())
         const promptTwoFactor = await this.twoFactor.checkCanEnableTwoFactor(account)
 
         if (promptTwoFactor && fundingContract) {
