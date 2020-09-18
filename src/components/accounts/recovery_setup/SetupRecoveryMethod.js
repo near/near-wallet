@@ -12,10 +12,8 @@ import {
     redirectToApp, 
     loadRecoveryMethods, 
     getAccessKeys, 
-    getLedgerKey, 
-    refreshAccount, 
-    get2faMethod, 
-    checkCanEnableTwoFactor, 
+    getLedgerKey,
+    get2faMethod,
     checkIsNew } from '../../../actions/account';
 import RecoveryOption from './RecoveryOption';
 import FormButton from '../../common/FormButton';
@@ -30,10 +28,10 @@ const StyledContainer = styled(Container)`
         width: 100% !important;
     }
 
-`
+    h4 {
+        margin-top: 40px;
+    }
 
-const OptionHeader = styled.h4`
-    margin-top: 40px;
 `
 
 const OptionSubHeader = styled.div`
@@ -172,7 +170,7 @@ class SetupRecoveryMethod extends Component {
                     <form onSubmit={e => {this.handleNext(); e.preventDefault();}}>
                         <h1><Translate id='setupRecovery.header'/></h1>
                         <h2><Translate id='setupRecovery.subHeader'/></h2>
-                        <OptionHeader><Translate id='setupRecovery.advancedSecurity'/></OptionHeader>
+                        <h4><Translate id='setupRecovery.advancedSecurity'/></h4>
                         <OptionSubHeader><Translate id='setupRecovery.advancedSecurityDesc'/></OptionSubHeader>
                         <RecoveryOption
                             onClick={() => this.setState({ option: 'phrase' })}
@@ -189,7 +187,7 @@ class SetupRecoveryMethod extends Component {
                                 disabled={ledgerKey !== null && accountId === activeAccountId}
                             />
                         }
-                        <OptionHeader><Translate id='setupRecovery.basicSecurity'/></OptionHeader>
+                        <h4><Translate id='setupRecovery.basicSecurity'/></h4>
                         <OptionSubHeader><Translate id='setupRecovery.basicSecurityDesc'/></OptionSubHeader>
                         <RecoveryOption
                             onClick={() => this.setState({ option: 'email' })}
@@ -266,9 +264,7 @@ const mapDispatchToProps = {
     setupRecoveryMessageNewAccount,
     getAccessKeys,
     getLedgerKey,
-    refreshAccount,
     get2faMethod,
-    checkCanEnableTwoFactor,
     checkIsNew
 }
 
