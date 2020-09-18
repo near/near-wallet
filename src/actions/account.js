@@ -95,7 +95,7 @@ const checkContractId = () => async (dispatch, getState) => {
     }
 }
 
-export const redirectToProfile = () => (dispatch) => dispatch(push({ pathname: '/profile' }))
+export const redirectTo = (location) => (dispatch) => dispatch(push({ pathname: location }))
 
 export const redirectToApp = (fallback) => (dispatch, getState) => {
     const { account: { url }} = getState()
@@ -147,7 +147,7 @@ export const signInWithLedgerAddAndSaveAccounts = (accountIds) => async (dispatc
 
 const defaultCodesFor = (prefix, data) => ({ successCode: `${prefix}.success`, errorCode: `${prefix}.error`, prefix, data})
 
-export const { initializeRecoveryMethod, validateSecurityCode, initTwoFactor, reInitTwoFactor, sendTwoFactor, resendTwoFactor, verifyTwoFactor, promptTwoFactor, deployMultisig, checkCanEnableTwoFactor, get2faMethod, getLedgerKey, getLedgerPublicKey, setupRecoveryMessage, deleteRecoveryMethod, checkNearDropBalance, checkIsNew, checkNewAccount, createNewAccount, checkAccountAvailable, getTransactions, getTransactionStatus, clear, clearCode } = createActions({
+export const { initializeRecoveryMethod, validateSecurityCode, initTwoFactor, reInitTwoFactor, sendTwoFactor, resendTwoFactor, verifyTwoFactor, promptTwoFactor, deployMultisig, checkCanEnableTwoFactor, get2faMethod, getLedgerKey, getLedgerPublicKey, setupRecoveryMessage, setupRecoveryMessageNewAccount, deleteRecoveryMethod, checkNearDropBalance, checkIsNew, checkNewAccount, createNewAccount, checkAccountAvailable, getTransactions, getTransactionStatus, clear, clearCode } = createActions({
     INITIALIZE_RECOVERY_METHOD: [
         wallet.initializeRecoveryMethod.bind(wallet),
         () => defaultCodesFor('account.initializeRecoveryMethod')
@@ -220,6 +220,10 @@ export const { initializeRecoveryMethod, validateSecurityCode, initTwoFactor, re
         wallet.setupRecoveryMessage.bind(wallet),
         () => defaultCodesFor('account.setupRecoveryMessage')
     ],
+    SETUP_RECOVERY_MESSAGE_NEW_ACCOUNT: [
+        wallet.setupRecoveryMessageNewAccount.bind(wallet),
+        () => defaultCodesFor('account.setupRecoveryMessageNewAccount')
+    ],
     DELETE_RECOVERY_METHOD: [
         wallet.deleteRecoveryMethod.bind(wallet),
         () => defaultCodesFor('account.deleteRecoveryMethod')
@@ -279,7 +283,7 @@ export const { getAccessKeys, removeAccessKey, addLedgerAccessKey, connectLedger
 
 export const handleAddAccessKeySeedPhrase = (accountId, recoveryKeyPair) => async (dispatch) => {
     await dispatch(addAccessKeySeedPhrase(accountId, recoveryKeyPair))
-    dispatch(redirectToProfile())
+    dispatch(redirectTo('/profile'))
 }
 
 export const handleCreateAccountWithSeedPhrase = (accountId, recoveryKeyPair, fundingContract, fundingKey) => async (dispatch) => {
@@ -288,7 +292,7 @@ export const handleCreateAccountWithSeedPhrase = (accountId, recoveryKeyPair, fu
     const promptTwoFactor = await wallet.twoFactor.checkCanEnableTwoFactor(account)
 
     if (fundingContract && promptTwoFactor) {
-        dispatch(push({ pathname: '/enable-two-factor' }))
+        dispatch(redirectTo('/enable-two-factor'))
     } else {
         dispatch(redirectToApp('/profile'))
     }

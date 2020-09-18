@@ -12,7 +12,7 @@ import { setAccountConfirmed, getAccountConfirmed, removeAccountConfirmed} from 
 import BN from 'bn.js'
 
 import { store } from '..'
-import { setSignTransactionStatus, setLedgerTxSigned, showLedgerModal } from '../actions/account'
+import { setSignTransactionStatus, setLedgerTxSigned, showLedgerModal, redirectToApp, redirectTo } from '../actions/account'
 
 import { TwoFactor, METHOD_NAMES_LAK } from './twoFactor'
 
@@ -666,16 +666,23 @@ class Wallet {
         return seedPhrase;
     }
 
-    async validateSecurityCode(accountId, method, securityCode, isNew) {
+    async validateSecurityCode(accountId, method, securityCode) {
+        const isNew = await this.checkIsNew(accountId)
         const body = {
             accountId,
             method,
             securityCode
         }
-        if (isNew) {
-            return await sendJson('POST', ACCOUNT_HELPER_URL + '/account/validateSecurityCodeForTempAccount', body);
+
+        try {
+            if (isNew) {
+                await sendJson('POST', ACCOUNT_HELPER_URL + '/account/validateSecurityCodeForTempAccount', body);
+            } else {
+                await this.postSignedJson('/account/validateSecurityCode', body);
+            }
+        } catch(e) {
+            throw new WalletError('Invalid code', 'account.setupRecoveryMessage.error')
         }
-        return await this.postSignedJson('/account/validateSecurityCode', body);
     }
 
     async getRecoveryMethods(account) {
@@ -686,24 +693,36 @@ class Wallet {
         }
     }
 
-    async setupRecoveryMessage(accountId, method, securityCode, fundingContract, fundingKey, recoverySeedPhrase) {
+    async setupRecoveryMessageNewAccount(accountId, method, securityCode, fundingContract, fundingKey, recoverySeedPhrase) {
         const { secretKey } = parseSeedPhrase(recoverySeedPhrase)
         const recoveryKeyPair = KeyPair.fromString(secretKey)
-        const isNew = await this.checkIsNew(accountId)
-
-        let securityCodeResult = await this.validateSecurityCode(accountId, method, securityCode, isNew);
-        if (!securityCodeResult || securityCodeResult.length === 0) {
-            console.log('INVALID CODE', securityCodeResult)
-            return
-        }
-
-        if (isNew) {
-            await wallet.saveAccount(accountId, recoveryKeyPair);
-            await this.createNewAccount(accountId, fundingContract, fundingKey, recoveryKeyPair.publicKey)
-        }
-
-        const newKeyPair = isNew ? KeyPair.fromRandom('ed25519') : recoveryKeyPair
+        await this.validateSecurityCode(accountId, method, securityCode);
+        await wallet.saveAccount(accountId, recoveryKeyPair);
+        await this.createNewAccount(accountId, fundingContract, fundingKey, recoveryKeyPair.publicKey)
+        const newKeyPair = KeyPair.fromRandom('ed25519')
         const newPublicKey = newKeyPair.publicKey
+        await this.addNewAccessKeyToAccount(accountId, newPublicKey)
+        await this.saveAccount(accountId, newKeyPair)
+        const account = await this.loadAccount()
+        const promptTwoFactor = await this.twoFactor.checkCanEnableTwoFactor(account)
+
+        if (promptTwoFactor && fundingContract) {
+            store.dispatch(redirectTo('/enable-two-factor'))
+        } else {
+            store.dispatch(redirectToApp('/profile'))
+        }
+    }
+
+    async setupRecoveryMessage(accountId, method, securityCode, recoverySeedPhrase) {
+        const { secretKey } = parseSeedPhrase(recoverySeedPhrase)
+        const recoveryKeyPair = KeyPair.fromString(secretKey)
+        await this.validateSecurityCode(accountId, method, securityCode);
+        const newPublicKey = recoveryKeyPair.publicKey
+        await this.addNewAccessKeyToAccount(accountId, newPublicKey)
+        await store.dispatch(redirectTo('/profile'))
+    }
+
+    async addNewAccessKeyToAccount(accountId, newPublicKey) {
         const { account, has2fa } = await this.getAccountAndState(accountId)
         const accountKeys = await account.getAccessKeys();
 
@@ -713,10 +732,6 @@ class Wallet {
             if (!accountKeys.some(it => it.public_key.endsWith(newPublicKey))) {
                 await account.addKey(newPublicKey);
             }
-        }
-
-        if (isNew) {
-            await this.saveAccount(accountId, newKeyPair)
         }
     }
 
