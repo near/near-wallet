@@ -36,7 +36,12 @@ const SetupLedgerSuccess = (props) => {
             <HardwareDeviceIcon/>
             <p><Translate id='setupLedgerSuccess.one'/></p>
             <p className='color-red'><Translate id='setupLedgerSuccess.two'/></p>
-            <FormButton onClick={() => setNextStep('remove')}><Translate id='setupLedgerSuccess.primaryCta'/></FormButton>
+            <FormButton 
+                sending={removingkeys} 
+                onClick={() => setNextStep('remove')}
+            >
+                <Translate id='setupLedgerSuccess.primaryCta'/>
+            </FormButton>
             <button className='link' onClick={() => setNextStep('keep')}><Translate id='setupLedgerSuccess.secondaryCta'/></button>
             {nextStep && 
                 <NextStepModal 
