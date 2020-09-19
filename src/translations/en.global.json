@@ -145,7 +145,8 @@
         "disableTextPhrase": "Your current seed phrase will be permanently deactivated.",
         "disableInputPlaceholder": "Enter your account ID to confirm",
         "disableNo": "No, keep",
-        "recoveryLinkSent": "Recovery Link Sent!"
+        "recoveryLinkSent": "Recovery Link Sent!",
+        "disableNotAllowed": "Accounts are required to have at least one active recovery method. Please first enable an alternative recovery method to proceed."
     },
 
     "hardwareDevices": {
@@ -273,7 +274,8 @@
         "moreInformation": "More information",
         "dismiss": "Dismiss",
         "cancelOperation": "Cancel Operation",
-        "subscribe": "Subscribe"
+        "subscribe": "Subscribe",
+        "Close": "Close"
     },
 
     "link": {
