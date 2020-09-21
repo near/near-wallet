@@ -6335,10 +6335,10 @@ near-ledger-js@^0.1.2:
   dependencies:
     bs58 "^4.0.1"
 
-near-seed-phrase@^0.0.2:
-  version "0.0.2"
-  resolved "https://registry.yarnpkg.com/near-seed-phrase/-/near-seed-phrase-0.0.2.tgz#1ac4c64b2188e5dc479b6fe3a0966776919d9b49"
-  integrity sha512-N+1+yxqQffcvFdmw8L4ktO5B7nCtmnY0KxptjkxP7XQyW+Zbfqi9arwYQDQZKMrG9xZaLErKjyTD42RXyOtB+g==
+near-seed-phrase@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/near-seed-phrase/-/near-seed-phrase-0.1.0.tgz#8a9a842fc112759e86dfe65325a113a9dbd6a526"
+  integrity sha512-tkeb9LUi/2w1mHjP1xwTrTSQyaUBQRbYtgUnhUTJjFznXVRi4Ai+jifWhwPDvSjQ0IPqYmD8MuWRie3kY0yT1g==
   dependencies:
     bip39-light "^1.0.7"
     bs58 "^4.0.1"
