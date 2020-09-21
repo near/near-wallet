@@ -10,6 +10,7 @@ import { generateSeedPhrase } from 'near-seed-phrase';
 import { WalletError } from './walletError'
 import { setAccountConfirmed, getAccountConfirmed, removeAccountConfirmed} from './localStorage'
 import BN from 'bn.js'
+import nacl from 'tweetnacl'
 
 import { store } from '..'
 import { setSignTransactionStatus, setLedgerTxSigned, showLedgerModal } from '../actions/account'
@@ -583,12 +584,7 @@ class Wallet {
         const balance = await account.getAccountBalance()
 
         // TODO: Should lockup contract balance be retrieved separately only when needed?
-        if (!accountId.endsWith(`.${ACCOUNT_ID_SUFFIX}`)) {
-            // NOTE: No lockup for TLA as then it gets ambiguous
-            return balance
-        }
-        const re = new RegExp(`\\.${ACCOUNT_ID_SUFFIX}$`);
-        const lockupAccountId = accountId.replace(re, '.' + LOCKUP_ACCOUNT_ID_SUFFIX)
+        const lockupAccountId = Buffer.from(nacl.hash(Buffer.from(accountId))).toString('hex').substring(0, 40)  + '.' + LOCKUP_ACCOUNT_ID_SUFFIX
         try {
             // TODO: Makes sense for a lockup contract to return whole state as JSON instead of method per property
             const [
