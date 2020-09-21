@@ -104,6 +104,14 @@ const DisableContainer = styled.form`
                 }
             }
         }
+
+        .not-allowed {
+            color: #24272a;
+            button {
+                display: block;
+                margin-top: 15px;
+            }
+        }
     }
 `
 
@@ -123,7 +131,7 @@ class ActiveMethod extends Component {
     render() {
 
         const { disable, username } = this.state;
-        const { data, onDelete, accountId, deletingMethod } = this.props;
+        const { data, onDelete, accountId, deletingMethod, deleteAllowed } = this.props;
 
         if (!disable) {
             return (
@@ -147,37 +155,49 @@ class ActiveMethod extends Component {
         } else {
             return (
                 <DisableContainer onSubmit={e => {onDelete(); e.preventDefault();}}>
-                    <div className='top'>
-                        <Translate id='recoveryMgmt.disableTitle'/>
-                        <div>
-                            <Translate id={`recoveryMgmt.${data.kind !== 'phrase' ? 'disableTextLink' : 'disableTextPhrase'}`}/>
+                    {!deleteAllowed &&
+                        <div className='not-allowed'>
+                            <Translate id='recoveryMgmt.disableNotAllowed'/>
+                            <FormButton onClick={this.handleToggleDisable} type='button' className='small gray-blue'>
+                                <Translate id='button.close'/>    
+                            </FormButton>
                         </div>
-                    </div>
-                    <Translate>
-                        {({ translate }) => (
-                            <input
-                                placeholder={translate('recoveryMgmt.disableInputPlaceholder')}
-                                value={username}
-                                onChange={e => this.setState({ username: e.target.value })}
-                                autoComplete='off'
-                                spellCheck='false'
-                                disabled={deletingMethod}
-                            />
-                        )}
-                    </Translate>
-                    <div className='bottom'>
-                        <FormButton
-                            type='submit'
-                            color='red small'
-                            disabled={deletingMethod || username !== accountId}
-                            sending={deletingMethod}
-                        >
-                            <Translate id='button.disable'/> {data.kind}
-                        </FormButton>
-                        <FormButton type='button' color='link' onClick={this.handleToggleDisable}>
-                            <Translate id='recoveryMgmt.disableNo'/> {data.kind}
-                        </FormButton>
-                    </div>
+                    }
+                    {deleteAllowed &&
+                        <>
+                            <div className='top'>
+                                <Translate id='recoveryMgmt.disableTitle'/>
+                                <div>
+                                    <Translate id={`recoveryMgmt.${data.kind !== 'phrase' ? 'disableTextLink' : 'disableTextPhrase'}`}/>
+                                </div>
+                            </div>
+                            <Translate>
+                                {({ translate }) => (
+                                    <input
+                                        placeholder={translate('recoveryMgmt.disableInputPlaceholder')}
+                                        value={username}
+                                        onChange={e => this.setState({ username: e.target.value })}
+                                        autoComplete='off'
+                                        spellCheck='false'
+                                        disabled={deletingMethod}
+                                    />
+                                )}
+                            </Translate>
+                            <div className='bottom'>
+                                <FormButton
+                                    type='submit'
+                                    color='red small'
+                                    disabled={deletingMethod || username !== accountId}
+                                    sending={deletingMethod}
+                                >
+                                    <Translate id='button.disable'/> {data.kind}
+                                </FormButton>
+                                <FormButton type='button' color='link' onClick={this.handleToggleDisable}>
+                                    <Translate id='recoveryMgmt.disableNo'/> {data.kind}
+                                </FormButton>
+                            </div>
+                        </>
+                    }
                 </DisableContainer>
             );
         }

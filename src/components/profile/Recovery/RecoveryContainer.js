@@ -85,6 +85,7 @@ const RecoveryContainer = () => {
     const allKinds = ['email', 'phone', 'phrase'];
     const currentActiveKinds = new Set(activeMethods.map(method => method.kind));
     const missingKinds = allKinds.filter(kind => !currentActiveKinds.has(kind))
+    const deleteAllowed = [...currentActiveKinds].length > 1 || account.ledgerKey;
 
     if (!account.ledgerKey) {
         missingKinds.forEach(kind => activeMethods.push({kind: kind}));
@@ -93,9 +94,6 @@ const RecoveryContainer = () => {
     const loading = account.actionsPending.includes('LOAD_RECOVERY_METHODS') || account.actionsPending.includes('REFRESH_ACCOUNT');
 
     const handleDeleteMethod = async (method) => {
-
-        const deleteAllowed = [...currentActiveKinds].length > 1 || account.ledgerKey;
-
         try {
             setDeletingMethod(method.publicKey)
             await dispatch(deleteRecoveryMethod(method, deleteAllowed))
@@ -135,6 +133,7 @@ const RecoveryContainer = () => {
                         accountId={accountId}
                         deletingMethod={deletingMethod === method.publicKey}
                         onDelete={() => handleDeleteMethod(method)}
+                        deleteAllowed={deleteAllowed}
                     />
                 )}
                 <SkeletonLoading
