@@ -33,17 +33,6 @@ export default function Staking() {
                     fee='1.23%'
                     amount='23.442525'
                 />
-                <ValidatorBox
-                    validator='Nils.near'
-                    fee='1.23%'
-                    amount='23.442525'
-                />
-                <ValidatorBox
-                    validator='Nils.near'
-                    amount='23.442525'
-                    fee='1.23%'
-                    clickable={false}
-                />
             </ListWrapper>
         </>
     )

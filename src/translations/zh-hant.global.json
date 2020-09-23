@@ -483,6 +483,56 @@
         "amountStakingInput": {
             "title": "請輸入質押數量",
             "placeholder": "例如：15"
+        },
+        "staking": {
+            "title": "Staking",
+            "desc": "Stake your NEAR tokens with a validator",
+            "button": "Stake NEAR",
+            "currentValidators": "Your Current Validators"
+        },
+        "balanceBox": {
+            "staked": {
+                "title": "Total amount staked",
+                "info": "What does Total amount staked mean?"
+            },
+            "unclaimed": {
+                "title": "Unclaimed rewards",
+                "info": "What does Unclaimed rewardsd mean?"
+            },
+            "available": {
+                "title": "Available for withdrawal",
+                "info": "What does Available for withdrawal mean?"
+            }
+        },
+        "validatorBox": {
+            "fee": "Fee",
+            "staking": "Staking",
+            "near": "NEAR",
+            "cta": "view" 
+        },
+        "stake": {
+            "title": "Stake Amount",
+            "desc": "Enter the amount you would like to stake with your chosen validator.",
+            "amount": "Amount",
+            "stakeWith": "Stake with",
+            "button": "Submit Stake"
+        },
+        "stakeSuccess": {
+            "title": "Success!",
+            "desc": "Your stake has successfully been delegated to your chosen validator:",
+            "descTwo": "You can now view your delegation and staking rewards from your staking dashboard.",
+            "button": "Return to Dashboard"
+        },
+        "validators": {
+            "title": "Select a Validator",
+            "desc": "Enter a known validator to stake your NEAR tokens.",
+            "inputLabel": "Enter a validator account ID",
+            "button": "View Validator"
+        },
+        "validator": {
+            "title": "Validator: <br/> @${validator}",
+            "button": "Stake with validator",
+            "fee": "Staking Fee"
         }
     },
     "profile": {

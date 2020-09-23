@@ -10,6 +10,7 @@ const Container = styled.div`
     border: 2px solid #F2F2F2;
     border-radius: 8px;
     padding: 10px;
+    line-height: 130%;
     cursor: ${props => props.clickable === 'true' ? 'pointer' : ''};
 
     svg {
@@ -77,13 +78,14 @@ export default function ValidatorBox({
     fee,
     amount,
     staking = true,
-    clickable = true
+    clickable = true,
+    style
 }) {
 
     const cta = amount ? <ChevronIcon/> : <FormButton className='gray-blue'><Translate id='staking.validatorBox.cta' /></FormButton>
 
     return (
-        <Container className='validator-box' clickable={clickable ? 'true' : ''}>
+        <Container className='validator-box' clickable={clickable ? 'true' : ''} style={style}>
             <UserIcon/>
             <div className='left'>
                 <div>{validator}</div>

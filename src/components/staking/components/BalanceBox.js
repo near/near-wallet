@@ -13,7 +13,7 @@ const Container = styled.div`
 
     .list {
         display: block;
-        margin-top: 15px;
+        margin-top: 10px;
         font-family: BwSeidoRound;
         color: #24272a;
         font-size: 22px;
