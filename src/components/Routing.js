@@ -301,11 +301,6 @@ class Routing extends Component {
                                     path='/staking'
                                     component={StakingContainer}
                                 />
-                                <PrivateRoute
-                                    exact
-                                    path='/validator/:validatorId?'
-                                    component={ValidatorWithRouter}
-                                />
                                 <Route
                                     exact
                                     path='/cli-login-success'
