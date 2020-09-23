@@ -26,6 +26,8 @@ const Staking = (props) => {
         validators
     } = props
 
+    console.log(validators)
+
     const [accountId, setAccountId] = useState('')
 
     const dispatch = useDispatch()

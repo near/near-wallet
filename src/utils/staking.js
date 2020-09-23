@@ -3,7 +3,7 @@ import { toNear, gtZero, BOATLOAD_OF_GAS } from './amounts'
 import { queryExplorer } from './explorer-api'
 
 const { functionCall } = nearApiJs.transactions
-const GAS_STAKE = '100000000000000' // 100 Tgas
+const GAS_STAKE = '200000000000000' // 200 Tgas
 const stakingMethods = {
 	viewMethods: [
 		'get_account_staked_balance',
@@ -23,6 +23,9 @@ const stakingMethods = {
 		'unstake',
 	],
 }
+const lockupMethods = {
+    viewMethods: ['get_staking_pool_account_id']
+}
 
 export class Staking {
     constructor(wallet) {
@@ -40,10 +43,11 @@ export class Staking {
     }
 
     async getValidators() {
+        const account_id = this.wallet.accountId
         const res = await this.provider.validators()
         const account = this.wallet.getAccount()
-        const stakingTxs = await getStakingTransactions(this.wallet.accountId)
-        const validatorIdsStaked = stakingTxs.map((tx) => tx.receiver_id)
+        // const stakingTxs = await getStakingTransactions(this.wallet.accountId)
+        // const validatorIdsStaked = stakingTxs.map((tx) => tx.receiver_id)
         const validatorIds = res.current_validators.map((v) => v.account_id)
             // .filter((v) => validatorIdsStaked.includes(v))
             // console.log('validatorIds', validatorIds)
@@ -55,6 +59,10 @@ export class Staking {
             try {
                 const fee = validator.fee = await validator.contract.get_reward_fee_fraction()
                 fee.percentage = fee.numerator / fee.denominator * 100
+                validator.stakedBalance = await validator.contract.get_account_staked_balance({ account_id })
+                
+                // TODO add more of the view methods, unstaked balance and rewards
+                
                 this.validators.push(validator)
             } catch (e) {
                 console.warn(e)
@@ -63,37 +71,80 @@ export class Staking {
         return this.validators
     }
 
+
     async stake(validatorId, amount) {
         amount = toNear(amount)
         let receiverId = validatorId
-        const account_id = this.wallet.accountId
-        const { account, has2fa } = await this.wallet.getAccountAndState(account_id)
 
+        // TODO how to choose lockup or not?
+        // TODO remove and use deterministic lockup name
         const useLockup = window.confirm('use lockup?')
-        const lockupId = 'matt2.lockup.m0'
+        const lockupId = 'matt2.lockup.m0' // only can be controlled by multisig.testnet
 
         // create actions
         const actions = []
         if (useLockup) {
-            actions.push(
-                functionCall('select_staking_pool', { staking_pool_account_id: validatorId }, GAS_STAKE),
-                functionCall('deposit_and_stake', { amount }, GAS_STAKE)
-            )
+            const selectedValidatorId = await this.getSelectedValidator(lockupId)
+            console.log('selectedValidatorId', selectedValidatorId)
+            if (validatorId !== selectedValidatorId) {
+                await this.selectValidator(validatorId, lockupId)
+            }
+            actions.push(functionCall('deposit_and_stake', { amount }, GAS_STAKE))
             receiverId = lockupId
         } else {
             actions.push(functionCall('deposit_and_stake', {}, GAS_STAKE, amount))
         }
-        // complete tx
-        let res
-        if (has2fa) {
-            res = await this.wallet.signAndSendTransactions(account, [{receiverId, actions}])
-        } else {
-            res = await account.signAndSendTransaction(receiverId, actions)
-        }
-        console.log(res)
+        const res = await this.signAndSendTransaction(receiverId, actions)
+        console.log('deposit_and_stake', res)
         return res
     }
+
+    // helpers for lockup
+
+    async selectValidator(validatorId, lockupId) {
+        try {
+            const unselect_staking_pool = await this.signAndSendTransaction(lockupId, [
+                functionCall('unselect_staking_pool', {}, GAS_STAKE)
+            ])
+            console.log('unselect_staking_pool', unselect_staking_pool)
+        } catch (e) {
+            // error "There is still a deposit on the staking pool"
+            console.warn('Problem unselecting validator', validatorId, e)
+        }
+        try {
+            const select_staking_pool = await this.signAndSendTransaction(lockupId, [
+                functionCall('select_staking_pool', { staking_pool_account_id: validatorId }, GAS_STAKE)
+            ])
+            console.log('select_staking_pool', select_staking_pool)
+        } catch (e) {
+            // error "Staking pool is already selected"
+            console.warn('Problem selecting validator', validatorId, e)
+            throw new Error('Cannot select validator')
+        }
+    }
+
+    async getSelectedValidator(lockupId) {
+        const account_id = this.wallet.accountId
+        const account = this.wallet.getAccount(account_id)
+        const lockup = await new nearApiJs.Contract(account, lockupId, { ...lockupMethods })
+        return await lockup.get_staking_pool_account_id()
+    }
+
+    // helper for 2fa / signTx
+
+    async signAndSendTransaction(receiverId, actions) {
+        const account_id = this.wallet.accountId
+        const { account, has2fa } = await this.wallet.getAccountAndState(account_id)
+        if (has2fa) {
+            return this.wallet.signAndSendTransactions(account, [{receiverId, actions}])
+        }
+        return account.signAndSendTransaction(receiverId, actions)
+    }
 }
+
+/********************************
+WIP Explorer API calls
+********************************/
 
 async function getStakingTransactions(accountId) {
     if (!accountId) return {}
