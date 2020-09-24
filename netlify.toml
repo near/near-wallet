@@ -17,3 +17,11 @@
     DISABLE_SEND_MONEY = "true"
     DISABLE_CREATE_ACCOUNT = "true"
     REACT_APP_MULTISIG_MIN_AMOUNT = "36"
+
+[[headers]]
+    for = "/*"
+    [headers.values]
+        X-Frame-Options = "deny"
+        Content-Security-Policy = """
+            frame-ancestors 'none'
+        """
