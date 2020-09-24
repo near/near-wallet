@@ -285,7 +285,8 @@
         "authorizedApps": "Authorized Apps",
         "switchAccount": "Switch account",
         "noAccount": "You have no other accounts",
-        "fullAccessKeys": "Full Access Keys"
+        "fullAccessKeys": "Full Access Keys",
+        "staking": "Staking"
     },
 
     "input": {
@@ -545,7 +546,8 @@
             "desc": "Enter the amount you would like to stake with your chosen validator.",
             "amount": "Amount",
             "stakeWith": "Stake with",
-            "button": "Submit Stake"
+            "button": "Submit Stake",
+            "confirm": "You are staking"
         },
         "stakeSuccess": {
             "title": "Success!",

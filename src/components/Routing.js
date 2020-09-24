@@ -300,6 +300,11 @@ class Routing extends Component {
                                 <PrivateRoute
                                     path='/staking'
                                     component={StakingContainer}
+                                    render={() => (
+                                        <StakingContainer
+                                            history={this.props.history}
+                                        />
+                                    )}
                                 />
                                 <Route
                                     exact

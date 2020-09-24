@@ -3,11 +3,8 @@ import { useSelector, useDispatch } from 'react-redux'
 import { getValidators } from '../../actions/staking'
 import styled from 'styled-components'
 import Container from '../common/styled/Container.css'
-import {
-    BrowserRouter as Router,
-    Switch,
-    Route
-} from 'react-router-dom'
+import { Switch, Route } from 'react-router-dom'
+import { ConnectedRouter } from 'connected-react-router'
 import Staking from './components/Staking'
 import Validators from './components/Validators'
 import Validator from './components/Validator'
@@ -58,50 +55,64 @@ const StyledContainer = styled(Container)`
     }
 `
 
-export function StakingContainer() {
+export function StakingContainer({ history }) {
     const dispatch = useDispatch()
     const staking = useSelector(({ staking }) => staking)
     const { formLoader, actionsPending } = useSelector(({ account }) => account);
     const validators = staking.validators
+    const currentValidators = validators.filter(validator => validator.stakedBalance && validator.stakedBalance !== '0')
 
     useEffect(() => {
         if (!validators.length) dispatch(getValidators())
     }, [])
 
+    const handleGetValidators = async () => {
+        await dispatch(getValidators())
+    }
+
     return (
         <StyledContainer className='small-centered'>
-            <Router>
+            <ConnectedRouter history={history}>
                 <Switch>
                     <Route
                         exact
                         path='/staking'
-                        render={(props) => (
-                            <Staking {...props} {...staking} />
+                        render={() => (
+                            <Staking
+                                {...staking} 
+                                currentValidators={currentValidators}
+                            />
                         )}
                     />
                     <Route
                         exact
                         path='/staking/validators'
-                        render={(props) => (
-                            <Validators {...props} {...staking} />
+                        render={() => (
+                            <Validators validators={validators} />
                         )}
                     />
                     <Route
                         exact
                         path='/staking/:validator'
                         render={(props) => (
-                            <Validator {...props} {...staking} />
+                            <Validator {...props} validators={validators} />
                         )}
                     />
                     <Route
                         exact
                         path='/staking/:validator/stake'
                         render={(props) => (
-                            <Stake {...props} {...staking} formLoader={formLoader} actionsPending={actionsPending}/>
+                            <Stake 
+                                {...props} 
+                                validators={validators}
+                                formLoader={formLoader} 
+                                actionsPending={actionsPending}
+                                handleGetValidators={handleGetValidators}
+                            />
                         )}
                     />
                 </Switch>
-            </Router>
+            </ConnectedRouter>
         </StyledContainer>
     )
 }

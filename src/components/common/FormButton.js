@@ -240,6 +240,16 @@ const CustomButton = styled(Button)`
                 }
             }
 
+            &.red {
+                color: #ff585d;
+                text-decoration: none;
+
+                :disabled {
+                    opacity: 0.8;
+                    background: transparent !important;
+                }
+            }
+
         }
 
         &.dots {
