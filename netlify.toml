@@ -25,3 +25,8 @@
         Content-Security-Policy = """
             frame-ancestors 'none'
         """
+
+[[redirects]]
+    from = "/*"
+    to = "/index.html"
+    status = 200
