@@ -4,8 +4,15 @@ import BalanceBox from './BalanceBox'
 import ValidatorBox from './ValidatorBox'
 import ListWrapper from './ListWrapper'
 import { Translate } from 'react-localize-redux'
+import { BN } from 'bn.js'
 
-export default function Staking() {
+export default function Staking({ validators }) {
+    const currentValidators = validators.filter(validator => validator.stakedBalance !== '0')
+    const allBalances = currentValidators.map(validator => validator.stakedBalance)
+    let total = new BN(0)
+    for (let balance of allBalances) {
+        total.add(new BN(balance))
+    }
     return (
         <>
             <h1><Translate id='staking.staking.title' /></h1>
@@ -14,25 +21,18 @@ export default function Staking() {
             <BalanceBox
                 title='staking.balanceBox.staked.title'
                 info='staking.balanceBox.staked.info'
-                amount='200000000000000000000000000'
-            />
-            <BalanceBox
-                title='staking.balanceBox.unclaimed.title'
-                info='staking.balanceBox.unclaimed.info'
-                amount='200000000000000000000000000'
-            />
-            <BalanceBox
-                title='staking.balanceBox.available.title'
-                info='staking.balanceBox.available.info'
-                amount='200000000000000000000000000'
+                amount={total}
             />
             <h3><Translate id='staking.staking.currentValidators' /></h3>
             <ListWrapper>
-                <ValidatorBox
-                    validator='Nils.near'
-                    fee='1.23%'
-                    amount='23.442525'
-                />
+                {currentValidators.map((validator, i) =>
+                    <ValidatorBox
+                        key={i}
+                        validator={validator.name}
+                        fee={validator.fee.percentage}
+                        amount={validator.stakedBalance}
+                    />
+                )}
             </ListWrapper>
         </>
     )

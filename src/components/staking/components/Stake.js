@@ -1,14 +1,23 @@
 import React, { useState } from 'react'
+import { useDispatch } from 'react-redux'
 import AmountInput from './AmountInput'
 import ValidatorBox from './ValidatorBox'
 import FormButton from '../../common/FormButton'
 import { Translate } from 'react-localize-redux'
 import ArrowCircleIcon from '../../svg/ArrowCircleIcon'
 import TransferMoneyIcon from '../../svg/TransferMoneyIcon'
+import { stake } from '../../../actions/staking'
 
-export default function Stake() {
+export default function Stake({ match, validators, formLoader, actionsPending }) {
+    const dispatch = useDispatch()
     const [amount, setAmount] = useState('');
     const [success, setSuccess] = useState();
+    const validator = validators.filter(validator => validator.name === match.params.validator)[0]
+
+    const handleStake = async () => {
+        await dispatch(stake(validator.name, amount))
+        setSuccess(true)
+    }
     
     if (!success) {
         return (
@@ -19,12 +28,14 @@ export default function Stake() {
                 <AmountInput value={amount} onChange={setAmount}/>
                 <ArrowCircleIcon/>
                 <h4><Translate id='staking.stake.stakeWith' /></h4>
-                <ValidatorBox
-                    validator='Nils.near'
-                    fee='1.23%'
-                    clickable={false}
-                />
-                <FormButton onClick={() => setSuccess(true)}><Translate id='staking.stake.button' /></FormButton>
+                {validator && 
+                    <ValidatorBox
+                        validator={validator.name}
+                        fee={validator.fee.percentage}
+                        clickable={false}
+                    />
+                }
+                <FormButton disabled={formLoader} sending={actionsPending.includes('STAKE')} onClick={handleStake}><Translate id='staking.stake.button' /></FormButton>
             </>
         )
     } else {
@@ -33,13 +44,14 @@ export default function Stake() {
                 <TransferMoneyIcon/>
                 <h1><Translate id='staking.stakeSuccess.title' /></h1>
                 <h2><Translate id='staking.stakeSuccess.desc' /></h2>
-                <ValidatorBox
-                    validator='Nils.near'
-                    fee='1.23%'
-                    amount='23.442525'
-                    clickable={false}
-                    style={{margin: '40px 0'}}
-                />
+                {validator.stakedBalance && <ValidatorBox
+                        validator={validator.name}
+                        fee={validator.fee.percentage}
+                        amount={validator.stakedBalance}
+                        clickable={false}
+                        style={{margin: '40px 0'}}
+                    />
+                }
                 <h4 style={{ textAlign: 'center' }}><Translate id='staking.stakeSuccess.descTwo' /></h4>
                 <FormButton linkTo='/staking' className='seafoam-blue'><Translate id='staking.stakeSuccess.button' /></FormButton>
             </>
