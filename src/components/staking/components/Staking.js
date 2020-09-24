@@ -6,13 +6,14 @@ import ListWrapper from './ListWrapper'
 import { Translate } from 'react-localize-redux'
 import { BN } from 'bn.js'
 
-export default function Staking({ validators }) {
+export default function Staking({ validators, totalStaked = 1 }) {
     const currentValidators = validators.filter(validator => validator.stakedBalance !== '0')
     const allBalances = currentValidators.map(validator => validator.stakedBalance)
-    let total = new BN(0)
-    for (let balance of allBalances) {
-        total.add(new BN(balance))
-    }
+
+    console.log(totalStaked)
+
+    let total = totalStaked
+    
     return (
         <>
             <h1><Translate id='staking.staking.title' /></h1>

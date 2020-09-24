@@ -4,14 +4,15 @@ import reduceReducers from 'reduce-reducers'
 import { getValidators } from '../../actions/staking'
 
 const initialState = {
-    validators: []
+    validators: [],
+    totalStaked: 1,
 }
 
 const stakingHandlers = handleActions({
     [getValidators]: (state, { error, payload }) => {
         return {
             ...state,
-            validators: payload || []
+            ...payload,
         }
     },
 }, initialState)

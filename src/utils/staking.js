@@ -1,5 +1,6 @@
 import * as nearApiJs from 'near-api-js'
-import { toNear, gtZero } from './amounts'
+import BN from 'bn.js'
+import { toNear, nearTo, gtZero } from './amounts'
 import { queryExplorer } from './explorer-api'
 
 const {
@@ -36,14 +37,10 @@ export class Staking {
     constructor(wallet) {
         this.wallet = wallet
         this.provider = wallet.connection.provider
-        this.validators = []
 
         // window.staking = this
         // window.wallet = this.wallet
         // window.nearApiJs = nearApiJs
-
-        // debugging
-        this.getValidators()
     }
 
     async getValidatorInstance(account, validatorName) {
@@ -59,6 +56,10 @@ export class Staking {
         const validatorIds = res.current_validators.map((v) => v.account_id)
             // .filter((v) => validatorIdsStaked.includes(v))
             // console.log('validatorIds', validatorIds)
+        
+        const validators = []
+        let totalStaked = new BN('0', 10);
+
         for (validator of validatorIds) {
             const validator = {
                 name: validator,
@@ -73,7 +74,8 @@ export class Staking {
                 if (gtZero(validator.totalBalance)) {
                     validator.stakedBalance = await validator.contract.get_account_staked_balance({ account_id })
                     validator.unstakedBalance = await validator.contract.get_account_unstaked_balance({ account_id })
-                    validator.accounts = await validator.contract.get_accounts({ from_index: 0, limit: 100 })
+                    // validator.accounts = await validator.contract.get_accounts({ from_index: 0, limit: 100 })
+                    totalStaked = totalStaked.add(new BN(validator.stakedBalance, 10))
                 }
 
                 //debugging
@@ -83,15 +85,13 @@ export class Staking {
                     console.log(res)
                 }
                 
-                this.validators.push(validator)
+                validators.push(validator)
             } catch (e) {
                 console.warn(e)
             }
         }
-
-        // filter if 
-        console.log(this.validators)
-        return this.validators
+        console.log(validators)
+        return { validators, totalStaked }
     }
 
 

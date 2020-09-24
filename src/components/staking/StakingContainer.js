@@ -76,28 +76,28 @@ export function StakingContainer() {
                         exact
                         path='/staking'
                         render={(props) => (
-                            <Staking {...props} validators={validators}/>
+                            <Staking {...props} {...staking} />
                         )}
                     />
                     <Route
                         exact
                         path='/staking/validators'
                         render={(props) => (
-                            <Validators {...props} validators={validators}/>
+                            <Validators {...props} {...staking} />
                         )}
                     />
                     <Route
                         exact
                         path='/staking/:validator'
                         render={(props) => (
-                            <Validator {...props} validators={validators}/>
+                            <Validator {...props} {...staking} />
                         )}
                     />
                     <Route
                         exact
                         path='/staking/:validator/stake'
                         render={(props) => (
-                            <Stake {...props} validators={validators} formLoader={formLoader} actionsPending={actionsPending}/>
+                            <Stake {...props} {...staking} formLoader={formLoader} actionsPending={actionsPending}/>
                         )}
                     />
                 </Switch>
