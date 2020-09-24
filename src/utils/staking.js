@@ -1,9 +1,14 @@
 import * as nearApiJs from 'near-api-js'
-import { toNear, gtZero, BOATLOAD_OF_GAS } from './amounts'
+import { toNear, gtZero } from './amounts'
 import { queryExplorer } from './explorer-api'
 
-const { functionCall } = nearApiJs.transactions
+const {
+    transactions: {
+        functionCall
+    }
+} =  nearApiJs
 const GAS_STAKE = '200000000000000' // 200 Tgas
+const GAS_2FA_STAKE = '80000000000000' // 80 Tgas
 const stakingMethods = {
 	viewMethods: [
 		'get_account_staked_balance',
@@ -36,6 +41,9 @@ export class Staking {
         // window.staking = this
         // window.wallet = this.wallet
         // window.nearApiJs = nearApiJs
+
+        // debugging
+        this.getValidators()
     }
 
     async getValidatorInstance(account, validatorName) {
@@ -59,15 +67,30 @@ export class Staking {
             try {
                 const fee = validator.fee = await validator.contract.get_reward_fee_fraction()
                 fee.percentage = fee.numerator / fee.denominator * 100
-                validator.stakedBalance = await validator.contract.get_account_staked_balance({ account_id })
-                
+
                 // TODO add more of the view methods, unstaked balance and rewards
+                validator.totalBalance = await validator.contract.get_account_total_balance({ account_id })
+                if (gtZero(validator.totalBalance)) {
+                    validator.stakedBalance = await validator.contract.get_account_staked_balance({ account_id })
+                    validator.unstakedBalance = await validator.contract.get_account_unstaked_balance({ account_id })
+                    validator.accounts = await validator.contract.get_accounts({ from_index: 0, limit: 100 })
+                }
+
+                //debugging
+                validator.stake = async () => {
+                    const amount = window.prompt('how much')
+                    const res = await this.stake(validator.name, amount)
+                    console.log(res)
+                }
                 
                 this.validators.push(validator)
             } catch (e) {
                 console.warn(e)
             }
         }
+
+        // filter if 
+        console.log(this.validators)
         return this.validators
     }
 
@@ -133,10 +156,11 @@ export class Staking {
     // helper for 2fa / signTx
 
     async signAndSendTransaction(receiverId, actions) {
-        const account_id = this.wallet.accountId
-        const { account, has2fa } = await this.wallet.getAccountAndState(account_id)
+        const { accountId } = this.wallet
+        const { account, has2fa } = await this.wallet.getAccountAndState(accountId)
         if (has2fa) {
-            return this.wallet.signAndSendTransactions(account, [{receiverId, actions}])
+            actions[0].functionCall.gas = GAS_2FA_STAKE
+            return this.wallet.signAndSendTransactions([{receiverId, actions}], accountId)
         }
         return account.signAndSendTransaction(receiverId, actions)
     }

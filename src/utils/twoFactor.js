@@ -157,6 +157,7 @@ export class TwoFactor {
                     action.method_name = action.methodName
                     delete action.methodName
                 }
+                console.log(action)
                 return action
             })
             await this.request(account, { receiver_id: receiverId, actions })
