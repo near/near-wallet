@@ -105,7 +105,7 @@ export class Staking {
                     }
                 })
                 validator.principleStaked = principleStaked.toString()
-                const unclaimedRewards = totalStaked.sub(principleStaked)
+                const unclaimedRewards = totalBalance.sub(principleStaked)
                 validator.unclaimedRewards = unclaimedRewards.toString()
                 totalUnclaimedRewards = totalUnclaimedRewards.add(unclaimedRewards)
                 //debugging
@@ -120,6 +120,8 @@ export class Staking {
                 console.warn(e)
             }
         })()))
+
+        console.log(validators)
 
         return {
             validators,
@@ -206,7 +208,7 @@ WIP Explorer API calls
 
 
 async function getStakingTransactions(accounts, validators) {
-    const methods = ['deposit_and_stake', 'stake', 'stake_all', 'unstake_all', 'unstake']
+    const methods = ['deposit', 'deposit_and_stake', 'withdraw', 'withdraw_all']
 
     const sql = `
         SELECT
