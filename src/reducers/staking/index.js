@@ -6,6 +6,7 @@ import { getValidators } from '../../actions/staking'
 const initialState = {
     validators: [],
     totalStaked: 1,
+    totalUnclaimedRewards: 1,
 }
 
 const stakingHandlers = handleActions({

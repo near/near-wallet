@@ -10,8 +10,6 @@ export default function Staking({ validators, totalStaked = 1 }) {
     const currentValidators = validators.filter(validator => validator.stakedBalance !== '0')
     const allBalances = currentValidators.map(validator => validator.stakedBalance)
 
-    console.log(totalStaked)
-
     let total = totalStaked
     
     return (
