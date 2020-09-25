@@ -633,7 +633,7 @@
 
     "setupLedger": {
         "header": "Connect your Ledger device",
-        "one": "Connect your Ledger Nano S or X to your computer or mobile device via USB and <b>open the NEAR application</b>.",
+        "one": "Connect your Ledger Nano S or X to your computer or mobile device via USB and <b>open the NEAR application</b>. <br><br>Then, <b>press both buttons</b> at the 'Pending Ledger Review' screen.",
         "two": "If you have not yet installed the NEAR Ledger app, follow",
         "twoLink": "these instructions"
     },
