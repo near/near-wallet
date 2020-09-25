@@ -12,7 +12,7 @@
     "mixpanel-browser": "^2.38.0",
     "near-api-js": "^0.29.1",
     "near-ledger-js": "^0.1.2",
-    "near-seed-phrase": "^0.0.2",
+    "near-seed-phrase": "^0.1.0",
     "prop-types": "^15.7.2",
     "query-string": "^6.13.2",
     "react": "^16.13.1",
