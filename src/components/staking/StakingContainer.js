@@ -28,6 +28,15 @@ const StyledContainer = styled(Container)`
         }
     }
 
+    .desc {
+        text-align: center;
+        line-height: 150% !important;
+    }
+
+    input {
+        margin: 0 !important;
+    }
+
     h3 {
         border-bottom: 2px solid #E6E6E6;
         margin-top: 35px;
@@ -46,7 +55,7 @@ const StyledContainer = styled(Container)`
     .no-border {
         border-top: 2px solid #E6E6E6;
         padding-top: 20px;
-        margin-top: 20px;
+        margin-top: 15px;
     }
 
     .transfer-money-icon {

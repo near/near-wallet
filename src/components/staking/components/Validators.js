@@ -9,7 +9,7 @@ export default function Validators({ validators, history }) {
     return (
         <>
             <h1><Translate id='staking.validators.title' /></h1>
-            <h2><Translate id='staking.validators.desc' /></h2>
+            <div className='desc'><Translate id='staking.validators.desc' /></div>
             <h4><Translate id='staking.validators.inputLabel' /></h4>
             <form onSubmit={e => {history.push(`/staking/${validator}`); e.preventDefault();}}>
                 <input placeholder='e.g. johndoe.near' value={validator} onChange={e => setValidator(e.target.value)} autoFocus spellCheck='false'/>

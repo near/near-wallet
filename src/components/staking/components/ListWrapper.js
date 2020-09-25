@@ -7,10 +7,10 @@ const Container = styled.div`
         border: 0;
         border-bottom: 2px solid #F8F8F8;
         border-radius: 0;
-        padding: 20px 0;
+        padding: 20px 0 18px 0;
 
         &:last-of-type {
-            border: 0;
+            border-bottom: 0;
         }
     }
 

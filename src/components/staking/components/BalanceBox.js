@@ -8,7 +8,7 @@ import { Translate } from 'react-localize-redux'
 const Container = styled.div`
     border: 2px solid #F2F2F2;
     border-radius: 4px;
-    padding: 10px;
+    padding: 10px 10px 8px 10px;
     margin-top: 10px;
 
     .list {

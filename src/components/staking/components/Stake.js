@@ -43,7 +43,7 @@ export default function Stake({ match, validators, formLoader, actionsPending, h
         return (
             <>
                 <h1><Translate id='staking.stake.title' /></h1>
-                <h2><Translate id='staking.stake.desc' /></h2>
+                <div className='desc'><Translate id='staking.stake.desc' /></div>
                 <h4><Translate id='staking.stake.amount' /></h4>
                 <AmountInput value={amount} onChange={setAmount} invalidAmount={invalidAmount}/>
                 <ArrowCircleIcon/>
@@ -79,8 +79,8 @@ export default function Stake({ match, validators, formLoader, actionsPending, h
             <>
                 <TransferMoneyIcon/>
                 <h1><Translate id='staking.stakeSuccess.title' /></h1>
-                <h4 style={{ textAlign: 'center' }} ><Translate id='staking.stakeSuccess.desc' /></h4>
-                {validator.stakedBalance && 
+                <div className='desc'><Translate id='staking.stakeSuccess.desc' /></div>
+                {validator && 
                     <ValidatorBox
                         validator={validator.name}
                         fee={validator.fee.percentage}
@@ -89,7 +89,7 @@ export default function Stake({ match, validators, formLoader, actionsPending, h
                         style={{margin: '40px 0'}}
                     />
                 }
-                <h4 style={{ textAlign: 'center' }}><Translate id='staking.stakeSuccess.descTwo' /></h4>
+                <div className='desc'><Translate id='staking.stakeSuccess.descTwo' /></div>
                 <FormButton linkTo='/staking' className='seafoam-blue'><Translate id='staking.stakeSuccess.button' /></FormButton>
             </>
         )

@@ -8,7 +8,7 @@ const Container = styled.div`
 
     background-color: #F2F2F2;
     border-radius: 4px;
-    padding: 10px;
+    padding: 12px 10px 10px 10px;
     display: flex;
     align-items: center;
 

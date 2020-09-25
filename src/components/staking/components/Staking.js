@@ -9,7 +9,7 @@ export default function Staking({ currentValidators, totalStaked }) {
     return (
         <>
             <h1><Translate id='staking.staking.title' /></h1>
-            <h2><Translate id='staking.staking.desc' /></h2>
+            <div className='desc'><Translate id='staking.staking.desc' /></div>
             <FormButton linkTo='/staking/validators'><Translate id='staking.staking.button' /></FormButton>
             <BalanceBox
                 title='staking.balanceBox.staked.title'

@@ -10,9 +10,10 @@ import { useDispatch } from 'react-redux'
 
 const Container = styled.div`
     display: flex;
+    align-items: center;
     border: 2px solid #F2F2F2;
     border-radius: 8px;
-    padding: 10px;
+    padding: 10px 10px 8px 10px;
     line-height: 130%;
     cursor: ${props => props.clickable === 'true' ? 'pointer' : ''};
 
@@ -20,11 +21,13 @@ const Container = styled.div`
         height: 100%;
 
         &.user-icon {
-            margin: 0 10px 0 0;
+            margin: -2px 10px 0 0;
+            min-width: 36px;
         }
 
         &.chevron-icon {
             margin: auto 5px auto 15px;
+            min-width: 8px;
         }
     }
 
@@ -38,6 +41,17 @@ const Container = styled.div`
         div {
             &:first-of-type {
                 color: #24272a;
+                max-width: 165px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+
+                @media (max-width: 350px) {
+                    max-width: 113px;
+                }
+
+                @media (min-width: 500px) {
+                    max-width: 230px;
+                }
             }
         }
     }
@@ -53,6 +67,7 @@ const Container = styled.div`
             
             &:last-of-type {
                 color: #24272a;
+                white-space: nowrap;
 
                 span {
                     color: #999;

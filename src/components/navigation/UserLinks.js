@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import accountIcon from '../../images/icon-account.svg';
 import arrowAuth from '../../images/icon-authorized.svg';
+import stakingIcon from '../../images/icon-staking-1.svg';
 import iconKeys from '../../images/icon-keys.svg';
 import { Translate } from 'react-localize-redux';
 import { ENABLE_FULL_ACCESS_KEYS } from '../../utils/wallet';
@@ -56,7 +57,7 @@ const UserLinks = ({ accountId }) => (
     <Container className='user-links'>
         <UserLink icon={accountIcon} to={`/profile/${accountId}`}><Translate id='link.profile'/></UserLink>
         <UserLink icon={arrowAuth} to='/authorized-apps'><Translate id='link.authorizedApps'/></UserLink>
-        <UserLink to='/staking'><Translate id='link.staking'/></UserLink>
+        <UserLink icon={stakingIcon} to='/staking'><Translate id='link.staking'/></UserLink>
         {ENABLE_FULL_ACCESS_KEYS && <UserLink icon={iconKeys} to='/full-access-keys'><Translate id='link.fullAccessKeys'/></UserLink>}
     </Container>
 )
