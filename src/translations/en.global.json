@@ -519,7 +519,8 @@
             "title": "Staking",
             "desc": "Stake your NEAR tokens with a validator",
             "button": "Stake NEAR",
-            "currentValidators": "Your Current Validators"
+            "currentValidators": "Your Current Validators",
+            "noValidators": "You haven't staked with a validator yet."
         },
         "balanceBox": {
             "staked": {
@@ -533,6 +534,10 @@
             "available": {
                 "title": "Available for withdrawal",
                 "info": "What does Available for withdrawal mean?"
+            },
+            "pending": {
+                "title": "Pending release",
+                "info": "What does Pending release mean?"
             }
         },
         "validatorBox": {

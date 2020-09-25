@@ -58,7 +58,7 @@ const StyledContainer = styled(Container)`
 export function StakingContainer({ history }) {
     const dispatch = useDispatch()
     const staking = useSelector(({ staking }) => staking)
-    const { formLoader, actionsPending } = useSelector(({ account }) => account);
+    const { formLoader, actionsPending, balance } = useSelector(({ account }) => account);
     const validators = staking.validators
     const currentValidators = validators.filter(validator => validator.stakedBalance && validator.stakedBalance !== '0')
 
@@ -87,8 +87,8 @@ export function StakingContainer({ history }) {
                     <Route
                         exact
                         path='/staking/validators'
-                        render={() => (
-                            <Validators validators={validators} />
+                        render={(props) => (
+                            <Validators {...props} validators={validators} />
                         )}
                     />
                     <Route
@@ -104,6 +104,7 @@ export function StakingContainer({ history }) {
                         render={(props) => (
                             <Stake 
                                 {...props} 
+                                balance={balance}
                                 validators={validators}
                                 formLoader={formLoader} 
                                 actionsPending={actionsPending}
