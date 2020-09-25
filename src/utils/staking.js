@@ -67,7 +67,7 @@ export class Staking {
         const validatorIds = res.current_validators.map((v) => v.account_id)
 
         // WIP needs 2FA - Explorer staking txs for historical stake
-        const stakingTxs = await getStakingTransactions(accounts, validatorIds)
+        const stakingTxs = [] //await getStakingTransactions(accountId)
         
         const validators = []
         const zero = new BN('0', 10)
@@ -85,7 +85,6 @@ export class Staking {
                 let totalBalance = new BN('0', 10)
                 let stakedBalance = new BN('0', 10)
                 let unstakedBalance = new BN('0', 10)
-
                 await Promise.all(accounts.map((account_id) => (async () => {
                     const balance = new BN(await validator.contract.get_account_total_balance({ account_id }), 10)
                     if (balance.gt(zero)) {
@@ -112,7 +111,10 @@ export class Staking {
                     }
                 })
                 validator.principleStaked = principleStaked.toString()
-                const unclaimedRewards = totalBalance.sub(principleStaked)
+                // WIP unclaimedRewards relies on indexer
+                let unclaimedRewards = totalBalance.sub(principleStaked)
+                unclaimedRewards = zero
+                // END WIP
                 validator.unclaimedRewards = unclaimedRewards.toString()
                 totalUnclaimedRewards = totalUnclaimedRewards.add(unclaimedRewards)
                 //debugging
@@ -214,7 +216,7 @@ WIP Explorer API calls
 ********************************/
 
 
-async function getStakingTransactions(accounts, validators) {
+async function getStakingTransactions(accountId, validators) {
     const methods = ['deposit', 'deposit_and_stake', 'withdraw', 'withdraw_all']
 
     const sql = `
@@ -229,7 +231,7 @@ async function getStakingTransactions(accounts, validators) {
             transactions
         LEFT JOIN actions ON actions.transaction_hash = transactions.hash
         WHERE 
-            transactions.signer_id in (:accounts)
+            transactions.signer_id = :accountId
             AND
             (
                 (
@@ -254,7 +256,7 @@ async function getStakingTransactions(accounts, validators) {
 //                 )
 
     const params = {
-        accounts, 
+        accountId, 
         offset: 0, 
         count: 500,
         methods,
