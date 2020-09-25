@@ -145,7 +145,8 @@
         "disableTextPhrase": "Your current seed phrase will be permanently deactivated.",
         "disableInputPlaceholder": "Enter your account ID to confirm",
         "disableNo": "No, keep",
-        "recoveryLinkSent": "Recovery Link Sent!"
+        "recoveryLinkSent": "Recovery Link Sent!",
+        "disableNotAllowed": "Accounts are required to have at least one active recovery method. Please first enable an alternative recovery method to proceed."
     },
 
     "hardwareDevices": {
@@ -222,7 +223,8 @@
         "ADD_LEDGER_ACCESS_KEY": "You will need to confirm public key details on your Ledger.",
         "GET_LEDGER_PUBLIC_KEY": "You will need to confirm public key access on your Ledger.",
         "CREATE_NEW_ACCOUNT": "You will need to confirm add a key for new account on your Ledger.",
-        "SIGN_AND_SEND_TRANSACTIONS": "You will need to confirm deposit details on your Ledger."
+        "SIGN_AND_SEND_TRANSACTIONS": "You will need to confirm deposit details on your Ledger.",
+        "REMOVE_NON_LEDGER_ACCESS_KEYS": "You will need to confirm details on your Ledger."
     },
 
     "button": {
@@ -273,7 +275,8 @@
         "moreInformation": "More information",
         "dismiss": "Dismiss",
         "cancelOperation": "Cancel Operation",
-        "subscribe": "Subscribe"
+        "subscribe": "Subscribe",
+        "Close": "Close"
     },
 
     "link": {
@@ -630,7 +633,7 @@
 
     "setupLedger": {
         "header": "Connect your Ledger device",
-        "one": "Connect your Ledger Nano S or X to your computer or mobile device via USB and <b>open the NEAR application</b>.",
+        "one": "Connect your Ledger Nano S or X to your computer or mobile device via USB and <b>open the NEAR application</b>. <br><br>Then, <b>press both buttons</b> at the 'Pending Ledger Review' screen.",
         "two": "If you have not yet installed the NEAR Ledger app, follow",
         "twoLink": "these instructions"
     },

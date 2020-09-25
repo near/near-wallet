@@ -6,7 +6,8 @@ const RecoveryMethod = ({
     method,
     accountId,
     deletingMethod,
-    onDelete
+    onDelete,
+    deleteAllowed
 }) => {
 
     if (method.publicKey) {
@@ -16,6 +17,7 @@ const RecoveryMethod = ({
                 onDelete={onDelete}
                 deletingMethod={deletingMethod}
                 accountId={accountId}
+                deleteAllowed={deleteAllowed}
             />
         )
     } else {
