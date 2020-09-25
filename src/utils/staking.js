@@ -54,16 +54,20 @@ export class Staking {
         return await new nearApiJs.Contract(account, validatorName, { ...stakingMethods })
     }
 
+    // TODO 
+    // viewMethods: pending withdraw, available for withdraw
+    // changeMethods: unstake, withdraw_all
+
     async getValidators() {
         const accountId = this.wallet.accountId
-        const lockupId = await getLockupId(accountId)
+        const lockupId = testLockupMapping[accountId] ? testLockupMapping[accountId] : await getLockupId(accountId)
         const accounts = [accountId, lockupId]
         const res = await this.provider.validators()
         const account = this.wallet.getAccount()
         const validatorIds = res.current_validators.map((v) => v.account_id)
 
         // WIP needs 2FA - Explorer staking txs for historical stake
-        const stakingTxs = await getStakingTransactions(accounts, validatorIds)
+        const stakingTxs = [] //await getStakingTransactions(accountId)
         
         const validators = []
         const zero = new BN('0', 10)
@@ -87,6 +91,7 @@ export class Staking {
                         totalBalance = totalBalance.add(balance)
                         stakedBalance = stakedBalance.add(new BN(await validator.contract.get_account_staked_balance({ account_id }), 10))
                         unstakedBalance = unstakedBalance.add(new BN(await validator.contract.get_account_unstaked_balance({ account_id }), 10))
+                        validator[`unstakedAvailable_${account_id}`] = await validator.contract.is_account_unstaked_balance_available({ account_id })
                     }
                 })()))
                 validator.totalBalance = totalBalance.toString()
@@ -98,14 +103,18 @@ export class Staking {
                 const validatorTXs = stakingTxs.filter((tx) => tx.receiver_id === validator.name)
                 validatorTXs.forEach((tx) => {
                     const args = JSON.parse(tx.args)
-                    if (args.method_name.indexOf('unstake') > -1) {
+                    if (args.method_name.indexOf('withdraw') > -1) {
                         principleStaked = principleStaked.sub(new BN(args.deposit, 10))
-                    } else if (args.method_name.indexOf('stake') > -1) {
+                    }
+                    if (args.method_name.indexOf('deposit') > -1) {
                         principleStaked = principleStaked.add(new BN(args.deposit, 10))
                     }
                 })
                 validator.principleStaked = principleStaked.toString()
-                const unclaimedRewards = totalBalance.sub(principleStaked)
+                // WIP unclaimedRewards relies on indexer
+                let unclaimedRewards = totalBalance.sub(principleStaked)
+                unclaimedRewards = zero
+                // END WIP
                 validator.unclaimedRewards = unclaimedRewards.toString()
                 totalUnclaimedRewards = totalUnclaimedRewards.add(unclaimedRewards)
                 //debugging
@@ -137,7 +146,7 @@ export class Staking {
 
         // TODO how to choose lockup or not?
         // TODO remove and use deterministic lockup name
-        const useLockup = window.confirm('use lockup?')
+        const useLockup = false // window.confirm('use lockup?')
         const lockupId = 'matt2.lockup.m0' // only can be controlled by multisig.testnet
 
         // create actions
@@ -207,7 +216,7 @@ WIP Explorer API calls
 ********************************/
 
 
-async function getStakingTransactions(accounts, validators) {
+async function getStakingTransactions(accountId, validators) {
     const methods = ['deposit', 'deposit_and_stake', 'withdraw', 'withdraw_all']
 
     const sql = `
@@ -222,7 +231,7 @@ async function getStakingTransactions(accounts, validators) {
             transactions
         LEFT JOIN actions ON actions.transaction_hash = transactions.hash
         WHERE 
-            transactions.signer_id in (:accounts)
+            transactions.signer_id = :accountId
             AND
             (
                 (
@@ -247,7 +256,7 @@ async function getStakingTransactions(accounts, validators) {
 //                 )
 
     const params = {
-        accounts, 
+        accountId, 
         offset: 0, 
         count: 500,
         methods,
