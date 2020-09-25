@@ -32,11 +32,11 @@ const Container = styled.div`
     }
 `
 
-export default function AmountInput({ value, onChange }) {
+export default function AmountInput({ value, onChange, invalidAmount }) {
     return (
         <Container>
             <span>Ⓝ</span>
-            <input type='number' placeholder='0' value={value} onChange={e => onChange(e.target.value)}/>
+            <input type='number' autoFocus placeholder='0' value={value} onChange={e => onChange(e.target.value)}/>
         </Container>
     )
 }

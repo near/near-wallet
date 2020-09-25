@@ -5,6 +5,8 @@ import ChevronIcon from '../../svg/ChevronIcon'
 import FormButton from '../../common/FormButton'
 import { Translate } from 'react-localize-redux'
 import Balance from '../../common/Balance'
+import { redirectTo } from '../../../actions/account'
+import { useDispatch } from 'react-redux'
 
 const Container = styled.div`
     display: flex;
@@ -12,6 +14,7 @@ const Container = styled.div`
     border-radius: 8px;
     padding: 10px;
     line-height: 130%;
+    cursor: ${props => props.clickable === 'true' ? 'pointer' : ''};
 
     svg {
         height: 100%;
@@ -81,20 +84,28 @@ export default function ValidatorBox({
     clickable = true,
     style
 }) {
-
+    const dispatch = useDispatch()
     const cta = amount ? <ChevronIcon/> : <FormButton className='gray-blue' linkTo={`/staking/${validator}`}><Translate id='staking.validatorBox.cta' /></FormButton>
-
     return (
-        <Container className='validator-box' style={style}>
+        <Container 
+            className='validator-box' 
+            clickable={clickable && amount ? 'true' : ''} 
+            style={style} 
+            onClick={() => { clickable && amount && dispatch(redirectTo(`/staking/${validator}`))}}
+        >
             <UserIcon/>
             <div className='left'>
                 <div>{validator}</div>
-                {fee && <div>{fee}% <Translate id='staking.validatorBox.fee' /></div>}
+                {fee && 
+                    <div>{fee}% <Translate id='staking.validatorBox.fee' /></div>
+                }
             </div>
             {amount &&
                 <div className='right'>
                     {staking && <div><Translate id='staking.validatorBox.staking' /></div>}
-                    <div><Balance amount={amount} noSymbol={true}/> <span><Translate id='staking.validatorBox.near' /></span></div>
+                    <div>
+                        <Balance amount={amount} noSymbol={true}/> <span><Translate id='staking.validatorBox.near' /></span>
+                    </div>
                 </div>
             }
             {clickable ? cta : null}

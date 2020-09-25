@@ -8,12 +8,15 @@ import ArrowCircleIcon from '../../svg/ArrowCircleIcon'
 import TransferMoneyIcon from '../../svg/TransferMoneyIcon'
 import { stake } from '../../../actions/staking'
 import StakeConfirmModal from './StakeConfirmModal'
+import BN from 'bn.js'
+import { utils } from 'near-api-js'
+import isDecimalString from '../../../utils/isDecimalString'
 
-export default function Stake({ match, validators, formLoader, actionsPending, handleGetValidators }) {
+export default function Stake({ match, validators, formLoader, actionsPending, handleGetValidators, balance }) {
     const dispatch = useDispatch()
-    const [confirm, setConfirm] = useState();
-    const [amount, setAmount] = useState('');
-    const [success, setSuccess] = useState();
+    const [confirm, setConfirm] = useState()
+    const [amount, setAmount] = useState('')
+    const [success, setSuccess] = useState()
     const validator = validators.filter(validator => validator.name === match.params.validator)[0]
 
     const handleStake = async () => {
@@ -22,6 +25,8 @@ export default function Stake({ match, validators, formLoader, actionsPending, h
         setSuccess(true)
         setConfirm(false)
     }
+
+    const invalidAmount = new BN(balance.available).lt(new BN(utils.format.parseNearAmount(amount))) || !isDecimalString(amount)
     
     if (!success) {
         return (
@@ -29,7 +34,7 @@ export default function Stake({ match, validators, formLoader, actionsPending, h
                 <h1><Translate id='staking.stake.title' /></h1>
                 <h2><Translate id='staking.stake.desc' /></h2>
                 <h4><Translate id='staking.stake.amount' /></h4>
-                <AmountInput value={amount} onChange={setAmount}/>
+                <AmountInput value={amount} onChange={setAmount} invalidAmount={invalidAmount}/>
                 <ArrowCircleIcon/>
                 <h4><Translate id='staking.stake.stakeWith' /></h4>
                 {validator && 
@@ -40,7 +45,7 @@ export default function Stake({ match, validators, formLoader, actionsPending, h
                     />
                 }
                 <FormButton
-                    disabled={formLoader || !amount.length} 
+                    disabled={formLoader || !amount.length || invalidAmount} 
                     sending={actionsPending.includes('STAKE')} 
                     onClick={() => setConfirm(true)}
                 >

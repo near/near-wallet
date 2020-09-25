@@ -17,6 +17,7 @@ export default function Staking({ currentValidators, totalStaked }) {
                 amount={totalStaked}
             />
             <h3><Translate id='staking.staking.currentValidators' /></h3>
+            {currentValidators.length ? (
             <ListWrapper>
                 {currentValidators.map((validator, i) =>
                     <ValidatorBox
@@ -27,6 +28,9 @@ export default function Staking({ currentValidators, totalStaked }) {
                     />
                 )}
             </ListWrapper>
+            ) : (
+                <div style={{ marginTop: '20px' }}><Translate id='staking.staking.noValidators' /></div>
+            )}
         </>
     )
 }
