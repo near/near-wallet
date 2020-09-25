@@ -31,3 +31,10 @@
     from = "/*"
     to = "/index.html"
     status = 200
+
+[[plugins]]
+    package = "@sentry/netlify-build-plugin"
+
+    [plugins.inputs]
+        sentryOrg = "near-protocol"
+        sentryProject = "mainnet-staging-wallet"
