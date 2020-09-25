@@ -17,6 +17,7 @@
     DISABLE_SEND_MONEY = "true"
     DISABLE_CREATE_ACCOUNT = "true"
     REACT_APP_MULTISIG_MIN_AMOUNT = "36"
+    MIXPANEL_TOKEN = "4a10180da7af8d6d0728154d535aa7bb"
 
 [[headers]]
     for = "/*"
