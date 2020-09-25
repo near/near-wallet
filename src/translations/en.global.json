@@ -534,6 +534,10 @@
             "available": {
                 "title": "Available for withdrawal",
                 "info": "What does Available for withdrawal mean?"
+            },
+            "pending": {
+                "title": "Pending release",
+                "info": "What does Pending release mean?"
             }
         },
         "validatorBox": {

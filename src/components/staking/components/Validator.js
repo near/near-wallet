@@ -31,6 +31,12 @@ export default function Validator({ match, validators }) {
                         amount='0'
                         version='no-border'
                     />
+                    <BalanceBox
+                        title='staking.balanceBox.pending.title'
+                        info='staking.balanceBox.pending.info'
+                        amount='0'
+                        version='no-border'
+                    />
                 </>
             }
         </>

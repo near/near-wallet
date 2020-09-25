@@ -87,8 +87,8 @@ export function StakingContainer({ history }) {
                     <Route
                         exact
                         path='/staking/validators'
-                        render={() => (
-                            <Validators validators={validators} />
+                        render={(props) => (
+                            <Validators {...props} validators={validators} />
                         )}
                     />
                     <Route

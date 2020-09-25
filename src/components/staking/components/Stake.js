@@ -11,6 +11,7 @@ import StakeConfirmModal from './StakeConfirmModal'
 import BN from 'bn.js'
 import { utils } from 'near-api-js'
 import isDecimalString from '../../../utils/isDecimalString'
+import { onKeyDown } from '../../../hooks/eventListeners'
 
 export default function Stake({ match, validators, formLoader, actionsPending, handleGetValidators, balance }) {
     const dispatch = useDispatch()
@@ -18,6 +19,18 @@ export default function Stake({ match, validators, formLoader, actionsPending, h
     const [amount, setAmount] = useState('')
     const [success, setSuccess] = useState()
     const validator = validators.filter(validator => validator.name === match.params.validator)[0]
+    const invalidAmount = new BN(balance.available).lt(new BN(utils.format.parseNearAmount(amount))) || !isDecimalString(amount)
+    const stakeAllowed = !formLoader && amount.length && !invalidAmount
+
+    onKeyDown(e => {
+        if (e.keyCode === 13 && stakeAllowed) {
+            if (!confirm) {
+                setConfirm(true)
+            } else {
+                handleStake()
+            }
+        }
+    })
 
     const handleStake = async () => {
         await dispatch(stake(validator.name, amount))
@@ -25,8 +38,6 @@ export default function Stake({ match, validators, formLoader, actionsPending, h
         setSuccess(true)
         setConfirm(false)
     }
-
-    const invalidAmount = new BN(balance.available).lt(new BN(utils.format.parseNearAmount(amount))) || !isDecimalString(amount)
     
     if (!success) {
         return (
@@ -45,7 +56,7 @@ export default function Stake({ match, validators, formLoader, actionsPending, h
                     />
                 }
                 <FormButton
-                    disabled={formLoader || !amount.length || invalidAmount} 
+                    disabled={!stakeAllowed} 
                     sending={actionsPending.includes('STAKE')} 
                     onClick={() => setConfirm(true)}
                 >
