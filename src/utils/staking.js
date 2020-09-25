@@ -54,9 +54,13 @@ export class Staking {
         return await new nearApiJs.Contract(account, validatorName, { ...stakingMethods })
     }
 
+    // TODO 
+    // viewMethods: pending withdraw, available for withdraw
+    // changeMethods: unstake, withdraw_all
+
     async getValidators() {
         const accountId = this.wallet.accountId
-        const lockupId = await getLockupId(accountId)
+        const lockupId = testLockupMapping[accountId] ? testLockupMapping[accountId] : await getLockupId(accountId)
         const accounts = [accountId, lockupId]
         const res = await this.provider.validators()
         const account = this.wallet.getAccount()
@@ -81,12 +85,14 @@ export class Staking {
                 let totalBalance = new BN('0', 10)
                 let stakedBalance = new BN('0', 10)
                 let unstakedBalance = new BN('0', 10)
+
                 await Promise.all(accounts.map((account_id) => (async () => {
                     const balance = new BN(await validator.contract.get_account_total_balance({ account_id }), 10)
                     if (balance.gt(zero)) {
                         totalBalance = totalBalance.add(balance)
                         stakedBalance = stakedBalance.add(new BN(await validator.contract.get_account_staked_balance({ account_id }), 10))
                         unstakedBalance = unstakedBalance.add(new BN(await validator.contract.get_account_unstaked_balance({ account_id }), 10))
+                        validator[`unstakedAvailable_${account_id}`] = await validator.contract.is_account_unstaked_balance_available({ account_id })
                     }
                 })()))
                 validator.totalBalance = totalBalance.toString()
@@ -98,9 +104,10 @@ export class Staking {
                 const validatorTXs = stakingTxs.filter((tx) => tx.receiver_id === validator.name)
                 validatorTXs.forEach((tx) => {
                     const args = JSON.parse(tx.args)
-                    if (args.method_name.indexOf('unstake') > -1) {
+                    if (args.method_name.indexOf('withdraw') > -1) {
                         principleStaked = principleStaked.sub(new BN(args.deposit, 10))
-                    } else if (args.method_name.indexOf('stake') > -1) {
+                    }
+                    if (args.method_name.indexOf('deposit') > -1) {
                         principleStaked = principleStaked.add(new BN(args.deposit, 10))
                     }
                 })
@@ -137,7 +144,7 @@ export class Staking {
 
         // TODO how to choose lockup or not?
         // TODO remove and use deterministic lockup name
-        const useLockup = window.confirm('use lockup?')
+        const useLockup = false // window.confirm('use lockup?')
         const lockupId = 'matt2.lockup.m0' // only can be controlled by multisig.testnet
 
         // create actions
