@@ -19,7 +19,7 @@ near deploy --accountId=[accountId] --wasmFile lockup_contract.wasm --initFuncti
 // add your lockup contract to this mapping
 const testLockup = {
     'multisig.testnet': 'lu1.testnet', //matt2.lockup.m0
-    'xa4.testnet': 'lu2.testnet',
+    'xa4.testnet': 'lu3.testnet',
 }
 
 const {
@@ -74,7 +74,13 @@ export class Staking {
     }
 
     async getContractInstance(contractId, methods) {
-        return await new nearApiJs.Contract(this.wallet.getAccount(), contractId, { ...methods })
+        try {
+            await (await new nearApiJs.Account(this.wallet.connection, contractId)).state()
+            return await new nearApiJs.Contract(this.wallet.getAccount(), contractId, { ...methods })
+        } catch(e) {
+            console.warn(e)
+            return null
+        }
     }
 
     // TODO 
@@ -88,13 +94,17 @@ export class Staking {
         const res = await this.provider.validators()
         const validatorIds = res.current_validators.map((v) => v.account_id)
 
+        let selectedValidator = ''
+        let depositedBalance = new BN('0', 10)
+        let availableBalance = new BN('0', 10)
         const lockupContract = await this.getContractInstance(lockupId, lockupMethods)
-        const depositedBalance = new BN(await lockupContract.get_known_deposited_balance(), 10)
-        const selectedValidator = await this.lockupGetSelected(lockupId)
-        const availableBalance = new BN(await lockupContract.get_owners_balance(), 10).sub(depositedBalance).toString()
-
-        // debugging
-        console.log('lockup available balance', nearTo(availableBalance))
+        if (lockupContract) {
+            depositedBalance = new BN(await lockupContract.get_known_deposited_balance(), 10)
+            selectedValidator = await this.lockupGetSelected(lockupId)
+            availableBalance = new BN(await lockupContract.get_owners_balance(), 10).sub(depositedBalance).toString()
+            // debugging
+            console.log('lockup available balance', nearTo(availableBalance))
+        }
 
         // WIP needs 2FA - Explorer staking txs for historical stake
         const stakingTxs = []//await getStakingTransactions(accountId)
@@ -133,7 +143,7 @@ export class Staking {
                 // unclaimed rewards
                 let principleStaked = new BN('0', 10)
                 // if validator is selected lockup validator base principle on depositedBalance
-                if (name === selectedValidator) {
+                if (lockupContract && name === selectedValidator) {
                     principleStaked = principleStaked.add(depositedBalance)
                 } else 
                 // WIP calculate principle staked based on staking txs filtered by this validator
@@ -206,21 +216,13 @@ export class Staking {
 
     async lockupStake(lockupId, validatorId, amount) {
         try {
-            const deposit_to_staking_pool = await this.signAndSendTransaction(lockupId, [
-                functionCall('deposit_to_staking_pool', { amount }, GAS_STAKE)
+            const deposit_and_stake = await this.signAndSendTransaction(lockupId, [
+                functionCall('deposit_and_stake', { amount }, GAS_STAKE)
             ])
-            console.log('deposit_to_staking_pool', deposit_to_staking_pool)
-            try {
-                const stake = await this.signAndSendTransaction(lockupId, [
-                    functionCall('stake', { amount }, GAS_STAKE)
-                ])
-                console.log('stake', stake)
-                return stake
-            } catch (e) {
-                console.warn('Problem staking with validator', validatorId, e)
-            }
+            console.log('deposit_and_stake', deposit_to_staking_pool)
+            return deposit_and_stake
         } catch (e) {
-            console.warn('Problem depositing to validator', validatorId, e)
+            console.warn('Problem staking with validator', validatorId, e)
         }
     }
 

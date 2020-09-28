@@ -18,13 +18,13 @@ export default function Validator({ match, validators }) {
                         <BalanceBox
                             title='staking.balanceBox.staked.title'
                             info='staking.balanceBox.staked.info'
-                            amount={validator.stakedBalance}
+                            amount={validator.stakedBalance || '0'}
                             version='no-border'
                         />
                         <BalanceBox
                             title='staking.balanceBox.unclaimed.title'
                             info='staking.balanceBox.unclaimed.info'
-                            amount={validator.unclaimedRewards}
+                            amount={validator.unclaimedRewards || '0'}
                             version='no-border'
                         />
                         <BalanceBox
