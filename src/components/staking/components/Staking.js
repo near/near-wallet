@@ -5,7 +5,7 @@ import ValidatorBox from './ValidatorBox'
 import ListWrapper from './ListWrapper'
 import { Translate } from 'react-localize-redux'
 
-export default function Staking({ currentValidators, totalStaked }) {
+export default function Staking({ currentValidators, totalStaked, totalUnclaimedRewards }) {
     return (
         <>
             <h1><Translate id='staking.staking.title' /></h1>
@@ -15,6 +15,11 @@ export default function Staking({ currentValidators, totalStaked }) {
                 title='staking.balanceBox.staked.title'
                 info='staking.balanceBox.staked.info'
                 amount={totalStaked}
+            />
+            <BalanceBox
+                title='staking.balanceBox.unclaimed.title'
+                info='staking.balanceBox.unclaimed.info'
+                amount={totalUnclaimedRewards}
             />
             <h3><Translate id='staking.staking.currentValidators' /></h3>
             {currentValidators.length ? (

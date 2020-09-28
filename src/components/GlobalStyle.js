@@ -206,6 +206,19 @@ export default createGlobalStyle`
         -moz-appearance:textfield;
     }
 
+    .input-validation-label {
+        font-weight: 500;
+        margin-top: 10px;
+
+        &.success {
+            color: #6AD1E3;
+        }
+
+        &.error {
+            color: #ff585d;
+        }
+    }
+
     .input-sub-label {
         font-size: 12px;
         font-style: italic;

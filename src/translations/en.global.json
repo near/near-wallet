@@ -565,7 +565,11 @@
             "desc": "Enter a known validator to stake your NEAR tokens.",
             "inputLabel": "Enter a validator account ID",
             "button": "View Validator",
-            "available": "Available Validators"
+            "available": "Available Validators",
+            "search": {
+                "success": "Validator found!",
+                "error": "No matching validator."
+            }
         },
         "validator": {
             "title": "Validator: <br/> @${validator}",

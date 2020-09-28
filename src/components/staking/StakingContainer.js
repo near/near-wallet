@@ -35,6 +35,14 @@ const StyledContainer = styled(Container)`
 
     input {
         margin: 0 !important;
+
+        &.view-validator {
+            margin-bottom: 25px !important;
+        }
+    }
+    
+    .input-validation-label {
+        margin-top: -14px !important;
     }
 
     h3 {
