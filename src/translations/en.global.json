@@ -572,7 +572,8 @@
             "search": {
                 "success": "Validator found!",
                 "error": "No matching validator."
-            }
+            },
+            "alreadyStaked": "You can only stake with one validator at a time. If you would like to change validators, you must first unstake, then restake with a new validator."
         },
         "validator": {
             "title": "Validator: <br/> @${validator}",
