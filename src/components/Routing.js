@@ -198,17 +198,17 @@ class Routing extends Component {
                                 />
                                 <Route
                                     exact
-                                    path='/set-recovery/:accountId/:isNew?/:fundingContract?/:fundingKey?'
+                                    path='/set-recovery/:accountId/:fundingContract?/:fundingKey?'
                                     component={SetupRecoveryMethodWithRouter}
                                 />
                                 <Route
                                     exact
-                                    path='/setup-seed-phrase/:accountId/:phrase/:isNew?/:fundingContract?/:fundingKey?'
+                                    path='/setup-seed-phrase/:accountId/:phrase/:fundingContract?/:fundingKey?'
                                     component={SetupSeedPhraseWithRouter}
                                 />
                                 <Route
                                     exact
-                                    path='/setup-ledger/:accountId/:isNew?/:fundingContract?/:fundingKey?'
+                                    path='/setup-ledger/:accountId/:fundingContract?/:fundingKey?'
                                     component={SetupLedgerWithRouter}
                                 />
                                 <PrivateRoute

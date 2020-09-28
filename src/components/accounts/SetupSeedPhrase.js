@@ -3,7 +3,7 @@ import { withRouter, Route } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { Translate } from 'react-localize-redux'
 
-import { redirectToApp, addAccessKeySeedPhrase, clearAlert, refreshAccount, checkCanEnableTwoFactor } from '../../actions/account'
+import { redirectToApp, handleAddAccessKeySeedPhrase, clearAlert, refreshAccount, checkCanEnableTwoFactor, checkIsNew, handleCreateAccountWithSeedPhrase } from '../../actions/account'
 import { generateSeedPhrase } from 'near-seed-phrase'
 import SetupSeedPhraseVerify from './SetupSeedPhraseVerify'
 import SetupSeedPhraseForm from './SetupSeedPhraseForm'
@@ -55,17 +55,17 @@ class SetupSeedPhrase extends Component {
 
     handleStartOver = e => {
         const {
-            history, isNew, accountId, fundingContract, fundingKey,
+            history, accountId, fundingContract, fundingKey,
         } = this.props
 
         this.refreshData()
-        history.push(`/setup-seed-phrase/${accountId}/phrase/${isNew ? '1' : '0'}/${fundingContract ? `${fundingContract}/${fundingKey}/` : ``}`)
+        history.push(`/setup-seed-phrase/${accountId}/phrase/${fundingContract ? `${fundingContract}/${fundingKey}/` : ``}`)
     }
 
     handleSubmit = async () => {
         const { 
-            accountId, isNew, fundingContract, fundingKey,
-            redirectToApp, addAccessKeySeedPhrase, refreshAccount, history
+            accountId, fundingContract, fundingKey,
+            handleAddAccessKeySeedPhrase, handleCreateAccountWithSeedPhrase, checkIsNew
         } = this.props
         const { seedPhrase, enterWord, wordId, recoveryKeyPair } = this.state
         if (enterWord !== seedPhrase.split(' ')[wordId]) {
@@ -78,16 +78,12 @@ class SetupSeedPhrase extends Component {
             return false
         }
 
-        let account;
+        const isNew = await checkIsNew(accountId)
 
-        await addAccessKeySeedPhrase(accountId, recoveryKeyPair, isNew, fundingContract, fundingKey)
-        account = await refreshAccount()
-        const promptTwoFactor = await this.props.checkCanEnableTwoFactor(account)
-
-        if (fundingContract && promptTwoFactor) {
-            history.push('/enable-two-factor')
+        if (isNew) {
+            await handleCreateAccountWithSeedPhrase(accountId, recoveryKeyPair, fundingContract, fundingKey)
         } else {
-            redirectToApp('/profile');
+            await handleAddAccessKeySeedPhrase(accountId, recoveryKeyPair)
         }
     }
 
@@ -119,7 +115,7 @@ class SetupSeedPhrase extends Component {
                     <Fragment>
                         <Route 
                             exact
-                            path={`/setup-seed-phrase/:accountId/phrase/:isNew?/:fundingContract?/:fundingKey?`}
+                            path={`/setup-seed-phrase/:accountId/phrase/:fundingContract?/:fundingKey?`}
                             render={() => (
                                 <Container className='small-centered'>
                                     <h1><Translate id='setupSeedPhrase.pageTitle'/></h1>
@@ -133,7 +129,7 @@ class SetupSeedPhrase extends Component {
                         />
                         <Route 
                             exact
-                            path={`/setup-seed-phrase/:accountId/verify/:isNew?/:fundingContract?/:fundingKey?`}
+                            path={`/setup-seed-phrase/:accountId/verify/:fundingContract?/:fundingKey?`}
                             render={() => (
                                 <Container className='small-centered'>
                                     <form onSubmit={e => {this.handleSubmit(); e.preventDefault();}} autoComplete='off'>
@@ -167,17 +163,18 @@ class SetupSeedPhrase extends Component {
 
 const mapDispatchToProps = {
     redirectToApp,
-    addAccessKeySeedPhrase,
+    handleAddAccessKeySeedPhrase,
     clearAlert,
     refreshAccount,
-    checkCanEnableTwoFactor
+    checkCanEnableTwoFactor,
+    checkIsNew,
+    handleCreateAccountWithSeedPhrase
 }
 
 const mapStateToProps = ({ account }, { match }) => ({
     ...account,
     verify: match.params.verify,
     accountId: match.params.accountId,
-    isNew: match.params.isNew === '1',
     fundingContract: match.params.fundingContract,
     fundingKey: match.params.fundingKey,
 })

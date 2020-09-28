@@ -132,7 +132,8 @@ const ledger = handleActions({
                 show: !state.signInWithLedgerStatus && payload.show,
                 action: payload.action,
                 textId: `ledgerSignTxModal.${payload.action}`
-            }
+            },
+            txSigned: undefined
         }
     },
 }, initialState)

@@ -67,6 +67,15 @@ export function SignInLedger(props) {
         dispatch(redirectToApp())
     }
 
+    const onClose = () => {
+        if (signInWithLedgerStatus === 'confirm-public-key') {
+            controllerHelperApi.abort()
+        }
+        if (signInWithLedgerStatus === 'enter-accountId') {
+            dispatch(clearSignInWithLedgerModalState())
+        }
+    }
+
     return (
         <Theme>
             <h1><Translate id='signInLedger.header'/></h1>
@@ -86,7 +95,7 @@ export function SignInLedger(props) {
             {signingIn &&
                 <LedgerSignInModal 
                     open={signingIn} 
-                    onClose={() => controllerHelperApi.abort()}
+                    onClose={onClose}
                     ledgerAccounts={ledgerAccounts} 
                     accountsApproved={accountsApproved}
                     totalAccounts={totalAccounts}
