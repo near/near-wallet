@@ -3,13 +3,25 @@ import BN from 'bn.js'
 import { toNear, nearTo, gtZero } from './amounts'
 import { queryExplorer } from './explorer-api'
 
+/********************************
+Notes on deploying lockup via CLI
+
+/core-contracts/lockup/res
+near deploy --accountId=lu1.testnet --wasmFile lockup_contract.wasm --initFunction=new --initArgs='{"owner_account_id":"multisig.testnet","lockup_duration": "259200000000000","transfers_information":{"TransfersDisabled":{"transfer_poll_account_id":"vote.f863973.m0"}},"release_duration":"2592000000000000","staking_pool_whitelist_account_id":"whitelist.f863973.m0"}'
+
+near deploy --accountId=lu2.testnet --wasmFile lockup_contract.wasm --initFunction=new --initArgs='{"owner_account_id":"xa4.testnet","lockup_duration": "259200000000000","transfers_information":{"TransfersDisabled":{"transfer_poll_account_id":"vote.f863973.m0"}},"release_duration":"2592000000000000","staking_pool_whitelist_account_id":"whitelist.f863973.m0"}'
+********************************/
+
 const {
     transactions: {
         functionCall
     }
 } =  nearApiJs
 const GAS_STAKE = '200000000000000' // 200 Tgas
-const GAS_2FA_STAKE = '80000000000000' // 80 Tgas
+const GAS_2FA_STAKE = '125000000000000' // 125 Tgas for most methods
+
+// TODO Contract Helper gas amount or attached gas?
+
 const stakingMethods = {
 	viewMethods: [
 		'get_account_staked_balance',
@@ -24,18 +36,24 @@ const stakingMethods = {
 		'ping',
         'deposit',
         'deposit_and_stake',
-		'withdraw',
+        'deposit_to_staking_pool',
 		'stake',
 		'unstake',
+		'withdraw',
 	],
 }
 
 const lockupMethods = {
-    viewMethods: ['get_staking_pool_account_id']
+    viewMethods: [
+        'get_owners_balance',
+        'get_staking_pool_account_id',
+        'get_known_deposited_balance',
+    ]
 }
 
-const testLockupMapping = {
-    'multisig.testnet': 'matt2.lockup.m0',
+const testLockup = {
+    'multisig.testnet': 'lu1.testnet', //matt2.lockup.m0
+    'xa4.testnet': 'lu2.testnet',
 }
 
 const getLockupId = async (accountId) => {
@@ -50,8 +68,8 @@ export class Staking {
         // window.staking = this
     }
 
-    async getValidatorInstance(account, validatorName) {
-        return await new nearApiJs.Contract(account, validatorName, { ...stakingMethods })
+    async getContractInstance(contractId, methods) {
+        return await new nearApiJs.Contract(this.wallet.getAccount(), contractId, { ...methods })
     }
 
     // TODO 
@@ -60,14 +78,17 @@ export class Staking {
 
     async getValidators() {
         const accountId = this.wallet.accountId
-        const lockupId = testLockupMapping[accountId] ? testLockupMapping[accountId] : await getLockupId(accountId)
+        const lockupId = testLockup[accountId] ? testLockup[accountId] : await getLockupId(accountId)
         const accounts = [accountId, lockupId]
         const res = await this.provider.validators()
-        const account = this.wallet.getAccount()
         const validatorIds = res.current_validators.map((v) => v.account_id)
 
+        const lockupContract = await this.getContractInstance(lockupId, lockupMethods)
+        const depositedBalance = new BN(await lockupContract.get_known_deposited_balance(), 10)
+        const selectedValidator = await this.lockupGetSelected(lockupId)
+
         // WIP needs 2FA - Explorer staking txs for historical stake
-        const stakingTxs = [] //await getStakingTransactions(accountId)
+        // const stakingTxs = await getStakingTransactions(accountId)
         
         const validators = []
         const zero = new BN('0', 10)
@@ -76,53 +97,53 @@ export class Staking {
         await Promise.all(validatorIds.map((name) => (async () => {
             const validator = {
                 name,
-                contract: await this.getValidatorInstance(account, name)
+                contract: await this.getContractInstance(name, stakingMethods)
             }
             try {
                 const fee = validator.fee = await validator.contract.get_reward_fee_fraction()
                 fee.percentage = fee.numerator / fee.denominator * 100
-                // add all account x validator sums
                 let totalBalance = new BN('0', 10)
                 let stakedBalance = new BN('0', 10)
                 let unstakedBalance = new BN('0', 10)
-                await Promise.all(accounts.map((account_id) => (async () => {
+                for (let i = 0; i < accounts.length; i++) {
+                    const account_id = accounts[i]
                     const balance = new BN(await validator.contract.get_account_total_balance({ account_id }), 10)
                     if (balance.gt(zero)) {
                         totalBalance = totalBalance.add(balance)
                         stakedBalance = stakedBalance.add(new BN(await validator.contract.get_account_staked_balance({ account_id }), 10))
                         unstakedBalance = unstakedBalance.add(new BN(await validator.contract.get_account_unstaked_balance({ account_id }), 10))
                         validator[`unstakedAvailable_${account_id}`] = await validator.contract.is_account_unstaked_balance_available({ account_id })
+                        // console.log('stakedBalance inner', name, account_id, stakedBalance.toString())
+                        // console.log('unstakedBalance inner', name, account_id, unstakedBalance.toString())
                     }
-                })()))
+                }
                 validator.totalBalance = totalBalance.toString()
                 validator.stakedBalance = stakedBalance.toString()
                 validator.unstakedBalance = unstakedBalance.toString()
                 totalStaked = totalStaked.add(stakedBalance)
-                // calc principle stake from txs
+                // unclaimed rewards
                 let principleStaked = new BN('0', 10)
-                const validatorTXs = stakingTxs.filter((tx) => tx.receiver_id === validator.name)
-                validatorTXs.forEach((tx) => {
-                    const args = JSON.parse(tx.args)
-                    if (args.method_name.indexOf('withdraw') > -1) {
-                        principleStaked = principleStaked.sub(new BN(args.deposit, 10))
-                    }
-                    if (args.method_name.indexOf('deposit') > -1) {
-                        principleStaked = principleStaked.add(new BN(args.deposit, 10))
-                    }
-                })
+                // if validator is selected lockup validator base principle on depositedBalance
+                if (name === selectedValidator) {
+                    principleStaked = principleStaked.add(depositedBalance)
+                } else 
+                // WIP calculate principle staked based on staking txs filtered by this validator
+                if (false && stakingTxs) {
+                    const validatorTXs = stakingTxs.filter((tx) => tx.receiver_id === validator.name)
+                    validatorTXs.forEach((tx) => {
+                        const args = JSON.parse(tx.args)
+                        if (args.method_name.indexOf('withdraw') > -1) {
+                            principleStaked = principleStaked.sub(new BN(args.deposit, 10))
+                        }
+                        if (args.method_name.indexOf('deposit') > -1) {
+                            principleStaked = principleStaked.add(new BN(args.deposit, 10))
+                        }
+                    })
+                }
                 validator.principleStaked = principleStaked.toString()
-                // WIP unclaimedRewards relies on indexer
-                let unclaimedRewards = totalBalance.sub(principleStaked)
-                unclaimedRewards = zero
-                // END WIP
+                const unclaimedRewards = totalBalance.sub(principleStaked)
                 validator.unclaimedRewards = unclaimedRewards.toString()
                 totalUnclaimedRewards = totalUnclaimedRewards.add(unclaimedRewards)
-                //debugging
-                validator.stake = async () => {
-                    const amount = window.prompt('how much')
-                    const res = await this.stake(validator.name, amount)
-                    console.log(res)
-                }
                 
                 validators.push(validator)
             } catch (e) {
@@ -141,43 +162,67 @@ export class Staking {
 
 
     async stake(validatorId, amount) {
-        amount = toNear(amount)
-        let receiverId = validatorId
+        amount = new BN(toNear(amount), 10)
+        const accountId = this.wallet.accountId
+        const lockupId = testLockup[accountId] ? testLockup[accountId] : await getLockupId(accountId)
+        // try to source funds from lockup contract
+        const lockupContract = await this.getContractInstance(lockupId, lockupMethods)
+        const lockupBalance = new BN(await lockupContract.get_owners_balance(), 10)
+        const useLockup = lockupBalance.gt(amount)
+        amount = amount.toString()
 
-        // TODO how to choose lockup or not?
-        // TODO remove and use deterministic lockup name
-        const useLockup = false // window.confirm('use lockup?')
-        const lockupId = 'matt2.lockup.m0' // only can be controlled by multisig.testnet
+        console.log(lockupContract, amount, lockupBalance.toString(), useLockup)
 
-        // create actions
-        const actions = []
         if (useLockup) {
-            const selectedValidatorId = await this.getSelectedValidator(lockupId)
+            const selectedValidatorId = await this.lockupGetSelected(lockupId)
             console.log('selectedValidatorId', selectedValidatorId)
+            console.log('validatorId', validatorId)
             if (validatorId !== selectedValidatorId) {
-                await this.selectValidator(validatorId, lockupId)
+                await this.lockupSelect(validatorId, lockupId, selectedValidatorId !== null)
             }
-            actions.push(functionCall('deposit_and_stake', { amount }, GAS_STAKE))
-            receiverId = lockupId
-        } else {
-            actions.push(functionCall('deposit_and_stake', {}, GAS_STAKE, amount))
+            return await this.lockupStake(lockupId, validatorId, amount)
         }
-        const res = await this.signAndSendTransaction(receiverId, actions)
-        console.log('deposit_and_stake', res)
+        // staking from account directly
+        const deposit_and_stake = await this.signAndSendTransaction(validatorId, [
+            functionCall('deposit_and_stake', {}, GAS_STAKE, amount)
+        ])
+        console.log('deposit_and_stake', deposit_and_stake)
         return res
     }
 
     // helpers for lockup
 
-    async selectValidator(validatorId, lockupId) {
+    async lockupStake(lockupId, validatorId, amount) {
         try {
-            const unselect_staking_pool = await this.signAndSendTransaction(lockupId, [
-                functionCall('unselect_staking_pool', {}, GAS_STAKE)
+            const deposit_to_staking_pool = await this.signAndSendTransaction(lockupId, [
+                functionCall('deposit_to_staking_pool', { amount }, GAS_STAKE)
             ])
-            console.log('unselect_staking_pool', unselect_staking_pool)
+            console.log('deposit_to_staking_pool', deposit_to_staking_pool)
+            try {
+                const stake = await this.signAndSendTransaction(lockupId, [
+                    functionCall('stake', { amount }, GAS_STAKE)
+                ])
+                console.log('stake', stake)
+                return stake
+            } catch (e) {
+                console.warn('Problem staking with validator', validatorId, e)
+            }
         } catch (e) {
-            // error "There is still a deposit on the staking pool"
-            console.warn('Problem unselecting validator', validatorId, e)
+            console.warn('Problem depositing to validator', validatorId, e)
+        }
+    }
+
+    async lockupSelect(validatorId, lockupId, unselect = false) {
+        if (unselect) {
+            try {
+                const unselect_staking_pool = await this.signAndSendTransaction(lockupId, [
+                    functionCall('unselect_staking_pool', {}, GAS_STAKE)
+                ])
+                console.log('unselect_staking_pool', unselect_staking_pool)
+            } catch (e) {
+                // error "There is still a deposit on the staking pool"
+                console.warn('Problem unselecting validator', validatorId, e)
+            }
         }
         try {
             const select_staking_pool = await this.signAndSendTransaction(lockupId, [
@@ -191,7 +236,7 @@ export class Staking {
         }
     }
 
-    async getSelectedValidator(lockupId) {
+    async lockupGetSelected(lockupId) {
         const account_id = this.wallet.accountId
         const account = this.wallet.getAccount(account_id)
         const lockup = await new nearApiJs.Contract(account, lockupId, { ...lockupMethods })

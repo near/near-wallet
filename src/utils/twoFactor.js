@@ -152,6 +152,7 @@ export class TwoFactor {
                 }
                 if (action.gas) action.gas = action.gas.toString()
                 if (action.deposit) action.deposit = action.deposit.toString()
+                else action.deposit = '0'
                 if (action.args) action.args = Buffer.from(action.args).toString('base64')
                 if (action.methodName) {
                     action.method_name = action.methodName
