@@ -219,7 +219,7 @@ export class Staking {
             const deposit_and_stake = await this.signAndSendTransaction(lockupId, [
                 functionCall('deposit_and_stake', { amount }, GAS_STAKE)
             ])
-            console.log('deposit_and_stake', deposit_to_staking_pool)
+            console.log('deposit_and_stake', deposit_and_stake)
             return deposit_and_stake
         } catch (e) {
             console.warn('Problem staking with validator', validatorId, e)
