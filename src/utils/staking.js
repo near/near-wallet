@@ -4,13 +4,23 @@ import { toNear, nearTo, gtZero } from './amounts'
 import { queryExplorer } from './explorer-api'
 
 /********************************
-Notes on deploying lockup via CLI
+Deploying lockup via CLI for testing
 
-/core-contracts/lockup/res
-near deploy --accountId=lu1.testnet --wasmFile lockup_contract.wasm --initFunction=new --initArgs='{"owner_account_id":"multisig.testnet","lockup_duration": "259200000000000","transfers_information":{"TransfersDisabled":{"transfer_poll_account_id":"vote.f863973.m0"}},"release_duration":"2592000000000000","staking_pool_whitelist_account_id":"whitelist.f863973.m0"}'
+1. download this file https://github.com/near/core-contracts/blob/master/lockup/res/lockup_contract.wasm
+2. create a new account on testnet
+3. near login (to the new account)
+4. replace [accountId], [ownerAccountId] below and run the following:
+near deploy --accountId=[accountId] --wasmFile lockup_contract.wasm --initFunction=new --initArgs='{"owner_account_id":"[ownerAccountId]","lockup_duration": "259200000000000","transfers_information":{"TransfersDisabled":{"transfer_poll_account_id":"vote.f863973.m0"}},"release_duration":"2592000000000000","staking_pool_whitelist_account_id":"whitelist.f863973.m0"}'
+5. send funds to the lockup contract, this will be your lockup balance
+6. add your owner accountId (account you will use to stake) and the lockup accountId to the mapping below this comment
 
-near deploy --accountId=lu2.testnet --wasmFile lockup_contract.wasm --initFunction=new --initArgs='{"owner_account_id":"xa4.testnet","lockup_duration": "259200000000000","transfers_information":{"TransfersDisabled":{"transfer_poll_account_id":"vote.f863973.m0"}},"release_duration":"2592000000000000","staking_pool_whitelist_account_id":"whitelist.f863973.m0"}'
 ********************************/
+
+// add your lockup contract to this mapping
+const testLockup = {
+    'multisig.testnet': 'lu1.testnet', //matt2.lockup.m0
+    'xa4.testnet': 'lu2.testnet',
+}
 
 const {
     transactions: {
@@ -51,11 +61,6 @@ const lockupMethods = {
     ]
 }
 
-const testLockup = {
-    'multisig.testnet': 'lu1.testnet', //matt2.lockup.m0
-    'xa4.testnet': 'lu2.testnet',
-}
-
 const getLockupId = async (accountId) => {
     const hash = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(accountId))
     return Buffer.from(hash).toString('hex').substr(0, 40) + '.lockup.near'
@@ -86,9 +91,13 @@ export class Staking {
         const lockupContract = await this.getContractInstance(lockupId, lockupMethods)
         const depositedBalance = new BN(await lockupContract.get_known_deposited_balance(), 10)
         const selectedValidator = await this.lockupGetSelected(lockupId)
+        const availableBalance = new BN(await lockupContract.get_owners_balance(), 10).sub(depositedBalance).toString()
+
+        // debugging
+        console.log('lockup available balance', nearTo(availableBalance))
 
         // WIP needs 2FA - Explorer staking txs for historical stake
-        // const stakingTxs = await getStakingTransactions(accountId)
+        const stakingTxs = []//await getStakingTransactions(accountId)
         
         const validators = []
         const zero = new BN('0', 10)
@@ -140,10 +149,13 @@ export class Staking {
                         }
                     })
                 }
-                validator.principleStaked = principleStaked.toString()
-                const unclaimedRewards = totalBalance.sub(principleStaked)
-                validator.unclaimedRewards = unclaimedRewards.toString()
-                totalUnclaimedRewards = totalUnclaimedRewards.add(unclaimedRewards)
+                // WIP only show unclaimed for lockup RN
+                if (name === selectedValidator) {
+                    validator.principleStaked = principleStaked.toString()
+                    const unclaimedRewards = totalBalance.sub(principleStaked)
+                    validator.unclaimedRewards = unclaimedRewards.toString()
+                    totalUnclaimedRewards = totalUnclaimedRewards.add(unclaimedRewards)
+                }
                 
                 validators.push(validator)
             } catch (e) {
@@ -187,7 +199,7 @@ export class Staking {
             functionCall('deposit_and_stake', {}, GAS_STAKE, amount)
         ])
         console.log('deposit_and_stake', deposit_and_stake)
-        return res
+        return deposit_and_stake
     }
 
     // helpers for lockup
@@ -312,52 +324,3 @@ async function getStakingTransactions(accountId, validators) {
     console.log(tx)
     return Array.isArray(tx) ? tx : []
 }
-
-
-// async function getStakingTransactions(accountId) {
-//     if (!accountId) return {}
-//     const sql = `
-//         SELECT
-//             transactions.hash, 
-//             transactions.signer_id,
-//             transactions.receiver_id,
-//             transactions.block_timestamp, 
-//             actions.action_type as kind, 
-//             actions.action_args as args
-//         FROM 
-//             transactions
-//         LEFT JOIN actions ON actions.transaction_hash = transactions.hash
-//         WHERE 
-//             transactions.signer_id = :accountId
-//             AND
-//             (
-//                 (
-//                     json_extract(actions.action_args, '$.method_name') like '%stake'
-//                     AND
-//                     transactions.receiver_id in (:validators)
-//                 )
-//                 OR
-//                 (
-//                     json_extract(actions.action_args, '$.method_name') = 'add_request_and_confirm'
-//                     AND
-//                     json_extract(actions.action_args, '$.request.actions.method_name') like '%stake'
-//                     AND
-//                     json_extract(actions.action_args, '$.request.receiver_id') in (:validators)
-//                 )
-//             )   
-//         ORDER BY 
-//             block_timestamp DESC
-//         LIMIT 
-//             :offset, :count
-//     `
-//     const params = {
-//         accountId, 
-//         offset: 0, 
-//         count: 100,
-//         validators: ['alexandruast.pool.f863973.m0', 'aquarius.pool.f863973.m0']
-//     }
-
-//     const tx = await queryExplorer(sql, params)
-
-//     return Array.isArray(tx) ? tx : []
-// }
