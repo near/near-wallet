@@ -315,6 +315,15 @@ export const { getAccessKeys, removeAccessKey, addLedgerAccessKey, connectLedger
 export const handleAddAccessKeySeedPhrase = (accountId, recoveryKeyPair) => async (dispatch) => {
     await dispatch(addAccessKeySeedPhrase(accountId, recoveryKeyPair))
     dispatch(redirectTo('/profile', { globalAlertPreventClear: true }))
+
+    try {
+        await dispatch(addAccessKeySeedPhrase(accountId, recoveryKeyPair))
+    } catch (error) {
+        
+    }
+    dispatch(redirectTo('/profile', { 
+        globalAlertPreventClear: true
+    }))
 }
 
 export const fundCreateAccount = (accountId, recoveryKeyPair, recoveryMethod) => async (dispatch) => {
