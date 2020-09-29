@@ -270,7 +270,7 @@ class Routing extends Component {
                                     path='/receive-money'
                                     component={ReceiveMoneyWithRouter}
                                 />
-                                <PrivateRoute
+                                <Route
                                     exact
                                     path='/profile/:accountId?'
                                     component={Profile}
