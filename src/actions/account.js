@@ -348,8 +348,13 @@ export const { addAccessKey, createAccountWithSeedPhrase, addAccessKeySeedPhrase
             const publicKey = recoveryKeyPair.publicKey.toString()
             const contractName = null;
             const fullAccess = true;
-            await wallet.addAccessKey(accountId, contractName, publicKey, fullAccess)
-            await wallet.postSignedJson('/account/seedPhraseAdded', { accountId, publicKey })
+            
+            try {
+                await wallet.addAccessKey(accountId, contractName, publicKey, fullAccess)
+                await wallet.postSignedJson('/account/seedPhraseAdded', { accountId, publicKey })
+            } catch (error) {
+                throw new WalletError(error, 'account.addAccessKey.error')
+            }
         },
         () => defaultCodesFor('account.setupSeedPhrase')
     ],
