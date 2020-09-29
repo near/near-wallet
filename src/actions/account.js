@@ -377,6 +377,7 @@ export const { addAccessKey, createAccountWithSeedPhrase, addAccessKeySeedPhrase
                 await wallet.addAccessKey(accountId, contractName, newPublicKey, fullAccess)
                 await wallet.saveAccount(accountId, newKeyPair)
             } catch (error) {
+                wallet.clearAccountState()
                 throw new WalletError(error, 'account.create.addAccessKey.error')
             }
         },
