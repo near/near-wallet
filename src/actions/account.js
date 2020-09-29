@@ -314,8 +314,12 @@ export const { addAccessKey, createAccountWithSeedPhrase, addAccessKeySeedPhrase
             const newPublicKey = newKeyPair.publicKey
             
             await wallet.postSignedJson('/account/seedPhraseAdded', { accountId, publicKey })
-            await wallet.addAccessKey(accountId, contractName, newPublicKey, fullAccess)
-            await wallet.saveAccount(accountId, newKeyPair)
+            try {
+                await wallet.addAccessKey(accountId, contractName, newPublicKey, fullAccess)
+                await wallet.saveAccount(accountId, newKeyPair)
+            } catch (error) {
+                throw new WalletError(error, 'account.create.addAccessKey.error')
+            }
         },
         () => defaultCodesFor('account.createAccountSeedPhrase')
     ],
