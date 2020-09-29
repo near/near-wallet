@@ -28,6 +28,10 @@ const CustomGrid = styled(Grid)`
                 display: flex;
                 align-items: center;
             }
+            .info-row {
+                text-overflow: ellipsis;
+                overflow: hidden; 
+            }
         }
 
         .locked {
@@ -93,7 +97,8 @@ const ProfileDetails = ({
             lockedAmount,
             available
         }
-    }
+    },
+    isOwner
 }) => (
     <CustomGrid>
         <Grid.Row>
@@ -114,32 +119,34 @@ const ProfileDetails = ({
             <Grid.Column computer='4' tablet='4' mobile='7' className='title'>
                 <Translate id='profile.details.username' />
             </Grid.Column>
-            <Grid.Column computer='6' tablet='6' mobile='4'>
+            <Grid.Column computer='6' tablet='6' mobile='4' className='info-row'>
                 {accountId}
             </Grid.Column>
             <Grid.Column computer='4' tablet='4' textAlign='center' only='tablet'>
                 <Translate id='profile.details.public' />
             </Grid.Column>
-            <Grid.Column computer='2' tablet='2' mobile='5' textAlign='right'>
-                <Popup
-                    trigger={
-                        <div className='locked'>
-                            <Image src={LockImage} align='left' />
-                        </div>
-                    }
-                    hoverable
-                    position='left center'
-                >
-                    <Popup.Header><Translate id='profile.details.lockPopup.title' /></Popup.Header>
-                    <Popup.Content>
-                        <Translate id='profile.details.lockPopup.text' data={{'link': <Link to="/create"><Translate id='profile.details.lockPopup.createAnotherAccount' /></Link>}} />
-                        {` `}
-                        {false ?
-                            <a href='/'>Learn more</a>
-                            : null}
-                    </Popup.Content>
-                </Popup>
-            </Grid.Column>
+            {isOwner && (
+                <Grid.Column computer='2' tablet='2' mobile='5' textAlign='right'>
+                    <Popup
+                        trigger={
+                            <div className='locked'>
+                                <Image src={LockImage} align='left' />
+                            </div>
+                        }
+                        hoverable
+                        position='left center'
+                    >
+                        <Popup.Header><Translate id='profile.details.lockPopup.title' /></Popup.Header>
+                        <Popup.Content>
+                            <Translate id='profile.details.lockPopup.text' data={{'link': <Link to="/create"><Translate id='profile.details.lockPopup.createAnotherAccount' /></Link>}} />
+                            {` `}
+                            {false ?
+                                <a href='/'>Learn more</a>
+                                : null}
+                        </Popup.Content>
+                    </Popup>
+                </Grid.Column>
+            )}
         </Grid.Row>
         <PublicBalanceRow titleId='profile.details.totalBalance' infoId='totalBalance' amount={total}/>
         <PublicBalanceRow titleId='profile.details.minBalance' infoId='minimumBalance' amount={stateStaked}/>
