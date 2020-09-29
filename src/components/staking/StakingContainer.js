@@ -70,17 +70,23 @@ const StyledContainer = styled(Container)`
         display block;
         margin: 50px auto;
     }
+
+    .already-staked-disclaimer {
+        font-style: italic;
+        line-height: 140%;
+    }
 `
 
 export function StakingContainer({ history }) {
     const dispatch = useDispatch()
     const staking = useSelector(({ staking }) => staking)
     const { formLoader, actionsPending, balance } = useSelector(({ account }) => account);
-    const validators = staking.validators
+    let validators = staking.validators
     const currentValidators = validators.filter(validator => validator.stakedBalance && validator.stakedBalance !== '0')
+    validators = currentValidators.length ? currentValidators : validators
 
     useEffect(() => {
-        if (!validators.length) dispatch(getValidators())
+        dispatch(getValidators())
     }, [])
 
     const handleGetValidators = async () => {
@@ -105,7 +111,7 @@ export function StakingContainer({ history }) {
                         exact
                         path='/staking/validators'
                         render={(props) => (
-                            <Validators {...props} validators={validators} />
+                            <Validators {...props} validators={validators} alreadyStaked={currentValidators.length}/>
                         )}
                     />
                     <Route

@@ -20,7 +20,7 @@ export default function Stake({ match, validators, formLoader, actionsPending, h
     const [success, setSuccess] = useState()
     const validator = validators.filter(validator => validator.name === match.params.validator)[0]
     const invalidAmount = new BN(balance.available).lt(new BN(utils.format.parseNearAmount(amount))) || !isDecimalString(amount)
-    const stakeAllowed = !formLoader && amount.length && !invalidAmount
+    const stakeAllowed = !formLoader && amount.length && amount !== '0' && !invalidAmount
 
     onKeyDown(e => {
         if (e.keyCode === 13 && stakeAllowed) {
@@ -45,8 +45,8 @@ export default function Stake({ match, validators, formLoader, actionsPending, h
                 <h1><Translate id='staking.stake.title' /></h1>
                 <div className='desc'><Translate id='staking.stake.desc' /></div>
                 <h4><Translate id='staking.stake.amount' /></h4>
-                <AmountInput value={amount} onChange={setAmount} invalidAmount={invalidAmount}/>
-                <ArrowCircleIcon/>
+                <AmountInput value={amount} onChange={setAmount} valid={stakeAllowed}/>
+                <ArrowCircleIcon color={stakeAllowed ? '#6AD1E3' : ''}/>
                 <h4><Translate id='staking.stake.stakeWith' /></h4>
                 {validator && 
                     <ValidatorBox
