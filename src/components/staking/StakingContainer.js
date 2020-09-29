@@ -86,7 +86,7 @@ export function StakingContainer({ history }) {
     validators = currentValidators.length ? currentValidators : validators
 
     useEffect(() => {
-        if (!validators.length) dispatch(getValidators())
+        dispatch(getValidators())
     }, [])
 
     const handleGetValidators = async () => {
