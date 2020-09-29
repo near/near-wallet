@@ -605,12 +605,10 @@ class Wallet {
                 ownersBalance,
                 liquidOwnersBalance,
                 lockedAmount,
-                unvestedAmount
             ] = await Promise.all([
                 'get_owners_balance',
                 'get_liquid_owners_balance',
                 'get_locked_amount',
-                'get_unvested_amount'
             ].map(methodName => account.viewFunction(lockupAccountId, methodName)))
 
             return {
@@ -618,7 +616,6 @@ class Wallet {
                 ownersBalance,
                 liquidOwnersBalance,
                 lockedAmount,
-                unvestedAmount,
                 total: new BN(balance.total).add(new BN(lockedAmount)).add(new BN(ownersBalance)).toString()
             }
         } catch (error) {
