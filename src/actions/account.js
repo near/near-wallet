@@ -365,6 +365,16 @@ export const { addAccessKey, createAccountWithSeedPhrase, addAccessKeySeedPhrase
             const recoveryMethod = 'seed'
             await wallet.saveAccount(accountId, recoveryKeyPair);
             await wallet.createNewAccount(accountId, fundingOptions, recoveryMethod, recoveryKeyPair.publicKey)
+            await wallet.createNewAccount(accountId, fundingContract, fundingKey, recoveryKeyPair.publicKey)
+            const publicKey = recoveryKeyPair.publicKey.toString()
+            const contractName = null;
+            const fullAccess = true;
+            const newKeyPair = KeyPair.fromRandom('ed25519')
+            const newPublicKey = newKeyPair.publicKey
+            
+            await wallet.postSignedJson('/account/seedPhraseAdded', { accountId, publicKey })
+            await wallet.addAccessKey(accountId, contractName, newPublicKey, fullAccess)
+            await wallet.saveAccount(accountId, newKeyPair)
         },
         () => defaultCodesFor('account.createAccountSeedPhrase')
     ],
