@@ -10,32 +10,9 @@ const RecoverAccountSeedPhraseForm = ({
     isLegit,
     handleChange,
     seedPhrase,
-    accountId,
     requestStatus
 }) => (
         <>
-            <h4><Translate id='input.accountId.title' /></h4>
-            <Translate>
-                {({ translate }) => (
-                    <>
-                        <Input
-                            name='accountId'
-                            value={accountId}
-                            onChange={handleChange}
-                            className={classNames([{'success': requestStatus && requestStatus.success}, {'problem': requestStatus && requestStatus.success === false}])}
-                            placeholder={translate('input.accountId.placeholder')}
-                            required
-                            tabIndex='1'
-                            spellCheck='false'
-                            autoCapitalize='off'
-                            autoCorrect='off'
-                            autoComplete='off'
-                            autoFocus={true}
-                        />
-                        <div className='input-sub-label'>{translate('input.accountId.subLabel')}</div>
-                    </>
-                )}
-            </Translate>
             <h4><Translate id='recoverSeedPhrase.seedPhraseInput.title' /></h4>
             <Translate>
                 {({ translate }) => (
