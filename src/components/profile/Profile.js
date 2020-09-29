@@ -34,7 +34,7 @@ export function Profile({ match }) {
     return (
         <PageContainer title={<Translate id='profile.pageTitle.default' data={{ accountId }} />}>
             <ProfileSection>
-                <ProfileDetails account={account} />
+                <ProfileDetails account={account} loginAccountId={loginAccountId} />
                 {accountId === loginAccountId && (
                     <>
                         <RecoveryContainer/>
