@@ -18,10 +18,12 @@ export function Profile({ match }) {
     const dispatch = useDispatch();
 
     useEffect(() => { 
-        dispatch(getAccessKeys(accountId))
-        dispatch(getLedgerKey())
-        dispatch(get2faMethod())
-        dispatch(checkCanEnableTwoFactor(account))
+        if (isOwner) {
+            dispatch(getAccessKeys(accountId))
+            dispatch(getLedgerKey())
+            dispatch(get2faMethod())
+            dispatch(checkCanEnableTwoFactor(account))
+        }
     }, []);
 
     if (account.__status === LOADING) {
