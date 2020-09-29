@@ -95,7 +95,10 @@ const checkContractId = () => async (dispatch, getState) => {
     }
 }
 
-export const redirectTo = (location) => (dispatch) => dispatch(push({ pathname: location }))
+export const redirectTo = (location, state) => (dispatch) => dispatch(push({ 
+    pathname: location,
+    state
+}))
 
 export const redirectToApp = (fallback) => (dispatch, getState) => {
     const { account: { url }} = getState()
