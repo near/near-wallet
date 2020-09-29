@@ -344,7 +344,10 @@ export const handleCreateAccountWithSeedPhrase = (accountId, recoveryKeyPair, fu
     try {
         await dispatch(createAccountWithSeedPhrase(accountId, recoveryKeyPair, fundingContract, fundingKey))
     } catch (error) {
-        dispatch(redirectTo('/recover-seed-phrase'))
+        dispatch(redirectTo('/recover-seed-phrase', { 
+            globalAlertPreventClear: true,
+            defaultAccountId: accountId
+        }))
         return
     }
 
