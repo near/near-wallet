@@ -98,7 +98,7 @@ const ProfileDetails = ({
             available
         }
     },
-    loginAccountId
+    isOwner
 }) => (
     <CustomGrid>
         <Grid.Row>
@@ -125,7 +125,7 @@ const ProfileDetails = ({
             <Grid.Column computer='4' tablet='4' textAlign='center' only='tablet'>
                 <Translate id='profile.details.public' />
             </Grid.Column>
-            {loginAccountId && (
+            {isOwner && (
                 <Grid.Column computer='2' tablet='2' mobile='5' textAlign='right'>
                     <Popup
                         trigger={
