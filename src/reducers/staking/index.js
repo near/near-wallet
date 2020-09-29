@@ -5,6 +5,7 @@ import { getValidators } from '../../actions/staking'
 
 const initialState = {
     validators: [],
+    lockup: {},
     totalStaked: 1,
     totalUnclaimedRewards: 1,
 }
