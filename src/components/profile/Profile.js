@@ -13,7 +13,7 @@ import { get2faMethod, getLedgerKey, checkCanEnableTwoFactor, getAccessKeys } fr
 export function Profile({ match }) {
     const loginAccountId = useSelector(state => state.account.accountId)
     const accountId = match.params.accountId || loginAccountId
-    const isOwner = match.params.accountId === loginAccountId
+    const isOwner = accountId === loginAccountId
     const account = useAccount(accountId)
     const dispatch = useDispatch();
 
