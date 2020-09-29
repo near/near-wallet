@@ -336,6 +336,14 @@ export const handleCreateAccountWithSeedPhrase = (accountId, recoveryKeyPair, fu
 }
 
 export const finishAccountSetup = () => async (dispatch) => {
+export const handleCreateAccountWithSeedPhrase = (accountId, recoveryKeyPair, fundingContract, fundingKey) => async (dispatch) => {
+    try {
+        await dispatch(createAccountWithSeedPhrase(accountId, recoveryKeyPair, fundingContract, fundingKey))
+    } catch (error) {
+        dispatch(redirectTo('/recover-seed-phrase'))
+        return
+    }
+
     const account = await dispatch(refreshAccount())
     const promptTwoFactor = (await wallet.twoFactor.checkCanEnableTwoFactor(account))
 
