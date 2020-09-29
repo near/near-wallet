@@ -17,6 +17,8 @@
     DISABLE_SEND_MONEY = "true"
     DISABLE_CREATE_ACCOUNT = "true"
     REACT_APP_MULTISIG_MIN_AMOUNT = "36"
+    MIXPANEL_TOKEN = "4a10180da7af8d6d0728154d535aa7bb"
+    LOCKUP_ACCOUNT_ID_SUFFIX = "lockup.near"
 
 [[headers]]
     for = "/*"
@@ -30,3 +32,10 @@
     from = "/*"
     to = "/index.html"
     status = 200
+
+[[plugins]]
+    package = "@sentry/netlify-build-plugin"
+
+    [plugins.inputs]
+        sentryOrg = "near-protocol"
+        sentryProject = "mainnet-staging-wallet"

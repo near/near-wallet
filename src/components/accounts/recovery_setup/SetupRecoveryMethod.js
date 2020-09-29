@@ -5,7 +5,16 @@ import { Translate } from 'react-localize-redux';
 import 'react-phone-number-input/style.css'
 import PhoneInput, { isValidPhoneNumber } from 'react-phone-number-input';
 import { validateEmail } from '../../../utils/account';
-import { initializeRecoveryMethod, setupRecoveryMessage, redirectToApp, loadRecoveryMethods, getAccessKeys, getLedgerKey, refreshAccount, get2faMethod, checkCanEnableTwoFactor } from '../../../actions/account';
+import { 
+    initializeRecoveryMethod, 
+    setupRecoveryMessage,
+    setupRecoveryMessageNewAccount, 
+    redirectToApp, 
+    loadRecoveryMethods, 
+    getAccessKeys, 
+    getLedgerKey,
+    get2faMethod,
+    checkIsNew } from '../../../actions/account';
 import RecoveryOption from './RecoveryOption';
 import FormButton from '../../common/FormButton';
 import EnterVerificationCode from '../EnterVerificationCode';
@@ -19,10 +28,10 @@ const StyledContainer = styled(Container)`
         width: 100% !important;
     }
 
-`
+    h4 {
+        margin-top: 40px;
+    }
 
-const OptionHeader = styled.h4`
-    margin-top: 40px;
 `
 
 const OptionSubHeader = styled.div`
@@ -40,47 +49,22 @@ class SetupRecoveryMethod extends Component {
         success: false,
         emailInvalid: false,
         phoneInvalid: false,
-        activeMethods: [],
-        hasFetchedMethods: false,
         recoverySeedPhrase: null
     }
 
     componentDidMount() {
-        const { router, getAccessKeys, getLedgerKey, isNew, twoFactor, get2faMethod } = this.props;
+        const { router } = this.props;
         const { method } = router.location;
-        
-        getAccessKeys()
-        getLedgerKey()
 
         if (method) {
             this.setState({ option: method });
         }
 
-        if (!isNew) {
-            this.setRecoveryMethods()
-
-            if (!twoFactor) {
-                get2faMethod()
-            }
+        if (this.props.activeAccountId) {
+            this.props.loadRecoveryMethods()
+            this.props.getLedgerKey()
+            this.props.get2faMethod()
         }
-    }
-
-    setRecoveryMethods = () => {
-        if (this.props.recoveryMethods[this.props.activeAccountId]) {
-            const confirmed = this.props.recoveryMethods[this.props.accountId].filter(method => method.confirmed)
-            this.setState({ activeMethods: confirmed.map(method => method.kind) });
-        } else {
-            if (!this.state.hasFetchedMethods) {
-                this.getMethods()
-            }
-        }
-    }
-
-    getMethods = async () => {
-
-        await this.props.loadRecoveryMethods()
-        this.setState({ hasFetchedMethods: true })
-        return this.setRecoveryMethods()
     }
 
     get isValidInput() {
@@ -104,9 +88,9 @@ class SetupRecoveryMethod extends Component {
         const { option } = this.state;
 
         const {
-            isNew, accountId, fundingContract, fundingKey,
+            accountId, fundingContract, fundingKey,
         } = this.props
-        const phraseUrl = `/setup-seed-phrase/${accountId}/phrase/${isNew ? '1' : '0'}/${fundingContract ? `${fundingContract}/${fundingKey}/` : ``}`
+        const phraseUrl = `/setup-seed-phrase/${accountId}/phrase/${fundingContract ? `${fundingContract}/${fundingKey}/` : ``}`
 
         if (option === 'email' || option === 'phone') {
             this.handleSendCode()
@@ -114,7 +98,7 @@ class SetupRecoveryMethod extends Component {
         } else if (option === 'phrase') {
             this.props.history.push(phraseUrl);
         } else if (option === 'ledger') {
-            const ledgerUrl = `/setup-ledger/${accountId}/${isNew ? '1' : '0'}/${fundingContract ? `${fundingContract}/${fundingKey}/` : ``}`
+            const ledgerUrl = `/setup-ledger/${accountId}/${fundingContract ? `${fundingContract}/${fundingKey}/` : ``}`
             this.props.history.push(ledgerUrl);
         }
     }
@@ -131,27 +115,23 @@ class SetupRecoveryMethod extends Component {
     }
 
     handleSendCode = async () => {
-        const  { accountId, initializeRecoveryMethod, isNew } = this.props;
-
-        const recoverySeedPhrase = await initializeRecoveryMethod(accountId, this.method, isNew);
-
+        const  { accountId, initializeRecoveryMethod } = this.props;
+        const recoverySeedPhrase = await initializeRecoveryMethod(accountId, this.method);
         this.setState({ success: true, recoverySeedPhrase: recoverySeedPhrase })
     }
 
     handleSetupRecoveryMethod = async (securityCode) => {
         const  {
-            accountId, setupRecoveryMessage, redirectToApp, history,
-            isNew, fundingContract, fundingKey, refreshAccount
+            accountId, setupRecoveryMessage,
+            fundingContract, fundingKey, checkIsNew,
+            setupRecoveryMessageNewAccount
         } = this.props;
 
-        await setupRecoveryMessage(accountId, this.method, securityCode, isNew, fundingContract, fundingKey, this.state.recoverySeedPhrase)
-        const account = await refreshAccount()
-        const promptTwoFactor = await this.props.checkCanEnableTwoFactor(account)
-
-        if (fundingContract && promptTwoFactor) {
-            history.push('/enable-two-factor')
+        const isNew = await checkIsNew(accountId)
+        if (isNew) {
+            await setupRecoveryMessageNewAccount(accountId, this.method, securityCode, fundingContract, fundingKey, this.state.recoverySeedPhrase)
         } else {
-            redirectToApp('/profile');
+            await setupRecoveryMessage(accountId, this.method, securityCode, this.state.recoverySeedPhrase)
         }
     }
 
@@ -176,8 +156,13 @@ class SetupRecoveryMethod extends Component {
     }
 
     render() {
-        const { option, phoneNumber, email, success, emailInvalid, phoneInvalid, activeMethods } = this.state;
+        const { option, phoneNumber, email, success, emailInvalid, phoneInvalid } = this.state;
         const { actionsPending, accountId, activeAccountId, ledgerKey, twoFactor } = this.props;
+
+        let activeMethods = []
+        if (this.props.recoveryMethods[this.props.activeAccountId]) {
+            activeMethods = this.props.recoveryMethods[this.props.activeAccountId].filter(method => method.confirmed).map(method => method.kind)
+        }
 
         if (!success) {
             return (
@@ -185,7 +170,7 @@ class SetupRecoveryMethod extends Component {
                     <form onSubmit={e => {this.handleNext(); e.preventDefault();}}>
                         <h1><Translate id='setupRecovery.header'/></h1>
                         <h2><Translate id='setupRecovery.subHeader'/></h2>
-                        <OptionHeader><Translate id='setupRecovery.advancedSecurity'/></OptionHeader>
+                        <h4><Translate id='setupRecovery.advancedSecurity'/></h4>
                         <OptionSubHeader><Translate id='setupRecovery.advancedSecurityDesc'/></OptionSubHeader>
                         <RecoveryOption
                             onClick={() => this.setState({ option: 'phrase' })}
@@ -202,7 +187,7 @@ class SetupRecoveryMethod extends Component {
                                 disabled={ledgerKey !== null && accountId === activeAccountId}
                             />
                         }
-                        <OptionHeader><Translate id='setupRecovery.basicSecurity'/></OptionHeader>
+                        <h4><Translate id='setupRecovery.basicSecurity'/></h4>
                         <OptionSubHeader><Translate id='setupRecovery.basicSecurityDesc'/></OptionSubHeader>
                         <RecoveryOption
                             onClick={() => this.setState({ option: 'email' })}
@@ -263,7 +248,7 @@ class SetupRecoveryMethod extends Component {
                     onConfirm={this.handleSetupRecoveryMethod}
                     onGoBack={this.handleGoBack}
                     onResend={this.handleSendCode}
-                    loading={actionsPending.includes('SETUP_RECOVERY_MESSAGE')}
+                    loading={actionsPending.some(action => ['SETUP_RECOVERY_MESSAGE', 'SETUP_RECOVERY_MESSAGE_NEW_ACCOUNT'].includes(action))}
                     requestStatus={this.props.requestStatus}
                 />
             )
@@ -276,11 +261,11 @@ const mapDispatchToProps = {
     redirectToApp,
     loadRecoveryMethods,
     initializeRecoveryMethod,
+    setupRecoveryMessageNewAccount,
     getAccessKeys,
     getLedgerKey,
-    refreshAccount,
     get2faMethod,
-    checkCanEnableTwoFactor
+    checkIsNew
 }
 
 const mapStateToProps = ({ account, router, recoveryMethods }, { match }) => ({
@@ -288,7 +273,6 @@ const mapStateToProps = ({ account, router, recoveryMethods }, { match }) => ({
     router,
     accountId: match.params.accountId,
     activeAccountId: account.accountId,
-    isNew: match.params.isNew === '1',
     fundingContract: match.params.fundingContract,
     fundingKey: match.params.fundingKey,
     recoveryMethods

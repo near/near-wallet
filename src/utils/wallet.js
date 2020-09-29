@@ -13,7 +13,7 @@ import BN from 'bn.js'
 import sha256 from 'js-sha256'
 
 import { store } from '..'
-import { setSignTransactionStatus, setLedgerTxSigned, showLedgerModal } from '../actions/account'
+import { setSignTransactionStatus, setLedgerTxSigned, showLedgerModal, redirectToApp, redirectTo, refreshAccount } from '../actions/account'
 
 import { TwoFactor, METHOD_NAMES_LAK } from './twoFactor'
 
@@ -329,10 +329,23 @@ class Wallet {
         }
     }
 
-    async createNewAccount(accountId, fundingContract, fundingKey, publicKey, useLedger=false) {
+    async checkIsNew(accountId) {
+        let response
+        try {
+            response = await this.checkNewAccount(accountId)
+        } catch(e) {
+            return false
+        }
+        return response
+    }
+
+    async createNewAccount(accountId, fundingContract, fundingKey, publicKey) {
         this.checkNewAccount(accountId);
 
+        let useLedger = publicKey ? false : true
+
         if (useLedger) {
+            publicKey = await this.getLedgerPublicKey()
             await setKeyMeta(publicKey, { type: 'ledger' })
         }
 
@@ -434,7 +447,8 @@ class Wallet {
         }
     }
 
-    async addLedgerAccessKey(accountId, ledgerPublicKey) {
+    async addLedgerAccessKey(accountId) {
+        const ledgerPublicKey = await this.getLedgerPublicKey()
         await setKeyMeta(ledgerPublicKey, { type: 'ledger' })
         await this.getAccount(accountId).addKey(ledgerPublicKey)
         await this.postSignedJson('/account/ledgerKeyAdded', { accountId, publicKey: ledgerPublicKey.toString() })
@@ -591,12 +605,10 @@ class Wallet {
                 ownersBalance,
                 liquidOwnersBalance,
                 lockedAmount,
-                unvestedAmount
             ] = await Promise.all([
                 'get_owners_balance',
                 'get_liquid_owners_balance',
                 'get_locked_amount',
-                'get_unvested_amount'
             ].map(methodName => account.viewFunction(lockupAccountId, methodName)))
 
             return {
@@ -604,7 +616,6 @@ class Wallet {
                 ownersBalance,
                 liquidOwnersBalance,
                 lockedAmount,
-                unvestedAmount,
                 total: new BN(balance.total).add(new BN(lockedAmount)).add(new BN(ownersBalance)).toString()
             }
         } catch (error) {
@@ -632,8 +643,9 @@ class Wallet {
         });
     }
 
-    async initializeRecoveryMethod(accountId, method, isNew) {
+    async initializeRecoveryMethod(accountId, method) {
         const { seedPhrase } = generateSeedPhrase()
+        const isNew = await this.checkIsNew(accountId)
         const body = {
             accountId,
             method,
@@ -647,16 +659,23 @@ class Wallet {
         return seedPhrase;
     }
 
-    async validateSecurityCode(accountId, method, securityCode, isNew) {
+    async validateSecurityCode(accountId, method, securityCode) {
+        const isNew = await this.checkIsNew(accountId)
         const body = {
             accountId,
             method,
             securityCode
         }
-        if (isNew) {
-            return await sendJson('POST', ACCOUNT_HELPER_URL + '/account/validateSecurityCodeForTempAccount', body);
+
+        try {
+            if (isNew) {
+                await sendJson('POST', ACCOUNT_HELPER_URL + '/account/validateSecurityCodeForTempAccount', body);
+            } else {
+                await this.postSignedJson('/account/validateSecurityCode', body);
+            }
+        } catch(e) {
+            throw new WalletError('Invalid code', 'account.setupRecoveryMessage.error')
         }
-        return await this.postSignedJson('/account/validateSecurityCode', body);
     }
 
     async getRecoveryMethods(account) {
@@ -667,33 +686,36 @@ class Wallet {
         }
     }
 
-    async setupRecoveryMessage(accountId, method, securityCode, isNew, fundingContract, fundingKey, recoverySeedPhrase) {
+    async setupRecoveryMessageNewAccount(accountId, method, securityCode, fundingContract, fundingKey, recoverySeedPhrase) {
         const { secretKey } = parseSeedPhrase(recoverySeedPhrase)
         const recoveryKeyPair = KeyPair.fromString(secretKey)
-
-        // TODO: Remove isNew parameter from everywhere. Stuff available on chain should be queried from chain.
-        try {
-            await wallet.getAccount(accountId).state();
-            isNew = false;
-        } catch (e) {
-            if (e.toString().includes(`does not exist while viewing`)) {
-                isNew = true;
-            }
-        }
-
-        let securityCodeResult = await this.validateSecurityCode(accountId, method, securityCode, isNew);
-        if (!securityCodeResult || securityCodeResult.length === 0) {
-            console.log('INVALID CODE', securityCodeResult)
-            return
-        }
-
-        if (isNew) {
-            await wallet.saveAccount(accountId, recoveryKeyPair);
-            await this.createNewAccount(accountId, fundingContract, fundingKey, recoveryKeyPair.publicKey)
-        }
-
-        const newKeyPair = isNew ? KeyPair.fromRandom('ed25519') : recoveryKeyPair
+        await this.validateSecurityCode(accountId, method, securityCode);
+        await wallet.saveAccount(accountId, recoveryKeyPair);
+        await this.createNewAccount(accountId, fundingContract, fundingKey, recoveryKeyPair.publicKey)
+        const newKeyPair = KeyPair.fromRandom('ed25519')
         const newPublicKey = newKeyPair.publicKey
+        await this.addNewAccessKeyToAccount(accountId, newPublicKey)
+        await this.saveAccount(accountId, newKeyPair)
+        const account = await store.dispatch(refreshAccount())
+        const promptTwoFactor = await this.twoFactor.checkCanEnableTwoFactor(account)
+
+        if (promptTwoFactor && fundingContract) {
+            store.dispatch(redirectTo('/enable-two-factor'))
+        } else {
+            store.dispatch(redirectToApp('/profile'))
+        }
+    }
+
+    async setupRecoveryMessage(accountId, method, securityCode, recoverySeedPhrase) {
+        const { secretKey } = parseSeedPhrase(recoverySeedPhrase)
+        const recoveryKeyPair = KeyPair.fromString(secretKey)
+        await this.validateSecurityCode(accountId, method, securityCode);
+        const newPublicKey = recoveryKeyPair.publicKey
+        await this.addNewAccessKeyToAccount(accountId, newPublicKey)
+        await store.dispatch(redirectTo('/profile'))
+    }
+
+    async addNewAccessKeyToAccount(accountId, newPublicKey) {
         const { account, has2fa } = await this.getAccountAndState(accountId)
         const accountKeys = await account.getAccessKeys();
 
@@ -703,10 +725,6 @@ class Wallet {
             if (!accountKeys.some(it => it.public_key.endsWith(newPublicKey))) {
                 await account.addKey(newPublicKey);
             }
-        }
-
-        if (isNew) {
-            await this.saveAccount(accountId, newKeyPair)
         }
     }
 

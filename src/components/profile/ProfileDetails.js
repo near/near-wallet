@@ -91,7 +91,6 @@ const ProfileDetails = ({
             staked,
             ownersBalance,
             lockedAmount,
-            unvestedAmount,
             available
         }
     }
@@ -147,8 +146,7 @@ const ProfileDetails = ({
         <PublicBalanceRow titleId='profile.details.staked' infoId='stakedBalance' amount={staked}/>
         {lockedAmount !== undefined
             ? <>
-                <PublicBalanceRow titleId='profile.details.locked' infoId='lockedBalance' amount={new BN(lockedAmount).sub(new BN(unvestedAmount))}/>
-                <PublicBalanceRow titleId='profile.details.unvested' infoId='unvestedBalance' amount={unvestedAmount}/>
+                <PublicBalanceRow titleId='profile.details.locked' infoId='lockedBalance' amount={lockedAmount}/>
                 <PublicBalanceRow titleId='profile.details.unlocked' infoId='unlockedBalance' amount={ownersBalance}/>
             </>
             : null
