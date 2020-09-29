@@ -22,6 +22,7 @@ const RecoverAccountSeedPhraseForm = ({
                         onChange={handleChange}
                         className={classNames([{'success': requestStatus && requestStatus.success}, {'problem': requestStatus && requestStatus.success === false}])}
                         placeholder={translate('recoverSeedPhrase.seedPhraseInput.placeholder')}
+                        disabled={formLoader}
                         required
                         tabIndex='2'
                     />
