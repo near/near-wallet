@@ -26,11 +26,6 @@ const AccessKeysEmpty = () => (
         <Header as='h2'>
             <Translate id='fullAccessKeys.noKeys' />
         </Header>
-        <a href='https://builtwithnear.com/' target='_blank' rel="noopener noreferrer">
-            <FormButton color='blue'>
-                <Translate id='button.browseApps' />
-            </FormButton>
-        </a>
     </CustomSegment>
 )
 
