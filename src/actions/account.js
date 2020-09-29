@@ -8,6 +8,7 @@ import {
     WALLET_CREATE_NEW_ACCOUNT_URL, WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS, WALLET_LOGIN_URL, WALLET_SIGN_URL,
 } from '../utils/wallet'
 import { KeyPair } from 'near-api-js'
+import { WalletError } from '../utils/walletError'
 
 export const loadRecoveryMethods = createAction('LOAD_RECOVERY_METHODS',
     wallet.getRecoveryMethods.bind(wallet),
@@ -317,8 +318,11 @@ export const { addAccessKey, createAccountWithSeedPhrase, addAccessKeySeedPhrase
     ],
     CREATE_ACCOUNT_WITH_SEED_PHRASE: [
         async (accountId, recoveryKeyPair, fundingContract, fundingKey) => {
+            const previousAccountId = wallet.accountId
+
             await wallet.saveAccount(accountId, recoveryKeyPair);
             await wallet.createNewAccount(accountId, fundingContract, fundingKey, recoveryKeyPair.publicKey)
+           
             const publicKey = recoveryKeyPair.publicKey.toString()
             const contractName = null;
             const fullAccess = true;
@@ -331,6 +335,9 @@ export const { addAccessKey, createAccountWithSeedPhrase, addAccessKeySeedPhrase
                 await wallet.saveAccount(accountId, newKeyPair)
             } catch (error) {
                 wallet.clearAccountState()
+                if (previousAccountId) {
+                    await wallet.saveAndSelectAccount(previousAccountId)
+                }
                 throw new WalletError(error, 'account.create.addAccessKey.error')
             }
         },
