@@ -19,7 +19,7 @@ near deploy --accountId=[accountId] --wasmFile lockup_contract.wasm --initFuncti
 // add your lockup contract to this mapping
 const testLockup = {
     'multisig.testnet': 'lu1.testnet', //matt2.lockup.m0
-    'xa4.testnet': 'lu3.testnet',
+    'xa4.testnet': 'xxx.testnet',
 }
 
 const {
@@ -184,18 +184,13 @@ export class Staking {
 
 
     async stake(validatorId, amount) {
-        amount = new BN(toNear(amount), 10)
+        amount = toNear(amount)
         const accountId = this.wallet.accountId
         const lockupId = testLockup[accountId] ? testLockup[accountId] : await getLockupId(accountId)
         // try to source funds from lockup contract
         const lockupContract = await this.getContractInstance(lockupId, lockupMethods)
-        const lockupBalance = new BN(await lockupContract.get_owners_balance(), 10)
-        const useLockup = lockupBalance.gt(amount)
-        amount = amount.toString()
-
-        console.log(lockupContract, amount, lockupBalance.toString(), useLockup)
-
-        if (useLockup) {
+        
+        if (lockupContract) {
             const selectedValidatorId = await this.lockupGetSelected(lockupId)
             console.log('selectedValidatorId', selectedValidatorId)
             console.log('validatorId', validatorId)
