@@ -116,9 +116,11 @@ export class Staking {
             const total = new BN(await validator.contract.get_account_total_balance({ account_id }), 10)
             if (total.gt(zero)) {
                 validator.staked = await validator.contract.get_account_staked_balance({ account_id })
-                // validator.unstaked = await validator.contract.get_account_unstaked_balance({ account_id })
                 validator.unclaimed = total.sub(deposited).toString()
-                validator.available = await validator.contract.is_account_unstaked_balance_available({ account_id })
+                const unstaked = await validator.contract.get_account_unstaked_balance({ account_id })
+                const isAvailable = await validator.contract.is_account_unstaked_balance_available({ account_id })
+                validator.available = isAvailable ? unstaked.toString() : '0'
+                validator.pending = !isAvailable ? unstaked.toString() : '0'
             }
             totalStaked = totalStaked.add(new BN(validator.staked, 10))
             totalUnclaimed = totalUnclaimed.add(new BN(validator.unclaimed, 10))
@@ -151,7 +153,7 @@ export class Staking {
                     staked: '0',
                     unclaimed: '0',
                     pending: '0',
-                    available: false,
+                    available: '0',
                     contract: await this.getContractInstance(account_id, stakingMethods)
                 }
                 try {
@@ -169,9 +171,12 @@ export class Staking {
     Staking
     ********************************/
 
-    async stake(validatorId, amount) {
+    async stake(useLockup, validatorId, amount) {
         amount = toNear(amount)
         const accountId = this.wallet.accountId
+
+        if (!useLockup) return
+
         const lockupId = testLockup[accountId] ? testLockup[accountId] : await getLockupId(accountId)
         // try to source funds from lockup contract
         const lockupContract = await this.getContractInstance(lockupId, lockupMethods)
@@ -185,12 +190,16 @@ export class Staking {
             }
             return await this.lockupStake(lockupId, validatorId, amount)
         }
-        // staking from account directly
-        const deposit_and_stake = await this.signAndSendTransaction(validatorId, [
-            functionCall('deposit_and_stake', {}, GAS_STAKE, amount)
-        ])
-        console.log('deposit_and_stake', deposit_and_stake)
-        return deposit_and_stake
+        // WIP staking from account directly
+        // const deposit_and_stake = await this.signAndSendTransaction(validatorId, [
+        //     functionCall('deposit_and_stake', {}, GAS_STAKE, amount)
+        // ])
+        // console.log('deposit_and_stake', deposit_and_stake)
+        // return deposit_and_stake
+    }
+
+    async unstake(useLockup, validatorId, amount) {
+        
     }
 
     // helpers for lockup
@@ -259,61 +268,4 @@ export class Staking {
         }
         return account.signAndSendTransaction(receiverId, actions)
     }
-}
-
-/********************************
-WIP Explorer API calls
-********************************/
-
-
-async function getStakingTransactions(accountId, validators) {
-    const methods = ['deposit', 'deposit_and_stake', 'withdraw', 'withdraw_all']
-
-    const sql = `
-        SELECT
-            transactions.hash, 
-            transactions.signer_id,
-            transactions.receiver_id,
-            transactions.block_timestamp, 
-            actions.action_type as kind, 
-            actions.action_args as args
-        FROM 
-            transactions
-        LEFT JOIN actions ON actions.transaction_hash = transactions.hash
-        WHERE 
-            transactions.signer_id = :accountId
-            AND
-            (
-                (
-                    json_extract(actions.action_args, '$.method_name') in (:methods)
-                    AND
-                    transactions.receiver_id in (:validators)
-                )
-            )   
-        ORDER BY 
-            block_timestamp DESC
-        LIMIT 
-            :offset, :count
-    `
-
-//  WIP for multisig
-//                 (
-//                     json_extract(actions.action_args, '$.method_name') = 'add_request_and_confirm'
-//                     AND
-//                     json_extract(actions.action_args, '$.request.actions.method_name') like '%stake'
-//                     AND
-//                     json_extract(actions.action_args, '$.request.receiver_id') in (:validators)
-//                 )
-
-    const params = {
-        accountId, 
-        offset: 0, 
-        count: 500,
-        methods,
-        validators,
-    }
-
-    const tx = await queryExplorer(sql, params)
-    console.log(tx)
-    return Array.isArray(tx) ? tx : []
 }

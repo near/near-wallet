@@ -84,13 +84,14 @@ export function StakingContainer({ history }) {
     let validators = staking.validators
     const currentValidators = validators.filter(validator => validator.staked && validator.staked !== '0')
     validators = currentValidators.length ? currentValidators : validators
+    const { useLockup } = staking
 
     useEffect(() => {
         dispatch(updateStaking(staking))
     }, [])
 
     const handleGetValidators = async () => {
-        await dispatch(updateStaking())
+        await dispatch(updateStaking(staking))
     }
 
     return (
@@ -111,7 +112,7 @@ export function StakingContainer({ history }) {
                         exact
                         path='/staking/validators'
                         render={(props) => (
-                            <Validators {...props} validators={staking.validators} alreadyStaked={currentValidators.length}/>
+                            <Validators {...props} validators={staking.validators} useLockup={useLockup} alreadyStaked={currentValidators.length}/>
                         )}
                     />
                     <Route
@@ -128,6 +129,7 @@ export function StakingContainer({ history }) {
                             <Stake 
                                 {...props} 
                                 balance={balance}
+                                useLockup={useLockup} 
                                 validators={validators}
                                 formLoader={formLoader} 
                                 actionsPending={actionsPending}

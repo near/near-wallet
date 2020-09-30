@@ -4,7 +4,7 @@ import { Translate } from 'react-localize-redux'
 import ListWrapper from './ListWrapper'
 import ValidatorBox from './ValidatorBox'
 
-export default function Validators({ validators, history, alreadyStaked }) {
+export default function Validators({ validators, useLockup, history, alreadyStaked }) {
     const [validator, setValidator] = useState('')
     const validValidator = validators.map(validator => validator.accountId).includes(validator)
     return (
@@ -24,7 +24,13 @@ export default function Validators({ validators, history, alreadyStaked }) {
             }
             <h3><Translate id='staking.validators.available' /></h3>
             <ListWrapper>
-                {validators.filter(v => v.accountId.includes(validator)).map((validator, i) => 
+                {validators.filter(v => {
+                    if (useLockup) {
+                        return v.staked !== '0' || v.available !== '0' || v.pending !== '0'
+                    } else {
+                        return v.accountId.includes(validator)
+                    }
+                }).map((validator, i) => 
                     <ValidatorBox
                         key={i}
                         validator={validator.accountId}

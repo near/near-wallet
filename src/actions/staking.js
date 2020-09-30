@@ -8,6 +8,7 @@ const defaultCodesFor = (prefix, data) => ({ successCode: `${prefix}.success`, e
 export const {
     updateStaking,
     stake,
+    unstake,
 } = createActions({
     UPDATE_STAKING: [
         wallet.staking.updateStaking.bind(wallet.staking),
@@ -16,5 +17,9 @@ export const {
     STAKE: [
         wallet.staking.stake.bind(wallet.staking),
         () => defaultCodesFor('staking.stake')
+    ],
+    UNSTAKE: [
+        wallet.staking.unstake.bind(wallet.staking),
+        () => defaultCodesFor('staking.unstake')
     ],
 })

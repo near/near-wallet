@@ -13,7 +13,7 @@ import { utils } from 'near-api-js'
 import isDecimalString from '../../../utils/isDecimalString'
 import { onKeyDown } from '../../../hooks/eventListeners'
 
-export default function Stake({ match, validators, formLoader, actionsPending, handleGetValidators, balance }) {
+export default function Stake({ match, validators, useLockup, formLoader, actionsPending, handleGetValidators, balance }) {
     const dispatch = useDispatch()
     const [confirm, setConfirm] = useState()
     const [amount, setAmount] = useState('')
@@ -33,7 +33,7 @@ export default function Stake({ match, validators, formLoader, actionsPending, h
     })
 
     const handleStake = async () => {
-        await dispatch(stake(validator.accountId, amount))
+        await dispatch(stake(useLockup, validator.accountId, amount))
         await handleGetValidators()
         setSuccess(true)
         setConfirm(false)
