@@ -94,6 +94,14 @@ export function StakingContainer({ history }) {
         await dispatch(updateStaking(useLockup))
     }
 
+    const handleUnstake = async () => {
+        console.log('unstake')
+    }
+
+    const handleWithDraw = async () => {
+        console.log('withdraw')
+    }
+
     return (
         <StyledContainer className='small-centered'>
             <ConnectedRouter history={history}>
@@ -119,7 +127,12 @@ export function StakingContainer({ history }) {
                         exact
                         path='/staking/:validator'
                         render={(props) => (
-                            <Validator {...props} validators={validators} />
+                            <Validator 
+                                {...props} 
+                                validators={validators} 
+                                onUnstake={handleUnstake}
+                                onWithdraw={handleWithDraw}
+                            />
                         )}
                     />
                     <Route

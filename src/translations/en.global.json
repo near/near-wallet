@@ -528,7 +528,8 @@
         "balanceBox": {
             "staked": {
                 "title": "Total amount staked",
-                "info": "What does Total amount staked mean?"
+                "info": "What does Total amount staked mean?",
+                "button": "Unstake"
             },
             "unclaimed": {
                 "title": "Unclaimed rewards",
@@ -536,7 +537,8 @@
             },
             "available": {
                 "title": "Available for withdrawal",
-                "info": "What does Available for withdrawal mean?"
+                "info": "What does Available for withdrawal mean?",
+                "button": "Withdraw"
             },
             "pending": {
                 "title": "Pending release",

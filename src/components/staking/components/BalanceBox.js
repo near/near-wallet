@@ -46,7 +46,9 @@ export default function BalanceBox({
     title,
     amount,
     info,
-    version
+    version,
+    onClick,
+    button,
 }) {
     return (
         <Translate>
@@ -62,6 +64,11 @@ export default function BalanceBox({
                         </Modal>
                     </div>
                     <Balance amount={amount} />
+                    {button &&
+                        <button onClick={onClick}>
+                            <Translate id={button} />
+                        </button>
+                    }
                 </Container>
             )}
         </Translate>

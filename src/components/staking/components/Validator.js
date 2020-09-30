@@ -5,7 +5,7 @@ import BalanceBox from './BalanceBox'
 import StakingFee from './StakingFee'
 import ListWrapper from './ListWrapper'
 
-export default function Validator({ match, validators }) {
+export default function Validator({ match, validators, onUnstake, onWithdraw }) {
     const validator = validators.filter(validator => validator.accountId === match.params.validator)[0]
     return (
         <>
@@ -20,6 +20,8 @@ export default function Validator({ match, validators }) {
                             info='staking.balanceBox.staked.info'
                             amount={validator.staked || '0'}
                             version='no-border'
+                            onClick={onUnstake}
+                            button='staking.balanceBox.staked.button'
                         />
                         <BalanceBox
                             title='staking.balanceBox.unclaimed.title'
@@ -32,6 +34,8 @@ export default function Validator({ match, validators }) {
                             info='staking.balanceBox.available.info'
                             amount='0'
                             version='no-border'
+                            onClick={onWithdraw}
+                            button='staking.balanceBox.available.button'
                         />
                         <BalanceBox
                             title='staking.balanceBox.pending.title'

@@ -30,6 +30,7 @@ near deploy --accountId=[accountId] --wasmFile lockup_contract.wasm --initFuncti
 const testLockup = {
     'multisig.testnet': 'lu3.testnet',
     'xa4.testnet': 'lu3.testnet',
+    'patrick12.testnet': 'patrick13.patrick12.testnet'
 }
 
 // TODO Contract Helper gas amount or attached gas?
