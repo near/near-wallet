@@ -1,28 +1,27 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import logo from '../../images/wallet.svg';
+import NearLogo from '../svg/NearLogo';
 
 const StyledLogo = styled(Link)`
-    background: url(${logo});
-    background-size: 100%;
-    background-repeat: no-repeat;
-    background-position: left center;
-    display: block;
-    height: 70px;
-    background-size: 130px;
-    min-width: 39px;
-    width: 39px;
+    margin-top: 5px;
 
+    @media (max-width: 991px) {
+        max-width: 53px;
+        overflow: hidden;
+        margin-left: -10px;
+        margin-top: 2px;
+    }
 
-    @media (min-width: 900px) {
-        background-size: 155px;
+    svg {
         width: 155px;
     }
 `
 
 const Logo = () => (
-    <StyledLogo to='/' className='logo'/>
+    <StyledLogo to='/' className='logo'>
+        <NearLogo/>
+    </StyledLogo>
 )
 
 export default Logo;

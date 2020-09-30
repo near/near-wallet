@@ -41,6 +41,7 @@ const FooterGrid = styled(Grid)`
             .image {
                 width: 140px;
                 padding-left: 14px;
+                opacity: 0.3;
             }
         }
 
