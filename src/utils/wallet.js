@@ -750,7 +750,12 @@ class Wallet {
         const { publicKey, secretKey } = parseSeedPhrase(seedPhrase)
 
         const tempKeyStore = new nearApiJs.keyStores.InMemoryKeyStore()
-        const accountIds = accountId ? [accountId] : await getAccountIds(publicKey)
+        let accountIds = [accountId]
+        if (!accountId) {
+            accountIds = await getAccountIds(publicKey)
+            const implicitAccountId = Buffer.from(PublicKey.fromString(publicKey).data).toString('hex')
+            accountIds.push(implicitAccountId)
+        }
 
         const connection = nearApiJs.Connection.fromConfig({
             networkId: NETWORK_ID,
