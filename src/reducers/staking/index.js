@@ -1,17 +1,18 @@
 import { handleActions, combineActions } from 'redux-actions'
 import reduceReducers from 'reduce-reducers'
 
-import { getValidators } from '../../actions/staking'
+import { updateStaking } from '../../actions/staking'
 
 const initialState = {
     validators: [],
+    useLockup: true,
     lockup: {},
     totalStaked: 1,
     totalUnclaimedRewards: 1,
 }
 
 const stakingHandlers = handleActions({
-    [getValidators]: (state, { error, payload }) => {
+    [updateStaking]: (state, { error, payload }) => {
         return {
             ...state,
             ...payload,

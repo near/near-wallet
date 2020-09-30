@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { getValidators } from '../../actions/staking'
+import { updateStaking } from '../../actions/staking'
 import styled from 'styled-components'
 import Container from '../common/styled/Container.css'
 import { Switch, Route } from 'react-router-dom'
@@ -86,7 +86,7 @@ export function StakingContainer({ history }) {
     validators = currentValidators.length ? currentValidators : validators
 
     useEffect(() => {
-        dispatch(getValidators())
+        dispatch(updateStaking(staking))
     }, [])
 
     const handleGetValidators = async () => {
@@ -111,7 +111,7 @@ export function StakingContainer({ history }) {
                         exact
                         path='/staking/validators'
                         render={(props) => (
-                            <Validators {...props} validators={validators} alreadyStaked={currentValidators.length}/>
+                            <Validators {...props} validators={staking.validators} alreadyStaked={currentValidators.length}/>
                         )}
                     />
                     <Route
