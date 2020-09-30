@@ -80,11 +80,11 @@ export class Staking {
         const validators = await this.getValidators()
         return {
             validators,
-            ...(useLockup ? await this.getValidatorsLockup(validators) : {})
+            ...(useLockup ? await this.updateStakingLockup(validators) : {})
         }
     }
 
-    async getValidatorsLockup(validators) {
+    async updateStakingLockup(validators) {
         const accountId = this.wallet.accountId
         const lockupId = testLockup[accountId] ? testLockup[accountId] : await getLockupId(accountId)
         // current staking account_id
@@ -154,7 +154,7 @@ export class Staking {
     }
 
     // TODO when we enable direct account staking
-    async getValidatorsAccount() {
+    async updateStakingAccount() {
         return {}
     }
 

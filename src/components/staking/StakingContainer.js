@@ -90,7 +90,7 @@ export function StakingContainer({ history }) {
     }, [])
 
     const handleGetValidators = async () => {
-        await dispatch(getValidators())
+        await dispatch(updateStaking())
     }
 
     return (
