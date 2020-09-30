@@ -32,7 +32,7 @@ export default function Validator({ match, validators, onUnstake, onWithdraw }) 
                         <BalanceBox
                             title='staking.balanceBox.available.title'
                             info='staking.balanceBox.available.info'
-                            amount='0'
+                            amount={ validator.available || '0' }
                             version='no-border'
                             onClick={onWithdraw}
                             button='staking.balanceBox.available.button'
@@ -40,7 +40,7 @@ export default function Validator({ match, validators, onUnstake, onWithdraw }) 
                         <BalanceBox
                             title='staking.balanceBox.pending.title'
                             info='staking.balanceBox.pending.info'
-                            amount='0'
+                            amount={ validator.pending || '0' }
                             version='no-border'
                         />
                     </ListWrapper>

@@ -175,22 +175,20 @@ export class Staking {
     async stake(useLockup, validatorId, amount) {
         amount = toNear(amount)
         const accountId = this.wallet.accountId
-
         if (!useLockup) return
-
         const lockupId = testLockup[accountId] ? testLockup[accountId] : await getLockupId(accountId)
         // try to source funds from lockup contract
         const lockupContract = await this.getContractInstance(lockupId, lockupMethods)
+        if (!lockupContract) return
         
-        if (lockupContract) {
-            const selectedValidatorId = await this.lockupGetSelected(lockupId)
-            console.log('selectedValidatorId', selectedValidatorId)
-            console.log('validatorId', validatorId)
-            if (validatorId !== selectedValidatorId) {
-                await this.lockupSelect(validatorId, lockupId, selectedValidatorId !== null)
-            }
-            return await this.lockupStake(lockupId, validatorId, amount)
+        const selectedValidatorId = await this.lockupGetSelected(lockupId)
+        console.log('selectedValidatorId', selectedValidatorId)
+        console.log('validatorId', validatorId)
+        if (validatorId !== selectedValidatorId) {
+            await this.lockupSelect(validatorId, lockupId, selectedValidatorId !== null)
         }
+        return await this.lockupStake(lockupId, validatorId, amount)
+        
         // WIP staking from account directly
         // const deposit_and_stake = await this.signAndSendTransaction(validatorId, [
         //     functionCall('deposit_and_stake', {}, GAS_STAKE, amount)
@@ -200,7 +198,17 @@ export class Staking {
     }
 
     async unstake(useLockup, validatorId, amount) {
-        
+        const confirm = window.confirm('unstake all?')
+        if (!confirm) return
+        const accountId = this.wallet.accountId
+        if (!useLockup) return
+        const lockupId = testLockup[accountId] ? testLockup[accountId] : await getLockupId(accountId)
+        const lockupContract = await this.getContractInstance(lockupId, lockupMethods)
+        if (!lockupContract) return
+        const unstake_all = await this.signAndSendTransaction(lockupId, [
+            functionCall('unstake_all', {}, GAS_STAKE)
+        ])  
+        console.log('unstake_all', unstake_all)
     }
 
     // helpers for lockup

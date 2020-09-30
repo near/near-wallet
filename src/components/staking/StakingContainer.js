@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { updateStaking } from '../../actions/staking'
+import { updateStaking, unstake } from '../../actions/staking'
 import styled from 'styled-components'
 import Container from '../common/styled/Container.css'
 import { Switch, Route } from 'react-router-dom'
@@ -95,7 +95,7 @@ export function StakingContainer({ history }) {
     }
 
     const handleUnstake = async () => {
-        console.log('unstake')
+        await dispatch(unstake(useLockup))
     }
 
     const handleWithDraw = async () => {
