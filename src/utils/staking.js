@@ -76,12 +76,18 @@ export class Staking {
         // window.staking = this
     }
 
+    /********************************
+    Updating staking state depending on lockup/account selected
+    ********************************/
+
     async updateStaking({ useLockup }) {
         const validators = await this.getValidators()
-        return {
+        const state = {
             validators,
             ...(useLockup ? await this.updateStakingLockup(validators) : {})
         }
+        console.log(state)
+        return state
     }
 
     async updateStakingLockup(validators) {
@@ -89,63 +95,42 @@ export class Staking {
         const lockupId = testLockup[accountId] ? testLockup[accountId] : await getLockupId(accountId)
         // current staking account_id
         const account_id = lockupId
-
-        const lockup = {
-            id: lockupId,
-            validator: '',
-            deposited: new BN('0', 10),
-            available: new BN('0', 10),
-            contract: await this.getContractInstance(lockupId, lockupMethods)
-        }
-
-        if (!lockup.contract) {
+        const contract = await this.getContractInstance(lockupId, lockupMethods)
+        if (!contract) {
             throw Error('No lockup contract for account')
         }
-        lockup.available = new BN(await lockup.contract.get_owners_balance(), 10).sub(lockup.deposited).toString()
-        lockup.validator = await this.lockupGetSelected(lockupId)
-        if (!lockup.validator) {
-            return {
-                lockup
-            }
+        const selectedValidator = await this.lockupGetSelected(lockupId)
+        if (!selectedValidator) {
+            return {}
         }
-        lockup.deposited = new BN(await lockup.contract.get_known_deposited_balance(), 10)
-        // debugging
-        console.log('lockup available balance', nearTo(lockup.available))
-        const validator = validators.find((v) => v.name === lockup.validator)
+        let totalAvailable = new BN(await contract.get_owners_balance(), 10)
+        const deposited = new BN(await contract.get_known_deposited_balance(), 10)
+        totalAvailable = totalAvailable.sub(deposited)
 
+        const validator = validators.find((v) => v.accountId === selectedValidator)
         const zero = new BN('0', 10)
         let totalStaked = new BN('0', 10);
-        let totalUnclaimedRewards = new BN('0', 10);
+        let totalUnclaimed = new BN('0', 10);
 
         try {
-            const totalBalance = new BN(await validator.contract.get_account_total_balance({ account_id }), 10)
-            if (totalBalance.gt(zero)) {
-                validator.stakedBalance = await validator.contract.get_account_staked_balance({ account_id })
-                console.log(validator.stakedBalance)
-                validator.unstakedBalance = await validator.contract.get_account_unstaked_balance({ account_id })
-                validator[`unstakedAvailable_${account_id}`] = await validator.contract.is_account_unstaked_balance_available({ account_id })
-                // console.log('stakedBalance inner', name, account_id, stakedBalance.toString())
-                // console.log('unstakedBalance inner', name, account_id, unstakedBalance.toString())
+            const total = new BN(await validator.contract.get_account_total_balance({ account_id }), 10)
+            if (total.gt(zero)) {
+                validator.staked = await validator.contract.get_account_staked_balance({ account_id })
+                // validator.unstaked = await validator.contract.get_account_unstaked_balance({ account_id })
+                validator.unclaimed = total.sub(deposited).toString()
+                validator.available = await validator.contract.is_account_unstaked_balance_available({ account_id })
             }
-            validator.totalBalance = totalBalance.toString()
-            totalStaked = totalStaked.add(new BN(validator.stakedBalance, 10))
-            // unclaimed rewards
-            let principleStaked = new BN('0', 10)
-            // if validator is selected lockup validator base principle on lockup.deposited
-            principleStaked = principleStaked.add(lockup.deposited)
-            validator.principleStaked = principleStaked.toString()
-            const unclaimedRewards = totalBalance.sub(principleStaked)
-            validator.unclaimedRewards = unclaimedRewards.toString()
-            totalUnclaimedRewards = totalUnclaimedRewards.add(unclaimedRewards)
-            
+            totalStaked = totalStaked.add(new BN(validator.staked, 10))
+            totalUnclaimed = totalUnclaimed.add(new BN(validator.unclaimed, 10))
         } catch (e) {
             console.warn(e)
         }
 
         const state = {
-            lockup,
+            accountId: account_id,
+            totalAvailable: totalAvailable.toString(),
             totalStaked: totalStaked.toString(),
-            totalUnclaimedRewards: totalUnclaimedRewards.toString(),
+            totalUnclaimed: totalUnclaimed.toString(),
         }
 
         console.log('getValidatorsLockup', state)
@@ -162,7 +147,11 @@ export class Staking {
         return (await Promise.all(
             (await this.provider.validators()).current_validators.map(({ account_id }) => (async () => {
                 const validator = {
-                    name: account_id,
+                    accountId: account_id,
+                    staked: '0',
+                    unclaimed: '0',
+                    pending: '0',
+                    available: false,
                     contract: await this.getContractInstance(account_id, stakingMethods)
                 }
                 try {
@@ -176,6 +165,9 @@ export class Staking {
         )).filter((v) => !!v)
     }
 
+    /********************************
+    Staking
+    ********************************/
 
     async stake(validatorId, amount) {
         amount = toNear(amount)

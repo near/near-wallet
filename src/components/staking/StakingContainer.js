@@ -82,7 +82,7 @@ export function StakingContainer({ history }) {
     const staking = useSelector(({ staking }) => staking)
     const { formLoader, actionsPending, balance } = useSelector(({ account }) => account);
     let validators = staking.validators
-    const currentValidators = validators.filter(validator => validator.stakedBalance && validator.stakedBalance !== '0')
+    const currentValidators = validators.filter(validator => validator.staked && validator.staked !== '0')
     validators = currentValidators.length ? currentValidators : validators
 
     useEffect(() => {

@@ -6,7 +6,7 @@ import StakingFee from './StakingFee'
 import ListWrapper from './ListWrapper'
 
 export default function Validator({ match, validators }) {
-    const validator = validators.filter(validator => validator.name === match.params.validator)[0]
+    const validator = validators.filter(validator => validator.accountId === match.params.validator)[0]
     return (
         <>
             <h1><Translate id='staking.validator.title' data={{ validator: match.params.validator }}/></h1>
@@ -18,13 +18,13 @@ export default function Validator({ match, validators }) {
                         <BalanceBox
                             title='staking.balanceBox.staked.title'
                             info='staking.balanceBox.staked.info'
-                            amount={validator.stakedBalance || '0'}
+                            amount={validator.staked || '0'}
                             version='no-border'
                         />
                         <BalanceBox
                             title='staking.balanceBox.unclaimed.title'
                             info='staking.balanceBox.unclaimed.info'
-                            amount={validator.unclaimedRewards || '0'}
+                            amount={validator.unclaimed || '0'}
                             version='no-border'
                         />
                         <BalanceBox

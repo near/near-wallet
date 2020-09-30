@@ -18,7 +18,7 @@ export default function Stake({ match, validators, formLoader, actionsPending, h
     const [confirm, setConfirm] = useState()
     const [amount, setAmount] = useState('')
     const [success, setSuccess] = useState()
-    const validator = validators.filter(validator => validator.name === match.params.validator)[0]
+    const validator = validators.filter(validator => validator.accountId === match.params.validator)[0]
     const invalidAmount = new BN(balance.available).lt(new BN(utils.format.parseNearAmount(amount))) || !isDecimalString(amount)
     const stakeAllowed = !formLoader && amount.length && amount !== '0' && !invalidAmount
 
@@ -33,7 +33,7 @@ export default function Stake({ match, validators, formLoader, actionsPending, h
     })
 
     const handleStake = async () => {
-        await dispatch(stake(validator.name, amount))
+        await dispatch(stake(validator.accountId, amount))
         await handleGetValidators()
         setSuccess(true)
         setConfirm(false)
@@ -50,7 +50,7 @@ export default function Stake({ match, validators, formLoader, actionsPending, h
                 <h4><Translate id='staking.stake.stakeWith' /></h4>
                 {validator && 
                     <ValidatorBox
-                        validator={validator.name}
+                        validator={validator.accountId}
                         fee={validator.fee.percentage}
                         clickable={false}
                     />
@@ -64,7 +64,7 @@ export default function Stake({ match, validators, formLoader, actionsPending, h
                 </FormButton>
                 {confirm &&
                     <StakeConfirmModal
-                        validatorName={validator.name} 
+                        validatorName={validator.accountId} 
                         amount={amount}
                         open={confirm} 
                         onConfirm={handleStake} 
@@ -82,7 +82,7 @@ export default function Stake({ match, validators, formLoader, actionsPending, h
                 <div className='desc'><Translate id='staking.stakeSuccess.desc' /></div>
                 {validator && 
                     <ValidatorBox
-                        validator={validator.name}
+                        validator={validator.accountId}
                         fee={validator.fee.percentage}
                         amount={validator.stakedBalance}
                         clickable={false}

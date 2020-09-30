@@ -6,7 +6,7 @@ import ValidatorBox from './ValidatorBox'
 
 export default function Validators({ validators, history, alreadyStaked }) {
     const [validator, setValidator] = useState('')
-    const validValidator = validators.map(validator => validator.name).includes(validator)
+    const validValidator = validators.map(validator => validator.accountId).includes(validator)
     return (
         <>
             <h1><Translate id='staking.validators.title' /></h1>
@@ -24,10 +24,10 @@ export default function Validators({ validators, history, alreadyStaked }) {
             }
             <h3><Translate id='staking.validators.available' /></h3>
             <ListWrapper>
-                {validators.filter(v => v.name.includes(validator)).map((validator, i) => 
+                {validators.filter(v => v.accountId.includes(validator)).map((validator, i) => 
                     <ValidatorBox
                         key={i}
-                        validator={validator.name}
+                        validator={validator.accountId}
                         fee={validator.fee.percentage}
                 />
                 )}
