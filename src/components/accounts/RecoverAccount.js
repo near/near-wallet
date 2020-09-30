@@ -7,6 +7,7 @@ import { Translate } from 'react-localize-redux';
 import EmailIcon from '../../images/icon-recover-email.svg';
 import PhoneIcon from '../../images/icon-recover-phone.svg';
 import PhraseIcon from '../../images/icon-recover-seedphrase.svg';
+import HardwareDeviceIcon from '../../images/icon-hardware-device.svg';
 import Container from '../common/styled/Container.css'
 
 const StyledContainer = styled(Container)`
@@ -39,8 +40,7 @@ const Options = styled.div`
 
     @media (min-width: 992px) {
         flex-direction: row;
-        justify-content: space-between;
-        align-items: center;
+        flex-wrap: wrap;
     }
 `;
 
@@ -50,15 +50,11 @@ const Option = styled.div`
     border-radius: 6px;
     padding: 15px;
     margin-bottom: 25px;
-    min-height: 217px;
+    min-height: 236px;
+    min-width: 30%;
 
     @media (min-width: 992px) {
         margin: 20px;
-        min-height: 331px;
-    }
-
-    @media (min-width: 1200px) {
-        min-height: 275px;
     }
 `;
 
@@ -110,6 +106,7 @@ const Button = styled(Link)`
     display: flex;
     align-items: center;
     justify-content: center;
+    text-transform: uppercase;
 
     &:hover {
         background-color: #72dff2;
@@ -144,6 +141,11 @@ const RecoverAccount = () => {
                     <Header icon={PhraseIcon}><Translate id='recoverAccount.phrase.title'/><br/><Translate id='recoverAccount.actionType'/></Header>
                     <P><Translate id='recoverAccount.phrase.desc'/></P>
                     <Button to='/recover-seed-phrase'><Translate id='button.recoverAccount' /></Button>
+                </Option>
+                <Option>
+                    <Header icon={HardwareDeviceIcon}><Translate id='recoverAccount.ledger.title'/><br/><Translate id='recoverAccount.actionType'/></Header>
+                    <P><Translate id='recoverAccount.ledger.desc'/></P>
+                    <Button to='/sign-in-ledger'><Translate id='button.signInLedger' /></Button>
                 </Option>
             </Options>
         </StyledContainer>
