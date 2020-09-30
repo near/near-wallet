@@ -87,11 +87,11 @@ export function StakingContainer({ history }) {
     const { useLockup } = staking
 
     useEffect(() => {
-        dispatch(updateStaking(staking))
+        dispatch(updateStaking(useLockup))
     }, [])
 
     const handleGetValidators = async () => {
-        await dispatch(updateStaking(staking))
+        await dispatch(updateStaking(useLockup))
     }
 
     return (

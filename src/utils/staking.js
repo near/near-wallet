@@ -80,7 +80,7 @@ export class Staking {
     Updating staking state depending on lockup/account selected
     ********************************/
 
-    async updateStaking({ useLockup }) {
+    async updateStaking(useLockup) {
         const validators = await this.getValidators()
         const state = {
             validators,
