@@ -156,23 +156,18 @@ class SetupRecoveryMethod extends Component {
     }
 
     checkDisabled = (method) => {
+        const { recoveryMethods, activeAccountId, accountId } = this.props
         let activeMethods = []
-        if (this.props.recoveryMethods[this.props.activeAccountId]) {
-            activeMethods = this.props.recoveryMethods[this.props.activeAccountId].filter(method => method.confirmed).map(method => method.kind)
+        if (recoveryMethods[activeAccountId]) {
+            activeMethods = recoveryMethods[activeAccountId].filter(method => method.confirmed).map(method => method.kind)
         }
-
         
-        return this.props.accountId === this.props.accountIdActive && activeMethods.includes(method)
+        return accountId === activeAccountId && activeMethods.includes(method)
     }
 
     render() {
         const { option, phoneNumber, email, success, emailInvalid, phoneInvalid } = this.state;
         const { actionsPending, accountId, activeAccountId, ledgerKey, twoFactor } = this.props;
-
-        let activeMethods = []
-        if (this.props.recoveryMethods[this.props.activeAccountId]) {
-            activeMethods = this.props.recoveryMethods[this.props.activeAccountId].filter(method => method.confirmed).map(method => method.kind)
-        }
 
         if (!success) {
             return (
@@ -282,7 +277,6 @@ const mapStateToProps = ({ account, router, recoveryMethods }, { match }) => ({
     ...account,
     router,
     accountId: match.params.accountId,
-    accountIdActive: account.accountId,
     activeAccountId: account.accountId,
     fundingContract: match.params.fundingContract,
     fundingKey: match.params.fundingKey,
