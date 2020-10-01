@@ -6,6 +6,7 @@ import { Modal } from 'semantic-ui-react'
 import { Translate } from 'react-localize-redux'
 import FormButton from '../../common/FormButton'
 import classNames from '../../../utils/classNames'
+import BN from 'bn.js'
 
 const Container = styled.div`
     border: 2px solid #F2F2F2;
@@ -79,7 +80,7 @@ export default function BalanceBox({
                         <Balance amount={amount} />
                     </div>
                     {button && onClick &&
-                        <FormButton onClick={onClick} className={classNames(['small', buttonColor])}><Translate id={button} /></FormButton>
+                        <FormButton disabled={new BN(amount).isZero()} onClick={onClick} className={classNames(['small', buttonColor])}><Translate id={button} /></FormButton>
                     }
                 </Container>
             )}

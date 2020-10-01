@@ -45,6 +45,9 @@ export default function Validator({ match, validators, onUnstake, onWithdraw }) 
                             version='no-border'
                         />
                     </ListWrapper>
+                    <div className='withdrawal-disclaimer'>
+                        <Translate id='staking.validator.withdrawalDisclaimer' />
+                    </div>
                 </>
             }
         </>
