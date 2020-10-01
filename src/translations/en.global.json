@@ -240,6 +240,7 @@
         "copyUrl": "Copy Url",
         "createAccount": "Create Account",
         "recoverYourAccount": "Recover your Account",
+        "accessAccount": "Access your Account",
         "enable": "Enable",
         "disable": "Disable",
         "signInLedger": "Sign in with Ledger",
@@ -304,7 +305,7 @@
     },
 
     "recoverAccount": {
-        "pageTitle": "Recover Your Account",
+        "pageTitle": "Access Your Account",
         "pageText": "If you’ve setup one or more account recovery methods, follow the instructions below to begin the recovery process.",
         "email": {
             "title": "Email",
@@ -319,6 +320,10 @@
         "phrase": {
             "title": "Seed Phrase",
             "desc": "Make sure you have your 12 word recovery phrase, then click below to begin the recovery process."
+        },
+        "ledger": {
+            "title": "Ledger",
+            "desc": "Make sure your ledger is connected securely, and that the NEAR app is open on the device."
         },
         "actionType": "Recovery",
         "actionRequired": "This message contains a magic link. Click the link to begin recovery!",
