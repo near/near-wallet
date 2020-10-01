@@ -97,17 +97,16 @@ export class Staking {
         if (!selectedValidator) {
             return {}
         }
-        const deposited = new BN(await contract.get_known_deposited_balance(), 10)
-        const totalUnstaked = (new BN(await contract.get_owners_balance(), 10)).sub(deposited)
         const validator = validators.find((v) => v.accountId === selectedValidator)
-        const zero = new BN('0', 10)
+        const deposited = new BN(await contract.get_known_deposited_balance(), 10)
+        let totalUnstaked = (new BN(await contract.get_owners_balance(), 10)).sub(deposited)
         let totalStaked = new BN('0', 10);
         let totalUnclaimed = new BN('0', 10);
         let totalAvailable = new BN('0', 10);
 
         try {
             const total = new BN(await validator.contract.get_account_total_balance({ account_id }), 10)
-            if (total.gt(zero)) {
+            if (total.gt(new BN('0', 10))) {
                 validator.staked = await validator.contract.get_account_staked_balance({ account_id })
                 validator.unclaimed = total.sub(deposited).toString()
                 validator.unstaked = await validator.contract.get_account_unstaked_balance({ account_id })
