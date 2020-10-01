@@ -216,8 +216,10 @@ class Wallet {
         if (!this.isEmpty()) {
             const accessKeys = await this.getAccessKeys() || []
             const ledgerKey = accessKeys.find(key => key.meta.type === 'ledger')
-            
+            const lockupInfo = await this.staking.getLockup().catch((e) => console.warn('Account has no lockup'))
+
             return {
+                hasLockup: !!lockupInfo,
                 ...await this.getAccount(this.accountId).state(),
                 balance: await this.getBalance(),
                 accountId: this.accountId,

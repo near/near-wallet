@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { updateStaking, unstake } from '../../actions/staking'
+import { updateStaking, unstake, withdraw } from '../../actions/staking'
 import styled from 'styled-components'
 import Container from '../common/styled/Container.css'
 import { Switch, Route } from 'react-router-dom'
@@ -82,7 +82,7 @@ export function StakingContainer({ history }) {
     const staking = useSelector(({ staking }) => staking)
     const { formLoader, actionsPending, balance } = useSelector(({ account }) => account);
     let validators = staking.validators
-    const currentValidators = validators.filter(validator => validator.staked && validator.staked !== '0')
+    const currentValidators = validators.filter(v => v.staked !== '0' || v.available !== '0' || v.pending !== '0')
     validators = currentValidators.length ? currentValidators : validators
     const { useLockup } = staking
 
@@ -96,10 +96,12 @@ export function StakingContainer({ history }) {
 
     const handleUnstake = async () => {
         await dispatch(unstake(useLockup))
+        await dispatch(updateStaking(useLockup))
     }
 
     const handleWithDraw = async () => {
-        console.log('withdraw')
+        await dispatch(withdraw(useLockup))
+        await dispatch(updateStaking(useLockup))
     }
 
     return (

@@ -10,8 +10,8 @@ const {
     }
 } =  nearApiJs
 
-const GAS_STAKE = '200000000000000' // 200 Tgas
-const GAS_2FA_STAKE = '125000000000000' // 125 Tgas for most methods
+// 125 - 175 Tgas for lockup methods
+const GAS_STAKE = '175000000000000'
 
 /********************************
 Deploying lockup via CLI for testing
@@ -92,53 +92,46 @@ export class Staking {
     }
 
     async updateStakingLockup(validators) {
-        const accountId = this.wallet.accountId
-        const lockupId = testLockup[accountId] ? testLockup[accountId] : await getLockupId(accountId)
-        // current staking account_id
-        const account_id = lockupId
-        const contract = await this.getContractInstance(lockupId, lockupMethods)
-        if (!contract) {
-            throw Error('No lockup contract for account')
-        }
-        const selectedValidator = await this.lockupGetSelected(lockupId)
+        const { contract, lockupId: account_id } = await this.getLockup()
+        const selectedValidator = await contract.get_staking_pool_account_id()
         if (!selectedValidator) {
             return {}
         }
-        let totalAvailable = new BN(await contract.get_owners_balance(), 10)
         const deposited = new BN(await contract.get_known_deposited_balance(), 10)
-        totalAvailable = totalAvailable.sub(deposited)
-
+        const totalUnstaked = (new BN(await contract.get_owners_balance(), 10)).sub(deposited)
         const validator = validators.find((v) => v.accountId === selectedValidator)
         const zero = new BN('0', 10)
         let totalStaked = new BN('0', 10);
         let totalUnclaimed = new BN('0', 10);
+        let totalAvailable = new BN('0', 10);
 
         try {
             const total = new BN(await validator.contract.get_account_total_balance({ account_id }), 10)
             if (total.gt(zero)) {
                 validator.staked = await validator.contract.get_account_staked_balance({ account_id })
                 validator.unclaimed = total.sub(deposited).toString()
-                const unstaked = await validator.contract.get_account_unstaked_balance({ account_id })
+                validator.unstaked = await validator.contract.get_account_unstaked_balance({ account_id })
                 const isAvailable = await validator.contract.is_account_unstaked_balance_available({ account_id })
-                validator.available = isAvailable ? unstaked.toString() : '0'
-                validator.pending = !isAvailable ? unstaked.toString() : '0'
+                if (isAvailable) {
+                    validator.available = validator.unstaked
+                } else {
+                    validator.pending = validator.unstaked
+                }
             }
+            totalUnstaked = totalUnstaked.add(new BN(validator.unstaked, 10))
             totalStaked = totalStaked.add(new BN(validator.staked, 10))
             totalUnclaimed = totalUnclaimed.add(new BN(validator.unclaimed, 10))
         } catch (e) {
             console.warn(e)
         }
 
-        const state = {
+        return {
             accountId: account_id,
             totalAvailable: totalAvailable.toString(),
             totalStaked: totalStaked.toString(),
+            totalUnstaked: totalUnstaked.toString(),
             totalUnclaimed: totalUnclaimed.toString(),
         }
-
-        console.log('getValidatorsLockup', state)
-
-        return state
     }
 
     // TODO when we enable direct account staking
@@ -174,14 +167,8 @@ export class Staking {
 
     async stake(useLockup, validatorId, amount) {
         amount = toNear(amount)
-        const accountId = this.wallet.accountId
-        if (!useLockup) return
-        const lockupId = testLockup[accountId] ? testLockup[accountId] : await getLockupId(accountId)
-        // try to source funds from lockup contract
-        const lockupContract = await this.getContractInstance(lockupId, lockupMethods)
-        if (!lockupContract) return
-        
-        const selectedValidatorId = await this.lockupGetSelected(lockupId)
+        const { contract, lockupId } = await this.getLockup()
+        const selectedValidatorId = await contract.get_staking_pool_account_id()
         console.log('selectedValidatorId', selectedValidatorId)
         console.log('validatorId', validatorId)
         if (validatorId !== selectedValidatorId) {
@@ -197,18 +184,31 @@ export class Staking {
         // return deposit_and_stake
     }
 
-    async unstake(useLockup, validatorId, amount) {
+    /********************************
+    Lockup helpers
+    ********************************/
+
+    async unstake(useLockup) {
         const confirm = window.confirm('unstake all?')
         if (!confirm) return
-        const accountId = this.wallet.accountId
-        if (!useLockup) return
-        const lockupId = testLockup[accountId] ? testLockup[accountId] : await getLockupId(accountId)
-        const lockupContract = await this.getContractInstance(lockupId, lockupMethods)
-        if (!lockupContract) return
+        const { lockupId } = await this.getLockup()
         const unstake_all = await this.signAndSendTransaction(lockupId, [
             functionCall('unstake_all', {}, GAS_STAKE)
         ])  
         console.log('unstake_all', unstake_all)
+    }
+
+    async withdraw(useLockup) {
+        const confirm = window.confirm('withdraw all from staking pool?')
+        if (!confirm) return
+        const { lockupId } = await this.getLockup()
+        const withdraw_all_from_staking_pool = await this.signAndSendTransaction(lockupId, [
+            functionCall('withdraw_all_from_staking_pool', {}, GAS_STAKE)
+        ])
+        console.log('withdraw_all_from_staking_pool', withdraw_all_from_staking_pool)
+        if (withdraw_all_from_staking_pool[0] === false) {
+            throw new Error('Unable to withdraw pending balance from validator')
+        }
     }
 
     // helpers for lockup
@@ -249,11 +249,12 @@ export class Staking {
         }
     }
 
-    async lockupGetSelected(lockupId) {
-        const account_id = this.wallet.accountId
-        const account = this.wallet.getAccount(account_id)
-        const lockup = await new nearApiJs.Contract(account, lockupId, { ...lockupMethods })
-        return await lockup.get_staking_pool_account_id()
+    async getLockup() {
+        const accountId = this.wallet.accountId
+        const lockupId = testLockup[accountId] ? testLockup[accountId] : await getLockupId(accountId)
+        // current staking account_id
+        const contract = await this.getContractInstance(lockupId, lockupMethods)
+        return { contract, lockupId, accountId }
     }
 
     async getContractInstance(contractId, methods) {
@@ -262,7 +263,7 @@ export class Staking {
             return await new nearApiJs.Contract(this.wallet.getAccount(), contractId, { ...methods })
         } catch(e) {
             console.warn(e)
-            return null
+            throw Error('No lockup contract for account')
         }
     }
 
@@ -272,7 +273,7 @@ export class Staking {
         const { accountId } = this.wallet
         const { account, has2fa } = await this.wallet.getAccountAndState(accountId)
         if (has2fa) {
-            actions[0].functionCall.gas = GAS_2FA_STAKE
+            actions[0].functionCall.gas = GAS_STAKE
             return this.wallet.signAndSendTransactions([{receiverId, actions}], accountId)
         }
         return account.signAndSendTransaction(receiverId, actions)

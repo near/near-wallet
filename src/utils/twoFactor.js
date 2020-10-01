@@ -141,6 +141,7 @@ export class TwoFactor {
     }
 
     async signAndSendTransactions(account, transactions) {
+        const completed = []
         for (let { receiverId, actions } of transactions) {
             actions = actions.map((a) => {
 
@@ -161,8 +162,9 @@ export class TwoFactor {
                 console.log(action)
                 return action
             })
-            await this.request(account, { receiver_id: receiverId, actions })
+            completed.push(await this.request(account, { receiver_id: receiverId, actions }))
         }
+        return completed
     }
 
     async sendRequest(accountId, method, requestId = -1) {

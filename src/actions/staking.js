@@ -9,6 +9,7 @@ export const {
     updateStaking,
     stake,
     unstake,
+    withdraw,
 } = createActions({
     UPDATE_STAKING: [
         wallet.staking.updateStaking.bind(wallet.staking),
@@ -21,5 +22,9 @@ export const {
     UNSTAKE: [
         wallet.staking.unstake.bind(wallet.staking),
         () => defaultCodesFor('staking.unstake')
+    ],
+    WITHDRAW: [
+        wallet.staking.withdraw.bind(wallet.staking),
+        () => defaultCodesFor('staking.withdraw')
     ],
 })
