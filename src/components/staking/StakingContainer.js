@@ -61,8 +61,8 @@ const StyledContainer = styled(Container)`
     }
 
     .no-border {
-        border-top: 2px solid #E6E6E6;
-        padding-top: 20px;
+        border-top: 2px solid #F8F8F8;
+        padding-top: 15px;
         margin-top: 15px;
     }
 
@@ -71,9 +71,14 @@ const StyledContainer = styled(Container)`
         margin: 50px auto;
     }
 
-    .already-staked-disclaimer {
+    .already-staked-disclaimer,
+    .withdrawal-disclaimer {
         font-style: italic;
         line-height: 140%;
+    }
+
+    .withdrawal-disclaimer {
+        margin-top: 20px
     }
 `
 
@@ -84,7 +89,8 @@ export function StakingContainer({ history }) {
     let validators = staking.validators
     const currentValidators = validators.filter(v => v.staked !== '0' || v.available !== '0' || v.pending !== '0')
     validators = currentValidators.length ? currentValidators : validators
-    const { useLockup } = staking
+    const { useLockup, totalAvailable } = staking
+    const availableBalance = useLockup ? totalAvailable : balance.available
 
     useEffect(() => {
         dispatch(updateStaking(useLockup))
@@ -143,7 +149,7 @@ export function StakingContainer({ history }) {
                         render={(props) => (
                             <Stake 
                                 {...props} 
-                                balance={balance}
+                                availableBalance={availableBalance}
                                 useLockup={useLockup} 
                                 validators={validators}
                                 formLoader={formLoader} 

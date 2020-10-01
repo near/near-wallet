@@ -13,13 +13,13 @@ import { utils } from 'near-api-js'
 import isDecimalString from '../../../utils/isDecimalString'
 import { onKeyDown } from '../../../hooks/eventListeners'
 
-export default function Stake({ match, validators, useLockup, formLoader, actionsPending, handleGetValidators, balance }) {
+export default function Stake({ match, validators, useLockup, formLoader, actionsPending, handleGetValidators, availableBalance }) {
     const dispatch = useDispatch()
     const [confirm, setConfirm] = useState()
     const [amount, setAmount] = useState('')
     const [success, setSuccess] = useState()
     const validator = validators.filter(validator => validator.accountId === match.params.validator)[0]
-    const invalidAmount = new BN(balance.available).lt(new BN(utils.format.parseNearAmount(amount))) || !isDecimalString(amount)
+    const invalidAmount = new BN(availableBalance).lt(new BN(utils.format.parseNearAmount(amount))) || !isDecimalString(amount)
     const stakeAllowed = !formLoader && amount.length && amount !== '0' && !invalidAmount
 
     onKeyDown(e => {

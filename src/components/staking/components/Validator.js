@@ -22,6 +22,7 @@ export default function Validator({ match, validators, onUnstake, onWithdraw }) 
                             version='no-border'
                             onClick={onUnstake}
                             button='staking.balanceBox.staked.button'
+                            buttonColor='gray-red'
                         />
                         <BalanceBox
                             title='staking.balanceBox.unclaimed.title'
@@ -44,6 +45,9 @@ export default function Validator({ match, validators, onUnstake, onWithdraw }) 
                             version='no-border'
                         />
                     </ListWrapper>
+                    <div className='withdrawal-disclaimer'>
+                        <Translate id='staking.validator.withdrawalDisclaimer' />
+                    </div>
                 </>
             }
         </>

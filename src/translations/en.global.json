@@ -528,21 +528,21 @@
         "balanceBox": {
             "staked": {
                 "title": "Total amount staked",
-                "info": "What does Total amount staked mean?",
+                "info": "NEAR tokens currently staked with validators. These tokens are accumulating rewards. To access these tokens, you must first unstake and then withdraw them.",
                 "button": "Unstake"
             },
             "unclaimed": {
                 "title": "Unclaimed rewards",
-                "info": "What does Unclaimed rewardsd mean?"
+                "info": "Rewards that have been earned, but not withdrawn. Unclaimed rewards are automatically restaked, which means your Total Amount Staked automatically increases over time, and your rewards are <a target='_blank' href='https://www.investopedia.com/terms/c/compoundinterest.asp'>compounding</a>."
             },
             "available": {
                 "title": "Available for withdrawal",
-                "info": "What does Available for withdrawal mean?",
+                "info": "These tokens have been unstaked, and are ready to be withdrawn.",
                 "button": "Withdraw"
             },
             "pending": {
                 "title": "Pending release",
-                "info": "What does Pending release mean?"
+                "info": "These tokens have been unstaked, but are not yet ready to withdraw. Tokens are ready to withdraw 36 to 48 hours after unstaking."
             }
         },
         "validatorBox": {
@@ -580,7 +580,9 @@
         "validator": {
             "title": "Validator: <br/> @${validator}",
             "button": "Stake with validator",
-            "fee": "Staking Fee"
+            "fee": "Validator Fee",
+            "desc": "This is the fee paid to the validator to stake on your behalf. This fee is only charged on your rewards.",
+            "withdrawalDisclaimer": "36 to 48 hours (3 full epochs) are required until your funds will be available for withdrawal."
         }
     },
     "profile": {

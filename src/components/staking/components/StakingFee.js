@@ -37,7 +37,7 @@ export default function StakingFee({ fee }) {
                 trigger={<span className='trigger'><InfoIcon color='#999999'/></span>}
                 closeIcon
             >
-                <Translate id='staking.validator.fee' />
+                <Translate id='staking.validator.desc' />
             </Modal>
             <span className='fee'>{fee}%</span>
         </Container>
