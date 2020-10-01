@@ -155,6 +155,16 @@ class SetupRecoveryMethod extends Component {
         }))
     }
 
+    checkDisabled = (method) => {
+        let activeMethods = []
+        if (this.props.recoveryMethods[this.props.activeAccountId]) {
+            activeMethods = this.props.recoveryMethods[this.props.activeAccountId].filter(method => method.confirmed).map(method => method.kind)
+        }
+
+        
+        return this.props.accountId === this.props.accountIdActive && activeMethods.includes(method)
+    }
+
     render() {
         const { option, phoneNumber, email, success, emailInvalid, phoneInvalid } = this.state;
         const { actionsPending, accountId, activeAccountId, ledgerKey, twoFactor } = this.props;
@@ -176,7 +186,7 @@ class SetupRecoveryMethod extends Component {
                             onClick={() => this.setState({ option: 'phrase' })}
                             option='phrase'
                             active={option}
-                            disabled={activeMethods.includes('phrase')}
+                            disabled={this.checkDisabled('phrase')}
                         />
                         {
                             !twoFactor &&
@@ -193,7 +203,7 @@ class SetupRecoveryMethod extends Component {
                             onClick={() => this.setState({ option: 'email' })}
                             option='email'
                             active={option}
-                            disabled={activeMethods.includes('email')}
+                            disabled={this.checkDisabled('email')}
                             problem={option === 'email' && emailInvalid}
                         >
                             <Translate>
@@ -213,7 +223,7 @@ class SetupRecoveryMethod extends Component {
                             onClick={() => this.setState({ option: 'phone' })}
                             option='phone'
                             active={option}
-                            disabled={activeMethods.includes('phone')}
+                            disabled={this.checkDisabled('phone')}
                             problem={option === 'phone' && phoneInvalid}
                         >
                             <Translate>
@@ -272,6 +282,7 @@ const mapStateToProps = ({ account, router, recoveryMethods }, { match }) => ({
     ...account,
     router,
     accountId: match.params.accountId,
+    accountIdActive: account.accountId,
     activeAccountId: account.accountId,
     fundingContract: match.params.fundingContract,
     fundingKey: match.params.fundingKey,
