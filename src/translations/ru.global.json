@@ -403,7 +403,7 @@
             },
             "unclaimed": {
                 "title": "Unclaimed rewards",
-                "info": "What does Unclaimed rewardsd mean?"
+                "info": "Rewards that have been earned, but not withdrawn. Unclaimed rewards are automatically restaked, which means your Total Amount Staked automatically increases over time, and your rewards are <a target='_blank' href='https://www.investopedia.com/terms/c/compoundinterest.asp'>compounding</a>."
             },
             "available": {
                 "title": "Available for withdrawal",

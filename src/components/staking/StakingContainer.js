@@ -61,8 +61,8 @@ const StyledContainer = styled(Container)`
     }
 
     .no-border {
-        border-top: 2px solid #E6E6E6;
-        padding-top: 20px;
+        border-top: 2px solid #F8F8F8;
+        padding-top: 15px;
         margin-top: 15px;
     }
 

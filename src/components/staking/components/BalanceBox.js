@@ -4,12 +4,15 @@ import Balance from '../../common/Balance'
 import InfoIcon from '../../svg/InfoIcon.js'
 import { Modal } from 'semantic-ui-react'
 import { Translate } from 'react-localize-redux'
+import FormButton from '../../common/FormButton'
+import classNames from '../../../utils/classNames'
 
 const Container = styled.div`
     border: 2px solid #F2F2F2;
     border-radius: 4px;
     padding: 10px 10px 8px 10px;
     margin-top: 10px;
+    display: flex;
 
     .list {
         display: block;
@@ -40,6 +43,14 @@ const Container = styled.div`
         padding: 0;
     }
 
+    button {
+        &.small {
+            width: auto !important;
+            padding: 0px 15px !important;
+            margin: auto 0 auto auto !important;
+            letter-spacing: 2px !important;
+        }
+    }
 `
 
 export default function BalanceBox({
@@ -49,25 +60,26 @@ export default function BalanceBox({
     version,
     onClick,
     button,
+    buttonColor
 }) {
     return (
         <Translate>
             {({ translate }) => (
                 <Container className={version}>
-                    <div className='title'>{translate(title)}
-                        <Modal
-                            size='mini'
-                            trigger={<span className='trigger'><InfoIcon color='#999999'/></span>}
-                            closeIcon
-                        >
-                            {translate(info)}
-                        </Modal>
+                    <div>
+                        <div className='title'>{translate(title)}
+                            <Modal
+                                size='mini'
+                                trigger={<span className='trigger'><InfoIcon color='#999999'/></span>}
+                                closeIcon
+                            >
+                                {translate(info)}
+                            </Modal>
+                        </div>
+                        <Balance amount={amount} />
                     </div>
-                    <Balance amount={amount} />
-                    {button &&
-                        <button onClick={onClick}>
-                            <Translate id={button} />
-                        </button>
+                    {button && onClick &&
+                        <FormButton onClick={onClick} className={classNames(['small', buttonColor])}><Translate id={button} /></FormButton>
                     }
                 </Container>
             )}
