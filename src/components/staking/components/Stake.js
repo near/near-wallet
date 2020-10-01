@@ -84,7 +84,7 @@ export default function Stake({ match, validators, useLockup, formLoader, action
                     <ValidatorBox
                         validator={validator.accountId}
                         fee={validator.fee.percentage}
-                        amount={validator.stakedBalance}
+                        amount={validator.staked}
                         clickable={false}
                         style={{margin: '40px 0'}}
                     />
