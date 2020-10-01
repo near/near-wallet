@@ -755,6 +755,9 @@ class Wallet {
             accountIds = await getAccountIds(publicKey)
             const implicitAccountId = Buffer.from(PublicKey.fromString(publicKey).data).toString('hex')
             accountIds.push(implicitAccountId)
+
+        if (!accountIds.length) {
+            throw new WalletError('Cannot find matching public key', 'account.recoverAccount.errorInvalidSeedPhrase', { publicKey })
         }
 
         const connection = nearApiJs.Connection.fromConfig({
