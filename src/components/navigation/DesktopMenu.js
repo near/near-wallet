@@ -48,12 +48,12 @@ const LowerSection = styled.div`
     border-bottom-right-radius: 4px;
 `
 
-const DesktopMenu = ({ show, accountId, accounts, selectAccount, toggleMenu }) => {
+const DesktopMenu = ({ show, accountId, accounts, selectAccount, hasLockup }) => {
 
     if (show) {
         return (
             <Menu id='desktop-menu'>
-                <UserLinks accountId={accountId}/>
+                <UserLinks accountId={accountId} hasLockup={hasLockup}/>
                 <LowerSection>
                     <h6><Translate id='link.switchAccount'/></h6>
                     <UserAccounts

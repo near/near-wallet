@@ -6,7 +6,6 @@ import { Translate } from 'react-localize-redux'
 import styled from 'styled-components'
 import ValidatorBox from './ValidatorBox'
 import Balance from '../../common/Balance'
-import { toNear } from '../../../utils/amounts'
 
 const Container = styled.div`
     display: flex;
@@ -44,7 +43,7 @@ const Container = styled.div`
 
 `
 
-const StakeConfirmModal = ({ open, onClose, onConfirm, validatorName, amount, loading }) => {
+const StakeConfirmModal = ({ open, onClose, onConfirm, validatorName, amount, loading, title }) => {
     return (
         <Modal
             id='stake-confirm-modal'
@@ -54,8 +53,8 @@ const StakeConfirmModal = ({ open, onClose, onConfirm, validatorName, amount, lo
         >
             <Container>
                 <MobileActionSheet/>
-                <h2><Translate id='staking.stake.confirm'/></h2>
-                <Balance amount={toNear(amount)} />
+                <h2><Translate id={title}/></h2>
+                <Balance amount={amount} />
                 <ValidatorBox validator={validatorName} clickable={false}/>
                 <FormButton disabled={loading} sending={loading} color='green' onClick={onConfirm}>
                     <Translate id='button.confirmAndSend'/>

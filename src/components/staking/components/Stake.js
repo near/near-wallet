@@ -12,15 +12,17 @@ import BN from 'bn.js'
 import { utils } from 'near-api-js'
 import isDecimalString from '../../../utils/isDecimalString'
 import { onKeyDown } from '../../../hooks/eventListeners'
+import Balance from '../../common/Balance'
+import { toNear } from '../../../utils/amounts'
 
-export default function Stake({ match, validators, useLockup, formLoader, actionsPending, handleGetValidators, availableBalance }) {
+export default function Stake({ match, validators, useLockup, loading, handleGetValidators, availableBalance }) {
     const dispatch = useDispatch()
     const [confirm, setConfirm] = useState()
     const [amount, setAmount] = useState('')
     const [success, setSuccess] = useState()
     const validator = validators.filter(validator => validator.accountId === match.params.validator)[0]
     const invalidAmount = new BN(availableBalance).lt(new BN(utils.format.parseNearAmount(amount))) || !isDecimalString(amount)
-    const stakeAllowed = !formLoader && amount.length && amount !== '0' && !invalidAmount
+    const stakeAllowed = !loading && amount.length && amount !== '0' && !invalidAmount
 
     onKeyDown(e => {
         if (e.keyCode === 13 && stakeAllowed) {
@@ -44,6 +46,7 @@ export default function Stake({ match, validators, useLockup, formLoader, action
             <>
                 <h1><Translate id='staking.stake.title' /></h1>
                 <div className='desc'><Translate id='staking.stake.desc' /></div>
+                <div className='available-balance'>Available Balance: <Balance amount={availableBalance}/></div>
                 <h4><Translate id='staking.stake.amount' /></h4>
                 <AmountInput value={amount} onChange={setAmount} valid={stakeAllowed}/>
                 <ArrowCircleIcon color={stakeAllowed ? '#6AD1E3' : ''}/>
@@ -57,19 +60,20 @@ export default function Stake({ match, validators, useLockup, formLoader, action
                 }
                 <FormButton
                     disabled={!stakeAllowed} 
-                    sending={actionsPending.includes('STAKE')} 
+                    sending={loading} 
                     onClick={() => setConfirm(true)}
                 >
                     <Translate id='staking.stake.button' />
                 </FormButton>
                 {confirm &&
                     <StakeConfirmModal
+                        title='staking.stake.confirm'
                         validatorName={validator.accountId} 
-                        amount={amount}
+                        amount={toNear(amount)}
                         open={confirm} 
                         onConfirm={handleStake} 
                         onClose={() => setConfirm(false)}
-                        loading={formLoader || actionsPending.some(action => ['STAKE', 'GET_VALIDATORS'].includes(action))}
+                        loading={loading}
                     />
                 }
             </>

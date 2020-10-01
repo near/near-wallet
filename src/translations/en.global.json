@@ -582,7 +582,9 @@
             "button": "Stake with validator",
             "fee": "Validator Fee",
             "desc": "This is the fee paid to the validator to stake on your behalf. This fee is only charged on your rewards.",
-            "withdrawalDisclaimer": "36 to 48 hours (3 full epochs) are required until your funds will be available for withdrawal."
+            "withdrawalDisclaimer": "36 to 48 hours (3 full epochs) are required until your funds will be available for withdrawal.",
+            "unstake": "You are unstaking",
+            "withdraw": "You are withdrawing"
         }
     },
     "profile": {

@@ -1,12 +1,31 @@
-import React from 'react'
+import React, { useState } from 'react'
 import FormButton from '../../common/FormButton'
 import { Translate } from 'react-localize-redux'
 import BalanceBox from './BalanceBox'
 import StakingFee from './StakingFee'
 import ListWrapper from './ListWrapper'
+import StakeConfirmModal from './StakeConfirmModal'
+import { onKeyDown } from '../../../hooks/eventListeners'
 
-export default function Validator({ match, validators, onUnstake, onWithdraw }) {
+export default function Validator({ match, validators, onUnstake, onWithdraw, loading }) {
+    const [confirm, setConfirm] = useState(null)
     const validator = validators.filter(validator => validator.accountId === match.params.validator)[0]
+
+    onKeyDown(e => {
+        if (e.keyCode === 13) {
+            handleStakeAction()
+        }
+    })
+
+    const handleStakeAction = async () => {
+        if (confirm === 'unstake') {
+           await onUnstake()
+        } else if (confirm === 'withdraw') {
+           await onWithdraw()
+        }
+        setConfirm('done')
+    }
+
     return (
         <>
             <h1><Translate id='staking.validator.title' data={{ validator: match.params.validator }}/></h1>
@@ -20,7 +39,7 @@ export default function Validator({ match, validators, onUnstake, onWithdraw }) 
                             info='staking.balanceBox.staked.info'
                             amount={validator.staked || '0'}
                             version='no-border'
-                            onClick={onUnstake}
+                            onClick={() => setConfirm('unstake')}
                             button='staking.balanceBox.staked.button'
                             buttonColor='gray-red'
                         />
@@ -35,7 +54,7 @@ export default function Validator({ match, validators, onUnstake, onWithdraw }) 
                             info='staking.balanceBox.available.info'
                             amount={ validator.available || '0' }
                             version='no-border'
-                            onClick={onWithdraw}
+                            onClick={() => setConfirm('withdraw')}
                             button='staking.balanceBox.available.button'
                         />
                         <BalanceBox
@@ -48,6 +67,17 @@ export default function Validator({ match, validators, onUnstake, onWithdraw }) 
                     <div className='withdrawal-disclaimer'>
                         <Translate id='staking.validator.withdrawalDisclaimer' />
                     </div>
+                    {confirm &&
+                        <StakeConfirmModal
+                            title={`staking.validator.${confirm}`}
+                            validatorName={validator.accountId}
+                            amount={confirm === 'unstake' ? validator.staked : validator.available}
+                            open={confirm}
+                            onConfirm={handleStakeAction}
+                            onClose={() => setConfirm(null)}
+                            loading={loading}
+                        />
+                    }
                 </>
             }
         </>
