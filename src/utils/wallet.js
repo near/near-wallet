@@ -753,8 +753,14 @@ class Wallet {
         let accountIds = [accountId]
         if (!accountId) {
             accountIds = await getAccountIds(publicKey)
-            const implicitAccountId = Buffer.from(PublicKey.fromString(publicKey).data).toString('hex')
-            accountIds.push(implicitAccountId)
+            try {
+                const implicitAccountId = Buffer.from(PublicKey.fromString(publicKey).data).toString('hex')
+                await this.checkAccountAvailable(implicitAccountId)
+                accountIds.push(implicitAccountId)
+            } catch (error) {
+                console.error(error);
+            }
+        }
 
         if (!accountIds.length) {
             throw new WalletError('Cannot find matching public key', 'account.recoverAccount.errorInvalidSeedPhrase', { publicKey })
