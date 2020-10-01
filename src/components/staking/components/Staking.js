@@ -34,7 +34,7 @@ export default function Staking({ currentValidators, totalStaked, totalUnclaimed
                         key={i}
                         validator={validator.accountId}
                         fee={validator.fee.percentage}
-                        amount={validator.stakedBalance}
+                        amount={validator.staked}
                     />
                 )}
             </ListWrapper>
