@@ -746,6 +746,18 @@ class Wallet {
         }
     }
 
+    async accountExists(accountId) {
+        try {
+            await this.getAccount(accountId).state();
+            return true;
+        } catch (error) {
+            if (error.toString().indexOf('does not exist while viewing') !== -1) {
+                return false;
+            }
+            throw error;
+        }
+    }
+
     async recoverAccountSeedPhrase(seedPhrase, accountId, fromSeedPhraseRecovery = true) {
         const { publicKey, secretKey } = parseSeedPhrase(seedPhrase)
 
@@ -753,12 +765,9 @@ class Wallet {
         let accountIds = [accountId]
         if (!accountId) {
             accountIds = await getAccountIds(publicKey)
-            try {
-                const implicitAccountId = Buffer.from(PublicKey.fromString(publicKey).data).toString('hex')
-                await this.checkAccountAvailable(implicitAccountId)
+            const implicitAccountId = Buffer.from(PublicKey.fromString(publicKey).data).toString('hex')
+            if (await this.accountExists(implicitAccountId)) {
                 accountIds.push(implicitAccountId)
-            } catch (error) {
-                console.error(error);
             }
         }
 
