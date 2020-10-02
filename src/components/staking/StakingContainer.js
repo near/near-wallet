@@ -80,17 +80,23 @@ const StyledContainer = styled(Container)`
     .withdrawal-disclaimer {
         margin-top: 20px
     }
+
+    .available-balance {
+        text-align: center;
+        margin-top: 10px;
+    }
 `
 
 export function StakingContainer({ history }) {
     const dispatch = useDispatch()
     const staking = useSelector(({ staking }) => staking)
-    const { formLoader, actionsPending, balance } = useSelector(({ account }) => account);
+    const { actionsPending, balance } = useSelector(({ account }) => account);
     let validators = staking.validators
     const currentValidators = validators.filter(v => v.staked !== '0' || v.available !== '0' || v.pending !== '0')
     validators = currentValidators.length ? currentValidators : validators
     const { useLockup, totalUnstaked } = staking
     const availableBalance = useLockup ? totalUnstaked : balance.available
+    const loading = actionsPending.some(action => ['STAKE', 'UNSTAKE', 'WITHDRAW', 'UPDATE_STAKING'].includes(action))
 
     useEffect(() => {
         dispatch(updateStaking(useLockup))
@@ -140,6 +146,7 @@ export function StakingContainer({ history }) {
                                 validators={validators} 
                                 onUnstake={handleUnstake}
                                 onWithdraw={handleWithDraw}
+                                loading={loading}
                             />
                         )}
                     />
@@ -152,9 +159,8 @@ export function StakingContainer({ history }) {
                                 availableBalance={availableBalance}
                                 useLockup={useLockup} 
                                 validators={validators}
-                                formLoader={formLoader} 
-                                actionsPending={actionsPending}
                                 handleGetValidators={handleGetValidators}
+                                loading={loading}
                             />
                         )}
                     />

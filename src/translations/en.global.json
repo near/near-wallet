@@ -224,7 +224,10 @@
         "GET_LEDGER_PUBLIC_KEY": "You will need to confirm public key access on your Ledger.",
         "CREATE_NEW_ACCOUNT": "You will need to confirm add a key for new account on your Ledger.",
         "SIGN_AND_SEND_TRANSACTIONS": "You will need to confirm deposit details on your Ledger.",
-        "REMOVE_NON_LEDGER_ACCESS_KEYS": "You will need to confirm details on your Ledger."
+        "REMOVE_NON_LEDGER_ACCESS_KEYS": "You will need to confirm details on your Ledger.",
+        "STAKE": "You will need to confirm staking on your Ledger",
+        "UNSTAKE": "You will need to confirm unstaking on your Ledger",
+        "WITHDRAW": "You will need to confirm withdrawal on your Ledger"
     },
 
     "button": {
@@ -582,7 +585,12 @@
             "button": "Stake with validator",
             "fee": "Validator Fee",
             "desc": "This is the fee paid to the validator to stake on your behalf. This fee is only charged on your rewards.",
-            "withdrawalDisclaimer": "36 to 48 hours (3 full epochs) are required until your funds will be available for withdrawal."
+            "withdrawalDisclaimer": "36 to 48 hours (3 full epochs) are required until your funds will be available for withdrawal.",
+            "unstake": "You are unstaking",
+            "withdraw": "You are withdrawing"
+        },
+        "disclaimer": {
+            "unstake": "Note: You must wait 36 to 48 hours (3 full epochs) after unstaking to withdraw your tokens. At that time, they will appear in the “Available for withdrawal” section."
         }
     },
     "profile": {

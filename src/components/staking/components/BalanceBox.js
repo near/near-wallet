@@ -61,7 +61,8 @@ export default function BalanceBox({
     version,
     onClick,
     button,
-    buttonColor
+    buttonColor,
+    loading
 }) {
     return (
         <Translate>
@@ -80,7 +81,7 @@ export default function BalanceBox({
                         <Balance amount={amount} />
                     </div>
                     {button && onClick &&
-                        <FormButton disabled={new BN(amount).isZero()} onClick={onClick} className={classNames(['small', buttonColor])}><Translate id={button} /></FormButton>
+                        <FormButton disabled={new BN(amount).isZero() || loading} onClick={onClick} className={classNames(['small', buttonColor])}><Translate id={button} /></FormButton>
                     }
                 </Container>
             )}

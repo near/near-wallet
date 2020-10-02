@@ -53,11 +53,11 @@ const UserLink = styled(Link)`
     }
 `
 
-const UserLinks = ({ accountId }) => (
+const UserLinks = ({ accountId, hasLockup }) => (
     <Container className='user-links'>
         <UserLink icon={accountIcon} to={`/profile/${accountId}`}><Translate id='link.profile'/></UserLink>
         <UserLink icon={arrowAuth} to='/authorized-apps'><Translate id='link.authorizedApps'/></UserLink>
-        <UserLink icon={stakingIcon} to='/staking'><Translate id='link.staking'/></UserLink>
+        {hasLockup && <UserLink icon={stakingIcon} to='/staking'><Translate id='link.staking'/></UserLink>}
         {ENABLE_FULL_ACCESS_KEYS && <UserLink icon={iconKeys} to='/full-access-keys'><Translate id='link.fullAccessKeys'/></UserLink>}
     </Container>
 )
