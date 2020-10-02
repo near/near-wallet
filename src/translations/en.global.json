@@ -7,7 +7,7 @@
         "recoverAccount": {
             "success": "Recover using Seed Phrase is complete.<br/><b>${numberOfAccounts} account(s)</b> have been successfully recovered: <b>${accountList}</b>.<br/>The last one is set as active.",
             "error": "Failed to recover account. No accounts found with matching seed phrase.",
-            "errorInvalidSeedPhrase": "No accounts found with matching seed phrase."
+            "errorInvalidSeedPhrase": "No accounts were found for this seed phrase. Please double check your seed phrase, and try again!"
         },
         "create": {
             "success": "Congrats! ${accountId} is available.",
