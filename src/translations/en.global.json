@@ -287,13 +287,13 @@
         "summary": "SUMMARY",
         "send": "SEND",
         "receive": "RECEIVE",
+        "staking": "STAKING",
         "help": "HELP",
         "profile": "Profile",
         "authorizedApps": "Authorized Apps",
         "switchAccount": "Switch account",
         "noAccount": "You have no other accounts",
-        "fullAccessKeys": "Full Access Keys",
-        "staking": "Staking"
+        "fullAccessKeys": "Full Access Keys"
     },
 
     "input": {
