@@ -557,7 +557,8 @@
             "fee": "Fee",
             "staking": "Staking",
             "near": "NEAR",
-            "cta": "view" 
+            "cta": "view",
+            "with": "with"
         },
         "stake": {
             "title": "Stake Amount",

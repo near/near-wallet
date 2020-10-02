@@ -48,7 +48,7 @@ export default function Stake({ match, validators, useLockup, loading, handleGet
                 <div className='desc'><Translate id='staking.stake.desc' /></div>
                 <div className='available-balance'>Available Balance: <Balance amount={availableBalance}/></div>
                 <h4><Translate id='staking.stake.amount' /></h4>
-                <AmountInput value={amount} onChange={setAmount} valid={stakeAllowed}/>
+                <AmountInput value={amount} onChange={setAmount} valid={stakeAllowed} loading={loading}/>
                 <ArrowCircleIcon color={stakeAllowed ? '#6AD1E3' : ''}/>
                 <h4><Translate id='staking.stake.stakeWith' /></h4>
                 {validator && 

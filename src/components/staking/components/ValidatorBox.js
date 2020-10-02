@@ -13,8 +13,9 @@ const Container = styled.div`
     align-items: center;
     border: 2px solid #F2F2F2;
     border-radius: 8px;
-    padding: 10px 10px 8px 10px;
-    line-height: 130%;
+    padding: 12px 12px 10px 12px;
+    line-height: 150%;
+    position: relative;
     cursor: ${props => props.clickable === 'true' ? 'pointer' : ''};
 
     svg {
@@ -89,6 +90,21 @@ const Container = styled.div`
             height: 34px !important;
         }
     }
+
+    .with {
+        position: absolute;
+        top: -14px;
+        padding: 5px 10px 2px 10px;
+        background-color: white;
+        border-radius: 40px;
+        line-height: normal;
+        text-align: center;
+        border: 2px solid #F2F2F2;
+        left: 50%;
+        transform: translateX(-50%);
+
+
+    }
 `
 
 export default function ValidatorBox({
@@ -97,7 +113,8 @@ export default function ValidatorBox({
     amount,
     staking = true,
     clickable = true,
-    style
+    style,
+    label = false
 }) {
     const dispatch = useDispatch()
     const cta = amount ? <ChevronIcon/> : <FormButton className='gray-blue' linkTo={`/staking/${validator}`}><Translate id='staking.validatorBox.cta' /></FormButton>
@@ -108,6 +125,7 @@ export default function ValidatorBox({
             style={style} 
             onClick={() => { clickable && amount && dispatch(redirectTo(`/staking/${validator}`))}}
         >
+            {label && <div className='with'><Translate id='staking.validatorBox.with' /></div>}
             <UserIcon/>
             <div className='left'>
                 <div>{validator}</div>

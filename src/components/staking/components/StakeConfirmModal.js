@@ -55,7 +55,7 @@ const StakeConfirmModal = ({ open, onClose, onConfirm, validatorName, amount, lo
                 <MobileActionSheet/>
                 <h2><Translate id={title}/></h2>
                 <Balance amount={amount} />
-                <ValidatorBox validator={validatorName} clickable={false}/>
+                <ValidatorBox validator={validatorName} clickable={false} label={true}/>
                 {disclaimer && <div style={{ fontStyle: 'italic', marginTop: '50px' }}><Translate id={`staking.disclaimer.${disclaimer}`}/></div>}
                 <FormButton disabled={loading} sending={loading} color='green' onClick={onConfirm}>
                     <Translate id='button.confirmAndSend'/>
