@@ -188,8 +188,6 @@ export class Staking {
     ********************************/
 
     async unstake(useLockup) {
-        const confirm = window.confirm('unstake all?')
-        if (!confirm) return
         const { lockupId } = await this.getLockup()
         const unstake_all = await this.signAndSendTransaction(lockupId, [
             functionCall('unstake_all', {}, GAS_STAKE)
@@ -198,8 +196,6 @@ export class Staking {
     }
 
     async withdraw(useLockup) {
-        const confirm = window.confirm('withdraw all from staking pool?')
-        if (!confirm) return
         const { lockupId } = await this.getLockup()
         const withdraw_all_from_staking_pool = await this.signAndSendTransaction(lockupId, [
             functionCall('withdraw_all_from_staking_pool', {}, GAS_STAKE)
