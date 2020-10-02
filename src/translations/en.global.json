@@ -224,7 +224,10 @@
         "GET_LEDGER_PUBLIC_KEY": "You will need to confirm public key access on your Ledger.",
         "CREATE_NEW_ACCOUNT": "You will need to confirm add a key for new account on your Ledger.",
         "SIGN_AND_SEND_TRANSACTIONS": "You will need to confirm deposit details on your Ledger.",
-        "REMOVE_NON_LEDGER_ACCESS_KEYS": "You will need to confirm details on your Ledger."
+        "REMOVE_NON_LEDGER_ACCESS_KEYS": "You will need to confirm details on your Ledger.",
+        "STAKE": "You will need to confirm staking on your Ledger",
+        "UNSTAKE": "You will need to confirm unstaking on your Ledger",
+        "WITHDRAW": "You will need to confirm withdrawal on your Ledger"
     },
 
     "button": {
