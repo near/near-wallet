@@ -139,7 +139,7 @@ export function StakingContainer({ history }) {
                                 validators={staking.validators}
                                 useLockup={useLockup}
                                 selectedValidator={selectedValidator}
-                                alreadyStaked={currentValidators.length}/>
+                            />
                         )}
                     />
                     <Route
