@@ -610,12 +610,10 @@ class Wallet {
                 ownersBalance,
                 liquidOwnersBalance,
                 lockedAmount,
-                unvestedAmount
             ] = await Promise.all([
                 'get_owners_balance',
                 'get_liquid_owners_balance',
                 'get_locked_amount',
-                'get_unvested_amount'
             ].map(methodName => account.viewFunction(lockupAccountId, methodName)))
 
             return {
@@ -623,7 +621,6 @@ class Wallet {
                 ownersBalance,
                 liquidOwnersBalance,
                 lockedAmount,
-                unvestedAmount,
                 total: new BN(balance.total).add(new BN(lockedAmount)).add(new BN(ownersBalance)).toString()
             }
         } catch (error) {
@@ -754,11 +751,34 @@ class Wallet {
         }
     }
 
+    async accountExists(accountId) {
+        try {
+            await this.getAccount(accountId).state();
+            return true;
+        } catch (error) {
+            if (error.toString().indexOf('does not exist while viewing') !== -1) {
+                return false;
+            }
+            throw error;
+        }
+    }
+
     async recoverAccountSeedPhrase(seedPhrase, accountId, fromSeedPhraseRecovery = true) {
         const { publicKey, secretKey } = parseSeedPhrase(seedPhrase)
 
         const tempKeyStore = new nearApiJs.keyStores.InMemoryKeyStore()
-        const accountIds = accountId ? [accountId] : await getAccountIds(publicKey)
+        let accountIds = [accountId]
+        if (!accountId) {
+            accountIds = await getAccountIds(publicKey)
+            const implicitAccountId = Buffer.from(PublicKey.fromString(publicKey).data).toString('hex')
+            if (await this.accountExists(implicitAccountId)) {
+                accountIds.push(implicitAccountId)
+            }
+        }
+
+        if (!accountIds.length) {
+            throw new WalletError('Cannot find matching public key', 'account.recoverAccount.errorInvalidSeedPhrase', { publicKey })
+        }
 
         const connection = nearApiJs.Connection.fromConfig({
             networkId: NETWORK_ID,

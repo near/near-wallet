@@ -31,7 +31,6 @@ const StyledContainer = styled(Container)`
 class RecoverAccountSeedPhrase extends Component {
     state = {
         seedPhrase: this.props.seedPhrase,
-        accountId: this.props.accountId
     }
 
     // TODO: Use some validation framework?
@@ -46,13 +45,11 @@ class RecoverAccountSeedPhrase extends Component {
     componentDidMount = () => {}
 
     handleChange = (e, { name, value }) => {
-        if (!(name === 'accountId' && value.match(/[^a-zA-Z0-9._-]/))) {
-            this.setState(() => ({
-                [name]: value
-            }))
+        this.setState(() => ({
+            [name]: value
+        }))
 
-            this.props.clear()
-        }
+        this.props.clear()
     }
 
     handleSubmit = async () => {
@@ -60,8 +57,8 @@ class RecoverAccountSeedPhrase extends Component {
             return false
         }
 
-        const { accountId, seedPhrase } = this.state
-        await this.props.recoverAccountSeedPhrase(seedPhrase, accountId)
+        const { seedPhrase } = this.state
+        await this.props.recoverAccountSeedPhrase(seedPhrase)
         this.props.refreshAccount()
         this.props.redirectToApp()
     }
@@ -98,7 +95,6 @@ const mapDispatchToProps = {
 const mapStateToProps = ({ account }, { match }) => ({
     ...account,
     seedPhrase: match.params.seedPhrase || '',
-    accountId: match.params.accountId || ''
 })
 
 export const RecoverAccountSeedPhraseWithRouter = connect(
