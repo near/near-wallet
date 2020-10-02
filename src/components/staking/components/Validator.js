@@ -12,7 +12,7 @@ export default function Validator({ match, validators, onUnstake, onWithdraw, lo
     const validator = validators.filter(validator => validator.accountId === match.params.validator)[0]
 
     onKeyDown(e => {
-        if (e.keyCode === 13) {
+        if (e.keyCode === 13 && (confirm === 'unstake' || confirm === 'withdraw')) {
             handleStakeAction()
         }
     })
