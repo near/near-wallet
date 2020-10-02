@@ -90,7 +90,7 @@ const StyledContainer = styled(Container)`
 export function StakingContainer({ history }) {
     const dispatch = useDispatch()
     const staking = useSelector(({ staking }) => staking)
-    const { formLoader, actionsPending, balance } = useSelector(({ account }) => account);
+    const { actionsPending, balance } = useSelector(({ account }) => account);
     let validators = staking.validators
     const currentValidators = validators.filter(v => v.staked !== '0' || v.available !== '0' || v.pending !== '0')
     validators = currentValidators.length ? currentValidators : validators

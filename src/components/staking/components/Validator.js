@@ -78,6 +78,7 @@ export default function Validator({ match, validators, onUnstake, onWithdraw, lo
                             onConfirm={handleStakeAction}
                             onClose={() => setConfirm(null)}
                             loading={loading}
+                            disclaimer={confirm === 'unstake' ? 'unstake' : ''}
                         />
                     }
                 </>

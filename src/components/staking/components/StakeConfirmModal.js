@@ -43,7 +43,7 @@ const Container = styled.div`
 
 `
 
-const StakeConfirmModal = ({ open, onClose, onConfirm, validatorName, amount, loading, title }) => {
+const StakeConfirmModal = ({ open, onClose, onConfirm, validatorName, amount, loading, title, disclaimer }) => {
     return (
         <Modal
             id='stake-confirm-modal'
@@ -56,6 +56,7 @@ const StakeConfirmModal = ({ open, onClose, onConfirm, validatorName, amount, lo
                 <h2><Translate id={title}/></h2>
                 <Balance amount={amount} />
                 <ValidatorBox validator={validatorName} clickable={false}/>
+                {disclaimer && <div style={{ fontStyle: 'italic', marginTop: '50px' }}><Translate id={`staking.disclaimer.${disclaimer}`}/></div>}
                 <FormButton disabled={loading} sending={loading} color='green' onClick={onConfirm}>
                     <Translate id='button.confirmAndSend'/>
                 </FormButton>
