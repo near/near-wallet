@@ -42,6 +42,7 @@ export default function Validator({ match, validators, onUnstake, onWithdraw, lo
                             onClick={() => setConfirm('unstake')}
                             button='staking.balanceBox.staked.button'
                             buttonColor='gray-red'
+                            loading={loading}
                         />
                         <BalanceBox
                             title='staking.balanceBox.unclaimed.title'
@@ -56,6 +57,7 @@ export default function Validator({ match, validators, onUnstake, onWithdraw, lo
                             version='no-border'
                             onClick={() => setConfirm('withdraw')}
                             button='staking.balanceBox.available.button'
+                            loading={loading}
                         />
                         <BalanceBox
                             title='staking.balanceBox.pending.title'

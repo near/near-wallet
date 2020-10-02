@@ -96,7 +96,7 @@ export function StakingContainer({ history }) {
     validators = currentValidators.length ? currentValidators : validators
     const { useLockup, totalUnstaked } = staking
     const availableBalance = useLockup ? totalUnstaked : balance.available
-    const loading = formLoader || actionsPending.some(action => ['STAKE', 'UNSTAKE', 'WITHDRAW', 'UPDATE_STAKING'].includes(action))
+    const loading = actionsPending.some(action => ['STAKE', 'UNSTAKE', 'WITHDRAW', 'UPDATE_STAKING'].includes(action))
 
     useEffect(() => {
         dispatch(updateStaking(useLockup))
