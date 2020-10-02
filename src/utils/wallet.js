@@ -746,6 +746,18 @@ class Wallet {
         }
     }
 
+    async accountExists(accountId) {
+        try {
+            await this.getAccount(accountId).state();
+            return true;
+        } catch (error) {
+            if (error.toString().indexOf('does not exist while viewing') !== -1) {
+                return false;
+            }
+            throw error;
+        }
+    }
+
     async recoverAccountSeedPhrase(seedPhrase, accountId, fromSeedPhraseRecovery = true) {
         const { publicKey, secretKey } = parseSeedPhrase(seedPhrase)
 
@@ -754,7 +766,13 @@ class Wallet {
         if (!accountId) {
             accountIds = await getAccountIds(publicKey)
             const implicitAccountId = Buffer.from(PublicKey.fromString(publicKey).data).toString('hex')
-            accountIds.push(implicitAccountId)
+            if (await this.accountExists(implicitAccountId)) {
+                accountIds.push(implicitAccountId)
+            }
+        }
+
+        if (!accountIds.length) {
+            throw new WalletError('Cannot find matching public key', 'account.recoverAccount.errorInvalidSeedPhrase', { publicKey })
         }
 
         const connection = nearApiJs.Connection.fromConfig({
