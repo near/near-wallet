@@ -250,8 +250,13 @@ export class Staking {
 
     async getLockup() {
         const accountId = this.wallet.accountId
-        const lockupId = testLockup[accountId] ? testLockup[accountId] : await getLockupId(accountId)
-        // current staking account_id
+        // for testing, replace with catch only
+        let lockupId = `testinglockup.${accountId}`
+        try {
+            await (await new nearApiJs.Account(this.wallet.connection, lockupId)).state()
+        } catch(e) {
+            lockupId = testLockup[accountId] ? testLockup[accountId] : await getLockupId(accountId)
+        }
         const contract = await this.getContractInstance(lockupId, lockupMethods)
         return { contract, lockupId, accountId }
     }
