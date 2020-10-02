@@ -94,7 +94,7 @@ export function StakingContainer({ history }) {
     let validators = staking.validators
     const currentValidators = validators.filter(v => v.staked !== '0' || v.available !== '0' || v.pending !== '0')
     validators = currentValidators.length ? currentValidators : validators
-    const { useLockup, totalUnstaked } = staking
+    const { useLockup, totalUnstaked, selectedValidator } = staking
     const availableBalance = useLockup ? totalUnstaked : balance.available
     const loading = actionsPending.some(action => ['STAKE', 'UNSTAKE', 'WITHDRAW', 'UPDATE_STAKING'].includes(action))
 
@@ -134,7 +134,12 @@ export function StakingContainer({ history }) {
                         exact
                         path='/staking/validators'
                         render={(props) => (
-                            <Validators {...props} validators={staking.validators} useLockup={useLockup} alreadyStaked={currentValidators.length}/>
+                            <Validators
+                                {...props}
+                                validators={staking.validators}
+                                useLockup={useLockup}
+                                selectedValidator={selectedValidator}
+                                alreadyStaked={currentValidators.length}/>
                         )}
                     />
                     <Route

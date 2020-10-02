@@ -8,6 +8,7 @@ const initialState = {
     accountId: '',
     // lockup account is active
     useLockup: true,
+    selectedValidator: '',
     // all validators
     totalAvailable: '0', // available for withdrawal
     totalUnstaked: '0', // available to be staked

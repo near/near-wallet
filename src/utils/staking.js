@@ -93,9 +93,14 @@ export class Staking {
 
     async updateStakingLockup(validators) {
         const { contract, lockupId: account_id } = await this.getLockup()
+
         const selectedValidator = await contract.get_staking_pool_account_id()
         if (!selectedValidator) {
-            return {}
+            return {
+                accountId: account_id,
+                selectedValidator: '',
+                totalUnstaked: await contract.get_owners_balance()
+            }
         }
         const validator = validators.find((v) => v.accountId === selectedValidator)
         const deposited = new BN(await contract.get_known_deposited_balance(), 10)
@@ -126,6 +131,7 @@ export class Staking {
 
         return {
             accountId: account_id,
+            selectedValidator,
             totalAvailable: totalAvailable.toString(),
             totalStaked: totalStaked.toString(),
             totalUnstaked: totalUnstaked.toString(),
