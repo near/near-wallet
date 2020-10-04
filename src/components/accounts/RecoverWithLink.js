@@ -7,7 +7,7 @@ import FormButton from '../common/FormButton'
 import { 
     recoverAccountSeedPhrase,
     refreshAccount,
-    redirectToProfile,
+    redirectTo,
 } from '../../actions/account'
 import { Snackbar, snackbarDuration } from '../common/Snackbar'
 import { Translate } from 'react-localize-redux'
@@ -156,7 +156,7 @@ class RecoverWithLink extends Component {
         try {
             await this.props.recoverAccountSeedPhrase(this.state.seedPhrase, this.props.match.params.accountId, false)
             this.props.refreshAccount()
-            this.props.redirectToProfile()
+            this.props.redirectTo('/profile')
         } catch (error) {
             this.setState({ successView: false });
         }
@@ -217,7 +217,7 @@ class RecoverWithLink extends Component {
 const mapDispatchToProps = {
     recoverAccountSeedPhrase, 
     refreshAccount,
-    redirectToProfile
+    redirectTo
 }
 
 const mapStateToProps = ({ account }, { match }) => ({

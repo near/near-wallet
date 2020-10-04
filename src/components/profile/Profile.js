@@ -8,18 +8,22 @@ import RecoveryContainer from './Recovery/RecoveryContainer'
 import HardwareDevices from './hardware_devices/HardwareDevices'
 import TwoFactorAuth from './two_factor/TwoFactorAuth'
 import { LOADING, NOT_FOUND, useAccount } from '../../hooks/allAccounts'
-import { get2faMethod, getLedgerKey, checkCanEnableTwoFactor } from '../../actions/account';
+import { get2faMethod, getLedgerKey, checkCanEnableTwoFactor, getAccessKeys } from '../../actions/account';
 
 export function Profile({ match }) {
     const loginAccountId = useSelector(state => state.account.accountId)
     const accountId = match.params.accountId || loginAccountId
+    const isOwner = accountId === loginAccountId
     const account = useAccount(accountId)
     const dispatch = useDispatch();
 
     useEffect(() => { 
-        dispatch(getLedgerKey())
-        dispatch(get2faMethod())
-        dispatch(checkCanEnableTwoFactor(account))
+        if (isOwner) {
+            dispatch(getAccessKeys(accountId))
+            dispatch(getLedgerKey())
+            dispatch(get2faMethod())
+            dispatch(checkCanEnableTwoFactor(account))
+        }
     }, []);
 
     if (account.__status === LOADING) {
@@ -33,8 +37,8 @@ export function Profile({ match }) {
     return (
         <PageContainer title={<Translate id='profile.pageTitle.default' data={{ accountId }} />}>
             <ProfileSection>
-                <ProfileDetails account={account} />
-                {accountId === loginAccountId && (
+                <ProfileDetails account={account} isOwner={isOwner} />
+                {isOwner && (
                     <>
                         <RecoveryContainer/>
                         {!account.ledgerKey && <TwoFactorAuth/>}

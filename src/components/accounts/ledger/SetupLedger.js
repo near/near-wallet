@@ -5,7 +5,7 @@ import InstructionsModal from './InstructionsModal';
 import LedgerIcon from '../../svg/LedgerIcon';
 import FormButton from '../../common/FormButton';
 import { Translate } from 'react-localize-redux';
-import { addLedgerAccessKey, createNewAccount, refreshAccount, redirectToApp, getLedgerPublicKey } from '../../../actions/account'
+import { addLedgerAccessKey, createNewAccount, refreshAccount, redirectToApp, getLedgerPublicKey, checkIsNew } from '../../../actions/account'
 import GlobalAlert from '../../responsive/GlobalAlert'
 
 const SetupLedger = (props) => {
@@ -17,14 +17,13 @@ const SetupLedger = (props) => {
     const handleClick = async () => {
         setConnect('')
 
+        const isNew = await props.checkIsNew(props.accountId)
+
         try {
-            // TODO: No need for separate Redux action, just move inside of createNewAccount and addLedgerAccessKey
-            const ledgerPublicKey = await props.getLedgerPublicKey()
-            if (props.isNew) {
-                const useLedger = true
-                await props.createNewAccount(props.accountId, props.fundingContract, props.fundingKey, ledgerPublicKey, useLedger)
+            if (isNew) {
+                await props.createNewAccount(props.accountId, props.fundingContract, props.fundingKey)
             } else {
-                await props.addLedgerAccessKey(props.accountId, ledgerPublicKey)
+                await props.addLedgerAccessKey(props.accountId)
             }
             await props.refreshAccount()
         } catch(e) {
@@ -32,7 +31,7 @@ const SetupLedger = (props) => {
             throw e;
         } 
 
-        if (props.isNew) {
+        if (isNew) {
             props.redirectToApp('/profile')
         } else {
             props.history.push('/setup-ledger-success');
@@ -69,13 +68,13 @@ const mapDispatchToProps = {
     createNewAccount,
     refreshAccount,
     redirectToApp,
-    getLedgerPublicKey
+    getLedgerPublicKey,
+    checkIsNew
 }
 
 const mapStateToProps = ({ account }, { match }) => ({
     ...account,
     accountId: match.params.accountId,
-    isNew: !!parseInt(match.params.isNew),
     fundingContract: match.params.fundingContract,
     fundingKey: match.params.fundingKey,
 })

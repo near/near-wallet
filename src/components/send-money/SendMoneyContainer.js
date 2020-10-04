@@ -12,6 +12,7 @@ const CustomList = styled(List)`
         width: 360px;
         text-align: center;
         margin: 0 auto 0 auto;
+        line-break: anywhere;
         
         h1 {
             padding: 0;

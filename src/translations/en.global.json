@@ -6,8 +6,8 @@
         },
         "recoverAccount": {
             "success": "Recover using Seed Phrase is complete.<br/><b>${numberOfAccounts} account(s)</b> have been successfully recovered: <b>${accountList}</b>.<br/>The last one is set as active.",
-            "error": "Failed to recover account. Seed phrase is invalid.",
-            "errorInvalidSeedPhrase": "Seed phrase is invalid"
+            "error": "Failed to recover account. No accounts were found for this seed phrase.",
+            "errorInvalidSeedPhrase": "No accounts were found for this seed phrase."
         },
         "create": {
             "success": "Congrats! ${accountId} is available.",
@@ -145,7 +145,8 @@
         "disableTextPhrase": "Your current seed phrase will be permanently deactivated.",
         "disableInputPlaceholder": "Enter your account ID to confirm",
         "disableNo": "No, keep",
-        "recoveryLinkSent": "Recovery Link Sent!"
+        "recoveryLinkSent": "Recovery Link Sent!",
+        "disableNotAllowed": "Accounts are required to have at least one active recovery method. Please first enable an alternative recovery method to proceed."
     },
 
     "hardwareDevices": {
@@ -222,7 +223,8 @@
         "ADD_LEDGER_ACCESS_KEY": "You will need to confirm public key details on your Ledger.",
         "GET_LEDGER_PUBLIC_KEY": "You will need to confirm public key access on your Ledger.",
         "CREATE_NEW_ACCOUNT": "You will need to confirm add a key for new account on your Ledger.",
-        "SIGN_AND_SEND_TRANSACTIONS": "You will need to confirm deposit details on your Ledger."
+        "SIGN_AND_SEND_TRANSACTIONS": "You will need to confirm deposit details on your Ledger.",
+        "REMOVE_NON_LEDGER_ACCESS_KEYS": "You will need to confirm details on your Ledger."
     },
 
     "button": {
@@ -238,6 +240,7 @@
         "copyUrl": "Copy Url",
         "createAccount": "Create Account",
         "recoverYourAccount": "Recover your Account",
+        "accessAccount": "Access your Account",
         "enable": "Enable",
         "disable": "Disable",
         "signInLedger": "Sign in with Ledger",
@@ -273,7 +276,8 @@
         "moreInformation": "More information",
         "dismiss": "Dismiss",
         "cancelOperation": "Cancel Operation",
-        "subscribe": "Subscribe"
+        "subscribe": "Subscribe",
+        "Close": "Close"
     },
 
     "link": {
@@ -301,7 +305,7 @@
     },
 
     "recoverAccount": {
-        "pageTitle": "Recover Your Account",
+        "pageTitle": "Access Your Account",
         "pageText": "If you’ve setup one or more account recovery methods, follow the instructions below to begin the recovery process.",
         "email": {
             "title": "Email",
@@ -316,6 +320,10 @@
         "phrase": {
             "title": "Seed Phrase",
             "desc": "Make sure you have your 12 word recovery phrase, then click below to begin the recovery process."
+        },
+        "ledger": {
+            "title": "Ledger",
+            "desc": "Make sure your ledger is connected securely, and that the NEAR app is open on the device."
         },
         "actionType": "Recovery",
         "actionRequired": "This message contains a magic link. Click the link to begin recovery!",
@@ -630,7 +638,7 @@
 
     "setupLedger": {
         "header": "Connect your Ledger device",
-        "one": "Connect your Ledger Nano S or X to your computer or mobile device via USB and <b>open the NEAR application</b>.",
+        "one": "Connect your Ledger Nano S or X to your computer or mobile device via USB and <b>open the NEAR application</b>. <br><br>Then, <b>press both buttons</b> at the 'Pending Ledger Review' screen.",
         "two": "If you have not yet installed the NEAR Ledger app, follow",
         "twoLink": "these instructions"
     },
