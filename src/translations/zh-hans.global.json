@@ -285,8 +285,8 @@
         },
         "accountId": {
             "title": "账户 ID",
-            "placeholder": "例如 johndoe.near",
-            "subLabel": "你的账户 ID 必须包括账户后缀，例如 <b>.near</b>"
+            "placeholder": "例如：johndoe.near",
+            "subLabel": "你的账户 ID 必须包括账户后缀，例如：<b>.near</b>"
         }
     },
     "recoverAccount": {
