@@ -17,8 +17,7 @@
                 "create": "正在检查可用性",
                 "check": "正在检查"
             },
-            "errorAccountNotExist": "创建账户出错，请重试！",
-            "modal": "请在 Ledger 设备上确认添加新账户密钥。"
+            "errorAccountNotExist": "创建账户出错，请重试！"
         },
         "available": {
             "success": "该用户已找到。",
@@ -30,13 +29,11 @@
         },
         "setupSeedPhrase": {
             "success": "助记词恢复设置已经完成。",
-            "error": "在设置助记词恢复方式时发生了错误，请重试。",
-            "modal": "请在 Ledger 设备上确认完全访问的信息。"
+            "error": "在设置助记词恢复方式时发生了错误，请重试。"
         },
         "setupRecoveryMessage": {
             "success": "账户恢复设置已完成。",
-            "error": "设置账户恢复方式时发生错误，请重试。",
-            "modal": "请在 Ledger 设备上确认完全访问的信息。"
+            "error": "设置账户恢复方式时发生错误，请重试。"
         },
         "sendNewRecoveryLink": {
             "success": "账户恢复链接已经发送！",
@@ -54,22 +51,11 @@
             },
             "incorrectContractId": {
                 "error": "合约 ${contractId} 不存在。这可能是你正在使用的应用的问题，或者可能是合约已经被删除。你将重新回到应用。"
-            },
-            "modal": "请在 Ledger 设备上确认完全访问的详细信息。"
+            }
         },
         "nameDoesntMatch": "账户名称不匹配",
         "sendMoney": {
-            "error": "请检查你的设备已经连接并打开了 NEAR 应用。",
-            "modal": "请在 Ledger 设备上确认交易信息。"
-        },
-        "signAndSendTransactions": {
-            "modal": "请在 Ledger 设备上确认存款信息。"
-        },
-        "deleteRecoveryMethod": {
-            "modal": "请在 Ledger 设备上确认删除密钥信息。"
-        },
-        "LedgerPublicKey": {
-            "modal": "请在 Ledger 设备上确认公钥访问。"
+            "error": "请检查你的设备已经连接并打开了 NEAR 应用。"
         }
     },
     "actions": {
@@ -153,7 +139,8 @@
         "disableTextPhrase": "当前助记词将会被永久禁用。",
         "disableInputPlaceholder": "请输入用户名确认",
         "disableNo": "不，保留。",
-        "recoveryLinkSent": "恢复链接已发送！"
+        "recoveryLinkSent": "恢复链接已发送！",
+        "disableNotAllowed": "账户必须拥有至少一种恢复方式，请首先添加另外一种方式再继续删除此方式。"
     },
     "hardwareDevices": {
         "title": "硬件钱包",
@@ -211,9 +198,22 @@
         "publicKey": "公钥",
         "ledger": "Ledger",
         "removeAccessKey": {
-            "error": "请检查你的设备已经连接并打开了 NEAR 应用。",
-            "modal": "请在 Ledger 设备上确认删除密钥信息。"
+            "error": "请检查你的设备已经连接并打开了 NEAR 应用。"
         }
+    },
+    "ledgerSignTxModal": {
+        "SEND_MONEY": "请在 Ledger 设备上确认转账信息。",
+        "ADD_ACCESS_KEY": "请在 Ledger 设备上确认登录信息。",
+        "SET_SIGN_TRANSACTION_STATUS": "请在 Ledger 设备上确认存款细节信息。",
+        "REMOVE_ACCESS_KEY": "请在 Ledger 设备上确认删除密钥信息。",
+        "ADD_ACCESS_KEY_SEED_PHRASE": "请在 Ledger 设备上确认完全访问信息。",
+        "DELETE_RECOVERY_METHOD": "请在 Ledger 设备上确认删除恢复方式信息。",
+        "SETUP_RECOVERY_MESSAGE": "请在 Ledger 设备上确认完全访问细节信息。",
+        "ADD_LEDGER_ACCESS_KEY": "请在 Ledger 设备上确认公钥信息。",
+        "GET_LEDGER_PUBLIC_KEY": "请在 Ledger 设备上确认公钥访问信息。",
+        "CREATE_NEW_ACCOUNT": "请在 Ledger 设备上确认新账户密钥信息。",
+        "SIGN_AND_SEND_TRANSACTIONS": "请在 Ledger 设备上确认存款信息。",
+        "REMOVE_NON_LEDGER_ACCESS_KEYS": "请在 Ledger 设备上确认信息。"
     },
     "button": {
         "signIn": "登录",
@@ -228,6 +228,7 @@
         "copyUrl": "复制链接",
         "createAccount": "创建账户",
         "recoverYourAccount": "恢复账户",
+        "accessAccount": "登录账户",
         "enable": "启用",
         "disable": "禁用",
         "signInLedger": "通过 Ledger 登录",
@@ -263,7 +264,8 @@
         "dismiss": "关闭",
         "cancelOperation": "取消操作",
         "subscribe": "订阅",
-        "connect": "连接"
+        "connect": "连接",
+        "Close": "关闭"
     },
     "link": {
         "summary": "概览",
@@ -282,9 +284,9 @@
             "placeholder": ""
         },
         "accountId": {
-            "title": "Account ID",
-            "placeholder": "e.g. johndoe.near",
-            "subLabel": "Your account ID must include a Top Level Account such as <b>.near</b>"
+            "title": "账户 ID",
+            "placeholder": "例如 johndoe.near",
+            "subLabel": "你的账户 ID 必须包括账户后缀，例如 <b>.near</b>"
         }
     },
     "recoverAccount": {
@@ -303,6 +305,10 @@
         "phrase": {
             "title": "助记词",
             "desc": "请确认已准备 12 个单词组成的助记词，然后点击下方开始恢复账户流程。"
+        },
+        "ledger": {
+            "title": "Ledger",
+            "desc": "请确认 Ledger 已安全连接，并在设备上打开 NEAR 应用。"
         },
         "actionType": "恢复",
         "actionRequired": "此消息包含恢复链接，请点击链接开始恢复账户流程！",
@@ -326,6 +332,11 @@
             "four": "字符 (_-) 用于分割",
             "five": "你的用户名不可以包括：",
             "six": "符号 \"@\" 或 \".\""
+        },
+        "invalidLinkDrop": {
+            "title": "链接无效",
+            "one": "NEAR Drop 已经被领取。",
+            "two": "NEAR Drop 只能被领取一次，之后链接会无效。"
         }
     },
     "topLevelAccounts": {
@@ -335,9 +346,6 @@
     "recoverSeedPhrase": {
         "pageTitle": "通过助记词恢复账户",
         "pageText": "请输入与此账户关联的助记词。",
-        "accountIdInput": {
-            "title": "用户名"
-        },
         "seedPhraseInput": {
             "title": "助记词（12 个单词）",
             "placeholder": "correct horse battery staple..."
@@ -637,7 +645,9 @@
         "getLedgerAccountIds": {
             "success": "",
             "error": "公钥访问被拒绝，恢复账户失败。<br/>若要继续，需要允许 NEAR 钱包访问你的公钥，请再重试。",
-            "noAccounts": "该 Ledger 设备没有绑定任何账户，你需要先创建一个账户，并将此账户绑定至 Ledger 才能登录。"
+            "noAccounts": "该 Ledger 设备没有绑定任何账户，你需要先创建一个账户，并将此账户绑定至 Ledger 才能登录。",
+            "aborted": "操作被终止。",
+            "U2FNotSupported": "需要浏览器支持 U2F，请使用 Chrome、Opera 或 Firefox 安装 U2F 扩展。"
         },
         "addLedgerAccountId": {
             "success": "",
@@ -666,11 +676,17 @@
         },
         "one": "请在 Ledger 硬件设备上确认登录细节。"
     },
+    "enterAccountNameLedgerModal": {
+        "header": "输入账户名称",
+        "one": "请输入你尝试登录的账户名称"
+    },
     "errors": {
+        "type": {
+            "RetriesExceeded": "此交易超出最大重试次数。"
+        },
         "ledger": {
             "U2FNotSupported": "Ledger 硬件钱包需要 U2F 浏览器支持。请使用 Chrome、Opera 或 Firefox 安装 U2F 扩展，并确保你是通过 HTTPS 加密连接。",
-            "U2F_4": "无法通过硬件钱包登录：U2F DEVICE_INELIGIBLE。请确保 Ledger 设备已连接并解锁。",
-            "modal": "请在 Ledger 设备上确认公钥信息。"
+            "U2F_4": "无法通过硬件钱包登录：U2F DEVICE_INELIGIBLE。请确保 Ledger 设备已连接并解锁。"
         },
         "recoveryMethods": {
             "lastMethod": "无法删除最后一个恢复方式。除非你添加了 Ledger，你需要保留至少一种账户恢复方式。"
@@ -678,9 +694,6 @@
         "twoFactor": {
             "userCancelled": "此操作已被取消。",
             "invalidCode": "无效的两步验证码，请重试。"
-        },
-        "type": {
-            "RetriesExceeded": "此交易超出最大重试次数。"
         }
     },
     "networkBanner": {
