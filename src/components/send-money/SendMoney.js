@@ -18,7 +18,8 @@ class SendMoney extends Component {
         expandNote: false,
         accountId: '',
         amount: '',
-        amountStatus: ''
+        amountStatus: '',
+        implicitAccount: false,
     }
 
     async componentDidMount() {
@@ -104,8 +105,11 @@ class SendMoney extends Component {
     }
 
     handleChange = (e, { name, value }) => {
-        this.setState(() => ({
-            [name]: value
+        this.setState((state) => ({
+            [name]: value,
+            implicitAccount: name === 'accountId' 
+                ? this.isImplicitAccount(value)
+                : state.implicitAccount
         }))
     }
 
