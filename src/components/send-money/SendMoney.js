@@ -124,9 +124,12 @@ class SendMoney extends Component {
     }
 
     isLegitForm = () => {
-        const { amount, amountStatus } = this.state
+        const { amount, amountStatus, implicitAccount } = this.state
         const { requestStatus } = this.props
-        return requestStatus && requestStatus.success && (amount) > 0 && amountStatus === ''
+        
+        return ((requestStatus && requestStatus.success) || implicitAccount) && amount > 0 && amountStatus === ''
+            ? true
+            : false
     }
 
     isImplicitAccount = (accountId) => accountId.length === 64
