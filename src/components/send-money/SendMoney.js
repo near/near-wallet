@@ -125,6 +125,8 @@ class SendMoney extends Component {
         return requestStatus && requestStatus.success && (amount) > 0 && amountStatus === ''
     }
 
+    isImplicitAccount = (accountId) => accountId.length === 64
+
     render() {
         const { step } = this.state
         const { formLoader, requestStatus, checkAccountAvailable, setFormLoader, clear, accountId } = this.props
