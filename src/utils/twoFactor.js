@@ -252,7 +252,7 @@ const addKeyAction = (account, publicKey, contractId, fullAccess = false) => {
     let method_names = METHOD_NAMES_LAK
     if (contractId !== accountId) {
         fullAccess = false
-        method_names = ['']
+        method_names = []
     } else {
         allowance = '0'
     }
