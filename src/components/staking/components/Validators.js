@@ -9,6 +9,8 @@ export default function Validators({ validators, useLockup, selectedValidator, h
 
     const validValidator = validators.map(validator => validator.accountId).includes(validator)
 
+    const selectedStaked = validators.filter(v => useLockup && selectedValidator.length === v && (v.staked !== '0' || v.available !== '0' || v.pending !== '0'))
+
     return (
         <>
             <h1><Translate id='staking.validators.title' /></h1>
@@ -24,13 +26,9 @@ export default function Validators({ validators, useLockup, selectedValidator, h
             <div className='already-staked-disclaimer'><Translate id='staking.validators.alreadyStaked' /></div>
             <h3><Translate id='staking.validators.available' /></h3>
             <ListWrapper>
-                {validators.filter(v => {
-                    if (useLockup && selectedValidator === v) {
-                        return (v.staked !== '0' || v.available !== '0' || v.pending !== '0')
-                    } else {
-                        return v.accountId.includes(validator)
-                    }
-                }).map((validator, i) => 
+                {(selectedStaked.length ? selectedStaked : validators)
+                .filter(v => v.accountId.includes(validator))
+                .map((validator, i) => 
                     <ValidatorBox
                         key={i}
                         validator={validator.accountId}
