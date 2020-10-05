@@ -102,8 +102,8 @@ const SendMoneyFirstStep = ({
 
                         <div className='warning'>
                             <IconProblems color='#fca347' />
-                            <h1>Warning</h1>
-                            <div>If this is an exchange account, or an account you control, please double check the account ID. If the account name is entered incorrectly, your funds will be lost forever.</div>
+                            <h1><Translate id='warning' /></h1>
+                            <div><Translate id='account.available.implicitAccountModal' /></div>
                         </div>
                         <FormButton
                             onClick={handleNextStep}
