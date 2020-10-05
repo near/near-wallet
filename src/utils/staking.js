@@ -13,27 +13,12 @@ const {
 // 125 - 175 Tgas for lockup methods
 const GAS_STAKE = '175000000000000'
 
-/********************************
-Deploying lockup via CLI for testing
-
-1. download this file https://github.com/near/core-contracts/blob/master/lockup/res/lockup_contract.wasm
-2. create a new account on testnet
-3. near login (to the new account)
-4. replace [accountId], [ownerAccountId] below and run the following:
-near deploy --accountId=[accountId] --wasmFile lockup_contract.wasm --initFunction=new --initArgs='{"owner_account_id":"[ownerAccountId]","lockup_duration": "259200000000000","transfers_information":{"TransfersDisabled":{"transfer_poll_account_id":"vote.f863973.m0"}},"release_duration":"2592000000000000","staking_pool_whitelist_account_id":"whitelist.f863973.m0"}'
-5. send funds to the lockup contract, this will be your lockup balance
-6. add your owner accountId (account you will use to stake) and the lockup accountId to the mapping below this comment
-
-********************************/
-
-// add your lockup contract to this mapping
+// custom lockups for testing (self deployed)
 const testLockup = {
     'multisig.testnet': 'lu3.testnet',
     'xa4.testnet': 'lu3.testnet',
     'patrick12.testnet': 'patrick13.patrick12.testnet'
 }
-
-// TODO Contract Helper gas amount or attached gas?
 
 const stakingMethods = {
 	viewMethods: [
@@ -64,6 +49,13 @@ const lockupMethods = {
         'get_known_deposited_balance',
     ]
 }
+
+const BETANET_WHITELIST = [
+    'chorus-one-pool-v1.stakehouse.betanet',
+    'crypto-solutions.stakehouse.betanet',
+    'delphidigital.stakehouse.betanet',
+    'genesislab.stakehouse.betanet',
+]
 
 const getLockupId = async (accountId) => {
     const hash = new Uint8Array(sha256.sha256.array(accountId));
@@ -145,10 +137,16 @@ export class Staking {
     }
 
     async getValidators() {
-        console.log((await this.provider.validators()))
+
+        console.log('this.provider.validators()', (await this.provider.validators()))
 
         return (await Promise.all(
-            (await this.provider.validators()).current_validators.map(({ account_id }) => (async () => {
+            (await this.provider.validators()).current_validators
+
+            // TODO remove this for mainnet WIP user testing
+            .filter(({ account_id }) => process.env.REACT_APP_NETWORK_ID === 'betanet' ? BETANET_WHITELIST.includes(account_id) : true)
+            
+            .map(({ account_id }) => (async () => {
                 const validator = {
                     accountId: account_id,
                     staked: '0',
@@ -254,13 +252,18 @@ export class Staking {
 
     async getLockup() {
         const accountId = this.wallet.accountId
-        // for testing, replace with catch only
+
+        // TODO remove this for mainnet - WIP for user testing
         let lockupId = `testinglockup.${accountId}`
         try {
             await (await new nearApiJs.Account(this.wallet.connection, lockupId)).state()
         } catch(e) {
             lockupId = testLockup[accountId] ? testLockup[accountId] : await getLockupId(accountId)
         }
+
+        // TODO use this for mainnet
+        // lockupId = await getLockupId(accountId)
+
         const contract = await this.getContractInstance(lockupId, lockupMethods)
         return { contract, lockupId, accountId }
     }
