@@ -67,6 +67,12 @@ class SendMoney extends Component {
         }))
     }
 
+    handleCloseModal = () => {
+        this.setState(() => ({
+            implicitAccountModal: false
+        }))
+    }
+
     handleCancelTransfer = () => {
         this.props.clear()
         this.props.history.push('/')
@@ -162,6 +168,7 @@ class SendMoney extends Component {
                         stateAccountId={accountId}
                         defaultAccountId={this.props.match.params.id || this.state.accountId}
                         implicitAccountModal={implicitAccountModal}
+                        handleCloseModal={this.handleCloseModal}
                         {...this.state}
                     />
                 )}

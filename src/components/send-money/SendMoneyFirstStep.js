@@ -34,6 +34,7 @@ const SendMoneyFirstStep = ({
     defaultAccountId,
     amountStatusId,
     implicitAccountModal,
+    handleCloseModal
 }) => (
     <Form autoComplete='off'>
         <MobileContainer>
