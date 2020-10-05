@@ -145,6 +145,8 @@ export class Staking {
     }
 
     async getValidators() {
+        console.log((await this.provider.validators()))
+
         return (await Promise.all(
             (await this.provider.validators()).current_validators.map(({ account_id }) => (async () => {
                 const validator = {

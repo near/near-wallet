@@ -25,8 +25,8 @@ export default function Validators({ validators, useLockup, selectedValidator, h
             <h3><Translate id='staking.validators.available' /></h3>
             <ListWrapper>
                 {validators.filter(v => {
-                    if (useLockup && selectedValidator.length > 0) {
-                        return v.staked !== '0' || v.available !== '0' || v.pending !== '0'
+                    if (useLockup && selectedValidator.length > 0 && (v.staked !== '0' || v.available !== '0' || v.pending !== '0')) {
+                        return true
                     } else {
                         return v.accountId.includes(validator)
                     }
