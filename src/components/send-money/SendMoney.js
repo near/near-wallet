@@ -98,10 +98,18 @@ class SendMoney extends Component {
             return;
         }
 
-        this.setState(state => ({
-            step: state.step + 1,
-            amount: state.amount
-        }))
+        if (implicitAccount && !implicitAccountModal) {
+            this.setState(state => ({
+                implicitAccountModal: true
+            }))
+        } else {
+            this.setState(state => ({
+                step: state.step + 1,
+                amount: state.amount,
+                implicitAccountModal: false
+            }))
+        }
+
     }
 
     handleChange = (e, { name, value }) => {
