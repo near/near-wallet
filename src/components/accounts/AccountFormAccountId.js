@@ -165,6 +165,13 @@ class AccountFormAccountId extends Component {
         }
     }
 
+    get implicitAccountRequestStatus() {
+        return {
+            success: false,
+            messageCode: 'account.available.implicitAccount'
+        }
+    }
+
     get requestStatusWithFormValidation() {
         return this.state.accountId
             ? this.props.formLoader
