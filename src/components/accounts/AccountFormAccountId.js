@@ -174,13 +174,15 @@ class AccountFormAccountId extends Component {
 
     get requestStatusWithFormValidation() {
         return this.state.accountId
-            ? this.props.formLoader
-                ? this.loaderRequestStatus
-                : this.state.invalidAccountIdLength
-                    ? this.accountIdLengthRequestStatus
-                    : this.isSameAccount()
-                        ? this.sameAccountRequestStatus
-                        : this.props.requestStatus
+            ? this.isImplicitAccount()
+                ? this.implicitAccountRequestStatus
+                : this.props.formLoader
+                    ? this.loaderRequestStatus
+                    : this.state.invalidAccountIdLength
+                        ? this.accountIdLengthRequestStatus
+                        : this.isSameAccount()
+                            ? this.sameAccountRequestStatus
+                            : this.props.requestStatus
             : null
     }
 
