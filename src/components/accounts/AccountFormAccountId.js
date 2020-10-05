@@ -143,6 +143,8 @@ class AccountFormAccountId extends Component {
 
     isSameAccount = () => this.props.type !== 'create' && this.props.stateAccountId === this.state.accountId
 
+    isImplicitAccount = () => this.props.type !== 'create' && this.state.accountId.length === 64
+
     get loaderRequestStatus() {
         return {
             messageCode: `account.create.checkingAvailablity.${this.props.type}`
