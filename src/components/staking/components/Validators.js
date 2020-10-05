@@ -9,7 +9,7 @@ export default function Validators({ validators, useLockup, selectedValidator, h
 
     const validValidator = validators.map(validator => validator.accountId).includes(validator)
 
-    const selectedStaked = validators.filter(v => useLockup && selectedValidator.length === v && (v.staked !== '0' || v.available !== '0' || v.pending !== '0'))
+    const selectedStaked = validators.filter(v => useLockup && selectedValidator === v && (v.staked !== '0' || v.available !== '0' || v.pending !== '0'))
 
     return (
         <>
