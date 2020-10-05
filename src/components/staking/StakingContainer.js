@@ -80,11 +80,6 @@ const StyledContainer = styled(Container)`
     .withdrawal-disclaimer {
         margin-top: 20px
     }
-
-    .available-balance {
-        text-align: center;
-        margin-top: 10px;
-    }
 `
 
 export function StakingContainer({ history }) {

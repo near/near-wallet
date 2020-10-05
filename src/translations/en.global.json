@@ -566,7 +566,12 @@
             "amount": "Amount",
             "stakeWith": "Stake with",
             "button": "Submit Stake",
-            "confirm": "You are staking"
+            "confirm": "You are staking",
+            "input": {
+                "insufficientFunds": "Insufficient funds.",
+                "availableBalance": "Available balance:",
+                "near": "NEAR"
+            }
         },
         "stakeSuccess": {
             "title": "Success!",

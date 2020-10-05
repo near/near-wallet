@@ -12,7 +12,6 @@ import BN from 'bn.js'
 import { utils } from 'near-api-js'
 import isDecimalString from '../../../utils/isDecimalString'
 import { onKeyDown } from '../../../hooks/eventListeners'
-import Balance from '../../common/Balance'
 import { toNear } from '../../../utils/amounts'
 
 export default function Stake({ match, validators, useLockup, loading, handleGetValidators, availableBalance }) {
@@ -21,7 +20,8 @@ export default function Stake({ match, validators, useLockup, loading, handleGet
     const [amount, setAmount] = useState('')
     const [success, setSuccess] = useState()
     const validator = validators.filter(validator => validator.accountId === match.params.validator)[0]
-    const invalidAmount = new BN(availableBalance).lt(new BN(utils.format.parseNearAmount(amount))) || !isDecimalString(amount)
+    const insufficientBalance = new BN(availableBalance).lt(new BN(utils.format.parseNearAmount(amount)))
+    const invalidAmount = insufficientBalance || !isDecimalString(amount)
     const stakeAllowed = !loading && amount.length && amount !== '0' && !invalidAmount
 
     onKeyDown(e => {
@@ -46,9 +46,15 @@ export default function Stake({ match, validators, useLockup, loading, handleGet
             <>
                 <h1><Translate id='staking.stake.title' /></h1>
                 <div className='desc'><Translate id='staking.stake.desc' /></div>
-                <div className='available-balance'>Available Balance: <Balance amount={availableBalance}/></div>
                 <h4><Translate id='staking.stake.amount' /></h4>
-                <AmountInput value={amount} onChange={setAmount} valid={stakeAllowed} loading={loading}/>
+                <AmountInput 
+                    value={amount} 
+                    onChange={setAmount} 
+                    valid={stakeAllowed}
+                    availableBalance={availableBalance}
+                    insufficientBalance={insufficientBalance} 
+                    loading={loading}
+                />
                 <ArrowCircleIcon color={stakeAllowed ? '#6AD1E3' : ''}/>
                 <h4><Translate id='staking.stake.stakeWith' /></h4>
                 {validator && 
