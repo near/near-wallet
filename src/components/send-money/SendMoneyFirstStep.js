@@ -13,6 +13,10 @@ import MobileContainer from '../sign/MobileContainer'
 import FormButton from '../common/FormButton'
 import AccountFormAccountId from '../accounts/AccountFormAccountId'
 import SendMoneyAmountInput from './SendMoneyAmountInput'
+import Modal from "../common/modal/Modal";
+import ModalTheme from '../accounts/ledger/ModalTheme';
+import MobileActionSheet from '../common/modal/MobileActionSheet';
+import IconProblems from '../../images/IconProblems'
 
 const SendMoneyFirstStep = ({
     handleNextStep,
@@ -28,7 +32,8 @@ const SendMoneyFirstStep = ({
     setFormLoader,
     stateAccountId,
     defaultAccountId,
-    amountStatusId
+    amountStatusId,
+    implicitAccountModal,
 }) => (
     <Form autoComplete='off'>
         <MobileContainer>
@@ -84,6 +89,29 @@ const SendMoneyFirstStep = ({
                         </FormButton>
                     </List.Item>
                 </List>
+                {implicitAccountModal && (
+                    <Modal
+                        id='next-step-modal'
+                        isOpen={implicitAccountModal}
+                        onClose={handleCloseModal}
+                        closeButton='desktop'
+                    >
+                        <ModalTheme/>
+                        <MobileActionSheet/>
+
+                        <div className='warning'>
+                            <IconProblems color='#fca347' />
+                            <h1>Warning</h1>
+                            <div>If this is an exchange account, or an account you control, please double check the account ID. If the account name is entered incorrectly, your funds will be lost forever.</div>
+                        </div>
+                        <FormButton
+                            onClick={handleNextStep}
+                            color='blue'
+                        >
+                            <Translate id='button.confirm' />
+                        </FormButton>
+                    </Modal>
+                )}
             </Fragment>
         </MobileContainer>
     </Form>

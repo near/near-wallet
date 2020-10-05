@@ -20,6 +20,7 @@ class SendMoney extends Component {
         amount: '',
         amountStatus: '',
         implicitAccount: false,
+        implicitAccountModal: false
     }
 
     async componentDidMount() {
@@ -73,7 +74,7 @@ class SendMoney extends Component {
 
     handleNextStep = async (e) => {
         e.preventDefault()
-        const { step, accountId, amount } = this.state
+        const { step, accountId, amount, implicitAccount, implicitAccountModal } = this.state
 
         if (step === 2) {
             this.setState(() => ({
@@ -143,7 +144,7 @@ class SendMoney extends Component {
     isImplicitAccount = (accountId) => accountId.length === 64
 
     render() {
-        const { step } = this.state
+        const { step, implicitAccountModal } = this.state
         const { formLoader, requestStatus, checkAccountAvailable, setFormLoader, clear, accountId } = this.props
 
         return (
@@ -160,6 +161,7 @@ class SendMoney extends Component {
                         setFormLoader={setFormLoader}
                         stateAccountId={accountId}
                         defaultAccountId={this.props.match.params.id || this.state.accountId}
+                        implicitAccountModal={implicitAccountModal}
                         {...this.state}
                     />
                 )}
