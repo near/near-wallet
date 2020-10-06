@@ -41,6 +41,11 @@ const Container = styled.div`
         margin-top: 30px !important;
     }
 
+    .ledger-disclaimer {
+        font-style: italic;
+        margin-top: 50px;
+    }
+
 `
 
 const StakeConfirmModal = ({ open, onClose, onConfirm, validatorName, amount, loading, title, disclaimer }) => {
@@ -56,7 +61,7 @@ const StakeConfirmModal = ({ open, onClose, onConfirm, validatorName, amount, lo
                 <h2><Translate id={title}/></h2>
                 <Balance amount={amount} />
                 <ValidatorBox validator={validatorName} clickable={false} label={true}/>
-                {disclaimer && <div style={{ fontStyle: 'italic', marginTop: '50px' }}><Translate id={`staking.disclaimer.${disclaimer}`}/></div>}
+                {disclaimer && <div className='ledger-disclaimer'><Translate id={disclaimer}/></div>}
                 <FormButton disabled={loading} sending={loading} color='green' onClick={onConfirm}>
                     <Translate id='button.confirmAndSend'/>
                 </FormButton>

@@ -75,17 +75,14 @@ const StyledContainer = styled(Container)`
     .withdrawal-disclaimer {
         font-style: italic;
         line-height: 140%;
-    }
-
-    .withdrawal-disclaimer {
-        margin-top: 20px
+        margin-top: 20px;
     }
 `
 
 export function StakingContainer({ history }) {
     const dispatch = useDispatch()
     const staking = useSelector(({ staking }) => staking)
-    const { actionsPending, balance } = useSelector(({ account }) => account);
+    const { actionsPending, balance, ledgerKey } = useSelector(({ account }) => account);
     let validators = staking.validators
     const currentValidators = validators.filter(v => v.staked !== '0' || v.available !== '0' || v.pending !== '0')
     validators = currentValidators.length ? currentValidators : validators
@@ -161,6 +158,7 @@ export function StakingContainer({ history }) {
                                 validators={validators}
                                 handleGetValidators={handleGetValidators}
                                 loading={loading}
+                                hasLedger={ledgerKey}
                             />
                         )}
                     />

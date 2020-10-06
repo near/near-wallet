@@ -14,7 +14,7 @@ import isDecimalString from '../../../utils/isDecimalString'
 import { onKeyDown } from '../../../hooks/eventListeners'
 import { toNear } from '../../../utils/amounts'
 
-export default function Stake({ match, validators, useLockup, loading, handleGetValidators, availableBalance }) {
+export default function Stake({ match, validators, useLockup, loading, handleGetValidators, availableBalance, hasLedger }) {
     const dispatch = useDispatch()
     const [confirm, setConfirm] = useState()
     const [amount, setAmount] = useState('')
@@ -80,6 +80,7 @@ export default function Stake({ match, validators, useLockup, loading, handleGet
                         onConfirm={handleStake} 
                         onClose={() => setConfirm(false)}
                         loading={loading}
+                        disclaimer={hasLedger ? 'staking.stake.ledgerDisclaimer' : ''}
                     />
                 }
             </>
