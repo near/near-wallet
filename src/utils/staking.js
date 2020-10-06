@@ -110,6 +110,7 @@ export class Staking {
                 const isAvailable = await validator.contract.is_account_unstaked_balance_available({ account_id })
                 if (isAvailable) {
                     validator.available = validator.unstaked
+                    totalAvailable.add(new BN(validator.available, 10))
                 } else {
                     validator.pending = validator.unstaked
                 }
