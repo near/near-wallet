@@ -5,7 +5,7 @@
             "error": "Failed to send SMS with code."
         },
         "recoverAccount": {
-            "success": "Recover using Seed Phrase is complete.<br/><b>${numberOfAccounts} account(s)</b> have been successfully recovered: <b>${accountList}</b>.<br/>The last one is set as active.",
+            "success": "Recover using Seed Phrase is complete.<br/><b>${numberOfAccounts} account(s)</b> have been successfully recovered.</b>.<br/>The last one is set as active.",
             "error": "Failed to recover account. No accounts were found for this seed phrase.",
             "errorInvalidSeedPhrase": "No accounts were found for this seed phrase."
         },
