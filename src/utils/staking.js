@@ -85,8 +85,8 @@ export class Staking {
 
     async updateStakingLockup(validators) {
         const { contract, lockupId: account_id } = await this.getLockup()
-
         const selectedValidator = await contract.get_staking_pool_account_id()
+
         if (!selectedValidator) {
             return {
                 accountId: account_id,
@@ -94,6 +94,7 @@ export class Staking {
                 totalUnstaked: await contract.get_owners_balance()
             }
         }
+
         const validator = validators.find((v) => v.accountId === selectedValidator)
         const deposited = new BN(await contract.get_known_deposited_balance(), 10)
         let totalUnstaked = (new BN(await contract.get_owners_balance(), 10)).sub(deposited)
@@ -110,16 +111,18 @@ export class Staking {
                 const isAvailable = await validator.contract.is_account_unstaked_balance_available({ account_id })
                 if (isAvailable) {
                     validator.available = validator.unstaked
-                    totalAvailable.add(new BN(validator.available, 10))
+                    totalAvailable = totalAvailable.add(new BN(validator.unstaked, 10))
                 } else {
                     validator.pending = validator.unstaked
                 }
+            } else {
+                console.log(validator.accountId)
             }
             totalUnstaked = totalUnstaked.add(new BN(validator.unstaked, 10))
             totalStaked = totalStaked.add(new BN(validator.staked, 10))
             totalUnclaimed = totalUnclaimed.add(new BN(validator.unclaimed, 10))
         } catch (e) {
-            console.warn(e)
+            console.warn('Error getting data for validator', validator.accountId, e)
         }
 
         return {
