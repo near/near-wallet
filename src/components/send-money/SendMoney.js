@@ -150,7 +150,7 @@ class SendMoney extends Component {
     isImplicitAccount = (accountId) => accountId.length === 64
 
     render() {
-        const { step, implicitAccountModal } = this.state
+        const { step, implicitAccountModal, implicitAccount } = this.state
         const { formLoader, requestStatus, checkAccountAvailable, setFormLoader, clear, accountId } = this.props
 
         return (
@@ -169,6 +169,7 @@ class SendMoney extends Component {
                         defaultAccountId={this.props.match.params.id || this.state.accountId}
                         implicitAccountModal={implicitAccountModal}
                         handleCloseModal={this.handleCloseModal}
+                        implicitAccount={implicitAccount}
                         {...this.state}
                     />
                 )}

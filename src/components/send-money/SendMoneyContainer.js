@@ -18,6 +18,15 @@ const CustomList = styled(List)`
             padding: 0;
         }
 
+        .implicitAccount {
+            input[name=accountId] {
+                border-color: #fca347 !important;
+            }
+            .alert-info {
+                color: #fca347;
+            }
+        }
+
         .list {
             padding: 0;
         }

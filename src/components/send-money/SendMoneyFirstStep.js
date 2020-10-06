@@ -34,7 +34,8 @@ const SendMoneyFirstStep = ({
     defaultAccountId,
     amountStatusId,
     implicitAccountModal,
-    handleCloseModal
+    handleCloseModal,
+    implicitAccount
 }) => (
     <Form autoComplete='off'>
         <MobileContainer>
@@ -43,7 +44,7 @@ const SendMoneyFirstStep = ({
                     title={<Translate id='sendMoney.pageTitle.default' />}
                     type='center'
                 />
-                <List className='list-top border'>
+                <List className={`list-top border ${implicitAccount ? 'implicitAccount' : ''}`}>
                     <List.Item>
                         <List.Content>
                             <Header as='h4' textAlign='left'><Translate id='sendMoney.accountIdInput.title' /></Header>
