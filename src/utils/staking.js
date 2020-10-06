@@ -1,12 +1,16 @@
 import * as nearApiJs from 'near-api-js'
 import sha256 from 'js-sha256';
 import BN from 'bn.js'
-import { toNear, nearTo, gtZero } from './amounts'
-import { queryExplorer } from './explorer-api'
+import { toNear } from './amounts'
 
 const {
     transactions: {
         functionCall
+    },
+    utils: {
+        format: {
+            parseNearAmount
+        }
     }
 } =  nearApiJs
 
@@ -101,6 +105,7 @@ export class Staking {
         let totalStaked = new BN('0', 10);
         let totalUnclaimed = new BN('0', 10);
         let totalAvailable = new BN('0', 10);
+        let totalPending = new BN('0', 10);
 
         try {
             const total = new BN(await validator.contract.get_account_total_balance({ account_id }), 10)
@@ -114,6 +119,7 @@ export class Staking {
                     totalAvailable = totalAvailable.add(new BN(validator.unstaked, 10))
                 } else {
                     validator.pending = validator.unstaked
+                    totalPending = totalPending.add(new BN(validator.unstaked, 10))
                 }
             } else {
                 console.log(validator.accountId)
@@ -128,6 +134,7 @@ export class Staking {
         return {
             accountId: account_id,
             selectedValidator,
+            totalPending: totalPending.toString(),
             totalAvailable: totalAvailable.toString(),
             totalStaked: totalStaked.toString(),
             totalUnstaked: totalUnstaked.toString(),
@@ -175,7 +182,7 @@ export class Staking {
     ********************************/
 
     async stake(useLockup, validatorId, amount) {
-        amount = toNear(amount)
+        amount = parseNearAmount(amount)
         const { contract, lockupId } = await this.getLockup()
         const selectedValidatorId = await contract.get_staking_pool_account_id()
         console.log('selectedValidatorId', selectedValidatorId)
@@ -201,7 +208,7 @@ export class Staking {
         const { lockupId } = await this.getLockup()
         const unstake_all = await this.signAndSendTransaction(lockupId, [
             functionCall('unstake_all', {}, GAS_STAKE)
-        ])  
+        ])
         console.log('unstake_all', unstake_all)
     }
 

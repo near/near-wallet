@@ -10,6 +10,7 @@ const initialState = {
     useLockup: true,
     selectedValidator: '',
     // all validators
+    totalPending: '0', // pending withdrawal
     totalAvailable: '0', // available for withdrawal
     totalUnstaked: '0', // available to be staked
     totalStaked: '0', 
