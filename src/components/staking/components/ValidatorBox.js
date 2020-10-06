@@ -83,10 +83,10 @@ const Container = styled.div`
 
     button {
         &.gray-blue {
-            width: 72px !important;
+            width: auto !important;
             margin: 0 !important;
             margin-left: auto !important;
-            padding: 0px !important;
+            padding: 0px 10px !important;
             height: 34px !important;
         }
     }
@@ -102,8 +102,6 @@ const Container = styled.div`
         border: 2px solid #F2F2F2;
         left: 50%;
         transform: translateX(-50%);
-
-
     }
 `
 
