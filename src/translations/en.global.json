@@ -601,7 +601,7 @@
             "withdraw": "You are withdrawing"
         },
         "disclaimer": {
-            "unstake": "Note: You must wait 36 to 48 hours (3 full epochs) after unstaking to withdraw your tokens. At that time, they will appear in the “Available for withdrawal” section."
+            "unstake": "WARNING: Once you unstake, you cannot restake for 36 to 48 hours (3 full epochs). After this time, your tokens will be ready to withdraw, and you can restake."
         }
     },
     "profile": {
