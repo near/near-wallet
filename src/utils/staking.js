@@ -216,15 +216,11 @@ export class Staking {
     // helpers for lockup
 
     async lockupStake(lockupId, validatorId, amount) {
-        try {
-            const deposit_and_stake = await this.signAndSendTransaction(lockupId, [
-                functionCall('deposit_and_stake', { amount }, GAS_STAKE)
-            ])
-            console.log('deposit_and_stake', deposit_and_stake)
-            return deposit_and_stake
-        } catch (e) {
-            console.warn('Problem staking with validator', validatorId, e)
-        }
+        const deposit_and_stake = await this.signAndSendTransaction(lockupId, [
+            functionCall('deposit_and_stake', { amount }, GAS_STAKE)
+        ])
+        console.log('deposit_and_stake', deposit_and_stake)
+        return deposit_and_stake
     }
 
     async lockupSelect(validatorId, lockupId, unselect = false) {
