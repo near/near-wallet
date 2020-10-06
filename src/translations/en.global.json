@@ -23,8 +23,8 @@
             "success": "User found.",
             "error": "User not found.",
             "errorSameAccount": "Cannot send to yourself.",
-            "implicitAccount": "Warning: Implicit account!",
-            "implicitAccountModal": "If this is an exchange account, or an account you control, please double check the account ID. If the account name is entered incorrectly, your funds will be lost forever."
+            "implicitAccount": "Always double check the account ID",
+            "implicitAccountModal": "Please double check the account ID, especially if this is an exchange account. If the account ID is entered incorrectly, your funds will be lost forever."
         },
         "verifySeedPhrase": {
             "error": "You entered the incorrect word"
