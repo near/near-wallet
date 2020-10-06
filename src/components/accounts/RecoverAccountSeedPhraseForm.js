@@ -2,7 +2,6 @@ import React from 'react'
 import { Translate } from 'react-localize-redux'
 import { Input } from 'semantic-ui-react'
 import FormButton from '../common/FormButton'
-import RequestStatusBox from '../common/RequestStatusBox'
 import classNames from '../../utils/classNames'
 
 const RecoverAccountSeedPhraseForm = ({
@@ -28,7 +27,6 @@ const RecoverAccountSeedPhraseForm = ({
                     />
                 )}
             </Translate>
-            <RequestStatusBox requestStatus={requestStatus} />
             <FormButton
                 type='submit'
                 color='blue'
