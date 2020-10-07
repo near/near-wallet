@@ -136,6 +136,7 @@ class AccountFormAccountId extends Component {
             return false
         }
         if (this.isImplicitAccount(accountId)) {
+            return true
         }
         if (!(type === 'create' && !this.handleAccountIdLengthState(accountId) && !this.checkAccountIdLength(accountId))) {
             return this.props.checkAvailability(type === 'create' ? this.props.accountId : accountId) 
