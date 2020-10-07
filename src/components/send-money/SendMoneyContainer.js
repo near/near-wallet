@@ -83,7 +83,7 @@ const CustomList = styled(List)`
             margin: -20px auto 12px auto;
         }
         .list-top {
-            padding: 24px 24px 36px;
+            padding: 24px 24px 24px;
             min-height: 100px;
             margin-top: 14px;
 
