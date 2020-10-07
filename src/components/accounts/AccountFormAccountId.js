@@ -141,6 +141,7 @@ class AccountFormAccountId extends Component {
         if (!(type === 'create' && !this.handleAccountIdLengthState(accountId) && !this.checkAccountIdLength(accountId))) {
             return this.props.checkAvailability(type === 'create' ? this.props.accountId : accountId) 
         }
+        return false
     }
 
     isSameAccount = () => this.props.type !== 'create' && this.props.stateAccountId === this.state.accountId
@@ -175,17 +176,25 @@ class AccountFormAccountId extends Component {
     }
 
     get requestStatusWithFormValidation() {
-        return this.state.accountId
-            ? this.isImplicitAccount(this.state.accountId)
-                ? this.implicitAccountRequestStatus
-                : this.props.formLoader
-                    ? this.loaderRequestStatus
-                    : this.state.invalidAccountIdLength
-                        ? this.accountIdLengthRequestStatus
-                        : this.isSameAccount()
-                            ? this.sameAccountRequestStatus
-                            : this.props.requestStatus
-            : null
+        const { accountId, invalidAccountIdLength } = this.state
+        const { formLoader, requestStatus } = this.props
+
+        if (!accountId) {
+            return null
+        }
+        if (this.isImplicitAccount(accountId)) {
+            return this.implicitAccountRequestStatus
+        }
+        if (formLoader) {
+            return this.loaderRequestStatus
+        }
+        if (invalidAccountIdLength) {
+            return this.accountIdLengthRequestStatus
+        }
+        if (this.isSameAccount()) {
+            return this.sameAccountRequestStatus
+        }
+        return requestStatus
     }
 
     render() {
