@@ -170,7 +170,7 @@ class AccountFormAccountId extends Component {
 
     get implicitAccountRequestStatus() {
         return {
-            success: false,
+            success: true,
             messageCode: 'account.available.implicitAccount'
         }
     }
