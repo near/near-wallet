@@ -45,6 +45,7 @@ const Container = styled.div`
                 max-width: 165px;
                 overflow: hidden;
                 text-overflow: ellipsis;
+                white-space: nowrap;
 
                 @media (max-width: 350px) {
                     max-width: 113px;
