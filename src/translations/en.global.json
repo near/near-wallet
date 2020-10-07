@@ -601,6 +601,10 @@
             "withdrawalDisclaimer": "36 to 48 hours (3 full epochs) are required until your funds will be available for withdrawal.",
             "unstake": "You are unstaking",
             "withdraw": "You are withdrawing"
+        },
+        "balanceBanner": {
+            "title": "Available lockup balance",
+            "currency": "NEAR"
         }
     },
     "profile": {

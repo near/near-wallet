@@ -77,6 +77,10 @@ const StyledContainer = styled(Container)`
         line-height: 140%;
         margin-top: 20px;
     }
+
+    .balance-banner {
+        margin-bottom: 40px;
+    }
 `
 
 export function StakingContainer({ history }) {
@@ -121,6 +125,7 @@ export function StakingContainer({ history }) {
                                 {...staking} 
                                 currentValidators={currentValidators}
                                 selectedValidator={selectedValidator}
+                                availableBalance={availableBalance}
                             />
                         )}
                     />

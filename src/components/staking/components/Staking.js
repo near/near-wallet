@@ -4,10 +4,12 @@ import BalanceBox from './BalanceBox'
 import ValidatorBox from './ValidatorBox'
 import ListWrapper from './ListWrapper'
 import { Translate } from 'react-localize-redux'
+import BalanceBanner from './BalanceBanner'
 
-export default function Staking({ currentValidators, totalStaked, totalUnclaimed, totalAvailable, totalPending, selectedValidator }) {
+export default function Staking({ currentValidators, totalStaked, totalUnclaimed, totalAvailable, totalPending, selectedValidator, availableBalance }) {
     return (
         <>
+            <BalanceBanner amount={availableBalance}/>
             <h1><Translate id='staking.staking.title' /></h1>
             <div className='desc'><Translate id='staking.staking.desc' /></div>
             <FormButton linkTo='/staking/validators'><Translate id='staking.staking.button' /></FormButton>
