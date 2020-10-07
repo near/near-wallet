@@ -104,7 +104,8 @@ class SendMoneyAmountInput extends Component {
         let amountInInternalFormat = ''
         if (value !== '') {
             amountInInternalFormat = utils.format.parseNearAmount(value);
-            let balance = new BN(this.props.balance.available)
+            const { available, liquidOwnersBalance } = this.props.balance;
+            let balance = new BN(available).add(new BN(liquidOwnersBalance));
             if (balance.lt(new BN(amountInInternalFormat))) {
                 amountStatusId = 'sendMoney.amountStatusId.notEnoughTokens'
             }
