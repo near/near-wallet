@@ -120,6 +120,7 @@ export function StakingContainer({ history }) {
                             <Staking
                                 {...staking} 
                                 currentValidators={currentValidators}
+                                selectedValidator={selectedValidator}
                             />
                         )}
                     />
