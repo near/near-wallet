@@ -120,6 +120,7 @@ class SendMoneyAmountInput extends Component {
         return (
             <CustomDiv fontSize={`${fontSize}px`}>
                 <Form.Input
+                    type="number"
                     name='amountInput'
                     value={amountInput}
                     onChange={this.handleChangeAmount}
@@ -128,7 +129,6 @@ class SendMoneyAmountInput extends Component {
                     min='1'
                     tabIndex='2'
                     required={true}
-                    pattern='^(\d*\.)?\d*$'
                 />
                 {amountStatusId && (
                     <Segment basic textAlign='center' className='alert-info problem'>
