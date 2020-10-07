@@ -42,6 +42,10 @@ const CustomList = styled(List)`
             padding-top: 24px;
             padding-left: 0;
             padding-right: 0;
+
+            button {
+                width: 100%;
+            }
         }
         .goback {
             font-weight: 600;
@@ -57,6 +61,7 @@ const CustomList = styled(List)`
                 margin: 0;
                 padding: 0;
                 color: #0072ce;
+                width: 100%;
 
                 :hover,
                 :focus {
