@@ -238,11 +238,12 @@ export class Staking {
     async getLockup() {
         const accountId = this.wallet.accountId
 
+        let lockupId
         if (process.env.REACT_APP_NETWORK_ID === 'mainnet') {
             lockupId = await getLockupId(accountId)
         } else {
             // TODO remove for main release - for testnet and betanet
-            let lockupId = `testinglockup.${accountId}`
+            lockupId = `testinglockup.${accountId}`
             try {
                 await (await new nearApiJs.Account(this.wallet.connection, lockupId)).state()
             } catch(e) {
