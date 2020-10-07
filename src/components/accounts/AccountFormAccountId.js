@@ -131,18 +131,17 @@ class AccountFormAccountId extends Component {
         invalidAccountIdLength: !!accountId && !this.checkAccountIdLength(accountId)
     }))
 
-    handleCheckAvailability = (accountId, type) => (
-        accountId
-            && this.isImplicitAccount()
-            || (
-                !(
-                    type === 'create' 
-                    && (!this.handleAccountIdLengthState(accountId) 
-                    && !this.checkAccountIdLength(accountId))
-                )
-                && this.props.checkAvailability(type === 'create' ? this.props.accountId : accountId) 
-            )
-    )
+    handleCheckAvailability = (accountId, type) => {
+        if (!accountId) {
+            return false
+        }
+        if (this.isImplicitAccount()) {
+            return type !== 'create' 
+        }
+        if (!(type === 'create' && !this.handleAccountIdLengthState(accountId) && !this.checkAccountIdLength(accountId))) {
+            return this.props.checkAvailability(type === 'create' ? this.props.accountId : accountId) 
+        }
+    }
 
     isSameAccount = () => this.props.type !== 'create' && this.props.stateAccountId === this.state.accountId
 
