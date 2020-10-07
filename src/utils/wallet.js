@@ -17,6 +17,7 @@ import { setSignTransactionStatus, setLedgerTxSigned, showLedgerModal, redirectT
 
 import { TwoFactor } from './twoFactor'
 import { Staking } from './staking'
+import { decorateWithLockup } from './account-with-lockup'
 
 export const WALLET_CREATE_NEW_ACCOUNT_URL = 'create'
 export const WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS = ['create', 'set-recovery', 'setup-seed-phrase', 'recover-account', 'recover-seed-phrase', 'sign-in-ledger']
@@ -147,15 +148,15 @@ class Wallet {
         this.accountId = accountId
         this.save()
     }
-    
+
     isLegitAccountId(accountId) {
         return ACCOUNT_ID_REGEX.test(accountId)
     }
-    
+
     async sendMoney(receiverId, amount) {
         await this.getAccount(this.accountId).sendMoney(receiverId, amount)
     }
-    
+
     isEmpty() {
         return !this.accounts || !Object.keys(this.accounts).length
     }
@@ -171,7 +172,7 @@ class Wallet {
             if (error.toString().indexOf('does not exist while viewing') !== -1) {
                 const accountId = this.accountId
                 const accountIdNotConfirmed = !getAccountConfirmed(accountId)
-                
+
                 this.clearAccountState()
                 const nextAccountId = Object.keys(this.accounts).find((account) => (
                     getAccountConfirmed(account)
@@ -215,10 +216,10 @@ class Wallet {
                 accounts: this.accounts,
                 accessKeys,
                 authorizedApps: accessKeys.filter(it => (
-                    it.access_key 
-                    && it.access_key.permission.FunctionCall 
+                    it.access_key
+                    && it.access_key.permission.FunctionCall
                     && it.access_key.permission.FunctionCall.receiver_id !== this.accountId
-                )), 
+                )),
                 fullAccessKeys: accessKeys.filter(it => (
                     it.access_key
                      && it.access_key.permission === 'FullAccess'
@@ -236,6 +237,7 @@ class Wallet {
         accountId = accountId || this.accountId
         if (!accountId) return null
 
+        window.account = this.getAccount(accountId)
         const accessKeys = await this.getAccount(accountId).getAccessKeys()
         return Promise.all(accessKeys.map(async (accessKey) => ({
             ...accessKey,
@@ -411,7 +413,7 @@ class Wallet {
     }
 
     /********************************
-    recovering a second account attempts to call this method with the currently logged in account and not the tempKeyStore 
+    recovering a second account attempts to call this method with the currently logged in account and not the tempKeyStore
     ********************************/
     // TODO: Why is fullAccess needed? Everything without contractId should be full access.
     async addAccessKey(accountId, contractId, publicKey, fullAccess = false, methodNames) {
@@ -462,7 +464,7 @@ class Wallet {
         await this.getAccessKeys(this.accountId)
 
         await this.deleteRecoveryMethod({ kind: 'ledger', publicKey: publicKey.toString() })
-        
+
     }
 
     async addWalletMetadataAccessKeyIfNeeded(accountId, localAccessKey) {
@@ -568,14 +570,17 @@ class Wallet {
     }
 
     getAccount(accountId) {
+        let account
         if (accountId === this.accountId && this.has2fa) {
-            return this.twoFactor
+            account = this.twoFactor
         }
-        return new nearApiJs.Account(this.connection, accountId)
+        account = new nearApiJs.Account(this.connection, accountId)
+
+        // TODO: Check if lockup needed somehow? Should be changed to async? Should just check in wrapper?
+        return decorateWithLockup(account, new nearApiJs.Account(this.connection, this.getLockupAccountId(accountId)));
     }
 
-    async getLockupAccountId(accountId) {
-        // TODO: Should lockup contract balance be retrieved separately only when needed?
+    getLockupAccountId(accountId) {
         return sha256(Buffer.from(accountId)).substring(0, 40)  + '.' + LOCKUP_ACCOUNT_ID_SUFFIX
     }
 
@@ -584,7 +589,7 @@ class Wallet {
 
         const account = this.getAccount(accountId)
         const balance = await account.getAccountBalance()
-        const lockupAccountId = await this.getLockupAccountId(accountId)
+        const lockupAccountId = this.getLockupAccountId(accountId)
 
         try {
             // TODO: Makes sense for a lockup contract to return whole state as JSON instead of method per property
@@ -778,7 +783,7 @@ class Wallet {
             account.keyStore = tempKeyStore
             account.inMemorySigner = new nearApiJs.InMemorySigner(tempKeyStore)
             const newKeyPair = KeyPair.fromRandom('ed25519')
-            
+
             await this.addAccessKey(accountId, accountId, newKeyPair.publicKey, fromSeedPhraseRecovery)
             if (i === accountIds.length - 1) {
                 await this.saveAndSelectAccount(accountId, newKeyPair)
