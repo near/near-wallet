@@ -182,7 +182,7 @@ const CustomButton = styled(Button)`
             }
 
             :disabled {
-                background-color: #CCCCCC;
+                background-color: #e6e6e6;
                 color: white;
             }
         }
