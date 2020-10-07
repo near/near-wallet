@@ -44,9 +44,9 @@ const SendMoneyFirstStep = ({
                     title={<Translate id='sendMoney.pageTitle.default' />}
                     type='center'
                 />
-                <List className={`list-top border ${implicitAccount ? 'implicitAccount' : ''}`}>
+                <List className='list-top border'>
                     <List.Item>
-                        <List.Content>
+                        <List.Content className={implicitAccount ? 'implicitAccount' : ''}>
                             <Header as='h4' textAlign='left'><Translate id='sendMoney.accountIdInput.title' /></Header>
                             <AccountFormAccountId
                                 formLoader={formLoader}
