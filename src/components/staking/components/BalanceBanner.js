@@ -22,12 +22,13 @@ const Container = styled.div`
 
     > div {
         margin-left: 15px;
-        padding-top: 5px;
+        padding-top: 4px;
+        font-size: 13px;
 
         div {
             color: #24272a;
             font-family: BwSeidoRound;
-            margin-top: 5px;
+            margin-top: 4px;
             font-size: 18px;
             font-weight: 500;
 
