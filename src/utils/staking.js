@@ -1,7 +1,6 @@
 import * as nearApiJs from 'near-api-js'
 import sha256 from 'js-sha256';
 import BN from 'bn.js'
-import { toNear } from './amounts'
 
 const {
     transactions: {
@@ -70,12 +69,7 @@ export class Staking {
     constructor(wallet) {
         this.wallet = wallet
         this.provider = wallet.connection.provider
-        // window.staking = this
     }
-
-    /********************************
-    Updating staking state depending on lockup/account selected
-    ********************************/
 
     async updateStaking(useLockup) {
         const validators = await this.getValidators()
@@ -154,7 +148,7 @@ export class Staking {
         return (await Promise.all(
             (await this.provider.validators()).current_validators
 
-            // TODO remove this for mainnet WIP user testing
+            // TODO remove for mainnet
             .filter(({ account_id }) => process.env.REACT_APP_NETWORK_ID === 'betanet' ? BETANET_WHITELIST.includes(account_id) : true)
             
             .map(({ account_id }) => (async () => {
@@ -177,10 +171,7 @@ export class Staking {
         )).filter((v) => !!v)
     }
 
-    /********************************
-    Staking
-    ********************************/
-
+    // useLockup will be set by user in redux state and passed through actions
     async stake(useLockup, validatorId, amount) {
         amount = parseNearAmount(amount)
         const { contract, lockupId } = await this.getLockup()
@@ -191,18 +182,7 @@ export class Staking {
             await this.lockupSelect(validatorId, lockupId, selectedValidatorId !== null)
         }
         return await this.lockupStake(lockupId, validatorId, amount)
-        
-        // WIP staking from account directly
-        // const deposit_and_stake = await this.signAndSendTransaction(validatorId, [
-        //     functionCall('deposit_and_stake', {}, GAS_STAKE, amount)
-        // ])
-        // console.log('deposit_and_stake', deposit_and_stake)
-        // return deposit_and_stake
     }
-
-    /********************************
-    Lockup helpers
-    ********************************/
 
     async unstake(useLockup) {
         const { lockupId } = await this.getLockup()
@@ -241,7 +221,6 @@ export class Staking {
                 ])
                 console.log('unselect_staking_pool', unselect_staking_pool)
             } catch (e) {
-                // error "There is still a deposit on the staking pool"
                 console.warn('Problem unselecting validator', validatorId, e)
             }
         }
@@ -251,7 +230,6 @@ export class Staking {
             ])
             console.log('select_staking_pool', select_staking_pool)
         } catch (e) {
-            // error "Staking pool is already selected"
             console.warn('Problem selecting validator', validatorId, e)
             throw new Error('Cannot select validator')
         }
@@ -260,16 +238,17 @@ export class Staking {
     async getLockup() {
         const accountId = this.wallet.accountId
 
-        // TODO remove this for mainnet - WIP for user testing
-        let lockupId = `testinglockup.${accountId}`
-        try {
-            await (await new nearApiJs.Account(this.wallet.connection, lockupId)).state()
-        } catch(e) {
-            lockupId = testLockup[accountId] ? testLockup[accountId] : await getLockupId(accountId)
+        if (process.env.REACT_APP_NETWORK_ID === 'mainnet') {
+            lockupId = await getLockupId(accountId)
+        } else {
+            // TODO remove for main release - for testnet and betanet
+            let lockupId = `testinglockup.${accountId}`
+            try {
+                await (await new nearApiJs.Account(this.wallet.connection, lockupId)).state()
+            } catch(e) {
+                lockupId = testLockup[accountId] ? testLockup[accountId] : await getLockupId(accountId)
+            }
         }
-
-        // TODO use this for mainnet
-        // lockupId = await getLockupId(accountId)
 
         const contract = await this.getContractInstance(lockupId, lockupMethods)
         return { contract, lockupId, accountId }
@@ -285,8 +264,7 @@ export class Staking {
         }
     }
 
-    // helper for 2fa / signTx
-
+    // helper for 2fa / signTx until refactor is merged
     async signAndSendTransaction(receiverId, actions) {
         const { accountId } = this.wallet
         const { account, has2fa } = await this.wallet.getAccountAndState(accountId)
