@@ -5,6 +5,7 @@ import ValidatorBox from './ValidatorBox'
 import ListWrapper from './ListWrapper'
 import { Translate } from 'react-localize-redux'
 import BalanceBanner from './BalanceBanner'
+import NoValidators from './NoValidators'
 
 export default function Staking({ currentValidators, totalStaked, totalUnclaimed, totalAvailable, totalPending, selectedValidator, availableBalance }) {
     return (
@@ -50,7 +51,7 @@ export default function Staking({ currentValidators, totalStaked, totalUnclaimed
                 )}
             </ListWrapper>
             ) : (
-                <div style={{ marginTop: '20px' }}><Translate id='staking.staking.noValidators' /></div>
+                <NoValidators/>
             )}
         </>
     )

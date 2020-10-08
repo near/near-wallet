@@ -605,6 +605,9 @@
         "balanceBanner": {
             "title": "Available lockup balance",
             "currency": "NEAR"
+        },
+        "noValidators": {
+            "title": "You are not currently staking with any validators."
         }
     },
     "profile": {

@@ -12,15 +12,23 @@ const Container = styled.div`
     padding: 15px;
     border-radius: 4px;
 
-    svg {
+    .icon-background {
         background-color: #ABF3D2;
         border-radius: 50%;
-        padding: 10px;
         width: 40px;
         height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding-bottom: 2px;
+
+        svg {
+            width: 18px;
+            height: 19px;
+        }
     }
 
-    > div {
+    .content {
         margin-left: 15px;
         padding-top: 4px;
         font-size: 13px;
@@ -45,8 +53,10 @@ export default function BalanceBanner({ amount }) {
     
     return (
         <Container className='balance-banner'>
-            <LockIcon/>
-            <div>
+            <div className='icon-background'>
+                <LockIcon/>
+            </div>
+            <div className='content'>
                 <Translate id='staking.balanceBanner.title' />
                 <div><Balance amount={amount} noSymbol={true} /> <span><Translate id='staking.balanceBanner.currency' /></span></div>
             </div>

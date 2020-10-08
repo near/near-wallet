@@ -203,6 +203,11 @@ const CustomButton = styled(Button)`
                 border-color: #f8f8f8;
                 background: #fff;
             }
+
+            &.dark {
+                border-color: #EFEFEF;
+                background: #EFEFEF;
+            }
         }
         &.link {
             width: auto;
