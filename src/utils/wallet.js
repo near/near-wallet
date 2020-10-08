@@ -577,45 +577,14 @@ class Wallet {
         account = new nearApiJs.Account(this.connection, accountId)
 
         // TODO: Check if lockup needed somehow? Should be changed to async? Should just check in wrapper?
-        return decorateWithLockup(account, new nearApiJs.Account(this.connection, this.getLockupAccountId(accountId)));
-    }
-
-    getLockupAccountId(accountId) {
-        return sha256(Buffer.from(accountId)).substring(0, 40)  + '.' + LOCKUP_ACCOUNT_ID_SUFFIX
+        return decorateWithLockup(account, new nearApiJs.Account(this.connection));
     }
 
     async getBalance(accountId) {
         accountId = accountId || this.accountId
 
         const account = this.getAccount(accountId)
-        const balance = await account.getAccountBalance()
-        const lockupAccountId = this.getLockupAccountId(accountId)
-
-        try {
-            // TODO: Makes sense for a lockup contract to return whole state as JSON instead of method per property
-            const [
-                ownersBalance,
-                liquidOwnersBalance,
-                lockedAmount,
-            ] = await Promise.all([
-                'get_owners_balance',
-                'get_liquid_owners_balance',
-                'get_locked_amount',
-            ].map(methodName => account.viewFunction(lockupAccountId, methodName)))
-
-            return {
-                ...balance,
-                ownersBalance,
-                liquidOwnersBalance,
-                lockedAmount,
-                total: new BN(balance.total).add(new BN(lockedAmount)).add(new BN(ownersBalance)).toString()
-            }
-        } catch (error) {
-            if (error.message.match(/Account ".+" doesn't exist/) || error.message.includes('cannot find contract code for account')) {
-                return balance
-            }
-            throw error
-        }
+        return await account.getAccountBalance()
     }
 
     async signatureFor(account) {
