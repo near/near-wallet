@@ -143,7 +143,7 @@ const KeyListItem = ({
                                         }
                                         {
                                             link.onClick &&
-                                            <span onClick={link.onClick} className='color-black'>{link.label}</span>
+                                            <a href="#" onClick={link.onClick}><span className='color-black'>{link.label}</span></a>
                                         }
                                     </div>
                                 )

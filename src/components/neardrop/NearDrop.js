@@ -14,7 +14,10 @@ import DashboardKeys from '../dashboard/DashboardKeys'
 import './Drops.scss'
 
 const {
-    KeyPair, keyStores, Contract, Account
+    KeyPair, keyStores, Contract, Account,
+    transactions:  {
+        functionCall
+    }
 } = nearApi
 
 export const NETWORK_ID = process.env.REACT_APP_NETWORK_ID || 'default'
@@ -39,7 +42,7 @@ const get = (k) => JSON.parse(localStorage.getItem(k) || '[]')
 const set = (k, v) => localStorage.setItem(k, JSON.stringify(v))
 
 export const NearDrop = (props) => {
-    const contractName = 'linkdrop'
+    const contractName = 'testnet'
     const walletUrl = 'https://wallet.testnet.near.org'
     const accountId = useSelector((state) => state.account.accountId)
     const dropStorageKey = '__drops_' + accountId
@@ -47,31 +50,30 @@ export const NearDrop = (props) => {
     const contractAccount = new Account(wallet.connection, contractName)
     const keyStore = new keyStores.BrowserLocalStorageKeyStore(localStorage, 'nearlib:keystore:')
 
-    const [contract, setContract] = useState([])
+    const [contract, setContract] = useState(null)
     const [drops, setDrops] = useState([])
     const [showUsed, setShowUsed] = useState(false)
-    const [urlDrop, setUrlDrop] = useState()
+    const [sending, setSending] = useState(false)
+    const [claiming, setClaiming] = useState('')
 
-    const init = async () => {
-        const contract = await new Contract(account, contractName, {
-            viewMethods: ['get_key_balance'],
-            changeMethods: ['send', 'send_limited'],
-        });
-        setContract(contract)
-
-        updateDrops(true)
-        const url = new URL(window.location.href)
-        const key = url.searchParams.get('key')
-        const amount = url.searchParams.get('amount')
-        const from = url.searchParams.get('from')
-        const limited = url.searchParams.get('limited') === 'true'
-        if (key && amount && from) {
-            setUrlDrop({ key, amount, from, limited })
-        }
+    /********************************
+    Mounting init
+    ********************************/
+    const init = () => {
+        (async () => {
+            const contract = await new Contract(wallet.getAccount(), contractName, {
+                viewMethods: ['get_key_balance'],
+                changeMethods: ['send', 'send_limited'],
+            });
+            setContract(contract)
+        })()
     }
+    useEffect(init, [])
+
     useEffect(() => {
-        init()
-    }, [])
+        if (!contract) return
+        updateDrops(true)
+    }, [contract])
     /********************************
     Update drops (idb + state), add drop, remove drop
     ********************************/
@@ -87,8 +89,6 @@ export const NearDrop = (props) => {
             if (!check) {
                 continue
             }
-            // check drop is valid
-            const { contract } = window
             let res
             try {
                 res = await contract.get_key_balance({ key })
@@ -173,7 +173,7 @@ export const NearDrop = (props) => {
         const public_key = newKeyPair.public_key = newKeyPair.publicKey.toString().replace('ed25519:', '')
 
         // download keypair if user wants
-        const downloadKey = window.confirm('Download keypair before funding?')
+        const downloadKey = window.confirm('Download keypair backup file before funding drop?')
         if (downloadKey) {
             const { secretKey, public_key: publicKey } = JSON.parse(JSON.stringify(newKeyPair))
             downloadFile(public_key + '.txt', JSON.stringify({ publicKey, secretKey }))
@@ -182,14 +182,32 @@ export const NearDrop = (props) => {
         newKeyPair.amount = amount
         newKeyPair.ts = Date.now()
         await addDrop(newKeyPair)
-        // register the drop public key and send the amount to contract
-        const { contract } = window
+
+        setSending(true)
         try {
-            await contract.send({ public_key }, DROP_GAS, amount)
+            const actions = [
+                functionCall('send', { public_key }, DROP_GAS, amount)
+            ]
+            return await signAndSendTransaction(contractName, actions)
         } catch(e) {
             console.warn(e)
+            alert('Error occured creating drop. New Drop was moved to "Used Drops".')
+            await useDrop(public_key)
+        } finally {
+            setSending(false)
         }
     }
+
+    // helper for 2fa / signTx until refactor is merged
+    async function signAndSendTransaction(receiverId, actions) {
+        const { accountId } = wallet
+        const { account, has2fa } = await wallet.getAccountAndState(accountId)
+        if (has2fa) {
+            return wallet.signAndSendTransactions([{receiverId, actions}], accountId)
+        }
+        return account.signAndSendTransaction(receiverId, actions)
+    }
+
     /********************************
     Reclaim a drop / cancels the drop and claims to the current user
     ********************************/
@@ -202,16 +220,17 @@ export const NearDrop = (props) => {
         }
         const contract = await getContract([], ['claim'], drop.secretKey)
         // return funds to current user
-        await contract.claim({ account_id: accountId }, DROP_GAS)
-            .then(() => {
-                window.alert('Drop claimed')
-            })
-            .catch((e) => {
-                console.log(e)
-                alert('Unable to claim drop. The drop may have already been claimed.')
-            })
-        useDrop(public_key)
-        updateUser()
+        setClaiming(public_key)
+        try {
+            await contract.claim({ account_id: accountId }, DROP_GAS)
+            window.alert('Drop claimed')
+            useDrop(public_key)
+        } catch(e) {
+            console.log(e)
+            alert('Unable to claim drop. The drop may have already been claimed.')
+        } finally {
+            setClaiming('')
+        }
     }
 
     const activeDrops = drops.filter((d) => !d.used).sort((a, b) => b.ts - a.ts)
@@ -223,85 +242,66 @@ export const NearDrop = (props) => {
     return (
         <div className="root">
 
-            <FormButton color='green-white-arrow' onClick={() => fundDrop()}>
+            <FormButton color='green-white-arrow' sending={sending} onClick={() => fundDrop()}>
                 Create New Drop
             </FormButton>
             
             { activeDrops.length > 0 && 
-                <DashboardKeys
-                    image={AccessKeysIcon}
-                    title={'Active Drops'}
-                    empty={'No Drops'}
-                    accessKeys={activeDrops.map(({ public_key, amount, ts, walletLink }) => ({
-                        public_key,
-                        meta: { 
-                            type: null,
-                            amount: `${ nearTo(amount, 2) } Ⓝ`,
-                            created: howLongAgo(ts),
-                            links: [
-                                {
-                                    label: 'Open Wallet Link',
-                                    href: walletLink,
-                                },
-                                {
-                                    label: 'Claim and Archive Drop',
-                                    onClick: () => reclaimDrop(public_key)
-                                }
-                            ]
-                        },
-                    }))}
-                />
-            }
-            { showUsed ?
-                <>
-                    <FormButton onClick={() => setShowUsed(false)}>
-                        Hide Used Drops
-                    </FormButton>
-
+                <div className="drop">
                     <DashboardKeys
-                        image={AuthorizedGreyImage}
-                        title={'Used Drops'}
+                        image={AccessKeysIcon}
+                        title={'Active Drops'}
                         empty={'No Drops'}
-                        accessKeys={usedDrops.map(({ public_key, amount, ts, walletLink }) => ({
-                            public_key,
+                        accessKeys={activeDrops.map(({ public_key: pk, amount, ts, walletLink }) => ({
+                            public_key: `${ pk.substr(0, 8) }...${ pk.substr(36) }`,
                             meta: { 
                                 type: null,
                                 amount: `${ nearTo(amount, 2) } Ⓝ`,
                                 created: howLongAgo(ts),
                                 links: [
                                     {
-                                        label: 'Wallet Link',
+                                        label: 'Open Wallet Link',
                                         href: walletLink,
                                     },
                                     {
-                                        label: 'Archive Drop',
-                                        onClick: () => reclaimDrop(public_key)
+                                        label: claiming === pk ? 'Claiming Drop ...' : 'Claim and Move to "Used Drops"',
+                                        onClick: () => reclaimDrop(pk)
                                     }
                                 ]
                             },
                         }))}
                     />
+                </div>
+            }
+            { showUsed ?
 
-                    {/* 
-                    {
-                        usedDrops.length > 0 ? 
-                        <div className="drop">
-                        <h3>Used Drops</h3>
-                        {
-                            usedDrops.map(({ public_key, amount, ts, walletLink }) => <div className="drop" key={public_key}>
-                                <p className="funds">{nearTo(amount, 2)} Ⓝ</p>
-                                <p>For public key: {public_key.substring(0, 5)+'...'}</p>
-                                <p>{ howLongAgo(ts) }</p>
-                                <button onClick={async () => {
-                                    await clipboard.writeText(walletLink)
-                                    alert('Create Near Wallet link copied to clipboard')
-                                }}>Copy Near Wallet Link</button>
-                                <br/>
-                                <button onClick={() => removeDrop(public_key)}>Remove Drop</button>
-                            </div>)
-                        }
-                        </div> : <h3>No Used Drops</h3>
-                    } */}
+                <>
+                <FormButton onClick={() => setShowUsed(false)}>
+                    Hide Used Drops
+                </FormButton>
+                    <div className="drop">
+
+                        <DashboardKeys
+                            image={AuthorizedGreyImage}
+                            title={'Used Drops'}
+                            empty={'No Drops'}
+                            accessKeys={usedDrops.map(({ public_key: pk, amount, ts, walletLink }) => ({
+                                public_key: `${ pk.substr(0, 8) }...${ pk.substr(36) }`,
+                                meta: { 
+                                    type: null,
+                                    amount: `${ nearTo(amount, 2) } Ⓝ`,
+                                    // created: howLongAgo(ts),
+                                    links: [
+                                        {
+                                            label: 'Open Wallet Link',
+                                            href: walletLink,
+                                        }
+                                    ]
+                                },
+                            }))}
+                        />
+
+                    </div>
                 </>
                 :
                 <FormButton color="gray-blue" onClick={() => setShowUsed(true)}>
