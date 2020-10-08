@@ -92,6 +92,11 @@ class SendMoneyAmountInput extends Component {
         return REG.test(value)
     }
 
+    get availableBalance() {
+        const { available, liquidOwnersBalance } = this.props.balance;
+        return new BN(available).add(new BN(liquidOwnersBalance));
+    }
+
     handleChangeAmount = (e, { name, value }) => {
         if (!/^\d*[.]?\d*$/.test(value)) {
             return
@@ -104,9 +109,7 @@ class SendMoneyAmountInput extends Component {
         let amountInInternalFormat = ''
         if (value !== '') {
             amountInInternalFormat = utils.format.parseNearAmount(value);
-            const { available, liquidOwnersBalance } = this.props.balance;
-            let balance = new BN(available).add(new BN(liquidOwnersBalance));
-            if (balance.lt(new BN(amountInInternalFormat))) {
+            if (this.availableBalance.lt(new BN(amountInInternalFormat))) {
                 amountStatusId = 'sendMoney.amountStatusId.notEnoughTokens'
             }
         }
@@ -146,7 +149,7 @@ class SendMoneyAmountInput extends Component {
                 )}
                 <AvailableBalance>
                     <Translate id='sendMoney.amountStatusId.available'/>&nbsp;
-                    <Balance amount={this.props.balance.available}/>
+                    <Balance amount={this.availableBalance}/>
                     <InfoPopup content={<Translate id='availableBalanceInfo'/>}/>
                 </AvailableBalance>
             </CustomDiv>
