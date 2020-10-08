@@ -826,7 +826,6 @@ class Wallet {
     async signAndSendTransactions(transactions, accountId) {
         const { account, has2fa } = await this.getAccountAndState(accountId)
         if (has2fa) {
-            console.log('has2fa')
             return await this.twoFactor.signAndSendTransactions(account, transactions)
         }
         store.dispatch(setSignTransactionStatus('in-progress'))

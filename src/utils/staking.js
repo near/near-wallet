@@ -209,7 +209,6 @@ export class Staking {
         const deposit_and_stake = await this.signAndSendTransaction(lockupId, [
             functionCall('deposit_and_stake', { amount }, GAS_STAKE)
         ])
-        console.log('deposit_and_stake', deposit_and_stake)
         return deposit_and_stake
     }
 
@@ -225,10 +224,9 @@ export class Staking {
             }
         }
         try {
-            const select_staking_pool = await this.signAndSendTransaction(lockupId, [
+            await this.signAndSendTransaction(lockupId, [
                 functionCall('select_staking_pool', { staking_pool_account_id: validatorId }, GAS_STAKE)
             ])
-            console.log('select_staking_pool', select_staking_pool)
         } catch (e) {
             console.warn('Problem selecting validator', validatorId, e)
             throw new Error('Cannot select validator')

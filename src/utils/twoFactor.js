@@ -144,8 +144,6 @@ export class TwoFactor {
         const completed = []
         for (let { receiverId, actions } of transactions) {
             actions = actions.map((a) => {
-
-                console.log(a)
                 
                 const action = {
                     ...a[a.enum],
