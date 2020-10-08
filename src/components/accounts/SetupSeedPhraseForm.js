@@ -50,7 +50,7 @@ const SetupSeedPhraseForm = ({
 }) => {
 
     return (
-        <CustomDiv>
+        <CustomDiv translate='no' className='notranslate skiptranslate'>
             <div id='seed-phrase'>
                 {seedPhrase.split(' ').map((word, i) => (
                     <span className='single-phrase' key={`phrase-${i}`}>

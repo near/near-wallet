@@ -17,8 +17,7 @@
                 "create": "正在檢查可用性",
                 "check": "正在檢查"
             },
-            "errorAccountNotExist": "創建賬戶出錯，請重試！",
-            "modal": "請在 Ledger 設備上確認添加新賬戶密鑰。"
+            "errorAccountNotExist": "創建賬戶出錯，請重試！"
         },
         "available": {
             "success": "該用戶已找到。",
@@ -30,13 +29,11 @@
         },
         "setupSeedPhrase": {
             "success": "助記詞恢復設置已經完成。",
-            "error": "在設置助記詞恢復方式時發生了錯誤，請重試。",
-            "modal": "請在 Ledger 設備上確認完全訪問的信息。"
+            "error": "在設置助記詞恢復方式時發生了錯誤，請重試。"
         },
         "setupRecoveryMessage": {
             "success": "賬戶恢復設置已完成。",
-            "error": "設置賬戶恢復方式時發生錯誤，請重試。",
-            "modal": "請在 Ledger 設備上確認完全訪問的信息。"
+            "error": "設置賬戶恢復方式時發生錯誤，請重試。"
         },
         "sendNewRecoveryLink": {
             "success": "賬戶恢復鏈接已經發送！",
@@ -54,22 +51,11 @@
             },
             "incorrectContractId": {
                 "error": "合約 ${contractId} 不存在。這可能是妳正在使用的應用的問題，或者可能是合約已經被刪除。妳將重新回到應用。"
-            },
-            "modal": "請在 Ledger 設備上確認完全訪問的詳細信息。"
+            }
         },
         "nameDoesntMatch": "賬戶名稱不匹配",
         "sendMoney": {
-            "error": "請檢查你的設備已經連接並打開了 NEAR 應用。",
-            "modal": "請在 Ledger 設備上確認交易信息。"
-        },
-        "signAndSendTransactions": {
-            "modal": "請在 Ledger 設備上確認存款信息。"
-        },
-        "deleteRecoveryMethod": {
-            "modal": "請在 Ledger 設備上確認刪除密鑰信息。"
-        },
-        "LedgerPublicKey": {
-            "modal": "請在 Ledger 設備上確認公鑰訪問。"
+            "error": "請檢查你的設備已經連接並打開了 NEAR 應用。"
         }
     },
     "actions": {
@@ -153,7 +139,8 @@
         "disableTextPhrase": "當前助記詞將會被永久禁用。",
         "disableInputPlaceholder": "請輸入用戶名確認",
         "disableNo": "不，保留。",
-        "recoveryLinkSent": "恢復鏈接已發送！"
+        "recoveryLinkSent": "恢復鏈接已發送！",
+        "disableNotAllowed": "賬戶必須擁有至少一種恢復方式，請首先添加另外一種方式再繼續刪除此方式。"
     },
     "hardwareDevices": {
         "title": "硬件錢包",
@@ -211,9 +198,22 @@
         "publicKey": "公鑰",
         "ledger": "Ledger",
         "removeAccessKey": {
-            "error": "請檢查你的設備已經連接並打開了 NEAR 應用。",
-            "modal": "請在 Ledger 設備上確認刪除密鑰信息。"
+            "error": "請檢查你的設備已經連接並打開了 NEAR 應用。"
         }
+    },
+    "ledgerSignTxModal": {
+        "SEND_MONEY": "請在 Ledger 設備上確認轉賬信息。",
+        "ADD_ACCESS_KEY": "請在 Ledger 設備上確認登錄信息。",
+        "SET_SIGN_TRANSACTION_STATUS": "請在 Ledger 設備上確認存款細節信息。",
+        "REMOVE_ACCESS_KEY": "請在 Ledger 設備上確認刪除密鑰信息。",
+        "ADD_ACCESS_KEY_SEED_PHRASE": "請在 Ledger 設備上確認完全訪問信息。",
+        "DELETE_RECOVERY_METHOD": "請在 Ledger 設備上確認刪除恢復方式信息。",
+        "SETUP_RECOVERY_MESSAGE": "請在 Ledger 設備上確認完全訪問細節信息。",
+        "ADD_LEDGER_ACCESS_KEY": "請在 Ledger 設備上確認公鑰信息。",
+        "GET_LEDGER_PUBLIC_KEY": "請在 Ledger 設備上確認公鑰訪問信息。",
+        "CREATE_NEW_ACCOUNT": "請在 Ledger 設備上確認新賬戶密鑰信息。",
+        "SIGN_AND_SEND_TRANSACTIONS": "請在 Ledger 設備上確認存款信息。",
+        "REMOVE_NON_LEDGER_ACCESS_KEYS": "請在 Ledger 設備上確認信息。"
     },
     "button": {
         "signIn": "登錄",
@@ -228,6 +228,7 @@
         "copyUrl": "復制鏈接",
         "createAccount": "創建賬戶",
         "recoverYourAccount": "恢復賬戶",
+        "accessAccount": "登錄賬戶",
         "enable": "啟用",
         "disable": "禁用",
         "signInLedger": "通過 Ledger 登錄",
@@ -263,7 +264,8 @@
         "dismiss": "關閉",
         "cancelOperation": "取消操作",
         "subscribe": "訂閱",
-        "connect": "連接"
+        "connect": "連接",
+        "Close": "關閉"
     },
     "link": {
         "summary": "概覽",
@@ -282,9 +284,9 @@
             "placeholder": ""
         },
         "accountId": {
-            "title": "Account ID",
-            "placeholder": "e.g. johndoe.near",
-            "subLabel": "Your account ID must include a Top Level Account such as <b>.near</b>"
+            "title": "賬戶 ID",
+            "placeholder": "例如：johndoe.near",
+            "subLabel": "你的賬戶 ID 必須包括賬戶後綴，例如：<b>.near</b>"
         }
     },
     "recoverAccount": {
@@ -303,6 +305,10 @@
         "phrase": {
             "title": "助記詞",
             "desc": "請確認已準備 12 個單詞組成的助記詞，然後點擊下方開始恢復賬戶流程。"
+        },
+        "ledger": {
+            "title": "Ledger",
+            "desc": "請確認 Ledger 已安全連接，並在設備上打開 NEAR 應用。"
         },
         "actionType": "恢復",
         "actionRequired": "此消息包含恢復鏈接，請點擊鏈接開始恢復賬戶流程！",
@@ -326,6 +332,11 @@
             "four": "字符 (_-) 用於分割",
             "five": "妳的用戶名不可以包括：",
             "six": "符號 \"@\" 或 \".\""
+        },
+        "invalidLinkDrop": {
+            "title": "鏈接無效",
+            "one": "NEAR Drop 已經被領取。",
+            "two": "NEAR Drop 只能被領取一次，之後鏈接會無效。"
         }
     },
     "topLevelAccounts": {
@@ -335,9 +346,6 @@
     "recoverSeedPhrase": {
         "pageTitle": "通過助記詞恢復賬戶",
         "pageText": "請輸入與此賬戶關聯的助記詞。",
-        "accountIdInput": {
-            "title": "用戶名"
-        },
         "seedPhraseInput": {
             "title": "助記詞（12 個單詞）",
             "placeholder": "correct horse battery staple..."
@@ -687,7 +695,9 @@
         "getLedgerAccountIds": {
             "success": "",
             "error": "公鑰訪問被拒絕，恢復賬戶失敗。<br/>若要繼續，需要允許 NEAR 錢包訪問你的公鑰，請再重試。",
-            "noAccounts": "該 Ledger 設備沒有綁定任何賬戶，你需要先創建一個賬戶，並將此賬戶綁定至 Ledger 才能登錄。"
+            "noAccounts": "該 Ledger 設備沒有綁定任何賬戶，你需要先創建一個賬戶，並將此賬戶綁定至 Ledger 才能登錄。",
+            "aborted": "操作被終止。",
+            "U2FNotSupported": "需要瀏覽器支持 U2F，請使用 Chrome、Opera 或 Firefox 安裝 U2F 擴展。"
         },
         "addLedgerAccountId": {
             "success": "",
@@ -705,7 +715,7 @@
                 "success": "授權",
                 "pending": "請求",
                 "waiting": "下一個",
-                "confirm": "Confirm"
+                "confirm": "確認"
             }
         }
     },
@@ -716,11 +726,14 @@
         },
         "one": "請在 Ledger 硬件設備上確認登錄細節。"
     },
+    "enterAccountNameLedgerModal": {
+        "header": "輸入賬戶名稱",
+        "one": "請輸入你嘗試登錄的賬戶名稱"
+    },
     "errors": {
         "ledger": {
             "U2FNotSupported": "Ledger 硬件錢包需要 U2F 瀏覽器支持。請使用 Chrome、Opera 或 Firefox 安裝 U2F 擴展，並確保你是通過 HTTPS 加密連接。",
-            "U2F_4": "無法通過硬件錢包登錄：U2F DEVICE_INELIGIBLE。請確保 Ledger 設備已連接並解鎖。",
-            "modal": "請在 Ledger 設備上確認公鑰信息。"
+            "U2F_4": "無法通過硬件錢包登錄：U2F DEVICE_INELIGIBLE。請確保 Ledger 設備已連接並解鎖。"
         },
         "recoveryMethods": {
             "lastMethod": "無法刪除最後一個恢復方式。除非你添加了 Ledger，你需要保留至少一種賬戶恢復方式。"

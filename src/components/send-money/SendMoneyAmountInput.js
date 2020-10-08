@@ -87,7 +87,16 @@ class SendMoneyAmountInput extends Component {
         amountDisplay: ''
     }
 
+    isDecimalString = (value) => {
+        let REG = /^[0-9]*(|[.][0-9]{0,5})$/
+        return REG.test(value)
+    }
+
     handleChangeAmount = (e, { name, value }) => {
+        if (!/^\d*[.]?\d*$/.test(value)) {
+            return
+        }
+
         let amountStatusId = ''
         if (value && !isDecimalString(value)) {
             amountStatusId = 'sendMoney.amountStatusId.noMoreThan'
@@ -116,7 +125,6 @@ class SendMoneyAmountInput extends Component {
         return (
             <CustomDiv fontSize={`${fontSize}px`}>
                 <Form.Input
-                    type="number"
                     name='amountInput'
                     value={amountInput}
                     onChange={this.handleChangeAmount}
