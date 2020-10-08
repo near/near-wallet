@@ -37,6 +37,7 @@ import { SendMoneyWithRouter } from './send-money/SendMoney'
 import { ReceiveMoneyWithRouter } from './receive-money/ReceiveMoney'
 import { GuestLanding } from './landing/GuestLanding'
 import { Profile } from './profile/Profile'
+import { NearDrop } from './neardrop/NearDrop'
 import { SignWithRouter } from './sign/Sign'
 import { NodeStakingWithRouter } from './node-staking/NodeStaking'
 import { AddNodeWithRouter } from './node-staking/AddNode'
@@ -299,6 +300,11 @@ class Routing extends Component {
                                     exact
                                     path='/staking'
                                     component={StakingWithRouter}
+                                />
+                                <PrivateRoute
+                                    exact
+                                    path='/neardrop'
+                                    component={NearDrop}
                                 />
                                 <Route
                                     exact

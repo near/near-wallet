@@ -63,24 +63,28 @@ const DashboardKeys = ({ image, title, to, accessKeys, empty }) => (
                 </h2>
             </Grid.Column>
         </Grid.Row>
+        
         {accessKeys && accessKeys.map((key, i) => (
             <KeyListItem key={`d-${i}`} accessKey={key} />
         ))}
-        <Grid.Row>
-            <Grid.Column textAlign='left' width={16}>
-                {accessKeys && accessKeys.length !== 0 ? (
-                    <FormButton
-                        linkTo={to}
-                        color='gray-blue'
-                        size='small'
-                    >
-                        <Translate id='button.viewAll' />
-                    </FormButton>
-                ) : (
-                    empty
-                )}
-            </Grid.Column>
-        </Grid.Row>
+
+        { to &&
+            <Grid.Row>
+                <Grid.Column textAlign='left' width={16}>
+                    {accessKeys && accessKeys.length !== 0 ? (
+                        <FormButton
+                            linkTo={to}
+                            color='gray-blue'
+                            size='small'
+                        >
+                            <Translate id='button.viewAll' />
+                        </FormButton>
+                    ) : (
+                        empty
+                    )}
+                </Grid.Column>
+            </Grid.Row>
+        }
     </CustomGrid>
 )
 

@@ -87,7 +87,7 @@ const KeyListItem = ({
     toggleShowSub,
     showSubOpen
 }) => {
-    let { access_key, public_key: publicKey, meta } = accessKey
+    let { access_key, public_key: publicKey, meta, meta: { amount, created, links } } = accessKey
     let { permission: { FunctionCall } } = access_key || { permission: {} };
     let { receiver_id: contractId, allowance } = FunctionCall || {};
 
@@ -122,6 +122,32 @@ const KeyListItem = ({
                                 <Translate id='authorizedApps.publicKey' />:{' '}
                                 <span className='color-black'>{publicKey}</span>
                             </span>
+                            {
+                                amount &&
+                                <div className='font-small'>
+                                    Amount: <span className='color-black'>{amount}</span>
+                                </div>
+                            }
+                            {
+                                created &&
+                                <div className='font-small'>
+                                    Created: <span className='color-black'>{created}</span>
+                                </div>
+                            }
+                            {
+                                links.map((link, i) =>
+                                    <div key={i} className='font-small'>
+                                        {
+                                            link.href &&
+                                            <a href={link.href} target="_blank"><span className='color-black'>{link.label}</span></a>
+                                        }
+                                        {
+                                            link.onClick &&
+                                            <span onClick={link.onClick} className='color-black'>{link.label}</span>
+                                        }
+                                    </div>
+                                )
+                            }
                             {meta.type === 'ledger' ? <p><Translate id='authorizedApps.ledger' /></p> : null}
                         </Grid.Column>
                 }

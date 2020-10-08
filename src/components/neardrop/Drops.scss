@@ -1,0 +1,105 @@
+
+
+
+* {
+	font-family: 'Inter', sans-serif;
+  }
+  body {
+	margin: 0;
+  }
+  
+  .App-header {
+	background-image: url('https://nearprotocol.com/wp-content/uploads/2019/03/illo-developers.svg');
+	min-height: 100vh;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	color: white;
+	text-align: center;
+  }
+  
+  .App-link {
+	color: #61dafb;
+  }
+  
+  .logo-wrapper {
+	display: flex;
+	flex-direction: row-reverse;
+  }
+  
+  .App-logo {
+	animation: App-logo-spin infinite 20s linear;
+	pointer-events: none;
+  }
+  
+  .margin-logo {
+	margin: 20px;
+  }
+  
+  @keyframes App-logo-spin {
+	from {
+	  transform: rotate(0deg);
+	}
+	to {
+	  transform: rotate(360deg);
+	}
+  }
+  
+  .image-wrapper {
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+	justify-content: center;
+  }
+  
+  .logo {
+	width: 300px;
+  }
+  
+  p {
+	color: #25282A;
+  }
+  
+  .login {
+	margin-top: 32px;
+  }
+  
+  button {
+	padding: 8px;
+	color: #0072CE;
+	border-radius: 32px;
+	border: 2px solid #0072CE;
+	margin: 16px !important;
+	font-size: 1rem;
+	outline: none;
+  }
+  
+  button:hover {
+	cursor: pointer;
+	color: white;
+	background: #0072CE;
+	outline: none;
+  } 
+  
+
+
+
+.root {
+	width: 500px;
+	margin: 0 auto;
+	padding: 16px;
+	word-wrap: break-word;
+	text-align: center;
+	> div {
+		text-align: left;
+	}
+}
+
+h2, h3, h4, p {
+	color: black;
+}
+
+.drop {
+	border-top: 2px solid #ddd;
+}
