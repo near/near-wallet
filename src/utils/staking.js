@@ -216,10 +216,6 @@ export class Staking {
     // helper for 2fa / signTx until refactor is merged
     async signAndSendTransaction(receiverId, actions) {
         const { accountId } = this.wallet
-        const { account, has2fa } = await this.wallet.getAccountAndState(accountId)
-        if (has2fa) {
-            return this.wallet.signAndSendTransactions([{receiverId, actions}], accountId)
-        }
-        return account.signAndSendTransaction(receiverId, actions)
+        return this.wallet.getAccount().signAndSendTransaction(receiverId, actions)
     }
 }
