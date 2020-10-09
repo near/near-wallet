@@ -41,9 +41,8 @@ const TwoFactorVerifyModal = ({ open, onClose }) => {
     }, []);
 
     const handleVerifyCode = async () => {
-        const { success, res } = await dispatch(verifyTwoFactor(account.accountId, code))
-        // { success: true, res: [CH RPC response] }
-        if (success && res && res !== false) {
+        const { success, res } = await dispatch(verifyTwoFactor(code))
+        if (success && typeof res !== 'boolean' && res !== false) {
             onClose(true)
         } else {
             onClose(false, new WalletError('Transaction failed with return value: ' + res))

@@ -78,6 +78,7 @@ export class TwoFactor extends AccountMultisig {
             await super.signAndSendTransaction(receiverId, actions)
             requestId = await this.sendRequestCode()
         } catch (e) {
+            console.log(e)
             throw new WalletError('error creating request')
         }
         if (requestId !== -1 && !store.getState().account.requestPending) {
