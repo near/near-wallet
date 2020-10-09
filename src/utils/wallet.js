@@ -596,14 +596,18 @@ class Wallet {
         return { account, state, has2fa }
     }
 
+    async getLockupAccountId(accountId) {
+        // TODO: Should lockup contract balance be retrieved separately only when needed?
+        return sha256(Buffer.from(accountId)).substring(0, 40)  + '.' + LOCKUP_ACCOUNT_ID_SUFFIX
+    }
+
     async getBalance(accountId) {
         accountId = accountId || this.accountId
 
         const account = this.getAccount(accountId)
         const balance = await account.getAccountBalance()
+        const lockupAccountId = await this.getLockupAccountId(accountId)
 
-        // TODO: Should lockup contract balance be retrieved separately only when needed?
-        const lockupAccountId = sha256(Buffer.from(accountId)).substring(0, 40)  + '.' + LOCKUP_ACCOUNT_ID_SUFFIX
         try {
             // TODO: Makes sense for a lockup contract to return whole state as JSON instead of method per property
             const [
