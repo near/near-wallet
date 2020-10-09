@@ -65,18 +65,6 @@ export class Staking {
 
     async updateStakingLockup(validators) {
         const { contract, lockupId: account_id } = await this.getLockup()
-        const selectedValidator = await contract.get_staking_pool_account_id()
-
-        console.log('lockup contract', contract)
-
-        if (!selectedValidator) {
-            return {
-                accountId: account_id,
-                selectedValidator: '',
-                totalUnstaked: await contract.get_owners_balance()
-            }
-        }
-        const validator = validators.find((v) => v.accountId === selectedValidator)
 
         const lockupState = await (await new nearApiJs.Account(this.wallet.connection, account_id)).state()
         const lockupStorage = NEAR_PER_BYTE.mul(new BN(lockupState.storage_usage))
@@ -86,16 +74,21 @@ export class Staking {
             .sub(lockupStorage)
             .sub(deposited)
 
-
-        console.log('lockupStorage', lockupStorage)
-        console.log('deposited', deposited)
-        console.log('totalUnstaked', totalUnstaked)
+        // validator specific
+        const selectedValidator = await contract.get_staking_pool_account_id()
+        if (!selectedValidator) {
+            return {
+                accountId: account_id,
+                selectedValidator: '',
+                totalUnstaked: totalUnstaked.toString(),
+            }
+        }
+        const validator = validators.find((v) => v.accountId === selectedValidator)
 
         let totalStaked = new BN('0', 10);
         let totalUnclaimed = new BN('0', 10);
         let totalAvailable = new BN('0', 10);
         let totalPending = new BN('0', 10);
-
         try {
             const total = new BN(await validator.contract.get_account_total_balance({ account_id }), 10)
             if (total.gt(new BN('0', 10))) {
