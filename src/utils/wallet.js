@@ -177,11 +177,6 @@ class Wallet {
     }
 
     async refreshAccount() {
-
-
-        console.log(await this.getLockupAccountId('matt1.near'))
-
-
         try {
             const account = await this.loadAccount()
             setAccountConfirmed(this.accountId, true)
