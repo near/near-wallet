@@ -13,7 +13,6 @@ const {
     }
 } =  nearApiJs
 
-const NEAR_PER_BYTE = new BN(process.env.REACT_APP_NEAR_PER_BYTE || '100000000000000000000')
 const STAKING_GAS_BASE = process.env.REACT_APP_STAKING_GAS_BASE || '25000000000000' // 25 Tgas
 
 const stakingMethods = {
@@ -67,7 +66,7 @@ export class Staking {
         const { contract, lockupId: account_id } = await this.getLockup()
 
         const lockupState = await (new nearApiJs.Account(this.wallet.connection, account_id)).state()
-        const lockupStorage = NEAR_PER_BYTE.mul(new BN(lockupState.storage_usage))
+        const lockupStorage = this.NEAR_PER_BYTE.mul(new BN(lockupState.storage_usage))
         const deposited = new BN(await contract.get_known_deposited_balance(), 10)
         let totalUnstaked = new BN(await contract.get_owners_balance(), 10)
             .add(new BN(await contract.get_locked_amount(), 10))
@@ -130,6 +129,12 @@ export class Staking {
     }
 
     async getValidators() {
+        if (!this.NEAR_PER_BYTE) {
+            this.NEAR_PER_BYTE = new BN(
+                (await this.provider.experimental_genesisConfig()).runtime_config.storage_amount_per_byte
+            )
+        }
+        console.log(this.NEAR_PER_BYTE)
         return (await Promise.all(
             (await this.provider.validators()).current_validators
             .map(({ account_id }) => (async () => {
