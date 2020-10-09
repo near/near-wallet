@@ -18,7 +18,9 @@ class SendMoney extends Component {
         expandNote: false,
         accountId: '',
         amount: '',
-        amountStatus: ''
+        amountStatus: '',
+        implicitAccount: false,
+        implicitAccountModal: false
     }
 
     async componentDidMount() {
@@ -65,6 +67,12 @@ class SendMoney extends Component {
         }))
     }
 
+    handleCloseModal = () => {
+        this.setState(() => ({
+            implicitAccountModal: false
+        }))
+    }
+
     handleCancelTransfer = () => {
         this.props.clear()
         this.props.history.push('/')
@@ -72,7 +80,7 @@ class SendMoney extends Component {
 
     handleNextStep = async (e) => {
         e.preventDefault()
-        const { step, accountId, amount } = this.state
+        const { step, accountId, amount, implicitAccount, implicitAccountModal } = this.state
 
         if (step === 2) {
             this.setState(() => ({
@@ -97,15 +105,26 @@ class SendMoney extends Component {
             return;
         }
 
-        this.setState(state => ({
-            step: state.step + 1,
-            amount: state.amount
-        }))
+        if (implicitAccount && !implicitAccountModal) {
+            this.setState(state => ({
+                implicitAccountModal: true
+            }))
+        } else {
+            this.setState(state => ({
+                step: state.step + 1,
+                amount: state.amount,
+                implicitAccountModal: false
+            }))
+        }
+
     }
 
     handleChange = (e, { name, value }) => {
-        this.setState(() => ({
-            [name]: value
+        this.setState((state) => ({
+            [name]: value,
+            implicitAccount: name === 'accountId' 
+                ? this.isImplicitAccount(value)
+                : state.implicitAccount
         }))
     }
 
@@ -120,13 +139,18 @@ class SendMoney extends Component {
     }
 
     isLegitForm = () => {
-        const { amount, amountStatus } = this.state
+        const { amount, amountStatus, implicitAccount } = this.state
         const { requestStatus } = this.props
-        return requestStatus && requestStatus.success && (amount) > 0 && amountStatus === ''
+        
+        return ((requestStatus && requestStatus.success) || implicitAccount) && amount > 0 && amountStatus === ''
+            ? true
+            : false
     }
 
+    isImplicitAccount = (accountId) => accountId.length === 64
+
     render() {
-        const { step } = this.state
+        const { step, implicitAccountModal, implicitAccount } = this.state
         const { formLoader, requestStatus, checkAccountAvailable, setFormLoader, clear, accountId } = this.props
 
         return (
@@ -143,6 +167,9 @@ class SendMoney extends Component {
                         setFormLoader={setFormLoader}
                         stateAccountId={accountId}
                         defaultAccountId={this.props.match.params.id || this.state.accountId}
+                        implicitAccountModal={implicitAccountModal}
+                        handleCloseModal={this.handleCloseModal}
+                        implicitAccount={implicitAccount}
                         {...this.state}
                     />
                 )}

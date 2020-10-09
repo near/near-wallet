@@ -41,7 +41,9 @@ import { SignWithRouter } from './sign/Sign'
 import { NodeStakingWithRouter } from './node-staking/NodeStaking'
 import { AddNodeWithRouter } from './node-staking/AddNode'
 import { NodeDetailsWithRouter } from './node-staking/NodeDetails'
-import { StakingWithRouter } from './node-staking/Staking'
+//import { StakingWithRouter } from './staking/_Staking'
+//import { ValidatorWithRouter } from './staking/_Validator'
+import { StakingContainer } from './staking/StakingContainer'
 import { IS_MAINNET, DISABLE_SEND_MONEY, WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS, DISABLE_CREATE_ACCOUNT } from '../utils/wallet'
 import { refreshAccount, handleRefreshUrl, clearAlert, clear, handleRedirectUrl, handleClearUrl, promptTwoFactor } from '../actions/account'
 import LedgerConfirmActionModal from './accounts/ledger/LedgerConfirmActionModal';
@@ -295,11 +297,17 @@ class Routing extends Component {
                                     path='/node-details'
                                     component={NodeDetailsWithRouter}
                                 />
-                                <PrivateRoute
-                                    exact
-                                    path='/staking'
-                                    component={StakingWithRouter}
-                                />
+                                {this.props.account.hasLockup &&
+                                    <PrivateRoute
+                                        path='/staking'
+                                        component={StakingContainer}
+                                        render={() => (
+                                            <StakingContainer
+                                                history={this.props.history}
+                                            />
+                                        )}
+                                    />
+                                }
                                 <Route
                                     exact
                                     path='/cli-login-success'

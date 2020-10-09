@@ -9,8 +9,6 @@ import LockImage from '../../images/icon-lock.svg'
 
 import styled from 'styled-components'
 
-import BN from 'bn.js'
-
 const CustomGrid = styled(Grid)`
     &&& {
         .row {
@@ -150,7 +148,6 @@ const ProfileDetails = ({
         </Grid.Row>
         <PublicBalanceRow titleId='profile.details.totalBalance' infoId='totalBalance' amount={total}/>
         <PublicBalanceRow titleId='profile.details.minBalance' infoId='minimumBalance' amount={stateStaked}/>
-        <PublicBalanceRow titleId='profile.details.staked' infoId='stakedBalance' amount={staked}/>
         {lockedAmount !== undefined
             ? <>
                 <PublicBalanceRow titleId='profile.details.locked' infoId='lockedBalance' amount={lockedAmount}/>

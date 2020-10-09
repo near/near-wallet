@@ -13,6 +13,10 @@ import MobileContainer from '../sign/MobileContainer'
 import FormButton from '../common/FormButton'
 import AccountFormAccountId from '../accounts/AccountFormAccountId'
 import SendMoneyAmountInput from './SendMoneyAmountInput'
+import Modal from "../common/modal/Modal";
+import ModalTheme from '../accounts/ledger/ModalTheme';
+import MobileActionSheet from '../common/modal/MobileActionSheet';
+import IconProblems from '../../images/IconProblems'
 
 const SendMoneyFirstStep = ({
     handleNextStep,
@@ -28,7 +32,10 @@ const SendMoneyFirstStep = ({
     setFormLoader,
     stateAccountId,
     defaultAccountId,
-    amountStatusId
+    amountStatusId,
+    implicitAccountModal,
+    handleCloseModal,
+    implicitAccount
 }) => (
     <Form autoComplete='off'>
         <MobileContainer>
@@ -39,7 +46,7 @@ const SendMoneyFirstStep = ({
                 />
                 <List className='list-top border'>
                     <List.Item>
-                        <List.Content>
+                        <List.Content className={implicitAccount ? 'implicitAccount' : ''}>
                             <Header as='h4' textAlign='left'><Translate id='sendMoney.accountIdInput.title' /></Header>
                             <AccountFormAccountId
                                 formLoader={formLoader}
@@ -84,6 +91,29 @@ const SendMoneyFirstStep = ({
                         </FormButton>
                     </List.Item>
                 </List>
+                {implicitAccountModal && (
+                    <Modal
+                        id='next-step-modal'
+                        isOpen={implicitAccountModal}
+                        onClose={handleCloseModal}
+                        closeButton='desktop'
+                    >
+                        <ModalTheme/>
+                        <MobileActionSheet/>
+
+                        <div className='warning'>
+                            <IconProblems color='#fca347' />
+                            <h1><Translate id='warning' /></h1>
+                            <div><Translate id='account.available.implicitAccountModal' /></div>
+                        </div>
+                        <FormButton
+                            onClick={handleNextStep}
+                            color='blue'
+                        >
+                            <Translate id='button.confirm' />
+                        </FormButton>
+                    </Modal>
+                )}
             </Fragment>
         </MobileContainer>
     </Form>
