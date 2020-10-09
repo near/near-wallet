@@ -49,6 +49,8 @@ export class Staking {
     constructor(wallet) {
         this.wallet = wallet
         this.provider = wallet.connection.provider
+
+        console.log(this)
     }
 
     async updateStaking(useLockup) {
@@ -164,12 +166,12 @@ export class Staking {
 
     async withdraw(useLockup) {
         const { lockupId } = await this.getLockup()
-        const withdraw_all_from_staking_pool = await this.signAndSendTransaction(lockupId, [
+        await this.signAndSendTransaction(lockupId, [
             functionCall('withdraw_all_from_staking_pool', {}, STAKING_GAS_BASE * 7)
         ])
-        if (withdraw_all_from_staking_pool[0] === false) {
-            throw new WalletError('Unable to withdraw pending balance from validator')
-        }
+        await this.signAndSendTransaction(lockupId, [
+            functionCall('unselect_staking_pool', {}, STAKING_GAS_BASE)
+        ])
     }
 
     // helpers for lockup
