@@ -2,7 +2,7 @@ import * as nearApiJs from 'near-api-js'
 import { store } from '..'
 import { WalletError } from './walletError'
 import { promptTwoFactor } from '../actions/account'
-import { ACCESS_KEY_FUNDING_AMOUNT, convertPKForContract, MULTISIG_MIN_AMOUNT } from './wallet'
+import { MULTISIG_MIN_AMOUNT } from './wallet'
 import { utils } from 'near-api-js'
 import { BN } from 'bn.js'
 
