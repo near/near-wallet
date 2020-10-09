@@ -13,6 +13,7 @@ const {
     }
 } =  nearApiJs
 
+const NEAR_PER_BYTE = new BN(process.env.REACT_APP_NEAR_PER_BYTE || '100000000000000000000')
 const STAKING_GAS_BASE = process.env.REACT_APP_STAKING_GAS_BASE || '25000000000000' // 25 Tgas
 
 const stakingMethods = {
@@ -39,6 +40,7 @@ const stakingMethods = {
 const lockupMethods = {
     viewMethods: [
         'get_balance',
+        'get_locked_amount',
         'get_owners_balance',
         'get_staking_pool_account_id',
         'get_known_deposited_balance',
@@ -72,10 +74,15 @@ export class Staking {
                 totalUnstaked: await contract.get_owners_balance()
             }
         }
-
         const validator = validators.find((v) => v.accountId === selectedValidator)
+        
+        const lockupState = await (await new nearApiJs.Account(this.wallet.connection, account_id)).state()
+        let lockupStorage = NEAR_PER_BYTE.mul(new BN(lockupState.storage_usage))
         const deposited = new BN(await contract.get_known_deposited_balance(), 10)
-        let totalUnstaked = (new BN(await contract.get_owners_balance(), 10)).sub(deposited)
+        let totalUnstaked = (new BN(await contract.get_owners_balance(), 10))
+            .add((new BN(await contract.get_locked_amount(), 10)))
+            .sub(lockupStorage)
+            .sub(deposited)
         let totalStaked = new BN('0', 10);
         let totalUnclaimed = new BN('0', 10);
         let totalAvailable = new BN('0', 10);
