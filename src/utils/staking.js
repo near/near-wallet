@@ -75,9 +75,11 @@ export class Staking {
             }
         }
         const validator = validators.find((v) => v.accountId === selectedValidator)
+
+        console.log(contract)
         
         const lockupState = await (await new nearApiJs.Account(this.wallet.connection, account_id)).state()
-        let lockupStorage = NEAR_PER_BYTE.mul(new BN(lockupState.storage_usage))
+        const lockupStorage = NEAR_PER_BYTE.mul(new BN(lockupState.storage_usage))
         const deposited = new BN(await contract.get_known_deposited_balance(), 10)
         let totalUnstaked = (new BN(await contract.get_owners_balance(), 10))
             .add((new BN(await contract.get_locked_amount(), 10)))
