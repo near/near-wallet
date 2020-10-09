@@ -78,8 +78,21 @@ const StyledContainer = styled(Container)`
         margin-top: 20px;
     }
 
+    .withdrawal-disclaimer {
+        max-width: 400px;
+    }
+
     .balance-banner {
         margin-bottom: 40px;
+    }
+
+    .alert-banner {
+        margin: -35px -15px 50px -15px;
+        border-radius: 0;
+        @media (min-width: 495px) {
+            margin: 0 0 50px 0;
+            border-radius: 4px;
+        }
     }
 `
 
@@ -151,6 +164,7 @@ export function StakingContainer({ history }) {
                                 onUnstake={handleUnstake}
                                 onWithdraw={handleWithDraw}
                                 loading={loading}
+                                selectedValidator={selectedValidator}
                             />
                         )}
                     />

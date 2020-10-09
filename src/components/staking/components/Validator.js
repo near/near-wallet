@@ -4,10 +4,11 @@ import { Translate } from 'react-localize-redux'
 import BalanceBox from './BalanceBox'
 import StakingFee from './StakingFee'
 import ListWrapper from './ListWrapper'
+import AlertBanner from './AlertBanner'
 import StakeConfirmModal from './StakeConfirmModal'
 import { onKeyDown } from '../../../hooks/eventListeners'
 
-export default function Validator({ match, validators, onUnstake, onWithdraw, loading }) {
+export default function Validator({ match, validators, onUnstake, onWithdraw, loading, selectedValidator }) {
     const [confirm, setConfirm] = useState(null)
     const validator = validators.filter(validator => validator.accountId === match.params.validator)[0]
 
@@ -28,6 +29,11 @@ export default function Validator({ match, validators, onUnstake, onWithdraw, lo
 
     return (
         <>
+            <AlertBanner
+                title='staking.alertBanner.title'
+                button='staking.alertBanner.button'
+                linkTo={`/staking/${selectedValidator}`}
+            />
             <h1><Translate id='staking.validator.title' data={{ validator: match.params.validator }}/></h1>
             <FormButton linkTo={`/staking/${match.params.validator}/stake`}><Translate id='staking.validator.button' /></FormButton>
             {validator &&
@@ -51,6 +57,13 @@ export default function Validator({ match, validators, onUnstake, onWithdraw, lo
                             version='no-border'
                         />
                         <BalanceBox
+                            title='staking.balanceBox.pending.title'
+                            info='staking.balanceBox.pending.info'
+                            amount={ validator.pending || '0' }
+                            version='no-border'
+                            disclaimer='staking.validator.withdrawalDisclaimer'
+                        />
+                        <BalanceBox
                             title='staking.balanceBox.available.title'
                             info='staking.balanceBox.available.info'
                             amount={ validator.available || '0' }
@@ -59,16 +72,7 @@ export default function Validator({ match, validators, onUnstake, onWithdraw, lo
                             button='staking.balanceBox.available.button'
                             loading={loading}
                         />
-                        <BalanceBox
-                            title='staking.balanceBox.pending.title'
-                            info='staking.balanceBox.pending.info'
-                            amount={ validator.pending || '0' }
-                            version='no-border'
-                        />
                     </ListWrapper>
-                    <div className='withdrawal-disclaimer'>
-                        <Translate id='staking.validator.withdrawalDisclaimer' />
-                    </div>
                     {confirm &&
                         <StakeConfirmModal
                             title={`staking.validator.${confirm}`}
