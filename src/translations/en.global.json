@@ -608,7 +608,7 @@
             "currency": "NEAR"
         },
         "alertBanner": {
-            "title": "You must first unstake your tokens from your current validator in order to stake with a new validator.",
+            "title": "You must first unstake and withdraw your tokens from your current validator in order to stake with a new validator.",
             "button": "View current validator"
         },
         "noValidators": {
