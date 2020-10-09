@@ -149,8 +149,6 @@ export function StakingContainer({ history }) {
                             <Validators
                                 {...props}
                                 validators={staking.validators}
-                                useLockup={useLockup}
-                                selectedValidator={selectedValidator}
                             />
                         )}
                     />
