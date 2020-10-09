@@ -86,7 +86,7 @@ const StyledContainer = styled(Container)`
 export function StakingContainer({ history }) {
     const dispatch = useDispatch()
     const staking = useSelector(({ staking }) => staking)
-    const { modal, hasLedger } = useSelector(({ ledger }) => ledger)
+    const { hasLedger } = useSelector(({ ledger }) => ledger)
     const { actionsPending, balance } = useSelector(({ account }) => account);
     let validators = staking.validators
     const currentValidators = validators.filter(v => v.staked !== '0' || v.available !== '0' || v.pending !== '0')
