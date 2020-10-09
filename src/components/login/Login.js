@@ -86,6 +86,7 @@ class Login extends Component {
                             {...props}
                             contractId={url && url.contract_id}
                             appTitle={url && url.title}
+                            fullAccess={fullAccess}
                         />
                     )}
                 />
