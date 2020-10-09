@@ -38,7 +38,7 @@ export default function Validator({ match, validators, onUnstake, onWithdraw, lo
                 />
             }
             <h1><Translate id='staking.validator.title' data={{ validator: match.params.validator }}/></h1>
-            <FormButton linkTo={`/staking/${match.params.validator}/stake`}><Translate id='staking.validator.button' /></FormButton>
+            <FormButton linkTo={`/staking/${match.params.validator}/stake`} disabled={stakeNotAllowed || !validator}><Translate id='staking.validator.button' /></FormButton>
             {validator &&
                 <>
                     <StakingFee fee={validator.fee.percentage}/>

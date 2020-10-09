@@ -14,13 +14,14 @@ const Container = styled.div`
     svg {
         min-width: 21px;
         min-height: 21px;
-        margin: 10px 0;
+        margin: 8px 0;
     }
 
     div {
         line-height: 150%;
         font-style: italic;
         margin-left: 20px;
+        font-size: 13px;
     }
 
     .link {
@@ -28,6 +29,7 @@ const Container = styled.div`
         text-transform: initial !important;
         margin: 20px 0 0 0 !important;
         width: auto !important;
+        font-size: 13px !important;
     }
 
 `
