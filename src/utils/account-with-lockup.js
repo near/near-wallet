@@ -1,9 +1,9 @@
 import BN from 'bn.js'
-import { parseNearAmount, formatNearAmount } from 'near-api-js/lib/utils/format'
-import { BinaryReader } from 'near-api-js/lib/utils/serialize'
-import { Account } from 'near-api-js'
 import sha256 from 'js-sha256'
+import { parseNearAmount } from 'near-api-js/lib/utils/format'
+import { BinaryReader } from 'near-api-js/lib/utils/serialize'
 import { LOCKUP_ACCOUNT_ID_SUFFIX } from './wallet'
+import { WalletError } from './walletError'
 
 export function decorateWithLockup(account) {
     // TODO: Use solution without hacky mix-in inheritance
@@ -108,7 +108,7 @@ async function getAccountBalance() {
 
 function readOption(reader, f) {
     let x = reader.read_u8();
-    if (x == 1) {
+    if (x === 1) {
         return f();
     }
     return null;
@@ -133,7 +133,7 @@ async function viewLockupState(connection, lockupAccountId) {
     let lockupTimestamp = readOption(reader, () => reader.read_u64().toString());
     let tiType = reader.read_u8();
     let transferInformation;
-    if (tiType == 0) {
+    if (tiType === 0) {
         transferInformation = {
             transfers_timestamp: reader.read_u64()
         };
@@ -143,15 +143,15 @@ async function viewLockupState(connection, lockupAccountId) {
         };
     };
     let vestingType = reader.read_u8();
-    vestingInformation = null;
-    if (vestingType == 1) {
+    let vestingInformation = null;
+    if (vestingType === 1) {
         vestingInformation = { VestingHash: reader.read_array(() => reader.read_u8()) };
-    } else if (vestingType == 2) {
+    } else if (vestingType === 2) {
         let vestingStart = reader.read_u64();
         let vestingCliff = reader.read_u64();
         let vestingEnd = reader.read_u64();
         vestingInformation = { vestingStart, vestingCliff, vestingEnd };
-    } else if (vestingType == 3) {
+    } else if (vestingType === 3) {
         vestingInformation = 'TODO';
     }
     return {
