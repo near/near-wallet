@@ -103,7 +103,6 @@ export function StakingContainer({ history }) {
     const { actionsPending, balance } = useSelector(({ account }) => account);
     let validators = staking.validators
     const currentValidators = validators.filter(v => v.staked !== '0' || v.available !== '0' || v.pending !== '0')
-    validators = currentValidators.length ? currentValidators : validators
     const { useLockup, totalUnstaked, selectedValidator } = staking
     const availableBalance = useLockup ? totalUnstaked : balance.available
     const loading = actionsPending.some(action => ['STAKE', 'UNSTAKE', 'WITHDRAW', 'UPDATE_STAKING'].includes(action))
