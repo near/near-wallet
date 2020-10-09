@@ -55,7 +55,8 @@ class Login extends Component {
     }
 
     render() {
-        const { account: { url }, match } = this.props
+        const { account: { url, balance }, match } = this.props
+        const fullAccess = !url?.contract_id || !!parseFloat(balance?.lockedAmount)
 
         return (
             <LoginContainer>
@@ -67,13 +68,13 @@ class Login extends Component {
                             {...this.state}
                             {...props}
                             appTitle={url && url.referrer}
-                            contractId={url && url.contract_id}
                             handleOnClick={this.handleOnClick}
                             handleDeny={this.handleDeny}
                             handleAllow={this.handleAllow}
                             handleSelectAccount={this.handleSelectAccount}
                             redirectCreateAccount={this.redirectCreateAccount}
                             handleDetails={this.handleDetails}
+                            fullAccess={fullAccess}
                         />
                     )}
                 />
