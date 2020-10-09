@@ -9,8 +9,6 @@ import LockImage from '../../images/icon-lock.svg'
 
 import styled from 'styled-components'
 
-import BN from 'bn.js'
-
 const CustomGrid = styled(Grid)`
     &&& {
         .row {

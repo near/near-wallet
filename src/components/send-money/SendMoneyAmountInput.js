@@ -8,6 +8,7 @@ import styled from 'styled-components'
 import InfoPopup from '../common/InfoPopup'
 import Balance, { formatNEAR } from '../common/Balance'
 import { utils } from 'near-api-js'
+import isDecimalString from '../../utils/isDecimalString'
 
 const CustomDiv = styled(`div`)`
     &&&&& {
@@ -97,7 +98,7 @@ class SendMoneyAmountInput extends Component {
         }
 
         let amountStatusId = ''
-        if (value && !this.isDecimalString(value)) {
+        if (value && !isDecimalString(value)) {
             amountStatusId = 'sendMoney.amountStatusId.noMoreThan'
         }
         let amountInInternalFormat = ''

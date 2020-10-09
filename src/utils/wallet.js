@@ -16,6 +16,7 @@ import { store } from '..'
 import { setSignTransactionStatus, setLedgerTxSigned, showLedgerModal, redirectToApp, redirectTo, refreshAccount } from '../actions/account'
 
 import { TwoFactor, METHOD_NAMES_LAK } from './twoFactor'
+import { Staking } from './staking'
 
 export const WALLET_CREATE_NEW_ACCOUNT_URL = 'create'
 export const WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS = ['create', 'set-recovery', 'setup-seed-phrase', 'recover-account', 'recover-seed-phrase', 'sign-in-ledger']
@@ -119,6 +120,7 @@ class Wallet {
         this.accountId = localStorage.getItem(KEY_ACTIVE_ACCOUNT_ID) || ''
 
         this.twoFactor = new TwoFactor(this)
+        this.staking = new Staking(this)
     }
 
     async getLocalAccessKey(accountId, accessKeys) {
@@ -214,7 +216,10 @@ class Wallet {
         if (!this.isEmpty()) {
             const accessKeys = await this.getAccessKeys() || []
             const ledgerKey = accessKeys.find(key => key.meta.type === 'ledger')
+            const lockupInfo = await this.staking.getLockup().catch((e) => console.warn('Account has no lockup'))
+
             return {
+                hasLockup: !!lockupInfo,
                 ...await this.getAccount(this.accountId).state(),
                 balance: await this.getBalance(),
                 accountId: this.accountId,
@@ -422,7 +427,7 @@ class Wallet {
     recovering a second account attempts to call this method with the currently logged in account and not the tempKeyStore 
     ********************************/
     // TODO: Why is fullAccess needed? Everything without contractId should be full access.
-    async addAccessKey(accountId, contractId, publicKey, fullAccess = false) {
+    async addAccessKey(accountId, contractId, publicKey, fullAccess = false, methodNames) {
         const { account, has2fa } = await this.getAccountAndState(accountId)
         if (has2fa) {
             return await this.twoFactor.addKey(account, publicKey, contractId, fullAccess)
@@ -434,7 +439,7 @@ class Wallet {
                     return await this.getAccount(accountId).addKey(
                         publicKey,
                         contractId,
-                        '', // methodName
+                        methodNames ? methodNames : '',
                         ACCESS_KEY_FUNDING_AMOUNT
                     )
                 }
@@ -591,14 +596,18 @@ class Wallet {
         return { account, state, has2fa }
     }
 
+    async getLockupAccountId(accountId) {
+        // TODO: Should lockup contract balance be retrieved separately only when needed?
+        return sha256(Buffer.from(accountId)).substring(0, 40)  + '.' + LOCKUP_ACCOUNT_ID_SUFFIX
+    }
+
     async getBalance(accountId) {
         accountId = accountId || this.accountId
 
         const account = this.getAccount(accountId)
         const balance = await account.getAccountBalance()
+        const lockupAccountId = await this.getLockupAccountId(accountId)
 
-        // TODO: Should lockup contract balance be retrieved separately only when needed?
-        const lockupAccountId = sha256(Buffer.from(accountId)).substring(0, 40)  + '.' + LOCKUP_ACCOUNT_ID_SUFFIX
         try {
             // TODO: Makes sense for a lockup contract to return whole state as JSON instead of method per property
             const [
@@ -821,8 +830,7 @@ class Wallet {
     async signAndSendTransactions(transactions, accountId) {
         const { account, has2fa } = await this.getAccountAndState(accountId)
         if (has2fa) {
-            await this.twoFactor.signAndSendTransactions(account, transactions)
-            return
+            return await this.twoFactor.signAndSendTransactions(account, transactions)
         }
         store.dispatch(setSignTransactionStatus('in-progress'))
         for (let { receiverId, nonce, blockHash, actions } of transactions) {

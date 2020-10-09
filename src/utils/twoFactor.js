@@ -141,23 +141,28 @@ export class TwoFactor {
     }
 
     async signAndSendTransactions(account, transactions) {
+        const completed = []
         for (let { receiverId, actions } of transactions) {
             actions = actions.map((a) => {
+                
                 const action = {
                     ...a[a.enum],
                     type: actionTypes[a.enum],
                 }
                 if (action.gas) action.gas = action.gas.toString()
                 if (action.deposit) action.deposit = action.deposit.toString()
-                if (action.args && Array.isArray(action.args)) action.args = Buffer.from(action.args).toString('base64')
+                else action.deposit = '0'
+                if (action.args) action.args = Buffer.from(action.args).toString('base64')
                 if (action.methodName) {
                     action.method_name = action.methodName
                     delete action.methodName
                 }
+                console.log(action)
                 return action
             })
-            await this.request(account, { receiver_id: receiverId, actions })
+            completed.push(await this.request(account, { receiver_id: receiverId, actions }))
         }
+        return completed
     }
 
     async sendRequest(accountId, method, requestId = -1) {

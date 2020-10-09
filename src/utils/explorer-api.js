@@ -6,15 +6,16 @@ const WAMP_NEAR_EXPLORER_TOPIC_PREFIX = process.env.WAMP_NEAR_EXPLORER_TOPIC_PRE
 
 const wamp = new Wampy(WAMP_NEAR_EXPLORER_URL, { realm: 'near-explorer' })
 
-const queryExplorer = (sql, params) => new Promise((resolve, reject) => wamp.call(
+export const queryExplorer = (sql, params) => new Promise((resolve, reject) => wamp.call(
     `${WAMP_NEAR_EXPLORER_TOPIC_PREFIX}.select`,
     [ sql, params ],
     {
         onSuccess(dataArr) {
             resolve(dataArr[0]);
         },
-        onError(err) {
-            reject(err);
+        onError(...args) {
+            console.log(args)
+            reject(args);
         }
     }
 ));
@@ -59,6 +60,8 @@ export async function getTransactions(accountId) {
         }))
     }
 }
+
+
 
 export const transactionExtraInfo = (hash, signer_id) => wallet.connection.provider.sendJsonRpc('tx', [hash, signer_id])
 
