@@ -1,5 +1,5 @@
 import BN from 'bn.js'
-import { parseNearAmount } from 'near-api-js/lib/utils/format'
+import { parseNearAmount, formatNearAmount } from 'near-api-js/lib/utils/format'
 import { BinaryReader } from 'near-api-js/lib/utils/serialize'
 import { Account } from 'near-api-js'
 import sha256 from 'js-sha256'
@@ -27,16 +27,12 @@ async function signAndSendTransaction(receiverId, actions) {
 
     const missingAmount = total.sub(new BN(balance)).add(MIN_BALANCE_FOR_GAS);
     if (missingAmount.gt(new BN(0))) {
-        console.warn('Not enough balance on main account');
+        const lockupAccountId = getLockupAccountId(this.accountId)
+        console.warn('Not enough balance on main account, checking lockup account', lockupAccountId);
 
-        const lockupAccountId = getLockupAccountId(accountId)
-
-        // TODO: How to get potentially unlocked balance before sending money (and so balance check)?
         if (!(await this.wrappedAccount.viewFunction(lockupAccountId, 'are_transfers_enabled'))) {
             await this.wrappedAccount.functionCall(lockupAccountId, 'check_transfers_vote', {}, new BN(75000000000000))
         }
-        // TODO: Make check_transfers_vote transaction to update lockup status
-        // TODO: Make sure to avoid panic_msg: "panicked at 'Transfers are already enabled', src/internal.rs:72:9"
 
         const liquidBalance = new BN(await this.wrappedAccount.viewFunction(lockupAccountId, 'get_liquid_owners_balance'))
         if (!liquidBalance.gt(missingAmount)) {
@@ -68,7 +64,7 @@ async function getAccountBalance() {
     console.log('lockupAccountId', lockupAccountId)
     try {
         // TODO: Makes sense for a lockup contract to return whole state as JSON instead of method per property
-        const [
+        let [
             ownersBalance,
             liquidOwnersBalance,
             lockedAmount,
@@ -77,6 +73,23 @@ async function getAccountBalance() {
             'get_liquid_owners_balance',
             'get_locked_amount',
         ].map(methodName => this.viewFunction(lockupAccountId, methodName)))
+
+        const {
+            lockupAmount,
+            releaseDuration,
+            transferInformation,
+        } = await viewLockupState(this.connection, lockupAccountId)
+
+        const { transfer_poll_account_id } = transferInformation
+        if (transfer_poll_account_id) {
+            const transfersTimestamp = await this.viewFunction(transfer_poll_account_id, 'get_result')
+            if (transfersTimestamp) {
+                const endTimestamp = new BN(transfersTimestamp).add(new BN(releaseDuration))
+                const timeLeft = endTimestamp.sub(new BN(Date.now()).mul(new BN('1000000')))
+                const unreleasedAmount = BN.max(new BN(0), new BN(lockupAmount).mul(timeLeft).div(new BN(releaseDuration)))
+                liquidOwnersBalance = new BN(lockupAmount).sub(unreleasedAmount)
+            }
+        }
 
         return {
             ...balance,
@@ -90,5 +103,65 @@ async function getAccountBalance() {
             return balance
         }
         throw error
+    }
+}
+
+function readOption(reader, f) {
+    let x = reader.read_u8();
+    if (x == 1) {
+        return f();
+    }
+    return null;
+}
+
+// NOTE: Taken from account-lookup project
+// TODO: Client-library for lockup?
+async function viewLockupState(connection, lockupAccountId) {
+    const result = await connection.provider.sendJsonRpc("query", {
+        request_type: "view_state",
+        finality: "final",
+        account_id: lockupAccountId,
+        prefix_base64: Buffer.from('STATE', 'utf-8').toString('base64'),
+    });
+    let value = Buffer.from(result.values[0].value, 'base64');
+    let reader = new BinaryReader(value);
+    let owner = reader.read_string();
+    let lockupAmount = reader.read_u128().toString();
+    let terminationWithdrawnTokens = reader.read_u128().toString();
+    let lockupDuration = reader.read_u64().toString();
+    let releaseDuration = readOption(reader, () => reader.read_u64().toString());
+    let lockupTimestamp = readOption(reader, () => reader.read_u64().toString());
+    let tiType = reader.read_u8();
+    let transferInformation;
+    if (tiType == 0) {
+        transferInformation = {
+            transfers_timestamp: reader.read_u64()
+        };
+    } else {
+        transferInformation = {
+            transfer_poll_account_id: reader.read_string()
+        };
+    };
+    let vestingType = reader.read_u8();
+    vestingInformation = null;
+    if (vestingType == 1) {
+        vestingInformation = { VestingHash: reader.read_array(() => reader.read_u8()) };
+    } else if (vestingType == 2) {
+        let vestingStart = reader.read_u64();
+        let vestingCliff = reader.read_u64();
+        let vestingEnd = reader.read_u64();
+        vestingInformation = { vestingStart, vestingCliff, vestingEnd };
+    } else if (vestingType == 3) {
+        vestingInformation = 'TODO';
+    }
+    return {
+        owner,
+        lockupAmount,
+        terminationWithdrawnTokens,
+        lockupDuration,
+        releaseDuration,
+        lockupTimestamp,
+        transferInformation,
+        vestingInformation,
     }
 }
