@@ -22,7 +22,9 @@
         "available": {
             "success": "User found.",
             "error": "User not found.",
-            "errorSameAccount": "Cannot send to yourself."
+            "errorSameAccount": "Cannot send to yourself.",
+            "implicitAccount": "Always double check the account ID",
+            "implicitAccountModal": "Please double check the account ID, especially if this is an exchange account. If the account ID is entered incorrectly, your funds will be lost forever."
         },
         "verifySeedPhrase": {
             "error": "You entered the incorrect word"

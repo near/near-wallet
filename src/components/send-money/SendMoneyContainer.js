@@ -18,6 +18,15 @@ const CustomList = styled(List)`
             padding: 0;
         }
 
+        .implicitAccount {
+            input[name=accountId] {
+                border-color: #fca347 !important;
+            }
+            .alert-info {
+                color: #fca347;
+            }
+        }
+
         .list {
             padding: 0;
         }
@@ -33,6 +42,10 @@ const CustomList = styled(List)`
             padding-top: 24px;
             padding-left: 0;
             padding-right: 0;
+
+            button {
+                width: 100%;
+            }
         }
         .goback {
             font-weight: 600;
@@ -48,6 +61,7 @@ const CustomList = styled(List)`
                 margin: 0;
                 padding: 0;
                 color: #0072ce;
+                width: 100%;
 
                 :hover,
                 :focus {
@@ -74,7 +88,7 @@ const CustomList = styled(List)`
             margin: -20px auto 12px auto;
         }
         .list-top {
-            padding: 24px 24px 36px;
+            padding: 24px 24px 24px;
             min-height: 100px;
             margin-top: 14px;
 

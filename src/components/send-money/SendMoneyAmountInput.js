@@ -44,7 +44,7 @@ const CustomDiv = styled(`div`)`
             }
         }
         .alert-info {
-            font-weight: 600;
+            font-weight: 500;
             margin: 0;
             padding: 8px 0;
             line-height: 34px;
