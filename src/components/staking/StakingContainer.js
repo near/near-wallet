@@ -71,15 +71,12 @@ const StyledContainer = styled(Container)`
         margin: 50px auto;
     }
 
-    .already-staked-disclaimer,
     .withdrawal-disclaimer {
         font-style: italic;
         line-height: 140%;
         margin-top: 20px;
-    }
-
-    .withdrawal-disclaimer {
-        max-width: 400px;
+        max-width: 375px;
+        font-size: 13px;
     }
 
     .balance-banner {
