@@ -99,6 +99,7 @@ export class Staking {
                 if (isAvailable) {
                     validator.available = validator.unstaked
                     totalAvailable = totalAvailable.add(new BN(validator.unstaked, 10))
+                    totalUnstaked = totalUnstaked.add(new BN(validator.unstaked, 10))
                 } else {
                     validator.pending = validator.unstaked
                     totalPending = totalPending.add(new BN(validator.unstaked, 10))
@@ -106,7 +107,6 @@ export class Staking {
             } else {
                 console.log(validator.accountId)
             }
-            totalUnstaked = totalUnstaked.add(new BN(validator.available, 10)).sub(new BN(validator.pending, 10))
             totalStaked = totalStaked.add(new BN(validator.staked, 10))
             totalUnclaimed = totalUnclaimed.add(new BN(validator.unclaimed, 10))
         } catch (e) {
