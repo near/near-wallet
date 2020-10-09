@@ -599,7 +599,7 @@
             "button": "Stake with validator",
             "fee": "Validator Fee",
             "desc": "This is the fee paid to the validator to stake on your behalf. This fee is only charged on your rewards.",
-            "withdrawalDisclaimer": "Funds pending release will be made available after ~25-36hrs (3 epochs)",
+            "withdrawalDisclaimer": "Funds pending release will be made available after ~36-48hrs (3 epochs)",
             "unstake": "You are unstaking",
             "withdraw": "You are withdrawing"
         },
