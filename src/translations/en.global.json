@@ -520,6 +520,10 @@
         }
     },
     "staking": {
+        "errors": {
+            "noLockup": "No lockup contract for account",
+            "noWithdraw": "Unable to withdraw pending balance from validator"
+        },
         "pageTitle": "Staking",
         "pageText": "Setup your Node via CLI, then add it here.",
         "amountStakingInput": {
