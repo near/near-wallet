@@ -149,7 +149,30 @@ export const signInWithLedgerAddAndSaveAccounts = (accountIds) => async (dispatc
 
 const defaultCodesFor = (prefix, data) => ({ successCode: `${prefix}.success`, errorCode: `${prefix}.error`, prefix, data})
 
-export const { initializeRecoveryMethod, validateSecurityCode, initTwoFactor, reInitTwoFactor, sendTwoFactor, resendTwoFactor, verifyTwoFactor, promptTwoFactor, deployMultisig, checkCanEnableTwoFactor, get2faMethod, getLedgerKey, getLedgerPublicKey, setupRecoveryMessage, setupRecoveryMessageNewAccount, deleteRecoveryMethod, checkNearDropBalance, checkIsNew, checkNewAccount, createNewAccount, checkAccountAvailable, getTransactions, getTransactionStatus, clear, clearCode } = createActions({
+export const {
+    initializeRecoveryMethod,
+    validateSecurityCode,
+    initTwoFactor,
+    reInitTwoFactor,
+    resendTwoFactor,
+    verifyTwoFactor,
+    promptTwoFactor,
+    deployMultisig,
+    checkCanEnableTwoFactor,
+    get2faMethod,
+    getLedgerKey,
+    getLedgerPublicKey,
+    setupRecoveryMessage,
+    setupRecoveryMessageNewAccount,
+    deleteRecoveryMethod,
+    checkNearDropBalance,
+    checkIsNew,
+    checkNewAccount,
+    createNewAccount,
+    checkAccountAvailable,
+    clear,
+    clearCode
+} = createActions({
     INITIALIZE_RECOVERY_METHOD: [
         wallet.initializeRecoveryMethod.bind(wallet),
         () => defaultCodesFor('account.initializeRecoveryMethod')
@@ -166,16 +189,12 @@ export const { initializeRecoveryMethod, validateSecurityCode, initTwoFactor, re
         wallet.twoFactor.reInitTwoFactor.bind(wallet.twoFactor),
         () => defaultCodesFor('account.reInitTwoFactor')
     ],
-    SEND_TWO_FACTOR: [
-        wallet.twoFactor.sendRequest.bind(wallet.twoFactor),
-        () => defaultCodesFor('account.sendTwoFactor')
-    ],
     RESEND_TWO_FACTOR: [
         wallet.twoFactor.resend.bind(wallet.twoFactor),
         () => defaultCodesFor('account.resendTwoFactor')
     ],
     VERIFY_TWO_FACTOR: [
-        wallet.twoFactor.verifyTwoFactor.bind(wallet.twoFactor),
+        (...args) => wallet.twoFactor.verifyRequestCode(...args),
         () => defaultCodesFor('account.verifyTwoFactor')
     ],
     PROMPT_TWO_FACTOR: [
@@ -207,7 +226,7 @@ export const { initializeRecoveryMethod, validateSecurityCode, initTwoFactor, re
         () => defaultCodesFor('account.checkCanEnableTwoFactor')
     ],
     GET_2FA_METHOD: [
-        wallet.twoFactor.get2faMethod.bind(wallet.twoFactor),
+        () => wallet.twoFactor.get2faMethod(),
         () => defaultCodesFor('account.get2faMethod')
     ],
     GET_LEDGER_KEY: [
