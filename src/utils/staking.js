@@ -168,7 +168,7 @@ export class Staking {
             functionCall('withdraw_all_from_staking_pool', {}, STAKING_GAS_BASE * 7, '0')
         ])
         if (withdraw_all_from_staking_pool[0] === false) {
-            throw new WalletError('Unable to withdraw pending balance from validator')
+            throw new WalletError('Unable to withdraw pending balance from validator', 'staking.errors.noWithdraw')
         }
     }
 
@@ -209,7 +209,7 @@ export class Staking {
             await (await new nearApiJs.Account(this.wallet.connection, contractId)).state()
             return await new nearApiJs.Contract(this.wallet.getAccount(), contractId, { ...methods })
         } catch(e) {
-            throw new WalletError('No lockup contract for account')
+            throw new WalletError('No lockup contract for account', 'staking.errors.noLockup')
         }
     }
 
