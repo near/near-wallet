@@ -39,6 +39,7 @@ const stakingMethods = {
 const lockupMethods = {
     viewMethods: [
         'get_balance',
+        'get_locked_amount',
         'get_owners_balance',
         'get_staking_pool_account_id',
         'get_known_deposited_balance',
@@ -63,24 +64,30 @@ export class Staking {
 
     async updateStakingLockup(validators) {
         const { contract, lockupId: account_id } = await this.getLockup()
-        const selectedValidator = await contract.get_staking_pool_account_id()
 
+        const lockupState = await (new nearApiJs.Account(this.wallet.connection, account_id)).state()
+        const lockupStorage = this.NEAR_PER_BYTE.mul(new BN(lockupState.storage_usage))
+        const deposited = new BN(await contract.get_known_deposited_balance(), 10)
+        let totalUnstaked = new BN(await contract.get_owners_balance(), 10)
+            .add(new BN(await contract.get_locked_amount(), 10))
+            .sub(lockupStorage)
+            .sub(deposited)
+
+        // validator specific
+        const selectedValidator = await contract.get_staking_pool_account_id()
         if (!selectedValidator) {
             return {
                 accountId: account_id,
                 selectedValidator: '',
-                totalUnstaked: await contract.get_owners_balance()
+                totalUnstaked: totalUnstaked.toString(),
             }
         }
-
         const validator = validators.find((v) => v.accountId === selectedValidator)
-        const deposited = new BN(await contract.get_known_deposited_balance(), 10)
-        let totalUnstaked = (new BN(await contract.get_owners_balance(), 10)).sub(deposited)
+
         let totalStaked = new BN('0', 10);
         let totalUnclaimed = new BN('0', 10);
         let totalAvailable = new BN('0', 10);
         let totalPending = new BN('0', 10);
-
         try {
             const total = new BN(await validator.contract.get_account_total_balance({ account_id }), 10)
             if (total.gt(new BN('0', 10))) {
@@ -91,6 +98,7 @@ export class Staking {
                 if (isAvailable) {
                     validator.available = validator.unstaked
                     totalAvailable = totalAvailable.add(new BN(validator.unstaked, 10))
+                    totalUnstaked = totalUnstaked.add(new BN(validator.unstaked, 10))
                 } else {
                     validator.pending = validator.unstaked
                     totalPending = totalPending.add(new BN(validator.unstaked, 10))
@@ -98,7 +106,6 @@ export class Staking {
             } else {
                 console.log(validator.accountId)
             }
-            totalUnstaked = totalUnstaked.add(new BN(validator.unstaked, 10))
             totalStaked = totalStaked.add(new BN(validator.staked, 10))
             totalUnclaimed = totalUnclaimed.add(new BN(validator.unclaimed, 10))
         } catch (e) {
@@ -122,6 +129,12 @@ export class Staking {
     }
 
     async getValidators() {
+        if (!this.NEAR_PER_BYTE) {
+            this.NEAR_PER_BYTE = new BN(
+                (await this.provider.experimental_genesisConfig()).runtime_config.storage_amount_per_byte
+            )
+        }
+        console.log(this.NEAR_PER_BYTE)
         return (await Promise.all(
             (await this.provider.validators()).current_validators
             .map(({ account_id }) => (async () => {
