@@ -72,9 +72,6 @@ export class TwoFactor extends AccountMultisig {
     }
 
     async verifyTwoFactor(securityCode) {
-        if (this.wallet.tempTwoFactorAccount) {
-            accountId = this.wallet.tempTwoFactorAccount.accountId
-        }
         return this.verifyRequestCode(securityCode)
     }
 
