@@ -63,7 +63,7 @@ const StakeConfirmModal = ({ open, onClose, onConfirm, validatorName, amount, lo
                 <ValidatorBox validator={validatorName} clickable={false} label={true}/>
                 {disclaimer && <div className='ledger-disclaimer'><Translate id={disclaimer}/></div>}
                 <FormButton disabled={loading} sending={loading} color='green' onClick={onConfirm}>
-                    <Translate id='button.confirmAndSend'/>
+                    <Translate id='button.confirm'/>
                 </FormButton>
                 <FormButton disabled={loading} color='link red' id='close-button'>
                     <Translate id='button.cancel'/>
