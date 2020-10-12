@@ -8,6 +8,7 @@ import LoginConfirm from './LoginConfirm'
 import LoginDetails from './LoginDetails'
 import LoginIncorrectContractId from './LoginIncorrectContractId'
 import { refreshAccount, handleRefreshUrl, switchAccount, clearAlert, allowLogin, redirectToApp, clear } from '../../actions/account'
+import { LOCKUP_ACCOUNT_ID_SUFFIX } from '../../utils/wallet'
 
 class Login extends Component {
     state = {
@@ -55,8 +56,8 @@ class Login extends Component {
     }
 
     render() {
-        const { account: { url, balance }, match } = this.props
-        const fullAccess = !url?.contract_id || !!parseFloat(balance?.lockedAmount)
+        const { account: { url }, match } = this.props
+        const fullAccess = !url?.contract_id || url?.contract_id.endsWith(`.${LOCKUP_ACCOUNT_ID_SUFFIX}`)
 
         return (
             <LoginContainer>
