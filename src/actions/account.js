@@ -194,7 +194,7 @@ export const {
         () => defaultCodesFor('account.resendTwoFactor')
     ],
     VERIFY_TWO_FACTOR: [
-        (...args) => wallet.twoFactor.verifyRequestCode(...args),
+        wallet.twoFactor.verifyRequestCode.bind(wallet.twoFactor),
         () => defaultCodesFor('account.verifyTwoFactor')
     ],
     PROMPT_TWO_FACTOR: [
