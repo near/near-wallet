@@ -289,7 +289,7 @@ export const handleAddAccessKeySeedPhrase = (accountId, recoveryKeyPair) => asyn
     try {
         await dispatch(addAccessKeySeedPhrase(accountId, recoveryKeyPair))
     } catch (error) {
-        
+        // error is thrown in `addAccessKeySeedPhrase` action, despite the error, we still want to redirect to /profile
     }
     dispatch(redirectTo('/profile', { 
         globalAlertPreventClear: true
@@ -356,8 +356,8 @@ export const { addAccessKey, createAccountWithSeedPhrase, addAccessKeySeedPhrase
             const fullAccess = true;
             
             try {
-                await wallet.addAccessKey(accountId, contractName, publicKey, fullAccess)
                 await wallet.postSignedJson('/account/seedPhraseAdded', { accountId, publicKey })
+                await wallet.addAccessKey(accountId, contractName, publicKey, fullAccess)
             } catch (error) {
                 throw new WalletError(error, 'account.addAccessKey.error')
             }
