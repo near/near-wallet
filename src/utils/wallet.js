@@ -15,7 +15,8 @@ import sha256 from 'js-sha256'
 import { store } from '..'
 import { setSignTransactionStatus, setLedgerTxSigned, showLedgerModal, redirectToApp, redirectTo, refreshAccount } from '../actions/account'
 
-import { TwoFactor, METHOD_NAMES_LAK } from './twoFactor'
+import { TwoFactor } from './twoFactor'
+import { Staking } from './staking'
 
 export const WALLET_CREATE_NEW_ACCOUNT_URL = 'create'
 export const WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS = ['create', 'set-recovery', 'setup-seed-phrase', 'recover-account', 'recover-seed-phrase', 'sign-in-ledger']
@@ -28,7 +29,7 @@ export const DISABLE_CREATE_ACCOUNT = process.env.DISABLE_CREATE_ACCOUNT === 'tr
 export const DISABLE_SEND_MONEY = process.env.DISABLE_SEND_MONEY === 'true' || process.env.DISABLE_SEND_MONEY === 'yes'
 export const ACCOUNT_ID_SUFFIX = process.env.REACT_APP_ACCOUNT_ID_SUFFIX || 'testnet'
 export const MULTISIG_MIN_AMOUNT = process.env.REACT_APP_MULTISIG_MIN_AMOUNT || '40'
-export const LOCKUP_ACCOUNT_ID_SUFFIX = process.env.LOCKUP_ACCOUNT_ID_SUFFIX || 'lockup'
+export const LOCKUP_ACCOUNT_ID_SUFFIX = process.env.LOCKUP_ACCOUNT_ID_SUFFIX || 'lockup.near'
 export const ACCESS_KEY_FUNDING_AMOUNT = process.env.REACT_APP_ACCESS_KEY_FUNDING_AMOUNT || nearApiJs.utils.format.parseNearAmount('0.01')
 export const LINKDROP_GAS = process.env.LINKDROP_GAS || '100000000000000'
 export const ENABLE_FULL_ACCESS_KEYS = process.env.ENABLE_FULL_ACCESS_KEYS === 'yes'
@@ -42,16 +43,6 @@ const KEY_UNIQUE_PREFIX = '_4:'
 const KEY_WALLET_ACCOUNTS = KEY_UNIQUE_PREFIX + 'wallet:accounts_v2'
 const KEY_ACTIVE_ACCOUNT_ID = KEY_UNIQUE_PREFIX + 'wallet:active_account_id_v2'
 const ACCOUNT_ID_REGEX = /^(([a-z\d]+[-_])*[a-z\d]+\.)*([a-z\d]+[-_])*[a-z\d]+$/
-const MULTISIG_CONTRACT_HASHES = process.env.MULTISIG_CONTRACT_HASHES || [
-    // https://github.com/near/core-contracts/blob/fa3e2c6819ef790fdb1ec9eed6b4104cd13eb4b7/multisig/src/lib.rs
-    '7GQStUCd8bmCK43bzD8PRh7sD2uyyeMJU5h8Rj3kXXJk',
-    // https://github.com/near/core-contracts/blob/fb595e6ec09014d392e9874c2c5d6bbc910362c7/multisig/src/lib.rs
-    'AEE3vt6S3pS2s7K6HXnZc46VyMyJcjygSMsaafFh67DF',
-    // https://github.com/near/core-contracts/blob/636e7e43f1205f4d81431fad0be39c5cb65455f1/multisig/src/lib.rs
-    '8DKTSceSbxVgh4ANXwqmRqGyPWCuZAR1fCqGPXUjD5nZ',
-    // https://github.com/near/core-contracts/blob/f93c146d87a779a2063a30d2c1567701306fcae4/multisig/res/multisig.wasm
-    '55E7imniT2uuYrECn17qJAk9fLcwQW4ftNSwmCJL5Di',
-];
 
 export const keyAccountConfirmed = (accountId) => `wallet.account:${accountId}:${NETWORK_ID}:confirmed`
 
@@ -119,6 +110,8 @@ class Wallet {
         this.accountId = localStorage.getItem(KEY_ACTIVE_ACCOUNT_ID) || ''
 
         this.twoFactor = new TwoFactor(this)
+        this.staking = new Staking(this)
+
     }
 
     async getLocalAccessKey(accountId, accessKeys) {
@@ -160,13 +153,7 @@ class Wallet {
     }
     
     async sendMoney(receiverId, amount) {
-        const { accountId } = this
-        const { account, has2fa } = await this.getAccountAndState(accountId)
-        if (has2fa) {
-            await this.twoFactor.sendMoney(account, receiverId, amount)
-        } else {
-            await account.sendMoney(receiverId, amount)
-        }
+        await this.getAccount(this.accountId).sendMoney(receiverId, amount)
     }
     
     isEmpty() {
@@ -214,8 +201,15 @@ class Wallet {
         if (!this.isEmpty()) {
             const accessKeys = await this.getAccessKeys() || []
             const ledgerKey = accessKeys.find(key => key.meta.type === 'ledger')
+            const state = await this.getAccount(this.accountId).state()
+            this.twoFactor = new TwoFactor(this)
+            const has2fa = this.has2fa = await this.twoFactor.isEnabled()
+            const lockupInfo = await this.staking.getLockup().catch((e) => console.warn('Account has no lockup'))
+
             return {
-                ...await this.getAccount(this.accountId).state(),
+                ...state,
+                has2fa,
+                hasLockup: !!lockupInfo,
                 balance: await this.getBalance(),
                 accountId: this.accountId,
                 accounts: this.accounts,
@@ -250,12 +244,7 @@ class Wallet {
     }
 
     async removeAccessKey(publicKey) {
-        const { account, has2fa } = await this.getAccountAndState(this.accountId)
-        if (has2fa) {
-            return await this.twoFactor.removeKey(account, publicKey)
-        } else {
-            return await this.getAccount(this.accountId).deleteKey(publicKey)
-        }
+        return await this.getAccount(this.accountId).deleteKey(publicKey)
     }
 
     async removeNonLedgerAccessKeys() {
@@ -324,6 +313,7 @@ class Wallet {
         } catch (e) {
             return true
         }
+        console.log(remoteAccount)
         if (!!remoteAccount) {
             throw new Error('Account ' + accountId + ' already exists.')
         }
@@ -348,6 +338,9 @@ class Wallet {
             publicKey = await this.getLedgerPublicKey()
             await setKeyMeta(publicKey, { type: 'ledger' })
         }
+
+        // no new accounts are 2fa
+        this.has2fa = false
 
         if (fundingContract && fundingKey) {
             await this.createNewAccountLinkdrop(accountId, fundingContract, fundingKey, publicKey)
@@ -417,33 +410,27 @@ class Wallet {
         }
     }
 
-
     /********************************
     recovering a second account attempts to call this method with the currently logged in account and not the tempKeyStore 
     ********************************/
     // TODO: Why is fullAccess needed? Everything without contractId should be full access.
-    async addAccessKey(accountId, contractId, publicKey, fullAccess = false) {
-        const { account, has2fa } = await this.getAccountAndState(accountId)
-        if (has2fa) {
-            return await this.twoFactor.addKey(account, publicKey, contractId, fullAccess)
-        } else {
-            try {
-                if (fullAccess) {
-                    return await this.getAccount(accountId).addKey(publicKey)
-                } else {
-                    return await this.getAccount(accountId).addKey(
-                        publicKey,
-                        contractId,
-                        '', // methodName
-                        ACCESS_KEY_FUNDING_AMOUNT
-                    )
-                }
-            } catch (e) {
-                if (e.type === 'AddKeyAlreadyExists') {
-                    return true;
-                }
-                throw e;
+    async addAccessKey(accountId, contractId, publicKey, fullAccess = false, methodNames) {
+        try {
+            if (fullAccess || (!this.has2fa && accountId === contractId)) {
+                return await this.getAccount(accountId).addKey(publicKey)
+            } else {
+                return await this.getAccount(accountId).addKey(
+                    publicKey,
+                    contractId,
+                    methodNames ? methodNames : '',
+                    ACCESS_KEY_FUNDING_AMOUNT
+                )
             }
+        } catch (e) {
+            if (e.type === 'AddKeyAlreadyExists') {
+                return true;
+            }
+            throw e;
         }
     }
 
@@ -581,14 +568,15 @@ class Wallet {
     }
 
     getAccount(accountId) {
+        if (accountId === this.accountId && this.has2fa) {
+            return this.twoFactor
+        }
         return new nearApiJs.Account(this.connection, accountId)
     }
 
-    async getAccountAndState(accountId) {
-        const account = this.getAccount(accountId)
-        const state = await account.state()
-        const has2fa = MULTISIG_CONTRACT_HASHES.includes(state.code_hash)
-        return { account, state, has2fa }
+    async getLockupAccountId(accountId) {
+        // TODO: Should lockup contract balance be retrieved separately only when needed?
+        return sha256(Buffer.from(accountId)).substring(0, 40)  + '.' + LOCKUP_ACCOUNT_ID_SUFFIX
     }
 
     async getBalance(accountId) {
@@ -596,9 +584,8 @@ class Wallet {
 
         const account = this.getAccount(accountId)
         const balance = await account.getAccountBalance()
+        const lockupAccountId = await this.getLockupAccountId(accountId)
 
-        // TODO: Should lockup contract balance be retrieved separately only when needed?
-        const lockupAccountId = sha256(Buffer.from(accountId)).substring(0, 40)  + '.' + LOCKUP_ACCOUNT_ID_SUFFIX
         try {
             // TODO: Makes sense for a lockup contract to return whole state as JSON instead of method per property
             const [
@@ -636,10 +623,9 @@ class Wallet {
     }
 
     async postSignedJson(path, options) {
-        // if there's a tempTwoFactorAccount (recovery with 2fa) use that account
         return await sendJson('POST', ACCOUNT_HELPER_URL + path, {
             ...options,
-            ...(await this.signatureFor(this.tempTwoFactorAccount ? this.tempTwoFactorAccount : this))
+            ...(await this.signatureFor(this))
         });
     }
 
@@ -716,15 +702,11 @@ class Wallet {
     }
 
     async addNewAccessKeyToAccount(accountId, newPublicKey) {
-        const { account, has2fa } = await this.getAccountAndState(accountId)
+        const account = this.getAccount(accountId)
         const accountKeys = await account.getAccessKeys();
 
-        if (has2fa) {
-            await this.addAccessKey(account.accountId, account.accountId, convertPKForContract(newPublicKey))
-        } else {
-            if (!accountKeys.some(it => it.public_key.endsWith(newPublicKey))) {
-                await account.addKey(newPublicKey);
-            }
+        if (!accountKeys.some(it => it.public_key.endsWith(newPublicKey))) {
+            await this.addAccessKey(accountId, accountId, convertPKForContract(newPublicKey))
         }
     }
 
@@ -781,30 +763,23 @@ class Wallet {
             signer: new nearApiJs.InMemorySigner(tempKeyStore)
         })
         await Promise.all(accountIds.map(async (accountId, i) => {
-            const account = new nearApiJs.Account(connection, accountId)
+            if (!accountId || !accountId.length) return
+
+            // set up temp wallet instance
+            this.connection = connection
             this.accountId = accountId
+            this.twoFactor = new TwoFactor(this)
+            this.twoFactor.accountId = accountId
+            this.has2fa = await this.twoFactor.isEnabled()
+            const account = this.getAccount(accountId)
+
             const keyPair = KeyPair.fromString(secretKey)
             await tempKeyStore.setKey(NETWORK_ID, accountId, keyPair)
             account.keyStore = tempKeyStore
             account.inMemorySigner = new nearApiJs.InMemorySigner(tempKeyStore)
-            this.tempTwoFactorAccount = account
             const newKeyPair = KeyPair.fromRandom('ed25519')
-            const state = await account.state()
-            const isMultiSigAccount = MULTISIG_CONTRACT_HASHES.includes(state.code_hash)
             
-            if (isMultiSigAccount) {
-                if (!fromSeedPhraseRecovery) {
-                    await this.addAccessKey(accountId, accountId, convertPKForContract(newKeyPair.publicKey))
-                } else {
-                    const actions = [
-                        nearApiJs.transactions.addKey(newKeyPair.publicKey, nearApiJs.transactions.functionCallAccessKey(accountId, METHOD_NAMES_LAK, null))
-                    ]
-                    await account.signAndSendTransaction(accountId, actions)
-                }
-            } else {
-                await account.addKey(newKeyPair.publicKey)
-            }
-
+            await this.addAccessKey(accountId, accountId, newKeyPair.publicKey, fromSeedPhraseRecovery)
             if (i === accountIds.length - 1) {
                 await this.saveAndSelectAccount(accountId, newKeyPair)
             } else {
@@ -819,10 +794,8 @@ class Wallet {
     }
 
     async signAndSendTransactions(transactions, accountId) {
-        const { account, has2fa } = await this.getAccountAndState(accountId)
-        if (has2fa) {
-            await this.twoFactor.signAndSendTransactions(account, transactions)
-            return
+        if (this.has2fa) {
+            return await this.twoFactor.signAndSendTransactions(transactions)
         }
         store.dispatch(setSignTransactionStatus('in-progress'))
         for (let { receiverId, nonce, blockHash, actions } of transactions) {

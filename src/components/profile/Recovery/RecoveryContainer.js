@@ -81,8 +81,9 @@ const RecoveryContainer = () => {
     const account = useSelector(({ account }) => account);
     const accountId = account.accountId;
     const accessKeys = account.accessKeys.map(key => key.public_key)
-    const activeMethods = useRecoveryMethods(accountId).filter(method => accessKeys.includes(method.publicKey) && method.kind !== 'ledger');
     const allKinds = ['email', 'phone', 'phrase'];
+    const activeMethods = useRecoveryMethods(accountId)
+        .filter(({ publicKey, kind }) => accessKeys.includes(publicKey) && allKinds.includes(kind));
     const currentActiveKinds = new Set(activeMethods.map(method => method.kind));
     const missingKinds = allKinds.filter(kind => !currentActiveKinds.has(kind))
     const deleteAllowed = [...currentActiveKinds].length > 1 || account.ledgerKey;

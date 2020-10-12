@@ -8,6 +8,21 @@ export default createGlobalStyle`
         align-items: center;
         padding: 40px 25px !important;
 
+        .warning {
+            text-align: center;
+
+            svg {
+                width: 48px;
+                margin: 0px;
+            }
+            h1 {
+                margin: 12px 0 24px 0;
+            }
+            div {
+                margin: 0 0 24px 0;
+            }
+        }
+
         svg {
             margin: 20px 0;
         }

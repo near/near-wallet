@@ -131,17 +131,22 @@ class AccountFormAccountId extends Component {
         invalidAccountIdLength: !!accountId && !this.checkAccountIdLength(accountId)
     }))
 
-    handleCheckAvailability = (accountId, type) => (
-        accountId
-            && !(
-                type === 'create' 
-                && (!this.handleAccountIdLengthState(accountId) 
-                && !this.checkAccountIdLength(accountId))
-            )
-            && this.props.checkAvailability(type === 'create' ? this.props.accountId : accountId) 
-    )
+    handleCheckAvailability = (accountId, type) => {
+        if (!accountId) {
+            return false
+        }
+        if (this.isImplicitAccount(accountId)) {
+            return true
+        }
+        if (!(type === 'create' && !this.handleAccountIdLengthState(accountId) && !this.checkAccountIdLength(accountId))) {
+            return this.props.checkAvailability(type === 'create' ? this.props.accountId : accountId) 
+        }
+        return false
+    }
 
     isSameAccount = () => this.props.type !== 'create' && this.props.stateAccountId === this.state.accountId
+
+    isImplicitAccount = (accountId) => this.props.type !== 'create' && accountId.length === 64
 
     get loaderRequestStatus() {
         return {
@@ -163,16 +168,33 @@ class AccountFormAccountId extends Component {
         }
     }
 
+    get implicitAccountRequestStatus() {
+        return {
+            success: true,
+            messageCode: 'account.available.implicitAccount'
+        }
+    }
+
     get requestStatusWithFormValidation() {
-        return this.state.accountId
-            ? this.props.formLoader
-                ? this.loaderRequestStatus
-                : this.state.invalidAccountIdLength
-                    ? this.accountIdLengthRequestStatus
-                    : this.isSameAccount()
-                        ? this.sameAccountRequestStatus
-                        : this.props.requestStatus
-            : null
+        const { accountId, invalidAccountIdLength } = this.state
+        const { formLoader, requestStatus } = this.props
+
+        if (!accountId) {
+            return null
+        }
+        if (this.isImplicitAccount(accountId)) {
+            return this.implicitAccountRequestStatus
+        }
+        if (formLoader) {
+            return this.loaderRequestStatus
+        }
+        if (invalidAccountIdLength) {
+            return this.accountIdLengthRequestStatus
+        }
+        if (this.isSameAccount()) {
+            return this.sameAccountRequestStatus
+        }
+        return requestStatus
     }
 
     render() {

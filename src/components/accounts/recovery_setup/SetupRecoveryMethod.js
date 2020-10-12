@@ -162,8 +162,10 @@ class SetupRecoveryMethod extends Component {
             activeMethods = recoveryMethods[activeAccountId].filter(method => method.confirmed).map(method => method.kind)
         }
         
-        return accountId === activeAccountId && activeMethods.includes(method)
+        return !this.checkNewAccount() && activeMethods.includes(method)
     }
+
+    checkNewAccount = () => this.props.accountId !== this.props.activeAccountId
 
     render() {
         const { option, phoneNumber, email, success, emailInvalid, phoneInvalid } = this.state;
@@ -183,8 +185,7 @@ class SetupRecoveryMethod extends Component {
                             active={option}
                             disabled={this.checkDisabled('phrase')}
                         />
-                        {
-                            !twoFactor &&
+                        {(this.checkNewAccount() || !twoFactor ) &&
                             <RecoveryOption
                                 onClick={() => this.setState({ option: 'ledger' })}
                                 option='ledger'
