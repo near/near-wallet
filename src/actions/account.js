@@ -208,8 +208,6 @@ export const {
                         } else {
                             reject(error)
                         }
-                        // if the user was recovering, they should start over
-                        wallet.tempTwoFactorAccount = null
                     }
                 })
             }

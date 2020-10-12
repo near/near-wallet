@@ -76,6 +76,9 @@ export function EnableTwoFactor(props) {
         let response;
         try {
             response = await dispatch(initTwoFactor(accountId, method))
+
+            console.log(response, accountId, method)
+            
         } finally {
             if (response && response.confirmed) {
                 handleDeployMultisig()

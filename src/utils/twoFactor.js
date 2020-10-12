@@ -24,7 +24,7 @@ const {
 
 export class TwoFactor extends AccountMultisig {
     constructor(wallet) {
-        super(wallet.connection, wallet.accountId)
+        super(wallet.connection, wallet.accountId, localStorage)
         this.wallet = wallet
     }
 
