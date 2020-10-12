@@ -24,7 +24,7 @@ const {
 
 export class TwoFactor extends AccountMultisig {
     constructor(wallet) {
-        super(wallet.connection, wallet.accountId)
+        super(wallet.connection, wallet.accountId, localStorage)
         this.wallet = wallet
     }
 
@@ -47,7 +47,7 @@ export class TwoFactor extends AccountMultisig {
 
     async initTwoFactor(accountId, method) {
         // clear any previous requests in localStorage (for verifyTwoFactor)
-        this.setRequest({})
+        this.setRequest({ requestId: -1 })
         return await this.wallet.postSignedJson('/2fa/init', {
             accountId,
             method
@@ -56,7 +56,7 @@ export class TwoFactor extends AccountMultisig {
 
     async reInitTwoFactor(accountId, method) {
         // clear any previous requests in localStorage (for verifyTwoFactor)
-        this.setRequest({})
+        this.setRequest({ requestId: -1 })
         return this.sendRequest(accountId, method)
     }
 
@@ -71,10 +71,7 @@ export class TwoFactor extends AccountMultisig {
         return this.sendRequest(accountId, method, requestId)
     }
 
-    async verifyTwoFactor(accountId, securityCode) {
-        if (this.wallet.tempTwoFactorAccount) {
-            accountId = this.wallet.tempTwoFactorAccount.accountId
-        }
+    async verifyTwoFactor(securityCode) {
         return this.verifyRequestCode(securityCode)
     }
 

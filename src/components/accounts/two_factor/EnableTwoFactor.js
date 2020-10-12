@@ -72,7 +72,6 @@ export function EnableTwoFactor(props) {
     }, [recoveryMethods]);
 
     const handleNext = async () => {
-
         let response;
         try {
             response = await dispatch(initTwoFactor(accountId, method))
@@ -86,7 +85,7 @@ export function EnableTwoFactor(props) {
     }
 
     const handleConfirm = async (securityCode) => {
-        await dispatch(verifyTwoFactor(accountId, securityCode))
+        await dispatch(verifyTwoFactor(securityCode))
         handleDeployMultisig()
     }
 
