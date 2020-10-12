@@ -21,7 +21,7 @@ export function Profile({ match }) {
         if (isOwner) {
             dispatch(getAccessKeys(accountId))
             dispatch(getLedgerKey())
-            // dispatch(get2faMethod())
+            dispatch(get2faMethod())
             dispatch(checkCanEnableTwoFactor(account))
         }
     }, []);
