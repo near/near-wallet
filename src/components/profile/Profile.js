@@ -20,7 +20,7 @@ export function Profile({ match }) {
     useEffect(() => { 
         if (isOwner) {
             dispatch(getAccessKeys(accountId))
-            // dispatch(getLedgerKey())
+            dispatch(getLedgerKey())
             dispatch(get2faMethod())
             dispatch(checkCanEnableTwoFactor(account))
         }

@@ -32,6 +32,13 @@ export class TwoFactor extends AccountMultisig {
         return MULTISIG_CONTRACT_HASHES.includes((await this.state()).code_hash)
     }
 
+    async get2faMethod() {
+        if (this.wallet.has2fa) {
+            return super.get2faMethod()
+        }
+        return null
+    }
+
     async checkCanEnableTwoFactor(account) {
         const availableBalance = new BN(account.balance.available)
         const multisigMinAmount = new BN(utils.format.parseNearAmount(MULTISIG_MIN_AMOUNT))
