@@ -182,19 +182,19 @@ export const {
         () => defaultCodesFor('account.validateSecurityCode')
     ],
     INIT_TWO_FACTOR: [
-        wallet.twoFactor.initTwoFactor.bind(wallet.twoFactor),
+        (...args) => wallet.twoFactor.initTwoFactor(...args),
         () => defaultCodesFor('account.initTwoFactor')
     ],
     REINIT_TWO_FACTOR: [
-        wallet.twoFactor.reInitTwoFactor.bind(wallet.twoFactor),
+        (...args) => wallet.twoFactor.reInitTwoFactor(...args),
         () => defaultCodesFor('account.reInitTwoFactor')
     ],
     RESEND_TWO_FACTOR: [
-        wallet.twoFactor.resend.bind(wallet.twoFactor),
+        (...args) => wallet.twoFactor.resend(...args),
         () => defaultCodesFor('account.resendTwoFactor')
     ],
     VERIFY_TWO_FACTOR: [
-        wallet.twoFactor.verifyRequestCode.bind(wallet.twoFactor),
+        (...args) => wallet.twoFactor.verifyRequestCode(...args),
         () => defaultCodesFor('account.verifyTwoFactor')
     ],
     PROMPT_TWO_FACTOR: [
@@ -216,15 +216,15 @@ export const {
         () => defaultCodesFor('account.promptTwoFactor')
     ],
     DEPLOY_MULTISIG: [
-        wallet.twoFactor.deployMultisig.bind(wallet.twoFactor),
+        (...args) => wallet.twoFactor.deployMultisig(...args),
         () => defaultCodesFor('account.deployMultisig')
     ],
     CHECK_CAN_ENABLE_TWO_FACTOR: [
-        wallet.twoFactor.checkCanEnableTwoFactor.bind(wallet.twoFactor),
+        (...args) => wallet.twoFactor.checkCanEnableTwoFactor(...args),
         () => defaultCodesFor('account.checkCanEnableTwoFactor')
     ],
     GET_2FA_METHOD: [
-        wallet.twoFactor.get2faMethod.bind(wallet.twoFactor),
+        (...args) => wallet.twoFactor.get2faMethod(...args),
         () => defaultCodesFor('account.get2faMethod')
     ],
     GET_LEDGER_KEY: [

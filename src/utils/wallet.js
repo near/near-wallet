@@ -768,6 +768,7 @@ class Wallet {
             // set up temp wallet instance
             this.connection = connection
             this.accountId = accountId
+            this.isRecovering = true
             this.twoFactor = new TwoFactor(this)
             this.twoFactor.accountId = accountId
             this.has2fa = await this.twoFactor.isEnabled()

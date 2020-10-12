@@ -26,6 +26,7 @@ export class TwoFactor extends AccountMultisig {
     constructor(wallet) {
         super(wallet.connection, wallet.accountId, localStorage)
         this.wallet = wallet
+        this.accountId = wallet.accountId
     }
 
     async isEnabled() {
