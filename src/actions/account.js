@@ -226,7 +226,7 @@ export const {
         () => defaultCodesFor('account.checkCanEnableTwoFactor')
     ],
     GET_2FA_METHOD: [
-        () => wallet.twoFactor.get2faMethod(),
+        () => wallet.twoFactor.get2faMethod(wallet.twoFactor),
         () => defaultCodesFor('account.get2faMethod')
     ],
     GET_LEDGER_KEY: [
