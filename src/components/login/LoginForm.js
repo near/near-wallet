@@ -24,7 +24,7 @@ const LoginForm = ({
     redirectCreateAccount,
     buttonLoader,
     match,
-    fullAccess
+    accountConfirmationForm
 }) => (
     <MobileContainer>
         <Grid padded>
@@ -33,10 +33,10 @@ const LoginForm = ({
                     textAlign='center'
                     className='authorize'
                 >
-                    {!fullAccess && (
+                    {!accountConfirmationForm && (
                         <IconAuthorize color='#999' />
                     )}
-                    {fullAccess && (
+                    {accountConfirmationForm && (
                         <IconProblems color='#fca347' />
                     )}
                 </Grid.Column>
@@ -50,14 +50,14 @@ const LoginForm = ({
                     tablet={16}
                     mobile={16}
                 >
-                    {!fullAccess && (
+                    {!accountConfirmationForm && (
                         <Fragment>
                             <div><b>{appTitle || <Translate id='sign.unknownApp' />}</b></div>
                             <div className='h2'><Translate id='login.form.isRequestingTo' /> </div>
                             <div className='h2'><Translate id='login.form.accessYourAccount' /></div>
                         </Fragment>
                     )}
-                    {fullAccess && (
+                    {accountConfirmationForm && (
                         <Fragment>
                             <div><b>{appTitle || <Translate id='sign.unknownApp' />}</b></div>
                             <div className='h2 font-benton'><Translate id='login.form.isRequestingFullAccess' /></div>
@@ -74,10 +74,10 @@ const LoginForm = ({
                     mobile={16}
                     className='color-black'
                 >
-                    {!fullAccess && (
+                    {!accountConfirmationForm && (
                         <div><Translate id='login.form.thisDoesNotAllow' /></div>
                     )}
-                    {fullAccess && (
+                    {accountConfirmationForm && (
                         <div><Translate id='login.form.thisProvidesAccess' /></div>
                     )}
                 </Grid.Column>
@@ -121,7 +121,7 @@ const LoginForm = ({
                         <Translate id='button.deny' />
                     </FormButton>
 
-                    {!fullAccess && (
+                    {!accountConfirmationForm && (
                         <FormButton
                             color='blue'
                             sending={buttonLoader}
@@ -130,7 +130,7 @@ const LoginForm = ({
                             <Translate id='button.allow' />
                         </FormButton>
                     )}
-                    {fullAccess && (
+                    {accountConfirmationForm && (
                         <FormButton
                             linkTo={`${match.url}${match.url.substr(-1) === '/' ? '' : '/'}confirm`}
                             color='blue'

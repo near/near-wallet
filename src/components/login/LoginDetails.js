@@ -90,7 +90,7 @@ const CustomGrid = styled(Grid)`
 
 class LoginDetails extends Component {
     render() {
-        const { contractId, transactions, fees, appTitle, fullAccess } = this.props
+        const { contractId, transactions, fees, appTitle, accountConfirmationForm } = this.props
 
         return (
             <CustomGrid padded>
@@ -104,7 +104,7 @@ class LoginDetails extends Component {
                                 </div>
                             </Link>
                         </div>
-                        {contractId && (fullAccess ? (
+                        {contractId && (accountConfirmationForm ? (
                             <div className='details'>
                                 <div className='details-item alert'>
                                     <GlobalAlert 

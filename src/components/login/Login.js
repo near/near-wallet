@@ -57,7 +57,7 @@ class Login extends Component {
 
     render() {
         const { account: { url }, match } = this.props
-        const fullAccess = !url?.contract_id || url?.contract_id.endsWith(`.${LOCKUP_ACCOUNT_ID_SUFFIX}`)
+        const accountConfirmationForm = !url?.contract_id || url?.contract_id.endsWith(`.${LOCKUP_ACCOUNT_ID_SUFFIX}`)
 
         return (
             <LoginContainer>
@@ -75,7 +75,7 @@ class Login extends Component {
                             handleSelectAccount={this.handleSelectAccount}
                             redirectCreateAccount={this.redirectCreateAccount}
                             handleDetails={this.handleDetails}
-                            fullAccess={fullAccess}
+                            accountConfirmationForm={accountConfirmationForm}
                         />
                     )}
                 />
@@ -87,7 +87,7 @@ class Login extends Component {
                             {...props}
                             contractId={url && url.contract_id}
                             appTitle={url && url.title}
-                            fullAccess={fullAccess}
+                            accountConfirmationForm={accountConfirmationForm}
                         />
                     )}
                 />
