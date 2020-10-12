@@ -42,11 +42,10 @@ const TwoFactorVerifyModal = ({ open, onClose }) => {
 
     const handleVerifyCode = async () => {
         const { success, res } = await dispatch(verifyTwoFactor(code))
-        if (success && typeof res !== 'boolean' && res !== false) {
-            onClose(true)
-        } else {
-            onClose(false, new WalletError('Transaction failed with return value: ' + res))
+        if (success === false || res === false) {
+            return onClose(false, new WalletError('Transaction failed with return value: ' + res))
         }
+        onClose(true)
     }
 
     const handleChange = (code) => {
