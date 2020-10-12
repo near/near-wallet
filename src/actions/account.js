@@ -340,7 +340,6 @@ export const { addAccessKey, createAccountWithSeedPhrase, addAccessKeySeedPhrase
                 await wallet.addAccessKey(accountId, contractName, newPublicKey, fullAccess)
                 await wallet.saveAccount(accountId, newKeyPair)
             } catch (error) {
-                wallet.clearAccountState()
                 if (previousAccountId) {
                     await wallet.saveAndSelectAccount(previousAccountId)
                 }
