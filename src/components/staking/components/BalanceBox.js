@@ -62,7 +62,8 @@ export default function BalanceBox({
     onClick,
     button,
     buttonColor,
-    loading
+    loading,
+    disclaimer
 }) {
     return (
         <Translate>
@@ -79,6 +80,11 @@ export default function BalanceBox({
                             </Modal>
                         </div>
                         <Balance amount={amount} />
+                        {disclaimer &&
+                            <div className='withdrawal-disclaimer'>
+                                <Translate id={disclaimer} />
+                            </div>
+                        }
                     </div>
                     {button && onClick &&
                         <FormButton disabled={new BN(amount).isZero() || loading} onClick={onClick} className={classNames(['small', buttonColor])}><Translate id={button} /></FormButton>

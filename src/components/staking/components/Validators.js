@@ -3,12 +3,10 @@ import { Translate } from 'react-localize-redux'
 import ListWrapper from './ListWrapper'
 import ValidatorBox from './ValidatorBox'
 
-export default function Validators({ validators, useLockup, selectedValidator, history }) {
+export default function Validators({ validators }) {
     const [validator, setValidator] = useState('')
 
     const validValidator = validators.map(validator => validator.accountId).includes(validator)
-
-    const selectedStaked = validators.filter(v => useLockup && selectedValidator === v.accountId && (v.staked !== '0' || v.available !== '0' || v.pending !== '0'))
 
     return (
         <>
@@ -17,7 +15,7 @@ export default function Validators({ validators, useLockup, selectedValidator, h
             <h4><Translate id='staking.validators.inputLabel' /></h4>
             <Translate>
                 {({ translate }) => (
-                    <input 
+                    <input
                         className='view-validator'
                         placeholder={translate('staking.validators.inputPlaceholder')}
                         value={validator}
@@ -30,12 +28,8 @@ export default function Validators({ validators, useLockup, selectedValidator, h
             {validValidator && 
                 <div className='input-validation-label success'><Translate id='staking.validators.search.success' /></div>
             }
-            <div className='already-staked-disclaimer'><Translate id='staking.validators.alreadyStaked' /></div>
-            <h3><Translate id='staking.validators.available' /></h3>
             <ListWrapper>
-                {(selectedStaked.length ? selectedStaked : validators)
-                .filter(v => v.accountId.includes(validator))
-                .map((validator, i) => 
+                {validators.map((validator, i) => 
                     <ValidatorBox
                         key={i}
                         validator={validator.accountId}

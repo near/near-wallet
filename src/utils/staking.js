@@ -183,6 +183,9 @@ export class Staking {
         if (withdraw_all_from_staking_pool[0] === false) {
             throw new WalletError('Unable to withdraw pending balance from validator', 'staking.errors.noWithdraw')
         }
+        await this.signAndSendTransaction(lockupId, [
+            functionCall('unselect_staking_pool', {}, STAKING_GAS_BASE)
+        ])
     }
 
     // helpers for lockup

@@ -27,14 +27,14 @@ export default function Staking({ currentValidators, totalStaked, totalUnclaimed
             {selectedValidator &&
                 <>
                     <BalanceBox
-                        title='staking.balanceBox.available.title'
-                        info='staking.balanceBox.available.info'
-                        amount={totalAvailable}
-                    />
-                    <BalanceBox
                         title='staking.balanceBox.pending.title'
                         info='staking.balanceBox.pending.info'
                         amount={totalPending}
+                    />
+                    <BalanceBox
+                        title='staking.balanceBox.available.title'
+                        info='staking.balanceBox.available.info'
+                        amount={totalAvailable}
                     />
                 </>
             }

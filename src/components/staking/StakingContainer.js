@@ -71,15 +71,25 @@ const StyledContainer = styled(Container)`
         margin: 50px auto;
     }
 
-    .already-staked-disclaimer,
     .withdrawal-disclaimer {
         font-style: italic;
         line-height: 140%;
         margin-top: 20px;
+        max-width: 375px;
+        font-size: 13px;
     }
 
     .balance-banner {
         margin-bottom: 40px;
+    }
+
+    .alert-banner {
+        margin: -35px -15px 50px -15px;
+        border-radius: 0;
+        @media (min-width: 495px) {
+            margin: 0 0 50px 0;
+            border-radius: 4px;
+        }
     }
 `
 
@@ -90,7 +100,6 @@ export function StakingContainer({ history }) {
     const { actionsPending, balance } = useSelector(({ account }) => account);
     let validators = staking.validators
     const currentValidators = validators.filter(v => v.staked !== '0' || v.available !== '0' || v.pending !== '0')
-    validators = currentValidators.length ? currentValidators : validators
     const { useLockup, totalUnstaked, selectedValidator } = staking
     const availableBalance = useLockup ? totalUnstaked : balance.available
     const loading = actionsPending.some(action => ['STAKE', 'UNSTAKE', 'WITHDRAW', 'UPDATE_STAKING'].includes(action))
@@ -136,8 +145,6 @@ export function StakingContainer({ history }) {
                             <Validators
                                 {...props}
                                 validators={staking.validators}
-                                useLockup={useLockup}
-                                selectedValidator={selectedValidator}
                             />
                         )}
                     />
@@ -151,6 +158,7 @@ export function StakingContainer({ history }) {
                                 onUnstake={handleUnstake}
                                 onWithdraw={handleWithDraw}
                                 loading={loading}
+                                selectedValidator={selectedValidator}
                             />
                         )}
                     />

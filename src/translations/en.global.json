@@ -535,7 +535,7 @@
         "staking": {
             "title": "Staking",
             "desc": "Stake your NEAR tokens with a validator",
-            "button": "Stake NEAR",
+            "button": "Select validator",
             "currentValidators": "Your Current Validators",
             "noValidators": "You haven't staked with a validator yet."
         },
@@ -588,29 +588,32 @@
         },
         "validators": {
             "title": "Select a Validator",
-            "desc": "Enter a known validator to stake your NEAR tokens.",
-            "inputLabel": "Enter a validator account ID",
+            "desc": "Enter a known validator or select a validator from the list to stake your NEAR tokens. You may only stake with a single validator at any given time.",
+            "inputLabel": "Validator account ID",
             "inputPlaceholder": "validator-name.near",
             "button": "View Validator",
             "available": "Available Validators",
             "search": {
                 "success": "Validator found!",
                 "error": "No matching validator."
-            },
-            "alreadyStaked": "You can only stake with one validator at a time. If you would like to change validators, you must first unstake, then restake with a new validator."
+            }
         },
         "validator": {
             "title": "Validator: <br/> @${validator}",
             "button": "Stake with validator",
             "fee": "Validator Fee",
             "desc": "This is the fee paid to the validator to stake on your behalf. This fee is only charged on your rewards.",
-            "withdrawalDisclaimer": "36 to 48 hours (3 full epochs) are required until your funds will be available for withdrawal.",
+            "withdrawalDisclaimer": "Funds pending release will be made available after ~36-48hrs (3 epochs)",
             "unstake": "You are unstaking",
             "withdraw": "You are withdrawing"
         },
         "balanceBanner": {
             "title": "Available lockup balance",
             "currency": "NEAR"
+        },
+        "alertBanner": {
+            "title": "You must first unstake and withdraw your tokens from your current validator in order to stake with a new validator.",
+            "button": "View current validator"
         },
         "noValidators": {
             "title": "You are not currently staking with any validators."
