@@ -235,7 +235,6 @@ class Wallet {
         accountId = accountId || this.accountId
         if (!accountId) return null
 
-        window.account = this.getAccount(accountId)
         const accessKeys = await this.getAccount(accountId).getAccessKeys()
         return Promise.all(accessKeys.map(async (accessKey) => ({
             ...accessKey,
