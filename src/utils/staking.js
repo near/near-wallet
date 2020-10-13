@@ -67,7 +67,7 @@ export class Staking {
 
         const lockupState = await (new nearApiJs.Account(this.wallet.connection, account_id)).state()
         // add 1 N to storage cost to always leave 1 N in lockup
-        const lockupStorage = this.NEAR_PER_BYTE.mul(new BN(lockupState.storage_usage)).add(new BN(parseNearAmount(1), 10))
+        const lockupStorage = this.NEAR_PER_BYTE.mul(new BN(lockupState.storage_usage)).add(new BN(parseNearAmount('1'), 10))
         const deposited = new BN(await contract.get_known_deposited_balance(), 10)
         let totalUnstaked = new BN(await contract.get_owners_balance(), 10)
             .add(new BN(await contract.get_locked_amount(), 10))
