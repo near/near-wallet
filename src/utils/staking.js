@@ -215,7 +215,7 @@ export class Staking {
         if (process.env.REACT_APP_USE_TESTINGLOCKUP) {
             lockupId = `testinglockup.${accountId}`
         } else {
-            lockupId = await this.wallet.getLockupAccountId(accountId)
+            lockupId = this.wallet.getLockupAccountId(accountId)
         }
         await (await new nearApiJs.Account(this.wallet.connection, lockupId)).state()
         const contract = await this.getContractInstance(lockupId, lockupMethods)
