@@ -14,6 +14,10 @@ import isDecimalString from '../../../utils/isDecimalString'
 import { onKeyDown } from '../../../hooks/eventListeners'
 import { toNear } from '../../../utils/amounts'
 
+const {
+    parseNearAmount, formatNearAmount
+} = utils.format
+
 export default function Stake({ match, validators, useLockup, loading, handleGetValidators, availableBalance, hasLedger }) {
     const dispatch = useDispatch()
     const [confirm, setConfirm] = useState()
@@ -21,9 +25,9 @@ export default function Stake({ match, validators, useLockup, loading, handleGet
     const [success, setSuccess] = useState()
     const validator = validators.filter(validator => validator.accountId === match.params.validator)[0]
 
-    const insufficientBalance = new BN(utils.format.parseNearAmount(amount))
+    const insufficientBalance = new BN(parseNearAmount(amount))
         .sub(new BN(availableBalance))
-        .gt(new BN(utils.format.parseNearAmount('0.00001')))
+        .gt(new BN(parseNearAmount('0.00001')))
     const invalidAmount = insufficientBalance || !isDecimalString(amount)
     const stakeAllowed = !loading && amount.length && amount !== '0' && !invalidAmount
 
@@ -55,6 +59,7 @@ export default function Stake({ match, validators, useLockup, loading, handleGet
                     onChange={setAmount} 
                     valid={stakeAllowed}
                     availableBalance={availableBalance}
+                    availableClick={() => setAmount(formatNearAmount(availableBalance, 5))}
                     insufficientBalance={insufficientBalance} 
                     loading={loading}
                 />
