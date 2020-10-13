@@ -13,6 +13,7 @@ const {
     }
 } =  nearApiJs
 
+const MIN_LOCKUP_AMOUNT = new BN(process.env.MIN_LOCKUP_AMOUNT || parseNearAmount('35.00001'), 10)
 const STAKING_GAS_BASE = process.env.REACT_APP_STAKING_GAS_BASE || '25000000000000' // 25 Tgas
 
 const stakingMethods = {
@@ -65,14 +66,17 @@ export class Staking {
     async updateStakingLockup(validators) {
         const { contract, lockupId: account_id } = await this.getLockup()
 
-        const lockupState = await (new nearApiJs.Account(this.wallet.connection, account_id)).state()
-        // add 1 N to storage cost to always leave 1 N in lockup
-        const lockupStorage = this.NEAR_PER_BYTE.mul(new BN(lockupState.storage_usage)).add(new BN(parseNearAmount('1'), 10))
+        // use MIN_LOCKUP_AMOUNT vs. actual storage amount
         const deposited = new BN(await contract.get_known_deposited_balance(), 10)
         let totalUnstaked = new BN(await contract.get_owners_balance(), 10)
             .add(new BN(await contract.get_locked_amount(), 10))
-            .sub(lockupStorage)
+            .sub(MIN_LOCKUP_AMOUNT)
             .sub(deposited)
+
+        // minimum displayable for totalUnstaked 
+        if (totalUnstaked.lt(new BN(parseNearAmount('0.001'), 10))) {
+            totalUnstaked = new BN('0', 10)
+        }
 
         // validator specific
         const selectedValidator = await contract.get_staking_pool_account_id()
@@ -133,12 +137,6 @@ export class Staking {
     }
 
     async getValidators() {
-        if (!this.NEAR_PER_BYTE) {
-            this.NEAR_PER_BYTE = new BN(
-                (await this.provider.experimental_genesisConfig()).runtime_config.storage_amount_per_byte
-            )
-        }
-        console.log(this.NEAR_PER_BYTE)
         return (await Promise.all(
             (await this.provider.validators()).current_validators
             .map(({ account_id }) => (async () => {

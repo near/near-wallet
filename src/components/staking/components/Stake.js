@@ -20,7 +20,10 @@ export default function Stake({ match, validators, useLockup, loading, handleGet
     const [amount, setAmount] = useState('')
     const [success, setSuccess] = useState()
     const validator = validators.filter(validator => validator.accountId === match.params.validator)[0]
-    const insufficientBalance = new BN(availableBalance).lt(new BN(utils.format.parseNearAmount(amount)))
+
+    const insufficientBalance = new BN(utils.format.parseNearAmount(amount))
+        .sub(new BN(availableBalance))
+        .gt(new BN(utils.format.parseNearAmount('0.00001')))
     const invalidAmount = insufficientBalance || !isDecimalString(amount)
     const stakeAllowed = !loading && amount.length && amount !== '0' && !invalidAmount
 
