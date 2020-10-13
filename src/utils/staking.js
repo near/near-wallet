@@ -66,7 +66,7 @@ export class Staking {
         const { contract, lockupId: account_id } = await this.getLockup()
 
         const lockupState = await (new nearApiJs.Account(this.wallet.connection, account_id)).state()
-        const lockupStorage = this.NEAR_PER_BYTE.mul(new BN(lockupState.storage_usage))
+        const lockupStorage = this.NEAR_PER_BYTE.mul(new BN(lockupState.storage_usage).add(new BN('1', 10)))
         const deposited = new BN(await contract.get_known_deposited_balance(), 10)
         let totalUnstaked = new BN(await contract.get_owners_balance(), 10)
             .add(new BN(await contract.get_locked_amount(), 10))
@@ -171,14 +171,16 @@ export class Staking {
         return await this.lockupStake(lockupId, validatorId, amount)
     }
 
-    async unstake(useLockup) {
+    // helpers for lockup
+
+    async unstake(useLockup, amount) {
         const { lockupId } = await this.getLockup()
         await this.signAndSendTransaction(lockupId, [
             functionCall('unstake_all', {}, STAKING_GAS_BASE * 5, '0')
         ])
     }
 
-    async withdraw(useLockup) {
+    async withdraw(useLockup, amount) {
         const { lockupId } = await this.getLockup()
         const withdraw_all_from_staking_pool = await this.signAndSendTransaction(lockupId, [
             functionCall('withdraw_all_from_staking_pool', {}, STAKING_GAS_BASE * 7, '0')
@@ -190,8 +192,6 @@ export class Staking {
             functionCall('unselect_staking_pool', {}, STAKING_GAS_BASE)
         ])
     }
-
-    // helpers for lockup
 
     async lockupStake(lockupId, validatorId, amount) {
         return await this.signAndSendTransaction(lockupId, [
