@@ -5,6 +5,10 @@ import { BinaryReader } from 'near-api-js/lib/utils/serialize'
 import { LOCKUP_ACCOUNT_ID_SUFFIX } from './wallet'
 import { WalletError } from './walletError'
 
+// TODO: Should gas allowance be dynamically calculated
+const MIN_BALANCE_FOR_GAS = new BN(parseNearAmount('2'));
+const LOCKUP_MIN_BALANCE = new BN(parseNearAmount('35'));
+
 export function decorateWithLockup(account) {
     // TODO: Use solution without hacky mix-in inheritance
     // TODO: Looks like best if near-api-js allows to specify transaction middleware
@@ -17,8 +21,6 @@ export function decorateWithLockup(account) {
 async function signAndSendTransaction(receiverId, actions) {
     const { available: balance } = await this.wrappedAccount.getAccountBalance()
 
-    // TODO: Should gas allowance be dynamically calculated
-    const MIN_BALANCE_FOR_GAS = new BN(parseNearAmount('2'));
     // TODO: Extract code to compute total cost of transaction
     const total = actions.map(action => action?.transfer?.deposit || action?.functionCall?.deposit)
         .filter(deposit => !!deposit)
@@ -89,11 +91,11 @@ async function getAccountBalance() {
                 const unreleasedAmount = releaseDuration === '0'
                     ? new BN(0)
                     : BN.max(new BN(0), new BN(lockupAmount).mul(timeLeft).div(new BN(releaseDuration)))
-                liquidOwnersBalance = new BN(lockupAmount).sub(unreleasedAmount)
+                liquidOwnersBalance = new BN(lockupAmount).sub(unreleasedAmount).sub(LOCKUP_MIN_BALANCE)
             }
         }
 
-        const available = new BN(balance.available).add(new BN(liquidOwnersBalance))
+        const available = BN.max(new BN(0), new BN(balance.available).add(new BN(liquidOwnersBalance)).sub(MIN_BALANCE_FOR_GAS))
         return {
             ...balance,
             available,
