@@ -28,8 +28,7 @@ const Balance = ({ amount, noSymbol = false }) => {
 }
 
 export const formatNEAR = (amount) => {
-    let ret =  utils.format.formatNearAmount(amount.toString(), FRAC_DIGITS)
-
+    let ret = utils.format.formatNearAmount(amount.toString(), FRAC_DIGITS)
     if (amount === '0') {
         return amount;
     } else if (ret === '0') {

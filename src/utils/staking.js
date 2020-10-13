@@ -88,20 +88,23 @@ export class Staking {
         let totalUnclaimed = new BN('0', 10);
         let totalAvailable = new BN('0', 10);
         let totalPending = new BN('0', 10);
+        const minimumUnstaked = new BN('100', 10); // 100 yocto
         try {
             const total = new BN(await validator.contract.get_account_total_balance({ account_id }), 10)
             if (total.gt(new BN('0', 10))) {
                 validator.staked = await validator.contract.get_account_staked_balance({ account_id })
                 validator.unclaimed = total.sub(deposited).toString()
-                validator.unstaked = await validator.contract.get_account_unstaked_balance({ account_id })
-                const isAvailable = await validator.contract.is_account_unstaked_balance_available({ account_id })
-                if (isAvailable) {
-                    validator.available = validator.unstaked
-                    totalAvailable = totalAvailable.add(new BN(validator.unstaked, 10))
-                    totalUnstaked = totalUnstaked.add(new BN(validator.unstaked, 10))
-                } else {
-                    validator.pending = validator.unstaked
-                    totalPending = totalPending.add(new BN(validator.unstaked, 10))
+                validator.unstaked = new BN(await validator.contract.get_account_unstaked_balance({ account_id }), 10)
+                if (validator.unstaked.gt(minimumUnstaked)) {
+                    const isAvailable = await validator.contract.is_account_unstaked_balance_available({ account_id })
+                    if (isAvailable) {
+                        validator.available = validator.unstaked.toString()
+                        totalAvailable = totalAvailable.add(validator.unstaked)
+                        totalUnstaked = totalUnstaked.add(validator.unstaked)
+                    } else {
+                        validator.pending = validator.unstaked.toString()
+                        totalPending = totalPending.add(validator.unstaked)
+                    }
                 }
             } else {
                 console.log(validator.accountId)
