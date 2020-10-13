@@ -74,7 +74,7 @@ export class Staking {
             .sub(deposited)
 
         // minimum displayable for totalUnstaked 
-        if (totalUnstaked.lt(new BN(parseNearAmount('0.001'), 10))) {
+        if (totalUnstaked.lt(new BN(parseNearAmount('0.002'), 10))) {
             totalUnstaked = new BN('0', 10)
         }
 
