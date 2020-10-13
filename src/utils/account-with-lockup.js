@@ -86,7 +86,9 @@ async function getAccountBalance() {
             if (transfersTimestamp) {
                 const endTimestamp = new BN(transfersTimestamp).add(new BN(releaseDuration))
                 const timeLeft = endTimestamp.sub(new BN(Date.now()).mul(new BN('1000000')))
-                const unreleasedAmount = BN.max(new BN(0), new BN(lockupAmount).mul(timeLeft).div(new BN(releaseDuration)))
+                const unreleasedAmount = releaseDuration === '0'
+                    ? new BN(0)
+                    : BN.max(new BN(0), new BN(lockupAmount).mul(timeLeft).div(new BN(releaseDuration)))
                 liquidOwnersBalance = new BN(lockupAmount).sub(unreleasedAmount)
             }
         }
