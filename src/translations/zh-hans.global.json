@@ -539,7 +539,7 @@
             "staking": "质押",
             "near": "NEAR",
             "cta": "选择",
-            "with": "with"
+            "with": "委托给"
         },
         "stake": {
             "title": "质押数量",
@@ -559,7 +559,7 @@
             "title": "成功！",
             "desc": "你的质押成功委托给已选择的验证节点：",
             "descTwo": "你可以在质押页查看你的委托和质押奖励。",
-            "button": "返回概览页"
+            "button": "返回质押页"
         },
         "validators": {
             "title": "选择验证节点",
