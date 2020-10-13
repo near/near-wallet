@@ -54,7 +54,7 @@ async function signAndSendTransaction(receiverId, actions) {
     return await this.wrappedAccount.signAndSendTransaction.call(this, receiverId, actions);
 }
 
-function getLockupAccountId(accountId) {
+export function getLockupAccountId(accountId) {
     return sha256(Buffer.from(accountId)).substring(0, 40) + '.' + LOCKUP_ACCOUNT_ID_SUFFIX
 }
 
