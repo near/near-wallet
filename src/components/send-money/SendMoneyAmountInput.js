@@ -93,8 +93,8 @@ class SendMoneyAmountInput extends Component {
     }
 
     get availableBalance() {
-        const { available, liquidOwnersBalance } = this.props.balance;
-        return new BN(available).add(new BN(liquidOwnersBalance));
+        const { available } = this.props.balance
+        return new BN(available)
     }
 
     handleChangeAmount = (e, { name, value }) => {

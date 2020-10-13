@@ -15,7 +15,7 @@ export function decorateWithLockup(account) {
 }
 
 async function signAndSendTransaction(receiverId, actions) {
-    const { available: balance } = await this.getAccountBalance()
+    const { available: balance } = await this.wrappedAccount.getAccountBalance()
 
     // TODO: Should gas allowance be dynamically calculated
     const MIN_BALANCE_FOR_GAS = new BN(parseNearAmount('2'));
@@ -91,8 +91,10 @@ async function getAccountBalance() {
             }
         }
 
+        const available = new BN(balance.available).add(liquidOwnersBalance)
         return {
             ...balance,
+            available,
             ownersBalance,
             liquidOwnersBalance,
             lockedAmount,
