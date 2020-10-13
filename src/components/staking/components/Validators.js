@@ -29,7 +29,7 @@ export default function Validators({ validators }) {
                 <div className='input-validation-label success'><Translate id='staking.validators.search.success' /></div>
             }
             <ListWrapper>
-                {validators.map((validator, i) => 
+                {validators.filter(v => v.accountId.includes(validator)).map((validator, i) => 
                     <ValidatorBox
                         key={i}
                         validator={validator.accountId}
