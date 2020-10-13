@@ -203,7 +203,18 @@ class Wallet {
             const state = await this.getAccount(this.accountId).state()
             this.twoFactor = new TwoFactor(this)
             const has2fa = this.has2fa = await this.twoFactor.isEnabled()
-            const lockupInfo = await this.staking.getLockup().catch((e) => console.warn('Account has no lockup'))
+
+            // TODO: Just use accountExists to check if lockup exists?
+            let lockupInfo
+            try {
+                lockupInfo = await this.staking.getLockup();
+            } catch (error) {
+                if (error.toString().includes('does not exist while viewing')) {
+                    console.warn('Account has no lockup')
+                } else {
+                    throw error
+                }
+            }
 
             return {
                 ...state,
