@@ -91,7 +91,7 @@ async function getAccountBalance() {
             }
         }
 
-        const available = new BN(balance.available).add(liquidOwnersBalance)
+        const available = new BN(balance.available).add(new BN(liquidOwnersBalance))
         return {
             ...balance,
             available,
