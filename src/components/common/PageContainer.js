@@ -16,9 +16,6 @@ const CustomContainer = styled(Container)`
                 border-bottom: 0;
                 margin-bottom: 0;
             }
-            h1 {
-                line-height: 48px;
-            }
             button {
                 margin-top: 0px;
             }
@@ -51,7 +48,6 @@ const CustomContainer = styled(Container)`
 
                     h1 {
                         font-size: 11px !important;
-                        line-height: 18px !important;
                         letter-spacing: 2px;
                         text-transform: uppercase;
                         padding-bottom: 0px;

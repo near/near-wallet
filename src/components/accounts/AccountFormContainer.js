@@ -16,15 +16,11 @@ const CustomContainer = styled(Container)`
             .column {
                 padding: 0 14px 48px 0;
             }
-            h1 {
-                line-height: 48px;
-            }
             h2 {
                 color: #4a4f54 !important;
 
                 span {
                     color: #24272a;
-                    line-height: 54px;
                     background: #f8f8f8;
                     padding: 8px 12px;
                 }
@@ -44,13 +40,11 @@ const CustomContainer = styled(Container)`
                 }
                 h2 {
                     font-size: 14px !important;
-                    line-height: 18px !important;
                     color: #999 !important;
                     padding-bottom: 12px;
                     margin-top: 0px;
 
                     span {
-                        line-height: 36px;
                         padding: 4px 12px;
                     }
                 }

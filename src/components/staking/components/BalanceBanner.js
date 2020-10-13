@@ -35,7 +35,6 @@ const Container = styled.div`
 
         div {
             color: #24272a;
-            font-family: BwSeidoRound;
             margin-top: 4px;
             font-size: 18px;
             font-weight: 500;

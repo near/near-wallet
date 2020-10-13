@@ -81,7 +81,6 @@ const CustomList = styled(List)`
                         margin: 0 0 0 24px;
                         padding: 12px 0 0 32px !important;
                         background: url(${CheckBlueImage}) no-repeat left 14px;
-                        line-height: 32px;
                     }
                     .row:last-child {
                         border-bottom: 0px solid #e6e6e6;
@@ -125,13 +124,9 @@ const CustomList = styled(List)`
             color: #24272a;
             float: left;
 
-            .header {
-                font-family: 'benton-sans', sans-serif;
-            }
             .content {
                 color: #999999;
                 padding-top: 12px;
-                line-height: 20px;
             }
         }
         

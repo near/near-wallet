@@ -40,8 +40,6 @@ const Wrapper = styled.div`
     border-radius: 4px;
     padding: 14px 15px;
     font-size: 16px;
-    font-family: 'benton-sans',sans-serif;
-    line-height: normal;
     display: flex;
     align-items: center;
     box-shadow: 0px 6px 8px 0px rgba(0,0,0,0.14);

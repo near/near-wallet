@@ -219,7 +219,6 @@ const CustomButton = styled(Button)`
             border-radius: 0px;
 
             font-size: 14px;
-            line-height: 14px;
             background: none;
             border: none;
             display: inline;

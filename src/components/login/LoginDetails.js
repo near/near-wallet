@@ -58,7 +58,6 @@ const CustomGrid = styled(Grid)`
                 .desc {
                     display: flex;
                     padding-top: 4px;
-                    line-height: 16px;
 
                     .icon {
                         margin-right: 10px;
@@ -98,7 +97,7 @@ class LoginDetails extends Component {
                     <Grid.Column largeScreen={6} computer={8} tablet={10} mobile={16}>
                         <div className='top-back'>
                             <Link to='/login'>
-                                <div className='back-button h3 font-benton color-blue'>
+                                <div className='back-button h3 color-blue'>
                                     <div><IconArrowLeft color='#0072ce' /></div>
                                     <div><Translate id='back' /></div>
                                 </div>

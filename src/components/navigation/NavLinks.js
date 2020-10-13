@@ -37,7 +37,6 @@ const NavLink = styled(Link)`
         display: inline-block;
         width: 23px;
         height: 23px;
-        margin-top: -3px;
         background-size: contain;
     }
 

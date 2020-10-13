@@ -32,7 +32,6 @@ const Container = styled.div`
         margin: 0 !important;
         font-weight: 500 !important;
         color: #24272A !important;
-        font-family: BwSeidoRound !important;
         color: ${props => props.status === '#ff585d' ? props.status : '#24272A'} !important;
 
         ::placeholder {

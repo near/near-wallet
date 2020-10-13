@@ -43,12 +43,10 @@ const CustomMessage = styled(Message)`
         }
         .content {
             color: #999;
-            line-height: 20px;
             word-break: break-word;
 
             .header {
                 font-size: 18px;
-                line-height: 26px;
                 font-weight: 600;
                 padding-bottom: 6px;
             }

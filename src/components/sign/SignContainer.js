@@ -52,7 +52,6 @@ const CustomContainer = styled(Container)`
             cursor: pointer;
 
             font-size: 13px;
-            line-height: 40px;
             border-radius: 20px;
             
             background: #f8f8f8;
@@ -68,9 +67,7 @@ const CustomContainer = styled(Container)`
                 color: #fff;
                 top: 5px;
                 right: 5px;
-
                 border-radius: 100%;
-                line-height: 30px;
             }
         }
         .sub {

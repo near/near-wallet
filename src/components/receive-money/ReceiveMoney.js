@@ -47,7 +47,6 @@ const Container = styled.div`
 const Title = styled.div`
     font-size: 28px;
     font-weight: 500;
-    font-family: BwSeidoRound !important;
 
     @media (min-width: 768px) {
         font-size: 36px;
@@ -62,7 +61,6 @@ const Address = styled.div`
     width: 100%;
     font-size: 22px;
     word-break: break-all;
-    line-height: 120%;
     margin-top: 25px;
     position: relative;
     background-color: white;
@@ -91,7 +89,6 @@ const CopyAddress = styled.div`
     background-color: #f8f8f8;
     border-radius: 4px;
     padding: 6px 10px;
-    line-height: normal;
 `
 
 const UrlAddress = styled.div`

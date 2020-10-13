@@ -19,10 +19,8 @@ const CustomDiv = styled(`div`)`
         input {
             height: 80px !important;
             border: 0px !important;
-            font-family: BwSeidoRound !important;
             font-size: ${props => props.fontSize} !important;
             font-weight: 500 !important;
-            line-height: 80px !important;
             color: #4a4f54 !important;
             text-align: center !important;
             padding: 0px !important;
@@ -47,7 +45,6 @@ const CustomDiv = styled(`div`)`
             font-weight: 500;
             margin: 0;
             padding: 8px 0;
-            line-height: 34px;
             text-align: center;
             
             &.problem {

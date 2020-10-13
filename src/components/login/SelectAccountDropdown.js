@@ -36,7 +36,6 @@ const CustomSegment = styled(Segment)`
             background: #fff;
 
         .item {
-            line-height: 46px;
             height: 46px;
             color: #24272a;
             padding: 0 0 0 12px;

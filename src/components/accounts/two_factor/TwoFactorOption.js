@@ -133,7 +133,6 @@ const Title = styled.div`
     font-size: 16px;
     color: #24272a;
     font-weight: 500;
-    font-family: BwSeidoRound;
 `
 
 const TwoFactorOption = ({

@@ -25,8 +25,6 @@ export default createGlobalStyle`
 
             position: relative;
             color: #999;
-            font-family: "benton-sans",sans-serif;
-            font-weight: 400;
             font-size: 14px !important;
             -webkit-overflow-scrolling: touch;
         }
@@ -58,9 +56,12 @@ export default createGlobalStyle`
         text-decoration: underline;
     }
 
+    body, p, h1, h2, h3, h4, h5, h6, button, .button, input, select, textarea {
+        font-family: "Inter", Lato, "Lucida Grande", Tahoma, Sans-Serif !important;
+    }
+
     h1, .h1 {
-        font-family: BwSeidoRound !important;
-        font-weight: 500 !important;
+        font-weight: 900 !important;
         color: #24272a;
         font-size: calc(28px + (40 - 28) * ((100vw - 300px) / (1600 - 300))) !important;
         word-wrap: break-word;
@@ -72,10 +73,8 @@ export default createGlobalStyle`
         }
     }
     h2, .h2 {
-        font-family: BwSeidoRound !important;
         font-size: 24px !important;
-        font-weight: 500 !important;
-        line-height: 1.4 !important;
+        font-weight: 900 !important;
         color: #24272a !important;
         margin: 0px;
 
@@ -84,26 +83,20 @@ export default createGlobalStyle`
         }
     }
     h3, .h3 {
-        font-family: BwSeidoRound !important;
         font-size: 18px !important;
         font-weight: 500 !important;
-        line-height: 24px !important;
         color: #24272a !important;
         margin: 0px;
     }
     h4, .h4 {
-        font-family: BwSeidoRound !important;
         font-size: 16px;
         font-weight: 500;
-        line-height: 1.33;
         color: #24272a;
         margin: 0px;
     }
 
     h5, .h5 {
-        font-family: "benton-sans",sans-serif !important;
         font-size: 13px !important;
-        line-height: 26px;
         font-weight: 500;
         color: #999999 !important;
         margin: 0px;
@@ -111,31 +104,19 @@ export default createGlobalStyle`
     }
 
     h6, .h6 {
-        font-family: "benton-sans",sans-serif !important;
         font-size: 12px !important;
-        line-height: 18px;
         font-weight: 500;
         color: #999999;
         margin: 0px !important;
         letter-spacing: 1.5px !important;
     }
 
-    .font-benton {
-        font-family: "benton-sans",sans-serif !important;
-    }
-
-    .font-rounded {
-        font-family: BwSeidoRound !important;
-    }
-
     .font-small {
-        font-family: "benton-sans",sans-serif !important;
         font-size: 12px !important;
         color: #999 !important;
         font-weight: 400 !important;
 
         a {
-            font-family: "benton-sans",sans-serif !important;
             font-size: 12px !important;
             color: #999 !important;
             font-weight: 500 !important;
@@ -167,7 +148,6 @@ export default createGlobalStyle`
     }
 
     input {
-        font-family: "benton-sans",sans-serif !important;
         font-size: 16px !important;
         width: 100% !important;
         height: 48px !important;
@@ -189,10 +169,6 @@ export default createGlobalStyle`
         :focus {
             border-color: #e6e6e6 !important;
             background-color: #fff !important;
-        }
-
-        ::-webkit-input-placeholder {
-            line-height: normal !important;
         }
     }
 
@@ -321,15 +297,9 @@ export default createGlobalStyle`
 
 
     button, .button {
-        font-family: "benton-sans",sans-serif !important;
-        line-height: 1.8 !important;
         cursor: pointer;
         outline: none;
         font-weight: 400 !important;
-
-        &.link {
-            line-height: normal !important;
-        }
     }
 
     .box {
@@ -409,13 +379,8 @@ export default createGlobalStyle`
         margin: auto;
     }
 
-    .ui.list .list>.item .header, .ui.list>.item .header {
-        font-family: "benton-sans",sans-serif;
-        
-    }
     .ui.popup>.header, .ui.popup {
         color: #999;
-        font-family: "benton-sans",sans-serif;
         font-weight: 500 !important;
         font-size: 14px !important;
     }
@@ -433,14 +398,6 @@ export default createGlobalStyle`
         box-shadow: -1px -1px 0 0 #eee;
     }
 
-    .font-benton {
-        font-family: "benton-sans",sans-serif !important;
-    }
-
-    .font-bw {
-        font-family: BwSeidoRound !important;
-    }
-
     @media screen and (max-width: 767px) {
         h1, .h1 {
             font-size: 28px !important;
@@ -450,13 +407,11 @@ export default createGlobalStyle`
         h2, .h2 {
             font-size: 18px !important;
             font-weight: 600;
-            line-height: 1.33;
             margin: 0px;
         }
         h3, .h3 {
             font-size: 16px !important;
             font-weight: 500;
-            line-height: 1.33;
             margin: 0px;
         }
         .box .column {
@@ -467,7 +422,6 @@ export default createGlobalStyle`
     .ui {
         &.dimmer {
             .modal {
-                line-height: 140%;
                 padding: 25px;
 
                 .close {

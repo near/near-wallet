@@ -24,7 +24,6 @@ export const LoginCliLoginSuccess = () => (
         <Grid.Row className='title'>
             <Grid.Column
                 as='h2'
-                className='font-benton'
                 textAlign='center'
                 computer={16}
                 tablet={16}

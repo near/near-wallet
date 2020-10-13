@@ -25,7 +25,6 @@ const Container = styled.div`
 
     .list {
         font-size: 40px;
-        font-family: BwSeidoRound;
         color: #24272a;
         font-weight: 500;
         margin: 50px 0;

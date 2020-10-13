@@ -18,10 +18,6 @@ const Container = styled(Card)`
         display: flex;
         align-items: center;
 
-        h2 {
-            line-height: normal;
-        }
-
         svg {
             width: 28px;
             height: 28px;

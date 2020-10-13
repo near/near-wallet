@@ -14,7 +14,6 @@ const Container = styled.div`
     border: 2px solid #F2F2F2;
     border-radius: 8px;
     padding: 12px 12px 10px 12px;
-    line-height: 150%;
     position: relative;
     cursor: ${props => props.clickable === 'true' ? 'pointer' : ''};
 
@@ -98,7 +97,6 @@ const Container = styled.div`
         padding: 5px 10px 2px 10px;
         background-color: white;
         border-radius: 40px;
-        line-height: normal;
         text-align: center;
         border: 2px solid #F2F2F2;
         left: 50%;

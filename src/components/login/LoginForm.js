@@ -44,7 +44,6 @@ const LoginForm = ({
             <Grid.Row className='title'>
                 <Grid.Column
                     as='h1'
-                    className='font-benton'
                     textAlign='center'
                     computer={16}
                     tablet={16}
@@ -60,8 +59,8 @@ const LoginForm = ({
                     {!contractId && (
                         <Fragment>
                             <div><b>{appTitle || <Translate id='sign.unknownApp' />}</b></div>
-                            <div className='h2 font-benton'><Translate id='login.form.isRequestingFullAccess' /></div>
-                            <div className='h2 font-benton'><Translate id='login.form.toYourAccount' /></div>
+                            <div className='h2'><Translate id='login.form.isRequestingFullAccess' /></div>
+                            <div className='h2'><Translate id='login.form.toYourAccount' /></div>
                         </Fragment>
                     )}
                 </Grid.Column>

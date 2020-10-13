@@ -11,7 +11,6 @@ const CustomSegment = styled(Segment)`
         padding: 20px 0 0 0;
         color: #24272a;
         margin-top: 48px;
-        line-height: 24px;
 
         .border {
             border-bottom: 4px solid #f8f8f8 !important;

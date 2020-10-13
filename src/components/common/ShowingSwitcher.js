@@ -21,7 +21,6 @@ const ShowingSwitcherList = styled(List)`
         border: 2px solid #e6e6e6;
         border-radius: 20px;
         background: #f8f8f8;
-        line-height: 36px;
         font-weight: 600;
 
         padding-top: 0px;

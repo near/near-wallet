@@ -46,7 +46,6 @@ const CustomGrid = styled(Grid)`
                 .desc {
                     display: flex;
                     padding-top: 4px;
-                    line-height: 16px;
 
                     .icon {
                         margin-right: 10px;
@@ -86,7 +85,7 @@ class SignTransferDetails extends Component {
                     <Grid.Column largeScreen={6} computer={8} tablet={10} mobile={16}>
                         <div className='top-back'>
                             <div 
-                                className='back-button h3 font-benton color-blue'
+                                className='back-button h3 color-blue'
                                 onClick={handleDetails}
                             >
                                 <div><IconArrowLeft color='#0072ce' /></div>
