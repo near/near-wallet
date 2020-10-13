@@ -295,42 +295,33 @@ class Wallet {
         }
     }
 
+    // TODO: Rename to make it clear that this is used to check if account can be created and that it throws. requireAccountNotExists?
     async checkNewAccount(accountId) {
         if (!this.isLegitAccountId(accountId)) {
             throw new Error('Invalid username.')
         }
+
+        // TODO: This check doesn't seem up to date on what are current account name requirements
+        // TODO: Is it even needed or is checked already both upstream/downstream?
         if (accountId.match(/.*[.@].*/)) {
             if (!accountId.endsWith(`.${ACCOUNT_ID_SUFFIX}`)) {
                 throw new Error('Characters `.` and `@` have special meaning and cannot be used as part of normal account name.');
             }
         }
-        if (accountId in this.accounts) {
+
+        if (await this.accountExists(accountId)) {
             throw new Error('Account ' + accountId + ' already exists.')
         }
-        let remoteAccount = null
-        try {
-            remoteAccount = await this.getAccount(accountId).state()
-        } catch (e) {
-            return true
-        }
-        console.log(remoteAccount)
-        if (!!remoteAccount) {
-            throw new Error('Account ' + accountId + ' already exists.')
-        }
+
+        return true
     }
 
     async checkIsNew(accountId) {
-        let response
-        try {
-            response = await this.checkNewAccount(accountId)
-        } catch(e) {
-            return false
-        }
-        return response
+        return !(await this.accountExists(accountId))
     }
 
     async createNewAccount(accountId, fundingContract, fundingKey, publicKey) {
-        this.checkNewAccount(accountId);
+        await this.checkNewAccount(accountId);
 
         let useLedger = publicKey ? false : true
 
