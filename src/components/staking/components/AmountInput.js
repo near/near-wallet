@@ -42,6 +42,7 @@ const Container = styled.div`
     }
 
     .available-balance {
+        cursor: pointer;
         margin-top: 10px;
         font-size: 13px;
         color: ${props => props.status === '#ff585d' ? props.status : ''};
