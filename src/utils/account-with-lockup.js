@@ -29,8 +29,8 @@ async function signAndSendTransaction(receiverId, actions) {
         .reduce((a, b) => a.add(b), new BN("0"));
 
     const missingAmount = total.sub(new BN(balance)).add(MIN_BALANCE_FOR_GAS);
+    const lockupAccountId = getLockupAccountId(this.accountId)
     if (missingAmount.gt(new BN(0)) && (await accountExists(this.connection, lockupAccountId))) {
-        const lockupAccountId = getLockupAccountId(this.accountId)
         console.warn('Not enough balance on main account, checking lockup account', lockupAccountId);
 
         if (!(await this.wrappedAccount.viewFunction(lockupAccountId, 'are_transfers_enabled'))) {
