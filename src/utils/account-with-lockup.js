@@ -1,5 +1,6 @@
 import BN from 'bn.js'
 import sha256 from 'js-sha256'
+import { Account } from 'near-api-js'
 import { parseNearAmount } from 'near-api-js/lib/utils/format'
 import { BinaryReader } from 'near-api-js/lib/utils/serialize'
 import { LOCKUP_ACCOUNT_ID_SUFFIX } from './wallet'
@@ -28,8 +29,8 @@ async function signAndSendTransaction(receiverId, actions) {
         .reduce((a, b) => a.add(b), new BN("0"));
 
     const missingAmount = total.sub(new BN(balance)).add(MIN_BALANCE_FOR_GAS);
-    if (missingAmount.gt(new BN(0))) {
-        const lockupAccountId = getLockupAccountId(this.accountId)
+    const lockupAccountId = getLockupAccountId(this.accountId)
+    if (missingAmount.gt(new BN(0)) && (await accountExists(this.connection, lockupAccountId))) {
         console.warn('Not enough balance on main account, checking lockup account', lockupAccountId);
 
         if (!(await this.wrappedAccount.viewFunction(lockupAccountId, 'are_transfers_enabled'))) {
@@ -52,6 +53,19 @@ async function signAndSendTransaction(receiverId, actions) {
     }
 
     return await this.wrappedAccount.signAndSendTransaction.call(this, receiverId, actions);
+}
+
+// TODO: Refactor into near-api-js
+async function accountExists(connection, accountId) {
+    try {
+        await new Account(connection, accountId).state();
+        return true;
+    } catch (error) {
+        if (error.toString().indexOf('does not exist while viewing') !== -1) {
+            return false;
+        }
+        throw error;
+    }
 }
 
 export function getLockupAccountId(accountId) {
