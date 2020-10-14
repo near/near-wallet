@@ -208,6 +208,7 @@ class Wallet {
             const state = await this.getAccount(this.accountId).state()
             this.twoFactor = new TwoFactor(this)
             const has2fa = this.has2fa = await this.twoFactor.isEnabled()
+            console.log('loadAccount has2fa', this.has2fa);
 
             // TODO: Just use accountExists to check if lockup exists?
             let lockupInfo
@@ -567,7 +568,9 @@ class Wallet {
     }
 
     getAccount(accountId) {
+        console.log('getAccount', accountId)
         let account
+        console.log('has2fa', this.has2fa, this.accountId)
         if (accountId === this.accountId && this.has2fa) {
             account = this.twoFactor
         } else {
@@ -742,7 +745,6 @@ class Wallet {
             this.accountId = accountId
             this.twoFactor = new TwoFactor(this)
             this.twoFactor.accountId = accountId
-            this.has2fa = await this.twoFactor.isEnabled()
             const account = this.getAccount(accountId)
 
             const keyPair = KeyPair.fromString(secretKey)
@@ -754,6 +756,10 @@ class Wallet {
             await this.addAccessKey(accountId, accountId, newKeyPair.publicKey, fromSeedPhraseRecovery)
             if (i === accountIds.length - 1) {
                 await this.saveAndSelectAccount(accountId, newKeyPair)
+
+                // TODO: Avoid using has2fa as essentially global variable which gets out of sync easily
+                this.has2fa = await this.twoFactor.isEnabled()
+                console.log('accountId', accountId, 'has2fa set', this.has2fa);
             } else {
                 await this.saveAccount(accountId, newKeyPair)
             }
