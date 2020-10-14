@@ -4,7 +4,7 @@ import { routerMiddleware } from 'connected-react-router'
 
 import * as Sentry from '@sentry/browser'
 import mixpanel from 'mixpanel-browser'
-import {IS_MAINNET, NETWORK_ID} from '../utils/wallet'
+import {IS_MAINNET, NETWORK_ID, wallet} from '../utils/wallet'
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
 
@@ -67,6 +67,7 @@ const analyticsMiddleware = store => next => action => {
         mixpanel.register({
             network_id: networkId,
             timestamp: new Date(),
+            account_id: wallet.accountId
         })
         mixpanel.people.set_once({
             network_id: networkId,
