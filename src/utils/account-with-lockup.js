@@ -100,11 +100,12 @@ async function getAccountBalance() {
         if (transfer_poll_account_id) {
             const transfersTimestamp = await this.viewFunction(transfer_poll_account_id, 'get_result')
             if (transfersTimestamp) {
-                const endTimestamp = new BN(transfersTimestamp).add(new BN(releaseDuration))
+                const releaseDurationBN = new BN(releaseDuration || '0')
+                const endTimestamp = new BN(transfersTimestamp).add(releaseDurationBN)
                 const timeLeft = endTimestamp.sub(new BN(Date.now()).mul(new BN('1000000')))
-                const unreleasedAmount = releaseDuration === '0'
+                const unreleasedAmount = releaseDurationBN.eq(new BN(0))
                     ? new BN(0)
-                    : BN.max(new BN(0), new BN(lockupAmount).mul(timeLeft).div(new BN(releaseDuration)))
+                    : BN.max(new BN(0), new BN(lockupAmount).mul(timeLeft).div(releaseDurationBN))
                 liquidOwnersBalance = BN.max(new BN(0), new BN(lockupAmount).sub(BN.max(unreleasedAmount, LOCKUP_MIN_BALANCE)))
             }
         }
