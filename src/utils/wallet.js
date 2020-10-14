@@ -208,7 +208,6 @@ class Wallet {
             const state = await this.getAccount(this.accountId).state()
             this.twoFactor = new TwoFactor(this)
             const has2fa = this.has2fa = await this.twoFactor.isEnabled()
-            console.log('loadAccount has2fa', this.has2fa);
 
             // TODO: Just use accountExists to check if lockup exists?
             let lockupInfo
@@ -422,14 +421,34 @@ class Wallet {
     ********************************/
     // TODO: Why is fullAccess needed? Everything without contractId should be full access.
     async addAccessKey(accountId, contractId, publicKey, fullAccess = false, methodNames) {
+        const account = this.getAccount(accountId)
+        console.log('account instance used in recovery add localStorage key', account)
+        // update has2fa now after we have the right Account instance for temp recovery
+        this.has2fa = await this.twoFactor.isEnabled()
+        console.log('key being added to 2fa account (this.has2fa)', this.has2fa)
         try {
             if (fullAccess || (!this.has2fa && accountId === contractId)) {
-                return await this.getAccount(accountId).addKey(publicKey)
+                console.log('adding full access key', publicKey.toString())
+                return await account.addKey(publicKey)
             } else {
-                return await this.getAccount(accountId).addKey(
-                    publicKey,
+                let methodNames = methodNames ? methodNames : ''
+                
+                // TODO: fix account.addKey to accept multiple method names, kludge fix here for adding multisig LAK
+                if (this.has2fa && !methodNames.length && accountId === contractId) {
+                    const { MULTISIG_CHANGE_METHODS, MULTISIG_ALLOWANCE } = nearApiJs.multisig
+                    methodNames = MULTISIG_CHANGE_METHODS
+                    console.log('adding limited access key', publicKey.toString(), methodNames)
+                    const { addKey, functionCallAccessKey } = nearApiJs.transactions
+                    const actions = [
+                        addKey(publicKey, functionCallAccessKey(accountId, methodNames, MULTISIG_ALLOWANCE))
+                    ]
+                    return await account.signAndSendTransaction(accountId, actions)
+                }
+                
+                return await account.addKey(
+                    publicKey.toString(),
                     contractId,
-                    methodNames ? methodNames : '',
+                    methodNames,
                     ACCESS_KEY_FUNDING_AMOUNT
                 )
             }
@@ -568,9 +587,7 @@ class Wallet {
     }
 
     getAccount(accountId) {
-        console.log('getAccount', accountId)
         let account
-        console.log('has2fa', this.has2fa, this.accountId)
         if (accountId === this.accountId && this.has2fa) {
             account = this.twoFactor
         } else {
@@ -740,12 +757,23 @@ class Wallet {
         await Promise.all(accountIds.map(async (accountId, i) => {
             if (!accountId || !accountId.length) return
 
-            // set up temp wallet instance
+            // temp account
             this.connection = connection
             this.accountId = accountId
             this.twoFactor = new TwoFactor(this)
             this.twoFactor.accountId = accountId
-            const account = this.getAccount(accountId)
+            this.has2fa = await this.twoFactor.isEnabled()
+            let account = this.getAccount(accountId)
+            // check if recover access key is FAK and if so add key without 2FA
+            if (this.has2fa) {
+                const accessKeys = await account.getAccessKeys()
+                const recoveryAccessKey = accessKeys.find(({ public_key }) => public_key === publicKey)
+                if (recoveryAccessKey.access_key.permission && recoveryAccessKey.access_key.permission === 'FullAccess') {
+                    console.log('using FAK and regular Account instance to recover')
+                    this.has2fa = false
+                    fromSeedPhraseRecovery = false
+                }
+            }
 
             const keyPair = KeyPair.fromString(secretKey)
             await tempKeyStore.setKey(NETWORK_ID, accountId, keyPair)
@@ -756,10 +784,6 @@ class Wallet {
             await this.addAccessKey(accountId, accountId, newKeyPair.publicKey, fromSeedPhraseRecovery)
             if (i === accountIds.length - 1) {
                 await this.saveAndSelectAccount(accountId, newKeyPair)
-
-                // TODO: Avoid using has2fa as essentially global variable which gets out of sync easily
-                this.has2fa = await this.twoFactor.isEnabled()
-                console.log('accountId', accountId, 'has2fa set', this.has2fa);
             } else {
                 await this.saveAccount(accountId, newKeyPair)
             }
