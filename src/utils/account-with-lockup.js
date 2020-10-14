@@ -91,7 +91,7 @@ async function getAccountBalance() {
                 const unreleasedAmount = releaseDuration === '0'
                     ? new BN(0)
                     : BN.max(new BN(0), new BN(lockupAmount).mul(timeLeft).div(new BN(releaseDuration)))
-                liquidOwnersBalance = new BN(lockupAmount).sub(unreleasedAmount).sub(LOCKUP_MIN_BALANCE)
+                liquidOwnersBalance = BN.max(new BN(0), new BN(lockupAmount).sub(BN.max(unreleasedAmount, LOCKUP_MIN_BALANCE)))
             }
         }
 
