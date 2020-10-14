@@ -208,7 +208,6 @@ class Wallet {
             const state = await this.getAccount(this.accountId).state()
             this.twoFactor = new TwoFactor(this)
             const has2fa = this.has2fa = await this.twoFactor.isEnabled()
-            console.log('loadAccount has2fa', this.has2fa);
 
             // TODO: Just use accountExists to check if lockup exists?
             let lockupInfo
@@ -568,9 +567,7 @@ class Wallet {
     }
 
     getAccount(accountId) {
-        console.log('getAccount', accountId)
         let account
-        console.log('has2fa', this.has2fa, this.accountId)
         if (accountId === this.accountId && this.has2fa) {
             account = this.twoFactor
         } else {
@@ -740,12 +737,19 @@ class Wallet {
         await Promise.all(accountIds.map(async (accountId, i) => {
             if (!accountId || !accountId.length) return
 
-            // set up temp wallet instance
+            // temp account
             this.connection = connection
             this.accountId = accountId
             this.twoFactor = new TwoFactor(this)
             this.twoFactor.accountId = accountId
-            const account = this.getAccount(accountId)
+            this.has2fa = await this.twoFactor.isEnabled()
+            let account = this.getAccount(accountId)
+            // check if recover access key is FAK and if so add key without 2FA
+            const accessKeys = await account.getAccessKeys()
+            const recoveryAccessKey = accessKeys.find(({ public_key }) => public_key === publicKey)
+            if (recoveryAccessKey.access_key.permission && recoveryAccessKey.access_key.permission === 'FullAccess') {
+                this.has2fa = false
+            }
 
             const keyPair = KeyPair.fromString(secretKey)
             await tempKeyStore.setKey(NETWORK_ID, accountId, keyPair)
@@ -756,10 +760,6 @@ class Wallet {
             await this.addAccessKey(accountId, accountId, newKeyPair.publicKey, fromSeedPhraseRecovery)
             if (i === accountIds.length - 1) {
                 await this.saveAndSelectAccount(accountId, newKeyPair)
-
-                // TODO: Avoid using has2fa as essentially global variable which gets out of sync easily
-                this.has2fa = await this.twoFactor.isEnabled()
-                console.log('accountId', accountId, 'has2fa set', this.has2fa);
             } else {
                 await this.saveAccount(accountId, newKeyPair)
             }
