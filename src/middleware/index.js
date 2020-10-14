@@ -54,7 +54,7 @@ const analyticsMiddleware = store => next => action => {
     let ledgerEvents = ['GET_LEDGER_KEY', 'GET_LEDGER_PUBLIC_KEY', 'ADD_LEDGER_ACCESS_KEY', 'CONNECT_LEDGER', 'DISABLE_LEDGER',
 'GET_LEDGER_ACCOUNT_IDS', 'ADD_LEDGER_ACCOUNT_ID', 'SAVE_AND_SELECT_LEDGER_ACCOUNTS']
     let accesskeyEvents = ['GET_ACCESS_KEYS', 'REMOVE_ACCESS_KEY','REMOVE_NON_LEDGER_ACCESS_KEYS', 'ADD_ACCESS_KEY', 'ADD_ACCESS_KEY_SEED_PHRASE']
-    let recoveryEvents = ['DELETE_RECOVERY_METHOD', 'RECOVER_ACCOUNT_SEED_PHRASE']
+    let recoveryEvents = ['DELETE_RECOVERY_METHOD', 'RECOVER_ACCOUNT_SEED_PHRASE', 'SETUP_RECOVERY_MESSAGE_NEW_ACCOUNT']
     let transactionEvents = ['DEPLOY_MULTISIG', 'CHECK_NEAR_DROP_BALANCE', 'SET_LEDGER_TX_SIGNED','SIGN_AND_SEND_TRANSACTIONS', 'SEND_MONEY', 'SWITCH_ACCOUNT']
     let stakeEvents = ['UPDATE_STAKING', 'STAKE', 'UNSTAKE','WITHDRAW']
     let trackingEvents = createEvents.concat(twoFAEvents).concat(ledgerEvents).concat(accesskeyEvents).concat(recoveryEvents).concat(transactionEvents).concat(stakeEvents)
@@ -77,6 +77,21 @@ const analyticsMiddleware = store => next => action => {
         if(action.type === 'CREATE_NEW_ACCOUNT'){
             mixpanel.people.set({
                 'account_creation_date': new Date()
+            })
+        }
+        if(action.type === 'CREATE_ACCOUNT_WITH_SEED_PHRASE'){
+            mixpanel.people.set({
+                'recovery_method': 'seed phrase'
+            })
+        }
+        if(action.type === 'CONNECT_LEDGER'){
+            mixpanel.people.set({
+                'recovery_method': 'ledger'
+            })
+        }
+        if(action.type === 'SETUP_RECOVERY_MESSAGE_NEW_ACCOUNT'){
+            mixpanel.people.set({
+                'recovery_method': 'phone or email'
             })
         }
         
