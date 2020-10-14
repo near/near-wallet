@@ -421,14 +421,31 @@ class Wallet {
     ********************************/
     // TODO: Why is fullAccess needed? Everything without contractId should be full access.
     async addAccessKey(accountId, contractId, publicKey, fullAccess = false, methodNames) {
+        const account = this.getAccount(accountId)
+        // update has2fa now after we have the right Account instance for temp recovery
+        this.has2fa = await this.twoFactor.isEnabled()
         try {
             if (fullAccess || (!this.has2fa && accountId === contractId)) {
-                return await this.getAccount(accountId).addKey(publicKey)
+                console.log('adding full access key')
+                return await account.addKey(publicKey)
             } else {
-                return await this.getAccount(accountId).addKey(
-                    publicKey,
+                let methodNames = methodNames ? methodNames : ''
+                
+                // TODO: fix account.addKey to accept multiple method names, kludge fix here for adding multisig LAK
+                if (this.has2fa && !methodNames.length && accountId === contractId) {
+                    methodNames = nearApiJs.multisig.MULTISIG_CHANGE_METHODS
+                    console.log('adding limited access key', publicKey.toString(), methodNames)
+                    const { addKey, functionCallAccessKey } = nearApiJs.transactions
+                    const actions = [
+                        addKey(publicKey, functionCallAccessKey(accountId, methodNames, null))
+                    ]
+                    return await account.signAndSendTransaction(accountId, actions)
+                }
+                
+                return await account.addKey(
+                    publicKey.toString(),
                     contractId,
-                    methodNames ? methodNames : '',
+                    methodNames,
                     ACCESS_KEY_FUNDING_AMOUNT
                 )
             }
@@ -742,13 +759,17 @@ class Wallet {
             this.accountId = accountId
             this.twoFactor = new TwoFactor(this)
             this.twoFactor.accountId = accountId
-            this.has2fa = await this.twoFactor.isEnabled()
+            const has2fa = this.has2fa = await this.twoFactor.isEnabled()
             let account = this.getAccount(accountId)
             // check if recover access key is FAK and if so add key without 2FA
-            const accessKeys = await account.getAccessKeys()
-            const recoveryAccessKey = accessKeys.find(({ public_key }) => public_key === publicKey)
-            if (recoveryAccessKey.access_key.permission && recoveryAccessKey.access_key.permission === 'FullAccess') {
-                this.has2fa = false
+            if (this.has2fa) {
+                const accessKeys = await account.getAccessKeys()
+                const recoveryAccessKey = accessKeys.find(({ public_key }) => public_key === publicKey)
+                if (recoveryAccessKey.access_key.permission && recoveryAccessKey.access_key.permission === 'FullAccess') {
+                    console.log('using FAK and regular Account instance to recover')
+                    this.has2fa = false
+                    fromSeedPhraseRecovery = false
+                }
             }
 
             const keyPair = KeyPair.fromString(secretKey)
