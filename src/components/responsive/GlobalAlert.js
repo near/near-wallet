@@ -86,6 +86,13 @@ const CustomMessage = styled(Message)`
                 }
             }
         }
+        .sub-text {
+            font-size: 12px;
+            color: #fff;
+            border-top: 1px solid #f98184;
+            padding-top: 8px;
+            margin-top: 8px;
+        }
 
         @media screen and (max-width: 767px) {
             padding-left: 8px;
@@ -139,6 +146,11 @@ const GlobalAlert = ({ globalAlert, clearAlert, closeIcon = true }) => {
                             <Translate id={globalAlert.messageCodeHeader || (globalAlert.success ? 'success' : 'error')} />
                         </Message.Header>
                         <Translate id={globalAlert.messageCode} data={globalAlert.data} options={{ onMissingTranslation }} />
+                        {globalAlert.errorMessage && 
+                            <div className='sub-text'>
+                                {globalAlert.errorMessage}
+                            </div>
+                        }
                     </Message.Content>
                 </CustomMessage>
             </Container>
