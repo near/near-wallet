@@ -171,12 +171,17 @@ class Wallet {
                 const accountId = this.accountId
                 const accountIdNotConfirmed = !getAccountConfirmed(accountId)
 
-                this.clearAccountState()
-                const nextAccountId = Object.keys(this.accounts).find((account) => (
-                    getAccountConfirmed(account)
-                )) || Object.keys(this.accounts)[0]
+                // Try to find existing account and switch to it
+                let nextAccountId = ''
+                for (let curAccountId of Object.keys(this.accounts)) {
+                    if (await this.accountExists(curAccountId)) {
+                        nextAccountId = curAccountId
+                        break
+                    }   
+                }
                 this.selectAccount(nextAccountId)
 
+                // TODO: Make sure "problem creating" only shows for actual creation
                 return {
                     resetAccount: {
                         reset: true,
@@ -559,13 +564,6 @@ class Wallet {
             availableKeys.push(ledgerKey.toString())
         }
         return availableKeys
-    }
-
-    clearAccountState() {
-        delete this.accounts[this.accountId]
-        removeAccountConfirmed(this.accountId)
-        this.accountId = ''
-        this.save()
     }
 
     getAccount(accountId) {
