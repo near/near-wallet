@@ -433,11 +433,12 @@ class Wallet {
                 
                 // TODO: fix account.addKey to accept multiple method names, kludge fix here for adding multisig LAK
                 if (this.has2fa && !methodNames.length && accountId === contractId) {
-                    methodNames = nearApiJs.multisig.MULTISIG_CHANGE_METHODS
+                    const { MULTISIG_CHANGE_METHODS, MULTISIG_ALLOWANCE } = nearApiJs.multisig
+                    methodNames = MULTISIG_CHANGE_METHODS
                     console.log('adding limited access key', publicKey.toString(), methodNames)
                     const { addKey, functionCallAccessKey } = nearApiJs.transactions
                     const actions = [
-                        addKey(publicKey, functionCallAccessKey(accountId, methodNames, null))
+                        addKey(publicKey, functionCallAccessKey(accountId, methodNames, MULTISIG_ALLOWANCE))
                     ]
                     return await account.signAndSendTransaction(accountId, actions)
                 }
