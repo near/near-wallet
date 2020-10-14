@@ -4,6 +4,7 @@ import { routerMiddleware } from 'connected-react-router'
 
 import * as Sentry from '@sentry/browser'
 import mixpanel from 'mixpanel-browser'
+import {IS_MAINNET, NETWORK_ID} from '../utils/wallet'
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
 
@@ -48,15 +49,37 @@ if (process.env.MIXPANEL_TOKEN) {
 }
 
 const analyticsMiddleware = store => next => action => {
+    let createEvents = ['CREATE_NEW_ACCOUNT', 'CREATE_ACCOUNT_WITH_SEED_PHRASE','CHECK_ACCOUNT_AVAILABLE', 'CHECK_NEW_ACCOUNT' ]
+    let twoFAEvents = ['GET_2FA_METHOD', 'INIT_TWO_FACTOR', 'VERIFY_TWO_FACTOR', 'PROMPT_TWO_FACTOR', 'RESEND_TWO_FACTOR']
+    let ledgerEvents = ['GET_LEDGER_KEY', 'GET_LEDGER_PUBLIC_KEY', 'ADD_LEDGER_ACCESS_KEY', 'CONNECT_LEDGER', 'DISABLE_LEDGER',
+'GET_LEDGER_ACCOUNT_IDS', 'ADD_LEDGER_ACCOUNT_ID', 'SAVE_AND_SELECT_LEDGER_ACCOUNTS']
+    let accesskeyEvents = ['GET_ACCESS_KEYS', 'REMOVE_ACCESS_KEY','REMOVE_NON_LEDGER_ACCESS_KEYS', 'ADD_ACCESS_KEY', 'ADD_ACCESS_KEY_SEED_PHRASE']
+    let recoveryEvents = ['DELETE_RECOVERY_METHOD', 'RECOVER_ACCOUNT_SEED_PHRASE']
+    let transactionEvents = ['DEPLOY_MULTISIG', 'CHECK_NEAR_DROP_BALANCE', 'SET_LEDGER_TX_SIGNED','SIGN_AND_SEND_TRANSACTIONS', 'SEND_MONEY', 'SWITCH_ACCOUNT']
+    let stakeEvents = ['UPDATE_STAKING', 'STAKE', 'UNSTAKE','WITHDRAW']
+    let trackingEvents = createEvents.concat(twoFAEvents).concat(ledgerEvents).concat(accesskeyEvents).concat(recoveryEvents).concat(transactionEvents).concat(stakeEvents)
     let details = {
         pathname: !window.location.pathname.includes(RECOVER_WITH_LINK_URL) ? 
             window.location.pathname : RECOVER_WITH_LINK_URL
     }
-    if (action.type === 'ADD_ACCESS_KEY') {
-        details['appTitle'] = action.meta.data.title
-    }
+    let networkId = IS_MAINNET ? 'mainnet': (NETWORK_ID === 'default'? 'testnet': NETWORK_ID)
     if (process.env.MIXPANEL_TOKEN) {
-        mixpanel.track(action.type, details);
+        mixpanel.register({
+            'network_id': networkId,
+            'timestamp': new Date()
+        })
+        mixpanel.people.set_once({
+            'network_id': networkId,
+        })
+        if(trackingEvents.includes(action.type)){
+            mixpanel.track(action.type, details);
+        }
+        if(action.type === 'CREATE_NEW_ACCOUNT'){
+            mixpanel.people.set({
+                'account_creation_date': new Date()
+            })
+        }
+        
     }
     return next(action);
 }
