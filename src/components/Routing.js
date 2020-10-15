@@ -297,15 +297,17 @@ class Routing extends Component {
                                     path='/node-details'
                                     component={NodeDetailsWithRouter}
                                 />
-                                <PrivateRoute
-                                    path='/staking'
-                                    component={StakingContainer}
-                                    render={() => (
-                                        <StakingContainer
-                                            history={this.props.history}
-                                        />
-                                    )}
-                                />
+                                {this.props.account.hasLockup &&
+                                    <PrivateRoute
+                                        path='/staking'
+                                        component={StakingContainer}
+                                        render={() => (
+                                            <StakingContainer
+                                                history={this.props.history}
+                                            />
+                                        )}
+                                    />
+                                }
                                 <Route
                                     exact
                                     path='/cli-login-success'
