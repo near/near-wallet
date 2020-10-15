@@ -79,8 +79,9 @@ const Container = styled(Card)`
 const TwoFactorAuth = (props) => {
 
     const account = useSelector(({ account }) => account);
+    const recoveryMethods = useSelector(({ recoveryMethods }) => recoveryMethods);
     const loading = account.actionsPending.includes('LOAD_RECOVERY_METHODS') || account.actionsPending.includes('REFRESH_ACCOUNT');
-    const twoFactor = account.twoFactor;
+    const twoFactor = recoveryMethods[account.accountId] && recoveryMethods[account.accountId].filter(m => m.kind.includes('2fa'))[0]
 
     return (
         <Container>
