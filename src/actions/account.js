@@ -325,7 +325,16 @@ export const { addAccessKey, createAccountWithSeedPhrase, addAccessKeySeedPhrase
     CREATE_ACCOUNT_WITH_SEED_PHRASE: [
         async (accountId, recoveryKeyPair, fundingContract, fundingKey) => {
             await wallet.saveAccount(accountId, recoveryKeyPair);
-            await wallet.createNewAccount(accountId, fundingContract, fundingKey, recoveryKeyPair.publicKey)
+
+            try {
+                await wallet.createNewAccount(accountId, fundingContract, fundingKey, recoveryKeyPair.publicKey)
+            } catch (e) {
+                console.warn('RPC error: createNewAccount\n', e)
+                await new Promise((r) => setTimeout(r, 4000)) // wait 4s for chain
+                await wallet.getAccount(accountId).state()
+            }
+
+            // if not thrown getting new account state, account exists
             const publicKey = recoveryKeyPair.publicKey.toString()
             const contractName = null;
             const fullAccess = true;
