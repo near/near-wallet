@@ -9,14 +9,13 @@ import { getAccountIds } from './helper-api'
 import { generateSeedPhrase } from 'near-seed-phrase';
 import { WalletError } from './walletError'
 import { setAccountConfirmed, getAccountConfirmed, removeAccountConfirmed} from './localStorage'
-import BN from 'bn.js'
-import sha256 from 'js-sha256'
 
 import { store } from '..'
 import { setSignTransactionStatus, setLedgerTxSigned, showLedgerModal, redirectToApp, redirectTo, refreshAccount } from '../actions/account'
 
 import { TwoFactor } from './twoFactor'
 import { Staking } from './staking'
+import { decorateWithLockup } from './account-with-lockup'
 
 export const WALLET_CREATE_NEW_ACCOUNT_URL = 'create'
 export const WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS = ['create', 'set-recovery', 'setup-seed-phrase', 'recover-account', 'recover-seed-phrase', 'sign-in-ledger']
@@ -147,15 +146,15 @@ class Wallet {
         this.accountId = accountId
         this.save()
     }
-    
+
     isLegitAccountId(accountId) {
         return ACCOUNT_ID_REGEX.test(accountId)
     }
-    
+
     async sendMoney(receiverId, amount) {
         await this.getAccount(this.accountId).sendMoney(receiverId, amount)
     }
-    
+
     isEmpty() {
         return !this.accounts || !Object.keys(this.accounts).length
     }
@@ -168,16 +167,21 @@ class Wallet {
         } catch (error) {
             console.log('Error loading account:', error.message)
 
-            if (error.toString().indexOf('does not exist while viewing') !== -1) {
+            if (error.toString().indexOf(`ccount ${this.accountId} does not exist while viewing`) !== -1) {
                 const accountId = this.accountId
                 const accountIdNotConfirmed = !getAccountConfirmed(accountId)
-                
-                this.clearAccountState()
-                const nextAccountId = Object.keys(this.accounts).find((account) => (
-                    getAccountConfirmed(account)
-                )) || Object.keys(this.accounts)[0]
+
+                // Try to find existing account and switch to it
+                let nextAccountId = ''
+                for (let curAccountId of Object.keys(this.accounts)) {
+                    if (await this.accountExists(curAccountId)) {
+                        nextAccountId = curAccountId
+                        break
+                    }   
+                }
                 this.selectAccount(nextAccountId)
 
+                // TODO: Make sure "problem creating" only shows for actual creation
                 return {
                     resetAccount: {
                         reset: true,
@@ -203,8 +207,19 @@ class Wallet {
             const ledgerKey = accessKeys.find(key => key.meta.type === 'ledger')
             const state = await this.getAccount(this.accountId).state()
             this.twoFactor = new TwoFactor(this)
-            const has2fa = this.has2fa = await this.twoFactor.isEnabled()
-            const lockupInfo = await this.staking.getLockup().catch((e) => console.warn('Account has no lockup'))
+            const has2fa = this.has2fa = await this.twoFactor.isEnabled(this.accountId)
+
+            // TODO: Just use accountExists to check if lockup exists?
+            let lockupInfo
+            try {
+                lockupInfo = await this.staking.getLockup();
+            } catch (error) {
+                if (error.toString().includes('does not exist while viewing')) {
+                    console.warn('Account has no lockup')
+                } else {
+                    throw error
+                }
+            }
 
             return {
                 ...state,
@@ -215,10 +230,10 @@ class Wallet {
                 accounts: this.accounts,
                 accessKeys,
                 authorizedApps: accessKeys.filter(it => (
-                    it.access_key 
-                    && it.access_key.permission.FunctionCall 
+                    it.access_key
+                    && it.access_key.permission.FunctionCall
                     && it.access_key.permission.FunctionCall.receiver_id !== this.accountId
-                )), 
+                )),
                 fullAccessKeys: accessKeys.filter(it => (
                     it.access_key
                      && it.access_key.permission === 'FullAccess'
@@ -295,42 +310,33 @@ class Wallet {
         }
     }
 
+    // TODO: Rename to make it clear that this is used to check if account can be created and that it throws. requireAccountNotExists?
     async checkNewAccount(accountId) {
         if (!this.isLegitAccountId(accountId)) {
             throw new Error('Invalid username.')
         }
+
+        // TODO: This check doesn't seem up to date on what are current account name requirements
+        // TODO: Is it even needed or is checked already both upstream/downstream?
         if (accountId.match(/.*[.@].*/)) {
             if (!accountId.endsWith(`.${ACCOUNT_ID_SUFFIX}`)) {
                 throw new Error('Characters `.` and `@` have special meaning and cannot be used as part of normal account name.');
             }
         }
-        if (accountId in this.accounts) {
+
+        if (await this.accountExists(accountId)) {
             throw new Error('Account ' + accountId + ' already exists.')
         }
-        let remoteAccount = null
-        try {
-            remoteAccount = await this.getAccount(accountId).state()
-        } catch (e) {
-            return true
-        }
-        console.log(remoteAccount)
-        if (!!remoteAccount) {
-            throw new Error('Account ' + accountId + ' already exists.')
-        }
+
+        return true
     }
 
     async checkIsNew(accountId) {
-        let response
-        try {
-            response = await this.checkNewAccount(accountId)
-        } catch(e) {
-            return false
-        }
-        return response
+        return !(await this.accountExists(accountId))
     }
 
     async createNewAccount(accountId, fundingContract, fundingKey, publicKey) {
-        this.checkNewAccount(accountId);
+        await this.checkNewAccount(accountId);
 
         let useLedger = publicKey ? false : true
 
@@ -411,18 +417,38 @@ class Wallet {
     }
 
     /********************************
-    recovering a second account attempts to call this method with the currently logged in account and not the tempKeyStore 
+    recovering a second account attempts to call this method with the currently logged in account and not the tempKeyStore
     ********************************/
     // TODO: Why is fullAccess needed? Everything without contractId should be full access.
     async addAccessKey(accountId, contractId, publicKey, fullAccess = false, methodNames) {
+        const account = this.getAccount(accountId)
+        console.log('account instance used in recovery add localStorage key', account)
+        // update has2fa now after we have the right Account instance for temp recovery
+        this.has2fa = await this.twoFactor.isEnabled(accountId)
+        console.log('key being added to 2fa account (this.has2fa)', this.has2fa)
         try {
             if (fullAccess || (!this.has2fa && accountId === contractId)) {
-                return await this.getAccount(accountId).addKey(publicKey)
+                console.log('adding full access key', publicKey.toString())
+                return await account.addKey(publicKey)
             } else {
-                return await this.getAccount(accountId).addKey(
-                    publicKey,
+                let methodNames = methodNames ? methodNames : ''
+                
+                // TODO: fix account.addKey to accept multiple method names, kludge fix here for adding multisig LAK
+                if (this.has2fa && !methodNames.length && accountId === contractId) {
+                    const { MULTISIG_CHANGE_METHODS, MULTISIG_ALLOWANCE } = nearApiJs.multisig
+                    methodNames = MULTISIG_CHANGE_METHODS
+                    console.log('adding limited access key', publicKey.toString(), methodNames)
+                    const { addKey, functionCallAccessKey } = nearApiJs.transactions
+                    const actions = [
+                        addKey(publicKey, functionCallAccessKey(accountId, methodNames, MULTISIG_ALLOWANCE))
+                    ]
+                    return await account.signAndSendTransaction(accountId, actions)
+                }
+                
+                return await account.addKey(
+                    publicKey.toString(),
                     contractId,
-                    methodNames ? methodNames : '',
+                    methodNames,
                     ACCESS_KEY_FUNDING_AMOUNT
                 )
             }
@@ -462,7 +488,7 @@ class Wallet {
         await this.getAccessKeys(this.accountId)
 
         await this.deleteRecoveryMethod({ kind: 'ledger', publicKey: publicKey.toString() })
-        
+
     }
 
     async addWalletMetadataAccessKeyIfNeeded(accountId, localAccessKey) {
@@ -560,57 +586,23 @@ class Wallet {
         return availableKeys
     }
 
-    clearAccountState() {
-        delete this.accounts[this.accountId]
-        removeAccountConfirmed(this.accountId)
-        this.accountId = ''
-        this.save()
-    }
-
     getAccount(accountId) {
+        let account
         if (accountId === this.accountId && this.has2fa) {
-            return this.twoFactor
+            account = this.twoFactor
+        } else {
+            account = new nearApiJs.Account(this.connection, accountId)
         }
-        return new nearApiJs.Account(this.connection, accountId)
-    }
 
-    async getLockupAccountId(accountId) {
-        // TODO: Should lockup contract balance be retrieved separately only when needed?
-        return sha256(Buffer.from(accountId)).substring(0, 40)  + '.' + LOCKUP_ACCOUNT_ID_SUFFIX
+        // TODO: Check if lockup needed somehow? Should be changed to async? Should just check in wrapper?
+        return decorateWithLockup(account);
     }
 
     async getBalance(accountId) {
         accountId = accountId || this.accountId
 
         const account = this.getAccount(accountId)
-        const balance = await account.getAccountBalance()
-        const lockupAccountId = await this.getLockupAccountId(accountId)
-
-        try {
-            // TODO: Makes sense for a lockup contract to return whole state as JSON instead of method per property
-            const [
-                ownersBalance,
-                liquidOwnersBalance,
-                lockedAmount,
-            ] = await Promise.all([
-                'get_owners_balance',
-                'get_liquid_owners_balance',
-                'get_locked_amount',
-            ].map(methodName => account.viewFunction(lockupAccountId, methodName)))
-
-            return {
-                ...balance,
-                ownersBalance,
-                liquidOwnersBalance,
-                lockedAmount,
-                total: new BN(balance.total).add(new BN(lockedAmount)).add(new BN(ownersBalance)).toString()
-            }
-        } catch (error) {
-            if (error.message.match(/Account ".+" doesn't exist/) || error.message.includes('cannot find contract code for account')) {
-                return balance
-            }
-            throw error
-        }
+        return await account.getAccountBalance()
     }
 
     async signatureFor(account) {
@@ -676,7 +668,7 @@ class Wallet {
         const { secretKey } = parseSeedPhrase(recoverySeedPhrase)
         const recoveryKeyPair = KeyPair.fromString(secretKey)
         await this.validateSecurityCode(accountId, method, securityCode);
-        await wallet.saveAccount(accountId, recoveryKeyPair);
+        await this.saveAccount(accountId, recoveryKeyPair);
         await this.createNewAccount(accountId, fundingContract, fundingKey, recoveryKeyPair.publicKey)
         const newKeyPair = KeyPair.fromRandom('ed25519')
         const newPublicKey = newKeyPair.publicKey
@@ -765,20 +757,30 @@ class Wallet {
         await Promise.all(accountIds.map(async (accountId, i) => {
             if (!accountId || !accountId.length) return
 
-            // set up temp wallet instance
+            // temp account
             this.connection = connection
             this.accountId = accountId
             this.twoFactor = new TwoFactor(this)
             this.twoFactor.accountId = accountId
-            this.has2fa = await this.twoFactor.isEnabled()
-            const account = this.getAccount(accountId)
+            this.has2fa = await this.twoFactor.isEnabled(accountId)
+            let account = this.getAccount(accountId)
+            // check if recover access key is FAK and if so add key without 2FA
+            if (this.has2fa) {
+                const accessKeys = await account.getAccessKeys()
+                const recoveryAccessKey = accessKeys.find(({ public_key }) => public_key === publicKey)
+                if (recoveryAccessKey.access_key.permission && recoveryAccessKey.access_key.permission === 'FullAccess') {
+                    console.log('using FAK and regular Account instance to recover')
+                    this.has2fa = false
+                    fromSeedPhraseRecovery = false
+                }
+            }
 
             const keyPair = KeyPair.fromString(secretKey)
             await tempKeyStore.setKey(NETWORK_ID, accountId, keyPair)
             account.keyStore = tempKeyStore
             account.inMemorySigner = new nearApiJs.InMemorySigner(tempKeyStore)
             const newKeyPair = KeyPair.fromRandom('ed25519')
-            
+
             await this.addAccessKey(accountId, accountId, newKeyPair.publicKey, fromSeedPhraseRecovery)
             if (i === accountIds.length - 1) {
                 await this.saveAndSelectAccount(accountId, newKeyPair)

@@ -1,6 +1,7 @@
 import * as nearApiJs from 'near-api-js'
 import BN from 'bn.js'
 import { WalletError } from './walletError'
+import { getLockupAccountId } from './account-with-lockup'
 
 const {
     transactions: {
@@ -253,7 +254,7 @@ export class Staking {
         if (process.env.REACT_APP_USE_TESTINGLOCKUP) {
             lockupId = `testinglockup.${accountId}`
         } else {
-            lockupId = await this.wallet.getLockupAccountId(accountId)
+            lockupId = getLockupAccountId(accountId)
         }
         await (await new nearApiJs.Account(this.wallet.connection, lockupId)).state()
         const contract = await this.getContractInstance(lockupId, lockupMethods)

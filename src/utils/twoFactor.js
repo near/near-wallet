@@ -28,7 +28,10 @@ export class TwoFactor extends AccountMultisig {
         this.wallet = wallet
     }
 
-    async isEnabled() {
+    async isEnabled(accountId) {
+        if (!accountId.length || this.accountId !== accountId) {
+            return false
+        }
         return MULTISIG_CONTRACT_HASHES.includes((await this.state()).code_hash)
     }
 
