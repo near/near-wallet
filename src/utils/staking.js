@@ -170,25 +170,63 @@ export class Staking {
         return await this.lockupStake(lockupId, validatorId, amount)
     }
 
-    // helpers for lockup
-
-    async unstake(useLockup, amount) {
-        const { lockupId } = await this.getLockup()
-        await this.signAndSendTransaction(lockupId, [
-            functionCall('unstake_all', {}, STAKING_GAS_BASE * 5, '0')
-        ])
+    async unstake(useLockup, validatorId, amount) {
+        if (amount) {
+            amount = parseNearAmount(amount)
+        }
+        if (useLockup) {
+            const { lockupId } = await this.getLockup()
+            return this.lockupUnstake(lockupId, amount)
+        }
+        // TODO add account methods
+        // return this.accountUnstake(validatorId, amount)
     }
 
-    async withdraw(useLockup, amount) {
-        const { lockupId } = await this.getLockup()
-        const withdraw_all_from_staking_pool = await this.signAndSendTransaction(lockupId, [
-            functionCall('withdraw_all_from_staking_pool', {}, STAKING_GAS_BASE * 7, '0')
-        ])
-        if (withdraw_all_from_staking_pool[0] === false) {
+    async withdraw(useLockup, validatorId, amount) {
+        if (amount) {
+            amount = parseNearAmount(amount)
+        }
+        if (useLockup) {
+            const { lockupId } = await this.getLockup()
+            return this.lockupWithdraw(lockupId, amount)
+        }
+        // TODO add account methods
+        // return this.accountWithdraw(validatorId, amount)
+    }
+
+    // helpers for lockup
+
+    async lockupWithdraw(lockupId, amount) {
+        let result
+        if (amount) {
+            result = await this.signAndSendTransaction(lockupId, [
+                functionCall('withdraw_from_staking_pool', { amount }, STAKING_GAS_BASE * 5, '0')
+            ])
+        } else {
+            result = await this.signAndSendTransaction(lockupId, [
+                functionCall('withdraw_all_from_staking_pool', {}, STAKING_GAS_BASE * 7, '0')
+            ])
+        }
+        if (result === false) {
             throw new WalletError('Unable to withdraw pending balance from validator', 'staking.errors.noWithdraw')
         }
-        await this.signAndSendTransaction(lockupId, [
-            functionCall('unselect_staking_pool', {}, STAKING_GAS_BASE)
+        console.log('lockupWithdraw result, amount', result, amount)
+        if (!amount && result !== false) {
+            result = await this.signAndSendTransaction(lockupId, [
+                functionCall('unselect_staking_pool', {}, STAKING_GAS_BASE)
+            ])
+        }
+        return result
+    }
+
+    async lockupUnstake(lockupId, amount) {
+        if (amount) {
+            return await this.signAndSendTransaction(lockupId, [
+                functionCall('unstake', { amount }, STAKING_GAS_BASE * 5, '0')
+            ])
+        }
+        return await this.signAndSendTransaction(lockupId, [
+            functionCall('unstake_all', {}, STAKING_GAS_BASE * 5, '0')
         ])
     }
 

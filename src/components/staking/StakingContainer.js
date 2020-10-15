@@ -113,12 +113,12 @@ export function StakingContainer({ history }) {
     }
 
     const handleUnstake = async () => {
-        await dispatch(unstake(useLockup))
+        await dispatch(unstake(useLockup, selectedValidator, '1'))
         await dispatch(updateStaking(useLockup))
     }
 
     const handleWithDraw = async () => {
-        await dispatch(withdraw(useLockup))
+        await dispatch(withdraw(useLockup, selectedValidator, '1'))
         await dispatch(updateStaking(useLockup))
     }
 
