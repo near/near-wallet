@@ -73,35 +73,35 @@ const analyticsMiddleware = store => next => action => {
             network_id: networkId,
             stake: 0
         })
-        if(trackingEvents.includes(action.type)){
+        if (trackingEvents.includes(action.type)){
             mixpanel.track(action.type, details);
         }
-        if(action.type === 'CREATE_NEW_ACCOUNT'){
+        if (action.type === 'CREATE_NEW_ACCOUNT'){
             mixpanel.people.set({
                 account_creation_date: new Date()
             })
         }
-        if(action.type === 'CREATE_ACCOUNT_WITH_SEED_PHRASE'){
+        if (action.type === 'CREATE_ACCOUNT_WITH_SEED_PHRASE'){
             mixpanel.people.set({
                 recovery_method: 'seed phrase',
             })
         }
-        if(action.type === 'CONNECT_LEDGER'){
+        if (action.type === 'CONNECT_LEDGER'){
             mixpanel.people.set({
                 recovery_method: 'ledger',
             })
         }
-        if(action.type === 'SETUP_RECOVERY_MESSAGE_NEW_ACCOUNT'){
+        if (action.type === 'SETUP_RECOVERY_MESSAGE_NEW_ACCOUNT'){
             mixpanel.people.set({
                 recovery_method: 'phone or email',
             })
         }
-        if(action.type === 'RECOVER_ACCOUNT_SEED_PHRASE' || action.type === 'SAVE_AND_SELECT_LEDGER_ACCOUNTS'){
+        if (action.type === 'RECOVER_ACCOUNT_SEED_PHRASE' || action.type === 'SAVE_AND_SELECT_LEDGER_ACCOUNTS'){
             mixpanel.people.set({
                 recovery_timestamp: new Date()
             })
         }
-        if(action.type === 'STAKE'){
+        if (action.type === 'STAKE'){
             mixpanel.people.set_once({
                 first_stake: new Date()
             })
