@@ -108,17 +108,13 @@ export function StakingContainer({ history }) {
         dispatch(updateStaking(useLockup))
     }, [])
 
-    const handleGetValidators = async () => {
-        await dispatch(updateStaking(useLockup))
-    }
-
     const handleStakingAction = async (action, validator, amount) => {
         if (action === 'stake') {
             await dispatch(stake(useLockup, validator, amount))
         } else if (action === 'unstake') {
             await dispatch(unstake(useLockup, selectedValidator, amount))
         }
-        await handleGetValidators()
+        await dispatch(updateStaking(useLockup))
         await dispatch(updateStaking(useLockup))
     }
 
