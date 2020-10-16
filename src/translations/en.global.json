@@ -580,6 +580,19 @@
             },
             "ledgerDisclaimer": "Note: If this is your first time staking with this validator, you will need to confirm two transactions"
         },
+        "unstake": {
+            "title": "Unstake Tokens",
+            "desc": "Enter the number of tokens you would like to extract from your current validator's staking pool.",
+            "stakeWith": "Unstake from",
+            "button": "Unstake Tokens",
+            "confirm": "You are unstaking",
+            "input": {
+                "insufficientFunds": "Not enough staked tokens.",
+                "availableBalance": "Available to unstake:",
+                "near": "NEAR"
+            },
+            "ledgerDisclaimer": "Note: If this is your first time staking with this validator, you will need to confirm two transactions"
+        },
         "stakeSuccess": {
             "title": "Success!",
             "desc": "Your stake has successfully been delegated to your chosen validator:",
