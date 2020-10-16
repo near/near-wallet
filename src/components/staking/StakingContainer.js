@@ -123,7 +123,7 @@ export function StakingContainer({ history }) {
     }
 
     const handleWithDraw = async () => {
-        await dispatch(withdraw(useLockup, selectedValidator, '1'))
+        await dispatch(withdraw(useLockup, selectedValidator))
         await dispatch(updateStaking(useLockup))
     }
 
