@@ -112,7 +112,7 @@ export function StakingContainer({ history }) {
         if (action === 'stake') {
             await dispatch(stake(useLockup, validator, amount))
         } else if (action === 'unstake') {
-            await dispatch(unstake(useLockup, selectedValidator, amount))
+            await dispatch(unstake(useLockup, selectedValidator || validator, amount))
         }
         await dispatch(updateStaking(useLockup))
         await dispatch(updateStaking(useLockup))

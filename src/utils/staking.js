@@ -2,6 +2,7 @@ import * as nearApiJs from 'near-api-js'
 import BN from 'bn.js'
 import { WalletError } from './walletError'
 import { getLockupAccountId } from './account-with-lockup'
+import { validators } from 'near-api-js'
 
 const {
     transactions: {
@@ -144,6 +145,9 @@ export class Staking {
         const account = this.wallet.getAccount(this.wallet.accountId)
         const balance = await account.getAccountBalance()
 
+        // TODO find deposited from explorer api
+        let deposited = new BN('0', 10);
+
         let totalUnstaked = new BN(balance.available, 10)
         let totalStaked = new BN('0', 10);
         let totalUnclaimed = new BN('0', 10);
@@ -154,26 +158,23 @@ export class Staking {
         await Promise.all(validators.map((validator) => (async () => {
             try {
                 const total = new BN(await validator.contract.get_account_total_balance({ account_id }), 10)
-
-                console.log('total', total.toString())
-                
-                if (total.gt(new BN('0', 10))) {
-                    validator.staked = await validator.contract.get_account_staked_balance({ account_id })
-                    validator.unclaimed = total.sub(deposited).toString()
-                    validator.unstaked = new BN(await validator.contract.get_account_unstaked_balance({ account_id }), 10)
-                    if (validator.unstaked.gt(minimumUnstaked)) {
-                        const isAvailable = await validator.contract.is_account_unstaked_balance_available({ account_id })
-                        if (isAvailable) {
-                            validator.available = validator.unstaked.toString()
-                            totalAvailable = totalAvailable.add(validator.unstaked)
-                            totalUnstaked = totalUnstaked.add(validator.unstaked)
-                        } else {
-                            validator.pending = validator.unstaked.toString()
-                            totalPending = totalPending.add(validator.unstaked)
-                        }
+                if (total.lte(new BN('0', 10))) {
+                    return
+                }
+                validator.staked = await validator.contract.get_account_staked_balance({ account_id })
+                // TODO replace total.sub(total) with total.sub(deposited) to calc rewards
+                validator.unclaimed = total.sub(total).toString()
+                validator.unstaked = new BN(await validator.contract.get_account_unstaked_balance({ account_id }), 10)
+                if (validator.unstaked.gt(minimumUnstaked)) {
+                    const isAvailable = await validator.contract.is_account_unstaked_balance_available({ account_id })
+                    if (isAvailable) {
+                        validator.available = validator.unstaked.toString()
+                        totalAvailable = totalAvailable.add(validator.unstaked)
+                        totalUnstaked = totalUnstaked.add(validator.unstaked)
+                    } else {
+                        validator.pending = validator.unstaked.toString()
+                        totalPending = totalPending.add(validator.unstaked)
                     }
-                } else {
-                    console.log(validator.accountId)
                 }
                 totalStaked = totalStaked.add(new BN(validator.staked, 10))
                 totalUnclaimed = totalUnclaimed.add(new BN(validator.unclaimed, 10))
@@ -346,6 +347,7 @@ export class Staking {
     }
 
     async accountUnstake(validatorId, amount) {
+        console.log(validatorId)
         if (amount) {
             return await this.signAndSendTransaction(validatorId, [
                 functionCall('unstake', { amount }, STAKING_GAS_BASE * 5, '0')
