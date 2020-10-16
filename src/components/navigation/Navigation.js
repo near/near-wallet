@@ -58,8 +58,12 @@ class Navigation extends Component {
     }
 
     render() {
-
         const { menuOpen } = this.state;
+
+        let showNavLinks = this.showNavLinks
+        if (this.props.location.pathname.indexOf('/create-implicit') > -1) {
+            showNavLinks = false
+        }
 
         return (
             <>
@@ -67,14 +71,14 @@ class Navigation extends Component {
                     menuOpen={menuOpen}
                     toggleMenu={this.toggleMenu}
                     selectAccount={this.handleSelectAccount}
-                    showNavLinks={this.showNavLinks}
+                    showNavLinks={showNavLinks}
                     {...this.props}
                 />
                 <MobileContainer
                     menuOpen={menuOpen}
                     toggleMenu={this.toggleMenu}
                     selectAccount={this.handleSelectAccount}
-                    showNavLinks={this.showNavLinks}
+                    showNavLinks={showNavLinks}
                     {...this.props}
                 />
             </>
