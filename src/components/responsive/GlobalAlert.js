@@ -1,123 +1,103 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { connect } from 'react-redux'
 import { Translate } from 'react-localize-redux'
 
-import { Image, Container, Message } from 'semantic-ui-react'
-
-import IconsProblemImage from '../../images/icon-problems.svg'
-import IconCheckImage from '../../images/icon-check.svg'
-import CloseImage from '../../images/icon-close.svg'
+import IconsAlertCircleImage from '../../images/icon_alert-circle.svg'
+import IconCheckCircleImage from '../../images/icon-check-circle.svg'
 
 import { clearAlert } from '../../actions/account'
 
 import styled from 'styled-components'
 
-const CustomMessage = styled(Message)`
-    &&& {
-        border: 2px solid #e6e6e6;
-        background-color: #fff;
-        border-radius: 8px;
-        position: relative;
-        box-shadow: none;
-        align-items: end;
+const Alert = styled.div`
+    position: absolute;
+    background-color: #fff;
+    border-left: 4px solid;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.04);
+    z-index: 1000;
+    right: 16px;
+    border-color: ${props => props.success ? '#02ba86' : '#e41d22'};
 
-        .close {
-            width: 20px;
-            position: absolute;
-            top: 16px;
-            right: 16px;
-            padding: 0px;
-            cursor: pointer;
+    @media (max-width: 991px) {
+        width: 100%;
+        left: 0px;
+        margin-top: -15px;
+    }
+`
 
-            &.white {
-                filter: brightness(0) invert(1);
-            }
+const Content = styled.div`
+    min-height: 74px;
+    max-width: 500px;
+    border: 2px solid #f2f2f2;
+    border-radius: 0 3px 3px 0;
+    display: flex;
+    padding: 16px;
+
+    @media (max-width: 991px) {
+        width: 100%;
+        max-width: 100%;
+    }
+`
+
+const Icon = styled.div`
+    padding-right: 16px;
+    flex: 0 0 24px;
+
+    img {
+        width: 24px;
+    }
+`
+
+const Text = styled.div`
+    padding-right: 16px;
+    color: #24272a;
+    flex: 1 1 auto;
+`
+const Close = styled.div`
+    width: 12px;
+    height: 12px;
+    cursor: pointer;
+    transition: .2s ease-in-out;
+    position: relative;
+    flex: 0 0 12px;
+
+    &::before, &::after {
+        content: '';
+        top: 6px;
+        width: 12px;
+        height: 1px;
+        background: #2083d4;
+        position: absolute;
+        transition: .1s ease-in-out;
+    }
+    &::before {
+        transform: rotate(45deg);
+    }
+    &::after {
+        transform: rotate(-45deg);
+    }
+    &:hover {
+        &::before {
+            transform: rotate(135deg);
         }
-
-        .left {
-            height: 38px;
-            margin-top: 0px;
-            margin-right: 0;
-            display: none;
-            filter: brightness(0) invert(1);
-        }
-        .content {
-            color: #999;
-            line-height: 20px;
-            word-break: break-word;
-
-            .header {
-                font-size: 18px;
-                line-height: 26px;
-                font-weight: 600;
-                padding-bottom: 6px;
-            }
-        }
-
-        &.success {
-            border: 4px solid #5ace84;
-            background-color: #5ace84;
-
-            .left {
-                margin-right: 18px;
-                display: inline;
-            }
-            .content {
-                color: #fff;
-
-                .header {
-                    color: #fff;
-                }
-            }
-        }
-        &.error {
-            border: 4px solid #ff585d;
-            background-color: #ff585d;
-
-            .left {
-                margin-right: 18px;
-                display: inline;
-            }
-            .content {
-                color: #fff;
-
-                .header {
-                    color: #fff;
-                }
-            }
-        }
-        .sub-text {
-            font-size: 12px;
-            color: #fff;
-            border-top: 1px solid #f98184;
-            padding-top: 8px;
-            margin-top: 8px;
-        }
-
-        @media screen and (max-width: 767px) {
-            padding-left: 8px;
-            padding-right: 8px;
-
-            .content {
-                .header {
-                    
-                }
-            }
-
-            .close {
-                width: 20px;
-                position: absolute;
-                top: 8px;
-                right: 8px;
-                padding: 0px;
-                cursor: pointer;
-
-                &.white {
-                    filter: brightness(0) invert(1);
-                }
-            }
+        &::after {
+            transform: rotate(45deg);
         }
     }
+`
+const Header = styled.div`
+    font-weight: 600;
+    padding-bottom: 8px;
+    color: ${props => props.success ? '#02ba86' : '#e41d22'};
+`
+
+const Console = styled.div`
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    color: #656565;
+    margin-top: 14px;
+    background: #f2f2f2;
+    padding: 8px;
 `
 
 const GlobalAlert = ({ globalAlert, clearAlert, closeIcon = true }) => {
@@ -130,33 +110,30 @@ const GlobalAlert = ({ globalAlert, clearAlert, closeIcon = true }) => {
 
     if (globalAlert && !(globalAlert.data && globalAlert.data.onlyError && globalAlert.success)) {
         return (
-            <Container>
-                <CustomMessage icon className={globalAlert.success ? 'success' : 'error'}>
-                    {closeIcon && (
-                        <Image
-                            onClick={clearAlert}
-                            src={CloseImage}
-                            className='close white'
-                        />
-                    )}
-                    {globalAlert &&
-                        <Image className='left' src={globalAlert.success ? IconCheckImage : IconsProblemImage} />}
-                    <Message.Content>
-                        <Message.Header>
+            <Alert success={globalAlert.success}>
+                <Content>
+                    <Icon>
+                        <img src={globalAlert.success ? IconCheckCircleImage : IconsAlertCircleImage} />
+                    </Icon>
+                    <Text>
+                        <Header success={globalAlert.success}>
                             <Translate id={globalAlert.messageCodeHeader || (globalAlert.success ? 'success' : 'error')} />
-                        </Message.Header>
+                        </Header>
                         <Translate id={globalAlert.messageCode} data={globalAlert.data} options={{ onMissingTranslation }} />
                         {globalAlert.errorMessage && 
-                            <div className='sub-text'>
+                            <Console>
                                 {globalAlert.errorMessage}
-                            </div>
+                            </Console>
                         }
-                    </Message.Content>
-                </CustomMessage>
-            </Container>
+                    </Text>
+                    {closeIcon &&
+                        <Close onClick={clearAlert} />
+                    }
+                </Content>
+            </Alert>
         )
     } else {
-        return null;
+        return null
     }
 }
 
