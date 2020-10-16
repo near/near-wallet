@@ -599,6 +599,12 @@
             "descTwo": "You can now view your delegation and staking rewards from your staking dashboard.",
             "button": "Return to Dashboard"
         },
+        "unstakeSuccess": {
+            "title": "Success!",
+            "desc": "You have successfully unstaked with your chosen validator:",
+            "descTwo": "Your tokens are pending release and will be made available within ~36-48hrs (3 epochs).",
+            "button": "Return to Dashboard"
+        },
         "validators": {
             "title": "Select a Validator",
             "desc": "Enter a known validator or select a validator from the list to stake your NEAR tokens. You may only stake with a single validator at any given time.",
