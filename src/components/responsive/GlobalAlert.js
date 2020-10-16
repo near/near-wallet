@@ -23,6 +23,34 @@ const Alert = styled.div`
         left: 0px;
         margin-top: -15px;
     }
+
+    animation: ${props => props.closing
+        ? `alertAnimationClose ease-in-out .3s forwards;`
+        : `alertAnimation ease-in-out .3s;`
+    }
+    animation-iteration-count: 1;
+    transform-origin: 50% 50%;
+
+    @keyframes alertAnimation {
+        0% {
+            opacity: 0;
+            transform: translate(16px,0px);
+        }
+        100% {
+            opacity: 1;
+            transform:  translate(0px,0px);
+        }
+    }
+    @keyframes alertAnimationClose {
+        0% {
+            opacity: 1;
+            transform: translate(0px,0px);
+        }
+        100% {
+            opacity: 0;
+            transform: translate(16px,0px);
+        }
+    }
 `
 
 const Content = styled.div`
@@ -102,15 +130,25 @@ const Console = styled.div`
 
 const GlobalAlert = ({ globalAlert, clearAlert, closeIcon = true }) => {
 
+    const [closing, setClosing] = useState(false)
+
     const onMissingTranslation = () => {
         if (!globalAlert.success) {
             return 'Sorry an error has occurred. You may want to try again.';
         }
     };
 
+    const handleClose = () => {
+        setClosing(true)
+        setTimeout(() => {
+            setClosing(false)
+            clearAlert()
+        }, 300);
+    }
+
     if (globalAlert && !(globalAlert.data && globalAlert.data.onlyError && globalAlert.success)) {
         return (
-            <Alert success={globalAlert.success}>
+            <Alert success={globalAlert.success} closing={closing}>
                 <Content>
                     <Icon>
                         <img src={globalAlert.success ? IconCheckCircleImage : IconsAlertCircleImage} />
@@ -127,7 +165,7 @@ const GlobalAlert = ({ globalAlert, clearAlert, closeIcon = true }) => {
                         }
                     </Text>
                     {closeIcon &&
-                        <Close onClick={clearAlert} />
+                        <Close onClick={handleClose} />
                     }
                 </Content>
             </Alert>
