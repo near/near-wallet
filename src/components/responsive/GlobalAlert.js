@@ -14,7 +14,7 @@ const Alert = styled.div`
     background-color: #fff;
     border-left: 4px solid;
     box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.04);
-    z-index: 1000;
+    z-index: 900;
     right: 16px;
     border-color: ${props => props.success ? '#02ba86' : '#e41d22'};
 
@@ -151,7 +151,7 @@ const GlobalAlert = ({ globalAlert, clearAlert, closeIcon = true }) => {
             <Alert success={globalAlert.success} closing={closing}>
                 <Content>
                     <Icon>
-                        <img src={globalAlert.success ? IconCheckCircleImage : IconsAlertCircleImage} />
+                        <img src={globalAlert.success ? IconCheckCircleImage : IconsAlertCircleImage} alt={globalAlert.success ? 'Success' : 'Error'} />
                     </Icon>
                     <Text>
                         <Header success={globalAlert.success}>
