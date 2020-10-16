@@ -56,9 +56,11 @@ export class Staking {
 
     async updateStaking(useLockup) {
         const validators = await this.getValidators()
-        const state = {
-            validators,
-            ...(useLockup ? await this.updateStakingLockup(validators) : {})
+        let state
+        if (useLockup) {
+            state = { validators, ...(await this.updateStakingLockup(validators)) }
+        } else {
+            state = { validators, ...(await this.updateStakingAccount(validators)) }
         }
         console.log(state)
         return state
@@ -133,8 +135,83 @@ export class Staking {
     }
 
     // TODO when we enable direct account staking
-    async updateStakingAccount() {
-        return {}
+    async updateStakingAccount(validators) {
+        const account_id = this.wallet.accountId
+        const account = this.wallet.getAccount(this.wallet.accountId)
+        const balance = await account.getAccountBalance()
+
+        let totalUnstaked = new BN(balance.available, 10)
+        let totalStaked = new BN('0', 10);
+        let totalUnclaimed = new BN('0', 10);
+        let totalAvailable = new BN('0', 10);
+        let totalPending = new BN('0', 10);
+
+        return {
+            accountId: account_id,
+            selectedValidator: null,
+            totalUnstaked: totalUnstaked.toString(),
+            totalStaked: totalStaked.toString(),
+            totalUnclaimed: totalUnclaimed.toString(),
+            totalPending: totalPending.toString(),
+            totalAvailable: totalAvailable.toString(),
+        }
+
+        for (validator of validatorIds) {
+            let totalUnclaimedRewards = new BN('0', 10);
+            await Promise.all(validatorIds.map((name) => (async () => {
+                const validator = {
+                    name: validator,
+                    contract: await this.getValidatorInstance(account, validator)
+                }
+                try {
+                    const fee = validator.fee = await validator.contract.get_reward_fee_fraction()
+                    fee.percentage = fee.numerator / fee.denominator * 100
+    
+                    // TODO add more of the view methods, unstaked balance and rewards
+                    validator.totalBalance = await validator.contract.get_account_total_balance({ account_id })
+                    if (gtZero(validator.totalBalance)) {
+                        validator.stakedBalance = await validator.contract.get_account_staked_balance({ account_id })
+                        validator.unstakedBalance = await validator.contract.get_account_unstaked_balance({ account_id })
+                        // validator.accounts = await validator.contract.get_accounts({ from_index: 0, limit: 100 })
+                        totalStaked = totalStaked.add(new BN(validator.stakedBalance, 10))
+                    }
+    
+                    // add all account x validator sums
+                    let totalBalance = new BN('0', 10)
+                    let stakedBalance = new BN('0', 10)
+                    let unstakedBalance = new BN('0', 10)
+                    await Promise.all(accounts.map((account_id) => (async () => {
+                        const balance = new BN(await validator.contract.get_account_total_balance({ account_id }), 10)
+                        if (balance.gt(zero)) {
+                            totalBalance = totalBalance.add(balance)
+                            stakedBalance = stakedBalance.add(new BN(await validator.contract.get_account_staked_balance({ account_id }), 10))
+                            unstakedBalance = unstakedBalance.add(new BN(await validator.contract.get_account_unstaked_balance({ account_id }), 10))
+                        }
+                    })()))
+                    validator.totalBalance = totalBalance.toString()
+                    validator.stakedBalance = stakedBalance.toString()
+                    validator.unstakedBalance = unstakedBalance.toString()
+                    totalStaked = totalStaked.add(stakedBalance)
+                    // calc principle stake from txs
+                    let principleStaked = new BN('0', 10)
+                    const validatorTXs = stakingTxs.filter((tx) => tx.receiver_id === validator.name)
+                    validatorTXs.forEach((tx) => {
+                        const args = JSON.parse(tx.args)
+                        if (args.method_name.indexOf('unstake') > -1) {
+                            principleStaked = principleStaked.sub(new BN(args.deposit, 10))
+                        } else if (args.method_name.indexOf('stake') > -1) {
+                            principleStaked = principleStaked.add(new BN(args.deposit, 10))
+                        }
+                    })
+                    validator.principleStaked = principleStaked.toString()
+                    const unclaimedRewards = totalStaked.sub(principleStaked)
+                    validator.unclaimedRewards = unclaimedRewards.toString()
+                    totalUnclaimedRewards = totalUnclaimedRewards.add(unclaimedRewards)
+                } catch (e) {
+                    console.warn(e)
+                }
+            })()))
+        }
     }
 
     async getValidators() {

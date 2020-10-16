@@ -7,7 +7,7 @@ const initialState = {
     // the current account that's being shown in staking dashboard
     accountId: '',
     // lockup account is active
-    useLockup: true,
+    useLockup: false,
     selectedValidator: '',
     // all validators
     totalPending: '0', // pending withdrawal
