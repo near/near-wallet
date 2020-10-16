@@ -56,6 +56,7 @@ const Alert = styled.div`
 const Content = styled.div`
     min-height: 74px;
     max-width: 500px;
+    min-width: 275px;
     border: 2px solid #f2f2f2;
     border-radius: 0 3px 3px 0;
     display: flex;
