@@ -207,7 +207,7 @@ class Wallet {
             const ledgerKey = accessKeys.find(key => key.meta.type === 'ledger')
             const state = await this.getAccount(this.accountId).state()
             this.twoFactor = new TwoFactor(this)
-            const has2fa = this.has2fa = await this.twoFactor.isEnabled()
+            const has2fa = this.has2fa = await this.twoFactor.isEnabled(this.accountId)
 
             // TODO: Just use accountExists to check if lockup exists?
             let lockupInfo
@@ -424,7 +424,7 @@ class Wallet {
         const account = this.getAccount(accountId)
         console.log('account instance used in recovery add localStorage key', account)
         // update has2fa now after we have the right Account instance for temp recovery
-        this.has2fa = await this.twoFactor.isEnabled()
+        this.has2fa = await this.twoFactor.isEnabled(accountId)
         console.log('key being added to 2fa account (this.has2fa)', this.has2fa)
         try {
             if (fullAccess || (!this.has2fa && accountId === contractId)) {
@@ -762,7 +762,7 @@ class Wallet {
             this.accountId = accountId
             this.twoFactor = new TwoFactor(this)
             this.twoFactor.accountId = accountId
-            this.has2fa = await this.twoFactor.isEnabled()
+            this.has2fa = await this.twoFactor.isEnabled(accountId)
             let account = this.getAccount(accountId)
             // check if recover access key is FAK and if so add key without 2FA
             if (this.has2fa) {
