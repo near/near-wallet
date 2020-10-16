@@ -54,7 +54,7 @@ const Alert = styled.div`
 `
 
 const Content = styled.div`
-    min-height: 74px;
+    min-height: 60px;
     max-width: 500px;
     min-width: 275px;
     border: 2px solid #f2f2f2;
@@ -81,6 +81,7 @@ const Text = styled.div`
     padding-right: 16px;
     color: #24272a;
     flex: 1 1 auto;
+    padding-top: 4px;
 `
 const Close = styled.div`
     width: 12px;
@@ -116,7 +117,7 @@ const Close = styled.div`
 `
 const Header = styled.div`
     font-weight: 600;
-    padding-bottom: 8px;
+    margin-bottom: 8px;
     color: ${props => props.success ? '#02ba86' : '#e41d22'};
 `
 
