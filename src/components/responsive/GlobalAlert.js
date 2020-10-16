@@ -10,7 +10,7 @@ import { clearAlert } from '../../actions/account'
 import styled from 'styled-components'
 
 const Alert = styled.div`
-    position: absolute;
+    position: fixed;
     background-color: #fff;
     border-left: 4px solid;
     box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.04);
