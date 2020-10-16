@@ -2,7 +2,7 @@ import * as nearApiJs from 'near-api-js'
 import BN from 'bn.js'
 import { WalletError } from './walletError'
 import { getLockupAccountId } from './account-with-lockup'
-import { validators } from 'near-api-js'
+import { queryExplorer } from './explorer-api'
 
 const {
     transactions: {
@@ -145,8 +145,11 @@ export class Staking {
         const account = this.wallet.getAccount(this.wallet.accountId)
         const balance = await account.getAccountBalance()
 
-        // TODO find deposited from explorer api
-        let deposited = new BN('0', 10);
+        const deposits = (await getStakingTransactions(account_id, validators.map(v => v.accountId)))
+            .map(({ receiver_id, args }) => ({
+                accountId: receiver_id,
+                deposit: new BN(JSON.parse(args).deposit, 10)
+            }))
 
         let totalUnstaked = new BN(balance.available, 10)
         let totalStaked = new BN('0', 10);
@@ -161,9 +164,17 @@ export class Staking {
                 if (total.lte(new BN('0', 10))) {
                     return
                 }
+                // pull deposits out of txs
+                let validatorDeposits = new BN('0', 10)
+                deposits.forEach(({ accountId, deposit }) => {
+                    if (validator.accountId !== accountId) return
+                    validatorDeposits = validatorDeposits.add(deposit)
+                })
+                console.log(validatorDeposits.toString())
+
                 validator.staked = await validator.contract.get_account_staked_balance({ account_id })
                 // TODO replace total.sub(total) with total.sub(deposited) to calc rewards
-                validator.unclaimed = total.sub(total).toString()
+                validator.unclaimed = total.sub(validatorDeposits).toString()
                 validator.unstaked = new BN(await validator.contract.get_account_unstaked_balance({ account_id }), 10)
                 if (validator.unstaked.gt(minimumUnstaked)) {
                     const isAvailable = await validator.contract.is_account_unstaked_balance_available({ account_id })
@@ -380,4 +391,43 @@ export class Staking {
     async signAndSendTransaction(receiverId, actions) {
         return this.wallet.getAccount(this.wallet.accountId).signAndSendTransaction(receiverId, actions)
     }
+}
+
+
+async function getStakingTransactions(accountId, validators) {
+    const methods = ['deposit', 'deposit_and_stake']
+
+    const sql = `
+        SELECT
+            transactions.hash, 
+            transactions.signer_id,
+            transactions.receiver_id,
+            transactions.block_timestamp, 
+            actions.action_type as kind, 
+            actions.action_args as args
+        FROM 
+            transactions
+        LEFT JOIN actions ON actions.transaction_hash = transactions.hash
+        WHERE 
+            transactions.signer_id = :accountId AND
+            transactions.receiver_id in (:validators) AND
+            actions.action_type = 'FunctionCall' AND
+            json_extract(actions.action_args, '$.method_name') in (:methods)
+        ORDER BY 
+            block_timestamp DESC
+        LIMIT 
+            :offset, :count
+    `
+
+    const params = {
+        accountId, 
+        offset: 0, 
+        count: 500,
+        methods,
+        validators,
+    }
+
+    const tx = await queryExplorer(sql, params)
+    console.log(tx)
+    return Array.isArray(tx) ? tx : []
 }
