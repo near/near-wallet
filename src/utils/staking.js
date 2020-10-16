@@ -154,6 +154,9 @@ export class Staking {
         await Promise.all(validators.map((validator) => (async () => {
             try {
                 const total = new BN(await validator.contract.get_account_total_balance({ account_id }), 10)
+
+                console.log('total', total.toString())
+                
                 if (total.gt(new BN('0', 10))) {
                     validator.staked = await validator.contract.get_account_staked_balance({ account_id })
                     validator.unclaimed = total.sub(deposited).toString()
