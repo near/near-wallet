@@ -1,10 +1,7 @@
 import React, { Component, Fragment } from 'react'
 
 import * as nearApiJs from 'near-api-js' 
-import { parseSeedPhrase } from 'near-seed-phrase'
 import BN from 'bn.js'
-const NETWORK_ID = process.env.REACT_APP_NETWORK_ID || 'default'
-const NODE_URL = process.env.REACT_APP_NODE_URL || 'https://rpc.nearprotocol.com'
 
 import { withRouter, Route } from 'react-router-dom'
 import { connect } from 'react-redux'
@@ -21,6 +18,8 @@ import Container from '../common/styled/Container.css'
 import { KeyPair } from 'near-api-js'
 import FormButton from '../common/FormButton'
 import IconMCopy from '../../images/IconMCopy'
+const NETWORK_ID = process.env.REACT_APP_NETWORK_ID || 'default'
+const NODE_URL = process.env.REACT_APP_NODE_URL || 'https://rpc.nearprotocol.com'
 
 const IMPLICIT_ACCOUNT_KEY = '__IMPLICIT_ACCOUNT_KEY'
 
@@ -58,7 +57,8 @@ class SetupImplicit extends Component {
     componentDidUpdate = (props, state) => {
         const recoveryKeyPair = JSON.parse(localStorage.getItem(IMPLICIT_ACCOUNT_KEY) || '{}')
         if (this.props.location.pathname !== '/create-implicit/fund' && recoveryKeyPair.publicKey) {
-            if (confirm('WARNING! If you have funded your account, press "Cancel".\n\nIf you would like to start over with a new account, press "OK".')) {
+            const confirm = confirm('WARNING! If you have funded your account, press "Cancel".\n\nIf you would like to start over with a new account, press "OK".')
+            if (confirm) {
                 localStorage.removeItem(IMPLICIT_ACCOUNT_KEY)
                 this.refreshData()
                 this.props.history.push('/create-implicit')
