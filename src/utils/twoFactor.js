@@ -28,13 +28,11 @@ export class TwoFactor extends AccountMultisig {
         this.wallet = wallet
     }
 
-    async isEnabled() {
-        try {
-            return MULTISIG_CONTRACT_HASHES.includes((await this.state()).code_hash)
-        } catch(e) {
-            console.warn('no account exists yet', e)
+    async isEnabled(accountId) {
+        if (!accountId.length || this.accountId !== accountId) {
             return false
         }
+        return MULTISIG_CONTRACT_HASHES.includes((await this.state()).code_hash)
     }
 
     async get2faMethod() {
