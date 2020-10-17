@@ -721,8 +721,6 @@
         }
     },
 
-    "implicitBalanceCheck": "Checking",
-
     "success": "Success",
     "error": "Error",
     "warning": "Warning",

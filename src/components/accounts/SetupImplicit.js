@@ -23,26 +23,42 @@ const NODE_URL = process.env.REACT_APP_NODE_URL || 'https://rpc.nearprotocol.com
 
 const IMPLICIT_ACCOUNT_KEY = '__IMPLICIT_ACCOUNT_KEY'
 
+let pollingInterval = null
+
+const initialState = {
+    seedPhrase: '',
+    enterWord: '',
+    wordId: null,
+    requestStatus: null,
+    successSnackbar: false,
+    sending: false,
+    snackBarMessage: 'setupSeedPhrase.snackbarCopySuccess',
+    balance: null,
+}
+
 class SetupImplicit extends Component {
-    state = {
-        seedPhrase: '',
-        enterWord: '',
-        wordId: null,
-        requestStatus: null,
-        successSnackbar: false,
-        sending: false,
-        snackBarMessage: 'setupSeedPhrase.snackbarCopySuccess'
+    state = {...initialState}
+
+    handleContinue = () => {
+        const recoveryKeyPair = JSON.parse(localStorage.getItem(IMPLICIT_ACCOUNT_KEY) || '{}')
+        clearInterval(pollingInterval)
+        this.props.history.push(`/recover-with-link/${recoveryKeyPair.implicitAccountId}/${recoveryKeyPair.seedPhrase}`)
     }
 
-    async checkBalance() {
+    handleReset = () => {
+        localStorage.removeItem(IMPLICIT_ACCOUNT_KEY)
+        this.refreshData()
+        this.props.history.push('/create-implicit')
+    }
+
+    checkBalance = async () => {
         const recoveryKeyPair = JSON.parse(localStorage.getItem(IMPLICIT_ACCOUNT_KEY) || '{}')
         this.setState({ sending: true })
         const account = new nearApiJs.Account(this.connection, recoveryKeyPair.implicitAccountId)
         try {
             const state = await account.state()
             if (new BN(state.amount).gte(new BN('1000000000000000000000000', 10))) {
-                window.removeEventListener('beforeunload')
-                window.location.href = `${window.location.origin}/recover-with-link/${recoveryKeyPair.implicitAccountId}/${recoveryKeyPair.seedPhrase}`
+                return this.setState({ balance: nearApiJs.utils.format.formatNearAmount(state.amount, 2) })
             }
         } catch (e) {
             if (e.message.indexOf('exist while viewing') > -1) {
@@ -50,6 +66,7 @@ class SetupImplicit extends Component {
             } else {
                 throw(e)
             }
+            this.setState({ hasBalance: false })
         }
         setTimeout(() => this.setState({ sending: false }), 1000)
     }
@@ -57,11 +74,9 @@ class SetupImplicit extends Component {
     componentDidUpdate = (props, state) => {
         const recoveryKeyPair = JSON.parse(localStorage.getItem(IMPLICIT_ACCOUNT_KEY) || '{}')
         if (this.props.location.pathname !== '/create-implicit/fund' && recoveryKeyPair.publicKey) {
-            const confirm = confirm('WARNING! If you have funded your account, press "Cancel".\n\nIf you would like to start over with a new account, press "OK".')
+            const confirm = window.confirm('WARNING! If you have funded your account, press "Cancel".\n\nIf you would like to start over with a new account, press "OK".')
             if (confirm) {
-                localStorage.removeItem(IMPLICIT_ACCOUNT_KEY)
-                this.refreshData()
-                this.props.history.push('/create-implicit')
+                this.handleReset()
             } else {
                 this.props.history.push('/create-implicit/fund')
             }
@@ -70,6 +85,8 @@ class SetupImplicit extends Component {
             this.setState({
                 snackBarMessage: 'setupSeedPhrase.snackbarCopyImplicitAccountId'
             })
+            clearInterval(pollingInterval)
+            pollingInterval = setInterval(this.checkBalance, 2000)
         }
     }
 
@@ -103,7 +120,9 @@ class SetupImplicit extends Component {
             wordId,
             enterWord: '',
             requestStatus: null,
-            recoveryKeyPair
+            recoveryKeyPair,
+            snackBarMessage: 'setupSeedPhrase.snackbarCopySuccess',
+            balance: null,
         }))
     }
 
@@ -173,7 +192,13 @@ class SetupImplicit extends Component {
     }
 
     render() {
-        if (!this.state.recoveryKeyPair) return null
+        const {
+            recoveryKeyPair, balance, seedPhrase,
+            enterWord, wordId, requestStatus,
+            snackBarMessage, successSnackbar,
+        } = this.state
+
+        if (!recoveryKeyPair) return null
 
         return (
             <Translate>
@@ -188,7 +213,7 @@ class SetupImplicit extends Component {
                                     <h2><Translate id='setupSeedPhrase.pageText'/></h2>
                                     <SetupSeedPhraseForm
                                         linkTo="/create-implicit/verify"
-                                        seedPhrase={this.state.seedPhrase}
+                                        seedPhrase={seedPhrase}
                                         handleCopyPhrase={this.handleCopyPhrase}
                                     />
                                 </Container>
@@ -203,12 +228,12 @@ class SetupImplicit extends Component {
                                     <h1><Translate id='setupSeedPhraseVerify.pageTitle'/></h1>
                                     <h2><Translate id='setupSeedPhraseVerify.pageText'/></h2>
                                         <SetupSeedPhraseVerify
-                                            enterWord={this.state.enterWord}
-                                            wordId={this.state.wordId}
+                                            enterWord={enterWord}
+                                            wordId={wordId}
                                             handleChangeWord={this.handleChangeWord}
                                             handleStartOver={this.handleStartOver}
                                             formLoader={this.props.formLoader}
-                                            requestStatus={this.state.requestStatus}
+                                            requestStatus={requestStatus}
                                             globalAlert={this.props.globalAlert}
                                         />
                                     </form>
@@ -233,35 +258,36 @@ class SetupImplicit extends Component {
                                             outline: 'none',
                                             textAlign: 'center',
                                         }}
-                                        defaultValue={this.state.recoveryKeyPair.implicitAccountId} 
+                                        defaultValue={recoveryKeyPair.implicitAccountId} 
                                     />
                                     <FormButton
-                                        onClick={() => this.handleCopyPhrase(this.state.recoveryKeyPair.implicitAccountId)}
+                                        onClick={() => this.handleCopyPhrase(recoveryKeyPair.implicitAccountId)}
                                         color='seafoam-blue-white'
                                     >
                                         <Translate id='button.copyImplicitAccountId' />
                                         <IconMCopy color='#6ad1e3' />
                                     </FormButton>
                                     <p id="implicit-account-id" style={{display: 'none'}}>
-                                        <span>{this.state.recoveryKeyPair.implicitAccountId}</span>
+                                        <span>{recoveryKeyPair.implicitAccountId}</span>
                                     </p>
                                     <p style={{marginTop: 16}}>
-                                        Once funded, you will be automatically redirected to a "Restore Account" page where you can sign into the wallet by clicking "Continue".
+                                        Once funded, click "Continue". You will be redirected to a page titled "Restore Account". Click "Continue" again.
                                     </p>
-                                    <FormButton
-                                        onClick={() => this.checkBalance()}
-                                        color='green'
-                                        sending={this.state.sending}
-                                        sendingString="implicitBalanceCheck">
-                                        Check Balance
-                                    </FormButton>
+                                    {   !!balance &&
+                                        <FormButton
+                                            onClick={() => this.handleContinue()}
+                                            color='green'
+                                        >
+                                            Continue
+                                        </FormButton>
+                                    }
                                 </Container>
                             )}
                         />
                         <Snackbar
                             theme='success'
-                            message={translate(this.state.snackBarMessage)}
-                            show={this.state.successSnackbar}
+                            message={translate(snackBarMessage)}
+                            show={successSnackbar}
                             onHide={() => this.setState({ successSnackbar: false })}
                         />
                     </Fragment>
