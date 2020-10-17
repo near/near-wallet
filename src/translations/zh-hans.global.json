@@ -22,7 +22,9 @@
         "available": {
             "success": "该用户已找到。",
             "error": "无法找到该用户。",
-            "errorSameAccount": "无法向你自己发送。"
+            "errorSameAccount": "无法向你自己发送。",
+            "implicitAccount": "请再确认账户 ID",
+            "implicitAccountModal": "请再确认账户 ID，如果账户输入错误，你的资产将永久无法找回。"
         },
         "verifySeedPhrase": {
             "error": "你输入了错误的助记词"
@@ -213,7 +215,10 @@
         "GET_LEDGER_PUBLIC_KEY": "请在 Ledger 设备上确认公钥访问信息。",
         "CREATE_NEW_ACCOUNT": "请在 Ledger 设备上确认新账户密钥信息。",
         "SIGN_AND_SEND_TRANSACTIONS": "请在 Ledger 设备上确认存款信息。",
-        "REMOVE_NON_LEDGER_ACCESS_KEYS": "请在 Ledger 设备上确认信息。"
+        "REMOVE_NON_LEDGER_ACCESS_KEYS": "请在 Ledger 设备上确认信息。",
+        "STAKE": "请在 Ledger 上确认质押。",
+        "UNSTAKE": "请在 Ledger 上确认取消质押。",
+        "WITHDRAW": "请在 Ledger 上确认提现。"
     },
     "button": {
         "signIn": "登录",
@@ -271,6 +276,7 @@
         "summary": "概览",
         "send": "发送",
         "receive": "接收",
+        "staking": "质押",
         "help": "帮助",
         "profile": "资料",
         "authorizedApps": "已授权应用",
@@ -491,11 +497,101 @@
         }
     },
     "staking": {
+        "errors": {
+            "noLockup": "账户无锁定合约",
+            "noWithdraw": "无法从验证节点提现余额"
+        },
         "pageTitle": "质押",
         "pageText": "通过命令行配置你的节点，并在这里添加。",
         "amountStakingInput": {
             "title": "请输入质押数量",
             "placeholder": "例如：15"
+        },
+        "staking": {
+            "title": "质押",
+            "desc": "选择验证节点质押 NEAR 通证",
+            "button": "质押 NEAR",
+            "currentValidators": "当前验证节点",
+            "noValidators": "你还没有委托验证节点质押。"
+        },
+        "balanceBox": {
+            "staked": {
+                "title": "质押总数",
+                "info": "NEAR 通证目前已委托验证节点质押。这些通证将累积奖励。为使用这些通证，你需要首先取消质押并提现。",
+                "button": "取消质押"
+            },
+            "unclaimed": {
+                "title": "未提现奖励",
+                "info": "已赚得的奖励并未提现。未提现奖励将自动质押，这意味着你的质押总数将不断增加，奖励是<a target='_blank' href='https://www.investopedia.com/terms/c/compoundinterest.asp'>复利</a>计算的。"
+            },
+            "available": {
+                "title": "可提现",
+                "info": "这些通证已经取消质押，并可以提现。",
+                "button": "提现"
+            },
+            "pending": {
+                "title": "请求释放",
+                "info": "这些通证并未质押，但还不可提现。通常在取消质押后 36 - 48 小时变为可提现。"
+            }
+        },
+        "validatorBox": {
+            "fee": "费用",
+            "staking": "质押",
+            "near": "NEAR",
+            "cta": "选择",
+            "with": "委托给"
+        },
+        "stake": {
+            "title": "质押数量",
+            "desc": "请输入计划质押的 NEAR 通证数量。",
+            "amount": "数量",
+            "stakeWith": "委托质押节点",
+            "button": "提交质押",
+            "confirm": "你将质押",
+            "input": {
+                "insufficientFunds": "余额不足。",
+                "availableBalance": "可用余额：",
+                "near": "NEAR"
+            },
+            "ledgerDisclaimer": "注意：如果你是首次委托该验证节点质押，你需要确认两笔交易。"
+        },
+        "stakeSuccess": {
+            "title": "成功！",
+            "desc": "你的质押成功委托给已选择的验证节点：",
+            "descTwo": "你可以在质押页查看你的委托和质押奖励。",
+            "button": "返回质押页"
+        },
+        "validators": {
+            "title": "选择验证节点",
+            "desc": "输入一个验证节点来质押 NEAR 通证。",
+            "inputLabel": "输入验证节点账户 ID",
+            "inputPlaceholder": "validator-name.near",
+            "button": "查看验证节点",
+            "available": "可选验证节点",
+            "search": {
+                "success": "已找到验证节点！",
+                "error": "无匹配验证节点。"
+            }
+        },
+        "validator": {
+            "title": "验证节点：<br/> @${validator}",
+            "button": "委托节点质押",
+            "fee": "质押费",
+            "desc": "这是你将支付给验证节点委托质押的费用，仅从你的奖励中支付。",
+            "withdrawalDisclaimer": "请求释放的资金将会在 36 - 48 小时内释放。",
+            "unstake": "你正在取消质押",
+            "withdraw": "你正在提现"
+        },
+        "balanceBanner": {
+            "title": "可用锁定余额",
+            "currency": "NEAR"
+        },
+        "alertBanner": {
+            "title": "你必须首先从验证节点中取消质押，并提现你的通证，才能选择新的验证节点。",
+            "button": "查看当前验证节点"
+        },
+        "noValidators": {
+            "title": "你目前没有委托任何验证节点质押。"
         }
     },
     "profile": {
@@ -613,11 +709,11 @@
     },
     "setupLedgerSteps": {
         "header": "在硬件钱包上安装 NEAR",
-        "one": "打开 <a href='https://www.ledger.com/ledger-live' target='_blank'>Ledger Live</a> 并切换到你的<span class='color-black'>设置</span>。",
-        "two": "在<span class='color-black'>试验性功能</span>中，确保<span class='color-black'>开发者模式</span>已经<span class='color-black'>开启</span>。",
-        "three": "返回至<span class='color-black'>管理器</span> Tab 并搜索 <span class='color-black'>NEAR</span>。",
-        "four": "根据步骤在设备上安装 <span class='color-black'>NEAR 应用</span>。",
-        "five": ""
+        "one": "打开 <a href='https://www.ledger.com/ledger-live' target='_blank'>Ledger Live</a>，并安装固件更新。",
+        "two": "切换到你的<span class='color-black'>设置</span>",
+        "three": "在<span class='color-black'>试验性功能</span>中，确保<span class='color-black'>开发者模式</span>已经<span class='color-black'>开启</span>。",
+        "four": "返回至<span class='color-black'>管理器</span> Tab 并搜索 <span class='color-black'>NEAR</span>。",
+        "five": "根据步骤在设备上安装 <span class='color-black'>NEAR 应用</span>。"
     },
     "setupLedgerSuccess": {
         "header": "你的账户已通过 Ledger 硬件保护！",

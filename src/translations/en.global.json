@@ -22,7 +22,9 @@
         "available": {
             "success": "User found.",
             "error": "User not found.",
-            "errorSameAccount": "Cannot send to yourself."
+            "errorSameAccount": "Cannot send to yourself.",
+            "implicitAccount": "Always double check the account ID",
+            "implicitAccountModal": "Please double check the account ID, especially if this is an exchange account. If the account ID is entered incorrectly, your funds will be lost forever."
         },
         "verifySeedPhrase": {
             "error": "You entered the incorrect word"
@@ -89,7 +91,8 @@
     "setupSeedPhrase": {
         "pageTitle": "Setup Phrase",
         "pageText": "Write down the following words IN ORDER and keep them somewhere safe. You cannot recover your account without them!",
-        "snackbarCopySuccess": "Seed phrase copied!"
+        "snackbarCopySuccess": "Seed phrase copied!",
+        "snackbarCopyImplicitAccountId": "Account ID Copied!"
     },
     "setupSeedPhraseVerify": {
         "pageTitle": "Verify Phrase",
@@ -224,13 +227,17 @@
         "GET_LEDGER_PUBLIC_KEY": "You will need to confirm public key access on your Ledger.",
         "CREATE_NEW_ACCOUNT": "You will need to confirm add a key for new account on your Ledger.",
         "SIGN_AND_SEND_TRANSACTIONS": "You will need to confirm deposit details on your Ledger.",
-        "REMOVE_NON_LEDGER_ACCESS_KEYS": "You will need to confirm details on your Ledger."
+        "REMOVE_NON_LEDGER_ACCESS_KEYS": "You will need to confirm details on your Ledger.",
+        "STAKE": "You will need to confirm staking on your Ledger",
+        "UNSTAKE": "You will need to confirm unstaking on your Ledger",
+        "WITHDRAW": "You will need to confirm withdrawal on your Ledger"
     },
 
     "button": {
         "signIn": "Sign In",
         "signingIn": "Signing In",
         "copyPhrase": "COPY PHRASE",
+        "copyImplicitAccountId": "Copy Account ID",
         "continue": "CONTINUE",
         "continueSetup": "Continue to Setup",
         "verify": "VERIFY & COMPLETE",
@@ -284,6 +291,7 @@
         "summary": "SUMMARY",
         "send": "SEND",
         "receive": "RECEIVE",
+        "staking": "STAKING",
         "help": "HELP",
         "profile": "Profile",
         "authorizedApps": "Authorized Apps",
@@ -300,7 +308,7 @@
         "accountId": {
             "title": "Account ID",
             "placeholder": "e.g. johndoe.near",
-            "subLabel": "Your account ID must include a Top Level Account such as <b>.near</b>"
+            "subLabel": "Your account ID must include a Top Level Account such as <b>.near</b> or contain exactly 64 characters."
         }
     },
 
@@ -422,7 +430,7 @@
         "desc": "NEAR is a scalable computing and storage platform that changes how the web works for better.",
         "learnMore": "Learn More",
         "needHelp": "Need Help?",
-        "contactSupport": "Contact Support"
+        "contactSupport": "Join Community"
     },
 
     "dashboard": {
@@ -516,11 +524,101 @@
         }
     },
     "staking": {
+        "errors": {
+            "noLockup": "No lockup contract for account",
+            "noWithdraw": "Unable to withdraw pending balance from validator"
+        },
         "pageTitle": "Staking",
         "pageText": "Setup your Node via CLI, then add it here.",
         "amountStakingInput": {
             "title": "Enter amount to stake",
             "placeholder": "example: 15"
+        },
+        "staking": {
+            "title": "Staking",
+            "desc": "Stake your NEAR tokens with a validator",
+            "button": "Select validator",
+            "currentValidators": "Your Current Validators",
+            "noValidators": "You haven't staked with a validator yet."
+        },
+        "balanceBox": {
+            "staked": {
+                "title": "Total amount staked",
+                "info": "NEAR tokens currently staked with validators. These tokens are accumulating rewards. To access these tokens, you must first unstake and then withdraw them.",
+                "button": "Unstake"
+            },
+            "unclaimed": {
+                "title": "Rewards earned",
+                "info": "Rewards that have been earned, but not withdrawn. Rewards earned are automatically restaked, which means your Total Amount Staked automatically increases over time, and your rewards are <a target='_blank' href='https://www.investopedia.com/terms/c/compoundinterest.asp'>compounding</a>."
+            },
+            "available": {
+                "title": "Available for withdrawal",
+                "info": "These tokens have been unstaked, and are ready to be withdrawn.",
+                "button": "Withdraw"
+            },
+            "pending": {
+                "title": "Pending release",
+                "info": "These tokens have been unstaked, but are not yet ready to withdraw. Tokens are ready to withdraw 36 to 48 hours after unstaking."
+            }
+        },
+        "validatorBox": {
+            "fee": "Fee",
+            "staking": "Staking",
+            "near": "NEAR",
+            "cta": "Select",
+            "with": "with"
+        },
+        "stake": {
+            "title": "Stake Amount",
+            "desc": "Enter the amount you would like to stake with your chosen validator.",
+            "amount": "Amount",
+            "stakeWith": "Stake with",
+            "button": "Submit Stake",
+            "confirm": "You are staking",
+            "input": {
+                "insufficientFunds": "Insufficient funds.",
+                "availableBalance": "Available balance:",
+                "near": "NEAR"
+            },
+            "ledgerDisclaimer": "Note: If this is your first time staking with this validator, you will need to confirm two transactions"
+        },
+        "stakeSuccess": {
+            "title": "Success!",
+            "desc": "Your stake has successfully been delegated to your chosen validator:",
+            "descTwo": "You can now view your delegation and staking rewards from your staking dashboard.",
+            "button": "Return to Dashboard"
+        },
+        "validators": {
+            "title": "Select a Validator",
+            "desc": "Enter a known validator or select a validator from the list to stake your NEAR tokens. You may only stake with a single validator at any given time.",
+            "inputLabel": "Validator account ID",
+            "inputPlaceholder": "validator-name.near",
+            "button": "View Validator",
+            "available": "Available Validators",
+            "search": {
+                "success": "Validator found!",
+                "error": "No matching validator."
+            }
+        },
+        "validator": {
+            "title": "Validator: <br/> @${validator}",
+            "button": "Stake with validator",
+            "fee": "Validator Fee",
+            "desc": "This is the fee paid to the validator to stake on your behalf. This fee is only charged on your rewards.",
+            "withdrawalDisclaimer": "Funds pending release will be made available after ~36-48hrs (3 epochs)",
+            "unstake": "You are unstaking",
+            "withdraw": "You are withdrawing"
+        },
+        "balanceBanner": {
+            "title": "Available lockup balance",
+            "currency": "NEAR"
+        },
+        "alertBanner": {
+            "title": "You must first unstake and withdraw your tokens from your current validator in order to stake with a new validator.",
+            "button": "View current validator"
+        },
+        "noValidators": {
+            "title": "You are not currently staking with any validators."
         }
     },
     "profile": {
@@ -605,7 +703,7 @@
     
     "availableBalanceInfo": "”Available Balance” is your spendable NEAR balance. This will be lower than your Total Balance. To view a complete breakdown of your NEAR balance, visit your Profile.", 
     "availableBalanceProfile": "This is your spendable NEAR balance, and can be used or transferred immediately. This will be lower than your Total Balance.",
-    "minimumBalance": "This is the minimum NEAR balance your account must maintain to remain active. This balance represents the storage space your account is using on the NEAR blockchain, and will go up or down as you use more or less space.",
+    "minimumBalance": "This is the minimum NEAR balance your account must maintain to remain active. This balance represents the storage space your account is using on the NEAR blockchain (with a small buffer), and will go up or down as you use more or less space.",
     "totalBalance": "Your total balance represents all NEAR tokens under your control. In many cases, you will not have immediate access to this entire balance (e.g. if it is locked, delegated, or staked). Check your Available Balance for the NEAR you can actively use, transfer, delegate, and stake.",
     "stakedBalance": "This NEAR is actively being used to back a validator and secure the network. When you decide to unstake this NEAR, it will take some time to be shown in your Available Balance, as NEAR takes 3 epochs (~36 hours) to unstake.",
     "unvestedBalance": "Unvested NEAR is earmarked to you, but not yet under your ownership. You can still delegate or stake this NEAR, and the rewards will be entirely yours. As your NEAR is vested, it will appear in either your Locked or Unlocked balance.",

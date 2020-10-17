@@ -8,6 +8,7 @@ import styled from 'styled-components'
 import InfoPopup from '../common/InfoPopup'
 import Balance, { formatNEAR } from '../common/Balance'
 import { utils } from 'near-api-js'
+import isDecimalString from '../../utils/isDecimalString'
 
 const CustomDiv = styled(`div`)`
     &&&&& {
@@ -43,7 +44,7 @@ const CustomDiv = styled(`div`)`
             }
         }
         .alert-info {
-            font-weight: 600;
+            font-weight: 500;
             margin: 0;
             padding: 8px 0;
             line-height: 34px;
@@ -87,20 +88,28 @@ class SendMoneyAmountInput extends Component {
     }
 
     isDecimalString = (value) => {
-        let REG = /^[0-9]*(|[.][0-9]{1,5})$/
+        let REG = /^[0-9]*(|[.][0-9]{0,5})$/
         return REG.test(value)
     }
 
+    get availableBalance() {
+        const { available } = this.props.balance
+        return new BN(available)
+    }
+
     handleChangeAmount = (e, { name, value }) => {
+        if (!/^\d*[.]?\d*$/.test(value)) {
+            return
+        }
+
         let amountStatusId = ''
-        if (value && !this.isDecimalString(value)) {
+        if (value && !isDecimalString(value)) {
             amountStatusId = 'sendMoney.amountStatusId.noMoreThan'
         }
         let amountInInternalFormat = ''
         if (value !== '') {
             amountInInternalFormat = utils.format.parseNearAmount(value);
-            let balance = new BN(this.props.balance.available)
-            if (balance.lt(new BN(amountInInternalFormat))) {
+            if (this.availableBalance.lt(new BN(amountInInternalFormat))) {
                 amountStatusId = 'sendMoney.amountStatusId.notEnoughTokens'
             }
         }
@@ -120,7 +129,6 @@ class SendMoneyAmountInput extends Component {
         return (
             <CustomDiv fontSize={`${fontSize}px`}>
                 <Form.Input
-                    type="number"
                     name='amountInput'
                     value={amountInput}
                     onChange={this.handleChangeAmount}
@@ -141,7 +149,7 @@ class SendMoneyAmountInput extends Component {
                 )}
                 <AvailableBalance>
                     <Translate id='sendMoney.amountStatusId.available'/>&nbsp;
-                    <Balance amount={this.props.balance.available}/>
+                    <Balance amount={this.availableBalance}/>
                     <InfoPopup content={<Translate id='availableBalanceInfo'/>}/>
                 </AvailableBalance>
             </CustomDiv>

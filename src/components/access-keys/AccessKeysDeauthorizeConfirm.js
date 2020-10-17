@@ -15,7 +15,7 @@ const AccessKeysDeauthorizeConfirm = ({ handleConfirmSubmit, handleChange, accou
                     onChange={handleChange}
                     className={confirmStatus ? (confirmStatus === 'success' ? 'success' : 'problem') : ''}
                     placeholder={translate('login.confirm.username')}
-                    maxLength='32'
+                    maxLength='64'
                     required
                     autoComplete='off'
                     autoCorrect='off'

@@ -48,7 +48,7 @@ const LowerSection = styled.div`
     border-bottom-right-radius: 4px;
 `
 
-const DesktopMenu = ({ show, accountId, accounts, selectAccount, toggleMenu }) => {
+const DesktopMenu = ({ show, accountId, accounts, selectAccount }) => {
 
     if (show) {
         return (

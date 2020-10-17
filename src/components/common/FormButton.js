@@ -182,7 +182,7 @@ const CustomButton = styled(Button)`
             }
 
             :disabled {
-                background-color: #CCCCCC;
+                background-color: #e6e6e6;
                 color: white;
             }
         }
@@ -202,6 +202,11 @@ const CustomButton = styled(Button)`
                 color: #0072ce;
                 border-color: #f8f8f8;
                 background: #fff;
+            }
+
+            &.dark {
+                border-color: #EFEFEF;
+                background: #EFEFEF;
             }
         }
         &.link {
@@ -237,6 +242,16 @@ const CustomButton = styled(Button)`
                 :focus {
                     text-decoration: underline;
                     color: #999;
+                }
+            }
+
+            &.red {
+                color: #ff585d;
+                text-decoration: none;
+
+                :disabled {
+                    opacity: 0.8;
+                    background: transparent !important;
                 }
             }
 
