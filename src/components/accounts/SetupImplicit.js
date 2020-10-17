@@ -21,8 +21,7 @@ import IconMCopy from '../../images/IconMCopy'
 const NETWORK_ID = process.env.REACT_APP_NETWORK_ID || 'default'
 const NODE_URL = process.env.REACT_APP_NODE_URL || 'https://rpc.nearprotocol.com'
 
-const IMPLICIT_ACCOUNT_KEY = '__IMPLICIT_ACCOUNT_KEY'
-
+const IMPLICIT_ACCOUNT_ID = '__IMPLICIT_ACCOUNT_ID'
 let pollingInterval = null
 
 const initialState = {
@@ -34,27 +33,27 @@ const initialState = {
     sending: false,
     snackBarMessage: 'setupSeedPhrase.snackbarCopySuccess',
     balance: null,
+    accountId: '',
 }
 
 class SetupImplicit extends Component {
     state = {...initialState}
 
     handleContinue = () => {
-        const recoveryKeyPair = JSON.parse(localStorage.getItem(IMPLICIT_ACCOUNT_KEY) || '{}')
-        clearInterval(pollingInterval)
-        this.props.history.push(`/recover-with-link/${recoveryKeyPair.implicitAccountId}/${recoveryKeyPair.seedPhrase}`)
+        this.props.history.push(`/recover-with-link/${this.state.accountId}/${this.state.seedPhrase}`)
     }
 
     handleReset = () => {
-        localStorage.removeItem(IMPLICIT_ACCOUNT_KEY)
+        localStorage.removeItem(IMPLICIT_ACCOUNT_ID)
         this.refreshData()
         this.props.history.push('/create-implicit')
     }
 
     checkBalance = async () => {
-        const recoveryKeyPair = JSON.parse(localStorage.getItem(IMPLICIT_ACCOUNT_KEY) || '{}')
+        const accountId = localStorage.getItem(IMPLICIT_ACCOUNT_ID)
+        if (!accountId) return
         this.setState({ sending: true })
-        const account = new nearApiJs.Account(this.connection, recoveryKeyPair.implicitAccountId)
+        const account = new nearApiJs.Account(this.connection, accountId)
         try {
             const state = await account.state()
             if (new BN(state.amount).gte(new BN('1000000000000000000000000', 10))) {
@@ -72,8 +71,8 @@ class SetupImplicit extends Component {
     }
 
     componentDidUpdate = (props, state) => {
-        const recoveryKeyPair = JSON.parse(localStorage.getItem(IMPLICIT_ACCOUNT_KEY) || '{}')
-        if (this.props.location.pathname !== '/create-implicit/fund' && recoveryKeyPair.publicKey) {
+        const accountId = localStorage.getItem(IMPLICIT_ACCOUNT_ID)
+        if (accountId && this.props.location.pathname !== '/create-implicit/fund') {
             const confirm = window.confirm('WARNING! If you have funded your account, press "Cancel".\n\nIf you would like to start over with a new account, press "OK".')
             if (confirm) {
                 this.handleReset()
@@ -90,29 +89,30 @@ class SetupImplicit extends Component {
         }
     }
 
-    componentDidMount = () => {
+    componentDidMount = async () => {
         this.connection = nearApiJs.Connection.fromConfig({
             networkId: NETWORK_ID,
             provider: { type: 'JsonRpcProvider', args: { url: NODE_URL + '/' } },
             signer: {},
         })
 
-        const recoveryKeyPair = JSON.parse(localStorage.getItem(IMPLICIT_ACCOUNT_KEY) || '{}')
+        this.keyStore = new nearApiJs.keyStores.BrowserLocalStorageKeyStore(window.localStorage, 'nearlib:keystore:')
+        const accountId = localStorage.getItem(IMPLICIT_ACCOUNT_ID)
 
-        if (!recoveryKeyPair.publicKey) {
-            if (this.props.location.pathname === '/create-implicit') {
-                this.refreshData()
-            }
-        } else {
-            this.setState({ recoveryKeyPair })
+        if (accountId) {
+            const keyPair = await this.keyStore.getKey(NETWORK_ID, accountId)
+            const seedPhrase = localStorage.getItem(accountId)
+            this.setState({ accountId, keyPair, seedPhrase })
+        }
+        if (this.props.location.pathname === '/create-implicit') {
+            this.refreshData()
         }
     }
 
     refreshData = () => {
         const { seedPhrase, publicKey, secretKey } = generateSeedPhrase()
-        const recoveryKeyPair = KeyPair.fromString(secretKey)
+        const keyPair = KeyPair.fromString(secretKey)
         const wordId = Math.floor(Math.random() * 12)
-
         this.setState((prevState) => ({
             ...prevState,
             seedPhrase,
@@ -120,7 +120,7 @@ class SetupImplicit extends Component {
             wordId,
             enterWord: '',
             requestStatus: null,
-            recoveryKeyPair,
+            keyPair,
             snackBarMessage: 'setupSeedPhrase.snackbarCopySuccess',
             balance: null,
         }))
@@ -150,7 +150,7 @@ class SetupImplicit extends Component {
         const {
             history
         } = this.props
-        const { seedPhrase, enterWord, wordId, recoveryKeyPair } = this.state
+        const { seedPhrase, enterWord, wordId, keyPair } = this.state
         if (enterWord !== seedPhrase.split(' ')[wordId]) {
             this.setState(() => ({
                 requestStatus: {
@@ -160,13 +160,15 @@ class SetupImplicit extends Component {
             }))
             return false
         }
-        console.log('verified', recoveryKeyPair)
-        recoveryKeyPair.seedPhrase = seedPhrase
-        recoveryKeyPair.implicitAccountId = Buffer.from(recoveryKeyPair.publicKey.data).toString('hex')
-        localStorage.setItem(IMPLICIT_ACCOUNT_KEY, JSON.stringify(recoveryKeyPair))
+        const accountId = Buffer.from(keyPair.publicKey.data).toString('hex')
+        localStorage.setItem(accountId, seedPhrase)
+        this.keyStore.setKey(NETWORK_ID, accountId, keyPair)
+        localStorage.setItem(IMPLICIT_ACCOUNT_ID, accountId)
+        this.setState({ accountId })
         history.push(`/create-implicit/fund`)
     }
 
+    // optionally pass in string to copy: textToCopy
     handleCopyPhrase = (textToCopy) => {
         if (typeof textToCopy !== 'string') {
             textToCopy = null
@@ -193,12 +195,10 @@ class SetupImplicit extends Component {
 
     render() {
         const {
-            recoveryKeyPair, balance, seedPhrase,
+            accountId, balance, seedPhrase,
             enterWord, wordId, requestStatus,
             snackBarMessage, successSnackbar,
         } = this.state
-
-        if (!recoveryKeyPair) return null
 
         return (
             <Translate>
@@ -258,17 +258,17 @@ class SetupImplicit extends Component {
                                             outline: 'none',
                                             textAlign: 'center',
                                         }}
-                                        defaultValue={recoveryKeyPair.implicitAccountId} 
+                                        defaultValue={accountId} 
                                     />
                                     <FormButton
-                                        onClick={() => this.handleCopyPhrase(recoveryKeyPair.implicitAccountId)}
+                                        onClick={() => this.handleCopyPhrase(accountId)}
                                         color='seafoam-blue-white'
                                     >
                                         <Translate id='button.copyImplicitAccountId' />
                                         <IconMCopy color='#6ad1e3' />
                                     </FormButton>
                                     <p id="implicit-account-id" style={{display: 'none'}}>
-                                        <span>{recoveryKeyPair.implicitAccountId}</span>
+                                        <span>{accountId}</span>
                                     </p>
                                     <p style={{marginTop: 16}}>
                                         Once funded, click "Continue". You will be redirected to a page titled "Restore Account". Click "Continue" again.
