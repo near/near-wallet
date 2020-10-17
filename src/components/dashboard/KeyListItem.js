@@ -135,7 +135,7 @@ const KeyListItem = ({
                                 </div>
                             }
                             {
-                                links.map((link, i) =>
+                                links && links.map((link, i) =>
                                     <div key={i} className='font-small'>
                                         {
                                             link.href &&
