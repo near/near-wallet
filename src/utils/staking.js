@@ -213,7 +213,7 @@ export class Staking {
     async getLockup() {
         const accountId = this.wallet.accountId
         let lockupId
-        if (process.env.REACT_APP_USE_TESTINGLOCKUP) {
+        if (process.env.REACT_APP_USE_TESTINGLOCKUP && accountId.length < 64) {
             lockupId = `testinglockup.${accountId}`
         } else {
             lockupId = getLockupAccountId(accountId)

@@ -91,7 +91,8 @@
     "setupSeedPhrase": {
         "pageTitle": "Setup Phrase",
         "pageText": "Write down the following words IN ORDER and keep them somewhere safe. You cannot recover your account without them!",
-        "snackbarCopySuccess": "Seed phrase copied!"
+        "snackbarCopySuccess": "Seed phrase copied!",
+        "snackbarCopyImplicitAccountId": "Account ID Copied!"
     },
     "setupSeedPhraseVerify": {
         "pageTitle": "Verify Phrase",
@@ -236,6 +237,7 @@
         "signIn": "Sign In",
         "signingIn": "Signing In",
         "copyPhrase": "COPY PHRASE",
+        "copyImplicitAccountId": "Copy Account ID",
         "continue": "CONTINUE",
         "continueSetup": "Continue to Setup",
         "verify": "VERIFY & COMPLETE",

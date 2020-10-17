@@ -58,7 +58,6 @@ class Navigation extends Component {
     }
 
     render() {
-
         const { menuOpen } = this.state;
 
         return (
