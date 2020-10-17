@@ -60,9 +60,7 @@ class SetupImplicit extends Component {
                 return this.setState({ balance: nearApiJs.utils.format.formatNearAmount(state.amount, 2) })
             }
         } catch (e) {
-            if (e.message.indexOf('exist while viewing') > -1) {
-                console.warn('account does not exist yet')
-            } else {
+            if (e.message.indexOf('exist while viewing') === -1) {
                 throw(e)
             }
             this.setState({ hasBalance: false })
@@ -270,16 +268,25 @@ class SetupImplicit extends Component {
                                     <p id="implicit-account-id" style={{display: 'none'}}>
                                         <span>{accountId}</span>
                                     </p>
-                                    <p style={{marginTop: 16}}>
-                                        Once funded, click "Continue". You will be redirected to a page titled "Restore Account". Click "Continue" again.
-                                    </p>
-                                    {   !!balance &&
-                                        <FormButton
-                                            onClick={() => this.handleContinue()}
-                                            color='green'
-                                        >
-                                            Continue
-                                        </FormButton>
+                                    {
+                                        !balance &&
+                                            <p style={{marginTop: 16}}>
+                                                Once funded, return to this page.
+                                            </p>
+                                    }
+                                    {
+                                        !!balance &&
+                                        <>
+                                            <p style={{marginTop: 16}}>
+                                                Once funded, click "Continue". You will be redirected to a page titled "Restore Account". Click "Continue" again.
+                                            </p>
+                                            <FormButton
+                                                onClick={() => this.handleContinue()}
+                                                color='green'
+                                            >
+                                                Continue
+                                            </FormButton>
+                                        </>
                                     }
                                 </Container>
                             )}
