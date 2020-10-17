@@ -278,7 +278,7 @@ class SetupImplicit extends Component {
                                         !!balance &&
                                         <>
                                             <p style={{marginTop: 16}}>
-                                                Once funded, click "Continue". You will be redirected to a page titled "Restore Account". Click "Continue" again.
+                                                Click "Continue". You will be redirected to a page titled "Restore Account". Click "Continue" again.
                                             </p>
                                             <FormButton
                                                 onClick={() => this.handleContinue()}
