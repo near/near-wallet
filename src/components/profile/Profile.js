@@ -21,15 +21,11 @@ export function Profile({ match }) {
 
     useEffect(() => { 
         if (isOwner) {
-            getInitialData()
+            dispatch(getAccessKeys(accountId))
+            dispatch(getLedgerKey())
+            dispatch(checkCanEnableTwoFactor(account))
         }
     }, []);
-
-    const getInitialData = async () => {
-        await dispatch(getAccessKeys(accountId))
-        await dispatch(getLedgerKey())
-        await dispatch(checkCanEnableTwoFactor(account))
-    }
 
     if (account.__status === LOADING) {
         return <PageContainer title={<Translate id='profile.pageTitle.loading' />} />
