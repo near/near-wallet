@@ -32,7 +32,8 @@ const stakingMethods = {
         'deposit',
         'deposit_and_stake',
         'deposit_to_staking_pool',
-		'stake',
+        'stake',
+        'stake_all',
 		'unstake',
 		'withdraw',
 	],
@@ -234,8 +235,13 @@ export class Staking {
     }
 
     async lockupStake(lockupId, validatorId, amount) {
+        if (amount) {
+            return await this.signAndSendTransaction(lockupId, [
+                functionCall('deposit_and_stake', { amount }, STAKING_GAS_BASE * 5, '0')
+            ])
+        }
         return await this.signAndSendTransaction(lockupId, [
-            functionCall('deposit_and_stake', { amount }, STAKING_GAS_BASE * 5, '0')
+            functionCall('stake_all', {}, STAKING_GAS_BASE * 5, '0')
         ])
     }
 
