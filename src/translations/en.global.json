@@ -57,7 +57,7 @@
         },
         "nameDoesntMatch": "Account name doesn't match",
         "sendMoney": {
-            "error": "Please check that your device is connected and the NEAR app is open."
+            "error": "Sorry an error has occurred. You may want to try again."
         }
     },
 
@@ -91,7 +91,8 @@
     "setupSeedPhrase": {
         "pageTitle": "Setup Phrase",
         "pageText": "Write down the following words IN ORDER and keep them somewhere safe. You cannot recover your account without them!",
-        "snackbarCopySuccess": "Seed phrase copied!"
+        "snackbarCopySuccess": "Seed phrase copied!",
+        "snackbarCopyImplicitAccountId": "Account ID Copied!"
     },
     "setupSeedPhraseVerify": {
         "pageTitle": "Verify Phrase",
@@ -236,6 +237,7 @@
         "signIn": "Sign In",
         "signingIn": "Signing In",
         "copyPhrase": "COPY PHRASE",
+        "copyImplicitAccountId": "Copy Account ID",
         "continue": "CONTINUE",
         "continueSetup": "Continue to Setup",
         "verify": "VERIFY & COMPLETE",
@@ -721,7 +723,7 @@
     
     "availableBalanceInfo": "”Available Balance” is your spendable NEAR balance. This will be lower than your Total Balance. To view a complete breakdown of your NEAR balance, visit your Profile.", 
     "availableBalanceProfile": "This is your spendable NEAR balance, and can be used or transferred immediately. This will be lower than your Total Balance.",
-    "minimumBalance": "This is the minimum NEAR balance your account must maintain to remain active. This balance represents the storage space your account is using on the NEAR blockchain, and will go up or down as you use more or less space.",
+    "minimumBalance": "This is the minimum NEAR balance your account must maintain to remain active. This balance represents the storage space your account is using on the NEAR blockchain (with a small buffer), and will go up or down as you use more or less space.",
     "totalBalance": "Your total balance represents all NEAR tokens under your control. In many cases, you will not have immediate access to this entire balance (e.g. if it is locked, delegated, or staked). Check your Available Balance for the NEAR you can actively use, transfer, delegate, and stake.",
     "stakedBalance": "This NEAR is actively being used to back a validator and secure the network. When you decide to unstake this NEAR, it will take some time to be shown in your Available Balance, as NEAR takes 3 epochs (~36 hours) to unstake.",
     "unvestedBalance": "Unvested NEAR is earmarked to you, but not yet under your ownership. You can still delegate or stake this NEAR, and the rewards will be entirely yours. As your NEAR is vested, it will appear in either your Locked or Unlocked balance.",
