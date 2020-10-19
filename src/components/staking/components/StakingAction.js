@@ -34,11 +34,12 @@ export default function StakingAction({
     let staked = (validator && validator.staked) || '0'
     const stake = action === 'stake' ? true : false
     const displayAmount = useMax ? formatNearAmount(amount, 5) : amount
+    const decimalDeviation = '0.00001'
 
     const invalidStakeActionAmount = stake ? 
-    new BN(useMax ? amount : parseNearAmount(amount)).gt(new BN(availableBalance)) || !isDecimalString(amount)
+    new BN(useMax ? amount : parseNearAmount(amount)).sub(new BN(availableBalance)).gt(new BN(parseNearAmount(decimalDeviation))) || !isDecimalString(amount)
     :
-    new BN(useMax ? amount : parseNearAmount(amount)).gt(new BN(staked)) || !isDecimalString(amount)
+    new BN(useMax ? amount : parseNearAmount(amount)).sub(new BN(staked)).gt(new BN(parseNearAmount(decimalDeviation))) || !isDecimalString(amount)
 
     const stakeActionAllowed = hasStakeActionAmount && !invalidStakeActionAmount
 
@@ -53,7 +54,16 @@ export default function StakingAction({
     })
 
     const onStakingAction = async () => {
-        await handleStakingAction(action, validator.accountId, amount)
+        let stakeActionAmount = amount
+        const userInputStakeAmountIsMax = new BN(parseNearAmount(amount)).sub(new BN(availableBalance)).abs().lte(new BN(parseNearAmount(decimalDeviation)))
+        const userInputUnstakeAmountIsMax = new BN(parseNearAmount(amount)).sub(new BN(staked)).abs().lte(new BN(parseNearAmount(decimalDeviation)))
+        if (stake && !useMax && userInputStakeAmountIsMax) {
+            stakeActionAmount = availableBalance
+        } else if (!stake && !useMax && userInputUnstakeAmountIsMax) {
+            stakeActionAmount = staked
+        }
+
+        await handleStakingAction(action, validator.accountId, stakeActionAmount)
         setSuccess(true)
         setConfirm(false)
     }
