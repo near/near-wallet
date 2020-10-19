@@ -28,20 +28,19 @@ export default function StakingAction({
     const [confirm, setConfirm] = useState()
     const [amount, setAmount] = useState('')
     const [success, setSuccess] = useState()
+    const [useMax, setUseMax] = useState(null)
     const validator = validators.filter(validator => validator.accountId === match.params.validator)[0]
     const hasStakeActionAmount = !loading && amount.length && amount !== '0'
     let staked = (validator && validator.staked) || '0'
-    
-    const invalidStakeActionAmount = action === 'stake' ? 
-    new BN(parseNearAmount(amount)).sub(new BN(availableBalance)).gt(new BN(parseNearAmount('0.00001'))) && isDecimalString(amount)
+    const stake = action === 'stake' ? true : false
+    const displayAmount = useMax ? formatNearAmount(amount, 5) : amount
+
+    const invalidStakeActionAmount = stake ? 
+    new BN(useMax ? amount : parseNearAmount(amount)).gt(new BN(availableBalance)) || !isDecimalString(amount)
     :
-    new BN(parseNearAmount(amount)).sub(new BN(staked)).gt(new BN(parseNearAmount('0.00001'))) && isDecimalString(amount)
+    new BN(useMax ? amount : parseNearAmount(amount)).gt(new BN(staked)) || !isDecimalString(amount)
 
     const stakeActionAllowed = hasStakeActionAmount && !invalidStakeActionAmount
-
-    console.log('available balance:', availableBalance)
-    console.log('staked balance:', staked)
-    console.log('amount to unstake:', amount)
 
     onKeyDown(e => {
         if (e.keyCode === 13 && stakeActionAllowed) {
@@ -54,14 +53,24 @@ export default function StakingAction({
     })
 
     const onStakingAction = async () => {
-        await handleStakingAction(action, validator.accountId, amount)
+        if (useMax) {
+            await handleStakingAction(action, validator.accountId)
+        } else {
+            await handleStakingAction(action, validator.accountId, amount)
+        }
         setSuccess(true)
         setConfirm(false)
     }
 
     const handleSetMax = () => {
-        const amount = action === 'stake' ? availableBalance : staked
-        setAmount(formatNearAmount(amount, 5))
+        const amount = stake ? availableBalance : staked
+        setAmount(amount)
+        setUseMax(true)
+    }
+
+    const handleOnChange = (amount) => {
+        setAmount(amount)
+        setUseMax(false)
     }
     
     if (!success) {
@@ -75,10 +84,10 @@ export default function StakingAction({
                 </div>
                 <AmountInput
                     action={action}
-                    value={amount} 
-                    onChange={setAmount}
+                    value={displayAmount} 
+                    onChange={handleOnChange}
                     valid={stakeActionAllowed}
-                    availableBalance={action === 'stake' ? availableBalance : (validator && validator.staked) || '0'}
+                    availableBalance={stake ? availableBalance : staked}
                     availableClick={handleSetMax}
                     insufficientBalance={invalidStakeActionAmount} 
                     loading={loading}
@@ -104,7 +113,7 @@ export default function StakingAction({
                     <StakeConfirmModal
                         title={`staking.${action}.confirm`}
                         validatorName={validator.accountId} 
-                        amount={toNear(amount)}
+                        amount={useMax ? amount : toNear(amount)}
                         open={confirm} 
                         onConfirm={onStakingAction} 
                         onClose={() => setConfirm(false)}
