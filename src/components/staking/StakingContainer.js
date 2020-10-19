@@ -91,6 +91,25 @@ const StyledContainer = styled(Container)`
             border-radius: 4px;
         }
     }
+
+    .amount-header-wrapper {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin: 30px 0 15px 0;
+
+        h4 {
+            margin: 0;
+        }
+
+        button {
+            margin: 0 !important;
+            width: auto !important;
+            text-decoration: none !important;
+            font-weight: 500 !important;
+            text-transform: capitalize !important;
+        }
+    }
 `
 
 export function StakingContainer({ history }) {

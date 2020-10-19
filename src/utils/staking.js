@@ -33,7 +33,8 @@ const stakingMethods = {
         'deposit',
         'deposit_and_stake',
         'deposit_to_staking_pool',
-		'stake',
+        'stake',
+        'stake_all',
 		'unstake',
 		'withdraw',
 	],
@@ -234,7 +235,9 @@ export class Staking {
 
     // useLockup will be set by user in redux state and passed through actions
     async stake(useLockup, validatorId, amount) {
-        amount = parseNearAmount(amount)
+        if (amount.length < 15) {
+            amount = parseNearAmount(amount)
+        }
         if (useLockup) {
             const { contract, lockupId } = await this.getLockup()
             return this.lockupStake(contract, lockupId, validatorId, amount)
@@ -243,7 +246,7 @@ export class Staking {
     }
 
     async unstake(useLockup, validatorId, amount) {
-        if (amount) {
+        if (amount && amount.length < 15) {
             amount = parseNearAmount(amount)
         }
         if (useLockup) {
@@ -254,7 +257,7 @@ export class Staking {
     }
 
     async withdraw(useLockup, validatorId, amount) {
-        if (amount) {
+        if (amount && amount.length < 15) {
             amount = parseNearAmount(amount)
         }
         if (useLockup) {
@@ -282,8 +285,7 @@ export class Staking {
         if (result === false) {
             throw new WalletError('Unable to withdraw pending balance from validator', 'staking.errors.noWithdraw')
         }
-        console.log('lockupWithdraw result, amount', result, amount)
-        if (!amount && result !== false) {
+        if (!amount) {
             result = await this.signAndSendTransaction(lockupId, [
                 functionCall('unselect_staking_pool', {}, STAKING_GAS_BASE)
             ])

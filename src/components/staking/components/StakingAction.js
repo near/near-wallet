@@ -28,14 +28,20 @@ export default function StakingAction({
     const [confirm, setConfirm] = useState()
     const [amount, setAmount] = useState('')
     const [success, setSuccess] = useState()
+    const [useMax, setUseMax] = useState(null)
     const validator = validators.filter(validator => validator.accountId === match.params.validator)[0]
-    const insufficientBalance = new BN(parseNearAmount(amount)).sub(new BN(availableBalance)).gt(new BN(parseNearAmount('0.00001')))
-    const invalidAmount = insufficientBalance || !isDecimalString(amount)
-    const stakeAllowed = !loading && amount.length && amount !== '0' && !invalidAmount
-    const sufficientStakedBalance = new BN(validator && validator.staked).gte(new BN(parseNearAmount(amount)))
+    const hasStakeActionAmount = !loading && amount.length && amount !== '0'
+    let staked = (validator && validator.staked) || '0'
+    const stake = action === 'stake' ? true : false
+    const displayAmount = useMax ? formatNearAmount(amount, 5) : amount
+    const decimalDeviation = '0.00001'
+
+    const invalidStakeActionAmount = new BN(useMax ? amount : parseNearAmount(amount)).sub(new BN(stake ? availableBalance : staked)).gt(new BN(parseNearAmount(decimalDeviation))) || !isDecimalString(amount)
+
+    const stakeActionAllowed = hasStakeActionAmount && !invalidStakeActionAmount
 
     onKeyDown(e => {
-        if (e.keyCode === 13 && stakeAllowed) {
+        if (e.keyCode === 13 && stakeActionAllowed) {
             if (!confirm) {
                 setConfirm(true)
             } else {
@@ -45,9 +51,31 @@ export default function StakingAction({
     })
 
     const onStakingAction = async () => {
-        await handleStakingAction(action, validator.accountId, amount)
+        let stakeActionAmount = amount
+        const userInputAmountIsMax = new BN(parseNearAmount(amount)).sub(new BN(stake ? availableBalance : staked)).abs().lte(new BN(parseNearAmount(decimalDeviation)))
+
+        if (!useMax && userInputAmountIsMax) {
+            if (stake) {
+                stakeActionAmount = availableBalance
+            } else {
+                stakeActionAmount = staked
+            }
+        }
+
+        await handleStakingAction(action, validator.accountId, stakeActionAmount)
         setSuccess(true)
         setConfirm(false)
+    }
+
+    const handleSetMax = () => {
+        const amount = stake ? availableBalance : staked
+        setAmount(amount)
+        setUseMax(true)
+    }
+
+    const handleOnChange = (amount) => {
+        setAmount(amount)
+        setUseMax(false)
     }
     
     if (!success) {
@@ -55,17 +83,21 @@ export default function StakingAction({
             <>
                 <h1><Translate id={`staking.${action}.title`} /></h1>
                 <div className='desc'><Translate id={`staking.${action}.desc`} /></div>
-                <h4><Translate id='staking.stake.amount' /></h4>
-                <AmountInput 
-                    value={amount} 
-                    onChange={setAmount} 
-                    valid={stakeAllowed}
-                    availableBalance={availableBalance}
-                    availableClick={() => setAmount(formatNearAmount(availableBalance, 5))}
-                    insufficientBalance={action === 'stake' ? insufficientBalance : !sufficientStakedBalance} 
+                <div className='amount-header-wrapper'>
+                    <h4><Translate id='staking.stake.amount' /></h4>
+                    <FormButton className='link' onClick={handleSetMax}><Translate id='staking.stake.useMax' /></FormButton>
+                </div>
+                <AmountInput
+                    action={action}
+                    value={displayAmount} 
+                    onChange={handleOnChange}
+                    valid={stakeActionAllowed}
+                    availableBalance={stake ? availableBalance : staked}
+                    availableClick={handleSetMax}
+                    insufficientBalance={invalidStakeActionAmount} 
                     loading={loading}
                 />
-                <ArrowCircleIcon color={stakeAllowed ? '#6AD1E3' : ''}/>
+                <ArrowCircleIcon color={stakeActionAllowed ? '#6AD1E3' : ''}/>
                 <h4><Translate id={`staking.${action}.stakeWith`} /></h4>
                 {validator && 
                     <ValidatorBox
@@ -76,7 +108,7 @@ export default function StakingAction({
                     />
                 }
                 <FormButton
-                    disabled={!stakeAllowed} 
+                    disabled={!stakeActionAllowed} 
                     sending={loading} 
                     onClick={() => setConfirm(true)}
                 >
@@ -86,7 +118,7 @@ export default function StakingAction({
                     <StakeConfirmModal
                         title={`staking.${action}.confirm`}
                         validatorName={validator.accountId} 
-                        amount={toNear(amount)}
+                        amount={useMax ? amount : toNear(amount)}
                         open={confirm} 
                         onConfirm={onStakingAction} 
                         onClose={() => setConfirm(false)}
