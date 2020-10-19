@@ -578,7 +578,8 @@
                 "availableBalance": "Available balance:",
                 "near": "NEAR"
             },
-            "ledgerDisclaimer": "Note: If this is your first time staking with this validator, you will need to confirm two transactions"
+            "ledgerDisclaimer": "Note: If this is your first time staking with this validator, you will need to confirm two transactions",
+            "useMax": "Use max"
         },
         "unstake": {
             "title": "Unstake Tokens",
