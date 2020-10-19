@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { Translate } from 'react-localize-redux';
+import { DISABLE_CREATE_ACCOUNT } from '../../utils/wallet';
 
 const Button = styled(Link)`
     display: block;
@@ -38,7 +39,7 @@ const Button = styled(Link)`
 `
 
 const CreateAccountBtn = () => (
-    <Button to='/create'>
+    <Button to={DISABLE_CREATE_ACCOUNT ? `/create-implicit` : `/create`}>
         <Translate id='button.createNewAccount'/>
     </Button>
 )
