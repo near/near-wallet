@@ -242,6 +242,9 @@ class SetupImplicit extends Component {
                             exact
                             path={`/create-implicit/fund`}
                             render={() => (
+
+                                !balance ?
+
                                 <Container style={{ textAlign: 'center' }} className='small-centered'>
                                     <h1>Fund Account</h1>
                                     <p>This is your account name (64 characters). Send at least 1 NEAR to your account to continue.</p>
@@ -268,12 +271,9 @@ class SetupImplicit extends Component {
                                     <p id="implicit-account-id" style={{display: 'none'}}>
                                         <span>{accountId}</span>
                                     </p>
-                                    {
-                                        !balance &&
-                                            <p style={{marginTop: 16}}>
-                                                Once funded, return to this page.
-                                            </p>
-                                    }
+                                    <p style={{marginTop: 16}}>
+                                        Once funded, return to this page.
+                                    </p>
                                     {
                                         !!balance &&
                                         <>
@@ -288,6 +288,32 @@ class SetupImplicit extends Component {
                                             </FormButton>
                                         </>
                                     }
+                                </Container>
+
+                                :
+
+                                <Container style={{ textAlign: 'center' }} className='small-centered'>
+                                    <h1>Claim Account</h1>
+                                    <p>Your account has been funded and is ready to be claimed!</p>
+                                    <textarea 
+                                        style={{
+                                            width: '100%',
+                                            border: '2px solid #eee',
+                                            borderRadius: 4,
+                                            padding: 16,
+                                            fontSize: 18,
+                                            resize: 'none',
+                                            outline: 'none',
+                                            textAlign: 'center',
+                                        }}
+                                        defaultValue={accountId} 
+                                    />
+                                    <FormButton
+                                        onClick={() => this.handleContinue()}
+                                        color='green'
+                                    >
+                                        Continue
+                                    </FormButton>
                                 </Container>
                             )}
                         />
