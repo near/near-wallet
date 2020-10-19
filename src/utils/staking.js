@@ -162,7 +162,9 @@ export class Staking {
 
     // useLockup will be set by user in redux state and passed through actions
     async stake(useLockup, validatorId, amount) {
-        amount = parseNearAmount(amount)
+        if (amount.length < 15) {
+            amount = parseNearAmount(amount)
+        }
         const { contract, lockupId } = await this.getLockup()
         const selectedValidatorId = await contract.get_staking_pool_account_id()
         if (validatorId !== selectedValidatorId) {
@@ -172,7 +174,7 @@ export class Staking {
     }
 
     async unstake(useLockup, validatorId, amount) {
-        if (amount) {
+        if (amount && amount.length < 15) {
             amount = parseNearAmount(amount)
         }
         if (useLockup) {
@@ -184,7 +186,7 @@ export class Staking {
     }
 
     async withdraw(useLockup, validatorId, amount) {
-        if (amount) {
+        if (amount && amount.length < 15) {
             amount = parseNearAmount(amount)
         }
         if (useLockup) {
