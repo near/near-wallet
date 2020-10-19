@@ -53,11 +53,7 @@ export default function StakingAction({
     })
 
     const onStakingAction = async () => {
-        if (useMax) {
-            await handleStakingAction(action, validator.accountId)
-        } else {
-            await handleStakingAction(action, validator.accountId, amount)
-        }
+        await handleStakingAction(action, validator.accountId, amount)
         setSuccess(true)
         setConfirm(false)
     }
