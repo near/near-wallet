@@ -693,7 +693,7 @@ class Wallet {
         await this.validateSecurityCode(accountId, method, securityCode);
         const newPublicKey = recoveryKeyPair.publicKey
         await this.addNewAccessKeyToAccount(accountId, newPublicKey)
-        await store.dispatch(redirectTo('/profile'))
+        await store.dispatch(redirectTo('/profile', { globalAlertPreventClear: true }))
     }
 
     async addNewAccessKeyToAccount(accountId, newPublicKey) {

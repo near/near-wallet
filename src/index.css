@@ -39,3 +39,5 @@
     font-weight: 600;
     src: url('./fonts/benton-sans-bold.otf') format('opentype');
 }
+
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono&display=swap');

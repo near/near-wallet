@@ -57,7 +57,7 @@
         },
         "nameDoesntMatch": "Account name doesn't match",
         "sendMoney": {
-            "error": "Please check that your device is connected and the NEAR app is open."
+            "error": "Sorry an error has occurred. You may want to try again."
         }
     },
 
