@@ -215,13 +215,13 @@ export class Staking {
         if (result === false) {
             throw new WalletError('Unable to withdraw pending balance from validator', 'staking.errors.noWithdraw')
         }
-        console.log('lockupWithdraw result, amount', result, amount)
-        if (!amount && result !== false) {
-            result = await this.signAndSendTransaction(lockupId, [
+        const state = await this.updateStaking(true)
+        if (state.totalPending === '0' && state.totalStaked === '0') {
+            console.log('calling unselect_staking_pool')
+            await this.signAndSendTransaction(lockupId, [
                 functionCall('unselect_staking_pool', {}, STAKING_GAS_BASE)
             ])
         }
-        return result
     }
 
     async lockupUnstake(lockupId, amount) {
