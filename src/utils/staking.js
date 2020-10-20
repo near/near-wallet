@@ -285,8 +285,10 @@ export class Staking {
         if (result === false) {
             throw new WalletError('Unable to withdraw pending balance from validator', 'staking.errors.noWithdraw')
         }
-        if (!amount) {
-            result = await this.signAndSendTransaction(lockupId, [
+        const state = await this.updateStaking(true)
+        if (state.totalPending === '0' && state.totalStaked === '0') {
+            console.log('calling unselect_staking_pool')
+            await this.signAndSendTransaction(lockupId, [
                 functionCall('unselect_staking_pool', {}, STAKING_GAS_BASE)
             ])
         }
@@ -328,7 +330,7 @@ export class Staking {
     async getLockup() {
         const accountId = this.wallet.accountId
         let lockupId
-        if (process.env.REACT_APP_USE_TESTINGLOCKUP) {
+        if (process.env.REACT_APP_USE_TESTINGLOCKUP && accountId.length < 64) {
             lockupId = `testinglockup.${accountId}`
         } else {
             lockupId = getLockupAccountId(accountId)

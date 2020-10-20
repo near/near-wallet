@@ -95,7 +95,7 @@ const checkContractId = () => async (dispatch, getState) => {
     }
 }
 
-export const redirectTo = (location) => (dispatch) => dispatch(push({ pathname: location }))
+export const redirectTo = (location, state = {}) => (dispatch) => dispatch(push({ pathname: location, state }))
 
 export const redirectToProfile = () => (dispatch) => dispatch(push({ pathname: '/profile' }))
 
@@ -302,7 +302,7 @@ export const { getAccessKeys, removeAccessKey, addLedgerAccessKey, connectLedger
 
 export const handleAddAccessKeySeedPhrase = (accountId, recoveryKeyPair) => async (dispatch) => {
     await dispatch(addAccessKeySeedPhrase(accountId, recoveryKeyPair))
-    dispatch(redirectTo('/profile'))
+    dispatch(redirectTo('/profile', { globalAlertPreventClear: true }))
 }
 
 export const handleCreateAccountWithSeedPhrase = (accountId, recoveryKeyPair, fundingContract, fundingKey) => async (dispatch) => {
