@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import UserLinks from './UserLinks';
 import UserAccounts from './UserAccounts';
 import CreateAccountBtn from './CreateAccountBtn';
+import AccessAccountBtn from './AccessAccountBtn';
 
 const Menu = styled.div`
     position: absolute;
@@ -60,6 +61,7 @@ const DesktopMenu = ({ show, accountId, accounts, selectAccount }) => {
                         accountId={accountId}
                         selectAccount={selectAccount}
                     />
+                    <AccessAccountBtn/>
                     <CreateAccountBtn/>
                 </LowerSection>
             </Menu>

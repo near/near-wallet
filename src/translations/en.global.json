@@ -280,6 +280,7 @@
         "recoverAccount": "RECOVER ACCOUNT",
         "goBack": "Go back",
         "createNewAccount": "CREATE NEW ACCOUNT",
+        "addAccount": "ADD ACCOUNT",
         "moreInformation": "More information",
         "dismiss": "Dismiss",
         "cancelOperation": "Cancel Operation",

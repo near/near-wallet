@@ -11,6 +11,7 @@ import CreateAccountBtn from './CreateAccountBtn';
 import LanguageToggle from '../common/LangSwitcher';
 import languagesIcon from '../../images/icon-languages.svg';
 import { Translate } from 'react-localize-redux';
+import AccessAccountBtn from './AccessAccountBtn';
 
 const Container = styled.div`
     display: none;
@@ -190,6 +191,7 @@ class MobileContainer extends Component {
                                 accountId={account.accountId}
                                 selectAccount={selectAccount}
                             />
+                            <AccessAccountBtn/>
                             <CreateAccountBtn/>
                         </LowerSection>
                     </>
