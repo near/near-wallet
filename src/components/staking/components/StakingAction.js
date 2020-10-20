@@ -81,6 +81,18 @@ export default function StakingAction({
         setAmount(amount)
         setUseMax(false)
     }
+
+    const getStakeActionDisclaimer = () => {
+        let disclaimer = ''
+        if (stake) {
+            if (hasLedger) {
+                disclaimer = 'staking.stake.ledgerDisclaimer'
+            }
+        } else {
+            disclaimer = 'staking.unstake.beforeUnstakeDisclaimer'
+        }
+        return disclaimer
+    }
     
     if (!success) {
         return (
@@ -121,13 +133,14 @@ export default function StakingAction({
                 {confirm &&
                     <StakeConfirmModal
                         title={`staking.${action}.confirm`}
-                        validatorName={validator.accountId} 
+                        label={`staking.stake.${stake ? 'with' : 'from'}`}
+                        validator={validator}
                         amount={useMax ? amount : toNear(amount)}
                         open={confirm} 
                         onConfirm={onStakingAction} 
                         onClose={() => setConfirm(false)}
                         loading={loading}
-                        disclaimer={hasLedger ? 'staking.stake.ledgerDisclaimer' : ''}
+                        disclaimer={getStakeActionDisclaimer()}
                     />
                 }
             </>
@@ -137,7 +150,7 @@ export default function StakingAction({
             <>
                 <TransferMoneyIcon/>
                 <h1><Translate id={`staking.${action}Success.title`} /></h1>
-                <div className='desc'><Translate id={`staking.${action}Success.desc`} /></div>
+                <div className='desc'><Translate id={`staking.${action}Success.desc`} data={{ amount: displayAmount }}/></div>
                 {validator && 
                     <ValidatorBox
                         validator={validator.accountId}
@@ -147,8 +160,8 @@ export default function StakingAction({
                         style={{margin: '40px 0'}}
                     />
                 }
-                <div className='desc'><Translate id={`staking.${action}Success.descTwo`} /></div>
-                <FormButton linkTo='/staking' className='seafoam-blue'><Translate id={`staking.${action}Success.button`} /></FormButton>
+                <div className='desc'><Translate id={`staking.${action}Success.descTwo`}/></div>
+                <FormButton linkTo='/staking' className='gray-blue'><Translate id={`staking.${action}Success.button`} /></FormButton>
             </>
         )
     }

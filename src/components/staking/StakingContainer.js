@@ -31,6 +31,7 @@ const StyledContainer = styled(Container)`
     .desc {
         text-align: center;
         line-height: 150% !important;
+        margin: 25px 0;
     }
 
     input {

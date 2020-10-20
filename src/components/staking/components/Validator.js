@@ -79,7 +79,8 @@ export default function Validator({ match, validators, onUnstake, onWithdraw, lo
                     {confirm &&
                         <StakeConfirmModal
                             title={`staking.validator.${confirm}`}
-                            validatorName={validator.accountId}
+                            label='staking.stake.from'
+                            validator={validator}
                             amount={confirm === 'unstake' ? validator.staked : validator.available}
                             open={confirm}
                             onConfirm={handleStakeAction}

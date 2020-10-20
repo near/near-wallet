@@ -581,7 +581,9 @@
                 "near": "NEAR"
             },
             "ledgerDisclaimer": "Note: If this is your first time staking with this validator, you will need to confirm two transactions",
-            "useMax": "Use max"
+            "useMax": "Use max",
+            "with": "with",
+            "from": "from"
         },
         "unstake": {
             "title": "Unstake Tokens",
@@ -594,7 +596,8 @@
                 "availableBalance": "Available to unstake:",
                 "near": "NEAR"
             },
-            "ledgerDisclaimer": "Note: If this is your first time staking with this validator, you will need to confirm two transactions"
+            "ledgerDisclaimer": "Note: If this is your first time staking with this validator, you will need to confirm two transactions",
+            "beforeUnstakeDisclaimer": "Unstaked tokens will be made available pending a release period of ~36-48hrs (3 epochs)."
         },
         "stakeSuccess": {
             "title": "Success!",
@@ -604,7 +607,7 @@
         },
         "unstakeSuccess": {
             "title": "Success!",
-            "desc": "You have successfully unstaked with your chosen validator:",
+            "desc": "Your stake of <b>${amount} NEAR</b> has successfully been extracted from your chosen validator's staking pool:",
             "descTwo": "Your tokens are pending release and will be made available within ~36-48hrs (3 epochs).",
             "button": "Return to Dashboard"
         },
