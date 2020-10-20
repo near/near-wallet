@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { updateStaking, stake, unstake, withdraw } from '../../actions/staking'
+import { updateStaking, switchAccount, stake, unstake, withdraw } from '../../actions/staking'
 import styled from 'styled-components'
 import Container from '../common/styled/Container.css'
 import { Switch, Route } from 'react-router-dom'
@@ -115,26 +115,40 @@ const StyledContainer = styled(Container)`
 
 export function StakingContainer({ history }) {
     const dispatch = useDispatch()
-    const staking = useSelector(({ staking }) => staking)
-    const { hasLedger } = useSelector(({ ledger }) => ledger)
     const { actionsPending, balance } = useSelector(({ account }) => account);
-    let validators = staking.validators
-    const currentValidators = validators.filter(v => v.staked !== '0' || v.available !== '0' || v.pending !== '0')
+    const { hasLedger } = useSelector(({ ledger }) => ledger)
+    
+    // staking state
+    let staking = useSelector(({ staking }) => staking)
+    // list of all active validators
+    let validators = staking.allValidators
+    // current view of staking
+    staking = staking[staking.accountId]
+    // current validators for selected account
+    const currentValidators = staking.validators
+
     const { useLockup, totalUnstaked, selectedValidator } = staking
     const availableBalance = useLockup ? totalUnstaked : balance.available
     const loading = actionsPending.some(action => ['STAKE', 'UNSTAKE', 'WITHDRAW', 'UPDATE_STAKING'].includes(action))
 
+    // on mount update all accounts
     useEffect(() => {
         dispatch(updateStaking(useLockup))
     }, [])
 
+    const handleSwitchAccount = async (accountId) => {
+        await dispatch(switchAccount(accountId))
+    }
+    // DEBUG
+    window.handleSwitchAccount = handleSwitchAccount
+
+    
     const handleStakingAction = async (action, validator, amount) => {
         if (action === 'stake') {
             await dispatch(stake(useLockup, validator, amount))
         } else if (action === 'unstake') {
             await dispatch(unstake(useLockup, selectedValidator || validator, amount))
         }
-        await dispatch(updateStaking(useLockup))
         await dispatch(updateStaking(useLockup))
     }
 
@@ -165,7 +179,7 @@ export function StakingContainer({ history }) {
                         render={(props) => (
                             <Validators
                                 {...props}
-                                validators={staking.validators}
+                                validators={validators}
                             />
                         )}
                     />

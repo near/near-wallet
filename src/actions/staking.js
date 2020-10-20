@@ -6,11 +6,16 @@ import { createActions } from 'redux-actions'
 const defaultCodesFor = (prefix, data) => ({ successCode: `${prefix}.success`, errorCode: `${prefix}.error`, prefix, data})
 
 export const {
+    switchAccount,
     updateStaking,
     stake,
     unstake,
     withdraw,
 } = createActions({
+    SWITCH_ACCOUNT: [
+        wallet.staking.switchAccount.bind(wallet.staking),
+        () => defaultCodesFor('staking.switchAccount')
+    ],
     UPDATE_STAKING: [
         wallet.staking.updateStaking.bind(wallet.staking),
         () => defaultCodesFor('staking.updateStaking')

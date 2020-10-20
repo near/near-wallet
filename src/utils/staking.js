@@ -61,16 +61,34 @@ export class Staking {
     Updating the state of the user's staking based on whether they've selected their lockup account or regular account
     ********************************/
 
-    async updateStaking(useLockup) {
-        const validators = await this.getValidators()
-        let state
-        if (useLockup) {
-            state = { validators, ...(await this.updateStakingLockup(validators)) }
-        } else {
-            state = { validators, ...(await this.updateStakingAccount(validators)) }
+    async switchAccount(accountId) {
+        return { accountId }
+    }
+
+    async updateStaking() {
+        const accountId = this.wallet.accountId
+        let lockupId
+        try {
+            const { lockupId: _lockupId } = await this.getLockup()
+            lockupId = _lockupId
+        } catch(e) {
+            console.warn('No lockup account, not loading lockup account state for account', accountId)
+            if (e.message.indexOf('does not exist while viewing') === -1) {
+                throw(e)
+            }
         }
-        console.log('useLockup', useLockup)
-        console.log(state)
+
+        const allValidators = await this.getValidators()
+        const state = {}
+        state[accountId] = await this.updateStakingAccount(allValidators)
+        if (lockupId) {
+            state[lockupId] = await this.updateStakingLockup(allValidators)
+        }
+        state.accountId = accountId
+        state.allValidators = allValidators
+
+        console.log('staking', state)
+
         return state
     }
 
@@ -98,13 +116,19 @@ export class Staking {
                 totalUnstaked: totalUnstaked.toString(),
             }
         }
-        const validator = validators.find((v) => v.accountId === selectedValidator)
+        let validator = validators.find((v) => v.accountId === selectedValidator)
+        // validator is not in active set, go get instance of selectedValidator
+        if (!validator) {
+            validator = (await this.getValidators([selectedValidator]))[0]
+        }
+
 
         let totalStaked = new BN('0', 10);
         let totalUnclaimed = new BN('0', 10);
         let totalAvailable = new BN('0', 10);
         let totalPending = new BN('0', 10);
         const minimumUnstaked = new BN('100', 10); // 100 yocto
+
         try {
             const total = new BN(await validator.contract.get_account_total_balance({ account_id }), 10)
             if (total.gt(new BN('0', 10))) {
@@ -128,11 +152,14 @@ export class Staking {
             totalStaked = totalStaked.add(new BN(validator.staked, 10))
             totalUnclaimed = totalUnclaimed.add(new BN(validator.unclaimed, 10))
         } catch (e) {
-            console.warn('Error getting data for validator', validator.accountId, e)
+            if (e.message.indexOf('cannot find contract code') === -1) {
+                console.warn('Error getting data for validator', validator.accountId, e)
+            }
         }
 
         return {
             accountId: account_id,
+            validators: [validator],
             selectedValidator,
             totalPending: totalPending.toString(),
             totalAvailable: totalAvailable.toString(),
@@ -142,16 +169,15 @@ export class Staking {
         }
     }
 
-    async updateStakingAccount(validators) {
+    async updateStakingAccount() {
         const account_id = this.wallet.accountId
         const account = this.wallet.getAccount(this.wallet.accountId)
         const balance = await account.getAccountBalance()
 
-        const deposits = (await getStakingTransactions(account_id, validators.map(v => v.accountId)))
-            .map(({ receiver_id, args }) => ({
-                accountId: receiver_id,
-                deposit: new BN(JSON.parse(args).deposit, 10)
-            }))
+        let { deposits, validators } = (await getStakingTransactions(account_id))
+        validators = await this.getValidators(validators)
+
+        console.log(validators)
 
         let totalUnstaked = new BN(balance.available, 10)
         let totalStaked = new BN('0', 10);
@@ -192,12 +218,15 @@ export class Staking {
                 totalStaked = totalStaked.add(new BN(validator.staked, 10))
                 totalUnclaimed = totalUnclaimed.add(new BN(validator.unclaimed, 10))
             } catch (e) {
-                console.warn('Error getting data for validator', validator.accountId, e)
+                if (e.message.indexOf('cannot find contract code') === -1) {
+                    console.warn('Error getting data for validator', validator.accountId, e)
+                }
             }
         })()))
 
         return {
             accountId: account_id,
+            validators,
             selectedValidator: null,
             totalUnstaked: totalUnstaked.toString(),
             totalStaked: totalStaked.toString(),
@@ -207,26 +236,30 @@ export class Staking {
         }
     }
 
-    async getValidators() {
+    async getValidators(accountIds) {
+        if (!accountIds) {
+            accountIds = (await this.provider.validators()).current_validators.map(({ account_id }) => account_id)
+        }
         return (await Promise.all(
-            (await this.provider.validators()).current_validators
-                .map(({ account_id }) => (async () => {
-                    const validator = {
-                        accountId: account_id,
-                        staked: '0',
-                        unclaimed: '0',
-                        pending: '0',
-                        available: '0',
-                        contract: await this.getContractInstance(account_id, stakingMethods)
+            accountIds.map(async (account_id) => {
+                const validator = {
+                    accountId: account_id,
+                    staked: '0',
+                    unclaimed: '0',
+                    pending: '0',
+                    available: '0',
+                    contract: await this.getContractInstance(account_id, stakingMethods)
+                }
+                try {
+                    const fee = validator.fee = await validator.contract.get_reward_fee_fraction()
+                    fee.percentage = fee.numerator / fee.denominator * 100
+                    return validator
+                } catch (e) {
+                    if (!/cannot find contract code|wasm execution failed/.test(e.message)) {
+                        throw(e)
                     }
-                    try {
-                        const fee = validator.fee = await validator.contract.get_reward_fee_fraction()
-                        fee.percentage = fee.numerator / fee.denominator * 100
-                        return validator
-                    } catch (e) {
-                        console.warn(e)
-                    }
-                })())
+                }
+            })
         )).filter((v) => !!v)
     }
 
@@ -388,7 +421,7 @@ export class Staking {
             await (await new nearApiJs.Account(this.wallet.connection, contractId)).state()
             return await new nearApiJs.Contract(this.wallet.getAccount(), contractId, { ...methods })
         } catch (e) {
-            throw new WalletError('No lockup contract for account', 'staking.errors.noLockup')
+            throw new WalletError('No contract for account', 'staking.errors.noLockup')
         }
     }
 
@@ -398,7 +431,7 @@ export class Staking {
 }
 
 
-async function getStakingTransactions(accountId, validators) {
+async function getStakingTransactions(accountId) {
     const methods = ['stake', 'deposit_and_stake', 'stake_all', 'unstake', 'unstake_all']
 
     const sql = `
@@ -414,7 +447,6 @@ async function getStakingTransactions(accountId, validators) {
         LEFT JOIN actions ON actions.transaction_hash = transactions.hash
         WHERE 
             transactions.signer_id = :accountId AND
-            transactions.receiver_id in (:validators) AND
             actions.action_type = 'FunctionCall' AND
             json_extract(actions.action_args, '$.method_name') in (:methods)
         ORDER BY 
@@ -427,11 +459,22 @@ async function getStakingTransactions(accountId, validators) {
         accountId,
         offset: 0,
         count: 500,
-        methods,
-        validators,
+        methods
     }
 
-    const tx = await queryExplorer(sql, params)
-    console.log(tx)
-    return Array.isArray(tx) ? tx : []
+    let tx = await queryExplorer(sql, params)
+    tx = Array.isArray(tx) ? tx : []
+    let validators = [], deposits = []
+    tx.forEach(({ receiver_id, args }) => {
+        validators.push(receiver_id)
+        const deposit = new BN(JSON.parse(args).deposit, 10)
+        if (deposit.gt(new BN('0'))) {
+            deposits.push({ accountId: receiver_id, deposit })
+        }
+    })
+    validators = [...new Set(validators)]
+
+    console.log({ validators, deposits })
+
+    return { validators, deposits }
 }
