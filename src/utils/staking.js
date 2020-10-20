@@ -52,8 +52,6 @@ export class Staking {
     constructor(wallet) {
         this.wallet = wallet
         this.provider = wallet.connection.provider
-
-        console.log(this)
     }
 
     async updateStaking(useLockup) {
