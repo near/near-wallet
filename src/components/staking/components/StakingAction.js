@@ -62,6 +62,10 @@ export default function StakingAction({
             }
         }
 
+        if (!stake && (useMax || userInputAmountIsMax)) {
+            stakeActionAmount = null
+        }
+
         await handleStakingAction(action, validator.accountId, stakeActionAmount)
         setSuccess(true)
         setConfirm(false)
