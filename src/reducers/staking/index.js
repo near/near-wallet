@@ -1,13 +1,9 @@
 import { handleActions, combineActions } from 'redux-actions'
 import reduceReducers from 'reduce-reducers'
 
-import { updateStaking } from '../../actions/staking'
+import { updateStaking, switchAccount } from '../../actions/staking'
 
-const initialState = {
-    // the current account that's being shown in staking dashboard
-    accountId: '',
-    // lockup account is active
-    useLockup: false,
+const sample = {
     selectedValidator: '',
     // all validators
     totalPending: '0', // pending withdrawal
@@ -30,8 +26,28 @@ const initialState = {
     }
 }
 
+const initialState = {
+    accountId: '__default',
+    allValidators: [],
+    __default: {
+        selectedValidator: '',
+        totalPending: '0', // pending withdrawal
+        totalAvailable: '0', // available for withdrawal
+        totalUnstaked: '0', // available to be staked
+        totalStaked: '0', 
+        totalUnclaimed: '0', // total rewards paid out - staking deposits made
+        validators: [],
+    }
+}
+
 const stakingHandlers = handleActions({
     [updateStaking]: (state, { error, payload }) => {
+        return {
+            ...state,
+            ...payload,
+        }
+    },
+    [switchAccount]: (state, { error, payload }) => {
         return {
             ...state,
             ...payload,
