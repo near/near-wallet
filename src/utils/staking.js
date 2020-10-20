@@ -13,31 +13,31 @@ const {
             parseNearAmount
         }
     }
-} =  nearApiJs
+} = nearApiJs
 
 const MIN_LOCKUP_AMOUNT = new BN(process.env.MIN_LOCKUP_AMOUNT || parseNearAmount('35.00001'), 10)
 const STAKING_GAS_BASE = process.env.REACT_APP_STAKING_GAS_BASE || '25000000000000' // 25 Tgas
 
 const stakingMethods = {
-	viewMethods: [
-		'get_account_staked_balance',
-		'get_account_unstaked_balance',
-		'get_account_total_balance',
-		'is_account_unstaked_balance_available',
-		'get_total_staked_balance',
-		'get_owner_id',
-		'get_reward_fee_fraction',
-	],
-	changeMethods: [
-		'ping',
+    viewMethods: [
+        'get_account_staked_balance',
+        'get_account_unstaked_balance',
+        'get_account_total_balance',
+        'is_account_unstaked_balance_available',
+        'get_total_staked_balance',
+        'get_owner_id',
+        'get_reward_fee_fraction',
+    ],
+    changeMethods: [
+        'ping',
         'deposit',
         'deposit_and_stake',
         'deposit_to_staking_pool',
         'stake',
         'stake_all',
-		'unstake',
-		'withdraw',
-	],
+        'unstake',
+        'withdraw',
+    ],
 }
 
 const lockupMethods = {
@@ -209,23 +209,23 @@ export class Staking {
     async getValidators() {
         return (await Promise.all(
             (await this.provider.validators()).current_validators
-            .map(({ account_id }) => (async () => {
-                const validator = {
-                    accountId: account_id,
-                    staked: '0',
-                    unclaimed: '0',
-                    pending: '0',
-                    available: '0',
-                    contract: await this.getContractInstance(account_id, stakingMethods)
-                }
-                try {
-                    const fee = validator.fee = await validator.contract.get_reward_fee_fraction()
-                    fee.percentage = fee.numerator / fee.denominator * 100
-                    return validator
-                } catch (e) {
-                    console.warn(e)
-                }
-            })())
+                .map(({ account_id }) => (async () => {
+                    const validator = {
+                        accountId: account_id,
+                        staked: '0',
+                        unclaimed: '0',
+                        pending: '0',
+                        available: '0',
+                        contract: await this.getContractInstance(account_id, stakingMethods)
+                    }
+                    try {
+                        const fee = validator.fee = await validator.contract.get_reward_fee_fraction()
+                        fee.percentage = fee.numerator / fee.denominator * 100
+                        return validator
+                    } catch (e) {
+                        console.warn(e)
+                    }
+                })())
         )).filter((v) => !!v)
     }
 
@@ -385,7 +385,7 @@ export class Staking {
         try {
             await (await new nearApiJs.Account(this.wallet.connection, contractId)).state()
             return await new nearApiJs.Contract(this.wallet.getAccount(), contractId, { ...methods })
-        } catch(e) {
+        } catch (e) {
             throw new WalletError('No lockup contract for account', 'staking.errors.noLockup')
         }
     }
@@ -397,7 +397,7 @@ export class Staking {
 
 
 async function getStakingTransactions(accountId, validators) {
-    const methods = ['deposit', 'deposit_and_stake']
+    const methods = ['stake', 'deposit_and_stake', 'stake_all', 'unstake', 'unstake_all']
 
     const sql = `
         SELECT
@@ -422,8 +422,8 @@ async function getStakingTransactions(accountId, validators) {
     `
 
     const params = {
-        accountId, 
-        offset: 0, 
+        accountId,
+        offset: 0,
         count: 500,
         methods,
         validators,
