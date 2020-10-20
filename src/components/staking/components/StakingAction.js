@@ -9,6 +9,7 @@ import StakeConfirmModal from './StakeConfirmModal'
 import BN from 'bn.js'
 import { utils } from 'near-api-js'
 import isDecimalString from '../../../utils/isDecimalString'
+import { STAKING_AMOUNT_DEVIATION } from '../../../utils/staking'
 import { onKeyDown } from '../../../hooks/eventListeners'
 import { toNear } from '../../../utils/amounts'
 
@@ -34,9 +35,8 @@ export default function StakingAction({
     let staked = (validator && validator.staked) || '0'
     const stake = action === 'stake' ? true : false
     const displayAmount = useMax ? formatNearAmount(amount, 5) : amount
-    const decimalDeviation = '0.00001'
 
-    const invalidStakeActionAmount = new BN(useMax ? amount : parseNearAmount(amount)).sub(new BN(stake ? availableBalance : staked)).gt(new BN(parseNearAmount(decimalDeviation))) || !isDecimalString(amount)
+    const invalidStakeActionAmount = new BN(useMax ? amount : parseNearAmount(amount)).sub(new BN(stake ? availableBalance : staked)).gt(new BN(STAKING_AMOUNT_DEVIATION)) || !isDecimalString(amount)
 
     const stakeActionAllowed = hasStakeActionAmount && !invalidStakeActionAmount
 
@@ -52,7 +52,7 @@ export default function StakingAction({
 
     const onStakingAction = async () => {
         let stakeActionAmount = amount
-        const userInputAmountIsMax = new BN(parseNearAmount(amount)).sub(new BN(stake ? availableBalance : staked)).abs().lte(new BN(parseNearAmount(decimalDeviation)))
+        const userInputAmountIsMax = new BN(parseNearAmount(amount)).sub(new BN(stake ? availableBalance : staked)).abs().lte(new BN(STAKING_AMOUNT_DEVIATION))
 
         if (!useMax && userInputAmountIsMax) {
             if (stake) {
