@@ -17,6 +17,7 @@ const {
 
 const MIN_LOCKUP_AMOUNT = new BN(process.env.MIN_LOCKUP_AMOUNT || parseNearAmount('35.00001'), 10)
 const STAKING_GAS_BASE = process.env.REACT_APP_STAKING_GAS_BASE || '25000000000000' // 25 Tgas
+export const STAKING_AMOUNT_DEVIATION = parseNearAmount('0.00001')
 
 const stakingMethods = {
     viewMethods: [
@@ -292,7 +293,6 @@ export class Staking {
                 functionCall('unselect_staking_pool', {}, STAKING_GAS_BASE)
             ])
         }
-        return result
     }
 
     async lockupUnstake(lockupId, amount) {
