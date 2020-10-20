@@ -305,12 +305,12 @@ export const handleAddAccessKeySeedPhrase = (accountId, recoveryKeyPair) => asyn
     dispatch(redirectTo('/profile', { globalAlertPreventClear: true }))
 }
 
-export const handleCreateAccountWithSeedPhrase = (accountId, recoveryKeyPair, fundingContract, fundingKey) => async (dispatch) => {
-    await dispatch(createAccountWithSeedPhrase(accountId, recoveryKeyPair, fundingContract, fundingKey))
+export const handleCreateAccountWithSeedPhrase = (accountId, recoveryKeyPair, fundingOptions = {}) => async (dispatch) => {
+    await dispatch(createAccountWithSeedPhrase(accountId, recoveryKeyPair, fundingOptions))
     const account = await dispatch(refreshAccount())
     const promptTwoFactor = await wallet.twoFactor.checkCanEnableTwoFactor(account)
 
-    if (fundingContract && promptTwoFactor) {
+    if (fundingOptions.fundingContract && promptTwoFactor) {
         dispatch(redirectTo('/enable-two-factor'))
     } else {
         dispatch(redirectToApp('/profile'))
@@ -323,9 +323,9 @@ export const { addAccessKey, createAccountWithSeedPhrase, addAccessKeySeedPhrase
         (title) => defaultCodesFor('account.login', {title})
     ],
     CREATE_ACCOUNT_WITH_SEED_PHRASE: [
-        async (accountId, recoveryKeyPair, fundingContract, fundingKey) => {
+        async (accountId, recoveryKeyPair, fundingOptions) => {
             await wallet.saveAccount(accountId, recoveryKeyPair);
-            await wallet.createNewAccount(accountId, fundingContract, fundingKey, recoveryKeyPair.publicKey)
+            await wallet.createNewAccount(accountId, fundingOptions, recoveryKeyPair.publicKey)
             const publicKey = recoveryKeyPair.publicKey.toString()
             const contractName = null;
             const fullAccess = true;

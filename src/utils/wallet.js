@@ -336,7 +336,7 @@ class Wallet {
         return !(await this.accountExists(accountId))
     }
 
-    async createNewAccount(accountId, fundingContract, fundingKey, publicKey) {
+    async createNewAccount(accountId, { fundingContract, fundingKey }, publicKey) {
         await this.checkNewAccount(accountId);
 
         let useLedger = publicKey ? false : true
@@ -666,12 +666,12 @@ class Wallet {
         }
     }
 
-    async setupRecoveryMessageNewAccount(accountId, method, securityCode, fundingContract, fundingKey, recoverySeedPhrase) {
+    async setupRecoveryMessageNewAccount(accountId, method, securityCode, { fundingContract, fundingKey }, recoverySeedPhrase) {
         const { secretKey } = parseSeedPhrase(recoverySeedPhrase)
         const recoveryKeyPair = KeyPair.fromString(secretKey)
         await this.validateSecurityCode(accountId, method, securityCode);
         await this.saveAccount(accountId, recoveryKeyPair);
-        await this.createNewAccount(accountId, fundingContract, fundingKey, recoveryKeyPair.publicKey)
+        await this.createNewAccount(accountId, { fundingContract, fundingKey }, recoveryKeyPair.publicKey)
         const newKeyPair = KeyPair.fromRandom('ed25519')
         const newPublicKey = newKeyPair.publicKey
         await this.addNewAccessKeyToAccount(accountId, newPublicKey)

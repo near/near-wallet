@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react'
 import { withRouter, Route } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { Translate } from 'react-localize-redux'
+import { parse as parseQuery } from 'query-string'
 
 import { redirectToApp, handleAddAccessKeySeedPhrase, clearAlert, refreshAccount, checkCanEnableTwoFactor, checkIsNew, handleCreateAccountWithSeedPhrase } from '../../actions/account'
 import { generateSeedPhrase } from 'near-seed-phrase'
@@ -55,17 +56,22 @@ class SetupSeedPhrase extends Component {
 
     handleStartOver = e => {
         const {
-            history, accountId, fundingContract, fundingKey,
+            history,
+            location,
+            accountId, 
         } = this.props
 
         this.refreshData()
-        history.push(`/setup-seed-phrase/${accountId}/phrase/${fundingContract ? `${fundingContract}/${fundingKey}/` : ``}`)
+        history.push(`/setup-seed-phrase/${accountId}/phrase${location.search}`)
     }
 
     handleSubmit = async () => {
         const { 
-            accountId, fundingContract, fundingKey,
-            handleAddAccessKeySeedPhrase, handleCreateAccountWithSeedPhrase, checkIsNew
+            accountId,
+            handleAddAccessKeySeedPhrase,
+            handleCreateAccountWithSeedPhrase,
+            checkIsNew,
+            location
         } = this.props
         const { seedPhrase, enterWord, wordId, recoveryKeyPair } = this.state
         if (enterWord !== seedPhrase.split(' ')[wordId]) {
@@ -81,7 +87,8 @@ class SetupSeedPhrase extends Component {
         const isNew = await checkIsNew(accountId)
 
         if (isNew) {
-            await handleCreateAccountWithSeedPhrase(accountId, recoveryKeyPair, fundingContract, fundingKey)
+            const fundingOptions = JSON.parse(parseQuery(location.search).fundingOptions || '{}')
+            await handleCreateAccountWithSeedPhrase(accountId, recoveryKeyPair, fundingOptions)
         } else {
             await handleAddAccessKeySeedPhrase(accountId, recoveryKeyPair)
         }
@@ -109,13 +116,16 @@ class SetupSeedPhrase extends Component {
     }
 
     render() {
+        const {
+            location,
+        } = this.props
         return (
             <Translate>
                 {({ translate }) => (
                     <Fragment>
                         <Route 
                             exact
-                            path={`/setup-seed-phrase/:accountId/phrase/:fundingContract?/:fundingKey?`}
+                            path={`/setup-seed-phrase/:accountId/phrase`}
                             render={() => (
                                 <Container className='small-centered'>
                                     <h1><Translate id='setupSeedPhrase.pageTitle'/></h1>
@@ -129,7 +139,7 @@ class SetupSeedPhrase extends Component {
                         />
                         <Route 
                             exact
-                            path={`/setup-seed-phrase/:accountId/verify/:fundingContract?/:fundingKey?`}
+                            path={`/setup-seed-phrase/:accountId/verify`}
                             render={() => (
                                 <Container className='small-centered'>
                                     <form onSubmit={e => {this.handleSubmit(); e.preventDefault();}} autoComplete='off'>
@@ -175,8 +185,6 @@ const mapStateToProps = ({ account }, { match }) => ({
     ...account,
     verify: match.params.verify,
     accountId: match.params.accountId,
-    fundingContract: match.params.fundingContract,
-    fundingKey: match.params.fundingKey,
 })
 
 export const SetupSeedPhraseWithRouter = connect(mapStateToProps, mapDispatchToProps)(withRouter(SetupSeedPhrase))

@@ -88,8 +88,9 @@ class SetupRecoveryMethod extends Component {
 
         const {
             accountId, fundingContract, fundingKey,
+            location,
         } = this.props
-        const phraseUrl = `/setup-seed-phrase/${accountId}/phrase/${fundingContract ? `${fundingContract}/${fundingKey}/` : ``}`
+        const phraseUrl = `/setup-seed-phrase/${accountId}/phrase${location.search}`
 
         if (option === 'email' || option === 'phone') {
             this.handleSendCode()
@@ -97,7 +98,7 @@ class SetupRecoveryMethod extends Component {
         } else if (option === 'phrase') {
             this.props.history.push(phraseUrl);
         } else if (option === 'ledger') {
-            const ledgerUrl = `/setup-ledger/${accountId}/${fundingContract ? `${fundingContract}/${fundingKey}/` : ``}`
+            const ledgerUrl = `/setup-ledger/${accountId}${location.search}`
             this.props.history.push(ledgerUrl);
         }
     }

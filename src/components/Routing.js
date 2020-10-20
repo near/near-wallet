@@ -204,7 +204,7 @@ class Routing extends Component {
                                 />
                                 <Route
                                     exact
-                                    path='/setup-seed-phrase/:accountId/:phrase/:fundingContract?/:fundingKey?'
+                                    path='/setup-seed-phrase/:accountId/:step'
                                     component={SetupSeedPhraseWithRouter}
                                 />
                                 <Route
@@ -214,7 +214,7 @@ class Routing extends Component {
                                 />
                                 <Route
                                     exact
-                                    path='/setup-ledger/:accountId/:fundingContract?/:fundingKey?'
+                                    path='/setup-ledger/:accountId'
                                     component={SetupLedgerWithRouter}
                                 />
                                 <PrivateRoute

@@ -32,7 +32,7 @@ const InactiveMethod = ({ method, accountId }) => (
     <NotEnabledContainer>
         <Translate id={`recoveryMgmt.methodTitle.${method}`}/>
         <Button to={{
-            pathname: `${method !== 'phrase' ? `/set-recovery/${accountId}` : `/setup-seed-phrase/${accountId}/phrase/0`}`,
+            pathname: `${method !== 'phrase' ? `/set-recovery/${accountId}` : `/setup-seed-phrase/${accountId}/phrase`}`,
             method: method
         }}>
             <Translate id='button.enable'/>

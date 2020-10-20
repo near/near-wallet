@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
+import { parse as parseQuery } from 'query-string'
 import Theme from './PageTheme.css';
 import InstructionsModal from './InstructionsModal';
 import LedgerIcon from '../../svg/LedgerIcon';
@@ -15,15 +16,20 @@ const SetupLedger = (props) => {
     const toggleShowInstructions = () => setShowInstructions(!showInstructions);
 
     const handleClick = async () => {
+        const {
+            location,
+            accountId,
+        } = this.props
+
         setConnect('')
 
-        const isNew = await props.checkIsNew(props.accountId)
-
+        const isNew = await props.checkIsNew(accountId)
         try {
             if (isNew) {
-                await props.createNewAccount(props.accountId, props.fundingContract, props.fundingKey)
+                const fundingOptions = JSON.parse(parseQuery(location.search).fundingOptions || '{}')
+                await props.createNewAccount(accountId, fundingOptions)
             } else {
-                await props.addLedgerAccessKey(props.accountId)
+                await props.addLedgerAccessKey(accountId)
             }
             await props.refreshAccount()
         } catch(e) {
@@ -75,8 +81,6 @@ const mapDispatchToProps = {
 const mapStateToProps = ({ account }, { match }) => ({
     ...account,
     accountId: match.params.accountId,
-    fundingContract: match.params.fundingContract,
-    fundingKey: match.params.fundingKey,
 })
 
 export const SetupLedgerWithRouter = connect(mapStateToProps, mapDispatchToProps)(SetupLedger);

@@ -115,10 +115,11 @@ class CreateAccount extends Component {
         
         this.setState({ loader: true });
 
-        const linkdropParams = fundingContract ? `${fundingContract}/${fundingKey}` : ``
+        const fundingOptions = { fundingContract, fundingKey }
+        const queryString = fundingContract ? `?fundingOptions=${encodeURIComponent(JSON.stringify(fundingOptions))}` : ''
         let nextUrl = process.env.DISABLE_PHONE_RECOVERY === 'yes' ?
-            `/setup-seed-phrase/${accountId}/phrase/${linkdropParams}` :
-            `/set-recovery/${accountId}/${linkdropParams}`;
+            `/setup-seed-phrase/${accountId}/phrase${queryString}` :
+            `/set-recovery/${accountId}${queryString}`;
 
 
         this.props.history.push(nextUrl);
