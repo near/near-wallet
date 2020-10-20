@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import FormButton from '../../common/FormButton'
 import BalanceBox from './BalanceBox'
 import ValidatorBox from './ValidatorBox'
@@ -6,13 +6,31 @@ import ListWrapper from './ListWrapper'
 import { Translate } from 'react-localize-redux'
 import BalanceBanner from './BalanceBanner'
 import NoValidators from './NoValidators'
+import AccountSwitcher from './AccountSwitcher'
 
 export default function Staking({ currentValidators, totalStaked, totalUnclaimed, totalAvailable, totalPending, selectedValidator, availableBalance }) {
+    const [switchAccount, setSwitchAccount] = useState(false)
+
+    const handleSwitchAccount = (accountId) => {
+        if (switchAccount) {
+            setSwitchAccount(false)
+            console.log(accountId)
+        } else {
+            setSwitchAccount(true)
+        }
+    }
+
     return (
         <>
             <BalanceBanner amount={availableBalance}/>
             <h1><Translate id='staking.staking.title' /></h1>
             <div className='desc'><Translate id='staking.staking.desc' /></div>
+            {/* <AccountSwitcher
+                open={switchAccount}
+                handleOnClick={handleSwitchAccount}
+                accounts={[]}
+                activeAccount='the-active-account.near'
+            /> */}
             <FormButton linkTo='/staking/validators'><Translate id='staking.staking.button' /></FormButton>
             <BalanceBox
                 title='staking.balanceBox.staked.title'

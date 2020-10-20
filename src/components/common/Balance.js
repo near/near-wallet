@@ -22,7 +22,7 @@ const Balance = ({ amount, noSymbol = false, className }) => {
 
     return (
         <CustomDiv title={showInYocto(amount)} className={className}>
-            {amountShow} {!noSymbol && <>Ⓝ</>}
+            {amountShow} {!noSymbol && <>Ⓝ</>} {noSymbol === 'near' && <span className='currency'>NEAR</span>}
         </CustomDiv>
     )
 }
