@@ -259,6 +259,7 @@ class SetupImplicit extends Component {
                                             outline: 'none',
                                             textAlign: 'center',
                                         }}
+                                        readOnly={true}
                                         defaultValue={accountId} 
                                     />
                                     <FormButton
@@ -306,6 +307,7 @@ class SetupImplicit extends Component {
                                             outline: 'none',
                                             textAlign: 'center',
                                         }}
+                                        readOnly={true}
                                         defaultValue={accountId} 
                                     />
                                     <FormButton
