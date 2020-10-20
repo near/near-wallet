@@ -46,6 +46,7 @@ const Number = styled(`span`)`
 const SetupSeedPhraseForm = ({
     seedPhrase,
     handleCopyPhrase,
+    linkTo,
     match: { params: { accountId, fundingContract, fundingKey } }
 }) => {
 
@@ -67,7 +68,7 @@ const SetupSeedPhraseForm = ({
                     <IconMCopy color='#6ad1e3' />
                 </FormButton>
                 <FormButton
-                    linkTo={`/setup-seed-phrase/${accountId}/verify/${fundingContract ? `${fundingContract}/${fundingKey}/` : ``}`}
+                    linkTo={linkTo ? linkTo : `/setup-seed-phrase/${accountId}/verify/${fundingContract ? `${fundingContract}/${fundingKey}/` : ``}`}
                     color='blue'
                 >
                     <Translate id='button.continue' />

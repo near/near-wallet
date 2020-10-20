@@ -4,7 +4,7 @@ import sendJson from 'fetch-send-json'
 import { parseSeedPhrase } from 'near-seed-phrase'
 import { PublicKey } from 'near-api-js/lib/utils'
 import { KeyType } from 'near-api-js/lib/utils/key_pair'
-
+import { BN } from 'bn.js'
 import { getAccountIds } from './helper-api'
 import { generateSeedPhrase } from 'near-seed-phrase';
 import { WalletError } from './walletError'
@@ -29,6 +29,7 @@ export const DISABLE_SEND_MONEY = process.env.DISABLE_SEND_MONEY === 'true' || p
 export const ACCOUNT_ID_SUFFIX = process.env.REACT_APP_ACCOUNT_ID_SUFFIX || 'testnet'
 export const MULTISIG_MIN_AMOUNT = process.env.REACT_APP_MULTISIG_MIN_AMOUNT || '40'
 export const LOCKUP_ACCOUNT_ID_SUFFIX = process.env.LOCKUP_ACCOUNT_ID_SUFFIX || 'lockup.near'
+export const MIN_BALANCE_FOR_GAS = process.env.REACT_APP_MIN_BALANCE_FOR_GAS || nearApiJs.utils.format.parseNearAmount('2')
 export const ACCESS_KEY_FUNDING_AMOUNT = process.env.REACT_APP_ACCESS_KEY_FUNDING_AMOUNT || nearApiJs.utils.format.parseNearAmount('0.01')
 export const LINKDROP_GAS = process.env.LINKDROP_GAS || '100000000000000'
 export const ENABLE_FULL_ACCESS_KEYS = process.env.ENABLE_FULL_ACCESS_KEYS === 'yes'
@@ -600,9 +601,11 @@ class Wallet {
 
     async getBalance(accountId) {
         accountId = accountId || this.accountId
-
         const account = this.getAccount(accountId)
-        return await account.getAccountBalance()
+        let balance = await account.getAccountBalance()
+        balance.stateStaked = new BN(balance.stateStaked).add(new BN(MIN_BALANCE_FOR_GAS)).toString()
+        balance.available = BN.max(new BN(0), new BN(balance.available).sub(new BN(MIN_BALANCE_FOR_GAS))).toString()
+        return balance
     }
 
     async signatureFor(account) {
@@ -690,7 +693,7 @@ class Wallet {
         await this.validateSecurityCode(accountId, method, securityCode);
         const newPublicKey = recoveryKeyPair.publicKey
         await this.addNewAccessKeyToAccount(accountId, newPublicKey)
-        await store.dispatch(redirectTo('/profile'))
+        await store.dispatch(redirectTo('/profile', { globalAlertPreventClear: true }))
     }
 
     async addNewAccessKeyToAccount(accountId, newPublicKey) {
