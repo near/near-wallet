@@ -101,8 +101,10 @@ export class Staking {
 
         state.accounts = [
             state[accountId],
-            state[lockupId]
         ]
+        if (state[lockupId]) {
+            state.accounts.push(state[lockupId])
+        }
 
         console.log('staking', state)
 

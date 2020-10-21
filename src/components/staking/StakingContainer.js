@@ -133,7 +133,8 @@ export function StakingContainer({ history, match }) {
     let staking = useSelector(({ staking }) => staking)
 
     Object.filter = (obj, predicate) => Object.fromEntries(Object.entries(obj).filter(predicate))
-    let stakingAccounts = Object.values(Object.filter(staking, ([key]) => key !== '__default' && key !== 'allValidators' && key !== 'accountId'))
+    let stakingAccounts = staking.accounts
+
     const { isLockup } = staking
     let validators = staking.allValidators
     staking = staking[staking.accountId]
