@@ -148,8 +148,6 @@ export function StakingContainer({ history, match }) {
     const { totalUnstaked, selectedValidator } = staking
     const loading = actionsPending.some(action => ['STAKE', 'UNSTAKE', 'WITHDRAW', 'UPDATE_STAKING'].includes(action))
 
-
-
     useEffect(() => {
         dispatch(updateStaking())
     }, [])
@@ -164,12 +162,12 @@ export function StakingContainer({ history, match }) {
         } else if (action === 'unstake') {
             await dispatch(unstake(isLockup, selectedValidator || validator, amount))
         }
-        await dispatch(updateStaking())
+        await dispatch(updateStaking(isLockup))
     }
 
     const handleWithDraw = async () => {
         await dispatch(withdraw(isLockup, selectedValidator))
-        await dispatch(updateStaking())
+        await dispatch(updateStaking(isLockup))
     }
 
     return (

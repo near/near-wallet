@@ -75,7 +75,7 @@ export class Staking {
         return { accountId, isLockup: /testinglockup|.lockup/g.test(accountId) }
     }
 
-    async updateStaking() {
+    async updateStaking(isLockup = false) {
         const accountId = this.wallet.accountId
         let lockupId
         try {
@@ -94,7 +94,8 @@ export class Staking {
         if (lockupId) {
             state[lockupId] = await this.updateStakingLockup(allValidators)
         }
-        state.accountId = accountId
+        state.accountId = isLockup ? lockupId : accountId
+        state.isLockup = isLockup
         state.allValidators = allValidators
 
         console.log('staking', state)
@@ -247,10 +248,6 @@ export class Staking {
             accountIds.map(async (account_id) => {
                 const validator = {
                     accountId: account_id,
-                    staked: '0',
-                    unclaimed: '0',
-                    pending: '0',
-                    available: '0',
                     contract: await this.getContractInstance(account_id, stakingMethods)
                 }
                 try {
