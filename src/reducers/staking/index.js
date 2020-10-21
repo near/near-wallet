@@ -24,7 +24,7 @@ const initialState = {
 
 const stakingHandlers = handleActions({
     [updateStaking]: (state, { error, payload }) => {
-        if (payload.replaceState) {
+        if (payload && payload.replaceState) {
             return {
                 ...payload,
             }
