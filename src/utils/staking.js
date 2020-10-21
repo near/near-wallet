@@ -62,7 +62,8 @@ export class Staking {
     ********************************/
 
     async switchAccount(accountId) {
-        return { accountId }
+        console.log({ accountId, isLockup: /testinglockup|.lockup/g.test(accountId) })
+        return { accountId, isLockup: /testinglockup|.lockup/g.test(accountId) }
     }
 
     async updateStaking() {
@@ -116,12 +117,7 @@ export class Staking {
                 totalUnstaked: totalUnstaked.toString(),
             }
         }
-        let validator = validators.find((v) => v.accountId === selectedValidator)
-        // validator is not in active set, go get instance of selectedValidator
-        if (!validator) {
-            validator = (await this.getValidators([selectedValidator]))[0]
-        }
-
+        let validator = validator = (await this.getValidators([selectedValidator]))[0]
 
         let totalStaked = new BN('0', 10);
         let totalUnclaimed = new BN('0', 10);
@@ -140,7 +136,6 @@ export class Staking {
                     if (isAvailable) {
                         validator.available = validator.unstaked.toString()
                         totalAvailable = totalAvailable.add(validator.unstaked)
-                        totalUnstaked = totalUnstaked.add(validator.unstaked)
                     } else {
                         validator.pending = validator.unstaked.toString()
                         totalPending = totalPending.add(validator.unstaked)
@@ -174,10 +169,10 @@ export class Staking {
         const account = this.wallet.getAccount(this.wallet.accountId)
         const balance = await account.getAccountBalance()
 
+        console.log(balance)
+
         let { deposits, validators } = (await getStakingTransactions(account_id))
         validators = await this.getValidators(validators)
-
-        console.log(validators)
 
         let totalUnstaked = new BN(balance.available, 10)
         let totalStaked = new BN('0', 10);
@@ -186,19 +181,19 @@ export class Staking {
         let totalPending = new BN('0', 10);
         const minimumUnstaked = new BN('100', 10); // 100 yocto
 
-        await Promise.all(validators.map((validator) => (async () => {
+        await Promise.all(validators.map(async (validator) => {
             try {
                 const total = new BN(await validator.contract.get_account_total_balance({ account_id }), 10)
                 if (total.lte(new BN('0', 10))) {
                     return
                 }
+                totalUnstaked = totalUnstaked.sub(total)
                 // pull deposits out of txs
                 let validatorDeposits = new BN('0', 10)
                 deposits.forEach(({ accountId, deposit }) => {
                     if (validator.accountId !== accountId) return
                     validatorDeposits = validatorDeposits.add(deposit)
                 })
-                console.log(validatorDeposits.toString())
 
                 validator.staked = await validator.contract.get_account_staked_balance({ account_id })
                 // TODO replace total.sub(total) with total.sub(deposited) to calc rewards
@@ -209,7 +204,6 @@ export class Staking {
                     if (isAvailable) {
                         validator.available = validator.unstaked.toString()
                         totalAvailable = totalAvailable.add(validator.unstaked)
-                        totalUnstaked = totalUnstaked.add(validator.unstaked)
                     } else {
                         validator.pending = validator.unstaked.toString()
                         totalPending = totalPending.add(validator.unstaked)
@@ -222,7 +216,7 @@ export class Staking {
                     console.warn('Error getting data for validator', validator.accountId, e)
                 }
             }
-        })()))
+        }))
 
         return {
             accountId: account_id,
@@ -267,34 +261,34 @@ export class Staking {
     Staking API for redux actions
     ********************************/
 
-    // useLockup will be set by user in redux state and passed through actions
-    async stake(useLockup, validatorId, amount) {
+    // isLockup will be set by user in redux state and passed through actions
+    async stake(isLockup, validatorId, amount) {
         if (amount.length < 15) {
             amount = parseNearAmount(amount)
         }
-        if (useLockup) {
+        if (isLockup) {
             const { contract, lockupId } = await this.getLockup()
             return this.lockupStake(contract, lockupId, validatorId, amount)
         }
         return this.accountStake(validatorId, amount)
     }
 
-    async unstake(useLockup, validatorId, amount) {
+    async unstake(isLockup, validatorId, amount) {
         if (amount && amount.length < 15) {
             amount = parseNearAmount(amount)
         }
-        if (useLockup) {
+        if (isLockup) {
             const { lockupId } = await this.getLockup()
             return this.lockupUnstake(lockupId, amount)
         }
         return this.accountUnstake(validatorId, amount)
     }
 
-    async withdraw(useLockup, validatorId, amount) {
+    async withdraw(isLockup, validatorId, amount) {
         if (amount && amount.length < 15) {
             amount = parseNearAmount(amount)
         }
-        if (useLockup) {
+        if (isLockup) {
             const { lockupId } = await this.getLockup()
             return this.lockupWithdraw(lockupId, amount)
         }

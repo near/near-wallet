@@ -29,6 +29,7 @@ const sample = {
 const initialState = {
     accountId: '__default',
     allValidators: [],
+    isLockup: false,
     __default: {
         selectedValidator: '',
         totalPending: '0', // pending withdrawal

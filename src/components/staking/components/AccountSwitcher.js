@@ -112,7 +112,7 @@ export default function AccountSwitcher({ open, activeAccount, accounts, handleO
                     </div>
                     {open &&
                         <div className='accounts'>
-                            {accounts.map((account, i) => 
+                            {accounts.filter(({ accountId }) => activeAccount.accountId !== accountId).map((account, i) => 
                                 <Account 
                                     account={account}
                                     key={i}
