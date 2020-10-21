@@ -18,6 +18,7 @@ const validator = {
 const initialState = {
     accountId: '__default',
     allValidators: [],
+    accounts: [],
     isLockup: false,
     __default: { ...ACCOUNT_DEFAULTS }
 }

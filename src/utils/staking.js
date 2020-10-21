@@ -99,6 +99,11 @@ export class Staking {
         state.allValidators = allValidators
         state.replaceState = true
 
+        state.accounts = [
+            state[accountId],
+            state[lockupId]
+        ]
+
         console.log('staking', state)
 
         return state
