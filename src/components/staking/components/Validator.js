@@ -8,9 +8,9 @@ import AlertBanner from './AlertBanner'
 import StakeConfirmModal from './StakeConfirmModal'
 import { onKeyDown } from '../../../hooks/eventListeners'
 
-export default function Validator({ match, validators, onUnstake, onWithdraw, loading, selectedValidator, history }) {
+export default function Validator({ match, validator, onUnstake, onWithdraw, loading, selectedValidator, history }) {
     const [confirm, setConfirm] = useState(null)
-    const validator = validators.filter(validator => validator.accountId === match.params.validator)[0]
+
     const stakeNotAllowed = selectedValidator && selectedValidator !== match.params.validator
 
     onKeyDown(e => {

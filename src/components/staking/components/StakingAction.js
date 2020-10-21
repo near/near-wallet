@@ -19,7 +19,7 @@ const {
 
 export default function StakingAction({
     match,
-    validators,
+    validator,
     loading,
     availableBalance,
     hasLedger,
@@ -30,7 +30,6 @@ export default function StakingAction({
     const [amount, setAmount] = useState('')
     const [success, setSuccess] = useState()
     const [useMax, setUseMax] = useState(null)
-    const validator = validators.filter(validator => validator.accountId === match.params.validator)[0]
     const hasStakeActionAmount = !loading && amount.length && amount !== '0'
     let staked = (validator && validator.staked) || '0'
     const stake = action === 'stake' ? true : false

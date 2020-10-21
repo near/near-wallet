@@ -125,18 +125,25 @@ const StyledContainer = styled(Container)`
     }
 `
 
-export function StakingContainer({ history }) {
+export function StakingContainer({ history, match }) {
     const dispatch = useDispatch()
     const { actionsPending, balance, accountId } = useSelector(({ account }) => account);
     const { hasLedger } = useSelector(({ ledger }) => ledger)
     
     let staking = useSelector(({ staking }) => staking)
+
     Object.filter = (obj, predicate) => Object.fromEntries(Object.entries(obj).filter(predicate))
     let stakingAccounts = Object.values(Object.filter(staking, ([key]) => key !== '__default' && key !== 'allValidators' && key !== 'accountId'))
     let validators = staking.allValidators
     staking = staking[staking.accountId]
     const currentValidators = staking.validators
-
+    // find current validator (ASSUMES validatorId will always be here /staking/valdiatorId/somethingElse)
+    const validatorId = history.location.pathname.split('/')[2]
+    let validator = currentValidators.filter(validator => validator.accountId === validatorId)[0]
+    // validator profile not in account's current validators (with balances) find validator in allValidators
+    if (!validator) {
+        validator = validators.filter(validator => validator.accountId === validatorId)[0]
+    }
     const { isLockup, totalUnstaked, selectedValidator } = staking
     const loading = actionsPending.some(action => ['STAKE', 'UNSTAKE', 'WITHDRAW', 'UPDATE_STAKING'].includes(action))
 
@@ -198,7 +205,7 @@ export function StakingContainer({ history }) {
                         render={(props) => (
                             <Validator 
                                 {...props} 
-                                validators={currentValidators}
+                                validator={validator}
                                 onWithdraw={handleWithDraw}
                                 loading={loading}
                                 selectedValidator={selectedValidator}
@@ -214,7 +221,7 @@ export function StakingContainer({ history }) {
                                 action='stake'
                                 handleStakingAction={handleStakingAction}
                                 availableBalance={totalUnstaked} 
-                                validators={validators}
+                                validator={validator}
                                 loading={loading}
                                 hasLedger={hasLedger}
                             />
@@ -229,7 +236,7 @@ export function StakingContainer({ history }) {
                                 action='unstake'
                                 handleStakingAction={handleStakingAction}
                                 availableBalance={totalUnstaked}
-                                validators={validators}
+                                validator={validator}
                                 loading={loading}
                                 hasLedger={hasLedger}
                             />

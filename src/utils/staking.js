@@ -15,9 +15,19 @@ const {
     }
 } = nearApiJs
 
+export const ACCOUNT_DEFAULTS = {
+    selectedValidator: '',
+    totalPending: '0', // pending withdrawal
+    totalAvailable: '0', // available for withdrawal
+    totalUnstaked: '0', // available to be staked
+    totalStaked: '0', 
+    totalUnclaimed: '0', // total rewards paid out - staking deposits made
+    validators: [],
+}
+export const STAKING_AMOUNT_DEVIATION = parseNearAmount('0.00001')
+
 const MIN_LOCKUP_AMOUNT = new BN(process.env.MIN_LOCKUP_AMOUNT || parseNearAmount('35.00001'), 10)
 const STAKING_GAS_BASE = process.env.REACT_APP_STAKING_GAS_BASE || '25000000000000' // 25 Tgas
-export const STAKING_AMOUNT_DEVIATION = parseNearAmount('0.00001')
 
 const stakingMethods = {
     viewMethods: [
@@ -62,7 +72,6 @@ export class Staking {
     ********************************/
 
     async switchAccount(accountId) {
-        console.log({ accountId, isLockup: /testinglockup|.lockup/g.test(accountId) })
         return { accountId, isLockup: /testinglockup|.lockup/g.test(accountId) }
     }
 
@@ -112,8 +121,8 @@ export class Staking {
         const selectedValidator = await contract.get_staking_pool_account_id()
         if (!selectedValidator) {
             return {
+                ...ACCOUNT_DEFAULTS,
                 accountId: account_id,
-                selectedValidator: '',
                 totalUnstaked: totalUnstaked.toString(),
             }
         }
