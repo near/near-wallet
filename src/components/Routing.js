@@ -199,6 +199,11 @@ class Routing extends Component {
                                 />
                                 <Route
                                     exact
+                                    path={'/create-from/:fundingAccountId'}
+                                    component={CreateAccountWithRouter}
+                                />
+                                <Route
+                                    exact
                                     path='/set-recovery/:accountId/:fundingContract?/:fundingKey?'
                                     component={SetupRecoveryMethodWithRouter}
                                 />

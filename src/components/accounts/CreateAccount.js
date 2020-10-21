@@ -109,18 +109,20 @@ class CreateAccount extends Component {
         const { 
             setFormLoader,
             fundingContract, fundingKey,
+            fundingAccountId,
         } = this.props
 
         setFormLoader(false)
-        
         this.setState({ loader: true });
 
-        const fundingOptions = { fundingContract, fundingKey }
-        const queryString = fundingContract ? `?fundingOptions=${encodeURIComponent(JSON.stringify(fundingOptions))}` : ''
+        let queryString = ''
+        if (fundingAccountId || fundingContract) {
+            const fundingOptions = fundingAccountId ? { fundingAccountId } : { fundingContract, fundingKey }
+            queryString = `?fundingOptions=${encodeURIComponent(JSON.stringify(fundingOptions))}`
+        }
         let nextUrl = process.env.DISABLE_PHONE_RECOVERY === 'yes' ?
             `/setup-seed-phrase/${accountId}/phrase${queryString}` :
             `/set-recovery/${accountId}${queryString}`;
-
 
         this.props.history.push(nextUrl);
     }
@@ -192,6 +194,7 @@ const mapStateToProps = ({ account }, { match }) => ({
     ...account,
     fundingContract: match.params.fundingContract,
     fundingKey: match.params.fundingKey,
+    fundingAccountId: match.params.fundingAccountId,
 })
 
 export const CreateAccountWithRouter = connect(

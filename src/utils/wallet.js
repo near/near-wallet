@@ -336,7 +336,7 @@ class Wallet {
         return !(await this.accountExists(accountId))
     }
 
-    async createNewAccount(accountId, { fundingContract, fundingKey }, publicKey) {
+    async createNewAccount(accountId, { fundingContract, fundingKey, fundingAccountId }, publicKey) {
         await this.checkNewAccount(accountId);
 
         let useLedger = publicKey ? false : true
@@ -352,6 +352,8 @@ class Wallet {
         if (fundingContract && fundingKey) {
             await this.createNewAccountLinkdrop(accountId, fundingContract, fundingKey, publicKey)
             await this.keyStore.removeKey(NETWORK_ID, fundingContract)
+        } else if (fundingAccountId) {
+            await this.createNewAccountFromAnother(accountId, fundingAccountId, publicKey)
         } else {
             await sendJson('POST', CONTRACT_CREATE_ACCOUNT_URL, {
                 newAccountId: accountId,
@@ -368,6 +370,16 @@ class Wallet {
         if (useLedger) {
             await this.postSignedJson('/account/ledgerKeyAdded', { accountId, publicKey: publicKey.toString() })
         }
+    }
+
+    async createNewAccountFromAnother(accountId, fundingAccountId, publicKey) {
+        const account = this.getAccount(fundingAccountId)
+        await account.functionCall(ACCOUNT_ID_SUFFIX, 'create_account', {
+            new_account_id: accountId,
+            new_public_key: publicKey.toString().replace(/^ed25519:/, '')
+            // TODO: Adjust gas if necessary
+            // TODO: Should new account have other than minimum balance? For implicit account?
+        }, LINKDROP_GAS, MIN_BALANCE_FOR_GAS)
     }
 
     async checkNearDropBalance(fundingContract, fundingKey) {
