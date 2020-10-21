@@ -24,7 +24,9 @@ export default function Staking({
 
     const handleSwitchAccount = (accountId) => {
         if (switchAccount) {
-            onSwitchAccount(accountId)
+            if (activeAccount.accountId !== accountId) {
+                onSwitchAccount(accountId)
+            }
             setSwitchAccount(false)
         } else {
             setSwitchAccount(true)
