@@ -97,6 +97,7 @@ export class Staking {
         state.accountId = isLockup ? lockupId : accountId
         state.isLockup = isLockup
         state.allValidators = allValidators
+        state.replaceState = true
 
         console.log('staking', state)
 
