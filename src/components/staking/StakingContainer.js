@@ -134,6 +134,7 @@ export function StakingContainer({ history, match }) {
 
     Object.filter = (obj, predicate) => Object.fromEntries(Object.entries(obj).filter(predicate))
     let stakingAccounts = Object.values(Object.filter(staking, ([key]) => key !== '__default' && key !== 'allValidators' && key !== 'accountId'))
+    const { isLockup } = staking
     let validators = staking.allValidators
     staking = staking[staking.accountId]
     const currentValidators = staking.validators
@@ -144,8 +145,10 @@ export function StakingContainer({ history, match }) {
     if (!validator) {
         validator = validators.filter(validator => validator.accountId === validatorId)[0]
     }
-    const { isLockup, totalUnstaked, selectedValidator } = staking
+    const { totalUnstaked, selectedValidator } = staking
     const loading = actionsPending.some(action => ['STAKE', 'UNSTAKE', 'WITHDRAW', 'UPDATE_STAKING'].includes(action))
+
+
 
     useEffect(() => {
         dispatch(updateStaking())
