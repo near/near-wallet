@@ -9,6 +9,7 @@ import Staking from './components/Staking'
 import Validators from './components/Validators'
 import Validator from './components/Validator'
 import StakingAction from './components/StakingAction'
+import account from '../../reducers/account'
 
 
 const StyledContainer = styled(Container)`
@@ -118,20 +119,17 @@ export function StakingContainer({ history }) {
     const { actionsPending, balance } = useSelector(({ account }) => account);
     const { hasLedger } = useSelector(({ ledger }) => ledger)
     
-    // staking state
     let staking = useSelector(({ staking }) => staking)
-    // list of all active validators
+    Object.filter = (obj, predicate) => Object.fromEntries(Object.entries(obj).filter(predicate))
+    let stakingAccounts = Object.values(Object.filter(staking, ([key]) => key !== '__default' && key !== 'allValidators' && key !== 'accountId'))
     let validators = staking.allValidators
-    // current view of staking
     staking = staking[staking.accountId]
-    // current validators for selected account
     const currentValidators = staking.validators
 
     const { useLockup, totalUnstaked, selectedValidator } = staking
     const availableBalance = useLockup ? totalUnstaked : balance.available
     const loading = actionsPending.some(action => ['STAKE', 'UNSTAKE', 'WITHDRAW', 'UPDATE_STAKING'].includes(action))
 
-    // on mount update all accounts
     useEffect(() => {
         dispatch(updateStaking(useLockup))
     }, [])
@@ -139,9 +137,6 @@ export function StakingContainer({ history }) {
     const handleSwitchAccount = async (accountId) => {
         await dispatch(switchAccount(accountId))
     }
-    // DEBUG
-    window.handleSwitchAccount = handleSwitchAccount
-
     
     const handleStakingAction = async (action, validator, amount) => {
         if (action === 'stake') {
@@ -170,6 +165,9 @@ export function StakingContainer({ history }) {
                                 currentValidators={currentValidators}
                                 selectedValidator={selectedValidator}
                                 availableBalance={availableBalance}
+                                onSwitchAccount={handleSwitchAccount}
+                                accounts={stakingAccounts}
+                                activeAccount={staking}
                             />
                         )}
                     />

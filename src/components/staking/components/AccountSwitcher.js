@@ -71,44 +71,49 @@ const Container = styled.div`
 `
 
 function Account({ account, onClick }) {
-    return (
-        <div className='account' onClick={() => onClick(account.accountId)}>
-            <LockIcon/>
-            <div className='content'>
-                <div>
-                    {account.accountId.split('.')[0]}<span>.{account.accountId.substring(account.accountId.indexOf('.') + 1)}</span>
+    const accountId = account.accountId
+    if (accountId) {
+        return (
+            <div className='account' onClick={() => onClick(accountId)}>
+                <LockIcon/>
+                <div className='content'>
+                    <div>
+                        {accountId.split('.')[0]}<span>.{accountId.substring(accountId.indexOf('.') + 1)}</span>
+                    </div>
+                    <Balance noSymbol='near' amount={account.totalUnstaked || '0'}/>
                 </div>
-                <Balance noSymbol='near' amount={account.balance}/>
             </div>
-        </div>
-    )
+        )
+    } else {
+        return null
+    }
 }
 
 export default function AccountSwitcher({ open, activeAccount, accounts, handleOnClick }) {
-    let lockupAccount = {
-        accountId: 'fiiiiiiirst.asdad.lockup.near',
-        balance: '1223423423432432423422343234'
-    }
 
-    let noLockupAccount = {
-        accountId: 'seeeccond.near',
-        balance: '1223423423432432423422343234'
-    }
-
-    return (
-        <Container>
-            <div className='wrapper'>
-                <div className='selected'>
-                    <Account account={lockupAccount} onClick={handleOnClick}/>
-                    <ChevronIcon color='#0072CE'/>
-                </div>
-                {open &&
-                    <div className='accounts'>
-                        <Account account={lockupAccount} onClick={handleOnClick}/>
-                        <Account account={noLockupAccount} onClick={handleOnClick}/>
+    if (activeAccount) {
+        return (
+            <Container>
+                <div className='wrapper'>
+                    <div className='selected'>
+                        <Account account={activeAccount} onClick={handleOnClick}/>
+                        {activeAccount.accountId && <ChevronIcon color='#0072CE'/>}
                     </div>
-                }
-            </div>
-        </Container>
-    )
+                    {open &&
+                        <div className='accounts'>
+                            {accounts.map((account, i) => 
+                                <Account 
+                                    account={account}
+                                    key={i}
+                                    onClick={handleOnClick}
+                                />
+                            )}
+                        </div>
+                    }
+                </div>
+            </Container>
+        )
+    } else {
+        return null
+    }
 }

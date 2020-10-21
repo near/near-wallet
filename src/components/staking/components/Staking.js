@@ -8,13 +8,24 @@ import BalanceBanner from './BalanceBanner'
 import NoValidators from './NoValidators'
 import AccountSwitcher from './AccountSwitcher'
 
-export default function Staking({ currentValidators, totalStaked, totalUnclaimed, totalAvailable, totalPending, selectedValidator, availableBalance }) {
+export default function Staking({
+    currentValidators,
+    totalStaked,
+    totalUnclaimed,
+    totalAvailable,
+    totalPending,
+    selectedValidator,
+    availableBalance,
+    onSwitchAccount,
+    accounts,
+    activeAccount
+}) {
     const [switchAccount, setSwitchAccount] = useState(false)
 
     const handleSwitchAccount = (accountId) => {
         if (switchAccount) {
+            onSwitchAccount(accountId)
             setSwitchAccount(false)
-            console.log(accountId)
         } else {
             setSwitchAccount(true)
         }
@@ -22,15 +33,14 @@ export default function Staking({ currentValidators, totalStaked, totalUnclaimed
 
     return (
         <>
-            <BalanceBanner amount={availableBalance}/>
             <h1><Translate id='staking.staking.title' /></h1>
             <div className='desc'><Translate id='staking.staking.desc' /></div>
-            {/* <AccountSwitcher
+            <AccountSwitcher
                 open={switchAccount}
                 handleOnClick={handleSwitchAccount}
-                accounts={[]}
-                activeAccount='the-active-account.near'
-            /> */}
+                accounts={accounts}
+                activeAccount={activeAccount}
+            />
             <FormButton linkTo='/staking/validators'><Translate id='staking.staking.button' /></FormButton>
             <BalanceBox
                 title='staking.balanceBox.staked.title'
