@@ -584,7 +584,8 @@
             "ledgerDisclaimer": "Note: If this is your first time staking with this validator, you will need to confirm two transactions",
             "useMax": "Use max",
             "with": "with",
-            "from": "from"
+            "from": "from",
+            "accounts": "If you have locked NEAR, you can choose to stake with either your locked NEAR (lockup.near), or your unlocked NEAR (your account name). You will only see the staking positions for the selected account. If you do not have locked NEAR, you can ignore this section"
         },
         "unstake": {
             "title": "Unstake Tokens",

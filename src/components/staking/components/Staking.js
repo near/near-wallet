@@ -6,6 +6,8 @@ import ListWrapper from './ListWrapper'
 import { Translate } from 'react-localize-redux'
 import NoValidators from './NoValidators'
 import AccountSwitcher from './AccountSwitcher'
+import InfoIcon from '../../svg/InfoIcon.js'
+import { Modal } from 'semantic-ui-react'
 
 export default function Staking({
     currentValidators,
@@ -36,6 +38,13 @@ export default function Staking({
         <>
             <h1><Translate id='staking.staking.title' /></h1>
             <div className='desc'><Translate id='staking.staking.desc' /></div>
+            <Modal
+                size='mini'
+                trigger={<span className='account-info'>Staking from <InfoIcon color='#999999'/></span>}
+                closeIcon
+            >
+                <Translate id='staking.stake.accounts' />
+            </Modal>
             <AccountSwitcher
                 open={switchAccount}
                 handleOnClick={handleSwitchAccount}

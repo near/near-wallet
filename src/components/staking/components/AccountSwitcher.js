@@ -8,7 +8,7 @@ import ChevronIcon from '../../svg/ChevronIcon'
 
 const Container = styled.div`
     position: relative;
-    margin-bottom: 135px;
+    height: 70px;
 
     .wrapper {
         position: absolute;
@@ -50,6 +50,11 @@ const Container = styled.div`
             background-color: #FAFAFA;
         }
 
+        .lock-icon {
+            width: 26px;
+            height: 26px;
+        }
+
         .content {
             margin-left: 15px;
             color: #24272a;
@@ -58,6 +63,10 @@ const Container = styled.div`
                 :first-of-type {
                     margin-bottom: 8px;
                     font-weight: 500;
+                    max-width: 260px;
+                    overflow: hidden;
+                    white-space: nowrap;
+                    text-overflow: ellipsis;
                     span {
                         color: #D4D3D9;
                     }

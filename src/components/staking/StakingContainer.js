@@ -112,6 +112,17 @@ const StyledContainer = styled(Container)`
             text-transform: capitalize !important;
         }
     }
+
+    .account-info {
+        display: block;
+        margin-bottom: 10px;
+        svg {
+            margin-left: 8px;
+            width: 16px;
+            height: 16px;
+            margin-bottom: -3px;
+        }
+    }
 `
 
 export function StakingContainer({ history }) {
