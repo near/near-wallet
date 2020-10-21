@@ -36,7 +36,8 @@ const Container = styled.div`
 
         > svg {
             margin-right: 25px;
-            transform: rotate(-90deg);
+            pointer-events: none;
+            transform: ${props => props.open ? 'rotate(-90deg)' : 'rotate(90deg)'};
         }
     }
 
@@ -70,12 +71,14 @@ const Container = styled.div`
     }
 `
 
-function Account({ account, onClick }) {
+function Account({ account, onClick, mainAccountId }) {
     const accountId = account.accountId
+    const isLockup = account.accountId !== mainAccountId
+
     if (accountId) {
         return (
             <div className='account' onClick={() => onClick(accountId)}>
-                <LockIcon/>
+                {isLockup ? <LockIcon/> : <WalletIcon/>}
                 <div className='content'>
                     <div>
                         {accountId.split('.')[0]}<span>.{accountId.substring(accountId.indexOf('.') + 1)}</span>
@@ -89,14 +92,13 @@ function Account({ account, onClick }) {
     }
 }
 
-export default function AccountSwitcher({ open, activeAccount, accounts, handleOnClick }) {
-
+export default function AccountSwitcher({ open, activeAccount, accounts, handleOnClick, accountId }) {
     if (activeAccount) {
         return (
-            <Container>
+            <Container open={open}>
                 <div className='wrapper'>
                     <div className='selected'>
-                        <Account account={activeAccount} onClick={handleOnClick}/>
+                        <Account account={activeAccount} onClick={handleOnClick} mainAccountId={accountId}/>
                         {activeAccount.accountId && <ChevronIcon color='#0072CE'/>}
                     </div>
                     {open &&
@@ -106,6 +108,7 @@ export default function AccountSwitcher({ open, activeAccount, accounts, handleO
                                     account={account}
                                     key={i}
                                     onClick={handleOnClick}
+                                    mainAccountId={accountId}
                                 />
                             )}
                         </div>

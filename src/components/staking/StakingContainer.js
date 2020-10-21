@@ -116,7 +116,7 @@ const StyledContainer = styled(Container)`
 
 export function StakingContainer({ history }) {
     const dispatch = useDispatch()
-    const { actionsPending, balance } = useSelector(({ account }) => account);
+    const { actionsPending, balance, accountId } = useSelector(({ account }) => account);
     const { hasLedger } = useSelector(({ ledger }) => ledger)
     
     let staking = useSelector(({ staking }) => staking)
@@ -168,6 +168,7 @@ export function StakingContainer({ history }) {
                                 onSwitchAccount={handleSwitchAccount}
                                 accounts={stakingAccounts}
                                 activeAccount={staking}
+                                accountId={accountId}
                             />
                         )}
                     />
