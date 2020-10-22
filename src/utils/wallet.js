@@ -8,7 +8,7 @@ import { BN } from 'bn.js'
 import { getAccountIds } from './helper-api'
 import { generateSeedPhrase } from 'near-seed-phrase';
 import { WalletError } from './walletError'
-import { setAccountConfirmed, getAccountConfirmed, removeAccountConfirmed} from './localStorage'
+import { setAccountConfirmed, getAccountConfirmed } from './localStorage'
 
 import { store } from '..'
 import { setSignTransactionStatus, setLedgerTxSigned, showLedgerModal, redirectToApp, redirectTo, refreshAccount } from '../actions/account'
@@ -421,7 +421,7 @@ class Wallet {
     recovering a second account attempts to call this method with the currently logged in account and not the tempKeyStore
     ********************************/
     // TODO: Why is fullAccess needed? Everything without contractId should be full access.
-    async addAccessKey(accountId, contractId, publicKey, fullAccess = false, methodNames) {
+    async addAccessKey(accountId, contractId, publicKey, fullAccess = false, methodNames = '') {
         const account = this.getAccount(accountId)
         console.log('account instance used in recovery add localStorage key', account)
         // update has2fa now after we have the right Account instance for temp recovery
@@ -432,8 +432,6 @@ class Wallet {
                 console.log('adding full access key', publicKey.toString())
                 return await account.addKey(publicKey)
             } else {
-                let methodNames = methodNames ? methodNames : ''
-                
                 // TODO: fix account.addKey to accept multiple method names, kludge fix here for adding multisig LAK
                 if (this.has2fa && !methodNames.length && accountId === contractId) {
                     const { MULTISIG_CHANGE_METHODS, MULTISIG_ALLOWANCE } = nearApiJs.multisig

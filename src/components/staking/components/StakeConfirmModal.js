@@ -78,7 +78,7 @@ const StakeConfirmModal = ({ open, onClose, onConfirm, validator, amount, loadin
             <Container>
                 <MobileActionSheet/>
                 <h2><Translate id={title}/></h2>
-                <Balance amount={amount} className='stake-amount'/>
+                <Balance amount={amount || '0'} className='stake-amount'/>
                 {label && <div className='divider'><div><Translate id={label}/></div></div>}
                 <ValidatorBox 
                     validator={validator.accountId}

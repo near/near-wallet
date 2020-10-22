@@ -54,7 +54,7 @@ export default function BalanceBanner({ amount }) {
     return (
         <Container className='balance-banner'>
             <div className='icon-background'>
-                <LockIcon/>
+                <LockIcon color='#008D6A'/>
             </div>
             <div className='content'>
                 <Translate id='staking.balanceBanner.title' />

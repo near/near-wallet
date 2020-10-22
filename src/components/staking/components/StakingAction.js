@@ -19,10 +19,11 @@ const {
 
 export default function StakingAction({
     match,
-    validators,
+    validator,
     loading,
     availableBalance,
     hasLedger,
+    has2fa,
     action,
     handleStakingAction
 }) {
@@ -30,7 +31,6 @@ export default function StakingAction({
     const [amount, setAmount] = useState('')
     const [success, setSuccess] = useState()
     const [useMax, setUseMax] = useState(null)
-    const validator = validators.filter(validator => validator.accountId === match.params.validator)[0]
     const hasStakeActionAmount = !loading && amount.length && amount !== '0'
     let staked = (validator && validator.staked) || '0'
     const stake = action === 'stake' ? true : false
@@ -85,7 +85,7 @@ export default function StakingAction({
     const getStakeActionDisclaimer = () => {
         let disclaimer = ''
         if (stake) {
-            if (hasLedger) {
+            if (hasLedger || has2fa) {
                 disclaimer = 'staking.stake.ledgerDisclaimer'
             }
         } else {

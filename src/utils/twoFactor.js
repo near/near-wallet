@@ -80,6 +80,9 @@ export class TwoFactor extends AccountMultisig {
 
     // override for custom UX
     async signAndSendTransaction(receiverId, actions) {
+
+        console.log(this.accountId)
+        
         let requestId = -1
         try {
             await super.signAndSendTransaction(receiverId, actions)

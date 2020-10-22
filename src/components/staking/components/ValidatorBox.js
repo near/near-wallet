@@ -54,7 +54,7 @@ const Container = styled.div`
                 }
 
                 @media (min-width: 500px) {
-                    max-width: 230px;
+                    max-width: 220px;
                 }
             }
         }
@@ -66,7 +66,7 @@ const Container = styled.div`
 
         div {
             &:first-of-type {
-                color: #37B565;
+                color: #00C08B;
             }
             
             &:last-of-type {

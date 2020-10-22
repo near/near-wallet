@@ -246,7 +246,7 @@ class DesktopContainer extends Component {
             <Container className='desktop-menu'>
                 <Logo/>
                 {showNavLinks &&
-                    <NavLinks hasLockup={account.hasLockup}/>
+                    <NavLinks />
                 }
                 <Help href='http://near.chat/' target='_blank' rel='noopener noreferrer'>
                     <Translate id='link.help'/>
