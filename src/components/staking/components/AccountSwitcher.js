@@ -109,7 +109,7 @@ export default function AccountSwitcher({ open, activeAccount, accounts, handleO
                 <div className='wrapper'>
                     <div className='selected'>
                         <Account account={activeAccount} onClick={handleOnClick} mainAccountId={accountId}/>
-                        {activeAccount.accountId && <ChevronIcon color='#0072CE'/>}
+                        {accounts.length > 1 && <ChevronIcon color='#0072CE'/>}
                     </div>
                     {open &&
                         <div className='accounts'>
