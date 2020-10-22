@@ -196,6 +196,8 @@ export class Staking {
         const account = this.wallet.getAccount(this.wallet.accountId)
         const balance = await account.getAccountBalance()
 
+        console.log('HERE IS THE RAW BALANCE', balance)
+
         let { deposits, validators } = (await getStakingTransactions(account_id))
         validators = await this.getValidators([...new Set(validators.concat(recentlyStakedValidators))])
         if (!validators.length || this.wallet.has2fa) {
@@ -203,7 +205,7 @@ export class Staking {
             validators = await this.getValidators()
         }
 
-        let totalUnstaked = new BN(balance.available, 10).sub(new BN(parseNearAmount('1'), 10))
+        let totalUnstaked = new BN(balance.available, 10).sub(new BN(parseNearAmount('2'), 10))
         if (totalUnstaked.lt(new BN(STAKING_AMOUNT_DEVIATION, 10))) {
             totalUnstaked = ZERO.clone();
         }
