@@ -40,6 +40,8 @@ const Container = styled.div`
 
     .left {
         div {
+            text-align: left;
+            
             &:first-of-type {
                 color: #24272a;
                 max-width: 165px;

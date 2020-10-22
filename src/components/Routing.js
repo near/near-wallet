@@ -50,6 +50,7 @@ import LedgerConfirmActionModal from './accounts/ledger/LedgerConfirmActionModal
 
 import GlobalStyle from './GlobalStyle'
 import { SetupSeedPhraseWithRouter } from './accounts/SetupSeedPhrase'
+import { SetupImplicitWithRouter } from './accounts/SetupImplicit'
 const theme = {}
 
 const PATH_PREFIX = process.env.PUBLIC_URL
@@ -205,6 +206,11 @@ class Routing extends Component {
                                     exact
                                     path='/setup-seed-phrase/:accountId/:phrase/:fundingContract?/:fundingKey?'
                                     component={SetupSeedPhraseWithRouter}
+                                />
+                                <Route
+                                    exact
+                                    path='/create-implicit/:state?'
+                                    component={SetupImplicitWithRouter}
                                 />
                                 <Route
                                     exact

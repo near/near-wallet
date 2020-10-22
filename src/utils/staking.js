@@ -16,6 +16,7 @@ const {
 
 const MIN_LOCKUP_AMOUNT = new BN(process.env.MIN_LOCKUP_AMOUNT || parseNearAmount('35.00001'), 10)
 const STAKING_GAS_BASE = process.env.REACT_APP_STAKING_GAS_BASE || '25000000000000' // 25 Tgas
+export const STAKING_AMOUNT_DEVIATION = parseNearAmount('0.00001')
 
 const stakingMethods = {
 	viewMethods: [
@@ -32,7 +33,8 @@ const stakingMethods = {
         'deposit',
         'deposit_and_stake',
         'deposit_to_staking_pool',
-		'stake',
+        'stake',
+        'stake_all',
 		'unstake',
 		'withdraw',
 	],
@@ -162,7 +164,9 @@ export class Staking {
 
     // useLockup will be set by user in redux state and passed through actions
     async stake(useLockup, validatorId, amount) {
-        amount = parseNearAmount(amount)
+        if (amount.length < 15) {
+            amount = parseNearAmount(amount)
+        }
         const { contract, lockupId } = await this.getLockup()
         const selectedValidatorId = await contract.get_staking_pool_account_id()
         if (validatorId !== selectedValidatorId) {
@@ -171,31 +175,74 @@ export class Staking {
         return await this.lockupStake(lockupId, validatorId, amount)
     }
 
+    async unstake(useLockup, validatorId, amount) {
+        if (amount && amount.length < 15) {
+            amount = parseNearAmount(amount)
+        }
+        if (useLockup) {
+            const { lockupId } = await this.getLockup()
+            return this.lockupUnstake(lockupId, amount)
+        }
+        // TODO add account methods
+        // return this.accountUnstake(validatorId, amount)
+    }
+
+    async withdraw(useLockup, validatorId, amount) {
+        if (amount && amount.length < 15) {
+            amount = parseNearAmount(amount)
+        }
+        if (useLockup) {
+            const { lockupId } = await this.getLockup()
+            return this.lockupWithdraw(lockupId, amount)
+        }
+        // TODO add account methods
+        // return this.accountWithdraw(validatorId, amount)
+    }
+
     // helpers for lockup
 
-    async unstake(useLockup, amount) {
-        const { lockupId } = await this.getLockup()
-        await this.signAndSendTransaction(lockupId, [
+    async lockupWithdraw(lockupId, amount) {
+        let result
+        if (amount) {
+            result = await this.signAndSendTransaction(lockupId, [
+                functionCall('withdraw_from_staking_pool', { amount }, STAKING_GAS_BASE * 5, '0')
+            ])
+        } else {
+            result = await this.signAndSendTransaction(lockupId, [
+                functionCall('withdraw_all_from_staking_pool', {}, STAKING_GAS_BASE * 7, '0')
+            ])
+        }
+        if (result === false) {
+            throw new WalletError('Unable to withdraw pending balance from validator', 'staking.errors.noWithdraw')
+        }
+        const state = await this.updateStaking(true)
+        if (state.totalPending === '0' && state.totalStaked === '0') {
+            console.log('calling unselect_staking_pool')
+            await this.signAndSendTransaction(lockupId, [
+                functionCall('unselect_staking_pool', {}, STAKING_GAS_BASE)
+            ])
+        }
+    }
+
+    async lockupUnstake(lockupId, amount) {
+        if (amount) {
+            return await this.signAndSendTransaction(lockupId, [
+                functionCall('unstake', { amount }, STAKING_GAS_BASE * 5, '0')
+            ])
+        }
+        return await this.signAndSendTransaction(lockupId, [
             functionCall('unstake_all', {}, STAKING_GAS_BASE * 5, '0')
         ])
     }
 
-    async withdraw(useLockup, amount) {
-        const { lockupId } = await this.getLockup()
-        const withdraw_all_from_staking_pool = await this.signAndSendTransaction(lockupId, [
-            functionCall('withdraw_all_from_staking_pool', {}, STAKING_GAS_BASE * 7, '0')
-        ])
-        if (withdraw_all_from_staking_pool[0] === false) {
-            throw new WalletError('Unable to withdraw pending balance from validator', 'staking.errors.noWithdraw')
-        }
-        await this.signAndSendTransaction(lockupId, [
-            functionCall('unselect_staking_pool', {}, STAKING_GAS_BASE)
-        ])
-    }
-
     async lockupStake(lockupId, validatorId, amount) {
+        if (amount) {
+            return await this.signAndSendTransaction(lockupId, [
+                functionCall('deposit_and_stake', { amount }, STAKING_GAS_BASE * 5, '0')
+            ])
+        }
         return await this.signAndSendTransaction(lockupId, [
-            functionCall('deposit_and_stake', { amount }, STAKING_GAS_BASE * 5, '0')
+            functionCall('stake_all', {}, STAKING_GAS_BASE * 5, '0')
         ])
     }
 
@@ -213,7 +260,7 @@ export class Staking {
     async getLockup() {
         const accountId = this.wallet.accountId
         let lockupId
-        if (process.env.REACT_APP_USE_TESTINGLOCKUP) {
+        if (process.env.REACT_APP_USE_TESTINGLOCKUP && accountId.length < 64) {
             lockupId = `testinglockup.${accountId}`
         } else {
             lockupId = getLockupAccountId(accountId)

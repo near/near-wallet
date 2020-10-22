@@ -23,7 +23,7 @@ const Container = styled.div`
         max-width: 350px;
     }
 
-    .list {
+    .stake-amount {
         font-size: 40px;
         font-family: BwSeidoRound;
         color: #24272a;
@@ -44,11 +44,30 @@ const Container = styled.div`
     .ledger-disclaimer {
         font-style: italic;
         margin-top: 50px;
+        max-width: 350px;
+    }
+
+    .divider {
+        width: 100%;
+        border-top: 1px solid #F2F2F2;
+        position: relative;
+        margin-bottom: 40px;
+        max-width: 350px;
+
+        div {
+            background-color: white;
+            padding: 0 10px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1;
+        }
     }
 
 `
 
-const StakeConfirmModal = ({ open, onClose, onConfirm, validatorName, amount, loading, title, disclaimer }) => {
+const StakeConfirmModal = ({ open, onClose, onConfirm, validator, amount, loading, title, disclaimer, label }) => {
     return (
         <Modal
             id='stake-confirm-modal'
@@ -59,8 +78,14 @@ const StakeConfirmModal = ({ open, onClose, onConfirm, validatorName, amount, lo
             <Container>
                 <MobileActionSheet/>
                 <h2><Translate id={title}/></h2>
-                <Balance amount={amount} />
-                <ValidatorBox validator={validatorName} clickable={false} label={true}/>
+                <Balance amount={amount} className='stake-amount'/>
+                {label && <div className='divider'><div><Translate id={label}/></div></div>}
+                <ValidatorBox 
+                    validator={validator.accountId}
+                    fee={validator.fee.percentage}
+                    clickable={false}
+                    amount={validator.staked}
+                />
                 {disclaimer && <div className='ledger-disclaimer'><Translate id={disclaimer}/></div>}
                 <FormButton disabled={loading} sending={loading} color='green' onClick={onConfirm}>
                     <Translate id='button.confirm'/>

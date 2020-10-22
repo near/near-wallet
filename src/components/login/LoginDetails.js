@@ -90,7 +90,7 @@ const CustomGrid = styled(Grid)`
 
 class LoginDetails extends Component {
     render() {
-        const { contractId, transactions, fees, appTitle } = this.props
+        const { contractId, transactions, fees, appTitle, accountConfirmationForm } = this.props
 
         return (
             <CustomGrid padded>
@@ -104,7 +104,31 @@ class LoginDetails extends Component {
                                 </div>
                             </Link>
                         </div>
-                        {contractId && (
+                        {contractId && (accountConfirmationForm ? (
+                            <div className='details'>
+                                <div className='details-item alert'>
+                                    <GlobalAlert 
+                                        globalAlert={{
+                                            success: false,
+                                            messageCodeHeader: 'warning',
+                                            messageCode: 'account.login.details.warning'
+                                        }}
+                                        closeIcon={false}
+                                    />
+                                </div>
+                                <div className='details-item'>
+                                    <div className='title h3'>
+                                        <Translate id='login.details.thisAllows' data={{ appTitle }} />
+                                    </div>
+                                    <ul>
+                                        <li><Translate id='login.details.transferTokens' /></li>
+                                        <li><Translate id='login.details.stakeAndUnstake' /></li>
+                                    </ul>
+                                </div>
+                                <div className='details-item title h3'><Translate id='login.details.detailedDescription' /></div>
+                                <TransactionsList transactions={transactions} />
+                            </div>
+                        ) : (
                             <div className='details'>
                                 <div className='details-item title h3'><Translate id='login.details.detailedDescription' /></div>
                                 <TransactionsList transactions={transactions} />
@@ -132,7 +156,7 @@ class LoginDetails extends Component {
                                     </div>
                                 </div>}
                             </div>
-                        )}
+                        ))}
                         {!contractId && (
                             <div className='details'>
                                 <div className='details-item alert'>
