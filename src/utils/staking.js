@@ -229,12 +229,15 @@ export class Staking {
                 let hasDeposits = validatorDeposits.gt(ZERO)
                 if (!hasDeposits) {
                     // check localStorage for lastStakedBalance
-                    validatorDeposits = new BN(localStorage.getItem(STAKE_VALIDATOR_PREFIX + validator.accountId) || '0', 10)
+                    validatorDeposits = new BN(localStorage.getItem(STAKE_VALIDATOR_PREFIX + validator.accountId + account_id) || '0', 10)
+
+                    console.log('localStorage deposits' , validatorDeposits.toString())
                     hasDeposits = validatorDeposits.gt(ZERO)
                 }
 
                 validator.staked = await validator.contract.get_account_staked_balance({ account_id })
                 validator.unclaimed = total.sub(validatorDeposits).toString()
+                console.log(validator.accountId, total.toString(), validatorDeposits.toString(), validator.unclaimed.toString())
                 validator.unstaked = new BN(await validator.contract.get_account_unstaked_balance({ account_id }), 10)
                 // DO NOT calc rewards if no deposits exist
                 if (validator.unstaked.gt(MIN_DISPLAY_YOCTO)) {
@@ -463,7 +466,7 @@ export class Staking {
         const { accountId: account_id } = await this.getAccounts()
         const contract = await this.getContractInstance(validatorId, stakingMethods)
         const lastStakedBalance = await contract.get_account_staked_balance({ account_id })
-        localStorage.setItem(STAKE_VALIDATOR_PREFIX + validatorId, lastStakedBalance)
+        localStorage.setItem(STAKE_VALIDATOR_PREFIX + validatorId + account_id, lastStakedBalance)
     }
 
     /********************************
