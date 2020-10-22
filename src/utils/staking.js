@@ -228,11 +228,9 @@ export class Staking {
                 })
                 let hasDeposits = validatorDeposits.gt(ZERO)
                 if (!hasDeposits) {
-                    const lastStakedBalance = new BN(localStorage.getItem(STAKE_VALIDATOR_PREFIX + validator.accountId) || '0', 10)
-                    if (lastStakedBalance.gt(ZERO)) {
-                        validatorDeposits = lastStakedBalance
-                        hasDeposits = true
-                    }
+                    // check localStorage for lastStakedBalance
+                    validatorDeposits = new BN(localStorage.getItem(STAKE_VALIDATOR_PREFIX + validator.accountId) || '0', 10)
+                    hasDeposits = validatorDeposits.gt(ZERO)
                 }
 
                 validator.staked = await validator.contract.get_account_staked_balance({ account_id })
