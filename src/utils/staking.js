@@ -191,6 +191,7 @@ export class Staking {
     }
 
     async updateStakingAccount(checkAllCurrentValidators) {
+
         const account_id = this.wallet.accountId
         const account = this.wallet.getAccount(this.wallet.accountId)
         const balance = await account.getAccountBalance()
@@ -211,7 +212,7 @@ export class Staking {
         await Promise.all(validators.map(async (validator, i) => {
             try {
                 const total = new BN(await validator.contract.get_account_total_balance({ account_id }), 10)
-                if (total.lte(gtZero)) {
+                if (total.lte(ZERO)) {
                     validator.remove = true
                     return
                 }
@@ -247,8 +248,6 @@ export class Staking {
                 }
             }
         }))
-
-        console.log(validators)
 
         return {
             accountId: account_id,
