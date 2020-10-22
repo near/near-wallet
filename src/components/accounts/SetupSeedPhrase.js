@@ -86,12 +86,13 @@ class SetupSeedPhrase extends Component {
 
         const isNew = await checkIsNew(accountId)
 
-        if (isNew) {
-            const fundingOptions = JSON.parse(parseQuery(location.search).fundingOptions || '{}')
-            await handleCreateAccountWithSeedPhrase(accountId, recoveryKeyPair, fundingOptions)
-        } else {
+        if (!isNew) {
             await handleAddAccessKeySeedPhrase(accountId, recoveryKeyPair)
+            return
         }
+
+        const fundingOptions = JSON.parse(parseQuery(location.search).fundingOptions || 'null')
+        await handleCreateAccountWithSeedPhrase(accountId, recoveryKeyPair, fundingOptions)
     }
 
     handleCopyPhrase = () => {

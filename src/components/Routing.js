@@ -194,7 +194,7 @@ class Routing extends Component {
                                 />
                                 <Route
                                     exact
-                                    path={DISABLE_CREATE_ACCOUNT ? '/create/:fundingContract/:fundingKey' : '/create/:fundingContract?/:fundingKey?'}
+                                    path='/create/:fundingContract?/:fundingKey?'
                                     component={CreateAccountWithRouter}
                                 />
                                 <Route
@@ -214,7 +214,7 @@ class Routing extends Component {
                                 />
                                 <Route
                                     exact
-                                    path='/create-implicit/:state?'
+                                    path='/fund-create-account/:accountId/:implicitAccountId/:recoveryMethod'
                                     component={SetupImplicitWithRouter}
                                 />
                                 <Route

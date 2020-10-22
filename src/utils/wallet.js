@@ -11,7 +11,14 @@ import { WalletError } from './walletError'
 import { setAccountConfirmed, getAccountConfirmed } from './localStorage'
 
 import { store } from '..'
-import { setSignTransactionStatus, setLedgerTxSigned, showLedgerModal, redirectToApp, redirectTo, refreshAccount } from '../actions/account'
+import {
+    setSignTransactionStatus,
+    setLedgerTxSigned,
+    showLedgerModal,
+    redirectTo,
+    fundCreateAccount,
+    finishAccountSetup,
+} from '../actions/account'
 
 import { TwoFactor } from './twoFactor'
 import { Staking } from './staking'
@@ -336,16 +343,18 @@ class Wallet {
         return !(await this.accountExists(accountId))
     }
 
-    async createNewAccount(accountId, { fundingContract, fundingKey, fundingAccountId }, publicKey) {
+    async createNewAccount(accountId, { fundingContract, fundingKey, fundingAccountId }, recoveryMethod, publicKey) {
         await this.checkNewAccount(accountId);
 
-        let useLedger = publicKey ? false : true
+        // TODO: Should this check 'recoveryMethod' instead?
+        let useLedger = !publicKey
 
         if (useLedger) {
             publicKey = await this.getLedgerPublicKey()
             await setKeyMeta(publicKey, { type: 'ledger' })
         }
 
+        // TODO: Remove has2fa property, check on account object
         // no new accounts are 2fa
         this.has2fa = false
 
@@ -361,11 +370,12 @@ class Wallet {
             })
         }
 
+        await this.saveAndSelectAccount(accountId);
         if (useLedger) {
             await this.addLedgerAccountId(accountId)
+        } else {
+            await this.addLocalKeyAndFinishSetup(accountId, recoveryMethod, publicKey)
         }
-
-        await this.saveAndSelectAccount(accountId);
 
         if (useLedger) {
             await this.postSignedJson('/account/ledgerKeyAdded', { accountId, publicKey: publicKey.toString() })
@@ -678,24 +688,34 @@ class Wallet {
         }
     }
 
-    async setupRecoveryMessageNewAccount(accountId, method, securityCode, { fundingContract, fundingKey }, recoverySeedPhrase) {
+    async setupRecoveryMessageNewAccount(accountId, method, securityCode, fundingOptions, recoverySeedPhrase) {
         const { secretKey } = parseSeedPhrase(recoverySeedPhrase)
         const recoveryKeyPair = KeyPair.fromString(secretKey)
         await this.validateSecurityCode(accountId, method, securityCode);
         await this.saveAccount(accountId, recoveryKeyPair);
-        await this.createNewAccount(accountId, { fundingContract, fundingKey }, recoveryKeyPair.publicKey)
+
+        if (DISABLE_CREATE_ACCOUNT && !fundingOptions) {
+            await store.dispatch(fundCreateAccount(accountId, recoveryKeyPair, fundingOptions, method))
+            return
+        }
+
+        await this.createNewAccount(accountId, fundingOptions, method, recoveryKeyPair.publicKey)
+    }
+
+    async addLocalKeyAndFinishSetup(accountId, recoveryMethod, publicKey) {
         const newKeyPair = KeyPair.fromRandom('ed25519')
         const newPublicKey = newKeyPair.publicKey
-        await this.addNewAccessKeyToAccount(accountId, newPublicKey)
-        await this.saveAccount(accountId, newKeyPair)
-        const account = await store.dispatch(refreshAccount())
-        const promptTwoFactor = await this.twoFactor.checkCanEnableTwoFactor(account)
-
-        if (promptTwoFactor && fundingContract) {
-            store.dispatch(redirectTo('/enable-two-factor'))
+        if (recoveryMethod !== 'seed') {
+            await this.addNewAccessKeyToAccount(accountId, newPublicKey)
         } else {
-            store.dispatch(redirectToApp('/profile'))
+            const contractName = null;
+            const fullAccess = true;
+            await wallet.addAccessKey(accountId, contractName, newPublicKey, fullAccess)
+            await wallet.postSignedJson('/account/seedPhraseAdded', { accountId, publicKey: publicKey.toString() })
         }
+        await this.saveAccount(accountId, newKeyPair)
+
+        await store.dispatch(finishAccountSetup())
     }
 
     async setupRecoveryMessage(accountId, method, securityCode, recoverySeedPhrase) {

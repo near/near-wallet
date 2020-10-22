@@ -26,8 +26,8 @@ const SetupLedger = (props) => {
         const isNew = await props.checkIsNew(accountId)
         try {
             if (isNew) {
-                const fundingOptions = JSON.parse(parseQuery(location.search).fundingOptions || '{}')
-                await props.createNewAccount(accountId, fundingOptions)
+                const fundingOptions = JSON.parse(parseQuery(location.search).fundingOptions || 'null')
+                await props.createNewAccount(accountId, fundingOptions, 'ledger')
             } else {
                 await props.addLedgerAccessKey(accountId)
             }

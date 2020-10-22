@@ -37,7 +37,7 @@ const Button = styled(Link)`
 `
 
 const CreateAccountBtn = () => (
-    <Button to={DISABLE_CREATE_ACCOUNT ? `/create-implicit` : `/create`}>
+    <Button to='/create'>
         <Translate id='button.createNewAccount'/>
     </Button>
 )
