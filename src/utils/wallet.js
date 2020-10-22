@@ -758,6 +758,10 @@ class Wallet {
             provider: { type: 'JsonRpcProvider', args: { url: NODE_URL + '/' } },
             signer: new nearApiJs.InMemorySigner(tempKeyStore)
         })
+
+        // remove any duplicate accountIds
+        accountIds = [...new Set(accountIds)]
+        
         await Promise.all(accountIds.map(async (accountId, i) => {
             if (!accountId || !accountId.length) return
 
