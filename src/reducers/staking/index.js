@@ -16,16 +16,16 @@ const validator = {
 }
 
 const initialState = {
-    accountId: '__default',
     allValidators: [],
     accounts: [],
     isLockup: false,
-    __default: { ...ACCOUNT_DEFAULTS }
+    currentAccount: { ...ACCOUNT_DEFAULTS }
 }
 
 const stakingHandlers = handleActions({
     [updateStaking]: (state, { error, payload }) => {
         if (payload && payload.replaceState) {
+            delete payload.replaceState
             return {
                 ...payload,
             }

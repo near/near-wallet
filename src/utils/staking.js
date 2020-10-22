@@ -71,11 +71,11 @@ export class Staking {
     Updating the state of the user's staking based on whether they've selected their lockup account or regular account
     ********************************/
 
-    async switchAccount(accountId) {
-        return { accountId, isLockup: /testinglockup|.lockup/g.test(accountId) }
+    async switchAccount(accountId, accounts) {
+        return { currentAccount: accounts.find((a) => a.accountId === accountId) }
     }
 
-    async updateStaking(isLockup = false) {
+    async getAccounts() {
         const accountId = this.wallet.accountId
         let lockupId
         try {
@@ -87,24 +87,27 @@ export class Staking {
                 throw(e)
             }
         }
+        return { accountId, lockupId }
+    }
+
+    async updateStaking(currentAccountId) {
+        const { accountId, lockupId } = await this.getAccounts()
+        if (!currentAccountId) currentAccountId = accountId
 
         const allValidators = await this.getValidators()
         const state = {}
-        state[accountId] = await this.updateStakingAccount(allValidators)
+        const account = await this.updateStakingAccount(allValidators)
+        let lockupAccount
         if (lockupId) {
-            state[lockupId] = await this.updateStakingLockup(allValidators)
+            lockupAccount = await this.updateStakingLockup(allValidators)
         }
-        state.accountId = isLockup ? lockupId : accountId
-        state.isLockup = isLockup
         state.allValidators = allValidators
         state.replaceState = true
-
-        state.accounts = [
-            state[accountId],
-        ]
-        if (state[lockupId]) {
-            state.accounts.push(state[lockupId])
+        state.accounts = [account]
+        if (lockupAccount) {
+            state.accounts.push(lockupAccount)
         }
+        state.currentAccount = currentAccountId === accountId ? account : lockupAccount 
 
         console.log('staking', state)
 

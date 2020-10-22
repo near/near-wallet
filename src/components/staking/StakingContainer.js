@@ -11,7 +11,6 @@ import Validator from './components/Validator'
 import StakingAction from './components/StakingAction'
 import account from '../../reducers/account'
 
-
 const StyledContainer = styled(Container)`
 
     line-height: normal;
@@ -130,12 +129,11 @@ export function StakingContainer({ history, match }) {
     const { actionsPending, accountId, has2fa } = useSelector(({ account }) => account);
     const { hasLedger } = useSelector(({ ledger }) => ledger)
     
-    let staking = useSelector(({ staking }) => staking)
-    const { isLockup } = staking
-    let stakingAccounts = staking.accounts
-    let validators = staking.allValidators
-    staking = staking[staking.accountId]
-    const currentValidators = staking.validators
+    const staking = useSelector(({ staking }) => staking)
+    const { isLockup, currentAccount } = staking
+    const stakingAccounts = staking.accounts
+    const validators = staking.allValidators
+    const currentValidators = currentAccount.validators
     // find current validator (ASSUMES validatorId will always be here /staking/valdiatorId/somethingElse)
     const validatorId = history.location.pathname.split('/')[2]
     let validator = currentValidators.filter(validator => validator.accountId === validatorId)[0]
@@ -143,7 +141,7 @@ export function StakingContainer({ history, match }) {
     if (!validator) {
         validator = validators.filter(validator => validator.accountId === validatorId)[0]
     }
-    const { totalUnstaked, selectedValidator } = staking
+    const { totalUnstaked, selectedValidator } = currentAccount
     const loading = actionsPending.some(action => ['STAKE', 'UNSTAKE', 'WITHDRAW', 'UPDATE_STAKING'].includes(action))
 
     useEffect(() => {
@@ -151,7 +149,7 @@ export function StakingContainer({ history, match }) {
     }, [])
 
     const handleSwitchAccount = async (accountId) => {
-        await dispatch(switchAccount(accountId))
+        await dispatch(switchAccount(accountId, stakingAccounts))
     }
     
     const handleStakingAction = async (action, validator, amount) => {
@@ -160,12 +158,12 @@ export function StakingContainer({ history, match }) {
         } else if (action === 'unstake') {
             await dispatch(unstake(isLockup, selectedValidator || validator, amount))
         }
-        await dispatch(updateStaking(isLockup))
+        await dispatch(updateStaking(currentAccount.accountId))
     }
 
     const handleWithDraw = async () => {
         await dispatch(withdraw(isLockup, selectedValidator))
-        await dispatch(updateStaking(isLockup))
+        await dispatch(updateStaking(currentAccount.accountId))
     }
 
     return (
@@ -177,12 +175,12 @@ export function StakingContainer({ history, match }) {
                         path='/staking'
                         render={() => (
                             <Staking
-                                {...staking}
+                                {...currentAccount}
                                 currentValidators={currentValidators}
                                 availableBalance={totalUnstaked}
                                 onSwitchAccount={handleSwitchAccount}
                                 accounts={stakingAccounts}
-                                activeAccount={staking}
+                                activeAccount={currentAccount}
                                 accountId={accountId}
                             />
                         )}
