@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { updateStaking, unstake, withdraw } from '../../actions/staking'
+import { updateStaking, stake, unstake, withdraw } from '../../actions/staking'
 import styled from 'styled-components'
 import Container from '../common/styled/Container.css'
 import { Switch, Route } from 'react-router-dom'
@@ -8,7 +8,7 @@ import { ConnectedRouter } from 'connected-react-router'
 import Staking from './components/Staking'
 import Validators from './components/Validators'
 import Validator from './components/Validator'
-import Stake from './components/Stake'
+import StakingAction from './components/StakingAction'
 
 
 const StyledContainer = styled(Container)`
@@ -31,6 +31,7 @@ const StyledContainer = styled(Container)`
     .desc {
         text-align: center;
         line-height: 150% !important;
+        margin: 25px 0;
     }
 
     input {
@@ -91,6 +92,25 @@ const StyledContainer = styled(Container)`
             border-radius: 4px;
         }
     }
+
+    .amount-header-wrapper {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin: 30px 0 15px 0;
+
+        h4 {
+            margin: 0;
+        }
+
+        button {
+            margin: 0 !important;
+            width: auto !important;
+            text-decoration: none !important;
+            font-weight: 500 !important;
+            text-transform: capitalize !important;
+        }
+    }
 `
 
 export function StakingContainer({ history }) {
@@ -108,17 +128,18 @@ export function StakingContainer({ history }) {
         dispatch(updateStaking(useLockup))
     }, [])
 
-    const handleGetValidators = async () => {
+    const handleStakingAction = async (action, validator, amount) => {
+        if (action === 'stake') {
+            await dispatch(stake(useLockup, validator, amount))
+        } else if (action === 'unstake') {
+            await dispatch(unstake(useLockup, selectedValidator, amount))
+        }
         await dispatch(updateStaking(useLockup))
-    }
-
-    const handleUnstake = async () => {
-        await dispatch(unstake(useLockup))
         await dispatch(updateStaking(useLockup))
     }
 
     const handleWithDraw = async () => {
-        await dispatch(withdraw(useLockup))
+        await dispatch(withdraw(useLockup, selectedValidator))
         await dispatch(updateStaking(useLockup))
     }
 
@@ -154,8 +175,7 @@ export function StakingContainer({ history }) {
                         render={(props) => (
                             <Validator 
                                 {...props} 
-                                validators={validators} 
-                                onUnstake={handleUnstake}
+                                validators={validators}
                                 onWithdraw={handleWithDraw}
                                 loading={loading}
                                 selectedValidator={selectedValidator}
@@ -166,12 +186,27 @@ export function StakingContainer({ history }) {
                         exact
                         path='/staking/:validator/stake'
                         render={(props) => (
-                            <Stake 
-                                {...props} 
-                                availableBalance={availableBalance}
-                                useLockup={useLockup} 
+                            <StakingAction
+                                {...props}
+                                action='stake'
+                                handleStakingAction={handleStakingAction}
+                                availableBalance={availableBalance} 
                                 validators={validators}
-                                handleGetValidators={handleGetValidators}
+                                loading={loading}
+                                hasLedger={hasLedger}
+                            />
+                        )}
+                    />
+                    <Route
+                        exact
+                        path='/staking/:validator/unstake'
+                        render={(props) => (
+                            <StakingAction
+                                {...props}
+                                action='unstake'
+                                handleStakingAction={handleStakingAction}
+                                availableBalance={availableBalance}
+                                validators={validators}
                                 loading={loading}
                                 hasLedger={hasLedger}
                             />

@@ -51,7 +51,7 @@ const Container = styled.div`
 
 export default function AmountInput({
     value, onChange, valid, loading, insufficientBalance,
-    availableBalance, availableClick = null
+    availableBalance, availableClick = null, action
 }) {
     let validationStatus
     if (valid) {
@@ -73,7 +73,12 @@ export default function AmountInput({
                     onChange={e => onChange(e.target.value)}
                 />
             </div>
-            <div className='available-balance' onClick={availableClick}>{insufficientBalance && <span><Translate id='staking.stake.input.insufficientFunds' /> </span>}<Translate id='staking.stake.input.availableBalance' /> <Balance amount={availableBalance} noSymbol={true}/> <Translate id='staking.stake.input.near' /></div>
+            <div className='available-balance' onClick={availableClick}>
+                {insufficientBalance && 
+                    <span><Translate id={`staking.${action}.input.insufficientFunds`} /> </span>
+                }
+                <Translate id={`staking.${action}.input.availableBalance`} /> <Balance amount={availableBalance} noSymbol={true}/> <Translate id='staking.stake.input.near' />
+                </div>
         </Container>
     )
 }
