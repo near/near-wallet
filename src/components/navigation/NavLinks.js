@@ -43,7 +43,7 @@ const NavLink = styled(Link)`
 
     &.rotate {
         &:before {
-            transform: rotate(180deg);
+            transform: rotate(90deg);
         }
     }
 
