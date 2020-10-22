@@ -156,7 +156,7 @@ class SetupRecoveryMethod extends Component {
     }
 
     checkDisabled = (method) => {
-        const { recoveryMethods, activeAccountId, accountId } = this.props
+        const { recoveryMethods, activeAccountId } = this.props
         let activeMethods = []
         if (recoveryMethods[activeAccountId]) {
             activeMethods = recoveryMethods[activeAccountId].filter(method => method.confirmed).map(method => method.kind)

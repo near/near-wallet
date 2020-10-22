@@ -9,7 +9,6 @@ import Staking from './components/Staking'
 import Validators from './components/Validators'
 import Validator from './components/Validator'
 import StakingAction from './components/StakingAction'
-import account from '../../reducers/account'
 
 const StyledContainer = styled(Container)`
 
@@ -130,7 +129,7 @@ export function StakingContainer({ history, match }) {
     const { hasLedger } = useSelector(({ ledger }) => ledger)
     
     const staking = useSelector(({ staking }) => staking)
-    const { isLockup, currentAccount } = staking
+    const { currentAccount } = staking
     const stakingAccounts = staking.accounts
     const validators = staking.allValidators
     const currentValidators = currentAccount.validators

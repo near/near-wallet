@@ -26,6 +26,7 @@ export const ACCOUNT_DEFAULTS = {
 }
 export const STAKING_AMOUNT_DEVIATION = parseNearAmount('0.00001')
 
+const STAKE_VALIDATOR_PREFIX = '__SVPRE__'
 const ZERO = new BN('0', 10)
 const MIN_DISPLAY_YOCTO = new BN('100', 10);
 const EXPLORER_DELAY = 4000
@@ -141,7 +142,7 @@ export class Staking {
                 totalUnstaked: totalUnstaked.toString(),
             }
         }
-        let validator = validator = (await this.getValidators([selectedValidator]))[0]
+        let validator = (await this.getValidators([selectedValidator]))[0]
 
         let totalStaked = ZERO.clone();
         let totalUnclaimed = ZERO.clone();
@@ -203,7 +204,6 @@ export class Staking {
         }
 
         let totalUnstaked = new BN(balance.available, 10).sub(new BN(parseNearAmount('1'), 10))
-        console.log(totalUnstaked.toString())
         if (totalUnstaked.lt(new BN(STAKING_AMOUNT_DEVIATION, 10))) {
             totalUnstaked = ZERO.clone();
         }
@@ -220,12 +220,20 @@ export class Staking {
                     return
                 }
 
+                // try to get deposits from explorer
                 let validatorDeposits = ZERO.clone()
                 deposits.forEach(({ accountId, deposit }) => {
                     if (validator.accountId !== accountId) return
                     validatorDeposits = validatorDeposits.add(deposit)
                 })
-                const hasDeposits = validatorDeposits.gt(ZERO)
+                let hasDeposits = validatorDeposits.gt(ZERO)
+                if (!hasDeposits) {
+                    const lastStakedBalance = new BN(localStorage.getItem(STAKE_VALIDATOR_PREFIX + validator.accountId) || '0', 10)
+                    if (lastStakedBalance.gt(ZERO)) {
+                        validatorDeposits = lastStakedBalance
+                        hasDeposits = true
+                    }
+                }
 
                 validator.staked = await validator.contract.get_account_staked_balance({ account_id })
                 validator.unclaimed = total.sub(validatorDeposits).toString()
@@ -421,7 +429,7 @@ export class Staking {
         if (result === false) {
             throw new WalletError('Unable to withdraw pending balance from validator', 'staking.errors.noWithdraw')
         }
-        // wait 3s for explorer to index results
+        // wait for explorer to index results
         await new Promise((r) => setTimeout(r, EXPLORER_DELAY))
         return result
     }
@@ -437,8 +445,9 @@ export class Staking {
                 functionCall('unstake_all', {}, STAKING_GAS_BASE * 5, '0')
             ])
         }
-        // wait 3s for explorer to index results
+        // wait for explorer to index results
         await new Promise((r) => setTimeout(r, EXPLORER_DELAY))
+        await this.updateStakedBalance(validatorId)
         return result
     }
 
@@ -446,10 +455,17 @@ export class Staking {
         const result = await this.signAndSendTransaction(validatorId, [
             functionCall('deposit_and_stake', {}, STAKING_GAS_BASE * 5, amount)
         ])
-        // wait 3s for explorer to index results
-        const t = Date.now()
+        // wait for chain/explorer to index results
         await new Promise((r) => setTimeout(r, EXPLORER_DELAY))
+        await this.updateStakedBalance(validatorId)
         return result
+    }
+
+    async updateStakedBalance(validatorId) {
+        const { accountId: account_id } = await this.getAccounts()
+        const contract = await this.getContractInstance(validatorId, stakingMethods)
+        const lastStakedBalance = await contract.get_account_staked_balance({ account_id })
+        localStorage.setItem(STAKE_VALIDATOR_PREFIX + validatorId, lastStakedBalance)
     }
 
     /********************************
@@ -469,7 +485,6 @@ export class Staking {
         return this.wallet.getAccount(this.wallet.accountId).signAndSendTransaction(receiverId, actions)
     }
 }
-
 
 async function getStakingTransactions(accountId) {
     const methods = ['stake', 'deposit_and_stake']
