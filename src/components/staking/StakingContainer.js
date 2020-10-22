@@ -154,15 +154,15 @@ export function StakingContainer({ history, match }) {
     
     const handleStakingAction = async (action, validator, amount) => {
         if (action === 'stake') {
-            await dispatch(stake(isLockup, validator, amount))
+            await dispatch(stake(currentAccount.accountId, validator, amount))
         } else if (action === 'unstake') {
-            await dispatch(unstake(isLockup, selectedValidator || validator, amount))
+            await dispatch(unstake(currentAccount.accountId, selectedValidator || validator, amount))
         }
         await dispatch(updateStaking(currentAccount.accountId))
     }
 
     const handleWithDraw = async () => {
-        await dispatch(withdraw(isLockup, selectedValidator))
+        await dispatch(withdraw(currentAccount.accountId, selectedValidator))
         await dispatch(updateStaking(currentAccount.accountId))
     }
 
