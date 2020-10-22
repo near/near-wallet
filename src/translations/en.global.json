@@ -665,7 +665,7 @@
             "availableBalance": "Available Balance",
             "lockPopup": {
                 "title": "Why is this locked?",
-                "text": "Your account ID is your unique identifier in the system and cannot be changed because data and asset ownership is tied to it.",
+                "text": "Your account ID is your unique identifier in the system and cannot be changed because data and asset ownership is tied to it. However you are welcome to ${link} with desired name and transfer assets as needed.",
                 "createAnotherAccount": "create another account"
             },
             "qrDesc": "Use your phone's camera app to send to this address"
