@@ -127,15 +127,12 @@ const StyledContainer = styled(Container)`
 
 export function StakingContainer({ history, match }) {
     const dispatch = useDispatch()
-    const { actionsPending, balance, accountId } = useSelector(({ account }) => account);
+    const { actionsPending, accountId, has2fa } = useSelector(({ account }) => account);
     const { hasLedger } = useSelector(({ ledger }) => ledger)
     
     let staking = useSelector(({ staking }) => staking)
-
-    Object.filter = (obj, predicate) => Object.fromEntries(Object.entries(obj).filter(predicate))
-    let stakingAccounts = staking.accounts
-
     const { isLockup } = staking
+    let stakingAccounts = staking.accounts
     let validators = staking.allValidators
     staking = staking[staking.accountId]
     const currentValidators = staking.validators
@@ -180,9 +177,8 @@ export function StakingContainer({ history, match }) {
                         path='/staking'
                         render={() => (
                             <Staking
-                                {...staking} 
+                                {...staking}
                                 currentValidators={currentValidators}
-                                selectedValidator={selectedValidator}
                                 availableBalance={totalUnstaked}
                                 onSwitchAccount={handleSwitchAccount}
                                 accounts={stakingAccounts}
@@ -226,6 +222,7 @@ export function StakingContainer({ history, match }) {
                                 validator={validator}
                                 loading={loading}
                                 hasLedger={hasLedger}
+                                has2fa={has2fa}
                             />
                         )}
                     />
@@ -241,6 +238,7 @@ export function StakingContainer({ history, match }) {
                                 validator={validator}
                                 loading={loading}
                                 hasLedger={hasLedger}
+                                has2fa={has2fa}
                             />
                         )}
                     />

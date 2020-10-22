@@ -67,6 +67,7 @@ const Container = styled.div`
                     overflow: hidden;
                     white-space: nowrap;
                     text-overflow: ellipsis;
+                    line-height: 120%;
                     span {
                         color: #D4D3D9;
                     }
@@ -74,7 +75,7 @@ const Container = styled.div`
             }
 
             .list {
-                color: #48DBA7;
+                color: #00C08B;
             }
         }
     }

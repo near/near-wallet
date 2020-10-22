@@ -23,6 +23,7 @@ export default function StakingAction({
     loading,
     availableBalance,
     hasLedger,
+    has2fa,
     action,
     handleStakingAction
 }) {
@@ -84,7 +85,7 @@ export default function StakingAction({
     const getStakeActionDisclaimer = () => {
         let disclaimer = ''
         if (stake) {
-            if (hasLedger) {
+            if (hasLedger || has2fa) {
                 disclaimer = 'staking.stake.ledgerDisclaimer'
             }
         } else {

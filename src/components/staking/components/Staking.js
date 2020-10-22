@@ -15,7 +15,6 @@ export default function Staking({
     totalUnclaimed,
     totalAvailable,
     totalPending,
-    selectedValidator,
     onSwitchAccount,
     accounts,
     activeAccount,
@@ -63,7 +62,7 @@ export default function Staking({
                 info='staking.balanceBox.unclaimed.info'
                 amount={totalUnclaimed}
             />
-            {selectedValidator &&
+            {currentValidators.length ?
                 <>
                     <BalanceBox
                         title='staking.balanceBox.pending.title'
@@ -76,7 +75,7 @@ export default function Staking({
                         amount={totalAvailable}
                     />
                 </>
-            }
+            : null}
             <h3><Translate id='staking.staking.currentValidators' /></h3>
             {currentValidators.length ? (
             <ListWrapper>
