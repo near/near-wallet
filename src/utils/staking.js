@@ -197,7 +197,8 @@ export class Staking {
 
         let { deposits, validators } = (await getStakingTransactions(account_id))
         validators = await this.getValidators([...new Set(validators.concat(recentlyStakedValidators))])
-        if (!validators.length) {
+        if (!validators.length || this.wallet.has2fa) {
+            console.log('has2fa: checking all validators', this.wallet.has2fa)
             validators = await this.getValidators()
         }
 
@@ -218,17 +219,18 @@ export class Staking {
                     validator.remove = true
                     return
                 }
-                // totalUnstaked = totalUnstaked.sub(total)
-                // pull deposits out of txs
+
                 let validatorDeposits = ZERO.clone()
                 deposits.forEach(({ accountId, deposit }) => {
                     if (validator.accountId !== accountId) return
                     validatorDeposits = validatorDeposits.add(deposit)
                 })
+                const hasDeposits = validatorDeposits.gt(ZERO)
+
                 validator.staked = await validator.contract.get_account_staked_balance({ account_id })
-                // TODO replace total.sub(total) with total.sub(deposited) to calc rewards
                 validator.unclaimed = total.sub(validatorDeposits).toString()
                 validator.unstaked = new BN(await validator.contract.get_account_unstaked_balance({ account_id }), 10)
+                // DO NOT calc rewards if no deposits exist
                 if (validator.unstaked.gt(MIN_DISPLAY_YOCTO)) {
                     const isAvailable = await validator.contract.is_account_unstaked_balance_available({ account_id })
                     if (isAvailable) {
@@ -239,8 +241,10 @@ export class Staking {
                         totalPending = totalPending.add(validator.unstaked)
                     }
                 }
-                if (new BN(validator.unclaimed, 10).lt(MIN_DISPLAY_YOCTO)) {
-                    validator.unclaimed = ZERO.clone()
+
+                // TODO fix rewards calcs above and remove conditions
+                if (!hasDeposits || new BN(validator.unclaimed, 10).lt(MIN_DISPLAY_YOCTO)) {
+                    validator.unclaimed = ZERO.clone().toString()
                 }
                 totalStaked = totalStaked.add(new BN(validator.staked, 10))
                 totalUnclaimed = totalUnclaimed.add(new BN(validator.unclaimed, 10))
