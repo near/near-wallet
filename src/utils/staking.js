@@ -3,7 +3,6 @@ import BN from 'bn.js'
 import { WalletError } from './walletError'
 import { getLockupAccountId } from './account-with-lockup'
 import { queryExplorer } from './explorer-api'
-import { gtZero } from './amounts'
 
 const {
     transactions: {
@@ -198,6 +197,9 @@ export class Staking {
 
         let { deposits, validators } = (await getStakingTransactions(account_id))
         validators = await this.getValidators([...new Set(validators.concat(recentlyStakedValidators))])
+        if (!validators.length) {
+            validators = await this.getValidators()
+        }
 
         let totalUnstaked = new BN(balance.available, 10).sub(new BN(parseNearAmount('1'), 10))
         console.log(totalUnstaked.toString())
