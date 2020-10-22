@@ -29,7 +29,7 @@ export const STAKING_AMOUNT_DEVIATION = parseNearAmount('0.00001')
 
 const ZERO = new BN('0', 10)
 const MIN_DISPLAY_YOCTO = new BN('100', 10);
-const EXPLORER_DELAY = 3000
+const EXPLORER_DELAY = 4000
 const MIN_LOCKUP_AMOUNT = new BN(process.env.MIN_LOCKUP_AMOUNT || parseNearAmount('35.00001'), 10)
 const STAKING_GAS_BASE = process.env.REACT_APP_STAKING_GAS_BASE || '25000000000000' // 25 Tgas
 
@@ -94,13 +94,13 @@ export class Staking {
         return { accountId, lockupId }
     }
 
-    async updateStaking(currentAccountId) {
+    async updateStaking(currentAccountId, checkAllCurrentValidators = false) {
         const { accountId, lockupId } = await this.getAccounts()
         if (!currentAccountId) currentAccountId = accountId
 
         const allValidators = await this.getValidators()
         const state = {}
-        const account = await this.updateStakingAccount()
+        const account = await this.updateStakingAccount(checkAllCurrentValidators)
         let lockupAccount
         if (lockupId) {
             lockupAccount = await this.updateStakingLockup()
@@ -190,13 +190,13 @@ export class Staking {
         }
     }
 
-    async updateStakingAccount() {
+    async updateStakingAccount(checkAllCurrentValidators) {
         const account_id = this.wallet.accountId
         const account = this.wallet.getAccount(this.wallet.accountId)
         const balance = await account.getAccountBalance()
 
         let { deposits, validators } = (await getStakingTransactions(account_id))
-        validators = await this.getValidators(validators)
+        validators = await this.getValidators(!checkAllCurrentValidators && validators)
 
         let totalUnstaked = new BN(balance.available, 10).sub(new BN(parseNearAmount('1'), 10))
         console.log(totalUnstaked.toString())

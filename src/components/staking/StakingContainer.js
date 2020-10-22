@@ -158,7 +158,7 @@ export function StakingContainer({ history, match }) {
         } else if (action === 'unstake') {
             await dispatch(unstake(currentAccount.accountId, selectedValidator || validator, amount))
         }
-        await dispatch(updateStaking(currentAccount.accountId))
+        await dispatch(updateStaking(currentAccount.accountId, true))
     }
 
     const handleWithDraw = async () => {
