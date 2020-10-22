@@ -8,6 +8,7 @@ import LoginConfirm from './LoginConfirm'
 import LoginDetails from './LoginDetails'
 import LoginIncorrectContractId from './LoginIncorrectContractId'
 import { refreshAccount, handleRefreshUrl, switchAccount, clearAlert, allowLogin, redirectToApp, clear } from '../../actions/account'
+import { LOCKUP_ACCOUNT_ID_SUFFIX } from '../../utils/wallet'
 
 class Login extends Component {
     state = {
@@ -56,6 +57,7 @@ class Login extends Component {
 
     render() {
         const { account: { url }, match } = this.props
+        const accountConfirmationForm = !url?.contract_id || url?.contract_id.endsWith(`.${LOCKUP_ACCOUNT_ID_SUFFIX}`)
 
         return (
             <LoginContainer>
@@ -67,13 +69,13 @@ class Login extends Component {
                             {...this.state}
                             {...props}
                             appTitle={url && url.referrer}
-                            contractId={url && url.contract_id}
                             handleOnClick={this.handleOnClick}
                             handleDeny={this.handleDeny}
                             handleAllow={this.handleAllow}
                             handleSelectAccount={this.handleSelectAccount}
                             redirectCreateAccount={this.redirectCreateAccount}
                             handleDetails={this.handleDetails}
+                            accountConfirmationForm={accountConfirmationForm}
                         />
                     )}
                 />
@@ -85,6 +87,7 @@ class Login extends Component {
                             {...props}
                             contractId={url && url.contract_id}
                             appTitle={url && url.title}
+                            accountConfirmationForm={accountConfirmationForm}
                         />
                     )}
                 />
