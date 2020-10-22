@@ -189,7 +189,7 @@ export class Staking {
         }
     }
 
-    async updateStakingAccount(recentlyStakedValidators) {
+    async updateStakingAccount(recentlyStakedValidators = []) {
 
         const account_id = this.wallet.accountId
         const account = this.wallet.getAccount(this.wallet.accountId)
