@@ -22,6 +22,7 @@ export default function Validators({ validators }) {
                         onChange={e => setValidator(e.target.value)}
                         autoFocus 
                         spellCheck='false'
+                        autoCapitalize='off'
                     />
                 )}
             </Translate>
