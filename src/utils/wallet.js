@@ -758,10 +758,6 @@ class Wallet {
             provider: { type: 'JsonRpcProvider', args: { url: NODE_URL + '/' } },
             signer: new nearApiJs.InMemorySigner(tempKeyStore)
         })
-
-        // remove any duplicate accountIds
-        accountIds = [...new Set(accountIds)]
-
         await Promise.all(accountIds.map(async (accountId, i) => {
             if (!accountId || !accountId.length) return
 
@@ -780,28 +776,6 @@ class Wallet {
                     console.log('using FAK and regular Account instance to recover')
                     this.has2fa = false
                     fromSeedPhraseRecovery = false
-                } else {
-                    // check if implicitAccountId and no FAK was found
-                    const implicitAccountId = Buffer.from(PublicKey.fromString(publicKey).data).toString('hex')
-                    if (accountId === implicitAccountId) {
-                        // upgrade the seedphrase for implicitAccountId back to FAK
-                        console.log('found LAK for implicitAccountId seed phrase')
-                        const keyPair = KeyPair.fromString(secretKey)
-                        await tempKeyStore.setKey(NETWORK_ID, accountId, keyPair)
-                        account.keyStore = tempKeyStore
-                        account.inMemorySigner = new nearApiJs.InMemorySigner(tempKeyStore)
-                        console.log('upgrading seed phrase key to FAK')
-                        const { addKey, deleteKey } = nearApiJs.transactions
-                        const actions = [
-                            deleteKey(publicKey),
-                            addKey(publicKey),
-                        ]
-                        await account.signAndSendTransaction(accountId, actions)
-                        console.log('using FAK and regular Account instance to recover')
-                        this.has2fa = false
-                        fromSeedPhraseRecovery = false
-                        // now continue adding LAK with FAK ...
-                    }
                 }
             }
 
