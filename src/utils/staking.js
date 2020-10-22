@@ -246,6 +246,7 @@ export class Staking {
                 if (!hasDeposits || new BN(validator.unclaimed, 10).lt(MIN_DISPLAY_YOCTO)) {
                     validator.unclaimed = ZERO.clone().toString()
                 }
+
                 totalStaked = totalStaked.add(new BN(validator.staked, 10))
                 totalUnclaimed = totalUnclaimed.add(new BN(validator.unclaimed, 10))
             } catch (e) {
@@ -311,9 +312,11 @@ export class Staking {
     async unstake(currentAccountId, validatorId, amount) {
         const { accountId } = await this.getAccounts()
         const isLockup = currentAccountId !== accountId
+        console.log(amount)
         if (amount && amount.length < 15) {
             amount = parseNearAmount(amount)
         }
+        console.log(amount)
         if (isLockup) {
             const { lockupId } = await this.getLockup()
             return this.lockupUnstake(lockupId, amount)
@@ -429,10 +432,11 @@ export class Staking {
             result = await this.signAndSendTransaction(validatorId, [
                 functionCall('unstake', { amount }, STAKING_GAS_BASE * 5, '0')
             ])
+        } else {
+            result = await this.signAndSendTransaction(validatorId, [
+                functionCall('unstake_all', {}, STAKING_GAS_BASE * 5, '0')
+            ])
         }
-        result = await this.signAndSendTransaction(validatorId, [
-            functionCall('unstake_all', {}, STAKING_GAS_BASE * 5, '0')
-        ])
         // wait 3s for explorer to index results
         await new Promise((r) => setTimeout(r, EXPLORER_DELAY))
         return result
@@ -468,7 +472,7 @@ export class Staking {
 
 
 async function getStakingTransactions(accountId) {
-    const methods = ['stake', 'deposit_and_stake', 'stake_all', 'unstake', 'unstake_all']
+    const methods = ['stake', 'deposit_and_stake']
 
     const sql = `
         SELECT
