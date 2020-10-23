@@ -13,7 +13,7 @@ const CustomDiv = styled(List)`
     line-height: normal;
 
     .symbol {
-        font-size: 60%;
+        transform: scale(0.65);
         font-weight: 700;
     }
 `
@@ -30,7 +30,7 @@ const Balance = ({ amount, noSymbol = false, className }) => {
 
     return (
         <CustomDiv title={showInYocto(amount)} className={className}>
-            {!noSymbol && <span className='symbol'>Ⓝ&nbsp;</span>}{amountShow}{noSymbol === 'near' && <span className='currency'>&nbsp;NEAR</span>}
+            {!noSymbol && <span className='symbol'>Ⓝ</span>}{amountShow}{noSymbol === 'near' && <span className='currency'>&nbsp;NEAR</span>}
         </CustomDiv>
     )
 }
