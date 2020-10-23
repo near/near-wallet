@@ -282,7 +282,9 @@ export class Staking {
 
     async getValidators(accountIds) {
         if (!accountIds) {
-            accountIds = (await this.provider.validators()).current_validators.map(({ account_id }) => account_id)
+            const { current_validators, next_validators, current_proposals } = await this.provider.validators()
+            const allValidators = [...current_validators, ...next_validators, ...current_proposals]
+            accountIds = [...new Set(allValidators.map(({ account_id }) => account_id))]
         }
         return (await Promise.all(
             accountIds.map(async (account_id) => {
