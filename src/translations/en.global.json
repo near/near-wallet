@@ -242,12 +242,12 @@
         "continueSetup": "Continue to Setup",
         "verify": "VERIFY & COMPLETE",
         "verifyCode": "Verify Code",
-        "verifyCodeEnable": "Verify Code & Enable", 
+        "verifyCodeEnable": "Verify Code & Enable",
         "startOver": "Start over",
         "copyUrl": "Copy Url",
         "createAccount": "Create Account",
         "recoverYourAccount": "Recover your Account",
-        "accessAccount": "Access your Account",
+        "importExistingAccount": "Import Existing Account",
         "enable": "Enable",
         "disable": "Disable",
         "signInLedger": "Sign in with Ledger",
@@ -314,8 +314,8 @@
     },
 
     "recoverAccount": {
-        "pageTitle": "Access Your Account",
-        "pageText": "If you’ve setup one or more account recovery methods, follow the instructions below to begin the recovery process.",
+        "pageTitle": "Import Account",
+        "pageText": "If you’ve setup one or more account recovery methods, follow the instructions below to import your account.",
         "email": {
             "title": "Email",
             "desc": "Check your email for a message from nearprotocol.com with the subject:",
@@ -725,8 +725,8 @@
         "transferring": "Transferring",
         "authorizing": "Authorizing"
     },
-    
-    "availableBalanceInfo": "”Available Balance” is your spendable NEAR balance. This will be lower than your Total Balance. To view a complete breakdown of your NEAR balance, visit your Profile.", 
+
+    "availableBalanceInfo": "”Available Balance” is your spendable NEAR balance. This will be lower than your Total Balance. To view a complete breakdown of your NEAR balance, visit your Profile.",
     "availableBalanceProfile": "This is your spendable NEAR balance, and can be used or transferred immediately. This will be lower than your Total Balance.",
     "minimumBalance": "This is the minimum NEAR balance your account must maintain to remain active. This balance represents the storage space your account is using on the NEAR blockchain (with a small buffer), and will go up or down as you use more or less space.",
     "totalBalance": "Your total balance represents all NEAR tokens under your control. In many cases, you will not have immediate access to this entire balance (e.g. if it is locked, delegated, or staked). Check your Available Balance for the NEAR you can actively use, transfer, delegate, and stake.",
@@ -734,7 +734,7 @@
     "unvestedBalance": "Unvested NEAR is earmarked to you, but not yet under your ownership. You can still delegate or stake this NEAR, and the rewards will be entirely yours. As your NEAR is vested, it will appear in either your Locked or Unlocked balance.",
     "lockedBalance": "This NEAR is locked in a lockup contract, and cannot be withdrawn. You may still delegate or stake this NEAR. Once the NEAR is unlocked, you can view it in your Unlocked Balance, and chose to withdraw it (moving to your Available Balance).",
     "unlockedBalance": "This NEAR is still in a lockup contract, and is ready to be withdrawn. If you choose to withdraw this NEAR, it will appear in your Available Balance.",
-    
+
     "transaction": {
         "status": {
             "NotStarted": "Not started",
@@ -838,7 +838,7 @@
         "header": "Enter account name",
         "one": "Enter the name of the account you’re signing in to"
     },
-    
+
     "errors": {
         "type": {
             "RetriesExceeded": "Exceeded maximum attempts for this transaction."
@@ -864,11 +864,11 @@
 
     "landing": {
         "title":"NEAR is here.",
-        "desc": "Securely store your NEAR tokens and compatible assets with <span>NEAR Wallet</span>.",
+        "desc": "Securely store and stake your NEAR tokens and compatible assets with <span>NEAR Wallet</span>.",
         "or": "or",
         "banner": "NEAR Wallet is in Private Beta"
     },
-    
+
     "emailSubscribe": {
         "title": "Sign up below for early access",
         "placeholder": "Your email..."
