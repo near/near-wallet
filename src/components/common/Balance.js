@@ -15,6 +15,7 @@ const CustomDiv = styled(List)`
     .symbol {
         transform: scale(0.65);
         font-weight: 700;
+        margin-left: -2%;
     }
 `
 
