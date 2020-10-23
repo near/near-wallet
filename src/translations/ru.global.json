@@ -200,7 +200,7 @@
         "accountId": {
             "title": "Account ID",
             "placeholder": "e.g. johndoe.near",
-            "subLabel": "Your account ID must include a Top Level Account such as <b>.near</b>"
+            "subLabel": "Your account ID must include a Top Level Account such as <b>.near</b> or contain exactly 64 characters."
         }
     },
 
@@ -428,6 +428,9 @@
             "desc": "Your stake has successfully been delegated to your chosen validator:",
             "descTwo": "You can now view your delegation and staking rewards from your staking dashboard.",
             "button": "Return to Dashboard"
+        },
+        "unstakeSuccess": {
+            "desc": "Your stake of <b>${amount} NEAR</b> has successfully been extracted from your chosen validator's staking pool:"
         },
         "validators": {
             "title": "Select a Validator",

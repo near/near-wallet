@@ -72,11 +72,10 @@ const Container = styled(Card)`
     }
 `
 
-const TwoFactorAuth = (props) => {
+const TwoFactorAuth = ({ twoFactor, history }) => {
 
     const account = useSelector(({ account }) => account);
     const loading = account.actionsPending.includes('LOAD_RECOVERY_METHODS') || account.actionsPending.includes('REFRESH_ACCOUNT');
-    const twoFactor = account.twoFactor;
 
     return (
         <Container>
@@ -107,7 +106,7 @@ const TwoFactorAuth = (props) => {
                 <div className='method'>
                     <div className='top'>
                         <div className='title'><Translate id='twoFactor.notEnabled'/></div>
-                        <FormButton onClick={() => props.history.push('/enable-two-factor')} disabled={!account.canEnableTwoFactor}><Translate id='button.enable'/></FormButton>
+                        <FormButton onClick={() => history.push('/enable-two-factor')} disabled={!account.canEnableTwoFactor}><Translate id='button.enable'/></FormButton>
                     </div>
                     {!account.canEnableTwoFactor && 
                         <div className='color-red'>

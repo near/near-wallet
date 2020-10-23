@@ -2,19 +2,19 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { Translate } from 'react-localize-redux';
-import { DISABLE_CREATE_ACCOUNT } from '../../utils/wallet';
 
 const Button = styled(Link)`
     display: block;
     text-transform: uppercase;
-    background-color: #24272A;
-    color: #8FD6BD;
+    background-color: transparent;
+    color: #0072CE; 
     border-radius: 40px;
     padding: 10px;
     margin-top: 20px;
     display: flex;
     align-items: center;
     justify-content: center;
+    line-height: normal;
     transition: 100ms;
     letter-spacing: 1px;
     font-weight: 500;
@@ -22,25 +22,25 @@ const Button = styled(Link)`
 
     &:hover {
         text-decoration: none;
-        color: #8FD6BD;
+        color: #0072CE;
     }
 
     @media (min-width: 992px) {
         background-color: white;
-        color: #6AD1E3;
+        color: #0072CE;
 
         :hover {
             color: white;
-            background-color: #6AD1E3;
+            background-color: #0072CE;
             text-decoration: none;
         }
     }
 `
 
-const CreateAccountBtn = () => (
-    <Button to={DISABLE_CREATE_ACCOUNT ? `/create-implicit` : `/create`}>
-        <Translate id='button.createNewAccount'/>
+const AccessAccountBtn = () => (
+    <Button to='/recover-account'>
+        <Translate id='button.addAccount'/>
     </Button>
 )
 
-export default CreateAccountBtn;
+export default AccessAccountBtn;

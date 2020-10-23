@@ -50,6 +50,7 @@ import LedgerConfirmActionModal from './accounts/ledger/LedgerConfirmActionModal
 
 import GlobalStyle from './GlobalStyle'
 import { SetupSeedPhraseWithRouter } from './accounts/SetupSeedPhrase'
+import { SetupImplicitWithRouter } from './accounts/SetupImplicit'
 const theme = {}
 
 const PATH_PREFIX = process.env.PUBLIC_URL
@@ -208,6 +209,11 @@ class Routing extends Component {
                                 />
                                 <Route
                                     exact
+                                    path='/create-implicit/:state?'
+                                    component={SetupImplicitWithRouter}
+                                />
+                                <Route
+                                    exact
                                     path='/setup-ledger/:accountId/:fundingContract?/:fundingKey?'
                                     component={SetupLedgerWithRouter}
                                 />
@@ -297,17 +303,15 @@ class Routing extends Component {
                                     path='/node-details'
                                     component={NodeDetailsWithRouter}
                                 />
-                                {this.props.account.hasLockup &&
-                                    <PrivateRoute
-                                        path='/staking'
-                                        component={StakingContainer}
-                                        render={() => (
-                                            <StakingContainer
-                                                history={this.props.history}
-                                            />
-                                        )}
-                                    />
-                                }
+                                <PrivateRoute
+                                    path='/staking'
+                                    component={StakingContainer}
+                                    render={() => (
+                                        <StakingContainer
+                                            history={this.props.history}
+                                        />
+                                    )}
+                                />
                                 <Route
                                     exact
                                     path='/cli-login-success'

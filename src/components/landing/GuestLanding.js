@@ -143,15 +143,9 @@ export function GuestLanding() {
                 <h1><Translate id='landing.title' /></h1>
                 <h3><Translate id='landing.desc' /></h3>
                 <div className='buttons'>
-                    {DISABLE_CREATE_ACCOUNT 
-                        ? <FormButton linkTo='/recover-account'><Translate id='button.accessAccount' /></FormButton>
-                        : 
-                        <>
-                            <FormButton linkTo='/create'><Translate id='button.createAccount' /></FormButton>
-                            <span><Translate id='landing.or' /></span>
-                            <FormButton linkTo='/recover-account' className='link'><Translate id='button.accessAccount' /></FormButton>
-                        </>
-                    }
+                    <FormButton linkTo={DISABLE_CREATE_ACCOUNT ? `/create-implicit` : `/create`}><Translate id='button.createAccount' /></FormButton>
+                    <span><Translate id='landing.or' /></span>
+                    <FormButton linkTo='/recover-account' className='link'><Translate id='button.accessAccount' /></FormButton>
                 </div>
                 <div className='img-wrapper'><img src={SignUpPhoneImg} alt='Sign up'/></div>
             </Container>

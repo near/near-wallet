@@ -41,13 +41,17 @@ const Container = styled.div`
     }
 
     .available-balance {
+        cursor: pointer;
         margin-top: 10px;
         font-size: 13px;
         color: ${props => props.status === '#ff585d' ? props.status : ''};
     }
 `
 
-export default function AmountInput({ value, onChange, valid, loading, availableBalance, insufficientBalance }) {
+export default function AmountInput({
+    value, onChange, valid, loading, insufficientBalance,
+    availableBalance, availableClick = null, action
+}) {
     let validationStatus
     if (valid) {
         validationStatus = '#6AD1E3'
@@ -68,7 +72,12 @@ export default function AmountInput({ value, onChange, valid, loading, available
                     onChange={e => onChange(e.target.value)}
                 />
             </div>
-            <div className='available-balance'>{insufficientBalance && <span><Translate id='staking.stake.input.insufficientFunds' /> </span>}<Translate id='staking.stake.input.availableBalance' /> <Balance amount={availableBalance} noSymbol={true}/> <Translate id='staking.stake.input.near' /></div>
+            <div className='available-balance' onClick={availableClick}>
+                {insufficientBalance && 
+                    <span><Translate id={`staking.${action}.input.insufficientFunds`} /> </span>
+                }
+                <Translate id={`staking.${action}.input.availableBalance`} /> <Balance amount={availableBalance} noSymbol={true}/> <Translate id='staking.stake.input.near' />
+                </div>
         </Container>
     )
 }

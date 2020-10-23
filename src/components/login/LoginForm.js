@@ -17,14 +17,14 @@ const LoginForm = ({
     account,
     availableAccounts,
     appTitle,
-    contractId,
     handleOnClick,
     handleDeny,
     handleAllow,
     handleSelectAccount,
     redirectCreateAccount,
     buttonLoader,
-    match
+    match,
+    accountConfirmationForm
 }) => (
     <MobileContainer>
         <Grid padded>
@@ -33,10 +33,10 @@ const LoginForm = ({
                     textAlign='center'
                     className='authorize'
                 >
-                    {contractId && (
+                    {!accountConfirmationForm && (
                         <IconAuthorize color='#999' />
                     )}
-                    {!contractId && (
+                    {accountConfirmationForm && (
                         <IconProblems color='#fca347' />
                     )}
                 </Grid.Column>
@@ -49,14 +49,14 @@ const LoginForm = ({
                     tablet={16}
                     mobile={16}
                 >
-                    {contractId && (
+                    {!accountConfirmationForm && (
                         <Fragment>
                             <div><b>{appTitle || <Translate id='sign.unknownApp' />}</b></div>
                             <div className='h2'><Translate id='login.form.isRequestingTo' /> </div>
                             <div className='h2'><Translate id='login.form.accessYourAccount' /></div>
                         </Fragment>
                     )}
-                    {!contractId && (
+                    {accountConfirmationForm && (
                         <Fragment>
                             <div><b>{appTitle || <Translate id='sign.unknownApp' />}</b></div>
                             <div className='h2'><Translate id='login.form.isRequestingFullAccess' /></div>
@@ -73,10 +73,10 @@ const LoginForm = ({
                     mobile={16}
                     className='color-black'
                 >
-                    {contractId && (
+                    {!accountConfirmationForm && (
                         <div><Translate id='login.form.thisDoesNotAllow' /></div>
                     )}
-                    {!contractId && (
+                    {accountConfirmationForm && (
                         <div><Translate id='login.form.thisProvidesAccess' /></div>
                     )}
                 </Grid.Column>
@@ -120,7 +120,7 @@ const LoginForm = ({
                         <Translate id='button.deny' />
                     </FormButton>
 
-                    {contractId && (
+                    {!accountConfirmationForm && (
                         <FormButton
                             color='blue'
                             sending={buttonLoader}
@@ -129,7 +129,7 @@ const LoginForm = ({
                             <Translate id='button.allow' />
                         </FormButton>
                     )}
-                    {!contractId && (
+                    {accountConfirmationForm && (
                         <FormButton
                             linkTo={`${match.url}${match.url.substr(-1) === '/' ? '' : '/'}confirm`}
                             color='blue'
