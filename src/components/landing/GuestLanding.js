@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import LandingBackground from './LandingBackground'
 import Container from '../common/styled/Container.css'
 import FormButton from '../common/FormButton'
-import SignUpPhoneImg from '../../images/create-phone.svg'
+import iPhoneMockup from '../../images/iphone-mockup.png'
 import EmailSubscribe from './EmailSubscribe'
 import { DISABLE_CREATE_ACCOUNT } from '../../utils/wallet'
 
@@ -114,13 +114,14 @@ const StyledContainer = styled.div`
         }
 
         img {
-            margin-left: -60px;
             margin-top: 65px;
+            margin-bottom: 50px;
             width: 500px;
             height: auto;
 
             @media (min-width: 768px) {
-                width: 700px;
+                width: 675px;
+                margin-bottom: 75px;
             }
         }
 
@@ -147,9 +148,9 @@ export function GuestLanding() {
                 <div className='buttons'>
                     <FormButton linkTo={DISABLE_CREATE_ACCOUNT ? `/create-implicit` : `/create`}><Translate id='button.createAccount' /></FormButton>
                     <span><Translate id='landing.or' /></span>
-                    <FormButton linkTo='/recover-account' className='link'><Translate id='button.accessAccount' /></FormButton>
+                    <FormButton linkTo='/recover-account' className='link'><Translate id='button.importExistingAccount' /></FormButton>
                 </div>
-                <div className='img-wrapper'><img src={SignUpPhoneImg} alt='Sign up'/></div>
+                <div className='img-wrapper'><img src={iPhoneMockup} alt='Sign up'/></div>
             </Container>
             <EmailSubscribe/>
         </StyledContainer>
