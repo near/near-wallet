@@ -11,13 +11,13 @@ import BN from 'bn.js'
 const Container = styled.div`
     border: 2px solid #F2F2F2;
     border-radius: 4px;
-    padding: 10px 10px 8px 10px;
+    padding: 10px;
     margin-top: 10px;
     display: flex;
 
     .list {
         display: block;
-        margin-top: 10px;
+        margin-top: 8px !important;
         color: #24272a;
         font-size: 22px;
         font-weight: 500;

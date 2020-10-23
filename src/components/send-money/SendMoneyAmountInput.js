@@ -140,13 +140,13 @@ class SendMoneyAmountInput extends Component {
                         <Translate id={amountStatusId} />
                     </Segment>)}
                 {amountDisplay ? (
-                    <><Translate id='sendMoney.amountStatusId.sending'/>&nbsp;<Balance amount={amountDisplay}/></> 
+                    <><Translate id='sendMoney.amountStatusId.sending'/>&nbsp;<Balance noSymbol='near' amount={amountDisplay}/></> 
                 ) : (
                     <Translate id='sendMoney.amountStatusId.howMuch'/>
                 )}
                 <AvailableBalance>
                     <Translate id='sendMoney.amountStatusId.available'/>&nbsp;
-                    <Balance amount={this.availableBalance}/>
+                    <Balance noSymbol='near' amount={this.availableBalance}/>
                     <InfoPopup content={<Translate id='availableBalanceInfo'/>}/>
                 </AvailableBalance>
             </CustomDiv>

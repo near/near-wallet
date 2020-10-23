@@ -31,8 +31,8 @@ const Container = styled.div`
         font-size: 14px;
         font-weight: 400;
         width: 100px;
-        height: 40px;
-        letter-spacing: 0.5px;
+        height: 36px;
+        letter-spacing: 1px;
     }
 `
 
@@ -51,7 +51,6 @@ const Title = styled.h2`
         height: 28px;
         display: inline-block;
         margin-right: 10px;
-        margin-top: -3px;
     }
 `
 

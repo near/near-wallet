@@ -60,8 +60,8 @@ const Container = styled(Card)`
 
         button {
             width: 100px !important;
-            height: 40px !important;
-            letter-spacing: 0.5px !important;
+            height: 36px !important;
+            letter-spacing: 1px !important;
             margin: 0 !important;
             padding: 0;
             text-transform: uppercase;

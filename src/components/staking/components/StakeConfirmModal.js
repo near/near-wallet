@@ -27,7 +27,7 @@ const Container = styled.div`
         font-size: 40px;
         color: #24272a;
         font-weight: 500;
-        margin: 50px 0;
+        margin: 40px 0 !important;
     }
 
     .green {

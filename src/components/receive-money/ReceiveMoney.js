@@ -42,15 +42,10 @@ const Container = styled.div`
         }
 
     }
-`
 
-const Title = styled.div`
-    font-size: 28px;
-    font-weight: 500;
-
-    @media (min-width: 768px) {
-        font-size: 36px;
+    h1 {
         align-self: center;
+        margin: 0;
     }
 `
 
@@ -156,7 +151,7 @@ class ReceiveMoney extends Component {
                 {({ translate }) => (
                     <div className='ui container'>
                         <Container>
-                            <Title>{translate('receivePage.addressTitle')}</Title>
+                            <h1>{translate('receivePage.addressTitle')}</h1>
                             <Address onClick={this.handleCopyAddress}>
                                 {this.props.account.accountId}
                                 <UrlAddress ref={this.urlRef}>
@@ -171,9 +166,9 @@ class ReceiveMoney extends Component {
                                 )}
                             </Address>
                             <Divider/>
-                            <Title>
+                            <h1>
                                 {translate('receivePage.qrCodeTitle')}
-                            </Title>
+                            </h1>
                             <ProfileQRCode account={this.props.account}/>
                         </Container>
                         <Snackbar

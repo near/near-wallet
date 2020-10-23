@@ -124,7 +124,6 @@ const Header = styled.div`
         height: 23px;
         position: absolute;
         left: 0;
-        margin-top: -3px;
     }
 
 `

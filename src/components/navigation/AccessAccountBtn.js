@@ -18,7 +18,6 @@ const Button = styled(Link)`
     transition: 100ms;
     letter-spacing: 1px;
     font-weight: 500;
-    padding-top: 14px;
 
     &:hover {
         text-decoration: none;

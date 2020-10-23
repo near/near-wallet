@@ -135,7 +135,7 @@ const User = styled.div`
         overflow: hidden;
         text-overflow: ellipsis;
         background-color: black;
-        padding: 2px 10px;
+        padding: 2px 10px 5px 10px;
         border-radius: 40px;
         font-size: 14px;
 

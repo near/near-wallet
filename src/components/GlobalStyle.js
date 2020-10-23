@@ -71,6 +71,10 @@ export default createGlobalStyle`
                 font-size: 28px;
             }
         }
+
+        .symbol {
+            font-weight: 900 !important;
+        }
     }
     h2, .h2 {
         font-size: 24px !important;
@@ -422,6 +426,7 @@ export default createGlobalStyle`
     .ui {
         &.dimmer {
             .modal {
+                line-height: 140%;
                 padding: 25px;
 
                 .close {

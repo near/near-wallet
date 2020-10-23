@@ -56,7 +56,7 @@ const DomainName = styled.div`
     svg {
         width: 17px;
         height: 17px;
-        margin: -2px 0 0 6px;
+        margin: 0 0 0 6px;
     }
 `
 

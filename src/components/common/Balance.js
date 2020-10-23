@@ -6,8 +6,16 @@ import { BN } from 'bn.js'
 
 const CustomDiv = styled(List)`
     position: relative;
-    display: inline;
     white-space: nowrap;
+    display: inline-flex !important;
+    align-items: center;
+    margin: 0 !important;
+    line-height: normal;
+
+    .symbol {
+        font-size: 60%;
+        font-weight: 700;
+    }
 `
 
 const FRAC_DIGITS = 5
@@ -22,7 +30,7 @@ const Balance = ({ amount, noSymbol = false, className }) => {
 
     return (
         <CustomDiv title={showInYocto(amount)} className={className}>
-            {amountShow} {!noSymbol && <>Ⓝ</>}{noSymbol === 'near' && <span className='currency'>NEAR</span>}
+            {!noSymbol && <span className='symbol'>Ⓝ&nbsp;</span>} {amountShow} {noSymbol === 'near' && <span className='currency'>&nbsp;NEAR</span>}
         </CustomDiv>
     )
 }

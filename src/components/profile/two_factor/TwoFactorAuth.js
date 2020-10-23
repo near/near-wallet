@@ -50,14 +50,14 @@ const Container = styled(Card)`
             justify-content: space-between;
 
             button {
-                height: 40px;
+                height: 36px;
                 width: 100px;
                 display: flex;
                 align-items: center;
                 justify-content: center;
                 padding: 0;
                 margin: 0;
-                letter-spacing: 0.5px !important;
+                letter-spacing: 1px !important;
             }
         }
 
@@ -110,7 +110,7 @@ const TwoFactorAuth = ({ twoFactor, history }) => {
                     </div>
                     {!account.canEnableTwoFactor && 
                         <div className='color-red'>
-                            <Translate id='twoFactor.notEnoughBalance'/> <Balance amount={utils.format.parseNearAmount(MULTISIG_MIN_AMOUNT)}/>
+                            <Translate id='twoFactor.notEnoughBalance'/> <Balance noSymbol='near' amount={utils.format.parseNearAmount(MULTISIG_MIN_AMOUNT)}/>
                         </div>
                     }
                 </div>

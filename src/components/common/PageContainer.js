@@ -6,6 +6,14 @@ import styled from 'styled-components'
 
 const CustomContainer = styled(Container)`
     &&& {
+        .dashboard-balance {
+            display: flex;
+            align-items: center;
+
+            .balance {
+                margin-right: 10px;
+            }
+        }
         .page-title {
             border-bottom: 2px solid #e6e6e6;
             padding: 36px 0 36px 0;
