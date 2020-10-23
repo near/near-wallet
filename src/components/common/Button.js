@@ -6,10 +6,8 @@ const StyledButton = styled.button`
     padding: 5px;
     text-transform: uppercase;
     outline: none;
-    line-height: normal;
     letter-spacing: 1px;
     font-size: 15px;
-    font-family: 'benton-sans',sans-serif;
     height: 48px;
     width: 100%;
     cursor: pointer;

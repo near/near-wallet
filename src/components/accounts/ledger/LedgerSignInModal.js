@@ -116,7 +116,6 @@ const AnimateList = styled.div`
             height: 24px;
             border-radius: 12px;
             text-align: center;
-            line-height: 24px;
             font-size: 12px;
         }
     }

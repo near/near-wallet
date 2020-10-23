@@ -32,7 +32,7 @@ const CustomButton = styled(Button)`
 
         &.small {
             width: 110px;
-            height: 40px;
+            height: 36px;
             border-radius: 20px;
             letter-spacing: 0;
             padding: 0px 0px;
@@ -219,7 +219,6 @@ const CustomButton = styled(Button)`
             border-radius: 0px;
 
             font-size: 14px;
-            line-height: 14px;
             background: none;
             border: none;
             display: inline;

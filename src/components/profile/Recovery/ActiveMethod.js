@@ -51,7 +51,6 @@ const EnabledContainer = styled.div`
                 text-decoration: none;
                 margin-left: 10px;
                 text-transform: capitalize !important;
-                font-weight: 400 !important;
 
                 :before {
                     content: '';
@@ -76,7 +75,6 @@ const DisableContainer = styled.form`
         .top {
             color: #24272a;
             font-weight: 600;
-            line-height: 150%;
 
             div {
                 font-weight: 400;

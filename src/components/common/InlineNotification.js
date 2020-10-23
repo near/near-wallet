@@ -12,11 +12,9 @@ const Container = styled.div`
     padding: 15px;
     margin: 15px 0;
     font-size: 15px;
-    font-family: 'benton-sans',sans-serif;
     border: 1px solid #888888;
     color: #888888;
     background-color: #f5f5f5;
-    line-height: normal;
     display: flex;
     align-items: center;
 

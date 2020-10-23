@@ -25,10 +25,9 @@ const Container = styled.div`
 
     .stake-amount {
         font-size: 40px;
-        font-family: BwSeidoRound;
         color: #24272a;
         font-weight: 500;
-        margin: 50px 0;
+        margin: 40px 0 !important;
     }
 
     .green {

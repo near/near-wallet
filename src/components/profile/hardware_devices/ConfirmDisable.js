@@ -11,7 +11,6 @@ const Container = styled.form`
         margin: 20px -21px -21px -21px;
         padding: 15px 20px;
         color: #24272a;
-        line-height: 150%;
 
         div {
             :nth-child(1) {

@@ -60,7 +60,7 @@ const Container = styled.div`
 
             div {
                 :first-of-type {
-                    margin-bottom: 8px;
+                    margin-bottom: 5px;
                     font-weight: 500;
                     max-width: 260px;
                     overflow: hidden;

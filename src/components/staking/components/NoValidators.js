@@ -22,7 +22,6 @@ const Container = styled.div`
         margin-top: 25px;
         max-width: 230px;
         text-align: center;
-        line-height: 150%;
         color: #B4B4B4;
     }
 

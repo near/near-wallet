@@ -10,7 +10,6 @@ const PageTheme = styled.div`
 
         .alert-info {
             text-align: center;
-            line-height: 20px;
         }
 
         .center {

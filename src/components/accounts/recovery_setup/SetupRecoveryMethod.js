@@ -37,7 +37,6 @@ const StyledContainer = styled(Container)`
 const OptionSubHeader = styled.div`
     margin-top: 10px;
     max-width: 540px;
-    line-height: 150%;
 `
 
 class SetupRecoveryMethod extends Component {

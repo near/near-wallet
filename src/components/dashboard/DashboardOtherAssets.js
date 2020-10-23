@@ -38,10 +38,6 @@ const CustomGrid = styled(Grid)`
                     margin: 0 6px 0 0;
                 }
 
-                h5 {
-                    font-weight: 600;
-                    line-height: 16px;
-                }
             }
         }
     }

@@ -53,9 +53,7 @@ const StyledContainer = styled.div`
         }
 
         h3 {
-            font-family: benton-sans !important;
             font-weight: 400 !important;
-            line-height: 150% !important;
 
             span {
                 span {

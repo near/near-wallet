@@ -15,11 +15,9 @@ const Button = styled(Link)`
     display: flex;
     align-items: center;
     justify-content: center;
-    line-height: normal;
     transition: 100ms;
     letter-spacing: 1px;
     font-weight: 500;
-    padding-top: 14px;
 
     &:hover {
         text-decoration: none;

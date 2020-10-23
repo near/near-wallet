@@ -16,11 +16,9 @@ const Container = styled.div`
 
         span {
             margin-right: 10px;
+            font-size: 70%;
             font-weight: 500 !important;
             color: ${props => props.hasValue ? '#24272A' : ''};
-            @media (min-width: 500px) {
-                margin-top: -8px;
-            }
         }
     }
 
@@ -32,7 +30,6 @@ const Container = styled.div`
         margin: 0 !important;
         font-weight: 500 !important;
         color: #24272A !important;
-        font-family: BwSeidoRound !important;
         color: ${props => props.status === '#ff585d' ? props.status : '#24272A'} !important;
 
         ::placeholder {
@@ -45,6 +42,8 @@ const Container = styled.div`
         cursor: pointer;
         margin-top: 10px;
         font-size: 13px;
+        display: flex;
+        line-height: normal;
         color: ${props => props.status === '#ff585d' ? props.status : ''};
     }
 `
@@ -75,10 +74,10 @@ export default function AmountInput({
             </div>
             <div className='available-balance' onClick={availableClick}>
                 {insufficientBalance && 
-                    <span><Translate id={`staking.${action}.input.insufficientFunds`} /> </span>
+                    <span><Translate id={`staking.${action}.input.insufficientFunds`} />&nbsp;</span>
                 }
-                <Translate id={`staking.${action}.input.availableBalance`} /> <Balance amount={availableBalance} noSymbol={true}/> <Translate id='staking.stake.input.near' />
-                </div>
+                <Translate id={`staking.${action}.input.availableBalance`} />&nbsp;<Balance amount={availableBalance} noSymbol='near'/>
+            </div>
         </Container>
     )
 }

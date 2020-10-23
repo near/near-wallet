@@ -11,9 +11,6 @@ import Validator from './components/Validator'
 import StakingAction from './components/StakingAction'
 
 const StyledContainer = styled(Container)`
-
-    line-height: normal;
-
     button {
         display: block !important;
         margin: 35px auto 45px auto !important;
@@ -73,7 +70,6 @@ const StyledContainer = styled(Container)`
 
     .withdrawal-disclaimer {
         font-style: italic;
-        line-height: 140%;
         margin-top: 20px;
         max-width: 375px;
         font-size: 13px;

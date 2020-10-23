@@ -9,7 +9,6 @@ import styled from 'styled-components'
 const PaginationFilterList = styled(List)`
    && .sortby-dropdown-tr {
       width: 210px;
-      line-height: 32px;
       border: 2px solid #e6e6e6;
       background-color: #fff;
       border-radius: 18px;

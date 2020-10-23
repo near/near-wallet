@@ -7,7 +7,6 @@ const RequestStatusBoxContainer = styled.div`
     font-weight: 500;
     margin-top: -20px;
     padding-bottom: 4px;
-    line-height: 16px;
 
     &.problem {
         color: #ff585d;

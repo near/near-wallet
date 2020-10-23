@@ -18,7 +18,6 @@ const Container = styled.div`
     }
 
     div {
-        line-height: 150%;
         font-style: italic;
         margin-left: 20px;
         font-size: 13px;

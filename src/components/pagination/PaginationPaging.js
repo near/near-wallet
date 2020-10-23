@@ -17,8 +17,6 @@ const PaginationPagingList = styled(List)`
       background-repeat: no-repeat;
       background-size: 12px auto;
       padding: 0 20px 0 0;
-
-      line-height: 32px;
    }
 
    && .paging-dropdown {
@@ -42,7 +40,6 @@ const PaginationPagingList = styled(List)`
 
       & > .item > .content {
          font-size: 14px;
-         line-height: 18px;
          font-weight: 600;
          padding-left: 6px;
       }

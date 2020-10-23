@@ -5,10 +5,11 @@ import InfoIcon from '../../svg/InfoIcon.js'
 import { Modal } from 'semantic-ui-react'
 
 const Container = styled.div`
-
-    background-color: #F2F2F2;
+    background-color: #FFF0DE;
+    color: #A15600;
+    font-weight: 600;
     border-radius: 4px;
-    padding: 12px 10px 10px 10px;
+    padding: 10px;
     display: flex;
     align-items: center;
 
@@ -23,7 +24,7 @@ const Container = styled.div`
 
     .fee {
         margin-left: auto;
-        color: #24272a;
+        color: #452500;
     }
 `
 
@@ -34,7 +35,7 @@ export default function StakingFee({ fee }) {
             <Translate id='staking.validator.fee' />
             <Modal
                 size='mini'
-                trigger={<span className='trigger'><InfoIcon color='#999999'/></span>}
+                trigger={<span className='trigger'><InfoIcon color='#EF860D'/></span>}
                 closeIcon
             >
                 <Translate id='staking.validator.desc' />
