@@ -8,10 +8,10 @@ import AlertBanner from './AlertBanner'
 import StakeConfirmModal from './StakeConfirmModal'
 import { onKeyDown } from '../../../hooks/eventListeners'
 
-export default function Validator({ match, validator, onUnstake, onWithdraw, loading, selectedValidator, history }) {
+export default function Validator({ match, validator, onUnstake, onWithdraw, loading, selectedValidator, history, currentValidators }) {
     const [confirm, setConfirm] = useState(null)
 
-    const stakeNotAllowed = selectedValidator && selectedValidator !== match.params.validator
+    const stakeNotAllowed = selectedValidator && selectedValidator !== match.params.validator && currentValidators.length
 
     onKeyDown(e => {
         if (e.keyCode === 13 && confirm === 'withdraw') {

@@ -204,6 +204,7 @@ export function StakingContainer({ history, match }) {
                                 onWithdraw={handleWithDraw}
                                 loading={loading}
                                 selectedValidator={selectedValidator}
+                                currentValidators={currentValidators}
                             />
                         )}
                     />
