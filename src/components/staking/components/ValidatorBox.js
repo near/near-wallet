@@ -13,7 +13,7 @@ const Container = styled.div`
     align-items: center;
     border: 2px solid #F2F2F2;
     border-radius: 8px;
-    padding: 12px 12px 10px 12px;
+    padding: 12px;
     position: relative;
     cursor: ${props => props.clickable === 'true' ? 'pointer' : ''};
 
