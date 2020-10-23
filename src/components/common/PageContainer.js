@@ -13,6 +13,11 @@ const CustomContainer = styled(Container)`
             .balance {
                 margin-right: 10px;
             }
+
+            @media (max-width: 991px) {
+                justify-content: center;
+                margin: 20px 0;
+            }
         }
         .page-title {
             border-bottom: 2px solid #e6e6e6;

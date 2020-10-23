@@ -139,6 +139,10 @@ const User = styled.div`
         border-radius: 40px;
         font-size: 14px;
 
+        .symbol {
+            height: 9px;
+        }
+
         @media (min-width: 1200px) {
             max-width: 110px;
         }
