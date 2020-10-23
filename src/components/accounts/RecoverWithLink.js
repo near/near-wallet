@@ -55,6 +55,7 @@ const Title = styled.h1`
 const Desc = styled.div`
     color: #4a4f54;
     font-size: 18px;
+    line-height: normal;
     margin-top: ${props => props.last ? "20px" : "0"};
 
     @media (min-width: 768px) {
