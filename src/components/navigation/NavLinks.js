@@ -41,7 +41,13 @@ const NavLink = styled(Link)`
         background-size: contain;
     }
 
-    &.rotate {
+    &.rotate-up {
+        &:before {
+            transform: rotate(-90deg);
+        }
+    }
+
+    &.rotate-down {
         &:before {
             transform: rotate(90deg);
         }
@@ -88,9 +94,9 @@ const NavLinks = () => (
     <Container className='nav-links'>
         <NavLink icon={summaryIcon} to='/'><Translate id='link.summary'/></NavLink>
         {!DISABLE_SEND_MONEY &&
-            <NavLink icon={arrowIcon} to='/send-money'><Translate id='link.send'/></NavLink>
+            <NavLink icon={arrowIcon} className='rotate-up' to='/send-money'><Translate id='link.send'/></NavLink>
         }
-        <NavLink icon={arrowIcon} className='rotate' to='/receive-money'><Translate id='link.receive'/></NavLink>
+        <NavLink icon={arrowIcon} className='rotate-down' to='/receive-money'><Translate id='link.receive'/></NavLink>
         <NavLink icon={stakingIcon} to='/staking'><Translate id='link.staking'/></NavLink>
     </Container>
 )
