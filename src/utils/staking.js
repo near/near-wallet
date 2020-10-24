@@ -3,6 +3,7 @@ import BN from 'bn.js'
 import { WalletError } from './walletError'
 import { getLockupAccountId } from './account-with-lockup'
 import { queryExplorer } from './explorer-api'
+import { MIN_BALANCE_FOR_GAS } from './wallet'
 
 const {
     transactions: {
@@ -203,7 +204,7 @@ export class Staking {
             validators = await this.getValidators()
         }
 
-        let totalUnstaked = new BN(balance.available, 10).sub(new BN(parseNearAmount('2'), 10))
+        let totalUnstaked = new BN(balance.available, 10).sub(new BN(MIN_BALANCE_FOR_GAS))
         if (totalUnstaked.lt(new BN(STAKING_AMOUNT_DEVIATION, 10))) {
             totalUnstaked = ZERO.clone();
         }
