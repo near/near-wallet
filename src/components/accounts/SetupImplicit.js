@@ -160,6 +160,7 @@ class SetupImplicit extends Component {
                                     <FormButton
                                         onClick={() => this.handleContinue()}
                                         color='green'
+                                        sending={this.props.formLoader}
                                     >
                                         Continue
                                     </FormButton>
