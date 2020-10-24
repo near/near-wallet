@@ -391,6 +391,10 @@ class Wallet {
             // TODO: Adjust gas if necessary
             // TODO: Should new account have other than minimum balance? For implicit account?
         }, LINKDROP_GAS, MIN_BALANCE_FOR_GAS)
+        if (!this.accounts[fundingAccountId]) {
+            // Temporary implicit account used for funding – move whole balance by deleting it
+            await account.deleteAccount(accountId)
+        }
     }
 
     async checkNearDropBalance(fundingContract, fundingKey) {
