@@ -69,7 +69,7 @@ const analyticsMiddleware = store => next => action => {
             timestamp: new Date(),
             account_id: wallet.accountId
         })
-        mixpanel.people.set_once({
+        mixpanel.people.set({
             network_id: networkId,
             stake: 0
         })
