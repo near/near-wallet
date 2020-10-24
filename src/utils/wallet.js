@@ -343,7 +343,7 @@ class Wallet {
         return !(await this.accountExists(accountId))
     }
 
-    async createNewAccount(accountId, { fundingContract, fundingKey, fundingAccountId }, recoveryMethod, publicKey) {
+    async createNewAccount(accountId, fundingOptions, recoveryMethod, publicKey) {
         await this.checkNewAccount(accountId);
 
         // TODO: Should this check 'recoveryMethod' instead?
@@ -358,6 +358,7 @@ class Wallet {
         // no new accounts are 2fa
         this.has2fa = false
 
+        const { fundingContract, fundingKey, fundingAccountId } = fundingOptions || {}
         if (fundingContract && fundingKey) {
             await this.createNewAccountLinkdrop(accountId, fundingContract, fundingKey, publicKey)
             await this.keyStore.removeKey(NETWORK_ID, fundingContract)
