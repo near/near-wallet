@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
-import { Translate } from 'react-localize-redux';
+import { Translate } from 'react-localize-redux'
+import { parse as parseQuery } from 'query-string'
 import 'react-phone-number-input/style.css'
 import PhoneInput, { isValidPhoneNumber } from 'react-phone-number-input';
 import { validateEmail } from '../../../utils/account';
@@ -87,9 +88,10 @@ class SetupRecoveryMethod extends Component {
         const { option } = this.state;
 
         const {
-            accountId, fundingContract, fundingKey,
+            accountId,
+            location,
         } = this.props
-        const phraseUrl = `/setup-seed-phrase/${accountId}/phrase/${fundingContract ? `${fundingContract}/${fundingKey}/` : ``}`
+        const phraseUrl = `/setup-seed-phrase/${accountId}/phrase${location.search}`
 
         if (option === 'email' || option === 'phone') {
             this.handleSendCode()
@@ -97,7 +99,7 @@ class SetupRecoveryMethod extends Component {
         } else if (option === 'phrase') {
             this.props.history.push(phraseUrl);
         } else if (option === 'ledger') {
-            const ledgerUrl = `/setup-ledger/${accountId}/${fundingContract ? `${fundingContract}/${fundingKey}/` : ``}`
+            const ledgerUrl = `/setup-ledger/${accountId}${location.search}`
             this.props.history.push(ledgerUrl);
         }
     }
@@ -121,14 +123,17 @@ class SetupRecoveryMethod extends Component {
 
     handleSetupRecoveryMethod = async (securityCode) => {
         const  {
-            accountId, setupRecoveryMessage,
-            fundingContract, fundingKey, checkIsNew,
-            setupRecoveryMessageNewAccount
+            accountId,
+            setupRecoveryMessage,
+            checkIsNew,
+            setupRecoveryMessageNewAccount,
+            location,
         } = this.props;
 
         const isNew = await checkIsNew(accountId)
         if (isNew) {
-            await setupRecoveryMessageNewAccount(accountId, this.method, securityCode, fundingContract, fundingKey, this.state.recoverySeedPhrase)
+            const fundingOptions = JSON.parse(parseQuery(location.search).fundingOptions || 'null')
+            await setupRecoveryMessageNewAccount(accountId, this.method, securityCode, fundingOptions, this.state.recoverySeedPhrase)
         } else {
             await setupRecoveryMessage(accountId, this.method, securityCode, this.state.recoverySeedPhrase)
         }
@@ -278,8 +283,6 @@ const mapStateToProps = ({ account, router, recoveryMethods }, { match }) => ({
     router,
     accountId: match.params.accountId,
     activeAccountId: account.accountId,
-    fundingContract: match.params.fundingContract,
-    fundingKey: match.params.fundingKey,
     recoveryMethods
 })
 
