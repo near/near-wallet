@@ -35,8 +35,6 @@ class SetupImplicit extends Component {
     handleContinue = async () => {
         const { dispatch, accountId, implicitAccountId, recoveryMethod } = this.props
         await dispatch(createAccountFromImplicit(accountId, implicitAccountId, recoveryMethod))
-        // NOTE: Don't await as this basically redirects to new page
-        dispatch(finishAccountSetup())
     }
 
     checkBalance = async () => {

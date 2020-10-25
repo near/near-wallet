@@ -320,8 +320,6 @@ export const handleCreateAccountWithSeedPhrase = (accountId, recoveryKeyPair, fu
     }
 
     await dispatch(createAccountWithSeedPhrase(accountId, recoveryKeyPair, fundingOptions))
-    // TODO: Is finishAccountSetup called 2 times instead of 1?
-    await dispatch(finishAccountSetup())
 }
 
 export const finishAccountSetup = () => async (dispatch) => {
