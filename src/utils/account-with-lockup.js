@@ -51,8 +51,6 @@ async function signAndSendTransaction(receiverId, actions) {
         // TODO: check if not in staking pool and then remove to take remainder (if balance is zero)
     }
 
-    console.log(actions)
-
     return await this.wrappedAccount.signAndSendTransaction.call(this, receiverId, actions);
 }
 
