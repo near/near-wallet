@@ -429,9 +429,11 @@ export class Staking {
                 functionCall('withdraw', { amount }, STAKING_GAS_BASE * 5, '0')
             ])
         } else {
+            console.log(validatorId)
             result = await this.signAndSendTransaction(validatorId, [
                 functionCall('withdraw_all', {}, STAKING_GAS_BASE * 7, '0')
             ])
+            console.log(result)
         }
         if (result === false) {
             throw new WalletError('Unable to withdraw pending balance from validator', 'staking.errors.noWithdraw')
