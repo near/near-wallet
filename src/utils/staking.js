@@ -169,7 +169,6 @@ export class Staking {
                 }
             } else {
                 validator.remove = true
-                console.log(validator.accountId)
             }
             totalStaked = totalStaked.add(new BN(validator.staked || ZERO.clone(), 10))
             totalUnclaimed = totalUnclaimed.add(new BN(validator.unclaimed || ZERO.clone(), 10))
@@ -234,14 +233,11 @@ export class Staking {
                 if (!hasDeposits) {
                     // check localStorage for lastStakedBalance
                     validatorDeposits = new BN(localStorage.getItem(STAKE_VALIDATOR_PREFIX + validator.accountId + account_id) || '0', 10)
-
-                    console.log('localStorage deposits' , validatorDeposits.toString())
                     hasDeposits = validatorDeposits.gt(ZERO)
                 }
 
                 validator.staked = await validator.contract.get_account_staked_balance({ account_id })
                 validator.unclaimed = total.sub(validatorDeposits).toString()
-                console.log(validator.accountId, total.toString(), validatorDeposits.toString(), validator.unclaimed.toString())
                 validator.unstaked = new BN(await validator.contract.get_account_unstaked_balance({ account_id }), 10)
                 // DO NOT calc rewards if no deposits exist
                 if (validator.unstaked.gt(MIN_DISPLAY_YOCTO)) {
@@ -327,11 +323,9 @@ export class Staking {
     async unstake(currentAccountId, validatorId, amount) {
         const { accountId } = await this.getAccounts()
         const isLockup = currentAccountId !== accountId
-        console.log(amount)
         if (amount && amount.length < 15) {
             amount = parseNearAmount(amount)
         }
-        console.log(amount)
         if (isLockup) {
             const { lockupId } = await this.getLockup()
             return this.lockupUnstake(lockupId, amount)
@@ -429,11 +423,9 @@ export class Staking {
                 functionCall('withdraw', { amount }, STAKING_GAS_BASE * 5, '0')
             ])
         } else {
-            console.log(validatorId)
             result = await this.signAndSendTransaction(validatorId, [
                 functionCall('withdraw_all', {}, STAKING_GAS_BASE * 7, '0')
             ])
-            console.log(result)
         }
         if (result === false) {
             throw new WalletError('Unable to withdraw pending balance from validator', 'staking.errors.noWithdraw')
@@ -537,8 +529,6 @@ async function getStakingTransactions(accountId) {
         }
     })
     validators = [...new Set(validators)]
-
-    console.log({ validators, deposits })
 
     return { validators, deposits }
 }
