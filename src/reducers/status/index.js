@@ -76,6 +76,9 @@ const alertReducer = (state, { error, ready, payload, meta, type }) => {
             : undefined
     }
 }
+const clearReducer = handleActions({
+}
+, initialState)
 export default reduceReducers(
     initialState,
     alertReducer,
