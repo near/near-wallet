@@ -148,21 +148,30 @@ const GlobalAlertNew = ({ globalAlert, clearAlert, closeIcon = true }) => {
         }, 300);
     }
 
-    if (globalAlert && !(globalAlert.data && globalAlert.data.onlyError && globalAlert.success)) {
-        return (
-            <Alert success={globalAlert.success} closing={closing}>
+    const alerts = Object.keys(globalAlert)
+        .filter((type) => globalAlert[type])
+        .map((type) => ({
+            ...globalAlert[type],
+        }))
+
+
+    
+
+    if (!!alerts.length) {
+        return alerts.map((alert) => (
+            <Alert success={alert.success} closing={closing}>
                 <Content>
                     <Icon>
-                        <img src={globalAlert.success ? IconCheckCircleImage : IconsAlertCircleImage} alt={globalAlert.success ? 'Success' : 'Error'} />
+                        <img src={alert.success ? IconCheckCircleImage : IconsAlertCircleImage} alt={alert.success ? 'Success' : 'Error'} />
                     </Icon>
                     <Text>
-                        <Header success={globalAlert.success}>
-                            <Translate id={globalAlert.messageCodeHeader || (globalAlert.success ? 'success' : 'error')} />
+                        <Header success={alert.success}>
+                            <Translate id={alert.messageCodeHeader || (alert.success ? 'success' : 'error')} />
                         </Header>
-                        <Translate id={globalAlert.messageCode} data={globalAlert.data} options={{ onMissingTranslation }} />
-                        {globalAlert.errorMessage && 
+                        <Translate id={alert.messageCode} data={alert.data} options={{ onMissingTranslation }} />
+                        {alert.errorMessage && 
                             <Console>
-                                {globalAlert.errorMessage}
+                                {alert.errorMessage}
                             </Console>
                         }
                     </Text>
@@ -171,7 +180,7 @@ const GlobalAlertNew = ({ globalAlert, clearAlert, closeIcon = true }) => {
                     }
                 </Content>
             </Alert>
-        )
+        ))
     } else {
         return null
     }
