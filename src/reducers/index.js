@@ -10,6 +10,7 @@ import sign from './sign'
 import recoveryMethods from '../reducers/recoveryMethods'
 import ledger from './ledger'
 import staking from './staking'
+import status from './status'
 
 export default (history) => combineReducers({
     localize: localizeReducer,
@@ -21,5 +22,6 @@ export default (history) => combineReducers({
     recoveryMethods,
     ledger,
     staking,
+    status,
     router: connectRouter(history)
 })
