@@ -53,6 +53,9 @@ const CustomSegment = styled(Segment)`
 
         .list-title {
             border-bottom: 2px solid #f2f2f2;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
 
             > div {
                 float: left;
