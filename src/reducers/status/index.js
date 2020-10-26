@@ -10,6 +10,11 @@ const alertReducer = (state, { error, ready, payload, meta, type }) => {
         ...state,
         globalAlert: {
             ...state.globalAlert,
+            [type]: meta?.alert?.showAlert
+                ? {
+                    show: ready,
+                }
+                : undefined
         },
     }
 }
