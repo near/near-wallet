@@ -20,6 +20,20 @@ export const dispatchWithAlert = (action, data) => store.dispatch({
         ...action.meta,
         ...showAlert(data)
     }})
+
+export const actionsPending = (types) => {
+    const { actionStatus } = store.getState().status
+
+    return (typeof types === 'string' ? [types] : types)
+        .reduce((x, type) => {
+            if (actionStatus[type]?.pending) {
+                return true
+            } else {
+                return x
+            }
+        }, false)
+}
+
 export const handleClearAlert = () => {
     const { dispatch, getState } = store
     const { state: { globalAlertPreventClear } = {} } = getState().router.location
