@@ -24,11 +24,22 @@ const alertReducer = (state, { error, ready, payload, meta, type }) => {
                 } 
     }
                 } 
-                : undefined
+    const mainLoader = Object.keys(actionStatus).reduce((x, action) => {
+        if (x) {
+            return x
+        } else {
+            if (actionStatus[action]?.pending) {
+                return true
+            } else {
+                return x
+            }
         }
+    }, false)
+
     return {
         ...state,
         actionStatus,
+        mainLoader,
         globalAlert: {
             ...state.globalAlert,
             [type]: (meta?.alert?.showAlert || payload?.data?.showAlert)
