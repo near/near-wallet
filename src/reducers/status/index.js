@@ -56,6 +56,11 @@ const alertReducer = (state, { error, ready, payload, meta, type }) => {
                 }
                 : undefined
         },
+        requestStatus: meta?.alert?.requestStatus
+            ? {
+                show: ready,
+            }
+            : undefined
     }
 }
 export default reduceReducers(
