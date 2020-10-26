@@ -6,8 +6,12 @@ const initialState = {
 const alertReducer = (state, { error, ready, payload, meta, type }) => {
 
 
+    const actionStatus = {
+        ...state.actionStatus,
+    }
     return {
         ...state,
+        actionStatus,
         globalAlert: {
             ...state.globalAlert,
             [type]: (meta?.alert?.showAlert || payload?.data?.showAlert)
