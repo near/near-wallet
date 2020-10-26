@@ -9,20 +9,28 @@ import { clearAlert } from '../../actions/account'
 
 import styled from 'styled-components'
 
-const Alert = styled.div`
+
+const AlertContainer = styled.div`
     position: fixed;
+    right: 16px;
+
+    @media (max-width: 991px) {
+        left: 0px;
+        margin-top: -15px;
+    }
+`
+
+
+const Alert = styled.div`
     background-color: #fff;
     border-left: 4px solid;
     box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.04);
-    z-index: 900;
-    right: 16px;
+    
     border-color: ${props => props.success ? '#02ba86' : '#e41d22'};
     top: ${props => props.position * 100 + 120}px;
 
     @media (max-width: 991px) {
         width: 100%;
-        left: 0px;
-        margin-top: -15px;
     }
 
     animation: ${props => props.closing
@@ -155,36 +163,38 @@ const GlobalAlertNew = ({ globalAlert, actionStatus, clearAlert, closeIcon = tru
             ...globalAlert[type],
             ...actionStatus[type]
         }))
-
-
     
 
     if (!!alerts.length) {
-        return alerts.map((alert, i) => alert.show && (
-            <Alert success={alert.success} closing={closing} position={i}>
-                <Content>
-                    <Icon>
-                        <img src={alert.success ? IconCheckCircleImage : IconsAlertCircleImage} alt={alert.success ? 'Success' : 'Error'} />
-                    </Icon>
-                    <Text>
-                        <Header success={alert.success}>
-                            <Translate id={alert.messageCodeHeader || (alert.success ? 'success' : 'error')} />
-                        </Header>
+        return (
+            <AlertContainer>
+                {alerts.map((alert, i) => alert.show && (
+                    <Alert success={alert.success} closing={closing} position={i}>
+                        <Content>
+                            <Icon>
+                                <img src={alert.success ? IconCheckCircleImage : IconsAlertCircleImage} alt={alert.success ? 'Success' : 'Error'} />
+                            </Icon>
+                            <Text>
+                                <Header success={alert.success}>
+                                    <Translate id={alert.messageCodeHeader || (alert.success ? 'success' : 'error')} />
+                                </Header>
 
-                        <Translate id={alert.messageCode} data={alert.data} options={{ onMissingTranslation }} />
+                                <Translate id={alert.messageCode} data={alert.data} options={{ onMissingTranslation }} />
 
-                        {alert.console && 
-                            <Console>
-                                {alert.errorMessage}
-                            </Console>
-                        }
-                    </Text>
-                    {closeIcon &&
-                        <Close onClick={handleClose} />
-                    }
-                </Content>
-            </Alert>
-        ))
+                                {alert.console && 
+                                    <Console>
+                                        {alert.errorMessage}
+                                    </Console>
+                                }
+                            </Text>
+                            {closeIcon &&
+                                <Close onClick={handleClose} />
+                            }
+                        </Content>
+                    </Alert>
+                ))}
+            </AlertContainer>
+        )
     } else {
         return null
     }
