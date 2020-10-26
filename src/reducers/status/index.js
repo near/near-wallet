@@ -8,7 +8,12 @@ const alertReducer = (state, { error, ready, payload, meta, type }) => {
 
     const actionStatus = {
         ...state.actionStatus,
+        [type]: {
+            success: typeof ready === 'undefined' 
+                ? !error
+                : (ready ? !error : undefined),
     }
+        }
     return {
         ...state,
         actionStatus,
