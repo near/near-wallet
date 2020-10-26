@@ -77,6 +77,12 @@ const alertReducer = (state, { error, ready, payload, meta, type }) => {
     }
 }
 const clearReducer = handleActions({
+    [clear]: state => Object.keys(state)
+        .reduce((obj, key) => (
+            key !== 'requestStatus' 
+                ? (obj[key] = state[key], obj) 
+                : obj)
+        , {}),
 }
 , initialState)
 export default reduceReducers(
