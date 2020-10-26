@@ -130,7 +130,7 @@ const Console = styled.div`
     padding: 8px;
 `
 
-const GlobalAlertNew = ({ globalAlert, clearAlert, closeIcon = true }) => {
+const GlobalAlertNew = ({ globalAlert, actionStatus, clearAlert, closeIcon = true }) => {
 
     const [closing, setClosing] = useState(false)
 
@@ -152,6 +152,7 @@ const GlobalAlertNew = ({ globalAlert, clearAlert, closeIcon = true }) => {
         .filter((type) => globalAlert[type])
         .map((type) => ({
             ...globalAlert[type],
+            ...actionStatus[type]
         }))
 
 
