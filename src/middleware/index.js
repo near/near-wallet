@@ -66,7 +66,7 @@ const analyticsMiddleware = store => next => action => {
     if (process.env.MIXPANEL_TOKEN) {
         mixpanel.register({
             network_id: networkId,
-            timestamp: new Date(),
+            timestamp: new Date().toString(),
             account_id: wallet.accountId
         })
         mixpanel.people.set({
@@ -78,7 +78,7 @@ const analyticsMiddleware = store => next => action => {
         }
         if (action.type === 'CREATE_NEW_ACCOUNT'){
             mixpanel.people.set({
-                account_creation_date: new Date()
+                account_creation_date: new Date().toString()
             })
         }
         if (action.type === 'CREATE_ACCOUNT_WITH_SEED_PHRASE'){
@@ -98,12 +98,12 @@ const analyticsMiddleware = store => next => action => {
         }
         if (action.type === 'RECOVER_ACCOUNT_SEED_PHRASE' || action.type === 'SAVE_AND_SELECT_LEDGER_ACCOUNTS'){
             mixpanel.people.set({
-                recovery_timestamp: new Date()
+                recovery_timestamp: new Date().toString()
             })
         }
         if (action.type === 'STAKE'){
             mixpanel.people.set_once({
-                first_stake: new Date()
+                first_stake: new Date().toString()
             })
             mixpanel.people.increment('stake')
         }
