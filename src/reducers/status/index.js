@@ -1,6 +1,11 @@
 import { handleActions, combineActions } from 'redux-actions'
 import reduceReducers from 'reduce-reducers'
 
+import {
+    clear,
+    clearAlert
+} from '../../actions/status'
+
 const initialState = {
     mainLoader: false,
     actionsPending: [],
@@ -8,9 +13,8 @@ const initialState = {
     globalAlert: {},
     requestStatus: {}
 }
+
 const alertReducer = (state, { error, ready, payload, meta, type }) => {
-
-
     const actionStatus = {
         ...state.actionStatus,
         [type]: {
@@ -27,8 +31,10 @@ const alertReducer = (state, { error, ready, payload, meta, type }) => {
                     ...meta?.data,
                     ...(error && payload)
                 } 
+                : undefined
+        }
     }
-                } 
+
     const mainLoader = Object.keys(actionStatus).reduce((x, action) => {
         if (x) {
             return x
@@ -76,6 +82,7 @@ const alertReducer = (state, { error, ready, payload, meta, type }) => {
             : undefined
     }
 }
+
 const clearReducer = handleActions({
     [clear]: state => Object.keys(state)
         .reduce((obj, key) => (
@@ -96,14 +103,16 @@ const clearReducer = handleActions({
                     ...x,
                     ...o
                 }
-
             }, {})
         return {
             ...state,
             globalAlert: payload ? globalAlert : {}
         }
-, initialState)
+    }
+}, initialState)
+
 export default reduceReducers(
     initialState,
     alertReducer,
+    clearReducer
 )
