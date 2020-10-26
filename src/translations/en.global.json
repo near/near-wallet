@@ -8,6 +8,7 @@
             "success": "Congrats! ${accountId} is available.",
             "error": "Account ID is taken. Try something else.",
         },
+        "RetriesExceeded": "Exceeded maximum attempts for this transaction."
     },
     "account": {
         "requestCode": {
