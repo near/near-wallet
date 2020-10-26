@@ -12,6 +12,9 @@ const alertReducer = (state, { error, ready, payload, meta, type }) => {
             success: typeof ready === 'undefined' 
                 ? !error
                 : (ready ? !error : undefined),
+            pending: typeof ready === 'undefined' 
+                ? undefined 
+                : !ready,
     }
         }
     return {
