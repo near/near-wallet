@@ -51,6 +51,7 @@ import GlobalStyle from './GlobalStyle'
 import { SetupSeedPhraseWithRouter } from './accounts/SetupSeedPhrase'
 import { SetupImplicitWithRouter } from './accounts/SetupImplicit'
 import { SetupImplicitSuccess } from './accounts/SetupImplicitSuccess'
+import { handleClearAlert} from '../utils/alerts'
 const theme = {}
 
 const PATH_PREFIX = process.env.PUBLIC_URL
@@ -122,12 +123,7 @@ class Routing extends Component {
                 await refreshAccount()
             }
 
-            const { state: { globalAlertPreventClear } = {} } = history.location
-            if (!globalAlertPreventClear && !this.props.account.globalAlertPreventClear) {
-                clearAlert()
-            }
-
-            clear()
+            handleClearAlert()
         })
     }
 
