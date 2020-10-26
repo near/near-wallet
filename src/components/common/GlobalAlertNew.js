@@ -160,7 +160,7 @@ const GlobalAlertNew = ({ globalAlert, actionStatus, clearAlert, closeIcon = tru
     
 
     if (!!alerts.length) {
-        return alerts.map((alert, i) => (
+        return alerts.map((alert, i) => alert.show && (
             <Alert success={alert.success} closing={closing} position={i}>
                 <Content>
                     <Icon>
@@ -170,8 +170,10 @@ const GlobalAlertNew = ({ globalAlert, actionStatus, clearAlert, closeIcon = tru
                         <Header success={alert.success}>
                             <Translate id={alert.messageCodeHeader || (alert.success ? 'success' : 'error')} />
                         </Header>
+
                         <Translate id={alert.messageCode} data={alert.data} options={{ onMissingTranslation }} />
-                        {alert.errorMessage && 
+
+                        {alert.console && 
                             <Console>
                                 {alert.errorMessage}
                             </Console>
