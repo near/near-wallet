@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
 import { Translate } from 'react-localize-redux'
 
@@ -14,6 +14,20 @@ const AlertContainer = styled.div`
     position: fixed;
     right: 16px;
     z-index: 900;
+
+    animation: alertAnimation ease-in-out .3s;
+    animation-iteration-count: 1;
+    transform-origin: 50% 50%;
+    @keyframes alertAnimation {
+        0% {
+            opacity: 0;
+            transform: translate(16px,0px);
+        }
+        100% {
+            opacity: 1;
+            transform:  translate(0px,0px);
+        }
+    }
 
     @media (max-width: 991px) {
         left: 0px;
@@ -33,23 +47,12 @@ const Alert = styled.div`
         width: 100%;
     }
 
-    animation: ${props => props.closing
-        ? `alertAnimationClose ease-in-out .3s forwards;`
-        : `alertAnimation ease-in-out .3s;`
+    &.number-${props => props.closing} {
+        animation: alertAnimationClose ease-in-out .3s forwards;
     }
     animation-iteration-count: 1;
     transform-origin: 50% 50%;
 
-    @keyframes alertAnimation {
-        0% {
-            opacity: 0;
-            transform: translate(16px,0px);
-        }
-        100% {
-            opacity: 1;
-            transform:  translate(0px,0px);
-        }
-    }
     @keyframes alertAnimationClose {
         0% {
             opacity: 1;
@@ -139,9 +142,11 @@ const Console = styled.div`
     padding: 8px;
 `
 
+// closeIcon mozna usunac
 const GlobalAlertNew = ({ globalAlert, actionStatus, clearAlert, closeIcon = true }) => {
 
     const [closing, setClosing] = useState(false)
+    const [alerts, setAlerts] = useState([])
 
     const onMissingTranslation = () => {
         if (!globalAlert.success) {
@@ -150,28 +155,30 @@ const GlobalAlertNew = ({ globalAlert, actionStatus, clearAlert, closeIcon = tru
     };
 
     const handleClose = (type) => {
-        setClosing(true)
+        setClosing(type)
         setTimeout(() => {
-            setClosing(false)
             clearAlert(type)
+            setClosing(false)
         }, 300);
     }
 
-    const alerts = Object.keys(globalAlert)
-        .filter((type) => globalAlert[type])
-        .reverse()
-        .map((type) => ({
-            type,
-            ...globalAlert[type],
-            ...actionStatus[type]
-        }))
-    
+    useEffect(() => {
+        setAlerts(Object.keys(globalAlert)
+            .filter((type) => globalAlert[type])
+            .reverse()
+            .map((type) => ({
+                type,
+                ...globalAlert[type],
+                ...actionStatus[type]
+            }))
+        )
+    }, [globalAlert])
 
     if (!!alerts.length) {
         return (
-            <AlertContainer>
+            <AlertContainer types={alerts.map((alert) => alert.type)}>
                 {alerts.map((alert, i) => alert.show && (
-                    <Alert key={`alert-${i}`} success={alert.success} closing={closing} position={i}>
+                    <Alert key={`alert-${i}`} success={alert.success} closing={closing} className={`number-${alert.type}`} type={alert.type}>
                         <Content>
                             <Icon>
                                 <img src={alert.success ? IconCheckCircleImage : IconsAlertCircleImage} alt={alert.success ? 'Success' : 'Error'} />
