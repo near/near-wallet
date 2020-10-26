@@ -170,7 +170,7 @@ const GlobalAlertNew = ({ globalAlert, actionStatus, clearAlert, closeIcon = tru
         return (
             <AlertContainer>
                 {alerts.map((alert, i) => alert.show && (
-                    <Alert success={alert.success} closing={closing} position={i}>
+                    <Alert key={`alert-${i}`} success={alert.success} closing={closing} position={i}>
                         <Content>
                             <Icon>
                                 <img src={alert.success ? IconCheckCircleImage : IconsAlertCircleImage} alt={alert.success ? 'Success' : 'Error'} />
