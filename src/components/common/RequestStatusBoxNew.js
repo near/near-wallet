@@ -63,7 +63,7 @@ const RequestStatusBoxContainer = styled.div`
  * @param requestStatus.messageCode {string} localization code of status message to display
  */
 const RequestStatusBoxNew = ({ requestStatus, accountId, dots }) => (
-    requestStatus ?
+    requestStatus?.show ?
         <RequestStatusBoxContainer className={classNames(['alert-info', {'success': requestStatus.success}, {'problem': !requestStatus.success}, {'dots': dots}])}>
             <Translate id={requestStatus.messageCode} data={{ accountId: accountId }}/>
         </RequestStatusBoxContainer>
