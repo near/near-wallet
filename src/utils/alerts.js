@@ -13,6 +13,13 @@ export const showAlert = ({data, onlyError, onlySuccess, console = true, request
         data
     }
 }
+
+export const dispatchWithAlert = (action, data) => store.dispatch({
+    ...action,
+    meta: {
+        ...action.meta,
+        ...showAlert(data)
+    }})
 export const handleClearAlert = () => {
     const { dispatch, getState } = store
     const { state: { globalAlertPreventClear } = {} } = getState().router.location
