@@ -60,6 +60,13 @@ const alertReducer = (state, { error, ready, payload, meta, type }) => {
             ? {
                 show: ready,
                 success: ready && !error,
+                messageCode: `alert.${type}.${
+                    ready
+                        ? error
+                            ? 'error'
+                            : 'success'
+                        : 'pending'
+                }`
             }
             : undefined
     }
