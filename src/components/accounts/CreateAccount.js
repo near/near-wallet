@@ -184,8 +184,9 @@ const mapDispatchToProps = {
     checkNearDropBalance
 }
 
-const mapStateToProps = ({ account }, { match }) => ({
+const mapStateToProps = ({ account, status }, { match }) => ({
     ...account,
+    requestStatus: status.requestStatus,
     fundingContract: match.params.fundingContract,
     fundingKey: match.params.fundingKey,
     fundingAccountId: match.params.fundingAccountId,

@@ -8,6 +8,7 @@ import classNames from '../../utils/classNames'
 
 import RequestStatusBox from '../common/RequestStatusBox'
 import { ACCOUNT_CHECK_TIMEOUT, ACCOUNT_ID_SUFFIX } from '../../utils/wallet'
+import RequestStatusBoxNew from '../common/RequestStatusBoxNew.js'
 
 const InputWrapper = styled.div`
     position: relative;
@@ -238,7 +239,7 @@ class AccountFormAccountId extends Component {
                         </InputWrapper>
                     )}
                 </Translate>
-                <RequestStatusBox dots={formLoader} requestStatus={requestStatus} accountId={this.props.accountId}/>
+                <RequestStatusBoxNew dots={formLoader} requestStatus={requestStatus} accountId={this.props.accountId}/>
             </>
         )
     }
