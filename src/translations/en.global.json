@@ -4,6 +4,10 @@
             "success": "Recover using Seed Phrase is complete.<br/><b>${numberOfAccounts} account(s)</b> have been successfully recovered.<br/>The last one is set as active.",
             "error": "Failed to recover account. No accounts were found for this seed phrase."
         },
+        "CHECK_NEW_ACCOUNT": {
+            "success": "Congrats! ${accountId} is available.",
+            "error": "Account ID is taken. Try something else.",
+        },
     },
     "account": {
         "requestCode": {
