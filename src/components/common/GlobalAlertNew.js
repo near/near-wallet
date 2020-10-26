@@ -13,6 +13,7 @@ import styled from 'styled-components'
 const AlertContainer = styled.div`
     position: fixed;
     right: 16px;
+    z-index: 900;
 
     @media (max-width: 991px) {
         left: 0px;
@@ -25,9 +26,8 @@ const Alert = styled.div`
     background-color: #fff;
     border-left: 4px solid;
     box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.04);
-    
     border-color: ${props => props.success ? '#02ba86' : '#e41d22'};
-    top: ${props => props.position * 100 + 120}px;
+    margin-bottom: 12px;
 
     @media (max-width: 991px) {
         width: 100%;
