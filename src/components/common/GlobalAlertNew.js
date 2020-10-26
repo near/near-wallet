@@ -17,6 +17,7 @@ const Alert = styled.div`
     z-index: 900;
     right: 16px;
     border-color: ${props => props.success ? '#02ba86' : '#e41d22'};
+    top: ${props => props.position * 100 + 120}px;
 
     @media (max-width: 991px) {
         width: 100%;
@@ -159,8 +160,8 @@ const GlobalAlertNew = ({ globalAlert, actionStatus, clearAlert, closeIcon = tru
     
 
     if (!!alerts.length) {
-        return alerts.map((alert) => (
-            <Alert success={alert.success} closing={closing}>
+        return alerts.map((alert, i) => (
+            <Alert success={alert.success} closing={closing} position={i}>
                 <Content>
                     <Icon>
                         <img src={alert.success ? IconCheckCircleImage : IconsAlertCircleImage} alt={alert.success ? 'Success' : 'Error'} />
