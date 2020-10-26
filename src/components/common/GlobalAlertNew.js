@@ -159,6 +159,7 @@ const GlobalAlertNew = ({ globalAlert, actionStatus, clearAlert, closeIcon = tru
 
     const alerts = Object.keys(globalAlert)
         .filter((type) => globalAlert[type])
+        .reverse()
         .map((type) => ({
             type,
             ...globalAlert[type],
