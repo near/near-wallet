@@ -1,4 +1,10 @@
 {
+    "alert": {
+        "RECOVER_ACCOUNT_SEED_PHRASE": {
+            "success": "Recover using Seed Phrase is complete.<br/><b>${numberOfAccounts} account(s)</b> have been successfully recovered.<br/>The last one is set as active.",
+            "error": "Failed to recover account. No accounts were found for this seed phrase."
+        },
+    },
     "account": {
         "requestCode": {
             "success": "Sent SMS with code.",
