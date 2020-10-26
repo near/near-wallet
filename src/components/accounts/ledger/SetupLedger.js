@@ -19,7 +19,7 @@ const SetupLedger = (props) => {
         const {
             location,
             accountId,
-        } = this.props
+        } = props
 
         setConnect('')
 
