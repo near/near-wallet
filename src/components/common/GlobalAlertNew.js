@@ -5,7 +5,7 @@ import { Translate } from 'react-localize-redux'
 import IconsAlertCircleImage from '../../images/icon_alert-circle.svg'
 import IconCheckCircleImage from '../../images/icon-check-circle.svg'
 
-import { clearAlert } from '../../actions/account'
+import { clearAlert } from '../../actions/status'
 
 import styled from 'styled-components'
 
@@ -149,17 +149,18 @@ const GlobalAlertNew = ({ globalAlert, actionStatus, clearAlert, closeIcon = tru
         }
     };
 
-    const handleClose = () => {
+    const handleClose = (type) => {
         setClosing(true)
         setTimeout(() => {
             setClosing(false)
-            clearAlert()
+            clearAlert(type)
         }, 300);
     }
 
     const alerts = Object.keys(globalAlert)
         .filter((type) => globalAlert[type])
         .map((type) => ({
+            type,
             ...globalAlert[type],
             ...actionStatus[type]
         }))
@@ -188,7 +189,7 @@ const GlobalAlertNew = ({ globalAlert, actionStatus, clearAlert, closeIcon = tru
                                 }
                             </Text>
                             {closeIcon &&
-                                <Close onClick={handleClose} />
+                                <Close onClick={() => handleClose(alert.type)} />
                             }
                         </Content>
                     </Alert>
