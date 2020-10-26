@@ -2,6 +2,11 @@ import { handleActions, combineActions } from 'redux-actions'
 import reduceReducers from 'reduce-reducers'
 
 const initialState = {
+    mainLoader: false,
+    actionsPending: [],
+    actionStatus: {},
+    globalAlert: {},
+    requestStatus: {}
 }
 const alertReducer = (state, { error, ready, payload, meta, type }) => {
 
