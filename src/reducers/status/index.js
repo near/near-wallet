@@ -17,7 +17,14 @@ const alertReducer = (state, { error, ready, payload, meta, type }) => {
                 : !ready,
             errorType: payload?.type,
             errorMessage: (error && payload?.toString()) || undefined,
+            data: (meta?.data || error) 
+                ? {
+                    ...meta?.data,
+                    ...(error && payload)
+                } 
     }
+                } 
+                : undefined
         }
     return {
         ...state,
