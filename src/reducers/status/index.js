@@ -79,25 +79,19 @@ const clearReducer = handleActions({
                 ? (obj[key] = state[key], obj) 
                 : obj)
         , {}),
-    [clearAlert]: (state, { payload }) => {
-        const globalAlert = Object.keys(state.globalAlert)
-            .reduce((x, a, i) => {
-                const o = a !== payload
+    [clearAlert]: (state, { payload }) => ({
+        ...state,
+        globalAlert: !payload 
+            ? {} 
+            : Object.keys(state.globalAlert).reduce((x, type) => ({
+                ...x,
+                ...(type !== payload
                     ? {
-                        [a]: state.globalAlert[a]
+                        [type]: state.globalAlert[type]
                     }
-                    : undefined
-
-                return {
-                    ...x,
-                    ...o
-                }
-            }, {})
-        return {
-            ...state,
-            globalAlert: payload ? globalAlert : {}
-        }
-    }
+                    : undefined)
+            }), {})
+    })
 }, initialState)
 
 export default reduceReducers(
