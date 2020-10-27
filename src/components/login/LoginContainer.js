@@ -30,10 +30,6 @@ const CustomContainer = styled(Container)`
             }
             div.item {
                 padding-top: 24px;
-
-                .content {
-                    line-height: 28px;
-                }
             }
         }
         .list-item {
@@ -102,7 +98,6 @@ const CustomContainer = styled(Container)`
                 right: 5px;
 
                 border-radius: 100%;
-                line-height: 30px;
             }
         }
         .input {
@@ -170,7 +165,6 @@ const CustomContainer = styled(Container)`
                 div.item {
                     .content {
                         font-size: 12px;
-                        line-height: 16px;
                         padding-top: 4px;
                         min-height: 24px;
                     }

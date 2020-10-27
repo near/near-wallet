@@ -24,7 +24,6 @@ const Container = styled.div`
         display: flex;
     }
 
-    font-family: 'benton-sans',sans-serif;
     background-color: #24272a;
     position: fixed;
     height: 70px;
@@ -138,7 +137,6 @@ const User = styled.div`
         background-color: black;
         padding: 2px 10px;
         border-radius: 40px;
-        line-height: normal;
         font-size: 14px;
 
         @media (min-width: 1200px) {
@@ -217,7 +215,6 @@ const Lang = styled.div`
         cursor: pointer;
         font-size: 16px;
         height: 32px;
-        line-height: 32px;
         outline: none;
         padding-right: 54px;
         
@@ -246,7 +243,7 @@ class DesktopContainer extends Component {
             <Container className='desktop-menu'>
                 <Logo/>
                 {showNavLinks &&
-                    <NavLinks hasLockup={account.hasLockup}/>
+                    <NavLinks />
                 }
                 <Help href='http://near.chat/' target='_blank' rel='noopener noreferrer'>
                     <Translate id='link.help'/>

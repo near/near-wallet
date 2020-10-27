@@ -1,13 +1,14 @@
 
 import { parse, stringify } from 'query-string'
 import { createActions, createAction } from 'redux-actions'
-import { wallet } from '../utils/wallet'
+import { DISABLE_CREATE_ACCOUNT, wallet } from '../utils/wallet'
 import { push } from 'connected-react-router'
 import { loadState, saveState, clearState } from '../utils/sessionStorage'
 import {
     WALLET_CREATE_NEW_ACCOUNT_URL, WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS, WALLET_LOGIN_URL, WALLET_SIGN_URL,
+    setKeyMeta,
 } from '../utils/wallet'
-import { KeyPair } from 'near-api-js'
+import { PublicKey, KeyType } from 'near-api-js/lib/utils/key_pair'
 
 export const loadRecoveryMethods = createAction('LOAD_RECOVERY_METHODS',
     wallet.getRecoveryMethods.bind(wallet),
@@ -305,17 +306,49 @@ export const handleAddAccessKeySeedPhrase = (accountId, recoveryKeyPair) => asyn
     dispatch(redirectTo('/profile', { globalAlertPreventClear: true }))
 }
 
-export const handleCreateAccountWithSeedPhrase = (accountId, recoveryKeyPair, fundingContract, fundingKey) => async (dispatch) => {
-    await dispatch(createAccountWithSeedPhrase(accountId, recoveryKeyPair, fundingContract, fundingKey))
-    const account = await dispatch(refreshAccount())
-    const promptTwoFactor = await wallet.twoFactor.checkCanEnableTwoFactor(account)
+export const fundCreateAccount = (accountId, recoveryKeyPair, recoveryMethod) => async (dispatch) => {
+    await wallet.keyStore.setKey(wallet.connection.networkId, accountId, recoveryKeyPair)
+    const implicitAccountId = Buffer.from(recoveryKeyPair.publicKey.data).toString('hex')
+    await wallet.keyStore.setKey(wallet.connection.networkId, implicitAccountId, recoveryKeyPair)
+    dispatch(redirectTo(`/fund-create-account/${accountId}/${implicitAccountId}/${recoveryMethod}`))
+}
 
-    if (fundingContract && promptTwoFactor) {
+export const fundCreateAccountLedger = (accountId, ledgerPublicKey) => async (dispatch) => {
+    await setKeyMeta(ledgerPublicKey, { type: 'ledger' })
+    const implicitAccountId = Buffer.from(ledgerPublicKey.data).toString('hex')
+    const recoveryMethod = 'ledger'
+    dispatch(redirectTo(`/fund-create-account/${accountId}/${implicitAccountId}/${recoveryMethod}`))
+}
+
+// TODO: Refactor common code with setupRecoveryMessageNewAccount
+export const handleCreateAccountWithSeedPhrase = (accountId, recoveryKeyPair, fundingOptions) => async (dispatch) => {
+    if (DISABLE_CREATE_ACCOUNT && !fundingOptions) {
+        await dispatch(fundCreateAccount(accountId, recoveryKeyPair, 'seed'))
+        return
+    }
+
+    await dispatch(createAccountWithSeedPhrase(accountId, recoveryKeyPair, fundingOptions))
+}
+
+export const finishAccountSetup = () => async (dispatch) => {
+    const account = await dispatch(refreshAccount())
+    const promptTwoFactor = (await wallet.twoFactor.checkCanEnableTwoFactor(account))
+
+    if (promptTwoFactor) {
         dispatch(redirectTo('/enable-two-factor'))
     } else {
         dispatch(redirectToApp('/profile'))
     }
 }
+
+export const createAccountFromImplicit = createAction('CREATE_ACCOUNT_FROM_IMPLICIT', async (accountId, implicitAccountId, recoveryMethod) => {
+    const recoveryKeyPair = await wallet.keyStore.getKey(wallet.connection.networkId, implicitAccountId)
+    if (recoveryKeyPair) {
+        await wallet.saveAccount(accountId, recoveryKeyPair)
+    }
+    const publicKey = new PublicKey({ keyType: KeyType.ED25519, data: Buffer.from(implicitAccountId, 'hex') })
+    await wallet.createNewAccount(accountId, { fundingAccountId: implicitAccountId }, recoveryMethod, publicKey)
+})
 
 export const { addAccessKey, createAccountWithSeedPhrase, addAccessKeySeedPhrase, clearAlert } = createActions({
     ADD_ACCESS_KEY: [
@@ -323,17 +356,10 @@ export const { addAccessKey, createAccountWithSeedPhrase, addAccessKeySeedPhrase
         (title) => defaultCodesFor('account.login', {title})
     ],
     CREATE_ACCOUNT_WITH_SEED_PHRASE: [
-        async (accountId, recoveryKeyPair, fundingContract, fundingKey) => {
+        async (accountId, recoveryKeyPair, fundingOptions = {}) => {
+            const recoveryMethod = 'seed'
             await wallet.saveAccount(accountId, recoveryKeyPair);
-            await wallet.createNewAccount(accountId, fundingContract, fundingKey, recoveryKeyPair.publicKey)
-            const publicKey = recoveryKeyPair.publicKey.toString()
-            const contractName = null;
-            const fullAccess = true;
-            const newKeyPair = KeyPair.fromRandom('ed25519')
-            const newPublicKey = newKeyPair.publicKey
-            await wallet.addAccessKey(accountId, contractName, newPublicKey, fullAccess)
-            await wallet.saveAccount(accountId, newKeyPair)
-            await wallet.postSignedJson('/account/seedPhraseAdded', { accountId, publicKey })
+            await wallet.createNewAccount(accountId, fundingOptions, recoveryMethod, recoveryKeyPair.publicKey)
         },
         () => defaultCodesFor('account.createAccountSeedPhrase')
     ],

@@ -17,7 +17,6 @@ const CustomList = styled(List)`
 
     .text {
         margin: 0 16px 16px 64px;
-        line-height: 20px !important;
         color: #24272a;
     }
 

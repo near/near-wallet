@@ -71,8 +71,10 @@ class DashboardDetail extends Component {
                 title={(
                     balance
                         ? <Fragment>
-                            <span className='balance'><Translate id='balance.balance' />: </span>
-                            <Balance amount={balance.total}/> 
+                            <div className='dashboard-balance'>
+                                <span className='balance'><Translate id='balance.balance' />: </span>
+                                <Balance amount={balance.total}/> 
+                            </div>
                         </Fragment>
                         : <Translate id='balance.balanceLoading' />
                 )}

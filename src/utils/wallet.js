@@ -8,10 +8,17 @@ import { BN } from 'bn.js'
 import { getAccountIds } from './helper-api'
 import { generateSeedPhrase } from 'near-seed-phrase';
 import { WalletError } from './walletError'
-import { setAccountConfirmed, getAccountConfirmed, removeAccountConfirmed} from './localStorage'
+import { setAccountConfirmed, getAccountConfirmed } from './localStorage'
 
 import { store } from '..'
-import { setSignTransactionStatus, setLedgerTxSigned, showLedgerModal, redirectToApp, redirectTo, refreshAccount } from '../actions/account'
+import {
+    setSignTransactionStatus,
+    setLedgerTxSigned,
+    showLedgerModal,
+    redirectTo,
+    fundCreateAccount,
+    finishAccountSetup,
+} from '../actions/account'
 
 import { TwoFactor } from './twoFactor'
 import { Staking } from './staking'
@@ -35,7 +42,7 @@ export const LINKDROP_GAS = process.env.LINKDROP_GAS || '100000000000000'
 export const ENABLE_FULL_ACCESS_KEYS = process.env.ENABLE_FULL_ACCESS_KEYS === 'yes'
 export const HIDE_SIGN_IN_WITH_LEDGER_ENTER_ACCOUNT_ID_MODAL = process.env.HIDE_SIGN_IN_WITH_LEDGER_ENTER_ACCOUNT_ID_MODAL
 
-const NETWORK_ID = process.env.REACT_APP_NETWORK_ID || 'default'
+export const NETWORK_ID = process.env.REACT_APP_NETWORK_ID || 'default'
 const CONTRACT_CREATE_ACCOUNT_URL = `${ACCOUNT_HELPER_URL}/account`
 export const NODE_URL = process.env.REACT_APP_NODE_URL || 'https://rpc.nearprotocol.com'
 
@@ -59,11 +66,11 @@ export const convertPKForContract = (pk) => {
 }
 export const toPK = (pk) => nearApiJs.utils.PublicKey.from(pk)
 
-async function setKeyMeta(publicKey, meta) {
+export async function setKeyMeta(publicKey, meta) {
     localStorage.setItem(`keyMeta:${publicKey}`, JSON.stringify(meta))
 }
 
-async function getKeyMeta(publicKey) {
+export async function getKeyMeta(publicKey) {
     try {
         return JSON.parse(localStorage.getItem(`keyMeta:${publicKey}`)) || {};
     } catch (e) {
@@ -336,22 +343,19 @@ class Wallet {
         return !(await this.accountExists(accountId))
     }
 
-    async createNewAccount(accountId, fundingContract, fundingKey, publicKey) {
+    async createNewAccount(accountId, fundingOptions, recoveryMethod, publicKey) {
         await this.checkNewAccount(accountId);
 
-        let useLedger = publicKey ? false : true
-
-        if (useLedger) {
-            publicKey = await this.getLedgerPublicKey()
-            await setKeyMeta(publicKey, { type: 'ledger' })
-        }
-
+        // TODO: Remove has2fa property, check on account object
         // no new accounts are 2fa
         this.has2fa = false
 
+        const { fundingContract, fundingKey, fundingAccountId } = fundingOptions || {}
         if (fundingContract && fundingKey) {
             await this.createNewAccountLinkdrop(accountId, fundingContract, fundingKey, publicKey)
             await this.keyStore.removeKey(NETWORK_ID, fundingContract)
+        } else if (fundingAccountId) {
+            await this.createNewAccountFromAnother(accountId, fundingAccountId, publicKey)
         } else {
             await sendJson('POST', CONTRACT_CREATE_ACCOUNT_URL, {
                 newAccountId: accountId,
@@ -359,14 +363,21 @@ class Wallet {
             })
         }
 
-        if (useLedger) {
-            await this.addLedgerAccountId(accountId)
-        }
-
         await this.saveAndSelectAccount(accountId);
+        await this.addLocalKeyAndFinishSetup(accountId, recoveryMethod, publicKey)
+    }
 
-        if (useLedger) {
-            await this.postSignedJson('/account/ledgerKeyAdded', { accountId, publicKey: publicKey.toString() })
+    async createNewAccountFromAnother(accountId, fundingAccountId, publicKey) {
+        const account = this.getAccount(fundingAccountId)
+        await account.functionCall(ACCOUNT_ID_SUFFIX, 'create_account', {
+            new_account_id: accountId,
+            new_public_key: publicKey.toString().replace(/^ed25519:/, '')
+            // TODO: Adjust gas if necessary
+            // TODO: Should new account have other than minimum balance? For implicit account?
+        }, LINKDROP_GAS, MIN_BALANCE_FOR_GAS)
+        if (!this.accounts[fundingAccountId]) {
+            // Temporary implicit account used for funding – move whole balance by deleting it
+            await account.deleteAccount(accountId)
         }
     }
 
@@ -421,7 +432,7 @@ class Wallet {
     recovering a second account attempts to call this method with the currently logged in account and not the tempKeyStore
     ********************************/
     // TODO: Why is fullAccess needed? Everything without contractId should be full access.
-    async addAccessKey(accountId, contractId, publicKey, fullAccess = false, methodNames) {
+    async addAccessKey(accountId, contractId, publicKey, fullAccess = false, methodNames = '') {
         const account = this.getAccount(accountId)
         console.log('account instance used in recovery add localStorage key', account)
         // update has2fa now after we have the right Account instance for temp recovery
@@ -432,8 +443,6 @@ class Wallet {
                 console.log('adding full access key', publicKey.toString())
                 return await account.addKey(publicKey)
             } else {
-                let methodNames = methodNames ? methodNames : ''
-                
                 // TODO: fix account.addKey to accept multiple method names, kludge fix here for adding multisig LAK
                 if (this.has2fa && !methodNames.length && accountId === contractId) {
                     const { MULTISIG_CHANGE_METHODS, MULTISIG_ALLOWANCE } = nearApiJs.multisig
@@ -443,6 +452,7 @@ class Wallet {
                     const actions = [
                         addKey(publicKey, functionCallAccessKey(accountId, methodNames, MULTISIG_ALLOWANCE))
                     ]
+                    console.log(account, accountId, actions)
                     return await account.signAndSendTransaction(accountId, actions)
                 }
                 
@@ -667,24 +677,39 @@ class Wallet {
         }
     }
 
-    async setupRecoveryMessageNewAccount(accountId, method, securityCode, fundingContract, fundingKey, recoverySeedPhrase) {
+    async setupRecoveryMessageNewAccount(accountId, method, securityCode, fundingOptions, recoverySeedPhrase) {
         const { secretKey } = parseSeedPhrase(recoverySeedPhrase)
         const recoveryKeyPair = KeyPair.fromString(secretKey)
         await this.validateSecurityCode(accountId, method, securityCode);
         await this.saveAccount(accountId, recoveryKeyPair);
-        await this.createNewAccount(accountId, fundingContract, fundingKey, recoveryKeyPair.publicKey)
-        const newKeyPair = KeyPair.fromRandom('ed25519')
-        const newPublicKey = newKeyPair.publicKey
-        await this.addNewAccessKeyToAccount(accountId, newPublicKey)
-        await this.saveAccount(accountId, newKeyPair)
-        const account = await store.dispatch(refreshAccount())
-        const promptTwoFactor = await this.twoFactor.checkCanEnableTwoFactor(account)
 
-        if (promptTwoFactor && fundingContract) {
-            store.dispatch(redirectTo('/enable-two-factor'))
-        } else {
-            store.dispatch(redirectToApp('/profile'))
+        if (DISABLE_CREATE_ACCOUNT && !fundingOptions) {
+            await store.dispatch(fundCreateAccount(accountId, recoveryKeyPair, fundingOptions, method))
+            return
         }
+
+        await this.createNewAccount(accountId, fundingOptions, method, recoveryKeyPair.publicKey)
+    }
+
+    async addLocalKeyAndFinishSetup(accountId, recoveryMethod, publicKey) {
+        if (recoveryMethod === 'ledger') {
+            await this.addLedgerAccountId(accountId)
+            await this.postSignedJson('/account/ledgerKeyAdded', { accountId, publicKey: publicKey.toString() })
+        } else {
+            const newKeyPair = KeyPair.fromRandom('ed25519')
+            const newPublicKey = newKeyPair.publicKey
+            if (recoveryMethod !== 'seed') {
+                await this.addNewAccessKeyToAccount(accountId, newPublicKey)
+            } else {
+                const contractName = null;
+                const fullAccess = true;
+                await wallet.addAccessKey(accountId, contractName, newPublicKey, fullAccess)
+                await wallet.postSignedJson('/account/seedPhraseAdded', { accountId, publicKey: publicKey.toString() })
+            }
+            await this.saveAccount(accountId, newKeyPair)
+        }
+
+        await store.dispatch(finishAccountSetup())
     }
 
     async setupRecoveryMessage(accountId, method, securityCode, recoverySeedPhrase) {
@@ -743,10 +768,17 @@ class Wallet {
         if (!accountId) {
             accountIds = await getAccountIds(publicKey)
             const implicitAccountId = Buffer.from(PublicKey.fromString(publicKey).data).toString('hex')
-            if (await this.accountExists(implicitAccountId)) {
-                accountIds.push(implicitAccountId)
+            accountIds.push(implicitAccountId)
+        }
+
+        // remove duplicate and non-existing accounts
+        const accountsSet = new Set(accountIds)
+        for (const accountId of accountsSet) {
+            if (!(await this.accountExists(accountId))) {
+                accountsSet.delete(accountId)
             }
         }
+        accountIds = [...accountsSet]
 
         if (!accountIds.length) {
             throw new WalletError('Cannot find matching public key', 'account.recoverAccount.errorInvalidSeedPhrase', { publicKey })
@@ -757,9 +789,6 @@ class Wallet {
             provider: { type: 'JsonRpcProvider', args: { url: NODE_URL + '/' } },
             signer: new nearApiJs.InMemorySigner(tempKeyStore)
         })
-
-        // remove any duplicate accountIds
-        accountIds = [...new Set(accountIds)]
         
         await Promise.all(accountIds.map(async (accountId, i) => {
             if (!accountId || !accountId.length) return

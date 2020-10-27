@@ -18,7 +18,6 @@ const Container = styled.div`
     color: white;
     font-size: 15px;
     margin-bottom: 20px;
-    font-family: 'benton-sans',sans-serif;
     background-color: #24272a;
     height: 70px;
     top: 0;
@@ -124,7 +123,6 @@ const Lang = styled.div`
         cursor: pointer;
         font-size: 16px;
         height: 32px;
-        line-height: 32px;
         outline: none;
         padding-right: 54px;
         width: 100%;

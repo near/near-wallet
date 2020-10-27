@@ -194,7 +194,12 @@ class Routing extends Component {
                                 />
                                 <Route
                                     exact
-                                    path={DISABLE_CREATE_ACCOUNT ? '/create/:fundingContract/:fundingKey' : '/create/:fundingContract?/:fundingKey?'}
+                                    path='/create/:fundingContract?/:fundingKey?'
+                                    component={CreateAccountWithRouter}
+                                />
+                                <Route
+                                    exact
+                                    path={'/create-from/:fundingAccountId'}
                                     component={CreateAccountWithRouter}
                                 />
                                 <Route
@@ -204,17 +209,17 @@ class Routing extends Component {
                                 />
                                 <Route
                                     exact
-                                    path='/setup-seed-phrase/:accountId/:phrase/:fundingContract?/:fundingKey?'
+                                    path='/setup-seed-phrase/:accountId/:step'
                                     component={SetupSeedPhraseWithRouter}
                                 />
                                 <Route
                                     exact
-                                    path='/create-implicit/:state?'
+                                    path='/fund-create-account/:accountId/:implicitAccountId/:recoveryMethod'
                                     component={SetupImplicitWithRouter}
                                 />
                                 <Route
                                     exact
-                                    path='/setup-ledger/:accountId/:fundingContract?/:fundingKey?'
+                                    path='/setup-ledger/:accountId'
                                     component={SetupLedgerWithRouter}
                                 />
                                 <PrivateRoute
@@ -303,17 +308,15 @@ class Routing extends Component {
                                     path='/node-details'
                                     component={NodeDetailsWithRouter}
                                 />
-                                {this.props.account.hasLockup &&
-                                    <PrivateRoute
-                                        path='/staking'
-                                        component={StakingContainer}
-                                        render={() => (
-                                            <StakingContainer
-                                                history={this.props.history}
-                                            />
-                                        )}
-                                    />
-                                }
+                                <PrivateRoute
+                                    path='/staking'
+                                    component={StakingContainer}
+                                    render={() => (
+                                        <StakingContainer
+                                            history={this.props.history}
+                                        />
+                                    )}
+                                />
                                 <Route
                                     exact
                                     path='/cli-login-success'

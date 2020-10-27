@@ -6,14 +6,23 @@ import { BN } from 'bn.js'
 
 const CustomDiv = styled(List)`
     position: relative;
-    display: inline;
     white-space: nowrap;
+    display: inline-flex !important;
+    align-items: center;
+    margin: 0 !important;
+    line-height: normal;
+
+    .symbol {
+        transform: scale(0.65);
+        font-weight: 700;
+        margin-left: -2%;
+    }
 `
 
 const FRAC_DIGITS = 5
 const YOCTO_NEAR_THRESHOLD = new BN('10', 10).pow(new BN(utils.format.NEAR_NOMINATION_EXP - FRAC_DIGITS + 1, 10))
 
-const Balance = ({ amount, noSymbol = false }) => {
+const Balance = ({ amount, noSymbol = false, className }) => {
     if (!amount) {
         throw new Error('amount property should not be null')
     }
@@ -21,8 +30,8 @@ const Balance = ({ amount, noSymbol = false }) => {
     let amountShow = formatNEAR(amount)
 
     return (
-        <CustomDiv title={showInYocto(amount)}>
-            {amountShow} {!noSymbol && <>Ⓝ</>}
+        <CustomDiv title={showInYocto(amount)} className={className}>
+            {!noSymbol && <span className='symbol'>Ⓝ</span>}{amountShow}{noSymbol === 'near' && <span className='currency'>&nbsp;NEAR</span>}
         </CustomDiv>
     )
 }

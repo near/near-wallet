@@ -14,7 +14,7 @@
     "near-ledger-js": "^0.1.2",
     "near-seed-phrase": "^0.1.0",
     "prop-types": "^15.7.2",
-    "query-string": "^6.13.5",
+    "query-string": "^6.13.6",
     "react": "^16.13.1",
     "react-app-polyfill": "^1.0.6",
     "react-dom": "^16.13.1",
@@ -43,7 +43,9 @@
     "build": "parcel build src/index.html && node scripts/sentry-send-release.js && yarn update:static",
     "test": "jest",
     "lint": "eslint --ext .js --ext .jsx .",
-    "fix": "eslint --ext .js --ext .jsx . --fix"
+    "fix": "eslint --ext .js --ext .jsx . --fix",
+    "storybook": "start-storybook -p 6006",
+    "build-storybook": "build-storybook"
   },
   "browserslist": [
     ">0.2%",
@@ -52,12 +54,17 @@
     "not op_mini all"
   ],
   "devDependencies": {
-    "@babel/core": "^7.12.1",
+    "@babel/core": "^7.12.3",
     "@babel/preset-env": "^7.12.1",
     "@babel/preset-react": "^7.12.1",
     "@sentry/cli": "^1.58.0",
+    "@storybook/addon-actions": "^6.0.26",
+    "@storybook/addon-essentials": "^6.0.26",
+    "@storybook/addon-links": "^6.0.26",
+    "@storybook/react": "^6.0.26",
     "babel-eslint": "^10.1.0",
-    "babel-jest": "^26.5.2",
+    "babel-jest": "^26.6.1",
+    "babel-loader": "^8.1.0",
     "enzyme": "^3.10.0",
     "enzyme-adapter-react-16": "^1.15.5",
     "eslint": "5.16.0",
@@ -65,11 +72,12 @@
     "eslint-plugin-flowtype": "^5.1.1",
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-jsx-a11y": "^6.3.0",
-    "eslint-plugin-react": "^7.21.4",
+    "eslint-plugin-react": "^7.21.5",
     "gh-pages": "^2.2.0",
-    "jest": "^26.5.3",
+    "jest": "^26.6.1",
     "parcel-bundler": "^1.12.4",
     "parcel-plugin-bundle-visualiser": "^1.2.0",
-    "react-dev-utils": "^10.2.1"
+    "react-dev-utils": "^10.2.1",
+    "react-is": "^16.13.1"
   }
 }

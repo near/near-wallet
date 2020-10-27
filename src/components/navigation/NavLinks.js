@@ -37,7 +37,6 @@ const NavLink = styled(Link)`
         display: inline-block;
         width: 23px;
         height: 23px;
-        margin-top: -3px;
         background-size: contain;
     }
 
@@ -84,14 +83,14 @@ const NavLink = styled(Link)`
     }
 `
 
-const NavLinks = ({ hasLockup }) => (
+const NavLinks = () => (
     <Container className='nav-links'>
         <NavLink icon={summaryIcon} to='/'><Translate id='link.summary'/></NavLink>
         {!DISABLE_SEND_MONEY &&
             <NavLink icon={arrowIcon} to='/send-money'><Translate id='link.send'/></NavLink>
         }
         <NavLink icon={arrowIcon} className='rotate' to='/receive-money'><Translate id='link.receive'/></NavLink>
-        {hasLockup && <NavLink icon={stakingIcon} to='/staking'><Translate id='link.staking'/></NavLink>}
+        <NavLink icon={stakingIcon} to='/staking'><Translate id='link.staking'/></NavLink>
     </Container>
 )
 

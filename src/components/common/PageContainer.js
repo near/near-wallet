@@ -6,6 +6,19 @@ import styled from 'styled-components'
 
 const CustomContainer = styled(Container)`
     &&& {
+        .dashboard-balance {
+            display: flex;
+            align-items: center;
+
+            .balance {
+                margin-right: 10px;
+            }
+
+            @media (max-width: 991px) {
+                justify-content: center;
+                margin: 20px 0;
+            }
+        }
         .page-title {
             border-bottom: 2px solid #e6e6e6;
             padding: 36px 0 36px 0;
@@ -15,9 +28,6 @@ const CustomContainer = styled(Container)`
             &.center {
                 border-bottom: 0;
                 margin-bottom: 0;
-            }
-            h1 {
-                line-height: 48px;
             }
             button {
                 margin-top: 0px;
@@ -51,7 +61,6 @@ const CustomContainer = styled(Container)`
 
                     h1 {
                         font-size: 11px !important;
-                        line-height: 18px !important;
                         letter-spacing: 2px;
                         text-transform: uppercase;
                         padding-bottom: 0px;

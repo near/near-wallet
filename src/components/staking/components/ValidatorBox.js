@@ -13,8 +13,7 @@ const Container = styled.div`
     align-items: center;
     border: 2px solid #F2F2F2;
     border-radius: 8px;
-    padding: 12px 12px 10px 12px;
-    line-height: 150%;
+    padding: 12px;
     position: relative;
     cursor: ${props => props.clickable === 'true' ? 'pointer' : ''};
 
@@ -40,6 +39,8 @@ const Container = styled.div`
 
     .left {
         div {
+            text-align: left;
+            
             &:first-of-type {
                 color: #24272a;
                 max-width: 165px;
@@ -52,7 +53,7 @@ const Container = styled.div`
                 }
 
                 @media (min-width: 500px) {
-                    max-width: 230px;
+                    max-width: 220px;
                 }
             }
         }
@@ -64,7 +65,7 @@ const Container = styled.div`
 
         div {
             &:first-of-type {
-                color: #37B565;
+                color: #00C08B;
             }
             
             &:last-of-type {
@@ -98,7 +99,6 @@ const Container = styled.div`
         padding: 5px 10px 2px 10px;
         background-color: white;
         border-radius: 40px;
-        line-height: normal;
         text-align: center;
         border: 2px solid #F2F2F2;
         left: 50%;
@@ -136,7 +136,7 @@ export default function ValidatorBox({
                 <div className='right'>
                     {staking && <div><Translate id='staking.validatorBox.staking' /></div>}
                     <div>
-                        <Balance amount={amount} noSymbol={true}/> <span><Translate id='staking.validatorBox.near' /></span>
+                        <Balance amount={amount} noSymbol='near'/>
                     </div>
                 </div>
             }

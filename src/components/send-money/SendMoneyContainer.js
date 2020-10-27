@@ -74,10 +74,8 @@ const CustomList = styled(List)`
             color: #999999 !important;
         }
         .amount-sending {
-            font-family: BwSeidoRound;
             font-size: 48px;
             font-weight: 500;
-            line-height: 60px;
             color: #24272a;
             word-break: break-all;
             padding-bottom: 24px;

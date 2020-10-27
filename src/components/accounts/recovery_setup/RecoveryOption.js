@@ -130,7 +130,6 @@ const Header = styled.div`
         height: 23px;
         position: absolute;
         left: 0;
-        margin-top: -3px;
     }
 
 `
@@ -139,7 +138,6 @@ const Title = styled.div`
     font-size: 16px;
     color: #24272a;
     font-weight: 500;
-    font-family: BwSeidoRound;
 
     span {
         color: #FF585D;

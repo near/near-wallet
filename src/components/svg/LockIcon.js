@@ -1,15 +1,11 @@
 import React from 'react';
 
-const LockIcon = (props) => {
-
-    const color = props.color || '#008D6A'
-
+const LockIcon = ({ color = '#D4D3D9' }) => {
     return (
-        <svg width="16" height="17" viewBox="0 0 16 17" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M12.6667 7.83331H3.33333C2.59695 7.83331 2 8.43027 2 9.16665V13.8333C2 14.5697 2.59695 15.1666 3.33333 15.1666H12.6667C13.403 15.1666 14 14.5697 14 13.8333V9.16665C14 8.43027 13.403 7.83331 12.6667 7.83331Z" stroke={color} strokeLinecap="round" strokeLinejoin="round"/>
-            <path d="M4.66669 7.83331V5.16665C4.66669 4.28259 5.01788 3.43475 5.643 2.80962C6.26812 2.1845 7.11597 1.83331 8.00002 1.83331C8.88408 1.83331 9.73192 2.1845 10.357 2.80962C10.9822 3.43475 11.3334 4.28259 11.3334 5.16665V7.83331" stroke={color} strokeLinecap="round" strokeLinejoin="round"/>
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className='lock-icon'>
+            <path d="M19 11H5C3.89543 11 3 11.8954 3 13V20C3 21.1046 3.89543 22 5 22H19C20.1046 22 21 21.1046 21 20V13C21 11.8954 20.1046 11 19 11Z" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            <path d="M7 11V7C7 5.67392 7.52678 4.40215 8.46447 3.46447C9.40215 2.52678 10.6739 2 12 2C13.3261 2 14.5979 2.52678 15.5355 3.46447C16.4732 4.40215 17 5.67392 17 7V11" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
         </svg>
-
     )
 }
 

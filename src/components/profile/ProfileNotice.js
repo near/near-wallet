@@ -11,13 +11,6 @@ const CustomList = styled(List)`
         margin-top: 20px;
         border-left: 4px solid #f8f8f8;
 
-        .header {
-            line-height: 28px;
-        }
-        .content {
-            line-height: 20px;
-        }
-
         @media screen and (max-width: 767px) {
             margin-left: 0px;
             border-left: 0px;

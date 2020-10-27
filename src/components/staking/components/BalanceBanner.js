@@ -35,7 +35,6 @@ const Container = styled.div`
 
         div {
             color: #24272a;
-            font-family: BwSeidoRound;
             margin-top: 4px;
             font-size: 18px;
             font-weight: 500;
@@ -54,7 +53,7 @@ export default function BalanceBanner({ amount }) {
     return (
         <Container className='balance-banner'>
             <div className='icon-background'>
-                <LockIcon/>
+                <LockIcon color='#008D6A'/>
             </div>
             <div className='content'>
                 <Translate id='staking.balanceBanner.title' />

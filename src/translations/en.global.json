@@ -226,6 +226,7 @@
         "ADD_LEDGER_ACCESS_KEY": "You will need to confirm public key details on your Ledger.",
         "GET_LEDGER_PUBLIC_KEY": "You will need to confirm public key access on your Ledger.",
         "CREATE_NEW_ACCOUNT": "You will need to confirm add a key for new account on your Ledger.",
+        "CREATE_ACCOUNT_FROM_IMPLICIT": "You will need to confirm account creation on your Ledger. This includes transactions needed to move balance from temporary account.",
         "SIGN_AND_SEND_TRANSACTIONS": "You will need to confirm deposit details on your Ledger.",
         "REMOVE_NON_LEDGER_ACCESS_KEYS": "You will need to confirm details on your Ledger.",
         "STAKE": "You will need to confirm staking on your Ledger",
@@ -242,12 +243,12 @@
         "continueSetup": "Continue to Setup",
         "verify": "VERIFY & COMPLETE",
         "verifyCode": "Verify Code",
-        "verifyCodeEnable": "Verify Code & Enable", 
+        "verifyCodeEnable": "Verify Code & Enable",
         "startOver": "Start over",
         "copyUrl": "Copy Url",
         "createAccount": "Create Account",
         "recoverYourAccount": "Recover your Account",
-        "accessAccount": "Access your Account",
+        "importExistingAccount": "Import Existing Account",
         "enable": "Enable",
         "disable": "Disable",
         "signInLedger": "Sign in with Ledger",
@@ -314,8 +315,8 @@
     },
 
     "recoverAccount": {
-        "pageTitle": "Access Your Account",
-        "pageText": "If you’ve setup one or more account recovery methods, follow the instructions below to begin the recovery process.",
+        "pageTitle": "Import Account",
+        "pageText": "If you’ve setup one or more account recovery methods, follow the instructions below to import your account.",
         "email": {
             "title": "Email",
             "desc": "Check your email for a message from nearprotocol.com with the subject:",
@@ -581,12 +582,36 @@
                 "availableBalance": "Available balance:",
                 "near": "NEAR"
             },
-            "ledgerDisclaimer": "Note: If this is your first time staking with this validator, you will need to confirm two transactions"
+            "ledgerDisclaimer": "Note: If this is your first time staking with this validator, you will need to confirm two transactions",
+            "useMax": "Use max",
+            "with": "with",
+            "from": "from",
+            "accounts": "If you have locked NEAR, you can choose to stake with either your locked NEAR (lockup.near), or your unlocked NEAR (your account name). You will only see the staking positions for the selected account. If you do not have locked NEAR, you can ignore this section"
+        },
+        "unstake": {
+            "title": "Unstake Tokens",
+            "desc": "Enter the number of tokens you would like to unstake from your current validator.",
+            "stakeWith": "Unstake from",
+            "button": "Unstake Tokens",
+            "confirm": "You are unstaking",
+            "input": {
+                "insufficientFunds": "Not enough staked tokens.",
+                "availableBalance": "Available to unstake:",
+                "near": "NEAR"
+            },
+            "ledgerDisclaimer": "Note: If this is your first time staking with this validator, you will need to confirm two transactions",
+            "beforeUnstakeDisclaimer": "Unstaked tokens will be made available pending a release period of ~36-48hrs (3 epochs)."
         },
         "stakeSuccess": {
             "title": "Success!",
             "desc": "Your stake has successfully been delegated to your chosen validator:",
             "descTwo": "You can now view your delegation and staking rewards from your staking dashboard.",
+            "button": "Return to Dashboard"
+        },
+        "unstakeSuccess": {
+            "title": "Success!",
+            "desc": "<b>${amount} NEAR</b> has successfully been unstaked from this validator:",
+            "descTwo": "Your tokens are pending release and will be made available within ~36-48hrs (3 epochs).",
             "button": "Return to Dashboard"
         },
         "validators": {
@@ -701,8 +726,8 @@
         "transferring": "Transferring",
         "authorizing": "Authorizing"
     },
-    
-    "availableBalanceInfo": "”Available Balance” is your spendable NEAR balance. This will be lower than your Total Balance. To view a complete breakdown of your NEAR balance, visit your Profile.", 
+
+    "availableBalanceInfo": "”Available Balance” is your spendable NEAR balance. This will be lower than your Total Balance. To view a complete breakdown of your NEAR balance, visit your Profile.",
     "availableBalanceProfile": "This is your spendable NEAR balance, and can be used or transferred immediately. This will be lower than your Total Balance.",
     "minimumBalance": "This is the minimum NEAR balance your account must maintain to remain active. This balance represents the storage space your account is using on the NEAR blockchain (with a small buffer), and will go up or down as you use more or less space.",
     "totalBalance": "Your total balance represents all NEAR tokens under your control. In many cases, you will not have immediate access to this entire balance (e.g. if it is locked, delegated, or staked). Check your Available Balance for the NEAR you can actively use, transfer, delegate, and stake.",
@@ -710,7 +735,7 @@
     "unvestedBalance": "Unvested NEAR is earmarked to you, but not yet under your ownership. You can still delegate or stake this NEAR, and the rewards will be entirely yours. As your NEAR is vested, it will appear in either your Locked or Unlocked balance.",
     "lockedBalance": "This NEAR is locked in a lockup contract, and cannot be withdrawn. You may still delegate or stake this NEAR. Once the NEAR is unlocked, you can view it in your Unlocked Balance, and chose to withdraw it (moving to your Available Balance).",
     "unlockedBalance": "This NEAR is still in a lockup contract, and is ready to be withdrawn. If you choose to withdraw this NEAR, it will appear in your Available Balance.",
-    
+
     "transaction": {
         "status": {
             "NotStarted": "Not started",
@@ -814,7 +839,7 @@
         "header": "Enter account name",
         "one": "Enter the name of the account you’re signing in to"
     },
-    
+
     "errors": {
         "type": {
             "RetriesExceeded": "Exceeded maximum attempts for this transaction."
@@ -840,11 +865,11 @@
 
     "landing": {
         "title":"NEAR is here.",
-        "desc": "Securely store your NEAR tokens and compatible assets with <span>NEAR Wallet</span>.",
+        "desc": "Securely store and stake your NEAR tokens and compatible assets with <span>NEAR Wallet</span>.",
         "or": "or",
         "banner": "NEAR Wallet is in Private Beta"
     },
-    
+
     "emailSubscribe": {
         "title": "Sign up below for early access",
         "placeholder": "Your email..."

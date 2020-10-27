@@ -20,7 +20,6 @@ const Container = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    font-family: 'benton-sans',sans-serif;
     color: #25282A;
 `
 
@@ -29,7 +28,6 @@ const Title = styled.div`
     font-weight: 600;
     margin-top: 30px;
     text-align: center;
-    line-height: normal;
 `
 
 const Desc = styled.div`

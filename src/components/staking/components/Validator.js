@@ -8,13 +8,13 @@ import AlertBanner from './AlertBanner'
 import StakeConfirmModal from './StakeConfirmModal'
 import { onKeyDown } from '../../../hooks/eventListeners'
 
-export default function Validator({ match, validators, onUnstake, onWithdraw, loading, selectedValidator }) {
+export default function Validator({ match, validator, onUnstake, onWithdraw, loading, selectedValidator, history, currentValidators }) {
     const [confirm, setConfirm] = useState(null)
-    const validator = validators.filter(validator => validator.accountId === match.params.validator)[0]
-    const stakeNotAllowed = selectedValidator && selectedValidator !== match.params.validator
+
+    const stakeNotAllowed = selectedValidator && selectedValidator !== match.params.validator && currentValidators.length
 
     onKeyDown(e => {
-        if (e.keyCode === 13 && (confirm === 'unstake' || confirm === 'withdraw')) {
+        if (e.keyCode === 13 && confirm === 'withdraw') {
             handleStakeAction()
         }
     })
@@ -48,7 +48,7 @@ export default function Validator({ match, validators, onUnstake, onWithdraw, lo
                             info='staking.balanceBox.staked.info'
                             amount={validator.staked || '0'}
                             version='no-border'
-                            onClick={() => setConfirm('unstake')}
+                            onClick={() => history.push(`/staking/${match.params.validator}/unstake`)}
                             button='staking.balanceBox.staked.button'
                             buttonColor='gray-red'
                             loading={loading}
@@ -79,7 +79,8 @@ export default function Validator({ match, validators, onUnstake, onWithdraw, lo
                     {confirm &&
                         <StakeConfirmModal
                             title={`staking.validator.${confirm}`}
-                            validatorName={validator.accountId}
+                            label='staking.stake.from'
+                            validator={validator}
                             amount={confirm === 'unstake' ? validator.staked : validator.available}
                             open={confirm}
                             onConfirm={handleStakeAction}

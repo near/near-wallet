@@ -36,7 +36,6 @@ const CustomSegment = styled(Segment)`
             background: #fff;
 
         .item {
-            line-height: 46px;
             height: 46px;
             color: #24272a;
             padding: 0 0 0 12px;
@@ -54,6 +53,9 @@ const CustomSegment = styled(Segment)`
 
         .list-title {
             border-bottom: 2px solid #f2f2f2;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
 
             > div {
                 float: left;

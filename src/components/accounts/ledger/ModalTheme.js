@@ -98,6 +98,10 @@ export default createGlobalStyle`
             }
         }
 
+        ol {
+            margin: 15px 0 35px 0;
+        }
+
         li {
             padding-left: 10px;
             margin-top: 20px;

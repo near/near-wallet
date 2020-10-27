@@ -31,12 +31,10 @@ const CustomDiv = styled.div`
         color: #24272a;
         border-top: 2px solid #f8f8f8;
         margin-top: 48px;
-        line-height: 24px;
 
         button {
             font-size: 16px !important;
             font-weight: 500;
-            font-family: BwSeidoRound !important;
             margin: 0 0 0 6px !important;
         }
     }

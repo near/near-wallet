@@ -6,7 +6,6 @@ import styled from 'styled-components';
 const Container = styled.div`
     position: relative;
     width: 100%;
-    line-height: normal;
     margin: 10px 0;
 
     &:after {

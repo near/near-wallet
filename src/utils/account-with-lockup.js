@@ -3,11 +3,10 @@ import sha256 from 'js-sha256'
 import { Account } from 'near-api-js'
 import { parseNearAmount } from 'near-api-js/lib/utils/format'
 import { BinaryReader } from 'near-api-js/lib/utils/serialize'
-import { LOCKUP_ACCOUNT_ID_SUFFIX } from './wallet'
+import { LOCKUP_ACCOUNT_ID_SUFFIX, MIN_BALANCE_FOR_GAS } from './wallet'
 import { WalletError } from './walletError'
 
 // TODO: Should gas allowance be dynamically calculated
-const MIN_BALANCE_FOR_GAS = new BN(parseNearAmount('2'));
 const LOCKUP_MIN_BALANCE = new BN(parseNearAmount('35'));
 
 export function decorateWithLockup(account) {
@@ -28,7 +27,7 @@ async function signAndSendTransaction(receiverId, actions) {
         .map(str => new BN(str))
         .reduce((a, b) => a.add(b), new BN("0"));
 
-    const missingAmount = total.sub(new BN(balance)).add(MIN_BALANCE_FOR_GAS);
+    const missingAmount = total.sub(new BN(balance)).add(new BN(MIN_BALANCE_FOR_GAS));
     const lockupAccountId = getLockupAccountId(this.accountId)
     if (missingAmount.gt(new BN(0)) && (await accountExists(this.connection, lockupAccountId))) {
         console.warn('Not enough balance on main account, checking lockup account', lockupAccountId);
@@ -110,7 +109,7 @@ async function getAccountBalance() {
             }
         }
 
-        const available = BN.max(new BN(0), new BN(balance.available).add(new BN(liquidOwnersBalance)).sub(MIN_BALANCE_FOR_GAS))
+        const available = BN.max(new BN(0), new BN(balance.available).add(new BN(liquidOwnersBalance)).sub(new BN(MIN_BALANCE_FOR_GAS)))
         return {
             ...balance,
             available,
