@@ -1,9 +1,11 @@
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
-import helpIcon from '../../images/icon-help-white.svg';
+import helpIconWhite from '../../images/icon-help-white.svg';
+import helpIconBrown from '../../images/icon-help-brown.svg';
 import { IS_MAINNET, NODE_URL } from '../../utils/wallet';
 import { Modal } from 'semantic-ui-react';
 import { Translate } from 'react-localize-redux';
+import AlertTriangleIcon from '../svg/AlertTriangleIcon.js';
 
 const Container = styled.div`
     color: white;
@@ -36,16 +38,33 @@ const Container = styled.div`
 
         :after {
             content: '';
-            background: url(${helpIcon}) center no-repeat;
-            height: 18px;
-            width: 18px;
-            margin: 0 0 0 6px;
+            background: url(${helpIconWhite}) center no-repeat;
+            height: 16px;
+            min-width: 16px;
+            width: 16px;
+            margin: 0 0 0 8px;
             display: inline-block;
         }
     }
 
     h4 {
         margin-bottom: 5px !important;
+    }
+
+    &.staging-banner {
+        background-color: #F6C98E;
+        color: #452500;
+
+        .alert-triangle-icon {
+            margin-right: 8px;
+            min-width: 16px;
+        }
+
+        .trigger-string {
+            :after {
+                background: url(${helpIconBrown}) center no-repeat;
+            }
+        }
     }
 `
 
@@ -98,8 +117,19 @@ const NetworkBanner = ({ account }) => {
         )
     } else if (isMainnetStaging) {
         return (
-            <Container id='top-banner'>
-                <Translate id='staging.banner' />
+            <Container id='top-banner' className='staging-banner'>
+                <AlertTriangleIcon color='#A15600'/>
+                <Modal 
+                    size='mini'
+                    trigger={
+                        <div className='trigger-string'>
+                            <Translate id='stagingBanner.title' />
+                        </div>
+                    }
+                    closeIcon
+                >
+                    <Translate id='stagingBanner.desc' />
+                </Modal>
             </Container>
         )
     } else {
