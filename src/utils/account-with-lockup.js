@@ -39,9 +39,9 @@ async function signAndSendTransaction(receiverId, actions) {
             await this.wrappedAccount.functionCall(lockupAccountId, 'check_transfers_vote', {}, BASE_GAS.mul(new BN(3)))
         }
 
-        const knownDeposited = new BN(await this.wrappedAccount.viewFunction(lockupAccountId, 'get_known_deposited_balance'))
         const lockedBalance = new BN(await this.wrappedAccount.viewFunction(lockupAccountId, 'get_locked_amount'))
-        if (knownDeposited.eq(new BN(0)) && lockedBalance.eq(new BN(0))) {
+        const poolAccountId = await this.wrappedAccount.viewFunction(lockupAccountId, 'get_staking_pool_account_id')
+        if (!poolAccountId && lockedBalance.eq(new BN(0))) {
             console.info('Destroying lockup account to claim remaining funds', lockupAccountId)
 
             const newKeyPair = KeyPair.fromRandom('ed25519')
