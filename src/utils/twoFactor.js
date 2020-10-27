@@ -18,18 +18,31 @@ export const MULTISIG_CONTRACT_HASHES = process.env.MULTISIG_CONTRACT_HASHES || 
 ];
 
 const { 
-    multisig: { AccountMultisig },
-    transactions: { deleteKey, addKey }
+    multisig: { AccountMultisig, MULTISIG_CHANGE_METHODS },
+    transactions: { deleteKey, addKey, functionCallAccessKey, deployContract },
+    utils: { key_pair: { PublicKey } }
 } = nearApiJs
 
 export class TwoFactor extends AccountMultisig {
     constructor(wallet) {
         super(wallet.connection, wallet.accountId, localStorage)
         this.wallet = wallet
+
+        // debugging disable
+
+        window.twoFactor = this
     }
 
     async isEnabled(accountId) {
-        if (!accountId.length || this.accountId !== accountId) {
+        const accessKeys = await this.wallet.getAccessKeys()
+        const seedPhraseKeys = (await this.getRecoveryMethods()).data
+            .filter(({ kind, publicKey }) => kind === 'phrase' && publicKey !== null && accountKeys.includes(publicKey))
+            .map((rm) => rm.publicKey)
+        console.log(seedPhraseKeys)
+        const isDisabled = accessKeys.filter((k) => !seedPhraseKeys.includes(k))
+            .some(({ access_key }) => access_key.permission && access_key.permission === 'FullAccess')
+        console.log('isDisabled', isDisabled)
+        if (isDisabled || !accountId.length || this.accountId !== accountId) {
             return false
         }
         return MULTISIG_CONTRACT_HASHES.includes((await this.state()).code_hash)
@@ -80,9 +93,6 @@ export class TwoFactor extends AccountMultisig {
 
     // override for custom UX
     async signAndSendTransaction(receiverId, actions) {
-
-        console.log(this.accountId)
-        
         let requestId = -1
         try {
             await super.signAndSendTransaction(receiverId, actions)
@@ -116,5 +126,46 @@ export class TwoFactor extends AccountMultisig {
     async deployMultisig() {
         const contractBytes = new Uint8Array(await (await fetch('/multisig.wasm')).arrayBuffer())
         return super.deployMultisig(contractBytes)
+    }
+
+    async disable() {
+        const { accountId } = this
+        const accessKeys = await this.wallet.getAccessKeys()
+        const lak2fak = accessKeys.filter(({ access_key }) => 
+            access_key && access_key.permission && access_key.permission.FunctionCall &&
+            access_key.permission.FunctionCall.receiver_id === accountId &&
+            access_key.permission.FunctionCall.method_names &&
+            access_key.permission.FunctionCall.method_names.length === 4 &&
+            access_key.permission.FunctionCall.method_names.includes('add_request_and_confirm')    
+        )
+        const contractBytes = new Uint8Array(await (await fetch('/main.wasm')).arrayBuffer())
+        const actions = [
+            ...lak2fak.map(({ public_key }) => deleteKey(public_key)),
+            ...lak2fak.map(({ public_key }) => addKey(public_key)),
+            deployContract(contractBytes),
+        ]
+        console.log('disabling 2fa for', accountId)
+        return await this.signAndSendTransaction(accountId, actions)
+    }
+
+    async enable() {
+        const { accountId } = this
+        const accountKeys = (await this.getAccessKeys()).map((ak) => ak.public_key)
+        const seedPhraseKeys = (await this.getRecoveryMethods()).data
+            .filter(({ kind, publicKey }) => kind === 'phrase' && publicKey !== null && accountKeys.includes(publicKey))
+            .map((rm) => rm.publicKey)
+        const confirmOnlyKey = (await this.postSignedJson('/2fa/getAccessKey', { accountId })).publicKey
+        const fak2lak = accountKeys.filter((k) => !seedPhraseKeys.includes(k) && !confirmOnlyKey.includes(k))
+            .map((k) => PublicKey.from(k))
+        const contractBytes = new Uint8Array(await (await fetch('/multisig.wasm')).arrayBuffer())
+        const actions = [
+            ...fak2lak.map((k) => deleteKey(k)),
+            ...fak2lak.map((k) => addKey(k, functionCallAccessKey(accountId, MULTISIG_CHANGE_METHODS, null))),
+            deployContract(contractBytes),
+        ]
+        console.log('enabling 2fa for', accountId, actions)
+        const account = this.wallet.getAccount()
+        account.accountId = accountId
+        return await account.signAndSendTransaction(accountId, actions);
     }
 }

@@ -37,7 +37,7 @@
   "scripts": {
     "predeploy": "yarn build",
     "deploy": "gh-pages -d dist/",
-    "update:static": "cp src/wasm/multisig.wasm dist/multisig.wasm",
+    "update:static": "cp src/wasm/multisig.wasm dist/multisig.wasm && cp src/wasm/main.wasm dist/main.wasm",
     "start": "yarn update:static; parcel src/index.html",
     "prebuild": "rm -rf dist/",
     "build": "parcel build src/index.html && node scripts/sentry-send-release.js && yarn update:static",
