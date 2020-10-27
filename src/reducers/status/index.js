@@ -11,7 +11,7 @@ const initialState = {
     actionsPending: [],
     actionStatus: {},
     globalAlert: {},
-    requestStatus: {}
+    localAlert: {}
 }
 
 const alertReducer = (state, { error, ready, payload, meta, type }) => {
@@ -56,7 +56,7 @@ const alertReducer = (state, { error, ready, payload, meta, type }) => {
                 }
                 : undefined
         },
-        requestStatus: meta?.alert?.requestStatus
+        localAlert: meta?.alert?.localAlert
             ? {
                 show: ready,
                 success: ready && !error,
@@ -75,7 +75,7 @@ const alertReducer = (state, { error, ready, payload, meta, type }) => {
 const clearReducer = handleActions({
     [clear]: state => Object.keys(state)
         .reduce((obj, key) => (
-            key !== 'requestStatus' 
+            key !== 'localAlert' 
                 ? (obj[key] = state[key], obj) 
                 : obj)
         , {}),

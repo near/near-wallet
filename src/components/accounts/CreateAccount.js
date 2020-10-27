@@ -186,7 +186,7 @@ const mapDispatchToProps = {
 
 const mapStateToProps = ({ account, status }, { match }) => ({
     ...account,
-    requestStatus: status.requestStatus,
+    requestStatus: status.localAlert,
     fundingContract: match.params.fundingContract,
     fundingKey: match.params.fundingKey,
     fundingAccountId: match.params.fundingAccountId,
