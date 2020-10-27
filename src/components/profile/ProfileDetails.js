@@ -136,7 +136,7 @@ const ProfileDetails = ({
                     >
                         <Popup.Header><Translate id='profile.details.lockPopup.title' /></Popup.Header>
                         <Popup.Content>
-                            <Translate id='profile.details.lockPopup.text' data={{'link': <Link to="/create"}><Translate id='profile.details.lockPopup.createAnotherAccount' /></Link>}} />
+                            <Translate id='profile.details.lockPopup.text' data={{'link': <Link to="/create"><Translate id='profile.details.lockPopup.createAnotherAccount' /></Link>}} />
                             {` `}
                             {false ?
                                 <a href='/'>Learn more</a>
