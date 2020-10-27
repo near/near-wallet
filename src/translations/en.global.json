@@ -2,7 +2,11 @@
     "alert": {
         "RECOVER_ACCOUNT_SEED_PHRASE": {
             "success": "Recover using Seed Phrase is complete.<br/><b>${numberOfAccounts} account(s)</b> have been successfully recovered.<br/>The last one is set as active.",
-            "error": "Failed to recover account. No accounts were found for this seed phrase."
+            "error": "Failed to recover account. No accounts were found for this seed phrase.",
+            "errorInvalidSeedPhrase": "No accounts were found for this seed phrase."
+        },
+        "SEND_MONEY": {
+            "error": "Sorry an error has occurred. You may want to try again."
         },
         "CHECK_NEW_ACCOUNT": {
             "success": "Congrats! ${accountId} is available.",

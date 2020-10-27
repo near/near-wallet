@@ -449,7 +449,7 @@ export const { signAndSendTransactions, setSignTransactionStatus, sendMoney } = 
     ],
     SEND_MONEY: [
         wallet.sendMoney.bind(wallet),
-        () => defaultCodesFor('account.sendMoney', { onlyError: true })
+        () => showAlert({ onlyError: true })
     ]
 })
 

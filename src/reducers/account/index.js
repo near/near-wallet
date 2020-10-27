@@ -72,7 +72,6 @@ const globalAlertReducer = handleActions({
         recoverAccountSeedPhrase,
         verifyTwoFactor,
         deployMultisig,
-        sendMoney,
         removeAccessKey,
         signAndSendTransactions,
         addLedgerAccessKey,
