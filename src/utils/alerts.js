@@ -1,26 +1,25 @@
 import { store } from '..'
 import { clearAlert, clear } from '../actions/status'
 
-export const showAlert = ({data, onlyError, onlySuccess, console = true, requestStatus, messageCodeHeader} = {}) => {
-    return {
-        alert: {
-            showAlert: requestStatus ? false : true,
-            onlyError: onlySuccess ? false : true,
-            onlySuccess: onlyError ? false : true,
-            console,
-            requestStatus,
-            messageCodeHeader
-        },
-        data
-    }
-}
+export const showAlert = ({data, onlyError, onlySuccess, console = true, requestStatus, messageCodeHeader} = {}) => ({
+    alert: {
+        showAlert: requestStatus ? false : true,
+        onlyError: onlySuccess ? false : true,
+        onlySuccess: onlyError ? false : true,
+        console,
+        requestStatus,
+        messageCodeHeader
+    },
+    data
+})
 
 export const dispatchWithAlert = (action, data) => store.dispatch({
     ...action,
     meta: {
         ...action.meta,
         ...showAlert(data)
-    }})
+    }
+})
 
 export const actionsPending = (types) => {
     const { actionStatus } = store.getState().status
