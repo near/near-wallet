@@ -10,6 +10,7 @@ const MenuBtn = styled.div`
     max-height: 21px;
     position: relative;
     overflow: visible;
+    pointer-events: none;
 
     div {
         width: 22px;
@@ -64,11 +65,13 @@ const MenuBtn = styled.div`
 `
 
 const MenuButton = ({ onClick, open }) => (
-    <MenuBtn className={classNames(['menu-btn', {'open' : open}])} onClick={onClick}>
-        <div/>
-        <div/>
-        <div/>
-    </MenuBtn>
+    <div className='menu-btn-wrapper' onClick={onClick}>
+        <MenuBtn className={classNames(['menu-btn', {'open' : open}])} onClick={onClick}>
+            <div/>
+            <div/>
+            <div/>
+        </MenuBtn>
+    </div>
 )
 
 export default MenuButton;

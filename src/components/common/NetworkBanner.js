@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import helpIcon from '../../images/icon-help-white.svg';
 import { IS_MAINNET, NODE_URL } from '../../utils/wallet';
@@ -9,7 +9,7 @@ const Container = styled.div`
     color: white;
     background-color: #0072CE;
     position: fixed;
-    height: 35px;
+    padding: 10px;
     top: 0;
     left: 0;
     right: 0;
@@ -17,6 +17,7 @@ const Container = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
+    text-align: center;
 
     a {
         color: white;
@@ -31,6 +32,7 @@ const Container = styled.div`
         display: flex;
         align-items: center;
         cursor: pointer;
+        text-align: center;
 
         :after {
             content: '';
@@ -41,16 +43,36 @@ const Container = styled.div`
             display: inline-block;
         }
     }
+
+    h4 {
+        margin-bottom: 5px !important;
+    }
 `
 
-const Header = styled.h4`
-    margin-bottom: 5px !important;
-`
+const NetworkBanner = ({ account }) => {
 
-const NetworkBanner = (props) => {
+    useEffect(() => {
+        setBannerHeight()
+        window.addEventListener("resize", setBannerHeight)
+        return () => {
+            window.removeEventListener("resize", setBannerHeight)
+        }
+    }, [account])
+
+    const setBannerHeight = () => {
+        const bannerHeight = document.getElementById('top-banner') && document.getElementById('top-banner').offsetHeight
+        const app = document.getElementById('app-container')
+        const navContainer = document.getElementById('nav-container')
+        navContainer.style.top = bannerHeight ? `${bannerHeight}px` : 0
+        app.style.paddingTop = bannerHeight ? `${bannerHeight + 85}px` : '75px'
+    }
+
+    const isMainnetGuestFlow = IS_MAINNET && !account.accountId && !window.location.href.includes('staging')
+    const isMainnetStaging = IS_MAINNET && window.location.href.includes('staging')
+
     if (!IS_MAINNET) {
         return (
-            <Container>
+            <Container id='top-banner'>
                 <Modal 
                     size='mini'
                     trigger={
@@ -63,15 +85,21 @@ const NetworkBanner = (props) => {
                     }
                     closeIcon
                 >
-                    <Header><Translate id='networkBanner.header' /></Header>
+                    <h4><Translate id='networkBanner.header' /></h4>
                     <Translate id='networkBanner.desc' />
                 </Modal>
             </Container>
         )
-    } else if (IS_MAINNET && !props.accountId) {
+    } else if (isMainnetGuestFlow) {
         return (
-            <Container>
+            <Container id='top-banner'>
                 <Translate id='landing.banner' />
+            </Container>
+        )
+    } else if (isMainnetStaging) {
+        return (
+            <Container id='top-banner'>
+                <Translate id='staging.banner' />
             </Container>
         )
     } else {

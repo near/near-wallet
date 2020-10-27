@@ -869,6 +869,10 @@
         "banner": "NEAR Wallet is in Private Beta"
     },
 
+    "staging": {
+        "banner": "Warning: This is a pre-release version of Wallet. Use at your own risk!"
+    },
+
     "emailSubscribe": {
         "title": "Sign up below for early access",
         "placeholder": "Your email..."
