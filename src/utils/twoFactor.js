@@ -35,8 +35,9 @@ export class TwoFactor extends AccountMultisig {
 
     async isEnabled(accountId) {
         const accessKeys = await this.wallet.getAccessKeys()
+        const accessPublicKeys = accessKeys.map(({ public_key }) => public_key)
         const seedPhraseKeys = (await this.getRecoveryMethods()).data
-            .filter(({ kind, publicKey }) => kind === 'phrase' && publicKey !== null && accountKeys.includes(publicKey))
+            .filter(({ kind, publicKey }) => kind === 'phrase' && publicKey !== null && accessPublicKeys.includes(publicKey))
             .map((rm) => rm.publicKey)
         console.log(seedPhraseKeys)
         const isDisabled = accessKeys.filter((k) => !seedPhraseKeys.includes(k))
