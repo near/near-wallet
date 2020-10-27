@@ -779,10 +779,17 @@ class Wallet {
         if (!accountId) {
             accountIds = await getAccountIds(publicKey)
             const implicitAccountId = Buffer.from(PublicKey.fromString(publicKey).data).toString('hex')
-            if (await this.accountExists(implicitAccountId)) {
-                accountIds.push(implicitAccountId)
+            accountIds.push(implicitAccountId)
+        }
+
+        // remove duplicate and non-existing accounts
+        const accountsSet = new Set(accountIds)
+        for (const accountId of accountsSet) {
+            if (!(await this.accountExists(accountId))) {
+                accountsSet.delete(accountId)
             }
         }
+        accountIds = [...accountsSet]
 
         if (!accountIds.length) {
             throw new WalletError('Cannot find matching public key', 'account.recoverAccount.errorInvalidSeedPhrase', { publicKey })
@@ -793,9 +800,6 @@ class Wallet {
             provider: { type: 'JsonRpcProvider', args: { url: NODE_URL + '/' } },
             signer: new nearApiJs.InMemorySigner(tempKeyStore)
         })
-
-        // remove any duplicate accountIds
-        accountIds = [...new Set(accountIds)]
         
         await Promise.all(accountIds.map(async (accountId, i) => {
             if (!accountId || !accountId.length) return
