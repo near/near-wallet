@@ -5,8 +5,8 @@ export const showAlert = ({data, onlyError, onlySuccess, console = true, request
     return {
         alert: {
             showAlert: requestStatus ? false : true,
-            onlyError,
-            onlySuccess,
+            onlyError: onlySuccess ? false : true,
+            onlySuccess: onlyError ? false : true,
             console,
             requestStatus,
             messageCodeHeader

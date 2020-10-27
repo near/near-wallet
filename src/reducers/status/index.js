@@ -53,7 +53,7 @@ const alertReducer = (state, { error, ready, payload, meta, type }) => {
             ...state.globalAlert,
             [type]: (meta?.alert?.showAlert || payload?.data?.showAlert)
                 ? {
-                    show: ready,
+                    show: ready && ((meta?.alert?.onlyError && error) || (meta?.alert?.onlySuccess && !error)),
                     messageCodeHeader: meta?.alert?.messageCodeHeader
                         ? `alert.${type}.${meta.alert.messageCodeHeader}`
                         : undefined,
