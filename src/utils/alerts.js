@@ -1,14 +1,15 @@
 import { store } from '..'
 import { clearAlert, clear } from '../actions/status'
 
-export const showAlert = ({data, onlyError, onlySuccess, console = true, requestStatus} = {}) => {
+export const showAlert = ({data, onlyError, onlySuccess, console = true, requestStatus, messageCodeHeader} = {}) => {
     return {
         alert: {
             showAlert: requestStatus ? false : true,
             onlyError,
             onlySuccess,
             console,
-            requestStatus
+            requestStatus,
+            messageCodeHeader
         },
         data
     }
