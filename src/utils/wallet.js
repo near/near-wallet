@@ -66,11 +66,11 @@ export const convertPKForContract = (pk) => {
 }
 export const toPK = (pk) => nearApiJs.utils.PublicKey.from(pk)
 
-async function setKeyMeta(publicKey, meta) {
+export async function setKeyMeta(publicKey, meta) {
     localStorage.setItem(`keyMeta:${publicKey}`, JSON.stringify(meta))
 }
 
-async function getKeyMeta(publicKey) {
+export async function getKeyMeta(publicKey) {
     try {
         return JSON.parse(localStorage.getItem(`keyMeta:${publicKey}`)) || {};
     } catch (e) {
@@ -346,14 +346,6 @@ class Wallet {
     async createNewAccount(accountId, fundingOptions, recoveryMethod, publicKey) {
         await this.checkNewAccount(accountId);
 
-        // TODO: Should this check 'recoveryMethod' instead?
-        let useLedger = !publicKey
-
-        if (useLedger) {
-            publicKey = await this.getLedgerPublicKey()
-            await setKeyMeta(publicKey, { type: 'ledger' })
-        }
-
         // TODO: Remove has2fa property, check on account object
         // no new accounts are 2fa
         this.has2fa = false
@@ -372,15 +364,7 @@ class Wallet {
         }
 
         await this.saveAndSelectAccount(accountId);
-        if (useLedger) {
-            await this.addLedgerAccountId(accountId)
-        } else {
-            await this.addLocalKeyAndFinishSetup(accountId, recoveryMethod, publicKey)
-        }
-
-        if (useLedger) {
-            await this.postSignedJson('/account/ledgerKeyAdded', { accountId, publicKey: publicKey.toString() })
-        }
+        await this.addLocalKeyAndFinishSetup(accountId, recoveryMethod, publicKey)
     }
 
     async createNewAccountFromAnother(accountId, fundingAccountId, publicKey) {
@@ -708,17 +692,22 @@ class Wallet {
     }
 
     async addLocalKeyAndFinishSetup(accountId, recoveryMethod, publicKey) {
-        const newKeyPair = KeyPair.fromRandom('ed25519')
-        const newPublicKey = newKeyPair.publicKey
-        if (recoveryMethod !== 'seed') {
-            await this.addNewAccessKeyToAccount(accountId, newPublicKey)
+        if (recoveryMethod === 'ledger') {
+            await this.addLedgerAccountId(accountId)
+            await this.postSignedJson('/account/ledgerKeyAdded', { accountId, publicKey: publicKey.toString() })
         } else {
-            const contractName = null;
-            const fullAccess = true;
-            await wallet.addAccessKey(accountId, contractName, newPublicKey, fullAccess)
-            await wallet.postSignedJson('/account/seedPhraseAdded', { accountId, publicKey: publicKey.toString() })
+            const newKeyPair = KeyPair.fromRandom('ed25519')
+            const newPublicKey = newKeyPair.publicKey
+            if (recoveryMethod !== 'seed') {
+                await this.addNewAccessKeyToAccount(accountId, newPublicKey)
+            } else {
+                const contractName = null;
+                const fullAccess = true;
+                await wallet.addAccessKey(accountId, contractName, newPublicKey, fullAccess)
+                await wallet.postSignedJson('/account/seedPhraseAdded', { accountId, publicKey: publicKey.toString() })
+            }
+            await this.saveAccount(accountId, newKeyPair)
         }
-        await this.saveAccount(accountId, newKeyPair)
 
         await store.dispatch(finishAccountSetup())
     }
