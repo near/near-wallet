@@ -541,7 +541,8 @@
             "desc": "Stake your NEAR tokens with a validator",
             "button": "Select validator",
             "currentValidators": "Your Current Validators",
-            "noValidators": "You haven't staked with a validator yet."
+            "noValidators": "You haven't staked with a validator yet.",
+            "selectAccount": "Select account"
         },
         "balanceBox": {
             "staked": {
