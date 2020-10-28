@@ -86,13 +86,12 @@ const NetworkBanner = ({ account }) => {
         app.style.paddingTop = bannerHeight ? `${bannerHeight + 85}px` : '75px'
     }
 
-    const isMainnetGuestFlow = IS_MAINNET && !account.accountId && !window.location.href.includes('staging')
     const isMainnetStaging = IS_MAINNET && window.location.href.includes('staging')
 
     if (!IS_MAINNET) {
         return (
             <Container id='top-banner'>
-                <Modal 
+                <Modal
                     size='mini'
                     trigger={
                         <div className='trigger-string'>
@@ -107,12 +106,6 @@ const NetworkBanner = ({ account }) => {
                     <h4><Translate id='networkBanner.header' /></h4>
                     <Translate id='networkBanner.desc' />
                 </Modal>
-            </Container>
-        )
-    } else if (isMainnetGuestFlow) {
-        return (
-            <Container id='top-banner'>
-                <Translate id='landing.banner' />
             </Container>
         )
     } else if (isMainnetStaging) {
