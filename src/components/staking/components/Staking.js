@@ -47,6 +47,7 @@ export default function Staking({
             <AccountSwitcher
                 open={switchAccount}
                 handleOnClick={handleSwitchAccount}
+                handleClickOutside={() => setSwitchAccount(false)}
                 accounts={accounts}
                 activeAccount={activeAccount}
                 accountId={accountId}

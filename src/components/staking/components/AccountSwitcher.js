@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import WalletIcon from '../../svg/WalletIcon'
 import LockIcon from '../../svg/LockIcon'
 import Balance from '../../common/Balance'
+import ClickOutside from '../../common/ClickOutside'
 import ChevronIcon from '../../svg/ChevronIcon'
 
 const Container = styled.div`
@@ -102,30 +103,32 @@ function Account({ account, onClick, mainAccountId }) {
     }
 }
 
-export default function AccountSwitcher({ open, activeAccount, accounts, handleOnClick, accountId }) {
+export default function AccountSwitcher({ open, activeAccount, accounts, handleOnClick, accountId, handleClickOutside }) {
     const multipleAccounts = accounts.length > 1
     if (activeAccount) {
         return (
-            <Container open={open} multipleAccounts={multipleAccounts}>
-                <div className='wrapper'>
-                    <div className='selected'>
-                        <Account account={activeAccount} onClick={handleOnClick} mainAccountId={accountId}/>
-                        {multipleAccounts && <ChevronIcon color='#0072CE'/>}
-                    </div>
-                    {open &&
-                        <div className='accounts'>
-                            {accounts.filter(({ accountId }) => activeAccount.accountId !== accountId).map((account, i) => 
-                                <Account 
-                                    account={account}
-                                    key={i}
-                                    onClick={handleOnClick}
-                                    mainAccountId={accountId}
-                                />
-                            )}
+            <ClickOutside onClickOutside={handleClickOutside}>
+                <Container id='account-switcher' open={open} multipleAccounts={multipleAccounts}>
+                    <div className='wrapper'>
+                        <div className='selected'>
+                            <Account account={activeAccount} onClick={handleOnClick} mainAccountId={accountId}/>
+                            {multipleAccounts && <ChevronIcon color='#0072CE'/>}
                         </div>
-                    }
-                </div>
-            </Container>
+                        {open &&
+                            <div className='accounts'>
+                                {accounts.filter(({ accountId }) => activeAccount.accountId !== accountId).map((account, i) => 
+                                    <Account 
+                                        account={account}
+                                        key={i}
+                                        onClick={handleOnClick}
+                                        mainAccountId={accountId}
+                                    />
+                                )}
+                            </div>
+                        }
+                    </div>
+                </Container>
+            </ClickOutside>
         )
     } else {
         return null
