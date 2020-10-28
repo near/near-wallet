@@ -98,7 +98,7 @@ class Login extends Component {
                         <LoginConfirm
                             {...props}
                             buttonLoader={this.state.buttonLoader}
-                            appTitle={url && url.title}
+                            appTitle={appTitle}
                             handleAllow={this.handleAllow}
                         />
                     )}
