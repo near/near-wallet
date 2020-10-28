@@ -86,7 +86,7 @@ class Login extends Component {
                         <LoginDetails
                             {...props}
                             contractId={url && url.contract_id}
-                            appTitle={url && url.title}
+                            appTitle={appTitle}
                             accountConfirmationForm={accountConfirmationForm}
                         />
                     )}
