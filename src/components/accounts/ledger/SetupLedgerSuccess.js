@@ -39,6 +39,7 @@ const SetupLedgerSuccess = (props) => {
             <FormButton 
                 sending={removingkeys} 
                 onClick={() => setNextStep('remove')}
+                className='remove-all-keys'
             >
                 <Translate id='setupLedgerSuccess.primaryCta'/>
             </FormButton>
