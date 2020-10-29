@@ -5,7 +5,7 @@ import HardwareDeviceIcon from '../../svg/HardwareDeviceIcon';
 import NextStepModal from './NextStepModal';
 import FormButton from '../../common/FormButton';
 import { Translate } from 'react-localize-redux';
-import { removeNonLedgerAccessKeys } from '../../../actions/account';
+import { removeNonLedgerAccessKeys, redirectTo } from '../../../actions/account';
 
 const SetupLedgerSuccess = (props) => {
 
@@ -27,7 +27,7 @@ const SetupLedgerSuccess = (props) => {
     }
 
     const goToProfile = () => {
-        props.history.push(`/profile/${props.accountId}`)
+        props.redirectTo('/profile')
     }
 
     return (
@@ -57,7 +57,8 @@ const SetupLedgerSuccess = (props) => {
 }
 
 const mapDispatchToProps = {
-    removeNonLedgerAccessKeys
+    removeNonLedgerAccessKeys,
+    redirectTo
 }
 
 const mapStateToProps = ({ account }) => ({
