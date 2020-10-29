@@ -130,7 +130,7 @@ const mapDispatchToProps = {
 
 const mapStateToProps = ({ account }) => ({
     account,
-    appTitle: account.url?.referrer || (account.url?.title === 'NEAR CLI' && account.url?.title)
+    appTitle: account.url?.referrer
 })
 
 export const LoginWithRouter = connect(
