@@ -41,10 +41,8 @@ import { SignWithRouter } from './sign/Sign'
 import { NodeStakingWithRouter } from './node-staking/NodeStaking'
 import { AddNodeWithRouter } from './node-staking/AddNode'
 import { NodeDetailsWithRouter } from './node-staking/NodeDetails'
-//import { StakingWithRouter } from './staking/_Staking'
-//import { ValidatorWithRouter } from './staking/_Validator'
 import { StakingContainer } from './staking/StakingContainer'
-import { IS_MAINNET, DISABLE_SEND_MONEY, WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS, DISABLE_CREATE_ACCOUNT } from '../utils/wallet'
+import { DISABLE_SEND_MONEY, WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS } from '../utils/wallet'
 import { refreshAccount, handleRefreshUrl, clearAlert, clear, handleRedirectUrl, handleClearUrl, promptTwoFactor } from '../actions/account'
 import LedgerConfirmActionModal from './accounts/ledger/LedgerConfirmActionModal';
 
@@ -60,7 +58,7 @@ const onMissingTranslation = ({ defaultTranslation }) => defaultTranslation;
 const Container = styled.div`
     min-height: 100vh;
     padding-bottom: 200px;
-    padding-top: ${props => props.showBanner ? '120px' : '75px'};
+    padding-top: 75px;
     .main {
         padding-bottom: 200px;
     }
@@ -71,11 +69,6 @@ const Container = styled.div`
                 padding-bottom: 0px;
             }
         }
-    }
-
-    #mobile-menu,
-    .desktop-menu {
-        top: ${props => props.showBanner ? '35px' : '0'};
     }
 `
 class Routing extends Component {
@@ -158,14 +151,15 @@ class Routing extends Component {
 
     render() {
         const { search } = this.props.router.location
-
         return (
-            <Container className='App' showBanner={(IS_MAINNET && !this.props.account.accountId) || !IS_MAINNET}>
+            <Container className='App' id='app-container'>
                 <GlobalStyle />
                 <ConnectedRouter basename={PATH_PREFIX} history={this.props.history}>
                     <ThemeProvider theme={theme}>
                         <ScrollToTop/>
-                        <NetworkBanner accountId={this.props.account.accountId}/>
+                        <NetworkBanner 
+                            account={this.props.account}
+                        />
                         <Navigation/>
                         <GlobalAlert/>
                         <LedgerConfirmActionModal/>

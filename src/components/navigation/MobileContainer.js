@@ -20,12 +20,8 @@ const Container = styled.div`
     margin-bottom: 20px;
     background-color: #24272a;
     height: 70px;
-    top: 0;
-    z-index: 1000;
+    position: relative;
     padding: 0 15px;
-    position: fixed;
-    right: 0;
-    left: 0;
     box-shadow: 0px 5px 9px -1px rgba(0,0,0,0.17);
     transition: 300ms;
 
@@ -53,8 +49,6 @@ const Container = styled.div`
 
     &.show {
         height: 100%;
-        top: 0;
-        bottom: 0;
         overflow-y: auto;
         overflow-x: hidden;
     }
@@ -65,10 +59,11 @@ const Collapsed = styled.div`
     display: flex;
     align-items: center;
 
-    .menu-btn {
+    .menu-btn-wrapper {
         position: absolute;
-        right: 20px;
-        top: 25px;
+        right: 0;
+        top: 5px;
+        padding: 20px;
     }
 `
 
