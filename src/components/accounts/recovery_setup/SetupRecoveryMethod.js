@@ -173,7 +173,7 @@ class SetupRecoveryMethod extends Component {
 
     render() {
         const { option, phoneNumber, email, success, emailInvalid, phoneInvalid } = this.state;
-        const { actionsPending, accountId, activeAccountId, ledgerKey, twoFactor } = this.props;
+        const { formLoader, accountId, activeAccountId, ledgerKey, twoFactor } = this.props;
 
         if (!success) {
             return (
@@ -212,6 +212,7 @@ class SetupRecoveryMethod extends Component {
                                         type='email'
                                         placeholder={translate('setupRecovery.emailPlaceholder')}
                                         value={email}
+                                        disabled={this.props.formLoader}
                                         onChange={e => this.setState({ email: e.target.value, emailInvalid: false })}
                                         onBlur={this.handleBlurEmail}
                                         tabIndex='1'
@@ -231,6 +232,7 @@ class SetupRecoveryMethod extends Component {
                                     <PhoneInput
                                         placeholder={translate('setupRecovery.phonePlaceholder')}
                                         value={phoneNumber}
+                                        disabled={this.props.formLoader}
                                         onChange={value => this.setState({ phoneNumber: value, phoneInvalid: false })}
                                         tabIndex='1'
                                         onBlur={this.handleBlurPhone}
@@ -242,7 +244,7 @@ class SetupRecoveryMethod extends Component {
                             color='blue'
                             type='submit'
                             disabled={!this.isValidInput}
-                            sending={actionsPending.includes('INITIALIZE_RECOVERY_METHOD')}
+                            sending={formLoader}
                         >
                             <Translate id={`button.${option !== 'phrase' ? 'protectAccount' : 'setupPhrase'}`}/>
                         </FormButton>
@@ -258,7 +260,7 @@ class SetupRecoveryMethod extends Component {
                     onConfirm={this.handleSetupRecoveryMethod}
                     onGoBack={this.handleGoBack}
                     onResend={this.handleSendCode}
-                    loading={actionsPending.some(action => ['SETUP_RECOVERY_MESSAGE', 'SETUP_RECOVERY_MESSAGE_NEW_ACCOUNT'].includes(action))}
+                    loading={formLoader}
                     requestStatus={this.props.requestStatus}
                 />
             )
