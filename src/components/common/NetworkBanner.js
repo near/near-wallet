@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import helpIconWhite from '../../images/icon-help-white.svg';
 import helpIconBrown from '../../images/icon-help-brown.svg';
-import { IS_MAINNET, NODE_URL } from '../../utils/wallet';
+import { IS_MAINNET, SHOW_PRERELEASE_WARNING, NODE_URL } from '../../utils/wallet';
 import { Modal } from 'semantic-ui-react';
 import { Translate } from 'react-localize-redux';
 import AlertTriangleIcon from '../svg/AlertTriangleIcon.js';
@@ -86,8 +86,6 @@ const NetworkBanner = ({ account }) => {
         app.style.paddingTop = bannerHeight ? `${bannerHeight + 85}px` : '75px'
     }
 
-    const isMainnetStaging = IS_MAINNET && window.location.href.includes('staging')
-
     if (!IS_MAINNET) {
         return (
             <Container id='top-banner'>
@@ -108,7 +106,7 @@ const NetworkBanner = ({ account }) => {
                 </Modal>
             </Container>
         )
-    } else if (isMainnetStaging) {
+    } else if (SHOW_PRERELEASE_WARNING) {
         return (
             <Container id='top-banner' className='staging-banner'>
                 <AlertTriangleIcon color='#A15600'/>
