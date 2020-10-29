@@ -50,13 +50,6 @@
     font-display: swap;
     src: url("./fonts/Inter-ExtraBold.woff2") format("woff2");
 }
-@font-face {
-    font-family: "Inter";
-    font-style: italic;
-    font-weight: 800;
-    font-display: swap;
-    src: url("./fonts/Inter-ExtraBoldItalic.woff2") format("woff2");
-}
 
 @font-face {
     font-family: "Inter";
@@ -64,13 +57,6 @@
     font-weight: 900;
     font-display: swap;
     src: url("./fonts/Inter-Black.woff2") format("woff2");
-}
-@font-face {
-    font-family: "Inter";
-    font-style: italic;
-    font-weight: 900;
-    font-display: swap;
-    src: url("./fonts/Inter-BlackItalic.woff2") format("woff2");
 }
 
 @import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Mono&display=swap");
