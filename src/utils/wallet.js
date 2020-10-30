@@ -24,7 +24,6 @@ import { TwoFactor } from './twoFactor'
 import { Staking } from './staking'
 import { decorateWithLockup } from './account-with-lockup'
 
-const WALLET_URL = process.env.WALLET_URL || 'https://wallet.nearprotocol.com'
 export const WALLET_CREATE_NEW_ACCOUNT_URL = 'create'
 export const WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS = ['create', 'set-recovery', 'setup-seed-phrase', 'recover-account', 'recover-seed-phrase', 'sign-in-ledger']
 export const WALLET_LOGIN_URL = 'login'
@@ -629,13 +628,11 @@ class Wallet {
         return { blockNumber, blockNumberSignature };
     }
 
-    async createMagicLink({ accountId, publicKey, seedPhrase }) {
-        const account = this.getAccount(accountId);
-        const accountKeys = await account.getAccessKeys();
-        if (!accountKeys.some(it => it.public_key.endsWith(publicKey))) {
-            await account.addKey(publicKey); // TODO: figure out 'claim' flow
-        }
-        return `${WALLET_URL}/recover-with-link/${encodeURIComponent(accountId)}/${encodeURIComponent(seedPhrase)}`;
+    async createMagicLink() {
+        const { seedPhrase, publicKey } = generateSeedPhrase()
+        const account = await this.getAccount(this.accountId)
+        await account.addKey(publicKey) // Handle 2FA case
+        return `${`https://wallet${!IS_MAINNET ? `.testnet` : ``}.near.org`}/recover-with-link/${encodeURIComponent(this.accountId)}/${encodeURIComponent(seedPhrase)}`
     }
 
     async postSignedJson(path, options) {

@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux';
 import { withRouter, Link } from 'react-router-dom'
-import { generateSeedPhrase } from 'near-seed-phrase'
 import { Modal } from 'semantic-ui-react'
 import Spinner from '../svg/Spinner'
 import { QRCode } from "react-qr-svg"
@@ -115,11 +114,9 @@ class QrCodeLoginModal extends Component {
         loginLink: ''
     }
 
-    handleCreateLink = () => {
-        const { accountId, createMagicLink } = this.props;
-        const { seedPhrase, publicKey } = generateSeedPhrase();
-        createMagicLink({ accountId, publicKey, seedPhrase })
-            .then(link => this.setState({ loginLink: link.payload }))
+    handleCreateLink = async () => {
+        const codeUrl = await this.props.createMagicLink()
+        this.setState({ loginLink: codeUrl })
     }
 
     render() {
@@ -129,7 +126,7 @@ class QrCodeLoginModal extends Component {
         return (
             <CustomModal 
                 size='mini'
-                trigger={<AddDeviceBtn type='button'>Login on another device</AddDeviceBtn>}
+                trigger={<AddDeviceBtn type='button'>Sign In on 2nd Device w/ QR Code</AddDeviceBtn>}
                 onOpen={this.handleCreateLink}
                 onClose={() => this.setState({ loginLink: '' })}
                 closeIcon
@@ -137,7 +134,6 @@ class QrCodeLoginModal extends Component {
                 <QrCode 
                     loginLink={loginLink}
                 />
-                {/* TODO: Show 'Send as SMS' alternative */}
                 <Instructions>
                     Scan using camera app or go to<br/>
                     <Link to='/add-device'>{`${window.location.protocol}//${window.location.host}/add-device`}</Link>

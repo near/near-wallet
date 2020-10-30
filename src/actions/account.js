@@ -163,6 +163,7 @@ export const {
     get2faMethod,
     getLedgerKey,
     getLedgerPublicKey,
+    createMagicLink,
     setupRecoveryMessage,
     setupRecoveryMessageNewAccount,
     deleteRecoveryMethod,
