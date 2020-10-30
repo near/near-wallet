@@ -1,0 +1,56 @@
+import {
+    ArgsTable,
+    Meta,
+    Story,
+    Canvas,
+    PRIMARY_STORY,
+} from "@storybook/addon-docs/blocks";
+import Button from "../components/common/Button";
+import Spacer from "./docsSpacer";
+
+<Meta
+    title="Design System/Actions"
+    component={Button}
+    argTypes={{
+        label: {
+            name: "label",
+            description: "Indicates the result or intent of the action",
+        },
+        disabled: {
+            name: "disabled",
+            description: "Disabled buttons cannot be pressed.",
+            control: "boolean",
+        },
+    }}
+    args={{
+        label: "Button",
+        theme: "primary",
+    }}
+/>
+
+export const Template = (args) => <Button {...args}>{args.label}</Button>;
+
+# Button
+
+Buttons are used primarily for actions, such as “Add”, “Close”, “Cancel”, or “Save”.
+
+<Spacer size="large" />
+
+### Example
+
+<Canvas>
+    <Story
+        name="Button"
+        args={{
+            theme: "primary",
+        }}
+    >
+        {Template.bind({})}
+    </Story>
+</Canvas>
+
+<Spacer size="small" />
+
+### Properties
+
+<ArgsTable story={PRIMARY_STORY} />

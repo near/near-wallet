@@ -232,6 +232,7 @@
         "ADD_LEDGER_ACCESS_KEY": "You will need to confirm public key details on your Ledger.",
         "GET_LEDGER_PUBLIC_KEY": "You will need to confirm public key access on your Ledger.",
         "CREATE_NEW_ACCOUNT": "You will need to confirm add a key for new account on your Ledger.",
+        "CREATE_ACCOUNT_FROM_IMPLICIT": "You will need to confirm account creation on your Ledger. This includes transactions needed to move balance from temporary account.",
         "SIGN_AND_SEND_TRANSACTIONS": "You will need to confirm deposit details on your Ledger.",
         "REMOVE_NON_LEDGER_ACCESS_KEYS": "You will need to confirm details on your Ledger.",
         "STAKE": "You will need to confirm staking on your Ledger",
@@ -546,7 +547,8 @@
             "desc": "Stake your NEAR tokens with a validator",
             "button": "Select validator",
             "currentValidators": "Your Current Validators",
-            "noValidators": "You haven't staked with a validator yet."
+            "noValidators": "You haven't staked with a validator yet.",
+            "selectAccount": "Select account"
         },
         "balanceBox": {
             "staked": {
@@ -784,8 +786,8 @@
     "setupLedgerSuccess": {
         "header": "Ledger has secured your account!",
         "one": "We recommend that you remove all existing keys (recovery methods and devices).",
-        "two": "Maintaining multiple keys increases the vulnerability of your account.",
-        "primaryCta": "Remove Existing Keys",
+        "two": "Maintaining multiple keys and recovery methods (including seed phrases) increases the vulnerability of your account.",
+        "primaryCta": "Remove Existing Keys and Recovery Methods",
         "secondaryCta": "Keep existing keys",
         "nextStep": {
             "header": {
@@ -793,7 +795,7 @@
                 "keep": "Keep existing keys?"
             },
             "one": {
-                "remove": "Before removing your existing keys, make sure that you have recorded and securely stored your Ledger seed phrase.",
+                "remove": "Before removing your existing keys and recovery methods, make sure that you have recorded and securely stored your Ledger seed phrase.",
                 "keep": "<span class='color-red'>Maintaining multiple recovery methods and devices increases the vulnerability of your account.</span>"
             },
             "two": {
@@ -867,14 +869,16 @@
         "header": "NEAR test Wallet",
         "desc": "This wallet (and network) are for testing purposes only. Tokens and other assets have no value. Accounts created do not transfer to Mainnet."
     },
-
+    "stagingBanner": {
+        "title": "Warning: This is a pre-release version of Wallet. Use at your own risk!",
+        "desc": "Warning: This is a pre-release version of the NEAR Wallet. There may be bugs, and these bugs may lead to loss of funds. By continuing to use this version, you agree that you understand and accept these risks, and understand that the NEAR Wallet team will be unable to help you."
+    },
     "landing": {
         "title":"NEAR is here.",
         "desc": "Securely store and stake your NEAR tokens and compatible assets with <span>NEAR Wallet</span>.",
         "or": "or",
         "banner": "NEAR Wallet is in Private Beta"
     },
-
     "emailSubscribe": {
         "title": "Sign up below for early access",
         "placeholder": "Your email..."

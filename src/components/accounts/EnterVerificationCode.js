@@ -63,6 +63,7 @@ const EnterVerificationCode = ({
                                 placeholder={translate('setRecoveryConfirm.inputPlaceholder')}
                                 aria-label={translate('setRecoveryConfirm.inputPlaceholder')}
                                 value={code}
+                                disabled={loading}
                                 onChange={e => setCode(e.target.value)}
                                 autoFocus={true}
                             />

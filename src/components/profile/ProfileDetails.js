@@ -6,7 +6,6 @@ import { Popup, Grid, Image } from 'semantic-ui-react'
 import Balance from '../common/Balance'
 import InfoPopup from '../common/InfoPopup'
 import LockImage from '../../images/icon-lock.svg'
-import { DISABLE_CREATE_ACCOUNT } from '../../utils/wallet'
 
 import styled from 'styled-components'
 
@@ -137,7 +136,7 @@ const ProfileDetails = ({
                     >
                         <Popup.Header><Translate id='profile.details.lockPopup.title' /></Popup.Header>
                         <Popup.Content>
-                            <Translate id='profile.details.lockPopup.text' data={{'link': <Link to={DISABLE_CREATE_ACCOUNT ? `/create-implicit` : `/create`}><Translate id='profile.details.lockPopup.createAnotherAccount' /></Link>}} />
+                            <Translate id='profile.details.lockPopup.text' data={{'link': <Link to="/create"><Translate id='profile.details.lockPopup.createAnotherAccount' /></Link>}} />
                             {` `}
                             {false ?
                                 <a href='/'>Learn more</a>

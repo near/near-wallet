@@ -31,6 +31,7 @@ export const WALLET_SIGN_URL = 'sign'
 export const ACCOUNT_HELPER_URL = process.env.REACT_APP_ACCOUNT_HELPER_URL || 'https://near-contract-helper.onrender.com'
 export const EXPLORER_URL = process.env.EXPLORER_URL || 'https://explorer.testnet.near.org';
 export const IS_MAINNET = process.env.REACT_APP_IS_MAINNET === 'true' || process.env.REACT_APP_IS_MAINNET === 'yes'
+export const SHOW_PRERELEASE_WARNING = process.env.SHOW_PRERELEASE_WARNING === 'true' || process.env.SHOW_PRERELEASE_WARNING === 'yes'
 export const DISABLE_CREATE_ACCOUNT = process.env.DISABLE_CREATE_ACCOUNT === 'true' || process.env.DISABLE_CREATE_ACCOUNT === 'yes'
 export const DISABLE_SEND_MONEY = process.env.DISABLE_SEND_MONEY === 'true' || process.env.DISABLE_SEND_MONEY === 'yes'
 export const ACCOUNT_ID_SUFFIX = process.env.REACT_APP_ACCOUNT_ID_SUFFIX || 'testnet'
@@ -66,11 +67,11 @@ export const convertPKForContract = (pk) => {
 }
 export const toPK = (pk) => nearApiJs.utils.PublicKey.from(pk)
 
-async function setKeyMeta(publicKey, meta) {
+export async function setKeyMeta(publicKey, meta) {
     localStorage.setItem(`keyMeta:${publicKey}`, JSON.stringify(meta))
 }
 
-async function getKeyMeta(publicKey) {
+export async function getKeyMeta(publicKey) {
     try {
         return JSON.parse(localStorage.getItem(`keyMeta:${publicKey}`)) || {};
     } catch (e) {
@@ -346,14 +347,6 @@ class Wallet {
     async createNewAccount(accountId, fundingOptions, recoveryMethod, publicKey) {
         await this.checkNewAccount(accountId);
 
-        // TODO: Should this check 'recoveryMethod' instead?
-        let useLedger = !publicKey
-
-        if (useLedger) {
-            publicKey = await this.getLedgerPublicKey()
-            await setKeyMeta(publicKey, { type: 'ledger' })
-        }
-
         // TODO: Remove has2fa property, check on account object
         // no new accounts are 2fa
         this.has2fa = false
@@ -372,15 +365,7 @@ class Wallet {
         }
 
         await this.saveAndSelectAccount(accountId);
-        if (useLedger) {
-            await this.addLedgerAccountId(accountId)
-        } else {
-            await this.addLocalKeyAndFinishSetup(accountId, recoveryMethod, publicKey)
-        }
-
-        if (useLedger) {
-            await this.postSignedJson('/account/ledgerKeyAdded', { accountId, publicKey: publicKey.toString() })
-        }
+        await this.addLocalKeyAndFinishSetup(accountId, recoveryMethod, publicKey)
     }
 
     async createNewAccountFromAnother(accountId, fundingAccountId, publicKey) {
@@ -708,17 +693,22 @@ class Wallet {
     }
 
     async addLocalKeyAndFinishSetup(accountId, recoveryMethod, publicKey) {
-        const newKeyPair = KeyPair.fromRandom('ed25519')
-        const newPublicKey = newKeyPair.publicKey
-        if (recoveryMethod !== 'seed') {
-            await this.addNewAccessKeyToAccount(accountId, newPublicKey)
+        if (recoveryMethod === 'ledger') {
+            await this.addLedgerAccountId(accountId)
+            await this.postSignedJson('/account/ledgerKeyAdded', { accountId, publicKey: publicKey.toString() })
         } else {
-            const contractName = null;
-            const fullAccess = true;
-            await wallet.addAccessKey(accountId, contractName, newPublicKey, fullAccess)
-            await wallet.postSignedJson('/account/seedPhraseAdded', { accountId, publicKey: publicKey.toString() })
+            const newKeyPair = KeyPair.fromRandom('ed25519')
+            const newPublicKey = newKeyPair.publicKey
+            if (recoveryMethod !== 'seed') {
+                await this.addNewAccessKeyToAccount(accountId, newPublicKey)
+            } else {
+                const contractName = null;
+                const fullAccess = true;
+                await wallet.addAccessKey(accountId, contractName, newPublicKey, fullAccess)
+                await wallet.postSignedJson('/account/seedPhraseAdded', { accountId, publicKey: publicKey.toString() })
+            }
+            await this.saveAccount(accountId, newKeyPair)
         }
-        await this.saveAccount(accountId, newKeyPair)
 
         await store.dispatch(finishAccountSetup())
     }
@@ -779,10 +769,17 @@ class Wallet {
         if (!accountId) {
             accountIds = await getAccountIds(publicKey)
             const implicitAccountId = Buffer.from(PublicKey.fromString(publicKey).data).toString('hex')
-            if (await this.accountExists(implicitAccountId)) {
-                accountIds.push(implicitAccountId)
+            accountIds.push(implicitAccountId)
+        }
+
+        // remove duplicate and non-existing accounts
+        const accountsSet = new Set(accountIds)
+        for (const accountId of accountsSet) {
+            if (!(await this.accountExists(accountId))) {
+                accountsSet.delete(accountId)
             }
         }
+        accountIds = [...accountsSet]
 
         if (!accountIds.length) {
             throw new WalletError('Cannot find matching public key', 'account.recoverAccount.errorInvalidSeedPhrase', { publicKey })
@@ -793,9 +790,6 @@ class Wallet {
             provider: { type: 'JsonRpcProvider', args: { url: NODE_URL + '/' } },
             signer: new nearApiJs.InMemorySigner(tempKeyStore)
         })
-
-        // remove any duplicate accountIds
-        accountIds = [...new Set(accountIds)]
         
         await Promise.all(accountIds.map(async (accountId, i) => {
             if (!accountId || !accountId.length) return
