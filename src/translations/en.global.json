@@ -191,6 +191,12 @@
             "resend": "Resend",
             "resending": "Sending...",
             "resent": "Code sent!"
+        },
+        "disable": {
+            "title": "Are you sure you want to disable 2FA?",
+            "desc": "Keep in mind that transactions won't have to be confirmed with 2FA once it's disabled.",
+            "disable": "Disable 2FA",
+            "keep": "No, keep 2FA"
         }
     },
 

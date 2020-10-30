@@ -129,6 +129,10 @@ export class TwoFactor extends AccountMultisig {
         return super.deployMultisig(contractBytes)
     }
 
+    async disableMultisig() {
+        console.log('disable multisig')
+    }
+
     async disable() {
         const { accountId } = this
         const accessKeys = await this.wallet.getAccessKeys()
