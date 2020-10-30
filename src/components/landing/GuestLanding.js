@@ -81,7 +81,7 @@ const StyledContainer = styled.div`
                     max-width: 220px;
                     height: auto;
                     text-transform: none;
-                    padding: 8px 6px;
+                    padding: 12px 6px;
                 }
             }
 

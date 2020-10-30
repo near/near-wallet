@@ -145,6 +145,7 @@ const HardwareDevices = () => {
                     onKeepEnabled={() => setConfirmDisable(false)}
                     accountId={account.accountId}
                     disabling={disabling}
+                    component='hardwareDevices'
                 />
             }
             {!hasOtherMethods && ledgerIsConnected && 

@@ -55,7 +55,7 @@ const Container = styled.div`
         color: white;
         border: none;
         font-weight: 500 !important;
-        padding: 4px 30px;
+        padding: 10px 30px;
         transition: 100ms;
         word-break: keep-all;
 

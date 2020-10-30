@@ -28,7 +28,9 @@ export default createGlobalStyle`
         }
 
         button {
-            margin-top: 4px !important; 
+            &:not(.modal-close-btn) {
+                margin-top: 10px !important; 
+            }
 
             &.link {
                 padding-top: 12px !important;

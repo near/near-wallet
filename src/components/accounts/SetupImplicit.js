@@ -15,7 +15,7 @@ import { Snackbar, snackbarDuration } from '../common/Snackbar'
 import Container from '../common/styled/Container.css'
 import FormButton from '../common/FormButton'
 import IconMCopy from '../../images/IconMCopy'
-import { createAccountFromImplicit, finishAccountSetup } from '../../actions/account'
+import { createAccountFromImplicit } from '../../actions/account' 
 import { NETWORK_ID, NODE_URL, MIN_BALANCE_FOR_GAS } from '../../utils/wallet'
 
 // TODO: Make configurable

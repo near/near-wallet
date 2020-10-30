@@ -39,7 +39,7 @@ export default function Staking({
             <div className='desc'><Translate id='staking.staking.desc' /></div>
             <Modal
                 size='mini'
-                trigger={<span className='account-info'>Staking from <InfoIcon color='#999999'/></span>}
+                trigger={<span className='account-info'><Translate id='staking.staking.selectAccount' /> <InfoIcon color='#999999'/></span>}
                 closeIcon
             >
                 <Translate id='staking.stake.accounts' />
@@ -47,6 +47,7 @@ export default function Staking({
             <AccountSwitcher
                 open={switchAccount}
                 handleOnClick={handleSwitchAccount}
+                handleClickOutside={() => setSwitchAccount(false)}
                 accounts={accounts}
                 activeAccount={activeAccount}
                 accountId={accountId}

@@ -25,12 +25,7 @@ const Container = styled.div`
     }
 
     background-color: #24272a;
-    position: fixed;
     height: 70px;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 1000;
     align-items: center;
 
     img {
@@ -240,7 +235,7 @@ class DesktopContainer extends Component {
         } = this.props;
 
         return (
-            <Container className='desktop-menu'>
+            <Container>
                 <Logo/>
                 {showNavLinks &&
                     <NavLinks />

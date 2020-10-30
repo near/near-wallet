@@ -50,6 +50,12 @@ const PageTheme = styled.div`
                     width: 100%;
                 }
             }
+
+            &.remove-all-keys {
+                min-height: 48px;
+                height: auto;
+                line-height: 140%;
+            }
         }
     }
 `;

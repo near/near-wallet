@@ -6,8 +6,9 @@ import { push } from 'connected-react-router'
 import { loadState, saveState, clearState } from '../utils/sessionStorage'
 import {
     WALLET_CREATE_NEW_ACCOUNT_URL, WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS, WALLET_LOGIN_URL, WALLET_SIGN_URL,
+    setKeyMeta,
 } from '../utils/wallet'
-import { KeyPair } from 'near-api-js'
+import { PublicKey, KeyType } from 'near-api-js/lib/utils/key_pair'
 
 export const loadRecoveryMethods = createAction('LOAD_RECOVERY_METHODS',
     wallet.getRecoveryMethods.bind(wallet),
@@ -158,6 +159,7 @@ export const {
     verifyTwoFactor,
     promptTwoFactor,
     deployMultisig,
+    disableMultisig,
     checkCanEnableTwoFactor,
     get2faMethod,
     getLedgerKey,
@@ -218,6 +220,10 @@ export const {
     DEPLOY_MULTISIG: [
         (...args) => wallet.twoFactor.deployMultisig(...args),
         () => defaultCodesFor('account.deployMultisig')
+    ],
+    DISABLE_MULTISIG: [
+        (...args) => wallet.twoFactor.disableMultisig(...args),
+        () => defaultCodesFor('account.disableMultisig')
     ],
     CHECK_CAN_ENABLE_TWO_FACTOR: [
         (...args) => wallet.twoFactor.checkCanEnableTwoFactor(...args),
@@ -312,6 +318,13 @@ export const fundCreateAccount = (accountId, recoveryKeyPair, recoveryMethod) =>
     dispatch(redirectTo(`/fund-create-account/${accountId}/${implicitAccountId}/${recoveryMethod}`))
 }
 
+export const fundCreateAccountLedger = (accountId, ledgerPublicKey) => async (dispatch) => {
+    await setKeyMeta(ledgerPublicKey, { type: 'ledger' })
+    const implicitAccountId = Buffer.from(ledgerPublicKey.data).toString('hex')
+    const recoveryMethod = 'ledger'
+    dispatch(redirectTo(`/fund-create-account/${accountId}/${implicitAccountId}/${recoveryMethod}`))
+}
+
 // TODO: Refactor common code with setupRecoveryMessageNewAccount
 export const handleCreateAccountWithSeedPhrase = (accountId, recoveryKeyPair, fundingOptions) => async (dispatch) => {
     if (DISABLE_CREATE_ACCOUNT && !fundingOptions) {
@@ -335,10 +348,11 @@ export const finishAccountSetup = () => async (dispatch) => {
 
 export const createAccountFromImplicit = createAction('CREATE_ACCOUNT_FROM_IMPLICIT', async (accountId, implicitAccountId, recoveryMethod) => {
     const recoveryKeyPair = await wallet.keyStore.getKey(wallet.connection.networkId, implicitAccountId)
-    console.log('recoveryKeyPair', recoveryKeyPair, recoveryKeyPair.publicKey)
-    // TODO: Move common logic inside of createNewAccount?
-    await wallet.saveAccount(accountId, recoveryKeyPair);
-    await wallet.createNewAccount(accountId, { fundingAccountId: implicitAccountId }, recoveryMethod, recoveryKeyPair.publicKey)
+    if (recoveryKeyPair) {
+        await wallet.saveAccount(accountId, recoveryKeyPair)
+    }
+    const publicKey = new PublicKey({ keyType: KeyType.ED25519, data: Buffer.from(implicitAccountId, 'hex') })
+    await wallet.createNewAccount(accountId, { fundingAccountId: implicitAccountId }, recoveryMethod, publicKey)
 })
 
 export const { addAccessKey, createAccountWithSeedPhrase, addAccessKeySeedPhrase, clearAlert } = createActions({

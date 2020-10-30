@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import WalletIcon from '../../svg/WalletIcon'
 import LockIcon from '../../svg/LockIcon'
 import Balance from '../../common/Balance'
+import ClickOutside from '../../common/ClickOutside'
 import ChevronIcon from '../../svg/ChevronIcon'
 
 const Container = styled.div`
@@ -15,8 +16,9 @@ const Container = styled.div`
         background-color: white;
         border: 2px solid #F2F2F2;
         border-radius: 4px;
-        cursor: pointer;
         z-index: 1;
+        box-shadow: 0px 2px 2px 0px rgb(17 22 24 / 4%);
+        cursor: ${props => props.multipleAccounts ? 'pointer' : 'default'};
     }
 
     .selected {
@@ -29,7 +31,7 @@ const Container = styled.div`
             margin-right: -33px;
             
             :hover {
-                background-color: transparent;
+                background-color: ${props => !props.open && props.multipleAccounts ? '#F8F8F8' : 'white'};
             }
         }
 
@@ -46,7 +48,7 @@ const Container = styled.div`
         padding: 15px;
 
         :hover {
-            background-color: #FAFAFA;
+            background-color: #F0F9FF;
         }
 
         .lock-icon {
@@ -87,7 +89,7 @@ function Account({ account, onClick, mainAccountId }) {
     if (accountId) {
         return (
             <div className='account' onClick={() => onClick(accountId)}>
-                {isLockup ? <LockIcon/> : <WalletIcon/>}
+                {isLockup ? <LockIcon color='#0072CE'/> : <WalletIcon color='#0072CE'/>}
                 <div className='content'>
                     <div>
                         {accountId.split('.')[0]}<span>.{accountId.substring(accountId.indexOf('.') + 1)}</span>
@@ -101,29 +103,32 @@ function Account({ account, onClick, mainAccountId }) {
     }
 }
 
-export default function AccountSwitcher({ open, activeAccount, accounts, handleOnClick, accountId }) {
+export default function AccountSwitcher({ open, activeAccount, accounts, handleOnClick, accountId, handleClickOutside }) {
+    const multipleAccounts = accounts.length > 1
     if (activeAccount) {
         return (
-            <Container open={open}>
-                <div className='wrapper'>
-                    <div className='selected'>
-                        <Account account={activeAccount} onClick={handleOnClick} mainAccountId={accountId}/>
-                        {accounts.length > 1 && <ChevronIcon color='#0072CE'/>}
-                    </div>
-                    {open &&
-                        <div className='accounts'>
-                            {accounts.filter(({ accountId }) => activeAccount.accountId !== accountId).map((account, i) => 
-                                <Account 
-                                    account={account}
-                                    key={i}
-                                    onClick={handleOnClick}
-                                    mainAccountId={accountId}
-                                />
-                            )}
+            <ClickOutside onClickOutside={handleClickOutside}>
+                <Container id='account-switcher' open={open} multipleAccounts={multipleAccounts}>
+                    <div className='wrapper'>
+                        <div className='selected'>
+                            <Account account={activeAccount} onClick={handleOnClick} mainAccountId={accountId}/>
+                            {multipleAccounts && <ChevronIcon color='#0072CE'/>}
                         </div>
-                    }
-                </div>
-            </Container>
+                        {open &&
+                            <div className='accounts'>
+                                {accounts.filter(({ accountId }) => activeAccount.accountId !== accountId).map((account, i) => 
+                                    <Account 
+                                        account={account}
+                                        key={i}
+                                        onClick={handleOnClick}
+                                        mainAccountId={accountId}
+                                    />
+                                )}
+                            </div>
+                        }
+                    </div>
+                </Container>
+            </ClickOutside>
         )
     } else {
         return null
