@@ -137,7 +137,7 @@ class ReceiveMoney extends Component {
     }
 
     get receiveUrl() {
-        return `${window.location.protocol}//${window.location.host}/send-money/${this.props.account.accountId}`;
+        return this.props.account.accountId;
     }
 
     render() {
