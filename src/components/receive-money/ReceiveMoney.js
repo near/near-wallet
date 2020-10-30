@@ -118,7 +118,7 @@ class ReceiveMoney extends Component {
     handleCopyAddress = () => {
         if (navigator.share && isMobile()) {
             navigator.share({
-                url: this.receiveUrl
+                url: this.props.account.accountId
             }).catch(err => {
                 console.log(err.message);
             });
@@ -136,10 +136,6 @@ class ReceiveMoney extends Component {
         });
     }
 
-    get receiveUrl() {
-        return this.props.account.accountId;
-    }
-
     render() {
 
         const {
@@ -155,7 +151,7 @@ class ReceiveMoney extends Component {
                             <Address onClick={this.handleCopyAddress}>
                                 {this.props.account.accountId}
                                 <UrlAddress ref={this.urlRef}>
-                                    {this.receiveUrl}
+                                    {this.props.account.accountId}
                                 </UrlAddress>
                                 {navigator.share && isMobile() ? (
                                     <MobileShare/>
