@@ -48,6 +48,12 @@ const AnimateList = styled.div`
         transition: 1s;
     }
 
+    h3 {
+        max-width: 70%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
     .row {
         border-top: 2px solid #f5f5f5;
         display: flex;
