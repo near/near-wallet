@@ -100,16 +100,12 @@ export class TwoFactor extends AccountMultisig {
     }
 
     async disableMultisig() {
-        console.log('disable multisig')
-    }
-
-    async disable() {
         const contractBytes = new Uint8Array(await (await fetch('/main.wasm')).arrayBuffer())
-        return super.disable(contractBytes)
+        return this.disable(contractBytes)
     }
 
-    async enable() {
+    async enableMultisig() {
         const contractBytes = new Uint8Array(await (await fetch('/multisig.wasm')).arrayBuffer())
-        return super.enable(contractBytes)
+        return this.enable(contractBytes)
     }
 }
