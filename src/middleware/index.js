@@ -46,6 +46,7 @@ const readyStatePromise = store => next => action => {
 
 if (process.env.MIXPANEL_TOKEN) {
     mixpanel.init(process.env.MIXPANEL_TOKEN, {'property_blacklist': ['$current_url']})
+    window.mixpanel = mixpanel
 }
 
 const analyticsMiddleware = store => next => action => {
@@ -69,6 +70,8 @@ const analyticsMiddleware = store => next => action => {
             timestamp: new Date().toString(),
             account_id: wallet.accountId
         })
+        let id = mixpanel.get_distinct_id();
+        mixpanel.identify(id);
         mixpanel.people.set({
             network_id: networkId,
             stake: 0
@@ -76,24 +79,22 @@ const analyticsMiddleware = store => next => action => {
         if (trackingEvents.includes(action.type)){
             mixpanel.track(action.type, details);
         }
-        if (action.type === 'CREATE_NEW_ACCOUNT'){
-            mixpanel.people.set({
-                account_creation_date: new Date().toString()
-            })
-        }
         if (action.type === 'CREATE_ACCOUNT_WITH_SEED_PHRASE'){
             mixpanel.people.set({
                 recovery_method: 'seed phrase',
+                account_creation_date: new Date().toString()
             })
         }
         if (action.type === 'CONNECT_LEDGER'){
             mixpanel.people.set({
                 recovery_method: 'ledger',
+                account_creation_date: new Date().toString()
             })
         }
         if (action.type === 'SETUP_RECOVERY_MESSAGE_NEW_ACCOUNT'){
             mixpanel.people.set({
                 recovery_method: 'phone or email',
+                account_creation_date: new Date().toString()
             })
         }
         if (action.type === 'RECOVER_ACCOUNT_SEED_PHRASE' || action.type === 'SAVE_AND_SELECT_LEDGER_ACCOUNTS'){
