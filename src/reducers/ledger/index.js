@@ -29,7 +29,8 @@ const ledgerModalReducer = (state, { error, ready, type }) => {
     return state
 }
 
-const ledger = handleActions({
+// TODO: Extract actions related to signInWithLedger so that all state is automatically scoped there. Is txSigned ledger-specific?
+const ledgerActions = handleActions({
     [getLedgerAccountIds]: (state, { error, payload, ready }) => {
         if (error) {
             return {
@@ -55,22 +56,13 @@ const ledger = handleActions({
         }
     },
     [addLedgerAccountId]: (state, { error, ready, meta }) => {
-        if (error) {
-            return {
-                ...state,
-                signInWithLedgerStatus: undefined,
-                signInWithLedger: undefined,
-                txSigned: undefined
-            }
-        }
-
         return {
             ...state,
             signInWithLedgerStatus: 'confirm-accounts',
             signInWithLedger: {
                 ...state.signInWithLedger,
                 [meta.accountId]: {
-                    status: ready ? 'success' : 'confirm'
+                    status: error ? 'error' : (ready ? 'success' : 'confirm')
                 }
             }
         }
@@ -124,6 +116,7 @@ const ledger = handleActions({
             signInWithLedger: undefined
         }
     },
+    // TODO: Make it clear how this interacts with ledgerModalReducer
     [showLedgerModal]: (state, { payload }) => {
         return {
             ...state,
@@ -140,6 +133,6 @@ const ledger = handleActions({
 
 export default reduceReducers(
     initialState,
-    ledger,
+    ledgerActions,
     ledgerModalReducer
 )

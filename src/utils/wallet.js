@@ -565,7 +565,7 @@ class Wallet {
     }
 
     async saveAndSelectLedgerAccounts(accounts) {
-        const accountIds = Object.keys(accounts)
+        const accountIds = Object.keys(accounts).filter(accountId => accounts[accountId].status === 'success')
 
         for (let i = 0; i < accountIds.length; i++) {
             const accountId = accountIds[i]
