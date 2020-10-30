@@ -3,22 +3,39 @@ import reduceReducers from 'reduce-reducers'
 
 import {
     requestCode,
+    setupRecoveryMessage,
     getAccessKeys,
-    getTransactions,
     clear,
     clearCode,
     addAccessKey,
     addAccessKeySeedPhrase,
+    promptTwoFactor,
     clearAlert,
     refreshUrl,
     refreshAccount,
-    resetAccounts
+    resetAccounts,
+    setFormLoader,
+    deleteRecoveryMethod,
+    recoverAccountSeedPhrase,
+    removeAccessKey,
+    deployMultisig,
+    checkCanEnableTwoFactor,
+    get2faMethod,
+    getLedgerKey,
+    sendMoney,
+    saveAndSelectLedgerAccounts,
+    signAndSendTransactions,
+    addLedgerAccessKey
 } from '../../actions/account'
 
 const initialState = {
     formLoader: false,
     sentMessage: false,
-    actionsPending: []
+    requestPending: null,
+    actionsPending: [],
+    canEnableTwoFactor: null,
+    twoFactor: null,
+    ledgerKey: null
 }
 
 const loaderReducer = (state, { type, ready }) => {
@@ -37,28 +54,33 @@ const loaderReducer = (state, { type, ready }) => {
 const globalAlertReducer = handleActions({
     // TODO: Reset state before action somehow. On navigate / start of other action?
     // TODO: Make this generic to avoid listing actions
-    [combineActions(addAccessKey, addAccessKeySeedPhrase)]: (state, { error, payload, meta }) => ({
+    [combineActions(addAccessKey, addAccessKeySeedPhrase, setupRecoveryMessage, saveAndSelectLedgerAccounts, deleteRecoveryMethod, recoverAccountSeedPhrase, deployMultisig, sendMoney, removeAccessKey, signAndSendTransactions, addLedgerAccessKey)]: (state, { error, ready, payload, meta }) => ({
         ...state,
-        globalAlert: !!payload || error ? {
+        globalAlert: ready ? {
             success: !error,
             errorMessage: (error && payload && payload.toString()) || undefined,
-            messageCode: error ? payload.messageCode || meta.errorCode : meta.successCode,
-            data: meta.data
+            messageCode: error ? (payload.type && `errors.type.${payload.type}`) || payload.messageCode || meta.errorCode || payload.id : meta.successCode,
+            data: {
+                ...meta.data,
+                ...payload
+            }
         } : undefined
     }),
     [clearAlert]: state => Object.keys(state).reduce((obj, key) => key !== 'globalAlert' ? (obj[key] = state[key], obj) : obj, {})
 }, initialState)
 
-const requestResultReducer = (state, { error, payload, meta }) => {
+const requestResultReducer = (state, { error, ready, payload, meta }) => {
     if (!meta || !meta.successCode) {
         return state
     }
+
     return {
         ...(state || initialState),
-        requestStatus: !!payload || error ? {
+        requestStatus: ready ? {
             success: !error,
             errorMessage: (error && payload && payload.toString()) || undefined,
-            messageCode: error ? payload.messageCode || meta.errorCode : meta.successCode 
+            messageCode: error ? payload.messageCode || meta.errorCode : meta.successCode,
+            id: (payload && payload.id) || undefined
         } : undefined
     }
 }
@@ -83,15 +105,8 @@ const recoverCodeReducer = handleActions({
 const accessKeys = handleActions({
     [getAccessKeys]: (state, { error, payload }) => ({
         ...state,
-        authorizedApps: payload && payload.filter(it => it.access_key && it.access_key.permission.FunctionCall),
+        authorizedApps: payload && payload.filter(it => it.access_key && it.access_key.permission.FunctionCall && it.access_key.permission.FunctionCall.receiver_id !== state.accountId),
         fullAccessKeys: payload && payload.filter(it => it.access_key && it.access_key.permission === 'FullAccess'),
-    })
-}, initialState)
-
-const transactions = handleActions({
-    [getTransactions]: (state, { error, payload }) => ({
-        ...state,
-        transactions: error ? [] : payload
     })
 }, initialState)
 
@@ -102,8 +117,37 @@ const url = handleActions({
     })
 }, initialState)
 
+const canEnableTwoFactor = handleActions({
+    [checkCanEnableTwoFactor]: (state, { payload }) => ({
+        ...state,
+        canEnableTwoFactor: payload
+    })
+}, initialState)
+
+const twoFactor = handleActions({
+    [get2faMethod]: (state, { payload }) => ({
+        ...state,
+        twoFactor: payload
+    })
+}, initialState)
+
+const twoFactorPrompt = handleActions({
+    [promptTwoFactor]: (state, { payload }) => ({
+        ...state,
+        requestPending: payload.requestPending
+    })
+}, initialState)
+
+const ledgerKey = handleActions({
+    [getLedgerKey]: (state, { payload }) => ({
+        ...state,
+        ledgerKey: payload
+    })
+}, initialState)
+
 const account = handleActions({
-    [refreshAccount]: (state, { error, payload, ready, meta }) => {
+    [refreshAccount]: (state, { payload, ready, meta }) => {
+
         if (!ready) {
             return {
                 ...state,
@@ -111,30 +155,30 @@ const account = handleActions({
             }
         }
 
-        if (error) {
-            return {
-                ...state,
-                loader: false,
-                loginError: payload.message
-            }
+        const resetAccountState = {
+            globalAlertPreventClear: payload && payload.globalAlertPreventClear,
+            resetAccount: (state.resetAccount && state.resetAccount.preventClear) ? {
+                ...state.resetAccount,
+                preventClear: false
+            } : payload && payload.resetAccount
         }
-
+        
         return {
             ...state,
-            accountId: payload.accountId,
-            amount: payload.amount,
-            stake: payload.stake,
-            nonce: payload.nonce,
-            code_hash: payload.code_hash,
-            accounts: payload.accounts,
-            loader: false,
-            loginResetAccounts: undefined
+            ...payload,
+            ledger: undefined,
+            ...resetAccountState,
+            loader: false
         }
     },
     [resetAccounts]: (state) => ({
         ...state,
         loginResetAccounts: true
     }),
+    [setFormLoader]: (state, { payload }) => ({
+        ...state,
+        formLoader: payload
+    })
 }, initialState)
 
 export default reduceReducers(
@@ -145,7 +189,10 @@ export default reduceReducers(
     requestResultClearReducer,
     recoverCodeReducer,
     accessKeys,
-    transactions,
     account,
-    url
+    url,
+    canEnableTwoFactor,
+    twoFactor,
+    twoFactorPrompt,
+    ledgerKey
 )

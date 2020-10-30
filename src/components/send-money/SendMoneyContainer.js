@@ -12,6 +12,24 @@ const CustomList = styled(List)`
         width: 360px;
         text-align: center;
         margin: 0 auto 0 auto;
+        line-break: anywhere;
+        
+        h1 {
+            padding: 0;
+        }
+
+        .implicitAccount {
+            input[name=accountId] {
+                border-color: #fca347 !important;
+            }
+            .alert-info {
+                color: #fca347;
+            }
+        }
+
+        .list {
+            padding: 0;
+        }
         
         .amount-sent {
             padding: 24px 0 24px 0;
@@ -24,6 +42,10 @@ const CustomList = styled(List)`
             padding-top: 24px;
             padding-left: 0;
             padding-right: 0;
+
+            button {
+                width: 100%;
+            }
         }
         .goback {
             font-weight: 600;
@@ -39,6 +61,7 @@ const CustomList = styled(List)`
                 margin: 0;
                 padding: 0;
                 color: #0072ce;
+                width: 100%;
 
                 :hover,
                 :focus {
@@ -51,10 +74,8 @@ const CustomList = styled(List)`
             color: #999999 !important;
         }
         .amount-sending {
-            font-family: BwSeidoRound;
             font-size: 48px;
             font-weight: 500;
-            line-height: 60px;
             color: #24272a;
             word-break: break-all;
             padding-bottom: 24px;
@@ -65,7 +86,7 @@ const CustomList = styled(List)`
             margin: -20px auto 12px auto;
         }
         .list-top {
-            padding: 24px 24px 36px;
+            padding: 24px 24px 24px;
             min-height: 100px;
             margin-top: 14px;
 
@@ -106,18 +127,14 @@ const CustomList = styled(List)`
         }
 
         form {
+            .input {
+                width: 100%;
+            }
             h3 {
                 margin-bottom: 13px;
                 text-align: left;
             }
-            .alert-info {
-                margin: 0;
-                padding: 8px 0;
-                line-height: 34px;
-                font-size: 14px;
-            }
             .amount {
-                margin-top: 12px;
                 margin-bottom: 0px;
                 padding-top: 12px;
             }
@@ -194,9 +211,6 @@ const CustomList = styled(List)`
                             border: 0px;
                         }
                     }
-                }
-                .alert-info {
-                    margin: 25px 0 10px 0;
                 }
             }
         }

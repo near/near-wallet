@@ -9,37 +9,25 @@ import styled from 'styled-components'
 
 const CustomDiv = styled(`div`)`
     .buttons-row {
-        display: flex;
+        display: block;
 
         button {
-            width: 250px !important;
-        }
-        > button:first-child {
-            display: none;
+            width: 100% !important;
         }
     }
     #seed-phrase {
         flex-wrap: wrap;
         user-select: all;
+        margin: 35px 0;
+        display: flex;
 
         .single-phrase {
             background: #f8f8f8;
-            padding: 9px 12px;
-            margin: 0 6px;
-            line-height: 48px;
-        }
-    }
-
-    @media screen and (max-width: 991px) {
-        .buttons-row {
-            display: block;
-            
-            button {
-                width: 100% !important;
-            }
-            > button:first-child {
-                display: block;
-            }
+            padding: 12px;
+            line-break: anywhere;
+            margin: 5px;
+            flex: 1;
+            min-width: 125px;
         }
     }
 `
@@ -58,32 +46,37 @@ const Number = styled(`span`)`
 const SetupSeedPhraseForm = ({
     seedPhrase,
     handleCopyPhrase,
-    match
-}) => (
-    <CustomDiv>
-        <div id='seed-phrase'>
-            {seedPhrase.split(' ').map((word, i) => (
-                <span className='single-phrase' key={`phrase-${i}`}>
-                    <Number number={i + 1} className='h4'>{word} </Number>
-                </span>
-            ))}
-        </div>
-        <div className='buttons-row'>
-            <FormButton
-                onClick={handleCopyPhrase}
-                color='seafoam-blue-white'
-            >
-                <Translate id='button.copyPhrase' />
-                <IconMCopy color='#6ad1e3' />
-            </FormButton>
-            <FormButton
-                linkTo={`${match.url}${match.url.substr(-1) === '/' ? '' : '/'}verify`}
-                color='blue'
-            >
-                <Translate id='button.continue' />
-            </FormButton>
-        </div>
-    </CustomDiv>
-)
+    linkTo,
+    location,
+    match: { params: { accountId } }
+}) => {
+
+    return (
+        <CustomDiv translate='no' className='notranslate skiptranslate'>
+            <div id='seed-phrase'>
+                {seedPhrase.split(' ').map((word, i) => (
+                    <span className='single-phrase' key={`phrase-${i}`}>
+                        <Number number={i + 1} className='h4'>{word} </Number>
+                    </span>
+                ))}
+            </div>
+            <div className='buttons-row'>
+                <FormButton
+                    onClick={handleCopyPhrase}
+                    color='seafoam-blue-white'
+                >
+                    <Translate id='button.copyPhrase' />
+                    <IconMCopy color='#6ad1e3' />
+                </FormButton>
+                <FormButton
+                    linkTo={linkTo ? linkTo : `/setup-seed-phrase/${accountId}/verify${location.search}`}
+                    color='blue'
+                >
+                    <Translate id='button.continue' />
+                </FormButton>
+            </div>
+        </CustomDiv>
+    )
+}
 
 export default withRouter(SetupSeedPhraseForm)

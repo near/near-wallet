@@ -10,7 +10,6 @@ import PaginationBlock from '../pagination/PaginationBlock'
 import PageContainer from '../common/PageContainer';
 
 import KeyListItem from '../dashboard/KeyListItem'
-import FormButton from '../common/FormButton'
 
 class AccessKeys extends Component {
     state = {
@@ -88,21 +87,19 @@ class AccessKeys extends Component {
         this.handleConfirmClear()
     }
 
-    handleDeauthorize = () => {
+    handleDeauthorize = async () => {
         const publicKey = this.state.showSubData.public_key
 
-        this.props.removeAccessKey(publicKey).then(() => {
+        try {
+            await this.props.removeAccessKey(publicKey)
+        } finally {
             this.toggleCloseSub()
             this.refreshAccessKeys()
-        })
+        }
     }
 
     refreshAccessKeys = () => {
         this.props.getAccessKeys()
-    }
-
-    componentDidMount() {
-        this.refreshAccessKeys()
     }
 
     render() {
@@ -158,11 +155,6 @@ class AccessKeys extends Component {
                             />
                         )) : <AccessKeysEmpty />)}
                 </PaginationBlock>
-                { false &&
-                <FormButton onClick={() => this.props.addLedgerAccessKey(this.props.accountId).then(() => this.props.getAccessKeys()) }>
-                    <Translate id='button.connectLedger' />
-                </FormButton>
-                }
             </PageContainer>
         )
     }

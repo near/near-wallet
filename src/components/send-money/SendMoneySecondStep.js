@@ -35,7 +35,6 @@ const SendMoneySecondStep = ({
                     <Header as='h2'><Translate id='sendMoney.to' /></Header>
                 </List.Item>
                 <List.Item as='h2'>{accountId}</List.Item>
-                <List.Item>@{accountId}</List.Item>
                 {note && (
                     <List.Item className='with-note '>
                         with note:

@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import styled from 'styled-components'
 import { Translate } from 'react-localize-redux'
-
+import InfoPopup from '../common/InfoPopup'
 import { refreshAccount, switchAccount } from '../../actions/account'
 import SignAnimatedArrow from './SignAnimatedArrow'
 import SignTransferDetails from './SignTransferDetails'
@@ -11,6 +11,7 @@ import SelectAccountDropdown from '../login/SelectAccountDropdown'
 import Balance from '../common/Balance'
 import Button from '../common/Button'
 import InlineNotification from '../common/InlineNotification'
+import FormButton from '../common/FormButton'
 
 
 const Container = styled.div`
@@ -19,7 +20,6 @@ const Container = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    font-family: 'benton-sans',sans-serif;
     color: #25282A;
 `
 
@@ -28,7 +28,6 @@ const Title = styled.div`
     font-weight: 600;
     margin-top: 30px;
     text-align: center;
-    line-height: normal;
 `
 
 const Desc = styled.div`
@@ -52,6 +51,13 @@ const CurrentBalance = styled.div`
     color: #888888;
     font-size: 14px;
     font-weight: 400;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .list {
+        margin: 0 !important;
+    }
 `
 
 const MoreInfo = styled.div`
@@ -107,10 +113,10 @@ const ButtonWrapper = styled.div`
         flex: 1;
 
         &:last-of-type {
-            margin-left: 30px;
+            margin-left: 30px !important;
 
             @media (min-width: 768px) {
-                margin-left: 50px;
+                margin-left: 50px !important;
             }
         }
     }
@@ -120,6 +126,15 @@ class SignTransferReady extends Component {
     state = {
         dropdown: false,
         showMoreInfo: false
+    }
+
+    componentDidMount() {
+        // NOTE: We need to make sure to use signer ID from transactions as account to sign
+        // TODO: Do this for signing process without changing current account in wallet globally
+        const { signerId } = this.props.transactions[0]
+        if (signerId !== this.props.account.accountId) {
+            this.handleSelectAccount(signerId)
+        }
     }
 
     handleToggleDropdown = () => {
@@ -152,13 +167,14 @@ class SignTransferReady extends Component {
             appTitle,
             actionsCounter,
             account,
+            sending,
             handleAllow,
             handleDeny,
             txTotalAmount,
-            accountBalance,
             isMonetaryTransaction,
             insufficientFunds,
-            availableAccounts
+            availableAccounts,
+            availableBalance
         } = this.props;
 
         return (
@@ -172,7 +188,9 @@ class SignTransferReady extends Component {
                             <Balance amount={txTotalAmount}/>
                         </TransferAmount>
                         <CurrentBalance>
-                            <Translate id='sign.currentBalance' />: <Balance amount={accountBalance}/>
+                            <Translate id='sign.availableBalance' />:&nbsp;
+                            {availableBalance && <Balance amount={availableBalance}/>}
+                            <InfoPopup content={<Translate id='availableBalanceInfo'/>}/>
                         </CurrentBalance>
                         <InlineNotification
                             show={insufficientFunds}
@@ -208,12 +226,13 @@ class SignTransferReady extends Component {
                         >
                             <Translate id='button.deny' />
                         </Button>
-                        <Button
+                        <FormButton
                             onClick={handleAllow}
                             disabled={isMonetaryTransaction && insufficientFunds}
+                            sending={sending}
                         >
                             <Translate id='button.allow' />
-                        </Button>
+                        </FormButton>
                     </ButtonWrapper>
                 </Footer>
             </Container>

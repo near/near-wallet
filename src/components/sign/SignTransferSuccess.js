@@ -75,7 +75,7 @@ const SignTransferReady = ({ handleDeny, txTotalAmount, isMonetaryTransaction })
                     tablet={16}
                     textAlign='center'
                 >
-                    Contract: @contractname.near
+                    Contract: contractname.near
                 </Grid.Column>
             </Grid.Row>
             */}

@@ -3,9 +3,7 @@ import { connect } from 'react-redux'
 
 import { withRouter } from 'react-router-dom'
 
-import { wallet } from '../../utils/wallet'
-
-import { refreshAccount, checkAccountAvailable, clear } from '../../actions/account'
+import { refreshAccount, checkAccountAvailable, clear, setFormLoader, sendMoney, clearAlert } from '../../actions/account'
 
 import SendMoneyFirstStep from './SendMoneyFirstStep'
 import SendMoneySecondStep from './SendMoneySecondStep'
@@ -18,35 +16,43 @@ class SendMoney extends Component {
         step: 1,
         note: '',
         expandNote: false,
-        paramAccountId: false,
         accountId: '',
         amount: '',
-        amountStatus: ''
+        amountStatus: '',
+        implicitAccount: false,
+        implicitAccountModal: false
     }
 
-    componentDidMount() {
-        const paramId = this.props.match.params.id
+    async componentDidMount() {
+        const accountId = this.props.match.params.id
+        if (!accountId) return;
 
+        // TODO: Why not use global loader?
         this.setState(() => ({
             loader: true
         }))
+        try {
+            // TODO: Does this show error through middleware?
+            await this.props.checkAccountAvailable(accountId);
+        } finally {
+            this.setState(() => ({ accountId, loader: false }))
+        }
+    }
 
-        if (paramId) {
-            this.props.checkAccountAvailable(paramId).then(({ error }) => {
-                this.setState(() => ({
-                    loader: false,
-                    accountId: paramId
-                }))
+    componentDidUpdate(prevProps, prevState) {
+        if (prevState.step !== this.state.step && prevState.step < this.state.step) {
+            window.scrollTo(0, 0);
+        }
 
-                if (error) return
+        if (prevProps.location.key !== this.props.location.key && this.state.step !== 1) {
+            this.props.clear()
 
-                this.setState(() => ({
-                    paramAccountId: true
-                }))
-            })
-        } else {
             this.setState(() => ({
-                loader: false
+                step: 1,
+                note: '',
+                amount: '',
+                accountId: '',
+                successMessage: false
             }))
         }
     }
@@ -61,37 +67,34 @@ class SendMoney extends Component {
         }))
     }
 
-    handleCancelTransfer = () => {
-        this.props.clear()
-
+    handleCloseModal = () => {
         this.setState(() => ({
-            step: 1,
-            note: '',
-            amount: '',
-            accountId: '',
-            successMessage: false,
-            paramAccountId: false,
+            implicitAccountModal: false
         }))
-
-        this.props.history.push('/send-money')
     }
 
-    handleNextStep = (e) => {
+    handleCancelTransfer = () => {
+        this.props.clear()
+        this.props.history.push('/')
+    }
+
+    handleNextStep = async (e) => {
         e.preventDefault()
-        const { step, accountId, amount} = this.state;
+        const { step, accountId, amount, implicitAccount, implicitAccountModal } = this.state
 
         if (step === 2) {
             this.setState(() => ({
                 loader: true
             }))
 
-            wallet.sendMoney(accountId, amount)
+            this.props.sendMoney(accountId, amount)
                 .then(() => {
                     this.props.refreshAccount()
 
                     this.setState(state => ({
                         step: state.step + 1
                     }))
+                    this.props.clearAlert()
                 })
                 .catch(console.error)
                 .finally(() => {
@@ -102,26 +105,27 @@ class SendMoney extends Component {
             return;
         }
 
-        this.setState(state => ({
-            step: state.step + 1,
-            amount: state.amount
-        }))
+        if (implicitAccount && !implicitAccountModal) {
+            this.setState(state => ({
+                implicitAccountModal: true
+            }))
+        } else {
+            this.setState(state => ({
+                step: state.step + 1,
+                amount: state.amount,
+                implicitAccountModal: false
+            }))
+        }
+
     }
 
     handleChange = (e, { name, value }) => {
-        this.setState(() => ({
-            [name]: value
+        this.setState((state) => ({
+            [name]: value,
+            implicitAccount: name === 'accountId' 
+                ? this.isImplicitAccount(value)
+                : state.implicitAccount
         }))
-    }
-
-    get requestStatusSameAccount() {
-        if (this.props.accountId !== this.state.accountId) {
-            return null
-        }
-        return {
-            success: false,
-            messageCode: 'account.available.errorSameAccount',
-        }
     }
 
     handleRedirectDashboard = () => {
@@ -135,16 +139,19 @@ class SendMoney extends Component {
     }
 
     isLegitForm = () => {
-        const { paramAccountId, amount, amountStatus } = this.state
+        const { amount, amountStatus, implicitAccount } = this.state
         const { requestStatus } = this.props
-        return paramAccountId
-            ? ((amount) > 0 && amountStatus === '')
-            : (requestStatus && requestStatus.success && (amount) > 0 && amountStatus === '')
+        
+        return ((requestStatus && requestStatus.success) || implicitAccount) && amount > 0 && amountStatus === ''
+            ? true
+            : false
     }
 
+    isImplicitAccount = (accountId) => accountId.length === 64
+
     render() {
-        const { step } = this.state
-        const { formLoader, requestStatus, checkAccountAvailable } = this.props
+        const { step, implicitAccountModal, implicitAccount } = this.state
+        const { formLoader, requestStatus, checkAccountAvailable, setFormLoader, clear, accountId } = this.props
 
         return (
             <SendMoneyContainer>
@@ -154,8 +161,15 @@ class SendMoney extends Component {
                         handleChange={this.handleChange}
                         isLegitForm={this.isLegitForm}
                         formLoader={formLoader}
-                        requestStatus={this.requestStatusSameAccount || requestStatus}
+                        requestStatus={requestStatus}
                         checkAvailability={checkAccountAvailable}
+                        clearRequestStatus={clear}
+                        setFormLoader={setFormLoader}
+                        stateAccountId={accountId}
+                        defaultAccountId={this.props.match.params.id || this.state.accountId}
+                        implicitAccountModal={implicitAccountModal}
+                        handleCloseModal={this.handleCloseModal}
+                        implicitAccount={implicitAccount}
                         {...this.state}
                     />
                 )}
@@ -182,7 +196,10 @@ class SendMoney extends Component {
 const mapDispatchToProps = {
     refreshAccount,
     checkAccountAvailable,
-    clear
+    clear,
+    setFormLoader,
+    sendMoney,
+    clearAlert
 }
 
 const mapStateToProps = ({ account }) => ({

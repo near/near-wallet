@@ -54,15 +54,14 @@ class LoginForm extends Component {
                     <Grid.Row className='title'>
                         <Grid.Column
                             as='h1'
-                            className='font-benton'
                             textAlign='center'
                             computer={16}
                             tablet={16}
                             mobile={16}
                         >
                             <div><b><Translate id='login.confirm.pageTitle' /></b></div>
-                            <div className='h2 font-benton'><Translate id='login.confirm.pageText' data={{ appTitle }} /></div>
-                            <div className='h2 font-benton'><br /><Translate id='login.confirm.pageTextSecondLine' /></div>
+                            <div className='h2'><Translate id='login.confirm.pageText' data={{ appTitle }} /></div>
+                            <div className='h2'><br /><Translate id='login.confirm.pageTextSecondLine' /></div>
                         </Grid.Column>
                     </Grid.Row>
                 </Grid>
@@ -78,7 +77,7 @@ class LoginForm extends Component {
                                             onChange={this.handleChange}
                                             className={`username-input-icon ${confirmStatus ? (confirmStatus === 'success' ? 'success' : 'problem') : ''}`}
                                             placeholder={translate('login.confirm.username')}
-                                            maxLength='32'
+                                            maxLength='64'
                                             required
                                             autoComplete='off'
                                             autoCorrect='off'

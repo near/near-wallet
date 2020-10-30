@@ -7,56 +7,54 @@ import { Translate } from 'react-localize-redux';
 import EmailIcon from '../../images/icon-recover-email.svg';
 import PhoneIcon from '../../images/icon-recover-phone.svg';
 import PhraseIcon from '../../images/icon-recover-seedphrase.svg';
+import HardwareDeviceIcon from '../../images/icon-hardware-device.svg';
+import Container from '../common/styled/Container.css'
 
-const Container = styled.div`
+const StyledContainer = styled(Container)`
+
+    h1, h2 {
+        text-align: center;
+    }
+
     h2 {
-        color: #4a4f54 !important;
-        margin-top: -20px;
-        max-width: 600px;
+        margin-top: 20px;
+    }
 
-        @media (max-width: 767px) {
-            margin-top: -10px;
-            font-size: 18px !important;
+    @media (min-width: 992px) {
+        h1, h2 {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        h2 {
+            margin-top: 20px;
         }
     }
 `;
 
 const Options = styled.div`
     display: flex;
-    margin-top: 35px;
+    flex-direction: column;
+    margin-top: 40px;
+    padding-bottom: 40px;
 
-    @media (max-width: 767px) {
-        flex-direction: column;
-        margin-top: 10px;
-        padding-bottom: 40px;
+    @media (min-width: 992px) {
+        flex-direction: row;
+        flex-wrap: wrap;
     }
 `;
 
 const Option = styled.div`
     flex: 1;
+    border: 3px solid #f5f5f5;
+    border-radius: 6px;
+    padding: 15px;
+    margin-bottom: 25px;
+    min-height: 236px;
+    min-width: 30%;
 
-    @media (min-width: 768px) {
-        padding: 5px 40px 0 40px;
-        border-right: 3px solid #f5f5f5;
-
-        &:first-of-type {
-            padding-left: 0;
-        }
-    
-        &:last-of-type {
-            border: 0;
-        }
-    }
-
-    @media (max-width: 767px) {
-        border: 3px solid #f5f5f5;
-        border-radius: 6px;
-        padding: 15px;
-        margin-bottom: 20px;
-
-        &:first-of-type {
-            margin-top: 15px;
-        }
+    @media (min-width: 992px) {
+        margin: 20px;
     }
 `;
 
@@ -64,7 +62,7 @@ const Header = styled.div`
     display: flex;
     align-items: center;
     color: #24272a;
-    font-weight: 600;
+    font-weight: 500;
     font-size: 16px;
 
     &:before {
@@ -81,38 +79,34 @@ const Header = styled.div`
 
 const P = styled.p`
     color: #4a4f54;
-    font-size: 15px;
-
-    @media (min-width: 768px) {
-        font-size: 16px;
-    }
 
     &:first-of-type {
         margin-top: 20px;
     }
 
     span {
-        font-weight: 600;
+        font-weight: 500;
     }
 `;
 
 const Button = styled(Link)`
     background-color: #6AD1E3;
-    font-weight: 600;
+    font-weight: 500;
     display: inline-block;
     border: 0;
     border-radius: 40px;
     color: white;
     outline: none;
     cursor: pointer;
-    height: 40px;
-    width: 220px;
+    height: 48px;
+    width: 100%;
     letter-spacing: 0.5px;
     margin-top: 20px;
     transition: 100ms;
     display: flex;
     align-items: center;
     justify-content: center;
+    text-transform: uppercase;
 
     &:hover {
         background-color: #72dff2;
@@ -123,16 +117,11 @@ const Button = styled(Link)`
     &::selection {
         color: white;
     }
-
-    @media (max-width: 767px) {
-        height: 48px;
-        width: 100%;
-    }
 `;
 
 const RecoverAccount = () => {
     return (
-        <Container className='ui container'>
+        <StyledContainer>
             <h1><Translate id='recoverAccount.pageTitle'/></h1>
             <h2><Translate id='recoverAccount.pageText'/></h2>
             <Options>
@@ -140,19 +129,26 @@ const RecoverAccount = () => {
                     <Header icon={EmailIcon}><Translate id='recoverAccount.email.title'/><br/><Translate id='recoverAccount.actionType'/></Header>
                     <P><Translate id='recoverAccount.email.desc'/> <span><Translate id='recoverAccount.email.subject'/></span></P>
                     <P><Translate id='recoverAccount.actionRequired'/></P>
+                    <P><Translate id='recoverAccount.cannotResend'/></P>
                 </Option>
                 <Option>
                     <Header icon={PhoneIcon}><Translate id='recoverAccount.phone.title'/><br/><Translate id='recoverAccount.actionType'/></Header>
                     <P><Translate id='recoverAccount.phone.desc'/> <span><Translate id='recoverAccount.phone.number'/></span></P>
                     <P><Translate id='recoverAccount.actionRequired'/></P>
+                    <P><Translate id='recoverAccount.cannotResend'/></P>
                 </Option>
                 <Option>
                     <Header icon={PhraseIcon}><Translate id='recoverAccount.phrase.title'/><br/><Translate id='recoverAccount.actionType'/></Header>
                     <P><Translate id='recoverAccount.phrase.desc'/></P>
                     <Button to='/recover-seed-phrase'><Translate id='button.recoverAccount' /></Button>
                 </Option>
+                <Option>
+                    <Header icon={HardwareDeviceIcon}><Translate id='recoverAccount.ledger.title'/><br/><Translate id='recoverAccount.actionType'/></Header>
+                    <P><Translate id='recoverAccount.ledger.desc'/></P>
+                    <Button to='/sign-in-ledger'><Translate id='button.signInLedger' /></Button>
+                </Option>
             </Options>
-        </Container>
+        </StyledContainer>
     )
 }
 

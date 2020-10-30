@@ -15,7 +15,7 @@ const DisclaimerGrid = styled(Grid)`
         }
     }
     .disclaimer-info {
-        font-weight: 600;
+        font-weight: 500;
         letter-spacing: 2px;
     }
 

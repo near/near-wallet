@@ -4,11 +4,11 @@ import PropTypes from 'prop-types'
 import { Segment, Form } from 'semantic-ui-react'
 import { BN } from 'bn.js'
 import { Translate } from 'react-localize-redux'
-
 import styled from 'styled-components'
-
+import InfoPopup from '../common/InfoPopup'
 import Balance, { formatNEAR } from '../common/Balance'
-import { utils } from 'nearlib'
+import { utils } from 'near-api-js'
+import isDecimalString from '../../utils/isDecimalString'
 
 const CustomDiv = styled(`div`)`
     &&&&& {
@@ -19,10 +19,8 @@ const CustomDiv = styled(`div`)`
         input {
             height: 80px !important;
             border: 0px !important;
-            font-family: BwSeidoRound !important;
             font-size: ${props => props.fontSize} !important;
             font-weight: 500 !important;
-            line-height: 80px !important;
             color: #4a4f54 !important;
             text-align: center !important;
             padding: 0px !important;
@@ -44,12 +42,11 @@ const CustomDiv = styled(`div`)`
             }
         }
         .alert-info {
-            font-weight: 600;
+            font-weight: 500;
             margin: 0;
             padding: 8px 0;
-            line-height: 34px;
-            font-size: 14px;
             text-align: center;
+            
             &.problem {
                 color: #ff585d;
             }
@@ -61,6 +58,23 @@ const CustomDiv = styled(`div`)`
             }
         }
     }
+
+    @media screen and (max-width: 991px) {
+        .alert-info {
+            font-size: 12px;
+        }
+    }
+`
+
+const AvailableBalance = styled.div`
+    margin-top: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .list {
+        padding: 0 !important;
+    }
 `
 
 class SendMoneyAmountInput extends Component {
@@ -71,20 +85,28 @@ class SendMoneyAmountInput extends Component {
     }
 
     isDecimalString = (value) => {
-        let REG = /^[0-9]*(|[.][0-9]{1,5})$/
+        let REG = /^[0-9]*(|[.][0-9]{0,5})$/
         return REG.test(value)
     }
 
+    get availableBalance() {
+        const { available } = this.props.balance
+        return new BN(available)
+    }
+
     handleChangeAmount = (e, { name, value }) => {
+        if (!/^\d*[.]?\d*$/.test(value)) {
+            return
+        }
+
         let amountStatusId = ''
-        if (value && !this.isDecimalString(value)) {
+        if (value && !isDecimalString(value)) {
             amountStatusId = 'sendMoney.amountStatusId.noMoreThan'
         }
         let amountInInternalFormat = ''
         if (value !== '') {
             amountInInternalFormat = utils.format.parseNearAmount(value);
-            let balance = new BN(this.props.amount)
-            if (balance.lt(new BN(amountInInternalFormat))) {
+            if (this.availableBalance.lt(new BN(amountInInternalFormat))) {
                 amountStatusId = 'sendMoney.amountStatusId.notEnoughTokens'
             }
         }
@@ -104,7 +126,6 @@ class SendMoneyAmountInput extends Component {
         return (
             <CustomDiv fontSize={`${fontSize}px`}>
                 <Form.Input
-                    type="number"
                     name='amountInput'
                     value={amountInput}
                     onChange={this.handleChangeAmount}
@@ -118,9 +139,16 @@ class SendMoneyAmountInput extends Component {
                     <Segment basic textAlign='center' className='alert-info problem'>
                         <Translate id={amountStatusId} />
                     </Segment>)}
-                {amountDisplay  
-                    ? <Balance amount={amountDisplay} /> 
-                    : <Translate id='sendMoney.amountStatusId.howMuch' />}
+                {amountDisplay ? (
+                    <><Translate id='sendMoney.amountStatusId.sending'/>&nbsp;<Balance noSymbol='near' amount={amountDisplay}/></> 
+                ) : (
+                    <Translate id='sendMoney.amountStatusId.howMuch'/>
+                )}
+                <AvailableBalance>
+                    <Translate id='sendMoney.amountStatusId.available'/>&nbsp;
+                    <Balance noSymbol='near' amount={this.availableBalance}/>
+                    <InfoPopup content={<Translate id='availableBalanceInfo'/>}/>
+                </AvailableBalance>
             </CustomDiv>
         )
     }

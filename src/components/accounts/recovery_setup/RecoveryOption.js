@@ -4,8 +4,10 @@ import styled from 'styled-components';
 import EmailIcon from '../../svg/EmailIcon';
 import PhoneIcon from '../../svg/PhoneIcon';
 import PhraseIcon from '../../svg/PhraseIcon';
+import HardwareDeviceIcon from '../../svg/HardwareDeviceIcon';
 import { Translate } from 'react-localize-redux';
 import IntFlagIcon from '../../../images/int-flag-small.svg';
+import classNames from '../../../utils/classNames';
 
 const Container = styled.div`
     background-color: #F8F8F8;
@@ -27,6 +29,10 @@ const Container = styled.div`
         left: -35px;
         top: 13px;
         border-radius: 50%;
+    }
+
+    path {
+        stroke: #8dd4bd;
     }
 
     &.active {
@@ -51,9 +57,12 @@ const Container = styled.div`
             border-right: 2px solid white;
         }
 
-        .icon {
+        .icon, path {
             stroke: #0072CE !important;
         }
+    }
+    &.inputProblem {
+        border-color: #ff585d;
     }
 
     input {
@@ -105,6 +114,11 @@ const Container = styled.div`
             font-size: 16px;
         }
     }
+
+    &.disabled {
+        opacity: 0.3;
+        cursor: not-allowed;
+    }
 `
 
 const Header = styled.div`
@@ -116,7 +130,6 @@ const Header = styled.div`
         height: 23px;
         position: absolute;
         left: 0;
-        margin-top: -3px;
     }
 
 `
@@ -125,7 +138,6 @@ const Title = styled.div`
     font-size: 16px;
     color: #24272a;
     font-weight: 500;
-    font-family: BwSeidoRound;
 
     span {
         color: #FF585D;
@@ -140,6 +152,8 @@ const Icon = ({option}) => {
             return <PhoneIcon/>
         case 'phrase':
             return <PhraseIcon/>
+        case 'ledger':
+            return <HardwareDeviceIcon/>
         default:
             return
     }
@@ -149,18 +163,26 @@ const RecoveryOption = ({
     children,
     option,
     onClick,
-    active
+    active,
+    disabled,
+    problem
 }) => {
+
+    active = active === option;
+
     return (
-        <Container onClick={onClick} className={active && 'active'}>
+        <Container 
+            onClick={!disabled ? onClick : undefined} 
+            className={classNames([{active: active && !disabled, disabled, inputProblem: problem}])}
+        >
             <Header>
                 <Icon option={option}/>
                 <Title>
                     <Translate id={`setupRecovery.${option}Title`}/>
-                    {active && option !== 'phrase' && <span>*</span>}
+                    {active && option !== 'phrase' && option !== 'ledger' && <span>*</span>}
                 </Title>
             </Header>
-            {active && children}
+            {!disabled && active && children}
         </Container>
     )
 }
@@ -172,7 +194,8 @@ RecoveryOption.propTypes = {
     ]),
     option: PropTypes.string.isRequired,
     onClick: PropTypes.func.isRequired,
-    active: PropTypes.bool.isRequired
+    active: PropTypes.string.isRequired,
+    problem: PropTypes.bool
 }
 
 export default RecoveryOption;

@@ -2,22 +2,40 @@ import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { Translate } from 'react-localize-redux'
-
-import { recoverAccountSeedPhrase, redirectToApp, checkAccountAvailable, clear, refreshAccount } from '../../actions/account'
-
+import styled from 'styled-components'
+import { recoverAccountSeedPhrase, redirectToApp, refreshAccount, clear } from '../../actions/account'
 import RecoverAccountSeedPhraseForm from './RecoverAccountSeedPhraseForm'
-import AccountFormSection from './AccountFormSection'
-import AccountFormContainer from './AccountFormContainer'
+import Container from '../common/styled/Container.css'
+
+const StyledContainer = styled(Container)`
+    .input {
+        width: 100%;
+    }
+
+    .input-sub-label {
+        margin-bottom: 30px;
+    }
+
+    h4 {
+        :first-of-type {
+            margin: 30px 0 0 0 !important;
+        }
+    }
+
+    button {
+        width: 100% !important;
+        margin-top: 30px !important;
+    }
+`
 
 class RecoverAccountSeedPhrase extends Component {
     state = {
-        accountId: this.props.accountId,
-        seedPhrase: this.props.seedPhrase
+        seedPhrase: this.props.seedPhrase,
     }
 
     // TODO: Use some validation framework?
     validators = {
-        seedPhrase: value => true // TODO validate seed phrase
+        seedPhrase: value => !!value.length // TODO validate seed phrase
     }
 
     get isLegit() {
@@ -26,52 +44,43 @@ class RecoverAccountSeedPhrase extends Component {
 
     componentDidMount = () => {}
 
-    componentWillUnmount = () => {
-        this.props.clear()
-    }
-
     handleChange = (e, { name, value }) => {
         this.setState(() => ({
             [name]: value
         }))
+
+        this.props.clear()
     }
 
-    handleSubmit = () => {
-
+    handleSubmit = async () => {
         if (!this.isLegit) {
             return false
         }
 
-        const accountId = this.state.accountId
-        this.props.recoverAccountSeedPhrase(this.state.seedPhrase, accountId)
-            .then(({ error }) => {
-                if (error) return
-                this.props.refreshAccount()
-                this.props.redirectToApp()
-            })
+        const { seedPhrase } = this.state
+        await this.props.recoverAccountSeedPhrase(seedPhrase)
+        this.props.refreshAccount()
+        this.props.redirectToApp()
     }
 
     render() {
         const combinedState = {
             ...this.props,
             ...this.state,
-            isLegit: this.isLegit && !this.props.formLoader
+            isLegit: this.isLegit && !(this.props.requestStatus && this.props.requestStatus.success === false)
         }
-        
+
         return (
-            <AccountFormContainer 
-                wide={true} 
-                title={<Translate id='recoverSeedPhrase.pageTitle' />}
-                text={<Translate id='recoverSeedPhrase.pageText' />}
-            >
-                <AccountFormSection requestStatus={this.props.requestStatus} handleSubmit={this.handleSubmit}>
+            <StyledContainer className='small-centered'>
+                <h1><Translate id='recoverSeedPhrase.pageTitle' /></h1>
+                <h2><Translate id='recoverSeedPhrase.pageText' /></h2>
+                <form onSubmit={e => {this.handleSubmit(); e.preventDefault();}} autoComplete='off'>
                     <RecoverAccountSeedPhraseForm
                         {...combinedState}
                         handleChange={this.handleChange}
-                        checkAvailability={this.props.checkAccountAvailable}
                     />
-                </AccountFormSection>
-            </AccountFormContainer>
+                </form>
+            </StyledContainer>
         )
     }
 }
@@ -79,14 +88,12 @@ class RecoverAccountSeedPhrase extends Component {
 const mapDispatchToProps = {
     recoverAccountSeedPhrase, 
     redirectToApp,
-    checkAccountAvailable,
-    clear,
-    refreshAccount
+    refreshAccount,
+    clear
 }
 
 const mapStateToProps = ({ account }, { match }) => ({
     ...account,
-    accountId: match.params.accountId || '',
     seedPhrase: match.params.seedPhrase || '',
 })
 

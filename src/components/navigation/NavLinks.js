@@ -3,6 +3,9 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import summaryIcon from '../../images/icon-recent.svg';
 import arrowIcon from '../../images/icon-send.svg';
+import stakingIcon from '../../images/icon-staking-green.svg';
+import { Translate } from 'react-localize-redux';
+import { DISABLE_SEND_MONEY } from '../../utils/wallet';
 
 const Container = styled.div`
     display: flex;
@@ -25,6 +28,7 @@ const NavLink = styled(Link)`
     cursor: pointer;
     transition: 100ms;
     color: white;
+    padding-top: 2px;
 
     &:before {
         content: '';
@@ -33,11 +37,18 @@ const NavLink = styled(Link)`
         display: inline-block;
         width: 23px;
         height: 23px;
+        background-size: contain;
     }
 
-    &:last-of-type {
+    &.rotate-up {
         &:before {
-            transform: rotate(180deg);
+            transform: rotate(-90deg);
+        }
+    }
+
+    &.rotate-down {
+        &:before {
+            transform: rotate(90deg);
         }
     }
 
@@ -80,9 +91,12 @@ const NavLink = styled(Link)`
 
 const NavLinks = () => (
     <Container className='nav-links'>
-        <NavLink icon={summaryIcon} to='/'>Summary</NavLink>
-        <NavLink icon={arrowIcon} to='/send-money'>Send</NavLink>
-        <NavLink icon={arrowIcon} to='/receive-money'>Receive</NavLink>
+        <NavLink icon={summaryIcon} to='/'><Translate id='link.summary'/></NavLink>
+        {!DISABLE_SEND_MONEY &&
+            <NavLink icon={arrowIcon} className='rotate-up' to='/send-money'><Translate id='link.send'/></NavLink>
+        }
+        <NavLink icon={arrowIcon} className='rotate-down' to='/receive-money'><Translate id='link.receive'/></NavLink>
+        <NavLink icon={stakingIcon} to='/staking'><Translate id='link.staking'/></NavLink>
     </Container>
 )
 

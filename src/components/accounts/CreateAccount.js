@@ -1,30 +1,86 @@
 import React, { Component } from 'react'
+import styled from 'styled-components'
 import { connect } from 'react-redux'
+import { Link } from 'react-router-dom'
 import { Translate } from 'react-localize-redux'
-import { GoogleReCaptchaProvider, GoogleReCaptcha } from 'react-google-recaptcha-v3'
-import CreateAccountForm from './CreateAccountForm'
-import AccountFormSection from './AccountFormSection'
-import AccountFormContainer from './AccountFormContainer'
-import { checkNewAccount, createNewAccount, clear, refreshAccount, resetAccounts } from '../../actions/account'
+import { checkNewAccount, createNewAccount, clear, refreshAccount, setFormLoader, checkNearDropBalance } from '../../actions/account'
 import { ACCOUNT_ID_SUFFIX } from '../../utils/wallet'
+import Container from '../common/styled/Container.css'
+import BrokenLinkIcon from '../svg/BrokenLinkIcon';
+import FormButton from '../common/FormButton'
+import AccountFormAccountId from './AccountFormAccountId'
+import AccountNote from '../common/AccountNote'
+
+const StyledContainer = styled(Container)`
+
+    .input {
+        width: 100%;
+    }
+
+    button {
+        :first-of-type {
+            width: 100% !important;
+        }
+    }
+
+    h6 {
+        margin: 30px 0 5px 0 !important;
+        font-size: 15px !important;
+        color: #24272a;
+        letter-spacing: normal !important;
+    }
+
+    .recaptcha-disclaimer {
+        font-size: 12px;
+        font-weight: 400;
+        max-width: 383px;
+        margin: 50px auto 0 auto;
+        text-align: center;
+
+        a {
+            color: inherit;
+        }
+    }
+
+    a {
+        text-decoration: underline;
+    }
+    
+    .alternatives-title {
+        color: #24272a;
+        text-align: center;
+        margin-top: 30px;
+    }
+
+    .alternatives {
+        display: flex;
+        justify-content: center;
+        margin-top: 5px;
+    }
+
+    &.invalid-link {
+        svg {
+            display: block;
+            margin: 0 auto;
+        }
+
+        h2 {
+            margin-top: 20px;
+        }
+    }
+`
 
 class CreateAccount extends Component {
     state = {
         loader: false,
         accountId: '',
         token: '',
-        recaptchaFallback: false
+        invalidNearDrop: null
     }
 
-    componentDidMount = () => {
-        const { loginError, resetAccounts } = this.props;
-
-        if (loginError) {
-            console.error('Error loading account:', loginError)
-
-            if (loginError.indexOf('does not exist while viewing') !== -1) {
-                resetAccounts()
-            }
+    componentDidMount() {
+        if (this.props.fundingContract && this.props.fundingKey) {
+            this.handleCheckNearDropBalance()
         }
     }
 
@@ -32,77 +88,96 @@ class CreateAccount extends Component {
         this.props.clear()
     }
 
+    handleCheckNearDropBalance = async () => {
+        try {
+            await this.props.checkNearDropBalance(this.props.fundingContract, this.props.fundingKey)
+        } catch(e) {
+            this.setState({ invalidNearDrop: true })
+        }
+    }
+
     handleChange = (e, { name, value }) => {
         if (value.length > 0) {
-            this.setState({[name]: `${value}${ACCOUNT_ID_SUFFIX}`})
+            this.setState({[name]: `${value}.${ACCOUNT_ID_SUFFIX}`})
         } else {
             this.setState({[name]: value})
         }
     }
 
-    handleCreateAccount = () => {
-        const { accountId, token } = this.state;
-
-        const fundingKey = this.props.match.params.fundingKey;
-        const fundingContract = this.props.match.params.fundingContract;
-
-        this.setState({ loader: true });
-        this.props.createNewAccount(accountId, fundingKey, fundingContract, token)
-        .then(({ error, payload }) => {
-            if (error) {
-                if (payload.statusCode === 402) {
-                    this.setState({ recaptchaFallback: true });
-                }
-                this.setState({ loader: false });
-                return;
-            }
-
-            this.handleCreateAccountSuccess();
-        });
-    }
-
-    handleCreateAccountSuccess = () => {
+    handleCreateAccount = async () => {
         const { accountId } = this.state;
+        const { 
+            setFormLoader,
+            fundingContract, fundingKey,
+            fundingAccountId,
+        } = this.props
 
-        this.props.refreshAccount();
-        let nextUrl = process.env.DISABLE_PHONE_RECOVERY === 'yes' ? `/setup-seed-phrase/${accountId}` : `/set-recovery/${accountId}`;
+        setFormLoader(false)
+        this.setState({ loader: true });
+
+        let queryString = ''
+        if (fundingAccountId || fundingContract) {
+            const fundingOptions = fundingAccountId ? { fundingAccountId } : { fundingContract, fundingKey }
+            queryString = `?fundingOptions=${encodeURIComponent(JSON.stringify(fundingOptions))}`
+        }
+        let nextUrl = process.env.DISABLE_PHONE_RECOVERY === 'yes' ?
+            `/setup-seed-phrase/${accountId}/phrase${queryString}` :
+            `/set-recovery/${accountId}${queryString}`;
+
         this.props.history.push(nextUrl);
-        this.setState({ loader: false });
     }
 
     render() {
-        const { loader, accountId, recaptchaFallback } = this.state
-        const { requestStatus, formLoader, checkNewAccount, location, loginResetAccounts } = this.props
+        const { loader, accountId, invalidNearDrop } = this.state
+        const { requestStatus, formLoader, checkNewAccount, resetAccount, clear, setFormLoader } = this.props
         const useRequestStatus = accountId.length > 0 ? requestStatus : undefined;
-
-        return (
-            <AccountFormContainer 
-                location={this.props.location}
-                title={<Translate id='createAccount.pageTitle' />}
-                text={<Translate id='createAccount.pageText' />}
-                loginResetAccounts={loginResetAccounts}
-            >
-                <AccountFormSection 
-                    requestStatus={useRequestStatus}
-                    handleSubmit={this.handleCreateAccount}
-                    location={location}
-                >
-                    <CreateAccountForm
-                        loader={loader}
-                        requestStatus={useRequestStatus}
-                        formLoader={formLoader}
-                        handleChange={this.handleChange}
-                        recaptchaFallback={recaptchaFallback}
-                        verifyRecaptcha={token => this.setState({ token: token }, this.handleCreateAccount)}
-                        checkAvailability={checkNewAccount}
-                        accountId={accountId}
-                    />
-                    <GoogleReCaptchaProvider reCaptchaKey="6LfSgNoUAAAAABKb2sk4Rs3TS0RMx9zrVwyTBSc6">
-                        <GoogleReCaptcha onVerify={token => this.setState({ token: token })}/>
-                    </GoogleReCaptchaProvider>
-                </AccountFormSection>
-            </AccountFormContainer>
-        )
+        
+        if (!invalidNearDrop) {
+            return (
+                <StyledContainer className='small-centered'>
+                    <form onSubmit={e => {this.handleCreateAccount(); e.preventDefault();}} autoComplete='off'>
+                        <h1><Translate id='createAccount.pageTitle'/></h1>
+                        <h2><Translate id='createAccount.pageText'/></h2>
+                        <h6><Translate id='createAccount.accountIdInput.title'/></h6>
+                        <AccountFormAccountId
+                            formLoader={formLoader}
+                            handleChange={this.handleChange}
+                            type='create'
+                            pattern={/[^a-zA-Z0-9_-]/}
+                            checkAvailability={checkNewAccount}
+                            requestStatus={useRequestStatus}
+                            accountId={accountId}
+                            clearRequestStatus={clear}
+                            setFormLoader={setFormLoader}
+                            defaultAccountId={resetAccount && resetAccount.accountIdNotConfirmed.split('.')[0]}
+                        />
+                        <AccountNote/>
+                        <FormButton
+                            type='submit'
+                            disabled={!(requestStatus && requestStatus.success)}
+                            sending={loader}
+                        >
+                            <Translate id='button.createAccountCapital'/>
+                        </FormButton>
+                        <div className='alternatives-title'><Translate id='createAccount.alreadyHaveAnAccount'/></div>
+                        <div className='alternatives'>
+                            <Link to='/sign-in-ledger'><Translate id='createAccount.signInLedger'/></Link>
+                            &nbsp; <Translate id='or'/> &nbsp;
+                            <Link to={process.env.DISABLE_PHONE_RECOVERY === 'yes' ? '/recover-seed-phrase' : '/recover-account'}><Translate id='createAccount.recoverItHere' /></Link>
+                        </div>
+                    </form>
+                </StyledContainer>
+            )
+        } else {
+            return (
+                <StyledContainer className='small-centered invalid-link'>
+                    <BrokenLinkIcon/>
+                    <h1><Translate id='createAccount.invalidLinkDrop.title'/></h1>
+                    <h2><Translate id='createAccount.invalidLinkDrop.one'/></h2>
+                    <h2><Translate id='createAccount.invalidLinkDrop.two'/></h2>
+                </StyledContainer>
+            )
+        }
     }
 }
 
@@ -111,11 +186,15 @@ const mapDispatchToProps = {
     createNewAccount,
     clear,
     refreshAccount,
-    resetAccounts
+    setFormLoader,
+    checkNearDropBalance
 }
 
-const mapStateToProps = ({ account }) => ({
-    ...account
+const mapStateToProps = ({ account }, { match }) => ({
+    ...account,
+    fundingContract: match.params.fundingContract,
+    fundingKey: match.params.fundingKey,
+    fundingAccountId: match.params.fundingAccountId,
 })
 
 export const CreateAccountWithRouter = connect(

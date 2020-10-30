@@ -7,7 +7,8 @@ import LoginForm from './LoginForm'
 import LoginConfirm from './LoginConfirm'
 import LoginDetails from './LoginDetails'
 import LoginIncorrectContractId from './LoginIncorrectContractId'
-import { refreshAccount, handleRefreshUrl, switchAccount, clearAlert, allowLogin, redirectToApp } from '../../actions/account'
+import { refreshAccount, handleRefreshUrl, switchAccount, clearAlert, allowLogin, redirectToApp, clear } from '../../actions/account'
+import { LOCKUP_ACCOUNT_ID_SUFFIX } from '../../utils/wallet'
 
 class Login extends Component {
     state = {
@@ -31,17 +32,18 @@ class Login extends Component {
         }
     }
 
-    handleAllow = () => {
+    handleAllow = async () => {
         this.setState(() => ({
             buttonLoader: true
         }))
 
-        this.props.allowLogin()
-            .finally(() => {
-                this.setState(() => ({
-                    buttonLoader: false
-                }))
-            })
+        try {
+            await this.props.allowLogin()
+        } finally {
+            this.setState(() => ({
+                buttonLoader: false
+            }))
+        }
     }
 
     handleSelectAccount = accountId => {
@@ -55,6 +57,7 @@ class Login extends Component {
 
     render() {
         const { account: { url }, match } = this.props
+        const accountConfirmationForm = !url?.contract_id || url?.contract_id.endsWith(`.${LOCKUP_ACCOUNT_ID_SUFFIX}`)
 
         return (
             <LoginContainer>
@@ -65,14 +68,14 @@ class Login extends Component {
                         <LoginForm
                             {...this.state}
                             {...props}
-                            appTitle={url && url.title}
-                            contractId={url && url.contract_id}
+                            appTitle={url && url.referrer}
                             handleOnClick={this.handleOnClick}
                             handleDeny={this.handleDeny}
                             handleAllow={this.handleAllow}
                             handleSelectAccount={this.handleSelectAccount}
                             redirectCreateAccount={this.redirectCreateAccount}
                             handleDetails={this.handleDetails}
+                            accountConfirmationForm={accountConfirmationForm}
                         />
                     )}
                 />
@@ -84,6 +87,7 @@ class Login extends Component {
                             {...props}
                             contractId={url && url.contract_id}
                             appTitle={url && url.title}
+                            accountConfirmationForm={accountConfirmationForm}
                         />
                     )}
                 />
@@ -120,11 +124,13 @@ const mapDispatchToProps = {
     switchAccount,
     allowLogin,
     clearAlert,
-    redirectToApp
+    redirectToApp,
+    clear
 }
 
 const mapStateToProps = ({ account }) => ({
-    account
+    account,
+    appTitle: account.url && account.url.referrer
 })
 
 export const LoginWithRouter = connect(

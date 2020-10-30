@@ -28,14 +28,9 @@ const CustomList = styled(List)`
             margin: 0 10% 0 0;
             color: #24272a;
             float: left;
-
-            .header {
-                font-family: 'benton-sans', sans-serif;
-            }
             .content {
                 color: #999999;
                 padding-top: 12px;
-                line-height: 20px;
             }
         }
 

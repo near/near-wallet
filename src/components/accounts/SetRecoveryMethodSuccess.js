@@ -11,8 +11,6 @@ const Container = styled.div`
 
     .desc {
         color: #4a4f54;
-        font-family: BwSeidoRound !important;
-        line-height: 130%;
         font-size: 20px;
         
         &.one {
@@ -40,7 +38,6 @@ const Container = styled.div`
 
         @media (max-width: 767px) {
             padding-top: 10px;
-            line-height: 100%;
         }
     }
 `;

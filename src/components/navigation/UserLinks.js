@@ -3,7 +3,9 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import accountIcon from '../../images/icon-account.svg';
 import arrowAuth from '../../images/icon-authorized.svg';
-import iconKeys from '../../images/icon-keys.svg'
+import iconKeys from '../../images/icon-keys.svg';
+import { Translate } from 'react-localize-redux';
+import { ENABLE_FULL_ACCESS_KEYS } from '../../utils/wallet';
 
 const Container = styled.div`
     display: flex;
@@ -17,7 +19,6 @@ const UserLink = styled(Link)`
     transition: 100ms;
     padding: 8px 0;
     color: #8FD6BD;
-    font-weight: 500;
     transition: 100ms;
 
     :hover {
@@ -53,9 +54,9 @@ const UserLink = styled(Link)`
 
 const UserLinks = ({ accountId }) => (
     <Container className='user-links'>
-        <UserLink icon={accountIcon} to={`/profile/${accountId}`}>Profile</UserLink>
-        <UserLink icon={arrowAuth} to='/authorized-apps'>Authorized Apps</UserLink>
-        <UserLink icon={iconKeys} to='/full-access-keys'>Full Access Keys</UserLink>
+        <UserLink icon={accountIcon} to='/profile'><Translate id='link.profile'/></UserLink>
+        <UserLink icon={arrowAuth} to='/authorized-apps'><Translate id='link.authorizedApps'/></UserLink>
+        {ENABLE_FULL_ACCESS_KEYS && <UserLink icon={iconKeys} to='/full-access-keys'><Translate id='link.fullAccessKeys'/></UserLink>}
     </Container>
 )
 

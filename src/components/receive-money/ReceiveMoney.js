@@ -42,16 +42,10 @@ const Container = styled.div`
         }
 
     }
-`
 
-const Title = styled.div`
-    font-size: 28px;
-    font-weight: 500;
-    font-family: BwSeidoRound !important;
-
-    @media (min-width: 768px) {
-        font-size: 36px;
+    h1 {
         align-self: center;
+        margin: 0;
     }
 `
 
@@ -62,9 +56,7 @@ const Address = styled.div`
     width: 100%;
     font-size: 22px;
     word-break: break-all;
-    line-height: 120%;
     margin-top: 25px;
-    font-weight: 500;
     position: relative;
     background-color: white;
     overflow: hidden;
@@ -89,11 +81,9 @@ const CopyAddress = styled.div`
     transform: translateY(-50%);
     margin: 0;
     cursor: pointer;
-    font-weight: 600;
     background-color: #f8f8f8;
     border-radius: 4px;
     padding: 6px 10px;
-    line-height: normal;
 `
 
 const UrlAddress = styled.div`
@@ -161,9 +151,9 @@ class ReceiveMoney extends Component {
                 {({ translate }) => (
                     <div className='ui container'>
                         <Container>
-                            <Title>{translate('receivePage.addressTitle')}</Title>
+                            <h1>{translate('receivePage.addressTitle')}</h1>
                             <Address onClick={this.handleCopyAddress}>
-                                @{this.props.account.accountId}
+                                {this.props.account.accountId}
                                 <UrlAddress ref={this.urlRef}>
                                     {this.receiveUrl}
                                 </UrlAddress>
@@ -176,9 +166,9 @@ class ReceiveMoney extends Component {
                                 )}
                             </Address>
                             <Divider/>
-                            <Title>
+                            <h1>
                                 {translate('receivePage.qrCodeTitle')}
-                            </Title>
+                            </h1>
                             <ProfileQRCode account={this.props.account}/>
                         </Container>
                         <Snackbar

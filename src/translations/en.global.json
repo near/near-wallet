@@ -5,17 +5,26 @@
             "error": "Failed to send SMS with code."
         },
         "recoverAccount": {
-            "success": "Success",
-            "error": "Failed to recover account."
+            "success": "Recover using Seed Phrase is complete.<br/><b>${numberOfAccounts} account(s)</b> have been successfully recovered.<br/>The last one is set as active.",
+            "error": "Failed to recover account. No accounts were found for this seed phrase.",
+            "errorInvalidSeedPhrase": "No accounts were found for this seed phrase."
         },
         "create": {
             "success": "Congrats! ${accountId} is available.",
-            "error": "Username is taken. Try something else."
+            "error": "Account ID is taken. Try something else.",
+            "errorInvalidAccountIdLength": "Account ID must be between 2 and 64 characters",
+            "checkingAvailablity": {
+                "create": "Checking availability",
+                "check": "Checking"
+            },
+            "errorAccountNotExist": "There was a problem creating your account. Please try again!"
         },
         "available": {
             "success": "User found.",
             "error": "User not found.",
-            "errorSameAccount": "Cannot send to yourself."
+            "errorSameAccount": "Cannot send to yourself.",
+            "implicitAccount": "Always double check the account ID",
+            "implicitAccountModal": "Please double check the account ID, especially if this is an exchange account. If the account ID is entered incorrectly, your funds will be lost forever."
         },
         "verifySeedPhrase": {
             "error": "You entered the incorrect word"
@@ -23,6 +32,18 @@
         "setupSeedPhrase": {
             "success": "Seed phrase recovery setup is complete.",
             "error": "An error occurred while setting up seed phrase recovery. Please try again!"
+        },
+        "setupRecoveryMessage": {
+            "success": "Recovery setup is complete.",
+            "error": "An error occurred while setting up your recovery method. Please try again!"
+        },
+        "sendNewRecoveryLink": {
+            "success": "Recovery link successfully sent!",
+            "error": "Failed to resend. Please try again."
+        },
+        "verifyTwoFactor": {
+            "success": "Two Factor Authentication successfully setup!",
+            "error": "Two Factor Authentication setup failed. Please try again."
         },
         "login": {
             "success": "${title} is now authorized to use your account.",
@@ -34,22 +55,25 @@
                 "error": "The contract ${contractId} does not exist. This may be an issue with the application you are trying to use, or this contract may have been deleted. You will be redirected back to the application"
             }
         },
-        "nameDoesntMatch": "Account name doesn't match"
+        "nameDoesntMatch": "Account name doesn't match",
+        "sendMoney": {
+            "error": "Sorry an error has occurred. You may want to try again."
+        }
     },
 
     "actions": {
-        "CreateAccount": "New account created: @${receiverId}",
-        "DeleteAccount": "Account deleted: @${receiverId}",
-        "DeployContract": "Contract deployed: @${receiverId}",
-        "FunctionCall": "Called method: ${methodName} in contract: @${receiverId}",
+        "CreateAccount": "New account created: ${receiverId}",
+        "DeleteAccount": "Account deleted: ${receiverId}",
+        "DeployContract": "Contract deployed: ${receiverId}",
+        "FunctionCall": "Called method: ${methodName} in contract: ${receiverId}",
         "Transfer": {
-            "transferred": "Transferred ${deposit} to @${receiverId}",
-            "received": "Received ${deposit} from @${signerId}"
+            "transferred": "Transferred ${deposit} to ${receiverId}",
+            "received": "Received ${deposit} from ${signerId}"
         },
         "Stake": "Staked ${stake}",
         "AddKey": {
-            "forContract": "Access key added for contract: @${permissionReceiverId}",
-            "forReceiver": "New key added for @${receiverId}"
+            "forContract": "Access key added for contract: ${permissionReceiverId}",
+            "forReceiver": "New key added for ${receiverId}"
         },
         "DeleteKey": "Key deleted"
     },
@@ -65,9 +89,10 @@
     },
 
     "setupSeedPhrase": {
-        "pageTitle": "Setup Recovery Phrase",
+        "pageTitle": "Setup Phrase",
         "pageText": "Write down the following words IN ORDER and keep them somewhere safe. You cannot recover your account without them!",
-        "snackbarCopySuccess": "Seed phrase copied!"
+        "snackbarCopySuccess": "Seed phrase copied!",
+        "snackbarCopyImplicitAccountId": "Account ID Copied!"
     },
     "setupSeedPhraseVerify": {
         "pageTitle": "Verify Phrase",
@@ -89,9 +114,11 @@
     },
 
     "selectAccountDropdown": {
-        "switchAccount": "Switch account",
+        "switchAccount": "Switch Account",
+        "selectAccount": "Select Account",
         "switchAccounthNotAllowed": "This app doesn't allow account changes",
-        "createAccount": "CREATE NEW ACCOUNT"
+        "createAccount": "Create New Account",
+        "noOtherAccounts": "You have no other accounts"
     },
 
     "recoverWithLink": {
@@ -119,11 +146,54 @@
         "disableTitle": "Are you sure you want to disable this method?",
         "disableTextLink": "The magic link you received will be permanently deactivated.",
         "disableTextPhrase": "Your current seed phrase will be permanently deactivated.",
-        "disableInputPlaceholder": "Enter your username to confirm",
+        "disableInputPlaceholder": "Enter your account ID to confirm",
         "disableNo": "No, keep",
-        "recoveryLinkSent": "Recovery Link Sent!"
+        "recoveryLinkSent": "Recovery Link Sent!",
+        "disableNotAllowed": "Accounts are required to have at least one active recovery method. Please first enable an alternative recovery method to proceed."
     },
-    
+
+    "hardwareDevices": {
+        "title": "Hardware Devices",
+        "desc": "Improve the security of your account by using a hardware wallet.",
+        "ledger": {
+            "title": "Ledger Nano S or X",
+            "auth": "Authorized",
+            "disclaimer": "In order to disable your ledger device, you must first enable an alternative recovery method.",
+            "connect": "Your ledger is not currently connected. We advise that you re-connect your Ledger to ensure your account is secured."
+        },
+        "disable": {
+            "title": "Are you sure you want to disable Ledger?",
+            "desc": "Make sure you have other recovery methods setup before disabling.",
+            "disable": "Disable Ledger",
+            "keep": "No, keep Ledger"
+        }
+    },
+
+    "twoFactor": {
+        "enable": "Enable Two-Factor Authentication",
+        "subHeader": "Two factor authentication adds an extra layer of security to your account. With 2FA enabled, all transactions must be confirmed using SMS or email.",
+        "select": "Select Authentication Method",
+        "title": "Two-Factor Authentication",
+        "desc": "Protect your account by requiring confirmation via SMS or email when authorizing transactions.",
+        "email": "Email Address",
+        "phone": "Phone Number",
+        "notEnabled": "2FA Not Enabled",
+        "notEnoughBalance": "To enable 2FA, your account requires a minimum available balance of",
+        "active": "Active",
+        "since": "since",
+        "promptDesc": "We highly recommend that you set up a two-factor authentication method to increase the security of your account and assests",
+        "verify": {
+            "title": "Enter Two-Factor Verification Code",
+            "desc": "A 6-digit verification code has been sent to:",
+            "inputLabel": "Enter your 6-digit verification code",
+            "placeholder": "Verification Code",
+            "didntReceive": "Didn't receive your code?",
+            "resend": "Resend",
+            "resending": "Sending...",
+            "resent": "Code sent!"
+        }
+    },
+
     "fullAccessKeys": {
         "pageTitle": "Full Access Keys",
         "authorizedTo": "AUTHORIZED TO",
@@ -139,19 +209,52 @@
         "dashboardNoApps": "You have not authorized any apps",
         "feeAllowance": "Fee Allowance",
         "publicKey": "Public Key",
-        "ledger": "Ledger"
+        "ledger": "Ledger",
+        "removeAccessKey": {
+            "error": "Please check that your device is connected and the NEAR app is open."
+        }
+    },
+
+    "ledgerSignTxModal": {
+        "SEND_MONEY": "You will need to confirm transfer details on your Ledger.",
+        "ADD_ACCESS_KEY": "You will need to confirm login details on your Ledger.",
+        "SET_SIGN_TRANSACTION_STATUS": "You will need to confirm deposit details on your Ledger.",
+        "REMOVE_ACCESS_KEY": "You will need to confirm delete key details on your Ledger.",
+        "ADD_ACCESS_KEY_SEED_PHRASE": "You will need to confirm full access details on your Ledger.",
+        "DELETE_RECOVERY_METHOD": "You will need to confirm delete key details on your Ledger.",
+        "SETUP_RECOVERY_MESSAGE": "You will need to confirm full access details on your Ledger.",
+        "ADD_LEDGER_ACCESS_KEY": "You will need to confirm public key details on your Ledger.",
+        "GET_LEDGER_PUBLIC_KEY": "You will need to confirm public key access on your Ledger.",
+        "CREATE_NEW_ACCOUNT": "You will need to confirm add a key for new account on your Ledger.",
+        "CREATE_ACCOUNT_FROM_IMPLICIT": "You will need to confirm account creation on your Ledger. This includes transactions needed to move balance from temporary account.",
+        "SIGN_AND_SEND_TRANSACTIONS": "You will need to confirm deposit details on your Ledger.",
+        "REMOVE_NON_LEDGER_ACCESS_KEYS": "You will need to confirm details on your Ledger.",
+        "STAKE": "You will need to confirm staking on your Ledger",
+        "UNSTAKE": "You will need to confirm unstaking on your Ledger",
+        "WITHDRAW": "You will need to confirm withdrawal on your Ledger"
     },
 
     "button": {
+        "signIn": "Sign In",
+        "signingIn": "Signing In",
         "copyPhrase": "COPY PHRASE",
+        "copyImplicitAccountId": "Copy Account ID",
         "continue": "CONTINUE",
+        "continueSetup": "Continue to Setup",
         "verify": "VERIFY & COMPLETE",
+        "verifyCode": "Verify Code",
+        "verifyCodeEnable": "Verify Code & Enable",
         "startOver": "Start over",
         "copyUrl": "Copy Url",
-        "createAccount": "Create account",
+        "createAccount": "Create Account",
+        "recoverYourAccount": "Recover your Account",
+        "importExistingAccount": "Import Existing Account",
         "enable": "Enable",
         "disable": "Disable",
-        "connectLedger": "Connect Ledger",
+        "signInLedger": "Sign in with Ledger",
+        "connectLedger": "Connect to Ledger",
+        "connect": "Connect",
+        "retry": "Retry",
         "browseApps": "BROWSE APPS",
         "createAccountCapital": "CREATE ACCOUNT",
         "findMyAccount": "FIND MY ACCOUNT",
@@ -160,7 +263,8 @@
         "confirm": "CONFIRM",
         "viewAll": "VIEW ALL",
         "send": "SEND",
-        "cancel": "CANCEL",
+        "cancel": "Cancel",
+        "skip": "Skip",
         "deny": "DENY",
         "allow": "ALLOW",
         "addNode": "ADD NODE",
@@ -177,19 +281,42 @@
         "recoverAccount": "RECOVER ACCOUNT",
         "goBack": "Go back",
         "createNewAccount": "CREATE NEW ACCOUNT",
-        "moreInformation": "More information"
+        "addAccount": "ADD ACCOUNT",
+        "moreInformation": "More information",
+        "dismiss": "Dismiss",
+        "cancelOperation": "Cancel Operation",
+        "subscribe": "Subscribe",
+        "Close": "Close"
+    },
+
+    "link": {
+        "summary": "SUMMARY",
+        "send": "SEND",
+        "receive": "RECEIVE",
+        "staking": "STAKING",
+        "help": "HELP",
+        "profile": "Profile",
+        "authorizedApps": "Authorized Apps",
+        "switchAccount": "Switch account",
+        "noAccount": "You have no other accounts",
+        "fullAccessKeys": "Full Access Keys"
     },
 
     "input": {
         "enterWord": {
             "title": "Word",
             "placeholder": ""
+        },
+        "accountId": {
+            "title": "Account ID",
+            "placeholder": "e.g. johndoe.near",
+            "subLabel": "Your account ID must include a Top Level Account such as <b>.near</b> or contain exactly 64 characters."
         }
     },
 
     "recoverAccount": {
-        "pageTitle": "Recover Your Account",
-        "pageText": "If you’ve setup one or more account recovery methods, follow the instructions below to begin the recovery process.",
+        "pageTitle": "Import Account",
+        "pageText": "If you’ve setup one or more account recovery methods, follow the instructions below to import your account.",
         "email": {
             "title": "Email",
             "desc": "Check your email for a message from nearprotocol.com with the subject:",
@@ -204,36 +331,49 @@
             "title": "Seed Phrase",
             "desc": "Make sure you have your 12 word recovery phrase, then click below to begin the recovery process."
         },
+        "ledger": {
+            "title": "Ledger",
+            "desc": "Make sure your ledger is connected securely, and that the NEAR app is open on the device."
+        },
         "actionType": "Recovery",
-        "actionRequired": "This message contains a magic link. Click the link to begin recovery!"
+        "actionRequired": "This message contains a magic link. Click the link to begin recovery!",
+        "cannotResend": "This message was sent when you enabled email/phone recovery. We only send this message once, and cannot resend it."
     },
 
     "createAccount": {
         "pageTitle": "Create Account",
-        "pageText": "Just choose a username and you’re all set.",
+        "pageText": "Just choose an account ID and you’re all set.",
         "accountIdInput": {
-            "title": "Choose a Username",
+            "title": "Account ID",
             "placeholder": "Example: satoshi"
         },
         "alreadyHaveAnAccount": "Already have an account?",
-        "recoverItHere": "Recover it here",
+        "recoverItHere": "Recover your account",
+        "signInLedger": "Sign in with Ledger",
         "note": {
             "title": "NOTE",
-            "one": "Your username can contain any of the following:",
+            "one": "Your account ID can contain any of the following:",
             "two": "Lowercase characters (a-z)",
             "three": "Digits (0-9)",
             "four": "Characters (_-) can be used as separators",
-            "five": "Your username CANNOT contain:",
+            "five": "Your account ID CANNOT contain:",
             "six": "Characters \"@\" or \".\""
+        },
+        "invalidLinkDrop": {
+            "title": "Link Invalid",
+            "one": "This NEAR Drop has been claimed.",
+            "two": "NEAR Drops can only be used to create a single account, after which the link will expire."
         }
+    },
+
+    "topLevelAccounts": {
+        "header": "Top Level Accounts",
+        "body": "Account names are similar to domain names. Only the ${suffix} account can create accounts such as yourname.${suffix}, and only yourname.${suffix} can create app.yourname.${suffix}. All accounts created in this wallet use the .${suffix} Top Level Account (TLA). To learn more about account names and creating your own TLA, visit the <a rel='noopener noreferrer' href='https://docs.nearprotocol.com/docs/concepts/account'>docs</a>."
     },
 
     "recoverSeedPhrase": {
         "pageTitle": "Recover using Seed Phrase",
         "pageText": "Enter the backup seed phrase associated with the account.",
-        "accountIdInput": {
-            "title": "Username"
-        },
         "seedPhraseInput": {
             "title": "Seed Phrase (12 words)",
             "placeholder": "correct horse battery staple..."
@@ -243,29 +383,30 @@
     "setupRecovery": {
         "header": "Protect your Account",
         "subHeader": "Select an account recovery method:",
-        "basicSecurity": "Basic Security",
+        "basicSecurity": "Less Secure",
         "basicSecurityDesc": "Enter your email address or phone number and receive a magic link",
         "emailTitle": "Email Recovery",
         "emailPlaceholder": "example@email.com",
         "phoneTitle": "Phone Recovery",
         "phoneDesc": "Enter your phone number below and receive a magic recovery link",
         "phonePlaceholder": "+1 415 797 8554",
-        "advancedSecurity": "Advanced Security",
-        "advancedSecurityDesc": "Write down a 12 word recovery phrase and store it securely.",
+        "advancedSecurity": "Most Secure (Recommended)",
+        "advancedSecurityDesc": "Write down a 12 word seed (recovery) phrase, or secure your account with your Ledger device.",
+        "ledgerTitle": "Ledger Nano S or X",
         "phraseTitle": "Recovery Phrase"
     },
     "setRecoveryConfirm": {
-        "pageTitle": "Confirm Recovery Setup",
-        "pageText": {
-            "one": {
-                "email": "You should have received an email with a magic link. If you ever lose access to your account, simply click the link, and your account will be restored.",
-                "phoneNumber": "You should have received an SMS with a magic link. If you ever lose access to your account, simply click the link, and your account will be restored."
-            },
-            "two": {
-                "email": "Please confirm receipt of this email at:",
-                "phoneNumber": "Please confirm receipt of this SMS at:"
-            }
-        },
+        "title": "Enter Verification Code",
+        "pageText": "We've sent a 6-digit verification code to the ",
+        "inputHeader": "Enter your 6-digit verification code",
+        "inputPlaceholder": "Verification Code",
+        "invalidCode": "Invalid code",
+        "didNotRecive": "Didn't receive your code?",
+        "resendCode": "Resend your code",
+        "or": "or",
+        "sendToDifferent": "send to a different",
+        "email": "email address",
+        "phone": "phone number",
         "reenter": {
             "one": {
                 "email": "If you did not yet receive this email, or the above email address is incorrect, ",
@@ -291,7 +432,7 @@
         "desc": "NEAR is a scalable computing and storage platform that changes how the web works for better.",
         "learnMore": "Learn More",
         "needHelp": "Need Help?",
-        "contactSupport": "Contact Support"
+        "contactSupport": "Join Community"
     },
 
     "dashboard": {
@@ -299,7 +440,7 @@
     },
 
     "balance": {
-        "balance": "Balance",
+        "balance": "Total Balance",
         "balanceLoading": "Balance loading"
     },
 
@@ -315,8 +456,8 @@
         "confirm": {
             "pageTitle": "Are you sure?",
             "pageText": "You are granting <b>full access</b> to ${appTitle}!",
-            "pageTextSecondLine": "<b>To confirm</b>, please enter your username below.",
-            "username": "Username"
+            "pageTextSecondLine": "<b>To confirm</b>, please enter your account ID below.",
+            "username": "Account ID"
         },
         "details": {
             "detailedDescription": "Detailed description of transaction",
@@ -330,6 +471,10 @@
             "forContract": "For Contract",
             "function": "Function",
             "noDescription": "No description specified for this method"
+        },
+        "cliLoginSuccess": {
+            "pageTitle": "You've successfully authorized NEAR Shell!",
+            "pageText": "Please close this window and follow the instructions in the terminal."
         }
     },
 
@@ -352,7 +497,7 @@
     },
     "nodeStaking": {
         "pageTitle": "Node & Staking",
-        "pageText": "@nodeandstaking.near",
+        "pageText": "nodeandstaking.near",
         "steps": {
             "title": "To run a node or stake, please fallow these steps:",
             "one": {
@@ -381,49 +526,153 @@
         }
     },
     "staking": {
+        "errors": {
+            "noLockup": "No lockup contract for account",
+            "noWithdraw": "Unable to withdraw pending balance from validator"
+        },
         "pageTitle": "Staking",
         "pageText": "Setup your Node via CLI, then add it here.",
         "amountStakingInput": {
             "title": "Enter amount to stake",
             "placeholder": "example: 15"
+        },
+        "staking": {
+            "title": "Staking",
+            "desc": "Stake your NEAR tokens with a validator",
+            "button": "Select validator",
+            "currentValidators": "Your Current Validators",
+            "noValidators": "You haven't staked with a validator yet.",
+            "selectAccount": "Select account"
+        },
+        "balanceBox": {
+            "staked": {
+                "title": "Total amount staked",
+                "info": "NEAR tokens currently staked with validators. These tokens are accumulating rewards. To access these tokens, you must first unstake and then withdraw them.",
+                "button": "Unstake"
+            },
+            "unclaimed": {
+                "title": "Rewards earned",
+                "info": "Rewards that have been earned, but not withdrawn. Rewards earned are automatically restaked, which means your Total Amount Staked automatically increases over time, and your rewards are <a target='_blank' href='https://www.investopedia.com/terms/c/compoundinterest.asp'>compounding</a>."
+            },
+            "available": {
+                "title": "Available for withdrawal",
+                "info": "These tokens have been unstaked, and are ready to be withdrawn.",
+                "button": "Withdraw"
+            },
+            "pending": {
+                "title": "Pending release",
+                "info": "These tokens have been unstaked, but are not yet ready to withdraw. Tokens are ready to withdraw 36 to 48 hours after unstaking."
+            }
+        },
+        "validatorBox": {
+            "fee": "Fee",
+            "staking": "Staking",
+            "near": "NEAR",
+            "cta": "Select",
+            "with": "with"
+        },
+        "stake": {
+            "title": "Stake Amount",
+            "desc": "Enter the amount you would like to stake with your chosen validator.",
+            "amount": "Amount",
+            "stakeWith": "Stake with",
+            "button": "Submit Stake",
+            "confirm": "You are staking",
+            "input": {
+                "insufficientFunds": "Insufficient funds.",
+                "availableBalance": "Available balance:",
+                "near": "NEAR"
+            },
+            "ledgerDisclaimer": "Note: If this is your first time staking with this validator, you will need to confirm two transactions",
+            "useMax": "Use max",
+            "with": "with",
+            "from": "from",
+            "accounts": "If you have locked NEAR, you can choose to stake with either your locked NEAR (lockup.near), or your unlocked NEAR (your account name). You will only see the staking positions for the selected account. If you do not have locked NEAR, you can ignore this section"
+        },
+        "unstake": {
+            "title": "Unstake Tokens",
+            "desc": "Enter the number of tokens you would like to unstake from your current validator.",
+            "stakeWith": "Unstake from",
+            "button": "Unstake Tokens",
+            "confirm": "You are unstaking",
+            "input": {
+                "insufficientFunds": "Not enough staked tokens.",
+                "availableBalance": "Available to unstake:",
+                "near": "NEAR"
+            },
+            "ledgerDisclaimer": "Note: If this is your first time staking with this validator, you will need to confirm two transactions",
+            "beforeUnstakeDisclaimer": "Unstaked tokens will be made available pending a release period of ~36-48hrs (3 epochs)."
+        },
+        "stakeSuccess": {
+            "title": "Success!",
+            "desc": "Your stake has successfully been delegated to your chosen validator:",
+            "descTwo": "You can now view your delegation and staking rewards from your staking dashboard.",
+            "button": "Return to Dashboard"
+        },
+        "unstakeSuccess": {
+            "title": "Success!",
+            "desc": "<b>${amount} NEAR</b> has successfully been unstaked from this validator:",
+            "descTwo": "Your tokens are pending release and will be made available within ~36-48hrs (3 epochs).",
+            "button": "Return to Dashboard"
+        },
+        "validators": {
+            "title": "Select a Validator",
+            "desc": "Enter a known validator or select a validator from the list to stake your NEAR tokens. You may only stake with a single validator at any given time.",
+            "inputLabel": "Validator account ID",
+            "inputPlaceholder": "validator-name.near",
+            "button": "View Validator",
+            "available": "Available Validators",
+            "search": {
+                "success": "Validator found!",
+                "error": "No matching validator."
+            }
+        },
+        "validator": {
+            "title": "Validator: <br/> @${validator}",
+            "button": "Stake with validator",
+            "fee": "Validator Fee",
+            "desc": "This is the fee paid to the validator to stake on your behalf. This fee is only charged on your rewards.",
+            "withdrawalDisclaimer": "Funds pending release will be made available after ~36-48hrs (3 epochs)",
+            "unstake": "You are unstaking",
+            "withdraw": "You are withdrawing"
+        },
+        "balanceBanner": {
+            "title": "Available lockup balance",
+            "currency": "NEAR"
+        },
+        "alertBanner": {
+            "title": "You must first unstake and withdraw your tokens from your current validator in order to stake with a new validator.",
+            "button": "View current validator"
+        },
+        "noValidators": {
+            "title": "You are not currently staking with any validators."
         }
     },
     "profile": {
         "pageTitle": {
             "loading": "Loading...",
-            "notFound": "Account @${accountId} not found",
-            "default": "Account: @${accountId}"
+            "notFound": "Account ${accountId} not found",
+            "default": "Account: ${accountId}"
         },
         "details": {
             "profile": "PROFILE",
             "visibleTo": "VISIBLE TO",
-            "username": "Username",
+            "username": "Account ID",
             "public": "Public",
-            "balance": "Balance",
+            "totalBalance": "Total Balance",
+            "minBalance": "Minimum Balance",
+            "staked": "Staked",
+            "locked": "Locked",
+            "unvested": "Unvested",
+            "unlocked": "Unlocked",
+            "availableBalance": "Available Balance",
             "lockPopup": {
                 "title": "Why is this locked?",
-                "text": "Your username is your unique identifier in the system and cannot be changed because data and asset ownership is tied to it. However you are welcome to ${link} with desired name and transfer assets as needed.",
+                "text": "Your account ID is your unique identifier in the system and cannot be changed because data and asset ownership is tied to it. However you are welcome to ${link} with desired name and transfer assets as needed.",
                 "createAnotherAccount": "create another account"
             },
             "qrDesc": "Use your phone's camera app to send to this address"
         }
-    },
-
-    "desktopPopup": {
-        "profile": "Profile",
-        "contacts": "Contacts",
-        "authorizedApps": "Authorized Apps",
-        "fullAccessKeys": "Full Access Keys",
-        "logout": "Logout",
-        "switchAccount": "SWITCH ACCOUNT",
-        "noAccount": "You have no other accounts"
-    },
-
-    "desktopView": {
-        "summary": "SUMMARY",
-        "activity": "ACTIVITY",
-        "send": "SEND",
-        "receive": "RECEIVE"
     },
 
     "sendMoney": {
@@ -432,12 +681,14 @@
             "default": "Send"
         },
         "accountIdInput": {
-            "title": "Username to send to:"
+            "title": "Account ID to send to:"
         },
         "amountStatusId": {
             "noMoreThan": "NO MORE THAN 5 DECIMAL DIGITS",
             "notEnoughTokens": "Not enough tokens.",
-            "howMuch": "How much do you want to send?"
+            "howMuch": "How much do you want to send?",
+            "available": "Available Balance:",
+            "sending": "Sending:"
         },
         "youAreSending": "You are sending",
         "to": "to",
@@ -470,11 +721,31 @@
             "transferOf": "is requesting the transfer of",
             "authorization": "is requesting authorization"
         },
-        "currentBalance": "Current Balance",
+        "availableBalance": "Available Balance",
         "wasTransferredSuccessfully": "was transferred successfully",
         "authorizationRequestSuccessful": "Authorization request successful",
         "transferring": "Transferring",
         "authorizing": "Authorizing"
+    },
+
+    "availableBalanceInfo": "”Available Balance” is your spendable NEAR balance. This will be lower than your Total Balance. To view a complete breakdown of your NEAR balance, visit your Profile.",
+    "availableBalanceProfile": "This is your spendable NEAR balance, and can be used or transferred immediately. This will be lower than your Total Balance.",
+    "minimumBalance": "This is the minimum NEAR balance your account must maintain to remain active. This balance represents the storage space your account is using on the NEAR blockchain (with a small buffer), and will go up or down as you use more or less space.",
+    "totalBalance": "Your total balance represents all NEAR tokens under your control. In many cases, you will not have immediate access to this entire balance (e.g. if it is locked, delegated, or staked). Check your Available Balance for the NEAR you can actively use, transfer, delegate, and stake.",
+    "stakedBalance": "This NEAR is actively being used to back a validator and secure the network. When you decide to unstake this NEAR, it will take some time to be shown in your Available Balance, as NEAR takes 3 epochs (~36 hours) to unstake.",
+    "unvestedBalance": "Unvested NEAR is earmarked to you, but not yet under your ownership. You can still delegate or stake this NEAR, and the rewards will be entirely yours. As your NEAR is vested, it will appear in either your Locked or Unlocked balance.",
+    "lockedBalance": "This NEAR is locked in a lockup contract, and cannot be withdrawn. You may still delegate or stake this NEAR. Once the NEAR is unlocked, you can view it in your Unlocked Balance, and chose to withdraw it (moving to your Available Balance).",
+    "unlockedBalance": "This NEAR is still in a lockup contract, and is ready to be withdrawn. If you choose to withdraw this NEAR, it will appear in your Available Balance.",
+
+    "transaction": {
+        "status": {
+            "NotStarted": "Not started",
+            "Started": "Started",
+            "Failure": "Failed",
+            "SuccessValue": "Succeeded",
+            "checkingStatus": "checking status",
+            "notAvailable": "Status not available"
+        }
     },
 
     "success": "Success",
@@ -484,7 +755,126 @@
     "amount": "amount",
     "or": "OR",
     "sending": "SENDING",
+    "removingKeys": "Removing Keys",
+    "connecting": "Connecting",
     "back": "Back",
     "of": "of",
-    "ofTotal": "of Total"
+    "ofTotal": "of Total",
+
+    "setupLedger": {
+        "header": "Connect your Ledger device",
+        "one": "Connect your Ledger Nano S or X to your computer or mobile device via USB and <b>open the NEAR application</b>. <br><br>Then, <b>press both buttons</b> at the 'Pending Ledger Review' screen.",
+        "two": "If you have not yet installed the NEAR Ledger app, follow",
+        "twoLink": "these instructions"
+    },
+
+    "setupLedgerSteps": {
+        "header": "Install NEAR on your Ledger device",
+        "one": "Open <a href='https://www.ledger.com/ledger-live' target='_blank'>Ledger Live,</a> install any firmware updates available.",
+        "two": "Navigate to your <span class='color-black'>Settings</span>.",
+        "three": "Under <span class='color-black'>Experimental Features</span>, make sure that <span class='color-black'>Developer Mode</span> is switched <span class='color-black'>on</span>.",
+        "four": "Return to the <span class='color-black'>Manager</span> tab and search for <span class='color-black'>NEAR</span>.",
+        "five": "Follow the instructions to install the <span class='color-black'>NEAR application</span> on your device."
+    },
+
+    "setupLedgerSuccess": {
+        "header": "Ledger has secured your account!",
+        "one": "We recommend that you remove all existing keys (recovery methods and devices).",
+        "two": "Maintaining multiple keys and recovery methods (including seed phrases) increases the vulnerability of your account.",
+        "primaryCta": "Remove Existing Keys and Recovery Methods",
+        "secondaryCta": "Keep existing keys",
+        "nextStep": {
+            "header": {
+                "remove": "Confirm key removal",
+                "keep": "Keep existing keys?"
+            },
+            "one": {
+                "remove": "Before removing your existing keys and recovery methods, make sure that you have recorded and securely stored your Ledger seed phrase.",
+                "keep": "<span class='color-red'>Maintaining multiple recovery methods and devices increases the vulnerability of your account.</span>"
+            },
+            "two": {
+                "remove": "If you lose access to your seed phrase, NEAR Inc. will be unable to assist you in recovery of your account and its funds."
+            }
+        }
+    },
+
+    "signInLedger": {
+        "header": "Sign in with your Ledger device",
+        "one": "Make sure your ledger is connected securely, and that the NEAR app is open on the device.",
+        "getLedgerAccountIds": {
+            "success": "",
+            "error": "Public key access was rejected. No accounts were recovered.<br/>To continue, you must allow NEAR Wallet to view your public key. Please try again.",
+            "noAccounts": "No accounts are associated with this Ledger device. You must first create an account, then add this Ledger to it to login.",
+            "aborted": "Action was aborted.",
+            "U2FNotSupported": "U2F browser support is needed for Ledger. Please use Chrome, Opera or Firefox with U2F extension."
+        },
+        "addLedgerAccountId": {
+            "success": "",
+            "error": "Access to one of the accounts was rejected. No accounts were recovered.<br>To continue, you must authorize read-only access to each account on your Ledger device. Please try again."
+        },
+        "saveAndSelectLedgerAccounts": {
+            "success": "You’ve successfully signed in.<br/><b>${numberOfAccounts} account(s) were recovered.</b> Your most recently created account has been set to active.",
+            "error": "Please check that your device is connected and the NEAR app is open."
+        },
+        "modal": {
+            "confirmPublicKey": "Confirm public key",
+            "ledgerMustAdd": "Ledger must add an access key for each account protected by your device:",
+            "accountsApproved": "account(s) approved",
+            "status": {
+                "success": "Approved",
+                "pending": "Pending",
+                "waiting": "Up next",
+                "confirm": "Confirm"
+            }
+        }
+    },
+
+    "confirmLedgerModal": {
+        "header": {
+            "confirm": "Please confirm the operation on your device...",
+            "processing": "Processing"
+        },
+        "one": "You will need to confirm your sign-in details on your Ledger."
+    },
+    "enterAccountNameLedgerModal": {
+        "header": "Enter account name",
+        "one": "Enter the name of the account you’re signing in to"
+    },
+
+    "errors": {
+        "type": {
+            "RetriesExceeded": "Exceeded maximum attempts for this transaction."
+        },
+        "ledger": {
+            "U2FNotSupported": "U2F browser support is needed for Ledger. Please use Chrome, Opera or Firefox with a U2F extension. Also make sure you're on an HTTPS connection.",
+            "U2F_4": "Failed to sign with Ledger device: U2F DEVICE_INELIGIBLE. Please make sure that your Ledger device is connected and unlocked."
+        },
+        "recoveryMethods": {
+            "lastMethod": "Cannot delete your last recovery method. Unless you have Ledger enabled, you need to keep at least one recovery method active to ensure recoverability of your account."
+        },
+        "twoFactor": {
+            "userCancelled": "2FA code was not verified correctly.",
+            "invalidCode": "Invalid 2FA code. Please try again."
+        }
+    },
+
+    "networkBanner": {
+        "title": "Test-only Wallet",
+        "header": "NEAR test Wallet",
+        "desc": "This wallet (and network) are for testing purposes only. Tokens and other assets have no value. Accounts created do not transfer to Mainnet."
+    },
+    "stagingBanner": {
+        "title": "Warning: This is a pre-release version of Wallet. Use at your own risk!",
+        "desc": "Warning: This is a pre-release version of the NEAR Wallet. There may be bugs, and these bugs may lead to loss of funds. By continuing to use this version, you agree that you understand and accept these risks, and understand that the NEAR Wallet team will be unable to help you."
+    },
+    "landing": {
+        "title":"NEAR is here.",
+        "desc": "Securely store and stake your NEAR tokens and compatible assets with <span>NEAR Wallet</span>.",
+        "or": "or",
+        "banner": "NEAR Wallet is in Private Beta"
+    },
+    "emailSubscribe": {
+        "title": "Sign up below for early access",
+        "placeholder": "Your email..."
+    }
 }

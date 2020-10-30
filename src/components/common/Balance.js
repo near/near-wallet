@@ -1,40 +1,49 @@
 import React from 'react'
 import styled from 'styled-components'
 import { List } from 'semantic-ui-react'
-import { utils } from 'nearlib'
+import { utils } from 'near-api-js'
 import { BN } from 'bn.js'
 
 const CustomDiv = styled(List)`
     position: relative;
-    display: inline;
+    white-space: nowrap;
+    display: inline-flex !important;
+    align-items: center;
+    margin: 0 !important;
+    line-height: normal;
+
+    .symbol {
+        transform: scale(0.65);
+        font-weight: 700;
+        margin-left: -2%;
+    }
 `
 
 const FRAC_DIGITS = 5
 const YOCTO_NEAR_THRESHOLD = new BN('10', 10).pow(new BN(utils.format.NEAR_NOMINATION_EXP - FRAC_DIGITS + 1, 10))
 
-const Balance = ({ amount }) => {
+const Balance = ({ amount, noSymbol = false, className }) => {
     if (!amount) {
         throw new Error('amount property should not be null')
     }
+    
     let amountShow = formatNEAR(amount)
 
     return (
-        <CustomDiv title={showInYocto(amount)}>
-            {amountShow} Ⓝ
+        <CustomDiv title={showInYocto(amount)} className={className}>
+            {!noSymbol && <span className='symbol'>Ⓝ</span>}{amountShow}{noSymbol === 'near' && <span className='currency'>&nbsp;NEAR</span>}
         </CustomDiv>
     )
 }
 
 export const formatNEAR = (amount) => {
-    let ret =  utils.format.formatNearAmount(amount, FRAC_DIGITS)
-    if (ret === '0') {
-        return `<${
-            !FRAC_DIGITS 
-                ? `0` 
-                : `0.${'0'.repeat((FRAC_DIGITS || 1) - 1)}1`
-        }`
+    let ret = utils.format.formatNearAmount(amount.toString(), FRAC_DIGITS)
+    if (amount === '0') {
+        return amount;
+    } else if (ret === '0') {
+        return `<${!FRAC_DIGITS ? `0` : `0.${'0'.repeat((FRAC_DIGITS || 1) - 1)}1`}`;
     }
-    return ret
+    return ret;
 }
 
 const showInYocto = (amountStr) => {

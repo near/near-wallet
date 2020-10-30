@@ -4,6 +4,18 @@ import { refreshAccount, switchAccount } from '../../actions/account';
 import { connect } from 'react-redux';
 import DesktopContainer from './DesktopContainer';
 import MobileContainer from './MobileContainer';
+import styled from 'styled-components';
+
+const Container = styled.div`
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    @media (max-width: 991px) {
+        bottom: ${props => props.open ? '0' : 'unset'};
+    }
+`
 class Navigation extends Component {
 
     state = {
@@ -41,12 +53,8 @@ class Navigation extends Component {
 
     }
 
-    get showNavLinks() {
-        const { availableAccounts } = this.props;
-        const signUpRoutes = ['create', 'set-recovery', 'setup-seed-phrase', 'recover-account', 'recover-seed-phrase'];
-        const currentBaseRoute = window.location.pathname.replace(/^\/([^/]*).*$/, '$1');
-        
-        return !signUpRoutes.includes(currentBaseRoute) || availableAccounts.length > 1 || (availableAccounts.length > 0 && currentBaseRoute === 'create');
+    get showNavLinks() {        
+        return this.props.account.accountId;
     }
 
     toggleMenu = () => {
@@ -62,11 +70,10 @@ class Navigation extends Component {
     }
 
     render() {
-
         const { menuOpen } = this.state;
 
         return (
-            <>
+            <Container id='nav-container' open={menuOpen}>
                 <DesktopContainer
                     menuOpen={menuOpen}
                     toggleMenu={this.toggleMenu}
@@ -81,7 +88,7 @@ class Navigation extends Component {
                     showNavLinks={this.showNavLinks}
                     {...this.props}
                 />
-            </>
+            </Container>
         )
     }
 }

@@ -25,7 +25,7 @@ const ContactsRemove = () => (
                             Alex Skidanov
                         </h2>
                         <h5>
-                            @alex.near
+                            alex.near
                         </h5>
                     </div>
                 </div>

@@ -1,21 +1,17 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import React, { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
-import ActiveMethod from './ActiveMethod';
-import InactiveMethod from './InactiveMethod';
+import RecoveryMethod from './RecoveryMethod';
 import RecoveryIcon from '../../../images/icon-recovery-grey.svg';
 import ErrorIcon from '../../../images/icon-problems.svg';
-import { Snackbar, snackbarDuration } from '../../common/Snackbar';
 import { Translate } from 'react-localize-redux';
-import { generateSeedPhrase } from 'near-seed-phrase';
 import {
-    setupRecoveryMessage,
     deleteRecoveryMethod,
-    loadRecoveryMethods,
-    sendNewRecoveryLink
+    loadRecoveryMethods
 } from '../../../actions/account';
 import SkeletonLoading from '../../common/SkeletonLoading';
+import { useRecoveryMethods } from '../../../hooks/recoveryMethods';
 
 const Container = styled.div`
 
@@ -31,24 +27,20 @@ const Container = styled.div`
         }
     }
 
-    button {
+    button, a {
         font-size: 14px;
+        font-weight: 400;
         width: 100px;
-        font-weight: 600;
-        height: 40px;
-        letter-spacing: 0.5px;
+        height: 36px;
+        letter-spacing: 1px;
     }
-
 `
 
 const Header = styled.div`
     padding: 20px !important;
 `
 
-const Title = styled.div`
-    font-family: BwSeidoRound;
-    color: #24272a;
-    font-size: 22px;
+const Title = styled.h2`
     display: flex;
     align-items: center;
 
@@ -59,7 +51,6 @@ const Title = styled.div`
         height: 28px;
         display: inline-block;
         margin-right: 10px;
-        margin-top: -2px;
     }
 `
 
@@ -81,123 +72,80 @@ const NoRecoveryMethod = styled.div`
     }
 `
 
-class RecoveryContainer extends Component {
+const RecoveryContainer = () => {
+    
+    const [deletingMethod, setDeletingMethod] = useState('');
 
-    state = {
-        successSnackbar: false,
-        deletingMethod: '',
-        resendingLink: ''
-    };
+    const dispatch = useDispatch();
+    const account = useSelector(({ account }) => account);
+    const accountId = account.accountId;
+    const accessKeys = account.accessKeys.map(key => key.public_key)
+    const allKinds = ['email', 'phone', 'phrase'];
+    const activeMethods = useRecoveryMethods(accountId)
+        .filter(({ publicKey, kind }) => accessKeys.includes(publicKey) && allKinds.includes(kind));
+    const currentActiveKinds = new Set(activeMethods.map(method => method.kind));
+    const missingKinds = allKinds.filter(kind => !currentActiveKinds.has(kind))
+    const deleteAllowed = [...currentActiveKinds].length > 1 || account.ledgerKey;
 
-    handleEnableMethod = (method) => {
-        const { history, accountId } = this.props;
-
-        history.push(`${method !== 'phrase' ? '/set-recovery/' : '/setup-seed-phrase/'}${accountId}`);
+    if (!account.ledgerKey) {
+        missingKinds.forEach(kind => activeMethods.push({kind: kind}));
     }
 
-    handleDeleteMethod = (method) => {
-        const { deleteRecoveryMethod, loadRecoveryMethods, accountId } = this.props;
+    const loading = account.actionsPending.includes('LOAD_RECOVERY_METHODS') || account.actionsPending.includes('REFRESH_ACCOUNT');
 
-        this.setState({ deletingMethod: method.kind })
-        deleteRecoveryMethod(method)
-            .then(({ error }) => {
-                if (error) return
-                loadRecoveryMethods(accountId);
-                this.setState({ deletingMethod: '' });
-        })
-    }
-
-    handleResendLink = (method) => {
-        const { seedPhrase, publicKey } = generateSeedPhrase();
-        const { accountId, sendNewRecoveryLink, loadRecoveryMethods } = this.props;
-        const { kind, detail } = method;
-        let phoneNumber, email;
-
-        if (kind === 'email') {
-            email = detail;
-        } else if (kind === 'phone') {
-            phoneNumber = detail;
+    const handleDeleteMethod = async (method) => {
+        try {
+            setDeletingMethod(method.publicKey)
+            await dispatch(deleteRecoveryMethod(method, deleteAllowed))
+        } finally {
+            setDeletingMethod('')
         }
-
-        this.setState({ resendingLink: method.kind })
-        sendNewRecoveryLink({ accountId, phoneNumber, email, publicKey, seedPhrase, method })
-            .then(({ error }) => {
-                if (error) return
-
-                loadRecoveryMethods(accountId);
-                this.setState({ successSnackbar: true, resendingLink: '' }, () => {
-                    setTimeout(() => {
-                        this.setState({successSnackbar: false});
-                    }, snackbarDuration)
-                });
-            })
+        dispatch(loadRecoveryMethods())
     }
- 
-    render() {
 
-        const { activeMethods, account, accountId } = this.props;
-        const { deletingMethod, resendingLink, successSnackbar } = this.state;
-        const allMethods = ['email', 'phone', 'phrase'];
-        const inactiveMethods = allMethods.filter((method) => !activeMethods.map(method => method.kind).includes(method));
-        const loading = account.actionsPending.includes('LOAD_RECOVERY_METHODS') || account.actionsPending.includes('REFRESH_ACCOUNT');
+    const sortedActiveMethods = activeMethods.sort((a, b) => {
+        let kindA = a.kind
+        let kindB = b.kind
+        if (kindA < kindB) {
+            return -1;
+        }
+        if (kindA > kindB) {
+            return 1;
+        }
+        return 0;
+    });
 
+    if (!account.ledgerKey || activeMethods.length) {
         return (
             <Container>
                 <Header>
-                    <Title><Translate id='recoveryMgmt.title'/></Title>
-                    {!activeMethods.length && !loading &&
+                    <Title><Translate id='recoveryMgmt.title' /></Title>
+                    {!loading && !sortedActiveMethods.some(method => method.publicKey) &&
                         <NoRecoveryMethod>
-                            <Translate id='recoveryMgmt.noRecoveryMethod'/>
+                            <Translate id='recoveryMgmt.noRecoveryMethod' />
                         </NoRecoveryMethod>
                     }
                 </Header>
-                {!loading &&
-                    <>
-                        {activeMethods.map((method, i) =>
-                            <ActiveMethod
-                                key={i}
-                                data={method}
-                                onResend={() => this.handleResendLink(method)}
-                                onDelete={() => this.handleDeleteMethod(method)}
-                                deletingMethod={deletingMethod}
-                                resendingLink={resendingLink}
-                                accountId={accountId}
-                            />
-                        )}
-                        {inactiveMethods.map((method, i) =>
-                            <InactiveMethod
-                                key={i}
-                                kind={method}
-                                onEnable={() => this.handleEnableMethod(method)}
-                            />
-                        )}
-                    </>
-                }
-                <SkeletonLoading 
+                {!loading && sortedActiveMethods.map((method, i) =>
+                    <RecoveryMethod
+                        key={i}
+                        method={method}
+                        accountId={accountId}
+                        deletingMethod={deletingMethod === method.publicKey}
+                        onDelete={() => handleDeleteMethod(method)}
+                        deleteAllowed={deleteAllowed}
+                    />
+                )}
+                <SkeletonLoading
                     height='50px'
                     number={3}
                     show={loading}
                 />
-                <Snackbar
-                    theme='success'
-                    message={<Translate id='recoveryMgmt.recoveryLinkSent'/>}
-                    show={successSnackbar}
-                    onHide={() => this.setState({ successSnackbar: false })}
-                />
             </Container>
         );
+    } else {
+        return null;
     }
 }
 
-const mapDispatchToProps = {
-    setupRecoveryMessage,
-    deleteRecoveryMethod,
-    loadRecoveryMethods,
-    sendNewRecoveryLink
-}
-
-const mapStateToProps = ({ account }) => ({
-    account
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(RecoveryContainer));
+export default withRouter(RecoveryContainer);

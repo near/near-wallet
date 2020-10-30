@@ -1,0 +1,599 @@
+{
+    "account": {
+        "requestCode": {
+            "success": "SMS-сообщение успешно отправлено.",
+            "error": "Не удалось отправить SMS-сообщение."
+        },
+        "recoverAccount": {
+            "success": "Учетная запись успешно восстановлена.",
+            "error": "Не удалось восстановить учетную запись."
+        },
+        "create": {
+            "success": "Отлично! Имя пользователя ${accountId} доступно.",
+            "error": "Имя пользователя занято. Попробуйте другое."
+        },
+        "available": {
+            "success": "Действительная учетная запись",
+            "error": "Учетная запись не найдена!",
+            "errorSameAccount": "Невозможно отправить самому себе!"
+        },
+        "verifySeedPhrase": {
+            "error": "Вы ввели неверное слово!"
+        },
+        "setupSeedPhrase": {
+            "success": "Настройка мнемонической фразы восстановления успешно завершена",
+            "error": "При настройке мнемонической фразы произошла ошибка. Повторите еще раз!"
+        },
+        "login": {
+            "success": "${title} теперь имеет право использовать ваш аккаунт",
+            "error": "При подтверждении этого действия произошла ошибка. Пожалуйста, попробуйте еще раз!",
+            "details": {
+                "warning": "Это позволит получить доступ к вашему кошельку. Пожалуйста, действуйте с осторожностью!"
+            },
+            "incorrectContractId": {
+                "error": "Контракт ${contractId} не существует. Это может быть проблема с приложением, которое вы пытаетесь использовать, или этот контракт, возможно, был удален. Вы будете перенаправлены обратно в приложение."
+            }
+        },
+        "nameDoesntMatch": "Имя учетной записи не совпадает"
+    },
+
+    "actions": {
+        "CreateAccount": "Новая учетная запись создана: ${receiverId}",
+        "DeleteAccount": "Имя пользователя удалено: ${receiverId}",
+        "DeployContract": "Контракт развернут: ${receiverId}",
+        "FunctionCall": "Вызов метода: ${methodName} в контракте: ${receiverId}",
+        "Transfer": {
+            "transferred": "Отправлено ${deposit} к ${receiverId}",
+            "received": "Получено ${deposit} от ${signerId}"
+        },
+        "Stake": "Стейкинг ${stake}",
+        "AddKey": {
+            "forContract": "Ключ доступа для контракта: ${permissionReceiverId} добавлен",
+            "forReceiver": "Новый ключ для ${receiverId} добавлен"
+        },
+        "DeleteKey": "Ключ удален"
+    },
+    "actionsSign": {
+        "createAccount": "Создание аккаунта: ${receiverId}",
+        "deployContract": "Развертование контракта: ${receiverId}",
+        "functionCall": "Вызов функции: ${methodName}",
+        "transfer": "Перевод: ${deposit}Ⓝ к ${receiverId}",
+        "stake": "Стейкинг: ${stake}Ⓝ ${publicKey}...",
+        "addKey": "Добавление ключа доступа",
+        "deleteKey": "Удаление ключа доступа",
+        "deleteAccount": "Удаление аккаунта: ${receiverId}"
+    },
+
+    "setupSeedPhrase": {
+        "pageTitle": "Установка мнемонической фразы для восстановления",
+        "pageText": "Запишите следующие слова по порядку и храните их в надежном месте. Вы не сможете восстановить свою учетную запись без них!",
+        "snackbarCopySuccess": "Мнемоническая фраза скопирована"
+    },
+    "setupSeedPhraseVerify": {
+        "pageTitle": "Проверить фразу",
+        "pageText": "Введите следующее слово из фразы восстановления, чтобы завершить процесс установки.",
+        "startOverText": "Не записали фразу?"
+    },
+    "setupSeedPhraseSuccess": {
+        "pageTitle": "Установка восстановления завершена",
+        "pageText": "Используйте фразу восстановления, чтобы восстановить вашу учетную запись.",
+        "pageTextSecondLine": "Любой человек, имеющий доступ к вашей фразе восстановления, может получить доступ к вашим средствам, держите её в безопасном месте!"
+    },
+
+    "receivePage": {
+        "addressTitle": "Ваш адрес",
+        "qrCodeTitle": "Сканировать QR код",
+        "copyAddressLinkLong": "Копировать ссылку",
+        "copyAddressLinkShort": "КОПИРОВАТЬ",
+        "snackbarCopySuccess": "Ссылка скопирована!"
+    },
+
+    "selectAccountDropdown": {
+        "switchAccount": "Сменить учетную запись",
+        "switchAccounthNotAllowed": "Это приложение не позволяет изменять учетную запись",
+        "createAccount": "СОЗДАТЬ НОВУЮ УЧЕТНУЮ ЗАПИСЬ"
+    },
+
+    "recoverWithLink": {
+        "title": "Восстановление Учетной Записи",
+        "pOne": "Нажмите кнопку \"Продолжить\", чтобы восстановить учетную запись:",
+        "pTwo": "Если это не ваш браузер по умолчанию, скопируйте URL-адрес и завершите процесс восстановления в удобном для вас браузере.",
+        "snackbarCopySuccess": "Ссылка для восстанавления скопирована",
+        "errorTitle": "Срок действия ссылки истек",
+        "errorP": "Пожалуйста, проверьте свою электронную почту или телефон на наличие самого последнего сообщения. Ссылки во всех предыдущих сообщениях более недействительны."
+    },
+
+    "recoveryMgmt": {
+        "title": "Метод восстановления",
+        "noRecoveryMethod": "У вас нет доступных методов для восстановления учетной записи, пожалуйста, добавьте один из методов ниже.",
+        "methodTitle": {
+            "phrase": "Мнемоническая фраза",
+            "phone": "Телефонный номер",
+            "email": "Электронный адрес"
+        },
+        "resend": {
+            "phone": "Отправить повторно",
+            "email": "Отправить повторно"
+        },
+        "enabled": "Подключен",
+        "disableTitle": "Вы уверены, что хотите отключить этот метод?",
+        "disableTextLink": "Полученная вами волшебная ссылка будет навсегда деактивирована.",
+        "disableTextPhrase": "Ваша текущая мнемоническая фраза будет навсегда деактивирована.",
+        "disableInputPlaceholder": "Введите свое имя пользователя для подтверждения",
+        "disableNo": "Нет, продолжить",
+        "recoveryLinkSent": "Ссылка на восстановление отправлена!"
+    },
+    
+    "fullAccessKeys": {
+        "pageTitle": "Ключи Полного Доступа",
+        "authorizedTo": "АВТОРИЗОВАН",
+        "viewYourAccountName": "Просмотр имени вашей учетной записи",
+        "submitAnyTransaction": "Отправлять любые транзакции от вашего имени",
+        "useContract": "Использовать <b>${receiverId}</b> котракт от вашего имени",
+        "noKeys": "Вы не подключили свой NEAR кошелек к каким-либо приложениям. Когда вы это сделаете, вы сможете управлять ими здесь.<br /><br />Посмотрите, что было построено с помощью NEAR:",
+        "dashboardNoKeys": "У вас нет полных ключей доступа"
+    },
+
+    "authorizedApps": {
+        "pageTitle": "Авторизованые приложения",
+        "dashboardNoApps": "Вы не авторизвали ни одного приложения",
+        "feeAllowance": "Fee Allowance",
+        "publicKey": "Публичный ключ",
+        "ledger": "Ledger"
+    },
+
+    "button": {
+        "copyPhrase": "СКОПИРОВАТЬ ФРАЗУ",
+        "continue": "ПРОДОЛЖИТЬ",
+        "verify": "ПРОВЕРИТЬ И ЗАВЕРШИТЬ",
+        "startOver": "Начать сначала",
+        "copyUrl": "Скопировать ссылку",
+        "createAccount": "Создать учетную запись",
+        "enable": "Включить",
+        "disable": "Отключить",
+        "connectLedger": "Подключить Ledger",
+        "browseApps": "ОБЗОР ПРИЛОЖЕНИЙ",
+        "createAccountCapital": "Создать учетную запись",
+        "findMyAccount": "НАЙТИ УЧЕТНУЮ ЗАПИСЬ",
+        "protectAccount": "ЗАЩИТИТЬ УЧЕТНУЮ ЗАПИСЬ",
+        "setupPhrase": "ИСПОЛЬЗОВАТЬ ФРАЗУ ВОССТАНОВЛЕНИЯ",
+        "confirm": "ПОДТВЕРДИТЬ",
+        "viewAll": "ПОСМОТРЕТЬ ВСЕ",
+        "send": "ОТПРАВИТЬ",
+        "cancel": "ОТМЕНА",
+        "deny": "ОТКЛОНИТЬ",
+        "allow": "ПРИНЯТЬ",
+        "addNode": "ДОБАВИТЬ ПРИМЕЧАНИЕ",
+        "saveChanges": "СОХРАНИТЬ ИЗМЕНЕНИЯ",
+        "removeNode": "УДАЛИТЬ ПРИМЕЧАНИЕ",
+        "stake": "СТЕЙКИНГ",
+        "confirmAndSend": "ПОДТВЕРДИТЬ",
+        "needToEditGoBack": "Вернуться назад для редактирования",
+        "cancelTransfer": "ОТМЕНИТЬ ПЕРЕВОД",
+        "goToDashboard": "ПЕРЕЙТИ В ПАНЕЛЬ УПРАВЛЕНИЯ",
+        "close": "ЗАКРЫТЬ",
+        "addFunds": "ДОБАВИТЬ СРЕДСТВА",
+        "deauthorize": "ДЕАВТОРИЗОВАТЬ",
+        "recoverAccount": "ВОССТАНОВИТЬ АККАУНТ",
+        "goBack": "ВЕРНУТЬСЯ НАЗАД",
+        "createNewAccount": "СОЗДАТЬ НОВЫЙ АККАУНТ",
+        "moreInformation": "Получить больше информации"
+    },
+
+    "link": {
+        "summary": "SUMMARY",
+        "send": "ОТПРАВИТЬ",
+        "receive": "ПОЛУЧИТЬ",
+        "help": "ПОМОЩЬ",
+        "profile": "Профиль",
+        "authorizedApps": "Авторизованые приложения",
+        "switchAccount": "Авторизованые приложения",
+        "noAccount": "У вас нет других учетных записей",
+        "fullAccessKeys": "Ключи полного доступа"
+    },
+
+    "input": {
+        "enterWord": {
+            "title": "Слово",
+            "placeholder": ""
+        },
+        "accountId": {
+            "title": "Account ID",
+            "placeholder": "e.g. johndoe.near",
+            "subLabel": "Your account ID must include a Top Level Account such as <b>.near</b> or contain exactly 64 characters."
+        }
+    },
+
+    "recoverAccount": {
+        "pageTitle": "Восстановить учетную запись",
+        "pageText": "Cледуйте инструкциям, чтобы начать процес восстановления доступа.",
+        "email": {
+            "title": "С помощью электронной почты",
+            "desc": "Проверьте свою электронную почту от near.org с темой письма:",
+            "subject": "\"Important: Near Wallet Recovery Email\"."
+        },
+        "phone": {
+            "title": "С помощью мобильного телефона",
+            "desc": "Проверьте ваш мобильный телефон на наличие SMS-сообщения от",
+            "number": "+14086179592."
+        },
+        "phrase": {
+            "title": "С помощью мнемонической фразы",
+            "desc": "Убедитесь, что у вас есть мнемоническая фраза восстановления из 12 слов, а затем нажмите ниже, чтобы начать процесс восстановления"
+        },
+        "actionType": "",
+        "actionRequired": "Это сообщение содержит волшебную ссылку. Перейдите по ссылке, чтобы начать процесс восстановления"
+    },
+
+    "createAccount": {
+        "pageTitle": "Создать учетную запись",
+        "pageText": "Создание учетной записи не займет у вас много времени.",
+        "accountIdInput": {
+            "title": "Выберите имя пользователя",
+            "placeholder": "Например: satoshi"
+        },
+        "alreadyHaveAnAccount": "Уже есть учетная запись?",
+        "recoverItHere": "Восстановить доступ",
+        "signInLedger": "Использовать Ledger",
+        "note": {
+            "title": "ОБРАТИТЕ ВНИМАНИЕ",
+            "one": "Ваше имя пользователя может содержать любое из следующих значений:",
+            "two": "Строчные буквы (a-z)",
+            "three": "Цифры (0-9)",
+            "four": "Символы (_-) могут быть использованы в качестве разделителей",
+            "five": "Ваше имя пользователя не может содержать:",
+            "six": "Символы \"@\" или \".\""
+        }
+    },
+
+    "topLevelAccounts": {
+        "header": "Учетные записи верхнего уровня",
+        "body": "Имена учетных записей похожи на доменные имена. Только учетная запись ${suffix} может создавать такие учетные записи, как yourname.${suffix}, и только yourname.${suffix} в тестовом режиме, ваше имя app.yourname.${suffix}. Все учетные записи созданные в этом кошельке, используют .${suffix} Учетные записи верхнего уровня (TLA). Чтобы узанть больше об именах учетных записей и создать собственную учетную запись верхнего уровня, прочтите документацию <a rel='noopener noreferrer' href='https://docs.near.org/docs/concepts/account'>docs</a>."
+    },
+
+    "recoverSeedPhrase": {
+        "pageTitle": "Восстановление с помощью мнемонической фразы",
+        "pageText": "Введите мнемоническую фразу резервной копии, связанную с учетной записью.",
+        "accountIdInput": {
+            "title": "Имя пользователя"
+        },
+        "seedPhraseInput": {
+            "title": "Мнемоническая фраза (12 слов)",
+            "placeholder": "correct horse battery staple..."
+        }
+    },
+
+    "setupRecovery": {
+        "header": "Защитите вашу учетную запись",
+        "subHeader": "Выберете метод восстановления:",
+        "basicSecurity": "Базовая безопасность",
+        "basicSecurityDesc": "Введите адрес электронной почты или номер телефона для получения волшебной ссылки",
+        "emailTitle": "Электронная почта для восстановления",
+        "emailPlaceholder": "example@email.com",
+        "phoneTitle": "Телефон для восстановления",
+        "phoneDesc": "Введите ниже свой номер телефона и получите волшебную ссылку для восстановления",
+        "phonePlaceholder": "+7 920 555 5555",
+        "advancedSecurity": "Повышенная безопасность",
+        "advancedSecurityDesc": "Запишите фразу из 12 слов и надежно храните её.",
+        "phraseTitle": "Мнемоническая фраза"
+    },
+    
+    "setRecoveryConfirm": {
+        "pageText": "We've sent a 6-digit verification code to the "
+    },
+
+    "disclaimer": {
+        "title": "ОТКАЗ ОТ ОТВЕТСТВЕННОСТИ",
+        "text": "Это предварительный кошелек разработчиков. Он должен использоваться только для NEAR Protocol DevNet. Узнайте больше на сайте "
+    },
+
+    "footer": {
+        "copyrights": "NEAR Inc. Все права защищены.",
+        "termsOfService": "Условия обслуживания",
+        "privacyPolicy": "Политика конфиденциальности",
+        "desc": "NEAR это масштабируемая вычислительная платформа и платформа хранения данных, которая меняет работу интернета к лучшему.",
+        "learnMore": "Узнать подробнее",
+        "needHelp": "Необходима помощь?",
+        "contactSupport": "Обратитесь в службу поддержки"
+    },
+
+    "dashboard": {
+        "activity": "Транзакции"
+    },
+
+    "balance": {
+        "balance": "Баланс",
+        "balanceLoading": "Загрузка баланса"
+    },
+
+    "login": {
+        "form": {
+            "isRequestingTo": "запрашивает к",
+            "accessYourAccount": "доступ к вашей учетной записи.",
+            "isRequestingFullAccess": "запрашивает <b>полный доступ</b>",
+            "toYourAccount": "на вашу учетную запись.",
+            "thisDoesNotAllow": "Это не позволит приложению передавать токены NEAR.",
+            "thisProvidesAccess": "Это обеспечит доступ <b>ко всем вашим токенам</b>.<br />Будьте осторожны!"
+        },
+        "confirm": {
+            "pageTitle": "Вы уверены?",
+            "pageText": "Вы даете согласие <b>на полный доступ</b> к ${appTitle}!",
+            "pageTextSecondLine": "<b>Для подтверждения/b>, пожалуйста, введите свое имя пользователя ниже.",
+            "username": "Имя пользователя"
+        },
+        "details": {
+            "detailedDescription": "Подробное описание транзакции",
+            "thisAllows": "Разрешить ${appTitle} для:",
+            "createNewAccounts": "Создавать новую учетную запись",
+            "transferTokens": "Переводить NEAR с вашей учетной записи на другие",
+            "deploySmartContracts": "Разворачивать смарт контракты",
+            "callFunctions": "Вызывать функцию в любом смарт контракте",
+            "stakeAndUnstake": "Начинать и останавливать стейкинг NEAR токенов",
+            "createAndDeleteAccessKeys": "Создавать и удалять ключи доступа",
+            "forContract": "Для контрактов",
+            "function": "Функция",
+            "noDescription": "Описание этого метода не указано"
+        }
+    },
+
+    "addNode": {
+        "pageTitle": "Добавление узла",
+        "pageText": "Настройте узел с помощью CLI и добавьте его здесь",
+        "ipAddressInput": {
+            "title": "Введите IP-адрес вашего узла",
+            "placeholder": "например: 0.0.0.0"
+        },
+        "nicknameInput": {
+            "title": "Придумайте имя (необязательно)",
+            "placeholder": "Например: NARNIA"
+        },
+        "desc": "Ваш узел должен быть настроен через CLI, прежде чем добавлять его сюда."
+    },
+    "nodeDetails": {
+        "pageTitle": "Детали Узла",
+        "pageText": "Обновить сведения о вашем узле."
+    },
+    "nodeStaking": {
+        "pageTitle": "Узел и Стейкинг",
+        "pageText": "nodeandstaking.near",
+        "steps": {
+            "title": "Чтобы запустить узел или стейкинг, выполните следующие действия:",
+            "one": {
+                "title": "1. Установите и Запустите Узел через CLI",
+                "desc": "Инструкции доступны в документации"
+            },
+            "two": {
+                "title": "2. Дождитесь синхронизации узла",
+                "desc": "Несинхронизированный узел не может производить или производить проверку"
+            },
+            "three": {
+                "title": "3. Начните делать стейкинг",
+                "desc": "Стейкинг отсюда или через CLI. Для помощи вы можете обратиться к документации."
+            }
+        },
+        "nodes": {
+            "title": "Узлы",
+            "noNode": {
+                "title": "У вас уже имеется настроенный узел? Добавьте его сюда.",
+                "text": "Это соединит ваш узел с вашей учетной записью кошелька."
+            }
+        },
+        "staking": {
+            "title": "Стейкинг",
+            "youAreStaking": "Вы делаете стейкинг"
+        }
+    },
+    "staking": {
+        "pageTitle": "Стейкинг",
+        "pageText": "Настройте свой узел через CLI, а затем добавьте его сюда.",
+        "amountStakingInput": {
+            "title": "Введите сумму для стейкинга",
+            "placeholder": "например: 15"
+        },
+        "staking": {
+            "title": "Staking",
+            "desc": "Stake your NEAR tokens with a validator",
+            "button": "Stake NEAR",
+            "currentValidators": "Your Current Validators"
+        },
+        "balanceBox": {
+            "staked": {
+                "title": "Total amount staked",
+                "info": "What does Total amount staked mean?"
+            },
+            "unclaimed": {
+                "title": "Unclaimed rewards",
+                "info": "Rewards that have been earned, but not withdrawn. Unclaimed rewards are automatically restaked, which means your Total Amount Staked automatically increases over time, and your rewards are <a target='_blank' href='https://www.investopedia.com/terms/c/compoundinterest.asp'>compounding</a>."
+            },
+            "available": {
+                "title": "Available for withdrawal",
+                "info": "What does Available for withdrawal mean?"
+            }
+        },
+        "validatorBox": {
+            "fee": "Fee",
+            "staking": "Staking",
+            "near": "NEAR",
+            "cta": "view" 
+        },
+        "stake": {
+            "title": "Stake Amount",
+            "desc": "Enter the amount you would like to stake with your chosen validator.",
+            "amount": "Amount",
+            "stakeWith": "Stake with",
+            "button": "Submit Stake"
+        },
+        "stakeSuccess": {
+            "title": "Success!",
+            "desc": "Your stake has successfully been delegated to your chosen validator:",
+            "descTwo": "You can now view your delegation and staking rewards from your staking dashboard.",
+            "button": "Return to Dashboard"
+        },
+        "unstakeSuccess": {
+            "desc": "Your stake of <b>${amount} NEAR</b> has successfully been extracted from your chosen validator's staking pool:"
+        },
+        "validators": {
+            "title": "Select a Validator",
+            "desc": "Enter a known validator to stake your NEAR tokens.",
+            "inputLabel": "Enter a validator account ID",
+            "button": "View Validator"
+        },
+        "validator": {
+            "title": "Validator: <br/> @${validator}",
+            "button": "Stake with validator",
+            "fee": "Staking Fee"
+        }
+    },
+    "profile": {
+        "pageTitle": {
+            "loading": "Загрузка...",
+            "notFound": "Имя пользователя ${accountId} не найдено",
+            "default": "Имя пользователя: ${accountId}"
+        },
+        "details": {
+            "profile": "ПРОФИЛЬ",
+            "visibleTo": "ВИДЕН ДЛЯ",
+            "username": "Имя пользователя",
+            "public": "Всех",
+            "balance": "Баланс",
+            "lockPopup": {
+                "title": "Почему это заблокировано?",
+                "text": "Ваше имя пользователя является вашим уникальным идентификатором в системе и не может быть изменено, поскольку к нему привязаны данные и право собственности на активы. Однако вы можете ${link} с желаемым именем и отправлять активы по мере необходимости.",
+                "createAnotherAccount": "создать еще одну учетную запись"
+            },
+            "qrDesc": "Используйте камеру вашего телефона для отправки на этот адрес"
+        }
+    },
+
+    "desktopPopup": {
+        "profile": "Профиль",
+        "contacts": "Контакты",
+        "authorizedApps": "Авторизованые приложения",
+        "fullAccessKeys": "Ключи полного доступа",
+        "logout": "Выйти",
+        "switchAccount": "СМЕНИТЬ УЧЕТНУЮ ЗАПИСЬ",
+        "noAccount": "У вас нет других учетных записей"
+    },
+
+    "desktopView": {
+        "summary": "СВОДКА",
+        "activity": "ОПЕРАЦИЯ",
+        "send": "ОТПРАВИТЬ",
+        "receive": "ПОЛУЧИТЬ"
+    },
+
+    "sendMoney": {
+        "pageTitle": {
+            "success": "Успешно!",
+            "default": "Отправить"
+        },
+        "accountIdInput": {
+            "title": "Введите имя аккаунта получателя:"
+        },
+        "amountStatusId": {
+            "noMoreThan": "НЕ БОЛЕЕ 5 ДЕСЯТИЧНЫХ ЗНАКОВ",
+            "notEnoughTokens": "Недостаточно NEAR для отправки.",
+            "howMuch": "Сколько вы хотите отправить?"
+        },
+        "youAreSending": "Вы собираетесь отправить",
+        "to": "к",
+        "onceConfirmed": "Отменить транзакцию будет невозможно!",
+        "wasSentTo": "Отправлено к:"
+    },
+
+    "sign": {
+        "unexpectedStatus": "Неожиданный статус",
+        "transactionCancelled": "Транзакция отменена",
+        "nothingHasBeenTransferred": "Ничего не было передано.",
+        "details": {
+            "detailedDescription": "Подробное описание транзакции",
+            "transactionFees": "Стоимость сделки",
+            "gasLimit": "Лимит газа",
+            "gasPriceUnavailable": "Оценка цены на газ недоступна",
+            "forContract": "Для контракта"
+        },
+        "ActionWarrning": {
+            "functionCall": "Для этой функции не указано описание.",
+            "deployContract": "Вы собираетесь развернуть контракт на своей учетной записи! Этот контракт может получить доступ к вашему балансу NEAR и взаимодействовать с дргуими контрактами от вашего имени.",
+            "stake": "Вы собираетесь стейкнуть ваши токены NEAR. Эти токены будут заблокированы и могут быть потеряны, если ваш валидатор перестает отвечать на запросы..",
+            "deleteAccount": "Вы собираетесь удалить свой аккаунт! Ваш баланс NEAR будет уничтожен, а все данные вашей учетной записи удалены."
+        },
+        "insufficientFunds": "Недостаточно средств",
+        "hereAreSomeDetails": "Вот некоторые детали, которые помогут вам.",
+        "contract": "Контракт:",
+        "unknownApp": "Неизвестное приложение",
+        "isRequesting": {
+            "transferOf": "запрашивает перевод",
+            "authorization": "запрашивает разрешение"
+        },
+        "currentBalance": "Текущий баланс",
+        "wasTransferredSuccessfully": "Транзакция успешно выполнена",
+        "authorizationRequestSuccessful": "Запрос на авторизацию успешно выполнен",
+        "transferring": "Передача",
+        "authorizing": "Выполняется авторизация"
+    },
+
+    "transaction": {
+        "status": {
+            "NotStarted": "Не начато",
+            "Started": "Начато",
+            "Failure": "Ошибка",
+            "SuccessValue": "Успех",
+            "checkingStatus": "Проверка состояния",
+            "notAvailable": "Статус не доступен"
+        }
+    },
+
+    "success": "Успешно",
+    "error": "Ошибка",
+    "warning": "Предупреждение",
+    "total": "всего",
+    "amount": "сумма",
+    "or": "ИЛИ",
+    "sending": "ОТПРАВКА",
+    "back": "Назад",
+    "of": "из",
+    "ofTotal": "из всего",
+
+    "networkBanner": {
+        "title": "Тестовый кошелек",
+        "header": "Тестовый кошелек",
+        "desc": "Этот кошелек (и сеть) доступны только для целей тестирования. Токены и другие активы не имеют ценности. Созданные аккаунты не будут перенесены в Mainnet."
+    },
+
+    "setupLedger": {
+        "one": "Connect your Ledger Nano S to your computer or mobile device via USB and <b>open the NEAR application</b>."
+    },
+
+    "setupLedgerSteps": {
+        "one": "Open <a href='https://www.ledger.com/ledger-live' target='_blank'>Ledger Live,</a> install any firmware updates available.",
+        "two": "Navigate to your <span class='color-black'>Settings</span>.",
+        "three": "Under <span class='color-black'>Experimental Features</span>, make sure that <span class='color-black'>Developer Mode</span> is switched <span class='color-black'>on</span>.",
+        "four": "Return to the <span class='color-black'>Manager</span> tab and search for <span class='color-black'>NEAR</span>.",
+        "five": "Follow the instructions to install the <span class='color-black'>NEAR application</span> on your device."
+    },
+
+    "setupLedgerSuccess": {
+        "nextStep": {
+            "one": {
+                "keep": "<span class='color-red'>Maintaining multiple recovery methods and devices increases the vulnerability of your account.</span>"
+            }
+        }
+    },
+
+    "signInLedger": {
+        "getLedgerAccountIds": {
+            "error": "Public key access was rejected. No accounts were recovered.<br/>To continue, you must allow NEAR Wallet to view your public key. Please try again."
+        },
+        "addLedgerAccountId": {
+            "error": "Access to one of the accounts was rejected. No accounts were recovered.<br>To continue, you must authorize read-only access to each account on your Ledger device. Please try again."
+        },
+        "saveAndSelectLedgerAccounts": {
+            "success": "You’ve successfully signed in.<br/><b>${numberOfAccounts} account(s) were recovered.</b> Your most recently created account has been set to active."
+        }
+    },
+
+    "landing": {
+        "desc": "Securely store your NEAR tokens and compatible assets with <span>NEAR Wallet</span>."
+    }
+}

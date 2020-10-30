@@ -5,6 +5,7 @@ import { Translate } from 'react-localize-redux';
 import AddBlueImage from '../../images/icon-add-blue.svg';
 import ArrowDownImage from '../../images/icon-arrow-down.svg';
 import ArrowUpImage from '../../images/icon-arrow-up.svg';
+import { DISABLE_CREATE_ACCOUNT } from '../../utils/wallet';
 
 const CustomSegment = styled(Segment)`
     &&& {
@@ -15,6 +16,13 @@ const CustomSegment = styled(Segment)`
 
         &.disabled {
             cursor: not-allowed;
+
+            .item {
+                :hover {
+                    cursor: not-allowed !important;
+                    color: #24272a !important;
+                }
+            }
         }
 
         .segment {
@@ -28,7 +36,6 @@ const CustomSegment = styled(Segment)`
             background: #fff;
 
         .item {
-            line-height: 46px;
             height: 46px;
             color: #24272a;
             padding: 0 0 0 12px;
@@ -36,10 +43,19 @@ const CustomSegment = styled(Segment)`
             font-weight: 600;
             text-overflow: ellipsis;
             overflow: hidden;
+            cursor: pointer;
+            transition: 100ms;
+
+            :hover {
+                color: #0072ce;
+            }
         }
 
         .list-title {
             border-bottom: 2px solid #f2f2f2;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
 
             > div {
                 float: left;
@@ -75,6 +91,7 @@ const CustomSegment = styled(Segment)`
         }
         .list-create {
             background: #24272a;
+            text-transform: uppercase;
             color: #24272a;
             padding: 0 0 0 60px;
             background-image: url(${AddBlueImage});
@@ -101,14 +118,11 @@ const SelectAccountDropdown = ({
                 basic
                 onClick={!disabled ? handleOnClick : () => { }}
                 className={disabled && 'disabled'}
-                title={!disabled 
-                    ? translate('selectAccountDropdown.switchAccount') 
-                    : translate('selectAccountDropdown.switchAccounthNotAllowed')
-                }
+                title={!dropdown ? (!disabled ? translate('selectAccountDropdown.switchAccount') : translate('selectAccountDropdown.switchAccounthNotAllowed')) : ''}
             >
                 <Segment basic>
                     <div className='item list-title'>
-                        <div>@{account.accountId}</div>
+                        {dropdown ? translate('button.close') : <div>{account.accountId}</div>}
                         <div className='arrow' />
                     </div>
                     <div className={`${dropdown ? '' : 'hide'}`}>
@@ -120,15 +134,22 @@ const SelectAccountDropdown = ({
                                         onClick={() => handleSelectAccount(a)}
                                         className='item'
                                         key={a}
-                                    >@{a}</div>
+                                        title={translate('selectAccountDropdown.selectAccount')}
+                                    >{a}</div>
                                 ))}
+                            {availableAccounts.length < 2 &&
+                                <div className='item'>{translate('selectAccountDropdown.noOtherAccounts')}</div>
+                            }
                         </div>
-                        <div
-                            onClick={redirectCreateAccount}
-                            className='item list-create color-seafoam-blue'
-                        >
-                            {translate('selectAccountDropdown.createAccount')}
-                        </div>
+                        {!DISABLE_CREATE_ACCOUNT &&
+                            <div
+                                onClick={redirectCreateAccount}
+                                className='item list-create color-seafoam-blue'
+                                title={translate('selectAccountDropdown.createAccount')}
+                            >
+                                {translate('selectAccountDropdown.createAccount')}
+                            </div>
+                        }
                     </div>
                 </Segment>
             </CustomSegment>

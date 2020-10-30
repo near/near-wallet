@@ -1,8 +1,10 @@
 import React from 'react';
+import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 import UserLinks from './UserLinks';
 import UserAccounts from './UserAccounts';
 import CreateAccountBtn from './CreateAccountBtn';
+import AccessAccountBtn from './AccessAccountBtn';
 
 const Menu = styled.div`
     position: absolute;
@@ -46,19 +48,20 @@ const LowerSection = styled.div`
     border-bottom-right-radius: 4px;
 `
 
-const DesktopMenu = ({ show, accountId, accounts, selectAccount, toggleMenu }) => {
+const DesktopMenu = ({ show, accountId, accounts, selectAccount }) => {
 
     if (show) {
         return (
             <Menu id='desktop-menu'>
                 <UserLinks accountId={accountId}/>
                 <LowerSection>
-                    <h6>Switch Account</h6>
+                    <h6><Translate id='link.switchAccount'/></h6>
                     <UserAccounts
                         accounts={accounts}
                         accountId={accountId}
                         selectAccount={selectAccount}
                     />
+                    <AccessAccountBtn/>
                     <CreateAccountBtn/>
                 </LowerSection>
             </Menu>

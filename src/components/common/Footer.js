@@ -1,9 +1,7 @@
 import React, { Component } from 'react'
 import { Grid, Image, List, Item } from 'semantic-ui-react'
 import { Translate } from 'react-localize-redux'
-
 import LogoFooterImage from '../../images/near.svg'
-import NearkatImage from '../../images/footer-nearkat.svg'
 
 import styled from 'styled-components'
 
@@ -42,6 +40,7 @@ const FooterGrid = styled(Grid)`
             .image {
                 width: 140px;
                 padding-left: 14px;
+                opacity: 0.3;
             }
         }
 
@@ -174,7 +173,6 @@ class Footer extends Component {
                                     <Translate id='footer.contactSupport' />
                                 </a>
                             </List.Item>
-                            <Image className='nearkat' src={NearkatImage} />
                         </List>
                     </Grid.Column>
                 </FooterGrid>

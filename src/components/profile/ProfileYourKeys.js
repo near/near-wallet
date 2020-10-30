@@ -98,7 +98,7 @@ const ProfileYourKeys = () => (
                 <Image align='left' src={DocGreyImage} />
             </List.Content>
             <List.Content className='account-name'>
-                @eugenethedream.key
+                eugenethedream.key
             </List.Content>
         </List.Item>
     </CustomList>

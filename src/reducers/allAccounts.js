@@ -1,5 +1,5 @@
 import { handleAction } from 'redux-actions'
-import { loadAccount } from '../actions/account'
+import { refreshAccountExternal } from '../actions/account'
 
 export const LOADED = Symbol('LOADED')
 export const LOADING = Symbol('LOADING')
@@ -27,4 +27,4 @@ const reducer = (state, event) => {
     }
 }
 
-export default handleAction(loadAccount, reducer, initialState)
+export default handleAction(refreshAccountExternal, reducer, initialState)

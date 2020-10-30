@@ -13,7 +13,6 @@ import styled from 'styled-components'
 const CustomButton = styled(Button)`
     &&& {
         color: #fff;
-        font-weight: 500;
         letter-spacing: 2px;
 
         margin: 24px 0 0 0;
@@ -33,11 +32,10 @@ const CustomButton = styled(Button)`
 
         &.small {
             width: 110px;
-            height: 40px;
+            height: 36px;
             border-radius: 20px;
             letter-spacing: 0;
             padding: 0px 0px;
-            font-weight: 600;
             
             font-size: 14px;
         }
@@ -65,12 +63,13 @@ const CustomButton = styled(Button)`
         &.blue {
             border-color: #0072ce;
             background: #0072ce;
+            text-transform: uppercase;
 
             :active,
             :hover,
             :focus {
-                border-color: #4096db;
-                background: #4096db;
+                border-color: #007fe6;
+                background: #007fe6;
             }
             :disabled {
                 background: #e6e6e6;
@@ -127,13 +126,13 @@ const CustomButton = styled(Button)`
         }
         &.green-white-arrow {
             color: #5ace84;
-            font-weight: 600;
             border-color: #5ace84;
             background-color: #fff;
             background-image: url(${ArrowGrnImage});
             background-repeat: no-repeat;
             background-position: 90% center;
             background-size: 14px 20px;
+            font-weight: 500 !important;
 
             :disabled {
                 color: e6e6e6;
@@ -154,6 +153,7 @@ const CustomButton = styled(Button)`
             color: #cccccc;
             border-color: #cccccc;
             background: #fff;
+            text-transform: uppercase;
 
             :disabled {
                 border-color: #e6e6e6;
@@ -166,6 +166,24 @@ const CustomButton = styled(Button)`
                 color: #fff;
                 border-color: #cccccc;
                 background: #cccccc;
+            }
+        }
+        &.gray-red {
+            color: #FF585D;
+            border: none;
+            background-color: #f8f8f8;
+            text-transform: uppercase;
+
+            :hover,
+            :active,
+            :focus {
+                color: #fff;
+                background-color: #FF585D;
+            }
+
+            :disabled {
+                background-color: #e6e6e6;
+                color: white;
             }
         }
         &.gray-blue {
@@ -185,6 +203,11 @@ const CustomButton = styled(Button)`
                 border-color: #f8f8f8;
                 background: #fff;
             }
+
+            &.dark {
+                border-color: #EFEFEF;
+                background: #EFEFEF;
+            }
         }
         &.link {
             width: auto;
@@ -196,8 +219,6 @@ const CustomButton = styled(Button)`
             border-radius: 0px;
 
             font-size: 14px;
-            line-height: 14px;
-            font-weight: 500;
             background: none;
             border: none;
             display: inline;
@@ -209,6 +230,7 @@ const CustomButton = styled(Button)`
             :focus {
                 text-decoration: none;
                 color: #0072ce;
+                background-color: transparent;
             }
 
             &.gray {
@@ -222,12 +244,23 @@ const CustomButton = styled(Button)`
                 }
             }
 
+            &.red {
+                color: #ff585d;
+                text-decoration: none;
+
+                :disabled {
+                    opacity: 0.8;
+                    background: transparent !important;
+                }
+            }
+
         }
 
         &.dots {
             color: #fff;
             border-color: #cccccc;
             background-color: #cccccc;
+            cursor: default;
 
             :active,
             :hover,
@@ -312,7 +345,7 @@ const CustomButton = styled(Button)`
             }
         }
         &.bold {
-            font-weight: 600;
+            font-weight: 500;
         }
         @media screen and (max-width: 767px) {
             width: 100%;
@@ -327,13 +360,16 @@ const FormButton = ({
     disabled = false,
     onClick,
     sending = false,
+    sendingString,
     size,
     linkTo,
     history,
-    className
+    className,
+    id
 }) => (
     <CustomButton
         type={type}
+        id={id}
         className={classNames([color, size, className, {'dots': sending}])}
         disabled={disabled}
         onClick={(e) => {
@@ -343,7 +379,7 @@ const FormButton = ({
         tabIndex='3'
     >
         {sending
-            ? <Translate id='sending' />
+            ? <Translate id={sendingString ? sendingString : 'sending'} />
             : children
         }
     </CustomButton>

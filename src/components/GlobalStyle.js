@@ -1,7 +1,5 @@
 import { createGlobalStyle } from 'styled-components'
-
-import ProblemsImage from '../images/icon-problems.svg'
-import CheckBlueImage from '../images/icon-check-blue.svg'
+import 'semantic-ui-css/semantic.min.css'
 import EmailIconGray from '../images/email-icon-gray.svg'
 import CloseBtn from '../images/close-btn.svg'
 
@@ -27,16 +25,10 @@ export default createGlobalStyle`
 
             position: relative;
             color: #999;
-            font-family: "benton-sans",sans-serif;
-            font-weight: 500;
             font-size: 14px !important;
             -webkit-overflow-scrolling: touch;
         }
    }
-
-    .grecaptcha-badge {
-        visibility: hidden;
-    }
 
     a {
         color: #0072ce;
@@ -49,6 +41,9 @@ export default createGlobalStyle`
     .link {
         color: #0072ce;
         cursor: pointer;
+        background-color: transparent;
+        outline: none;
+        border: 0;
 
         @media (min-width: 768px) {
             &:hover {
@@ -57,42 +52,55 @@ export default createGlobalStyle`
         }
     }
 
+    .underline {
+        text-decoration: underline;
+    }
+
+    body, p, h1, h2, h3, h4, h5, h6, button, .button, input, select, textarea {
+        font-family: "Inter", Lato, "Lucida Grande", Tahoma, Sans-Serif !important;
+    }
+
     h1, .h1 {
-        font-family: BwSeidoRound !important;
-        font-size: 48px !important;
-        font-weight: 500 !important;
-        line-height: 100px;
+        font-weight: 900 !important;
         color: #24272a;
+        font-size: calc(28px + (40 - 28) * ((100vw - 300px) / (1600 - 300))) !important;
+        word-wrap: break-word;
+
+        @media (max-width: 300px) {
+            h1 {
+                font-size: 28px;
+            }
+        }
+
+        .symbol {
+            font-weight: 900 !important;
+        }
     }
     h2, .h2 {
-        font-family: BwSeidoRound !important;
         font-size: 24px !important;
-        font-weight: 500 !important;
-        line-height: 1.4;
+        font-weight: 900 !important;
         color: #24272a !important;
         margin: 0px;
+
+        @media (max-width: 767px) {
+            font-size: 18px !important;
+        }
     }
     h3, .h3 {
-        font-family: BwSeidoRound !important;
         font-size: 18px !important;
         font-weight: 500 !important;
-        line-height: 24px !important;
         color: #24272a !important;
         margin: 0px;
     }
     h4, .h4 {
-        font-family: BwSeidoRound !important;
         font-size: 16px;
         font-weight: 500;
-        line-height: 1.33;
         color: #24272a;
         margin: 0px;
     }
 
     h5, .h5 {
-        font-family: "benton-sans",sans-serif !important;
         font-size: 13px !important;
-        line-height: 26px;
         font-weight: 500;
         color: #999999 !important;
         margin: 0px;
@@ -100,27 +108,19 @@ export default createGlobalStyle`
     }
 
     h6, .h6 {
-        font-family: "benton-sans",sans-serif !important;
         font-size: 12px !important;
-        line-height: 18px;
-        font-weight: 600;
+        font-weight: 500;
         color: #999999;
         margin: 0px !important;
         letter-spacing: 1.5px !important;
     }
 
-    .font-benton {
-        font-family: "benton-sans",sans-serif !important;
-    }
-
     .font-small {
-        font-family: "benton-sans",sans-serif !important;
         font-size: 12px !important;
         color: #999 !important;
-        font-weight: 500 !important;
+        font-weight: 400 !important;
 
         a {
-            font-family: "benton-sans",sans-serif !important;
             font-size: 12px !important;
             color: #999 !important;
             font-weight: 500 !important;
@@ -152,20 +152,19 @@ export default createGlobalStyle`
     }
 
     input {
-        font-family: "benton-sans",sans-serif !important;
         font-size: 16px !important;
         width: 100% !important;
         height: 48px !important;
         border: 2px solid #f8f8f8 !important;
         padding: 0 0 0 20px !important;
         color: #4a4f54 !important;
-        font-weight: 400 !important;
+        font-weight: 300 !important;
         background-color: #f8f8f8 !important;
         position: relative !important;
         margin-top: 8px !important;
         outline: none;
         appearance: none;
-        border-radius: 4px;
+        border-radius: 4px !important;
 
         ::placeholder {
             color: #999999;
@@ -175,10 +174,36 @@ export default createGlobalStyle`
             border-color: #e6e6e6 !important;
             background-color: #fff !important;
         }
+    }
 
-        ::-webkit-input-placeholder {
-            line-height: normal !important;
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+    input[type=number] {
+        -moz-appearance:textfield;
+    }
+
+    .input-validation-label {
+        font-weight: 500;
+        margin-top: 10px;
+
+        &.success {
+            color: #6AD1E3;
         }
+
+        &.error {
+            color: #ff585d;
+        }
+    }
+
+    .input-sub-label {
+        font-size: 12px;
+        font-style: italic;
+        text-align: left;
+        margin-top: 10px;
     }
 
     .spinner {
@@ -207,7 +232,6 @@ export default createGlobalStyle`
         font-weight: 600 !important;
     }
 
-
     .color-seafoam-blue {
         color: #6ad1e3 !important;
     }
@@ -229,6 +253,9 @@ export default createGlobalStyle`
     }
     .color-red {
         color: #ff585d !important;
+    }
+    .color-green {
+        color: #5ace84 !important;
     }
 
     .ui.popup > .header {
@@ -273,12 +300,11 @@ export default createGlobalStyle`
     }
 
 
-    .button {
-        font-family: "benton-sans",sans-serif !important;
-        line-height: normal !important;
+    button, .button {
+        cursor: pointer;
+        outline: none;
+        font-weight: 400 !important;
     }
-   
-
 
     .box {
         border: 2px solid #e6e6e6;
@@ -357,47 +383,39 @@ export default createGlobalStyle`
         margin: auto;
     }
 
-    .ui.list .list>.item .header, .ui.list>.item .header {
-        font-family: "benton-sans",sans-serif;
-        
-    }
     .ui.popup>.header, .ui.popup {
         color: #999;
-        font-family: "benton-sans",sans-serif;
-        font-weight: 500;
+        font-weight: 500 !important;
         font-size: 14px !important;
     }
     .ui.popup {
         border: 1px solid #eee;
+        font-weight: 400 !important;
     }
     .ui.left.center.popup:before {
         box-shadow: 1px -1px 0 0 #eee;
     }
+    .ui.top.center.popup:before {
+        box-shadow: 1px 1px 0px 0px #eee;
+    }
     .ui.bottom.right.popup:before {
         box-shadow: -1px -1px 0 0 #eee;
-    }
-
-    .font-benton {
-        font-family: "benton-sans",sans-serif !important;
     }
 
     @media screen and (max-width: 767px) {
         h1, .h1 {
             font-size: 28px !important;
             font-weight: 500;
-            line-height: 50px;
             color: #24272a;
         }
         h2, .h2 {
-            font-size: 22px !important;
+            font-size: 18px !important;
             font-weight: 600;
-            line-height: 1.33;
             margin: 0px;
         }
         h3, .h3 {
-            font-size: 18px !important;
+            font-size: 16px !important;
             font-weight: 500;
-            line-height: 1.33;
             margin: 0px;
         }
         .box .column {
@@ -408,7 +426,7 @@ export default createGlobalStyle`
     .ui {
         &.dimmer {
             .modal {
-                line-height: normal;
+                line-height: 140%;
                 padding: 25px;
 
                 .close {
