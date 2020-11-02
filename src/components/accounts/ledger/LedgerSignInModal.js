@@ -132,6 +132,7 @@ const LedgerSignInModal = ({
     ledgerAccounts, 
     accountsApproved,
     accountsError,
+    accountsRejected,
     totalAccounts, 
     txSigned, 
     handleAdditionalAccountId, 
@@ -148,7 +149,7 @@ const LedgerSignInModal = ({
     clearSignInWithLedgerModalState
 }) => {
     
-    const animationScope = Math.min(Math.max((accountsApproved + accountsError) - 1, 0), totalAccounts - 3)
+    const animationScope = Math.min(Math.max((accountsApproved + accountsError + accountsRejected) - 1, 0), totalAccounts - 3)
 
     return (
         <Modal
