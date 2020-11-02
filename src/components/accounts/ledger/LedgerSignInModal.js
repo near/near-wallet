@@ -61,6 +61,10 @@ const AnimateList = styled.div`
             background: #ff898c;
             color: #cb2d30;
         }
+        &.rejected .status {
+            background: #ff898c;
+            color: #cb2d30;
+        }
         &.confirm .status {
             background: #6ad1e3;
             color: #14889d;
