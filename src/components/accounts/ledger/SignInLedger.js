@@ -35,6 +35,7 @@ export function SignInLedger(props) {
     }))
     
     const accountsApproved = signInWithLedgerKeys.reduce((a, accountId) => signInWithLedgerState[accountId].status === 'success' ? a + 1 : a, 0)
+    const accountsError = signInWithLedgerKeys.reduce((a, accountId) => signInWithLedgerState[accountId].status === 'error' ? a + 1 : a, 0)
     const totalAccounts = signInWithLedgerKeys.length
     
     const signingIn = !!signInWithLedgerStatus
@@ -98,6 +99,7 @@ export function SignInLedger(props) {
                     onClose={onClose}
                     ledgerAccounts={ledgerAccounts} 
                     accountsApproved={accountsApproved}
+                    accountsError={accountsError}
                     totalAccounts={totalAccounts}
                     txSigned={txSigned}
                     handleAdditionalAccountId={handleAdditionalAccountId}
