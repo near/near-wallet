@@ -55,14 +55,16 @@ const ledgerActions = handleActions({
                 : {}
         }
     },
-    [addLedgerAccountId]: (state, { error, ready, meta }) => {
+    [addLedgerAccountId]: (state, { error, ready, meta, payload }) => {
         return {
             ...state,
             signInWithLedgerStatus: 'confirm-accounts',
             signInWithLedger: {
                 ...state.signInWithLedger,
                 [meta.accountId]: {
-                    status: error ? 'error' : (ready ? 'success' : 'confirm')
+                    status: error
+                        ? payload.type === 'RequiresFullAccess' ? 'error' : 'rejected'
+                        : (ready ? 'success' : 'confirm')
                 }
             }
         }
