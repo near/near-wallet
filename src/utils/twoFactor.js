@@ -1,6 +1,6 @@
 import * as nearApiJs from 'near-api-js'
 import { store } from '..'
-import { promptTwoFactor } from '../actions/account'
+import { promptTwoFactor, refreshAccount } from '../actions/account'
 import { MULTISIG_MIN_AMOUNT } from './wallet'
 import { utils } from 'near-api-js'
 import { BN } from 'bn.js'
@@ -89,23 +89,14 @@ export class TwoFactor extends AccountMultisig {
     }
 
     async deployMultisig() {
-        const state = await this.wallet.getAccount().state()
-        console.log(state)
-        if (state.code_hash === 'C8UmYSqATkuyhheJ7i7ryxPjfZL4nV8PfkovdMKitsmJ') {
-            return await this.enable()
-        } else {
-            const contractBytes = new Uint8Array(await (await fetch('/multisig.wasm')).arrayBuffer())
-            return await super.deployMultisig(contractBytes)
-        }
+        const contractBytes = new Uint8Array(await (await fetch('/multisig.wasm')).arrayBuffer())
+        return super.deployMultisig(contractBytes)
     }
 
     async disableMultisig() {
         const contractBytes = new Uint8Array(await (await fetch('/main.wasm')).arrayBuffer())
-        return this.disable(contractBytes)
-    }
-
-    async enableMultisig() {
-        const contractBytes = new Uint8Array(await (await fetch('/multisig.wasm')).arrayBuffer())
-        return this.enable(contractBytes)
+        const result = await this.disable(contractBytes)
+        await store.dispatch(refreshAccount())
+        return result
     }
 }
