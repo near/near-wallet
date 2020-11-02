@@ -121,6 +121,7 @@ const AnimateList = styled.div`
             border-radius: 12px;
             text-align: center;
             font-size: 12px;
+            line-height: 24px;
         }
     }
 `
