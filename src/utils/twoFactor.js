@@ -28,8 +28,6 @@ export class TwoFactor extends AccountMultisig {
             getCode: () => store.dispatch(promptTwoFactor(true)).payload.promise
         })
         this.wallet = wallet
-        // debugging
-        window.twoFactor = this
     }
 
     async isEnabled(accountId) {
