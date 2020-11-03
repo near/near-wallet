@@ -63,7 +63,7 @@ const ledgerActions = handleActions({
                 ...state.signInWithLedger,
                 [meta.accountId]: {
                     status: error
-                        ? payload.type === 'RequiresFullAccess' ? 'error' : 'rejected'
+                        ? payload?.name === 'TransportStatusError' ? 'rejected' : 'error'
                         : (ready ? 'success' : 'confirm')
                 }
             }
