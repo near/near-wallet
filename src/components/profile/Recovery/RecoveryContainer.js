@@ -117,7 +117,7 @@ const RecoveryContainer = () => {
         <Container>
             <Header>
                 <Title><Translate id='recoveryMgmt.title' /></Title>
-                {!loading && !sortedActiveMethods.some(method => method.publicKey) &&
+                {!loading && !sortedActiveMethods.some(method => method.publicKey) && !account.ledgerKey &&
                     <NoRecoveryMethod>
                         <Translate id='recoveryMgmt.noRecoveryMethod' />
                     </NoRecoveryMethod>
