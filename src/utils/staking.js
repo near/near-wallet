@@ -197,7 +197,8 @@ export class Staking {
         const account = this.wallet.getAccount(this.wallet.accountId)
         const balance = await account.getAccountBalance()
 
-
+        console.log(account)
+        console.log(balance)
 
         let { deposits, validators } = (await getStakingTransactions(account_id))
         validators = await this.getValidators([...new Set(validators.concat(recentlyStakedValidators))])
