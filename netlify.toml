@@ -20,14 +20,14 @@
     DISABLE_CREATE_ACCOUNT = "true"
     REACT_APP_MULTISIG_MIN_AMOUNT = "36"
     LOCKUP_ACCOUNT_ID_SUFFIX = "lockup.near"
-    SENTRY_ORG=near-protocol
-    SENTRY_PROJECT=mainnet-staging-wallet
+    SENTRY_ORG = "near-protocol"
+    SENTRY_PROJECT = "mainnet-staging-wallet"
 
 
 [context.production.environment]
     SHOW_PRERELEASE_WARNING = "no"
     MIXPANEL_TOKEN = "4a10180da7af8d6d0728154d535aa7bb"
-    SENTRY_PROJECT=mainnet-wallet
+    SENTRY_PROJECT = "mainnet-wallet"
 
 [[headers]]
     for = "/*"
