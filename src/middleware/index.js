@@ -46,7 +46,6 @@ const readyStatePromise = store => next => action => {
 
 if (process.env.MIXPANEL_TOKEN) {
     mixpanel.init(process.env.MIXPANEL_TOKEN, {'property_blacklist': ['$current_url']})
-    window.mixpanel = mixpanel
 }
 
 const analyticsMiddleware = store => next => action => {
@@ -85,7 +84,7 @@ const analyticsMiddleware = store => next => action => {
                 account_creation_date: new Date().toString()
             })
         }
-        if (action.type === 'CONNECT_LEDGER'){
+        if (action.type === 'ADD_LEDGER_ACCESS_KEY'){
             mixpanel.people.set({
                 recovery_method: 'ledger',
                 account_creation_date: new Date().toString()
