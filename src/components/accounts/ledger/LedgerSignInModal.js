@@ -63,6 +63,14 @@ const AnimateList = styled.div`
         &.success .status {
             text-align: right;
         }
+        &.error .status {
+            background: #ff898c;
+            color: #cb2d30;
+        }
+        &.rejected .status {
+            background: #ff898c;
+            color: #cb2d30;
+        }
         &.confirm .status {
             background: #6ad1e3;
             color: #14889d;
@@ -123,6 +131,7 @@ const AnimateList = styled.div`
             border-radius: 12px;
             text-align: center;
             font-size: 12px;
+            line-height: 24px;
         }
     }
 `
@@ -131,7 +140,9 @@ const LedgerSignInModal = ({
     open, 
     onClose, 
     ledgerAccounts, 
-    accountsApproved, 
+    accountsApproved,
+    accountsError,
+    accountsRejected,
     totalAccounts, 
     txSigned, 
     handleAdditionalAccountId, 
@@ -148,7 +159,7 @@ const LedgerSignInModal = ({
     clearSignInWithLedgerModalState
 }) => {
     
-    const animationScope = Math.min(Math.max(accountsApproved - 1, 0), totalAccounts - 3)
+    const animationScope = Math.min(Math.max((accountsApproved + accountsError + accountsRejected) - 1, 0), totalAccounts - 3)
 
     return (
         <Modal

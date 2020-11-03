@@ -822,6 +822,8 @@
             "accountsApproved": "account(s) approved",
             "status": {
                 "success": "Approved",
+                "error": "Error",
+                "rejected": "Rejected",
                 "pending": "Pending",
                 "waiting": "Up next",
                 "confirm": "Confirm"
