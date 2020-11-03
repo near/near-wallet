@@ -56,6 +56,9 @@ const CustomDiv = styled(`div`)`
             &.segment {
                 padding: 0px !important;
             }
+            &.balance {
+                margin: 15px;
+            }
         }
     }
 
@@ -106,7 +109,7 @@ class SendMoneyAmountInput extends Component {
         let amountInInternalFormat = ''
         if (value !== '') {
             amountInInternalFormat = utils.format.parseNearAmount(value);
-            if (this.availableBalance.lt(new BN(amountInInternalFormat))) {
+            if (this.availableBalance.sub(new BN(utils.format.parseNearAmount('0.1'))).lt(new BN(amountInInternalFormat))) {
                 amountStatusId = 'sendMoney.amountStatusId.notEnoughTokens'
             }
         }
@@ -136,7 +139,7 @@ class SendMoneyAmountInput extends Component {
                     required={true}
                 />
                 {amountStatusId && (
-                    <Segment basic textAlign='center' className='alert-info problem'>
+                    <Segment basic textAlign='center' className='alert-info problem balance'>
                         <Translate id={amountStatusId} />
                     </Segment>)}
                 {amountDisplay ? (

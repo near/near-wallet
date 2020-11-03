@@ -42,7 +42,6 @@ const Container = styled.div`
         cursor: pointer;
         margin-top: 10px;
         font-size: 13px;
-        display: flex;
         line-height: normal;
         color: ${props => props.status === '#ff585d' ? props.status : ''};
     }

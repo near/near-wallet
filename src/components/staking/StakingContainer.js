@@ -217,6 +217,7 @@ export function StakingContainer({ history, match }) {
                                 loading={loading}
                                 hasLedger={hasLedger}
                                 has2fa={has2fa}
+                                stakeFromAccount={currentAccount.accountId === accountId}
                             />
                         )}
                     />

@@ -613,10 +613,7 @@ class Wallet {
     async getBalance(accountId) {
         accountId = accountId || this.accountId
         const account = this.getAccount(accountId)
-        let balance = await account.getAccountBalance()
-        balance.stateStaked = new BN(balance.stateStaked).add(new BN(MIN_BALANCE_FOR_GAS)).toString()
-        balance.available = BN.max(new BN(0), new BN(balance.available).sub(new BN(MIN_BALANCE_FOR_GAS))).toString()
-        return balance
+        return await account.getAccountBalance()
     }
 
     async signatureFor(account) {

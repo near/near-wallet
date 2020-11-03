@@ -25,7 +25,8 @@ export default function StakingAction({
     hasLedger,
     has2fa,
     action,
-    handleStakingAction
+    handleStakingAction,
+    stakeFromAccount
 }) {
     const [confirm, setConfirm] = useState()
     const [amount, setAmount] = useState('')
@@ -35,8 +36,13 @@ export default function StakingAction({
     let staked = (validator && validator.staked) || '0'
     const stake = action === 'stake' ? true : false
     const displayAmount = useMax ? formatNearAmount(amount, 5) : amount
+    let availableToStake = availableBalance
 
-    const invalidStakeActionAmount = new BN(useMax ? amount : parseNearAmount(amount)).sub(new BN(stake ? availableBalance : staked)).gt(new BN(STAKING_AMOUNT_DEVIATION)) || !isDecimalString(amount)
+    if (stake && stakeFromAccount) {
+        availableToStake = new BN(availableBalance).sub(new BN(utils.format.parseNearAmount('0.1'))).toString()
+    }
+
+    const invalidStakeActionAmount = new BN(useMax ? amount : parseNearAmount(amount)).sub(new BN(stake ? availableToStake : staked)).gt(new BN(STAKING_AMOUNT_DEVIATION)) || !isDecimalString(amount)
 
     const stakeActionAllowed = hasStakeActionAmount && !invalidStakeActionAmount
 
@@ -54,16 +60,12 @@ export default function StakingAction({
         let stakeActionAmount = amount
         const userInputAmountIsMax = new BN(parseNearAmount(amount)).sub(new BN(stake ? availableBalance : staked)).abs().lte(new BN(STAKING_AMOUNT_DEVIATION))
 
-        if (!useMax && userInputAmountIsMax) {
-            if (stake) {
-                stakeActionAmount = availableBalance
-            } else {
+        if (!stake) {
+            if (!useMax && userInputAmountIsMax) {
                 stakeActionAmount = staked
+            } else if (useMax || userInputAmountIsMax) {
+                stakeActionAmount = null
             }
-        }
-
-        if (!stake && (useMax || userInputAmountIsMax)) {
-            stakeActionAmount = null
         }
 
         await handleStakingAction(action, validator.accountId, stakeActionAmount)
@@ -101,7 +103,9 @@ export default function StakingAction({
                 <div className='desc'><Translate id={`staking.${action}.desc`} /></div>
                 <div className='amount-header-wrapper'>
                     <h4><Translate id='staking.stake.amount' /></h4>
-                    <FormButton className='link' onClick={handleSetMax}><Translate id='staking.stake.useMax' /></FormButton>
+                    {!stake &&
+                        <FormButton className='link' onClick={handleSetMax}><Translate id='staking.stake.useMax' /></FormButton>
+                    }
                 </div>
                 <AmountInput
                     action={action}

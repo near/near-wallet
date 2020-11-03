@@ -579,7 +579,7 @@
             "button": "Submit Stake",
             "confirm": "You are staking",
             "input": {
-                "insufficientFunds": "Insufficient funds.",
+                "insufficientFunds": "You must leave at least 0.1 NEAR in your account.",
                 "availableBalance": "Available balance:",
                 "near": "NEAR"
             },
@@ -685,7 +685,7 @@
         },
         "amountStatusId": {
             "noMoreThan": "NO MORE THAN 5 DECIMAL DIGITS",
-            "notEnoughTokens": "Not enough tokens.",
+            "notEnoughTokens": "You must leave at least 0.1 NEAR in your account",
             "howMuch": "How much do you want to send?",
             "available": "Available Balance:",
             "sending": "Sending:"
