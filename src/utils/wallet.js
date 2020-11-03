@@ -567,6 +567,10 @@ class Wallet {
     async saveAndSelectLedgerAccounts(accounts) {
         const accountIds = Object.keys(accounts).filter(accountId => accounts[accountId].status === 'success')
 
+        if (!accountIds.length) {
+            throw new WalletError('No accounts were accepted.', 'signInLedger.getLedgerAccountIds.noAccountsAccepted')
+        }
+
         for (let i = 0; i < accountIds.length; i++) {
             const accountId = accountIds[i]
             if (i === accountIds.length - 1) {
