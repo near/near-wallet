@@ -25,7 +25,8 @@ import {
     sendMoney,
     saveAndSelectLedgerAccounts,
     signAndSendTransactions,
-    addLedgerAccessKey
+    addLedgerAccessKey,
+    addLedgerAccountId
 } from '../../actions/account'
 
 const initialState = {
@@ -66,7 +67,15 @@ const globalAlertReducer = handleActions({
             }
         } : undefined
     }),
-    [clearAlert]: state => Object.keys(state).reduce((obj, key) => key !== 'globalAlert' ? (obj[key] = state[key], obj) : obj, {})
+    [clearAlert]: state => Object.keys(state).reduce((obj, key) => key !== 'globalAlert' ? (obj[key] = state[key], obj) : obj, {}),
+    [addLedgerAccountId]: (state, { error, ready, payload, meta }) => ({
+        ...state,
+        globalAlert: (ready && error && payload?.name !== 'TransportStatusError') ? {
+            success: !error,
+            errorMessage: payload.toString(),
+            messageCode: 'signInLedger.addLedgerAccountId.errorRpc',
+        } : state.globalAlert
+    })
 }, initialState)
 
 const requestResultReducer = (state, { error, ready, payload, meta }) => {
