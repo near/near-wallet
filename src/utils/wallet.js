@@ -35,6 +35,7 @@ export const SHOW_PRERELEASE_WARNING = process.env.SHOW_PRERELEASE_WARNING === '
 export const DISABLE_CREATE_ACCOUNT = process.env.DISABLE_CREATE_ACCOUNT === 'true' || process.env.DISABLE_CREATE_ACCOUNT === 'yes'
 export const DISABLE_SEND_MONEY = process.env.DISABLE_SEND_MONEY === 'true' || process.env.DISABLE_SEND_MONEY === 'yes'
 export const ACCOUNT_ID_SUFFIX = process.env.REACT_APP_ACCOUNT_ID_SUFFIX || 'testnet'
+export const ACCOUNT_MIN_AMOUNT = process.env.WALLET_APP_ACCOUNT_MIN_AMOUNT || '0.1'
 export const MULTISIG_MIN_AMOUNT = process.env.REACT_APP_MULTISIG_MIN_AMOUNT || '40'
 export const LOCKUP_ACCOUNT_ID_SUFFIX = process.env.LOCKUP_ACCOUNT_ID_SUFFIX || 'lockup.near'
 export const MIN_BALANCE_FOR_GAS = process.env.REACT_APP_MIN_BALANCE_FOR_GAS || nearApiJs.utils.format.parseNearAmount('2')

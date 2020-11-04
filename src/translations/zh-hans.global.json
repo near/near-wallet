@@ -561,7 +561,11 @@
             "useMax": "全部",
             "with": "委托",
             "from": "来自",
-            "accounts": "如果你拥有锁定的 NEAR，你可以选择质押锁定 NEAR（lockup.near），或解锁的 NEAR（你的账户名下）。你将看到指定账户名下的质押。如果你没有锁定的 NEAR，请忽略此区域。"
+            "accounts": "如果你拥有锁定的 NEAR，你可以选择质押锁定 NEAR（lockup.near），或解锁的 NEAR（你的账户名下）。你将看到指定账户名下的质押。如果你没有锁定的 NEAR，请忽略此区域。",
+            "banner": {
+                "stakeMax": "A small portion (${data} NEAR) of your available balance has been reserved to cover transaction fees.",
+                "insufficientBalance": "You are attempting to stake your entire available balance. At least <b>${data} NEAR</b> must be reserved to cover transaction fees."
+            }
         },
         "unstake": {
             "title": "取消质押通证",

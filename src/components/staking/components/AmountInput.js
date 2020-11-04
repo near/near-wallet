@@ -72,9 +72,6 @@ export default function AmountInput({
                 />
             </div>
             <div className='available-balance' onClick={availableClick}>
-                {insufficientBalance && 
-                    <span><Translate id={`staking.${action}.input.insufficientFunds`} />&nbsp;</span>
-                }
                 <Translate id={`staking.${action}.input.availableBalance`} />&nbsp;<Balance amount={availableBalance} noSymbol='near'/>
             </div>
         </Container>

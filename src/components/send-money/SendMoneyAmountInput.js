@@ -9,6 +9,7 @@ import InfoPopup from '../common/InfoPopup'
 import Balance, { formatNEAR } from '../common/Balance'
 import { utils } from 'near-api-js'
 import isDecimalString from '../../utils/isDecimalString'
+import { ACCOUNT_MIN_AMOUNT } from '../../utils/wallet'
 
 const CustomDiv = styled(`div`)`
     &&&&& {
@@ -109,7 +110,7 @@ class SendMoneyAmountInput extends Component {
         let amountInInternalFormat = ''
         if (value !== '') {
             amountInInternalFormat = utils.format.parseNearAmount(value);
-            if (this.availableBalance.sub(new BN(utils.format.parseNearAmount('0.1'))).lt(new BN(amountInInternalFormat))) {
+            if (this.availableBalance.sub(new BN(utils.format.parseNearAmount(ACCOUNT_MIN_AMOUNT))).lt(new BN(amountInInternalFormat))) {
                 amountStatusId = 'sendMoney.amountStatusId.notEnoughTokens'
             }
         }
