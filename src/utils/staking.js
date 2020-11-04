@@ -191,13 +191,10 @@ export class Staking {
     }
 
     async updateStakingAccount(recentlyStakedValidators = []) {
-
         const account_id = this.wallet.accountId
         await this.wallet.refreshAccount()
         const account = this.wallet.getAccount(this.wallet.accountId)
-        const balance = await account.getAccountBalance()
-
-
+        const balance = await account.wrappedAccount.getAccountBalance()
 
         let { deposits, validators } = (await getStakingTransactions(account_id))
         validators = await this.getValidators([...new Set(validators.concat(recentlyStakedValidators))])
