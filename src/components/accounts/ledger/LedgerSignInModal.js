@@ -64,12 +64,12 @@ const AnimateList = styled.div`
             text-align: right;
         }
         &.error .status {
-            background: #ff898c;
-            color: #cb2d30;
+            background: #ffb1b2;
+            color: #450002;
         }
         &.rejected .status {
-            background: #ff898c;
-            color: #cb2d30;
+            background: #f4f4f4;
+            color: #de2e32;
         }
         &.confirm .status {
             background: #6ad1e3;
