@@ -1,22 +1,41 @@
 import React, { Component, Fragment } from 'react'
-
-import * as nearApiJs from 'near-api-js' 
-import { PublicKey, KeyType } from 'near-api-js/lib/utils/key_pair'
+import styled from 'styled-components'
+import * as nearApiJs from 'near-api-js'
 import { formatNearAmount, parseNearAmount } from 'near-api-js/lib/utils/format'
 import BN from 'bn.js'
-
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { Translate } from 'react-localize-redux'
-
 import copyText from '../../utils/copyText'
 import isMobile from '../../utils/isMobile'
 import { Snackbar, snackbarDuration } from '../common/Snackbar'
 import Container from '../common/styled/Container.css'
 import FormButton from '../common/FormButton'
-import IconMCopy from '../../images/IconMCopy'
-import { createAccountFromImplicit } from '../../actions/account' 
+import { createAccountFromImplicit } from '../../actions/account'
 import { NETWORK_ID, NODE_URL, MIN_BALANCE_FOR_GAS } from '../../utils/wallet'
+
+const StyledContainer = styled(Container)`
+    .account-id-wrapper {
+        background-color: #F2F2F2;
+        width: 100%;
+        border-radius: 4px;
+        padding: 25px;
+        font-size: 20px;
+        word-break: break-all;
+        line-height: 140%;
+        margin: 40px 0;
+        text-align: center;
+    }
+
+    p {
+        margin: 25px 0;
+    }
+
+    button {
+        margin: 0 auto !important;
+        display: block !important
+    }
+`
 
 // TODO: Make configurable
 const MIN_BALANCE_TO_CREATE = new BN(MIN_BALANCE_FOR_GAS).add(new BN(parseNearAmount('1')))
@@ -25,12 +44,12 @@ let pollingInterval = null
 
 const initialState = {
     successSnackbar: false,
-    snackBarMessage: 'setupSeedPhrase.snackbarCopySuccess',
+    snackBarMessage: 'setupSeedPhrase.snackbarCopyImplicitAddress',
     balance: null,
 }
 
 class SetupImplicit extends Component {
-    state = {...initialState}
+    state = { ...initialState }
 
     handleContinue = async () => {
         const { dispatch, accountId, implicitAccountId, recoveryMethod } = this.props
@@ -106,72 +125,56 @@ class SetupImplicit extends Component {
             successSnackbar,
         } = this.state
 
-        const { implicitAccountId } = this.props
+        const { implicitAccountId, accountId } = this.props
 
         return (
             <Translate>
                 {({ translate }) => (
-                    <Fragment>
-                        <Container style={{ textAlign: 'center' }} className='small-centered'>
-                            {!balance
-                                ? <>
-                                    <h1>Fund Account</h1>
-                                    <p>This is your account name (64 characters). Send at least {formatNearAmount(MIN_BALANCE_TO_CREATE)} NEAR to your account to continue.</p>
-                                </>
-                                : <>
-                                    <h1>Claim Account</h1>
-                                    <p>Your account has been funded and is ready to be claimed!</p>
-                                </>
-                            }
-                            <textarea 
-                                style={{
-                                    width: '100%',
-                                    border: '2px solid #eee',
-                                    borderRadius: 4,
-                                    padding: 16,
-                                    fontSize: 18,
-                                    resize: 'none',
-                                    outline: 'none',
-                                    textAlign: 'center',
-                                }}
-                                readOnly={true}
-                                defaultValue={implicitAccountId} 
-                            />
-
-                            {!balance
-                                ? <>
-                                    <FormButton
-                                        onClick={() => this.handleCopyPhrase(implicitAccountId)}
-                                        color='seafoam-blue-white'
-                                    >
-                                        <Translate id='button.copyImplicitAccountId' />
-                                        <IconMCopy color='#6ad1e3' />
-                                    </FormButton>
-                                    <p id="implicit-account-id" style={{ display: 'none' }}>
-                                        <span>{implicitAccountId}</span>
-                                    </p>
-                                    <p style={{ marginTop: 16 }}>
-                                        Once funded, return to this page.
-                                    </p>
-                                </>
-                                : <>
-                                    <FormButton
-                                        onClick={() => this.handleContinue()}
-                                        color='green'
-                                        sending={this.props.formLoader}
-                                    >
-                                        Continue
-                                    </FormButton>
-                                </>
-                            }
-                        </Container>
+                    <StyledContainer className='small-centered'>
+                        {!balance
+                            ? <>
+                                <h1><Translate id='account.createImplicit.pre.title' /></h1>
+                                <p><Translate id='account.createImplicit.pre.descOne' data={{ amount: formatNearAmount(MIN_BALANCE_TO_CREATE) }}/></p>
+                                <p><Translate id='account.createImplicit.pre.descTwo'/></p>
+                            </>
+                            : <>
+                                <h1><Translate id='account.createImplicit.post.title' /></h1>
+                                <p><Translate id='account.createImplicit.post.descOne'/></p>
+                                <p><Translate id='account.createImplicit.post.descTwo'/></p>
+                            </>
+                        }
+                        <div className='account-id-wrapper'>
+                            {!balance ? implicitAccountId : accountId}
+                        </div>
+                        {!balance
+                            ? <>
+                                <FormButton
+                                    onClick={() => this.handleCopyPhrase(implicitAccountId)}
+                                    color='seafoam-blue-white'
+                                >
+                                    <Translate id='button.copyImplicitAddress' />
+                                </FormButton>
+                                <p id="implicit-account-id" style={{ display: 'none' }}>
+                                    <span>{implicitAccountId}</span>
+                                </p>
+                            </>
+                            : <>
+                                <FormButton
+                                    onClick={this.handleContinue}
+                                    color='green'
+                                    sending={this.props.formLoader}
+                                >
+                                    <Translate id='button.claimAccount' />
+                                </FormButton>
+                            </>
+                        }
                         <Snackbar
                             theme='success'
                             message={translate(snackBarMessage)}
                             show={successSnackbar}
                             onHide={() => this.setState({ successSnackbar: false })}
                         />
-                    </Fragment>
+                    </StyledContainer>
                 )}
             </Translate>
         )

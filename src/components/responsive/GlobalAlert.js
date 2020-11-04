@@ -14,7 +14,7 @@ const Alert = styled.div`
     background-color: #fff;
     border-left: 4px solid;
     box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.04);
-    z-index: 900;
+    z-index: 2100;
     right: 16px;
     border-color: ${props => props.success ? '#02ba86' : '#e41d22'};
 
