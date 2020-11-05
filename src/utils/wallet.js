@@ -714,11 +714,19 @@ class Wallet {
     }
 
     async setupRecoveryMessage(accountId, method, securityCode, recoverySeedPhrase) {
-        const { secretKey } = parseSeedPhrase(recoverySeedPhrase)
-        const recoveryKeyPair = KeyPair.fromString(secretKey)
-        await this.validateSecurityCode(accountId, method, securityCode);
-        const newPublicKey = recoveryKeyPair.publicKey
-        await this.addNewAccessKeyToAccount(accountId, newPublicKey)
+        const { publicKey } = parseSeedPhrase(recoverySeedPhrase)
+        await this.validateSecurityCode(accountId, method, securityCode)
+        try {
+            await this.addNewAccessKeyToAccount(accountId, publicKey)
+        } catch(e) {
+            const account = this.getAccount(accountId)
+            const accountKeys = await account.getAccessKeys()
+            if (!accountKeys.some(it => it.public_key.endsWith(publicKey))) {
+                method.publicKey = publicKey
+                await this.deleteRecoveryMethod(method)
+                throw new WalletError('Recovery setup was not successful! Please try again.', 'errors.recoveryMethods.setupMethod')
+            }
+        }
         await store.dispatch(redirectTo('/profile', { globalAlertPreventClear: true }))
     }
 
