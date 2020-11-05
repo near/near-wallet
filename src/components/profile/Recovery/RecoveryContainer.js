@@ -84,8 +84,6 @@ const RecoveryContainer = () => {
 
     missingKinds.forEach(kind => activeMethods.push({kind: kind}));
 
-    const loading = account.actionsPending.includes('LOAD_RECOVERY_METHODS') || account.actionsPending.includes('REFRESH_ACCOUNT');
-
     const handleDeleteMethod = async (method) => {
         try {
             setDeletingMethod(method.publicKey)
