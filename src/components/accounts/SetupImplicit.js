@@ -89,7 +89,7 @@ class SetupImplicit extends Component {
         const MOONPAY_URL = 'https://buy-staging.moonpay.io?apiKey=pk_test_wQDTsWBsvUm7cPiz9XowdtNeL5xasP9'
         const { implicitAccountId } = this.props
         const widgetUrl = `${MOONPAY_URL}&walletAddress=${encodeURIComponent(implicitAccountId)}&currencyCode=NEAR` +
-            `&redirectURL=${window.location.href}`
+            `&redirectURL=${encodeURIComponent(window.location.href)}`
         // TODO: Sign URL server-side through contract-helper to pass walletAddress in prod
         // TODO: Push new URL with Redux?
         window.location = widgetUrl
