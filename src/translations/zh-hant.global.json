@@ -26,6 +26,18 @@
             "implicitAccount": "請再確認賬戶 ID",
             "implicitAccountModal": "請再確認賬戶 ID，如果賬戶輸入錯誤，你的資產將永久無法找回。"
         },
+        "createImplicit": {
+            "pre": {
+                "title": "Fund Your Account",
+                "descOne": "To create your new account, you must first fund its creation by sending at least <b>${amount} NEAR</b> to the following <b>funding address</b>.",
+                "descTwo": "Once your funds have been received, return to this page to finalize and claim your new <b>Account ID</b>:"
+            },
+            "post": {
+                "title": "Claim Your Account ID",
+                "descOne": "Your account has been successfully funded and is ready to be claimed!",
+                "descTwo": "Once claimed, <i>the previous funding address will be made invalid</i>, and your may send and receive funds using your new <b>Account ID</b>:"
+            }
+        },
         "verifySeedPhrase": {
             "error": "妳輸入了錯誤的助記詞"
         },
@@ -90,7 +102,7 @@
         "pageTitle": "設置恢復助記詞",
         "pageText": "請按順序記錄以下助記詞，並安全保管它們。沒有助記詞妳將無法恢復賬戶！",
         "snackbarCopySuccess": "助記詞已復制！",
-        "snackbarCopyImplicitAccountId": "賬戶 ID 已復制！"
+        "snackbarCopyImplicitAddress": "賬戶 ID 已復制！"
     },
     "setupSeedPhraseVerify": {
         "pageTitle": "驗證助記詞",
@@ -225,7 +237,7 @@
         "signIn": "登錄",
         "signingIn": "正在登錄",
         "copyPhrase": "復制助記詞",
-        "copyImplicitAccountId": "複製賬戶 ID",
+        "copyImplicitAddress": "複製賬戶 ID",
         "continue": "繼續",
         "continueSetup": "繼續設置",
         "verify": "驗證並完成",

@@ -25,11 +25,6 @@ class Sign extends Component {
         }
     }
 
-    handleAddFunds = () => {
-        // TODO: Should this use Redux action to navigate
-        this.props.push(`/profile/${this.props.account.accountId}`)
-    }
-
     handleAllow = async () => {
         this.setState({ sending: true })
         await this.props.signAndSendTransactions(this.props.transactions, this.props.account.accountId)

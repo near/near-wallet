@@ -26,6 +26,18 @@
             "implicitAccount": "Always double check the account ID",
             "implicitAccountModal": "Please double check the account ID, especially if this is an exchange account. If the account ID is entered incorrectly, your funds will be lost forever."
         },
+        "createImplicit": {
+            "pre": {
+                "title": "Fund Your Account",
+                "descOne": "To create your new account, you must first fund its creation by sending at least <b>${amount} NEAR</b> to the following <b>funding address</b>.",
+                "descTwo": "Once your funds have been received, return to this page to finalize and claim your new <b>Account ID</b>:"
+            },
+            "post": {
+                "title": "Claim Your Account ID",
+                "descOne": "Your account has been successfully funded and is ready to be claimed!",
+                "descTwo": "Once claimed, <i>the previous funding address will be made invalid</i>, and your may send and receive funds using your new <b>Account ID</b>:"
+            }
+        },
         "verifySeedPhrase": {
             "error": "You entered the incorrect word"
         },
@@ -92,7 +104,7 @@
         "pageTitle": "Setup Phrase",
         "pageText": "Write down the following words IN ORDER and keep them somewhere safe. You cannot recover your account without them!",
         "snackbarCopySuccess": "Seed phrase copied!",
-        "snackbarCopyImplicitAccountId": "Account ID Copied!"
+        "snackbarCopyImplicitAddress": "Account ID Copied!"
     },
     "setupSeedPhraseVerify": {
         "pageTitle": "Verify Phrase",
@@ -238,7 +250,8 @@
         "signIn": "Sign In",
         "signingIn": "Signing In",
         "copyPhrase": "COPY PHRASE",
-        "copyImplicitAccountId": "Copy Account ID",
+        "copyImplicitAddress": "Copy Funding Address",
+        "claimAccount": "CLAIM ACCOUNT",
         "continue": "CONTINUE",
         "continueSetup": "Continue to Setup",
         "verify": "VERIFY & COMPLETE",
@@ -541,7 +554,8 @@
             "desc": "Stake your NEAR tokens with a validator",
             "button": "Select validator",
             "currentValidators": "Your Current Validators",
-            "noValidators": "You haven't staked with a validator yet."
+            "noValidators": "You haven't staked with a validator yet.",
+            "selectAccount": "Select account"
         },
         "balanceBox": {
             "staked": {
@@ -779,8 +793,8 @@
     "setupLedgerSuccess": {
         "header": "Ledger has secured your account!",
         "one": "We recommend that you remove all existing keys (recovery methods and devices).",
-        "two": "Maintaining multiple keys increases the vulnerability of your account.",
-        "primaryCta": "Remove Existing Keys",
+        "two": "Maintaining multiple keys and recovery methods (including seed phrases) increases the vulnerability of your account.",
+        "primaryCta": "Remove Existing Keys and Recovery Methods",
         "secondaryCta": "Keep existing keys",
         "nextStep": {
             "header": {
@@ -788,7 +802,7 @@
                 "keep": "Keep existing keys?"
             },
             "one": {
-                "remove": "Before removing your existing keys, make sure that you have recorded and securely stored your Ledger seed phrase.",
+                "remove": "Before removing your existing keys and recovery methods, make sure that you have recorded and securely stored your Ledger seed phrase.",
                 "keep": "<span class='color-red'>Maintaining multiple recovery methods and devices increases the vulnerability of your account.</span>"
             },
             "two": {
@@ -804,12 +818,14 @@
             "success": "",
             "error": "Public key access was rejected. No accounts were recovered.<br/>To continue, you must allow NEAR Wallet to view your public key. Please try again.",
             "noAccounts": "No accounts are associated with this Ledger device. You must first create an account, then add this Ledger to it to login.",
+            "noAccountsAccepted": "No accounts were accepted.",
             "aborted": "Action was aborted.",
             "U2FNotSupported": "U2F browser support is needed for Ledger. Please use Chrome, Opera or Firefox with U2F extension."
         },
         "addLedgerAccountId": {
             "success": "",
-            "error": "Access to one of the accounts was rejected. No accounts were recovered.<br>To continue, you must authorize read-only access to each account on your Ledger device. Please try again."
+            "error": "Access to one of the accounts was rejected. No accounts were recovered.<br>To continue, you must authorize read-only access to each account on your Ledger device. Please try again.",
+            "errorRpc": "Error appears while recovering the account."
         },
         "saveAndSelectLedgerAccounts": {
             "success": "You’ve successfully signed in.<br/><b>${numberOfAccounts} account(s) were recovered.</b> Your most recently created account has been set to active.",
@@ -821,6 +837,8 @@
             "accountsApproved": "account(s) approved",
             "status": {
                 "success": "Approved",
+                "error": "Error",
+                "rejected": "Rejected",
                 "pending": "Pending",
                 "waiting": "Up next",
                 "confirm": "Confirm"
@@ -862,14 +880,16 @@
         "header": "NEAR test Wallet",
         "desc": "This wallet (and network) are for testing purposes only. Tokens and other assets have no value. Accounts created do not transfer to Mainnet."
     },
-
+    "stagingBanner": {
+        "title": "Warning: This is a pre-release version of Wallet. Use at your own risk!",
+        "desc": "Warning: This is a pre-release version of the NEAR Wallet. There may be bugs, and these bugs may lead to loss of funds. By continuing to use this version, you agree that you understand and accept these risks, and understand that the NEAR Wallet team will be unable to help you."
+    },
     "landing": {
         "title":"NEAR is here.",
         "desc": "Securely store and stake your NEAR tokens and compatible assets with <span>NEAR Wallet</span>.",
         "or": "or",
         "banner": "NEAR Wallet is in Private Beta"
     },
-
     "emailSubscribe": {
         "title": "Sign up below for early access",
         "placeholder": "Your email..."

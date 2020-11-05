@@ -15,6 +15,7 @@
     WAMP_NEAR_EXPLORER_TOPIC_PREFIX = "com.nearprotocol.mainnet.explorer"
     EXPLORER_URL = "https://explorer.mainnet.near.org"
     REACT_APP_IS_MAINNET = "true"
+    SHOW_PRERELEASE_WARNING = "yes"
     DISABLE_SEND_MONEY = "no"
     DISABLE_CREATE_ACCOUNT = "true"
     REACT_APP_MULTISIG_MIN_AMOUNT = "36"
