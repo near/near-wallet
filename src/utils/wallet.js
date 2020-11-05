@@ -676,9 +676,13 @@ class Wallet {
 
     async getRecoveryMethods(account) {
         const accountId = account ? account.accountId : this.accountId
+        let recoveryMethods = await this.postSignedJson('/account/recoveryMethods', { accountId }, account)
+        const accessKeys =  await this.getAccessKeys()
+        const publicKeys = accessKeys.map(key => key.public_key)
+        recoveryMethods = recoveryMethods.filter(({ publicKey }) => publicKeys.includes(publicKey))
         return {
             accountId,
-            data: await this.postSignedJson('/account/recoveryMethods', { accountId }, account)
+            data: recoveryMethods
         }
     }
 
@@ -723,15 +727,11 @@ class Wallet {
         try {
             await this.addNewAccessKeyToAccount(accountId, publicKey)
         } catch(e) {
-            const account = this.getAccount(accountId)
-            const accountKeys = await account.getAccessKeys()
-            if (!accountKeys.some(it => it.public_key.endsWith(publicKey))) {
-                method.publicKey = publicKey
-                await this.deleteRecoveryMethod(method)
-                throw new WalletError('Recovery setup was not successful! Please try again.', 'errors.recoveryMethods.setupMethod')
-            }
+            console.warn(e)
+            throw new WalletError(e, 'errors.recoveryMethods.setupMethod')
+        } finally {
+            await store.dispatch(redirectTo('/profile', { globalAlertPreventClear: true }))
         }
-        await store.dispatch(redirectTo('/profile', { globalAlertPreventClear: true }))
     }
 
     async addNewAccessKeyToAccount(accountId, newPublicKey) {
