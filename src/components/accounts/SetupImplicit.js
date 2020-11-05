@@ -84,6 +84,17 @@ class SetupImplicit extends Component {
         await dispatch(redirectTo('/fund-create-account/success'))
     }
 
+    fundWithMoonpay = () => {
+        // TODO: Pass through env variable
+        const MOONPAY_URL = 'https://buy-staging.moonpay.io?apiKey=pk_test_wQDTsWBsvUm7cPiz9XowdtNeL5xasP9'
+        const { implicitAccountId } = this.props
+        const widgetUrl = `${MOONPAY_URL}&walletAddress=${encodeURIComponent(implicitAccountId)}&currencyCode=NEAR` +
+            `&redirectURL=${window.location.href}`
+        // TODO: Sign URL server-side through contract-helper to pass walletAddress in prod
+        // TODO: Push new URL with Redux?
+        window.location = widgetUrl
+    }
+
     checkBalance = async () => {
         const { implicitAccountId } = this.props
 
@@ -184,6 +195,15 @@ class SetupImplicit extends Component {
                         <p id="implicit-account-id" style={{ display: 'none' }}>
                             <span>{implicitAccountId}</span>
                         </p>
+                        <div style={{ marginTop: '1em' }}>
+                            <FormButton
+                                onClick={this.fundWithMoonpay}
+                                color='black'
+                                sending={this.props.formLoader}
+                            >
+                                Fund using MoonPay
+                            </FormButton>
+                        </div>
                         <Snackbar
                             theme='success'
                             message={translate(snackBarMessage)}
