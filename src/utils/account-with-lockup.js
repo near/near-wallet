@@ -1,13 +1,16 @@
 import BN from 'bn.js'
 import sha256 from 'js-sha256'
-import { Account } from 'near-api-js'
+import { Account, Connection, InMemorySigner, KeyPair } from 'near-api-js'
 import { parseNearAmount } from 'near-api-js/lib/utils/format'
 import { BinaryReader } from 'near-api-js/lib/utils/serialize'
+import { InMemoryKeyStore } from 'near-api-js/lib/key_stores'
 import { LOCKUP_ACCOUNT_ID_SUFFIX, MIN_BALANCE_FOR_GAS } from './wallet'
 import { WalletError } from './walletError'
 
 // TODO: Should gas allowance be dynamically calculated
 const LOCKUP_MIN_BALANCE = new BN(parseNearAmount('35'));
+
+const BASE_GAS = new BN('25000000000000');
 
 export function decorateWithLockup(account) {
     // TODO: Use solution without hacky mix-in inheritance
@@ -33,22 +36,36 @@ async function signAndSendTransaction(receiverId, actions) {
         console.warn('Not enough balance on main account, checking lockup account', lockupAccountId);
 
         if (!(await this.wrappedAccount.viewFunction(lockupAccountId, 'are_transfers_enabled'))) {
-            await this.wrappedAccount.functionCall(lockupAccountId, 'check_transfers_vote', {}, new BN(75000000000000))
+            await this.wrappedAccount.functionCall(lockupAccountId, 'check_transfers_vote', {}, BASE_GAS.mul(new BN(3)))
         }
 
-        const liquidBalance = new BN(await this.wrappedAccount.viewFunction(lockupAccountId, 'get_liquid_owners_balance'))
-        if (!liquidBalance.gt(missingAmount)) {
-            throw new WalletError('Not enough tokens.', 'sendMoney.amountStatusId.notEnoughTokens')
+        const lockedBalance = new BN(await this.wrappedAccount.viewFunction(lockupAccountId, 'get_locked_amount'))
+        const poolAccountId = await this.wrappedAccount.viewFunction(lockupAccountId, 'get_staking_pool_account_id')
+        if (!poolAccountId && lockedBalance.eq(new BN(0))) {
+            console.info('Destroying lockup account to claim remaining funds', lockupAccountId)
+
+            const newKeyPair = KeyPair.fromRandom('ed25519')
+            await this.wrappedAccount.functionCall(lockupAccountId, 'add_full_access_key', {
+                new_public_key: newKeyPair.publicKey.toString()
+            }, BASE_GAS.mul(new BN(2)))
+
+            const tmpKeyStore = new InMemoryKeyStore()
+            await tmpKeyStore.setKey(this.connection.networkId, lockupAccountId, newKeyPair)
+            const tmpConnection = new Connection(this.connection.networkId, this.connection.provider, new InMemorySigner(tmpKeyStore))
+            const lockupAccount = new Account(tmpConnection, lockupAccountId)
+            await lockupAccount.deleteAccount(this.accountId)
+        } else {
+            const liquidBalance = new BN(await this.wrappedAccount.viewFunction(lockupAccountId, 'get_liquid_owners_balance'))
+            if (!liquidBalance.gt(missingAmount)) {
+                throw new WalletError('Not enough tokens.', 'sendMoney.amountStatusId.notEnoughTokens')
+            }
+
+            await this.wrappedAccount.functionCall(lockupAccountId, 'transfer', {
+                // NOTE: Move all the liquid tokens to minimize transactions in the long run
+                amount: liquidBalance.toString(),
+                receiver_id: this.wrappedAccount.accountId
+            }, BASE_GAS.mul(new BN(2)))
         }
-
-        // TODO: better gas calculation (use base amount multiples)
-        await this.wrappedAccount.functionCall(lockupAccountId, 'transfer', {
-            // NOTE: Move all the liquid tokens to minimize transactions in the long run
-            amount: liquidBalance.toString(),
-            receiver_id: this.wrappedAccount.accountId
-        }, new BN(50000000000000))
-
-        // TODO: check if not in staking pool and then remove to take remainder (if balance is zero)
     }
 
     return await this.wrappedAccount.signAndSendTransaction.call(this, receiverId, actions);
@@ -105,7 +122,11 @@ async function getAccountBalance() {
                 const unreleasedAmount = releaseDurationBN.eq(new BN(0))
                     ? new BN(0)
                     : BN.max(new BN(0), new BN(lockupAmount).mul(timeLeft).div(releaseDurationBN))
-                liquidOwnersBalance = BN.max(new BN(0), new BN(lockupAmount).sub(BN.max(unreleasedAmount, LOCKUP_MIN_BALANCE)))
+                if (releaseDurationBN.eq(new BN(0))) {
+                    liquidOwnersBalance = new BN(lockupAmount)
+                } else {
+                    liquidOwnersBalance = BN.max(new BN(0), new BN(lockupAmount).sub(BN.max(unreleasedAmount, LOCKUP_MIN_BALANCE)))
+                }
             }
         }
 
