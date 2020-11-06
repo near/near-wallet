@@ -13,7 +13,7 @@ import AccountFormAccountId from '../../accounts/AccountFormAccountId'
 
 const UserIcon = styled.div`
     background-size: 21px;
-    width: 40px;
+    flex: 0 0 40px;
     height: 40px;
     border-radius: 50%;
     background-color: #f8f8f8;
@@ -131,7 +131,7 @@ const AnimateList = styled.div`
         }
 
         .status {
-            width: 72px;
+            flex: 0 0 72px;
             margin-left: auto;
             height: 24px;
             border-radius: 12px;
