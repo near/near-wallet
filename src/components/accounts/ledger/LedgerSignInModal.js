@@ -37,6 +37,9 @@ const H4 = styled.div`
     padding: 30px 0 60px 0;
     font-size: 16px;
 `
+const CustomContainer = styled.div`
+    width: 100%;
+`
 
 const AnimateList = styled.div`
     margin-top: 10px;
@@ -239,7 +242,7 @@ const LedgerSignInModal = ({
                     </h2>
                     <LedgerImage animate={txSigned ? false : true}/>
 
-                    <div>
+                    <CustomContainer>
                         <H4>
                             <Translate id='signInLedger.modal.ledgerMustAdd'/>
                         </H4>
@@ -266,7 +269,7 @@ const LedgerSignInModal = ({
                                 </div>
                             ))}
                         </AnimateList>
-                    </div>
+                    </CustomContainer>
                 </>
             )}
         </Modal>
