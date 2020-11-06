@@ -48,10 +48,13 @@ const AnimateList = styled.div`
         transition: 1s;
     }
 
-    h3 {
-        max-width: 70%;
+    .accountId {
         overflow: hidden;
-        text-overflow: ellipsis;
+        
+        > h3 {
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
     }
 
     .row {
@@ -249,9 +252,11 @@ const LedgerSignInModal = ({
                                     <UserIcon>
                                         <UserIconGrey color='#9a9a9a' />
                                     </UserIcon>
-                                    <h3>
-                                        {account.accountId}
-                                    </h3>
+                                    <div className='accountId'>
+                                        <h3>
+                                            {account.accountId}
+                                        </h3>
+                                    </div>
                                     <div className='status'>
                                         {account.status !== 'success' 
                                             ? <Translate id={`signInLedger.modal.status.${account.status}`}/>
