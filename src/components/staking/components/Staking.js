@@ -18,7 +18,8 @@ export default function Staking({
     onSwitchAccount,
     accounts,
     activeAccount,
-    accountId
+    accountId,
+    loading
 }) {
     const [switchAccount, setSwitchAccount] = useState(false)
 
@@ -52,7 +53,7 @@ export default function Staking({
                 activeAccount={activeAccount}
                 accountId={accountId}
             />
-            <FormButton linkTo='/staking/validators'><Translate id='staking.staking.button' /></FormButton>
+            <FormButton disabled={loading} linkTo='/staking/validators'><Translate id='staking.staking.button' /></FormButton>
             <BalanceBox
                 title='staking.balanceBox.staked.title'
                 info='staking.balanceBox.staked.info'
