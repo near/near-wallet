@@ -53,30 +53,20 @@ const Container = styled.div`
 
 `
 
-function Account({ accountId, totalUnstaked, totalStaked }) {
-    return (
-        <Container>
-            <div>
-                {accountId.split('.')[0]}<span>.{accountId.substring(accountId.indexOf('.') + 1)}</span>
-            </div>
-            <div>
-                <Balance amount={totalUnstaked}/> <span className='divider'/> <Balance amount={totalStaked}/> <Translate id='staking.staking.staked' />
-            </div>
-        </Container>
-    )
-}
-
 export default function SelectAccount({ accounts, onChange, selectedAccount }) {
     return(
         <div>
             <RadioGroup onChange={onChange} selectedValue={selectedAccount}>
                 {accounts.map((account, i) => 
                     <RadioButton value={account.accountId} key={i}>
-                        <Account
-                            accountId={account.accountId}
-                            totalUnstaked={account.totalUnstaked}
-                            totalStaked={account.totalStaked}
-                        />
+                        <Container>
+                            <div>
+                                {account.accountId.split('.')[0]}<span>.{account.accountId.substring(account.accountId.indexOf('.') + 1)}</span>
+                            </div>
+                            <div>
+                                <Balance amount={account.totalUnstaked}/> <span className='divider'/> <Balance amount={account.totalStaked}/> <Translate id='staking.staking.staked' />
+                            </div>
+                        </Container>
                     </RadioButton>
                 )}
             </RadioGroup>

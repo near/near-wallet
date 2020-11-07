@@ -92,9 +92,9 @@ const Input = styled.input`
 
 export default class RadioButton extends Component {
     render() {
-        const { name, selectedValue } = this.context.radioGroup;
-        const { onChange, value, children } = this.props;
-        let checked = false;
+        const { name, selectedValue } = this.context.radioGroup
+        const { onChange, value, children } = this.props
+        let checked = false
 
         if (selectedValue !== undefined) {
             checked = value === selectedValue
