@@ -109,7 +109,7 @@ const StyledContainer = styled(Container)`
 
     .account-info {
         display: block;
-        margin-bottom: 10px;
+        margin-bottom: 15px;
         svg {
             margin-left: 8px;
             width: 16px;
