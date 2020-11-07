@@ -20,6 +20,10 @@ const Container = styled.div`
             text-overflow: ellipsis;
             color: #24272a;
 
+            @media (max-width: 330px) {
+                max-width: 200px;
+            }
+
         span {
             color: #A2A1A6;
             }
