@@ -57,7 +57,7 @@ export default function BalanceBanner({ amount }) {
             </div>
             <div className='content'>
                 <Translate id='staking.balanceBanner.title' />
-                <div><Balance amount={amount} noSymbol={true} /> <span><Translate id='staking.balanceBanner.currency' /></span></div>
+                <div><Balance amount={amount}/> <span><Translate id='staking.balanceBanner.currency' /></span></div>
             </div>
         </Container>
     )

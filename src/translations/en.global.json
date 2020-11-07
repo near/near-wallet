@@ -555,7 +555,8 @@
             "button": "Select validator",
             "currentValidators": "Your Current Validators",
             "noValidators": "You haven't staked with a validator yet.",
-            "selectAccount": "Select account"
+            "selectAccount": "Staking from",
+            "staked": "staked"
         },
         "balanceBox": {
             "staked": {

@@ -94,7 +94,7 @@ function Account({ account, onClick, mainAccountId }) {
                     <div>
                         {accountId.split('.')[0]}<span>.{accountId.substring(accountId.indexOf('.') + 1)}</span>
                     </div>
-                    <Balance noSymbol='near' amount={account.totalUnstaked || '0'}/>
+                    <Balance symbol='near' amount={account.totalUnstaked || '0'}/>
                 </div>
             </div>
         )

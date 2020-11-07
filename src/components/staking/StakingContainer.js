@@ -129,7 +129,6 @@ export function StakingContainer({ history, match }) {
     const stakingAccounts = staking.accounts
     const validators = staking.allValidators
     const currentValidators = currentAccount.validators
-    // find current validator (ASSUMES validatorId will always be here /staking/valdiatorId/somethingElse)
     const validatorId = history.location.pathname.split('/')[2]
     let validator = currentValidators.filter(validator => validator.accountId === validatorId)[0]
     // validator profile not in account's current validators (with balances) find validator in allValidators
@@ -171,7 +170,6 @@ export function StakingContainer({ history, match }) {
                             <Staking
                                 {...currentAccount}
                                 currentValidators={currentValidators}
-                                availableBalance={totalUnstaked}
                                 onSwitchAccount={handleSwitchAccount}
                                 accounts={stakingAccounts}
                                 activeAccount={currentAccount}

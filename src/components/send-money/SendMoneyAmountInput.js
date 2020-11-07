@@ -20,7 +20,7 @@ const CustomDiv = styled(`div`)`
             height: 80px !important;
             border: 0px !important;
             font-size: ${props => props.fontSize} !important;
-            font-weight: 500 !important;
+            font-weight: 600 !important;
             color: #4a4f54 !important;
             text-align: center !important;
             padding: 0px !important;
@@ -140,13 +140,13 @@ class SendMoneyAmountInput extends Component {
                         <Translate id={amountStatusId} />
                     </Segment>)}
                 {amountDisplay ? (
-                    <><Translate id='sendMoney.amountStatusId.sending'/>&nbsp;<Balance noSymbol='near' amount={amountDisplay}/></> 
+                    <><Translate id='sendMoney.amountStatusId.sending'/>&nbsp;<Balance symbol='near' amount={amountDisplay}/></> 
                 ) : (
                     <Translate id='sendMoney.amountStatusId.howMuch'/>
                 )}
                 <AvailableBalance>
                     <Translate id='sendMoney.amountStatusId.available'/>&nbsp;
-                    <Balance noSymbol='near' amount={this.availableBalance}/>
+                    <Balance symbol='near' amount={this.availableBalance}/>
                     <InfoPopup content={<Translate id='availableBalanceInfo'/>}/>
                 </AvailableBalance>
             </CustomDiv>
