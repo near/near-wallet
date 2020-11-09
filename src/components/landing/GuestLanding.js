@@ -6,7 +6,6 @@ import Container from '../common/styled/Container.css'
 import FormButton from '../common/FormButton'
 import iPhoneMockup from '../../images/iphone-mockup.png'
 import EmailSubscribe from './EmailSubscribe'
-import { DISABLE_CREATE_ACCOUNT } from '../../utils/wallet'
 
 const StyledContainer = styled.div`
 

@@ -117,9 +117,6 @@ class SetupSeedPhrase extends Component {
     }
 
     render() {
-        const {
-            location,
-        } = this.props
         return (
             <Translate>
                 {({ translate }) => (

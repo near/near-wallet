@@ -2,7 +2,6 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { Translate } from 'react-localize-redux';
-import { DISABLE_CREATE_ACCOUNT } from '../../utils/wallet';
 
 const Button = styled(Link)`
     display: block;

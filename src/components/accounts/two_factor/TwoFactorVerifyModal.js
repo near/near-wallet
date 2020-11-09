@@ -8,7 +8,7 @@ import FormButton from '../../common/FormButton';
 import { Translate } from 'react-localize-redux';
 import TwoFactorVerifyInput from './TwoFactorVerifyInput';
 import { WalletError } from '../../../utils/walletError'
-import { verifyTwoFactor, clearAlert, resendTwoFactor, get2faMethod } from '../../../actions/account';
+import { clearAlert, resendTwoFactor, get2faMethod } from '../../../actions/account';
 
 const Form = styled.form`
     display: flex;
