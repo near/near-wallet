@@ -53,6 +53,7 @@ const Root = styled.div`
 
     .radio-content {
         margin-left: 20px;
+        width: 100%;
     }
 `
 const Fill = styled.div`

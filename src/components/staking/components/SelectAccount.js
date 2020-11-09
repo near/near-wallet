@@ -7,10 +7,6 @@ import { Translate } from 'react-localize-redux'
 
 const Container = styled.div`
     > div {
-        width: max-content;
-        max-height: 31px;
-        overflow: hidden;
-
         :first-of-type {
             margin-bottom: 8px;
             font-weight: 600;
@@ -30,27 +26,23 @@ const Container = styled.div`
         }
 
         :last-of-type {
-            background-color: #F4F4F4;
-            padding: 6px 12px;
-            border-radius: 40px;
+            > div {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                font-size: 13px;
 
-            .list {
-                color: #6E7073;
                 :first-of-type {
                     color: #00C08B;
+                }
+
+                :last-of-type {
+                    margin-top: 3px;
+                    color: #6E7073;
                 }
             }
         }
     }
-
-    .divider {
-        width: 1px;
-        background-color: #E5E5E5;
-        height: 31px;
-        display: inline-block;
-        margin: -10px 5px;
-    }
-
 `
 
 export default function SelectAccount({ accounts, onChange, selectedAccount }) {
@@ -64,7 +56,14 @@ export default function SelectAccount({ accounts, onChange, selectedAccount }) {
                                 {account.accountId.split('.')[0]}<span>.{account.accountId.substring(account.accountId.indexOf('.') + 1)}</span>
                             </div>
                             <div>
-                                <Balance amount={account.totalUnstaked}/> <span className='divider'/> <Balance amount={account.totalStaked}/> <Translate id='staking.staking.staked' />
+                                <div>
+                                    <Translate id='staking.staking.available' />
+                                    <Balance amount={account.totalUnstaked}/>
+                                </div>
+                                <div>
+                                    <Translate id='staking.staking.totalStaked' />
+                                    <Balance amount={account.totalStaked}/>
+                                </div>
                             </div>
                         </Container>
                     </RadioButton>
