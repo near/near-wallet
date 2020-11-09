@@ -140,9 +140,14 @@ export const signInWithLedger = () => async (dispatch, getState) => {
 }
 
 export const signInWithLedgerAddAndSaveAccounts = (accountIds) => async (dispatch, getState) => {
-    for (let i = 0; i < accountIds.length; i++) {
-        await dispatch(addLedgerAccountId(accountIds[i]))
-        await dispatch(setLedgerTxSigned(false, accountIds[i]))
+    for (let accountId of accountIds) {
+        try {
+            await dispatch(addLedgerAccountId(accountId))
+            await dispatch(setLedgerTxSigned(false, accountId))
+        } catch (e) {
+            console.warn('Error importing Ledger-based account', accountId, e)
+            // NOTE: We still continue importing other accounts
+        }
     }
 
     return dispatch(saveAndSelectLedgerAccounts(getState().ledger.signInWithLedger))
