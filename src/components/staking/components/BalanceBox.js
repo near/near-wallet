@@ -19,8 +19,8 @@ const Container = styled.div`
         display: block;
         margin-top: 8px !important;
         color: #24272a;
-        font-size: 22px;
-        font-weight: 500;
+        font-size: 24px;
+        font-weight: 900;
     }
 
     .title {

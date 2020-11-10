@@ -13,22 +13,32 @@ describe('<Balance.js>', ()=>{
     const contextBig = "1234567"+"0".repeat(21)
 
     it('balance should return properly for 0',()=>{
-        let wrapper = shallow(<Balance noSymbol={true} amount={contextZero} />)
+        let wrapper = shallow(<Balance symbol={false} amount={contextZero} />)
         expect(wrapper.text()).toEqual("0");
     })
 
     it('balance should return properly for non 0 for 0.0987',()=>{
-        let wrapper = shallow(<Balance noSymbol={true} amount={contextTiny} />)
+        let wrapper = shallow(<Balance symbol={false} amount={contextTiny} />)
         expect(wrapper.text()).toEqual("<0.00001");
     })
 
     it('balance should return properly for small number',()=>{
-        let wrapper = shallow(<Balance noSymbol={true} amount={contextSmall} />)
+        let wrapper = shallow(<Balance symbol={false} amount={contextSmall} />)
         expect(wrapper.text()).toEqual("0.00001");
     })
 
     it('balance should return properly',()=>{
-        let wrapper = shallow(<Balance noSymbol={true} amount={contextBig} />)
+        let wrapper = shallow(<Balance symbol={false} amount={contextBig} />)
         expect(wrapper.text()).toEqual("1,234.567");
+    })
+
+    it('balance should return balance w/ Ⓝ symbol',()=>{
+        let wrapper = shallow(<Balance amount={contextBig} />)
+        expect(wrapper.text()).toEqual("Ⓝ1,234.567");
+    })
+
+    it('balance should return balance w/ NEAR symbol',()=>{
+        let wrapper = shallow(<Balance symbol='near' amount={contextBig} />)
+        expect(wrapper.text()).toEqual("1,234.567\u00a0NEAR");
     })
 })
