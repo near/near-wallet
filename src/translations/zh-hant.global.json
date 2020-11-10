@@ -662,7 +662,7 @@
         },
         "amountStatusId": {
             "noMoreThan": "不可超過 5 位數",
-            "notEnoughTokens": "沒有足夠的通證。",
+            "notEnoughTokens": "You must leave at least ${amount} NEAR in your account",
             "howMuch": "你想要發送多少通證？",
             "available": "可用餘額：",
             "sending": "正在發送："

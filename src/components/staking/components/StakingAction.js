@@ -13,7 +13,7 @@ import { STAKING_AMOUNT_DEVIATION } from '../../../utils/staking'
 import { onKeyDown } from '../../../hooks/eventListeners'
 import { toNear } from '../../../utils/amounts'
 import AlertBanner from './AlertBanner'
-import { ACCOUNT_MIN_AMOUNT } from '../../../utils/wallet'
+import { WALLET_APP_MIN_AMOUNT } from '../../../utils/wallet'
 
 const {
     parseNearAmount, formatNearAmount
@@ -38,7 +38,7 @@ export default function StakingAction({
     let staked = (validator && validator.staked) || '0'
     const stake = action === 'stake' ? true : false
     const displayAmount = useMax ? formatNearAmount(amount, 5) : amount
-    const availableToStake = stakeFromAccount ? new BN(availableBalance).sub(new BN(utils.format.parseNearAmount(ACCOUNT_MIN_AMOUNT))).toString() : availableBalance
+    const availableToStake = stakeFromAccount ? new BN(availableBalance).sub(new BN(utils.format.parseNearAmount(WALLET_APP_MIN_AMOUNT))).toString() : availableBalance
     const invalidStakeActionAmount = new BN(useMax ? amount : parseNearAmount(amount)).sub(new BN(stake ? availableToStake : staked)).gt(new BN(STAKING_AMOUNT_DEVIATION)) || !isDecimalString(amount)
     const stakeActionAllowed = hasStakeActionAmount && !invalidStakeActionAmount
 
@@ -106,7 +106,7 @@ export default function StakingAction({
                     <AlertBanner
                         title={`staking.stake.banner.${useMax ? 'stakeMax' : 'insufficientBalance'}`}
                         theme={invalidStakeActionAmount ? 'error' : ''}
-                        titleData={ACCOUNT_MIN_AMOUNT}
+                        titleData={WALLET_APP_MIN_AMOUNT}
                     />
                 }
                 <h1><Translate id={`staking.${action}.title`} /></h1>

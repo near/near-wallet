@@ -9,7 +9,7 @@ import InfoPopup from '../common/InfoPopup'
 import Balance, { formatNEAR } from '../common/Balance'
 import { utils } from 'near-api-js'
 import isDecimalString from '../../utils/isDecimalString'
-import { ACCOUNT_MIN_AMOUNT } from '../../utils/wallet'
+import { WALLET_APP_MIN_AMOUNT } from '../../utils/wallet'
 
 const CustomDiv = styled(`div`)`
     &&&&& {
@@ -110,7 +110,7 @@ class SendMoneyAmountInput extends Component {
         let amountInInternalFormat = ''
         if (value !== '') {
             amountInInternalFormat = utils.format.parseNearAmount(value);
-            if (this.availableBalance.sub(new BN(utils.format.parseNearAmount(ACCOUNT_MIN_AMOUNT))).lt(new BN(amountInInternalFormat))) {
+            if (this.availableBalance.sub(new BN(utils.format.parseNearAmount(WALLET_APP_MIN_AMOUNT))).lt(new BN(amountInInternalFormat))) {
                 amountStatusId = 'sendMoney.amountStatusId.notEnoughTokens'
             }
         }
@@ -141,7 +141,7 @@ class SendMoneyAmountInput extends Component {
                 />
                 {amountStatusId && (
                     <Segment basic textAlign='center' className='alert-info problem balance'>
-                        <Translate id={amountStatusId} />
+                        <Translate id={amountStatusId} data={{ amount: WALLET_APP_MIN_AMOUNT }}/>
                     </Segment>)}
                 {amountDisplay ? (
                     <><Translate id='sendMoney.amountStatusId.sending'/>&nbsp;<Balance noSymbol='near' amount={amountDisplay}/></> 

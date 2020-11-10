@@ -662,7 +662,7 @@
         },
         "amountStatusId": {
             "noMoreThan": "不可超过 5 位数",
-            "notEnoughTokens": "没有足够的通证。",
+            "notEnoughTokens": "You must leave at least ${amount} NEAR in your account",
             "howMuch": "你想要发送多少通证？",
             "available": "可用余额：",
             "sending": "正在发送："

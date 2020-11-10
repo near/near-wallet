@@ -496,7 +496,7 @@
         },
         "amountStatusId": {
             "noMoreThan": "НЕ БОЛЕЕ 5 ДЕСЯТИЧНЫХ ЗНАКОВ",
-            "notEnoughTokens": "Недостаточно NEAR для отправки.",
+            "notEnoughTokens": "You must leave at least ${amount} NEAR in your account",
             "howMuch": "Сколько вы хотите отправить?"
         },
         "youAreSending": "Вы собираетесь отправить",
