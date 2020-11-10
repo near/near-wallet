@@ -17,6 +17,18 @@
             "error": "Учетная запись не найдена!",
             "errorSameAccount": "Невозможно отправить самому себе!"
         },
+        "createImplicit": {
+            "pre": {
+                "title": "Fund Your Account",
+                "descOne": "To create your new account, you must first fund its creation by sending at least <b>${amount} NEAR</b> to the following <b>funding address</b>.",
+                "descTwo": "Once your funds have been received, return to this page to finalize and claim your new <b>Account ID</b>:"
+            },
+            "post": {
+                "title": "Claim Your Account ID",
+                "descOne": "Your account has been successfully funded and is ready to be claimed!",
+                "descTwo": "Once claimed, <i>the previous funding address will be made invalid</i>, and your may send and receive funds using your new <b>Account ID</b>:"
+            }
+        },
         "verifySeedPhrase": {
             "error": "Вы ввели неверное слово!"
         },

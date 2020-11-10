@@ -28,7 +28,7 @@ const Container = styled.div`
         font-size: 40px !important;
         padding: 0 !important;
         margin: 0 !important;
-        font-weight: 500 !important;
+        font-weight: 600 !important;
         color: #24272A !important;
         color: ${props => props.status === '#ff585d' ? props.status : '#24272A'} !important;
 
@@ -72,7 +72,7 @@ export default function AmountInput({
                 />
             </div>
             <div className='available-balance' onClick={availableClick}>
-                <Translate id={`staking.${action}.input.availableBalance`} />&nbsp;<Balance amount={availableBalance} noSymbol='near'/>
+                <Translate id={`staking.${action}.input.availableBalance`} />&nbsp;<Balance amount={availableBalance} symbol='near'/>
             </div>
         </Container>
     )

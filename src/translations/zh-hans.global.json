@@ -26,6 +26,18 @@
             "implicitAccount": "请再确认账户 ID",
             "implicitAccountModal": "请再确认账户 ID，如果账户输入错误，你的资产将永久无法找回。"
         },
+        "createImplicit": {
+            "pre": {
+                "title": "Fund Your Account",
+                "descOne": "To create your new account, you must first fund its creation by sending at least <b>${amount} NEAR</b> to the following <b>funding address</b>.",
+                "descTwo": "Once your funds have been received, return to this page to finalize and claim your new <b>Account ID</b>:"
+            },
+            "post": {
+                "title": "Claim Your Account ID",
+                "descOne": "Your account has been successfully funded and is ready to be claimed!",
+                "descTwo": "Once claimed, <i>the previous funding address will be made invalid</i>, and your may send and receive funds using your new <b>Account ID</b>:"
+            }
+        },
         "verifySeedPhrase": {
             "error": "你输入了错误的助记词"
         },
@@ -90,7 +102,7 @@
         "pageTitle": "设置恢复助记词",
         "pageText": "请按顺序记录以下助记词，并安全保管它们。没有助记词你将无法恢复账户！",
         "snackbarCopySuccess": "助记词已复制！",
-        "snackbarCopyImplicitAccountId": "账户 ID 已复制！"
+        "snackbarCopyImplicitAddress": "账户 ID 已复制！"
     },
     "setupSeedPhraseVerify": {
         "pageTitle": "验证助记词",
@@ -225,7 +237,7 @@
         "signIn": "登录",
         "signingIn": "正在登录",
         "copyPhrase": "复制助记词",
-        "copyImplicitAccountId": "复制账户 ID",
+        "copyImplicitAddress": "复制账户 ID",
         "continue": "继续",
         "continueSetup": "继续设置",
         "verify": "验证并完成",

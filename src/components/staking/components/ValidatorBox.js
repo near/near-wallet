@@ -136,7 +136,7 @@ export default function ValidatorBox({
                 <div className='right'>
                     {staking && <div><Translate id='staking.validatorBox.staking' /></div>}
                     <div>
-                        <Balance amount={amount} noSymbol='near'/>
+                        <Balance amount={amount} symbol='near'/>
                     </div>
                 </div>
             }

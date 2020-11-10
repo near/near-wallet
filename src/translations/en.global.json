@@ -26,6 +26,18 @@
             "implicitAccount": "Always double check the account ID",
             "implicitAccountModal": "Please double check the account ID, especially if this is an exchange account. If the account ID is entered incorrectly, your funds will be lost forever."
         },
+        "createImplicit": {
+            "pre": {
+                "title": "Fund Your Account",
+                "descOne": "To create your new account, you must first fund its creation by sending at least <b>${amount} NEAR</b> to the following <b>funding address</b>.",
+                "descTwo": "Once your funds have been received, return to this page to finalize and claim your new <b>Account ID</b>:"
+            },
+            "post": {
+                "title": "Claim Your Account ID",
+                "descOne": "Your account has been successfully funded and is ready to be claimed!",
+                "descTwo": "Once claimed, <i>the previous funding address will be made invalid</i>, and your may send and receive funds using your new <b>Account ID</b>:"
+            }
+        },
         "verifySeedPhrase": {
             "error": "You entered the incorrect word"
         },
@@ -92,7 +104,7 @@
         "pageTitle": "Setup Phrase",
         "pageText": "Write down the following words IN ORDER and keep them somewhere safe. You cannot recover your account without them!",
         "snackbarCopySuccess": "Seed phrase copied!",
-        "snackbarCopyImplicitAccountId": "Account ID Copied!"
+        "snackbarCopyImplicitAddress": "Account ID Copied!"
     },
     "setupSeedPhraseVerify": {
         "pageTitle": "Verify Phrase",
@@ -238,7 +250,8 @@
         "signIn": "Sign In",
         "signingIn": "Signing In",
         "copyPhrase": "COPY PHRASE",
-        "copyImplicitAccountId": "Copy Account ID",
+        "copyImplicitAddress": "Copy Funding Address",
+        "claimAccount": "CLAIM ACCOUNT",
         "continue": "CONTINUE",
         "continueSetup": "Continue to Setup",
         "verify": "VERIFY & COMPLETE",
@@ -539,10 +552,12 @@
         "staking": {
             "title": "Staking",
             "desc": "Stake your NEAR tokens with a validator",
-            "button": "Select validator",
+            "button": "Stake my tokens",
             "currentValidators": "Your Current Validators",
             "noValidators": "You haven't staked with a validator yet.",
-            "selectAccount": "Select account"
+            "selectAccount": "Staking from",
+            "available": "Available",
+            "totalStaked": "Total staked"
         },
         "balanceBox": {
             "staked": {
@@ -807,12 +822,14 @@
             "success": "",
             "error": "Public key access was rejected. No accounts were recovered.<br/>To continue, you must allow NEAR Wallet to view your public key. Please try again.",
             "noAccounts": "No accounts are associated with this Ledger device. You must first create an account, then add this Ledger to it to login.",
+            "noAccountsAccepted": "No accounts were accepted.",
             "aborted": "Action was aborted.",
             "U2FNotSupported": "U2F browser support is needed for Ledger. Please use Chrome, Opera or Firefox with U2F extension."
         },
         "addLedgerAccountId": {
             "success": "",
-            "error": "Access to one of the accounts was rejected. No accounts were recovered.<br>To continue, you must authorize read-only access to each account on your Ledger device. Please try again."
+            "error": "Access to one of the accounts was rejected. No accounts were recovered.<br>To continue, you must authorize read-only access to each account on your Ledger device. Please try again.",
+            "errorRpc": "Error appears while recovering the account."
         },
         "saveAndSelectLedgerAccounts": {
             "success": "You’ve successfully signed in.<br/><b>${numberOfAccounts} account(s) were recovered.</b> Your most recently created account has been set to active.",
@@ -824,6 +841,8 @@
             "accountsApproved": "account(s) approved",
             "status": {
                 "success": "Approved",
+                "error": "Error",
+                "rejected": "Rejected",
                 "pending": "Pending",
                 "waiting": "Up next",
                 "confirm": "Confirm"
@@ -852,7 +871,8 @@
             "U2F_4": "Failed to sign with Ledger device: U2F DEVICE_INELIGIBLE. Please make sure that your Ledger device is connected and unlocked."
         },
         "recoveryMethods": {
-            "lastMethod": "Cannot delete your last recovery method. Unless you have Ledger enabled, you need to keep at least one recovery method active to ensure recoverability of your account."
+            "lastMethod": "Cannot delete your last recovery method. Unless you have Ledger enabled, you need to keep at least one recovery method active to ensure recoverability of your account.",
+            "setupMethod": "An error occured. Please check your recovery method."
         },
         "twoFactor": {
             "userCancelled": "2FA code was not verified correctly.",

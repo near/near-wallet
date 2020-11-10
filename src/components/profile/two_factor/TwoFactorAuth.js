@@ -110,7 +110,7 @@ const TwoFactorAuth = ({ twoFactor, history }) => {
                     </div>
                     {!account.canEnableTwoFactor && 
                         <div className='color-red'>
-                            <Translate id='twoFactor.notEnoughBalance'/> <Balance noSymbol='near' amount={utils.format.parseNearAmount(MULTISIG_MIN_AMOUNT)}/>
+                            <Translate id='twoFactor.notEnoughBalance'/> <Balance symbol='near' amount={utils.format.parseNearAmount(MULTISIG_MIN_AMOUNT)}/>
                         </div>
                     }
                 </div>
