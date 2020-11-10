@@ -1,7 +1,7 @@
 import * as nearApiJs from 'near-api-js'
 import { store } from '..'
 import { promptTwoFactor, refreshAccount } from '../actions/account'
-import { MULTISIG_MIN_AMOUNT } from './wallet'
+import { MULTISIG_MIN_AMOUNT, ACCOUNT_HELPER_URL } from './wallet'
 import { utils } from 'near-api-js'
 import { BN } from 'bn.js'
 
@@ -25,6 +25,7 @@ export class TwoFactor extends AccountMultisig {
     constructor(wallet) {
         super(wallet.connection, wallet.accountId, {
             storage: localStorage,
+            helperUrl: ACCOUNT_HELPER_URL,
             getCode: () => store.dispatch(promptTwoFactor(true)).payload.promise
         })
         this.wallet = wallet
