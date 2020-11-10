@@ -727,7 +727,8 @@ class Wallet {
         try {
             await this.addNewAccessKeyToAccount(accountId, publicKey)
         } catch(e) {
-            throw new WalletError(e, 'errors.recoveryMethods.setupMethod')
+            console.error(e)
+            throw new WalletError(e.message, 'errors.recoveryMethods.setupMethod')
         } finally {
             await store.dispatch(redirectTo('/profile', { globalAlertPreventClear: true }))
         }
