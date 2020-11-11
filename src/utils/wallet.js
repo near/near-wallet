@@ -712,8 +712,8 @@ class Wallet {
             } else {
                 const contractName = null;
                 const fullAccess = true;
-                await wallet.addAccessKey(accountId, contractName, newPublicKey, fullAccess)
                 await wallet.postSignedJson('/account/seedPhraseAdded', { accountId, publicKey: publicKey.toString() })
+                await wallet.addAccessKey(accountId, contractName, newPublicKey, fullAccess)
             }
             await this.saveAccount(accountId, newKeyPair)
         }
