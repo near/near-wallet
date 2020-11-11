@@ -17,11 +17,11 @@ export const MULTISIG_CONTRACT_HASHES = process.env.MULTISIG_CONTRACT_HASHES || 
 ];
 
 const {
-    multisig: { AccountMultisig },
+    multisig: { Account2FA },
     transactions: { deleteKey, addKey },
 } = nearApiJs
 
-export class TwoFactor extends AccountMultisig {
+export class TwoFactor extends Account2FA {
     constructor(wallet) {
         super(wallet.connection, wallet.accountId, {
             storage: localStorage,
