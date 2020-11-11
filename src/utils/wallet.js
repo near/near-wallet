@@ -709,13 +709,18 @@ class Wallet {
             const newPublicKey = newKeyPair.publicKey
             if (recoveryMethod !== 'seed') {
                 await this.addNewAccessKeyToAccount(accountId, newPublicKey)
+                await this.saveAccount(accountId, newKeyPair)
             } else {
                 const contractName = null;
                 const fullAccess = true;
                 await wallet.postSignedJson('/account/seedPhraseAdded', { accountId, publicKey: publicKey.toString() })
-                await wallet.addAccessKey(accountId, contractName, newPublicKey, fullAccess)
+                try {
+                    await wallet.addAccessKey(accountId, contractName, newPublicKey, fullAccess)
+                    await this.saveAccount(accountId, newKeyPair)
+                } catch (error) {
+                    throw new WalletError(error, 'account.create.addAccessKey.error')
+                }
             }
-            await this.saveAccount(accountId, newKeyPair)
         }
 
         await store.dispatch(finishAccountSetup())
