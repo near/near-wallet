@@ -98,10 +98,9 @@ const checkContractId = () => async (dispatch, getState) => {
     }
 }
 
-export const redirectTo = (location, state = {}) => (dispatch) => dispatch(push({ pathname: location, state }))
-
 export const redirectToProfile = () => (dispatch) => dispatch(push({ pathname: '/profile' }))
-export const redirectTo = (location, state) => (dispatch) => dispatch(push({ 
+
+export const redirectTo = (location, state = {}) => (dispatch) => dispatch(push({ 
     pathname: location,
     state
 }))
@@ -347,13 +346,8 @@ export const handleCreateAccountWithSeedPhrase = (accountId, recoveryKeyPair, fu
         return
     }
 
-    await dispatch(createAccountWithSeedPhrase(accountId, recoveryKeyPair, fundingOptions))
-}
-
-export const finishAccountSetup = () => async (dispatch) => {
-export const handleCreateAccountWithSeedPhrase = (accountId, recoveryKeyPair, fundingContract, fundingKey) => async (dispatch) => {
     try {
-        await dispatch(createAccountWithSeedPhrase(accountId, recoveryKeyPair, fundingContract, fundingKey))
+        await dispatch(createAccountWithSeedPhrase(accountId, recoveryKeyPair, fundingOptions))
     } catch (error) {
         dispatch(redirectTo('/recover-seed-phrase', { 
             globalAlertPreventClear: true,
@@ -361,7 +355,10 @@ export const handleCreateAccountWithSeedPhrase = (accountId, recoveryKeyPair, fu
         }))
         return
     }
+}
 
+                
+export const finishAccountSetup = () => async (dispatch) => {
     const account = await dispatch(refreshAccount())
     const promptTwoFactor = (await wallet.twoFactor.checkCanEnableTwoFactor(account))
 
