@@ -2,13 +2,15 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
 import { withRouter } from 'react-router-dom'
-
+import { formatNearAmount, parseNearAmount } from 'near-api-js/lib/utils/format'
 import { refreshAccount, checkAccountAvailable, clear, setFormLoader, sendMoney, clearAlert } from '../../actions/account'
-
+import BN from 'bn.js'
+import { WALLET_APP_MIN_AMOUNT } from '../../utils/wallet'
 import SendMoneyFirstStep from './SendMoneyFirstStep'
 import SendMoneySecondStep from './SendMoneySecondStep'
 import SendMoneyThirdStep from './SendMoneyThirdStep'
 import SendMoneyContainer from './SendMoneyContainer'
+import AlertBanner from '../staking/components/AlertBanner'
 
 class SendMoney extends Component {
     state = {
@@ -20,7 +22,8 @@ class SendMoney extends Component {
         amount: '',
         amountStatus: '',
         implicitAccount: false,
-        implicitAccountModal: false
+        implicitAccountModal: false,
+        useMax: false
     }
 
     async componentDidMount() {
@@ -83,38 +86,29 @@ class SendMoney extends Component {
         const { step, accountId, amount, implicitAccount, implicitAccountModal } = this.state
 
         if (step === 2) {
-            this.setState(() => ({
-                loader: true
-            }))
+            this.setState({ loader: true })
 
-            this.props.sendMoney(accountId, amount)
-                .then(() => {
-                    this.props.refreshAccount()
-
-                    this.setState(state => ({
-                        step: state.step + 1
-                    }))
-                    this.props.clearAlert()
-                })
-                .catch(console.error)
-                .finally(() => {
-                    this.setState(() => ({
-                        loader: false
-                    }))
-                })
-            return;
+            try {
+                await this.props.sendMoney(accountId, parseNearAmount(amount))
+                await this.props.refreshAccount()
+                this.setState({ step: step + 1 })
+                await this.props.clearAlert()
+            } catch(e) {
+                console.error(e)
+            } finally {
+                this.setState({ loader: false })
+                return
+            }
         }
 
         if (implicitAccount && !implicitAccountModal) {
-            this.setState(state => ({
-                implicitAccountModal: true
-            }))
+            this.setState({ implicitAccountModal: true })
         } else {
-            this.setState(state => ({
-                step: state.step + 1,
-                amount: state.amount,
+            this.setState({
+                step: step + 1,
+                amount: amount,
                 implicitAccountModal: false
-            }))
+            })
         }
 
     }
@@ -126,6 +120,29 @@ class SendMoney extends Component {
                 ? this.isImplicitAccount(value)
                 : state.implicitAccount
         }))
+    }
+
+    handleChangeAmount = (e) => {
+        const value = e.target.value
+        this.setState({ amountStatus: '', useMax: false })
+
+        if (!/^\d*[.]?\d*$/.test(value)) {
+            return
+        }
+
+        if (new BN(this.props.balance.available).sub(new BN(parseNearAmount(WALLET_APP_MIN_AMOUNT))).lt(new BN(parseNearAmount(value)))) {
+            this.setState({ amountStatus: 'insufficient' })
+        }
+
+        this.setState({ amount: value })
+    }
+
+    handleUseMax = () => {
+        this.setState({ 
+            amountStatus: 'useMax', 
+            useMax: true, 
+            amount: formatNearAmount(new BN(this.props.balance.available).sub(new BN(parseNearAmount(WALLET_APP_MIN_AMOUNT))).toString(), 5)
+        })
     }
 
     handleRedirectDashboard = () => {
@@ -142,7 +159,7 @@ class SendMoney extends Component {
         const { amount, amountStatus, implicitAccount } = this.state
         const { requestStatus } = this.props
         
-        return ((requestStatus && requestStatus.success) || implicitAccount) && amount > 0 && amountStatus === ''
+        return ((requestStatus && requestStatus.success) || implicitAccount) && amount > 0 && amountStatus !== 'insufficient'
             ? true
             : false
     }
@@ -150,11 +167,18 @@ class SendMoney extends Component {
     isImplicitAccount = (accountId) => accountId.length === 64
 
     render() {
-        const { step, implicitAccountModal, implicitAccount } = this.state
+        const { step, implicitAccountModal, implicitAccount, amountStatus } = this.state
         const { formLoader, requestStatus, checkAccountAvailable, setFormLoader, clear, accountId } = this.props
 
         return (
             <SendMoneyContainer>
+                {step === 1 && amountStatus &&
+                    <AlertBanner
+                        title={`sendMoney.banner.${amountStatus}`}
+                        titleData={WALLET_APP_MIN_AMOUNT}
+                        theme={amountStatus === 'insufficient' ? 'error' : ''}
+                    />
+                }
                 {step === 1 && (
                     <SendMoneyFirstStep
                         handleNextStep={this.handleNextStep}
@@ -170,6 +194,8 @@ class SendMoney extends Component {
                         implicitAccountModal={implicitAccountModal}
                         handleCloseModal={this.handleCloseModal}
                         implicitAccount={implicitAccount}
+                        handleUseMax={this.handleUseMax}
+                        handleChangeAmount={this.handleChangeAmount}
                         {...this.state}
                     />
                 )}

@@ -6,6 +6,7 @@ import PageContainer from '../common/PageContainer';
 import MobileContainer from '../sign/MobileContainer'
 import FormButton from '../common/FormButton'
 import Balance from '../common/Balance'
+import { parseNearAmount } from 'near-api-js/lib/utils/format'
 
 const SendMoneySecondStep = ({
     handleNextStep,
@@ -28,7 +29,7 @@ const SendMoneySecondStep = ({
                 <List.Item as='h2' className='sending'><Translate id='sendMoney.youAreSending' /></List.Item>
                 <List.Item className='amount-sending border-bottom'>
                     {amount 
-                    ? <Balance amount={amount} /> 
+                    ? <Balance amount={parseNearAmount(amount)} /> 
                     : "NaN"}
                 </List.Item>
                 <List.Item className='to'>

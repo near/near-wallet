@@ -22,6 +22,8 @@ const Container = styled.div`
         font-style: italic;
         margin-left: 20px;
         font-size: 13px;
+        text-align: left;
+        line-break: normal;
     }
 
     .link {

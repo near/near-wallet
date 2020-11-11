@@ -3,7 +3,6 @@ import { Translate } from 'react-localize-redux'
 
 import {
     Header,
-    TextArea,
     List,
     Form
 } from 'semantic-ui-react'
@@ -17,12 +16,11 @@ import Modal from "../common/modal/Modal";
 import ModalTheme from '../accounts/ledger/ModalTheme';
 import MobileActionSheet from '../common/modal/MobileActionSheet';
 import IconProblems from '../../images/IconProblems'
+import isDecimalString from '../../utils/isDecimalString'
 
 const SendMoneyFirstStep = ({
     handleNextStep,
     handleChange,
-    note,
-    accountId,
     isLegitForm,
     formLoader,
     requestStatus,
@@ -32,10 +30,13 @@ const SendMoneyFirstStep = ({
     setFormLoader,
     stateAccountId,
     defaultAccountId,
-    amountStatusId,
+    amountStatus,
     implicitAccountModal,
     handleCloseModal,
-    implicitAccount
+    implicitAccount,
+    handleUseMax,
+    useMax,
+    handleChangeAmount
 }) => (
     <Form autoComplete='off'>
         <MobileContainer>
@@ -62,21 +63,14 @@ const SendMoneyFirstStep = ({
                         </List.Content>
                     </List.Item>
                     <List.Item className='amount border-top'>
+                        <div className='use-max' onClick={handleUseMax}>Use max</div>
                         <SendMoneyAmountInput 
-                            handleChange={handleChange} 
-                            defaultAmount={amount}
+                            handleChange={handleChangeAmount}
+                            value={amount}
+                            useMax={useMax}
+                            amountStatus={amountStatus}
                         />
                     </List.Item>
-                    {false ? (
-                        <List.Item className='add-note border-bottom border-top'>
-                            <TextArea
-                                name='note'
-                                value={note}
-                                onChange={handleChange}
-                                placeholder='Add a note...'
-                            />
-                        </List.Item>
-                    ) : null}
                 </List>
             </Fragment>
             <Fragment>
@@ -85,7 +79,7 @@ const SendMoneyFirstStep = ({
                         <FormButton
                             onClick={handleNextStep}
                             color='green'
-                            disabled={!isLegitForm() || amountStatusId.includes('notEnoughTokens')}
+                            disabled={!isLegitForm() || !isDecimalString(amount)}
                         >
                             <Translate id='button.send' />
                         </FormButton>

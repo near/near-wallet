@@ -7,6 +7,7 @@ import MobileContainer from '../sign/MobileContainer'
 import Balance from '../common/Balance'
 import SignAnimatedArrow from '../sign/SignAnimatedArrow'
 import FormButton from '../common/FormButton'
+import { parseNearAmount } from 'near-api-js/lib/utils/format'
 
 const SendMoneyThirdStep = ({ handleRedirectDashboard, note, amount, accountId }) => (
     <MobileContainer>
@@ -21,7 +22,7 @@ const SendMoneyThirdStep = ({ handleRedirectDashboard, note, amount, accountId }
                 </List.Item>
                 <List.Item as='h2' className='amount-sent'>
                     {amount 
-                    ? <Balance amount={amount} /> 
+                    ? <Balance amount={parseNearAmount(amount)} /> 
                     : "NaN"}
                         <span> <Translate id='sendMoney.wasSentTo' /></span>
                 </List.Item>

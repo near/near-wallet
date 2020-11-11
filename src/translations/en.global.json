@@ -710,7 +710,11 @@
         "youAreSending": "You are sending",
         "to": "to",
         "onceConfirmed": "Once confirmed, this cannot be undone.",
-        "wasSentTo": "was sent to:"
+        "wasSentTo": "was sent to:",
+        "banner": {
+            "useMax": "A small portion (${data} NEAR) of your available balance has been reserved to cover transaction fees.",
+            "insufficient": "You are attempting to send your entire available balance. At least <b>${data} NEAR</b> must be reserved to cover transaction fees."
+        }
     },
 
     "sign": {

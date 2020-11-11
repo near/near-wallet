@@ -75,7 +75,7 @@ const CustomList = styled(List)`
         }
         .amount-sending {
             font-size: 48px;
-            font-weight: 500;
+            font-weight: 600;
             color: #24272a;
             word-break: break-all;
             padding-bottom: 24px;
@@ -213,6 +213,23 @@ const CustomList = styled(List)`
                     }
                 }
             }
+        }
+    }
+
+    .use-max {
+        margin-left: auto;
+        width: fit-content;
+        color: #0072CE;
+        font-weight: 500;
+        cursor: pointer;
+    }
+
+    .alert-banner {
+        margin-top: 20px;
+
+        @media (max-width: 991px) {
+            margin-top: -15px;
+            border-radius: 0;
         }
     }
 `
