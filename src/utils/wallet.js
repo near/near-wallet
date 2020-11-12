@@ -472,21 +472,22 @@ class Wallet {
         }
     }
 
-    async addLedgerAccessKey(accountId) {
+    async addLedgerAccessKey() {
+        const accountId = this.accountId
         const ledgerPublicKey = await this.getLedgerPublicKey()
-        await setKeyMeta(ledgerPublicKey, { type: 'ledger' })
-        await this.getAccount(accountId).addKey(ledgerPublicKey)
-        await this.postSignedJson('/account/ledgerKeyAdded', { accountId, publicKey: ledgerPublicKey.toString() })
-    }
-
-    async connectLedger(ledgerPublicKey) {
         const accessKeys =  await this.getAccessKeys()
-        const ledgerKeyConfirmed = accessKeys.map(key => key.public_key).includes(ledgerPublicKey.toString())
+        const accountHasLedgerKey = accessKeys.map(key => key.public_key).includes(ledgerPublicKey.toString())
+        await setKeyMeta(ledgerPublicKey, { type: 'ledger' })
 
-        if (ledgerKeyConfirmed) {
-            await setKeyMeta(ledgerPublicKey, { type: 'ledger' })
+        if (!accountHasLedgerKey) {
+            await this.getAccount(accountId).addKey(ledgerPublicKey)
+            await this.postSignedJson('/account/ledgerKeyAdded', { accountId, publicKey: ledgerPublicKey.toString() })
         }
 
+        const localAccessKey = await this.getLocalAccessKey(this.accountId, accessKeys)
+        if (localAccessKey) {
+            await this.removeAccessKey(localAccessKey.public_key)
+        }
     }
 
     async disableLedger() {

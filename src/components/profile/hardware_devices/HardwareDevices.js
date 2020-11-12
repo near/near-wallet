@@ -11,8 +11,7 @@ import {
     getAccessKeys,
     disableLedger,
     getLedgerKey,
-    connectLedger,
-    getLedgerPublicKey
+    addLedgerAccessKey
 } from '../../../actions/account';
 import { useRecoveryMethods } from '../../../hooks/recoveryMethods';
 import ConfirmDisable from './ConfirmDisable';
@@ -107,8 +106,7 @@ const HardwareDevices = () => {
     }
 
     const handleConnectLedger = async () => {
-        const ledgerPublicKey = await dispatch(getLedgerPublicKey())
-        await dispatch(connectLedger(ledgerPublicKey))
+        await dispatch(addLedgerAccessKey())
         await dispatch(getLedgerKey())
     }
 
