@@ -677,9 +677,6 @@ class Wallet {
     async getRecoveryMethods(account) {
         const accountId = account ? account.accountId : this.accountId
         let recoveryMethods = await this.postSignedJson('/account/recoveryMethods', { accountId }, account)
-        const accessKeys =  await this.getAccessKeys()
-        const publicKeys = accessKeys.map(key => key.public_key)
-        console.log('all methods', recoveryMethods)
         recoveryMethods = recoveryMethods.filter(({ confirmed }) => confirmed === true)
         return {
             accountId,
