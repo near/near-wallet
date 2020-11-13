@@ -552,10 +552,12 @@
         "staking": {
             "title": "Staking",
             "desc": "Stake your NEAR tokens with a validator",
-            "button": "Select validator",
+            "button": "Stake my tokens",
             "currentValidators": "Your Current Validators",
             "noValidators": "You haven't staked with a validator yet.",
-            "selectAccount": "Select account"
+            "selectAccount": "Staking from",
+            "available": "Available",
+            "totalStaked": "Total staked"
         },
         "balanceBox": {
             "staked": {
@@ -867,7 +869,8 @@
             "U2F_4": "Failed to sign with Ledger device: U2F DEVICE_INELIGIBLE. Please make sure that your Ledger device is connected and unlocked."
         },
         "recoveryMethods": {
-            "lastMethod": "Cannot delete your last recovery method. Unless you have Ledger enabled, you need to keep at least one recovery method active to ensure recoverability of your account."
+            "lastMethod": "Cannot delete your last recovery method. Unless you have Ledger enabled, you need to keep at least one recovery method active to ensure recoverability of your account.",
+            "setupMethod": "An error occured. Please check your recovery method."
         },
         "twoFactor": {
             "userCancelled": "2FA code was not verified correctly.",

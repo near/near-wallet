@@ -13,7 +13,7 @@ import AccountFormAccountId from '../../accounts/AccountFormAccountId'
 
 const UserIcon = styled.div`
     background-size: 21px;
-    width: 40px;
+    flex: 0 0 40px;
     height: 40px;
     border-radius: 50%;
     background-color: #f8f8f8;
@@ -37,6 +37,9 @@ const H4 = styled.div`
     padding: 30px 0 60px 0;
     font-size: 16px;
 `
+const CustomContainer = styled.div`
+    width: 100%;
+`
 
 const AnimateList = styled.div`
     margin-top: 10px;
@@ -48,10 +51,13 @@ const AnimateList = styled.div`
         transition: 1s;
     }
 
-    h3 {
-        max-width: 70%;
+    .accountId {
         overflow: hidden;
-        text-overflow: ellipsis;
+        
+        > h3 {
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
     }
 
     .row {
@@ -125,7 +131,7 @@ const AnimateList = styled.div`
         }
 
         .status {
-            width: 72px;
+            flex: 0 0 72px;
             margin-left: auto;
             height: 24px;
             border-radius: 12px;
@@ -236,7 +242,7 @@ const LedgerSignInModal = ({
                     </h2>
                     <LedgerImage animate={txSigned ? false : true}/>
 
-                    <div>
+                    <CustomContainer>
                         <H4>
                             <Translate id='signInLedger.modal.ledgerMustAdd'/>
                         </H4>
@@ -249,9 +255,11 @@ const LedgerSignInModal = ({
                                     <UserIcon>
                                         <UserIconGrey color='#9a9a9a' />
                                     </UserIcon>
-                                    <h3>
-                                        {account.accountId}
-                                    </h3>
+                                    <div className='accountId'>
+                                        <h3>
+                                            {account.accountId}
+                                        </h3>
+                                    </div>
                                     <div className='status'>
                                         {account.status !== 'success' 
                                             ? <Translate id={`signInLedger.modal.status.${account.status}`}/>
@@ -261,7 +269,7 @@ const LedgerSignInModal = ({
                                 </div>
                             ))}
                         </AnimateList>
-                    </div>
+                    </CustomContainer>
                 </>
             )}
         </Modal>
