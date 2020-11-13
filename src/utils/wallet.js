@@ -483,11 +483,6 @@ class Wallet {
             await this.getAccount(accountId).addKey(ledgerPublicKey)
             await this.postSignedJson('/account/ledgerKeyAdded', { accountId, publicKey: ledgerPublicKey.toString() })
         }
-
-        const localAccessKey = await this.getLocalAccessKey(this.accountId, accessKeys)
-        if (localAccessKey) {
-            await this.removeAccessKey(localAccessKey.public_key)
-        }
     }
 
     async disableLedger() {
