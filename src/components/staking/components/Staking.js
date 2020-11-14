@@ -19,7 +19,8 @@ export default function Staking({
     onSwitchAccount,
     accounts,
     activeAccount,
-    loading
+    loading,
+    hasLockup
 }) {
 
     return (
@@ -42,7 +43,7 @@ export default function Staking({
             }
             <SkeletonLoading
                 height='102px'
-                number={2}
+                number={hasLockup ? 2 : 1}
                 show={loading}
                 className='account-loader'
             />
