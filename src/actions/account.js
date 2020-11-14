@@ -164,6 +164,7 @@ export const {
     verifyTwoFactor,
     promptTwoFactor,
     deployMultisig,
+    disableMultisig,
     checkCanEnableTwoFactor,
     get2faMethod,
     getLedgerKey,
@@ -200,7 +201,7 @@ export const {
         () => defaultCodesFor('account.resendTwoFactor')
     ],
     VERIFY_TWO_FACTOR: [
-        (...args) => wallet.twoFactor.verifyRequestCode(...args),
+        (...args) => wallet.twoFactor.verifyCodeDefault(...args),
         () => defaultCodesFor('account.verifyTwoFactor')
     ],
     PROMPT_TWO_FACTOR: [
@@ -224,6 +225,10 @@ export const {
     DEPLOY_MULTISIG: [
         (...args) => wallet.twoFactor.deployMultisig(...args),
         () => defaultCodesFor('account.deployMultisig')
+    ],
+    DISABLE_MULTISIG: [
+        (...args) => wallet.twoFactor.disableMultisig(...args),
+        () => defaultCodesFor('account.disableMultisig')
     ],
     CHECK_CAN_ENABLE_TWO_FACTOR: [
         (...args) => wallet.twoFactor.checkCanEnableTwoFactor(...args),

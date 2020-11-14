@@ -10,7 +10,7 @@
     "fetch-send-json": "0.0.2",
     "js-sha256": "^0.9.0",
     "mixpanel-browser": "^2.38.0",
-    "near-api-js": "^0.32.0",
+    "near-api-js": "^0.33.0",
     "near-ledger-js": "^0.1.2",
     "near-seed-phrase": "^0.1.0",
     "prop-types": "^15.7.2",
@@ -35,7 +35,7 @@
   },
   "scripts": {
     "predeploy": "yarn build",
-    "update:static": "cp src/wasm/multisig.wasm dist/multisig.wasm",
+    "update:static": "cp src/wasm/multisig.wasm dist/multisig.wasm && cp src/wasm/main.wasm dist/main.wasm",
     "start": "yarn update:static; parcel src/index.html",
     "prebuild": "rm -rf dist/",
     "build": "parcel build src/index.html && node scripts/sentry-send-release.js && yarn update:static",

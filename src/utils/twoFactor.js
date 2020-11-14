@@ -1,8 +1,7 @@
 import * as nearApiJs from 'near-api-js'
 import { store } from '..'
-import { WalletError } from './walletError'
-import { promptTwoFactor } from '../actions/account'
-import { MULTISIG_MIN_AMOUNT } from './wallet'
+import { promptTwoFactor, refreshAccount } from '../actions/account'
+import { MULTISIG_MIN_AMOUNT, ACCOUNT_HELPER_URL } from './wallet'
 import { utils } from 'near-api-js'
 import { BN } from 'bn.js'
 
@@ -17,14 +16,18 @@ export const MULTISIG_CONTRACT_HASHES = process.env.MULTISIG_CONTRACT_HASHES || 
     '55E7imniT2uuYrECn17qJAk9fLcwQW4ftNSwmCJL5Di',
 ];
 
-const { 
-    multisig: { AccountMultisig },
-    transactions: { deleteKey, addKey }
+const {
+    multisig: { Account2FA },
+    transactions: { deleteKey, addKey },
 } = nearApiJs
 
-export class TwoFactor extends AccountMultisig {
+export class TwoFactor extends Account2FA {
     constructor(wallet) {
-        super(wallet.connection, wallet.accountId, localStorage)
+        super(wallet.connection, wallet.accountId, {
+            storage: localStorage,
+            helperUrl: ACCOUNT_HELPER_URL,
+            getCode: () => store.dispatch(promptTwoFactor(true)).payload.promise
+        })
         this.wallet = wallet
     }
 
@@ -74,35 +77,6 @@ export class TwoFactor extends AccountMultisig {
         return this.sendRequest(accountId, method, requestId)
     }
 
-    async verifyTwoFactor(securityCode) {
-        return this.verifyRequestCode(securityCode)
-    }
-
-    // override for custom UX
-    async signAndSendTransaction(receiverId, actions) {
-
-        console.log(this.accountId)
-        
-        let requestId = -1
-        try {
-            await super.signAndSendTransaction(receiverId, actions)
-            requestId = await this.sendRequestCode()
-        } catch (e) {
-            console.log(e)
-            throw new WalletError('error creating request')
-        }
-        if (requestId !== -1 && !store.getState().account.requestPending) {
-            try {
-                return await store.dispatch(promptTwoFactor(true)).payload.promise
-            } catch (e) {
-                if (e.message.indexOf('not valid') > -1) {
-                    throw new WalletError(e.message, 'errors.twoFactor.invalidCode')
-                }
-                throw e
-            }
-        }
-    }
-
     // TODO deprecate or test this (we removed the send new recovery message option)
     async rotateKeys(account, addPublicKey, removePublicKey) {
         const { accountId } = account
@@ -116,5 +90,12 @@ export class TwoFactor extends AccountMultisig {
     async deployMultisig() {
         const contractBytes = new Uint8Array(await (await fetch('/multisig.wasm')).arrayBuffer())
         return super.deployMultisig(contractBytes)
+    }
+
+    async disableMultisig() {
+        const contractBytes = new Uint8Array(await (await fetch('/main.wasm')).arrayBuffer())
+        const result = await this.disable(contractBytes)
+        await store.dispatch(refreshAccount())
+        return result
     }
 }
