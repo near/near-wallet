@@ -676,9 +676,16 @@ class Wallet {
 
     async getRecoveryMethods(account) {
         const accountId = account ? account.accountId : this.accountId
+        let recoveryMethods = await this.postSignedJson('/account/recoveryMethods', { accountId }, account)
+        const accessKeys =  await this.getAccessKeys()
+        const publicKeys = accessKeys.map(key => key.public_key)
+        const confirmedNoPublicKeyMethods = recoveryMethods.filter(({ publicKey, confirmed }) => publicKey === null && confirmed === true)
+        const publicKeyMethods = recoveryMethods.filter(({ publicKey }) => publicKeys.includes(publicKey))
+        const allMethods = [...confirmedNoPublicKeyMethods, ...publicKeyMethods]
+
         return {
             accountId,
-            data: await this.postSignedJson('/account/recoveryMethods', { accountId }, account)
+            data: allMethods
         }
     }
 
@@ -718,12 +725,16 @@ class Wallet {
     }
 
     async setupRecoveryMessage(accountId, method, securityCode, recoverySeedPhrase) {
-        const { secretKey } = parseSeedPhrase(recoverySeedPhrase)
-        const recoveryKeyPair = KeyPair.fromString(secretKey)
-        await this.validateSecurityCode(accountId, method, securityCode);
-        const newPublicKey = recoveryKeyPair.publicKey
-        await this.addNewAccessKeyToAccount(accountId, newPublicKey)
-        await store.dispatch(redirectTo('/profile', { globalAlertPreventClear: true }))
+        const { publicKey } = parseSeedPhrase(recoverySeedPhrase)
+        await this.validateSecurityCode(accountId, method, securityCode)
+        try {
+            await this.addNewAccessKeyToAccount(accountId, publicKey)
+        } catch(e) {
+            console.error(e)
+            throw new WalletError(e.message, 'errors.recoveryMethods.setupMethod')
+        } finally {
+            await store.dispatch(redirectTo('/profile', { globalAlertPreventClear: true }))
+        }
     }
 
     async addNewAccessKeyToAccount(accountId, newPublicKey) {

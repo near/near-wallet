@@ -16,7 +16,6 @@
     "prop-types": "^15.7.2",
     "query-string": "^6.13.6",
     "react": "^16.13.1",
-    "react-app-polyfill": "^1.0.6",
     "react-dom": "^16.13.1",
     "react-localize-redux": "^3.5.3",
     "react-phone-number-input": "2.3.11",
@@ -36,7 +35,6 @@
   },
   "scripts": {
     "predeploy": "yarn build",
-    "deploy": "gh-pages -d dist/",
     "update:static": "cp src/wasm/multisig.wasm dist/multisig.wasm && cp src/wasm/main.wasm dist/main.wasm",
     "start": "yarn update:static; parcel src/index.html",
     "prebuild": "rm -rf dist/",
@@ -73,11 +71,9 @@
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-jsx-a11y": "^6.4.1",
     "eslint-plugin-react": "^7.21.5",
-    "gh-pages": "^2.2.0",
     "jest": "^26.6.1",
     "parcel-bundler": "^1.12.4",
     "parcel-plugin-bundle-visualiser": "^1.2.0",
-    "react-dev-utils": "^10.2.1",
     "react-is": "^16.13.1"
   }
 }

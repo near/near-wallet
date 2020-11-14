@@ -1,11 +1,11 @@
-import React, { useState } from 'react'
+import React from 'react'
 import FormButton from '../../common/FormButton'
 import BalanceBox from './BalanceBox'
 import ValidatorBox from './ValidatorBox'
 import ListWrapper from './ListWrapper'
 import { Translate } from 'react-localize-redux'
 import NoValidators from './NoValidators'
-import AccountSwitcher from './AccountSwitcher'
+import SelectAccount from './SelectAccount'
 import InfoIcon from '../../svg/InfoIcon.js'
 import { Modal } from 'semantic-ui-react'
 
@@ -18,20 +18,8 @@ export default function Staking({
     onSwitchAccount,
     accounts,
     activeAccount,
-    accountId
+    loading
 }) {
-    const [switchAccount, setSwitchAccount] = useState(false)
-
-    const handleSwitchAccount = (accountId) => {
-        if (switchAccount) {
-            if (activeAccount.accountId !== accountId) {
-                onSwitchAccount(accountId)
-            }
-            setSwitchAccount(false)
-        } else {
-            setSwitchAccount(true)
-        }
-    }
 
     return (
         <>
@@ -39,20 +27,17 @@ export default function Staking({
             <div className='desc'><Translate id='staking.staking.desc' /></div>
             <Modal
                 size='mini'
-                trigger={<span className='account-info'><Translate id='staking.staking.selectAccount' /> <InfoIcon color='#999999'/></span>}
+                trigger={<span className='account-info'><Translate id='staking.staking.selectAccount' /> <InfoIcon color='#999999' /></span>}
                 closeIcon
             >
                 <Translate id='staking.stake.accounts' />
             </Modal>
-            <AccountSwitcher
-                open={switchAccount}
-                handleOnClick={handleSwitchAccount}
-                handleClickOutside={() => setSwitchAccount(false)}
+            <SelectAccount
                 accounts={accounts}
-                activeAccount={activeAccount}
-                accountId={accountId}
+                onChange={e => onSwitchAccount(e.target.value)}
+                selectedAccount={activeAccount.accountId}
             />
-            <FormButton linkTo='/staking/validators'><Translate id='staking.staking.button' /></FormButton>
+            <FormButton disabled={loading} linkTo='/staking/validators'><Translate id='staking.staking.button' /></FormButton>
             <BalanceBox
                 title='staking.balanceBox.staked.title'
                 info='staking.balanceBox.staked.info'
@@ -76,22 +61,22 @@ export default function Staking({
                         amount={totalAvailable}
                     />
                 </>
-            : null}
+                : null}
             <h3><Translate id='staking.staking.currentValidators' /></h3>
             {currentValidators.length ? (
-            <ListWrapper>
-                {currentValidators.map((validator, i) =>
-                    <ValidatorBox
-                        key={i}
-                        validator={validator.accountId}
-                        fee={validator.fee.percentage}
-                        amount={validator.staked}
-                    />
-                )}
-            </ListWrapper>
+                <ListWrapper>
+                    {currentValidators.map((validator, i) =>
+                        <ValidatorBox
+                            key={i}
+                            validator={validator.accountId}
+                            fee={validator.fee.percentage}
+                            amount={validator.staked}
+                        />
+                    )}
+                </ListWrapper>
             ) : (
-                <NoValidators/>
-            )}
+                    <NoValidators />
+                )}
         </>
     )
 }

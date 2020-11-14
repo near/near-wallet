@@ -65,6 +65,7 @@ const Address = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
+    line-height: normal;
 
     @media (min-width: 768px) {
         margin-top: 35px;
