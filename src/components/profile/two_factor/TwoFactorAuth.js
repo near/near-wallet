@@ -1,5 +1,5 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
+import React, { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 import Card from '../../common/styled/Card.css';
@@ -10,6 +10,8 @@ import SkeletonLoading from '../../common/SkeletonLoading';
 import { MULTISIG_MIN_AMOUNT } from '../../../utils/wallet'
 import Balance from '../../common/Balance'
 import { utils } from 'near-api-js'
+import ConfirmDisable from '../hardware_devices/ConfirmDisable'
+import { disableMultisig } from '../../../actions/account'
 
 const Container = styled(Card)`
     margin-top: 30px;
@@ -73,9 +75,15 @@ const Container = styled(Card)`
 `
 
 const TwoFactorAuth = ({ twoFactor, history }) => {
-
+    const [confirmDisable, setConfirmDisable] = useState(false);
     const account = useSelector(({ account }) => account);
-    const loading = account.actionsPending.includes('LOAD_RECOVERY_METHODS') || account.actionsPending.includes('REFRESH_ACCOUNT');
+    const dispatch = useDispatch();
+    const loading = account.actionsPending.includes('LOAD_RECOVERY_METHODS');
+
+    const handleConfirmDisable = async () => {
+        await dispatch(disableMultisig())
+        setConfirmDisable(false)
+    }
 
     return (
         <Container>
@@ -84,7 +92,7 @@ const TwoFactorAuth = ({ twoFactor, history }) => {
                 <h2><Translate id='twoFactor.title'/></h2>
             </div>
             <div className='font-rounded'><Translate id='twoFactor.desc'/></div>
-            {twoFactor && !loading &&
+            {twoFactor && !loading && !confirmDisable &&
                 <div className='method'>
                     <div className='top'>
                         <div>
@@ -93,7 +101,11 @@ const TwoFactorAuth = ({ twoFactor, history }) => {
                             </div>
                             <div>{twoFactor.detail}</div>
                         </div>
-                        {/*<FormButton onClick={() => {}} className='gray-red'><Translate id='button.disable'/></FormButton>*/}
+                        {
+                            // TODO enable after verification of 2FA keys
+                            false && 
+                            <FormButton onClick={() => setConfirmDisable(true)} className='gray-red'><Translate id='button.disable'/></FormButton>
+                        }
                     </div>
                     <div className='bottom'>
                         <span className='color-green'>
@@ -101,6 +113,18 @@ const TwoFactorAuth = ({ twoFactor, history }) => {
                         </span> <Translate id='twoFactor.since'/> {new Date(twoFactor.createdAt).toDateString().replace(/^\S+\s/,'')}
                     </div>
                 </div>
+            }
+            {
+            // TODO enable after verification of 2FA keys
+            false &&
+            twoFactor && !loading && confirmDisable &&
+                <ConfirmDisable 
+                    onConfirmDisable={handleConfirmDisable} 
+                    onKeepEnabled={() => setConfirmDisable(false)}
+                    accountId={account.accountId}
+                    disabling={account.actionsPending.includes('DISABLE_MULTISIG')}
+                    component='twoFactor'
+                />
             }
             {!twoFactor && !loading &&
                 <div className='method'>

@@ -679,10 +679,13 @@ class Wallet {
         let recoveryMethods = await this.postSignedJson('/account/recoveryMethods', { accountId }, account)
         const accessKeys =  await this.getAccessKeys()
         const publicKeys = accessKeys.map(key => key.public_key)
-        recoveryMethods = recoveryMethods.filter(({ publicKey }) => publicKeys.includes(publicKey))
+        const confirmedNoPublicKeyMethods = recoveryMethods.filter(({ publicKey, confirmed }) => publicKey === null && confirmed === true)
+        const publicKeyMethods = recoveryMethods.filter(({ publicKey }) => publicKeys.includes(publicKey))
+        const allMethods = [...confirmedNoPublicKeyMethods, ...publicKeyMethods]
+
         return {
             accountId,
-            data: recoveryMethods
+            data: allMethods
         }
     }
 
@@ -805,7 +808,6 @@ class Wallet {
         
         await Promise.all(accountIds.map(async (accountId, i) => {
             if (!accountId || !accountId.length) return
-
             // temp account
             this.connection = connection
             this.accountId = accountId
@@ -827,7 +829,7 @@ class Wallet {
             const keyPair = KeyPair.fromString(secretKey)
             await tempKeyStore.setKey(NETWORK_ID, accountId, keyPair)
             account.keyStore = tempKeyStore
-            account.inMemorySigner = new nearApiJs.InMemorySigner(tempKeyStore)
+            account.inMemorySigner = account.connection.signer = new nearApiJs.InMemorySigner(tempKeyStore)
             const newKeyPair = KeyPair.fromRandom('ed25519')
 
             await this.addAccessKey(accountId, accountId, newKeyPair.publicKey, fromSeedPhraseRecovery)

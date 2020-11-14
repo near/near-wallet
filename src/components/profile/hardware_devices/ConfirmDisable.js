@@ -41,13 +41,13 @@ const Container = styled.form`
     }
 `
 
-const ConfirmDisable = ({ onConfirmDisable, onKeepEnabled, accountId, disabling }) => {
+const ConfirmDisable = ({ onConfirmDisable, onKeepEnabled, accountId, disabling, component }) => {
     const [username, setUsername] = useState('');
 
     return (
         <Container onSubmit={e => {onConfirmDisable(); e.preventDefault();}}>
-            <div><Translate id='hardwareDevices.disable.title'/></div>
-            <div><Translate id='hardwareDevices.disable.desc'/></div>
+            <div><Translate id={`${component}.disable.title`}/></div>
+            <div><Translate id={`${component}.disable.desc`}/></div>
             <Translate>
                 {({ translate }) => (
                     <input
@@ -56,6 +56,7 @@ const ConfirmDisable = ({ onConfirmDisable, onKeepEnabled, accountId, disabling 
                         onChange={e => setUsername(e.target.value)}
                         autoComplete='off'
                         spellCheck='false'
+                        disabled={disabling}
                     />
                 )}
             </Translate>
@@ -66,14 +67,14 @@ const ConfirmDisable = ({ onConfirmDisable, onKeepEnabled, accountId, disabling 
                     sending={disabling}
                     disabled={(username !== accountId) || disabling}
                 >
-                    <Translate id='hardwareDevices.disable.disable'/>
+                    <Translate id={`${component}.disable.disable`}/>
                 </FormButton>
                 <FormButton
                     onClick={onKeepEnabled}
                     color='link'
                     type='button'
                 >
-                    <Translate id='hardwareDevices.disable.keep'/>
+                    <Translate id={`${component}.disable.keep`}/>
                 </FormButton>
             </div>
         </Container>
