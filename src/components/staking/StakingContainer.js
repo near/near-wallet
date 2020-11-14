@@ -117,6 +117,17 @@ const StyledContainer = styled(Container)`
             margin-bottom: -3px;
         }
     }
+
+    .account-loader {
+        .animation-wrapper {
+            :first-of-type {
+                margin-bottom: 10px;
+            }
+        }
+        .animation {
+            border-radius: 8px;
+        }
+    }
 `
 
 export function StakingContainer({ history, match }) {
