@@ -695,6 +695,7 @@ class Wallet {
         await this.validateSecurityCode(accountId, method, securityCode);
         await this.saveAccount(accountId, recoveryKeyPair);
 
+        // TODO DISABLE_CREATE_ACCOUNT make this true on testnet
         if (DISABLE_CREATE_ACCOUNT && !fundingOptions) {
             await store.dispatch(fundCreateAccount(accountId, recoveryKeyPair, fundingOptions, method))
             return
