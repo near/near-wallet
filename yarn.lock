@@ -9382,10 +9382,10 @@ natural-compare@^1.4.0:
   resolved "https://registry.yarnpkg.com/natural-compare/-/natural-compare-1.4.0.tgz#4abebfeed7541f2c27acfb29bdbbd15c8d5ba4f7"
   integrity sha1-Sr6/7tdUHywnrPspvbvRXI1bpPc=
 
-near-api-js@^0.33.0:
-  version "0.33.0"
-  resolved "https://registry.yarnpkg.com/near-api-js/-/near-api-js-0.33.0.tgz#11ab88f68cb3c20208ab474861461da5474056b3"
-  integrity sha512-4XG0tR8sh7kHPFX9I5KOL7vXMJacBEGFCOrtEtZzSpXbxsDsCgpvZ3u+c6/HjVwDOAa3fisoQMK4y1tRCwQEiQ==
+near-api-js@^0.34.0:
+  version "0.34.0"
+  resolved "https://registry.yarnpkg.com/near-api-js/-/near-api-js-0.34.0.tgz#2deba01d877859edb87d9f338b3446e3240d7db2"
+  integrity sha512-wYSPerV5/AcdlMvJ1Ntzxb1RxeiETrLqBplv2yF0/Fi8USXhZV0Kk5svrA1Uxx4OI2diTY46+rvXs7gQqtkgPA==
   dependencies:
     "@types/bn.js" "^4.11.5"
     bn.js "^5.0.0"
