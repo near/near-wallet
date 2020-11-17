@@ -14,7 +14,7 @@ const Animation = styled.div`
     animation-name: skeletonShimmer;
     animation-timing-function: cubic-bezier(.17,.67,.83,.67);
     background: #f4f4f4;
-    background: linear-gradient(to right, #f4f4f4 0%, #e2e2e2 50%, #f4f4f4 100%);
+    background: linear-gradient(to right, #f4f4f4 0%, #efeded 50%, #f4f4f4 100%);
     background-size: 200% 100%;
     left: 0;
     top: 0;
@@ -37,8 +37,8 @@ const SkeletonLoading = ({ height, padding, number, show, className }) => {
         return (
             Array(number || 1).fill().map((_, i) => 
                 <div className={className} style={{padding: padding}} key={i}>
-                    <Wrapper style={{height: height}}>
-                        <Animation/>
+                    <Wrapper className='animation-wrapper' style={{height: height}}>
+                        <Animation className='animation'/>
                     </Wrapper>
                 </div>
             )
