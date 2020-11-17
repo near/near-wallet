@@ -806,6 +806,8 @@ class Wallet {
             signer: new nearApiJs.InMemorySigner(tempKeyStore)
         })
         
+        const connectionConstructor = this.connection
+        
         await Promise.all(accountIds.map(async (accountId, i) => {
             if (!accountId || !accountId.length) return
             // temp account
@@ -839,6 +841,8 @@ class Wallet {
                 await this.saveAccount(accountId, newKeyPair)
             }
         }))
+
+        this.connection = connectionConstructor
 
         return {
             numberOfAccounts: accountIds.length,
