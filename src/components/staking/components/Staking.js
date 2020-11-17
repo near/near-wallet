@@ -8,6 +8,7 @@ import NoValidators from './NoValidators'
 import SelectAccount from './SelectAccount'
 import InfoIcon from '../../svg/InfoIcon.js'
 import { Modal } from 'semantic-ui-react'
+import SkeletonLoading from '../../common/SkeletonLoading'
 
 export default function Staking({
     currentValidators,
@@ -18,7 +19,8 @@ export default function Staking({
     onSwitchAccount,
     accounts,
     activeAccount,
-    loading
+    loading,
+    hasLockup
 }) {
 
     return (
@@ -32,23 +34,41 @@ export default function Staking({
             >
                 <Translate id='staking.stake.accounts' />
             </Modal>
-            <SelectAccount
-                accounts={accounts}
-                onChange={e => onSwitchAccount(e.target.value)}
-                selectedAccount={activeAccount.accountId}
+            {!loading &&
+                <SelectAccount
+                    accounts={accounts}
+                    onChange={e => onSwitchAccount(e.target.value)}
+                    selectedAccount={activeAccount.accountId}
+                />
+            }
+            <SkeletonLoading
+                height='102px'
+                number={hasLockup ? 2 : 1}
+                show={loading}
+                className='account-loader'
             />
             <FormButton disabled={loading} linkTo='/staking/validators'><Translate id='staking.staking.button' /></FormButton>
-            <BalanceBox
-                title='staking.balanceBox.staked.title'
-                info='staking.balanceBox.staked.info'
-                amount={totalStaked}
+            <SkeletonLoading
+                height='80px'
+                number={2}
+                show={loading}
+                className='account-loader'
             />
-            <BalanceBox
-                title='staking.balanceBox.unclaimed.title'
-                info='staking.balanceBox.unclaimed.info'
-                amount={totalUnclaimed}
-            />
-            {currentValidators.length ?
+            {!loading &&
+                <>
+                    <BalanceBox
+                        title='staking.balanceBox.staked.title'
+                        info='staking.balanceBox.staked.info'
+                        amount={totalStaked}
+                    />
+                    <BalanceBox
+                        title='staking.balanceBox.unclaimed.title'
+                        info='staking.balanceBox.unclaimed.info'
+                        amount={totalUnclaimed}
+                    />
+                </>
+            }
+            {!loading && currentValidators.length ?
                 <>
                     <BalanceBox
                         title='staking.balanceBox.pending.title'
@@ -63,7 +83,7 @@ export default function Staking({
                 </>
                 : null}
             <h3><Translate id='staking.staking.currentValidators' /></h3>
-            {currentValidators.length ? (
+            {!loading && currentValidators.length ? (
                 <ListWrapper>
                     {currentValidators.map((validator, i) =>
                         <ValidatorBox

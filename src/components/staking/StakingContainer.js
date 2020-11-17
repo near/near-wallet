@@ -123,11 +123,22 @@ const StyledContainer = styled(Container)`
             display: ${props => props.numAccounts > 1 ? 'block' : 'none'};
         }
     }
+
+    .account-loader {
+        .animation-wrapper {
+            :first-of-type {
+                margin-bottom: 10px;
+            }
+        }
+        .animation {
+            border-radius: 8px;
+        }
+    }
 `
 
 export function StakingContainer({ history, match }) {
     const dispatch = useDispatch()
-    const { accountId, has2fa, formLoader } = useSelector(({ account }) => account);
+    const { accountId, has2fa, formLoader, hasLockup } = useSelector(({ account }) => account);
     const { hasLedger } = useSelector(({ ledger }) => ledger)
     
     const staking = useSelector(({ staking }) => staking)
@@ -181,6 +192,7 @@ export function StakingContainer({ history, match }) {
                                 activeAccount={currentAccount}
                                 accountId={accountId}
                                 loading={formLoader}
+                                hasLockup={hasLockup}
                             />
                         )}
                     />
