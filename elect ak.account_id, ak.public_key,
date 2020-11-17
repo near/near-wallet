@@ -1,0 +1,14 @@
+  account_id  |                      public_key                      |                      public_key                      |   ?column?   |        ?column?         
+--------------+------------------------------------------------------+------------------------------------------------------+--------------+-------------------------
+ kendall.near | ed25519:13SbPy1fbjg3YS3xNMuYtHwVChQjyo3S4MHhqPFGWY81 | ed25519:76RgHGt2bUc7tnobqR66PE3Fv86zaKnsHdNGfzCEhYMQ | kendall.near | near
+ kendall.near | ed25519:13SbPy1fbjg3YS3xNMuYtHwVChQjyo3S4MHhqPFGWY81 | ed25519:8ybnVn3BAQpK3uDjAsxf1eYYKRNs8jJx7FTk8CH1zXgJ | kendall.near | near
+ kendall.near | ed25519:13SbPy1fbjg3YS3xNMuYtHwVChQjyo3S4MHhqPFGWY81 | ed25519:58Esh49NzGTu6fPYU5BDxNFFddPFcmMi3NeFR5qPS2AG | kendall.near | near
+ kendall.near | ed25519:13SbPy1fbjg3YS3xNMuYtHwVChQjyo3S4MHhqPFGWY81 | ed25519:3XZkurrfLfzyxWgmpoSwDoK34NWGEH9Cat1th2tPLSHi | kendall.near | bisontrails.poolv1.near
+ kendall.near | ed25519:13SbPy1fbjg3YS3xNMuYtHwVChQjyo3S4MHhqPFGWY81 | ed25519:F8kxkwhiWoUAHHjq2HQhUwg9A5BJP4quYQ448koYyvHj | kendall.near | zavodil.poolv1.near
+ kendall.near | ed25519:13SbPy1fbjg3YS3xNMuYtHwVChQjyo3S4MHhqPFGWY81 | ed25519:CEDFfhiWjMXR4vap6UwLRmhWAPWzjoLEx3Gesg1fCq17 | kendall.near | cryptium.poolv1.near
+ kendall.near | ed25519:13SbPy1fbjg3YS3xNMuYtHwVChQjyo3S4MHhqPFGWY81 | ed25519:6PdT9TxsQS5XSdnm4niSsNPdbh4SuLwuTQnELyfpjDVH | kendall.near | near
+ kendall.near | ed25519:13SbPy1fbjg3YS3xNMuYtHwVChQjyo3S4MHhqPFGWY81 | ed25519:DpSQ1eAjD89ZS5HTho1b7MM2ZfHgszU2xzRZF9YLn9cb | kendall.near | near
+ patrick.near | ed25519:86xZ8eE3zeUPzM5rQojhN9czFS5hJ3kCMTDDKbhioh4D | ed25519:HmzuCdbGCQBjzsib9sgCceV27Lo7Wz4e4CKFCHsRceh7 | patrick.near | near
+ patrick.near | ed25519:F3Mfe6QgwK4z7XbzjKNs7NyemcYQgUU1wJEP5xMqmjXA | ed25519:HmzuCdbGCQBjzsib9sgCceV27Lo7Wz4e4CKFCHsRceh7 | patrick.near | near
+(10 rows)
+

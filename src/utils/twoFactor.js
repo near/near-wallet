@@ -31,7 +31,7 @@ export class TwoFactor extends Account2FA {
         this.wallet = wallet
     }
 
-    async isEnabled(accountId) {
+    async isEnabled(accountId = this.wallet.accountId) {
         if (!accountId.length || this.accountId !== accountId) {
             return false
         }
@@ -39,7 +39,7 @@ export class TwoFactor extends Account2FA {
     }
 
     async get2faMethod() {
-        if (this.wallet.has2fa) {
+        if (await this.isEnabled()) {
             return super.get2faMethod()
         }
         return null
