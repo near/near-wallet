@@ -119,6 +119,7 @@ const StyledContainer = styled(Container)`
     }
 
     .radio-label {
+        cursor: ${props => props.numAccounts > 1 ? 'pointer' : 'default'};
         .input-wrapper {
             display: ${props => props.numAccounts > 1 ? 'block' : 'none'};
         }
