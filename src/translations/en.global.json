@@ -249,7 +249,8 @@
         "REMOVE_NON_LEDGER_ACCESS_KEYS": "You will need to confirm details on your Ledger.",
         "STAKE": "You will need to confirm staking on your Ledger",
         "UNSTAKE": "You will need to confirm unstaking on your Ledger",
-        "WITHDRAW": "You will need to confirm withdrawal on your Ledger"
+        "WITHDRAW": "You will need to confirm withdrawal on your Ledger",
+        "DISABLE_LEDGER": "You will need to confirm public key details on your Ledger."
     },
 
     "button": {
