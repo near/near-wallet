@@ -33,6 +33,7 @@ const Root = styled.div`
             z-index: 0;
         }
 
+        margin-right: 20px;
         width: 26px;
         height: 26px;
         position: relative;
@@ -52,7 +53,6 @@ const Root = styled.div`
     }
 
     .radio-content {
-        margin-left: 20px;
         width: 100%;
     }
 `

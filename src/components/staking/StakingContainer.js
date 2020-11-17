@@ -118,6 +118,13 @@ const StyledContainer = styled(Container)`
         }
     }
 
+    .radio-label {
+        cursor: ${props => props.numAccounts > 1 ? 'pointer' : 'default'};
+        .input-wrapper {
+            display: ${props => props.numAccounts > 1 ? 'block' : 'none'};
+        }
+    }
+
     .account-loader {
         .animation-wrapper {
             :first-of-type {
@@ -171,7 +178,7 @@ export function StakingContainer({ history, match }) {
     }
 
     return (
-        <StyledContainer className='small-centered'>
+        <StyledContainer className='small-centered' numAccounts={stakingAccounts.length}>
             <ConnectedRouter history={history}>
                 <Switch>
                     <Route
