@@ -816,6 +816,7 @@ class Wallet {
         
         const connectionConstructor = this.connection
         
+        const accountIdsSuccess = []
         await Promise.all(accountIds.map(async (accountId, i) => {
             if (!accountId || !accountId.length) return
             // temp account
@@ -844,6 +845,10 @@ class Wallet {
             
             try {
                 await this.addAccessKey(accountId, accountId, newKeyPair.publicKey, fromSeedPhraseRecovery)
+                accountIdsSuccess.push({
+                    accountId,
+                    newKeyPair
+                })
             } catch (error) {
                 console.error(error)
             }
