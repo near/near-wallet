@@ -344,7 +344,7 @@ class Wallet {
         return !(await this.accountExists(accountId))
     }
 
-    async createNewAccount(accountId, fundingOptions, recoveryMethod, publicKey) {
+    async createNewAccount(accountId, fundingOptions, recoveryMethod, publicKey, previousAccountId) {
         await this.checkNewAccount(accountId);
 
         // TODO: Remove has2fa property, check on account object
@@ -365,7 +365,7 @@ class Wallet {
         }
 
         await this.saveAndSelectAccount(accountId);
-        await this.addLocalKeyAndFinishSetup(accountId, recoveryMethod, publicKey)
+        await this.addLocalKeyAndFinishSetup(accountId, recoveryMethod, publicKey, previousAccountId)
     }
 
     async createNewAccountFromAnother(accountId, fundingAccountId, publicKey) {
@@ -703,7 +703,7 @@ class Wallet {
         await this.createNewAccount(accountId, fundingOptions, method, recoveryKeyPair.publicKey)
     }
 
-    async addLocalKeyAndFinishSetup(accountId, recoveryMethod, publicKey) {
+    async addLocalKeyAndFinishSetup(accountId, recoveryMethod, publicKey, previousAccountId) {
         if (recoveryMethod === 'ledger') {
             await this.addLedgerAccountId(accountId)
             await this.postSignedJson('/account/ledgerKeyAdded', { accountId, publicKey: publicKey.toString() })
@@ -712,13 +712,21 @@ class Wallet {
             const newPublicKey = newKeyPair.publicKey
             if (recoveryMethod !== 'seed') {
                 await this.addNewAccessKeyToAccount(accountId, newPublicKey)
+                await this.saveAccount(accountId, newKeyPair)
             } else {
                 const contractName = null;
                 const fullAccess = true;
-                await wallet.addAccessKey(accountId, contractName, newPublicKey, fullAccess)
                 await wallet.postSignedJson('/account/seedPhraseAdded', { accountId, publicKey: publicKey.toString() })
+                try {
+                    await wallet.addAccessKey(accountId, contractName, newPublicKey, fullAccess)
+                    await this.saveAccount(accountId, newKeyPair)
+                } catch (error) {
+                    if (previousAccountId) {
+                        await wallet.saveAndSelectAccount(previousAccountId)
+                    }
+                    throw new WalletError(error, 'account.create.addAccessKey.error')
+                }
             }
-            await this.saveAccount(accountId, newKeyPair)
         }
 
         await store.dispatch(finishAccountSetup())
