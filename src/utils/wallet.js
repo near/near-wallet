@@ -841,14 +841,12 @@ class Wallet {
             account.keyStore = tempKeyStore
             account.inMemorySigner = account.connection.signer = new nearApiJs.InMemorySigner(tempKeyStore)
             const newKeyPair = KeyPair.fromRandom('ed25519')
-
-            await this.addAccessKey(accountId, accountId, newKeyPair.publicKey, fromSeedPhraseRecovery)
-            if (i === accountIds.length - 1) {
-                await this.saveAndSelectAccount(accountId, newKeyPair)
-            } else {
-                await this.saveAccount(accountId, newKeyPair)
+            
+            try {
+                await this.addAccessKey(accountId, accountId, newKeyPair.publicKey, fromSeedPhraseRecovery)
+            } catch (error) {
+                console.error(error)
             }
-        }))
 
         this.connection = connectionConstructor
 
