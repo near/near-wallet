@@ -874,11 +874,11 @@ class Wallet {
                 numberOfAccounts: accountIdsSuccess.length,
                 accountList: accountIdsSuccess.flatMap((accountId) => accountId.account_id).join(', '),
             }
-        } 
-        else {
+        } else {
             const lastAccount = accountIdsError.reverse().find((account) => account.error.type === 'LackBalanceForState')
             if (lastAccount) {
                 store.dispatch(redirectTo(`/profile/${lastAccount.accountId}`, { globalAlertPreventClear: true }))
+                throw lastAccount.error
             }
         }
     }
