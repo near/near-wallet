@@ -3,7 +3,8 @@ import BN from 'bn.js'
 import { WalletError } from './walletError'
 import { getLockupAccountId } from './account-with-lockup'
 import { queryExplorer } from './explorer-api'
-import { MIN_BALANCE_FOR_GAS } from './wallet'
+import { MIN_BALANCE_FOR_GAS, NETWORK_ID } from './wallet'
+import { validators } from 'near-api-js'
 
 const {
     transactions: {
@@ -277,21 +278,29 @@ export class Staking {
     async getValidators(accountIds) {
         if (!accountIds) {
             const { current_validators, next_validators, current_proposals } = await this.provider.validators()
-            const allValidators = [...current_validators, ...next_validators, ...current_proposals]
-            accountIds = [...new Set(allValidators.map(({ account_id }) => account_id))]
+            const rpcValidators = [...current_validators, ...next_validators, ...current_proposals].map(({ account_id }) => account_id)
+
+            // TODO use indexer - getting all historic validators from raw GH script .json
+            let networkId = NETWORK_ID === 'default' ? 'testnet' : 'mainnet'
+            const ghValidators = (await fetch(`https://raw.githubusercontent.com/frol/near-validators-scoreboard/scoreboard-${networkId}/validators_scoreboard.json`).then((r) => r.json()))
+                .map(({ account_id }) => account_id)
+
+            accountIds = [...new Set([...rpcValidators, ...ghValidators])]
+                .filter((v) => v.indexOf('nfvalidator') === -1 && v.indexOf(networkId === 'mainnet' ? '.near' : '.m0') > -1)
         }
+
         return (await Promise.all(
             accountIds.map(async (account_id) => {
-                const validator = {
-                    accountId: account_id,
-                    contract: await this.getContractInstance(account_id, stakingMethods)
-                }
                 try {
+                    const validator = {
+                        accountId: account_id,
+                        contract: await this.getContractInstance(account_id, stakingMethods)
+                    }
                     const fee = validator.fee = await validator.contract.get_reward_fee_fraction()
                     fee.percentage = fee.numerator / fee.denominator * 100
                     return validator
                 } catch (e) {
-                    if (!/cannot find contract code|wasm execution failed/.test(e.message)) {
+                    if (!/No contract for account|cannot find contract code|wasm execution failed/.test(e.message)) {
                         throw(e)
                     }
                 }
