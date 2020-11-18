@@ -817,6 +817,7 @@ class Wallet {
         const connectionConstructor = this.connection
         
         const accountIdsSuccess = []
+        const accountIdsError = []
         await Promise.all(accountIds.map(async (accountId, i) => {
             if (!accountId || !accountId.length) return
             // temp account
@@ -874,6 +875,10 @@ class Wallet {
             }
         } 
         else {
+            const lastAccount = accountIdsError.reverse().find((account) => account.error.type === 'LackBalanceForState')
+            if (lastAccount) {
+                store.dispatch(redirectTo(`/profile/${lastAccount.accountId}`, { globalAlertPreventClear: true }))
+            }
         }
     }
 
