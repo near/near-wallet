@@ -459,8 +459,8 @@
     "profile": {
         "pageTitle": {
             "loading": "Загрузка...",
-            "notFound": "Имя пользователя ${accountId} не найдено",
-            "default": "Имя пользователя: ${accountId}"
+            "notFound": "Account not found:",
+            "default": "Имя пользователя:"
         },
         "details": {
             "profile": "ПРОФИЛЬ",

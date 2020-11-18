@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { Translate } from 'react-localize-redux';
 
 const Wrapper = styled.div`
-    @media (min-width: 992px) {
+    @media (min-width: 1350px) {
         max-height: 150px;
         overflow-y: auto;
     }
@@ -22,7 +22,7 @@ const Account = styled.div`
         border-bottom: 0;
     }
 
-    @media (min-width: 992px) {
+    @media (min-width: 1350px) {
         color: #24272a;
         border-bottom: 2px solid #e6e6e6;
 

@@ -25,13 +25,13 @@ const UserLink = styled(Link)`
         text-decoration: none;
     }
 
-    @media (max-width: 991px) {
+    @media (max-width: 1349px) {
         &:hover {
             color: #8FD6BD;
         }
     }
 
-    @media (min-width: 992px) {
+    @media (min-width: 1350px) {
         color: #0072CE;
 
         :hover {
@@ -52,7 +52,7 @@ const UserLink = styled(Link)`
     }
 `
 
-const UserLinks = ({ accountId }) => (
+const UserLinks = () => (
     <Container className='user-links'>
         <UserLink icon={accountIcon} to='/profile'><Translate id='link.profile'/></UserLink>
         <UserLink icon={arrowAuth} to='/authorized-apps'><Translate id='link.authorizedApps'/></UserLink>

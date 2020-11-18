@@ -24,7 +24,7 @@ const Button = styled(Link)`
         color: #0072CE;
     }
 
-    @media (min-width: 992px) {
+    @media (min-width: 1350px) {
         background-color: white;
         color: #0072CE;
 

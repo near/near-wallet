@@ -6,6 +6,7 @@ import { Popup, Grid, Image } from 'semantic-ui-react'
 import Balance from '../common/Balance'
 import InfoPopup from '../common/InfoPopup'
 import LockImage from '../../images/icon-lock.svg'
+import AccountId from '../common/AccountId'
 
 import styled from 'styled-components'
 
@@ -118,7 +119,7 @@ const ProfileDetails = ({
                 <Translate id='profile.details.username' />
             </Grid.Column>
             <Grid.Column computer='6' tablet='6' mobile='4' className='info-row'>
-                {accountId}
+                <AccountId accountId={accountId}/>
             </Grid.Column>
             <Grid.Column computer='4' tablet='4' textAlign='center' only='tablet'>
                 <Translate id='profile.details.public' />

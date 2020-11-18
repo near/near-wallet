@@ -4,6 +4,7 @@ import RadioGroup from '../../common/radio_button/RadioGroup'
 import RadioButton from '../../common/radio_button/RadioButton'
 import Balance from '../../common/Balance'
 import { Translate } from 'react-localize-redux'
+import AccountId from '../../common/AccountId'
 
 const Container = styled.div`
     > div {
@@ -18,10 +19,6 @@ const Container = styled.div`
 
             @media (max-width: 330px) {
                 max-width: 200px;
-            }
-
-        span {
-            color: #A2A1A6;
             }
         }
 
@@ -52,7 +49,7 @@ export default function SelectAccount({ accounts, onChange, selectedAccount }) {
                 <RadioButton value={account.accountId} key={i}>
                     <Container>
                         <div>
-                            {account.accountId.split('.')[0]}<span>.{account.accountId.substring(account.accountId.indexOf('.') + 1)}</span>
+                            <AccountId accountId={account.accountId}/>
                         </div>
                         <div>
                             <div>

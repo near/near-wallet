@@ -1,15 +1,10 @@
-import React from 'react';
-import styled from 'styled-components';
-
-const StyledUserName = styled.div`
-    overflow: hidden;
-    text-overflow: ellipsis;
-`
+import React from 'react'
+import AccountId from '../common/AccountId'
 
 const UserName = ({ accountId }) => (
-    <StyledUserName className='user-name'>
-        {accountId && `${accountId}`}
-    </StyledUserName>
+    <div className='user-name'>
+        <AccountId accountId={accountId}/>
+    </div>
 )
 
 export default UserName;

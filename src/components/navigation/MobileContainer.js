@@ -29,7 +29,7 @@ const Container = styled.div`
         display: none;
     }
 
-    @media (max-width: 991px) {
+    @media (max-width: 1349px) {
         display: block;
     }
 
@@ -173,7 +173,7 @@ class MobileContainer extends Component {
                 {menuOpen &&
                     <>
                         <NavLinks hasLockup={account.hasLockup}/>
-                        <UserLinks accountId={account.accountId}/>
+                        <UserLinks/>
                         <Lang className="mobile-lang">
                             <LanguageToggle />
                         </Lang>

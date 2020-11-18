@@ -673,8 +673,8 @@
     "profile": {
         "pageTitle": {
             "loading": "Loading...",
-            "notFound": "Account ${accountId} not found",
-            "default": "Account: ${accountId}"
+            "notFound": "Account not found:",
+            "default": "Account:"
         },
         "details": {
             "profile": "PROFILE",

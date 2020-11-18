@@ -6,7 +6,7 @@ import NearLogo from '../svg/NearLogo';
 const StyledLogo = styled(Link)`
     margin-top: 5px;
 
-    @media (max-width: 991px) {
+    @media (max-width: 1349px) {
         max-width: 53px;
         overflow: hidden;
         margin-left: -10px;

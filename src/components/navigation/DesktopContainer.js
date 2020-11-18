@@ -20,7 +20,7 @@ const Container = styled.div`
     padding-left: 15px;
     box-shadow: 0px 5px 9px -1px rgba(0,0,0,0.17);
 
-    @media (min-width: 992px) {
+    @media (min-width: 1350px) {
         display: flex;
     }
 
@@ -100,27 +100,6 @@ const User = styled.div`
     .user-name {
         white-space: nowrap;
         margin-left: 10px;
-        max-width: 100px;
-
-        @media (min-width: 769px) {
-            max-width: 125px;
-        }
-
-        @media (min-width: 1050px) {
-            max-width: 170px;
-        }
-
-        @media (min-width: 1200px) {
-            max-width: 215px;
-        }
-
-        @media (min-width: 1350px) {
-            max-width: 255px;
-        }
-
-        @media (min-width: 1500px) {
-            max-width: 295px;
-        }
     } 
 
     .user-balance {
@@ -196,7 +175,6 @@ const Lang = styled.div`
         transform: rotate(135deg) translateY(-50%);
         height: 9px;
         width: 9px;
-        z-index: -1;
     }
 
     &:last-child {

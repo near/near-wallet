@@ -10,12 +10,12 @@ import { DISABLE_SEND_MONEY } from '../../utils/wallet';
 const Container = styled.div`
     display: flex;
 
-    @media (max-width: 991px) {
+    @media (max-width: 1349px) {
         flex-direction: column;
         align-items: flex-start;
     }
 
-    @media (min-width: 992x) {
+    @media (min-width: 1350x) {
         align-items: center;
     }
 `
@@ -52,7 +52,7 @@ const NavLink = styled(Link)`
         }
     }
 
-    @media (max-width: 991px) {
+    @media (max-width: 1349px) {
         width: 100%;
         height: 65px;
         border-bottom: 1px solid #404040;
@@ -71,7 +71,7 @@ const NavLink = styled(Link)`
         }
     }
 
-    @media (min-width: 992px) {
+    @media (min-width: 1350px) {
         margin-left: 25px;
 
         &:last-of-type {

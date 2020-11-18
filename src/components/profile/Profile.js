@@ -8,7 +8,8 @@ import RecoveryContainer from './Recovery/RecoveryContainer'
 import HardwareDevices from './hardware_devices/HardwareDevices'
 import TwoFactorAuth from './two_factor/TwoFactorAuth'
 import { LOADING, NOT_FOUND, useAccount } from '../../hooks/allAccounts'
-import { getLedgerKey, checkCanEnableTwoFactor, getAccessKeys } from '../../actions/account';
+import { getLedgerKey, checkCanEnableTwoFactor, getAccessKeys } from '../../actions/account'
+import AccountId from '../common/AccountId'
 
 export function Profile({ match }) {
     const loginAccountId = useSelector(state => state.account.accountId)
@@ -32,11 +33,11 @@ export function Profile({ match }) {
     }
 
     if (account.__status === NOT_FOUND) {
-        return <PageContainer title={<Translate id='profile.pageTitle.notFound' data={{ accountId }} />} />
+        return <PageContainer title={<><Translate id='profile.pageTitle.notFound'/> <AccountId accountId={accountId}/></>} />
     }
 
     return (
-        <PageContainer title={<Translate id='profile.pageTitle.default' data={{ accountId }} />}>
+        <PageContainer title={<><Translate id='profile.pageTitle.default' /> <AccountId accountId={accountId}/></>}>
             <ProfileSection>
                 <ProfileDetails account={account} isOwner={isOwner} />
                 {isOwner && (

@@ -637,8 +637,8 @@
     "profile": {
         "pageTitle": {
             "loading": "正在加载...",
-            "notFound": "账户 ${accountId} 未找到",
-            "default": "账户：${accountId}"
+            "notFound": "Account not found:",
+            "default": "账户："
         },
         "details": {
             "profile": "资料",
