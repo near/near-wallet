@@ -855,12 +855,25 @@ class Wallet {
                     accountId,
                 })
             }
+        }))
 
         this.connection = connectionConstructor
 
-        return {
-            numberOfAccounts: accountIds.length,
-            accountList: accountIds.flatMap((accountId) => accountId.account_id).join(', '),
+        if (!!accountIdsSuccess.length) {
+            await Promise.all(accountIdsSuccess.map(async ({ accountId, newKeyPair }, i) => {
+                if (i === accountIdsSuccess.length - 1) {
+                    await this.saveAndSelectAccount(accountId, newKeyPair)
+                } else {
+                    await this.saveAccount(accountId, newKeyPair)
+                }
+            }))
+
+            return {
+                numberOfAccounts: accountIdsSuccess.length,
+                accountList: accountIdsSuccess.flatMap((accountId) => accountId.account_id).join(', '),
+            }
+        } 
+        else {
         }
     }
 
