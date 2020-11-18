@@ -851,6 +851,9 @@ class Wallet {
                 })
             } catch (error) {
                 console.error(error)
+                accountIdsError.push({
+                    accountId,
+                })
             }
 
         this.connection = connectionConstructor
