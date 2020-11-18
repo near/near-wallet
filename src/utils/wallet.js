@@ -854,6 +854,7 @@ class Wallet {
                 console.error(error)
                 accountIdsError.push({
                     accountId,
+                    error
                 })
             }
         }))
