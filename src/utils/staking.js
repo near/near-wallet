@@ -4,7 +4,6 @@ import { WalletError } from './walletError'
 import { getLockupAccountId } from './account-with-lockup'
 import { queryExplorer } from './explorer-api'
 import { MIN_BALANCE_FOR_GAS, NETWORK_ID } from './wallet'
-import { validators } from 'near-api-js'
 
 const {
     transactions: {
@@ -66,6 +65,9 @@ const lockupMethods = {
         'get_known_deposited_balance',
     ]
 }
+
+// caching value in module, no need to fetch frequently
+let ghValidators
 
 export class Staking {
     constructor(wallet) {
@@ -276,15 +278,19 @@ export class Staking {
     }
 
     async getValidators(accountIds) {
+        const { current_validators, next_validators, current_proposals } = await this.provider.validators()
+        const currentValidators = current_validators.map(({ account_id }) => account_id)
+        
         if (!accountIds) {
-            const { current_validators, next_validators, current_proposals } = await this.provider.validators()
             const rpcValidators = [...current_validators, ...next_validators, ...current_proposals].map(({ account_id }) => account_id)
 
             // TODO use indexer - getting all historic validators from raw GH script .json
-            let networkId = NETWORK_ID === 'default' ? 'testnet' : 'mainnet'
-            const ghValidators = (await fetch(`https://raw.githubusercontent.com/frol/near-validators-scoreboard/scoreboard-${networkId}/validators_scoreboard.json`).then((r) => r.json()))
+            const networkId = NETWORK_ID === 'default' ? 'testnet' : 'mainnet'
+            if (!ghValidators) {
+                ghValidators = (await fetch(`https://raw.githubusercontent.com/frol/near-validators-scoreboard/scoreboard-${networkId}/validators_scoreboard.json`).then((r) => r.json()))
                 .map(({ account_id }) => account_id)
-
+            }
+            
             accountIds = [...new Set([...rpcValidators, ...ghValidators])]
                 .filter((v) => v.indexOf('nfvalidator') === -1 && v.indexOf(networkId === 'mainnet' ? '.near' : '.m0') > -1)
         }
@@ -294,6 +300,7 @@ export class Staking {
                 try {
                     const validator = {
                         accountId: account_id,
+                        current: currentValidators.includes(account_id),
                         contract: await this.getContractInstance(account_id, stakingMethods)
                     }
                     const fee = validator.fee = await validator.contract.get_reward_fee_fraction()
