@@ -17,7 +17,13 @@
                 "create": "Checking availability",
                 "check": "Checking"
             },
-            "errorAccountNotExist": "There was a problem creating your account. Please try again!"
+            "errorAccountNotExist": "There was a problem creating your account. Please try again!",
+            "addAccessKey": {
+                "error": "An error has occurred.<br />To access your account, please enter the seed phrase from the previous step below."
+            }
+        },
+        "addAccessKey": {
+            "error": "An error has occurred.<br />The seed phrase was not added to your account. Please try again."
         },
         "available": {
             "success": "User found.",
@@ -249,7 +255,8 @@
         "REMOVE_NON_LEDGER_ACCESS_KEYS": "You will need to confirm details on your Ledger.",
         "STAKE": "You will need to confirm staking on your Ledger",
         "UNSTAKE": "You will need to confirm unstaking on your Ledger",
-        "WITHDRAW": "You will need to confirm withdrawal on your Ledger"
+        "WITHDRAW": "You will need to confirm withdrawal on your Ledger",
+        "DISABLE_LEDGER": "You will need to confirm public key details on your Ledger."
     },
 
     "button": {
