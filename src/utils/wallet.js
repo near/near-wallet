@@ -861,13 +861,11 @@ class Wallet {
         this.connection = connectionConstructor
 
         if (!!accountIdsSuccess.length) {
-            await Promise.all(accountIdsSuccess.map(async ({ accountId, newKeyPair }, i) => {
-                if (i === accountIdsSuccess.length - 1) {
-                    await this.saveAndSelectAccount(accountId, newKeyPair)
-                } else {
-                    await this.saveAccount(accountId, newKeyPair)
-                }
+            await Promise.all(accountIdsSuccess.map(async ({ accountId, newKeyPair }) => {
+                await this.saveAccount(accountId, newKeyPair)
             }))
+
+            this.selectAccount(accountIdsSuccess[accountIdsSuccess.length - 1].accountId)
 
             return {
                 numberOfAccounts: accountIdsSuccess.length,
