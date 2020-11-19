@@ -570,14 +570,11 @@ class Wallet {
             throw new WalletError('No accounts were accepted.', 'signInLedger.getLedgerAccountIds.noAccountsAccepted')
         }
 
-        for (let i = 0; i < accountIds.length; i++) {
-            const accountId = accountIds[i]
-            if (i === accountIds.length - 1) {
-                await this.saveAndSelectAccount(accountId)
-            } else {
-                await this.saveAccount(accountId)
-            }
-        }
+        await Promise.all(accountIds.map(async (accountId) => {
+            await this.saveAccount(accountId)
+        }))
+
+        this.selectAccount(accountIds[accountIds.length - 1])
 
         return {
             numberOfAccounts: accountIds.length
