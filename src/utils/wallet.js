@@ -148,14 +148,6 @@ class Wallet {
         localStorage.setItem(KEY_WALLET_ACCOUNTS, JSON.stringify(this.accounts))
     }
 
-    selectAccount(accountId) {
-        if (!(accountId in this.accounts)) {
-            return false
-        }
-        this.accountId = accountId
-        this.save()
-    }
-
     isLegitAccountId(accountId) {
         return ACCOUNT_ID_REGEX.test(accountId)
     }
@@ -410,17 +402,24 @@ class Wallet {
         }, LINKDROP_GAS);
     }
 
-    async saveAndSelectAccount(accountId, keyPair) {
-        await this.saveAccount(accountId, keyPair)
-        this.accountId = accountId
-        this.save()
-        // TODO: What does setAccountConfirmed do?
-        setAccountConfirmed(this.accountId, false)
-    }
-
     async saveAccount(accountId, keyPair) {
         await this.setKey(accountId, keyPair)
         this.accounts[accountId] = true
+    }
+
+    selectAccount(accountId) {
+        if (!(accountId in this.accounts)) {
+            return false
+        }
+        this.accountId = accountId
+        this.save()
+    }
+
+    async saveAndSelectAccount(accountId, keyPair) {
+        await this.saveAccount(accountId, keyPair)
+        this.selectAccount(accountId)
+        // TODO: What does setAccountConfirmed do?
+        setAccountConfirmed(this.accountId, false)
     }
 
     async setKey(accountId, keyPair) {
