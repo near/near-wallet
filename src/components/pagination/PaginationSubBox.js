@@ -21,6 +21,7 @@ const CustomList = styled(List)`
         .deauthorize-box {
             .top {
                 padding: 2em 1.5em;
+                word-break: break-all;
 
                 &.contacts {
                     padding: 2em 1.5em 0;
@@ -31,6 +32,7 @@ const CustomList = styled(List)`
 
                     h2 {
                         margin-top: -1em;
+                        word-break: break-all;
                     }
                     .publickey {
                         text-overflow: ellipsis;

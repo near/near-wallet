@@ -345,7 +345,7 @@ class Wallet {
         return !(await this.accountExists(accountId))
     }
 
-    async createNewAccount(accountId, fundingOptions, recoveryMethod, publicKey) {
+    async createNewAccount(accountId, fundingOptions, recoveryMethod, publicKey, previousAccountId) {
         await this.checkNewAccount(accountId);
 
         // TODO: Remove has2fa property, check on account object
@@ -366,7 +366,7 @@ class Wallet {
         }
 
         await this.saveAndSelectAccount(accountId);
-        await this.addLocalKeyAndFinishSetup(accountId, recoveryMethod, publicKey)
+        await this.addLocalKeyAndFinishSetup(accountId, recoveryMethod, publicKey, previousAccountId)
     }
 
     async createNewAccountFromAnother(accountId, fundingAccountId, publicKey) {
@@ -677,10 +677,13 @@ class Wallet {
         let recoveryMethods = await this.postSignedJson('/account/recoveryMethods', { accountId }, account)
         const accessKeys =  await this.getAccessKeys()
         const publicKeys = accessKeys.map(key => key.public_key)
-        recoveryMethods = recoveryMethods.filter(({ publicKey }) => publicKeys.includes(publicKey))
+        const confirmedNoPublicKeyMethods = recoveryMethods.filter(({ publicKey, confirmed }) => publicKey === null && confirmed === true)
+        const publicKeyMethods = recoveryMethods.filter(({ publicKey }) => publicKeys.includes(publicKey))
+        const allMethods = [...confirmedNoPublicKeyMethods, ...publicKeyMethods]
+
         return {
             accountId,
-            data: recoveryMethods
+            data: allMethods
         }
     }
 
@@ -698,7 +701,7 @@ class Wallet {
         await this.createNewAccount(accountId, fundingOptions, method, recoveryKeyPair.publicKey)
     }
 
-    async addLocalKeyAndFinishSetup(accountId, recoveryMethod, publicKey) {
+    async addLocalKeyAndFinishSetup(accountId, recoveryMethod, publicKey, previousAccountId) {
         if (recoveryMethod === 'ledger') {
             await this.addLedgerAccountId(accountId)
             await this.postSignedJson('/account/ledgerKeyAdded', { accountId, publicKey: publicKey.toString() })
@@ -707,13 +710,21 @@ class Wallet {
             const newPublicKey = newKeyPair.publicKey
             if (recoveryMethod !== 'seed') {
                 await this.addNewAccessKeyToAccount(accountId, newPublicKey)
+                await this.saveAccount(accountId, newKeyPair)
             } else {
                 const contractName = null;
                 const fullAccess = true;
-                await wallet.addAccessKey(accountId, contractName, newPublicKey, fullAccess)
                 await wallet.postSignedJson('/account/seedPhraseAdded', { accountId, publicKey: publicKey.toString() })
+                try {
+                    await wallet.addAccessKey(accountId, contractName, newPublicKey, fullAccess)
+                    await this.saveAccount(accountId, newKeyPair)
+                } catch (error) {
+                    if (previousAccountId) {
+                        await wallet.saveAndSelectAccount(previousAccountId)
+                    }
+                    throw new WalletError(error, 'account.create.addAccessKey.error')
+                }
             }
-            await this.saveAccount(accountId, newKeyPair)
         }
 
         await store.dispatch(finishAccountSetup())
@@ -801,9 +812,10 @@ class Wallet {
             signer: new nearApiJs.InMemorySigner(tempKeyStore)
         })
         
+        const connectionConstructor = this.connection
+        
         await Promise.all(accountIds.map(async (accountId, i) => {
             if (!accountId || !accountId.length) return
-
             // temp account
             this.connection = connection
             this.accountId = accountId
@@ -825,7 +837,7 @@ class Wallet {
             const keyPair = KeyPair.fromString(secretKey)
             await tempKeyStore.setKey(NETWORK_ID, accountId, keyPair)
             account.keyStore = tempKeyStore
-            account.inMemorySigner = new nearApiJs.InMemorySigner(tempKeyStore)
+            account.inMemorySigner = account.connection.signer = new nearApiJs.InMemorySigner(tempKeyStore)
             const newKeyPair = KeyPair.fromRandom('ed25519')
 
             await this.addAccessKey(accountId, accountId, newKeyPair.publicKey, fromSeedPhraseRecovery)
@@ -835,6 +847,8 @@ class Wallet {
                 await this.saveAccount(accountId, newKeyPair)
             }
         }))
+
+        this.connection = connectionConstructor
 
         return {
             numberOfAccounts: accountIds.length,

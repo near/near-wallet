@@ -45,6 +45,8 @@ const CustomSegment = styled(Segment)`
             overflow: hidden;
             cursor: pointer;
             transition: 100ms;
+            display: flex;
+            align-items: center;
 
             :hover {
                 color: #0072ce;

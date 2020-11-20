@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Grid, Image, List, Item } from 'semantic-ui-react'
+import { Grid, List, Item } from 'semantic-ui-react'
 import { Translate } from 'react-localize-redux'
 import LogoFooterImage from '../../images/near.svg'
 
