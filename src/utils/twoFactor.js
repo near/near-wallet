@@ -29,13 +29,15 @@ export class TwoFactor extends Account2FA {
             getCode: () => store.dispatch(promptTwoFactor(true)).payload.promise
         })
         this.wallet = wallet
+        this.__isEnabled = false
     }
 
-    async isEnabled(accountId = this.wallet.accountId) {
-        if (!accountId.length || this.accountId !== accountId) {
+    async isEnabled() {
+        if (!this.accountId || !this.accountId.length) {
             return false
         }
-        return MULTISIG_CONTRACT_HASHES.includes((await this.state()).code_hash)
+        this.__isEnabled = this.__isEnabled || MULTISIG_CONTRACT_HASHES.includes((await this.state()).code_hash)
+        return this.__isEnabled
     }
 
     async get2faMethod() {

@@ -432,7 +432,7 @@ class Wallet {
         const account = await this.getAccount(accountId)
         console.log('account instance used in recovery add localStorage key', account)
         // update has2fa now after we have the right Account instance for temp recovery
-        const has2fa = await this.twoFactor.isEnabled(accountId)
+        const has2fa = await this.twoFactor.isEnabled()
         console.log('key being added to 2fa account?', has2fa)
         try {
             if (fullAccess || (!has2fa && accountId === contractId)) {
@@ -599,7 +599,7 @@ class Wallet {
 
     async getAccount(accountId) {
         let account
-        if (accountId === this.accountId && this.twoFactor.isEnabled()) {
+        if (accountId === this.accountId && await this.twoFactor.isEnabled()) {
             account = this.twoFactor
         } else {
             account = new nearApiJs.Account(this.connection, accountId)
@@ -808,7 +808,7 @@ class Wallet {
             this.accountId = accountId
             this.twoFactor = new TwoFactor(this)
             this.twoFactor.accountId = accountId
-            const has2fa = await this.twoFactor.isEnabled(accountId)
+            const has2fa = await this.twoFactor.isEnabled()
             let account = await this.getAccount(accountId)
             // check if recover access key is FAK and if so add key without 2FA
             if (has2fa) {

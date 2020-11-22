@@ -198,8 +198,8 @@ export class Staking {
 
         let { deposits, validators } = (await getStakingTransactions(account_id))
         validators = await this.getValidators([...new Set(validators.concat(recentlyStakedValidators))])
-        if (!validators.length || this.wallet.has2fa) {
-            console.log('has2fa: checking all validators', this.wallet.has2fa)
+        if (!validators.length || await this.wallet.twoFactor.isEnabled()) {
+            console.log('checking all validators')
             validators = await this.getValidators()
         }
 
