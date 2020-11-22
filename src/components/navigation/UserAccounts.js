@@ -7,7 +7,7 @@ const Wrapper = styled.div`
         max-height: 150px;
         overflow-y: auto;
     }
-`
+`;
 
 const Account = styled.div`
     display: block;
@@ -30,7 +30,7 @@ const Account = styled.div`
             color: #0072CE;
         }
     }
-`
+`;
 
 const UserAccounts = ({ accounts, accountId, selectAccount }) => (
     <Wrapper>
@@ -41,6 +41,6 @@ const UserAccounts = ({ accounts, accountId, selectAccount }) => (
         ))}
         {accounts.length < 2 && <div><Translate id='link.noAccount'/></div>}
     </Wrapper>
-)
+);
 
 export default UserAccounts;

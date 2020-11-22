@@ -1,11 +1,11 @@
-import React, { Fragment } from 'react'
-import { Translate } from 'react-localize-redux'
-import { List, Header } from 'semantic-ui-react'
+import React, { Fragment } from 'react';
+import { Translate } from 'react-localize-redux';
+import { List, Header } from 'semantic-ui-react';
 
 import PageContainer from '../common/PageContainer';
-import MobileContainer from '../sign/MobileContainer'
-import FormButton from '../common/FormButton'
-import Balance from '../common/Balance'
+import MobileContainer from '../sign/MobileContainer';
+import FormButton from '../common/FormButton';
+import Balance from '../common/Balance';
 
 const SendMoneySecondStep = ({
     handleNextStep,
@@ -84,6 +84,6 @@ const SendMoneySecondStep = ({
             </List>
         </Fragment>
     </MobileContainer>
-)
+);
 
-export default SendMoneySecondStep
+export default SendMoneySecondStep;

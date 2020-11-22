@@ -1,14 +1,14 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import { withRouter, Route } from 'react-router-dom'
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { withRouter, Route } from 'react-router-dom';
 
-import LoginContainer from './LoginContainer'
-import LoginForm from './LoginForm'
-import LoginConfirm from './LoginConfirm'
-import LoginDetails from './LoginDetails'
-import LoginIncorrectContractId from './LoginIncorrectContractId'
-import { refreshAccount, handleRefreshUrl, switchAccount, clearAlert, allowLogin, redirectToApp, clear } from '../../actions/account'
-import { LOCKUP_ACCOUNT_ID_SUFFIX } from '../../utils/wallet'
+import LoginContainer from './LoginContainer';
+import LoginForm from './LoginForm';
+import LoginConfirm from './LoginConfirm';
+import LoginDetails from './LoginDetails';
+import LoginIncorrectContractId from './LoginIncorrectContractId';
+import { refreshAccount, handleRefreshUrl, switchAccount, clearAlert, allowLogin, redirectToApp, clear } from '../../actions/account';
+import { LOCKUP_ACCOUNT_ID_SUFFIX } from '../../utils/wallet';
 
 class Login extends Component {
     state = {
@@ -19,7 +19,7 @@ class Login extends Component {
     handleOnClick = () => {
         this.setState({
             dropdown: !this.state.dropdown
-        })
+        });
     }
 
     handleDeny = () => {
@@ -35,29 +35,29 @@ class Login extends Component {
     handleAllow = async () => {
         this.setState(() => ({
             buttonLoader: true
-        }))
+        }));
 
         try {
-            await this.props.allowLogin()
+            await this.props.allowLogin();
         } finally {
             this.setState(() => ({
                 buttonLoader: false
-            }))
+            }));
         }
     }
 
     handleSelectAccount = accountId => {
-        this.props.switchAccount(accountId)
-        this.props.refreshAccount()
+        this.props.switchAccount(accountId);
+        this.props.refreshAccount();
     }
 
     redirectCreateAccount = () => {
-        this.props.history.push('/create')
+        this.props.history.push('/create');
     }
 
     render() {
-        const { account: { url }, match } = this.props
-        const accountConfirmationForm = !url?.contract_id || url?.contract_id.endsWith(`.${LOCKUP_ACCOUNT_ID_SUFFIX}`)
+        const { account: { url }, match } = this.props;
+        const accountConfirmationForm = !url?.contract_id || url?.contract_id.endsWith(`.${LOCKUP_ACCOUNT_ID_SUFFIX}`);
 
         return (
             <LoginContainer>
@@ -114,7 +114,7 @@ class Login extends Component {
                     )}
                 />
             </LoginContainer>
-        )
+        );
     }
 }
 
@@ -126,14 +126,14 @@ const mapDispatchToProps = {
     clearAlert,
     redirectToApp,
     clear
-}
+};
 
 const mapStateToProps = ({ account }) => ({
     account,
     appTitle: account.url && account.url.referrer
-})
+});
 
 export const LoginWithRouter = connect(
     mapStateToProps,
     mapDispatchToProps
-)(withRouter(Login))
+)(withRouter(Login));

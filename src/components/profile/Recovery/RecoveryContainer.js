@@ -34,11 +34,11 @@ const Container = styled.div`
         height: 36px;
         letter-spacing: 1px;
     }
-`
+`;
 
 const Header = styled.div`
     padding: 20px !important;
-`
+`;
 
 const Title = styled.h2`
     display: flex;
@@ -52,7 +52,7 @@ const Title = styled.h2`
         display: inline-block;
         margin-right: 10px;
     }
-`
+`;
 
 const NoRecoveryMethod = styled.div`
     margin-top: 15px;
@@ -70,7 +70,7 @@ const NoRecoveryMethod = styled.div`
         display: block;
         margin-right: 10px;
     }
-`
+`;
 
 const RecoveryContainer = () => {
     const [deletingMethod, setDeletingMethod] = useState('');
@@ -79,24 +79,24 @@ const RecoveryContainer = () => {
     const allKinds = ['email', 'phone', 'phrase'];
     const activeMethods = useRecoveryMethods(account.accountId).filter(({ kind }) => allKinds.includes(kind));
     const currentActiveKinds = new Set(activeMethods.map(method => method.kind));
-    const missingKinds = allKinds.filter(kind => !currentActiveKinds.has(kind))
+    const missingKinds = allKinds.filter(kind => !currentActiveKinds.has(kind));
     const deleteAllowed = [...currentActiveKinds].length > 1 || account.ledgerKey;
 
     missingKinds.forEach(kind => activeMethods.push({kind: kind}));
 
     const handleDeleteMethod = async (method) => {
         try {
-            setDeletingMethod(method.publicKey)
-            await dispatch(deleteRecoveryMethod(method, deleteAllowed))
+            setDeletingMethod(method.publicKey);
+            await dispatch(deleteRecoveryMethod(method, deleteAllowed));
         } finally {
-            setDeletingMethod('')
+            setDeletingMethod('');
         }
-        dispatch(loadRecoveryMethods())
-    }
+        dispatch(loadRecoveryMethods());
+    };
 
     const sortedActiveMethods = activeMethods.sort((a, b) => {
-        let kindA = a.kind
-        let kindB = b.kind
+        let kindA = a.kind;
+        let kindB = b.kind;
         if (kindA < kindB) {
             return -1;
         }
@@ -133,6 +133,6 @@ const RecoveryContainer = () => {
             />
         </Container>
     );
-}
+};
 
 export default withRouter(RecoveryContainer);

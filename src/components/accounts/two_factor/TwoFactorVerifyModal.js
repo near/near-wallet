@@ -7,7 +7,7 @@ import MobileActionSheet from '../../common/modal/MobileActionSheet';
 import FormButton from '../../common/FormButton';
 import { Translate } from 'react-localize-redux';
 import TwoFactorVerifyInput from './TwoFactorVerifyInput';
-import { WalletError } from '../../../utils/walletError'
+import { WalletError } from '../../../utils/walletError';
 import { clearAlert, resendTwoFactor, get2faMethod } from '../../../actions/account';
 
 const Form = styled.form`
@@ -15,7 +15,7 @@ const Form = styled.form`
     flex-direction: column;
     align-items: center;
     width: 100%;
-`
+`;
 
 const TwoFactorVerifyModal = ({ open, onClose }) => {
 
@@ -30,42 +30,42 @@ const TwoFactorVerifyModal = ({ open, onClose }) => {
         let isMounted = true;
 
         const handleGetTwoFactor = async () => {
-            setMethod(await dispatch(get2faMethod()))
+            setMethod(await dispatch(get2faMethod()));
         };
 
         if (isMounted) {
-            handleGetTwoFactor()
+            handleGetTwoFactor();
         }
         
-        return () => { isMounted = false }
+        return () => { isMounted = false; };
     }, []);
 
     const handleVerifyCode = async () => {
-        onClose(code)
-    }
+        onClose(code);
+    };
 
     const handleChange = (code) => {
         setCode(code);
 
         if (account.globalAlert) {
-            dispatch(clearAlert())
+            dispatch(clearAlert());
         }
-    }
+    };
 
     const handleResendCode = async () => {
-        setResendCode('resending')
+        setResendCode('resending');
         try {
-            await dispatch(resendTwoFactor())
+            await dispatch(resendTwoFactor());
         } catch(e) {
-            setResendCode()
-            throw e
+            setResendCode();
+            throw e;
         } finally {
-            setResendCode('resent')
-            setTimeout(() => { setResendCode() }, 3000)
+            setResendCode('resent');
+            setTimeout(() => { setResendCode(); }, 3000);
         }
-    }
+    };
     
-    const handleCancelClose = () => onClose(false, new WalletError('Request was cancelled.', 'errors.twoFactor.userCancelled'))
+    const handleCancelClose = () => onClose(false, new WalletError('Request was cancelled.', 'errors.twoFactor.userCancelled'));
     
     return (
         <Modal
@@ -94,6 +94,6 @@ const TwoFactorVerifyModal = ({ open, onClose }) => {
             <button onClick={handleCancelClose} className='link color-red'><Translate id='button.cancel'/></button>
         </Modal>
     );
-}
+};
 
 export default TwoFactorVerifyModal;

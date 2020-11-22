@@ -15,7 +15,7 @@ const Container = styled.div`
     @media (max-width: 991px) {
         bottom: ${props => props.open ? '0' : 'unset'};
     }
-`
+`;
 class Navigation extends Component {
 
     state = {
@@ -64,8 +64,8 @@ class Navigation extends Component {
     }
 
     handleSelectAccount = accountId => {
-        this.props.switchAccount(accountId)
-        this.props.refreshAccount()
+        this.props.switchAccount(accountId);
+        this.props.refreshAccount();
         this.setState({ menuOpen: false });
     }
 
@@ -89,21 +89,21 @@ class Navigation extends Component {
                     {...this.props}
                 />
             </Container>
-        )
+        );
     }
 }
 
 const mapStateToProps = ({ account, availableAccounts }) => ({
     account,
     availableAccounts
-})
+});
 
 const mapDispatchToProps = {
     refreshAccount,
     switchAccount
-}
+};
 
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(withRouter(Navigation))
+)(withRouter(Navigation));

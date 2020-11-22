@@ -1,8 +1,8 @@
-import React from 'react'
-import { Translate } from 'react-localize-redux'
-import styled from 'styled-components'
-import NearCircleIcon from '../../svg/NearCircleIcon.js'
-import FormButton from '../../common/FormButton'
+import React from 'react';
+import { Translate } from 'react-localize-redux';
+import styled from 'styled-components';
+import NearCircleIcon from '../../svg/NearCircleIcon.js';
+import FormButton from '../../common/FormButton';
 
 const Container = styled.div`
     background-color: #F8F8F8;
@@ -30,7 +30,7 @@ const Container = styled.div`
             margin-bottom: 0 !important;
         }
     }
-`
+`;
 
 export default function NoValidators() {
     return (
@@ -39,5 +39,5 @@ export default function NoValidators() {
             <div><Translate id='staking.noValidators.title' /></div>
             <FormButton className='gray-blue dark' linkTo='/staking/validators'><Translate id='staking.staking.button' /></FormButton>
         </Container>
-    )
+    );
 }

@@ -10,7 +10,7 @@ import { ENABLE_FULL_ACCESS_KEYS } from '../../utils/wallet';
 const Container = styled.div`
     display: flex;
     flex-direction: column;
-`
+`;
 
 const UserLink = styled(Link)`
     display: flex;
@@ -50,7 +50,7 @@ const UserLink = styled(Link)`
         margin-right: 12px;
 
     }
-`
+`;
 
 const UserLinks = ({ accountId }) => (
     <Container className='user-links'>
@@ -58,6 +58,6 @@ const UserLinks = ({ accountId }) => (
         <UserLink icon={arrowAuth} to='/authorized-apps'><Translate id='link.authorizedApps'/></UserLink>
         {ENABLE_FULL_ACCESS_KEYS && <UserLink icon={iconKeys} to='/full-access-keys'><Translate id='link.fullAccessKeys'/></UserLink>}
     </Container>
-)
+);
 
 export default UserLinks;

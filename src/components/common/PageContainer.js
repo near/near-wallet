@@ -1,8 +1,8 @@
-import React from 'react'
+import React from 'react';
 
-import { Container, Grid, Segment } from 'semantic-ui-react'
+import { Container, Grid, Segment } from 'semantic-ui-react';
 
-import styled from 'styled-components'
+import styled from 'styled-components';
 
 const CustomContainer = styled(Container)`
     &&& {
@@ -88,7 +88,7 @@ const CustomContainer = styled(Container)`
             }
         }
     }
-`
+`;
 
 const PageContainer = ({ children, title, additional, bottom, type }) => (
     <CustomContainer>
@@ -118,6 +118,6 @@ const PageContainer = ({ children, title, additional, bottom, type }) => (
             </Segment>
         )}
     </CustomContainer>
-)
+);
 
-export default PageContainer
+export default PageContainer;

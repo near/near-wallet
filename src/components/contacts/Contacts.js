@@ -1,13 +1,13 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
-import { withRouter } from 'react-router-dom'
+import { withRouter } from 'react-router-dom';
 
-import PaginationBlock from '../pagination/PaginationBlock'
-import ListItem from '../dashboard/ListItem'
+import PaginationBlock from '../pagination/PaginationBlock';
+import ListItem from '../dashboard/ListItem';
 import PageContainer from '../common/PageContainer';
 
-import AccountGreyImage from '../../images/icon-account-grey.svg'
+import AccountGreyImage from '../../images/icon-account-grey.svg';
 
 class Contacts extends Component {
     state = {
@@ -24,12 +24,12 @@ class Contacts extends Component {
     }
 
     toggleShowSub = i => {
-        i = i == null ? this.state.showSubOpen : i
+        i = i == null ? this.state.showSubOpen : i;
 
         this.setState(state => ({
             showSub: i === state.showSubOpen ? !state.showSub : state.showSub,
             showSubOpen: i
-        }))
+        }));
     }
 
     toggleCloseSub = () => {
@@ -37,13 +37,13 @@ class Contacts extends Component {
             showSub: false,
             showSubOpen: 0,
             showSubData: []
-        }))
+        }));
     }
 
     componentDidMount() {
         this.setState(() => ({
             loader: true
-        }))
+        }));
 
         setTimeout(() => {
             this.setState(_ => ({
@@ -75,12 +75,12 @@ class Contacts extends Component {
                     [AccountGreyImage, 'Alex Skidanov ', 'Connected 2 days ago', '']
                 ],
                 loader: false
-            }))
-        }, 1000)
+            }));
+        }, 1000);
     }
 
     render() {
-        const { activity, filterTypes, showSub, showSubOpen } = this.state
+        const { activity, filterTypes, showSub, showSubOpen } = this.state;
 
         return (
             <PageContainer
@@ -106,15 +106,15 @@ class Contacts extends Component {
                     ))}
                 </PaginationBlock>
             </PageContainer>
-        )
+        );
     }
 }
 
-const mapDispatchToProps = {}
+const mapDispatchToProps = {};
 
-const mapStateToProps = () => ({})
+const mapStateToProps = () => ({});
 
 export const ContactsWithRouter = connect(
     mapStateToProps,
     mapDispatchToProps
-)(withRouter(Contacts))
+)(withRouter(Contacts));

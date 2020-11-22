@@ -1,18 +1,18 @@
-import React, { Component, Fragment } from 'react'
-import styled from 'styled-components'
-import * as nearApiJs from 'near-api-js'
-import { formatNearAmount, parseNearAmount } from 'near-api-js/lib/utils/format'
-import BN from 'bn.js'
-import { withRouter } from 'react-router-dom'
-import { connect } from 'react-redux'
-import { Translate } from 'react-localize-redux'
-import copyText from '../../utils/copyText'
-import isMobile from '../../utils/isMobile'
-import { Snackbar, snackbarDuration } from '../common/Snackbar'
-import Container from '../common/styled/Container.css'
-import FormButton from '../common/FormButton'
-import { createAccountFromImplicit } from '../../actions/account'
-import { NETWORK_ID, NODE_URL, MIN_BALANCE_FOR_GAS } from '../../utils/wallet'
+import React, { Component, Fragment } from 'react';
+import styled from 'styled-components';
+import * as nearApiJs from 'near-api-js';
+import { formatNearAmount, parseNearAmount } from 'near-api-js/lib/utils/format';
+import BN from 'bn.js';
+import { withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { Translate } from 'react-localize-redux';
+import copyText from '../../utils/copyText';
+import isMobile from '../../utils/isMobile';
+import { Snackbar, snackbarDuration } from '../common/Snackbar';
+import Container from '../common/styled/Container.css';
+import FormButton from '../common/FormButton';
+import { createAccountFromImplicit } from '../../actions/account';
+import { NETWORK_ID, NODE_URL, MIN_BALANCE_FOR_GAS } from '../../utils/wallet';
 
 const StyledContainer = styled(Container)`
     .account-id-wrapper {
@@ -35,41 +35,41 @@ const StyledContainer = styled(Container)`
         margin: 0 auto !important;
         display: block !important
     }
-`
+`;
 
 // TODO: Make configurable
-const MIN_BALANCE_TO_CREATE = new BN(MIN_BALANCE_FOR_GAS).add(new BN(parseNearAmount('1')))
+const MIN_BALANCE_TO_CREATE = new BN(MIN_BALANCE_FOR_GAS).add(new BN(parseNearAmount('1')));
 
-let pollingInterval = null
+let pollingInterval = null;
 
 const initialState = {
     successSnackbar: false,
     snackBarMessage: 'setupSeedPhrase.snackbarCopyImplicitAddress',
     balance: null,
-}
+};
 
 class SetupImplicit extends Component {
     state = { ...initialState }
 
     handleContinue = async () => {
-        const { dispatch, accountId, implicitAccountId, recoveryMethod } = this.props
-        await dispatch(createAccountFromImplicit(accountId, implicitAccountId, recoveryMethod))
+        const { dispatch, accountId, implicitAccountId, recoveryMethod } = this.props;
+        await dispatch(createAccountFromImplicit(accountId, implicitAccountId, recoveryMethod));
     }
 
     checkBalance = async () => {
-        const { implicitAccountId } = this.props
+        const { implicitAccountId } = this.props;
 
-        const account = new nearApiJs.Account(this.connection, implicitAccountId)
+        const account = new nearApiJs.Account(this.connection, implicitAccountId);
         try {
-            const state = await account.state()
+            const state = await account.state();
             if (new BN(state.amount).gte(MIN_BALANCE_TO_CREATE)) {
-                return this.setState({ balance: nearApiJs.utils.format.formatNearAmount(state.amount, 2) })
+                return this.setState({ balance: nearApiJs.utils.format.formatNearAmount(state.amount, 2) });
             }
         } catch (e) {
             if (e.message.indexOf('exist while viewing') === -1) {
-                throw e
+                throw e;
             }
-            this.setState({ hasBalance: false })
+            this.setState({ hasBalance: false });
         }
     }
 
@@ -78,24 +78,24 @@ class SetupImplicit extends Component {
             networkId: NETWORK_ID,
             provider: { type: 'JsonRpcProvider', args: { url: NODE_URL + '/' } },
             signer: {},
-        })
+        });
 
-        this.keyStore = new nearApiJs.keyStores.BrowserLocalStorageKeyStore(window.localStorage, 'nearlib:keystore:')
+        this.keyStore = new nearApiJs.keyStores.BrowserLocalStorageKeyStore(window.localStorage, 'nearlib:keystore:');
         // TODO: Use wallet/Redux for queries? Or at least same connection.
 
-        clearInterval(pollingInterval)
-        pollingInterval = setInterval(this.checkBalance, 2000)
+        clearInterval(pollingInterval);
+        pollingInterval = setInterval(this.checkBalance, 2000);
     }
 
     componentWillUnmount = () => {
-        clearInterval(pollingInterval)
+        clearInterval(pollingInterval);
     }
 
     // TODO: Refactor: Extract utility to copy text
     // optionally pass in string to copy: textToCopy
     handleCopyPhrase = (textToCopy) => {
         if (typeof textToCopy !== 'string') {
-            textToCopy = null
+            textToCopy = null;
         }
         if (navigator.share && isMobile()) {
             navigator.share({
@@ -114,7 +114,7 @@ class SetupImplicit extends Component {
         this.setState({ successSnackbar: true }, () => {
             setTimeout(() => {
                 this.setState({ successSnackbar: false });
-            }, snackbarDuration)
+            }, snackbarDuration);
         });
     }
 
@@ -123,9 +123,9 @@ class SetupImplicit extends Component {
             balance,
             snackBarMessage,
             successSnackbar,
-        } = this.state
+        } = this.state;
 
-        const { implicitAccountId, accountId } = this.props
+        const { implicitAccountId, accountId } = this.props;
 
         return (
             <Translate>
@@ -177,7 +177,7 @@ class SetupImplicit extends Component {
                     </StyledContainer>
                 )}
             </Translate>
-        )
+        );
     }
 }
 
@@ -186,6 +186,6 @@ const mapStateToProps = ({ account }, { match: { params: { accountId, implicitAc
     accountId,
     implicitAccountId,
     recoveryMethod,
-})
+});
 
-export const SetupImplicitWithRouter = connect(mapStateToProps)(withRouter(SetupImplicit))
+export const SetupImplicitWithRouter = connect(mapStateToProps)(withRouter(SetupImplicit));

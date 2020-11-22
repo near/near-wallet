@@ -1,8 +1,8 @@
-import React from 'react'
+import React from 'react';
 
-import DashboardNotice from './DashboardNotice'
+import DashboardNotice from './DashboardNotice';
 
-import { Grid } from 'semantic-ui-react'
+import { Grid } from 'semantic-ui-react';
 
 const DashboardSection = ({ children, notice, handleNotice }) => (
     <Grid columns={2} stackable>
@@ -15,6 +15,6 @@ const DashboardSection = ({ children, notice, handleNotice }) => (
             {children[2]}
         </Grid.Column>
     </Grid>
-)
+);
 
-export default DashboardSection
+export default DashboardSection;

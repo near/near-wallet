@@ -1,13 +1,13 @@
-import React, { useState } from 'react'
-import { connect } from 'react-redux'
-import { Translate } from 'react-localize-redux'
+import React, { useState } from 'react';
+import { connect } from 'react-redux';
+import { Translate } from 'react-localize-redux';
 
-import IconsAlertCircleImage from '../../images/icon_alert-circle.svg'
-import IconCheckCircleImage from '../../images/icon-check-circle.svg'
+import IconsAlertCircleImage from '../../images/icon_alert-circle.svg';
+import IconCheckCircleImage from '../../images/icon-check-circle.svg';
 
-import { clearAlert } from '../../actions/account'
+import { clearAlert } from '../../actions/account';
 
-import styled from 'styled-components'
+import styled from 'styled-components';
 
 const Alert = styled.div`
     position: fixed;
@@ -51,7 +51,7 @@ const Alert = styled.div`
             transform: translate(16px,0px);
         }
     }
-`
+`;
 
 const Content = styled.div`
     min-height: 60px;
@@ -66,7 +66,7 @@ const Content = styled.div`
         width: 100%;
         max-width: 100%;
     }
-`
+`;
 
 const Icon = styled.div`
     padding-right: 16px;
@@ -75,14 +75,14 @@ const Icon = styled.div`
     img {
         width: 24px;
     }
-`
+`;
 
 const Text = styled.div`
     padding-right: 16px;
     color: #24272a;
     flex: 1 1 auto;
     padding-top: 4px;
-`
+`;
 const Close = styled.div`
     width: 12px;
     height: 12px;
@@ -114,12 +114,12 @@ const Close = styled.div`
             transform: rotate(45deg);
         }
     }
-`
+`;
 const Header = styled.div`
     font-weight: 600;
     margin-bottom: 8px;
     color: ${props => props.success ? '#02ba86' : '#e41d22'};
-`
+`;
 
 const Console = styled.div`
     font-family: 'IBM Plex Mono', monospace;
@@ -128,11 +128,11 @@ const Console = styled.div`
     margin-top: 14px;
     background: #f2f2f2;
     padding: 8px;
-`
+`;
 
 const GlobalAlert = ({ globalAlert, clearAlert, closeIcon = true }) => {
 
-    const [closing, setClosing] = useState(false)
+    const [closing, setClosing] = useState(false);
 
     const onMissingTranslation = () => {
         if (!globalAlert.success) {
@@ -141,12 +141,12 @@ const GlobalAlert = ({ globalAlert, clearAlert, closeIcon = true }) => {
     };
 
     const handleClose = () => {
-        setClosing(true)
+        setClosing(true);
         setTimeout(() => {
-            setClosing(false)
-            clearAlert()
+            setClosing(false);
+            clearAlert();
         }, 300);
-    }
+    };
 
     if (globalAlert && !(globalAlert.data && globalAlert.data.onlyError && globalAlert.success)) {
         return (
@@ -171,21 +171,21 @@ const GlobalAlert = ({ globalAlert, clearAlert, closeIcon = true }) => {
                     }
                 </Content>
             </Alert>
-        )
+        );
     } else {
-        return null
+        return null;
     }
-}
+};
 
 const mapDispatchToProps = {
     clearAlert
-}
+};
 
 const mapStateToProps = ({ account }) => ({
     ...account
-})
+});
 
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(GlobalAlert)
+)(GlobalAlert);

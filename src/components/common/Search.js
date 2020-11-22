@@ -1,10 +1,10 @@
-import React from 'react'
+import React from 'react';
 
-import { Form } from 'semantic-ui-react'
+import { Form } from 'semantic-ui-react';
 
-import MSearchImage from '../../images/icon-m-search.svg'
+import MSearchImage from '../../images/icon-m-search.svg';
 
-import styled from 'styled-components'
+import styled from 'styled-components';
 
 const SearchForm = styled(Form)`
     float: right;
@@ -25,7 +25,7 @@ const SearchForm = styled(Form)`
         background-repeat: no-repeat;
         background-size: 14px auto;
     }
-`
+`;
 
 const Search = ({ handleSubmit, handleChange, search }) => (
     <SearchForm onSubmit={handleSubmit}>
@@ -37,6 +37,6 @@ const Search = ({ handleSubmit, handleChange, search }) => (
             placeholder='Search transactions and receipts...'
         />
     </SearchForm>
-)
+);
 
-export default Search
+export default Search;

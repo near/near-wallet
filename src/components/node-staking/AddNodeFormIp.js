@@ -1,12 +1,12 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import { Form } from 'semantic-ui-react'
-import { Translate } from 'react-localize-redux'
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { Form } from 'semantic-ui-react';
+import { Translate } from 'react-localize-redux';
 
-import styled from 'styled-components'
+import styled from 'styled-components';
 
 const CustomFormInput = styled(Form.Input)`
-`
+`;
 
 class AddNodeFormIp extends Component {
     state = {
@@ -15,18 +15,18 @@ class AddNodeFormIp extends Component {
 
     handleChangeIp = (e, { name, value }) => {
         if (value.match(/[^0-9.]/)) {
-            return false
+            return false;
         }
         
         this.setState(() => ({
             [name]: value
-        }))
+        }));
 
-        this.props.handleChange(e, { name, value })
+        this.props.handleChange(e, { name, value });
     }
 
     render () {
-        const { ipAddress } = this.state
+        const { ipAddress } = this.state;
 
         return (
             <Translate>
@@ -45,12 +45,12 @@ class AddNodeFormIp extends Component {
                     />
                 )}
             </Translate>
-        )
+        );
     }
 }
 
 AddNodeFormIp.propTypes = {
     handleChange: PropTypes.func.isRequired
-}
+};
 
-export default AddNodeFormIp
+export default AddNodeFormIp;

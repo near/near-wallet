@@ -1,10 +1,10 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import { Container, Grid } from 'semantic-ui-react'
+import React from 'react';
+import PropTypes from 'prop-types';
+import { Container, Grid } from 'semantic-ui-react';
 
-import Disclaimer from '../common/Disclaimer'
+import Disclaimer from '../common/Disclaimer';
 
-import styled from 'styled-components'
+import styled from 'styled-components';
 
 const CustomContainer = styled(Container)`
     &&&& {
@@ -55,7 +55,7 @@ const CustomContainer = styled(Container)`
             }
         }
     }
-`
+`;
 
 /* eslint-disable jsx-a11y/accessible-emoji */
 const AccountFormContainer = ({ title, text, children, wide, disclaimer = true }) => (
@@ -73,7 +73,7 @@ const AccountFormContainer = ({ title, text, children, wide, disclaimer = true }
 
         {disclaimer && <Disclaimer />}
     </CustomContainer>
-)
+);
 
 AccountFormContainer.propTypes = {
     title: PropTypes.oneOfType([
@@ -87,6 +87,6 @@ AccountFormContainer.propTypes = {
     children: PropTypes.element,
     wide: PropTypes.bool,
     disclaimer: PropTypes.bool
-}
+};
 
-export default AccountFormContainer
+export default AccountFormContainer;

@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
-import { Translate } from 'react-localize-redux'
-import { parse as parseQuery } from 'query-string'
-import 'react-phone-number-input/style.css'
+import { Translate } from 'react-localize-redux';
+import { parse as parseQuery } from 'query-string';
+import 'react-phone-number-input/style.css';
 import PhoneInput, { isValidPhoneNumber } from 'react-phone-number-input';
 import { validateEmail } from '../../../utils/account';
 import { 
@@ -33,12 +33,12 @@ const StyledContainer = styled(Container)`
         margin-top: 40px;
     }
 
-`
+`;
 
 const OptionSubHeader = styled.div`
     margin-top: 10px;
     max-width: 540px;
-`
+`;
 
 class SetupRecoveryMethod extends Component {
 
@@ -61,9 +61,9 @@ class SetupRecoveryMethod extends Component {
         }
 
         if (this.props.activeAccountId) {
-            this.props.loadRecoveryMethods()
-            this.props.getLedgerKey()
-            this.props.get2faMethod()
+            this.props.loadRecoveryMethods();
+            this.props.getLedgerKey();
+            this.props.get2faMethod();
         }
     }
 
@@ -72,15 +72,15 @@ class SetupRecoveryMethod extends Component {
 
         switch (option) {
             case 'email':
-                return validateEmail(email)
+                return validateEmail(email);
             case 'phone':
-                return isValidPhoneNumber(phoneNumber)
+                return isValidPhoneNumber(phoneNumber);
             case 'phrase':
-                return true
+                return true;
             case 'ledger':
-                return true
+                return true;
             default:
-                return false
+                return false;
         }
     }
 
@@ -90,16 +90,16 @@ class SetupRecoveryMethod extends Component {
         const {
             accountId,
             location,
-        } = this.props
-        const phraseUrl = `/setup-seed-phrase/${accountId}/phrase${location.search}`
+        } = this.props;
+        const phraseUrl = `/setup-seed-phrase/${accountId}/phrase${location.search}`;
 
         if (option === 'email' || option === 'phone') {
-            this.handleSendCode()
+            this.handleSendCode();
             window.scrollTo(0, 0);
         } else if (option === 'phrase') {
             this.props.history.push(phraseUrl);
         } else if (option === 'ledger') {
-            const ledgerUrl = `/setup-ledger/${accountId}${location.search}`
+            const ledgerUrl = `/setup-ledger/${accountId}${location.search}`;
             this.props.history.push(ledgerUrl);
         }
     }
@@ -110,7 +110,7 @@ class SetupRecoveryMethod extends Component {
         const method = {
             kind: option === 'email' ? 'email' : 'phone',
             detail: option === 'email' ? email : phoneNumber
-        }
+        };
 
         return method;
     }
@@ -118,7 +118,7 @@ class SetupRecoveryMethod extends Component {
     handleSendCode = async () => {
         const  { accountId, initializeRecoveryMethod } = this.props;
         const recoverySeedPhrase = await initializeRecoveryMethod(accountId, this.method);
-        this.setState({ success: true, recoverySeedPhrase: recoverySeedPhrase })
+        this.setState({ success: true, recoverySeedPhrase: recoverySeedPhrase });
     }
 
     handleSetupRecoveryMethod = async (securityCode) => {
@@ -130,12 +130,12 @@ class SetupRecoveryMethod extends Component {
             location,
         } = this.props;
 
-        const isNew = await checkIsNew(accountId)
+        const isNew = await checkIsNew(accountId);
         if (isNew) {
-            const fundingOptions = JSON.parse(parseQuery(location.search).fundingOptions || 'null')
-            await setupRecoveryMessageNewAccount(accountId, this.method, securityCode, fundingOptions, this.state.recoverySeedPhrase)
+            const fundingOptions = JSON.parse(parseQuery(location.search).fundingOptions || 'null');
+            await setupRecoveryMessageNewAccount(accountId, this.method, securityCode, fundingOptions, this.state.recoverySeedPhrase);
         } else {
-            await setupRecoveryMessage(accountId, this.method, securityCode, this.state.recoverySeedPhrase)
+            await setupRecoveryMessage(accountId, this.method, securityCode, this.state.recoverySeedPhrase);
         }
     }
 
@@ -144,29 +144,29 @@ class SetupRecoveryMethod extends Component {
             email: '',
             phoneNumber: '',
             success: false
-        })
+        });
     }
 
     handleBlurEmail = () => {
         this.setState((state) => ({
             emailInvalid: state.email !== '' && !this.isValidInput
-        }))
+        }));
     }
 
     handleBlurPhone = () => {
         this.setState((state) => ({
             phoneInvalid: state.phoneNumber !== '' && !this.isValidInput
-        }))
+        }));
     }
 
     checkDisabled = (method) => {
-        const { recoveryMethods, activeAccountId } = this.props
-        let activeMethods = []
+        const { recoveryMethods, activeAccountId } = this.props;
+        let activeMethods = [];
         if (recoveryMethods[activeAccountId]) {
-            activeMethods = recoveryMethods[activeAccountId].filter(method => method.confirmed).map(method => method.kind)
+            activeMethods = recoveryMethods[activeAccountId].filter(method => method.confirmed).map(method => method.kind);
         }
         
-        return !this.checkNewAccount() && activeMethods.includes(method)
+        return !this.checkNewAccount() && activeMethods.includes(method);
     }
 
     checkNewAccount = () => this.props.accountId !== this.props.activeAccountId
@@ -250,7 +250,7 @@ class SetupRecoveryMethod extends Component {
                         </FormButton>
                     </form>
                 </StyledContainer>
-            )
+            );
         } else {
             return (
                 <EnterVerificationCode
@@ -263,7 +263,7 @@ class SetupRecoveryMethod extends Component {
                     loading={formLoader}
                     requestStatus={this.props.requestStatus}
                 />
-            )
+            );
         }
     }
 }
@@ -278,7 +278,7 @@ const mapDispatchToProps = {
     getLedgerKey,
     get2faMethod,
     checkIsNew
-}
+};
 
 const mapStateToProps = ({ account, router, recoveryMethods }, { match }) => ({
     ...account,
@@ -286,6 +286,6 @@ const mapStateToProps = ({ account, router, recoveryMethods }, { match }) => ({
     accountId: match.params.accountId,
     activeAccountId: account.accountId,
     recoveryMethods
-})
+});
 
 export const SetupRecoveryMethodWithRouter = connect(mapStateToProps, mapDispatchToProps)(SetupRecoveryMethod);

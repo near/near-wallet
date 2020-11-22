@@ -1,23 +1,23 @@
-import React, { Component, Fragment } from 'react'
-import { connect } from 'react-redux'
-import { Translate } from 'react-localize-redux'
-import { withRouter } from 'react-router-dom'
+import React, { Component, Fragment } from 'react';
+import { connect } from 'react-redux';
+import { Translate } from 'react-localize-redux';
+import { withRouter } from 'react-router-dom';
 
-import { getTransactions, getTransactionStatus } from '../../actions/transactions'
+import { getTransactions, getTransactionStatus } from '../../actions/transactions';
 
-import DashboardSection from './DashboardSection'
-import DashboardActivity from './DashboardActivity'
-import PageContainer from '../common/PageContainer'
-import FormButton from '../common/FormButton'
-import Balance from '../common/Balance'
+import DashboardSection from './DashboardSection';
+import DashboardActivity from './DashboardActivity';
+import PageContainer from '../common/PageContainer';
+import FormButton from '../common/FormButton';
+import Balance from '../common/Balance';
 
-import activityGreyImage from '../../images/icon-activity-grey.svg'
-import AuthorizedGreyImage from '../../images/icon-authorized-grey.svg'
-import AccessKeysIcon from '../../images/icon-keys-grey.svg'
+import activityGreyImage from '../../images/icon-activity-grey.svg';
+import AuthorizedGreyImage from '../../images/icon-authorized-grey.svg';
+import AccessKeysIcon from '../../images/icon-keys-grey.svg';
 
-import DashboardKeys from './DashboardKeys'
+import DashboardKeys from './DashboardKeys';
 
-import { TRANSACTIONS_REFRESH_INTERVAL, EXPLORER_URL, ENABLE_FULL_ACCESS_KEYS, DISABLE_SEND_MONEY } from '../../utils/wallet'
+import { TRANSACTIONS_REFRESH_INTERVAL, EXPLORER_URL, ENABLE_FULL_ACCESS_KEYS, DISABLE_SEND_MONEY } from '../../utils/wallet';
 
 class DashboardDetail extends Component {
     state = {
@@ -26,35 +26,35 @@ class DashboardDetail extends Component {
     }
 
     componentDidMount() {
-        this.refreshTransactions()
+        this.refreshTransactions();
 
         this.interval = setInterval(() => {
-            !document.hidden && this.refreshTransactions()
-        }, TRANSACTIONS_REFRESH_INTERVAL)
+            !document.hidden && this.refreshTransactions();
+        }, TRANSACTIONS_REFRESH_INTERVAL);
 
         this.setState(() => ({
             loader: true
-        }))
+        }));
     }
 
     componentWillUnmount = () => {
-        clearInterval(this.interval)
+        clearInterval(this.interval);
     }
 
     refreshTransactions() {
-        const { getTransactions, accountId } = this.props
+        const { getTransactions, accountId } = this.props;
         
-        getTransactions(accountId)
+        getTransactions(accountId);
     }
 
     handleNotice = () => {
         this.setState(state => ({
             notice: !state.notice
-        }))
+        }));
     }
 
     render() {
-        const { loader, notice } = this.state
+        const { loader, notice } = this.state;
 
         const { 
             authorizedApps, 
@@ -64,7 +64,7 @@ class DashboardDetail extends Component {
             formLoader, 
             getTransactionStatus, 
             balance 
-        } = this.props
+        } = this.props;
 
         return (
             <PageContainer
@@ -119,21 +119,21 @@ class DashboardDetail extends Component {
                     }
                 </DashboardSection>
             </PageContainer>
-        )
+        );
     }
 }
 
 const mapDispatchToProps = {
     getTransactions,
     getTransactionStatus
-}
+};
 
 const mapStateToProps = ({ account, transactions }) => ({
     ...account,
     transactions: transactions[account.accountId] || []
-})
+});
 
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(withRouter(DashboardDetail))
+)(withRouter(DashboardDetail));

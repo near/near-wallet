@@ -6,6 +6,6 @@ const isMobile = () => {
     const iOs = /iPad|iPhone|iPod/.test(userAgent) && !window.MSStream;
 
     return windows || android || iOs;
-}
+};
 
 export default isMobile;

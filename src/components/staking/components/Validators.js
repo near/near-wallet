@@ -1,12 +1,12 @@
-import React, { useState } from 'react'
-import { Translate } from 'react-localize-redux'
-import ListWrapper from './ListWrapper'
-import ValidatorBox from './ValidatorBox'
+import React, { useState } from 'react';
+import { Translate } from 'react-localize-redux';
+import ListWrapper from './ListWrapper';
+import ValidatorBox from './ValidatorBox';
 
 export default function Validators({ validators }) {
-    const [validator, setValidator] = useState('')
+    const [validator, setValidator] = useState('');
 
-    const validValidator = validators.map(validator => validator.accountId).includes(validator)
+    const validValidator = validators.map(validator => validator.accountId).includes(validator);
 
     return (
         <>
@@ -39,5 +39,5 @@ export default function Validators({ validators }) {
                 )}
             </ListWrapper>
         </>
-    )
+    );
 }

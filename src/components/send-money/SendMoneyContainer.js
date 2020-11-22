@@ -1,11 +1,11 @@
-import React from 'react'
+import React from 'react';
 
 
 import {
     List
-} from 'semantic-ui-react'
+} from 'semantic-ui-react';
 
-import styled from 'styled-components'
+import styled from 'styled-components';
 
 const CustomList = styled(List)`
     &&&&& {
@@ -215,12 +215,12 @@ const CustomList = styled(List)`
             }
         }
     }
-`
+`;
 
 const SendMoneyContainer = ({ children }) => (
     <CustomList>
         {children}
     </CustomList>
-)
+);
 
-export default SendMoneyContainer
+export default SendMoneyContainer;

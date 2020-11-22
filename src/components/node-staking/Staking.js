@@ -1,10 +1,10 @@
-import React, { Component } from 'react'
-import { withRouter } from 'react-router-dom'
-import { Translate } from 'react-localize-redux'
+import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
+import { Translate } from 'react-localize-redux';
 
-import AccountFormContainer from '../accounts/AccountFormContainer'
-import AccountFormSection from '../accounts/AccountFormSection'
-import StakingForm from './StakingForm'
+import AccountFormContainer from '../accounts/AccountFormContainer';
+import AccountFormSection from '../accounts/AccountFormSection';
+import StakingForm from './StakingForm';
 
 class Staking extends Component {
     state = {
@@ -15,34 +15,34 @@ class Staking extends Component {
     handleChange = (e, { name, value }) => {
         this.setState(() => ({
             [name]: value
-        }))
+        }));
     }
 
     handleSubmit = e => {
-        e.preventDefault()
+        e.preventDefault();
 
         if (!this.isLegitForm()) {
-            return false
+            return false;
         }
 
         this.setState(() => ({
             loader: true
-        }))
+        }));
 
         setTimeout(() => {
             this.setState(() => ({
                 loader: false
-            }))
+            }));
         }, 1500);
 
     }
 
     isLegitForm = () => {
-        return this.state.amountStaking
+        return this.state.amountStaking;
     }
 
     render() {
-        const { loader } = this.state
+        const { loader } = this.state;
 
         return (
             <AccountFormContainer 
@@ -60,8 +60,8 @@ class Staking extends Component {
                     />
                 </AccountFormSection>
             </AccountFormContainer>
-        )
+        );
     }
 }
 
-export const StakingWithRouter = withRouter(Staking)
+export const StakingWithRouter = withRouter(Staking);

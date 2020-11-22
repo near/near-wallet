@@ -16,12 +16,12 @@ const StyledLogo = styled(Link)`
     svg {
         width: 155px;
     }
-`
+`;
 
 const Logo = () => (
     <StyledLogo to='/' className='logo'>
         <NearLogo/>
     </StyledLogo>
-)
+);
 
 export default Logo;

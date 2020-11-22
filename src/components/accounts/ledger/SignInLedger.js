@@ -15,8 +15,8 @@ import {
     setFormLoader, 
     clearSignInWithLedgerModalState
 } from '../../../actions/account';
-import RequestStatusBox from '../../common/RequestStatusBox'
-import { controller as controllerHelperApi } from '../../../utils/helper-api'
+import RequestStatusBox from '../../common/RequestStatusBox';
+import { controller as controllerHelperApi } from '../../../utils/helper-api';
 
 export function SignInLedger(props) {
     const dispatch = useDispatch();
@@ -27,56 +27,56 @@ export function SignInLedger(props) {
     const account = useSelector(({ account }) => account);
     const { signInWithLedger: signInWithLedgerState, txSigned, signInWithLedgerStatus} = useSelector(({ ledger }) => ledger);
     
-    const signInWithLedgerKeys = Object.keys(signInWithLedgerState || {})
+    const signInWithLedgerKeys = Object.keys(signInWithLedgerState || {});
 
     const ledgerAccounts = signInWithLedgerKeys.map((accountId) => ({
         accountId,
         status: signInWithLedgerState[accountId].status
-    }))
+    }));
     
-    const accountsApproved = signInWithLedgerKeys.reduce((a, accountId) => signInWithLedgerState[accountId].status === 'success' ? a + 1 : a, 0)
-    const accountsError = signInWithLedgerKeys.reduce((a, accountId) => signInWithLedgerState[accountId].status === 'error' ? a + 1 : a, 0)
-    const accountsRejected = signInWithLedgerKeys.reduce((a, accountId) => signInWithLedgerState[accountId].status === 'rejected' ? a + 1 : a, 0)
-    const totalAccounts = signInWithLedgerKeys.length
+    const accountsApproved = signInWithLedgerKeys.reduce((a, accountId) => signInWithLedgerState[accountId].status === 'success' ? a + 1 : a, 0);
+    const accountsError = signInWithLedgerKeys.reduce((a, accountId) => signInWithLedgerState[accountId].status === 'error' ? a + 1 : a, 0);
+    const accountsRejected = signInWithLedgerKeys.reduce((a, accountId) => signInWithLedgerState[accountId].status === 'rejected' ? a + 1 : a, 0);
+    const totalAccounts = signInWithLedgerKeys.length;
     
-    const signingIn = !!signInWithLedgerStatus
+    const signingIn = !!signInWithLedgerStatus;
 
     const handleChange = (e, { value }) => {
-        setAccountId(value)
-    }
+        setAccountId(value);
+    };
 
     const handleSignIn = async () => {
-        setLoader(false)
-        const { error } = await dispatch(signInWithLedger())
+        setLoader(false);
+        const { error } = await dispatch(signInWithLedger());
 
         if (!error) {
-            refreshAndRedirect()
+            refreshAndRedirect();
         }
-    }
+    };
 
     const handleAdditionalAccountId = async () => {
-        setLoader(true)
-        const { error } = await dispatch(signInWithLedgerAddAndSaveAccounts([accountId]))
-        setLoader(false)
+        setLoader(true);
+        const { error } = await dispatch(signInWithLedgerAddAndSaveAccounts([accountId]));
+        setLoader(false);
         
         if (!error) {
-            refreshAndRedirect()
+            refreshAndRedirect();
         }
-    }
+    };
 
     const refreshAndRedirect = () => {
-        dispatch(refreshAccount())
-        dispatch(redirectToApp())
-    }
+        dispatch(refreshAccount());
+        dispatch(redirectToApp());
+    };
 
     const onClose = () => {
         if (signInWithLedgerStatus === 'confirm-public-key') {
-            controllerHelperApi.abort()
+            controllerHelperApi.abort();
         }
         if (signInWithLedgerStatus === 'enter-accountId') {
-            dispatch(clearSignInWithLedgerModalState())
+            dispatch(clearSignInWithLedgerModalState());
         }
-    }
+    };
 
     return (
         <Theme>

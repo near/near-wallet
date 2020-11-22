@@ -103,7 +103,7 @@ const CustomSegment = styled(Segment)`
         }
     }
 }
-`
+`;
 
 const SelectAccountDropdown = ({
     handleOnClick,
@@ -157,6 +157,6 @@ const SelectAccountDropdown = ({
             </CustomSegment>
         )}
     </Translate>
-)
+);
 
 export default SelectAccountDropdown;

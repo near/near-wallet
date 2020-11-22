@@ -18,7 +18,7 @@ const Container = styled.div`
     @media (min-width: 992x) {
         align-items: center;
     }
-`
+`;
 
 const NavLink = styled(Link)`
     display: flex;
@@ -87,7 +87,7 @@ const NavLink = styled(Link)`
             margin-right: 10px;
         }
     }
-`
+`;
 
 const NavLinks = () => (
     <Container className='nav-links'>
@@ -98,6 +98,6 @@ const NavLinks = () => (
         <NavLink icon={arrowIcon} className='rotate-down' to='/receive-money'><Translate id='link.receive'/></NavLink>
         <NavLink icon={stakingIcon} to='/staking'><Translate id='link.staking'/></NavLink>
     </Container>
-)
+);
 
 export default NavLinks;

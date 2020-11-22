@@ -1,18 +1,18 @@
-import React, { Component, Fragment } from 'react'
-import { withRouter, Route } from 'react-router-dom'
-import { connect } from 'react-redux'
-import { Translate } from 'react-localize-redux'
-import { parse as parseQuery } from 'query-string'
+import React, { Component, Fragment } from 'react';
+import { withRouter, Route } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { Translate } from 'react-localize-redux';
+import { parse as parseQuery } from 'query-string';
 
-import { redirectToApp, handleAddAccessKeySeedPhrase, clearAlert, refreshAccount, checkCanEnableTwoFactor, checkIsNew, handleCreateAccountWithSeedPhrase } from '../../actions/account'
-import { generateSeedPhrase } from 'near-seed-phrase'
-import SetupSeedPhraseVerify from './SetupSeedPhraseVerify'
-import SetupSeedPhraseForm from './SetupSeedPhraseForm'
-import copyText from '../../utils/copyText'
-import isMobile from '../../utils/isMobile'
-import { Snackbar, snackbarDuration } from '../common/Snackbar'
-import Container from '../common/styled/Container.css'
-import { KeyPair } from 'near-api-js'
+import { redirectToApp, handleAddAccessKeySeedPhrase, clearAlert, refreshAccount, checkCanEnableTwoFactor, checkIsNew, handleCreateAccountWithSeedPhrase } from '../../actions/account';
+import { generateSeedPhrase } from 'near-seed-phrase';
+import SetupSeedPhraseVerify from './SetupSeedPhraseVerify';
+import SetupSeedPhraseForm from './SetupSeedPhraseForm';
+import copyText from '../../utils/copyText';
+import isMobile from '../../utils/isMobile';
+import { Snackbar, snackbarDuration } from '../common/Snackbar';
+import Container from '../common/styled/Container.css';
+import { KeyPair } from 'near-api-js';
 class SetupSeedPhrase extends Component {
     state = {
         seedPhrase: '',
@@ -23,14 +23,14 @@ class SetupSeedPhrase extends Component {
     }
 
     componentDidMount = () => {
-        this.refreshData()
+        this.refreshData();
     }
 
     refreshData = () => {
 
-        const { seedPhrase, publicKey, secretKey } = generateSeedPhrase()
-        const recoveryKeyPair = KeyPair.fromString(secretKey)
-        const wordId = Math.floor(Math.random() * 12)
+        const { seedPhrase, publicKey, secretKey } = generateSeedPhrase();
+        const recoveryKeyPair = KeyPair.fromString(secretKey);
+        const wordId = Math.floor(Math.random() * 12);
 
         this.setState((prevState) => ({
             ...prevState,
@@ -40,18 +40,18 @@ class SetupSeedPhrase extends Component {
             enterWord: '',
             requestStatus: null,
             recoveryKeyPair
-        }))
+        }));
     }
 
     handleChangeWord = (e, { name, value }) => {
         if (value.match(/[^a-zA-Z]/)) {
-            return false
+            return false;
         }
 
         this.setState((state) => ({
            [name]: value.trim().toLowerCase(),
            requestStatus: null
-        }))
+        }));
     }
 
     handleStartOver = e => {
@@ -59,10 +59,10 @@ class SetupSeedPhrase extends Component {
             history,
             location,
             accountId, 
-        } = this.props
+        } = this.props;
 
-        this.refreshData()
-        history.push(`/setup-seed-phrase/${accountId}/phrase${location.search}`)
+        this.refreshData();
+        history.push(`/setup-seed-phrase/${accountId}/phrase${location.search}`);
     }
 
     handleSubmit = async () => {
@@ -72,27 +72,27 @@ class SetupSeedPhrase extends Component {
             handleCreateAccountWithSeedPhrase,
             checkIsNew,
             location
-        } = this.props
-        const { seedPhrase, enterWord, wordId, recoveryKeyPair } = this.state
+        } = this.props;
+        const { seedPhrase, enterWord, wordId, recoveryKeyPair } = this.state;
         if (enterWord !== seedPhrase.split(' ')[wordId]) {
             this.setState(() => ({
                 requestStatus: {
                     success: false,
                     messageCode: 'account.verifySeedPhrase.error'
                 }
-            }))
-            return false
+            }));
+            return false;
         }
 
-        const isNew = await checkIsNew(accountId)
+        const isNew = await checkIsNew(accountId);
 
         if (!isNew) {
-            await handleAddAccessKeySeedPhrase(accountId, recoveryKeyPair)
-            return
+            await handleAddAccessKeySeedPhrase(accountId, recoveryKeyPair);
+            return;
         }
 
-        const fundingOptions = JSON.parse(parseQuery(location.search).fundingOptions || 'null')
-        await handleCreateAccountWithSeedPhrase(accountId, recoveryKeyPair, fundingOptions)
+        const fundingOptions = JSON.parse(parseQuery(location.search).fundingOptions || 'null');
+        await handleCreateAccountWithSeedPhrase(accountId, recoveryKeyPair, fundingOptions);
     }
 
     handleCopyPhrase = () => {
@@ -112,7 +112,7 @@ class SetupSeedPhrase extends Component {
         this.setState({ successSnackbar: true }, () => {
             setTimeout(() => {
                 this.setState({ successSnackbar: false });
-            }, snackbarDuration)
+            }, snackbarDuration);
         });
     }
 
@@ -165,7 +165,7 @@ class SetupSeedPhrase extends Component {
                     </Fragment>
                 )}
             </Translate>
-        )
+        );
     }
 }
 
@@ -177,12 +177,12 @@ const mapDispatchToProps = {
     checkCanEnableTwoFactor,
     checkIsNew,
     handleCreateAccountWithSeedPhrase
-}
+};
 
 const mapStateToProps = ({ account }, { match }) => ({
     ...account,
     verify: match.params.verify,
     accountId: match.params.accountId,
-})
+});
 
-export const SetupSeedPhraseWithRouter = connect(mapStateToProps, mapDispatchToProps)(withRouter(SetupSeedPhrase))
+export const SetupSeedPhraseWithRouter = connect(mapStateToProps, mapDispatchToProps)(withRouter(SetupSeedPhrase));

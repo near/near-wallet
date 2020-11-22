@@ -1,11 +1,11 @@
-import React from 'react'
-import { Translate } from 'react-localize-redux'
-import { Link } from 'react-router-dom'
+import React from 'react';
+import { Translate } from 'react-localize-redux';
+import { Link } from 'react-router-dom';
 
-import { Grid, Image } from 'semantic-ui-react'
+import { Grid, Image } from 'semantic-ui-react';
 
-import { ReactComponent as StakingImage } from '../../images/icon-staking.svg'
-import ArrowRight from '../../images/icon-arrow-right.svg'
+import { ReactComponent as StakingImage } from '../../images/icon-staking.svg';
+import ArrowRight from '../../images/icon-arrow-right.svg';
 
 const NodeStakingStaking = ({ staking }) => (
     <Grid padded className='box'>
@@ -40,6 +40,6 @@ const NodeStakingStaking = ({ staking }) => (
             </Grid.Row>
         )}
     </Grid>
-)
+);
 
-export default NodeStakingStaking
+export default NodeStakingStaking;

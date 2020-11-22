@@ -1,11 +1,11 @@
-import React, { Fragment } from 'react'
-import PropTypes from 'prop-types'
-import { Translate } from 'react-localize-redux'
-import { Header } from 'semantic-ui-react'
+import React, { Fragment } from 'react';
+import PropTypes from 'prop-types';
+import { Translate } from 'react-localize-redux';
+import { Header } from 'semantic-ui-react';
 
-import FormButton from '../common/FormButton'
-import AddNodeFormIp from './AddNodeFormIp'
-import AddNodeFormNick from './AddNodeFormNick'
+import FormButton from '../common/FormButton';
+import AddNodeFormIp from './AddNodeFormIp';
+import AddNodeFormNick from './AddNodeFormNick';
 
 const AddNodeForm = ({
     loader,
@@ -43,7 +43,7 @@ const AddNodeForm = ({
             <Translate id='button.removeNode' />
         </FormButton>
     </Fragment>
-)
+);
 
 AddNodeForm.propTypes = {
     loader: PropTypes.bool.isRequired,
@@ -51,6 +51,6 @@ AddNodeForm.propTypes = {
     handleChange: PropTypes.func.isRequired,
     handleRemoveNode: PropTypes.func.isRequired,
     isLegitForm: PropTypes.func.isRequired
-}
+};
 
-export default AddNodeForm
+export default AddNodeForm;

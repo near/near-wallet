@@ -1,12 +1,12 @@
-import React, { Component } from 'react'
-import { withRouter } from 'react-router-dom'
-import { Translate } from 'react-localize-redux'
+import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
+import { Translate } from 'react-localize-redux';
 
-import NodeStakingContainer from './NodeStakingContainer'
-import PageContainer from '../common/PageContainer'
-import NodeStakingSteps from './NodeStakingSteps'
-import NodeStakingNodes from './NodeStakingNodes'
-import NodeStakingStaking from './NodeStakingStaking'
+import NodeStakingContainer from './NodeStakingContainer';
+import PageContainer from '../common/PageContainer';
+import NodeStakingSteps from './NodeStakingSteps';
+import NodeStakingNodes from './NodeStakingNodes';
+import NodeStakingStaking from './NodeStakingStaking';
 
 class NodeStaking extends Component {
     state = {
@@ -18,7 +18,7 @@ class NodeStaking extends Component {
     }
 
     render() {
-        const { nodes, staking } = this.state
+        const { nodes, staking } = this.state;
 
         return (
             <NodeStakingContainer>
@@ -34,8 +34,8 @@ class NodeStaking extends Component {
                     staking={staking}
                 />
             </NodeStakingContainer>
-        )
+        );
     }
 }
 
-export const NodeStakingWithRouter = withRouter(NodeStaking)
+export const NodeStakingWithRouter = withRouter(NodeStaking);

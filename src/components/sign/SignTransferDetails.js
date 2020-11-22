@@ -1,14 +1,14 @@
-import React, { Component, Fragment } from 'react'
-import { connect } from 'react-redux'
-import { withRouter } from 'react-router-dom'
-import { Translate } from 'react-localize-redux'
+import React, { Component, Fragment } from 'react';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
+import { Translate } from 'react-localize-redux';
 
-import IconArrowLeft from '../../images/IconArrowLeft'
-import IconProblems from '../../images/IconProblems'
+import IconArrowLeft from '../../images/IconArrowLeft';
+import IconProblems from '../../images/IconProblems';
 
-import { Grid } from 'semantic-ui-react'
+import { Grid } from 'semantic-ui-react';
 
-import styled from 'styled-components'
+import styled from 'styled-components';
 
 const CustomGrid = styled(Grid)`
     .top-back {
@@ -73,11 +73,11 @@ const CustomGrid = styled(Grid)`
             }
         }
     }
-`
+`;
 
 class SignTransferDetails extends Component {
     render() {
-        const { handleDetails, transactions, fees } = this.props
+        const { handleDetails, transactions, fees } = this.props;
 
         return (
             <CustomGrid padded>
@@ -112,7 +112,7 @@ class SignTransferDetails extends Component {
                     </Grid.Column>
                 </Grid.Row>
             </CustomGrid>
-        )
+        );
     }
 }
 
@@ -127,7 +127,7 @@ const TransactionsList = ({ transactions }) =>
                 actions={t.actions}
             />
         </div>
-))
+));
 
 const ActionsList = ({ transaction, actions }) => 
     actions
@@ -139,7 +139,7 @@ const ActionsList = ({ transaction, actions }) =>
                 action={a} 
                 actionKind={Object.keys(a)[0]}  
             />
-))
+));
 
 const ActionRow = ({ transaction, action, actionKind }) => (
     <div key={`subitem-`} className='details-subitem color-charcoal-grey'>
@@ -154,7 +154,7 @@ const ActionRow = ({ transaction, action, actionKind }) => (
             />
         </div>
     </div>
-)
+);
 
 const ActionMessage = ({ transaction, action, actionKind }) => (
     <b>
@@ -169,7 +169,7 @@ const ActionMessage = ({ transaction, action, actionKind }) => (
             }}
         />
     </b>
-)
+);
 
 const ActionWarrning = ({ actionKind }) => (
     <Fragment>
@@ -198,13 +198,13 @@ const ActionWarrning = ({ actionKind }) => (
             </Fragment>
         )}
     </Fragment>
-)
+);
 
-const mapDispatchToProps = {}
+const mapDispatchToProps = {};
 
 const mapStateToProps = ({ account, sign }) => ({
     account,
     ...sign,
-})
+});
 
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(SignTransferDetails))
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(SignTransferDetails));

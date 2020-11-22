@@ -1,8 +1,8 @@
-import React from 'react'
+import React from 'react';
 
-import { Container } from 'semantic-ui-react'
+import { Container } from 'semantic-ui-react';
 
-import styled from 'styled-components'
+import styled from 'styled-components';
 
 const CustomContainer = styled(Container)`
     &&&& {
@@ -95,12 +95,12 @@ const CustomContainer = styled(Container)`
             
         }
     }
-`
+`;
 
 const NodeStakingContainer = ({ children }) => (
     <CustomContainer>
         {children}
     </CustomContainer>
-)
+);
 
-export default NodeStakingContainer
+export default NodeStakingContainer;

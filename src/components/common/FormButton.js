@@ -1,14 +1,14 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import { Button } from 'semantic-ui-react'
-import { Translate } from 'react-localize-redux'
-import { withRouter } from 'react-router'
-import classNames from '../../utils/classNames'
+import React from 'react';
+import PropTypes from 'prop-types';
+import { Button } from 'semantic-ui-react';
+import { Translate } from 'react-localize-redux';
+import { withRouter } from 'react-router';
+import classNames from '../../utils/classNames';
 
-import ArrowGrnImage from '../../images/icon-arrow-grn.svg'
-import ArrowWhiteImage from '../../images/icon-arrow-white.svg'
+import ArrowGrnImage from '../../images/icon-arrow-grn.svg';
+import ArrowWhiteImage from '../../images/icon-arrow-white.svg';
 
-import styled from 'styled-components'
+import styled from 'styled-components';
 
 const CustomButton = styled(Button)`
     &&& {
@@ -351,7 +351,7 @@ const CustomButton = styled(Button)`
             width: 100%;
         }
     }
-`
+`;
 
 const FormButton = ({ 
     children, 
@@ -373,8 +373,8 @@ const FormButton = ({
         className={classNames([color, size, className, {'dots': sending}])}
         disabled={disabled}
         onClick={(e) => {
-            onClick && onClick(e)
-            linkTo && history.push(linkTo)
+            onClick && onClick(e);
+            linkTo && history.push(linkTo);
         }}
         tabIndex='3'
     >
@@ -383,7 +383,7 @@ const FormButton = ({
             : children
         }
     </CustomButton>
-)
+);
 
 FormButton.propTypes = {
     children: PropTypes.node.isRequired,
@@ -395,6 +395,6 @@ FormButton.propTypes = {
     size: PropTypes.string,
     linkTo: PropTypes.string,
     className: PropTypes.string
-}
+};
 
-export default withRouter(FormButton)
+export default withRouter(FormButton);

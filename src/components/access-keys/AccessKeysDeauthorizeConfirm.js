@@ -1,9 +1,9 @@
-import React from 'react'
-import { Translate } from 'react-localize-redux'
+import React from 'react';
+import { Translate } from 'react-localize-redux';
 
-import FormButton from '../common/FormButton'
+import FormButton from '../common/FormButton';
 
-import { Input, Form } from 'semantic-ui-react'
+import { Input, Form } from 'semantic-ui-react';
 
 const AccessKeysDeauthorizeConfirm = ({ handleConfirmSubmit, handleChange, accountId, confirmStatus, handleConfirmClear, formLoader }) => (
     <Form onSubmit={(e) => handleConfirmSubmit(e)}>
@@ -50,6 +50,6 @@ const AccessKeysDeauthorizeConfirm = ({ handleConfirmSubmit, handleChange, accou
             </FormButton>
         </div>
     </Form>
-)
+);
 
-export default AccessKeysDeauthorizeConfirm
+export default AccessKeysDeauthorizeConfirm;

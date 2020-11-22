@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import React, { Fragment } from 'react';
 
 const PaginationSummary = ({ pageNumber, pageLimit, totalRecords }) => (
    <Fragment>
@@ -7,6 +7,6 @@ const PaginationSummary = ({ pageNumber, pageLimit, totalRecords }) => (
       </span>
       OF {totalRecords} TOTAL
    </Fragment>
-)
+);
 
-export default PaginationSummary
+export default PaginationSummary;

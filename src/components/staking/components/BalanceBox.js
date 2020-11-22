@@ -1,12 +1,12 @@
-import React from 'react'
-import styled from 'styled-components'
-import Balance from '../../common/Balance'
-import InfoIcon from '../../svg/InfoIcon.js'
-import { Modal } from 'semantic-ui-react'
-import { Translate } from 'react-localize-redux'
-import FormButton from '../../common/FormButton'
-import classNames from '../../../utils/classNames'
-import BN from 'bn.js'
+import React from 'react';
+import styled from 'styled-components';
+import Balance from '../../common/Balance';
+import InfoIcon from '../../svg/InfoIcon.js';
+import { Modal } from 'semantic-ui-react';
+import { Translate } from 'react-localize-redux';
+import FormButton from '../../common/FormButton';
+import classNames from '../../../utils/classNames';
+import BN from 'bn.js';
 
 const Container = styled.div`
     border: 2px solid #F2F2F2;
@@ -51,7 +51,7 @@ const Container = styled.div`
             letter-spacing: 2px !important;
         }
     }
-`
+`;
 
 export default function BalanceBox({
     title,
@@ -91,5 +91,5 @@ export default function BalanceBox({
                 </Container>
             )}
         </Translate>
-    )
+    );
 }

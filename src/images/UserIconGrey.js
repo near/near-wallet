@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 
 export default ({ color = '#CCCCCC' }) => (
     <svg width="38" height="38" viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -6,4 +6,4 @@ export default ({ color = '#CCCCCC' }) => (
     <path d="M1 19C1 9.1 9.1 1 19 1C28.9 1 37 9.1 37 19" stroke={color} strokeWidth="3" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round"/>
     </svg>
     
-)
+);

@@ -1,12 +1,12 @@
-import React from 'react'
-import { Translate } from 'react-localize-redux'
+import React from 'react';
+import { Translate } from 'react-localize-redux';
 
-import FormButton from '../common/FormButton'
-import KeyListItem from './KeyListItem'
+import FormButton from '../common/FormButton';
+import KeyListItem from './KeyListItem';
 
-import { Grid, Image } from 'semantic-ui-react'
+import { Grid, Image } from 'semantic-ui-react';
 
-import styled from 'styled-components'
+import styled from 'styled-components';
 
 const CustomGrid = styled(Grid)`
     &&& {
@@ -50,7 +50,7 @@ const CustomGrid = styled(Grid)`
             margin: -4px 10px 0 8px;
         }
     }
-`
+`;
 
 // TODO: Refactor common code with DashboardKeys
 const DashboardKeys = ({ image, title, to, accessKeys, empty }) => (
@@ -82,6 +82,6 @@ const DashboardKeys = ({ image, title, to, accessKeys, empty }) => (
             </Grid.Column>
         </Grid.Row>
     </CustomGrid>
-)
+);
 
-export default DashboardKeys
+export default DashboardKeys;

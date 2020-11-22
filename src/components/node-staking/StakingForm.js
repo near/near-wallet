@@ -1,10 +1,10 @@
-import React, { Fragment } from 'react'
-import PropTypes from 'prop-types'
-import { Translate } from 'react-localize-redux'
-import { Header } from 'semantic-ui-react'
+import React, { Fragment } from 'react';
+import PropTypes from 'prop-types';
+import { Translate } from 'react-localize-redux';
+import { Header } from 'semantic-ui-react';
 
-import FormButton from '../common/FormButton'
-import StakingFormAmount from './StakingFormAmount'
+import FormButton from '../common/FormButton';
+import StakingFormAmount from './StakingFormAmount';
 
 const StakingForm = ({
     loader,
@@ -26,12 +26,12 @@ const StakingForm = ({
             <Translate id='button.stake' />
         </FormButton>
     </Fragment>
-)
+);
 
 StakingForm.propTypes = {
     loader: PropTypes.bool.isRequired,
     handleChange: PropTypes.func.isRequired,
     isLegitForm: PropTypes.func.isRequired
-}
+};
 
-export default StakingForm
+export default StakingForm;

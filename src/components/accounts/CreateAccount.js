@@ -1,15 +1,15 @@
-import React, { Component } from 'react'
-import styled from 'styled-components'
-import { connect } from 'react-redux'
-import { Link } from 'react-router-dom'
-import { Translate } from 'react-localize-redux'
-import { checkNewAccount, createNewAccount, clear, refreshAccount, setFormLoader, checkNearDropBalance } from '../../actions/account'
-import { ACCOUNT_ID_SUFFIX } from '../../utils/wallet'
-import Container from '../common/styled/Container.css'
+import React, { Component } from 'react';
+import styled from 'styled-components';
+import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { Translate } from 'react-localize-redux';
+import { checkNewAccount, createNewAccount, clear, refreshAccount, setFormLoader, checkNearDropBalance } from '../../actions/account';
+import { ACCOUNT_ID_SUFFIX } from '../../utils/wallet';
+import Container from '../common/styled/Container.css';
 import BrokenLinkIcon from '../svg/BrokenLinkIcon';
-import FormButton from '../common/FormButton'
-import AccountFormAccountId from './AccountFormAccountId'
-import AccountNote from '../common/AccountNote'
+import FormButton from '../common/FormButton';
+import AccountFormAccountId from './AccountFormAccountId';
+import AccountNote from '../common/AccountNote';
 
 const StyledContainer = styled(Container)`
 
@@ -68,7 +68,7 @@ const StyledContainer = styled(Container)`
             margin-top: 20px;
         }
     }
-`
+`;
 
 class CreateAccount extends Component {
     state = {
@@ -80,27 +80,27 @@ class CreateAccount extends Component {
 
     componentDidMount() {
         if (this.props.fundingContract && this.props.fundingKey) {
-            this.handleCheckNearDropBalance()
+            this.handleCheckNearDropBalance();
         }
     }
 
     componentWillUnmount = () => {
-        this.props.clear()
+        this.props.clear();
     }
 
     handleCheckNearDropBalance = async () => {
         try {
-            await this.props.checkNearDropBalance(this.props.fundingContract, this.props.fundingKey)
+            await this.props.checkNearDropBalance(this.props.fundingContract, this.props.fundingKey);
         } catch(e) {
-            this.setState({ invalidNearDrop: true })
+            this.setState({ invalidNearDrop: true });
         }
     }
 
     handleChange = (e, { name, value }) => {
         if (value.length > 0) {
-            this.setState({[name]: `${value}.${ACCOUNT_ID_SUFFIX}`})
+            this.setState({[name]: `${value}.${ACCOUNT_ID_SUFFIX}`});
         } else {
-            this.setState({[name]: value})
+            this.setState({[name]: value});
         }
     }
 
@@ -110,15 +110,15 @@ class CreateAccount extends Component {
             setFormLoader,
             fundingContract, fundingKey,
             fundingAccountId,
-        } = this.props
+        } = this.props;
 
-        setFormLoader(false)
+        setFormLoader(false);
         this.setState({ loader: true });
 
-        let queryString = ''
+        let queryString = '';
         if (fundingAccountId || fundingContract) {
-            const fundingOptions = fundingAccountId ? { fundingAccountId } : { fundingContract, fundingKey }
-            queryString = `?fundingOptions=${encodeURIComponent(JSON.stringify(fundingOptions))}`
+            const fundingOptions = fundingAccountId ? { fundingAccountId } : { fundingContract, fundingKey };
+            queryString = `?fundingOptions=${encodeURIComponent(JSON.stringify(fundingOptions))}`;
         }
         let nextUrl = process.env.DISABLE_PHONE_RECOVERY === 'yes' ?
             `/setup-seed-phrase/${accountId}/phrase${queryString}` :
@@ -128,8 +128,8 @@ class CreateAccount extends Component {
     }
 
     render() {
-        const { loader, accountId, invalidNearDrop } = this.state
-        const { requestStatus, formLoader, checkNewAccount, resetAccount, clear, setFormLoader } = this.props
+        const { loader, accountId, invalidNearDrop } = this.state;
+        const { requestStatus, formLoader, checkNewAccount, resetAccount, clear, setFormLoader } = this.props;
         const useRequestStatus = accountId.length > 0 ? requestStatus : undefined;
         
         if (!invalidNearDrop) {
@@ -167,7 +167,7 @@ class CreateAccount extends Component {
                         </div>
                     </form>
                 </StyledContainer>
-            )
+            );
         } else {
             return (
                 <StyledContainer className='small-centered invalid-link'>
@@ -176,7 +176,7 @@ class CreateAccount extends Component {
                     <h2><Translate id='createAccount.invalidLinkDrop.one'/></h2>
                     <h2><Translate id='createAccount.invalidLinkDrop.two'/></h2>
                 </StyledContainer>
-            )
+            );
         }
     }
 }
@@ -188,16 +188,16 @@ const mapDispatchToProps = {
     refreshAccount,
     setFormLoader,
     checkNearDropBalance
-}
+};
 
 const mapStateToProps = ({ account }, { match }) => ({
     ...account,
     fundingContract: match.params.fundingContract,
     fundingKey: match.params.fundingKey,
     fundingAccountId: match.params.fundingAccountId,
-})
+});
 
 export const CreateAccountWithRouter = connect(
     mapStateToProps,
     mapDispatchToProps
-)(CreateAccount)
+)(CreateAccount);

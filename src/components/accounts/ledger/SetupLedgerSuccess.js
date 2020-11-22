@@ -11,24 +11,24 @@ const SetupLedgerSuccess = (props) => {
 
     const [nextStep, setNextStep] = useState('');
     const removingkeys = props.actionsPending.includes('REMOVE_NON_LEDGER_ACCESS_KEYS');
-    const { hasLedger } = useSelector(({ ledger }) => ledger)
+    const { hasLedger } = useSelector(({ ledger }) => ledger);
 
     const handleConfirm = async () => {
         if (nextStep === 'keep') {
-            goToProfile()
+            goToProfile();
         } else if (nextStep === 'remove') {
             if (hasLedger) {
-                setNextStep('')
+                setNextStep('');
             }
 
-            await props.removeNonLedgerAccessKeys()
-            goToProfile()
+            await props.removeNonLedgerAccessKeys();
+            goToProfile();
         }
-    }
+    };
 
     const goToProfile = () => {
-        props.redirectTo('/profile')
-    }
+        props.redirectTo('/profile');
+    };
 
     return (
         <Theme>
@@ -54,15 +54,15 @@ const SetupLedgerSuccess = (props) => {
             }
         </Theme>
     );
-}
+};
 
 const mapDispatchToProps = {
     removeNonLedgerAccessKeys,
     redirectTo
-}
+};
 
 const mapStateToProps = ({ account }) => ({
     ...account
-})
+});
 
 export const SetupLedgerSuccessWithRouter = connect(mapStateToProps, mapDispatchToProps)(SetupLedgerSuccess);

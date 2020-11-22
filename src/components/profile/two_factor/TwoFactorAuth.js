@@ -7,11 +7,11 @@ import FormButton from '../../common/FormButton';
 import { Translate } from 'react-localize-redux';
 import KeysIcon from '../../svg/KeysIcon';
 import SkeletonLoading from '../../common/SkeletonLoading';
-import { MULTISIG_MIN_AMOUNT } from '../../../utils/wallet'
-import Balance from '../../common/Balance'
-import { utils } from 'near-api-js'
-import ConfirmDisable from '../hardware_devices/ConfirmDisable'
-import { disableMultisig } from '../../../actions/account'
+import { MULTISIG_MIN_AMOUNT } from '../../../utils/wallet';
+import Balance from '../../common/Balance';
+import { utils } from 'near-api-js';
+import ConfirmDisable from '../hardware_devices/ConfirmDisable';
+import { disableMultisig } from '../../../actions/account';
 
 const Container = styled(Card)`
     margin-top: 30px;
@@ -72,7 +72,7 @@ const Container = styled(Card)`
         }
 
     }
-`
+`;
 
 const TwoFactorAuth = ({ twoFactor, history }) => {
     const [confirmDisable, setConfirmDisable] = useState(false);
@@ -81,9 +81,9 @@ const TwoFactorAuth = ({ twoFactor, history }) => {
     const loading = account.actionsPending.includes('LOAD_RECOVERY_METHODS');
 
     const handleConfirmDisable = async () => {
-        await dispatch(disableMultisig())
-        setConfirmDisable(false)
-    }
+        await dispatch(disableMultisig());
+        setConfirmDisable(false);
+    };
 
     return (
         <Container>
@@ -148,7 +148,7 @@ const TwoFactorAuth = ({ twoFactor, history }) => {
                 </div>
             }
         </Container>
-    )
-}
+    );
+};
 
 export default withRouter(TwoFactorAuth);

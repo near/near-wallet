@@ -1,8 +1,8 @@
-import React from 'react'
-import { Translate } from 'react-localize-redux'
-import styled from 'styled-components'
-import InfoIcon from '../../svg/InfoIcon.js'
-import { Modal } from 'semantic-ui-react'
+import React from 'react';
+import { Translate } from 'react-localize-redux';
+import styled from 'styled-components';
+import InfoIcon from '../../svg/InfoIcon.js';
+import { Modal } from 'semantic-ui-react';
 
 const Container = styled.div`
     background-color: #FFF0DE;
@@ -26,7 +26,7 @@ const Container = styled.div`
         margin-left: auto;
         color: #452500;
     }
-`
+`;
 
 export default function StakingFee({ fee }) {
     
@@ -42,5 +42,5 @@ export default function StakingFee({ fee }) {
             </Modal>
             <span className='fee'>{fee}%</span>
         </Container>
-    )
+    );
 }

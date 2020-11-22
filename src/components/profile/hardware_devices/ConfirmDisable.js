@@ -39,7 +39,7 @@ const Container = styled.form`
             padding: 5px;
         }
     }
-`
+`;
 
 const ConfirmDisable = ({ onConfirmDisable, onKeepEnabled, accountId, disabling, component }) => {
     const [username, setUsername] = useState('');
@@ -78,7 +78,7 @@ const ConfirmDisable = ({ onConfirmDisable, onKeepEnabled, accountId, disabling,
                 </FormButton>
             </div>
         </Container>
-    )
-}
+    );
+};
 
 export default ConfirmDisable;

@@ -1,7 +1,7 @@
-import React from 'react'
-import styled from 'styled-components'
-import { Popup } from 'semantic-ui-react'
-import InfoIcon from '../svg/InfoIcon.js'
+import React from 'react';
+import styled from 'styled-components';
+import { Popup } from 'semantic-ui-react';
+import InfoIcon from '../svg/InfoIcon.js';
 
 const Trigger = styled.div`
     height: 20px;
@@ -29,7 +29,7 @@ const Trigger = styled.div`
         }
     }
 
-`
+`;
 
 const InfoPopup = ({
     content,
@@ -40,6 +40,6 @@ const InfoPopup = ({
         trigger={<Trigger className='trigger'><InfoIcon/></Trigger>}
         position={position}
     />
-)
+);
 
-export default InfoPopup
+export default InfoPopup;

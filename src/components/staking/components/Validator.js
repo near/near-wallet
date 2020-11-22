@@ -1,32 +1,32 @@
-import React, { useState } from 'react'
-import FormButton from '../../common/FormButton'
-import { Translate } from 'react-localize-redux'
-import BalanceBox from './BalanceBox'
-import StakingFee from './StakingFee'
-import ListWrapper from './ListWrapper'
-import AlertBanner from './AlertBanner'
-import StakeConfirmModal from './StakeConfirmModal'
-import { onKeyDown } from '../../../hooks/eventListeners'
+import React, { useState } from 'react';
+import FormButton from '../../common/FormButton';
+import { Translate } from 'react-localize-redux';
+import BalanceBox from './BalanceBox';
+import StakingFee from './StakingFee';
+import ListWrapper from './ListWrapper';
+import AlertBanner from './AlertBanner';
+import StakeConfirmModal from './StakeConfirmModal';
+import { onKeyDown } from '../../../hooks/eventListeners';
 
 export default function Validator({ match, validator, onUnstake, onWithdraw, loading, selectedValidator, history, currentValidators }) {
-    const [confirm, setConfirm] = useState(null)
+    const [confirm, setConfirm] = useState(null);
 
-    const stakeNotAllowed = selectedValidator && selectedValidator !== match.params.validator && currentValidators.length
+    const stakeNotAllowed = selectedValidator && selectedValidator !== match.params.validator && currentValidators.length;
 
     onKeyDown(e => {
         if (e.keyCode === 13 && confirm === 'withdraw') {
-            handleStakeAction()
+            handleStakeAction();
         }
-    })
+    });
 
     const handleStakeAction = async () => {
         if (confirm === 'unstake') {
-           await onUnstake()
+           await onUnstake();
         } else if (confirm === 'withdraw') {
-           await onWithdraw()
+           await onWithdraw();
         }
-        setConfirm('done')
-    }
+        setConfirm('done');
+    };
 
     return (
         <>
@@ -91,5 +91,5 @@ export default function Validator({ match, validator, onUnstake, onWithdraw, loa
                 </>
             }
         </>
-    )
+    );
 }

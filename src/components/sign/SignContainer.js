@@ -1,8 +1,8 @@
-import React from 'react'
+import React from 'react';
 
-import { Container } from 'semantic-ui-react'
+import { Container } from 'semantic-ui-react';
 
-import styled from 'styled-components'
+import styled from 'styled-components';
 
 const CustomContainer = styled(Container)`
     &&& {
@@ -144,12 +144,12 @@ const CustomContainer = styled(Container)`
             }
         }
     }
-`
+`;
 
 const SignContainer = ({ children }) => (
     <CustomContainer>
         {children}
     </CustomContainer>
-)
+);
 
-export default SignContainer
+export default SignContainer;

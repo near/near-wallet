@@ -113,7 +113,7 @@ const Container = styled.div`
             font-size: 16px;
         }
     }
-`
+`;
 
 const Header = styled.div`
     position: relative;
@@ -126,13 +126,13 @@ const Header = styled.div`
         left: 0;
     }
 
-`
+`;
 
 const Title = styled.div`
     font-size: 16px;
     color: #24272a;
     font-weight: 500;
-`
+`;
 
 const TwoFactorOption = ({
     children,
@@ -152,7 +152,7 @@ const TwoFactorOption = ({
             </Header>
             {active && children}
         </Container>
-    )
-}
+    );
+};
 
 export default TwoFactorOption;

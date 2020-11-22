@@ -31,6 +31,6 @@ const NextStepModal = ({ nextStep, onClose, onConfirm, removingkeys }) => {
             <button className='link' id='close-button'><Translate id='button.cancel'/></button>
         </Modal>
     );
-}
+};
 
 export default NextStepModal;

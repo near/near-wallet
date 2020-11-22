@@ -1,10 +1,10 @@
-import React from 'react'
-import { Translate } from 'react-localize-redux'
+import React from 'react';
+import { Translate } from 'react-localize-redux';
 
-import MobileContainer from './MobileContainer'
-import SignAnimatedArrow from './SignAnimatedArrow'
+import MobileContainer from './MobileContainer';
+import SignAnimatedArrow from './SignAnimatedArrow';
 
-import { Grid } from 'semantic-ui-react'
+import { Grid } from 'semantic-ui-react';
 
 const SignTransferReady = ({ status, isMonetaryTransaction }) => (
     <MobileContainer>
@@ -43,6 +43,6 @@ const SignTransferReady = ({ status, isMonetaryTransaction }) => (
             </Grid.Row>
         </Grid>
     </MobileContainer>
-)
+);
 
-export default SignTransferReady
+export default SignTransferReady;

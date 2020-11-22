@@ -1,18 +1,18 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 
-import { Grid, List } from 'semantic-ui-react'
+import { Grid, List } from 'semantic-ui-react';
 
-import TransactionFilter from '../../images/icon-m-filter.svg'
+import TransactionFilter from '../../images/icon-m-filter.svg';
 
-import PaginationShowSubBox from './PaginationSubBox'
-import { PaginationTab } from './PaginationTab'
-import PaginationPaging from './PaginationPaging'
-import PaginationSummary from './PaginationSummary'
-import Search from '../common/Search'
+import PaginationShowSubBox from './PaginationSubBox';
+import { PaginationTab } from './PaginationTab';
+import PaginationPaging from './PaginationPaging';
+import PaginationSummary from './PaginationSummary';
+import Search from '../common/Search';
 
-import PaginationSortBy from './PaginationSortBy'
+import PaginationSortBy from './PaginationSortBy';
 
-import styled from 'styled-components'
+import styled from 'styled-components';
 
 const PaginationBlockGrid = styled(Grid)`
     &&& {
@@ -76,7 +76,7 @@ const PaginationBlockGrid = styled(Grid)`
             }
         }
     }
-`
+`;
 
 class PaginationBlock extends Component {
     static defaultProps = {
@@ -98,37 +98,37 @@ class PaginationBlock extends Component {
     handleOnClick = () => {
         this.setState({
             dropdown: !this.state.dropdown
-        })
+        });
     }
 
     handleOnClickPaging = () => {
         this.setState({
             pagingDropdown: !this.state.pagingDropdown
-        })
+        });
     }
 
     handleChange = (e, { name, value }) => {
-        this.setState(() => ({ [name]: value }))
+        this.setState(() => ({ [name]: value }));
     }
 
     handleSubmit = () => {
-        console.log('not ready yet')
+        console.log('not ready yet');
     }
 
     handleDropdownClick = dropdownType => {
         this.setState({
             dropdownType,
             dropdown: !this.state.dropdown
-        })
+        });
     }
 
     handlePagingDropdownClick = pagingValue => {
         this.setState({
             pagingValue,
             pagingDropdown: !this.state.pagingDropdown
-        })
+        });
 
-        this.props.onPageChanged(1, pagingValue)
+        this.props.onPageChanged(1, pagingValue);
     }
 
     handleTabChange(pageNumber) {
@@ -143,7 +143,7 @@ class PaginationBlock extends Component {
     buttonRadioClick = () => {
         this.setState(state => ({
             buttonRadio: !state.buttonRadio
-        }))
+        }));
     }
 
     render() {
@@ -164,7 +164,7 @@ class PaginationBlock extends Component {
             confirm,
             confirmStatus,
             formLoader
-        } = this.props
+        } = this.props;
 
         const {
             dropdownType,
@@ -172,7 +172,7 @@ class PaginationBlock extends Component {
             search,
             pagingValue,
             pagingDropdown
-        } = this.state
+        } = this.state;
 
         const {
             totalRecords = 1100,
@@ -180,9 +180,9 @@ class PaginationBlock extends Component {
             initialPage = 0,
             onPageChanged = () => {},
             pageNeighbors = 1
-        } = this.props
+        } = this.props;
 
-        const filterTypesByType = type ? [filterTypes[type]] : filterTypes
+        const filterTypesByType = type ? [filterTypes[type]] : filterTypes;
 
         return (
             <PaginationBlockGrid
@@ -294,8 +294,8 @@ class PaginationBlock extends Component {
                     </Grid.Row>
                 )}
             </PaginationBlockGrid>
-        )
+        );
     }
 }
 
-export default PaginationBlock
+export default PaginationBlock;

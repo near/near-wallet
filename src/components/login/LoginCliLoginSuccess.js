@@ -1,15 +1,15 @@
-import React from 'react'
-import { Translate } from 'react-localize-redux'
-import { Grid, Image } from 'semantic-ui-react'
-import IconCheckImage from '../../images/icon-check.svg'
+import React from 'react';
+import { Translate } from 'react-localize-redux';
+import { Grid, Image } from 'semantic-ui-react';
+import IconCheckImage from '../../images/icon-check.svg';
 
-import styled from 'styled-components'
+import styled from 'styled-components';
 
 const CustomImage = styled(Image)`
     width: 48px;
     height: 48px;
     margin: 0 auto;
-`
+`;
 
 export const LoginCliLoginSuccess = () => (
     <Grid padded>
@@ -44,4 +44,4 @@ export const LoginCliLoginSuccess = () => (
             </Grid.Column>
         </Grid.Row>
     </Grid>
-)
+);

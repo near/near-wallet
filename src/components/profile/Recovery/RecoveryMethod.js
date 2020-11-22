@@ -19,15 +19,15 @@ const RecoveryMethod = ({
                 accountId={accountId}
                 deleteAllowed={deleteAllowed}
             />
-        )
+        );
     } else {
         return (
             <InactiveMethod
                 method={method.kind}
                 accountId={accountId}
             />
-        )
+        );
     }
-}
+};
 
 export default RecoveryMethod;

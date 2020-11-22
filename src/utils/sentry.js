@@ -28,7 +28,7 @@ const initSentry = () => {
             return breadcrumb;
         }
     });
-}
+};
 
 // NOTE: This module needs to be Node.js compatible as it's used in scripts
 module.exports = { SENTRY_RELEASE, initSentry };

@@ -33,12 +33,12 @@ const Button = styled(Link)`
             text-decoration: none;
         }
     }
-`
+`;
 
 const CreateAccountBtn = () => (
     <Button to='/create'>
         <Translate id='button.createNewAccount'/>
     </Button>
-)
+);
 
 export default CreateAccountBtn;

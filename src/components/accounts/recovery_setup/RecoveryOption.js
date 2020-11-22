@@ -119,7 +119,7 @@ const Container = styled.div`
         opacity: 0.3;
         cursor: not-allowed;
     }
-`
+`;
 
 const Header = styled.div`
     position: relative;
@@ -132,7 +132,7 @@ const Header = styled.div`
         left: 0;
     }
 
-`
+`;
 
 const Title = styled.div`
     font-size: 16px;
@@ -142,22 +142,22 @@ const Title = styled.div`
     span {
         color: #FF585D;
     }
-`
+`;
 
 const Icon = ({option}) => {
     switch (option) {
         case 'email':
-            return <EmailIcon/>
+            return <EmailIcon/>;
         case 'phone':
-            return <PhoneIcon/>
+            return <PhoneIcon/>;
         case 'phrase':
-            return <PhraseIcon/>
+            return <PhraseIcon/>;
         case 'ledger':
-            return <HardwareDeviceIcon/>
+            return <HardwareDeviceIcon/>;
         default:
-            return
+            return;
     }
-}
+};
 
 const RecoveryOption = ({
     children,
@@ -184,8 +184,8 @@ const RecoveryOption = ({
             </Header>
             {!disabled && active && children}
         </Container>
-    )
-}
+    );
+};
 
 RecoveryOption.propTypes = {
     children: PropTypes.oneOfType([
@@ -196,6 +196,6 @@ RecoveryOption.propTypes = {
     onClick: PropTypes.func.isRequired,
     active: PropTypes.string.isRequired,
     problem: PropTypes.bool
-}
+};
 
 export default RecoveryOption;

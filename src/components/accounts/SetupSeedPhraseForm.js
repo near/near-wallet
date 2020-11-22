@@ -1,11 +1,11 @@
-import React from 'react'
-import { withRouter } from 'react-router-dom'
-import { Translate } from 'react-localize-redux'
+import React from 'react';
+import { withRouter } from 'react-router-dom';
+import { Translate } from 'react-localize-redux';
 
-import FormButton from '../common/FormButton'
-import IconMCopy from '../../images/IconMCopy'
+import FormButton from '../common/FormButton';
+import IconMCopy from '../../images/IconMCopy';
 
-import styled from 'styled-components'
+import styled from 'styled-components';
 
 const CustomDiv = styled(`div`)`
     .buttons-row {
@@ -30,7 +30,7 @@ const CustomDiv = styled(`div`)`
             min-width: 125px;
         }
     }
-`
+`;
 
 const Number = styled(`span`)`
     letter-spacing: 2px;
@@ -41,7 +41,7 @@ const Number = styled(`span`)`
         padding-right: 12px;
         font-size: 12px;
     }
-`
+`;
 
 const SetupSeedPhraseForm = ({
     seedPhrase,
@@ -76,7 +76,7 @@ const SetupSeedPhraseForm = ({
                 </FormButton>
             </div>
         </CustomDiv>
-    )
-}
+    );
+};
 
-export default withRouter(SetupSeedPhraseForm)
+export default withRouter(SetupSeedPhraseForm);

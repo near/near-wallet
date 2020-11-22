@@ -1,8 +1,8 @@
-import React from 'react'
+import React from 'react';
 
-import { List } from 'semantic-ui-react'
+import { List } from 'semantic-ui-react';
 
-import styled from 'styled-components'
+import styled from 'styled-components';
 
 const CustomList = styled(List)`
     &&& {
@@ -16,7 +16,7 @@ const CustomList = styled(List)`
             border-left: 0px;
         }
     }
-`
+`;
 
 const ProfileNotice = () => (
     <CustomList>
@@ -29,6 +29,6 @@ const ProfileNotice = () => (
             </List.Content>
         </List.Item>
     </CustomList>
-)
+);
 
-export default ProfileNotice
+export default ProfileNotice;

@@ -1,12 +1,12 @@
-import React, { Fragment } from 'react'
-import { Translate } from 'react-localize-redux'
-import { List } from 'semantic-ui-react'
+import React, { Fragment } from 'react';
+import { Translate } from 'react-localize-redux';
+import { List } from 'semantic-ui-react';
 
 import PageContainer from '../common/PageContainer';
-import MobileContainer from '../sign/MobileContainer'
-import Balance from '../common/Balance'
-import SignAnimatedArrow from '../sign/SignAnimatedArrow'
-import FormButton from '../common/FormButton'
+import MobileContainer from '../sign/MobileContainer';
+import Balance from '../common/Balance';
+import SignAnimatedArrow from '../sign/SignAnimatedArrow';
+import FormButton from '../common/FormButton';
 
 const SendMoneyThirdStep = ({ handleRedirectDashboard, note, amount, accountId }) => (
     <MobileContainer>
@@ -47,6 +47,6 @@ const SendMoneyThirdStep = ({ handleRedirectDashboard, note, amount, accountId }
             </List>
         </Fragment>
     </MobileContainer>
-)
+);
 
-export default SendMoneyThirdStep
+export default SendMoneyThirdStep;

@@ -62,7 +62,7 @@ const MenuBtn = styled.div`
             }
         }
     }
-`
+`;
 
 const MenuButton = ({ onClick, open }) => (
     <div className='menu-btn-wrapper' onClick={onClick}>
@@ -72,6 +72,6 @@ const MenuButton = ({ onClick, open }) => (
             <div/>
         </MenuBtn>
     </div>
-)
+);
 
 export default MenuButton;

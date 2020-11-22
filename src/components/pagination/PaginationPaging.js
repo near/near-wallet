@@ -1,9 +1,9 @@
-import React from 'react'
+import React from 'react';
 
-import { Button, List } from 'semantic-ui-react'
+import { Button, List } from 'semantic-ui-react';
 
-import ArrowDown from '../../images/icon-arrow-down.svg'
-import styled from 'styled-components'
+import ArrowDown from '../../images/icon-arrow-down.svg';
+import styled from 'styled-components';
 
 const PaginationPagingList = styled(List)`
    && .paging-dropdown-tr {
@@ -49,9 +49,9 @@ const PaginationPagingList = styled(List)`
       padding-left: 10px;
       padding-right: 20px;
    }
-`
+`;
 
-const pagingTypes = [10, 20, 50, 100]
+const pagingTypes = [10, 20, 50, 100];
 
 const PaginationFilter = ({
    handleOnClickPaging,
@@ -89,6 +89,6 @@ const PaginationFilter = ({
          PER PAGE
       </List.Item>
    </PaginationPagingList>
-)
+);
 
-export default PaginationFilter
+export default PaginationFilter;

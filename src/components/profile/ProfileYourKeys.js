@@ -1,11 +1,11 @@
-import React from 'react'
+import React from 'react';
 
-import { List, Button, Image } from 'semantic-ui-react'
+import { List, Button, Image } from 'semantic-ui-react';
 
-import KeysGreyImage from '../../images/icon-keys.svg'
-import DocGreyImage from '../../images/icon-doc-grey.svg'
+import KeysGreyImage from '../../images/icon-keys.svg';
+import DocGreyImage from '../../images/icon-doc-grey.svg';
 
-import styled from 'styled-components'
+import styled from 'styled-components';
 
 const CustomList = styled(List)`
     &&& {
@@ -82,7 +82,7 @@ const CustomList = styled(List)`
             }
         }
     }
-`
+`;
 
 const ProfileYourKeys = () => (
     <CustomList className='box'>
@@ -102,6 +102,6 @@ const ProfileYourKeys = () => (
             </List.Content>
         </List.Item>
     </CustomList>
-)
+);
 
-export default ProfileYourKeys
+export default ProfileYourKeys;

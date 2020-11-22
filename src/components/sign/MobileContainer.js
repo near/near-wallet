@@ -1,6 +1,6 @@
-import React, { Component, Fragment } from 'react'
+import React, { Component, Fragment } from 'react';
 
-import styled from 'styled-components'
+import styled from 'styled-components';
 
 const Top = styled(`div`)`
    @media screen and (max-width: 991px) {
@@ -10,10 +10,10 @@ const Top = styled(`div`)`
          overflow: hidden;
       }
    }
-`
+`;
 const Bottom = styled(`div`)`
 
-`
+`;
 
 class MobileContainer extends Component {
     state = {
@@ -23,9 +23,9 @@ class MobileContainer extends Component {
     componentDidMount = () => {
         this.setState(() => ({
             topR: document.getElementById('topR').clientHeight
-        }))
+        }));
 
-        this.updateInnerHeight()
+        this.updateInnerHeight();
         window.addEventListener('resize', this.updateInnerHeight);
     }
 
@@ -34,17 +34,17 @@ class MobileContainer extends Component {
     }
 
     updateInnerHeight = () => {
-        const page = window.innerHeight - (72 + 16)
-        const bottom = document.getElementById('bottom').clientHeight
-        const topR = document.getElementById('topR').clientHeight
+        const page = window.innerHeight - (72 + 16);
+        const bottom = document.getElementById('bottom').clientHeight;
+        const topR = document.getElementById('topR').clientHeight;
 
         this.setState(() => ({
             topHeight: page - bottom < topR ? 0 : page - bottom
-        }))
+        }));
     }
 
     render() {
-        const { children } = this.props
+        const { children } = this.props;
 
         return (
             <Fragment>
@@ -57,8 +57,8 @@ class MobileContainer extends Component {
                     {children[1]}
                 </Bottom>
             </Fragment>
-        )
+        );
     }
 }
 
-export default MobileContainer
+export default MobileContainer;

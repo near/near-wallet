@@ -77,7 +77,7 @@ const Container = styled(Card)`
         margin-top: 20px;
     }
 
-`
+`;
 
 const HardwareDevices = () => {
 
@@ -87,40 +87,40 @@ const HardwareDevices = () => {
     const account = useSelector(({ account }) => account);
     const recoveryMethods = useRecoveryMethods(account.accountId);
     const keys = account.fullAccessKeys || [];
-    const recoveryKeys = recoveryMethods.filter(method => method.kind !== 'ledger').map(key => key.publicKey)
-    const publicKeys = keys.map(key => key.public_key)
-    const hasOtherMethods = publicKeys.some(key => recoveryKeys.includes(key))
-    const hasLedger = recoveryMethods.filter(method => method.kind === 'ledger').map(key => key.publicKey).some(key => publicKeys.includes(key))
+    const recoveryKeys = recoveryMethods.filter(method => method.kind !== 'ledger').map(key => key.publicKey);
+    const publicKeys = keys.map(key => key.public_key);
+    const hasOtherMethods = publicKeys.some(key => recoveryKeys.includes(key));
+    const hasLedger = recoveryMethods.filter(method => method.kind === 'ledger').map(key => key.publicKey).some(key => publicKeys.includes(key));
     const ledgerIsConnected = account.ledgerKey !== null;
-    const hasLedgerButNotConnected = hasLedger && !ledgerIsConnected
+    const hasLedgerButNotConnected = hasLedger && !ledgerIsConnected;
 
     const handleConfirmDisable = async () => {
         try {
-            setDisabling(true)
+            setDisabling(true);
             await dispatch(disableLedger());
         } finally {
-            await dispatch(getAccessKeys())
-            await dispatch(getLedgerKey())
-            setDisabling(false)
+            await dispatch(getAccessKeys());
+            await dispatch(getLedgerKey());
+            setDisabling(false);
             setConfirmDisable(false);
         }
-    }
+    };
 
     const handleConnectLedger = async () => {
-        const ledgerPublicKey = await dispatch(getLedgerPublicKey())
-        await dispatch(connectLedger(ledgerPublicKey))
-        await dispatch(getLedgerKey())
-    }
+        const ledgerPublicKey = await dispatch(getLedgerPublicKey());
+        await dispatch(connectLedger(ledgerPublicKey));
+        await dispatch(getLedgerKey());
+    };
 
     const getActionButton = () => {
         if (ledgerIsConnected) {
-            return <FormButton disabled={!hasOtherMethods} color='gray-red' onClick={() => setConfirmDisable(true)}><Translate id='button.disable'/></FormButton>
+            return <FormButton disabled={!hasOtherMethods} color='gray-red' onClick={() => setConfirmDisable(true)}><Translate id='button.disable'/></FormButton>;
         } else if (hasLedgerButNotConnected) {
-            return <FormButton color='blue' onClick={handleConnectLedger}><Translate id='button.connect'/></FormButton>
+            return <FormButton color='blue' onClick={handleConnectLedger}><Translate id='button.connect'/></FormButton>;
         } else {
-            return <FormButton linkTo={`/setup-ledger/${account.accountId}`} color='blue'><Translate id='button.enable'/></FormButton> 
+            return <FormButton linkTo={`/setup-ledger/${account.accountId}`} color='blue'><Translate id='button.enable'/></FormButton>; 
         }
-    }
+    };
     
     return (
         <Container>
@@ -155,8 +155,8 @@ const HardwareDevices = () => {
                 <div className='color-red'><Translate id='hardwareDevices.ledger.connect'/></div>
             }
         </Container>
-    )
-}
+    );
+};
 
 
 export default withRouter(HardwareDevices);

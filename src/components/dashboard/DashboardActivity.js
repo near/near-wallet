@@ -1,12 +1,12 @@
-import React from 'react'
-import { Translate } from 'react-localize-redux'
-import FormButton from '../common/FormButton'
-import ActionsList from './ActionsList'
-import classNames from '../../utils/classNames'
+import React from 'react';
+import { Translate } from 'react-localize-redux';
+import FormButton from '../common/FormButton';
+import ActionsList from './ActionsList';
+import classNames from '../../utils/classNames';
 
-import { Grid, Image } from 'semantic-ui-react'
+import { Grid, Image } from 'semantic-ui-react';
 
-import styled from 'styled-components'
+import styled from 'styled-components';
 
 const CustomGrid = styled(Grid)`
     &&& {
@@ -82,7 +82,7 @@ const CustomGrid = styled(Grid)`
             }
         }
     }
-`
+`;
 
 const DashboardActivity = ({ image, title, to, transactions, accountId, formLoader, getTransactionStatus }) => (
     <CustomGrid>
@@ -115,6 +115,6 @@ const DashboardActivity = ({ image, title, to, transactions, accountId, formLoad
             </Grid.Column>
         </Grid.Row>
     </CustomGrid>
-)
+);
 
-export default DashboardActivity
+export default DashboardActivity;

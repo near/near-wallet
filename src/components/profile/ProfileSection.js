@@ -1,6 +1,6 @@
-import React from 'react'
+import React from 'react';
 
-import { Grid } from 'semantic-ui-react'
+import { Grid } from 'semantic-ui-react';
 
 const ProfileSection = ({ children }) => (
    <Grid columns={2} stackable>
@@ -9,6 +9,6 @@ const ProfileSection = ({ children }) => (
          {children.slice(1)}
       </Grid.Column>
    </Grid>
-)
+);
 
-export default ProfileSection
+export default ProfileSection;

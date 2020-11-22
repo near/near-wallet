@@ -1,19 +1,19 @@
-import React, { Component } from 'react'
-import { withRouter } from 'react-router-dom'
-import { connect } from 'react-redux'
-import styled from 'styled-components'
-import Button from '../common/Button'
-import FormButton from '../common/FormButton'
+import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
+import styled from 'styled-components';
+import Button from '../common/Button';
+import FormButton from '../common/FormButton';
 import { 
     recoverAccountSeedPhrase,
     refreshAccount,
     redirectTo,
-} from '../../actions/account'
-import { Snackbar, snackbarDuration } from '../common/Snackbar'
-import { Translate } from 'react-localize-redux'
-import copyText from '../../utils/copyText'
-import isMobile from '../../utils/isMobile'
-import { DISABLE_CREATE_ACCOUNT } from '../../utils/wallet'
+} from '../../actions/account';
+import { Snackbar, snackbarDuration } from '../common/Snackbar';
+import { Translate } from 'react-localize-redux';
+import copyText from '../../utils/copyText';
+import isMobile from '../../utils/isMobile';
+import { DISABLE_CREATE_ACCOUNT } from '../../utils/wallet';
 
 const Container = styled.div`
     margin-top: 5px;
@@ -42,7 +42,7 @@ const Container = styled.div`
             }
         }
     }
-`
+`;
 
 const Title = styled.h1`
     margin-bottom: 10px;
@@ -50,7 +50,7 @@ const Title = styled.h1`
     @media (min-width: 768px) {
         margin-bottom: 0;
     }
-`
+`;
 
 const Desc = styled.div`
     color: #4a4f54;
@@ -61,13 +61,13 @@ const Desc = styled.div`
     @media (min-width: 768px) {
         font-size: 28px;
     }
-`
+`;
 
 const UserName = styled.span`
     color: #24272a;
     background-color: #f8f8f8;
     padding: 5px;
-`
+`;
 
 const ButtonWrapper = styled.div`
     display: flex;
@@ -108,13 +108,13 @@ const ButtonWrapper = styled.div`
             }
         }
     }
-`
+`;
 
 const RecoverUrl = styled.div`
     position: absolute;
     z-index: -1;
     text-transform: initial;
-`
+`;
 
 class RecoverWithLink extends Component {
     constructor(props) {
@@ -147,15 +147,15 @@ class RecoverWithLink extends Component {
         this.setState({ successSnackbar: true }, () => {
             setTimeout(() => {
                 this.setState({ successSnackbar: false });
-            }, snackbarDuration)
+            }, snackbarDuration);
         });
     }
 
     handleContinue = async () => {
         try {
-            await this.props.recoverAccountSeedPhrase(this.state.seedPhrase, this.props.match.params.accountId, false)
-            this.props.refreshAccount()
-            this.props.redirectTo('/profile')
+            await this.props.recoverAccountSeedPhrase(this.state.seedPhrase, this.props.match.params.accountId, false);
+            this.props.refreshAccount();
+            this.props.redirectTo('/profile');
         } catch (error) {
             this.setState({ successView: false });
         }
@@ -163,8 +163,8 @@ class RecoverWithLink extends Component {
 
     render() {
 
-        const { accountId, successSnackbar, successView } = this.state
-        const { formLoader, history } = this.props
+        const { accountId, successSnackbar, successView } = this.state;
+        const { formLoader, history } = this.props;
 
         if (successView) {
             return (
@@ -192,7 +192,7 @@ class RecoverWithLink extends Component {
                         </Container>
                     )}
                 </Translate>
-            )
+            );
         } else {
             return (
                 <Translate>
@@ -208,7 +208,7 @@ class RecoverWithLink extends Component {
                         </Container>
                     )}
                 </Translate>
-            )
+            );
         }
     }
 }
@@ -217,15 +217,15 @@ const mapDispatchToProps = {
     recoverAccountSeedPhrase, 
     refreshAccount,
     redirectTo
-}
+};
 
 const mapStateToProps = ({ account }, { match }) => ({
     ...account,
     accountId: match.params.accountId || '',
     seedPhrase: match.params.seedPhrase || '',
-})
+});
 
 export const RecoverWithLinkWithRouter = connect(
     mapStateToProps, 
     mapDispatchToProps
-)(withRouter(RecoverWithLink))
+)(withRouter(RecoverWithLink));

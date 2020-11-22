@@ -34,7 +34,7 @@ export default class ClickOutside extends Component {
 
 ClickOutside.defaultProps = {
     clickInside: true
-}
+};
 
 ClickOutside.propTypes = {
     onClickOutside: PropTypes.func.isRequired,

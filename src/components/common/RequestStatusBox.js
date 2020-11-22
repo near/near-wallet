@@ -1,7 +1,7 @@
-import React from 'react'
-import styled from 'styled-components'
-import { Translate } from 'react-localize-redux'
-import classNames from '../../utils/classNames'
+import React from 'react';
+import styled from 'styled-components';
+import { Translate } from 'react-localize-redux';
+import classNames from '../../utils/classNames';
 
 const RequestStatusBoxContainer = styled.div`
     font-weight: 500;
@@ -53,7 +53,7 @@ const RequestStatusBoxContainer = styled.div`
         font-size: 12px;
     }
   }
-`
+`;
 /**
  * Renders request status.
  *
@@ -67,6 +67,6 @@ const RequestStatusBox = ({ requestStatus, accountId, dots }) => (
             <Translate id={requestStatus.messageCode} data={{ accountId: accountId }}/>
         </RequestStatusBoxContainer>
         : null
-)
+);
 
-export default RequestStatusBox
+export default RequestStatusBox;

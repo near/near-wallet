@@ -28,6 +28,6 @@ const InstructionsModal = ({ open, onClose }) => {
             </FormButton>
         </Modal>
     );
-}
+};
 
 export default InstructionsModal;

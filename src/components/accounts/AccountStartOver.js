@@ -1,10 +1,10 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import { Segment } from 'semantic-ui-react'
+import React from 'react';
+import PropTypes from 'prop-types';
+import { Segment } from 'semantic-ui-react';
 
-import FormButton from '../common/FormButton'
+import FormButton from '../common/FormButton';
 
-import styled from 'styled-components'
+import styled from 'styled-components';
 
 const CustomSegment = styled(Segment)`
     &&& {
@@ -28,7 +28,7 @@ const CustomSegment = styled(Segment)`
             margin-top: 12px;
         }
     }
-`
+`;
 
 const AccountStartOver = ({ handleStartOver, handleResendCode, resendLoader }) => (
     <CustomSegment basic>
@@ -59,12 +59,12 @@ const AccountStartOver = ({ handleStartOver, handleResendCode, resendLoader }) =
             </ul>
         </Segment>
     </CustomSegment>
-)
+);
 
 AccountStartOver.propTypes = {
     handleStartOver: PropTypes.func.isRequired,
     handleResendCode: PropTypes.func.isRequired,
     resendLoader: PropTypes.bool.isRequired
-}
+};
 
-export default AccountStartOver
+export default AccountStartOver;

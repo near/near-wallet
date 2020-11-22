@@ -13,9 +13,9 @@ import {
     redirectToApp
 } from '../../../actions/account';
 import { useRecoveryMethods } from '../../../hooks/recoveryMethods';
-import EnterVerificationCode from '../EnterVerificationCode'
-import Container from '../../common/styled/Container.css'
-import { onKeyDown } from '../../../hooks/eventListeners'
+import EnterVerificationCode from '../EnterVerificationCode';
+import Container from '../../common/styled/Container.css';
+import { onKeyDown } from '../../../hooks/eventListeners';
 
 const StyledContainer = styled(Container)`
 
@@ -31,7 +31,7 @@ const StyledContainer = styled(Container)`
         margin-top: 50px !important;
         width: 100% !important;
     }
-`
+`;
 
 export function EnableTwoFactor(props) {
 
@@ -44,29 +44,29 @@ export function EnableTwoFactor(props) {
     const [email, setEmail] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
     const recoveryMethods = useRecoveryMethods(accountId);
-    const loading = account.actionsPending.some(action => ['INIT_TWO_FACTOR', 'VERIFY_TWO_FACTOR', 'DEPLOY_MULTISIG'].includes(action))
+    const loading = account.actionsPending.some(action => ['INIT_TWO_FACTOR', 'VERIFY_TWO_FACTOR', 'DEPLOY_MULTISIG'].includes(action));
 
     onKeyDown(e => {
         if (e.keyCode === 13 && isValidInput() && !loading) {
-            handleNext()
+            handleNext();
         }
     });
 
     const method = {
         kind: `2fa-${option}`,
         detail: option === 'email' ? email : phoneNumber
-    }
+    };
 
     useEffect(() => {
         const email = recoveryMethods.filter(method => method.kind === 'email')[0];
         const phone = recoveryMethods.filter(method => method.kind === 'phone')[0];
 
         if (email) {
-            setEmail(email.detail)
+            setEmail(email.detail);
         }
 
         if (phone) {
-            setPhoneNumber(phone.detail)
+            setPhoneNumber(phone.detail);
         }
 
     }, [recoveryMethods]);
@@ -74,40 +74,40 @@ export function EnableTwoFactor(props) {
     const handleNext = async () => {
         let response;
         try {
-            response = await dispatch(initTwoFactor(accountId, method))
+            response = await dispatch(initTwoFactor(accountId, method));
         } finally {
             if (response && response.confirmed) {
-                handleDeployMultisig()
+                handleDeployMultisig();
             } else {
-                setInitiated(true)
+                setInitiated(true);
             }
         }
-    }
+    };
 
     const handleConfirm = async (securityCode) => {
-        await dispatch(verifyTwoFactor(securityCode))
-        handleDeployMultisig()
-    }
+        await dispatch(verifyTwoFactor(securityCode));
+        handleDeployMultisig();
+    };
 
     const handleDeployMultisig = async () => {
-        await dispatch(deployMultisig())
-        dispatch(redirectToApp('/profile'))
-    }
+        await dispatch(deployMultisig());
+        dispatch(redirectToApp('/profile'));
+    };
 
     const handleGoBack = () => {
-        setInitiated(false)
-    }
+        setInitiated(false);
+    };
 
     const isValidInput = () => {
         switch (option) {
             case 'email':
-                return validateEmail(email)
+                return validateEmail(email);
             case 'phone':
-                return isValidPhoneNumber(phoneNumber)
+                return isValidPhoneNumber(phoneNumber);
             default:
-                return false
+                return false;
         }
-    }
+    };
 
     if (!initiated) {
         return (
@@ -159,7 +159,7 @@ export function EnableTwoFactor(props) {
                     </FormButton>
                 </form>
             </StyledContainer>
-        )
+        );
     } else {
         return (
             <EnterVerificationCode
@@ -172,6 +172,6 @@ export function EnableTwoFactor(props) {
                 loading={loading}
                 requestStatus={props.requestStatus}
             />
-        )
+        );
     }
 }

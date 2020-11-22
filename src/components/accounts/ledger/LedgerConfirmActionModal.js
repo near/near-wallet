@@ -9,7 +9,7 @@ import MobileActionSheet from '../../common/modal/MobileActionSheet';
 import LedgerImage from '../../svg/LedgerImage';
 
 const LedgerConfirmActionModal = () => {
-    const { modal, txSigned } = useSelector(({ ledger }) => ledger)
+    const { modal, txSigned } = useSelector(({ ledger }) => ledger);
 
     return (modal && modal.show)
         ? (
@@ -40,7 +40,7 @@ const LedgerConfirmActionModal = () => {
                 }
             </Modal>
         )
-        : null
-}
+        : null;
+};
 
 export default LedgerConfirmActionModal;

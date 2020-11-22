@@ -1,15 +1,15 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import { Link } from 'react-router-dom'
-import { Translate } from 'react-localize-redux'
-import { Header } from 'semantic-ui-react'
-import styled from 'styled-components'
+import React from 'react';
+import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
+import { Translate } from 'react-localize-redux';
+import { Header } from 'semantic-ui-react';
+import styled from 'styled-components';
 
-import FormButton from '../common/FormButton'
-import AccountFormAccountId from './AccountFormAccountId'
+import FormButton from '../common/FormButton';
+import AccountFormAccountId from './AccountFormAccountId';
 
 const Container = styled.div`
-`
+`;
 
 const CreateAccountForm = ({
     loader,
@@ -50,13 +50,13 @@ const CreateAccountForm = ({
             <Link to={process.env.DISABLE_PHONE_RECOVERY === 'yes' ? '/recover-seed-phrase' : '/recover-account'}><Translate id='createAccount.recoverItHere' /></Link>
         </div>
     </Container>
-)
+);
 
 CreateAccountForm.propTypes = {
     loader: PropTypes.bool.isRequired,
     formLoader: PropTypes.bool.isRequired,
     handleChange: PropTypes.func.isRequired,
     requestStatus: PropTypes.object
-}
+};
 
-export default CreateAccountForm
+export default CreateAccountForm;

@@ -1,9 +1,9 @@
-import React, { Component } from 'react'
-import { Grid, List, Item } from 'semantic-ui-react'
-import { Translate } from 'react-localize-redux'
-import LogoFooterImage from '../../images/near.svg'
+import React, { Component } from 'react';
+import { Grid, List, Item } from 'semantic-ui-react';
+import { Translate } from 'react-localize-redux';
+import LogoFooterImage from '../../images/near.svg';
 
-import styled from 'styled-components'
+import styled from 'styled-components';
 
 const FooterGrid = styled(Grid)`
     &&&& {
@@ -103,7 +103,7 @@ const FooterGrid = styled(Grid)`
             }
         }
     }
-`
+`;
 
 const MobileSpacer = styled.div`
     height: 180px;
@@ -112,7 +112,7 @@ const MobileSpacer = styled.div`
     @media (min-width: 768px) {
         display: none;
     }
-`
+`;
 
 class Footer extends Component {
 
@@ -177,8 +177,8 @@ class Footer extends Component {
                     </Grid.Column>
                 </FooterGrid>
             </>
-        )
+        );
     }
 }
 
-export default Footer
+export default Footer;

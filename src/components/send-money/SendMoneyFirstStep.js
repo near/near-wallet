@@ -1,22 +1,22 @@
-import React, { Fragment } from 'react'
-import { Translate } from 'react-localize-redux'
+import React, { Fragment } from 'react';
+import { Translate } from 'react-localize-redux';
 
 import {
     Header,
     TextArea,
     List,
     Form
-} from 'semantic-ui-react'
+} from 'semantic-ui-react';
 
-import PageContainer from '../common/PageContainer'
-import MobileContainer from '../sign/MobileContainer'
-import FormButton from '../common/FormButton'
-import AccountFormAccountId from '../accounts/AccountFormAccountId'
-import SendMoneyAmountInput from './SendMoneyAmountInput'
+import PageContainer from '../common/PageContainer';
+import MobileContainer from '../sign/MobileContainer';
+import FormButton from '../common/FormButton';
+import AccountFormAccountId from '../accounts/AccountFormAccountId';
+import SendMoneyAmountInput from './SendMoneyAmountInput';
 import Modal from "../common/modal/Modal";
 import ModalTheme from '../accounts/ledger/ModalTheme';
 import MobileActionSheet from '../common/modal/MobileActionSheet';
-import IconProblems from '../../images/IconProblems'
+import IconProblems from '../../images/IconProblems';
 
 const SendMoneyFirstStep = ({
     handleNextStep,
@@ -117,6 +117,6 @@ const SendMoneyFirstStep = ({
             </Fragment>
         </MobileContainer>
     </Form>
-)
+);
 
-export default SendMoneyFirstStep
+export default SendMoneyFirstStep;

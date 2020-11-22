@@ -8,7 +8,7 @@ import EmailIcon from '../../images/icon-recover-email.svg';
 import PhoneIcon from '../../images/icon-recover-phone.svg';
 import PhraseIcon from '../../images/icon-recover-seedphrase.svg';
 import HardwareDeviceIcon from '../../images/icon-hardware-device.svg';
-import Container from '../common/styled/Container.css'
+import Container from '../common/styled/Container.css';
 
 const StyledContainer = styled(Container)`
 
@@ -149,7 +149,7 @@ const RecoverAccount = () => {
                 </Option>
             </Options>
         </StyledContainer>
-    )
-}
+    );
+};
 
 export const RecoverAccountWithRouter = withRouter(RecoverAccount);

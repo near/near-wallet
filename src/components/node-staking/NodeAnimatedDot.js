@@ -1,7 +1,7 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React from 'react';
+import PropTypes from 'prop-types';
 
-import styled from 'styled-components'
+import styled from 'styled-components';
 
 const CustomDiv = styled(`div`)`
     width: 14px;
@@ -56,14 +56,14 @@ const CustomDiv = styled(`div`)`
             }
         }
     }
-`
+`;
 
 const NodeAnimatedDot = ({ color = 'red' }) => (
     <CustomDiv className={`node-dot ${color}`} />
-)
+);
 
 NodeAnimatedDot.propTypes = {
     color: PropTypes.string
-}
+};
 
-export default NodeAnimatedDot
+export default NodeAnimatedDot;

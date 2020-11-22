@@ -314,7 +314,7 @@ const LandingBackground = () => {
                 </clipPath>
             </defs>
         </svg>
-    )
-}
+    );
+};
 
 export default LandingBackground;

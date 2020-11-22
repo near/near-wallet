@@ -28,7 +28,7 @@ const Container = styled.div`
             cursor: pointer;
         }
     }
-`
+`;
 
 const TwoFactorVerifyInput = ({
     onChange,
@@ -69,7 +69,7 @@ const TwoFactorVerifyInput = ({
                 {resendCode === 'resent' && <span className='color-green'><Translate id='twoFactor.verify.resent'/></span>}
             </div>
         </Container>
-    )
-}
+    );
+};
 
 export default TwoFactorVerifyInput;

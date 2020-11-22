@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import { parse as parseQuery } from 'query-string'
+import { parse as parseQuery } from 'query-string';
 import Theme from './PageTheme.css';
 import InstructionsModal from './InstructionsModal';
 import LedgerIcon from '../../svg/LedgerIcon';
@@ -15,9 +15,9 @@ import {
     checkIsNew,
     fundCreateAccountLedger,
     getLedgerPublicKey
-} from '../../../actions/account'
-import { DISABLE_CREATE_ACCOUNT, setKeyMeta } from '../../../utils/wallet'
-import GlobalAlert from '../../responsive/GlobalAlert'
+} from '../../../actions/account';
+import { DISABLE_CREATE_ACCOUNT, setKeyMeta } from '../../../utils/wallet';
+import GlobalAlert from '../../responsive/GlobalAlert';
 
 const SetupLedger = (props) => {
 
@@ -30,40 +30,40 @@ const SetupLedger = (props) => {
             dispatch,
             location,
             accountId,
-        } = props
+        } = props;
 
-        setConnect('')
+        setConnect('');
 
-        const isNew = await dispatch(checkIsNew(accountId))
+        const isNew = await dispatch(checkIsNew(accountId));
         console.log('handleClick', isNew);
         try {
             if (isNew) {
-                const fundingOptions = JSON.parse(parseQuery(location.search).fundingOptions || 'null')
-                console.log('SetupLedger', DISABLE_CREATE_ACCOUNT, fundingOptions)
-                const publicKey = await dispatch(getLedgerPublicKey())
-                await setKeyMeta(publicKey, { type: 'ledger' })
+                const fundingOptions = JSON.parse(parseQuery(location.search).fundingOptions || 'null');
+                console.log('SetupLedger', DISABLE_CREATE_ACCOUNT, fundingOptions);
+                const publicKey = await dispatch(getLedgerPublicKey());
+                await setKeyMeta(publicKey, { type: 'ledger' });
 
                 if (DISABLE_CREATE_ACCOUNT && !fundingOptions) {
-                    await dispatch(fundCreateAccountLedger(accountId, publicKey))
-                    return
+                    await dispatch(fundCreateAccountLedger(accountId, publicKey));
+                    return;
                 }
 
-                await dispatch(createNewAccount(accountId, fundingOptions, 'ledger', publicKey))
+                await dispatch(createNewAccount(accountId, fundingOptions, 'ledger', publicKey));
             } else {
-                await dispatch(addLedgerAccessKey(accountId))
+                await dispatch(addLedgerAccessKey(accountId));
             }
-            await dispatch(refreshAccount())
+            await dispatch(refreshAccount());
         } catch(e) {
             setConnect('fail');
             throw e;
         } 
 
         if (isNew) {
-            await dispatch(redirectToApp('/profile'))
+            await dispatch(redirectToApp('/profile'));
         } else {
             await dispatch(redirectTo('/setup-ledger-success'));
         }
-    }
+    };
 
     return (
         <Theme>
@@ -88,11 +88,11 @@ const SetupLedger = (props) => {
             }
         </Theme>
     );
-}
+};
 
 const mapStateToProps = ({ account }, { match }) => ({
     ...account,
     accountId: match.params.accountId,
-})
+});
 
 export const SetupLedgerWithRouter = connect(mapStateToProps)(SetupLedger);

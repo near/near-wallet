@@ -66,25 +66,25 @@ const Container = styled.div`
             }
         }
     }
-`
+`;
 
 const NetworkBanner = ({ account }) => {
 
     useEffect(() => {
-        setBannerHeight()
-        window.addEventListener("resize", setBannerHeight)
+        setBannerHeight();
+        window.addEventListener("resize", setBannerHeight);
         return () => {
-            window.removeEventListener("resize", setBannerHeight)
-        }
-    }, [account])
+            window.removeEventListener("resize", setBannerHeight);
+        };
+    }, [account]);
 
     const setBannerHeight = () => {
-        const bannerHeight = document.getElementById('top-banner') && document.getElementById('top-banner').offsetHeight
-        const app = document.getElementById('app-container')
-        const navContainer = document.getElementById('nav-container')
-        navContainer.style.top = bannerHeight ? `${bannerHeight}px` : 0
-        app.style.paddingTop = bannerHeight ? `${bannerHeight + 85}px` : '75px'
-    }
+        const bannerHeight = document.getElementById('top-banner') && document.getElementById('top-banner').offsetHeight;
+        const app = document.getElementById('app-container');
+        const navContainer = document.getElementById('nav-container');
+        navContainer.style.top = bannerHeight ? `${bannerHeight}px` : 0;
+        app.style.paddingTop = bannerHeight ? `${bannerHeight + 85}px` : '75px';
+    };
 
     if (!IS_MAINNET) {
         return (
@@ -105,7 +105,7 @@ const NetworkBanner = ({ account }) => {
                     <Translate id='networkBanner.desc' />
                 </Modal>
             </Container>
-        )
+        );
     } else if (SHOW_PRERELEASE_WARNING) {
         return (
             <Container id='top-banner' className='staging-banner'>
@@ -122,10 +122,10 @@ const NetworkBanner = ({ account }) => {
                     <Translate id='stagingBanner.desc' />
                 </Modal>
             </Container>
-        )
+        );
     } else {
-        return null
+        return null;
     }
-}
+};
 
 export default NetworkBanner;

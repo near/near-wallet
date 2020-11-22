@@ -1,15 +1,15 @@
-import { handleAction } from 'redux-actions'
-import { loadRecoveryMethods } from '../actions/account'
+import { handleAction } from 'redux-actions';
+import { loadRecoveryMethods } from '../actions/account';
 
-const initialState = {}
+const initialState = {};
 
 const reducer = (state, event) => {
-    const { error, payload, ready } = event
+    const { error, payload, ready } = event;
 
-    if (!ready || error) return state
+    if (!ready || error) return state;
 
     // payload is an array of recoveryMethods
-    return { ...state, [payload.accountId]: payload.data }
-}
+    return { ...state, [payload.accountId]: payload.data };
+};
 
-export default handleAction(loadRecoveryMethods, reducer, initialState)
+export default handleAction(loadRecoveryMethods, reducer, initialState);

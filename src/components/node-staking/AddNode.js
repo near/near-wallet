@@ -1,11 +1,11 @@
-import React, { Component } from 'react'
-import { Translate } from 'react-localize-redux'
+import React, { Component } from 'react';
+import { Translate } from 'react-localize-redux';
 
-import { withRouter } from 'react-router-dom'
+import { withRouter } from 'react-router-dom';
 
-import AccountFormContainer from '../accounts/AccountFormContainer'
-import AccountFormSection from '../accounts/AccountFormSection'
-import AddNodeForm from './AddNodeForm'
+import AccountFormContainer from '../accounts/AccountFormContainer';
+import AccountFormSection from '../accounts/AccountFormSection';
+import AddNodeForm from './AddNodeForm';
 
 class AddNode extends Component {
     state = {
@@ -17,34 +17,34 @@ class AddNode extends Component {
     handleChange = (e, { name, value }) => {
         this.setState(() => ({
             [name]: value
-        }))
+        }));
     }
 
     handleSubmit = e => {
-        e.preventDefault()
+        e.preventDefault();
 
         if (!this.isLegitForm()) {
-            return false
+            return false;
         }
 
         this.setState(() => ({
             loader: true
-        }))
+        }));
 
         setTimeout(() => {
             this.setState(() => ({
                 loader: false
-            }))
+            }));
         }, 1500);
 
     }
 
     isLegitForm = () => {
-        return this.state.ipAddress.match(/^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/)
+        return this.state.ipAddress.match(/^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/);
     }
 
     render() {
-        const { loader } = this.state
+        const { loader } = this.state;
 
         return (
             <AccountFormContainer 
@@ -63,8 +63,8 @@ class AddNode extends Component {
                     />
                 </AccountFormSection>
             </AccountFormContainer>
-        )
+        );
     }
 }
 
-export const AddNodeWithRouter = withRouter(AddNode)
+export const AddNodeWithRouter = withRouter(AddNode);

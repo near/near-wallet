@@ -1,13 +1,13 @@
-import React from 'react'
-import { Translate } from 'react-localize-redux'
+import React from 'react';
+import { Translate } from 'react-localize-redux';
 
-import { Grid, Image } from 'semantic-ui-react'
+import { Grid, Image } from 'semantic-ui-react';
 
-import ArrowRight from '../../images/icon-arrow-right.svg'
-import ArrowBlkImage from '../../images/icon-arrow-blk.svg'
+import ArrowRight from '../../images/icon-arrow-right.svg';
+import ArrowBlkImage from '../../images/icon-arrow-blk.svg';
 
-import styled from 'styled-components'
-import Balance from '../common/Balance'
+import styled from 'styled-components';
+import Balance from '../common/Balance';
 
 // TODO: Refactor common code with KeyListItem
 const CustomGridRow = styled(Grid.Row)`
@@ -77,7 +77,7 @@ const CustomGridRow = styled(Grid.Row)`
             }
         }
     }
-`
+`;
 
 const KeyListItem = ({
     accessKey,
@@ -87,7 +87,7 @@ const KeyListItem = ({
     toggleShowSub,
     showSubOpen
 }) => {
-    let { access_key, public_key: publicKey, meta } = accessKey
+    let { access_key, public_key: publicKey, meta } = accessKey;
     let { permission: { FunctionCall } } = access_key || { permission: {} };
     let { receiver_id: contractId, allowance } = FunctionCall || {};
 
@@ -141,7 +141,7 @@ const KeyListItem = ({
                 {/* <span className='font-small'>{row[3]}</span> */}
             </Grid.Column>
         )}
-    </CustomGridRow>
-}
+    </CustomGridRow>;
+};
 
-export default KeyListItem
+export default KeyListItem;

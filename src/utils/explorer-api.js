@@ -1,10 +1,10 @@
-import { Wampy } from 'wampy'
-import { wallet } from './wallet'
+import { Wampy } from 'wampy';
+import { wallet } from './wallet';
 
-const WAMP_NEAR_EXPLORER_URL = process.env.WAMP_NEAR_EXPLORER_URL || 'wss://near-explorer-wamp.onrender.com/ws'
-const WAMP_NEAR_EXPLORER_TOPIC_PREFIX = process.env.WAMP_NEAR_EXPLORER_TOPIC_PREFIX || 'com.nearprotocol.testnet.explorer'
+const WAMP_NEAR_EXPLORER_URL = process.env.WAMP_NEAR_EXPLORER_URL || 'wss://near-explorer-wamp.onrender.com/ws';
+const WAMP_NEAR_EXPLORER_TOPIC_PREFIX = process.env.WAMP_NEAR_EXPLORER_TOPIC_PREFIX || 'com.nearprotocol.testnet.explorer';
 
-const wamp = new Wampy(WAMP_NEAR_EXPLORER_URL, { realm: 'near-explorer' })
+const wamp = new Wampy(WAMP_NEAR_EXPLORER_URL, { realm: 'near-explorer' });
 
 export const queryExplorer = (sql, params) => new Promise((resolve, reject) => wamp.call(
     `${WAMP_NEAR_EXPLORER_TOPIC_PREFIX}.select`,
@@ -14,14 +14,14 @@ export const queryExplorer = (sql, params) => new Promise((resolve, reject) => w
             resolve(dataArr[0]);
         },
         onError(...args) {
-            console.log(args)
+            console.log(args);
             reject(args);
         }
     }
 ));
 
 export async function getTransactions(accountId) {
-    if (!accountId) return {}
+    if (!accountId) return {};
 
     const sql = `
         SELECT
@@ -43,25 +43,25 @@ export async function getTransactions(accountId) {
             block_timestamp DESC
         LIMIT 
             :offset, :count
-    `
+    `;
 
     const params = {
         accountId, 
         offset: 0, 
         count: 5
-    }
+    };
 
-    const tx = await queryExplorer(sql, params)
+    const tx = await queryExplorer(sql, params);
 
     return {
         [accountId]: tx.map((t, i) => ({
             ...t,
             checkStatus: !(i && t.hash === tx[i - 1].hash)
         }))
-    }
+    };
 }
 
 
 
-export const transactionExtraInfo = (hash, signer_id) => wallet.connection.provider.sendJsonRpc('tx', [hash, signer_id])
+export const transactionExtraInfo = (hash, signer_id) => wallet.connection.provider.sendJsonRpc('tx', [hash, signer_id]);
 

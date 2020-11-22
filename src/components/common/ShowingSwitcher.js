@@ -1,6 +1,6 @@
-import React from 'react'
-import { Button, List } from 'semantic-ui-react'
-import styled from 'styled-components'
+import React from 'react';
+import { Button, List } from 'semantic-ui-react';
+import styled from 'styled-components';
 
 const ShowingSwitcherList = styled(List)`
     padding: 0px;
@@ -62,7 +62,7 @@ const ShowingSwitcherList = styled(List)`
             margin: -2px 0 0 -2px;
         }
     }
-`
+`;
 
 const ShowingSwitcher = ({ buttonRadioClick, buttonRadio }) => (
     <ShowingSwitcherList horizontal>
@@ -76,6 +76,6 @@ const ShowingSwitcher = ({ buttonRadioClick, buttonRadio }) => (
             </Button>
         </List.Item>
     </ShowingSwitcherList>
-)
+);
 
-export default ShowingSwitcher
+export default ShowingSwitcher;

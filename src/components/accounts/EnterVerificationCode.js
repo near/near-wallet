@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { Translate } from 'react-localize-redux'
+import { Translate } from 'react-localize-redux';
 import FormButton from '../common/FormButton';
-import Container from '../common/styled/Container.css'
+import Container from '../common/styled/Container.css';
 
 const StyledContainer = styled(Container)`
 
@@ -26,7 +26,7 @@ const StyledContainer = styled(Container)`
             margin-top: 30px;
         }
     }
-`
+`;
 
 const EnterVerificationCode = ({
     option,
@@ -89,8 +89,8 @@ const EnterVerificationCode = ({
                 &nbsp;<Translate id='setRecoveryConfirm.or'/> &nbsp;<span onClick={onGoBack} className='link'><Translate id='setRecoveryConfirm.sendToDifferent'/> <Translate id={`setRecoveryConfirm.${useEmail ? 'email' : 'phone'}`}/></span>.
             </p>
         </StyledContainer>
-    )
-}
+    );
+};
 
 EnterVerificationCode.propTypes = {
     email: PropTypes.string,
@@ -98,6 +98,6 @@ EnterVerificationCode.propTypes = {
     option: PropTypes.string.isRequired,
     onGoBack: PropTypes.func.isRequired,
     onConfirm: PropTypes.func.isRequired
-}
+};
 
 export default EnterVerificationCode;

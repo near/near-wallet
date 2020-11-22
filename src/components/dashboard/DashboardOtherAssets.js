@@ -1,10 +1,10 @@
-import React from 'react'
+import React from 'react';
 
-import TContractImage from '../../images/icon-t-contract.svg'
+import TContractImage from '../../images/icon-t-contract.svg';
 
-import { Grid, List } from 'semantic-ui-react'
+import { Grid, List } from 'semantic-ui-react';
 
-import styled from 'styled-components'
+import styled from 'styled-components';
 
 const CustomGrid = styled(Grid)`
     &&&& {
@@ -103,7 +103,7 @@ const CustomGrid = styled(Grid)`
             }
         }
     }
-`
+`;
 
 const DashboardOtherAssets = () => (
     <CustomGrid>
@@ -203,6 +203,6 @@ const DashboardOtherAssets = () => (
             </Grid.Column>
         </Grid.Row>
     </CustomGrid>
-)
+);
 
-export default DashboardOtherAssets
+export default DashboardOtherAssets;

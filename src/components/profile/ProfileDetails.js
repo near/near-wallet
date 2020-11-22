@@ -1,13 +1,13 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
-import { Translate } from 'react-localize-redux'
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { Translate } from 'react-localize-redux';
 
-import { Popup, Grid, Image } from 'semantic-ui-react'
-import Balance from '../common/Balance'
-import InfoPopup from '../common/InfoPopup'
-import LockImage from '../../images/icon-lock.svg'
+import { Popup, Grid, Image } from 'semantic-ui-react';
+import Balance from '../common/Balance';
+import InfoPopup from '../common/InfoPopup';
+import LockImage from '../../images/icon-lock.svg';
 
-import styled from 'styled-components'
+import styled from 'styled-components';
 
 const CustomGrid = styled(Grid)`
     &&& {
@@ -62,7 +62,7 @@ const CustomGrid = styled(Grid)`
             }
         }
     }
-`
+`;
 
 const PublicInfoRow = ({ children, titleId, infoId }) => (
     <Grid.Row className='border-top'>
@@ -79,10 +79,10 @@ const PublicInfoRow = ({ children, titleId, infoId }) => (
         <Grid.Column as="div">
         </Grid.Column>
     </Grid.Row>
-)
+);
 
 const PublicBalanceRow = ({ titleId, infoId, amount }) =>
-    <PublicInfoRow titleId={titleId} infoId={infoId}>{amount && <Balance amount={amount}/>}</PublicInfoRow>
+    <PublicInfoRow titleId={titleId} infoId={infoId}>{amount && <Balance amount={amount}/>}</PublicInfoRow>;
 
 const ProfileDetails = ({
     account: {
@@ -157,6 +157,6 @@ const ProfileDetails = ({
         }
         <PublicBalanceRow titleId='profile.details.availableBalance' infoId='availableBalanceProfile' amount={available}/>
     </CustomGrid>
-)
+);
 
-export default ProfileDetails
+export default ProfileDetails;

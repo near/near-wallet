@@ -1,10 +1,10 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import styled from 'styled-components'
-import { Translate } from 'react-localize-redux'
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import styled from 'styled-components';
+import { Translate } from 'react-localize-redux';
 
 // Add additional theme icons
-import errorIcon from '../../images/icon-problems.svg'
+import errorIcon from '../../images/icon-problems.svg';
 
 const Container = styled.div`
     width: 100%;
@@ -27,7 +27,7 @@ const Container = styled.div`
             background: url(${errorIcon}) center no-repeat;
         }
     }
-`
+`;
 
 const Icon = styled.div`
     min-height: 25px;
@@ -35,14 +35,14 @@ const Icon = styled.div`
     height: 25px;
     width: 25px;
     margin-right: 15px;
-`
+`;
 
 const Button = styled.div`
     margin-left: auto;
     white-space: nowrap;
     font-weight: 600;
     cursor: pointer;
-`
+`;
 
 class InlineNotification extends Component {
 
@@ -77,6 +77,6 @@ InlineNotification.propTypes = {
     show: PropTypes.bool.isRequired,
     onClick: PropTypes.func,
     buttonMsgId: PropTypes.string,
-}
+};
 
 export default InlineNotification;

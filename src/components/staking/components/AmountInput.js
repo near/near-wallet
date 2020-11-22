@@ -1,7 +1,7 @@
-import React from 'react'
-import styled from 'styled-components'
-import Balance from '../../common/Balance'
-import { Translate } from 'react-localize-redux'
+import React from 'react';
+import styled from 'styled-components';
+import Balance from '../../common/Balance';
+import { Translate } from 'react-localize-redux';
 
 const Container = styled.div`
 
@@ -46,17 +46,17 @@ const Container = styled.div`
         line-height: normal;
         color: ${props => props.status === '#ff585d' ? props.status : ''};
     }
-`
+`;
 
 export default function AmountInput({
     value, onChange, valid, loading, insufficientBalance,
     availableBalance, availableClick = null, action
 }) {
-    let validationStatus
+    let validationStatus;
     if (valid) {
-        validationStatus = '#6AD1E3'
+        validationStatus = '#6AD1E3';
     } else if (insufficientBalance) {
-        validationStatus = '#ff585d'
+        validationStatus = '#ff585d';
     }
 
     return (
@@ -79,5 +79,5 @@ export default function AmountInput({
                 <Translate id={`staking.${action}.input.availableBalance`} />&nbsp;<Balance amount={availableBalance} symbol='near'/>
             </div>
         </Container>
-    )
+    );
 }

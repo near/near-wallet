@@ -32,7 +32,7 @@ const Container = styled.div`
         opacity: 1;
         pointer-events: all;
     }
-`
+`;
 
 const Wrapper = styled.div`
     background-color: #f5f5f5;
@@ -52,7 +52,7 @@ const Wrapper = styled.div`
         }
     }
 
-`
+`;
 
 const Icon = styled.div`
     min-height: 25px;
@@ -60,7 +60,7 @@ const Icon = styled.div`
     height: 25px;
     width: 25px;
     margin-right: 15px;
-`
+`;
 
 const HideButton = styled.div`
     margin-left: auto;
@@ -71,7 +71,7 @@ const HideButton = styled.div`
     width: 25px;
     background: url(${closeIcon}) center no-repeat;
     background-size: 17px;
-`
+`;
 
 class Snackbar extends Component {
     constructor(props) {
@@ -88,9 +88,9 @@ class Snackbar extends Component {
                 this.setState({ animate: true }, () => {
                     setTimeout(() => {
                         this.setState({ animate: false });
-                    }, 5000)
+                    }, 5000);
                 });
-            }, 0)
+            }, 0);
         }
     }
 
@@ -131,6 +131,6 @@ Snackbar.propTypes = {
     ]).isRequired,
     show: PropTypes.bool.isRequired,
     onHide: PropTypes.func,
-}
+};
 
 export { Snackbar, snackbarDuration };

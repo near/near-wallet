@@ -1,14 +1,14 @@
-import React from 'react'
-import FormButton from '../../common/FormButton'
-import BalanceBox from './BalanceBox'
-import ValidatorBox from './ValidatorBox'
-import ListWrapper from './ListWrapper'
-import { Translate } from 'react-localize-redux'
-import NoValidators from './NoValidators'
-import SelectAccount from './SelectAccount'
-import InfoIcon from '../../svg/InfoIcon.js'
-import { Modal } from 'semantic-ui-react'
-import SkeletonLoading from '../../common/SkeletonLoading'
+import React from 'react';
+import FormButton from '../../common/FormButton';
+import BalanceBox from './BalanceBox';
+import ValidatorBox from './ValidatorBox';
+import ListWrapper from './ListWrapper';
+import { Translate } from 'react-localize-redux';
+import NoValidators from './NoValidators';
+import SelectAccount from './SelectAccount';
+import InfoIcon from '../../svg/InfoIcon.js';
+import { Modal } from 'semantic-ui-react';
+import SkeletonLoading from '../../common/SkeletonLoading';
 
 export default function Staking({
     currentValidators,
@@ -98,5 +98,5 @@ export default function Staking({
                     <NoValidators />
                 )}
         </>
-    )
+    );
 }

@@ -1,14 +1,14 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import PropTypes from 'prop-types'
-import { Segment, Form } from 'semantic-ui-react'
-import { BN } from 'bn.js'
-import { Translate } from 'react-localize-redux'
-import styled from 'styled-components'
-import InfoPopup from '../common/InfoPopup'
-import Balance, { formatNEAR } from '../common/Balance'
-import { utils } from 'near-api-js'
-import isDecimalString from '../../utils/isDecimalString'
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { Segment, Form } from 'semantic-ui-react';
+import { BN } from 'bn.js';
+import { Translate } from 'react-localize-redux';
+import styled from 'styled-components';
+import InfoPopup from '../common/InfoPopup';
+import Balance, { formatNEAR } from '../common/Balance';
+import { utils } from 'near-api-js';
+import isDecimalString from '../../utils/isDecimalString';
 
 const CustomDiv = styled(`div`)`
     &&&&& {
@@ -64,7 +64,7 @@ const CustomDiv = styled(`div`)`
             font-size: 12px;
         }
     }
-`
+`;
 
 const AvailableBalance = styled.div`
     margin-top: 5px;
@@ -75,7 +75,7 @@ const AvailableBalance = styled.div`
     .list {
         padding: 0 !important;
     }
-`
+`;
 
 class SendMoneyAmountInput extends Component {
     state = {
@@ -85,43 +85,43 @@ class SendMoneyAmountInput extends Component {
     }
 
     isDecimalString = (value) => {
-        let REG = /^[0-9]*(|[.][0-9]{0,5})$/
-        return REG.test(value)
+        let REG = /^[0-9]*(|[.][0-9]{0,5})$/;
+        return REG.test(value);
     }
 
     get availableBalance() {
-        const { available } = this.props.balance
-        return new BN(available)
+        const { available } = this.props.balance;
+        return new BN(available);
     }
 
     handleChangeAmount = (e, { name, value }) => {
         if (!/^\d*[.]?\d*$/.test(value)) {
-            return
+            return;
         }
 
-        let amountStatusId = ''
+        let amountStatusId = '';
         if (value && !isDecimalString(value)) {
-            amountStatusId = 'sendMoney.amountStatusId.noMoreThan'
+            amountStatusId = 'sendMoney.amountStatusId.noMoreThan';
         }
-        let amountInInternalFormat = ''
+        let amountInInternalFormat = '';
         if (value !== '') {
             amountInInternalFormat = utils.format.parseNearAmount(value);
             if (this.availableBalance.lt(new BN(amountInInternalFormat))) {
-                amountStatusId = 'sendMoney.amountStatusId.notEnoughTokens'
+                amountStatusId = 'sendMoney.amountStatusId.notEnoughTokens';
             }
         }
         this.setState({
             amountDisplay: amountInInternalFormat,
             amountInput: value,
             amountStatusId
-        })
-        this.props.handleChange(e, { name: 'amount', value: amountInInternalFormat })
-        this.props.handleChange(e, { name: 'amountStatusId', value: amountStatusId })
+        });
+        this.props.handleChange(e, { name: 'amount', value: amountInInternalFormat });
+        this.props.handleChange(e, { name: 'amountStatusId', value: amountStatusId });
     }
 
     render() {
-        const { amountInput, amountStatusId, amountDisplay} = this.state
-        const fontSize = amountInput.length > 11 ? 32 : amountInput.length > 8 ? 38 : amountInput.length > 5 ? 50 : 72
+        const { amountInput, amountStatusId, amountDisplay} = this.state;
+        const fontSize = amountInput.length > 11 ? 32 : amountInput.length > 8 ? 38 : amountInput.length > 5 ? 50 : 72;
 
         return (
             <CustomDiv fontSize={`${fontSize}px`}>
@@ -150,19 +150,19 @@ class SendMoneyAmountInput extends Component {
                     <InfoPopup content={<Translate id='availableBalanceInfo'/>}/>
                 </AvailableBalance>
             </CustomDiv>
-        )
+        );
     }
 }
 
 SendMoneyAmountInput.propTypes = {
     handleChange: PropTypes.func.isRequired,
     amountInput: PropTypes.string
-}
+};
 
-const mapDispatchToProps = {}
+const mapDispatchToProps = {};
 
 const mapStateToProps = ({ account }, { match }) => ({
     ...account,
-})
+});
 
-export default connect(mapStateToProps, mapDispatchToProps)(SendMoneyAmountInput)
+export default connect(mapStateToProps, mapDispatchToProps)(SendMoneyAmountInput);

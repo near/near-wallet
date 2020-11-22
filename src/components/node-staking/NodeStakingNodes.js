@@ -1,12 +1,12 @@
-import React from 'react'
-import { Translate } from 'react-localize-redux'
-import { Link } from 'react-router-dom'
+import React from 'react';
+import { Translate } from 'react-localize-redux';
+import { Link } from 'react-router-dom';
 
-import { Grid, Image } from 'semantic-ui-react'
+import { Grid, Image } from 'semantic-ui-react';
 
-import { ReactComponent as NodesImage } from '../../images/icon-nodes.svg'
-import { ReactComponent as AddBlueImage } from '../../images/icon-add-blue.svg'
-import ArrowRight from '../../images/icon-arrow-right.svg'
+import { ReactComponent as NodesImage } from '../../images/icon-nodes.svg';
+import { ReactComponent as AddBlueImage } from '../../images/icon-add-blue.svg';
+import ArrowRight from '../../images/icon-arrow-right.svg';
 
 const NodeStakingNodes = ({ nodes }) => (
     <Grid padded className='box'>
@@ -55,6 +55,6 @@ const NodeStakingNodes = ({ nodes }) => (
                 </Grid.Row>
             )}
     </Grid>
-)
+);
 
-export default NodeStakingNodes
+export default NodeStakingNodes;

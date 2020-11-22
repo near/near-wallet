@@ -1,14 +1,14 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
-import { withRouter } from 'react-router-dom'
+import { withRouter } from 'react-router-dom';
 
-import { refreshAccount, checkAccountAvailable, clear, setFormLoader, sendMoney, clearAlert } from '../../actions/account'
+import { refreshAccount, checkAccountAvailable, clear, setFormLoader, sendMoney, clearAlert } from '../../actions/account';
 
-import SendMoneyFirstStep from './SendMoneyFirstStep'
-import SendMoneySecondStep from './SendMoneySecondStep'
-import SendMoneyThirdStep from './SendMoneyThirdStep'
-import SendMoneyContainer from './SendMoneyContainer'
+import SendMoneyFirstStep from './SendMoneyFirstStep';
+import SendMoneySecondStep from './SendMoneySecondStep';
+import SendMoneyThirdStep from './SendMoneyThirdStep';
+import SendMoneyContainer from './SendMoneyContainer';
 
 class SendMoney extends Component {
     state = {
@@ -24,18 +24,18 @@ class SendMoney extends Component {
     }
 
     async componentDidMount() {
-        const accountId = this.props.match.params.id
+        const accountId = this.props.match.params.id;
         if (!accountId) return;
 
         // TODO: Why not use global loader?
         this.setState(() => ({
             loader: true
-        }))
+        }));
         try {
             // TODO: Does this show error through middleware?
             await this.props.checkAccountAvailable(accountId);
         } finally {
-            this.setState(() => ({ accountId, loader: false }))
+            this.setState(() => ({ accountId, loader: false }));
         }
     }
 
@@ -45,7 +45,7 @@ class SendMoney extends Component {
         }
 
         if (prevProps.location.key !== this.props.location.key && this.state.step !== 1) {
-            this.props.clear()
+            this.props.clear();
 
             this.setState(() => ({
                 step: 1,
@@ -53,68 +53,68 @@ class SendMoney extends Component {
                 amount: '',
                 accountId: '',
                 successMessage: false
-            }))
+            }));
         }
     }
 
     componentWillUnmount = () => {
-        this.props.clear()
+        this.props.clear();
     }
 
     handleGoBack = () => {
         this.setState(() => ({
             step: 1
-        }))
+        }));
     }
 
     handleCloseModal = () => {
         this.setState(() => ({
             implicitAccountModal: false
-        }))
+        }));
     }
 
     handleCancelTransfer = () => {
-        this.props.clear()
-        this.props.history.push('/')
+        this.props.clear();
+        this.props.history.push('/');
     }
 
     handleNextStep = async (e) => {
-        e.preventDefault()
-        const { step, accountId, amount, implicitAccount, implicitAccountModal } = this.state
+        e.preventDefault();
+        const { step, accountId, amount, implicitAccount, implicitAccountModal } = this.state;
 
         if (step === 2) {
             this.setState(() => ({
                 loader: true
-            }))
+            }));
 
             this.props.sendMoney(accountId, amount)
                 .then(() => {
-                    this.props.refreshAccount()
+                    this.props.refreshAccount();
 
                     this.setState(state => ({
                         step: state.step + 1
-                    }))
-                    this.props.clearAlert()
+                    }));
+                    this.props.clearAlert();
                 })
                 .catch(console.error)
                 .finally(() => {
                     this.setState(() => ({
                         loader: false
-                    }))
-                })
+                    }));
+                });
             return;
         }
 
         if (implicitAccount && !implicitAccountModal) {
             this.setState(state => ({
                 implicitAccountModal: true
-            }))
+            }));
         } else {
             this.setState(state => ({
                 step: state.step + 1,
                 amount: state.amount,
                 implicitAccountModal: false
-            }))
+            }));
         }
 
     }
@@ -125,33 +125,33 @@ class SendMoney extends Component {
             implicitAccount: name === 'accountId' 
                 ? this.isImplicitAccount(value)
                 : state.implicitAccount
-        }))
+        }));
     }
 
     handleRedirectDashboard = () => {
-        this.props.history.push(`/`)
+        this.props.history.push(`/`);
     }
 
     handleExpandNote = () => {
         this.setState(() => ({
             expandNote: true
-        }))
+        }));
     }
 
     isLegitForm = () => {
-        const { amount, amountStatus, implicitAccount } = this.state
-        const { requestStatus } = this.props
+        const { amount, amountStatus, implicitAccount } = this.state;
+        const { requestStatus } = this.props;
         
         return ((requestStatus && requestStatus.success) || implicitAccount) && amount > 0 && amountStatus === ''
             ? true
-            : false
+            : false;
     }
 
     isImplicitAccount = (accountId) => accountId.length === 64
 
     render() {
-        const { step, implicitAccountModal, implicitAccount } = this.state
-        const { formLoader, requestStatus, checkAccountAvailable, setFormLoader, clear, accountId } = this.props
+        const { step, implicitAccountModal, implicitAccount } = this.state;
+        const { formLoader, requestStatus, checkAccountAvailable, setFormLoader, clear, accountId } = this.props;
 
         return (
             <SendMoneyContainer>
@@ -189,7 +189,7 @@ class SendMoney extends Component {
                     />
                 )}
             </SendMoneyContainer>
-        )
+        );
     }
 }
 
@@ -200,13 +200,13 @@ const mapDispatchToProps = {
     setFormLoader,
     sendMoney,
     clearAlert
-}
+};
 
 const mapStateToProps = ({ account }) => ({
     ...account
-})
+});
 
 export const SendMoneyWithRouter = connect(
     mapStateToProps,
     mapDispatchToProps
-)(withRouter(SendMoney))
+)(withRouter(SendMoney));

@@ -1,11 +1,11 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import { Form } from 'semantic-ui-react'
-import { Translate } from 'react-localize-redux'
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { Form } from 'semantic-ui-react';
+import { Translate } from 'react-localize-redux';
 
-import styled from 'styled-components'
+import styled from 'styled-components';
 
-const CustomFormInput = styled(Form.Input)``
+const CustomFormInput = styled(Form.Input)``;
 
 class AddNodeFormNick extends Component {
     state = {
@@ -15,13 +15,13 @@ class AddNodeFormNick extends Component {
     handleChangeNick = (e, { name, value }) => {
         this.setState(() => ({
             [name]: value
-        }))
+        }));
 
-        this.props.handleChange(e, { name, value })
+        this.props.handleChange(e, { name, value });
     }
 
     render () {
-        const { nickname } = this.state
+        const { nickname } = this.state;
 
         return (
             <Translate>
@@ -40,12 +40,12 @@ class AddNodeFormNick extends Component {
                     />
                 )}
             </Translate>
-        )
+        );
     }
 }
 
 AddNodeFormNick.propTypes = {
     handleChange: PropTypes.func.isRequired
-}
+};
 
-export default AddNodeFormNick
+export default AddNodeFormNick;

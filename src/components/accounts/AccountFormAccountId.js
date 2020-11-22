@@ -1,13 +1,13 @@
-import React, { Component, createRef } from 'react'
-import PropTypes from 'prop-types'
-import styled from 'styled-components'
-import { Modal, Input } from 'semantic-ui-react'
-import { Translate } from 'react-localize-redux'
-import InfoIcon from '../svg/InfoIcon.js'
-import classNames from '../../utils/classNames'
+import React, { Component, createRef } from 'react';
+import PropTypes from 'prop-types';
+import styled from 'styled-components';
+import { Modal, Input } from 'semantic-ui-react';
+import { Translate } from 'react-localize-redux';
+import InfoIcon from '../svg/InfoIcon.js';
+import classNames from '../../utils/classNames';
 
-import RequestStatusBox from '../common/RequestStatusBox'
-import { ACCOUNT_CHECK_TIMEOUT, ACCOUNT_ID_SUFFIX } from '../../utils/wallet'
+import RequestStatusBox from '../common/RequestStatusBox';
+import { ACCOUNT_CHECK_TIMEOUT, ACCOUNT_ID_SUFFIX } from '../../utils/wallet';
 
 const InputWrapper = styled.div`
     position: relative;
@@ -35,7 +35,7 @@ const InputWrapper = styled.div`
             }
         }
     }
-`
+`;
 
 const DomainName = styled.div`
     position: absolute;
@@ -58,11 +58,11 @@ const DomainName = styled.div`
         height: 17px;
         margin: 0 0 0 6px;
     }
-`
+`;
 
 const Header = styled.h4`
     margin-bottom: 5px !important;
-`
+`;
 
 class AccountFormAccountId extends Component {
     state = {
@@ -73,58 +73,58 @@ class AccountFormAccountId extends Component {
 
     input = createRef()
     componentDidMount = () => {
-        const { defaultAccountId } = this.props
-        const { accountId } = this.state
+        const { defaultAccountId } = this.props;
+        const { accountId } = this.state;
         if (defaultAccountId) {
-            this.handleChangeAccountId({}, { name: 'accountId', value: accountId})
+            this.handleChangeAccountId({}, { name: 'accountId', value: accountId});
         }
     }
 
     handleChangeAccountId = (e, { name, value }) => {
-        const { pattern, handleChange, type } = this.props
+        const { pattern, handleChange, type } = this.props;
 
-        value = value.trim().toLowerCase()
+        value = value.trim().toLowerCase();
 
         if (value.match(pattern)) {
             if (this.state.wrongChar) {
-                const el = this.input.current.inputRef.current
-                el.style.animation = 'none'
-                void el.offsetHeight
-                el.style.animation = null
+                const el = this.input.current.inputRef.current;
+                el.style.animation = 'none';
+                void el.offsetHeight;
+                el.style.animation = null;
             } else {
                 this.setState(() => ({
                     wrongChar: true
-                }))
+                }));
             }
-            return false
+            return false;
         } else {
             this.setState(() => ({
                 wrongChar: false
-            }))
+            }));
         }
         
         this.setState(() => ({
             [name]: value
-        }))
+        }));
         
-        handleChange(e, { name, value })
+        handleChange(e, { name, value });
 
-        !this.props.formLoader && this.checkAccountIdLength(value) && this.props.setFormLoader(true)
-        this.props.formLoader && !this.checkAccountIdLength(value) && this.props.setFormLoader(false)
+        !this.props.formLoader && this.checkAccountIdLength(value) && this.props.setFormLoader(true);
+        this.props.formLoader && !this.checkAccountIdLength(value) && this.props.setFormLoader(false);
 
-        this.props.requestStatus && this.props.clearRequestStatus()
+        this.props.requestStatus && this.props.clearRequestStatus();
 
-        this.state.invalidAccountIdLength && this.handleAccountIdLengthState(value)
+        this.state.invalidAccountIdLength && this.handleAccountIdLengthState(value);
 
-        this.timeout && clearTimeout(this.timeout)
+        this.timeout && clearTimeout(this.timeout);
         this.timeout = setTimeout(() => (
             this.handleCheckAvailability(value, type)
-        ), ACCOUNT_CHECK_TIMEOUT)
+        ), ACCOUNT_CHECK_TIMEOUT);
     }
 
     checkAccountIdLength = (accountId) => {
-        const accountIdWithSuffix = `${accountId}.${ACCOUNT_ID_SUFFIX}`
-        return accountIdWithSuffix.length >= 2 && accountIdWithSuffix.length <= 64
+        const accountIdWithSuffix = `${accountId}.${ACCOUNT_ID_SUFFIX}`;
+        return accountIdWithSuffix.length >= 2 && accountIdWithSuffix.length <= 64;
     }
 
     handleAccountIdLengthState = (accountId) => this.setState(() => ({
@@ -133,15 +133,15 @@ class AccountFormAccountId extends Component {
 
     handleCheckAvailability = (accountId, type) => {
         if (!accountId) {
-            return false
+            return false;
         }
         if (this.isImplicitAccount(accountId)) {
-            return true
+            return true;
         }
         if (!(type === 'create' && !this.handleAccountIdLengthState(accountId) && !this.checkAccountIdLength(accountId))) {
-            return this.props.checkAvailability(type === 'create' ? this.props.accountId : accountId) 
+            return this.props.checkAvailability(type === 'create' ? this.props.accountId : accountId); 
         }
-        return false
+        return false;
     }
 
     isSameAccount = () => this.props.type !== 'create' && this.props.stateAccountId === this.state.accountId
@@ -151,50 +151,50 @@ class AccountFormAccountId extends Component {
     get loaderRequestStatus() {
         return {
             messageCode: `account.create.checkingAvailablity.${this.props.type}`
-        }
+        };
     }
 
     get accountIdLengthRequestStatus() {
         return {
             success: false,
             messageCode: 'account.create.errorInvalidAccountIdLength'
-        }
+        };
     }
 
     get sameAccountRequestStatus() {
         return {
             success: false,
             messageCode: 'account.available.errorSameAccount'
-        }
+        };
     }
 
     get implicitAccountRequestStatus() {
         return {
             success: true,
             messageCode: 'account.available.implicitAccount'
-        }
+        };
     }
 
     get requestStatusWithFormValidation() {
-        const { accountId, invalidAccountIdLength } = this.state
-        const { formLoader, requestStatus } = this.props
+        const { accountId, invalidAccountIdLength } = this.state;
+        const { formLoader, requestStatus } = this.props;
 
         if (!accountId) {
-            return null
+            return null;
         }
         if (this.isImplicitAccount(accountId)) {
-            return this.implicitAccountRequestStatus
+            return this.implicitAccountRequestStatus;
         }
         if (formLoader) {
-            return this.loaderRequestStatus
+            return this.loaderRequestStatus;
         }
         if (invalidAccountIdLength) {
-            return this.accountIdLengthRequestStatus
+            return this.accountIdLengthRequestStatus;
         }
         if (this.isSameAccount()) {
-            return this.sameAccountRequestStatus
+            return this.sameAccountRequestStatus;
         }
-        return requestStatus
+        return requestStatus;
     }
 
     render() {
@@ -202,11 +202,11 @@ class AccountFormAccountId extends Component {
             formLoader,
             autoFocus,
             type
-        } = this.props
+        } = this.props;
 
-        const { accountId, wrongChar } = this.state
+        const { accountId, wrongChar } = this.state;
 
-        const requestStatus = this.requestStatusWithFormValidation
+        const requestStatus = this.requestStatusWithFormValidation;
 
         return (
             <>
@@ -244,7 +244,7 @@ class AccountFormAccountId extends Component {
                 </Translate>
                 <RequestStatusBox dots={formLoader} requestStatus={requestStatus} accountId={this.props.accountId}/>
             </>
-        )
+        );
     }
 }
 
@@ -254,12 +254,12 @@ AccountFormAccountId.propTypes = {
     checkAvailability: PropTypes.func.isRequired,
     defaultAccountId: PropTypes.string,
     autoFocus: PropTypes.bool
-}
+};
 
 AccountFormAccountId.defaultProps = {
     autoFocus: false,
     pattern: /[^a-zA-Z0-9._-]/,
     type: 'check'
-}
+};
 
-export default AccountFormAccountId
+export default AccountFormAccountId;

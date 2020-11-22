@@ -1,14 +1,14 @@
-import React from 'react'
+import React from 'react';
 
 import {
     Container
-} from 'semantic-ui-react'
+} from 'semantic-ui-react';
 
-import DenyImage from '../../images/icon-deny.svg'
-import ProblemsImage from '../../images/icon-problems.svg'
-import CheckBlueImage from '../../images/icon-check-blue.svg'
+import DenyImage from '../../images/icon-deny.svg';
+import ProblemsImage from '../../images/icon-problems.svg';
+import CheckBlueImage from '../../images/icon-check-blue.svg';
 
-import styled from 'styled-components'
+import styled from 'styled-components';
 
 const CustomContainer = styled(Container)`
     &&& {
@@ -188,12 +188,12 @@ const CustomContainer = styled(Container)`
             }
         }
     }
-`
+`;
 
 const LoginContainer = ({ children }) => (
     <CustomContainer>
         {children}
     </CustomContainer>
-)
+);
 
-export default LoginContainer
+export default LoginContainer;

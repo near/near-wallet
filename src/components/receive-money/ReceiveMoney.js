@@ -6,9 +6,9 @@ import ProfileQRCode from '../profile/ProfileQRCode';
 import Divider from '../common/Divider';
 import { Translate } from 'react-localize-redux';
 import {Snackbar, snackbarDuration } from '../common/Snackbar';
-import copyText from '../../utils/copyText'
-import isMobile from '../../utils/isMobile'
-import iconShare from '../../images/icon-share-blue.svg'
+import copyText from '../../utils/copyText';
+import isMobile from '../../utils/isMobile';
+import iconShare from '../../images/icon-share-blue.svg';
 
 const Container = styled.div`
     display: flex;
@@ -47,7 +47,7 @@ const Container = styled.div`
         align-self: center;
         margin: 0;
     }
-`
+`;
 
 const Address = styled.div`
     border: 1px solid #e6e6e6;
@@ -71,7 +71,7 @@ const Address = styled.div`
         margin-top: 35px;
         font-size: 28px;
     }
-`
+`;
 
 const CopyAddress = styled.div`
     color: #0072CE;
@@ -85,13 +85,13 @@ const CopyAddress = styled.div`
     background-color: #f8f8f8;
     border-radius: 4px;
     padding: 6px 10px;
-`
+`;
 
 const UrlAddress = styled.div`
     position: absolute;
     z-index: -1;
     text-transform: initial;
-`
+`;
 
 const MobileShare = styled.div`
     background: url(${iconShare}) center no-repeat;
@@ -104,7 +104,7 @@ const MobileShare = styled.div`
     height: 40px;
     width: 40px;
     border-radius: 4px;
-`
+`;
 
 class ReceiveMoney extends Component {
     constructor(props) {
@@ -133,7 +133,7 @@ class ReceiveMoney extends Component {
         this.setState({ successSnackbar: true }, () => {
             setTimeout(() => {
                 this.setState({ successSnackbar: false });
-            }, snackbarDuration)
+            }, snackbarDuration);
         });
     }
 
@@ -177,14 +177,14 @@ class ReceiveMoney extends Component {
                     </div>
                 )}
             </Translate>
-        )
+        );
     }
 }
 
 const mapStateToProps = ({ account }) => ({
    account
-})
+});
 
 export const ReceiveMoneyWithRouter = connect(
    mapStateToProps
-)(withRouter(ReceiveMoney))
+)(withRouter(ReceiveMoney));

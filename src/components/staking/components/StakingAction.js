@@ -1,21 +1,21 @@
-import React, { useState } from 'react'
-import AmountInput from './AmountInput'
-import ValidatorBox from './ValidatorBox'
-import FormButton from '../../common/FormButton'
-import { Translate } from 'react-localize-redux'
-import ArrowCircleIcon from '../../svg/ArrowCircleIcon'
-import TransferMoneyIcon from '../../svg/TransferMoneyIcon'
-import StakeConfirmModal from './StakeConfirmModal'
-import BN from 'bn.js'
-import { utils } from 'near-api-js'
-import isDecimalString from '../../../utils/isDecimalString'
-import { STAKING_AMOUNT_DEVIATION } from '../../../utils/staking'
-import { onKeyDown } from '../../../hooks/eventListeners'
-import { toNear } from '../../../utils/amounts'
+import React, { useState } from 'react';
+import AmountInput from './AmountInput';
+import ValidatorBox from './ValidatorBox';
+import FormButton from '../../common/FormButton';
+import { Translate } from 'react-localize-redux';
+import ArrowCircleIcon from '../../svg/ArrowCircleIcon';
+import TransferMoneyIcon from '../../svg/TransferMoneyIcon';
+import StakeConfirmModal from './StakeConfirmModal';
+import BN from 'bn.js';
+import { utils } from 'near-api-js';
+import isDecimalString from '../../../utils/isDecimalString';
+import { STAKING_AMOUNT_DEVIATION } from '../../../utils/staking';
+import { onKeyDown } from '../../../hooks/eventListeners';
+import { toNear } from '../../../utils/amounts';
 
 const {
     parseNearAmount, formatNearAmount
-} = utils.format
+} = utils.format;
 
 export default function StakingAction({
     match,
@@ -27,72 +27,72 @@ export default function StakingAction({
     action,
     handleStakingAction
 }) {
-    const [confirm, setConfirm] = useState()
-    const [amount, setAmount] = useState('')
-    const [success, setSuccess] = useState()
-    const [useMax, setUseMax] = useState(null)
-    const hasStakeActionAmount = !loading && amount.length && amount !== '0'
-    let staked = (validator && validator.staked) || '0'
-    const stake = action === 'stake' ? true : false
-    const displayAmount = useMax ? formatNearAmount(amount, 5) : amount
+    const [confirm, setConfirm] = useState();
+    const [amount, setAmount] = useState('');
+    const [success, setSuccess] = useState();
+    const [useMax, setUseMax] = useState(null);
+    const hasStakeActionAmount = !loading && amount.length && amount !== '0';
+    let staked = (validator && validator.staked) || '0';
+    const stake = action === 'stake' ? true : false;
+    const displayAmount = useMax ? formatNearAmount(amount, 5) : amount;
 
-    const invalidStakeActionAmount = new BN(useMax ? amount : parseNearAmount(amount)).sub(new BN(stake ? availableBalance : staked)).gt(new BN(STAKING_AMOUNT_DEVIATION)) || !isDecimalString(amount)
+    const invalidStakeActionAmount = new BN(useMax ? amount : parseNearAmount(amount)).sub(new BN(stake ? availableBalance : staked)).gt(new BN(STAKING_AMOUNT_DEVIATION)) || !isDecimalString(amount);
 
-    const stakeActionAllowed = hasStakeActionAmount && !invalidStakeActionAmount
+    const stakeActionAllowed = hasStakeActionAmount && !invalidStakeActionAmount;
 
     onKeyDown(e => {
         if (e.keyCode === 13 && stakeActionAllowed) {
             if (!confirm) {
-                setConfirm(true)
+                setConfirm(true);
             } else {
-                onStakingAction()
+                onStakingAction();
             }
         }
-    })
+    });
 
     const onStakingAction = async () => {
-        let stakeActionAmount = amount
-        const userInputAmountIsMax = new BN(parseNearAmount(amount)).sub(new BN(stake ? availableBalance : staked)).abs().lte(new BN(STAKING_AMOUNT_DEVIATION))
+        let stakeActionAmount = amount;
+        const userInputAmountIsMax = new BN(parseNearAmount(amount)).sub(new BN(stake ? availableBalance : staked)).abs().lte(new BN(STAKING_AMOUNT_DEVIATION));
 
         if (!useMax && userInputAmountIsMax) {
             if (stake) {
-                stakeActionAmount = availableBalance
+                stakeActionAmount = availableBalance;
             } else {
-                stakeActionAmount = staked
+                stakeActionAmount = staked;
             }
         }
 
         if (!stake && (useMax || userInputAmountIsMax)) {
-            stakeActionAmount = null
+            stakeActionAmount = null;
         }
 
-        await handleStakingAction(action, validator.accountId, stakeActionAmount)
-        setSuccess(true)
-        setConfirm(false)
-    }
+        await handleStakingAction(action, validator.accountId, stakeActionAmount);
+        setSuccess(true);
+        setConfirm(false);
+    };
 
     const handleSetMax = () => {
-        const amount = stake ? availableBalance : staked
-        setAmount(amount)
-        setUseMax(true)
-    }
+        const amount = stake ? availableBalance : staked;
+        setAmount(amount);
+        setUseMax(true);
+    };
 
     const handleOnChange = (amount) => {
-        setAmount(amount)
-        setUseMax(false)
-    }
+        setAmount(amount);
+        setUseMax(false);
+    };
 
     const getStakeActionDisclaimer = () => {
-        let disclaimer = ''
+        let disclaimer = '';
         if (stake) {
             if (hasLedger || has2fa) {
-                disclaimer = 'staking.stake.ledgerDisclaimer'
+                disclaimer = 'staking.stake.ledgerDisclaimer';
             }
         } else {
-            disclaimer = 'staking.unstake.beforeUnstakeDisclaimer'
+            disclaimer = 'staking.unstake.beforeUnstakeDisclaimer';
         }
-        return disclaimer
-    }
+        return disclaimer;
+    };
     
     if (!success) {
         return (
@@ -144,7 +144,7 @@ export default function StakingAction({
                     />
                 }
             </>
-        )
+        );
     } else {
         return (
             <>
@@ -163,6 +163,6 @@ export default function StakingAction({
                 <div className='desc'><Translate id={`staking.${action}Success.descTwo`}/></div>
                 <FormButton linkTo='/staking' className='gray-blue'><Translate id={`staking.${action}Success.button`} /></FormButton>
             </>
-        )
+        );
     }
 }

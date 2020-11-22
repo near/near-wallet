@@ -1,12 +1,12 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React from 'react';
+import PropTypes from 'prop-types';
 
-import { Image } from 'semantic-ui-react'
+import { Image } from 'semantic-ui-react';
 
-import styled from 'styled-components'
+import styled from 'styled-components';
 
-import CheckImage from '../../images/icon-check.svg'
-import DenyImage from '../../images/icon-deny.svg'
+import CheckImage from '../../images/icon-check.svg';
+import DenyImage from '../../images/icon-deny.svg';
 
 const CustomDiv = styled(`div`)`
     &&& {
@@ -96,7 +96,7 @@ const CustomDiv = styled(`div`)`
         }
 
     }
-`
+`;
 
 const MainImage = ({ 
     src, 
@@ -107,11 +107,11 @@ const MainImage = ({
         <div />
         <Image src={src} />
     </CustomDiv>
-)
+);
 
 MainImage.propTypes = {
     src: PropTypes.string,
     size: PropTypes.string
-}
+};
 
-export default MainImage
+export default MainImage;

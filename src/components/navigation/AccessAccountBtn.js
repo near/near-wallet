@@ -34,12 +34,12 @@ const Button = styled(Link)`
             text-decoration: none;
         }
     }
-`
+`;
 
 const AccessAccountBtn = () => (
     <Button to='/recover-account'>
         <Translate id='button.addAccount'/>
     </Button>
-)
+);
 
 export default AccessAccountBtn;

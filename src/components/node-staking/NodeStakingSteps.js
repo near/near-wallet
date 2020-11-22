@@ -1,10 +1,10 @@
-import React from 'react'
-import { Translate } from 'react-localize-redux'
+import React from 'react';
+import { Translate } from 'react-localize-redux';
 
-import { Grid, Image } from 'semantic-ui-react'
+import { Grid, Image } from 'semantic-ui-react';
 
-import NewWinImage from '../../images/icon-new-win.svg'
-import { ReactComponent as RecentImage } from '../../images/icon-recent.svg'
+import NewWinImage from '../../images/icon-new-win.svg';
+import { ReactComponent as RecentImage } from '../../images/icon-recent.svg';
 
 const NodeStakingSteps = () => (
     <Grid padded>
@@ -56,6 +56,6 @@ const NodeStakingSteps = () => (
             </Grid.Column>
         </Grid.Row>
     </Grid>
-)
+);
 
-export default NodeStakingSteps
+export default NodeStakingSteps;

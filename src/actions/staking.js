@@ -1,9 +1,9 @@
-import { wallet } from '../utils/wallet'
-import { createActions } from 'redux-actions'
+import { wallet } from '../utils/wallet';
+import { createActions } from 'redux-actions';
 
-export { ACCOUNT_DEFAULTS } from '../utils/staking'
+export { ACCOUNT_DEFAULTS } from '../utils/staking';
 
-const defaultCodesFor = (prefix, data) => ({ successCode: `${prefix}.success`, errorCode: `${prefix}.error`, prefix, data})
+const defaultCodesFor = (prefix, data) => ({ successCode: `${prefix}.success`, errorCode: `${prefix}.error`, prefix, data});
 
 export const {
     switchAccount,
@@ -32,4 +32,4 @@ export const {
         wallet.staking.withdraw.bind(wallet.staking),
         () => defaultCodesFor('staking.withdraw')
     ],
-})
+});

@@ -1,6 +1,6 @@
-import React from 'react'
-import { Route, withRouter, Redirect } from 'react-router-dom'
-import { connect } from 'react-redux'
+import React from 'react';
+import { Route, withRouter, Redirect } from 'react-router-dom';
+import { connect } from 'react-redux';
 
 const PrivateRoute = ({component: Component, account, ...rest}) => (
     <Route 
@@ -17,10 +17,10 @@ const PrivateRoute = ({component: Component, account, ...rest}) => (
                 : <Component {...props} />
         )}
     />
-)
+);
 
 const mapStateToProps = ({ account }) => ({
     account
-})
+});
 
-export default withRouter(connect(mapStateToProps)(PrivateRoute))
+export default withRouter(connect(mapStateToProps)(PrivateRoute));

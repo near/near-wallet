@@ -63,7 +63,7 @@ const EnabledContainer = styled.div`
             }
         }
     }
-`
+`;
 
 const DisableContainer = styled.form`
     && {
@@ -111,7 +111,7 @@ const DisableContainer = styled.form`
             }
         }
     }
-`
+`;
 
 class ActiveMethod extends Component {
 

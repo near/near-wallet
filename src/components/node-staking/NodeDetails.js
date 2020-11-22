@@ -1,10 +1,10 @@
-import React, { Component } from 'react'
-import { withRouter } from 'react-router-dom'
-import { Translate } from 'react-localize-redux'
+import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
+import { Translate } from 'react-localize-redux';
 
-import AccountFormContainer from '../accounts/AccountFormContainer'
-import AccountFormSection from '../accounts/AccountFormSection'
-import NodeDetailsForm from './NodeDetailsForm'
+import AccountFormContainer from '../accounts/AccountFormContainer';
+import AccountFormSection from '../accounts/AccountFormSection';
+import NodeDetailsForm from './NodeDetailsForm';
 
 class NodeDetails extends Component {
     state = {
@@ -17,48 +17,48 @@ class NodeDetails extends Component {
     handleChange = (e, { name, value }) => {
         this.setState(() => ({
             [name]: value
-        }))
+        }));
     }
 
     handleSubmit = e => {
-        e.preventDefault()
+        e.preventDefault();
 
         if (!this.isLegitForm()) {
-            return false
+            return false;
         }
 
         this.setState(() => ({
             loader: true
-        }))
+        }));
 
         setTimeout(() => {
             this.setState(() => ({
                 loader: false
-            }))
+            }));
         }, 1500);
 
     }
 
     handleRemoveNode = e => {
-        e.preventDefault()
+        e.preventDefault();
 
         this.setState(() => ({
             loaderRemoveNode: true
-        }))
+        }));
 
         setTimeout(() => {
             this.setState(() => ({
                 loaderRemoveNode: false
-            }))
+            }));
         }, 1500);
     }
 
     isLegitForm = () => {
-        return this.state.ipAddress.match(/^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/)
+        return this.state.ipAddress.match(/^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/);
     }
 
     render() {
-        const { loader, loaderRemoveNode } = this.state
+        const { loader, loaderRemoveNode } = this.state;
 
         return (
             <AccountFormContainer 
@@ -78,8 +78,8 @@ class NodeDetails extends Component {
                     />
                 </AccountFormSection>
             </AccountFormContainer>
-        )
+        );
     }
 }
 
-export const NodeDetailsWithRouter = withRouter(NodeDetails)
+export const NodeDetailsWithRouter = withRouter(NodeDetails);

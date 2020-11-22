@@ -1,10 +1,10 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React from 'react';
+import { Link } from 'react-router-dom';
 
-import MainImage from '../common/MainImage'
-import FormButton from '../common/FormButton'
+import MainImage from '../common/MainImage';
+import FormButton from '../common/FormButton';
 
-import AccountGreyImage from '../../images/icon-account-grey.svg'
+import AccountGreyImage from '../../images/icon-account-grey.svg';
 
 const ContactsRemove = () => (
 
@@ -67,6 +67,6 @@ const ContactsRemove = () => (
             </Link>
         </div>
     </div>
-)
+);
 
-export default ContactsRemove
+export default ContactsRemove;

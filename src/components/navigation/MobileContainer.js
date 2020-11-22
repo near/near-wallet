@@ -52,7 +52,7 @@ const Container = styled.div`
         overflow-y: auto;
         overflow-x: hidden;
     }
-`
+`;
 
 const Collapsed = styled.div`
     height: 70px;
@@ -65,17 +65,17 @@ const Collapsed = styled.div`
         top: 5px;
         padding: 20px;
     }
-`
+`;
 
 const User = styled.div`
     margin-left: 10px;
-`
+`;
 
 const LowerSection = styled.div`
     background-color: black;
     margin: 10px -20px 0 -20px;
     padding: 20px 20px 100% 20px;
-`
+`;
 
 const Lang = styled.div`
     border-top: 1px solid #404040;
@@ -137,7 +137,7 @@ const Lang = styled.div`
             }
         }
     }
-`
+`;
 
 class MobileContainer extends Component {
     render() {
@@ -190,7 +190,7 @@ class MobileContainer extends Component {
                     </>
                 }
             </Container>
-        )
+        );
     }
 }
 

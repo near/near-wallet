@@ -1,22 +1,22 @@
-import { useEffect } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
-import { loadRecoveryMethods } from '../actions/account'
-import { wallet } from '../utils/wallet'
+import { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { loadRecoveryMethods } from '../actions/account';
+import { wallet } from '../utils/wallet';
 
-const empty = []
+const empty = [];
 
 export function useRecoveryMethods(accountId) {
     const recoveryMethods = useSelector(state =>
         state.recoveryMethods[accountId]
-    )
+    );
 
-    const dispatch = useDispatch()
+    const dispatch = useDispatch();
 
     useEffect(() => {
         if (accountId === wallet.accountId) {
-            dispatch(loadRecoveryMethods())
+            dispatch(loadRecoveryMethods());
         }
-    }, [accountId])
+    }, [accountId]);
 
-    return recoveryMethods || empty
+    return recoveryMethods || empty;
 }

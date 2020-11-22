@@ -7,6 +7,6 @@ const copyText = (el) => {
         document.execCommand('copy');
         selection.removeAllRanges();
     }
-}
+};
 
 export default copyText;

@@ -1,20 +1,20 @@
-import { handleActions } from 'redux-actions'
+import { handleActions } from 'redux-actions';
 
 import {
     getTransactions,
     getTransactionStatus
-} from '../../actions/transactions'
+} from '../../actions/transactions';
 
-const initialState = {}
+const initialState = {};
 
 const transactions = handleActions({
     [getTransactions]: (state, { error, payload, ready, meta }) => {
-        const transactions = state ? state[meta.accountId] : undefined
+        const transactions = state ? state[meta.accountId] : undefined;
 
         const hash = transactions && transactions.reduce((h, t) => ({
             ...h,
             [t.hash_with_index]: t
-        }), {})
+        }), {});
         
         return ({
             ...state,
@@ -29,7 +29,7 @@ const transactions = handleActions({
                         : t
                 ))
                 : transactions
-        })
+        });
     },
     [getTransactionStatus]: (state, { error, payload, ready, meta }) => ({
         ...state,
@@ -49,6 +49,6 @@ const transactions = handleActions({
                 : t
         ))
     })
-}, initialState)
+}, initialState);
 
-export default transactions
+export default transactions;

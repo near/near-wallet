@@ -1,12 +1,12 @@
-import React from 'react'
-import { withRouter } from 'react-router-dom'
-import { Responsive, Input } from 'semantic-ui-react'
-import { Translate } from 'react-localize-redux'
+import React from 'react';
+import { withRouter } from 'react-router-dom';
+import { Responsive, Input } from 'semantic-ui-react';
+import { Translate } from 'react-localize-redux';
 
-import RequestStatusBox from '../common/RequestStatusBox'
-import FormButton from '../common/FormButton'
+import RequestStatusBox from '../common/RequestStatusBox';
+import FormButton from '../common/FormButton';
 
-import styled from 'styled-components'
+import styled from 'styled-components';
 
 const CustomDiv = styled.div`
 
@@ -38,7 +38,7 @@ const CustomDiv = styled.div`
             margin: 0 0 0 6px !important;
         }
     }
-`
+`;
 
 const SetupSeedPhraseVerify = ({
     enterWord,
@@ -75,6 +75,6 @@ const SetupSeedPhraseVerify = ({
             <Translate id='button.verify' />
         </FormButton>
     </CustomDiv>
-)
+);
 
-export default withRouter(SetupSeedPhraseVerify)
+export default withRouter(SetupSeedPhraseVerify);

@@ -9,7 +9,7 @@ const NotEnabledContainer = styled.div`
     justify-content: space-between;
     color: #24272a;
     font-weight: 500;
-`
+`;
 
 const Button = styled(Link)`
     display: flex;
@@ -26,7 +26,7 @@ const Button = styled(Link)`
         color: white;
         text-decoration: none;
     }
-`
+`;
 
 const InactiveMethod = ({ method, accountId }) => (
     <NotEnabledContainer>

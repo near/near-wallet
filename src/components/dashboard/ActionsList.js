@@ -1,21 +1,21 @@
-import React, { useEffect } from 'react'
-import { Translate } from 'react-localize-redux'
-import { format } from 'timeago.js'
-import Balance from '../common/Balance'
-import IconTAcct from '../../images/IconTAcct'
-import IconTKeyDelete from '../../images/IconTKeyDelete'
-import IconTContract from '../../images/IconTContract'
-import IconTCall from '../../images/IconTCall'
-import IconTTransfer from '../../images/IconTTransfer'
-import IconTStake from '../../images/IconTStake'
-import IconTKeyNew from '../../images/IconTKeyNew'
-import ArrowRight from '../../images/icon-arrow-right.svg'
-import ArrowBlkImage from '../../images/icon-arrow-blk.svg'
-import { Grid, Image } from 'semantic-ui-react'
-import styled from 'styled-components'
-import classNames from '../../utils/classNames'
+import React, { useEffect } from 'react';
+import { Translate } from 'react-localize-redux';
+import { format } from 'timeago.js';
+import Balance from '../common/Balance';
+import IconTAcct from '../../images/IconTAcct';
+import IconTKeyDelete from '../../images/IconTKeyDelete';
+import IconTContract from '../../images/IconTContract';
+import IconTCall from '../../images/IconTCall';
+import IconTTransfer from '../../images/IconTTransfer';
+import IconTStake from '../../images/IconTStake';
+import IconTKeyNew from '../../images/IconTKeyNew';
+import ArrowRight from '../../images/icon-arrow-right.svg';
+import ArrowBlkImage from '../../images/icon-arrow-blk.svg';
+import { Grid, Image } from 'semantic-ui-react';
+import styled from 'styled-components';
+import classNames from '../../utils/classNames';
 
-import { TRANSACTIONS_REFRESH_INTERVAL } from '../../utils/wallet'
+import { TRANSACTIONS_REFRESH_INTERVAL } from '../../utils/wallet';
 
 const CustomGridRow = styled(Grid.Row)`
     &&& {
@@ -119,7 +119,7 @@ const CustomGridRow = styled(Grid.Row)`
             }
         }
     }
-`
+`;
 
 const ActionsList = ({ transaction, wide, accountId, getTransactionStatus }) => (
     <ActionRow 
@@ -130,20 +130,20 @@ const ActionsList = ({ transaction, wide, accountId, getTransactionStatus }) => 
         accountId={accountId}
         getTransactionStatus={getTransactionStatus}
     />
-)
+);
 
 const ActionRow = ({ transaction, actionArgs, actionKind, wide, showSub = false, accountId, getTransactionStatus }) => {
-    const { checkStatus, status, hash, signer_id, block_timestamp } = transaction
-    const getTransactionStatusConditions = () => checkStatus && !document.hidden && getTransactionStatus(hash, signer_id, accountId)
+    const { checkStatus, status, hash, signer_id, block_timestamp } = transaction;
+    const getTransactionStatusConditions = () => checkStatus && !document.hidden && getTransactionStatus(hash, signer_id, accountId);
 
     useEffect(() => {
-        getTransactionStatusConditions()
+        getTransactionStatusConditions();
         const interval = setInterval(() => {
-            getTransactionStatusConditions()
-        }, TRANSACTIONS_REFRESH_INTERVAL)
+            getTransactionStatusConditions();
+        }, TRANSACTIONS_REFRESH_INTERVAL);
 
-        return () => clearInterval(interval)
-    }, [hash, checkStatus])
+        return () => clearInterval(interval);
+    }, [hash, checkStatus]);
 
     return (
         <CustomGridRow
@@ -195,14 +195,14 @@ const ActionRow = ({ transaction, actionArgs, actionKind, wide, showSub = false,
                 </Grid.Column>
             )}
         </CustomGridRow>
-)}
+);};
 
 const ActionMessage = ({ transaction, actionArgs, actionKind, accountId }) => (
     <Translate 
         id={translateId(transaction, actionArgs, actionKind, accountId)}
         data={translateData(transaction, actionArgs, actionKind)}
     />
-)
+);
 
 const translateId = (transaction, actionArgs, actionKind, accountId) => (
     `actions.${actionKind
@@ -217,7 +217,7 @@ const translateId = (transaction, actionArgs, actionKind, accountId) => (
                 : '.received'
             : ''
     }`
-)
+);
 
 const translateData = (transaction, actionArgs, actionKind) => ({
     receiverId: transaction.receiver_id || '',
@@ -226,7 +226,7 @@ const translateData = (transaction, actionArgs, actionKind) => ({
     deposit: actionKind === "Transfer" ? <Balance amount={actionArgs.deposit} /> : '',
     stake: actionKind === "Stake" ? <Balance amount={actionArgs.stake} />  : '',
     permissionReceiverId: (actionKind === "AddKey" && actionArgs.access_key && typeof actionArgs.access_key.permission === 'object') ? actionArgs.access_key.permission.FunctionCall.receiver_id : ''
-})
+});
 
 const ActionIcon = ({ actionKind }) => (
     <div>
@@ -239,11 +239,11 @@ const ActionIcon = ({ actionKind }) => (
         {actionKind === 'AddKey' && <IconTKeyNew />}
         {actionKind === 'DeleteKey' && <IconTKeyDelete />}
     </div>
-)
+);
 
 const ActionTimeStamp = ({ timeStamp }) => (
     <div className='font-small'>{format(timeStamp)}</div>
-)
+);
 
 const TX_STATUS_COLOR = {
     NotStarted: '',
@@ -251,12 +251,12 @@ const TX_STATUS_COLOR = {
     Failure: 'color-red',
     SuccessValue: 'color-green',
     notAvailable: 'color-red'
-}
+};
 
 const ActionStatus = ({ status }) => (
     <div className={classNames(['font-small', {[TX_STATUS_COLOR[status]]: status, 'dots': !status}])}>
         <Translate id={`transaction.status.${status || 'checkingStatus'}`} />
     </div>
-)
+);
 
-export default ActionsList
+export default ActionsList;

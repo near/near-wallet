@@ -8,7 +8,7 @@ const PhraseIcon = () => {
         strokeLinecap: 'round',
         strokeLinejoin: 'round',
         strokeWidth: '2px'
-    }
+    };
 
     return (
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 38 38">
@@ -27,7 +27,7 @@ const PhraseIcon = () => {
                 </g>
             </g>
         </svg>
-    )
-}
+    );
+};
 
 export default PhraseIcon;

@@ -1,9 +1,9 @@
-import React from 'react'
-import styled from 'styled-components'
-import RadioGroup from '../../common/radio_button/RadioGroup'
-import RadioButton from '../../common/radio_button/RadioButton'
-import Balance from '../../common/Balance'
-import { Translate } from 'react-localize-redux'
+import React from 'react';
+import styled from 'styled-components';
+import RadioGroup from '../../common/radio_button/RadioGroup';
+import RadioButton from '../../common/radio_button/RadioButton';
+import Balance from '../../common/Balance';
+import { Translate } from 'react-localize-redux';
 
 const Container = styled.div`
     > div {
@@ -43,7 +43,7 @@ const Container = styled.div`
             }
         }
     }
-`
+`;
 
 export default function SelectAccount({ accounts, onChange, selectedAccount }) {
     return (
@@ -68,5 +68,5 @@ export default function SelectAccount({ accounts, onChange, selectedAccount }) {
                 </RadioButton>
             )}
         </RadioGroup>
-    )
+    );
 }

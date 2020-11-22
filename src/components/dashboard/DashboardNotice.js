@@ -1,10 +1,10 @@
-import React from 'react'
+import React from 'react';
 
-import { List, Image } from 'semantic-ui-react'
+import { List, Image } from 'semantic-ui-react';
 
-import CloseImage from '../../images/icon-close.svg'
+import CloseImage from '../../images/icon-close.svg';
 
-import styled from 'styled-components'
+import styled from 'styled-components';
 
 const CustomList = styled(List)`
     &&& {
@@ -37,7 +37,7 @@ const CustomList = styled(List)`
         @media screen and (max-width: 767px) {
         }
     }
-`
+`;
 
 const DashboardNotice = ({ handleNotice }) => (
     <CustomList horizontal className='box'>
@@ -54,6 +54,6 @@ const DashboardNotice = ({ handleNotice }) => (
             <Image onClick={handleNotice} src={CloseImage} />
         </List.Item>
     </CustomList>
-)
+);
 
-export default DashboardNotice
+export default DashboardNotice;

@@ -33,7 +33,7 @@ const StyledButton = styled.button`
         opacity: 0.3;
         cursor: not-allowed;
     }
-`
+`;
 
 const Button = (props) => (
     <StyledButton
@@ -47,7 +47,7 @@ const Button = (props) => (
     >
         {props.children}
     </StyledButton>
-)
+);
 
 Button.propTypes = {
   disabled: PropTypes.bool,
@@ -59,6 +59,6 @@ Button.defaultProps = {
   disabled: false,
   theme: 'primary',
   fullWidth: true,
-}
+};
 
 export default Button;

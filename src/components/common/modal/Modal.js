@@ -20,11 +20,11 @@ function Modal(props) {
             window.removeEventListener('keydown', onEscKeyDown, false);
             closeEl && closeEl.removeEventListener('click', handleClick, false);
             clearTimeout(fadeIn);
-        }
+        };
 
     },[]);
 
-    useEffect(() => { setFadeType('out') }, [isOpen]);
+    useEffect(() => { setFadeType('out'); }, [isOpen]);
 
     const transitionEnd = e => {
         if (e.propertyName !== 'opacity' || fadeType === 'in') return;
@@ -36,11 +36,11 @@ function Modal(props) {
 
     const onEscKeyDown = e => {
         if (e.key !== 'Escape') return;
-        setFadeType('out')
+        setFadeType('out');
     };
 
     const handleClick = () => {
-        setFadeType('out')
+        setFadeType('out');
     };
 
     return ReactDom.createPortal(

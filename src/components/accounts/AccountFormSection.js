@@ -1,9 +1,9 @@
-import React from 'react'
-import { Form, Grid } from 'semantic-ui-react'
+import React from 'react';
+import { Form, Grid } from 'semantic-ui-react';
 
-import AccountNote from '../common/AccountNote'
+import AccountNote from '../common/AccountNote';
 
-import styled from 'styled-components'
+import styled from 'styled-components';
 
 const CustomForm = styled(Form)`
     &&&& {
@@ -113,7 +113,7 @@ const CustomForm = styled(Form)`
             
         }
     }
-`
+`;
 
 const AccountFormSection = ({ handleSubmit, location, children }) => (
     <CustomForm autoComplete='off' onSubmit={(e) => {handleSubmit(); e.preventDefault();}}>
@@ -126,6 +126,6 @@ const AccountFormSection = ({ handleSubmit, location, children }) => (
             </Grid.Column>
         </Grid>
     </CustomForm>
-)
+);
 
-export default AccountFormSection
+export default AccountFormSection;

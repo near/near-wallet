@@ -1,10 +1,10 @@
-import React from 'react'
+import React from 'react';
 
-import { Image, List } from 'semantic-ui-react'
+import { Image, List } from 'semantic-ui-react';
 
-import NearLogoImage from '../../images/near_logo.svg'
+import NearLogoImage from '../../images/near_logo.svg';
 
-import styled from 'styled-components'
+import styled from 'styled-components';
 
 const CustomList = styled(List)`
     background: #f8f8f8;
@@ -27,7 +27,7 @@ const CustomList = styled(List)`
             width: 100%;
         }
     }
-`
+`;
 
 const NearInfo = () => (
     <CustomList className='box'>
@@ -39,6 +39,6 @@ const NearInfo = () => (
             <a href='https://nearprotocol.com/'>Learn More</a>
         </List.Item>
     </CustomList>
-)
+);
 
-export default NearInfo
+export default NearInfo;

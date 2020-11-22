@@ -1,8 +1,8 @@
-import React from 'react'
+import React from 'react';
 
-import MobileContainer from '../sign/MobileContainer'
-import GlobalAlert from '../responsive/GlobalAlert'
-import FormButton from '../common/FormButton'
+import MobileContainer from '../sign/MobileContainer';
+import GlobalAlert from '../responsive/GlobalAlert';
+import FormButton from '../common/FormButton';
 
 const LoginIncorrectContractId = ({ contractId, failureUrl }) => (
     <MobileContainer>
@@ -26,6 +26,6 @@ const LoginIncorrectContractId = ({ contractId, failureUrl }) => (
             </FormButton>
         </div>
     </MobileContainer>
-)
+);
 
-export default LoginIncorrectContractId
+export default LoginIncorrectContractId;

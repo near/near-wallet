@@ -1,15 +1,15 @@
-import React from 'react'
+import React from 'react';
 
-import AccessKeysDeauthorize from '../access-keys/AccessKeysDeauthorize'
-import ContactsRemove from '../contacts/ContactsRemove'
+import AccessKeysDeauthorize from '../access-keys/AccessKeysDeauthorize';
+import ContactsRemove from '../contacts/ContactsRemove';
 
-import { List, Image } from 'semantic-ui-react'
+import { List, Image } from 'semantic-ui-react';
 
-import CloseImage from '../../images/icon-close.svg'
-import MTransactionImage from '../../images/icon-m-transaction.svg'
-import CheckBlueImage from '../../images/icon-check-blue.svg'
+import CloseImage from '../../images/icon-close.svg';
+import MTransactionImage from '../../images/icon-m-transaction.svg';
+import CheckBlueImage from '../../images/icon-check-blue.svg';
 
-import styled from 'styled-components'
+import styled from 'styled-components';
 
 const CustomList = styled(List)`
     &&& {
@@ -208,7 +208,7 @@ const CustomList = styled(List)`
             }
         }
     }
-`
+`;
 
 const PaginationShowSubBox = ({ 
     toggleCloseSub,
@@ -253,6 +253,6 @@ const PaginationShowSubBox = ({
             )}
         </List.Item>
     </CustomList>
-)
+);
 
-export default PaginationShowSubBox
+export default PaginationShowSubBox;

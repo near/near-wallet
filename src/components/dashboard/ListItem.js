@@ -1,13 +1,13 @@
-import React from 'react'
+import React from 'react';
 
-import { Grid, Image } from 'semantic-ui-react'
+import { Grid, Image } from 'semantic-ui-react';
 
-import MainImage from '../common/MainImage'
+import MainImage from '../common/MainImage';
 
-import ArrowRight from '../../images/icon-arrow-right.svg'
-import ArrowBlkImage from '../../images/icon-arrow-blk.svg'
+import ArrowRight from '../../images/icon-arrow-right.svg';
+import ArrowBlkImage from '../../images/icon-arrow-blk.svg';
 
-import styled from 'styled-components'
+import styled from 'styled-components';
 
 const CustomGridRow = styled(Grid.Row)`
     &&& {
@@ -107,7 +107,7 @@ const CustomGridRow = styled(Grid.Row)`
             }
         }
     }
-`
+`;
 
 const ListItem = ({
     row,
@@ -166,6 +166,6 @@ const ListItem = ({
             </Grid.Column>
         )}
     </CustomGridRow>
-)
+);
 
-export default ListItem
+export default ListItem;

@@ -1,11 +1,11 @@
-import React, { Component } from 'react'
-import { withRouter } from 'react-router-dom'
-import { connect } from 'react-redux'
-import { Translate } from 'react-localize-redux'
-import styled from 'styled-components'
-import { recoverAccountSeedPhrase, redirectToApp, refreshAccount, clear } from '../../actions/account'
-import RecoverAccountSeedPhraseForm from './RecoverAccountSeedPhraseForm'
-import Container from '../common/styled/Container.css'
+import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { Translate } from 'react-localize-redux';
+import styled from 'styled-components';
+import { recoverAccountSeedPhrase, redirectToApp, refreshAccount, clear } from '../../actions/account';
+import RecoverAccountSeedPhraseForm from './RecoverAccountSeedPhraseForm';
+import Container from '../common/styled/Container.css';
 
 const StyledContainer = styled(Container)`
     .input {
@@ -26,7 +26,7 @@ const StyledContainer = styled(Container)`
         width: 100% !important;
         margin-top: 30px !important;
     }
-`
+`;
 
 class RecoverAccountSeedPhrase extends Component {
     state = {
@@ -39,7 +39,7 @@ class RecoverAccountSeedPhrase extends Component {
     }
 
     get isLegit() {
-        return Object.keys(this.validators).every(field => this.validators[field](this.state[field]))
+        return Object.keys(this.validators).every(field => this.validators[field](this.state[field]));
     }
 
     componentDidMount = () => {}
@@ -47,20 +47,20 @@ class RecoverAccountSeedPhrase extends Component {
     handleChange = (e, { name, value }) => {
         this.setState(() => ({
             [name]: value
-        }))
+        }));
 
-        this.props.clear()
+        this.props.clear();
     }
 
     handleSubmit = async () => {
         if (!this.isLegit) {
-            return false
+            return false;
         }
 
-        const { seedPhrase } = this.state
-        await this.props.recoverAccountSeedPhrase(seedPhrase)
-        this.props.refreshAccount()
-        this.props.redirectToApp()
+        const { seedPhrase } = this.state;
+        await this.props.recoverAccountSeedPhrase(seedPhrase);
+        this.props.refreshAccount();
+        this.props.redirectToApp();
     }
 
     render() {
@@ -68,7 +68,7 @@ class RecoverAccountSeedPhrase extends Component {
             ...this.props,
             ...this.state,
             isLegit: this.isLegit && !(this.props.requestStatus && this.props.requestStatus.success === false)
-        }
+        };
 
         return (
             <StyledContainer className='small-centered'>
@@ -81,7 +81,7 @@ class RecoverAccountSeedPhrase extends Component {
                     />
                 </form>
             </StyledContainer>
-        )
+        );
     }
 }
 
@@ -90,14 +90,14 @@ const mapDispatchToProps = {
     redirectToApp,
     refreshAccount,
     clear
-}
+};
 
 const mapStateToProps = ({ account }, { match }) => ({
     ...account,
     seedPhrase: match.params.seedPhrase || '',
-})
+});
 
 export const RecoverAccountSeedPhraseWithRouter = connect(
     mapStateToProps, 
     mapDispatchToProps
-)(withRouter(RecoverAccountSeedPhrase))
+)(withRouter(RecoverAccountSeedPhrase));

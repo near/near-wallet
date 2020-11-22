@@ -1,12 +1,12 @@
-import React from 'react'
-import styled from 'styled-components'
-import UserIcon from '../../svg/UserIcon'
-import ChevronIcon from '../../svg/ChevronIcon'
-import FormButton from '../../common/FormButton'
-import { Translate } from 'react-localize-redux'
-import Balance from '../../common/Balance'
-import { redirectTo } from '../../../actions/account'
-import { useDispatch } from 'react-redux'
+import React from 'react';
+import styled from 'styled-components';
+import UserIcon from '../../svg/UserIcon';
+import ChevronIcon from '../../svg/ChevronIcon';
+import FormButton from '../../common/FormButton';
+import { Translate } from 'react-localize-redux';
+import Balance from '../../common/Balance';
+import { redirectTo } from '../../../actions/account';
+import { useDispatch } from 'react-redux';
 
 const Container = styled.div`
     display: flex;
@@ -104,7 +104,7 @@ const Container = styled.div`
         left: 50%;
         transform: translateX(-50%);
     }
-`
+`;
 
 export default function ValidatorBox({
     validator,
@@ -115,14 +115,14 @@ export default function ValidatorBox({
     style,
     label = false
 }) {
-    const dispatch = useDispatch()
-    const cta = amount ? <ChevronIcon/> : <FormButton className='gray-blue' linkTo={`/staking/${validator}`}><Translate id='staking.validatorBox.cta' /></FormButton>
+    const dispatch = useDispatch();
+    const cta = amount ? <ChevronIcon/> : <FormButton className='gray-blue' linkTo={`/staking/${validator}`}><Translate id='staking.validatorBox.cta' /></FormButton>;
     return (
         <Container 
             className='validator-box' 
             clickable={clickable && amount ? 'true' : ''} 
             style={style} 
-            onClick={() => { clickable && amount && dispatch(redirectTo(`/staking/${validator}`))}}
+            onClick={() => { clickable && amount && dispatch(redirectTo(`/staking/${validator}`));}}
         >
             {label && <div className='with'><Translate id='staking.validatorBox.with' /></div>}
             <UserIcon/>
@@ -142,5 +142,5 @@ export default function ValidatorBox({
             }
             {clickable ? cta : null}
         </Container>
-    )
+    );
 }

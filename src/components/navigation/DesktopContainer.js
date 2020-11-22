@@ -35,7 +35,7 @@ const Container = styled.div`
     .click-outside {
         position: relative;
     }
-`
+`;
 
 const Help = styled.a`
     color: white;
@@ -62,7 +62,7 @@ const Help = styled.a`
         margin-right: 10px;
         margin-top: -2px;
     }
-`
+`;
 
 const User = styled.div`
     border-left: 2px solid #5d5f60;
@@ -161,7 +161,7 @@ const User = styled.div`
         height: 9px;
         width: 9px;
     }
-`
+`;
 
 const UserIcon = styled.div`
     display: none;
@@ -178,7 +178,7 @@ const UserIcon = styled.div`
     @media (min-width: 940px) {
         display: inline-block;
     }
-`
+`;
 
 const Lang = styled.div`
     margin-left: 20px;
@@ -220,7 +220,7 @@ const Lang = styled.div`
             display: none;
         }
     }
-`
+`;
 
 class DesktopContainer extends Component {
     render() {
@@ -264,7 +264,7 @@ class DesktopContainer extends Component {
                     </>
                 }
             </Container>
-        )
+        );
     }
 }
 

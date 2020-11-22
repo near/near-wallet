@@ -23,6 +23,6 @@ const EnableTwoFactorPromptModal = ({ open, onClose }) => {
             <button className='link color-red' id='close-button'><Translate id='button.skip'/></button>
         </Modal>
     );
-}
+};
 
 export default EnableTwoFactorPromptModal;

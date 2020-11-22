@@ -1,6 +1,6 @@
-import React from 'react'
-import { Translate } from 'react-localize-redux'
-import styled from 'styled-components'
+import React from 'react';
+import { Translate } from 'react-localize-redux';
+import styled from 'styled-components';
 
 const Container = styled.div`
     font-style: italic;
@@ -14,7 +14,7 @@ const Container = styled.div`
         margin-top: 0;
         padding-left: 17px;
     }
-`
+`;
 
 const AccountNote = () => (
 
@@ -30,6 +30,6 @@ const AccountNote = () => (
             <li><Translate id='createAccount.note.six'/></li>
         </ul>
     </Container>
-)
+);
 
-export default AccountNote
+export default AccountNote;
