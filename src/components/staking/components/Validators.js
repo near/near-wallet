@@ -4,7 +4,7 @@ import ListWrapper from './ListWrapper'
 import ValidatorBox from './ValidatorBox'
 
 export default function Validators({ validators }) {
-    const currentValidators = validators.filter((v) => v.current)
+    const currentValidators = validators.filter((v) => v.current || v.next)
 
     const [validator, setValidator] = useState('')
 

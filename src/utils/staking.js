@@ -286,7 +286,7 @@ export class Staking {
             const rpcValidators = [...current_validators, ...next_validators, ...current_proposals].map(({ account_id }) => account_id)
 
             // TODO use indexer - getting all historic validators from raw GH script .json
-            const networkId = NETWORK_ID === 'default' ? 'testnet' : 'mainnet'
+            const networkId = this.provider.connection.url.indexOf('mainnet') > -1 ? 'mainnet' : 'testnet'
             if (!ghValidators) {
                 ghValidators = (await fetch(`https://raw.githubusercontent.com/frol/near-validators-scoreboard/scoreboard-${networkId}/validators_scoreboard.json`).then((r) => r.json()))
                 .map(({ account_id }) => account_id)
@@ -309,6 +309,7 @@ export class Staking {
                     fee.percentage = fee.numerator / fee.denominator * 100
                     return validator
                 } catch (e) {
+                    console.log('error with', account_id)
                     if (!/No contract for account|cannot find contract code|wasm execution failed/.test(e.message)) {
                         throw(e)
                     }
