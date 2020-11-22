@@ -3,7 +3,7 @@ import BN from 'bn.js'
 import { WalletError } from './walletError'
 import { getLockupAccountId } from './account-with-lockup'
 import { queryExplorer } from './explorer-api'
-import { MIN_BALANCE_FOR_GAS, NETWORK_ID } from './wallet'
+import { MIN_BALANCE_FOR_GAS } from './wallet'
 
 const {
     transactions: {
@@ -202,7 +202,6 @@ export class Staking {
         let { deposits, validators } = (await getStakingTransactions(account_id))
         validators = await this.getValidators([...new Set(validators.concat(recentlyStakedValidators))])
         if (!validators.length || this.wallet.has2fa) {
-            console.log('has2fa: checking all validators', this.wallet.has2fa)
             validators = await this.getValidators()
         }
 
