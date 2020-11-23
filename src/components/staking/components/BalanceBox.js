@@ -7,13 +7,16 @@ import { Translate } from 'react-localize-redux'
 import FormButton from '../../common/FormButton'
 import classNames from '../../../utils/classNames'
 import BN from 'bn.js'
+import StakingRewardsBanner from './StakingRewardsBanner'
 
 const Container = styled.div`
-    border: 2px solid #F2F2F2;
-    border-radius: 4px;
-    padding: 10px;
-    margin-top: 10px;
+    border-bottom: 2px solid #F2F2F2;
+    padding: 15px 0;
     display: flex;
+
+    @media (max-width: 767px) {
+        padding: 15px 14px;
+    }
 
     .list {
         display: block;
@@ -37,11 +40,6 @@ const Container = styled.div`
             margin-bottom: -3px;
         }
     }
-    
-    &.no-border {
-        border: 0;
-        padding: 0;
-    }
 
     button {
         &.small {
@@ -51,24 +49,35 @@ const Container = styled.div`
             letter-spacing: 2px !important;
         }
     }
+
+    .left {
+        width: 100%;
+    }
+
+    @media (max-width: 767px) {
+        border: 0;
+        border-bottom: 2px solid #F2F2F2;
+        margin: 0px -14px 0 -14px;
+        border-radius: 0;
+    }
 `
 
 export default function BalanceBox({
     title,
     amount,
     info,
-    version,
     onClick,
     button,
     buttonColor,
     loading,
-    disclaimer
+    disclaimer,
+    stakingRewardsBanner
 }) {
     return (
         <Translate>
             {({ translate }) => (
-                <Container className={version}>
-                    <div>
+                <Container className='balance-box'>
+                    <div className='left'>
                         <div className='title'>{translate(title)}
                             <Modal
                                 size='mini'
@@ -78,7 +87,11 @@ export default function BalanceBox({
                                 {translate(info)}
                             </Modal>
                         </div>
-                        <Balance amount={amount} />
+                        {stakingRewardsBanner ? (
+                            <StakingRewardsBanner/>
+                        ) : (
+                            <Balance amount={amount} />
+                        )}
                         {disclaimer &&
                             <div className='withdrawal-disclaimer'>
                                 <Translate id={disclaimer} />
