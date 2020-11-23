@@ -290,7 +290,7 @@ export class Staking {
                 ghValidators = (await fetch(`https://raw.githubusercontent.com/frol/near-validators-scoreboard/scoreboard-${networkId}/validators_scoreboard.json`).then((r) => r.json()))
                 .map(({ account_id }) => account_id)
             }
-            
+
             accountIds = [...new Set([...rpcValidators, ...ghValidators])]
                 .filter((v) => v.indexOf('nfvalidator') === -1 && v.indexOf(networkId === 'mainnet' ? '.near' : '.m0') > -1)
         }
@@ -308,9 +308,8 @@ export class Staking {
                     fee.percentage = fee.numerator / fee.denominator * 100
                     return validator
                 } catch (e) {
-                    console.log('error with', account_id)
                     if (!/No contract for account|cannot find contract code|wasm execution failed/.test(e.message)) {
-                        throw(e)
+                        throw e
                     }
                 }
             })
