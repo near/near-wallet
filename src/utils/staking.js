@@ -283,7 +283,9 @@ export class Staking {
         
         if (!accountIds) {
             const rpcValidators = [...current_validators, ...next_validators, ...current_proposals].map(({ account_id }) => account_id)
-            
+
+            console.log('NETWORK_ID', NETWORK_ID)
+
             // TODO use indexer - getting all historic validators from raw GH script .json
             const networkId = NETWORK_ID === 'mainnet' ? 'mainnet' : 'testnet'
             if (!ghValidators) {
