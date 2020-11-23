@@ -346,7 +346,7 @@ export class Staking {
     /********************************
     Lockup
     ********************************/
-   
+
     async lockupWithdraw(lockupId, amount) {
         let result
         if (amount) {
