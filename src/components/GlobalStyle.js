@@ -164,7 +164,7 @@ export default createGlobalStyle`
         margin-top: 8px !important;
         outline: none;
         appearance: none;
-        border-radius: 4px !important;
+        border-radius: 8px !important;
 
         ::placeholder {
             color: #999999;
@@ -384,13 +384,15 @@ export default createGlobalStyle`
     }
 
     .ui.popup>.header, .ui.popup {
-        color: #999;
-        font-weight: 500 !important;
-        font-size: 14px !important;
+        color: white;
     }
     .ui.popup {
-        border: 1px solid #eee;
-        font-weight: 400 !important;
+        border: 0;
+        background-color: #292526;
+
+        :before {
+            display: none;
+        }
     }
     .ui.left.center.popup:before {
         box-shadow: 1px -1px 0 0 #eee;

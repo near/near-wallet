@@ -102,18 +102,11 @@ export default function StakingAction({
     if (!success) {
         return (
             <>
-                {stake && stakeFromAccount && (useMax || invalidStakeActionAmount) &&
-                    <AlertBanner
-                        title={`staking.stake.banner.${useMax ? 'stakeMax' : 'insufficientBalance'}`}
-                        theme={invalidStakeActionAmount ? 'error' : ''}
-                        titleData={WALLET_APP_MIN_AMOUNT}
-                    />
-                }
                 <h1><Translate id={`staking.${action}.title`} /></h1>
                 <div className='desc'><Translate id={`staking.${action}.desc`} /></div>
                 <div className='amount-header-wrapper'>
                     <h4><Translate id='staking.stake.amount' /></h4>
-                    <FormButton className='link' onClick={handleSetMax}><Translate id='staking.stake.useMax' /></FormButton>
+                    <FormButton className='light-blue small' onClick={handleSetMax}><Translate id='staking.stake.useMax' /></FormButton>
                 </div>
                 <AmountInput
                     action={action}
@@ -126,7 +119,10 @@ export default function StakingAction({
                     loading={loading}
                 />
                 <ArrowCircleIcon color={stakeActionAllowed ? '#6AD1E3' : ''}/>
-                <h4><Translate id={`staking.${action}.stakeWith`} /></h4>
+                <div className='validator-header-wrapper'>
+                    <h4><Translate id={`staking.${action}.stakeWith`} /></h4>
+                    <FormButton className='light-blue small' linkTo='/staking/validators'><Translate id='button.edit' /></FormButton>
+                </div>
                 {validator && 
                     <ValidatorBox
                         validator={validator.accountId}

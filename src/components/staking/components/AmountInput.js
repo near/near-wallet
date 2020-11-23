@@ -2,34 +2,27 @@ import React from 'react'
 import styled from 'styled-components'
 import Balance from '../../common/Balance'
 import { Translate } from 'react-localize-redux'
+import BalanceBreakdown from './BalanceBreakdown'
 
 const Container = styled.div`
 
     .input-wrapper {
         display: flex;
         align-items: center;
-        border-bottom: 2px solid #CCCCCC;
         color: #24272A;
         font-size: 34px;
         color: #CCCCCC;
         border-color: ${props => props.status ? props.status : ''};
-
-        span {
-            margin-right: 10px;
-            font-size: 70%;
-            font-weight: 500 !important;
-            color: ${props => props.hasValue ? '#24272A' : ''};
-        }
     }
 
     input {
         background: none !important;
-        border: 0 !important;
-        font-size: 40px !important;
-        padding: 0 !important;
+        border: 2px solid #E4E4E6 !important;
+        font-size: 38px !important;
         margin: 0 !important;
         font-weight: 600 !important;
         color: #24272A !important;
+        height: 62px !important;
         color: ${props => props.status === '#ff585d' ? props.status : '#24272A'} !important;
 
         ::placeholder {
@@ -61,7 +54,6 @@ export default function AmountInput({
     return (
         <Container status={validationStatus} hasValue={value.length}>
             <div className='input-wrapper'>
-                <span>Ⓝ</span>
                 <input 
                     disabled={loading} 
                     type='number' 
@@ -71,9 +63,10 @@ export default function AmountInput({
                     onChange={e => onChange(e.target.value)}
                 />
             </div>
-            <div className='available-balance' onClick={availableClick}>
+            {/* <div className='available-balance' onClick={availableClick}>
                 <Translate id={`staking.${action}.input.availableBalance`} />&nbsp;<Balance amount={availableBalance} symbol='near'/>
-            </div>
+            </div> */}
+            <BalanceBreakdown/>
         </Container>
     )
 }

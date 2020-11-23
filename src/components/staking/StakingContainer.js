@@ -28,6 +28,7 @@ const StyledContainer = styled(Container)`
         text-align: center;
         line-height: 150% !important;
         margin: 25px 0;
+        font-size: 16px;
     }
 
     input {
@@ -88,7 +89,8 @@ const StyledContainer = styled(Container)`
         }
     }
 
-    .amount-header-wrapper {
+    .amount-header-wrapper,
+    .validator-header-wrapper  {
         display: flex;
         align-items: center;
         justify-content: space-between;

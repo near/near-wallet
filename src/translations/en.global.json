@@ -312,7 +312,8 @@
         "dismiss": "Dismiss",
         "cancelOperation": "Cancel Operation",
         "subscribe": "Subscribe",
-        "Close": "Close"
+        "Close": "Close",
+        "edit": "Edit"
     },
 
     "link": {
