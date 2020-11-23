@@ -316,7 +316,7 @@
     },
     "input": {
         "enterWord": {
-            "title": "助记词",
+            "title": "请输入第 <b>${wordId}</b> 个助记词",
             "placeholder": ""
         },
         "accountId": {
