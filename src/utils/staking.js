@@ -346,7 +346,9 @@ export class Staking {
     /********************************
     Lockup
     ********************************/
+   
     async lockupWithdraw(lockupId, amount) {
+        let result
         if (amount) {
             result = await this.signAndSendTransaction(lockupId, [
                 functionCall('withdraw_from_staking_pool', { amount }, STAKING_GAS_BASE * 5, '0')
