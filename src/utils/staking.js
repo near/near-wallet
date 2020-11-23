@@ -346,9 +346,14 @@ export class Staking {
     /********************************
     Lockup
     ********************************/
-
     async lockupWithdraw(lockupId, amount) {
         let result
+        result = await this.signAndSendTransaction(lockupId, [
+            functionCall('refresh_staking_pool_balance', {}, STAKING_GAS_BASE * 3, '0')
+        ])
+        if (result === false) {
+            throw new WalletError('Unable to refresh staking pool balance', 'staking.errors.noWithdraw')
+        }
         if (amount) {
             result = await this.signAndSendTransaction(lockupId, [
                 functionCall('withdraw_from_staking_pool', { amount }, STAKING_GAS_BASE * 5, '0')
