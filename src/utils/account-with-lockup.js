@@ -55,7 +55,7 @@ async function signAndSendTransaction(receiverId, actions) {
             const lockupAccount = new Account(tmpConnection, lockupAccountId)
             await lockupAccount.deleteAccount(this.accountId)
         } else {
-            let liquidBalance = new BN(await this.wrappedAccount.viewFunction(lockupAccountId, 'get_liquid_owners_balance'))
+            const liquidBalance = new BN(await this.wrappedAccount.viewFunction(lockupAccountId, 'get_liquid_owners_balance'))
             if (!liquidBalance.gt(missingAmount)) {
                 throw new WalletError('Not enough tokens.', 'sendMoney.amountStatusId.notEnoughTokens')
             }
