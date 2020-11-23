@@ -3,7 +3,7 @@ import BN from 'bn.js'
 import { WalletError } from './walletError'
 import { getLockupAccountId } from './account-with-lockup'
 import { queryExplorer } from './explorer-api'
-import { MIN_BALANCE_FOR_GAS } from './wallet'
+import { MIN_BALANCE_FOR_GAS, NETWORK_ID } from './wallet'
 
 const {
     transactions: {
@@ -283,9 +283,9 @@ export class Staking {
         
         if (!accountIds) {
             const rpcValidators = [...current_validators, ...next_validators, ...current_proposals].map(({ account_id }) => account_id)
-
+            
             // TODO use indexer - getting all historic validators from raw GH script .json
-            const networkId = this.provider.connection.url.indexOf('mainnet') > -1 ? 'mainnet' : 'testnet'
+            const networkId = NETWORK_ID === 'mainnet' ? 'mainnet' : 'testnet'
             if (!ghValidators) {
                 ghValidators = (await fetch(`https://raw.githubusercontent.com/frol/near-validators-scoreboard/scoreboard-${networkId}/validators_scoreboard.json`).then((r) => r.json()))
                 .map(({ account_id }) => account_id)
