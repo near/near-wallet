@@ -61,7 +61,7 @@ const ModalContainer = styled.div`
     }
 `
 
-export default function StakingRewardsBanner({ fee }) {
+export default function StakingRewardsBanner() {
     const [info, setInfo] = useState(false);
     
     return (
