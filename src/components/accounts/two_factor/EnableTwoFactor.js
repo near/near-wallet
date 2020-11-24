@@ -166,7 +166,7 @@ export function EnableTwoFactor(props) {
                     >
                         <Translate id={`button.continue`} />
                     </FormButton>
-                    <FormButton className='link' linkTo='/profile'>Skip</FormButton>
+                    <FormButton className='link' linkTo='/profile'><Translate id='button.skip' /></FormButton>
                 </form>
             </StyledContainer>
         )
