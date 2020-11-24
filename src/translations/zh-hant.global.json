@@ -17,13 +17,19 @@
                 "create": "正在檢查可用性",
                 "check": "正在檢查"
             },
-            "errorAccountNotExist": "創建賬戶出錯，請重試！"
+            "errorAccountNotExist": "創建賬戶出錯，請重試！",
+            "addAccessKey": {
+                "error": "發生錯誤。<br />為訪問你的賬戶，請輸入上一步的助記詞。"
+            }
+        },
+        "addAccessKey": {
+            "error": "發生錯誤。<br />助記詞沒有保存至你的賬戶，請重試。"
         },
         "available": {
             "success": "該用戶已找到。",
             "error": "無法找到該用戶。",
             "errorSameAccount": "無法向妳自己發送。",
-            "implicitAccount": "請再確認賬戶 ID",
+            "implicitAccount": "轉賬不可逆，請確保賬戶 ID 準確",
             "implicitAccountModal": "請再確認賬戶 ID，如果賬戶輸入錯誤，你的資產將永久無法找回。"
         },
         "createImplicit": {
@@ -182,6 +188,7 @@
         "email": "Email 地址",
         "phone": "手機號",
         "notEnabled": "兩步驗證未開啟",
+        "notEnoughBalance": "為開啟兩步驗證，你的賬戶需要最少餘額 ",
         "active": "已開啟",
         "since": "自",
         "promptDesc": "我們強烈建議妳開啟兩步驗證的方式來增強妳的賬戶和資產安全性。",
@@ -195,7 +202,12 @@
             "resending": "發送中...",
             "resent": "驗證碼已發送！"
         },
-        "notEnoughBalance": "為開啟兩步驗證，你的賬戶需要最少餘額 "
+        "disable": {
+            "title": "是否確認禁用兩步驗證？",
+            "desc": "禁用兩步驗證後，交易將不再要求兩步驗證確認。",
+            "disable": "禁用兩步驗證",
+            "keep": "不，保留兩步驗證"
+        }
     },
     "fullAccessKeys": {
         "pageTitle": "完全訪問密鑰",
@@ -227,17 +239,20 @@
         "ADD_LEDGER_ACCESS_KEY": "請在 Ledger 設備上確認公鑰信息。",
         "GET_LEDGER_PUBLIC_KEY": "請在 Ledger 設備上確認公鑰訪問信息。",
         "CREATE_NEW_ACCOUNT": "請在 Ledger 設備上確認新賬戶密鑰信息。",
+        "CREATE_ACCOUNT_FROM_IMPLICIT": "請在 Ledger 設備上確認賬戶創建，這包括必要的臨時賬戶的轉賬。",
         "SIGN_AND_SEND_TRANSACTIONS": "請在 Ledger 設備上確認存款信息。",
         "REMOVE_NON_LEDGER_ACCESS_KEYS": "請在 Ledger 設備上確認信息。",
         "STAKE": "請在 Ledger 上確認質押。",
-        "UNSTAKE": "請在 Ledger 上確認取消質押。",
-        "WITHDRAW": "請在 Ledger 上確認提現。"
+        "UNSTAKE": "請在 Ledger 上確認贖回質押。",
+        "WITHDRAW": "請在 Ledger 上確認提現。",
+        "DISABLE_LEDGER": "請在 Ledger 上確認公鑰細節信息。"
     },
     "button": {
         "signIn": "登錄",
         "signingIn": "正在登錄",
         "copyPhrase": "復制助記詞",
         "copyImplicitAddress": "複製賬戶 ID",
+        "claimAccount": "認領賬戶",
         "continue": "繼續",
         "continueSetup": "繼續設置",
         "verify": "驗證並完成",
@@ -248,7 +263,6 @@
         "createAccount": "創建賬戶",
         "recoverYourAccount": "恢復賬戶",
         "importExistingAccount": "導入已有賬戶",
-        "accessAccount": "登錄賬戶",
         "enable": "啟用",
         "disable": "禁用",
         "signInLedger": "通過 Ledger 登錄",
@@ -302,13 +316,13 @@
     },
     "input": {
         "enterWord": {
-            "title": "助記詞",
+            "title": "請輸入第 <b>${wordId}</b> 個助記詞",
             "placeholder": ""
         },
         "accountId": {
             "title": "賬戶 ID",
             "placeholder": "例如：johndoe.near",
-            "subLabel": "你的賬戶 ID 必須包括賬戶後綴，例如：<b>.near</b>"
+            "subLabel": "你的賬戶 ID 必須是頂級賬戶（如 <b>.near</b>）或 64 位字符的地址。"
         }
     },
     "recoverAccount": {
@@ -454,7 +468,7 @@
             "transferTokens": "從妳的賬戶向其他賬戶發送通證",
             "deploySmartContracts": "部署智能合約",
             "callFunctions": "在任何智能合約上調用函數",
-            "stakeAndUnstake": "質押和取消質押 NEAR 通證",
+            "stakeAndUnstake": "質押和贖回質押 NEAR 通證",
             "createAndDeleteAccessKeys": "創建和刪除訪問密鑰",
             "forContract": "合約",
             "function": "函數",
@@ -528,13 +542,16 @@
             "desc": "選擇驗證節點質押 NEAR 通證",
             "button": "質押 NEAR",
             "currentValidators": "當前驗證節點",
-            "noValidators": "你還沒有委託驗證節點質押。"
+            "noValidators": "你還沒有委託驗證節點質押。",
+            "selectAccount": "選擇質押賬戶",
+            "available": "可用",
+            "totalStaked": "總質押"
         },
         "balanceBox": {
             "staked": {
                 "title": "質押總數",
-                "info": "NEAR 通證目前已委託驗證節點質押。這些通證將累積獎勵。為使用這些通證，你需要首先取消質押並提現。",
-                "button": "取消質押"
+                "info": "NEAR 通證目前已委託驗證節點質押。這些通證將累積獎勵。為使用這些通證，你需要首先贖回質押並提現。",
+                "button": "贖回質押"
             },
             "unclaimed": {
                 "title": "未提現獎勵",
@@ -542,12 +559,12 @@
             },
             "available": {
                 "title": "可提現",
-                "info": "這些通證已經取消質押，並可以提現。",
+                "info": "這些通證已經贖回質押，並可以提現。",
                 "button": "提現"
             },
             "pending": {
                 "title": "請求釋放",
-                "info": "這些通證並未質押，但還不可提現。通常在取消質押後 36 - 48 小時變為可提現。"
+                "info": "這些通證並未質押，但還不可提現。通常在贖回質押後 36 - 48 小時變為可提現。"
             }
         },
         "validatorBox": {
@@ -580,18 +597,18 @@
             }
         },
         "unstake": {
-            "title": "取消質押通證",
-            "desc": "請輸入計劃取消質押的 NEAR 通證數量。",
-            "stakeWith": "取消質押以下節點的質押：",
-            "button": "取消質押通證",
-            "confirm": "你正在取消質押",
+            "title": "贖回質押通證",
+            "desc": "請輸入計劃贖回質押的 NEAR 通證數量。",
+            "stakeWith": "贖回質押以下節點的質押：",
+            "button": "贖回質押通證",
+            "confirm": "你正在贖回質押",
             "input": {
                 "insufficientFunds": "質押通證不足。",
-                "availableBalance": "可取消質押數量：",
+                "availableBalance": "可贖回質押數量：",
                 "near": "NEAR"
             },
             "ledgerDisclaimer": "注意：如果你是首次委託該驗證節點質押，你需要確認兩筆交易。",
-            "beforeUnstakeDisclaimer": "取消質押通證通常在取消質押後 36 - 48 小時釋放。"
+            "beforeUnstakeDisclaimer": "贖回質押通證通常在贖回質押後 36 - 48 小時釋放。"
         },
         "stakeSuccess": {
             "title": "成功！",
@@ -623,7 +640,7 @@
             "fee": "質押費",
             "desc": "這是你將支付給驗證節點委託質押的費用，僅從你的獎勵中支付。",
             "withdrawalDisclaimer": "請求釋放的資金將會在 36 - 48 小時內釋放。",
-            "unstake": "你正在取消質押",
+            "unstake": "你正在贖回質押",
             "withdraw": "你正在提現"
         },
         "balanceBanner": {
@@ -631,7 +648,7 @@
             "currency": "NEAR"
         },
         "alertBanner": {
-            "title": "你必須首先從驗證節點中取消質押，並提現你的通證，才能選擇新的驗證節點。",
+            "title": "你必須首先從驗證節點中贖回質押，並提現你的通證，才能選擇新的驗證節點。",
             "button": "查看當前驗證節點"
         },
         "noValidators": {
@@ -719,7 +736,7 @@
     "availableBalanceProfile": "「可用餘額」是指你當前賬號內可消耗 NEAR 通證，可用餘額少於你的總共餘額。 ",
     "minimumBalance": "這是維持你賬號活躍狀態的 NEAR 通證「保留餘額」，該餘額代表你正在使用的 NEAR 區塊鏈存儲空間，會在使用量變化後產生對應變化。 ",
     "totalBalance": "所有餘額包括所有你擁有的NEAR 通證。許多情況，你將無法立刻使用所有餘額（比如如果是鎖定的、委託的或質押的）。想了解你可以立刻使用、轉賬、委託或質押的NEAR 通證，請查看可用餘額部分。",
-    "stakedBalance": "NEAR 被用於支持驗證節點並加強網絡。當你決定不質押 NEAR，則需要等待一些時間才能出現在「可用餘額」，NEAR 需要花 3 epochs（約 36 小時）取消質押。 ",
+    "stakedBalance": "NEAR 被用於支持驗證節點並加強網絡。當你決定不質押 NEAR，則需要等待一些時間才能出現在「可用餘額」，NEAR 需要花 3 epochs（約 36 小時）贖回質押。 ",
     "unvestedBalance": "未兌現的 NEAR 屬於你，但還未實際可使用。你可以委託或質押這些NEAR，獎勵也將歸屬於你。當 NEAR 兌現後，將出現在鎖定的或未鎖定的餘額中。",
     "lockedBalance": "NEAR 鎖定在鎖定合約中，但無法取出。你可能仍委託或質押著這些NEAR。一旦NEAR 解鎖，你可以在未鎖定餘額中查看，並選擇取出（轉移到「可用餘額」） 。 ",
     "unlockedBalance": "NEAR 仍在鎖定合約中，並可以取出。如果你選擇取出，它將出現於「可用餘額」。 ",
@@ -786,12 +803,14 @@
             "success": "",
             "error": "公鑰訪問被拒絕，恢復賬戶失敗。<br/>若要繼續，需要允許 NEAR 錢包訪問你的公鑰，請再重試。",
             "noAccounts": "該 Ledger 設備沒有綁定任何賬戶，你需要先創建一個賬戶，並將此賬戶綁定至 Ledger 才能登錄。",
+            "noAccountsAccepted": "無賬戶授權。",
             "aborted": "操作被終止。",
             "U2FNotSupported": "需要瀏覽器支持 U2F，請使用 Chrome、Opera 或 Firefox 安裝 U2F 擴展。"
         },
         "addLedgerAccountId": {
             "success": "",
-            "error": "賬戶的訪問被拒絕，恢復賬戶失敗。<br/>若要繼續，需要在 Ledger 設備上授權每個賬戶的只讀訪問，請再重試。"
+            "error": "賬戶的訪問被拒絕，恢復賬戶失敗。<br/>若要繼續，需要在 Ledger 設備上授權每個賬戶的只讀訪問，請再重試。",
+            "errorRpc": "恢復賬戶時發生錯誤。"
         },
         "saveAndSelectLedgerAccounts": {
             "success": "你已經成功登錄。<br/><b>${numberOfAccounts} 個賬戶</b>已經成功恢復：<b>${accountList}</b>。<br/>最後一個賬戶設置為活躍賬戶。",
@@ -803,6 +822,8 @@
             "accountsApproved": "賬戶已授權",
             "status": {
                 "success": "授權",
+                "error": "錯誤",
+                "rejected": "拒絕",
                 "pending": "請求",
                 "waiting": "下一個",
                 "confirm": "確認"
@@ -821,19 +842,21 @@
         "one": "請輸入你嘗試登錄的賬戶名稱"
     },
     "errors": {
+        "type": {
+            "RetriesExceeded": "此交易超出最大重試次數。",
+            "LackBalanceForState": "你的賬戶餘額過低，無法執行任何操作。請向你的賬戶轉賬 NEAR，然後再重新導入賬戶。"
+        },
         "ledger": {
             "U2FNotSupported": "Ledger 硬件錢包需要 U2F 瀏覽器支持。請使用 Chrome、Opera 或 Firefox 安裝 U2F 擴展，並確保你是通過 HTTPS 加密連接。",
             "U2F_4": "無法通過硬件錢包登錄：U2F DEVICE_INELIGIBLE。請確保 Ledger 設備已連接並解鎖。"
         },
         "recoveryMethods": {
-            "lastMethod": "無法刪除最後一個恢復方式。除非你添加了 Ledger，你需要保留至少一種賬戶恢復方式。"
+            "lastMethod": "無法刪除最後一個恢復方式。除非你添加了 Ledger，你需要保留至少一種賬戶恢復方式。",
+            "setupMethod": "發生錯誤。請檢查你的賬戶恢復方式。"
         },
         "twoFactor": {
             "userCancelled": "此操作已被取消。",
             "invalidCode": "無效的兩步驗證碼，請重試。"
-        },
-        "type": {
-            "RetriesExceeded": "此交易超出最大重試次數。"
         }
     },
     "networkBanner": {
@@ -841,9 +864,13 @@
         "header": "NEAR 測試錢包",
         "desc": "當前錢包（和網絡）僅供測試。測試網通證和其他資產均無價值。測試網賬戶不會遷移至主網。"
     },
+    "stagingBanner": {
+        "title": "注意：這是預發布版本錢包，風險自擔！",
+        "desc": "注意：這是預發布版本NEAR 錢包，可能有Bugs，這些Bugs 可能會導致丟失通證。繼續使用此版本則表示你理解並接受此風險，並知曉NEAR 錢包團隊將無法幫助你。"
+    },
     "landing": {
-        "title": "NEAR 已經到來。",
-        "desc": "通過 <span>NEAR 錢包</span>安全地存儲你的 NEAR 通證和其他資產。",
+        "title": "NEAR 已來臨。",
+        "desc": "使用 <span>NEAR 錢包</span>安全地存儲並質押你的 NEAR 和其他通證。",
         "or": "或",
         "banner": "NEAR 錢包已經在內測"
     },

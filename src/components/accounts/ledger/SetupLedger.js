@@ -50,7 +50,7 @@ const SetupLedger = (props) => {
 
                 await dispatch(createNewAccount(accountId, fundingOptions, 'ledger', publicKey))
             } else {
-                await dispatch(addLedgerAccessKey(accountId))
+                await dispatch(addLedgerAccessKey())
             }
             await dispatch(refreshAccount())
         } catch(e) {

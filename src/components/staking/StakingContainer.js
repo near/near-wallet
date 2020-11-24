@@ -9,6 +9,7 @@ import Staking from './components/Staking'
 import Validators from './components/Validators'
 import Validator from './components/Validator'
 import StakingAction from './components/StakingAction'
+import BN from 'bn.js'
 
 const StyledContainer = styled(Container)`
     button {
@@ -44,9 +45,14 @@ const StyledContainer = styled(Container)`
     }
 
     h3 {
-        border-bottom: 2px solid #E6E6E6;
+        border-bottom: 2px solid #F2F2F2;
         margin-top: 35px;
         padding-bottom: 15px;
+
+        @media (max-width: 767px) {
+            margin: 35px -14px 0px -14px;
+            padding: 0 14px 15px 14px;
+        }
     }
 
     h4 {
@@ -58,12 +64,6 @@ const StyledContainer = styled(Container)`
         margin: 50px auto 20px auto;
     }
 
-    .no-border {
-        border-top: 2px solid #F8F8F8;
-        padding-top: 15px;
-        margin-top: 15px;
-    }
-
     .transfer-money-icon {
         display block;
         margin: 50px auto;
@@ -71,7 +71,7 @@ const StyledContainer = styled(Container)`
 
     .withdrawal-disclaimer {
         font-style: italic;
-        margin-top: 20px;
+        margin-top: 15px;
         max-width: 375px;
         font-size: 13px;
     }
@@ -155,7 +155,9 @@ export function StakingContainer({ history, match }) {
     if (!validator) {
         validator = validators.filter(validator => validator.accountId === validatorId)[0]
     }
-    const { totalUnstaked, selectedValidator } = currentAccount
+    const { totalUnstaked, selectedValidator, totalStaked } = currentAccount
+
+    const unableToCalcRewards = currentAccount.accountId === accountId && has2fa && !new BN(totalStaked).isZero()
 
     useEffect(() => {
         dispatch(updateStaking())
@@ -196,6 +198,7 @@ export function StakingContainer({ history, match }) {
                                 accountId={accountId}
                                 loading={formLoader}
                                 hasLockup={hasLockup}
+                                unableToCalcRewards={unableToCalcRewards}
                             />
                         )}
                     />
@@ -220,6 +223,7 @@ export function StakingContainer({ history, match }) {
                                 loading={formLoader}
                                 selectedValidator={selectedValidator}
                                 currentValidators={currentValidators}
+                                unableToCalcRewards={unableToCalcRewards}
                             />
                         )}
                     />

@@ -149,14 +149,6 @@ class Wallet {
         localStorage.setItem(KEY_WALLET_ACCOUNTS, JSON.stringify(this.accounts))
     }
 
-    selectAccount(accountId) {
-        if (!(accountId in this.accounts)) {
-            return false
-        }
-        this.accountId = accountId
-        this.save()
-    }
-
     isLegitAccountId(accountId) {
         return ACCOUNT_ID_REGEX.test(accountId)
     }
@@ -411,17 +403,24 @@ class Wallet {
         }, LINKDROP_GAS);
     }
 
-    async saveAndSelectAccount(accountId, keyPair) {
-        await this.saveAccount(accountId, keyPair)
-        this.accountId = accountId
-        this.save()
-        // TODO: What does setAccountConfirmed do?
-        setAccountConfirmed(this.accountId, false)
-    }
-
     async saveAccount(accountId, keyPair) {
         await this.setKey(accountId, keyPair)
         this.accounts[accountId] = true
+    }
+
+    selectAccount(accountId) {
+        if (!(accountId in this.accounts)) {
+            return false
+        }
+        this.accountId = accountId
+        this.save()
+    }
+
+    async saveAndSelectAccount(accountId, keyPair) {
+        await this.saveAccount(accountId, keyPair)
+        this.selectAccount(accountId)
+        // TODO: What does setAccountConfirmed do?
+        setAccountConfirmed(this.accountId, false)
     }
 
     async setKey(accountId, keyPair) {
@@ -473,21 +472,17 @@ class Wallet {
         }
     }
 
-    async addLedgerAccessKey(accountId) {
+    async addLedgerAccessKey() {
+        const accountId = this.accountId
         const ledgerPublicKey = await this.getLedgerPublicKey()
-        await setKeyMeta(ledgerPublicKey, { type: 'ledger' })
-        await this.getAccount(accountId).addKey(ledgerPublicKey)
-        await this.postSignedJson('/account/ledgerKeyAdded', { accountId, publicKey: ledgerPublicKey.toString() })
-    }
-
-    async connectLedger(ledgerPublicKey) {
         const accessKeys =  await this.getAccessKeys()
-        const ledgerKeyConfirmed = accessKeys.map(key => key.public_key).includes(ledgerPublicKey.toString())
+        const accountHasLedgerKey = accessKeys.map(key => key.public_key).includes(ledgerPublicKey.toString())
+        await setKeyMeta(ledgerPublicKey, { type: 'ledger' })
 
-        if (ledgerKeyConfirmed) {
-            await setKeyMeta(ledgerPublicKey, { type: 'ledger' })
+        if (!accountHasLedgerKey) {
+            await this.getAccount(accountId).addKey(ledgerPublicKey)
+            await this.postSignedJson('/account/ledgerKeyAdded', { accountId, publicKey: ledgerPublicKey.toString() })
         }
-
     }
 
     async disableLedger() {
@@ -572,14 +567,11 @@ class Wallet {
             throw new WalletError('No accounts were accepted.', 'signInLedger.getLedgerAccountIds.noAccountsAccepted')
         }
 
-        for (let i = 0; i < accountIds.length; i++) {
-            const accountId = accountIds[i]
-            if (i === accountIds.length - 1) {
-                await this.saveAndSelectAccount(accountId)
-            } else {
-                await this.saveAccount(accountId)
-            }
-        }
+        await Promise.all(accountIds.map(async (accountId) => {
+            await this.saveAccount(accountId)
+        }))
+
+        this.selectAccount(accountIds[accountIds.length - 1])
 
         return {
             numberOfAccounts: accountIds.length
@@ -814,6 +806,8 @@ class Wallet {
         
         const connectionConstructor = this.connection
         
+        const accountIdsSuccess = []
+        const accountIdsError = []
         await Promise.all(accountIds.map(async (accountId, i) => {
             if (!accountId || !accountId.length) return
             // temp account
@@ -839,20 +833,41 @@ class Wallet {
             account.keyStore = tempKeyStore
             account.inMemorySigner = account.connection.signer = new nearApiJs.InMemorySigner(tempKeyStore)
             const newKeyPair = KeyPair.fromRandom('ed25519')
-
-            await this.addAccessKey(accountId, accountId, newKeyPair.publicKey, fromSeedPhraseRecovery)
-            if (i === accountIds.length - 1) {
-                await this.saveAndSelectAccount(accountId, newKeyPair)
-            } else {
-                await this.saveAccount(accountId, newKeyPair)
+            
+            try {
+                await this.addAccessKey(accountId, accountId, newKeyPair.publicKey, fromSeedPhraseRecovery)
+                accountIdsSuccess.push({
+                    accountId,
+                    newKeyPair
+                })
+            } catch (error) {
+                console.error(error)
+                accountIdsError.push({
+                    accountId,
+                    error
+                })
             }
         }))
 
         this.connection = connectionConstructor
 
-        return {
-            numberOfAccounts: accountIds.length,
-            accountList: accountIds.flatMap((accountId) => accountId.account_id).join(', '),
+        if (!!accountIdsSuccess.length) {
+            await Promise.all(accountIdsSuccess.map(async ({ accountId, newKeyPair }) => {
+                await this.saveAccount(accountId, newKeyPair)
+            }))
+
+            this.selectAccount(accountIdsSuccess[accountIdsSuccess.length - 1].accountId)
+
+            return {
+                numberOfAccounts: accountIdsSuccess.length,
+                accountList: accountIdsSuccess.flatMap((accountId) => accountId.account_id).join(', '),
+            }
+        } else {
+            const lastAccount = accountIdsError.reverse().find((account) => account.error.type === 'LackBalanceForState')
+            if (lastAccount) {
+                store.dispatch(redirectTo(`/profile/${lastAccount.accountId}`, { globalAlertPreventClear: true }))
+                throw lastAccount.error
+            }
         }
     }
 

@@ -206,7 +206,7 @@
 
     "input": {
         "enterWord": {
-            "title": "Слово",
+            "title": "Слово <b>#${wordId}</b>",
             "placeholder": ""
         },
         "accountId": {
