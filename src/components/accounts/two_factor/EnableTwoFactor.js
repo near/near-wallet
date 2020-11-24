@@ -30,6 +30,15 @@ const StyledContainer = styled(Container)`
     button {
         margin-top: 50px !important;
         width: 100% !important;
+
+        &.link {
+            text-transform: none !important;
+            margin-top: 30px !important;
+            text-decoration: none !important;
+            width: auto !important;
+            margin: 30px auto 0 auto !important;
+            display: block !important;
+        }
     }
 `
 
@@ -157,6 +166,7 @@ export function EnableTwoFactor(props) {
                     >
                         <Translate id={`button.continue`} />
                     </FormButton>
+                    <FormButton className='link' linkTo='/profile'>Skip</FormButton>
                 </form>
             </StyledContainer>
         )
