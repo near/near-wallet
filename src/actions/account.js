@@ -6,11 +6,13 @@ import { push } from 'connected-react-router'
 import { loadState, saveState, clearState } from '../utils/sessionStorage'
 import {
     WALLET_CREATE_NEW_ACCOUNT_URL, WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS, WALLET_LOGIN_URL, WALLET_SIGN_URL,
-    setKeyMeta,
+    setKeyMeta, MULTISIG_MIN_PROMPT_AMOUNT
 } from '../utils/wallet'
 import { PublicKey, KeyType } from 'near-api-js/lib/utils/key_pair'
 import { KeyPair } from 'near-api-js'
 import { WalletError } from '../utils/walletError'
+import { utils } from 'near-api-js'
+import { BN } from 'bn.js'
 
 export const loadRecoveryMethods = createAction('LOAD_RECOVERY_METHODS',
     wallet.getRecoveryMethods.bind(wallet),
@@ -361,7 +363,11 @@ export const handleCreateAccountWithSeedPhrase = (accountId, recoveryKeyPair, fu
                 
 export const finishAccountSetup = () => async (dispatch) => {
     const account = await dispatch(refreshAccount())
-    const promptTwoFactor = (await wallet.twoFactor.checkCanEnableTwoFactor(account))
+    let promptTwoFactor = await wallet.twoFactor.checkCanEnableTwoFactor(account)
+
+    if (new BN(account.balance.available).lt(new BN(utils.format.parseNearAmount(MULTISIG_MIN_PROMPT_AMOUNT)))) {
+        promptTwoFactor = false
+    }
 
     if (promptTwoFactor) {
         dispatch(redirectTo('/enable-two-factor'))
