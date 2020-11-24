@@ -330,7 +330,7 @@
 
     "input": {
         "enterWord": {
-            "title": "Word",
+            "title": "Word <b>#${wordId}</b>",
             "placeholder": ""
         },
         "accountId": {
