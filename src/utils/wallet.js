@@ -674,7 +674,8 @@ class Wallet {
         const publicKeys = accessKeys.map(key => key.public_key)
         const confirmedNoPublicKeyMethods = recoveryMethods.filter(({ publicKey, confirmed }) => publicKey === null && confirmed === true)
         const publicKeyMethods = recoveryMethods.filter(({ publicKey }) => publicKeys.includes(publicKey))
-        const allMethods = [...confirmedNoPublicKeyMethods, ...publicKeyMethods]
+        const twoFactorMethods = recoveryMethods.filter(({ kind }) => kind.indexOf('2fa-') === 0)
+        const allMethods = [...confirmedNoPublicKeyMethods, ...publicKeyMethods, ...twoFactorMethods]
 
         return {
             accountId,
