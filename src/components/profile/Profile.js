@@ -20,8 +20,6 @@ export function Profile({ match }) {
     
     const twoFactor = account.has2fa && recoveryMethods[account.accountId] && recoveryMethods[account.accountId].filter(m => m.kind.includes('2fa'))[0]
 
-    console.log('twoFactor', twoFactor)
-
     useEffect(() => { 
         if (isOwner) {
             dispatch(getAccessKeys(accountId))

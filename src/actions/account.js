@@ -9,7 +9,6 @@ import {
     setKeyMeta, MULTISIG_MIN_PROMPT_AMOUNT
 } from '../utils/wallet'
 import { PublicKey, KeyType } from 'near-api-js/lib/utils/key_pair'
-import { KeyPair } from 'near-api-js'
 import { WalletError } from '../utils/walletError'
 import { utils } from 'near-api-js'
 import { BN } from 'bn.js'
