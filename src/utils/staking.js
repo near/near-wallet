@@ -66,6 +66,9 @@ const lockupMethods = {
     ]
 }
 
+// caching value in module, no need to fetch frequently
+let ghValidators
+
 export class Staking {
     constructor(wallet) {
         this.wallet = wallet
@@ -199,7 +202,6 @@ export class Staking {
         let { deposits, validators } = (await getStakingTransactions(account_id))
         validators = await this.getValidators([...new Set(validators.concat(recentlyStakedValidators))])
         if (!validators.length || this.wallet.has2fa) {
-            console.log('has2fa: checking all validators', this.wallet.has2fa)
             validators = await this.getValidators()
         }
 
@@ -275,24 +277,39 @@ export class Staking {
     }
 
     async getValidators(accountIds) {
+        const { current_validators, next_validators, current_proposals } = await this.provider.validators()
+        const currentValidators = current_validators.map(({ account_id }) => account_id)
+        const nextValidators = current_proposals.map(({ account_id }) => account_id)
+        
         if (!accountIds) {
-            const { current_validators, next_validators, current_proposals } = await this.provider.validators()
-            const allValidators = [...current_validators, ...next_validators, ...current_proposals]
-            accountIds = [...new Set(allValidators.map(({ account_id }) => account_id))]
+            const rpcValidators = [...current_validators, ...next_validators, ...current_proposals].map(({ account_id }) => account_id)
+
+            // TODO use indexer - getting all historic validators from raw GH script .json
+            const networkId = this.provider.connection.url.indexOf('mainnet') > -1 ? 'mainnet' : 'testnet'
+            if (!ghValidators) {
+                ghValidators = (await fetch(`https://raw.githubusercontent.com/frol/near-validators-scoreboard/scoreboard-${networkId}/validators_scoreboard.json`).then((r) => r.json()))
+                .map(({ account_id }) => account_id)
+            }
+
+            accountIds = [...new Set([...rpcValidators, ...ghValidators])]
+                .filter((v) => v.indexOf('nfvalidator') === -1 && v.indexOf(networkId === 'mainnet' ? '.near' : '.m0') > -1)
         }
+
         return (await Promise.all(
             accountIds.map(async (account_id) => {
-                const validator = {
-                    accountId: account_id,
-                    contract: await this.getContractInstance(account_id, stakingMethods)
-                }
                 try {
+                    const validator = {
+                        accountId: account_id,
+                        current: currentValidators.includes(account_id),
+                        next: nextValidators.includes(account_id),
+                        contract: await this.getContractInstance(account_id, stakingMethods)
+                    }
                     const fee = validator.fee = await validator.contract.get_reward_fee_fraction()
                     fee.percentage = fee.numerator / fee.denominator * 100
                     return validator
                 } catch (e) {
-                    if (!/cannot find contract code|wasm execution failed/.test(e.message)) {
-                        throw(e)
+                    if (!/No contract for account|cannot find contract code|wasm execution failed/.test(e.message)) {
+                        throw e
                     }
                 }
             })

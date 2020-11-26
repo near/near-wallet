@@ -6,11 +6,12 @@ import { push } from 'connected-react-router'
 import { loadState, saveState, clearState } from '../utils/sessionStorage'
 import {
     WALLET_CREATE_NEW_ACCOUNT_URL, WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS, WALLET_LOGIN_URL, WALLET_SIGN_URL,
-    setKeyMeta,
+    setKeyMeta, MULTISIG_MIN_PROMPT_AMOUNT
 } from '../utils/wallet'
 import { PublicKey, KeyType } from 'near-api-js/lib/utils/key_pair'
-import { KeyPair } from 'near-api-js'
 import { WalletError } from '../utils/walletError'
+import { utils } from 'near-api-js'
+import { BN } from 'bn.js'
 
 export const loadRecoveryMethods = createAction('LOAD_RECOVERY_METHODS',
     wallet.getRecoveryMethods.bind(wallet),
@@ -287,14 +288,13 @@ export const {
     CLEAR_CODE: null
 })
 
-export const { getAccessKeys, removeAccessKey, addLedgerAccessKey, connectLedger, disableLedger, removeNonLedgerAccessKeys, getLedgerAccountIds, addLedgerAccountId, saveAndSelectLedgerAccounts, setLedgerTxSigned, clearSignInWithLedgerModalState, showLedgerModal } = createActions({
+export const { getAccessKeys, removeAccessKey, addLedgerAccessKey, disableLedger, removeNonLedgerAccessKeys, getLedgerAccountIds, addLedgerAccountId, saveAndSelectLedgerAccounts, setLedgerTxSigned, clearSignInWithLedgerModalState, showLedgerModal } = createActions({
     GET_ACCESS_KEYS: [wallet.getAccessKeys.bind(wallet), () => ({})],
     REMOVE_ACCESS_KEY: [
         wallet.removeAccessKey.bind(wallet),
         () => defaultCodesFor('authorizedApps.removeAccessKey', { onlyError: true })
     ],
     ADD_LEDGER_ACCESS_KEY: [wallet.addLedgerAccessKey.bind(wallet), () => defaultCodesFor('errors.ledger', { onlyError: true })],
-    CONNECT_LEDGER: [wallet.connectLedger.bind(wallet), () => defaultCodesFor('errors.ledger')],
     DISABLE_LEDGER: [wallet.disableLedger.bind(wallet), () => defaultCodesFor('errors.ledger')],
     REMOVE_NON_LEDGER_ACCESS_KEYS: [wallet.removeNonLedgerAccessKeys.bind(wallet), () => ({})],
     GET_LEDGER_ACCOUNT_IDS: [wallet.getLedgerAccountIds.bind(wallet), () => defaultCodesFor('signInLedger.getLedgerAccountIds')],
@@ -362,7 +362,11 @@ export const handleCreateAccountWithSeedPhrase = (accountId, recoveryKeyPair, fu
                 
 export const finishAccountSetup = () => async (dispatch) => {
     const account = await dispatch(refreshAccount())
-    const promptTwoFactor = (await wallet.twoFactor.checkCanEnableTwoFactor(account))
+    let promptTwoFactor = await wallet.twoFactor.checkCanEnableTwoFactor(account)
+
+    if (new BN(account.balance.available).lt(new BN(utils.format.parseNearAmount(MULTISIG_MIN_PROMPT_AMOUNT)))) {
+        promptTwoFactor = false
+    }
 
     if (promptTwoFactor) {
         dispatch(redirectTo('/enable-two-factor'))

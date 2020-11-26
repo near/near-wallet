@@ -60,7 +60,13 @@ class LoginForm extends Component {
                             mobile={16}
                         >
                             <div><b><Translate id='login.confirm.pageTitle' /></b></div>
-                            <div className='h2'><Translate id='login.confirm.pageText' data={{ appTitle }} /></div>
+                            <div className='h2'>
+                                <Translate>
+                                    {({ translate }) => (
+                                        <Translate id='login.confirm.pageText' data={{ appTitle: appTitle || translate('sign.unknownApp') }} />
+                                    )}
+                                </Translate>
+                            </div>
                             <div className='h2'><br /><Translate id='login.confirm.pageTextSecondLine' /></div>
                         </Grid.Column>
                     </Grid.Row>

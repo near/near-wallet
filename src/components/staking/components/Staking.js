@@ -20,7 +20,8 @@ export default function Staking({
     accounts,
     activeAccount,
     loading,
-    hasLockup
+    hasLockup,
+    unableToCalcRewards
 }) {
 
     return (
@@ -65,6 +66,7 @@ export default function Staking({
                         title='staking.balanceBox.unclaimed.title'
                         info='staking.balanceBox.unclaimed.info'
                         amount={totalUnclaimed}
+                        stakingRewardsBanner={unableToCalcRewards}
                     />
                 </>
             }

@@ -12,6 +12,8 @@ const Container = styled.div`
     padding: 10px;
     display: flex;
     align-items: center;
+    margin-bottom: 20px;
+    font-size: 13px;
 
     .trigger {
         margin-left: 10px;

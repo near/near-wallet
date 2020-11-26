@@ -17,6 +17,7 @@ export function Profile({ match }) {
     const isOwner = accountId === loginAccountId
     const account = useAccount(accountId)
     const dispatch = useDispatch();
+    
     const twoFactor = account.has2fa && recoveryMethods[account.accountId] && recoveryMethods[account.accountId].filter(m => m.kind.includes('2fa'))[0]
 
     useEffect(() => { 
