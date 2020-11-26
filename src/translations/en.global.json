@@ -615,7 +615,7 @@
             "button": "Submit Stake",
             "confirm": "You are staking",
             "input": {
-                "availableBalance": "Available balance:",
+                "availableBalance": "Available to stake",
                 "near": "NEAR"
             },
             "ledgerDisclaimer": "Note: If this is your first time staking with this validator, you will need to confirm two transactions",
@@ -635,10 +635,9 @@
             "button": "Unstake Tokens",
             "confirm": "You are unstaking",
             "input": {
-                "availableBalance": "Available to unstake:",
+                "availableBalance": "Available to unstake",
                 "near": "NEAR"
             },
-            "ledgerDisclaimer": "Note: If this is your first time staking with this validator, you will need to confirm two transactions",
             "beforeUnstakeDisclaimer": "Unstaked tokens will be made available pending a release period of ~36-48hrs (3 epochs)."
         },
         "stakeSuccess": {
@@ -685,6 +684,10 @@
         "noValidators": {
             "title": "You are not currently staking with any validators."
         }
+    },
+    "balanceBreakdown": {
+        "available": "Available balance",
+        "reserved": "Reserved for fees"
     },
     "profile": {
         "pageTitle": {
@@ -771,6 +774,7 @@
     },
 
     "availableBalanceInfo": "”Available Balance” is your spendable NEAR balance. This will be lower than your Total Balance. To view a complete breakdown of your NEAR balance, visit your Profile.",
+    "reservedForFeesInfo": "A minimum amount of NEAR is reserved to cover the cost of transactions.",
     "availableBalanceProfile": "This is your spendable NEAR balance, and can be used or transferred immediately. This will be lower than your Total Balance.",
     "minimumBalance": "This is the minimum NEAR balance your account must maintain to remain active. This balance represents the storage space your account is using on the NEAR blockchain (with a small buffer), and will go up or down as you use more or less space.",
     "totalBalance": "Your total balance represents all NEAR tokens under your control. In many cases, you will not have immediate access to this entire balance (e.g. if it is locked, delegated, or staked). Check your Available Balance for the NEAR you can actively use, transfer, delegate, and stake.",

@@ -2,10 +2,12 @@ import React, { useState } from 'react'
 import styled from 'styled-components'
 import classNames from '../../../utils/classNames'
 import { Translate } from 'react-localize-redux'
-import { Modal } from 'semantic-ui-react'
-import InfoIcon from '../../svg/InfoIcon.js'
 import ChevronIcon from '../../svg/ChevronIcon'
 import InfoPopup from '../../common/InfoPopup'
+import Balance from '../../common/Balance'
+import { WALLET_APP_MIN_AMOUNT } from '../../../utils/wallet'
+import * as nearApiJs from 'near-api-js'
+import BN from 'bn.js'
 
 const Container = styled.div`
 
@@ -54,7 +56,6 @@ const Container = styled.div`
             :first-of-type {
                 display: flex;
                 align-items: center;
-                padding-right: 10px;
                 cursor: pointer;
 
                 .chevron-icon {
@@ -74,28 +75,38 @@ const Container = styled.div`
     }
 `
 
-function BalanceBreakdown({ balance }) {
+function BalanceBreakdown({ total, onClickAvailable, availableType }) {
     const [open, setOpen] = useState(false)
+
+    const subtractAmount = nearApiJs.utils.format.parseNearAmount(WALLET_APP_MIN_AMOUNT)
+    const available = new BN(total).sub(new BN(subtractAmount)).isNeg() ? '0' :  new BN(total).sub(new BN(subtractAmount))
+
     return (
         <Translate>
             {({ translate }) => (
                 <Container className={classNames([open ? 'open' : ''])}>
                     <div className='content'>
                         <div className='item'>
-                            Available Balance
+                            <Translate id='balanceBreakdown.available'/>
                             <InfoPopup content={<Translate id='availableBalanceInfo'/>}/>
-                            <div className='right'>30234324234 NEAR</div>
+                            <div className='right'>
+                                <Balance amount={total} symbol='near'/>
+                            </div>
                         </div>
                         <div className='item'>
-                            Reserved for fees
-                            <InfoPopup content={<Translate id='availableBalanceInfo'/>}/>
-                            <div className='right'>- 0.1 NEAR</div>
+                            <Translate id='balanceBreakdown.reserved'/>
+                            <InfoPopup content={<Translate id='reservedForFeesInfo'/>}/>
+                            <div className='right'>
+                                - <Balance amount={subtractAmount} symbol='near'/>
+                            </div>
                         </div>
                     </div>
                     <div className='title'>
-                        <div onClick={() => setOpen(!open)}>Available to Stake <ChevronIcon color='#0072ce'/></div>
-                        <div className='right'>
-                            234234234 NEAR
+                        <div onClick={() => setOpen(!open)}>
+                            <Translate id={availableType}/><ChevronIcon color='#0072ce'/>
+                        </div>
+                        <div className='right' onClick={onClickAvailable}>
+                            <Balance amount={available} symbol='near'/>
                         </div>
                     </div>
                 </Container>

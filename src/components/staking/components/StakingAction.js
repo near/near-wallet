@@ -12,7 +12,6 @@ import isDecimalString from '../../../utils/isDecimalString'
 import { STAKING_AMOUNT_DEVIATION } from '../../../utils/staking'
 import { onKeyDown } from '../../../hooks/eventListeners'
 import { toNear } from '../../../utils/amounts'
-import AlertBanner from './AlertBanner'
 import { WALLET_APP_MIN_AMOUNT } from '../../../utils/wallet'
 
 const {

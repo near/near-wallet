@@ -33,9 +33,9 @@ const Container = styled.div`
 
     .available-balance {
         cursor: pointer;
-        margin-top: 10px;
-        font-size: 13px;
-        line-height: normal;
+        margin-top: 15px;
+        display: flex;
+        justify-content: space-between;
         color: ${props => props.status === '#ff585d' ? props.status : ''};
     }
 `
@@ -55,7 +55,7 @@ export default function AmountInput({
         <Container status={validationStatus} hasValue={value.length}>
             <div className='input-wrapper'>
                 <input 
-                    disabled={loading} 
+                    disabled={loading}
                     type='number' 
                     autoFocus 
                     placeholder='0' 
@@ -63,10 +63,17 @@ export default function AmountInput({
                     onChange={e => onChange(e.target.value)}
                 />
             </div>
-            {/* <div className='available-balance' onClick={availableClick}>
-                <Translate id={`staking.${action}.input.availableBalance`} />&nbsp;<Balance amount={availableBalance} symbol='near'/>
-            </div> */}
-            <BalanceBreakdown/>
+            {action === 'unstake' ? (
+                <div className='available-balance' onClick={availableClick}>
+                    <Translate id={`staking.${action}.input.availableBalance`} /><Balance amount={availableBalance} symbol='near'/>
+                </div>
+            ) : (
+                <BalanceBreakdown
+                    total={availableBalance}
+                    onClickAvailable={availableClick}
+                    availableType={`staking.${action}.input.availableBalance`}
+                />
+            )}
         </Container>
     )
 }
