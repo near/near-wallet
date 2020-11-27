@@ -41,8 +41,6 @@ export default function StakingAction({
     const invalidStakeActionAmount = new BN(useMax ? amount : parseNearAmount(amount)).sub(new BN(stake ? availableToStake : staked)).gt(new BN(STAKING_AMOUNT_DEVIATION)) || !isDecimalString(amount)
     const stakeActionAllowed = hasStakeActionAmount && !invalidStakeActionAmount
 
-
-
     onKeyDown(e => {
         if (e.keyCode === 13 && stakeActionAllowed) {
             if (!confirm) {
@@ -116,6 +114,7 @@ export default function StakingAction({
                     availableClick={handleSetMax}
                     insufficientBalance={invalidStakeActionAmount} 
                     loading={loading}
+                    stakeFromAccount={stakeFromAccount}
                 />
                 <ArrowCircleIcon color={stakeActionAllowed ? '#6AD1E3' : ''}/>
                 <div className='validator-header-wrapper'>
