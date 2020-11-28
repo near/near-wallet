@@ -26,8 +26,8 @@
             "error": "An error has occurred.<br />The seed phrase was not added to your account. Please try again."
         },
         "available": {
-            "success": "User found.",
-            "error": "User not found.",
+            "success": "User found!",
+            "error": "User not found!",
             "errorSameAccount": "Cannot send to yourself.",
             "implicitAccount": "Always double check the account ID",
             "implicitAccountModal": "Please double check the account ID, especially if this is an exchange account. If the account ID is entered incorrectly, your funds will be lost forever."
@@ -717,12 +717,27 @@
     },
 
     "sendMoney": {
-        "pageTitle": {
-            "success": "Success!",
-            "default": "Send"
+        "title": {
+            "default": "Send",
+            "success": "Success!"
         },
-        "accountIdInput": {
-            "title": "Account ID to send to:"
+        "subtitle": {
+            "default": "Enter the amount you would like to send, and a receipt NEAR Account ID.",
+            "success": "You successfully sent NEAR"
+        },
+        "amount": {
+            "available": "Available to send"
+        },
+        "confirmModal": {
+            "title": "Confirm transaction"
+        },
+        "account": {
+            "title": "Send to"
+        },
+        "button": {
+            "send": "Submit",
+            "confirm": "Confirm & Send",
+            "dashboard": "Go to dashboard"
         },
         "amountStatusId": {
             "noMoreThan": "NO MORE THAN 5 DECIMAL DIGITS",

@@ -49,7 +49,7 @@ const Container = styled.div`
     }
 
     .title {
-        padding: 18px 0;
+        padding: 15px 0;
         display: flex;
 
         div {

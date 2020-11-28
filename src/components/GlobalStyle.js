@@ -174,6 +174,20 @@ export default createGlobalStyle`
             border-color: #e6e6e6 !important;
             background-color: #fff !important;
         }
+
+        &.amount-input {
+            background: none !important;
+            border: 2px solid #E4E4E6 !important;
+            font-size: 38px !important;
+            margin: 0 !important;
+            font-weight: 600 !important;
+            height: 62px !important;
+
+            ::placeholder {
+                color: #CCCCCC;
+                opacity: 1;
+            }
+        }
     }
 
     input::-webkit-outer-spin-button,
@@ -444,6 +458,48 @@ export default createGlobalStyle`
                     :before {
                         display: none;
                     }
+                }
+            }
+        }
+    }
+
+    .send-theme {
+
+        > button {
+            width: 100% !important;
+        }
+
+        .header-button {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin: 30px 0 15px 0;
+
+            h4 {
+                margin: 0;
+            }
+
+            button {
+                margin: 0 !important;
+                width: auto !important;
+                text-decoration: none !important;
+                font-weight: 500 !important;
+                text-transform: capitalize !important;
+            }
+        }
+
+        .arrow-circle {
+            display: block;
+            margin: 50px auto 20px auto;
+        }
+
+        .ui {
+            &.input {
+                width: 100%;
+                margin-top: 10px;
+                input {
+                    background: none !important;
+                    border: 2px solid #E4E4E6 !important;
                 }
             }
         }

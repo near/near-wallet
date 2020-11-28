@@ -5,30 +5,8 @@ import { Translate } from 'react-localize-redux'
 import BalanceBreakdown from './BalanceBreakdown'
 
 const Container = styled.div`
-
-    .input-wrapper {
-        display: flex;
-        align-items: center;
-        color: #24272A;
-        font-size: 34px;
-        color: #CCCCCC;
-        border-color: ${props => props.status ? props.status : ''};
-    }
-
     input {
-        background: none !important;
-        border: 2px solid #E4E4E6 !important;
-        font-size: 38px !important;
-        margin: 0 !important;
-        font-weight: 600 !important;
-        color: #24272A !important;
-        height: 62px !important;
         color: ${props => props.status === '#ff585d' ? props.status : '#24272A'} !important;
-
-        ::placeholder {
-            color: #CCCCCC;
-            opacity: 1;
-        }
     }
 
     .available-balance {
@@ -53,16 +31,15 @@ export default function AmountInput({
 
     return (
         <Container status={validationStatus} hasValue={value.length}>
-            <div className='input-wrapper'>
-                <input 
-                    disabled={loading}
-                    type='number' 
-                    autoFocus 
-                    placeholder='0' 
-                    value={value} 
-                    onChange={e => onChange(e.target.value)}
-                />
-            </div>
+            <input 
+                disabled={loading}
+                type='number' 
+                autoFocus 
+                placeholder='0' 
+                value={value} 
+                onChange={e => onChange(e.target.value)}
+                className='amount-input'
+            />
             {(action === 'unstake' || !stakeFromAccount) ? (
                 <div className='available-balance' onClick={availableClick}>
                     <Translate id={`staking.${action}.input.availableBalance`} /><Balance amount={availableBalance} symbol='near'/>

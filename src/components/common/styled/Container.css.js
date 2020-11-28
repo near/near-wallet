@@ -26,6 +26,13 @@ const Container = styled.div`
             text-align: center;
         }
     }
+
+    .sub-title {
+        text-align: center;
+        line-height: 150% !important;
+        margin: 25px 0;
+        font-size: 16px;
+    }
 `
 
 export default Container;

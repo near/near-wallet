@@ -98,10 +98,10 @@ export default function StakingAction({
     
     if (!success) {
         return (
-            <>
+            <div className='send-theme'>
                 <h1><Translate id={`staking.${action}.title`} /></h1>
                 <div className='desc'><Translate id={`staking.${action}.desc`} /></div>
-                <div className='amount-header-wrapper'>
+                <div className='header-button'>
                     <h4><Translate id='staking.stake.amount' /></h4>
                     <FormButton className='light-blue small' onClick={handleSetMax}><Translate id='staking.stake.useMax' /></FormButton>
                 </div>
@@ -117,7 +117,7 @@ export default function StakingAction({
                     stakeFromAccount={stakeFromAccount}
                 />
                 <ArrowCircleIcon color={stakeActionAllowed ? '#6AD1E3' : ''}/>
-                <div className='validator-header-wrapper'>
+                <div className='header-button'>
                     <h4><Translate id={`staking.${action}.stakeWith`} /></h4>
                     <FormButton className='light-blue small' linkTo='/staking/validators'><Translate id='button.edit' /></FormButton>
                 </div>
@@ -149,7 +149,7 @@ export default function StakingAction({
                         disclaimer={getStakeActionDisclaimer()}
                     />
                 }
-            </>
+            </div>
         )
     } else {
         return (

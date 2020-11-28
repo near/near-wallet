@@ -59,11 +59,6 @@ const StyledContainer = styled(Container)`
         margin: 30px 0 15px 0;
     }
 
-    .arrow-circle {
-        display: block;
-        margin: 50px auto 20px auto;
-    }
-
     .transfer-money-icon {
         display block;
         margin: 50px auto;
