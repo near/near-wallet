@@ -1,6 +1,7 @@
 import React from 'react';
 import { shallow, configure } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
+import BN from 'bn.js'
 
 import Balance from './Balance'
 
@@ -14,6 +15,11 @@ describe('<Balance.js>', ()=>{
 
     it('balance should return properly for 0',()=>{
         let wrapper = shallow(<Balance symbol={false} amount={contextZero} />)
+        expect(wrapper.text()).toEqual("0");
+    })
+
+    it('balance should return properly for 0 BN',()=>{
+        let wrapper = shallow(<Balance symbol={false} amount={new BN(0)} />)
         expect(wrapper.text()).toEqual("0");
     })
 
