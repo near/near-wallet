@@ -870,6 +870,8 @@ class Wallet {
             if (lastAccount) {
                 store.dispatch(redirectTo(`/profile/${lastAccount.accountId}`, { globalAlertPreventClear: true }))
                 throw lastAccount.error
+            } else {
+                throw accountIdsError.reverse()[accountIdsError.length - 1].error
             }
         }
     }
