@@ -117,7 +117,11 @@ class LoginDetails extends Component {
                                 </div>
                                 <div className='details-item'>
                                     <div className='title h3'>
-                                        <Translate id='login.details.thisAllows' data={{ appTitle }} />
+                                        <Translate>
+                                            {({ translate }) => (
+                                                <Translate id='login.details.thisAllows' data={{ appTitle: appTitle || translate('sign.unknownApp') }} />
+                                            )}
+                                        </Translate>
                                     </div>
                                     <ul>
                                         <li><Translate id='login.details.transferTokens' /></li>
@@ -170,7 +174,11 @@ class LoginDetails extends Component {
                                 </div>
                                 <div className='details-item'>
                                     <div className='title h3'>
-                                        <Translate id='login.details.thisAllows' data={{ appTitle }} />
+                                        <Translate>
+                                            {({ translate }) => (
+                                                <Translate id='login.details.thisAllows' data={{ appTitle: appTitle || translate('sign.unknownApp') }} />
+                                            )}
+                                        </Translate>
                                     </div>
                                     <ul>
                                         <li><Translate id='login.details.createNewAccounts' /></li>

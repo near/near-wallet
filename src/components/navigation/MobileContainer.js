@@ -95,7 +95,6 @@ const Lang = styled.div`
         transform: rotate(135deg) translateY(-50%);
         height: 9px;
         width: 9px;
-        z-index: 1;
     }
 
     &:last-child {
@@ -120,7 +119,9 @@ const Lang = styled.div`
         height: 32px;
         outline: none;
         padding-right: 54px;
+        position: relative;
         width: 100%;
+        z-index: 1;
     }
 
     &.mobile-lang .lang-selector  {
@@ -129,11 +130,10 @@ const Lang = styled.div`
         &:active,
         &:focus,
         &:hover {
-            background-color: #24272a;
-            color: #f8f8f8;
-
             option {
+                background-color: #24272a;
                 border: 0;
+                color: #f8f8f8;
             }
         }
     }

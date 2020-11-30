@@ -196,7 +196,6 @@ const Lang = styled.div`
         transform: rotate(135deg) translateY(-50%);
         height: 9px;
         width: 9px;
-        z-index: -1;
     }
 
     &:last-child {
@@ -212,9 +211,10 @@ const Lang = styled.div`
         height: 32px;
         outline: none;
         padding-right: 54px;
-        
+        position: relative;
         user-select: none;
         width: 54px;
+        z-index: 1;
 
         &::-ms-expand {
             display: none;

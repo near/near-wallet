@@ -6,9 +6,12 @@ import { push } from 'connected-react-router'
 import { loadState, saveState, clearState } from '../utils/sessionStorage'
 import {
     WALLET_CREATE_NEW_ACCOUNT_URL, WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS, WALLET_LOGIN_URL, WALLET_SIGN_URL,
-    setKeyMeta,
+    setKeyMeta, MULTISIG_MIN_PROMPT_AMOUNT
 } from '../utils/wallet'
 import { PublicKey, KeyType } from 'near-api-js/lib/utils/key_pair'
+import { WalletError } from '../utils/walletError'
+import { utils } from 'near-api-js'
+import { BN } from 'bn.js'
 
 export const loadRecoveryMethods = createAction('LOAD_RECOVERY_METHODS',
     wallet.getRecoveryMethods.bind(wallet),
@@ -96,9 +99,12 @@ const checkContractId = () => async (dispatch, getState) => {
     }
 }
 
-export const redirectTo = (location, state = {}) => (dispatch) => dispatch(push({ pathname: location, state }))
-
 export const redirectToProfile = () => (dispatch) => dispatch(push({ pathname: '/profile' }))
+
+export const redirectTo = (location, state = {}) => (dispatch) => dispatch(push({ 
+    pathname: location,
+    state
+}))
 
 export const redirectToApp = (fallback) => (dispatch, getState) => {
     const { account: { url }} = getState()
@@ -282,14 +288,13 @@ export const {
     CLEAR_CODE: null
 })
 
-export const { getAccessKeys, removeAccessKey, addLedgerAccessKey, connectLedger, disableLedger, removeNonLedgerAccessKeys, getLedgerAccountIds, addLedgerAccountId, saveAndSelectLedgerAccounts, setLedgerTxSigned, clearSignInWithLedgerModalState, showLedgerModal } = createActions({
+export const { getAccessKeys, removeAccessKey, addLedgerAccessKey, disableLedger, removeNonLedgerAccessKeys, getLedgerAccountIds, addLedgerAccountId, saveAndSelectLedgerAccounts, setLedgerTxSigned, clearSignInWithLedgerModalState, showLedgerModal } = createActions({
     GET_ACCESS_KEYS: [wallet.getAccessKeys.bind(wallet), () => ({})],
     REMOVE_ACCESS_KEY: [
         wallet.removeAccessKey.bind(wallet),
         () => defaultCodesFor('authorizedApps.removeAccessKey', { onlyError: true })
     ],
     ADD_LEDGER_ACCESS_KEY: [wallet.addLedgerAccessKey.bind(wallet), () => defaultCodesFor('errors.ledger', { onlyError: true })],
-    CONNECT_LEDGER: [wallet.connectLedger.bind(wallet), () => defaultCodesFor('errors.ledger')],
     DISABLE_LEDGER: [wallet.disableLedger.bind(wallet), () => defaultCodesFor('errors.ledger')],
     REMOVE_NON_LEDGER_ACCESS_KEYS: [wallet.removeNonLedgerAccessKeys.bind(wallet), () => ({})],
     GET_LEDGER_ACCOUNT_IDS: [wallet.getLedgerAccountIds.bind(wallet), () => defaultCodesFor('signInLedger.getLedgerAccountIds')],
@@ -312,8 +317,14 @@ export const { getAccessKeys, removeAccessKey, addLedgerAccessKey, connectLedger
 })
 
 export const handleAddAccessKeySeedPhrase = (accountId, recoveryKeyPair) => async (dispatch) => {
-    await dispatch(addAccessKeySeedPhrase(accountId, recoveryKeyPair))
-    dispatch(redirectTo('/profile', { globalAlertPreventClear: true }))
+    try {
+        await dispatch(addAccessKeySeedPhrase(accountId, recoveryKeyPair))
+    } catch (error) {
+        // error is thrown in `addAccessKeySeedPhrase` action, despite the error, we still want to redirect to /profile
+    }
+    dispatch(redirectTo('/profile', { 
+        globalAlertPreventClear: true
+    }))
 }
 
 export const fundCreateAccount = (accountId, recoveryKeyPair, recoveryMethod) => async (dispatch) => {
@@ -337,12 +348,25 @@ export const handleCreateAccountWithSeedPhrase = (accountId, recoveryKeyPair, fu
         return
     }
 
-    await dispatch(createAccountWithSeedPhrase(accountId, recoveryKeyPair, fundingOptions))
+    try {
+        await dispatch(createAccountWithSeedPhrase(accountId, recoveryKeyPair, fundingOptions))
+    } catch (error) {
+        dispatch(redirectTo('/recover-seed-phrase', { 
+            globalAlertPreventClear: true,
+            defaultAccountId: accountId
+        }))
+        return
+    }
 }
 
+                
 export const finishAccountSetup = () => async (dispatch) => {
     const account = await dispatch(refreshAccount())
-    const promptTwoFactor = (await wallet.twoFactor.checkCanEnableTwoFactor(account))
+    let promptTwoFactor = await wallet.twoFactor.checkCanEnableTwoFactor(account)
+
+    if (new BN(account.balance.available).lt(new BN(utils.format.parseNearAmount(MULTISIG_MIN_PROMPT_AMOUNT)))) {
+        promptTwoFactor = false
+    }
 
     if (promptTwoFactor) {
         dispatch(redirectTo('/enable-two-factor'))
@@ -368,8 +392,9 @@ export const { addAccessKey, createAccountWithSeedPhrase, addAccessKeySeedPhrase
     CREATE_ACCOUNT_WITH_SEED_PHRASE: [
         async (accountId, recoveryKeyPair, fundingOptions = {}) => {
             const recoveryMethod = 'seed'
+            const previousAccountId = wallet.accountId
             await wallet.saveAccount(accountId, recoveryKeyPair);
-            await wallet.createNewAccount(accountId, fundingOptions, recoveryMethod, recoveryKeyPair.publicKey)
+            await wallet.createNewAccount(accountId, fundingOptions, recoveryMethod, recoveryKeyPair.publicKey, previousAccountId)
         },
         () => defaultCodesFor('account.createAccountSeedPhrase')
     ],
@@ -378,8 +403,13 @@ export const { addAccessKey, createAccountWithSeedPhrase, addAccessKeySeedPhrase
             const publicKey = recoveryKeyPair.publicKey.toString()
             const contractName = null;
             const fullAccess = true;
-            await wallet.addAccessKey(accountId, contractName, publicKey, fullAccess)
-            await wallet.postSignedJson('/account/seedPhraseAdded', { accountId, publicKey })
+            
+            try {
+                await wallet.postSignedJson('/account/seedPhraseAdded', { accountId, publicKey })
+                await wallet.addAccessKey(accountId, contractName, publicKey, fullAccess)
+            } catch (error) {
+                throw new WalletError(error, 'account.addAccessKey.error')
+            }
         },
         () => defaultCodesFor('account.setupSeedPhrase')
     ],

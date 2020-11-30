@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { Translate } from 'react-localize-redux'
 import { withRouter } from 'react-router-dom'
 
-import { getAccessKeys, removeAccessKey, addLedgerAccessKey } from '../../actions/account'
+import { getAccessKeys, removeAccessKey } from '../../actions/account'
 
 import AccessKeysEmpty from './AccessKeysEmpty'
 import PaginationBlock from '../pagination/PaginationBlock'
@@ -162,8 +162,7 @@ class AccessKeys extends Component {
 
 const mapDispatchToProps = {
     getAccessKeys,
-    removeAccessKey,
-    addLedgerAccessKey
+    removeAccessKey
 }
 
 const mapStateToPropsAuthorizedApps = ({ account }) => ({

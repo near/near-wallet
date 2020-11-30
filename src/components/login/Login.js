@@ -56,7 +56,7 @@ class Login extends Component {
     }
 
     render() {
-        const { account: { url }, match } = this.props
+        const { account: { url }, match, appTitle } = this.props
         const accountConfirmationForm = !url?.contract_id || url?.contract_id.endsWith(`.${LOCKUP_ACCOUNT_ID_SUFFIX}`)
 
         return (
@@ -68,7 +68,7 @@ class Login extends Component {
                         <LoginForm
                             {...this.state}
                             {...props}
-                            appTitle={url && url.referrer}
+                            appTitle={appTitle}
                             handleOnClick={this.handleOnClick}
                             handleDeny={this.handleDeny}
                             handleAllow={this.handleAllow}
@@ -86,7 +86,7 @@ class Login extends Component {
                         <LoginDetails
                             {...props}
                             contractId={url && url.contract_id}
-                            appTitle={url && url.title}
+                            appTitle={appTitle}
                             accountConfirmationForm={accountConfirmationForm}
                         />
                     )}
@@ -98,7 +98,7 @@ class Login extends Component {
                         <LoginConfirm
                             {...props}
                             buttonLoader={this.state.buttonLoader}
-                            appTitle={url && url.title}
+                            appTitle={appTitle}
                             handleAllow={this.handleAllow}
                         />
                     )}
@@ -130,7 +130,7 @@ const mapDispatchToProps = {
 
 const mapStateToProps = ({ account }) => ({
     account,
-    appTitle: account.url && account.url.referrer
+    appTitle: account.url?.referrer
 })
 
 export const LoginWithRouter = connect(

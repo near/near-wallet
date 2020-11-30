@@ -17,7 +17,13 @@
                 "create": "Checking availability",
                 "check": "Checking"
             },
-            "errorAccountNotExist": "There was a problem creating your account. Please try again!"
+            "errorAccountNotExist": "There was a problem creating your account. Please try again!",
+            "addAccessKey": {
+                "error": "An error has occurred.<br />To access your account, please enter the seed phrase from the previous step below."
+            }
+        },
+        "addAccessKey": {
+            "error": "An error has occurred.<br />The seed phrase was not added to your account. Please try again."
         },
         "available": {
             "success": "User found.",
@@ -249,7 +255,8 @@
         "REMOVE_NON_LEDGER_ACCESS_KEYS": "You will need to confirm details on your Ledger.",
         "STAKE": "You will need to confirm staking on your Ledger",
         "UNSTAKE": "You will need to confirm unstaking on your Ledger",
-        "WITHDRAW": "You will need to confirm withdrawal on your Ledger"
+        "WITHDRAW": "You will need to confirm withdrawal on your Ledger",
+        "DISABLE_LEDGER": "You will need to confirm public key details on your Ledger."
     },
 
     "button": {
@@ -323,7 +330,7 @@
 
     "input": {
         "enterWord": {
-            "title": "Word",
+            "title": "Word <b>#${wordId}</b>",
             "placeholder": ""
         },
         "accountId": {
@@ -573,7 +580,14 @@
             },
             "unclaimed": {
                 "title": "Rewards earned",
-                "info": "Rewards that have been earned, but not withdrawn. Rewards earned are automatically restaked, which means your Total Amount Staked automatically increases over time, and your rewards are <a target='_blank' href='https://www.investopedia.com/terms/c/compoundinterest.asp'>compounding</a>."
+                "info": "Rewards that have been earned, but not withdrawn. Rewards earned are automatically restaked, which means your Total Amount Staked automatically increases over time, and your rewards are <a target='_blank' href='https://www.investopedia.com/terms/c/compoundinterest.asp'>compounding</a>.",
+                "unavailable": {
+                    "title": "Unable to display rewards earned.",
+                    "cta": "Learn More",
+                    "modalTitle": "Unable to display staking rewards earned",
+                    "modalDescOne": "We are currently unable to calculate rewards when Two-Factor Authentication is enabled. We hope to enable this functionality in the near future.",
+                    "modalDescTwo": "In the meantime, you will be able to see your rewards accumulating under ”Total amount staked”. This balance will grow while your tokens are staked, since your rewards are automatically re-staked with your current validator."
+                }
             },
             "available": {
                 "title": "Available for withdrawal",
@@ -868,7 +882,8 @@
 
     "errors": {
         "type": {
-            "RetriesExceeded": "Exceeded maximum attempts for this transaction."
+            "RetriesExceeded": "Exceeded maximum attempts for this transaction.",
+            "LackBalanceForState": "Your balance is too low to perform any actions on your account. Please send NEAR to your account, then import your account again."
         },
         "ledger": {
             "U2FNotSupported": "U2F browser support is needed for Ledger. Please use Chrome, Opera or Firefox with a U2F extension. Also make sure you're on an HTTPS connection.",

@@ -46,29 +46,27 @@ const Container = styled.div`
 `
 
 export default function SelectAccount({ accounts, onChange, selectedAccount }) {
-    return(
-        <div>
-            <RadioGroup onChange={onChange} selectedValue={selectedAccount}>
-                {accounts.map((account, i) => 
-                    <RadioButton value={account.accountId} key={i}>
-                        <Container>
+    return (
+        <RadioGroup onChange={onChange} selectedValue={selectedAccount}>
+            {accounts.map((account, i) => 
+                <RadioButton value={account.accountId} key={i}>
+                    <Container>
+                        <div>
+                            {account.accountId.split('.')[0]}<span>.{account.accountId.substring(account.accountId.indexOf('.') + 1)}</span>
+                        </div>
+                        <div>
                             <div>
-                                {account.accountId.split('.')[0]}<span>.{account.accountId.substring(account.accountId.indexOf('.') + 1)}</span>
+                                <Translate id='staking.staking.available' />
+                                <Balance amount={account.totalUnstaked}/>
                             </div>
                             <div>
-                                <div>
-                                    <Translate id='staking.staking.available' />
-                                    <Balance amount={account.totalUnstaked}/>
-                                </div>
-                                <div>
-                                    <Translate id='staking.staking.totalStaked' />
-                                    <Balance amount={account.totalStaked}/>
-                                </div>
+                                <Translate id='staking.staking.totalStaked' />
+                                <Balance amount={account.totalStaked}/>
                             </div>
-                        </Container>
-                    </RadioButton>
-                )}
-            </RadioGroup>
-        </div>
+                        </div>
+                    </Container>
+                </RadioButton>
+            )}
+        </RadioGroup>
     )
 }
