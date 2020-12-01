@@ -81,7 +81,9 @@ export class TwoFactor extends Account2FA {
         const newLocalPublicKey = newKeyPair.publicKey
         const contractBytes = new Uint8Array(await (await fetch('/main.wasm')).arrayBuffer())
         const result = await this.disable(contractBytes, newLocalPublicKey)
-        console.log('result', result)
+        if (result !== 'true') {
+            throw 'Disable 2FA transaction error'
+        }
         await this.wallet.saveAccount(accountId, newKeyPair)
         await store.dispatch(refreshAccount())
         return result
