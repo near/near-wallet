@@ -10,6 +10,7 @@ import * as nearApiJs from 'near-api-js'
 import BN from 'bn.js'
 
 const Container = styled.div`
+    font-size: 13px;
 
     .content {
         height: 0px;

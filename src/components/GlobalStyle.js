@@ -187,6 +187,10 @@ export default createGlobalStyle`
                 color: #CCCCCC;
                 opacity: 1;
             }
+
+            &.error {
+                color: #ff585d !important;
+            }
         }
     }
 
