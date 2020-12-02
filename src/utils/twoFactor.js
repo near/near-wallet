@@ -2,7 +2,7 @@ import * as nearApiJs from 'near-api-js'
 import { store } from '..'
 import { promptTwoFactor, refreshAccount } from '../actions/account'
 import { MULTISIG_MIN_AMOUNT, ACCOUNT_HELPER_URL } from './wallet'
-import { utils, KeyPair } from 'near-api-js'
+import { utils } from 'near-api-js'
 import { BN } from 'bn.js'
 
 export const MULTISIG_CONTRACT_HASHES = process.env.MULTISIG_CONTRACT_HASHES || [
@@ -60,6 +60,23 @@ export class TwoFactor extends Account2FA {
         });
     }
 
+    async reInitTwoFactor(accountId, method) {
+        // clear any previous requests in localStorage (for verifyTwoFactor)
+        this.setRequest({ requestId: -1 })
+        return this.sendRequest(accountId, method)
+    }
+
+    async resend(accountId, method) {
+        if (!accountId) accountId = this.wallet.accountId
+        if (!method) method = await this.get2faMethod()
+        const requestData = this.getRequest()
+        let { requestId } = requestData
+        if (!requestId && requestId !== 0) {
+            requestId = -1
+        }
+        return this.sendRequest(accountId, method, requestId)
+    }
+
     // TODO deprecate or test this (we removed the send new recovery message option)
     async rotateKeys(account, addPublicKey, removePublicKey) {
         const { accountId } = account
@@ -71,29 +88,13 @@ export class TwoFactor extends Account2FA {
     }
 
     async deployMultisig() {
-        const { accountId } = this
-        const newKeyPair = KeyPair.fromRandom('ed25519')
-        const newLocalPublicKey = newKeyPair.publicKey
         const contractBytes = new Uint8Array(await (await fetch('/multisig.wasm')).arrayBuffer())
-        const result = await super.deployMultisig(contractBytes, newLocalPublicKey)
-        if (!result || !result.status || !result.status.SuccessValue) {
-            throw new Error('Enable 2FA transaction error')
-        }
-        await this.wallet.saveAccount(accountId, newKeyPair)
-        await store.dispatch(refreshAccount())
-        return result
+        return super.deployMultisig(contractBytes)
     }
 
     async disableMultisig() {
-        const { accountId } = this
-        const newKeyPair = KeyPair.fromRandom('ed25519')
-        const newLocalPublicKey = newKeyPair.publicKey
         const contractBytes = new Uint8Array(await (await fetch('/main.wasm')).arrayBuffer())
-        const result = await this.disable(contractBytes, newLocalPublicKey)
-        if (result !== 'true') {
-            throw new Error('Disable 2FA transaction error')
-        }
-        await this.wallet.saveAccount(accountId, newKeyPair)
+        const result = await this.disable(contractBytes)
         await store.dispatch(refreshAccount())
         return result
     }
