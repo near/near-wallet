@@ -772,7 +772,7 @@ class Wallet {
         accountIds = [...accountsSet]
 
         if (!accountIds.length) {
-            throw new WalletError('Cannot find matching public key', 'allert.RECOVER_ACCOUNT_SEED_PHRASE.errorInvalidSeedPhrase', { publicKey })
+            throw new WalletError('Cannot find matching public key', 'alert.RECOVER_ACCOUNT_SEED_PHRASE.errorInvalidSeedPhrase', { publicKey })
         }
 
         const connection = nearApiJs.Connection.fromConfig({
