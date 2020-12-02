@@ -10,11 +10,11 @@
         },
         "CHECK_NEW_ACCOUNT": {
             "success": "Congrats! ${accountId} is available.",
-            "error": "Account ID is taken. Try something else.",
+            "error": "Account ID is taken. Try something else."
         },
         "ADD_ACCESS_KEY": {
             "success": "${title} is now authorized to use your account.",
-            "error": "An error occurred while approving this action. Please try again!",
+            "error": "An error occurred while approving this action. Please try again!"
         },
         "ADD_ACCESS_KEY_SEED_PHRASE": {
             "success": "Seed phrase recovery setup is complete.",
@@ -23,6 +23,10 @@
         "SETUP_RECOVERY_MESSAGE": {
             "success": "Recovery setup is complete.",
             "error": "An error occurred while setting up your recovery method. Please try again!"
+        },
+        "SAVE_AND_SELECT_LEDGER_ACCOUNTS": {
+            "success": "You’ve successfully signed in.<br/><b>${numberOfAccounts} account(s) were recovered.</b> Your most recently created account has been set to active.",
+            "error": "Please check that your device is connected and the NEAR app is open."
         },
         "RetriesExceeded": "Exceeded maximum attempts for this transaction."
     },
@@ -928,10 +932,6 @@
             "success": "",
             "error": "Access to one of the accounts was rejected. No accounts were recovered.<br>To continue, you must authorize read-only access to each account on your Ledger device. Please try again.",
             "errorRpc": "Error appears while recovering the account."
-        },
-        "saveAndSelectLedgerAccounts": {
-            "success": "You’ve successfully signed in.<br/><b>${numberOfAccounts} account(s) were recovered.</b> Your most recently created account has been set to active.",
-            "error": "Please check that your device is connected and the NEAR app is open."
         },
         "modal": {
             "confirmPublicKey": "Confirm public key",
