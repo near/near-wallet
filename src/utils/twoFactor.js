@@ -59,8 +59,19 @@ export class TwoFactor extends Account2FA {
     }
 
     async deployMultisig() {
+        const { accountId } = this
+        const newKeyPair = KeyPair.fromRandom('ed25519')
+        const newLocalPublicKey = newKeyPair.publicKey
         const contractBytes = new Uint8Array(await (await fetch('/multisig.wasm')).arrayBuffer())
-        await super.deployMultisig(contractBytes)
+
+        const result = await super.deployMultisig(contractBytes, newLocalPublicKey)
+        console.log('result', result)
+        // if (result !== 'true') {
+        //     throw 'Disable 2FA transaction error'
+        // }
+        await this.wallet.saveAccount(accountId, newKeyPair)
+        await store.dispatch(refreshAccount())
+        return result
     }
 
     async disableMultisig() {
