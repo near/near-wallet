@@ -16,6 +16,10 @@
             "success": "${title} is now authorized to use your account.",
             "error": "An error occurred while approving this action. Please try again!",
         },
+        "ADD_ACCESS_KEY_SEED_PHRASE": {
+            "success": "Seed phrase recovery setup is complete.",
+            "error": "An error occurred while setting up seed phrase recovery. Please try again!"
+        },
         "RetriesExceeded": "Exceeded maximum attempts for this transaction."
     },
     "account": {
@@ -82,10 +86,6 @@
         },
         "verifySeedPhrase": {
             "error": "You entered the incorrect word"
-        },
-        "setupSeedPhrase": {
-            "success": "Seed phrase recovery setup is complete.",
-            "error": "An error occurred while setting up seed phrase recovery. Please try again!"
         },
         "setupRecoveryMessage": {
             "success": "Recovery setup is complete.",
