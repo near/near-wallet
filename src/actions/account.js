@@ -319,7 +319,10 @@ export const { getAccessKeys, removeAccessKey, addLedgerAccessKey, disableLedger
             ...defaultCodesFor('signInLedger.addLedgerAccountId')
         })
     ],
-    SAVE_AND_SELECT_LEDGER_ACCOUNTS: [wallet.saveAndSelectLedgerAccounts.bind(wallet), () => defaultCodesFor('signInLedger.saveAndSelectLedgerAccounts')],
+    SAVE_AND_SELECT_LEDGER_ACCOUNTS: [
+        wallet.saveAndSelectLedgerAccounts.bind(wallet),
+        () => showAlert()
+    ],
     SET_LEDGER_TX_SIGNED: [
         (status) => ({ status }),
         (status, accountId) => ({
