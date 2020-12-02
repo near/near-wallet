@@ -28,6 +28,10 @@
             "success": "You’ve successfully signed in.<br/><b>${numberOfAccounts} account(s) were recovered.</b> Your most recently created account has been set to active.",
             "error": "Please check that your device is connected and the NEAR app is open."
         },
+        "DELETE_RECOVERY_METHOD": {
+            "success": "",
+            "error": ""
+        },
         "RetriesExceeded": "Exceeded maximum attempts for this transaction."
     },
     "account": {
