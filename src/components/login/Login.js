@@ -52,7 +52,9 @@ class Login extends Component {
     }
 
     redirectCreateAccount = () => {
-        this.props.history.push('/create')
+        const { success_url } =  this.props.account.url
+        sessionStorage.setItem("success_url", success_url)
+        this.props.history.push(`/create`)
     }
 
     render() {

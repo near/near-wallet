@@ -98,9 +98,19 @@ export function EnableTwoFactor(props) {
         handleDeployMultisig()
     }
 
+    const skipUrl = () => {
+        if(sessionStorage.getItem("success_url")){
+            const url = sessionStorage.getItem("success_url");
+            sessionStorage.removeItem("success_url")
+            window.location.href = url
+        }else {
+            dispatch(redirectToApp('/profile'))
+        }
+    }
+
     const handleDeployMultisig = async () => {
         await dispatch(deployMultisig())
-        dispatch(redirectToApp('/profile'))
+        skipUrl()
     }
 
     const handleGoBack = () => {
@@ -166,7 +176,7 @@ export function EnableTwoFactor(props) {
                     >
                         <Translate id={`button.continue`} />
                     </FormButton>
-                    <FormButton className='link' linkTo='/profile'><Translate id='button.skip' /></FormButton>
+                    <FormButton className='link' onClick={() => skipUrl()}><Translate id='button.skip' /></FormButton>
                 </form>
             </StyledContainer>
         )
