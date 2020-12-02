@@ -65,7 +65,6 @@ const globalAlertReducer = handleActions({
     // TODO: Make this generic to avoid listing actions
     [combineActions(
         addAccessKey,
-        setupRecoveryMessage,
         saveAndSelectLedgerAccounts,
         deleteRecoveryMethod,
         recoverAccountSeedPhrase,
