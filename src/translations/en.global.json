@@ -883,7 +883,8 @@
     "errors": {
         "type": {
             "RetriesExceeded": "Exceeded maximum attempts for this transaction.",
-            "LackBalanceForState": "Your balance is too low to perform any actions on your account. Please send NEAR to your account, then import your account again.",
+            "LackBalanceForState": "Your available balance is too low to perform any actions on your account. Please send NEAR to your account, then import your account again.",
+            "LackBalanceForTx": "Your available balance is too low to cover the transaction cost. Please send NEAR to your account and try again.",
             "GenericTXFailure": "Transaction failed. Please try again."
         },
         "ledger": {
