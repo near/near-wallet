@@ -199,11 +199,11 @@ export const {
         () => defaultCodesFor('account.initTwoFactor')
     ],
     REINIT_TWO_FACTOR: [
-        (...args) => wallet.twoFactor.reInitTwoFactor(...args),
+        (...args) => wallet.twoFactor.initTwoFactor(...args),
         () => defaultCodesFor('account.reInitTwoFactor')
     ],
     RESEND_TWO_FACTOR: [
-        (...args) => wallet.twoFactor.resend(...args),
+        () => wallet.twoFactor.sendCode(),
         () => defaultCodesFor('account.resendTwoFactor')
     ],
     VERIFY_TWO_FACTOR: [
