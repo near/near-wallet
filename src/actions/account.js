@@ -426,7 +426,7 @@ export const { addAccessKey, createAccountWithSeedPhrase, addAccessKeySeedPhrase
                 throw new WalletError(error, 'account.addAccessKey.error')
             }
         },
-        () => defaultCodesFor('account.setupSeedPhrase')
+        () => showAlert()
     ],
     CLEAR_ALERT: null,
 })
