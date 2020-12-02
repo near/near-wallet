@@ -6,11 +6,12 @@ import { push } from 'connected-react-router'
 import { loadState, saveState, clearState } from '../utils/sessionStorage'
 import {
     WALLET_CREATE_NEW_ACCOUNT_URL, WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS, WALLET_LOGIN_URL, WALLET_SIGN_URL,
-    setKeyMeta,
+    setKeyMeta, MULTISIG_MIN_PROMPT_AMOUNT
 } from '../utils/wallet'
 import { PublicKey, KeyType } from 'near-api-js/lib/utils/key_pair'
-import { KeyPair } from 'near-api-js'
 import { WalletError } from '../utils/walletError'
+import { utils } from 'near-api-js'
+import { BN } from 'bn.js'
 
 export const loadRecoveryMethods = createAction('LOAD_RECOVERY_METHODS',
     wallet.getRecoveryMethods.bind(wallet),
@@ -89,7 +90,7 @@ const checkContractId = () => async (dispatch, getState) => {
         }
 
         try {
-            await wallet.getAccount(contract_id).state()
+            await (await wallet.getAccount(contract_id)).state()
         } catch(error) {
             if (error.message.indexOf('does not exist while viewing') !== -1) {
                 redirectIncorrectContractId()
@@ -361,7 +362,11 @@ export const handleCreateAccountWithSeedPhrase = (accountId, recoveryKeyPair, fu
                 
 export const finishAccountSetup = () => async (dispatch) => {
     const account = await dispatch(refreshAccount())
-    const promptTwoFactor = (await wallet.twoFactor.checkCanEnableTwoFactor(account))
+    let promptTwoFactor = await wallet.twoFactor.checkCanEnableTwoFactor(account)
+
+    if (new BN(account.balance.available).lt(new BN(utils.format.parseNearAmount(MULTISIG_MIN_PROMPT_AMOUNT)))) {
+        promptTwoFactor = false
+    }
 
     if (promptTwoFactor) {
         dispatch(redirectTo('/enable-two-factor'))
@@ -441,7 +446,7 @@ export const { switchAccount, refreshAccount, refreshAccountExternal, refreshUrl
     ],
     REFRESH_ACCOUNT_EXTERNAL: [
         async (accountId) => ({
-            ...await wallet.getAccount(accountId).state(),
+            ...await (await wallet.getAccount(accountId)).state(),
             balance: await wallet.getBalance(accountId)
         }),
         accountId => ({ accountId })
