@@ -139,7 +139,7 @@ export const allowLogin = () => async (dispatch, getState) => {
         parsedUrl.searchParams.set('all_keys', allKeys.join(','))
         window.location = parsedUrl.href
     } else {
-        await dispatchWithAlert(addAccessKey(account.accountId, url.contract_id, url.public_key))
+        await dispatchWithAlert(addAccessKey(account.accountId, url.contract_id, url.public_key), { data: { title } })
         dispatch(redirectTo('/authorized-apps', { globalAlertPreventClear: true }))
     }
 }
