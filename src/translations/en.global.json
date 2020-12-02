@@ -20,6 +20,10 @@
             "success": "Seed phrase recovery setup is complete.",
             "error": "An error occurred while setting up seed phrase recovery. Please try again!"
         },
+        "SETUP_RECOVERY_MESSAGE": {
+            "success": "Recovery setup is complete.",
+            "error": "An error occurred while setting up your recovery method. Please try again!"
+        },
         "RetriesExceeded": "Exceeded maximum attempts for this transaction."
     },
     "account": {
@@ -86,10 +90,6 @@
         },
         "verifySeedPhrase": {
             "error": "You entered the incorrect word"
-        },
-        "setupRecoveryMessage": {
-            "success": "Recovery setup is complete.",
-            "error": "An error occurred while setting up your recovery method. Please try again!"
         },
         "sendNewRecoveryLink": {
             "success": "Recovery link successfully sent!",
