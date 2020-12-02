@@ -66,7 +66,7 @@ const EnterVerificationCode = ({
         useEmail = false;
     }
 
-    const invalidCode = requestStatus && requestStatus.messageCode === 'account.setupRecoveryMessage.error';
+    const invalidCode = requestStatus && requestStatus.messageCode === 'account.SETUP_RECOVERY_MESSAGE.error';
 
     const handleConfirm = () => {
         if (code.length === 6 && !loading) {
