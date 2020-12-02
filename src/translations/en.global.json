@@ -12,6 +12,10 @@
             "success": "Congrats! ${accountId} is available.",
             "error": "Account ID is taken. Try something else.",
         },
+        "ADD_ACCESS_KEY": {
+            "success": "${title} is now authorized to use your account.",
+            "error": "An error occurred while approving this action. Please try again!",
+        },
         "RetriesExceeded": "Exceeded maximum attempts for this transaction."
     },
     "account": {
@@ -96,8 +100,6 @@
             "error": "Two Factor Authentication setup failed. Please try again."
         },
         "login": {
-            "success": "${title} is now authorized to use your account.",
-            "error": "An error occurred while approving this action. Please try again!",
             "details": {
                 "warning": "This allows access to your entire balance. Please proceed with caution."
             },
