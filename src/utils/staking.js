@@ -497,7 +497,14 @@ export class Staking {
     }
 
     async signAndSendTransaction(receiverId, actions) {
-        return this.wallet.getAccount(this.wallet.accountId).signAndSendTransaction(receiverId, actions)
+        try {
+            return this.wallet.getAccount(this.wallet.accountId).signAndSendTransaction(receiverId, actions)
+        } catch (e) {
+            if (e.message.test(/enough balance|not enough/gi)) {
+                throw new WalletError('Not enough tokens for staking transaction', 'errors.type.LackBalanceForState')
+            }
+            throw new WalletError(e.message, 'errors.type.GenericTXFailure')
+        }
     }
 }
 
