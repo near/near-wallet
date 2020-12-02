@@ -4,10 +4,12 @@ import classNames from '../../../utils/classNames'
 import { Translate } from 'react-localize-redux'
 import ChevronIcon from '../../svg/ChevronIcon'
 import InfoPopup from '../../common/InfoPopup'
+import { Modal } from 'semantic-ui-react'
 import Balance from '../../common/Balance'
 import { WALLET_APP_MIN_AMOUNT } from '../../../utils/wallet'
 import * as nearApiJs from 'near-api-js'
 import BN from 'bn.js'
+import InfoIcon from '../../svg/InfoIcon.js'
 
 const Container = styled.div`
     font-size: 13px;
@@ -17,6 +19,12 @@ const Container = styled.div`
         overflow: hidden;
         transition: 300ms;
         opacity: 0;
+    }
+
+    &.error {
+        .title {
+            color: #ff585d !important;
+        }
     }
 
     &.open {
@@ -74,9 +82,16 @@ const Container = styled.div`
             margin-left: auto;
         }
     }
+
+    .info-icon {
+        margin-left: 8px;
+        width: 16px;
+        height: 16px;
+        margin-bottom: -4px;
+    }
 `
 
-function BalanceBreakdown({ total, onClickAvailable, availableType }) {
+function BalanceBreakdown({ total, onClickAvailable, availableType, error }) {
     const [open, setOpen] = useState(false)
 
     const subtractAmount = nearApiJs.utils.format.parseNearAmount(WALLET_APP_MIN_AMOUNT)
@@ -85,18 +100,22 @@ function BalanceBreakdown({ total, onClickAvailable, availableType }) {
     return (
         <Translate>
             {({ translate }) => (
-                <Container className={classNames([open ? 'open' : ''])}>
+                <Container className={classNames([open ? 'open' : '', error ? 'error' : ''])}>
                     <div className='content'>
                         <div className='item'>
                             <Translate id='balanceBreakdown.available'/>
-                            <InfoPopup content={<Translate id='availableBalanceInfo'/>}/>
                             <div className='right'>
                                 <Balance amount={total} symbol='near'/>
                             </div>
                         </div>
                         <div className='item'>
-                            <Translate id='balanceBreakdown.reserved'/>
-                            <InfoPopup content={<Translate id='reservedForFeesInfo'/>}/>
+                            <Modal
+                                size='mini'
+                                trigger={<span><Translate id='balanceBreakdown.reserved'/> <InfoIcon color='#999999' /></span>}
+                                closeIcon
+                            >
+                                <Translate id='reservedForFeesInfo' />
+                            </Modal>
                             <div className='right'>
                                 - <Balance amount={subtractAmount} symbol='near'/>
                             </div>

@@ -34,9 +34,9 @@ export default function AmountInput({
             <input 
                 disabled={loading}
                 type='number' 
-                autoFocus 
-                placeholder='0' 
-                value={value} 
+                autoFocus
+                placeholder='0'
+                value={value}
                 onChange={e => onChange(e.target.value)}
                 className='amount-input'
             />
@@ -49,6 +49,7 @@ export default function AmountInput({
                     total={availableBalance}
                     onClickAvailable={availableClick}
                     availableType={`staking.${action}.input.availableBalance`}
+                    error={insufficientBalance}
                 />
             )}
         </Container>

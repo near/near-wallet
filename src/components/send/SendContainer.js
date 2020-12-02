@@ -106,6 +106,7 @@ export function SendContainer({ match }) {
                     total={balance.available}
                     onClickAvailable={handleSetUseMax}
                     availableType='sendMoney.amount.available'
+                    error={!sufficientBalance}
                 />
                 <ArrowCircleIcon color={sendAllowed ? '#6AD1E3' : ''}/>
                 <h4><Translate id='sendMoney.account.title' /></h4>
