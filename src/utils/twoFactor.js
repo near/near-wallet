@@ -75,12 +75,10 @@ export class TwoFactor extends Account2FA {
         const newKeyPair = KeyPair.fromRandom('ed25519')
         const newLocalPublicKey = newKeyPair.publicKey
         const contractBytes = new Uint8Array(await (await fetch('/multisig.wasm')).arrayBuffer())
-
         const result = await super.deployMultisig(contractBytes, newLocalPublicKey)
-        console.log('result', result)
-        // if (result !== 'true') {
-        //     throw 'Disable 2FA transaction error'
-        // }
+        if (!result || !result.status || !result.status.SuccessValue) {
+            throw new Error('Enable 2FA transaction error')
+        }
         await this.wallet.saveAccount(accountId, newKeyPair)
         await store.dispatch(refreshAccount())
         return result
@@ -93,7 +91,7 @@ export class TwoFactor extends Account2FA {
         const contractBytes = new Uint8Array(await (await fetch('/main.wasm')).arrayBuffer())
         const result = await this.disable(contractBytes, newLocalPublicKey)
         if (result !== 'true') {
-            throw 'Disable 2FA transaction error'
+            throw new Error('Disable 2FA transaction error')
         }
         await this.wallet.saveAccount(accountId, newKeyPair)
         await store.dispatch(refreshAccount())
