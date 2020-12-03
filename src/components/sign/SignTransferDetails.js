@@ -175,7 +175,7 @@ const ActionMessage = ({ transaction, action, actionKind }) => (
 const ActionWarrning = ({ actionKind, action }) => (
     <Fragment>
         {actionKind === 'functionCall' && (
-            !!action?.args.length
+            !!action?.args?.length
                 ? (
                     <>
                         <Translate id='arguments' />: {(Buffer.from(action.args).toString())}
