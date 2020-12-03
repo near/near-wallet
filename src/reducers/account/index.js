@@ -64,9 +64,6 @@ const globalAlertReducer = handleActions({
     // TODO: Reset state before action somehow. On navigate / start of other action?
     // TODO: Make this generic to avoid listing actions
     [combineActions(
-        recoverAccountSeedPhrase,
-        verifyTwoFactor,
-        deployMultisig,
         removeAccessKey,
         signAndSendTransactions,
         addLedgerAccessKey,

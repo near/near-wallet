@@ -244,7 +244,7 @@ export const {
     ],
     DEPLOY_MULTISIG: [
         () => new TwoFactor(wallet, wallet.accountId).deployMultisig(),
-        () => defaultCodesFor('account.deployMultisig')
+        () => showAlert()
     ],
     DISABLE_MULTISIG: [
         (...args) => twoFactorMethod('disableMultisig', wallet, args),
