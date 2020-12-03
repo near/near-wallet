@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { updateStaking, switchAccount, stake, unstake, withdraw } from '../../actions/staking'
+import { clearAlert } from '../../actions/account';
 import styled from 'styled-components'
 import Container from '../common/styled/Container.css'
 import { Switch, Route } from 'react-router-dom'
@@ -168,6 +169,7 @@ export function StakingContainer({ history, match }) {
         } else if (action === 'unstake') {
             await dispatch(unstake(currentAccount.accountId, selectedValidator || validator, amount))
         }
+        await dispatch(clearAlert())
         await dispatch(updateStaking(currentAccount.accountId, [validator]))
     }
 

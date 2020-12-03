@@ -62,23 +62,6 @@ export class TwoFactor extends Account2FA {
         });
     }
 
-    async reInitTwoFactor(accountId, method) {
-        // clear any previous requests in localStorage (for verifyTwoFactor)
-        this.setRequest({ requestId: -1 })
-        return this.sendRequest(accountId, method)
-    }
-
-    async resend(accountId, method) {
-        if (!accountId) accountId = this.wallet.accountId
-        if (!method) method = await this.get2faMethod()
-        const requestData = this.getRequest()
-        let { requestId } = requestData
-        if (!requestId && requestId !== 0) {
-            requestId = -1
-        }
-        return this.sendRequest(accountId, method, requestId)
-    }
-
     // TODO deprecate or test this (we removed the send new recovery message option)
     async rotateKeys(account, addPublicKey, removePublicKey) {
         const { accountId } = account
