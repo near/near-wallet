@@ -150,7 +150,8 @@ const ActionRow = ({ transaction, action, actionKind }) => (
         />
         <div className='desc font-small'>
             <ActionWarrning 
-                actionKind={actionKind} 
+                actionKind={actionKind}
+                action={action[actionKind]} 
             />
         </div>
     </div>
@@ -171,7 +172,7 @@ const ActionMessage = ({ transaction, action, actionKind }) => (
     </b>
 )
 
-const ActionWarrning = ({ actionKind }) => (
+const ActionWarrning = ({ actionKind, action }) => (
     <Fragment>
         {actionKind === 'functionCall' && (
             <Fragment>
