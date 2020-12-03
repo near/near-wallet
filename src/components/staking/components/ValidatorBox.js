@@ -53,7 +53,7 @@ const Container = styled.div`
                 }
 
                 @media (min-width: 500px) {
-                    max-width: 200px;
+                    max-width: 175px;
                 }
             }
         }

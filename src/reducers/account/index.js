@@ -30,6 +30,12 @@ import {
     createAccountWithSeedPhrase
 } from '../../actions/account'
 
+import {
+    stake,
+    unstake,
+    withdraw,
+} from '../../actions/staking'
+
 const initialState = {
     formLoader: false,
     sentMessage: false,
@@ -56,7 +62,7 @@ const loaderReducer = (state, { type, ready }) => {
 const globalAlertReducer = handleActions({
     // TODO: Reset state before action somehow. On navigate / start of other action?
     // TODO: Make this generic to avoid listing actions
-    [combineActions(addAccessKey, addAccessKeySeedPhrase, setupRecoveryMessage, saveAndSelectLedgerAccounts, deleteRecoveryMethod, recoverAccountSeedPhrase, deployMultisig, sendMoney, removeAccessKey, signAndSendTransactions, addLedgerAccessKey, createAccountWithSeedPhrase)]: (state, { error, ready, payload, meta }) => ({
+    [combineActions(addAccessKey, addAccessKeySeedPhrase, setupRecoveryMessage, saveAndSelectLedgerAccounts, deleteRecoveryMethod, recoverAccountSeedPhrase, deployMultisig, sendMoney, removeAccessKey, signAndSendTransactions, addLedgerAccessKey, createAccountWithSeedPhrase, stake, unstake, withdraw)]: (state, { error, ready, payload, meta }) => ({
         ...state,
         globalAlert: ready ? {
             success: !error,
