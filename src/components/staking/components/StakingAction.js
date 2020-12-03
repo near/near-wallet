@@ -75,8 +75,12 @@ export default function StakingAction({
             amount = availableToStake
         }
 
-        setAmount(amount)
-        setUseMax(true)
+        const isPositiveValue = new BN(amount).gt(new BN('0'))
+
+        if (isPositiveValue) {
+            setAmount(amount)
+            setUseMax(true)
+        }
     }
 
     const handleOnChange = (amount) => {
