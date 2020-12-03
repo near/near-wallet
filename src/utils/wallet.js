@@ -205,10 +205,10 @@ class Wallet {
 
     async loadAccount() {
         if (!this.isEmpty()) {
+            this.twoFactor = new TwoFactor(this)
             const accessKeys = await this.getAccessKeys() || []
             const ledgerKey = accessKeys.find(key => key.meta.type === 'ledger')
             const state = await (await this.getAccount(this.accountId)).state()
-            this.twoFactor = new TwoFactor(this)
 
             // TODO: Just use accountExists to check if lockup exists?
             let lockupInfo
