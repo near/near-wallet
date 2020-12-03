@@ -45,11 +45,11 @@ const CustomGrid = styled(Grid)`
 
                 .desc {
                     display: flex;
+                    align-items: center;
                     padding-top: 4px;
 
                     .icon {
                         margin-right: 10px;
-                        margin-top: 2px;
 
                         svg {
                             width: 26px;
