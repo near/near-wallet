@@ -32,6 +32,11 @@
             "success": "",
             "error": ""
         },
+        "DEPLOY_MULTISIG": {
+            "success": "",
+            "error": ""
+        },
+        "Deserialization": "",
         "RetriesExceeded": "Exceeded maximum attempts for this transaction."
     },
     "account": {
