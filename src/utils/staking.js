@@ -195,12 +195,13 @@ export class Staking {
     async updateStakingAccount(recentlyStakedValidators = []) {
         const account_id = this.wallet.accountId
         await this.wallet.refreshAccount()
-        const account = this.wallet.getAccount(this.wallet.accountId)
+        const account = await this.wallet.getAccount(this.wallet.accountId)
         const balance = account.wrappedAccount ? await account.wrappedAccount.getAccountBalance() : await account.getAccountBalance()
 
         let { deposits, validators } = (await getStakingTransactions(account_id))
         validators = await this.getValidators([...new Set(validators.concat(recentlyStakedValidators))])
-        if (!validators.length || this.wallet.has2fa) {
+        if (!validators.length || await this.wallet.twoFactor.isEnabled()) {
+            console.log('checking all validators')
             validators = await this.getValidators()
         }
 
@@ -489,14 +490,14 @@ export class Staking {
     async getContractInstance(contractId, methods) {
         try {
             await (await new nearApiJs.Account(this.wallet.connection, contractId)).state()
-            return await new nearApiJs.Contract(this.wallet.getAccount(), contractId, { ...methods })
+            return await new nearApiJs.Contract(await this.wallet.getAccount(), contractId, { ...methods })
         } catch (e) {
             throw new WalletError('No contract for account', 'staking.errors.noLockup')
         }
     }
 
     async signAndSendTransaction(receiverId, actions) {
-        return this.wallet.getAccount(this.wallet.accountId).signAndSendTransaction(receiverId, actions)
+        return (await this.wallet.getAccount(this.wallet.accountId)).signAndSendTransaction(receiverId, actions)
     }
 }
 
