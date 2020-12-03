@@ -175,10 +175,18 @@ const ActionMessage = ({ transaction, action, actionKind }) => (
 const ActionWarrning = ({ actionKind, action }) => (
     <Fragment>
         {actionKind === 'functionCall' && (
-            <Fragment>
-                <div className='icon'><IconProblems color='#999' /></div>
-                <Translate id='sign.ActionWarrning.functionCall' />
-            </Fragment>
+            !!action?.args.length
+                ? (
+                    <>
+                        Arguments: {(Buffer.from(action.args).toString())}
+                    </>
+                )
+                : (
+                    <>
+                        <div className='icon'><IconProblems color='#999' /></div>
+                        <Translate id='sign.ActionWarrning.functionCall' />
+                    </>
+                )
         )}
         {actionKind === 'deployContract' && (
             <Fragment>
