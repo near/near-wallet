@@ -795,6 +795,7 @@
     "back": "Back",
     "of": "of",
     "ofTotal": "of Total",
+    "arguments": "Arguments",
 
     "setupLedger": {
         "header": "Connect your Ledger device",

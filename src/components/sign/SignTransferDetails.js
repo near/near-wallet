@@ -178,7 +178,7 @@ const ActionWarrning = ({ actionKind, action }) => (
             !!action?.args.length
                 ? (
                     <>
-                        Arguments: {(Buffer.from(action.args).toString())}
+                        <Translate id='arguments' />: {(Buffer.from(action.args).toString())}
                     </>
                 )
                 : (
