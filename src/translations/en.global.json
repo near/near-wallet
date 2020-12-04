@@ -36,6 +36,10 @@
             "success": "",
             "error": ""
         },
+        "REMOVE_ACCESS_KEY": {
+            "success": "",
+            "error": "Please check that your device is connected and the NEAR app is open."
+        },
         "Deserialization": "",
         "RetriesExceeded": "Exceeded maximum attempts for this transaction."
     },
@@ -285,9 +289,6 @@
         "feeAllowance": "Fee Allowance",
         "publicKey": "Public Key",
         "ledger": "Ledger",
-        "removeAccessKey": {
-            "error": "Please check that your device is connected and the NEAR app is open."
-        }
     },
 
     "ledgerSignTxModal": {
