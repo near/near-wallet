@@ -98,7 +98,7 @@ export default function StakingAction({
         return (
             <>
                 <h1><Translate id={`staking.${action}.title`} /></h1>
-                <div className='desc'><Translate id={`staking.${action}.desc`} /></div>
+                <h2><Translate id={`staking.${action}.desc`} /></h2>
                 <div className='amount-header-wrapper'>
                     <h4><Translate id='staking.stake.amount' /></h4>
                     <FormButton className='link' onClick={handleSetMax}><Translate id='staking.stake.useMax' /></FormButton>

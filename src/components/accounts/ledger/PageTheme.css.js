@@ -1,63 +1,29 @@
-import styled from 'styled-components';
+import { createGlobalStyle } from 'styled-components';
 
-const PageTheme = styled.div`
-    && {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        margin: 30px 14px 0 14px;
-        max-width: 800px;
+export default createGlobalStyle`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 
-        .alert-info {
-            text-align: center;
-        }
+    svg {
+        margin: 20px 0;
+    }
 
-        .center {
-            text-align: center;
-        }
+    button {
 
-        @media (min-width: 768px) {
-            margin: 30px auto 0 auto;
-        }
-
-        h1 {
-            text-align: center;
-
-            @media (max-width: 767px) {
-                max-width: 264px;
-            }
-        }
-
-        svg {
-            margin: 20px 0;
-        }
-
-        p {
-            max-width: 445px;
-
-            :first-of-type {
-                margin-top: 30px;
-            }
-        }
-
-        button {
+        &.link {
             margin-top: 25px;
+        }
 
-            :first-of-type {
-                width: 350px;
+        &.blue {
+            width: 100% !important;
+        }
 
-                @media (max-width: 500px) {
-                    width: 100%;
-                }
-            }
-
-            &.remove-all-keys {
-                min-height: 48px;
-                height: auto;
-                line-height: 140%;
-            }
+        &.remove-all-keys {
+            min-height: 48px;
+            height: auto;
+            line-height: 140%;
         }
     }
-`;
 
-export default PageTheme;
+`;

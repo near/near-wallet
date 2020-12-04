@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import Theme from './PageTheme.css';
+import Container from '../../common/styled/Container.css';
 import LedgerImage from '../../svg/LedgerImage';
 import FormButton from '../../common/FormButton';
 import { Translate } from 'react-localize-redux';
@@ -79,10 +79,10 @@ export function SignInLedger(props) {
     }
 
     return (
-        <Theme>
+        <Container className='small-centered ledger-theme'>
             <h1><Translate id='signInLedger.header'/></h1>
             <LedgerImage/>
-            <p className='center'><Translate id='signInLedger.one'/></p>
+            <h2><Translate id='signInLedger.one'/></h2>
             <br/>
             <RequestStatusBox requestStatus={account.requestStatus}/>
             <FormButton
@@ -118,6 +118,6 @@ export function SignInLedger(props) {
                     clearSignInWithLedgerModalState={() => dispatch(clearSignInWithLedgerModalState())}
                 />
             }
-        </Theme>
+        </Container>
     );
 }
