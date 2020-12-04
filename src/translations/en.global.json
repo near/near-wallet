@@ -40,6 +40,10 @@
             "success": "",
             "error": "Please check that your device is connected and the NEAR app is open."
         },
+        "SIGN_AND_SEND_TRANSACTIONS": {
+            "success": "",
+            "error": ""
+        },
         "Deserialization": "",
         "RetriesExceeded": "Exceeded maximum attempts for this transaction."
     },
