@@ -44,6 +44,10 @@
             "success": "",
             "error": ""
         },
+        "CREATE_ACCOUNT_WITH_SEED_PHRASE": {
+            "success": "",
+            "error": ""
+        },
         "Deserialization": "",
         "RetriesExceeded": "Exceeded maximum attempts for this transaction.",
         "U2F_4": "Failed to sign with Ledger device: U2F DEVICE_INELIGIBLE. Please make sure that your Ledger device is connected and unlocked."
@@ -293,7 +297,7 @@
         "dashboardNoApps": "You have not authorized any apps",
         "feeAllowance": "Fee Allowance",
         "publicKey": "Public Key",
-        "ledger": "Ledger",
+        "ledger": "Ledger"
     },
 
     "ledgerSignTxModal": {
