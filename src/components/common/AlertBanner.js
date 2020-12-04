@@ -1,7 +1,7 @@
 import React from 'react'
 import { Translate } from 'react-localize-redux'
 import styled from 'styled-components'
-import AlertTriangleIcon from '../svg/AlertTriangleIcon.js'
+import AlertRoundedIcon from '../svg/AlertRoundedIcon.js'
 import FormButton from './FormButton'
 import classNames from '../../utils/classNames'
 
@@ -43,6 +43,7 @@ const Container = styled.div`
             min-width: 21px;
             min-height: 21px;
             margin: 8px 0;
+            transform: rotate(180deg);
         }
 
         div {
@@ -72,7 +73,7 @@ const Container = styled.div`
 export default function AlertBanner({ title, button, linkTo, data, theme }) {
     return (
         <Container className={classNames(['alert-banner', theme])}>
-            <AlertTriangleIcon/>
+            <AlertRoundedIcon/>
             <div>
                 <Translate id={title} data={{ data: data }}/>
                 {linkTo.includes('http') ? (
