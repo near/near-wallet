@@ -532,11 +532,18 @@ class Wallet {
     }
 
     async addLedgerAccountId(accountId) {
-        const accessKeys =  await this.getAccessKeys(accountId)
-        const localAccessKey = await this.getLocalAccessKey(accountId, accessKeys)
-
-        const newKeyPair = await this.addWalletMetadataAccessKeyIfNeeded(accountId, localAccessKey)
-        await this.setKey(accountId, newKeyPair)
+        try {
+            const accessKeys =  await this.getAccessKeys(accountId)
+            const localAccessKey = await this.getLocalAccessKey(accountId, accessKeys)
+    
+            const newKeyPair = await this.addWalletMetadataAccessKeyIfNeeded(accountId, localAccessKey)
+            await this.setKey(accountId, newKeyPair)
+        } catch (error) {
+            if (error.name !== 'TransportStatusError') {
+                throw new WalletError(error.message, 'alert.ADD_LEDGER_ACCOUNT_ID.errorRpc')
+            }
+            throw error
+        }
     }
 
     async saveAndSelectLedgerAccounts(accounts) {
