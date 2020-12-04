@@ -306,7 +306,7 @@ export const { getAccessKeys, removeAccessKey, addLedgerAccessKey, disableLedger
     GET_ACCESS_KEYS: [wallet.getAccessKeys.bind(wallet), () => ({})],
     REMOVE_ACCESS_KEY: [
         wallet.removeAccessKey.bind(wallet),
-        () => defaultCodesFor('authorizedApps.removeAccessKey', { onlyError: true })
+        () => showAlert({ onlyError: true })
     ],
     ADD_LEDGER_ACCESS_KEY: [wallet.addLedgerAccessKey.bind(wallet), () => defaultCodesFor('errors.ledger', { onlyError: true })],
     DISABLE_LEDGER: [wallet.disableLedger.bind(wallet), () => defaultCodesFor('errors.ledger')],
