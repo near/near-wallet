@@ -48,6 +48,11 @@
             "success": "",
             "error": ""
         },
+        "ADD_LEDGER_ACCOUNT_ID": {
+            "success": "",
+            "error": "Access to one of the accounts was rejected. No accounts were recovered.<br>To continue, you must authorize read-only access to each account on your Ledger device. Please try again.",
+            "errorRpc": "Error appears while recovering the account."
+        },
         "Deserialization": "",
         "RetriesExceeded": "Exceeded maximum attempts for this transaction.",
         "U2F_4": "Failed to sign with Ledger device: U2F DEVICE_INELIGIBLE. Please make sure that your Ledger device is connected and unlocked."
@@ -946,11 +951,6 @@
             "noAccountsAccepted": "No accounts were accepted.",
             "aborted": "Action was aborted.",
             "U2FNotSupported": "U2F browser support is needed for Ledger. Please use Chrome, Opera or Firefox with U2F extension."
-        },
-        "addLedgerAccountId": {
-            "success": "",
-            "error": "Access to one of the accounts was rejected. No accounts were recovered.<br>To continue, you must authorize read-only access to each account on your Ledger device. Please try again.",
-            "errorRpc": "Error appears while recovering the account."
         },
         "modal": {
             "confirmPublicKey": "Confirm public key",
