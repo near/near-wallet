@@ -390,7 +390,7 @@ export const finishAccountSetup = () => async (dispatch) => {
     }
 
     if (promptTwoFactor) {
-        dispatch(redirectTo('/enable-two-factor'))
+        dispatch(redirectTo('/enable-two-factor', { globalAlertPreventClear: true }))
     } else {
         dispatch(redirectToApp('/profile'))
     }
