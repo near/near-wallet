@@ -337,7 +337,7 @@
         "accountId": {
             "title": "Account ID",
             "placeholder": "e.g. johndoe.near",
-            "subLabel": "Your account ID must include a Top Level Account such as <b>.near</b> or contain exactly 64 characters."
+            "subLabel": "The account ID must include a Top Level Account such as <b>.near</b> or contain exactly 64 characters."
         }
     },
 
@@ -722,7 +722,7 @@
             "success": "Success!"
         },
         "subtitle": {
-            "default": "Enter the amount you would like to send, and a receipt NEAR Account ID.",
+            "default": "Enter the amount of NEAR to send, and the account ID to send it to.",
             "success": "You successfully sent NEAR"
         },
         "amount": {
