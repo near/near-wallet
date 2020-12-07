@@ -408,7 +408,7 @@ export const createAccountFromImplicit = createAction('CREATE_ACCOUNT_FROM_IMPLI
 export const { addAccessKey, createAccountWithSeedPhrase, addAccessKeySeedPhrase, clearAlert } = createActions({
     ADD_ACCESS_KEY: [
         wallet.addAccessKey.bind(wallet),
-        (title) => defaultCodesFor('account.login', {title})
+        (title) => showAlert({ title })
     ],
     CREATE_ACCOUNT_WITH_SEED_PHRASE: [
         async (accountId, recoveryKeyPair, fundingOptions = {}) => {
