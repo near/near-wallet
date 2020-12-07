@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import { parse as parseQuery } from 'query-string'
-import Theme from './PageTheme.css';
+import { parse as parseQuery } from 'query-string';
+import Container from '../../common/styled/Container.css';
 import InstructionsModal from './InstructionsModal';
 import LedgerIcon from '../../svg/LedgerIcon';
 import FormButton from '../../common/FormButton';
@@ -33,9 +33,7 @@ const SetupLedger = (props) => {
         } = props
 
         setConnect('')
-
         const isNew = await dispatch(checkIsNew(accountId))
-        console.log('handleClick', isNew);
         try {
             if (isNew) {
                 const fundingOptions = JSON.parse(parseQuery(location.search).fundingOptions || 'null')
@@ -66,7 +64,7 @@ const SetupLedger = (props) => {
     }
 
     return (
-        <Theme>
+        <Container className='small-centered ledger-theme'>
             {props.requestStatus && !props.requestStatus.success &&
                 <GlobalAlert 
                     globalAlert={{
@@ -77,8 +75,10 @@ const SetupLedger = (props) => {
             }
             <h1><Translate id='setupLedger.header'/></h1>
             <LedgerIcon/>
-            <p><Translate id='setupLedger.one'/></p>
-            <p><Translate id='setupLedger.two'/> <span className='link underline' onClick={toggleShowInstructions}><Translate id='setupLedger.twoLink'/></span>.</p>
+            <h2>
+                <Translate id='setupLedger.one'/>
+                &nbsp;<Translate id='setupLedger.two'/> <span className='link underline' onClick={toggleShowInstructions}><Translate id='setupLedger.twoLink'/></span>.
+            </h2>
             <FormButton onClick={handleClick} sending={props.formLoader} sendingString='connecting'>
                 <Translate id={`button.${connect !== 'fail' ? 'continue' : 'retry'}`}/>
             </FormButton>
@@ -86,7 +86,7 @@ const SetupLedger = (props) => {
             {showInstructions && 
                 <InstructionsModal open={showInstructions} onClose={toggleShowInstructions}/>
             }
-        </Theme>
+        </Container>
     );
 }
 

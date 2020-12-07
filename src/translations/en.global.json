@@ -215,6 +215,10 @@
             "desc": "Keep in mind that transactions won't have to be confirmed with 2FA once it's disabled.",
             "disable": "Disable 2FA",
             "keep": "No, keep 2FA"
+        },
+        "alertBanner": {
+            "title": "When enabled, <b>${data} NEAR</b> will be locked to cover the contract storage costs of two-factor authentication.",
+            "button": "Learn More"
         }
     },
 
