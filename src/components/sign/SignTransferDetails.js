@@ -47,6 +47,7 @@ const CustomGrid = styled(Grid)`
                     display: flex;
                     align-items: center;
                     padding-top: 4px;
+                    word-break: break-all;
 
                     .icon {
                         margin-right: 10px;
@@ -177,9 +178,14 @@ const ActionWarrning = ({ actionKind, action }) => (
         {actionKind === 'functionCall' && (
             !!action?.args?.length
                 ? (
-                    <>
-                        <Translate id='arguments' />: {(Buffer.from(action.args).toString())}
-                    </>
+                    <pre>
+                        <Translate id='arguments' />:&nbsp;
+                        {JSON.stringify(
+                            JSON.parse(
+                                Buffer.from(action.args).toString()
+                            )
+                        , null, 2)}
+                    </pre>
                 )
                 : (
                     <>
