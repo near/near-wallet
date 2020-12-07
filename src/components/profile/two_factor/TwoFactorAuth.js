@@ -102,9 +102,7 @@ const TwoFactorAuth = ({ twoFactor, history }) => {
                             <div>{twoFactor.detail}</div>
                         </div>
                         {
-                            // TODO enable after verification of 2FA keys
-                            false && 
-                            <FormButton onClick={() => setConfirmDisable(true)} className='gray-red'><Translate id='button.disable'/></FormButton>
+                            false && <FormButton onClick={() => setConfirmDisable(true)} className='gray-red'><Translate id='button.disable'/></FormButton>
                         }
                     </div>
                     <div className='bottom'>
@@ -115,8 +113,6 @@ const TwoFactorAuth = ({ twoFactor, history }) => {
                 </div>
             }
             {
-            // TODO enable after verification of 2FA keys
-            false &&
             twoFactor && !loading && confirmDisable &&
                 <ConfirmDisable 
                     onConfirmDisable={handleConfirmDisable} 

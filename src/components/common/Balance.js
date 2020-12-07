@@ -37,13 +37,15 @@ const Balance = ({ amount, symbol, className }) => {
 }
 
 export const formatNEAR = (amount) => {
-    let ret = utils.format.formatNearAmount(amount.toString(), FRAC_DIGITS)
+    amount = amount.toString();
     if (amount === '0') {
         return amount;
-    } else if (ret === '0') {
+    }
+    let formattedAmount = utils.format.formatNearAmount(amount, FRAC_DIGITS);
+    if (formattedAmount === '0') {
         return `<${!FRAC_DIGITS ? `0` : `0.${'0'.repeat((FRAC_DIGITS || 1) - 1)}1`}`;
     }
-    return ret;
+    return formattedAmount;
 }
 
 const showInYocto = (amountStr) => {

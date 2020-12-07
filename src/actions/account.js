@@ -90,7 +90,7 @@ const checkContractId = () => async (dispatch, getState) => {
         }
 
         try {
-            await wallet.getAccount(contract_id).state()
+            await (await wallet.getAccount(contract_id)).state()
         } catch(error) {
             if (error.message.indexOf('does not exist while viewing') !== -1) {
                 redirectIncorrectContractId()
@@ -199,11 +199,11 @@ export const {
         () => defaultCodesFor('account.initTwoFactor')
     ],
     REINIT_TWO_FACTOR: [
-        (...args) => wallet.twoFactor.reInitTwoFactor(...args),
+        (...args) => wallet.twoFactor.initTwoFactor(...args),
         () => defaultCodesFor('account.reInitTwoFactor')
     ],
     RESEND_TWO_FACTOR: [
-        (...args) => wallet.twoFactor.resend(...args),
+        () => wallet.twoFactor.sendCode(),
         () => defaultCodesFor('account.resendTwoFactor')
     ],
     VERIFY_TWO_FACTOR: [
@@ -446,7 +446,7 @@ export const { switchAccount, refreshAccount, refreshAccountExternal, refreshUrl
     ],
     REFRESH_ACCOUNT_EXTERNAL: [
         async (accountId) => ({
-            ...await wallet.getAccount(accountId).state(),
+            ...await (await wallet.getAccount(accountId)).state(),
             balance: await wallet.getBalance(accountId)
         }),
         accountId => ({ accountId })
