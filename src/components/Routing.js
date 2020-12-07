@@ -44,7 +44,7 @@ import { AddNodeWithRouter } from './node-staking/AddNode'
 import { NodeDetailsWithRouter } from './node-staking/NodeDetails'
 import { StakingContainer } from './staking/StakingContainer'
 import { DISABLE_SEND_MONEY, WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS } from '../utils/wallet'
-import { refreshAccount, handleRefreshUrl, clearAlert, clear, handleRedirectUrl, handleClearUrl, promptTwoFactor } from '../actions/account'
+import { refreshAccount, handleRefreshUrl, clear, handleRedirectUrl, handleClearUrl, promptTwoFactor } from '../actions/account'
 import LedgerConfirmActionModal from './accounts/ledger/LedgerConfirmActionModal';
 
 import GlobalStyle from './GlobalStyle'
@@ -108,9 +108,12 @@ class Routing extends Component {
 
     componentDidMount = async () => {
         const { 
-            refreshAccount, handleRefreshUrl,
-            history, clearAlert,
-            clear, handleRedirectUrl, handleClearUrl
+            refreshAccount, 
+            handleRefreshUrl,
+            history,
+            clear, 
+            handleRedirectUrl, 
+            handleClearUrl
         } = this.props
         
         handleRefreshUrl()
@@ -340,7 +343,6 @@ Routing.propTypes = {
 const mapDispatchToProps = {
     refreshAccount,
     handleRefreshUrl,
-    clearAlert,
     clear,
     handleRedirectUrl,
     handleClearUrl,
