@@ -59,37 +59,6 @@ const loaderReducer = (state, { type, ready }) => {
     }
 }
 
-const globalAlertReducer = handleActions({
-    // TODO: Reset state before action somehow. On navigate / start of other action?
-    // TODO: Make this generic to avoid listing actions
-    [combineActions(
-        createAccountWithSeedPhrase,
-        stake,
-        unstake,
-        withdraw,
-        getLedgerAccountIds
-    )]: (state, { error, ready, payload, meta }) => ({
-        ...state,
-        globalAlert: ready ? {
-            success: !error,
-            errorMessage: (error && payload && payload.toString()) || undefined,
-            messageCode: error ? (payload.type && `errors.type.${payload.type}`) || payload.messageCode || meta.errorCode || payload.id : meta.successCode,
-            data: {
-                ...meta.data,
-                ...payload
-            }
-        } : undefined
-    }),
-    [addLedgerAccountId]: (state, { error, ready, payload, meta }) => ({
-        ...state,
-        globalAlert: (ready && error && payload?.name !== 'TransportStatusError') ? {
-            success: !error,
-            errorMessage: payload.toString(),
-            messageCode: 'signInLedger.addLedgerAccountId.errorRpc',
-        } : state.globalAlert
-    })
-}, initialState)
-
 const requestResultReducer = (state, { error, ready, payload, meta }) => {
     if (!meta || !meta.successCode) {
         return state
