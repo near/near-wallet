@@ -405,7 +405,7 @@ export const createAccountFromImplicit = createAction('CREATE_ACCOUNT_FROM_IMPLI
     await wallet.createNewAccount(accountId, { fundingAccountId: implicitAccountId }, recoveryMethod, publicKey)
 })
 
-export const { addAccessKey, createAccountWithSeedPhrase, addAccessKeySeedPhrase, clearAlert } = createActions({
+export const { addAccessKey, createAccountWithSeedPhrase, addAccessKeySeedPhrase } = createActions({
     ADD_ACCESS_KEY: [
         wallet.addAccessKey.bind(wallet),
         (title) => showAlert({ title })
@@ -433,8 +433,7 @@ export const { addAccessKey, createAccountWithSeedPhrase, addAccessKeySeedPhrase
             }
         },
         () => showAlert()
-    ],
-    CLEAR_ALERT: null,
+    ]
 })
 
 export const { recoverAccountSeedPhrase } = createActions({
