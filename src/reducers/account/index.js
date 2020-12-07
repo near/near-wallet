@@ -10,7 +10,6 @@ import {
     addAccessKey,
     addAccessKeySeedPhrase,
     promptTwoFactor,
-    clearAlert,
     refreshUrl,
     refreshAccount,
     resetAccounts,
@@ -81,7 +80,6 @@ const globalAlertReducer = handleActions({
             }
         } : undefined
     }),
-    [clearAlert]: state => Object.keys(state).reduce((obj, key) => key !== 'globalAlert' ? (obj[key] = state[key], obj) : obj, {}),
     [addLedgerAccountId]: (state, { error, ready, payload, meta }) => ({
         ...state,
         globalAlert: (ready && error && payload?.name !== 'TransportStatusError') ? {
