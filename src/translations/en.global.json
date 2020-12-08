@@ -622,7 +622,7 @@
                 "availableBalance": "Available to stake",
                 "near": "NEAR"
             },
-            "ledgerDisclaimer": "Note: If this is your first time staking with this validator, you will need to confirm two transactions",
+            "ledgerDisclaimer": "Note: Since this is your first time staking with this validator, you will need to confirm two transactions.",
             "useMax": "Use max",
             "with": "with",
             "from": "from",
