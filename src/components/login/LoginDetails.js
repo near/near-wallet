@@ -92,10 +92,10 @@ const CustomGrid = styled(Grid)`
 class LoginDetails extends Component {
 
     componentDidMount = () => {
-        const { contractId } = this.props
+        const { contractId, accountConfirmationForm, showCustomAlert } = this.props
 
-        if (!contractId) {
-            this.props.showCustomAlert({
+        if (!contractId || (contractId && (accountConfirmationForm))) {
+            showCustomAlert({
                 success: false,
                 messageCodeHeader: 'warning',
                 messageCode: 'account.login.details.warning'
@@ -120,16 +120,6 @@ class LoginDetails extends Component {
                         </div>
                         {contractId && (accountConfirmationForm ? (
                             <div className='details'>
-                                <div className='details-item alert'>
-                                    <GlobalAlert 
-                                        globalAlert={{
-                                            success: false,
-                                            messageCodeHeader: 'warning',
-                                            messageCode: 'account.login.details.warning'
-                                        }}
-                                        closeIcon={false}
-                                    />
-                                </div>
                                 <div className='details-item'>
                                     <div className='title h3'>
                                         <Translate>
