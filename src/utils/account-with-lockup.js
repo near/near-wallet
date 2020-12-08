@@ -114,14 +114,21 @@ async function getAccountBalance() {
         const unreleasedAmount = releaseDurationBN.eq(new BN(0))
             ? new BN(0)
             : new BN(lockupAmount).mul(timeLeft).div(releaseDurationBN)
+
+        let totalBalance = new BN(lockupBalance.total)
+        let stakedBalance = new BN(0)
+        const stakingPoolAccountId = await this.wrappedAccount.viewFunction(lockupAccountId, 'get_staking_pool_account_id');
+        if (stakingPoolAccountId) {
+            stakedBalance = new BN(await this.wrappedAccount.viewFunction(stakingPoolAccountId,
+                'get_account_total_balance', { account_id: lockupAccountId }))
+            totalBalance = totalBalance.add(stakedBalance)
+        }
         const ownersBalance = timeLeft.eq(new BN(0))
-            ? lockupBalance.total
-            : new BN(lockupBalance.total).sub(BN.max(unreleasedAmount, LOCKUP_MIN_BALANCE))
+            ? totalBalance
+            : totalBalance.sub(BN.max(unreleasedAmount, LOCKUP_MIN_BALANCE))
 
-        const lockedAmount = new BN(lockupBalance.total).sub(new BN(ownersBalance))
-
-        // TODO: Should query staking pool for staked and subtract
-        const liquidOwnersBalance = ownersBalance
+        const lockedAmount = totalBalance.sub(ownersBalance)
+        const liquidOwnersBalance = BN.max(new BN(0), ownersBalance.sub(stakedBalance))
 
         const available = BN.max(new BN(0), new BN(balance.available).add(new BN(liquidOwnersBalance)).sub(new BN(MIN_BALANCE_FOR_GAS)))
         return {
