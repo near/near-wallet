@@ -14,7 +14,7 @@ export function Profile({ match }) {
     const { has2fa } = useSelector(({ account }) => account)
     const loginAccountId = useSelector(state => state.account.accountId)
     const recoveryMethods = useSelector(({ recoveryMethods }) => recoveryMethods);
-    const accountId = match.params.accountId || loginAccountId
+    const accountId = match.params.accountId.toLowerCase() || loginAccountId
     const isOwner = accountId === loginAccountId
     const account = useAccount(accountId)
     const dispatch = useDispatch();
