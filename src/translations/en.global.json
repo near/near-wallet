@@ -744,6 +744,7 @@
         },
         "ActionWarrning": {
             "functionCall": "No description specified for this function.",
+            "binaryData": "Arguments contain binary data",
             "deployContract": "You are about to deploy a contract to your account! This contract can access your NEAR balance, and interact with other contracts on your behalf.",
             "stake": "You are about to stake NEAR tokens. These tokens will be locked, and are at risk of being lost if your validator becomes unresponsive.",
             "deleteAccount": "You are about to delete your account! Your NEAR balance will be destroyed, and all of your account data deleted."
