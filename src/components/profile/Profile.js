@@ -8,9 +8,9 @@ import RecoveryContainer from './Recovery/RecoveryContainer'
 import HardwareDevices from './hardware_devices/HardwareDevices'
 import TwoFactorAuth from './two_factor/TwoFactorAuth'
 import { LOADING, NOT_FOUND, useAccount } from '../../hooks/allAccounts'
-import { getLedgerKey, checkCanEnableTwoFactor, getAccessKeys } from '../../actions/account';
+import { getLedgerKey, checkCanEnableTwoFactor, getAccessKeys, redirectTo } from '../../actions/account';
 
-export function Profile({ match, history }) {
+export function Profile({ match }) {
     const { has2fa } = useSelector(({ account }) => account)
     const loginAccountId = useSelector(state => state.account.accountId)
     const recoveryMethods = useSelector(({ recoveryMethods }) => recoveryMethods);
@@ -24,7 +24,7 @@ export function Profile({ match, history }) {
     useEffect(() => {
 
         if (accountIdFromUrl && accountIdFromUrl !== accountIdFromUrl.toLowerCase()) {
-            history.push(`/profile/${accountIdFromUrl.toLowerCase()}`)
+            dispatch(redirectTo(`/profile/${accountIdFromUrl.toLowerCase()}`))
         }
 
         if (isOwner) {
