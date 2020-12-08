@@ -176,17 +176,23 @@ const ActionMessage = ({ transaction, action, actionKind }) => (
 const ActionWarrning = ({ actionKind, action }) => (
     <Fragment>
         {actionKind === 'functionCall' && (
-            !!action?.args?.length
-                ? (
-                    <pre>
-                        <Translate id='arguments' />:&nbsp;
-                        {JSON.stringify(
-                            JSON.parse(
-                                Buffer.from(action.args).toString()
-                            )
-                        , null, 2)}
-                    </pre>
-                )
+            action.args
+                ? Array.isArray(action.args)
+                    ? (
+                        <pre>
+                            <Translate id='arguments' />:&nbsp;
+                            {JSON.stringify(
+                                JSON.parse(
+                                    Buffer.from(action.args).toString()
+                                )
+                            , null, 2)}
+                        </pre>
+                    ) : (
+                        <>
+                            <div className='icon'><IconProblems color='#999' /></div>
+                            <Translate id='sign.ActionWarrning.binaryData' />
+                        </>
+                    )
                 : (
                     <>
                         <div className='icon'><IconProblems color='#999' /></div>
