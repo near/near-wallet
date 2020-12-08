@@ -8,7 +8,6 @@ import {
 
 const initialState = {
     mainLoader: false,
-    actionsPending: [],
     actionStatus: {},
     globalAlert: {},
     localAlert: {}
@@ -19,7 +18,9 @@ const alertReducer = (state, { error, ready, payload, meta, type }) => {
         ...state.actionStatus,
         [type]: {
             success: typeof ready === 'undefined' 
-                ? !error
+                ? typeof payload?.success === 'undefined' 
+                    ? !error
+                    : meta.alert.success
                 : (ready ? !error : undefined),
             pending: typeof ready === 'undefined' 
                 ? undefined 
@@ -41,7 +42,9 @@ const alertReducer = (state, { error, ready, payload, meta, type }) => {
             ...state.globalAlert,
             [type]: (meta?.alert?.showAlert || payload?.data?.showAlert)
                 ? {
-                    show: ready && ((meta?.alert?.onlyError && error) || (meta?.alert?.onlySuccess && !error)),
+                    show: typeof ready === 'undefined'
+                        ? true
+                        : ready && ((meta?.alert?.onlyError && error) || (meta?.alert?.onlySuccess && !error)),
                     messageCodeHeader: meta?.alert?.messageCodeHeader
                         ? `alert.${type}.${meta.alert.messageCodeHeader}`
                         : undefined,
