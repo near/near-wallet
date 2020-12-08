@@ -177,16 +177,6 @@ class LoginDetails extends Component {
                         ))}
                         {!contractId && (
                             <div className='details'>
-                                <div className='details-item alert'>
-                                    <GlobalAlert 
-                                        globalAlert={{
-                                            success: false,
-                                            messageCodeHeader: 'warning',
-                                            messageCode: 'account.login.details.warning'
-                                        }}
-                                        closeIcon={false}
-                                    />
-                                </div>
                                 <div className='details-item'>
                                     <div className='title h3'>
                                         <Translate>
