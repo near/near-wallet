@@ -26,8 +26,8 @@
             "error": "An error has occurred.<br />The seed phrase was not added to your account. Please try again."
         },
         "available": {
-            "success": "User found.",
-            "error": "User not found.",
+            "success": "User found!",
+            "error": "User not found!",
             "errorSameAccount": "Cannot send to yourself.",
             "implicitAccount": "Always double check the account ID",
             "implicitAccountModal": "Please double check the account ID, especially if this is an exchange account. If the account ID is entered incorrectly, your funds will be lost forever."
@@ -316,7 +316,8 @@
         "dismiss": "Dismiss",
         "cancelOperation": "Cancel Operation",
         "subscribe": "Subscribe",
-        "Close": "Close"
+        "Close": "Close",
+        "edit": "Edit"
     },
 
     "link": {
@@ -340,7 +341,7 @@
         "accountId": {
             "title": "Account ID",
             "placeholder": "e.g. johndoe.near",
-            "subLabel": "Your account ID must include a Top Level Account such as <b>.near</b> or contain exactly 64 characters."
+            "subLabel": "The account ID must include a Top Level Account such as <b>.near</b> or contain exactly 64 characters."
         }
     },
 
@@ -618,15 +619,18 @@
             "button": "Submit Stake",
             "confirm": "You are staking",
             "input": {
-                "insufficientFunds": "Insufficient funds.",
-                "availableBalance": "Available balance:",
+                "availableBalance": "Available to stake",
                 "near": "NEAR"
             },
             "ledgerDisclaimer": "Note: If this is your first time staking with this validator, you will need to confirm two transactions",
             "useMax": "Use max",
             "with": "with",
             "from": "from",
-            "accounts": "If you have locked NEAR, you can choose to stake with either your locked NEAR (lockup.near), or your unlocked NEAR (your account name). You will only see the staking positions for the selected account. If you do not have locked NEAR, you can ignore this section"
+            "accounts": "If you have locked NEAR, you can choose to stake with either your locked NEAR (lockup.near), or your unlocked NEAR (your account name). You will only see the staking positions for the selected account. If you do not have locked NEAR, you can ignore this section",
+            "banner": {
+                "stakeMax": "A small portion (${data} NEAR) of your available balance has been reserved to cover transaction fees.",
+                "insufficientBalance": "You are attempting to stake your entire available balance. At least <b>${data} NEAR</b> must be reserved to cover transaction fees."
+            }
         },
         "unstake": {
             "title": "Unstake Tokens",
@@ -635,11 +639,9 @@
             "button": "Unstake Tokens",
             "confirm": "You are unstaking",
             "input": {
-                "insufficientFunds": "Not enough staked tokens.",
-                "availableBalance": "Available to unstake:",
+                "availableBalance": "Available to unstake",
                 "near": "NEAR"
             },
-            "ledgerDisclaimer": "Note: If this is your first time staking with this validator, you will need to confirm two transactions",
             "beforeUnstakeDisclaimer": "Unstaked tokens will be made available pending a release period of ~36-48hrs (3 epochs)."
         },
         "stakeSuccess": {
@@ -687,6 +689,10 @@
             "title": "You are not currently staking with any validators."
         }
     },
+    "balanceBreakdown": {
+        "available": "Available balance",
+        "reserved": "Reserved for fees"
+    },
     "profile": {
         "pageTitle": {
             "loading": "Loading...",
@@ -715,16 +721,31 @@
     },
 
     "sendMoney": {
-        "pageTitle": {
-            "success": "Success!",
-            "default": "Send"
+        "title": {
+            "default": "Send",
+            "success": "Success!"
         },
-        "accountIdInput": {
-            "title": "Account ID to send to:"
+        "subtitle": {
+            "default": "Enter the amount of NEAR to send, and the account ID to send it to.",
+            "success": "You successfully sent NEAR"
+        },
+        "amount": {
+            "available": "Available to send"
+        },
+        "confirmModal": {
+            "title": "Confirm transaction"
+        },
+        "account": {
+            "title": "Send to"
+        },
+        "button": {
+            "send": "Submit",
+            "confirm": "Confirm & Send",
+            "dashboard": "Go to dashboard"
         },
         "amountStatusId": {
             "noMoreThan": "NO MORE THAN 5 DECIMAL DIGITS",
-            "notEnoughTokens": "Not enough tokens.",
+            "notEnoughTokens": "You must leave at least ${amount} NEAR in your account",
             "howMuch": "How much do you want to send?",
             "available": "Available Balance:",
             "sending": "Sending:"
@@ -732,7 +753,11 @@
         "youAreSending": "You are sending",
         "to": "to",
         "onceConfirmed": "Once confirmed, this cannot be undone.",
-        "wasSentTo": "was sent to:"
+        "wasSentTo": "was sent to:",
+        "banner": {
+            "useMax": "A small portion (${data} NEAR) of your available balance has been reserved to cover transaction fees.",
+            "insufficient": "You are attempting to send your entire available balance. At least <b>${data} NEAR</b> must be reserved to cover transaction fees."
+        }
     },
 
     "sign": {
@@ -768,6 +793,7 @@
     },
 
     "availableBalanceInfo": "”Available Balance” is your spendable NEAR balance. This will be lower than your Total Balance. To view a complete breakdown of your NEAR balance, visit your Profile.",
+    "reservedForFeesInfo": "A minimum amount of NEAR is reserved to cover the cost of transactions.",
     "availableBalanceProfile": "This is your spendable NEAR balance, and can be used or transferred immediately. This will be lower than your Total Balance.",
     "minimumBalance": "This is the minimum NEAR balance your account must maintain to remain active. This balance represents the storage space your account is using on the NEAR blockchain (with a small buffer), and will go up or down as you use more or less space.",
     "totalBalance": "Your total balance represents all NEAR tokens under your control. In many cases, you will not have immediate access to this entire balance (e.g. if it is locked, delegated, or staked). Check your Available Balance for the NEAR you can actively use, transfer, delegate, and stake.",
