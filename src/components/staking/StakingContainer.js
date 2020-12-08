@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { updateStaking, switchAccount, stake, unstake, withdraw } from '../../actions/staking'
+import { clearAlert } from '../../actions/account';
 import styled from 'styled-components'
 import Container from '../common/styled/Container.css'
 import { Switch, Route } from 'react-router-dom'
@@ -29,6 +30,7 @@ const StyledContainer = styled(Container)`
         text-align: center;
         line-height: 150% !important;
         margin: 25px 0;
+        font-size: 16px;
     }
 
     input {
@@ -58,11 +60,6 @@ const StyledContainer = styled(Container)`
         margin: 30px 0 15px 0;
     }
 
-    .arrow-circle {
-        display: block;
-        margin: 50px auto 20px auto;
-    }
-
     .transfer-money-icon {
         display block;
         margin: 50px auto;
@@ -88,7 +85,8 @@ const StyledContainer = styled(Container)`
         }
     }
 
-    .amount-header-wrapper {
+    .amount-header-wrapper,
+    .validator-header-wrapper  {
         display: flex;
         align-items: center;
         justify-content: space-between;
@@ -171,6 +169,7 @@ export function StakingContainer({ history, match }) {
         } else if (action === 'unstake') {
             await dispatch(unstake(currentAccount.accountId, selectedValidator || validator, amount))
         }
+        await dispatch(clearAlert())
         await dispatch(updateStaking(currentAccount.accountId, [validator]))
     }
 
@@ -238,6 +237,7 @@ export function StakingContainer({ history, match }) {
                                 loading={formLoader}
                                 hasLedger={hasLedger}
                                 has2fa={has2fa}
+                                stakeFromAccount={currentAccount.accountId === accountId}
                             />
                         )}
                     />

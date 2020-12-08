@@ -90,7 +90,7 @@ const checkContractId = () => async (dispatch, getState) => {
         }
 
         try {
-            await wallet.getAccount(contract_id).state()
+            await (await wallet.getAccount(contract_id)).state()
         } catch(error) {
             if (error.message.indexOf('does not exist while viewing') !== -1) {
                 redirectIncorrectContractId()
@@ -446,7 +446,7 @@ export const { switchAccount, refreshAccount, refreshAccountExternal, refreshUrl
     ],
     REFRESH_ACCOUNT_EXTERNAL: [
         async (accountId) => ({
-            ...await wallet.getAccount(accountId).state(),
+            ...await (await wallet.getAccount(accountId)).state(),
             balance: await wallet.getBalance(accountId)
         }),
         accountId => ({ accountId })

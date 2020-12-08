@@ -13,7 +13,7 @@ export default function Validators({ validators }) {
     return (
         <>
             <h1><Translate id='staking.validators.title' /></h1>
-            <div className='desc'><Translate id='staking.validators.desc' /></div>
+            <h2><Translate id='staking.validators.desc' /></h2>
             <h4><Translate id='staking.validators.inputLabel' /></h4>
             <Translate>
                 {({ translate }) => (

@@ -3,7 +3,6 @@ import BN from 'bn.js'
 import { WalletError } from './walletError'
 import { getLockupAccountId } from './account-with-lockup'
 import { queryExplorer } from './explorer-api'
-import { MIN_BALANCE_FOR_GAS } from './wallet'
 
 const {
     transactions: {
@@ -196,16 +195,17 @@ export class Staking {
     async updateStakingAccount(recentlyStakedValidators = []) {
         const account_id = this.wallet.accountId
         await this.wallet.refreshAccount()
-        const account = this.wallet.getAccount(this.wallet.accountId)
+        const account = await this.wallet.getAccount(this.wallet.accountId)
         const balance = account.wrappedAccount ? await account.wrappedAccount.getAccountBalance() : await account.getAccountBalance()
 
         let { deposits, validators } = (await getStakingTransactions(account_id))
         validators = await this.getValidators([...new Set(validators.concat(recentlyStakedValidators))])
-        if (!validators.length || this.wallet.has2fa) {
+        if (!validators.length || await this.wallet.twoFactor.isEnabled()) {
+            console.log('checking all validators')
             validators = await this.getValidators()
         }
 
-        let totalUnstaked = new BN(balance.available, 10).sub(new BN(MIN_BALANCE_FOR_GAS))
+        let totalUnstaked = new BN(balance.available, 10)
         if (totalUnstaked.lt(new BN(STAKING_AMOUNT_DEVIATION, 10))) {
             totalUnstaked = ZERO.clone();
         }
@@ -490,14 +490,14 @@ export class Staking {
     async getContractInstance(contractId, methods) {
         try {
             await (await new nearApiJs.Account(this.wallet.connection, contractId)).state()
-            return await new nearApiJs.Contract(this.wallet.getAccount(), contractId, { ...methods })
+            return await new nearApiJs.Contract(await this.wallet.getAccount(), contractId, { ...methods })
         } catch (e) {
             throw new WalletError('No contract for account', 'staking.errors.noLockup')
         }
     }
 
     async signAndSendTransaction(receiverId, actions) {
-        return this.wallet.getAccount(this.wallet.accountId).signAndSendTransaction(receiverId, actions)
+        return (await this.wallet.getAccount(this.wallet.accountId)).signAndSendTransaction(receiverId, actions)
     }
 }
 
