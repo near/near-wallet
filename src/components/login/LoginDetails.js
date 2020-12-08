@@ -12,6 +12,8 @@ import { Grid } from 'semantic-ui-react'
 import styled from 'styled-components'
 import GlobalAlert from '../responsive/GlobalAlert'
 
+import { showCustomAlert } from '../../actions/status'
+
 const CustomGrid = styled(Grid)`
     .top-back {
         display: flex;
@@ -88,6 +90,19 @@ const CustomGrid = styled(Grid)`
 `
 
 class LoginDetails extends Component {
+
+    componentDidMount = () => {
+        const { contractId } = this.props
+
+        if (!contractId) {
+            this.props.showCustomAlert({
+                success: false,
+                messageCodeHeader: 'warning',
+                messageCode: 'account.login.details.warning'
+            })
+        }
+    }
+
     render() {
         const { contractId, transactions, fees, appTitle, accountConfirmationForm } = this.props
 
@@ -257,7 +272,9 @@ const ActionWarrning = ({ actionKind }) => (
     </Fragment>
 )
 
-const mapDispatchToProps = {}
+const mapDispatchToProps = {
+    showCustomAlert
+}
 
 const mapStateToProps = ({ transactions = [], account }) => {
     transactions = [
