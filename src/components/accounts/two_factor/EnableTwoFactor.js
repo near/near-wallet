@@ -4,8 +4,11 @@ import styled from 'styled-components';
 import { Translate } from 'react-localize-redux';
 import TwoFactorOption from './TwoFactorOption';
 import PhoneInput, { isValidPhoneNumber } from 'react-phone-number-input';
+import { utils } from 'near-api-js'
 import { validateEmail } from '../../../utils/account';
+import { MULTISIG_MIN_AMOUNT } from '../../../utils/wallet'
 import FormButton from '../../common/FormButton';
+import AlertBanner from '../../common/AlertBanner';
 import {
     initTwoFactor,
     verifyTwoFactor,
@@ -45,15 +48,13 @@ const StyledContainer = styled(Container)`
 export function EnableTwoFactor(props) {
 
     const dispatch = useDispatch();
-    const account = useSelector(({ account }) => account);
-    const accountId = account.accountId;
-
+    const { formLoader, accountId, has2fa } = useSelector(({ account }) => account);
     const [initiated, setInitiated] = useState(false);
     const [option, setOption] = useState('email');
     const [email, setEmail] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
     const recoveryMethods = useRecoveryMethods(accountId);
-    const loading = account.actionsPending.some(action => ['INIT_TWO_FACTOR', 'VERIFY_TWO_FACTOR', 'DEPLOY_MULTISIG'].includes(action))
+    const loading = formLoader
 
     onKeyDown(e => {
         if (e.keyCode === 13 && isValidInput() && !loading) {
@@ -121,6 +122,13 @@ export function EnableTwoFactor(props) {
     if (!initiated) {
         return (
             <StyledContainer className='small-centered'>
+                <AlertBanner
+                    title='twoFactor.alertBanner.title'
+                    data={MULTISIG_MIN_AMOUNT}
+                    button='twoFactor.alertBanner.button'
+                    theme='light-blue'
+                    linkTo='https://docs.near.org/docs/concepts/storage'
+                />
                 <form onSubmit={e => { handleNext(); e.preventDefault(); }}>
                     <h1><Translate id='twoFactor.enable' /></h1>
                     <h2><Translate id='twoFactor.subHeader' /></h2>
@@ -161,7 +169,7 @@ export function EnableTwoFactor(props) {
                     <FormButton
                         color='blue'
                         type='submit'
-                        disabled={!isValidInput() || loading}
+                        disabled={!isValidInput() || loading || has2fa}
                         sending={loading}
                     >
                         <Translate id={`button.continue`} />

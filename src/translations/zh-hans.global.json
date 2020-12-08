@@ -207,6 +207,10 @@
             "desc": "禁用两步验证后，交易将不再要求两步验证确认。",
             "disable": "禁用两步验证",
             "keep": "不，保留两步验证"
+        },
+        "alertBanner": {
+            "title": "When enabled, <b>${data} NEAR</b> will be locked to cover the contract storage costs of two-factor authentication.",
+            "button": "Learn More"
         }
     },
     "fullAccessKeys": {

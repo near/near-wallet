@@ -135,6 +135,13 @@
         "disableNo": "Нет, продолжить",
         "recoveryLinkSent": "Ссылка на восстановление отправлена!"
     },
+
+    "twoFactor": {
+        "alertBanner": {
+            "title": "When enabled, <b>${data} NEAR</b> will be locked to cover the contract storage costs of two-factor authentication.",
+            "button": "Learn More"
+        }
+    },
     
     "fullAccessKeys": {
         "pageTitle": "Ключи Полного Доступа",

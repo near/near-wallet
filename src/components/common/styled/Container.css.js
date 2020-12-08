@@ -27,11 +27,40 @@ const Container = styled.div`
         }
     }
 
-    .sub-title {
-        text-align: center;
+    .sub-title, h2 {
+        text-align: center !important;
         line-height: 150% !important;
         margin: 25px 0;
-        font-size: 16px;
+        font-size: 16px !important;
+        color: #999 !important;
+        font-weight: 400 !important;
+    }
+
+    &.ledger-theme {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        svg {
+            margin: 20px 0;
+        }
+
+        button {
+
+            &.link {
+                margin-top: 25px;
+            }
+
+            &.blue {
+                width: 100% !important;
+            }
+
+            &.remove-all-keys {
+                min-height: 48px;
+                height: auto;
+                line-height: 140%;
+            }
+        }
     }
 `
 
