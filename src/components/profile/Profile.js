@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react'
+import { Redirect } from 'react-router-dom';
 import { Translate } from 'react-localize-redux'
 import { useDispatch, useSelector } from 'react-redux'
 import PageContainer from '../common/PageContainer';
@@ -14,13 +15,19 @@ export function Profile({ match }) {
     const { has2fa } = useSelector(({ account }) => account)
     const loginAccountId = useSelector(state => state.account.accountId)
     const recoveryMethods = useSelector(({ recoveryMethods }) => recoveryMethods);
-    const accountId = match.params.accountId.toLowerCase() || loginAccountId
+    const accountIdFromUrl = match.params.accountId
+    const accountId = accountIdFromUrl || loginAccountId
     const isOwner = accountId === loginAccountId
     const account = useAccount(accountId)
     const dispatch = useDispatch();
     const twoFactor = has2fa && recoveryMethods[account.accountId] && recoveryMethods[account.accountId].filter(m => m.kind.includes('2fa'))[0]
 
-    useEffect(() => { 
+    useEffect(() => {
+
+        if (accountIdFromUrl && accountIdFromUrl !== accountIdFromUrl.toLowerCase()) {
+            return <Redirect to={`/profile/${accountIdFromUrl.toLowerCase()}`} />
+        }
+
         if (isOwner) {
             dispatch(getAccessKeys(accountId))
             dispatch(getLedgerKey())
