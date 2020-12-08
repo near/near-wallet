@@ -3,8 +3,16 @@ import { withRouter, Route } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { Translate } from 'react-localize-redux'
 import { parse as parseQuery } from 'query-string'
-
-import { redirectToApp, handleAddAccessKeySeedPhrase, clearAlert, refreshAccount, checkCanEnableTwoFactor, checkIsNew, handleCreateAccountWithSeedPhrase } from '../../actions/account'
+import { 
+    redirectToApp, 
+    handleAddAccessKeySeedPhrase, 
+    clearAlert, 
+    refreshAccount, 
+    checkCanEnableTwoFactor, 
+    checkIsNew, 
+    handleCreateAccountWithSeedPhrase,
+    loadRecoveryMethods
+} from '../../actions/account'
 import { generateSeedPhrase } from 'near-seed-phrase'
 import SetupSeedPhraseVerify from './SetupSeedPhraseVerify'
 import SetupSeedPhraseForm from './SetupSeedPhraseForm'
@@ -24,6 +32,10 @@ class SetupSeedPhrase extends Component {
 
     componentDidMount = () => {
         this.refreshData()
+
+        if (this.props.accountId === this.props.activeAccountId) {
+            this.props.loadRecoveryMethods()
+        }
     }
 
     refreshData = () => {
@@ -117,6 +129,8 @@ class SetupSeedPhrase extends Component {
     }
 
     render() {
+        const recoveryMethods = this.props.recoveryMethods[this.props.activeAccountId]
+        const hasSeedPhraseRecovery = recoveryMethods && recoveryMethods.filter(m => m.kind === 'phrase').length > 0
         return (
             <Translate>
                 {({ translate }) => (
@@ -131,6 +145,7 @@ class SetupSeedPhrase extends Component {
                                     <SetupSeedPhraseForm
                                         seedPhrase={this.state.seedPhrase}
                                         handleCopyPhrase={this.handleCopyPhrase}
+                                        hasSeedPhraseRecovery={hasSeedPhraseRecovery}
                                     />
                                 </Container>
                             )}
@@ -176,13 +191,16 @@ const mapDispatchToProps = {
     refreshAccount,
     checkCanEnableTwoFactor,
     checkIsNew,
-    handleCreateAccountWithSeedPhrase
+    handleCreateAccountWithSeedPhrase,
+    loadRecoveryMethods
 }
 
-const mapStateToProps = ({ account }, { match }) => ({
+const mapStateToProps = ({ account, recoveryMethods }, { match }) => ({
     ...account,
     verify: match.params.verify,
     accountId: match.params.accountId,
+    activeAccountId: account.accountId,
+    recoveryMethods
 })
 
 export const SetupSeedPhraseWithRouter = connect(mapStateToProps, mapDispatchToProps)(withRouter(SetupSeedPhrase))
