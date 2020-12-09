@@ -3,6 +3,7 @@ import BN from 'bn.js'
 import { WalletError } from './walletError'
 import { getLockupAccountId } from './account-with-lockup'
 import { queryExplorer } from './explorer-api'
+import { ACCOUNT_HELPER_URL } from './wallet'
 
 const {
     transactions: {
@@ -229,16 +230,11 @@ export class Staking {
                     validatorDeposits = validatorDeposits.add(deposit)
                 })
                 let hasDeposits = validatorDeposits.gt(ZERO)
-                if (!hasDeposits) {
-                    // check localStorage for lastStakedBalance
-                    validatorDeposits = new BN(localStorage.getItem(STAKE_VALIDATOR_PREFIX + validator.accountId + account_id) || '0', 10)
-                    hasDeposits = validatorDeposits.gt(ZERO)
-                }
 
                 validator.staked = await validator.contract.get_account_staked_balance({ account_id })
-                validator.unclaimed = total.sub(validatorDeposits).toString()
+                validator.unclaimed = new BN(validator.staked).sub(validatorDeposits).toString()
                 validator.unstaked = new BN(await validator.contract.get_account_unstaked_balance({ account_id }), 10)
-                // DO NOT calc rewards if no deposits exist
+                
                 if (validator.unstaked.gt(MIN_DISPLAY_YOCTO)) {
                     const isAvailable = await validator.contract.is_account_unstaked_balance_available({ account_id })
                     if (isAvailable) {
@@ -502,47 +498,27 @@ export class Staking {
 }
 
 async function getStakingTransactions(accountId) {
-    const methods = ['stake', 'deposit_and_stake']
+    let stakingTxs = await fetch(ACCOUNT_HELPER_URL + '/staking-txs/' + accountId).then((r) => r.json()) 
+    stakingTxs = (Array.isArray(stakingTxs || []) ? stakingTxs : []).sort((a, b) => parseInt(a.ts) - parseInt(b.ts))
 
-    const sql = `
-        SELECT
-            transactions.hash, 
-            transactions.signer_id,
-            transactions.receiver_id,
-            transactions.block_timestamp, 
-            actions.action_type as kind, 
-            actions.action_args as args
-        FROM 
-            transactions
-        LEFT JOIN actions ON actions.transaction_hash = transactions.hash
-        WHERE 
-            transactions.signer_id = :accountId AND
-            actions.action_type = 'FunctionCall' AND
-            json_extract(actions.action_args, '$.method_name') in (:methods)
-        ORDER BY 
-            block_timestamp DESC
-        LIMIT 
-            :offset, :count
-    `
-
-    const params = {
-        accountId,
-        offset: 0,
-        count: 500,
-        methods
-    }
-
-    let tx = await queryExplorer(sql, params)
-    tx = Array.isArray(tx) ? tx : []
-    let validators = [], deposits = []
-    tx.forEach(({ receiver_id, args }) => {
-        validators.push(receiver_id)
-        const deposit = new BN(JSON.parse(args).deposit, 10)
-        if (deposit.gt(new BN('0'))) {
-            deposits.push({ accountId: receiver_id, deposit })
+    const validatorDepositMap = {}
+    stakingTxs.forEach(({ validator_id, amount, method_name }) => {
+        amount = new BN(amount)
+        let deposit = validatorDepositMap[validator_id] ? validatorDepositMap[validator_id] : ZERO.clone()
+        if (method_name.indexOf('unstake') > -1) {
+            if (amount.gt(ZERO)) {
+                deposit = deposit.sub(amount)
+            } else {
+                deposit = ZERO.clone()
+            }
+        } else {
+            deposit = deposit.add(amount)
         }
+        validatorDepositMap[validator_id] = deposit
     })
-    validators = [...new Set(validators)]
+    
+    const validators = Object.keys(validatorDepositMap)
+    const deposits = validators.map((accountId) => ({ accountId, deposit: validatorDepositMap[accountId] }))
 
     return { validators, deposits }
 }
