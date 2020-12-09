@@ -188,7 +188,13 @@ const GlobalAlertNew = ({ globalAlert, actionStatus, clearAlert, closeIcon = tru
                                     <Translate id={alert.messageCodeHeader || (alert.success ? 'success' : 'error')} />
                                 </Header>
 
-                                <Translate id={alert.messageCode} data={alert.data} options={{ onMissingTranslation }} />
+                                <Translate>
+                                    {({ translate }) => 
+                                        translate(alert.messageCode) === ''
+                                            ? <Translate id={`alert.default.${alert.success ? 'success' : 'error'}`} />
+                                            : <Translate id={alert.messageCode} data={alert.data} options={{ onMissingTranslation }} />
+                                    }
+                                </Translate>
 
                                 {alert.console && 
                                     <Console>
