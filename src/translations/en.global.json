@@ -54,6 +54,11 @@
             "error": "Access to one of the accounts was rejected. No accounts were recovered.<br>To continue, you must authorize read-only access to each account on your Ledger device. Please try again.",
             "errorRpc": "Error appears while recovering the account."
         },
+        "PROMPT_TWO_FACTOR": {
+            "userCancelled": "2FA code was not verified correctly.",
+            "invalidCode": "Invalid 2FA code. Please try again."
+        },
+
         "Deserialization": "",
         "RetriesExceeded": "Exceeded maximum attempts for this transaction.",
         "U2F_4": "Failed to sign with Ledger device: U2F DEVICE_INELIGIBLE. Please make sure that your Ledger device is connected and unlocked.",
@@ -994,10 +999,6 @@
         "recoveryMethods": {
             "lastMethod": "Cannot delete your last recovery method. Unless you have Ledger enabled, you need to keep at least one recovery method active to ensure recoverability of your account.",
             "setupMethod": "An error occured. Please check your recovery method."
-        },
-        "twoFactor": {
-            "userCancelled": "2FA code was not verified correctly.",
-            "invalidCode": "Invalid 2FA code. Please try again."
         }
     },
 
