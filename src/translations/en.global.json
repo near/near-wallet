@@ -18,7 +18,8 @@
         },
         "ADD_ACCESS_KEY_SEED_PHRASE": {
             "success": "Seed phrase recovery setup is complete.",
-            "error": "An error occurred while setting up seed phrase recovery. Please try again!"
+            "error": "An error occurred while setting up seed phrase recovery. Please try again!",
+            "errorSecond": "An error has occurred.<br />The seed phrase was not added to your account. Please try again."
         },
         "SETUP_RECOVERY_MESSAGE": {
             "success": "Recovery setup is complete.",
@@ -84,9 +85,6 @@
             "addAccessKey": {
                 "error": "An error has occurred.<br />To access your account, please enter the seed phrase from the previous step below."
             }
-        },
-        "addAccessKey": {
-            "error": "An error has occurred.<br />The seed phrase was not added to your account. Please try again."
         },
         "available": {
             "success": "User found!",
