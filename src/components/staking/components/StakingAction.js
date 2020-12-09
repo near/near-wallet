@@ -91,7 +91,7 @@ export default function StakingAction({
     const getStakeActionDisclaimer = () => {
         let disclaimer = ''
         if (stake) {
-            if ((hasLedger || has2fa) && !stakeFromAccount) {
+            if ((hasLedger || has2fa) && !stakeFromAccount && new BN(staked).isZero()) {
                 disclaimer = 'staking.stake.ledgerDisclaimer'
             }
         } else {
