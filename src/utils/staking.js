@@ -28,10 +28,10 @@ export const ACCOUNT_DEFAULTS = {
 export const STAKING_AMOUNT_DEVIATION = parseNearAmount('0.00001')
 
 const STAKE_VALIDATOR_PREFIX = '__SVPRE__'
-const ZERO = new BN('0', 10)
-const MIN_DISPLAY_YOCTO = new BN('100', 10);
-const EXPLORER_DELAY = 4000
-const MIN_LOCKUP_AMOUNT = new BN(process.env.MIN_LOCKUP_AMOUNT || parseNearAmount('35.00001'), 10)
+const ZERO = new BN('0')
+const MIN_DISPLAY_YOCTO = new BN('100');
+const EXPLORER_DELAY = 2000
+const MIN_LOCKUP_AMOUNT = new BN(process.env.MIN_LOCKUP_AMOUNT || parseNearAmount('35.00001'))
 const STAKING_GAS_BASE = process.env.REACT_APP_STAKING_GAS_BASE || '25000000000000' // 25 Tgas
 
 const stakingMethods = {
@@ -126,14 +126,14 @@ export class Staking {
         const { contract, lockupId: account_id } = await this.getLockup()
 
         // use MIN_LOCKUP_AMOUNT vs. actual storage amount
-        const deposited = new BN(await contract.get_known_deposited_balance(), 10)
-        let totalUnstaked = new BN(await contract.get_owners_balance(), 10)
-            .add(new BN(await contract.get_locked_amount(), 10))
+        const deposited = new BN(await contract.get_known_deposited_balance())
+        let totalUnstaked = new BN(await contract.get_owners_balance())
+            .add(new BN(await contract.get_locked_amount()))
             .sub(MIN_LOCKUP_AMOUNT)
             .sub(deposited)
 
         // minimum displayable for totalUnstaked 
-        if (totalUnstaked.lt(new BN(parseNearAmount('0.002'), 10))) {
+        if (totalUnstaked.lt(new BN(parseNearAmount('0.002')))) {
             totalUnstaked = ZERO.clone()
         }
 
@@ -152,14 +152,14 @@ export class Staking {
         let totalUnclaimed = ZERO.clone();
         let totalAvailable = ZERO.clone();
         let totalPending = ZERO.clone();
-        const minimumUnstaked = new BN('100', 10); // 100 yocto
+        const minimumUnstaked = new BN('100'); // 100 yocto
 
         try {
-            const total = new BN(await validator.contract.get_account_total_balance({ account_id }), 10)
+            const total = new BN(await validator.contract.get_account_total_balance({ account_id }))
             if (total.gt(ZERO)) {
                 validator.staked = await validator.contract.get_account_staked_balance({ account_id })
                 validator.unclaimed = total.sub(deposited).toString()
-                validator.unstaked = new BN(await validator.contract.get_account_unstaked_balance({ account_id }), 10)
+                validator.unstaked = new BN(await validator.contract.get_account_unstaked_balance({ account_id }))
                 if (validator.unstaked.gt(minimumUnstaked)) {
                     const isAvailable = await validator.contract.is_account_unstaked_balance_available({ account_id })
                     if (isAvailable) {
@@ -173,8 +173,8 @@ export class Staking {
             } else {
                 validator.remove = true
             }
-            totalStaked = totalStaked.add(new BN(validator.staked || ZERO.clone(), 10))
-            totalUnclaimed = totalUnclaimed.add(new BN(validator.unclaimed || ZERO.clone(), 10))
+            totalStaked = totalStaked.add(new BN(validator.staked || ZERO.clone()))
+            totalUnclaimed = totalUnclaimed.add(new BN(validator.unclaimed || ZERO.clone()))
         } catch (e) {
             if (e.message.indexOf('cannot find contract code') === -1) {
                 console.warn('Error getting data for validator', validator.accountId, e)
@@ -199,15 +199,21 @@ export class Staking {
         const account = await this.wallet.getAccount(this.wallet.accountId)
         const balance = account.wrappedAccount ? await account.wrappedAccount.getAccountBalance() : await account.getAccountBalance()
 
-        let { deposits, validators } = (await getStakingTransactions(account_id))
-        validators = await this.getValidators([...new Set(validators.concat(recentlyStakedValidators))])
-        if (!validators.length || await this.wallet.twoFactor.isEnabled()) {
+        const validatorDepositMap = await getStakingTransactions(account_id)
+
+        console.log(validatorDepositMap)
+
+        let validators = await this.getValidators([...new Set(Object.keys(validatorDepositMap).concat(recentlyStakedValidators))])
+
+        console.log(validators)
+
+        if (!validators.length) {
             console.log('checking all validators')
             validators = await this.getValidators()
         }
 
-        let totalUnstaked = new BN(balance.available, 10)
-        if (totalUnstaked.lt(new BN(STAKING_AMOUNT_DEVIATION, 10))) {
+        let totalUnstaked = new BN(balance.available)
+        if (totalUnstaked.lt(new BN(STAKING_AMOUNT_DEVIATION))) {
             totalUnstaked = ZERO.clone();
         }
         let totalStaked = ZERO.clone();
@@ -217,23 +223,20 @@ export class Staking {
 
         await Promise.all(validators.map(async (validator, i) => {
             try {
-                const total = new BN(await validator.contract.get_account_total_balance({ account_id }), 10)
+                const total = new BN(await validator.contract.get_account_total_balance({ account_id }))
                 if (total.lte(ZERO)) {
                     validator.remove = true
                     return
                 }
 
                 // try to get deposits from explorer
-                let validatorDeposits = ZERO.clone()
-                deposits.forEach(({ accountId, deposit }) => {
-                    if (validator.accountId !== accountId) return
-                    validatorDeposits = validatorDeposits.add(deposit)
-                })
-                let hasDeposits = validatorDeposits.gt(ZERO)
+                const deposit = validatorDepositMap[validator.accountId] || ZERO
+
+                console.log(validator.accountId, deposit.toString())
 
                 validator.staked = await validator.contract.get_account_staked_balance({ account_id })
-                validator.unclaimed = new BN(validator.staked).sub(validatorDeposits).toString()
-                validator.unstaked = new BN(await validator.contract.get_account_unstaked_balance({ account_id }), 10)
+                validator.unclaimed = new BN(validator.staked).sub(deposit).toString()
+                validator.unstaked = new BN(await validator.contract.get_account_unstaked_balance({ account_id }))
                 
                 if (validator.unstaked.gt(MIN_DISPLAY_YOCTO)) {
                     const isAvailable = await validator.contract.is_account_unstaked_balance_available({ account_id })
@@ -247,12 +250,12 @@ export class Staking {
                 }
 
                 // TODO fix rewards calcs above and remove conditions
-                if (!hasDeposits || new BN(validator.unclaimed, 10).lt(MIN_DISPLAY_YOCTO)) {
+                if (!deposit.gt(ZERO) || new BN(validator.unclaimed).lt(MIN_DISPLAY_YOCTO)) {
                     validator.unclaimed = ZERO.clone().toString()
                 }
 
-                totalStaked = totalStaked.add(new BN(validator.staked, 10))
-                totalUnclaimed = totalUnclaimed.add(new BN(validator.unclaimed, 10))
+                totalStaked = totalStaked.add(new BN(validator.staked))
+                totalUnclaimed = totalUnclaimed.add(new BN(validator.unclaimed))
             } catch (e) {
                 if (e.message.indexOf('cannot find contract code') === -1) {
                     console.warn('Error getting data for validator', validator.accountId, e)
@@ -517,8 +520,8 @@ async function getStakingTransactions(accountId) {
         validatorDepositMap[validator_id] = deposit
     })
     
-    const validators = Object.keys(validatorDepositMap)
-    const deposits = validators.map((accountId) => ({ accountId, deposit: validatorDepositMap[accountId] }))
+    // const validators = Object.keys(validatorDepositMap)
+    // const deposits = validators.map((accountId) => ({ accountId, deposit: validatorDepositMap[accountId] }))
 
-    return { validators, deposits }
+    return validatorDepositMap
 }

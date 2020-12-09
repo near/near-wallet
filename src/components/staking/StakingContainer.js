@@ -151,9 +151,9 @@ export function StakingContainer({ history, match }) {
     if (!validator) {
         validator = validators.filter(validator => validator.accountId === validatorId)[0]
     }
-    const { totalUnstaked, selectedValidator, totalStaked } = currentAccount
+    const { totalUnstaked, selectedValidator, totalStaked, totalUnclaimed } = currentAccount
 
-    const unableToCalcRewards = currentAccount.accountId === accountId && has2fa && !new BN(totalStaked).isZero()
+    const unableToCalcRewards = false && new BN(totalUnclaimed).isZero()
 
     useEffect(() => {
         dispatch(updateStaking())

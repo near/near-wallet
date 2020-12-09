@@ -24,6 +24,8 @@ export default function Staking({
     unableToCalcRewards
 }) {
 
+    console.log('totalUnclaimed', totalUnclaimed)
+
     return (
         <>
             <h1><Translate id='staking.staking.title' /></h1>
