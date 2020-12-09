@@ -43,7 +43,8 @@
         },
         "SIGN_AND_SEND_TRANSACTIONS": {
             "success": "",
-            "error": ""
+            "error": "",
+            "notEnoughTokens": "Not enough tokens."
         },
         "CREATE_ACCOUNT_WITH_SEED_PHRASE": {
             "success": "",
