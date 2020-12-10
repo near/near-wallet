@@ -32,8 +32,8 @@ export class TwoFactor extends Account2FA {
         this.__isEnabled = false
     }
 
-    async isEnabled() {
-        if (!this.accountId || !this.accountId.length) {
+    async isEnabled(accountId) {
+        if (this.accountId !== accountId || this.accountId !== this.wallet.accountId) {
             return false
         }
         this.__isEnabled = this.__isEnabled || MULTISIG_CONTRACT_HASHES.includes((await this.state()).code_hash)
