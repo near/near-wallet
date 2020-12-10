@@ -173,53 +173,58 @@ const ActionMessage = ({ transaction, action, actionKind }) => (
     </b>
 )
 
-const ActionWarrning = ({ actionKind, action }) => (
-    <Fragment>
-        {actionKind === 'functionCall' && (
-            action.args
-                ? Array.isArray(action.args)
-                    ? (
-                        <pre>
-                            <Translate id='arguments' />:&nbsp;
-                            {JSON.stringify(
-                                JSON.parse(
-                                    Buffer.from(action.args).toString()
-                                )
-                            , null, 2)}
-                        </pre>
-                    ) : (
-                        <>
-                            <div className='icon'><IconProblems color='#999' /></div>
-                            <Translate id='sign.ActionWarrning.binaryData' />
-                        </>
-                    )
-                : (
+const ActionWarrning = ({ actionKind, action }) => {
+    if (actionKind === 'functionCall' && Array.isArray(action.args)) {
+        try {
+            return (
+                <pre>
+                    <Translate id='arguments' />:&nbsp;
+                    {JSON.stringify(
+                        JSON.parse(
+                            Buffer.from(action.args).toString()
+                        )
+                    , null, 2)}
+                </pre>
+            )
+        } catch (error) {
+            return (
+                <>
+                    <div className='icon'><IconProblems color='#999' /></div>
+                    <Translate id='sign.ActionWarrning.binaryData' />
+                </>
+            )
+        }
+    } else {
+        return (
+            <>
+                {actionKind === 'functionCall' && (
                     <>
                         <div className='icon'><IconProblems color='#999' /></div>
                         <Translate id='sign.ActionWarrning.functionCall' />
                     </>
-                )
-        )}
-        {actionKind === 'deployContract' && (
-            <Fragment>
-                <div className='icon'><IconProblems color='#fca347' /></div>
-                <Translate id='sign.ActionWarrning.deployContract' />
-            </Fragment>
-        )}
-        {actionKind === 'stake' && (
-            <Fragment>
-                <div className='icon'><IconProblems color='#fca347' /></div>
-                <Translate id='sign.ActionWarrning.stake' />
-            </Fragment>
-        )}
-        {actionKind === 'deleteAccount' && (
-            <Fragment>
-                <div className='icon'><IconProblems color='#fca347' /></div>
-                <Translate id='sign.ActionWarrning.deleteAccount' />
-            </Fragment>
-        )}
-    </Fragment>
-)
+                )}
+                {actionKind === 'deployContract' && (
+                    <>
+                        <div className='icon'><IconProblems color='#fca347' /></div>
+                        <Translate id='sign.ActionWarrning.deployContract' />
+                    </>
+                )}
+                {actionKind === 'stake' && (
+                    <>
+                        <div className='icon'><IconProblems color='#fca347' /></div>
+                        <Translate id='sign.ActionWarrning.stake' />
+                    </>
+                )}
+                {actionKind === 'deleteAccount' && (
+                    <>
+                        <div className='icon'><IconProblems color='#fca347' /></div>
+                        <Translate id='sign.ActionWarrning.deleteAccount' />
+                    </>
+                )}
+            </>
+        )
+    }
+}
 
 const mapDispatchToProps = {}
 
