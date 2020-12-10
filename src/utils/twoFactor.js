@@ -41,7 +41,7 @@ export class TwoFactor extends Account2FA {
     }
 
     async get2faMethod() {
-        if (await this.isEnabled()) {
+        if (await this.isEnabled(this.accountId)) {
             return super.get2faMethod()
         }
         return null
