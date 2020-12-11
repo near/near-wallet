@@ -14,22 +14,22 @@ export const {
 } = createActions({
     SWITCH_ACCOUNT: [
         wallet.staking.switchAccount.bind(wallet.staking),
-        () => defaultCodesFor('staking.switchAccount')
+        () => ({})
     ],
     UPDATE_STAKING: [
         wallet.staking.updateStaking.bind(wallet.staking),
-        () => defaultCodesFor('staking.updateStaking')
+        () => ({})
     ],
     STAKE: [
         wallet.staking.stake.bind(wallet.staking),
-        () => defaultCodesFor('staking.stake')
+        () => ({})
     ],
     UNSTAKE: [
         wallet.staking.unstake.bind(wallet.staking),
-        () => defaultCodesFor('staking.unstake')
+        () => ({})
     ],
     WITHDRAW: [
         wallet.staking.withdraw.bind(wallet.staking),
-        () => defaultCodesFor('staking.withdraw')
+        () => ({})
     ],
 })
