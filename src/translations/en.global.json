@@ -73,11 +73,11 @@
         },
         "CHECK_IS_NEW": {
             "success": "Congrats! ${accountId} is available.",
-            "error": "Account ID is taken. Try something else.",
+            "error": "Account ID is taken. Try something else."
         },
         "CREATE_NEW_ACCOUNT": {
             "success": "Congrats! ${accountId} is available.",
-            "error": "Account ID is taken. Try something else.",
+            "error": "Account ID is taken. Try something else."
         },
 
         "Deserialization": "",
