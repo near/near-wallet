@@ -65,10 +65,10 @@ const SetupLedger = (props) => {
 
     return (
         <Container className='small-centered ledger-theme'>
-            {props.requestStatus && !props.requestStatus.success &&
+            {props.localAlert && !props.localAlert.success &&
                 <GlobalAlert 
                     globalAlert={{
-                        messageCode: `errors.ledger.${props.requestStatus.id}`
+                        messageCode: `errors.ledger.${props.localAlert.id}`
                     }}
                     closeIcon={false}
                 />
