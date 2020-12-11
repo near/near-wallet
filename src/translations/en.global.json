@@ -67,6 +67,10 @@
             "success": "",
             "error": "Public key access was rejected. No accounts were recovered.<br/>To continue, you must allow NEAR Wallet to view your public key. Please try again."
         },
+        "VERIFY_TWO_FACTOR": {
+            "success": "Two Factor Authentication successfully setup!",
+            "error": "Two Factor Authentication setup failed. Please try again."
+        },
 
         "Deserialization": "",
         "RetriesExceeded": "Exceeded maximum attempts for this transaction.",
