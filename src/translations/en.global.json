@@ -75,6 +75,10 @@
             "success": "Congrats! ${accountId} is available.",
             "error": "Account ID is taken. Try something else.",
         },
+        "CREATE_NEW_ACCOUNT": {
+            "success": "Congrats! ${accountId} is available.",
+            "error": "Account ID is taken. Try something else.",
+        },
 
         "Deserialization": "",
         "RetriesExceeded": "Exceeded maximum attempts for this transaction.",
@@ -96,8 +100,6 @@
             "errorInvalidSeedPhrase": "No accounts were found for this seed phrase."
         },
         "create": {
-            "success": "Congrats! ${accountId} is available.",
-            "error": "Account ID is taken. Try something else.",
             "errorInvalidAccountIdLength": "Account ID must be between 2 and 64 characters",
             "checkingAvailablity": {
                 "create": "Checking availability",
@@ -150,10 +152,6 @@
         "sendNewRecoveryLink": {
             "success": "Recovery link successfully sent!",
             "error": "Failed to resend. Please try again."
-        },
-        "verifyTwoFactor": {
-            "success": "Two Factor Authentication successfully setup!",
-            "error": "Two Factor Authentication setup failed. Please try again."
         },
         "login": {
             "details": {
