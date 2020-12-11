@@ -24,6 +24,7 @@ const TwoFactorVerifyModal = ({ open, onClose }) => {
     const [resendCode, setResendCode] = useState();
     const dispatch = useDispatch();
     const account = useSelector(({ account }) => account);
+    const status = useSelector(({ status }) => status);
     const loading = actionsPending('VERIFY_TWO_FACTOR');
 
     useEffect(() => {
@@ -82,6 +83,7 @@ const TwoFactorVerifyModal = ({ open, onClose }) => {
                     onChange={handleChange}
                     onResend={handleResendCode}
                     account={account}
+                    status={status}
                     resendCode={resendCode}
                 />
                 <FormButton type='submit' disabled={code.length !== 6 || loading} sending={loading}>
