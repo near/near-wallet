@@ -23,6 +23,7 @@ import {
 import { TwoFactor } from './twoFactor'
 import { Staking } from './staking'
 import { decorateWithLockup } from './account-with-lockup'
+import { MULTISIG_CHANGE_METHODS } from 'near-api-js/lib/account_multisig'
 
 export const WALLET_CREATE_NEW_ACCOUNT_URL = 'create'
 export const WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS = ['create', 'set-recovery', 'setup-seed-phrase', 'recover-account', 'recover-seed-phrase', 'sign-in-ledger']
@@ -439,7 +440,7 @@ class Wallet {
                 return await account.addKey(
                     publicKey.toString(),
                     contractId,
-                    methodNames,
+                    has2fa ? MULTISIG_CHANGE_METHODS : methodNames,
                     ACCESS_KEY_FUNDING_AMOUNT
                 )
             }
