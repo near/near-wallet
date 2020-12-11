@@ -61,7 +61,7 @@ class DashboardDetail extends Component {
             fullAccessKeys, 
             transactions,
             accountId, 
-            formLoader, 
+            mainLoader, 
             getTransactionStatus, 
             balance 
         } = this.props
@@ -98,7 +98,7 @@ class DashboardDetail extends Component {
                         to={`${EXPLORER_URL}/accounts/${accountId}`}
                         transactions={transactions}
                         accountId={accountId}
-                        formLoader={formLoader}
+                        mainLoader={mainLoader}
                         getTransactionStatus={getTransactionStatus}
                     />
                     <DashboardKeys
@@ -128,9 +128,10 @@ const mapDispatchToProps = {
     getTransactionStatus
 }
 
-const mapStateToProps = ({ account, transactions }) => ({
+const mapStateToProps = ({ account, transactions, status }) => ({
     ...account,
-    transactions: transactions[account.accountId] || []
+    transactions: transactions[account.accountId] || [],
+    mainLoader: status.mainLoader
 })
 
 export default connect(
