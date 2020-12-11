@@ -63,6 +63,10 @@
             "success": "User found.",
             "error": "User not found."
         },
+        "GET_LEDGER_ACCOUNT_IDS": {
+            "success": "",
+            "error": "Public key access was rejected. No accounts were recovered.<br/>To continue, you must allow NEAR Wallet to view your public key. Please try again."
+        },
 
         "Deserialization": "",
         "RetriesExceeded": "Exceeded maximum attempts for this transaction.",
@@ -958,8 +962,6 @@
         "header": "Sign in with your Ledger device",
         "one": "Make sure your ledger is connected securely, and that the NEAR app is open on the device.",
         "getLedgerAccountIds": {
-            "success": "",
-            "error": "Public key access was rejected. No accounts were recovered.<br/>To continue, you must allow NEAR Wallet to view your public key. Please try again.",
             "noAccounts": "No accounts were found for this Ledger device. Please confirm you have associated an account with this Ledger.",
             "noAccountsAccepted": "No accounts were accepted.",
             "aborted": "Action was aborted.",
