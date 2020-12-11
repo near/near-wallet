@@ -222,7 +222,7 @@ const PaginationShowSubBox = ({
     accountId,
     confirm,
     confirmStatus,
-    formLoader
+    mainLoader
 }) => (
     <CustomList className='box'>
         <List.Item className='img'>
@@ -243,7 +243,7 @@ const PaginationShowSubBox = ({
                     confirm={confirm}
                     confirmStatus={confirmStatus}
                     handleConfirmClear={handleConfirmClear}
-                    formLoader={formLoader}
+                    mainLoader={mainLoader}
                 />
             ) : (
                 <ContactsRemove
