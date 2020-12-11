@@ -290,7 +290,7 @@ export const {
     ],
     CREATE_NEW_ACCOUNT: [
         wallet.createNewAccount.bind(wallet),
-        () => defaultCodesFor('account.create')
+        () => showAlert({ localAlert: true })
     ],
     CHECK_ACCOUNT_AVAILABLE: [
         wallet.checkAccountAvailable.bind(wallet),
