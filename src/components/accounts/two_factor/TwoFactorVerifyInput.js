@@ -35,7 +35,8 @@ const TwoFactorVerifyInput = ({
     onResend,
     code,
     account,
-    resendCode
+    resendCode,
+    status
 }) => {
 
     return (
@@ -54,7 +55,7 @@ const TwoFactorVerifyInput = ({
                             onChange={e => onChange(e.target.value)}
                             autoFocus={true}
                         />
-                        {account.requestStatus && account.requestStatus.messageCode === 'account.verifyTwoFactor.error' && code.length > 0 &&
+                        {status.localAlert && status.localAlert.messageCode === 'account.verifyTwoFactor.error' && code.length > 0 &&
                             <div style={{color: '#ff585d', marginTop: '5px'}}>
                                 {translate('setRecoveryConfirm.invalidCode')}
                             </div>
