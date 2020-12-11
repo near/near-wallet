@@ -71,6 +71,10 @@
             "success": "Two Factor Authentication successfully setup!",
             "error": "Two Factor Authentication setup failed. Please try again."
         },
+        "CHECK_IS_NEW": {
+            "success": "Congrats! ${accountId} is available.",
+            "error": "Account ID is taken. Try something else.",
+        },
 
         "Deserialization": "",
         "RetriesExceeded": "Exceeded maximum attempts for this transaction.",
