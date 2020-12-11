@@ -202,23 +202,23 @@ export const {
 } = createActions({
     INITIALIZE_RECOVERY_METHOD: [
         wallet.initializeRecoveryMethod.bind(wallet),
-        () => defaultCodesFor('account.initializeRecoveryMethod')
+        () => ({})
     ],
     VALIDATE_SECURITY_CODE: [
         wallet.validateSecurityCode.bind(wallet),
-        () => defaultCodesFor('account.validateSecurityCode')
+        () => ({})
     ],
     INIT_TWO_FACTOR: [
         (...args) => new TwoFactor(wallet, wallet.accountId).initTwoFactor(...args),
-        () => defaultCodesFor('account.initTwoFactor')
+        () => ({})
     ],
     REINIT_TWO_FACTOR: [
         (...args) => new TwoFactor(wallet, wallet.accountId).initTwoFactor(...args),
-        () => defaultCodesFor('account.reInitTwoFactor')
+        () => ({})
     ],
     RESEND_TWO_FACTOR: [
         () => twoFactorMethod('sendCode', wallet, []),
-        () => defaultCodesFor('account.resendTwoFactor')
+        () => ({})
     ],
     VERIFY_TWO_FACTOR: [
         (...args) => new TwoFactor(wallet, wallet.accountId).verifyCodeDefault(...args),
@@ -240,7 +240,7 @@ export const {
             }
             return ({ requestPending, promise })
         },
-        () => defaultCodesFor('account.promptTwoFactor')
+        () => ({})
     ],
     DEPLOY_MULTISIG: [
         () => new TwoFactor(wallet, wallet.accountId).deployMultisig(),
@@ -248,23 +248,23 @@ export const {
     ],
     DISABLE_MULTISIG: [
         (...args) => twoFactorMethod('disableMultisig', wallet, args),
-        () => defaultCodesFor('account.disableMultisig')
+        () => ({})
     ],
     CHECK_CAN_ENABLE_TWO_FACTOR: [
         (...args) => TwoFactor.checkCanEnableTwoFactor(...args),
-        () => defaultCodesFor('account.checkCanEnableTwoFactor')
+        () => ({})
     ],
     GET_2FA_METHOD: [
         (...args) => twoFactorMethod('get2faMethod', wallet, args),
-        () => defaultCodesFor('account.get2faMethod')
+        () => ({})
     ],
     GET_LEDGER_KEY: [
         wallet.getLedgerKey.bind(wallet),
-        () => defaultCodesFor('account.LedgerKey')
+        () => ({})
     ],
     GET_LEDGER_PUBLIC_KEY: [
         wallet.getLedgerPublicKey.bind(wallet),
-        () => defaultCodesFor('account.LedgerPublicKey')
+        () => ({})
     ],
     SETUP_RECOVERY_MESSAGE: [
         wallet.setupRecoveryMessage.bind(wallet),
@@ -272,7 +272,7 @@ export const {
     ],
     SETUP_RECOVERY_MESSAGE_NEW_ACCOUNT: [
         wallet.setupRecoveryMessageNewAccount.bind(wallet),
-        () => defaultCodesFor('account.setupRecoveryMessageNewAccount')
+        () => ({})
     ],
     DELETE_RECOVERY_METHOD: [
         wallet.deleteRecoveryMethod.bind(wallet),
@@ -280,7 +280,7 @@ export const {
     ],
     CHECK_NEAR_DROP_BALANCE: [
         wallet.checkNearDropBalance.bind(wallet),
-        () => defaultCodesFor('account.nearDropBalance')
+        () => ({})
     ],
     CHECK_IS_NEW: [
         wallet.checkIsNew.bind(wallet),
@@ -312,7 +312,10 @@ export const { getAccessKeys, removeAccessKey, addLedgerAccessKey, disableLedger
         wallet.addLedgerAccessKey.bind(wallet), 
         () => showAlert({ onlyError: true })
     ],
-    DISABLE_LEDGER: [wallet.disableLedger.bind(wallet), () => defaultCodesFor('errors.ledger')],
+    DISABLE_LEDGER: [
+        wallet.disableLedger.bind(wallet),
+        () => ({})
+    ],
     REMOVE_NON_LEDGER_ACCESS_KEYS: [wallet.removeNonLedgerAccessKeys.bind(wallet), () => ({})],
     GET_LEDGER_ACCOUNT_IDS: [
         wallet.getLedgerAccountIds.bind(wallet),
@@ -449,7 +452,7 @@ export const { recoverAccountSeedPhrase } = createActions({
 export const { signAndSendTransactions, setSignTransactionStatus, sendMoney } = createActions({
     SET_SIGN_TRANSACTION_STATUS: [
         (status) => ({ status }),
-        () => defaultCodesFor('account.setSignTransactionStatus')
+        () => ({})
     ],
     SIGN_AND_SEND_TRANSACTIONS: [
         wallet.signAndSendTransactions.bind(wallet),
