@@ -296,7 +296,7 @@ export const {
     ],
     CHECK_ACCOUNT_AVAILABLE: [
         wallet.checkAccountAvailable.bind(wallet),
-        () => defaultCodesFor('account.available')
+        () => showAlert({ localAlert: true })
     ],
     CLEAR: null,
     CLEAR_CODE: null
