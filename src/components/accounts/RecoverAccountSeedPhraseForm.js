@@ -9,7 +9,7 @@ const RecoverAccountSeedPhraseForm = ({
     isLegit,
     handleChange,
     seedPhrase,
-    requestStatus
+    localAlert
 }) => (
         <>
             <h4><Translate id='recoverSeedPhrase.seedPhraseInput.title' /></h4>
@@ -19,7 +19,7 @@ const RecoverAccountSeedPhraseForm = ({
                         name='seedPhrase'
                         value={seedPhrase}
                         onChange={handleChange}
-                        className={classNames([{'success': requestStatus && requestStatus.success}, {'problem': requestStatus && requestStatus.success === false}])}
+                        className={classNames([{'success': localAlert && localAlert.success}, {'problem': localAlert && localAlert.success === false}])}
                         placeholder={translate('recoverSeedPhrase.seedPhraseInput.placeholder')}
                         disabled={formLoader}
                         required
