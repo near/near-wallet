@@ -129,7 +129,7 @@ class SetupSeedPhrase extends Component {
     }
 
     render() {
-        const recoveryMethods = this.props.recoveryMethods[this.props.activeAccountId]
+        const recoveryMethods = this.props.recoveryMethods[this.props.accountId]
         const hasSeedPhraseRecovery = recoveryMethods && recoveryMethods.filter(m => m.kind === 'phrase').length > 0
         return (
             <Translate>
