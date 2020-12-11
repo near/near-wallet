@@ -6,9 +6,8 @@ import { Translate } from 'react-localize-redux'
 import InfoIcon from '../svg/InfoIcon.js'
 import classNames from '../../utils/classNames'
 
-import RequestStatusBox from '../common/RequestStatusBox'
 import { ACCOUNT_CHECK_TIMEOUT, ACCOUNT_ID_SUFFIX } from '../../utils/wallet'
-import RequestStatusBoxNew from '../common/RequestStatusBoxNew.js'
+import LocalAlertBox from '../common/LocalAlertBox.js'
 
 const InputWrapper = styled.div`
     position: relative;
@@ -109,7 +108,7 @@ class AccountFormAccountId extends Component {
         
         handleChange(e, { name, value })
 
-        this.props.requestStatus && this.props.clearRequestStatus()
+        this.props.localAlert && this.props.clearLocalAlert()
 
         this.state.invalidAccountIdLength && this.handleAccountIdLengthState(value)
 
@@ -145,53 +144,53 @@ class AccountFormAccountId extends Component {
 
     isImplicitAccount = (accountId) => this.props.type !== 'create' && accountId.length === 64
 
-    get loaderRequestStatus() {
+    get loaderLocalAlert() {
         return {
             messageCode: `account.create.checkingAvailablity.${this.props.type}`
         }
     }
 
-    get accountIdLengthRequestStatus() {
+    get accountIdLengthLocalAlert() {
         return {
             success: false,
             messageCode: 'account.create.errorInvalidAccountIdLength'
         }
     }
 
-    get sameAccountRequestStatus() {
+    get sameAccountLocalAlert() {
         return {
             success: false,
             messageCode: 'account.available.errorSameAccount'
         }
     }
 
-    get implicitAccountRequestStatus() {
+    get implicitAccountLocalAlert() {
         return {
             success: true,
             messageCode: 'account.available.implicitAccount'
         }
     }
 
-    get requestStatusWithFormValidation() {
+    get localAlertWithFormValidation() {
         const { accountId, invalidAccountIdLength } = this.state
-        const { formLoader, requestStatus } = this.props
+        const { formLoader, localAlert } = this.props
 
         if (!accountId) {
             return null
         }
         if (this.isImplicitAccount(accountId)) {
-            return this.implicitAccountRequestStatus
+            return this.implicitAccountLocalAlert
         }
         if (formLoader) {
-            return this.loaderRequestStatus
+            return this.loaderLocalAlert
         }
         if (invalidAccountIdLength) {
-            return this.accountIdLengthRequestStatus
+            return this.accountIdLengthLocalAlert
         }
         if (this.isSameAccount()) {
-            return this.sameAccountRequestStatus
+            return this.sameAccountLocalAlert
         }
-        return requestStatus
+        return localAlert
     }
 
     render() {
@@ -203,7 +202,7 @@ class AccountFormAccountId extends Component {
 
         const { accountId, wrongChar } = this.state
 
-        const requestStatus = this.requestStatusWithFormValidation
+        const localAlert = this.localAlertWithFormValidation
 
         return (
             <>
@@ -211,7 +210,7 @@ class AccountFormAccountId extends Component {
                     {({ translate }) => (
                         <InputWrapper type={type}>
                             <Input
-                                className={classNames([{'success': requestStatus && requestStatus.success}, {'problem': requestStatus && requestStatus.success === false}, {'wrong-char': wrongChar}])}
+                                className={classNames([{'success': localAlert && localAlert.success}, {'problem': localAlert && localAlert.success === false}, {'wrong-char': wrongChar}])}
                                 name='accountId'
                                 ref={this.input}
                                 value={accountId}
@@ -239,7 +238,7 @@ class AccountFormAccountId extends Component {
                         </InputWrapper>
                     )}
                 </Translate>
-                <RequestStatusBoxNew dots={formLoader} requestStatus={requestStatus} accountId={this.props.accountId}/>
+                <LocalAlertBox dots={formLoader} localAlert={localAlert} accountId={this.props.accountId}/>
             </>
         )
     }
