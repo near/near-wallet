@@ -220,7 +220,7 @@ export const {
     ],
     VERIFY_TWO_FACTOR: [
         (...args) => new TwoFactor(wallet, wallet.accountId).verifyCodeDefault(...args),
-        () => defaultCodesFor('account.verifyTwoFactor')
+        () => showAlert({ localAlert: true })
     ],
     PROMPT_TWO_FACTOR: [
         (requestPending) => {
