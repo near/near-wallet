@@ -13,7 +13,7 @@ const Container = styled.div`
 
 const CreateAccountForm = ({
     loader,
-    formLoader,
+    mainLoader,
     handleChange,
     requestStatus,
     checkAvailability,
@@ -24,7 +24,7 @@ const CreateAccountForm = ({
     <Container>
         <Header as='h4'><Translate id='createAccount.accountIdInput.title' /></Header>
         <AccountFormAccountId
-            formLoader={formLoader}
+            mainLoader={mainLoader}
             handleChange={handleChange}
             type='create'
             pattern={/[^a-zA-Z0-9_-]/}
@@ -52,7 +52,7 @@ const CreateAccountForm = ({
 
 CreateAccountForm.propTypes = {
     loader: PropTypes.bool.isRequired,
-    formLoader: PropTypes.bool.isRequired,
+    mainLoader: PropTypes.bool.isRequired,
     handleChange: PropTypes.func.isRequired,
     requestStatus: PropTypes.object
 }
