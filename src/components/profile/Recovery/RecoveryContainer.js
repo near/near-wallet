@@ -76,6 +76,7 @@ const RecoveryContainer = () => {
     const [deletingMethod, setDeletingMethod] = useState('');
     const dispatch = useDispatch();
     const account = useSelector(({ account }) => account);
+    const status = useSelector(({ status }) => status);
     const allKinds = ['email', 'phone', 'phrase'];
     const activeMethods = useRecoveryMethods(account.accountId).filter(({ kind }) => allKinds.includes(kind));
     const currentActiveKinds = new Set(activeMethods.map(method => method.kind));
@@ -110,13 +111,13 @@ const RecoveryContainer = () => {
         <Container>
             <Header>
                 <Title><Translate id='recoveryMgmt.title' /></Title>
-                {!account.formLoader && !sortedActiveMethods.some(method => method.publicKey) && !account.ledgerKey &&
+                {!status.mainLoader && !sortedActiveMethods.some(method => method.publicKey) && !account.ledgerKey &&
                     <NoRecoveryMethod>
                         <Translate id='recoveryMgmt.noRecoveryMethod' />
                     </NoRecoveryMethod>
                 }
             </Header>
-            {!account.formLoader && sortedActiveMethods.map((method, i) =>
+            {!status.mainLoader && sortedActiveMethods.map((method, i) =>
                 <RecoveryMethod
                     key={i}
                     method={method}
@@ -129,7 +130,7 @@ const RecoveryContainer = () => {
             <SkeletonLoading
                 height='50px'
                 number={3}
-                show={account.formLoader}
+                show={status.mainLoader}
             />
         </Container>
     );
