@@ -282,7 +282,7 @@ export const {
     ],
     CHECK_IS_NEW: [
         wallet.checkIsNew.bind(wallet),
-        () => defaultCodesFor('account.create')
+        () => showAlert({ localAlert: true })
     ],
     CHECK_NEW_ACCOUNT: [
         wallet.checkNewAccount.bind(wallet),
