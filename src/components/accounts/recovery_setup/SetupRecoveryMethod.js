@@ -172,7 +172,7 @@ class SetupRecoveryMethod extends Component {
 
     render() {
         const { option, phoneNumber, email, success, emailInvalid, phoneInvalid } = this.state;
-        const { formLoader, accountId, activeAccountId, ledgerKey, twoFactor } = this.props;
+        const { mainLoader, accountId, activeAccountId, ledgerKey, twoFactor } = this.props;
 
         if (!success) {
             return (
@@ -209,7 +209,7 @@ class SetupRecoveryMethod extends Component {
                                         type='email'
                                         placeholder={translate('setupRecovery.emailPlaceholder')}
                                         value={email}
-                                        disabled={this.props.formLoader}
+                                        disabled={this.props.mainLoader}
                                         onChange={e => this.setState({ email: e.target.value, emailInvalid: false })}
                                         onBlur={this.handleBlurEmail}
                                         tabIndex='1'
@@ -229,7 +229,7 @@ class SetupRecoveryMethod extends Component {
                                     <PhoneInput
                                         placeholder={translate('setupRecovery.phonePlaceholder')}
                                         value={phoneNumber}
-                                        disabled={this.props.formLoader}
+                                        disabled={this.props.mainLoader}
                                         onChange={value => this.setState({ phoneNumber: value, phoneInvalid: false })}
                                         tabIndex='1'
                                         onBlur={this.handleBlurPhone}
@@ -240,8 +240,8 @@ class SetupRecoveryMethod extends Component {
                         <FormButton
                             color='blue'
                             type='submit'
-                            disabled={!this.isValidInput || formLoader}
-                            sending={formLoader}
+                            disabled={!this.isValidInput || mainLoader}
+                            sending={mainLoader}
                         >
                         <Translate id='button.continue'/>
                         </FormButton>
@@ -257,7 +257,7 @@ class SetupRecoveryMethod extends Component {
                     onConfirm={this.handleSetupRecoveryMethod}
                     onGoBack={this.handleGoBack}
                     onResend={this.handleSendCode}
-                    loading={formLoader}
+                    loading={mainLoader}
                     localAlert={this.props.localAlert}
                 />
             )
@@ -284,7 +284,8 @@ const mapStateToProps = ({ account, router, recoveryMethods, status }, { match }
     accountId: match.params.accountId,
     activeAccountId: account.accountId,
     recoveryMethods,
-    localAlert: status.localAlert
+    localAlert: status.localAlert,
+    mainLoader: status.mainLoader
 })
 
 export const SetupRecoveryMethodWithRouter = connect(mapStateToProps, mapDispatchToProps)(SetupRecoveryMethod);
