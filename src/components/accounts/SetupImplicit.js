@@ -155,7 +155,7 @@ class SetupImplicit extends Component {
             createAccount
         } = this.state
 
-        const { implicitAccountId, accountId, formLoader } = this.props
+        const { implicitAccountId, accountId, mainLoader } = this.props
         
         return (
             <Translate>
@@ -205,7 +205,7 @@ class SetupImplicit extends Component {
                                 implicitAccountId={implicitAccountId}
                                 accountId={accountId}
                                 handleFinishSetup={this.handleContinue}
-                                loading={formLoader}
+                                loading={mainLoader}
                             />
                         }
                     </StyledContainer>
@@ -215,11 +215,12 @@ class SetupImplicit extends Component {
     }
 }
 
-const mapStateToProps = ({ account }, { match: { params: { accountId, implicitAccountId, recoveryMethod } } }) => ({
+const mapStateToProps = ({ account, status }, { match: { params: { accountId, implicitAccountId, recoveryMethod } } }) => ({
     ...account,
     accountId,
     implicitAccountId,
     recoveryMethod,
+    mainLoader: status.mainLoader
 })
 
 export const SetupImplicitWithRouter = connect(mapStateToProps)(withRouter(SetupImplicit))
