@@ -314,7 +314,10 @@ export const { getAccessKeys, removeAccessKey, addLedgerAccessKey, disableLedger
     ],
     DISABLE_LEDGER: [wallet.disableLedger.bind(wallet), () => defaultCodesFor('errors.ledger')],
     REMOVE_NON_LEDGER_ACCESS_KEYS: [wallet.removeNonLedgerAccessKeys.bind(wallet), () => ({})],
-    GET_LEDGER_ACCOUNT_IDS: [wallet.getLedgerAccountIds.bind(wallet), () => defaultCodesFor('signInLedger.getLedgerAccountIds', { onlyError: true })],
+    GET_LEDGER_ACCOUNT_IDS: [
+        wallet.getLedgerAccountIds.bind(wallet),
+        () => showAlert({ localAlert: true })
+    ],
     ADD_LEDGER_ACCOUNT_ID: [
         wallet.addLedgerAccountId.bind(wallet),
         (accountId) => ({
