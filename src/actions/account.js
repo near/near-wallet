@@ -165,8 +165,6 @@ export const signInWithLedgerAddAndSaveAccounts = (accountIds) => async (dispatc
     return dispatch(saveAndSelectLedgerAccounts(getState().ledger.signInWithLedger))
 }
 
-const defaultCodesFor = (prefix, data) => ({ successCode: `${prefix}.success`, errorCode: `${prefix}.error`, prefix, data})
-
 const twoFactorMethod = async (method, wallet, args) => {
     const account = await wallet.getAccount(wallet.accountId)
     if (account[method]) {
