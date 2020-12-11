@@ -59,6 +59,10 @@
             "userCancelled": "2FA code was not verified correctly.",
             "invalidCode": "Invalid 2FA code. Please try again."
         },
+        "CHECK_ACCOUNT_AVAILABLE": {
+            "success": "User found.",
+            "error": "User not found."
+        },
 
         "Deserialization": "",
         "RetriesExceeded": "Exceeded maximum attempts for this transaction.",
