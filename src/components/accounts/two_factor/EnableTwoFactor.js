@@ -4,7 +4,6 @@ import styled from 'styled-components';
 import { Translate } from 'react-localize-redux';
 import TwoFactorOption from './TwoFactorOption';
 import PhoneInput, { isValidPhoneNumber } from 'react-phone-number-input';
-import { utils } from 'near-api-js'
 import { validateEmail } from '../../../utils/account';
 import { MULTISIG_MIN_AMOUNT } from '../../../utils/wallet'
 import FormButton from '../../common/FormButton';

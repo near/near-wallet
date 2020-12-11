@@ -18,7 +18,6 @@ export const MULTISIG_CONTRACT_HASHES = process.env.MULTISIG_CONTRACT_HASHES || 
 
 const {
     multisig: { Account2FA },
-    transactions: { deleteKey, addKey },
 } = nearApiJs
 
 export class TwoFactor extends Account2FA {
