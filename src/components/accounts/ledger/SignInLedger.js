@@ -14,8 +14,9 @@ import {
     checkAccountAvailable, 
     clearSignInWithLedgerModalState
 } from '../../../actions/account';
-import RequestStatusBox from '../../common/RequestStatusBox'
+import LocalAlertBox from '../../common/LocalAlertBox'
 import { controller as controllerHelperApi } from '../../../utils/helper-api'
+import { showCustomAlert } from '../../../actions/status'
 
 export function SignInLedger(props) {
     const dispatch = useDispatch();
@@ -24,6 +25,7 @@ export function SignInLedger(props) {
     const [loader, setLoader] = useState(false);
 
     const account = useSelector(({ account }) => account);
+    const status = useSelector(({ status }) => status);
     const { signInWithLedger: signInWithLedgerState, txSigned, signInWithLedgerStatus} = useSelector(({ ledger }) => ledger);
     
     const signInWithLedgerKeys = Object.keys(signInWithLedgerState || {})
@@ -83,13 +85,13 @@ export function SignInLedger(props) {
             <LedgerImage/>
             <h2><Translate id='signInLedger.one'/></h2>
             <br/>
-            <RequestStatusBox requestStatus={account.requestStatus}/>
+            <LocalAlertBox localAlert={status.localAlert}/>
             <FormButton
                 onClick={handleSignIn}
                 sending={signingIn}
                 sendingString='button.signingIn'
             >
-                <Translate id={`button.${account.requestStatus && !account.requestStatus.success ? 'retry' : 'signIn'}`}/>
+                <Translate id={`button.${status.localAlert && !status.localAlert.success ? 'retry' : 'signIn'}`}/>
             </FormButton>
             <button className='link' onClick={() => props.history.goBack()}><Translate id='button.cancel'/></button>
 
@@ -107,10 +109,10 @@ export function SignInLedger(props) {
                     signInWithLedgerStatus={signInWithLedgerStatus}
                     accountId={accountId}
                     handleChange={handleChange}
-                    requestStatus={account.requestStatus}
+                    localAlert={status.localAlert}
                     checkAccountAvailable={(accountId) => dispatch(checkAccountAvailable(accountId))}
                     formLoader={account.formLoader}
-                    clearRequestStatus={() => dispatch(clear())}
+                    clearLocalAlert={() => dispatch(clear())}
                     stateAccountId={account.accountId}
                     loader={loader}
                     clearSignInWithLedgerModalState={() => dispatch(clearSignInWithLedgerModalState())}
