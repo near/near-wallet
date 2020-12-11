@@ -5,7 +5,7 @@ import FormButton from '../common/FormButton'
 import classNames from '../../utils/classNames'
 
 const RecoverAccountSeedPhraseForm = ({
-    formLoader,
+    mainLoader,
     isLegit,
     handleChange,
     seedPhrase,
@@ -21,7 +21,7 @@ const RecoverAccountSeedPhraseForm = ({
                         onChange={handleChange}
                         className={classNames([{'success': localAlert && localAlert.success}, {'problem': localAlert && localAlert.success === false}])}
                         placeholder={translate('recoverSeedPhrase.seedPhraseInput.placeholder')}
-                        disabled={formLoader}
+                        disabled={mainLoader}
                         required
                         tabIndex='2'
                     />
@@ -31,7 +31,7 @@ const RecoverAccountSeedPhraseForm = ({
                 type='submit'
                 color='blue'
                 disabled={!isLegit}
-                sending={formLoader}
+                sending={mainLoader}
                 sendingString='button.recovering'
             >
                 <Translate id='button.findMyAccount' />
