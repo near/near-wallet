@@ -44,7 +44,7 @@ const SetupSeedPhraseVerify = ({
     enterWord,
     wordId,
     handleChangeWord,
-    formLoader,
+    mainLoader,
     localAlert
 }) => (
     <CustomDiv>
@@ -60,7 +60,7 @@ const SetupSeedPhraseVerify = ({
                     tabIndex='1'
                     pattern='[a-zA-Z ]*'
                     className={localAlert ? (localAlert.success ? 'success' : 'problem') : ''}
-                    disabled={formLoader}
+                    disabled={mainLoader}
                 />
             )}
         </Translate>
@@ -68,8 +68,8 @@ const SetupSeedPhraseVerify = ({
         <FormButton
             type='submit'
             color='blue'
-            disabled={!enterWord || formLoader}
-            sending={formLoader}
+            disabled={!enterWord || mainLoader}
+            sending={mainLoader}
             sendingString='button.verifying'
         >
             <Translate id='button.verify' />
