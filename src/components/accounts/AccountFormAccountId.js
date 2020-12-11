@@ -173,7 +173,7 @@ class AccountFormAccountId extends Component {
 
     get localAlertWithFormValidation() {
         const { accountId, invalidAccountIdLength } = this.state
-        const { formLoader, localAlert } = this.props
+        const { mainLoader, localAlert } = this.props
 
         if (!accountId) {
             return null
@@ -181,7 +181,7 @@ class AccountFormAccountId extends Component {
         if (this.isImplicitAccount(accountId)) {
             return this.implicitAccountLocalAlert
         }
-        if (formLoader) {
+        if (mainLoader) {
             return this.loaderLocalAlert
         }
         if (invalidAccountIdLength) {
@@ -195,7 +195,7 @@ class AccountFormAccountId extends Component {
 
     render() {
         const {
-            formLoader,
+            mainLoader,
             autoFocus,
             type
         } = this.props
@@ -238,14 +238,14 @@ class AccountFormAccountId extends Component {
                         </InputWrapper>
                     )}
                 </Translate>
-                <LocalAlertBox dots={formLoader} localAlert={localAlert} accountId={this.props.accountId}/>
+                <LocalAlertBox dots={mainLoader} localAlert={localAlert} accountId={this.props.accountId}/>
             </>
         )
     }
 }
 
 AccountFormAccountId.propTypes = {
-    formLoader: PropTypes.bool.isRequired,
+    mainLoader: PropTypes.bool.isRequired,
     handleChange: PropTypes.func.isRequired,
     checkAvailability: PropTypes.func.isRequired,
     defaultAccountId: PropTypes.string,
