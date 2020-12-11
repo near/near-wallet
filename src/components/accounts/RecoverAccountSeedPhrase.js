@@ -67,7 +67,7 @@ class RecoverAccountSeedPhrase extends Component {
         const combinedState = {
             ...this.props,
             ...this.state,
-            isLegit: this.isLegit && !(this.props.requestStatus && this.props.requestStatus.success === false)
+            isLegit: this.isLegit && !(this.props.localAlert && this.props.localAlert.success === false)
         }
 
         return (
@@ -92,9 +92,10 @@ const mapDispatchToProps = {
     clear
 }
 
-const mapStateToProps = ({ account }, { match }) => ({
+const mapStateToProps = ({ account, status }, { match }) => ({
     ...account,
     seedPhrase: match.params.seedPhrase || '',
+    localAlert: status.localAlert
 })
 
 export const RecoverAccountSeedPhraseWithRouter = connect(
