@@ -3,8 +3,6 @@ import { createActions } from 'redux-actions'
 
 export { ACCOUNT_DEFAULTS } from '../utils/staking'
 
-const defaultCodesFor = (prefix, data) => ({ successCode: `${prefix}.success`, errorCode: `${prefix}.error`, prefix, data})
-
 export const {
     switchAccount,
     updateStaking,
