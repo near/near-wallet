@@ -99,40 +99,36 @@ async function getAccountBalance() {
     const lockupAccountId = getLockupAccountId(this.accountId)
     console.log('lockupAccountId', lockupAccountId)
     try {
-        // TODO: Makes sense for a lockup contract to return whole state as JSON instead of method per property
-        let [
-            ownersBalance,
-            liquidOwnersBalance,
-            lockedAmount,
-        ] = await Promise.all([
-            'get_owners_balance',
-            'get_liquid_owners_balance',
-            'get_locked_amount',
-        ].map(methodName => this.viewFunction(lockupAccountId, methodName)))
-
+        const lockupBalance = await new Account(this.connection, lockupAccountId).getAccountBalance();
         const {
             lockupAmount,
             releaseDuration,
             transferInformation,
         } = await viewLockupState(this.connection, lockupAccountId)
 
-        const { transfer_poll_account_id } = transferInformation
-        if (transfer_poll_account_id) {
-            const transfersTimestamp = await this.viewFunction(transfer_poll_account_id, 'get_result')
-            if (transfersTimestamp) {
-                const releaseDurationBN = new BN(releaseDuration || '0')
-                const endTimestamp = new BN(transfersTimestamp).add(releaseDurationBN)
-                const timeLeft = endTimestamp.sub(new BN(Date.now()).mul(new BN('1000000')))
-                const unreleasedAmount = releaseDurationBN.eq(new BN(0))
-                    ? new BN(0)
-                    : BN.max(new BN(0), new BN(lockupAmount).mul(timeLeft).div(releaseDurationBN))
-                if (releaseDurationBN.eq(new BN(0))) {
-                    liquidOwnersBalance = new BN(lockupAmount)
-                } else {
-                    liquidOwnersBalance = BN.max(new BN(0), new BN(lockupAmount).sub(BN.max(unreleasedAmount, LOCKUP_MIN_BALANCE)))
-                }
-            }
+        const { transfer_poll_account_id, transfers_timestamp } = transferInformation
+        const transfersTimestamp = transfer_poll_account_id ? await this.viewFunction(transfer_poll_account_id, 'get_result') : transfers_timestamp
+        const releaseDurationBN = new BN(releaseDuration || '0')
+        const endTimestamp = new BN(transfersTimestamp).add(releaseDurationBN)
+        const timeLeft = BN.max(new BN(0), endTimestamp.sub(new BN(Date.now()).mul(new BN('1000000'))))
+        const unreleasedAmount = releaseDurationBN.eq(new BN(0))
+            ? new BN(0)
+            : new BN(lockupAmount).mul(timeLeft).div(releaseDurationBN)
+
+        let totalBalance = new BN(lockupBalance.total)
+        let stakedBalance = new BN(0)
+        const stakingPoolAccountId = await this.wrappedAccount.viewFunction(lockupAccountId, 'get_staking_pool_account_id');
+        if (stakingPoolAccountId) {
+            stakedBalance = new BN(await this.wrappedAccount.viewFunction(stakingPoolAccountId,
+                'get_account_total_balance', { account_id: lockupAccountId }))
+            totalBalance = totalBalance.add(stakedBalance)
         }
+        const ownersBalance = timeLeft.eq(new BN(0))
+            ? totalBalance
+            : totalBalance.sub(BN.max(unreleasedAmount, LOCKUP_MIN_BALANCE))
+
+        const lockedAmount = totalBalance.sub(ownersBalance)
+        const liquidOwnersBalance = BN.max(new BN(0), ownersBalance.sub(stakedBalance))
 
         const available = BN.max(new BN(0), new BN(balance.available).add(new BN(liquidOwnersBalance)).sub(new BN(MIN_BALANCE_FOR_GAS)))
         return {
@@ -144,7 +140,7 @@ async function getAccountBalance() {
             total: new BN(balance.total).add(new BN(lockedAmount)).add(new BN(ownersBalance)).toString()
         }
     } catch (error) {
-        if (error.message.match(/ccount ".+" doesn't exist/) || error.message.includes('cannot find contract code for account')) {
+        if (error.message.match(/ccount ".+" doesn't exist/) || error.message.includes('does not exist while viewing') || error.message.includes('cannot find contract code for account')) {
             return balance
         }
         throw error
