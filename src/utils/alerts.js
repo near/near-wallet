@@ -36,7 +36,7 @@ export const handleClearAlert = () => {
     const { account } = getState()
 
     if (!globalAlertPreventClear && !account.globalAlertPreventClear) {
-        dispatch(clearAlert())
+        dispatch(clearGlobalAlert())
     }
     dispatch(clearLocalAlert())
 }
