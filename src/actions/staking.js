@@ -1,8 +1,8 @@
 import { wallet } from '../utils/wallet'
 import { createActions } from 'redux-actions'
 
+import { showAlert } from '../utils/alerts'
 export { ACCOUNT_DEFAULTS } from '../utils/staking'
-import { showAlert, dispatchWithAlert } from '../utils/alerts'
 
 export const {
     switchAccount,
