@@ -42,7 +42,8 @@ const StyledContainer = styled(Container)`
 
 export function SendContainer({ match, location }) {
     const dispatch = useDispatch()
-    const { requestStatus, formLoader, accountId, balance } = useSelector(({ account }) => account);
+    const { accountId, balance } = useSelector(({ account }) => account);
+    const { localAlert, mainLoader } = useSelector(({ status }) => status);
     const [useMax, setUseMax] = useState(null)
     const [amount, setAmount] = useState('')
     const [confirm, setConfirm] = useState(null)
@@ -50,7 +51,7 @@ export function SendContainer({ match, location }) {
     const [success, setSuccess] = useState(null)
     const amountAvailableToSend = new BN(balance.available).sub(new BN(parseNearAmount(WALLET_APP_MIN_AMOUNT)))
     const sufficientBalance = !new BN(parseNearAmount(amount)).isZero() && (new BN(parseNearAmount(amount)).lte(amountAvailableToSend) || useMax) && isDecimalString(amount)
-    const sendAllowed = ((requestStatus && requestStatus.success !== false) || id.length === 64) && sufficientBalance && amount && !formLoader && !success
+    const sendAllowed = ((localAlert && localAlert.success !== false) || id.length === 64) && sufficientBalance && amount && !mainLoader && !success
 
     useEffect(() => {
         if (success) {
@@ -131,9 +132,9 @@ export function SendContainer({ match, location }) {
                     handleChange={(e, { value }) => setId(value)}
                     defaultAccountId={id}
                     checkAvailability={() => dispatch(checkAccountAvailable(id))}
-                    requestStatus={requestStatus}
+                    localAlert={localAlert}
                     autoFocus={false}
-                    clearRequestStatus={() => dispatch(clear())}
+                    clearLocalAlert={() => dispatch(clear())}
                     stateAccountId={accountId}
                 />
                 <FormButton onClick={handleConfirm} disabled={!sendAllowed}>
