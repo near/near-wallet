@@ -3,6 +3,7 @@ import BN from 'bn.js'
 import { WalletError } from './walletError'
 import { getLockupAccountId } from './account-with-lockup'
 import { queryExplorer } from './explorer-api'
+import { TwoFactor } from './twoFactor'
 
 const {
     transactions: {
@@ -200,7 +201,7 @@ export class Staking {
 
         let { deposits, validators } = (await getStakingTransactions(account_id))
         validators = await this.getValidators([...new Set(validators.concat(recentlyStakedValidators))])
-        if (!validators.length || await this.wallet.twoFactor.isEnabled()) {
+        if (!validators.length || TwoFactor.has2faEnabled(account)) {
             console.log('checking all validators')
             validators = await this.getValidators()
         }
