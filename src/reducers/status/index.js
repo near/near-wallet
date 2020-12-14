@@ -2,8 +2,8 @@ import { handleActions, combineActions } from 'redux-actions'
 import reduceReducers from 'reduce-reducers'
 
 import {
-    clear,
-    clearAlert,
+    clearLocalAlert,
+    clearGlobalAlert,
     setMainLoader
 } from '../../actions/status'
 
@@ -75,13 +75,13 @@ const alertReducer = (state, { error, ready, payload, meta, type }) => {
 }
 
 const clearReducer = handleActions({
-    [clear]: state => Object.keys(state)
+    [clearLocalAlert]: state => Object.keys(state)
         .reduce((obj, key) => (
             key !== 'localAlert' 
                 ? (obj[key] = state[key], obj) 
                 : obj)
         , {}),
-    [clearAlert]: (state, { payload }) => ({
+    [clearGlobalAlert]: (state, { payload }) => ({
         ...state,
         globalAlert: !payload 
             ? {} 
