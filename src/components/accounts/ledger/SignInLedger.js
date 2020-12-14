@@ -14,6 +14,7 @@ import {
     checkAccountAvailable, 
     clearSignInWithLedgerModalState
 } from '../../../actions/account';
+import { setMainLoader } from '../../../actions/status'
 import LocalAlertBox from '../../common/LocalAlertBox'
 import { controller as controllerHelperApi } from '../../../utils/helper-api'
 import { showCustomAlert } from '../../../actions/status'
