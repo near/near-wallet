@@ -3,7 +3,11 @@ import BN from 'bn.js'
 import { WalletError } from './walletError'
 import { getLockupAccountId } from './account-with-lockup'
 import { queryExplorer } from './explorer-api'
+<<<<<<< HEAD
 import { ACCOUNT_HELPER_URL } from './wallet'
+=======
+import { TwoFactor } from './twoFactor'
+>>>>>>> fix-2fa-isenabled
 
 const {
     transactions: {
@@ -200,13 +204,7 @@ export class Staking {
         const balance = account.wrappedAccount ? await account.wrappedAccount.getAccountBalance() : await account.getAccountBalance()
 
         const validatorDepositMap = await getStakingTransactions(account_id)
-
-        console.log(validatorDepositMap)
-
         let validators = await this.getValidators([...new Set(Object.keys(validatorDepositMap).concat(recentlyStakedValidators))])
-
-        console.log(validators)
-
         if (!validators.length) {
             console.log('checking all validators')
             validators = await this.getValidators()
