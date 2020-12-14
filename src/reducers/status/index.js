@@ -3,7 +3,8 @@ import reduceReducers from 'reduce-reducers'
 
 import {
     clear,
-    clearAlert
+    clearAlert,
+    setMainLoader
 } from '../../actions/status'
 
 const initialState = {
