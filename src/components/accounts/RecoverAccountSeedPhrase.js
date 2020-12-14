@@ -95,7 +95,8 @@ const mapDispatchToProps = {
 const mapStateToProps = ({ account, status }, { match }) => ({
     ...account,
     seedPhrase: match.params.seedPhrase || '',
-    localAlert: status.localAlert
+    localAlert: status.localAlert,
+    mainLoader: status.mainLoader
 })
 
 export const RecoverAccountSeedPhraseWithRouter = connect(
