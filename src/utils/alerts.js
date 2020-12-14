@@ -1,5 +1,5 @@
 import { store } from '..'
-import { clearAlert, clear } from '../actions/status'
+import { clearGlobalAlert, clearLocalAlert } from '../actions/status'
 
 export const showAlert = ({data, onlyError, onlySuccess, console = true, localAlert, messageCodeHeader, success} = {}) => ({
     alert: {
@@ -38,5 +38,5 @@ export const handleClearAlert = () => {
     if (!globalAlertPreventClear && !account.globalAlertPreventClear) {
         dispatch(clearAlert())
     }
-    dispatch(clear())
+    dispatch(clearLocalAlert())
 }
