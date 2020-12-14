@@ -75,11 +75,6 @@ const requestResultReducer = (state, { error, ready, payload, meta }) => {
     }
 }
 
-const requestResultClearReducer = handleActions({
-    // TODO: Should clear be a separate action or happen automatically on navigate / start of other actions?
-    [clear]: state => Object.keys(state).reduce((obj, key) => key !== 'requestStatus' ? (obj[key] = state[key], obj) : obj, {})
-}, initialState)
-
 const recoverCodeReducer = handleActions({
     [requestCode]: (state, { error, ready }) => {
         if (ready && !error) {
@@ -171,7 +166,6 @@ export default reduceReducers(
     initialState,
     loaderReducer,
     requestResultReducer,
-    requestResultClearReducer,
     recoverCodeReducer,
     accessKeys,
     account,
