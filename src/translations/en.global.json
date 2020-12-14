@@ -622,7 +622,7 @@
                 "availableBalance": "Available to stake",
                 "near": "NEAR"
             },
-            "ledgerDisclaimer": "Note: If this is your first time staking with this validator, you will need to confirm two transactions",
+            "ledgerDisclaimer": "Note: Since this is your first time staking with this validator, you will need to confirm two transactions.",
             "useMax": "Use max",
             "with": "with",
             "from": "from",
@@ -658,7 +658,10 @@
         },
         "validators": {
             "title": "Select a Validator",
-            "desc": "Enter a known validator or select a validator from the list to stake your NEAR tokens. You may only stake with a single validator at any given time.",
+            "desc": {
+                "account": "Enter a known validator or select a validator from the list to stake your NEAR tokens.",
+                "lockup": "Enter a known validator or select a validator from the list to stake your NEAR tokens. You may only stake with a single validator at any given time."
+            },
             "inputLabel": "Validator account ID",
             "inputPlaceholder": "validator-name.near",
             "button": "View Validator",
@@ -773,6 +776,7 @@
         },
         "ActionWarrning": {
             "functionCall": "No description specified for this function.",
+            "binaryData": "Arguments contain binary data",
             "deployContract": "You are about to deploy a contract to your account! This contract can access your NEAR balance, and interact with other contracts on your behalf.",
             "stake": "You are about to stake NEAR tokens. These tokens will be locked, and are at risk of being lost if your validator becomes unresponsive.",
             "deleteAccount": "You are about to delete your account! Your NEAR balance will be destroyed, and all of your account data deleted."
@@ -825,6 +829,7 @@
     "back": "Back",
     "of": "of",
     "ofTotal": "of Total",
+    "arguments": "Arguments",
 
     "setupLedger": {
         "header": "Connect your Ledger device",
