@@ -7,17 +7,16 @@ import { Translate } from 'react-localize-redux';
 import LedgerSignInModal from './LedgerSignInModal';
 import { 
     signInWithLedger, 
-    clear, 
     redirectToApp, 
     refreshAccount, 
     signInWithLedgerAddAndSaveAccounts, 
     checkAccountAvailable, 
     clearSignInWithLedgerModalState
 } from '../../../actions/account';
+import { clearLocalAlert } from '../../../actions/status'
 import { setMainLoader } from '../../../actions/status'
 import LocalAlertBox from '../../common/LocalAlertBox'
 import { controller as controllerHelperApi } from '../../../utils/helper-api'
-import { showCustomAlert } from '../../../actions/status'
 
 export function SignInLedger(props) {
     const dispatch = useDispatch();
@@ -113,7 +112,7 @@ export function SignInLedger(props) {
                     localAlert={status.localAlert}
                     checkAccountAvailable={(accountId) => dispatch(checkAccountAvailable(accountId))}
                     mainLoader={account.mainLoader}
-                    clearLocalAlert={() => dispatch(clear())}
+                    clearLocalAlert={() => dispatch(clearLocalAlert())}
                     stateAccountId={account.accountId}
                     loader={loader}
                     clearSignInWithLedgerModalState={() => dispatch(clearSignInWithLedgerModalState())}

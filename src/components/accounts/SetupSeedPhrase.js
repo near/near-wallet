@@ -6,7 +6,6 @@ import { parse as parseQuery } from 'query-string'
 import { 
     redirectToApp, 
     handleAddAccessKeySeedPhrase, 
-    clearAlert, 
     refreshAccount, 
     checkCanEnableTwoFactor, 
     checkIsNew, 
