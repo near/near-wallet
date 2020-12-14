@@ -17,28 +17,32 @@ const initialState = {
 const alertReducer = (state, { error, ready, payload, meta, type }) => {
     const actionStatus = {
         ...state.actionStatus,
-        [type]: {
-            success: typeof ready === 'undefined' 
-                ? typeof payload?.success === 'undefined' 
-                    ? !error
-                    : meta.alert.success
-                : (ready ? !error : undefined),
-            pending: typeof ready === 'undefined' 
-                ? undefined 
-                : !ready,
-            errorType: payload?.type,
-            errorMessage: (error && payload?.toString()) || undefined,
-            data: {
-                ...meta?.data,
-                ...payload
-            } 
-        }
+        [type]: typeof ready === 'undefined'
+            ? undefined
+            : {
+                success: typeof ready === 'undefined' 
+                    ? typeof payload?.success === 'undefined' 
+                        ? !error
+                        : meta.alert.success
+                    : (ready ? !error : undefined),
+                pending: typeof ready === 'undefined' 
+                    ? undefined 
+                    : !ready,
+                errorType: payload?.type,
+                errorMessage: (error && payload?.toString()) || undefined,
+                data: {
+                    ...meta?.data,
+                    ...payload
+                } 
+            }
     }
 
     return {
         ...state,
         actionStatus,
-        mainLoader: Object.keys(actionStatus).reduce((x, action) => actionStatus[action]?.pending || x, false),
+        mainLoader: typeof ready === 'undefined'
+            ? state.mainLoader
+            : Object.keys(actionStatus).reduce((x, action) => actionStatus[action]?.pending || x, false),
         globalAlert: {
             ...state.globalAlert,
             [type]: (meta?.alert?.showAlert || payload?.data?.showAlert)
@@ -58,19 +62,21 @@ const alertReducer = (state, { error, ready, payload, meta, type }) => {
                 }
                 : undefined
         },
-        localAlert: meta?.alert?.localAlert
-            ? {
-                show: ready,
-                success: ready && !error,
-                messageCode: `alert.${type}.${
-                    ready
-                        ? error
-                            ? 'error'
-                            : 'success'
-                        : 'pending'
-                }`
-            }
-            : undefined
+        localAlert: typeof ready === 'undefined'
+            ? state.localAlert
+            : meta?.alert?.localAlert
+                ? {
+                    show: ready,
+                    success: ready && !error,
+                    messageCode: `alert.${type}.${
+                        ready
+                            ? error
+                                ? 'error'
+                                : 'success'
+                            : 'pending'
+                    }`
+                }
+                : undefined
     }
 }
 
