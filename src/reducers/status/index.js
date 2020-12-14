@@ -95,8 +95,16 @@ const clearReducer = handleActions({
     })
 }, initialState)
 
+const mainLoader = handleActions({
+    [setMainLoader]: (state, { payload }) => ({
+        ...state,
+        mainLoader: payload
+    })
+}, initialState)
+
 export default reduceReducers(
     initialState,
     alertReducer,
-    clearReducer
+    clearReducer,
+    mainLoader
 )
