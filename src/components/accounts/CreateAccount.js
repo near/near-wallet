@@ -3,7 +3,8 @@ import styled from 'styled-components'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { Translate } from 'react-localize-redux'
-import { checkNewAccount, createNewAccount, clear, refreshAccount, checkNearDropBalance } from '../../actions/account'
+import { checkNewAccount, createNewAccount, refreshAccount, checkNearDropBalance } from '../../actions/account'
+import { clearLocalAlert } from '../../actions/status'
 import { ACCOUNT_ID_SUFFIX } from '../../utils/wallet'
 import Container from '../common/styled/Container.css'
 import BrokenLinkIcon from '../svg/BrokenLinkIcon';
@@ -85,7 +86,7 @@ class CreateAccount extends Component {
     }
 
     componentWillUnmount = () => {
-        this.props.clear()
+        this.props.clearLocalAlert()
     }
 
     handleCheckNearDropBalance = async () => {
@@ -127,7 +128,7 @@ class CreateAccount extends Component {
 
     render() {
         const { loader, accountId, invalidNearDrop } = this.state
-        const { localAlert, mainLoader, checkNewAccount, resetAccount, clear } = this.props
+        const { localAlert, mainLoader, checkNewAccount, resetAccount, clearLocalAlert } = this.props
         const useLocalAlert = accountId.length > 0 ? localAlert : undefined;
         
         if (!invalidNearDrop) {
@@ -145,7 +146,7 @@ class CreateAccount extends Component {
                             checkAvailability={checkNewAccount}
                             localAlert={useLocalAlert}
                             accountId={accountId}
-                            clearLocalAlert={clear}
+                            clearLocalAlert={clearLocalAlert}
                             defaultAccountId={resetAccount && resetAccount.accountIdNotConfirmed.split('.')[0]}
                         />
                         <AccountNote/>
@@ -179,7 +180,7 @@ class CreateAccount extends Component {
 const mapDispatchToProps = {
     checkNewAccount,
     createNewAccount,
-    clear,
+    clearLocalAlert,
     refreshAccount,
     checkNearDropBalance
 }
