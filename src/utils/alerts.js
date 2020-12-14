@@ -22,13 +22,7 @@ export const dispatchWithAlert = (action, data) => store.dispatch({
     }
 })
 
-export const actionsPending = (types) => (typeof types === 'string' ? [types] : types).reduce((x, type) => {
-    if (store.getState().status?.actionStatus[type]?.pending) {
-        return true
-    } else {
-        return x
-    }
-}, false)
+export const actionsPending = (types) => (typeof types === 'string' ? [types] : types).some((type) => store.getState().status?.actionStatus[type]?.pending)
 
 export const handleClearAlert = () => {
     const { dispatch, getState } = store
