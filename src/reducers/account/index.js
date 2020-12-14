@@ -159,7 +159,7 @@ const account = handleActions({
     [resetAccounts]: (state) => ({
         ...state,
         loginResetAccounts: true
-    }),
+    })
 }, initialState)
 
 export default reduceReducers(
