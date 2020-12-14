@@ -10,7 +10,6 @@ import IconProblems from '../../images/IconProblems'
 import { Grid } from 'semantic-ui-react'
 
 import styled from 'styled-components'
-import GlobalAlert from '../responsive/GlobalAlert'
 
 import { showCustomAlert } from '../../actions/status'
 

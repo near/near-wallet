@@ -17,7 +17,7 @@ import {
     getLedgerPublicKey
 } from '../../../actions/account'
 import { DISABLE_CREATE_ACCOUNT, setKeyMeta } from '../../../utils/wallet'
-import GlobalAlert from '../../responsive/GlobalAlert'
+import GlobalAlert from '../../common/GlobalAlert'
 
 const SetupLedger = (props) => {
 
