@@ -2,12 +2,7 @@ import * as nearApiJs from 'near-api-js'
 import BN from 'bn.js'
 import { WalletError } from './walletError'
 import { getLockupAccountId } from './account-with-lockup'
-import { queryExplorer } from './explorer-api'
-<<<<<<< HEAD
 import { ACCOUNT_HELPER_URL } from './wallet'
-=======
-import { TwoFactor } from './twoFactor'
->>>>>>> fix-2fa-isenabled
 
 const {
     transactions: {
