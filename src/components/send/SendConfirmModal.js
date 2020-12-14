@@ -46,6 +46,9 @@ const Container = styled.div`
             div {
                 color: #292526;
                 font-size: 14px;
+                max-width: 200px;
+                overflow: hidden;
+                text-overflow: ellipsis;
             }
         }
     }
