@@ -3,7 +3,8 @@ import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { Translate } from 'react-localize-redux'
 import styled from 'styled-components'
-import { recoverAccountSeedPhrase, redirectToApp, refreshAccount, clear } from '../../actions/account'
+import { recoverAccountSeedPhrase, redirectToApp, refreshAccount } from '../../actions/account'
+import { clearLocalAlert } from '../../actions/status'
 import RecoverAccountSeedPhraseForm from './RecoverAccountSeedPhraseForm'
 import Container from '../common/styled/Container.css'
 
@@ -49,7 +50,7 @@ class RecoverAccountSeedPhrase extends Component {
             [name]: value
         }))
 
-        this.props.clear()
+        this.props.clearLocalAlert()
     }
 
     handleSubmit = async () => {
@@ -89,7 +90,7 @@ const mapDispatchToProps = {
     recoverAccountSeedPhrase, 
     redirectToApp,
     refreshAccount,
-    clear
+    clearLocalAlert
 }
 
 const mapStateToProps = ({ account, status }, { match }) => ({
