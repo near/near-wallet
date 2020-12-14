@@ -34,6 +34,7 @@ const Container = styled.div`
         font-size: 16px !important;
         color: #999 !important;
         font-weight: 400 !important;
+        line-break: anywhere;
     }
 
     &.ledger-theme {
