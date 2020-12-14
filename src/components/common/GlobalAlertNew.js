@@ -5,7 +5,7 @@ import { Translate } from 'react-localize-redux'
 import IconsAlertCircleImage from '../../images/icon_alert-circle.svg'
 import IconCheckCircleImage from '../../images/icon-check-circle.svg'
 
-import { clearAlert } from '../../actions/status'
+import { clearGlobalAlert } from '../../actions/status'
 
 import styled from 'styled-components'
 
@@ -143,7 +143,7 @@ const Console = styled.div`
 `
 
 // closeIcon mozna usunac
-const GlobalAlertNew = ({ globalAlert, actionStatus, clearAlert, closeIcon = true }) => {
+const GlobalAlertNew = ({ globalAlert, actionStatus, clearGlobalAlert, closeIcon = true }) => {
 
     const [closing, setClosing] = useState(false)
     const [alerts, setAlerts] = useState([])
@@ -157,7 +157,7 @@ const GlobalAlertNew = ({ globalAlert, actionStatus, clearAlert, closeIcon = tru
     const handleClose = (type) => {
         setClosing(type)
         setTimeout(() => {
-            clearAlert(type)
+            clearGlobalAlert(type)
             setClosing(false)
         }, 300);
     }
@@ -216,7 +216,7 @@ const GlobalAlertNew = ({ globalAlert, actionStatus, clearAlert, closeIcon = tru
 }
 
 const mapDispatchToProps = {
-    clearAlert
+    clearGlobalAlert
 }
 
 const mapStateToProps = ({ status }) => ({
