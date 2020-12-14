@@ -59,22 +59,6 @@ const loaderReducer = (state, { type, ready }) => {
     }
 }
 
-const requestResultReducer = (state, { error, ready, payload, meta }) => {
-    if (!meta || !meta.successCode) {
-        return state
-    }
-
-    return {
-        ...(state || initialState),
-        requestStatus: ready ? {
-            success: !error,
-            errorMessage: (error && payload && payload.toString()) || undefined,
-            messageCode: error ? payload.messageCode || meta.errorCode : meta.successCode,
-            id: (payload && payload.id) || undefined
-        } : undefined
-    }
-}
-
 const recoverCodeReducer = handleActions({
     [requestCode]: (state, { error, ready }) => {
         if (ready && !error) {
@@ -165,7 +149,6 @@ const account = handleActions({
 export default reduceReducers(
     initialState,
     loaderReducer,
-    requestResultReducer,
     recoverCodeReducer,
     accessKeys,
     account,
