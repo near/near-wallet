@@ -111,7 +111,6 @@ class Routing extends Component {
             refreshAccount, 
             handleRefreshUrl,
             history,
-            clear, 
             handleRedirectUrl, 
             handleClearUrl
         } = this.props
@@ -343,7 +342,6 @@ Routing.propTypes = {
 const mapDispatchToProps = {
     refreshAccount,
     handleRefreshUrl,
-    clear,
     handleRedirectUrl,
     handleClearUrl,
     promptTwoFactor
