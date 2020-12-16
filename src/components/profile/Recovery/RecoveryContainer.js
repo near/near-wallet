@@ -12,7 +12,6 @@ import {
 } from '../../../actions/account';
 import SkeletonLoading from '../../common/SkeletonLoading';
 import { useRecoveryMethods } from '../../../hooks/recoveryMethods';
-import { actionsPending } from '../../../utils/alerts'
 
 const Container = styled.div`
 

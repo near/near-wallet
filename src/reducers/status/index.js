@@ -1,4 +1,4 @@
-import { handleActions, combineActions } from 'redux-actions'
+import { handleActions } from 'redux-actions'
 import reduceReducers from 'reduce-reducers'
 
 import {
