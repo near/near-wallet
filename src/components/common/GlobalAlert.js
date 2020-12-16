@@ -13,7 +13,7 @@ import styled from 'styled-components'
 const AlertContainer = styled.div`
     position: fixed;
     right: 16px;
-    z-index: 900;
+    z-index: 2100;
 
     animation: alertAnimation ease-in-out .3s;
     animation-iteration-count: 1;
