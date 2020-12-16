@@ -1,4 +1,94 @@
 {
+    "alert": {
+        "RECOVER_ACCOUNT_SEED_PHRASE": {
+            "success": "Учетная запись успешно восстановлена.",
+            "error": "Не удалось восстановить учетную запись.",
+            "errorInvalidSeedPhrase": "No accounts were found for this seed phrase."
+        },
+        "SEND_MONEY": {
+            "error": "Sorry an error has occurred. You may want to try again."
+        },
+        "CHECK_NEW_ACCOUNT": {
+            "success": "Отлично! Имя пользователя ${accountId} доступно.",
+            "error": "Имя пользователя занято. Попробуйте другое."
+        },
+        "ADD_ACCESS_KEY": {
+            "success": "${title} теперь имеет право использовать ваш аккаунт",
+            "error": "При подтверждении этого действия произошла ошибка. Пожалуйста, попробуйте еще раз!",
+        },
+        "ADD_ACCESS_KEY_SEED_PHRASE": {
+            "success": "Настройка мнемонической фразы восстановления успешно завершена",
+            "error": "При настройке мнемонической фразы произошла ошибка. Повторите еще раз!",
+            "errorSecond": ""
+        },
+        "SETUP_RECOVERY_MESSAGE": {
+            "success": "Recovery setup is complete.",
+            "error": "An error occurred while setting up your recovery method. Please try again!"
+        },
+        "SAVE_AND_SELECT_LEDGER_ACCOUNTS": {
+            "success": "You’ve successfully signed in.<br/><b>${numberOfAccounts} account(s) were recovered.</b> Your most recently created account has been set to active.",
+            "error": "Please check that your device is connected and the NEAR app is open."
+        },
+        "DELETE_RECOVERY_METHOD": {
+            "success": "",
+            "error": ""
+        },
+        "DEPLOY_MULTISIG": {
+            "success": "",
+            "error": ""
+        },
+        "REMOVE_ACCESS_KEY": {
+            "success": "",
+            "error": "Please check that your device is connected and the NEAR app is open."
+        },
+        "SIGN_AND_SEND_TRANSACTIONS": {
+            "success": "",
+            "error": "",
+            "notEnoughTokens": "Not enough tokens."
+        },
+        "CREATE_ACCOUNT_WITH_SEED_PHRASE": {
+            "success": "",
+            "error": ""
+        },
+        "ADD_LEDGER_ACCOUNT_ID": {
+            "success": "",
+            "error": "Access to one of the accounts was rejected. No accounts were recovered.<br>To continue, you must authorize read-only access to each account on your Ledger device. Please try again.",
+            "errorRpc": "Error appears while recovering the account."
+        },
+        "PROMPT_TWO_FACTOR": {
+            "userCancelled": "2FA code was not verified correctly.",
+            "invalidCode": "Invalid 2FA code. Please try again."
+        },
+        "CHECK_ACCOUNT_AVAILABLE": {
+            "success": "User found.",
+            "error": "User not found."
+        },
+        "GET_LEDGER_ACCOUNT_IDS": {
+            "success": "",
+            "error": "Public key access was rejected. No accounts were recovered.<br/>To continue, you must allow NEAR Wallet to view your public key. Please try again."
+        },
+        "VERIFY_TWO_FACTOR": {
+            "success": "Two Factor Authentication successfully setup!",
+            "error": "Two Factor Authentication setup failed. Please try again."
+        },
+        "CHECK_IS_NEW": {
+            "success": "Отлично! Имя пользователя ${accountId} доступно.",
+            "error": "Имя пользователя занято. Попробуйте другое."
+        },
+        "CREATE_NEW_ACCOUNT": {
+            "success": "Отлично! Имя пользователя ${accountId} доступно.",
+            "error": "Имя пользователя занято. Попробуйте другое."
+        },
+
+        "Deserialization": "",
+        "RetriesExceeded": "Exceeded maximum attempts for this transaction.",
+        "U2F_4": "Failed to sign with Ledger device: U2F DEVICE_INELIGIBLE. Please make sure that your Ledger device is connected and unlocked.",
+
+        "default": {
+            "success": "",
+            "error": "Sorry an error has occurred. You may want to try again."
+        }
+    },
     "account": {
         "requestCode": {
             "success": "SMS-сообщение успешно отправлено.",
@@ -9,8 +99,7 @@
             "error": "Не удалось восстановить учетную запись."
         },
         "create": {
-            "success": "Отлично! Имя пользователя ${accountId} доступно.",
-            "error": "Имя пользователя занято. Попробуйте другое."
+            
         },
         "available": {
             "success": "Действительная учетная запись",
@@ -47,13 +136,7 @@
         "verifySeedPhrase": {
             "error": "Вы ввели неверное слово!"
         },
-        "setupSeedPhrase": {
-            "success": "Настройка мнемонической фразы восстановления успешно завершена",
-            "error": "При настройке мнемонической фразы произошла ошибка. Повторите еще раз!"
-        },
         "login": {
-            "success": "${title} теперь имеет право использовать ваш аккаунт",
-            "error": "При подтверждении этого действия произошла ошибка. Пожалуйста, попробуйте еще раз!",
             "details": {
                 "warning": "Это позволит получить доступ к вашему кошельку. Пожалуйста, действуйте с осторожностью!"
             },
@@ -616,18 +699,6 @@
             "one": {
                 "keep": "<span class='color-red'>Maintaining multiple recovery methods and devices increases the vulnerability of your account.</span>"
             }
-        }
-    },
-
-    "signInLedger": {
-        "getLedgerAccountIds": {
-            "error": "Public key access was rejected. No accounts were recovered.<br/>To continue, you must allow NEAR Wallet to view your public key. Please try again."
-        },
-        "addLedgerAccountId": {
-            "error": "Access to one of the accounts was rejected. No accounts were recovered.<br>To continue, you must authorize read-only access to each account on your Ledger device. Please try again."
-        },
-        "saveAndSelectLedgerAccounts": {
-            "success": "You’ve successfully signed in.<br/><b>${numberOfAccounts} account(s) were recovered.</b> Your most recently created account has been set to active."
         }
     },
 
