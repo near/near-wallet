@@ -13,8 +13,7 @@ import styled from 'styled-components'
 const CustomButton = styled(Button)`
     &&& {
         color: #fff;
-        letter-spacing: 2px;
-
+        letter-spacing: 1px;
         margin: 24px 0 0 0;
         border: 2px solid;
 
@@ -22,7 +21,7 @@ const CustomButton = styled(Button)`
         height: 48px;
         border-radius: 30px;
         
-        font-size: 14px;
+        font-size: 15px;
 
         svg {
             width: 16px;
@@ -78,7 +77,6 @@ const CustomButton = styled(Button)`
         &.blue {
             border-color: #0072ce;
             background: #0072ce;
-            text-transform: uppercase;
 
             :active,
             :hover,
@@ -147,7 +145,6 @@ const CustomButton = styled(Button)`
             background-repeat: no-repeat;
             background-position: 90% center;
             background-size: 14px 20px;
-            font-weight: 500 !important;
 
             :disabled {
                 color: e6e6e6;
@@ -168,7 +165,6 @@ const CustomButton = styled(Button)`
             color: #cccccc;
             border-color: #cccccc;
             background: #fff;
-            text-transform: uppercase;
 
             :disabled {
                 border-color: #e6e6e6;
@@ -187,7 +183,6 @@ const CustomButton = styled(Button)`
             color: #FF585D;
             border: none;
             background-color: #f8f8f8;
-            text-transform: uppercase;
 
             :hover,
             :active,
@@ -222,6 +217,11 @@ const CustomButton = styled(Button)`
             &.dark {
                 border-color: #EFEFEF;
                 background: #EFEFEF;
+            }
+
+            &.border {
+                background: none;
+                border-color: #E6E5E3;
             }
         }
         &.link {

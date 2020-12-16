@@ -23,18 +23,17 @@ const Container = styled.div`
 
         h1,
         h2 {
-            text-align: center;
+            text-align: left;
         }
     }
 
     .sub-title, h2 {
-        text-align: center !important;
+        text-align: left !important;
         line-height: 150% !important;
         margin: 25px 0;
         font-size: 16px !important;
-        color: #999 !important;
+        color: #3F4045 !important;
         font-weight: 400 !important;
-        line-break: anywhere;
     }
 
     &.ledger-theme {

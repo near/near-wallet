@@ -20,26 +20,22 @@ import RecoveryOption from './RecoveryOption';
 import FormButton from '../../common/FormButton';
 import EnterVerificationCode from '../EnterVerificationCode';
 import Container from '../../common/styled/Container.css';
+import ProgressBar from '../ProgressBar'
 
 const StyledContainer = styled(Container)`
     
     button {
-        text-transform: uppercase !important;
         margin-top: 50px !important;
         width: 100% !important;
     }
 
     h4 {
         margin-top: 40px;
+        font-weight: 600;
+        font-size: 15px;
     }
 
 `
-
-const OptionSubHeader = styled.div`
-    margin-top: 10px;
-    max-width: 540px;
-`
-
 class SetupRecoveryMethod extends Component {
 
     state = {
@@ -179,10 +175,10 @@ class SetupRecoveryMethod extends Component {
             return (
                 <StyledContainer className='small-centered'>
                     <form onSubmit={e => {this.handleNext(); e.preventDefault();}}>
+                        <ProgressBar step='2'/>
                         <h1><Translate id='setupRecovery.header'/></h1>
                         <h2><Translate id='setupRecovery.subHeader'/></h2>
                         <h4><Translate id='setupRecovery.advancedSecurity'/></h4>
-                        <OptionSubHeader><Translate id='setupRecovery.advancedSecurityDesc'/></OptionSubHeader>
                         <RecoveryOption
                             onClick={() => this.setState({ option: 'phrase' })}
                             option='phrase'
@@ -198,7 +194,6 @@ class SetupRecoveryMethod extends Component {
                             />
                         }
                         <h4><Translate id='setupRecovery.basicSecurity'/></h4>
-                        <OptionSubHeader><Translate id='setupRecovery.basicSecurityDesc'/></OptionSubHeader>
                         <RecoveryOption
                             onClick={() => this.setState({ option: 'email' })}
                             option='email'

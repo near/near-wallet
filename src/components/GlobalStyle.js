@@ -24,7 +24,7 @@ export default createGlobalStyle`
             min-height: 100vh !important;
 
             position: relative;
-            color: #999;
+            color: #3F4045;
             font-size: 14px !important;
             -webkit-overflow-scrolling: touch;
         }
@@ -63,7 +63,7 @@ export default createGlobalStyle`
     h1, .h1 {
         font-weight: 900 !important;
         color: #24272a;
-        font-size: calc(28px + (40 - 28) * ((100vw - 300px) / (1600 - 300))) !important;
+        font-size: calc(28px + (38 - 28) * ((100vw - 300px) / (1600 - 300))) !important;
         word-wrap: break-word;
 
         @media (max-width: 300px) {
@@ -97,6 +97,12 @@ export default createGlobalStyle`
         font-weight: 500;
         color: #24272a;
         margin: 0px;
+
+        &.small {
+            color: #72727A;
+            font-size: 14px;
+            font-weight: 400;
+        }
     }
 
     h5, .h5 {
@@ -171,13 +177,12 @@ export default createGlobalStyle`
         }
 
         :focus {
-            border-color: #e6e6e6 !important;
+            border-color: #0072ce !important;
             background-color: #fff !important;
+            box-shadow: 0 0 0 2pt #C8E3FC !important;
         }
 
         &.amount-input {
-            background: none !important;
-            border: 2px solid #E4E4E6 !important;
             font-size: 38px !important;
             margin: 0 !important;
             font-weight: 600 !important;
@@ -321,7 +326,7 @@ export default createGlobalStyle`
     button, .button {
         cursor: pointer;
         outline: none;
-        font-weight: 400 !important;
+        font-weight: 500 !important;
     }
 
     .box {
@@ -501,10 +506,6 @@ export default createGlobalStyle`
             &.input {
                 width: 100%;
                 margin-top: 10px;
-                input {
-                    background: none !important;
-                    border: 2px solid #E4E4E6 !important;
-                }
             }
         }
     }

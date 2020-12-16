@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { Translate } from 'react-localize-redux'
 import FormButton from '../common/FormButton';
 import Container from '../common/styled/Container.css'
+import ProgressBar from './ProgressBar'
 
 const StyledContainer = styled(Container)`
 
@@ -21,9 +22,29 @@ const StyledContainer = styled(Container)`
         margin-top: 40px !important;
     }
 
-    p {
-        :last-of-type {
-            margin-top: 30px;
+    .resend {
+        margin-top: 35px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        div {
+            :first-of-type {
+                color: #3F4045;
+                margin-bottom: 10px;
+            }
+
+            :last-of-type {
+                @media (max-width: 430px) {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                }
+            }
+        }
+
+        .link {
+            text-decoration: underline;
         }
     }
 `
@@ -51,9 +72,10 @@ const EnterVerificationCode = ({
     return (
         <StyledContainer className='small-centered'>
             <form onSubmit={e => {onConfirm(code); e.preventDefault();}} autoComplete='off'>
+                <ProgressBar step='3'/>
                 <h1><Translate id='setRecoveryConfirm.title'/></h1>
-                <h2><Translate id='setRecoveryConfirm.pageText'/> <Translate id={useEmail ? 'setRecoveryConfirm.email': 'setRecoveryConfirm.phone'}/> <span>{useEmail ? email : phoneNumber}</span></h2>
-                <h4><Translate id='setRecoveryConfirm.inputHeader'/></h4>
+                <h2><Translate id='setRecoveryConfirm.pageText'/> <Translate id={useEmail ? 'setRecoveryConfirm.email' : 'setRecoveryConfirm.phone'}/>: <span>{useEmail ? email : phoneNumber}</span></h2>
+                <h4 className='small'><Translate id='setRecoveryConfirm.inputHeader'/></h4>
                 <Translate>
                     {({ translate }) => (
                         <>
@@ -84,10 +106,14 @@ const EnterVerificationCode = ({
                     <Translate id='button.verifyCodeEnable' />
                 </FormButton>
             </form>
-            <p>
-                <Translate id='setRecoveryConfirm.didNotRecive'/> <span onClick={onResend} className='link'><Translate id='setRecoveryConfirm.resendCode'/></span>,
-                &nbsp;<Translate id='setRecoveryConfirm.or'/> &nbsp;<span onClick={onGoBack} className='link'><Translate id='setRecoveryConfirm.sendToDifferent'/> <Translate id={`setRecoveryConfirm.${useEmail ? 'email' : 'phone'}`}/></span>.
-            </p>
+
+            <div className='resend'>
+                <div><Translate id='setRecoveryConfirm.didNotRecive'/></div>
+                <div>
+                    <span onClick={onResend} className='link'><Translate id='setRecoveryConfirm.resendCode'/></span>
+                    &nbsp;<Translate id='setRecoveryConfirm.or'/>&nbsp;<span onClick={onGoBack} className='link'><Translate id='setRecoveryConfirm.sendToDifferent'/> <Translate id={`setRecoveryConfirm.${useEmail ? 'email' : 'phone'}`}/></span>
+                </div>
+            </div>
         </StyledContainer>
     )
 }

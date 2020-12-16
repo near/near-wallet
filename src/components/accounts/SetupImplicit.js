@@ -13,6 +13,7 @@ import Container from '../common/styled/Container.css'
 import FormButton from '../common/FormButton'
 import { createAccountFromImplicit } from '../../actions/account'
 import { NETWORK_ID, NODE_URL, MIN_BALANCE_FOR_GAS } from '../../utils/wallet'
+import ProgressBar from './ProgressBar'
 
 const StyledContainer = styled(Container)`
     .account-id-wrapper {
@@ -23,7 +24,7 @@ const StyledContainer = styled(Container)`
         font-size: 20px;
         word-break: break-all;
         line-height: 140%;
-        margin: 40px 0;
+        margin: 10px 0 40px 0;
         text-align: center;
     }
 
@@ -33,7 +34,7 @@ const StyledContainer = styled(Container)`
 
     button {
         margin: 0 auto !important;
-        display: block !important
+        width: 100% !important;
     }
 `
 
@@ -131,43 +132,23 @@ class SetupImplicit extends Component {
             <Translate>
                 {({ translate }) => (
                     <StyledContainer className='small-centered'>
-                        {!balance
-                            ? <>
-                                <h1><Translate id='account.createImplicit.pre.title' /></h1>
-                                <p><Translate id='account.createImplicit.pre.descOne' data={{ amount: formatNearAmount(MIN_BALANCE_TO_CREATE) }}/></p>
-                                <p><Translate id='account.createImplicit.pre.descTwo'/></p>
-                            </>
-                            : <>
-                                <h1><Translate id='account.createImplicit.post.title' /></h1>
-                                <p><Translate id='account.createImplicit.post.descOne'/></p>
-                                <p><Translate id='account.createImplicit.post.descTwo'/></p>
-                            </>
-                        }
+                        <ProgressBar step='4'/>
+                        <h1><Translate id='account.createImplicit.pre.title' /></h1>
+                        <h2><Translate id='account.createImplicit.pre.descOne' data={{ amount: formatNearAmount(MIN_BALANCE_TO_CREATE) }}/></h2>
+                        <h2><Translate id='account.createImplicit.pre.descTwo'/></h2>
+                        <h4 className='small'><Translate id='account.createImplicit.pre.addressHeader'/></h4>
                         <div className='account-id-wrapper'>
-                            {!balance ? implicitAccountId : accountId}
+                            {implicitAccountId}
                         </div>
-                        {!balance
-                            ? <>
-                                <FormButton
-                                    onClick={() => this.handleCopyPhrase(implicitAccountId)}
-                                    color='seafoam-blue-white'
-                                >
-                                    <Translate id='button.copyImplicitAddress' />
-                                </FormButton>
-                                <p id="implicit-account-id" style={{ display: 'none' }}>
-                                    <span>{implicitAccountId}</span>
-                                </p>
-                            </>
-                            : <>
-                                <FormButton
-                                    onClick={this.handleContinue}
-                                    color='green'
-                                    sending={this.props.formLoader}
-                                >
-                                    <Translate id='button.claimAccount' />
-                                </FormButton>
-                            </>
-                        }
+                        <FormButton
+                            onClick={() => this.handleCopyPhrase(implicitAccountId)}
+                            color='gray-blue border'
+                        >
+                            <Translate id='button.copyImplicitAddress' />
+                        </FormButton>
+                        <p id="implicit-account-id" style={{ display: 'none' }}>
+                            <span>{implicitAccountId}</span>
+                        </p>
                         <Snackbar
                             theme='success'
                             message={translate(snackBarMessage)}

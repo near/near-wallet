@@ -36,7 +36,8 @@
             "pre": {
                 "title": "Fund Your Account",
                 "descOne": "To create your new account, you must first fund its creation by sending at least <b>${amount} NEAR</b> to the following <b>funding address</b>.",
-                "descTwo": "Once your funds have been received, return to this page to finalize and claim your new <b>Account ID</b>:"
+                "descTwo": "Once your funds have been received, return to this page to finalize and claim your new <b>Account ID</b>:",
+                "addressHeader": "Temporary funding address"
             },
             "post": {
                 "title": "Claim Your Account ID",
@@ -110,7 +111,7 @@
         "pageTitle": "Setup Phrase",
         "pageText": "Write down the following words IN ORDER and keep them somewhere safe. You cannot recover your account without them!",
         "snackbarCopySuccess": "Seed phrase copied!",
-        "snackbarCopyImplicitAddress": "Account ID Copied!"
+        "snackbarCopyImplicitAddress": "Funding Address Copied!"
     },
     "setupSeedPhraseVerify": {
         "pageTitle": "Verify Phrase",
@@ -266,16 +267,16 @@
     "button": {
         "signIn": "Sign In",
         "signingIn": "Signing In",
-        "copyPhrase": "COPY PHRASE",
+        "copyPhrase": "Copy Phrase",
         "copyImplicitAddress": "Copy Funding Address",
-        "claimAccount": "CLAIM ACCOUNT",
-        "continue": "CONTINUE",
+        "claimAccount": "Claim Account",
+        "continue": "Continue",
         "continueSetup": "Continue to Setup",
-        "verify": "VERIFY & COMPLETE",
+        "verify": "Verify & Complete",
         "verifyCode": "Verify Code",
-        "verifyCodeEnable": "Verify Code & Enable",
+        "verifyCodeEnable": "Verify & Continue",
         "startOver": "Start over",
-        "copyUrl": "Copy Url",
+        "copyUrl": "Copy URL",
         "createAccount": "Create Account",
         "recoverYourAccount": "Recover your Account",
         "importExistingAccount": "Import Existing Account",
@@ -285,33 +286,33 @@
         "connectLedger": "Connect to Ledger",
         "connect": "Connect",
         "retry": "Retry",
-        "browseApps": "BROWSE APPS",
-        "createAccountCapital": "CREATE ACCOUNT",
-        "findMyAccount": "FIND MY ACCOUNT",
-        "protectAccount": "PROTECT ACCOUNT",
-        "setupPhrase": "SETUP RECOVERY PHRASE",
-        "confirm": "CONFIRM",
-        "viewAll": "VIEW ALL",
-        "send": "SEND",
+        "browseApps": "Browse Apps",
+        "createAccountCapital": "Create Account",
+        "findMyAccount": "Find My Account",
+        "protectAccount": "Protect Account",
+        "setupPhrase": "Setup Recovery Phrase",
+        "confirm": "Confirm",
+        "viewAll": "View All",
+        "send": "Send",
         "cancel": "Cancel",
         "skip": "Skip",
-        "deny": "DENY",
-        "allow": "ALLOW",
-        "addNode": "ADD NODE",
-        "saveChanges": "SAVE CHANGES",
-        "removeNode": "REMOVE NODE",
-        "stake": "STAKE",
-        "confirmAndSend": "CONFIRM & SEND",
+        "deny": "Deny",
+        "allow": "Allow",
+        "addNode": "Add Node",
+        "saveChanges": "Save Changes",
+        "removeNode": "Remove Node",
+        "stake": "Stake",
+        "confirmAndSend": "Confirm & Send",
         "needToEditGoBack": "Need to edit? Go Back",
         "cancelTransfer": "Cancel Transfer",
-        "goToDashboard": "GO TO DASHBOARD",
-        "close": "CLOSE",
-        "addFunds": "ADD FUNDS",
-        "deauthorize": "DEAUTHORIZE",
-        "recoverAccount": "RECOVER ACCOUNT",
+        "goToDashboard": "Go To Dashboard",
+        "close": "Close",
+        "addFunds": "Add Funds",
+        "deauthorize": "Deauthorize",
+        "recoverAccount": "Recover Account",
         "goBack": "Go back",
-        "createNewAccount": "CREATE NEW ACCOUNT",
-        "addAccount": "ADD ACCOUNT",
+        "createNewAccount": "Create New Account",
+        "addAccount": "Add Account",
         "moreInformation": "More information",
         "dismiss": "Dismiss",
         "cancelOperation": "Cancel Operation",
@@ -372,15 +373,15 @@
     },
 
     "createAccount": {
-        "pageTitle": "Create Account",
-        "pageText": "Just choose an account ID and you’re all set.",
+        "pageTitle": "Reserve Account ID",
+        "pageText": "Enter an Account ID to use with your NEAR account. Your Account ID will be used for all NEAR operations, including sending and receiving assets.",
+        "step": "Step ${step}/${total}",
         "accountIdInput": {
             "title": "Account ID",
             "placeholder": "Example: satoshi"
         },
         "alreadyHaveAnAccount": "Already have an account?",
-        "recoverItHere": "Recover your account",
-        "signInLedger": "Sign in with Ledger",
+        "recoverItHere": "Import Existing Account",
         "note": {
             "title": "NOTE",
             "one": "Your account ID can contain any of the following:",
@@ -412,8 +413,8 @@
     },
 
     "setupRecovery": {
-        "header": "Protect your Account",
-        "subHeader": "Select an account recovery method:",
+        "header": "Choose Security Method",
+        "subHeader": "Select a method to secure and recover your account. This will be used to verify important activity, recover your account and access your account from other devices.",
         "basicSecurity": "Less Secure",
         "basicSecurityDesc": "Enter your email address or phone number and receive a magic link",
         "emailTitle": "Email Recovery",
@@ -429,13 +430,13 @@
     "setRecoveryConfirm": {
         "title": "Enter Verification Code",
         "pageText": "We've sent a 6-digit verification code to the ",
-        "inputHeader": "Enter your 6-digit verification code",
+        "inputHeader": "Enter verification code",
         "inputPlaceholder": "Verification Code",
         "invalidCode": "Invalid code",
         "didNotRecive": "Didn't receive your code?",
         "resendCode": "Resend your code",
         "or": "or",
-        "sendToDifferent": "send to a different",
+        "sendToDifferent": "Send to a different",
         "email": "email address",
         "phone": "phone number",
         "reenter": {
@@ -673,7 +674,7 @@
         },
         "validator": {
             "title": "Validator: <br/> @${validator}",
-            "button": "Stake with validator",
+            "button": "Stake With Validator",
             "fee": "Validator Fee",
             "desc": "This is the fee paid to the validator to stake on your behalf. This fee is only charged on your rewards.",
             "withdrawalDisclaimer": "Funds pending release will be made available after ~36-48hrs (3 epochs)",
@@ -686,7 +687,7 @@
         },
         "alertBanner": {
             "title": "You must first unstake and withdraw your tokens from your current validator in order to stake with a new validator.",
-            "button": "View current validator"
+            "button": "View Current Validator"
         },
         "noValidators": {
             "title": "You are not currently staking with any validators."
@@ -744,7 +745,7 @@
         "button": {
             "send": "Submit",
             "confirm": "Confirm & Send",
-            "dashboard": "Go to dashboard"
+            "dashboard": "Go To Dashboard"
         },
         "amountStatusId": {
             "noMoreThan": "NO MORE THAN 5 DECIMAL DIGITS",

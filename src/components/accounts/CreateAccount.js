@@ -10,6 +10,7 @@ import BrokenLinkIcon from '../svg/BrokenLinkIcon';
 import FormButton from '../common/FormButton'
 import AccountFormAccountId from './AccountFormAccountId'
 import AccountNote from '../common/AccountNote'
+import ProgressBar from './ProgressBar'
 
 const StyledContainer = styled(Container)`
 
@@ -136,9 +137,10 @@ class CreateAccount extends Component {
             return (
                 <StyledContainer className='small-centered'>
                     <form onSubmit={e => {this.handleCreateAccount(); e.preventDefault();}} autoComplete='off'>
+                        <ProgressBar step='1'/>
                         <h1><Translate id='createAccount.pageTitle'/></h1>
                         <h2><Translate id='createAccount.pageText'/></h2>
-                        <h6><Translate id='createAccount.accountIdInput.title'/></h6>
+                        <h4 className='small'><Translate id='createAccount.accountIdInput.title'/></h4>
                         <AccountFormAccountId
                             formLoader={formLoader}
                             handleChange={this.handleChange}
@@ -161,8 +163,6 @@ class CreateAccount extends Component {
                         </FormButton>
                         <div className='alternatives-title'><Translate id='createAccount.alreadyHaveAnAccount'/></div>
                         <div className='alternatives'>
-                            <Link to='/sign-in-ledger'><Translate id='createAccount.signInLedger'/></Link>
-                            &nbsp; <Translate id='or'/> &nbsp;
                             <Link to={process.env.DISABLE_PHONE_RECOVERY === 'yes' ? '/recover-seed-phrase' : '/recover-account'}><Translate id='createAccount.recoverItHere' /></Link>
                         </div>
                     </form>

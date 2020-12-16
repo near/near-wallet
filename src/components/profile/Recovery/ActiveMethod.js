@@ -91,7 +91,6 @@ const DisableContainer = styled.form`
 
                 &:first-of-type {
                     padding: 5px 15px;
-                    text-transform: uppercase;
                     width: 155px;
                 }
 

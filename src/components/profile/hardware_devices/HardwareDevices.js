@@ -63,7 +63,6 @@ const Container = styled(Card)`
             letter-spacing: 1px !important;
             margin: 0 !important;
             padding: 0;
-            text-transform: uppercase;
         }
     }
 
