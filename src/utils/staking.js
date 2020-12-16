@@ -422,7 +422,6 @@ export class Staking {
         } else {
             lockupId = getLockupAccountId(accountId)
         }
-        await (await new nearApiJs.Account(this.wallet.connection, lockupId)).state()
         const contract = await this.getContractInstance(lockupId, lockupMethods)
         return { contract, lockupId, accountId }
     }

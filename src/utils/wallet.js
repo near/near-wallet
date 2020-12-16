@@ -215,7 +215,7 @@ class Wallet {
             try {
                 lockupInfo = await this.staking.getLockup();
             } catch (error) {
-                if (error.toString().includes('does not exist while viewing')) {
+                if (error.toString().includes('No contract for account')) {
                     console.warn('Account has no lockup')
                 } else {
                     throw error
