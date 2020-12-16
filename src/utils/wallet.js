@@ -475,8 +475,9 @@ class Wallet {
         const accountHasLedgerKey = accessKeys.map(key => key.public_key).includes(ledgerPublicKey.toString())
         await setKeyMeta(ledgerPublicKey, { type: 'ledger' })
 
+        const account = await this.getAccount(accountId);
         if (!accountHasLedgerKey) {
-            await this.getAccount(accountId).addKey(ledgerPublicKey)
+            await account.addKey(ledgerPublicKey)
             await this.postSignedJson('/account/ledgerKeyAdded', { accountId, publicKey: ledgerPublicKey.toString() })
         }
     }
