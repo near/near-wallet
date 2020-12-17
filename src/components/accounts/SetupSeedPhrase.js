@@ -27,7 +27,8 @@ class SetupSeedPhrase extends Component {
         enterWord: '',
         wordId: null,
         requestStatus: null,
-        successSnackbar: false
+        successSnackbar: false,
+        submitting: false
     }
 
     componentDidMount = () => {
@@ -77,15 +78,9 @@ class SetupSeedPhrase extends Component {
         history.push(`/setup-seed-phrase/${accountId}/phrase${location.search}`)
     }
 
-    handleSubmit = async () => {
-        const { 
-            accountId,
-            handleAddAccessKeySeedPhrase,
-            handleCreateAccountWithSeedPhrase,
-            checkIsNew,
-            location
-        } = this.props
-        const { seedPhrase, enterWord, wordId, recoveryKeyPair } = this.state
+    handleVerifyPhrase = () => {
+        const { seedPhrase, enterWord, wordId, submitting } = this.state
+
         if (enterWord !== seedPhrase.split(' ')[wordId]) {
             this.setState(() => ({
                 requestStatus: {
@@ -95,6 +90,21 @@ class SetupSeedPhrase extends Component {
             }))
             return false
         }
+
+        if (!submitting) {
+            this.setState({ submitting: true }, this.handleSetupSeedPhrase)
+        }
+    }
+
+    handleSetupSeedPhrase = async () => {
+        const { 
+            accountId,
+            handleAddAccessKeySeedPhrase,
+            handleCreateAccountWithSeedPhrase,
+            checkIsNew,
+            location
+        } = this.props
+        const { recoveryKeyPair } = this.state
 
         const isNew = await checkIsNew(accountId)
 
@@ -155,7 +165,7 @@ class SetupSeedPhrase extends Component {
                             path={`/setup-seed-phrase/:accountId/verify`}
                             render={() => (
                                 <Container className='small-centered'>
-                                    <form onSubmit={e => {this.handleSubmit(); e.preventDefault();}} autoComplete='off'>
+                                    <form onSubmit={e => {this.handleVerifyPhrase(); e.preventDefault();}} autoComplete='off'>
                                     <h1><Translate id='setupSeedPhraseVerify.pageTitle'/></h1>
                                     <h2><Translate id='setupSeedPhraseVerify.pageText'/></h2>
                                         <SetupSeedPhraseVerify
@@ -166,6 +176,7 @@ class SetupSeedPhrase extends Component {
                                             formLoader={this.props.formLoader}
                                             requestStatus={this.state.requestStatus}
                                             globalAlert={this.props.globalAlert}
+                                            submitting={this.state.submitting}
                                         />
                                     </form>
                                 </Container>
