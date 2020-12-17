@@ -31,6 +31,10 @@ const StyledContainer = styled(Container)`
         .sub-title {
             span {
                 color: #292526;
+
+                &.receiver {
+                    line-break: anywhere;
+                }
             }
         }
     }
@@ -142,7 +146,7 @@ export function SendContainer({ match }) {
             <StyledContainer className='small-centered send-theme success'>
                 <TransferMoneyIcon/>
                 <h1>Success!</h1>
-                <div className='sub-title success'>You have successfully sent <span><Balance amount={utils.format.parseNearAmount(amount) || '0'} symbol='near'/></span> to <span>{id}</span></div>
+                <div className='sub-title success'>You have successfully sent <span><Balance amount={utils.format.parseNearAmount(amount) || '0'} symbol='near'/></span> to <span className='receiver'>{id}</span></div>
                 <FormButton linkTo='/'>
                     <Translate id='button.goToDashboard' />
                 </FormButton>
