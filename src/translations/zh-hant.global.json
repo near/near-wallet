@@ -1,4 +1,94 @@
 {
+    "alert": {
+        "RECOVER_ACCOUNT_SEED_PHRASE": {
+            "success": "成功。",
+            "error": "恢復賬戶失敗。",
+            "errorInvalidSeedPhrase": "助記詞無效"
+        },
+        "SEND_MONEY": {
+            "error": "請檢查你的設備已經連接並打開了 NEAR 應用。"
+        },
+        "CHECK_NEW_ACCOUNT": {
+            "success": "恭喜! ${accountId} 可被註冊。",
+            "error": "用戶名已被註冊，請嘗試其他。"
+        },
+        "ADD_ACCESS_KEY": {
+            "success": "${title} 現已授權使用妳的賬戶。",
+            "error": "在授權此操作時發生了錯誤，請重試。"
+        },
+        "ADD_ACCESS_KEY_SEED_PHRASE": {
+            "success": "助記詞恢復設置已經完成。",
+            "error": "在設置助記詞恢復方式時發生了錯誤，請重試。",
+            "errorSecond": "An error has occurred.<br />The seed phrase was not added to your account. Please try again."
+        },
+        "SETUP_RECOVERY_MESSAGE": {
+            "success": "賬戶恢復設置已完成。",
+            "error": "設置賬戶恢復方式時發生錯誤，請重試。"
+        },
+        "SAVE_AND_SELECT_LEDGER_ACCOUNTS": {
+            "success": "你已經成功登錄。<br/><b>${numberOfAccounts} 個賬戶</b>已經成功恢復：<b>${accountList}</b>。<br/>最後一個賬戶設置為活躍賬戶。",
+            "error": "請檢查硬件錢包已經安全連接，並且 NEAR 應用已經打開。"
+        },
+        "DELETE_RECOVERY_METHOD": {
+            "success": "",
+            "error": ""
+        },
+        "DEPLOY_MULTISIG": {
+            "success": "",
+            "error": ""
+        },
+        "REMOVE_ACCESS_KEY": {
+            "success": "",
+            "error": "請檢查你的設備已經連接並打開了 NEAR 應用。"
+        },
+        "SIGN_AND_SEND_TRANSACTIONS": {
+            "success": "",
+            "error": "",
+            "notEnoughTokens": "Not enough tokens."
+        },
+        "CREATE_ACCOUNT_WITH_SEED_PHRASE": {
+            "success": "",
+            "error": ""
+        },
+        "ADD_LEDGER_ACCOUNT_ID": {
+            "success": "",
+            "error": "賬戶的訪問被拒絕，恢復賬戶失敗。<br/>若要繼續，需要在 Ledger 設備上授權每個賬戶的只讀訪問，請再重試。",
+            "errorRpc": "恢復賬戶時發生錯誤。"
+        },
+        "PROMPT_TWO_FACTOR": {
+            "userCancelled": "此操作已被取消。",
+            "invalidCode": "無效的兩步驗證碼，請重試。"
+        },
+        "CHECK_ACCOUNT_AVAILABLE": {
+            "success": "User found.",
+            "error": "User not found."
+        },
+        "GET_LEDGER_ACCOUNT_IDS": {
+            "success": "",
+            "error": "公鑰訪問被拒絕，恢復賬戶失敗。<br/>若要繼續，需要允許 NEAR 錢包訪問你的公鑰，請再重試。"
+        },
+        "VERIFY_TWO_FACTOR": {
+            "success": "兩步驗證設置成功！",
+            "error": "兩步驗證設置失敗，請重試。"
+        },
+        "CHECK_IS_NEW": {
+            "success": "恭喜! ${accountId} 可被註冊。",
+            "error": "用戶名已被註冊，請嘗試其他。"
+        },
+        "CREATE_NEW_ACCOUNT": {
+            "success": "恭喜! ${accountId} 可被註冊。",
+            "error": "用戶名已被註冊，請嘗試其他。"
+        },
+
+        "Deserialization": "",
+        "RetriesExceeded": "此交易超出最大重試次數。",
+        "U2F_4": "無法通過硬件錢包登錄：U2F DEVICE_INELIGIBLE。請確保 Ledger 設備已連接並解鎖。",
+
+        "default": {
+            "success": "",
+            "error": "Sorry an error has occurred. You may want to try again."
+        }
+    },
     "account": {
         "requestCode": {
             "success": "短信已成功發送。",
@@ -10,8 +100,6 @@
             "errorInvalidSeedPhrase": "助記詞無效"
         },
         "create": {
-            "success": "恭喜! ${accountId} 可被註冊。",
-            "error": "用戶名已被註冊，請嘗試其他。",
             "errorInvalidAccountIdLength": "用戶名的長度需為 2 至 64 個字符。",
             "checkingAvailablity": {
                 "create": "正在檢查可用性",
@@ -62,25 +150,11 @@
         "verifySeedPhrase": {
             "error": "妳輸入了錯誤的助記詞"
         },
-        "setupSeedPhrase": {
-            "success": "助記詞恢復設置已經完成。",
-            "error": "在設置助記詞恢復方式時發生了錯誤，請重試。"
-        },
-        "setupRecoveryMessage": {
-            "success": "賬戶恢復設置已完成。",
-            "error": "設置賬戶恢復方式時發生錯誤，請重試。"
-        },
         "sendNewRecoveryLink": {
             "success": "賬戶恢復鏈接已經發送！",
             "error": "賬戶恢復鏈接發送失敗，請重試。"
         },
-        "verifyTwoFactor": {
-            "success": "兩步驗證設置成功！",
-            "error": "兩步驗證設置失敗，請重試。"
-        },
         "login": {
-            "success": "${title} 現已授權使用妳的賬戶。",
-            "error": "在授權此操作時發生了錯誤，請重試。",
             "details": {
                 "warning": "這將可以訪問妳的所有余額，請謹慎操作。"
             },
@@ -242,10 +316,7 @@
         "dashboardNoApps": "妳還未授權任何應用",
         "feeAllowance": "費用配額",
         "publicKey": "公鑰",
-        "ledger": "Ledger",
-        "removeAccessKey": {
-            "error": "請檢查你的設備已經連接並打開了 NEAR 應用。"
-        }
+        "ledger": "Ledger"
     },
     "ledgerSignTxModal": {
         "SEND_MONEY": "請在 Ledger 設備上確認轉賬信息。",
@@ -819,21 +890,10 @@
         "header": "通過 Ledger 硬件登錄",
         "one": "請確認硬件錢包已經安全連接，並且 NEAR 應用已經打開。",
         "getLedgerAccountIds": {
-            "success": "",
-            "error": "公鑰訪問被拒絕，恢復賬戶失敗。<br/>若要繼續，需要允許 NEAR 錢包訪問你的公鑰，請再重試。",
             "noAccounts": "該 Ledger 設備沒有綁定任何賬戶，你需要先創建一個賬戶，並將此賬戶綁定至 Ledger 才能登錄。",
             "noAccountsAccepted": "無賬戶授權。",
             "aborted": "操作被終止。",
             "U2FNotSupported": "需要瀏覽器支持 U2F，請使用 Chrome、Opera 或 Firefox 安裝 U2F 擴展。"
-        },
-        "addLedgerAccountId": {
-            "success": "",
-            "error": "賬戶的訪問被拒絕，恢復賬戶失敗。<br/>若要繼續，需要在 Ledger 設備上授權每個賬戶的只讀訪問，請再重試。",
-            "errorRpc": "恢復賬戶時發生錯誤。"
-        },
-        "saveAndSelectLedgerAccounts": {
-            "success": "你已經成功登錄。<br/><b>${numberOfAccounts} 個賬戶</b>已經成功恢復：<b>${accountList}</b>。<br/>最後一個賬戶設置為活躍賬戶。",
-            "error": "請檢查硬件錢包已經安全連接，並且 NEAR 應用已經打開。"
         },
         "modal": {
             "confirmPublicKey": "確認公鑰",
@@ -872,10 +932,6 @@
         "recoveryMethods": {
             "lastMethod": "無法刪除最後一個恢復方式。除非你添加了 Ledger，你需要保留至少一種賬戶恢復方式。",
             "setupMethod": "發生錯誤。請檢查你的賬戶恢復方式。"
-        },
-        "twoFactor": {
-            "userCancelled": "此操作已被取消。",
-            "invalidCode": "無效的兩步驗證碼，請重試。"
         }
     },
     "networkBanner": {
