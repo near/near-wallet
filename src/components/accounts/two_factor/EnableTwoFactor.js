@@ -12,12 +12,12 @@ import {
     initTwoFactor,
     verifyTwoFactor,
     deployMultisig,
-    redirectToApp
+    redirectToApp,
+    clearAlert
 } from '../../../actions/account';
 import { useRecoveryMethods } from '../../../hooks/recoveryMethods';
 import EnterVerificationCode from '../EnterVerificationCode'
 import Container from '../../common/styled/Container.css'
-import { onKeyDown } from '../../../hooks/eventListeners'
 
 const StyledContainer = styled(Container)`
 
@@ -55,12 +55,6 @@ export function EnableTwoFactor(props) {
     const recoveryMethods = useRecoveryMethods(accountId);
     const loading = formLoader
 
-    onKeyDown(e => {
-        if (e.keyCode === 13 && isValidInput() && !loading) {
-            handleNext()
-        }
-    });
-
     const method = {
         kind: `2fa-${option}`,
         detail: option === 'email' ? email : phoneNumber
@@ -81,26 +75,35 @@ export function EnableTwoFactor(props) {
     }, [recoveryMethods]);
 
     const handleNext = async () => {
-        let response;
-        try {
-            response = await dispatch(initTwoFactor(accountId, method))
-        } finally {
-            if (response && response.confirmed) {
-                handleDeployMultisig()
-            } else {
-                setInitiated(true)
+        if (!initiated && !loading && !has2fa && isValidInput()) {
+            let response;
+            try {
+                response = await dispatch(initTwoFactor(accountId, method))
+            } finally {
+                if (response && response.confirmed) {
+                    await handleDeployMultisig()
+                } else {
+                    setInitiated(true)
+                }
             }
         }
     }
 
+    const handleResendCode = async () => {
+        await dispatch(initTwoFactor(accountId, method))
+    }
+
     const handleConfirm = async (securityCode) => {
-        await dispatch(verifyTwoFactor(securityCode))
-        handleDeployMultisig()
+        if (initiated && securityCode.length === 6) {
+            await dispatch(verifyTwoFactor(securityCode))
+            await dispatch(clearAlert())
+            await handleDeployMultisig()
+        }
     }
 
     const handleDeployMultisig = async () => {
         await dispatch(deployMultisig())
-        dispatch(redirectToApp('/profile'))
+        await dispatch(redirectToApp('/profile'))
     }
 
     const handleGoBack = () => {
@@ -145,6 +148,7 @@ export function EnableTwoFactor(props) {
                                     value={email}
                                     onChange={e => setEmail(e.target.value)}
                                     tabIndex='1'
+                                    disabled={loading}
                                 />
                             )}
                         </Translate>
@@ -161,19 +165,20 @@ export function EnableTwoFactor(props) {
                                     value={phoneNumber}
                                     onChange={value => setPhoneNumber(value)}
                                     tabIndex='1'
+                                    disabled={loading}
                                 />
                             )}
                         </Translate>
                     </TwoFactorOption>
                     <FormButton
                         color='blue'
+                        disabled={!isValidInput() || loading || has2fa || initiated}
                         type='submit'
-                        disabled={!isValidInput() || loading || has2fa}
                         sending={loading}
                     >
                         <Translate id={`button.continue`} />
                     </FormButton>
-                    <FormButton className='link' linkTo='/profile'><Translate id='button.skip' /></FormButton>
+                    <FormButton className='link' type='button' linkTo='/profile'><Translate id='button.skip' /></FormButton>
                 </form>
             </StyledContainer>
         )
@@ -185,7 +190,7 @@ export function EnableTwoFactor(props) {
                 email={email}
                 onConfirm={handleConfirm}
                 onGoBack={handleGoBack}
-                onResend={handleNext}
+                onResend={handleResendCode}
                 loading={loading}
                 requestStatus={props.requestStatus}
             />

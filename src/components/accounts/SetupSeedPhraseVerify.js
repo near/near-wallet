@@ -47,7 +47,8 @@ const SetupSeedPhraseVerify = ({
     handleStartOver,
     formLoader,
     requestStatus,
-    globalAlert
+    globalAlert,
+    submitting
 }) => (
     <CustomDiv>
         <h4><Translate id='input.enterWord.title' data={{ wordId: wordId + 1 }} /></h4>
@@ -62,6 +63,7 @@ const SetupSeedPhraseVerify = ({
                     tabIndex='1'
                     pattern='[a-zA-Z ]*'
                     className={requestStatus ? (requestStatus.success ? 'success' : 'problem') : ''}
+                    disabled={submitting || formLoader}
                 />
             )}
         </Translate>
@@ -69,7 +71,7 @@ const SetupSeedPhraseVerify = ({
         <FormButton
             type='submit'
             color='blue'
-            disabled={!enterWord || formLoader}
+            disabled={!enterWord || formLoader || submitting}
             sending={formLoader}
         >
             <Translate id='button.verify' />

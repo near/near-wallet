@@ -10,7 +10,8 @@ import {
     initializeRecoveryMethod, 
     setupRecoveryMessage,
     setupRecoveryMessageNewAccount, 
-    redirectToApp, 
+    redirectToApp,
+    redirectTo,
     loadRecoveryMethods, 
     getAccessKeys, 
     getLedgerKey,
@@ -84,23 +85,23 @@ class SetupRecoveryMethod extends Component {
         }
     }
 
-    handleNext = () => {
+    handleNext = async () => {
         const { option } = this.state;
-
         const {
             accountId,
             location,
+            redirectTo
         } = this.props
-        const phraseUrl = `/setup-seed-phrase/${accountId}/phrase${location.search}`
 
-        if (option === 'email' || option === 'phone') {
-            this.handleSendCode()
-            window.scrollTo(0, 0);
-        } else if (option === 'phrase') {
-            this.props.history.push(phraseUrl);
-        } else if (option === 'ledger') {
-            const ledgerUrl = `/setup-ledger/${accountId}${location.search}`
-            this.props.history.push(ledgerUrl);
+        if (this.isValidInput) {
+            if (option === 'email' || option === 'phone') {
+                await this.handleSendCode()
+                window.scrollTo(0, 0);
+            } else if (option === 'phrase') {
+                redirectTo(`/setup-seed-phrase/${accountId}/phrase${location.search}`)
+            } else if (option === 'ledger') {
+                redirectTo(`/setup-ledger/${accountId}${location.search}`)
+            }
         }
     }
 
@@ -277,7 +278,8 @@ const mapDispatchToProps = {
     getAccessKeys,
     getLedgerKey,
     get2faMethod,
-    checkIsNew
+    checkIsNew,
+    redirectTo
 }
 
 const mapStateToProps = ({ account, router, recoveryMethods }, { match }) => ({
