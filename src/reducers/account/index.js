@@ -14,7 +14,6 @@ import {
     refreshUrl,
     refreshAccount,
     resetAccounts,
-    setFormLoader,
     deleteRecoveryMethod,
     recoverAccountSeedPhrase,
     removeAccessKey,
@@ -209,10 +208,6 @@ const account = handleActions({
         ...state,
         loginResetAccounts: true
     }),
-    [setFormLoader]: (state, { payload }) => ({
-        ...state,
-        formLoader: payload
-    })
 }, initialState)
 
 export default reduceReducers(

@@ -12,7 +12,6 @@ import {
     refreshAccount, 
     signInWithLedgerAddAndSaveAccounts, 
     checkAccountAvailable, 
-    setFormLoader, 
     clearSignInWithLedgerModalState
 } from '../../../actions/account';
 import RequestStatusBox from '../../common/RequestStatusBox'
@@ -110,7 +109,6 @@ export function SignInLedger(props) {
                     handleChange={handleChange}
                     requestStatus={account.requestStatus}
                     checkAccountAvailable={(accountId) => dispatch(checkAccountAvailable(accountId))}
-                    setFormLoader={(state) => dispatch(setFormLoader(state))}
                     formLoader={account.formLoader}
                     clearRequestStatus={() => dispatch(clear())}
                     stateAccountId={account.accountId}

@@ -6,7 +6,7 @@ import { Translate } from 'react-localize-redux'
 import FormButton from '../common/FormButton'
 import ArrowCircleIcon from '../svg/ArrowCircleIcon'
 import AccountFormAccountId from '../accounts/AccountFormAccountId'
-import { checkAccountAvailable, setFormLoader, clear, sendMoney, refreshAccount } from '../../actions/account'
+import { checkAccountAvailable, clear, sendMoney, refreshAccount } from '../../actions/account'
 import BalanceBreakdown from '../staking/components/BalanceBreakdown'
 import BN from 'bn.js'
 import { utils } from 'near-api-js'
@@ -123,7 +123,6 @@ export function SendContainer({ match }) {
                     checkAvailability={() => dispatch(checkAccountAvailable(id))}
                     requestStatus={requestStatus}
                     autoFocus={false}
-                    setFormLoader={() => dispatch(setFormLoader())}
                     clearRequestStatus={() => dispatch(clear())}
                     stateAccountId={accountId}
                 />
