@@ -3599,10 +3599,10 @@ bip39@2.4.0:
     safe-buffer "^5.0.1"
     unorm "^1.3.3"
 
-bl@^1.2.1:
-  version "1.2.3"
-  resolved "https://registry.yarnpkg.com/bl/-/bl-1.2.3.tgz#1e8dd80142eac80d7158c9dccc047fb620e035e7"
-  integrity sha512-pvcNpa0UU69UT341rO6AYy4FVAIkUHuZXRIWbq+zHnsVcRzDDjIAhGuuYoi0d//cwIwtt4pkpKycWEfjdV+vww==
+bl@^2.0.1:
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/bl/-/bl-2.2.1.tgz#8c11a7b730655c5d56898cdc871224f40fd901d5"
+  integrity sha512-6Pesp1w0DEX1N550i/uGV/TqucVL4AM/pgThFSN/Qq9si1/DF9aIHs1BxD8V/QU0HoeHO6cQRTAuYnLPKq1e4g==
   dependencies:
     readable-stream "^2.3.5"
     safe-buffer "^5.1.1"
@@ -4683,6 +4683,11 @@ crypto-browserify@^3.11.0:
     public-encrypt "^4.0.0"
     randombytes "^2.0.0"
     randomfill "^1.0.3"
+
+crypto-js@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/crypto-js/-/crypto-js-4.0.0.tgz#2904ab2677a9d042856a2ea2ef80de92e4a36dcc"
+  integrity sha512-bzHZN8Pn+gS7DQA6n+iUmBfl0hO5DJq++QP3U6uTucDtk/0iGpXd/Gg7CGR0p8tJhofJyaKoWBuJI4eAO00BBg==
 
 css-color-keywords@^1.0.0:
   version "1.0.0"
@@ -9212,15 +9217,15 @@ ms@^2.1.1:
   resolved "https://registry.yarnpkg.com/ms/-/ms-2.1.3.tgz#574c8138ce1d2b5861f0b44579dbadd60c6615b2"
   integrity sha512-6FlzubTLZG3J2a/NVCAleEhjzq5oxgHyaCU9yYXvcLsvoVaHJq/s5xXI6/XXP6tz7R9xAOtHnSO/tXtF3WRTlA==
 
-msgpack5@^3.4.1:
-  version "3.6.0"
-  resolved "https://registry.yarnpkg.com/msgpack5/-/msgpack5-3.6.0.tgz#13912ee47cb0ad037f70def7924ebf38afa19b4f"
-  integrity sha512-6HuCZHA57WtNUzrKIvjJ8OMxigzveJ6D5i13y6TsgGu3X3zxABpuBvChpppOoGdB9SyWZcmqUs1fwUV/PpSQ7Q==
+msgpack5@^4.2.1:
+  version "4.3.0"
+  resolved "https://registry.yarnpkg.com/msgpack5/-/msgpack5-4.3.0.tgz#edd446a29df5bf4caf414600023d55c42ecae36c"
+  integrity sha512-eFpSDGSZ4MqqqgSBCrQOvLNzBjB9/abDFxfeBWKGRefaVZYtGp9OWXoo+RyiZQR0fbz1WbATMOjhDUtnMUyhGQ==
   dependencies:
-    bl "^1.2.1"
+    bl "^2.0.1"
     inherits "^2.0.3"
-    readable-stream "^2.3.3"
-    safe-buffer "^5.1.1"
+    readable-stream "^2.3.6"
+    safe-buffer "^5.1.2"
 
 mustache@^4.0.0:
   version "4.1.0"
@@ -13648,13 +13653,21 @@ walker@^1.0.7, walker@~1.0.5:
   dependencies:
     makeerror "1.0.x"
 
-wampy@^5.0.2:
-  version "5.0.2"
-  resolved "https://registry.yarnpkg.com/wampy/-/wampy-5.0.2.tgz#6a277b081513d1c878301b910275e5889fb9ae84"
-  integrity sha512-7K3pEDI3VqzItlMaaU3l2DwLODGfAL9NRVy8pPRn/Kz5Hh+hr4gupXTdpRWm+3QR+KYrt6/xBLxtMBJ8ulyQUg==
+wampy-cra@^0.1.2:
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/wampy-cra/-/wampy-cra-0.1.2.tgz#f8dbdc92a19b9729b144078c7858a36b3b11a9dc"
+  integrity sha512-2rKPGiftg/OcalYPSF4G1oFcR/CqY1ygC9FfKMlTa5LwxsmtPQ4VBLQ5H84YhkgU9zCKuFwuGwc72r4ukd4f2A==
   dependencies:
-    msgpack5 "^3.4.1"
-    websocket "^1.0.24"
+    crypto-js "^4.0.0"
+
+wampy@^6.3.0:
+  version "6.3.0"
+  resolved "https://registry.yarnpkg.com/wampy/-/wampy-6.3.0.tgz#077c9305f18d7cadcf386791d55498f82c66de4c"
+  integrity sha512-Ib0XqavcRiVMbppfnNUhS3wotlpPFr4hItNnVLbLHxwDWhVqFxP3wGJgkFc54HUGk66goGV9mp4gDuhtZY+H/g==
+  dependencies:
+    msgpack5 "^4.2.1"
+    wampy-cra "^0.1.2"
+    websocket "^1.0.32"
 
 warning@^4.0.2, warning@^4.0.3:
   version "4.0.3"
@@ -13786,7 +13799,7 @@ webpack@^4.44.2:
     watchpack "^1.7.4"
     webpack-sources "^1.4.1"
 
-websocket@^1.0.24:
+websocket@^1.0.32:
   version "1.0.33"
   resolved "https://registry.yarnpkg.com/websocket/-/websocket-1.0.33.tgz#407f763fc58e74a3fa41ca3ae5d78d3f5e3b82a5"
   integrity sha512-XwNqM2rN5eh3G2CUQE3OHZj+0xfdH42+OFK6LdC2yqiC0YU8e5UK0nYre220T0IyyN031V/XOvtHvXozvJYFWA==

@@ -31,7 +31,7 @@
     "semantic-ui-react": "^0.88.1",
     "styled-components": "^5.2.0",
     "timeago.js": "^4.0.2",
-    "wampy": "^5.0.2"
+    "wampy": "^6.3.0"
   },
   "scripts": {
     "predeploy": "yarn build",
