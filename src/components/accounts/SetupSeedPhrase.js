@@ -173,10 +173,9 @@ class SetupSeedPhrase extends Component {
                                             wordId={this.state.wordId}
                                             handleChangeWord={this.handleChangeWord}
                                             handleStartOver={this.handleStartOver}
-                                            formLoader={this.props.formLoader}
+                                            formLoader={this.props.formLoader || this.state.submitting}
                                             requestStatus={this.state.requestStatus}
                                             globalAlert={this.props.globalAlert}
-                                            submitting={this.state.submitting}
                                         />
                                     </form>
                                 </Container>

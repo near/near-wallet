@@ -86,14 +86,15 @@ class SetupRecoveryMethod extends Component {
     }
 
     handleNext = async () => {
-        const { option } = this.state;
+        const { option, success } = this.state;
         const {
             accountId,
             location,
-            redirectTo
+            redirectTo,
+            formLoader
         } = this.props
 
-        if (this.isValidInput) {
+        if (this.isValidInput && !formLoader && !success) {
             if (option === 'email' || option === 'phone') {
                 await this.handleSendCode()
                 window.scrollTo(0, 0);
@@ -244,7 +245,7 @@ class SetupRecoveryMethod extends Component {
                         <FormButton
                             color='blue'
                             type='submit'
-                            disabled={!this.isValidInput}
+                            disabled={!this.isValidInput || formLoader}
                             sending={formLoader}
                         >
                             <Translate id={`button.${option !== 'phrase' ? 'protectAccount' : 'setupPhrase'}`}/>
