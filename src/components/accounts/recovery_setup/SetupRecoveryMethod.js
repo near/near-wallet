@@ -86,10 +86,10 @@ class SetupRecoveryMethod extends Component {
             accountId,
             location,
             redirectTo,
-            formLoader
+            localAlert
         } = this.props
 
-        if (this.isValidInput && !formLoader && !success) {
+        if (this.isValidInput && !localAlert && !success) {
             if (option === 'email' || option === 'phone') {
                 await this.handleSendCode()
                 window.scrollTo(0, 0);
