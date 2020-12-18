@@ -216,7 +216,7 @@ export const {
         () => defaultCodesFor('account.resendTwoFactor')
     ],
     VERIFY_TWO_FACTOR: [
-        (...args) => twoFactorMethod('verifyCodeDefault', wallet, args),
+        (...args) => new TwoFactor(wallet, wallet.accountId).verifyCodeDefault(...args),
         () => defaultCodesFor('account.verifyTwoFactor')
     ],
     PROMPT_TWO_FACTOR: [
