@@ -229,9 +229,14 @@ export class Staking {
                 console.log(validator.accountId, deposit.toString())
 
                 validator.staked = await validator.contract.get_account_staked_balance({ account_id })
+
+                // rewards (lifetime) = staked - deposits
                 validator.unclaimed = new BN(validator.staked).sub(deposit).toString()
+                if (!deposit.gt(ZERO) || new BN(validator.unclaimed).lt(MIN_DISPLAY_YOCTO)) {
+                    validator.unclaimed = ZERO.clone().toString()
+                }
+
                 validator.unstaked = new BN(await validator.contract.get_account_unstaked_balance({ account_id }))
-                
                 if (validator.unstaked.gt(MIN_DISPLAY_YOCTO)) {
                     const isAvailable = await validator.contract.is_account_unstaked_balance_available({ account_id })
                     if (isAvailable) {
@@ -241,11 +246,6 @@ export class Staking {
                         validator.pending = validator.unstaked.toString()
                         totalPending = totalPending.add(validator.unstaked)
                     }
-                }
-
-                // TODO fix rewards calcs above and remove conditions
-                if (!deposit.gt(ZERO) || new BN(validator.unclaimed).lt(MIN_DISPLAY_YOCTO)) {
-                    validator.unclaimed = ZERO.clone().toString()
                 }
 
                 totalStaked = totalStaked.add(new BN(validator.staked))
