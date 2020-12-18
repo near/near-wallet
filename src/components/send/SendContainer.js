@@ -6,7 +6,7 @@ import { Translate } from 'react-localize-redux'
 import FormButton from '../common/FormButton'
 import ArrowCircleIcon from '../svg/ArrowCircleIcon'
 import AccountFormAccountId from '../accounts/AccountFormAccountId'
-import { checkAccountAvailable, setFormLoader, clear, sendMoney, refreshAccount } from '../../actions/account'
+import { checkAccountAvailable, clear, sendMoney, refreshAccount } from '../../actions/account'
 import BalanceBreakdown from '../staking/components/BalanceBreakdown'
 import BN from 'bn.js'
 import { utils } from 'near-api-js'
@@ -31,6 +31,10 @@ const StyledContainer = styled(Container)`
         .sub-title {
             span {
                 color: #292526;
+
+                &.receiver {
+                    line-break: anywhere;
+                }
             }
         }
     }
@@ -46,7 +50,7 @@ export function SendContainer({ match }) {
     const [success, setSuccess] = useState(null)
     const amountAvailableToSend = new BN(balance.available).sub(new BN(parseNearAmount(WALLET_APP_MIN_AMOUNT)))
     const sufficientBalance = !new BN(parseNearAmount(amount)).isZero() && (new BN(parseNearAmount(amount)).lte(amountAvailableToSend) || useMax) && isDecimalString(amount)
-    const sendAllowed = ((requestStatus && requestStatus.success !== false) || id.length === 64) && sufficientBalance && amount
+    const sendAllowed = ((requestStatus && requestStatus.success !== false) || id.length === 64) && sufficientBalance && amount && !formLoader && !success
 
     onKeyDown(e => {
         if (e.keyCode === 13 && sendAllowed) {
@@ -119,7 +123,6 @@ export function SendContainer({ match }) {
                     checkAvailability={() => dispatch(checkAccountAvailable(id))}
                     requestStatus={requestStatus}
                     autoFocus={false}
-                    setFormLoader={() => dispatch(setFormLoader())}
                     clearRequestStatus={() => dispatch(clear())}
                     stateAccountId={accountId}
                 />
@@ -142,7 +145,7 @@ export function SendContainer({ match }) {
             <StyledContainer className='small-centered send-theme success'>
                 <TransferMoneyIcon/>
                 <h1>Success!</h1>
-                <div className='sub-title success'>You have successfully sent <span><Balance amount={utils.format.parseNearAmount(amount) || '0'} symbol='near'/></span> to <span>{id}</span></div>
+                <div className='sub-title success'>You have successfully sent <span><Balance amount={utils.format.parseNearAmount(amount) || '0'} symbol='near'/></span> to <span className='receiver'>{id}</span></div>
                 <FormButton linkTo='/'>
                     <Translate id='button.goToDashboard' />
                 </FormButton>
