@@ -197,7 +197,9 @@ export class Staking {
         const account = await this.wallet.getAccount(this.wallet.accountId)
         const balance = account.wrappedAccount ? await account.wrappedAccount.getAccountBalance() : await account.getAccountBalance()
 
-        const validatorDepositMap = await getStakingTransactions(account_id)
+        // const validatorDepositMap = await getStakingTransactions(account_id)
+        const validatorDepositMap = await getStakingDeposits(account_id)
+
         let validators = await this.getValidators([...new Set(Object.keys(validatorDepositMap).concat(recentlyStakedValidators))])
         if (!validators.length) {
             console.log('checking all validators')
@@ -222,7 +224,7 @@ export class Staking {
                 }
 
                 // try to get deposits from explorer
-                const deposit = validatorDepositMap[validator.accountId] || ZERO
+                const deposit = new BN(validatorDepositMap[validator.accountId]) || ZERO
 
                 console.log(validator.accountId, deposit.toString())
 
@@ -491,6 +493,17 @@ export class Staking {
     }
 }
 
+async function getStakingDeposits(accountId) {
+    let stakingDeposits = await fetch(ACCOUNT_HELPER_URL + '/staking-deposits/' + accountId).then((r) => r.json()) 
+
+    const validatorDepositMap = {}
+    stakingDeposits.forEach(({ validator_id, deposit }) => {
+        validatorDepositMap[validator_id] = deposit
+    })
+    
+    return validatorDepositMap
+}
+
 async function getStakingTransactions(accountId) {
     let stakingTxs = await fetch(ACCOUNT_HELPER_URL + '/staking-txs/' + accountId).then((r) => r.json()) 
     stakingTxs = (Array.isArray(stakingTxs || []) ? stakingTxs : []).sort((a, b) => parseInt(a.ts) - parseInt(b.ts))
@@ -510,9 +523,6 @@ async function getStakingTransactions(accountId) {
         }
         validatorDepositMap[validator_id] = deposit
     })
-    
-    // const validators = Object.keys(validatorDepositMap)
-    // const deposits = validators.map((accountId) => ({ accountId, deposit: validatorDepositMap[accountId] }))
 
     return validatorDepositMap
 }
