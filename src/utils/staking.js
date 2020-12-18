@@ -89,9 +89,8 @@ export class Staking {
             const { lockupId: _lockupId } = await this.getLockup()
             lockupId = _lockupId
         } catch(e) {
-            console.warn('No lockup account, not loading lockup account state for account', accountId)
-            if (e.message.indexOf('does not exist while viewing') === -1) {
-                throw(e)
+            if (!/No contract for account/.test(e.message)) {
+                throw e
             }
         }
         return { accountId, lockupId }
@@ -413,7 +412,6 @@ export class Staking {
         } else {
             lockupId = getLockupAccountId(accountId)
         }
-        await (await new nearApiJs.Account(this.wallet.connection, lockupId)).state()
         const contract = await this.getContractInstance(lockupId, lockupMethods)
         return { contract, lockupId, accountId }
     }

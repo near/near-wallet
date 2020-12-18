@@ -206,6 +206,7 @@ export function StakingContainer({ history, match }) {
                             <Validators
                                 {...props}
                                 validators={validators}
+                                stakeFromAccount={currentAccount.accountId === accountId}
                             />
                         )}
                     />

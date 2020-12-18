@@ -39,7 +39,7 @@ export default function StakingAction({
     const displayAmount = useMax ? formatNearAmount(amount, 5) : amount
     const availableToStake = stakeFromAccount ? new BN(availableBalance).sub(new BN(utils.format.parseNearAmount(WALLET_APP_MIN_AMOUNT))).toString() : availableBalance
     const invalidStakeActionAmount = new BN(useMax ? amount : parseNearAmount(amount)).sub(new BN(stake ? availableToStake : staked)).gt(new BN(STAKING_AMOUNT_DEVIATION)) || !isDecimalString(amount)
-    const stakeActionAllowed = hasStakeActionAmount && !invalidStakeActionAmount
+    const stakeActionAllowed = hasStakeActionAmount && !invalidStakeActionAmount && !success
 
     onKeyDown(e => {
         if (e.keyCode === 13 && stakeActionAllowed) {
@@ -91,7 +91,7 @@ export default function StakingAction({
     const getStakeActionDisclaimer = () => {
         let disclaimer = ''
         if (stake) {
-            if ((hasLedger || has2fa) && !stakeFromAccount) {
+            if ((hasLedger || has2fa) && !stakeFromAccount && new BN(staked).isZero()) {
                 disclaimer = 'staking.stake.ledgerDisclaimer'
             }
         } else {

@@ -22,7 +22,7 @@ import {
 
 import { TwoFactor } from './twoFactor'
 import { Staking } from './staking'
-import { decorateWithLockup } from './account-with-lockup'
+import { decorateWithLockup, getLockupAccountId } from './account-with-lockup'
 import { MULTISIG_CHANGE_METHODS } from 'near-api-js/lib/account_multisig'
 
 export const WALLET_CREATE_NEW_ACCOUNT_URL = 'create'
@@ -209,23 +209,12 @@ class Wallet {
             const ledgerKey = accessKeys.find(key => key.meta.type === 'ledger')
             const account = await this.getAccount(this.accountId)
             const state = await account.state()
-
-            // TODO: Just use accountExists to check if lockup exists?
-            let lockupInfo
-            try {
-                lockupInfo = await this.staking.getLockup();
-            } catch (error) {
-                if (error.toString().includes('does not exist while viewing')) {
-                    console.warn('Account has no lockup')
-                } else {
-                    throw error
-                }
-            }
+            const hasLockup = await this.accountExists(getLockupAccountId(this.accountId))
 
             return {
                 ...state,
+                hasLockup,
                 has2fa: await TwoFactor.has2faEnabled(account),
-                hasLockup: !!lockupInfo,
                 balance: await this.getBalance(),
                 accountId: this.accountId,
                 accounts: this.accounts,
@@ -459,8 +448,9 @@ class Wallet {
         const accountHasLedgerKey = accessKeys.map(key => key.public_key).includes(ledgerPublicKey.toString())
         await setKeyMeta(ledgerPublicKey, { type: 'ledger' })
 
+        const account = await this.getAccount(accountId);
         if (!accountHasLedgerKey) {
-            await this.getAccount(accountId).addKey(ledgerPublicKey)
+            await account.addKey(ledgerPublicKey)
             await this.postSignedJson('/account/ledgerKeyAdded', { accountId, publicKey: ledgerPublicKey.toString() })
         }
     }
