@@ -35,14 +35,22 @@
         "createImplicit": {
             "pre": {
                 "title": "Fund Your Account",
-                "descOne": "To create your new account, you must first fund its creation by sending at least <b>${amount} NEAR</b> to the following <b>funding address</b>.",
-                "descTwo": "Once your funds have been received, return to this page to finalize and claim your new <b>Account ID</b>:",
-                "addressHeader": "Temporary funding address"
+                "descOne": "Initialize your account by sending at least <b>${amount} NEAR</b> to the temporary funding address below.",
+                "descTwo": "Return to this screen once your funds have been deposited to finish creating your account.",
+                "addressHeader": "Temporary funding address",
+                "whereToBuy": {
+                    "button": "Where can I purchase NEAR?",
+                    "title": "Purchase NEAR tokens",
+                    "desc": "NEAR tokens are available to purchase through the following exchanges"
+                }
             },
             "post": {
-                "title": "Claim Your Account ID",
-                "descOne": "Your account has been successfully funded and is ready to be claimed!",
-                "descTwo": "Once claimed, <i>the previous funding address will be made invalid</i>, and your may send and receive funds using your new <b>Account ID</b>:"
+                "modal": {
+                    "title": "Account Funded",
+                    "descOne": "Your account has been successfully funded!",
+                    "descTwo": "The temporary funding address is now invalid, and can no longer be used to receive assets. Your Account ID will be used as a primary address for all NEAR operations.",
+                    "checkbox": "I acknowledge that by continuing, the temporary funding address will be made invalid, and any additional assets sent to that address will be lost."
+                }
             }
         },
         "verifySeedPhrase": {
@@ -318,7 +326,8 @@
         "cancelOperation": "Cancel Operation",
         "subscribe": "Subscribe",
         "Close": "Close",
-        "edit": "Edit"
+        "edit": "Edit",
+        "finish": "Finish"
     },
 
     "link": {

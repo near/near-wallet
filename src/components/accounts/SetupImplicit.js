@@ -11,15 +11,18 @@ import isMobile from '../../utils/isMobile'
 import { Snackbar, snackbarDuration } from '../common/Snackbar'
 import Container from '../common/styled/Container.css'
 import FormButton from '../common/FormButton'
+import WhereToBuyNearModal from '../common/WhereToBuyNearModal'
+import AccountFundedModal from './AccountFundedModal'
 import { createAccountFromImplicit } from '../../actions/account'
 import { NETWORK_ID, NODE_URL, MIN_BALANCE_FOR_GAS } from '../../utils/wallet'
 import ProgressBar from './ProgressBar'
 
 const StyledContainer = styled(Container)`
     .account-id-wrapper {
-        background-color: #F2F2F2;
+        background-color: #FAFAFA;
         width: 100%;
         border-radius: 4px;
+        border: 2px solid #F0F0F0;
         padding: 25px;
         font-size: 20px;
         word-break: break-all;
@@ -32,9 +35,31 @@ const StyledContainer = styled(Container)`
         margin: 25px 0;
     }
 
+    h2 {
+        span {
+            b {
+                white-space: nowrap;
+            }
+        }
+    }
+
     button {
         margin: 0 auto !important;
         width: 100% !important;
+
+        &.where-to-buy-link {
+            text-decoration: none !important;
+            font-weight: 400 !important;
+            font-size: 16px !important;
+            width: auto !important;
+            text-align: left;
+            margin-bottom: 50px !important;
+            transition: 100ms;
+            
+            :hover {
+                text-decoration: underline !important;
+            }
+        }
     }
 `
 
@@ -47,6 +72,8 @@ const initialState = {
     successSnackbar: false,
     snackBarMessage: 'setupSeedPhrase.snackbarCopyImplicitAddress',
     balance: null,
+    whereToBuy: false,
+    checked: false
 }
 
 class SetupImplicit extends Component {
@@ -70,7 +97,7 @@ class SetupImplicit extends Component {
             if (e.message.indexOf('exist while viewing') === -1) {
                 throw e
             }
-            this.setState({ hasBalance: false })
+            this.setState({ balance: false })
         }
     }
 
@@ -124,6 +151,8 @@ class SetupImplicit extends Component {
             balance,
             snackBarMessage,
             successSnackbar,
+            whereToBuy,
+            checked
         } = this.state
 
         const { implicitAccountId, accountId } = this.props
@@ -136,6 +165,13 @@ class SetupImplicit extends Component {
                         <h1><Translate id='account.createImplicit.pre.title' /></h1>
                         <h2><Translate id='account.createImplicit.pre.descOne' data={{ amount: formatNearAmount(MIN_BALANCE_TO_CREATE) }}/></h2>
                         <h2><Translate id='account.createImplicit.pre.descTwo'/></h2>
+                        <FormButton
+                            onClick={() => this.setState({ whereToBuy: true })}
+                            color='link'
+                            className='where-to-buy-link'
+                        >
+                            <Translate id='account.createImplicit.pre.whereToBuy.button' />
+                        </FormButton>
                         <h4 className='small'><Translate id='account.createImplicit.pre.addressHeader'/></h4>
                         <div className='account-id-wrapper'>
                             {implicitAccountId}
@@ -155,6 +191,20 @@ class SetupImplicit extends Component {
                             show={successSnackbar}
                             onHide={() => this.setState({ successSnackbar: false })}
                         />
+                        {whereToBuy &&
+                            <WhereToBuyNearModal
+                                onClose={() => this.setState({ whereToBuy: false })}
+                                open={whereToBuy}
+                            />
+                        }
+                        {/* {false &&
+                            <AccountFundedModal
+                                onClose={() => this.setState({ accountFunded: false })}
+                                open={false}
+                                checked={checked}
+                                handleCheckboxChange={e => this.setState({ checked: e.target.checked })}
+                            />
+                        } */}
                     </StyledContainer>
                 )}
             </Translate>

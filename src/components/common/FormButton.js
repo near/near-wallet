@@ -222,6 +222,11 @@ const CustomButton = styled(Button)`
             &.border {
                 background: none;
                 border-color: #E6E5E3;
+                transition: 100ms;
+
+                :hover {
+                    border-color: #0072ce;
+                }
             }
         }
         &.link {
