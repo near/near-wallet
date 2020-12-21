@@ -156,7 +156,7 @@ export default createGlobalStyle`
         width: 100% !important;
         height: 48px !important;
         border: 2px solid #f8f8f8 !important;
-        padding: 0 0 0 15px !important;
+        padding: 0 0 0 20px !important;
         color: #4a4f54 !important;
         font-weight: 300 !important;
         background-color: #f8f8f8 !important;
@@ -164,7 +164,7 @@ export default createGlobalStyle`
         margin-top: 8px !important;
         outline: none;
         appearance: none;
-        border-radius: 8px !important;
+        border-radius: 4px !important;
 
         ::placeholder {
             color: #999999;
@@ -173,24 +173,6 @@ export default createGlobalStyle`
         :focus {
             border-color: #e6e6e6 !important;
             background-color: #fff !important;
-        }
-
-        &.amount-input {
-            background: none !important;
-            border: 2px solid #E4E4E6 !important;
-            font-size: 38px !important;
-            margin: 0 !important;
-            font-weight: 600 !important;
-            height: 62px !important;
-
-            ::placeholder {
-                color: #CCCCCC;
-                opacity: 1;
-            }
-
-            &.error {
-                color: #ff585d !important;
-            }
         }
     }
 
@@ -402,15 +384,13 @@ export default createGlobalStyle`
     }
 
     .ui.popup>.header, .ui.popup {
-        color: white;
+        color: #999;
+        font-weight: 500 !important;
+        font-size: 14px !important;
     }
     .ui.popup {
-        border: 0;
-        background-color: #292526;
-
-        :before {
-            display: none;
-        }
+        border: 1px solid #eee;
+        font-weight: 400 !important;
     }
     .ui.left.center.popup:before {
         box-shadow: 1px -1px 0 0 #eee;
@@ -462,48 +442,6 @@ export default createGlobalStyle`
                     :before {
                         display: none;
                     }
-                }
-            }
-        }
-    }
-
-    .send-theme {
-
-        > button {
-            width: 100% !important;
-        }
-
-        .header-button {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin: 30px 0 15px 0;
-
-            h4 {
-                margin: 0;
-            }
-
-            button {
-                margin: 0 !important;
-                width: auto !important;
-                text-decoration: none !important;
-                font-weight: 500 !important;
-                text-transform: capitalize !important;
-            }
-        }
-
-        .arrow-circle {
-            display: block;
-            margin: 50px auto 20px auto;
-        }
-
-        .ui {
-            &.input {
-                width: 100%;
-                margin-top: 10px;
-                input {
-                    background: none !important;
-                    border: 2px solid #E4E4E6 !important;
                 }
             }
         }

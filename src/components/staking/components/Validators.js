@@ -3,7 +3,7 @@ import { Translate } from 'react-localize-redux'
 import ListWrapper from './ListWrapper'
 import ValidatorBox from './ValidatorBox'
 
-export default function Validators({ validators, stakeFromAccount }) {
+export default function Validators({ validators }) {
     const currentValidators = validators.filter((v) => v.current || v.next)
 
     const [validator, setValidator] = useState('')
@@ -13,7 +13,7 @@ export default function Validators({ validators, stakeFromAccount }) {
     return (
         <>
             <h1><Translate id='staking.validators.title' /></h1>
-            <h2><Translate id={`staking.validators.desc.${stakeFromAccount ? 'account' : 'lockup'}`} /></h2>
+            <div className='desc'><Translate id='staking.validators.desc' /></div>
             <h4><Translate id='staking.validators.inputLabel' /></h4>
             <Translate>
                 {({ translate }) => (

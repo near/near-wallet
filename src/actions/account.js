@@ -2,7 +2,6 @@
 import { parse, stringify } from 'query-string'
 import { createActions, createAction } from 'redux-actions'
 import { DISABLE_CREATE_ACCOUNT, wallet } from '../utils/wallet'
-import { TwoFactor } from '../utils/twoFactor'
 import { push } from 'connected-react-router'
 import { loadState, saveState, clearState } from '../utils/sessionStorage'
 import {
@@ -162,14 +161,6 @@ export const signInWithLedgerAddAndSaveAccounts = (accountIds) => async (dispatc
 
 const defaultCodesFor = (prefix, data) => ({ successCode: `${prefix}.success`, errorCode: `${prefix}.error`, prefix, data})
 
-const twoFactorMethod = async (method, wallet, args) => {
-    const account = await wallet.getAccount(wallet.accountId)
-    if (account[method]) {
-        return await account[method](...args)
-    }
-    return false
-}
-
 export const {
     initializeRecoveryMethod,
     validateSecurityCode,
@@ -204,19 +195,19 @@ export const {
         () => defaultCodesFor('account.validateSecurityCode')
     ],
     INIT_TWO_FACTOR: [
-        (...args) => new TwoFactor(wallet, wallet.accountId).initTwoFactor(...args),
+        (...args) => wallet.twoFactor.initTwoFactor(...args),
         () => defaultCodesFor('account.initTwoFactor')
     ],
     REINIT_TWO_FACTOR: [
-        (...args) => new TwoFactor(wallet, wallet.accountId).initTwoFactor(...args),
+        (...args) => wallet.twoFactor.initTwoFactor(...args),
         () => defaultCodesFor('account.reInitTwoFactor')
     ],
     RESEND_TWO_FACTOR: [
-        () => twoFactorMethod('sendCode', wallet, []),
+        () => wallet.twoFactor.sendCode(),
         () => defaultCodesFor('account.resendTwoFactor')
     ],
     VERIFY_TWO_FACTOR: [
-        (...args) => new TwoFactor(wallet, wallet.accountId).verifyCodeDefault(...args),
+        (...args) => wallet.twoFactor.verifyCodeDefault(...args),
         () => defaultCodesFor('account.verifyTwoFactor')
     ],
     PROMPT_TWO_FACTOR: [
@@ -238,19 +229,19 @@ export const {
         () => defaultCodesFor('account.promptTwoFactor')
     ],
     DEPLOY_MULTISIG: [
-        () => new TwoFactor(wallet, wallet.accountId).deployMultisig(),
+        (...args) => wallet.twoFactor.deployMultisig(...args),
         () => defaultCodesFor('account.deployMultisig')
     ],
     DISABLE_MULTISIG: [
-        (...args) => twoFactorMethod('disableMultisig', wallet, args),
+        (...args) => wallet.twoFactor.disableMultisig(...args),
         () => defaultCodesFor('account.disableMultisig')
     ],
     CHECK_CAN_ENABLE_TWO_FACTOR: [
-        (...args) => TwoFactor.checkCanEnableTwoFactor(...args),
+        (...args) => wallet.twoFactor.checkCanEnableTwoFactor(...args),
         () => defaultCodesFor('account.checkCanEnableTwoFactor')
     ],
     GET_2FA_METHOD: [
-        (...args) => twoFactorMethod('get2faMethod', wallet, args),
+        (...args) => wallet.twoFactor.get2faMethod(...args),
         () => defaultCodesFor('account.get2faMethod')
     ],
     GET_LEDGER_KEY: [
@@ -371,8 +362,7 @@ export const handleCreateAccountWithSeedPhrase = (accountId, recoveryKeyPair, fu
                 
 export const finishAccountSetup = () => async (dispatch) => {
     const account = await dispatch(refreshAccount())
-    
-    let promptTwoFactor = await TwoFactor.checkCanEnableTwoFactor(account)
+    let promptTwoFactor = await wallet.twoFactor.checkCanEnableTwoFactor(account)
 
     if (new BN(account.balance.available).lt(new BN(utils.format.parseNearAmount(MULTISIG_MIN_PROMPT_AMOUNT)))) {
         promptTwoFactor = false
@@ -448,7 +438,7 @@ export const { signAndSendTransactions, setSignTransactionStatus, sendMoney } = 
     ]
 })
 
-export const { switchAccount, refreshAccount, refreshAccountExternal, refreshUrl } = createActions({
+export const { switchAccount, refreshAccount, refreshAccountExternal, refreshUrl, setFormLoader } = createActions({
     SWITCH_ACCOUNT: wallet.selectAccount.bind(wallet),
     REFRESH_ACCOUNT: [
         wallet.refreshAccount.bind(wallet),
@@ -461,5 +451,6 @@ export const { switchAccount, refreshAccount, refreshAccountExternal, refreshUrl
         }),
         accountId => ({ accountId })
     ],
-    REFRESH_URL: null
+    REFRESH_URL: null,
+    SET_FORM_LOADER: null
 })

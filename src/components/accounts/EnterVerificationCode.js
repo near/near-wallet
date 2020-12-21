@@ -48,15 +48,9 @@ const EnterVerificationCode = ({
 
     const invalidCode = requestStatus && requestStatus.messageCode === 'account.setupRecoveryMessage.error';
 
-    const handleConfirm = () => {
-        if (code.length === 6 && !loading) {
-            onConfirm(code)
-        }
-    }
-
     return (
         <StyledContainer className='small-centered'>
-            <form onSubmit={e => {handleConfirm(); e.preventDefault();}} autoComplete='off'>
+            <form onSubmit={e => {onConfirm(code); e.preventDefault();}} autoComplete='off'>
                 <h1><Translate id='setRecoveryConfirm.title'/></h1>
                 <h2><Translate id='setRecoveryConfirm.pageText'/> <Translate id={useEmail ? 'setRecoveryConfirm.email': 'setRecoveryConfirm.phone'}/> <span>{useEmail ? email : phoneNumber}</span></h2>
                 <h4><Translate id='setRecoveryConfirm.inputHeader'/></h4>

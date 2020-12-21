@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import Container from '../../common/styled/Container.css';
+import Theme from './PageTheme.css';
 import LedgerImage from '../../svg/LedgerImage';
 import FormButton from '../../common/FormButton';
 import { Translate } from 'react-localize-redux';
@@ -12,6 +12,7 @@ import {
     refreshAccount, 
     signInWithLedgerAddAndSaveAccounts, 
     checkAccountAvailable, 
+    setFormLoader, 
     clearSignInWithLedgerModalState
 } from '../../../actions/account';
 import RequestStatusBox from '../../common/RequestStatusBox'
@@ -78,10 +79,10 @@ export function SignInLedger(props) {
     }
 
     return (
-        <Container className='small-centered ledger-theme'>
+        <Theme>
             <h1><Translate id='signInLedger.header'/></h1>
             <LedgerImage/>
-            <h2><Translate id='signInLedger.one'/></h2>
+            <p className='center'><Translate id='signInLedger.one'/></p>
             <br/>
             <RequestStatusBox requestStatus={account.requestStatus}/>
             <FormButton
@@ -109,6 +110,7 @@ export function SignInLedger(props) {
                     handleChange={handleChange}
                     requestStatus={account.requestStatus}
                     checkAccountAvailable={(accountId) => dispatch(checkAccountAvailable(accountId))}
+                    setFormLoader={(state) => dispatch(setFormLoader(state))}
                     formLoader={account.formLoader}
                     clearRequestStatus={() => dispatch(clear())}
                     stateAccountId={account.accountId}
@@ -116,6 +118,6 @@ export function SignInLedger(props) {
                     clearSignInWithLedgerModalState={() => dispatch(clearSignInWithLedgerModalState())}
                 />
             }
-        </Container>
+        </Theme>
     );
 }

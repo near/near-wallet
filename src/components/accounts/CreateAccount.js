@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { Translate } from 'react-localize-redux'
-import { checkNewAccount, createNewAccount, clear, refreshAccount, checkNearDropBalance } from '../../actions/account'
+import { checkNewAccount, createNewAccount, clear, refreshAccount, setFormLoader, checkNearDropBalance } from '../../actions/account'
 import { ACCOUNT_ID_SUFFIX } from '../../utils/wallet'
 import Container from '../common/styled/Container.css'
 import BrokenLinkIcon from '../svg/BrokenLinkIcon';
@@ -107,10 +107,12 @@ class CreateAccount extends Component {
     handleCreateAccount = async () => {
         const { accountId } = this.state;
         const { 
+            setFormLoader,
             fundingContract, fundingKey,
             fundingAccountId,
         } = this.props
 
+        setFormLoader(false)
         this.setState({ loader: true });
 
         let queryString = ''
@@ -127,7 +129,7 @@ class CreateAccount extends Component {
 
     render() {
         const { loader, accountId, invalidNearDrop } = this.state
-        const { requestStatus, formLoader, checkNewAccount, resetAccount, clear } = this.props
+        const { requestStatus, formLoader, checkNewAccount, resetAccount, clear, setFormLoader } = this.props
         const useRequestStatus = accountId.length > 0 ? requestStatus : undefined;
         
         if (!invalidNearDrop) {
@@ -146,6 +148,7 @@ class CreateAccount extends Component {
                             requestStatus={useRequestStatus}
                             accountId={accountId}
                             clearRequestStatus={clear}
+                            setFormLoader={setFormLoader}
                             defaultAccountId={resetAccount && resetAccount.accountIdNotConfirmed.split('.')[0]}
                         />
                         <AccountNote/>
@@ -183,6 +186,7 @@ const mapDispatchToProps = {
     createNewAccount,
     clear,
     refreshAccount,
+    setFormLoader,
     checkNearDropBalance
 }
 

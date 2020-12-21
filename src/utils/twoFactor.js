@@ -18,35 +18,39 @@ export const MULTISIG_CONTRACT_HASHES = process.env.MULTISIG_CONTRACT_HASHES || 
 
 const {
     multisig: { Account2FA },
+    transactions: { deleteKey, addKey },
 } = nearApiJs
 
 export class TwoFactor extends Account2FA {
-    constructor(wallet, accountId) {
-        super(wallet.connection, accountId, {
+    constructor(wallet) {
+        super(wallet.connection, wallet.accountId, {
             storage: localStorage,
             helperUrl: ACCOUNT_HELPER_URL,
             getCode: () => store.dispatch(promptTwoFactor(true)).payload.promise
         })
         this.wallet = wallet
+        this.__isEnabled = false
     }
 
-    static async has2faEnabled(account) {
-        const state = await account.state()
-        if (!state) return false
-        return MULTISIG_CONTRACT_HASHES.includes(state.code_hash)
-    }
-
-    static async checkCanEnableTwoFactor(account) {
-        const availableBalance = new BN(account.balance.available)
-        const multisigMinAmount = new BN(utils.format.parseNearAmount(MULTISIG_MIN_AMOUNT))
-        return multisigMinAmount.lt(availableBalance)
+    async isEnabled() {
+        if (!this.accountId || !this.accountId.length) {
+            return false
+        }
+        this.__isEnabled = this.__isEnabled || MULTISIG_CONTRACT_HASHES.includes((await this.state()).code_hash)
+        return this.__isEnabled
     }
 
     async get2faMethod() {
-        if (TwoFactor.has2faEnabled(this)) {
+        if (await this.isEnabled()) {
             return super.get2faMethod()
         }
         return null
+    }
+
+    async checkCanEnableTwoFactor(account) {
+        const availableBalance = new BN(account.balance.available)
+        const multisigMinAmount = new BN(utils.format.parseNearAmount(MULTISIG_MIN_AMOUNT))
+        return multisigMinAmount.lt(availableBalance)
     }
 
     async initTwoFactor(accountId, method) {
@@ -58,9 +62,19 @@ export class TwoFactor extends Account2FA {
         });
     }
 
+    // TODO deprecate or test this (we removed the send new recovery message option)
+    async rotateKeys(account, addPublicKey, removePublicKey) {
+        const { accountId } = account
+        const actions = [
+            addKey(addPublicKey),
+            deleteKey(removePublicKey)
+        ]
+        return await this.signAndSendTransaction(accountId, actions)
+    }
+
     async deployMultisig() {
         const contractBytes = new Uint8Array(await (await fetch('/multisig.wasm')).arrayBuffer())
-        await super.deployMultisig(contractBytes)
+        return super.deployMultisig(contractBytes)
     }
 
     async disableMultisig() {
