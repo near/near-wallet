@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { connect, useSelector } from 'react-redux';
-import Container from '../../common/styled/Container.css';
+import Theme from './PageTheme.css';
 import HardwareDeviceIcon from '../../svg/HardwareDeviceIcon';
 import NextStepModal from './NextStepModal';
 import FormButton from '../../common/FormButton';
@@ -31,13 +31,11 @@ const SetupLedgerSuccess = (props) => {
     }
 
     return (
-        <Container className='small-centered ledger-theme'>
+        <Theme>
             <h1><Translate id='setupLedgerSuccess.header'/></h1>
             <HardwareDeviceIcon/>
-            <h2>
-                <Translate id='setupLedgerSuccess.one'/><br/>
-                <div className='color-red' style={{ marginTop: '10px' }}><Translate id='setupLedgerSuccess.two'/></div>
-            </h2>
+            <p><Translate id='setupLedgerSuccess.one'/></p>
+            <p className='color-red'><Translate id='setupLedgerSuccess.two'/></p>
             <FormButton 
                 sending={removingkeys} 
                 onClick={() => setNextStep('remove')}
@@ -54,7 +52,7 @@ const SetupLedgerSuccess = (props) => {
                     removingkeys={removingkeys}
                 />
             }
-        </Container>
+        </Theme>
     );
 }
 

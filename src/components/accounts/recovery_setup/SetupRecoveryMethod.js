@@ -10,8 +10,7 @@ import {
     initializeRecoveryMethod, 
     setupRecoveryMessage,
     setupRecoveryMessageNewAccount, 
-    redirectToApp,
-    redirectTo,
+    redirectToApp, 
     loadRecoveryMethods, 
     getAccessKeys, 
     getLedgerKey,
@@ -85,24 +84,23 @@ class SetupRecoveryMethod extends Component {
         }
     }
 
-    handleNext = async () => {
-        const { option, success } = this.state;
+    handleNext = () => {
+        const { option } = this.state;
+
         const {
             accountId,
             location,
-            redirectTo,
-            formLoader
         } = this.props
+        const phraseUrl = `/setup-seed-phrase/${accountId}/phrase${location.search}`
 
-        if (this.isValidInput && !formLoader && !success) {
-            if (option === 'email' || option === 'phone') {
-                await this.handleSendCode()
-                window.scrollTo(0, 0);
-            } else if (option === 'phrase') {
-                redirectTo(`/setup-seed-phrase/${accountId}/phrase${location.search}`)
-            } else if (option === 'ledger') {
-                redirectTo(`/setup-ledger/${accountId}${location.search}`)
-            }
+        if (option === 'email' || option === 'phone') {
+            this.handleSendCode()
+            window.scrollTo(0, 0);
+        } else if (option === 'phrase') {
+            this.props.history.push(phraseUrl);
+        } else if (option === 'ledger') {
+            const ledgerUrl = `/setup-ledger/${accountId}${location.search}`
+            this.props.history.push(ledgerUrl);
         }
     }
 
@@ -132,14 +130,12 @@ class SetupRecoveryMethod extends Component {
             location,
         } = this.props;
 
-        if (this.state.success) {
-            const isNew = await checkIsNew(accountId)
-            if (isNew) {
-                const fundingOptions = JSON.parse(parseQuery(location.search).fundingOptions || 'null')
-                await setupRecoveryMessageNewAccount(accountId, this.method, securityCode, fundingOptions, this.state.recoverySeedPhrase)
-            } else {
-                await setupRecoveryMessage(accountId, this.method, securityCode, this.state.recoverySeedPhrase)
-            }
+        const isNew = await checkIsNew(accountId)
+        if (isNew) {
+            const fundingOptions = JSON.parse(parseQuery(location.search).fundingOptions || 'null')
+            await setupRecoveryMessageNewAccount(accountId, this.method, securityCode, fundingOptions, this.state.recoverySeedPhrase)
+        } else {
+            await setupRecoveryMessage(accountId, this.method, securityCode, this.state.recoverySeedPhrase)
         }
     }
 
@@ -247,7 +243,7 @@ class SetupRecoveryMethod extends Component {
                         <FormButton
                             color='blue'
                             type='submit'
-                            disabled={!this.isValidInput || formLoader}
+                            disabled={!this.isValidInput}
                             sending={formLoader}
                         >
                             <Translate id={`button.${option !== 'phrase' ? 'protectAccount' : 'setupPhrase'}`}/>
@@ -281,8 +277,7 @@ const mapDispatchToProps = {
     getAccessKeys,
     getLedgerKey,
     get2faMethod,
-    checkIsNew,
-    redirectTo
+    checkIsNew
 }
 
 const mapStateToProps = ({ account, router, recoveryMethods }, { match }) => ({
