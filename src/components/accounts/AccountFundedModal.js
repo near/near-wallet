@@ -60,6 +60,7 @@ const SwapAccountContainer = styled.div`
             overflow: hidden;
             text-overflow: ellipsis;
             display: block;
+            font-size: 13px;
         }
 
         :first-of-type {
@@ -160,9 +161,7 @@ const AccountFundedModal = ({ open, onClose, checked, handleCheckboxChange, acco
         >
             <Container>
                 <MobileActionSheet/>
-                {implicitAccountId && accountId && 
-                    <SwapAccountGraphic accountId={accountId} implicitAccountId={implicitAccountId}/>
-                }
+                <SwapAccountGraphic accountId={accountId || 'johndoe.near'} implicitAccountId={implicitAccountId || 'cd03cbd02b6e0fbfd51bdb42bfe60e'}/>
                 <h2><Translate id='account.createImplicit.post.modal.title'/></h2>
                 <div className='sub-title'><Translate id='account.createImplicit.post.modal.descOne'/></div>
                 <div className='sub-title'><Translate id='account.createImplicit.post.modal.descTwo'/></div>
@@ -173,7 +172,7 @@ const AccountFundedModal = ({ open, onClose, checked, handleCheckboxChange, acco
                     />
                     <span><Translate id='account.createImplicit.post.modal.checkbox'/></span>
                 </label>
-                <FormButton onClick={() => {}}>
+                <FormButton disabled={!checked} onClick={() => {}}>
                     <Translate id='button.finish' />
                 </FormButton>
             </Container>
