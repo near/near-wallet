@@ -299,7 +299,6 @@ export class Staking {
 
         return (await Promise.all(
             accountIds.map(async (account_id) => {
-                if (!account_id) return
                 try {
                     const validator = {
                         accountId: account_id,
@@ -312,7 +311,7 @@ export class Staking {
                     return validator
                 } catch (e) {
                     if (!/No contract for account|cannot find contract code|wasm execution failed/.test(e.message)) {
-                        console.error(e)
+                        console.warn(e)
                     }
                 }
             })
