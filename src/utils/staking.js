@@ -295,6 +295,8 @@ export class Staking {
                 .filter((v) => v.indexOf('nfvalidator') === -1 && v.indexOf(networkId === 'mainnet' ? '.near' : '.m0') > -1)
         }
 
+        const account = await this.wallet.getAccount(this.wallet.accountId)
+
         return (await Promise.all(
             accountIds.map(async (account_id) => {
                 if (!account_id) return
@@ -303,7 +305,7 @@ export class Staking {
                         accountId: account_id,
                         current: currentValidators.includes(account_id),
                         next: nextValidators.includes(account_id),
-                        contract: await this.getContractInstance(account_id, stakingMethods)
+                        contract: await this.getContractInstance(account_id, stakingMethods, account)
                     }
                     const fee = validator.fee = await validator.contract.get_reward_fee_fraction()
                     fee.percentage = fee.numerator / fee.denominator * 100
@@ -487,10 +489,13 @@ export class Staking {
     Helpers
     ********************************/
 
-    async getContractInstance(contractId, methods) {
+    async getContractInstance(contractId, methods, account) {
+        if (!account) {
+            account = await this.wallet.getAccount(this.wallet.accountId)
+        }
         try {
             await (await new nearApiJs.Account(this.wallet.connection, contractId)).state()
-            return await new nearApiJs.Contract(await this.wallet.getAccount(this.wallet.accountId), contractId, { ...methods })
+            return await new nearApiJs.Contract(account, contractId, { ...methods })
         } catch (e) {
             throw new WalletError('No contract for account', 'staking.errors.noLockup')
         }
