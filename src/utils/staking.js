@@ -3,6 +3,7 @@ import BN from 'bn.js'
 import { WalletError } from './walletError'
 import { getLockupAccountId } from './account-with-lockup'
 import { queryExplorer } from './explorer-api'
+import { TwoFactor } from './twoFactor'
 
 const {
     transactions: {
@@ -89,9 +90,8 @@ export class Staking {
             const { lockupId: _lockupId } = await this.getLockup()
             lockupId = _lockupId
         } catch(e) {
-            console.warn('No lockup account, not loading lockup account state for account', accountId)
-            if (e.message.indexOf('does not exist while viewing') === -1) {
-                throw(e)
+            if (!/No contract for account/.test(e.message)) {
+                throw e
             }
         }
         return { accountId, lockupId }
@@ -200,7 +200,7 @@ export class Staking {
 
         let { deposits, validators } = (await getStakingTransactions(account_id))
         validators = await this.getValidators([...new Set(validators.concat(recentlyStakedValidators))])
-        if (!validators.length || await this.wallet.twoFactor.isEnabled()) {
+        if (!validators.length || TwoFactor.has2faEnabled(account)) {
             console.log('checking all validators')
             validators = await this.getValidators()
         }
@@ -421,7 +421,6 @@ export class Staking {
         } else {
             lockupId = getLockupAccountId(accountId)
         }
-        await (await new nearApiJs.Account(this.wallet.connection, lockupId)).state()
         const contract = await this.getContractInstance(lockupId, lockupMethods)
         return { contract, lockupId, accountId }
     }
