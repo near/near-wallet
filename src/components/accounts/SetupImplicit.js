@@ -91,7 +91,7 @@ class SetupImplicit extends Component {
         try {
             const state = await account.state()
             if (new BN(state.amount).gte(MIN_BALANCE_TO_CREATE)) {
-                return this.setState({ balance: nearApiJs.utils.format.formatNearAmount(state.amount, 2) })
+                return this.setState({ balance: nearApiJs.utils.format.formatNearAmount(state.amount, 2), whereToBuy: false })
             }
         } catch (e) {
             if (e.message.indexOf('exist while viewing') === -1) {
@@ -197,14 +197,16 @@ class SetupImplicit extends Component {
                                 open={whereToBuy}
                             />
                         }
-                        {/* {false &&
+                        {balance &&
                             <AccountFundedModal
                                 onClose={() => this.setState({ accountFunded: false })}
-                                open={false}
+                                open={balance}
                                 checked={checked}
                                 handleCheckboxChange={e => this.setState({ checked: e.target.checked })}
+                                implicitAccountId={implicitAccountId}
+                                accountId={accountId}
                             />
-                        } */}
+                        }
                     </StyledContainer>
                 )}
             </Translate>
