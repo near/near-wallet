@@ -310,7 +310,7 @@ export class Staking {
                     return validator
                 } catch (e) {
                     if (!/does not exist while viewing/.test(e.data) && !/No contract for account|cannot find contract code|wasm execution failed/.test(e.message)) {
-                        throw e
+                        console.error(e)
                     }
                 }
             })
