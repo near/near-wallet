@@ -27,7 +27,7 @@ export default function Staking({
     return (
         <>
             <h1><Translate id='staking.staking.title' /></h1>
-            <div className='desc'><Translate id='staking.staking.desc' /></div>
+            <h2><Translate id='staking.staking.desc' /></h2>
             <Modal
                 size='mini'
                 trigger={<span className='account-info'><Translate id='staking.staking.selectAccount' /> <InfoIcon color='#999999' /></span>}
