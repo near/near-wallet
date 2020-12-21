@@ -311,7 +311,7 @@ export class Staking {
                     fee.percentage = fee.numerator / fee.denominator * 100
                     return validator
                 } catch (e) {
-                    if (!/does not exist while viewing/.test(e.data) && !/No contract for account|cannot find contract code|wasm execution failed/.test(e.message)) {
+                    if (!/No contract for account|cannot find contract code|wasm execution failed/.test(e.message)) {
                         console.error(e)
                     }
                 }
