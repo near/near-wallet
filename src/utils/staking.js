@@ -90,7 +90,7 @@ export class Staking {
             const { lockupId: _lockupId } = await this.getLockup()
             lockupId = _lockupId
         } catch(e) {
-            if (!/No contract for account/.test(e.message)) {
+            if (!/No contract for account|does not exist while viewing/.test(e.message)) {
                 throw e
             }
         }
@@ -308,7 +308,7 @@ export class Staking {
                     fee.percentage = fee.numerator / fee.denominator * 100
                     return validator
                 } catch (e) {
-                    if (!/No contract for account|cannot find contract code|wasm execution failed/.test(e.message)) {
+                    if (!/No contract for account|does not exist while viewing|cannot find contract code|wasm execution failed/.test(e.message)) {
                         throw e
                     }
                 }
