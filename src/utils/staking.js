@@ -297,6 +297,7 @@ export class Staking {
 
         return (await Promise.all(
             accountIds.map(async (account_id) => {
+                if (!account_id) return
                 try {
                     const validator = {
                         accountId: account_id,
@@ -308,7 +309,7 @@ export class Staking {
                     fee.percentage = fee.numerator / fee.denominator * 100
                     return validator
                 } catch (e) {
-                    if (!/No contract for account|does not exist while viewing|cannot find contract code|wasm execution failed/.test(e.message)) {
+                    if (!/does not exist while viewing/.test(e.data) && !/No contract for account|cannot find contract code|wasm execution failed/.test(e.message)) {
                         throw e
                     }
                 }
