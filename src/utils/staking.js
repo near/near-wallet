@@ -312,7 +312,7 @@ export class Staking {
                     fee.percentage = fee.numerator / fee.denominator * 100
                     return validator
                 } catch (e) {
-                    console.warn('Error getting fee for validator %s: %s', validator, e);
+                    console.warn('Error getting fee for validator %s: %s', account_id, e);
                 }
             })
         )).filter((v) => !!v)
