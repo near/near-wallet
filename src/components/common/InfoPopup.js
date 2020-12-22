@@ -4,40 +4,28 @@ import { Popup } from 'semantic-ui-react'
 import InfoIcon from '../svg/InfoIcon.js'
 
 const Trigger = styled.div`
-    height: 16px;
-    width: 16px;
+    height: 20px;
+    width: 20px;
     display: inline-block;
-    margin-left: 10px;
+    margin-left: 5px;
 
     svg {
-        height: 16px;
-        width: 16px;
+        height: 20px;
+        width: 20px;
+        fill: #F8F8F8;
 
         circle {
             :first-of-type {
-                stroke: #999999;
+                stroke: none;
             }
             :last-of-type {
-                fill: #999999;
+                stroke: #b5b5b5;
+                fill: #b5b5b5;
             }
         }
 
         line {
-            stroke: #999999;
-        }
-    }
-
-    :hover {
-        circle {
-            :first-of-type {
-                stroke: #0072CE;
-            }
-            :last-of-type {
-                fill: #0072CE;
-            }
-        }
-        line {
-            stroke: #0072CE;
+            stroke: #b5b5b5;
         }
     }
 
@@ -49,7 +37,7 @@ const InfoPopup = ({
 }) => (
     <Popup
         content={content}
-        trigger={<Trigger className='popup-trigger'><InfoIcon/></Trigger>}
+        trigger={<Trigger className='trigger'><InfoIcon/></Trigger>}
         position={position}
     />
 )

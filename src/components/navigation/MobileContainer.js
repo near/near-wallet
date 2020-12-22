@@ -52,11 +52,6 @@ const Container = styled.div`
         overflow-y: auto;
         overflow-x: hidden;
     }
-
-    .user-name {
-        max-width: 200px;
-        white-space: nowrap;
-    }
 `
 
 const Collapsed = styled.div`

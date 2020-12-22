@@ -12,7 +12,6 @@ import isDecimalString from '../../../utils/isDecimalString'
 import { STAKING_AMOUNT_DEVIATION } from '../../../utils/staking'
 import { onKeyDown } from '../../../hooks/eventListeners'
 import { toNear } from '../../../utils/amounts'
-import { WALLET_APP_MIN_AMOUNT } from '../../../utils/wallet'
 
 const {
     parseNearAmount, formatNearAmount
@@ -26,8 +25,7 @@ export default function StakingAction({
     hasLedger,
     has2fa,
     action,
-    handleStakingAction,
-    stakeFromAccount
+    handleStakingAction
 }) {
     const [confirm, setConfirm] = useState()
     const [amount, setAmount] = useState('')
@@ -37,9 +35,10 @@ export default function StakingAction({
     let staked = (validator && validator.staked) || '0'
     const stake = action === 'stake' ? true : false
     const displayAmount = useMax ? formatNearAmount(amount, 5) : amount
-    const availableToStake = stakeFromAccount ? new BN(availableBalance).sub(new BN(utils.format.parseNearAmount(WALLET_APP_MIN_AMOUNT))).toString() : availableBalance
-    const invalidStakeActionAmount = new BN(useMax ? amount : parseNearAmount(amount)).sub(new BN(stake ? availableToStake : staked)).gt(new BN(STAKING_AMOUNT_DEVIATION)) || !isDecimalString(amount)
-    const stakeActionAllowed = hasStakeActionAmount && !invalidStakeActionAmount && !success
+
+    const invalidStakeActionAmount = new BN(useMax ? amount : parseNearAmount(amount)).sub(new BN(stake ? availableBalance : staked)).gt(new BN(STAKING_AMOUNT_DEVIATION)) || !isDecimalString(amount)
+
+    const stakeActionAllowed = hasStakeActionAmount && !invalidStakeActionAmount
 
     onKeyDown(e => {
         if (e.keyCode === 13 && stakeActionAllowed) {
@@ -55,12 +54,16 @@ export default function StakingAction({
         let stakeActionAmount = amount
         const userInputAmountIsMax = new BN(parseNearAmount(amount)).sub(new BN(stake ? availableBalance : staked)).abs().lte(new BN(STAKING_AMOUNT_DEVIATION))
 
-        if (!stake) {
-            if (!useMax && userInputAmountIsMax) {
+        if (!useMax && userInputAmountIsMax) {
+            if (stake) {
+                stakeActionAmount = availableBalance
+            } else {
                 stakeActionAmount = staked
-            } else if (useMax || userInputAmountIsMax) {
-                stakeActionAmount = null
             }
+        }
+
+        if (!stake && (useMax || userInputAmountIsMax)) {
+            stakeActionAmount = null
         }
 
         await handleStakingAction(action, validator.accountId, stakeActionAmount)
@@ -69,18 +72,9 @@ export default function StakingAction({
     }
 
     const handleSetMax = () => {
-        let amount = stake ? availableBalance : staked
-
-        if (stake && stakeFromAccount) {
-            amount = availableToStake
-        }
-
-        const isPositiveValue = new BN(amount).gt(new BN('0'))
-
-        if (isPositiveValue) {
-            setAmount(amount)
-            setUseMax(true)
-        }
+        const amount = stake ? availableBalance : staked
+        setAmount(amount)
+        setUseMax(true)
     }
 
     const handleOnChange = (amount) => {
@@ -91,7 +85,7 @@ export default function StakingAction({
     const getStakeActionDisclaimer = () => {
         let disclaimer = ''
         if (stake) {
-            if ((hasLedger || has2fa) && !stakeFromAccount && new BN(staked).isZero()) {
+            if (hasLedger || has2fa) {
                 disclaimer = 'staking.stake.ledgerDisclaimer'
             }
         } else {
@@ -102,12 +96,12 @@ export default function StakingAction({
     
     if (!success) {
         return (
-            <div className='send-theme'>
+            <>
                 <h1><Translate id={`staking.${action}.title`} /></h1>
-                <h2><Translate id={`staking.${action}.desc`} /></h2>
+                <div className='desc'><Translate id={`staking.${action}.desc`} /></div>
                 <div className='amount-header-wrapper'>
                     <h4><Translate id='staking.stake.amount' /></h4>
-                    <FormButton className='light-blue small' onClick={handleSetMax}><Translate id='staking.stake.useMax' /></FormButton>
+                    <FormButton className='link' onClick={handleSetMax}><Translate id='staking.stake.useMax' /></FormButton>
                 </div>
                 <AmountInput
                     action={action}
@@ -118,13 +112,9 @@ export default function StakingAction({
                     availableClick={handleSetMax}
                     insufficientBalance={invalidStakeActionAmount} 
                     loading={loading}
-                    stakeFromAccount={stakeFromAccount}
                 />
                 <ArrowCircleIcon color={stakeActionAllowed ? '#6AD1E3' : ''}/>
-                <div className='header-button'>
-                    <h4><Translate id={`staking.${action}.stakeWith`} /></h4>
-                    <FormButton className='light-blue small' linkTo='/staking/validators'><Translate id='button.edit' /></FormButton>
-                </div>
+                <h4><Translate id={`staking.${action}.stakeWith`} /></h4>
                 {validator && 
                     <ValidatorBox
                         validator={validator.accountId}
@@ -153,7 +143,7 @@ export default function StakingAction({
                         disclaimer={getStakeActionDisclaimer()}
                     />
                 }
-            </div>
+            </>
         )
     } else {
         return (

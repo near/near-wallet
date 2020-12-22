@@ -109,6 +109,9 @@ class AccountFormAccountId extends Component {
         
         handleChange(e, { name, value })
 
+        !this.props.formLoader && this.checkAccountIdLength(value) && this.props.setFormLoader(true)
+        this.props.formLoader && !this.checkAccountIdLength(value) && this.props.setFormLoader(false)
+
         this.props.requestStatus && this.props.clearRequestStatus()
 
         this.state.invalidAccountIdLength && this.handleAccountIdLengthState(value)

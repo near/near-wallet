@@ -14,11 +14,11 @@ import {
     refreshUrl,
     refreshAccount,
     resetAccounts,
+    setFormLoader,
     deleteRecoveryMethod,
     recoverAccountSeedPhrase,
     removeAccessKey,
     deployMultisig,
-    verifyTwoFactor,
     checkCanEnableTwoFactor,
     get2faMethod,
     getLedgerKey,
@@ -62,24 +62,7 @@ const loaderReducer = (state, { type, ready }) => {
 const globalAlertReducer = handleActions({
     // TODO: Reset state before action somehow. On navigate / start of other action?
     // TODO: Make this generic to avoid listing actions
-    [combineActions(
-        addAccessKey,
-        addAccessKeySeedPhrase,
-        setupRecoveryMessage,
-        saveAndSelectLedgerAccounts,
-        deleteRecoveryMethod,
-        recoverAccountSeedPhrase,
-        verifyTwoFactor,
-        deployMultisig,
-        sendMoney,
-        removeAccessKey,
-        signAndSendTransactions,
-        addLedgerAccessKey,
-        createAccountWithSeedPhrase,
-        stake,
-        unstake,
-        withdraw
-    )]: (state, { error, ready, payload, meta }) => ({
+    [combineActions(addAccessKey, addAccessKeySeedPhrase, setupRecoveryMessage, saveAndSelectLedgerAccounts, deleteRecoveryMethod, recoverAccountSeedPhrase, deployMultisig, sendMoney, removeAccessKey, signAndSendTransactions, addLedgerAccessKey, createAccountWithSeedPhrase, stake, unstake, withdraw)]: (state, { error, ready, payload, meta }) => ({
         ...state,
         globalAlert: ready ? {
             success: !error,
@@ -208,6 +191,10 @@ const account = handleActions({
         ...state,
         loginResetAccounts: true
     }),
+    [setFormLoader]: (state, { payload }) => ({
+        ...state,
+        formLoader: payload
+    })
 }, initialState)
 
 export default reduceReducers(

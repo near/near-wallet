@@ -48,7 +48,6 @@ const SetupSeedPhraseForm = ({
     handleCopyPhrase,
     linkTo,
     location,
-    hasSeedPhraseRecovery,
     match: { params: { accountId } }
 }) => {
 
@@ -70,7 +69,6 @@ const SetupSeedPhraseForm = ({
                     <IconMCopy color='#6ad1e3' />
                 </FormButton>
                 <FormButton
-                    disabled={hasSeedPhraseRecovery}
                     linkTo={linkTo ? linkTo : `/setup-seed-phrase/${accountId}/verify${location.search}`}
                     color='blue'
                 >
