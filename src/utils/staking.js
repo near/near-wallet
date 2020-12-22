@@ -203,10 +203,6 @@ export class Staking {
         const validatorDepositMap = await getStakingDeposits(account_id)
 
         let validators = await this.getValidators([...new Set(Object.keys(validatorDepositMap).concat(recentlyStakedValidators))])
-        if (!validators.length) {
-            console.log('checking all validators')
-            validators = allValidators
-        }
 
         let totalUnstaked = new BN(balance.available)
         if (totalUnstaked.lt(new BN(STAKING_AMOUNT_DEVIATION))) {
