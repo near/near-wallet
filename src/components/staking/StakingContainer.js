@@ -30,7 +30,6 @@ const StyledContainer = styled(Container)`
         text-align: center;
         line-height: 150% !important;
         margin: 25px 0;
-        font-size: 16px;
     }
 
     input {
@@ -60,6 +59,11 @@ const StyledContainer = styled(Container)`
         margin: 30px 0 15px 0;
     }
 
+    .arrow-circle {
+        display: block;
+        margin: 50px auto 20px auto;
+    }
+
     .transfer-money-icon {
         display block;
         margin: 50px auto;
@@ -85,8 +89,7 @@ const StyledContainer = styled(Container)`
         }
     }
 
-    .amount-header-wrapper,
-    .validator-header-wrapper  {
+    .amount-header-wrapper {
         display: flex;
         align-items: center;
         justify-content: space-between;
@@ -206,7 +209,6 @@ export function StakingContainer({ history, match }) {
                             <Validators
                                 {...props}
                                 validators={validators}
-                                stakeFromAccount={currentAccount.accountId === accountId}
                             />
                         )}
                     />
@@ -238,7 +240,6 @@ export function StakingContainer({ history, match }) {
                                 loading={formLoader}
                                 hasLedger={hasLedger}
                                 has2fa={has2fa}
-                                stakeFromAccount={currentAccount.accountId === accountId}
                             />
                         )}
                     />
