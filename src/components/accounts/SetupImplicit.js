@@ -31,10 +31,6 @@ const StyledContainer = styled(Container)`
         text-align: center;
     }
 
-    p {
-        margin: 25px 0;
-    }
-
     h2 {
         span {
             b {

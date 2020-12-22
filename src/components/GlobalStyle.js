@@ -161,11 +161,10 @@ export default createGlobalStyle`
         font-size: 16px !important;
         width: 100% !important;
         height: 48px !important;
-        border: 2px solid #f8f8f8 !important;
+        border: 2px solid #E4E4E6 !important;
         padding: 0 0 0 15px !important;
         color: #4a4f54 !important;
         font-weight: 300 !important;
-        background-color: #f8f8f8 !important;
         position: relative !important;
         margin-top: 8px !important;
         outline: none;

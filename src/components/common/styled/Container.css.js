@@ -25,6 +25,21 @@ const Container = styled.div`
         h2 {
             text-align: left;
         }
+
+        &.center {
+            display flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+
+            h2 {
+                margin: 10px 0;
+            }
+
+            h1, h2 {
+                text-align: center !important;
+            }
+        }
     }
 
     .sub-title, h2 {

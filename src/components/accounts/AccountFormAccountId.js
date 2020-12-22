@@ -50,7 +50,6 @@ const DomainName = styled.div`
     color: #4a4f54;
     font-size: 16px;
     padding: 0 10px;
-    background-color: #f8f8f8;
     cursor: pointer;
 
     svg {

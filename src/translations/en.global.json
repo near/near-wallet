@@ -51,6 +51,12 @@
                     "descTwo": "The temporary funding address is now invalid, and can no longer be used to receive assets. Your Account ID will be used as a primary address for all NEAR operations.",
                     "checkbox": "I acknowledge that by continuing, the temporary funding address will be made invalid, and any additional assets sent to that address will be lost."
                 }
+            },
+            "success": {
+                "title": "Welcome to NEAR",
+                "descOne": "Congratulations <b>${accountId}</b>! Your account has been successfully created.",
+                "descTwo": "You may now use your Account ID as your primary address for all NEAR operations. Make sure to update your address on any exchanges or other devices.",
+                "button": "Continue to Account"
             }
         },
         "verifySeedPhrase": {
@@ -580,7 +586,7 @@
         "staking": {
             "title": "Staking",
             "desc": "Stake your NEAR tokens with a validator",
-            "button": "Stake my tokens",
+            "button": "Stake My Tokens",
             "currentValidators": "Your Current Validators",
             "noValidators": "You haven't staked with a validator yet.",
             "selectAccount": "Staking from",
