@@ -23,7 +23,7 @@ const Container = styled.div`
 
         h1,
         h2 {
-            text-align: left;
+            text-align: center;
         }
 
         &.center {
@@ -43,7 +43,7 @@ const Container = styled.div`
     }
 
     .sub-title, h2 {
-        text-align: left !important;
+        text-align: center !important;
         line-height: 150% !important;
         margin: 25px 0;
         font-size: 16px !important;
