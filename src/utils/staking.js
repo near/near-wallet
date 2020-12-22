@@ -306,13 +306,15 @@ export class Staking {
                         next: nextValidators.includes(account_id),
                         contract: await this.getContractInstance(account_id, stakingMethods, account)
                     }
+                    if (!validator.contract) {
+                        // without a contract we assume validator doesn't exist
+                        return
+                    }
                     const fee = validator.fee = await validator.contract.get_reward_fee_fraction()
                     fee.percentage = fee.numerator / fee.denominator * 100
                     return validator
                 } catch (e) {
-                    if (!/No contract for account|cannot find contract code|wasm execution failed/.test(e.message)) {
-                        console.warn(e)
-                    }
+                    console.warn(e)
                 }
             })
         )).filter((v) => !!v)
@@ -495,11 +497,7 @@ export class Staking {
         if (!account) {
             account = await this.wallet.getAccount(this.wallet.accountId)
         }
-        try {
-            return await new nearApiJs.Contract(account, contractId, { ...methods })
-        } catch (e) {
-            throw new WalletError('No contract for account', 'staking.errors.noLockup')
-        }
+        return await new nearApiJs.Contract(account, contractId, { ...methods })
     }
 
     async signAndSendTransaction(receiverId, actions) {
