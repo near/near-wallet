@@ -104,7 +104,7 @@ export class Staking {
 
         const allValidators = await this.getValidators()
         const state = {}
-        const account = await this.updateStakingAccount(recentlyStakedValidators)
+        const account = await this.updateStakingAccount(allValidators, recentlyStakedValidators)
         let lockupAccount
         if (lockupId) {
             lockupAccount = await this.updateStakingLockup()
@@ -193,7 +193,7 @@ export class Staking {
         }
     }
 
-    async updateStakingAccount(recentlyStakedValidators = []) {
+    async updateStakingAccount(allValidators, recentlyStakedValidators = []) {
         const account_id = this.wallet.accountId
         await this.wallet.refreshAccount()
         const account = await this.wallet.getAccount(this.wallet.accountId)
@@ -205,7 +205,7 @@ export class Staking {
         let validators = await this.getValidators([...new Set(Object.keys(validatorDepositMap).concat(recentlyStakedValidators))])
         if (!validators.length) {
             console.log('checking all validators')
-            validators = await this.getValidators()
+            validators = allValidators
         }
 
         let totalUnstaked = new BN(balance.available)
