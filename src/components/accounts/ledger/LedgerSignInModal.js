@@ -153,11 +153,9 @@ const LedgerSignInModal = ({
     txSigned, 
     handleAdditionalAccountId, 
     signInWithLedgerStatus, 
-    accountId, 
     handleChange, 
     checkAccountAvailable, 
     requestStatus, 
-    setFormLoader, 
     formLoader, 
     clearRequestStatus, 
     stateAccountId, 
@@ -213,7 +211,6 @@ const LedgerSignInModal = ({
                         checkAvailability={checkAccountAvailable}
                         requestStatus={requestStatus}
                         autoFocus={true}
-                        setFormLoader={setFormLoader}
                         clearRequestStatus={clearRequestStatus}
                         stateAccountId={stateAccountId}
                     />
