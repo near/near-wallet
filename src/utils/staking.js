@@ -425,8 +425,8 @@ export class Staking {
         } else {
             lockupId = getLockupAccountId(accountId)
         }
-        if (this.wallet.accountExists(lockupId)) {
-            throw new WalletError('No contract for account', 'staking.errors.noLockup')
+        if (!this.wallet.accountExists(lockupId)) {
+            throw new WalletError('No lockup for account ' + lockupId, 'staking.errors.noLockup')
         }
         const contract = await this.getContractInstance(lockupId, lockupMethods)
         return { contract, lockupId, accountId }
