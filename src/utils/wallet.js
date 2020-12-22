@@ -22,7 +22,8 @@ import {
 
 import { TwoFactor } from './twoFactor'
 import { Staking } from './staking'
-import { decorateWithLockup } from './account-with-lockup'
+import { decorateWithLockup, getLockupAccountId } from './account-with-lockup'
+import { MULTISIG_CHANGE_METHODS } from 'near-api-js/lib/account_multisig'
 
 export const WALLET_CREATE_NEW_ACCOUNT_URL = 'create'
 export const WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS = ['create', 'set-recovery', 'setup-seed-phrase', 'recover-account', 'recover-seed-phrase', 'sign-in-ledger']
@@ -38,7 +39,7 @@ export const ACCOUNT_ID_SUFFIX = process.env.REACT_APP_ACCOUNT_ID_SUFFIX || 'tes
 export const MULTISIG_MIN_AMOUNT = process.env.REACT_APP_MULTISIG_MIN_AMOUNT || '40'
 export const MULTISIG_MIN_PROMPT_AMOUNT = process.env.REACT_APP_MULTISIG_MIN_PROMPT_AMOUNT || '200'
 export const LOCKUP_ACCOUNT_ID_SUFFIX = process.env.LOCKUP_ACCOUNT_ID_SUFFIX || 'lockup.near'
-export const MIN_BALANCE_FOR_GAS = process.env.REACT_APP_MIN_BALANCE_FOR_GAS || nearApiJs.utils.format.parseNearAmount('2')
+export const MIN_BALANCE_FOR_GAS = process.env.REACT_APP_MIN_BALANCE_FOR_GAS || nearApiJs.utils.format.parseNearAmount('0.1')
 export const ACCESS_KEY_FUNDING_AMOUNT = process.env.REACT_APP_ACCESS_KEY_FUNDING_AMOUNT || nearApiJs.utils.format.parseNearAmount('0.01')
 export const LINKDROP_GAS = process.env.LINKDROP_GAS || '100000000000000'
 export const ENABLE_FULL_ACCESS_KEYS = process.env.ENABLE_FULL_ACCESS_KEYS === 'yes'
@@ -47,6 +48,7 @@ export const HIDE_SIGN_IN_WITH_LEDGER_ENTER_ACCOUNT_ID_MODAL = process.env.HIDE_
 export const NETWORK_ID = process.env.REACT_APP_NETWORK_ID || 'default'
 const CONTRACT_CREATE_ACCOUNT_URL = `${ACCOUNT_HELPER_URL}/account`
 export const NODE_URL = process.env.REACT_APP_NODE_URL || 'https://rpc.nearprotocol.com'
+export const WALLET_APP_MIN_AMOUNT = nearApiJs.utils.format.formatNearAmount(new BN (MIN_BALANCE_FOR_GAS).add(new BN(ACCESS_KEY_FUNDING_AMOUNT)))
 
 const KEY_UNIQUE_PREFIX = '_4:'
 const KEY_WALLET_ACCOUNTS = KEY_UNIQUE_PREFIX + 'wallet:accounts_v2'
@@ -118,9 +120,7 @@ class Wallet {
         )
         this.accountId = localStorage.getItem(KEY_ACTIVE_ACCOUNT_ID) || ''
 
-        this.twoFactor = new TwoFactor(this)
         this.staking = new Staking(this)
-
     }
 
     async getLocalAccessKey(accountId, accessKeys) {
@@ -207,25 +207,14 @@ class Wallet {
         if (!this.isEmpty()) {
             const accessKeys = await this.getAccessKeys() || []
             const ledgerKey = accessKeys.find(key => key.meta.type === 'ledger')
-            const state = await (await this.getAccount(this.accountId)).state()
-            this.twoFactor = new TwoFactor(this)
-
-            // TODO: Just use accountExists to check if lockup exists?
-            let lockupInfo
-            try {
-                lockupInfo = await this.staking.getLockup();
-            } catch (error) {
-                if (error.toString().includes('does not exist while viewing')) {
-                    console.warn('Account has no lockup')
-                } else {
-                    throw error
-                }
-            }
+            const account = await this.getAccount(this.accountId)
+            const state = await account.state()
+            const hasLockup = await this.accountExists(getLockupAccountId(this.accountId))
 
             return {
                 ...state,
-                has2fa: await this.twoFactor.isEnabled(),
-                hasLockup: !!lockupInfo,
+                hasLockup,
+                has2fa: await TwoFactor.has2faEnabled(account),
                 balance: await this.getBalance(),
                 accountId: this.accountId,
                 accounts: this.accounts,
@@ -428,34 +417,19 @@ class Wallet {
     recovering a second account attempts to call this method with the currently logged in account and not the tempKeyStore
     ********************************/
     // TODO: Why is fullAccess needed? Everything without contractId should be full access.
-    async addAccessKey(accountId, contractId, publicKey, fullAccess = false, methodNames = '') {
-        const account = await this.getAccount(accountId)
-        console.log('account instance used in recovery add localStorage key', account)
-        // update has2fa now after we have the right Account instance for temp recovery
-        const has2fa = await this.twoFactor.isEnabled()
-        console.log('key being added to 2fa account?', has2fa)
+    async addAccessKey(accountId, contractId, publicKey, fullAccess = false, methodNames = '', recoveryKeyIsFAK) {
+        const account = recoveryKeyIsFAK ? new nearApiJs.Account(this.connection, accountId) : await this.getAccount(accountId)
+        const has2fa = await TwoFactor.has2faEnabled(account)
+        console.log('key being added to 2fa account ?', has2fa, account)
         try {
             if (fullAccess || (!has2fa && accountId === contractId)) {
                 console.log('adding full access key', publicKey.toString())
                 return await account.addKey(publicKey)
             } else {
-                // TODO: fix account.addKey to accept multiple method names, kludge fix here for adding multisig LAK
-                if (has2fa && !methodNames.length && accountId === contractId) {
-                    const { MULTISIG_CHANGE_METHODS, MULTISIG_ALLOWANCE } = nearApiJs.multisig
-                    methodNames = MULTISIG_CHANGE_METHODS
-                    console.log('adding limited access key', publicKey.toString(), methodNames)
-                    const { addKey, functionCallAccessKey } = nearApiJs.transactions
-                    const actions = [
-                        addKey(publicKey, functionCallAccessKey(accountId, methodNames, MULTISIG_ALLOWANCE))
-                    ]
-                    console.log('account adding key', account)
-                    return await account.signAndSendTransaction(accountId, actions)
-                }
-                
                 return await account.addKey(
                     publicKey.toString(),
                     contractId,
-                    methodNames,
+                    has2fa ? MULTISIG_CHANGE_METHODS : methodNames,
                     ACCESS_KEY_FUNDING_AMOUNT
                 )
             }
@@ -592,13 +566,10 @@ class Wallet {
     }
 
     async getAccount(accountId) {
-        let account
-        if (accountId === this.accountId && await this.twoFactor.isEnabled()) {
-            account = this.twoFactor
-        } else {
-            account = new nearApiJs.Account(this.connection, accountId)
+        let account = new nearApiJs.Account(this.connection, accountId)
+        if (await TwoFactor.has2faEnabled(account)) {
+            account = new TwoFactor(this, accountId)
         }
-
         // TODO: Check if lockup needed somehow? Should be changed to async? Should just check in wrapper?
         return decorateWithLockup(account);
     }
@@ -606,15 +577,13 @@ class Wallet {
     async getBalance(accountId) {
         accountId = accountId || this.accountId
         const account = await this.getAccount(accountId)
-        let balance = await account.getAccountBalance()
-        balance.stateStaked = new BN(balance.stateStaked).add(new BN(MIN_BALANCE_FOR_GAS)).toString()
-        balance.available = BN.max(new BN(0), new BN(balance.available).sub(new BN(MIN_BALANCE_FOR_GAS))).toString()
-        return balance
+        return await account.getAccountBalance()
     }
 
     async signatureFor(account) {
         const { accountId } = account
-        const blockNumber = String((await account.connection.provider.status()).sync_info.latest_block_height);
+        const block = await account.connection.provider.block({ finality: 'final' })
+        const blockNumber = block.header.height.toString()
         const signer = account.inMemorySigner || account.connection.signer
         const signed = await signer.signMessage(Buffer.from(blockNumber), accountId, NETWORK_ID);
         const blockNumberSignature = Buffer.from(signed.signature).toString('base64');
@@ -812,15 +781,17 @@ class Wallet {
             // temp account
             this.connection = connection
             this.accountId = accountId
-            this.twoFactor = new TwoFactor(this)
-            this.twoFactor.accountId = accountId
-            const has2fa = await this.twoFactor.isEnabled()
             let account = await this.getAccount(accountId)
+            let recoveryKeyIsFAK = false
             // check if recover access key is FAK and if so add key without 2FA
-            if (has2fa) {
+            if (await TwoFactor.has2faEnabled(account)) {
                 const accessKeys = await account.getAccessKeys()
-                const recoveryAccessKey = accessKeys.find(({ public_key }) => public_key === publicKey)
-                if (recoveryAccessKey.access_key.permission && recoveryAccessKey.access_key.permission === 'FullAccess') {
+                recoveryKeyIsFAK = accessKeys.find(({ public_key, access_key }) => 
+                    public_key === publicKey &&
+                    access_key.permission &&
+                    access_key.permission === 'FullAccess'
+                )
+                if (recoveryKeyIsFAK) {
                     console.log('using FAK and regular Account instance to recover')
                     fromSeedPhraseRecovery = false
                 }
@@ -833,7 +804,7 @@ class Wallet {
             const newKeyPair = KeyPair.fromRandom('ed25519')
             
             try {
-                await this.addAccessKey(accountId, accountId, newKeyPair.publicKey, fromSeedPhraseRecovery)
+                await this.addAccessKey(accountId, accountId, newKeyPair.publicKey, fromSeedPhraseRecovery, '', recoveryKeyIsFAK)
                 accountIdsSuccess.push({
                     accountId,
                     newKeyPair
@@ -872,9 +843,13 @@ class Wallet {
     }
 
     async signAndSendTransactions(transactions, accountId) {
-        if (await this.twoFactor.isEnabled()) {
-            return await this.twoFactor.signAndSendTransactions(transactions)
+        const account = await this.getAccount(accountId)
+        
+        // TODO move to nearapi js Account.js
+        if (account.signAndSendTransactions) {
+            return account.signAndSendTransactions(transactions)
         }
+
         store.dispatch(setSignTransactionStatus('in-progress'))
         for (let { receiverId, nonce, blockHash, actions } of transactions) {
             const [, signedTransaction] = await nearApiJs.transactions.signTransaction(receiverId, nonce, actions, blockHash, this.connection.signer, accountId, NETWORK_ID)

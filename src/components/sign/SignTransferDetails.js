@@ -45,11 +45,12 @@ const CustomGrid = styled(Grid)`
 
                 .desc {
                     display: flex;
+                    align-items: center;
                     padding-top: 4px;
+                    word-break: break-all;
 
                     .icon {
                         margin-right: 10px;
-                        margin-top: 2px;
 
                         svg {
                             width: 26px;
@@ -150,7 +151,8 @@ const ActionRow = ({ transaction, action, actionKind }) => (
         />
         <div className='desc font-small'>
             <ActionWarrning 
-                actionKind={actionKind} 
+                actionKind={actionKind}
+                action={action[actionKind]} 
             />
         </div>
     </div>
@@ -171,34 +173,58 @@ const ActionMessage = ({ transaction, action, actionKind }) => (
     </b>
 )
 
-const ActionWarrning = ({ actionKind }) => (
-    <Fragment>
-        {actionKind === 'functionCall' && (
-            <Fragment>
-                <div className='icon'><IconProblems color='#999' /></div>
-                <Translate id='sign.ActionWarrning.functionCall' />
-            </Fragment>
-        )}
-        {actionKind === 'deployContract' && (
-            <Fragment>
-                <div className='icon'><IconProblems color='#fca347' /></div>
-                <Translate id='sign.ActionWarrning.deployContract' />
-            </Fragment>
-        )}
-        {actionKind === 'stake' && (
-            <Fragment>
-                <div className='icon'><IconProblems color='#fca347' /></div>
-                <Translate id='sign.ActionWarrning.stake' />
-            </Fragment>
-        )}
-        {actionKind === 'deleteAccount' && (
-            <Fragment>
-                <div className='icon'><IconProblems color='#fca347' /></div>
-                <Translate id='sign.ActionWarrning.deleteAccount' />
-            </Fragment>
-        )}
-    </Fragment>
-)
+const ActionWarrning = ({ actionKind, action }) => {
+    if (actionKind === 'functionCall' && Array.isArray(action.args)) {
+        try {
+            return (
+                <pre>
+                    <Translate id='arguments' />:&nbsp;
+                    {JSON.stringify(
+                        JSON.parse(
+                            Buffer.from(action.args).toString()
+                        )
+                    , null, 2)}
+                </pre>
+            )
+        } catch (error) {
+            return (
+                <>
+                    <div className='icon'><IconProblems color='#999' /></div>
+                    <Translate id='sign.ActionWarrning.binaryData' />
+                </>
+            )
+        }
+    } else {
+        return (
+            <>
+                {actionKind === 'functionCall' && (
+                    <>
+                        <div className='icon'><IconProblems color='#999' /></div>
+                        <Translate id='sign.ActionWarrning.functionCall' />
+                    </>
+                )}
+                {actionKind === 'deployContract' && (
+                    <>
+                        <div className='icon'><IconProblems color='#fca347' /></div>
+                        <Translate id='sign.ActionWarrning.deployContract' />
+                    </>
+                )}
+                {actionKind === 'stake' && (
+                    <>
+                        <div className='icon'><IconProblems color='#fca347' /></div>
+                        <Translate id='sign.ActionWarrning.stake' />
+                    </>
+                )}
+                {actionKind === 'deleteAccount' && (
+                    <>
+                        <div className='icon'><IconProblems color='#fca347' /></div>
+                        <Translate id='sign.ActionWarrning.deleteAccount' />
+                    </>
+                )}
+            </>
+        )
+    }
+}
 
 const mapDispatchToProps = {}
 

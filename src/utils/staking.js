@@ -3,7 +3,7 @@ import BN from 'bn.js'
 import { WalletError } from './walletError'
 import { getLockupAccountId } from './account-with-lockup'
 import { queryExplorer } from './explorer-api'
-import { MIN_BALANCE_FOR_GAS } from './wallet'
+import { TwoFactor } from './twoFactor'
 
 const {
     transactions: {
@@ -13,7 +13,9 @@ const {
         format: {
             parseNearAmount
         }
-    }
+    },
+    Account,
+    Contract
 } = nearApiJs
 
 export const ACCOUNT_DEFAULTS = {
@@ -90,9 +92,8 @@ export class Staking {
             const { lockupId: _lockupId } = await this.getLockup()
             lockupId = _lockupId
         } catch(e) {
-            console.warn('No lockup account, not loading lockup account state for account', accountId)
-            if (e.message.indexOf('does not exist while viewing') === -1) {
-                throw(e)
+            if (!/No contract for account/.test(e.message)) {
+                throw e
             }
         }
         return { accountId, lockupId }
@@ -201,12 +202,12 @@ export class Staking {
 
         let { deposits, validators } = (await getStakingTransactions(account_id))
         validators = await this.getValidators([...new Set(validators.concat(recentlyStakedValidators))])
-        if (!validators.length || await this.wallet.twoFactor.isEnabled()) {
+        if (!validators.length || TwoFactor.has2faEnabled(account)) {
             console.log('checking all validators')
             validators = await this.getValidators()
         }
 
-        let totalUnstaked = new BN(balance.available, 10).sub(new BN(MIN_BALANCE_FOR_GAS))
+        let totalUnstaked = new BN(balance.available, 10)
         if (totalUnstaked.lt(new BN(STAKING_AMOUNT_DEVIATION, 10))) {
             totalUnstaked = ZERO.clone();
         }
@@ -296,22 +297,22 @@ export class Staking {
                 .filter((v) => v.indexOf('nfvalidator') === -1 && v.indexOf(networkId === 'mainnet' ? '.near' : '.m0') > -1)
         }
 
+        const currentAccount = await this.wallet.getAccount(this.wallet.accountId)
         return (await Promise.all(
             accountIds.map(async (account_id) => {
                 try {
+                    const contract = new Contract(currentAccount, account_id, stakingMethods)
                     const validator = {
                         accountId: account_id,
                         current: currentValidators.includes(account_id),
                         next: nextValidators.includes(account_id),
-                        contract: await this.getContractInstance(account_id, stakingMethods)
+                        contract
                     }
                     const fee = validator.fee = await validator.contract.get_reward_fee_fraction()
                     fee.percentage = fee.numerator / fee.denominator * 100
                     return validator
                 } catch (e) {
-                    if (!/No contract for account|cannot find contract code|wasm execution failed/.test(e.message)) {
-                        throw e
-                    }
+                    console.warn('Error getting fee for validator %s: %s', account_id, e);
                 }
             })
         )).filter((v) => !!v)
@@ -422,7 +423,6 @@ export class Staking {
         } else {
             lockupId = getLockupAccountId(accountId)
         }
-        await (await new nearApiJs.Account(this.wallet.connection, lockupId)).state()
         const contract = await this.getContractInstance(lockupId, lockupMethods)
         return { contract, lockupId, accountId }
     }
@@ -490,8 +490,8 @@ export class Staking {
 
     async getContractInstance(contractId, methods) {
         try {
-            await (await new nearApiJs.Account(this.wallet.connection, contractId)).state()
-            return await new nearApiJs.Contract(await this.wallet.getAccount(), contractId, { ...methods })
+            await (await new Account(this.wallet.connection, contractId)).state()
+            return await new Contract(await this.wallet.getAccount(this.wallet.accountId), contractId, { ...methods })
         } catch (e) {
             throw new WalletError('No contract for account', 'staking.errors.noLockup')
         }

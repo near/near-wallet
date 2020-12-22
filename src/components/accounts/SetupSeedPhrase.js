@@ -3,8 +3,16 @@ import { withRouter, Route } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { Translate } from 'react-localize-redux'
 import { parse as parseQuery } from 'query-string'
-
-import { redirectToApp, handleAddAccessKeySeedPhrase, clearAlert, refreshAccount, checkCanEnableTwoFactor, checkIsNew, handleCreateAccountWithSeedPhrase } from '../../actions/account'
+import { 
+    redirectToApp, 
+    handleAddAccessKeySeedPhrase, 
+    clearAlert, 
+    refreshAccount, 
+    checkCanEnableTwoFactor, 
+    checkIsNew, 
+    handleCreateAccountWithSeedPhrase,
+    loadRecoveryMethods
+} from '../../actions/account'
 import { generateSeedPhrase } from 'near-seed-phrase'
 import SetupSeedPhraseVerify from './SetupSeedPhraseVerify'
 import SetupSeedPhraseForm from './SetupSeedPhraseForm'
@@ -19,11 +27,16 @@ class SetupSeedPhrase extends Component {
         enterWord: '',
         wordId: null,
         requestStatus: null,
-        successSnackbar: false
+        successSnackbar: false,
+        submitting: false
     }
 
     componentDidMount = () => {
         this.refreshData()
+
+        if (this.props.accountId === this.props.activeAccountId) {
+            this.props.loadRecoveryMethods()
+        }
     }
 
     refreshData = () => {
@@ -65,15 +78,9 @@ class SetupSeedPhrase extends Component {
         history.push(`/setup-seed-phrase/${accountId}/phrase${location.search}`)
     }
 
-    handleSubmit = async () => {
-        const { 
-            accountId,
-            handleAddAccessKeySeedPhrase,
-            handleCreateAccountWithSeedPhrase,
-            checkIsNew,
-            location
-        } = this.props
-        const { seedPhrase, enterWord, wordId, recoveryKeyPair } = this.state
+    handleVerifyPhrase = () => {
+        const { seedPhrase, enterWord, wordId, submitting } = this.state
+
         if (enterWord !== seedPhrase.split(' ')[wordId]) {
             this.setState(() => ({
                 requestStatus: {
@@ -83,6 +90,21 @@ class SetupSeedPhrase extends Component {
             }))
             return false
         }
+
+        if (!submitting) {
+            this.setState({ submitting: true }, this.handleSetupSeedPhrase)
+        }
+    }
+
+    handleSetupSeedPhrase = async () => {
+        const { 
+            accountId,
+            handleAddAccessKeySeedPhrase,
+            handleCreateAccountWithSeedPhrase,
+            checkIsNew,
+            location
+        } = this.props
+        const { recoveryKeyPair } = this.state
 
         const isNew = await checkIsNew(accountId)
 
@@ -117,6 +139,8 @@ class SetupSeedPhrase extends Component {
     }
 
     render() {
+        const recoveryMethods = this.props.recoveryMethods[this.props.accountId]
+        const hasSeedPhraseRecovery = recoveryMethods && recoveryMethods.filter(m => m.kind === 'phrase').length > 0
         return (
             <Translate>
                 {({ translate }) => (
@@ -131,6 +155,7 @@ class SetupSeedPhrase extends Component {
                                     <SetupSeedPhraseForm
                                         seedPhrase={this.state.seedPhrase}
                                         handleCopyPhrase={this.handleCopyPhrase}
+                                        hasSeedPhraseRecovery={hasSeedPhraseRecovery}
                                     />
                                 </Container>
                             )}
@@ -140,7 +165,7 @@ class SetupSeedPhrase extends Component {
                             path={`/setup-seed-phrase/:accountId/verify`}
                             render={() => (
                                 <Container className='small-centered'>
-                                    <form onSubmit={e => {this.handleSubmit(); e.preventDefault();}} autoComplete='off'>
+                                    <form onSubmit={e => {this.handleVerifyPhrase(); e.preventDefault();}} autoComplete='off'>
                                     <h1><Translate id='setupSeedPhraseVerify.pageTitle'/></h1>
                                     <h2><Translate id='setupSeedPhraseVerify.pageText'/></h2>
                                         <SetupSeedPhraseVerify
@@ -148,7 +173,7 @@ class SetupSeedPhrase extends Component {
                                             wordId={this.state.wordId}
                                             handleChangeWord={this.handleChangeWord}
                                             handleStartOver={this.handleStartOver}
-                                            formLoader={this.props.formLoader}
+                                            formLoader={this.props.formLoader || this.state.submitting}
                                             requestStatus={this.state.requestStatus}
                                             globalAlert={this.props.globalAlert}
                                         />
@@ -176,13 +201,16 @@ const mapDispatchToProps = {
     refreshAccount,
     checkCanEnableTwoFactor,
     checkIsNew,
-    handleCreateAccountWithSeedPhrase
+    handleCreateAccountWithSeedPhrase,
+    loadRecoveryMethods
 }
 
-const mapStateToProps = ({ account }, { match }) => ({
+const mapStateToProps = ({ account, recoveryMethods }, { match }) => ({
     ...account,
     verify: match.params.verify,
     accountId: match.params.accountId,
+    activeAccountId: account.accountId,
+    recoveryMethods
 })
 
 export const SetupSeedPhraseWithRouter = connect(mapStateToProps, mapDispatchToProps)(withRouter(SetupSeedPhrase))
