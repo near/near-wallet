@@ -4,7 +4,6 @@ import styled from 'styled-components';
 import { Translate } from 'react-localize-redux'
 import FormButton from '../common/FormButton';
 import Container from '../common/styled/Container.css'
-import ProgressBar from './ProgressBar'
 
 const StyledContainer = styled(Container)`
 
@@ -78,7 +77,6 @@ const EnterVerificationCode = ({
     return (
         <StyledContainer className='small-centered'>
             <form onSubmit={e => {handleConfirm(); e.preventDefault();}} autoComplete='off'>
-                <ProgressBar step='3'/>
                 <h1><Translate id='setRecoveryConfirm.title'/></h1>
                 <h2><Translate id='setRecoveryConfirm.pageText'/> <Translate id={useEmail ? 'setRecoveryConfirm.email' : 'setRecoveryConfirm.phone'}/>: <span>{useEmail ? email : phoneNumber}</span></h2>
                 <h4 className='small'><Translate id='setRecoveryConfirm.inputHeader'/></h4>

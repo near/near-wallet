@@ -13,9 +13,8 @@ import Container from '../common/styled/Container.css'
 import FormButton from '../common/FormButton'
 import WhereToBuyNearModal from '../common/WhereToBuyNearModal'
 import AccountFundedModal from './AccountFundedModal'
-import { createAccountFromImplicit } from '../../actions/account'
+import { createAccountFromImplicit, redirectTo } from '../../actions/account'
 import { NETWORK_ID, NODE_URL, MIN_BALANCE_FOR_GAS } from '../../utils/wallet'
-import ProgressBar from './ProgressBar'
 
 const StyledContainer = styled(Container)`
     .account-id-wrapper {
@@ -78,6 +77,7 @@ class SetupImplicit extends Component {
     handleContinue = async () => {
         const { dispatch, accountId, implicitAccountId, recoveryMethod } = this.props
         await dispatch(createAccountFromImplicit(accountId, implicitAccountId, recoveryMethod))
+        dispatch(redirectTo('/fund-create-account/success'))
     }
 
     checkBalance = async () => {
@@ -151,13 +151,12 @@ class SetupImplicit extends Component {
             checked
         } = this.state
 
-        const { implicitAccountId, accountId } = this.props
+        const { implicitAccountId, accountId, formLoader } = this.props
 
         return (
             <Translate>
                 {({ translate }) => (
                     <StyledContainer className='small-centered'>
-                        <ProgressBar step='4'/>
                         <h1><Translate id='account.createImplicit.pre.title' /></h1>
                         <h2><Translate id='account.createImplicit.pre.descOne' data={{ amount: formatNearAmount(MIN_BALANCE_TO_CREATE) }}/></h2>
                         <h2><Translate id='account.createImplicit.pre.descTwo'/></h2>
@@ -195,12 +194,14 @@ class SetupImplicit extends Component {
                         }
                         {balance &&
                             <AccountFundedModal
-                                onClose={() => this.setState({ accountFunded: false })}
+                                onClose={() => {}}
                                 open={balance}
                                 checked={checked}
                                 handleCheckboxChange={e => this.setState({ checked: e.target.checked })}
                                 implicitAccountId={implicitAccountId}
                                 accountId={accountId}
+                                handleFinishSetup={this.handleContinue}
+                                loading={formLoader}
                             />
                         }
                     </StyledContainer>

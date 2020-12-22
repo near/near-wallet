@@ -152,12 +152,13 @@ const SwapAccountGraphic = ({ implicitAccountId, accountId }) => {
     )
 }
 
-const AccountFundedModal = ({ open, onClose, checked, handleCheckboxChange, accountId, implicitAccountId }) => {
+const AccountFundedModal = ({ open, onClose, checked, handleCheckboxChange, accountId, implicitAccountId, handleFinishSetup, loading }) => {
     return (
         <Modal
             id='account-funded-modal'
             isOpen={open}
             onClose={onClose}
+            disableClose={true}
         >
             <Container>
                 <MobileActionSheet/>
@@ -172,7 +173,7 @@ const AccountFundedModal = ({ open, onClose, checked, handleCheckboxChange, acco
                     />
                     <span><Translate id='account.createImplicit.post.modal.checkbox'/></span>
                 </label>
-                <FormButton disabled={!checked} onClick={() => {}}>
+                <FormButton disabled={!checked} sending={loading} onClick={handleFinishSetup}>
                     <Translate id='button.finish' />
                 </FormButton>
             </Container>

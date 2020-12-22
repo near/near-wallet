@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import styled from 'styled-components'
 import { Translate } from 'react-localize-redux'
 
@@ -16,12 +16,28 @@ const Container = styled.div`
     }
 `
 
-export default function ProgressBar({ step }) {
-    const total = 4
+export default function ProgressBar({ step = '1', total = '4', loader }) {
+
+     useEffect(() => {
+        const container = document.getElementById('use-progress-bar')
+        if (container) {
+            handleAddProgessIndicator()
+        }
+
+    }, [loader])
+
+    const handleAddProgessIndicator = () => {
+        let element = document.createElement('div')
+        element.innerHTML = `Step ${step}/${total}`
+        element.style.cssText = 'width: 100%; text-align: left;'
+        const container = document.getElementById('use-progress-bar')
+        container.prepend(element)
+    }
+
     return (
-    <Container>
-        <div className='step-line' style={{ width: `${step / total * 100}%`}}/>
-        <Translate id='createAccount.step' data={{ step: step, total: total }}/>
-    </Container>
+        <Container className='progress-bar-container'>
+            <div className='step-line' style={{ width: `${step / total * 100}%`}}/>
+            {/* <Translate id='createAccount.step' data={{ step: step, total: total }}/> */}
+        </Container>
     )
 }

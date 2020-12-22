@@ -21,7 +21,6 @@ import RecoveryOption from './RecoveryOption';
 import FormButton from '../../common/FormButton';
 import EnterVerificationCode from '../EnterVerificationCode';
 import Container from '../../common/styled/Container.css';
-import ProgressBar from '../ProgressBar'
 
 const StyledContainer = styled(Container)`
     
@@ -179,7 +178,6 @@ class SetupRecoveryMethod extends Component {
             return (
                 <StyledContainer className='small-centered'>
                     <form onSubmit={e => {this.handleNext(); e.preventDefault();}}>
-                        <ProgressBar step='2'/>
                         <h1><Translate id='setupRecovery.header'/></h1>
                         <h2><Translate id='setupRecovery.subHeader'/></h2>
                         <h4><Translate id='setupRecovery.advancedSecurity'/></h4>
