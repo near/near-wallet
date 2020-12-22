@@ -582,7 +582,8 @@ class Wallet {
 
     async signatureFor(account) {
         const { accountId } = account
-        const blockNumber = String((await account.connection.provider.status()).sync_info.latest_block_height);
+        const block = await account.connection.provider.block({ finality: 'final' })
+        const blockNumber = block.header.height.toString()
         const signer = account.inMemorySigner || account.connection.signer
         const signed = await signer.signMessage(Buffer.from(blockNumber), accountId, NETWORK_ID);
         const blockNumberSignature = Buffer.from(signed.signature).toString('base64');
