@@ -22,12 +22,13 @@ const StyledContainer = styled(Container)`
         width: 100%;
         border-radius: 4px;
         border: 2px solid #F0F0F0;
-        padding: 25px;
-        font-size: 20px;
+        padding: 20px;
+        font-size: 16px;
         word-break: break-all;
         line-height: 140%;
         margin: 10px 0 40px 0;
         text-align: center;
+        color: #72727A;
     }
 
     h2 {
@@ -50,6 +51,7 @@ const StyledContainer = styled(Container)`
             text-align: left;
             margin-bottom: 50px !important;
             transition: 100ms;
+            display: block !important;
             
             :hover {
                 text-decoration: underline !important;
@@ -68,16 +70,22 @@ const initialState = {
     snackBarMessage: 'setupSeedPhrase.snackbarCopyImplicitAddress',
     balance: null,
     whereToBuy: false,
-    checked: false
+    checked: false,
+    creatingAccount: null
 }
 
 class SetupImplicit extends Component {
     state = { ...initialState }
 
     handleContinue = async () => {
+        this.setState({ creatingAccount: true })
         const { dispatch, accountId, implicitAccountId, recoveryMethod } = this.props
-        await dispatch(createAccountFromImplicit(accountId, implicitAccountId, recoveryMethod))
-        dispatch(redirectTo('/fund-create-account/success'))
+        try {
+            await dispatch(createAccountFromImplicit(accountId, implicitAccountId, recoveryMethod))
+        } catch(e) {
+            this.setState({ creatingAccount: false })
+        }
+        dispatch(redirectTo('/fund-create-account/success', { globalAlertPreventClear: true }))
     }
 
     checkBalance = async () => {
@@ -148,10 +156,12 @@ class SetupImplicit extends Component {
             snackBarMessage,
             successSnackbar,
             whereToBuy,
-            checked
+            checked,
+            creatingAccount
         } = this.state
 
         const { implicitAccountId, accountId, formLoader } = this.props
+        const showSuccessModal = balance || creatingAccount
 
         return (
             <Translate>
@@ -192,10 +202,10 @@ class SetupImplicit extends Component {
                                 open={whereToBuy}
                             />
                         }
-                        {balance &&
+                        {showSuccessModal &&
                             <AccountFundedModal
                                 onClose={() => {}}
-                                open={balance}
+                                open={showSuccessModal}
                                 checked={checked}
                                 handleCheckboxChange={e => this.setState({ checked: e.target.checked })}
                                 implicitAccountId={implicitAccountId}
