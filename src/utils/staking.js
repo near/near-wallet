@@ -423,6 +423,9 @@ export class Staking {
         } else {
             lockupId = getLockupAccountId(accountId)
         }
+        if (this.wallet.accountExists(lockupId)) {
+            throw new WalletError('No contract for account', 'staking.errors.noLockup')
+        }
         const contract = await this.getContractInstance(lockupId, lockupMethods)
         return { contract, lockupId, accountId }
     }
@@ -493,7 +496,6 @@ export class Staking {
             account = await this.wallet.getAccount(this.wallet.accountId)
         }
         try {
-            await (await new nearApiJs.Account(this.wallet.connection, contractId)).state()
             return await new nearApiJs.Contract(account, contractId, { ...methods })
         } catch (e) {
             throw new WalletError('No contract for account', 'staking.errors.noLockup')
