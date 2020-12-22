@@ -40,6 +40,21 @@ const CustomButton = styled(Button)`
             font-size: 14px;
         }
 
+        &.light-blue {
+            background-color: #F0F9FF !important;
+            border: 0;
+            color: #0072ce;
+            border-radius: 4px;
+
+            &.small {
+                padding: 6px 12px;
+                height: auto;
+                font-weight: 400 !important;
+                letter-spacing: 0.5px;
+                font-size: 13px;
+            }
+        }
+
         &.red {
             border-color: #ff585d;
             background: #ff585d;

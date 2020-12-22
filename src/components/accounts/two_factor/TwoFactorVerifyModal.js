@@ -41,7 +41,9 @@ const TwoFactorVerifyModal = ({ open, onClose }) => {
     }, []);
 
     const handleVerifyCode = async () => {
-        onClose(code)
+        if (code.length === 6 && !loading) {
+            onClose(code)
+        }
     }
 
     const handleChange = (code) => {

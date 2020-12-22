@@ -49,6 +49,12 @@ const CustomGrid = styled(Grid)`
             display: inline-block;
             margin: -4px 10px 0 8px;
         }
+
+        .middle {
+            &.aligned {
+                cursor: auto;
+            }
+        }
     }
 `
 

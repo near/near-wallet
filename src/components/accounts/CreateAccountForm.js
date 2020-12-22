@@ -19,7 +19,6 @@ const CreateAccountForm = ({
     checkAvailability,
     accountId,
     clearRequestStatus,
-    setFormLoader,
     defaultAccountId
 }) => (
     <Container>
@@ -33,7 +32,6 @@ const CreateAccountForm = ({
             requestStatus={requestStatus}
             accountId={accountId}
             clearRequestStatus={clearRequestStatus}
-            setFormLoader={setFormLoader}
             defaultAccountId={defaultAccountId}
         />
         

@@ -19,10 +19,6 @@ const Container = styled.div`
             @media (max-width: 330px) {
                 max-width: 200px;
             }
-
-        span {
-            color: #A2A1A6;
-            }
         }
 
         :last-of-type {
@@ -52,7 +48,7 @@ export default function SelectAccount({ accounts, onChange, selectedAccount }) {
                 <RadioButton value={account.accountId} key={i}>
                     <Container>
                         <div>
-                            {account.accountId.split('.')[0]}<span>.{account.accountId.substring(account.accountId.indexOf('.') + 1)}</span>
+                            {account.accountId}
                         </div>
                         <div>
                             <div>

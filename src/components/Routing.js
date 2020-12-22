@@ -33,7 +33,7 @@ import { LoginCliLoginSuccess } from './login/LoginCliLoginSuccess'
 import { ContactsWithRouter } from './contacts/Contacts'
 import { AuthorizedAppsWithRouter } from './access-keys/AccessKeys'
 import { FullAccessKeysWithRouter } from './access-keys/AccessKeys'
-import { SendMoneyWithRouter } from './send-money/SendMoney'
+import { SendContainer } from './send/SendContainer'
 import { ReceiveMoneyWithRouter } from './receive-money/ReceiveMoney'
 import { GuestLanding } from './landing/GuestLanding'
 import { Profile } from './profile/Profile'
@@ -269,7 +269,7 @@ class Routing extends Component {
                                     <PrivateRoute
                                         exact
                                         path='/send-money/:id?'
-                                        component={SendMoneyWithRouter}
+                                        component={SendContainer}
                                     />
                                 }
                                 <PrivateRoute
