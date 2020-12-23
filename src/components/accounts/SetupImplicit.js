@@ -79,7 +79,7 @@ class SetupImplicit extends Component {
     handleContinue = async () => {
         const { dispatch, accountId, implicitAccountId, recoveryMethod } = this.props
         await dispatch(createAccountFromImplicit(accountId, implicitAccountId, recoveryMethod))
-        await dispatch(redirectTo('/fund-create-account/success', { globalAlertPreventClear: true }))
+        await dispatch(redirectTo('/fund-create-account/success'))
     }
 
     checkBalance = async () => {
