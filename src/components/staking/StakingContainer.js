@@ -151,7 +151,7 @@ export function StakingContainer({ history, match }) {
     if (!validator) {
         validator = validators.filter(validator => validator.accountId === validatorId)[0]
     }
-    const { totalUnstaked, selectedValidator, totalStaked, totalUnclaimed } = currentAccount
+    const { totalUnstaked, selectedValidator, totalUnclaimed } = currentAccount
 
     const unableToCalcRewards = false && new BN(totalUnclaimed).isZero()
 

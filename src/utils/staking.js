@@ -222,10 +222,7 @@ export class Staking {
                 }
 
                 // try to get deposits from explorer
-                const deposit = new BN(validatorDepositMap[validator.accountId]) || ZERO
-
-                console.log(validator.accountId, deposit.toString())
-
+                const deposit = new BN(validatorDepositMap[validator.accountId] || '0')
                 validator.staked = await validator.contract.get_account_staked_balance({ account_id })
 
                 // rewards (lifetime) = staked - deposits
@@ -502,25 +499,3 @@ async function getStakingDeposits(accountId) {
     return validatorDepositMap
 }
 
-async function getStakingTransactions(accountId) {
-    let stakingTxs = await fetch(ACCOUNT_HELPER_URL + '/staking-txs/' + accountId).then((r) => r.json()) 
-    stakingTxs = (Array.isArray(stakingTxs || []) ? stakingTxs : []).sort((a, b) => parseInt(a.ts) - parseInt(b.ts))
-
-    const validatorDepositMap = {}
-    stakingTxs.forEach(({ validator_id, amount, method_name }) => {
-        amount = new BN(amount)
-        let deposit = validatorDepositMap[validator_id] ? validatorDepositMap[validator_id] : ZERO.clone()
-        if (method_name.indexOf('unstake') > -1) {
-            if (amount.gt(ZERO)) {
-                deposit = deposit.sub(amount)
-            } else {
-                deposit = ZERO.clone()
-            }
-        } else {
-            deposit = deposit.add(amount)
-        }
-        validatorDepositMap[validator_id] = deposit
-    })
-
-    return validatorDepositMap
-}
