@@ -48,14 +48,16 @@
                 "modal": {
                     "title": "Account Funded",
                     "descOne": "Your account has been successfully funded!",
-                    "descTwo": "The one-time funding address can no longer be used to receive assets. Your Account ID: <b>${accountId}</b> is your sole address for all NEAR operations.",
+                    "descTwo": "The one-time funding address can no longer be used to receive assets.",
+                    "descThree": "Your Account ID: <b>${accountId}</b> is your sole address for all NEAR operations.",
                     "checkbox": "I acknowledge that the one-time funding address is invalid, and any additional assets sent to this address will be lost."
                 }
             },
             "success": {
                 "title": "Welcome to NEAR",
                 "descOne": "Congratulations <b>${accountId}</b>! Your account has been successfully created.",
-                "descTwo": "You must now use this Account ID as your address for all NEAR operations. Please update your address on any exchanges or other devices.",
+                "descTwo": "You must now use this Account ID as your address for all NEAR operations.",
+                "descThree": "Please update your address on any exchanges or other devices.",
                 "button": "Continue to Account"
             }
         },

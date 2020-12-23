@@ -66,6 +66,7 @@ export function SetupImplicitSuccess() {
             <h1><Translate id='account.createImplicit.success.title'/></h1>
             <h2><Translate id='account.createImplicit.success.descOne' data={{ accountId: account.accountId}}/></h2>
             <h2><Translate id='account.createImplicit.success.descTwo'/></h2>
+            <h2><Translate id='account.createImplicit.success.descThree'/></h2>
             <FormButton linkTo='/profile'><Translate id='account.createImplicit.success.button'/></FormButton>
         </StyledContainer>
     );
