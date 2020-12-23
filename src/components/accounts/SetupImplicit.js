@@ -70,21 +70,15 @@ const initialState = {
     snackBarMessage: 'setupSeedPhrase.snackbarCopyImplicitAddress',
     balance: null,
     whereToBuy: false,
-    checked: false,
-    creatingAccount: null
+    checked: false
 }
 
 class SetupImplicit extends Component {
     state = { ...initialState }
 
     handleContinue = async () => {
-        this.setState({ creatingAccount: true })
         const { dispatch, accountId, implicitAccountId, recoveryMethod } = this.props
-        try {
-            await dispatch(createAccountFromImplicit(accountId, implicitAccountId, recoveryMethod))
-        } catch(e) {
-            this.setState({ creatingAccount: false })
-        }
+        await dispatch(createAccountFromImplicit(accountId, implicitAccountId, recoveryMethod))
         await dispatch(redirectTo('/fund-create-account/success', { globalAlertPreventClear: true }))
     }
 
@@ -156,12 +150,10 @@ class SetupImplicit extends Component {
             snackBarMessage,
             successSnackbar,
             whereToBuy,
-            checked,
-            creatingAccount
+            checked
         } = this.state
 
         const { implicitAccountId, accountId, formLoader } = this.props
-        const showSuccessModal = balance || creatingAccount
 
         return (
             <Translate>
@@ -202,10 +194,10 @@ class SetupImplicit extends Component {
                                 open={whereToBuy}
                             />
                         }
-                        {showSuccessModal &&
+                        {balance &&
                             <AccountFundedModal
                                 onClose={() => {}}
-                                open={showSuccessModal}
+                                open={balance}
                                 checked={checked}
                                 handleCheckboxChange={e => this.setState({ checked: e.target.checked })}
                                 implicitAccountId={implicitAccountId}
