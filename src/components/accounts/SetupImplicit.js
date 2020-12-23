@@ -153,8 +153,9 @@ class SetupImplicit extends Component {
             checked
         } = this.state
 
-        const { implicitAccountId, accountId, formLoader } = this.props
-
+        const { implicitAccountId, accountId, formLoader, actionsPending } = this.props
+        const showAccountFundedModal = balance || actionsPending.includes('CREATE_ACCOUNT_FROM_IMPLICIT')
+        
         return (
             <Translate>
                 {({ translate }) => (
@@ -194,10 +195,10 @@ class SetupImplicit extends Component {
                                 open={whereToBuy}
                             />
                         }
-                        {balance &&
+                        {showAccountFundedModal &&
                             <AccountFundedModal
                                 onClose={() => {}}
-                                open={balance}
+                                open={showAccountFundedModal}
                                 checked={checked}
                                 handleCheckboxChange={e => this.setState({ checked: e.target.checked })}
                                 implicitAccountId={implicitAccountId}
