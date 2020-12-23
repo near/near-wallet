@@ -241,6 +241,7 @@ export default createGlobalStyle`
     .problem > .input > input:focus,
     .problem > input {
         border: 2px solid #ff585d !important;
+        box-shadow: 0px 0px 0px 2pt #FFBDBE !important;
     }
 
     .success > .input > input,
