@@ -173,7 +173,7 @@ const AccountFundedModal = ({ open, onClose, checked, handleCheckboxChange, acco
                     />
                     <span><Translate id='account.createImplicit.post.modal.checkbox'/></span>
                 </label>
-                <FormButton disabled={!checked} sending={loading} onClick={handleFinishSetup}>
+                <FormButton disabled={!checked || loading} sending={loading} onClick={handleFinishSetup}>
                     <Translate id='button.finish' />
                 </FormButton>
             </Container>

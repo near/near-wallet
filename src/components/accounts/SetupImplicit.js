@@ -85,7 +85,7 @@ class SetupImplicit extends Component {
         } catch(e) {
             this.setState({ creatingAccount: false })
         }
-        dispatch(redirectTo('/fund-create-account/success', { globalAlertPreventClear: true }))
+        await dispatch(redirectTo('/fund-create-account/success', { globalAlertPreventClear: true }))
     }
 
     checkBalance = async () => {
