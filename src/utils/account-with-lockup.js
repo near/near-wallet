@@ -123,12 +123,13 @@ async function getAccountBalance() {
                 'get_account_total_balance', { account_id: lockupAccountId }))
             totalBalance = totalBalance.add(stakedBalance)
         }
-        const ownersBalance = timeLeft.eq(new BN(0))
+        const isFullyUnlocked = timeLeft.eq(new BN(0))
+        const ownersBalance = isFullyUnlocked
             ? totalBalance
             : totalBalance.sub(BN.max(unreleasedAmount, LOCKUP_MIN_BALANCE))
 
         const lockedAmount = totalBalance.sub(ownersBalance)
-        const liquidOwnersBalance = BN.min(ownersBalance, new BN(lockupBalance.total))
+        const liquidOwnersBalance = BN.min(ownersBalance, new BN(isFullyUnlocked ? lockupBalance.total : lockupBalance.available))
 
         const available = BN.max(new BN(0), new BN(balance.available).add(new BN(liquidOwnersBalance)).sub(new BN(MIN_BALANCE_FOR_GAS)))
         return {
