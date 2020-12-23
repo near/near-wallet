@@ -81,7 +81,7 @@ class SetupImplicit extends Component {
         const { dispatch, accountId, implicitAccountId, recoveryMethod } = this.props
         this.setState({ creatingAccount: true })
         await dispatch(createAccountFromImplicit(accountId, implicitAccountId, recoveryMethod))
-        dispatch(redirectTo('/fund-create-account/success'))
+        await dispatch(redirectTo('/fund-create-account/success'))
     }
 
     checkBalance = async () => {
