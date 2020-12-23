@@ -165,7 +165,7 @@ const AccountFundedModal = ({ open, onClose, checked, handleCheckboxChange, acco
                 <SwapAccountGraphic accountId={accountId || 'johndoe.near'} implicitAccountId={implicitAccountId || 'cd03cbd02b6e0fbfd51bdb42bfe60e'}/>
                 <h2><Translate id='account.createImplicit.post.modal.title'/></h2>
                 <div className='sub-title'><Translate id='account.createImplicit.post.modal.descOne'/></div>
-                <div className='sub-title'><Translate id='account.createImplicit.post.modal.descTwo'/></div>
+                <div className='sub-title'><Translate id='account.createImplicit.post.modal.descTwo' data={{ accountId: accountId }}/></div>
                 <label>
                     <Checkbox
                         checked={checked}
