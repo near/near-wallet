@@ -619,7 +619,7 @@
             },
             "pending": {
                 "title": "Pending release",
-                "info": "These tokens have been unstaked, but are not yet ready to withdraw. Tokens are ready to withdraw 36 to 48 hours after unstaking."
+                "info": "These tokens have been unstaked, but are not yet ready to withdraw. Tokens are ready to withdraw 52 to 65 hours after unstaking."
             }
         },
         "validatorBox": {
@@ -660,7 +660,7 @@
                 "availableBalance": "Available to unstake",
                 "near": "NEAR"
             },
-            "beforeUnstakeDisclaimer": "Unstaked tokens will be made available pending a release period of ~36-48hrs (3 epochs)."
+            "beforeUnstakeDisclaimer": "Unstaked tokens will be made available pending a release period of ~52-65hrs (4 epochs)."
         },
         "stakeSuccess": {
             "title": "Success!",
@@ -671,7 +671,7 @@
         "unstakeSuccess": {
             "title": "Success!",
             "desc": "<b>${amount} NEAR</b> has successfully been unstaked from this validator:",
-            "descTwo": "Your tokens are pending release and will be made available within ~36-48hrs (3 epochs).",
+            "descTwo": "Your tokens are pending release and will be made available within ~52-65hrs (4 epochs).",
             "button": "Return to Dashboard"
         },
         "validators": {
@@ -694,7 +694,7 @@
             "button": "Stake With Validator",
             "fee": "Validator Fee",
             "desc": "This is the fee paid to the validator to stake on your behalf. This fee is only charged on your rewards.",
-            "withdrawalDisclaimer": "Funds pending release will be made available after ~36-48hrs (3 epochs)",
+            "withdrawalDisclaimer": "Funds pending release will be made available after ~52-65hrs (4 epochs)",
             "unstake": "You are unstaking",
             "withdraw": "You are withdrawing"
         },
@@ -819,7 +819,7 @@
     "availableBalanceProfile": "This is your spendable NEAR balance, and can be used or transferred immediately. This will be lower than your Total Balance.",
     "minimumBalance": "This is the minimum NEAR balance your account must maintain to remain active. This balance represents the storage space your account is using on the NEAR blockchain (with a small buffer), and will go up or down as you use more or less space.",
     "totalBalance": "Your total balance represents all NEAR tokens under your control. In many cases, you will not have immediate access to this entire balance (e.g. if it is locked, delegated, or staked). Check your Available Balance for the NEAR you can actively use, transfer, delegate, and stake.",
-    "stakedBalance": "This NEAR is actively being used to back a validator and secure the network. When you decide to unstake this NEAR, it will take some time to be shown in your Available Balance, as NEAR takes 3 epochs (~36 hours) to unstake.",
+    "stakedBalance": "This NEAR is actively being used to back a validator and secure the network. When you decide to unstake this NEAR, it will take some time to be shown in your Available Balance, as NEAR takes 4 epochs (~52-65 hours) to unstake.",
     "unvestedBalance": "Unvested NEAR is earmarked to you, but not yet under your ownership. You can still delegate or stake this NEAR, and the rewards will be entirely yours. As your NEAR is vested, it will appear in either your Locked or Unlocked balance.",
     "lockedBalance": "This NEAR is locked in a lockup contract, and cannot be withdrawn. You may still delegate or stake this NEAR. Once the NEAR is unlocked, you can view it in your Unlocked Balance, and chose to withdraw it (moving to your Available Balance).",
     "unlockedBalance": "This NEAR is still in a lockup contract, and is ready to be withdrawn. If you choose to withdraw this NEAR, it will appear in your Available Balance.",
