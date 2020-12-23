@@ -241,6 +241,10 @@ export default createGlobalStyle`
     .problem > .input > input:focus,
     .problem > input {
         border: 2px solid #ff585d !important;
+    }
+
+    .problem > .input > input:focus,
+    .problem > input:focus {
         box-shadow: 0px 0px 0px 2pt #FFBDBE !important;
     }
 
@@ -250,6 +254,10 @@ export default createGlobalStyle`
         border: 2px solid #6ad1e3 !important;
     }
 
+    .success > .input > input:focus,
+    .success > input:focus {
+        box-shadow: 0px 0px 0px 2pt #c2f6ff !important;
+    }
 
     b {
         font-weight: 600 !important;
