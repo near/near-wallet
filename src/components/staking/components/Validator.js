@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import { useDispatch } from 'react-redux'
 import FormButton from '../../common/FormButton'
 import { Translate } from 'react-localize-redux'
 import BalanceBox from './BalanceBox'
@@ -8,31 +7,34 @@ import AlertBanner from './AlertBanner'
 import StakeConfirmModal from './StakeConfirmModal'
 import { onKeyDown } from '../../../hooks/eventListeners'
 import BN from 'bn.js'
-import { redirectTo } from '../../../actions/account'
 
 export default function Validator({
     match,
     validator,
+    onUnstake,
     onWithdraw,
     loading,
     selectedValidator,
+    history,
     currentValidators,
     unableToCalcRewards
 }) {
     const [confirm, setConfirm] = useState(null)
-    const dispatch = useDispatch()
+
     const stakeNotAllowed = selectedValidator && selectedValidator !== match.params.validator && currentValidators.length
     const currentValidator = currentValidators.filter(validator => validator.accountId === match.params.validator)[0]
     const showRewardsBanner = unableToCalcRewards && currentValidator && !new BN(currentValidator.staked).isZero()
 
     onKeyDown(e => {
-        if (e.keyCode === 13 && confirm === 'withdraw' && !loading) {
+        if (e.keyCode === 13 && confirm === 'withdraw') {
             handleStakeAction()
         }
     })
 
     const handleStakeAction = async () => {
-        if (confirm === 'withdraw') {
+        if (confirm === 'unstake') {
+           await onUnstake()
+        } else if (confirm === 'withdraw') {
            await onWithdraw()
         }
         setConfirm('done')
@@ -56,7 +58,7 @@ export default function Validator({
                         title='staking.balanceBox.staked.title'
                         info='staking.balanceBox.staked.info'
                         amount={validator.staked || '0'}
-                        onClick={() => dispatch(redirectTo(`/staking/${match.params.validator}/unstake`))}
+                        onClick={() => history.push(`/staking/${match.params.validator}/unstake`)}
                         button='staking.balanceBox.staked.button'
                         buttonColor='gray-red'
                         loading={loading}
@@ -86,7 +88,7 @@ export default function Validator({
                             title={`staking.validator.${confirm}`}
                             label='staking.stake.from'
                             validator={validator}
-                            amount={validator.available}
+                            amount={confirm === 'unstake' ? validator.staked : validator.available}
                             open={confirm}
                             onConfirm={handleStakeAction}
                             onClose={() => setConfirm(null)}
