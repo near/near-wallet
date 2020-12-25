@@ -150,7 +150,7 @@ async function getAccountBalance() {
 }
 
 function readOption(reader, f) {
-    let x = reader.read_u8();
+    let x = reader.readU8();
     if (x === 1) {
         return f();
     }
@@ -168,31 +168,31 @@ async function viewLockupState(connection, lockupAccountId) {
     });
     let value = Buffer.from(result.values[0].value, 'base64');
     let reader = new BinaryReader(value);
-    let owner = reader.read_string();
-    let lockupAmount = reader.read_u128().toString();
-    let terminationWithdrawnTokens = reader.read_u128().toString();
-    let lockupDuration = reader.read_u64().toString();
-    let releaseDuration = readOption(reader, () => reader.read_u64().toString());
-    let lockupTimestamp = readOption(reader, () => reader.read_u64().toString());
-    let tiType = reader.read_u8();
+    let owner = reader.readString();
+    let lockupAmount = reader.readU128().toString();
+    let terminationWithdrawnTokens = reader.readU128().toString();
+    let lockupDuration = reader.readU64().toString();
+    let releaseDuration = readOption(reader, () => reader.readU64().toString());
+    let lockupTimestamp = readOption(reader, () => reader.readU64().toString());
+    let tiType = reader.readU8();
     let transferInformation;
     if (tiType === 0) {
         transferInformation = {
-            transfers_timestamp: reader.read_u64()
+            transfers_timestamp: reader.readU64()
         };
     } else {
         transferInformation = {
-            transfer_poll_account_id: reader.read_string()
+            transfer_poll_account_id: reader.readString()
         };
     };
-    let vestingType = reader.read_u8();
+    let vestingType = reader.readU8();
     let vestingInformation = null;
     if (vestingType === 1) {
-        vestingInformation = { VestingHash: reader.read_array(() => reader.read_u8()) };
+        vestingInformation = { VestingHash: reader.readArray(() => reader.readU8()) };
     } else if (vestingType === 2) {
-        let vestingStart = reader.read_u64();
-        let vestingCliff = reader.read_u64();
-        let vestingEnd = reader.read_u64();
+        let vestingStart = reader.readU64();
+        let vestingCliff = reader.readU64();
+        let vestingEnd = reader.readU64();
         vestingInformation = { vestingStart, vestingCliff, vestingEnd };
     } else if (vestingType === 3) {
         vestingInformation = 'TODO';
