@@ -510,8 +510,15 @@ class Wallet {
         const checkedAccountIds = (await Promise.all(
             accountIds
                 .map(async (accountId) => {
-                    const accountKeys = await (await this.getAccount(accountId)).getAccessKeys();
-                    return accountKeys.find(({ public_key }) => public_key === publicKey.toString()) ? accountId : null
+                    try {
+                        const accountKeys = await (await this.getAccount(accountId)).getAccessKeys();
+                        return accountKeys.find(({ public_key }) => public_key === publicKey.toString()) ? accountId : null
+                    } catch (error) {
+                        if (error.toString().indexOf('does not exist while viewing') !== -1) {
+                            return null
+                        }
+                        throw error
+                    }
                 })
             )
         )
