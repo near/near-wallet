@@ -22,7 +22,6 @@ export default function Validator({
     const dispatch = useDispatch()
     const stakeNotAllowed = selectedValidator && selectedValidator !== match.params.validator && currentValidators.length
     const currentValidator = currentValidators.filter(validator => validator.accountId === match.params.validator)[0]
-    const showRewardsBanner = currentValidator && !new BN(currentValidator.staked).isZero()
 
     onKeyDown(e => {
         if (e.keyCode === 13 && confirm === 'withdraw' && !loading) {
@@ -64,7 +63,6 @@ export default function Validator({
                         title='staking.balanceBox.unclaimed.title'
                         info='staking.balanceBox.unclaimed.info'
                         amount={validator.unclaimed || '0'}
-                        stakingRewardsBanner={showRewardsBanner}
                     />
                     <BalanceBox
                         title='staking.balanceBox.pending.title'

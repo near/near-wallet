@@ -71,7 +71,6 @@ export default function BalanceBox({
     buttonColor,
     loading,
     disclaimer,
-    stakingRewardsBanner
 }) {
     return (
         <Translate>
@@ -87,11 +86,7 @@ export default function BalanceBox({
                                 {translate(info)}
                             </Modal>
                         </div>
-                        {stakingRewardsBanner ? (
-                            <StakingRewardsBanner/>
-                        ) : (
-                            <Balance amount={amount} />
-                        )}
+                        <Balance amount={amount} />
                         {disclaimer &&
                             <div className='withdrawal-disclaimer'>
                                 <Translate id={disclaimer} />
