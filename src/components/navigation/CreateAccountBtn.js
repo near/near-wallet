@@ -5,7 +5,6 @@ import { Translate } from 'react-localize-redux';
 
 const Button = styled(Link)`
     display: block;
-    text-transform: uppercase;
     background-color: #24272A;
     color: #8FD6BD;
     border-radius: 40px;

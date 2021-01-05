@@ -49,6 +49,7 @@ import LedgerConfirmActionModal from './accounts/ledger/LedgerConfirmActionModal
 import GlobalStyle from './GlobalStyle'
 import { SetupSeedPhraseWithRouter } from './accounts/SetupSeedPhrase'
 import { SetupImplicitWithRouter } from './accounts/SetupImplicit'
+import { SetupImplicitSuccess } from './accounts/SetupImplicitSuccess'
 const theme = {}
 
 const PATH_PREFIX = process.env.PUBLIC_URL
@@ -210,6 +211,11 @@ class Routing extends Component {
                                     exact
                                     path='/fund-create-account/:accountId/:implicitAccountId/:recoveryMethod'
                                     component={SetupImplicitWithRouter}
+                                />
+                                <Route
+                                    exact
+                                    path='/fund-create-account/success'
+                                    component={SetupImplicitSuccess}
                                 />
                                 <Route
                                     exact
