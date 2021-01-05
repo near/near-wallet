@@ -153,8 +153,6 @@ export function StakingContainer({ history, match }) {
     }
     const { totalUnstaked, selectedValidator, totalUnclaimed } = currentAccount
 
-    const unableToCalcRewards = false && new BN(totalUnclaimed).isZero()
-
     useEffect(() => {
         dispatch(updateStaking())
     }, [])
@@ -195,7 +193,6 @@ export function StakingContainer({ history, match }) {
                                 accountId={accountId}
                                 loading={formLoader}
                                 hasLockup={hasLockup}
-                                unableToCalcRewards={unableToCalcRewards}
                             />
                         )}
                     />
@@ -221,7 +218,6 @@ export function StakingContainer({ history, match }) {
                                 loading={formLoader}
                                 selectedValidator={selectedValidator}
                                 currentValidators={currentValidators}
-                                unableToCalcRewards={unableToCalcRewards}
                             />
                         )}
                     />

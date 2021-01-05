@@ -17,13 +17,12 @@ export default function Validator({
     loading,
     selectedValidator,
     currentValidators,
-    unableToCalcRewards
 }) {
     const [confirm, setConfirm] = useState(null)
     const dispatch = useDispatch()
     const stakeNotAllowed = selectedValidator && selectedValidator !== match.params.validator && currentValidators.length
     const currentValidator = currentValidators.filter(validator => validator.accountId === match.params.validator)[0]
-    const showRewardsBanner = unableToCalcRewards && currentValidator && !new BN(currentValidator.staked).isZero()
+    const showRewardsBanner = currentValidator && !new BN(currentValidator.staked).isZero()
 
     onKeyDown(e => {
         if (e.keyCode === 13 && confirm === 'withdraw' && !loading) {
