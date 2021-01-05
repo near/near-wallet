@@ -175,6 +175,7 @@ export function EnableTwoFactor(props) {
                         disabled={!isValidInput() || loading || has2fa || initiated}
                         type='submit'
                         sending={loading}
+                        sendingString='button.enabling'
                     >
                         <Translate id={`button.continue`} />
                     </FormButton>

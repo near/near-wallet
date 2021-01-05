@@ -17,7 +17,6 @@ const Button = styled(Link)`
     justify-content: center;
     color: white;
     background-color: #0072ce;
-    text-transform: uppercase;
     border-radius: 40px;
     transition: 150ms;
 

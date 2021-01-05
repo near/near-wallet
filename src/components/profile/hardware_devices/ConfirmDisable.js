@@ -28,7 +28,6 @@ const Container = styled.form`
         }
 
         .red {
-            text-transform: uppercase;
             padding: 5px 15px;
             width: 155px;
         }

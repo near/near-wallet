@@ -29,7 +29,6 @@ const Container = styled.div`
 
     button, a {
         font-size: 14px;
-        font-weight: 400;
         width: 100px;
         height: 36px;
         letter-spacing: 1px;

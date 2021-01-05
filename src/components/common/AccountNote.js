@@ -4,8 +4,9 @@ import styled from 'styled-components'
 
 const Container = styled.div`
     font-style: italic;
-    padding: 20px 0;
-
+    padding: 15px 0;
+    font-size: 13px;
+    
     p {
         margin-bottom: 5px;
     }
