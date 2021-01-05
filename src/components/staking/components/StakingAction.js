@@ -36,7 +36,7 @@ export default function StakingAction({
     const hasStakeActionAmount = !loading && amount.length && amount !== '0'
     let staked = (validator && validator.staked) || '0'
     const stake = action === 'stake' ? true : false
-    const displayAmount = useMax ? formatNearAmount(amount, 5) : amount
+    const displayAmount = useMax ? parseFloat(formatNearAmount(amount.toString(), 5).replace(/,/g, '')).toString() : amount
     const availableToStake = stakeFromAccount ? new BN(availableBalance).sub(new BN(utils.format.parseNearAmount(WALLET_APP_MIN_AMOUNT))).toString() : availableBalance
     const invalidStakeActionAmount = new BN(useMax ? amount : parseNearAmount(amount)).sub(new BN(stake ? availableToStake : staked)).gt(new BN(STAKING_AMOUNT_DEVIATION)) || !isDecimalString(amount)
     const stakeActionAllowed = hasStakeActionAmount && !invalidStakeActionAmount && !success
