@@ -34,14 +34,29 @@
         },
         "createImplicit": {
             "pre": {
-                "title": "充值账户",
-                "descOne": "创建新账户前，你必须向以下<b>地址</b>至少充值<b>${amount} NEAR</b>。",
-                "descTwo": "等完成充值后，返回此页面完成并认领新的<b>账户 ID</b>："
+                "title": "Fund Your Account",
+                "descOne": "Initialize your account by sending at least <b>${amount} NEAR</b> to the temporary funding address below.",
+                "descTwo": "Return to this screen once your funds have been deposited to finish creating your account.",
+                "addressHeader": "Temporary funding address",
+                "whereToBuy": {
+                    "button": "Where can I purchase NEAR?",
+                    "title": "Purchase NEAR tokens",
+                    "desc": "NEAR tokens are available to purchase through the following exchanges"
+                }
             },
             "post": {
-                "title": "认领账户 ID",
-                "descOne": "你的账户成功充值，随时可以认领！",
-                "descTwo": "认领账户后，<i>之前的充值地址将无效</i>，你将可以使用新的<b>账户 ID</b> 转账收款："
+                "modal": {
+                    "title": "Account Funded",
+                    "descOne": "Your account has been successfully funded!",
+                    "descTwo": "The temporary funding address is now invalid, and can no longer be used to receive assets. Your Account ID will be used as a primary address for all NEAR operations.",
+                    "checkbox": "I acknowledge that by continuing, the temporary funding address will be made invalid, and any additional assets sent to that address will be lost."
+                }
+            },
+            "success": {
+                "title": "Welcome to NEAR",
+                "descOne": "Congratulations <b>${accountId}</b>! Your account has been successfully created.",
+                "descTwo": "You may now use your Account ID as your primary address for all NEAR operations. Make sure to update your address on any exchanges or other devices.",
+                "button": "Continue to Account"
             }
         },
         "verifySeedPhrase": {

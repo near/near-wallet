@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 const StyledButton = styled.button`
     border-radius: 40px;
     padding: 5px 32px;
-    text-transform: uppercase;
     outline: none;
     letter-spacing: 1px;
     font-size: 15px;

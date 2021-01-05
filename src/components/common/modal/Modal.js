@@ -5,9 +5,8 @@ import CloseButton from './CloseButton';
 
 const modalRoot = document.getElementById('modal-root');
 
-function Modal(props) {
+function Modal({ isOpen, onClose, id, modalSize, modalClass, children, closeButton, disableClose }) {
     const background = React.createRef();
-    const { isOpen, onClose, id, modalSize, modalClass, children, closeButton } = props;
     const [fadeType, setFadeType] = useState(null);
 
     useEffect(() => {
@@ -35,12 +34,16 @@ function Modal(props) {
     };
 
     const onEscKeyDown = e => {
-        if (e.key !== 'Escape') return;
-        setFadeType('out')
+        if (!disableClose) {
+            if (e.key !== 'Escape') return;
+            setFadeType('out')
+        }
     };
 
     const handleClick = () => {
-        setFadeType('out')
+        if (!disableClose) {
+            setFadeType('out')
+        }
     };
 
     return ReactDom.createPortal(
@@ -52,7 +55,9 @@ function Modal(props) {
             onTransitionEnd={transitionEnd}
         >
             <div className='modal'>
-                {closeButton && <CloseButton device={closeButton} onClick={handleClick}/>}
+                {closeButton && 
+                    <CloseButton device={closeButton} onClick={handleClick}/>
+                }
                 {children}
             </div>
             <div className='background' onMouseDown={handleClick} ref={background}/>
