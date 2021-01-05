@@ -91,6 +91,7 @@ export default function Validator({
                             onConfirm={handleStakeAction}
                             onClose={() => setConfirm(null)}
                             loading={loading}
+                            sendingString='withdrawing'
                         />
                     }
                 </>

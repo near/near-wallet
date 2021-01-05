@@ -66,7 +66,7 @@ const Container = styled.div`
 
 `
 
-const StakeConfirmModal = ({ open, onClose, onConfirm, validator, amount, loading, title, disclaimer, label }) => {
+const StakeConfirmModal = ({ open, onClose, onConfirm, validator, amount, loading, title, disclaimer, label, sendingString }) => {
     return (
         <Modal
             id='stake-confirm-modal'
@@ -86,7 +86,13 @@ const StakeConfirmModal = ({ open, onClose, onConfirm, validator, amount, loadin
                     amount={validator.staked}
                 />
                 {disclaimer && <div className='ledger-disclaimer'><Translate id={disclaimer}/></div>}
-                <FormButton disabled={loading} sending={loading} color='green' onClick={onConfirm}>
+                <FormButton 
+                    disabled={loading}
+                    sending={loading}
+                    color='green'
+                    onClick={onConfirm}
+                    sendingString={`button.${sendingString}`}
+                >
                     <Translate id='button.confirm'/>
                 </FormButton>
                 <FormButton disabled={loading} color='link red' id='close-button'>

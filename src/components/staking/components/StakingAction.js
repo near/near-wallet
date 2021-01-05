@@ -135,7 +135,6 @@ export default function StakingAction({
                 }
                 <FormButton
                     disabled={!stakeActionAllowed} 
-                    sending={loading} 
                     onClick={() => setConfirm(true)}
                 >
                     <Translate id={`staking.${action}.button`} />
@@ -151,6 +150,7 @@ export default function StakingAction({
                         onClose={() => setConfirm(false)}
                         loading={loading}
                         disclaimer={getStakeActionDisclaimer()}
+                        sendingString={stake ? 'staking' : 'unstaking'}
                     />
                 }
             </div>

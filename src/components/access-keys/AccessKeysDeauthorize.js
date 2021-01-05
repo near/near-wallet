@@ -65,6 +65,7 @@ const AccessKeysDeauthorize = ({
                         color='red'
                         sending={formLoader}
                         onClick={showSubData.access_key.permission === 'FullAccess' ? handleConfirm : handleDeauthorize}
+                        sendingString='button.deAuthorizing'
                     >
                         <Translate id='button.deauthorize' />
                     </FormButton>

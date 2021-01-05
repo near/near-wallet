@@ -86,6 +86,7 @@ const EnterVerificationCode = ({
                     type='submit'
                     disabled={code.length !== 6 || loading}
                     sending={loading}
+                    sendingString='button.verifying'
                 >
                     <Translate id='button.verifyCodeEnable' />
                 </FormButton>

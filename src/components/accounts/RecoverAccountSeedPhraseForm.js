@@ -32,6 +32,7 @@ const RecoverAccountSeedPhraseForm = ({
                 color='blue'
                 disabled={!isLegit}
                 sending={formLoader}
+                sendingString='button.recovering'
             >
                 <Translate id='button.findMyAccount' />
             </FormButton>

@@ -317,7 +317,18 @@
         "cancelOperation": "Cancel Operation",
         "subscribe": "Subscribe",
         "Close": "Close",
-        "edit": "Edit"
+        "edit": "Edit",
+        "connecting": "Connecting",
+        "removingKeys": "Removing Keys",
+        "enabling": "Enabling",
+        "disabling": "Disabling",
+        "verifying": "Verifying",
+        "staking": "Staking",
+        "unstaking": "Unstaking",
+        "withdrawing": "Withdrawing",
+        "recovering": "Finding Account",
+        "authorizing": "Authorizing",
+        "deAuthorizing": "Deauthorizing"
     },
 
     "link": {
@@ -824,7 +835,6 @@
     "amount": "amount",
     "or": "OR",
     "sending": "SENDING",
-    "removingKeys": "Removing Keys",
     "connecting": "Connecting",
     "back": "Back",
     "of": "of",
