@@ -243,7 +243,7 @@ class SetupRecoveryMethod extends Component {
                             disabled={!this.isValidInput || formLoader}
                             sending={formLoader}
                         >
-                            <Translate id={`button.${option !== 'phrase' ? 'protectAccount' : 'setupPhrase'}`}/>
+                        <Translate id='button.continue'/>
                         </FormButton>
                     </form>
                 </StyledContainer>

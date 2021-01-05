@@ -186,6 +186,7 @@ class ActiveMethod extends Component {
                                     color='red small'
                                     disabled={deletingMethod || username !== accountId}
                                     sending={deletingMethod}
+                                    sendingString='button.disabling'
                                 >
                                     <Translate id='button.disable'/> {data.kind}
                                 </FormButton>
