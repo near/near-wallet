@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import styled from 'styled-components'
 import Container from '../common/styled/Container.css'
@@ -40,7 +40,7 @@ const StyledContainer = styled(Container)`
     }
 `
 
-export function SendContainer({ match }) {
+export function SendContainer({ match, location }) {
     const dispatch = useDispatch()
     const { requestStatus, formLoader, accountId, balance } = useSelector(({ account }) => account);
     const [useMax, setUseMax] = useState(null)
@@ -51,6 +51,16 @@ export function SendContainer({ match }) {
     const amountAvailableToSend = new BN(balance.available).sub(new BN(parseNearAmount(WALLET_APP_MIN_AMOUNT)))
     const sufficientBalance = !new BN(parseNearAmount(amount)).isZero() && (new BN(parseNearAmount(amount)).lte(amountAvailableToSend) || useMax) && isDecimalString(amount)
     const sendAllowed = ((requestStatus && requestStatus.success !== false) || id.length === 64) && sufficientBalance && amount && !formLoader && !success
+
+    useEffect(() => {
+        if (success) {
+            setUseMax(null)
+            setAmount('')
+            setConfirm(null)
+            setId('')
+            setSuccess(null)
+        }
+    }, [location.key])
 
     onKeyDown(e => {
         if (e.keyCode === 13 && sendAllowed) {
