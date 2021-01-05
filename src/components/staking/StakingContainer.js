@@ -10,7 +10,6 @@ import Staking from './components/Staking'
 import Validators from './components/Validators'
 import Validator from './components/Validator'
 import StakingAction from './components/StakingAction'
-import BN from 'bn.js'
 
 const StyledContainer = styled(Container)`
     button {
@@ -151,7 +150,7 @@ export function StakingContainer({ history, match }) {
     if (!validator) {
         validator = validators.filter(validator => validator.accountId === validatorId)[0]
     }
-    const { totalUnstaked, selectedValidator, totalUnclaimed } = currentAccount
+    const { totalUnstaked, selectedValidator } = currentAccount
 
     useEffect(() => {
         dispatch(updateStaking())
