@@ -7,7 +7,6 @@ import StakingFee from './StakingFee'
 import AlertBanner from './AlertBanner'
 import StakeConfirmModal from './StakeConfirmModal'
 import { onKeyDown } from '../../../hooks/eventListeners'
-import BN from 'bn.js'
 import { redirectTo } from '../../../actions/account'
 
 export default function Validator({
@@ -21,7 +20,6 @@ export default function Validator({
     const [confirm, setConfirm] = useState(null)
     const dispatch = useDispatch()
     const stakeNotAllowed = selectedValidator && selectedValidator !== match.params.validator && currentValidators.length
-    const currentValidator = currentValidators.filter(validator => validator.accountId === match.params.validator)[0]
 
     onKeyDown(e => {
         if (e.keyCode === 13 && confirm === 'withdraw' && !loading) {

@@ -7,7 +7,6 @@ import { Translate } from 'react-localize-redux'
 import FormButton from '../../common/FormButton'
 import classNames from '../../../utils/classNames'
 import BN from 'bn.js'
-import StakingRewardsBanner from './StakingRewardsBanner'
 
 const Container = styled.div`
     border-bottom: 2px solid #F2F2F2;
