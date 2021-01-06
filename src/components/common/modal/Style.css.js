@@ -59,6 +59,19 @@ const Style = styled.div`
         position: relative;
         box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
     }
+
+    &.full-screen {
+        .modal {
+            height: 100%;
+            border-radius: 0;
+            overflow-y: auto;
+            overflow-x: hidden;
+
+            ::-webkit-scrollbar {
+                display: none;
+            }
+        }
+    }
 `;
 
 export default Style;
