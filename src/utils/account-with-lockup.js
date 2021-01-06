@@ -60,7 +60,7 @@ async function signAndSendTransaction(receiverId, actions) {
                 await this.wrappedAccount.functionCall(lockupAccountId, 'refresh_staking_pool_balance', {}, BASE_GAS.mul(new BN(3)))
                 liquidBalance = new BN(await this.wrappedAccount.viewFunction(lockupAccountId, 'get_liquid_owners_balance'))
                 if (!liquidBalance.gt(missingAmount)) {
-                    throw new WalletError('Not enough tokens.', 'alert.SIGN_AND_SEND_TRANSACTIONS.notEnoughTokens')
+                    throw new WalletError('Not enough tokens.', 'reduxActions.SIGN_AND_SEND_TRANSACTIONS.notEnoughTokens')
                 }
             }
 

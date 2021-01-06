@@ -55,9 +55,9 @@ const alertReducer = (state, { error, ready, payload, meta, type }) => {
                         payload?.messageCode 
                         || (error
                             ? payload.type
-                                ? `alert.${payload.type}`
-                                : `alert.${type}.error`
-                            : `alert.${type}.success`),
+                                ? `reduxActions.${payload.type}`
+                                : `reduxActions.${type}.error`
+                            : `reduxActions.${type}.success`),
                     console: error && (meta.alert?.console || payload.data?.console)
                 }
                 : undefined
@@ -68,7 +68,7 @@ const alertReducer = (state, { error, ready, payload, meta, type }) => {
                 ? {
                     show: ready,
                     success: ready && !error,
-                    messageCode: `alert.${type}.${
+                    messageCode: `reduxActions.${type}.${
                         ready
                             ? error
                                 ? 'error'

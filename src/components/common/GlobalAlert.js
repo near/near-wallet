@@ -191,7 +191,7 @@ const GlobalAlertNew = ({ globalAlert, actionStatus, clearGlobalAlert, closeIcon
                                 <Translate>
                                     {({ translate }) => 
                                         translate(alert.messageCode) === ''
-                                            ? <Translate id={`alert.default.${alert.success ? 'success' : 'error'}`} />
+                                            ? <Translate id={`reduxActions.default.${alert.success ? 'success' : 'error'}`} />
                                             : <Translate id={alert.messageCode} data={alert.data} options={{ onMissingTranslation }} />
                                     }
                                 </Translate>

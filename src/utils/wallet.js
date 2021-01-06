@@ -540,7 +540,7 @@ class Wallet {
             await this.setKey(accountId, newKeyPair)
         } catch (error) {
             if (error.name !== 'TransportStatusError') {
-                throw new WalletError(error.message, 'alert.ADD_LEDGER_ACCOUNT_ID.errorRpc')
+                throw new WalletError(error.message, 'reduxActions.ADD_LEDGER_ACCOUNT_ID.errorRpc')
             }
             throw error
         }
@@ -779,7 +779,7 @@ class Wallet {
         accountIds = [...accountsSet]
 
         if (!accountIds.length) {
-            throw new WalletError('Cannot find matching public key', 'alert.RECOVER_ACCOUNT_SEED_PHRASE.errorInvalidSeedPhrase', { publicKey })
+            throw new WalletError('Cannot find matching public key', 'reduxActions.RECOVER_ACCOUNT_SEED_PHRASE.errorInvalidSeedPhrase', { publicKey })
         }
 
         const connection = nearApiJs.Connection.fromConfig({
