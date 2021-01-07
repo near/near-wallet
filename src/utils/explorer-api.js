@@ -23,40 +23,15 @@ export const queryExplorer = (sql, params) => new Promise((resolve, reject) => w
 export async function getTransactions(accountId) {
     if (!accountId) return {}
 
-    const sql = `
-        SELECT
-            transactions.hash, 
-            transactions.signer_id, 
-            transactions.receiver_id, 
-            transactions.block_hash, 
-            transactions.block_timestamp, 
-            actions.action_type as kind, 
-            actions.action_args as args,
-            actions.action_index || ':' || transactions.hash as hash_with_index
-        FROM 
-            transactions
-        LEFT JOIN actions ON actions.transaction_hash = transactions.hash
-        WHERE 
-            transactions.signer_id = :accountId 
-            OR transactions.receiver_id = :accountId
-        ORDER BY 
-            block_timestamp DESC
-        LIMIT 
-            :offset, :count
-    `
-
-    const params = {
-        accountId, 
-        offset: 0, 
-        count: 5
-    }
-
-    const tx = await queryExplorer(sql, params)
+    const txs = await fetch(`https://near-contract-helper-2fa.onrender.com/account/${accountId}/activity`).then((res) => res.json())
 
     return {
-        [accountId]: tx.map((t, i) => ({
+        [accountId]: txs.map((t, i) => ({
             ...t,
-            checkStatus: !(i && t.hash === tx[i - 1].hash)
+            kind: t.action_kind.split('_').map(s => s.substr(0, 1) + s.substr(1).toLowerCase()).join(''),
+            block_timestamp: parseInt(t.block_timestamp.substr(0, 13), 10),
+            hash_with_index: t.action_index + ':' + t.hash,
+            checkStatus: !(i && t.hash === txs[i - 1].hash)
         }))
     }
 }

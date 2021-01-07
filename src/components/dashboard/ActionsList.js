@@ -124,7 +124,7 @@ const CustomGridRow = styled(Grid.Row)`
 const ActionsList = ({ transaction, wide, accountId, getTransactionStatus }) => (
     <ActionRow 
         transaction={transaction} 
-        actionArgs={JSON.parse(transaction.args)} 
+        actionArgs={transaction.args} 
         actionKind={transaction.kind}  
         wide={wide}
         accountId={accountId}
@@ -225,7 +225,7 @@ const translateData = (transaction, actionArgs, actionKind) => ({
     methodName: actionKind === "FunctionCall" ? actionArgs.method_name : '', 
     deposit: actionKind === "Transfer" ? <Balance amount={actionArgs.deposit} /> : '',
     stake: actionKind === "Stake" ? <Balance amount={actionArgs.stake} />  : '',
-    permissionReceiverId: (actionKind === "AddKey" && actionArgs.access_key && typeof actionArgs.access_key.permission === 'object') ? actionArgs.access_key.permission.FunctionCall.receiver_id : ''
+    permissionReceiverId: (actionKind === "AddKey" && actionArgs.access_key && typeof actionArgs.access_key.permission.permission_kind === 'FUNCTION_CALL') ? actionArgs.access_key.permission.permission_details.receiver_id : ''
 })
 
 const ActionIcon = ({ actionKind }) => (
