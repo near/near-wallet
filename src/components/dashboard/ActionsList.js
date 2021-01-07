@@ -207,7 +207,7 @@ const ActionMessage = ({ transaction, actionArgs, actionKind, accountId }) => (
 const translateId = (transaction, actionArgs, actionKind, accountId) => (
     `actions.${actionKind
         }${actionKind === `AddKey`
-            ? actionArgs.access_key && typeof actionArgs.access_key.permission === 'object'
+            ? actionArgs.access_key && actionArgs.access_key.permission.permission_details
                 ? `.forContract`
                 : `.forReceiver`
             : ''
