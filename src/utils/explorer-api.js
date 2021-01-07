@@ -1,5 +1,5 @@
 import { Wampy } from 'wampy'
-import { wallet } from './wallet'
+import { wallet, ACCOUNT_HELPER_URL } from './wallet'
 
 const WAMP_NEAR_EXPLORER_URL = process.env.WAMP_NEAR_EXPLORER_URL || 'wss://near-explorer-wamp.onrender.com/ws'
 const WAMP_NEAR_EXPLORER_TOPIC_PREFIX = process.env.WAMP_NEAR_EXPLORER_TOPIC_PREFIX || 'com.nearprotocol.testnet.explorer'
@@ -23,7 +23,7 @@ export const queryExplorer = (sql, params) => new Promise((resolve, reject) => w
 export async function getTransactions(accountId) {
     if (!accountId) return {}
 
-    const txs = await fetch(`https://near-contract-helper-2fa.onrender.com/account/${accountId}/activity`).then((res) => res.json())
+    const txs = await fetch(`${ACCOUNT_HELPER_URL}/account/${accountId}/activity`).then((res) => res.json())
 
     return {
         [accountId]: txs.map((t, i) => ({
