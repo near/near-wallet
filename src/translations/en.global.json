@@ -2,8 +2,7 @@
     "reduxActions": {
         "RECOVER_ACCOUNT_SEED_PHRASE": {
             "success": "Recover using Seed Phrase is complete.<br/><b>${numberOfAccounts} account(s)</b> have been successfully recovered.<br/>The last one is set as active.",
-            "error": "Failed to recover account. No accounts were found for this seed phrase.",
-            "errorInvalidSeedPhrase": "No accounts were found for this seed phrase."
+            "error": "Failed to recover account. No accounts were found for this seed phrase."
         },
         "SEND_MONEY": {
             "error": "Sorry an error has occurred. You may want to try again."
@@ -18,8 +17,7 @@
         },
         "ADD_ACCESS_KEY_SEED_PHRASE": {
             "success": "Seed phrase recovery setup is complete.",
-            "error": "An error occurred while setting up seed phrase recovery. Please try again!",
-            "errorSecond": "An error has occurred.<br />The seed phrase was not added to your account. Please try again."
+            "error": "An error occurred while setting up seed phrase recovery. Please try again!"
         },
         "SETUP_RECOVERY_MESSAGE": {
             "success": "Recovery setup is complete.",
@@ -43,8 +41,7 @@
         },
         "SIGN_AND_SEND_TRANSACTIONS": {
             "success": "",
-            "error": "",
-            "notEnoughTokens": "Not enough tokens."
+            "error": ""
         },
         "CREATE_ACCOUNT_WITH_SEED_PHRASE": {
             "success": "",
@@ -52,11 +49,9 @@
         },
         "ADD_LEDGER_ACCOUNT_ID": {
             "success": "",
-            "error": "Access to one of the accounts was rejected. No accounts were recovered.<br>To continue, you must authorize read-only access to each account on your Ledger device. Please try again.",
-            "errorRpc": "Error appears while recovering the account."
+            "error": "Access to one of the accounts was rejected. No accounts were recovered.<br>To continue, you must authorize read-only access to each account on your Ledger device. Please try again."
         },
         "PROMPT_TWO_FACTOR": {
-            "userCancelled": "2FA code was not verified correctly.",
             "invalidCode": "Invalid 2FA code. Please try again."
         },
         "CHECK_ACCOUNT_AVAILABLE": {
@@ -89,6 +84,43 @@
             "error": "Sorry an error has occurred. You may want to try again."
         }
     },
+    "walletErrorCodes": {
+        "addAccessKeySeedPhrase": {
+            "errorSecond": "An error has occurred.<br />The seed phrase was not added to your account. Please try again."
+        },
+        "promptTwoFactor": {
+            "userCancelled": "2FA code was not verified correctly."
+        },
+        "signAndSendTransactions": {
+            "notEnoughTokens": "Not enough tokens."
+        },
+        "getLedgerAccountIds": {
+            "U2FNotSupported": "U2F browser support is needed for Ledger. Please use Chrome, Opera or Firefox with U2F extension.",
+            "noAccounts": "No accounts are associated with this Ledger device. You must first create an account, then add this Ledger to it to login.",
+            "aborted": "Action was aborted.",
+            "noAccountsAccepted": "No accounts were accepted.",
+        },
+        "staking": {
+            "noWithdraw": "Unable to withdraw pending balance from validator",
+            "noLockup": "No lockup contract for account"
+        },
+        "addLedgerAccountId": {
+            "errorRpc": "Error appears while recovering the account."
+        },
+        "setupRecoveryMessage": {
+            "error": "An error occurred while setting up your recovery method. Please try again!"
+        },
+        "addAccessKey": {
+            "error": "An error has occurred.<br />To access your account, please enter the seed phrase from the previous step below."
+        },
+        "recoveryMethods": {
+            "setupMethod": "An error occured. Please check your recovery method.",
+            "lastMethod": "Cannot delete your last recovery method. Unless you have Ledger enabled, you need to keep at least one recovery method active to ensure recoverability of your account.",
+        },
+        "recoverAccountSeedPhrase": {
+            "errorInvalidSeedPhrase": "No accounts were found for this seed phrase."
+        }
+    },
     "account": {
         "requestCode": {
             "success": "Sent SMS with code.",
@@ -106,9 +138,6 @@
                 "check": "Checking"
             },
             "errorAccountNotExist": "There was a problem creating your account. Please try again!",
-            "addAccessKey": {
-                "error": "An error has occurred.<br />To access your account, please enter the seed phrase from the previous step below."
-            }
         },
         "available": {
             "success": "User found!",
@@ -654,10 +683,6 @@
         }
     },
     "staking": {
-        "errors": {
-            "noLockup": "No lockup contract for account",
-            "noWithdraw": "Unable to withdraw pending balance from validator"
-        },
         "pageTitle": "Staking",
         "pageText": "Setup your Node via CLI, then add it here.",
         "amountStakingInput": {
@@ -967,12 +992,6 @@
     "signInLedger": {
         "header": "Sign in with your Ledger device",
         "one": "Make sure your ledger is connected securely, and that the NEAR app is open on the device.",
-        "getLedgerAccountIds": {
-            "noAccounts": "No accounts were found for this Ledger device. Please confirm you have associated an account with this Ledger.",
-            "noAccountsAccepted": "No accounts were accepted.",
-            "aborted": "Action was aborted.",
-            "U2FNotSupported": "U2F browser support is needed for Ledger. Please use Chrome, Opera or Firefox with U2F extension."
-        },
         "modal": {
             "confirmPublicKey": "Confirm public key",
             "ledgerMustAdd": "Ledger must add an access key for each account protected by your device:",
@@ -1008,10 +1027,6 @@
         "ledger": {
             "U2FNotSupported": "U2F browser support is needed for Ledger. Please use Chrome, Opera or Firefox with a U2F extension. Also make sure you're on an HTTPS connection.",
             "U2F_4": "Failed to sign with Ledger device: U2F DEVICE_INELIGIBLE. Please make sure that your Ledger device is connected and unlocked."
-        },
-        "recoveryMethods": {
-            "lastMethod": "Cannot delete your last recovery method. Unless you have Ledger enabled, you need to keep at least one recovery method active to ensure recoverability of your account.",
-            "setupMethod": "An error occured. Please check your recovery method."
         }
     },
 
