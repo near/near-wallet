@@ -481,7 +481,7 @@ class Wallet {
                 await account.addKey(newLocalKeyPair.getPublicKey(), accountId, WALLET_METADATA_METHOD, '0')
             } catch (error) {
                 if (error.type === 'KeyNotFound') {
-                    throw new WalletError('No accounts were found.', 'signInLedger.getLedgerAccountIds.noAccounts')
+                    throw new WalletError('No accounts were found.', 'getLedgerAccountIds.noAccounts')
                 }
                 throw error
             }
@@ -502,7 +502,7 @@ class Wallet {
             accountIds = await getAccountIds(publicKey)
         } catch (error) {
             if (error.name === 'AbortError') {
-                throw new WalletError('Fetch aborted.', 'signInLedger.getLedgerAccountIds.aborted')
+                throw new WalletError('Fetch aborted.', 'getLedgerAccountIds.aborted')
             }
             throw error
         }
@@ -525,7 +525,7 @@ class Wallet {
         .filter(accountId => accountId)
 
         if (!checkedAccountIds.length) {
-            throw new WalletError('No accounts were found.', 'signInLedger.getLedgerAccountIds.noAccounts')
+            throw new WalletError('No accounts were found.', 'getLedgerAccountIds.noAccounts')
         }
 
         return checkedAccountIds
@@ -540,7 +540,7 @@ class Wallet {
             await this.setKey(accountId, newKeyPair)
         } catch (error) {
             if (error.name !== 'TransportStatusError') {
-                throw new WalletError(error.message, 'reduxActions.ADD_LEDGER_ACCOUNT_ID.errorRpc')
+                throw new WalletError(error.message, 'addLedgerAccountId.errorRpc')
             }
             throw error
         }
@@ -550,7 +550,7 @@ class Wallet {
         const accountIds = Object.keys(accounts).filter(accountId => accounts[accountId].status === 'success')
 
         if (!accountIds.length) {
-            throw new WalletError('No accounts were accepted.', 'signInLedger.getLedgerAccountIds.noAccountsAccepted')
+            throw new WalletError('No accounts were accepted.', 'getLedgerAccountIds.noAccountsAccepted')
         }
 
         await Promise.all(accountIds.map(async (accountId) => {
@@ -644,7 +644,7 @@ class Wallet {
                 await this.postSignedJson('/account/validateSecurityCode', body);
             }
         } catch(e) {
-            throw new WalletError('Invalid code', 'account.SETUP_RECOVERY_MESSAGE.error')
+            throw new WalletError('Invalid code', 'setupRecoveryMessage.error')
         }
     }
 
@@ -698,7 +698,7 @@ class Wallet {
                     if (previousAccountId) {
                         await wallet.saveAndSelectAccount(previousAccountId)
                     }
-                    throw new WalletError(error, 'account.create.addAccessKey.error')
+                    throw new WalletError(error, 'addAccessKey.error')
                 }
             }
         }
@@ -713,7 +713,7 @@ class Wallet {
             await this.addNewAccessKeyToAccount(accountId, publicKey)
         } catch(e) {
             console.error(e)
-            throw new WalletError(e.message, 'errors.recoveryMethods.setupMethod')
+            throw new WalletError(e.message, 'recoveryMethods.setupMethod')
         } finally {
             await store.dispatch(redirectTo('/profile', { globalAlertPreventClear: true }))
         }
@@ -742,7 +742,7 @@ class Wallet {
                 publicKey
             })
         } else {
-            throw new WalletError('Cannot delete last recovery method', 'errors.recoveryMethods.lastMethod')
+            throw new WalletError('Cannot delete last recovery method', 'recoveryMethods.lastMethod')
         }
     }
 
@@ -779,7 +779,7 @@ class Wallet {
         accountIds = [...accountsSet]
 
         if (!accountIds.length) {
-            throw new WalletError('Cannot find matching public key', 'reduxActions.RECOVER_ACCOUNT_SEED_PHRASE.errorInvalidSeedPhrase', { publicKey })
+            throw new WalletError('Cannot find matching public key', 'recoverAccountSeedPhrase.errorInvalidSeedPhrase', { publicKey })
         }
 
         const connection = nearApiJs.Connection.fromConfig({
