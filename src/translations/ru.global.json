@@ -17,7 +17,7 @@
         },
         "ADD_ACCESS_KEY_SEED_PHRASE": {
             "success": "Настройка мнемонической фразы восстановления успешно завершена",
-            "error": "При настройке мнемонической фразы произошла ошибка. Повторите еще раз!",
+            "error": "При настройке мнемонической фразы произошла ошибка. Повторите еще раз!"
         },
         "SETUP_RECOVERY_MESSAGE": {
             "success": "Recovery setup is complete.",
@@ -98,7 +98,7 @@
             "U2FNotSupported": "U2F browser support is needed for Ledger. Please use Chrome, Opera or Firefox with U2F extension.",
             "noAccounts": "No accounts are associated with this Ledger device. You must first create an account, then add this Ledger to it to login.",
             "aborted": "Action was aborted.",
-            "noAccountsAccepted": "No accounts were accepted.",
+            "noAccountsAccepted": "No accounts were accepted."
         },
         "staking": {
             "noWithdraw": "Unable to withdraw pending balance from validator",
@@ -115,7 +115,7 @@
         },
         "recoveryMethods": {
             "setupMethod": "An error occured. Please check your recovery method.",
-            "lastMethod": "Cannot delete your last recovery method. Unless you have Ledger enabled, you need to keep at least one recovery method active to ensure recoverability of your account.",
+            "lastMethod": "Cannot delete your last recovery method. Unless you have Ledger enabled, you need to keep at least one recovery method active to ensure recoverability of your account."
         },
         "recoverAccountSeedPhrase": {
             "errorInvalidSeedPhrase": "No accounts were found for this seed phrase."
