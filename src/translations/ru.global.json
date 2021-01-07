@@ -2,8 +2,7 @@
     "reduxActions": {
         "RECOVER_ACCOUNT_SEED_PHRASE": {
             "success": "Учетная запись успешно восстановлена.",
-            "error": "Не удалось восстановить учетную запись.",
-            "errorInvalidSeedPhrase": "No accounts were found for this seed phrase."
+            "error": "Не удалось восстановить учетную запись."
         },
         "SEND_MONEY": {
             "error": "Sorry an error has occurred. You may want to try again."
@@ -19,7 +18,6 @@
         "ADD_ACCESS_KEY_SEED_PHRASE": {
             "success": "Настройка мнемонической фразы восстановления успешно завершена",
             "error": "При настройке мнемонической фразы произошла ошибка. Повторите еще раз!",
-            "errorSecond": ""
         },
         "SETUP_RECOVERY_MESSAGE": {
             "success": "Recovery setup is complete.",
@@ -43,8 +41,7 @@
         },
         "SIGN_AND_SEND_TRANSACTIONS": {
             "success": "",
-            "error": "",
-            "notEnoughTokens": "Not enough tokens."
+            "error": ""
         },
         "CREATE_ACCOUNT_WITH_SEED_PHRASE": {
             "success": "",
@@ -52,11 +49,9 @@
         },
         "ADD_LEDGER_ACCOUNT_ID": {
             "success": "",
-            "error": "Access to one of the accounts was rejected. No accounts were recovered.<br>To continue, you must authorize read-only access to each account on your Ledger device. Please try again.",
-            "errorRpc": "Error appears while recovering the account."
+            "error": "Access to one of the accounts was rejected. No accounts were recovered.<br>To continue, you must authorize read-only access to each account on your Ledger device. Please try again."
         },
         "PROMPT_TWO_FACTOR": {
-            "userCancelled": "2FA code was not verified correctly.",
             "invalidCode": "Invalid 2FA code. Please try again."
         },
         "CHECK_ACCOUNT_AVAILABLE": {
@@ -87,6 +82,43 @@
         "default": {
             "success": "",
             "error": "Sorry an error has occurred. You may want to try again."
+        }
+    },
+    "walletErrorCodes": {
+        "addAccessKeySeedPhrase": {
+            "errorSecond": "An error has occurred.<br />The seed phrase was not added to your account. Please try again."
+        },
+        "promptTwoFactor": {
+            "userCancelled": "2FA code was not verified correctly."
+        },
+        "signAndSendTransactions": {
+            "notEnoughTokens": "Not enough tokens."
+        },
+        "getLedgerAccountIds": {
+            "U2FNotSupported": "U2F browser support is needed for Ledger. Please use Chrome, Opera or Firefox with U2F extension.",
+            "noAccounts": "No accounts are associated with this Ledger device. You must first create an account, then add this Ledger to it to login.",
+            "aborted": "Action was aborted.",
+            "noAccountsAccepted": "No accounts were accepted.",
+        },
+        "staking": {
+            "noWithdraw": "Unable to withdraw pending balance from validator",
+            "noLockup": "No lockup contract for account"
+        },
+        "addLedgerAccountId": {
+            "errorRpc": "Error appears while recovering the account."
+        },
+        "setupRecoveryMessage": {
+            "error": "An error occurred while setting up your recovery method. Please try again!"
+        },
+        "addAccessKey": {
+            "error": "An error has occurred.<br />To access your account, please enter the seed phrase from the previous step below."
+        },
+        "recoveryMethods": {
+            "setupMethod": "An error occured. Please check your recovery method.",
+            "lastMethod": "Cannot delete your last recovery method. Unless you have Ledger enabled, you need to keep at least one recovery method active to ensure recoverability of your account.",
+        },
+        "recoverAccountSeedPhrase": {
+            "errorInvalidSeedPhrase": "No accounts were found for this seed phrase."
         }
     },
     "account": {
