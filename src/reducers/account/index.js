@@ -9,21 +9,10 @@ import {
     refreshUrl,
     refreshAccount,
     resetAccounts,
-    deleteRecoveryMethod,
-    recoverAccountSeedPhrase,
-    removeAccessKey,
-    deployMultisig,
-    verifyTwoFactor,
     checkCanEnableTwoFactor,
     get2faMethod,
     getLedgerKey
 } from '../../actions/account'
-
-import {
-    stake,
-    unstake,
-    withdraw,
-} from '../../actions/staking'
 
 const initialState = {
     formLoader: false,
