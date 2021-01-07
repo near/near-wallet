@@ -34,7 +34,9 @@ const config = {
     async function createTestAccount() {
         const accountId = `test-account-${Date.now()}-${Math.floor(Math.random() * 1000) % 1000}`;
         console.log('createTestAccount', accountId);
-        const { secretKey } = await parseSeedPhrase(TEST_ACCOUNT_SEED_PHRASE);
+        const seedPhrase = `${accountId} ${TEST_ACCOUNT_SEED_PHRASE}`;
+        const { secretKey } = await parseSeedPhrase(seedPhrase);
+        // TODO: Use the same seed phrase for all accounts to test recovery not picking up deleted accounts
         const keyPair = KeyPair.fromString(secretKey);
         await keyStore.setKey(NETWORK_ID, accountId, keyPair);
         await bankAccount.createAccount(accountId, keyPair.publicKey, parseNearAmount('1.0'));
@@ -46,7 +48,8 @@ const config = {
         const browser = await webkit.launch({ headless: HEADLESS });
         const page = await browser.newPage();
         await page.goto(config.walletUrl + '/recover-seed-phrase');
-        await page.fill('[name=seedPhrase]', TEST_ACCOUNT_SEED_PHRASE);
+        const seedPhrase = `${testAccount1.accountId} ${TEST_ACCOUNT_SEED_PHRASE}`;
+        await page.fill('[name=seedPhrase]', seedPhrase);
         await page.click('[type=submit]');
         await page.waitForNavigation();
         assert(page.url() == config.walletUrl + '/');
