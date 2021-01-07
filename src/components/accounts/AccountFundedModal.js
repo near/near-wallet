@@ -1,6 +1,5 @@
 import React from 'react'
 import Modal from '../common/modal/Modal'
-import MobileActionSheet from '../common/modal/MobileActionSheet'
 import Checkbox from '../common/Checkbox'
 import { Translate } from 'react-localize-redux'
 import styled from 'styled-components'
@@ -161,7 +160,6 @@ const AccountFundedModal = ({ open, onClose, checked, handleCheckboxChange, acco
             disableClose={true}
         >
             <Container>
-                <MobileActionSheet/>
                 <SwapAccountGraphic accountId={accountId || 'johndoe.near'} implicitAccountId={implicitAccountId || 'cd03cbd02b6e0fbfd51bdb42bfe60e'}/>
                 <h2><Translate id='account.createImplicit.post.modal.title'/></h2>
                 <div className='sub-title'><Translate id='account.createImplicit.post.modal.descOne'/></div>

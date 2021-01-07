@@ -4,10 +4,11 @@ import StyledModal from './Style.css';
 import CloseButton from './CloseButton';
 import classNames from '../../../utils/classNames';
 import isMobile from '../../../utils/isMobile';
+import MobileActionSheet from '../../common/modal/MobileActionSheet';
 
 const modalRoot = document.getElementById('modal-root');
 
-function Modal({ isOpen, onClose, id, modalSize, modalClass, children, closeButton, disableClose }) {
+function Modal({ isOpen, onClose, id, modalSize, modalClass, children, closeButton, disableClose, mobileActionSheet = true }) {
     const background = React.createRef();
     const [fadeType, setFadeType] = useState(null);
     const [fullScreen, setFullScreen] = useState(null);
@@ -69,6 +70,9 @@ function Modal({ isOpen, onClose, id, modalSize, modalClass, children, closeButt
             modalSize={modalSize}
             onTransitionEnd={transitionEnd}
         >
+            {mobileActionSheet &&
+                <MobileActionSheet/>
+            }
             <div id='modal-container' className='modal'>
                 {closeButton && 
                     <CloseButton device={closeButton} onClick={handleClick}/>

@@ -1,6 +1,5 @@
 import React from 'react'
 import Modal from '../common/modal/Modal'
-import MobileActionSheet from '../common/modal/MobileActionSheet'
 import FormButton from '../common/FormButton'
 import { Translate } from 'react-localize-redux'
 import styled from 'styled-components'
@@ -64,7 +63,6 @@ const SendConfirmModal = ({ open, onClose, onConfirm, amount, receiver, loading 
             closeButton='desktop'
         >
             <Container>
-                <MobileActionSheet/>
                 <h2><Translate id='sendMoney.confirmModal.title'/></h2>
                 <div className='breakdown'>
                     <div>

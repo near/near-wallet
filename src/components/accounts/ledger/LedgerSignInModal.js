@@ -4,7 +4,6 @@ import { Translate } from 'react-localize-redux';
 
 import Modal from "../../common/modal/Modal";
 import ModalTheme from './ModalTheme';
-import MobileActionSheet from '../../common/modal/MobileActionSheet';
 import LedgerImage from '../../svg/LedgerImage';
 import UserIconGrey from '../../../images/UserIconGrey';
 import IconCheck from '../../../images/IconCheck'
@@ -174,7 +173,6 @@ const LedgerSignInModal = ({
             modalSize='lg'
         >
             <ModalTheme/>
-            <MobileActionSheet/>
 
             {signInWithLedgerStatus === 'confirm-public-key' && (!txSigned
                     ? (
