@@ -2,8 +2,7 @@
     "reduxActions": {
         "RECOVER_ACCOUNT_SEED_PHRASE": {
             "success": "成功。",
-            "error": "恢復賬戶失敗。",
-            "errorInvalidSeedPhrase": "助記詞無效"
+            "error": "恢復賬戶失敗。"
         },
         "SEND_MONEY": {
             "error": "請檢查你的設備已經連接並打開了 NEAR 應用。"
@@ -18,8 +17,7 @@
         },
         "ADD_ACCESS_KEY_SEED_PHRASE": {
             "success": "助記詞恢復設置已經完成。",
-            "error": "在設置助記詞恢復方式時發生了錯誤，請重試。",
-            "errorSecond": "An error has occurred.<br />The seed phrase was not added to your account. Please try again."
+            "error": "在設置助記詞恢復方式時發生了錯誤，請重試。"
         },
         "SETUP_RECOVERY_MESSAGE": {
             "success": "賬戶恢復設置已完成。",
@@ -43,8 +41,7 @@
         },
         "SIGN_AND_SEND_TRANSACTIONS": {
             "success": "",
-            "error": "",
-            "notEnoughTokens": "Not enough tokens."
+            "error": ""
         },
         "CREATE_ACCOUNT_WITH_SEED_PHRASE": {
             "success": "",
@@ -52,11 +49,9 @@
         },
         "ADD_LEDGER_ACCOUNT_ID": {
             "success": "",
-            "error": "賬戶的訪問被拒絕，恢復賬戶失敗。<br/>若要繼續，需要在 Ledger 設備上授權每個賬戶的只讀訪問，請再重試。",
-            "errorRpc": "恢復賬戶時發生錯誤。"
+            "error": "賬戶的訪問被拒絕，恢復賬戶失敗。<br/>若要繼續，需要在 Ledger 設備上授權每個賬戶的只讀訪問，請再重試。"
         },
         "PROMPT_TWO_FACTOR": {
-            "userCancelled": "此操作已被取消。",
             "invalidCode": "無效的兩步驗證碼，請重試。"
         },
         "CHECK_ACCOUNT_AVAILABLE": {
@@ -89,6 +84,43 @@
             "error": "Sorry an error has occurred. You may want to try again."
         }
     },
+    "walletErrorCodes": {
+        "addAccessKeySeedPhrase": {
+            "errorSecond": "An error has occurred.<br />The seed phrase was not added to your account. Please try again."
+        },
+        "promptTwoFactor": {
+            "userCancelled": "此操作已被取消。"
+        },
+        "signAndSendTransactions": {
+            "notEnoughTokens": "Not enough tokens."
+        },
+        "getLedgerAccountIds": {
+            "U2FNotSupported": "需要瀏覽器支持 U2F，請使用 Chrome、Opera 或 Firefox 安裝 U2F 擴展。",
+            "noAccounts": "該 Ledger 設備沒有綁定任何賬戶，你需要先創建一個賬戶，並將此賬戶綁定至 Ledger 才能登錄。",
+            "aborted": "操作被終止。",
+            "noAccountsAccepted": "無賬戶授權。"
+        },
+        "staking": {
+            "noWithdraw": "無法從驗證節點提現餘額",
+            "noLockup": "賬戶無鎖定合約"
+        },
+        "addLedgerAccountId": {
+            "errorRpc": "恢復賬戶時發生錯誤。"
+        },
+        "setupRecoveryMessage": {
+            "error": "An error occurred while setting up your recovery method. Please try again!"
+        },
+        "addAccessKey": {
+            "error": "發生錯誤。<br />為訪問你的賬戶，請輸入上一步的助記詞。"
+        },
+        "recoveryMethods": {
+            "setupMethod": "發生錯誤。請檢查你的賬戶恢復方式。",
+            "lastMethod": "無法刪除最後一個恢復方式。除非你添加了 Ledger，你需要保留至少一種賬戶恢復方式。"
+        },
+        "recoverAccountSeedPhrase": {
+            "errorInvalidSeedPhrase": "助記詞無效"
+        }
+    },
     "account": {
         "requestCode": {
             "success": "短信已成功發送。",
@@ -105,10 +137,7 @@
                 "create": "正在檢查可用性",
                 "check": "正在檢查"
             },
-            "errorAccountNotExist": "創建賬戶出錯，請重試！",
-            "addAccessKey": {
-                "error": "發生錯誤。<br />為訪問你的賬戶，請輸入上一步的助記詞。"
-            }
+            "errorAccountNotExist": "創建賬戶出錯，請重試！"
         },
         "addAccessKey": {
             "error": "發生錯誤。<br />助記詞沒有保存至你的賬戶，請重試。"
@@ -617,10 +646,6 @@
         }
     },
     "staking": {
-        "errors": {
-            "noLockup": "賬戶無鎖定合約",
-            "noWithdraw": "無法從驗證節點提現餘額"
-        },
         "pageTitle": "質押",
         "pageText": "通過命令行配置你的節點，並在這裡添加。",
         "amountStakingInput": {
@@ -889,12 +914,6 @@
     "signInLedger": {
         "header": "通過 Ledger 硬件登錄",
         "one": "請確認硬件錢包已經安全連接，並且 NEAR 應用已經打開。",
-        "getLedgerAccountIds": {
-            "noAccounts": "該 Ledger 設備沒有綁定任何賬戶，你需要先創建一個賬戶，並將此賬戶綁定至 Ledger 才能登錄。",
-            "noAccountsAccepted": "無賬戶授權。",
-            "aborted": "操作被終止。",
-            "U2FNotSupported": "需要瀏覽器支持 U2F，請使用 Chrome、Opera 或 Firefox 安裝 U2F 擴展。"
-        },
         "modal": {
             "confirmPublicKey": "確認公鑰",
             "ledgerMustAdd": "Ledger 必須為每個賬戶添加訪問密鑰：",
@@ -928,10 +947,6 @@
         "ledger": {
             "U2FNotSupported": "Ledger 硬件錢包需要 U2F 瀏覽器支持。請使用 Chrome、Opera 或 Firefox 安裝 U2F 擴展，並確保你是通過 HTTPS 加密連接。",
             "U2F_4": "無法通過硬件錢包登錄：U2F DEVICE_INELIGIBLE。請確保 Ledger 設備已連接並解鎖。"
-        },
-        "recoveryMethods": {
-            "lastMethod": "無法刪除最後一個恢復方式。除非你添加了 Ledger，你需要保留至少一種賬戶恢復方式。",
-            "setupMethod": "發生錯誤。請檢查你的賬戶恢復方式。"
         }
     },
     "networkBanner": {
