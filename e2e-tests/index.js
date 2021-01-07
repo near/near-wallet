@@ -32,7 +32,7 @@ const config = {
     const bankAccount = await near.account(BANK_ACCOUNT);
 
     async function createTestAccount() {
-        const accountId = `test-account-${Date.now()}-${Math.floor(Math.random() * 1000) % 1000}`;
+        const accountId = `test-account-${Date.now()}-${Math.floor(Math.random() * 1000) % 1000}.${bankAccount.accountId}`;
         console.log('createTestAccount', accountId);
         const seedPhrase = `${accountId} ${TEST_ACCOUNT_SEED_PHRASE}`;
         const { secretKey } = await parseSeedPhrase(seedPhrase);
