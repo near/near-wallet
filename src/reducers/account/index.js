@@ -1,5 +1,7 @@
 import { handleActions, combineActions } from 'redux-actions'
 import reduceReducers from 'reduce-reducers'
+import { utils } from 'near-api-js'
+import BN from 'bn.js'
 
 import {
     requestCode,
@@ -115,16 +117,19 @@ const account = handleActions({
             return state
         }
 
+        const { formatNearAmount } = utils.format
+        const { balance, stakingLockup } = payload
+
         const profileBalance = {
             walletBalance: {
-                sum: '',
-                reservedForStorage: '',
+                sum: new BN(balance.stateStaked).add(new BN(stakingLockup.totalStaked)).add(new BN(stakingLockup.totalPending)).add(new BN(stakingLockup.totalUnstaked)).toString(),
+                reservedForStorage: balance.stateStaked,
                 inStakingPools: {
-                    sum: '',
-                    staked: '',
-                    unstaked: ''
+                    sum: new BN(stakingLockup.totalStaked).add(new BN(stakingLockup.totalPending)).toString(),
+                    staked: stakingLockup.totalStaked,
+                    unstaked: stakingLockup.totalPending
                 },
-                available: ''
+                available: stakingLockup.totalUnstaked
             },
             LockupId: '',
             lockupBalance: {
@@ -160,7 +165,7 @@ const account = handleActions({
 
         return {
             ...state,
-            profileBalance: profileBalance
+            profileBalance: formatAll(profileBalance)
         }
     }
 }, initialState)
