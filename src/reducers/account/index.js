@@ -11,7 +11,8 @@ import {
     resetAccounts,
     checkCanEnableTwoFactor,
     get2faMethod,
-    getLedgerKey
+    getLedgerKey,
+    getBalance
 } from '../../actions/account'
 
 const initialState = {
@@ -108,7 +109,9 @@ const account = handleActions({
     [resetAccounts]: (state) => ({
         ...state,
         loginResetAccounts: true
-    })
+    }),
+    [getBalance]: (state, { payload, ready, meta }) => {
+    }
 }, initialState)
 
 export default reduceReducers(
