@@ -16,6 +16,8 @@ export const MULTISIG_CONTRACT_HASHES = process.env.MULTISIG_CONTRACT_HASHES || 
     '55E7imniT2uuYrECn17qJAk9fLcwQW4ftNSwmCJL5Di',
 ];
 
+const ENABLE_DISABLE_NEW_KEY = '__ENABLE_DISABLE_NEW_KEY'
+
 const {
     multisig: { Account2FA },
 } = nearApiJs
@@ -58,14 +60,40 @@ export class TwoFactor extends Account2FA {
         });
     }
 
+    checkForPublicKeyWithRetries(publicKey) {
+        const publicKeyStr = publicKey.toString()
+        const retries = 100, delay = 5000
+        let attempts = 1
+        return new Promise((resolve, reject) => {
+            const check = () => {
+                attempts++
+                const accessKeys = await this.getAccessKeys()
+                if (accessKeys.find(({ public_key }) => public_key === publicKeyStr)) {
+                    return resolve(true)
+                }
+                if (attempts > retries) {
+                    return reject(false)
+                }
+                setTimeout(check, delay)
+            }
+            check()
+        })
+    }
+
     async deployMultisig() {
         const { accountId } = this
         const newKeyPair = KeyPair.fromRandom('ed25519')
         const newLocalPublicKey = newKeyPair.publicKey
         const contractBytes = new Uint8Array(await (await fetch('/multisig.wasm')).arrayBuffer())
+
+        localStorage.setItem(ENABLE_DISABLE_NEW_KEY, JSON.stringify(newKeyPair))
         const result = await super.deployMultisig(contractBytes, newLocalPublicKey)
-        await this.wallet.saveAccount(accountId, newKeyPair)
-        await store.dispatch(refreshAccount())
+        const keyAdded = await checkForPublicKeyWithRetries(newLocalPublicKey)
+        console.log('keyAdded', keyAdded)
+        if (keyAdded) {
+            await this.wallet.saveAccount(accountId, newKeyPair)
+            await store.dispatch(refreshAccount())
+        }
         return result
     }
 
@@ -74,7 +102,15 @@ export class TwoFactor extends Account2FA {
         const newKeyPair = KeyPair.fromRandom('ed25519')
         const newLocalPublicKey = newKeyPair.publicKey
         const contractBytes = new Uint8Array(await (await fetch('/main.wasm')).arrayBuffer())
+
+        localStorage.setItem(ENABLE_DISABLE_NEW_KEY, JSON.stringify(newKeyPair))
         const result = await this.disable(contractBytes, newLocalPublicKey)
+        const keyAdded = await checkForPublicKeyWithRetries(newLocalPublicKey)
+        console.log('keyAdded', keyAdded)
+        if (keyAdded) {
+            await this.wallet.saveAccount(accountId, newKeyPair)
+            await store.dispatch(refreshAccount())
+        }
         await this.wallet.saveAccount(accountId, newKeyPair)
         await store.dispatch(refreshAccount())
         return result
