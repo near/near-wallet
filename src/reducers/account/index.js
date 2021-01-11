@@ -111,6 +111,50 @@ const account = handleActions({
         loginResetAccounts: true
     }),
     [getBalance]: (state, { payload, ready, meta }) => {
+        if (!ready) {
+            return state
+        }
+
+        const profileBalance = {
+            walletBalance: {
+                sum: '',
+                reservedForStorage: '',
+                inStakingPools: {
+                    sum: '',
+                    staked: '',
+                    unstaked: ''
+                },
+                available: ''
+            },
+            LockupId: '',
+            lockupBalance: {
+                sum: '',
+                reservedForStorage: '',
+                locked: {
+                    sum: '',
+                    inStakingPools: {
+                        sum: '',
+                        staked: '',
+                        unstaked: ''
+                    }
+                },
+                unlocked: {
+                    sum: '',
+                    availableToTransfer: '',
+                    inStakingPools: {
+                        sum: '',
+                        staked: '',
+                        unstaked: ''
+                    }
+                }
+            },
+            availableToWithdraw: stakingLockup.totalAvailable
+        }
+
+        return {
+            ...state,
+            profileBalance: profileBalance
+        }
     }
 }, initialState)
 
