@@ -151,6 +151,13 @@ const account = handleActions({
             availableToWithdraw: stakingLockup.totalAvailable
         }
 
+        const formatAll = (obj) => Object.keys(obj).reduce((x, prop) => ({
+            ...x,
+            [prop]: typeof obj[prop] === 'object'
+                ? formatAll(obj[prop])
+                : formatNearAmount(obj[prop], 5)
+        }), {})
+
         return {
             ...state,
             profileBalance: profileBalance
