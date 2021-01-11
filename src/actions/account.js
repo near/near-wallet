@@ -460,7 +460,7 @@ export const { signAndSendTransactions, setSignTransactionStatus, sendMoney } = 
     ]
 })
 
-export const { switchAccount, refreshAccount, refreshAccountExternal, refreshUrl } = createActions({
+export const { switchAccount, refreshAccount, refreshAccountExternal, refreshUrl, getBalance } = createActions({
     SWITCH_ACCOUNT: wallet.selectAccount.bind(wallet),
     REFRESH_ACCOUNT: [
         wallet.refreshAccount.bind(wallet),
@@ -473,5 +473,6 @@ export const { switchAccount, refreshAccount, refreshAccountExternal, refreshUrl
         }),
         accountId => ({ accountId })
     ],
-    REFRESH_URL: null
+    REFRESH_URL: null,
+    GET_BALANCE: wallet.getProfileBalance.bind(wallet)
 })
