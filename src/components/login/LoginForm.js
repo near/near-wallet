@@ -125,6 +125,7 @@ const LoginForm = ({
                             color='blue'
                             sending={buttonLoader}
                             onClick={handleAllow}
+                            sendingString='button.authorizing'
                         >
                             <Translate id='button.allow' />
                         </FormButton>

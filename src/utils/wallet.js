@@ -422,14 +422,16 @@ class Wallet {
         const has2fa = await TwoFactor.has2faEnabled(account)
         console.log('key being added to 2fa account ?', has2fa, account)
         try {
-            if (fullAccess || (!has2fa && accountId === contractId)) {
+            // TODO: Why not always pass `fullAccess` explicitly when it's desired?
+            // TODO: Alternatively require passing MULTISIG_CHANGE_METHODS from caller as `methodNames`
+            if (fullAccess || (!has2fa && accountId === contractId && !methodNames.length)) {
                 console.log('adding full access key', publicKey.toString())
                 return await account.addKey(publicKey)
             } else {
                 return await account.addKey(
                     publicKey.toString(),
                     contractId,
-                    has2fa ? MULTISIG_CHANGE_METHODS : methodNames,
+                    (has2fa && !methodNames.length && accountId === contractId) ? MULTISIG_CHANGE_METHODS : methodNames,
                     ACCESS_KEY_FUNDING_AMOUNT
                 )
             }
@@ -508,8 +510,15 @@ class Wallet {
         const checkedAccountIds = (await Promise.all(
             accountIds
                 .map(async (accountId) => {
-                    const accountKeys = await (await this.getAccount(accountId)).getAccessKeys();
-                    return accountKeys.find(({ public_key }) => public_key === publicKey.toString()) ? accountId : null
+                    try {
+                        const accountKeys = await (await this.getAccount(accountId)).getAccessKeys();
+                        return accountKeys.find(({ public_key }) => public_key === publicKey.toString()) ? accountId : null
+                    } catch (error) {
+                        if (error.toString().indexOf('does not exist while viewing') !== -1) {
+                            return null
+                        }
+                        throw error
+                    }
                 })
             )
         )
@@ -582,7 +591,8 @@ class Wallet {
 
     async signatureFor(account) {
         const { accountId } = account
-        const blockNumber = String((await account.connection.provider.status()).sync_info.latest_block_height);
+        const block = await account.connection.provider.block({ finality: 'final' })
+        const blockNumber = block.header.height.toString()
         const signer = account.inMemorySigner || account.connection.signer
         const signed = await signer.signMessage(Buffer.from(blockNumber), accountId, NETWORK_ID);
         const blockNumberSignature = Buffer.from(signed.signature).toString('base64');
