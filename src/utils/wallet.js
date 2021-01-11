@@ -596,6 +596,13 @@ class Wallet {
         return await account.getAccountBalance()
     }
 
+    async getProfileBalance() {
+        return {
+            balance: await this.getBalance(this.accountId),
+            stakingLockup: await this.staking.updateStakingAccount(),
+        }
+    }
+
     async signatureFor(account) {
         const { accountId } = account
         const block = await account.connection.provider.block({ finality: 'final' })
