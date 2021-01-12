@@ -175,7 +175,7 @@ class RecoverWithLink extends Component {
                             <Desc>{translate('recoverWithLink.pOne')} <UserName>{accountId}</UserName></Desc>
                             <Desc last>{translate('recoverWithLink.pTwo')}</Desc>
                             <ButtonWrapper>
-                                <FormButton onClick={this.handleContinue} disabled={formLoader} sending={formLoader}>
+                                <FormButton onClick={this.handleContinue} disabled={formLoader} sending={formLoader} sendingString='button.recovering'>
                                     {translate('button.continue')}
                                 </FormButton>
                                 <Button onClick={this.handleCopyUrl}>

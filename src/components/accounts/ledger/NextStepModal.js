@@ -22,9 +22,9 @@ const NextStepModal = ({ nextStep, onClose, onConfirm, removingkeys }) => {
             }
             <FormButton 
                 onClick={onConfirm} 
-                sending={removingkeys} 
+                sending={removingkeys}
                 disabled={removingkeys}
-                sendingString='removingKeys'
+                sendingString='button.removingKeys'
             >
                 <Translate id='button.confirm'/>
             </FormButton>

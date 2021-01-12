@@ -11,29 +11,52 @@ import isMobile from '../../utils/isMobile'
 import { Snackbar, snackbarDuration } from '../common/Snackbar'
 import Container from '../common/styled/Container.css'
 import FormButton from '../common/FormButton'
-import { createAccountFromImplicit } from '../../actions/account'
+import WhereToBuyNearModal from '../common/WhereToBuyNearModal'
+import AccountFundedModal from './AccountFundedModal'
+import { createAccountFromImplicit, redirectTo } from '../../actions/account'
 import { NETWORK_ID, NODE_URL, MIN_BALANCE_FOR_GAS } from '../../utils/wallet'
 
 const StyledContainer = styled(Container)`
     .account-id-wrapper {
-        background-color: #F2F2F2;
+        background-color: #FAFAFA;
         width: 100%;
         border-radius: 4px;
-        padding: 25px;
-        font-size: 20px;
+        border: 2px solid #F0F0F0;
+        padding: 20px;
+        font-size: 16px;
         word-break: break-all;
         line-height: 140%;
-        margin: 40px 0;
+        margin: 10px 0 40px 0;
         text-align: center;
+        color: #72727A;
     }
 
-    p {
-        margin: 25px 0;
+    h2 {
+        span {
+            b {
+                white-space: nowrap;
+            }
+        }
     }
 
     button {
         margin: 0 auto !important;
-        display: block !important
+        width: 100% !important;
+
+        &.where-to-buy-link {
+            text-decoration: none !important;
+            font-weight: 400 !important;
+            font-size: 16px !important;
+            width: auto !important;
+            text-align: left;
+            margin-bottom: 50px !important;
+            transition: 100ms;
+            display: block !important;
+            
+            :hover {
+                text-decoration: underline !important;
+            }
+        }
     }
 `
 
@@ -46,6 +69,9 @@ const initialState = {
     successSnackbar: false,
     snackBarMessage: 'setupSeedPhrase.snackbarCopyImplicitAddress',
     balance: null,
+    whereToBuy: false,
+    checked: false,
+    createAccount: null
 }
 
 class SetupImplicit extends Component {
@@ -53,7 +79,9 @@ class SetupImplicit extends Component {
 
     handleContinue = async () => {
         const { dispatch, accountId, implicitAccountId, recoveryMethod } = this.props
+        this.setState({ createAccount: true })
         await dispatch(createAccountFromImplicit(accountId, implicitAccountId, recoveryMethod))
+        await dispatch(redirectTo('/fund-create-account/success'))
     }
 
     checkBalance = async () => {
@@ -63,13 +91,13 @@ class SetupImplicit extends Component {
         try {
             const state = await account.state()
             if (new BN(state.amount).gte(MIN_BALANCE_TO_CREATE)) {
-                return this.setState({ balance: nearApiJs.utils.format.formatNearAmount(state.amount, 2) })
+                return this.setState({ balance: nearApiJs.utils.format.formatNearAmount(state.amount, 2), whereToBuy: false, createAccount: true })
             }
         } catch (e) {
             if (e.message.indexOf('exist while viewing') === -1) {
                 throw e
             }
-            this.setState({ hasBalance: false })
+            this.setState({ balance: false })
         }
     }
 
@@ -120,60 +148,66 @@ class SetupImplicit extends Component {
 
     render() {
         const {
-            balance,
             snackBarMessage,
             successSnackbar,
+            whereToBuy,
+            checked,
+            createAccount
         } = this.state
 
-        const { implicitAccountId, accountId } = this.props
-
+        const { implicitAccountId, accountId, formLoader } = this.props
+        
         return (
             <Translate>
                 {({ translate }) => (
                     <StyledContainer className='small-centered'>
-                        {!balance
-                            ? <>
-                                <h1><Translate id='account.createImplicit.pre.title' /></h1>
-                                <p><Translate id='account.createImplicit.pre.descOne' data={{ amount: formatNearAmount(MIN_BALANCE_TO_CREATE) }}/></p>
-                                <p><Translate id='account.createImplicit.pre.descTwo'/></p>
-                            </>
-                            : <>
-                                <h1><Translate id='account.createImplicit.post.title' /></h1>
-                                <p><Translate id='account.createImplicit.post.descOne'/></p>
-                                <p><Translate id='account.createImplicit.post.descTwo'/></p>
-                            </>
-                        }
+                        <h1><Translate id='account.createImplicit.pre.title' /></h1>
+                        <h2><Translate id='account.createImplicit.pre.descOne' data={{ amount: formatNearAmount(MIN_BALANCE_TO_CREATE) }}/></h2>
+                        <h2><Translate id='account.createImplicit.pre.descTwo'/></h2>
+                        <FormButton
+                            onClick={() => this.setState({ whereToBuy: true })}
+                            color='link'
+                            className='where-to-buy-link'
+                        >
+                            <Translate id='account.createImplicit.pre.whereToBuy.button' />
+                        </FormButton>
+                        <h4 className='small'><Translate id='account.createImplicit.pre.addressHeader'/></h4>
                         <div className='account-id-wrapper'>
-                            {!balance ? implicitAccountId : accountId}
+                            {implicitAccountId}
                         </div>
-                        {!balance
-                            ? <>
-                                <FormButton
-                                    onClick={() => this.handleCopyPhrase(implicitAccountId)}
-                                    color='seafoam-blue-white'
-                                >
-                                    <Translate id='button.copyImplicitAddress' />
-                                </FormButton>
-                                <p id="implicit-account-id" style={{ display: 'none' }}>
-                                    <span>{implicitAccountId}</span>
-                                </p>
-                            </>
-                            : <>
-                                <FormButton
-                                    onClick={this.handleContinue}
-                                    color='green'
-                                    sending={this.props.formLoader}
-                                >
-                                    <Translate id='button.claimAccount' />
-                                </FormButton>
-                            </>
-                        }
+                        <FormButton
+                            onClick={() => this.handleCopyPhrase(implicitAccountId)}
+                            color='gray-blue border'
+                        >
+                            <Translate id='button.copyImplicitAddress' />
+                        </FormButton>
+                        <p id="implicit-account-id" style={{ display: 'none' }}>
+                            <span>{implicitAccountId}</span>
+                        </p>
                         <Snackbar
                             theme='success'
                             message={translate(snackBarMessage)}
                             show={successSnackbar}
                             onHide={() => this.setState({ successSnackbar: false })}
                         />
+                        {whereToBuy &&
+                            <WhereToBuyNearModal
+                                onClose={() => this.setState({ whereToBuy: false })}
+                                open={whereToBuy}
+                            />
+                        }
+                        {createAccount &&
+                            <AccountFundedModal
+                                onClose={() => {}}
+                                open={createAccount}
+                                checked={checked}
+                                handleCheckboxChange={e => this.setState({ checked: e.target.checked })}
+                                implicitAccountId={implicitAccountId}
+                                accountId={accountId}
+                                handleFinishSetup={this.handleContinue}
+                                loading={formLoader}
+                            />
+                        }
                     </StyledContainer>
                 )}
             </Translate>

@@ -230,6 +230,7 @@ class SignTransferReady extends Component {
                             onClick={handleAllow}
                             disabled={isMonetaryTransaction && insufficientFunds}
                             sending={sending}
+                            sendingString='button.authorizing'
                         >
                             <Translate id='button.allow' />
                         </FormButton>

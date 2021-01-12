@@ -70,6 +70,7 @@ const SetupSeedPhraseVerify = ({
             color='blue'
             disabled={!enterWord || formLoader}
             sending={formLoader}
+            sendingString='button.verifying'
         >
             <Translate id='button.verify' />
         </FormButton>
