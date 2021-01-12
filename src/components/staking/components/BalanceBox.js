@@ -7,7 +7,6 @@ import { Translate } from 'react-localize-redux'
 import FormButton from '../../common/FormButton'
 import classNames from '../../../utils/classNames'
 import BN from 'bn.js'
-import StakingRewardsBanner from './StakingRewardsBanner'
 
 const Container = styled.div`
     border-bottom: 2px solid #F2F2F2;
@@ -71,7 +70,6 @@ export default function BalanceBox({
     buttonColor,
     loading,
     disclaimer,
-    stakingRewardsBanner
 }) {
     return (
         <Translate>
@@ -87,11 +85,7 @@ export default function BalanceBox({
                                 {translate(info)}
                             </Modal>
                         </div>
-                        {stakingRewardsBanner ? (
-                            <StakingRewardsBanner/>
-                        ) : (
-                            <Balance amount={amount} />
-                        )}
+                        <Balance amount={amount} />
                         {disclaimer &&
                             <div className='withdrawal-disclaimer'>
                                 <Translate id={disclaimer} />
