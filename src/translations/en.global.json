@@ -822,7 +822,7 @@
         "pageTitle": {
             "loading": "Loading...",
             "notFound": "Account ${accountId} not found",
-            "default": "Account: ${accountId}"
+            "default": "Account Details"
         },
         "details": {
             "profile": "PROFILE",

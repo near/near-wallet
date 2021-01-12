@@ -2,13 +2,49 @@ import React, { useEffect } from 'react'
 import { Translate } from 'react-localize-redux'
 import { useDispatch, useSelector } from 'react-redux'
 import PageContainer from '../common/PageContainer';
+import Container from '../common/styled/Container.css'
 import ProfileDetails from './ProfileDetails'
 import ProfileSection from './ProfileSection'
 import RecoveryContainer from './Recovery/RecoveryContainer'
+import BalanceContainer from './balances/BalanceContainer'
 import HardwareDevices from './hardware_devices/HardwareDevices'
 import TwoFactorAuth from './two_factor/TwoFactorAuth'
 import { LOADING, NOT_FOUND, useAccount } from '../../hooks/allAccounts'
 import { getLedgerKey, checkCanEnableTwoFactor, getAccessKeys, redirectTo, getProfileBalance } from '../../actions/account';
+import styled from 'styled-components';
+
+const StyledContainer = styled(Container)`
+
+    @media (min-width: 992px) {
+        .split {
+            display: flex;
+        }
+
+        .left {
+            flex: 1.5;
+            margin-right: 50px;
+        }
+
+        .right {
+            flex: 1;
+        }
+    }
+
+    @media (max-width: 991px) {
+        .right {
+            margin-top: 30px;
+        }
+    }
+
+    h2 {
+        font-weight: 600 !important;
+        font-size: 22px !important;
+        margin: 10px 0;
+        text-align: left !important;
+        line-height: 140% !important;
+    }
+
+`
 
 export function Profile({ match }) {
     const { has2fa } = useSelector(({ account }) => account)
@@ -44,17 +80,22 @@ export function Profile({ match }) {
     }
 
     return (
-        <PageContainer title={<Translate id='profile.pageTitle.default' data={{ accountId }} />}>
-            <ProfileSection>
-                <ProfileDetails account={account} isOwner={isOwner} />
-                {isOwner && (
-                    <>
-                        <RecoveryContainer/>
-                        {!account.ledgerKey && <TwoFactorAuth twoFactor={twoFactor}/>}
-                        {!twoFactor && <HardwareDevices/>}
-                    </>
-                )}
-            </ProfileSection>
-        </PageContainer>
+        <StyledContainer>
+            <h1><Translate id='profile.pageTitle.default'/></h1>
+            <div className='split'>
+                <div className='left'>
+                    <BalanceContainer account={account}/>
+                </div>
+                <div className='right'>
+                    {isOwner && (
+                        <>
+                            <RecoveryContainer/>
+                            {!account.ledgerKey && <TwoFactorAuth twoFactor={twoFactor}/>}
+                            {!twoFactor && <HardwareDevices/>}
+                        </>
+                    )}
+                </div>
+            </div>
+        </StyledContainer>
     )
 }
