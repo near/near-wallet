@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 import Modal from "../../common/modal/Modal";
 import ModalTheme from '../ledger/ModalTheme';
-import MobileActionSheet from '../../common/modal/MobileActionSheet';
 import FormButton from '../../common/FormButton';
 import { Translate } from 'react-localize-redux';
 import TwoFactorVerifyInput from './TwoFactorVerifyInput';
@@ -77,7 +76,6 @@ const TwoFactorVerifyModal = ({ open, onClose }) => {
             closeButton='desktop'
         >
             <ModalTheme/>
-            <MobileActionSheet/>
             <h2><Translate id='twoFactor.verify.title'/></h2>
             <p className='font-bw'><Translate id='twoFactor.verify.desc'/></p>
             <p className='color-black font-bw' style={{ marginTop: '-10px', fontWeight: '500', height: '19px'}}>{method && method.detail}</p>

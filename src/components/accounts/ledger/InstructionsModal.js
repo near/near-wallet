@@ -1,7 +1,6 @@
 import React from 'react';
 import Modal from "../../common/modal/Modal";
 import ModalTheme from './ModalTheme';
-import MobileActionSheet from '../../common/modal/MobileActionSheet';
 import FormButton from '../../common/FormButton';
 import { Translate } from 'react-localize-redux';
 
@@ -14,7 +13,6 @@ const InstructionsModal = ({ open, onClose }) => {
             closeButton='desktop'
         >
             <ModalTheme/>
-            <MobileActionSheet/>
             <h2><Translate id='setupLedgerSteps.header'/></h2>
             <ol>
                 <li><Translate id='setupLedgerSteps.one'/></li>

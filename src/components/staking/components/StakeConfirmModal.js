@@ -1,6 +1,5 @@
 import React from 'react'
 import Modal from '../../common/modal/Modal'
-import MobileActionSheet from '../../common/modal/MobileActionSheet'
 import FormButton from '../../common/FormButton'
 import { Translate } from 'react-localize-redux'
 import styled from 'styled-components'
@@ -75,7 +74,6 @@ const StakeConfirmModal = ({ open, onClose, onConfirm, validator, amount, loadin
             closeButton='desktop'
         >
             <Container>
-                <MobileActionSheet/>
                 <h2><Translate id={title}/></h2>
                 <Balance amount={amount || '0'} className='stake-amount'/>
                 {label && <div className='divider'><div><Translate id={label}/></div></div>}
