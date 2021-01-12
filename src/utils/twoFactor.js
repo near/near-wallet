@@ -17,6 +17,7 @@ export const MULTISIG_CONTRACT_HASHES = process.env.MULTISIG_CONTRACT_HASHES || 
 ];
 
 const ENABLE_NEW_KEY = '__ENABLE_NEW_KEY:'
+let checkedForNewKey = {}
 
 const {
     multisig: { Account2FA },
@@ -30,6 +31,10 @@ export class TwoFactor extends Account2FA {
             getCode: () => store.dispatch(promptTwoFactor(true)).payload.promise
         })
         this.wallet = wallet
+        if (!checkedForNewKey[accountId]) {
+            checkedForNewKey[accountId] = true
+            this.checkAndAddNewKey()
+        }
     }
 
     static async has2faEnabled(account) {
@@ -64,13 +69,14 @@ export class TwoFactor extends Account2FA {
         const { accountId } = this
         const secretKey = localStorage.getItem(ENABLE_NEW_KEY + accountId) || ''
         if (!secretKey.length) {
-            console.warn('no key in localStorage for accountId', accountId)
+            console.warn('no pending key in localStorage for accountId', accountId)
             return
         }
 
         const newKeyPair = KeyPair.fromString(secretKey)
         const publicKeyStr = newKeyPair.publicKey.toString()
-        const retries = 100, delay = 5000
+        // TODO 6 minutes long enough to check for new key?
+        const retries = 36, delay = 10000
         let attempts = 0, timeout = null
         const check = async () => {
             attempts++
@@ -100,6 +106,11 @@ export class TwoFactor extends Account2FA {
         check()
     }
 
+    resetCheckForNewKey() {
+        checkedForNewKey = {}
+        this.checkAndAddNewKey()
+    }
+
     async deployMultisig() {
         const newKeyPair = KeyPair.fromRandom('ed25519')
         const newLocalPublicKey = newKeyPair.publicKey
@@ -107,7 +118,7 @@ export class TwoFactor extends Account2FA {
 
         localStorage.setItem(ENABLE_NEW_KEY + this.accountId, newKeyPair.secretKey)
         const result = await super.deployMultisig(contractBytes, newLocalPublicKey)
-        this.checkAndAddNewKey()
+        this.resetCheckForNewKey()
         return result
     }
 
@@ -118,7 +129,7 @@ export class TwoFactor extends Account2FA {
 
         localStorage.setItem(ENABLE_NEW_KEY + this.accountId, newKeyPair.secretKey)
         const result = await this.disable(contractBytes, newLocalPublicKey)
-        this.checkAndAddNewKey()
+        this.resetCheckForNewKey()
         return result
     }
 }
