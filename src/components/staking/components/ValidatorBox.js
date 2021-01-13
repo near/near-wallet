@@ -104,11 +104,18 @@ const Container = styled.div`
         left: 50%;
         transform: translateX(-50%);
     }
+
+    .active {
+        color: #00C08B;
+    }
+
+    .inactive {
+        color: #FF585D;
+    }
 `
 
 export default function ValidatorBox({
     validator,
-    fee,
     amount,
     staking = true,
     clickable = true,
@@ -116,6 +123,9 @@ export default function ValidatorBox({
     label = false
 }) {
     const dispatch = useDispatch()
+    const { accountId: validatorId, current, next } = validator
+    const fee = validator.fee && validator.fee.percentage
+    const isCurrentOrNext = current || next
     const cta = amount ? <ChevronIcon/> : <FormButton className='gray-blue' linkTo={`/staking/${validator}`}><Translate id='staking.validatorBox.cta' /></FormButton>
     return (
         <Container 
@@ -126,11 +136,19 @@ export default function ValidatorBox({
         >
             {label && <div className='with'><Translate id='staking.validatorBox.with' /></div>}
             <UserIcon/>
-            <div className='left'>
-                <div>{validator}</div>
-                {fee && 
-                    <div>{fee}% <Translate id='staking.validatorBox.fee' /></div>
-                }
+            <div>
+                <div>{validatorId}</div>
+                {typeof fee === 'number' && <> 
+                    <span>{fee}% <Translate id='staking.validatorBox.fee' /> - </span>
+                    <span>
+                        {
+                        isCurrentOrNext ?
+                        <span class="active">active</span>
+                        :
+                        <span class="inactive">inactive</span>
+                    }
+                    </span>
+                </>}
             </div>
             {amount &&
                 <div className='right'>
