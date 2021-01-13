@@ -225,8 +225,8 @@ export class Staking {
                 const deposit = new BN(validatorDepositMap[validator.accountId] || '0')
                 validator.staked = await validator.contract.get_account_staked_balance({ account_id })
 
-                // rewards (lifetime) = staked - deposits
-                validator.unclaimed = new BN(validator.staked).sub(deposit).toString()
+                // rewards (lifetime) = total - deposits
+                validator.unclaimed = total.sub(deposit).toString()
                 if (!deposit.gt(ZERO) || new BN(validator.unclaimed).lt(MIN_DISPLAY_YOCTO)) {
                     validator.unclaimed = ZERO.clone().toString()
                 }
