@@ -35,7 +35,7 @@ export default function Validators({ validators, stakeFromAccount }) {
                     <ValidatorBox
                         key={i}
                         validator={validator}
-                />
+                    />
                 )}
             </ListWrapper>
         </>
