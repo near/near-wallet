@@ -4,11 +4,10 @@ import ListWrapper from './ListWrapper'
 import ValidatorBox from './ValidatorBox'
 
 export default function Validators({ validators, stakeFromAccount }) {
-    const currentValidators = validators.filter((v) => v.current || v.next)
 
     const [validator, setValidator] = useState('')
 
-    const validValidator = currentValidators.map(validator => validator.accountId).includes(validator)
+    const validValidator = validators.map(validator => validator.accountId).includes(validator)
 
     return (
         <>
@@ -32,11 +31,10 @@ export default function Validators({ validators, stakeFromAccount }) {
                 <div className='input-validation-label success'><Translate id='staking.validators.search.success' /></div>
             }
             <ListWrapper>
-                {currentValidators.filter(v => v.accountId.includes(validator)).map((validator, i) => 
+                {validators.filter(v => v.accountId.includes(validator)).map((validator, i) => 
                     <ValidatorBox
                         key={i}
-                        validator={validator.accountId}
-                        fee={validator.fee.percentage}
+                        validator={validator}
                 />
                 )}
             </ListWrapper>

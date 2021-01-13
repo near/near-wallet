@@ -284,6 +284,7 @@ export class Staking {
         }
 
         const currentAccount = await this.wallet.getAccount(this.wallet.accountId)
+
         return (await Promise.all(
             accountIds.map(async (account_id) => {
                 try {
