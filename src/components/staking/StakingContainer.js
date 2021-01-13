@@ -152,6 +152,8 @@ export function StakingContainer({ history, match }) {
     }
     const { totalUnstaked, selectedValidator } = currentAccount
 
+    console.log(currentValidators)
+
     useEffect(() => {
         dispatch(updateStaking())
     }, [])

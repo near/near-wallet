@@ -78,8 +78,7 @@ const StakeConfirmModal = ({ open, onClose, onConfirm, validator, amount, loadin
                 <Balance amount={amount || '0'} className='stake-amount'/>
                 {label && <div className='divider'><div><Translate id={label}/></div></div>}
                 <ValidatorBox 
-                    validator={validator.accountId}
-                    fee={validator.fee.percentage}
+                    validator={validator}
                     clickable={false}
                     amount={validator.staked}
                 />
