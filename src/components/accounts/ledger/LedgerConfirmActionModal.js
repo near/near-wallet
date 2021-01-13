@@ -4,7 +4,6 @@ import { Translate } from 'react-localize-redux';
 
 import Modal from "../../common/modal/Modal";
 import ModalTheme from './ModalTheme';
-import MobileActionSheet from '../../common/modal/MobileActionSheet';
 
 import LedgerImage from '../../svg/LedgerImage';
 
@@ -19,7 +18,6 @@ const LedgerConfirmActionModal = () => {
                 onClose={() => {}}
             >
                 <ModalTheme/>
-                <MobileActionSheet/>
                 {!txSigned
                     ? (
                         <>

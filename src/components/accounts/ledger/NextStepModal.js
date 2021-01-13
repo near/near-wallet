@@ -1,7 +1,6 @@
 import React from 'react';
 import Modal from "../../common/modal/Modal";
 import ModalTheme from './ModalTheme';
-import MobileActionSheet from '../../common/modal/MobileActionSheet';
 import FormButton from '../../common/FormButton';
 import { Translate } from 'react-localize-redux';
 
@@ -14,7 +13,6 @@ const NextStepModal = ({ nextStep, onClose, onConfirm, removingkeys }) => {
             closeButton='desktop'
         >
             <ModalTheme/>
-            <MobileActionSheet/>
             <h2><Translate id={`setupLedgerSuccess.nextStep.header.${nextStep}`}/></h2>
             <p><Translate id={`setupLedgerSuccess.nextStep.one.${nextStep}`}/></p>
             {nextStep === 'remove' && 

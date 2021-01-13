@@ -6,13 +6,10 @@
     DISABLE_PHONE_RECOVERY = "no"
     REACT_APP_NETWORK_ID = "default"
     REACT_APP_ACCOUNT_HELPER_URL = "https://helper.mainnet.near.org"
-    CONTRACT_HELPER_URL = "https://helper.mainnet.near.org" # TODO: Consolidate to single env variable with REACT_APP_ACCOUNT_HELPER_URL
     REACT_APP_NODE_URL = "https://rpc.mainnet.near.org"
     REACT_APP_ACCESS_KEY_FUNDING_AMOUNT = "250000000000000000000000"
     NEW_ACCOUNT_AMOUNT = "500000001000000000000000000"
     REACT_APP_ACCOUNT_ID_SUFFIX = "near"
-    WAMP_NEAR_EXPLORER_URL = "wss://near-explorer-wamp.onrender.com/ws"
-    WAMP_NEAR_EXPLORER_TOPIC_PREFIX = "com.nearprotocol.mainnet.explorer"
     EXPLORER_URL = "https://explorer.mainnet.near.org"
     REACT_APP_IS_MAINNET = "true"
     SHOW_PRERELEASE_WARNING = "yes"

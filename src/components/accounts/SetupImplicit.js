@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react'
+import React, { Component } from 'react'
 import styled from 'styled-components'
 import * as nearApiJs from 'near-api-js'
 import { formatNearAmount, parseNearAmount } from 'near-api-js/lib/utils/format'

@@ -2,14 +2,22 @@ import React, { useState, useEffect } from 'react';
 import ReactDom from 'react-dom';
 import StyledModal from './Style.css';
 import CloseButton from './CloseButton';
+import classNames from '../../../utils/classNames';
+import isMobile from '../../../utils/isMobile';
+import MobileActionSheet from '../../common/modal/MobileActionSheet';
 
 const modalRoot = document.getElementById('modal-root');
 
-function Modal({ isOpen, onClose, id, modalSize, modalClass, children, closeButton, disableClose }) {
+function Modal({ isOpen, onClose, id, modalSize, modalClass, children, closeButton, disableClose, mobileActionSheet = true }) {
     const background = React.createRef();
     const [fadeType, setFadeType] = useState(null);
+    const [fullScreen, setFullScreen] = useState(null);
 
     useEffect(() => {
+        if (isMobile()) {
+            checkFullScreen()
+        }
+
         const closeEl = document.getElementById('close-button');
         closeEl && closeEl.addEventListener('click', handleClick, false);
         window.addEventListener('keydown', onEscKeyDown, false);
@@ -24,6 +32,14 @@ function Modal({ isOpen, onClose, id, modalSize, modalClass, children, closeButt
     },[]);
 
     useEffect(() => { setFadeType('out') }, [isOpen]);
+
+    const checkFullScreen = () => {
+        const modalHeight = document.getElementById('modal-container').getBoundingClientRect().height
+        const clientHeight = Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0)
+        if (Math.round(modalHeight / clientHeight * 100) > 90) {
+            setFullScreen('full-screen')
+        }
+    }
 
     const transitionEnd = e => {
         if (e.propertyName !== 'opacity' || fadeType === 'in') return;
@@ -49,12 +65,15 @@ function Modal({ isOpen, onClose, id, modalSize, modalClass, children, closeButt
     return ReactDom.createPortal(
         <StyledModal
             id={id}
-            className={`modal-wrapper ${'size-' + modalSize} fade-${fadeType} ${modalClass}`} // TODO: fix undefined
+            className={classNames(['modal-wrapper', `size-${modalSize}`, `fade-${fadeType}`, modalClass, fullScreen])}
             role='dialog'
             modalSize={modalSize}
             onTransitionEnd={transitionEnd}
         >
-            <div className='modal'>
+            {mobileActionSheet &&
+                <MobileActionSheet/>
+            }
+            <div id='modal-container' className='modal'>
                 {closeButton && 
                     <CloseButton device={closeButton} onClick={handleClick}/>
                 }
