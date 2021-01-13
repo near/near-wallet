@@ -27,7 +27,8 @@ import {
     signAndSendTransactions,
     addLedgerAccessKey,
     addLedgerAccountId,
-    createAccountWithSeedPhrase
+    createAccountWithSeedPhrase,
+    getLedgerAccountIds
 } from '../../actions/account'
 
 import {
@@ -78,7 +79,8 @@ const globalAlertReducer = handleActions({
         createAccountWithSeedPhrase,
         stake,
         unstake,
-        withdraw
+        withdraw,
+        getLedgerAccountIds
     )]: (state, { error, ready, payload, meta }) => ({
         ...state,
         globalAlert: ready ? {
