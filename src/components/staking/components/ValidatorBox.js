@@ -143,9 +143,9 @@ export default function ValidatorBox({
                     <span>
                         {
                         isCurrentOrNext ?
-                        <span class="active">(active)</span>
+                        <span class="active">active</span>
                         :
-                        <span class="inactive">(inactive)</span>
+                        <span class="inactive">inactive</span>
                     }
                     </span>
                 </>}
