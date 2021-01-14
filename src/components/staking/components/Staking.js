@@ -88,8 +88,7 @@ export default function Staking({
                     {currentValidators.map((validator, i) =>
                         <ValidatorBox
                             key={i}
-                            validator={validator.accountId}
-                            fee={validator.fee.percentage}
+                            validator={validator}
                             amount={validator.staked}
                         />
                     )}
