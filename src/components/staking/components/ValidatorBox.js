@@ -128,9 +128,6 @@ export default function ValidatorBox({
 }) {
     const dispatch = useDispatch()
     const { accountId: validatorId, current, next } = validator
-
-    console.log(validatorId, current, next)
-
     const fee = validator.fee && validator.fee.percentage
     const isCurrentOrNext = current || next
     const cta = amount ? <ChevronIcon/> : <FormButton className='gray-blue' linkTo={`/staking/${validatorId}`}><Translate id='staking.validatorBox.cta' /></FormButton>
