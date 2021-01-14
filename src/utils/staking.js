@@ -267,7 +267,6 @@ export class Staking {
     async getValidators(accountIds) {
         const { current_validators, next_validators, current_proposals } = await this.provider.validators()
         const currentValidators = current_validators.map(({ account_id }) => account_id)
-        const nextValidators = current_proposals.map(({ account_id }) => account_id)
         
         if (!accountIds) {
             const rpcValidators = [...current_validators, ...next_validators, ...current_proposals].map(({ account_id }) => account_id)
@@ -291,8 +290,7 @@ export class Staking {
                     const contract = new Contract(currentAccount, account_id, stakingMethods)
                     const validator = {
                         accountId: account_id,
-                        current: currentValidators.includes(account_id),
-                        next: nextValidators.includes(account_id),
+                        active: currentValidators.includes(account_id),
                         contract
                     }
                     const fee = validator.fee = await validator.contract.get_reward_fee_fraction()

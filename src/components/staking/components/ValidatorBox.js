@@ -127,12 +127,9 @@ export default function ValidatorBox({
     label = false
 }) {
     const dispatch = useDispatch()
-    const { accountId: validatorId, current, next } = validator
-
-    console.log(validatorId, current, next)
+    const { accountId: validatorId, active } = validator
 
     const fee = validator.fee && validator.fee.percentage
-    const isCurrentOrNext = current || next
     const cta = amount ? <ChevronIcon/> : <FormButton className='gray-blue' linkTo={`/staking/${validatorId}`}><Translate id='staking.validatorBox.cta' /></FormButton>
     return (
         <Container 
@@ -149,7 +146,7 @@ export default function ValidatorBox({
                     <span>{fee}% <Translate id='staking.validatorBox.fee' /> - </span>
                     <span>
                         {
-                        isCurrentOrNext ?
+                        active ?
                         <span className="active">active</span>
                         :
                         <span className="inactive">inactive</span>
