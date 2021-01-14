@@ -124,6 +124,7 @@ const CustomButton = styled(Button)`
         &.green {
             border-color: #5ace84;
             background: #5ace84;
+            
 
             :disabled {
                 border-color: #e6e6e6;
@@ -135,6 +136,16 @@ const CustomButton = styled(Button)`
             :focus {
                 border-color: #61de8d;
                 background: #61de8d;
+            }
+        }
+        &.green-dark {
+            background-color: #00C08B;
+            color: #00261C;
+            border: 0;
+            font-weight: 600 !important;
+
+            :disabled {
+                opacity: 0.5;
             }
         }
         &.green-white-arrow {

@@ -459,6 +459,10 @@
         "fullAccessKeys": "Full Access Keys"
     },
 
+    "copy": {
+        "default": "Copied!"
+    },
+
     "input": {
         "enterWord": {
             "title": "Word <b>#${wordId}</b>",
