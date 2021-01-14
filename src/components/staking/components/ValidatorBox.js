@@ -112,6 +112,10 @@ const Container = styled.div`
     .inactive {
         color: #FF585D;
     }
+
+    .text-left {
+        text-align: left;
+    }
 `
 
 export default function ValidatorBox({
@@ -126,29 +130,29 @@ export default function ValidatorBox({
     const { accountId: validatorId, current, next } = validator
     const fee = validator.fee && validator.fee.percentage
     const isCurrentOrNext = current || next
-    const cta = amount ? <ChevronIcon/> : <FormButton className='gray-blue' linkTo={`/staking/${validator}`}><Translate id='staking.validatorBox.cta' /></FormButton>
+    const cta = amount ? <ChevronIcon/> : <FormButton className='gray-blue' linkTo={`/staking/${validatorId}`}><Translate id='staking.validatorBox.cta' /></FormButton>
     return (
         <Container 
             className='validator-box' 
             clickable={clickable && amount ? 'true' : ''} 
             style={style} 
-            onClick={() => { clickable && amount && dispatch(redirectTo(`/staking/${validator}`))}}
+            onClick={() => { clickable && amount && dispatch(redirectTo(`/staking/${validatorId}`))}}
         >
             {label && <div className='with'><Translate id='staking.validatorBox.with' /></div>}
             <UserIcon/>
             <div>
                 <div>{validatorId}</div>
-                {typeof fee === 'number' && <> 
+                {typeof fee === 'number' && <div className="text-left"> 
                     <span>{fee}% <Translate id='staking.validatorBox.fee' /> - </span>
                     <span>
                         {
                         isCurrentOrNext ?
-                        <span class="active">active</span>
+                        <span className="active">active</span>
                         :
-                        <span class="inactive">inactive</span>
+                        <span className="inactive">inactive</span>
                     }
                     </span>
-                </>}
+                </div>}
             </div>
             {amount &&
                 <div className='right'>
