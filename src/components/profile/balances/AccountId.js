@@ -9,6 +9,10 @@ const Container = styled.div`
     padding: 4px 4px 4px 15px;
     border-radius: 40px;
     font-weight: 500;
+    max-width: 210px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 
     span {
         max-width: 200px;
@@ -18,6 +22,8 @@ const Container = styled.div`
 
     > div {
         background-color: white;
+        min-height: 32px;
+        min-width: 32px;
         height: 32px;
         width: 32px;
         display: flex;

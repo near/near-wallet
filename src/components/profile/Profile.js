@@ -3,15 +3,14 @@ import { Translate } from 'react-localize-redux'
 import { useDispatch, useSelector } from 'react-redux'
 import PageContainer from '../common/PageContainer';
 import Container from '../common/styled/Container.css'
-import ProfileDetails from './ProfileDetails'
-import ProfileSection from './ProfileSection'
 import RecoveryContainer from './Recovery/RecoveryContainer'
 import BalanceContainer from './balances/BalanceContainer'
 import HardwareDevices from './hardware_devices/HardwareDevices'
 import TwoFactorAuth from './two_factor/TwoFactorAuth'
 import { LOADING, NOT_FOUND, useAccount } from '../../hooks/allAccounts'
-import { getLedgerKey, checkCanEnableTwoFactor, getAccessKeys, redirectTo } from '../../actions/account';
-import styled from 'styled-components';
+import { getLedgerKey, checkCanEnableTwoFactor, getAccessKeys, redirectTo } from '../../actions/account'
+import styled from 'styled-components'
+import LockupAvailTransfer from './balances/LockupAvailTransfer'
 
 const StyledContainer = styled(Container)`
 
@@ -37,7 +36,7 @@ const StyledContainer = styled(Container)`
     }
 
     h2 {
-        font-weight: 600 !important;
+        font-weight: 900 !important;
         font-size: 22px !important;
         margin: 10px 0;
         text-align: left !important;
@@ -84,16 +83,16 @@ export function Profile({ match }) {
             <div className='split'>
                 <div className='left'>
                     <BalanceContainer account={account}/>
+                    <LockupAvailTransfer available={account.balance.available}/>
                 </div>
-                <div className='right'>
-                    {isOwner && (
-                        <>
-                            <RecoveryContainer/>
-                            {!account.ledgerKey && <TwoFactorAuth twoFactor={twoFactor}/>}
-                            {!twoFactor && <HardwareDevices/>}
-                        </>
-                    )}
-                </div>
+                {isOwner &&
+                    <div className='right'>
+                        <RecoveryContainer/>
+                        {/* TODO: Also check recovery methods in DB for Ledger */}
+                        {!account.ledgerKey && <TwoFactorAuth twoFactor={twoFactor}/>}
+                        {!twoFactor && <HardwareDevices/>}
+                    </div>
+                }
             </div>
         </StyledContainer>
     )
