@@ -158,10 +158,11 @@ export class Staking {
         let totalUnclaimed = ZERO.clone();
         let totalAvailable = ZERO.clone();
         let totalPending = ZERO.clone();
+        let total
         const minimumUnstaked = new BN('100'); // 100 yocto
 
         try {
-            const total = new BN(await validator.contract.get_account_total_balance({ account_id }))
+            total = new BN(await validator.contract.get_account_total_balance({ account_id }))
             if (total.gt(ZERO)) {
                 validator.staked = await validator.contract.get_account_staked_balance({ account_id })
                 validator.unclaimed = total.sub(deposited).toString()
@@ -196,6 +197,7 @@ export class Staking {
             totalStaked: totalStaked.toString(),
             totalUnstaked: totalUnstaked.toString(),
             totalUnclaimed: totalUnclaimed.toString(),
+            totalBalance: total.toString()
         }
     }
 
