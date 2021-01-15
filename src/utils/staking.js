@@ -87,7 +87,7 @@ export class Staking {
     async getAccounts() {
         return { 
             accountId: this.wallet.accountId, 
-            lockupId : await this.checkLockupExists(accountId)
+            lockupId : await this.checkLockupExists(this.wallet.accountId)
         }
     }
 
