@@ -98,6 +98,19 @@ export class Staking {
         return { accountId, lockupId }
     }
 
+    async checkLockupExists(accountId) {
+        let lockupId
+        try {
+            const { lockupId: _lockupId } = await this.getLockup(accountId)
+            lockupId = _lockupId
+        } catch(e) {
+            if (!/No contract for account/.test(e.message)) {
+                throw e
+            }
+        }
+        return lockupId
+    }
+
     async updateStaking(currentAccountId, recentlyStakedValidators) {
         const { accountId, lockupId } = await this.getAccounts()
         if (!currentAccountId) currentAccountId = accountId
