@@ -8,7 +8,7 @@ import RecoveryContainer from './Recovery/RecoveryContainer'
 import HardwareDevices from './hardware_devices/HardwareDevices'
 import TwoFactorAuth from './two_factor/TwoFactorAuth'
 import { LOADING, NOT_FOUND, useAccount } from '../../hooks/allAccounts'
-import { getLedgerKey, checkCanEnableTwoFactor, getAccessKeys, redirectTo, getBalance } from '../../actions/account';
+import { getLedgerKey, checkCanEnableTwoFactor, getAccessKeys, redirectTo, getProfileBalance } from '../../actions/account';
 
 export function Profile({ match }) {
     const { has2fa } = useSelector(({ account }) => account)

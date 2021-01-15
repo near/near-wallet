@@ -1,6 +1,6 @@
 import { handleActions, combineActions } from 'redux-actions'
 import reduceReducers from 'reduce-reducers'
-import { utils } from 'near-api-js'
+import { multisig, utils } from 'near-api-js'
 import BN from 'bn.js'
 
 import {
@@ -118,42 +118,51 @@ const account = handleActions({
         }
 
         const { formatNearAmount } = utils.format
-        const { balance, stakingLockup } = payload
+        const { 
+            balance, 
+            account,
+            lockupAccount,
+        } = payload
+
+        const ratioPrecision = 1000
+        const stakedUnstakedRatio = (parseFloat(balance.stakedBalance.toString()) - parseFloat(lockupAccount.totalUnclaimed)) / parseFloat(balance.totalBalance.toString()) * ratioPrecision
 
         const profileBalance = {
             walletBalance: {
-                sum: new BN(balance.stateStaked).add(new BN(stakingLockup.totalStaked)).add(new BN(stakingLockup.totalPending)).add(new BN(stakingLockup.totalUnstaked)).toString(),
+                sum: new BN(balance.stateStaked).add(new BN(account.totalStaked)).add(new BN(account.totalPending)).add(new BN(account.totalUnstaked)).toString(),
                 reservedForStorage: balance.stateStaked,
                 inStakingPools: {
-                    sum: new BN(stakingLockup.totalStaked).add(new BN(stakingLockup.totalPending)).toString(),
-                    staked: stakingLockup.totalStaked,
-                    unstaked: stakingLockup.totalPending
+                    sum: new BN(account.totalStaked).add(new BN(account.totalPending)).toString(),
+                    staked: account.totalStaked,
+                    unstaked: account.totalPending
                 },
-                available: stakingLockup.totalUnstaked
+                available: account.totalUnstaked
             },
+            
+            // LockupId: balance.lockupAccountId,
             LockupId: '',
+
             lockupBalance: {
-                sum: '',
-                reservedForStorage: '',
+                sum: balance.totalBalance.add(new BN(balance.lockupStateStaked)).toString(),
+                reservedForStorage: balance.lockupStateStaked,
                 locked: {
-                    sum: '',
+                    sum: balance.lockedAmount.toString(),
                     inStakingPools: {
-                        sum: '',
-                        staked: '',
-                        unstaked: ''
+                        sum: balance.lockedAmount.toString(),
+                        staked: balance.lockedAmount.mul(new BN(stakedUnstakedRatio)).div(new BN(ratioPrecision)).toString(),
+                        unstaked: balance.lockedAmount.sub(balance.lockedAmount.mul(new BN(stakedUnstakedRatio)).div(new BN(ratioPrecision))).toString()
                     }
                 },
                 unlocked: {
-                    sum: '',
-                    availableToTransfer: '',
+                    sum: balance.ownersBalance.toString(),
+                    availableToTransfer: lockupAccount.totalUnclaimed,
                     inStakingPools: {
-                        sum: '',
-                        staked: '',
-                        unstaked: ''
-                    }
+                        sum: balance.ownersBalance.sub(new BN(lockupAccount.totalUnclaimed)).toString(),
+                        staked: balance.ownersBalance.sub(new BN(lockupAccount.totalUnclaimed)).mul(new BN(stakedUnstakedRatio)).div(new BN(ratioPrecision)).toString(),
+                        unstaked: balance.ownersBalance.sub(new BN(lockupAccount.totalUnclaimed)).sub(balance.ownersBalance.sub(new BN(lockupAccount.totalUnclaimed)).mul(new BN(stakedUnstakedRatio)).div(new BN(ratioPrecision))).toString()
+                    },
                 }
             },
-            availableToWithdraw: stakingLockup.totalAvailable
         }
 
         const formatAll = (obj) => Object.keys(obj).reduce((x, prop) => ({
