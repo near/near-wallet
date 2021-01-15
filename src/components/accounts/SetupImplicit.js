@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react'
+import React, { Component } from 'react'
 import styled from 'styled-components'
 import * as nearApiJs from 'near-api-js'
 import { formatNearAmount, parseNearAmount } from 'near-api-js/lib/utils/format'
@@ -71,7 +71,7 @@ const initialState = {
     balance: null,
     whereToBuy: false,
     checked: false,
-    creatingAccount: null
+    createAccount: null
 }
 
 class SetupImplicit extends Component {
@@ -79,7 +79,7 @@ class SetupImplicit extends Component {
 
     handleContinue = async () => {
         const { dispatch, accountId, implicitAccountId, recoveryMethod } = this.props
-        this.setState({ creatingAccount: true })
+        this.setState({ createAccount: true })
         await dispatch(createAccountFromImplicit(accountId, implicitAccountId, recoveryMethod))
         await dispatch(redirectTo('/fund-create-account/success'))
     }
@@ -91,7 +91,7 @@ class SetupImplicit extends Component {
         try {
             const state = await account.state()
             if (new BN(state.amount).gte(MIN_BALANCE_TO_CREATE)) {
-                return this.setState({ balance: nearApiJs.utils.format.formatNearAmount(state.amount, 2), whereToBuy: false })
+                return this.setState({ balance: nearApiJs.utils.format.formatNearAmount(state.amount, 2), whereToBuy: false, createAccount: true })
             }
         } catch (e) {
             if (e.message.indexOf('exist while viewing') === -1) {
@@ -148,16 +148,14 @@ class SetupImplicit extends Component {
 
     render() {
         const {
-            balance,
             snackBarMessage,
             successSnackbar,
             whereToBuy,
             checked,
-            creatingAccount
+            createAccount
         } = this.state
 
         const { implicitAccountId, accountId, formLoader } = this.props
-        const showAccountFundedModal = balance || creatingAccount
         
         return (
             <Translate>
@@ -198,10 +196,10 @@ class SetupImplicit extends Component {
                                 open={whereToBuy}
                             />
                         }
-                        {showAccountFundedModal &&
+                        {createAccount &&
                             <AccountFundedModal
                                 onClose={() => {}}
-                                open={showAccountFundedModal}
+                                open={createAccount}
                                 checked={checked}
                                 handleCheckboxChange={e => this.setState({ checked: e.target.checked })}
                                 implicitAccountId={implicitAccountId}

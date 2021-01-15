@@ -104,11 +104,22 @@ const Container = styled.div`
         left: 50%;
         transform: translateX(-50%);
     }
+
+    .active {
+        color: #00C08B;
+    }
+
+    .inactive {
+        color: #FF585D;
+    }
+
+    .text-left {
+        text-align: left;
+    }
 `
 
 export default function ValidatorBox({
     validator,
-    fee,
     amount,
     staking = true,
     clickable = true,
@@ -116,21 +127,32 @@ export default function ValidatorBox({
     label = false
 }) {
     const dispatch = useDispatch()
-    const cta = amount ? <ChevronIcon/> : <FormButton className='gray-blue' linkTo={`/staking/${validator}`}><Translate id='staking.validatorBox.cta' /></FormButton>
+    const { accountId: validatorId, active } = validator
+
+    const fee = validator.fee && validator.fee.percentage
+    const cta = amount ? <ChevronIcon/> : <FormButton className='gray-blue' linkTo={`/staking/${validatorId}`}><Translate id='staking.validatorBox.cta' /></FormButton>
     return (
         <Container 
             className='validator-box' 
             clickable={clickable && amount ? 'true' : ''} 
             style={style} 
-            onClick={() => { clickable && amount && dispatch(redirectTo(`/staking/${validator}`))}}
+            onClick={() => { clickable && amount && dispatch(redirectTo(`/staking/${validatorId}`))}}
         >
             {label && <div className='with'><Translate id='staking.validatorBox.with' /></div>}
             <UserIcon/>
-            <div className='left'>
-                <div>{validator}</div>
-                {fee && 
-                    <div>{fee}% <Translate id='staking.validatorBox.fee' /></div>
-                }
+            <div>
+                <div>{validatorId}</div>
+                {typeof fee === 'number' && <div className="text-left"> 
+                    <span>{fee}% <Translate id='staking.validatorBox.fee' /> - </span>
+                    <span>
+                        {
+                        active ?
+                        <span className="active">active</span>
+                        :
+                        <span className="inactive">inactive</span>
+                    }
+                    </span>
+                </div>}
             </div>
             {amount &&
                 <div className='right'>

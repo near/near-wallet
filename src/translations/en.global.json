@@ -906,7 +906,7 @@
         "getLedgerAccountIds": {
             "success": "",
             "error": "Public key access was rejected. No accounts were recovered.<br/>To continue, you must allow NEAR Wallet to view your public key. Please try again.",
-            "noAccounts": "No accounts are associated with this Ledger device. You must first create an account, then add this Ledger to it to login.",
+            "noAccounts": "No accounts were found for this Ledger device. Please confirm you have associated an account with this Ledger.",
             "noAccountsAccepted": "No accounts were accepted.",
             "aborted": "Action was aborted.",
             "U2FNotSupported": "U2F browser support is needed for Ledger. Please use Chrome, Opera or Firefox with U2F extension."

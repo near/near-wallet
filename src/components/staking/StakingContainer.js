@@ -10,7 +10,6 @@ import Staking from './components/Staking'
 import Validators from './components/Validators'
 import Validator from './components/Validator'
 import StakingAction from './components/StakingAction'
-import BN from 'bn.js'
 
 const StyledContainer = styled(Container)`
     button {
@@ -151,9 +150,7 @@ export function StakingContainer({ history, match }) {
     if (!validator) {
         validator = validators.filter(validator => validator.accountId === validatorId)[0]
     }
-    const { totalUnstaked, selectedValidator, totalStaked } = currentAccount
-
-    const unableToCalcRewards = currentAccount.accountId === accountId && has2fa && !new BN(totalStaked).isZero()
+    const { totalUnstaked, selectedValidator } = currentAccount
 
     useEffect(() => {
         dispatch(updateStaking())
@@ -195,7 +192,6 @@ export function StakingContainer({ history, match }) {
                                 accountId={accountId}
                                 loading={formLoader}
                                 hasLockup={hasLockup}
-                                unableToCalcRewards={unableToCalcRewards}
                             />
                         )}
                     />
@@ -221,7 +217,6 @@ export function StakingContainer({ history, match }) {
                                 loading={formLoader}
                                 selectedValidator={selectedValidator}
                                 currentValidators={currentValidators}
-                                unableToCalcRewards={unableToCalcRewards}
                             />
                         )}
                     />

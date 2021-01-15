@@ -1,7 +1,6 @@
 import React from 'react';
 import Modal from "../../common/modal/Modal";
 import ModalTheme from '../ledger/ModalTheme';
-import MobileActionSheet from '../../common/modal/MobileActionSheet';
 import FormButton from '../../common/FormButton';
 import { Translate } from 'react-localize-redux';
 
@@ -14,7 +13,6 @@ const EnableTwoFactorPromptModal = ({ open, onClose }) => {
             closeButton='desktop'
         >
             <ModalTheme/>
-            <MobileActionSheet/>
             <h2><Translate id='twoFactor.enable'/></h2>
             <p><Translate id='twoFactor.promptDesc'/></p>
             <FormButton>

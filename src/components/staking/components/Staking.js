@@ -21,7 +21,6 @@ export default function Staking({
     activeAccount,
     loading,
     hasLockup,
-    unableToCalcRewards
 }) {
 
     return (
@@ -66,7 +65,6 @@ export default function Staking({
                         title='staking.balanceBox.unclaimed.title'
                         info='staking.balanceBox.unclaimed.info'
                         amount={totalUnclaimed}
-                        stakingRewardsBanner={unableToCalcRewards}
                     />
                 </>
             }
@@ -90,8 +88,7 @@ export default function Staking({
                     {currentValidators.map((validator, i) =>
                         <ValidatorBox
                             key={i}
-                            validator={validator.accountId}
-                            fee={validator.fee.percentage}
+                            validator={validator}
                             amount={validator.staked}
                         />
                     )}

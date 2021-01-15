@@ -5,7 +5,6 @@ import AlertRoundedIcon from '../../svg/AlertRoundedIcon.js'
 import NearCircleIcon from '../../svg/NearCircleIcon.js'
 import FormButton from '../../common/FormButton'
 import Modal from '../../common/modal/Modal'
-import MobileActionSheet from '../../common/modal/MobileActionSheet'
 
 const Container = styled.div`
     &&&& {
@@ -79,7 +78,6 @@ export default function StakingRewardsBanner() {
                     closeButton='desktop'
                 >
                     <ModalContainer>
-                        <MobileActionSheet/>
                         <NearCircleIcon/>
                         <h2><Translate id='staking.balanceBox.unclaimed.unavailable.modalTitle' /></h2>
                         <p>

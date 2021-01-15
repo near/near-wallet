@@ -127,8 +127,7 @@ export default function StakingAction({
                 </div>
                 {validator && 
                     <ValidatorBox
-                        validator={validator.accountId}
-                        fee={validator.fee.percentage}
+                        validator={validator}
                         clickable={false}
                         amount={validator.staked}
                     />
@@ -163,8 +162,7 @@ export default function StakingAction({
                 <div className='desc'><Translate id={`staking.${action}Success.desc`} data={{ amount: displayAmount }}/></div>
                 {validator && 
                     <ValidatorBox
-                        validator={validator.accountId}
-                        fee={validator.fee.percentage}
+                        validator={validator}
                         amount={validator.staked}
                         clickable={false}
                         style={{margin: '40px 0'}}

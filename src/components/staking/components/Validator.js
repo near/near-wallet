@@ -7,7 +7,6 @@ import StakingFee from './StakingFee'
 import AlertBanner from './AlertBanner'
 import StakeConfirmModal from './StakeConfirmModal'
 import { onKeyDown } from '../../../hooks/eventListeners'
-import BN from 'bn.js'
 import { redirectTo } from '../../../actions/account'
 
 export default function Validator({
@@ -17,13 +16,10 @@ export default function Validator({
     loading,
     selectedValidator,
     currentValidators,
-    unableToCalcRewards
 }) {
     const [confirm, setConfirm] = useState(null)
     const dispatch = useDispatch()
     const stakeNotAllowed = selectedValidator && selectedValidator !== match.params.validator && currentValidators.length
-    const currentValidator = currentValidators.filter(validator => validator.accountId === match.params.validator)[0]
-    const showRewardsBanner = unableToCalcRewards && currentValidator && !new BN(currentValidator.staked).isZero()
 
     onKeyDown(e => {
         if (e.keyCode === 13 && confirm === 'withdraw' && !loading) {
@@ -65,7 +61,6 @@ export default function Validator({
                         title='staking.balanceBox.unclaimed.title'
                         info='staking.balanceBox.unclaimed.info'
                         amount={validator.unclaimed || '0'}
-                        stakingRewardsBanner={showRewardsBanner}
                     />
                     <BalanceBox
                         title='staking.balanceBox.pending.title'
