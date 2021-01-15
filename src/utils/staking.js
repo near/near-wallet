@@ -201,16 +201,15 @@ export class Staking {
         }
     }
 
-    async updateStakingAccount(allValidators, recentlyStakedValidators = []) {
-        const account_id = this.wallet.accountId
+    async updateStakingAccount(allValidators, recentlyStakedValidators = [], account_id = this.wallet.accountId) {
         await this.wallet.refreshAccount()
-        const account = await this.wallet.getAccount(this.wallet.accountId)
+        const account = await this.wallet.getAccount(account_id)
         const balance = account.wrappedAccount ? await account.wrappedAccount.getAccountBalance() : await account.getAccountBalance()
 
         // const validatorDepositMap = await getStakingTransactions(account_id)
         const validatorDepositMap = await getStakingDeposits(account_id)
 
-        let validators = await this.getValidators([...new Set(Object.keys(validatorDepositMap).concat(recentlyStakedValidators))])
+        let validators = await this.getValidators([...new Set(Object.keys(validatorDepositMap).concat(recentlyStakedValidators))], account_id)
 
         let totalUnstaked = new BN(balance.available)
         if (totalUnstaked.lt(new BN(STAKING_AMOUNT_DEVIATION))) {
