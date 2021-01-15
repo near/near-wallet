@@ -117,7 +117,6 @@ const account = handleActions({
             return state
         }
 
-        const { formatNearAmount } = utils.format
         const { 
             balance: {
                 stakedBalance,
@@ -125,34 +124,41 @@ const account = handleActions({
                 lockupStateStaked,
                 lockedAmount,
                 ownersBalance,
-                lockupAccountId
+                lockupAccountId,
+                stateStaked
             }, 
             account: {
                 totalStaked,
                 totalPending,
                 totalUnstaked
             },
-            lockupAccount: {
-                totalUnclaimed
-            },
+            lockupIdExists
         } = payload
 
-        const ratioPrecision = 1000
-        const stakedUnstakedRatio = (parseFloat(stakedBalance.toString()) - parseFloat(totalUnclaimed)) / parseFloat(totalBalance.toString()) * ratioPrecision
 
-        const profileBalance = {
-            walletBalance: {
-                sum: new BN(stateStaked).add(new BN(totalStaked)).add(new BN(totalPending)).add(new BN(totalUnstaked)).toString(),
-                reservedForStorage: stateStaked,
-                inStakingPools: {
-                    sum: new BN(totalStaked).add(new BN(totalPending)).toString(),
-                    staked: totalStaked,
-                    unstaked: totalPending
-                },
-                available: totalUnstaked
+        const walletBalance = {
+            sum: new BN(stateStaked).add(new BN(totalStaked)).add(new BN(totalPending)).add(new BN(totalUnstaked)).toString(),
+            reservedForStorage: stateStaked,
+            inStakingPools: {
+                sum: new BN(totalStaked).add(new BN(totalPending)).toString(),
+                staked: totalStaked,
+                unstaked: totalPending
             },
-            LockupId: lockupAccountId,
-            lockupBalance: {
+            available: totalUnstaked
+        }
+
+        const lockupBalance = {}
+        if (lockupIdExists) {
+            const {
+                lockupAccount: {
+                    totalUnclaimed
+                }
+            } = payload
+
+            const ratioPrecision = 1000
+            const stakedUnstakedRatio = (parseFloat(stakedBalance.toString()) - parseFloat(totalUnclaimed)) / parseFloat(totalBalance.toString()) * ratioPrecision
+
+            lockupBalance = {
                 sum: totalBalance.add(new BN(lockupStateStaked)).toString(),
                 reservedForStorage: lockupStateStaked,
                 locked: {
@@ -172,12 +178,17 @@ const account = handleActions({
                         unstaked: ownersBalance.sub(new BN(totalUnclaimed)).sub(ownersBalance.sub(new BN(totalUnclaimed)).mul(new BN(stakedUnstakedRatio)).div(new BN(ratioPrecision))).toString()
                     },
                 }
-            },
+            }
         }
 
         return {
             ...state,
-            profileBalance
+            profileBalance: {
+                walletBalance,
+                lockupId: lockupAccountId,
+                lockupBalance,
+                lockupIdExists
+            }
         }
     }
 }, initialState)
