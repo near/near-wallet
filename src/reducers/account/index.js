@@ -119,44 +119,57 @@ const account = handleActions({
 
         const { formatNearAmount } = utils.format
         const { 
-            balance, 
-            account,
-            lockupAccount,
+            balance: {
+                stakedBalance,
+                totalBalance,
+                lockupStateStaked,
+                lockedAmount,
+                ownersBalance,
+                lockupAccountId
+            }, 
+            account: {
+                totalStaked,
+                totalPending,
+                totalUnstaked
+            },
+            lockupAccount: {
+                totalUnclaimed
+            },
         } = payload
 
         const ratioPrecision = 1000
-        const stakedUnstakedRatio = (parseFloat(balance.stakedBalance.toString()) - parseFloat(lockupAccount.totalUnclaimed)) / parseFloat(balance.totalBalance.toString()) * ratioPrecision
+        const stakedUnstakedRatio = (parseFloat(stakedBalance.toString()) - parseFloat(totalUnclaimed)) / parseFloat(totalBalance.toString()) * ratioPrecision
 
         const profileBalance = {
             walletBalance: {
-                sum: new BN(balance.stateStaked).add(new BN(account.totalStaked)).add(new BN(account.totalPending)).add(new BN(account.totalUnstaked)).toString(),
-                reservedForStorage: balance.stateStaked,
+                sum: new BN(stateStaked).add(new BN(totalStaked)).add(new BN(totalPending)).add(new BN(totalUnstaked)).toString(),
+                reservedForStorage: stateStaked,
                 inStakingPools: {
-                    sum: new BN(account.totalStaked).add(new BN(account.totalPending)).toString(),
-                    staked: account.totalStaked,
-                    unstaked: account.totalPending
+                    sum: new BN(totalStaked).add(new BN(totalPending)).toString(),
+                    staked: totalStaked,
+                    unstaked: totalPending
                 },
-                available: account.totalUnstaked
+                available: totalUnstaked
             },
-            LockupId: balance.lockupAccountId,
+            LockupId: lockupAccountId,
             lockupBalance: {
-                sum: balance.totalBalance.add(new BN(balance.lockupStateStaked)).toString(),
-                reservedForStorage: balance.lockupStateStaked,
+                sum: totalBalance.add(new BN(lockupStateStaked)).toString(),
+                reservedForStorage: lockupStateStaked,
                 locked: {
-                    sum: balance.lockedAmount.toString(),
+                    sum: lockedAmount.toString(),
                     inStakingPools: {
-                        sum: balance.lockedAmount.toString(),
-                        staked: balance.lockedAmount.mul(new BN(stakedUnstakedRatio)).div(new BN(ratioPrecision)).toString(),
-                        unstaked: balance.lockedAmount.sub(balance.lockedAmount.mul(new BN(stakedUnstakedRatio)).div(new BN(ratioPrecision))).toString()
+                        sum: lockedAmount.toString(),
+                        staked: lockedAmount.mul(new BN(stakedUnstakedRatio)).div(new BN(ratioPrecision)).toString(),
+                        unstaked: lockedAmount.sub(lockedAmount.mul(new BN(stakedUnstakedRatio)).div(new BN(ratioPrecision))).toString()
                     }
                 },
                 unlocked: {
-                    sum: balance.ownersBalance.toString(),
-                    availableToTransfer: lockupAccount.totalUnclaimed,
+                    sum: ownersBalance.toString(),
+                    availableToTransfer: totalUnclaimed,
                     inStakingPools: {
-                        sum: balance.ownersBalance.sub(new BN(lockupAccount.totalUnclaimed)).toString(),
-                        staked: balance.ownersBalance.sub(new BN(lockupAccount.totalUnclaimed)).mul(new BN(stakedUnstakedRatio)).div(new BN(ratioPrecision)).toString(),
-                        unstaked: balance.ownersBalance.sub(new BN(lockupAccount.totalUnclaimed)).sub(balance.ownersBalance.sub(new BN(lockupAccount.totalUnclaimed)).mul(new BN(stakedUnstakedRatio)).div(new BN(ratioPrecision))).toString()
+                        sum: ownersBalance.sub(new BN(totalUnclaimed)).toString(),
+                        staked: ownersBalance.sub(new BN(totalUnclaimed)).mul(new BN(stakedUnstakedRatio)).div(new BN(ratioPrecision)).toString(),
+                        unstaked: ownersBalance.sub(new BN(totalUnclaimed)).sub(ownersBalance.sub(new BN(totalUnclaimed)).mul(new BN(stakedUnstakedRatio)).div(new BN(ratioPrecision))).toString()
                     },
                 }
             },
