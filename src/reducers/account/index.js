@@ -147,7 +147,7 @@ const account = handleActions({
             available: totalUnstaked
         }
 
-        const lockupBalance = {}
+        let lockupBalance = {}
         if (lockupIdExists) {
             const {
                 lockupAccount: {
