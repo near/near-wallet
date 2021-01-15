@@ -219,7 +219,7 @@ export const {
     ],
     VERIFY_TWO_FACTOR: [
         (...args) => new TwoFactor(wallet, wallet.accountId).verifyCodeDefault(...args),
-        () => showAlert({ localAlert: true })
+        () => showAlert()
     ],
     PROMPT_TWO_FACTOR: [
         (requestPending) => {
