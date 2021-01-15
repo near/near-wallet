@@ -478,10 +478,10 @@ export class Staking {
     Helpers
     ********************************/
 
-    async getContractInstance(contractId, methods) {
+    async getContractInstance(contractId, methods, accountId = this.wallet.accountId) {
         try {
             await (await new Account(this.wallet.connection, contractId)).state()
-            return await new Contract(await this.wallet.getAccount(this.wallet.accountId), contractId, { ...methods })
+            return await new Contract(await this.wallet.getAccount(accountId), contractId, { ...methods })
         } catch (e) {
             throw new WalletError('No contract for account', 'staking.noLockup')
         }
