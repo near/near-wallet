@@ -22,6 +22,7 @@ export function Profile({ match }) {
     const twoFactor = has2fa && recoveryMethods[account.accountId] && recoveryMethods[account.accountId].filter(m => m.kind.includes('2fa'))[0]
 
     useEffect(() => {
+        dispatch(getProfileBalance(accountId))
 
         if (accountIdFromUrl && accountIdFromUrl !== accountIdFromUrl.toLowerCase()) {
             dispatch(redirectTo(`/profile/${accountIdFromUrl.toLowerCase()}`))
@@ -31,7 +32,6 @@ export function Profile({ match }) {
             dispatch(getAccessKeys(accountId))
             dispatch(getLedgerKey())
             dispatch(checkCanEnableTwoFactor(account))
-            dispatch(getBalance())
         }
     }, []);
 
