@@ -315,7 +315,7 @@ export const { getAccessKeys, removeAccessKey, addLedgerAccessKey, disableLedger
     REMOVE_NON_LEDGER_ACCESS_KEYS: [wallet.removeNonLedgerAccessKeys.bind(wallet), () => ({})],
     GET_LEDGER_ACCOUNT_IDS: [
         wallet.getLedgerAccountIds.bind(wallet),
-        () => showAlert({ localAlert: true })
+        () => showAlert({ onlyError: true })
     ],
     ADD_LEDGER_ACCOUNT_ID: [
         wallet.addLedgerAccountId.bind(wallet),
