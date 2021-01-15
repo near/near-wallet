@@ -271,7 +271,7 @@ export class Staking {
         }
     }
 
-    async getValidators(accountIds) {
+    async getValidators(accountIds, accountId) {
         const { current_validators, next_validators, current_proposals } = await this.provider.validators()
         const currentValidators = current_validators.map(({ account_id }) => account_id)
         
@@ -289,8 +289,7 @@ export class Staking {
                 .filter((v) => v.indexOf('nfvalidator') === -1 && v.indexOf(networkId === 'mainnet' ? '.near' : '.m0') > -1)
         }
 
-        const currentAccount = await this.wallet.getAccount(this.wallet.accountId)
-
+        const currentAccount = await this.wallet.getAccount(accountId)
         return (await Promise.all(
             accountIds.map(async (account_id) => {
                 try {
