@@ -138,10 +138,7 @@ const account = handleActions({
                 },
                 available: account.totalUnstaked
             },
-            
-            // LockupId: balance.lockupAccountId,
-            LockupId: '',
-
+            LockupId: balance.lockupAccountId,
             lockupBalance: {
                 sum: balance.totalBalance.add(new BN(balance.lockupStateStaked)).toString(),
                 reservedForStorage: balance.lockupStateStaked,
