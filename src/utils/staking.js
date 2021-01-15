@@ -128,8 +128,8 @@ export class Staking {
         return state
     }
 
-    async updateStakingLockup() {
-        const { contract, lockupId: account_id } = await this.getLockup()
+    async updateStakingLockup(accountId) {
+        const { contract, lockupId: account_id } = await this.getLockup(accountId)
 
         // use MIN_LOCKUP_AMOUNT vs. actual storage amount
         const deposited = new BN(await contract.get_known_deposited_balance())
@@ -152,7 +152,7 @@ export class Staking {
                 totalUnstaked: totalUnstaked.toString(),
             }
         }
-        let validator = (await this.getValidators([selectedValidator]))[0]
+        let validator = (await this.getValidators([selectedValidator], accountId))[0]
 
         let totalStaked = ZERO.clone();
         let totalUnclaimed = ZERO.clone();
