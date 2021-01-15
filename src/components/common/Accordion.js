@@ -5,7 +5,7 @@ import classNames from '../../utils/classNames'
 const Container = styled.div`
     overflow: hidden;
     height: 0;
-    transition: 200ms;
+    transition: 250ms;
 
     &.open {
         height: ${props => props.height}px;

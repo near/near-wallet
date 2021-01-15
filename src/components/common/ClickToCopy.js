@@ -11,18 +11,17 @@ const Container = styled.div`
         position: absolute;
         left: 50%;
         transform: translate(-50%, 0);
-        min-width: 75px;
         text-align: center;
         background-color: #8DECC6;
         color: black;
         border-radius: 4px;
-        padding: 6px;
-        line-break: anywhere;
+        padding: 6px 8px;
         font-size: 13px;
         top: -30px;
         opacity: 0;
         pointer-events: none;
         transition: 200ms;
+        font-weight: 400;
     }
 
     &.show {
