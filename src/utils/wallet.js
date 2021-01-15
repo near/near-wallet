@@ -17,7 +17,7 @@ import {
     showLedgerModal,
     redirectTo,
     fundCreateAccount,
-    finishAccountSetup,
+    finishAccountSetup
 } from '../actions/account'
 
 import { TwoFactor } from './twoFactor'
@@ -596,10 +596,13 @@ class Wallet {
         return await account.getAccountBalance()
     }
 
-    async getProfileBalance() {
+    async getProfileBalance(accountId = this.accountId) {
+        const lockupId = await this.staking.checkLockupExists(accountId)
+
         return {
-            balance: await this.getBalance(this.accountId),
-            stakingLockup: await this.staking.updateStakingAccount(),
+            account: await this.staking.updateStakingAccount([], [] , accountId),
+            lockupAccount: lockupId && await this.staking.updateStakingLockup(accountId),
+            balance: await this.getBalance(accountId),
         }
     }
 
