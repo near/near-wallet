@@ -96,7 +96,7 @@
         },
         "getLedgerAccountIds": {
             "U2FNotSupported": "U2F browser support is needed for Ledger. Please use Chrome, Opera or Firefox with U2F extension.",
-            "noAccounts": "No accounts are associated with this Ledger device. You must first create an account, then add this Ledger to it to login.",
+            "noAccounts": "No accounts were found for this Ledger device. Please confirm you have associated an account with this Ledger.",
             "aborted": "Action was aborted.",
             "noAccountsAccepted": "No accounts were accepted."
         },
