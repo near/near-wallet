@@ -133,13 +133,18 @@ async function getAccountBalance() {
                 : new BN(lockupBalance.total).sub(LOCKUP_MIN_BALANCE))
 
         const available = BN.max(new BN(0), new BN(balance.available).add(new BN(liquidOwnersBalance)).sub(new BN(MIN_BALANCE_FOR_GAS)))
+
         return {
             ...balance,
             available,
             ownersBalance,
             liquidOwnersBalance,
             lockedAmount,
-            total: new BN(balance.total).add(new BN(lockedAmount)).add(new BN(ownersBalance)).toString()
+            total: new BN(balance.total).add(new BN(lockedAmount)).add(new BN(ownersBalance)).toString(),
+            lockupStateStaked: lockupBalance.stateStaked,
+            totalBalance,
+            stakedBalance,
+            lockupAccountId
         }
     } catch (error) {
         if (error.message.match(/ccount ".+" doesn't exist/) || error.message.includes('does not exist while viewing') || error.message.includes('cannot find contract code for account')) {
