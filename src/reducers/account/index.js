@@ -14,7 +14,7 @@ import {
     checkCanEnableTwoFactor,
     get2faMethod,
     getLedgerKey,
-    getBalance
+    getProfileBalance
 } from '../../actions/account'
 
 const initialState = {
@@ -112,7 +112,7 @@ const account = handleActions({
         ...state,
         loginResetAccounts: true
     }),
-    [getBalance]: (state, { payload, ready, meta }) => {
+    [getProfileBalance]: (state, { payload, ready, meta }) => {
         if (!ready) {
             return state
         }
