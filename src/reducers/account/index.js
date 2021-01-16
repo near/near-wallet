@@ -112,8 +112,7 @@ const account = handleActions({
         ...state,
         loginResetAccounts: true
     }),
-    [getProfileBalance]: (state, { payload, ready, meta }) => {
-        if (!ready) {
+        if (!ready || error) {
             return state
         }
 
