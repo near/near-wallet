@@ -6,7 +6,6 @@ import { Translate } from 'react-localize-redux';
 import Card from '../../common/styled/Card.css';
 
 import FormButton from '../../common/FormButton';
-import HardwareDeviceIcon from '../../svg/HardwareDeviceIcon';
 import { 
     getAccessKeys,
     disableLedger,
@@ -17,35 +16,11 @@ import { useRecoveryMethods } from '../../../hooks/recoveryMethods';
 import ConfirmDisable from './ConfirmDisable';
 
 const Container = styled(Card)`
-    margin-top: 30px;
-
-    .header {
-        display: flex;
-        align-items: center;
-
-        svg {
-            width: 28px;
-            height: 28px;
-            margin: -5px 10px 0 0;
-
-            path {
-                stroke: #CCCCCC;
-            }
-        }
-    }
-
-    .font-rounded {
-        margin-top: 15px;
-        font-weight: 500;
-    }
 
     .device {
         display: flex;
         align-items: center;
         justify-content: space-between;
-        border-top: 2px solid #f8f8f8;
-        margin: 20px -20px 0 -20px;
-        padding: 20px 20px 0 20px;
 
         .name {
             font-weight: 500;
@@ -69,6 +44,7 @@ const Container = styled(Card)`
     i {
         margin-top: 20px;
         display: block;
+        color: #A1A1A9;
     }
 
     .color-red {
@@ -121,13 +97,8 @@ const HardwareDevices = () => {
     
     return (
         <Container>
-            <div className='header'>
-                <HardwareDeviceIcon/>
-                <h2><Translate id='hardwareDevices.title'/></h2>
-            </div>
             {!confirmDisable ?
                 <>
-                    <div className='font-rounded'><Translate id='hardwareDevices.desc'/></div>
                     <div className='device'>
                         <div className='name'>
                             <Translate id='hardwareDevices.ledger.title'/>
@@ -135,6 +106,15 @@ const HardwareDevices = () => {
                         </div>
                         {getActionButton()}
                     </div>
+                    {!hasOtherMethods && ledgerIsConnected && 
+                        <i><Translate id='hardwareDevices.ledger.disclaimer'/></i>
+                    }
+                    {hasLedgerButNotConnected &&
+                        <div className='color-red'><Translate id='hardwareDevices.ledger.connect'/></div>
+                    }
+                    {!hasLedger && 
+                        <i style={{fontStyle: 'normal', color: '#3F4045'}}><Translate id='hardwareDevices.desc'/></i>
+                    }
                 </>
                 :
                 <ConfirmDisable 
@@ -144,12 +124,6 @@ const HardwareDevices = () => {
                     disabling={disabling}
                     component='hardwareDevices'
                 />
-            }
-            {!hasOtherMethods && ledgerIsConnected && 
-                <i><Translate id='hardwareDevices.ledger.disclaimer'/></i>
-            }
-            {hasLedgerButNotConnected &&
-                <div className='color-red'><Translate id='hardwareDevices.ledger.connect'/></div>
             }
         </Container>
     )

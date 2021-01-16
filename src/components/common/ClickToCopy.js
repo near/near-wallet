@@ -13,7 +13,7 @@ const Container = styled.div`
         transform: translate(-50%, 0);
         text-align: center;
         background-color: #8DECC6;
-        color: black;
+        color: #005A46;
         border-radius: 4px;
         padding: 6px 8px;
         font-size: 13px;
@@ -32,7 +32,7 @@ const Container = styled.div`
     }
 `
 
-const ClickToCopy = ({ className, children, copy, success = 'default' }) => {
+const ClickToCopy = ({ className, children, copy, translate = 'default' }) => {
     const [show, setShow] = useState(false)
 
     const handleCopy = () => {
@@ -51,7 +51,7 @@ const ClickToCopy = ({ className, children, copy, success = 'default' }) => {
         <Container title={copy} className={classNames([className, show ? 'show' : ''])} onClick={handleCopy}>
             {children}
             <div className='copy-success'>
-                <Translate id={`copy.${success}`}/>
+                <Translate id={`copy.${translate}`}/>
             </div>
         </Container>
     )
