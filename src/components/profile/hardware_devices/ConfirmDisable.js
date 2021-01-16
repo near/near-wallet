@@ -7,8 +7,8 @@ const Container = styled.form`
     &&& {
 
         border: 2px solid #FF585D;
-        border-radius: 6px;
-        margin: 20px -21px -21px -21px;
+        border-radius: 8px;
+        margin: -21px;
         padding: 15px 20px;
         color: #24272a;
 

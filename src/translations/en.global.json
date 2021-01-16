@@ -270,8 +270,8 @@
         "noRecoveryMethod": "You have no method to recover your account. please add a method below.",
         "methodTitle": {
             "phrase": "Seed Phrase",
-            "phone": "Phone Number",
-            "email": "Email Address"
+            "phone": "Phone",
+            "email": "Email"
         },
         "resend": {
             "phone": "Resend SMS",
@@ -291,7 +291,7 @@
         "title": "Hardware Devices",
         "desc": "Improve the security of your account by using a hardware wallet.",
         "ledger": {
-            "title": "Ledger Nano S or X",
+            "title": "Ledger Hardware Wallet",
             "auth": "Authorized",
             "disclaimer": "In order to disable your ledger device, you must first enable an alternative recovery method.",
             "connect": "Your ledger is not currently connected. We advise that you re-connect your Ledger to ensure your account is secured."
@@ -823,11 +823,37 @@
         "reserved": "Reserved for fees"
     },
     "profile": {
+        "lockupBanner": {
+            "title": "You have <b>${amount}</b> NEAR available to withdraw from your lockup!",
+            "cta": "Transfer to Wallet"
+        },
         "pageTitle": {
             "loading": "Loading...",
             "notFound": "Account ${accountId} not found",
             "default": "Account Details"
         },
+        "account": {
+            "walletId": "Wallet ID",
+            "walletBalance": "Wallet balance",
+            "reservedForStorage": "Reserved for storage",
+            "inStakingPools": "In staking pools",
+            "staked": "Staked",
+            "unstaked": "Unstaked",
+            "available": "Available"
+        },
+        "lockup": {
+            "lockupBalance": "Lockup balance",
+            "lockupId": "Lockup ID",
+            "locked": "Locked",
+            "unlocked": "Unlocked"
+        },
+        "security": {
+            "title": "Security & Recovery",
+            "mostSecure": "Most Secure (Recommended)",
+            "lessSecure": "Less Secure"
+        },
+        "twoFactor": "Two-Factor Authentication",
+        "twoFactorDesc": "Authenticate with SMS or email when authorizing transactions and/or signing in to your account.",
         "details": {
             "profile": "PROFILE",
             "visibleTo": "VISIBLE TO",

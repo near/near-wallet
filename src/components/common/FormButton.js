@@ -147,6 +147,12 @@ const CustomButton = styled(Button)`
             :disabled {
                 opacity: 0.5;
             }
+
+            &.border {
+                color: #008D6A;
+                background-color: #C8F6E0;
+                border: 2px solid #56BC8F;
+            }
         }
         &.green-white-arrow {
             color: #5ace84;

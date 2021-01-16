@@ -17,36 +17,12 @@ import { actionsPending } from '../../../utils/alerts'
 const Container = styled(Card)`
     margin-top: 30px;
 
-    .header {
-        display: flex;
-        align-items: center;
-
-        svg {
-            width: 28px;
-            height: 28px;
-            margin: -5px 10px 0 0;
-
-            path {
-                stroke: #CCCCCC;
-            }
-        }
-    }
-
-    .font-rounded {
-        margin-top: 15px;
-        font-weight: 500;
-    }
-
     .title {
         color: #24272a;
         font-weight: 500;
     }
 
     .method {
-        border-top: 2px solid #f8f8f8;
-        margin: 20px -20px 0 -20px;
-        padding: 20px 20px 0 20px;
-
         .top {
             display: flex;
             align-items: center;
@@ -88,11 +64,6 @@ const TwoFactorAuth = ({ twoFactor, history }) => {
 
     return (
         <Container>
-            <div className='header'>
-                <KeysIcon/>
-                <h2><Translate id='twoFactor.title'/></h2>
-            </div>
-            <div className='font-rounded'><Translate id='twoFactor.desc'/></div>
             {twoFactor && !loading && !confirmDisable &&
                 <div className='method'>
                     <div className='top'>

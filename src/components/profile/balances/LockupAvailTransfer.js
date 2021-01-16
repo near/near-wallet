@@ -1,42 +1,52 @@
 import React from 'react'
 import styled from 'styled-components'
-import GiftImage from '../../../images/gift-image.svg'
 import FormButton from '../../common/FormButton'
-import Balance from '../../common/Balance'
+import GiftIcon from '../../svg/GiftIcon'
+import { Translate } from 'react-localize-redux'
+import { utils } from 'near-api-js'
 
 const Container = styled.div`
     background-color: #C8F6E0;
     border-radius: 8px;
     display: flex;
-    flex-direction: column;
     align-items: center;
-    margin: 0 -14px;
-    margin-top: 30px;
-    padding: 24px;
-
-    @media (max-width: 767px) {
-        margin: 30px 0 0 0;
-    }
+    flex-wrap: wrap;
+    padding: 20px;
+    margin: 0 0 50px -15px;
 
     div {
-        margin: 30px 0 20px 0;
-        font-size: 16px;
-        text-align: center;
-        max-width: 300px;
-        line-height: 170%;
+        margin-left: 20px;
+        color: #005A46;
+        flex: 1;
     }
 
     button {
-        width: 100% !important;
+        border-radius: 6px !important;
+        padding: 8px 14px !important;
+        height: auto !important;
+        width: auto !important;
+        font-size: 14px !important;
+        letter-spacing: 0.5px !important;
+        margin: 0 0 0 auto !important;
+    }
+
+    @media (max-width: 767px) {
+        margin: -35px -14px 50px -14px;
+        border-radius: 0;
+
+        button {
+            width: 100% !important;
+            margin-top: 25px !important;
+        }
     }
 `
 
 const LockupAvailTransfer = ({ onTransfer, loading, available }) => {
     return (
         <Container> 
-            <img src={GiftImage} alt='UNLOCKED NEAR'/>
-            <div>You have <b><Balance amount={available} symbol='near'/></b> available to withdraw from your lockup!</div>
-            <FormButton color='green-dark' disabled={loading} sendingString='Transferring from Lockup' onClick={onTransfer}>Transfer to Wallet</FormButton>
+            <GiftIcon/>
+            <div><Translate id='profile.lockupBanner.title' data={{ amount: utils.format.formatNearAmount(available, 5) }}/></div>
+            <FormButton color='green-dark border' disabled={loading} sendingString='Transferring from Lockup' onClick={onTransfer}><Translate id='profile.lockupBanner.cta'/></FormButton>
         </Container>
     )
 }
