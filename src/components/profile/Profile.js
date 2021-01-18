@@ -128,7 +128,9 @@ export function Profile({ match }) {
 
     return (
         <StyledContainer>
-            <LockupAvailTransfer available={account.balance.available} onTransfer={() => {/* TODO: Transfer available unlocked amount */}}/>
+            {isOwner && 
+                <LockupAvailTransfer available={account.balance.available} onTransfer={() => {/* TODO: Transfer available unlocked amount */}} />
+            }
             <div className='split'>
                 <div className='left'>
                     <h2><UserIcon/><Translate id='profile.pageTitle.default'/></h2>
