@@ -94,6 +94,7 @@ export function Profile({ match }) {
     const { has2fa } = useSelector(({ account }) => account)
     const loginAccountId = useSelector(state => state.account.accountId)
     const recoveryMethods = useSelector(({ recoveryMethods }) => recoveryMethods);
+    const profileBalance = useSelector(({ account }) => account.profileBalance);
     const accountIdFromUrl = match.params.accountId
     const accountId = accountIdFromUrl || loginAccountId
     const isOwner = accountId === loginAccountId
@@ -129,7 +130,10 @@ export function Profile({ match }) {
             <div className='split'>
                 <div className='left'>
                     <h2><UserIcon/><Translate id='profile.pageTitle.default'/></h2>
-                    <BalanceContainer account={account}/>
+                    <BalanceContainer
+                        account={account}
+                        profileBalance={profileBalance}
+                    />
                 </div>
                 {isOwner &&
                     <div className='right'>
