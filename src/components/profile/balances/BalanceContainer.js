@@ -166,6 +166,7 @@ const BalanceContainer = ({ account, profileBalance, balanceLoader }) => {
                     <span><Balance amount={account.balance.available} symbol='near'/></span>
                 </div>
             </div>
+                    {profileBalance.lockupIdExists && 
             <div className='border-box'>
                 <div className='title last'>
                     <h4><Translate id='profile.lockup.lockupId'/></h4>
@@ -218,6 +219,7 @@ const BalanceContainer = ({ account, profileBalance, balanceLoader }) => {
                     </div>
                 </Accordion>
             </div>
+                    }
                 </>
             }
         </Container>
