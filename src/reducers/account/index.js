@@ -162,7 +162,7 @@ const account = handleActions({
                 sum: totalBalance.toString(),
                 reservedForStorage: lockupStateStaked,
                 locked: {
-                    sum: lockedAmount.toString(),
+                    sum: lockedAmount.sub(new BN(lockupStateStaked)).toString(),
                     inStakingPools: {
                         sum: lockedAmount.toString(),
                         staked: lockedAmount.mul(new BN(stakedUnstakedRatio)).div(new BN(ratioPrecision)).toString(),
