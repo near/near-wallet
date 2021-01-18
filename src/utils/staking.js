@@ -363,7 +363,7 @@ export class Staking {
             ])
         }
         if (result === false) {
-            throw new WalletError('Unable to withdraw pending balance from validator', 'staking.errors.noWithdraw')
+            throw new WalletError('Unable to withdraw pending balance from validator', 'staking.noWithdraw')
         }
         return result
     }
@@ -428,7 +428,7 @@ export class Staking {
             ])
         }
         if (result === false) {
-            throw new WalletError('Unable to withdraw pending balance from validator', 'staking.errors.noWithdraw')
+            throw new WalletError('Unable to withdraw pending balance from validator', 'staking.noWithdraw')
         }
         // wait for explorer to index results
         await new Promise((r) => setTimeout(r, EXPLORER_DELAY))
@@ -478,7 +478,7 @@ export class Staking {
             await (await new Account(this.wallet.connection, contractId)).state()
             return await new Contract(await this.wallet.getAccount(this.wallet.accountId), contractId, { ...methods })
         } catch (e) {
-            throw new WalletError('No contract for account', 'staking.errors.noLockup')
+            throw new WalletError('No contract for account', 'staking.noLockup')
         }
     }
 

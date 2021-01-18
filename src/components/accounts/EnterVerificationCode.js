@@ -56,7 +56,7 @@ const EnterVerificationCode = ({
     email,
     phoneNumber,
     loading,
-    requestStatus
+    localAlert
 }) => {
 
     const [code, setCode] = useState('');
@@ -66,7 +66,7 @@ const EnterVerificationCode = ({
         useEmail = false;
     }
 
-    const invalidCode = requestStatus && requestStatus.messageCode === 'account.setupRecoveryMessage.error';
+    const invalidCode = localAlert && localAlert.messageCode === 'account.SETUP_RECOVERY_MESSAGE.error';
 
     const handleConfirm = () => {
         if (code.length === 6 && !loading) {

@@ -11,7 +11,7 @@ import translations_ru from '../translations/ru.global.json'
 import translations_zh_hans from '../translations/zh-hans.global.json'
 import translations_zh_hant from '../translations/zh-hant.global.json'
 import ScrollToTop from '../utils/ScrollToTop'
-import GlobalAlert from './responsive/GlobalAlert'
+import GlobalAlert from './common/GlobalAlert'
 import '../index.css'
 import Navigation from './navigation/Navigation'
 import Footer from './common/Footer'
@@ -43,13 +43,14 @@ import { AddNodeWithRouter } from './node-staking/AddNode'
 import { NodeDetailsWithRouter } from './node-staking/NodeDetails'
 import { StakingContainer } from './staking/StakingContainer'
 import { DISABLE_SEND_MONEY, WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS } from '../utils/wallet'
-import { refreshAccount, handleRefreshUrl, clearAlert, clear, handleRedirectUrl, handleClearUrl, promptTwoFactor } from '../actions/account'
+import { refreshAccount, handleRefreshUrl, handleRedirectUrl, handleClearUrl, promptTwoFactor } from '../actions/account'
 import LedgerConfirmActionModal from './accounts/ledger/LedgerConfirmActionModal';
 
 import GlobalStyle from './GlobalStyle'
 import { SetupSeedPhraseWithRouter } from './accounts/SetupSeedPhrase'
 import { SetupImplicitWithRouter } from './accounts/SetupImplicit'
 import { SetupImplicitSuccess } from './accounts/SetupImplicitSuccess'
+import { handleClearAlert} from '../utils/alerts'
 const theme = {}
 
 const PATH_PREFIX = process.env.PUBLIC_URL
@@ -106,9 +107,11 @@ class Routing extends Component {
 
     componentDidMount = async () => {
         const { 
-            refreshAccount, handleRefreshUrl,
-            history, clearAlert,
-            clear, handleRedirectUrl, handleClearUrl
+            refreshAccount, 
+            handleRefreshUrl,
+            history,
+            handleRedirectUrl, 
+            handleClearUrl
         } = this.props
         
         handleRefreshUrl()
@@ -121,12 +124,7 @@ class Routing extends Component {
                 await refreshAccount()
             }
 
-            const { state: { globalAlertPreventClear } = {} } = history.location
-            if (!globalAlertPreventClear && !this.props.account.globalAlertPreventClear) {
-                clearAlert()
-            }
-
-            clear()
+            handleClearAlert()
         })
     }
 
@@ -342,8 +340,6 @@ Routing.propTypes = {
 const mapDispatchToProps = {
     refreshAccount,
     handleRefreshUrl,
-    clearAlert,
-    clear,
     handleRedirectUrl,
     handleClearUrl,
     promptTwoFactor

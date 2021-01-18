@@ -35,7 +35,7 @@ const ledgerActions = handleActions({
         if (error) {
             return {
                 ...state,
-                signInWithLedgerStatus: (payload.messageCode === 'signInLedger.getLedgerAccountIds.noAccounts' && !HIDE_SIGN_IN_WITH_LEDGER_ENTER_ACCOUNT_ID_MODAL) ? 'enter-accountId' : undefined,
+                signInWithLedgerStatus: (payload.messageCode === 'walletErrorCodes.getLedgerAccountIds.noAccounts' && !HIDE_SIGN_IN_WITH_LEDGER_ENTER_ACCOUNT_ID_MODAL) ? 'enter-accountId' : undefined,
                 signInWithLedger: undefined,
                 txSigned: undefined
             }

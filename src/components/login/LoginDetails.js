@@ -10,7 +10,8 @@ import IconProblems from '../../images/IconProblems'
 import { Grid } from 'semantic-ui-react'
 
 import styled from 'styled-components'
-import GlobalAlert from '../responsive/GlobalAlert'
+
+import { showCustomAlert } from '../../actions/status'
 
 const CustomGrid = styled(Grid)`
     .top-back {
@@ -88,6 +89,19 @@ const CustomGrid = styled(Grid)`
 `
 
 class LoginDetails extends Component {
+
+    componentDidMount = () => {
+        const { contractId, accountConfirmationForm, showCustomAlert } = this.props
+
+        if (!contractId || (contractId && (accountConfirmationForm))) {
+            showCustomAlert({
+                success: false,
+                messageCodeHeader: 'warning',
+                messageCode: 'account.login.details.warning'
+            })
+        }
+    }
+
     render() {
         const { contractId, transactions, fees, appTitle, accountConfirmationForm } = this.props
 
@@ -105,16 +119,6 @@ class LoginDetails extends Component {
                         </div>
                         {contractId && (accountConfirmationForm ? (
                             <div className='details'>
-                                <div className='details-item alert'>
-                                    <GlobalAlert 
-                                        globalAlert={{
-                                            success: false,
-                                            messageCodeHeader: 'warning',
-                                            messageCode: 'account.login.details.warning'
-                                        }}
-                                        closeIcon={false}
-                                    />
-                                </div>
                                 <div className='details-item'>
                                     <div className='title h3'>
                                         <Translate>
@@ -162,16 +166,6 @@ class LoginDetails extends Component {
                         ))}
                         {!contractId && (
                             <div className='details'>
-                                <div className='details-item alert'>
-                                    <GlobalAlert 
-                                        globalAlert={{
-                                            success: false,
-                                            messageCodeHeader: 'warning',
-                                            messageCode: 'account.login.details.warning'
-                                        }}
-                                        closeIcon={false}
-                                    />
-                                </div>
                                 <div className='details-item'>
                                     <div className='title h3'>
                                         <Translate>
@@ -257,7 +251,9 @@ const ActionWarrning = ({ actionKind }) => (
     </Fragment>
 )
 
-const mapDispatchToProps = {}
+const mapDispatchToProps = {
+    showCustomAlert
+}
 
 const mapStateToProps = ({ transactions = [], account }) => {
     transactions = [

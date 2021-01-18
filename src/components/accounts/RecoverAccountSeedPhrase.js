@@ -3,7 +3,8 @@ import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { Translate } from 'react-localize-redux'
 import styled from 'styled-components'
-import { recoverAccountSeedPhrase, redirectToApp, refreshAccount, clear } from '../../actions/account'
+import { recoverAccountSeedPhrase, redirectToApp, refreshAccount } from '../../actions/account'
+import { clearLocalAlert } from '../../actions/status'
 import RecoverAccountSeedPhraseForm from './RecoverAccountSeedPhraseForm'
 import Container from '../common/styled/Container.css'
 
@@ -49,7 +50,7 @@ class RecoverAccountSeedPhrase extends Component {
             [name]: value
         }))
 
-        this.props.clear()
+        this.props.clearLocalAlert()
     }
 
     handleSubmit = async () => {
@@ -67,7 +68,7 @@ class RecoverAccountSeedPhrase extends Component {
         const combinedState = {
             ...this.props,
             ...this.state,
-            isLegit: this.isLegit && !(this.props.requestStatus && this.props.requestStatus.success === false)
+            isLegit: this.isLegit && !(this.props.localAlert && this.props.localAlert.success === false)
         }
 
         return (
@@ -89,12 +90,14 @@ const mapDispatchToProps = {
     recoverAccountSeedPhrase, 
     redirectToApp,
     refreshAccount,
-    clear
+    clearLocalAlert
 }
 
-const mapStateToProps = ({ account }, { match }) => ({
+const mapStateToProps = ({ account, status }, { match }) => ({
     ...account,
     seedPhrase: match.params.seedPhrase || '',
+    localAlert: status.localAlert,
+    mainLoader: status.mainLoader
 })
 
 export const RecoverAccountSeedPhraseWithRouter = connect(

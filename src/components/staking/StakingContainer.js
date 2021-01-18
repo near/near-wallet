@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { updateStaking, switchAccount, stake, unstake, withdraw } from '../../actions/staking'
-import { clearAlert } from '../../actions/account';
+import { clearGlobalAlert }from '../../actions/status'
 import styled from 'styled-components'
 import Container from '../common/styled/Container.css'
 import { Switch, Route } from 'react-router-dom'
@@ -136,7 +136,8 @@ const StyledContainer = styled(Container)`
 
 export function StakingContainer({ history, match }) {
     const dispatch = useDispatch()
-    const { accountId, has2fa, formLoader, hasLockup } = useSelector(({ account }) => account);
+    const { accountId, has2fa, hasLockup } = useSelector(({ account }) => account);
+    const status = useSelector(({ status }) => status);
     const { hasLedger } = useSelector(({ ledger }) => ledger)
     
     const staking = useSelector(({ staking }) => staking)
@@ -166,7 +167,7 @@ export function StakingContainer({ history, match }) {
         } else if (action === 'unstake') {
             await dispatch(unstake(currentAccount.accountId, selectedValidator || validator, amount))
         }
-        await dispatch(clearAlert())
+        await dispatch(clearGlobalAlert())
         await dispatch(updateStaking(currentAccount.accountId, [validator]))
     }
 
@@ -190,7 +191,7 @@ export function StakingContainer({ history, match }) {
                                 accounts={stakingAccounts}
                                 activeAccount={currentAccount}
                                 accountId={accountId}
-                                loading={formLoader}
+                                loading={status.mainLoader}
                                 hasLockup={hasLockup}
                             />
                         )}
@@ -214,7 +215,7 @@ export function StakingContainer({ history, match }) {
                                 {...props} 
                                 validator={validator}
                                 onWithdraw={handleWithDraw}
-                                loading={formLoader}
+                                loading={status.mainLoader}
                                 selectedValidator={selectedValidator}
                                 currentValidators={currentValidators}
                             />
@@ -230,7 +231,7 @@ export function StakingContainer({ history, match }) {
                                 handleStakingAction={handleStakingAction}
                                 availableBalance={totalUnstaked} 
                                 validator={validator}
-                                loading={formLoader}
+                                loading={status.mainLoader}
                                 hasLedger={hasLedger}
                                 has2fa={has2fa}
                                 stakeFromAccount={currentAccount.accountId === accountId}
@@ -247,7 +248,7 @@ export function StakingContainer({ history, match }) {
                                 handleStakingAction={handleStakingAction}
                                 availableBalance={totalUnstaked}
                                 validator={validator}
-                                loading={formLoader}
+                                loading={status.mainLoader}
                                 hasLedger={hasLedger}
                                 has2fa={has2fa}
                             />

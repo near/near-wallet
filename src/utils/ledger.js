@@ -8,7 +8,7 @@ async function createLedgerU2FTransport() {
         transport = await TransportU2F.create();
     } catch (error) {
         if (error.id === 'U2FNotSupported') {
-            throw new WalletError(error.message, 'signInLedger.getLedgerAccountIds.U2FNotSupported')
+            throw new WalletError(error.message, 'getLedgerAccountIds.U2FNotSupported')
         }
         throw error
     }

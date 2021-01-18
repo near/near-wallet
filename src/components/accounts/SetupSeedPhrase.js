@@ -6,7 +6,6 @@ import { parse as parseQuery } from 'query-string'
 import { 
     redirectToApp, 
     handleAddAccessKeySeedPhrase, 
-    clearAlert, 
     refreshAccount, 
     checkCanEnableTwoFactor, 
     checkIsNew, 
@@ -26,7 +25,7 @@ class SetupSeedPhrase extends Component {
         seedPhrase: '',
         enterWord: '',
         wordId: null,
-        requestStatus: null,
+        localAlert: null,
         successSnackbar: false,
         submitting: false
     }
@@ -51,7 +50,7 @@ class SetupSeedPhrase extends Component {
             publicKey,
             wordId,
             enterWord: '',
-            requestStatus: null,
+            localAlert: null,
             recoveryKeyPair
         }))
     }
@@ -63,7 +62,7 @@ class SetupSeedPhrase extends Component {
 
         this.setState((state) => ({
            [name]: value.trim().toLowerCase(),
-           requestStatus: null
+           localAlert: null
         }))
     }
 
@@ -83,7 +82,7 @@ class SetupSeedPhrase extends Component {
 
         if (enterWord !== seedPhrase.split(' ')[wordId]) {
             this.setState(() => ({
-                requestStatus: {
+                localAlert: {
                     success: false,
                     messageCode: 'account.verifySeedPhrase.error'
                 }
@@ -173,8 +172,8 @@ class SetupSeedPhrase extends Component {
                                             wordId={this.state.wordId}
                                             handleChangeWord={this.handleChangeWord}
                                             handleStartOver={this.handleStartOver}
-                                            formLoader={this.props.formLoader || this.state.submitting}
-                                            requestStatus={this.state.requestStatus}
+                                            mainLoader={this.props.mainLoader || this.state.submitting}
+                                            localAlert={this.state.localAlert}
                                             globalAlert={this.props.globalAlert}
                                         />
                                     </form>
@@ -197,7 +196,6 @@ class SetupSeedPhrase extends Component {
 const mapDispatchToProps = {
     redirectToApp,
     handleAddAccessKeySeedPhrase,
-    clearAlert,
     refreshAccount,
     checkCanEnableTwoFactor,
     checkIsNew,
@@ -205,12 +203,13 @@ const mapDispatchToProps = {
     loadRecoveryMethods
 }
 
-const mapStateToProps = ({ account, recoveryMethods }, { match }) => ({
+const mapStateToProps = ({ account, recoveryMethods, status }, { match }) => ({
     ...account,
     verify: match.params.verify,
     accountId: match.params.accountId,
     activeAccountId: account.accountId,
-    recoveryMethods
+    recoveryMethods,
+    mainLoader: status.mainLoader
 })
 
 export const SetupSeedPhraseWithRouter = connect(mapStateToProps, mapDispatchToProps)(withRouter(SetupSeedPhrase))

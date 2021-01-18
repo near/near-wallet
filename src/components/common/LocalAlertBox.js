@@ -3,10 +3,11 @@ import styled from 'styled-components'
 import { Translate } from 'react-localize-redux'
 import classNames from '../../utils/classNames'
 
-const RequestStatusBoxContainer = styled.div`
+const LocalAlertBoxContainer = styled.div`
     font-weight: 500;
     margin-top: -20px;
     padding-bottom: 4px;
+    line-height: 16px;
 
     &.problem {
         color: #ff585d;
@@ -57,16 +58,16 @@ const RequestStatusBoxContainer = styled.div`
 /**
  * Renders request status.
  *
- * @param requestStatus {object} request status, can be null in case not completed yet / no outgoing request
- * @param requestStatus.success {boolean} true if request was succesful
- * @param requestStatus.messageCode {string} localization code of status message to display
+ * @param localAlert {object} request status, can be null in case not completed yet / no outgoing request
+ * @param localAlert.success {boolean} true if request was succesful
+ * @param localAlert.messageCode {string} localization code of status message to display
  */
-const RequestStatusBox = ({ requestStatus, accountId, dots }) => (
-    requestStatus ?
-        <RequestStatusBoxContainer className={classNames(['alert-info', {'success': requestStatus.success}, {'problem': !requestStatus.success}, {'dots': dots}])}>
-            <Translate id={requestStatus.messageCode} data={{ accountId: accountId }}/>
-        </RequestStatusBoxContainer>
+const LocalAlertBox = ({ localAlert, accountId, dots }) => (
+    localAlert?.show ?
+        <LocalAlertBoxContainer className={classNames(['alert-info', {'success': localAlert.success}, {'problem': !localAlert.success}, {'dots': dots}])}>
+            <Translate id={localAlert.messageCode} data={{ accountId: accountId }}/>
+        </LocalAlertBoxContainer>
         : null
 )
 
-export default RequestStatusBox
+export default LocalAlertBox

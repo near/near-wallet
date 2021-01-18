@@ -6,7 +6,8 @@ import { Translate } from 'react-localize-redux'
 import FormButton from '../common/FormButton'
 import ArrowCircleIcon from '../svg/ArrowCircleIcon'
 import AccountFormAccountId from '../accounts/AccountFormAccountId'
-import { checkAccountAvailable, clear, sendMoney, refreshAccount } from '../../actions/account'
+import { checkAccountAvailable, sendMoney, refreshAccount } from '../../actions/account'
+import { clearLocalAlert } from '../../actions/status'
 import BalanceBreakdown from '../staking/components/BalanceBreakdown'
 import BN from 'bn.js'
 import { utils } from 'near-api-js'
@@ -42,7 +43,8 @@ const StyledContainer = styled(Container)`
 
 export function SendContainer({ match, location }) {
     const dispatch = useDispatch()
-    const { requestStatus, formLoader, accountId, balance } = useSelector(({ account }) => account);
+    const { accountId, balance } = useSelector(({ account }) => account);
+    const { localAlert, mainLoader } = useSelector(({ status }) => status);
     const [useMax, setUseMax] = useState(null)
     const [amount, setAmount] = useState('')
     const [confirm, setConfirm] = useState(null)
@@ -50,7 +52,7 @@ export function SendContainer({ match, location }) {
     const [success, setSuccess] = useState(null)
     const amountAvailableToSend = new BN(balance.available).sub(new BN(parseNearAmount(WALLET_APP_MIN_AMOUNT)))
     const sufficientBalance = !new BN(parseNearAmount(amount)).isZero() && (new BN(parseNearAmount(amount)).lte(amountAvailableToSend) || useMax) && isDecimalString(amount)
-    const sendAllowed = ((requestStatus && requestStatus.success !== false) || id.length === 64) && sufficientBalance && amount && !formLoader && !success
+    const sendAllowed = ((localAlert && localAlert.success !== false) || id.length === 64) && sufficientBalance && amount && !mainLoader && !success
 
     useEffect(() => {
         if (success) {
@@ -127,13 +129,13 @@ export function SendContainer({ match, location }) {
                 <ArrowCircleIcon color={sendAllowed ? '#6AD1E3' : ''}/>
                 <h4><Translate id='sendMoney.account.title' /></h4>
                 <AccountFormAccountId
-                    formLoader={formLoader || false}
+                    mainLoader={mainLoader || false}
                     handleChange={(e, { value }) => setId(value)}
                     defaultAccountId={id}
                     checkAvailability={() => dispatch(checkAccountAvailable(id))}
-                    requestStatus={requestStatus}
+                    localAlert={localAlert}
                     autoFocus={false}
-                    clearRequestStatus={() => dispatch(clear())}
+                    clearLocalAlert={() => dispatch(clearLocalAlert())}
                     stateAccountId={accountId}
                 />
                 <FormButton onClick={handleConfirm} disabled={!sendAllowed}>
@@ -143,7 +145,7 @@ export function SendContainer({ match, location }) {
                     <SendConfirmModal
                         onClose={() => setConfirm(false)}
                         onConfirm={handleSend}
-                        loading={formLoader}
+                        loading={mainLoader}
                         receiver={id}
                         amount={amount}
                     />
