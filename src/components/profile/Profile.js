@@ -2,13 +2,93 @@ import React, { useEffect } from 'react'
 import { Translate } from 'react-localize-redux'
 import { useDispatch, useSelector } from 'react-redux'
 import PageContainer from '../common/PageContainer';
-import ProfileDetails from './ProfileDetails'
-import ProfileSection from './ProfileSection'
+import Container from '../common/styled/Container.css'
 import RecoveryContainer from './Recovery/RecoveryContainer'
+import BalanceContainer from './balances/BalanceContainer'
 import HardwareDevices from './hardware_devices/HardwareDevices'
 import TwoFactorAuth from './two_factor/TwoFactorAuth'
 import { LOADING, NOT_FOUND, useAccount } from '../../hooks/allAccounts'
-import { getLedgerKey, checkCanEnableTwoFactor, getAccessKeys, redirectTo, getProfileBalance } from '../../actions/account';
+import { getLedgerKey, checkCanEnableTwoFactor, getAccessKeys, redirectTo, getProfileBalance } from '../../actions/account'
+import styled from 'styled-components'
+import LockupAvailTransfer from './balances/LockupAvailTransfer'
+import UserIcon from '../svg/UserIcon'
+import ShieldIcon from '../svg/ShieldIcon'
+import LockIcon from '../svg/LockIcon'
+
+const StyledContainer = styled(Container)`
+
+    @media (min-width: 992px) {
+        .split {
+            display: flex;
+        }
+
+        .left {
+            flex: 1.5;
+            margin-right: 50px;
+        }
+
+        .right {
+            flex: 1;
+        }
+    }
+
+    @media (max-width: 991px) {
+        .right {
+            margin-top: 50px;
+        }
+    }
+
+    h2 {
+        font-weight: 900 !important;
+        font-size: 24px !important;
+        margin: 10px 0;
+        text-align: left !important;
+        line-height: 140% !important;
+        display: flex;
+        align-items: center;
+
+        svg {
+            margin-right: 15px;
+
+            &.user-icon {
+                margin-right: 10px;
+            }
+
+            .background {
+                display: none;
+            }
+        }
+    }
+
+    .left {
+        @media (min-width: 992px) {
+            h2 {
+                margin-left: -20px;
+            }
+        }
+    }
+
+    .right {
+        > h4 {
+            margin: 50px 0 20px 0;
+        }
+
+        .recovery-option {
+            :nth-of-type(2), :nth-of-type(4) {
+                margin-top: 15px;
+            }
+        }
+    }
+
+    hr {
+        border: 1px solid #F0F0F0;
+        margin: 50px 0 40px 0;
+    }
+
+    .sub-heading {
+        margin: 20px 0;
+    }
+`
 
 export function Profile({ match }) {
     const { has2fa } = useSelector(({ account }) => account)
@@ -44,17 +124,34 @@ export function Profile({ match }) {
     }
 
     return (
-        <PageContainer title={<Translate id='profile.pageTitle.default' data={{ accountId }} />}>
-            <ProfileSection>
-                <ProfileDetails account={account} isOwner={isOwner} />
-                {isOwner && (
-                    <>
-                        <RecoveryContainer/>
-                        {!account.ledgerKey && <TwoFactorAuth twoFactor={twoFactor}/>}
+        <StyledContainer>
+            <LockupAvailTransfer available={account.balance.available} onTransfer={() => {/* TODO: Transfer available unlocked amount */}}/>
+            <div className='split'>
+                <div className='left'>
+                    <h2><UserIcon/><Translate id='profile.pageTitle.default'/></h2>
+                    <BalanceContainer account={account}/>
+                </div>
+                {isOwner &&
+                    <div className='right'>
+                        <h2><ShieldIcon/><Translate id='profile.security.title'/></h2>
+                        <h4><Translate id='profile.security.mostSecure'/></h4>
                         {!twoFactor && <HardwareDevices/>}
-                    </>
-                )}
-            </ProfileSection>
-        </PageContainer>
+                        <RecoveryContainer type='phrase'/>
+                        <h4><Translate id='profile.security.lessSecure'/></h4>
+                        <RecoveryContainer type='email'/>
+                        <RecoveryContainer type='phone'/>
+                        {!account.ledgerKey &&
+                            <>
+                                <hr/>
+                                <h2><LockIcon/><Translate id='profile.twoFactor'/></h2>
+                                <div className='sub-heading'><Translate id='profile.twoFactorDesc'/></div>
+                                {/* TODO: Also check recovery methods in DB for Ledger */}
+                                <TwoFactorAuth twoFactor={twoFactor}/>
+                            </>
+                        }
+                    </div>
+                }
+            </div>
+        </StyledContainer>
     )
 }
