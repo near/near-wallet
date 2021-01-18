@@ -126,7 +126,8 @@ const Container = styled.div`
     }
 `
 
-const BalanceContainer = ({ account }) => {
+const BalanceContainer = ({ account, profileBalance, balanceLoader }) => {
+    // TODO: add loader, as it takes few seconds to load data - use `balanceLoader`
     return (
         <Container>
             <div className='border-box'>

@@ -14,6 +14,7 @@ import LockupAvailTransfer from './balances/LockupAvailTransfer'
 import UserIcon from '../svg/UserIcon'
 import ShieldIcon from '../svg/ShieldIcon'
 import LockIcon from '../svg/LockIcon'
+import { actionsPending } from '../../utils/alerts'
 
 const StyledContainer = styled(Container)`
 
@@ -101,6 +102,7 @@ export function Profile({ match }) {
     const account = useAccount(accountId)
     const dispatch = useDispatch();
     const twoFactor = has2fa && recoveryMethods[account.accountId] && recoveryMethods[account.accountId].filter(m => m.kind.includes('2fa'))[0]
+    const balanceLoader = actionsPending('GET_PROFILE_BALANCE');
 
     useEffect(() => {
         dispatch(getProfileBalance(accountId))
@@ -133,6 +135,7 @@ export function Profile({ match }) {
                     <BalanceContainer
                         account={account}
                         profileBalance={profileBalance}
+                        balanceLoader={balanceLoader}
                     />
                 </div>
                 {isOwner &&
