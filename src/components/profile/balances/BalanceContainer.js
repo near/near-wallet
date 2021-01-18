@@ -132,93 +132,98 @@ const BalanceContainer = ({ account, profileBalance, balanceLoader }) => {
         <Container>
             {profileBalance && 
                 <>
-            <div className='border-box'>
-                <div className='title'>
-                    <h4><Translate id='profile.account.walletId'/></h4>
-                    <ClickToCopy copy={account.accountId}>
-                        <AccountId id={account.accountId}/>
-                    </ClickToCopy>
-                </div>
-                <div className='total'>
-                    <span><Translate id='profile.account.walletBalance'/></span>
-                    <Balance amount={account.balance.available} symbol='near'/>
-                </div>
-                <div className='item first'>
-                    <span><Translate id='profile.account.reservedForStorage'/> <InfoPopup content={<Translate id='profile.pageTitle.notFound'/>}/></span>
-                    <span><Balance amount={account.balance.available} symbol='near'/></span>
-                </div>
-                <div className='item button' id='balance-1'>
-                    <span><Translate id='profile.account.inStakingPools'/> <ChevronIcon color='#0072ce'/></span>
-                    <span><Balance amount={account.balance.available} symbol='near'/></span>
-                </div>
-                <Accordion trigger='balance-1'>
-                    <div className='item detail'>
-                        <span><Translate id='profile.account.staked'/></span>
-                        <span><Balance amount={account.balance.available} symbol='near'/></span>
+                    <div className='border-box'>
+                        <div className='title'>
+                            <h4><Translate id='profile.account.walletId'/></h4>
+                            <ClickToCopy copy={account.accountId}>
+                                <AccountId id={account.accountId}/>
+                            </ClickToCopy>
+                        </div>
+                        <div className='total'>
+                            <span><Translate id='profile.account.walletBalance'/></span>
+                            <Balance amount={profileBalance.walletBalance.sum} symbol='near'/>
+                        </div>
+                        <div className='item first'>
+                            <span><Translate id='profile.account.reservedForStorage'/> <InfoPopup content={<Translate id='profile.pageTitle.notFound'/>}/></span>
+                            <span><Balance amount={profileBalance.walletBalance.reservedForStorage} symbol='near'/></span>
+                        </div>
+                        <div className='item button' id='balance-1'>
+                            <span><Translate id='profile.account.inStakingPools'/> <ChevronIcon color='#0072ce'/></span>
+                            <span><Balance amount={profileBalance.walletBalance.inStakingPools.sum} symbol='near'/></span>
+                        </div>
+                        <Accordion trigger='balance-1'>
+                            <div className='item detail'>
+                                <span><Translate id='profile.account.staked'/></span>
+                                <span><Balance amount={profileBalance.walletBalance.inStakingPools.staked} symbol='near'/></span>
+                            </div>
+                            <div className='item detail'>
+                                <span><Translate id='profile.account.unstaked'/> <InfoPopup content={<Translate id='profile.pageTitle.notFound'/>}/></span>
+                                <span><Balance amount={profileBalance.walletBalance.inStakingPools.unstaked} symbol='near'/></span>
+                            </div>
+                        </Accordion>
+                        <div className='item'>
+                            <span><Translate id='profile.account.available'/> <InfoPopup content={<Translate id='profile.pageTitle.notFound'/>}/></span>
+                            <span><Balance amount={profileBalance.walletBalance.available} symbol='near'/></span>
+                        </div>
                     </div>
-                    <div className='item detail'>
-                        <span><Translate id='profile.account.unstaked'/> <InfoPopup content={<Translate id='profile.pageTitle.notFound'/>}/></span>
-                        <span><Balance amount={account.balance.available} symbol='near'/></span>
-                    </div>
-                </Accordion>
-                <div className='item'>
-                    <span><Translate id='profile.account.available'/> <InfoPopup content={<Translate id='profile.pageTitle.notFound'/>}/></span>
-                    <span><Balance amount={account.balance.available} symbol='near'/></span>
-                </div>
-            </div>
                     {profileBalance.lockupIdExists && 
-            <div className='border-box'>
-                <div className='title last'>
-                    <h4><Translate id='profile.lockup.lockupId'/></h4>
-                    <ClickToCopy copy={account.accountId}>
-                        <AccountId id={account.accountId}/>
-                    </ClickToCopy>
-                </div>
-                <div className='total'>
-                    <span><Translate id='profile.lockup.lockupBalance'/></span>
-                    <Balance amount={account.balance.available} symbol='near'/>
-                </div>
-                <div className='item first'>
-                    <span><Translate id='profile.account.reservedForStorage'/> <InfoPopup content={<Translate id='profile.pageTitle.notFound'/>}/></span>
-                    <span><Balance amount={account.balance.available} symbol='near'/></span>
-                </div>
-                <div className='item'>
-                    <span><Translate id='profile.lockup.locked'/> <InfoPopup content={<Translate id='profile.pageTitle.notFound'/>}/></span>
-                    <span><Balance amount={account.balance.available} symbol='near'/></span>
-                </div>
-                <div className='item locked button' id='balance-2'>
-                    <span><Translate id='profile.account.inStakingPools'/> <ChevronIcon color='#0072ce'/></span>
-                    <span><Balance amount={account.balance.available} symbol='near'/></span>
-                </div>
-                <Accordion trigger='balance-2'>
-                    <div className='item detail locked'>
-                        <span><Translate id='profile.account.staked'/></span>
-                        <span><Balance amount={account.balance.available} symbol='near'/></span>
-                    </div>
-                    <div className='item detail locked'>
-                        <span><Translate id='profile.account.unstaked'/> <InfoPopup content={<Translate id='profile.pageTitle.notFound'/>}/></span>
-                        <span><Balance amount={account.balance.available} symbol='near'/></span>
-                    </div>
-                </Accordion>
-                <div className='item'>
-                    <span><Translate id='profile.lockup.unlocked'/> <InfoPopup content={<Translate id='profile.pageTitle.notFound'/>}/></span>
-                    <span><Balance amount={account.balance.available} symbol='near'/></span>
-                </div>
-                <div className='item locked button last' id='balance-3'>
-                    <span><Translate id='profile.account.inStakingPools'/> <ChevronIcon color='#0072ce'/></span>
-                    <span><Balance amount={account.balance.available} symbol='near'/></span>
-                </div>
-                <Accordion trigger='balance-3'>
-                    <div className='item detail locked'>
-                        <span><Translate id='profile.account.staked'/></span>
-                        <span><Balance amount={account.balance.available} symbol='near'/></span>
-                    </div>
-                    <div className='item detail locked'>
-                        <span><Translate id='profile.account.unstaked'/> <InfoPopup content={<Translate id='profile.pageTitle.notFound'/>}/></span>
-                        <span><Balance amount={account.balance.available} symbol='near'/></span>
-                    </div>
-                </Accordion>
-            </div>
+                        <div className='border-box'>
+                            <div className='title last'>
+                                <h4><Translate id='profile.lockup.lockupId'/></h4>
+                                <ClickToCopy copy={profileBalance.lockupId}>
+                                    <AccountId id={profileBalance.lockupId}/>
+                                </ClickToCopy>
+                            </div>
+                            <div className='total'>
+                                <span><Translate id='profile.lockup.lockupBalance'/></span>
+                                <Balance amount={profileBalance.lockupBalance.sum} symbol='near'/>
+                            </div>
+                            <div className='item first'>
+                                <span><Translate id='profile.account.reservedForStorage'/> <InfoPopup content={<Translate id='profile.pageTitle.notFound'/>}/></span>
+                                <span><Balance amount={profileBalance.lockupBalance.reservedForStorage} symbol='near'/></span>
+                            </div>
+                            <div className='item'>
+                                <span><Translate id='profile.lockup.locked'/> <InfoPopup content={<Translate id='profile.pageTitle.notFound'/>}/></span>
+                                <span><Balance amount={profileBalance.lockupBalance.locked.sum} symbol='near'/></span>
+                            </div>
+                            <div className='item locked button' id='balance-2'>
+                                <span><Translate id='profile.account.inStakingPools'/> <ChevronIcon color='#0072ce'/></span>
+                                <span><Balance amount={profileBalance.lockupBalance.locked.inStakingPools.sum} symbol='near'/></span>
+                            </div>
+                            <Accordion trigger='balance-2'>
+                                <div className='item detail locked'>
+                                    <span><Translate id='profile.account.staked'/></span>
+                                    <span><Balance amount={profileBalance.lockupBalance.locked.inStakingPools.staked} symbol='near'/></span>
+                                </div>
+                                <div className='item detail locked'>
+                                    <span><Translate id='profile.account.unstaked'/> <InfoPopup content={<Translate id='profile.pageTitle.notFound'/>}/></span>
+                                    <span><Balance amount={profileBalance.lockupBalance.locked.inStakingPools.unstaked} symbol='near'/></span>
+                                </div>
+                            </Accordion>
+                            <div className='item'>
+                                <span><Translate id='profile.lockup.unlocked'/> <InfoPopup content={<Translate id='profile.pageTitle.notFound'/>}/></span>
+                                <span><Balance amount={profileBalance.lockupBalance.unlocked.sum} symbol='near'/></span>
+                            </div>
+                            {/* TODO: translations, popup */}
+                            <div className='item locked'>
+                                <span>Available to transfer <InfoPopup content={<Translate id='profile.pageTitle.notFound'/>}/></span>
+                                <span><Balance amount={profileBalance.lockupBalance.unlocked.availableToTransfer} symbol='near'/></span>
+                            </div>
+                            <div className='item locked button last' id='balance-3'>
+                                <span><Translate id='profile.account.inStakingPools'/> <ChevronIcon color='#0072ce'/></span>
+                                <span><Balance amount={profileBalance.lockupBalance.unlocked.inStakingPools.sum} symbol='near'/></span>
+                            </div>
+                            <Accordion trigger='balance-3'>
+                                <div className='item detail locked'>
+                                    <span><Translate id='profile.account.staked'/></span>
+                                    <span><Balance amount={profileBalance.lockupBalance.unlocked.inStakingPools.staked} symbol='near'/></span>
+                                </div>
+                                <div className='item detail locked'>
+                                    <span><Translate id='profile.account.unstaked'/> <InfoPopup content={<Translate id='profile.pageTitle.notFound'/>}/></span>
+                                    <span><Balance amount={profileBalance.lockupBalance.unlocked.inStakingPools.unstaked} symbol='near'/></span>
+                                </div>
+                            </Accordion>
+                        </div>
                     }
                 </>
             }
