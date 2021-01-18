@@ -63,7 +63,7 @@ const LocalAlertBoxContainer = styled.div`
  * @param localAlert.messageCode {string} localization code of status message to display
  */
 const LocalAlertBox = ({ localAlert, accountId, dots }) => (
-    localAlert ?
+    localAlert?.show ?
         <LocalAlertBoxContainer className={classNames(['alert-info', {'success': localAlert.success}, {'problem': !localAlert.success}, {'dots': dots}])}>
             <Translate id={localAlert.messageCode} data={{ accountId: accountId }}/>
         </LocalAlertBoxContainer>
