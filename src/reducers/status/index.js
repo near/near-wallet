@@ -66,7 +66,7 @@ const alertReducer = (state, { error, ready, payload, meta, type }) => {
             ? state.localAlert
             : meta?.alert?.localAlert
                 ? {
-                    show: ready,
+                    show: ready && ((meta?.alert?.onlyError && error) || (meta?.alert?.onlySuccess && !error)),
                     success: ready && !error,
                     messageCode: `reduxActions.${type}.${
                         ready
