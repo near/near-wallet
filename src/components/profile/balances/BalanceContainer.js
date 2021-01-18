@@ -130,6 +130,8 @@ const BalanceContainer = ({ account, profileBalance, balanceLoader }) => {
     // TODO: add loader, as it takes few seconds to load data - use `balanceLoader`
     return (
         <Container>
+            {profileBalance && 
+                <>
             <div className='border-box'>
                 <div className='title'>
                     <h4><Translate id='profile.account.walletId'/></h4>
@@ -216,6 +218,8 @@ const BalanceContainer = ({ account, profileBalance, balanceLoader }) => {
                     </div>
                 </Accordion>
             </div>
+                </>
+            }
         </Container>
     )
 }
