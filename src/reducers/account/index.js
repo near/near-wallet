@@ -164,7 +164,7 @@ const account = handleActions({
                 locked: {
                     sum: lockedAmount.sub(new BN(lockupStateStaked)).toString(),
                     inStakingPools: {
-                        sum: lockedAmount.toString(),
+                        sum: lockedAmount.sub(new BN(lockupStateStaked)).toString(),
                         staked: lockedAmount.mul(new BN(stakedUnstakedRatio)).div(new BN(ratioPrecision)).toString(),
                         unstaked: lockedAmount.sub(lockedAmount.mul(new BN(stakedUnstakedRatio)).div(new BN(ratioPrecision))).toString()
                     }
