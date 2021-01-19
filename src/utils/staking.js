@@ -271,7 +271,7 @@ export class Staking {
         }
     }
 
-    async getValidators(accountIds, accountId) {
+    async getValidators(accountIds, accountId = this.wallet.accountId) {
         const { current_validators, next_validators, current_proposals } = await this.provider.validators()
         const currentValidators = current_validators.map(({ account_id }) => account_id)
         
