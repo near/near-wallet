@@ -156,7 +156,7 @@ const account = handleActions({
             } = payload
 
             const ratioPrecision = 1000000
-            const stakedUnstakedRatio = (parseFloat(stakedBalance?.toString() || 0)) / (parseFloat(totalBalance.toString()) - parseFloat(totalUnclaimed)) * ratioPrecision
+            const stakedUnstakedRatio = (parseFloat(stakedBalance?.toString() || 0)) / (parseFloat(totalBalance?.toString() || 0) - parseFloat(totalUnclaimed)) * ratioPrecision
             
             lockupBalance = {
                 sum: totalBalance.toString(),
