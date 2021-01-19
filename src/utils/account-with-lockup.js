@@ -96,7 +96,12 @@ async function getAccountBalance() {
     const balance = await this.wrappedAccount.getAccountBalance()
 
     // TODO: Should lockup contract balance be retrieved separately only when needed?
-    const lockupAccountId = getLockupAccountId(this.accountId)
+    let lockupAccountId
+    if (process.env.REACT_APP_USE_TESTINGLOCKUP && this.accountId.length < 64) {
+        lockupAccountId = `testinglockup.${this.accountId}`
+    } else {
+        lockupAccountId = getLockupAccountId(this.accountId)
+    }
     console.log('lockupAccountId', lockupAccountId)
     try {
         const lockupBalance = await new Account(this.connection, lockupAccountId).getAccountBalance();
