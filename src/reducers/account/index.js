@@ -210,6 +210,8 @@ const account = handleActions({
             lockupBalance.locked.inStakingPools.staked = stakedBalanceHelper
             lockupBalance.locked.inStakingPools.unstaked = unstakedBalanceHelper
             lockupBalance.locked.inStakingPools.sum = stakedBalanceHelper.add(unstakedBalanceHelper)
+
+            lockupBalance.sum = lockupBalance.reservedForStorage.add(lockupBalance.locked.sum).add(lockupBalance.unlocked.sum)
         }
 
         return {
