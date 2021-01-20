@@ -149,7 +149,9 @@ async function getAccountBalance() {
             lockupStateStaked: lockupBalance.stateStaked,
             totalBalance,
             stakedBalance,
-            lockupAccountId
+            lockupAccountId,
+            unreleasedAmount,
+            lockupBalanceAvailable: lockupBalance.available
         }
     } catch (error) {
         if (error.message.match(/ccount ".+" doesn't exist/) || error.message.includes('does not exist while viewing') || error.message.includes('cannot find contract code for account')) {
