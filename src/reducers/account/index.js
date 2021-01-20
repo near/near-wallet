@@ -120,12 +120,11 @@ const account = handleActions({
         const { 
             balance: {
                 stakedBalance,
-                totalBalance,
-                lockupStateStaked,
-                lockedAmount,
-                ownersBalance,
                 lockupAccountId,
-                stateStaked
+                stateStaked,
+                lockupStateStaked,
+                unreleasedAmount,
+                lockupBalanceAvailable
             }, 
             account: {
                 totalStaked,
@@ -134,7 +133,6 @@ const account = handleActions({
             },
             lockupIdExists
         } = payload
-
 
         const walletBalance = {
             sum: new BN(stateStaked).add(new BN(totalStaked)).add(new BN(totalPending)).add(new BN(totalUnstaked)).toString(),
@@ -150,35 +148,67 @@ const account = handleActions({
         let lockupBalance = {}
         if (lockupIdExists) {
             const {
-                lockupAccount: {
-                    totalUnclaimed
-                }
+                lockupAccount
             } = payload
+            const ZERO = new BN('0')
 
-            const ratioPrecision = 1000000
-            const stakedUnstakedRatio = (parseFloat(stakedBalance.toString())) / (parseFloat(totalBalance.toString()) - parseFloat(totalUnclaimed)) * ratioPrecision
-            
             lockupBalance = {
-                sum: totalBalance.toString(),
-                reservedForStorage: lockupStateStaked,
+                sum: ZERO,
+                reservedForStorage: new BN(lockupStateStaked),
                 locked: {
-                    sum: lockedAmount.sub(new BN(lockupStateStaked)).toString(),
+                    sum: unreleasedAmount,
                     inStakingPools: {
-                        sum: lockedAmount.sub(new BN(lockupStateStaked)).toString(),
-                        staked: lockedAmount.mul(new BN(stakedUnstakedRatio)).div(new BN(ratioPrecision)).toString(),
-                        unstaked: lockedAmount.sub(lockedAmount.mul(new BN(stakedUnstakedRatio)).div(new BN(ratioPrecision))).toString()
+                        sum: ZERO,
+                        staked: ZERO,
+                        unstaked: ZERO,
                     }
                 },
                 unlocked: {
-                    sum: ownersBalance.toString(),
-                    availableToTransfer: totalUnclaimed,
+                    sum: new BN(lockupBalanceAvailable).add(stakedBalance).sub(unreleasedAmount),
+                    availableToTransfer: ZERO,
                     inStakingPools: {
-                        sum: ownersBalance.sub(new BN(totalUnclaimed)).toString(),
-                        staked: ownersBalance.sub(new BN(totalUnclaimed)).mul(new BN(stakedUnstakedRatio)).div(new BN(ratioPrecision)).toString(),
-                        unstaked: ownersBalance.sub(new BN(totalUnclaimed)).sub(ownersBalance.sub(new BN(totalUnclaimed)).mul(new BN(stakedUnstakedRatio)).div(new BN(ratioPrecision))).toString()
+                        sum: ZERO,
+                        staked: ZERO,
+                        unstaked: ZERO,
                     },
                 }
             }
+
+            let stakedBalanceHelper = stakedBalance
+            let unstakedBalanceHelper = ZERO
+            let totalAvailable = new BN(lockupAccount.totalAvailable)
+            let lockupTotalPending = new BN(lockupAccount.totalPending)
+
+            if (stakedBalanceHelper.gt(lockupBalance.unlocked.sum)) {
+                if (totalAvailable.gt(lockupBalance.unlocked.sum)) {
+                    stakedBalanceHelper = stakedBalanceHelper.sub(totalAvailable)
+                    lockupBalance.unlocked.inStakingPools.sum = ZERO
+                    lockupBalance.unlocked.availableToTransfer = lockupBalance.unlocked.sum
+                } else {
+                    stakedBalanceHelper = stakedBalanceHelper.sub(lockupBalance.unlocked.sum)
+                    lockupBalance.unlocked.inStakingPools.sum = lockupBalance.unlocked.sum.sub(totalAvailable)
+                    lockupBalance.unlocked.availableToTransfer = totalAvailable
+                }
+
+                if (lockupTotalPending.gt(lockupBalance.unlocked.inStakingPools.sum)) {
+                    lockupBalance.unlocked.inStakingPools.staked = ZERO
+                    lockupBalance.unlocked.inStakingPools.unstaked = lockupBalance.unlocked.inStakingPools.sum
+                    unstakedBalanceHelper = lockupTotalPending.sub(lockupBalance.unlocked.inStakingPools.sum)
+                    stakedBalanceHelper = stakedBalanceHelper.sub(unstakedBalanceHelper)
+                } else {
+                    lockupBalance.unlocked.inStakingPools.staked = lockupBalance.unlocked.inStakingPools.sum.sub(lockupTotalPending)
+                    lockupBalance.unlocked.inStakingPools.unstaked = lockupTotalPending
+                }
+            } else {
+                stakedBalanceHelper = ZERO
+                lockupBalance.unlocked.inStakingPools.sum = stakedBalance.sub(totalAvailable)
+                lockupBalance.unlocked.inStakingPools.staked = stakedBalance.sub(totalAvailable).sub(lockupTotalPending)
+                lockupBalance.unlocked.inStakingPools.unstaked = lockupTotalPending
+                lockupBalance.unlocked.availableToTransfer = totalAvailable
+            }
+            
+            lockupBalance.locked.inStakingPools.staked = stakedBalanceHelper
+            lockupBalance.locked.inStakingPools.unstaked = unstakedBalanceHelper
         }
 
         return {
