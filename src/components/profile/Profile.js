@@ -75,9 +75,7 @@ const StyledContainer = styled(Container)`
         }
 
         .recovery-option {
-            :nth-of-type(2), :nth-of-type(4) {
-                margin-top: 15px;
-            }
+            margin-top: 15px;
         }
     }
 
@@ -92,10 +90,9 @@ const StyledContainer = styled(Container)`
 `
 
 export function Profile({ match }) {
-    const { has2fa } = useSelector(({ account }) => account)
+    const { has2fa, profileBalance } = useSelector(({ account }) => account)
     const loginAccountId = useSelector(state => state.account.accountId)
     const recoveryMethods = useSelector(({ recoveryMethods }) => recoveryMethods);
-    const profileBalance = useSelector(({ account }) => account.profileBalance);
     const accountIdFromUrl = match.params.accountId
     const accountId = accountIdFromUrl || loginAccountId
     const isOwner = accountId === loginAccountId
@@ -128,8 +125,8 @@ export function Profile({ match }) {
 
     return (
         <StyledContainer>
-            {isOwner && 
-                <LockupAvailTransfer available={account.balance.available} onTransfer={() => {/* TODO: Transfer available unlocked amount */}} />
+            {isOwner && profileBalance && profileBalance.lockupIdExists &&
+                <LockupAvailTransfer available={profileBalance.lockupBalance.unlocked.availableToTransfer || '0'} onTransfer={() => {/* TODO: Transfer available unlocked amount */}} />
             }
             <div className='split'>
                 <div className='left'>
