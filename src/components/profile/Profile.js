@@ -126,6 +126,7 @@ export function Profile({ match }) {
 
     const handleTransferFromLockup = async () => {
         await dispatch(transferAllFromLockup())
+        await dispatch(getProfileBalance(accountId))
     }
 
     return (
