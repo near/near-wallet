@@ -180,31 +180,27 @@ const account = handleActions({
             let lockupTotalPending = new BN(lockupAccount.totalPending)
 
             if (stakedBalanceHelper.gt(lockupBalance.unlocked.sum)) {
-                if (totalAvailable.gt(lockupBalance.unlocked.sum)) {
-                    stakedBalanceHelper = stakedBalanceHelper.sub(totalAvailable)
-                    lockupBalance.unlocked.inStakingPools.sum = ZERO
-                    lockupBalance.unlocked.availableToTransfer = lockupBalance.unlocked.sum
-                } else {
-                    stakedBalanceHelper = stakedBalanceHelper.sub(lockupBalance.unlocked.sum)
-                    lockupBalance.unlocked.inStakingPools.sum = lockupBalance.unlocked.sum.sub(totalAvailable)
-                    lockupBalance.unlocked.availableToTransfer = totalAvailable
-                }
-
-                if (lockupTotalPending.gt(lockupBalance.unlocked.inStakingPools.sum)) {
+                if (totalAvailable.gt(lockupBalance.unlocked.sum) || lockupTotalPending.gt(lockupBalance.unlocked.sum)) {
+                    lockupBalance.unlocked.inStakingPools.sum = lockupBalance.unlocked.sum
+                    lockupBalance.unlocked.availableToTransfer = ZERO
                     lockupBalance.unlocked.inStakingPools.staked = ZERO
                     lockupBalance.unlocked.inStakingPools.unstaked = lockupBalance.unlocked.inStakingPools.sum
-                    unstakedBalanceHelper = lockupTotalPending.sub(lockupBalance.unlocked.inStakingPools.sum)
-                    stakedBalanceHelper = stakedBalanceHelper.sub(unstakedBalanceHelper)
+
+                    unstakedBalanceHelper = lockupTotalPending.add(totalAvailable).sub(lockupBalance.unlocked.inStakingPools.sum)
+                    stakedBalanceHelper = stakedBalanceHelper.sub(unstakedBalanceHelper).sub(lockupBalance.unlocked.inStakingPools.sum)
                 } else {
-                    lockupBalance.unlocked.inStakingPools.staked = lockupBalance.unlocked.inStakingPools.sum.sub(lockupTotalPending)
-                    lockupBalance.unlocked.inStakingPools.unstaked = lockupTotalPending
+                    stakedBalanceHelper = stakedBalanceHelper.sub(lockupBalance.unlocked.sum)
+                    lockupBalance.unlocked.inStakingPools.sum = lockupBalance.unlocked.sum
+                    lockupBalance.unlocked.availableToTransfer = lockupBalance.unlocked.sum.sub(lockupBalance.unlocked.inStakingPools.sum)
+                    lockupBalance.unlocked.inStakingPools.staked = lockupBalance.unlocked.inStakingPools.sum.sub(lockupTotalPending).sub(totalAvailable)
+                    lockupBalance.unlocked.inStakingPools.unstaked = lockupTotalPending.add(totalAvailable)
                 }
             } else {
                 stakedBalanceHelper = ZERO
-                lockupBalance.unlocked.inStakingPools.sum = stakedBalance.sub(totalAvailable)
+                lockupBalance.unlocked.inStakingPools.sum = stakedBalance
                 lockupBalance.unlocked.inStakingPools.staked = stakedBalance.sub(totalAvailable).sub(lockupTotalPending)
-                lockupBalance.unlocked.inStakingPools.unstaked = lockupTotalPending
-                lockupBalance.unlocked.availableToTransfer = totalAvailable
+                lockupBalance.unlocked.inStakingPools.unstaked = lockupTotalPending.add(totalAvailable)
+                lockupBalance.unlocked.availableToTransfer = lockupBalance.unlocked.sum.sub(stakedBalance)
             }
             
             lockupBalance.locked.inStakingPools.staked = stakedBalanceHelper
