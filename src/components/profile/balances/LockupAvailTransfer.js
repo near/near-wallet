@@ -46,7 +46,7 @@ const LockupAvailTransfer = ({ onTransfer, loading, available }) => {
         <Container> 
             <GiftIcon/>
             <div><Translate id='profile.lockupBanner.title' data={{ amount: utils.format.formatNearAmount(available, 5) }}/></div>
-            <FormButton color='green-dark border' disabled={loading} sendingString='Transferring from Lockup' onClick={onTransfer}><Translate id='profile.lockupBanner.cta'/></FormButton>
+            <FormButton color='green-dark border' disabled={loading} sendingString='button.transferring' onClick={onTransfer}><Translate id='profile.lockupBanner.cta'/></FormButton>
         </Container>
     )
 }

@@ -8,13 +8,14 @@ import BalanceContainer from './balances/BalanceContainer'
 import HardwareDevices from './hardware_devices/HardwareDevices'
 import TwoFactorAuth from './two_factor/TwoFactorAuth'
 import { LOADING, NOT_FOUND, useAccount } from '../../hooks/allAccounts'
-import { getLedgerKey, checkCanEnableTwoFactor, getAccessKeys, redirectTo, getProfileBalance } from '../../actions/account'
+import { getLedgerKey, checkCanEnableTwoFactor, getAccessKeys, redirectTo, getProfileBalance, transferAllFromLockup } from '../../actions/account'
 import styled from 'styled-components'
 import LockupAvailTransfer from './balances/LockupAvailTransfer'
 import UserIcon from '../svg/UserIcon'
 import ShieldIcon from '../svg/ShieldIcon'
 import LockIcon from '../svg/LockIcon'
 import { actionsPending } from '../../utils/alerts'
+import BN from 'bn.js'
 
 const StyledContainer = styled(Container)`
 
@@ -90,7 +91,7 @@ const StyledContainer = styled(Container)`
 `
 
 export function Profile({ match }) {
-    const { has2fa, profileBalance } = useSelector(({ account }) => account)
+    const { has2fa, profileBalance, formLoader } = useSelector(({ account }) => account)
     const loginAccountId = useSelector(state => state.account.accountId)
     const recoveryMethods = useSelector(({ recoveryMethods }) => recoveryMethods);
     const accountIdFromUrl = match.params.accountId
@@ -123,10 +124,18 @@ export function Profile({ match }) {
         return <PageContainer title={<Translate id='profile.pageTitle.notFound' data={{ accountId }} />} />
     }
 
+    const handleTransferFromLockup = async () => {
+        await dispatch(transferAllFromLockup())
+    }
+
     return (
         <StyledContainer>
-            {isOwner && profileBalance && profileBalance.lockupIdExists &&
-                <LockupAvailTransfer available={profileBalance.lockupBalance.unlocked.availableToTransfer || '0'} onTransfer={() => {/* TODO: Transfer available unlocked amount */}} />
+            {isOwner && profileBalance && profileBalance.lockupIdExists && !new BN(profileBalance.lockupBalance.unlocked.availableToTransfer).isZero() &&
+                <LockupAvailTransfer
+                    available={profileBalance.lockupBalance.unlocked.availableToTransfer || '0'}
+                    onTransfer={handleTransferFromLockup}
+                    loading={formLoader}
+                />
             }
             <div className='split'>
                 <div className='left'>
