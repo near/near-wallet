@@ -91,7 +91,8 @@ const StyledContainer = styled(Container)`
 `
 
 export function Profile({ match }) {
-    const { has2fa, profileBalance, formLoader } = useSelector(({ account }) => account)
+    const { has2fa, profileBalance } = useSelector(({ account }) => account)
+    const { mainLoader } = useSelector(({ status }) => status)
     const loginAccountId = useSelector(state => state.account.accountId)
     const recoveryMethods = useSelector(({ recoveryMethods }) => recoveryMethods);
     const accountIdFromUrl = match.params.accountId
@@ -135,7 +136,7 @@ export function Profile({ match }) {
                 <LockupAvailTransfer
                     available={profileBalance.lockupBalance.unlocked.availableToTransfer || '0'}
                     onTransfer={handleTransferFromLockup}
-                    loading={formLoader}
+                    loading={mainLoader}
                 />
             }
             <div className='split'>
