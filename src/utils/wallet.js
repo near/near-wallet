@@ -158,8 +158,10 @@ class Wallet {
     }
 
     async transferAllFromLockup() {
-        const lockupAccountId = getLockupAccountId(this.accountId)
-        await transferAllFromLockup(lockupAccountId)
+        const account = await this.getAccount(this.accountId);
+        if (account.transferAllFromLockup) {
+            await account.transferAllFromLockup()
+        }
     }
 
     isEmpty() {

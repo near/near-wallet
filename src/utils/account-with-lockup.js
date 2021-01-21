@@ -16,7 +16,7 @@ export function decorateWithLockup(account) {
     // TODO: Use solution without hacky mix-in inheritance
     // TODO: Looks like best if near-api-js allows to specify transaction middleware
 
-    let decorated = {...account, wrappedAccount: account, signAndSendTransaction, getAccountBalance };
+    let decorated = {...account, wrappedAccount: account, signAndSendTransaction, getAccountBalance, transferAllFromLockup, deleteLockupAccountIfPossible };
     decorated.__proto__ = account.__proto__;
     return decorated;
 }
@@ -38,7 +38,7 @@ async function signAndSendTransaction(receiverId, actions) {
             await this.wrappedAccount.functionCall(lockupAccountId, 'check_transfers_vote', {}, BASE_GAS.mul(new BN(3)))
         }
     
-        await transferAllFromLockup(lockupAccountId, missingAmount)
+        await this.transferAllFromLockup(lockupAccountId, missingAmount)
     }
 
     return await this.wrappedAccount.signAndSendTransaction.call(this, receiverId, actions);
@@ -63,7 +63,8 @@ async function deleteLockupAccountIfPossible(lockupAccountId) {
     }
 }
 
-export async function transferAllFromLockup(lockupAccountId, missingAmount) {
+export async function transferAllFromLockup(missingAmount) {
+    const lockupAccountId = getLockupAccountId(this.accountId)
     console.info('Attempting to transfer from lockup account ID:', lockupAccountId)
     await this.wrappedAccount.functionCall(lockupAccountId, 'refresh_staking_pool_balance', {}, BASE_GAS.mul(new BN(3)))
     let liquidBalance = new BN(await this.wrappedAccount.viewFunction(lockupAccountId, 'get_liquid_owners_balance'))
@@ -78,7 +79,7 @@ export async function transferAllFromLockup(lockupAccountId, missingAmount) {
         receiver_id: this.wrappedAccount.accountId
     }, BASE_GAS.mul(new BN(2)))
 
-    await deleteLockupAccountIfPossible(lockupAccountId)
+    await this.deleteLockupAccountIfPossible(lockupAccountId)
 }
 
 // TODO: Refactor into near-api-js
