@@ -22,7 +22,7 @@ import {
 
 import { TwoFactor } from './twoFactor'
 import { Staking } from './staking'
-import { decorateWithLockup, getLockupAccountId } from './account-with-lockup'
+import { decorateWithLockup, getLockupAccountId, transferAllFromLockup } from './account-with-lockup'
 import { MULTISIG_CHANGE_METHODS } from 'near-api-js/lib/account_multisig'
 
 export const WALLET_CREATE_NEW_ACCOUNT_URL = 'create'
@@ -155,6 +155,13 @@ class Wallet {
 
     async sendMoney(receiverId, amount) {
         await (await this.getAccount(this.accountId)).sendMoney(receiverId, amount)
+    }
+
+    async transferAllFromLockup() {
+        const account = await this.getAccount(this.accountId);
+        if (account.transferAllFromLockup) {
+            await account.transferAllFromLockup()
+        }
     }
 
     isEmpty() {

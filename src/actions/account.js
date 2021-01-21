@@ -445,7 +445,7 @@ export const { recoverAccountSeedPhrase } = createActions({
     ],
 })
 
-export const { signAndSendTransactions, setSignTransactionStatus, sendMoney } = createActions({
+export const { signAndSendTransactions, setSignTransactionStatus, sendMoney, transferAllFromLockup } = createActions({
     SET_SIGN_TRANSACTION_STATUS: [
         (status) => ({ status }),
         () => ({})
@@ -457,6 +457,10 @@ export const { signAndSendTransactions, setSignTransactionStatus, sendMoney } = 
     SEND_MONEY: [
         wallet.sendMoney.bind(wallet),
         () => showAlert({ onlyError: true })
+    ],
+    TRANSFER_ALL_FROM_LOCKUP: [
+        wallet.transferAllFromLockup.bind(wallet),
+        () => showAlert()
     ]
 })
 

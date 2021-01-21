@@ -16,7 +16,7 @@ export function decorateWithLockup(account) {
     // TODO: Use solution without hacky mix-in inheritance
     // TODO: Looks like best if near-api-js allows to specify transaction middleware
 
-    let decorated = {...account, wrappedAccount: account, signAndSendTransaction, getAccountBalance };
+    let decorated = {...account, wrappedAccount: account, signAndSendTransaction, getAccountBalance, transferAllFromLockup, deleteLockupAccountIfPossible };
     decorated.__proto__ = account.__proto__;
     return decorated;
 }
@@ -33,46 +33,52 @@ async function signAndSendTransaction(receiverId, actions) {
     const missingAmount = total.sub(new BN(balance)).add(new BN(MIN_BALANCE_FOR_GAS));
     const lockupAccountId = getLockupAccountId(this.accountId)
     if (missingAmount.gt(new BN(0)) && (await accountExists(this.connection, lockupAccountId))) {
-        console.warn('Not enough balance on main account, checking lockup account', lockupAccountId);
-
-        if (!(await this.wrappedAccount.viewFunction(lockupAccountId, 'are_transfers_enabled'))) {
-            await this.wrappedAccount.functionCall(lockupAccountId, 'check_transfers_vote', {}, BASE_GAS.mul(new BN(3)))
-        }
-
-        const lockedBalance = new BN(await this.wrappedAccount.viewFunction(lockupAccountId, 'get_locked_amount'))
-        const poolAccountId = await this.wrappedAccount.viewFunction(lockupAccountId, 'get_staking_pool_account_id')
-        if (!poolAccountId && lockedBalance.eq(new BN(0))) {
-            console.info('Destroying lockup account to claim remaining funds', lockupAccountId)
-
-            const newKeyPair = KeyPair.fromRandom('ed25519')
-            await this.wrappedAccount.functionCall(lockupAccountId, 'add_full_access_key', {
-                new_public_key: newKeyPair.publicKey.toString()
-            }, BASE_GAS.mul(new BN(2)))
-
-            const tmpKeyStore = new InMemoryKeyStore()
-            await tmpKeyStore.setKey(this.connection.networkId, lockupAccountId, newKeyPair)
-            const tmpConnection = new Connection(this.connection.networkId, this.connection.provider, new InMemorySigner(tmpKeyStore))
-            const lockupAccount = new Account(tmpConnection, lockupAccountId)
-            await lockupAccount.deleteAccount(this.accountId)
-        } else {
-            let liquidBalance = new BN(await this.wrappedAccount.viewFunction(lockupAccountId, 'get_liquid_owners_balance'))
-            if (!liquidBalance.gt(missingAmount)) {
-                await this.wrappedAccount.functionCall(lockupAccountId, 'refresh_staking_pool_balance', {}, BASE_GAS.mul(new BN(3)))
-                liquidBalance = new BN(await this.wrappedAccount.viewFunction(lockupAccountId, 'get_liquid_owners_balance'))
-                if (!liquidBalance.gt(missingAmount)) {
-                    throw new WalletError('Not enough tokens.', 'signAndSendTransactions.notEnoughTokens')
-                }
-            }
-
-            await this.wrappedAccount.functionCall(lockupAccountId, 'transfer', {
-                // NOTE: Move all the liquid tokens to minimize transactions in the long run
-                amount: liquidBalance.toString(),
-                receiver_id: this.wrappedAccount.accountId
-            }, BASE_GAS.mul(new BN(2)))
-        }
+        console.warn('Not enough balance on main account, checking lockup account', lockupAccountId);    
+        await this.transferAllFromLockup(missingAmount)
     }
 
     return await this.wrappedAccount.signAndSendTransaction.call(this, receiverId, actions);
+}
+
+async function deleteLockupAccountIfPossible(lockupAccountId) {
+    const lockedBalance = new BN(await this.wrappedAccount.viewFunction(lockupAccountId, 'get_locked_amount'))
+    const poolAccountId = await this.wrappedAccount.viewFunction(lockupAccountId, 'get_staking_pool_account_id')
+
+    if (!poolAccountId && lockedBalance.eq(new BN(0))) {
+        console.info('Destroying lockup account to claim remaining funds', lockupAccountId)
+        const newKeyPair = KeyPair.fromRandom('ed25519')
+        await this.wrappedAccount.functionCall(lockupAccountId, 'add_full_access_key', {
+            new_public_key: newKeyPair.publicKey.toString()
+        }, BASE_GAS.mul(new BN(2)))
+
+        const tmpKeyStore = new InMemoryKeyStore()
+        await tmpKeyStore.setKey(this.connection.networkId, lockupAccountId, newKeyPair)
+        const tmpConnection = new Connection(this.connection.networkId, this.connection.provider, new InMemorySigner(tmpKeyStore))
+        const lockupAccount = new Account(tmpConnection, lockupAccountId)
+        await lockupAccount.deleteAccount(this.accountId)
+    }
+}
+
+export async function transferAllFromLockup(missingAmount) {
+    const lockupAccountId = getLockupAccountId(this.accountId)
+    if (!(await this.wrappedAccount.viewFunction(lockupAccountId, 'are_transfers_enabled'))) {
+        await this.wrappedAccount.functionCall(lockupAccountId, 'check_transfers_vote', {}, BASE_GAS.mul(new BN(3)))
+    }
+    console.info('Attempting to transfer from lockup account ID:', lockupAccountId)
+    await this.wrappedAccount.functionCall(lockupAccountId, 'refresh_staking_pool_balance', {}, BASE_GAS.mul(new BN(3)))
+    let liquidBalance = new BN(await this.wrappedAccount.viewFunction(lockupAccountId, 'get_liquid_owners_balance'))
+
+    if (missingAmount && !liquidBalance.gt(missingAmount)) {
+        throw new WalletError('Not enough tokens.', 'signAndSendTransactions.notEnoughTokens')
+    }
+
+    await this.wrappedAccount.functionCall(lockupAccountId, 'transfer', {
+        // NOTE: Move all the liquid tokens to minimize transactions in the long run
+        amount: liquidBalance.toString(),
+        receiver_id: this.wrappedAccount.accountId
+    }, BASE_GAS.mul(new BN(2)))
+
+    await this.deleteLockupAccountIfPossible(lockupAccountId)
 }
 
 // TODO: Refactor into near-api-js

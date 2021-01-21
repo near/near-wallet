@@ -443,7 +443,8 @@
         "recovering": "Finding Account",
         "authorizing": "Authorizing",
         "deAuthorizing": "Deauthorizing",
-        "finish": "Finish"
+        "finish": "Finish",
+        "transferring": "Transferring"
     },
 
     "link": {
