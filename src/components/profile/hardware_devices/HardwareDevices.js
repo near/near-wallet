@@ -14,6 +14,8 @@ import {
 } from '../../../actions/account';
 import { useRecoveryMethods } from '../../../hooks/recoveryMethods';
 import ConfirmDisable from './ConfirmDisable';
+import SkeletonLoading from '../../common/SkeletonLoading';
+import { actionsPending } from '../../../utils/alerts'
 
 const Container = styled(Card)`
 
@@ -67,6 +69,7 @@ const HardwareDevices = () => {
     const hasLedger = recoveryMethods.filter(method => method.kind === 'ledger').map(key => key.publicKey).some(key => publicKeys.includes(key))
     const ledgerIsConnected = account.ledgerKey !== null;
     const hasLedgerButNotConnected = hasLedger && !ledgerIsConnected
+    const recoveryLoader = actionsPending('LOAD_RECOVERY_METHODS')
 
     const handleConfirmDisable = async () => {
         try {
@@ -94,39 +97,48 @@ const HardwareDevices = () => {
             return <FormButton linkTo={`/setup-ledger/${account.accountId}`} color='blue'><Translate id='button.enable'/></FormButton> 
         }
     }
-    
-    return (
-        <Container>
-            {!confirmDisable ?
-                <>
-                    <div className='device'>
-                        <div className='name'>
-                            <Translate id='hardwareDevices.ledger.title'/>
-                            {ledgerIsConnected && <div><Translate id='hardwareDevices.ledger.auth'/></div>}
+
+    if (!recoveryLoader) {
+        return (
+            <Container>
+                {!confirmDisable ?
+                    <>
+                        <div className='device'>
+                            <div className='name'>
+                                <Translate id='hardwareDevices.ledger.title'/>
+                                {ledgerIsConnected && <div><Translate id='hardwareDevices.ledger.auth'/></div>}
+                            </div>
+                            {getActionButton()}
                         </div>
-                        {getActionButton()}
-                    </div>
-                    {!hasOtherMethods && ledgerIsConnected && 
-                        <i><Translate id='hardwareDevices.ledger.disclaimer'/></i>
-                    }
-                    {hasLedgerButNotConnected &&
-                        <div className='color-red'><Translate id='hardwareDevices.ledger.connect'/></div>
-                    }
-                    {!hasLedger && 
-                        <i style={{fontStyle: 'normal', color: '#3F4045'}}><Translate id='hardwareDevices.desc'/></i>
-                    }
-                </>
-                :
-                <ConfirmDisable 
-                    onConfirmDisable={handleConfirmDisable} 
-                    onKeepEnabled={() => setConfirmDisable(false)}
-                    accountId={account.accountId}
-                    disabling={disabling}
-                    component='hardwareDevices'
-                />
-            }
-        </Container>
-    )
+                        {!hasOtherMethods && ledgerIsConnected && 
+                            <i><Translate id='hardwareDevices.ledger.disclaimer'/></i>
+                        }
+                        {hasLedgerButNotConnected &&
+                            <div className='color-red'><Translate id='hardwareDevices.ledger.connect'/></div>
+                        }
+                        {!hasLedger && 
+                            <i style={{fontStyle: 'normal', color: '#3F4045'}}><Translate id='hardwareDevices.desc'/></i>
+                        }
+                    </>
+                    :
+                    <ConfirmDisable 
+                        onConfirmDisable={handleConfirmDisable} 
+                        onKeepEnabled={() => setConfirmDisable(false)}
+                        accountId={account.accountId}
+                        disabling={disabling}
+                        component='hardwareDevices'
+                    />
+                }
+            </Container>
+        )
+    } else {
+        return (
+            <SkeletonLoading
+                height='138px'
+                show={recoveryLoader}
+            />
+        )
+    }
 }
 
 

@@ -16,6 +16,7 @@ import ShieldIcon from '../svg/ShieldIcon'
 import LockIcon from '../svg/LockIcon'
 import { actionsPending } from '../../utils/alerts'
 import BN from 'bn.js'
+import SkeletonLoading from '../common/SkeletonLoading';
 
 const StyledContainer = styled(Container)`
 
@@ -62,10 +63,25 @@ const StyledContainer = styled(Container)`
         }
     }
 
+    .left, .right {
+        .animation-wrapper {
+            border-radius: 8px;
+            overflow: hidden;
+        }
+    }
+
     .left {
         @media (min-width: 992px) {
             h2 {
                 margin-left: -20px;
+            }
+        }
+
+        .animation-wrapper {
+            margin-top: 50px;
+
+            :last-of-type {
+                margin-top: 30px;
             }
         }
     }
@@ -75,7 +91,8 @@ const StyledContainer = styled(Container)`
             margin: 50px 0 20px 0;
         }
 
-        .recovery-option {
+        .recovery-option,
+        .animation-wrapper {
             margin-top: 15px;
         }
     }
@@ -102,6 +119,7 @@ export function Profile({ match }) {
     const dispatch = useDispatch();
     const twoFactor = has2fa && recoveryMethods[account.accountId] && recoveryMethods[account.accountId].filter(m => m.kind.includes('2fa'))[0]
     const balanceLoader = actionsPending('GET_PROFILE_BALANCE');
+    const recoveryLoader = actionsPending('LOAD_RECOVERY_METHODS');
 
     useEffect(() => {
         dispatch(getProfileBalance(accountId))
@@ -143,11 +161,19 @@ export function Profile({ match }) {
             <div className='split'>
                 <div className='left'>
                     <h2><UserIcon/><Translate id='profile.pageTitle.default'/></h2>
-                    <BalanceContainer
-                        account={account}
-                        profileBalance={profileBalance}
-                        balanceLoader={balanceLoader}
-                    />
+                    {!balanceLoader ? (
+                        <BalanceContainer
+                            account={account}
+                            profileBalance={profileBalance}
+                            balanceLoader={balanceLoader}
+                        />
+                    ) : (
+                        <SkeletonLoading
+                            height='323px'
+                            show={balanceLoader}
+                            number={2}
+                        />
+                    )}
                 </div>
                 {isOwner &&
                     <div className='right'>
@@ -162,9 +188,18 @@ export function Profile({ match }) {
                             <>
                                 <hr/>
                                 <h2><LockIcon/><Translate id='profile.twoFactor'/></h2>
-                                <div className='sub-heading'><Translate id='profile.twoFactorDesc'/></div>
-                                {/* TODO: Also check recovery methods in DB for Ledger */}
-                                <TwoFactorAuth twoFactor={twoFactor}/>
+                                {!recoveryLoader ? (
+                                    <>
+                                        <div className='sub-heading'><Translate id='profile.twoFactorDesc'/></div>
+                                        {/* TODO: Also check recovery methods in DB for Ledger */}
+                                        <TwoFactorAuth twoFactor={twoFactor}/>
+                                    </>
+                                ) : (
+                                    <SkeletonLoading
+                                        height='80px'
+                                        show={recoveryLoader}
+                                    />
+                                )}
                             </>
                         }
                     </div>
