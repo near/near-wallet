@@ -12,9 +12,9 @@ import {
     initTwoFactor,
     verifyTwoFactor,
     deployMultisig,
-    redirectToApp,
-    clearAlert
+    redirectToApp
 } from '../../../actions/account';
+import { clearGlobalAlert } from '../../../actions/status'
 import { useRecoveryMethods } from '../../../hooks/recoveryMethods';
 import EnterVerificationCode from '../EnterVerificationCode'
 import Container from '../../common/styled/Container.css'
@@ -98,7 +98,7 @@ export function EnableTwoFactor(props) {
     const handleConfirm = async (securityCode) => {
         if (initiated && securityCode.length === 6) {
             await dispatch(verifyTwoFactor(securityCode))
-            await dispatch(clearAlert())
+            await dispatch(clearGlobalAlert())
             await handleDeployMultisig()
         }
     }
