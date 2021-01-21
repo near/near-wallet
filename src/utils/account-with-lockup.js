@@ -33,12 +33,8 @@ async function signAndSendTransaction(receiverId, actions) {
     const missingAmount = total.sub(new BN(balance)).add(new BN(MIN_BALANCE_FOR_GAS));
     const lockupAccountId = getLockupAccountId(this.accountId)
     if (missingAmount.gt(new BN(0)) && (await accountExists(this.connection, lockupAccountId))) {
-        console.warn('Not enough balance on main account, checking lockup account', lockupAccountId);
-        if (!(await this.wrappedAccount.viewFunction(lockupAccountId, 'are_transfers_enabled'))) {
-            await this.wrappedAccount.functionCall(lockupAccountId, 'check_transfers_vote', {}, BASE_GAS.mul(new BN(3)))
-        }
-    
-        await this.transferAllFromLockup(lockupAccountId, missingAmount)
+        console.warn('Not enough balance on main account, checking lockup account', lockupAccountId);    
+        await this.transferAllFromLockup(missingAmount)
     }
 
     return await this.wrappedAccount.signAndSendTransaction.call(this, receiverId, actions);
@@ -65,6 +61,9 @@ async function deleteLockupAccountIfPossible(lockupAccountId) {
 
 export async function transferAllFromLockup(missingAmount) {
     const lockupAccountId = getLockupAccountId(this.accountId)
+    if (!(await this.wrappedAccount.viewFunction(lockupAccountId, 'are_transfers_enabled'))) {
+        await this.wrappedAccount.functionCall(lockupAccountId, 'check_transfers_vote', {}, BASE_GAS.mul(new BN(3)))
+    }
     console.info('Attempting to transfer from lockup account ID:', lockupAccountId)
     await this.wrappedAccount.functionCall(lockupAccountId, 'refresh_staking_pool_balance', {}, BASE_GAS.mul(new BN(3)))
     let liquidBalance = new BN(await this.wrappedAccount.viewFunction(lockupAccountId, 'get_liquid_owners_balance'))
