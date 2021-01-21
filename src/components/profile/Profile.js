@@ -137,6 +137,7 @@ export function Profile({ match }) {
                     available={profileBalance.lockupBalance.unlocked.availableToTransfer || '0'}
                     onTransfer={handleTransferFromLockup}
                     loading={mainLoader}
+                    sending={actionsPending('TRANSFER_ALL_FROM_LOCKUP')}
                 />
             }
             <div className='split'>

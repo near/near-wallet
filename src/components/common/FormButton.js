@@ -149,9 +149,9 @@ const CustomButton = styled(Button)`
             }
 
             &.border {
-                color: #008D6A;
-                background-color: #C8F6E0;
-                border: 2px solid #56BC8F;
+                color: #008D6A !important;
+                background-color: #C8F6E0 !important;
+                border: 2px solid #56BC8F !important;
             }
         }
         &.green-white-arrow {
