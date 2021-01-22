@@ -148,12 +148,6 @@ const GlobalAlertNew = ({ globalAlert, actionStatus, clearGlobalAlert, closeIcon
     const [closing, setClosing] = useState(false)
     const [alerts, setAlerts] = useState([])
 
-    const onMissingTranslation = () => {
-        if (!globalAlert.success) {
-            return 'Sorry an error has occurred. You may want to try again.';
-        }
-    };
-
     const handleClose = (type) => {
         setClosing(type)
         setTimeout(() => {
@@ -192,7 +186,7 @@ const GlobalAlertNew = ({ globalAlert, actionStatus, clearGlobalAlert, closeIcon
                                     {({ translate }) => 
                                         translate(alert.messageCode) === ''
                                             ? <Translate id={`reduxActions.default.${alert.success ? 'success' : 'error'}`} />
-                                            : <Translate id={alert.messageCode} data={alert.data} options={{ onMissingTranslation }} />
+                                            : <Translate id={alert.messageCode} data={alert.data} />
                                     }
                                 </Translate>
 
