@@ -41,12 +41,12 @@ const Container = styled.div`
     }
 `
 
-const LockupAvailTransfer = ({ onTransfer, loading, available, sending }) => {
+const LockupAvailTransfer = ({ onTransfer, available, sending }) => {
     return (
         <Container> 
             <GiftIcon/>
             <div><Translate id='profile.lockupBanner.title' data={{ amount: utils.format.formatNearAmount(available, 5) }}/></div>
-            <FormButton color='green-dark border' disabled={loading} sending={sending} sendingString='button.transferring' onClick={onTransfer}><Translate id='profile.lockupBanner.cta'/></FormButton>
+            <FormButton color='green-dark border' disabled={sending} sending={sending} sendingString='button.transferring' onClick={onTransfer}><Translate id='profile.lockupBanner.cta'/></FormButton>
         </Container>
     )
 }

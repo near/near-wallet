@@ -156,7 +156,6 @@ export function Profile({ match }) {
                 <LockupAvailTransfer
                     available={profileBalance.lockupBalance.unlocked.availableToTransfer || '0'}
                     onTransfer={handleTransferFromLockup}
-                    loading={balanceLoader}
                     sending={actionsPending('TRANSFER_ALL_FROM_LOCKUP')}
                 />
             }
