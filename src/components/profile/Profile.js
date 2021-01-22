@@ -8,7 +8,7 @@ import BalanceContainer from './balances/BalanceContainer'
 import HardwareDevices from './hardware_devices/HardwareDevices'
 import TwoFactorAuth from './two_factor/TwoFactorAuth'
 import { LOADING, NOT_FOUND, useAccount } from '../../hooks/allAccounts'
-import { getLedgerKey, checkCanEnableTwoFactor, getAccessKeys, redirectTo, getProfileBalance, transferAllFromLockup } from '../../actions/account'
+import { getLedgerKey, checkCanEnableTwoFactor, getAccessKeys, redirectTo, getProfileBalance, transferAllFromLockup, loadRecoveryMethods } from '../../actions/account'
 import styled from 'styled-components'
 import LockupAvailTransfer from './balances/LockupAvailTransfer'
 import UserIcon from '../svg/UserIcon'
@@ -16,6 +16,7 @@ import ShieldIcon from '../svg/ShieldIcon'
 import LockIcon from '../svg/LockIcon'
 import { actionsPending } from '../../utils/alerts'
 import BN from 'bn.js'
+import SkeletonLoading from '../common/SkeletonLoading';
 
 const StyledContainer = styled(Container)`
 
@@ -62,10 +63,25 @@ const StyledContainer = styled(Container)`
         }
     }
 
+    .left, .right {
+        .animation-wrapper {
+            border-radius: 8px;
+            overflow: hidden;
+        }
+    }
+
     .left {
         @media (min-width: 992px) {
             h2 {
                 margin-left: -20px;
+            }
+        }
+
+        .animation-wrapper {
+            margin-top: 50px;
+
+            :last-of-type {
+                margin-top: 30px;
             }
         }
     }
@@ -75,7 +91,8 @@ const StyledContainer = styled(Container)`
             margin: 50px 0 20px 0;
         }
 
-        .recovery-option {
+        .recovery-option,
+        .animation-wrapper {
             margin-top: 15px;
         }
     }
@@ -92,7 +109,6 @@ const StyledContainer = styled(Container)`
 
 export function Profile({ match }) {
     const { has2fa, profileBalance } = useSelector(({ account }) => account)
-    const { mainLoader } = useSelector(({ status }) => status)
     const loginAccountId = useSelector(state => state.account.accountId)
     const recoveryMethods = useSelector(({ recoveryMethods }) => recoveryMethods);
     const accountIdFromUrl = match.params.accountId
@@ -100,11 +116,14 @@ export function Profile({ match }) {
     const isOwner = accountId === loginAccountId
     const account = useAccount(accountId)
     const dispatch = useDispatch();
-    const twoFactor = has2fa && recoveryMethods[account.accountId] && recoveryMethods[account.accountId].filter(m => m.kind.includes('2fa'))[0]
-    const balanceLoader = actionsPending('GET_PROFILE_BALANCE');
+    const userRecoveryMethods = recoveryMethods[account.accountId]
+    const twoFactor = has2fa && userRecoveryMethods && userRecoveryMethods.filter(m => m.kind.includes('2fa'))[0]
+    const balanceLoader = actionsPending('GET_PROFILE_BALANCE') && !profileBalance
+    const recoveryLoader = actionsPending('LOAD_RECOVERY_METHODS') && !userRecoveryMethods
 
     useEffect(() => {
         dispatch(getProfileBalance(accountId))
+        dispatch(loadRecoveryMethods())
 
         if (accountIdFromUrl && accountIdFromUrl !== accountIdFromUrl.toLowerCase()) {
             dispatch(redirectTo(`/profile/${accountIdFromUrl.toLowerCase()}`))
@@ -136,35 +155,50 @@ export function Profile({ match }) {
                 <LockupAvailTransfer
                     available={profileBalance.lockupBalance.unlocked.availableToTransfer || '0'}
                     onTransfer={handleTransferFromLockup}
-                    loading={mainLoader}
                     sending={actionsPending('TRANSFER_ALL_FROM_LOCKUP')}
                 />
             }
             <div className='split'>
                 <div className='left'>
                     <h2><UserIcon/><Translate id='profile.pageTitle.default'/></h2>
-                    <BalanceContainer
-                        account={account}
-                        profileBalance={profileBalance}
-                        balanceLoader={balanceLoader}
-                    />
+                    {!balanceLoader ? (
+                        <BalanceContainer
+                            account={account}
+                            profileBalance={profileBalance}
+                        />
+                    ) : (
+                        <SkeletonLoading
+                            height='323px'
+                            show={balanceLoader}
+                            number={2}
+                        />
+                    )}
                 </div>
                 {isOwner &&
                     <div className='right'>
                         <h2><ShieldIcon/><Translate id='profile.security.title'/></h2>
                         <h4><Translate id='profile.security.mostSecure'/></h4>
-                        {!twoFactor && <HardwareDevices/>}
-                        <RecoveryContainer type='phrase'/>
+                        {!twoFactor && <HardwareDevices recoveryMethods={userRecoveryMethods}/>}
+                        <RecoveryContainer type='phrase' recoveryMethods={userRecoveryMethods}/>
                         <h4><Translate id='profile.security.lessSecure'/></h4>
-                        <RecoveryContainer type='email'/>
-                        <RecoveryContainer type='phone'/>
+                        <RecoveryContainer type='email' recoveryMethods={userRecoveryMethods}/>
+                        <RecoveryContainer type='phone' recoveryMethods={userRecoveryMethods}/>
                         {!account.ledgerKey &&
                             <>
                                 <hr/>
                                 <h2><LockIcon/><Translate id='profile.twoFactor'/></h2>
-                                <div className='sub-heading'><Translate id='profile.twoFactorDesc'/></div>
-                                {/* TODO: Also check recovery methods in DB for Ledger */}
-                                <TwoFactorAuth twoFactor={twoFactor}/>
+                                {!recoveryLoader ? (
+                                    <>
+                                        <div className='sub-heading'><Translate id='profile.twoFactorDesc'/></div>
+                                        {/* TODO: Also check recovery methods in DB for Ledger */}
+                                        <TwoFactorAuth twoFactor={twoFactor}/>
+                                    </>
+                                ) : (
+                                    <SkeletonLoading
+                                        height='80px'
+                                        show={recoveryLoader}
+                                    />
+                                )}
                             </>
                         }
                     </div>

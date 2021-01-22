@@ -5,13 +5,12 @@ import styled from 'styled-components';
 import Card from '../../common/styled/Card.css';
 import FormButton from '../../common/FormButton';
 import { Translate } from 'react-localize-redux';
-import KeysIcon from '../../svg/KeysIcon';
 import SkeletonLoading from '../../common/SkeletonLoading';
 import { MULTISIG_MIN_AMOUNT } from '../../../utils/wallet'
 import Balance from '../../common/Balance'
 import { utils } from 'near-api-js'
 import ConfirmDisable from '../hardware_devices/ConfirmDisable'
-import { disableMultisig } from '../../../actions/account'
+import { disableMultisig, loadRecoveryMethods } from '../../../actions/account'
 import { actionsPending } from '../../../utils/alerts'
 
 const Container = styled(Card)`
@@ -59,12 +58,13 @@ const TwoFactorAuth = ({ twoFactor, history }) => {
 
     const handleConfirmDisable = async () => {
         await dispatch(disableMultisig())
+        await dispatch(loadRecoveryMethods())
         setConfirmDisable(false)
     }
 
     return (
         <Container>
-            {twoFactor && !loading && !confirmDisable &&
+            {twoFactor && !confirmDisable &&
                 <div className='method'>
                     <div className='top'>
                         <div>
@@ -84,8 +84,7 @@ const TwoFactorAuth = ({ twoFactor, history }) => {
                     </div>
                 </div>
             }
-            {
-            twoFactor && !loading && confirmDisable &&
+            {twoFactor && confirmDisable &&
                 <ConfirmDisable 
                     onConfirmDisable={handleConfirmDisable} 
                     onKeepEnabled={() => setConfirmDisable(false)}
@@ -94,7 +93,7 @@ const TwoFactorAuth = ({ twoFactor, history }) => {
                     component='twoFactor'
                 />
             }
-            {!twoFactor && !loading &&
+            {!twoFactor &&
                 <div className='method'>
                     <div className='top'>
                         <div className='title'><Translate id='twoFactor.notEnabled'/></div>
@@ -105,14 +104,6 @@ const TwoFactorAuth = ({ twoFactor, history }) => {
                             <Translate id='twoFactor.notEnoughBalance'/> <Balance symbol='near' amount={utils.format.parseNearAmount(MULTISIG_MIN_AMOUNT)}/>
                         </div>
                     }
-                </div>
-            }
-            {loading &&
-                <div className='method'>
-                    <SkeletonLoading
-                        height='50px'
-                        show={loading}
-                    />
                 </div>
             }
         </Container>
