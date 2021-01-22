@@ -60,7 +60,10 @@ async function deleteLockupAccountIfPossible(lockupAccountId) {
 }
 
 export async function transferAllFromLockup(missingAmount) {
-    const lockupAccountId = getLockupAccountId(this.accountId)
+    let lockupAccountId = getLockupAccountId(this.accountId)
+    if (process.env.REACT_APP_USE_TESTINGLOCKUP && this.accountId.length < 64) {
+        lockupAccountId = `testinglockup.${this.accountId}`
+    }
     if (!(await this.wrappedAccount.viewFunction(lockupAccountId, 'are_transfers_enabled'))) {
         await this.wrappedAccount.functionCall(lockupAccountId, 'check_transfers_vote', {}, BASE_GAS.mul(new BN(3)))
     }
