@@ -840,7 +840,9 @@
             "inStakingPools": "In staking pools",
             "staked": "Staked",
             "unstaked": "Unstaked",
-            "available": "Available"
+            "available": "Available",
+            "pendingRelease": "Pending release",
+            "availableToWithdraw": "Available for withdrawal"
         },
         "lockup": {
             "lockupBalance": "Lockup balance",
