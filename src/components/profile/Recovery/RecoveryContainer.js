@@ -8,7 +8,6 @@ import {
     loadRecoveryMethods
 } from '../../../actions/account';
 import SkeletonLoading from '../../common/SkeletonLoading';
-import { useRecoveryMethods } from '../../../hooks/recoveryMethods';
 import { actionsPending } from '../../../utils/alerts'
 
 const Container = styled.div`
@@ -33,16 +32,17 @@ const Container = styled.div`
     }
 `
 
-const RecoveryContainer = ({ type }) => {
+const RecoveryContainer = ({ type, recoveryMethods }) => {
     const [deletingMethod, setDeletingMethod] = useState('');
     const dispatch = useDispatch();
     const account = useSelector(({ account }) => account);
+    let userRecoveryMethods = recoveryMethods || []
     const allKinds = ['email', 'phone', 'phrase'];
-    const activeMethods = useRecoveryMethods(account.accountId).filter(({ kind }) => allKinds.includes(kind));
+    const activeMethods = userRecoveryMethods.filter(({ kind }) => allKinds.includes(kind));
     const currentActiveKinds = new Set(activeMethods.map(method => method.kind));
     const missingKinds = allKinds.filter(kind => !currentActiveKinds.has(kind))
     const deleteAllowed = [...currentActiveKinds].length > 1 || account.ledgerKey;
-    const recoveryLoader = actionsPending('LOAD_RECOVERY_METHODS')
+    const recoveryLoader = actionsPending('LOAD_RECOVERY_METHODS') && !userRecoveryMethods.length
     missingKinds.forEach(kind => activeMethods.push({kind: kind}));
 
     const handleDeleteMethod = async (method) => {

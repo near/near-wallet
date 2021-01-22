@@ -8,7 +8,7 @@ import BalanceContainer from './balances/BalanceContainer'
 import HardwareDevices from './hardware_devices/HardwareDevices'
 import TwoFactorAuth from './two_factor/TwoFactorAuth'
 import { LOADING, NOT_FOUND, useAccount } from '../../hooks/allAccounts'
-import { getLedgerKey, checkCanEnableTwoFactor, getAccessKeys, redirectTo, getProfileBalance, transferAllFromLockup } from '../../actions/account'
+import { getLedgerKey, checkCanEnableTwoFactor, getAccessKeys, redirectTo, getProfileBalance, transferAllFromLockup, loadRecoveryMethods } from '../../actions/account'
 import styled from 'styled-components'
 import LockupAvailTransfer from './balances/LockupAvailTransfer'
 import UserIcon from '../svg/UserIcon'
@@ -117,12 +117,14 @@ export function Profile({ match }) {
     const isOwner = accountId === loginAccountId
     const account = useAccount(accountId)
     const dispatch = useDispatch();
-    const twoFactor = has2fa && recoveryMethods[account.accountId] && recoveryMethods[account.accountId].filter(m => m.kind.includes('2fa'))[0]
-    const balanceLoader = actionsPending('GET_PROFILE_BALANCE');
-    const recoveryLoader = actionsPending('LOAD_RECOVERY_METHODS');
+    const userRecoveryMethods = recoveryMethods[account.accountId]
+    const twoFactor = has2fa && userRecoveryMethods && userRecoveryMethods.filter(m => m.kind.includes('2fa'))[0]
+    const balanceLoader = actionsPending('GET_PROFILE_BALANCE') && !profileBalance
+    const recoveryLoader = actionsPending('LOAD_RECOVERY_METHODS')
 
     useEffect(() => {
         dispatch(getProfileBalance(accountId))
+        dispatch(loadRecoveryMethods())
 
         if (accountIdFromUrl && accountIdFromUrl !== accountIdFromUrl.toLowerCase()) {
             dispatch(redirectTo(`/profile/${accountIdFromUrl.toLowerCase()}`))
@@ -154,7 +156,7 @@ export function Profile({ match }) {
                 <LockupAvailTransfer
                     available={profileBalance.lockupBalance.unlocked.availableToTransfer || '0'}
                     onTransfer={handleTransferFromLockup}
-                    loading={mainLoader}
+                    loading={balanceLoader}
                     sending={actionsPending('TRANSFER_ALL_FROM_LOCKUP')}
                 />
             }
@@ -165,7 +167,6 @@ export function Profile({ match }) {
                         <BalanceContainer
                             account={account}
                             profileBalance={profileBalance}
-                            balanceLoader={balanceLoader}
                         />
                     ) : (
                         <SkeletonLoading
@@ -179,11 +180,11 @@ export function Profile({ match }) {
                     <div className='right'>
                         <h2><ShieldIcon/><Translate id='profile.security.title'/></h2>
                         <h4><Translate id='profile.security.mostSecure'/></h4>
-                        {!twoFactor && <HardwareDevices/>}
-                        <RecoveryContainer type='phrase'/>
+                        {!twoFactor && <HardwareDevices recoveryMethods={userRecoveryMethods}/>}
+                        <RecoveryContainer type='phrase' recoveryMethods={userRecoveryMethods}/>
                         <h4><Translate id='profile.security.lessSecure'/></h4>
-                        <RecoveryContainer type='email'/>
-                        <RecoveryContainer type='phone'/>
+                        <RecoveryContainer type='email' recoveryMethods={userRecoveryMethods}/>
+                        <RecoveryContainer type='phone' recoveryMethods={userRecoveryMethods}/>
                         {!account.ledgerKey &&
                             <>
                                 <hr/>

@@ -10,9 +10,9 @@ import {
     getAccessKeys,
     disableLedger,
     getLedgerKey,
-    addLedgerAccessKey
+    addLedgerAccessKey,
+    loadRecoveryMethods
 } from '../../../actions/account';
-import { useRecoveryMethods } from '../../../hooks/recoveryMethods';
 import ConfirmDisable from './ConfirmDisable';
 import SkeletonLoading from '../../common/SkeletonLoading';
 import { actionsPending } from '../../../utils/alerts'
@@ -55,21 +55,21 @@ const Container = styled(Card)`
 
 `
 
-const HardwareDevices = () => {
+const HardwareDevices = ({ recoveryMethods }) => {
 
     const [disabling, setDisabling] = useState(false);
     const [confirmDisable, setConfirmDisable] = useState(false);
     const dispatch = useDispatch();
     const account = useSelector(({ account }) => account);
-    const recoveryMethods = useRecoveryMethods(account.accountId);
+    let userRecoveryMethods = recoveryMethods || []
     const keys = account.fullAccessKeys || [];
-    const recoveryKeys = recoveryMethods.filter(method => method.kind !== 'ledger').map(key => key.publicKey)
+    const recoveryKeys = userRecoveryMethods.filter(method => method.kind !== 'ledger').map(key => key.publicKey)
     const publicKeys = keys.map(key => key.public_key)
     const hasOtherMethods = publicKeys.some(key => recoveryKeys.includes(key))
-    const hasLedger = recoveryMethods.filter(method => method.kind === 'ledger').map(key => key.publicKey).some(key => publicKeys.includes(key))
-    const ledgerIsConnected = account.ledgerKey !== null;
+    const hasLedger = userRecoveryMethods.filter(method => method.kind === 'ledger').map(key => key.publicKey).some(key => publicKeys.includes(key))
+    const ledgerIsConnected = account.ledgerKey !== null && hasLedger;
     const hasLedgerButNotConnected = hasLedger && !ledgerIsConnected
-    const recoveryLoader = actionsPending('LOAD_RECOVERY_METHODS')
+    const recoveryLoader = actionsPending('LOAD_RECOVERY_METHODS') && !userRecoveryMethods.length
 
     const handleConfirmDisable = async () => {
         try {
@@ -78,6 +78,7 @@ const HardwareDevices = () => {
         } finally {
             await dispatch(getAccessKeys())
             await dispatch(getLedgerKey())
+            await dispatch(loadRecoveryMethods())
             setDisabling(false)
             setConfirmDisable(false);
         }
@@ -86,6 +87,7 @@ const HardwareDevices = () => {
     const handleConnectLedger = async () => {
         await dispatch(addLedgerAccessKey())
         await dispatch(getLedgerKey())
+        await dispatch(loadRecoveryMethods())
     }
 
     const getActionButton = () => {
