@@ -124,7 +124,8 @@ const account = handleActions({
                 stateStaked,
                 lockupStateStaked,
                 unreleasedAmount,
-                lockupBalanceAvailable
+                lockupBalanceAvailable,
+                lockupAmount
             }, 
             account: {
                 totalStaked,
@@ -156,7 +157,7 @@ const account = handleActions({
                 sum: ZERO,
                 reservedForStorage: new BN(lockupStateStaked),
                 locked: {
-                    sum: unreleasedAmount,
+                    sum: unreleasedAmount.sub(new BN(lockupStateStaked)),
                     inStakingPools: {
                         sum: ZERO,
                         staked: ZERO,
@@ -164,7 +165,7 @@ const account = handleActions({
                     }
                 },
                 unlocked: {
-                    sum: new BN(lockupBalanceAvailable).add(stakedBalance).sub(unreleasedAmount),
+                    sum: new BN(lockupBalanceAvailable).add(stakedBalance).sub(unreleasedAmount.sub(new BN(lockupStateStaked))),
                     availableToTransfer: ZERO,
                     inStakingPools: {
                         sum: ZERO,
