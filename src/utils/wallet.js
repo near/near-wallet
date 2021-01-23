@@ -762,12 +762,12 @@ class Wallet {
         const { publicKey, secretKey } = parseSeedPhrase(seedPhrase)
 
         const tempKeyStore = new nearApiJs.keyStores.InMemoryKeyStore()
+        const implicitAccountId = Buffer.from(PublicKey.fromString(publicKey).data).toString('hex')
         let accountIds = [accountId]
         if (!accountId) {
             accountIds = await getAccountIds(publicKey)
-            const implicitAccountId = Buffer.from(PublicKey.fromString(publicKey).data).toString('hex')
-            accountIds.push(implicitAccountId)
         }
+        accountIds.push(implicitAccountId)
 
         // remove duplicate and non-existing accounts
         const accountsSet = new Set(accountIds)
