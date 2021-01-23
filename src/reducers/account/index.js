@@ -128,20 +128,22 @@ const account = handleActions({
                 lockupAmount
             }, 
             account: {
-                totalStaked,
+                totalAvailable,
                 totalPending,
+                totalStaked,
                 totalUnstaked
             },
             lockupIdExists
         } = payload
 
         const walletBalance = {
-            sum: new BN(stateStaked).add(new BN(totalStaked)).add(new BN(totalPending)).add(new BN(totalUnstaked)).toString(),
-            reservedForStorage: stateStaked,
+            walletBalance: new BN(totalStaked).add(new BN(totalPending)).add(new BN(totalAvailable)).add(new BN(totalUnstaked)).add(new BN(stateStaked)).toString(),
+            reservedForStorage: stateStaked.toString(),
             inStakingPools: {
-                sum: new BN(totalStaked).add(new BN(totalPending)).toString(),
+                sum: new BN(totalStaked).add(new BN(totalPending)).add(new BN(totalAvailable)).toString(),
                 staked: totalStaked,
-                unstaked: totalPending
+                pendingRelease: totalPending,
+                availableForWithdraw: totalAvailable
             },
             available: totalUnstaked
         }
