@@ -8,7 +8,7 @@ import { LOCKUP_ACCOUNT_ID_SUFFIX, MIN_BALANCE_FOR_GAS } from './wallet'
 import { WalletError } from './walletError'
 
 // TODO: Should gas allowance be dynamically calculated
-const LOCKUP_MIN_BALANCE = new BN(parseNearAmount('35'));
+export const LOCKUP_MIN_BALANCE = new BN(parseNearAmount('35'));
 
 const BASE_GAS = new BN('25000000000000');
 
