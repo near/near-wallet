@@ -17,6 +17,8 @@ import {
     getProfileBalance
 } from '../../actions/account'
 
+import { LOCKUP_MIN_BALANCE } from '../../utils/account-with-lockup'
+
 const initialState = {
     formLoader: false,
     sentMessage: false,
@@ -122,10 +124,9 @@ const account = handleActions({
                 stakedBalance,
                 lockupAccountId,
                 stateStaked,
-                lockupStateStaked,
-                unreleasedAmount,
-                lockupBalanceAvailable,
-                lockupAmount
+                totalBalance,
+                lockedAmount,
+                liquidOwnersBalance
             }, 
             account: {
                 totalAvailable,
@@ -153,63 +154,19 @@ const account = handleActions({
             const {
                 lockupAccount
             } = payload
-            const ZERO = new BN('0')
 
             lockupBalance = {
-                sum: ZERO,
-                reservedForStorage: new BN(lockupStateStaked),
-                locked: {
-                    sum: unreleasedAmount.sub(new BN(lockupStateStaked)),
-                    inStakingPools: {
-                        sum: ZERO,
-                        staked: ZERO,
-                        unstaked: ZERO,
-                    }
+                lockupBalance: totalBalance.toString(),
+                reservedForStorage: LOCKUP_MIN_BALANCE.toString(),
+                inStakingPools: {
+                    sum: stakedBalance.add(new BN(lockupAccount.totalPending)).add(new BN(lockupAccount.totalAvailable)).toString(),
+                    staked: stakedBalance.toString(),
+                    pendingRelease: new BN(lockupAccount.totalPending).toString(),
+                    availableForWithdraw: new BN(lockupAccount.totalAvailable).toString()
                 },
-                unlocked: {
-                    sum: new BN(lockupBalanceAvailable).add(stakedBalance).sub(unreleasedAmount.sub(new BN(lockupStateStaked))),
-                    availableToTransfer: ZERO,
-                    inStakingPools: {
-                        sum: ZERO,
-                        staked: ZERO,
-                        unstaked: ZERO,
-                    },
-                }
+                locked: lockedAmount.toString(),
+                availableToTransfer: liquidOwnersBalance.toString()
             }
-
-            let stakedBalanceHelper = stakedBalance
-            let unstakedBalanceHelper = ZERO
-            let totalAvailable = new BN(lockupAccount.totalAvailable)
-            let lockupTotalPending = new BN(lockupAccount.totalPending)
-
-            if (stakedBalanceHelper.gt(lockupBalance.unlocked.sum)) {
-                lockupBalance.unlocked.inStakingPools.sum = lockupBalance.unlocked.sum
-                lockupBalance.unlocked.availableToTransfer = lockupBalance.unlocked.sum.sub(lockupBalance.unlocked.inStakingPools.sum)
-
-                if (totalAvailable.gt(lockupBalance.unlocked.sum) || lockupTotalPending.gt(lockupBalance.unlocked.sum)) {
-                    lockupBalance.unlocked.inStakingPools.staked = ZERO
-                    lockupBalance.unlocked.inStakingPools.unstaked = lockupBalance.unlocked.inStakingPools.sum
-
-                    unstakedBalanceHelper = lockupTotalPending.add(totalAvailable).sub(lockupBalance.unlocked.inStakingPools.sum)
-                    stakedBalanceHelper = stakedBalanceHelper.sub(unstakedBalanceHelper).sub(lockupBalance.unlocked.inStakingPools.sum)
-                } else {
-                    stakedBalanceHelper = stakedBalanceHelper.sub(lockupBalance.unlocked.sum)
-                    lockupBalance.unlocked.inStakingPools.staked = lockupBalance.unlocked.inStakingPools.sum.sub(lockupTotalPending).sub(totalAvailable)
-                    lockupBalance.unlocked.inStakingPools.unstaked = lockupTotalPending.add(totalAvailable)
-                }
-            } else {
-                stakedBalanceHelper = ZERO
-                lockupBalance.unlocked.inStakingPools.sum = stakedBalance
-                lockupBalance.unlocked.inStakingPools.staked = lockupBalance.unlocked.inStakingPools.sum.sub(totalAvailable).sub(lockupTotalPending)
-                lockupBalance.unlocked.inStakingPools.unstaked = lockupTotalPending.add(totalAvailable)
-                lockupBalance.unlocked.availableToTransfer = lockupBalance.unlocked.sum.sub(lockupBalance.unlocked.inStakingPools.sum)
-            }
-            
-            lockupBalance.locked.inStakingPools.staked = stakedBalanceHelper
-            lockupBalance.locked.inStakingPools.unstaked = unstakedBalanceHelper
-            lockupBalance.locked.inStakingPools.sum = stakedBalanceHelper.add(unstakedBalanceHelper)
-
-            lockupBalance.sum = lockupBalance.reservedForStorage.add(lockupBalance.locked.sum).add(lockupBalance.unlocked.sum)
         }
 
         return {
