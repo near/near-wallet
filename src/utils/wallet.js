@@ -608,7 +608,6 @@ class Wallet {
 
         return {
             account: await this.staking.updateStakingAccount([], [] , accountId),
-            lockupAccount: lockupId && await this.staking.updateStakingLockup(accountId),
             balance: await this.getBalance(accountId),
             lockupIdExists: !!lockupId
         }
