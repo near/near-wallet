@@ -140,7 +140,7 @@ const BalanceContainer = ({ account, profileBalance }) => {
                         </div>
                         <div className='total'>
                             <span><Translate id='profile.account.walletBalance'/></span>
-                            <Balance amount={profileBalance.walletBalance.sum} symbol='near'/>
+                            <Balance amount={profileBalance.walletBalance.walletBalance} symbol='near'/>
                         </div>
                         <div className='item first'>
                             <span><Translate id='profile.account.reservedForStorage'/> <InfoPopup content={<Translate id='minimumBalance'/>}/></span>
@@ -157,11 +157,11 @@ const BalanceContainer = ({ account, profileBalance }) => {
                             </div>
                             <div className='item detail'>
                                 <span><Translate id='profile.account.pendingRelease'/> <InfoPopup content={<Translate id='staking.balanceBox.pending.info'/>}/></span>
-                                <span><Balance amount={profileBalance.walletBalance.inStakingPools.unstaked} symbol='near'/></span>
+                                <span><Balance amount={profileBalance.walletBalance.inStakingPools.pendingRelease} symbol='near'/></span>
                             </div>
                             <div className='item detail'>
                                 <span><Translate id='profile.account.availableToWithdraw'/> <InfoPopup content={<Translate id='staking.balanceBox.available.info'/>}/></span>
-                                <span><Balance amount={profileBalance.walletBalance.inStakingPools.unstaked} symbol='near'/></span>
+                                <span><Balance amount={profileBalance.walletBalance.inStakingPools.availableForWithdraw} symbol='near'/></span>
                             </div>
                         </Accordion>
                         <div className='item'>
@@ -179,33 +179,33 @@ const BalanceContainer = ({ account, profileBalance }) => {
                             </div>
                             <div className='total'>
                                 <span><Translate id='profile.lockup.lockupBalance'/></span>
-                                <Balance amount={profileBalance.lockupBalance.sum} symbol='near'/>
+                                <Balance amount={profileBalance.lockupBalance.lockupBalance} symbol='near'/>
                             </div>
                             <div className='item first'>
                                 <span><Translate id='profile.account.reservedForStorage'/> <InfoPopup content={<Translate id='minimumBalance'/>}/></span>
                                 <span><Balance amount={profileBalance.lockupBalance.reservedForStorage} symbol='near'/></span>
                             </div>
-                            <div className='item locked button' id='balance-2'>
+                            <div className='item button' id='balance-2'>
                                 <span><Translate id='profile.account.inStakingPools'/> <ChevronIcon color='#0072ce'/></span>
-                                <span><Balance amount={profileBalance.lockupBalance.locked.inStakingPools.sum} symbol='near'/></span>
+                                <span><Balance amount={profileBalance.lockupBalance.inStakingPools.sum} symbol='near'/></span>
                             </div>
                             <Accordion trigger='balance-2'>
                                 <div className='item detail locked'>
                                     <span><Translate id='profile.account.staked'/> <InfoPopup content={<Translate id='staking.balanceBox.staked.info'/>}/></span>
-                                    <span><Balance amount={profileBalance.lockupBalance.locked.inStakingPools.staked} symbol='near'/></span>
+                                    <span><Balance amount={profileBalance.lockupBalance.inStakingPools.staked} symbol='near'/></span>
                                 </div>
                                 <div className='item detail locked'>
                                     <span><Translate id='profile.account.pendingRelease'/> <InfoPopup content={<Translate id='staking.balanceBox.pending.info'/>}/></span>
-                                    <span><Balance amount={profileBalance.lockupBalance.locked.inStakingPools.unstaked} symbol='near'/></span>
+                                    <span><Balance amount={profileBalance.lockupBalance.inStakingPools.pendingRelease} symbol='near'/></span>
                                 </div>
                                 <div className='item detail locked'>
                                     <span><Translate id='profile.account.availableToWithdraw'/> <InfoPopup content={<Translate id='staking.balanceBox.available.info'/>}/></span>
-                                    <span><Balance amount={profileBalance.lockupBalance.locked.inStakingPools.unstaked} symbol='near'/></span>
+                                    <span><Balance amount={profileBalance.lockupBalance.inStakingPools.availableForWithdraw} symbol='near'/></span>
                                 </div>
                             </Accordion>
                             <div className='item'>
                                 <span><Translate id='profile.lockup.locked'/> <InfoPopup content={<Translate id='lockedBalance'/>}/></span>
-                                <span><Balance amount={profileBalance.lockupBalance.locked.sum} symbol='near'/></span>
+                                <span><Balance amount={profileBalance.lockupBalance.locked} symbol='near'/></span>
                             </div>
                             <div className='item'>
                                 <span><Translate id='profile.lockup.unlocked'/> <InfoPopup content={<Translate id='unlockedBalance'/>}/></span>
