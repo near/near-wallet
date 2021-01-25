@@ -17,6 +17,7 @@ import LockIcon from '../svg/LockIcon'
 import { actionsPending } from '../../utils/alerts'
 import BN from 'bn.js'
 import SkeletonLoading from '../common/SkeletonLoading';
+import InfoPopup from '../common/InfoPopup'
 
 const StyledContainer = styled(Container)`
 
@@ -89,6 +90,12 @@ const StyledContainer = styled(Container)`
     .right {
         > h4 {
             margin: 50px 0 20px 0;
+            display: flex;
+
+            .popup-trigger, svg {
+                width: 20px;
+                height: 20px;
+            }
         }
 
         .recovery-option,
@@ -183,10 +190,10 @@ export function Profile({ match }) {
                 {isOwner &&
                     <div className='right'>
                         <h2><ShieldIcon/><Translate id='profile.security.title'/></h2>
-                        <h4><Translate id='profile.security.mostSecure'/></h4>
+                        <h4><Translate id='profile.security.mostSecure'/><InfoPopup content={<Translate id='profile.security.mostSecureDesc'/>}/></h4>
                         {!twoFactor && <HardwareDevices recoveryMethods={userRecoveryMethods}/>}
                         <RecoveryContainer type='phrase' recoveryMethods={userRecoveryMethods}/>
-                        <h4><Translate id='profile.security.lessSecure'/></h4>
+                        <h4><Translate id='profile.security.lessSecure'/><InfoPopup content={<Translate id='profile.security.lessSecureDesc'/>}/></h4>
                         <RecoveryContainer type='email' recoveryMethods={userRecoveryMethods}/>
                         <RecoveryContainer type='phone' recoveryMethods={userRecoveryMethods}/>
                         {!account.ledgerKey &&
