@@ -56,7 +56,7 @@
     "@babel/preset-react": "^7.12.7",
     "@sentry/cli": "^1.60.1",
     "@storybook/addon-actions": "^6.1.12",
-    "@storybook/addon-essentials": "^6.1.12",
+    "@storybook/addon-essentials": "^6.1.15",
     "@storybook/addon-links": "^6.1.12",
     "@storybook/react": "^6.1.10",
     "babel-eslint": "^10.1.0",
