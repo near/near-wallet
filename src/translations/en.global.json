@@ -74,7 +74,10 @@
             "success": "Congrats! ${accountId} is available.",
             "error": "Account ID is taken. Try something else."
         },
-
+        "TRANSFER_ALL_FROM_LOCKUP": {
+            "success": "You successfully transferred tokens from your lockup!",
+            "error": "Something went wrong. Please try again."
+        },
         "Deserialization": "",
         "RetriesExceeded": "Exceeded maximum attempts for this transaction.",
         "U2F_4": "Failed to sign with Ledger device: U2F DEVICE_INELIGIBLE. Please make sure that your Ledger device is connected and unlocked.",
