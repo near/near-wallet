@@ -126,7 +126,8 @@ const account = handleActions({
                 stateStaked,
                 totalBalance,
                 lockedAmount,
-                liquidOwnersBalance
+                liquidOwnersBalance,
+                ownersBalance
             }, 
             account: {
                 totalAvailable,
@@ -165,7 +166,10 @@ const account = handleActions({
                     availableForWithdraw: new BN(lockupAccount.totalAvailable).toString()
                 },
                 locked: lockedAmount.toString(),
-                availableToTransfer: liquidOwnersBalance.toString()
+                unlocked: {
+                    sum: ownersBalance.toString(),
+                    availableToTransfer: liquidOwnersBalance.toString()
+                }
             }
         }
 
