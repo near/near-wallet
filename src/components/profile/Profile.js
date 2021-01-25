@@ -151,9 +151,9 @@ export function Profile({ match }) {
 
     return (
         <StyledContainer>
-            {isOwner && profileBalance && profileBalance.lockupIdExists && !new BN(profileBalance.lockupBalance.unlocked.availableToTransfer).isZero() &&
+            {isOwner && profileBalance && profileBalance.lockupIdExists && !new BN(profileBalance.lockupBalance.availableToTransfer).isZero() &&
                 <LockupAvailTransfer
-                    available={profileBalance.lockupBalance.unlocked.availableToTransfer || '0'}
+                    available={profileBalance.lockupBalance.availableToTransfer || '0'}
                     onTransfer={handleTransferFromLockup}
                     sending={actionsPending('TRANSFER_ALL_FROM_LOCKUP')}
                 />
