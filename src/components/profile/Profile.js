@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Translate } from 'react-localize-redux'
 import { useDispatch, useSelector } from 'react-redux'
 import PageContainer from '../common/PageContainer';
@@ -108,6 +108,7 @@ const StyledContainer = styled(Container)`
 `
 
 export function Profile({ match }) {
+    const [transferring, setTransferring] = useState(false);
     const { has2fa, profileBalance } = useSelector(({ account }) => account)
     const loginAccountId = useSelector(state => state.account.accountId)
     const recoveryMethods = useSelector(({ recoveryMethods }) => recoveryMethods);
@@ -145,8 +146,13 @@ export function Profile({ match }) {
     }
 
     const handleTransferFromLockup = async () => {
-        await dispatch(transferAllFromLockup())
-        await dispatch(getProfileBalance(accountId))
+        try {
+            setTransferring(true)
+            await dispatch(transferAllFromLockup())
+            await dispatch(getProfileBalance(accountId))
+        } finally {
+            setTransferring(false)
+        }
     }
 
     return (
@@ -155,7 +161,7 @@ export function Profile({ match }) {
                 <LockupAvailTransfer
                     available={profileBalance.lockupBalance.unlocked.availableToTransfer || '0'}
                     onTransfer={handleTransferFromLockup}
-                    sending={actionsPending('TRANSFER_ALL_FROM_LOCKUP')}
+                    sending={transferring}
                 />
             }
             <div className='split'>
