@@ -113,7 +113,7 @@ class AccessKeys extends Component {
             confirmStatus
         } = this.state
 
-        const { authorizedApps, title, formLoader } = this.props
+        const { authorizedApps, title, mainLoader } = this.props
 
         return (
             <PageContainer
@@ -140,7 +140,7 @@ class AccessKeys extends Component {
                     accountId={accountId}
                     confirm={confirm}
                     confirmStatus={confirmStatus}
-                    formLoader={formLoader}
+                    mainLoader={mainLoader}
                 >
                     {authorizedApps && (authorizedApps.length 
                         ? authorizedApps.map((accessKey, i) => (
@@ -165,10 +165,11 @@ const mapDispatchToProps = {
     removeAccessKey
 }
 
-const mapStateToPropsAuthorizedApps = ({ account }) => ({
+const mapStateToPropsAuthorizedApps = ({ account, status }) => ({
     ...account,
     authorizedApps: account.authorizedApps,
-    title: 'authorizedApps.pageTitle'
+    title: 'authorizedApps.pageTitle',
+    mainLoader: status.mainLoader
 })
 
 export const AuthorizedAppsWithRouter = connect(

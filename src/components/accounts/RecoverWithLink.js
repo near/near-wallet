@@ -164,7 +164,7 @@ class RecoverWithLink extends Component {
     render() {
 
         const { accountId, successSnackbar, successView } = this.state
-        const { formLoader, history } = this.props
+        const { mainLoader, history } = this.props
 
         if (successView) {
             return (
@@ -175,7 +175,7 @@ class RecoverWithLink extends Component {
                             <Desc>{translate('recoverWithLink.pOne')} <UserName>{accountId}</UserName></Desc>
                             <Desc last>{translate('recoverWithLink.pTwo')}</Desc>
                             <ButtonWrapper>
-                                <FormButton onClick={this.handleContinue} disabled={formLoader} sending={formLoader} sendingString='button.recovering'>
+                                <FormButton onClick={this.handleContinue} disabled={mainLoader} sending={mainLoader} sendingString='button.recovering'>
                                     {translate('button.continue')}
                                 </FormButton>
                                 <Button onClick={this.handleCopyUrl}>
@@ -219,10 +219,11 @@ const mapDispatchToProps = {
     redirectTo
 }
 
-const mapStateToProps = ({ account }, { match }) => ({
+const mapStateToProps = ({ account, status }, { match }) => ({
     ...account,
     accountId: match.params.accountId || '',
     seedPhrase: match.params.seedPhrase || '',
+    mainLoader: status.mainLoader
 })
 
 export const RecoverWithLinkWithRouter = connect(

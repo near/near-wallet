@@ -6,11 +6,12 @@ import NextStepModal from './NextStepModal';
 import FormButton from '../../common/FormButton';
 import { Translate } from 'react-localize-redux';
 import { removeNonLedgerAccessKeys, redirectTo } from '../../../actions/account';
+import { actionsPending } from '../../../utils/alerts'
 
 const SetupLedgerSuccess = (props) => {
 
     const [nextStep, setNextStep] = useState('');
-    const removingkeys = props.actionsPending.includes('REMOVE_NON_LEDGER_ACCESS_KEYS');
+    const removingkeys = actionsPending('REMOVE_NON_LEDGER_ACCESS_KEYS');
     const { hasLedger } = useSelector(({ ledger }) => ledger)
 
     const handleConfirm = async () => {

@@ -1,9 +1,8 @@
 import { wallet } from '../utils/wallet'
 import { createActions } from 'redux-actions'
 
+import { showAlert } from '../utils/alerts'
 export { ACCOUNT_DEFAULTS } from '../utils/staking'
-
-const defaultCodesFor = (prefix, data) => ({ successCode: `${prefix}.success`, errorCode: `${prefix}.error`, prefix, data})
 
 export const {
     switchAccount,
@@ -14,22 +13,22 @@ export const {
 } = createActions({
     SWITCH_ACCOUNT: [
         wallet.staking.switchAccount.bind(wallet.staking),
-        () => defaultCodesFor('staking.switchAccount')
+        () => ({})
     ],
     UPDATE_STAKING: [
         wallet.staking.updateStaking.bind(wallet.staking),
-        () => defaultCodesFor('staking.updateStaking')
+        () => ({})
     ],
     STAKE: [
         wallet.staking.stake.bind(wallet.staking),
-        () => defaultCodesFor('staking.stake')
+        () => showAlert()
     ],
     UNSTAKE: [
         wallet.staking.unstake.bind(wallet.staking),
-        () => defaultCodesFor('staking.unstake')
+        () => showAlert()
     ],
     WITHDRAW: [
         wallet.staking.withdraw.bind(wallet.staking),
-        () => defaultCodesFor('staking.withdraw')
+        () => showAlert()
     ],
 })

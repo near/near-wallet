@@ -12,6 +12,7 @@ import Balance from '../../common/Balance'
 import { utils } from 'near-api-js'
 import ConfirmDisable from '../hardware_devices/ConfirmDisable'
 import { disableMultisig } from '../../../actions/account'
+import { actionsPending } from '../../../utils/alerts'
 
 const Container = styled(Card)`
     margin-top: 30px;
@@ -78,7 +79,7 @@ const TwoFactorAuth = ({ twoFactor, history }) => {
     const [confirmDisable, setConfirmDisable] = useState(false);
     const account = useSelector(({ account }) => account);
     const dispatch = useDispatch();
-    const loading = account.actionsPending.includes('LOAD_RECOVERY_METHODS');
+    const loading = actionsPending('LOAD_RECOVERY_METHODS');
 
     const handleConfirmDisable = async () => {
         await dispatch(disableMultisig())
@@ -118,7 +119,7 @@ const TwoFactorAuth = ({ twoFactor, history }) => {
                     onConfirmDisable={handleConfirmDisable} 
                     onKeepEnabled={() => setConfirmDisable(false)}
                     accountId={account.accountId}
-                    disabling={account.actionsPending.includes('DISABLE_MULTISIG')}
+                    disabling={actionsPending('DISABLE_MULTISIG')}
                     component='twoFactor'
                 />
             }

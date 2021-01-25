@@ -17,7 +17,7 @@ import {
     getLedgerPublicKey
 } from '../../../actions/account'
 import { DISABLE_CREATE_ACCOUNT, setKeyMeta } from '../../../utils/wallet'
-import GlobalAlert from '../../responsive/GlobalAlert'
+import GlobalAlert from '../../common/GlobalAlert'
 
 const SetupLedger = (props) => {
 
@@ -65,10 +65,10 @@ const SetupLedger = (props) => {
 
     return (
         <Container className='small-centered ledger-theme'>
-            {props.requestStatus && !props.requestStatus.success &&
+            {props.localAlert && !props.localAlert.success &&
                 <GlobalAlert 
                     globalAlert={{
-                        messageCode: `errors.ledger.${props.requestStatus.id}`
+                        messageCode: `errors.ledger.${props.localAlert.id}`
                     }}
                     closeIcon={false}
                 />
@@ -79,7 +79,7 @@ const SetupLedger = (props) => {
                 <Translate id='setupLedger.one'/>
                 &nbsp;<Translate id='setupLedger.two'/> <span className='link underline' onClick={toggleShowInstructions}><Translate id='setupLedger.twoLink'/></span>.
             </h2>
-            <FormButton onClick={handleClick} sending={props.formLoader} sendingString='button.connecting'>
+            <FormButton onClick={handleClick} sending={props.mainLoader} sendingString='button.connecting'>
                 <Translate id={`button.${connect !== 'fail' ? 'continue' : 'retry'}`}/>
             </FormButton>
             <button className='link' onClick={() => props.history.goBack()}><Translate id='button.cancel'/></button>
@@ -90,9 +90,10 @@ const SetupLedger = (props) => {
     );
 }
 
-const mapStateToProps = ({ account }, { match }) => ({
+const mapStateToProps = ({ account, status }, { match }) => ({
     ...account,
     accountId: match.params.accountId,
+    mainLoader: status.mainLoader
 })
 
 export const SetupLedgerWithRouter = connect(mapStateToProps)(SetupLedger);

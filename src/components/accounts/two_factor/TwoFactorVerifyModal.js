@@ -7,7 +7,8 @@ import FormButton from '../../common/FormButton';
 import { Translate } from 'react-localize-redux';
 import TwoFactorVerifyInput from './TwoFactorVerifyInput';
 import { WalletError } from '../../../utils/walletError'
-import { clearAlert, resendTwoFactor, get2faMethod } from '../../../actions/account';
+import { resendTwoFactor, get2faMethod } from '../../../actions/account';
+import { actionsPending } from '../../../utils/alerts'
 
 const Form = styled.form`
     display: flex;
@@ -23,7 +24,8 @@ const TwoFactorVerifyModal = ({ open, onClose }) => {
     const [resendCode, setResendCode] = useState();
     const dispatch = useDispatch();
     const account = useSelector(({ account }) => account);
-    const loading = account.actionsPending.includes('VERIFY_TWO_FACTOR');
+    const status = useSelector(({ status }) => status);
+    const loading = actionsPending('VERIFY_TWO_FACTOR');
 
     useEffect(() => {
         let isMounted = true;
@@ -47,10 +49,6 @@ const TwoFactorVerifyModal = ({ open, onClose }) => {
 
     const handleChange = (code) => {
         setCode(code);
-
-        if (account.globalAlert) {
-            dispatch(clearAlert())
-        }
     }
 
     const handleResendCode = async () => {
@@ -66,7 +64,7 @@ const TwoFactorVerifyModal = ({ open, onClose }) => {
         }
     }
     
-    const handleCancelClose = () => onClose(false, new WalletError('Request was cancelled.', 'errors.twoFactor.userCancelled'))
+    const handleCancelClose = () => onClose(false, new WalletError('Request was cancelled.', 'promptTwoFactor.userCancelled'))
     
     return (
         <Modal
@@ -85,6 +83,7 @@ const TwoFactorVerifyModal = ({ open, onClose }) => {
                     onChange={handleChange}
                     onResend={handleResendCode}
                     account={account}
+                    status={status}
                     resendCode={resendCode}
                 />
                 <FormButton type='submit' disabled={code.length !== 6 || loading} sending={loading}>

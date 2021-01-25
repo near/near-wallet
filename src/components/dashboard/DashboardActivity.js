@@ -84,11 +84,11 @@ const CustomGrid = styled(Grid)`
     }
 `
 
-const DashboardActivity = ({ image, title, to, transactions, accountId, formLoader, getTransactionStatus }) => (
+const DashboardActivity = ({ image, title, to, transactions, accountId, mainLoader, getTransactionStatus }) => (
     <CustomGrid>
         <Grid.Row>
             <Grid.Column className='dashboard-header' textAlign='left' width={16}>
-                <h2 className={classNames({'dots': formLoader})}>
+                <h2 className={classNames({'dots': mainLoader})}>
                     <Image className='column-icon' src={image} />
                     {title}
                 </h2>

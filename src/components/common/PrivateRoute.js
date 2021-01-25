@@ -19,8 +19,9 @@ const PrivateRoute = ({component: Component, account, ...rest}) => (
     />
 )
 
-const mapStateToProps = ({ account }) => ({
-    account
+const mapStateToProps = ({ account, status }) => ({
+    account,
+    localAlert: status.localAlert
 })
 
 export default withRouter(connect(mapStateToProps)(PrivateRoute))

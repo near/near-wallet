@@ -3,7 +3,8 @@ import styled from 'styled-components'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { Translate } from 'react-localize-redux'
-import { checkNewAccount, createNewAccount, clear, refreshAccount, checkNearDropBalance } from '../../actions/account'
+import { checkNewAccount, createNewAccount, refreshAccount, checkNearDropBalance } from '../../actions/account'
+import { clearLocalAlert } from '../../actions/status'
 import { ACCOUNT_ID_SUFFIX } from '../../utils/wallet'
 import Container from '../common/styled/Container.css'
 import BrokenLinkIcon from '../svg/BrokenLinkIcon';
@@ -85,7 +86,7 @@ class CreateAccount extends Component {
     }
 
     componentWillUnmount = () => {
-        this.props.clear()
+        this.props.clearLocalAlert()
     }
 
     handleCheckNearDropBalance = async () => {
@@ -127,8 +128,8 @@ class CreateAccount extends Component {
 
     render() {
         const { loader, accountId, invalidNearDrop } = this.state
-        const { requestStatus, formLoader, checkNewAccount, resetAccount, clear } = this.props
-        const useRequestStatus = accountId.length > 0 ? requestStatus : undefined;
+        const { localAlert, mainLoader, checkNewAccount, resetAccount, clearLocalAlert } = this.props
+        const useLocalAlert = accountId.length > 0 ? localAlert : undefined;
         
         if (!invalidNearDrop) {
             return (
@@ -138,20 +139,20 @@ class CreateAccount extends Component {
                         <h2><Translate id='createAccount.pageText'/></h2>
                         <h4 className='small'><Translate id='createAccount.accountIdInput.title'/></h4>
                         <AccountFormAccountId
-                            formLoader={formLoader}
+                            mainLoader={mainLoader}
                             handleChange={this.handleChange}
                             type='create'
                             pattern={/[^a-zA-Z0-9_-]/}
                             checkAvailability={checkNewAccount}
-                            requestStatus={useRequestStatus}
+                            localAlert={useLocalAlert}
                             accountId={accountId}
-                            clearRequestStatus={clear}
+                            clearLocalAlert={clearLocalAlert}
                             defaultAccountId={resetAccount && resetAccount.accountIdNotConfirmed.split('.')[0]}
                         />
                         <AccountNote/>
                         <FormButton
                             type='submit'
-                            disabled={!(requestStatus && requestStatus.success)}
+                            disabled={!(localAlert && localAlert.success)}
                             sending={loader}
                         >
                             <Translate id='button.createAccountCapital'/>
@@ -179,13 +180,15 @@ class CreateAccount extends Component {
 const mapDispatchToProps = {
     checkNewAccount,
     createNewAccount,
-    clear,
+    clearLocalAlert,
     refreshAccount,
     checkNearDropBalance
 }
 
-const mapStateToProps = ({ account }, { match }) => ({
+const mapStateToProps = ({ account, status }, { match }) => ({
     ...account,
+    localAlert: status.localAlert,
+    mainLoader: status.mainLoader,
     fundingContract: match.params.fundingContract,
     fundingKey: match.params.fundingKey,
     fundingAccountId: match.params.fundingAccountId,

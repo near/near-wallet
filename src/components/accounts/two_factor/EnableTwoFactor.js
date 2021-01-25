@@ -12,9 +12,9 @@ import {
     initTwoFactor,
     verifyTwoFactor,
     deployMultisig,
-    redirectToApp,
-    clearAlert
+    redirectToApp
 } from '../../../actions/account';
+import { clearGlobalAlert } from '../../../actions/status'
 import { useRecoveryMethods } from '../../../hooks/recoveryMethods';
 import EnterVerificationCode from '../EnterVerificationCode'
 import Container from '../../common/styled/Container.css'
@@ -47,13 +47,15 @@ const StyledContainer = styled(Container)`
 export function EnableTwoFactor(props) {
 
     const dispatch = useDispatch();
-    const { formLoader, accountId, has2fa } = useSelector(({ account }) => account);
+    const { accountId, has2fa } = useSelector(({ account }) => account);
+    const status = useSelector(({ status }) => status);
+
     const [initiated, setInitiated] = useState(false);
     const [option, setOption] = useState('email');
     const [email, setEmail] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
     const recoveryMethods = useRecoveryMethods(accountId);
-    const loading = formLoader
+    const loading = status.mainLoader
 
     const method = {
         kind: `2fa-${option}`,
@@ -96,7 +98,7 @@ export function EnableTwoFactor(props) {
     const handleConfirm = async (securityCode) => {
         if (initiated && securityCode.length === 6) {
             await dispatch(verifyTwoFactor(securityCode))
-            await dispatch(clearAlert())
+            await dispatch(clearGlobalAlert())
             await handleDeployMultisig()
         }
     }
@@ -193,7 +195,7 @@ export function EnableTwoFactor(props) {
                 onGoBack={handleGoBack}
                 onResend={handleResendCode}
                 loading={loading}
-                requestStatus={props.requestStatus}
+                localAlert={status.localAlert}
             />
         )
     }
