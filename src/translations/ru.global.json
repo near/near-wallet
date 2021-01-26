@@ -77,12 +77,7 @@
 
         "Deserialization": "",
         "RetriesExceeded": "Exceeded maximum attempts for this transaction.",
-        "U2F_4": "Failed to sign with Ledger device: U2F DEVICE_INELIGIBLE. Please make sure that your Ledger device is connected and unlocked.",
-
-        "default": {
-            "success": "",
-            "error": "Sorry an error has occurred. You may want to try again."
-        }
+        "U2F_4": "Failed to sign with Ledger device: U2F DEVICE_INELIGIBLE. Please make sure that your Ledger device is connected and unlocked."
     },
     "walletErrorCodes": {
         "addAccessKeySeedPhrase": {

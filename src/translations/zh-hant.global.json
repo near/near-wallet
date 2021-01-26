@@ -77,12 +77,7 @@
 
         "Deserialization": "",
         "RetriesExceeded": "此交易超出最大重試次數。",
-        "U2F_4": "無法通過硬件錢包登錄：U2F DEVICE_INELIGIBLE。請確保 Ledger 設備已連接並解鎖。",
-
-        "default": {
-            "success": "",
-            "error": "Sorry an error has occurred. You may want to try again."
-        }
+        "U2F_4": "無法通過硬件錢包登錄：U2F DEVICE_INELIGIBLE。請確保 Ledger 設備已連接並解鎖。"
     },
     "walletErrorCodes": {
         "addAccessKeySeedPhrase": {
