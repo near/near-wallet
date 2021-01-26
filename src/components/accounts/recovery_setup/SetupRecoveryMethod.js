@@ -21,6 +21,7 @@ import RecoveryOption from './RecoveryOption';
 import FormButton from '../../common/FormButton';
 import EnterVerificationCode from '../EnterVerificationCode';
 import Container from '../../common/styled/Container.css';
+import isApprovedCountryCode from '../../../utils/isApprovedCountryCode'
 
 const StyledContainer = styled(Container)`
     button {
@@ -70,7 +71,7 @@ class SetupRecoveryMethod extends Component {
             case 'email':
                 return validateEmail(email)
             case 'phone':
-                return country !== 'CN' && isValidPhoneNumber(phoneNumber)
+                return isApprovedCountryCode(country) && isValidPhoneNumber(phoneNumber)
             case 'phrase':
                 return true
             case 'ledger':
@@ -236,7 +237,7 @@ class SetupRecoveryMethod extends Component {
                                             tabIndex='1'
                                             onBlur={this.handleBlurPhone}
                                         />
-                                        {country === 'CN' && 
+                                        {!isApprovedCountryCode(country) && 
                                             <div className='color-red'>{translate('setupRecovery.notSupportedPhone')}</div>
                                         }
                                     </>

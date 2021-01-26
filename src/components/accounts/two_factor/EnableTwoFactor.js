@@ -6,6 +6,7 @@ import TwoFactorOption from './TwoFactorOption';
 import PhoneInput, { isValidPhoneNumber } from 'react-phone-number-input';
 import { validateEmail } from '../../../utils/account';
 import { MULTISIG_MIN_AMOUNT } from '../../../utils/wallet'
+import isApprovedCountryCode from '../../../utils/isApprovedCountryCode'
 import FormButton from '../../common/FormButton';
 import AlertBanner from '../../common/AlertBanner';
 import {
@@ -118,11 +119,12 @@ export function EnableTwoFactor(props) {
             case 'email':
                 return validateEmail(email)
             case 'phone':
-                return country !== 'CN' && isValidPhoneNumber(phoneNumber)
+                return isApprovedCountryCode(country) && isValidPhoneNumber(phoneNumber)
             default:
                 return false
         }
     }
+
 
     if (!initiated) {
         return (
@@ -172,7 +174,7 @@ export function EnableTwoFactor(props) {
                                         tabIndex='1'
                                         disabled={loading}
                                     />
-                                    {country === 'CN' && 
+                                    {!isApprovedCountryCode(country) && 
                                         <div className='color-red'>{translate('setupRecovery.notSupportedPhone')}</div>
                                     }
                                 </>
