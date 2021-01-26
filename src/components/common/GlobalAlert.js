@@ -181,14 +181,22 @@ const GlobalAlertNew = ({ globalAlert, actionStatus, clearGlobalAlert, closeIcon
                                 <Header success={alert.success}>
                                     <Translate id={alert.messageCodeHeader || (alert.success ? 'success' : 'error')} />
                                 </Header>
-
-                                <Translate>
-                                    {({ translate }) => 
-                                        translate(alert.messageCode) === ''
-                                            ? <Translate id={`reduxActions.default.${alert.success ? 'success' : 'error'}`} />
-                                            : <Translate id={alert.messageCode} data={alert.data} />
+                                <Translate id={alert.messageCode} data={alert.data} options={{
+                                    onMissingTranslation: ({ languageCode }) => {
+                                        if (languageCode === 'en') {
+                                            return alert.success ? '' : 'Sorry an error has occurred. You may want to try again.'
+                                        }
+                                        if (languageCode === 'ru') {
+                                            return alert.success ? '' : 'Sorry an error has occurred. You may want to try again.'
+                                        }
+                                        if (languageCode === 'zh-hans') {
+                                            return alert.success ? '' : 'Sorry an error has occurred. You may want to try again.'
+                                        }
+                                        if (languageCode === 'zh-hant') {
+                                            return alert.success ? '' : 'Sorry an error has occurred. You may want to try again.'
+                                        }
                                     }
-                                </Translate>
+                                }} />
 
                                 {alert.console && 
                                     <Console>
