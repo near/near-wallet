@@ -126,7 +126,7 @@ class SetupImplicit extends Component {
         try {
             const moonpayAvailable = await this.isMoonpayAvailable()
             if (moonpayAvailable) {
-                const MOONPAY_URL = `https://buy-staging.moonpay.io?apiKey=${MOONPAY_API_KEY}`
+                const MOONPAY_URL = `https://buy.moonpay.io?apiKey=${MOONPAY_API_KEY}`
                 const { implicitAccountId } = this.props
                 const widgetUrl = `${MOONPAY_URL}&walletAddress=${encodeURIComponent(implicitAccountId)}&currencyCode=NEAR` +
                     `&redirectURL=${encodeURIComponent(window.location.href)}`
