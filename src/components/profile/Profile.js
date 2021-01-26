@@ -116,15 +116,15 @@ const StyledContainer = styled(Container)`
 `
 
 export function Profile({ match }) {
-    const [transferring, setTransferring] = useState(false);
-    const { has2fa, profileBalance } = useSelector(({ account }) => account)
+    const [transferring, setTransferring] = useState(false)
+    const { has2fa } = useSelector(({ account }) => account)
     const loginAccountId = useSelector(state => state.account.accountId)
     const recoveryMethods = useSelector(({ recoveryMethods }) => recoveryMethods);
     const accountIdFromUrl = match.params.accountId
     const accountId = accountIdFromUrl || loginAccountId
     const isOwner = accountId === loginAccountId
     const account = useAccount(accountId)
-    const dispatch = useDispatch();
+    const dispatch = useDispatch()
     const userRecoveryMethods = recoveryMethods[account.accountId]
     const twoFactor = has2fa && userRecoveryMethods && userRecoveryMethods.filter(m => m.kind.includes('2fa'))[0]
     const balanceLoader = actionsPending('GET_PROFILE_BALANCE') && !account.balance?.totalAvailable
@@ -132,7 +132,6 @@ export function Profile({ match }) {
     const profileBalance = selectProfileBalance(account.balance)
 
     useEffect(() => {
-        dispatch(getProfileBalance(accountId))
         dispatch(loadRecoveryMethods())
 
         if (accountIdFromUrl && accountIdFromUrl !== accountIdFromUrl.toLowerCase()) {
