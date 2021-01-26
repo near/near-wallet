@@ -107,7 +107,7 @@ const account = handleActions({
             ...payload,
             balance: {
                 ...state.balance,
-                ...payload.balance
+                ...payload?.balance
             },
             ledger: undefined,
             ...resetAccountState,
