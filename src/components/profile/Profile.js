@@ -17,6 +17,7 @@ import LockIcon from '../svg/LockIcon'
 import { actionsPending } from '../../utils/alerts'
 import BN from 'bn.js'
 import SkeletonLoading from '../common/SkeletonLoading';
+import { selectProfileBalance } from '../../reducers/selectors/balance'
 
 const StyledContainer = styled(Container)`
 
@@ -108,7 +109,7 @@ const StyledContainer = styled(Container)`
 `
 
 export function Profile({ match }) {
-    const { has2fa, profileBalance } = useSelector(({ account }) => account)
+    const { has2fa } = useSelector(({ account }) => account)
     const loginAccountId = useSelector(state => state.account.accountId)
     const recoveryMethods = useSelector(({ recoveryMethods }) => recoveryMethods);
     const accountIdFromUrl = match.params.accountId
@@ -120,6 +121,7 @@ export function Profile({ match }) {
     const twoFactor = has2fa && userRecoveryMethods && userRecoveryMethods.filter(m => m.kind.includes('2fa'))[0]
     const balanceLoader = actionsPending('GET_PROFILE_BALANCE') && !profileBalance
     const recoveryLoader = actionsPending('LOAD_RECOVERY_METHODS') && !userRecoveryMethods
+    const profileBalance = account.balance && selectProfileBalance(account.balance)
 
     useEffect(() => {
         dispatch(getProfileBalance(accountId))
