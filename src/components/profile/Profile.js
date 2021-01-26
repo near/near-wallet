@@ -127,7 +127,7 @@ export function Profile({ match }) {
     const dispatch = useDispatch();
     const userRecoveryMethods = recoveryMethods[account.accountId]
     const twoFactor = has2fa && userRecoveryMethods && userRecoveryMethods.filter(m => m.kind.includes('2fa'))[0]
-    const balanceLoader = actionsPending('GET_PROFILE_BALANCE') && !profileBalance
+    const balanceLoader = actionsPending('GET_PROFILE_BALANCE') && !account.balance?.totalAvailable
     const recoveryLoader = actionsPending('LOAD_RECOVERY_METHODS') && !userRecoveryMethods
     const profileBalance = account.balance && selectProfileBalance(account.balance)
 
