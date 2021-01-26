@@ -14,7 +14,7 @@ import FormButton from '../common/FormButton'
 import WhereToBuyNearModal from '../common/WhereToBuyNearModal'
 import AccountFundedModal from './AccountFundedModal'
 import { createAccountFromImplicit, redirectTo } from '../../actions/account'
-import { NETWORK_ID, NODE_URL, MIN_BALANCE_FOR_GAS } from '../../utils/wallet'
+import { NETWORK_ID, NODE_URL, ACCOUNT_HELPER_URL, MIN_BALANCE_FOR_GAS } from '../../utils/wallet'
 import sendJson from 'fetch-send-json'
 
 const StyledContainer = styled(Container)`
@@ -76,7 +76,8 @@ const initialState = {
     whereToBuy: false,
     checked: false,
     createAccount: null,
-    moonpayAvailable: false
+    moonpayAvailable: false,
+    moonpaySignedURL: null,
 }
 
 class SetupImplicit extends Component {
@@ -89,14 +90,9 @@ class SetupImplicit extends Component {
         await dispatch(redirectTo('/fund-create-account/success'))
     }
 
-    fundWithMoonpay = () => {
-        const MOONPAY_URL = `https://buy-staging.moonpay.io?apiKey=${MOONPAY_API_KEY}`
-        const { implicitAccountId } = this.props
-        const widgetUrl = `${MOONPAY_URL}&walletAddress=${encodeURIComponent(implicitAccountId)}&currencyCode=NEAR` +
-            `&redirectURL=${encodeURIComponent(window.location.href)}`
-        // TODO: Sign URL server-side through contract-helper to pass walletAddress in prod
+    fundWithMoonpay = async () => {
         // TODO: Push new URL with Redux?
-        window.location = widgetUrl
+        window.location = this.state.moonpaySignedURL
     }
 
     isMoonpayAvailable = async () => {
@@ -129,7 +125,17 @@ class SetupImplicit extends Component {
 
     checkMoonpay = async () => {
         try {
-            this.setState({ moonpayAvailable: await this.isMoonpayAvailable() })
+            const moonpayAvailable = await this.isMoonpayAvailable()
+            if (moonpayAvailable) {
+                const MOONPAY_URL = `https://buy-staging.moonpay.io?apiKey=${MOONPAY_API_KEY}`
+                const { implicitAccountId } = this.props
+                const widgetUrl = `${MOONPAY_URL}&walletAddress=${encodeURIComponent(implicitAccountId)}&currencyCode=NEAR` +
+                    `&redirectURL=${encodeURIComponent(window.location.href)}`
+
+                const { signature } = await sendJson('GET', `${ACCOUNT_HELPER_URL}/moonpay/signURL?url=${encodeURIComponent(widgetUrl)}`)
+                const moonpaySignedURL = `${widgetUrl}&signature=${encodeURIComponent(signature)}`
+                this.setState({ moonpayAvailable, moonpaySignedURL })
+            }
         } catch (e) {
             console.warn('Error checking Moonpay', e);
         }
