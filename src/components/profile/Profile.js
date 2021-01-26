@@ -18,6 +18,7 @@ import BN from 'bn.js'
 import SkeletonLoading from '../common/SkeletonLoading';
 import InfoPopup from '../common/InfoPopup'
 import { selectProfileBalance } from '../../reducers/selectors/balance'
+import { useAccount } from '../../hooks/allAccounts'
 
 const StyledContainer = styled(Container)`
 

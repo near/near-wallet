@@ -478,7 +478,10 @@ export const { switchAccount, refreshAccount, refreshAccountExternal, refreshUrl
                 ...await wallet.getProfileBalance(accountId)
             }
         }),
-        accountId => ({ accountId })
+        accountId => ({
+            accountId,
+            ...showAlert({ onlyError: true, data: { accountId } })
+         })
     ],
     REFRESH_URL: null,
     GET_PROFILE_BALANCE: wallet.getProfileBalance.bind(wallet)
