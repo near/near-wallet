@@ -7,7 +7,6 @@ import RecoveryContainer from './Recovery/RecoveryContainer'
 import BalanceContainer from './balances/BalanceContainer'
 import HardwareDevices from './hardware_devices/HardwareDevices'
 import TwoFactorAuth from './two_factor/TwoFactorAuth'
-import { LOADING, NOT_FOUND, useAccount } from '../../hooks/allAccounts'
 import { getLedgerKey, checkCanEnableTwoFactor, getAccessKeys, redirectTo, getProfileBalance, transferAllFromLockup, loadRecoveryMethods } from '../../actions/account'
 import styled from 'styled-components'
 import LockupAvailTransfer from './balances/LockupAvailTransfer'
@@ -17,8 +16,8 @@ import LockIcon from '../svg/LockIcon'
 import { actionsPending } from '../../utils/alerts'
 import BN from 'bn.js'
 import SkeletonLoading from '../common/SkeletonLoading';
-import { selectProfileBalance } from '../../reducers/selectors/balance'
 import InfoPopup from '../common/InfoPopup'
+import { selectProfileBalance } from '../../reducers/selectors/balance'
 
 const StyledContainer = styled(Container)`
 
@@ -145,14 +144,6 @@ export function Profile({ match }) {
             dispatch(checkCanEnableTwoFactor(account))
         }
     }, []);
-
-    if (account.__status === LOADING) {
-        return <PageContainer title={<Translate id='profile.pageTitle.loading' />} />
-    }
-
-    if (account.__status === NOT_FOUND) {
-        return <PageContainer title={<Translate id='profile.pageTitle.notFound' data={{ accountId }} />} />
-    }
 
     const handleTransferFromLockup = async () => {
         try {
