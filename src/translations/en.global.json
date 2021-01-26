@@ -78,6 +78,10 @@
             "success": "You successfully transferred tokens from your lockup!",
             "error": "Something went wrong. Please try again."
         },
+        "REFRESH_ACCOUNT_EXTERNAL": {
+            "error": "Account <b>${accountId}</b> not found"
+        },
+
         "Deserialization": "",
         "RetriesExceeded": "Exceeded maximum attempts for this transaction.",
         "U2F_4": "Failed to sign with Ledger device: U2F DEVICE_INELIGIBLE. Please make sure that your Ledger device is connected and unlocked.",
