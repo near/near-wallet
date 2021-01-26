@@ -1,10 +1,6 @@
 import { handleAction } from 'redux-actions'
 import { refreshAccountExternal } from '../actions/account'
 
-export const LOADED = Symbol('LOADED')
-export const LOADING = Symbol('LOADING')
-export const NOT_FOUND = Symbol('NOT_FOUND')
-
 const initialState = {}
 
 const reducer = (state, event) => {
