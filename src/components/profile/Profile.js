@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Translate } from 'react-localize-redux'
 import { useDispatch, useSelector } from 'react-redux'
 import PageContainer from '../common/PageContainer';
@@ -18,6 +18,7 @@ import { actionsPending } from '../../utils/alerts'
 import BN from 'bn.js'
 import SkeletonLoading from '../common/SkeletonLoading';
 import { selectProfileBalance } from '../../reducers/selectors/balance'
+import InfoPopup from '../common/InfoPopup'
 
 const StyledContainer = styled(Container)`
 
@@ -90,6 +91,12 @@ const StyledContainer = styled(Container)`
     .right {
         > h4 {
             margin: 50px 0 20px 0;
+            display: flex;
+
+            .popup-trigger, svg {
+                width: 20px;
+                height: 20px;
+            }
         }
 
         .recovery-option,
@@ -109,7 +116,8 @@ const StyledContainer = styled(Container)`
 `
 
 export function Profile({ match }) {
-    const { has2fa } = useSelector(({ account }) => account)
+    const [transferring, setTransferring] = useState(false);
+    const { has2fa, profileBalance } = useSelector(({ account }) => account)
     const loginAccountId = useSelector(state => state.account.accountId)
     const recoveryMethods = useSelector(({ recoveryMethods }) => recoveryMethods);
     const accountIdFromUrl = match.params.accountId
@@ -147,17 +155,22 @@ export function Profile({ match }) {
     }
 
     const handleTransferFromLockup = async () => {
-        await dispatch(transferAllFromLockup())
-        await dispatch(getProfileBalance(accountId))
+        try {
+            setTransferring(true)
+            await dispatch(transferAllFromLockup())
+            await dispatch(getProfileBalance(accountId))
+        } finally {
+            setTransferring(false)
+        }
     }
 
     return (
         <StyledContainer>
-            {isOwner && profileBalance && profileBalance.lockupIdExists && !new BN(profileBalance.lockupBalance.availableToTransfer).isZero() &&
+            {isOwner && profileBalance && profileBalance.lockupIdExists && !new BN(profileBalance.lockupBalance.unlocked.availableToTransfer).isZero() &&
                 <LockupAvailTransfer
-                    available={profileBalance.lockupBalance.availableToTransfer || '0'}
+                    available={profileBalance.lockupBalance.unlocked.availableToTransfer || '0'}
                     onTransfer={handleTransferFromLockup}
-                    sending={actionsPending('TRANSFER_ALL_FROM_LOCKUP')}
+                    sending={transferring}
                 />
             }
             <div className='split'>
@@ -179,10 +192,10 @@ export function Profile({ match }) {
                 {isOwner &&
                     <div className='right'>
                         <h2><ShieldIcon/><Translate id='profile.security.title'/></h2>
-                        <h4><Translate id='profile.security.mostSecure'/></h4>
+                        <h4><Translate id='profile.security.mostSecure'/><InfoPopup content={<Translate id='profile.security.mostSecureDesc'/>}/></h4>
                         {!twoFactor && <HardwareDevices recoveryMethods={userRecoveryMethods}/>}
                         <RecoveryContainer type='phrase' recoveryMethods={userRecoveryMethods}/>
-                        <h4><Translate id='profile.security.lessSecure'/></h4>
+                        <h4><Translate id='profile.security.lessSecure'/><InfoPopup content={<Translate id='profile.security.lessSecureDesc'/>}/></h4>
                         <RecoveryContainer type='email' recoveryMethods={userRecoveryMethods}/>
                         <RecoveryContainer type='phone' recoveryMethods={userRecoveryMethods}/>
                         {!account.ledgerKey &&

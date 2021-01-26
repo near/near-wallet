@@ -74,7 +74,10 @@
             "success": "Congrats! ${accountId} is available.",
             "error": "Account ID is taken. Try something else."
         },
-
+        "TRANSFER_ALL_FROM_LOCKUP": {
+            "success": "You successfully transferred tokens from your lockup!",
+            "error": "Something went wrong. Please try again."
+        },
         "Deserialization": "",
         "RetriesExceeded": "Exceeded maximum attempts for this transaction.",
         "U2F_4": "Failed to sign with Ledger device: U2F DEVICE_INELIGIBLE. Please make sure that your Ledger device is connected and unlocked.",
@@ -853,7 +856,9 @@
         "security": {
             "title": "Security & Recovery",
             "mostSecure": "Most Secure (Recommended)",
-            "lessSecure": "Less Secure"
+            "mostSecureDesc": "Ledger is the most secure option. Seed phrases can be secure if used correctly (they must be written down and stored safely).",
+            "lessSecure": "Less Secure",
+            "lessSecureDesc": "These options are recommended for accounts with small amounts of NEAR and other assets. They are convenient, but do present additional risk to the more secure options. If your email account or SMS messages are compromised, your funds might be at risk."
         },
         "twoFactor": "Two-Factor Authentication",
         "twoFactorDesc": "Authenticate with SMS or email when authorizing transactions and/or signing in to your account.",
