@@ -16,7 +16,7 @@ export function decorateWithLockup(account) {
     // TODO: Use solution without hacky mix-in inheritance
     // TODO: Looks like best if near-api-js allows to specify transaction middleware
 
-    let decorated = {...account, wrappedAccount: account, signAndSendTransaction, getAccountBalance, transferAllFromLockup, deleteLockupAccountIfPossible };
+    let decorated = {...account, wrappedAccount: account, signAndSendTransaction, getAccountBalance, transferAllFromLockup, deleteLockupAccount };
     decorated.__proto__ = account.__proto__;
     return decorated;
 }
@@ -40,23 +40,18 @@ async function signAndSendTransaction(receiverId, actions) {
     return await this.wrappedAccount.signAndSendTransaction.call(this, receiverId, actions);
 }
 
-async function deleteLockupAccountIfPossible(lockupAccountId) {
-    const lockedBalance = new BN(await this.wrappedAccount.viewFunction(lockupAccountId, 'get_locked_amount'))
-    const poolAccountId = await this.wrappedAccount.viewFunction(lockupAccountId, 'get_staking_pool_account_id')
+async function deleteLockupAccount(lockupAccountId) {
+    console.info('Destroying lockup account to claim remaining funds', lockupAccountId)
+    const newKeyPair = KeyPair.fromRandom('ed25519')
+    await this.wrappedAccount.functionCall(lockupAccountId, 'add_full_access_key', {
+        new_public_key: newKeyPair.publicKey.toString()
+    }, BASE_GAS.mul(new BN(2)))
 
-    if (!poolAccountId && lockedBalance.eq(new BN(0))) {
-        console.info('Destroying lockup account to claim remaining funds', lockupAccountId)
-        const newKeyPair = KeyPair.fromRandom('ed25519')
-        await this.wrappedAccount.functionCall(lockupAccountId, 'add_full_access_key', {
-            new_public_key: newKeyPair.publicKey.toString()
-        }, BASE_GAS.mul(new BN(2)))
-
-        const tmpKeyStore = new InMemoryKeyStore()
-        await tmpKeyStore.setKey(this.connection.networkId, lockupAccountId, newKeyPair)
-        const tmpConnection = new Connection(this.connection.networkId, this.connection.provider, new InMemorySigner(tmpKeyStore))
-        const lockupAccount = new Account(tmpConnection, lockupAccountId)
-        await lockupAccount.deleteAccount(this.accountId)
-    }
+    const tmpKeyStore = new InMemoryKeyStore()
+    await tmpKeyStore.setKey(this.connection.networkId, lockupAccountId, newKeyPair)
+    const tmpConnection = new Connection(this.connection.networkId, this.connection.provider, new InMemorySigner(tmpKeyStore))
+    const lockupAccount = new Account(tmpConnection, lockupAccountId)
+    await lockupAccount.deleteAccount(this.accountId)
 }
 
 export async function transferAllFromLockup(missingAmount) {
@@ -81,7 +76,15 @@ export async function transferAllFromLockup(missingAmount) {
         receiver_id: this.wrappedAccount.accountId
     }, BASE_GAS.mul(new BN(2)))
 
-    await this.deleteLockupAccountIfPossible(lockupAccountId)
+    const lockedBalance = new BN(await this.wrappedAccount.viewFunction(lockupAccountId, 'get_locked_amount'))
+    if (lockedBalance.eq(new BN(0))) {
+        await this.wrappedAccount.functionCall(lockupAccountId, 'unselect_staking_pool', {}, BASE_GAS.mul(new BN(2)))
+    }
+    const poolAccountId = await this.wrappedAccount.viewFunction(lockupAccountId, 'get_staking_pool_account_id')
+
+    if (!poolAccountId) {
+        await this.deleteLockupAccount(lockupAccountId)
+    }
 }
 
 // TODO: Refactor into near-api-js
