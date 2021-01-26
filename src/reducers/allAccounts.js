@@ -9,17 +9,15 @@ const reducer = (state, event) => {
     if (!ready) return state
 
     if (error) {
-        if (payload.message.match('does not exist')) {
-            return { ...state, [accountId]: { __status: NOT_FOUND } }
-        }
-
-        console.error('error loading profile!', payload)
         return state
     }
 
     return {
         ...state,
-        [accountId]: { accountId, ...payload, __status: LOADED },
+        [accountId]: { 
+            accountId, 
+            ...payload
+        }
     }
 }
 
