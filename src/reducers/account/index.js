@@ -101,10 +101,14 @@ const account = handleActions({
                 preventClear: false
             } : payload && payload.resetAccount
         }
-        
+
         return {
             ...state,
             ...payload,
+            balance: {
+                ...state.balance,
+                ...payload.balance
+            },
             ledger: undefined,
             ...resetAccountState,
             loader: false
