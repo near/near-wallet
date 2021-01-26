@@ -142,7 +142,6 @@ const Console = styled.div`
     padding: 8px;
 `
 
-// closeIcon mozna usunac
 const GlobalAlertNew = ({ globalAlert, actionStatus, clearGlobalAlert, closeIcon = true }) => {
 
     const [closing, setClosing] = useState(false)
