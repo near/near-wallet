@@ -54,6 +54,7 @@ export function EnableTwoFactor(props) {
     const [option, setOption] = useState('email');
     const [email, setEmail] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
+    const [country, setCountry] = useState('');
     const recoveryMethods = useRecoveryMethods(accountId);
     const loading = status.mainLoader
 
@@ -117,7 +118,7 @@ export function EnableTwoFactor(props) {
             case 'email':
                 return validateEmail(email)
             case 'phone':
-                return isValidPhoneNumber(phoneNumber)
+                return country !== 'CN' && isValidPhoneNumber(phoneNumber)
             default:
                 return false
         }
@@ -162,13 +163,19 @@ export function EnableTwoFactor(props) {
                     >
                         <Translate>
                             {({ translate }) => (
-                                <PhoneInput
-                                    placeholder={translate('setupRecovery.phonePlaceholder')}
-                                    value={phoneNumber}
-                                    onChange={value => setPhoneNumber(value)}
-                                    tabIndex='1'
-                                    disabled={loading}
-                                />
+                                <>
+                                    <PhoneInput
+                                        placeholder={translate('setupRecovery.phonePlaceholder')}
+                                        value={phoneNumber}
+                                        onChange={value => setPhoneNumber(value)}
+                                        onCountryChange={option => setCountry(option)}
+                                        tabIndex='1'
+                                        disabled={loading}
+                                    />
+                                    {country === 'CN' && 
+                                        <div className='color-red'>{translate('setupRecovery.notSupportedPhone')}</div>
+                                    }
+                                </>
                             )}
                         </Translate>
                     </TwoFactorOption>
