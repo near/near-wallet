@@ -46,8 +46,8 @@ export const selectProfileBalance = (balance) => {
             lockupBalance: totalBalance.toString(),
             reservedForStorage: LOCKUP_MIN_BALANCE.toString(),
             inStakingPools: {
-                sum: stakedBalance.add(new BN(lockupAccount.totalPending)).add(new BN(lockupAccount.totalAvailable)).toString(),
-                staked: stakedBalance.toString(),
+                sum: new BN(lockupAccount.totalStaked).add(new BN(lockupAccount.totalPending)).add(new BN(lockupAccount.totalAvailable)).toString(),
+                staked: lockupAccount.totalStaked,
                 pendingRelease: new BN(lockupAccount.totalPending).toString(),
                 availableForWithdraw: new BN(lockupAccount.totalAvailable).toString()
             },
