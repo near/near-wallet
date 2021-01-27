@@ -459,7 +459,12 @@ export const { signAndSendTransactions, setSignTransactionStatus, sendMoney, tra
         () => showAlert({ onlyError: true })
     ],
     TRANSFER_ALL_FROM_LOCKUP: [
-        wallet.transferAllFromLockup.bind(wallet),
+        async () => {
+            const account = await wallet.getAccount(wallet.accountId)
+            if (account.transferAllFromLockup) {
+                await account.transferAllFromLockup()
+            }
+        },
         () => showAlert()
     ]
 })

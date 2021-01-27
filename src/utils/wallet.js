@@ -157,13 +157,6 @@ class Wallet {
         await (await this.getAccount(this.accountId)).sendMoney(receiverId, amount)
     }
 
-    async transferAllFromLockup() {
-        const account = await this.getAccount(this.accountId);
-        if (account.transferAllFromLockup) {
-            await account.transferAllFromLockup()
-        }
-    }
-
     isEmpty() {
         return !this.accounts || !Object.keys(this.accounts).length
     }

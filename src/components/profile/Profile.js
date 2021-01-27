@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Translate } from 'react-localize-redux'
 import { useDispatch, useSelector } from 'react-redux'
-import PageContainer from '../common/PageContainer';
 import Container from '../common/styled/Container.css'
 import RecoveryContainer from './Recovery/RecoveryContainer'
 import BalanceContainer from './balances/BalanceContainer'
