@@ -212,7 +212,7 @@ const BalanceContainer = ({ account, profileBalance }) => {
                                 <span><Balance amount={profileBalance.lockupBalance.unlocked.sum} symbol='near'/></span>
                             </div>
                             <div className='item locked'>
-                                <span>Available to transfer <InfoPopup content={<Translate id='unlockedAvailTransfer'/>}/></span>
+                                <span><Translate id='profile.account.availableToTransfer'/> <InfoPopup content={<Translate id='unlockedAvailTransfer'/>}/></span>
                                 <span><Balance amount={profileBalance.lockupBalance.unlocked.availableToTransfer} symbol='near'/></span>
                             </div>
                         </div>

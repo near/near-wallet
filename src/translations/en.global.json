@@ -852,7 +852,8 @@
             "unstaked": "Unstaked",
             "available": "Available",
             "pendingRelease": "Pending release",
-            "availableToWithdraw": "Available for withdrawal"
+            "availableToWithdraw": "Available for withdrawal",
+            "availableToTransfer": "Available to transfer"
         },
         "lockup": {
             "lockupBalance": "Lockup balance",
