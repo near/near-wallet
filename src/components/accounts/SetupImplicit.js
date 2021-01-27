@@ -249,7 +249,7 @@ class SetupImplicit extends Component {
                                     color='black'
                                     sending={this.props.formLoader}
                                 >
-                                    Fund using MoonPay
+                                    Fund with Credit/Debit Card
                                 </FormButton>
                             </div>
                         }
