@@ -335,6 +335,38 @@ const CustomButton = styled(Button)`
                     }
                 }
             }
+            &.gren-dark {
+                &.border {
+                    &.dots {
+                        :after {
+                            @keyframes dots {
+                                0%, 20% {
+                                    color: rgba(0,0,0,0);
+                                    text-shadow:
+                                        .3em 0 0 rgba(0,0,0,0),
+                                        .6em 0 0 rgba(0,0,0,0);
+                                }
+                                40% {
+                                    color: #008D6A;
+                                    text-shadow:
+                                        .3em 0 0 rgba(0,0,0,0),
+                                        .6em 0 0 rgba(0,0,0,0);
+                                }
+                                60% {
+                                    text-shadow:
+                                        .3em 0 0 #008D6A,
+                                        .6em 0 0 rgba(0,0,0,0);
+                                }
+                                80%, 100% {
+                                    text-shadow:
+                                        .3em 0 0 #008D6A,
+                                        .6em 0 0 #008D6A;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
 
         &.link.dots {
