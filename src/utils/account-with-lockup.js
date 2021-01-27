@@ -151,8 +151,14 @@ async function getAccountBalance() {
             : totalBalance.sub(BN.max(unreleasedAmount, LOCKUP_MIN_BALANCE))
 
         const lockedAmount = totalBalance.sub(ownersBalance)
-        const liquidOwnersBalance = BN.min(ownersBalance, isFullyUnlocked ? new BN(lockupBalance.total)
-                : new BN(lockupBalance.total).sub(LOCKUP_MIN_BALANCE))
+        const liquidOwnersBalance = BN.min(
+            ownersBalance, 
+            isFullyUnlocked 
+                ? stakedBalance.isZero()
+                    ? new BN(lockupBalance.total)
+                    : new BN(lockupBalance.total).sub(LOCKUP_MIN_BALANCE)
+                : new BN(lockupBalance.total).sub(LOCKUP_MIN_BALANCE)
+        )
 
         const available = BN.max(new BN(0), new BN(balance.available).add(new BN(liquidOwnersBalance)).sub(new BN(MIN_BALANCE_FOR_GAS)))
 
