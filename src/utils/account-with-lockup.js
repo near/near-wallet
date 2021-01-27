@@ -56,20 +56,23 @@ async function deleteLockupAccount(lockupAccountId) {
 
 export async function transferAllFromLockup(missingAmount) {
     let lockupAccountId = getLockupAccountId(this.accountId)
-    if (process.env.REACT_APP_USE_TESTINGLOCKUP && this.accountId.length < 64) {
-        lockupAccountId = `testinglockup.${this.accountId}`
-    }
+
     if (!(await this.wrappedAccount.viewFunction(lockupAccountId, 'are_transfers_enabled'))) {
         await this.wrappedAccount.functionCall(lockupAccountId, 'check_transfers_vote', {}, BASE_GAS.mul(new BN(3)))
     }
-    console.info('Attempting to transfer from lockup account ID:', lockupAccountId)
-    await this.wrappedAccount.functionCall(lockupAccountId, 'refresh_staking_pool_balance', {}, BASE_GAS.mul(new BN(3)))
+
+    const poolAccountId = await this.wrappedAccount.viewFunction(lockupAccountId, 'get_staking_pool_account_id')
+    if (poolAccountId) {
+        await this.wrappedAccount.functionCall(lockupAccountId, 'refresh_staking_pool_balance', {}, BASE_GAS.mul(new BN(3)))
+    }
+
     let liquidBalance = new BN(await this.wrappedAccount.viewFunction(lockupAccountId, 'get_liquid_owners_balance'))
 
     if (missingAmount && !liquidBalance.gt(missingAmount)) {
         throw new WalletError('Not enough tokens.', 'signAndSendTransactions.notEnoughTokens')
     }
 
+    console.info('Attempting to transfer from lockup account ID:', lockupAccountId)
     await this.wrappedAccount.functionCall(lockupAccountId, 'transfer', {
         // NOTE: Move all the liquid tokens to minimize transactions in the long run
         amount: liquidBalance.toString(),
@@ -78,11 +81,9 @@ export async function transferAllFromLockup(missingAmount) {
 
     const lockedBalance = new BN(await this.wrappedAccount.viewFunction(lockupAccountId, 'get_locked_amount'))
     if (lockedBalance.eq(new BN(0))) {
-        await this.wrappedAccount.functionCall(lockupAccountId, 'unselect_staking_pool', {}, BASE_GAS.mul(new BN(2)))
-    }
-    const poolAccountId = await this.wrappedAccount.viewFunction(lockupAccountId, 'get_staking_pool_account_id')
-
-    if (!poolAccountId) {
+        if (poolAccountId) {
+            await this.wrappedAccount.functionCall(lockupAccountId, 'unselect_staking_pool', {}, BASE_GAS.mul(new BN(2)))
+        }
         await this.deleteLockupAccount(lockupAccountId)
     }
 }
@@ -101,6 +102,9 @@ async function accountExists(connection, accountId) {
 }
 
 export function getLockupAccountId(accountId) {
+    if (process.env.REACT_APP_USE_TESTINGLOCKUP && accountId.length < 64) {
+        return `testinglockup.${accountId}`
+    }
     return sha256(Buffer.from(accountId)).substring(0, 40) + '.' + LOCKUP_ACCOUNT_ID_SUFFIX
 }
 
@@ -108,12 +112,7 @@ async function getAccountBalance() {
     const balance = await this.wrappedAccount.getAccountBalance()
 
     // TODO: Should lockup contract balance be retrieved separately only when needed?
-    let lockupAccountId
-    if (process.env.REACT_APP_USE_TESTINGLOCKUP && this.accountId.length < 64) {
-        lockupAccountId = `testinglockup.${this.accountId}`
-    } else {
-        lockupAccountId = getLockupAccountId(this.accountId)
-    }
+    let lockupAccountId = getLockupAccountId(this.accountId)
     console.log('lockupAccountId', lockupAccountId)
     try {
         const lockupBalance = await new Account(this.connection, lockupAccountId).getAccountBalance();
