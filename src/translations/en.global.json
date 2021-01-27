@@ -126,6 +126,9 @@
         },
         "recoverAccountSeedPhrase": {
             "errorInvalidSeedPhrase": "No accounts were found for this seed phrase."
+        },
+        "lockup": {
+            "transferAllWithStakingPoolBalance": "Unstake and withdraw all funds from the staking pool in order to transfer your remaining lockup balance to Wallet."
         }
     },
     "account": {
