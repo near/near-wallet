@@ -24,6 +24,47 @@ const config = {
     keyStore: new InMemoryKeyStore()
 };
 
+async function createIncident(accountId, error) {
+    const { api } = require('@pagerduty/pdjs');
+
+    const pd = api({ token: process.env.PAGERDUTY_API_KEY });
+
+    console.log('Creating incident on PagerDuty')
+    await pd.post('/incidents', {
+        data: {
+            incident: {
+                type: "incident",
+                title: "wallet e2e-tests failure",
+                service: {
+                    id: "PJ9TV6C", // wallet
+                    type: "service_reference"
+                },
+                assignments: [
+                    {
+                        assignee: {
+                            id: "PM9MK7I", // vlad@near.org
+                            type: "user_reference"
+                        }
+                    }
+                ],
+                body: {
+                    type: "incident_body",
+                    details: `
+Wallet e2e-tests suite has failed. See https://dashboard.render.com/cron/crn-bvrt6tblc6ct62bdjmig/logs for details.
+Make sure that account recovery works well on https://wallet.near.org.
+
+${accountId ? `Test account to check https://explorer.near.org/accounts/${accountId}` : ''}
+
+${error.stack}
+                    `
+                }
+            },
+        }
+    });
+}
+
+let lastTestAccountId;
+
 (async () => {
     const near = await connect(config);
     const { keyStore } = config;
@@ -40,11 +81,13 @@ const config = {
         const keyPair = KeyPair.fromString(secretKey);
         await keyStore.setKey(NETWORK_ID, accountId, keyPair);
         await bankAccount.createAccount(accountId, keyPair.publicKey, parseNearAmount('1.0'));
+        lastTestAccountId = accountId;
         return near.account(accountId);
     }
 
     const testAccount1 = await createTestAccount()
     try {
+        throw new Error("oopsie");
         const browser = await webkit.launch({ headless: HEADLESS });
         const page = await browser.newPage();
         await page.goto(config.walletUrl + '/recover-seed-phrase');
@@ -59,7 +102,9 @@ const config = {
         console.log('Removing', testAccount1.accountId);
         await testAccount1.deleteAccount(bankAccount.accountId);
     }
-})().catch(e => {
+})().catch(async e => {
     console.error(e);
+
+    await createIncident(lastTestAccountId, e);
     process.exit(1);
 });
