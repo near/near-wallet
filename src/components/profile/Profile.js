@@ -155,9 +155,11 @@ export function Profile({ match }) {
         }
     }
 
+    const MINIMUM_AVAILABLE_TO_TRANSFER = new BN('10000000000000000000000')
+
     return (
         <StyledContainer>
-            {isOwner && profileBalance && profileBalance.lockupIdExists && !new BN(profileBalance.lockupBalance.unlocked.availableToTransfer).isZero() &&
+            {isOwner && profileBalance?.lockupIdExists && new BN(profileBalance.lockupBalance.unlocked.availableToTransfer).gte(MINIMUM_AVAILABLE_TO_TRANSFER) &&
                 <LockupAvailTransfer
                     available={profileBalance.lockupBalance.unlocked.availableToTransfer || '0'}
                     onTransfer={handleTransferFromLockup}
