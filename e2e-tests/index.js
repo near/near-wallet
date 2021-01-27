@@ -87,7 +87,6 @@ let lastTestAccountId;
 
     const testAccount1 = await createTestAccount()
     try {
-        throw new Error("oopsie");
         const browser = await webkit.launch({ headless: HEADLESS });
         const page = await browser.newPage();
         await page.goto(config.walletUrl + '/recover-seed-phrase');
