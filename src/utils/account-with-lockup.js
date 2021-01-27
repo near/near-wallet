@@ -56,7 +56,6 @@ async function deleteLockupAccount(lockupAccountId) {
 
 export async function transferAllFromLockup(missingAmount) {
     let lockupAccountId = getLockupAccountId(this.accountId)
-
     if (!(await this.wrappedAccount.viewFunction(lockupAccountId, 'are_transfers_enabled'))) {
         await this.wrappedAccount.functionCall(lockupAccountId, 'check_transfers_vote', {}, BASE_GAS.mul(new BN(3)))
     }
@@ -82,7 +81,7 @@ export async function transferAllFromLockup(missingAmount) {
     const lockedBalance = new BN(await this.wrappedAccount.viewFunction(lockupAccountId, 'get_locked_amount'))
     if (lockedBalance.eq(new BN(0))) {
         const stakingPoolBalance = await this.wrappedAccount.viewFunction(lockupAccountId, 'get_known_deposited_balance')
-        if (stakingPoolBalance) {
+        if (!new BN(stakingPoolBalance).eq(new BN(0))) {
             throw new WalletError('Staking pool balance detected.', 'lockup.transferAllWithStakingPoolBalance')
         }
 
