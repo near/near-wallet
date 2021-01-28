@@ -130,8 +130,13 @@ class SetupImplicit extends Component {
                 const { implicitAccountId } = this.props
                 const paymentMethods = 'credit_debit_card, apple_pay, google_pay, samsung_pay, sepa_bank_transfer, gbp_bank_transfer, gbp_open_banking_payment'
                 const widgetUrl = `${MOONPAY_URL}&walletAddress=${encodeURIComponent(implicitAccountId)}&currencyCode=NEAR` +
-                    `&redirectURL=${encodeURIComponent(window.location.href)}` + `&enabledPaymentMethods=${encodeURIComponent(paymentMethods)}` + 
-                    `&colorCode=${encodeURIComponent('#00c08b')}` + `&language=es` + `&baseCurrencyCode=aud` + `&externalTransactionId=test_transaction_id` + `&externalCustomerId=test_customer_id`
+                    `&redirectURL=${encodeURIComponent(window.location.href)}` +
+                    // `&enabledPaymentMethods=${encodeURIComponent(paymentMethods)}` + 
+                    `&colorCode=${encodeURIComponent('#00c08b')}` + 
+                    `&language=es` +
+                    `&baseCurrencyCode=aud` +
+                    `&externalTransactionId=test_transaction_id` +
+                    `&externalCustomerId=test_customer_id`
 
                 const { signature } = await sendJson('GET', `${ACCOUNT_HELPER_URL}/moonpay/signURL?url=${encodeURIComponent(widgetUrl)}`)
                 const moonpaySignedURL = `${widgetUrl}&signature=${encodeURIComponent(signature)}`
