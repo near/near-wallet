@@ -8,7 +8,6 @@ export const selectProfileBalance = (balance) => {
     }
 
     const { 
-        stakedBalanceLockup,
         lockupAccountId,
         stateStaked,
         totalBalance,

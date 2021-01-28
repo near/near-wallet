@@ -64,6 +64,7 @@ class DashboardDetail extends Component {
             getTransactionStatus, 
             balance 
         } = this.props
+        
         return (
             <PageContainer
                 title={(
