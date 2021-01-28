@@ -6,15 +6,16 @@ import TwoFactorOption from './TwoFactorOption';
 import PhoneInput, { isValidPhoneNumber } from 'react-phone-number-input';
 import { validateEmail } from '../../../utils/account';
 import { MULTISIG_MIN_AMOUNT } from '../../../utils/wallet'
+import isApprovedCountryCode from '../../../utils/isApprovedCountryCode'
 import FormButton from '../../common/FormButton';
 import AlertBanner from '../../common/AlertBanner';
 import {
     initTwoFactor,
     verifyTwoFactor,
     deployMultisig,
-    redirectToApp,
-    clearAlert
+    redirectToApp
 } from '../../../actions/account';
+import { clearGlobalAlert } from '../../../actions/status'
 import { useRecoveryMethods } from '../../../hooks/recoveryMethods';
 import EnterVerificationCode from '../EnterVerificationCode';
 import Container from '../../common/styled/Container.css';
@@ -55,6 +56,7 @@ export function EnableTwoFactor(props) {
     const [option, setOption] = useState('email');
     const [email, setEmail] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
+    const [country, setCountry] = useState('');
     const recoveryMethods = useRecoveryMethods(accountId);
     const loading = status.mainLoader
 
@@ -100,7 +102,7 @@ export function EnableTwoFactor(props) {
     const handleConfirm = async (securityCode) => {
         if (initiated && securityCode.length === 6) {
             await dispatch(verifyTwoFactor(securityCode))
-            await dispatch(clearAlert())
+            await dispatch(clearGlobalAlert())
             await handleDeployMultisig()
         }
     }
@@ -120,11 +122,12 @@ export function EnableTwoFactor(props) {
             case 'email':
                 return validateEmail(email)
             case 'phone':
-                return isValidPhoneNumber(phoneNumber)
+                return isApprovedCountryCode(country) && isValidPhoneNumber(phoneNumber)
             default:
                 return false
         }
     }
+
 
     if (!initiated) {
         return (
@@ -171,13 +174,19 @@ export function EnableTwoFactor(props) {
                     >
                         <Translate>
                             {({ translate }) => (
-                                <PhoneInput
-                                    placeholder={translate('setupRecovery.phonePlaceholder')}
-                                    value={phoneNumber}
-                                    onChange={value => setPhoneNumber(value)}
-                                    tabIndex='1'
-                                    disabled={loading}
-                                />
+                                <>
+                                    <PhoneInput
+                                        placeholder={translate('setupRecovery.phonePlaceholder')}
+                                        value={phoneNumber}
+                                        onChange={value => setPhoneNumber(value)}
+                                        onCountryChange={option => setCountry(option)}
+                                        tabIndex='1'
+                                        disabled={loading}
+                                    />
+                                    {!isApprovedCountryCode(country) && 
+                                        <div className='color-red'>{translate('setupRecovery.notSupportedPhone')}</div>
+                                    }
+                                </>
                             )}
                         </Translate>
                     </TwoFactorOption>

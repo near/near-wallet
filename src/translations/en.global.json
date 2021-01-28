@@ -547,6 +547,7 @@
         "phoneTitle": "Phone Recovery",
         "phoneDesc": "Enter your phone number below and receive a magic recovery link",
         "phonePlaceholder": "+1 415 797 8554",
+        "notSupportedPhone": "Unfortunately, we do not offer SMS for your region. Please choose email instead.",
         "advancedSecurity": "Most Secure (Recommended)",
         "advancedSecurityDesc": "Write down a 12 word seed (recovery) phrase, or secure your account with your Ledger device.",
         "ledgerTitle": "Ledger Nano S or X",

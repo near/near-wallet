@@ -142,17 +142,10 @@ const Console = styled.div`
     padding: 8px;
 `
 
-// closeIcon mozna usunac
 const GlobalAlertNew = ({ globalAlert, actionStatus, clearGlobalAlert, closeIcon = true }) => {
 
     const [closing, setClosing] = useState(false)
     const [alerts, setAlerts] = useState([])
-
-    const onMissingTranslation = () => {
-        if (!globalAlert.success) {
-            return 'Sorry an error has occurred. You may want to try again.';
-        }
-    };
 
     const handleClose = (type) => {
         setClosing(type)
@@ -187,15 +180,12 @@ const GlobalAlertNew = ({ globalAlert, actionStatus, clearGlobalAlert, closeIcon
                                 <Header success={alert.success}>
                                     <Translate id={alert.messageCodeHeader || (alert.success ? 'success' : 'error')} />
                                 </Header>
-
                                 <Translate>
-                                    {({ translate }) => 
-                                        translate(alert.messageCode) === ''
-                                            ? <Translate id={`reduxActions.default.${alert.success ? 'success' : 'error'}`} />
-                                            : <Translate id={alert.messageCode} data={alert.data} options={{ onMissingTranslation }} />
+                                    {({ translate }) => translate(alert.messageCode).includes(alert.messageCode)
+                                        ? <Translate id={`reduxActions.default.${alert.success ? 'success' : 'error'}`} />
+                                        : <Translate id={alert.messageCode} data={alert.data} />
                                     }
                                 </Translate>
-
                                 {alert.console && 
                                     <Console>
                                         {alert.errorMessage}

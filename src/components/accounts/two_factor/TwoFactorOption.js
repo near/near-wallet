@@ -32,6 +32,10 @@ const Container = styled.div`
         stroke: #8dd4bd;
     }
 
+    .color-red {
+        margin-top: 15px;
+    }
+
     &.active {
         border-color: #0072CE;
         background-color: white;
