@@ -128,10 +128,10 @@ class SetupImplicit extends Component {
             if (moonpayAvailable) {
                 const MOONPAY_URL = `https://buy.moonpay.io?apiKey=${MOONPAY_API_KEY}`
                 const { implicitAccountId } = this.props
-                const paymentMethods = 'credit_debit_card%2apple_pay%2google_pay%2samsung_pay%2sepa_bank_transfer%2gbp_bank_transfer%2gbp_open_banking_payment'
+                const paymentMethods = 'credit_debit_card, apple_pay, google_pay, samsung_pay, sepa_bank_transfer, gbp_bank_transfer, gbp_open_banking_payment'
                 const widgetUrl = `${MOONPAY_URL}&walletAddress=${encodeURIComponent(implicitAccountId)}&currencyCode=NEAR` +
-                    `&redirectURL=${encodeURIComponent(window.location.href)}` + `&enabledPaymentMethods=${paymentMethods}` + 
-                    `&colorCode=%2300c08b` + `&language=es` + `&baseCurrencyCode=aud` + `&externalTransactionId=test_transaction_id` + `&externalCustomerId=test_customer_id`
+                    `&redirectURL=${encodeURIComponent(window.location.href)}` + `&enabledPaymentMethods=${encodeURIComponent(paymentMethods)}` + 
+                    `&colorCode=${encodeURIComponent('#00c08b')}` + `&language=es` + `&baseCurrencyCode=aud` + `&externalTransactionId=test_transaction_id` + `&externalCustomerId=test_customer_id`
 
                 const { signature } = await sendJson('GET', `${ACCOUNT_HELPER_URL}/moonpay/signURL?url=${encodeURIComponent(widgetUrl)}`)
                 const moonpaySignedURL = `${widgetUrl}&signature=${encodeURIComponent(signature)}`
