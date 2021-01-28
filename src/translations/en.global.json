@@ -611,6 +611,8 @@
         "activity": "Activity"
     },
 
+    "loading": "Loading...",
+
     "balance": {
         "balance": "Total Balance",
         "balanceLoading": "Balance loading"

@@ -4,7 +4,7 @@ import { Translate } from 'react-localize-redux'
 import { withRouter } from 'react-router-dom'
 
 import { getTransactions, getTransactionStatus } from '../../actions/transactions'
-
+import { selectProfileBalance } from '../../reducers/selectors/balance';
 import DashboardSection from './DashboardSection'
 import DashboardActivity from './DashboardActivity'
 import PageContainer from '../common/PageContainer'
@@ -65,18 +65,14 @@ class DashboardDetail extends Component {
             getTransactionStatus, 
             balance 
         } = this.props
-
+        const profileBalance = selectProfileBalance(balance)
         return (
             <PageContainer
                 title={(
-                    balance
-                        ? <Fragment>
-                            <div className='dashboard-balance'>
-                                <span className='balance'><Translate id='balance.balance' />: </span>
-                                <Balance amount={balance.total}/> 
-                            </div>
-                        </Fragment>
-                        : <Translate id='balance.balanceLoading' />
+                    <div className='dashboard-balance'>
+                        <span className='balance'><Translate id='balance.balance' />: </span>
+                        {profileBalance ? <Balance amount={profileBalance.totalBalance}/> : <Translate id='loading'/>}
+                    </div>
                 )}
                 additional={!DISABLE_SEND_MONEY && (
                     <FormButton 
