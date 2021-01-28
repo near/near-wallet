@@ -128,10 +128,10 @@ class SetupImplicit extends Component {
             if (moonpayAvailable) {
                 const MOONPAY_URL = `https://buy.moonpay.io?apiKey=${MOONPAY_API_KEY}`
                 const { implicitAccountId } = this.props
-                const paymentMethods = 'credit_debit_card, apple_pay, google_pay, samsung_pay, sepa_bank_transfer, gbp_bank_transfer, gbp_open_banking_payment'
+                const paymentMethods = 'credit_debit_card, apple_pay, google_pay, samsung_pay' //, sepa_bank_transfer, gbp_bank_transfer, gbp_open_banking_payment'
                 const widgetUrl = `${MOONPAY_URL}&walletAddress=${encodeURIComponent(implicitAccountId)}&currencyCode=NEAR` +
                     `&redirectURL=${encodeURIComponent(window.location.href)}` +
-                    // `&enabledPaymentMethods=${encodeURIComponent(paymentMethods)}` + 
+                    `&enabledPaymentMethods=${encodeURIComponent(paymentMethods)}` + 
                     `&colorCode=${encodeURIComponent('#00c08b')}` + 
                     `&language=es` +
                     `&baseCurrencyCode=aud` +
