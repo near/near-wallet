@@ -6,7 +6,7 @@ import RecoveryContainer from './Recovery/RecoveryContainer'
 import BalanceContainer from './balances/BalanceContainer'
 import HardwareDevices from './hardware_devices/HardwareDevices'
 import TwoFactorAuth from './two_factor/TwoFactorAuth'
-import { getLedgerKey, checkCanEnableTwoFactor, getAccessKeys, redirectTo, getProfileBalance, transferAllFromLockup, loadRecoveryMethods } from '../../actions/account'
+import { getLedgerKey, checkCanEnableTwoFactor, getAccessKeys, redirectTo, refreshAccount, getProfileBalance, transferAllFromLockup, loadRecoveryMethods } from '../../actions/account'
 import styled from 'styled-components'
 import LockupAvailTransfer from './balances/LockupAvailTransfer'
 import UserIcon from '../svg/UserIcon'
@@ -148,6 +148,7 @@ export function Profile({ match }) {
         try {
             setTransferring(true)
             await dispatch(transferAllFromLockup())
+            await dispatch(refreshAccount())
             await dispatch(getProfileBalance(accountId))
         } finally {
             setTransferring(false)
