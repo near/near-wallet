@@ -137,12 +137,12 @@ async function getAccountBalance() {
             : new BN(lockupAmount).mul(timeLeft).div(releaseDurationBN)
 
         let totalBalance = new BN(lockupBalance.total)
-        let stakedBalance = new BN(0)
-        const stakingPoolAccountId = await this.wrappedAccount.viewFunction(lockupAccountId, 'get_staking_pool_account_id');
-        if (stakingPoolAccountId) {
-            stakedBalance = new BN(await this.wrappedAccount.viewFunction(stakingPoolAccountId,
+        let stakedBalanceLockup = new BN(0)
+        const stakingPoolLockupAccountId = await this.wrappedAccount.viewFunction(lockupAccountId, 'get_staking_pool_account_id');
+        if (stakingPoolLockupAccountId) {
+            stakedBalanceLockup = new BN(await this.wrappedAccount.viewFunction(stakingPoolLockupAccountId,
                 'get_account_total_balance', { account_id: lockupAccountId }))
-            totalBalance = totalBalance.add(stakedBalance)
+            totalBalance = totalBalance.add(stakedBalanceLockup)
         }
         const isFullyUnlocked = timeLeft.eq(new BN(0))
         const ownersBalance = isFullyUnlocked
@@ -153,7 +153,7 @@ async function getAccountBalance() {
         const liquidOwnersBalance = BN.min(
             ownersBalance, 
             isFullyUnlocked 
-                ? stakedBalance.isZero()
+                ? stakedBalanceLockup.isZero()
                     ? new BN(lockupBalance.total)
                     : new BN(lockupBalance.total).sub(LOCKUP_MIN_BALANCE)
                 : new BN(lockupBalance.total).sub(LOCKUP_MIN_BALANCE)
@@ -169,7 +169,7 @@ async function getAccountBalance() {
             lockedAmount,
             total: new BN(balance.total).add(new BN(lockedAmount)).add(new BN(ownersBalance)).toString(),
             totalBalance,
-            stakedBalance,
+            stakedBalanceLockup: stakedBalanceLockup,
             lockupAccountId,
         }
     } catch (error) {
