@@ -177,14 +177,17 @@ async function getAccountBalance() {
             ownersBalance,
             liquidOwnersBalance,
             lockedAmount,
-            total: new BN(balance.total).add(new BN(lockedAmount)).add(new BN(ownersBalance)).toString(),
+            total: new BN(balance.total).add(new BN(lockedAmount)).add(new BN(ownersBalance)).add(stakedBalanceMainAccount).toString(),
             totalBalance,
             stakedBalanceLockup: stakedBalanceLockup,
             lockupAccountId,
         }
     } catch (error) {
         if (error.message.match(/ccount ".+" doesn't exist/) || error.message.includes('does not exist while viewing') || error.message.includes('cannot find contract code for account')) {
-            return balance
+            return {
+                ...balance,
+                total: new BN(balance.total).add(stakedBalanceMainAccount).toString()
+            }
         }
         throw error
     }

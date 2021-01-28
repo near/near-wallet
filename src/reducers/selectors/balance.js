@@ -8,7 +8,7 @@ export const selectProfileBalance = (balance) => {
     }
 
     const { 
-        stakedBalance,
+        stakedBalanceLockup,
         lockupAccountId,
         stateStaked,
         totalBalance,
@@ -63,7 +63,6 @@ export const selectProfileBalance = (balance) => {
         walletBalance,
         lockupId: lockupAccountId,
         lockupBalance,
-        lockupIdExists,
-        totalBalance: new BN(walletBalance.walletBalance).add(new BN(lockupBalance.lockupBalance)).toString()
+        lockupIdExists
     }
 }

@@ -111,15 +111,11 @@ class Routing extends Component {
             handleRefreshUrl,
             history,
             handleRedirectUrl, 
-            handleClearUrl,
-            getProfileBalance
+            handleClearUrl
         } = this.props
         
         handleRefreshUrl()
         refreshAccount()
-        if (this.props.account.accountId) {
-            getProfileBalance()
-        }
         
         history.listen(async () => {
             handleRedirectUrl(this.props.router.location)
@@ -140,10 +136,6 @@ class Routing extends Component {
         if (hasLanguageChanged) {
             // this.addTranslationsForActiveLanguage(curLangCode)
             localStorage.setItem("languageCode", curLangCode)
-        }
-
-        if (prevProps.account.accountId !== this.props.account.accountId) {
-            this.props.getProfileBalance()
         }
     }
 
@@ -350,8 +342,7 @@ const mapDispatchToProps = {
     handleRefreshUrl,
     handleRedirectUrl,
     handleClearUrl,
-    promptTwoFactor,
-    getProfileBalance
+    promptTwoFactor
 }
 
 const mapStateToProps = ({ account, router }) => ({
