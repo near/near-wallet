@@ -19,6 +19,7 @@
     LOCKUP_ACCOUNT_ID_SUFFIX = "lockup.near"
     SENTRY_ORG = "near-protocol"
     SENTRY_PROJECT = "mainnet-staging-wallet"
+    MOONPAY_API_KEY = "pk_live_jYDdkGL7bJsrwalHZs1lVIhdOHOtK8BR"
 
 
 [context.production.environment]
