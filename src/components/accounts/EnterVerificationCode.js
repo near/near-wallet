@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { Translate } from 'react-localize-redux'
+import { Translate } from 'react-localize-redux';
 import FormButton from '../common/FormButton';
-import Container from '../common/styled/Container.css'
+import Container from '../common/styled/Container.css';
 
 const StyledContainer = styled(Container)`
 
@@ -56,7 +56,8 @@ const EnterVerificationCode = ({
     email,
     phoneNumber,
     loading,
-    localAlert
+    localAlert,
+    onClick
 }) => {
 
     const [code, setCode] = useState('');
@@ -107,6 +108,7 @@ const EnterVerificationCode = ({
                     disabled={code.length !== 6 || loading}
                     sending={loading}
                     sendingString='button.verifying'
+                    onClick={onClick}
                 >
                     <Translate id='button.verifyCodeEnable' />
                 </FormButton>

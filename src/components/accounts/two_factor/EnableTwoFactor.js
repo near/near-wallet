@@ -16,8 +16,9 @@ import {
     clearAlert
 } from '../../../actions/account';
 import { useRecoveryMethods } from '../../../hooks/recoveryMethods';
-import EnterVerificationCode from '../EnterVerificationCode'
-import Container from '../../common/styled/Container.css'
+import EnterVerificationCode from '../EnterVerificationCode';
+import Container from '../../common/styled/Container.css';
+import {Mixpanel} from '../../../mixpanel/index';
 
 const StyledContainer = styled(Container)`
 
@@ -92,6 +93,7 @@ export function EnableTwoFactor(props) {
     }
 
     const handleResendCode = async () => {
+        Mixpanel.track("2FA Click resend button")
         await dispatch(initTwoFactor(accountId, method))
     }
 
@@ -110,6 +112,7 @@ export function EnableTwoFactor(props) {
 
     const handleGoBack = () => {
         setInitiated(false)
+        Mixpanel.track("2FA Click link to go back")
     }
 
     const isValidInput = () => {
@@ -133,12 +136,15 @@ export function EnableTwoFactor(props) {
                     theme='light-blue'
                     linkTo='https://docs.near.org/docs/concepts/storage'
                 />
-                <form onSubmit={e => { handleNext(); e.preventDefault(); }}>
+                <form onSubmit={e => { handleNext(); e.preventDefault();}}>
                     <h1><Translate id='twoFactor.enable' /></h1>
                     <h2><Translate id='twoFactor.subHeader' /></h2>
                     <h4><Translate id='twoFactor.select' /><span>*</span></h4>
                     <TwoFactorOption
-                        onClick={() => setOption('email')}
+                        onClick={() => {
+                            setOption('email');
+                            Mixpanel.track("2FA Select email")
+                        }}
                         option='email'
                         active={option}
                     >
@@ -156,7 +162,10 @@ export function EnableTwoFactor(props) {
                         </Translate>
                     </TwoFactorOption>
                     <TwoFactorOption
-                        onClick={() => setOption('phone')}
+                        onClick={() => {
+                            setOption('phone');
+                            Mixpanel.track("2FA Select phone")
+                        }}
                         option='phone'
                         active={option}
                     >
@@ -178,10 +187,18 @@ export function EnableTwoFactor(props) {
                         type='submit'
                         sending={loading}
                         sendingString='button.enabling'
+                        onClick = {() => Mixpanel.track("2FA Click Continue button")}
                     >
                         <Translate id={`button.continue`} />
                     </FormButton>
-                    <FormButton className='link' type='button' linkTo='/profile'><Translate id='button.skip' /></FormButton>
+                    <FormButton 
+                        className='link' 
+                        type='button' 
+                        linkTo='/profile' 
+                        onClick={() => Mixpanel.track("2FA Click Skip button", {url_link:"/profile"})}
+                    >
+                        <Translate id='button.skip' />
+                    </FormButton>
                 </form>
             </StyledContainer>
         )
@@ -196,6 +213,7 @@ export function EnableTwoFactor(props) {
                 onResend={handleResendCode}
                 loading={loading}
                 localAlert={status.localAlert}
+                onClick={()=>Mixpanel.track("2FA Click Verify & Continue button")}
             />
         )
     }

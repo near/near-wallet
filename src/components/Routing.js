@@ -126,6 +126,8 @@ class Routing extends Component {
 
             handleClearAlert()
         })
+
+        console.log(this.props)
     }
 
     componentDidUpdate(prevProps) {
