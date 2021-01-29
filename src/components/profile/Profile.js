@@ -9,6 +9,7 @@ import HardwareDevices from './hardware_devices/HardwareDevices'
 import TwoFactorAuth from './two_factor/TwoFactorAuth'
 import { LOADING, NOT_FOUND, useAccount } from '../../hooks/allAccounts'
 import { getLedgerKey, checkCanEnableTwoFactor, getAccessKeys, redirectTo } from '../../actions/account';
+import { Mixpanel } from "../../mixpanel/index"; 
 
 export function Profile({ match }) {
     const { has2fa } = useSelector(({ account }) => account)
@@ -33,6 +34,14 @@ export function Profile({ match }) {
             dispatch(checkCanEnableTwoFactor(account))
         }
     }, []);
+
+    useEffect(()=> {
+        if(twoFactor){
+            let id = Mixpanel.get_distinct_id()
+            Mixpanel.identify(id)
+            Mixpanel.people.set({create_2FA_at: twoFactor.createdA, enable_2FA_kind:twoFactor.kind, enabled_2FA: true })
+        }
+    }, [twoFactor])
 
     if (account.__status === LOADING) {
         return <PageContainer title={<Translate id='profile.pageTitle.loading' />} />

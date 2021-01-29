@@ -42,7 +42,7 @@ import { NodeStakingWithRouter } from './node-staking/NodeStaking'
 import { AddNodeWithRouter } from './node-staking/AddNode'
 import { NodeDetailsWithRouter } from './node-staking/NodeDetails'
 import { StakingContainer } from './staking/StakingContainer'
-import { DISABLE_SEND_MONEY, WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS } from '../utils/wallet'
+import { DISABLE_SEND_MONEY, wallet, WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS } from '../utils/wallet'
 import { refreshAccount, handleRefreshUrl, handleRedirectUrl, handleClearUrl, promptTwoFactor } from '../actions/account'
 import LedgerConfirmActionModal from './accounts/ledger/LedgerConfirmActionModal';
 
@@ -51,6 +51,8 @@ import { SetupSeedPhraseWithRouter } from './accounts/SetupSeedPhrase'
 import { SetupImplicitWithRouter } from './accounts/SetupImplicit'
 import { SetupImplicitSuccess } from './accounts/SetupImplicitSuccess'
 import { handleClearAlert} from '../utils/alerts'
+import {Mixpanel} from "../mixpanel/index";
+
 const theme = {}
 
 const PATH_PREFIX = process.env.PUBLIC_URL
@@ -124,7 +126,10 @@ class Routing extends Component {
             handleClearAlert()
         })
 
-        console.log(this.props)
+        let id = Mixpanel.get_distinct_id()
+        Mixpanel.identify(id)
+        Mixpanel.alias(wallet.accountId)
+        Mixpanel.people.set({enabled_2FA: this.props.account.twoFactor, can_enable_two_factor: this.props.account.canEnableTwoFactor})
     }
 
     componentDidUpdate(prevProps) {
