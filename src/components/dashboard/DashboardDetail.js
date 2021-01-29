@@ -4,7 +4,6 @@ import { Translate } from 'react-localize-redux'
 import { withRouter } from 'react-router-dom'
 
 import { getTransactions, getTransactionStatus } from '../../actions/transactions'
-
 import DashboardSection from './DashboardSection'
 import DashboardActivity from './DashboardActivity'
 import PageContainer from '../common/PageContainer'
@@ -65,7 +64,7 @@ class DashboardDetail extends Component {
             getTransactionStatus, 
             balance 
         } = this.props
-
+        
         return (
             <PageContainer
                 title={(

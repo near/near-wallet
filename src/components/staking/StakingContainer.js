@@ -155,7 +155,7 @@ export function StakingContainer({ history, match }) {
 
     useEffect(() => {
         dispatch(updateStaking())
-    }, [])
+    }, [accountId])
 
     const handleSwitchAccount = async (accountId) => {
         await dispatch(switchAccount(accountId, stakingAccounts))
@@ -191,7 +191,7 @@ export function StakingContainer({ history, match }) {
                                 accounts={stakingAccounts}
                                 activeAccount={currentAccount}
                                 accountId={accountId}
-                                loading={status.mainLoader}
+                                loading={status.mainLoader && !stakingAccounts.length}
                                 hasLockup={hasLockup}
                             />
                         )}
