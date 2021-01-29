@@ -56,8 +56,7 @@ const EnterVerificationCode = ({
     email,
     phoneNumber,
     loading,
-    localAlert,
-    onClick
+    localAlert
 }) => {
 
     const [code, setCode] = useState('');
@@ -108,7 +107,6 @@ const EnterVerificationCode = ({
                     disabled={code.length !== 6 || loading}
                     sending={loading}
                     sendingString='button.verifying'
-                    onClick={onClick}
                 >
                     <Translate id='button.verifyCodeEnable' />
                 </FormButton>

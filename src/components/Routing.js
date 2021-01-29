@@ -42,7 +42,7 @@ import { NodeStakingWithRouter } from './node-staking/NodeStaking'
 import { AddNodeWithRouter } from './node-staking/AddNode'
 import { NodeDetailsWithRouter } from './node-staking/NodeDetails'
 import { StakingContainer } from './staking/StakingContainer'
-import { DISABLE_SEND_MONEY, wallet, WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS } from '../utils/wallet'
+import { DISABLE_SEND_MONEY, WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS } from '../utils/wallet'
 import { refreshAccount, handleRefreshUrl, handleRedirectUrl, handleClearUrl, promptTwoFactor } from '../actions/account'
 import LedgerConfirmActionModal from './accounts/ledger/LedgerConfirmActionModal';
 
@@ -128,8 +128,10 @@ class Routing extends Component {
 
         let id = Mixpanel.get_distinct_id()
         Mixpanel.identify(id)
-        Mixpanel.alias(wallet.accountId)
         Mixpanel.people.set({enabled_2FA: this.props.account.twoFactor, can_enable_two_factor: this.props.account.canEnableTwoFactor})
+        if(this.props.account.accountId){
+            Mixpanel.alias(this.props.account.accountId)
+        }
     }
 
     componentDidUpdate(prevProps) {

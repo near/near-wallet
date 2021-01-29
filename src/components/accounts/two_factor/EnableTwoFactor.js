@@ -80,13 +80,17 @@ export function EnableTwoFactor(props) {
     }, [recoveryMethods]);
 
     const handleNext = async () => {
+        Mixpanel.track("2FA Go to next step for tying in code")
         if (!initiated && !loading && !has2fa && isValidInput()) {
             let response;
             try {
+                Mixpanel.track("2FA Initializing")
                 response = await dispatch(initTwoFactor(accountId, method))
             } finally {
                 if (response && response.confirmed) {
+                    Mixpanel.track("2FA Start deploying multisig")
                     await handleDeployMultisig()
+                    Mixpanel.track("2FA deployed successfully")
                 } else {
                     setInitiated(true)
                 }
@@ -95,15 +99,17 @@ export function EnableTwoFactor(props) {
     }
 
     const handleResendCode = async () => {
-        Mixpanel.track("2FA Click resend button")
+        Mixpanel.track("2FA Click to resend code")
         await dispatch(initTwoFactor(accountId, method))
     }
 
     const handleConfirm = async (securityCode) => {
+        Mixpanel.track("2FA Start Verifying")
         if (initiated && securityCode.length === 6) {
             await dispatch(verifyTwoFactor(securityCode))
             await dispatch(clearGlobalAlert())
             await handleDeployMultisig()
+            Mixpanel.track("2FA verified successfully")
         }
     }
 
@@ -146,7 +152,7 @@ export function EnableTwoFactor(props) {
                     <TwoFactorOption
                         onClick={() => {
                             setOption('email');
-                            Mixpanel.track("2FA Select email")
+                            Mixpanel.track("2FA Select email");
                         }}
                         option='email'
                         active={option}
@@ -167,7 +173,7 @@ export function EnableTwoFactor(props) {
                     <TwoFactorOption
                         onClick={() => {
                             setOption('phone');
-                            Mixpanel.track("2FA Select phone")
+                            Mixpanel.track("2FA Select phone");
                         }}
                         option='phone'
                         active={option}
@@ -222,7 +228,6 @@ export function EnableTwoFactor(props) {
                 onResend={handleResendCode}
                 loading={loading}
                 localAlert={status.localAlert}
-                onClick={()=>Mixpanel.track("2FA Click Verify & Continue button")}
             />
         )
     }
