@@ -80,7 +80,6 @@ export function EnableTwoFactor(props) {
     }, [recoveryMethods]);
 
     const handleNext = async () => {
-        Mixpanel.track("2FA Go to next step for tying in code")
         if (!initiated && !loading && !has2fa && isValidInput()) {
             let response;
             try {
@@ -202,7 +201,6 @@ export function EnableTwoFactor(props) {
                         type='submit'
                         sending={loading}
                         sendingString='button.enabling'
-                        onClick = {() => Mixpanel.track("2FA Click Continue button")}
                     >
                         <Translate id={`button.continue`} />
                     </FormButton>
