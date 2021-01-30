@@ -62,7 +62,7 @@ const StyledContainer = styled(Container)`
 `
 
 // TODO: Make configurable
-const MIN_BALANCE_TO_CREATE = new BN(MIN_BALANCE_FOR_GAS).add(new BN(parseNearAmount('1')))
+const MIN_BALANCE_TO_CREATE = new BN(parseNearAmount('1'))
 
 const MOONPAY_API_KEY = process.env.MOONPAY_API_KEY || 'pk_test_wQDTsWBsvUm7cPiz9XowdtNeL5xasP9';
 
