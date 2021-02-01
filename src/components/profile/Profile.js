@@ -127,7 +127,6 @@ export function Profile({ match }) {
     const userRecoveryMethods = recoveryMethods[account.accountId]
     const twoFactor = has2fa && userRecoveryMethods && userRecoveryMethods.filter(m => m.kind.includes('2fa'))[0]
     const profileBalance = selectProfileBalance(account.balance)
-    const balanceLoader = actionsPending(['GET_PROFILE_BALANCE', 'REFRESH_ACCOUNT_EXTERNAL']) && !profileBalance
     const recoveryLoader = actionsPending('LOAD_RECOVERY_METHODS') && !userRecoveryMethods
 
     useEffect(() => {
@@ -169,7 +168,7 @@ export function Profile({ match }) {
             <div className='split'>
                 <div className='left'>
                     <h2><UserIcon/><Translate id='profile.pageTitle.default'/></h2>
-                    {!balanceLoader ? (
+                    {profileBalance ? (
                         <BalanceContainer
                             account={account}
                             profileBalance={profileBalance}
@@ -177,7 +176,7 @@ export function Profile({ match }) {
                     ) : (
                         <SkeletonLoading
                             height='323px'
-                            show={balanceLoader}
+                            show={!profileBalance}
                             number={2}
                         />
                     )}
