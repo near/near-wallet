@@ -469,7 +469,7 @@ export const { signAndSendTransactions, setSignTransactionStatus, sendMoney, tra
     ]
 })
 
-export const { switchAccount, refreshAccount, refreshAccountExternal, refreshUrl, getProfileBalance, updateStakingAccount, updateStakingLockup } = createActions({
+export const { switchAccount, refreshAccount, refreshAccountExternal, refreshUrl, updateStakingAccount, updateStakingLockup } = createActions({
     SWITCH_ACCOUNT: wallet.selectAccount.bind(wallet),
     REFRESH_ACCOUNT: [
         wallet.refreshAccount.bind(wallet),
@@ -488,7 +488,6 @@ export const { switchAccount, refreshAccount, refreshAccountExternal, refreshUrl
          })
     ],
     REFRESH_URL: null,
-    GET_PROFILE_BALANCE: wallet.getProfileBalance.bind(wallet),
     UPDATE_STAKING_ACCOUNT: [
         async (accountId) => await wallet.staking.updateStakingAccount([], [] , accountId),
         (accountId) => ({
