@@ -128,8 +128,8 @@
         },
         "recoverAccount": {
             "success": "Recover using Seed Phrase is complete.<br/><b>${numberOfAccounts} account(s)</b> have been successfully recovered.<br/>The last one is set as active.",
-            "error": "Failed to recover account. No accounts were found for this seed phrase.",
-            "errorInvalidSeedPhrase": "No accounts were found for this seed phrase."
+            "error": "恢復賬戶失敗。",
+            "errorInvalidSeedPhrase": "助記詞無效"
         },
         "create": {
             "errorInvalidAccountIdLength": "用戶名的長度需為 2 至 64 個字符。",
