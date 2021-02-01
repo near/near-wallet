@@ -488,5 +488,12 @@ export const { switchAccount, refreshAccount, refreshAccountExternal, refreshUrl
          })
     ],
     REFRESH_URL: null,
-    GET_PROFILE_BALANCE: wallet.getProfileBalance.bind(wallet)
+    GET_PROFILE_BALANCE: wallet.getProfileBalance.bind(wallet),
+    UPDATE_STAKING_ACCOUNT: [
+        async (accountId) => await wallet.staking.updateStakingAccount([], [] , accountId),
+        (accountId) => ({
+            accountId,
+            ...showAlert({ onlyError: true })
+        })
+    ],
 })
