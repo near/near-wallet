@@ -37,6 +37,22 @@ const allAccountsReducer = handleActions({
             }
         }
     },
+    [updateStakingLockup]: (state, { error, meta, payload, ready }) => {
+        if (!ready || error) {
+            return state
+        }
+
+        return {
+            ...state,
+            [meta.accountId]: { 
+                ...state[meta.accountId],
+                balance: {
+                    ...state[meta.accountId].balance,
+                    lockupAccount: payload
+                }
+            }
+        }
+    },
 }, initialState)
 
 
