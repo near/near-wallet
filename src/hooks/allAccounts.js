@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { refreshAccountExternal, getProfileBalance } from '../actions/account'
+import { refreshAccountExternal } from '../actions/account'
 
 export function useAccount(accountId) {
     const state = useSelector(state => state)
