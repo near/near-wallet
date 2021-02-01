@@ -114,15 +114,16 @@ const account = handleActions({
         ...state,
         loginResetAccounts: true
     }),
-    [getProfileBalance]: (state, { payload, ready, error }) => {
-        if (!ready || error) {
-            return state
-        }
-
-        return {
-            ...state,
-            balance: {
-                ...state.balance,
+    [updateStakingAccount]: (state, { error, meta, payload, ready }) => 
+        (!ready || error)
+            ? state
+            : ({
+                ...state,
+                balance: {
+                    ...state.balance,
+                    account: payload
+                }
+            }),
                 ...payload
             }
         }
