@@ -14,6 +14,7 @@ export const selectProfileBalance = (balance) => {
         lockedAmount,
         liquidOwnersBalance,
         ownersBalance,
+        stakedBalanceMainAccount,
         account: {
             totalAvailable,
             totalPending,
@@ -27,7 +28,7 @@ export const selectProfileBalance = (balance) => {
         walletBalance: new BN(totalStaked).add(new BN(totalPending)).add(new BN(totalAvailable)).add(new BN(totalUnstaked)).add(new BN(stateStaked)).toString(),
         reservedForStorage: stateStaked.toString(),
         inStakingPools: {
-            sum: new BN(totalStaked).add(new BN(totalPending)).add(new BN(totalAvailable)).toString(),
+            sum: stakedBalanceMainAccount.toString(),
             staked: totalStaked,
             pendingRelease: totalPending,
             availableForWithdraw: totalAvailable
