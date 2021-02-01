@@ -1,7 +1,5 @@
-import { handleActions, combineActions } from 'redux-actions'
+import { handleActions } from 'redux-actions'
 import reduceReducers from 'reduce-reducers'
-import { multisig, utils } from 'near-api-js'
-import BN from 'bn.js'
 
 import {
     requestCode,
@@ -17,8 +15,6 @@ import {
     updateStakingAccount,
     updateStakingLockup
 } from '../../actions/account'
-
-import { LOCKUP_MIN_BALANCE } from '../../utils/account-with-lockup'
 
 const initialState = {
     formLoader: false,
