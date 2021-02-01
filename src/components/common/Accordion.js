@@ -12,7 +12,7 @@ const Container = styled.div`
     }
 `
 
-const Accordion = ({ className, trigger, children }) => {
+const Accordion = ({ className, trigger, children, action }) => {
     const [open, setOpen] = useState(false)
     const [contentHeight, setContentHeight] = useState('')
 
@@ -29,6 +29,8 @@ const Accordion = ({ className, trigger, children }) => {
     }, [open])
 
     const handleClick = () => {
+        action && action()
+
         setOpen(!open)
         const el = document.getElementById(trigger)
         if (!open) {
