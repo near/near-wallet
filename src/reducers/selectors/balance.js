@@ -34,7 +34,7 @@ export const selectProfileBalance = (balance) => {
             pendingRelease: totalPending,
             availableForWithdraw: totalAvailable
         },
-        available: totalUnstaked
+        available: balanceAvailable
     }
 
     let lockupBalance = {}
