@@ -17,7 +17,7 @@ const allAccountsReducer = handleActions({
                 }
             }),
     [updateStakingAccount]: (state, { error, meta, payload, ready }) => 
-        (!ready || error)
+        (!ready || error || !meta.accountId)
             ? state
             : ({
                 ...state,
@@ -30,7 +30,7 @@ const allAccountsReducer = handleActions({
                 }
             }),
     [updateStakingLockup]: (state, { error, meta, payload, ready }) => 
-        (!ready || error)
+        (!ready || error || !meta.accountId)
             ? state
             : ({
                 ...state,
