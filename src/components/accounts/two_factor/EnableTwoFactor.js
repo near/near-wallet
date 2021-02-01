@@ -19,7 +19,7 @@ import { clearGlobalAlert } from '../../../actions/status'
 import { useRecoveryMethods } from '../../../hooks/recoveryMethods';
 import EnterVerificationCode from '../EnterVerificationCode';
 import Container from '../../common/styled/Container.css';
-import {Mixpanel} from '../../../mixpanel/index';
+import { Mixpanel } from '../../../mixpanel/index';
 
 const StyledContainer = styled(Container)`
 

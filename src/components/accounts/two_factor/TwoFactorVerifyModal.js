@@ -8,7 +8,8 @@ import { Translate } from 'react-localize-redux';
 import TwoFactorVerifyInput from './TwoFactorVerifyInput';
 import { WalletError } from '../../../utils/walletError'
 import { resendTwoFactor, get2faMethod } from '../../../actions/account';
-import { actionsPending } from '../../../utils/alerts'
+import { actionsPending } from '../../../utils/alerts';
+import { Mixpanel } from "../../../mixpanel/index"
 
 const Form = styled.form`
     display: flex;
@@ -57,9 +58,11 @@ const TwoFactorVerifyModal = ({ open, onClose }) => {
             await dispatch(resendTwoFactor())
         } catch(e) {
             setResendCode()
+            Mixpanel.track("2FA resend errors", {error: e})
             throw e
         } finally {
             setResendCode('resent')
+            Mixpanel.track("2FA resend code")
             setTimeout(() => { setResendCode() }, 3000)
         }
     }

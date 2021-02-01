@@ -51,7 +51,7 @@ import { SetupSeedPhraseWithRouter } from './accounts/SetupSeedPhrase'
 import { SetupImplicitWithRouter } from './accounts/SetupImplicit'
 import { SetupImplicitSuccess } from './accounts/SetupImplicitSuccess'
 import { handleClearAlert} from '../utils/alerts'
-import {Mixpanel} from "../mixpanel/index";
+import { Mixpanel } from "../mixpanel/index";
 
 const theme = {}
 
@@ -177,6 +177,8 @@ class Routing extends Component {
                                     account.requestPending(verified, error)
                                     // clears requestPending and closes the modal
                                     promptTwoFactor(null)
+                                    //tracking error
+                                    Mixpanel.track("2FA verify error", {error: error})
                                 }}
                             />
                         }
