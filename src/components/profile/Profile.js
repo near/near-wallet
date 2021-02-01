@@ -172,6 +172,8 @@ export function Profile({ match }) {
                         <BalanceContainer
                             account={account}
                             profileBalance={profileBalance}
+                            actionMain={() => dispatch(updateStakingAccount(account.accountId))}
+                            actionLockup={() => dispatch(updateStakingLockup(account.accountId))}
                         />
                     ) : (
                         <SkeletonLoading
