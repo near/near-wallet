@@ -85,17 +85,23 @@ export class Staking {
     }
 
     async getAccounts() {
-        const accountId = this.wallet.accountId
+        return { 
+            accountId: this.wallet.accountId, 
+            lockupId : await this.checkLockupExists(this.wallet.accountId)
+        }
+    }
+
+    async checkLockupExists(accountId) {
         let lockupId
         try {
-            const { lockupId: _lockupId } = await this.getLockup()
+            const { lockupId: _lockupId } = await this.getLockup(accountId)
             lockupId = _lockupId
         } catch(e) {
             if (!/No contract for account/.test(e.message)) {
                 throw e
             }
         }
-        return { accountId, lockupId }
+        return lockupId
     }
 
     async updateStaking(currentAccountId, recentlyStakedValidators) {
@@ -122,8 +128,8 @@ export class Staking {
         return state
     }
 
-    async updateStakingLockup() {
-        const { contract, lockupId: account_id } = await this.getLockup()
+    async updateStakingLockup(accountId) {
+        const { contract, lockupId: account_id } = await this.getLockup(accountId)
 
         // use MIN_LOCKUP_AMOUNT vs. actual storage amount
         const deposited = new BN(await contract.get_known_deposited_balance())
@@ -146,16 +152,17 @@ export class Staking {
                 totalUnstaked: totalUnstaked.toString(),
             }
         }
-        let validator = (await this.getValidators([selectedValidator]))[0]
+        let validator = (await this.getValidators([selectedValidator], accountId))[0]
 
         let totalStaked = ZERO.clone();
         let totalUnclaimed = ZERO.clone();
         let totalAvailable = ZERO.clone();
         let totalPending = ZERO.clone();
+        let total
         const minimumUnstaked = new BN('100'); // 100 yocto
 
         try {
-            const total = new BN(await validator.contract.get_account_total_balance({ account_id }))
+            total = new BN(await validator.contract.get_account_total_balance({ account_id }))
             if (total.gt(ZERO)) {
                 validator.staked = await validator.contract.get_account_staked_balance({ account_id })
                 validator.unclaimed = total.sub(deposited).toString()
@@ -190,19 +197,22 @@ export class Staking {
             totalStaked: totalStaked.toString(),
             totalUnstaked: totalUnstaked.toString(),
             totalUnclaimed: totalUnclaimed.toString(),
+            totalBalance: total.toString()
         }
     }
 
-    async updateStakingAccount(allValidators, recentlyStakedValidators = []) {
-        const account_id = this.wallet.accountId
+    async updateStakingAccount(allValidators, recentlyStakedValidators = [], account_id = this.wallet.accountId) {
+        // TODO: refreshAccount (action) should be added after staking action
         await this.wallet.refreshAccount()
-        const account = await this.wallet.getAccount(this.wallet.accountId)
+        const account = await this.wallet.getAccount(account_id)
+
+        // TODO: refactor, balance is already available in redux
         const balance = account.wrappedAccount ? await account.wrappedAccount.getAccountBalance() : await account.getAccountBalance()
 
         // const validatorDepositMap = await getStakingTransactions(account_id)
         const validatorDepositMap = await getStakingDeposits(account_id)
 
-        let validators = await this.getValidators([...new Set(Object.keys(validatorDepositMap).concat(recentlyStakedValidators))])
+        let validators = await this.getValidators([...new Set(Object.keys(validatorDepositMap).concat(recentlyStakedValidators))], account_id)
 
         let totalUnstaked = new BN(balance.available)
         if (totalUnstaked.lt(new BN(STAKING_AMOUNT_DEVIATION))) {
@@ -264,7 +274,7 @@ export class Staking {
         }
     }
 
-    async getValidators(accountIds) {
+    async getValidators(accountIds, accountId = this.wallet.accountId) {
         const { current_validators, next_validators, current_proposals } = await this.provider.validators()
         const currentValidators = current_validators.map(({ account_id }) => account_id)
         
@@ -282,8 +292,7 @@ export class Staking {
                 .filter((v) => v.indexOf('nfvalidator') === -1 && v.indexOf(networkId === 'mainnet' ? '.near' : '.m0') > -1)
         }
 
-        const currentAccount = await this.wallet.getAccount(this.wallet.accountId)
-
+        const currentAccount = await this.wallet.getAccount(accountId)
         return (await Promise.all(
             accountIds.map(async (account_id) => {
                 try {
@@ -400,15 +409,14 @@ export class Staking {
         ])
     }
 
-    async getLockup() {
-        const accountId = this.wallet.accountId
+    async getLockup(accountId = this.wallet.accountId) {
         let lockupId
         if (process.env.REACT_APP_USE_TESTINGLOCKUP && accountId.length < 64) {
             lockupId = `testinglockup.${accountId}`
         } else {
             lockupId = getLockupAccountId(accountId)
         }
-        const contract = await this.getContractInstance(lockupId, lockupMethods)
+        const contract = await this.getContractInstance(lockupId, lockupMethods, accountId)
         return { contract, lockupId, accountId }
     }
 
@@ -473,10 +481,10 @@ export class Staking {
     Helpers
     ********************************/
 
-    async getContractInstance(contractId, methods) {
+    async getContractInstance(contractId, methods, accountId = this.wallet.accountId) {
         try {
             await (await new Account(this.wallet.connection, contractId)).state()
-            return await new Contract(await this.wallet.getAccount(this.wallet.accountId), contractId, { ...methods })
+            return await new Contract(await this.wallet.getAccount(accountId), contractId, { ...methods })
         } catch (e) {
             throw new WalletError('No contract for account', 'staking.noLockup')
         }
