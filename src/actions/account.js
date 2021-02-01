@@ -479,8 +479,7 @@ export const { switchAccount, refreshAccount, refreshAccountExternal, refreshUrl
         async (accountId) => ({
             ...await (await wallet.getAccount(accountId)).state(),
             balance: {
-                ...await wallet.getBalance(accountId),
-                ...await wallet.getProfileBalance(accountId)
+                ...await wallet.getBalance(accountId)
             }
         }),
         accountId => ({
