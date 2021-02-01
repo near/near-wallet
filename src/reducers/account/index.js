@@ -14,7 +14,8 @@ import {
     checkCanEnableTwoFactor,
     get2faMethod,
     getLedgerKey,
-    getProfileBalance
+    updateStakingAccount,
+    updateStakingLockup
 } from '../../actions/account'
 
 import { LOCKUP_MIN_BALANCE } from '../../utils/account-with-lockup'
@@ -124,10 +125,16 @@ const account = handleActions({
                     account: payload
                 }
             }),
-                ...payload
-            }
-        }
-    }
+    [updateStakingLockup]: (state, { error, meta, payload, ready }) => 
+        (!ready || error)
+            ? state
+            : ({
+                ...state,
+                balance: {
+                    ...state.balance,
+                    lockupAccount: payload
+                }
+            })
 }, initialState)
 
 export default reduceReducers(
