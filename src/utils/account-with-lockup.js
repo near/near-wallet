@@ -173,6 +173,7 @@ async function getAccountBalance() {
 
         return {
             ...balance,
+            balanceAvailable: balance.available,
             available,
             ownersBalance,
             liquidOwnersBalance,
@@ -181,6 +182,7 @@ async function getAccountBalance() {
             totalBalance,
             stakedBalanceLockup: stakedBalanceLockup,
             lockupAccountId,
+            stakedBalanceMainAccount
         }
     } catch (error) {
         if (error.message.match(/ccount ".+" doesn't exist/) || error.message.includes('does not exist while viewing') || error.message.includes('cannot find contract code for account')) {
