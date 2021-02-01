@@ -1,7 +1,7 @@
 {
     "reduxActions": {
         "RECOVER_ACCOUNT_SEED_PHRASE": {
-            "success": "Учетная запись успешно восстановлена.",
+            "success": "Recover using Seed Phrase is complete.<br/><b>${numberOfAccounts} account(s)</b> have been successfully recovered.<br/>The last one is set as active.",
             "error": "Не удалось восстановить учетную запись."
         },
         "SEND_MONEY": {
@@ -127,8 +127,9 @@
             "error": "Не удалось отправить SMS-сообщение."
         },
         "recoverAccount": {
-            "success": "Учетная запись успешно восстановлена.",
-            "error": "Не удалось восстановить учетную запись."
+            "success": "Recover using Seed Phrase is complete.<br/><b>${numberOfAccounts} account(s)</b> have been successfully recovered.<br/>The last one is set as active.",
+            "error": "Не удалось восстановить учетную запись.",
+            "errorInvalidSeedPhrase": "No accounts were found for this seed phrase."
         },
         "create": {
             
@@ -141,9 +142,9 @@
         "createImplicit": {
             "pre": {
                 "title": "Fund Your Account",
-                "descOne": "Initialize your account by sending at least <b>${amount} NEAR</b> to the temporary funding address below.",
+                "descOne": "Initialize your account by sending at least <b>${amount} NEAR</b> to the one-time funding address below.",
                 "descTwo": "Return to this screen once your funds have been deposited to finish creating your account.",
-                "addressHeader": "Temporary funding address",
+                "addressHeader": "One-time funding address",
                 "whereToBuy": {
                     "button": "Where can I purchase NEAR?",
                     "title": "Purchase NEAR tokens",
@@ -154,14 +155,16 @@
                 "modal": {
                     "title": "Account Funded",
                     "descOne": "Your account has been successfully funded!",
-                    "descTwo": "The temporary funding address is now invalid, and can no longer be used to receive assets. Your Account ID will be used as a primary address for all NEAR operations.",
-                    "checkbox": "I acknowledge that by continuing, the temporary funding address will be made invalid, and any additional assets sent to that address will be lost."
+                    "descTwo": "The one-time funding address can no longer be used to receive assets.",
+                    "descThree": "Your Account ID: <b>${accountId}</b> is your sole address for all NEAR operations.",
+                    "checkbox": "I acknowledge that the one-time funding address is invalid, and any additional assets sent to this address will be lost."
                 }
             },
             "success": {
                 "title": "Welcome to NEAR",
                 "descOne": "Congratulations <b>${accountId}</b>! Your account has been successfully created.",
-                "descTwo": "You may now use your Account ID as your primary address for all NEAR operations. Make sure to update your address on any exchanges or other devices.",
+                "descTwo": "You must now use this Account ID as your address for all NEAR operations.",
+                "descThree": "Please update your address on any exchanges or other devices.",
                 "button": "Continue to Account"
             }
         },

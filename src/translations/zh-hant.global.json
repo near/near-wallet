@@ -1,7 +1,7 @@
 {
     "reduxActions": {
         "RECOVER_ACCOUNT_SEED_PHRASE": {
-            "success": "成功。",
+            "success": "Recover using Seed Phrase is complete.<br/><b>${numberOfAccounts} account(s)</b> have been successfully recovered.<br/>The last one is set as active.",
             "error": "恢復賬戶失敗。"
         },
         "SEND_MONEY": {
@@ -127,7 +127,7 @@
             "error": "發送短信失敗。"
         },
         "recoverAccount": {
-            "success": "成功。",
+            "success": "Recover using Seed Phrase is complete.<br/><b>${numberOfAccounts} account(s)</b> have been successfully recovered.<br/>The last one is set as active.",
             "error": "恢復賬戶失敗。",
             "errorInvalidSeedPhrase": "助記詞無效"
         },
@@ -165,14 +165,16 @@
                 "modal": {
                     "title": "Account Funded",
                     "descOne": "Your account has been successfully funded!",
-                    "descTwo": "The temporary funding address is now invalid, and can no longer be used to receive assets. Your Account ID will be used as a primary address for all NEAR operations.",
-                    "checkbox": "I acknowledge that by continuing, the temporary funding address will be made invalid, and any additional assets sent to that address will be lost."
+                    "descTwo": "The one-time funding address can no longer be used to receive assets.",
+                    "descThree": "Your Account ID: <b>${accountId}</b> is your sole address for all NEAR operations.",
+                    "checkbox": "I acknowledge that the one-time funding address is invalid, and any additional assets sent to this address will be lost."
                 }
             },
             "success": {
                 "title": "Welcome to NEAR",
                 "descOne": "Congratulations <b>${accountId}</b>! Your account has been successfully created.",
-                "descTwo": "You may now use your Account ID as your primary address for all NEAR operations. Make sure to update your address on any exchanges or other devices.",
+                "descTwo": "You must now use this Account ID as your address for all NEAR operations.",
+                "descThree": "Please update your address on any exchanges or other devices.",
                 "button": "Continue to Account"
             }
         },
@@ -670,7 +672,7 @@
             },
             "unclaimed": {
                 "title": "未提現獎勵",
-                "info": "已賺得的獎勵並未提現。未提現獎勵將自動質押，這意味著你的質押總數將不斷增加，獎勵是<a target='_blank' href='https://www. investopedia.com/terms/c/compoundinterest.asp'>複利</a>計算的。"
+                "info": "已賺得的獎勵並未提現。未提現獎勵將自動質押，這意味著你的質押總數將不斷增加，獎勵是<a target='_blank' href='https://www.investopedia.com/terms/c/compoundinterest.asp'>複利</a>計算的。"
             },
             "available": {
                 "title": "可提現",
