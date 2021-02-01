@@ -1,7 +1,7 @@
 import { handleActions, combineActions } from 'redux-actions'
 import reduceReducers from 'reduce-reducers'
 
-import { refreshAccountExternal } from '../actions/account'
+import { refreshAccountExternal, updateStakingAccount, updateStakingLockup } from '../actions/account'
 
 const initialState = {}
 
@@ -20,7 +20,23 @@ const allAccountsReducer = handleActions({
                 ...payload
             }
         }
-    }
+    },
+    [updateStakingAccount]: (state, { error, meta, payload, ready }) => {
+        if (!ready || error) {
+            return state
+        }
+
+        return {
+            ...state,
+            [meta.accountId]: { 
+                ...state[meta.accountId],
+                balance: {
+                    ...state[meta.accountId].balance,
+                    account: payload
+                }
+            }
+        }
+    },
 }, initialState)
 
 
