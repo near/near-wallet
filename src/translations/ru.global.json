@@ -1,7 +1,7 @@
 {
     "reduxActions": {
         "RECOVER_ACCOUNT_SEED_PHRASE": {
-            "success": "Учетная запись успешно восстановлена.",
+            "success": "Recover using Seed Phrase is complete.<br/><b>${numberOfAccounts} account(s)</b> have been successfully recovered.<br/>The last one is set as active.",
             "error": "Не удалось восстановить учетную запись."
         },
         "SEND_MONEY": {
@@ -127,8 +127,9 @@
             "error": "Не удалось отправить SMS-сообщение."
         },
         "recoverAccount": {
-            "success": "Учетная запись успешно восстановлена.",
-            "error": "Не удалось восстановить учетную запись."
+            "success": "Recover using Seed Phrase is complete.<br/><b>${numberOfAccounts} account(s)</b> have been successfully recovered.<br/>The last one is set as active.",
+            "error": "Failed to recover account. No accounts were found for this seed phrase.",
+            "errorInvalidSeedPhrase": "No accounts were found for this seed phrase."
         },
         "create": {
             
@@ -141,9 +142,9 @@
         "createImplicit": {
             "pre": {
                 "title": "Fund Your Account",
-                "descOne": "Initialize your account by sending at least <b>${amount} NEAR</b> to the temporary funding address below.",
+                "descOne": "Initialize your account by sending at least <b>${amount} NEAR</b> to the one-time funding address below.",
                 "descTwo": "Return to this screen once your funds have been deposited to finish creating your account.",
-                "addressHeader": "Temporary funding address",
+                "addressHeader": "One-time funding address",
                 "whereToBuy": {
                     "button": "Where can I purchase NEAR?",
                     "title": "Purchase NEAR tokens",
