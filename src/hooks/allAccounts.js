@@ -8,9 +8,7 @@ export function useAccount(accountId) {
 
     const dispatch = useDispatch()
     useEffect(() => {
-        isOwner
-            ? dispatch(getProfileBalance())
-            : dispatch(refreshAccountExternal(accountId))
+        isOwner || dispatch(refreshAccountExternal(accountId))
     }, [accountId])
 
     return isOwner
