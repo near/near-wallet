@@ -148,7 +148,8 @@ export function Profile({ match }) {
             setTransferring(true)
             await dispatch(transferAllFromLockup())
             await dispatch(refreshAccount())
-            await dispatch(getProfileBalance(accountId))
+            await dispatch(updateStakingAccount())
+            await dispatch(updateStakingLockup())
         } finally {
             setTransferring(false)
         }
