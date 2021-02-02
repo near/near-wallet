@@ -1,7 +1,7 @@
 {
     "reduxActions": {
         "RECOVER_ACCOUNT_SEED_PHRASE": {
-            "success": "成功。",
+            "success": "Recover using Seed Phrase is complete.<br/><b>${numberOfAccounts} account(s)</b> have been successfully recovered.<br/>The last one is set as active.",
             "error": "恢复账户失败。"
         },
         "SEND_MONEY": {
