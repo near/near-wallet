@@ -18,6 +18,8 @@ import SkeletonLoading from '../common/SkeletonLoading';
 import InfoPopup from '../common/InfoPopup'
 import { selectProfileBalance } from '../../reducers/selectors/balance'
 import { useAccount } from '../../hooks/allAccounts'
+import { Mixpanel } from "../../mixpanel/index"; 
+
 
 const StyledContainer = styled(Container)`
 
@@ -143,6 +145,14 @@ export function Profile({ match }) {
             dispatch(checkCanEnableTwoFactor(account))
         }
     }, []);
+
+    useEffect(()=> {
+        if(twoFactor){
+            let id = Mixpanel.get_distinct_id()
+            Mixpanel.identify(id)
+            Mixpanel.people.set({create_2FA_at: twoFactor.createdA, enable_2FA_kind:twoFactor.kind, enabled_2FA: true })
+        }
+    }, [twoFactor])
 
     const handleTransferFromLockup = async () => {
         try {

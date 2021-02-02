@@ -17,8 +17,9 @@ import {
 } from '../../../actions/account';
 import { clearGlobalAlert } from '../../../actions/status'
 import { useRecoveryMethods } from '../../../hooks/recoveryMethods';
-import EnterVerificationCode from '../EnterVerificationCode'
-import Container from '../../common/styled/Container.css'
+import EnterVerificationCode from '../EnterVerificationCode';
+import Container from '../../common/styled/Container.css';
+import { Mixpanel } from '../../../mixpanel/index';
 
 const StyledContainer = styled(Container)`
 
@@ -82,10 +83,13 @@ export function EnableTwoFactor(props) {
         if (!initiated && !loading && !has2fa && isValidInput()) {
             let response;
             try {
+                Mixpanel.track("2FA Initializing")
                 response = await dispatch(initTwoFactor(accountId, method))
             } finally {
                 if (response && response.confirmed) {
+                    Mixpanel.track("2FA Start deploying multisig")
                     await handleDeployMultisig()
+                    Mixpanel.track("2FA Deployed successfully")
                 } else {
                     setInitiated(true)
                 }
@@ -94,14 +98,17 @@ export function EnableTwoFactor(props) {
     }
 
     const handleResendCode = async () => {
+        Mixpanel.track("2FA Click to resend code")
         await dispatch(initTwoFactor(accountId, method))
     }
 
     const handleConfirm = async (securityCode) => {
+        Mixpanel.track("2FA Start verifying")
         if (initiated && securityCode.length === 6) {
             await dispatch(verifyTwoFactor(securityCode))
             await dispatch(clearGlobalAlert())
             await handleDeployMultisig()
+            Mixpanel.track("2FA Verified successfully")
         }
     }
 
@@ -112,6 +119,7 @@ export function EnableTwoFactor(props) {
 
     const handleGoBack = () => {
         setInitiated(false)
+        Mixpanel.track("2FA Click link to go back")
     }
 
     const isValidInput = () => {
@@ -136,12 +144,15 @@ export function EnableTwoFactor(props) {
                     theme='light-blue'
                     linkTo='https://docs.near.org/docs/concepts/storage'
                 />
-                <form onSubmit={e => { handleNext(); e.preventDefault(); }}>
+                <form onSubmit={e => { handleNext(); e.preventDefault();}}>
                     <h1><Translate id='twoFactor.enable' /></h1>
                     <h2><Translate id='twoFactor.subHeader' /></h2>
                     <h4><Translate id='twoFactor.select' /><span>*</span></h4>
                     <TwoFactorOption
-                        onClick={() => setOption('email')}
+                        onClick={() => {
+                            setOption('email');
+                            Mixpanel.track("2FA Select email");
+                        }}
                         option='email'
                         active={option}
                     >
@@ -159,7 +170,10 @@ export function EnableTwoFactor(props) {
                         </Translate>
                     </TwoFactorOption>
                     <TwoFactorOption
-                        onClick={() => setOption('phone')}
+                        onClick={() => {
+                            setOption('phone');
+                            Mixpanel.track("2FA Select phone");
+                        }}
                         option='phone'
                         active={option}
                     >
@@ -190,7 +204,14 @@ export function EnableTwoFactor(props) {
                     >
                         <Translate id={`button.continue`} />
                     </FormButton>
-                    <FormButton className='link' type='button' linkTo='/profile'><Translate id='button.skip' /></FormButton>
+                    <FormButton 
+                        className='link' 
+                        type='button' 
+                        linkTo='/profile' 
+                        onClick={() => Mixpanel.track("2FA Click skip button", {url_link:"/profile"})}
+                    >
+                        <Translate id='button.skip' />
+                    </FormButton>
                 </form>
             </StyledContainer>
         )

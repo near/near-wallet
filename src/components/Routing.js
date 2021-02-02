@@ -51,6 +51,8 @@ import { SetupSeedPhraseWithRouter } from './accounts/SetupSeedPhrase'
 import { SetupImplicitWithRouter } from './accounts/SetupImplicit'
 import { SetupImplicitSuccess } from './accounts/SetupImplicitSuccess'
 import { handleClearAlert} from '../utils/alerts'
+import { Mixpanel } from "../mixpanel/index";
+
 const theme = {}
 
 const PATH_PREFIX = process.env.PUBLIC_URL
@@ -123,6 +125,13 @@ class Routing extends Component {
 
             handleClearAlert()
         })
+
+        let id = Mixpanel.get_distinct_id()
+        Mixpanel.identify(id)
+        Mixpanel.people.set({enabled_2FA: this.props.account.twoFactor, can_enable_two_factor: this.props.account.canEnableTwoFactor})
+        if (this.props.account.accountId) {
+            Mixpanel.alias(this.props.account.accountId)
+        }
     }
 
     componentDidUpdate(prevProps) {
@@ -168,6 +177,8 @@ class Routing extends Component {
                                     account.requestPending(verified, error)
                                     // clears requestPending and closes the modal
                                     promptTwoFactor(null)
+                                    // tracking error
+                                    Mixpanel.track("2FA Verify error", {error: error})
                                 }}
                             />
                         }
