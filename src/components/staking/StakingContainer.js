@@ -10,6 +10,7 @@ import Staking from './components/Staking'
 import Validators from './components/Validators'
 import Validator from './components/Validator'
 import StakingAction from './components/StakingAction'
+import { setStakingAccountSelected, getStakingAccountSelected } from '../../utils/localStorage'
 
 const StyledContainer = styled(Container)`
     button {
@@ -158,6 +159,7 @@ export function StakingContainer({ history, match }) {
     }, [accountId])
 
     const handleSwitchAccount = async (accountId) => {
+        setStakingAccountSelected(accountId)
         await dispatch(switchAccount(accountId, stakingAccounts))
     }
     
