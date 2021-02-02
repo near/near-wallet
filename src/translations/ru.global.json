@@ -127,8 +127,9 @@
             "error": "Не удалось отправить SMS-сообщение."
         },
         "recoverAccount": {
-            "success": "Учетная запись успешно восстановлена.",
-            "error": "Не удалось восстановить учетную запись."
+            "success": "Recover using Seed Phrase is complete.<br/><b>${numberOfAccounts} account(s)</b> have been successfully recovered.<br/>The last one is set as active.",
+            "error": "Не удалось восстановить учетную запись.",
+            "errorInvalidSeedPhrase": "No accounts were found for this seed phrase."
         },
         "create": {
             
