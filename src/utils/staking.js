@@ -121,9 +121,7 @@ export class Staking {
         if (lockupAccount) {
             state.accounts.push(lockupAccount)
         }
-        state.currentAccount = currentAccountId === accountId ? account : lockupAccount 
-
-        console.log('staking', state)
+        state.currentAccount = (currentAccountId !== accountId && lockupAccount) ? lockupAccount  : account
 
         return state
     }
