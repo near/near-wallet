@@ -89,7 +89,7 @@ export function EnableTwoFactor(props) {
                 if (response && response.confirmed) {
                     Mixpanel.track("2FA Start deploying multisig")
                     await handleDeployMultisig()
-                    Mixpanel.track("2FA deployed successfully")
+                    Mixpanel.track("2FA Deployed successfully")
                 } else {
                     setInitiated(true)
                 }
@@ -103,12 +103,12 @@ export function EnableTwoFactor(props) {
     }
 
     const handleConfirm = async (securityCode) => {
-        Mixpanel.track("2FA Start Verifying")
+        Mixpanel.track("2FA Start verifying")
         if (initiated && securityCode.length === 6) {
             await dispatch(verifyTwoFactor(securityCode))
             await dispatch(clearGlobalAlert())
             await handleDeployMultisig()
-            Mixpanel.track("2FA verified successfully")
+            Mixpanel.track("2FA Verified successfully")
         }
     }
 
@@ -208,7 +208,7 @@ export function EnableTwoFactor(props) {
                         className='link' 
                         type='button' 
                         linkTo='/profile' 
-                        onClick={() => Mixpanel.track("2FA Click Skip button", {url_link:"/profile"})}
+                        onClick={() => Mixpanel.track("2FA Click skip button", {url_link:"/profile"})}
                     >
                         <Translate id='button.skip' />
                     </FormButton>

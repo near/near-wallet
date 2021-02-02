@@ -129,7 +129,7 @@ class Routing extends Component {
         let id = Mixpanel.get_distinct_id()
         Mixpanel.identify(id)
         Mixpanel.people.set({enabled_2FA: this.props.account.twoFactor, can_enable_two_factor: this.props.account.canEnableTwoFactor})
-        if(this.props.account.accountId){
+        if (this.props.account.accountId) {
             Mixpanel.alias(this.props.account.accountId)
         }
     }
@@ -177,8 +177,8 @@ class Routing extends Component {
                                     account.requestPending(verified, error)
                                     // clears requestPending and closes the modal
                                     promptTwoFactor(null)
-                                    //tracking error
-                                    Mixpanel.track("2FA verify error", {error: error})
+                                    // tracking error
+                                    Mixpanel.track("2FA Verify error", {error: error})
                                 }}
                             />
                         }

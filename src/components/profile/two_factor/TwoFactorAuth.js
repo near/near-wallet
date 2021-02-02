@@ -98,7 +98,7 @@ const TwoFactorAuth = ({ twoFactor, history }) => {
                         <FormButton 
                             onClick={() => {
                                 history.push('/enable-two-factor');
-                                Mixpanel.track("2FA Click Enable Button", {url_link: "/enable-two-factor"});
+                                Mixpanel.track("2FA Click enable button", {url_link: "/enable-two-factor"});
                             }} 
                             disabled={!account.canEnableTwoFactor}
                         >

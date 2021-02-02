@@ -58,11 +58,11 @@ const TwoFactorVerifyModal = ({ open, onClose }) => {
             await dispatch(resendTwoFactor())
         } catch(e) {
             setResendCode()
-            Mixpanel.track("2FA resend errors", {error: e})
+            Mixpanel.track("2FA Resend errors", {error: e})
             throw e
         } finally {
             setResendCode('resent')
-            Mixpanel.track("2FA resend code")
+            Mixpanel.track("2FA Resend code")
             setTimeout(() => { setResendCode() }, 3000)
         }
     }
