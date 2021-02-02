@@ -155,7 +155,7 @@ export function StakingContainer({ history, match }) {
     const { totalUnstaked, selectedValidator } = currentAccount
 
     useEffect(() => {
-        dispatch(updateStaking())
+        dispatch(updateStaking(getStakingAccountSelected()))
     }, [accountId])
 
     const handleSwitchAccount = async (accountId) => {
