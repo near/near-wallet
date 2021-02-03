@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { refreshAccountExternal } from '../actions/account'
+import { refreshAccountExternal, getProfileStakingDetails } from '../actions/account'
 
 export function useAccount(accountId) {
     const state = useSelector(state => state)
@@ -8,7 +8,12 @@ export function useAccount(accountId) {
 
     const dispatch = useDispatch()
     useEffect(() => {
-        isOwner || dispatch(refreshAccountExternal(accountId))
+        if (!isOwner) {
+            (async () => {
+                await dispatch(refreshAccountExternal(accountId))
+                dispatch(getProfileStakingDetails(accountId))
+            })()
+        }
     }, [accountId])
 
     return isOwner
