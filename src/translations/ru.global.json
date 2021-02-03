@@ -601,6 +601,10 @@
         }
     },
     "profile": {
+        "lockupBanner": {
+            "title": "You have <b>${amount}</b> NEAR available to withdraw from your lockup!",
+            "cta": "Transfer to Wallet"
+        },
         "pageTitle": {
             "loading": "Загрузка...",
             "notFound": "Имя пользователя ${accountId} не найдено",
