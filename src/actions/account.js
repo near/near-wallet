@@ -22,8 +22,15 @@ export const loadRecoveryMethods = createAction('LOAD_RECOVERY_METHODS',
 
 export const getProfileStakingDetails = (accountId) => (dispatch, getState) => {
     dispatch(updateStakingAccount(accountId))
-    dispatch(updateStakingLockup(accountId))
+
+    const lockupIdExists = accountId
+        ? !!getState().allAccounts[accountId].balance.lockedAmount
+        : !!getState().account.balance.lockedAmount
+
+    lockupIdExists
+        && dispatch(updateStakingLockup(accountId))
 }
+
 export const handleRedirectUrl = (previousLocation) => (dispatch, getState) => {
     const { pathname } = getState().router.location
     const isValidRedirectUrl = previousLocation.pathname.includes(WALLET_LOGIN_URL) || previousLocation.pathname.includes(WALLET_SIGN_URL)
