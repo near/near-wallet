@@ -130,8 +130,6 @@ export function Profile({ match }) {
     const recoveryLoader = actionsPending('LOAD_RECOVERY_METHODS') && !userRecoveryMethods
 
     useEffect(() => {
-        dispatch(loadRecoveryMethods())
-
         if (accountIdFromUrl && accountIdFromUrl !== accountIdFromUrl.toLowerCase()) {
             dispatch(redirectTo(`/profile/${accountIdFromUrl.toLowerCase()}`))
         }
@@ -142,6 +140,7 @@ export function Profile({ match }) {
                 dispatch(getAccessKeys(accountId))
                 dispatch(getLedgerKey())
                 dispatch(checkCanEnableTwoFactor(account))
+                dispatch(getProfileStakingDetails())
             }
         })()
     }, []);
