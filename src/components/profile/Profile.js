@@ -135,12 +135,15 @@ export function Profile({ match }) {
         if (accountIdFromUrl && accountIdFromUrl !== accountIdFromUrl.toLowerCase()) {
             dispatch(redirectTo(`/profile/${accountIdFromUrl.toLowerCase()}`))
         }
-
-        if (isOwner) {
-            dispatch(getAccessKeys(accountId))
-            dispatch(getLedgerKey())
-            dispatch(checkCanEnableTwoFactor(account))
-        }
+        
+        (async () => {
+            if (isOwner) {
+                await dispatch(loadRecoveryMethods())
+                dispatch(getAccessKeys(accountId))
+                dispatch(getLedgerKey())
+                dispatch(checkCanEnableTwoFactor(account))
+            }
+        })()
     }, []);
 
     const handleTransferFromLockup = async () => {
