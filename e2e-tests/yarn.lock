@@ -340,10 +340,10 @@ mustache@^4.0.0:
   resolved "https://registry.yarnpkg.com/mustache/-/mustache-4.1.0.tgz#8c1b042238a982d2eb2d30efc6c14296ae3f699d"
   integrity sha512-0FsgP/WVq4mKyjolIyX+Z9Bd+3WS8GOwoUTyKXT5cTYMGeauNTi2HPCwERqseC1IHAy0Z7MDZnJBfjabd4O8GQ==
 
-near-api-js@^0.36.2:
-  version "0.36.2"
-  resolved "https://registry.yarnpkg.com/near-api-js/-/near-api-js-0.36.2.tgz#6e0f7bde0fb066f77500a5a2e18b8f0046c55cde"
-  integrity sha512-WbnUyiGdLOBFJN0b/Kpbl+VHUR8VnkhST0MNFBzDxoMrIb/Gv6hiY+sFhYOIgHsTJE0wxOpelma6HUW9cJBYBw==
+near-api-js@^0.36.3:
+  version "0.36.3"
+  resolved "https://registry.yarnpkg.com/near-api-js/-/near-api-js-0.36.3.tgz#f374ec33ecb774ec5ad19a8e464d679d8b4438d6"
+  integrity sha512-/pWMoUkoP3/8XJRL+uHUReW40XCa31+33tZX2QgACvrMHXJ41HzEK9+RxjaSDsJZ70BtOB4ybfuk4Pj5MEhqCQ==
   dependencies:
     "@types/bn.js" "^4.11.5"
     bn.js "^5.0.0"
