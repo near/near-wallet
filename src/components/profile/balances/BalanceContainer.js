@@ -126,7 +126,7 @@ const Container = styled.div`
     }
 `
 
-const BalanceContainer = ({ account, profileBalance, actionMain, actionLockup }) => {
+const BalanceContainer = ({ account, profileBalance }) => {
     return (
         <Container>
             {profileBalance && 
@@ -150,7 +150,7 @@ const BalanceContainer = ({ account, profileBalance, actionMain, actionLockup })
                             <span><Translate id='profile.account.inStakingPools'/> <ChevronIcon color='#0072ce'/></span>
                             <span><Balance amount={profileBalance.walletBalance.inStakingPools.sum} symbol='near'/></span>
                         </div>
-                        <Accordion trigger='balance-1' action={actionMain}>
+                        <Accordion trigger='balance-1'>
                             <div className='item detail'>
                                 <span><Translate id='profile.account.staked'/> <InfoPopup content={<Translate id='staking.balanceBox.staked.info'/>}/></span>
                                 <span><Balance amount={profileBalance.walletBalance.inStakingPools.staked} symbol='near'/></span>
@@ -189,7 +189,7 @@ const BalanceContainer = ({ account, profileBalance, actionMain, actionLockup })
                                 <span><Translate id='profile.account.inStakingPools'/> <ChevronIcon color='#0072ce'/></span>
                                 <span><Balance amount={profileBalance.lockupBalance.inStakingPools.sum} symbol='near'/></span>
                             </div>
-                            <Accordion trigger='balance-2' action={actionLockup}>
+                            <Accordion trigger='balance-2'>
                                 <div className='item detail locked'>
                                     <span><Translate id='profile.account.staked'/> <InfoPopup content={<Translate id='staking.balanceBox.staked.info'/>}/></span>
                                     <span><Balance amount={profileBalance.lockupBalance.inStakingPools.staked} symbol='near'/></span>
