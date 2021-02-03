@@ -4,38 +4,16 @@ import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 import Card from '../../common/styled/Card.css';
 import FormButton from '../../common/FormButton';
-import { Translate } from 'react-localize-redux';
-import KeysIcon from '../../svg/KeysIcon';
-import SkeletonLoading from '../../common/SkeletonLoading';
-import { MULTISIG_MIN_AMOUNT } from '../../../utils/wallet'
+import { Translate } from 'react-localize-redux';import { MULTISIG_MIN_AMOUNT } from '../../../utils/wallet'
 import Balance from '../../common/Balance'
 import { utils } from 'near-api-js'
 import ConfirmDisable from '../hardware_devices/ConfirmDisable'
-import { disableMultisig } from '../../../actions/account'
+import { disableMultisig, loadRecoveryMethods } from '../../../actions/account'
 import { actionsPending } from '../../../utils/alerts'
+import {  Mixpanel } from "../../../mixpanel/index";
 
 const Container = styled(Card)`
     margin-top: 30px;
-
-    .header {
-        display: flex;
-        align-items: center;
-
-        svg {
-            width: 28px;
-            height: 28px;
-            margin: -5px 10px 0 0;
-
-            path {
-                stroke: #CCCCCC;
-            }
-        }
-    }
-
-    .font-rounded {
-        margin-top: 15px;
-        font-weight: 500;
-    }
 
     .title {
         color: #24272a;
@@ -43,10 +21,6 @@ const Container = styled(Card)`
     }
 
     .method {
-        border-top: 2px solid #f8f8f8;
-        margin: 20px -20px 0 -20px;
-        padding: 20px 20px 0 20px;
-
         .top {
             display: flex;
             align-items: center;
@@ -79,21 +53,16 @@ const TwoFactorAuth = ({ twoFactor, history }) => {
     const [confirmDisable, setConfirmDisable] = useState(false);
     const account = useSelector(({ account }) => account);
     const dispatch = useDispatch();
-    const loading = actionsPending('LOAD_RECOVERY_METHODS');
 
     const handleConfirmDisable = async () => {
         await dispatch(disableMultisig())
+        await dispatch(loadRecoveryMethods())
         setConfirmDisable(false)
     }
 
     return (
         <Container>
-            <div className='header'>
-                <KeysIcon/>
-                <h2><Translate id='twoFactor.title'/></h2>
-            </div>
-            <div className='font-rounded'><Translate id='twoFactor.desc'/></div>
-            {twoFactor && !loading && !confirmDisable &&
+            {twoFactor && !confirmDisable &&
                 <div className='method'>
                     <div className='top'>
                         <div>
@@ -113,8 +82,7 @@ const TwoFactorAuth = ({ twoFactor, history }) => {
                     </div>
                 </div>
             }
-            {
-            twoFactor && !loading && confirmDisable &&
+            {twoFactor && confirmDisable &&
                 <ConfirmDisable 
                     onConfirmDisable={handleConfirmDisable} 
                     onKeepEnabled={() => setConfirmDisable(false)}
@@ -123,25 +91,25 @@ const TwoFactorAuth = ({ twoFactor, history }) => {
                     component='twoFactor'
                 />
             }
-            {!twoFactor && !loading &&
+            {!twoFactor &&
                 <div className='method'>
                     <div className='top'>
                         <div className='title'><Translate id='twoFactor.notEnabled'/></div>
-                        <FormButton onClick={() => history.push('/enable-two-factor')} disabled={!account.canEnableTwoFactor}><Translate id='button.enable'/></FormButton>
+                        <FormButton 
+                            onClick={() => {
+                                history.push('/enable-two-factor');
+                                Mixpanel.track("2FA Click enable button", {url_link: "/enable-two-factor"});
+                            }} 
+                            disabled={!account.canEnableTwoFactor}
+                        >
+                            <Translate id='button.enable'/>
+                        </FormButton>
                     </div>
                     {!account.canEnableTwoFactor && 
                         <div className='color-red'>
                             <Translate id='twoFactor.notEnoughBalance'/> <Balance symbol='near' amount={utils.format.parseNearAmount(MULTISIG_MIN_AMOUNT)}/>
                         </div>
                     }
-                </div>
-            }
-            {loading &&
-                <div className='method'>
-                    <SkeletonLoading
-                        height='50px'
-                        show={loading}
-                    />
                 </div>
             }
         </Container>

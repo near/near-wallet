@@ -6,46 +6,23 @@ import { Translate } from 'react-localize-redux';
 import Card from '../../common/styled/Card.css';
 
 import FormButton from '../../common/FormButton';
-import HardwareDeviceIcon from '../../svg/HardwareDeviceIcon';
 import { 
     getAccessKeys,
     disableLedger,
     getLedgerKey,
-    addLedgerAccessKey
+    addLedgerAccessKey,
+    loadRecoveryMethods
 } from '../../../actions/account';
-import { useRecoveryMethods } from '../../../hooks/recoveryMethods';
 import ConfirmDisable from './ConfirmDisable';
+import SkeletonLoading from '../../common/SkeletonLoading';
+import { actionsPending } from '../../../utils/alerts'
 
 const Container = styled(Card)`
-    margin-top: 30px;
-
-    .header {
-        display: flex;
-        align-items: center;
-
-        svg {
-            width: 28px;
-            height: 28px;
-            margin: -5px 10px 0 0;
-
-            path {
-                stroke: #CCCCCC;
-            }
-        }
-    }
-
-    .font-rounded {
-        margin-top: 15px;
-        font-weight: 500;
-    }
 
     .device {
         display: flex;
         align-items: center;
         justify-content: space-between;
-        border-top: 2px solid #f8f8f8;
-        margin: 20px -20px 0 -20px;
-        padding: 20px 20px 0 20px;
 
         .name {
             font-weight: 500;
@@ -69,6 +46,7 @@ const Container = styled(Card)`
     i {
         margin-top: 20px;
         display: block;
+        color: #A1A1A9;
     }
 
     .color-red {
@@ -77,20 +55,21 @@ const Container = styled(Card)`
 
 `
 
-const HardwareDevices = () => {
+const HardwareDevices = ({ recoveryMethods }) => {
 
     const [disabling, setDisabling] = useState(false);
     const [confirmDisable, setConfirmDisable] = useState(false);
     const dispatch = useDispatch();
     const account = useSelector(({ account }) => account);
-    const recoveryMethods = useRecoveryMethods(account.accountId);
+    let userRecoveryMethods = recoveryMethods || []
     const keys = account.fullAccessKeys || [];
-    const recoveryKeys = recoveryMethods.filter(method => method.kind !== 'ledger').map(key => key.publicKey)
+    const recoveryKeys = userRecoveryMethods.filter(method => method.kind !== 'ledger').map(key => key.publicKey)
     const publicKeys = keys.map(key => key.public_key)
     const hasOtherMethods = publicKeys.some(key => recoveryKeys.includes(key))
-    const hasLedger = recoveryMethods.filter(method => method.kind === 'ledger').map(key => key.publicKey).some(key => publicKeys.includes(key))
-    const ledgerIsConnected = account.ledgerKey !== null;
+    const hasLedger = userRecoveryMethods.filter(method => method.kind === 'ledger').map(key => key.publicKey).some(key => publicKeys.includes(key))
+    const ledgerIsConnected = account.ledgerKey !== null && hasLedger;
     const hasLedgerButNotConnected = hasLedger && !ledgerIsConnected
+    const recoveryLoader = actionsPending('LOAD_RECOVERY_METHODS') && !userRecoveryMethods.length
 
     const handleConfirmDisable = async () => {
         try {
@@ -99,6 +78,7 @@ const HardwareDevices = () => {
         } finally {
             await dispatch(getAccessKeys())
             await dispatch(getLedgerKey())
+            await dispatch(loadRecoveryMethods())
             setDisabling(false)
             setConfirmDisable(false);
         }
@@ -107,6 +87,7 @@ const HardwareDevices = () => {
     const handleConnectLedger = async () => {
         await dispatch(addLedgerAccessKey())
         await dispatch(getLedgerKey())
+        await dispatch(loadRecoveryMethods())
     }
 
     const getActionButton = () => {
@@ -118,41 +99,48 @@ const HardwareDevices = () => {
             return <FormButton linkTo={`/setup-ledger/${account.accountId}`} color='blue'><Translate id='button.enable'/></FormButton> 
         }
     }
-    
-    return (
-        <Container>
-            <div className='header'>
-                <HardwareDeviceIcon/>
-                <h2><Translate id='hardwareDevices.title'/></h2>
-            </div>
-            {!confirmDisable ?
-                <>
-                    <div className='font-rounded'><Translate id='hardwareDevices.desc'/></div>
-                    <div className='device'>
-                        <div className='name'>
-                            <Translate id='hardwareDevices.ledger.title'/>
-                            {ledgerIsConnected && <div><Translate id='hardwareDevices.ledger.auth'/></div>}
+
+    if (!recoveryLoader) {
+        return (
+            <Container>
+                {!confirmDisable ?
+                    <>
+                        <div className='device'>
+                            <div className='name'>
+                                <Translate id='hardwareDevices.ledger.title'/>
+                                {ledgerIsConnected && <div><Translate id='hardwareDevices.ledger.auth'/></div>}
+                            </div>
+                            {getActionButton()}
                         </div>
-                        {getActionButton()}
-                    </div>
-                </>
-                :
-                <ConfirmDisable 
-                    onConfirmDisable={handleConfirmDisable} 
-                    onKeepEnabled={() => setConfirmDisable(false)}
-                    accountId={account.accountId}
-                    disabling={disabling}
-                    component='hardwareDevices'
-                />
-            }
-            {!hasOtherMethods && ledgerIsConnected && 
-                <i><Translate id='hardwareDevices.ledger.disclaimer'/></i>
-            }
-            {hasLedgerButNotConnected &&
-                <div className='color-red'><Translate id='hardwareDevices.ledger.connect'/></div>
-            }
-        </Container>
-    )
+                        {!hasOtherMethods && ledgerIsConnected && 
+                            <i><Translate id='hardwareDevices.ledger.disclaimer'/></i>
+                        }
+                        {hasLedgerButNotConnected &&
+                            <div className='color-red'><Translate id='hardwareDevices.ledger.connect'/></div>
+                        }
+                        {!hasLedger && 
+                            <i style={{fontStyle: 'normal', color: '#3F4045'}}><Translate id='hardwareDevices.desc'/></i>
+                        }
+                    </>
+                    :
+                    <ConfirmDisable 
+                        onConfirmDisable={handleConfirmDisable} 
+                        onKeepEnabled={() => setConfirmDisable(false)}
+                        accountId={account.accountId}
+                        disabling={disabling}
+                        component='hardwareDevices'
+                    />
+                }
+            </Container>
+        )
+    } else {
+        return (
+            <SkeletonLoading
+                height='138px'
+                show={recoveryLoader}
+            />
+        )
+    }
 }
 
 

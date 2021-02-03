@@ -74,6 +74,13 @@
             "success": "Congrats! ${accountId} is available.",
             "error": "Account ID is taken. Try something else."
         },
+        "TRANSFER_ALL_FROM_LOCKUP": {
+            "success": "You successfully transferred tokens from your lockup!",
+            "error": "Something went wrong. Please try again."
+        },
+        "REFRESH_ACCOUNT_EXTERNAL": {
+            "error": "Account <b>${accountId}</b> not found"
+        },
 
         "Deserialization": "",
         "RetriesExceeded": "Exceeded maximum attempts for this transaction.",
@@ -119,6 +126,9 @@
         },
         "recoverAccountSeedPhrase": {
             "errorInvalidSeedPhrase": "No accounts were found for this seed phrase."
+        },
+        "lockup": {
+            "transferAllWithStakingPoolBalance": "Unstake and withdraw all funds from the staking pool in order to transfer your remaining lockup balance to Wallet."
         }
     },
     "account": {
@@ -270,8 +280,8 @@
         "noRecoveryMethod": "You have no method to recover your account. please add a method below.",
         "methodTitle": {
             "phrase": "Seed Phrase",
-            "phone": "Phone Number",
-            "email": "Email Address"
+            "phone": "Phone",
+            "email": "Email"
         },
         "resend": {
             "phone": "Resend SMS",
@@ -291,7 +301,7 @@
         "title": "Hardware Devices",
         "desc": "Improve the security of your account by using a hardware wallet.",
         "ledger": {
-            "title": "Ledger Nano S or X",
+            "title": "Ledger Hardware Wallet",
             "auth": "Authorized",
             "disclaimer": "In order to disable your ledger device, you must first enable an alternative recovery method.",
             "connect": "Your ledger is not currently connected. We advise that you re-connect your Ledger to ensure your account is secured."
@@ -443,7 +453,8 @@
         "recovering": "Finding Account",
         "authorizing": "Authorizing",
         "deAuthorizing": "Deauthorizing",
-        "finish": "Finish"
+        "finish": "Finish",
+        "transferring": "Transferring"
     },
 
     "link": {
@@ -457,6 +468,10 @@
         "switchAccount": "Switch account",
         "noAccount": "You have no other accounts",
         "fullAccessKeys": "Full Access Keys"
+    },
+
+    "copy": {
+        "default": "Copied!"
     },
 
     "input": {
@@ -547,6 +562,7 @@
         "phoneTitle": "Phone Recovery",
         "phoneDesc": "Enter your phone number below and receive a magic recovery link",
         "phonePlaceholder": "+1 415 797 8554",
+        "notSupportedPhone": "Unfortunately, we do not offer SMS for your region. Please choose email instead.",
         "advancedSecurity": "Most Secure (Recommended)",
         "advancedSecurityDesc": "Write down a 12 word seed (recovery) phrase, or secure your account with your Ledger device.",
         "ledgerTitle": "Ledger Nano S or X",
@@ -595,6 +611,8 @@
     "dashboard": {
         "activity": "Activity"
     },
+
+    "loading": "Loading...",
 
     "balance": {
         "balance": "Total Balance",
@@ -819,11 +837,42 @@
         "reserved": "Reserved for fees"
     },
     "profile": {
+        "lockupBanner": {
+            "title": "You have <b>${amount}</b> NEAR available to withdraw from your lockup!",
+            "cta": "Transfer to Wallet"
+        },
         "pageTitle": {
             "loading": "Loading...",
             "notFound": "Account ${accountId} not found",
-            "default": "Account: ${accountId}"
+            "default": "Account Details"
         },
+        "account": {
+            "walletId": "Wallet ID",
+            "walletBalance": "Wallet balance",
+            "reservedForStorage": "Reserved for storage",
+            "inStakingPools": "In staking pools",
+            "staked": "Staked",
+            "unstaked": "Unstaked",
+            "available": "Available",
+            "pendingRelease": "Pending release",
+            "availableToWithdraw": "Available for withdrawal",
+            "availableToTransfer": "Available to transfer"
+        },
+        "lockup": {
+            "lockupBalance": "Lockup balance",
+            "lockupId": "Lockup ID",
+            "locked": "Locked",
+            "unlocked": "Unlocked"
+        },
+        "security": {
+            "title": "Security & Recovery",
+            "mostSecure": "Most Secure (Recommended)",
+            "mostSecureDesc": "Ledger is the most secure option. Seed phrases can be secure if used correctly (they must be written down and stored safely).",
+            "lessSecure": "Less Secure",
+            "lessSecureDesc": "These options are recommended for accounts with small amounts of NEAR and other assets. They are convenient, but do present additional risk to the more secure options. If your email account or SMS messages are compromised, your funds might be at risk."
+        },
+        "twoFactor": "Two-Factor Authentication",
+        "twoFactorDesc": "Authenticate with SMS or email when authorizing transactions and/or signing in to your account.",
         "details": {
             "profile": "PROFILE",
             "visibleTo": "VISIBLE TO",
@@ -918,7 +967,7 @@
         "authorizing": "Authorizing"
     },
 
-    "availableBalanceInfo": "”Available Balance” is your spendable NEAR balance. This will be lower than your Total Balance. To view a complete breakdown of your NEAR balance, visit your Profile.",
+    "availableBalanceInfo": "”Available Balance” is your spendable NEAR balance.",
     "reservedForFeesInfo": "A minimum amount of NEAR is reserved to cover the cost of transactions.",
     "availableBalanceProfile": "This is your spendable NEAR balance, and can be used or transferred immediately. This will be lower than your Total Balance.",
     "minimumBalance": "This is the minimum NEAR balance your account must maintain to remain active. This balance represents the storage space your account is using on the NEAR blockchain (with a small buffer), and will go up or down as you use more or less space.",
@@ -926,7 +975,9 @@
     "stakedBalance": "This NEAR is actively being used to back a validator and secure the network. When you decide to unstake this NEAR, it will take some time to be shown in your Available Balance, as NEAR takes 4 epochs (~52-65 hours) to unstake.",
     "unvestedBalance": "Unvested NEAR is earmarked to you, but not yet under your ownership. You can still delegate or stake this NEAR, and the rewards will be entirely yours. As your NEAR is vested, it will appear in either your Locked or Unlocked balance.",
     "lockedBalance": "This NEAR is locked in a lockup contract, and cannot be withdrawn. You may still delegate or stake this NEAR. Once the NEAR is unlocked, you can view it in your Unlocked Balance, and chose to withdraw it (moving to your Available Balance).",
-    "unlockedBalance": "This NEAR is still in a lockup contract, and is ready to be withdrawn. If you choose to withdraw this NEAR, it will appear in your Available Balance.",
+    "unlockedBalance": "This NEAR is still in a lockup contract, but unlocked.",
+    "unlockedAvailTransfer": "This NEAR is unlocked, and can be transferred out of your lockup contract.",
+    "stakingPoolUnstaked": "This NEAR is currently in a staking pool but unstaked. It could for example be in a pending release state.",
 
     "transaction": {
         "status": {

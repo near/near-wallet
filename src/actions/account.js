@@ -445,7 +445,7 @@ export const { recoverAccountSeedPhrase } = createActions({
     ],
 })
 
-export const { signAndSendTransactions, setSignTransactionStatus, sendMoney } = createActions({
+export const { signAndSendTransactions, setSignTransactionStatus, sendMoney, transferAllFromLockup } = createActions({
     SET_SIGN_TRANSACTION_STATUS: [
         (status) => ({ status }),
         () => ({})
@@ -457,10 +457,19 @@ export const { signAndSendTransactions, setSignTransactionStatus, sendMoney } = 
     SEND_MONEY: [
         wallet.sendMoney.bind(wallet),
         () => showAlert({ onlyError: true })
+    ],
+    TRANSFER_ALL_FROM_LOCKUP: [
+        async () => {
+            const account = await wallet.getAccount(wallet.accountId)
+            if (account.transferAllFromLockup) {
+                await account.transferAllFromLockup()
+            }
+        },
+        () => showAlert()
     ]
 })
 
-export const { switchAccount, refreshAccount, refreshAccountExternal, refreshUrl } = createActions({
+export const { switchAccount, refreshAccount, refreshAccountExternal, refreshUrl, getProfileBalance } = createActions({
     SWITCH_ACCOUNT: wallet.selectAccount.bind(wallet),
     REFRESH_ACCOUNT: [
         wallet.refreshAccount.bind(wallet),
@@ -469,9 +478,16 @@ export const { switchAccount, refreshAccount, refreshAccountExternal, refreshUrl
     REFRESH_ACCOUNT_EXTERNAL: [
         async (accountId) => ({
             ...await (await wallet.getAccount(accountId)).state(),
-            balance: await wallet.getBalance(accountId)
+            balance: {
+                ...await wallet.getBalance(accountId),
+                ...await wallet.getProfileBalance(accountId)
+            }
         }),
-        accountId => ({ accountId })
+        accountId => ({
+            accountId,
+            ...showAlert({ onlyError: true, data: { accountId } })
+         })
     ],
-    REFRESH_URL: null
+    REFRESH_URL: null,
+    GET_PROFILE_BALANCE: wallet.getProfileBalance.bind(wallet)
 })

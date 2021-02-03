@@ -21,9 +21,9 @@ import RecoveryOption from './RecoveryOption';
 import FormButton from '../../common/FormButton';
 import EnterVerificationCode from '../EnterVerificationCode';
 import Container from '../../common/styled/Container.css';
+import isApprovedCountryCode from '../../../utils/isApprovedCountryCode'
 
 const StyledContainer = styled(Container)`
-    
     button {
         margin-top: 50px !important;
         width: 100% !important;
@@ -41,6 +41,7 @@ class SetupRecoveryMethod extends Component {
     state = {
         option: 'phrase',
         phoneNumber: '',
+        country: '',
         email: '',
         success: false,
         emailInvalid: false,
@@ -64,13 +65,13 @@ class SetupRecoveryMethod extends Component {
     }
 
     get isValidInput() {
-        const { option, phoneNumber, email } = this.state;
+        const { option, phoneNumber, email, country } = this.state;
 
         switch (option) {
             case 'email':
                 return validateEmail(email)
             case 'phone':
-                return isValidPhoneNumber(phoneNumber)
+                return isApprovedCountryCode(country) && isValidPhoneNumber(phoneNumber)
             case 'phrase':
                 return true
             case 'ledger':
@@ -171,7 +172,7 @@ class SetupRecoveryMethod extends Component {
     checkNewAccount = () => this.props.accountId !== this.props.activeAccountId
 
     render() {
-        const { option, phoneNumber, email, success, emailInvalid, phoneInvalid } = this.state;
+        const { option, phoneNumber, email, success, emailInvalid, phoneInvalid, country } = this.state;
         const { mainLoader, accountId, activeAccountId, ledgerKey, twoFactor } = this.props;
 
         if (!success) {
@@ -226,14 +227,20 @@ class SetupRecoveryMethod extends Component {
                         >
                             <Translate>
                                 {({ translate }) => (
-                                    <PhoneInput
-                                        placeholder={translate('setupRecovery.phonePlaceholder')}
-                                        value={phoneNumber}
-                                        disabled={this.props.mainLoader}
-                                        onChange={value => this.setState({ phoneNumber: value, phoneInvalid: false })}
-                                        tabIndex='1'
-                                        onBlur={this.handleBlurPhone}
-                                    />
+                                    <>
+                                        <PhoneInput
+                                            placeholder={translate('setupRecovery.phonePlaceholder')}
+                                            value={phoneNumber}
+                                            disabled={this.props.mainLoader}
+                                            onChange={value => this.setState({ phoneNumber: value, phoneInvalid: false })}
+                                            onCountryChange={option => this.setState({ country: option })}
+                                            tabIndex='1'
+                                            onBlur={this.handleBlurPhone}
+                                        />
+                                        {!isApprovedCountryCode(country) && 
+                                            <div className='color-red'>{translate('setupRecovery.notSupportedPhone')}</div>
+                                        }
+                                    </>
                                 )}
                             </Translate>
                         </RecoveryOption>

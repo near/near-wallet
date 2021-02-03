@@ -1,5 +1,7 @@
 import { handleActions, combineActions } from 'redux-actions'
 import reduceReducers from 'reduce-reducers'
+import { multisig, utils } from 'near-api-js'
+import BN from 'bn.js'
 
 import {
     requestCode,
@@ -11,8 +13,11 @@ import {
     resetAccounts,
     checkCanEnableTwoFactor,
     get2faMethod,
-    getLedgerKey
+    getLedgerKey,
+    getProfileBalance
 } from '../../actions/account'
+
+import { LOCKUP_MIN_BALANCE } from '../../utils/account-with-lockup'
 
 const initialState = {
     formLoader: false,
@@ -96,10 +101,14 @@ const account = handleActions({
                 preventClear: false
             } : payload && payload.resetAccount
         }
-        
+
         return {
             ...state,
             ...payload,
+            balance: {
+                ...state.balance,
+                ...payload?.balance
+            },
             ledger: undefined,
             ...resetAccountState,
             loader: false
@@ -108,7 +117,20 @@ const account = handleActions({
     [resetAccounts]: (state) => ({
         ...state,
         loginResetAccounts: true
-    })
+    }),
+    [getProfileBalance]: (state, { payload, ready, error }) => {
+        if (!ready || error) {
+            return state
+        }
+
+        return {
+            ...state,
+            balance: {
+                ...state.balance,
+                ...payload
+            }
+        }
+    }
 }, initialState)
 
 export default reduceReducers(

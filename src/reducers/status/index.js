@@ -54,7 +54,7 @@ const alertReducer = (state, { error, ready, payload, meta, type }) => {
                     messageCode: 
                         payload?.messageCode 
                         || (error
-                            ? payload.type
+                            ? payload.type !== 'UntypedError'
                                 ? `reduxActions.${payload.type}`
                                 : `reduxActions.${type}.error`
                             : `reduxActions.${type}.success`),

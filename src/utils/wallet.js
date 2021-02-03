@@ -17,7 +17,7 @@ import {
     showLedgerModal,
     redirectTo,
     fundCreateAccount,
-    finishAccountSetup,
+    finishAccountSetup
 } from '../actions/account'
 
 import { TwoFactor } from './twoFactor'
@@ -44,6 +44,7 @@ export const ACCESS_KEY_FUNDING_AMOUNT = process.env.REACT_APP_ACCESS_KEY_FUNDIN
 export const LINKDROP_GAS = process.env.LINKDROP_GAS || '100000000000000'
 export const ENABLE_FULL_ACCESS_KEYS = process.env.ENABLE_FULL_ACCESS_KEYS === 'yes'
 export const HIDE_SIGN_IN_WITH_LEDGER_ENTER_ACCOUNT_ID_MODAL = process.env.HIDE_SIGN_IN_WITH_LEDGER_ENTER_ACCOUNT_ID_MODAL
+export const SMS_BLACKLIST = process.env.SMS_BLACKLIST || 'CN'
 
 export const NETWORK_ID = process.env.REACT_APP_NETWORK_ID || 'default'
 const CONTRACT_CREATE_ACCOUNT_URL = `${ACCOUNT_HELPER_URL}/account`
@@ -56,6 +57,7 @@ const KEY_ACTIVE_ACCOUNT_ID = KEY_UNIQUE_PREFIX + 'wallet:active_account_id_v2'
 const ACCOUNT_ID_REGEX = /^(([a-z\d]+[-_])*[a-z\d]+\.)*([a-z\d]+[-_])*[a-z\d]+$/
 
 export const keyAccountConfirmed = (accountId) => `wallet.account:${accountId}:${NETWORK_ID}:confirmed`
+export const keyStakingAccountSelected = () => `wallet.account:${wallet.accountId}:${NETWORK_ID}:stakingAccount`
 
 const WALLET_METADATA_METHOD = '__wallet__metadata'
 
@@ -594,6 +596,16 @@ class Wallet {
         accountId = accountId || this.accountId
         const account = await this.getAccount(accountId)
         return await account.getAccountBalance()
+    }
+
+    async getProfileBalance(accountId = this.accountId) {
+        const lockupId = await this.staking.checkLockupExists(accountId)
+
+        return {
+            account: await this.staking.updateStakingAccount([], [] , accountId),
+            lockupAccount: lockupId && await this.staking.updateStakingLockup(accountId),
+            lockupIdExists: !!lockupId
+        }
     }
 
     async signatureFor(account) {

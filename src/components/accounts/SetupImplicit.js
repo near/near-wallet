@@ -14,7 +14,8 @@ import FormButton from '../common/FormButton'
 import WhereToBuyNearModal from '../common/WhereToBuyNearModal'
 import AccountFundedModal from './AccountFundedModal'
 import { createAccountFromImplicit, redirectTo } from '../../actions/account'
-import { NETWORK_ID, NODE_URL, MIN_BALANCE_FOR_GAS } from '../../utils/wallet'
+import { NETWORK_ID, NODE_URL, ACCOUNT_HELPER_URL, MIN_BALANCE_FOR_GAS } from '../../utils/wallet'
+import sendJson from 'fetch-send-json'
 
 const StyledContainer = styled(Container)`
     .account-id-wrapper {
@@ -52,7 +53,7 @@ const StyledContainer = styled(Container)`
             margin-bottom: 50px !important;
             transition: 100ms;
             display: block !important;
-            
+
             :hover {
                 text-decoration: underline !important;
             }
@@ -61,7 +62,9 @@ const StyledContainer = styled(Container)`
 `
 
 // TODO: Make configurable
-const MIN_BALANCE_TO_CREATE = new BN(MIN_BALANCE_FOR_GAS).add(new BN(parseNearAmount('1')))
+const MIN_BALANCE_TO_CREATE = new BN(parseNearAmount('1'))
+
+const MOONPAY_API_KEY = process.env.MOONPAY_API_KEY || 'pk_test_wQDTsWBsvUm7cPiz9XowdtNeL5xasP9';
 
 let pollingInterval = null
 
@@ -71,7 +74,9 @@ const initialState = {
     balance: null,
     whereToBuy: false,
     checked: false,
-    createAccount: null
+    createAccount: null,
+    moonpayAvailable: false,
+    moonpaySignedURL: null,
 }
 
 class SetupImplicit extends Component {
@@ -84,6 +89,57 @@ class SetupImplicit extends Component {
         await dispatch(redirectTo('/fund-create-account/success'))
     }
 
+    fundWithMoonpay = async () => {
+        // TODO: Push new URL with Redux?
+        window.location = this.state.moonpaySignedURL
+    }
+
+    isMoonpayAvailable = async () => {
+        const MOONPAY_API_URL = 'https://api.moonpay.com'
+        const moonpayGet = (path) => sendJson('GET', `${MOONPAY_API_URL}${path}?apiKey=${MOONPAY_API_KEY}`)
+        const isAllowed = ({ isAllowed, isBuyAllowed }) => isAllowed && isBuyAllowed
+
+        const ipAddressInfo = await moonpayGet('/v4/ip_address')
+        if (!isAllowed(ipAddressInfo)) {
+            return false
+        }
+        const { alpha2, alpha3, state } = ipAddressInfo
+
+        const countries = await moonpayGet('/v3/countries')
+        const country = countries.find(c => c.alpha2 == alpha2 && c.alpha3 == alpha3) || {}
+        if (!isAllowed(country)) {
+            return false
+        }
+
+        const currencies = await moonpayGet('/v3/currencies')
+        const currency = currencies.find(({ code }) => code == 'near') || {}
+        const { isSupportedInUS, notAllowedUSStates } = currency
+
+        if (alpha2 == 'US' && (!isSupportedInUS || notAllowedUSStates.includes(state))) {
+            return false
+        }
+
+        return true
+    }
+
+    checkMoonpay = async () => {
+        try {
+            const moonpayAvailable = await this.isMoonpayAvailable()
+            if (moonpayAvailable) {
+                const MOONPAY_URL = `https://buy.moonpay.io?apiKey=${MOONPAY_API_KEY}`
+                const { implicitAccountId } = this.props
+                const widgetUrl = `${MOONPAY_URL}&walletAddress=${encodeURIComponent(implicitAccountId)}&currencyCode=NEAR` +
+                    `&redirectURL=${encodeURIComponent(window.location.href)}`
+
+                const { signature } = await sendJson('GET', `${ACCOUNT_HELPER_URL}/moonpay/signURL?url=${encodeURIComponent(widgetUrl)}`)
+                const moonpaySignedURL = `${widgetUrl}&signature=${encodeURIComponent(signature)}`
+                this.setState({ moonpayAvailable, moonpaySignedURL })
+            }
+        } catch (e) {
+            console.warn('Error checking Moonpay', e);
+        }
+    }
+
     checkBalance = async () => {
         const { implicitAccountId } = this.props
 
@@ -91,7 +147,7 @@ class SetupImplicit extends Component {
         try {
             const state = await account.state()
             if (new BN(state.amount).gte(MIN_BALANCE_TO_CREATE)) {
-                return this.setState({ balance: nearApiJs.utils.format.formatNearAmount(state.amount, 2), whereToBuy: false, createAccount: true })
+                return this.setState({ balance: formatNearAmount(state.amount, 2), whereToBuy: false, createAccount: true })
             }
         } catch (e) {
             if (e.message.indexOf('exist while viewing') === -1) {
@@ -101,18 +157,19 @@ class SetupImplicit extends Component {
         }
     }
 
-    componentDidMount = async () => {
+    componentDidMount = () => {
         this.connection = nearApiJs.Connection.fromConfig({
             networkId: NETWORK_ID,
             provider: { type: 'JsonRpcProvider', args: { url: NODE_URL + '/' } },
             signer: {},
         })
 
-        this.keyStore = new nearApiJs.keyStores.BrowserLocalStorageKeyStore(window.localStorage, 'nearlib:keystore:')
         // TODO: Use wallet/Redux for queries? Or at least same connection.
 
         clearInterval(pollingInterval)
         pollingInterval = setInterval(this.checkBalance, 2000)
+
+        this.checkMoonpay()
     }
 
     componentWillUnmount = () => {
@@ -152,11 +209,12 @@ class SetupImplicit extends Component {
             successSnackbar,
             whereToBuy,
             checked,
-            createAccount
+            createAccount,
+            moonpayAvailable
         } = this.state
 
         const { implicitAccountId, accountId, mainLoader } = this.props
-        
+
         return (
             <Translate>
                 {({ translate }) => (
@@ -184,6 +242,17 @@ class SetupImplicit extends Component {
                         <p id="implicit-account-id" style={{ display: 'none' }}>
                             <span>{implicitAccountId}</span>
                         </p>
+                        { moonpayAvailable &&
+                            <div style={{ marginTop: '1em' }}>
+                                <FormButton
+                                    onClick={this.fundWithMoonpay}
+                                    color='black'
+                                    sending={this.props.formLoader}
+                                >
+                                    Fund with Credit/Debit Card
+                                </FormButton>
+                            </div>
+                        }
                         <Snackbar
                             theme='success'
                             message={translate(snackBarMessage)}

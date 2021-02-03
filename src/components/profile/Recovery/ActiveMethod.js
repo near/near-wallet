@@ -68,7 +68,7 @@ const EnabledContainer = styled.div`
 const DisableContainer = styled.form`
     && {
         border: 2px solid #FF585D !important;
-        border-radius: 6px;
+        border-radius: 8px;
         margin: -2px;
         padding: 15px 20px;
 

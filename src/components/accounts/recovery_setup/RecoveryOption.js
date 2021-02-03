@@ -20,6 +20,10 @@ const Container = styled.div`
     margin-left: 35px;
     margin-top: 20px;
 
+    .color-red {
+        margin-top: 15px;
+    }
+
     :before {
         content: '';
         height: 22px;
