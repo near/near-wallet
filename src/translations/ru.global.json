@@ -608,7 +608,7 @@
         "pageTitle": {
             "loading": "Загрузка...",
             "notFound": "Имя пользователя ${accountId} не найдено",
-            "default": "Имя пользователя: ${accountId}"
+            "default": "Имя пользователя"
         },
         "details": {
             "profile": "ПРОФИЛЬ",

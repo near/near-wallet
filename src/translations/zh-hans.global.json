@@ -817,7 +817,7 @@
         "pageTitle": {
             "loading": "正在加载...",
             "notFound": "账户 ${accountId} 未找到",
-            "default": "账户：${accountId}"
+            "default": "账户"
         },
         "account": {
             "walletId": "钱包 ID",
