@@ -16,6 +16,7 @@ const BANK_SEED_PHRASE = process.env.BANK_SEED_PHRASE;
 const BANK_ACCOUNT = process.env.BANK_ACCOUNT;
 const TEST_ACCOUNT_SEED_PHRASE = process.env.TEST_ACCOUNT_SEED_PHRASE;
 const HEADLESS = !['no', 'false'].includes(process.env.HEADLESS);
+const ENABLE_ALERT = ['yes', 'true'].includes(process.env.ENABLE_ALERT);
 
 const config = {
     networkId: NETWORK_ID,
@@ -104,6 +105,8 @@ let lastTestAccountId;
 })().catch(async e => {
     console.error(e);
 
-    await createIncident(lastTestAccountId, e);
+    if (ENABLE_ALERT) {
+        await createIncident(lastTestAccountId, e);
+    }
     process.exit(1);
 });
