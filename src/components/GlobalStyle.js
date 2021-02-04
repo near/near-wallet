@@ -186,6 +186,7 @@ export default createGlobalStyle`
             margin: 0 !important;
             font-weight: 600 !important;
             height: 62px !important;
+            color: #24272A !important;
 
             ::placeholder {
                 color: #CCCCCC;

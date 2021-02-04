@@ -77,7 +77,7 @@ export function SendContainer({ match, location }) {
     const handleSetUseMax = () => {
         if (amountAvailableToSend.gt(new BN('0'))) {
             setUseMax(true)
-            setAmount(parseFloat(formatNearAmount(amountAvailableToSend.toString(), 5).replace(/,/g, '')).toString())
+            setAmount(formatNearAmount(amountAvailableToSend, 5).replace(/,/g, ''))
         }
     }
 
