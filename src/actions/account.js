@@ -20,6 +20,17 @@ export const loadRecoveryMethods = createAction('LOAD_RECOVERY_METHODS',
     () => ({})
 )
 
+export const getProfileStakingDetails = (accountId) => (dispatch, getState) => {
+    dispatch(updateStakingAccount(accountId))
+
+    const lockupIdExists = accountId
+        ? !!getState().allAccounts[accountId].balance.lockedAmount
+        : !!getState().account.balance.lockedAmount
+
+    lockupIdExists
+        && dispatch(updateStakingLockup(accountId))
+}
+
 export const handleRedirectUrl = (previousLocation) => (dispatch, getState) => {
     const { pathname } = getState().router.location
     const isValidRedirectUrl = previousLocation.pathname.includes(WALLET_LOGIN_URL) || previousLocation.pathname.includes(WALLET_SIGN_URL)
@@ -469,7 +480,7 @@ export const { signAndSendTransactions, setSignTransactionStatus, sendMoney, tra
     ]
 })
 
-export const { switchAccount, refreshAccount, refreshAccountExternal, refreshUrl, getProfileBalance } = createActions({
+export const { switchAccount, refreshAccount, refreshAccountExternal, refreshUrl, updateStakingAccount, updateStakingLockup } = createActions({
     SWITCH_ACCOUNT: wallet.selectAccount.bind(wallet),
     REFRESH_ACCOUNT: [
         wallet.refreshAccount.bind(wallet),
@@ -479,8 +490,7 @@ export const { switchAccount, refreshAccount, refreshAccountExternal, refreshUrl
         async (accountId) => ({
             ...await (await wallet.getAccount(accountId)).state(),
             balance: {
-                ...await wallet.getBalance(accountId),
-                ...await wallet.getProfileBalance(accountId)
+                ...await wallet.getBalance(accountId)
             }
         }),
         accountId => ({
@@ -489,5 +499,18 @@ export const { switchAccount, refreshAccount, refreshAccountExternal, refreshUrl
          })
     ],
     REFRESH_URL: null,
-    GET_PROFILE_BALANCE: wallet.getProfileBalance.bind(wallet)
+    UPDATE_STAKING_ACCOUNT: [
+        async (accountId) => await wallet.staking.updateStakingAccount([], [] , accountId),
+        (accountId) => ({
+            accountId,
+            ...showAlert({ onlyError: true })
+        })
+    ],
+    UPDATE_STAKING_LOCKUP: [
+        async (accountId) => await wallet.staking.updateStakingLockup(accountId),
+        (accountId) => ({
+            accountId,
+            ...showAlert({ onlyError: true })
+        })
+    ]
 })

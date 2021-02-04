@@ -1,7 +1,5 @@
-import { handleActions, combineActions } from 'redux-actions'
+import { handleActions } from 'redux-actions'
 import reduceReducers from 'reduce-reducers'
-import { multisig, utils } from 'near-api-js'
-import BN from 'bn.js'
 
 import {
     requestCode,
@@ -14,10 +12,9 @@ import {
     checkCanEnableTwoFactor,
     get2faMethod,
     getLedgerKey,
-    getProfileBalance
+    updateStakingAccount,
+    updateStakingLockup
 } from '../../actions/account'
-
-import { LOCKUP_MIN_BALANCE } from '../../utils/account-with-lockup'
 
 const initialState = {
     formLoader: false,
@@ -105,10 +102,6 @@ const account = handleActions({
         return {
             ...state,
             ...payload,
-            balance: {
-                ...state.balance,
-                ...payload?.balance
-            },
             ledger: undefined,
             ...resetAccountState,
             loader: false
@@ -118,19 +111,26 @@ const account = handleActions({
         ...state,
         loginResetAccounts: true
     }),
-    [getProfileBalance]: (state, { payload, ready, error }) => {
-        if (!ready || error) {
-            return state
-        }
-
-        return {
-            ...state,
-            balance: {
-                ...state.balance,
-                ...payload
-            }
-        }
-    }
+    [updateStakingAccount]: (state, { error, meta, payload, ready }) => 
+        (!ready || error)
+            ? state
+            : ({
+                ...state,
+                balance: {
+                    ...state.balance,
+                    account: payload
+                }
+            }),
+    [updateStakingLockup]: (state, { error, meta, payload, ready }) => 
+        (!ready || error)
+            ? state
+            : ({
+                ...state,
+                balance: {
+                    ...state.balance,
+                    lockupAccount: payload
+                }
+            })
 }, initialState)
 
 export default reduceReducers(

@@ -6,7 +6,7 @@ import RecoveryContainer from './Recovery/RecoveryContainer'
 import BalanceContainer from './balances/BalanceContainer'
 import HardwareDevices from './hardware_devices/HardwareDevices'
 import TwoFactorAuth from './two_factor/TwoFactorAuth'
-import { getLedgerKey, checkCanEnableTwoFactor, getAccessKeys, redirectTo, refreshAccount, getProfileBalance, transferAllFromLockup, loadRecoveryMethods } from '../../actions/account'
+import { getLedgerKey, checkCanEnableTwoFactor, getAccessKeys, redirectTo, refreshAccount, transferAllFromLockup, loadRecoveryMethods, getProfileStakingDetails } from '../../actions/account'
 import styled from 'styled-components'
 import LockupAvailTransfer from './balances/LockupAvailTransfer'
 import UserIcon from '../svg/UserIcon'
@@ -129,21 +129,22 @@ export function Profile({ match }) {
     const userRecoveryMethods = recoveryMethods[account.accountId]
     const twoFactor = has2fa && userRecoveryMethods && userRecoveryMethods.filter(m => m.kind.includes('2fa'))[0]
     const profileBalance = selectProfileBalance(account.balance)
-    const balanceLoader = actionsPending(['GET_PROFILE_BALANCE', 'REFRESH_ACCOUNT_EXTERNAL']) && !profileBalance
     const recoveryLoader = actionsPending('LOAD_RECOVERY_METHODS') && !userRecoveryMethods
 
     useEffect(() => {
-        dispatch(loadRecoveryMethods())
-
         if (accountIdFromUrl && accountIdFromUrl !== accountIdFromUrl.toLowerCase()) {
             dispatch(redirectTo(`/profile/${accountIdFromUrl.toLowerCase()}`))
         }
-
-        if (isOwner) {
-            dispatch(getAccessKeys(accountId))
-            dispatch(getLedgerKey())
-            dispatch(checkCanEnableTwoFactor(account))
-        }
+        
+        (async () => {
+            if (isOwner) {
+                await dispatch(loadRecoveryMethods())
+                dispatch(getAccessKeys(accountId))
+                dispatch(getLedgerKey())
+                dispatch(checkCanEnableTwoFactor(account))
+                dispatch(getProfileStakingDetails())
+            }
+        })()
     }, []);
 
     useEffect(()=> {
@@ -159,7 +160,7 @@ export function Profile({ match }) {
             setTransferring(true)
             await dispatch(transferAllFromLockup())
             await dispatch(refreshAccount())
-            await dispatch(getProfileBalance(accountId))
+            await dispatch(getProfileStakingDetails())
         } finally {
             setTransferring(false)
         }
@@ -179,7 +180,7 @@ export function Profile({ match }) {
             <div className='split'>
                 <div className='left'>
                     <h2><UserIcon/><Translate id='profile.pageTitle.default'/></h2>
-                    {!balanceLoader ? (
+                    {profileBalance ? (
                         <BalanceContainer
                             account={account}
                             profileBalance={profileBalance}
@@ -187,7 +188,7 @@ export function Profile({ match }) {
                     ) : (
                         <SkeletonLoading
                             height='323px'
-                            show={balanceLoader}
+                            show={!profileBalance}
                             number={2}
                         />
                     )}
