@@ -301,7 +301,7 @@ export class Staking {
                         contract
                     }
                     const fee = validator.fee = await validator.contract.get_reward_fee_fraction()
-                    fee.percentage = fee.numerator / fee.denominator * 100
+                    fee.percentage = +(fee.numerator / fee.denominator * 100).toFixed(2)
                     return validator
                 } catch (e) {
                     console.warn('Error getting fee for validator %s: %s', account_id, e);

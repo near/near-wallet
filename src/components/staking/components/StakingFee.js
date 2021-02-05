@@ -42,7 +42,7 @@ export default function StakingFee({ fee }) {
             >
                 <Translate id='staking.validator.desc' />
             </Modal>
-            <span className='fee'>{+fee.toFixed(2)}%</span>
+            <span className='fee'>{fee}%</span>
         </Container>
     )
 }
