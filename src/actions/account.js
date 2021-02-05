@@ -512,5 +512,6 @@ export const { switchAccount, refreshAccountOwner, refreshAccountExternal, refre
             accountId,
             ...showAlert({ onlyError: true })
         })
-    ]
+    ],
+    GET_BALANCE: wallet.getBalance.bind(wallet)
 })
