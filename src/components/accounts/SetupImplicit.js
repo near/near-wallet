@@ -13,9 +13,11 @@ import Container from '../common/styled/Container.css'
 import FormButton from '../common/FormButton'
 import WhereToBuyNearModal from '../common/WhereToBuyNearModal'
 import AccountFundedModal from './AccountFundedModal'
-import { createAccountFromImplicit, redirectTo } from '../../actions/account'
-import { NETWORK_ID, NODE_URL, ACCOUNT_HELPER_URL, MIN_BALANCE_FOR_GAS } from '../../utils/wallet'
+import { createAccountFromImplicit, redirectTo, sendMoney } from '../../actions/account'
+import { NETWORK_ID, NODE_URL, ACCOUNT_HELPER_URL } from '../../utils/wallet'
 import sendJson from 'fetch-send-json'
+import { actionsPending } from '../../utils/alerts'
+import AlertBanner from '../common/AlertBanner'
 
 const StyledContainer = styled(Container)`
     .account-id-wrapper {
@@ -58,6 +60,10 @@ const StyledContainer = styled(Container)`
                 text-decoration: underline !important;
             }
         }
+
+        &.green, &.black {
+            margin-top: 25px !important;
+        }
     }
 `
 
@@ -77,6 +83,7 @@ const initialState = {
     createAccount: null,
     moonpayAvailable: false,
     moonpaySignedURL: null,
+    createFromAccount: null
 }
 
 class SetupImplicit extends Component {
@@ -89,7 +96,7 @@ class SetupImplicit extends Component {
         await dispatch(redirectTo('/fund-create-account/success'))
     }
 
-    fundWithMoonpay = async () => {
+    fundWithMoonpay = () => {
         // TODO: Push new URL with Redux?
         window.location = this.state.moonpaySignedURL
     }
@@ -203,6 +210,14 @@ class SetupImplicit extends Component {
         });
     }
 
+    handleFundWithAccount = async () => {
+        const { dispatch, implicitAccountId, accountId, recoveryMethod } = this.props
+        this.setState({ createFromAccount: true })
+        await dispatch(sendMoney(implicitAccountId, MIN_BALANCE_TO_CREATE.toString()))
+        await dispatch(createAccountFromImplicit(accountId, implicitAccountId, recoveryMethod))
+        await dispatch(redirectTo('/fund-create-account/success'))
+    }
+
     render() {
         const {
             snackBarMessage,
@@ -210,15 +225,20 @@ class SetupImplicit extends Component {
             whereToBuy,
             checked,
             createAccount,
-            moonpayAvailable
+            moonpayAvailable,
+            createFromAccount
         } = this.state
 
-        const { implicitAccountId, accountId, mainLoader } = this.props
+        const { implicitAccountId, accountId, mainLoader, balance } = this.props
 
         return (
             <Translate>
                 {({ translate }) => (
                     <StyledContainer className='small-centered'>
+                        <AlertBanner
+                            title='account.createImplicit.pre.alertBanner.title'
+                            theme='alert'
+                        />
                         <h1><Translate id='account.createImplicit.pre.title' /></h1>
                         <h2><Translate id='account.createImplicit.pre.descOne' data={{ amount: formatNearAmount(MIN_BALANCE_TO_CREATE) }}/></h2>
                         <h2><Translate id='account.createImplicit.pre.descTwo'/></h2>
@@ -242,16 +262,25 @@ class SetupImplicit extends Component {
                         <p id="implicit-account-id" style={{ display: 'none' }}>
                             <span>{implicitAccountId}</span>
                         </p>
-                        { moonpayAvailable &&
-                            <div style={{ marginTop: '1em' }}>
-                                <FormButton
-                                    onClick={this.fundWithMoonpay}
-                                    color='black'
-                                    sending={this.props.formLoader}
-                                >
-                                    Fund with Credit/Debit Card
-                                </FormButton>
-                            </div>
+                        {new BN(balance && balance.available).gt(MIN_BALANCE_TO_CREATE) &&
+                            <FormButton
+                                disabled={mainLoader}
+                                sending={mainLoader && createFromAccount}
+                                onClick={this.handleFundWithAccount}
+                                sendingString='button.fundingNewAccount'
+                                color='green'
+                            >
+                                <Translate id='button.fundWithCurrentAccount'/>
+                            </FormButton>
+                        }
+                        {moonpayAvailable &&
+                            <FormButton
+                                disabled={mainLoader}
+                                onClick={this.fundWithMoonpay}
+                                color='black'
+                            >
+                                <Translate id='button.fundWithCard'/>
+                            </FormButton>
                         }
                         <Snackbar
                             theme='success'
@@ -265,7 +294,7 @@ class SetupImplicit extends Component {
                                 open={whereToBuy}
                             />
                         }
-                        {createAccount &&
+                        {!createFromAccount && createAccount &&
                             <AccountFundedModal
                                 onClose={() => {}}
                                 open={createAccount}
