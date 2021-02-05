@@ -217,7 +217,9 @@ class Wallet {
                 ...state,
                 hasLockup,
                 has2fa: await TwoFactor.has2faEnabled(account),
-                balance: await this.getBalance(),
+                balance: {
+                    available: ''
+                },
                 accountId: this.accountId,
                 accounts: this.accounts,
                 accessKeys,
