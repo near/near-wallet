@@ -82,7 +82,7 @@ const ledgerKey = handleActions({
 }, initialState)
 
 const account = handleActions({
-    [refreshAccount]: (state, { payload, ready, meta }) => {
+    [refreshAccountOwner]: (state, { payload, ready, meta }) => {
 
         if (!ready) {
             return {
@@ -102,6 +102,10 @@ const account = handleActions({
         return {
             ...state,
             ...payload,
+            balance: {
+                ...payload?.balance,
+                ...state.balance
+            },
             ledger: undefined,
             ...resetAccountState,
             loader: false
