@@ -480,9 +480,9 @@ export const { signAndSendTransactions, setSignTransactionStatus, sendMoney, tra
     ]
 })
 
-export const { switchAccount, refreshAccount, refreshAccountExternal, refreshUrl, updateStakingAccount, updateStakingLockup } = createActions({
+export const { switchAccount, refreshAccountOwner, refreshAccountExternal, refreshUrl, updateStakingAccount, updateStakingLockup, getBalance } = createActions({
     SWITCH_ACCOUNT: wallet.selectAccount.bind(wallet),
-    REFRESH_ACCOUNT: [
+    REFRESH_ACCOUNT_OWNER: [
         wallet.refreshAccount.bind(wallet),
         () => ({ accountId: wallet.accountId })
     ],
