@@ -7,13 +7,14 @@ import {
     clearCode,
     promptTwoFactor,
     refreshUrl,
-    refreshAccount,
+    refreshAccountOwner,
     resetAccounts,
     checkCanEnableTwoFactor,
     get2faMethod,
     getLedgerKey,
     updateStakingAccount,
-    updateStakingLockup
+    updateStakingLockup,
+    getBalance
 } from '../../actions/account'
 
 const initialState = {
@@ -134,7 +135,17 @@ const account = handleActions({
                     ...state.balance,
                     lockupAccount: payload
                 }
-            })
+            }),
+    [getBalance]: (state, { error, meta, payload, ready}) => 
+        (!ready || error)
+            ? state
+            : ({
+                ...state,
+                balance: {
+                    ...state.balance,
+                    ...payload
+                }
+            }),
 }, initialState)
 
 export default reduceReducers(
