@@ -117,14 +117,15 @@ export function getLockupAccountId(accountId) {
 async function getAccountBalance() {
     const balance = await this.wrappedAccount.getAccountBalance()
 
-    let stakingDeposits = await fetch(ACCOUNT_HELPER_URL + '/staking-deposits/' + this.accountId).then((r) => r.json()) 
+    // TODO: Use staking.getStakingDeposits? Extract into separe API util?
+    // let stakingDeposits = await fetch(ACCOUNT_HELPER_URL + '/staking-deposits/' + this.accountId).then((r) => r.json()) 
     let stakedBalanceMainAccount = new BN(0)
-    await Promise.all(
-        stakingDeposits.map(async ({ validator_id }) => {
-            const validatorBalance = new BN(await this.wrappedAccount.viewFunction(validator_id, 'get_account_total_balance', { account_id: this.accountId }))
-            stakedBalanceMainAccount = stakedBalanceMainAccount.add(validatorBalance)
-        })
-    )
+    // await Promise.all(
+    //     stakingDeposits.map(async ({ validator_id }) => {
+    //         const validatorBalance = new BN(await this.wrappedAccount.viewFunction(validator_id, 'get_account_total_balance', { account_id: this.accountId }))
+    //         stakedBalanceMainAccount = stakedBalanceMainAccount.add(validatorBalance)
+    //     })
+    // )
 
     // TODO: Should lockup contract balance be retrieved separately only when needed?
     let lockupAccountId = getLockupAccountId(this.accountId)

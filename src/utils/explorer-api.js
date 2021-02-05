@@ -3,7 +3,8 @@ import { wallet, ACCOUNT_HELPER_URL } from './wallet'
 export async function getTransactions(accountId) {
     if (!accountId) return {}
 
-    const txs = await fetch(`${ACCOUNT_HELPER_URL}/account/${accountId}/activity`).then((res) => res.json())
+    // const txs = await fetch(`${ACCOUNT_HELPER_URL}/account/${accountId}/activity`).then((res) => res.json())
+    const txs = []
 
     return {
         [accountId]: txs.map((t, i) => ({

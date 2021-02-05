@@ -494,13 +494,14 @@ export class Staking {
 }
 
 async function getStakingDeposits(accountId) {
-    let stakingDeposits = await fetch(ACCOUNT_HELPER_URL + '/staking-deposits/' + accountId).then((r) => r.json()) 
+    // let stakingDeposits = await fetch(ACCOUNT_HELPER_URL + '/staking-deposits/' + accountId).then((r) => r.json()) 
 
-    const validatorDepositMap = {}
-    stakingDeposits.forEach(({ validator_id, deposit }) => {
-        validatorDepositMap[validator_id] = deposit
-    })
+    // const validatorDepositMap = {}
+    // stakingDeposits.forEach(({ validator_id, deposit }) => {
+    //     validatorDepositMap[validator_id] = deposit
+    // })
     
-    return validatorDepositMap
+    // return validatorDepositMap
+    return {}
 }
 
