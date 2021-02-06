@@ -64,6 +64,12 @@ const StyledContainer = styled(Container)`
         &.green, &.black {
             margin-top: 25px !important;
         }
+
+        &.green {
+            height: auto !important;
+            line-break: anywhere;
+            line-height: normal;
+        }
     }
 `
 
@@ -90,9 +96,9 @@ class SetupImplicit extends Component {
     state = { ...initialState }
 
     handleContinue = async () => {
-        const { dispatch, accountId, implicitAccountId, recoveryMethod } = this.props
+        const { dispatch, newAccountId, implicitAccountId, recoveryMethod } = this.props
         this.setState({ createAccount: true })
-        await dispatch(createAccountFromImplicit(accountId, implicitAccountId, recoveryMethod))
+        await dispatch(createAccountFromImplicit(newAccountId, implicitAccountId, recoveryMethod))
         await dispatch(redirectTo('/fund-create-account/success'))
     }
 
@@ -211,11 +217,11 @@ class SetupImplicit extends Component {
     }
 
     handleFundWithAccount = async () => {
-        const { dispatch, implicitAccountId, accountId, recoveryMethod } = this.props
+        const { dispatch, implicitAccountId, newAccountId, recoveryMethod } = this.props
         this.setState({ createFromAccount: true })
         await dispatch(sendMoney(implicitAccountId, MIN_BALANCE_TO_CREATE.toString()))
-        await dispatch(createAccountFromImplicit(accountId, implicitAccountId, recoveryMethod))
-        await dispatch(redirectTo('/fund-create-account/success'))
+        await dispatch(createAccountFromImplicit(newAccountId, implicitAccountId, recoveryMethod))
+        dispatch(redirectTo('/fund-create-account/success'))
     }
 
     render() {
@@ -229,7 +235,7 @@ class SetupImplicit extends Component {
             createFromAccount
         } = this.state
 
-        const { implicitAccountId, accountId, mainLoader, balance } = this.props
+        const { implicitAccountId, newAccountId, accountId, mainLoader, balance } = this.props
 
         return (
             <Translate>
@@ -270,7 +276,7 @@ class SetupImplicit extends Component {
                                 sendingString='button.fundingNewAccount'
                                 color='green'
                             >
-                                <Translate id='button.fundWithCurrentAccount'/>
+                                <Translate id='button.fundWithCurrentAccount' data={{ accountId: accountId }}/>
                             </FormButton>
                         }
                         {moonpayAvailable &&
@@ -301,7 +307,7 @@ class SetupImplicit extends Component {
                                 checked={checked}
                                 handleCheckboxChange={e => this.setState({ checked: e.target.checked })}
                                 implicitAccountId={implicitAccountId}
-                                accountId={accountId}
+                                accountId={newAccountId}
                                 handleFinishSetup={this.handleContinue}
                                 loading={mainLoader}
                             />
@@ -315,7 +321,7 @@ class SetupImplicit extends Component {
 
 const mapStateToProps = ({ account, status }, { match: { params: { accountId, implicitAccountId, recoveryMethod } } }) => ({
     ...account,
-    accountId,
+    newAccountId: accountId,
     implicitAccountId,
     recoveryMethod,
     mainLoader: status.mainLoader

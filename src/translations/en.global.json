@@ -458,7 +458,7 @@
         "deAuthorizing": "Deauthorizing",
         "finish": "Finish",
         "transferring": "Transferring",
-        "fundWithCurrentAccount": "Fund with Current Account",
+        "fundWithCurrentAccount": "Fund with ${accountId}",
         "fundingNewAccount": "Funding New Account",
         "fundWithCard": "Fund with Credit/Debit Card"
     },
