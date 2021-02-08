@@ -6,7 +6,7 @@ import { Translate } from 'react-localize-redux'
 import FormButton from '../common/FormButton'
 import ArrowCircleIcon from '../svg/ArrowCircleIcon'
 import AccountFormAccountId from '../accounts/AccountFormAccountId'
-import { checkAccountAvailable, sendMoney, refreshAccount } from '../../actions/account'
+import { checkAccountAvailable, sendMoney, getBalance } from '../../actions/account'
 import { clearLocalAlert } from '../../actions/status'
 import BalanceBreakdown from '../staking/components/BalanceBreakdown'
 import BN from 'bn.js'
@@ -67,6 +67,10 @@ export function SendContainer({ match, location }) {
             setSuccess(null)
         }
     }, [location.key])
+
+    useEffect(() => {
+        dispatch(getBalance())
+    }, [])
 
     onKeyDown(e => {
         if (e.keyCode === 13 && sendAllowed) {
