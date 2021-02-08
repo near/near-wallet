@@ -36,10 +36,12 @@ class Sign extends Component {
     renderSubcomponent = () => {
         const { account: { url, balance }, totalAmount, sensitiveActionsCounter, status } = this.props
 
-        const txTotalAmount = new BN(totalAmount); // TODO: add gas cost, etc
-        const availableBalance = new BN(balance.available);
-        const insufficientFunds = txTotalAmount.gt(availableBalance);
-        const isMonetaryTransaction = txTotalAmount.gt(new BN(0));
+        const txTotalAmount = new BN(totalAmount) // TODO: add gas cost, etc
+        const availableBalance = balance.available
+        const insufficientFunds = availableBalance
+            ? txTotalAmount.gt(new BN(availableBalance))
+            : false
+        const isMonetaryTransaction = txTotalAmount.gt(new BN(0))
 
         switch (status) {
             case 'needs-confirmation':
