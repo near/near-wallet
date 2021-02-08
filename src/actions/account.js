@@ -393,8 +393,10 @@ export const handleCreateAccountWithSeedPhrase = (accountId, recoveryKeyPair, fu
 }
 
                 
-export const finishAccountSetup = () => async (dispatch) => {
-    const account = await dispatch(refreshAccount())
+export const finishAccountSetup = () => async (dispatch, getState) => {
+    await dispatch(refreshAccount())
+    await dispatch(getBalance())
+    const account = getState().account
     
     let promptTwoFactor = await TwoFactor.checkCanEnableTwoFactor(account)
 
