@@ -50,8 +50,12 @@ export function SendContainer({ match, location }) {
     const [confirm, setConfirm] = useState(null)
     const [id, setId] = useState(match.params.id || '')
     const [success, setSuccess] = useState(null)
-    const amountAvailableToSend = new BN(balance.available).sub(new BN(parseNearAmount(WALLET_APP_MIN_AMOUNT)))
-    const sufficientBalance = !new BN(parseNearAmount(amount)).isZero() && (new BN(parseNearAmount(amount)).lte(amountAvailableToSend) || useMax) && isDecimalString(amount)
+    const amountAvailableToSend = balance.available
+        ? new BN(balance.available).sub(new BN(parseNearAmount(WALLET_APP_MIN_AMOUNT)))
+        : undefined
+    const sufficientBalance = balance.available
+        ? !new BN(parseNearAmount(amount)).isZero() && (new BN(parseNearAmount(amount)).lte(amountAvailableToSend) || useMax) && isDecimalString(amount)
+        : undefined
     const sendAllowed = ((localAlert && localAlert.success !== false) || id.length === 64) && sufficientBalance && amount && !mainLoader && !success
 
     useEffect(() => {
