@@ -99,7 +99,7 @@ export function SendContainer({ match, location }) {
 
     const handleSend = async () => {
         await dispatch(sendMoney(id, parseNearAmount(amount)))
-        await dispatch(refreshAccount())
+        await dispatch(getBalance())
         setConfirm(false)
         setSuccess(true)
         window.scrollTo(0, 0)
