@@ -9,12 +9,16 @@ import SignTransferReady from './SignTransferReady'
 import SignTransferSuccess from './SignTransferSuccess'
 import SignTransferCancelled from './SignTransferCancelled'
 import SignTransferTransferring from './SignTransferTransferring'
-import { signAndSendTransactions } from '../../actions/account'
+import { signAndSendTransactions, getBalance } from '../../actions/account'
 
 class Sign extends Component {
 
     state = {
         sending: false,
+    }
+
+    componentDidMount = () => {
+        this.props.getBalance()
     }
 
     handleDeny = e => {
@@ -83,7 +87,8 @@ class Sign extends Component {
 
 const mapDispatchToProps = {
     signAndSendTransactions,
-    push
+    push,
+    getBalance
 }
 
 const mapStateToProps = ({ account, sign }) => ({
