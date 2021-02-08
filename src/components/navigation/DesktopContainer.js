@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
-import helpIcon from '../../images/icon-help.svg';
 import userIcon from '../../images/user-icon-grey.svg';
 import languagesIcon from '../../images/icon-languages.svg';
 import Logo from './Logo';
@@ -36,34 +35,6 @@ const Container = styled.div`
         position: relative;
     }
 `
-
-const Help = styled.a`
-    color: white;
-    display: flex;
-    align-items: center;
-    margin-left: auto;
-    text-transform: uppercase;
-    cursor: pointer;
-    letter-spacing: 2px;
-    padding-top: 2px;
-    
-    &:hover {
-        color: white;
-        text-decoration: none;
-    }
-
-    &:before {
-        content: '';
-        background: url(${helpIcon});
-        background-repeat: no-repeat;
-        display: inline-block;
-        width: 23px;
-        height: 23px;
-        margin-right: 10px;
-        margin-top: -2px;
-    }
-`
-
 const User = styled.div`
     border-left: 2px solid #5d5f60;
     position: relative;
@@ -181,7 +152,7 @@ const UserIcon = styled.div`
 `
 
 const Lang = styled.div`
-    margin-left: 20px;
+    margin-left: auto;
     position: relative;
 
     &:after {
@@ -240,9 +211,6 @@ class DesktopContainer extends Component {
                 {showNavLinks &&
                     <NavLinks />
                 }
-                <Help href='http://near.chat/' target='_blank' rel='noopener noreferrer'>
-                    <Translate id='link.help'/>
-                </Help>
                 <Lang>
                     <LanguageToggle />
                 </Lang>
