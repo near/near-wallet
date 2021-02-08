@@ -45,29 +45,30 @@ const Button = styled.div`
 `
 
 class InlineNotification extends Component {
-
     render() {
-
         const {
             messageId,
             buttonMsgId,
             theme,
             onClick,
             show
-        } = this.props;
+        } = this.props
 
-        if (show)
-            return <Container className={`${theme}-theme`} onClick={onClick}>
-                        <Icon className='theme-icon'/>
-                        <Translate id={messageId} />
-                        {onClick && buttonMsgId &&
-                            <Button role='button'>
-                                <Translate id={buttonMsgId} />
-                            </Button>
-                        }
-                    </Container>;
-        else
-            return null;
+        if (show) {
+            return (
+                <Container className={`${theme}-theme`} onClick={onClick}>
+                    <Icon className='theme-icon'/>
+                    <Translate id={messageId} />
+                    {onClick && buttonMsgId &&
+                        <Button role='button'>
+                            <Translate id={buttonMsgId} />
+                        </Button>
+                    }
+                </Container>
+            )
+        } else {
+            return null
+        }
     }
 }
 
