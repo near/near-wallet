@@ -141,8 +141,8 @@ export function Profile({ match }) {
                 await dispatch(loadRecoveryMethods())
                 dispatch(getAccessKeys(accountId))
                 dispatch(getLedgerKey())
-                dispatch(checkCanEnableTwoFactor(account))
                 await dispatch(getBalance())
+                dispatch(checkCanEnableTwoFactor(account))
                 dispatch(getProfileStakingDetails())
             }
         })()
