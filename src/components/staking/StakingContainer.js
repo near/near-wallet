@@ -11,6 +11,7 @@ import Validators from './components/Validators'
 import Validator from './components/Validator'
 import StakingAction from './components/StakingAction'
 import { setStakingAccountSelected, getStakingAccountSelected } from '../../utils/localStorage'
+import { getBalance } from '../../actions/account'
 
 const StyledContainer = styled(Container)`
     button {
@@ -156,6 +157,7 @@ export function StakingContainer({ history, match }) {
 
     useEffect(() => {
         dispatch(updateStaking(getStakingAccountSelected()))
+        dispatch(getBalance())
     }, [accountId])
 
     const handleSwitchAccount = async (accountId) => {
