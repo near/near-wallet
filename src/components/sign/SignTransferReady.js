@@ -189,7 +189,7 @@ class SignTransferReady extends Component {
                         </TransferAmount>
                         <CurrentBalance>
                             <Translate id='sign.availableBalance' />:&nbsp;
-                            {availableBalance && <Balance amount={availableBalance}/>}
+                            <Balance amount={availableBalance}/>
                             <InfoPopup content={<Translate id='availableBalanceInfo'/>}/>
                         </CurrentBalance>
                         <InlineNotification
@@ -228,7 +228,7 @@ class SignTransferReady extends Component {
                         </Button>
                         <FormButton
                             onClick={handleAllow}
-                            disabled={isMonetaryTransaction && insufficientFunds}
+                            disabled={isMonetaryTransaction && insufficientFunds || !availableBalance}
                             sending={sending}
                             sendingString='button.authorizing'
                         >
