@@ -14,7 +14,8 @@ import {
     getLedgerKey,
     updateStakingAccount,
     updateStakingLockup,
-    getBalance
+    getBalance,
+    selectAccount
 } from '../../actions/account'
 
 const initialState = {
@@ -146,6 +147,9 @@ const account = handleActions({
                     ...payload
                 }
             }),
+    [selectAccount]: () => {
+        return initialState
+    }
 }, initialState)
 
 export default reduceReducers(
