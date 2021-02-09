@@ -113,6 +113,7 @@ export class Staking {
         const account = await this.updateStakingAccount(allValidators, recentlyStakedValidators)
         let lockupAccount
         if (lockupId) {
+            state.lockupId = lockupId
             lockupAccount = await this.updateStakingLockup()
         }
         state.allValidators = allValidators
