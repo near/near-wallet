@@ -259,7 +259,6 @@ class DesktopContainer extends Component {
                             accountId={account.accountId}
                             accounts={availableAccounts}
                             selectAccount={selectAccount}
-                            hasLockup={account.hasLockup}
                         />
                     </>
                 }
