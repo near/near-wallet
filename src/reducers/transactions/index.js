@@ -5,6 +5,8 @@ import {
     getTransactionStatus
 } from '../../actions/transactions'
 
+import { selectAccount } from '../../actions/account'
+
 const initialState = {}
 
 const transactions = handleActions({
@@ -48,7 +50,10 @@ const transactions = handleActions({
                 }
                 : t
         ))
-    })
+    }),
+    [selectAccount]: () => {
+        return initialState
+    }
 }, initialState)
 
 export default transactions
