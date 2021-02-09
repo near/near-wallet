@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
-import { refreshAccount, switchAccount } from '../../actions/account';
+import { switchAccount } from '../../actions/account';
 import { connect } from 'react-redux';
 import DesktopContainer from './DesktopContainer';
 import MobileContainer from './MobileContainer';
@@ -65,7 +65,6 @@ class Navigation extends Component {
 
     handleSelectAccount = accountId => {
         this.props.switchAccount(accountId)
-        this.props.refreshAccount()
         this.setState({ menuOpen: false });
     }
 
@@ -99,7 +98,6 @@ const mapStateToProps = ({ account, availableAccounts }) => ({
 })
 
 const mapDispatchToProps = {
-    refreshAccount,
     switchAccount
 }
 
