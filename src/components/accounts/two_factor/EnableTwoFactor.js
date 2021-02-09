@@ -142,7 +142,7 @@ export function EnableTwoFactor(props) {
                     data={MULTISIG_MIN_AMOUNT}
                     button='twoFactor.alertBanner.button'
                     theme='light-blue'
-                    linkTo='https://docs.near.org/docs/concepts/storage'
+                    linkTo='https://docs.near.org/docs/concepts/storage-staking'
                 />
                 <form onSubmit={e => { handleNext(); e.preventDefault();}}>
                     <h1><Translate id='twoFactor.enable' /></h1>
