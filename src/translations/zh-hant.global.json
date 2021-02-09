@@ -475,7 +475,7 @@
         "pageText": "如果你已經設置賬戶恢復方式，請根據以下步驟開始恢複流程。",
         "email": {
             "title": "Email",
-            "desc": "請檢查來自 nearprotocol.com 地址的郵件，標題是：",
+            "desc": "請檢查來自 near.org 地址的郵件，標題是：",
             "subject": "「重要：NEAR 錢包恢復郵件」。"
         },
         "phone": {
