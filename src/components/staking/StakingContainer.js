@@ -138,11 +138,12 @@ const StyledContainer = styled(Container)`
 
 export function StakingContainer({ history, match }) {
     const dispatch = useDispatch()
-    const { accountId, has2fa, hasLockup } = useSelector(({ account }) => account);
+    const { accountId, has2fa } = useSelector(({ account }) => account);
     const status = useSelector(({ status }) => status);
     const { hasLedger } = useSelector(({ ledger }) => ledger)
     
     const staking = useSelector(({ staking }) => staking)
+    const hasLockup = !!staking.lockupId
     const { currentAccount } = staking
     const stakingAccounts = staking.accounts
     const validators = staking.allValidators
