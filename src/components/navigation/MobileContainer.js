@@ -177,7 +177,7 @@ class MobileContainer extends Component {
                 </Collapsed>
                 {menuOpen &&
                     <>
-                        <NavLinks hasLockup={account.hasLockup}/>
+                        <NavLinks />
                         <UserLinks accountId={account.accountId}/>
                         <Lang className="mobile-lang">
                             <LanguageToggle />
