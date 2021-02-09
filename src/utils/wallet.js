@@ -17,7 +17,8 @@ import {
     showLedgerModal,
     redirectTo,
     fundCreateAccount,
-    finishAccountSetup
+    finishAccountSetup,
+    selectAccount
 } from '../actions/account'
 
 import { TwoFactor } from './twoFactor'
@@ -183,7 +184,7 @@ class Wallet {
                         break
                     }   
                 }
-                this.selectAccount(nextAccountId)
+                store.dispatch(selectAccount(nextAccountId))
 
                 // TODO: Make sure "problem creating" only shows for actual creation
                 return {
