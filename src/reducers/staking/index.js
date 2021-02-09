@@ -24,7 +24,7 @@ const initialState = {
 }
 
 const stakingHandlers = handleActions({
-    [updateStaking]: (state, { error, payload }) => {
+    [updateStaking]: (state, { payload }) => {
         if (payload && payload.replaceState) {
             delete payload.replaceState
             return {
@@ -36,7 +36,7 @@ const stakingHandlers = handleActions({
             ...payload,
         }
     },
-    [switchAccount]: (state, { error, payload }) => {
+    [switchAccount]: (state, { payload }) => {
         return {
             ...state,
             ...payload,

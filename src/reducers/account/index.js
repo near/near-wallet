@@ -117,7 +117,7 @@ const account = handleActions({
         ...state,
         loginResetAccounts: true
     }),
-    [updateStakingAccount]: (state, { error, meta, payload, ready }) => 
+    [updateStakingAccount]: (state, { error, payload, ready }) => 
         (!ready || error)
             ? state
             : ({
@@ -127,7 +127,7 @@ const account = handleActions({
                     account: payload
                 }
             }),
-    [updateStakingLockup]: (state, { error, meta, payload, ready }) => 
+    [updateStakingLockup]: (state, { error, payload, ready }) => 
         (!ready || error)
             ? state
             : ({
@@ -137,7 +137,7 @@ const account = handleActions({
                     lockupAccount: payload
                 }
             }),
-    [getBalance]: (state, { error, meta, payload, ready}) => 
+    [getBalance]: (state, { error, payload, ready}) => 
         (!ready || error)
             ? state
             : ({

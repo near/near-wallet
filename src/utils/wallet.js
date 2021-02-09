@@ -22,7 +22,7 @@ import {
 
 import { TwoFactor } from './twoFactor'
 import { Staking } from './staking'
-import { decorateWithLockup, getLockupAccountId } from './account-with-lockup'
+import { decorateWithLockup } from './account-with-lockup'
 import { MULTISIG_CHANGE_METHODS } from 'near-api-js/lib/account_multisig'
 
 export const WALLET_CREATE_NEW_ACCOUNT_URL = 'create'
