@@ -7,6 +7,7 @@ import FormButton from '../../common/FormButton';
 import { Translate } from 'react-localize-redux';
 import { removeNonLedgerAccessKeys, redirectTo } from '../../../actions/account';
 import { actionsPending } from '../../../utils/alerts'
+import { Mixpanel } from '../../../mixpanel/index'
 
 const SetupLedgerSuccess = (props) => {
 
@@ -21,13 +22,14 @@ const SetupLedgerSuccess = (props) => {
             if (hasLedger) {
                 setNextStep('')
             }
-
+            Mixpanel.track("SR Remove non ledger access keys")
             await props.removeNonLedgerAccessKeys()
             goToProfile()
         }
     }
 
     const goToProfile = () => {
+        Mixpanel.track("SR Go to profile page with ledger")
         props.redirectTo('/profile')
     }
 

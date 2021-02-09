@@ -8,6 +8,7 @@ import classNames from '../../utils/classNames'
 
 import { ACCOUNT_CHECK_TIMEOUT, ACCOUNT_ID_SUFFIX } from '../../utils/wallet'
 import LocalAlertBox from '../common/LocalAlertBox.js'
+import { Mixpanel } from '../../mixpanel/index'
 
 const InputWrapper = styled.div`
     position: relative;
@@ -116,6 +117,7 @@ class AccountFormAccountId extends Component {
         this.timeout = setTimeout(() => (
             this.handleCheckAvailability(value, type)
         ), ACCOUNT_CHECK_TIMEOUT)
+        Mixpanel.track("CA Checked account availability")
     }
 
     checkAccountIdLength = (accountId) => {
@@ -128,6 +130,7 @@ class AccountFormAccountId extends Component {
     }))
 
     handleCheckAvailability = (accountId, type) => {
+        Mixpanel.track("CA Check account availability")
         if (!accountId) {
             return false
         }

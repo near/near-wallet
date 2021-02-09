@@ -20,6 +20,8 @@ import isMobile from '../../utils/isMobile'
 import { Snackbar, snackbarDuration } from '../common/Snackbar'
 import Container from '../common/styled/Container.css'
 import { KeyPair } from 'near-api-js'
+import { Mixpanel } from '../../mixpanel/index'
+
 class SetupSeedPhrase extends Component {
     state = {
         seedPhrase: '',
@@ -56,6 +58,7 @@ class SetupSeedPhrase extends Component {
     }
 
     handleChangeWord = (e, { name, value }) => {
+        Mixpanel.track("SR Change word")
         if (value.match(/[^a-zA-Z]/)) {
             return false
         }
@@ -87,6 +90,7 @@ class SetupSeedPhrase extends Component {
                     messageCode: 'account.verifySeedPhrase.error'
                 }
             }))
+            Mixpanel.track("SR Verify phrase failed", {error: 'word is not matched the phrase'})
             return false
         }
 
@@ -104,19 +108,22 @@ class SetupSeedPhrase extends Component {
             location
         } = this.props
         const { recoveryKeyPair } = this.state
-
+        Mixpanel.track("SR Start verifying seed phrase")
         const isNew = await checkIsNew(accountId)
 
         if (!isNew) {
             await handleAddAccessKeySeedPhrase(accountId, recoveryKeyPair)
+            Mixpanel.track("SR Verified successfully")
             return
         }
 
         const fundingOptions = JSON.parse(parseQuery(location.search).fundingOptions || 'null')
         await handleCreateAccountWithSeedPhrase(accountId, recoveryKeyPair, fundingOptions)
+        Mixpanel.track("SR Verified successfully")
     }
 
     handleCopyPhrase = () => {
+        Mixpanel.track("SR Copy Phrase")
         if (navigator.share && isMobile()) {
             navigator.share({
                 text: this.state.seedPhrase
