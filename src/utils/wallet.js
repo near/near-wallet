@@ -844,7 +844,7 @@ class Wallet {
                 await this.saveAccount(accountId, newKeyPair)
             }))
 
-            this.selectAccount(accountIdsSuccess[accountIdsSuccess.length - 1].accountId)
+            store.dispatch(selectAccount(accountIdsSuccess[accountIdsSuccess.length - 1].accountId))
 
             return {
                 numberOfAccounts: accountIdsSuccess.length,
