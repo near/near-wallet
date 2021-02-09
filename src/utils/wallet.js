@@ -349,12 +349,17 @@ class Wallet {
 
     async createNewAccountFromAnother(accountId, fundingAccountId, publicKey) {
         const account = await this.getAccount(fundingAccountId)
-        await account.functionCall(ACCOUNT_ID_SUFFIX, 'create_account', {
-            new_account_id: accountId,
-            new_public_key: publicKey.toString().replace(/^ed25519:/, '')
-            // TODO: Adjust gas if necessary
-            // TODO: Should new account have other than minimum balance? For implicit account?
-        }, LINKDROP_GAS, MIN_BALANCE_FOR_GAS)
+        const { status: { SuccessValue: createResultBase64 }, transaction: { hash: transactionHash } } =
+            await account.functionCall(ACCOUNT_ID_SUFFIX, 'create_account', {
+                new_account_id: accountId,
+                new_public_key: publicKey.toString().replace(/^ed25519:/, '')
+                // TODO: Adjust gas if necessary
+            }, LINKDROP_GAS, MIN_BALANCE_FOR_GAS)
+        const createResult = JSON.parse(Buffer.from(createResultBase64, 'base64'))
+        if (!createResult) {
+            throw new WalletError('Creating account has failed', 'createAccount.returnedFalse', { transactionHash })
+        }
+
         if (!this.accounts[fundingAccountId]) {
             // Temporary implicit account used for funding – move whole balance by deleting it
             await account.deleteAccount(accountId)
