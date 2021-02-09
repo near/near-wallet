@@ -211,11 +211,9 @@ class Wallet {
             const ledgerKey = accessKeys.find(key => key.meta.type === 'ledger')
             const account = await this.getAccount(this.accountId)
             const state = await account.state()
-            const hasLockup = await this.accountExists(getLockupAccountId(this.accountId))
 
             return {
                 ...state,
-                hasLockup,
                 has2fa: await TwoFactor.has2faEnabled(account),
                 balance: {
                     available: ''
