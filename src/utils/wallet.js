@@ -560,7 +560,7 @@ class Wallet {
             await this.saveAccount(accountId)
         }))
 
-        this.selectAccount(accountIds[accountIds.length - 1])
+        store.dispatch(selectAccount(accountIds[accountIds.length - 1]))
 
         return {
             numberOfAccounts: accountIds.length
