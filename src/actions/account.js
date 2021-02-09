@@ -490,6 +490,11 @@ export const refreshAccount = (basicData = false) => async (dispatch, getState) 
     }
 }
 
+export const switchAccount = (accountId) => async (dispatch, getState) => {
+    dispatch(selectAccount(accountId))
+    await dispatch(refreshAccount())
+}
+
 export const { selectAccount, refreshAccountOwner, refreshAccountExternal, refreshUrl, updateStakingAccount, updateStakingLockup, getBalance } = createActions({
     SELECT_ACCOUNT: wallet.selectAccount.bind(wallet),
     REFRESH_ACCOUNT_OWNER: [
