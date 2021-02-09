@@ -475,7 +475,7 @@
         "pageText": "如果你已经设置账户恢复方式，请根据以下步骤开始恢复流程。",
         "email": {
             "title": "Email",
-            "desc": "请检查来自 nearprotocol.com 地址的邮件，标题是：",
+            "desc": "请检查来自 near.org 地址的邮件，标题是：",
             "subject": "「重要：NEAR 钱包恢复邮件」。"
         },
         "phone": {
