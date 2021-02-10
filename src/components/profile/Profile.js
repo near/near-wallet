@@ -148,17 +148,30 @@ export function Profile({ match }) {
         })()
     }, []);
 
-    useEffect(()=> {
+    useEffect(() => {
         let id = Mixpanel.get_distinct_id()
         Mixpanel.identify(id)
         Mixpanel.people.set_once({create_date: new Date().toString(),})
         Mixpanel.people.set({
             relogin_date: new Date().toString(),
             enabled_2FA: account.has2fa,
-            [account.accountId]: formatNEAR(account.balance.total) })
-        Mixpanel.alias(account.accountId)
+            [accountId]: formatNEAR(account.balance.total) })
+        Mixpanel.alias(accountId)
+    },[])
 
+    useEffect(() => {
+        if (userRecoveryMethods) {
+            let id = Mixpanel.get_distinct_id()
+            Mixpanel.identify(id)
+            let methods = userRecoveryMethods.map(method => method.kind)
+            Mixpanel.people.set({recovery_method: methods})
+        }
+    },[userRecoveryMethods])
+
+    useEffect(()=> {
         if(twoFactor){
+            let id = Mixpanel.get_distinct_id()
+            Mixpanel.identify(id)
             Mixpanel.people.set({
                 create_2FA_at: twoFactor.createdAt, 
                 enable_2FA_kind:twoFactor.kind, 
