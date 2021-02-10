@@ -129,7 +129,9 @@ class AccountFormAccountId extends Component {
     }))
 
     handleCheckAvailability = (accountId, type) => {
-        Mixpanel.track("CA Check account availability")
+        if (type === 'create') {
+            Mixpanel.track("CA Check account availability")
+        }
         if (!accountId) {
             return false
         }
