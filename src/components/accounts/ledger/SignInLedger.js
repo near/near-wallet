@@ -66,6 +66,9 @@ export function SignInLedger(props) {
         if (!error) {
             refreshAndRedirect()
         }
+        if (error) {
+            Mixpanel.track("IE-Ledger Handle additional accountId", {error: error})
+        }
     }
 
     const refreshAndRedirect = () => {

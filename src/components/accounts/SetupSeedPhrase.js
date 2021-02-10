@@ -82,7 +82,7 @@ class SetupSeedPhrase extends Component {
 
     handleVerifyPhrase = () => {
         const { seedPhrase, enterWord, wordId, submitting } = this.state
-
+        Mixpanel.track("SR-SP Verify seed phrase start")
         if (enterWord !== seedPhrase.split(' ')[wordId]) {
             this.setState(() => ({
                 localAlert: {
@@ -90,7 +90,7 @@ class SetupSeedPhrase extends Component {
                     messageCode: 'account.verifySeedPhrase.error'
                 }
             }))
-            Mixpanel.track("SR-SP Verify seed phrase failed", {error: 'word is not matched the phrase'})
+            Mixpanel.track("SR-SP Verify seed phrase fail", {error: 'word is not matched the phrase'})
             return false
         }
 
@@ -108,18 +108,25 @@ class SetupSeedPhrase extends Component {
             location
         } = this.props
         const { recoveryKeyPair } = this.state
-        Mixpanel.track("SR-SP Start verifying seed phrase")
         const isNew = await checkIsNew(accountId)
 
         if (!isNew) {
-            await handleAddAccessKeySeedPhrase(accountId, recoveryKeyPair)
-            Mixpanel.track("SR-SP Verified seed phrase successfully")
+            try {
+                await handleAddAccessKeySeedPhrase(accountId, recoveryKeyPair)
+                Mixpanel.track("SR-SP Verify seed phrase finish")
+            } catch(e) {
+                Mixpanel.track("SR-SP Verify seed phrase fail", {error: e.message})
+            }
             return
         }
 
         const fundingOptions = JSON.parse(parseQuery(location.search).fundingOptions || 'null')
-        await handleCreateAccountWithSeedPhrase(accountId, recoveryKeyPair, fundingOptions)
-        Mixpanel.track("SR-SP Verified successfully")
+        try {
+            await handleCreateAccountWithSeedPhrase(accountId, recoveryKeyPair, fundingOptions)
+            Mixpanel.track("SR-SP Verify seed phrase finish")
+        } catch(e) {
+            Mixpanel.track("SR-SP Verify seed phrase fail", {error: e.message})
+        }
     }
 
     handleCopyPhrase = () => {

@@ -14,11 +14,11 @@ import ShieldIcon from '../svg/ShieldIcon'
 import LockIcon from '../svg/LockIcon'
 import { actionsPending } from '../../utils/alerts'
 import BN from 'bn.js'
-import SkeletonLoading from '../common/SkeletonLoading';
+import SkeletonLoading from '../common/SkeletonLoading'
 import InfoPopup from '../common/InfoPopup'
 import { selectProfileBalance } from '../../reducers/selectors/balance'
 import { useAccount } from '../../hooks/allAccounts'
-import { Mixpanel } from "../../mixpanel/index"; 
+import { Mixpanel } from "../../mixpanel/index"
 import { formatNEAR } from '../common/Balance'
 
 

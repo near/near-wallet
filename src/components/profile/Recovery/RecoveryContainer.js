@@ -50,7 +50,7 @@ const RecoveryContainer = ({ type, recoveryMethods }) => {
         try {
             Mixpanel.track(method.kind === 'phrase'? 'SR-SP Delete method start': 'SR Delete method start')
             setDeletingMethod(method.publicKey)
-            try{
+            try {
                 await dispatch(deleteRecoveryMethod(method, deleteAllowed))
                 Mixpanel.track(method.kind === 'phrase'? 'SR-SP Delete method finish': 'SR Delete method finish')
             } catch(e) {

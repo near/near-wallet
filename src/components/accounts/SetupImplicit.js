@@ -84,11 +84,15 @@ class SetupImplicit extends Component {
     state = { ...initialState }
 
     handleContinue = async () => {
-        Mixpanel.track("CA Start creating account from implicit")
+        Mixpanel.track("CA Create account from implicit start")
         const { dispatch, accountId, implicitAccountId, recoveryMethod } = this.props
         this.setState({ createAccount: true })
-        await dispatch(createAccountFromImplicit(accountId, implicitAccountId, recoveryMethod))
-        Mixpanel.track("CA Created account from implicit")
+        try {
+            await dispatch(createAccountFromImplicit(accountId, implicitAccountId, recoveryMethod))
+            Mixpanel.track("CA Create account from implicit finish")
+        } catch(e) {
+            Mixpanel.track("CA Create account from implicit fail", {error: e.message})
+        }
         await dispatch(redirectTo('/fund-create-account/success'))
     }
 
@@ -140,27 +144,27 @@ class SetupImplicit extends Component {
                 this.setState({ moonpayAvailable, moonpaySignedURL })
             }
         } catch (e) {
-            Mixpanel.track("CA moonpay failed", {error: e.message})
+            Mixpanel.track("CA Check moonpay fail", {error: e.message})
             console.warn('Error checking Moonpay', e);
         }
     }
 
     checkBalance = async () => {
-        Mixpanel.track("CA Start checking balance for implicit")
+        Mixpanel.track("CA Check balance from implicit start")
         const { implicitAccountId } = this.props
 
         const account = new nearApiJs.Account(this.connection, implicitAccountId)
         try {
             const state = await account.state()
             if (new BN(state.amount).gte(MIN_BALANCE_TO_CREATE)) {
-                Mixpanel.track("CA Checked balance for implicit")
+                Mixpanel.track("CA Check balance from implicit finish")
                 return this.setState({ balance: formatNearAmount(state.amount, 2), whereToBuy: false, createAccount: true })
             }
         } catch (e) {
             if (e.message.indexOf('exist while viewing') === -1) {
                 throw e
             }
-            Mixpanel.track("CA Checked balance fail from implicit", {error: e})
+            Mixpanel.track("CA Check balance from implicit fail", {error: e.message})
             this.setState({ balance: false })
         }
     }

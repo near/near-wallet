@@ -58,17 +58,17 @@ const TwoFactorVerifyModal = ({ open, onClose }) => {
             await dispatch(resendTwoFactor())
         } catch(e) {
             setResendCode()
-            Mixpanel.track("2FA Resend errors", {error: e})
+            Mixpanel.track("2FA Modal Resend errors", {error: e})
             throw e
         } finally {
             setResendCode('resent')
-            Mixpanel.track("2FA Resend code")
+            Mixpanel.track("2FA Modal Resend code")
             setTimeout(() => { setResendCode() }, 3000)
         }
     }
     
     const handleCancelClose = () => {
-        Mixpanel.track("2FA Cancel verification")
+        Mixpanel.track("2FA Modal Cancel verification")
         onClose(false, new WalletError('Request was cancelled.', 'promptTwoFactor.userCancelled'))
     }
     

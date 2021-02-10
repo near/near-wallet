@@ -114,10 +114,9 @@ class AccountFormAccountId extends Component {
         this.state.invalidAccountIdLength && this.handleAccountIdLengthState(value)
 
         this.timeout && clearTimeout(this.timeout)
-        this.timeout = setTimeout(() => (
-            this.handleCheckAvailability(value, type)
-        ), ACCOUNT_CHECK_TIMEOUT)
-        Mixpanel.track("CA Checked account availability")
+        this.timeout = setTimeout(() => {
+            this.handleCheckAvailability(value, type);
+        }, ACCOUNT_CHECK_TIMEOUT)
     }
 
     checkAccountIdLength = (accountId) => {

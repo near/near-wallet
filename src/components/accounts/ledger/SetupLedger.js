@@ -58,7 +58,7 @@ const SetupLedger = (props) => {
             await dispatch(refreshAccount())
         } catch(e) {
             setConnect('fail');
-            Mixpanel.track("SR-Ledger Connect ledger failed", {error: e})
+            Mixpanel.track("SR-Ledger Connect ledger fail", {error: e.message})
             throw e;
         } 
 

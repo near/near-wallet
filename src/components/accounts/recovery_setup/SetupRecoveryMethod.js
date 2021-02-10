@@ -137,7 +137,7 @@ class SetupRecoveryMethod extends Component {
             location,
         } = this.props;
 
-        Mixpanel.track("SR Start handling setup recovery method")
+        Mixpanel.track("SR Setup recovery method start")
         if (this.state.success) {
             const isNew = await checkIsNew(accountId)
             if (isNew) {
@@ -146,12 +146,13 @@ class SetupRecoveryMethod extends Component {
             } else {
                 await setupRecoveryMessage(accountId, this.method, securityCode, this.state.recoverySeedPhrase)
             }
-            Mixpanel.track("SR Setup recovery sucessfully")
+            Mixpanel.track("SR Setup recovery method finish")
         }
     }
 
     handleGoBack = () => {
-        Mixpanel.track("SR Click link to send to different email or phone")
+        const { option } = this.state;
+        Mixpanel.track(option === 'email' ? "SR Send to different email" : "SR Send to different phone")
         this.setState({
             email: '',
             phoneNumber: '',

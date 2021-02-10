@@ -140,12 +140,12 @@ const RecoverAccount = () => {
                 <Option>
                     <Header icon={PhraseIcon}><Translate id='recoverAccount.phrase.title'/><br/><Translate id='recoverAccount.actionType'/></Header>
                     <P><Translate id='recoverAccount.phrase.desc'/></P>
-                    <Button to='/recover-seed-phrase' onClick={()=> Mixpanel.track("IE Click seed phrase recovery")}><Translate id='button.recoverAccount' /></Button>
+                    <Button to='/recover-seed-phrase' onClick={()=> Mixpanel.track("IE Click seed phrase recovery button")}><Translate id='button.recoverAccount' /></Button>
                 </Option>
                 <Option>
                     <Header icon={HardwareDeviceIcon}><Translate id='recoverAccount.ledger.title'/><br/><Translate id='recoverAccount.actionType'/></Header>
                     <P><Translate id='recoverAccount.ledger.desc'/></P>
-                    <Button to='/sign-in-ledger' onClick={()=> Mixpanel.track("IE Click ledger recovery")}><Translate id='button.signInLedger' /></Button>
+                    <Button to='/sign-in-ledger' onClick={()=> Mixpanel.track("IE Click ledger recovery button")}><Translate id='button.signInLedger' /></Button>
                 </Option>
             </Options>
         </StyledContainer>

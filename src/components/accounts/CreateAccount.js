@@ -92,10 +92,10 @@ class CreateAccount extends Component {
 
     handleCheckNearDropBalance = async () => {
         try {
-            Mixpanel.track("CA Check near drop balance")
+            Mixpanel.track("CA Check near drop balance start")
             await this.props.checkNearDropBalance(this.props.fundingContract, this.props.fundingKey)
         } catch(e) {
-            Mixpanel.track("CA Get near drop balance error", {error: e.message})
+            Mixpanel.track("CA Check near drop balance fail", {error: e.message})
             this.setState({ invalidNearDrop: true })
         }
     }

@@ -83,13 +83,19 @@ export function EnableTwoFactor(props) {
         if (!initiated && !loading && !has2fa && isValidInput()) {
             let response;
             try {
-                Mixpanel.track("2FA Initializing")
+                Mixpanel.track("2FA Initialize two factor start")
                 response = await dispatch(initTwoFactor(accountId, method))
+            } catch(e) {
+                Mixpanel.track("2FA Initialize two factor fail", {error: e.message})
             } finally {
                 if (response && response.confirmed) {
-                    Mixpanel.track("2FA Start deploying multisig")
-                    await handleDeployMultisig()
-                    Mixpanel.track("2FA Deployed successfully")
+                    Mixpanel.track("2FA Deploy multisig start")
+                    try {
+                        await handleDeployMultisig()
+                        Mixpanel.track("2FA Deploy multisig finish")
+                    } catch(e) {
+                        Mixpanel.track("2FA Deploy multisig fail", {error: e.message})
+                    }
                 } else {
                     setInitiated(true)
                 }
@@ -98,17 +104,21 @@ export function EnableTwoFactor(props) {
     }
 
     const handleResendCode = async () => {
-        Mixpanel.track("2FA Click to resend code")
+        Mixpanel.track("2FA Resend code")
         await dispatch(initTwoFactor(accountId, method))
     }
 
     const handleConfirm = async (securityCode) => {
-        Mixpanel.track("2FA Start verifying")
+        Mixpanel.track("2FA Verify start")
         if (initiated && securityCode.length === 6) {
-            await dispatch(verifyTwoFactor(securityCode))
-            await dispatch(clearGlobalAlert())
-            await handleDeployMultisig()
-            Mixpanel.track("2FA Verified successfully")
+            try {
+                await dispatch(verifyTwoFactor(securityCode))
+                await dispatch(clearGlobalAlert())
+                await handleDeployMultisig()
+                Mixpanel.track("2FA Verify finish")
+            } catch(e) {
+                Mixpanel.track("2FA Verify fail", {error: e.message})
+            }
         }
     }
 
@@ -119,7 +129,7 @@ export function EnableTwoFactor(props) {
 
     const handleGoBack = () => {
         setInitiated(false)
-        Mixpanel.track("2FA Click link to go back")
+        Mixpanel.track("2FA Go back")
     }
 
     const isValidInput = () => {
