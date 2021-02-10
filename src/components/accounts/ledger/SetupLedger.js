@@ -94,7 +94,7 @@ const SetupLedger = (props) => {
                 className='link' 
                 onClick={() => 
                 {
-                    Mixpanel.track("SR Click cancel button")
+                    Mixpanel.track("SR-Ledger Click cancel button")
                     props.history.goBack()
                 }}>
                     <Translate id='button.cancel'/>

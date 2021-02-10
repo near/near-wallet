@@ -102,7 +102,7 @@ class SetupImplicit extends Component {
     }
 
     isMoonpayAvailable = async () => {
-        Mixpanel.track("CA Check moonpay available")
+        Mixpanel.track("CA Check moonpay available start")
         const MOONPAY_API_URL = 'https://api.moonpay.com'
         const moonpayGet = (path) => sendJson('GET', `${MOONPAY_API_URL}${path}?apiKey=${MOONPAY_API_KEY}`)
         const isAllowed = ({ isAllowed, isBuyAllowed }) => isAllowed && isBuyAllowed
@@ -144,7 +144,7 @@ class SetupImplicit extends Component {
                 this.setState({ moonpayAvailable, moonpaySignedURL })
             }
         } catch (e) {
-            Mixpanel.track("CA Check moonpay fail", {error: e.message})
+            Mixpanel.track("CA Check moonpay available fail", {error: e.message})
             console.warn('Error checking Moonpay', e);
         }
     }
@@ -157,8 +157,10 @@ class SetupImplicit extends Component {
         try {
             const state = await account.state()
             if (new BN(state.amount).gte(MIN_BALANCE_TO_CREATE)) {
-                Mixpanel.track("CA Check balance from implicit finish")
+                Mixpanel.track("CA Check balance from implicit: sufficient")
                 return this.setState({ balance: formatNearAmount(state.amount, 2), whereToBuy: false, createAccount: true })
+            }else {
+                Mixpanel.track("CA Check balance from implicit: insufficient")
             }
         } catch (e) {
             if (e.message.indexOf('exist while viewing') === -1) {

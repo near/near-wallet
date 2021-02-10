@@ -97,6 +97,7 @@ class SetupSeedPhrase extends Component {
         if (!submitting) {
             this.setState({ submitting: true }, this.handleSetupSeedPhrase)
         }
+        Mixpanel.track("SR-SP Verify seed phrase finish")
     }
 
     handleSetupSeedPhrase = async () => {
@@ -113,7 +114,7 @@ class SetupSeedPhrase extends Component {
         if (!isNew) {
             try {
                 await handleAddAccessKeySeedPhrase(accountId, recoveryKeyPair)
-                Mixpanel.track("SR-SP Verify seed phrase finish")
+                Mixpanel.track("SR-SP Setup seed phrase for existing account")
             } catch(e) {
                 Mixpanel.track("SR-SP Verify seed phrase fail", {error: e.message})
             }
@@ -123,7 +124,7 @@ class SetupSeedPhrase extends Component {
         const fundingOptions = JSON.parse(parseQuery(location.search).fundingOptions || 'null')
         try {
             await handleCreateAccountWithSeedPhrase(accountId, recoveryKeyPair, fundingOptions)
-            Mixpanel.track("SR-SP Verify seed phrase finish")
+            Mixpanel.track("SR-SP Setup new account start")
         } catch(e) {
             Mixpanel.track("SR-SP Verify seed phrase fail", {error: e.message})
         }

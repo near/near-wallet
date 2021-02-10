@@ -48,12 +48,16 @@ export function SignInLedger(props) {
     }
 
     const handleSignIn = async () => {
-        Mixpanel.track("IE-Ledger Click sign in button")
+        Mixpanel.track("IE-Ledger Sign in start")
         setLoader(false)
         const { error } = await dispatch(signInWithLedger())
 
         if (!error) {
+            Mixpanel.track("IE-Ledger Sign in finish")
             refreshAndRedirect()
+        }
+        if (error) {
+            Mixpanel.track("IE-Ledger Sign in fail", {error: error})
         }
     }
 

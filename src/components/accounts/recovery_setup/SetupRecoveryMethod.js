@@ -122,7 +122,7 @@ class SetupRecoveryMethod extends Component {
     }
 
     handleSendCode = async () => {
-        Mixpanel.track("SR Resend code", {resend_detail: this.method})
+        Mixpanel.track("SR Send code", {send_code_detail: this.method})
         const  { accountId, initializeRecoveryMethod } = this.props;
         const recoverySeedPhrase = await initializeRecoveryMethod(accountId, this.method);
         this.setState({ success: true, recoverySeedPhrase: recoverySeedPhrase })
@@ -137,8 +137,8 @@ class SetupRecoveryMethod extends Component {
             location,
         } = this.props;
 
-        Mixpanel.track("SR Setup recovery method start")
         if (this.state.success) {
+            Mixpanel.track("SR Setup recovery method start", {detail: this.method})
             const isNew = await checkIsNew(accountId)
             if (isNew) {
                 const fundingOptions = JSON.parse(parseQuery(location.search).fundingOptions || 'null')
@@ -146,7 +146,7 @@ class SetupRecoveryMethod extends Component {
             } else {
                 await setupRecoveryMessage(accountId, this.method, securityCode, this.state.recoverySeedPhrase)
             }
-            Mixpanel.track("SR Setup recovery method finish")
+            Mixpanel.track("SR Setup recovery method finish", {detail: this.method})
         }
     }
 
