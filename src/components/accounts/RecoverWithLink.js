@@ -132,7 +132,7 @@ class RecoverWithLink extends Component {
     }
 
     handleCopyUrl = () => {
-        Mixpanel.track("IE Click copy url button")
+        Mixpanel.track("IE with link Click copy url button")
         if (navigator.share && isMobile()) {
             navigator.share({
                 url: window.location.href
@@ -207,7 +207,7 @@ class RecoverWithLink extends Component {
                             <Desc>{translate('recoverWithLink.errorP')}</Desc>
                             {!DISABLE_CREATE_ACCOUNT &&
                                 <Button onClick={() => {
-                                    Mixpanel.track("IE Click create button")
+                                    Mixpanel.track("IE with link expired click create button")
                                     history.push('/create')
                                 }}>
                                     {translate('button.createAccount')}
