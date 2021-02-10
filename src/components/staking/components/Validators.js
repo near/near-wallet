@@ -14,6 +14,7 @@ export default function Validators({ validators, stakeFromAccount }) {
             <h1><Translate id='staking.validators.title' /></h1>
             <h2><Translate id={`staking.validators.desc.${stakeFromAccount ? 'account' : 'lockup'}`} /></h2>
             <h4><Translate id='staking.validators.inputLabel' /></h4>
+            <div className='color-black font-bw'><Translate id='staking.validators.randomShuffle'/></div>
             <Translate>
                 {({ translate }) => (
                     <input

@@ -776,6 +776,7 @@
                 "lockup": "请输入一个已知节点的名称或选择节点开始质押。同时间，你只能质押到一个节点。"
             },
             "inputLabel": "输入验证节点账户 ID",
+            "randomShuffle": "Validators list in a random order",
             "inputPlaceholder": "validator-name.near",
             "button": "查看验证节点",
             "available": "可选验证节点",

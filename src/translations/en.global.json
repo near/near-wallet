@@ -803,6 +803,7 @@
                 "lockup": "Enter a known validator or select a validator from the list to stake your NEAR tokens. You may only stake with a single validator at any given time."
             },
             "inputLabel": "Validator account ID",
+            "randomShuffle": "Validators list in a random order",
             "inputPlaceholder": "validator-name.near",
             "button": "View Validator",
             "available": "Available Validators",
