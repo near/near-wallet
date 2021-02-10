@@ -89,7 +89,7 @@ class Routing extends Component {
             languages,
             options: {
                 defaultLanguage: 'en',
-                onMissingTranslation: ({ translationId }) => `No translation found for id: ${translationId}`,
+                onMissingTranslation: ({ defaultTranslation }) => defaultTranslation,
                 renderToStaticMarkup: false,
                 renderInnerHtml: true
             }

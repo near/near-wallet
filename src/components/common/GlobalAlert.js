@@ -182,7 +182,7 @@ const GlobalAlertNew = ({ globalAlert, actionStatus, clearGlobalAlert, closeIcon
                                 </Header>
                                 <Translate>
                                     {({ translate }) => 
-                                        (typeof translate(alert.messageCode) === 'string' ? translate(alert.messageCode) : '').includes(alert.messageCode)
+                                        (typeof translate(alert.messageCode) === 'string' ? translate(alert.messageCode) : '').includes('No default translation found!')
                                             ? <Translate id={`reduxActions.default.${alert.success ? 'success' : 'error'}`} />
                                             : <Translate id={alert.messageCode} data={alert.data} />
                                     }
