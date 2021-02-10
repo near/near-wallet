@@ -151,10 +151,11 @@ export function Profile({ match }) {
     useEffect(()=> {
         let id = Mixpanel.get_distinct_id()
         Mixpanel.identify(id)
+        Mixpanel.people.set_once({create_date: new Date().toString(),})
         Mixpanel.people.set({
-            create_date: new Date().toString(),
+            relogin_date: new Date().toString(),
             enabled_2FA: account.has2fa,
-            total_balance: formatNEAR(account.balance.total) })
+            [account.accountId]: formatNEAR(account.balance.total) })
         Mixpanel.alias(account.accountId)
 
         if(twoFactor){

@@ -8,7 +8,8 @@ import {
     loadRecoveryMethods
 } from '../../../actions/account';
 import SkeletonLoading from '../../common/SkeletonLoading';
-import { actionsPending } from '../../../utils/alerts'
+import { actionsPending } from '../../../utils/alerts';
+import { Mixpanel } from '../../../mixpanel/index'
 
 const Container = styled.div`
 
@@ -47,8 +48,15 @@ const RecoveryContainer = ({ type, recoveryMethods }) => {
 
     const handleDeleteMethod = async (method) => {
         try {
+            Mixpanel.track(method.kind === 'phrase'? 'SR-SP Delete method start': 'SR Delete method start')
             setDeletingMethod(method.publicKey)
-            await dispatch(deleteRecoveryMethod(method, deleteAllowed))
+            try{
+                await dispatch(deleteRecoveryMethod(method, deleteAllowed))
+                Mixpanel.track(method.kind === 'phrase'? 'SR-SP Delete method finish': 'SR Delete method finish')
+            } catch(e) {
+                Mixpanel.track(method.kind === 'phrase'? 'SR-SP Delete method fail': 'SR Delete method fail', {error: e.message})
+            }
+            
         } finally {
             setDeletingMethod('')
         }

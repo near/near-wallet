@@ -16,6 +16,7 @@ import {
 import ConfirmDisable from './ConfirmDisable';
 import SkeletonLoading from '../../common/SkeletonLoading';
 import { actionsPending } from '../../../utils/alerts'
+import { Mixpanel } from '../../../mixpanel/index'
 
 const Container = styled(Card)`
 
@@ -85,9 +86,11 @@ const HardwareDevices = ({ recoveryMethods }) => {
     }
 
     const handleConnectLedger = async () => {
+        Mixpanel.track("SR-Ledger Reconnect ledger start")
         await dispatch(addLedgerAccessKey())
         await dispatch(getLedgerKey())
         await dispatch(loadRecoveryMethods())
+        Mixpanel.track("SR-Ledger Reconnect ledger finish")
     }
 
     const getActionButton = () => {
@@ -96,7 +99,7 @@ const HardwareDevices = ({ recoveryMethods }) => {
         } else if (hasLedgerButNotConnected) {
             return <FormButton color='blue' onClick={handleConnectLedger}><Translate id='button.connect'/></FormButton>
         } else {
-            return <FormButton linkTo={`/setup-ledger/${account.accountId}`} color='blue'><Translate id='button.enable'/></FormButton> 
+            return <FormButton linkTo={`/setup-ledger/${account.accountId}`} color='blue' onClick={() => Mixpanel.track("SR-Ledger Click enable button")}><Translate id='button.enable'/></FormButton> 
         }
     }
 

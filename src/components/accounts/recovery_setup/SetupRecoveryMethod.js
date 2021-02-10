@@ -172,7 +172,6 @@ class SetupRecoveryMethod extends Component {
     }
 
     checkDisabled = (method) => {
-        Mixpanel.track("SR Check disabled")
         const { recoveryMethods, activeAccountId } = this.props
         let activeMethods = []
         if (recoveryMethods[activeAccountId]) {
@@ -183,7 +182,6 @@ class SetupRecoveryMethod extends Component {
     }
 
     checkNewAccount = () => {
-        Mixpanel.track("SR Check new account")
         return this.props.accountId !== this.props.activeAccountId
     }
 
