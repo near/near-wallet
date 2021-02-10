@@ -10,6 +10,7 @@ import SignTransferCancelled from './SignTransferCancelled'
 import SignTransferTransferring from './SignTransferTransferring'
 import { signAndSendTransactions, getBalance, handleRefreshUrl } from '../../actions/account'
 import { Mixpanel } from '../../mixpanel'
+import { base_encode } from 'near-api-js/lib/utils/serialize'
 
 class Sign extends Component {
 
@@ -45,7 +46,7 @@ class Sign extends Component {
                 if (this.props.callbackUrl) {
                     window.location.href = addQueryParams(callbackUrl, {
                         meta,
-                        transactionHashes: transactionHashes.map(hash => hash.toString('base64'))
+                        transactionHashes: transactionHashes.map(hash => base_encode(hash)).join(',')
                     })
                 }
             }
