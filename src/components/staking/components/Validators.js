@@ -14,7 +14,6 @@ export default function Validators({ validators, stakeFromAccount }) {
             <h1><Translate id='staking.validators.title' /></h1>
             <h2><Translate id={`staking.validators.desc.${stakeFromAccount ? 'account' : 'lockup'}`} /></h2>
             <h4><Translate id='staking.validators.inputLabel' /></h4>
-            <div className='color-black font-bw'><Translate id='staking.validators.randomShuffle'/></div>
             <Translate>
                 {({ translate }) => (
                     <input
@@ -31,6 +30,7 @@ export default function Validators({ validators, stakeFromAccount }) {
             {validValidator && 
                 <div className='input-validation-label success'><Translate id='staking.validators.search.success' /></div>
             }
+            <div className='color-black font-bw'><Translate id='staking.validators.randomShuffle'/></div>
             <ListWrapper>
                 {validators.filter(v => v.accountId.includes(validator)).map((validator, i) => 
                     <ValidatorBox
