@@ -174,7 +174,7 @@ const GlobalAlertNew = ({ globalAlert, actionStatus, clearGlobalAlert, closeIcon
                     <Alert key={`alert-${i}`} success={alert.success} closing={closing} className={`number-${alert.type}`} type={alert.type}>
                         <Content>
                             <Icon>
-                                <img src={alert.success ? IconCheckCircleImage : IconsAlertCircleImage} alt={alert.success ? 'Success' : 'Error'} />
+                                <img src={alert.success ? IconCheckCircleImage : IconsAlertCircleImage} />
                             </Icon>
                             <Text>
                                 <Header success={alert.success}>
