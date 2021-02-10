@@ -93,7 +93,7 @@ class SetupRecoveryMethod extends Component {
 
         if (this.isValidInput && !localAlert && !success) {
             if (option === 'email' || option === 'phone') {
-                if(option === 'email') {
+                if (option === 'email') {
                     Mixpanel.track("SR Select email")
                 } else {
                     Mixpanel.track("SR Select phone")
@@ -101,10 +101,10 @@ class SetupRecoveryMethod extends Component {
                 await this.handleSendCode()
                 window.scrollTo(0, 0);
             } else if (option === 'phrase') {
-                Mixpanel.track("SR Select seed phrase")
+                Mixpanel.track("SR-SP Select seed phrase")
                 redirectTo(`/setup-seed-phrase/${accountId}/phrase${location.search}`)
             } else if (option === 'ledger') {
-                Mixpanel.track("SR Select ledger")
+                Mixpanel.track("SR-Ledger Select ledger")
                 redirectTo(`/setup-ledger/${accountId}${location.search}`)
             }
         }
@@ -122,7 +122,7 @@ class SetupRecoveryMethod extends Component {
     }
 
     handleSendCode = async () => {
-        Mixpanel.track("SR Send code")
+        Mixpanel.track("SR Resend code", {resend_detail: this.method})
         const  { accountId, initializeRecoveryMethod } = this.props;
         const recoverySeedPhrase = await initializeRecoveryMethod(accountId, this.method);
         this.setState({ success: true, recoverySeedPhrase: recoverySeedPhrase })
@@ -143,11 +143,10 @@ class SetupRecoveryMethod extends Component {
             if (isNew) {
                 const fundingOptions = JSON.parse(parseQuery(location.search).fundingOptions || 'null')
                 await setupRecoveryMessageNewAccount(accountId, this.method, securityCode, fundingOptions, this.state.recoverySeedPhrase)
-                Mixpanel.track("SR Setup recovery sucessfully")
             } else {
                 await setupRecoveryMessage(accountId, this.method, securityCode, this.state.recoverySeedPhrase)
-                Mixpanel.track("SR Setup recovery sucessfully")
             }
+            Mixpanel.track("SR Setup recovery sucessfully")
         }
     }
 

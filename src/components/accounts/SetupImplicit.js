@@ -140,7 +140,7 @@ class SetupImplicit extends Component {
                 this.setState({ moonpayAvailable, moonpaySignedURL })
             }
         } catch (e) {
-            Mixpanel.track("CA moonpay failed", {error: e})
+            Mixpanel.track("CA moonpay failed", {error: e.message})
             console.warn('Error checking Moonpay', e);
         }
     }
@@ -160,7 +160,7 @@ class SetupImplicit extends Component {
             if (e.message.indexOf('exist while viewing') === -1) {
                 throw e
             }
-            Mixpanel.track("CA Checked balance fail", {error: e})
+            Mixpanel.track("CA Checked balance fail from implicit", {error: e})
             this.setState({ balance: false })
         }
     }
@@ -187,7 +187,7 @@ class SetupImplicit extends Component {
     // TODO: Refactor: Extract utility to copy text
     // optionally pass in string to copy: textToCopy
     handleCopyPhrase = (textToCopy) => {
-        Mixpanel.track("CA Coy funding address")
+        Mixpanel.track("CA Copy funding address")
         if (typeof textToCopy !== 'string') {
             textToCopy = null
         }

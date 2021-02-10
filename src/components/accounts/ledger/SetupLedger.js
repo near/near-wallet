@@ -41,32 +41,32 @@ const SetupLedger = (props) => {
                 console.log('SetupLedger', DISABLE_CREATE_ACCOUNT, fundingOptions)
                 const publicKey = await dispatch(getLedgerPublicKey())
                 await setKeyMeta(publicKey, { type: 'ledger' })
-                Mixpanel.track("SR Set key meta")
+                Mixpanel.track("SR-Ledger Set key meta")
 
                 if (DISABLE_CREATE_ACCOUNT && !fundingOptions) {
                     await dispatch(fundCreateAccountLedger(accountId, publicKey))
-                    Mixpanel.track("SR Fund create account ledger")
+                    Mixpanel.track("SR-Ledger Fund create account ledger")
                     return
                 }
 
                 await dispatch(createNewAccount(accountId, fundingOptions, 'ledger', publicKey))
-                Mixpanel.track("SR Create new account ledger")
+                Mixpanel.track("SR-Ledger Create new account ledger")
             } else {
                 await dispatch(addLedgerAccessKey())
-                Mixpanel.track("SR Add ledger access key")
+                Mixpanel.track("SR-Ledger Add ledger access key")
             }
             await dispatch(refreshAccount())
         } catch(e) {
             setConnect('fail');
-            Mixpanel.track("SR Connect ledger failed", {error: e})
+            Mixpanel.track("SR-Ledger Connect ledger failed", {error: e})
             throw e;
         } 
 
         if (isNew) {
-            Mixpanel.track("SR Go to profile of new account")
+            Mixpanel.track("SR-ledger Go to profile of new account")
             await dispatch(redirectToApp('/profile'))
         } else {
-            Mixpanel.track("SR Go to setup ledger success")
+            Mixpanel.track("SR-Ledger Go to setup ledger success")
             await dispatch(redirectTo('/setup-ledger-success'));
         }
     }

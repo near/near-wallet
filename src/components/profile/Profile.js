@@ -19,6 +19,7 @@ import InfoPopup from '../common/InfoPopup'
 import { selectProfileBalance } from '../../reducers/selectors/balance'
 import { useAccount } from '../../hooks/allAccounts'
 import { Mixpanel } from "../../mixpanel/index"; 
+import { formatNEAR } from '../common/Balance'
 
 
 const StyledContainer = styled(Container)`
@@ -148,10 +149,20 @@ export function Profile({ match }) {
     }, []);
 
     useEffect(()=> {
+        let id = Mixpanel.get_distinct_id()
+        Mixpanel.identify(id)
+        Mixpanel.people.set({
+            create_date: new Date().toString(),
+            enabled_2FA: account.has2fa,
+            total_balance: formatNEAR(account.balance.total) })
+        Mixpanel.alias(account.accountId)
+
         if(twoFactor){
-            let id = Mixpanel.get_distinct_id()
-            Mixpanel.identify(id)
-            Mixpanel.people.set({create_2FA_at: twoFactor.createdA, enable_2FA_kind:twoFactor.kind, enabled_2FA: true })
+            Mixpanel.people.set({
+                create_2FA_at: twoFactor.createdAt, 
+                enable_2FA_kind:twoFactor.kind, 
+                enabled_2FA: twoFactor.confirmed, 
+                detail_2FA: twoFactor.detail})
         }
     }, [twoFactor])
 

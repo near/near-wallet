@@ -22,14 +22,14 @@ const SetupLedgerSuccess = (props) => {
             if (hasLedger) {
                 setNextStep('')
             }
-            Mixpanel.track("SR Remove non ledger access keys")
+            Mixpanel.track("SR-Ledger Remove non ledger access keys")
             await props.removeNonLedgerAccessKeys()
             goToProfile()
         }
     }
 
     const goToProfile = () => {
-        Mixpanel.track("SR Go to profile page with ledger")
+        Mixpanel.track("SR-Ledger Go to profile page with ledger")
         props.redirectTo('/profile')
     }
 

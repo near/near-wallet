@@ -58,7 +58,7 @@ class SetupSeedPhrase extends Component {
     }
 
     handleChangeWord = (e, { name, value }) => {
-        Mixpanel.track("SR Change word")
+        Mixpanel.track("SR-SP Change seed phrase word")
         if (value.match(/[^a-zA-Z]/)) {
             return false
         }
@@ -90,7 +90,7 @@ class SetupSeedPhrase extends Component {
                     messageCode: 'account.verifySeedPhrase.error'
                 }
             }))
-            Mixpanel.track("SR Verify phrase failed", {error: 'word is not matched the phrase'})
+            Mixpanel.track("SR-SP Verify seed phrase failed", {error: 'word is not matched the phrase'})
             return false
         }
 
@@ -108,22 +108,22 @@ class SetupSeedPhrase extends Component {
             location
         } = this.props
         const { recoveryKeyPair } = this.state
-        Mixpanel.track("SR Start verifying seed phrase")
+        Mixpanel.track("SR-SP Start verifying seed phrase")
         const isNew = await checkIsNew(accountId)
 
         if (!isNew) {
             await handleAddAccessKeySeedPhrase(accountId, recoveryKeyPair)
-            Mixpanel.track("SR Verified successfully")
+            Mixpanel.track("SR-SP Verified seed phrase successfully")
             return
         }
 
         const fundingOptions = JSON.parse(parseQuery(location.search).fundingOptions || 'null')
         await handleCreateAccountWithSeedPhrase(accountId, recoveryKeyPair, fundingOptions)
-        Mixpanel.track("SR Verified successfully")
+        Mixpanel.track("SR-SP Verified successfully")
     }
 
     handleCopyPhrase = () => {
-        Mixpanel.track("SR Copy Phrase")
+        Mixpanel.track("SR-SP Copy seed phrase")
         if (navigator.share && isMobile()) {
             navigator.share({
                 text: this.state.seedPhrase

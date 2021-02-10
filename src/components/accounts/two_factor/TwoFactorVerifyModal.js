@@ -67,7 +67,10 @@ const TwoFactorVerifyModal = ({ open, onClose }) => {
         }
     }
     
-    const handleCancelClose = () => onClose(false, new WalletError('Request was cancelled.', 'promptTwoFactor.userCancelled'))
+    const handleCancelClose = () => {
+        Mixpanel.track("2FA Cancel verification")
+        onClose(false, new WalletError('Request was cancelled.', 'promptTwoFactor.userCancelled'))
+    }
     
     return (
         <Modal
