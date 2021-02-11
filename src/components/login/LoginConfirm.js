@@ -8,6 +8,7 @@ import MobileContainer from '../sign/MobileContainer'
 import FormButton from '../common/FormButton'
 
 import IconHelp from '../../images/IconHelp'
+import { Mixpanel } from "../../mixpanel/index";
 
 class LoginForm extends Component {
     state = {
@@ -103,7 +104,10 @@ class LoginForm extends Component {
                                 <FormButton
                                     color='gray-white'
                                     type='button'
-                                    onClick={this.props.history.goBack}
+                                    onClick={() => {
+                                        Mixpanel.track("LOGIN Click cancel button")
+                                        this.props.history.goBack()
+                                    }}
                                 >
                                     <Translate id='button.cancel' />
                                 </FormButton>

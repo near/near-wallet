@@ -11,6 +11,7 @@ import SelectAccountDropdown from './SelectAccountDropdown'
 
 import IconProblems from '../../images/IconProblems'
 import IconAuthorize from '../../images/IconAuthorize'
+import { Mixpanel } from '../../mixpanel/index'
 
 const LoginForm = ({
     dropdown,
@@ -92,6 +93,7 @@ const LoginForm = ({
                     <FormButton
                         linkTo={`${match.url}${match.url.substr(-1) === '/' ? '' : '/'}details`}
                         className='more-information'
+                        onClick={() => Mixpanel.track("LOGIN Click more information button")}
                     >
                         <Translate id='button.moreInformation' />
                     </FormButton>
