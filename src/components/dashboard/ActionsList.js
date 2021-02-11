@@ -15,7 +15,7 @@ import { Grid, Image } from 'semantic-ui-react'
 import styled from 'styled-components'
 import classNames from '../../utils/classNames'
 
-import { TRANSACTIONS_REFRESH_INTERVAL } from '../../utils/wallet'
+import { EXPLORER_URL, TRANSACTIONS_REFRESH_INTERVAL } from '../../utils/wallet'
 
 const CustomGridRow = styled(Grid.Row)`
     &&& {
@@ -169,14 +169,14 @@ const ActionRow = ({ transaction, actionArgs, actionKind, wide, showSub = false,
                             actionKind={actionKind}
                             accountId={accountId}
                         />
-                        <div>
+                        <a href={`${EXPLORER_URL}/transactions/${hash}`} target='_blank' rel='noopener noreferrer'>
                             <ActionTimeStamp
                                 timeStamp={block_timestamp}
                             />
                             <ActionStatus 
                                 status={status} 
                             />
-                        </div>
+                        </a>
                     </Grid.Column>
                 </Grid>
             </Grid.Column>
