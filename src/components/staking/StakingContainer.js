@@ -168,11 +168,14 @@ export function StakingContainer({ history, match }) {
     }
     
     const handleStakingAction = async (action, validator, amount) => {
+        let id = Mixpanel.get_distinct_id()
+        Mixpanel.identify(id)
         if (action === 'stake') {
             try {
                 Mixpanel.track("STAKE start")
                 await dispatch(stake(currentAccount.accountId, validator, amount))
                 Mixpanel.track("STAKE finish")
+                Mixpanel.people.set({last_stake_time: new Date().toString()})
             } catch(e) {
                 Mixpanel.track("STAKE fail", {error: e.message})
             }
@@ -181,6 +184,7 @@ export function StakingContainer({ history, match }) {
                 Mixpanel.track("UNSTAKE start")
                 await dispatch(unstake(currentAccount.accountId, selectedValidator || validator, amount))
                 Mixpanel.track("UNSTAKE finish")
+                Mixpanel.people.set({last_unstake_time: new Date().toString()})
             } catch(e) {
                 Mixpanel.track("UNSTAKE fail", {error: e.message})
             }
@@ -195,6 +199,7 @@ export function StakingContainer({ history, match }) {
             Mixpanel.track("WITHDRAW start")
             await dispatch(withdraw(currentAccount.accountId, selectedValidator || validator.accountId))
             Mixpanel.track("WITHDRAW finish")
+            Mixpanel.people.set({last_withdraw_time: new Date().toString()})
         } catch(e) {
             Mixpanel.track("WITHDRAW fail", {error: e.message})
         }

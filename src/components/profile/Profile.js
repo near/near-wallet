@@ -150,18 +150,20 @@ export function Profile({ match }) {
     }, []);
 
     useEffect(() => {
-        if (account.balance?.total) {
+        if (account.balance) {
             let id = Mixpanel.get_distinct_id()
             Mixpanel.identify(id)
             Mixpanel.people.set_once({create_date: new Date().toString(),})
             Mixpanel.people.set({
                 relogin_date: new Date().toString(),
                 enabled_2FA: account.has2fa,
-                [accountId]: formatNEAR(account.balance.total) 
+                [accountId+'total']: formatNEAR(account.balance.total), 
+                [accountId+'stake']: formatNEAR(account.balance.stateStaked),
+                [accountId+'available']: formatNEAR(account.balance.available)
             })
             Mixpanel.alias(accountId)
         }
-    },[account.balance?.total])
+    },[account.balance])
 
     useEffect(() => {
         if (userRecoveryMethods) {
