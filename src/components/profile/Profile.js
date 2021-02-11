@@ -169,7 +169,7 @@ export function Profile({ match }) {
     },[userRecoveryMethods])
 
     useEffect(()=> {
-        if(twoFactor){
+        if (twoFactor) {
             let id = Mixpanel.get_distinct_id()
             Mixpanel.identify(id)
             Mixpanel.people.set({
