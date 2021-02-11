@@ -121,7 +121,7 @@ class Routing extends Component {
             handleRedirectUrl(this.props.router.location)
             handleClearUrl()
             if (!WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS.find((path) => this.props.router.location.pathname.indexOf(path) > -1)) {
-                await refreshAccount()
+                await refreshAccount(true)
             }
 
             handleClearAlert()

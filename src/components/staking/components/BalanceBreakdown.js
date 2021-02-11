@@ -94,7 +94,9 @@ function BalanceBreakdown({ total, onClickAvailable, availableType, error }) {
     const [open, setOpen] = useState(false)
 
     const subtractAmount = nearApiJs.utils.format.parseNearAmount(WALLET_APP_MIN_AMOUNT)
-    const available = new BN(total).sub(new BN(subtractAmount)).isNeg() ? '0' :  new BN(total).sub(new BN(subtractAmount))
+    const available = total
+        ? new BN(total).sub(new BN(subtractAmount)).isNeg() ? '0' :  new BN(total).sub(new BN(subtractAmount))
+        : undefined
 
     return (
         <Translate>

@@ -7,13 +7,15 @@ import {
     clearCode,
     promptTwoFactor,
     refreshUrl,
-    refreshAccount,
+    refreshAccountOwner,
     resetAccounts,
     checkCanEnableTwoFactor,
     get2faMethod,
     getLedgerKey,
     updateStakingAccount,
-    updateStakingLockup
+    updateStakingLockup,
+    getBalance,
+    selectAccount
 } from '../../actions/account'
 
 const initialState = {
@@ -82,7 +84,7 @@ const ledgerKey = handleActions({
 }, initialState)
 
 const account = handleActions({
-    [refreshAccount]: (state, { payload, ready, meta }) => {
+    [refreshAccountOwner]: (state, { payload, ready, meta }) => {
 
         if (!ready) {
             return {
@@ -102,6 +104,10 @@ const account = handleActions({
         return {
             ...state,
             ...payload,
+            balance: {
+                ...payload?.balance,
+                ...state.balance
+            },
             ledger: undefined,
             ...resetAccountState,
             loader: false
@@ -111,7 +117,7 @@ const account = handleActions({
         ...state,
         loginResetAccounts: true
     }),
-    [updateStakingAccount]: (state, { error, meta, payload, ready }) => 
+    [updateStakingAccount]: (state, { error, payload, ready }) => 
         (!ready || error)
             ? state
             : ({
@@ -121,7 +127,7 @@ const account = handleActions({
                     account: payload
                 }
             }),
-    [updateStakingLockup]: (state, { error, meta, payload, ready }) => 
+    [updateStakingLockup]: (state, { error, payload, ready }) => 
         (!ready || error)
             ? state
             : ({
@@ -130,7 +136,20 @@ const account = handleActions({
                     ...state.balance,
                     lockupAccount: payload
                 }
-            })
+            }),
+    [getBalance]: (state, { error, payload, ready}) => 
+        (!ready || error)
+            ? state
+            : ({
+                ...state,
+                balance: {
+                    ...state.balance,
+                    ...payload
+                }
+            }),
+    [selectAccount]: () => {
+        return initialState
+    }
 }, initialState)
 
 export default reduceReducers(

@@ -7,7 +7,6 @@ import {
     redirectToApp, 
     handleAddAccessKeySeedPhrase, 
     refreshAccount, 
-    checkCanEnableTwoFactor, 
     checkIsNew, 
     handleCreateAccountWithSeedPhrase,
     loadRecoveryMethods
@@ -197,7 +196,6 @@ const mapDispatchToProps = {
     redirectToApp,
     handleAddAccessKeySeedPhrase,
     refreshAccount,
-    checkCanEnableTwoFactor,
     checkIsNew,
     handleCreateAccountWithSeedPhrase,
     loadRecoveryMethods

@@ -5,7 +5,7 @@ import {
     getLedgerAccountIds,
     addLedgerAccountId,
     saveAndSelectLedgerAccounts,
-    refreshAccount,
+    refreshAccountOwner,
     setLedgerTxSigned,
     clearSignInWithLedgerModalState,
     showLedgerModal
@@ -86,7 +86,7 @@ const ledgerActions = handleActions({
             }
             : state
     },
-    [refreshAccount]: (state, { payload }) => {
+    [refreshAccountOwner]: (state, { payload }) => {
         return {
             ...state,
             ...(payload && payload.ledger)

@@ -7,7 +7,7 @@ import LoginForm from './LoginForm'
 import LoginConfirm from './LoginConfirm'
 import LoginDetails from './LoginDetails'
 import LoginIncorrectContractId from './LoginIncorrectContractId'
-import { refreshAccount, handleRefreshUrl, switchAccount, allowLogin, redirectToApp } from '../../actions/account'
+import { handleRefreshUrl, switchAccount, allowLogin, redirectToApp, getBalance } from '../../actions/account'
 import { clearLocalAlert } from '../../actions/status'
 import { LOCKUP_ACCOUNT_ID_SUFFIX } from '../../utils/wallet'
 
@@ -15,6 +15,10 @@ class Login extends Component {
     state = {
         buttonLoader: false,
         dropdown: false
+    }
+
+    componentDidMount = () => {
+        this.props.getBalance()
     }
 
     handleOnClick = () => {
@@ -49,7 +53,6 @@ class Login extends Component {
 
     handleSelectAccount = accountId => {
         this.props.switchAccount(accountId)
-        this.props.refreshAccount()
     }
 
     redirectCreateAccount = () => {
@@ -120,12 +123,12 @@ class Login extends Component {
 }
 
 const mapDispatchToProps = {
-    refreshAccount,
     handleRefreshUrl,
     switchAccount,
     allowLogin,
     redirectToApp,
-    clearLocalAlert
+    clearLocalAlert,
+    getBalance
 }
 
 const mapStateToProps = ({ account }) => ({

@@ -17,12 +17,13 @@ import {
     showLedgerModal,
     redirectTo,
     fundCreateAccount,
-    finishAccountSetup
+    finishAccountSetup,
+    selectAccount
 } from '../actions/account'
 
 import { TwoFactor } from './twoFactor'
 import { Staking } from './staking'
-import { decorateWithLockup, getLockupAccountId } from './account-with-lockup'
+import { decorateWithLockup } from './account-with-lockup'
 import { MULTISIG_CHANGE_METHODS } from 'near-api-js/lib/account_multisig'
 
 export const WALLET_CREATE_NEW_ACCOUNT_URL = 'create'
@@ -183,7 +184,7 @@ class Wallet {
                         break
                     }   
                 }
-                this.selectAccount(nextAccountId)
+                store.dispatch(selectAccount(nextAccountId))
 
                 // TODO: Make sure "problem creating" only shows for actual creation
                 return {
@@ -211,13 +212,13 @@ class Wallet {
             const ledgerKey = accessKeys.find(key => key.meta.type === 'ledger')
             const account = await this.getAccount(this.accountId)
             const state = await account.state()
-            const hasLockup = await this.accountExists(getLockupAccountId(this.accountId))
 
             return {
                 ...state,
-                hasLockup,
                 has2fa: await TwoFactor.has2faEnabled(account),
-                balance: await this.getBalance(),
+                balance: {
+                    available: ''
+                },
                 accountId: this.accountId,
                 accounts: this.accounts,
                 accessKeys,
@@ -409,7 +410,7 @@ class Wallet {
 
     async saveAndSelectAccount(accountId, keyPair) {
         await this.saveAccount(accountId, keyPair)
-        this.selectAccount(accountId)
+        store.dispatch(selectAccount(accountId))
         // TODO: What does setAccountConfirmed do?
         setAccountConfirmed(this.accountId, false)
     }
@@ -564,7 +565,7 @@ class Wallet {
             await this.saveAccount(accountId)
         }))
 
-        this.selectAccount(accountIds[accountIds.length - 1])
+        store.dispatch(selectAccount(accountIds[accountIds.length - 1]))
 
         return {
             numberOfAccounts: accountIds.length
@@ -848,7 +849,7 @@ class Wallet {
                 await this.saveAccount(accountId, newKeyPair)
             }))
 
-            this.selectAccount(accountIdsSuccess[accountIdsSuccess.length - 1].accountId)
+            store.dispatch(selectAccount(accountIdsSuccess[accountIdsSuccess.length - 1].accountId))
 
             return {
                 numberOfAccounts: accountIdsSuccess.length,

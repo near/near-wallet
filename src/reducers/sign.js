@@ -2,7 +2,11 @@ import { utils, transactions as transaction } from 'near-api-js'
 import { handleActions } from 'redux-actions'
 import BN from 'bn.js'
 
-import { parseTransactionsToSign, signAndSendTransactions, setSignTransactionStatus } from '../actions/account'
+import { parseTransactionsToSign, signAndSendTransactions, setSignTransactionStatus, selectAccount } from '../actions/account'
+
+const initialState = {
+    status: 'needs-confirmation'
+}
 
 const sign = handleActions({
     [parseTransactionsToSign]: (state, { payload: { transactions: transactionsString, callbackUrl } }) => {
@@ -58,9 +62,10 @@ const sign = handleActions({
             ...state,
             status: payload.status
         }
+    },
+    [selectAccount]: () => {
+        return initialState
     }
-}, {
-    status: 'needs-confirmation'
-})
+}, initialState)
 
 export default sign

@@ -6,7 +6,7 @@ import { Translate } from 'react-localize-redux'
 import FormButton from '../common/FormButton'
 import ArrowCircleIcon from '../svg/ArrowCircleIcon'
 import AccountFormAccountId from '../accounts/AccountFormAccountId'
-import { checkAccountAvailable, sendMoney, refreshAccount } from '../../actions/account'
+import { checkAccountAvailable, sendMoney, getBalance } from '../../actions/account'
 import { clearLocalAlert } from '../../actions/status'
 import BalanceBreakdown from '../staking/components/BalanceBreakdown'
 import BN from 'bn.js'
@@ -50,8 +50,12 @@ export function SendContainer({ match, location }) {
     const [confirm, setConfirm] = useState(null)
     const [id, setId] = useState(match.params.id || '')
     const [success, setSuccess] = useState(null)
-    const amountAvailableToSend = new BN(balance.available).sub(new BN(parseNearAmount(WALLET_APP_MIN_AMOUNT)))
-    const sufficientBalance = !new BN(parseNearAmount(amount)).isZero() && (new BN(parseNearAmount(amount)).lte(amountAvailableToSend) || useMax) && isDecimalString(amount)
+    const amountAvailableToSend = balance.available
+        ? new BN(balance.available).sub(new BN(parseNearAmount(WALLET_APP_MIN_AMOUNT)))
+        : undefined
+    const sufficientBalance = balance.available
+        ? !new BN(parseNearAmount(amount)).isZero() && (new BN(parseNearAmount(amount)).lte(amountAvailableToSend) || useMax) && isDecimalString(amount)
+        : undefined
     const sendAllowed = ((localAlert && localAlert.success !== false) || id.length === 64) && sufficientBalance && amount && !mainLoader && !success
 
     useEffect(() => {
@@ -63,6 +67,10 @@ export function SendContainer({ match, location }) {
             setSuccess(null)
         }
     }, [location.key])
+
+    useEffect(() => {
+        dispatch(getBalance())
+    }, [])
 
     onKeyDown(e => {
         if (e.keyCode === 13 && sendAllowed) {
@@ -95,7 +103,7 @@ export function SendContainer({ match, location }) {
 
     const handleSend = async () => {
         await dispatch(sendMoney(id, parseNearAmount(amount)))
-        await dispatch(refreshAccount())
+        await dispatch(getBalance())
         setConfirm(false)
         setSuccess(true)
         window.scrollTo(0, 0)

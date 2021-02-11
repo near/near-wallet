@@ -6,7 +6,7 @@ import RecoveryContainer from './Recovery/RecoveryContainer'
 import BalanceContainer from './balances/BalanceContainer'
 import HardwareDevices from './hardware_devices/HardwareDevices'
 import TwoFactorAuth from './two_factor/TwoFactorAuth'
-import { getLedgerKey, checkCanEnableTwoFactor, getAccessKeys, redirectTo, refreshAccount, transferAllFromLockup, loadRecoveryMethods, getProfileStakingDetails } from '../../actions/account'
+import { getLedgerKey, checkCanEnableTwoFactor, getAccessKeys, redirectTo, refreshAccount, transferAllFromLockup, loadRecoveryMethods, getProfileStakingDetails, getBalance } from '../../actions/account'
 import styled from 'styled-components'
 import LockupAvailTransfer from './balances/LockupAvailTransfer'
 import UserIcon from '../svg/UserIcon'
@@ -141,6 +141,7 @@ export function Profile({ match }) {
                 await dispatch(loadRecoveryMethods())
                 dispatch(getAccessKeys(accountId))
                 dispatch(getLedgerKey())
+                await dispatch(getBalance())
                 dispatch(checkCanEnableTwoFactor(account))
                 dispatch(getProfileStakingDetails())
             }

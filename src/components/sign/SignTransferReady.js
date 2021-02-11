@@ -4,7 +4,7 @@ import { withRouter } from 'react-router-dom'
 import styled from 'styled-components'
 import { Translate } from 'react-localize-redux'
 import InfoPopup from '../common/InfoPopup'
-import { refreshAccount, switchAccount } from '../../actions/account'
+import { switchAccount } from '../../actions/account'
 import SignAnimatedArrow from './SignAnimatedArrow'
 import SignTransferDetails from './SignTransferDetails'
 import SelectAccountDropdown from '../login/SelectAccountDropdown'
@@ -151,7 +151,6 @@ class SignTransferReady extends Component {
 
     handleSelectAccount = accountId => {
         this.props.switchAccount(accountId)
-        this.props.refreshAccount()
     }
 
     redirectCreateAccount = () => {
@@ -189,7 +188,7 @@ class SignTransferReady extends Component {
                         </TransferAmount>
                         <CurrentBalance>
                             <Translate id='sign.availableBalance' />:&nbsp;
-                            {availableBalance && <Balance amount={availableBalance}/>}
+                            <Balance amount={availableBalance}/>
                             <InfoPopup content={<Translate id='availableBalanceInfo'/>}/>
                         </CurrentBalance>
                         <InlineNotification
@@ -228,7 +227,7 @@ class SignTransferReady extends Component {
                         </Button>
                         <FormButton
                             onClick={handleAllow}
-                            disabled={isMonetaryTransaction && insufficientFunds}
+                            disabled={isMonetaryTransaction && insufficientFunds || !availableBalance}
                             sending={sending}
                             sendingString='button.authorizing'
                         >
@@ -250,8 +249,7 @@ class SignTransferReady extends Component {
 }
 
 const mapDispatchToProps = {
-    refreshAccount,
-    switchAccount,
+    switchAccount
 }
 
 const mapStateToProps = ({ account, sign, availableAccounts }) => ({

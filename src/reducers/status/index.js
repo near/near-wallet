@@ -7,6 +7,8 @@ import {
     setMainLoader
 } from '../../actions/status'
 
+import { selectAccount } from '../../actions/account'
+
 const initialState = {
     mainLoader: false,
     actionStatus: {},
@@ -99,7 +101,10 @@ const clearReducer = handleActions({
                     }
                     : undefined)
             }), {})
-    })
+    }),
+    [selectAccount]: () => {
+        return initialState
+    }
 }, initialState)
 
 const mainLoader = handleActions({

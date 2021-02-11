@@ -3,7 +3,7 @@ import BN from 'bn.js'
 import { LOCKUP_MIN_BALANCE } from '../../utils/account-with-lockup'
 
 export const selectProfileBalance = (balance) => {
-    if (!balance) {
+    if (!balance || !balance.available) {
         return false
     }
 

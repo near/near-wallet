@@ -393,8 +393,10 @@ export const handleCreateAccountWithSeedPhrase = (accountId, recoveryKeyPair, fu
 }
 
                 
-export const finishAccountSetup = () => async (dispatch) => {
-    const account = await dispatch(refreshAccount())
+export const finishAccountSetup = () => async (dispatch, getState) => {
+    await dispatch(refreshAccount())
+    await dispatch(getBalance())
+    const account = getState().account
     
     let promptTwoFactor = await TwoFactor.checkCanEnableTwoFactor(account)
 
@@ -480,9 +482,22 @@ export const { signAndSendTransactions, setSignTransactionStatus, sendMoney, tra
     ]
 })
 
-export const { switchAccount, refreshAccount, refreshAccountExternal, refreshUrl, updateStakingAccount, updateStakingLockup } = createActions({
-    SWITCH_ACCOUNT: wallet.selectAccount.bind(wallet),
-    REFRESH_ACCOUNT: [
+export const refreshAccount = (basicData = false) => async (dispatch, getState) => {
+    await dispatch(refreshAccountOwner())
+
+    if (!basicData) {
+        dispatch(getBalance())
+    }
+}
+
+export const switchAccount = (accountId) => async (dispatch, getState) => {
+    dispatch(selectAccount(accountId))
+    await dispatch(refreshAccount())
+}
+
+export const { selectAccount, refreshAccountOwner, refreshAccountExternal, refreshUrl, updateStakingAccount, updateStakingLockup, getBalance } = createActions({
+    SELECT_ACCOUNT: wallet.selectAccount.bind(wallet),
+    REFRESH_ACCOUNT_OWNER: [
         wallet.refreshAccount.bind(wallet),
         () => ({ accountId: wallet.accountId })
     ],
@@ -512,5 +527,6 @@ export const { switchAccount, refreshAccount, refreshAccountExternal, refreshUrl
             accountId,
             ...showAlert({ onlyError: true })
         })
-    ]
+    ],
+    GET_BALANCE: wallet.getBalance.bind(wallet)
 })
