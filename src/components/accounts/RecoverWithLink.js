@@ -14,6 +14,7 @@ import { Translate } from 'react-localize-redux'
 import copyText from '../../utils/copyText'
 import isMobile from '../../utils/isMobile'
 import { DISABLE_CREATE_ACCOUNT } from '../../utils/wallet'
+import { Mixpanel } from '../../mixpanel/index'
 
 const Container = styled.div`
     margin-top: 5px;
@@ -131,6 +132,7 @@ class RecoverWithLink extends Component {
     }
 
     handleCopyUrl = () => {
+        Mixpanel.track("IE with link Click copy url button")
         if (navigator.share && isMobile()) {
             navigator.share({
                 url: window.location.href
@@ -153,10 +155,13 @@ class RecoverWithLink extends Component {
 
     handleContinue = async () => {
         try {
+            Mixpanel.track("IE Recover with link start")
             await this.props.recoverAccountSeedPhrase(this.state.seedPhrase, this.props.match.params.accountId, false)
+            Mixpanel.track("IE Recover with link finish")
             this.props.refreshAccount()
             this.props.redirectTo('/profile')
         } catch (error) {
+            Mixpanel.track("IE Recover with link fail", {error: error.message})
             this.setState({ successView: false });
         }
     }
@@ -201,7 +206,10 @@ class RecoverWithLink extends Component {
                             <Title>{translate('recoverWithLink.errorTitle')}</Title>
                             <Desc>{translate('recoverWithLink.errorP')}</Desc>
                             {!DISABLE_CREATE_ACCOUNT &&
-                                <Button onClick={() => history.push('/create')}>
+                                <Button onClick={() => {
+                                    Mixpanel.track("IE with link expired click create button")
+                                    history.push('/create')
+                                }}>
                                     {translate('button.createAccount')}
                                 </Button>
                             }

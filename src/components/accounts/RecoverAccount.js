@@ -8,7 +8,8 @@ import EmailIcon from '../../images/icon-recover-email.svg';
 import PhoneIcon from '../../images/icon-recover-phone.svg';
 import PhraseIcon from '../../images/icon-recover-seedphrase.svg';
 import HardwareDeviceIcon from '../../images/icon-hardware-device.svg';
-import Container from '../common/styled/Container.css'
+import Container from '../common/styled/Container.css';
+import { Mixpanel } from '../../mixpanel/index'
 
 const StyledContainer = styled(Container)`
 
@@ -139,12 +140,12 @@ const RecoverAccount = () => {
                 <Option>
                     <Header icon={PhraseIcon}><Translate id='recoverAccount.phrase.title'/><br/><Translate id='recoverAccount.actionType'/></Header>
                     <P><Translate id='recoverAccount.phrase.desc'/></P>
-                    <Button to='/recover-seed-phrase'><Translate id='button.recoverAccount' /></Button>
+                    <Button to='/recover-seed-phrase' onClick={()=> Mixpanel.track("IE Click seed phrase recovery button")}><Translate id='button.recoverAccount' /></Button>
                 </Option>
                 <Option>
                     <Header icon={HardwareDeviceIcon}><Translate id='recoverAccount.ledger.title'/><br/><Translate id='recoverAccount.actionType'/></Header>
                     <P><Translate id='recoverAccount.ledger.desc'/></P>
-                    <Button to='/sign-in-ledger'><Translate id='button.signInLedger' /></Button>
+                    <Button to='/sign-in-ledger' onClick={()=> Mixpanel.track("IE Click ledger recovery button")}><Translate id='button.signInLedger' /></Button>
                 </Option>
             </Options>
         </StyledContainer>

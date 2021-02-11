@@ -19,6 +19,8 @@ import isMobile from '../../utils/isMobile'
 import { Snackbar, snackbarDuration } from '../common/Snackbar'
 import Container from '../common/styled/Container.css'
 import { KeyPair } from 'near-api-js'
+import { Mixpanel } from '../../mixpanel/index'
+
 class SetupSeedPhrase extends Component {
     state = {
         seedPhrase: '',
@@ -55,6 +57,7 @@ class SetupSeedPhrase extends Component {
     }
 
     handleChangeWord = (e, { name, value }) => {
+        Mixpanel.track("SR-SP Change seed phrase word")
         if (value.match(/[^a-zA-Z]/)) {
             return false
         }
@@ -78,7 +81,7 @@ class SetupSeedPhrase extends Component {
 
     handleVerifyPhrase = () => {
         const { seedPhrase, enterWord, wordId, submitting } = this.state
-
+        Mixpanel.track("SR-SP Verify seed phrase start")
         if (enterWord !== seedPhrase.split(' ')[wordId]) {
             this.setState(() => ({
                 localAlert: {
@@ -86,12 +89,14 @@ class SetupSeedPhrase extends Component {
                     messageCode: 'account.verifySeedPhrase.error'
                 }
             }))
+            Mixpanel.track("SR-SP Verify seed phrase fail", {error: 'word is not matched the phrase'})
             return false
         }
 
         if (!submitting) {
             this.setState({ submitting: true }, this.handleSetupSeedPhrase)
         }
+        Mixpanel.track("SR-SP Verify seed phrase finish")
     }
 
     handleSetupSeedPhrase = async () => {
@@ -103,19 +108,29 @@ class SetupSeedPhrase extends Component {
             location
         } = this.props
         const { recoveryKeyPair } = this.state
-
         const isNew = await checkIsNew(accountId)
 
         if (!isNew) {
-            await handleAddAccessKeySeedPhrase(accountId, recoveryKeyPair)
+            try {
+                await handleAddAccessKeySeedPhrase(accountId, recoveryKeyPair)
+                Mixpanel.track("SR-SP Setup seed phrase for existing account")
+            } catch(e) {
+                Mixpanel.track("SR-SP Verify seed phrase fail", {error: e.message})
+            }
             return
         }
 
         const fundingOptions = JSON.parse(parseQuery(location.search).fundingOptions || 'null')
-        await handleCreateAccountWithSeedPhrase(accountId, recoveryKeyPair, fundingOptions)
+        try {
+            await handleCreateAccountWithSeedPhrase(accountId, recoveryKeyPair, fundingOptions)
+            Mixpanel.track("SR-SP Setup new account start")
+        } catch(e) {
+            Mixpanel.track("SR-SP Verify seed phrase fail", {error: e.message})
+        }
     }
 
     handleCopyPhrase = () => {
+        Mixpanel.track("SR-SP Copy seed phrase")
         if (navigator.share && isMobile()) {
             navigator.share({
                 text: this.state.seedPhrase

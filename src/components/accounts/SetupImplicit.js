@@ -16,6 +16,7 @@ import AccountFundedModal from './AccountFundedModal'
 import { createAccountFromImplicit, redirectTo } from '../../actions/account'
 import { NETWORK_ID, NODE_URL, ACCOUNT_HELPER_URL, MIN_BALANCE_FOR_GAS } from '../../utils/wallet'
 import sendJson from 'fetch-send-json'
+import { Mixpanel } from '../../mixpanel'
 
 const StyledContainer = styled(Container)`
     .account-id-wrapper {
@@ -83,9 +84,15 @@ class SetupImplicit extends Component {
     state = { ...initialState }
 
     handleContinue = async () => {
+        Mixpanel.track("CA Create account from implicit start")
         const { dispatch, accountId, implicitAccountId, recoveryMethod } = this.props
         this.setState({ createAccount: true })
-        await dispatch(createAccountFromImplicit(accountId, implicitAccountId, recoveryMethod))
+        try {
+            await dispatch(createAccountFromImplicit(accountId, implicitAccountId, recoveryMethod))
+            Mixpanel.track("CA Create account from implicit finish")
+        } catch(e) {
+            Mixpanel.track("CA Create account from implicit fail", {error: e.message})
+        }
         await dispatch(redirectTo('/fund-create-account/success'))
     }
 
@@ -95,6 +102,7 @@ class SetupImplicit extends Component {
     }
 
     isMoonpayAvailable = async () => {
+        Mixpanel.track("CA Check moonpay available start")
         const MOONPAY_API_URL = 'https://api.moonpay.com'
         const moonpayGet = (path) => sendJson('GET', `${MOONPAY_API_URL}${path}?apiKey=${MOONPAY_API_KEY}`)
         const isAllowed = ({ isAllowed, isBuyAllowed }) => isAllowed && isBuyAllowed
@@ -136,23 +144,29 @@ class SetupImplicit extends Component {
                 this.setState({ moonpayAvailable, moonpaySignedURL })
             }
         } catch (e) {
+            Mixpanel.track("CA Check moonpay available fail", {error: e.message})
             console.warn('Error checking Moonpay', e);
         }
     }
 
     checkBalance = async () => {
+        Mixpanel.track("CA Check balance from implicit start")
         const { implicitAccountId } = this.props
 
         const account = new nearApiJs.Account(this.connection, implicitAccountId)
         try {
             const state = await account.state()
             if (new BN(state.amount).gte(MIN_BALANCE_TO_CREATE)) {
+                Mixpanel.track("CA Check balance from implicit: sufficient")
                 return this.setState({ balance: formatNearAmount(state.amount, 2), whereToBuy: false, createAccount: true })
+            }else {
+                Mixpanel.track("CA Check balance from implicit: insufficient")
             }
         } catch (e) {
             if (e.message.indexOf('exist while viewing') === -1) {
                 throw e
             }
+            Mixpanel.track("CA Check balance from implicit fail", {error: e.message})
             this.setState({ balance: false })
         }
     }
@@ -179,6 +193,7 @@ class SetupImplicit extends Component {
     // TODO: Refactor: Extract utility to copy text
     // optionally pass in string to copy: textToCopy
     handleCopyPhrase = (textToCopy) => {
+        Mixpanel.track("CA Copy funding address")
         if (typeof textToCopy !== 'string') {
             textToCopy = null
         }
@@ -223,7 +238,10 @@ class SetupImplicit extends Component {
                         <h2><Translate id='account.createImplicit.pre.descOne' data={{ amount: formatNearAmount(MIN_BALANCE_TO_CREATE) }}/></h2>
                         <h2><Translate id='account.createImplicit.pre.descTwo'/></h2>
                         <FormButton
-                            onClick={() => this.setState({ whereToBuy: true })}
+                            onClick={() => {
+                                this.setState({ whereToBuy: true })
+                                Mixpanel.track("CA Click where to buy button")
+                            }}
                             color='link'
                             className='where-to-buy-link'
                         >

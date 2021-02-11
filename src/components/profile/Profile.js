@@ -14,11 +14,12 @@ import ShieldIcon from '../svg/ShieldIcon'
 import LockIcon from '../svg/LockIcon'
 import { actionsPending } from '../../utils/alerts'
 import BN from 'bn.js'
-import SkeletonLoading from '../common/SkeletonLoading';
+import SkeletonLoading from '../common/SkeletonLoading'
 import InfoPopup from '../common/InfoPopup'
 import { selectProfileBalance } from '../../reducers/selectors/balance'
 import { useAccount } from '../../hooks/allAccounts'
-import { Mixpanel } from "../../mixpanel/index"; 
+import { Mixpanel } from "../../mixpanel/index"
+import { formatNEAR } from '../common/Balance'
 
 
 const StyledContainer = styled(Container)`
@@ -148,11 +149,35 @@ export function Profile({ match }) {
         })()
     }, []);
 
-    useEffect(()=> {
-        if(twoFactor){
+    useEffect(() => {
+        let id = Mixpanel.get_distinct_id()
+        Mixpanel.identify(id)
+        Mixpanel.people.set_once({create_date: new Date().toString(),})
+        Mixpanel.people.set({
+            relogin_date: new Date().toString(),
+            enabled_2FA: account.has2fa,
+            [accountId]: formatNEAR(account.balance.total) })
+        Mixpanel.alias(accountId)
+    },[])
+
+    useEffect(() => {
+        if (userRecoveryMethods) {
             let id = Mixpanel.get_distinct_id()
             Mixpanel.identify(id)
-            Mixpanel.people.set({create_2FA_at: twoFactor.createdA, enable_2FA_kind:twoFactor.kind, enabled_2FA: true })
+            let methods = userRecoveryMethods.map(method => method.kind)
+            Mixpanel.people.set({recovery_method: methods})
+        }
+    },[userRecoveryMethods])
+
+    useEffect(()=> {
+        if (twoFactor) {
+            let id = Mixpanel.get_distinct_id()
+            Mixpanel.identify(id)
+            Mixpanel.people.set({
+                create_2FA_at: twoFactor.createdAt, 
+                enable_2FA_kind:twoFactor.kind, 
+                enabled_2FA: twoFactor.confirmed, 
+                detail_2FA: twoFactor.detail})
         }
     }, [twoFactor])
 

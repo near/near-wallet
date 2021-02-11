@@ -11,6 +11,7 @@ import BrokenLinkIcon from '../svg/BrokenLinkIcon';
 import FormButton from '../common/FormButton'
 import AccountFormAccountId from './AccountFormAccountId'
 import AccountNote from '../common/AccountNote'
+import { Mixpanel } from '../../mixpanel/index'
 
 const StyledContainer = styled(Container)`
 
@@ -91,8 +92,10 @@ class CreateAccount extends Component {
 
     handleCheckNearDropBalance = async () => {
         try {
+            Mixpanel.track("CA Check near drop balance start")
             await this.props.checkNearDropBalance(this.props.fundingContract, this.props.fundingKey)
         } catch(e) {
+            Mixpanel.track("CA Check near drop balance fail", {error: e.message})
             this.setState({ invalidNearDrop: true })
         }
     }
@@ -122,7 +125,7 @@ class CreateAccount extends Component {
         let nextUrl = process.env.DISABLE_PHONE_RECOVERY === 'yes' ?
             `/setup-seed-phrase/${accountId}/phrase${queryString}` :
             `/set-recovery/${accountId}${queryString}`;
-
+        Mixpanel.track("CA Click create account button")
         this.props.history.push(nextUrl);
     }
 
@@ -158,7 +161,7 @@ class CreateAccount extends Component {
                             <Translate id='button.createAccountCapital'/>
                         </FormButton>
                         <div className='alternatives-title'><Translate id='createAccount.alreadyHaveAnAccount'/></div>
-                        <div className='alternatives'>
+                        <div className='alternatives' onClick={() => {Mixpanel.track("CA Click import existing account button")}}>
                             <Link to={process.env.DISABLE_PHONE_RECOVERY === 'yes' ? '/recover-seed-phrase' : '/recover-account'}><Translate id='createAccount.recoverItHere' /></Link>
                         </div>
                     </form>

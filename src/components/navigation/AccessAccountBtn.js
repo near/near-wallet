@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { Translate } from 'react-localize-redux';
+import { Mixpanel } from '../../mixpanel/index'
 
 const Button = styled(Link)`
     display: block;
@@ -36,7 +37,7 @@ const Button = styled(Link)`
 `
 
 const AccessAccountBtn = () => (
-    <Button to='/recover-account'>
+    <Button to='/recover-account' onClick={() => Mixpanel.track("IE Click add account button")}>
         <Translate id='button.addAccount'/>
     </Button>
 )

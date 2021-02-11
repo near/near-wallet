@@ -17,6 +17,7 @@ import AccessKeysIcon from '../../images/icon-keys-grey.svg'
 import DashboardKeys from './DashboardKeys'
 
 import { TRANSACTIONS_REFRESH_INTERVAL, EXPLORER_URL, ENABLE_FULL_ACCESS_KEYS, DISABLE_SEND_MONEY } from '../../utils/wallet'
+import { Mixpanel } from "../../mixpanel/index"
 
 class DashboardDetail extends Component {
     state = {
@@ -34,6 +35,10 @@ class DashboardDetail extends Component {
         this.setState(() => ({
             loader: true
         }))
+
+        let id = Mixpanel.get_distinct_id()
+        Mixpanel.identify(id)
+        Mixpanel.people.set({relogin_date: new Date().toString()})
     }
 
     componentWillUnmount = () => {

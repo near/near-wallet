@@ -3,6 +3,7 @@ import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 import Button from '../../common/Button';
 import FormButton from '../../common/FormButton';
+import { Mixpanel } from '../../../mixpanel/index'
 
 const EnabledContainer = styled.div`
     &&& {
@@ -140,7 +141,13 @@ class ActiveMethod extends Component {
                             </div>
                             <div className='info'>{data.detail}</div>
                         </div>
-                        <Button onClick={this.handleToggleDisable} title='Disable'>
+                        <Button 
+                            onClick={() => {
+                                Mixpanel.track(data.kind === 'phrase' ? 'SR-SP Click disable button': `SR Click disable button for ${data.kind}`)
+                                this.handleToggleDisable()
+                            }} 
+                            title='Disable'
+                        >
                             <Translate id='button.disable'/>
                         </Button>
                     </div>
@@ -155,7 +162,14 @@ class ActiveMethod extends Component {
                     {!deleteAllowed &&
                         <div className='not-allowed'>
                             <Translate id='recoveryMgmt.disableNotAllowed'/>
-                            <FormButton onClick={this.handleToggleDisable} type='button' className='small gray-blue'>
+                            <FormButton 
+                                onClick={() => {
+                                    Mixpanel.track(data.kind === 'phrase'? 'SR-SP Click close button': `SR Click close button for ${data.kind}`)
+                                    this.handleToggleDisable()
+                                }}  
+                                type='button' 
+                                className='small gray-blue'
+                            >
                                 <Translate id='button.close'/>    
                             </FormButton>
                         </div>
@@ -190,7 +204,14 @@ class ActiveMethod extends Component {
                                 >
                                     <Translate id='button.disable'/> {data.kind}
                                 </FormButton>
-                                <FormButton type='button' color='link' onClick={this.handleToggleDisable}>
+                                <FormButton 
+                                    type='button' 
+                                    color='link' 
+                                    onClick={() => {
+                                        Mixpanel.track(data.kind === 'phrase'? 'SR-SP Click close link': `SR Click close link for ${data.kind}`)
+                                        this.handleToggleDisable()
+                                    }}
+                                >
                                     <Translate id='recoveryMgmt.disableNo'/> {data.kind}
                                 </FormButton>
                             </div>
