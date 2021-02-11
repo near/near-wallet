@@ -87,6 +87,7 @@ class DashboardDetail extends Component {
                     <FormButton 
                         linkTo='/send-money'
                         color='green-white-arrow'
+                        onClick={() => Mixpanel.track("SEND Click send button")}
                     >
                         <Translate id='button.send' />
                     </FormButton>

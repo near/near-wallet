@@ -92,11 +92,11 @@ const NavLink = styled(Link)`
 
 const NavLinks = () => (
     <Container className='nav-links'>
-        <NavLink icon={summaryIcon} to='/' onClick={() => Mixpanel.track("Click summary button") }><Translate id='link.summary'/></NavLink>
+        <NavLink icon={summaryIcon} to='/' onClick={() => Mixpanel.track("Click summary button on nav") }><Translate id='link.summary'/></NavLink>
         {!DISABLE_SEND_MONEY &&
-            <NavLink icon={arrowIcon} className='rotate-up' to='/send-money' onClick={() => Mixpanel.track("SEND Click send button")}><Translate id='link.send'/></NavLink>
+            <NavLink icon={arrowIcon} className='rotate-up' to='/send-money' onClick={() => Mixpanel.track("SEND Click send button on nav")}><Translate id='link.send'/></NavLink>
         }
-        <NavLink icon={arrowIcon} className='rotate-down' to='/receive-money' onClick={() => Mixpanel.track("RECEIVE Click receive button")}><Translate id='link.receive'/></NavLink>
+        <NavLink icon={arrowIcon} className='rotate-down' to='/receive-money' onClick={() => Mixpanel.track("RECEIVE Click receive button on nav")}><Translate id='link.receive'/></NavLink>
         <NavLink icon={stakingIcon} to='/staking' onClick={() => Mixpanel.track("STAKE Click staking button")}><Translate id='link.staking'/></NavLink>
     </Container>
 )
