@@ -48,13 +48,13 @@ const RecoveryContainer = ({ type, recoveryMethods }) => {
 
     const handleDeleteMethod = async (method) => {
         try {
-            Mixpanel.track(method.kind === 'phrase'? 'SR-SP Delete method start': 'SR Delete method start')
+            Mixpanel.track(method.kind === 'phrase'? 'SR-SP Delete method start': `SR ${method.kind} Delete method start`)
             setDeletingMethod(method.publicKey)
             try {
                 await dispatch(deleteRecoveryMethod(method, deleteAllowed))
-                Mixpanel.track(method.kind === 'phrase'? 'SR-SP Delete method finish': 'SR Delete method finish')
+                Mixpanel.track(method.kind === 'phrase'? 'SR-SP Delete method finish': `SR ${method.kind} Delete method finish`)
             } catch(e) {
-                Mixpanel.track(method.kind === 'phrase'? 'SR-SP Delete method fail': 'SR Delete method fail', {error: e.message})
+                Mixpanel.track(method.kind === 'phrase'? 'SR-SP Delete method fail': `SR ${method.kind} Delete method fail`, {error: e.message})
             }
             
         } finally {

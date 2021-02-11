@@ -36,7 +36,7 @@ const InactiveMethod = ({ method, accountId }) => (
                 pathname: `${method !== 'phrase' ? `/set-recovery/${accountId}` : `/setup-seed-phrase/${accountId}/phrase`}`,
                 method: method
             }}
-            onClick={() => Mixpanel.track(method === 'phrase' ? 'SR-SP Click enable button for seed phrase': method === 'email'? 'SR Click button for email': 'SR Click button for phone')}
+            onClick={() => Mixpanel.track(method === 'phrase' ? 'SR-SP Click enable button for seed phrase': `SR Click enable button for ${method}`)}
         >
             <Translate id='button.enable'/>
         </Button>
