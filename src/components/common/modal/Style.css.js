@@ -33,8 +33,9 @@ const Style = styled.div`
     }
 
     &.fade-out {
+        visibility: hidden;
         opacity: 0;
-        transition: 0.3s;
+        transition: opacity 0.3s, visibility 0.3s;
     }
 
     .background {
