@@ -3,6 +3,7 @@ import { Translate } from 'react-localize-redux'
 
 import FormButton from '../common/FormButton'
 import KeyListItem from './KeyListItem'
+import { Mixpanel } from '../../mixpanel/index'
 
 import { Grid, Image } from 'semantic-ui-react'
 
@@ -79,6 +80,7 @@ const DashboardKeys = ({ image, title, to, accessKeys, empty }) => (
                         linkTo={to}
                         color='gray-blue'
                         size='small'
+                        onClick={() => Mixpanel.track(`Go to ${to} page`)}
                     >
                         <Translate id='button.viewAll' />
                     </FormButton>

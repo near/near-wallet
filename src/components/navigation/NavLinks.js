@@ -6,6 +6,7 @@ import arrowIcon from '../../images/icon-send.svg';
 import stakingIcon from '../../images/icon-staking-green.svg';
 import { Translate } from 'react-localize-redux';
 import { DISABLE_SEND_MONEY } from '../../utils/wallet';
+import { Mixpanel } from '../../mixpanel/index';
 
 const Container = styled.div`
     display: flex;
@@ -91,12 +92,12 @@ const NavLink = styled(Link)`
 
 const NavLinks = () => (
     <Container className='nav-links'>
-        <NavLink icon={summaryIcon} to='/'><Translate id='link.summary'/></NavLink>
+        <NavLink icon={summaryIcon} to='/' onClick={() => Mixpanel.track("Click summary button") }><Translate id='link.summary'/></NavLink>
         {!DISABLE_SEND_MONEY &&
-            <NavLink icon={arrowIcon} className='rotate-up' to='/send-money'><Translate id='link.send'/></NavLink>
+            <NavLink icon={arrowIcon} className='rotate-up' to='/send-money' onClick={() => Mixpanel.track("SEND Click send button")}><Translate id='link.send'/></NavLink>
         }
-        <NavLink icon={arrowIcon} className='rotate-down' to='/receive-money'><Translate id='link.receive'/></NavLink>
-        <NavLink icon={stakingIcon} to='/staking'><Translate id='link.staking'/></NavLink>
+        <NavLink icon={arrowIcon} className='rotate-down' to='/receive-money' onClick={() => Mixpanel.track("RECEIVE Click receive button")}><Translate id='link.receive'/></NavLink>
+        <NavLink icon={stakingIcon} to='/staking' onClick={() => Mixpanel.track("STAKE Click staking button")}><Translate id='link.staking'/></NavLink>
     </Container>
 )
 

@@ -10,6 +10,7 @@ import UserBalance from './UserBalance';
 import UserName from './UserName';
 import DesktopMenu from './DesktopMenu';
 import LanguageToggle from '../common/LangSwitcher';
+import { Mixpanel } from '../../mixpanel/index';
 
 const Container = styled.div`
     display: none;
@@ -238,7 +239,11 @@ class DesktopContainer extends Component {
                 {showNavLinks &&
                     <NavLinks />
                 }
-                <Help href='https://nearhelp.zendesk.com/' target='_blank' rel='noopener noreferrer'>
+                <Help 
+                    href='https://nearhelp.zendesk.com/' 
+                    target='_blank' 
+                    rel='noopener noreferrer'
+                    onClick={() => Mixpanel.track("Click Help button")}>
                     <Translate id='link.help'/>
                 </Help>
                 <Lang>

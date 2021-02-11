@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Grid, List, Item } from 'semantic-ui-react'
 import { Translate } from 'react-localize-redux'
 import LogoFooterImage from '../../images/near.svg'
+import { Mixpanel } from '../../mixpanel/index'
 
 import styled from 'styled-components'
 
@@ -142,9 +143,19 @@ class Footer extends Component {
                                 <Item.Content>
                                     &copy; {new Date().getFullYear()} <Translate id='footer.copyrights' />
                                     <br />
-                                    <a href='/'><Translate id='footer.termsOfService' /></a>
+                                    <a 
+                                        href="https://near.org/privacy/" 
+                                        onClick={() => Mixpanel.track("Click terms of service")}
+                                    >
+                                        <Translate id='footer.termsOfService' />
+                                    </a>
                                     <span className='color-brown-grey'>|</span>
-                                    <a href='/'><Translate id='footer.privacyPolicy' /></a>
+                                    <a 
+                                        href="https://near.org/privacy/" 
+                                        onClick={() => Mixpanel.track("Click privacy policy")}
+                                    >
+                                        <Translate id='footer.privacyPolicy' />
+                                    </a>
                                 </Item.Content>
                             </Item>
                         </Item.Group>
@@ -155,7 +166,10 @@ class Footer extends Component {
                         className='learn-more'
                         verticalAlign='middle'
                     >
-                        <Translate id='footer.desc' /> <a href='https://nearprotocol.com/'><Translate id='footer.learnMore' /></a>
+                        <Translate id='footer.desc' /> 
+                        <a href='https://near.org' onClick={() => Mixpanel.track("Click Learn More")}>
+                            <Translate id='footer.learnMore' />
+                        </a>
                     </Grid.Column>
                     <Grid.Column
                         only='tablet computer'
@@ -169,7 +183,7 @@ class Footer extends Component {
                         <List floated='right'>
                             <List.Item as='h3'><Translate id='footer.needHelp' /></List.Item>
                             <List.Item as='h3' className='color'>
-                                <a href='https://near.chat'>
+                                <a href='https://near.chat' onClick={() => Mixpanel.track("Click Join Community")}>
                                     <Translate id='footer.contactSupport' />
                                 </a>
                             </List.Item>
