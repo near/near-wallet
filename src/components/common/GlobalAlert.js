@@ -174,7 +174,7 @@ const GlobalAlertNew = ({ globalAlert, actionStatus, clearGlobalAlert, closeIcon
                     <Alert key={`alert-${i}`} success={alert.success} closing={closing} className={`number-${alert.type}`} type={alert.type}>
                         <Content>
                             <Icon>
-                                <img src={alert.success ? IconCheckCircleImage : IconsAlertCircleImage} alt={alert.success ? 'Success' : 'Error'} />
+                                <img src={alert.success ? IconCheckCircleImage : IconsAlertCircleImage} />
                             </Icon>
                             <Text>
                                 <Header success={alert.success}>
@@ -182,7 +182,7 @@ const GlobalAlertNew = ({ globalAlert, actionStatus, clearGlobalAlert, closeIcon
                                 </Header>
                                 <Translate>
                                     {({ translate }) => 
-                                        (typeof translate(alert.messageCode) === 'string' ? translate(alert.messageCode) : '').includes(alert.messageCode)
+                                        (typeof translate(alert.messageCode) === 'string' ? translate(alert.messageCode) : '').includes('No default translation found!')
                                             ? <Translate id={`reduxActions.default.${alert.success ? 'success' : 'error'}`} />
                                             : <Translate id={alert.messageCode} data={alert.data} />
                                     }

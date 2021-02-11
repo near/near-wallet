@@ -57,8 +57,6 @@ const theme = {}
 
 const PATH_PREFIX = process.env.PUBLIC_URL
 
-const onMissingTranslation = ({ defaultTranslation }) => defaultTranslation;
-
 const Container = styled.div`
     min-height: 100vh;
     padding-bottom: 200px;
@@ -91,7 +89,7 @@ class Routing extends Component {
             languages,
             options: {
                 defaultLanguage: 'en',
-                onMissingTranslation,
+                onMissingTranslation: ({ defaultTranslation }) => defaultTranslation,
                 renderToStaticMarkup: false,
                 renderInnerHtml: true
             }
