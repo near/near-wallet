@@ -3,6 +3,7 @@ import { Translate } from 'react-localize-redux'
 import styled from 'styled-components'
 import NearCircleIcon from '../../svg/NearCircleIcon.js'
 import FormButton from '../../common/FormButton'
+import { Mixpanel } from '../../../mixpanel/index'
 
 const Container = styled.div`
     background-color: #F8F8F8;
@@ -37,7 +38,13 @@ export default function NoValidators() {
         <Container className='no-validators'>
             <NearCircleIcon/>
             <div><Translate id='staking.noValidators.title' /></div>
-            <FormButton className='gray-blue dark' linkTo='/staking/validators'><Translate id='staking.staking.button' /></FormButton>
+            <FormButton 
+                className='gray-blue dark' 
+                linkTo='/staking/validators'
+                onClick={() => Mixpanel.track("STAKE Click stake my tokens button : no validators")}
+            >
+                <Translate id='staking.staking.button' />
+            </FormButton>
         </Container>
     )
 }

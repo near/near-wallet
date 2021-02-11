@@ -12,6 +12,7 @@ import Validator from './components/Validator'
 import StakingAction from './components/StakingAction'
 import { setStakingAccountSelected, getStakingAccountSelected } from '../../utils/localStorage'
 import { getBalance } from '../../actions/account'
+import { Mixpanel } from '../../mixpanel/index'
 
 const StyledContainer = styled(Container)`
     button {
@@ -168,16 +169,35 @@ export function StakingContainer({ history, match }) {
     
     const handleStakingAction = async (action, validator, amount) => {
         if (action === 'stake') {
-            await dispatch(stake(currentAccount.accountId, validator, amount))
+            try {
+                Mixpanel.track("STAKE start")
+                await dispatch(stake(currentAccount.accountId, validator, amount))
+                Mixpanel.track("STAKE finish")
+            } catch(e) {
+                Mixpanel.track("STAKE fail", {error: e.message})
+            }
         } else if (action === 'unstake') {
-            await dispatch(unstake(currentAccount.accountId, selectedValidator || validator, amount))
+            try {
+                Mixpanel.track("UNSTAKE start")
+                await dispatch(unstake(currentAccount.accountId, selectedValidator || validator, amount))
+                Mixpanel.track("UNSTAKE finish")
+            } catch(e) {
+                Mixpanel.track("UNSTAKE fail", {error: e.message})
+            }
+            
         }
         await dispatch(clearGlobalAlert())
         await dispatch(updateStaking(currentAccount.accountId, [validator]))
     }
 
     const handleWithDraw = async () => {
-        await dispatch(withdraw(currentAccount.accountId, selectedValidator || validator.accountId))
+        try {
+            Mixpanel.track("WITHDRAW start")
+            await dispatch(withdraw(currentAccount.accountId, selectedValidator || validator.accountId))
+            Mixpanel.track("WITHDRAW finish")
+        } catch(e) {
+            Mixpanel.track("WITHDRAW fail", {error: e.message})
+        }
         await dispatch(updateStaking(currentAccount.accountId))
     }
 

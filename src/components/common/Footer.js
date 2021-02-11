@@ -166,7 +166,7 @@ class Footer extends Component {
                         className='learn-more'
                         verticalAlign='middle'
                     >
-                        <Translate id='footer.desc' /> 
+                        <Translate id='footer.desc' />{' '}
                         <a href='https://near.org' onClick={() => Mixpanel.track("Click Learn More")}>
                             <Translate id='footer.learnMore' />
                         </a>

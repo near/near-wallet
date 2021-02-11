@@ -91,7 +91,7 @@ export function SendContainer({ match, location }) {
 
     const handleSetUseMax = () => {
         if (amountAvailableToSend.gt(new BN('0'))) {
-            Mixpanel.track("SEND Use max button")
+            Mixpanel.track("SEND Use max amount")
             setUseMax(true)
             setAmount(formatNearAmount(amountAvailableToSend, 5).replace(/,/g, ''))
         }
