@@ -150,27 +150,28 @@ export function Profile({ match }) {
     }, []);
 
     useEffect(() => {
-        if (account.balance) {
+        if (account.balance?.total) {
             let id = Mixpanel.get_distinct_id()
             Mixpanel.identify(id)
             Mixpanel.people.set_once({create_date: new Date().toString(),})
             Mixpanel.people.set({
                 relogin_date: new Date().toString(),
                 enabled_2FA: account.has2fa,
-                [accountId+'total']: formatNEAR(account.balance.total), 
-                [accountId+'stake']: formatNEAR(account.balance.stateStaked),
-                [accountId+'available']: formatNEAR(account.balance.available)
+                [accountId + '_total']: formatNEAR(account.balance.total), 
+                [accountId + '_stake']: formatNEAR(account.balance.stateStaked),
+                [accountId + '_available']: formatNEAR(account.balance.available)
             })
             Mixpanel.alias(accountId)
         }
-    },[account.balance])
+    },[account.balance?.total])
 
     useEffect(() => {
         if (userRecoveryMethods) {
             let id = Mixpanel.get_distinct_id()
             Mixpanel.identify(id)
-            let methods = userRecoveryMethods.map(method => method.kind)
-            Mixpanel.people.set({recovery_method: methods})
+            userRecoveryMethods.map(method => {
+                Mixpanel.people.set({['recovery_with_'+method.kind]:true})
+            })
         }
     },[userRecoveryMethods])
 

@@ -161,7 +161,7 @@ class CreateAccount extends Component {
                             <Translate id='button.createAccountCapital'/>
                         </FormButton>
                         <div className='alternatives-title'><Translate id='createAccount.alreadyHaveAnAccount'/></div>
-                        <div className='alternatives' onClick={() => {Mixpanel.track("CA Click import existing account button")}}>
+                        <div className='alternatives' onClick={() => {Mixpanel.track("IE Click import existing account button")}}>
                             <Link to={process.env.DISABLE_PHONE_RECOVERY === 'yes' ? '/recover-seed-phrase' : '/recover-account'}><Translate id='createAccount.recoverItHere' /></Link>
                         </div>
                     </form>

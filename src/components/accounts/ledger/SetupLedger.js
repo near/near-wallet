@@ -24,7 +24,14 @@ const SetupLedger = (props) => {
 
     const [showInstructions, setShowInstructions] = useState(false);
     const [connect, setConnect] = useState(false);
-    const toggleShowInstructions = () => setShowInstructions(!showInstructions);
+    const openShowInstructions = () => {
+        setShowInstructions(true)
+        Mixpanel.track("SR-Ledger See instructions")
+    }
+    const closeShowInstructions = () => {
+        setShowInstructions(false)
+        Mixpanel.track("SR-Ledger Close instructions")
+    }
 
     const handleClick = async () => {
         const {
@@ -85,7 +92,7 @@ const SetupLedger = (props) => {
             <LedgerIcon/>
             <h2>
                 <Translate id='setupLedger.one'/>
-                &nbsp;<Translate id='setupLedger.two'/> <span className='link underline' onClick={toggleShowInstructions}><Translate id='setupLedger.twoLink'/></span>.
+                &nbsp;<Translate id='setupLedger.two'/> <span className='link underline' onClick={openShowInstructions}><Translate id='setupLedger.twoLink'/></span>.
             </h2>
             <FormButton onClick={handleClick} sending={props.mainLoader} sendingString='button.connecting'>
                 <Translate id={`button.${connect !== 'fail' ? 'continue' : 'retry'}`}/>
@@ -100,7 +107,7 @@ const SetupLedger = (props) => {
                     <Translate id='button.cancel'/>
                 </button>
             {showInstructions && 
-                <InstructionsModal open={showInstructions} onClose={toggleShowInstructions}/>
+                <InstructionsModal open={showInstructions} onClose={closeShowInstructions}/>
             }
         </Container>
     );
