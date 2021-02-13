@@ -171,38 +171,33 @@ export function StakingContainer({ history, match }) {
         let id = Mixpanel.get_distinct_id()
         Mixpanel.identify(id)
         if (action === 'stake') {
-            try {
-                Mixpanel.track("STAKE start")
-                await dispatch(stake(currentAccount.accountId, validator, amount))
-                Mixpanel.track("STAKE finish")
-                Mixpanel.people.set({last_stake_time: new Date().toString()})
-            } catch(e) {
-                Mixpanel.track("STAKE fail", {error: e.message})
-            }
+            await Mixpanel.withTracking("STAKE",
+                async () => {
+                    await dispatch(stake(currentAccount.accountId, validator, amount))
+                    Mixpanel.people.set({last_stake_time: new Date().toString()})
+                }
+            )
         } else if (action === 'unstake') {
-            try {
-                Mixpanel.track("UNSTAKE start")
-                await dispatch(unstake(currentAccount.accountId, selectedValidator || validator, amount))
-                Mixpanel.track("UNSTAKE finish")
-                Mixpanel.people.set({last_unstake_time: new Date().toString()})
-            } catch(e) {
-                Mixpanel.track("UNSTAKE fail", {error: e.message})
-            }
-            
+            await Mixpanel.withTracking("UNSTAKE",
+                async () => {
+                    await dispatch(unstake(currentAccount.accountId, selectedValidator || validator, amount))
+                    Mixpanel.people.set({last_unstake_time: new Date().toString()})
+                }
+            )
         }
         await dispatch(clearGlobalAlert())
         await dispatch(updateStaking(currentAccount.accountId, [validator]))
     }
 
     const handleWithDraw = async () => {
-        try {
-            Mixpanel.track("WITHDRAW start")
-            await dispatch(withdraw(currentAccount.accountId, selectedValidator || validator.accountId))
-            Mixpanel.track("WITHDRAW finish")
-            Mixpanel.people.set({last_withdraw_time: new Date().toString()})
-        } catch(e) {
-            Mixpanel.track("WITHDRAW fail", {error: e.message})
-        }
+        let id = Mixpanel.get_distinct_id()
+        Mixpanel.identify(id)
+        await Mixpanel.withTracking("WITHDRAW",
+                async () => {
+                    await dispatch(withdraw(currentAccount.accountId, selectedValidator || validator.accountId))
+                    Mixpanel.people.set({last_withdraw_time: new Date().toString()})
+                }
+            )
         await dispatch(updateStaking(currentAccount.accountId))
     }
 

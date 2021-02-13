@@ -111,14 +111,12 @@ export function SendContainer({ match, location }) {
     }
 
     const handleSend = async () => {
-        try {
-            Mixpanel.track("SEND money start")
-            await dispatch(sendMoney(id, parseNearAmount(amount)))
-            await dispatch(getBalance()) 
-            Mixpanel.track("SEND money finish")
-        } catch (e) {
-            Mixpanel.track("SEND money fail", {error: e.message})
-        }
+        await Mixpanel.withTracking("SEND money", 
+            async () => {
+                await dispatch(sendMoney(id, parseNearAmount(amount)))
+                await dispatch(getBalance()) 
+            }
+        )
         setConfirm(false)
         setSuccess(true)
         window.scrollTo(0, 0)
