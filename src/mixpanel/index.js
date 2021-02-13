@@ -26,7 +26,7 @@ export const Mixpanel = {
             mixpanel.people.set_once(props)
         }
     },
-    withTracking: async (name, fn, errorOpration, finalOperation) => {
+    withTracking: async (name, fn, errorOpration = () => {}, finalOperation = () => {}) => {
         try {
             mixpanel.track(`${name} start`)
             await fn();
