@@ -48,6 +48,7 @@ if (process.env.MIXPANEL_TOKEN) {
     mixpanel.init(process.env.MIXPANEL_TOKEN, {'property_blacklist': ['$current_url']})
 }
 
+// this function will not use anymore once new tracking finish
 const analyticsMiddleware = store => next => action => {
     let createEvents = ['CREATE_NEW_ACCOUNT', 'CREATE_ACCOUNT_WITH_SEED_PHRASE','CHECK_ACCOUNT_AVAILABLE', 'CHECK_NEW_ACCOUNT' ]
     let twoFAEvents = ['GET_2FA_METHOD', 'INIT_TWO_FACTOR', 'VERIFY_TWO_FACTOR', 'PROMPT_TWO_FACTOR', 'RESEND_TWO_FACTOR']

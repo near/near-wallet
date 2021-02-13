@@ -4,7 +4,6 @@ import styled from 'styled-components'
 import AlertTriangleIcon from '../../svg/AlertTriangleIcon.js'
 import FormButton from '../../common/FormButton'
 import classNames from '../../../utils/classNames'
-import { Mixpanel } from '../../../mixpanel/index'
 
 const Container = styled.div`
     background-color: #FFF0DE;
@@ -54,7 +53,7 @@ export default function AlertBanner({ title, button, linkTo, theme, titleData })
             <AlertTriangleIcon/>
             <div>
                 <Translate id={title} data={{ data: titleData }}/>
-                {linkTo && button && <FormButton className='link' linkTo={linkTo} onClick={() => Mixpanel.track("Click alert banner")}><Translate id={button} /></FormButton>}
+                {linkTo && button && <FormButton className='link' linkTo={linkTo} trackingId="Click alert banner"><Translate id={button} /></FormButton>}
             </div>
         </Container>
     )

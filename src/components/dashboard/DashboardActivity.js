@@ -109,7 +109,7 @@ const DashboardActivity = ({ image, title, to, transactions, accountId, mainLoad
         <Grid.Row>
             <Grid.Column textAlign='left' width={16}>
                 <a href={to} target='_blank' rel='noopener noreferrer'>
-                    <FormButton color='gray-blue' size='small' onClick={() => Mixpanel.track("Go to explorer website")}>
+                    <FormButton color='gray-blue' size='small' trackingId="Go to explorer website">
                         <Translate id='button.viewAll' />
                     </FormButton>
                 </a>

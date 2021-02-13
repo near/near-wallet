@@ -163,10 +163,8 @@ class ActiveMethod extends Component {
                         <div className='not-allowed'>
                             <Translate id='recoveryMgmt.disableNotAllowed'/>
                             <FormButton 
-                                onClick={() => {
-                                    Mixpanel.track(data.kind === 'phrase'? 'SR-SP Click close button': `SR Click close button for ${data.kind}`)
-                                    this.handleToggleDisable()
-                                }}  
+                                onClick={this.handleToggleDisable}  
+                                trackingId={data.kind === 'phrase'? 'SR-SP Click close button': `SR Click close button for ${data.kind}`}
                                 type='button' 
                                 className='small gray-blue'
                             >
@@ -207,10 +205,8 @@ class ActiveMethod extends Component {
                                 <FormButton 
                                     type='button' 
                                     color='link' 
-                                    onClick={() => {
-                                        Mixpanel.track(data.kind === 'phrase'? 'SR-SP Click close link': `SR Click close link for ${data.kind}`)
-                                        this.handleToggleDisable()
-                                    }}
+                                    onClick={this.handleToggleDisable}
+                                    trackingId={data.kind === 'phrase'? 'SR-SP Click close link': `SR Click close link for ${data.kind}`}
                                 >
                                     <Translate id='recoveryMgmt.disableNo'/> {data.kind}
                                 </FormButton>

@@ -49,7 +49,7 @@ export default function Validator({
             <FormButton 
                 linkTo={`/staking/${match.params.validator}/stake`} 
                 disabled={(stakeNotAllowed || !validator) ? true : false}
-                onClick={() => Mixpanel.track("STAKE Click stake with validator button")}
+                trackingId="STAKE Click stake with validator button"
             >
                 <Translate id='staking.validator.button' />
             </FormButton>

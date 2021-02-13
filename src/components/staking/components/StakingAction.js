@@ -128,7 +128,7 @@ export default function StakingAction({
                     <FormButton 
                         className='light-blue small' 
                         linkTo='/staking/validators'
-                        onClick={() => Mixpanel.track("STAKE Go to validators list page")}
+                        trackingId="STAKE Go to validators list page"
                     >
                         <Translate id='button.edit' />
                     </FormButton>
@@ -142,10 +142,8 @@ export default function StakingAction({
                 }
                 <FormButton
                     disabled={!stakeActionAllowed} 
-                    onClick={() => {
-                        setConfirm(true)
-                        Mixpanel.track("STAKE/UNSTAKE Click submit stake button")
-                    }}
+                    onClick={() => setConfirm(true)}
+                    trackingId="STAKE/UNSTAKE Click submit stake button"
                 >
                     <Translate id={`staking.${action}.button`} />
                 </FormButton>
@@ -186,7 +184,7 @@ export default function StakingAction({
                 <FormButton 
                     linkTo='/staking' 
                     className='gray-blue'
-                    onClick={() => Mixpanel.track("STAKE/UNSTAKE Return to dashboard")}
+                    trackingId="STAKE/UNSTAKE Return to dashboard"
                 >
                     <Translate id={`staking.${action}Success.button`} />
                     </FormButton>

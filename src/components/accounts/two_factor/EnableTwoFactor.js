@@ -211,7 +211,7 @@ export function EnableTwoFactor(props) {
                         className='link' 
                         type='button' 
                         linkTo='/profile' 
-                        onClick={() => Mixpanel.track("2FA Click skip button", {url_link:"/profile"})}
+                        trackingId="2FA Click skip button"
                     >
                         <Translate id='button.skip' />
                     </FormButton>

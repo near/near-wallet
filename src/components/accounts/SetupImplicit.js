@@ -235,12 +235,10 @@ class SetupImplicit extends Component {
                         <h2><Translate id='account.createImplicit.pre.descOne' data={{ amount: formatNearAmount(MIN_BALANCE_TO_CREATE) }}/></h2>
                         <h2><Translate id='account.createImplicit.pre.descTwo'/></h2>
                         <FormButton
-                            onClick={() => {
-                                this.setState({ whereToBuy: true })
-                                Mixpanel.track("CA Click where to buy button")
-                            }}
+                            onClick={() => this.setState({ whereToBuy: true })}
                             color='link'
                             className='where-to-buy-link'
+                            trackingId="CA Click where to buy button"
                         >
                             <Translate id='account.createImplicit.pre.whereToBuy.button' />
                         </FormButton>

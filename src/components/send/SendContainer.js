@@ -61,8 +61,6 @@ export function SendContainer({ match, location }) {
 
     useEffect(() => {
         if (success) {
-
-            Mixpanel.track("SEND token finish")
             let id = Mixpanel.get_distinct_id()
             Mixpanel.identify(id)
             Mixpanel.people.set({last_send_token: new Date().toString()})
@@ -111,7 +109,7 @@ export function SendContainer({ match, location }) {
     }
 
     const handleSend = async () => {
-        await Mixpanel.withTracking("SEND money", 
+        await Mixpanel.withTracking("SEND token", 
             async () => {
                 await dispatch(sendMoney(id, parseNearAmount(amount)))
                 await dispatch(getBalance()) 
@@ -182,7 +180,7 @@ export function SendContainer({ match, location }) {
                 <TransferMoneyIcon/>
                 <h1>Success!</h1>
                 <div className='sub-title success'>You have successfully sent <span><Balance amount={utils.format.parseNearAmount(amount) || '0'} symbol='near'/></span> to <span className='receiver'>{id}</span></div>
-                <FormButton linkTo='/' onClick={() => Mixpanel.track("SEND Click go to dashboard button")}>
+                <FormButton linkTo='/' trackingId="SEND Click go to dashboard button">
                     <Translate id='button.goToDashboard' />
                 </FormButton>
             </StyledContainer>

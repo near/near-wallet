@@ -80,7 +80,7 @@ const DashboardKeys = ({ image, title, to, accessKeys, empty }) => (
                         linkTo={to}
                         color='gray-blue'
                         size='small'
-                        onClick={() => Mixpanel.track(`Go to ${to} page`)}
+                        trackingId={`Go to ${to} page`}
                     >
                         <Translate id='button.viewAll' />
                     </FormButton>

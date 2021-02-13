@@ -68,10 +68,7 @@ export function SetupImplicitSuccess() {
             <h2><Translate id='account.createImplicit.success.descOne' data={{ accountId: account.accountId}}/></h2>
             <h2><Translate id='account.createImplicit.success.descTwo'/></h2>
             <h2><Translate id='account.createImplicit.success.descThree'/></h2>
-            <FormButton 
-                linkTo='/profile'
-                onClick={() => Mixpanel.track("CA Click continue to account button")}
-            >
+            <FormButton linkTo='/profile' trackingId="CA Click continue to account button">
                 <Translate id='account.createImplicit.success.button'/>
             </FormButton>
         </StyledContainer>

@@ -9,7 +9,6 @@ import SelectAccount from './SelectAccount'
 import InfoIcon from '../../svg/InfoIcon.js'
 import { Modal } from 'semantic-ui-react'
 import SkeletonLoading from '../../common/SkeletonLoading'
-import { Mixpanel } from '../../../mixpanel/index'
 
 export default function Staking({
     currentValidators,
@@ -51,7 +50,7 @@ export default function Staking({
             <FormButton 
                 disabled={loading} 
                 linkTo='/staking/validators'
-                onClick={() => Mixpanel.track("STAKE Click stake my tokens button")}
+                trackingId="STAKE Click stake my tokens button"
             >
                 <Translate id='staking.staking.button' />
             </FormButton>
