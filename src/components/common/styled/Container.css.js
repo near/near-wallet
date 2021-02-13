@@ -19,7 +19,7 @@ const Container = styled.div`
     }
 
     &.small-centered {
-        max-width: 490px;
+        max-width: 500px;
 
         h1,
         h2 {
@@ -42,12 +42,16 @@ const Container = styled.div`
         }
     }
 
+    &.medium {
+        max-width: 600px;
+    }
+
     .sub-title, h2 {
         text-align: center !important;
         line-height: 150% !important;
         margin: 25px 0;
         font-size: 16px !important;
-        color: #3F4045 !important;
+        color: #24272a !important;
         font-weight: 400 !important;
     }
 

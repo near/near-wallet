@@ -212,7 +212,7 @@
         "DeployContract": "Contract deployed: ${receiverId}",
         "FunctionCall": "Called method: ${methodName} in contract: ${receiverId}",
         "Transfer": {
-            "transferred": "Transferred ${deposit} to ${receiverId}",
+            "transferred": "Sent ${deposit} to ${receiverId}",
             "received": "Received ${deposit} from ${signerId}"
         },
         "Stake": "Staked ${stake}",
@@ -417,6 +417,7 @@
         "confirm": "Confirm",
         "viewAll": "View All",
         "send": "Send",
+        "receive": "Receive",
         "cancel": "Cancel",
         "skip": "Skip",
         "deny": "Deny",
@@ -454,7 +455,8 @@
         "authorizing": "Authorizing",
         "deAuthorizing": "Deauthorizing",
         "finish": "Finish",
-        "transferring": "Transferring"
+        "transferring": "Transferring",
+        "viewOnExplorer": "View on Explorer"
     },
 
     "link": {
@@ -617,6 +619,11 @@
     "balance": {
         "balance": "Total Balance",
         "balanceLoading": "Balance loading"
+    },
+
+    "wallet": {
+        "balanceTitle": "Portfolio Balance",
+        "tokens": "Tokens"
     },
 
     "login": {

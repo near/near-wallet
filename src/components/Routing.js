@@ -19,6 +19,7 @@ import NetworkBanner from './common/NetworkBanner'
 import TwoFactorVerifyModal from '../components/accounts/two_factor/TwoFactorVerifyModal'
 import PrivateRoute from './common/PrivateRoute'
 import DashboardDetailWithRouter from './dashboard/DashboardDetail'
+import { Wallet } from './wallet/Wallet'
 import { CreateAccountWithRouter } from './accounts/CreateAccount'
 import { SetupRecoveryMethodWithRouter } from './accounts/recovery_setup/SetupRecoveryMethod'
 import { SetupLedgerWithRouter } from './accounts/ledger/SetupLedger'
@@ -185,7 +186,7 @@ class Routing extends Component {
                                 <Route
                                     exact
                                     path='/' 
-                                    component={!this.props.account.accountId ? GuestLanding : DashboardDetailWithRouter}
+                                    component={!this.props.account.accountId ? GuestLanding : Wallet}
                                 />
                                 <Route
                                     exact
