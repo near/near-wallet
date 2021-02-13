@@ -172,7 +172,7 @@ class Routing extends Component {
                                     // clears requestPending and closes the modal
                                     promptTwoFactor(null)
                                     // tracking error
-                                    Mixpanel.track("2FA Modal Verify fail", {error: error.message})
+                                    Mixpanel.track("2FA Modal Verify fail", {error: error})
                                 }}
                             />
                         }
