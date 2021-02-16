@@ -163,7 +163,7 @@ export function StakingContainer({ history, match }) {
     let validator = currentValidators.filter(validator => validator.accountId === validatorId)[0]
     // validator profile not in account's current validators (with balances) find validator in allValidators
     if (!validator) {
-        validator = validators.filter(validator => validator.accountId === validatorId)[0]
+        // validator = validators.filter(validator => validator.accountId === validatorId)[0]
     }
     const { totalUnstaked, selectedValidator } = currentAccount
 
