@@ -200,7 +200,6 @@ export class Staking {
 
     async updateStakingAccount(recentlyStakedValidators = [], account_id = this.wallet.accountId) {
         // TODO: refreshAccount (action) should be added after staking action
-        await this.wallet.refreshAccount()
         const account = await this.wallet.getAccount(account_id)
 
         // TODO: refactor, balance is already available in redux
