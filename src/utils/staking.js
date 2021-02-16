@@ -110,7 +110,7 @@ export class Staking {
 
         const allValidators = await this.getValidators()
         const state = {}
-        const account = await this.updateStakingAccount(allValidators, recentlyStakedValidators)
+        const account = await this.updateStakingAccount(recentlyStakedValidators)
         let lockupAccount
         if (lockupId) {
             state.lockupId = lockupId
@@ -200,7 +200,7 @@ export class Staking {
         }
     }
 
-    async updateStakingAccount(allValidators, recentlyStakedValidators = [], account_id = this.wallet.accountId) {
+    async updateStakingAccount(recentlyStakedValidators = [], account_id = this.wallet.accountId) {
         // TODO: refreshAccount (action) should be added after staking action
         await this.wallet.refreshAccount()
         const account = await this.wallet.getAccount(account_id)
