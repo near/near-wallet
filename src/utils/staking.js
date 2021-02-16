@@ -115,7 +115,6 @@ export class Staking {
             state.lockupId = lockupId
             lockupAccount = await this.updateStakingLockup()
         }
-        state.allValidators = allValidators
         state.replaceState = true
         state.accounts = [account]
         if (lockupAccount) {
