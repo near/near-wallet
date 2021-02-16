@@ -52,6 +52,7 @@ import { SetupImplicitWithRouter } from './accounts/SetupImplicit'
 import { SetupImplicitSuccess } from './accounts/SetupImplicitSuccess'
 import { handleClearAlert} from '../utils/alerts'
 import { Mixpanel } from "../mixpanel/index";
+import { TorusSupport } from './accounts/torus/TorusSupport'
 
 const theme = {}
 
@@ -182,6 +183,7 @@ class Routing extends Component {
                                     pathname: '/*',
                                     search: search
                                 }} />
+                                <Route path='/torus-support' component={TorusSupport}  />
                                 <Route
                                     exact
                                     path='/' 
@@ -325,7 +327,6 @@ class Routing extends Component {
                                 <PrivateRoute
                                     component={DashboardDetailWithRouter}
                                 />
-                                <Route path='/torus-support' onEnter={() => window.location.reload()} />
                             </Switch>
                         )}
                         <Footer />

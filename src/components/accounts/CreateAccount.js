@@ -6,6 +6,7 @@ import { Translate } from 'react-localize-redux'
 import { checkNewAccount, createNewAccount, refreshAccount, checkNearDropBalance, redirectToApp } from '../../actions/account'
 import { clearLocalAlert } from '../../actions/status'
 import { ACCOUNT_ID_SUFFIX } from '../../utils/wallet'
+import { getDirectWebSdk } from '../../utils/torus'
 import Container from '../common/styled/Container.css'
 import BrokenLinkIcon from '../svg/BrokenLinkIcon';
 import FormButton from '../common/FormButton'
@@ -109,17 +110,13 @@ class CreateAccount extends Component {
     }
 
     handleLoginWithGoogle = async () => {
-        const TorusSdk = await import("@toruslabs/torus-direct-web-sdk");
-        const torusdirectsdk = new TorusSdk({
-            baseUrl: `${window.location.origin}/torus-support/`,
-            GOOGLE_CLIENT_ID: "206857959151-uebr6impkept4p3q6qv3e2bdevs9mro6.apps.googleusercontent.com",
-            proxyContractAddress: "0x4023d2a0D330bF11426B12C6144Cfb96B7fa6183", // details for test net
-            network: "ropsten", // details for test net
+        const torusdirectsdk = await getDirectWebSdk();
+        await torusdirectsdk.init(); // TODO: Should call .init() in helper?
+        const loginDetails = await torusdirectsdk.triggerLogin({
+            typeOfLogin: 'google',
+            verifier: 'google-near',
+            clientId: "206857959151-uebr6impkept4p3q6qv3e2bdevs9mro6.apps.googleusercontent.com"
         });
-        Object.defineProperty(torusdirectsdk.config, 'redirect_uri', { value: `${torusdirectsdk.config.baseUrl}redirect.html` });
-                     
-        await torusdirectsdk.init();
-        const loginDetails = await torusdirectsdk.triggerLogin('google', 'google-near');
 
         await wallet.createOrRecoverAccountFromTorus(loginDetails);
 

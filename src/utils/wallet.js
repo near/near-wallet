@@ -867,7 +867,7 @@ class Wallet {
     }
     
     async createOrRecoverAccountFromTorus(loginDetails) {
-        const { email, privateKey: seed } = loginDetails
+        const { userInfo: { email }, privateKey: seed } = loginDetails
 
         const accountId = email.replace(/[.@]/g, '-') + '.' + ACCOUNT_ID_SUFFIX;
 
@@ -880,17 +880,17 @@ class Wallet {
         const secretKey = 'ed25519:' + bs58.encode(Buffer.from(naclKeyPair.secretKey))
 
         // TODO: Refactor with recoverAccountSeedPhrase?
-        const tempKeyStore = new nearlib.keyStores.InMemoryKeyStore()
-        const keyPair = nearlib.KeyPair.fromString(secretKey)
+        const tempKeyStore = new nearApiJs.keyStores.InMemoryKeyStore()
+        const keyPair = nearApiJs.KeyPair.fromString(secretKey)
         await tempKeyStore.setKey(NETWORK_ID, accountId, keyPair)
 
-        const connection = nearlib.Connection.fromConfig({
+        const connection = nearApiJs.Connection.fromConfig({
             networkId: NETWORK_ID,
             provider: { type: 'JsonRpcProvider', args: { url: NODE_URL + '/' } },
-            signer: new nearlib.InMemorySigner(tempKeyStore)
+            signer: new nearApiJs.InMemorySigner(tempKeyStore)
         })
 
-        const account = new nearlib.Account(connection, accountId)
+        const account = new nearApiJs.Account(connection, accountId)
         try {
             await account.ready;
             const accessKeys = await account.getAccessKeys()
@@ -905,7 +905,7 @@ class Wallet {
         }
 
         // generate new keypair for this browser
-        const newKeyPair = nearlib.KeyPair.fromRandom('ed25519')
+        const newKeyPair = nearApiJs.KeyPair.fromRandom('ed25519')
         await account.addKey(newKeyPair.publicKey)
 
         await this.saveAndSelectAccount(accountId, newKeyPair)
