@@ -73,24 +73,30 @@ const HardwareDevices = ({ recoveryMethods }) => {
     const recoveryLoader = actionsPending('LOAD_RECOVERY_METHODS') && !userRecoveryMethods.length
 
     const handleConfirmDisable = async () => {
-        try {
-            setDisabling(true)
-            await dispatch(disableLedger());
-        } finally {
-            await dispatch(getAccessKeys())
-            await dispatch(getLedgerKey())
-            await dispatch(loadRecoveryMethods())
-            setDisabling(false)
-            setConfirmDisable(false);
-        }
+        await Mixpanel.withTracking("SR-Ledger Handle confirm disable",
+            async () => {
+                setDisabling(true)
+                await dispatch(disableLedger());
+            },
+            () => {},
+            async () => {
+                await dispatch(getAccessKeys())
+                await dispatch(getLedgerKey())
+                await dispatch(loadRecoveryMethods())
+                setDisabling(false)
+                setConfirmDisable(false)
+            }
+        )
     }
 
     const handleConnectLedger = async () => {
-        Mixpanel.track("SR-Ledger Reconnect ledger start")
-        await dispatch(addLedgerAccessKey())
-        await dispatch(getLedgerKey())
-        await dispatch(loadRecoveryMethods())
-        Mixpanel.track("SR-Ledger Reconnect ledger finish")
+        await Mixpanel.withTracking("SR-Ledger Reconnect ledger",
+            async () => {
+                await dispatch(addLedgerAccessKey())
+                await dispatch(getLedgerKey())
+                await dispatch(loadRecoveryMethods())
+            }
+        )
     }
 
     const getActionButton = () => {
@@ -99,7 +105,7 @@ const HardwareDevices = ({ recoveryMethods }) => {
         } else if (hasLedgerButNotConnected) {
             return <FormButton color='blue' onClick={handleConnectLedger}><Translate id='button.connect'/></FormButton>
         } else {
-            return <FormButton linkTo={`/setup-ledger/${account.accountId}`} color='blue' onClick={() => Mixpanel.track("SR-Ledger Click enable button")}><Translate id='button.enable'/></FormButton> 
+            return <FormButton linkTo={`/setup-ledger/${account.accountId}`} color='blue' trackingId="SR-Ledger Click enable button"><Translate id='button.enable'/></FormButton> 
         }
     }
 

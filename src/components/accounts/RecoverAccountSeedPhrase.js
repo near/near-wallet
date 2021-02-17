@@ -60,16 +60,13 @@ class RecoverAccountSeedPhrase extends Component {
             return false
         }
         const { seedPhrase } = this.state
-        try {
-            Mixpanel.track("IE-SP Recovery with seed phrase start")
-            await this.props.recoverAccountSeedPhrase(seedPhrase)
-            Mixpanel.track("IE-SP Recover with seed phrase finish")
-            this.props.refreshAccount()
-            this.props.redirectToApp()
-        } catch(e) {
-            Mixpanel.track("IE-SP Recover with seed phrase fail", {error: e.message})
-        }
-
+        await Mixpanel.withTracking("IE-SP Recovery with seed phrase",
+            async () => {
+                await this.props.recoverAccountSeedPhrase(seedPhrase)
+                this.props.refreshAccount()
+                this.props.redirectToApp()
+            }
+        )
     }
 
     render() {

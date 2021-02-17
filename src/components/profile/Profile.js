@@ -157,7 +157,9 @@ export function Profile({ match }) {
             Mixpanel.people.set({
                 relogin_date: new Date().toString(),
                 enabled_2FA: account.has2fa,
-                [accountId]: formatNEAR(account.balance.total) 
+                [accountId + '_total']: formatNEAR(account.balance.total), 
+                [accountId + '_stake']: formatNEAR(account.balance.stateStaked),
+                [accountId + '_available']: formatNEAR(account.balance.available)
             })
             Mixpanel.alias(accountId)
         }
@@ -167,8 +169,9 @@ export function Profile({ match }) {
         if (userRecoveryMethods) {
             let id = Mixpanel.get_distinct_id()
             Mixpanel.identify(id)
-            let methods = userRecoveryMethods.map(method => method.kind)
-            Mixpanel.people.set({recovery_method: methods})
+            userRecoveryMethods.map(method => {
+                Mixpanel.people.set({['recovery_with_'+method.kind]:true})
+            })
         }
     },[userRecoveryMethods])
 

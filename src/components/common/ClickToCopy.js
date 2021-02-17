@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import styled from 'styled-components'
 import classNames from '../../utils/classNames'
 import { Translate } from 'react-localize-redux'
+import { Mixpanel } from '../../mixpanel/index'
 
 const Container = styled.div`
     position: relative;
@@ -36,6 +37,7 @@ const ClickToCopy = ({ className, children, copy, translate = 'default' }) => {
     const [show, setShow] = useState(false)
 
     const handleCopy = () => {
+        Mixpanel.track(`Copy ${copy} with click`)
         setShow(true)
         setTimeout (() => setShow(false), 2000)
         const input = document.createElement('textarea')

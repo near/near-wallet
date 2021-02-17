@@ -9,6 +9,7 @@ import { WALLET_APP_MIN_AMOUNT } from '../../../utils/wallet'
 import * as nearApiJs from 'near-api-js'
 import BN from 'bn.js'
 import InfoIcon from '../../svg/InfoIcon.js'
+import { Mixpanel } from '../../../mixpanel/index'
 
 const Container = styled.div`
     font-size: 13px;
@@ -123,7 +124,7 @@ function BalanceBreakdown({ total, onClickAvailable, availableType, error }) {
                         </div>
                     </div>
                     <div className='title'>
-                        <div onClick={() => setOpen(!open)}>
+                        <div onClick={() => {setOpen(!open); Mixpanel.track("Watch available to send")}}>
                             <Translate id={availableType}/><ChevronIcon color='#0072ce'/>
                         </div>
                         <div className='right' onClick={onClickAvailable}>
