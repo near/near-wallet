@@ -97,7 +97,7 @@ const NavLinks = () => (
             <NavLink icon={arrowIcon} className='rotate-up' to='/send-money' onClick={() => Mixpanel.track("SEND Click send button on nav")}><Translate id='link.send'/></NavLink>
         }
         <NavLink icon={arrowIcon} className='rotate-down' to='/receive-money' onClick={() => Mixpanel.track("RECEIVE Click receive button on nav")}><Translate id='link.receive'/></NavLink>
-        <NavLink icon={stakingIcon} to='/staking' onClick={() => Mixpanel.track("STAKE Click staking button")}><Translate id='link.staking'/></NavLink>
+        <NavLink icon={stakingIcon} to='/staking' onClick={() => Mixpanel.track("STAKE Click staking button on nav")}><Translate id='link.staking'/></NavLink>
     </Container>
 )
 

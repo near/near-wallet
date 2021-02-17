@@ -145,14 +145,14 @@ class Footer extends Component {
                                     <br />
                                     <a 
                                         href="https://near.org/privacy/" 
-                                        onClick={() => Mixpanel.track("Click terms of service")}
+                                        onClick={() => Mixpanel.track("Footer Click terms of service")}
                                     >
                                         <Translate id='footer.termsOfService' />
                                     </a>
                                     <span className='color-brown-grey'>|</span>
                                     <a 
                                         href="https://near.org/privacy/" 
-                                        onClick={() => Mixpanel.track("Click privacy policy")}
+                                        onClick={() => Mixpanel.track("Footer Click privacy policy")}
                                     >
                                         <Translate id='footer.privacyPolicy' />
                                     </a>
@@ -167,7 +167,7 @@ class Footer extends Component {
                         verticalAlign='middle'
                     >
                         <Translate id='footer.desc' />{' '}
-                        <a href='https://near.org' onClick={() => Mixpanel.track("Click Learn More")}>
+                        <a href='https://near.org' onClick={() => Mixpanel.track("Footer Click Learn More")}>
                             <Translate id='footer.learnMore' />
                         </a>
                     </Grid.Column>
@@ -183,7 +183,7 @@ class Footer extends Component {
                         <List floated='right'>
                             <List.Item as='h3'><Translate id='footer.needHelp' /></List.Item>
                             <List.Item as='h3' className='color'>
-                                <a href='https://near.chat' onClick={() => Mixpanel.track("Click Join Community")}>
+                                <a href='https://near.chat' onClick={() => Mixpanel.track("Footer Click Join Community")}>
                                     <Translate id='footer.contactSupport' />
                                 </a>
                             </List.Item>
