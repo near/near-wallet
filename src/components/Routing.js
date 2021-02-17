@@ -169,6 +169,7 @@ class Routing extends Component {
                             <TwoFactorVerifyModal
                                 onClose={(verified, error) => {
                                     const { account, promptTwoFactor } = this.props
+                                    Mixpanel.track("2FA Modal Verify start")
                                     // requestPending will resolve (verified == true) or reject the Promise being awaited in the method that dispatched promptTwoFactor
                                     account.requestPending(verified, error)
                                     // clears requestPending and closes the modal
@@ -176,6 +177,9 @@ class Routing extends Component {
                                     if (error) {
                                         // tracking error
                                         Mixpanel.track("2FA Modal Verify fail", {error: error.message})
+                                    }
+                                    if (verified) {
+                                        Mixpanel.track("2FA Modal Verify finish")
                                     }
                                 }}
                             />
