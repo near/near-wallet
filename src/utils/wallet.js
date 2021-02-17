@@ -360,10 +360,24 @@ class Wallet {
             throw new WalletError('Creating account has failed', 'createAccount.returnedFalse', { transactionHash })
         }
 
-        if (!this.accounts[fundingAccountId]) {
-            // Temporary implicit account used for funding – move whole balance by deleting it
-            await account.deleteAccount(accountId)
+        if (this.accounts[fundingAccountId] || fundingAccountId.length !== 64) {
+            return
         }
+
+        // Check if account has any non-implicit keys (meaning account cannot be safely deleted)
+        const accessKeys = await account.getAccessKeys()
+        if (accessKeys.length !== 1) {
+            return
+        } 
+        const [{ access_key: { permission }, public_key }] = accessKeys
+        const implicitPublicKey = new PublicKey({ keyType: KeyType.ED25519, data: Buffer.from(fundingAccountId, 'hex') })
+        if (permission !== 'FullAccess' || implicitPublicKey.toString() !==  public_key) {
+            return
+        }
+
+        // TODO: Send transfer action as well to fail for sure if destination account doesn't exist?
+        // Temporary implicit account used for funding – move whole balance by deleting it
+        await account.deleteAccount(accountId)
     }
 
     async checkNearDropBalance(fundingContract, fundingKey) {
