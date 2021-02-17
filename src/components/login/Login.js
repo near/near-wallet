@@ -44,17 +44,13 @@ class Login extends Component {
             buttonLoader: true
         }))
 
-        try {
-            Mixpanel.track("LOGIN start")
-            await this.props.allowLogin()
-            Mixpanel.track("LOGIN finish")
-        } catch(e) {
-            Mixpanel.track("LOGIN fail", {error: e.message})
-        } finally {
-            this.setState(() => ({
-                buttonLoader: false
-            }))
-        }
+        await Mixpanel.withTracking("LOGIN",
+            async () => await this.props.allowLogin(),
+            () => {},
+            () => this.setState(() => ({
+                    buttonLoader: false
+                    }))
+        )
     }
 
     handleSelectAccount = accountId => {

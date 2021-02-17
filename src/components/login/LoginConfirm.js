@@ -104,10 +104,8 @@ class LoginForm extends Component {
                                 <FormButton
                                     color='gray-white'
                                     type='button'
-                                    onClick={() => {
-                                        Mixpanel.track("LOGIN Click cancel button")
-                                        this.props.history.goBack()
-                                    }}
+                                    onClick={() => this.props.history.goBack()}
+                                    trackingId="LOGIN Click cancel button"
                                 >
                                     <Translate id='button.cancel' />
                                 </FormButton>
