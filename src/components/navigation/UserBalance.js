@@ -5,6 +5,10 @@ import Balance from '../common/Balance';
 
 const StyledBalance = styled.div`
     color: #8FD6BD;
+
+    .dots {
+        color: inherit;
+    }
 `
 
 const UserBalance = ({ balance }) => (

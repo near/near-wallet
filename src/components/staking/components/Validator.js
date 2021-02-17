@@ -8,6 +8,7 @@ import AlertBanner from './AlertBanner'
 import StakeConfirmModal from './StakeConfirmModal'
 import { onKeyDown } from '../../../hooks/eventListeners'
 import { redirectTo } from '../../../actions/account'
+import { actionsPending } from '../../../utils/alerts'
 
 export default function Validator({
     match,
@@ -46,7 +47,7 @@ export default function Validator({
             <h1><Translate id='staking.validator.title' data={{ validator: match.params.validator }}/></h1>
             <FormButton linkTo={`/staking/${match.params.validator}/stake`} disabled={(stakeNotAllowed || !validator) ? true : false}><Translate id='staking.validator.button' /></FormButton>
             {validator && <StakingFee fee={validator.fee.percentage}/>}
-            {validator && !stakeNotAllowed &&
+            {validator && !stakeNotAllowed && !actionsPending('UPDATE_STAKING') &&
                 <>
                     <BalanceBox
                         title='staking.balanceBox.staked.title'

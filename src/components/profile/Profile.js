@@ -6,7 +6,7 @@ import RecoveryContainer from './Recovery/RecoveryContainer'
 import BalanceContainer from './balances/BalanceContainer'
 import HardwareDevices from './hardware_devices/HardwareDevices'
 import TwoFactorAuth from './two_factor/TwoFactorAuth'
-import { getLedgerKey, checkCanEnableTwoFactor, getAccessKeys, redirectTo, refreshAccount, getProfileBalance, transferAllFromLockup, loadRecoveryMethods } from '../../actions/account'
+import { getLedgerKey, checkCanEnableTwoFactor, getAccessKeys, redirectTo, refreshAccount, transferAllFromLockup, loadRecoveryMethods, getProfileStakingDetails, getBalance } from '../../actions/account'
 import styled from 'styled-components'
 import LockupAvailTransfer from './balances/LockupAvailTransfer'
 import UserIcon from '../svg/UserIcon'
@@ -14,11 +14,12 @@ import ShieldIcon from '../svg/ShieldIcon'
 import LockIcon from '../svg/LockIcon'
 import { actionsPending } from '../../utils/alerts'
 import BN from 'bn.js'
-import SkeletonLoading from '../common/SkeletonLoading';
+import SkeletonLoading from '../common/SkeletonLoading'
 import InfoPopup from '../common/InfoPopup'
 import { selectProfileBalance } from '../../reducers/selectors/balance'
 import { useAccount } from '../../hooks/allAccounts'
-import { Mixpanel } from "../../mixpanel/index"; 
+import { Mixpanel } from "../../mixpanel/index"
+import { formatNEAR } from '../common/Balance'
 
 
 const StyledContainer = styled(Container)`
@@ -129,28 +130,57 @@ export function Profile({ match }) {
     const userRecoveryMethods = recoveryMethods[account.accountId]
     const twoFactor = has2fa && userRecoveryMethods && userRecoveryMethods.filter(m => m.kind.includes('2fa'))[0]
     const profileBalance = selectProfileBalance(account.balance)
-    const balanceLoader = actionsPending(['GET_PROFILE_BALANCE', 'REFRESH_ACCOUNT_EXTERNAL']) && !profileBalance
     const recoveryLoader = actionsPending('LOAD_RECOVERY_METHODS') && !userRecoveryMethods
 
     useEffect(() => {
-        dispatch(loadRecoveryMethods())
-
         if (accountIdFromUrl && accountIdFromUrl !== accountIdFromUrl.toLowerCase()) {
             dispatch(redirectTo(`/profile/${accountIdFromUrl.toLowerCase()}`))
         }
-
-        if (isOwner) {
-            dispatch(getAccessKeys(accountId))
-            dispatch(getLedgerKey())
-            dispatch(checkCanEnableTwoFactor(account))
-        }
+        
+        (async () => {
+            if (isOwner) {
+                await dispatch(loadRecoveryMethods())
+                dispatch(getAccessKeys(accountId))
+                dispatch(getLedgerKey())
+                await dispatch(getBalance())
+                dispatch(checkCanEnableTwoFactor(account))
+                dispatch(getProfileStakingDetails())
+            }
+        })()
     }, []);
 
-    useEffect(()=> {
-        if(twoFactor){
+    useEffect(() => {
+        if (account.balance?.total) {
             let id = Mixpanel.get_distinct_id()
             Mixpanel.identify(id)
-            Mixpanel.people.set({create_2FA_at: twoFactor.createdA, enable_2FA_kind:twoFactor.kind, enabled_2FA: true })
+            Mixpanel.people.set_once({create_date: new Date().toString(),})
+            Mixpanel.people.set({
+                relogin_date: new Date().toString(),
+                enabled_2FA: account.has2fa,
+                [accountId]: formatNEAR(account.balance.total) 
+            })
+            Mixpanel.alias(accountId)
+        }
+    },[account.balance?.total])
+
+    useEffect(() => {
+        if (userRecoveryMethods) {
+            let id = Mixpanel.get_distinct_id()
+            Mixpanel.identify(id)
+            let methods = userRecoveryMethods.map(method => method.kind)
+            Mixpanel.people.set({recovery_method: methods})
+        }
+    },[userRecoveryMethods])
+
+    useEffect(()=> {
+        if (twoFactor) {
+            let id = Mixpanel.get_distinct_id()
+            Mixpanel.identify(id)
+            Mixpanel.people.set({
+                create_2FA_at: twoFactor.createdAt, 
+                enable_2FA_kind:twoFactor.kind, 
+                enabled_2FA: twoFactor.confirmed, 
+                detail_2FA: twoFactor.detail})
         }
     }, [twoFactor])
 
@@ -159,7 +189,7 @@ export function Profile({ match }) {
             setTransferring(true)
             await dispatch(transferAllFromLockup())
             await dispatch(refreshAccount())
-            await dispatch(getProfileBalance(accountId))
+            await dispatch(getProfileStakingDetails())
         } finally {
             setTransferring(false)
         }
@@ -179,7 +209,7 @@ export function Profile({ match }) {
             <div className='split'>
                 <div className='left'>
                     <h2><UserIcon/><Translate id='profile.pageTitle.default'/></h2>
-                    {!balanceLoader ? (
+                    {profileBalance ? (
                         <BalanceContainer
                             account={account}
                             profileBalance={profileBalance}
@@ -187,7 +217,7 @@ export function Profile({ match }) {
                     ) : (
                         <SkeletonLoading
                             height='323px'
-                            show={balanceLoader}
+                            show={!profileBalance}
                             number={2}
                         />
                     )}

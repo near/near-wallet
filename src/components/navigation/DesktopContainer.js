@@ -36,7 +36,6 @@ const Container = styled.div`
         position: relative;
     }
 `
-
 const Help = styled.a`
     color: white;
     display: flex;
@@ -51,7 +50,6 @@ const Help = styled.a`
         color: white;
         text-decoration: none;
     }
-
     &:before {
         content: '';
         background: url(${helpIcon});
@@ -240,7 +238,7 @@ class DesktopContainer extends Component {
                 {showNavLinks &&
                     <NavLinks />
                 }
-                <Help href='http://near.chat/' target='_blank' rel='noopener noreferrer'>
+                <Help href='https://nearhelp.zendesk.com/' target='_blank' rel='noopener noreferrer'>
                     <Translate id='link.help'/>
                 </Help>
                 <Lang>
@@ -259,7 +257,6 @@ class DesktopContainer extends Component {
                             accountId={account.accountId}
                             accounts={availableAccounts}
                             selectAccount={selectAccount}
-                            hasLockup={account.hasLockup}
                         />
                     </>
                 }

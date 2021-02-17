@@ -18,6 +18,7 @@ import {
 } from '../../../actions/account'
 import { DISABLE_CREATE_ACCOUNT, setKeyMeta } from '../../../utils/wallet'
 import GlobalAlert from '../../common/GlobalAlert'
+import { Mixpanel } from '../../../mixpanel/index'
 
 const SetupLedger = (props) => {
 
@@ -40,25 +41,32 @@ const SetupLedger = (props) => {
                 console.log('SetupLedger', DISABLE_CREATE_ACCOUNT, fundingOptions)
                 const publicKey = await dispatch(getLedgerPublicKey())
                 await setKeyMeta(publicKey, { type: 'ledger' })
+                Mixpanel.track("SR-Ledger Set key meta")
 
                 if (DISABLE_CREATE_ACCOUNT && !fundingOptions) {
                     await dispatch(fundCreateAccountLedger(accountId, publicKey))
+                    Mixpanel.track("SR-Ledger Fund create account ledger")
                     return
                 }
 
                 await dispatch(createNewAccount(accountId, fundingOptions, 'ledger', publicKey))
+                Mixpanel.track("SR-Ledger Create new account ledger")
             } else {
                 await dispatch(addLedgerAccessKey())
+                Mixpanel.track("SR-Ledger Add ledger access key")
             }
             await dispatch(refreshAccount())
         } catch(e) {
             setConnect('fail');
+            Mixpanel.track("SR-Ledger Connect ledger fail", {error: e.message})
             throw e;
         } 
 
         if (isNew) {
+            Mixpanel.track("SR-ledger Go to profile of new account")
             await dispatch(redirectToApp('/profile'))
         } else {
+            Mixpanel.track("SR-Ledger Go to setup ledger success")
             await dispatch(redirectTo('/setup-ledger-success'));
         }
     }
@@ -82,7 +90,15 @@ const SetupLedger = (props) => {
             <FormButton onClick={handleClick} sending={props.mainLoader} sendingString='button.connecting'>
                 <Translate id={`button.${connect !== 'fail' ? 'continue' : 'retry'}`}/>
             </FormButton>
-            <button className='link' onClick={() => props.history.goBack()}><Translate id='button.cancel'/></button>
+            <button 
+                className='link' 
+                onClick={() => 
+                {
+                    Mixpanel.track("SR-Ledger Click cancel button")
+                    props.history.goBack()
+                }}>
+                    <Translate id='button.cancel'/>
+                </button>
             {showInstructions && 
                 <InstructionsModal open={showInstructions} onClose={toggleShowInstructions}/>
             }

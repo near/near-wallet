@@ -22,6 +22,7 @@ import FormButton from '../../common/FormButton';
 import EnterVerificationCode from '../EnterVerificationCode';
 import Container from '../../common/styled/Container.css';
 import isApprovedCountryCode from '../../../utils/isApprovedCountryCode'
+import { Mixpanel } from '../../../mixpanel/index'
 
 const StyledContainer = styled(Container)`
     button {
@@ -92,11 +93,18 @@ class SetupRecoveryMethod extends Component {
 
         if (this.isValidInput && !localAlert && !success) {
             if (option === 'email' || option === 'phone') {
+                if (option === 'email') {
+                    Mixpanel.track("SR Select email")
+                } else {
+                    Mixpanel.track("SR Select phone")
+                }
                 await this.handleSendCode()
                 window.scrollTo(0, 0);
             } else if (option === 'phrase') {
+                Mixpanel.track("SR-SP Select seed phrase")
                 redirectTo(`/setup-seed-phrase/${accountId}/phrase${location.search}`)
             } else if (option === 'ledger') {
+                Mixpanel.track("SR-Ledger Select ledger")
                 redirectTo(`/setup-ledger/${accountId}${location.search}`)
             }
         }
@@ -114,6 +122,7 @@ class SetupRecoveryMethod extends Component {
     }
 
     handleSendCode = async () => {
+        Mixpanel.track("SR Send code", {send_code_detail: this.method})
         const  { accountId, initializeRecoveryMethod } = this.props;
         const recoverySeedPhrase = await initializeRecoveryMethod(accountId, this.method);
         this.setState({ success: true, recoverySeedPhrase: recoverySeedPhrase })
@@ -129,6 +138,7 @@ class SetupRecoveryMethod extends Component {
         } = this.props;
 
         if (this.state.success) {
+            Mixpanel.track("SR Setup recovery method start", {detail: this.method})
             const isNew = await checkIsNew(accountId)
             if (isNew) {
                 const fundingOptions = JSON.parse(parseQuery(location.search).fundingOptions || 'null')
@@ -136,10 +146,13 @@ class SetupRecoveryMethod extends Component {
             } else {
                 await setupRecoveryMessage(accountId, this.method, securityCode, this.state.recoverySeedPhrase)
             }
+            Mixpanel.track("SR Setup recovery method finish", {detail: this.method})
         }
     }
 
     handleGoBack = () => {
+        const { option } = this.state;
+        Mixpanel.track(option === 'email' ? "SR Send to different email" : "SR Send to different phone")
         this.setState({
             email: '',
             phoneNumber: '',
@@ -169,7 +182,9 @@ class SetupRecoveryMethod extends Component {
         return !this.checkNewAccount() && activeMethods.includes(method)
     }
 
-    checkNewAccount = () => this.props.accountId !== this.props.activeAccountId
+    checkNewAccount = () => {
+        return this.props.accountId !== this.props.activeAccountId
+    }
 
     render() {
         const { option, phoneNumber, email, success, emailInvalid, phoneInvalid, country } = this.state;

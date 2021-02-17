@@ -7,6 +7,7 @@ import { recoverAccountSeedPhrase, redirectToApp, refreshAccount } from '../../a
 import { clearLocalAlert } from '../../actions/status'
 import RecoverAccountSeedPhraseForm from './RecoverAccountSeedPhraseForm'
 import Container from '../common/styled/Container.css'
+import { Mixpanel } from '../../mixpanel/index'
 
 const StyledContainer = styled(Container)`
     .input {
@@ -55,13 +56,20 @@ class RecoverAccountSeedPhrase extends Component {
 
     handleSubmit = async () => {
         if (!this.isLegit) {
+            Mixpanel.track("IE-SP Recover seed phrase link not valid")
             return false
         }
-
         const { seedPhrase } = this.state
-        await this.props.recoverAccountSeedPhrase(seedPhrase)
-        this.props.refreshAccount()
-        this.props.redirectToApp()
+        try {
+            Mixpanel.track("IE-SP Recovery with seed phrase start")
+            await this.props.recoverAccountSeedPhrase(seedPhrase)
+            Mixpanel.track("IE-SP Recover with seed phrase finish")
+            this.props.refreshAccount()
+            this.props.redirectToApp()
+        } catch(e) {
+            Mixpanel.track("IE-SP Recover with seed phrase fail", {error: e.message})
+        }
+
     }
 
     render() {

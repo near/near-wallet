@@ -17,6 +17,7 @@ import { clearLocalAlert } from '../../../actions/status'
 import { setMainLoader } from '../../../actions/status'
 import LocalAlertBox from '../../common/LocalAlertBox'
 import { controller as controllerHelperApi } from '../../../utils/helper-api'
+import { Mixpanel } from '../../../mixpanel/index'
 
 export function SignInLedger(props) {
     const dispatch = useDispatch();
@@ -47,21 +48,30 @@ export function SignInLedger(props) {
     }
 
     const handleSignIn = async () => {
+        Mixpanel.track("IE-Ledger Sign in start")
         setLoader(false)
         const { error } = await dispatch(signInWithLedger())
 
         if (!error) {
+            Mixpanel.track("IE-Ledger Sign in finish")
             refreshAndRedirect()
+        }
+        if (error) {
+            Mixpanel.track("IE-Ledger Sign in fail", {error: error})
         }
     }
 
     const handleAdditionalAccountId = async () => {
+        Mixpanel.track("IE-Ledger Handle additional accountId")
         setLoader(true)
         const { error } = await dispatch(signInWithLedgerAddAndSaveAccounts([accountId]))
         setLoader(false)
         
         if (!error) {
             refreshAndRedirect()
+        }
+        if (error) {
+            Mixpanel.track("IE-Ledger Handle additional accountId", {error: error})
         }
     }
 
@@ -71,6 +81,7 @@ export function SignInLedger(props) {
     }
 
     const onClose = () => {
+        Mixpanel.track("IE-Ledger Close ledger confirmation")
         if (signInWithLedgerStatus === 'confirm-public-key') {
             controllerHelperApi.abort()
         }
@@ -93,7 +104,15 @@ export function SignInLedger(props) {
             >
                 <Translate id={`button.${status.localAlert && !status.localAlert.success ? 'retry' : 'signIn'}`}/>
             </FormButton>
-            <button className='link' onClick={() => props.history.goBack()}><Translate id='button.cancel'/></button>
+            <button 
+                className='link' 
+                onClick={() => {
+                    Mixpanel.track("IE-Ledger Click cancel button")
+                    props.history.goBack()
+                }}
+            >
+                <Translate id='button.cancel'/>
+            </button>
 
             {signingIn &&
                 <LedgerSignInModal 

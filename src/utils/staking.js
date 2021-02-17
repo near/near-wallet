@@ -113,6 +113,7 @@ export class Staking {
         const account = await this.updateStakingAccount(allValidators, recentlyStakedValidators)
         let lockupAccount
         if (lockupId) {
+            state.lockupId = lockupId
             lockupAccount = await this.updateStakingLockup()
         }
         state.allValidators = allValidators
@@ -272,9 +273,19 @@ export class Staking {
         }
     }
 
+    static shuffle(sourceArray) {
+        for (let i = 0; i < sourceArray.length - 1; i++) {
+            const j = i + Math.floor(Math.random() * (sourceArray.length - i));
+            const temp = sourceArray[j];
+            sourceArray[j] = sourceArray[i];
+            sourceArray[i] = temp;
+        }
+        return sourceArray;
+    }
+
     async getValidators(accountIds, accountId = this.wallet.accountId) {
         const { current_validators, next_validators, current_proposals } = await this.provider.validators()
-        const currentValidators = current_validators.map(({ account_id }) => account_id)
+        const currentValidators = Staking.shuffle(current_validators).map(({ account_id }) => account_id)
         
         if (!accountIds) {
             const rpcValidators = [...current_validators, ...next_validators, ...current_proposals].map(({ account_id }) => account_id)
@@ -301,7 +312,7 @@ export class Staking {
                         contract
                     }
                     const fee = validator.fee = await validator.contract.get_reward_fee_fraction()
-                    fee.percentage = fee.numerator / fee.denominator * 100
+                    fee.percentage = +(fee.numerator / fee.denominator * 100).toFixed(2)
                     return validator
                 } catch (e) {
                     console.warn('Error getting fee for validator %s: %s', account_id, e);
@@ -503,4 +514,3 @@ async function getStakingDeposits(accountId) {
     
     return validatorDepositMap
 }
-

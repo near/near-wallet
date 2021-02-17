@@ -9,12 +9,16 @@ import SignTransferReady from './SignTransferReady'
 import SignTransferSuccess from './SignTransferSuccess'
 import SignTransferCancelled from './SignTransferCancelled'
 import SignTransferTransferring from './SignTransferTransferring'
-import { signAndSendTransactions } from '../../actions/account'
+import { signAndSendTransactions, getBalance } from '../../actions/account'
 
 class Sign extends Component {
 
     state = {
         sending: false,
+    }
+
+    componentDidMount = () => {
+        this.props.getBalance()
     }
 
     handleDeny = e => {
@@ -36,10 +40,12 @@ class Sign extends Component {
     renderSubcomponent = () => {
         const { account: { url, balance }, totalAmount, sensitiveActionsCounter, status } = this.props
 
-        const txTotalAmount = new BN(totalAmount); // TODO: add gas cost, etc
-        const availableBalance = new BN(balance.available);
-        const insufficientFunds = txTotalAmount.gt(availableBalance);
-        const isMonetaryTransaction = txTotalAmount.gt(new BN(0));
+        const txTotalAmount = new BN(totalAmount) // TODO: add gas cost, etc
+        const availableBalance = balance.available
+        const insufficientFunds = availableBalance
+            ? txTotalAmount.gt(new BN(availableBalance))
+            : false
+        const isMonetaryTransaction = txTotalAmount.gt(new BN(0))
 
         switch (status) {
             case 'needs-confirmation':
@@ -81,7 +87,8 @@ class Sign extends Component {
 
 const mapDispatchToProps = {
     signAndSendTransactions,
-    push
+    push,
+    getBalance
 }
 
 const mapStateToProps = ({ account, sign }) => ({

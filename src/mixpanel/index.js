@@ -22,5 +22,8 @@ export const Mixpanel = {
     set: (props) => {
       mixpanel.people.set(props);
     },
+    set_once: (props)  => {
+      mixpanel.people.set_once(props)
+    }
   },
 };

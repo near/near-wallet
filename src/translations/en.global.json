@@ -491,7 +491,7 @@
         "pageText": "If you’ve setup one or more account recovery methods, follow the instructions below to import your account.",
         "email": {
             "title": "Email",
-            "desc": "Check your email for a message from nearprotocol.com with the subject:",
+            "desc": "Check your email for a message from near.org with the subject:",
             "subject": "\"Important: Near Wallet Recovery Email\"."
         },
         "phone": {
@@ -812,7 +812,7 @@
             }
         },
         "validator": {
-            "title": "Validator: <br/> @${validator}",
+            "title": "Validator: <br/>${validator}",
             "button": "Stake With Validator",
             "fee": "Validator Fee",
             "desc": "This is the fee paid to the validator to stake on your behalf. This fee is only charged on your rewards.",

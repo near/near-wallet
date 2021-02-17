@@ -142,17 +142,19 @@ export default function ValidatorBox({
             <UserIcon/>
             <div>
                 <div>{validatorId}</div>
-                {typeof fee === 'number' && <div className="text-left"> 
-                    <span>{fee}% <Translate id='staking.validatorBox.fee' /> - </span>
-                    <span>
-                        {
-                        active ?
-                        <span className="active">active</span>
-                        :
-                        <span className="inactive">inactive</span>
-                    }
-                    </span>
-                </div>}
+                {typeof fee === 'number' &&
+                    <div className="text-left"> 
+                        <span>{fee}% <Translate id='staking.validatorBox.fee' /> - </span>
+                        <span>
+                            {
+                            active ?
+                            <span className="active">active</span>
+                            :
+                            <span className="inactive">inactive</span>
+                        }
+                        </span>
+                    </div>
+                }
             </div>
             {amount &&
                 <div className='right'>

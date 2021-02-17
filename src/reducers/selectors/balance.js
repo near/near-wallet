@@ -3,7 +3,7 @@ import BN from 'bn.js'
 import { LOCKUP_MIN_BALANCE } from '../../utils/account-with-lockup'
 
 export const selectProfileBalance = (balance) => {
-    if (!balance?.account?.totalAvailable) {
+    if (!balance || !balance.available) {
         return false
     }
 
@@ -14,25 +14,24 @@ export const selectProfileBalance = (balance) => {
         lockedAmount,
         liquidOwnersBalance,
         ownersBalance,
-        account: {
-            totalAvailable,
-            totalPending,
-            totalStaked,
-            totalUnstaked
-        },
-        lockupIdExists
+        stakedBalanceMainAccount,
+        balanceAvailable,
+        stakedBalanceLockup,
+        account
     } = balance
 
+    const lockupIdExists = !!lockedAmount
+
     const walletBalance = {
-        walletBalance: new BN(totalStaked).add(new BN(totalPending)).add(new BN(totalAvailable)).add(new BN(totalUnstaked)).add(new BN(stateStaked)).toString(),
+        walletBalance: stakedBalanceMainAccount.add(new BN(balanceAvailable)).add(new BN(stateStaked)).toString(),
         reservedForStorage: stateStaked.toString(),
         inStakingPools: {
-            sum: new BN(totalStaked).add(new BN(totalPending)).add(new BN(totalAvailable)).toString(),
-            staked: totalStaked,
-            pendingRelease: totalPending,
-            availableForWithdraw: totalAvailable
+            sum: stakedBalanceMainAccount.toString(),
+            staked: account?.totalStaked,
+            pendingRelease: account?.totalPending,
+            availableForWithdraw: account?.totalAvailable
         },
-        available: totalUnstaked
+        available: balanceAvailable
     }
 
     let lockupBalance = {}
@@ -45,10 +44,10 @@ export const selectProfileBalance = (balance) => {
             lockupBalance: totalBalance.toString(),
             reservedForStorage: LOCKUP_MIN_BALANCE.toString(),
             inStakingPools: {
-                sum: new BN(lockupAccount.totalStaked).add(new BN(lockupAccount.totalPending)).add(new BN(lockupAccount.totalAvailable)).toString(),
-                staked: lockupAccount.totalStaked,
-                pendingRelease: new BN(lockupAccount.totalPending).toString(),
-                availableForWithdraw: new BN(lockupAccount.totalAvailable).toString()
+                sum: stakedBalanceLockup.toString(),
+                staked: lockupAccount?.totalStaked,
+                pendingRelease: lockupAccount?.totalPending && new BN(lockupAccount.totalPending).toString(),
+                availableForWithdraw: lockupAccount?.totalAvailable && new BN(lockupAccount.totalAvailable).toString()
             },
             locked: lockedAmount.toString(),
             unlocked: {

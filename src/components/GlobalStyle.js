@@ -63,12 +63,12 @@ export default createGlobalStyle`
     h1, .h1 {
         font-weight: 900 !important;
         color: #24272a;
-        font-size: calc(28px + (38 - 28) * ((100vw - 300px) / (1600 - 300))) !important;
+        font-size: calc(24px + (38 - 24) * ((100vw - 300px) / (1600 - 300))) !important;
         word-wrap: break-word;
 
         @media (max-width: 300px) {
             h1 {
-                font-size: 28px;
+                font-size: 24px;
             }
         }
 
@@ -186,6 +186,7 @@ export default createGlobalStyle`
             margin: 0 !important;
             font-weight: 600 !important;
             height: 62px !important;
+            color: #24272A !important;
 
             ::placeholder {
                 color: #CCCCCC;
@@ -437,7 +438,7 @@ export default createGlobalStyle`
 
     @media screen and (max-width: 767px) {
         h1, .h1 {
-            font-size: 28px !important;
+            font-size: 24px !important;
             font-weight: 500;
             color: #24272a;
         }

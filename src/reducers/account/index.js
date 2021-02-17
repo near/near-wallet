@@ -1,7 +1,5 @@
-import { handleActions, combineActions } from 'redux-actions'
+import { handleActions } from 'redux-actions'
 import reduceReducers from 'reduce-reducers'
-import { multisig, utils } from 'near-api-js'
-import BN from 'bn.js'
 
 import {
     requestCode,
@@ -9,15 +7,16 @@ import {
     clearCode,
     promptTwoFactor,
     refreshUrl,
-    refreshAccount,
+    refreshAccountOwner,
     resetAccounts,
     checkCanEnableTwoFactor,
     get2faMethod,
     getLedgerKey,
-    getProfileBalance
+    updateStakingAccount,
+    updateStakingLockup,
+    getBalance,
+    selectAccount
 } from '../../actions/account'
-
-import { LOCKUP_MIN_BALANCE } from '../../utils/account-with-lockup'
 
 const initialState = {
     formLoader: false,
@@ -85,7 +84,7 @@ const ledgerKey = handleActions({
 }, initialState)
 
 const account = handleActions({
-    [refreshAccount]: (state, { payload, ready, meta }) => {
+    [refreshAccountOwner]: (state, { payload, ready, meta }) => {
 
         if (!ready) {
             return {
@@ -106,8 +105,8 @@ const account = handleActions({
             ...state,
             ...payload,
             balance: {
-                ...state.balance,
-                ...payload?.balance
+                ...payload?.balance,
+                ...state.balance
             },
             ledger: undefined,
             ...resetAccountState,
@@ -118,18 +117,38 @@ const account = handleActions({
         ...state,
         loginResetAccounts: true
     }),
-    [getProfileBalance]: (state, { payload, ready, error }) => {
-        if (!ready || error) {
-            return state
-        }
-
-        return {
-            ...state,
-            balance: {
-                ...state.balance,
-                ...payload
-            }
-        }
+    [updateStakingAccount]: (state, { error, payload, ready }) => 
+        (!ready || error)
+            ? state
+            : ({
+                ...state,
+                balance: {
+                    ...state.balance,
+                    account: payload
+                }
+            }),
+    [updateStakingLockup]: (state, { error, payload, ready }) => 
+        (!ready || error)
+            ? state
+            : ({
+                ...state,
+                balance: {
+                    ...state.balance,
+                    lockupAccount: payload
+                }
+            }),
+    [getBalance]: (state, { error, payload, ready}) => 
+        (!ready || error)
+            ? state
+            : ({
+                ...state,
+                balance: {
+                    ...state.balance,
+                    ...payload
+                }
+            }),
+    [selectAccount]: () => {
+        return initialState
     }
 }, initialState)
 

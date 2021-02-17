@@ -11,6 +11,7 @@ import Validators from './components/Validators'
 import Validator from './components/Validator'
 import StakingAction from './components/StakingAction'
 import { setStakingAccountSelected, getStakingAccountSelected } from '../../utils/localStorage'
+import { getBalance } from '../../actions/account'
 
 const StyledContainer = styled(Container)`
     button {
@@ -137,11 +138,12 @@ const StyledContainer = styled(Container)`
 
 export function StakingContainer({ history, match }) {
     const dispatch = useDispatch()
-    const { accountId, has2fa, hasLockup } = useSelector(({ account }) => account);
+    const { accountId, has2fa } = useSelector(({ account }) => account);
     const status = useSelector(({ status }) => status);
     const { hasLedger } = useSelector(({ ledger }) => ledger)
     
     const staking = useSelector(({ staking }) => staking)
+    const hasLockup = !!staking.lockupId
     const { currentAccount } = staking
     const stakingAccounts = staking.accounts
     const validators = staking.allValidators
@@ -156,6 +158,7 @@ export function StakingContainer({ history, match }) {
 
     useEffect(() => {
         dispatch(updateStaking(getStakingAccountSelected()))
+        dispatch(getBalance())
     }, [accountId])
 
     const handleSwitchAccount = async (accountId) => {

@@ -91,7 +91,7 @@ class Routing extends Component {
             languages,
             options: {
                 defaultLanguage: 'en',
-                onMissingTranslation,
+                onMissingTranslation: ({ defaultTranslation }) => defaultTranslation,
                 renderToStaticMarkup: false,
                 renderInnerHtml: true
             }
@@ -123,18 +123,11 @@ class Routing extends Component {
             handleRedirectUrl(this.props.router.location)
             handleClearUrl()
             if (!WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS.find((path) => this.props.router.location.pathname.indexOf(path) > -1)) {
-                await refreshAccount()
+                await refreshAccount(true)
             }
 
             handleClearAlert()
         })
-
-        let id = Mixpanel.get_distinct_id()
-        Mixpanel.identify(id)
-        Mixpanel.people.set({enabled_2FA: this.props.account.twoFactor, can_enable_two_factor: this.props.account.canEnableTwoFactor})
-        if (this.props.account.accountId) {
-            Mixpanel.alias(this.props.account.accountId)
-        }
     }
 
     componentDidUpdate(prevProps) {
@@ -180,8 +173,10 @@ class Routing extends Component {
                                     account.requestPending(verified, error)
                                     // clears requestPending and closes the modal
                                     promptTwoFactor(null)
-                                    // tracking error
-                                    Mixpanel.track("2FA Verify error", {error: error})
+                                    if (error) {
+                                        // tracking error
+                                        Mixpanel.track("2FA Modal Verify fail", {error: error.message})
+                                    }
                                 }}
                             />
                         }

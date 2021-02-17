@@ -5,6 +5,7 @@ import FormButton from '../common/FormButton'
 import { Translate } from 'react-localize-redux'
 import styled from 'styled-components'
 import StarIcon from '../svg/StarIcon.js'
+import { Mixpanel } from '../../mixpanel/index'
 
 const StyledContainer = styled(Container)`
     button {
@@ -67,7 +68,12 @@ export function SetupImplicitSuccess() {
             <h2><Translate id='account.createImplicit.success.descOne' data={{ accountId: account.accountId}}/></h2>
             <h2><Translate id='account.createImplicit.success.descTwo'/></h2>
             <h2><Translate id='account.createImplicit.success.descThree'/></h2>
-            <FormButton linkTo='/profile'><Translate id='account.createImplicit.success.button'/></FormButton>
+            <FormButton 
+                linkTo='/profile'
+                onClick={() => Mixpanel.track("CA Click continue to account button")}
+            >
+                <Translate id='account.createImplicit.success.button'/>
+            </FormButton>
         </StyledContainer>
     );
 }
