@@ -175,6 +175,9 @@ class Routing extends Component {
                                         // tracking error
                                         Mixpanel.track("2FA Modal Verify fail", {error: error.message})
                                     }
+                                    if (verified) {
+                                        Mixpanel.track("2FA Modal Verify finish")
+                                    }
                                 }}
                             />
                         }
