@@ -4,9 +4,11 @@ import { Button } from 'semantic-ui-react'
 import { Translate } from 'react-localize-redux'
 import { withRouter } from 'react-router'
 import classNames from '../../utils/classNames'
+import { Mixpanel } from '../../mixpanel/index'
 
 import ArrowGrnImage from '../../images/icon-arrow-grn.svg'
 import ArrowWhiteImage from '../../images/icon-arrow-white.svg'
+
 
 import styled from 'styled-components'
 
@@ -402,7 +404,8 @@ const FormButton = ({
     linkTo,
     history,
     className,
-    id
+    id,
+    trackingId,
 }) => (
     <CustomButton
         type={type}
@@ -412,6 +415,7 @@ const FormButton = ({
         onClick={(e) => {
             onClick && onClick(e)
             linkTo && history.push(linkTo)
+            trackingId && Mixpanel.track(trackingId)
         }}
         tabIndex='3'
     >
@@ -431,7 +435,8 @@ FormButton.propTypes = {
     sending: PropTypes.bool,
     size: PropTypes.string,
     linkTo: PropTypes.string,
-    className: PropTypes.string
+    className: PropTypes.string,
+    trackingId: PropTypes.string
 }
 
 export default withRouter(FormButton)

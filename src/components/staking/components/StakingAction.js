@@ -13,6 +13,7 @@ import { STAKING_AMOUNT_DEVIATION } from '../../../utils/staking'
 import { onKeyDown } from '../../../hooks/eventListeners'
 import { toNear } from '../../../utils/amounts'
 import { WALLET_APP_MIN_AMOUNT } from '../../../utils/wallet'
+import { Mixpanel } from '../../../mixpanel/index'
 
 const {
     parseNearAmount, formatNearAmount
@@ -81,6 +82,7 @@ export default function StakingAction({
             setAmount(amount)
             setUseMax(true)
         }
+        Mixpanel.track("STAKE/UNSTAKE Use max token")
     }
 
     const handleOnChange = (amount) => {
@@ -123,7 +125,13 @@ export default function StakingAction({
                 <ArrowCircleIcon color={stakeActionAllowed ? '#6AD1E3' : ''}/>
                 <div className='header-button'>
                     <h4><Translate id={`staking.${action}.stakeWith`} /></h4>
-                    <FormButton className='light-blue small' linkTo='/staking/validators'><Translate id='button.edit' /></FormButton>
+                    <FormButton 
+                        className='light-blue small' 
+                        linkTo='/staking/validators'
+                        trackingId="STAKE Go to validators list page"
+                    >
+                        <Translate id='button.edit' />
+                    </FormButton>
                 </div>
                 {validator && 
                     <ValidatorBox
@@ -135,6 +143,7 @@ export default function StakingAction({
                 <FormButton
                     disabled={!stakeActionAllowed} 
                     onClick={() => setConfirm(true)}
+                    trackingId="STAKE/UNSTAKE Click submit stake button"
                 >
                     <Translate id={`staking.${action}.button`} />
                 </FormButton>
@@ -146,7 +155,10 @@ export default function StakingAction({
                         amount={useMax ? amount : toNear(amount)}
                         open={confirm} 
                         onConfirm={onStakingAction} 
-                        onClose={() => setConfirm(false)}
+                        onClose={() => {
+                            setConfirm(false)
+                            Mixpanel.track("STAKE/UNSTAKE Close the modal")
+                        }}
                         loading={loading}
                         disclaimer={getStakeActionDisclaimer()}
                         sendingString={stake ? 'staking' : 'unstaking'}
@@ -169,7 +181,13 @@ export default function StakingAction({
                     />
                 }
                 <div className='desc'><Translate id={`staking.${action}Success.descTwo`}/></div>
-                <FormButton linkTo='/staking' className='gray-blue'><Translate id={`staking.${action}Success.button`} /></FormButton>
+                <FormButton 
+                    linkTo='/staking' 
+                    className='gray-blue'
+                    trackingId="STAKE/UNSTAKE Return to dashboard"
+                >
+                    <Translate id={`staking.${action}Success.button`} />
+                    </FormButton>
             </>
         )
     }

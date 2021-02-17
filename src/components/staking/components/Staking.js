@@ -47,7 +47,13 @@ export default function Staking({
                 show={loading}
                 className='account-loader'
             />
-            <FormButton disabled={loading} linkTo='/staking/validators'><Translate id='staking.staking.button' /></FormButton>
+            <FormButton 
+                disabled={loading} 
+                linkTo='/staking/validators'
+                trackingId="STAKE Click stake my tokens button"
+            >
+                <Translate id='staking.staking.button' />
+            </FormButton>
             <SkeletonLoading
                 height='80px'
                 number={2}

@@ -36,9 +36,10 @@ class DashboardDetail extends Component {
             loader: true
         }))
 
+        const activeLang = localStorage.getItem("languageCode") 
         let id = Mixpanel.get_distinct_id()
         Mixpanel.identify(id)
-        Mixpanel.people.set({relogin_date: new Date().toString()})
+        Mixpanel.people.set({relogin_date: new Date().toString(), language: activeLang})
     }
 
     componentWillUnmount = () => {
@@ -86,6 +87,7 @@ class DashboardDetail extends Component {
                     <FormButton 
                         linkTo='/send-money'
                         color='green-white-arrow'
+                        onClick={() => Mixpanel.track("SEND Click send button")}
                     >
                         <Translate id='button.send' />
                     </FormButton>

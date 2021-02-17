@@ -154,16 +154,14 @@ class RecoverWithLink extends Component {
     }
 
     handleContinue = async () => {
-        try {
-            Mixpanel.track("IE Recover with link start")
-            await this.props.recoverAccountSeedPhrase(this.state.seedPhrase, this.props.match.params.accountId, false)
-            Mixpanel.track("IE Recover with link finish")
-            this.props.refreshAccount()
-            this.props.redirectTo('/profile')
-        } catch (error) {
-            Mixpanel.track("IE Recover with link fail", {error: error.message})
-            this.setState({ successView: false });
-        }
+        await Mixpanel.withTracking("IE Recover with link", 
+            async () => {
+                await this.props.recoverAccountSeedPhrase(this.state.seedPhrase, this.props.match.params.accountId, false)
+                this.props.refreshAccount()
+                this.props.redirectTo('/profile')
+            },
+            this.setState({ successView: false })
+        )
     }
 
     render() {

@@ -96,10 +96,8 @@ const TwoFactorAuth = ({ twoFactor, history }) => {
                     <div className='top'>
                         <div className='title'><Translate id='twoFactor.notEnabled'/></div>
                         <FormButton 
-                            onClick={() => {
-                                history.push('/enable-two-factor');
-                                Mixpanel.track("2FA Click enable button", {url_link: "/enable-two-factor"});
-                            }} 
+                            onClick={() => history.push('/enable-two-factor')} 
+                            trackingId="2FA Click enable button"
                             disabled={!account.canEnableTwoFactor}
                         >
                             <Translate id='button.enable'/>

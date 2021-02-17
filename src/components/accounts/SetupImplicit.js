@@ -84,15 +84,11 @@ class SetupImplicit extends Component {
     state = { ...initialState }
 
     handleContinue = async () => {
-        Mixpanel.track("CA Create account from implicit start")
         const { dispatch, accountId, implicitAccountId, recoveryMethod } = this.props
         this.setState({ createAccount: true })
-        try {
-            await dispatch(createAccountFromImplicit(accountId, implicitAccountId, recoveryMethod))
-            Mixpanel.track("CA Create account from implicit finish")
-        } catch(e) {
-            Mixpanel.track("CA Create account from implicit fail", {error: e.message})
-        }
+        await Mixpanel.withTracking("CA Create account from implicit", 
+            async () => await dispatch(createAccountFromImplicit(accountId, implicitAccountId, recoveryMethod))
+        )
         await dispatch(redirectTo('/fund-create-account/success'))
     }
 
@@ -102,7 +98,6 @@ class SetupImplicit extends Component {
     }
 
     isMoonpayAvailable = async () => {
-        Mixpanel.track("CA Check moonpay available start")
         const MOONPAY_API_URL = 'https://api.moonpay.com'
         const moonpayGet = (path) => sendJson('GET', `${MOONPAY_API_URL}${path}?apiKey=${MOONPAY_API_KEY}`)
         const isAllowed = ({ isAllowed, isBuyAllowed }) => isAllowed && isBuyAllowed
@@ -114,16 +109,16 @@ class SetupImplicit extends Component {
         const { alpha2, alpha3, state } = ipAddressInfo
 
         const countries = await moonpayGet('/v3/countries')
-        const country = countries.find(c => c.alpha2 == alpha2 && c.alpha3 == alpha3) || {}
+        const country = countries.find(c => c.alpha2 === alpha2 && c.alpha3 === alpha3) || {}
         if (!isAllowed(country)) {
             return false
         }
 
         const currencies = await moonpayGet('/v3/currencies')
-        const currency = currencies.find(({ code }) => code == 'near') || {}
+        const currency = currencies.find(({ code }) => code === 'near') || {}
         const { isSupportedInUS, notAllowedUSStates } = currency
 
-        if (alpha2 == 'US' && (!isSupportedInUS || notAllowedUSStates.includes(state))) {
+        if (alpha2 === 'US' && (!isSupportedInUS || notAllowedUSStates.includes(state))) {
             return false
         }
 
@@ -131,44 +126,46 @@ class SetupImplicit extends Component {
     }
 
     checkMoonpay = async () => {
-        try {
-            const moonpayAvailable = await this.isMoonpayAvailable()
-            if (moonpayAvailable) {
-                const MOONPAY_URL = `https://buy.moonpay.io?apiKey=${MOONPAY_API_KEY}`
-                const { implicitAccountId } = this.props
-                const widgetUrl = `${MOONPAY_URL}&walletAddress=${encodeURIComponent(implicitAccountId)}&currencyCode=NEAR` +
-                    `&redirectURL=${encodeURIComponent(window.location.href)}`
-
-                const { signature } = await sendJson('GET', `${ACCOUNT_HELPER_URL}/moonpay/signURL?url=${encodeURIComponent(widgetUrl)}`)
-                const moonpaySignedURL = `${widgetUrl}&signature=${encodeURIComponent(signature)}`
-                this.setState({ moonpayAvailable, moonpaySignedURL })
-            }
-        } catch (e) {
-            Mixpanel.track("CA Check moonpay available fail", {error: e.message})
-            console.warn('Error checking Moonpay', e);
-        }
+        await Mixpanel.withTracking("CA Check moonpay available start", 
+            async () => {
+                const moonpayAvailable = await this.isMoonpayAvailable()
+                if (moonpayAvailable) {
+                    const MOONPAY_URL = `https://buy.moonpay.io?apiKey=${MOONPAY_API_KEY}`
+                    const { implicitAccountId } = this.props
+                    const widgetUrl = `${MOONPAY_URL}&walletAddress=${encodeURIComponent(implicitAccountId)}&currencyCode=NEAR` +
+                        `&redirectURL=${encodeURIComponent(window.location.href)}`
+    
+                    const { signature } = await sendJson('GET', `${ACCOUNT_HELPER_URL}/moonpay/signURL?url=${encodeURIComponent(widgetUrl)}`)
+                    const moonpaySignedURL = `${widgetUrl}&signature=${encodeURIComponent(signature)}`
+                    this.setState({ moonpayAvailable, moonpaySignedURL })
+                }
+            },
+            (e) => console.warn('Error checking Moonpay', e)
+        )
     }
 
     checkBalance = async () => {
-        Mixpanel.track("CA Check balance from implicit start")
         const { implicitAccountId } = this.props
 
         const account = new nearApiJs.Account(this.connection, implicitAccountId)
-        try {
-            const state = await account.state()
-            if (new BN(state.amount).gte(MIN_BALANCE_TO_CREATE)) {
-                Mixpanel.track("CA Check balance from implicit: sufficient")
-                return this.setState({ balance: formatNearAmount(state.amount, 2), whereToBuy: false, createAccount: true })
-            }else {
-                Mixpanel.track("CA Check balance from implicit: insufficient")
-            }
-        } catch (e) {
-            if (e.message.indexOf('exist while viewing') === -1) {
-                throw e
-            }
-            Mixpanel.track("CA Check balance from implicit fail", {error: e.message})
-            this.setState({ balance: false })
+
+        await Mixpanel.withTracking("CA Check balance from implicit",
+            async () => {
+                const state = await account.state()
+                if (new BN(state.amount).gte(MIN_BALANCE_TO_CREATE)) {
+                    Mixpanel.track("CA Check balance from implicit: sufficient")
+                    return this.setState({ balance: formatNearAmount(state.amount, 2), whereToBuy: false, createAccount: true })
+                }else {
+                    Mixpanel.track("CA Check balance from implicit: insufficient")
+                }
+            },
+            (e) => { 
+                if (e.message.indexOf('exist while viewing') === -1) {
+                    throw e
+                }
+                this.setState({ balance: false })
         }
+        )
     }
 
     componentDidMount = () => {
@@ -238,12 +235,10 @@ class SetupImplicit extends Component {
                         <h2><Translate id='account.createImplicit.pre.descOne' data={{ amount: formatNearAmount(MIN_BALANCE_TO_CREATE) }}/></h2>
                         <h2><Translate id='account.createImplicit.pre.descTwo'/></h2>
                         <FormButton
-                            onClick={() => {
-                                this.setState({ whereToBuy: true })
-                                Mixpanel.track("CA Click where to buy button")
-                            }}
+                            onClick={() => this.setState({ whereToBuy: true })}
                             color='link'
                             className='where-to-buy-link'
+                            trackingId="CA Click where to buy button"
                         >
                             <Translate id='account.createImplicit.pre.whereToBuy.button' />
                         </FormButton>

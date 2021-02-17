@@ -81,7 +81,7 @@ class SetupSeedPhrase extends Component {
 
     handleVerifyPhrase = () => {
         const { seedPhrase, enterWord, wordId, submitting } = this.state
-        Mixpanel.track("SR-SP Verify seed phrase start")
+        Mixpanel.track("SR-SP Verify start")
         if (enterWord !== seedPhrase.split(' ')[wordId]) {
             this.setState(() => ({
                 localAlert: {
@@ -89,14 +89,14 @@ class SetupSeedPhrase extends Component {
                     messageCode: 'account.verifySeedPhrase.error'
                 }
             }))
-            Mixpanel.track("SR-SP Verify seed phrase fail", {error: 'word is not matched the phrase'})
+            Mixpanel.track("SR-SP Verify fail", {error: 'word is not matched the phrase'})
             return false
         }
 
         if (!submitting) {
             this.setState({ submitting: true }, this.handleSetupSeedPhrase)
         }
-        Mixpanel.track("SR-SP Verify seed phrase finish")
+        Mixpanel.track("SR-SP Verify finish")
     }
 
     handleSetupSeedPhrase = async () => {
@@ -111,22 +111,16 @@ class SetupSeedPhrase extends Component {
         const isNew = await checkIsNew(accountId)
 
         if (!isNew) {
-            try {
-                await handleAddAccessKeySeedPhrase(accountId, recoveryKeyPair)
-                Mixpanel.track("SR-SP Setup seed phrase for existing account")
-            } catch(e) {
-                Mixpanel.track("SR-SP Verify seed phrase fail", {error: e.message})
-            }
+            await Mixpanel.withTracking("SR-SP Setup for existing account",
+                async () => await handleAddAccessKeySeedPhrase(accountId, recoveryKeyPair)
+            )
             return
         }
 
         const fundingOptions = JSON.parse(parseQuery(location.search).fundingOptions || 'null')
-        try {
-            await handleCreateAccountWithSeedPhrase(accountId, recoveryKeyPair, fundingOptions)
-            Mixpanel.track("SR-SP Setup new account start")
-        } catch(e) {
-            Mixpanel.track("SR-SP Verify seed phrase fail", {error: e.message})
-        }
+        await Mixpanel.withTracking("SR-SP Setup for new account", 
+            async () => await handleCreateAccountWithSeedPhrase(accountId, recoveryKeyPair, fundingOptions)
+        )
     }
 
     handleCopyPhrase = () => {
