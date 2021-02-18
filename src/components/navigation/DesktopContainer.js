@@ -2,12 +2,10 @@ import React, { Component } from 'react';
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 import helpIcon from '../../images/icon-help.svg';
-import userIcon from '../../images/user-icon-grey.svg';
 import languagesIcon from '../../images/icon-languages.svg';
 import Logo from './Logo';
 import NavLinks from './NavLinks';
-import UserBalance from './UserBalance';
-import UserName from './UserName';
+import UserAccount from './UserAccount';
 import DesktopMenu from './DesktopMenu';
 import LanguageToggle from '../common/LangSwitcher';
 
@@ -17,14 +15,14 @@ const Container = styled.div`
     position: relative;
     font-size: 14px;
     margin-bottom: 20px;
-    padding-left: 15px;
+    padding: 0 15px;
     box-shadow: 0px 5px 9px -1px rgba(0,0,0,0.17);
 
     @media (min-width: 992px) {
         display: flex;
     }
 
-    background-color: #24272a;
+    background-color: #272729;
     height: 70px;
     align-items: center;
 
@@ -35,15 +33,20 @@ const Container = styled.div`
     .click-outside {
         position: relative;
     }
+
+    .divider {
+        height: 35px;
+        width: 2px;
+        background-color: #5d5f60;
+        margin: 0 20px;
+    }
 `
 const Help = styled.a`
     color: white;
     display: flex;
     align-items: center;
     margin-left: auto;
-    text-transform: uppercase;
     cursor: pointer;
-    letter-spacing: 2px;
     padding-top: 2px;
     
     &:hover {
@@ -59,122 +62,6 @@ const Help = styled.a`
         height: 23px;
         margin-right: 10px;
         margin-top: -2px;
-    }
-`
-
-const User = styled.div`
-    border-left: 2px solid #5d5f60;
-    position: relative;
-    min-width: 150px;
-    max-width: 310px;
-    margin-left: 20px;
-    padding: 0 50px 0 20px;
-    font-size: 16px;
-    cursor: pointer;
-    user-select: none;
-    display: flex;
-    align-items: center;
-
-    @media (min-width: 1050px) {
-        max-width: 355px;
-    }
-
-    @media (min-width: 1200px) {
-        max-width: 425px;
-    }
-
-    @media (min-width: 1350px) {
-        max-width: 500px;
-    }
-
-    @media (min-width: 1350px) {
-        max-width: 650px;
-    }
-
-    @media (min-width: 1500px) {
-        max-width: 700px;
-    }
-
-    .user-name {
-        white-space: nowrap;
-        margin-left: 10px;
-        max-width: 100px;
-
-        @media (min-width: 769px) {
-            max-width: 125px;
-        }
-
-        @media (min-width: 1050px) {
-            max-width: 170px;
-        }
-
-        @media (min-width: 1200px) {
-            max-width: 215px;
-        }
-
-        @media (min-width: 1350px) {
-            max-width: 255px;
-        }
-
-        @media (min-width: 1500px) {
-            max-width: 295px;
-        }
-    } 
-
-    .user-balance {
-        margin-left: 10px;
-        white-space: nowrap;
-        max-width: 80px;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        background-color: black;
-        padding: 2px 10px;
-        border-radius: 40px;
-        font-size: 14px;
-
-        @media (min-width: 1200px) {
-            max-width: 110px;
-        }
-
-        @media (min-width: 1350px) {
-            max-width: 155px;
-        }
-    }
-
-    @media (max-width: 920px) {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-
-    &:after {
-        content: '';
-        border-color: #f8f8f8a1;
-        border-style: solid;
-        border-width: 2px 2px 0 0;
-        display: inline-block;
-        position: absolute;
-        right: 25px;
-        top: calc(50% - 10px);
-        transform: rotate(135deg) translateY(-50%);
-        height: 9px;
-        width: 9px;
-    }
-`
-
-const UserIcon = styled.div`
-    display: none;
-    background: url(${userIcon});
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: 21px;
-    min-width: 35px;
-    width: 35px;
-    height: 35px;
-    border-radius: 50%;
-    background-color: #545454;
-
-    @media (min-width: 940px) {
-        display: inline-block;
     }
 `
 
@@ -246,11 +133,8 @@ class DesktopContainer extends Component {
                 </Lang>
                 {showNavLinks &&
                     <>
-                        <User onClick={toggleMenu}>
-                            <UserIcon/>
-                            <UserName accountId={account.accountId}/>
-                            <UserBalance balance={account.balance}/>
-                        </User>
+                        <div className='divider'/>
+                        <UserAccount accountId={account.accountId} onClick={toggleMenu}/>
                         <DesktopMenu
                             show={menuOpen}
                             toggleMenu={toggleMenu}

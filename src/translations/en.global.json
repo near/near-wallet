@@ -460,12 +460,12 @@
     },
 
     "link": {
-        "summary": "SUMMARY",
-        "send": "SEND",
-        "receive": "RECEIVE",
-        "staking": "STAKING",
-        "help": "HELP",
-        "profile": "Profile",
+        "wallet": "Wallet",
+        "send": "Send",
+        "receive": "Receive",
+        "staking": "Staking",
+        "help": "Help",
+        "accountDetails": "Account Details",
         "authorizedApps": "Authorized Apps",
         "switchAccount": "Switch account",
         "noAccount": "You have no other accounts",
