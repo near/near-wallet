@@ -178,29 +178,29 @@
                 }
             },
             "success": {
-                "title": "Welcome to NEAR",
-                "descOne": "Congratulations <b>${accountId}</b>! Your account has been successfully created.",
-                "descTwo": "You must now use this Account ID as your address for all NEAR operations.",
-                "descThree": "Please update your address on any exchanges or other devices.",
-                "button": "Continue to Account"
+                "title": "Bem-vindo a NEAR",
+                "descOne": "Parabéns <b>${accountId}</b>! Sua conta foi criada com sucesso.",
+                "descTwo": "Agora você deve usar este ID da Conta como seu endereço para todas as operações na NEAR.",
+                "descThree": "Por favor, atualize seu endereço em quaisquer trocas ou outros dispositivos.",
+                "button": "Continue para a Conta"
             }
         },
         "verifySeedPhrase": {
-            "error": "You entered the incorrect word"
+            "error": "Você digitou a palavra incorreta"
         },
         "sendNewRecoveryLink": {
-            "success": "Recovery link successfully sent!",
-            "error": "Failed to resend. Por favor, tente novamente."
+            "success": "Link de recuperação enviado com sucesso!",
+            "error": "Falha ao reenviar. Por favor, tente novamente."
         },
         "login": {
             "details": {
-                "warning": "This allows access to your entire balance. Please proceed with caution."
+                "warning": "Isso permite acesso a todo o seu saldo. Prossiga com cuidado."
             },
             "incorrectContractId": {
-                "error": "The contract ${contractId} does not exist. This may be an issue with the application you are trying to use, or this contract may have been deleted. You will be redirected back to the application"
+                "error": "O contrato ${contractId} não existe. Isso poder ser um problema com o aplicativo que você está tentando usar ou este contrato pode ter sido excluido. Você será redirecionado de volta para a aplicação"
             }
         },
-        "nameDoesntMatch": "Account name doesn't match",
+        "nameDoesntMatch": "O nome da conta não corresponde",
         "sendMoney": {
             "error": "Desculpe, ocorreu um erro. Por favor, tente novamente."
         }
@@ -223,109 +223,109 @@
         "DeleteKey": "Chave deletada"
     },
     "actionsSign": {
-        "createAccount": "Creating Account: ${receiverId}",
-        "deployContract": "Deploying Contract: ${receiverId}",
-        "functionCall": "Calling function: ${methodName}",
-        "transfer": "Transferring: ${deposit}Ⓝ to ${receiverId}",
+        "createAccount": "Criando Conta: ${receiverId}",
+        "deployContract": "Implementando Contrato: ${receiverId}",
+        "functionCall": "Chamando função: ${methodName}",
+        "transfer": "Transferindo: ${deposit}Ⓝ para ${receiverId}",
         "stake": "Staking: ${stake}Ⓝ ${publicKey}...",
-        "addKey": "Adding access key",
-        "deleteKey": "Deleting access key",
-        "deleteAccount": "Deleting account: ${receiverId}"
+        "addKey": "Adicionando chave de acesso",
+        "deleteKey": "Deletando chave de acesso",
+        "deleteAccount": "Deletando conta: ${receiverId}"
     },
 
     "setupSeedPhrase": {
-        "pageTitle": "Setup Phrase",
-        "pageText": "Write down the following words IN ORDER and keep them somewhere safe. You cannot recover your account without them!",
-        "snackbarCopySuccess": "Seed phrase copied!",
-        "snackbarCopyImplicitAddress": "Funding Address Copied!"
+        "pageTitle": "Configurar Frase",
+        "pageText": "Escreva as seguintes palavras EM ORDEM e guarde-as em algum lugar seguro. Você não consegue recuperar sua conta sem elas!",
+        "snackbarCopySuccess": "Frase semente copiada!",
+        "snackbarCopyImplicitAddress": "Endereço de Fundo Copiado!"
     },
     "setupSeedPhraseVerify": {
-        "pageTitle": "Verify Phrase",
-        "pageText": "Enter the following word from your recovery phrase to complete the setup process.",
-        "startOverText": "Didn't write it down?"
+        "pageTitle": "Verifique a Frase",
+        "pageText": "Digite a seguinte palavra da sua frase de recuperação para completar o processo de configuração.",
+        "startOverText": "Não escreveu?"
     },
     "setupSeedPhraseSuccess": {
-        "pageTitle": "Recovery Setup is Complete",
-        "pageText": "Use your Recovery Phrase to restore your account.",
-        "pageTextSecondLine": "Anyone with access to your Recovery Phrase can access your funds, so keep it offline somewhere safe and secure."
+        "pageTitle": "Configuração de Recuperação Completo",
+        "pageText": "Use sua Frase de Recuperação para restaurar sua conta.",
+        "pageTextSecondLine": "Qualquer pessoa com acesso a sua Frase de Recuperação pode acessar seus fundos, portanto, mantenha-o offline, em algum lugar seguro e protegido."
     },
 
     "receivePage": {
-        "addressTitle": "Your address",
-        "qrCodeTitle": "Scan QR code",
-        "copyAddressLinkLong": "Copy address URL",
-        "copyAddressLinkShort": "COPY",
-        "snackbarCopySuccess": "Address URL copied!"
+        "addressTitle": "Seu endereço",
+        "qrCodeTitle": "Escaneie o código QR",
+        "copyAddressLinkLong": "Copie a URL",
+        "copyAddressLinkShort": "COPIE",
+        "snackbarCopySuccess": "URL copiada!"
     },
 
     "selectAccountDropdown": {
-        "switchAccount": "Switch Account",
-        "selectAccount": "Select Account",
-        "switchAccounthNotAllowed": "This app doesn't allow account changes",
-        "createAccount": "Create New Account",
-        "noOtherAccounts": "You have no other accounts"
+        "switchAccount": "Trocae Conta",
+        "selectAccount": "Escolher Conta",
+        "switchAccounthNotAllowed": "Esse aplicativo não permite alteração de conta",
+        "createAccount": "Crie uma Nova Conta",
+        "noOtherAccounts": "Você não tem outras contas"
     },
 
     "recoverWithLink": {
-        "title": "Restore Account",
-        "pOne": "Click \"Continue\" to restore your account:",
-        "pTwo": "If this isn't your preferred browser, copy the URL and complete this process in your browser of choice.",
-        "snackbarCopySuccess": "Recover URL copied",
-        "errorTitle": "Link Expired",
-        "errorP": "Please check your email or phone for the most recent message. Links in all earlier messages are invalid."
+        "title": "Restaurar Conta",
+        "pOne": "Clique em \"Continuar\" para restaurar sua conta:",
+        "pTwo": "Se este não for o seu navegador preferido, copie a URL e conclua o processo no navegador de sua escolha.",
+        "snackbarCopySuccess": "URL de Recuperação copiada",
+        "errorTitle": "Link Expirado",
+        "errorP": "Verifique seu e-mail ou telefone pela mensagem mais recente. Os links de todas as mensagens anteriores são inválidos."
     },
 
     "recoveryMgmt": {
-        "title": "Recovery Methods",
-        "noRecoveryMethod": "You have no method to recover your account. please add a method below.",
+        "title": "Métodos de Recuperação",
+        "noRecoveryMethod": "Você não tem nenhum método para recuperar sua conta. Por favor, adicione um método abaixo.",
         "methodTitle": {
-            "phrase": "Seed Phrase",
-            "phone": "Phone",
+            "phrase": "Frase Semente",
+            "phone": "Telefone",
             "email": "Email"
         },
         "resend": {
-            "phone": "Resend SMS",
-            "email": "Resend Email"
+            "phone": "Reenviar SMS",
+            "email": "Reenviar Email"
         },
-        "enabled": "Enabled",
-        "disableTitle": "Are you sure you want to disable this method?",
-        "disableTextLink": "The magic link you received will be permanently deactivated.",
-        "disableTextPhrase": "Your current seed phrase will be permanently deactivated.",
-        "disableInputPlaceholder": "Enter your account ID to confirm",
-        "disableNo": "No, keep",
-        "recoveryLinkSent": "Recovery Link Sent!",
-        "disableNotAllowed": "Accounts are required to have at least one active recovery method. Please first enable an alternative recovery method to proceed."
+        "enabled": "Habilitado",
+        "disableTitle": "Tem certeza de que deseja desativar este método?",
+        "disableTextLink": "O link temporário que você recebeu será desativado permanentemente.",
+        "disableTextPhrase": "Sua frase semente atual será permanentemente desativada.",
+        "disableInputPlaceholder": "Insira o ID da sua conta para confirmar",
+        "disableNo": "Não, mantenha",
+        "recoveryLinkSent": "Link de Recuperação Enviado!",
+        "disableNotAllowed": "As contas devem ter pelo menos um método de recuperação ativo. Ative primeiro um método de recuperação alternativo para continuar."
     },
 
     "hardwareDevices": {
-        "title": "Hardware Devices",
-        "desc": "Improve the security of your account by using a hardware wallet.",
+        "title": "Dispositivos Físicos",
+        "desc": "Melhore a segurança da sua conta usando uma carteira física.",
         "ledger": {
-            "title": "Ledger Hardware Wallet",
-            "auth": "Authorized",
-            "disclaimer": "In order to disable your ledger device, you must first enable an alternative recovery method.",
-            "connect": "Your ledger is not currently connected. We advise that you re-connect your Ledger to ensure your account is secured."
+            "title": "Carteira Física Ledger",
+            "auth": "Autorizado",
+            "disclaimer": "Para desativar sua Ledger, você deve primeiro ativar um método de recuperação alternativo.",
+            "connect": "Sua Ledger não está conectada no momento. Aconselhamos que você reconecte sua Leadger para garantir que sua conta esteja protegida."
         },
         "disable": {
-            "title": "Are you sure you want to disable Ledger?",
-            "desc": "Make sure you have other recovery methods setup before disabling.",
-            "disable": "Disable Ledger",
-            "keep": "No, keep Ledger"
+            "title": "Você tem certe que deseja desativar sua Ledger?",
+            "desc": "Certifique-se de ter outros métodos de recuperação configurados antes de desativar.",
+            "disable": "Desativar Ledger",
+            "keep": "Não, continuar com a Ledger"
         }
     },
 
     "twoFactor": {
-        "enable": "Enable Two-Factor Authentication",
-        "subHeader": "Two factor authentication adds an extra layer of security to your account. With 2FA enabled, all transactions must be confirmed using SMS or email.",
-        "select": "Select Authentication Method",
-        "title": "Two-Factor Authentication",
-        "desc": "Protect your account by requiring confirmation via SMS or email when authorizing transactions.",
-        "email": "Email Address",
-        "phone": "Phone Number",
-        "notEnabled": "2FA Not Enabled",
-        "notEnoughBalance": "To enable 2FA, your account requires a minimum available balance of",
-        "active": "Active",
-        "since": "since",
+        "enable": "Habilitar Autenticação de Dois Fatores (2FA)",
+        "subHeader": "A autenticação de dois fatores adiciona uma camada extra de segurança à sua conta. Com 2FA habilitado, todas as transações devem ser confirmadas usando SMS ou e-mail.",
+        "select": "Selecione o Método de Autenticação",
+        "title": "Autenticação de Dois Fatores",
+        "desc": "Proteja sua conta exigindo confirmação via SMS ou e-mail ao autorizar transações.",
+        "email": "Endereço de Email",
+        "phone": "Telefone",
+        "notEnabled": "2FA Não Habilitado",
+        "notEnoughBalance": "Para habilitar o 2FA, sua conta requer um saldo mínimo disponível de",
+        "active": "Ativo",
+        "since": "desde",
         "promptDesc": "We highly recommend that you set up a two-factor authentication method to increase the security of your account and assests",
         "verify": {
             "title": "Enter Two-Factor Verification Code",
