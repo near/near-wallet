@@ -410,7 +410,7 @@ class Wallet {
 
     async saveAndSelectAccount(accountId, keyPair) {
         await this.saveAccount(accountId, keyPair)
-        store.dispatch(selectAccount(accountId))
+        this.selectAccount(accountId)
         // TODO: What does setAccountConfirmed do?
         setAccountConfirmed(this.accountId, false)
     }
