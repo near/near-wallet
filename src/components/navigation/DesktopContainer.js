@@ -41,32 +41,9 @@ const Container = styled.div`
         margin: 0 20px;
     }
 `
-const Help = styled.a`
-    color: white;
-    display: flex;
-    align-items: center;
-    margin-left: auto;
-    cursor: pointer;
-    padding-top: 2px;
-    
-    &:hover {
-        color: white;
-        text-decoration: none;
-    }
-    &:before {
-        content: '';
-        background: url(${helpIcon});
-        background-repeat: no-repeat;
-        display: inline-block;
-        width: 23px;
-        height: 23px;
-        margin-right: 10px;
-        margin-top: -2px;
-    }
-`
 
 const Lang = styled.div`
-    margin-left: 20px;
+    margin-left: auto;
     position: relative;
 
     &:after {
@@ -125,9 +102,6 @@ class DesktopContainer extends Component {
                 {showNavLinks &&
                     <NavLinks />
                 }
-                <Help href='https://nearhelp.zendesk.com/' target='_blank' rel='noopener noreferrer'>
-                    <Translate id='link.help'/>
-                </Help>
                 <Lang>
                     <LanguageToggle />
                 </Lang>

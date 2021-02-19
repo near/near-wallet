@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import Logo from './Logo';
-import UserBalance from './UserBalance';
-import UserName from './UserName';
-import MenuButton from './MenuButton';
 import NavLinks from './NavLinks';
 import UserLinks from './UserLinks';
 import UserAccounts from './UserAccounts';
@@ -12,6 +9,8 @@ import LanguageToggle from '../common/LangSwitcher';
 import languagesIcon from '../../images/icon-languages.svg';
 import { Translate } from 'react-localize-redux';
 import AccessAccountBtn from './AccessAccountBtn';
+import UserAccount from './UserAccount';
+import UserIcon from '../svg/UserIcon';
 
 const Container = styled.div`
     display: none;
@@ -21,7 +20,7 @@ const Container = styled.div`
     background-color: #24272a;
     height: 70px;
     position: relative;
-    padding: 0 15px;
+    padding: 0 14px;
     box-shadow: 0px 5px 9px -1px rgba(0,0,0,0.17);
     transition: 300ms;
 
@@ -42,9 +41,10 @@ const Container = styled.div`
     }
 
     h6 {
-        text-transform: uppercase;
-        letter-spacing: 2px;
-        font-weight: 500;
+        font-size: 13px !important;
+        margin-bottom: 10px !important;
+        color: #D5D4D8;
+        font-weight: normal !important;
     }
 
     &.show {
@@ -57,36 +57,57 @@ const Container = styled.div`
         max-width: 200px;
         white-space: nowrap;
     }
+
+    .nav-links {
+        margin: 0 -14px;
+
+        a {
+            padding: 17px 14px;
+            border-top: 1px solid #3F4045;
+            width: 100%;
+            max-height: 58px;
+
+            svg {
+                margin-right: 15px;
+            }
+
+            .user-icon {
+                margin-left: -7px;
+                margin-right: 10px;
+            }
+        }
+    }
 `
 
 const Collapsed = styled.div`
     height: 70px;
     display: flex;
     align-items: center;
+    justify-content: space-between;
 
-    .menu-btn-wrapper {
-        position: absolute;
-        right: 0;
-        top: 5px;
-        padding: 20px;
+    .user-account {
+        padding: 4px 5px 4px 4px;
+    }
+
+    .user-icon {
+        .background {
+            fill: black;
+        }
     }
 `
 
-const User = styled.div`
-    margin-left: 10px;
-`
-
 const LowerSection = styled.div`
-    background-color: black;
-    margin: 10px -20px 0 -20px;
+    background-color: #3F4045;
+    margin: 0px -20px 0 -20px;
     padding: 20px 20px 100% 20px;
 `
 
 const Lang = styled.div`
     border-top: 1px solid #404040;
-    margin-top: 15px;
-    padding: 15px 0;
+    padding: 14px;
     position: relative;
+    max-height: 58px;
+    margin: 0 -14px;
 
     &:after {
         content: '';
@@ -95,7 +116,7 @@ const Lang = styled.div`
         border-width: 2px 2px 0 0;
         display: inline-block;
         position: absolute;
-        right: 10px;
+        right: 24px;
         top: calc(50% - 10px);
         transform: rotate(135deg) translateY(-50%);
         height: 9px;
@@ -116,11 +137,10 @@ const Lang = styled.div`
 
     .lang-selector {
         appearance: none;
-        background: transparent url(${languagesIcon}) no-repeat 2px center / 24px 24px;
+        background: transparent url(${languagesIcon}) no-repeat 0px center / 24px 24px;
         border: 0;
-        color: #f8f8f8;
+        color: #D5D4D8;
         cursor: pointer;
-        font-size: 16px;
         height: 32px;
         outline: none;
         padding-right: 54px;
@@ -130,7 +150,7 @@ const Lang = styled.div`
     }
 
     &.mobile-lang .lang-selector  {
-        text-indent: 36px;
+        text-indent: 32px;
 
         &:active,
         &:focus,
@@ -162,11 +182,8 @@ class MobileContainer extends Component {
                     <Logo/>
                     {showNavLinks &&
                         <>
-                            <User>
-                                <UserName accountId={account.accountId}/>
-                                <UserBalance balance={account.balance}/>
-                            </User>
-                            <MenuButton onClick={toggleMenu} open={menuOpen}/>
+                            <UserAccount accountId={account.accountId} onClick={toggleMenu} withIcon={false}/>
+                            <UserIcon background={true} color='#D5D4D8' onClick={toggleMenu}/>
                         </>
                     }
                     {!showNavLinks &&
@@ -178,7 +195,6 @@ class MobileContainer extends Component {
                 {menuOpen &&
                     <>
                         <NavLinks />
-                        <UserLinks accountId={account.accountId}/>
                         <Lang className="mobile-lang">
                             <LanguageToggle />
                         </Lang>

@@ -14,9 +14,17 @@ const Account = styled.div`
     overflow: hidden;
     text-overflow: ellipsis;
     color: white;
-    padding: 12px 0;
+    padding: 12px 14px;
     border-bottom: 1px solid #404040;
     cursor: pointer;
+    font-weight: 500;
+
+    :first-of-type {
+        background-color: #24272a;
+        padding: 18px 14px;
+        margin-bottom: 10px;
+        border-radius: 8px;
+    }
 
     :last-of-type {
         border-bottom: 0;
@@ -34,12 +42,14 @@ const Account = styled.div`
 
 const UserAccounts = ({ accounts, accountId, selectAccount }) => (
     <Wrapper>
+        <Account>
+            {accountId}
+        </Account>
         {accounts.filter(a => a !== accountId).map((account, i) => (
             <Account key={`link-${i}`} onClick={() => selectAccount(account)}>
                 {account}
             </Account>
         ))}
-        {accounts.length < 2 && <div><Translate id='link.noAccount'/></div>}
     </Wrapper>
 )
 

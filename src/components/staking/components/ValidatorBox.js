@@ -139,7 +139,7 @@ export default function ValidatorBox({
             onClick={() => { clickable && amount && dispatch(redirectTo(`/staking/${validatorId}`))}}
         >
             {label && <div className='with'><Translate id='staking.validatorBox.with' /></div>}
-            <UserIcon/>
+            <UserIcon background={true}/>
             <div>
                 <div>{validatorId}</div>
                 {typeof fee === 'number' &&

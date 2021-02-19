@@ -23,11 +23,16 @@ const Container = styled.div`
     > div {
         :first-of-type {
             font-weight: 600;
-            margin: 0 15px 0 9px;
+            font-size: 14px;
+            margin: 0 14px 0 9px;
             white-space: nowrap;
             max-width: 150px;
             overflow: hidden;
             text-overflow: ellipsis;
+
+            @media (max-width: 991px) {
+                margin: 0 14px 0 12px;
+            }
         }
 
         :last-of-type {
@@ -49,9 +54,9 @@ const Container = styled.div`
     }
 `
 
-const UserAccount = ({ accountId = '', onClick }) => (
-    <Container onClick={onClick}>
-        <UserIcon/>
+const UserAccount = ({ accountId = '', onClick, withIcon = true }) => (
+    <Container onClick={onClick} className='user-account'>
+        {withIcon && <UserIcon color='#D5D4D8'/>}
         <div>{accountId}</div>
         <div>
             <ChevronIcon/>
