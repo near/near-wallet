@@ -621,10 +621,10 @@
 
     "login": {
         "form": {
-            "isRequestingTo": "запрашивает к",
+            "isRequestingTo": "запрашивает",
             "accessYourAccount": "доступ к вашей учетной записи.",
             "isRequestingFullAccess": "запрашивает <b>полный доступ</b>",
-            "toYourAccount": "на вашу учетную запись.",
+            "toYourAccount": "к вашей учетной записи.",
             "thisDoesNotAllow": "Это не позволит приложению передавать токены NEAR.",
             "thisProvidesAccess": "Это обеспечит доступ <b>ко всем вашим токенам</b>.<br />Будьте осторожны!"
         },
