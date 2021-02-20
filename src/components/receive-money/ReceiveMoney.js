@@ -6,9 +6,10 @@ import ProfileQRCode from '../profile/ProfileQRCode';
 import Divider from '../common/Divider';
 import { Translate } from 'react-localize-redux';
 import {Snackbar, snackbarDuration } from '../common/Snackbar';
-import copyText from '../../utils/copyText'
-import isMobile from '../../utils/isMobile'
-import iconShare from '../../images/icon-share-blue.svg'
+import copyText from '../../utils/copyText';
+import isMobile from '../../utils/isMobile';
+import iconShare from '../../images/icon-share-blue.svg';
+import { Mixpanel } from '../../mixpanel/index';
 
 const Container = styled.div`
     display: flex;
@@ -117,6 +118,7 @@ class ReceiveMoney extends Component {
     }
 
     handleCopyAddress = () => {
+        Mixpanel.track("RECEIVE Copy account address")
         if (navigator.share && isMobile()) {
             navigator.share({
                 url: this.props.account.accountId

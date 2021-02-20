@@ -6,6 +6,7 @@ import WalletIcon from '../svg/WalletIcon'
 import VaultIcon from '../svg/VaultIcon'
 import UserIcon from '../svg/UserIcon'
 import HelpIcon from '../svg/HelpIcon'
+import { Mixpanel } from '../../mixpanel/index';
 
 const Container = styled.div`
     display: flex;
@@ -74,11 +75,11 @@ const Container = styled.div`
 
 const NavLinks = () => (
     <Container className='nav-links'>
-        <NavLink exact to='/' activeClassName='selected'>
+        <NavLink exact to='/' activeClassName='selected' onClick={() => Mixpanel.track("Click summary button on nav")}>
             <WalletIcon/>
             <Translate id='link.wallet'/>
         </NavLink>
-        <NavLink to='/staking' activeClassName='selected'>
+        <NavLink to='/staking' activeClassName='selected' onClick={() => Mixpanel.track("STAKE Click staking button on nav")}>
             <VaultIcon/>
             <Translate id='link.staking'/>
         </NavLink>

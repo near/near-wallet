@@ -621,17 +621,17 @@
 
     "login": {
         "form": {
-            "isRequestingTo": "запрашивает к",
+            "isRequestingTo": "запрашивает",
             "accessYourAccount": "доступ к вашей учетной записи.",
             "isRequestingFullAccess": "запрашивает <b>полный доступ</b>",
-            "toYourAccount": "на вашу учетную запись.",
+            "toYourAccount": "к вашей учетной записи.",
             "thisDoesNotAllow": "Это не позволит приложению передавать токены NEAR.",
             "thisProvidesAccess": "Это обеспечит доступ <b>ко всем вашим токенам</b>.<br />Будьте осторожны!"
         },
         "confirm": {
             "pageTitle": "Вы уверены?",
             "pageText": "Вы даете согласие <b>на полный доступ</b> к ${appTitle}!",
-            "pageTextSecondLine": "<b>Для подтверждения/b>, пожалуйста, введите свое имя пользователя ниже.",
+            "pageTextSecondLine": "<b>Для подтверждения</b>, пожалуйста, введите свое имя пользователя ниже.",
             "username": "Имя пользователя"
         },
         "details": {

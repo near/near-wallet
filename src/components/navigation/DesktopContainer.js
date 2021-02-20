@@ -8,6 +8,7 @@ import NavLinks from './NavLinks';
 import UserAccount from './UserAccount';
 import DesktopMenu from './DesktopMenu';
 import LanguageToggle from '../common/LangSwitcher';
+import { Mixpanel } from '../../mixpanel/index';
 
 const Container = styled.div`
     display: none;

@@ -48,31 +48,24 @@ export function SignInLedger(props) {
     }
 
     const handleSignIn = async () => {
-        Mixpanel.track("IE-Ledger Sign in start")
         setLoader(false)
-        const { error } = await dispatch(signInWithLedger())
-
-        if (!error) {
-            Mixpanel.track("IE-Ledger Sign in finish")
-            refreshAndRedirect()
-        }
-        if (error) {
-            Mixpanel.track("IE-Ledger Sign in fail", {error: error})
-        }
+        await Mixpanel.withTracking("IE-Ledger Sign in",
+            async () =>{
+                await dispatch(signInWithLedger())
+                refreshAndRedirect()
+            }
+        )
     }
 
     const handleAdditionalAccountId = async () => {
-        Mixpanel.track("IE-Ledger Handle additional accountId")
         setLoader(true)
-        const { error } = await dispatch(signInWithLedgerAddAndSaveAccounts([accountId]))
-        setLoader(false)
-        
-        if (!error) {
-            refreshAndRedirect()
-        }
-        if (error) {
-            Mixpanel.track("IE-Ledger Handle additional accountId", {error: error})
-        }
+        await Mixpanel.withTracking("IE-Ledger Handle additional accountId",
+            async () =>{
+                await dispatch(signInWithLedgerAddAndSaveAccounts([accountId]))
+                setLoader(false)
+                refreshAndRedirect()
+            }
+        )
     }
 
     const refreshAndRedirect = () => {

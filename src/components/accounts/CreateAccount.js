@@ -90,13 +90,10 @@ class CreateAccount extends Component {
     }
 
     handleCheckNearDropBalance = async () => {
-        try {
-            Mixpanel.track("CA Check near drop balance start")
-            await this.props.checkNearDropBalance(this.props.fundingContract, this.props.fundingKey)
-        } catch(e) {
-            Mixpanel.track("CA Check near drop balance fail", {error: e.message})
-            this.setState({ invalidNearDrop: true })
-        }
+        await Mixpanel.withTracking("CA Check near drop balance",
+            async () => await this.props.checkNearDropBalance(this.props.fundingContract, this.props.fundingKey),
+            () => this.setState({ invalidNearDrop: true })
+        )
     }
 
     handleChange = (e, { name, value }) => {
@@ -160,7 +157,7 @@ class CreateAccount extends Component {
                             <Translate id='button.createAccountCapital'/>
                         </FormButton>
                         <div className='alternatives-title'><Translate id='createAccount.alreadyHaveAnAccount'/></div>
-                        <div className='alternatives' onClick={() => {Mixpanel.track("CA Click import existing account button")}}>
+                        <div className='alternatives' onClick={() => {Mixpanel.track("IE Click import existing account button")}}>
                             <Link to={process.env.DISABLE_PHONE_RECOVERY === 'yes' ? '/recover-seed-phrase' : '/recover-account'}><Translate id='createAccount.recoverItHere' /></Link>
                         </div>
                     </form>

@@ -6,6 +6,7 @@ import arrowAuth from '../../images/icon-authorized.svg';
 import iconKeys from '../../images/icon-keys.svg';
 import { Translate } from 'react-localize-redux';
 import { ENABLE_FULL_ACCESS_KEYS } from '../../utils/wallet';
+import { Mixpanel } from '../../mixpanel/index';
 
 const Container = styled.div`
     display: flex;
@@ -54,9 +55,9 @@ const UserLink = styled(Link)`
 
 const UserLinks = ({ accountId }) => (
     <Container className='user-links'>
-        <UserLink icon={accountIcon} to='/profile'><Translate id='link.accountDetails'/></UserLink>
-        <UserLink icon={arrowAuth} to='/authorized-apps'><Translate id='link.authorizedApps'/></UserLink>
-        {ENABLE_FULL_ACCESS_KEYS && <UserLink icon={iconKeys} to='/full-access-keys'><Translate id='link.fullAccessKeys'/></UserLink>}
+        <UserLink icon={accountIcon} to='/profile' onClick={() => Mixpanel.track("Click profile button")}><Translate id='link.accountDetails'/></UserLink>
+        <UserLink icon={arrowAuth} to='/authorized-apps' onClick={() => Mixpanel.track("Click authorized apps button")}><Translate id='link.authorizedApps'/></UserLink>
+        {ENABLE_FULL_ACCESS_KEYS && <UserLink icon={iconKeys} to='/full-access-keys' onClick={() => Mixpanel.track("Click full access keys button")}><Translate id='link.fullAccessKeys'/></UserLink>}
     </Container>
 )
 

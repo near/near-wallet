@@ -3,6 +3,7 @@ import { Translate } from 'react-localize-redux'
 import FormButton from '../common/FormButton'
 import ActionsList from './ActionsList'
 import classNames from '../../utils/classNames'
+import { Mixpanel } from '../../mixpanel/index'
 
 import { Grid, Image } from 'semantic-ui-react'
 
@@ -108,7 +109,7 @@ const DashboardActivity = ({ image, title, to, transactions, accountId, mainLoad
         <Grid.Row>
             <Grid.Column textAlign='left' width={16}>
                 <a href={to} target='_blank' rel='noopener noreferrer'>
-                    <FormButton color='gray-blue' size='small'>
+                    <FormButton color='gray-blue' size='small' trackingId="Go to explorer website">
                         <Translate id='button.viewAll' />
                     </FormButton>
                 </a>

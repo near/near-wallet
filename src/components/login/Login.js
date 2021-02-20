@@ -10,6 +10,7 @@ import LoginIncorrectContractId from './LoginIncorrectContractId'
 import { handleRefreshUrl, switchAccount, allowLogin, redirectToApp, getBalance } from '../../actions/account'
 import { clearLocalAlert } from '../../actions/status'
 import { LOCKUP_ACCOUNT_ID_SUFFIX } from '../../utils/wallet'
+import { Mixpanel } from '../../mixpanel/index'
 
 class Login extends Component {
     state = {
@@ -29,6 +30,7 @@ class Login extends Component {
 
     handleDeny = () => {
         const failureUrl = this.props.account.url.failure_url;
+        Mixpanel.track("LOGIN Click deny button")
 
         if (failureUrl) {
             window.location.href = failureUrl;
@@ -42,13 +44,13 @@ class Login extends Component {
             buttonLoader: true
         }))
 
-        try {
-            await this.props.allowLogin()
-        } finally {
-            this.setState(() => ({
-                buttonLoader: false
-            }))
-        }
+        await Mixpanel.withTracking("LOGIN",
+            async () => await this.props.allowLogin(),
+            () => {},
+            () => this.setState(() => ({
+                    buttonLoader: false
+                    }))
+        )
     }
 
     handleSelectAccount = accountId => {
@@ -56,6 +58,7 @@ class Login extends Component {
     }
 
     redirectCreateAccount = () => {
+        Mixpanel.track("LOGIN Click create new account button")
         this.props.history.push('/create')
     }
 

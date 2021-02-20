@@ -53,7 +53,7 @@ export default function AlertBanner({ title, button, linkTo, theme, titleData })
             <AlertTriangleIcon/>
             <div>
                 <Translate id={title} data={{ data: titleData }}/>
-                {linkTo && button && <FormButton className='link' linkTo={linkTo}><Translate id={button} /></FormButton>}
+                {linkTo && button && <FormButton className='link' linkTo={linkTo} trackingId="Click alert banner"><Translate id={button} /></FormButton>}
             </div>
         </Container>
     )
