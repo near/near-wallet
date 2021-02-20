@@ -119,6 +119,7 @@ export function Wallet() {
                 <FormButton
                     color='green-pastel'
                     linkTo='/send-money'
+                    trackingId='Click Send on Wallet page'
                 >
                     <SendIcon/>
                     <Translate id='button.send'/>
@@ -126,6 +127,7 @@ export function Wallet() {
                 <FormButton
                     color='green-pastel'
                     linkTo='/receive-money'
+                    trackingId='Click Receive on Wallet page'
                 >
                     <DownArrowIcon/>
                     <Translate id='button.receive'/>
