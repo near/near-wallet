@@ -16,13 +16,13 @@ const Container = styled.div`
     font-size: 14px;
     margin-bottom: 20px;
     padding: 0 15px;
-    box-shadow: 0px 5px 9px -1px rgba(0,0,0,0.17);
+    border-bottom: 1px solid #F0F0F1;
 
     @media (min-width: 992px) {
         display: flex;
     }
 
-    background-color: #272729;
+    background-color: white;
     height: 70px;
     align-items: center;
 
@@ -37,7 +37,7 @@ const Container = styled.div`
     .divider {
         height: 35px;
         width: 2px;
-        background-color: #5d5f60;
+        background-color: #E5E5E6;
         margin: 0 20px;
     }
 `
@@ -48,7 +48,7 @@ const Lang = styled.div`
 
     &:after {
         content: '';
-        border-color: #f8f8f8a1;
+        border-color: #72727A;
         border-style: solid;
         border-width: 2px 2px 0 0;
         display: inline-block;

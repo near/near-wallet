@@ -13,8 +13,9 @@ const Menu = styled.div`
     border-radius: 4px;
     background-color: white;
     color: #4a4f54;
-    width: 290px;
+    width: 320px;
     box-shadow: 0px 3px 9px -1px rgba(0,0,0,0.17);
+    padding: 20px;
 
     :after {
         content: '';
@@ -35,17 +36,9 @@ const Menu = styled.div`
         padding: 20px;
     }
 
-    h6 {
-        text-transform: uppercase;
-        font-size: 13px !important;
+    button {
+        width: 100% !important;
     }
-`
-
-const LowerSection = styled.div`
-    padding: 20px;
-    background-color: #f8f8f8;
-    border-bottom-left-radius: 4px;
-    border-bottom-right-radius: 4px;
 `
 
 const DesktopMenu = ({ show, accountId, accounts, selectAccount }) => {
@@ -53,17 +46,14 @@ const DesktopMenu = ({ show, accountId, accounts, selectAccount }) => {
     if (show) {
         return (
             <Menu id='desktop-menu'>
-                <UserLinks accountId={accountId}/>
-                <LowerSection>
-                    <h6><Translate id='link.switchAccount'/></h6>
-                    <UserAccounts
-                        accounts={accounts}
-                        accountId={accountId}
-                        selectAccount={selectAccount}
-                    />
-                    <AccessAccountBtn/>
-                    <CreateAccountBtn/>
-                </LowerSection>
+                <h6><Translate id='link.switchAccount'/></h6>
+                <UserAccounts
+                    accounts={accounts}
+                    accountId={accountId}
+                    selectAccount={selectAccount}
+                />
+                <AccessAccountBtn/>
+                <CreateAccountBtn/>
             </Menu>
         )
     }

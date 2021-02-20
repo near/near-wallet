@@ -33,8 +33,6 @@ const CustomDiv = styled(`div`)`
 `
 
 const Number = styled(`span`)`
-    letter-spacing: 2px;
-
     ::before {
         content: '${props => props.number || 1}';
         color: #999;

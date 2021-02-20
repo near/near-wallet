@@ -110,7 +110,6 @@ export default createGlobalStyle`
         font-weight: 500;
         color: #999999 !important;
         margin: 0px;
-        letter-spacing: 1.8px;
     }
 
     h6, .h6 {
@@ -118,7 +117,6 @@ export default createGlobalStyle`
         font-weight: 500;
         color: #999999;
         margin: 0px !important;
-        letter-spacing: 1.5px !important;
     }
 
     .font-small {

@@ -8,6 +8,10 @@ const StyledLogo = styled(Link)`
 
     svg {
         width: 155px;
+
+        path {
+            fill: black !important;
+        }
     }
 
     @media (max-width: 991px) {

@@ -324,7 +324,7 @@ class Routing extends Component {
                                     component={LoginCliLoginSuccess}
                                 />
                                 <PrivateRoute
-                                    component={DashboardDetailWithRouter}
+                                    component={Wallet}
                                 />
                             </Switch>
                         )}

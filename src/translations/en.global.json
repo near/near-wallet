@@ -465,7 +465,7 @@
         "receive": "Receive",
         "staking": "Staking",
         "help": "Help",
-        "accountDetails": "Account Details",
+        "account": "Account",
         "authorizedApps": "Authorized Apps",
         "switchAccount": "Switch Account",
         "noAccount": "You have no other accounts",

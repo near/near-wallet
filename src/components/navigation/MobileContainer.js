@@ -17,11 +17,11 @@ const Container = styled.div`
     color: white;
     font-size: 15px;
     margin-bottom: 20px;
-    background-color: #24272a;
+    background-color: white;
     height: 70px;
     position: relative;
     padding: 0 14px;
-    box-shadow: 0px 5px 9px -1px rgba(0,0,0,0.17);
+    border-bottom: 1px solid #F0F0F1;
     transition: 300ms;
 
     ::-webkit-scrollbar {
@@ -40,13 +40,6 @@ const Container = styled.div`
         }
     }
 
-    h6 {
-        font-size: 13px !important;
-        margin-bottom: 10px !important;
-        color: #D5D4D8;
-        font-weight: normal !important;
-    }
-
     &.show {
         height: 100%;
         overflow-y: auto;
@@ -60,10 +53,10 @@ const Container = styled.div`
 
     .nav-links {
         margin: 0 -14px;
-
+        background-color: #FAFAFA;
         a {
             padding: 17px 14px;
-            border-top: 1px solid #3F4045;
+            border-top: 1px solid #efefef;
             width: 100%;
             max-height: 58px;
 
@@ -91,27 +84,28 @@ const Collapsed = styled.div`
 
     .user-icon {
         .background {
-            fill: black;
+            fill: #E5E5E6;
         }
     }
 `
 
 const LowerSection = styled.div`
-    background-color: #3F4045;
+    background-color: white;
     margin: 0px -20px 0 -20px;
     padding: 20px 20px 100% 20px;
 `
 
 const Lang = styled.div`
-    border-top: 1px solid #404040;
+    border-top: 1px solid #efefef;
     padding: 14px;
     position: relative;
     max-height: 58px;
     margin: 0 -14px;
+    background-color: #FAFAFA;
 
     &:after {
         content: '';
-        border-color: #f8f8f8a1;
+        border-color: #72727A;
         border-style: solid;
         border-width: 2px 2px 0 0;
         display: inline-block;
@@ -139,7 +133,7 @@ const Lang = styled.div`
         appearance: none;
         background: transparent url(${languagesIcon}) no-repeat 0px center / 24px 24px;
         border: 0;
-        color: #D5D4D8;
+        color: #72727A;
         cursor: pointer;
         height: 32px;
         outline: none;
@@ -183,7 +177,7 @@ class MobileContainer extends Component {
                     {showNavLinks &&
                         <>
                             <UserAccount accountId={account.accountId} onClick={toggleMenu} withIcon={false}/>
-                            <UserIcon background={true} color='#D5D4D8' onClick={toggleMenu}/>
+                            <UserIcon background={true} color='#A2A2A8' onClick={toggleMenu}/>
                         </>
                     }
                     {!showNavLinks &&

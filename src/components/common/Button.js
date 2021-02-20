@@ -6,7 +6,6 @@ const StyledButton = styled.button`
     border-radius: 40px;
     padding: 5px 32px;
     outline: none;
-    letter-spacing: 1px;
     font-size: 15px;
     height: 48px;
     width: ${props => props.fullWidth === true ? "100%" : "auto"};

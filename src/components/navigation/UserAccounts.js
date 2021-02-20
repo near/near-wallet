@@ -4,8 +4,17 @@ import { Translate } from 'react-localize-redux';
 
 const Wrapper = styled.div`
     @media (min-width: 992px) {
-        max-height: 150px;
+        max-height: 200px;
         overflow-y: auto;
+
+        ::-webkit-scrollbar {
+            display: none;
+        }
+    }
+
+    .no-account {
+        color: #72727A;
+        margin-top: 18px;
     }
 `
 
@@ -13,30 +22,32 @@ const Account = styled.div`
     display: block;
     overflow: hidden;
     text-overflow: ellipsis;
-    color: white;
-    padding: 12px 14px;
-    border-bottom: 1px solid #404040;
+    color: #72727A;
+    padding: 18px 14px;
+    border-bottom: 1px solid #efefef;
     cursor: pointer;
     font-weight: 500;
+    transition: 100ms;
+
+    @media (min-width: 992px) {
+        :hover {
+            color: #0072CE;
+        }
+    }
 
     :first-of-type {
-        background-color: #24272a;
-        padding: 18px 14px;
-        margin-bottom: 10px;
+        color: white;
+        background-color: #272729;
         border-radius: 8px;
+        cursor: default;
+
+        :hover {
+            color: white;
+        }
     }
 
     :last-of-type {
         border-bottom: 0;
-    }
-
-    @media (min-width: 992px) {
-        color: #24272a;
-        border-bottom: 2px solid #e6e6e6;
-
-        :hover {
-            color: #0072CE;
-        }
     }
 `
 
@@ -50,6 +61,9 @@ const UserAccounts = ({ accounts, accountId, selectAccount }) => (
                 {account}
             </Account>
         ))}
+        {accounts.length < 2 && 
+            <div className='no-account'><Translate id='link.noAccount'/></div>
+        }
     </Wrapper>
 )
 

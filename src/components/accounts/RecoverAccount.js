@@ -101,7 +101,6 @@ const Button = styled(Link)`
     cursor: pointer;
     height: 48px;
     width: 100%;
-    letter-spacing: 0.5px;
     margin-top: 20px;
     transition: 100ms;
     display: flex;

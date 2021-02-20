@@ -4,7 +4,7 @@ import UserIcon from '../svg/UserIcon'
 import ChevronIcon from '../svg/ChevronIcon'
 
 const Container = styled.div`
-    background-color: black;
+    background-color: #F0F0F1;
     display: flex;
     align-items: center;
     border-radius: 40px;
@@ -29,6 +29,7 @@ const Container = styled.div`
             max-width: 150px;
             overflow: hidden;
             text-overflow: ellipsis;
+            color: #72727A;
 
             @media (max-width: 991px) {
                 margin: 0 14px 0 12px;
@@ -36,7 +37,7 @@ const Container = styled.div`
         }
 
         :last-of-type {
-            background-color: #3F4045;
+            background-color: #E5E5E6;
             min-width: 28px;
             min-height: 28px;
             width: 28px;
@@ -56,7 +57,7 @@ const Container = styled.div`
 
 const UserAccount = ({ accountId = '', onClick, withIcon = true }) => (
     <Container onClick={onClick} className='user-account'>
-        {withIcon && <UserIcon color='#D5D4D8'/>}
+        {withIcon && <UserIcon color='#A2A2A8'/>}
         <div>{accountId}</div>
         <div>
             <ChevronIcon/>

@@ -34,7 +34,6 @@ const Container = styled(Card)`
                 justify-content: center;
                 padding: 0;
                 margin: 0;
-                letter-spacing: 1px !important;
             }
         }
 

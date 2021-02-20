@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 import { Translate } from 'react-localize-redux';
 import WalletIcon from '../svg/WalletIcon'
@@ -9,18 +9,34 @@ import HelpIcon from '../svg/HelpIcon'
 
 const Container = styled.div`
     display: flex;
-
     a {
         display: flex;
         align-items: center;
         cursor: pointer;
         transition: 100ms;
-        color: #D5D4D8;
+        color: #72727A;
         font-size: 15px;
 
-        :hover {
+        :hover, &.selected {
             text-decoration: none;
-            color: white;
+            color: #272729;
+
+            svg {
+                path, circle, line {
+                    stroke: #0072CE;
+                }
+
+                &.user-icon {
+                    path {
+                        stroke: #0072CE;
+                        fill: #0072CE;
+
+                        :last-of-type {
+                            fill: none;
+                        }
+                    }
+                }
+            }
         }
     }
 
@@ -33,6 +49,7 @@ const Container = styled.div`
             width: 35px;
             height: 35px;
             margin-right: 4px;
+            stroke-width: 0px;
         }
     }
 
@@ -57,18 +74,18 @@ const Container = styled.div`
 
 const NavLinks = () => (
     <Container className='nav-links'>
-        <Link to='/'>
+        <NavLink exact to='/' activeClassName='selected'>
             <WalletIcon/>
             <Translate id='link.wallet'/>
-        </Link>
-        <Link to='/staking'>
+        </NavLink>
+        <NavLink to='/staking' activeClassName='selected'>
             <VaultIcon/>
             <Translate id='link.staking'/>
-        </Link>
-        <Link to='/profile' className='account-details-link'>
+        </NavLink>
+        <NavLink to='/profile' className='account-details-link' activeClassName='selected'>
             <UserIcon/>
-            <Translate id='link.accountDetails'/>
-        </Link>
+            <Translate id='link.account'/>
+        </NavLink>
         <a href='https://nearhelp.zendesk.com/' target='_blank' rel='noopener noreferrer'>
             <HelpIcon/>
             <Translate id='link.help'/>

@@ -5,9 +5,11 @@ import FormButton from '../common/FormButton';
 import PlusSignIcon from '../svg/PlusSignIcon';
 
 const Button = styled(FormButton)`
-    background-color: #72727A !important;
-    border-color: #72727A !important;
+    background-color: #F0F0F1 !important;
+    border-color: #F0F0F1 !important;
     padding: 0;
+    color: #0072CE !important;
+    margin-top: 15px !important;
 
     svg {
         width: 24px !important;
@@ -18,7 +20,7 @@ const Button = styled(FormButton)`
 
 const CreateAccountBtn = () => (
     <Button linkTo='/create' trackingId='CA Click create new account button' color='gray'>
-        <PlusSignIcon/>
+        <PlusSignIcon color='#0072CE'/>
         <Translate id='button.createNewAccount'/>
     </Button>
 )
