@@ -398,7 +398,7 @@ export const finishAccountSetup = () => async (dispatch, getState) => {
     await dispatch(getBalance())
     const account = getState().account
     
-    let promptTwoFactor = await TwoFactor.checkCanEnableTwoFactor(account)
+    let promptTwoFactor = await TwoFactor.checkCanEnableTwoFactor(account.balance)
 
     if (new BN(account.balance.available).lt(new BN(utils.format.parseNearAmount(MULTISIG_MIN_PROMPT_AMOUNT)))) {
         promptTwoFactor = false
