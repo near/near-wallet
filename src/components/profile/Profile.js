@@ -238,7 +238,7 @@ export function Profile({ match }) {
                             <>
                                 <hr/>
                                 <h2><LockIcon/><Translate id='profile.twoFactor'/></h2>
-                                {!recoveryLoader ? (
+                                {account.canEnableTwoFactor !== null ? (
                                     <>
                                         <div className='sub-heading'><Translate id='profile.twoFactorDesc'/></div>
                                         {/* TODO: Also check recovery methods in DB for Ledger */}
@@ -247,7 +247,7 @@ export function Profile({ match }) {
                                 ) : (
                                     <SkeletonLoading
                                         height='80px'
-                                        show={recoveryLoader}
+                                        show={true}
                                     />
                                 )}
                             </>
