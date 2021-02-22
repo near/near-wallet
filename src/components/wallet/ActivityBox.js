@@ -104,4 +104,11 @@ const ActivityBox = ({ transaction }) => {
     )
 }
 
+export const ActionStatus = ({ status }) => (
+    <span className={classNames(['status', {'dots': !status}])}>
+        {status && <StyledDot background={TX_STATUS_COLOR[status]} />}
+        <Translate id={`transaction.status.${status || 'checkingStatus'}`} />
+    </span>
+)
+
 export default ActivityBox
