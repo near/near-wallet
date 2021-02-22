@@ -98,8 +98,12 @@ const ActivityBox = ({ transaction }) => {
                 <span className='value'>
                     -10.123 NEAR
                 </span>
-                <span className='time'>4d</span>
-            </div>
+
+export const ActionValue = ({ transaction, actionArgs, actionKind, accountId }) => (
+    <div className={`value ${actionKind === 'Transfer' ? transaction.signer_id === accountId ? 'transferred' : 'received' : ''}`}>
+        {actionKind === "Transfer" && <Balance amount={actionArgs.deposit} symbol='near' />}
+        {actionKind === "Stake" && <Balance amount={actionArgs.stake} symbol='near' />}
+    </div>
 )
 
 export const TX_STATUS_COLOR = {
