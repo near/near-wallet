@@ -80,13 +80,40 @@ const StyledContainer = styled.div`
 
 `
 
-const ActivityBox = ({ transaction }) => {
+const ActivityBox = ({ transaction, actionArgs, actionKind, accountId, getTransactionStatus, onClick, setTransactionHash }) => {
+    const { checkStatus, status, hash, signer_id, block_timestamp } = transaction
+
     return (
-        <StyledContainer className='activity-box'>
-            <div className='symbol'>
-                {/* For delete/red key: <KeyIcon color='#ff585d'/>*/}
-                <KeyIcon/>
+        <StyledContainer className='activity-box' onClick={() => setTransactionHash(hash)}>
+            <ActionIcon actionKind={actionKind} />
+            <div className='desc'>
+                <ActionTitle 
+                    transaction={transaction}
+                    actionArgs={actionArgs}
+                    actionKind={actionKind}
+                    accountId={accountId}
+                />
+                <ActionMessage 
+                    transaction={transaction}
+                    actionArgs={actionArgs}
+                    actionKind={actionKind}
+                    accountId={accountId}
+                />
             </div>
+            <div className='right'>
+                <ActionValue
+                    transaction={transaction}
+                    actionArgs={actionArgs}
+                    actionKind={actionKind}
+                    accountId={accountId}
+                />
+                <ActionTimeStamp
+                    timeStamp={block_timestamp}
+                />
+            </div>
+        </StyledContainer>
+    )
+}
 
 export const ActionTitle = ({ transaction, actionArgs, actionKind, accountId }) => (
     <div>
