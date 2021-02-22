@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import { Translate } from 'react-localize-redux'
 
 import ActivityBox from './ActivityBox'
 import ActivityDetailModal from './ActivityDetailModal'
 import FormButton from '../common/FormButton'
-import { EXPLORER_URL, TRANSACTIONS_REFRESH_INTERVAL } from '../../utils/wallet'
+import { EXPLORER_URL } from '../../utils/wallet'
 import { actionsPending } from '../../utils/alerts'
 import classNames from '../../utils/classNames'
 
@@ -56,7 +56,6 @@ const StyledContainer = styled.div`
 
 const Activities = ({ transactions, accountId, getTransactionStatus }) => {
     const [transactionHash, setTransactionHash] = useState()
-    
     const activityLoader = actionsPending('GET_TRANSACTIONS')
 
     return (
