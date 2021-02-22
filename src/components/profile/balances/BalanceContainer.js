@@ -43,18 +43,19 @@ const Container = styled.div`
 
     h4 {
         font-size: 14px;
+        font-weight: 600;
     }
 
     .title, .total, .item {
         display flex;
         align-items: center;
         justify-content: space-between;
-        padding: 20px 14px;
+        padding: 20px;
     }
 
     .total {
         border-top: 1px solid #f3f3f3;
-        font-weight: 500;
+        font-weight: 600;
     }
 
     .item {
@@ -78,7 +79,7 @@ const Container = styled.div`
             display: flex;
             align-items: center;
             :last-of-type {
-                font-weight: 500;
+                font-weight: 600;
             }
         }
 

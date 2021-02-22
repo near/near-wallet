@@ -8,7 +8,7 @@ const Container = styled.div`
     background-color: #F0F0F0;
     padding: 4px 4px 4px 15px;
     border-radius: 40px;
-    font-weight: 500;
+    font-weight: 600;
     max-width: 210px;
     white-space: nowrap;
     overflow: hidden;

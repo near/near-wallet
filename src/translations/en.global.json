@@ -865,6 +865,9 @@
             "availableToWithdraw": "Available for withdrawal",
             "availableToTransfer": "Available to transfer"
         },
+        "authorizedApps": {
+            "title": "Authorized Apps"
+        },
         "lockup": {
             "lockupBalance": "Lockup balance",
             "lockupId": "Lockup ID",

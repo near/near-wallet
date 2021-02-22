@@ -60,6 +60,10 @@ export default createGlobalStyle`
         font-family: "Inter", Lato, "Lucida Grande", Tahoma, Sans-Serif !important;
     }
 
+    .font-monospace {
+        font-family: 'IBM Plex Mono', monospace;
+    }
+
     h1, .h1 {
         font-weight: 900 !important;
         color: #24272a;
