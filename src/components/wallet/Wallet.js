@@ -133,16 +133,12 @@ export function Wallet() {
                     <Translate id='button.receive'/>
                 </FormButton>
             </div>
-            <div className='sub-title tokens'><Translate id='wallet.tokens' /></div>
-            <Tokens tokens={exampleTokens}/>
-            <h2><Translate id='dashboard.activity' /></h2>
-            <Activities transactions={transactions[accountId] || []}/>
-            <FormButton
-                color='gray-blue'
-                linkTo={`${EXPLORER_URL}/accounts/${accountId}`}
-            >
-                <Translate id='button.viewAll'/>
-            </FormButton>
+            <Activities 
+                transactions={transactions[accountId] || []}
+                accountId={accountId}
+                getTransactionStatus={getTransactionStatus}
+
+            />
         </StyledContainer>
     )
 }
