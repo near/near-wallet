@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import styled from 'styled-components'
 import { Translate } from 'react-localize-redux'
@@ -9,10 +9,9 @@ import SendIcon from '../svg/SendIcon'
 import DownArrowIcon from '../svg/DownArrowIcon'
 import Balance from '../common/Balance'
 import { getTransactions, getTransactionStatus } from '../../actions/transactions'
-import { EXPLORER_URL, TRANSACTIONS_REFRESH_INTERVAL } from '../../utils/wallet'
 import { Mixpanel } from "../../mixpanel/index"
-import Tokens from './Tokens'
 import Activities from './Activities'
+// import Tokens from './Tokens'
 
 const StyledContainer = styled(Container)`
     display: flex;
@@ -84,7 +83,6 @@ export function Wallet() {
     
 
     const { balance, accountId } = useSelector(({ account }) => account)
-    const { mainLoader } = useSelector(({ status }) => status)
     const transactions = useSelector(({ transactions }) => transactions)
     const dispatch = useDispatch()
 
