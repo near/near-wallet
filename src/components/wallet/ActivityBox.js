@@ -1,6 +1,21 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import styled from 'styled-components'
 import { Translate } from 'react-localize-redux'
+import { format, register } from 'timeago.js'
+
+import Balance from '../common/Balance'
+import IconTAcct from '../../images/IconTAcct'
+import IconTKeyDelete from '../../images/IconTKeyDelete'
+import IconTContract from '../../images/IconTContract'
+import IconTCall from '../../images/IconTCall'
+import IconTTransfer from '../../images/IconTTransfer'
+import IconTStake from '../../images/IconTStake'
+import IconTKeyNew from '../../images/IconTKeyNew'
+import ArrowRight from '../../images/icon-arrow-right.svg'
+import ArrowBlkImage from '../../images/icon-arrow-blk.svg'
+import classNames from '../../utils/classNames'
+import { EXPLORER_URL, TRANSACTIONS_REFRESH_INTERVAL } from '../../utils/wallet'
+
 import SendIcon from '../svg/SendIcon'
 import KeyIcon from '../svg/KeyIcon'
 import DownArrowIcon from '../svg/DownArrowIcon'
@@ -31,22 +46,15 @@ const StyledContainer = styled.div`
     }
 
     .desc {
-        div {
-            :first-of-type {
-                font-weight: 700;
-                color: #24272a;
-            }
+        > div {
+            font-weight: 700;
+            color: #24272a;
+        }
+        > span {
+            color: #A2A2A8;
 
-            :last-of-type {
-                span {
-                    :first-of-type {
-                        color: #A2A2A8;
-                        margin-right: 4px;
-                    }
-                    :last-of-type {
-                        color: #72727A;
-                    }
-                }
+            span {
+                color: #3F4045;
             }
         }
     }
@@ -60,6 +68,20 @@ const StyledContainer = styled.div`
         .value {
             font-weight: 700;
             color: #24272a;
+            height: 20px;
+
+            &.transferred {
+                &::before {
+                    content: '-'
+                }
+            }
+            &.received {
+                color: #00C08B;
+
+                &::before {
+                    content: '+'
+                }
+            }
         }
         .time {
             color: #A2A2A8;
@@ -77,6 +99,7 @@ const StyledContainer = styled.div`
             stroke: #00C08B;
         }
     }
+`
 
 const StyledDot = styled.span`
     height: 7px;
