@@ -93,6 +93,36 @@ const ActivityBox = ({ transaction }) => {
                     <span>for</span>
                     <span>janedoe.near</span>
                 </div>
+export const ActionMessage = ({ transaction, actionArgs, actionKind, accountId }) => (
+    <Translate 
+        id={`dashboardActivity.message.${translateId(transaction, actionArgs, actionKind, accountId)}`}
+        data={translateData(transaction, actionArgs, actionKind)}
+    />
+)
+
+const translateId = (transaction, actionArgs, actionKind, accountId) => (
+    `${actionKind
+        }${actionKind === `AddKey`
+            ? actionArgs.access_key && actionArgs.access_key.permission.permission_details
+                ? `.forContract`
+                : `.forReceiver`
+            : ''
+        }${actionKind === 'Transfer'
+            ? transaction.signer_id === accountId
+                ? '.transferred'
+                : '.received'
+            : ''
+    }`
+)
+
+const translateData = (transaction, actionArgs, actionKind) => ({
+    receiverId: transaction.receiver_id || '',
+    signerId: transaction.signer_id || '',
+    methodName: actionKind === "FunctionCall" ? actionArgs.method_name : '', 
+    deposit: actionKind === "Transfer" ? <Balance amount={actionArgs.deposit} /> : '',
+    stake: actionKind === "Stake" ? <Balance amount={actionArgs.stake} />  : '',
+    permissionReceiverId: (actionKind === "AddKey" && actionArgs.access_key && actionArgs.access_key.permission.permission_kind === 'FUNCTION_CALL') ? actionArgs.access_key.permission.permission_details.receiver_id : ''
+})
 
 const ActionIcon = ({ actionKind }) => (
     <div className='symbol'>
