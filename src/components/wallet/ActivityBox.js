@@ -33,8 +33,8 @@ const StyledContainer = styled.div`
         margin-right: 14px;
 
         svg {
-            height: 22px;
-            width: 22px;
+            height: 16px;
+            width: 16px;
         }
     }
 
