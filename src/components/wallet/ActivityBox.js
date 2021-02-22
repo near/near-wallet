@@ -94,10 +94,11 @@ const ActivityBox = ({ transaction }) => {
                     <span>janedoe.near</span>
                 </div>
             </div>
-            <div className='right'>
-                <span className='value'>
-                    -10.123 NEAR
-                </span>
+const ActionTimeStamp = ({ timeStamp }) => (
+    <span className='time'>
+        {format(timeStamp, {locale: 'en_short'})}
+    </span>
+)
 
 export const ActionValue = ({ transaction, actionArgs, actionKind, accountId }) => (
     <div className={`value ${actionKind === 'Transfer' ? transaction.signer_id === accountId ? 'transferred' : 'received' : ''}`}>
