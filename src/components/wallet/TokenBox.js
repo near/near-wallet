@@ -1,7 +1,5 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Translate } from 'react-localize-redux'
-
 
 const StyledContainer = styled.div`
     display: flex;

@@ -202,7 +202,7 @@ export const ActionValue = ({ transaction, actionArgs, actionKind, accountId }) 
     </div>
 )
 
-export const TX_STATUS_COLOR = {
+const TX_STATUS_COLOR = {
     NotStarted: '',
     Started: '#6ad1e3',
     Failure: '#ff585d',

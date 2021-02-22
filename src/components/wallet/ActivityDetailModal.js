@@ -5,7 +5,7 @@ import styled from 'styled-components'
 
 import FormButton from '../common/FormButton'
 import Modal from "../common/modal/Modal"
-import { ActionTitle, ActionValue, ActionMessage, ActionStatus, TX_STATUS_COLOR } from './ActivityBox'
+import { ActionTitle, ActionValue, ActionMessage, ActionStatus } from './ActivityBox'
 import { EXPLORER_URL, TRANSACTIONS_REFRESH_INTERVAL } from '../../utils/wallet'
 
 const StyledContainer = styled.div`
