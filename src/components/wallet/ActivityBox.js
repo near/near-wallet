@@ -100,8 +100,14 @@ const ActivityBox = ({ transaction }) => {
                 </span>
                 <span className='time'>4d</span>
             </div>
-        </StyledContainer>
-    )
+)
+
+export const TX_STATUS_COLOR = {
+    NotStarted: '',
+    Started: '#6ad1e3',
+    Failure: '#ff585d',
+    SuccessValue: '#5ace84',
+    notAvailable: '#ff585d'
 }
 
 export const ActionStatus = ({ status }) => (
