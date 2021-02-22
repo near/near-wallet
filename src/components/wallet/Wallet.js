@@ -80,13 +80,6 @@ export function Wallet() {
         Mixpanel.people.set({relogin_date: new Date().toString()})
 
         dispatch(getTransactions(accountId))
-
-        // setInterval(() => {
-        //     !document.hidden && dispatch(getTransactions(accountId))
-        // }, TRANSACTIONS_REFRESH_INTERVAL)
-
-        // return () => { clearInterval() }
-
     }, [])
     
 
@@ -95,20 +88,20 @@ export function Wallet() {
     const transactions = useSelector(({ transactions }) => transactions)
     const dispatch = useDispatch()
 
-    const exampleTokens = [
-        {
-            name: 'Banana',
-            symbol: '🍌',
-            contract: 'berryclub.ek.near',
-            balance: '500'
-        },
-        {
-            name: 'Avocado',
-            symbol: '🥑',
-            contract: 'farm.berryclub.ek.near',
-            balance: '1000'
-        }
-    ]
+    // const exampleTokens = [
+    //     {
+    //         name: 'Banana',
+    //         symbol: '🍌',
+    //         contract: 'berryclub.ek.near',
+    //         balance: '500'
+    //     },
+    //     {
+    //         name: 'Avocado',
+    //         symbol: '🥑',
+    //         contract: 'farm.berryclub.ek.near',
+    //         balance: '1000'
+    //     }
+    // ]
 
     return (
         <StyledContainer className='small-centered'>
@@ -133,6 +126,8 @@ export function Wallet() {
                     <Translate id='button.receive'/>
                 </FormButton>
             </div>
+            {/* <div className='sub-title tokens'><Translate id='wallet.tokens' /></div> */}
+            {/* <Tokens tokens={exampleTokens}/> */}
             <Activities 
                 transactions={transactions[accountId] || []}
                 accountId={accountId}
