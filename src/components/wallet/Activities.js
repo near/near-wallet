@@ -15,22 +15,47 @@ const StyledContainer = styled.div`
     }
 `
 
-const Activities = ({ transactions }) => {
+const Activities = ({ transactions, accountId, getTransactionStatus }) => {
     const [showDetails, setShowDetails] = useState(false)
+    const [transactionHash, setTransactionHash] = useState()
+    
+    const activityLoader = actionsPending('GET_TRANSACTIONS')
+    console.log('activityLoader', activityLoader);
+
     return (
-        <>
-            <StyledContainer onClick={() => setShowDetails(true)}>
-                {transactions.slice(0, 5).map((transaction, i) => (
-                    <ActivityBox key={i} transaction={transaction}/>
-                ))}
-            </StyledContainer>
-            {showDetails && 
+        <StyledContainer>
+            <h2 className={classNames({'dots': activityLoader})}><Translate id='dashboard.activity' /></h2>
+            {transactions
+                ? transactions.map((transaction, i) => (
+                    <ActivityBox
+                        key={i}
+                        transaction={transaction}
+                        actionArgs={transaction.args}
+                        actionKind={transaction.kind}
+                        accountId={accountId}
+                        getTransactionStatus={getTransactionStatus}
+                        onClick={() => setShowDetails(true)}
+                        setTransactionHash={setTransactionHash}
+                    />
+                ))
+                : 'loader' // skeleton?
+            }
+            {transactionHash && 
                 <ActivityDetailModal 
-                    open={showDetails}
-                    onClose={() => setShowDetails(!showDetails)}
+                    open={transactionHash}
+                    onClose={() => setTransactionHash()}
+                    accountId={accountId}
+                    transaction={transactions.find((transaction) => transaction.hash === transactionHash)}
+                    getTransactionStatus={getTransactionStatus}
                 />
             }
-        </>
+            <FormButton
+                color='gray-blue'
+                linkTo={`${EXPLORER_URL}/accounts/${accountId}`}
+            >
+                <Translate id='button.viewAll'/>
+            </FormButton>
+        </StyledContainer>
     )
 }
 
