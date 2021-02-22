@@ -102,8 +102,8 @@ const StyledDot = styled.span`
     margin-right: 5px;
 `
 
-const ActivityBox = ({ transaction, actionArgs, actionKind, accountId, getTransactionStatus, onClick, setTransactionHash }) => {
-    const { checkStatus, status, hash, signer_id, block_timestamp } = transaction
+const ActivityBox = ({ transaction, actionArgs, actionKind, accountId, setTransactionHash }) => {
+    const { hash, block_timestamp } = transaction
 
     return (
         <StyledContainer className='activity-box' onClick={() => setTransactionHash(hash)}>
