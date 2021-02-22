@@ -55,11 +55,9 @@ const StyledContainer = styled.div`
 `
 
 const Activities = ({ transactions, accountId, getTransactionStatus }) => {
-    const [showDetails, setShowDetails] = useState(false)
     const [transactionHash, setTransactionHash] = useState()
     
     const activityLoader = actionsPending('GET_TRANSACTIONS')
-    console.log('activityLoader', activityLoader);
 
     return (
         <StyledContainer>
@@ -73,7 +71,6 @@ const Activities = ({ transactions, accountId, getTransactionStatus }) => {
                         actionKind={transaction.kind}
                         accountId={accountId}
                         getTransactionStatus={getTransactionStatus}
-                        onClick={() => setShowDetails(true)}
                         setTransactionHash={setTransactionHash}
                     />
                 ))
