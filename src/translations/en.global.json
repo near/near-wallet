@@ -206,6 +206,41 @@
         }
     },
 
+    "dashboardActivity": {
+        "title": {
+            "CreateAccount": "New account created",
+            "DeleteAccount": "Account deleted",
+            "DeployContract": "Contract deployed",
+            "FunctionCall": "Called method",
+            "Transfer": {
+                "transferred": "Sent NEAR",
+                "received": "Received NEAR"
+            },
+            "Stake": "Staked",
+            "AddKey": {
+                "forContract": "Access Key added",
+                "forReceiver": "Full Access Key"
+            },
+            "DeleteKey": "Key deleted"
+        },
+        "message": {
+            "CreateAccount": "<span>${receiverId}</span>",
+            "DeleteAccount": "<span>${receiverId}<span>",
+            "DeployContract": "<span>${receiverId}</span>",
+            "FunctionCall": "<span>${methodName}</span> in contract <span>${receiverId}</span>",
+            "Transfer": {
+                "transferred": "to <span>${receiverId}</span>",
+                "received": "from <span>${signerId}</span>"
+            },
+            "Stake": "<span>${stake}</span>",
+            "AddKey": {
+                "forContract": "for <span>${permissionReceiverId}</span>",
+                "forReceiver": "for <span>${receiverId}</span>"
+            },
+            "DeleteKey": ""
+        }
+    },
+
     "actions": {
         "CreateAccount": "New account created: ${receiverId}",
         "DeleteAccount": "Account deleted: ${receiverId}",
