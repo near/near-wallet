@@ -60,10 +60,37 @@ const StyledContainer = styled.div`
             max-width: 400px;
         }
     }
-
 `
 
-const ActivityDetailModal = ({ open, onClose }) => {
+const ActivityDetailModal = ({ 
+    open,
+    onClose,
+    accountId,
+    transaction,
+    getTransactionStatus
+}) => {
+    const { 
+        args: actionArgs,
+        kind: actionKind,
+        status,
+        checkStatus,
+        hash,
+        signer_id,
+        block_timestamp
+    } = transaction
+
+    const dispatch = useDispatch()
+    const getTransactionStatusConditions = () => checkStatus && !document.hidden && dispatch(getTransactionStatus(hash, signer_id, accountId))
+
+    useEffect(() => {
+        getTransactionStatusConditions()
+        const interval = setInterval(() => {
+            getTransactionStatusConditions()
+        }, TRANSACTIONS_REFRESH_INTERVAL)
+
+        return () => clearInterval(interval)
+    }, [hash, checkStatus])
+
     return (
         <Modal
             id='instructions-modal'
@@ -72,26 +99,52 @@ const ActivityDetailModal = ({ open, onClose }) => {
             closeButton
         >
             <StyledContainer>
-                <h2>Sent NEAR</h2>
+                <h2>
+                    <ActionTitle 
+                        transaction={transaction}
+                        actionArgs={actionArgs}
+                        actionKind={actionKind}
+                        accountId={accountId}
+                    />
+                </h2>
                 <div className='row'>
-                    <div className='item'>
-                        <span>Amount</span>
-                        <span className='amount'>10.123 NEAR</span>
-                    </div>
-                    <div className='item'>
-                        <span>Sent to</span>
-                        <span>dtama.near</span>
-                    </div>
+                    {actionKind !== 'DeleteKey' && 
+                        <div className='item'>
+                            <span>
+                                <ActionMessage 
+                                    transaction={transaction}
+                                    actionArgs={actionArgs}
+                                    actionKind={actionKind}
+                                    accountId={accountId}
+                                />
+                            </span>
+                            {['Transfer', 'Stake'].includes(actionKind) &&
+                                <span className='amount'>
+                                    <ActionValue
+                                        transaction={transaction}
+                                        actionArgs={actionArgs}
+                                        actionKind={actionKind}
+                                        accountId={accountId}
+                                    />
+                                </span>
+                            }
+                        </div>
+                    }
                     <div className='item'>
                         <span>Date & time</span>
-                        <span>1/9/2021 10.09 PM</span>
+                        <span>{new Date(block_timestamp).toLocaleString()}</span>
                     </div>
                     <div className='item'>
                         <span>Status</span>
-                        <span className='status'><span/>Complete</span>
+                        <ActionStatus 
+                            status={status} 
+                        />
                     </div>
                 </div>
-                <FormButton color='gray-blue' onClick={() => {}}>
+                <FormButton 
+                    color='gray-blue' 
+                    linkTo={`${EXPLORER_URL}/transactions/${hash}`}
+                >
                     <Translate id='button.viewOnExplorer'/>
                 </FormButton>
             </StyledContainer>
