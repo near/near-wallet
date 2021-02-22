@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import { Translate } from 'react-localize-redux'
-import { format, register } from 'timeago.js'
+import { format } from 'timeago.js'
 
 import Balance from '../common/Balance'
 import IconTAcct from '../../images/IconTAcct'
@@ -11,14 +11,7 @@ import IconTCall from '../../images/IconTCall'
 import IconTTransfer from '../../images/IconTTransfer'
 import IconTStake from '../../images/IconTStake'
 import IconTKeyNew from '../../images/IconTKeyNew'
-import ArrowRight from '../../images/icon-arrow-right.svg'
-import ArrowBlkImage from '../../images/icon-arrow-blk.svg'
 import classNames from '../../utils/classNames'
-import { EXPLORER_URL, TRANSACTIONS_REFRESH_INTERVAL } from '../../utils/wallet'
-
-import SendIcon from '../svg/SendIcon'
-import KeyIcon from '../svg/KeyIcon'
-import DownArrowIcon from '../svg/DownArrowIcon'
 
 const StyledContainer = styled.div`
     display: flex;
