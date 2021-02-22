@@ -78,6 +78,12 @@ const StyledContainer = styled.div`
         }
     }
 
+const StyledDot = styled.span`
+    height: 7px;
+    width: 7px;
+    border-radius: 50%;
+    background-color: ${(props) => props.background};
+    margin-right: 5px;
 `
 
 const ActivityBox = ({ transaction, actionArgs, actionKind, accountId, getTransactionStatus, onClick, setTransactionHash }) => {
