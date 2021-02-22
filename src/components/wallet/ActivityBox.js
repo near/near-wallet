@@ -93,7 +93,20 @@ const ActivityBox = ({ transaction }) => {
                     <span>for</span>
                     <span>janedoe.near</span>
                 </div>
-            </div>
+
+const ActionIcon = ({ actionKind }) => (
+    <div className='symbol'>
+        {actionKind === 'CreateAccount' && <IconTAcct />}
+        {actionKind === 'DeleteAccount' && <IconTKeyDelete />}
+        {actionKind === 'DeployContract' && <IconTContract />}
+        {actionKind === 'FunctionCall' && <IconTCall />}
+        {actionKind === 'Transfer' && <IconTTransfer />}
+        {actionKind === 'Stake' && <IconTStake />}
+        {actionKind === 'AddKey' && <IconTKeyNew />}
+        {actionKind === 'DeleteKey' && <IconTKeyDelete />}
+    </div>
+)
+
 const ActionTimeStamp = ({ timeStamp }) => (
     <span className='time'>
         {format(timeStamp, {locale: 'en_short'})}
