@@ -326,33 +326,33 @@
         "notEnoughBalance": "Para habilitar o 2FA, sua conta requer um saldo mínimo disponível de",
         "active": "Ativo",
         "since": "desde",
-        "promptDesc": "We highly recommend that you set up a two-factor authentication method to increase the security of your account and assests",
+        "promptDesc": "É altamente recomendável que você configure um método de autenticação de dois fatores (2FA) para aumentar a segurança de sua conta",
         "verify": {
-            "title": "Enter Two-Factor Verification Code",
-            "desc": "A 6-digit verification code has been sent to:",
-            "inputLabel": "Enter your 6-digit verification code",
-            "placeholder": "Verification Code",
-            "didntReceive": "Didn't receive your code?",
-            "resend": "Resend",
-            "resending": "Sending...",
-            "resent": "Code sent!"
+            "title": "Digite o Código de Verificação de Dois Fatores (2FA)",
+            "desc": "Um código de verificação de 6 dígitos foi enviado para:",
+            "inputLabel": "Digite seu código de verificação de 6 dígitos",
+            "placeholder": "Código de Verificação",
+            "didntReceive": "Não recebeu seu código??",
+            "resend": "Reenviar",
+            "resending": "Enviando...",
+            "resent": "Código enviado!"
         },
         "disable": {
-            "title": "Are you sure you want to disable 2FA?",
-            "desc": "Keep in mind that transactions won't have to be confirmed with 2FA once it's disabled.",
-            "disable": "Disable 2FA",
-            "keep": "No, keep 2FA"
+            "title": "Tem certeza que deseja desativar a 2FA?",
+            "desc": "Lembre-se de que as transações não precisarão ser confirmadas com 2FA depois de desativada.",
+            "disable": "Desativar 2FA",
+            "keep": "Não, manter 2FA"
         },
         "alertBanner": {
-            "title": "When enabled, <b>${data} NEAR</b> will be locked to cover the contract storage costs of two-factor authentication.",
-            "button": "Learn More"
+            "title": "Quando ativado, <b>${data} NEAR</b> será bloqueado para cobrir os custos de armazenamento do contrato de autenticação de dois fatores.",
+            "button": "Saiba mais"
         }
     },
 
     "fullAccessKeys": {
-        "pageTitle": "Full Access Keys",
-        "authorizedTo": "AUTHORIZED TO",
-        "viewYourAccountName": "View your Account Name",
+        "pageTitle": "Chaves de Acesso Completo",
+        "authorizedTo": "AUTORIZADO PARA",
+        "viewYourAccountName": "Veja o Nome da sua Conta",
         "submitAnyTransaction": "Submit any transaction on your behalf",
         "useContract": "Use <b>${receiverId}</b> contract on your behalf",
         "noKeys": "You have not connected your NEAR Wallet to any applications. When you do, you can manage them here.<br /><br />See what's been built with NEAR:",
