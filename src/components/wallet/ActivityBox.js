@@ -87,12 +87,15 @@ const ActivityBox = ({ transaction }) => {
                 {/* For delete/red key: <KeyIcon color='#ff585d'/>*/}
                 <KeyIcon/>
             </div>
-            <div className='desc'>
-                <div>Access Key added</div>
-                <div>
-                    <span>for</span>
-                    <span>janedoe.near</span>
-                </div>
+
+export const ActionTitle = ({ transaction, actionArgs, actionKind, accountId }) => (
+    <div>
+        <Translate 
+            id={`dashboardActivity.title.${translateId(transaction, actionArgs, actionKind, accountId)}`}
+        />
+    </div>
+)
+
 export const ActionMessage = ({ transaction, actionArgs, actionKind, accountId }) => (
     <Translate 
         id={`dashboardActivity.message.${translateId(transaction, actionArgs, actionKind, accountId)}`}
