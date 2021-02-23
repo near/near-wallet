@@ -20,6 +20,18 @@ const Container = styled.div`
     .validator-box {
         width: 100%;
         max-width: 350px;
+
+        div {
+            :first-of-type {
+                div {
+                    :first-of-type {
+                        max-width: 150px;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                    }
+                }
+            }
+        }
     }
 
     .stake-amount {
