@@ -9,7 +9,7 @@ import SignTransferReady from './SignTransferReady'
 import SignTransferSuccess from './SignTransferSuccess'
 import SignTransferCancelled from './SignTransferCancelled'
 import SignTransferTransferring from './SignTransferTransferring'
-import { signAndSendTransactions, getBalance } from '../../actions/account'
+import { signAndSendTransactions, getBalance, handleRefreshUrl } from '../../actions/account'
 import { Mixpanel } from '../../mixpanel'
 
 class Sign extends Component {
@@ -19,6 +19,7 @@ class Sign extends Component {
     }
 
     componentDidMount = () => {
+        this.props.handleRefreshUrl()
         this.props.getBalance()
     }
 
@@ -92,7 +93,8 @@ class Sign extends Component {
 const mapDispatchToProps = {
     signAndSendTransactions,
     push,
-    getBalance
+    getBalance,
+    handleRefreshUrl
 }
 
 const mapStateToProps = ({ account, sign }) => ({
