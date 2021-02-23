@@ -160,7 +160,9 @@ class RecoverWithLink extends Component {
                 this.props.refreshAccount()
                 this.props.redirectTo('/profile')
             },
-            this.setState({ successView: false })
+            () => {
+                this.setState({ successView: false })
+            }
         )
     }
 
