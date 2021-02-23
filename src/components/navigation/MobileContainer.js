@@ -177,8 +177,13 @@ class MobileContainer extends Component {
                     <Logo/>
                     {showNavLinks &&
                         <>
-                            <UserAccount accountId={account.accountId} onClick={toggleMenu} withIcon={false}/>
-                            <UserIcon background={true} color='#A2A2A8' onClick={toggleMenu}/>
+                            <UserAccount
+                                accountId={account.accountId}
+                                onClick={toggleMenu}
+                                withIcon={false}
+                                showLimitedNav={showLimitedNav}
+                            />
+                            <UserIcon background={true} color='#A2A2A8' onClick={!showLimitedNav ? toggleMenu : null}/>
                         </>
                     }
                     {!showNavLinks &&

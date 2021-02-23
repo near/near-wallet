@@ -111,7 +111,11 @@ class DesktopContainer extends Component {
                 {showNavLinks &&
                     <>
                         <div className='divider'/>
-                        <UserAccount accountId={account.accountId} onClick={toggleMenu}/>
+                        <UserAccount
+                            accountId={account.accountId}
+                            onClick={toggleMenu}
+                            showLimitedNav={showLimitedNav}
+                        />
                         <DesktopMenu
                             show={menuOpen}
                             toggleMenu={toggleMenu}
