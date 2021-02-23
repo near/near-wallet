@@ -53,8 +53,12 @@ class Navigation extends Component {
 
     }
 
-    get showNavLinks() {        
+    get showNavLinks() {
         return this.props.account.accountId;
+    }
+
+    get showLimitedNav() {   
+        return window.location.pathname === '/sign'
     }
 
     toggleMenu = () => {
@@ -78,6 +82,7 @@ class Navigation extends Component {
                     toggleMenu={this.toggleMenu}
                     selectAccount={this.handleSelectAccount}
                     showNavLinks={this.showNavLinks}
+                    showLimitedNav={this.showLimitedNav}
                     {...this.props}
                 />
                 <MobileContainer
@@ -85,6 +90,7 @@ class Navigation extends Component {
                     toggleMenu={this.toggleMenu}
                     selectAccount={this.handleSelectAccount}
                     showNavLinks={this.showNavLinks}
+                    showLimitedNav={this.showLimitedNav}
                     {...this.props}
                 />
             </Container>

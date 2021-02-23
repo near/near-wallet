@@ -160,6 +160,15 @@ const User = styled.div`
         height: 9px;
         width: 9px;
     }
+
+    &.no-click {
+        pointer-events: none;
+        padding-right: 20px;
+
+        :after {
+            display: none;
+        }
+    }
 `
 
 const UserIcon = styled.div`
@@ -230,13 +239,14 @@ class DesktopContainer extends Component {
             toggleMenu,
             availableAccounts,
             selectAccount,
-            showNavLinks
+            showNavLinks,
+            showLimitedNav
         } = this.props;
 
         return (
             <Container>
                 <Logo/>
-                {showNavLinks &&
+                {showNavLinks && !showLimitedNav &&
                     <NavLinks />
                 }
                 <Help 
@@ -251,7 +261,7 @@ class DesktopContainer extends Component {
                 </Lang>
                 {showNavLinks &&
                     <>
-                        <User onClick={toggleMenu}>
+                        <User className={showLimitedNav ? 'no-click' : ''} onClick={toggleMenu}>
                             <UserIcon/>
                             <UserName accountId={account.accountId}/>
                             <UserBalance balance={account.balance}/>

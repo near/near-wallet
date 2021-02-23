@@ -153,7 +153,8 @@ class MobileContainer extends Component {
             availableAccounts,
             menuOpen,
             toggleMenu,
-            showNavLinks
+            showNavLinks,
+            showLimitedNav
         } = this.props;
 
         return (
@@ -166,7 +167,7 @@ class MobileContainer extends Component {
                                 <UserName accountId={account.accountId}/>
                                 <UserBalance balance={account.balance}/>
                             </User>
-                            <MenuButton onClick={toggleMenu} open={menuOpen}/>
+                            {!showLimitedNav && <MenuButton onClick={toggleMenu} open={menuOpen}/>}
                         </>
                     }
                     {!showNavLinks &&
