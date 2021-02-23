@@ -28,6 +28,7 @@ const Container = styled.div`
                         max-width: 150px;
                         overflow: hidden;
                         text-overflow: ellipsis;
+                        text-align: left;
                     }
                 }
             }
