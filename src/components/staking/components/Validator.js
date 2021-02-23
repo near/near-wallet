@@ -6,7 +6,6 @@ import BalanceBox from './BalanceBox'
 import StakingFee from './StakingFee'
 import AlertBanner from './AlertBanner'
 import StakeConfirmModal from './StakeConfirmModal'
-import { onKeyDown } from '../../../hooks/eventListeners'
 import { redirectTo } from '../../../actions/account'
 import { actionsPending } from '../../../utils/alerts'
 import { Mixpanel } from '../../../mixpanel'
@@ -22,28 +21,25 @@ export default function Validator({
     const [confirm, setConfirm] = useState(null)
     const dispatch = useDispatch()
     const stakeNotAllowed = selectedValidator && selectedValidator !== match.params.validator && currentValidators.length
-
-    onKeyDown(e => {
-        if (e.keyCode === 13 && confirm === 'withdraw' && !loading) {
-            handleStakeAction()
-        }
-    })
+    const showConfirmModal = confirm === 'withdraw'
 
     const handleStakeAction = async () => {
-        if (confirm === 'withdraw') {
+        if (showConfirmModal && !loading) {
            await onWithdraw()
+           setConfirm('done')
         }
-        setConfirm('done')
     }
 
     return (
         <>
-            {stakeNotAllowed &&
+            {stakeNotAllowed ?
                 <AlertBanner
                     title='staking.alertBanner.title'
                     button='staking.alertBanner.button'
                     linkTo={`/staking/${selectedValidator}`}
                 />
+                :
+                null
             }
             <h1><Translate id='staking.validator.title' data={{ validator: match.params.validator }}/></h1>
             <FormButton 
@@ -90,13 +86,13 @@ export default function Validator({
                         button='staking.balanceBox.available.button'
                         loading={loading}
                     />
-                    {confirm &&
+                    {showConfirmModal &&
                         <StakeConfirmModal
                             title={`staking.validator.${confirm}`}
                             label='staking.stake.from'
                             validator={validator}
                             amount={validator.available}
-                            open={confirm}
+                            open={showConfirmModal}
                             onConfirm={handleStakeAction}
                             onClose={() => setConfirm(null)}
                             loading={loading}
