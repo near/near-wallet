@@ -18,6 +18,11 @@ const StyledContainer = styled.div`
     align-items: center;
     padding: 15px 0;
 
+    @media (max-width: 991px) {
+        margin: 0 -14px;
+        padding: 15px 14px;
+    }
+
     :hover {
         cursor: pointer;
     }
@@ -78,6 +83,7 @@ const StyledContainer = styled.div`
         }
         .time {
             color: #A2A2A8;
+            text-align: right;
         }
     }
 
@@ -191,7 +197,7 @@ const ActionIcon = ({ actionKind }) => (
 
 const ActionTimeStamp = ({ timeStamp }) => (
     <span className='time'>
-        {format(timeStamp, {locale: 'en_short'})}
+        {format(timeStamp)}
     </span>
 )
 

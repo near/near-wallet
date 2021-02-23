@@ -68,6 +68,7 @@ const StyledContainer = styled(Container)`
         font-size: 22px !important;
         align-self: flex-start;
         margin: 50px 0 30px 0;
+        text-align: left !important;
     }
 `
 

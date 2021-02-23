@@ -646,7 +646,7 @@
     },
 
     "dashboard": {
-        "activity": "Activity"
+        "activity": "Recent activity"
     },
 
     "loading": "Loading...",
