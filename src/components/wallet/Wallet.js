@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import styled from 'styled-components'
 import { Translate } from 'react-localize-redux'
@@ -9,10 +9,9 @@ import SendIcon from '../svg/SendIcon'
 import DownArrowIcon from '../svg/DownArrowIcon'
 import Balance from '../common/Balance'
 import { getTransactions, getTransactionStatus } from '../../actions/transactions'
-import { EXPLORER_URL, TRANSACTIONS_REFRESH_INTERVAL } from '../../utils/wallet'
 import { Mixpanel } from "../../mixpanel/index"
-import Tokens from './Tokens'
 import Activities from './Activities'
+// import Tokens from './Tokens'
 
 const StyledContainer = styled(Container)`
     display: flex;
@@ -80,35 +79,27 @@ export function Wallet() {
         Mixpanel.people.set({relogin_date: new Date().toString()})
 
         dispatch(getTransactions(accountId))
-
-        // setInterval(() => {
-        //     !document.hidden && dispatch(getTransactions(accountId))
-        // }, TRANSACTIONS_REFRESH_INTERVAL)
-
-        // return () => { clearInterval() }
-
     }, [])
     
 
     const { balance, accountId } = useSelector(({ account }) => account)
-    const { mainLoader } = useSelector(({ status }) => status)
     const transactions = useSelector(({ transactions }) => transactions)
     const dispatch = useDispatch()
 
-    const exampleTokens = [
-        {
-            name: 'Banana',
-            symbol: '🍌',
-            contract: 'berryclub.ek.near',
-            balance: '500'
-        },
-        {
-            name: 'Avocado',
-            symbol: '🥑',
-            contract: 'farm.berryclub.ek.near',
-            balance: '1000'
-        }
-    ]
+    // const exampleTokens = [
+    //     {
+    //         name: 'Banana',
+    //         symbol: '🍌',
+    //         contract: 'berryclub.ek.near',
+    //         balance: '500'
+    //     },
+    //     {
+    //         name: 'Avocado',
+    //         symbol: '🥑',
+    //         contract: 'farm.berryclub.ek.near',
+    //         balance: '1000'
+    //     }
+    // ]
 
     return (
         <StyledContainer className='small-centered'>
@@ -133,16 +124,14 @@ export function Wallet() {
                     <Translate id='button.receive'/>
                 </FormButton>
             </div>
-            <div className='sub-title tokens'><Translate id='wallet.tokens' /></div>
-            <Tokens tokens={exampleTokens}/>
-            <h2><Translate id='dashboard.activity' /></h2>
-            <Activities transactions={transactions[accountId] || []}/>
-            <FormButton
-                color='gray-blue'
-                linkTo={`${EXPLORER_URL}/accounts/${accountId}`}
-            >
-                <Translate id='button.viewAll'/>
-            </FormButton>
+            {/* <div className='sub-title tokens'><Translate id='wallet.tokens' /></div> */}
+            {/* <Tokens tokens={exampleTokens}/> */}
+            <Activities 
+                transactions={transactions[accountId] || []}
+                accountId={accountId}
+                getTransactionStatus={getTransactionStatus}
+
+            />
         </StyledContainer>
     )
 }
