@@ -43,6 +43,7 @@ const Container = styled.div`
     }
 `
 
+
 const Lang = styled.div`
     margin-left: auto;
     position: relative;
@@ -94,13 +95,14 @@ class DesktopContainer extends Component {
             toggleMenu,
             availableAccounts,
             selectAccount,
-            showNavLinks
+            showNavLinks,
+            showLimitedNav
         } = this.props;
 
         return (
             <Container>
                 <Logo/>
-                {showNavLinks &&
+                {showNavLinks && !showLimitedNav &&
                     <NavLinks />
                 }
                 <Lang>

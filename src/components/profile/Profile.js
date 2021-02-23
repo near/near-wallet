@@ -175,8 +175,8 @@ export function Profile({ match }) {
                 await dispatch(loadRecoveryMethods())
                 dispatch(getAccessKeys(accountId))
                 dispatch(getLedgerKey())
-                await dispatch(getBalance())
-                dispatch(checkCanEnableTwoFactor(account))
+                const balance = await dispatch(getBalance())
+                dispatch(checkCanEnableTwoFactor(balance))
                 dispatch(getProfileStakingDetails())
             }
         })()
@@ -279,7 +279,7 @@ export function Profile({ match }) {
                             <>
                                 <hr/>
                                 <h2><LockIcon/><Translate id='profile.twoFactor'/></h2>
-                                {!recoveryLoader ? (
+                                {account.canEnableTwoFactor !== null ? (
                                     <>
                                         <div className='sub-heading'><Translate id='profile.twoFactorDesc'/></div>
                                         {/* TODO: Also check recovery methods in DB for Ledger */}
@@ -288,7 +288,7 @@ export function Profile({ match }) {
                                 ) : (
                                     <SkeletonLoading
                                         height='80px'
-                                        show={recoveryLoader}
+                                        show={true}
                                     />
                                 )}
                             </>

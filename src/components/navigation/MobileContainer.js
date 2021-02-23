@@ -167,7 +167,8 @@ class MobileContainer extends Component {
             availableAccounts,
             menuOpen,
             toggleMenu,
-            showNavLinks
+            showNavLinks,
+            showLimitedNav
         } = this.props;
 
         return (

@@ -123,7 +123,8 @@ export const redirectTo = (location, state = {}) => (dispatch) => {
     }))
 }
 
-export const redirectToApp = (fallback) => (dispatch, getState) => {
+export const redirectToApp = (fallback) => async (dispatch, getState) => {
+    dispatch(handleRefreshUrl())
     const { account: { url }} = getState()
     dispatch(push({
         pathname: (url && url.redirect_url !== '/' && url.redirect_url) || fallback || '/',
@@ -398,7 +399,7 @@ export const finishAccountSetup = () => async (dispatch, getState) => {
     await dispatch(getBalance())
     const account = getState().account
     
-    let promptTwoFactor = await TwoFactor.checkCanEnableTwoFactor(account)
+    let promptTwoFactor = await TwoFactor.checkCanEnableTwoFactor(account.balance)
 
     if (new BN(account.balance.available).lt(new BN(utils.format.parseNearAmount(MULTISIG_MIN_PROMPT_AMOUNT)))) {
         promptTwoFactor = false
@@ -493,6 +494,7 @@ export const refreshAccount = (basicData = false) => async (dispatch, getState) 
 export const switchAccount = (accountId) => async (dispatch, getState) => {
     dispatch(selectAccount(accountId))
     await dispatch(refreshAccount())
+    dispatch(handleRefreshUrl())
 }
 
 export const { selectAccount, refreshAccountOwner, refreshAccountExternal, refreshUrl, updateStakingAccount, updateStakingLockup, getBalance } = createActions({
