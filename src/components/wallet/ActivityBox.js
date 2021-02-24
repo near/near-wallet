@@ -4,13 +4,7 @@ import { Translate } from 'react-localize-redux'
 import { format } from 'timeago.js'
 
 import Balance from '../common/Balance'
-import IconTAcct from '../../images/IconTAcct'
-import IconTKeyDelete from '../../images/IconTKeyDelete'
-import IconTContract from '../../images/IconTContract'
-import IconTCall from '../../images/IconTCall'
-import IconTTransfer from '../../images/IconTTransfer'
 import IconTStake from '../../images/IconTStake'
-import IconTKeyNew from '../../images/IconTKeyNew'
 import classNames from '../../utils/classNames'
 
 import KeyIcon from '../svg/KeyIcon'
@@ -214,11 +208,32 @@ const ActionIcon = ({ actionKind, receiverId, accountId }) => (
     </div>
 )
 
-const ActionTimeStamp = ({ timeStamp }) => (
-    <span className='time'>
-        {format(timeStamp)}
-    </span>
-)
+const ActionTimeStamp = ({ timeStamp }) => {
+    let time = format(timeStamp)
+    let formatting = {
+        'ago': '',
+        'months': 'm',
+        'month': 'm',
+        'weeks': 'w',
+        'week': 'w',
+        'days': 'd',
+        'day': 'd',
+        'hours': 'h',
+        'hour': 'h',
+        'minutes': 'm',
+        'minute': 'm',
+    }
+
+    for (const format in formatting) {
+        time = time.replace(`${format}`, `${formatting[format]}`)
+    }
+
+    return (
+        <span className='time'>
+            {time}
+        </span>
+    )
+}
 
 export const ActionValue = ({ transaction, actionArgs, actionKind, accountId }) => (
     <div className={`value ${actionKind === 'Transfer' ? transaction.signer_id === accountId ? 'transferred' : 'received' : ''}`}>
