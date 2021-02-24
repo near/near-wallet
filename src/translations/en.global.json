@@ -1030,7 +1030,7 @@
             "Started": "Started",
             "Failure": "Failed",
             "SuccessValue": "Succeeded",
-            "checkingStatus": "checking status",
+            "checkingStatus": "Checking status...",
             "notAvailable": "Status not available"
         }
     },

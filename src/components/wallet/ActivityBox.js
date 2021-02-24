@@ -146,12 +146,14 @@ const ActivityBox = ({ transaction, actionArgs, actionKind, accountId, setTransa
                 />
             </div>
             <div className='right'>
-                <ActionValue
-                    transaction={transaction}
-                    actionArgs={actionArgs}
-                    actionKind={actionKind}
-                    accountId={accountId}
-                />
+                {(actionKind === 'Transfer' || actionKind === 'Stake') &&
+                    <ActionValue
+                        transaction={transaction}
+                        actionArgs={actionArgs}
+                        actionKind={actionKind}
+                        accountId={accountId}
+                    />
+                }
                 <ActionTimeStamp
                     timeStamp={block_timestamp}
                 />

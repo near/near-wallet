@@ -101,7 +101,11 @@ const Lang = styled.div`
     position: relative;
     max-height: 58px;
     margin: 0 -14px;
-    background-color: #FAFAFA;
+
+    &.mobile-lang {
+        background-color: #FAFAFA;
+        border-bottom: 1px solid #efefef;
+    }
 
     &:after {
         content: '';
@@ -137,7 +141,7 @@ const Lang = styled.div`
         cursor: pointer;
         height: 32px;
         outline: none;
-        padding-right: 54px;
+        padding-right: 62px;
         position: relative;
         width: 100%;
         z-index: 1;
