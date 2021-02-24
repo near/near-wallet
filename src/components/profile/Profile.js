@@ -140,7 +140,6 @@ const StyledContainer = styled(Container)`
         button {
             &.link {
                 text-decoration: none !important;
-                font-weight: 600 !important;
             }
         }
     }
@@ -257,14 +256,19 @@ export function Profile({ match }) {
                             number={2}
                         />
                     )}
-                    <hr/>
-                    <div className='auth-apps'>
-                        <h2><CheckCircleIcon/><Translate id='profile.authorizedApps.title'/></h2>
-                        <FormButton color='link' linkTo='/authorized-apps'><Translate id='button.viewAll'/></FormButton>
-                    </div>
-                    {authorizedApps?.slice(0, 2).map((app, i) => (
-                        <AuthorizedApp key={i} app={app}/>
-                    ))}
+                    {authorizedApps?.length ?
+                        <>
+                            <hr/>
+                            <div className='auth-apps'>
+                                <h2><CheckCircleIcon/><Translate id='profile.authorizedApps.title'/></h2>
+                                <FormButton color='link' linkTo='/authorized-apps'><Translate id='button.viewAll'/></FormButton>
+                            </div>
+                            {authorizedApps?.slice(0, 2).map((app, i) => (
+                                <AuthorizedApp key={i} app={app}/>
+                            ))}
+                        </>
+                        : null
+                    }
                 </div>
                 {isOwner &&
                     <div className='right'>

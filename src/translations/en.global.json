@@ -658,7 +658,9 @@
 
     "wallet": {
         "balanceTitle": "Portfolio Balance",
-        "tokens": "Tokens"
+        "tokens": "Tokens",
+        "dateAndTime": "Date & Time",
+        "status": "Status"
     },
 
     "login": {

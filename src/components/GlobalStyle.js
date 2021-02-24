@@ -337,7 +337,6 @@ export default createGlobalStyle`
     button, .button {
         cursor: pointer;
         outline: none;
-        font-weight: 500 !important;
     }
 
     .box {

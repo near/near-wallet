@@ -36,6 +36,7 @@ const EnabledContainer = styled.div`
                 color: #FF585D;
                 background-color: #f8f8f8;
                 border: none;
+                font-weight: 600;
 
                 &:hover {
                     color: white;

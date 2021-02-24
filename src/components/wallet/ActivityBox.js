@@ -126,10 +126,10 @@ const StyledDot = styled.span`
 `
 
 const ActivityBox = ({ transaction, actionArgs, actionKind, accountId, setTransactionHash, receiverId }) => {
-    const { hash, block_timestamp } = transaction
+    const { hash, block_timestamp, kind } = transaction
 
     return (
-        <StyledContainer className='activity-box' onClick={() => setTransactionHash(hash)}>
+        <StyledContainer className='activity-box' onClick={() => setTransactionHash(`${hash}-${kind}`)}>
             <ActionIcon actionKind={actionKind} receiverId={receiverId} accountId={accountId}/>
             <div className='desc'>
                 <ActionTitle 
@@ -146,7 +146,7 @@ const ActivityBox = ({ transaction, actionArgs, actionKind, accountId, setTransa
                 />
             </div>
             <div className='right'>
-                {(actionKind === 'Transfer' || actionKind === 'Stake') &&
+                {['Transfer', 'Stake'].includes(actionKind) &&
                     <ActionValue
                         transaction={transaction}
                         actionArgs={actionArgs}

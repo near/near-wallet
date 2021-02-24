@@ -20,6 +20,7 @@ const Button = styled(Link)`
     background-color: #0072ce;
     border-radius: 40px;
     transition: 150ms;
+    font-weight: 600;
 
     :hover {
         background-color: rgb(0, 127, 230);

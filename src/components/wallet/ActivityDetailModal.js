@@ -35,6 +35,11 @@ const StyledContainer = styled.div`
             border-bottom: 1px solid #F0F0F1;
         }
 
+        @media (max-width: 767px) {
+            margin: 0 -25px;
+            padding: 15px;
+        }
+
         > span {
             :first-of-type {
                 color: #A2A2A8;
@@ -148,13 +153,13 @@ const ActivityDetailModal = ({
                         </div>
                     }
                     <div className='item'>
-                        <span>Date & time</span>
-                        <span>{new Date(block_timestamp).toLocaleString()}</span>
+                        <span><Translate id='wallet.dateAndTime' /></span>
+                        <span>{new Date(block_timestamp).toLocaleString('en-US', {dateStyle: 'short', timeStyle: 'short'})}</span>
                     </div>
                     <div className='item'>
-                        <span>Status</span>
+                        <span><Translate id='wallet.status' /></span>
                         <ActionStatus 
-                            status={status} 
+                            status={status}
                         />
                     </div>
                 </div>

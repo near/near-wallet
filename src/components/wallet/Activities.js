@@ -73,14 +73,14 @@ const Activities = ({ transactions, accountId, getTransactionStatus }) => {
                         setTransactionHash={setTransactionHash}
                     />
                 ))
-                : 'loader' // skeleton?
+                : null
             }
             {transactionHash && 
                 <ActivityDetailModal 
                     open={transactionHash}
                     onClose={() => setTransactionHash()}
                     accountId={accountId}
-                    transaction={transactions.find((transaction) => transaction.hash === transactionHash)}
+                    transaction={transactions.find((transaction) => `${transaction.hash}-${transaction.kind}` === transactionHash)}
                     getTransactionStatus={getTransactionStatus}
                 />
             }

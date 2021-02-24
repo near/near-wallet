@@ -92,7 +92,8 @@ const P = styled.p`
 
 const Button = styled(Link)`
     background-color: #6AD1E3;
-    font-weight: 500;
+    font-weight: 600;
+    font-size: 15px;
     display: inline-block;
     border: 0;
     border-radius: 40px;
