@@ -13,6 +13,13 @@ import IconTStake from '../../images/IconTStake'
 import IconTKeyNew from '../../images/IconTKeyNew'
 import classNames from '../../utils/classNames'
 
+import KeyIcon from '../svg/KeyIcon'
+import DownArrowIcon from '../svg/DownArrowIcon'
+import SendIcon from '../svg/SendIcon'
+import CodeIcon from '../svg/CodeIcon'
+import UserIcon from '../svg/UserIcon'
+
+
 const StyledContainer = styled.div`
     display: flex;
     align-items: center;
@@ -28,6 +35,8 @@ const StyledContainer = styled.div`
     }
 
     .symbol {
+        min-width: 40px;
+        min-height: 40px;
         width: 40px;
         height: 40px;
         border: 1px solid #F0F0F1;
@@ -36,11 +45,6 @@ const StyledContainer = styled.div`
         align-items: center;
         justify-content: center;
         margin-right: 14px;
-
-        svg {
-            height: 16px;
-            width: 16px;
-        }
     }
 
     .desc {
@@ -50,6 +54,19 @@ const StyledContainer = styled.div`
         }
         > span {
             color: #A2A2A8;
+            max-width: 300px;
+            overflow: hidden;
+            display: block;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+
+            @media (max-width: 500px) {
+                max-width: 190px;
+            }
+
+            @media (max-width: 355px) {
+                max-width: 140px;
+            }
 
             span {
                 color: #3F4045;
@@ -108,12 +125,12 @@ const StyledDot = styled.span`
     margin-right: 5px;
 `
 
-const ActivityBox = ({ transaction, actionArgs, actionKind, accountId, setTransactionHash }) => {
+const ActivityBox = ({ transaction, actionArgs, actionKind, accountId, setTransactionHash, receiverId }) => {
     const { hash, block_timestamp } = transaction
 
     return (
         <StyledContainer className='activity-box' onClick={() => setTransactionHash(hash)}>
-            <ActionIcon actionKind={actionKind} />
+            <ActionIcon actionKind={actionKind} receiverId={receiverId} accountId={accountId}/>
             <div className='desc'>
                 <ActionTitle 
                     transaction={transaction}
@@ -182,16 +199,16 @@ const translateData = (transaction, actionArgs, actionKind) => ({
     permissionReceiverId: (actionKind === "AddKey" && actionArgs.access_key && actionArgs.access_key.permission.permission_kind === 'FUNCTION_CALL') ? actionArgs.access_key.permission.permission_details.receiver_id : ''
 })
 
-const ActionIcon = ({ actionKind }) => (
+const ActionIcon = ({ actionKind, receiverId, accountId }) => (
     <div className='symbol'>
-        {actionKind === 'CreateAccount' && <IconTAcct />}
-        {actionKind === 'DeleteAccount' && <IconTKeyDelete />}
-        {actionKind === 'DeployContract' && <IconTContract />}
-        {actionKind === 'FunctionCall' && <IconTCall />}
-        {actionKind === 'Transfer' && <IconTTransfer />}
+        {actionKind === 'CreateAccount' && <UserIcon color='#0072CE' />}
+        {actionKind === 'DeleteAccount' && <UserIcon color='#ff585d'/>}
+        {actionKind === 'DeployContract' && <CodeIcon />}
+        {actionKind === 'FunctionCall' && <CodeIcon />}
+        {actionKind === 'Transfer' && (receiverId === accountId ? <DownArrowIcon /> : <SendIcon/>)}
         {actionKind === 'Stake' && <IconTStake />}
-        {actionKind === 'AddKey' && <IconTKeyNew />}
-        {actionKind === 'DeleteKey' && <IconTKeyDelete />}
+        {actionKind === 'AddKey' && <KeyIcon />}
+        {actionKind === 'DeleteKey' && <KeyIcon color='#ff585d' />}
     </div>
 )
 

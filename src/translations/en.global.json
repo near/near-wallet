@@ -211,7 +211,7 @@
             "CreateAccount": "New account created",
             "DeleteAccount": "Account deleted",
             "DeployContract": "Contract deployed",
-            "FunctionCall": "Called method",
+            "FunctionCall": "Method called",
             "Transfer": {
                 "transferred": "Sent NEAR",
                 "received": "Received NEAR"
@@ -219,7 +219,7 @@
             "Stake": "Staked",
             "AddKey": {
                 "forContract": "Access Key added",
-                "forReceiver": "Full Access Key"
+                "forReceiver": "Access Key added"
             },
             "DeleteKey": "Key deleted"
         },

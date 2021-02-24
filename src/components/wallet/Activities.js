@@ -68,6 +68,7 @@ const Activities = ({ transactions, accountId, getTransactionStatus }) => {
                         transaction={transaction}
                         actionArgs={transaction.args}
                         actionKind={transaction.kind}
+                        receiverId={transaction.receiver_id}
                         accountId={accountId}
                         setTransactionHash={setTransactionHash}
                     />
