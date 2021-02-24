@@ -22,6 +22,7 @@ const EnabledContainer = styled.div`
                 max-width: 140px;
                 white-space: nowrap;
                 overflow: hidden;
+                color: #A1A1A9;
 
                 @media (min-width: 375px) {
                     max-width: 180px;
@@ -48,6 +49,7 @@ const EnabledContainer = styled.div`
         .bottom {
             display: flex;
             margin-top: 20px;
+            color: #A1A1A9;
 
             button {
                 text-decoration: none;

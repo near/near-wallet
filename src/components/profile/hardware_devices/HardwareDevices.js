@@ -47,6 +47,9 @@ const Container = styled(Card)`
         margin-top: 20px;
         display: block;
         color: #A1A1A9;
+        font-style: normal;
+        color: #A1A1A9;
+
     }
 
     .color-red {
@@ -127,7 +130,7 @@ const HardwareDevices = ({ recoveryMethods }) => {
                             <div className='color-red'><Translate id='hardwareDevices.ledger.connect'/></div>
                         }
                         {!hasLedger && 
-                            <i style={{fontStyle: 'normal', color: '#3F4045'}}><Translate id='hardwareDevices.desc'/></i>
+                            <i><Translate id='hardwareDevices.desc'/></i>
                         }
                     </>
                     :

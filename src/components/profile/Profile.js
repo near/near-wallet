@@ -125,6 +125,7 @@ const StyledContainer = styled(Container)`
 
     .sub-heading {
         margin: 20px 0;
+        color: #72727A;
     }
 
     .auth-apps {

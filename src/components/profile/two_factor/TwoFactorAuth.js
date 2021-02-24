@@ -20,6 +20,10 @@ const Container = styled(Card)`
         font-weight: 500;
     }
 
+    .detail {
+        color: #A1A1A9;
+    }
+
     .method {
         .top {
             display: flex;
@@ -39,6 +43,7 @@ const Container = styled(Card)`
 
         .bottom {
             margin-top: 20px;
+            color: #A1A1A9;
         }
 
         .color-red {
@@ -68,7 +73,7 @@ const TwoFactorAuth = ({ twoFactor, history }) => {
                             <div className='title'>
                                 <Translate id={`twoFactor.${twoFactor.kind === '2fa-email' ? 'email' : 'phone'}`}/>
                             </div>
-                            <div>{twoFactor.detail}</div>
+                            <div className='detail'>{twoFactor.detail}</div>
                         </div>
                         {
                             false && <FormButton onClick={() => setConfirmDisable(true)} className='gray-red'><Translate id='button.disable'/></FormButton>
