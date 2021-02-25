@@ -53,4 +53,4 @@ if (process.env.REACT_APP_NETWORK_ID || process.env.REACT_APP_IS_MAINNET) {
     };
 }
 
-export {Mixpanel};
+export { Mixpanel };
