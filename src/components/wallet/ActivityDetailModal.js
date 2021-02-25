@@ -5,7 +5,7 @@ import styled from 'styled-components'
 
 import FormButton from '../common/FormButton'
 import Modal from "../common/modal/Modal"
-import { ActionTitle, ActionValue, ActionMessage, ActionStatus } from './ActivityBox'
+import { ActionTitle, ActionValue, ActionMessage, ActionStatus, translateData } from './ActivityBox'
 import { EXPLORER_URL, TRANSACTIONS_REFRESH_INTERVAL } from '../../utils/wallet'
 
 const StyledContainer = styled.div`
@@ -146,14 +146,33 @@ const ActivityDetailModal = ({
                         </div>
                     }
                     {actionKind !== 'DeleteKey' &&  (
-                        <div className='item sent-to'>
-                            <ActionMessage 
-                                transaction={transaction}
-                                actionArgs={actionArgs}
-                                actionKind={actionKind}
-                                accountId={accountId}
-                            />
-                        </div>
+                        actionKind === 'FunctionCall'
+                            ? (
+                                <>
+                                    <div className='item sent-to'>
+                                        <Translate 
+                                            id={`dashboardActivity.message.FunctionCallDetails.first`}
+                                            data={translateData(transaction, actionArgs, actionKind)}
+                                        />
+                                    </div>
+                                    <div className='item sent-to'>
+                                        <Translate 
+                                            id={`dashboardActivity.message.FunctionCallDetails.second`}
+                                            data={translateData(transaction, actionArgs, actionKind)}
+                                        />
+                                    </div>
+                                </>
+                            ) : (
+                                <div className='item sent-to'>
+                                    <ActionMessage 
+                                        transaction={transaction}
+                                        actionArgs={actionArgs}
+                                        actionKind={actionKind}
+                                        accountId={accountId}
+                                    />
+                                </div>
+                            )
+                        )
                     }
                     <div className='item'>
                         <span><Translate id='wallet.dateAndTime' /></span>

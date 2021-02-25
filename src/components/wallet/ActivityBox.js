@@ -186,7 +186,7 @@ const translateId = (transaction, actionArgs, actionKind, accountId) => (
     }`
 )
 
-const translateData = (transaction, actionArgs, actionKind) => ({
+export const translateData = (transaction, actionArgs, actionKind) => ({
     receiverId: transaction.receiver_id || '',
     signerId: transaction.signer_id || '',
     methodName: actionKind === "FunctionCall" ? actionArgs.method_name : '', 
