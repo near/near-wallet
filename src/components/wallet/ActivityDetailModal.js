@@ -5,7 +5,7 @@ import styled from 'styled-components'
 
 import FormButton from '../common/FormButton'
 import Modal from "../common/modal/Modal"
-import { ActionTitle, ActionValue, ActionMessage, ActionStatus } from './ActivityBox'
+import { ActionTitle, ActionValue, ActionMessage, ActionStatus, translateData } from './ActivityBox'
 import { EXPLORER_URL, TRANSACTIONS_REFRESH_INTERVAL } from '../../utils/wallet'
 
 const StyledContainer = styled.div`
@@ -46,6 +46,20 @@ const StyledContainer = styled.div`
 
                 > span > span {
                     color: #3F4045;
+                }
+            }
+        }
+        &.sent-to > span {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            > span {
+                color: #3F4045;
+                :first-of-type {
+                    text-transform: capitalize;
+                    color: #A2A2A8;
                 }
             }
         }
@@ -130,27 +144,49 @@ const ActivityDetailModal = ({
                     />
                 </h2>
                 <div className='row'>
-                    {actionKind !== 'DeleteKey' && 
+                    {['Transfer', 'Stake'].includes(actionKind) &&
                         <div className='item'>
                             <span>
-                                <ActionMessage 
+                                Amount
+                            </span>
+                            <span className='amount'>
+                                <ActionValue
                                     transaction={transaction}
                                     actionArgs={actionArgs}
                                     actionKind={actionKind}
                                     accountId={accountId}
                                 />
                             </span>
-                            {['Transfer', 'Stake'].includes(actionKind) &&
-                                <span className='amount'>
-                                    <ActionValue
+                        </div>
+                    }
+                    {actionKind !== 'DeleteKey' &&  (
+                        actionKind === 'FunctionCall'
+                            ? (
+                                <>
+                                    <div className='item sent-to'>
+                                        <Translate 
+                                            id={`dashboardActivity.message.FunctionCallDetails.first`}
+                                            data={translateData(transaction, actionArgs, actionKind)}
+                                        />
+                                    </div>
+                                    <div className='item sent-to'>
+                                        <Translate 
+                                            id={`dashboardActivity.message.FunctionCallDetails.second`}
+                                            data={translateData(transaction, actionArgs, actionKind)}
+                                        />
+                                    </div>
+                                </>
+                            ) : (
+                                <div className='item sent-to'>
+                                    <ActionMessage 
                                         transaction={transaction}
                                         actionArgs={actionArgs}
                                         actionKind={actionKind}
                                         accountId={accountId}
                                     />
-                                </span>
-                            }
-                        </div>
+                                </div>
+                            )
+                        )
                     }
                     <div className='item'>
                         <span><Translate id='wallet.dateAndTime' /></span>

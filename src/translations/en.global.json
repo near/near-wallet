@@ -224,18 +224,22 @@
             "DeleteKey": "Key deleted"
         },
         "message": {
-            "CreateAccount": "<span>${receiverId}</span>",
-            "DeleteAccount": "<span>${receiverId}<span>",
-            "DeployContract": "<span>${receiverId}</span>",
+            "CreateAccount": "<span>account</span> <span>${receiverId}</span>",
+            "DeleteAccount": "<span>account</span> <span>${receiverId}<span>",
+            "DeployContract": "<span>contract</span> <span>${receiverId}</span>",
             "FunctionCall": "<span>${methodName}</span> in contract <span>${receiverId}</span>",
-            "Transfer": {
-                "transferred": "to <span>${receiverId}</span>",
-                "received": "from <span>${signerId}</span>"
+            "FunctionCallDetails": {
+                "first": "<span>Method</span> <span>${methodName}</span>",
+                "second": "<span>In contract</span> <span>${receiverId}</span>"
             },
-            "Stake": "<span>${stake}</span>",
+            "Transfer": {
+                "transferred": "<span>to</span> <span>${receiverId}</span>",
+                "received": "<span>from</span> <span>${signerId}</span>"
+            },
+            "Stake": "<span>stake</span><span>${stake}</span>",
             "AddKey": {
-                "forContract": "for <span>${permissionReceiverId}</span>",
-                "forReceiver": "for <span>${receiverId}</span>"
+                "forContract": "<span>for</span> <span>${permissionReceiverId}</span>",
+                "forReceiver": "<span>for</span> <span>${receiverId}</span>"
             },
             "DeleteKey": ""
         }

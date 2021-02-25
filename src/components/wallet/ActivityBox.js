@@ -62,8 +62,13 @@ const StyledContainer = styled.div`
                 max-width: 140px;
             }
 
-            span {
+            > span {
                 color: #3F4045;
+                
+                :first-of-type {
+                    color: #A2A2A8;
+                }
+
             }
         }
     }
@@ -186,7 +191,7 @@ const translateId = (transaction, actionArgs, actionKind, accountId) => (
     }`
 )
 
-const translateData = (transaction, actionArgs, actionKind) => ({
+export const translateData = (transaction, actionArgs, actionKind) => ({
     receiverId: transaction.receiver_id || '',
     signerId: transaction.signer_id || '',
     methodName: actionKind === "FunctionCall" ? actionArgs.method_name : '', 
