@@ -130,26 +130,19 @@ const ActivityDetailModal = ({
                     />
                 </h2>
                 <div className='row'>
-                    {actionKind !== 'DeleteKey' && 
+                    {['Transfer', 'Stake'].includes(actionKind) &&
                         <div className='item'>
                             <span>
-                                <ActionMessage 
+                                Amount
+                            </span>
+                            <span className='amount'>
+                                <ActionValue
                                     transaction={transaction}
                                     actionArgs={actionArgs}
                                     actionKind={actionKind}
                                     accountId={accountId}
                                 />
                             </span>
-                            {['Transfer', 'Stake'].includes(actionKind) &&
-                                <span className='amount'>
-                                    <ActionValue
-                                        transaction={transaction}
-                                        actionArgs={actionArgs}
-                                        actionKind={actionKind}
-                                        accountId={accountId}
-                                    />
-                                </span>
-                            }
                         </div>
                     }
                     <div className='item'>
