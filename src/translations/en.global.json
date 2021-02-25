@@ -228,6 +228,10 @@
             "DeleteAccount": "<span>${receiverId}<span>",
             "DeployContract": "<span>${receiverId}</span>",
             "FunctionCall": "<span>${methodName}</span> in contract <span>${receiverId}</span>",
+            "FunctionCallDetails": {
+                "first": "<span>Method</span> <span>${methodName}</span>",
+                "second": "<span>In contract</span> <span>${receiverId}</span>"
+            },
             "Transfer": {
                 "transferred": "to <span>${receiverId}</span>",
                 "received": "from <span>${signerId}</span>"
