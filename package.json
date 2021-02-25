@@ -54,7 +54,7 @@
     "@babel/core": "^7.12.9",
     "@babel/preset-env": "^7.12.7",
     "@babel/preset-react": "^7.12.7",
-    "@sentry/cli": "^1.60.1",
+    "@sentry/cli": "^1.62.0",
     "@storybook/addon-actions": "^6.1.12",
     "@storybook/addon-essentials": "^6.1.12",
     "@storybook/addon-links": "^6.1.12",
