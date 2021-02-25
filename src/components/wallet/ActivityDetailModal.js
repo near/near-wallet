@@ -145,6 +145,16 @@ const ActivityDetailModal = ({
                             </span>
                         </div>
                     }
+                    {actionKind !== 'DeleteKey' &&  (
+                        <div className='item sent-to'>
+                            <ActionMessage 
+                                transaction={transaction}
+                                actionArgs={actionArgs}
+                                actionKind={actionKind}
+                                accountId={accountId}
+                            />
+                        </div>
+                    }
                     <div className='item'>
                         <span><Translate id='wallet.dateAndTime' /></span>
                         <span>{new Date(block_timestamp).toLocaleString('en-US', {dateStyle: 'short', timeStyle: 'short'})}</span>
