@@ -38,8 +38,10 @@ const Account = styled.div`
         color: black;
     }
 
-    :last-of-type {
-        border-bottom: 0;
+    &.additional-account {
+        :last-of-type {
+            border-bottom: 0;
+        }
     }
 `
 
@@ -49,7 +51,7 @@ const UserAccounts = ({ accounts, accountId, selectAccount }) => (
             {accountId}
         </Account>
         {accounts.filter(a => a !== accountId).map((account, i) => (
-            <Account key={`link-${i}`} onClick={() => selectAccount(account)}>
+            <Account key={`link-${i}`} onClick={() => selectAccount(account)} className='additional-account'>
                 {account}
             </Account>
         ))}
