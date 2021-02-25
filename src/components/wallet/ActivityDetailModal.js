@@ -49,6 +49,20 @@ const StyledContainer = styled.div`
                 }
             }
         }
+        &.sent-to > span {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            > span {
+                color: #3F4045;
+                :first-of-type {
+                    text-transform: capitalize;
+                    color: #A2A2A8;
+                }
+            }
+        }
 
         .amount {
             .value {
