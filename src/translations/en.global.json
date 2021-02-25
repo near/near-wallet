@@ -502,7 +502,7 @@
         "help": "Help",
         "account": "Account",
         "authorizedApps": "Authorized Apps",
-        "switchAccount": "Switch Account",
+        "switchAccount": "Account",
         "noAccount": "You have no other accounts",
         "fullAccessKeys": "Full Access Keys"
     },
@@ -661,6 +661,12 @@
         "tokens": "Tokens",
         "dateAndTime": "Date & Time",
         "status": "Status"
+    },
+    
+    "exploreApps": {
+        "title": "What's on NEAR?",
+        "desc": "Earn, mint, and play! Discover the ecosystem of NEAR applications.",
+        "button": "Explore Apps"
     },
 
     "login": {

@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import Logo from './Logo';
 import NavLinks from './NavLinks';
-import UserLinks from './UserLinks';
 import UserAccounts from './UserAccounts';
 import CreateAccountBtn from './CreateAccountBtn';
 import LanguageToggle from '../common/LangSwitcher';

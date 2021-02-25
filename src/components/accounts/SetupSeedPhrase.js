@@ -3,8 +3,7 @@ import { withRouter, Route } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { Translate } from 'react-localize-redux'
 import { parse as parseQuery } from 'query-string'
-import { 
-    redirectToApp, 
+import {
     handleAddAccessKeySeedPhrase, 
     refreshAccount, 
     checkIsNew, 
@@ -202,7 +201,6 @@ class SetupSeedPhrase extends Component {
 }
 
 const mapDispatchToProps = {
-    redirectToApp,
     handleAddAccessKeySeedPhrase,
     refreshAccount,
     checkIsNew,

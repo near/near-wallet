@@ -1,14 +1,11 @@
 import React, { Component } from 'react';
-import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
-import helpIcon from '../../images/icon-help.svg';
 import languagesIcon from '../../images/icon-languages.svg';
 import Logo from './Logo';
 import NavLinks from './NavLinks';
 import UserAccount from './UserAccount';
 import DesktopMenu from './DesktopMenu';
 import LanguageToggle from '../common/LangSwitcher';
-import { Mixpanel } from '../../mixpanel/index';
 
 const Container = styled.div`
     display: none;

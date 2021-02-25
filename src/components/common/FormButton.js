@@ -256,6 +256,18 @@ const CustomButton = styled(Button)`
                 }
             }
         }
+        &.white-blue {
+            background-color: white;
+            border: 0;
+            color: #0072ce;
+
+            :active,
+            :hover,
+            :focus {
+                color: white;
+                background: #0072ce;
+            }
+        }
         &.link {
             width: auto;
             height: auto;

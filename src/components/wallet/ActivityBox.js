@@ -222,6 +222,7 @@ const ActionTimeStamp = ({ timeStamp }) => {
         'hour': 'h',
         'minutes': 'm',
         'minute': 'm',
+        'seconds': 's'
     }
 
     for (const format in formatting) {

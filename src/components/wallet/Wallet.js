@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import styled from 'styled-components'
 import { Translate } from 'react-localize-redux'
@@ -11,6 +11,7 @@ import Balance from '../common/Balance'
 import { getTransactions, getTransactionStatus } from '../../actions/transactions'
 import { Mixpanel } from "../../mixpanel/index"
 import Activities from './Activities'
+import ExploreApps from './ExploreApps'
 // import Tokens from './Tokens'
 
 const StyledContainer = styled(Container)`
@@ -64,7 +65,7 @@ const StyledContainer = styled(Container)`
     }
 
     h2 {
-        font-weight: 600 !important;
+        font-weight: 900 !important;
         font-size: 22px !important;
         align-self: flex-start;
         margin: 50px 0 30px 0;
@@ -78,14 +79,19 @@ export function Wallet() {
         let id = Mixpanel.get_distinct_id()
         Mixpanel.identify(id)
         Mixpanel.people.set({relogin_date: new Date().toString()})
-
         dispatch(getTransactions(accountId))
     }, [])
-    
 
+    const handleHideExploreApps = () => {
+        localStorage.setItem('hideExploreApps', true)
+        setExploreApps(false)
+    }
+    
+    const [exploreApps, setExploreApps] = useState(null);
     const { balance, accountId } = useSelector(({ account }) => account)
     const transactions = useSelector(({ transactions }) => transactions)
     const dispatch = useDispatch()
+    const hideExploreApps = localStorage.getItem('hideExploreApps')
 
     // const exampleTokens = [
     //     {
@@ -127,6 +133,9 @@ export function Wallet() {
             </div>
             {/* <div className='sub-title tokens'><Translate id='wallet.tokens' /></div> */}
             {/* <Tokens tokens={exampleTokens}/> */}
+            {!hideExploreApps && exploreApps !== false &&
+                <ExploreApps onClick={handleHideExploreApps}/>
+            }
             <Activities 
                 transactions={transactions[accountId] || []}
                 accountId={accountId}

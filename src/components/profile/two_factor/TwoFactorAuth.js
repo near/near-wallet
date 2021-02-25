@@ -10,7 +10,6 @@ import { utils } from 'near-api-js'
 import ConfirmDisable from '../hardware_devices/ConfirmDisable'
 import { disableMultisig, loadRecoveryMethods } from '../../../actions/account'
 import { actionsPending } from '../../../utils/alerts'
-import {  Mixpanel } from "../../../mixpanel/index";
 
 const Container = styled(Card)`
     margin-top: 30px;

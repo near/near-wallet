@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Translate } from 'react-localize-redux';
 
 const Wrapper = styled.div`
     @media (min-width: 992px) {
@@ -10,11 +9,6 @@ const Wrapper = styled.div`
         ::-webkit-scrollbar {
             display: none;
         }
-    }
-
-    .no-account {
-        color: #72727A;
-        margin-top: 18px;
     }
 `
 
@@ -37,13 +31,11 @@ const Account = styled.div`
 
     :first-of-type {
         color: white;
-        background-color: #272729;
+        background-color: #EAF3FE;
         border-radius: 8px;
         cursor: default;
-
-        :hover {
-            color: white;
-        }
+        border: 2px solid #BED0EA;
+        color: black;
     }
 
     :last-of-type {
@@ -61,9 +53,6 @@ const UserAccounts = ({ accounts, accountId, selectAccount }) => (
                 {account}
             </Account>
         ))}
-        {accounts.length < 2 && 
-            <div className='no-account'><Translate id='link.noAccount'/></div>
-        }
     </Wrapper>
 )
 
