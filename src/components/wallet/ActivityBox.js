@@ -62,8 +62,13 @@ const StyledContainer = styled.div`
                 max-width: 140px;
             }
 
-            span {
+            > span {
                 color: #3F4045;
+                
+                :first-of-type {
+                    color: #A2A2A8;
+                }
+
             }
         }
     }
