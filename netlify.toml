@@ -25,6 +25,7 @@
 [context.production.environment]
     SHOW_PRERELEASE_WARNING = "no"
     MIXPANEL_TOKEN = "4a10180da7af8d6d0728154d535aa7bb"
+    BROWSER_MIXPANEL_TOKEN = "9edede4b70de19f399736d5840872910"
     SENTRY_PROJECT = "mainnet-wallet"
 
 [[headers]]

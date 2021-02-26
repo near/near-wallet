@@ -1,7 +1,5 @@
 import mixpanel from 'mixpanel-browser';
 
-const BROWSER_MIXPANEL_TOKEN = '9edede4b70de19f399736d5840872910';
-
 let Mixpanel = {
     get_distinct_id: () => {},
     identify: () => {},
@@ -14,7 +12,7 @@ let Mixpanel = {
     withTracking: () => {}
 };
 
-if (process.env.REACT_APP_NETWORK_ID || process.env.REACT_APP_IS_MAINNET) {
+if (process.env.BROWSER_MIXPANEL_TOKEN) {
     mixpanel.init(BROWSER_MIXPANEL_TOKEN);
     mixpanel.register({'timestamp': new Date().toString(), '$referrer': document.referrer});
     Mixpanel = {
