@@ -14,7 +14,7 @@
     "near-ledger-js": "^0.1.2",
     "near-seed-phrase": "^0.1.0",
     "prop-types": "^15.7.2",
-    "query-string": "^6.13.6",
+    "query-string": "^6.14.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-localize-redux": "^3.5.3",
