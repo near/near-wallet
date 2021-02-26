@@ -13,7 +13,7 @@ let Mixpanel = {
 };
 
 if (process.env.BROWSER_MIXPANEL_TOKEN) {
-    mixpanel.init(BROWSER_MIXPANEL_TOKEN);
+    mixpanel.init(process.env.BROWSER_MIXPANEL_TOKEN);
     mixpanel.register({'timestamp': new Date().toString(), '$referrer': document.referrer});
     Mixpanel = {
         get_distinct_id: () => {
