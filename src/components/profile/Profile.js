@@ -163,7 +163,6 @@ export function Profile({ match }) {
     const userRecoveryMethods = recoveryMethods[account.accountId]
     const twoFactor = has2fa && userRecoveryMethods && userRecoveryMethods.filter(m => m.kind.includes('2fa'))[0]
     const profileBalance = selectProfileBalance(account.balance)
-    const recoveryLoader = actionsPending('LOAD_RECOVERY_METHODS') && !userRecoveryMethods
 
     useEffect(() => {
         if (accountIdFromUrl && accountIdFromUrl !== accountIdFromUrl.toLowerCase()) {
@@ -173,7 +172,6 @@ export function Profile({ match }) {
         (async () => {
             if (isOwner) {
                 await dispatch(loadRecoveryMethods())
-                dispatch(getAccessKeys(accountId))
                 dispatch(getLedgerKey())
                 const balance = await dispatch(getBalance())
                 dispatch(checkCanEnableTwoFactor(balance))
@@ -257,14 +255,14 @@ export function Profile({ match }) {
                             number={2}
                         />
                     )}
-                    {authorizedApps?.length ?
+                    {authorizedApps.length ?
                         <>
                             <hr/>
                             <div className='auth-apps'>
                                 <h2><CheckCircleIcon/><Translate id='profile.authorizedApps.title'/></h2>
                                 <FormButton color='link' linkTo='/authorized-apps'><Translate id='button.viewAll'/></FormButton>
                             </div>
-                            {authorizedApps?.slice(0, 2).map((app, i) => (
+                            {authorizedApps.slice(0, 2).map((app, i) => (
                                 <AuthorizedApp key={i} app={app}/>
                             ))}
                         </>
