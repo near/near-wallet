@@ -29,7 +29,6 @@ const Container = styled.div`
         font-size: 15px;
         width: 100px;
         height: 36px;
-        letter-spacing: 1px;
     }
 `
 

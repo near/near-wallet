@@ -15,9 +15,9 @@ import styled from 'styled-components'
 const CustomButton = styled(Button)`
     &&& {
         color: #fff;
-        letter-spacing: 1px;
         margin: 24px 0 0 0;
         border: 2px solid;
+        font-weight: 600;
 
         width: 288px;
         height: 48px;
@@ -35,7 +35,6 @@ const CustomButton = styled(Button)`
             width: 110px;
             height: 36px;
             border-radius: 20px;
-            letter-spacing: 0;
             padding: 0px 0px;
             
             font-size: 14px;
@@ -51,7 +50,6 @@ const CustomButton = styled(Button)`
                 padding: 6px 12px;
                 height: auto;
                 font-weight: 400 !important;
-                letter-spacing: 0.5px;
                 font-size: 13px;
             }
         }
@@ -180,6 +178,16 @@ const CustomButton = styled(Button)`
                 background-image: url(${ArrowWhiteImage});
             }
         }
+        &.green-pastel {
+            background-color: #4DD5A6;
+            color: #00261C;
+            border: 0;
+            transition: 200ms;
+
+            :hover {
+                background-color: #49cc9f;
+            }
+        }
         &.gray-white {
             color: #cccccc;
             border-color: #cccccc;
@@ -248,16 +256,26 @@ const CustomButton = styled(Button)`
                 }
             }
         }
+        &.white-blue {
+            background-color: white;
+            border: 0;
+            color: #0072ce;
+
+            :active,
+            :hover,
+            :focus {
+                color: white;
+                background: #0072ce;
+            }
+        }
         &.link {
             width: auto;
             height: auto;
-            letter-spacing: 0;
             padding: 0;
             margin: 0;
 
             border-radius: 0px;
 
-            font-size: 14px;
             background: none;
             border: none;
             display: inline;
@@ -414,7 +432,7 @@ const FormButton = ({
         disabled={disabled}
         onClick={(e) => {
             onClick && onClick(e)
-            linkTo && history.push(linkTo)
+            linkTo && (linkTo.includes('http') ? window.location = linkTo : history.push(linkTo))
             trackingId && Mixpanel.track(trackingId)
         }}
         tabIndex='3'

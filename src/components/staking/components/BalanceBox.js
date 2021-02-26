@@ -45,7 +45,6 @@ const Container = styled.div`
             width: auto !important;
             padding: 0px 15px !important;
             margin: auto 0 auto auto !important;
-            letter-spacing: 2px !important;
         }
     }
 

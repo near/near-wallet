@@ -12,6 +12,7 @@ import LockupAvailTransfer from './balances/LockupAvailTransfer'
 import UserIcon from '../svg/UserIcon'
 import ShieldIcon from '../svg/ShieldIcon'
 import LockIcon from '../svg/LockIcon'
+import CheckCircleIcon from '../svg/CheckCircleIcon'
 import { actionsPending } from '../../utils/alerts'
 import BN from 'bn.js'
 import SkeletonLoading from '../common/SkeletonLoading'
@@ -20,6 +21,8 @@ import { selectProfileBalance } from '../../reducers/selectors/balance'
 import { useAccount } from '../../hooks/allAccounts'
 import { Mixpanel } from "../../mixpanel/index"
 import { formatNEAR } from '../common/Balance'
+import AuthorizedApp from './authorized_apps/AuthorizedApp'
+import FormButton from '../common/FormButton'
 
 
 const StyledContainer = styled(Container)`
@@ -32,6 +35,10 @@ const StyledContainer = styled(Container)`
         .left {
             flex: 1.5;
             margin-right: 50px;
+
+            .authorized-app-box {
+                margin: 0 -14px;
+            }
         }
 
         .right {
@@ -79,6 +86,10 @@ const StyledContainer = styled(Container)`
             h2 {
                 margin-left: -20px;
             }
+
+            > hr {
+                margin: 50px -14px 30px -14px;
+            }
         }
 
         .animation-wrapper {
@@ -114,12 +125,34 @@ const StyledContainer = styled(Container)`
 
     .sub-heading {
         margin: 20px 0;
+        color: #72727A;
+    }
+
+    .auth-apps {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 35px;
+
+        @media (min-width: 992px) {
+            margin-right: -14px;
+        }
+
+        button {
+            &.link {
+                text-decoration: none !important;
+            }
+        }
+    }
+
+    .authorized-app-box {
+        margin-top: 20px !important;
     }
 `
 
 export function Profile({ match }) {
     const [transferring, setTransferring] = useState(false)
-    const { has2fa } = useSelector(({ account }) => account)
+    const { has2fa, authorizedApps } = useSelector(({ account }) => account)
     const loginAccountId = useSelector(state => state.account.accountId)
     const recoveryMethods = useSelector(({ recoveryMethods }) => recoveryMethods);
     const accountIdFromUrl = match.params.accountId
@@ -130,7 +163,6 @@ export function Profile({ match }) {
     const userRecoveryMethods = recoveryMethods[account.accountId]
     const twoFactor = has2fa && userRecoveryMethods && userRecoveryMethods.filter(m => m.kind.includes('2fa'))[0]
     const profileBalance = selectProfileBalance(account.balance)
-    const recoveryLoader = actionsPending('LOAD_RECOVERY_METHODS') && !userRecoveryMethods
 
     useEffect(() => {
         if (accountIdFromUrl && accountIdFromUrl !== accountIdFromUrl.toLowerCase()) {
@@ -140,7 +172,6 @@ export function Profile({ match }) {
         (async () => {
             if (isOwner) {
                 await dispatch(loadRecoveryMethods())
-                dispatch(getAccessKeys(accountId))
                 dispatch(getLedgerKey())
                 const balance = await dispatch(getBalance())
                 dispatch(checkCanEnableTwoFactor(balance))
@@ -224,6 +255,19 @@ export function Profile({ match }) {
                             number={2}
                         />
                     )}
+                    {authorizedApps.length ?
+                        <>
+                            <hr/>
+                            <div className='auth-apps'>
+                                <h2><CheckCircleIcon/><Translate id='profile.authorizedApps.title'/></h2>
+                                <FormButton color='link' linkTo='/authorized-apps'><Translate id='button.viewAll'/></FormButton>
+                            </div>
+                            {authorizedApps.slice(0, 2).map((app, i) => (
+                                <AuthorizedApp key={i} app={app}/>
+                            ))}
+                        </>
+                        : null
+                    }
                 </div>
                 {isOwner &&
                     <div className='right'>

@@ -71,7 +71,6 @@ const StyledContainer = styled.div`
 
             .blue {
                 font-weight: 500 !important;
-                letter-spacing: normal;
                 margin: 0;
                 text-transform: none;
 

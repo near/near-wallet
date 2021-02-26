@@ -1,103 +1,96 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
-import summaryIcon from '../../images/icon-recent.svg';
-import arrowIcon from '../../images/icon-send.svg';
-import stakingIcon from '../../images/icon-staking-green.svg';
 import { Translate } from 'react-localize-redux';
-import { DISABLE_SEND_MONEY } from '../../utils/wallet';
+import WalletIcon from '../svg/WalletIcon'
+import VaultIcon from '../svg/VaultIcon'
+import UserIcon from '../svg/UserIcon'
+import HelpIcon from '../svg/HelpIcon'
 import { Mixpanel } from '../../mixpanel/index';
 
 const Container = styled.div`
     display: flex;
+    a {
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        transition: 100ms;
+        color: #72727A;
+        font-size: 15px;
+
+        :hover, &.selected {
+            text-decoration: none;
+            color: #272729;
+
+            svg {
+                path, circle, line {
+                    stroke: #0072CE;
+                }
+
+                &.user-icon {
+                    path {
+                        stroke: #0072CE;
+                        fill: #0072CE;
+
+                        :last-of-type {
+                            fill: none;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    svg {
+        margin-right: 10px;
+        width: 23px;
+        height: 23px;
+
+        &.user-icon {
+            width: 35px;
+            height: 35px;
+            margin-right: 4px;
+            stroke-width: 0px;
+        }
+    }
 
     @media (max-width: 991px) {
         flex-direction: column;
         align-items: flex-start;
     }
 
-    @media (min-width: 992x) {
-        align-items: center;
-    }
-`
-
-const NavLink = styled(Link)`
-    display: flex;
-    align-items: center;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    cursor: pointer;
-    transition: 100ms;
-    color: white;
-    padding-top: 2px;
-
-    &:before {
-        content: '';
-        background: url(${props => props.icon});
-        background-repeat: no-repeat;
-        display: inline-block;
-        width: 23px;
-        height: 23px;
-        background-size: contain;
-    }
-
-    &.rotate-up {
-        &:before {
-            transform: rotate(-90deg);
-        }
-    }
-
-    &.rotate-down {
-        &:before {
-            transform: rotate(90deg);
-        }
-    }
-
-    @media (max-width: 991px) {
-        width: 100%;
-        height: 65px;
-        border-bottom: 1px solid #404040;
-
-        &:hover {
-            text-decoration: none;
-            color: white;
-        }
-
-        &:first-of-type {
-            border-top: 1px solid #404040;
-        }
-
-        &:before {
-            margin-right: 15px;
-        }
-    }
-
     @media (min-width: 992px) {
-        margin-left: 25px;
+        align-items: center;
+        margin-left: 10px;
 
-        &:last-of-type {
-            margin-right: 15px;
-        }
+        a {
+            margin-left: 25px;
 
-        &:hover {
-            color: #8FD6BD;
-            text-decoration: none;
-        }
-
-        &:before {
-            margin-right: 10px;
+            &.account-details-link {
+                margin-left: 20px;
+            }
         }
     }
 `
 
 const NavLinks = () => (
     <Container className='nav-links'>
-        <NavLink icon={summaryIcon} to='/' onClick={() => Mixpanel.track("Click summary button on nav") }><Translate id='link.summary'/></NavLink>
-        {!DISABLE_SEND_MONEY &&
-            <NavLink icon={arrowIcon} className='rotate-up' to='/send-money' onClick={() => Mixpanel.track("SEND Click send button on nav")}><Translate id='link.send'/></NavLink>
-        }
-        <NavLink icon={arrowIcon} className='rotate-down' to='/receive-money' onClick={() => Mixpanel.track("RECEIVE Click receive button on nav")}><Translate id='link.receive'/></NavLink>
-        <NavLink icon={stakingIcon} to='/staking' onClick={() => Mixpanel.track("STAKE Click staking button on nav")}><Translate id='link.staking'/></NavLink>
+        <NavLink exact to='/' activeClassName='selected' onClick={() => Mixpanel.track("Click Wallet button on nav")}>
+            <WalletIcon/>
+            <Translate id='link.wallet'/>
+        </NavLink>
+        <NavLink to='/staking' activeClassName='selected' onClick={() => Mixpanel.track("Click Staking button on nav")}>
+            <VaultIcon/>
+            <Translate id='link.staking'/>
+        </NavLink>
+        <NavLink to='/profile' className='account-details-link' activeClassName='selected' onClick={() => Mixpanel.track("Click Account button on nav")}>
+            <UserIcon/>
+            <Translate id='link.account'/>
+        </NavLink>
+        <a href='https://nearhelp.zendesk.com/' target='_blank' rel='noopener noreferrer' onClick={() => Mixpanel.track("Click Help button on nav")}>
+            <HelpIcon/>
+            <Translate id='link.help'/>
+        </a>
     </Container>
 )
 

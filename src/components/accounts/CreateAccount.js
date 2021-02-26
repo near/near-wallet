@@ -29,7 +29,6 @@ const StyledContainer = styled(Container)`
         margin: 30px 0 5px 0 !important;
         font-size: 15px !important;
         color: #24272a;
-        letter-spacing: normal !important;
     }
 
     .recaptcha-disclaimer {

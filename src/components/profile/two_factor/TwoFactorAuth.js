@@ -10,7 +10,6 @@ import { utils } from 'near-api-js'
 import ConfirmDisable from '../hardware_devices/ConfirmDisable'
 import { disableMultisig, loadRecoveryMethods } from '../../../actions/account'
 import { actionsPending } from '../../../utils/alerts'
-import {  Mixpanel } from "../../../mixpanel/index";
 
 const Container = styled(Card)`
     margin-top: 30px;
@@ -18,6 +17,10 @@ const Container = styled(Card)`
     .title {
         color: #24272a;
         font-weight: 500;
+    }
+
+    .detail {
+        color: #A1A1A9;
     }
 
     .method {
@@ -34,12 +37,12 @@ const Container = styled(Card)`
                 justify-content: center;
                 padding: 0;
                 margin: 0;
-                letter-spacing: 1px !important;
             }
         }
 
         .bottom {
             margin-top: 20px;
+            color: #A1A1A9;
         }
 
         .color-red {
@@ -69,7 +72,7 @@ const TwoFactorAuth = ({ twoFactor, history }) => {
                             <div className='title'>
                                 <Translate id={`twoFactor.${twoFactor.kind === '2fa-email' ? 'email' : 'phone'}`}/>
                             </div>
-                            <div>{twoFactor.detail}</div>
+                            <div className='detail'>{twoFactor.detail}</div>
                         </div>
                         {
                             false && <FormButton onClick={() => setConfirmDisable(true)} className='gray-red'><Translate id='button.disable'/></FormButton>

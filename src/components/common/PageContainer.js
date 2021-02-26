@@ -61,7 +61,6 @@ const CustomContainer = styled(Container)`
 
                     h1 {
                         font-size: 11px !important;
-                        letter-spacing: 2px;
                         text-transform: uppercase;
                         padding-bottom: 0px;
                     }

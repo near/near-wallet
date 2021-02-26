@@ -15,6 +15,13 @@ const Container = styled.div`
     @media (max-width: 991px) {
         bottom: ${props => props.open ? '0' : 'unset'};
     }
+
+    h6 {
+        font-size: 13px !important;
+        margin-bottom: 10px !important;
+        color: #72727A;
+        font-weight: normal !important;
+    }
 `
 class Navigation extends Component {
 

@@ -143,7 +143,7 @@ export default function ValidatorBox({
             }}
         >
             {label && <div className='with'><Translate id='staking.validatorBox.with' /></div>}
-            <UserIcon/>
+            <UserIcon background={true}/>
             <div>
                 <div>{validatorId}</div>
                 {typeof fee === 'number' &&
