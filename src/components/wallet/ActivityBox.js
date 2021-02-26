@@ -217,6 +217,8 @@ const ActionTimeStamp = ({ timeStamp }) => {
     let time = format(timeStamp)
     let formatting = {
         'ago': '',
+        'years': 'y',
+        'year': 'y',
         'months': 'm',
         'month': 'm',
         'weeks': 'w',
@@ -232,6 +234,10 @@ const ActionTimeStamp = ({ timeStamp }) => {
 
     for (const format in formatting) {
         time = time.replace(`${format}`, `${formatting[format]}`)
+    }
+
+    if (time !== 'just now') {
+        time = time.split(' ').join('')
     }
 
     return (
