@@ -56,7 +56,6 @@ class SetupSeedPhrase extends Component {
     }
 
     handleChangeWord = (e, { name, value }) => {
-        Mixpanel.track("SR-SP Change seed phrase word")
         if (value.match(/[^a-zA-Z]/)) {
             return false
         }
