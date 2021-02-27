@@ -45,7 +45,7 @@ const StyledContainer = styled(Container)`
 export function SendContainer({ match, location }) {
     const dispatch = useDispatch()
     const { accountId, balance } = useSelector(({ account }) => account);
-    const { localAlert, mainLoader } = useSelector(({ status }) => status);
+    const { localAlert, mainLoader, actionStatus } = useSelector(({ status }) => status);
     const [useMax, setUseMax] = useState(null)
     const [amount, setAmount] = useState('')
     const [confirm, setConfirm] = useState(null)
@@ -58,6 +58,7 @@ export function SendContainer({ match, location }) {
         ? !new BN(parseNearAmount(amount)).isZero() && (new BN(parseNearAmount(amount)).lte(amountAvailableToSend) || useMax) && isDecimalString(amount)
         : undefined
     const sendAllowed = ((localAlert && localAlert.success !== false) || id.length === 64) && sufficientBalance && amount && !mainLoader && !success
+
 
     useEffect(() => {
         if (success) {
@@ -74,8 +75,10 @@ export function SendContainer({ match, location }) {
     }, [location.key])
 
     useEffect(() => {
-        dispatch(getBalance())
-    }, [])
+        if (id && actionStatus.GET_BALANCE?.success) {
+            dispatch(checkAccountAvailable(id))
+        }
+    }, [actionStatus.GET_BALANCE?.success])
 
     onKeyDown(e => {
         if (e.keyCode === 13 && sendAllowed) {
