@@ -54,6 +54,10 @@ class Navigation extends Component {
         const desktopMenu = document.getElementById('desktop-menu');
         const mobileMenu = document.getElementById('mobile-menu');
 
+        if (e.target.tagName === 'SPAN') {
+            return false
+        }
+
         if (e.target.tagName === 'BUTTON' || e.target.tagName === 'A' || (!desktopMenu.contains(e.target) && !mobileMenu.contains(e.target))) {
             this.setState({ menuOpen: false });
         }
