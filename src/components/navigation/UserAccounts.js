@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import SkeletonLoading from '../common/SkeletonLoading';
+import Balance from '../common/Balance'
 
 const Wrapper = styled.div`
     .animation-wrapper > .animation {
@@ -54,6 +55,9 @@ const UserAccounts = ({ accounts, accountId, selectAccount, accountIdLocalStorag
     <Wrapper>
         <Account>
             {accountId || accountIdLocalStorage}
+            <div className='balance'>
+                <Balance amount={balance?.available} />
+            </div>
         </Account>
         {accountId
             ? accounts.filter(a => a !== accountId).map((account, i) => (

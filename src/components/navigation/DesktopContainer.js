@@ -120,6 +120,8 @@ class DesktopContainer extends Component {
                             accountIdLocalStorage={account.localStorage?.accountId}
                             accounts={availableAccounts}
                             selectAccount={selectAccount}
+                            accountsBalance={account.accountsBalance}
+                            balance={account.balance}
                         />
                     </>
                 }
