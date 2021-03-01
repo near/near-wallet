@@ -132,4 +132,4 @@ class DesktopContainer extends Component {
     }
 }
 
-export default DesktopContainer;
+export default DesktopContainer

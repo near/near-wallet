@@ -166,19 +166,18 @@ const account = handleActions({
         (!ready || error)
             ? {
                 ...state,
-                // accountsBalance: state.accountsBalance || {}
                 accountsBalance: {
                     ...state.accountsBalance,
                     [meta.accountId]: undefined
                 }
             }
-            : ({
+            : {
                 ...state,
                 accountsBalance: {
                     ...state.accountsBalance,
                     [meta.accountId]: payload
                 }
-            }),
+            },
 }, initialState)
 
 export default reduceReducers(

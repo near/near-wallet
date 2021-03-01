@@ -223,4 +223,4 @@ class MobileContainer extends Component {
     }
 }
 
-export default MobileContainer;
+export default MobileContainer
