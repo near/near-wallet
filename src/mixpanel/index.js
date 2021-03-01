@@ -9,8 +9,16 @@ let Mixpanel = {
         set: () => {},
         set_once: ()  => {}
     },
-    withTracking: () => {}
-};
+    withTracking: async (name, fn, errorOpration = () => {}, finalOperation = () => {}) => {
+        try {
+            await fn();
+        } catch (e) {
+            errorOpration(e)
+        } finally {
+            await finalOperation()
+        }
+    }
+}
 
 if (process.env.BROWSER_MIXPANEL_TOKEN) {
     mixpanel.init(process.env.BROWSER_MIXPANEL_TOKEN);
