@@ -91,6 +91,7 @@ class Navigation extends Component {
                     selectAccount={this.handleSelectAccount}
                     showNavLinks={this.showNavLinks}
                     flowLimitation={flowLimitation}
+                    refreshBalance={this.props.getAccountBalance}
                     {...this.props}
                 />
                 <MobileContainer
@@ -99,6 +100,7 @@ class Navigation extends Component {
                     selectAccount={this.handleSelectAccount}
                     showNavLinks={this.showNavLinks}
                     flowLimitation={flowLimitation}
+                    refreshBalance={this.props.getAccountBalance}
                     {...this.props}
                 />
             </Container>
@@ -116,6 +118,7 @@ const mapStateToProps = ({ account, availableAccounts, router, flowLimitation })
 const mapDispatchToProps = {
     switchAccount,
     getAvailableAccountsBalance,
+    getAccountBalance
 }
 
 export default connect(
