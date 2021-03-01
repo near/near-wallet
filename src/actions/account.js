@@ -543,7 +543,7 @@ export const switchAccount = (accountId) => async (dispatch, getState) => {
     dispatch(refreshAccount())
 }
 
-export const { selectAccount, refreshAccountOwner, refreshAccountExternal, refreshUrl, getBalance, setLocalStorage } = createActions({
+export const { selectAccount, refreshAccountOwner, refreshAccountExternal, refreshUrl, updateStakingAccount, updateStakingLockup, getBalance, setLocalStorage, getAccountBalance } = createActions({
     SELECT_ACCOUNT: wallet.selectAccount.bind(wallet),
     REFRESH_ACCOUNT_OWNER: [
         wallet.refreshAccount.bind(wallet),
@@ -562,6 +562,24 @@ export const { selectAccount, refreshAccountOwner, refreshAccountExternal, refre
          })
     ],
     REFRESH_URL: null,
+    UPDATE_STAKING_ACCOUNT: [
+        async (accountId) => await wallet.staking.updateStakingAccount([], [] , accountId),
+        (accountId) => ({
+            accountId,
+            ...showAlert({ onlyError: true })
+        })
+    ],
+    UPDATE_STAKING_LOCKUP: [
+        async (accountId) => await wallet.staking.updateStakingLockup(accountId),
+        (accountId) => ({
+            accountId,
+            ...showAlert({ onlyError: true })
+        })
+    ],
     GET_BALANCE: wallet.getBalance.bind(wallet),
-    SET_LOCAL_STORAGE: null
+    SET_LOCAL_STORAGE: null,
+    GET_ACCOUNT_BALANCE: [
+        wallet.getBalance.bind(wallet),
+        (accountId) => ({ accountId })
+    ]
 })
