@@ -547,8 +547,9 @@ export const getAvailableAccountsBalance = () => async (dispatch, getState) => {
     const { accounts, accountsBalance } = getState().account
 
     for (let i = 0; i < Object.keys(accounts).length; i++) {
+        const accountId = Object.keys(accounts)[i]
         if (!accountsBalance || !accountsBalance[accountId]) {
-            await dispatch(getAccountBalance(Object.keys(accounts)[i]))
+            await dispatch(getAccountBalance(accountId))
         }
     }
 }
