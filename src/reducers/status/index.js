@@ -78,7 +78,7 @@ const alertReducer = (state, { error, ready, payload, meta, type }) => {
                             : 'pending'
                     }`
                 }
-                : undefined
+                : state.localAlert
     }
 }
 
