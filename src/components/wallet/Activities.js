@@ -87,7 +87,7 @@ const Activities = ({ transactions, accountId, getTransactionStatus }) => {
             <FormButton
                 color='gray-blue'
                 linkTo={`${EXPLORER_URL}/accounts/${accountId}`}
-                trackingId={`Click to account on explorer`}
+                trackingId='Click to account on explorer'
             >
                 <Translate id='button.viewAll'/>
             </FormButton>
