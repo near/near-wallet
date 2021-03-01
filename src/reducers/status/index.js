@@ -29,13 +29,13 @@ const alertReducer = (state, { error, ready, payload, meta, type }) => {
                     : (ready ? !error : undefined),
                 pending: typeof ready === 'undefined' 
                     ? undefined 
-                    : !ready,
+                    : !meta?.alert?.ignoreMainLoader && !ready,
                 errorType: payload?.type,
                 errorMessage: (error && payload?.toString()) || undefined,
                 data: {
                     ...meta?.data,
                     ...payload
-                } 
+                }
             }
     }
 
