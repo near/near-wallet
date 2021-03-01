@@ -543,6 +543,19 @@ export const switchAccount = (accountId) => async (dispatch, getState) => {
     dispatch(refreshAccount())
 }
 
+export const getAvailableAccountsBalance = () => async (dispatch, getState) => {
+    const { accounts } = getState().account
+
+
+    Object.keys(accounts)
+        .filter((accountId) => accountId !== wallet.accountId)
+        .forEach(async accountId => {
+            console.log('a1');
+            await dispatch(getAccountBalance(accountId))
+            console.log('a2');
+        });
+}
+
 export const { selectAccount, refreshAccountOwner, refreshAccountExternal, refreshUrl, updateStakingAccount, updateStakingLockup, getBalance, setLocalStorage, getAccountBalance } = createActions({
     SELECT_ACCOUNT: wallet.selectAccount.bind(wallet),
     REFRESH_ACCOUNT_OWNER: [
