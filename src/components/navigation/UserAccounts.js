@@ -28,10 +28,17 @@ const Account = styled.div`
     cursor: pointer;
     font-weight: 500;
     transition: 100ms;
+    position: relative;
 
     @media (min-width: 992px) {
         :hover {
             color: #0072CE;
+
+            &.additional-account {
+                .balance {
+                    color: #0072CE;
+                }
+            }
         }
     }
 
@@ -44,9 +51,31 @@ const Account = styled.div`
         color: black;
     }
 
+    .balance {
+        color: #00C08B;
+        font-weight: 400;
+    }
+
     &.additional-account {
         :last-of-type {
             border-bottom: 0;
+        }
+        z-index: 2000;
+
+        .refresh {
+            position: absolute;
+            width: 20px;
+            height: 100%;
+            top: 0px;
+            right: 0px;
+
+            z-index: 3000;
+            background: red;
+
+            > span {
+                position: relative;
+                top: 36px;
+            }
         }
     }
 `
