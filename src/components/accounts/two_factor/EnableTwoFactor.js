@@ -82,6 +82,7 @@ export function EnableTwoFactor(props) {
     const handleNext = async () => {
         if (!initiated && !loading && !has2fa && isValidInput()) {
             let response;
+            Mixpanel.track("2FA Click continue button", {option: option})
             await Mixpanel.withTracking("2FA Initialize two factor",
                 async () => response = await dispatch(initTwoFactor(accountId, method)),
                 () => {},
@@ -152,10 +153,7 @@ export function EnableTwoFactor(props) {
                     <h2><Translate id='twoFactor.subHeader' /></h2>
                     <h4><Translate id='twoFactor.select' /><span>*</span></h4>
                     <TwoFactorOption
-                        onClick={() => {
-                            setOption('email');
-                            Mixpanel.track("2FA Select email");
-                        }}
+                        onClick={() => setOption('email')}
                         option='email'
                         active={option}
                     >
@@ -173,10 +171,7 @@ export function EnableTwoFactor(props) {
                         </Translate>
                     </TwoFactorOption>
                     <TwoFactorOption
-                        onClick={() => {
-                            setOption('phone');
-                            Mixpanel.track("2FA Select phone");
-                        }}
+                        onClick={() => setOption('phone')}
                         option='phone'
                         active={option}
                     >
