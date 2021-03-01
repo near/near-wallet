@@ -65,6 +65,10 @@ class Navigation extends Component {
     }
 
     toggleMenu = () => {
+        if (!this.state.menuOpen) {
+            this.props.getAvailableAccountsBalance()
+        }
+
         this.setState(prevState => ({
             menuOpen: !prevState.menuOpen
         }));
