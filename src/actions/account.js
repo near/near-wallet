@@ -544,15 +544,15 @@ export const switchAccount = (accountId) => async (dispatch, getState) => {
 }
 
 export const getAvailableAccountsBalance = () => async (dispatch, getState) => {
-    const { accounts } = getState().account
+    const { accounts, accountsBalance } = getState().account
 
 
     Object.keys(accounts)
         .filter((accountId) => accountId !== wallet.accountId)
         .forEach(async accountId => {
-            console.log('a1');
-            await dispatch(getAccountBalance(accountId))
-            console.log('a2');
+            if (!accountsBalance || !accountsBalance[accountId]) {
+                await dispatch(getAccountBalance(accountId))
+            }
         });
 }
 
