@@ -590,6 +590,11 @@ export const { selectAccount, refreshAccountOwner, refreshAccountExternal, refre
     SET_LOCAL_STORAGE: null,
     GET_ACCOUNT_BALANCE: [
         wallet.getBalance.bind(wallet),
-        (accountId) => ({ accountId })
+        (accountId) => ({ 
+            accountId,
+            alert: {
+                ignoreMainLoader: true
+            }
+        })
     ]
 })
