@@ -4,6 +4,8 @@ import styled from 'styled-components'
 import Balance from '../common/Balance'
 import SkeletonLoading from '../common/SkeletonLoading';
 
+import IconRefresh from '../../images/icon-nodes.svg'
+
 const Wrapper = styled.div`
     .animation-wrapper > .animation {
         border-radius: 8px;
@@ -102,9 +104,7 @@ const UserAccounts = ({ accounts, accountId, selectAccount, accountIdLocalStorag
                     </div>
                     <div>
                         {accountsBalance && accountsBalance[account]?.available && (
-                            <div className='refresh' onClick={() => refreshBalance(account)}>
-                                <span>refresh</span>
-                            </div>
+                            <span className='refresh' onClick={() => refreshBalance(account)} title='Refresh balance' />
                         )}
                     </div>
                 </Account>
