@@ -1,7 +1,8 @@
-import React from 'react';
-import styled from 'styled-components';
-import SkeletonLoading from '../common/SkeletonLoading';
+import React from 'react'
+import styled from 'styled-components'
+
 import Balance from '../common/Balance'
+import SkeletonLoading from '../common/SkeletonLoading';
 
 const Wrapper = styled.div`
     .animation-wrapper > .animation {
@@ -115,4 +116,4 @@ const UserAccounts = ({ accounts, accountId, selectAccount, accountIdLocalStorag
     </Wrapper>
 )
 
-export default UserAccounts;
+export default UserAccounts
