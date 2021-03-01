@@ -10,7 +10,7 @@ const Wrapper = styled.div`
     }
 
     @media (min-width: 992px) {
-        max-height: 200px;
+        max-height: 228px;
         overflow-y: auto;
 
         ::-webkit-scrollbar {
