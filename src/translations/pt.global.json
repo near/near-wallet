@@ -20,7 +20,7 @@
             "error": "Ocorreu um erro ao configurar a recuperação da frase semente. Por favor, tente novamente!"
         },
         "SETUP_RECOVERY_MESSAGE": {
-            "success": "Configuração de recuperação está completo.",
+            "success": "A configuração de recuperação está completa.",
             "error": "Um erro ocorreu ao configurar o método de recuperação. Por favor, tente novamente!"
         },
         "SAVE_AND_SELECT_LEDGER_ACCOUNTS": {
@@ -71,7 +71,7 @@
             "error": "Essa conta já existe. Por favor, tente novamente."
         },
         "CREATE_NEW_ACCOUNT": {
-            "success": "Congrats! ${accountId} is available.",
+            "success": "Parabéns! ${accountId} está disponível.",
             "error": "Essa conta já existe. Por favor, tente novamente."
         },
         "TRANSFER_ALL_FROM_LOCKUP": {
