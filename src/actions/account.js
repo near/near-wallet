@@ -546,14 +546,11 @@ export const switchAccount = (accountId) => async (dispatch, getState) => {
 export const getAvailableAccountsBalance = () => async (dispatch, getState) => {
     const { accounts, accountsBalance } = getState().account
 
-
-    Object.keys(accounts)
-        .filter((accountId) => accountId !== wallet.accountId)
-        .forEach(async accountId => {
-            if (!accountsBalance || !accountsBalance[accountId]) {
-                await dispatch(getAccountBalance(accountId))
-            }
-        });
+    for (let i = 0; i < Object.keys(accounts).length; i++) {
+        if (!accountsBalance || !accountsBalance[accountId]) {
+            await dispatch(getAccountBalance(Object.keys(accounts)[i]))
+        }
+    }
 }
 
 export const { selectAccount, refreshAccountOwner, refreshAccountExternal, refreshUrl, updateStakingAccount, updateStakingLockup, getBalance, setLocalStorage, getAccountBalance } = createActions({
