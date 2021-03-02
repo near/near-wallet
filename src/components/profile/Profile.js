@@ -255,7 +255,7 @@ export function Profile({ match }) {
                             number={2}
                         />
                     )}
-                    {authorizedApps?.length ?
+                    {isOwner && authorizedApps?.length ?
                         <>
                             <hr/>
                             <div className='auth-apps'>
