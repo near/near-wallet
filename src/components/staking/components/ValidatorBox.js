@@ -50,11 +50,11 @@ const Container = styled.div`
                 white-space: nowrap;
 
                 @media (max-width: 350px) {
-                    max-width: 113px;
+                    max-width: 130px;
                 }
 
                 @media (min-width: 500px) {
-                    max-width: 175px;
+                    max-width: 230px;
                 }
             }
         }
@@ -144,7 +144,7 @@ export default function ValidatorBox({
         >
             {label && <div className='with'><Translate id='staking.validatorBox.with' /></div>}
             <UserIcon background={true}/>
-            <div>
+            <div className='left'>
                 <div>{validatorId}</div>
                 {typeof fee === 'number' &&
                     <div className="text-left"> 
