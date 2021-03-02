@@ -12,6 +12,7 @@ function Modal({ isOpen, onClose, id, modalSize, modalClass, children, closeButt
     const background = React.createRef();
     const [fadeType, setFadeType] = useState(null);
     const [fullScreen, setFullScreen] = useState(null);
+    const body = document.querySelector('body')
 
     useEffect(() => {
         if (isMobile()) {
@@ -22,11 +23,13 @@ function Modal({ isOpen, onClose, id, modalSize, modalClass, children, closeButt
         closeEl && closeEl.addEventListener('click', handleClick, false);
         window.addEventListener('keydown', onEscKeyDown, false);
         const fadeIn = setTimeout(() => setFadeType('in'), 0);
+        body.style.overflow = 'hidden'
 
         return () => {
             window.removeEventListener('keydown', onEscKeyDown, false);
             closeEl && closeEl.removeEventListener('click', handleClick, false);
             clearTimeout(fadeIn);
+            body.style.removeProperty('overflow')
         }
 
     },[]);
