@@ -20,7 +20,6 @@ import InfoPopup from '../common/InfoPopup'
 import { selectProfileBalance } from '../../reducers/selectors/balance'
 import { useAccount } from '../../hooks/allAccounts'
 import { Mixpanel } from "../../mixpanel/index"
-import { formatNEAR } from '../common/Balance'
 import AuthorizedApp from './authorized_apps/AuthorizedApp'
 import FormButton from '../common/FormButton'
 
@@ -181,25 +180,16 @@ export function Profile({ match }) {
     }, []);
 
     useEffect(() => {
-        if (account.balance?.total) {
+        console.log(account)
+        if (userRecoveryMethods) {
             let id = Mixpanel.get_distinct_id()
             Mixpanel.identify(id)
             Mixpanel.people.set_once({create_date: new Date().toString(),})
             Mixpanel.people.set({
                 relogin_date: new Date().toString(),
-                enabled_2FA: account.has2fa,
-                [accountId + '_total']: formatNEAR(account.balance.total), 
-                [accountId + '_stake']: formatNEAR(account.balance.stateStaked),
-                [accountId + '_available']: formatNEAR(account.balance.available)
+                enabled_2FA: account.has2fa
             })
             Mixpanel.alias(accountId)
-        }
-    },[account.balance?.total])
-
-    useEffect(() => {
-        if (userRecoveryMethods) {
-            let id = Mixpanel.get_distinct_id()
-            Mixpanel.identify(id)
             userRecoveryMethods.map(method => {
                 Mixpanel.people.set({['recovery_with_'+method.kind]:true})
             })
