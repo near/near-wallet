@@ -26,7 +26,7 @@ const AccessKeysEmpty = () => (
         <Header as='h2'>
             <Translate id='fullAccessKeys.noKeys' />
         </Header>
-        <a href='https://awesomenear.com' target='_blank' rel="noopener noreferrer">
+        <a href='https://awesomenear.com/trending/' target='_blank' rel="noopener noreferrer">
             <FormButton color='blue'>
                 <Translate id='button.browseApps' />
             </FormButton>
