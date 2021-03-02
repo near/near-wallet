@@ -9,6 +9,7 @@ import ZedLogo from '../../images/zed-logo.svg'
 import MintbaseLogo from '../../images/mintbase-logo.svg'
 import FluxLogo from '../../images/flux-logo.svg'
 import BerryClubLogo from '../../images/berryclub-logo.svg'
+import { EXPLORE_APPS_URL } from '/utils/wallet'
 
 const Container = styled.div`
     background-color: black;
@@ -189,7 +190,7 @@ const ExploreApps = ({ onClick }) => {
             <h2><Translate id='exploreApps.title' /></h2>
             <div className='desc'><Translate id='exploreApps.desc' /></div>
             <div className='buttons'>
-                <FormButton linkTo='https://awesomenear.com' color='white-blue' trackingId='Click explore apps button'><Translate id='exploreApps.button' /></FormButton>
+                <FormButton linkTo={EXPLORE_APPS_URL} color='white-blue' trackingId='Click explore apps button'><Translate id='exploreApps.button' /></FormButton>
                 <FormButton onClick={onClick} color='link' trackingId='Click explore apps dismiss'><Translate id='button.dismiss' /></FormButton>
             </div>
         </Container>

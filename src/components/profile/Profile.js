@@ -6,14 +6,13 @@ import RecoveryContainer from './Recovery/RecoveryContainer'
 import BalanceContainer from './balances/BalanceContainer'
 import HardwareDevices from './hardware_devices/HardwareDevices'
 import TwoFactorAuth from './two_factor/TwoFactorAuth'
-import { getLedgerKey, checkCanEnableTwoFactor, getAccessKeys, redirectTo, refreshAccount, transferAllFromLockup, loadRecoveryMethods, getProfileStakingDetails, getBalance } from '../../actions/account'
+import { getLedgerKey, checkCanEnableTwoFactor, redirectTo, refreshAccount, transferAllFromLockup, loadRecoveryMethods, getProfileStakingDetails, getBalance } from '../../actions/account'
 import styled from 'styled-components'
 import LockupAvailTransfer from './balances/LockupAvailTransfer'
 import UserIcon from '../svg/UserIcon'
 import ShieldIcon from '../svg/ShieldIcon'
 import LockIcon from '../svg/LockIcon'
 import CheckCircleIcon from '../svg/CheckCircleIcon'
-import { actionsPending } from '../../utils/alerts'
 import BN from 'bn.js'
 import SkeletonLoading from '../common/SkeletonLoading'
 import InfoPopup from '../common/InfoPopup'
@@ -255,7 +254,7 @@ export function Profile({ match }) {
                             number={2}
                         />
                     )}
-                    {authorizedApps?.length ?
+                    {isOwner && authorizedApps?.length ?
                         <>
                             <hr/>
                             <div className='auth-apps'>
