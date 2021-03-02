@@ -1,10 +1,9 @@
 import React from 'react'
 import { Translate } from 'react-localize-redux'
 import { Segment, Header } from 'semantic-ui-react'
-
 import FormButton from '../common/FormButton'
-
 import styled from 'styled-components'
+import { EXPLORE_APPS_URL } from '/utils/wallet'
 
 const CustomSegment = styled(Segment)`
     &&& {
@@ -26,7 +25,7 @@ const AccessKeysEmpty = () => (
         <Header as='h2'>
             <Translate id='fullAccessKeys.noKeys' />
         </Header>
-        <a href='https://awesomenear.com/trending/' target='_blank' rel="noopener noreferrer">
+        <a href={EXPLORE_APPS_URL} target='_blank' rel="noopener noreferrer">
             <FormButton color='blue'>
                 <Translate id='button.browseApps' />
             </FormButton>
