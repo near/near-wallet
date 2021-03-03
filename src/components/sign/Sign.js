@@ -35,11 +35,13 @@ class Sign extends Component {
     handleAllow = async () => {
         this.setState({ sending: true })
         await Mixpanel.withTracking("SIGN",
-            async () => await this.props.signAndSendTransactions(this.props.transactions, this.props.account.accountId)
+            async () => {
+                await this.props.signAndSendTransactions(this.props.transactions, this.props.account.accountId)
+                if (this.props.callbackUrl) {
+                    window.location.href = this.props.callbackUrl;
+                }
+            }
         )
-        if (this.props.callbackUrl) {
-            window.location.href = this.props.callbackUrl;
-        }
     }
 
     renderSubcomponent = () => {
