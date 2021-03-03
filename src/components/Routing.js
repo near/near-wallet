@@ -189,10 +189,10 @@ class Routing extends Component {
                                     pathname: '/*',
                                     search: search
                                 }} />
-                                <Route
+                                <GuestLandingRoute
                                     exact
                                     path='/' 
-                                    component={!this.props.account.accountId ? GuestLanding : Wallet}
+                                    component={Wallet}
                                 />
                                 <Route
                                     exact
