@@ -18,6 +18,7 @@ import Footer from './common/Footer'
 import NetworkBanner from './common/NetworkBanner'
 import TwoFactorVerifyModal from '../components/accounts/two_factor/TwoFactorVerifyModal'
 import PrivateRoute from './common/PrivateRoute'
+import GuestLandingRoute from './common/GuestLandingRoute'
 import { Wallet } from './wallet/Wallet'
 import { CreateAccountWithRouter } from './accounts/CreateAccount'
 import { SetupRecoveryMethodWithRouter } from './accounts/recovery_setup/SetupRecoveryMethod'
@@ -35,7 +36,6 @@ import { AuthorizedAppsWithRouter } from './access-keys/AccessKeys'
 import { FullAccessKeysWithRouter } from './access-keys/AccessKeys'
 import { SendContainer } from './send/SendContainer'
 import { ReceiveMoneyWithRouter } from './receive-money/ReceiveMoney'
-import { GuestLanding } from './landing/GuestLanding'
 import { Profile } from './profile/Profile'
 import { SignWithRouter } from './sign/Sign'
 import { NodeStakingWithRouter } from './node-staking/NodeStaking'
@@ -184,7 +184,6 @@ class Routing extends Component {
                                 }}
                             />
                         }
-                        {this.props.account.loader === false && (
                             <Switch>
                                 <Redirect from="//*" to={{
                                     pathname: '/*',
@@ -339,7 +338,6 @@ class Routing extends Component {
                                     component={Wallet}
                                 />
                             </Switch>
-                        )}
                         <Footer />
                     </ThemeProvider>
                 </ConnectedRouter>
