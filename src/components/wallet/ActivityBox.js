@@ -42,6 +42,8 @@ const StyledContainer = styled.div`
     }
 
     .desc {
+        overflow: hidden;
+        
         > div {
             font-weight: 700;
             color: #24272a;
@@ -83,6 +85,7 @@ const StyledContainer = styled.div`
             font-weight: 700;
             color: #24272a;
             height: 20px;
+            white-space: nowrap;
 
             &.transferred {
                 &::before {
