@@ -57,6 +57,13 @@ const StyledContainer = styled.div`
 
             > span {
                 color: #3F4045;
+                max-width: 300px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+
+                @media(max-width: 350px) {
+                    max-width: 200px;
+                }
                 :first-of-type {
                     text-transform: capitalize;
                     color: #A2A2A8;
