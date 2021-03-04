@@ -42,6 +42,8 @@ const StyledContainer = styled.div`
     }
 
     .desc {
+        overflow: hidden;
+        
         > div {
             font-weight: 700;
             color: #24272a;
