@@ -180,7 +180,6 @@ export function Profile({ match }) {
     }, []);
 
     useEffect(() => {
-        console.log(account)
         if (userRecoveryMethods) {
             let id = Mixpanel.get_distinct_id()
             Mixpanel.identify(id)
@@ -203,8 +202,7 @@ export function Profile({ match }) {
             Mixpanel.people.set({
                 create_2FA_at: twoFactor.createdAt, 
                 enable_2FA_kind:twoFactor.kind, 
-                enabled_2FA: twoFactor.confirmed, 
-                detail_2FA: twoFactor.detail})
+                enabled_2FA: twoFactor.confirmed
         }
     }, [twoFactor])
 
