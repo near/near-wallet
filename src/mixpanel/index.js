@@ -17,7 +17,8 @@ let Mixpanel = {
         } finally {
             await finalOperation()
         }
-    }
+    },
+    register: () => {}
 }
 
 if (process.env.BROWSER_MIXPANEL_TOKEN) {
@@ -55,7 +56,10 @@ if (process.env.BROWSER_MIXPANEL_TOKEN) {
             } finally {
                 await finalOperation()
             }
-      }
+        },
+        register: (props) => {
+            mixpanel.register(props)
+        }
     };
 }
 
