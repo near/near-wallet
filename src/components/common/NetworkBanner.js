@@ -2,10 +2,11 @@ import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import helpIconWhite from '../../images/icon-help-white.svg';
 import helpIconBrown from '../../images/icon-help-brown.svg';
-import { IS_MAINNET, SHOW_PRERELEASE_WARNING, NODE_URL } from '../../utils/wallet';
+import { IS_MAINNET, SHOW_PRERELEASE_WARNING, NODE_URL, NETWORK_ID } from '../../utils/wallet';
 import { Modal } from 'semantic-ui-react';
 import { Translate } from 'react-localize-redux';
 import AlertTriangleIcon from '../svg/AlertTriangleIcon.js';
+import { Mixpanel } from "../../mixpanel/index";
 
 const Container = styled.div`
     color: white;
@@ -71,6 +72,7 @@ const Container = styled.div`
 const NetworkBanner = ({ account }) => {
 
     useEffect(() => {
+        Mixpanel.register({network_id: IS_MAINNET ? 'mainnet' : NETWORK_ID === 'default' ? 'testnet': NETWORK_ID})
         setBannerHeight()
         window.addEventListener("resize", setBannerHeight)
         return () => {

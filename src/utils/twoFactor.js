@@ -36,8 +36,8 @@ export class TwoFactor extends Account2FA {
         return MULTISIG_CONTRACT_HASHES.includes(state.code_hash)
     }
 
-    static async checkCanEnableTwoFactor(account) {
-        const availableBalance = new BN(account.balance.available)
+    static async checkCanEnableTwoFactor(balance) {
+        const availableBalance = new BN(balance.available)
         const multisigMinAmount = new BN(utils.format.parseNearAmount(MULTISIG_MIN_AMOUNT))
         return multisigMinAmount.lt(availableBalance)
     }

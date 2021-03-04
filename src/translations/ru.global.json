@@ -206,6 +206,41 @@
         }
     },
 
+    "dashboardActivity": {
+        "title": {
+            "CreateAccount": "New account created",
+            "DeleteAccount": "Account deleted",
+            "DeployContract": "Contract deployed",
+            "FunctionCall": "Method called",
+            "Transfer": {
+                "transferred": "Sent NEAR",
+                "received": "Received NEAR"
+            },
+            "Stake": "Staked",
+            "AddKey": {
+                "forContract": "Access Key added",
+                "forReceiver": "Access Key added"
+            },
+            "DeleteKey": "Key deleted"
+        },
+        "message": {
+            "CreateAccount": "<span>${receiverId}</span>",
+            "DeleteAccount": "<span>${receiverId}<span>",
+            "DeployContract": "<span>${receiverId}</span>",
+            "FunctionCall": "<span>${methodName}</span> in contract <span>${receiverId}</span>",
+            "Transfer": {
+                "transferred": "to <span>${receiverId}</span>",
+                "received": "from <span>${signerId}</span>"
+            },
+            "Stake": "<span>${stake}</span>",
+            "AddKey": {
+                "forContract": "for <span>${permissionReceiverId}</span>",
+                "forReceiver": "for <span>${receiverId}</span>"
+            },
+            "DeleteKey": ""
+        }
+    },
+
     "actions": {
         "CreateAccount": "Новая учетная запись создана: ${receiverId}",
         "DeleteAccount": "Имя пользователя удалено: ${receiverId}",
@@ -621,10 +656,10 @@
 
     "login": {
         "form": {
-            "isRequestingTo": "запрашивает к",
+            "isRequestingTo": "запрашивает",
             "accessYourAccount": "доступ к вашей учетной записи.",
             "isRequestingFullAccess": "запрашивает <b>полный доступ</b>",
-            "toYourAccount": "на вашу учетную запись.",
+            "toYourAccount": "к вашей учетной записи.",
             "thisDoesNotAllow": "Это не позволит приложению передавать токены NEAR.",
             "thisProvidesAccess": "Это обеспечит доступ <b>ко всем вашим токенам</b>.<br />Будьте осторожны!"
         },

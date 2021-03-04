@@ -26,12 +26,11 @@ const Container = styled.div`
         height: auto !important;
         width: auto !important;
         font-size: 14px !important;
-        letter-spacing: 0.5px !important;
         margin: 0 0 0 auto !important;
     }
 
     @media (max-width: 767px) {
-        margin: -35px -14px 50px -14px;
+        margin: -45px -14px 50px -14px;
         border-radius: 0;
 
         button {

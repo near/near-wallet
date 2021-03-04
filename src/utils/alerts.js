@@ -26,10 +26,9 @@ export const actionsPending = (types) => (typeof types === 'string' ? [types] : 
 
 export const handleClearAlert = () => {
     const { dispatch, getState } = store
-    const { state: { globalAlertPreventClear } = {} } = getState().router.location
-    const { account } = getState()
+    const { account, router } = getState()
 
-    if (!globalAlertPreventClear && !account.globalAlertPreventClear) {
+    if (!router.location.state?.globalAlertPreventClear && !account.globalAlertPreventClear) {
         dispatch(clearGlobalAlert())
     }
     dispatch(clearLocalAlert())

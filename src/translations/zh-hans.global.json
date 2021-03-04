@@ -205,6 +205,42 @@
             "error": "请检查你的设备已经连接并打开了 NEAR 应用。"
         }
     },
+
+    "dashboardActivity": {
+        "title": {
+            "CreateAccount": "New account created",
+            "DeleteAccount": "Account deleted",
+            "DeployContract": "Contract deployed",
+            "FunctionCall": "Method called",
+            "Transfer": {
+                "transferred": "Sent NEAR",
+                "received": "Received NEAR"
+            },
+            "Stake": "Staked",
+            "AddKey": {
+                "forContract": "Access Key added",
+                "forReceiver": "Access Key added"
+            },
+            "DeleteKey": "Key deleted"
+        },
+        "message": {
+            "CreateAccount": "<span>${receiverId}</span>",
+            "DeleteAccount": "<span>${receiverId}<span>",
+            "DeployContract": "<span>${receiverId}</span>",
+            "FunctionCall": "<span>${methodName}</span> in contract <span>${receiverId}</span>",
+            "Transfer": {
+                "transferred": "to <span>${receiverId}</span>",
+                "received": "from <span>${signerId}</span>"
+            },
+            "Stake": "<span>${stake}</span>",
+            "AddKey": {
+                "forContract": "for <span>${permissionReceiverId}</span>",
+                "forReceiver": "for <span>${receiverId}</span>"
+            },
+            "DeleteKey": ""
+        }
+    },
+    
     "actions": {
         "CreateAccount": "新账户已创建：${receiverId}",
         "DeleteAccount": "账户已删除：${receiverId}",

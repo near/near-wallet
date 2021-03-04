@@ -10,6 +10,7 @@ import SignTransferSuccess from './SignTransferSuccess'
 import SignTransferCancelled from './SignTransferCancelled'
 import SignTransferTransferring from './SignTransferTransferring'
 import { signAndSendTransactions, getBalance, handleRefreshUrl } from '../../actions/account'
+import { Mixpanel } from '../../mixpanel'
 
 class Sign extends Component {
 
@@ -24,6 +25,7 @@ class Sign extends Component {
 
     handleDeny = e => {
         e.preventDefault();
+        Mixpanel.track("SIGN Deny the transaction")
         // TODO: Dispatch action for app redirect?
         if (this.props.callbackUrl) {
             window.location.href = this.props.callbackUrl;
@@ -32,10 +34,14 @@ class Sign extends Component {
 
     handleAllow = async () => {
         this.setState({ sending: true })
-        await this.props.signAndSendTransactions(this.props.transactions, this.props.account.accountId)
-        if (this.props.callbackUrl) {
-            window.location.href = this.props.callbackUrl;
-        }
+        await Mixpanel.withTracking("SIGN",
+            async () => {
+                await this.props.signAndSendTransactions(this.props.transactions, this.props.account.accountId)
+                if (this.props.callbackUrl) {
+                    window.location.href = this.props.callbackUrl;
+                }
+            }
+        )
     }
 
     renderSubcomponent = () => {

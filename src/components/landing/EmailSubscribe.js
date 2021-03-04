@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
 import { Translate } from 'react-localize-redux'
+import { Mixpanel } from '../../mixpanel/index'
 
 const Container = styled.div`
     background-color: #25272A;
@@ -77,7 +78,7 @@ export default function EmailSubscribe() {
                         <input placeholder={translate('emailSubscribe.placeholder')} value={email} onChange={e => setEmail(e.target.value)}/>
                     )}
                 </Translate>
-                <button type='submit'><Translate id='button.subscribe' /></button>
+                <button type='submit' onClick={() => Mixpanel.track("Subscribe email")}><Translate id='button.subscribe' /></button>
             </form>
         </Container>
     )

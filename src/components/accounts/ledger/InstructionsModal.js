@@ -21,7 +21,7 @@ const InstructionsModal = ({ open, onClose }) => {
                 <li><Translate id='setupLedgerSteps.four'/></li>
                 <li><Translate id='setupLedgerSteps.five'/></li>
             </ol>
-            <FormButton color='gray-white' id='close-button'>
+            <FormButton color='gray-white' id='close-button' trackingId='Close Instructions Modal'>
                 <Translate id='button.dismiss'/>
             </FormButton>
         </Modal>

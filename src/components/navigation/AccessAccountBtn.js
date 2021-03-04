@@ -1,44 +1,26 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { Translate } from 'react-localize-redux';
-import { Mixpanel } from '../../mixpanel/index'
+import ImportIcon from '../svg/ImportIcon';
+import FormButton from '../common/FormButton';
 
-const Button = styled(Link)`
-    display: block;
-    background-color: transparent;
-    color: #0072CE; 
-    border-radius: 40px;
-    padding: 10px;
-    margin-top: 20px;
+const Button = styled(FormButton)`
     display: flex;
     align-items: center;
     justify-content: center;
-    line-height: normal;
-    transition: 100ms;
-    letter-spacing: 1px;
-    font-weight: 500;
+    padding: 0;
 
-    &:hover {
-        text-decoration: none;
-        color: #0072CE;
-    }
-
-    @media (min-width: 992px) {
-        background-color: white;
-        color: #0072CE;
-
-        :hover {
-            color: white;
-            background-color: #0072CE;
-            text-decoration: none;
-        }
+    svg {
+        margin: -5px 6px -4px 0 !important;
+        height: 22px !important;
+        width: 22px !important;
     }
 `
 
 const AccessAccountBtn = () => (
-    <Button to='/recover-account' onClick={() => Mixpanel.track("IE Click add account button")}>
-        <Translate id='button.addAccount'/>
+    <Button linkTo='/recover-account' trackingId='IE Click add account button'>
+        <ImportIcon/>
+        <Translate id='button.importAccount'/>
     </Button>
 )
 

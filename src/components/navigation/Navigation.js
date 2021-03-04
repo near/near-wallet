@@ -15,6 +15,13 @@ const Container = styled.div`
     @media (max-width: 991px) {
         bottom: ${props => props.open ? '0' : 'unset'};
     }
+
+    h6 {
+        font-size: 13px !important;
+        margin-bottom: 10px !important;
+        color: #72727A;
+        font-weight: normal !important;
+    }
 `
 class Navigation extends Component {
 
@@ -53,8 +60,12 @@ class Navigation extends Component {
 
     }
 
-    get showNavLinks() {        
+    get showNavLinks() {
         return this.props.account.accountId;
+    }
+
+    get showLimitedNav() {   
+        return window.location.pathname === '/sign'
     }
 
     toggleMenu = () => {
@@ -78,6 +89,7 @@ class Navigation extends Component {
                     toggleMenu={this.toggleMenu}
                     selectAccount={this.handleSelectAccount}
                     showNavLinks={this.showNavLinks}
+                    showLimitedNav={this.showLimitedNav}
                     {...this.props}
                 />
                 <MobileContainer
@@ -85,6 +97,7 @@ class Navigation extends Component {
                     toggleMenu={this.toggleMenu}
                     selectAccount={this.handleSelectAccount}
                     showNavLinks={this.showNavLinks}
+                    showLimitedNav={this.showLimitedNav}
                     {...this.props}
                 />
             </Container>
