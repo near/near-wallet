@@ -51,9 +51,9 @@ const StyledContainer = styled.div`
 const TokenBox = ({ token }) => {
     return (
         <StyledContainer className='token-box'>
-            <div className='symbol'>{token.symbol}</div>
+            <div className='symbol'>{/* TODO: Icon */}</div>
             <div className='desc'>
-                <span>{token.name}</span>
+                <span>{token.symbol}</span>
                 <span>{token.contract}</span>
             </div>
             <div className='balance'>{token.balance}</div>
