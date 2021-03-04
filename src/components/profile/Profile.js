@@ -202,7 +202,7 @@ export function Profile({ match }) {
             Mixpanel.people.set({
                 create_2FA_at: twoFactor.createdAt, 
                 enable_2FA_kind:twoFactor.kind, 
-                enabled_2FA: twoFactor.confirmed
+                enabled_2FA: twoFactor.confirmed})
         }
     }, [twoFactor])
 
