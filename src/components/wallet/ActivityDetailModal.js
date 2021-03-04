@@ -76,6 +76,7 @@ const StyledContainer = styled.div`
                 font-weight: 700;
                 color: #24272a;
                 height: 20px;
+                white-space: nowrap;
 
                 &.transferred {
                     &::before {
