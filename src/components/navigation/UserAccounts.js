@@ -4,14 +4,14 @@ import styled from 'styled-components'
 import Balance from '../common/Balance'
 import SkeletonLoading from '../common/SkeletonLoading';
 
-import IconRefresh from '../../images/icon-nodes.svg'
-
 const Wrapper = styled.div`
     .animation-wrapper > .animation {
         border-radius: 8px;
     }
 
     @media (min-width: 992px) {
+        display: flex;
+        flex-direction: column;
         max-height: 228px;
         overflow-y: auto;
 
@@ -22,73 +22,80 @@ const Wrapper = styled.div`
 `
 
 const Account = styled.div`
-    display: block;
-    overflow: hidden;
+    align-items: center;
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
     text-overflow: ellipsis;
     color: #72727A;
-    padding: 18px 14px;
-    border-bottom: 1px solid #efefef;
+    margin-bottom: 4px;
+    padding: 16px;
     cursor: pointer;
     font-weight: 500;
-    transition: 100ms;
     position: relative;
 
     @media (min-width: 992px) {
         :hover {
-            color: #0072CE;
+            background-color: #f8f8f8;
 
-            &.additional-account {
-                .balance {
-                    color: #0072CE;
-                }
-            }
+          .accountId {
+            color: black;
+          }
         }
     }
 
-    :first-of-type {
-        color: white;
-        background-color: #EAF3FE;
-        border-radius: 8px;
-        cursor: default;
-        border: 2px solid #BED0EA;
-        color: black;
+    &.active-account {
+      color: white;
+      background-color: #ECFDF5;
+      border-radius: 8px;
+      cursor: default;
+      color: black;
+
+      .balance {
+        color: #008D6A;
+      }
+    }
+
+    .account-data {
+      display: flex;
+      flex-direction: column;
     }
 
     .balance {
-        color: #00C08B;
-        font-weight: 400;
+      font-weight: 400;
     }
+`
 
-    &.additional-account {
-        :last-of-type {
-            border-bottom: 0;
-        }
+const SyncButton = styled.button`
+  background-color: #f8f8f8;
+  border-radius: 50px;
+  border: 2px solid #f8f8f8;
+  color: #0072ce;
+  font-size: 12px;
+  font-weight: 500;
+  padding: 4px 8px;
 
-        .refresh {
-            position: absolute;
-            width: 20px;
-            height: 100%;
-            top: 0px;
-            right: 0px;
-            background: url(${IconRefresh}) no-repeat center 34px;
-            background-size: 20px auto;
-        }
-    }
+  :hover, :active {
+    background-color: #F0F0F1;
+    border-color: #F0F0F1;
+  }
 `
 
 const UserAccounts = ({ accounts, accountId, selectAccount, accountIdLocalStorage, accountsBalance, balance, refreshBalance }) => (
     <Wrapper>
-        <Account>
+        <Account className='active-account'>
+          <div className="account-data">
             {accountId || accountIdLocalStorage}
             <div className='balance'>
                 <Balance amount={balance?.available} />
             </div>
+          </div>
         </Account>
         {accountId
             ? accounts.filter(a => a !== accountId).map((account, i) => (
                 <Account key={`link-${i}`} className='additional-account'>
-                    <div onClick={() => selectAccount(account)}>
-                        <div>
+                    <div className='account-data' onClick={() => selectAccount(account)}>
+                        <div className='accountId'>
                             {account}
                         </div>
                         <div className='balance'>
@@ -97,7 +104,7 @@ const UserAccounts = ({ accounts, accountId, selectAccount, accountIdLocalStorag
                     </div>
                     <div>
                         {accountsBalance && accountsBalance[account]?.available && (
-                            <span className='refresh' onClick={() => refreshBalance(account)} title='Refresh balance' />
+                            <SyncButton onClick={() => refreshBalance(account)} title='Sync balance'>Sync</SyncButton>
                         )}
                     </div>
                 </Account>

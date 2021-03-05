@@ -24,7 +24,7 @@ const CustomDiv = styled(List)`
         :after {
             content: '.';
             animation: link 1s steps(5, end) infinite;
-        
+
             @keyframes link {
                 0%, 20% {
                     color: rgba(0,0,0,0);
@@ -64,7 +64,7 @@ const Balance = ({ amount, symbol, className }) => {
             {amount && symbol !== false && symbol !== 'near' && <span className='symbol'>Ⓝ</span>}
             {amount
                 ? amountShow
-                : <div className="dots">Loading</div>
+                : <div className="dots">Retrieving balance</div>
             }
             {amount && symbol === 'near' && <span className='currency'>&nbsp;NEAR</span>}
         </CustomDiv>
