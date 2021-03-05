@@ -115,12 +115,12 @@ export function SendContainer({ match, location }) {
         await Mixpanel.withTracking("SEND token", 
             async () => {
                 await dispatch(sendMoney(id, parseNearAmount(amount)))
-                await dispatch(getBalance()) 
+                await dispatch(getBalance())
+                setConfirm(false)
+                setSuccess(true)
+                window.scrollTo(0, 0) 
             }
         )
-        setConfirm(false)
-        setSuccess(true)
-        window.scrollTo(0, 0)
     }
 
     if (!success) {
