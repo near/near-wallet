@@ -21,6 +21,7 @@ import { useAccount } from '../../hooks/allAccounts'
 import { Mixpanel } from "../../mixpanel/index"
 import AuthorizedApp from './authorized_apps/AuthorizedApp'
 import FormButton from '../common/FormButton'
+import Tooltip from '../common/Tooltip'
 
 
 const StyledContainer = styled(Container)`
@@ -259,10 +260,10 @@ export function Profile({ match }) {
                 {isOwner &&
                     <div className='right'>
                         <h2><ShieldIcon/><Translate id='profile.security.title'/></h2>
-                        <h4><Translate id='profile.security.mostSecure'/><InfoPopup content={<Translate id='profile.security.mostSecureDesc'/>}/></h4>
+                        <h4><Translate id='profile.security.mostSecure'/><Tooltip translate='profile.security.mostSecureDesc'/></h4>
                         {!twoFactor && <HardwareDevices recoveryMethods={userRecoveryMethods}/>}
                         <RecoveryContainer type='phrase' recoveryMethods={userRecoveryMethods}/>
-                        <h4><Translate id='profile.security.lessSecure'/><InfoPopup content={<Translate id='profile.security.lessSecureDesc'/>}/></h4>
+                        <h4><Translate id='profile.security.lessSecure'/><Tooltip translate='profile.security.lessSecureDesc'/></h4>
                         <RecoveryContainer type='email' recoveryMethods={userRecoveryMethods}/>
                         <RecoveryContainer type='phone' recoveryMethods={userRecoveryMethods}/>
                         {!account.ledgerKey &&
