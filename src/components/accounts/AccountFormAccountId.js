@@ -201,7 +201,8 @@ class AccountFormAccountId extends Component {
         const {
             mainLoader,
             autoFocus,
-            type
+            type,
+            disabled
         } = this.props
 
         const { accountId, wrongChar } = this.state
@@ -227,6 +228,7 @@ class AccountFormAccountId extends Component {
                                 spellCheck='false'
                                 tabIndex='1'
                                 autoFocus={autoFocus && accountId.length === 0}
+                                disabled={disabled}
                             />
                             {type !== 'create' && <div className='input-sub-label'>{translate('input.accountId.subLabel')}</div>}
                             {type === 'create' &&

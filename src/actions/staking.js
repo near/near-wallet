@@ -21,14 +21,14 @@ export const {
     ],
     STAKE: [
         wallet.staking.stake.bind(wallet.staking),
-        () => showAlert()
+        () => showAlert({ onlyError: true })
     ],
     UNSTAKE: [
         wallet.staking.unstake.bind(wallet.staking),
-        () => showAlert()
+        () => showAlert({ onlyError: true })
     ],
     WITHDRAW: [
         wallet.staking.withdraw.bind(wallet.staking),
-        () => showAlert()
+        () => showAlert({ onlyError: true })
     ],
 })

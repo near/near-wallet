@@ -32,7 +32,7 @@ const StyledContainer = styled(Container)`
         }
         .sub-title {
             span {
-                color: #292526;
+                font-weight: 600;
 
                 &.receiver {
                     line-break: anywhere;
@@ -58,7 +58,6 @@ export function SendContainer({ match, location }) {
         ? !new BN(parseNearAmount(amount)).isZero() && (new BN(parseNearAmount(amount)).lte(amountAvailableToSend) || useMax) && isDecimalString(amount)
         : undefined
     const sendAllowed = ((localAlert && localAlert.success !== false) || id.length === 64) && sufficientBalance && amount && !mainLoader && !success
-
 
     useEffect(() => {
         if (success) {
@@ -133,7 +132,7 @@ export function SendContainer({ match, location }) {
                     <FormButton className='light-blue small' onClick={handleSetUseMax}><Translate id='staking.stake.useMax' /></FormButton>
                 </div>
                 <input
-                    disabled={false}
+                    disabled={confirm}
                     type='number'
                     autoFocus
                     placeholder='0'
@@ -159,6 +158,7 @@ export function SendContainer({ match, location }) {
                     autoFocus={false}
                     clearLocalAlert={() => dispatch(clearLocalAlert())}
                     stateAccountId={accountId}
+                    disabled={confirm}
                 />
                 <FormButton onClick={handleConfirm} disabled={!sendAllowed}>
                     <Translate id='sendMoney.button.send' />
@@ -181,8 +181,8 @@ export function SendContainer({ match, location }) {
         return (
             <StyledContainer className='small-centered send-theme success'>
                 <TransferMoneyIcon/>
-                <h1>Success!</h1>
-                <div className='sub-title success'>You have successfully sent <span><Balance amount={utils.format.parseNearAmount(amount) || '0'} symbol='near'/></span> to <span className='receiver'>{id}</span></div>
+                <h1><Translate id='sendMoney.title.success' /></h1>
+                <div className='sub-title success'><Translate id='sendMoney.subtitle.success' /> <span><Balance amount={utils.format.parseNearAmount(amount) || '0'} symbol='near'/></span> <Translate id='sendMoney.subtitle.to' /> <br/><span className='receiver'>{id}</span></div>
                 <FormButton linkTo='/' trackingId="SEND Click go to dashboard button">
                     <Translate id='button.goToDashboard' />
                 </FormButton>

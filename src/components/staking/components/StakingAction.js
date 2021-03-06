@@ -119,7 +119,7 @@ export default function StakingAction({
                     availableBalance={stake ? availableBalance : staked}
                     availableClick={handleSetMax}
                     insufficientBalance={invalidStakeActionAmount} 
-                    loading={loading}
+                    disabled={loading || confirm}
                     stakeFromAccount={stakeFromAccount}
                 />
                 <ArrowCircleIcon color={stakeActionAllowed ? '#6AD1E3' : ''}/>
