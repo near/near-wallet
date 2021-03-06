@@ -59,7 +59,6 @@ export function SendContainer({ match, location }) {
         : undefined
     const sendAllowed = ((localAlert && localAlert.success !== false) || id.length === 64) && sufficientBalance && amount && !mainLoader && !success
 
-
     useEffect(() => {
         if (success) {
             let id = Mixpanel.get_distinct_id()
@@ -133,7 +132,7 @@ export function SendContainer({ match, location }) {
                     <FormButton className='light-blue small' onClick={handleSetUseMax}><Translate id='staking.stake.useMax' /></FormButton>
                 </div>
                 <input
-                    disabled={false}
+                    disabled={confirm}
                     type='number'
                     autoFocus
                     placeholder='0'
@@ -159,6 +158,7 @@ export function SendContainer({ match, location }) {
                     autoFocus={false}
                     clearLocalAlert={() => dispatch(clearLocalAlert())}
                     stateAccountId={accountId}
+                    disabled={confirm}
                 />
                 <FormButton onClick={handleConfirm} disabled={!sendAllowed}>
                     <Translate id='sendMoney.button.send' />
