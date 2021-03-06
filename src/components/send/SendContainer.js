@@ -181,8 +181,8 @@ export function SendContainer({ match, location }) {
         return (
             <StyledContainer className='small-centered send-theme success'>
                 <TransferMoneyIcon/>
-                <h1>Success!</h1>
-                <div className='sub-title success'>You have successfully sent <span><Balance amount={utils.format.parseNearAmount(amount) || '0'} symbol='near'/></span> to: <br/><span className='receiver'>{id}</span></div>
+                <h1><Translate id='sendMoney.title.success' /></h1>
+                <div className='sub-title success'><Translate id='sendMoney.subtitle.success' /> <span><Balance amount={utils.format.parseNearAmount(amount) || '0'} symbol='near'/></span> <Translate id='sendMoney.subtitle.to' /> <br/><span className='receiver'>{id}</span></div>
                 <FormButton linkTo='/' trackingId="SEND Click go to dashboard button">
                     <Translate id='button.goToDashboard' />
                 </FormButton>
