@@ -197,19 +197,20 @@ export function StakingContainer({ history, match }) {
                 }
             )
         }
-        await dispatch(updateStaking(currentAccount.accountId, [validator]))
+        await dispatch(clearGlobalAlert())
+        await dispatch(getBalance())
+        
+        
+        // await dispatch(updateStaking(currentAccount.accountId, [validator]))
+        await dispatch(updateStakingEx(currentAccount.accountId, [validator]))
     }
 
     const handleWithDraw = async () => {
-        let id = Mixpanel.get_distinct_id()
-        Mixpanel.identify(id)
-        await Mixpanel.withTracking("WITHDRAW",
-                async () => {
-                    await dispatch(withdraw(currentAccount.accountId, selectedValidator || validator.accountId))
-                    Mixpanel.people.set({last_withdraw_time: new Date().toString()})
-                }
-            )
-        await dispatch(updateStaking(currentAccount.accountId))
+        await dispatch(withdraw(currentAccount.accountId, selectedValidator || validator.accountId))
+        await dispatch(getBalance())
+
+        // await dispatch(updateStaking(currentAccount.accountId))
+        await dispatch(updateStakingEx(currentAccount.accountId))
     }
 
     return (
