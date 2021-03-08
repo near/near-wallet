@@ -10,10 +10,7 @@ export const {
     stake,
     unstake,
     withdraw,
-    stakingGetAccounts,
-    stakingUpdateAccount,
-    stakingUpdateLockup,
-    stakingUpdateCurrent
+    staking
 } = createActions({
     SWITCH_ACCOUNT: [
         wallet.staking.switchAccount.bind(wallet.staking),
@@ -35,10 +32,13 @@ export const {
         wallet.staking.withdraw.bind(wallet.staking),
         () => showAlert({ onlyError: true })
     ],
-    STAKING_GET_ACCOUNTS: wallet.staking.getAccounts.bind(wallet.staking),
-    STAKING_UPDATE_ACCOUNT: wallet.staking.updateStakingAccount.bind(wallet.staking),
-    STAKING_UPDATE_LOCKUP: wallet.staking.updateStakingLockup.bind(wallet.staking),
-    STAKING_UPDATE_CURRENT: null
+
+    STAKING: {
+        GET_ACCOUNTS: null,
+        UPDATE_ACCOUNT: wallet.staking.updateStakingAccount.bind(wallet.staking),
+        UPDATE_LOCKUP: wallet.staking.updateStakingLockup.bind(wallet.staking),
+        UPDATE_CURRENT: null
+    }
 })
 
 const handleGetAccounts = () => async (dispatch, getState) => {
@@ -48,10 +48,13 @@ const handleGetAccounts = () => async (dispatch, getState) => {
     }))
 }
 
+export const updateStakingEx = (currentAccountId, recentlyStakedValidators) => async (dispatch, getState) => {
     const { accountId, lockupId } = (await dispatch(handleGetAccounts())).payload
+
+    await dispatch(staking.updateAccount(recentlyStakedValidators))
     if (lockupId) {
-        await dispatch(stakingUpdateLockup())
+        await dispatch(staking.updateLockup())
     }
 
-    dispatch(stakingUpdateCurrent(currentAccountId || accountId))
+    dispatch(staking.updateCurrent(currentAccountId || accountId))
 }
