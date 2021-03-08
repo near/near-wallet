@@ -61,10 +61,6 @@ const stakingHandlers = handleActions({
         }
     },
     [staking.updateAccount]: (state, { ready, error, payload }) => {
-        if (!ready || error) {
-            return state
-        }
-
         return {
             ...state,
             accounts: state.accounts.map((account) => account.accountId === payload.accountId
