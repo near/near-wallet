@@ -12,6 +12,7 @@ export const {
     withdraw,
     stakingGetAccounts,
     stakingUpdateAccount,
+    stakingUpdateLockup,
 } = createActions({
     SWITCH_ACCOUNT: [
         wallet.staking.switchAccount.bind(wallet.staking),
@@ -35,4 +36,5 @@ export const {
     ],
     STAKING_GET_ACCOUNTS: wallet.staking.getAccounts.bind(wallet.staking),
     STAKING_UPDATE_ACCOUNT: wallet.staking.updateStakingAccount.bind(wallet.staking),
+    STAKING_UPDATE_LOCKUP: wallet.staking.updateStakingLockup.bind(wallet.staking),
 })
