@@ -7,6 +7,7 @@ import {
     ACCOUNT_DEFAULTS,
     
     stakingGetAccounts,
+    stakingUpdateAccount,
  } from '../../actions/staking'
 import { selectAccount } from '../../actions/account'
 
@@ -62,6 +63,20 @@ const stakingHandlers = handleActions({
             }))
         }
     },
+    [stakingUpdateAccount]: (state, { ready, error, payload }) => {
+        if (!ready || error) {
+            return state
+        }
+
+        return {
+            ...state,
+            accounts: state.accounts.map((account) => account.accountId === payload.accountId
+                ? ({
+                    ...account,
+                    ...payload
+                }) : account
+            )
+        }
     }
 }, initialState)
 
