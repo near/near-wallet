@@ -203,7 +203,7 @@ export class Staking {
         const account = await this.wallet.getAccount(account_id)
 
         // TODO: refactor, balance is already available in redux
-        const balance = account.wrappedAccount ? await account.wrappedAccount.getAccountBalance() : await account.getAccountBalance()
+        const balance = store.getState().account.balance
 
         // const validatorDepositMap = await getStakingTransactions(account_id)
         const validatorDepositMap = await getStakingDeposits(account_id)
