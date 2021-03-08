@@ -9,6 +9,7 @@ import {
     stakingGetAccounts,
     stakingUpdateAccount,
     stakingUpdateLockup,
+    stakingUpdateCurrent
  } from '../../actions/staking'
 import { selectAccount } from '../../actions/account'
 
@@ -93,6 +94,14 @@ const stakingHandlers = handleActions({
                     ...payload
                 }) : account
             )
+        }
+    },
+
+
+    [stakingUpdateCurrent]: (state, { payload }) => {
+        return {
+            ...state,
+            currentAccount: state.accounts.find((account) => account.accountId === payload)
         }
     }
 }, initialState)
