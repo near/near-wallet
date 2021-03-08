@@ -185,7 +185,6 @@ export function StakingContainer({ history, match }) {
                 }
             )
         }
-        await dispatch(clearGlobalAlert())
         await dispatch(updateStaking(currentAccount.accountId, [validator]))
     }
 

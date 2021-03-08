@@ -17,6 +17,7 @@ import { createAccountFromImplicit, redirectTo } from '../../actions/account'
 import { NETWORK_ID, NODE_URL, ACCOUNT_HELPER_URL, MIN_BALANCE_FOR_GAS } from '../../utils/wallet'
 import sendJson from 'fetch-send-json'
 import { Mixpanel } from '../../mixpanel'
+import AlertBanner from '../common/AlertBanner'
 
 const StyledContainer = styled(Container)`
     .account-id-wrapper {
@@ -60,6 +61,15 @@ const StyledContainer = styled(Container)`
             }
         }
     }
+
+    .alert-banner {
+        align-items: center;
+        > div {
+            font-style: normal !important;
+            font-size: 18px !important;
+        }
+    }
+
 `
 
 // TODO: Make configurable
@@ -231,6 +241,10 @@ class SetupImplicit extends Component {
             <Translate>
                 {({ translate }) => (
                     <StyledContainer className='small-centered'>
+                        <AlertBanner
+                            title='account.createImplicit.pre.alertBanner.title'
+                            theme='alert'
+                        />
                         <h1><Translate id='account.createImplicit.pre.title' /></h1>
                         <h2><Translate id='account.createImplicit.pre.descOne' data={{ amount: formatNearAmount(MIN_BALANCE_TO_CREATE) }}/></h2>
                         <h2><Translate id='account.createImplicit.pre.descTwo'/></h2>
