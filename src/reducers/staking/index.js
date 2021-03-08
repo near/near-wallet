@@ -1,7 +1,13 @@
 import { handleActions } from 'redux-actions'
 import reduceReducers from 'reduce-reducers'
 
-import { updateStaking, switchAccount, ACCOUNT_DEFAULTS } from '../../actions/staking'
+import { 
+    updateStaking,
+    switchAccount,
+    ACCOUNT_DEFAULTS,
+    
+    stakingGetAccounts,
+ } from '../../actions/staking'
 import { selectAccount } from '../../actions/account'
 
 // sample validator entry
@@ -44,6 +50,18 @@ const stakingHandlers = handleActions({
     },
     [selectAccount]: () => {
         return initialState
+    [stakingGetAccounts]: (state, { ready, error, payload }) => {
+        if (!ready || error) {
+            return state
+        }
+
+        return {
+            ...state,
+            accounts: Object.values(payload).map((accountId) => ({
+                accountId 
+            }))
+        }
+    },
     }
 }, initialState)
 
