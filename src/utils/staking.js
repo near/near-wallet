@@ -3,6 +3,7 @@ import BN from 'bn.js'
 import { WalletError } from './walletError'
 import { getLockupAccountId } from './account-with-lockup'
 import { ACCOUNT_HELPER_URL } from './wallet'
+import { store } from '..'
 
 const {
     transactions: {
