@@ -42,7 +42,7 @@ export const {
 
     STAKING: {
         GET_ACCOUNTS: null,
-        UPDATE_ACCOUNT: wallet.staking.updateStakingAccount.bind(wallet.staking),
+        UPDATE_ACCOUNT: null,
         UPDATE_LOCKUP: wallet.staking.updateStakingLockup.bind(wallet.staking),
         UPDATE_CURRENT: null
     }
@@ -125,7 +125,7 @@ const handleStakingUpdateAccount = (recentlyStakedValidators = []) => async (dis
 export const updateStakingEx = (currentAccountId, recentlyStakedValidators) => async (dispatch, getState) => {
     const { accountId, lockupId } = (await dispatch(handleGetAccounts())).payload
 
-    await dispatch(staking.updateAccount(recentlyStakedValidators))
+    await dispatch(handleStakingUpdateAccount(recentlyStakedValidators))
     if (lockupId) {
         await dispatch(staking.updateLockup())
     }
