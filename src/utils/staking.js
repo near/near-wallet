@@ -30,8 +30,8 @@ export const ACCOUNT_DEFAULTS = {
 export const STAKING_AMOUNT_DEVIATION = parseNearAmount('0.00001')
 
 const STAKE_VALIDATOR_PREFIX = '__SVPRE__'
-const ZERO = new BN('0')
-const MIN_DISPLAY_YOCTO = new BN('100');
+export const ZERO = new BN('0')
+export const MIN_DISPLAY_YOCTO = new BN('100');
 const EXPLORER_DELAY = 2000
 const MIN_LOCKUP_AMOUNT = new BN(process.env.MIN_LOCKUP_AMOUNT || parseNearAmount('35.00001'))
 const STAKING_GAS_BASE = process.env.REACT_APP_STAKING_GAS_BASE || '25000000000000' // 25 Tgas
@@ -502,7 +502,7 @@ export class Staking {
     }
 }
 
-async function getStakingDeposits(accountId) {
+export async function getStakingDeposits(accountId) {
     let stakingDeposits = await fetch(ACCOUNT_HELPER_URL + '/staking-deposits/' + accountId).then((r) => r.json()) 
 
     const validatorDepositMap = {}
