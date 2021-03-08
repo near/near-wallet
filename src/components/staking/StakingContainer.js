@@ -169,8 +169,10 @@ export function StakingContainer({ history, match }) {
 
     useEffect(() => {
         dispatch(getBalance())
-        dispatch(updateStakingEx(getStakingAccountSelected()))
-    }, [accountId])
+        if (!!balance.available) {
+            dispatch(updateStakingEx(getStakingAccountSelected()))
+        }
+    }, [accountId, !!balance.available])
 
     const handleSwitchAccount = async (accountId) => {
         setStakingAccountSelected(accountId)
