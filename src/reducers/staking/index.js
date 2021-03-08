@@ -6,10 +6,7 @@ import {
     switchAccount,
     ACCOUNT_DEFAULTS,
     
-    stakingGetAccounts,
-    stakingUpdateAccount,
-    stakingUpdateLockup,
-    stakingUpdateCurrent
+    staking
  } from '../../actions/staking'
 import { selectAccount } from '../../actions/account'
 
@@ -54,10 +51,7 @@ const stakingHandlers = handleActions({
     [selectAccount]: () => {
         return initialState
     },
-    [stakingGetAccounts]: (state, { ready, error, payload }) => {
-        if (!ready || error) {
-            return state
-        }
+    [staking.getAccounts]: (state, { ready, error, payload }) => {
 
         return {
             ...state,
@@ -66,7 +60,7 @@ const stakingHandlers = handleActions({
             }))
         }
     },
-    [stakingUpdateAccount]: (state, { ready, error, payload }) => {
+    [staking.updateAccount]: (state, { ready, error, payload }) => {
         if (!ready || error) {
             return state
         }
@@ -81,7 +75,7 @@ const stakingHandlers = handleActions({
             )
         }
     },
-    [stakingUpdateLockup]: (state, { ready, error, payload }) => {
+    [staking.updateLockup]: (state, { ready, error, payload }) => {
         if (!ready || error) {
             return state
         }
@@ -98,7 +92,7 @@ const stakingHandlers = handleActions({
     },
 
 
-    [stakingUpdateCurrent]: (state, { payload }) => {
+    [staking.updateCurrent]: (state, { payload }) => {
         return {
             ...state,
             currentAccount: state.accounts.find((account) => account.accountId === payload)
