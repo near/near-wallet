@@ -1,0 +1,11 @@
+FROM node:12
+
+WORKDIR /usr/app
+COPY package.json .
+COPY yarn.lock .
+RUN yarn
+COPY . .
+ENV REACT_APP_ACCOUNT_HELPER_URL http://localhost:3000
+ENV REACT_APP_NODE_URL http://localhost:3030
+
+CMD ["yarn", "start"]
