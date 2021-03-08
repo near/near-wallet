@@ -11,6 +11,7 @@ export const {
     unstake,
     withdraw,
     stakingGetAccounts,
+    stakingUpdateAccount,
 } = createActions({
     SWITCH_ACCOUNT: [
         wallet.staking.switchAccount.bind(wallet.staking),
@@ -33,4 +34,5 @@ export const {
         () => showAlert({ onlyError: true })
     ],
     STAKING_GET_ACCOUNTS: wallet.staking.getAccounts.bind(wallet.staking),
+    STAKING_UPDATE_ACCOUNT: wallet.staking.updateStakingAccount.bind(wallet.staking),
 })
