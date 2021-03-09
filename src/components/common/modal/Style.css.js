@@ -59,6 +59,7 @@ const Style = styled.div`
         padding: 25px;
         position: relative;
         box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        margin: 14px;
     }
 
     &.full-screen {
@@ -70,6 +71,28 @@ const Style = styled.div`
 
             ::-webkit-scrollbar {
                 display: none;
+            }
+        }
+    }
+
+    &.tooltip {
+        .modal {
+            padding: 20px 25px 20px 20px;
+
+            button {
+                &.modal-close-btn {
+                    top: 10px;
+                    right: 10px;
+                    min-width: 25px;
+                    max-width: 25px;
+                    min-height: 25px;
+                    max-height: 25px;
+        
+                    svg {
+                        width: 25px;
+                        height: 25px;
+                    }
+                }
             }
         }
     }

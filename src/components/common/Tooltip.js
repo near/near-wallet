@@ -1,11 +1,14 @@
-import React, { useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
-import classNames from '../../utils/classNames'
 import { Translate } from 'react-localize-redux'
 import InfoIconRounded from '../svg/InfoIconRounded'
+import Modal from '../common/modal/Modal'
+import isMobile from '../../utils/isMobile'
 
 const Container = styled.div`
     position: relative;
+    margin: 0 8px;
+    display: flex;
 
     .hover-content {
         position: absolute;
@@ -15,17 +18,14 @@ const Container = styled.div`
         background-color: #24272a;
         color: white;
         border-radius: 4px;
-        padding: 8px;
+        padding: 12px;
         font-size: 13px;
         bottom: 35px;
         pointer-events: none;
-        opacity: 0;
-        transition: 200ms;
         font-weight: 400;
         width: max-content;
         max-width: 250px;
         z-index: 1;
-        visibility: hidden;
     }
 
     :hover {
@@ -34,46 +34,57 @@ const Container = styled.div`
                 stroke: #0072ce
             }
         }
-        .hover-content {
-            opacity: 1;
-            visibility: visible;
-        }
-        
     }
 `
 
 const Tooltip = ({ className, children, translate }) => {
+    const [show, setShow] = useState(false);
+    const [mobile, setMobile] = useState(null);
 
     useEffect(() => {
-        handlePosition()
-        window.addEventListener('resize', handlePosition)
+        handleCheckDevice()
+        window.addEventListener('resize', handleCheckDevice)
 
         return () => {
-            window.removeEventListener('resize', handlePosition)
+            window.removeEventListener('resize', handleCheckDevice)
         }
     }, [])
 
-    const handlePosition = () => {
-        const tooltip = document.getElementById(translate)
-        const hoverContentRight = tooltip.getBoundingClientRect().right
-        const hoverContentLeft = tooltip.getBoundingClientRect().left
-        const screenWidth = window.screen.width
-        const offSetRight = screenWidth - hoverContentRight
-        const offset = 20
-        tooltip.style.transform = `translate(-50%,0)`
-        if (offSetRight < offset) {
-            tooltip.style.transform = `translate(calc(-50% - ${Math.abs(offSetRight) + offset}px),0)`
-        } else if (hoverContentLeft < offset) {
-            tooltip.style.transform = `translate(calc(-50% - ${hoverContentLeft - offset}px),0)`
+    const handleCheckDevice = () => {
+        if (window.innerWidth < 992 || isMobile()) {
+            setMobile(true)
+        } else {
+            setMobile(false)
         }
     }
-    // onMouseOver is a must because need to mount the div after to fix positioning problem
+
+    const mouseEventDisabled = () => {
+        return (window.innerWidth < 992 || isMobile())
+    }
+
     return (
-        <Container className={classNames([className])}>
+        <Container
+            className='tooltip'
+            onMouseOver={() => !mouseEventDisabled() ? setShow(true) : null}
+            onMouseOut={() => !mouseEventDisabled() ? setShow(false) : null}
+            onClick={() => setShow(true)}
+        >
             {children ? children : <InfoIconRounded/>}
-            <div id={translate} className='hover-content'>
-                <Translate id={translate}/>
-            </div>
+            {show && !mobile && 
+                <div className='hover-content'><Translate id={translate}/></div>
+            }
+            {show && mobile &&
+                <Modal
+                    isOpen={show}
+                    onClose={() => setShow(false)}
+                    closeButton='true'
+                    modalSize='sm'
+                    mobileActionSheet={false}
+                    modalClass='tooltip'
+                >
+                    <Translate id={translate}/>
+                </Modal>
+            }
         </Container>
     )
 }

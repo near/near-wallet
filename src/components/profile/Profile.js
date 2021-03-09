@@ -15,7 +15,6 @@ import LockIcon from '../svg/LockIcon'
 import CheckCircleIcon from '../svg/CheckCircleIcon'
 import BN from 'bn.js'
 import SkeletonLoading from '../common/SkeletonLoading'
-import InfoPopup from '../common/InfoPopup'
 import { selectProfileBalance } from '../../reducers/selectors/balance'
 import { useAccount } from '../../hooks/allAccounts'
 import { Mixpanel } from "../../mixpanel/index"
@@ -98,17 +97,21 @@ const StyledContainer = styled(Container)`
                 margin-top: 30px;
             }
         }
+
+        .tooltip {
+            margin-bottom: -1px;
+            svg {
+                width: 20px;
+                height: 20px;
+            }
+        }
     }
 
     .right {
         > h4 {
             margin: 50px 0 20px 0;
             display: flex;
-
-            .popup-trigger, svg {
-                width: 20px;
-                height: 20px;
-            }
+            align-items: center;
         }
 
         .recovery-option,
