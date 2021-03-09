@@ -108,7 +108,7 @@
             "noAccountsAccepted": "無賬戶授權。"
         },
         "staking": {
-            "noWithdraw": "無法從驗證節點提現余額",
+            "noWithdraw": "無法從驗證節點提現餘額",
             "noLockup": "賬戶無鎖定合約"
         },
         "addLedgerAccountId": {
@@ -128,7 +128,7 @@
             "errorInvalidSeedPhrase": "助記詞無效"
         },
         "lockup": {
-            "transferAllWithStakingPoolBalance": "為將你剩余鎖定余額轉賬至錢包，請從質押池贖回並提現所有質押資產。"
+            "transferAllWithStakingPoolBalance": "為將你剩余鎖定餘額轉賬至錢包，請從質押池贖回並提現所有質押資產。"
         }
     },
     "account": {
@@ -197,7 +197,7 @@
         },
         "login": {
             "details": {
-                "warning": "這將可以訪問你的所有余額，請謹慎操作。"
+                "warning": "這將可以訪問你的所有餘額，請謹慎操作。"
             },
             "incorrectContractId": {
                 "error": "合約 ${contractId} 不存在。這可能是你正在使用的應用的問題，或者可能是合約已經被刪除。你將重新回到應用。"
@@ -365,7 +365,7 @@
         "email": "Email 地址",
         "phone": "手機號",
         "notEnabled": "兩步驗證未開啟",
-        "notEnoughBalance": "為開啟兩步驗證，你的賬戶需要最少余額 ",
+        "notEnoughBalance": "為開啟兩步驗證，你的賬戶需要最少餘額 ",
         "active": "已開啟",
         "since": "自",
         "promptDesc": "我們強烈建議你開啟兩步驗證的方式來增強你的賬戶和資產安全性。",
@@ -649,7 +649,7 @@
         "desc": "NEAR 是開放性網絡 (Open Web) 的基礎架構, 提供了一個去中心化存儲和計算平臺。",
         "learnMore": "了解更多",
         "needHelp": "需要幫助？",
-        "contactSupport": "聯系客服"
+        "contactSupport": "聯繫客服"
     },
 
     "dashboard": {
@@ -659,8 +659,8 @@
     "loading": "加載中...",
 
     "balance": {
-        "balance": "總余額",
-        "balanceLoading": "余額加載中"
+        "balance": "總餘額",
+        "balanceLoading": "餘額加載中"
     },
 
     "wallet": {
@@ -816,7 +816,7 @@
             "button": "提交質押",
             "confirm": "你將質押",
             "input": {
-                "availableBalance": "可用余額：",
+                "availableBalance": "可用餘額：",
                 "near": "NEAR"
             },
             "ledgerDisclaimer": "註意：如果你是首次委托該驗證節點質押，你需要確認兩筆交易。",
@@ -826,7 +826,7 @@
             "accounts": "如果你擁有鎖定的 NEAR，你可以選擇質押鎖定 NEAR（lockup.near），或解鎖的 NEAR（你的賬戶名下）。你將看到指定賬戶名下的質押。如果你沒有鎖定的 NEAR，請忽略此區域。",
             "banner": {
                 "stakeMax": "${data} NEAR 已經為交易費而預留。",
-                "insufficientBalance": "你將質押所有余額，請至少預留 <b>${data} NEAR</b> 來保證交易費。"
+                "insufficientBalance": "你將質押所有餘額，請至少預留 <b>${data} NEAR</b> 來保證交易費。"
             }
         },
         "unstake": {
@@ -878,7 +878,7 @@
             "withdraw": "你正在提現"
         },
         "balanceBanner": {
-            "title": "可用鎖定余額",
+            "title": "可用鎖定餘額",
             "currency": "NEAR"
         },
         "alertBanner": {
@@ -890,7 +890,7 @@
         }
     },
     "balanceBreakdown": {
-        "available": "可用余額",
+        "available": "可用餘額",
         "reserved": "費用預留"
     },
     "profile": {
@@ -905,12 +905,12 @@
         },
         "account": {
             "walletId": "錢包 ID",
-            "walletBalance": "錢包余額",
+            "walletBalance": "錢包餘額",
             "reservedForStorage": "為存儲預留",
             "inStakingPools": "質押中",
             "staked": "已質押",
             "unstaked": "未質押",
-            "available": "可用余額",
+            "available": "可用餘額",
             "pendingRelease": "請求釋放",
             "availableToWithdraw": "可提現",
             "availableToTransfer": "可轉賬"
@@ -919,7 +919,7 @@
             "title": "已授權應用"
         },
         "lockup": {
-            "lockupBalance": "鎖定賬戶余額",
+            "lockupBalance": "鎖定賬戶餘額",
             "lockupId": "鎖定賬戶 ID",
             "locked": "已鎖定",
             "unlocked": "未鎖定"
@@ -929,7 +929,7 @@
             "mostSecure": "最安全的方式（推薦）",
             "mostSecureDesc": "Ledger 是最安全的選擇之一。助記詞也很安全，前提是安全記錄並保存。",
             "lessSecure": "備選方式",
-            "lessSecureDesc": "推薦余額較小的賬戶使用這些恢復方式，非常方便。但如果手機或郵箱被盜，你的資產將會有風險。"
+            "lessSecureDesc": "推薦餘額較小的賬戶使用這些恢復方式，非常方便。但如果手機或郵箱被盜，你的資產將會有風險。"
         },
         "twoFactor": "兩步驗證方式",
         "twoFactorDesc": "登錄或轉賬時，將通過短信或 Email 方式授權。",
@@ -938,13 +938,13 @@
             "visibleTo": "是否公開",
             "username": "用戶名",
             "public": "公開",
-            "totalBalance": "余額",
-            "minBalance": "保留余額",
+            "totalBalance": "餘額",
+            "minBalance": "保留餘額",
             "staked": "已質押的",
             "locked": "鎖定的",
             "unvested": "未兌現的",
             "unlocked": "未鎖的",
-            "availableBalance": "可用余額",
+            "availableBalance": "可用餘額",
             "lockPopup": {
                 "title": "為何是鎖定？",
                 "text": "用戶名是你在系統中的唯一識別號，並且與數據和資產綁定，因此無法修改。但是你可以${link}以使用想要的名字，並在需要時轉賬資產。",
@@ -965,7 +965,7 @@
             "to": "發送至："
         },
         "amount": {
-            "available": "可轉賬余額"
+            "available": "可轉賬餘額"
         },
         "confirmModal": {
             "title": "確認交易"
@@ -982,7 +982,7 @@
             "noMoreThan": "不可超過 5 位數",
             "notEnoughTokens": "賬戶內至少保留 ${amount} NEAR",
             "howMuch": "你想要發送多少通證？",
-            "available": "可用余額：",
+            "available": "可用餘額：",
             "sending": "正在發送："
         },
         "youAreSending": "你正在發送",
@@ -991,7 +991,7 @@
         "wasSentTo": "被發送至：",
         "banner": {
             "useMax": "${data} NEAR 已經為交易費而預留。",
-            "insufficient": "你將轉賬所有的可用余額，請至少保留 <b>${data} NEAR</b> 來保證交易費。"
+            "insufficient": "你將轉賬所有的可用餘額，請至少保留 <b>${data} NEAR</b> 來保證交易費。"
         }
     },
 
@@ -1009,9 +1009,9 @@
         "ActionWarrning": {
             "functionCall": "該函數沒有描述。",
             "binaryData": "參數中包含二進制數據",
-            "deployContract": "你正在向你的賬戶部署合約！該合約可以訪問你的 NEAR 余額，並代表你和其他合約交互。",
+            "deployContract": "你正在向你的賬戶部署合約！該合約可以訪問你的 NEAR 餘額，並代表你和其他合約交互。",
             "stake": "你正在質押 NEAR 通證。這些通證將會被鎖定，並且如果你的驗證節點無法即時響應，這些通證有丟失風險。",
-            "deleteAccount": "你將要刪除你的賬戶！你的 NEAR 余額將被清空，並且你的賬戶數據都將被刪除。"
+            "deleteAccount": "你將要刪除你的賬戶！你的 NEAR 餘額將被清空，並且你的賬戶數據都將被刪除。"
         },
         "insufficientFunds": "資產不足",
         "hereAreSomeDetails": "這裏是能夠幫助你的一些信息。",
@@ -1021,22 +1021,22 @@
             "transferOf": "正在請求轉賬",
             "authorization": "正在請求授權"
         },
-        "availableBalance": "可用余額",
+        "availableBalance": "可用餘額",
         "wasTransferredSuccessfully": "被成功轉賬",
         "authorizationRequestSuccessful": "授權請求成功",
         "transferring": "正在轉賬",
         "authorizing": "正在授權"
     },
 
-    "availableBalanceInfo": "「可用余額」是指你當前賬號內可消耗 NEAR 通證，可用余額少於你的「總余額」。查看你 NEAR 余額的詳細構成，請訪問你的資料。",
+    "availableBalanceInfo": "「可用餘額」是指你當前賬號內可消耗 NEAR 通證，可用餘額少於你的「總餘額」。查看你 NEAR 餘額的詳細構成，請訪問你的資料。",
     "reservedForFeesInfo": "少量 NEAR 被保留是為涵蓋交易費。",
-    "availableBalanceProfile": "「可用余額」是指你當前賬號內可消耗 NEAR 通證，可用余額少於你的總共余額。",
-    "minimumBalance": "這是維持你賬號活躍狀態的 NEAR 通證「保留余額」，該余額代表你正在使用的 NEAR 區塊鏈存儲空間，會在使用量變化後產生對應變化。",
-    "totalBalance": "所有余額包括所有你擁有的 NEAR 通證。許多情況，你將無法立刻使用所有余額（比如如果是鎖定的、委托的或質押的）。想了解你可以立刻使用、轉賬、委托或質押的 NEAR 通證，請查看可用余額部分。",
-    "stakedBalance": "NEAR 被用於支持驗證節點並加強網絡。當你決定不質押 NEAR，則需要等待一些時間才能出現在「可用余額」，NEAR 需要花 3 epochs（約 36 小時）贖回質押。",
-    "unvestedBalance": "未兌現的 NEAR 屬於你，但還未實際可使用。你可以委托或質押這些 NEAR，獎勵也將歸屬於你。當 NEAR 兌現後，將出現在鎖定的或未鎖定的余額中。",
-    "lockedBalance": "NEAR 鎖定在鎖定合約中，但無法取出。你可能仍委托或質押著這些 NEAR。一旦 NEAR 解鎖，你可以在未鎖定余額中查看，並選擇取出（轉移到「可用余額」）。",
-    "unlockedBalance": "NEAR 仍在鎖定合約中，並可以取出。如果你選擇取出，它將出現於「可用余額」。",
+    "availableBalanceProfile": "「可用餘額」是指你當前賬號內可消耗 NEAR 通證，可用餘額少於你的總共餘額。",
+    "minimumBalance": "這是維持你賬號活躍狀態的 NEAR 通證「保留餘額」，該餘額代表你正在使用的 NEAR 區塊鏈存儲空間，會在使用量變化後產生對應變化。",
+    "totalBalance": "所有餘額包括所有你擁有的 NEAR 通證。許多情況，你將無法立刻使用所有餘額（比如如果是鎖定的、委托的或質押的）。想了解你可以立刻使用、轉賬、委托或質押的 NEAR 通證，請查看可用餘額部分。",
+    "stakedBalance": "NEAR 被用於支持驗證節點並加強網絡。當你決定不質押 NEAR，則需要等待一些時間才能出現在「可用餘額」，NEAR 需要花 3 epochs（約 36 小時）贖回質押。",
+    "unvestedBalance": "未兌現的 NEAR 屬於你，但還未實際可使用。你可以委托或質押這些 NEAR，獎勵也將歸屬於你。當 NEAR 兌現後，將出現在鎖定的或未鎖定的餘額中。",
+    "lockedBalance": "NEAR 鎖定在鎖定合約中，但無法取出。你可能仍委托或質押著這些 NEAR。一旦 NEAR 解鎖，你可以在未鎖定餘額中查看，並選擇取出（轉移到「可用餘額」）。",
+    "unlockedBalance": "NEAR 仍在鎖定合約中，並可以取出。如果你選擇取出，它將出現於「可用餘額」。",
     "unlockedAvailTransfer": "這部分 NEAR 未鎖定，可以從你的鎖定賬戶中轉賬出來。",
     "stakingPoolUnstaked": "這部分 NEAR 目前在質押池中，但未贖回。可能仍在請求釋放的階段。",
     
@@ -1134,7 +1134,7 @@
     "errors": {
         "type": {
             "RetriesExceeded": "此交易超出最大重試次數。",
-            "LackBalanceForState": "你的賬戶余額過低，無法執行任何操作。請向你的賬戶轉賬 NEAR，然後再重新導入賬戶。"
+            "LackBalanceForState": "你的賬戶餘額過低，無法執行任何操作。請向你的賬戶轉賬 NEAR，然後再重新導入賬戶。"
         },
         "ledger": {
             "U2FNotSupported": "Ledger 硬件錢包需要 U2F 瀏覽器支持。請使用 Chrome、Opera 或 Firefox 安裝 U2F 擴展，並確保你是通過 HTTPS 加密連接。",
