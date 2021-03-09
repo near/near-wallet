@@ -37,7 +37,7 @@ const ClickToCopy = ({ className, children, copy, translate = 'default' }) => {
     const [show, setShow] = useState(false)
 
     const handleCopy = () => {
-        Mixpanel.track(`Copy ${copy} with click`)
+        Mixpanel.track(`Click to copy text`)
         setShow(true)
         setTimeout (() => setShow(false), 2000)
         const input = document.createElement('textarea')
