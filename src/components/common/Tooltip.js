@@ -10,6 +10,7 @@ const Container = styled.div`
     position: relative;
     margin: 0 8px;
     display: flex;
+    z-index: 3;
 
     .hover-content {
         position: absolute;
