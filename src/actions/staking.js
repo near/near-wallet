@@ -60,14 +60,19 @@ export const {
         GET_ACCOUNTS: null,
         UPDATE_ACCOUNT: null,
         UPDATE_LOCKUP: null,
-        UPDATE_CURRENT: null
+        UPDATE_CURRENT: null,
+        GET_LOCKUP: null
     }
 })
 
 const handleGetAccounts = () => async (dispatch, getState) => {
+    const { accountId } = getState().account
+
+    await dispatch(handleGetLockup(accountId))
+
     return await dispatch(staking.getAccounts({
         accountId: wallet.accountId, 
-        lockupId : await wallet.staking.checkLockupExists(wallet.accountId)
+        lockupId : getState().staking.lockup.lockupId
     }))
 }
 
