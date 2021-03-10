@@ -71,6 +71,18 @@ const handleGetAccounts = () => async (dispatch, getState) => {
     }))
 }
 
+const handleGetLockup = (accountId) => async (dispatch, getState) => {
+    let lockup = {}
+    try {
+        lockup = await wallet.staking.getLockup(accountId)
+    } catch(e) {
+        if (!/No contract for account/.test(e.message)) {
+            throw e
+        }
+    }
+    dispatch(staking.getLockup(lockup))
+}
+
 const handleStakingUpdateAccount = (recentlyStakedValidators = []) => async (dispatch, getState) => {
     const { accountId, balance } = getState().account
 
