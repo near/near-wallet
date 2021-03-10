@@ -581,7 +581,7 @@
 
     "topLevelAccounts": {
         "header": "Top Level Accounts",
-        "body": "Account names are similar to domain names. Only the ${suffix} account can create accounts such as yourname.${suffix}, and only yourname.${suffix} can create app.yourname.${suffix}. All accounts created in this wallet use the .${suffix} Top Level Account (TLA). To learn more about account names and creating your own TLA, visit the <a rel='noopener noreferrer' href='https://docs.nearprotocol.com/docs/concepts/account'>docs</a>."
+        "body": "Account names are similar to domain names. Only the ${data} account can create accounts such as yourname.${data}, and only yourname.${data} can create app.yourname.${data}. All accounts created in this wallet use the .${data} Top Level Account (TLA). To learn more about account names and creating your own TLA, visit the <a rel='noopener noreferrer' href='https://docs.nearprotocol.com/docs/concepts/account'>docs</a>."
     },
 
     "recoverSeedPhrase": {

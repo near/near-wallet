@@ -4,6 +4,7 @@ import { Translate } from 'react-localize-redux'
 import InfoIconRounded from '../svg/InfoIconRounded'
 import Modal from '../common/modal/Modal'
 import isMobile from '../../utils/isMobile'
+import classNames from '../../utils/classNames'
 
 const Container = styled.div`
     position: relative;
@@ -20,12 +21,27 @@ const Container = styled.div`
         border-radius: 4px;
         padding: 12px;
         font-size: 13px;
-        bottom: 35px;
-        pointer-events: none;
+        bottom: 30px;
         font-weight: 400;
         width: max-content;
         max-width: 250px;
         z-index: 1;
+    }
+
+    &.right {
+        .hover-content {
+            left: 30px;
+            top: 50%;
+            bottom: unset;
+            transform: translate(0,-50%);
+        }
+    }
+
+    &.bottom {
+        .hover-content {
+            top: 30px;
+            bottom: unset;
+        }
     }
 
     :hover {
@@ -35,9 +51,21 @@ const Container = styled.div`
             }
         }
     }
+
+    .rounded-info-icon {
+        width: 20px;
+        height: 20px;
+    }
+
+    &.icon-lg {
+        .rounded-info-icon {
+            width: 24px;
+            height: 24px;
+        }
+    }
 `
 
-const Tooltip = ({ className, children, translate }) => {
+const Tooltip = ({ className, children, translate, data, position, icon, modalOnly = false }) => {
     const [show, setShow] = useState(false);
     const [mobile, setMobile] = useState(null);
 
@@ -59,21 +87,22 @@ const Tooltip = ({ className, children, translate }) => {
     }
 
     const mouseEventDisabled = () => {
-        return (window.innerWidth < 992 || isMobile())
+        return (modalOnly || window.innerWidth < 992 || isMobile())
     }
 
     return (
         <Container
-            className='tooltip'
+            className={classNames(['tooltip', position, icon])}
             onMouseOver={() => !mouseEventDisabled() ? setShow(true) : null}
             onMouseOut={() => !mouseEventDisabled() ? setShow(false) : null}
             onClick={() => setShow(true)}
+            style={{ cursor: modalOnly ? 'pointer' : 'default' }}
         >
             {children ? children : <InfoIconRounded/>}
-            {show && !mobile && 
-                <div className='hover-content'><Translate id={translate}/></div>
+            {show && !mobile && !modalOnly &&
+                <div className='hover-content'><Translate id={translate} data={{ data: data }}/></div>
             }
-            {show && mobile &&
+            {show && (mobile || modalOnly) &&
                 <Modal
                     isOpen={show}
                     onClose={() => setShow(false)}
@@ -82,7 +111,7 @@ const Tooltip = ({ className, children, translate }) => {
                     mobileActionSheet={false}
                     modalClass='tooltip'
                 >
-                    <Translate id={translate}/>
+                    <Translate id={translate} data={{ data: data }}/>
                 </Modal>
             }
         </Container>

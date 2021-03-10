@@ -1,8 +1,7 @@
 import React from 'react'
 import { Translate } from 'react-localize-redux'
 import styled from 'styled-components'
-import InfoIcon from '../../svg/InfoIcon.js'
-import { Modal } from 'semantic-ui-react'
+import Tooltip from '../../common/Tooltip'
 
 const Container = styled.div`
     background-color: #FFF0DE;
@@ -15,12 +14,19 @@ const Container = styled.div`
     margin-bottom: 20px;
     font-size: 13px;
 
-    .trigger {
-        margin-left: 10px;
+    .tooltip {
         svg {
-            width: 16px;
-            height: 16px;
-            margin-bottom: -3px;
+            path {
+                stroke: #ef860d;
+            }
+        }
+
+        :hover {
+            svg {
+                path {
+                    stroke: #A15600;
+                }
+            }
         }
     }
 
@@ -35,13 +41,7 @@ export default function StakingFee({ fee }) {
     return (
         <Container>
             <Translate id='staking.validator.fee' />
-            <Modal
-                size='mini'
-                trigger={<span className='trigger'><InfoIcon color='#EF860D'/></span>}
-                closeIcon
-            >
-                <Translate id='staking.validator.desc' />
-            </Modal>
+            <Tooltip translate='staking.validator.desc'/>
             <span className='fee'>{fee}%</span>
         </Container>
     )

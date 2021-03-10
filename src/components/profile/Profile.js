@@ -100,10 +100,6 @@ const StyledContainer = styled(Container)`
 
         .tooltip {
             margin-bottom: -1px;
-            svg {
-                width: 20px;
-                height: 20px;
-            }
         }
     }
 
@@ -143,6 +139,7 @@ const StyledContainer = styled(Container)`
         button {
             &.link {
                 text-decoration: none !important;
+                white-space: nowrap;
             }
         }
     }
@@ -263,10 +260,10 @@ export function Profile({ match }) {
                 {isOwner &&
                     <div className='right'>
                         <h2><ShieldIcon/><Translate id='profile.security.title'/></h2>
-                        <h4><Translate id='profile.security.mostSecure'/><Tooltip translate='profile.security.mostSecureDesc'/></h4>
+                        <h4><Translate id='profile.security.mostSecure'/><Tooltip translate='profile.security.mostSecureDesc' icon='icon-lg'/></h4>
                         {!twoFactor && <HardwareDevices recoveryMethods={userRecoveryMethods}/>}
                         <RecoveryContainer type='phrase' recoveryMethods={userRecoveryMethods}/>
-                        <h4><Translate id='profile.security.lessSecure'/><Tooltip translate='profile.security.lessSecureDesc'/></h4>
+                        <h4><Translate id='profile.security.lessSecure'/><Tooltip translate='profile.security.lessSecureDesc' icon='icon-lg'/></h4>
                         <RecoveryContainer type='email' recoveryMethods={userRecoveryMethods}/>
                         <RecoveryContainer type='phone' recoveryMethods={userRecoveryMethods}/>
                         {!account.ledgerKey &&
