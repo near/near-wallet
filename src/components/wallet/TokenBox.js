@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import DefaultTokenIcon from '../svg/DefaultTokenIcon'
 
 const StyledContainer = styled.div`
     display: flex;
@@ -13,10 +14,8 @@ const StyledContainer = styled.div`
     }
 
     .symbol {
-        width: 40px;
-        height: 40px;
-        background-color: #f5f5f5;
-        border-radius: 50%;
+        width: 24px;
+        height: 24px;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -51,7 +50,9 @@ const StyledContainer = styled.div`
 const TokenBox = ({ token }) => {
     return (
         <StyledContainer className='token-box'>
-            <div className='symbol'>{/* TODO: Icon */}</div>
+            <div className='symbol'>
+                <DefaultTokenIcon/>
+            </div>
             <div className='desc'>
                 <span>{token.symbol}</span>
                 <span>{token.contract}</span>

@@ -113,20 +113,7 @@ export function Wallet() {
     const dispatch = useDispatch()
     const hideExploreApps = localStorage.getItem('hideExploreApps')
 
-    const exampleTokens = [
-        {
-            name: 'Banana',
-            symbol: '🍌',
-            contract: 'berryclub.ek.near',
-            balance: '500'
-        },
-        {
-            name: 'Avocado',
-            symbol: '🥑',
-            contract: 'farm.berryclub.ek.near',
-            balance: '1000'
-        }
-    ]
+    console.log(tokens)
 
     return (
         <StyledContainer className='small-centered'>
