@@ -113,8 +113,6 @@ export function Wallet() {
     const dispatch = useDispatch()
     const hideExploreApps = localStorage.getItem('hideExploreApps')
 
-    console.log(tokens)
-
     return (
         <StyledContainer className='small-centered'>
             <NearWithBackgroundIcon/>
