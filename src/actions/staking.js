@@ -59,7 +59,7 @@ export const {
     STAKING: {
         GET_ACCOUNTS: null,
         UPDATE_ACCOUNT: null,
-        UPDATE_LOCKUP: wallet.staking.updateStakingLockup.bind(wallet.staking),
+        UPDATE_LOCKUP: null,
         UPDATE_CURRENT: null
     }
 })
@@ -217,7 +217,7 @@ export const updateStakingEx = (currentAccountId, recentlyStakedValidators) => a
 
     await dispatch(handleStakingUpdateAccount(recentlyStakedValidators))
     if (lockupId) {
-        await dispatch(staking.updateLockup())
+        await dispatch(handleStakingUpdateLockup())
     }
 
     dispatch(staking.updateCurrent(currentAccountId || accountId))
