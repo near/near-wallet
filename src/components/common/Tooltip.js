@@ -93,7 +93,7 @@ const Tooltip = ({ className, children, translate, data, position, icon, modalOn
 
     const handleClick = () => {
         setShow(true)
-        if (!mobile) {
+        if (!mobile && !modalOnly) {
             setMouseDisabled(true)
             setTimeout(() => {
                 setMouseDisabled(false)
