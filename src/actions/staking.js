@@ -1,15 +1,31 @@
 import { wallet } from '../utils/wallet'
 import { createActions } from 'redux-actions'
 import BN from 'bn.js'
+import * as nearApiJs from 'near-api-js'
 
 import { showAlert } from '../utils/alerts'
-export { ACCOUNT_DEFAULTS } from '../utils/staking'
 import { 
     getStakingDeposits, 
     STAKING_AMOUNT_DEVIATION,
     ZERO,
-    MIN_DISPLAY_YOCTO
+    MIN_DISPLAY_YOCTO,
+    MIN_LOCKUP_AMOUNT,
+    ACCOUNT_DEFAULTS
 } from '../utils/staking'
+export { ACCOUNT_DEFAULTS } from '../utils/staking'
+
+const {
+    transactions: {
+        functionCall
+    },
+    utils: {
+        format: {
+            parseNearAmount
+        }
+    },
+    Account,
+    Contract
+} = nearApiJs
 
 export const {
     switchAccount,
@@ -119,6 +135,80 @@ const handleStakingUpdateAccount = (recentlyStakedValidators = []) => async (dis
         totalUnclaimed: (totalUnclaimed.lt(MIN_DISPLAY_YOCTO) ? ZERO : totalUnclaimed).toString(),
         totalPending: totalPending.toString(),
         totalAvailable: (totalAvailable.lt(MIN_DISPLAY_YOCTO) ? ZERO : totalAvailable).toString(),
+    }))
+}
+
+const handleStakingUpdateLockup = () => async (dispatch, getState) => {
+    const { contract, lockupId: account_id } = await wallet.staking.getLockup()
+
+    // use MIN_LOCKUP_AMOUNT vs. actual storage amount
+    const deposited = new BN(await contract.get_known_deposited_balance())
+    let totalUnstaked = new BN(await contract.get_owners_balance())
+        .add(new BN(await contract.get_locked_amount()))
+        .sub(MIN_LOCKUP_AMOUNT)
+        .sub(deposited)
+
+    // minimum displayable for totalUnstaked 
+    if (totalUnstaked.lt(new BN(parseNearAmount('0.002')))) {
+        totalUnstaked = ZERO.clone()
+    }
+    
+    // validator specific
+    const selectedValidator = await contract.get_staking_pool_account_id()
+    if (!selectedValidator) {
+        dispatch(staking.updateLockup({
+            ...ACCOUNT_DEFAULTS,
+            accountId: account_id,
+            totalUnstaked: totalUnstaked.toString(),
+        }))
+        return null
+    }
+    let validator = (await wallet.staking.getValidators([selectedValidator], accountId))[0]
+
+    let totalStaked = ZERO.clone();
+    let totalUnclaimed = ZERO.clone();
+    let totalAvailable = ZERO.clone();
+    let totalPending = ZERO.clone();
+    let total
+    const minimumUnstaked = new BN('100'); // 100 yocto
+
+    try {
+        total = new BN(await validator.contract.get_account_total_balance({ account_id }))
+        if (total.gt(ZERO)) {
+            validator.staked = await validator.contract.get_account_staked_balance({ account_id })
+            validator.unclaimed = total.sub(deposited).toString()
+            validator.unstaked = new BN(await validator.contract.get_account_unstaked_balance({ account_id }))
+            if (validator.unstaked.gt(minimumUnstaked)) {
+                const isAvailable = await validator.contract.is_account_unstaked_balance_available({ account_id })
+                if (isAvailable) {
+                    validator.available = validator.unstaked.toString()
+                    totalAvailable = totalAvailable.add(validator.unstaked)
+                } else {
+                    validator.pending = validator.unstaked.toString()
+                    totalPending = totalPending.add(validator.unstaked)
+                }
+            }
+        } else {
+            validator.remove = true
+        }
+        totalStaked = totalStaked.add(new BN(validator.staked || ZERO.clone()))
+        totalUnclaimed = totalUnclaimed.add(new BN(validator.unclaimed || ZERO.clone()))
+    } catch (e) {
+        if (e.message.indexOf('cannot find contract code') === -1) {
+            console.warn('Error getting data for validator', validator.accountId, e)
+        }
+    }
+
+    dispatch(staking.updateLockup({
+        accountId: account_id,
+        validators: !validator.remove ? [validator] : [],
+        selectedValidator,
+        totalPending: totalPending.toString(),
+        totalAvailable: totalAvailable.toString(),
+        totalStaked: totalStaked.toString(),
+        totalUnstaked: totalUnstaked.toString(),
+        totalUnclaimed: totalUnclaimed.toString(),
+        totalBalance: total.toString()
     }))
 }
 
