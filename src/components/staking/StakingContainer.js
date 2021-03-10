@@ -135,6 +135,16 @@ const StyledContainer = styled(Container)`
             border-radius: 8px;
         }
     }
+
+    .select-account-title {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+        
+        .tooltip {
+            margin-bottom: -1px;
+        }
+    }
 `
 
 export function StakingContainer({ history, match }) {

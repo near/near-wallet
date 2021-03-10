@@ -584,7 +584,7 @@
 
     "topLevelAccounts": {
         "header": "顶级账户",
-        "body": "账户名称类似于域名，只有 ${suffix} 才能创建比如 yourname.${suffix} 的账户，并且只有 yourname.${suffix} 可以创建 app.yourname.${suffix}。所有在此钱包创建的账户都使用 .${suffix} 顶级账户（TLA）。了解更多关于账户名称和创建你的顶级账户（TLA），请访问 <a rel='noopener noreferrer' href='https://docs.nearprotocol.com/docs/concepts/account'>NEAR 文档</a>。"
+        "body": "账户名称类似于域名，只有 ${data} 才能创建比如 yourname.${data} 的账户，并且只有 yourname.${data} 可以创建 app.yourname.${data}。所有在此钱包创建的账户都使用 .${data} 顶级账户（TLA）。了解更多关于账户名称和创建你的顶级账户（TLA），请访问 <a rel='noopener noreferrer' href='https://docs.nearprotocol.com/docs/concepts/account'>NEAR 文档</a>。"
     },
 
     "recoverSeedPhrase": {

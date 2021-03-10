@@ -15,12 +15,12 @@ import LockIcon from '../svg/LockIcon'
 import CheckCircleIcon from '../svg/CheckCircleIcon'
 import BN from 'bn.js'
 import SkeletonLoading from '../common/SkeletonLoading'
-import InfoPopup from '../common/InfoPopup'
 import { selectProfileBalance } from '../../reducers/selectors/balance'
 import { useAccount } from '../../hooks/allAccounts'
 import { Mixpanel } from "../../mixpanel/index"
 import AuthorizedApp from './authorized_apps/AuthorizedApp'
 import FormButton from '../common/FormButton'
+import Tooltip from '../common/Tooltip'
 
 
 const StyledContainer = styled(Container)`
@@ -97,17 +97,17 @@ const StyledContainer = styled(Container)`
                 margin-top: 30px;
             }
         }
+
+        .tooltip {
+            margin-bottom: -1px;
+        }
     }
 
     .right {
         > h4 {
             margin: 50px 0 20px 0;
             display: flex;
-
-            .popup-trigger, svg {
-                width: 20px;
-                height: 20px;
-            }
+            align-items: center;
         }
 
         .recovery-option,
@@ -139,6 +139,7 @@ const StyledContainer = styled(Container)`
         button {
             &.link {
                 text-decoration: none !important;
+                white-space: nowrap;
             }
         }
     }
@@ -259,10 +260,10 @@ export function Profile({ match }) {
                 {isOwner &&
                     <div className='right'>
                         <h2><ShieldIcon/><Translate id='profile.security.title'/></h2>
-                        <h4><Translate id='profile.security.mostSecure'/><InfoPopup content={<Translate id='profile.security.mostSecureDesc'/>}/></h4>
+                        <h4><Translate id='profile.security.mostSecure'/><Tooltip translate='profile.security.mostSecureDesc' icon='icon-lg'/></h4>
                         {!twoFactor && <HardwareDevices recoveryMethods={userRecoveryMethods}/>}
                         <RecoveryContainer type='phrase' recoveryMethods={userRecoveryMethods}/>
-                        <h4><Translate id='profile.security.lessSecure'/><InfoPopup content={<Translate id='profile.security.lessSecureDesc'/>}/></h4>
+                        <h4><Translate id='profile.security.lessSecure'/><Tooltip translate='profile.security.lessSecureDesc' icon='icon-lg'/></h4>
                         <RecoveryContainer type='email' recoveryMethods={userRecoveryMethods}/>
                         <RecoveryContainer type='phone' recoveryMethods={userRecoveryMethods}/>
                         {!account.ledgerKey &&
