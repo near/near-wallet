@@ -68,6 +68,7 @@ const Container = styled.div`
 const Tooltip = ({ className, children, translate, data, position, icon, modalOnly = false }) => {
     const [show, setShow] = useState(false);
     const [mobile, setMobile] = useState(null);
+    const [mouseDisabled, setMouseDisabled] = useState(false);
 
     useEffect(() => {
         handleCheckDevice()
@@ -87,7 +88,15 @@ const Tooltip = ({ className, children, translate, data, position, icon, modalOn
     }
 
     const mouseEventDisabled = () => {
-        return (modalOnly || window.innerWidth < 992 || isMobile())
+        return (mouseDisabled || modalOnly || window.innerWidth < 992 || isMobile())
+    }
+
+    const handleClick = () => {
+        setShow(true)
+        if (!mobile) {
+            setMouseDisabled(true)
+            setTimeout(() => setMouseDisabled(false), 1000)
+        }
     }
 
     return (
@@ -95,7 +104,7 @@ const Tooltip = ({ className, children, translate, data, position, icon, modalOn
             className={classNames(['tooltip', position, icon])}
             onMouseOver={() => !mouseEventDisabled() ? setShow(true) : null}
             onMouseOut={() => !mouseEventDisabled() ? setShow(false) : null}
-            onClick={() => setShow(true)}
+            onClick={handleClick}
             style={{ cursor: modalOnly ? 'pointer' : 'default' }}
         >
             {children ? children : <InfoIconRounded/>}
