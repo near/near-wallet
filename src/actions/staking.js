@@ -156,7 +156,7 @@ const handleStakingUpdateAccount = (recentlyStakedValidators = []) => async (dis
 }
 
 const handleStakingUpdateLockup = () => async (dispatch, getState) => {
-    const { contract, lockupId: account_id } = await wallet.staking.getLockup()
+    const { contract, lockupId: account_id } = getState().staking.lockup
 
     // use MIN_LOCKUP_AMOUNT vs. actual storage amount
     const deposited = new BN(await contract.get_known_deposited_balance())
