@@ -58,7 +58,7 @@ const stakingMethods = {
     ],
 }
 
-const lockupMethods = {
+export const lockupMethods = {
     viewMethods: [
         'get_balance',
         'get_locked_amount',

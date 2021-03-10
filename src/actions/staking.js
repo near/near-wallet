@@ -10,7 +10,8 @@ import {
     ZERO,
     MIN_DISPLAY_YOCTO,
     MIN_LOCKUP_AMOUNT,
-    ACCOUNT_DEFAULTS
+    ACCOUNT_DEFAULTS,
+    lockupMethods
 } from '../utils/staking'
 export { ACCOUNT_DEFAULTS } from '../utils/staking'
 
@@ -61,7 +62,16 @@ export const {
         UPDATE_ACCOUNT: null,
         UPDATE_LOCKUP: null,
         UPDATE_CURRENT: null,
-        GET_LOCKUP: null
+        GET_LOCKUP: async (accountId) => {
+            let lockupId
+            if (process.env.REACT_APP_USE_TESTINGLOCKUP && accountId.length < 64) {
+                lockupId = `testinglockup.${accountId}`
+            } else {
+                lockupId = getLockupAccountId(accountId)
+            }
+            const contract = await wallet.staking.getContractInstance(lockupId, lockupMethods, accountId)
+            return { contract, lockupId, accountId }
+        }
     }
 })
 
