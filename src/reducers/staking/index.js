@@ -89,7 +89,11 @@ const stakingHandlers = handleActions({
             currentAccount: state.accounts.find((account) => account.accountId === payload)
         }
     },
-    [staking.getLockup]: (state, { payload }) => {
+    [staking.getLockup]: (state, { ready, error, payload }) => {
+        if (error || !ready) {
+            return state
+        }
+
         return {
             ...state,
             lockup: payload
