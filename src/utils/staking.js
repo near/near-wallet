@@ -33,7 +33,7 @@ const STAKE_VALIDATOR_PREFIX = '__SVPRE__'
 export const ZERO = new BN('0')
 export const MIN_DISPLAY_YOCTO = new BN('100');
 const EXPLORER_DELAY = 2000
-const MIN_LOCKUP_AMOUNT = new BN(process.env.MIN_LOCKUP_AMOUNT || parseNearAmount('35.00001'))
+export const MIN_LOCKUP_AMOUNT = new BN(process.env.MIN_LOCKUP_AMOUNT || parseNearAmount('35.00001'))
 const STAKING_GAS_BASE = process.env.REACT_APP_STAKING_GAS_BASE || '25000000000000' // 25 Tgas
 
 const stakingMethods = {
