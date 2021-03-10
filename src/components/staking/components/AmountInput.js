@@ -19,7 +19,7 @@ const Container = styled.div`
 `
 
 export default function AmountInput({
-    value, onChange, valid, loading, insufficientBalance,
+    value, onChange, valid, disabled, insufficientBalance,
     availableBalance, availableClick = null, action, stakeFromAccount
 }) {
     let validationStatus
@@ -32,7 +32,7 @@ export default function AmountInput({
     return (
         <Container status={validationStatus} hasValue={value.length}>
             <input 
-                disabled={loading}
+                disabled={disabled}
                 type='number' 
                 autoFocus
                 placeholder='0'

@@ -166,6 +166,9 @@
                     "button": "Where can I purchase NEAR?",
                     "title": "Purchase NEAR tokens",
                     "desc": "NEAR tokens are available to purchase through the following exchanges"
+                },
+                "alertBanner": {
+                    "title": "Do not close this window!"
                 }
             },
             "post": {
@@ -958,7 +961,8 @@
         },
         "subtitle": {
             "default": "Enter the amount of NEAR to send, and the account ID to send it to.",
-            "success": "You successfully sent NEAR"
+            "success": "You have successfully sent",
+            "to": "to:"
         },
         "amount": {
             "available": "Available to send"

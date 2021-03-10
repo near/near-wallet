@@ -50,10 +50,11 @@ const Container = styled.div`
     .sub-title, h2 {
         text-align: center !important;
         line-height: 150% !important;
-        margin: 25px 0;
+        margin: 25px auto;
         font-size: 16px !important;
         color: #24272a !important;
         font-weight: 400 !important;
+        max-width: 400px;
     }
 
     &.ledger-theme {
