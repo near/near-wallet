@@ -77,7 +77,7 @@ const Style = styled.div`
 
     &.tooltip {
         .modal {
-            padding: 20px 25px 20px 20px;
+            padding: 20px 35px 20px 20px;
 
             button {
                 &.modal-close-btn {

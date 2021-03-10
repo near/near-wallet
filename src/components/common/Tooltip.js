@@ -27,6 +27,7 @@ const Container = styled.div`
         width: max-content;
         max-width: 250px;
         z-index: 1;
+        box-shadow: 0px 45px 56px rgba(0, 0, 0, 0.07), 0px 10.0513px 12.5083px rgba(0, 0, 0, 0.0417275), 0px 2.99255px 3.72406px rgba(0, 0, 0, 0.0282725);
     }
 
     &.right {
