@@ -86,9 +86,9 @@ const handleGetAccounts = () => async (dispatch, getState) => {
     }))
 }
 
-const handleGetLockup = (accountId) => async (dispatch, getState) => {
+export const handleGetLockup = (accountId) => async (dispatch, getState) => {
     try {
-        await dispatch(staking.getLockup(accountId))
+        await dispatch(staking.getLockup(accountId || getState().account.accountId))
     } catch(e) {
         if (!/No contract for account/.test(e.message)) {
             throw e
