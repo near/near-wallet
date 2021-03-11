@@ -161,7 +161,7 @@ const handleStakingUpdateAccount = (recentlyStakedValidators = []) => async (dis
     }))
 }
 
-const handleStakingUpdateLockup = () => async (dispatch, getState) => {
+export const handleStakingUpdateLockup = (exAccountId) => async (dispatch, getState) => {
     const { contract, lockupId: account_id } = getState().staking.lockup
 
     // use MIN_LOCKUP_AMOUNT vs. actual storage amount
@@ -183,6 +183,7 @@ const handleStakingUpdateLockup = () => async (dispatch, getState) => {
             ...ACCOUNT_DEFAULTS,
             accountId: account_id,
             totalUnstaked: totalUnstaked.toString(),
+            mainAccountId: exAccountId
         }))
         return null
     }
@@ -223,6 +224,7 @@ const handleStakingUpdateLockup = () => async (dispatch, getState) => {
     }
 
     dispatch(staking.updateLockup({
+        mainAccountId: exAccountId,
         accountId: account_id,
         validators: !validator.remove ? [validator] : [],
         selectedValidator,
