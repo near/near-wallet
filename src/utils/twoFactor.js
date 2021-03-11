@@ -2,7 +2,7 @@ import * as nearApiJs from 'near-api-js'
 import { store } from '..'
 import { promptTwoFactor, refreshAccount } from '../actions/account'
 import { MULTISIG_MIN_AMOUNT, ACCOUNT_HELPER_URL } from './wallet'
-import { utils } from 'near-api-js'
+import { utils, KeyPair } from 'near-api-js'
 import { BN } from 'bn.js'
 
 export const MULTISIG_CONTRACT_HASHES = process.env.MULTISIG_CONTRACT_HASHES || [
@@ -59,13 +59,23 @@ export class TwoFactor extends Account2FA {
     }
 
     async deployMultisig() {
+        const { accountId } = this
+        const newKeyPair = KeyPair.fromRandom('ed25519')
+        const newLocalPublicKey = newKeyPair.publicKey
         const contractBytes = new Uint8Array(await (await fetch('/multisig.wasm')).arrayBuffer())
-        await super.deployMultisig(contractBytes)
+        const result = await super.deployMultisig(contractBytes, newLocalPublicKey)
+        await this.wallet.saveAccount(accountId, newKeyPair)
+        await store.dispatch(refreshAccount())
+        return result
     }
 
     async disableMultisig() {
+        const { accountId } = this
+        const newKeyPair = KeyPair.fromRandom('ed25519')
+        const newLocalPublicKey = newKeyPair.publicKey
         const contractBytes = new Uint8Array(await (await fetch('/main.wasm')).arrayBuffer())
-        const result = await this.disable(contractBytes)
+        const result = await this.disable(contractBytes, newLocalPublicKey)
+        await this.wallet.saveAccount(accountId, newKeyPair)
         await store.dispatch(refreshAccount())
         return result
     }

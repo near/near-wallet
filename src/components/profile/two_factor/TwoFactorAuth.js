@@ -74,9 +74,7 @@ const TwoFactorAuth = ({ twoFactor, history }) => {
                             </div>
                             <div className='detail'>{twoFactor.detail}</div>
                         </div>
-                        {
-                            false && <FormButton onClick={() => setConfirmDisable(true)} className='gray-red'><Translate id='button.disable'/></FormButton>
-                        }
+                        <FormButton onClick={() => setConfirmDisable(true)} className='gray-red'><Translate id='button.disable'/></FormButton>
                     </div>
                     <div className='bottom'>
                         <span className='color-green'>
