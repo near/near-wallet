@@ -20,21 +20,28 @@ import { utils } from 'near-api-js'
 import { BN } from 'bn.js'
 import { showAlert, dispatchWithAlert } from '../utils/alerts'
 import { handleFlowLimitation, handleClearflowLimitation } from './flowLimitation'
+import {
+    handleStakingUpdateAccount,
+    handleStakingUpdateLockup,
+    handleGetLockup
+} from './staking'
 
 export const loadRecoveryMethods = createAction('LOAD_RECOVERY_METHODS',
     wallet.getRecoveryMethods.bind(wallet),
     () => ({})
 )
 
-export const getProfileStakingDetails = (accountId) => (dispatch, getState) => {
-    dispatch(updateStakingAccount(accountId))
+export const getProfileStakingDetails = (accountId) => async (dispatch, getState) => {
+    await dispatch(handleGetLockup(accountId))
+
+    dispatch(handleStakingUpdateAccount([], accountId))
 
     const lockupIdExists = accountId
         ? !!getState().allAccounts[accountId].balance.lockedAmount
         : !!getState().account.balance.lockedAmount
 
     lockupIdExists
-        && dispatch(updateStakingLockup(accountId))
+        && dispatch(handleStakingUpdateLockup(accountId))
 }
 
 export const handleRedirectUrl = (previousLocation) => (dispatch, getState) => {
