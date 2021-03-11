@@ -305,6 +305,8 @@ export const handleStakingUpdateLockup = (exAccountId) => async (dispatch, getSt
 export const updateStakingEx = (currentAccountId, recentlyStakedValidators) => async (dispatch, getState) => {
     const { accountId, lockupId } = (await dispatch(handleGetAccounts())).payload
 
+    await dispatch(staking.getValidators(null, accountId))
+
     await dispatch(handleStakingUpdateAccount(recentlyStakedValidators))
     if (lockupId) {
         await dispatch(handleStakingUpdateLockup())
