@@ -98,6 +98,16 @@ const stakingHandlers = handleActions({
             ...state,
             lockup: payload
         }
+    },
+    [staking.getValidators]: (state, { ready, error, payload }) => {
+        if (error || !ready) {
+            return state
+        }
+
+        return {
+            ...state,
+            allValidators: payload
+        }
     }
 }, initialState)
 
