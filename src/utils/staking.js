@@ -97,27 +97,6 @@ export class Staking {
         return lockupId
     }
 
-    async updateStaking(currentAccountId, recentlyStakedValidators) {
-        const { accountId, lockupId } = await this.getAccounts()
-        if (!currentAccountId) currentAccountId = accountId
-
-        const state = {}
-        const account = await this.updateStakingAccount(recentlyStakedValidators)
-        let lockupAccount
-        if (lockupId) {
-            state.lockupId = lockupId
-            lockupAccount = await this.updateStakingLockup()
-        }
-        state.replaceState = true
-        state.accounts = [account]
-        if (lockupAccount) {
-            state.accounts.push(lockupAccount)
-        }
-        state.currentAccount = (currentAccountId !== accountId && lockupAccount) ? lockupAccount : account
-
-        return state
-    }
-
     async updateStakingLockup(accountId) {
         const { contract, lockupId: account_id } = await this.getLockup(accountId)
 
