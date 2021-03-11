@@ -77,14 +77,6 @@ export class Staking {
         this.provider = wallet.connection.provider
     }
 
-    /********************************
-    Updating the state of the user's staking based on whether they've selected their lockup account or regular account
-    ********************************/
-
-    async switchAccount(accountId, accounts) {
-        return { currentAccount: accounts.find((a) => a.accountId === accountId) }
-    }
-
     async getAccounts() {
         return { 
             accountId: this.wallet.accountId, 
