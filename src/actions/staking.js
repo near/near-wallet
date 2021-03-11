@@ -15,6 +15,31 @@ import {
 } from '../utils/staking'
 export { ACCOUNT_DEFAULTS } from '../utils/staking'
 
+let ghValidators
+
+// to przeniesc do redux???
+const stakingMethods = {
+    viewMethods: [
+        'get_account_staked_balance',
+        'get_account_unstaked_balance',
+        'get_account_total_balance',
+        'is_account_unstaked_balance_available',
+        'get_total_staked_balance',
+        'get_owner_id',
+        'get_reward_fee_fraction',
+    ],
+    changeMethods: [
+        'ping',
+        'deposit',
+        'deposit_and_stake',
+        'deposit_to_staking_pool',
+        'stake',
+        'stake_all',
+        'unstake',
+        'withdraw',
+    ],
+}
+
 const {
     transactions: {
         functionCall
