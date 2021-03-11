@@ -97,43 +97,6 @@ export class Staking {
         return lockupId
     }
 
-    async getValidators(accountIds, accountId = this.wallet.accountId) {
-        const { current_validators, next_validators, current_proposals } = await this.provider.validators()
-        const currentValidators = Staking.shuffle(current_validators).map(({ account_id }) => account_id)
-        
-        if (!accountIds) {
-            const rpcValidators = [...current_validators, ...next_validators, ...current_proposals].map(({ account_id }) => account_id)
-
-            // TODO use indexer - getting all historic validators from raw GH script .json
-            const networkId = this.provider.connection.url.indexOf('mainnet') > -1 ? 'mainnet' : 'testnet'
-            if (!ghValidators) {
-                ghValidators = (await fetch(`https://raw.githubusercontent.com/frol/near-validators-scoreboard/scoreboard-${networkId}/validators_scoreboard.json`).then((r) => r.json()))
-                .map(({ account_id }) => account_id)
-            }
-
-            accountIds = [...new Set([...rpcValidators, ...ghValidators])]
-                .filter((v) => v.indexOf('nfvalidator') === -1 && v.indexOf(networkId === 'mainnet' ? '.near' : '.m0') > -1)
-        }
-
-        const currentAccount = await this.wallet.getAccount(accountId)
-        return (await Promise.all(
-            accountIds.map(async (account_id) => {
-                try {
-                    const contract = new Contract(currentAccount, account_id, stakingMethods)
-                    const validator = {
-                        accountId: account_id,
-                        active: currentValidators.includes(account_id),
-                        contract
-                    }
-                    const fee = validator.fee = await validator.contract.get_reward_fee_fraction()
-                    fee.percentage = +(fee.numerator / fee.denominator * 100).toFixed(2)
-                    return validator
-                } catch (e) {
-                    console.warn('Error getting fee for validator %s: %s', account_id, e);
-                }
-            })
-        )).filter((v) => !!v)
-    }
 
     /********************************
     Staking API for redux actions
