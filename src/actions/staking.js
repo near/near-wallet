@@ -76,9 +76,7 @@ export const {
 })
 
 const handleGetAccounts = () => async (dispatch, getState) => {
-    const { accountId } = getState().account
-
-    await dispatch(handleGetLockup(accountId))
+    await dispatch(handleGetLockup())
 
     return await dispatch(staking.getAccounts({
         accountId: wallet.accountId, 
