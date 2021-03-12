@@ -132,6 +132,24 @@ export const {
                 return result
             },
         },
+        WITHDRAW: {
+            LOCKUP: async (lockupId, amount) => {
+                let result
+                if (amount) {
+                    result = await wallet.staking.signAndSendTransaction(lockupId, [
+                        functionCall('withdraw_from_staking_pool', { amount }, STAKING_GAS_BASE * 5, '0')
+                    ])
+                } else {
+                    result = await wallet.staking.signAndSendTransaction(lockupId, [
+                        functionCall('withdraw_all_from_staking_pool', {}, STAKING_GAS_BASE * 7, '0')
+                    ])
+                }
+                if (result === false) {
+                    throw new WalletError('Unable to withdraw pending balance from validator', 'staking.noWithdraw')
+                }
+                return result
+            },
+        },
         UPDATE_ACCOUNT: async (balance, validators, accountId, validatorDepositMap) => {
             let totalUnstaked = new BN(balance.available)
             if (totalUnstaked.lt(new BN(STAKING_AMOUNT_DEVIATION))) {
