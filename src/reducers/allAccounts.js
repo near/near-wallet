@@ -18,7 +18,7 @@ const allAccountsReducer = handleActions({
                 }
             }),
     [staking.updateAccount]: (state, { ready, error, payload, meta }) => {
-        if (!state[payload.accountId]) {
+        if (error || !ready || !state[payload.accountId]) {
             return state
         }
 
