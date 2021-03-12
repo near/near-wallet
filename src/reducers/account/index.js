@@ -122,6 +122,10 @@ const account = handleActions({
         loginResetAccounts: true
     }),
     [staking.updateAccount]: (state, { ready, error, payload }) => {
+        if (error || !ready) {
+            return state
+        }
+
         return {
             ...state,
             balance: {
