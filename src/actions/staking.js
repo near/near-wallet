@@ -342,8 +342,9 @@ export const handleStake = (validatorId, amount) => async (dispatch, getState) =
     return dispatch(staking.stake.account(validatorId, amount))
 }
 
-export const handleUnstake = (currentAccountId, validatorId, amount) => async (dispatch, getState) => {
+export const handleUnstake = (validatorId, amount) => async (dispatch, getState) => {
     const { accountId } = getState().staking.accountsObj
+    const { currentAccountId } = getState().staking.currentAccount
 
     const isLockup = currentAccountId !== accountId
     if (amount && amount.length < 15) {
