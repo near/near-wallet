@@ -1,6 +1,18 @@
 import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { updateStaking, switchAccount, stake, unstake, withdraw, updateStakingEx, stakingUpdateCurrent, staking as stakingActions, handleStake, handleUnstake } from '../../actions/staking'
+import {
+    updateStaking,
+    switchAccount,
+    stake,
+    unstake,
+    withdraw,
+    updateStakingEx,
+    stakingUpdateCurrent,
+    staking as stakingActions,
+    handleStake,
+    handleUnstake,
+    handleWithdraw
+} from '../../actions/staking'
 import { clearGlobalAlert }from '../../actions/status'
 import styled from 'styled-components'
 import Container from '../common/styled/Container.css'
@@ -196,7 +208,7 @@ export function StakingContainer({ history, match }) {
     }
 
     const handleWithDraw = async () => {
-        await dispatch(withdraw(currentAccount.accountId, selectedValidator || validator.accountId))
+        await dispatch(handleWithdraw(currentAccount.accountId, selectedValidator || validator.accountId))
         await dispatch(getBalance())
 
         // await dispatch(updateStaking(currentAccount.accountId))
