@@ -34,7 +34,7 @@ const allAccountsReducer = handleActions({
         }
     },
     [staking.updateLockup]: (state, { ready, error, payload, meta }) => {
-        if (!payload.mainAccountId) {
+        if (error || !ready || !payload.mainAccountId) {
             return state
         }
 
