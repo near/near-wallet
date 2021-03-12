@@ -115,7 +115,7 @@ export const {
                     functionCall('unstake_all', {}, STAKING_GAS_BASE * 5, '0')
                 ])
             },
-            ACCOUNT: async () => {
+            ACCOUNT: async (validatorId, amount) => {
                 let result
                 if (amount) {
                     result = await wallet.staking.signAndSendTransaction(validatorId, [
@@ -431,9 +431,9 @@ export const handleWithdraw = (validatorId, amount) => async (dispatch, getState
     }
     if (isLockup) {
         const { lockupId } = getState().staking.lockup
-        return wallet.staking.lockupWithdraw(lockupId, amount)
+        return dispatch(staking.withdraw.lockup(lockupId, amount))
     }
-    return wallet.staking.accountWithdraw(validatorId, amount)
+    return dispatch(staking.withdraw.account(validatorId, amount))
 }
 
 export const updateStakingEx = (currentAccountId, recentlyStakedValidators) => async (dispatch, getState) => {
