@@ -337,9 +337,9 @@ export const handleStake = (validatorId, amount) => async (dispatch, getState) =
     }
     if (isLockup) {
         const { contract, lockupId } = getState().staking.lockup
-        return wallet.staking.lockupStake(contract, lockupId, validatorId, amount)
+        return dispatch(staking.stake.lockup(contract, lockupId, validatorId, amount))
     }
-    return wallet.staking.accountStake(validatorId, amount)
+    return dispatch(staking.stake.account(validatorId, amount))
 }
 
 export const updateStakingEx = (currentAccountId, recentlyStakedValidators) => async (dispatch, getState) => {
