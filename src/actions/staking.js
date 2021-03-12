@@ -84,6 +84,17 @@ export const {
 
     STAKING: {
         GET_ACCOUNTS: null,
+        STAKE: {
+            LOCKUP: async (contract, lockupId, validatorId, amount) => {
+                const selectedValidatorId = await contract.get_staking_pool_account_id()
+                if (validatorId !== selectedValidatorId) {
+                    await wallet.staking.lockupSelect(validatorId, lockupId, selectedValidatorId !== null)
+                }
+                return await wallet.staking.signAndSendTransaction(lockupId, [
+                    functionCall('deposit_and_stake', { amount }, STAKING_GAS_BASE * 5, '0')
+                ])
+            },
+        },
         UPDATE_ACCOUNT: async (balance, validators, accountId, validatorDepositMap) => {
             let totalUnstaked = new BN(balance.available)
             if (totalUnstaked.lt(new BN(STAKING_AMOUNT_DEVIATION))) {
