@@ -385,6 +385,19 @@ export const handleUnstake = (validatorId, amount) => async (dispatch, getState)
     return dispatch(staking.unstake.account(validatorId, amount))
 }
 
+export const handleWithdraw = (currentAccountId, validatorId, amount) => async (dispatch, getState) => {
+    const { accountId } = await wallet.staking.getAccounts()
+    const isLockup = currentAccountId !== accountId
+    if (amount && amount.length < 15) {
+        amount = parseNearAmount(amount)
+    }
+    if (isLockup) {
+        const { lockupId } = await wallet.staking.getLockup()
+        return wallet.staking.lockupWithdraw(lockupId, amount)
+    }
+    return wallet.staking.accountWithdraw(validatorId, amount)
+}
+
 export const updateStakingEx = (currentAccountId, recentlyStakedValidators) => async (dispatch, getState) => {
     const { accountId, lockupId } = (await dispatch(handleGetAccounts())).payload
 
