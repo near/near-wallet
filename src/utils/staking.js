@@ -161,16 +161,6 @@ export class Staking {
         ])
     }
 
-    async lockupStake(contract, lockupId, validatorId, amount) {
-        const selectedValidatorId = await contract.get_staking_pool_account_id()
-        if (validatorId !== selectedValidatorId) {
-            await this.lockupSelect(validatorId, lockupId, selectedValidatorId !== null)
-        }
-        return await this.signAndSendTransaction(lockupId, [
-            functionCall('deposit_and_stake', { amount }, STAKING_GAS_BASE * 5, '0')
-        ])
-    }
-
     async lockupSelect(validatorId, lockupId, unselect = false) {
         if (unselect) {
             await this.signAndSendTransaction(lockupId, [
@@ -228,16 +218,6 @@ export class Staking {
             ])
         }
         // wait for explorer to index results
-        await new Promise((r) => setTimeout(r, EXPLORER_DELAY))
-        await this.updateStakedBalance(validatorId)
-        return result
-    }
-
-    async accountStake(validatorId, amount) {
-        const result = await this.signAndSendTransaction(validatorId, [
-            functionCall('deposit_and_stake', {}, STAKING_GAS_BASE * 5, amount)
-        ])
-        // wait for chain/explorer to index results
         await new Promise((r) => setTimeout(r, EXPLORER_DELAY))
         await this.updateStakedBalance(validatorId)
         return result
