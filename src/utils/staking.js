@@ -106,23 +106,6 @@ export class Staking {
     Lockup
     ********************************/
 
-    async lockupWithdraw(lockupId, amount) {
-        let result
-        if (amount) {
-            result = await this.signAndSendTransaction(lockupId, [
-                functionCall('withdraw_from_staking_pool', { amount }, STAKING_GAS_BASE * 5, '0')
-            ])
-        } else {
-            result = await this.signAndSendTransaction(lockupId, [
-                functionCall('withdraw_all_from_staking_pool', {}, STAKING_GAS_BASE * 7, '0')
-            ])
-        }
-        if (result === false) {
-            throw new WalletError('Unable to withdraw pending balance from validator', 'staking.noWithdraw')
-        }
-        return result
-    }
-
     async lockupSelect(validatorId, lockupId, unselect = false) {
         if (unselect) {
             await this.signAndSendTransaction(lockupId, [
@@ -149,24 +132,6 @@ export class Staking {
     Account
     ********************************/
 
-    async accountWithdraw(validatorId, amount) {
-        let result
-        if (amount) {
-            result = await this.signAndSendTransaction(validatorId, [
-                functionCall('withdraw', { amount }, STAKING_GAS_BASE * 5, '0')
-            ])
-        } else {
-            result = await this.signAndSendTransaction(validatorId, [
-                functionCall('withdraw_all', {}, STAKING_GAS_BASE * 7, '0')
-            ])
-        }
-        if (result === false) {
-            throw new WalletError('Unable to withdraw pending balance from validator', 'staking.noWithdraw')
-        }
-        // wait for explorer to index results
-        await new Promise((r) => setTimeout(r, EXPLORER_DELAY))
-        return result
-    }
 
     async updateStakedBalance(validatorId) {
         const { accountId: account_id } = await this.getAccounts()
