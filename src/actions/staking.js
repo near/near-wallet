@@ -380,9 +380,9 @@ export const handleUnstake = (validatorId, amount) => async (dispatch, getState)
     }
     if (isLockup) {
         const { lockupId } = getState().staking.lockup
-        return wallet.staking.lockupUnstake(lockupId, amount)
+        return dispatch(staking.unstake.lockup(lockupId, amount))
     }
-    return wallet.staking.accountUnstake(validatorId, amount)
+    return dispatch(staking.unstake.account(validatorId, amount))
 }
 
 export const updateStakingEx = (currentAccountId, recentlyStakedValidators) => async (dispatch, getState) => {
