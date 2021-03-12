@@ -102,19 +102,7 @@ export class Staking {
     Staking API for redux actions
     ********************************/
 
-
-    async unstake(currentAccountId, validatorId, amount) {
-        const { accountId } = await this.getAccounts()
-        const isLockup = currentAccountId !== accountId
-        if (amount && amount.length < 15) {
-            amount = parseNearAmount(amount)
-        }
-        if (isLockup) {
-            const { lockupId } = await this.getLockup()
-            return this.lockupUnstake(lockupId, amount)
-        }
-        return this.accountUnstake(validatorId, amount)
-    }
+    
 
     async withdraw(currentAccountId, validatorId, amount) {
         const { accountId } = await this.getAccounts()
