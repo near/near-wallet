@@ -64,7 +64,7 @@ class Login extends Component {
 
     render() {
         const { account: { url }, match, appTitle } = this.props
-        const accountConfirmationForm = url?.public_key && (!url.contract_id || url.contract_id?.endsWith(`.${LOCKUP_ACCOUNT_ID_SUFFIX}`))
+        const accountConfirmationForm = url.public_key && (!url.contract_id || url.contract_id?.endsWith(`.${LOCKUP_ACCOUNT_ID_SUFFIX}`))
 
         return (
             <LoginContainer>
