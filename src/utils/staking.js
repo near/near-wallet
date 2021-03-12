@@ -183,23 +183,6 @@ export class Staking {
         return result
     }
 
-    async accountUnstake(validatorId, amount) {
-        let result
-        if (amount) {
-            result = await this.signAndSendTransaction(validatorId, [
-                functionCall('unstake', { amount }, STAKING_GAS_BASE * 5, '0')
-            ])
-        } else {
-            result = await this.signAndSendTransaction(validatorId, [
-                functionCall('unstake_all', {}, STAKING_GAS_BASE * 5, '0')
-            ])
-        }
-        // wait for explorer to index results
-        await new Promise((r) => setTimeout(r, EXPLORER_DELAY))
-        await this.updateStakedBalance(validatorId)
-        return result
-    }
-
     async updateStakedBalance(validatorId) {
         const { accountId: account_id } = await this.getAccounts()
         const contract = await this.getContractInstance(validatorId, stakingMethods)
