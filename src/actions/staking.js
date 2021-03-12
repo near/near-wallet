@@ -115,6 +115,22 @@ export const {
                     functionCall('unstake_all', {}, STAKING_GAS_BASE * 5, '0')
                 ])
             },
+            ACCOUNT: async () => {
+                let result
+                if (amount) {
+                    result = await wallet.staking.signAndSendTransaction(validatorId, [
+                        functionCall('unstake', { amount }, STAKING_GAS_BASE * 5, '0')
+                    ])
+                } else {
+                    result = await wallet.staking.signAndSendTransaction(validatorId, [
+                        functionCall('unstake_all', {}, STAKING_GAS_BASE * 5, '0')
+                    ])
+                }
+                // wait for explorer to index results
+                await new Promise((r) => setTimeout(r, EXPLORER_DELAY))
+                await wallet.staking.updateStakedBalance(validatorId)
+                return result
+            },
         },
         UPDATE_ACCOUNT: async (balance, validators, accountId, validatorDepositMap) => {
             let totalUnstaked = new BN(balance.available)
