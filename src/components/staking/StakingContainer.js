@@ -185,6 +185,9 @@ export function StakingContainer({ history, match }) {
                 async () => {
                     await dispatch(stake(currentAccount.accountId, validator, amount))
                     Mixpanel.people.set({last_stake_time: new Date().toString()})
+                },
+                (e) => {
+                    throw e
                 }
             )
         } else if (action === 'unstake') {
@@ -192,6 +195,9 @@ export function StakingContainer({ history, match }) {
                 async () => {
                     await dispatch(unstake(currentAccount.accountId, selectedValidator || validator, amount))
                     Mixpanel.people.set({last_unstake_time: new Date().toString()})
+                },
+                (e) => {
+                    throw e
                 }
             )
         }
