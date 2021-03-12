@@ -102,19 +102,6 @@ export class Staking {
     Staking API for redux actions
     ********************************/
 
-    // isLockup will be set by user in redux state and passed through actions
-    async stake(currentAccountId, validatorId, amount) {
-        const { accountId } = await this.getAccounts()
-        const isLockup = currentAccountId !== accountId
-        if (amount.length < 15) {
-            amount = parseNearAmount(amount)
-        }
-        if (isLockup) {
-            const { contract, lockupId } = await this.getLockup()
-            return this.lockupStake(contract, lockupId, validatorId, amount)
-        }
-        return this.accountStake(validatorId, amount)
-    }
 
     async unstake(currentAccountId, validatorId, amount) {
         const { accountId } = await this.getAccounts()
