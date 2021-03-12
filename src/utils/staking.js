@@ -138,17 +138,6 @@ export class Staking {
         return result
     }
 
-    async lockupUnstake(lockupId, amount) {
-        if (amount) {
-            return await this.signAndSendTransaction(lockupId, [
-                functionCall('unstake', { amount }, STAKING_GAS_BASE * 5, '0')
-            ])
-        }
-        return await this.signAndSendTransaction(lockupId, [
-            functionCall('unstake_all', {}, STAKING_GAS_BASE * 5, '0')
-        ])
-    }
-
     async lockupSelect(validatorId, lockupId, unselect = false) {
         if (unselect) {
             await this.signAndSendTransaction(lockupId, [
