@@ -497,8 +497,8 @@ export const refreshAccount = (basicData = false) => async (dispatch, getState) 
 
 export const switchAccount = (accountId) => async (dispatch, getState) => {
     dispatch(selectAccount(accountId))
-    await dispatch(refreshAccount())
     dispatch(handleRefreshUrl())
+    dispatch(refreshAccount())
 }
 
 export const { selectAccount, refreshAccountOwner, refreshAccountExternal, refreshUrl, updateStakingAccount, updateStakingLockup, getBalance } = createActions({
