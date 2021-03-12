@@ -343,7 +343,8 @@ export const handleStake = (validatorId, amount) => async (dispatch, getState) =
 }
 
 export const handleUnstake = (currentAccountId, validatorId, amount) => async (dispatch, getState) => {
-    const { accountId } = await wallet.staking.getAccounts()
+    const { accountId } = getState().staking.accountsObj
+
     const isLockup = currentAccountId !== accountId
     if (amount && amount.length < 15) {
         amount = parseNearAmount(amount)
