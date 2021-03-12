@@ -56,7 +56,8 @@ const stakingHandlers = handleActions({
             ...state,
             accounts: Object.values(payload).map((accountId) => ({
                 accountId 
-            }))
+            })),
+            accountsObj: payload
         }
     },
     [staking.updateAccount]: (state, { ready, error, payload }) => {
