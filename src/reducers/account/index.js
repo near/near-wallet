@@ -135,6 +135,10 @@ const account = handleActions({
         }
     },
     [staking.updateLockup]: (state, { ready, error, payload }) => {
+        if (error || !ready) {
+            return state
+        }
+        
         return {
             ...state,
             balance: {
