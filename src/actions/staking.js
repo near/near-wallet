@@ -104,6 +104,18 @@ export const {
                 return result
             },
         },
+        UNSTAKE: {
+            LOCKUP: async (lockupId, amount) => {
+                if (amount) {
+                    return await wallet.staking.signAndSendTransaction(lockupId, [
+                        functionCall('unstake', { amount }, STAKING_GAS_BASE * 5, '0')
+                    ])
+                }
+                return await wallet.staking.signAndSendTransaction(lockupId, [
+                    functionCall('unstake_all', {}, STAKING_GAS_BASE * 5, '0')
+                ])
+            },
+        },
         UPDATE_ACCOUNT: async (balance, validators, accountId, validatorDepositMap) => {
             let totalUnstaked = new BN(balance.available)
             if (totalUnstaked.lt(new BN(STAKING_AMOUNT_DEVIATION))) {
