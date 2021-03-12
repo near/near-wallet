@@ -18,6 +18,7 @@ import Footer from './common/Footer'
 import NetworkBanner from './common/NetworkBanner'
 import TwoFactorVerifyModal from '../components/accounts/two_factor/TwoFactorVerifyModal'
 import PrivateRoute from './common/PrivateRoute'
+import GuestLandingRoute from './common/GuestLandingRoute'
 import { Wallet } from './wallet/Wallet'
 import { CreateAccountWithRouter } from './accounts/CreateAccount'
 import { SetupRecoveryMethodWithRouter } from './accounts/recovery_setup/SetupRecoveryMethod'
@@ -35,7 +36,6 @@ import { AuthorizedAppsWithRouter } from './access-keys/AccessKeys'
 import { FullAccessKeysWithRouter } from './access-keys/AccessKeys'
 import { SendContainer } from './send/SendContainer'
 import { ReceiveMoneyWithRouter } from './receive-money/ReceiveMoney'
-import { GuestLanding } from './landing/GuestLanding'
 import { Profile } from './profile/Profile'
 import { SignWithRouter } from './sign/Sign'
 import { NodeStakingWithRouter } from './node-staking/NodeStaking'
@@ -184,162 +184,160 @@ class Routing extends Component {
                                 }}
                             />
                         }
-                        {this.props.account.loader === false && (
-                            <Switch>
-                                <Redirect from="//*" to={{
-                                    pathname: '/*',
-                                    search: search
-                                }} />
-                                <Route
-                                    exact
-                                    path='/' 
-                                    component={!this.props.account.accountId ? GuestLanding : Wallet}
-                                />
-                                <Route
-                                    exact
-                                    path='/create/:fundingContract?/:fundingKey?'
-                                    component={CreateAccountWithRouter}
-                                />
-                                <Route
-                                    exact
-                                    path={'/create-from/:fundingAccountId'}
-                                    component={CreateAccountWithRouter}
-                                />
-                                <Route
-                                    exact
-                                    path='/set-recovery/:accountId/:fundingContract?/:fundingKey?'
-                                    component={SetupRecoveryMethodWithRouter}
-                                />
-                                <Route
-                                    exact
-                                    path='/setup-seed-phrase/:accountId/:step'
-                                    component={SetupSeedPhraseWithRouter}
-                                />
-                                <Route
-                                    exact
-                                    path='/fund-create-account/:accountId/:implicitAccountId/:recoveryMethod'
-                                    component={SetupImplicitWithRouter}
-                                />
-                                <Route
-                                    exact
-                                    path='/fund-create-account/success'
-                                    component={SetupImplicitSuccess}
-                                />
-                                <Route
-                                    exact
-                                    path='/setup-ledger/:accountId'
-                                    component={SetupLedgerWithRouter}
-                                />
+                        <Switch>
+                            <Redirect from="//*" to={{
+                                pathname: '/*',
+                                search: search
+                            }} />
+                            <GuestLandingRoute
+                                exact
+                                path='/' 
+                                component={Wallet}
+                            />
+                            <Route
+                                exact
+                                path='/create/:fundingContract?/:fundingKey?'
+                                component={CreateAccountWithRouter}
+                            />
+                            <Route
+                                exact
+                                path={'/create-from/:fundingAccountId'}
+                                component={CreateAccountWithRouter}
+                            />
+                            <Route
+                                exact
+                                path='/set-recovery/:accountId/:fundingContract?/:fundingKey?'
+                                component={SetupRecoveryMethodWithRouter}
+                            />
+                            <Route
+                                exact
+                                path='/setup-seed-phrase/:accountId/:step'
+                                component={SetupSeedPhraseWithRouter}
+                            />
+                            <Route
+                                exact
+                                path='/fund-create-account/:accountId/:implicitAccountId/:recoveryMethod'
+                                component={SetupImplicitWithRouter}
+                            />
+                            <Route
+                                exact
+                                path='/fund-create-account/success'
+                                component={SetupImplicitSuccess}
+                            />
+                            <Route
+                                exact
+                                path='/setup-ledger/:accountId'
+                                component={SetupLedgerWithRouter}
+                            />
+                            <PrivateRoute
+                                exact
+                                path='/setup-ledger-success'
+                                component={SetupLedgerSuccessWithRouter}
+                            />
+                            <PrivateRoute
+                                exact
+                                path='/enable-two-factor'
+                                component={EnableTwoFactor}
+                            />
+                            <Route
+                                exact
+                                path='/recover-account'
+                                component={RecoverAccountWithRouter}
+                            />
+                            <Route
+                                exact
+                                path='/recover-seed-phrase/:accountId?/:seedPhrase?'
+                                component={RecoverAccountSeedPhraseWithRouter}
+                            />
+                            <Route
+                                exact
+                                path='/recover-with-link/:accountId?/:seedPhrase?'
+                                component={RecoverWithLinkWithRouter}
+                            />
+                            <Route
+                                exact
+                                path='/sign-in-ledger'
+                                component={SignInLedger}
+                            />
+                            <PrivateRoute
+                                path='/login'
+                                component={LoginWithRouter}
+                            />
+                            <PrivateRoute
+                                exact
+                                path='/contacts'
+                                component={ContactsWithRouter}
+                            />
+                            <PrivateRoute
+                                exact
+                                path='/authorized-apps'
+                                component={AuthorizedAppsWithRouter}
+                            />
+                            <PrivateRoute
+                                exact
+                                path='/full-access-keys'
+                                component={FullAccessKeysWithRouter}
+                            />
+                            {!DISABLE_SEND_MONEY &&
                                 <PrivateRoute
                                     exact
-                                    path='/setup-ledger-success'
-                                    component={SetupLedgerSuccessWithRouter}
+                                    path='/send-money/:id?'
+                                    component={SendContainer}
                                 />
-                                <PrivateRoute
-                                    exact
-                                    path='/enable-two-factor'
-                                    component={EnableTwoFactor}
-                                />
-                                <Route
-                                    exact
-                                    path='/recover-account'
-                                    component={RecoverAccountWithRouter}
-                                />
-                                <Route
-                                    exact
-                                    path='/recover-seed-phrase/:accountId?/:seedPhrase?'
-                                    component={RecoverAccountSeedPhraseWithRouter}
-                                />
-                                <Route
-                                    exact
-                                    path='/recover-with-link/:accountId?/:seedPhrase?'
-                                    component={RecoverWithLinkWithRouter}
-                                />
-                                <Route
-                                    exact
-                                    path='/sign-in-ledger'
-                                    component={SignInLedger}
-                                />
-                                <PrivateRoute
-                                    path='/login'
-                                    component={LoginWithRouter}
-                                />
-                                <PrivateRoute
-                                    exact
-                                    path='/contacts'
-                                    component={ContactsWithRouter}
-                                />
-                                <PrivateRoute
-                                    exact
-                                    path='/authorized-apps'
-                                    component={AuthorizedAppsWithRouter}
-                                />
-                                <PrivateRoute
-                                    exact
-                                    path='/full-access-keys'
-                                    component={FullAccessKeysWithRouter}
-                                />
-                                {!DISABLE_SEND_MONEY &&
-                                    <PrivateRoute
-                                        exact
-                                        path='/send-money/:id?'
-                                        component={SendContainer}
+                            }
+                            <PrivateRoute
+                                exact
+                                path='/receive-money'
+                                component={ReceiveMoneyWithRouter}
+                            />
+                            <Route
+                                exact
+                                path='/profile/:accountId'
+                                component={Profile}
+                            />
+                            <PrivateRoute
+                                exact
+                                path='/profile/:accountId?'
+                                component={Profile}
+                            />
+                            <PrivateRoute
+                                exact
+                                path='/sign'
+                                component={SignWithRouter}
+                            />
+                            <PrivateRoute
+                                exact
+                                path='/node-staking'
+                                component={NodeStakingWithRouter}
+                            />
+                            <PrivateRoute
+                                exact
+                                path='/add-node'
+                                component={AddNodeWithRouter}
+                            />
+                            <PrivateRoute
+                                exact
+                                path='/node-details'
+                                component={NodeDetailsWithRouter}
+                            />
+                            <PrivateRoute
+                                path='/staking'
+                                component={StakingContainer}
+                                render={() => (
+                                    <StakingContainer
+                                        history={this.props.history}
                                     />
-                                }
-                                <PrivateRoute
-                                    exact
-                                    path='/receive-money'
-                                    component={ReceiveMoneyWithRouter}
-                                />
-                                <Route
-                                    exact
-                                    path='/profile/:accountId'
-                                    component={Profile}
-                                />
-                                <PrivateRoute
-                                    exact
-                                    path='/profile/:accountId?'
-                                    component={Profile}
-                                />
-                                <PrivateRoute
-                                    exact
-                                    path='/sign'
-                                    component={SignWithRouter}
-                                />
-                                <PrivateRoute
-                                    exact
-                                    path='/node-staking'
-                                    component={NodeStakingWithRouter}
-                                />
-                                <PrivateRoute
-                                    exact
-                                    path='/add-node'
-                                    component={AddNodeWithRouter}
-                                />
-                                <PrivateRoute
-                                    exact
-                                    path='/node-details'
-                                    component={NodeDetailsWithRouter}
-                                />
-                                <PrivateRoute
-                                    path='/staking'
-                                    component={StakingContainer}
-                                    render={() => (
-                                        <StakingContainer
-                                            history={this.props.history}
-                                        />
-                                    )}
-                                />
-                                <Route
-                                    exact
-                                    path='/cli-login-success'
-                                    component={LoginCliLoginSuccess}
-                                />
-                                <PrivateRoute
-                                    component={Wallet}
-                                />
-                            </Switch>
-                        )}
+                                )}
+                            />
+                            <Route
+                                exact
+                                path='/cli-login-success'
+                                component={LoginCliLoginSuccess}
+                            />
+                            <PrivateRoute
+                                component={Wallet}
+                            />
+                        </Switch>
                         <Footer />
                     </ThemeProvider>
                 </ConnectedRouter>
