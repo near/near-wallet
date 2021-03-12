@@ -307,8 +307,9 @@ export const handleStakingUpdateLockup = (exAccountId) => async (dispatch, getSt
     await dispatch(staking.updateLockup(contract, account_id, exAccountId))
 }
 
-export const handleStake = (currentAccountId, validatorId, amount) => async (dispatch, getState) => {
+export const handleStake = (validatorId, amount) => async (dispatch, getState) => {
     const { accountId } = getState().staking.accountsObj
+    const { currentAccountId } = getState().staking.currentAccount
     
     const isLockup = currentAccountId !== accountId
     if (amount.length < 15) {

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { updateStaking, switchAccount, stake, unstake, withdraw, updateStakingEx, stakingUpdateCurrent, staking as stakingActions } from '../../actions/staking'
+import { updateStaking, switchAccount, stake, unstake, withdraw, updateStakingEx, stakingUpdateCurrent, staking as stakingActions, handleStake } from '../../actions/staking'
 import { clearGlobalAlert }from '../../actions/status'
 import styled from 'styled-components'
 import Container from '../common/styled/Container.css'
@@ -183,12 +183,7 @@ export function StakingContainer({ history, match }) {
         let id = Mixpanel.get_distinct_id()
         Mixpanel.identify(id)
         if (action === 'stake') {
-            await Mixpanel.withTracking("STAKE",
-                async () => {
-                    await dispatch(stake(currentAccount.accountId, validator, amount))
-                    Mixpanel.people.set({last_stake_time: new Date().toString()})
-                }
-            )
+            await dispatch(handleStake(validator, amount))
         } else if (action === 'unstake') {
             await Mixpanel.withTracking("UNSTAKE",
                 async () => {
