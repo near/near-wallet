@@ -208,7 +208,7 @@ export function StakingContainer({ history, match }) {
     }
 
     const handleWithDraw = async () => {
-        await dispatch(handleWithdraw(currentAccount.accountId, selectedValidator || validator.accountId))
+        await dispatch(handleWithdraw(selectedValidator || validator.accountId))
         await dispatch(getBalance())
 
         // await dispatch(updateStaking(currentAccount.accountId))
