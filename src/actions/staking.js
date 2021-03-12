@@ -162,9 +162,11 @@ export const handleStakingUpdateAccount = (recentlyStakedValidators = [], exAcco
         ? getState().allAccounts[exAccountId]
         : getState().account
 
-    const account = await wallet.getAccount(accountId)
     const validatorDepositMap = await getStakingDeposits(accountId)
-    let validators = await wallet.staking.getValidators([...new Set(Object.keys(validatorDepositMap).concat(recentlyStakedValidators))], accountId)
+
+    const validators = getState().staking.allValidators.filter((validator) => 
+        Object.keys(validatorDepositMap).concat(recentlyStakedValidators).includes(validator.accountId)
+    )
 
     let totalUnstaked = new BN(balance.available)
     if (totalUnstaked.lt(new BN(STAKING_AMOUNT_DEVIATION))) {
