@@ -307,6 +307,20 @@ export const handleStakingUpdateLockup = (exAccountId) => async (dispatch, getSt
     await dispatch(staking.updateLockup(contract, account_id, exAccountId))
 }
 
+export const handleStake = (currentAccountId, validatorId, amount) => async (dispatch, getState) => {
+    const { accountId } = getState().staking.accountsObj
+    
+    const isLockup = currentAccountId !== accountId
+    if (amount.length < 15) {
+        amount = parseNearAmount(amount)
+    }
+    if (isLockup) {
+        const { contract, lockupId } = await this.getLockup()
+        return wallet.staking.lockupStake(contract, lockupId, validatorId, amount)
+    }
+    return wallet.staking.accountStake(validatorId, amount)
+}
+
 export const updateStakingEx = (currentAccountId, recentlyStakedValidators) => async (dispatch, getState) => {
     const { accountId, lockupId } = (await dispatch(handleGetAccounts())).payload
 
