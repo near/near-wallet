@@ -27,7 +27,7 @@ const sign = handleActions({
                 gasLimit: allActions
                     .filter(a => Object.keys(a)[0] === 'functionCall')
                     .map(a => a.functionCall.gas)
-                    .reduce((totalGas, gas) => totalGas.add(gas)).toString(),
+                    .reduce((totalGas, gas) => totalGas.add(gas), new BN(0)).toString(),
                 gasPrice: '' // TODO: Where to get gas price?
             },
             sensitiveActionsCounter: allActions
