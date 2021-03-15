@@ -132,14 +132,6 @@ export class Staking {
     Account
     ********************************/
 
-
-    async updateStakedBalance(validatorId) {
-        const { accountId: account_id } = await this.getAccounts()
-        const contract = await this.getContractInstance(validatorId, stakingMethods)
-        const lastStakedBalance = await contract.get_account_staked_balance({ account_id })
-        localStorage.setItem(STAKE_VALIDATOR_PREFIX + validatorId + account_id, lastStakedBalance)
-    }
-
     /********************************
     Helpers
     ********************************/
