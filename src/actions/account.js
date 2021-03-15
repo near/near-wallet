@@ -81,9 +81,9 @@ export const handleRefreshUrl = () => (dispatch, getState) => {
             dispatch(refreshUrl(loadState()))
         }
 
-        const { transactions, callbackUrl } = getState().account.url
+        const { transactions, callbackUrl, meta } = getState().account.url
         if (transactions) {
-            dispatch(parseTransactionsToSign({ transactions, callbackUrl }))
+            dispatch(parseTransactionsToSign({ transactions, callbackUrl, meta }))
         }
     }
 }

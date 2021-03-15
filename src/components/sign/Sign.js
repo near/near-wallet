@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
-import { push } from 'connected-react-router'
 import BN from 'bn.js'
 import { Translate } from 'react-localize-redux'
 import SignContainer from './SignContainer'
@@ -11,6 +10,7 @@ import SignTransferCancelled from './SignTransferCancelled'
 import SignTransferTransferring from './SignTransferTransferring'
 import { signAndSendTransactions, getBalance, handleRefreshUrl } from '../../actions/account'
 import { Mixpanel } from '../../mixpanel'
+import { base_encode } from 'near-api-js/lib/utils/serialize'
 
 class Sign extends Component {
 
@@ -19,16 +19,18 @@ class Sign extends Component {
     }
 
     componentDidMount = () => {
-        this.props.handleRefreshUrl()
-        this.props.getBalance()
+        const { dispatch } = this.props
+        dispatch(handleRefreshUrl())
+        dispatch(getBalance())
     }
 
     handleDeny = e => {
         e.preventDefault();
         Mixpanel.track("SIGN Deny the transaction")
+        const { callbackUrl, meta } = this.props;
         // TODO: Dispatch action for app redirect?
         if (this.props.callbackUrl) {
-            window.location.href = this.props.callbackUrl;
+            window.location.href = addQueryParams(callbackUrl, { meta, errorCode: 'userRejected' })
         }
     }
 
@@ -36,9 +38,16 @@ class Sign extends Component {
         this.setState({ sending: true })
         await Mixpanel.withTracking("SIGN",
             async () => {
-                await this.props.signAndSendTransactions(this.props.transactions, this.props.account.accountId)
+                // TODO: Maybe this needs Redux reducer to propagate result into state?
+                const { transactions, account: { accountId }, callbackUrl, meta, dispatch } = this.props;
+
+                const transactionHashes = await dispatch(signAndSendTransactions(transactions, accountId))
+                console.log('transactionHashes', transactionHashes);
                 if (this.props.callbackUrl) {
-                    window.location.href = this.props.callbackUrl;
+                    window.location.href = addQueryParams(callbackUrl, {
+                        meta,
+                        transactionHashes: transactionHashes.join(',')
+                    })
                 }
             }
         )
@@ -92,11 +101,12 @@ class Sign extends Component {
     }
 }
 
-const mapDispatchToProps = {
-    signAndSendTransactions,
-    push,
-    getBalance,
-    handleRefreshUrl
+function addQueryParams(baseUrl, queryParams) {
+    const url = new URL(baseUrl);
+    for (let key in queryParams) {
+        url.searchParams.set(key, queryParams[key]);
+    }
+    return url.toString();
 }
 
 const mapStateToProps = ({ account, sign }) => ({
@@ -105,6 +115,5 @@ const mapStateToProps = ({ account, sign }) => ({
 })
 
 export const SignWithRouter = connect(
-    mapStateToProps,
-    mapDispatchToProps
+    mapStateToProps
 )(withRouter(Sign))
