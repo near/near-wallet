@@ -253,7 +253,9 @@ export const {
                     mainAccountId: exAccountId
                 }
             }
-            let validator = (await wallet.staking.getValidators([selectedValidator], accountId))[0]
+            let validator = validators.find((validator) => 
+                validator.accountId === selectedValidator
+            )
 
             let totalStaked = ZERO.clone();
             let totalUnclaimed = ZERO.clone();
@@ -294,12 +296,12 @@ export const {
                 accountId: account_id,
                 validators: !validator.remove ? [validator] : [],
                 selectedValidator,
+                totalBalance: total.toString(),
+                totalUnstaked: totalUnstaked.toString(),
+                totalStaked: totalStaked.toString(),
+                totalUnclaimed: totalUnclaimed.toString(),
                 totalPending: totalPending.toString(),
                 totalAvailable: totalAvailable.toString(),
-                totalStaked: totalStaked.toString(),
-                totalUnstaked: totalUnstaked.toString(),
-                totalUnclaimed: totalUnclaimed.toString(),
-                totalBalance: total.toString()
             }
         },
         UPDATE_CURRENT: null,
@@ -380,17 +382,22 @@ export const handleStakingUpdateAccount = (recentlyStakedValidators = [], exAcco
 
     const validatorDepositMap = await getStakingDeposits(accountId)
 
-    const validators = getState().staking.allValidators.filter((validator) => 
-        Object.keys(validatorDepositMap).concat(recentlyStakedValidators).includes(validator.accountId)
-    )
+    const validators = getState().staking.allValidators
+        .filter((validator) => Object.keys(validatorDepositMap).concat(recentlyStakedValidators).includes(validator.accountId))
+        .map((validator) => ({ ...validator }))
 
     await dispatch(staking.updateAccount(balance, validators, accountId, validatorDepositMap))
 }
 
 export const handleStakingUpdateLockup = (exAccountId) => async (dispatch, getState) => {
     const { contract, lockupId: account_id } = getState().staking.lockup
+    const { accountId } = getState().account
 
-    await dispatch(staking.updateLockup(contract, account_id, exAccountId))
+    const validators = getState().staking.allValidators.map((validator) => ({
+        ...validator
+    }))
+
+    await dispatch(staking.updateLockup(contract, account_id, exAccountId, accountId, validators))
 }
 
 export const handleStakingAction = (action, validatorId, amount) => async (dispatch, getState) => {
