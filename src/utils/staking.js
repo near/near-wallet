@@ -77,39 +77,6 @@ export class Staking {
         this.provider = wallet.connection.provider
     }
 
-    async getAccounts() {
-        return { 
-            accountId: this.wallet.accountId, 
-            lockupId : await this.checkLockupExists(this.wallet.accountId)
-        }
-    }
-
-    async checkLockupExists(accountId) {
-        let lockupId
-        try {
-            const { lockupId: _lockupId } = await this.getLockup(accountId)
-            lockupId = _lockupId
-        } catch(e) {
-            if (!/No contract for account/.test(e.message)) {
-                throw e
-            }
-        }
-        return lockupId
-    }
-
-
-    /********************************
-    Staking API for redux actions
-    ********************************/
-
-    /********************************
-    Account
-    ********************************/
-
-    /********************************
-    Helpers
-    ********************************/
-
     async signAndSendTransaction(receiverId, actions) {
         return (await this.wallet.getAccount(this.wallet.accountId)).signAndSendTransaction(receiverId, actions)
     }
