@@ -4,6 +4,7 @@ import { WalletError } from './walletError'
 import { getLockupAccountId } from './account-with-lockup'
 import { ACCOUNT_HELPER_URL } from './wallet'
 import { store } from '..'
+import { wallet } from '../wallet'
 
 const {
     transactions: {
@@ -77,9 +78,11 @@ export class Staking {
         this.provider = wallet.connection.provider
     }
 
-    async signAndSendTransaction(receiverId, actions) {
-        return (await this.wallet.getAccount(this.wallet.accountId)).signAndSendTransaction(receiverId, actions)
-    }
+    
+}
+
+export async function signAndSendTransaction(receiverId, actions) {
+    return (await wallet.getAccount(wallet.accountId)).signAndSendTransaction(receiverId, actions)
 }
 
 export async function updateStakedBalance(validatorId, account_id, contract) {

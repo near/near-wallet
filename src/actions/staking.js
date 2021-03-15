@@ -14,7 +14,8 @@ import {
     lockupMethods,
     STAKING_GAS_BASE,
     EXPLORER_DELAY,
-    updateStakedBalance
+    updateStakedBalance,
+    signAndSendTransaction
 } from '../utils/staking'
 export { ACCOUNT_DEFAULTS } from '../utils/staking'
 
@@ -92,20 +93,20 @@ export const {
                 const selectedValidatorId = await contract.get_staking_pool_account_id()
                 if (validatorId !== selectedValidatorId) {
                     if (selectedValidatorId !== null) {
-                        await this.signAndSendTransaction(lockupId, [
+                        await signAndSendTransaction(lockupId, [
                             functionCall('unselect_staking_pool', {}, STAKING_GAS_BASE, '0')
                         ])
                     }
-                    await this.signAndSendTransaction(lockupId, [
+                    await signAndSendTransaction(lockupId, [
                         functionCall('select_staking_pool', { staking_pool_account_id: validatorId }, STAKING_GAS_BASE * 3, '0')
                     ])
                 }
-                return await wallet.staking.signAndSendTransaction(lockupId, [
+                return await signAndSendTransaction(lockupId, [
                     functionCall('deposit_and_stake', { amount }, STAKING_GAS_BASE * 5, '0')
                 ])
             },
             ACCOUNT: async (validatorId, amount, accountId, contract) => {
-                const result = await wallet.staking.signAndSendTransaction(validatorId, [
+                const result = await signAndSendTransaction(validatorId, [
                     functionCall('deposit_and_stake', {}, STAKING_GAS_BASE * 5, amount)
                 ])
                 // wait for chain/explorer to index results
@@ -117,22 +118,22 @@ export const {
         UNSTAKE: {
             LOCKUP: async (lockupId, amount) => {
                 if (amount) {
-                    return await wallet.staking.signAndSendTransaction(lockupId, [
+                    return await signAndSendTransaction(lockupId, [
                         functionCall('unstake', { amount }, STAKING_GAS_BASE * 5, '0')
                     ])
                 }
-                return await wallet.staking.signAndSendTransaction(lockupId, [
+                return await signAndSendTransaction(lockupId, [
                     functionCall('unstake_all', {}, STAKING_GAS_BASE * 5, '0')
                 ])
             },
             ACCOUNT: async (validatorId, amount, accountId, contract) => {
                 let result
                 if (amount) {
-                    result = await wallet.staking.signAndSendTransaction(validatorId, [
+                    result = await signAndSendTransaction(validatorId, [
                         functionCall('unstake', { amount }, STAKING_GAS_BASE * 5, '0')
                     ])
                 } else {
-                    result = await wallet.staking.signAndSendTransaction(validatorId, [
+                    result = await signAndSendTransaction(validatorId, [
                         functionCall('unstake_all', {}, STAKING_GAS_BASE * 5, '0')
                     ])
                 }
@@ -146,11 +147,11 @@ export const {
             LOCKUP: async (lockupId, amount) => {
                 let result
                 if (amount) {
-                    result = await wallet.staking.signAndSendTransaction(lockupId, [
+                    result = await signAndSendTransaction(lockupId, [
                         functionCall('withdraw_from_staking_pool', { amount }, STAKING_GAS_BASE * 5, '0')
                     ])
                 } else {
-                    result = await wallet.staking.signAndSendTransaction(lockupId, [
+                    result = await signAndSendTransaction(lockupId, [
                         functionCall('withdraw_all_from_staking_pool', {}, STAKING_GAS_BASE * 7, '0')
                     ])
                 }
@@ -162,11 +163,11 @@ export const {
             ACCOUNT: async () => {
                 let result
                 if (amount) {
-                    result = await wallet.staking.signAndSendTransaction(validatorId, [
+                    result = await signAndSendTransaction(validatorId, [
                         functionCall('withdraw', { amount }, STAKING_GAS_BASE * 5, '0')
                     ])
                 } else {
-                    result = await wallet.staking.signAndSendTransaction(validatorId, [
+                    result = await signAndSendTransaction(validatorId, [
                         functionCall('withdraw_all', {}, STAKING_GAS_BASE * 7, '0')
                     ])
                 }
