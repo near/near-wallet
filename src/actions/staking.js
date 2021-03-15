@@ -313,7 +313,15 @@ export const {
             } else {
                 lockupId = getLockupAccountId(accountId)
             }
-            const contract = await wallet.staking.getContractInstance(lockupId, lockupMethods, accountId)
+
+            let contract
+            try {
+                await (await new Account(wallet.connection, contractId)).state()
+                contract = await new Contract(await wallet.getAccountBasic(accountId), contractId, { ...methods })
+            } catch (e) {
+                throw new WalletError('No contract for account', 'staking.noLockup')
+            }
+
             return { contract, lockupId, accountId }
         },
         GET_VALIDATORS: async (accountIds, accountId) => {
