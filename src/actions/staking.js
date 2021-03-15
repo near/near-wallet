@@ -333,7 +333,7 @@ export const {
                     .filter((v) => v.indexOf('nfvalidator') === -1 && v.indexOf(networkId === 'mainnet' ? '.near' : '.m0') > -1)
             }
 
-            const currentAccount = await wallet.getAccount(accountId)
+            const currentAccount = await wallet.getAccountBasic(accountId)
 
             return (await Promise.all(
                 accountIds.map(async (account_id) => {
