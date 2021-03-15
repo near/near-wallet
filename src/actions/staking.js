@@ -11,7 +11,9 @@ import {
     MIN_DISPLAY_YOCTO,
     MIN_LOCKUP_AMOUNT,
     ACCOUNT_DEFAULTS,
-    lockupMethods
+    lockupMethods,
+    STAKING_GAS_BASE,
+    EXPLORER_DELAY
 } from '../utils/staking'
 export { ACCOUNT_DEFAULTS } from '../utils/staking'
 
@@ -85,7 +87,7 @@ export const {
     STAKING: {
         GET_ACCOUNTS: null,
         STAKE: {
-            LOCKUP: async (contract, lockupId, validatorId, amount) => {
+            LOCKUP: async (lockupId, amount, contract, validatorId) => {
                 const selectedValidatorId = await contract.get_staking_pool_account_id()
                 if (validatorId !== selectedValidatorId) {
                     await wallet.staking.lockupSelect(validatorId, lockupId, selectedValidatorId !== null)
@@ -228,7 +230,7 @@ export const {
                 totalAvailable: (totalAvailable.lt(MIN_DISPLAY_YOCTO) ? ZERO : totalAvailable).toString(),
             }
         },
-        UPDATE_LOCKUP: async (contract, account_id, exAccountId) => {
+        UPDATE_LOCKUP: async (contract, account_id, exAccountId, accountId, validators) => {
             // use MIN_LOCKUP_AMOUNT vs. actual storage amount
             const deposited = new BN(await contract.get_known_deposited_balance())
             let totalUnstaked = new BN(await contract.get_owners_balance())
@@ -391,19 +393,20 @@ export const handleStakingUpdateLockup = (exAccountId) => async (dispatch, getSt
     await dispatch(staking.updateLockup(contract, account_id, exAccountId))
 }
 
-export const handleStake = (validatorId, amount) => async (dispatch, getState) => {
+export const handleStakingAction = (action, validatorId, amount) => async (dispatch, getState) => {
     const { accountId } = getState().staking.accountsObj
-    const { currentAccountId } = getState().staking.currentAccount
-    
+    const { accountId: currentAccountId } = getState().staking.currentAccount
+
     const isLockup = currentAccountId !== accountId
+
     if (amount.length < 15) {
         amount = parseNearAmount(amount)
     }
     if (isLockup) {
         const { contract, lockupId } = getState().staking.lockup
-        return dispatch(staking.stake.lockup(contract, lockupId, validatorId, amount))
+        return dispatch(staking[action].lockup(lockupId, amount, contract, validatorId))
     }
-    return dispatch(staking.stake.account(validatorId, amount))
+    return dispatch(staking[action].account(validatorId, amount))
 }
 
 export const handleUnstake = (validatorId, amount) => async (dispatch, getState) => {
