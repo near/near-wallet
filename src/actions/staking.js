@@ -91,7 +91,14 @@ export const {
             LOCKUP: async (lockupId, amount, contract, validatorId) => {
                 const selectedValidatorId = await contract.get_staking_pool_account_id()
                 if (validatorId !== selectedValidatorId) {
-                    await wallet.staking.lockupSelect(validatorId, lockupId, selectedValidatorId !== null)
+                    if (selectedValidatorId !== null) {
+                        await this.signAndSendTransaction(lockupId, [
+                            functionCall('unselect_staking_pool', {}, STAKING_GAS_BASE, '0')
+                        ])
+                    }
+                    await this.signAndSendTransaction(lockupId, [
+                        functionCall('select_staking_pool', { staking_pool_account_id: validatorId }, STAKING_GAS_BASE * 3, '0')
+                    ])
                 }
                 return await wallet.staking.signAndSendTransaction(lockupId, [
                     functionCall('deposit_and_stake', { amount }, STAKING_GAS_BASE * 5, '0')
