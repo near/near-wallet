@@ -21,6 +21,7 @@ import PrivateRoute from './common/PrivateRoute'
 import GuestLandingRoute from './common/GuestLandingRoute'
 import { Wallet } from './wallet/Wallet'
 import { CreateAccountWithRouter } from './accounts/CreateAccount'
+import { LinkdropLandingWithRouter } from './accounts/LinkdropLanding'
 import { SetupRecoveryMethodWithRouter } from './accounts/recovery_setup/SetupRecoveryMethod'
 import { SetupLedgerWithRouter } from './accounts/ledger/SetupLedger'
 import { SetupLedgerSuccessWithRouter } from './accounts/ledger/SetupLedgerSuccess'
@@ -193,6 +194,11 @@ class Routing extends Component {
                                 exact
                                 path='/' 
                                 component={Wallet}
+                            />
+                            <Route
+                                exact
+                                path='/linkdrop/:fundingContract?/:fundingKey?'
+                                component={LinkdropLandingWithRouter}
                             />
                             <Route
                                 exact

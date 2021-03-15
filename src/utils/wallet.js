@@ -410,6 +410,19 @@ class Wallet {
         }, LINKDROP_GAS);
     }
 
+    async claimLinkdropToAccount(fundingContract, fundingKey) {
+        const account = await this.getAccount(fundingContract)
+        await this.keyStore.setKey(NETWORK_ID, fundingContract, KeyPair.fromString(fundingKey))
+        const accountId = this.accountId
+
+        const contract = new nearApiJs.Contract(account, fundingContract, {
+            changeMethods: ['claim'],
+            sender: fundingContract
+        });
+
+        await contract.claim({ account_id: accountId }, LINKDROP_GAS);
+    }
+
     async saveAccount(accountId, keyPair) {
         await this.setKey(accountId, keyPair)
         this.accounts[accountId] = true
