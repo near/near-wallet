@@ -102,18 +102,6 @@ export class Staking {
     Staking API for redux actions
     ********************************/
 
-
-    async getLockup(accountId = this.wallet.accountId) {
-        let lockupId
-        if (process.env.REACT_APP_USE_TESTINGLOCKUP && accountId.length < 64) {
-            lockupId = `testinglockup.${accountId}`
-        } else {
-            lockupId = getLockupAccountId(accountId)
-        }
-        const contract = await this.getContractInstance(lockupId, lockupMethods, accountId)
-        return { contract, lockupId, accountId }
-    }
-
     /********************************
     Account
     ********************************/
