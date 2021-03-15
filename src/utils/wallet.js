@@ -610,6 +610,10 @@ class Wallet {
         return availableKeys
     }
 
+    async getAccountBasic(accountId) {
+        return new nearApiJs.Account(this.connection, accountId)
+    }
+
     async getAccount(accountId) {
         let account = new nearApiJs.Account(this.connection, accountId)
         if (await TwoFactor.has2faEnabled(account)) {
