@@ -158,6 +158,11 @@ export class Staking {
     }
 }
 
+export async function updateStakedBalance(validatorId, account_id, contract) {
+    const lastStakedBalance = await contract.get_account_staked_balance({ account_id })
+    localStorage.setItem(STAKE_VALIDATOR_PREFIX + validatorId + account_id, lastStakedBalance)
+}
+
 export async function getStakingDeposits(accountId) {
     let stakingDeposits = await fetch(ACCOUNT_HELPER_URL + '/staking-deposits/' + accountId).then((r) => r.json()) 
 

@@ -13,7 +13,8 @@ import {
     ACCOUNT_DEFAULTS,
     lockupMethods,
     STAKING_GAS_BASE,
-    EXPLORER_DELAY
+    EXPLORER_DELAY,
+    updateStakedBalance
 } from '../utils/staking'
 export { ACCOUNT_DEFAULTS } from '../utils/staking'
 
@@ -96,13 +97,13 @@ export const {
                     functionCall('deposit_and_stake', { amount }, STAKING_GAS_BASE * 5, '0')
                 ])
             },
-            ACCOUNT: async (validatorId, amount) => {
+            ACCOUNT: async (validatorId, amount, accountId, contract) => {
                 const result = await wallet.staking.signAndSendTransaction(validatorId, [
                     functionCall('deposit_and_stake', {}, STAKING_GAS_BASE * 5, amount)
                 ])
                 // wait for chain/explorer to index results
                 await new Promise((r) => setTimeout(r, EXPLORER_DELAY))
-                await wallet.staking.updateStakedBalance(validatorId)
+                await updateStakedBalance(validatorId, accountId, contract)
                 return result
             },
         },
@@ -117,7 +118,7 @@ export const {
                     functionCall('unstake_all', {}, STAKING_GAS_BASE * 5, '0')
                 ])
             },
-            ACCOUNT: async (validatorId, amount) => {
+            ACCOUNT: async (validatorId, amount, accountId, contract) => {
                 let result
                 if (amount) {
                     result = await wallet.staking.signAndSendTransaction(validatorId, [
@@ -130,7 +131,7 @@ export const {
                 }
                 // wait for explorer to index results
                 await new Promise((r) => setTimeout(r, EXPLORER_DELAY))
-                await wallet.staking.updateStakedBalance(validatorId)
+                await updateStakedBalance(validatorId, accountId, contract)
                 return result
             },
         },
@@ -413,7 +414,8 @@ export const handleStakingAction = (action, validatorId, amount) => async (dispa
         const { contract, lockupId } = getState().staking.lockup
         return dispatch(staking[action].lockup(lockupId, amount, contract, validatorId))
     }
-    return dispatch(staking[action].account(validatorId, amount))
+    const { contract } = getState().staking.allValidators.find((validator) => validator.accountId === validatorId)
+    return dispatch(staking[action].account(validatorId, amount, accountId, contract))
 }
 
 export const updateStakingEx = (currentAccountId, recentlyStakedValidators) => async (dispatch, getState) => {
