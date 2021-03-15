@@ -416,36 +416,6 @@ export const handleStakingAction = (action, validatorId, amount) => async (dispa
     return dispatch(staking[action].account(validatorId, amount))
 }
 
-export const handleUnstake = (validatorId, amount) => async (dispatch, getState) => {
-    const { accountId } = getState().staking.accountsObj
-    const { currentAccountId } = getState().staking.currentAccount
-
-    const isLockup = currentAccountId !== accountId
-    if (amount && amount.length < 15) {
-        amount = parseNearAmount(amount)
-    }
-    if (isLockup) {
-        const { lockupId } = getState().staking.lockup
-        return dispatch(staking.unstake.lockup(lockupId, amount))
-    }
-    return dispatch(staking.unstake.account(validatorId, amount))
-}
-
-export const handleWithdraw = (validatorId, amount) => async (dispatch, getState) => {
-    const { accountId } = getState().staking.accountsObj
-    const { currentAccountId } = getState().staking.currentAccount
-
-    const isLockup = currentAccountId !== accountId
-    if (amount && amount.length < 15) {
-        amount = parseNearAmount(amount)
-    }
-    if (isLockup) {
-        const { lockupId } = getState().staking.lockup
-        return dispatch(staking.withdraw.lockup(lockupId, amount))
-    }
-    return dispatch(staking.withdraw.account(validatorId, amount))
-}
-
 export const updateStakingEx = (currentAccountId, recentlyStakedValidators) => async (dispatch, getState) => {
     const { accountId, lockupId } = (await dispatch(handleGetAccounts())).payload
 
