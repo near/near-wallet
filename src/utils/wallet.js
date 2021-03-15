@@ -883,25 +883,26 @@ class Wallet {
 
     async signAndSendTransactions(transactions, accountId) {
         const account = await this.getAccount(accountId)
-        
-        // TODO move to nearapi js Account.js
-        // TODO: When is this hit? How to get tx hashes?
-        if (account.signAndSendTransactions) {
-            // TODO: Make sure to return transactionHashes for 2FA accounts
-            return account.signAndSendTransactions(transactions)
-        }
 
         store.dispatch(setSignTransactionStatus('in-progress'))
         const transactionHashes = [];
         for (let { receiverId, nonce, blockHash, actions } of transactions) {
-            const [hash, signedTransaction] = await nearApiJs.transactions.signTransaction(receiverId, nonce, actions, blockHash, this.connection.signer, accountId, NETWORK_ID)
-            let { status, transaction } = await this.connection.provider.sendTransaction(signedTransaction)
+            let status, transaction
+            if (account.deployMultisig) {
+                const result = await account.signAndSendTransaction(receiverId, actions)
+                ({ status, transaction } = result)
+            } else {
+                // TODO: Maybe also only take receiverId and actions as with multisig path?
+                const [, signedTransaction] = await nearApiJs.transactions.signTransaction(receiverId, nonce, actions, blockHash, this.connection.signer, accountId, NETWORK_ID);
+                ({ status, transaction } = await this.connection.provider.sendTransaction(signedTransaction))
+            }
 
+            // TODO: Shouldn't throw more specific errors on failure?
             if (status.Failure !== undefined) {
                 throw new Error(`Transaction failure for transaction hash: ${transaction.hash}, receiver_id: ${transaction.receiver_id} .`)
             }
 
-            transactionHashes.push(hash)
+            transactionHashes.push(transaction.hash)
         }
 
         return transactionHashes;

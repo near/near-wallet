@@ -46,7 +46,7 @@ class Sign extends Component {
                 if (this.props.callbackUrl) {
                     window.location.href = addQueryParams(callbackUrl, {
                         meta,
-                        transactionHashes: transactionHashes.map(hash => base_encode(hash)).join(',')
+                        transactionHashes: transactionHashes.join(',')
                     })
                 }
             }
