@@ -102,20 +102,6 @@ export class Staking {
     Staking API for redux actions
     ********************************/
 
-    /********************************
-    Lockup
-    ********************************/
-
-    async lockupSelect(validatorId, lockupId, unselect = false) {
-        if (unselect) {
-            await this.signAndSendTransaction(lockupId, [
-                functionCall('unselect_staking_pool', {}, STAKING_GAS_BASE, '0')
-            ])
-        }
-        await this.signAndSendTransaction(lockupId, [
-            functionCall('select_staking_pool', { staking_pool_account_id: validatorId }, STAKING_GAS_BASE * 3, '0')
-        ])
-    }
 
     async getLockup(accountId = this.wallet.accountId) {
         let lockupId
