@@ -37,7 +37,6 @@ const {
     Contract
 } = nearApiJs
 
-
 export const { staking } = createActions({
     STAKING: {
         GET_ACCOUNTS: null,
