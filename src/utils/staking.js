@@ -1,18 +1,14 @@
 import * as nearApiJs from 'near-api-js'
 import BN from 'bn.js'
+
 import { ACCOUNT_HELPER_URL, wallet } from './wallet'
 
 const {
-    transactions: {
-        functionCall
-    },
     utils: {
         format: {
             parseNearAmount
         }
-    },
-    Account,
-    Contract
+    }
 } = nearApiJs
 
 export const STAKING_AMOUNT_DEVIATION = parseNearAmount('0.00001')
@@ -64,18 +60,6 @@ export const lockupMethods = {
         'get_staking_pool_account_id',
         'get_known_deposited_balance',
     ]
-}
-
-// caching value in module, no need to fetch frequently
-let ghValidators
-
-export class Staking {
-    constructor(wallet) {
-        this.wallet = wallet
-        this.provider = wallet.connection.provider
-    }
-
-    
 }
 
 export async function signAndSendTransaction(receiverId, actions) {
