@@ -4,10 +4,11 @@ import reduceReducers from 'reduce-reducers'
 import { 
     updateStaking,
     switchAccount,
-    ACCOUNT_DEFAULTS,
-    
     staking
  } from '../../actions/staking'
+ import {
+    ACCOUNT_DEFAULTS
+ } from '../../utils/staking'
 import { selectAccount } from '../../actions/account'
 
 // sample validator entry

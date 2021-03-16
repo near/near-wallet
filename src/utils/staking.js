@@ -1,10 +1,6 @@
 import * as nearApiJs from 'near-api-js'
 import BN from 'bn.js'
-import { WalletError } from './walletError'
-import { getLockupAccountId } from './account-with-lockup'
-import { ACCOUNT_HELPER_URL } from './wallet'
-import { store } from '..'
-import { wallet } from '../wallet'
+import { ACCOUNT_HELPER_URL, wallet } from './wallet'
 
 const {
     transactions: {
@@ -19,15 +15,6 @@ const {
     Contract
 } = nearApiJs
 
-export const ACCOUNT_DEFAULTS = {
-    selectedValidator: '',
-    totalPending: '0', // pending withdrawal
-    totalAvailable: '0', // available for withdrawal
-    totalUnstaked: '0', // available to be staked
-    totalStaked: '0', 
-    totalUnclaimed: '0', // total rewards paid out - staking deposits made
-    validators: [],
-}
 export const STAKING_AMOUNT_DEVIATION = parseNearAmount('0.00001')
 
 const STAKE_VALIDATOR_PREFIX = '__SVPRE__'
@@ -37,7 +24,17 @@ export const EXPLORER_DELAY = 2000
 export const MIN_LOCKUP_AMOUNT = new BN(process.env.MIN_LOCKUP_AMOUNT || parseNearAmount('35.00001'))
 export const STAKING_GAS_BASE = process.env.REACT_APP_STAKING_GAS_BASE || '25000000000000' // 25 Tgas
 
-const stakingMethods = {
+export const ACCOUNT_DEFAULTS = {
+    selectedValidator: '',
+    totalPending: '0', // pending withdrawal
+    totalAvailable: '0', // available for withdrawal
+    totalUnstaked: '0', // available to be staked
+    totalStaked: '0', 
+    totalUnclaimed: '0', // total rewards paid out - staking deposits made
+    validators: [],
+}
+
+export const stakingMethods = {
     viewMethods: [
         'get_account_staked_balance',
         'get_account_unstaked_balance',
