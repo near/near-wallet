@@ -889,7 +889,12 @@ class Wallet {
         for (let { receiverId, nonce, blockHash, actions } of transactions) {
             let status, transaction
             if (account.deployMultisig) {
+                console.log('account', account);
+                console.log('transaction', receiverId, actions);
+                window.account = account;
                 const result = await account.signAndSendTransaction(receiverId, actions)
+                window.lastTx = { receiverId, actions, result };
+                console.log('result', result);
                 ({ status, transaction } = result)
             } else {
                 // TODO: Maybe also only take receiverId and actions as with multisig path?
