@@ -24,76 +24,58 @@ const initialState = {
 }
 
 const stakingHandlers = handleActions({
-    [staking.getAccounts]: (state, { ready, error, payload }) => {
-        return {
-            ...state,
-            accounts: Object.values(payload).map((accountId) => ({
-                accountId 
-            })),
-            accountsObj: payload
-        }
-    },
-    [staking.updateAccount]: (state, { ready, error, payload }) => {
-        if (error || !ready) {
-            return state
-        }
-        
-        return {
-            ...state,
-            accounts: state.accounts.map((account) => account.accountId === payload.accountId
-                ? ({
-                    ...account,
-                    ...payload
-                }) : account
-            )
-        }
-    },
-    [staking.updateLockup]: (state, { ready, error, payload }) => {
-        if (error || !ready) {
-            return state
-        }
-
-        return {
-            ...state,
-            accounts: state.accounts.map((account) => account.accountId === payload.accountId
-                ? ({
-                    ...account,
-                    ...payload
-                }) : account
-            )
-        }
-    },
-
-
-    [staking.updateCurrent]: (state, { payload }) => {
-        return {
-            ...state,
-            currentAccount: state.accounts.find((account) => account.accountId === payload)
-        }
-    },
-    [staking.getLockup]: (state, { ready, error, payload }) => {
-        if (error || !ready) {
-            return state
-        }
-
-        return {
-            ...state,
-            lockup: payload
-        }
-    },
-    [staking.getValidators]: (state, { ready, error, payload }) => {
-        if (error || !ready) {
-            return state
-        }
-
-        return {
-            ...state,
-            allValidators: payload
-        }
-    }
+    [staking.getAccounts]: (state, { payload }) => ({
+        ...state,
+        accounts: Object.values(payload).map((accountId) => ({
+            accountId 
+        })),
+        accountsObj: payload
+    }),
+    [staking.updateAccount]: (state, { ready, error, payload }) => 
+        (!ready || error)
+            ? state
+            : ({
+                ...state,
+                accounts: state.accounts.map((account) => account.accountId === payload.accountId
+                    ? ({
+                        ...account,
+                        ...payload
+                    }) : account
+                )
+            }),
+    [staking.updateLockup]: (state, { ready, error, payload }) => 
+        (!ready || error)
+            ? state
+            : ({
+                ...state,
+                accounts: state.accounts.map((account) => account.accountId === payload.accountId
+                    ? ({
+                        ...account,
+                        ...payload
+                    }) : account
+                )
+            }),
+    [staking.updateCurrent]: (state, { payload }) => ({
+        ...state,
+        currentAccount: state.accounts.find((account) => account.accountId === payload)
+    }),
+    [staking.getLockup]: (state, { ready, error, payload }) => 
+        (!ready || error)
+            ? state
+            : ({
+                ...state,
+                lockup: payload
+            }),
+    [staking.getValidators]: (state, { ready, error, payload }) => 
+        (!ready || error)
+            ? state
+            : ({
+                ...state,
+                allValidators: payload
+            }),
 }, initialState)
 
 export default reduceReducers(
     initialState,
-    stakingHandlers,
+    stakingHandlers
 )
