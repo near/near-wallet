@@ -99,95 +99,113 @@ export const {
     STAKING: {
         GET_ACCOUNTS: null,
         STAKE: {
-            LOCKUP: async (lockupId, amount, contract, validatorId) => {
-                const selectedValidatorId = await contract.get_staking_pool_account_id()
-                if (validatorId !== selectedValidatorId) {
-                    if (selectedValidatorId !== null) {
+            LOCKUP: [
+                async (lockupId, amount, contract, validatorId) => {
+                    const selectedValidatorId = await contract.get_staking_pool_account_id()
+                    if (validatorId !== selectedValidatorId) {
+                        if (selectedValidatorId !== null) {
+                            await signAndSendTransaction(lockupId, [
+                                functionCall('unselect_staking_pool', {}, STAKING_GAS_BASE, '0')
+                            ])
+                        }
                         await signAndSendTransaction(lockupId, [
-                            functionCall('unselect_staking_pool', {}, STAKING_GAS_BASE, '0')
+                            functionCall('select_staking_pool', { staking_pool_account_id: validatorId }, STAKING_GAS_BASE * 3, '0')
                         ])
                     }
-                    await signAndSendTransaction(lockupId, [
-                        functionCall('select_staking_pool', { staking_pool_account_id: validatorId }, STAKING_GAS_BASE * 3, '0')
+                    return await signAndSendTransaction(lockupId, [
+                        functionCall('deposit_and_stake', { amount }, STAKING_GAS_BASE * 5, '0')
                     ])
-                }
-                return await signAndSendTransaction(lockupId, [
-                    functionCall('deposit_and_stake', { amount }, STAKING_GAS_BASE * 5, '0')
-                ])
-            },
-            ACCOUNT: async (validatorId, amount, accountId, contract) => {
-                const result = await signAndSendTransaction(validatorId, [
-                    functionCall('deposit_and_stake', {}, STAKING_GAS_BASE * 5, amount)
-                ])
-                // wait for chain/explorer to index results
-                await new Promise((r) => setTimeout(r, EXPLORER_DELAY))
-                await updateStakedBalance(validatorId, accountId, contract)
-                return result
-            },
+                },
+                () => showAlert()
+            ],
+            ACCOUNT: [
+                async (validatorId, amount, accountId, contract) => {
+                    const result = await signAndSendTransaction(validatorId, [
+                        functionCall('deposit_and_stake', {}, STAKING_GAS_BASE * 5, amount)
+                    ])
+                    // wait for chain/explorer to index results
+                    await new Promise((r) => setTimeout(r, EXPLORER_DELAY))
+                    await updateStakedBalance(validatorId, accountId, contract)
+                    return result
+                },
+                () => showAlert()
+            ],
         },
         UNSTAKE: {
-            LOCKUP: async (lockupId, amount) => {
-                if (amount) {
+            LOCKUP: [
+                async (lockupId, amount) => {
+                    if (amount) {
+                        return await signAndSendTransaction(lockupId, [
+                            functionCall('unstake', { amount }, STAKING_GAS_BASE * 5, '0')
+                        ])
+                    }
                     return await signAndSendTransaction(lockupId, [
-                        functionCall('unstake', { amount }, STAKING_GAS_BASE * 5, '0')
-                    ])
-                }
-                return await signAndSendTransaction(lockupId, [
-                    functionCall('unstake_all', {}, STAKING_GAS_BASE * 5, '0')
-                ])
-            },
-            ACCOUNT: async (validatorId, amount, accountId, contract) => {
-                let result
-                if (amount) {
-                    result = await signAndSendTransaction(validatorId, [
-                        functionCall('unstake', { amount }, STAKING_GAS_BASE * 5, '0')
-                    ])
-                } else {
-                    result = await signAndSendTransaction(validatorId, [
                         functionCall('unstake_all', {}, STAKING_GAS_BASE * 5, '0')
                     ])
-                }
-                // wait for explorer to index results
-                await new Promise((r) => setTimeout(r, EXPLORER_DELAY))
-                await updateStakedBalance(validatorId, accountId, contract)
-                return result
-            },
+                },
+                () => showAlert()
+            ],
+            ACCOUNT: [
+                async (validatorId, amount, accountId, contract) => {
+                    let result
+                    if (amount) {
+                        result = await signAndSendTransaction(validatorId, [
+                            functionCall('unstake', { amount }, STAKING_GAS_BASE * 5, '0')
+                        ])
+                    } else {
+                        result = await signAndSendTransaction(validatorId, [
+                            functionCall('unstake_all', {}, STAKING_GAS_BASE * 5, '0')
+                        ])
+                    }
+                    // wait for explorer to index results
+                    await new Promise((r) => setTimeout(r, EXPLORER_DELAY))
+                    await updateStakedBalance(validatorId, accountId, contract)
+                    return result
+                },
+                () => showAlert()
+            ],
         },
         WITHDRAW: {
-            LOCKUP: async (lockupId, amount) => {
-                let result
-                if (amount) {
-                    result = await signAndSendTransaction(lockupId, [
-                        functionCall('withdraw_from_staking_pool', { amount }, STAKING_GAS_BASE * 5, '0')
-                    ])
-                } else {
-                    result = await signAndSendTransaction(lockupId, [
-                        functionCall('withdraw_all_from_staking_pool', {}, STAKING_GAS_BASE * 7, '0')
-                    ])
-                }
-                if (result === false) {
-                    throw new WalletError('Unable to withdraw pending balance from validator', 'staking.noWithdraw')
-                }
-                return result
-            },
-            ACCOUNT: async () => {
-                let result
-                if (amount) {
-                    result = await signAndSendTransaction(validatorId, [
-                        functionCall('withdraw', { amount }, STAKING_GAS_BASE * 5, '0')
-                    ])
-                } else {
-                    result = await signAndSendTransaction(validatorId, [
-                        functionCall('withdraw_all', {}, STAKING_GAS_BASE * 7, '0')
-                    ])
-                }
-                if (result === false) {
-                    throw new WalletError('Unable to withdraw pending balance from validator', 'staking.noWithdraw')
-                }
-                // wait for explorer to index results
-                await new Promise((r) => setTimeout(r, EXPLORER_DELAY))
-                return result
-            },
+            LOCKUP: [
+                async (lockupId, amount) => {
+                    let result
+                    if (amount) {
+                        result = await signAndSendTransaction(lockupId, [
+                            functionCall('withdraw_from_staking_pool', { amount }, STAKING_GAS_BASE * 5, '0')
+                        ])
+                    } else {
+                        result = await signAndSendTransaction(lockupId, [
+                            functionCall('withdraw_all_from_staking_pool', {}, STAKING_GAS_BASE * 7, '0')
+                        ])
+                    }
+                    if (result === false) {
+                        throw new WalletError('Unable to withdraw pending balance from validator', 'staking.noWithdraw')
+                    }
+                    return result
+                },
+                () => showAlert()
+            ],
+            ACCOUNT: [
+                async () => {
+                    let result
+                    if (amount) {
+                        result = await signAndSendTransaction(validatorId, [
+                            functionCall('withdraw', { amount }, STAKING_GAS_BASE * 5, '0')
+                        ])
+                    } else {
+                        result = await signAndSendTransaction(validatorId, [
+                            functionCall('withdraw_all', {}, STAKING_GAS_BASE * 7, '0')
+                        ])
+                    }
+                    if (result === false) {
+                        throw new WalletError('Unable to withdraw pending balance from validator', 'staking.noWithdraw')
+                    }
+                    // wait for explorer to index results
+                    await new Promise((r) => setTimeout(r, EXPLORER_DELAY))
+                    return result
+                },
+                () => showAlert()
+            ],
         },
         UPDATE_ACCOUNT: async (balance, validators, accountId, validatorDepositMap) => {
             let totalUnstaked = new BN(balance.available)
