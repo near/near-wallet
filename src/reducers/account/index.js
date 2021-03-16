@@ -121,32 +121,26 @@ const account = handleActions({
         ...state,
         loginResetAccounts: true
     }),
-    [staking.updateAccount]: (state, { ready, error, payload }) => {
-        if (error || !ready) {
-            return state
-        }
-
-        return {
-            ...state,
-            balance: {
-                ...state.balance,
-                account: payload
-            }
-        }
-    },
-    [staking.updateLockup]: (state, { ready, error, payload }) => {
-        if (error || !ready) {
-            return state
-        }
-        
-        return {
-            ...state,
-            balance: {
-                ...state.balance,
-                lockupAccount: payload
-            }
-        }
-    },
+    [staking.updateAccount]: (state, { ready, error, payload }) => 
+        (!ready || error)
+            ? state
+            : ({
+                ...state,
+                balance: {
+                    ...state.balance,
+                    account: payload
+                }
+            }),
+    [staking.updateLockup]: (state, { ready, error, payload }) => 
+        (!ready || error)
+            ? state
+            : ({
+                ...state,
+                balance: {
+                    ...state.balance,
+                    lockupAccount: payload
+                }
+            }),
     [getBalance]: (state, { error, payload, ready}) => 
         (!ready || error)
             ? state
