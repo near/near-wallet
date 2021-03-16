@@ -42,7 +42,7 @@ import { NodeStakingWithRouter } from './node-staking/NodeStaking'
 import { AddNodeWithRouter } from './node-staking/AddNode'
 import { NodeDetailsWithRouter } from './node-staking/NodeDetails'
 import { StakingContainer } from './staking/StakingContainer'
-import { DISABLE_SEND_MONEY, WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS } from '../utils/wallet'
+import { DISABLE_SEND_MONEY, WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS, IS_MAINNET, SHOW_PRERELEASE_WARNING } from '../utils/wallet'
 import { refreshAccount, handleRefreshUrl, handleRedirectUrl, handleClearUrl, promptTwoFactor } from '../actions/account'
 import LedgerConfirmActionModal from './accounts/ledger/LedgerConfirmActionModal';
 
@@ -52,6 +52,7 @@ import { SetupImplicitWithRouter } from './accounts/SetupImplicit'
 import { SetupImplicitSuccess } from './accounts/SetupImplicitSuccess'
 import { handleClearAlert} from '../utils/alerts'
 import { Mixpanel } from "../mixpanel/index";
+import classNames from '../utils/classNames';
 
 const theme = {}
 
@@ -71,6 +72,14 @@ const Container = styled.div`
         .App {
             .main {
                 padding-bottom: 0px;
+            }
+        }
+    }
+
+    &.network-banner {
+        @media (max-width: 450px) {
+            .alert-banner, .lockup-avail-transfer {
+                margin-top: -35px;
             }
         }
     }
@@ -153,7 +162,7 @@ class Routing extends Component {
     render() {
         const { search } = this.props.router.location
         return (
-            <Container className='App' id='app-container'>
+            <Container className={classNames(['App', {'network-banner': (!IS_MAINNET || SHOW_PRERELEASE_WARNING)}])} id='app-container'>
                 <GlobalStyle />
                 <ConnectedRouter basename={PATH_PREFIX} history={this.props.history}>
                     <ThemeProvider theme={theme}>
