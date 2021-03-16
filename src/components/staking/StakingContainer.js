@@ -186,9 +186,9 @@ export function StakingContainer({ history, match }) {
         }
     }, [accountId, !!balance.available])
 
-    const handleSwitchAccount = async (accountId) => {
+    const handleSwitchAccount = (accountId) => {
         setStakingAccountSelected(accountId)
-        await dispatch(stakingActions.updateCurrent(accountId))
+        dispatch(stakingActions.updateCurrent(accountId))
     }
 
     const handleAction = async (action, validator, amount) => {
