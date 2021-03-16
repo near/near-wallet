@@ -404,10 +404,10 @@ export const handleStakingAction = (action, validatorId, amount) => async (dispa
     await dispatch(staking[action].account(validatorId, amount, accountId, contract))
 
     await dispatch(getBalance())
-    await dispatch(updateStakingEx(currentAccountId, [validatorId]))
+    await dispatch(updateStaking(currentAccountId, [validatorId]))
 }
 
-export const updateStakingEx = (currentAccountId, recentlyStakedValidators) => async (dispatch, getState) => {
+export const updateStaking = (currentAccountId, recentlyStakedValidators) => async (dispatch, getState) => {
     const { accountId, lockupId } = (await dispatch(handleGetAccounts())).payload
 
     await dispatch(staking.getValidators(null, accountId))
