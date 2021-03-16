@@ -2,58 +2,28 @@ import { wallet } from '../utils/wallet'
 import { createActions } from 'redux-actions'
 import BN from 'bn.js'
 import * as nearApiJs from 'near-api-js'
+
+import { wallet } from '../utils/wallet'
 import { WalletError } from '../utils/walletError'
 import { getLockupAccountId } from '../utils/account-with-lockup'
-
 import { showAlert } from '../utils/alerts'
 import { 
-    getStakingDeposits, 
     STAKING_AMOUNT_DEVIATION,
-    ZERO,
     MIN_DISPLAY_YOCTO,
+    ZERO,
     MIN_LOCKUP_AMOUNT,
-    lockupMethods,
     STAKING_GAS_BASE,
     EXPLORER_DELAY,
+    ACCOUNT_DEFAULTS,
+    getStakingDeposits, 
+    lockupMethods,
     updateStakedBalance,
-    signAndSendTransaction
+    signAndSendTransaction,
+    stakingMethods
 } from '../utils/staking'
 import { getBalance } from './account'
 
-export const ACCOUNT_DEFAULTS = {
-    selectedValidator: '',
-    totalPending: '0', // pending withdrawal
-    totalAvailable: '0', // available for withdrawal
-    totalUnstaked: '0', // available to be staked
-    totalStaked: '0', 
-    totalUnclaimed: '0', // total rewards paid out - staking deposits made
-    validators: [],
-}
-
 let ghValidators
-
-// to przeniesc do redux???
-const stakingMethods = {
-    viewMethods: [
-        'get_account_staked_balance',
-        'get_account_unstaked_balance',
-        'get_account_total_balance',
-        'is_account_unstaked_balance_available',
-        'get_total_staked_balance',
-        'get_owner_id',
-        'get_reward_fee_fraction',
-    ],
-    changeMethods: [
-        'ping',
-        'deposit',
-        'deposit_and_stake',
-        'deposit_to_staking_pool',
-        'stake',
-        'stake_all',
-        'unstake',
-        'withdraw',
-    ],
-}
 
 const {
     transactions: {
