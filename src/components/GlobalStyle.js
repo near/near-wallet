@@ -58,6 +58,7 @@ export default createGlobalStyle`
 
     body, p, h1, h2, h3, h4, h5, h6, button, .button, input, select, textarea {
         font-family: "Inter", Lato, "Lucida Grande", Tahoma, Sans-Serif !important;
+        font-variant: slashed-zero;
     }
 
     .font-monospace {
