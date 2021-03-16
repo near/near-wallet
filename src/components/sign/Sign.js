@@ -10,7 +10,6 @@ import SignTransferCancelled from './SignTransferCancelled'
 import SignTransferTransferring from './SignTransferTransferring'
 import { signAndSendTransactions, getBalance, handleRefreshUrl } from '../../actions/account'
 import { Mixpanel } from '../../mixpanel'
-import { base_encode } from 'near-api-js/lib/utils/serialize'
 
 class Sign extends Component {
 
