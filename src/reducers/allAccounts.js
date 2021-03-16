@@ -17,38 +17,32 @@ const allAccountsReducer = handleActions({
                     ...payload
                 }
             }),
-    [staking.updateAccount]: (state, { ready, error, payload, meta }) => {
-        if (error || !ready || !state[payload.accountId]) {
-            return state
-        }
-
-        return {
-            ...state,
-            [payload.accountId]: { 
-                ...state[payload.accountId],
-                balance: {
-                    ...state[payload.accountId].balance,
-                    account: payload
+    [staking.updateAccount]: (state, { ready, error, payload }) => 
+        (!ready || error)
+            ? state
+            : ({
+                ...state,
+                [payload.accountId]: { 
+                    ...state[payload.accountId],
+                    balance: {
+                        ...state[payload.accountId].balance,
+                        account: payload
+                    }
                 }
-            }
-        }
-    },
-    [staking.updateLockup]: (state, { ready, error, payload, meta }) => {
-        if (error || !ready || !payload.mainAccountId) {
-            return state
-        }
-
-        return {
-            ...state,
-            [payload.mainAccountId]: { 
-                ...state[payload.mainAccountId],
-                balance: {
-                    ...state[payload.mainAccountId].balance,
-                    lockupAccount: payload
+            }),
+    [staking.updateLockup]: (state, { ready, error, payload }) => 
+        (!ready || error)
+            ? state
+            : ({
+                ...state,
+                [payload.mainAccountId]: { 
+                    ...state[payload.mainAccountId],
+                    balance: {
+                        ...state[payload.mainAccountId].balance,
+                        lockupAccount: payload
+                    }
                 }
-            }
-        }
-    },
+            }),
 }, initialState)
 
 
