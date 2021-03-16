@@ -1,23 +1,15 @@
 import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import {
-    updateStaking,
-    switchAccount,
-    stake,
-    unstake,
-    withdraw,
-    stakingUpdateCurrent,
-    staking as stakingActions,
-    handleStake,
-    handleUnstake,
-    handleWithdraw,
-    handleStakingAction
-} from '../../actions/staking'
-import { clearGlobalAlert }from '../../actions/status'
-import styled from 'styled-components'
-import Container from '../common/styled/Container.css'
 import { Switch, Route } from 'react-router-dom'
 import { ConnectedRouter } from 'connected-react-router'
+import styled from 'styled-components'
+
+import {
+    updateStaking,
+    staking as stakingActions,
+    handleStakingAction
+} from '../../actions/staking'
+import Container from '../common/styled/Container.css'
 import Staking from './components/Staking'
 import Validators from './components/Validators'
 import Validator from './components/Validator'
