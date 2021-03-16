@@ -18,6 +18,7 @@ import {
     updateStakedBalance,
     signAndSendTransaction
 } from '../utils/staking'
+import { getBalance } from './account'
 
 export const ACCOUNT_DEFAULTS = {
     selectedValidator: '',
@@ -459,7 +460,10 @@ export const handleStakingAction = (action, validatorId, amount) => async (dispa
         return dispatch(staking[action].lockup(lockupId, amount, contract, validatorId))
     }
     const { contract } = getState().staking.allValidators.find((validator) => validator.accountId === validatorId)
-    return dispatch(staking[action].account(validatorId, amount, accountId, contract))
+    await dispatch(staking[action].account(validatorId, amount, accountId, contract))
+
+    await dispatch(getBalance())
+    await dispatch(updateStakingEx(currentAccountId, [validatorId]))
 }
 
 export const updateStakingEx = (currentAccountId, recentlyStakedValidators) => async (dispatch, getState) => {
