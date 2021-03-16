@@ -191,27 +191,9 @@ export function StakingContainer({ history, match }) {
         setStakingAccountSelected(accountId)
         await dispatch(stakingActions.updateCurrent(accountId))
     }
-    
-    const handleStaking = async (action, validator, amount) => {
-        if (action === 'stake') {
-            await dispatch(handleStakingAction('stake', validator, amount))
-        } else if (action === 'unstake') {
-            await dispatch(handleStakingAction('unstake', selectedValidator || validator, amount))
-        }
-        await dispatch(clearGlobalAlert())
-        await dispatch(getBalance())
-        
-        
-        // await dispatch(updateStaking(currentAccount.accountId, [validator]))
-        await dispatch(updateStakingEx(currentAccount.accountId, [validator]))
-    }
 
-    const handleWithDraw = async () => {
-        await dispatch(handleStakingAction('withdraw', selectedValidator || validator.accountId))
-        await dispatch(getBalance())
-
-        // await dispatch(updateStaking(currentAccount.accountId))
-        await dispatch(updateStakingEx(currentAccount.accountId))
+    const handleAction = async (action, validator, amount) => {
+        await dispatch(handleStakingAction(action, selectedValidator || validator, amount))
     }
 
     return (
@@ -252,7 +234,7 @@ export function StakingContainer({ history, match }) {
                             <Validator 
                                 {...props} 
                                 validator={validator}
-                                onWithdraw={handleWithDraw}
+                                onWithdraw={handleAction}
                                 loading={status.mainLoader}
                                 selectedValidator={selectedValidator}
                                 currentValidators={currentValidators}
@@ -266,7 +248,7 @@ export function StakingContainer({ history, match }) {
                             <StakingAction
                                 {...props}
                                 action='stake'
-                                handleStakingAction={handleStaking}
+                                handleStakingAction={handleAction}
                                 availableBalance={totalUnstaked} 
                                 validator={validator}
                                 loading={status.mainLoader}
@@ -283,7 +265,7 @@ export function StakingContainer({ history, match }) {
                             <StakingAction
                                 {...props}
                                 action='unstake'
-                                handleStakingAction={handleStaking}
+                                handleStakingAction={handleAction}
                                 availableBalance={totalUnstaked}
                                 validator={validator}
                                 loading={status.mainLoader}
