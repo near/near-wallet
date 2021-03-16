@@ -18,7 +18,7 @@ const allAccountsReducer = handleActions({
                 }
             }),
     [staking.updateAccount]: (state, { ready, error, payload }) => 
-        (!ready || error)
+        (error || !ready || !state[payload.accountId])
             ? state
             : ({
                 ...state,
@@ -31,7 +31,7 @@ const allAccountsReducer = handleActions({
                 }
             }),
     [staking.updateLockup]: (state, { ready, error, payload }) => 
-        (!ready || error)
+        (error || !ready || !payload.mainAccountId)
             ? state
             : ({
                 ...state,
