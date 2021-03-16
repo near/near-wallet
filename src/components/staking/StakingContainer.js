@@ -6,7 +6,6 @@ import {
     stake,
     unstake,
     withdraw,
-    updateStakingEx,
     stakingUpdateCurrent,
     staking as stakingActions,
     handleStake,
@@ -183,7 +182,7 @@ export function StakingContainer({ history, match }) {
     useEffect(() => {
         dispatch(getBalance())
         if (!!balance.available) {
-            dispatch(updateStakingEx(getStakingAccountSelected()))
+            dispatch(updateStaking(getStakingAccountSelected()))
         }
     }, [accountId, !!balance.available])
 
