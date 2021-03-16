@@ -84,8 +84,9 @@ export function Wallet() {
         dispatch(getTransactions(accountId))
     }, [])
 
-    // TODO: Refactor loading token balances using Redux?
-    const contracts = ['berryclub.ek.near', 'farm.berryclub.ek.near', 'wrap.near'];
+    // TODO: Refactor loading token balances using Redux
+    // TODO: Load potential token contract list from contract helper
+    const contracts = (process.env.TOKEN_CONTRACTS || 'berryclub.ek.near,farm.berryclub.ek.near,wrap.near').split(',');
     const [tokens, setTokens] = useState(contracts.map(contract => ({ contract })));
 
     useEffect(() => {
