@@ -24,9 +24,8 @@ export default function Validator({
     const showConfirmModal = confirm === 'withdraw'
 
     const handleStakeAction = async () => {
-        if (showConfirmModal && !loading) {
-           await onWithdraw()
-           setConfirm('done')
+        if (confirm === 'withdraw') {
+           await onWithdraw('withdraw', selectedValidator || validator.accountId)
         }
     }
 
