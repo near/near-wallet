@@ -187,7 +187,7 @@ export const {
                 () => showAlert()
             ],
             ACCOUNT: [
-                async () => {
+                async (validatorId) => {
                     let result
                     if (amount) {
                         result = await signAndSendTransaction(validatorId, [
