@@ -411,8 +411,8 @@ class Wallet {
     }
 
     async claimLinkdropToAccount(fundingContract, fundingKey) {
-        const account = await this.getAccount(fundingContract)
         await this.keyStore.setKey(NETWORK_ID, fundingContract, KeyPair.fromString(fundingKey))
+        const account = await this.getAccount(fundingContract)
         const accountId = this.accountId
 
         const contract = new nearApiJs.Contract(account, fundingContract, {

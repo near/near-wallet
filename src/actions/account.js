@@ -296,7 +296,7 @@ export const {
         wallet.checkNearDropBalance.bind(wallet),
         () => ({})
     ],
-    CLAIM_LINK_DROP_TO_ACCOUNT: [
+    CLAIM_LINKDROP_TO_ACCOUNT: [
         wallet.claimLinkdropToAccount.bind(wallet),
         () => showAlert()
     ],

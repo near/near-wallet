@@ -54,12 +54,14 @@ class LinkdropLanding extends Component {
     }
 
     render() {
+        const { fundingContract, fundingKey } = this.props
+
         return (
             <StyledContainer className='small-centered'>
                 <h1><span role='img' aria-label='hooray'>🎉</span> Hooray! <span role='img' aria-label='hooray'>🎉</span></h1>
                 <h1>You've got <Balance amount={this.state.balance} symbol='near'/>!</h1>
                 <FormButton onClick={this.handleClaimNearDrop} sending={this.props.mainLoader}>Claim to My Account:<br/>{this.props.accountId}</FormButton>
-                <FormButton color='gray-blue'>Create a New Account</FormButton>
+                <FormButton color='gray-blue' linkTo={`/create/${fundingContract}/${fundingKey}`}>Create New Account</FormButton>
             </StyledContainer>
         )
     }
