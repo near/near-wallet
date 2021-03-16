@@ -1,4 +1,3 @@
-import { wallet } from '../utils/wallet'
 import { createActions } from 'redux-actions'
 import BN from 'bn.js'
 import * as nearApiJs from 'near-api-js'
@@ -38,35 +37,8 @@ const {
     Contract
 } = nearApiJs
 
-export const {
-    switchAccount,
-    updateStaking,
-    stake,
-    unstake,
-    withdraw,
-    staking
-} = createActions({
-    SWITCH_ACCOUNT: [
-        wallet.staking.switchAccount.bind(wallet.staking),
-        () => ({})
-    ],
-    UPDATE_STAKING: [
-        wallet.staking.updateStaking.bind(wallet.staking),
-        () => ({})
-    ],
-    STAKE: [
-        wallet.staking.stake.bind(wallet.staking),
-        () => showAlert({ onlyError: true })
-    ],
-    UNSTAKE: [
-        wallet.staking.unstake.bind(wallet.staking),
-        () => showAlert({ onlyError: true })
-    ],
-    WITHDRAW: [
-        wallet.staking.withdraw.bind(wallet.staking),
-        () => showAlert({ onlyError: true })
-    ],
 
+export const { staking } = createActions({
     STAKING: {
         GET_ACCOUNTS: null,
         STAKE: {
