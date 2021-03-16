@@ -2,6 +2,8 @@ import { wallet } from '../utils/wallet'
 import { createActions } from 'redux-actions'
 import BN from 'bn.js'
 import * as nearApiJs from 'near-api-js'
+import { WalletError } from '../utils/walletError'
+import { getLockupAccountId } from '../utils/account-with-lockup'
 
 import { showAlert } from '../utils/alerts'
 import { 
@@ -10,14 +12,22 @@ import {
     ZERO,
     MIN_DISPLAY_YOCTO,
     MIN_LOCKUP_AMOUNT,
-    ACCOUNT_DEFAULTS,
     lockupMethods,
     STAKING_GAS_BASE,
     EXPLORER_DELAY,
     updateStakedBalance,
     signAndSendTransaction
 } from '../utils/staking'
-export { ACCOUNT_DEFAULTS } from '../utils/staking'
+
+export const ACCOUNT_DEFAULTS = {
+    selectedValidator: '',
+    totalPending: '0', // pending withdrawal
+    totalAvailable: '0', // available for withdrawal
+    totalUnstaked: '0', // available to be staked
+    totalStaked: '0', 
+    totalUnclaimed: '0', // total rewards paid out - staking deposits made
+    validators: [],
+}
 
 let ghValidators
 
@@ -324,8 +334,8 @@ export const {
 
             let contract
             try {
-                await (await new Account(wallet.connection, contractId)).state()
-                contract = await new Contract(await wallet.getAccountBasic(accountId), contractId, { ...methods })
+                await (await new Account(wallet.connection, lockupId)).state()
+                contract = await new Contract(await wallet.getAccountBasic(accountId), lockupId, { ...lockupMethods })
             } catch (e) {
                 throw new WalletError('No contract for account', 'staking.noLockup')
             }

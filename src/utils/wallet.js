@@ -125,8 +125,6 @@ class Wallet {
             localStorage.getItem(KEY_WALLET_ACCOUNTS) || '{}'
         )
         this.accountId = localStorage.getItem(KEY_ACTIVE_ACCOUNT_ID) || ''
-
-        this.staking = new Staking(this)
     }
 
     async getLocalAccessKey(accountId, accessKeys) {
