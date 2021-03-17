@@ -85,19 +85,24 @@ export default function Staking({
                 </>
                 : null}
             <h3><Translate id='staking.staking.currentValidators' /></h3>
-            {!loading && currentValidators.length ? (
-                <ListWrapper>
-                    {currentValidators.map((validator, i) =>
-                        <ValidatorBox
-                            key={i}
-                            validator={validator}
-                            amount={validator.staked}
-                        />
-                    )}
-                </ListWrapper>
-            ) : (
-                    <NoValidators />
-                )}
+            {!loading && accounts.every((account) => !!account.totalUnstaked) 
+                ? currentValidators.length
+                    ? <ListWrapper>
+                        {currentValidators.map((validator, i) =>
+                            <ValidatorBox
+                                key={i}
+                                validator={validator}
+                                amount={validator.staked}
+                            />
+                        )}
+                    </ListWrapper>
+                    : <NoValidators />
+                : <SkeletonLoading
+                    height='200px'
+                    show={true}
+                    className='account-loader'
+                />
+            }
         </>
     )
 }
