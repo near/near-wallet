@@ -53,7 +53,8 @@ const stakingHandlers = handleActions({
                         ...account,
                         ...payload
                     }) : account
-                )
+                ),
+                lockupId: payload.accountId
             }),
     [staking.updateCurrent]: (state, { payload }) => ({
         ...state,
