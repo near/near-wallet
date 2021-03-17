@@ -2,7 +2,7 @@ import { handleActions } from 'redux-actions'
 import reduceReducers from 'reduce-reducers'
 
 import { staking } from '../../actions/staking'
- import { ACCOUNT_DEFAULTS } from '../../utils/staking'
+import { ACCOUNT_DEFAULTS } from '../../utils/staking'
 
 // sample validator entry
 // const validator = {
