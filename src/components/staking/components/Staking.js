@@ -53,10 +53,10 @@ export default function Staking({
             <SkeletonLoading
                 height='80px'
                 number={2}
-                show={loading}
+                show={loading || !accounts.every((account) => !!account.totalUnstaked)}
                 className='account-loader'
             />
-            {!loading &&
+            {!loading && accounts.every((account) => !!account.totalUnstaked) &&
                 <>
                     <BalanceBox
                         title='staking.balanceBox.staked.title'
