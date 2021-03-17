@@ -129,7 +129,7 @@ export const { staking } = createActions({
                 () => showAlert()
             ],
             ACCOUNT: [
-                async (validatorId) => {
+                async (validatorId, amount) => {
                     let result
                     if (amount) {
                         result = await signAndSendTransaction(validatorId, [
