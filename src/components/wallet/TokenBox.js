@@ -35,6 +35,13 @@ const StyledContainer = styled.div`
             :last-of-type {
                 font-size: 12px;
                 color: #72727A;
+                max-width: 200px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+
+                @media (max-width: 500px) {
+                    max-width: 150px;
+                }
             }
         }
     }
@@ -55,7 +62,7 @@ const TokenBox = ({ token }) => {
             </div>
             <div className='desc'>
                 <span>{token.symbol}</span>
-                <span>{token.contract}</span>
+                <span title={token.contract}>{token.contract}</span>
             </div>
             <div className='balance'>{token.balance}</div>
         </StyledContainer>
