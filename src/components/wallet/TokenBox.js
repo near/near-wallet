@@ -38,6 +38,10 @@ const StyledContainer = styled.div`
                 max-width: 200px;
                 overflow: hidden;
                 text-overflow: ellipsis;
+
+                @media (max-width: 500px) {
+                    max-width: 150px;
+                }
             }
         }
     }
