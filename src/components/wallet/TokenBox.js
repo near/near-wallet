@@ -58,7 +58,7 @@ const TokenBox = ({ token }) => {
             </div>
             <div className='desc'>
                 <span>{token.symbol}</span>
-                <span>{token.contract}</span>
+                <span title={token.contract}>{token.contract}</span>
             </div>
             <div className='balance'>{token.balance}</div>
         </StyledContainer>
