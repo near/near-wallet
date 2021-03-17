@@ -20,6 +20,7 @@ export default function Staking({
     activeAccount,
     loading,
     hasLockup,
+    loadingDetails
 }) {
 
     return (
@@ -44,7 +45,7 @@ export default function Staking({
                 className='account-loader'
             />
             <FormButton 
-                disabled={loading || !accounts.every((account) => !!account.totalUnstaked)} 
+                disabled={loadingDetails} 
                 linkTo='/staking/validators'
                 trackingId="STAKE Click stake my tokens button"
             >
@@ -53,10 +54,10 @@ export default function Staking({
             <SkeletonLoading
                 height='80px'
                 number={2}
-                show={loading || !accounts.every((account) => !!account.totalUnstaked)}
+                show={loadingDetails}
                 className='account-loader'
             />
-            {!loading && accounts.every((account) => !!account.totalUnstaked) &&
+            {!loadingDetails &&
                 <>
                     <BalanceBox
                         title='staking.balanceBox.staked.title'
@@ -85,7 +86,7 @@ export default function Staking({
                 </>
                 : null}
             <h3><Translate id='staking.staking.currentValidators' /></h3>
-            {!loading && accounts.every((account) => !!account.totalUnstaked) 
+            {!loadingDetails 
                 ? currentValidators.length
                     ? <ListWrapper>
                         {currentValidators.map((validator, i) =>

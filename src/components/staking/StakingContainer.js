@@ -210,6 +210,7 @@ export function StakingContainer({ history, match }) {
                                 activeAccount={currentAccount}
                                 accountId={accountId}
                                 loading={status.mainLoader && !stakingAccounts.length}
+                                loadingDetails={status.mainLoader && !stakingAccounts.length || !stakingAccounts.every((account) => !!account.totalUnstaked)}
                                 hasLockup={hasLockup}
                             />
                         )}
