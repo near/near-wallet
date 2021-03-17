@@ -18,7 +18,8 @@ import {
     lockupMethods,
     updateStakedBalance,
     signAndSendTransaction,
-    stakingMethods
+    stakingMethods,
+    shuffle
 } from '../utils/staking'
 import { getBalance } from './account'
 
@@ -304,7 +305,7 @@ export const { staking } = createActions({
         },
         GET_VALIDATORS: async (accountIds, accountId) => {
             const { current_validators, next_validators, current_proposals } = await wallet.connection.provider.validators()
-            const currentValidators = current_validators.map(({ account_id }) => account_id)
+            const currentValidators = shuffle(current_validators).map(({ account_id }) => account_id)
             
             if (!accountIds) {
                 const rpcValidators = [...current_validators, ...next_validators, ...current_proposals].map(({ account_id }) => account_id)
