@@ -44,7 +44,7 @@ export default function Staking({
                 className='account-loader'
             />
             <FormButton 
-                disabled={loading} 
+                disabled={loading || !accounts.every((account) => !!account.totalUnstaked)} 
                 linkTo='/staking/validators'
                 trackingId="STAKE Click stake my tokens button"
             >
