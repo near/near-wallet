@@ -346,10 +346,14 @@ export const { staking } = createActions({
 const handleGetAccounts = () => async (dispatch, getState) => {
     await dispatch(handleGetLockup())
 
-    return await dispatch(staking.getAccounts({
-        accountId: wallet.accountId, 
-        lockupId : getState().staking.lockup.lockupId
-    }))
+    return getState().staking?.lockup?.lockupId
+        ? await dispatch(staking.getAccounts({
+            accountId: wallet.accountId, 
+            lockupId: getState().staking.lockup.lockupId
+        }))
+        : await dispatch(staking.getAccounts({
+            accountId: wallet.accountId, 
+        }))
 }
 
 export const handleGetLockup = (accountId) => async (dispatch, getState) => {
