@@ -170,6 +170,7 @@ export function StakingContainer({ history, match }) {
         validator = validators.filter(validator => validator.accountId === validatorId)[0]
     }
     const { totalUnstaked, selectedValidator } = currentAccount
+    const loadingBalance = !stakingAccounts.every((account) => !!account.totalUnstaked)
 
     useEffect(() => {
         dispatch(getBalance())
@@ -195,7 +196,7 @@ export function StakingContainer({ history, match }) {
     }
 
     return (
-        <StyledContainer className='small-centered' numAccounts={stakingAccounts.every((account) => !!account.totalUnstaked) && !!stakingAccounts.length}>
+        <StyledContainer className='small-centered' numAccounts={!loadingBalance && !!stakingAccounts.length}>
             <ConnectedRouter history={history}>
                 <Switch>
                     <Route
@@ -210,7 +211,7 @@ export function StakingContainer({ history, match }) {
                                 activeAccount={currentAccount}
                                 accountId={accountId}
                                 loading={status.mainLoader && !stakingAccounts.length}
-                                loadingDetails={status.mainLoader && !stakingAccounts.length || !stakingAccounts.every((account) => !!account.totalUnstaked)}
+                                loadingDetails={status.mainLoader && !stakingAccounts.length || loadingBalance}
                                 hasLockup={hasLockup}
                             />
                         )}
