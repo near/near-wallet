@@ -34,6 +34,7 @@ export default function StakingAction({
     const [amount, setAmount] = useState('')
     const [success, setSuccess] = useState()
     const [useMax, setUseMax] = useState(null)
+    const [loadingStaking, setLoadingStaking] = useState(false)
     const hasStakeActionAmount = !loading && amount.length && amount !== '0'
     let staked = (validator && validator.staked) || '0'
     const stake = action === 'stake' ? true : false
@@ -53,6 +54,7 @@ export default function StakingAction({
     })
 
     const onStakingAction = async () => {
+        setLoadingStaking(true)
         let stakeActionAmount = amount
         const userInputAmountIsMax = new BN(parseNearAmount(amount)).sub(new BN(stake ? availableBalance : staked)).abs().lte(new BN(STAKING_AMOUNT_DEVIATION))
 
@@ -67,6 +69,7 @@ export default function StakingAction({
         await handleStakingAction(action, validator.accountId, stakeActionAmount)
         setSuccess(true)
         setConfirm(false)
+        setLoadingStaking(true)
     }
 
     const handleSetMax = () => {
@@ -159,7 +162,7 @@ export default function StakingAction({
                             setConfirm(false)
                             Mixpanel.track("STAKE/UNSTAKE Close the modal")
                         }}
-                        loading={loading}
+                        loading={loadingStaking}
                         disclaimer={getStakeActionDisclaimer()}
                         sendingString={stake ? 'staking' : 'unstaking'}
                     />
