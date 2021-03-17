@@ -35,6 +35,9 @@ const StyledContainer = styled.div`
             :last-of-type {
                 font-size: 12px;
                 color: #72727A;
+                max-width: 200px;
+                overflow: hidden;
+                text-overflow: ellipsis;
             }
         }
     }
