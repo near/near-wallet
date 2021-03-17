@@ -184,7 +184,14 @@ export function StakingContainer({ history, match }) {
     }
 
     const handleAction = async (action, validator, amount) => {
-        await dispatch(handleStakingAction(action, selectedValidator || validator, amount))
+        let id = Mixpanel.get_distinct_id()
+        Mixpanel.identify(id)
+        await Mixpanel.withTracking(action.toUpperCase(),
+            async () => {
+                await dispatch(handleStakingAction(action, selectedValidator || validator, amount))
+                Mixpanel.people.set({[`last_${action}_time`]: new Date().toString()})
+            }
+        )
     }
 
     return (
