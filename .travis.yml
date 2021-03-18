@@ -1,5 +1,18 @@
 language: node_js
 node_js: 12
 
-script: yarn lint && yarn test && yarn build
+jobs:
+  include:
+    - name: yarn
+      script:
+      - yarn lint
+      - yarn test
+      - yarn build
 
+    - name: fossa
+      before_script:
+        - "curl -H 'Cache-Control: no-cache' https://raw.githubusercontent.com/fossas/fossa-cli/fc60c6631a5d372d5a45fea35e31665b338f260d/install.sh | sudo bash"
+      script:
+        - fossa init
+        - fossa analyze --server-scan
+        - fossa test

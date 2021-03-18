@@ -9,6 +9,7 @@ import classNames from '../../utils/classNames'
 import { ACCOUNT_CHECK_TIMEOUT, ACCOUNT_ID_SUFFIX } from '../../utils/wallet'
 import LocalAlertBox from '../common/LocalAlertBox.js'
 import { Mixpanel } from '../../mixpanel/index'
+import Tooltip from '../common/Tooltip'
 
 const InputWrapper = styled.div`
     position: relative;
@@ -40,7 +41,7 @@ const InputWrapper = styled.div`
 
 const DomainName = styled.div`
     position: absolute;
-    right: 8px;
+    right: 0px;
     top: calc(8px + 8px);
     bottom: 8px;
     display: flex;
@@ -51,17 +52,10 @@ const DomainName = styled.div`
     color: #4a4f54;
     font-size: 16px;
     padding: 0 10px;
-    cursor: pointer;
 
-    svg {
-        width: 17px;
-        height: 17px;
-        margin: 0 0 0 6px;
+    .tooltip {
+        margin: 0 8px -1px 6px;
     }
-`
-
-const Header = styled.h4`
-    margin-bottom: 5px !important;
 `
 
 class AccountFormAccountId extends Component {
@@ -201,7 +195,8 @@ class AccountFormAccountId extends Component {
         const {
             mainLoader,
             autoFocus,
-            type
+            type,
+            disabled
         } = this.props
 
         const { accountId, wrongChar } = this.state
@@ -227,17 +222,11 @@ class AccountFormAccountId extends Component {
                                 spellCheck='false'
                                 tabIndex='1'
                                 autoFocus={autoFocus && accountId.length === 0}
+                                disabled={disabled}
                             />
                             {type !== 'create' && <div className='input-sub-label'>{translate('input.accountId.subLabel')}</div>}
                             {type === 'create' &&
-                                <Modal
-                                    size='mini'
-                                    trigger={<DomainName>.{ACCOUNT_ID_SUFFIX}<InfoIcon/></DomainName>}
-                                    closeIcon
-                                >
-                                    <Header>{translate('topLevelAccounts.header')}</Header>
-                                    {translate('topLevelAccounts.body', { suffix: ACCOUNT_ID_SUFFIX })}
-                                </Modal>
+                                <DomainName>.{ACCOUNT_ID_SUFFIX}<Tooltip translate='topLevelAccounts.body' data={ACCOUNT_ID_SUFFIX} modalOnly={true}/></DomainName>
                             }
                         </InputWrapper>
                     )}

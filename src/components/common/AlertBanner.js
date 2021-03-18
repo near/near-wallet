@@ -13,7 +13,7 @@ const Container = styled.div`
         margin-bottom: 30px;
 
         @media (max-width: 450px) {
-            margin: -35px -14px 30px -14px;
+            margin: -25px -14px 30px -14px;
             border-radius: 0;
         }
 
@@ -76,11 +76,16 @@ export default function AlertBanner({ title, button, linkTo, data, theme }) {
             <AlertRoundedIcon/>
             <div>
                 <Translate id={title} data={{ data: data }}/>
-                {linkTo.includes('http') ? (
-                    <a target='_blank' rel='noreferrer' className='link' href={linkTo}><Translate id={button} /></a>
-                ) : (
-                    <FormButton className='link' linkTo={linkTo}><Translate id={button} /></FormButton>
-                )}
+                {linkTo ? 
+                    <>
+                        {linkTo.includes('http') ? (
+                            <a target='_blank' rel='noreferrer' className='link' href={linkTo}><Translate id={button} /></a>
+                        ) : (
+                            <FormButton className='link' linkTo={linkTo}><Translate id={button} /></FormButton>
+                        )}
+                    </>
+                    : null
+                }
             </div>
         </Container>
     )

@@ -166,6 +166,9 @@
                     "button": "Where can I purchase NEAR?",
                     "title": "Purchase NEAR tokens",
                     "desc": "NEAR tokens are available to purchase through the following exchanges"
+                },
+                "alertBanner": {
+                    "title": "Do not close this window!"
                 }
             },
             "post": {
@@ -206,13 +209,52 @@
         }
     },
 
+    "dashboardActivity": {
+        "title": {
+            "CreateAccount": "New account created",
+            "DeleteAccount": "Account deleted",
+            "DeployContract": "Contract deployed",
+            "FunctionCall": "Method called",
+            "Transfer": {
+                "transferred": "Sent NEAR",
+                "received": "Received NEAR"
+            },
+            "Stake": "Staked",
+            "AddKey": {
+                "forContract": "Access Key added",
+                "forReceiver": "Access Key added"
+            },
+            "DeleteKey": "Key deleted"
+        },
+        "message": {
+            "CreateAccount": "<span>account</span> <span>${receiverId}</span>",
+            "DeleteAccount": "<span>account</span> <span>${receiverId}<span>",
+            "DeployContract": "<span>contract</span> <span>${receiverId}</span>",
+            "FunctionCall": "<span>${methodName}</span> in contract <span>${receiverId}</span>",
+            "FunctionCallDetails": {
+                "first": "<span>Method</span> <span>${methodName}</span>",
+                "second": "<span>In contract</span> <span>${receiverId}</span>"
+            },
+            "Transfer": {
+                "transferred": "<span>to</span> <span>${receiverId}</span>",
+                "received": "<span>from</span> <span>${signerId}</span>"
+            },
+            "Stake": "<span>stake</span><span>${stake}</span>",
+            "AddKey": {
+                "forContract": "<span>for</span> <span>${permissionReceiverId}</span>",
+                "forReceiver": "<span>for</span> <span>${receiverId}</span>"
+            },
+            "DeleteKey": ""
+        }
+    },
+
     "actions": {
         "CreateAccount": "New account created: ${receiverId}",
         "DeleteAccount": "Account deleted: ${receiverId}",
         "DeployContract": "Contract deployed: ${receiverId}",
         "FunctionCall": "Called method: ${methodName} in contract: ${receiverId}",
         "Transfer": {
-            "transferred": "Transferred ${deposit} to ${receiverId}",
+            "transferred": "Sent ${deposit} to ${receiverId}",
             "received": "Received ${deposit} from ${signerId}"
         },
         "Stake": "Staked ${stake}",
@@ -417,6 +459,7 @@
         "confirm": "Confirm",
         "viewAll": "View All",
         "send": "Send",
+        "receive": "Receive",
         "cancel": "Cancel",
         "skip": "Skip",
         "deny": "Deny",
@@ -435,7 +478,7 @@
         "recoverAccount": "Recover Account",
         "goBack": "Go back",
         "createNewAccount": "Create New Account",
-        "addAccount": "Add Account",
+        "importAccount": "Import Account",
         "moreInformation": "More information",
         "dismiss": "Dismiss",
         "cancelOperation": "Cancel Operation",
@@ -454,18 +497,19 @@
         "authorizing": "Authorizing",
         "deAuthorizing": "Deauthorizing",
         "finish": "Finish",
-        "transferring": "Transferring"
+        "transferring": "Transferring",
+        "viewOnExplorer": "View on Explorer"
     },
 
     "link": {
-        "summary": "SUMMARY",
-        "send": "SEND",
-        "receive": "RECEIVE",
-        "staking": "STAKING",
-        "help": "HELP",
-        "profile": "Profile",
+        "wallet": "Wallet",
+        "send": "Send",
+        "receive": "Receive",
+        "staking": "Staking",
+        "help": "Help",
+        "account": "Account",
         "authorizedApps": "Authorized Apps",
-        "switchAccount": "Switch account",
+        "switchAccount": "Account",
         "noAccount": "You have no other accounts",
         "fullAccessKeys": "Full Access Keys"
     },
@@ -540,7 +584,7 @@
 
     "topLevelAccounts": {
         "header": "Top Level Accounts",
-        "body": "Account names are similar to domain names. Only the ${suffix} account can create accounts such as yourname.${suffix}, and only yourname.${suffix} can create app.yourname.${suffix}. All accounts created in this wallet use the .${suffix} Top Level Account (TLA). To learn more about account names and creating your own TLA, visit the <a rel='noopener noreferrer' href='https://docs.nearprotocol.com/docs/concepts/account'>docs</a>."
+        "body": "Account names are similar to domain names. Only the ${data} account can create accounts such as yourname.${data}, and only yourname.${data} can create app.yourname.${data}. All accounts created in this wallet use the .${data} Top Level Account (TLA). To learn more about account names and creating your own TLA, visit the <a rel='noopener noreferrer' href='https://docs.nearprotocol.com/docs/concepts/account'>docs</a>."
     },
 
     "recoverSeedPhrase": {
@@ -609,7 +653,7 @@
     },
 
     "dashboard": {
-        "activity": "Activity"
+        "activity": "Recent activity"
     },
 
     "loading": "Loading...",
@@ -617,6 +661,19 @@
     "balance": {
         "balance": "Total Balance",
         "balanceLoading": "Balance loading"
+    },
+
+    "wallet": {
+        "balanceTitle": "Portfolio Balance",
+        "tokens": "Tokens",
+        "dateAndTime": "Date & Time",
+        "status": "Status"
+    },
+    
+    "exploreApps": {
+        "title": "What's on NEAR?",
+        "desc": "Earn, mint, and play! Discover the ecosystem of NEAR applications.",
+        "button": "Explore Apps"
     },
 
     "login": {
@@ -858,6 +915,9 @@
             "availableToWithdraw": "Available for withdrawal",
             "availableToTransfer": "Available to transfer"
         },
+        "authorizedApps": {
+            "title": "Authorized Apps"
+        },
         "lockup": {
             "lockupBalance": "Lockup balance",
             "lockupId": "Lockup ID",
@@ -901,7 +961,8 @@
         },
         "subtitle": {
             "default": "Enter the amount of NEAR to send, and the account ID to send it to.",
-            "success": "You successfully sent NEAR"
+            "success": "You have successfully sent",
+            "to": "to:"
         },
         "amount": {
             "available": "Available to send"
@@ -985,7 +1046,7 @@
             "Started": "Started",
             "Failure": "Failed",
             "SuccessValue": "Succeeded",
-            "checkingStatus": "checking status",
+            "checkingStatus": "Checking status...",
             "notAvailable": "Status not available"
         }
     },
@@ -996,7 +1057,7 @@
     "total": "total",
     "amount": "amount",
     "or": "OR",
-    "sending": "SENDING",
+    "sending": "Sending",
     "connecting": "Connecting",
     "back": "Back",
     "of": "of",

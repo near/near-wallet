@@ -38,7 +38,6 @@ const Container = styled(Card)`
         button {
             width: 100px !important;
             height: 36px !important;
-            letter-spacing: 1px !important;
             margin: 0 !important;
             padding: 0;
         }
@@ -48,6 +47,9 @@ const Container = styled(Card)`
         margin-top: 20px;
         display: block;
         color: #A1A1A9;
+        font-style: normal;
+        color: #A1A1A9;
+
     }
 
     .color-red {
@@ -73,24 +75,30 @@ const HardwareDevices = ({ recoveryMethods }) => {
     const recoveryLoader = actionsPending('LOAD_RECOVERY_METHODS') && !userRecoveryMethods.length
 
     const handleConfirmDisable = async () => {
-        try {
-            setDisabling(true)
-            await dispatch(disableLedger());
-        } finally {
-            await dispatch(getAccessKeys())
-            await dispatch(getLedgerKey())
-            await dispatch(loadRecoveryMethods())
-            setDisabling(false)
-            setConfirmDisable(false);
-        }
+        await Mixpanel.withTracking("SR-Ledger Handle confirm disable",
+            async () => {
+                setDisabling(true)
+                await dispatch(disableLedger());
+            },
+            () => {},
+            async () => {
+                await dispatch(getAccessKeys())
+                await dispatch(getLedgerKey())
+                await dispatch(loadRecoveryMethods())
+                setDisabling(false)
+                setConfirmDisable(false)
+            }
+        )
     }
 
     const handleConnectLedger = async () => {
-        Mixpanel.track("SR-Ledger Reconnect ledger start")
-        await dispatch(addLedgerAccessKey())
-        await dispatch(getLedgerKey())
-        await dispatch(loadRecoveryMethods())
-        Mixpanel.track("SR-Ledger Reconnect ledger finish")
+        await Mixpanel.withTracking("SR-Ledger Reconnect ledger",
+            async () => {
+                await dispatch(addLedgerAccessKey())
+                await dispatch(getLedgerKey())
+                await dispatch(loadRecoveryMethods())
+            }
+        )
     }
 
     const getActionButton = () => {
@@ -99,7 +107,7 @@ const HardwareDevices = ({ recoveryMethods }) => {
         } else if (hasLedgerButNotConnected) {
             return <FormButton color='blue' onClick={handleConnectLedger}><Translate id='button.connect'/></FormButton>
         } else {
-            return <FormButton linkTo={`/setup-ledger/${account.accountId}`} color='blue' onClick={() => Mixpanel.track("SR-Ledger Click enable button")}><Translate id='button.enable'/></FormButton> 
+            return <FormButton linkTo={`/setup-ledger/${account.accountId}`} color='blue' trackingId="SR-Ledger Click enable button"><Translate id='button.enable'/></FormButton> 
         }
     }
 
@@ -122,7 +130,7 @@ const HardwareDevices = ({ recoveryMethods }) => {
                             <div className='color-red'><Translate id='hardwareDevices.ledger.connect'/></div>
                         }
                         {!hasLedger && 
-                            <i style={{fontStyle: 'normal', color: '#3F4045'}}><Translate id='hardwareDevices.desc'/></i>
+                            <i><Translate id='hardwareDevices.desc'/></i>
                         }
                     </>
                     :

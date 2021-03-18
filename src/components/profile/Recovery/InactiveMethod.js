@@ -20,6 +20,7 @@ const Button = styled(Link)`
     background-color: #0072ce;
     border-radius: 40px;
     transition: 150ms;
+    font-weight: 600;
 
     :hover {
         background-color: rgb(0, 127, 230);
@@ -36,7 +37,7 @@ const InactiveMethod = ({ method, accountId }) => (
                 pathname: `${method !== 'phrase' ? `/set-recovery/${accountId}` : `/setup-seed-phrase/${accountId}/phrase`}`,
                 method: method
             }}
-            onClick={() => Mixpanel.track(method === 'phrase' ? 'SR-SP Click enable button for seed phrase': `SR Click enable button for ${method}`)}
+            onClick={() => Mixpanel.track(method === 'phrase' ? 'SR-SP Click enable button': `SR Click enable button for ${method}`)}
         >
             <Translate id='button.enable'/>
         </Button>

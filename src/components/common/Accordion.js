@@ -31,15 +31,18 @@ const Accordion = ({ className, trigger, children }) => {
     const handleClick = () => {
         setOpen(!open)
         const el = document.getElementById(trigger)
+        const container = document.getElementById(`${trigger}-container`)
         if (!open) {
             el.classList.add('open')
+            setTimeout(() => container.style.overflow = 'visible', 250)
         } else {
+            container.style.overflow = 'hidden'
             el.classList.remove('open')
         }
     }
 
     return (
-        <Container height={contentHeight} className={classNames([className, open ? 'open' : ''])}>
+        <Container id={`${trigger}-container`} height={contentHeight} className={classNames([className, open ? 'open' : ''])}>
             <div id={`${trigger}-wrapper`}>
                 {children}
             </div>

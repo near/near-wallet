@@ -7,6 +7,7 @@ import { Translate } from 'react-localize-redux'
 import Balance from '../../common/Balance'
 import { redirectTo } from '../../../actions/account'
 import { useDispatch } from 'react-redux'
+import { Mixpanel } from '../../../mixpanel/index'
 
 const Container = styled.div`
     display: flex;
@@ -49,11 +50,11 @@ const Container = styled.div`
                 white-space: nowrap;
 
                 @media (max-width: 350px) {
-                    max-width: 113px;
+                    max-width: 130px;
                 }
 
                 @media (min-width: 500px) {
-                    max-width: 175px;
+                    max-width: 230px;
                 }
             }
         }
@@ -136,11 +137,14 @@ export default function ValidatorBox({
             className='validator-box' 
             clickable={clickable && amount ? 'true' : ''} 
             style={style} 
-            onClick={() => { clickable && amount && dispatch(redirectTo(`/staking/${validatorId}`))}}
+            onClick={() => { 
+                clickable && amount && dispatch(redirectTo(`/staking/${validatorId}`))
+                Mixpanel.track("STAKE Go to staked account page")
+            }}
         >
             {label && <div className='with'><Translate id='staking.validatorBox.with' /></div>}
-            <UserIcon/>
-            <div>
+            <UserIcon background={true}/>
+            <div className='left'>
                 <div>{validatorId}</div>
                 {typeof fee === 'number' &&
                     <div className="text-left"> 

@@ -1,42 +1,23 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { Translate } from 'react-localize-redux';
-import { Mixpanel } from '../../mixpanel/index';
+import FormButton from '../common/FormButton';
+import PlusSignIcon from '../svg/PlusSignIcon';
 
-const Button = styled(Link)`
-    display: block;
-    background-color: #24272A;
-    color: #8FD6BD;
-    border-radius: 40px;
-    padding: 10px;
-    margin-top: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: 100ms;
-    letter-spacing: 1px;
-    font-weight: 500;
+const Button = styled(FormButton)`
+    padding: 0;
+    margin-top: 15px !important;
 
-    &:hover {
-        text-decoration: none;
-        color: #8FD6BD;
-    }
-
-    @media (min-width: 992px) {
-        background-color: white;
-        color: #6AD1E3;
-
-        :hover {
-            color: white;
-            background-color: #6AD1E3;
-            text-decoration: none;
-        }
+    svg {
+        width: 24px !important;
+        height: 24px !important;
+        margin: -4px 3px -6px 0 !important;
     }
 `
 
 const CreateAccountBtn = () => (
-    <Button to='/create' onClick={() => Mixpanel.track("CA Click create new account button")}>
+    <Button linkTo='/create' trackingId='CA Click create new account button' color='gray-blue'>
+        <PlusSignIcon color='#0072CE'/>
         <Translate id='button.createNewAccount'/>
     </Button>
 )

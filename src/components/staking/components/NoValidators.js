@@ -37,7 +37,13 @@ export default function NoValidators() {
         <Container className='no-validators'>
             <NearCircleIcon/>
             <div><Translate id='staking.noValidators.title' /></div>
-            <FormButton className='gray-blue dark' linkTo='/staking/validators'><Translate id='staking.staking.button' /></FormButton>
+            <FormButton 
+                className='gray-blue dark' 
+                linkTo='/staking/validators'
+                trackingId="STAKE Click stake my tokens button : no validators"
+            >
+                <Translate id='staking.staking.button' />
+            </FormButton>
         </Container>
     )
 }

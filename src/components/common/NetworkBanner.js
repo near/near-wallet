@@ -2,10 +2,11 @@ import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import helpIconWhite from '../../images/icon-help-white.svg';
 import helpIconBrown from '../../images/icon-help-brown.svg';
-import { IS_MAINNET, SHOW_PRERELEASE_WARNING, NODE_URL } from '../../utils/wallet';
-import { Modal } from 'semantic-ui-react';
+import { IS_MAINNET, SHOW_PRERELEASE_WARNING, NODE_URL, NETWORK_ID } from '../../utils/wallet';
 import { Translate } from 'react-localize-redux';
 import AlertTriangleIcon from '../svg/AlertTriangleIcon.js';
+import { Mixpanel } from "../../mixpanel/index";
+import Tooltip from './Tooltip'
 
 const Container = styled.div`
     color: white;
@@ -21,49 +22,45 @@ const Container = styled.div`
     justify-content: center;
     text-align: center;
 
+    .tooltip {
+        margin: 0 0 0 8px;
+        svg {
+            width: 18px;
+            height: 18px;
+
+            path {
+                stroke: white;
+            }
+        }
+    }
+
+    .network-link {
+        margin-left: 6px;
+    }
+
     a {
         color: white;
-
         :hover {
             color: white;
             text-decoration: underline;
         }
     }
 
-    .trigger-string {
-        display: flex;
-        align-items: center;
-        cursor: pointer;
-        text-align: center;
-
-        :after {
-            content: '';
-            background: url(${helpIconWhite}) center no-repeat;
-            height: 16px;
-            min-width: 16px;
-            width: 16px;
-            margin: 0 0 0 8px;
-            display: inline-block;
-        }
-    }
-
-    h4 {
-        margin-bottom: 5px !important;
-    }
-
     &.staging-banner {
         background-color: #F6C98E;
         color: #452500;
 
+        .tooltip {
+            svg {
+                path {
+                    stroke: #452500;
+                }
+            }
+        }
+
         .alert-triangle-icon {
             margin-right: 8px;
             min-width: 16px;
-        }
-
-        .trigger-string {
-            :after {
-                background: url(${helpIconBrown}) center no-repeat;
-            }
         }
     }
 `
@@ -71,6 +68,7 @@ const Container = styled.div`
 const NetworkBanner = ({ account }) => {
 
     useEffect(() => {
+        Mixpanel.register({network_id: IS_MAINNET ? 'mainnet' : NETWORK_ID === 'default' ? 'testnet': NETWORK_ID})
         setBannerHeight()
         window.addEventListener("resize", setBannerHeight)
         return () => {
@@ -89,38 +87,21 @@ const NetworkBanner = ({ account }) => {
     if (!IS_MAINNET) {
         return (
             <Container id='top-banner'>
-                <Modal
-                    size='mini'
-                    trigger={
-                        <div className='trigger-string'>
-                            <Translate id='networkBanner.title' />&nbsp;
-                            (<a href={`${NODE_URL}/status`} target='_blank' rel='noopener noreferrer' onClick={e => e.stopPropagation()}>
-                                {NODE_URL.replace(/^(?:https?:\/\/)?(?:www\.)?/i, "").split('/')[0]}
-                            </a>)
-                        </div>
-                    }
-                    closeIcon
-                >
-                    <h4><Translate id='networkBanner.header' /></h4>
-                    <Translate id='networkBanner.desc' />
-                </Modal>
+                <Translate id='networkBanner.title' />
+                <span className='network-link'>
+                    (<a href={`${NODE_URL}/status`} target='_blank' rel='noopener noreferrer'>
+                        {NODE_URL.replace(/^(?:https?:\/\/)?(?:www\.)?/i, "").split('/')[0]}
+                    </a>)
+                </span>
+                <Tooltip translate='networkBanner.desc' modalOnly={true}/>
             </Container>
         )
     } else if (SHOW_PRERELEASE_WARNING) {
         return (
             <Container id='top-banner' className='staging-banner'>
                 <AlertTriangleIcon color='#A15600'/>
-                <Modal 
-                    size='mini'
-                    trigger={
-                        <div className='trigger-string'>
-                            <Translate id='stagingBanner.title' />
-                        </div>
-                    }
-                    closeIcon
-                >
-                    <Translate id='stagingBanner.desc' />
-                </Modal>
+                <Translate id='stagingBanner.title' />
+                <Tooltip translate='stagingBanner.desc' modalOnly={true}/>
             </Container>
         )
     } else {

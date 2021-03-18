@@ -12,6 +12,7 @@ import Validator from './components/Validator'
 import StakingAction from './components/StakingAction'
 import { setStakingAccountSelected, getStakingAccountSelected } from '../../utils/localStorage'
 import { getBalance } from '../../actions/account'
+import { Mixpanel } from '../../mixpanel/index'
 
 const StyledContainer = styled(Container)`
     button {
@@ -78,9 +79,9 @@ const StyledContainer = styled(Container)`
     }
 
     .alert-banner {
-        margin: -35px -15px 50px -15px;
+        margin: -25px -14px 50px -14px;
         border-radius: 0;
-        @media (min-width: 495px) {
+        @media (min-width: 451px) {
             margin: 0 0 50px 0;
             border-radius: 4px;
         }
@@ -134,6 +135,16 @@ const StyledContainer = styled(Container)`
             border-radius: 8px;
         }
     }
+
+    .select-account-title {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+        
+        .tooltip {
+            margin-bottom: -1px;
+        }
+    }
 `
 
 export function StakingContainer({ history, match }) {
@@ -167,17 +178,35 @@ export function StakingContainer({ history, match }) {
     }
     
     const handleStakingAction = async (action, validator, amount) => {
+        let id = Mixpanel.get_distinct_id()
+        Mixpanel.identify(id)
         if (action === 'stake') {
-            await dispatch(stake(currentAccount.accountId, validator, amount))
+            await Mixpanel.withTracking("STAKE",
+                async () => {
+                    await dispatch(stake(currentAccount.accountId, validator, amount))
+                    Mixpanel.people.set({last_stake_time: new Date().toString()})
+                }
+            )
         } else if (action === 'unstake') {
-            await dispatch(unstake(currentAccount.accountId, selectedValidator || validator, amount))
+            await Mixpanel.withTracking("UNSTAKE",
+                async () => {
+                    await dispatch(unstake(currentAccount.accountId, selectedValidator || validator, amount))
+                    Mixpanel.people.set({last_unstake_time: new Date().toString()})
+                }
+            )
         }
-        await dispatch(clearGlobalAlert())
         await dispatch(updateStaking(currentAccount.accountId, [validator]))
     }
 
     const handleWithDraw = async () => {
-        await dispatch(withdraw(currentAccount.accountId, selectedValidator || validator.accountId))
+        let id = Mixpanel.get_distinct_id()
+        Mixpanel.identify(id)
+        await Mixpanel.withTracking("WITHDRAW",
+                async () => {
+                    await dispatch(withdraw(currentAccount.accountId, selectedValidator || validator.accountId))
+                    Mixpanel.people.set({last_withdraw_time: new Date().toString()})
+                }
+            )
         await dispatch(updateStaking(currentAccount.accountId))
     }
 

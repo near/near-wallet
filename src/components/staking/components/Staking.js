@@ -6,9 +6,8 @@ import ListWrapper from './ListWrapper'
 import { Translate } from 'react-localize-redux'
 import NoValidators from './NoValidators'
 import SelectAccount from './SelectAccount'
-import InfoIcon from '../../svg/InfoIcon.js'
-import { Modal } from 'semantic-ui-react'
 import SkeletonLoading from '../../common/SkeletonLoading'
+import Tooltip from '../../common/Tooltip'
 
 export default function Staking({
     currentValidators,
@@ -27,13 +26,10 @@ export default function Staking({
         <>
             <h1><Translate id='staking.staking.title' /></h1>
             <h2><Translate id='staking.staking.desc' /></h2>
-            <Modal
-                size='mini'
-                trigger={<span className='account-info'><Translate id='staking.staking.selectAccount' /> <InfoIcon color='#999999' /></span>}
-                closeIcon
-            >
-                <Translate id='staking.stake.accounts' />
-            </Modal>
+            <div className='select-account-title'>
+                <Translate id='staking.staking.selectAccount' />
+                <Tooltip translate='staking.stake.accounts' position='right'/>
+            </div>
             {!loading &&
                 <SelectAccount
                     accounts={accounts}
@@ -47,7 +43,13 @@ export default function Staking({
                 show={loading}
                 className='account-loader'
             />
-            <FormButton disabled={loading} linkTo='/staking/validators'><Translate id='staking.staking.button' /></FormButton>
+            <FormButton 
+                disabled={loading} 
+                linkTo='/staking/validators'
+                trackingId="STAKE Click stake my tokens button"
+            >
+                <Translate id='staking.staking.button' />
+            </FormButton>
             <SkeletonLoading
                 height='80px'
                 number={2}

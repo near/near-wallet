@@ -16,7 +16,6 @@ const DisclaimerGrid = styled(Grid)`
     }
     .disclaimer-info {
         font-weight: 500;
-        letter-spacing: 2px;
     }
 
     @media screen and (max-width: 767px) {

@@ -20,11 +20,12 @@
     SENTRY_ORG = "near-protocol"
     SENTRY_PROJECT = "mainnet-staging-wallet"
     MOONPAY_API_KEY = "pk_live_jYDdkGL7bJsrwalHZs1lVIhdOHOtK8BR"
+    TOKEN_CONTRACTS = 'berryclub.ek.near,wrap.near,6b175474e89094c44da98b954eedeac495271d0f.factory.bridge.near'
 
 
 [context.production.environment]
     SHOW_PRERELEASE_WARNING = "no"
-    MIXPANEL_TOKEN = "4a10180da7af8d6d0728154d535aa7bb"
+    BROWSER_MIXPANEL_TOKEN = "d5bbbbcc3a77ef8427f2b806b5689bf8"
     SENTRY_PROJECT = "mainnet-wallet"
 
 [[headers]]
