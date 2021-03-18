@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import Balance from '../common/Balance'
 import SkeletonLoading from '../common/SkeletonLoading';
 import classNames from '../../utils/classNames'
+import { Translate } from 'react-localize-redux'
 
 const Wrapper = styled.div`
     .animation-wrapper > .animation {
@@ -142,7 +143,7 @@ const UserAccounts = ({ accounts, accountId, selectAccount, accountIdLocalStorag
                     <div>
                         <SyncButton className={classNames([{'dots': !(accountsBalance && accountsBalance[account]?.available)}])} onClick={() => refreshBalance(account)} title='Sync balance'>
                             {accountsBalance && accountsBalance[account]?.available
-                                ? 'Sync'
+                                ? <Translate id='sync'/>
                                 : ''
                             }
 
