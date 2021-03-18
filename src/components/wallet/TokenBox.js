@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import DefaultTokenIcon from '../svg/DefaultTokenIcon'
+import { EXPLORER_URL } from '../../utils/wallet'
 
 const StyledContainer = styled.div`
     display: flex;
@@ -35,12 +36,24 @@ const StyledContainer = styled.div`
             :last-of-type {
                 font-size: 12px;
                 color: #72727A;
-                max-width: 200px;
+                max-width: 350px;
                 overflow: hidden;
                 text-overflow: ellipsis;
 
+                @media (max-width: 991px) {
+                    max-width: 250px;
+                }
+
                 @media (max-width: 500px) {
+                    max-width: 180px;
+                }
+
+                @media (max-width: 330px) {
                     max-width: 150px;
+                }
+
+                a {
+                    color: inherit;
                 }
             }
         }
@@ -62,7 +75,11 @@ const TokenBox = ({ token }) => {
             </div>
             <div className='desc'>
                 <span>{token.symbol}</span>
-                <span title={token.contract}>{token.contract}</span>
+                <span title={token.contract}>
+                    <a href={`${EXPLORER_URL}/accounts/${token.contract}`} target='_blank' rel='noopener noreferrer'>
+                        {token.contract}
+                    </a>
+                </span>
             </div>
             <div className='balance'>{token.balance}</div>
         </StyledContainer>
