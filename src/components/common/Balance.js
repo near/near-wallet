@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import { List } from 'semantic-ui-react'
 import { utils } from 'near-api-js'
 import { BN } from 'bn.js'
+import { Translate } from 'react-localize-redux'
 
 const CustomDiv = styled(List)`
     position: relative;
@@ -64,7 +65,7 @@ const Balance = ({ amount, symbol, className }) => {
             {amount && symbol !== false && symbol !== 'near' && <span className='symbol'>Ⓝ</span>}
             {amount
                 ? amountShow
-                : <div className="dots">Retrieving balance</div>
+                : <div className="dots"><Translate id='loadingNoDots'/></div>
             }
             {amount && symbol === 'near' && <span className='currency'>&nbsp;NEAR</span>}
         </CustomDiv>

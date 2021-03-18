@@ -61,7 +61,6 @@ class Navigation extends Component {
         if (e.target.tagName === 'BUTTON' || e.target.tagName === 'A' || (!desktopMenu.contains(e.target) && !mobileMenu.contains(e.target))) {
             this.setState({ menuOpen: false });
         }
-
     }
 
     get showNavLinks() {

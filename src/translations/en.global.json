@@ -689,6 +689,7 @@
     },
 
     "loading": "Loading...",
+    "loadingNoDots": "Loading",
 
     "balance": {
         "balance": "Total Balance",
