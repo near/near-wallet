@@ -55,7 +55,7 @@ export const WALLET_APP_MIN_AMOUNT = nearApiJs.utils.format.formatNearAmount(new
 
 const KEY_UNIQUE_PREFIX = '_4:'
 const KEY_WALLET_ACCOUNTS = KEY_UNIQUE_PREFIX + 'wallet:accounts_v2'
-const KEY_ACTIVE_ACCOUNT_ID = KEY_UNIQUE_PREFIX + 'wallet:active_account_id_v2'
+export const KEY_ACTIVE_ACCOUNT_ID = KEY_UNIQUE_PREFIX + 'wallet:active_account_id_v2'
 const ACCOUNT_ID_REGEX = /^(([a-z\d]+[-_])*[a-z\d]+\.)*([a-z\d]+[-_])*[a-z\d]+$/
 
 export const keyAccountConfirmed = (accountId) => `wallet.account:${accountId}:${NETWORK_ID}:confirmed`
@@ -883,21 +883,29 @@ class Wallet {
 
     async signAndSendTransactions(transactions, accountId) {
         const account = await this.getAccount(accountId)
-        
-        // TODO move to nearapi js Account.js
-        if (account.signAndSendTransactions) {
-            return account.signAndSendTransactions(transactions)
-        }
 
         store.dispatch(setSignTransactionStatus('in-progress'))
+        const transactionHashes = [];
         for (let { receiverId, nonce, blockHash, actions } of transactions) {
-            const [, signedTransaction] = await nearApiJs.transactions.signTransaction(receiverId, nonce, actions, blockHash, this.connection.signer, accountId, NETWORK_ID)
-            let { status, transaction } = await this.connection.provider.sendTransaction(signedTransaction)
+            let status, transaction
+            if (account.deployMultisig) {
+                const result = await account.signAndSendTransaction(receiverId, actions)
+                ;({ status, transaction } = result)
+            } else {
+                // TODO: Maybe also only take receiverId and actions as with multisig path?
+                const [, signedTransaction] = await nearApiJs.transactions.signTransaction(receiverId, nonce, actions, blockHash, this.connection.signer, accountId, NETWORK_ID)
+                ;({ status, transaction } = await this.connection.provider.sendTransaction(signedTransaction))
+            }
 
+            // TODO: Shouldn't throw more specific errors on failure?
             if (status.Failure !== undefined) {
                 throw new Error(`Transaction failure for transaction hash: ${transaction.hash}, receiver_id: ${transaction.receiver_id} .`)
             }
+
+            transactionHashes.push(transaction.hash)
         }
+
+        return transactionHashes;
     }
 
     dispatchShowLedgerModal(show) {

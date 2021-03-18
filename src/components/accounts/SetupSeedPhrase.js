@@ -171,8 +171,8 @@ class SetupSeedPhrase extends Component {
                             render={() => (
                                 <Container className='small-centered'>
                                     <form onSubmit={e => {this.handleVerifyPhrase(); e.preventDefault();}} autoComplete='off'>
-                                    <h1><Translate id='setupSeedPhraseVerify.pageTitle'/></h1>
-                                    <h2><Translate id='setupSeedPhraseVerify.pageText'/></h2>
+                                        <h1><Translate id='setupSeedPhraseVerify.pageTitle'/></h1>
+                                        <h2><Translate id='setupSeedPhraseVerify.pageText'/></h2>
                                         <SetupSeedPhraseVerify
                                             enterWord={this.state.enterWord}
                                             wordId={this.state.wordId}

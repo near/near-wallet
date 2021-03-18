@@ -12,7 +12,9 @@ import { getTransactions, getTransactionStatus } from '../../actions/transaction
 import { Mixpanel } from "../../mixpanel/index"
 import Activities from './Activities'
 import ExploreApps from './ExploreApps'
-// import Tokens from './Tokens'
+import Tokens from './Tokens'
+import { wallet } from '../../utils/wallet'
+import { formatTokenAmount } from '../../utils/amounts'
 
 const StyledContainer = styled(Container)`
     display: flex;
@@ -82,6 +84,25 @@ export function Wallet() {
         dispatch(getTransactions(accountId))
     }, [])
 
+    // TODO: Refactor loading token balances using Redux
+    // TODO: Load potential token contract list from contract helper
+    const contracts = (process.env.TOKEN_CONTRACTS || 'berryclub.ek.near,farm.berryclub.ek.near,wrap.near').split(',');
+    const [tokens, setTokens] = useState(contracts.map(contract => ({ contract })));
+
+    useEffect(() => {
+        const loadedTokens = tokens;
+        wallet.getAccount(accountId).then(account =>
+            contracts.forEach(async contractId => {
+                let { name, symbol, decimals } = await account.viewFunction(contractId, 'ft_metadata')
+                const balance = formatTokenAmount(
+                    await account.viewFunction(contractId, 'ft_balance_of', { account_id: accountId }), decimals);
+                const tokenIndex = contracts.findIndex(c => c === contractId);
+                loadedTokens[tokenIndex] = { ...loadedTokens[tokenIndex], balance, name, symbol }
+                setTokens(loadedTokens);
+            }));
+        
+    }, []);
+
     const handleHideExploreApps = () => {
         localStorage.setItem('hideExploreApps', true)
         setExploreApps(false)
@@ -92,21 +113,6 @@ export function Wallet() {
     const transactions = useSelector(({ transactions }) => transactions)
     const dispatch = useDispatch()
     const hideExploreApps = localStorage.getItem('hideExploreApps')
-
-    // const exampleTokens = [
-    //     {
-    //         name: 'Banana',
-    //         symbol: '🍌',
-    //         contract: 'berryclub.ek.near',
-    //         balance: '500'
-    //     },
-    //     {
-    //         name: 'Avocado',
-    //         symbol: '🥑',
-    //         contract: 'farm.berryclub.ek.near',
-    //         balance: '1000'
-    //     }
-    // ]
 
     return (
         <StyledContainer className='small-centered'>
@@ -131,8 +137,8 @@ export function Wallet() {
                     <Translate id='button.receive'/>
                 </FormButton>
             </div>
-            {/* <div className='sub-title tokens'><Translate id='wallet.tokens' /></div> */}
-            {/* <Tokens tokens={exampleTokens}/> */}
+            <div className='sub-title tokens'><Translate id='wallet.tokens' /></div>
+            <Tokens tokens={tokens}/>
             {!hideExploreApps && exploreApps !== false &&
                 <ExploreApps onClick={handleHideExploreApps}/>
             }

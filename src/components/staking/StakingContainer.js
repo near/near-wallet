@@ -79,9 +79,9 @@ const StyledContainer = styled(Container)`
     }
 
     .alert-banner {
-        margin: -35px -15px 50px -15px;
+        margin: -25px -14px 50px -14px;
         border-radius: 0;
-        @media (min-width: 495px) {
+        @media (min-width: 451px) {
             margin: 0 0 50px 0;
             border-radius: 4px;
         }
@@ -133,6 +133,16 @@ const StyledContainer = styled(Container)`
         }
         .animation {
             border-radius: 8px;
+        }
+    }
+
+    .select-account-title {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+        
+        .tooltip {
+            margin-bottom: -1px;
         }
     }
 `
