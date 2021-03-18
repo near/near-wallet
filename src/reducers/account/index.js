@@ -169,14 +169,19 @@ const account = handleActions({
                 ...state,
                 accountsBalance: {
                     ...state.accountsBalance,
-                    [meta.accountId]: undefined
+                    [meta.accountId]: {
+                        loading: true
+                    }
                 }
             }
             : {
                 ...state,
                 accountsBalance: {
                     ...state.accountsBalance,
-                    [meta.accountId]: payload
+                    [meta.accountId]: {
+                        ...payload,
+                        loading: false
+                    }
                 }
             },
     [setAccountBalance]: (state, { payload }) => ({
