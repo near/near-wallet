@@ -9236,9 +9236,10 @@ natural-compare@^1.4.0:
   resolved "https://registry.yarnpkg.com/natural-compare/-/natural-compare-1.4.0.tgz#4abebfeed7541f2c27acfb29bdbbd15c8d5ba4f7"
   integrity sha1-Sr6/7tdUHywnrPspvbvRXI1bpPc=
 
-near-api-js@near/near-api-js#2fa-update:
-  version "0.38.0"
-  resolved "https://codeload.github.com/near/near-api-js/tar.gz/28bfd605285a2e9c11dd1016255336227dcf44f0"
+near-api-js@^0.39.0:
+  version "0.39.0"
+  resolved "https://registry.yarnpkg.com/near-api-js/-/near-api-js-0.39.0.tgz#8c6b040e92f01266f35d358aee3914f26af2d83f"
+  integrity sha512-RX2oLOg438QCY3UQLb6FMkXmInFQIS0S+xg/auNZP292ySsMTKppoD07g/ExEFbW8Uyej8/TvjhBjKxnDBUigQ==
   dependencies:
     "@types/bn.js" "^5.1.0"
     bn.js "^5.0.0"
