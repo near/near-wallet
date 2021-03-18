@@ -39,27 +39,27 @@ const Account = styled.div`
         :hover {
             background-color: #f8f8f8;
 
-          .accountId {
+            .accountId {
             color: black;
-          }
+            }
         }
     }
 
     &.active-account {
-      color: white;
-      background-color: #ECFDF5;
-      border-radius: 8px;
-      cursor: default;
-      color: black;
+        color: white;
+        background-color: #ECFDF5;
+        border-radius: 8px;
+        cursor: default;
+        color: black;
 
-      .balance {
+        .balance {
         color: #008D6A;
-      }
+        }
     }
 
     .account-data {
-      display: flex;
-      flex-direction: column;
+        display: flex;
+        flex-direction: column;
     }
 
     .balance {
