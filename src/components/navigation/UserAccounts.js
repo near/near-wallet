@@ -3,6 +3,7 @@ import styled from 'styled-components'
 
 import Balance from '../common/Balance'
 import SkeletonLoading from '../common/SkeletonLoading';
+import classNames from '../../utils/classNames'
 
 const Wrapper = styled.div`
     .animation-wrapper > .animation {
@@ -66,19 +67,55 @@ const Account = styled.div`
     }
 `
 
-const SyncButton = styled.button`
-  background-color: #f8f8f8;
-  border-radius: 50px;
-  border: 2px solid #f8f8f8;
-  color: #0072ce;
-  font-size: 12px;
-  font-weight: 500;
-  padding: 4px 8px;
+const SyncButton = styled.span`
+    background-color: #f8f8f8;
+    border-radius: 50px;
+    border: 2px solid #f8f8f8;
+    color: #0072ce;
+    font-size: 12px;
+    font-weight: 500;
+    padding: 4px 8px;
 
-  :hover, :active {
+    :hover, :active {
     background-color: #F0F0F1;
     border-color: #F0F0F1;
-  }
+    }
+
+    &.dots {
+        color: #0072ce;
+        margin: 0 12px 0 0;
+        padding: 0 12px 0 6px;
+
+        :after {
+            content: '.';
+            animation: link 1s steps(5, end) infinite;
+
+            @keyframes link {
+                0%, 20% {
+                    color: rgba(0,0,0,0);
+                    text-shadow:
+                        .3em 0 0 rgba(0,0,0,0),
+                        .6em 0 0 rgba(0,0,0,0);
+                }
+                40% {
+                    color: #0072ce;
+                    text-shadow:
+                        .3em 0 0 rgba(0,0,0,0),
+                        .6em 0 0 rgba(0,0,0,0);
+                }
+                60% {
+                    text-shadow:
+                        .3em 0 0 #0072ce,
+                        .6em 0 0 rgba(0,0,0,0);
+                }
+                80%, 100% {
+                    text-shadow:
+                        .3em 0 0 #0072ce,
+                        .6em 0 0 #0072ce;
+                }
+            }
+        }
+    }
 `
 
 const UserAccounts = ({ accounts, accountId, selectAccount, accountIdLocalStorage, accountsBalance, balance, refreshBalance }) => (
@@ -103,9 +140,13 @@ const UserAccounts = ({ accounts, accountId, selectAccount, accountIdLocalStorag
                         </div>
                     </div>
                     <div>
-                        {accountsBalance && accountsBalance[account]?.available && (
-                            <SyncButton onClick={() => refreshBalance(account)} title='Sync balance'>Sync</SyncButton>
-                        )}
+                        <SyncButton className={classNames([{'dots': !(accountsBalance && accountsBalance[account]?.available)}])} onClick={() => refreshBalance(account)} title='Sync balance'>
+                            {accountsBalance && accountsBalance[account]?.available
+                                ? 'Sync'
+                                : ''
+                            }
+
+                        </SyncButton>
                     </div>
                 </Account>
             )) : <SkeletonLoading
