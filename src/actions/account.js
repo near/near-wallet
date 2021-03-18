@@ -544,13 +544,20 @@ export const switchAccount = (accountId) => async (dispatch, getState) => {
 }
 
 export const getAvailableAccountsBalance = () => async (dispatch, getState) => {
-    const { accounts, accountsBalance } = getState().account
+    let { accounts, accountsBalance } = getState().account
 
     for (let i = 0; i < Object.keys(accounts).length; i++) {
         const accountId = Object.keys(accounts)[i]
         if (!accountsBalance || !accountsBalance[accountId]) {
-            await dispatch(getAccountBalance(accountId))
+            i < 5 && await dispatch(setAccountBalance(accountId))
         }
+    }
+
+    accountsBalance = getState().account.accountsBalance
+
+    for (let i = 0; i < Object.keys(accountsBalance).length; i++) {
+        const accountId = Object.keys(accountsBalance)[i]
+        await dispatch(getAccountBalance(accountId))
     }
 }
 
