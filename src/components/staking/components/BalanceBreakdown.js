@@ -3,22 +3,16 @@ import styled from 'styled-components'
 import classNames from '../../../utils/classNames'
 import { Translate } from 'react-localize-redux'
 import ChevronIcon from '../../svg/ChevronIcon'
-import { Modal } from 'semantic-ui-react'
 import Balance from '../../common/Balance'
 import { WALLET_APP_MIN_AMOUNT } from '../../../utils/wallet'
 import * as nearApiJs from 'near-api-js'
 import BN from 'bn.js'
-import InfoIcon from '../../svg/InfoIcon.js'
+import { Mixpanel } from '../../../mixpanel/index'
+import Tooltip from '../../common/Tooltip'
+import Accordion from '../../common/Accordion'
 
 const Container = styled.div`
     font-size: 13px;
-
-    .content {
-        height: 0px;
-        overflow: hidden;
-        transition: 300ms;
-        opacity: 0;
-    }
 
     &.error {
         .title {
@@ -27,11 +21,6 @@ const Container = styled.div`
     }
 
     &.open {
-        .content {
-            opacity: 1;
-            height: 112px;
-        }
-
         .chevron-icon {
             transform: rotate(-90deg) !important;
         }
@@ -102,7 +91,7 @@ function BalanceBreakdown({ total, onClickAvailable, availableType, error }) {
         <Translate>
             {({ translate }) => (
                 <Container className={classNames([open ? 'open' : '', error ? 'error' : ''])}>
-                    <div className='content'>
+                    <Accordion trigger='balance-breakdown-1'>
                         <div className='item'>
                             <Translate id='balanceBreakdown.available'/>
                             <div className='right'>
@@ -110,20 +99,15 @@ function BalanceBreakdown({ total, onClickAvailable, availableType, error }) {
                             </div>
                         </div>
                         <div className='item'>
-                            <Modal
-                                size='mini'
-                                trigger={<span><Translate id='balanceBreakdown.reserved'/> <InfoIcon color='#999999' /></span>}
-                                closeIcon
-                            >
-                                <Translate id='reservedForFeesInfo' />
-                            </Modal>
+                            <Translate id='balanceBreakdown.reserved' />
+                            <Tooltip translate='reservedForFeesInfo'/>
                             <div className='right'>
                                 - <Balance amount={subtractAmount} symbol='near'/>
                             </div>
                         </div>
-                    </div>
+                    </Accordion>
                     <div className='title'>
-                        <div onClick={() => setOpen(!open)}>
+                        <div id='balance-breakdown-1' onClick={() => {setOpen(!open); Mixpanel.track("Watch available to send")}}>
                             <Translate id={availableType}/><ChevronIcon color='#0072ce'/>
                         </div>
                         <div className='right' onClick={onClickAvailable}>

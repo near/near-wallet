@@ -18,6 +18,7 @@ import Balance from '../common/Balance'
 import TransferMoneyIcon from '../svg/TransferMoneyIcon'
 import { onKeyDown } from '../../hooks/eventListeners'
 import classNames from '../../utils/classNames'
+import { Mixpanel } from '../../mixpanel/index'
 
 const {
     parseNearAmount, formatNearAmount
@@ -31,7 +32,7 @@ const StyledContainer = styled(Container)`
         }
         .sub-title {
             span {
-                color: #292526;
+                font-weight: 600;
 
                 &.receiver {
                     line-break: anywhere;
@@ -44,7 +45,7 @@ const StyledContainer = styled(Container)`
 export function SendContainer({ match, location }) {
     const dispatch = useDispatch()
     const { accountId, balance } = useSelector(({ account }) => account);
-    const { localAlert, mainLoader } = useSelector(({ status }) => status);
+    const { localAlert, mainLoader, actionStatus } = useSelector(({ status }) => status);
     const [useMax, setUseMax] = useState(null)
     const [amount, setAmount] = useState('')
     const [confirm, setConfirm] = useState(null)
@@ -60,6 +61,10 @@ export function SendContainer({ match, location }) {
 
     useEffect(() => {
         if (success) {
+            let id = Mixpanel.get_distinct_id()
+            Mixpanel.identify(id)
+            Mixpanel.people.set({last_send_token: new Date().toString()})
+
             setUseMax(null)
             setAmount('')
             setConfirm(null)
@@ -69,8 +74,10 @@ export function SendContainer({ match, location }) {
     }, [location.key])
 
     useEffect(() => {
-        dispatch(getBalance())
-    }, [])
+        if (id && actionStatus.GET_BALANCE?.success) {
+            dispatch(checkAccountAvailable(id))
+        }
+    }, [actionStatus.GET_BALANCE?.success])
 
     onKeyDown(e => {
         if (e.keyCode === 13 && sendAllowed) {
@@ -84,6 +91,7 @@ export function SendContainer({ match, location }) {
 
     const handleSetUseMax = () => {
         if (amountAvailableToSend.gt(new BN('0'))) {
+            Mixpanel.track("SEND Use max amount")
             setUseMax(true)
             setAmount(formatNearAmount(amountAvailableToSend, 5).replace(/,/g, ''))
         }
@@ -98,15 +106,20 @@ export function SendContainer({ match, location }) {
     }
 
     const handleConfirm = () => {
+        Mixpanel.track("SEND Click submit button")
         setConfirm(true)
     }
 
     const handleSend = async () => {
-        await dispatch(sendMoney(id, parseNearAmount(amount)))
-        await dispatch(getBalance())
-        setConfirm(false)
-        setSuccess(true)
-        window.scrollTo(0, 0)
+        await Mixpanel.withTracking("SEND token", 
+            async () => {
+                await dispatch(sendMoney(id, parseNearAmount(amount)))
+                await dispatch(getBalance())
+                setConfirm(false)
+                setSuccess(true)
+                window.scrollTo(0, 0) 
+            }
+        )
     }
 
     if (!success) {
@@ -119,7 +132,7 @@ export function SendContainer({ match, location }) {
                     <FormButton className='light-blue small' onClick={handleSetUseMax}><Translate id='staking.stake.useMax' /></FormButton>
                 </div>
                 <input
-                    disabled={false}
+                    disabled={confirm}
                     type='number'
                     autoFocus
                     placeholder='0'
@@ -145,13 +158,17 @@ export function SendContainer({ match, location }) {
                     autoFocus={false}
                     clearLocalAlert={() => dispatch(clearLocalAlert())}
                     stateAccountId={accountId}
+                    disabled={confirm}
                 />
                 <FormButton onClick={handleConfirm} disabled={!sendAllowed}>
                     <Translate id='sendMoney.button.send' />
                 </FormButton>
                 {confirm &&
                     <SendConfirmModal
-                        onClose={() => setConfirm(false)}
+                        onClose={() => {
+                            setConfirm(false)
+                            Mixpanel.track("SEND Click cancel button")
+                        }}
                         onConfirm={handleSend}
                         loading={mainLoader}
                         receiver={id}
@@ -164,9 +181,9 @@ export function SendContainer({ match, location }) {
         return (
             <StyledContainer className='small-centered send-theme success'>
                 <TransferMoneyIcon/>
-                <h1>Success!</h1>
-                <div className='sub-title success'>You have successfully sent <span><Balance amount={utils.format.parseNearAmount(amount) || '0'} symbol='near'/></span> to <span className='receiver'>{id}</span></div>
-                <FormButton linkTo='/'>
+                <h1><Translate id='sendMoney.title.success' /></h1>
+                <div className='sub-title success'><Translate id='sendMoney.subtitle.success' /> <span><Balance amount={utils.format.parseNearAmount(amount) || '0'} symbol='near'/></span> <Translate id='sendMoney.subtitle.to' /> <br/><span className='receiver'>{id}</span></div>
+                <FormButton linkTo='/' trackingId="SEND Click go to dashboard button">
                     <Translate id='button.goToDashboard' />
                 </FormButton>
             </StyledContainer>

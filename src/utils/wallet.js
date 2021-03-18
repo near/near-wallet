@@ -46,6 +46,7 @@ export const LINKDROP_GAS = process.env.LINKDROP_GAS || '100000000000000'
 export const ENABLE_FULL_ACCESS_KEYS = process.env.ENABLE_FULL_ACCESS_KEYS === 'yes'
 export const HIDE_SIGN_IN_WITH_LEDGER_ENTER_ACCOUNT_ID_MODAL = process.env.HIDE_SIGN_IN_WITH_LEDGER_ENTER_ACCOUNT_ID_MODAL
 export const SMS_BLACKLIST = process.env.SMS_BLACKLIST || 'CN'
+export const EXPLORE_APPS_URL = process.env.EXPLORE_APPS_URL || 'https://awesomenear.com/trending/'
 
 export const NETWORK_ID = process.env.REACT_APP_NETWORK_ID || 'default'
 const CONTRACT_CREATE_ACCOUNT_URL = `${ACCOUNT_HELPER_URL}/account`
@@ -54,7 +55,7 @@ export const WALLET_APP_MIN_AMOUNT = nearApiJs.utils.format.formatNearAmount(new
 
 const KEY_UNIQUE_PREFIX = '_4:'
 const KEY_WALLET_ACCOUNTS = KEY_UNIQUE_PREFIX + 'wallet:accounts_v2'
-const KEY_ACTIVE_ACCOUNT_ID = KEY_UNIQUE_PREFIX + 'wallet:active_account_id_v2'
+export const KEY_ACTIVE_ACCOUNT_ID = KEY_UNIQUE_PREFIX + 'wallet:active_account_id_v2'
 const ACCOUNT_ID_REGEX = /^(([a-z\d]+[-_])*[a-z\d]+\.)*([a-z\d]+[-_])*[a-z\d]+$/
 
 export const keyAccountConfirmed = (accountId) => `wallet.account:${accountId}:${NETWORK_ID}:confirmed`
@@ -361,10 +362,24 @@ class Wallet {
             throw new WalletError('Creating account has failed', 'createAccount.returnedFalse', { transactionHash })
         }
 
-        if (!this.accounts[fundingAccountId]) {
-            // Temporary implicit account used for funding – move whole balance by deleting it
-            await account.deleteAccount(accountId)
+        if (this.accounts[fundingAccountId] || fundingAccountId.length !== 64) {
+            return
         }
+
+        // Check if account has any non-implicit keys (meaning account cannot be safely deleted)
+        const accessKeys = await account.getAccessKeys()
+        if (accessKeys.length !== 1) {
+            return
+        } 
+        const [{ access_key: { permission }, public_key }] = accessKeys
+        const implicitPublicKey = new PublicKey({ keyType: KeyType.ED25519, data: Buffer.from(fundingAccountId, 'hex') })
+        if (permission !== 'FullAccess' || implicitPublicKey.toString() !==  public_key) {
+            return
+        }
+
+        // TODO: Send transfer action as well to fail for sure if destination account doesn't exist?
+        // Temporary implicit account used for funding – move whole balance by deleting it
+        await account.deleteAccount(accountId)
     }
 
     async checkNearDropBalance(fundingContract, fundingKey) {
@@ -410,7 +425,7 @@ class Wallet {
 
     async saveAndSelectAccount(accountId, keyPair) {
         await this.saveAccount(accountId, keyPair)
-        store.dispatch(selectAccount(accountId))
+        this.selectAccount(accountId)
         // TODO: What does setAccountConfirmed do?
         setAccountConfirmed(this.accountId, false)
     }
@@ -868,21 +883,29 @@ class Wallet {
 
     async signAndSendTransactions(transactions, accountId) {
         const account = await this.getAccount(accountId)
-        
-        // TODO move to nearapi js Account.js
-        if (account.signAndSendTransactions) {
-            return account.signAndSendTransactions(transactions)
-        }
 
         store.dispatch(setSignTransactionStatus('in-progress'))
+        const transactionHashes = [];
         for (let { receiverId, nonce, blockHash, actions } of transactions) {
-            const [, signedTransaction] = await nearApiJs.transactions.signTransaction(receiverId, nonce, actions, blockHash, this.connection.signer, accountId, NETWORK_ID)
-            let { status, transaction } = await this.connection.provider.sendTransaction(signedTransaction)
+            let status, transaction
+            if (account.deployMultisig) {
+                const result = await account.signAndSendTransaction(receiverId, actions)
+                ;({ status, transaction } = result)
+            } else {
+                // TODO: Maybe also only take receiverId and actions as with multisig path?
+                const [, signedTransaction] = await nearApiJs.transactions.signTransaction(receiverId, nonce, actions, blockHash, this.connection.signer, accountId, NETWORK_ID)
+                ;({ status, transaction } = await this.connection.provider.sendTransaction(signedTransaction))
+            }
 
+            // TODO: Shouldn't throw more specific errors on failure?
             if (status.Failure !== undefined) {
                 throw new Error(`Transaction failure for transaction hash: ${transaction.hash}, receiver_id: ${transaction.receiver_id} .`)
             }
+
+            transactionHashes.push(transaction.hash)
         }
+
+        return transactionHashes;
     }
 
     dispatchShowLedgerModal(show) {

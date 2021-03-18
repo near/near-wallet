@@ -24,7 +24,14 @@ const SetupLedger = (props) => {
 
     const [showInstructions, setShowInstructions] = useState(false);
     const [connect, setConnect] = useState(false);
-    const toggleShowInstructions = () => setShowInstructions(!showInstructions);
+    const openShowInstructions = () => {
+        setShowInstructions(true)
+        Mixpanel.track("SR-Ledger See instructions")
+    }
+    const closeShowInstructions = () => {
+        setShowInstructions(false)
+        Mixpanel.track("SR-Ledger Close instructions")
+    }
 
     const handleClick = async () => {
         const {
@@ -34,41 +41,42 @@ const SetupLedger = (props) => {
         } = props
 
         setConnect('')
-        const isNew = await dispatch(checkIsNew(accountId))
-        try {
-            if (isNew) {
-                const fundingOptions = JSON.parse(parseQuery(location.search).fundingOptions || 'null')
-                console.log('SetupLedger', DISABLE_CREATE_ACCOUNT, fundingOptions)
-                const publicKey = await dispatch(getLedgerPublicKey())
-                await setKeyMeta(publicKey, { type: 'ledger' })
-                Mixpanel.track("SR-Ledger Set key meta")
-
-                if (DISABLE_CREATE_ACCOUNT && !fundingOptions) {
-                    await dispatch(fundCreateAccountLedger(accountId, publicKey))
-                    Mixpanel.track("SR-Ledger Fund create account ledger")
-                    return
+        await Mixpanel.withTracking("SR-Ledger Connect ledger",
+            async () => {
+                const isNew = await dispatch(checkIsNew(accountId))
+                if (isNew) {
+                    const fundingOptions = JSON.parse(parseQuery(location.search).fundingOptions || 'null')
+                    console.log('SetupLedger', DISABLE_CREATE_ACCOUNT, fundingOptions)
+                    const publicKey = await dispatch(getLedgerPublicKey())
+                    await setKeyMeta(publicKey, { type: 'ledger' })
+                    Mixpanel.track("SR-Ledger Set key meta")
+    
+                    if (DISABLE_CREATE_ACCOUNT && !fundingOptions) {
+                        await dispatch(fundCreateAccountLedger(accountId, publicKey))
+                        Mixpanel.track("SR-Ledger Fund create account ledger")
+                        return
+                    }
+    
+                    await dispatch(createNewAccount(accountId, fundingOptions, 'ledger', publicKey))
+                    Mixpanel.track("SR-Ledger Create new account ledger")
+                } else {
+                    await dispatch(addLedgerAccessKey())
+                    Mixpanel.track("SR-Ledger Add ledger access key")
                 }
-
-                await dispatch(createNewAccount(accountId, fundingOptions, 'ledger', publicKey))
-                Mixpanel.track("SR-Ledger Create new account ledger")
-            } else {
-                await dispatch(addLedgerAccessKey())
-                Mixpanel.track("SR-Ledger Add ledger access key")
+                await dispatch(refreshAccount())
+                if (isNew) {
+                    Mixpanel.track("SR-Ledger Go to profile of new account")
+                    await dispatch(redirectToApp('/profile'))
+                } else {
+                    Mixpanel.track("SR-Ledger Go to setup ledger success")
+                    await dispatch(redirectTo('/setup-ledger-success'));
+                }
+            },
+            (e) => {
+                setConnect('fail');
+                throw e;
             }
-            await dispatch(refreshAccount())
-        } catch(e) {
-            setConnect('fail');
-            Mixpanel.track("SR-Ledger Connect ledger fail", {error: e.message})
-            throw e;
-        } 
-
-        if (isNew) {
-            Mixpanel.track("SR-ledger Go to profile of new account")
-            await dispatch(redirectToApp('/profile'))
-        } else {
-            Mixpanel.track("SR-Ledger Go to setup ledger success")
-            await dispatch(redirectTo('/setup-ledger-success'));
-        }
+        )        
     }
 
     return (
@@ -85,7 +93,7 @@ const SetupLedger = (props) => {
             <LedgerIcon/>
             <h2>
                 <Translate id='setupLedger.one'/>
-                &nbsp;<Translate id='setupLedger.two'/> <span className='link underline' onClick={toggleShowInstructions}><Translate id='setupLedger.twoLink'/></span>.
+                &nbsp;<Translate id='setupLedger.two'/> <span className='link underline' onClick={openShowInstructions}><Translate id='setupLedger.twoLink'/></span>.
             </h2>
             <FormButton onClick={handleClick} sending={props.mainLoader} sendingString='button.connecting'>
                 <Translate id={`button.${connect !== 'fail' ? 'continue' : 'retry'}`}/>
@@ -100,7 +108,7 @@ const SetupLedger = (props) => {
                     <Translate id='button.cancel'/>
                 </button>
             {showInstructions && 
-                <InstructionsModal open={showInstructions} onClose={toggleShowInstructions}/>
+                <InstructionsModal open={showInstructions} onClose={closeShowInstructions}/>
             }
         </Container>
     );

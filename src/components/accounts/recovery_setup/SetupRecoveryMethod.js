@@ -138,15 +138,17 @@ class SetupRecoveryMethod extends Component {
         } = this.props;
 
         if (this.state.success) {
-            Mixpanel.track("SR Setup recovery method start", {detail: this.method})
-            const isNew = await checkIsNew(accountId)
-            if (isNew) {
-                const fundingOptions = JSON.parse(parseQuery(location.search).fundingOptions || 'null')
-                await setupRecoveryMessageNewAccount(accountId, this.method, securityCode, fundingOptions, this.state.recoverySeedPhrase)
-            } else {
-                await setupRecoveryMessage(accountId, this.method, securityCode, this.state.recoverySeedPhrase)
-            }
-            Mixpanel.track("SR Setup recovery method finish", {detail: this.method})
+            await Mixpanel.withTracking("SR Setup recovery method",
+                async () => {
+                    const isNew = await checkIsNew(accountId)
+                    if (isNew) {
+                        const fundingOptions = JSON.parse(parseQuery(location.search).fundingOptions || 'null')
+                        await setupRecoveryMessageNewAccount(accountId, this.method, securityCode, fundingOptions, this.state.recoverySeedPhrase)
+                    } else {
+                        await setupRecoveryMessage(accountId, this.method, securityCode, this.state.recoverySeedPhrase)
+                    }
+                }
+            )
         }
     }
 
@@ -264,6 +266,7 @@ class SetupRecoveryMethod extends Component {
                             type='submit'
                             disabled={!this.isValidInput || mainLoader}
                             sending={mainLoader}
+                            trackingId='SR Click submit button'
                         >
                         <Translate id='button.continue'/>
                         </FormButton>

@@ -9,7 +9,7 @@ const initialState = {
 }
 
 const sign = handleActions({
-    [parseTransactionsToSign]: (state, { payload: { transactions: transactionsString, callbackUrl } }) => {
+    [parseTransactionsToSign]: (state, { payload: { transactions: transactionsString, callbackUrl, meta } }) => {
         const transactions = transactionsString.split(',')
             .map(str => Buffer.from(str, 'base64'))
             .map(buffer => utils.serialize.deserialize(transaction.SCHEMA, transaction.Transaction, buffer))
@@ -18,6 +18,7 @@ const sign = handleActions({
         return {
             status: 'needs-confirmation',
             callbackUrl,
+            meta,
             transactions,
             totalAmount: allActions
                 .map(a => (a.transfer && a.transfer.deposit) || (a.functionCall && a.functionCall.deposit) || 0)
@@ -27,7 +28,7 @@ const sign = handleActions({
                 gasLimit: allActions
                     .filter(a => Object.keys(a)[0] === 'functionCall')
                     .map(a => a.functionCall.gas)
-                    .reduce((totalGas, gas) => totalGas.add(gas)).toString(),
+                    .reduce((totalGas, gas) => totalGas.add(gas), new BN(0)).toString(),
                 gasPrice: '' // TODO: Where to get gas price?
             },
             sensitiveActionsCounter: allActions

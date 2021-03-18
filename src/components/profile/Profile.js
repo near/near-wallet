@@ -6,20 +6,21 @@ import RecoveryContainer from './Recovery/RecoveryContainer'
 import BalanceContainer from './balances/BalanceContainer'
 import HardwareDevices from './hardware_devices/HardwareDevices'
 import TwoFactorAuth from './two_factor/TwoFactorAuth'
-import { getLedgerKey, checkCanEnableTwoFactor, getAccessKeys, redirectTo, refreshAccount, transferAllFromLockup, loadRecoveryMethods, getProfileStakingDetails, getBalance } from '../../actions/account'
+import { getLedgerKey, checkCanEnableTwoFactor, redirectTo, refreshAccount, transferAllFromLockup, loadRecoveryMethods, getProfileStakingDetails, getBalance } from '../../actions/account'
 import styled from 'styled-components'
 import LockupAvailTransfer from './balances/LockupAvailTransfer'
 import UserIcon from '../svg/UserIcon'
 import ShieldIcon from '../svg/ShieldIcon'
 import LockIcon from '../svg/LockIcon'
-import { actionsPending } from '../../utils/alerts'
+import CheckCircleIcon from '../svg/CheckCircleIcon'
 import BN from 'bn.js'
 import SkeletonLoading from '../common/SkeletonLoading'
-import InfoPopup from '../common/InfoPopup'
 import { selectProfileBalance } from '../../reducers/selectors/balance'
 import { useAccount } from '../../hooks/allAccounts'
 import { Mixpanel } from "../../mixpanel/index"
-import { formatNEAR } from '../common/Balance'
+import AuthorizedApp from './authorized_apps/AuthorizedApp'
+import FormButton from '../common/FormButton'
+import Tooltip from '../common/Tooltip'
 
 
 const StyledContainer = styled(Container)`
@@ -32,6 +33,10 @@ const StyledContainer = styled(Container)`
         .left {
             flex: 1.5;
             margin-right: 50px;
+
+            .authorized-app-box {
+                margin: 0 -14px;
+            }
         }
 
         .right {
@@ -79,6 +84,10 @@ const StyledContainer = styled(Container)`
             h2 {
                 margin-left: -20px;
             }
+
+            > hr {
+                margin: 50px -14px 30px -14px;
+            }
         }
 
         .animation-wrapper {
@@ -88,17 +97,17 @@ const StyledContainer = styled(Container)`
                 margin-top: 30px;
             }
         }
+
+        .tooltip {
+            margin-bottom: -1px;
+        }
     }
 
     .right {
         > h4 {
             margin: 50px 0 20px 0;
             display: flex;
-
-            .popup-trigger, svg {
-                width: 20px;
-                height: 20px;
-            }
+            align-items: center;
         }
 
         .recovery-option,
@@ -114,12 +123,35 @@ const StyledContainer = styled(Container)`
 
     .sub-heading {
         margin: 20px 0;
+        color: #72727A;
+    }
+
+    .auth-apps {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 35px;
+
+        @media (min-width: 992px) {
+            margin-right: -14px;
+        }
+
+        button {
+            &.link {
+                text-decoration: none !important;
+                white-space: nowrap;
+            }
+        }
+    }
+
+    .authorized-app-box {
+        margin-top: 20px !important;
     }
 `
 
 export function Profile({ match }) {
     const [transferring, setTransferring] = useState(false)
-    const { has2fa } = useSelector(({ account }) => account)
+    const { has2fa, authorizedApps } = useSelector(({ account }) => account)
     const loginAccountId = useSelector(state => state.account.accountId)
     const recoveryMethods = useSelector(({ recoveryMethods }) => recoveryMethods);
     const accountIdFromUrl = match.params.accountId
@@ -130,7 +162,6 @@ export function Profile({ match }) {
     const userRecoveryMethods = recoveryMethods[account.accountId]
     const twoFactor = has2fa && userRecoveryMethods && userRecoveryMethods.filter(m => m.kind.includes('2fa'))[0]
     const profileBalance = selectProfileBalance(account.balance)
-    const recoveryLoader = actionsPending('LOAD_RECOVERY_METHODS') && !userRecoveryMethods
 
     useEffect(() => {
         if (accountIdFromUrl && accountIdFromUrl !== accountIdFromUrl.toLowerCase()) {
@@ -140,35 +171,27 @@ export function Profile({ match }) {
         (async () => {
             if (isOwner) {
                 await dispatch(loadRecoveryMethods())
-                dispatch(getAccessKeys(accountId))
                 dispatch(getLedgerKey())
-                await dispatch(getBalance())
-                dispatch(checkCanEnableTwoFactor(account))
+                const balance = await dispatch(getBalance())
+                dispatch(checkCanEnableTwoFactor(balance))
                 dispatch(getProfileStakingDetails())
             }
         })()
     }, []);
 
     useEffect(() => {
-        if (account.balance?.total) {
+        if (userRecoveryMethods) {
             let id = Mixpanel.get_distinct_id()
             Mixpanel.identify(id)
             Mixpanel.people.set_once({create_date: new Date().toString(),})
             Mixpanel.people.set({
                 relogin_date: new Date().toString(),
-                enabled_2FA: account.has2fa,
-                [accountId]: formatNEAR(account.balance.total) 
+                enabled_2FA: account.has2fa
             })
             Mixpanel.alias(accountId)
-        }
-    },[account.balance?.total])
-
-    useEffect(() => {
-        if (userRecoveryMethods) {
-            let id = Mixpanel.get_distinct_id()
-            Mixpanel.identify(id)
-            let methods = userRecoveryMethods.map(method => method.kind)
-            Mixpanel.people.set({recovery_method: methods})
+            userRecoveryMethods.map(method => {
+                Mixpanel.people.set({['recovery_with_'+method.kind]:true})
+            })
         }
     },[userRecoveryMethods])
 
@@ -179,8 +202,7 @@ export function Profile({ match }) {
             Mixpanel.people.set({
                 create_2FA_at: twoFactor.createdAt, 
                 enable_2FA_kind:twoFactor.kind, 
-                enabled_2FA: twoFactor.confirmed, 
-                detail_2FA: twoFactor.detail})
+                enabled_2FA: twoFactor.confirmed})
         }
     }, [twoFactor])
 
@@ -221,21 +243,34 @@ export function Profile({ match }) {
                             number={2}
                         />
                     )}
+                    {isOwner && authorizedApps?.length ?
+                        <>
+                            <hr/>
+                            <div className='auth-apps'>
+                                <h2><CheckCircleIcon/><Translate id='profile.authorizedApps.title'/></h2>
+                                <FormButton color='link' linkTo='/authorized-apps'><Translate id='button.viewAll'/></FormButton>
+                            </div>
+                            {authorizedApps.slice(0, 2).map((app, i) => (
+                                <AuthorizedApp key={i} app={app}/>
+                            ))}
+                        </>
+                        : null
+                    }
                 </div>
                 {isOwner &&
                     <div className='right'>
                         <h2><ShieldIcon/><Translate id='profile.security.title'/></h2>
-                        <h4><Translate id='profile.security.mostSecure'/><InfoPopup content={<Translate id='profile.security.mostSecureDesc'/>}/></h4>
+                        <h4><Translate id='profile.security.mostSecure'/><Tooltip translate='profile.security.mostSecureDesc' icon='icon-lg'/></h4>
                         {!twoFactor && <HardwareDevices recoveryMethods={userRecoveryMethods}/>}
                         <RecoveryContainer type='phrase' recoveryMethods={userRecoveryMethods}/>
-                        <h4><Translate id='profile.security.lessSecure'/><InfoPopup content={<Translate id='profile.security.lessSecureDesc'/>}/></h4>
+                        <h4><Translate id='profile.security.lessSecure'/><Tooltip translate='profile.security.lessSecureDesc' icon='icon-lg'/></h4>
                         <RecoveryContainer type='email' recoveryMethods={userRecoveryMethods}/>
                         <RecoveryContainer type='phone' recoveryMethods={userRecoveryMethods}/>
                         {!account.ledgerKey &&
                             <>
                                 <hr/>
                                 <h2><LockIcon/><Translate id='profile.twoFactor'/></h2>
-                                {!recoveryLoader ? (
+                                {account.canEnableTwoFactor !== null ? (
                                     <>
                                         <div className='sub-heading'><Translate id='profile.twoFactorDesc'/></div>
                                         {/* TODO: Also check recovery methods in DB for Ledger */}
@@ -244,7 +279,7 @@ export function Profile({ match }) {
                                 ) : (
                                     <SkeletonLoading
                                         height='80px'
-                                        show={recoveryLoader}
+                                        show={true}
                                     />
                                 )}
                             </>

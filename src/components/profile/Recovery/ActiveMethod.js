@@ -22,6 +22,7 @@ const EnabledContainer = styled.div`
                 max-width: 140px;
                 white-space: nowrap;
                 overflow: hidden;
+                color: #A1A1A9;
 
                 @media (min-width: 375px) {
                     max-width: 180px;
@@ -36,6 +37,7 @@ const EnabledContainer = styled.div`
                 color: #FF585D;
                 background-color: #f8f8f8;
                 border: none;
+                font-weight: 600;
 
                 &:hover {
                     color: white;
@@ -47,6 +49,7 @@ const EnabledContainer = styled.div`
         .bottom {
             display: flex;
             margin-top: 20px;
+            color: #A1A1A9;
 
             button {
                 text-decoration: none;
@@ -163,10 +166,8 @@ class ActiveMethod extends Component {
                         <div className='not-allowed'>
                             <Translate id='recoveryMgmt.disableNotAllowed'/>
                             <FormButton 
-                                onClick={() => {
-                                    Mixpanel.track(data.kind === 'phrase'? 'SR-SP Click close button': `SR Click close button for ${data.kind}`)
-                                    this.handleToggleDisable()
-                                }}  
+                                onClick={this.handleToggleDisable}  
+                                trackingId={data.kind === 'phrase'? 'SR-SP Click close button': `SR Click close button for ${data.kind}`}
                                 type='button' 
                                 className='small gray-blue'
                             >
@@ -207,10 +208,8 @@ class ActiveMethod extends Component {
                                 <FormButton 
                                     type='button' 
                                     color='link' 
-                                    onClick={() => {
-                                        Mixpanel.track(data.kind === 'phrase'? 'SR-SP Click close link': `SR Click close link for ${data.kind}`)
-                                        this.handleToggleDisable()
-                                    }}
+                                    onClick={this.handleToggleDisable}
+                                    trackingId={data.kind === 'phrase'? 'SR-SP Click close link': `SR Click close link for ${data.kind}`}
                                 >
                                     <Translate id='recoveryMgmt.disableNo'/> {data.kind}
                                 </FormButton>

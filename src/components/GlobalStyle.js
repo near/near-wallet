@@ -58,6 +58,11 @@ export default createGlobalStyle`
 
     body, p, h1, h2, h3, h4, h5, h6, button, .button, input, select, textarea {
         font-family: "Inter", Lato, "Lucida Grande", Tahoma, Sans-Serif !important;
+        font-variant: slashed-zero;
+    }
+
+    .font-monospace {
+        font-family: 'IBM Plex Mono', monospace;
     }
 
     h1, .h1 {
@@ -110,7 +115,6 @@ export default createGlobalStyle`
         font-weight: 500;
         color: #999999 !important;
         margin: 0px;
-        letter-spacing: 1.8px;
     }
 
     h6, .h6 {
@@ -118,7 +122,6 @@ export default createGlobalStyle`
         font-weight: 500;
         color: #999999;
         margin: 0px !important;
-        letter-spacing: 1.5px !important;
     }
 
     .font-small {
@@ -335,7 +338,6 @@ export default createGlobalStyle`
     button, .button {
         cursor: pointer;
         outline: none;
-        font-weight: 500 !important;
     }
 
     .box {

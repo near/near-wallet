@@ -23,6 +23,12 @@ const Container = styled.button`
         }
     }
 
+    &.tablet {
+        @media (min-width: 992px) {
+            display: none;
+        }
+    }
+
     &.desktop {
         @media (max-width: 649px) {
             display: none;

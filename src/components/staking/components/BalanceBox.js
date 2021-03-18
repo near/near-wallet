@@ -1,12 +1,11 @@
 import React from 'react'
 import styled from 'styled-components'
 import Balance from '../../common/Balance'
-import InfoIcon from '../../svg/InfoIcon.js'
-import { Modal } from 'semantic-ui-react'
 import { Translate } from 'react-localize-redux'
 import FormButton from '../../common/FormButton'
 import classNames from '../../../utils/classNames'
 import BN from 'bn.js'
+import Tooltip from '../../common/Tooltip'
 
 const Container = styled.div`
     border-bottom: 2px solid #F2F2F2;
@@ -27,6 +26,12 @@ const Container = styled.div`
 
     .title {
         color: #6E7073;
+        display: flex;
+        align-items: center;
+        
+        .tooltip {
+            margin-bottom: -1px;
+        }
     }
 
     .trigger {
@@ -45,7 +50,6 @@ const Container = styled.div`
             width: auto !important;
             padding: 0px 15px !important;
             margin: auto 0 auto auto !important;
-            letter-spacing: 2px !important;
         }
     }
 
@@ -72,31 +76,22 @@ export default function BalanceBox({
     disclaimer,
 }) {
     return (
-        <Translate>
-            {({ translate }) => (
-                <Container className='balance-box'>
-                    <div className='left'>
-                        <div className='title'>{translate(title)}
-                            <Modal
-                                size='mini'
-                                trigger={<span className='trigger'><InfoIcon color='#999999'/></span>}
-                                closeIcon
-                            >
-                                {translate(info)}
-                            </Modal>
-                        </div>
-                        <Balance amount={amount} />
-                        {disclaimer &&
-                            <div className='withdrawal-disclaimer'>
-                                <Translate id={disclaimer} />
-                            </div>
-                        }
+        <Container className='balance-box'>
+            <div className='left'>
+                <div className='title'>
+                    <Translate id={title} />
+                    <Tooltip translate={info}/>
+                </div>
+                <Balance amount={amount} />
+                {disclaimer &&
+                    <div className='withdrawal-disclaimer'>
+                        <Translate id={disclaimer} />
                     </div>
-                    {button && onClick &&
-                        <FormButton disabled={new BN(amount).isZero() || loading} onClick={onClick} className={classNames(['small', buttonColor])}><Translate id={button} /></FormButton>
-                    }
-                </Container>
-            )}
-        </Translate>
+                }
+            </div>
+            {button && onClick &&
+                <FormButton disabled={new BN(amount).isZero() || loading} onClick={onClick} className={classNames(['small', buttonColor])}><Translate id={button} /></FormButton>
+            }
+        </Container>
     )
 }

@@ -3,8 +3,7 @@ import { withRouter, Route } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { Translate } from 'react-localize-redux'
 import { parse as parseQuery } from 'query-string'
-import { 
-    redirectToApp, 
+import {
     handleAddAccessKeySeedPhrase, 
     refreshAccount, 
     checkIsNew, 
@@ -57,7 +56,6 @@ class SetupSeedPhrase extends Component {
     }
 
     handleChangeWord = (e, { name, value }) => {
-        Mixpanel.track("SR-SP Change seed phrase word")
         if (value.match(/[^a-zA-Z]/)) {
             return false
         }
@@ -81,7 +79,7 @@ class SetupSeedPhrase extends Component {
 
     handleVerifyPhrase = () => {
         const { seedPhrase, enterWord, wordId, submitting } = this.state
-        Mixpanel.track("SR-SP Verify seed phrase start")
+        Mixpanel.track("SR-SP Verify start")
         if (enterWord !== seedPhrase.split(' ')[wordId]) {
             this.setState(() => ({
                 localAlert: {
@@ -89,14 +87,14 @@ class SetupSeedPhrase extends Component {
                     messageCode: 'account.verifySeedPhrase.error'
                 }
             }))
-            Mixpanel.track("SR-SP Verify seed phrase fail", {error: 'word is not matched the phrase'})
+            Mixpanel.track("SR-SP Verify fail", {error: 'word is not matched the phrase'})
             return false
         }
 
         if (!submitting) {
             this.setState({ submitting: true }, this.handleSetupSeedPhrase)
         }
-        Mixpanel.track("SR-SP Verify seed phrase finish")
+        Mixpanel.track("SR-SP Verify finish")
     }
 
     handleSetupSeedPhrase = async () => {
@@ -111,22 +109,16 @@ class SetupSeedPhrase extends Component {
         const isNew = await checkIsNew(accountId)
 
         if (!isNew) {
-            try {
-                await handleAddAccessKeySeedPhrase(accountId, recoveryKeyPair)
-                Mixpanel.track("SR-SP Setup seed phrase for existing account")
-            } catch(e) {
-                Mixpanel.track("SR-SP Verify seed phrase fail", {error: e.message})
-            }
+            await Mixpanel.withTracking("SR-SP Setup for existing account",
+                async () => await handleAddAccessKeySeedPhrase(accountId, recoveryKeyPair)
+            )
             return
         }
 
         const fundingOptions = JSON.parse(parseQuery(location.search).fundingOptions || 'null')
-        try {
-            await handleCreateAccountWithSeedPhrase(accountId, recoveryKeyPair, fundingOptions)
-            Mixpanel.track("SR-SP Setup new account start")
-        } catch(e) {
-            Mixpanel.track("SR-SP Verify seed phrase fail", {error: e.message})
-        }
+        await Mixpanel.withTracking("SR-SP Setup for new account", 
+            async () => await handleCreateAccountWithSeedPhrase(accountId, recoveryKeyPair, fundingOptions)
+        )
     }
 
     handleCopyPhrase = () => {
@@ -179,8 +171,8 @@ class SetupSeedPhrase extends Component {
                             render={() => (
                                 <Container className='small-centered'>
                                     <form onSubmit={e => {this.handleVerifyPhrase(); e.preventDefault();}} autoComplete='off'>
-                                    <h1><Translate id='setupSeedPhraseVerify.pageTitle'/></h1>
-                                    <h2><Translate id='setupSeedPhraseVerify.pageText'/></h2>
+                                        <h1><Translate id='setupSeedPhraseVerify.pageTitle'/></h1>
+                                        <h2><Translate id='setupSeedPhraseVerify.pageText'/></h2>
                                         <SetupSeedPhraseVerify
                                             enterWord={this.state.enterWord}
                                             wordId={this.state.wordId}
@@ -208,7 +200,6 @@ class SetupSeedPhrase extends Component {
 }
 
 const mapDispatchToProps = {
-    redirectToApp,
     handleAddAccessKeySeedPhrase,
     refreshAccount,
     checkIsNew,

@@ -81,9 +81,9 @@ export const handleRefreshUrl = () => (dispatch, getState) => {
             dispatch(refreshUrl(loadState()))
         }
 
-        const { transactions, callbackUrl } = getState().account.url
+        const { transactions, callbackUrl, meta } = getState().account.url
         if (transactions) {
-            dispatch(parseTransactionsToSign({ transactions, callbackUrl }))
+            dispatch(parseTransactionsToSign({ transactions, callbackUrl, meta }))
         }
     }
 }
@@ -123,7 +123,8 @@ export const redirectTo = (location, state = {}) => (dispatch) => {
     }))
 }
 
-export const redirectToApp = (fallback) => (dispatch, getState) => {
+export const redirectToApp = (fallback) => async (dispatch, getState) => {
+    dispatch(handleRefreshUrl())
     const { account: { url }} = getState()
     dispatch(push({
         pathname: (url && url.redirect_url !== '/' && url.redirect_url) || fallback || '/',
@@ -141,12 +142,16 @@ export const allowLogin = () => async (dispatch, getState) => {
     const { success_url, public_key, title } = url
 
     if (success_url) {
-        await dispatchWithAlert(addAccessKey(account.accountId, url.contract_id, url.public_key), { onlyError: true })
+        if (public_key) {
+            await dispatchWithAlert(addAccessKey(account.accountId, url.contract_id, url.public_key), { onlyError: true })
+        }
         const availableKeys = await wallet.getAvailableKeys();
         const allKeys = availableKeys.map(key => key.toString());
         const parsedUrl = new URL(success_url)
         parsedUrl.searchParams.set('account_id', account.accountId)
-        parsedUrl.searchParams.set('public_key', public_key)
+        if (public_key) {
+            parsedUrl.searchParams.set('public_key', public_key)
+        }
         parsedUrl.searchParams.set('all_keys', allKeys.join(','))
         window.location = parsedUrl.href
     } else {
@@ -398,7 +403,7 @@ export const finishAccountSetup = () => async (dispatch, getState) => {
     await dispatch(getBalance())
     const account = getState().account
     
-    let promptTwoFactor = await TwoFactor.checkCanEnableTwoFactor(account)
+    let promptTwoFactor = await TwoFactor.checkCanEnableTwoFactor(account.balance)
 
     if (new BN(account.balance.available).lt(new BN(utils.format.parseNearAmount(MULTISIG_MIN_PROMPT_AMOUNT)))) {
         promptTwoFactor = false
@@ -492,7 +497,8 @@ export const refreshAccount = (basicData = false) => async (dispatch, getState) 
 
 export const switchAccount = (accountId) => async (dispatch, getState) => {
     dispatch(selectAccount(accountId))
-    await dispatch(refreshAccount())
+    dispatch(handleRefreshUrl())
+    dispatch(refreshAccount())
 }
 
 export const { selectAccount, refreshAccountOwner, refreshAccountExternal, refreshUrl, updateStakingAccount, updateStakingLockup, getBalance } = createActions({

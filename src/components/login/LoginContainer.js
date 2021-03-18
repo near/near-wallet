@@ -78,7 +78,6 @@ const CustomContainer = styled(Container)`
             border-radius: 20px;
             background: #f8f8f8;
             border: 0px;
-            letter-spacing: 0px;
 
             :hover {
                 color: #24272a;

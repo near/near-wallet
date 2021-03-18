@@ -19,7 +19,6 @@ const PaginationFilterList = styled(List)`
       text-align: left;
       padding-top: 0px;
       padding-bottom: 0px;
-      letter-spacing: 1.8px;
    }
 
    && .sortby-dropdown {

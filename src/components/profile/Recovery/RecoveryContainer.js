@@ -29,7 +29,6 @@ const Container = styled.div`
         font-size: 15px;
         width: 100px;
         height: 36px;
-        letter-spacing: 1px;
     }
 `
 
@@ -48,15 +47,10 @@ const RecoveryContainer = ({ type, recoveryMethods }) => {
 
     const handleDeleteMethod = async (method) => {
         try {
-            Mixpanel.track(method.kind === 'phrase'? 'SR-SP Delete method start': `SR ${method.kind} Delete method start`)
             setDeletingMethod(method.publicKey)
-            try {
-                await dispatch(deleteRecoveryMethod(method, deleteAllowed))
-                Mixpanel.track(method.kind === 'phrase'? 'SR-SP Delete method finish': `SR ${method.kind} Delete method finish`)
-            } catch(e) {
-                Mixpanel.track(method.kind === 'phrase'? 'SR-SP Delete method fail': `SR ${method.kind} Delete method fail`, {error: e.message})
-            }
-            
+            await Mixpanel.withTracking(method.kind === 'phrase'? 'SR-SP Delete method': `SR ${method.kind} Delete method`,
+                async () => await dispatch(deleteRecoveryMethod(method, deleteAllowed))
+            )   
         } finally {
             setDeletingMethod('')
         }
