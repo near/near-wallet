@@ -7,6 +7,7 @@ import { Route, Switch, Redirect } from 'react-router-dom'
 import { ConnectedRouter } from 'connected-react-router'
 import { withLocalize } from 'react-localize-redux'
 import translations_en from '../translations/en.global.json'
+import translations_pt from '../translations/pt.global.json'
 import translations_ru from '../translations/ru.global.json'
 import translations_zh_hans from '../translations/zh-hans.global.json'
 import translations_zh_hant from '../translations/zh-hant.global.json'
@@ -89,11 +90,12 @@ class Routing extends Component {
         super(props)
         const languages = [
             { name: "English", code: "en" },
+            { name: "Português", code: "pt" },
             { name: "Русский", code: "ru" },
             { name: "简体中文", code: "zh-hans" },
             { name: "繁體中文", code: "zh-hant" }
         ]
-        
+
         const activeLang = localStorage.getItem("languageCode") || languages[0].code
 
         this.props.initialize({
@@ -105,9 +107,10 @@ class Routing extends Component {
                 renderInnerHtml: true
             }
         })
-        
+
         // TODO: Figure out how to load only necessary translations dynamically
         this.props.addTranslationForLanguage(translations_en, "en")
+        this.props.addTranslationForLanguage(translations_pt, "pt")
         this.props.addTranslationForLanguage(translations_ru, "ru")
         this.props.addTranslationForLanguage(translations_zh_hans, "zh-hans")
         this.props.addTranslationForLanguage(translations_zh_hant, "zh-hant")
@@ -117,17 +120,17 @@ class Routing extends Component {
     }
 
     componentDidMount = async () => {
-        const { 
-            refreshAccount, 
+        const {
+            refreshAccount,
             handleRefreshUrl,
             history,
-            handleRedirectUrl, 
+            handleRedirectUrl,
             handleClearUrl
         } = this.props
-        
+
         handleRefreshUrl()
         refreshAccount()
-        
+
         history.listen(async () => {
             handleRedirectUrl(this.props.router.location)
             handleClearUrl()
@@ -167,13 +170,13 @@ class Routing extends Component {
                 <ConnectedRouter basename={PATH_PREFIX} history={this.props.history}>
                     <ThemeProvider theme={theme}>
                         <ScrollToTop/>
-                        <NetworkBanner 
+                        <NetworkBanner
                             account={this.props.account}
                         />
                         <Navigation/>
                         <GlobalAlert/>
                         <LedgerConfirmActionModal/>
-                        { 
+                        {
                             this.props.account.requestPending !== null &&
                             <TwoFactorVerifyModal
                                 onClose={(verified, error) => {
