@@ -81,9 +81,11 @@
         "REFRESH_ACCOUNT_EXTERNAL": {
             "error": "Conta <b>${accountId}</b> não encontrada"
         },
+
         "Deserialization": "",
         "RetriesExceeded": "Tentativas máximas excedidas para esta transação.",
         "U2F_4": "Falha ao fazer login com o dispositivo Ledger: U2F DEVICE_INELIGIBLE. Por favor, verifique se o seu dispositivo Ledger está conectado e desbloqueado.",
+
         "default": {
             "success": "",
             "error": "Desculpe, um erro ocorreu. Tente novamente."
@@ -164,6 +166,9 @@
                     "button": "Onde consigo comprar NEAR?",
                     "title": "Compre NEAR tokens",
                     "desc": "NEAR tokens estão disponíveis para compra nas seguintes exchanges"
+                },
+                "alertBanner": {
+                    "title": "Não feche essa janela!"
                 }
             },
             "post": {
@@ -203,6 +208,46 @@
             "error": "Desculpe, ocorreu um erro. Por favor, tente novamente."
         }
     },
+
+    "dashboardActivity": {
+        "title": {
+            "CreateAccount": "Nova conta criada",
+            "DeleteAccount": "Conta deletada",
+            "DeployContract": "Contrato implantado",
+            "FunctionCall": "Método chamado",
+            "Transfer": {
+                "transferred": "NEAR enviado",
+                "received": "NEAR recebido"
+            },
+            "Stake": "Staked",
+            "AddKey": {
+                "forContract": "Chave de acesso adicionada",
+                "forReceiver": "Chave de acesso adicionada"
+            },
+            "DeleteKey": "Chave deletada"
+        },
+        "message": {
+            "CreateAccount": "<span>conta</span> <span>${receiverId}</span>",
+            "DeleteAccount": "<span>conta</span> <span>${receiverId}<span>",
+            "DeployContract": "<span>contrato</span> <span>${receiverId}</span>",
+            "FunctionCall": "<span>${methodName}</span> no contrato <span>${receiverId}</span>",
+            "FunctionCallDetails": {
+                "first": "<span>Método</span> <span>${methodName}</span>",
+                "second": "<span>No contrato</span> <span>${receiverId}</span>"
+            },
+            "Transfer": {
+                "transferred": "<span>para</span> <span>${receiverId}</span>",
+                "received": "<span>de</span> <span>${signerId}</span>"
+            },
+            "Stake": "<span>stake</span><span>${stake}</span>",
+            "AddKey": {
+                "forContract": "<span>para</span> <span>${permissionReceiverId}</span>",
+                "forReceiver": "<span>para</span> <span>${receiverId}</span>"
+            },
+            "DeleteKey": ""
+        }
+    },
+
     "actions": {
         "CreateAccount": "Nova conta criada: ${receiverId}",
         "DeleteAccount": "Conta deletada: ${receiverId}",
@@ -229,6 +274,7 @@
         "deleteKey": "Deletando chave de acesso",
         "deleteAccount": "Deletando conta: ${receiverId}"
     },
+
     "setupSeedPhrase": {
         "pageTitle": "Configurar Frase",
         "pageText": "Escreva as seguintes palavras EM ORDEM e guarde-as em algum lugar seguro. Você não consegue recuperar sua conta sem elas!",
@@ -245,6 +291,7 @@
         "pageText": "Use sua Frase de Recuperação para restaurar sua conta.",
         "pageTextSecondLine": "Qualquer pessoa com acesso a sua Frase de Recuperação pode acessar seus fundos, portanto, mantenha-o offline, em algum lugar seguro e protegido."
     },
+
     "receivePage": {
         "addressTitle": "Seu endereço",
         "qrCodeTitle": "Escaneie o código QR",
@@ -252,6 +299,7 @@
         "copyAddressLinkShort": "COPIAR",
         "snackbarCopySuccess": "URL copiada!"
     },
+
     "selectAccountDropdown": {
         "switchAccount": "Trocar conta",
         "selectAccount": "Selecionar Conta",
@@ -259,6 +307,7 @@
         "createAccount": "Criar Nova Conta",
         "noOtherAccounts": "Você não tem outras contas"
     },
+
     "recoverWithLink": {
         "title": "Restaurar conta",
         "pOne": "Clique em \"Continuar\" para restaurar sua conta:",
@@ -267,6 +316,7 @@
         "errorTitle": "Link Expirado",
         "errorP": "Verifique seu e-mail ou telefone pela mensagem mais recente. Os links de todas as mensagens anteriores são inválidos."
     },
+
     "recoveryMgmt": {
         "title": "Métodos de Recuperação",
         "noRecoveryMethod": "Você não tem nenhum método para recuperar sua conta. Por favor, adicione um método abaixo.",
@@ -288,6 +338,7 @@
         "recoveryLinkSent": "Link de Recuperação Enviado!",
         "disableNotAllowed": "As contas devem ter pelo menos um método de recuperação ativo. Ative primeiro um método de recuperação alternativo para continuar."
     },
+
     "hardwareDevices": {
         "title": "Dispositivos Físicos",
         "desc": "Melhore a segurança da sua conta usando uma carteira física.",
@@ -304,6 +355,7 @@
             "keep": "Não, continuar com a Ledger"
         }
     },
+
     "twoFactor": {
         "enable": "Habilitar Autenticação de Dois Fatores (2FA)",
         "subHeader": "A Autenticação de Dois Fatores adiciona uma camada extra de segurança à sua conta. Com 2FA habilitado, todas as transações devem ser confirmadas usando SMS ou e-mail.",
@@ -338,6 +390,7 @@
             "button": "Saber mais"
         }
     },
+
     "fullAccessKeys": {
         "pageTitle": "Chaves de Acesso Completo",
         "authorizedTo": "AUTORIZADO PARA",
@@ -347,6 +400,7 @@
         "noKeys": "Você não conectou sua carteira NEAR a nenhuma aplicação. Quando fizer, você pode gerenciá-los aqui.<br /><br />Veja o que foi construído com a NEAR:",
         "dashboardNoKeys": "Você não tem chaves de Acesso Completo"
     },
+
     "authorizedApps": {
         "pageTitle": "Apps Autorizados",
         "dashboardNoApps": "Você não autorizou nenhum app",
@@ -354,6 +408,7 @@
         "publicKey": "Chave Pública",
         "ledger": "Ledger"
     },
+
     "ledgerSignTxModal": {
         "SEND_MONEY": "Você precisará confirmar os detalhes da transferência na sua Ledger.",
         "ADD_ACCESS_KEY": "Você precisará confirmar os detalhes de login na sua Ledger.",
@@ -373,6 +428,7 @@
         "WITHDRAW": "Você precisará confirmar o saque na sua Ledger",
         "DISABLE_LEDGER": "Você precisará confirmar os detalhes da chave pública na sua Ledger."
     },
+
     "button": {
         "signIn": "Fazer Login",
         "signingIn": "Fazendo login",
@@ -403,6 +459,7 @@
         "confirm": "Confirmar",
         "viewAll": "Visualizar tudo",
         "send": "Enviar",
+        "receive": "Receber",
         "cancel": "Cancelar",
         "skip": "Pular",
         "deny": "Negar",
@@ -440,8 +497,10 @@
         "authorizing": "Autorizando",
         "deAuthorizing": "Desautorizando",
         "finish": "Finalizar",
-        "transferring": "Transferindo"
+        "transferring": "Transferindo",
+        "viewOnExplorer": "Ver no Explorer"
     },
+
     "link": {
         "summary": "RESUMO",
         "send": "ENVIAR",
@@ -454,9 +513,11 @@
         "noAccount": "Você não tem outras contas",
         "fullAccessKeys": "Chaves de Acesso Completo"
     },
+
     "copy": {
         "default": "Copiado!"
     },
+
     "input": {
         "enterWord": {
             "title": "Palavra <b>#${wordId}</b>",
@@ -468,6 +529,7 @@
             "subLabel": "A ID da conta deve fazer parte de uma conta Top Level como <b>.near</b> ou conter exatamente 64 caracteres."
         }
     },
+
     "recoverAccount": {
         "pageTitle": "Importar conta",
         "pageText": "Se você configurou um ou mais métodos de recuperação de conta, siga as instruções abaixo para importar sua conta.",
@@ -493,6 +555,7 @@
         "actionRequired": "Esta mensagem contém um link mágico. Clique no link para começar a recuperação!",
         "cannotResend": "Esta mensagem foi enviada quando você ativou a recuperação de e-mail/telefone. Somente enviamos esta mensagem uma vez e não podemos reenviá-la."
     },
+
     "createAccount": {
         "pageTitle": "Definir ID da conta",
         "pageText": "Digite um ID para usar com sua conta NEAR. O ID da conta será usado para todas as operações NEAR, incluindo o envio e o recebimento de ativos.",
@@ -518,10 +581,12 @@
             "two": "Recompensas NEAR só podem ser usadas para criar uma única conta, depois disso o link irá expirar."
         }
     },
+
     "topLevelAccounts": {
         "header": "Contas Top Level",
         "body": "Nomes de contas são similares a nomes de domínio. Apenas a conta ${suffix} pode criar contas como seunome.${suffix}, e apenas seunome.${suffix} pode criar app.seunome.${suffix}. Todas as contas criadas nesta carteira usam a Conta Top Level (TLA) .${suffix} . Para saber mais sobre nomes de conta e criar sua própria TLA, visite a <a rel='noopener noreferrer' href='https://docs.nearprotocol.com/docs/concepts/account'>documentação</a>."
     },
+
     "recoverSeedPhrase": {
         "pageTitle": "Recuperar usando Frase-semente",
         "pageText": "Digite a frase-semente de backup associada à conta.",
@@ -530,6 +595,7 @@
             "placeholder": "correct horse battery staple..."
         }
     },
+
     "setupRecovery": {
         "header": "Escolher método de segurança",
         "subHeader": "Selecione um método para proteger e recuperar a sua conta. Isso será usado para verificar atividades importantes, recuperar conta e acessar sua conta em outros dispositivos.",
@@ -570,10 +636,12 @@
             }
         }
     },
+
     "disclaimer": {
         "title": "AVISO",
         "text": "Esta é uma carteira de pré-visualização para desenvolvedor&apos;. Deve ser usada somente para o protocolo NEAR Protocol DevNet. Saiba mais em "
     },
+
     "footer": {
         "copyrights": "NEAR Inc. Todos os direitos reservados.",
         "termsOfService": "Termos de Serviço",
@@ -583,14 +651,31 @@
         "needHelp": "Precisa de ajuda?",
         "contactSupport": "Entrar na Comunidade"
     },
+
     "dashboard": {
         "activity": "Atividade"
     },
+
     "loading": "Carregando...",
+
     "balance": {
         "balance": "Saldo total",
         "balanceLoading": "Carregando saldo"
     },
+
+    "wallet": {
+        "balanceTitle": "Saldo da carteira",
+        "tokens": "Tokens",
+        "dateAndTime": "Data & Hora",
+        "status": "Status"
+    },
+
+    "exploreApps": {
+        "title": "O que está na NEAR?",
+        "desc": "Ganhe, gere e jogue! Descubra o ecossistema de aplicativos NEAR.",
+        "button": "Explorar Apps"
+    },
+
     "login": {
         "form": {
             "isRequestingTo": "está solicitando para",
@@ -624,6 +709,7 @@
             "pageText": "Por favor, feche esta janela e siga as instruções no terminal."
         }
     },
+
     "addNode": {
         "pageTitle": "Adicionar nó",
         "pageText": "Configure seu nó via CLI, então adicione-o aqui.",
@@ -737,10 +823,10 @@
             "useMax": "Usar o máximo",
             "with": "com",
             "from": "de",
-            "accounts": "If you have locked NEAR, you can choose to stake with either your locked NEAR (lockup.near), or your unlocked NEAR (your account name). You will only see the staking positions for the selected account. If you do not have locked NEAR, you can ignore this section",
+            "accounts": "Se você bloqueou NEAR, você pode escolher fazer stake com o NEAR bloqueado (lockup.near) ou com o NEAR desbloqueado (nome da sua conta). Você verá apenas as posições de stake para a conta selecionada. Se você não bloqueou NEAR, você pode ignorar esta seção",
             "banner": {
-                "stakeMax": "A small portion (${data} NEAR) of your available balance has been reserved to cover transaction fees.",
-                "insufficientBalance": "You are attempting to stake your entire available balance. At least <b>${data} NEAR</b> must be reserved to cover transaction fees."
+                "stakeMax": "Uma pequena parte (${data} NEAR) de seu saldo disponível foi reservada para cobrir as taxas de transação.",
+                "insufficientBalance": "Você está tentando fazer stake de todo seu saldo disponível. Pelo menos <b>${data} NEAR</b> deve ser reservado para cobrir as taxas de transação."
             }
         },
         "unstake": {
@@ -748,30 +834,30 @@
             "desc": "Digite a quantidade que você gostaria de remover do stake com o validador escolhido.",
             "stakeWith": "Remover stake de",
             "button": "Unstake Tokens",
-            "confirm": "You are unstaking",
+            "confirm": "Você está unstaking",
             "input": {
                 "availableBalance": "Available to unstake",
                 "near": "NEAR"
             },
-            "beforeUnstakeDisclaimer": "Unstaked tokens will be made available pending a release period of ~52-65hrs (4 epochs)."
+            "beforeUnstakeDisclaimer": "Os tokens unstaked ficarão disponíveis dependendo de um período de lançamento de ~ 52-65 horas (4 épocas)."
         },
         "stakeSuccess": {
             "title": "Sucesso!",
-            "desc": "Your stake has successfully been delegated to your chosen validator:",
-            "descTwo": "You can now view your delegation and staking rewards from your staking dashboard.",
+            "desc": "seu stake foi delegado com sucesso ao validador escolhido:",
+            "descTwo": "Agora você pode ver sua delegação e recompensas de staking em seu painel de staking.",
             "button": "Voltar ao Painel"
         },
         "unstakeSuccess": {
             "title": "Sucesso!",
-            "desc": "<b>${amount} NEAR</b> has successfully been unstaked from this validator:",
-            "descTwo": "Your tokens are pending release and will be made available within ~52-65hrs (4 epochs).",
+            "desc": "<b>${amount} NEAR</b> foi retirado com sucesso deste validador:",
+            "descTwo": "Seus tokens aguardam liberação e serão disponibilizados em aproximadamente 52-65 horas (4 períodos).",
             "button": "Voltar ao Painel"
         },
         "validators": {
             "title": "Selecione um validador",
             "desc": {
-                "account": "Enter a known validator or select a validator from the list to stake your NEAR tokens.",
-                "lockup": "Enter a known validator or select a validator from the list to stake your NEAR tokens. You may only stake with a single validator at any given time."
+                "account": "Insira um validador conhecido ou selecione um validador da lista para fazer stake de seus tokens NEAR.",
+                "lockup": "Insira um validador conhecido ou selecione um validador da lista para fazer stake de seus tokens NEAR. Você só pode fazer stake com um único validador em um determinado momento."
             },
             "inputLabel": "ID da conta do validador",
             "inputPlaceholder": "validador-name.near",
@@ -786,21 +872,21 @@
             "title": "Validador: <br/>${validator}",
             "button": "Efetuar stake com validador",
             "fee": "Taxa do validador",
-            "desc": "This is the fee paid to the validator to stake on your behalf. This fee is only charged on your rewards.",
-            "withdrawalDisclaimer": "Funds pending release will be made available after ~52-65hrs (4 epochs)",
-            "unstake": "You are unstaking",
+            "desc": "Esta é a taxa paga ao validador para apostar em seu nome. Essa taxa é cobrada apenas em suas recompensas.",
+            "withdrawalDisclaimer": "Os fundos pendentes de liberação serão disponibilizados após ~ 52-65 horas (4 épocas)",
+            "unstake": "Você está unstaking",
             "withdraw": "Você está sacando"
         },
         "balanceBanner": {
-            "title": "Available lockup balance",
+            "title": "Saldo de bloqueio disponível",
             "currency": "NEAR"
         },
         "alertBanner": {
-            "title": "You must first unstake and withdraw your tokens from your current validator in order to stake with a new validator.",
+            "title": "Você deve primeiro retirar e fazer unstake dos seus tokens de seu validador atual para apostar com um novo validador.",
             "button": "Ver validador atual"
         },
         "noValidators": {
-            "title": "You are not currently staking with any validators."
+            "title": "No momento, você não está fazendo stake com nenhum validador."
         }
     },
     "balanceBreakdown": {
@@ -809,7 +895,7 @@
     },
     "profile": {
         "lockupBanner": {
-            "title": "You have <b>${amount}</b> NEAR available to withdraw from your lockup!",
+            "title": "Você tem <b>${amount}</b> NEAR disponível para retirada do seu bloqueio!",
             "cta": "Transferir para Carteira"
         },
         "pageTitle": {
@@ -828,6 +914,9 @@
             "pendingRelease": "Aguardando liberação",
             "availableToWithdraw": "Disponível para saque",
             "availableToTransfer": "Disponível para transferência"
+        },
+        "authorizedApps": {
+            "title": "Apps Autorizados"
         },
         "lockup": {
             "lockupBalance": "Saldo Bloqueado",
@@ -858,12 +947,13 @@
             "availableBalance": "Saldo disponível",
             "lockPopup": {
                 "title": "Por que isso está bloqueado?",
-                "text": "Your account ID is your unique identifier in the system and cannot be changed because data and asset ownership is tied to it. However you are welcome to ${link} with desired name and transfer assets as needed.",
+                "text": "O ID da sua conta é o seu identificador exclusivo no sistema e não pode ser alterado porque os dados e a propriedade do ativo estão vinculados a ele. No entanto, você pode acessar ${link} com o nome desejado e transferir os ativos conforme necessário.",
                 "createAnotherAccount": "criar outra conta"
             },
             "qrDesc": "Use o app de câmera do seu telefone para enviar para este endereço"
         }
     },
+
     "sendMoney": {
         "title": {
             "default": "Enviar",
@@ -871,7 +961,8 @@
         },
         "subtitle": {
             "default": "Informe o valor de NEAR para enviar, e a ID da conta para enviar.",
-            "success": "NEAR enviado com sucesso"
+            "success": "NEAR enviado com sucesso",
+            "para": "to:"
         },
         "amount": {
             "available": "Disponível para enviar"
@@ -903,6 +994,7 @@
             "insufficient": "Você está tentando enviar todo o seu saldo disponível. Pelo menos <b>${data} NEAR</b> deve ser reservado para cobrir as taxas de transação."
         }
     },
+
     "sign": {
         "unexpectedStatus": "Situação inesperada",
         "transactionCancelled": "Transação cancelada",
@@ -935,17 +1027,19 @@
         "transferring": "Transferindo",
         "authorizing": "Autorizando"
     },
+
     "availableBalanceInfo": "\"Saldo disponível\" é seu saldo disponível de NEAR.",
     "reservedForFeesInfo": "Um valor mínimo de NEAR é reservado para cobrir o custo das transações.",
-    "availableBalanceProfile": "This is your spendable NEAR balance, and can be used or transferred immediately. This will be lower than your Total Balance.",
-    "minimumBalance": "This is the minimum NEAR balance your account must maintain to remain active. This balance represents the storage space your account is using on the NEAR blockchain (with a small buffer), and will go up or down as you use more or less space.",
-    "totalBalance": "Your total balance represents all NEAR tokens under your control. In many cases, you will not have immediate access to this entire balance (e.g. if it is locked, delegated, or staked). Check your Available Balance for the NEAR you can actively use, transfer, delegate, and stake.",
-    "stakedBalance": "This NEAR is actively being used to back a validator and secure the network. When you decide to unstake this NEAR, it will take some time to be shown in your Available Balance, as NEAR takes 4 epochs (~52-65 hours) to unstake.",
-    "unvestedBalance": "Unvested NEAR is earmarked to you, but not yet under your ownership. You can still delegate or stake this NEAR, and the rewards will be entirely yours. As your NEAR is vested, it will appear in either your Locked or Unlocked balance.",
-    "lockedBalance": "This NEAR is locked in a lockup contract, and cannot be withdrawn. You may still delegate or stake this NEAR. Once the NEAR is unlocked, you can view it in your Unlocked Balance, and chose to withdraw it (moving to your Available Balance).",
-    "unlockedBalance": "This NEAR is still in a lockup contract, but unlocked.",
-    "unlockedAvailTransfer": "This NEAR is unlocked, and can be transferred out of your lockup contract.",
-    "stakingPoolUnstaked": "This NEAR is currently in a staking pool but unstaked. It could for example be in a pending release state.",
+    "availableBalanceProfile": "Este é o seu saldo NEAR gastável e pode ser usado ou transferido imediatamente. Isso será inferior ao seu saldo total.",
+    "minimumBalance": "Este é o saldo mínimo NEAR que sua conta deve manter para permanecer ativa. Este saldo representa o espaço de armazenamento que sua conta está usando no blockchain NEAR (com um pequeno buffer) e aumentará ou diminuirá conforme você usar mais ou menos espaço.",
+    "totalBalance": "Seu saldo total representa todos os tokens NEAR sob seu controle. Em muitos casos, você não terá acesso imediato a todo o saldo (por exemplo, se estiver bloqueado, delegado ou em stake). Verifique seu saldo disponível para o NEAR que você pode usar, transferir, delegar e fazer stake ativamente.",
+    "stakedBalance": "Este NEAR está sendo usado ativamente para apoiar um validador e proteger a rede. Quando você decidir fazer unstake deste NEAR, levará algum tempo para ser mostrado em seu Saldo Disponível, já que NEAR leva 4 épocas (~ 52-65 horas) para unstake.",
+    "unvestedBalance": "O NEAR não investido está reservado a você, mas ainda não está sob sua propriedade. Você ainda pode delegar ou fazer stake deste NEAR, e as recompensas serão inteiramente suas. Conforme seu NEAR é adquirido, ele aparecerá em seu saldo Bloqueado ou Desbloqueado.",
+    "lockedBalance": "Este NEAR está bloqueado em um contrato de bloqueio e não pode ser retirado. Você ainda pode delegar ou fazer stake deste NEAR. Assim que o NEAR for desbloqueado, você poderá visualizá-lo em seu Saldo Desbloqueado e escolher retirá-lo (passando para seu Saldo Disponível).",
+    "unlockedBalance": "Este NEAR ainda está em um contrato de bloqueio, mas desbloqueado.",
+    "unlockedAvailTransfer": "Este NEAR está desbloqueado e pode ser transferido de seu contrato de bloqueio.",
+    "stakingPoolUnstaked": "Este NEAR está atualmente em uma pool de stake, mas unstaked. Pode, por exemplo, estar em um estado de liberação pendente.",
+
     "transaction": {
         "status": {
             "NotStarted": "Não iniciado",
@@ -956,6 +1050,7 @@
             "notAvailable": "Status indisponível"
         }
     },
+
     "success": "Sucesso",
     "error": "Erro",
     "warning": "Atenção",
@@ -968,12 +1063,14 @@
     "of": "de",
     "ofTotal": "do total",
     "arguments": "Parâmetros",
+
     "setupLedger": {
         "header": "Conecte seu dispositivo Ledger",
         "one": "Connect your Ledger Nano S or X to your computer or mobile device via USB and <b>open the NEAR application</b>. <br><br>Then, <b>press both buttons</b> at the 'Pending Ledger Review' screen.",
         "two": "Se você ainda não tiver instalado o aplicativo NEAR Ledger, siga",
         "twoLink": "estas instruções"
     },
+
     "setupLedgerSteps": {
         "header": "Instale o NEAR no seu dispositivo Ledger",
         "one": "Abra <a href='https://www.ledger.com/ledger-live' target='_blank'>Ledger Live,</a> instale qualquer atualização de firmware disponível.",
@@ -982,6 +1079,7 @@
         "four": "Volte à guia <span class='color-black'>Gerenciador</span> e procure por <span class='color-black'>NEAR</span>.",
         "five": "Siga as instruções para instalar o <span class='color-black'>aplicativo NEAR</span> no seu dispositivo."
     },
+
     "setupLedgerSuccess": {
         "header": "Ledger protegeu sua conta!",
         "one": "Recomendamos que remova todas as chaves existentes (métodos de recuperação e dispositivos).",
@@ -995,19 +1093,20 @@
             },
             "one": {
                 "remove": "Antes de remover suas chaves e métodos de recuperação existentes, certifique-se de ter gravado e armazenado com segurança sua frase-semente do Ledger.",
-                "keep": "<span class='color-red'>Maintaining multiple recovery methods and devices increases the vulnerability of your account.</span>"
+                "keep": "<span class='color-red'>Manter vários métodos e dispositivos de recuperação aumenta a vulnerabilidade de sua conta.</span>"
             },
             "two": {
-                "remove": "If you lose access to your seed phrase, NEAR Inc. will be unable to assist you in recovery of your account and its funds."
+                "remove": "Se você perder o acesso à sua frase-semente, a NEAR Inc. não poderá ajudá-lo a recuperar sua conta e seus fundos."
             }
         }
     },
+
     "signInLedger": {
         "header": "Faça o login com o seu dispositivo Ledger",
-        "one": "Make sure your ledger is connected securely, and that the NEAR app is open on the device.",
+        "one": "Certifique-se de que seu Ledger esteja conectado de forma segura e que o aplicativo NEAR esteja aberto no dispositivo.",
         "modal": {
             "confirmPublicKey": "Confirmar chave pública",
-            "ledgerMustAdd": "Ledger must add an access key for each account protected by your device:",
+            "ledgerMustAdd": "O Ledger deve adicionar uma chave de acesso para cada conta protegida pelo seu dispositivo:",
             "accountsApproved": "conta(s) aprovada(s)",
             "status": {
                 "success": "Aprovado",
@@ -1019,27 +1118,30 @@
             }
         }
     },
+
     "confirmLedgerModal": {
         "header": {
             "confirm": "Por favor, confirme a operação no seu dispositivo...",
             "processing": "Processando"
         },
-        "one": "You will need to confirm your sign-in details on your Ledger."
+        "one": "Você precisará confirmar seus detalhes de login no seu Ledger"
     },
     "enterAccountNameLedgerModal": {
         "header": "Insira nome da conta",
-        "one": "Enter the name of the account you’re signing in to"
+        "one": "Digite o nome da conta na qual você está fazendo login"
     },
+
     "errors": {
         "type": {
-            "RetriesExceeded": "Exceeded maximum attempts for this transaction.",
-            "LackBalanceForState": "Your available balance is too low to perform any actions on your account. Please send NEAR to your account and then try again."
+            "RetriesExceeded": "Máximo de tentativas excedido para esta transação.",
+            "LackBalanceForState": "Seu saldo disponível é muito baixo para realizar qualquer ação em sua conta. Envie NEAR para sua conta e tente novamente."
         },
         "ledger": {
-            "U2FNotSupported": "U2F browser support is needed for Ledger. Please use Chrome, Opera or Firefox with a U2F extension. Also make sure you're on an HTTPS connection.",
-            "U2F_4": "Failed to sign with Ledger device: U2F DEVICE_INELIGIBLE. Please make sure that your Ledger device is connected and unlocked."
+            "U2FNotSupported": "O suporte do navegador ao U2F é necessário para o Ledger. Use Chrome, Opera ou Firefox com uma extensão U2F. Verifique também se você está em uma conexão HTTPS.",
+            "U2F_4": "Falha ao fazer login com o Ledger: U2F DEVICE_INELIGIBLE. Certifique-se de que seu dispositivo Ledger está conectado e desbloqueado."
         }
     },
+
     "networkBanner": {
         "title": "Carteira de testes",
         "header": "Carteira de teste NEAR",
@@ -1047,11 +1149,11 @@
     },
     "stagingBanner": {
         "title": "Aviso: Essa é uma versão de pré-lançamento da Carteira. Use a seu próprio risco!",
-        "desc": "Warning: This is a pre-release version of the NEAR Wallet. There may be bugs, and these bugs may lead to loss of funds. By continuing to use this version, you agree that you understand and accept these risks, and understand that the NEAR Wallet team will be unable to help you."
+        "desc": "Aviso: Esta é uma versão de pré-lançamento da NEAR Wallet. Pode haver bugs, e esses bugs podem levar à perda de fundos. Ao continuar a usar esta versão, você concorda que entende e aceita esses riscos, e entende que a equipe da NEAR Wallet não poderá ajudá-lo."
     },
     "landing": {
         "title": "NEAR está aqui.",
-        "desc": "Securely store and stake your NEAR tokens and compatible assets with <span>NEAR Wallet</span>.",
+        "desc": "Armazene e stake com segurança seus tokens NEAR e ativos compatíveis com a <span>NEAR Wallet</span>.",
         "or": "ou",
         "banner": "Carteira Near está em Beta privado"
     },
