@@ -35,6 +35,13 @@ const Account = styled.div`
     cursor: pointer;
     font-weight: 500;
     position: relative;
+    
+    .symbol {
+        transform: scale(0.65);
+        font-weight: 700;
+        margin-left: -2%;
+        float: left;
+    }
 
     @media (min-width: 992px) {
         :hover {
