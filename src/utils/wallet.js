@@ -689,7 +689,16 @@ class Wallet {
     async setupRecoveryMessageNewAccount(accountId, method, securityCode, fundingOptions, recoverySeedPhrase) {
         const { secretKey } = parseSeedPhrase(recoverySeedPhrase)
         const recoveryKeyPair = KeyPair.fromString(secretKey)
-        await this.validateSecurityCode(accountId, method, securityCode);
+        
+        try {
+            await this.validateSecurityCode(accountId, method, securityCode);
+        } catch (error) {
+            if (error.toString().includes('Error: Invalid code')) {
+                throw new WalletError(error, 'setupRecoveryMessageNewAccount.invalidCode')
+            }
+            throw error
+        }
+
         await this.saveAccount(accountId, recoveryKeyPair);
 
         if (DISABLE_CREATE_ACCOUNT && !fundingOptions) {
