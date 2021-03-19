@@ -13,7 +13,7 @@ const Container = styled.div`
         align-items: center;
         border: 2px solid #F2F2F2;
         border-radius: 8px;
-        padding: 15px 25px 15px 15px;
+        padding: 12px 25px 12px 15px;
         cursor: pointer;
         transition: 100ms;
 
@@ -67,6 +67,7 @@ const Container = styled.div`
             border-top: 0;
             border-top-left-radius: 0;
             border-top-right-radius: 0;
+            box-shadow: 0px 3px 9px -1px rgb(206 206 206 / 17%);
         }
     }
 

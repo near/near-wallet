@@ -25,6 +25,9 @@ export function SignInLedger(props) {
 
     const [accountId, setAccountId] = useState('');
     const [loader, setLoader] = useState(false);
+    const [path, setPath] = useState(1);
+    const [hDPathConfirmed, setHdPathConfirmed] = useState(false);
+    const ledgerHdPath = hDPathConfirmed ? `44'/397'/0'/0'/${path}'` : null;
 
     const account = useSelector(({ account }) => account);
     const status = useSelector(({ status }) => status);
@@ -52,7 +55,7 @@ export function SignInLedger(props) {
         setLoader(false)
         await Mixpanel.withTracking("IE-Ledger Sign in",
             async () =>{
-                await dispatch(signInWithLedger())
+                await dispatch(signInWithLedger(ledgerHdPath))
                 refreshAndRedirect()
             }
         )
@@ -62,7 +65,7 @@ export function SignInLedger(props) {
         setLoader(true)
         await Mixpanel.withTracking("IE-Ledger Handle additional accountId",
             async () =>{
-                await dispatch(signInWithLedgerAddAndSaveAccounts([accountId]))
+                await dispatch(signInWithLedgerAddAndSaveAccounts([accountId], ledgerHdPath))
                 setLoader(false)
                 refreshAndRedirect()
             }
@@ -91,7 +94,11 @@ export function SignInLedger(props) {
             <h2><Translate id='signInLedger.one'/></h2>
             <br/>
             <LocalAlertBox localAlert={status.localAlert}/>
-            <LedgerHdPaths/>
+            <LedgerHdPaths
+                path={path}
+                onSetPath={path => setPath(path)}
+                onConfirmHdPath={() => setHdPathConfirmed(true)}
+            />
             <FormButton
                 onClick={handleSignIn}
                 sending={signingIn}

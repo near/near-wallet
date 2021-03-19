@@ -160,16 +160,19 @@ export const allowLogin = () => async (dispatch, getState) => {
     }
 }
 
-export const signInWithLedger = () => async (dispatch, getState) => {
-    await dispatch(getLedgerAccountIds())
-
+export const signInWithLedger = (path) => async (dispatch, getState) => {
+    await dispatch(getLedgerAccountIds(path))
     const accountIds = Object.keys(getState().ledger.signInWithLedger)
-    return await dispatch(signInWithLedgerAddAndSaveAccounts(accountIds))
+    await dispatch(signInWithLedgerAddAndSaveAccounts(accountIds, path))
+    return;
 }
 
-export const signInWithLedgerAddAndSaveAccounts = (accountIds) => async (dispatch, getState) => {
+export const signInWithLedgerAddAndSaveAccounts = (accountIds, path) => async (dispatch, getState) => {
     for (let accountId of accountIds) {
         try {
+            if (path) {
+                await localStorage.setItem(`ledgerHdPath:${accountId}`, path)
+            }
             await dispatch(addLedgerAccountId(accountId))
             await dispatch(setLedgerTxSigned(false, accountId))
         } catch (e) {

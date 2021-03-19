@@ -100,9 +100,10 @@ class Wallet {
             async signMessage(message, accountId, networkId) {
                 if (await wallet.getLedgerKey(accountId)) {
                     wallet.dispatchShowLedgerModal(true)
+                    const path = await localStorage.getItem(`ledgerHdPath:${accountId}`)
                     const { createLedgerU2FClient } = await import('./ledger.js')
                     const client = await createLedgerU2FClient()
-                    const signature = await client.sign(message)
+                    const signature = await client.sign(message, path)
                     await store.dispatch(setLedgerTxSigned(true, accountId))
                     const publicKey = await this.getPublicKey(accountId, networkId)
                     return {
@@ -486,12 +487,13 @@ class Wallet {
         await account.addKey(keyPair.publicKey)
         await this.keyStore.setKey(NETWORK_ID, this.accountId, keyPair)
 
-        const publicKey = await this.getLedgerPublicKey()
+        const path = await localStorage.getItem(`ledgerHdPath:${this.accountId}`)
+        const publicKey = await this.getLedgerPublicKey(path)
         await this.removeAccessKey(publicKey)
         await this.getAccessKeys(this.accountId)
 
         await this.deleteRecoveryMethod({ kind: 'ledger', publicKey: publicKey.toString() })
-
+        await localStorage.removeItem(`ledgerHdPath:${this.accountId}`)
     }
 
     async addWalletMetadataAccessKeyIfNeeded(accountId, localAccessKey) {
@@ -514,8 +516,9 @@ class Wallet {
         return null
     }
 
-    async getLedgerAccountIds() {
-        const publicKey = await this.getLedgerPublicKey()
+    async getLedgerAccountIds(path) {
+        const publicKey = await this.getLedgerPublicKey(path)
+
         await store.dispatch(setLedgerTxSigned(true))
         // TODO: getXXX methods shouldn't be modifying the state
         await setKeyMeta(publicKey, { type: 'ledger' })
@@ -587,11 +590,11 @@ class Wallet {
         }
     }
 
-    async getLedgerPublicKey() {
+    async getLedgerPublicKey(path) {
         const { createLedgerU2FClient } = await import('./ledger.js')
         const client = await createLedgerU2FClient()
         this.dispatchShowLedgerModal(true)
-        const rawPublicKey = await client.getPublicKey()
+        const rawPublicKey = await client.getPublicKey(path)
         return new PublicKey({ keyType: KeyType.ED25519, data: rawPublicKey })
     }
 
