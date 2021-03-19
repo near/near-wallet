@@ -18,6 +18,7 @@ import { setMainLoader } from '../../../actions/status'
 import LocalAlertBox from '../../common/LocalAlertBox'
 import { controller as controllerHelperApi } from '../../../utils/helper-api'
 import { Mixpanel } from '../../../mixpanel/index'
+import LedgerHdPaths from './LedgerHdPaths'
 
 export function SignInLedger(props) {
     const dispatch = useDispatch();
@@ -90,6 +91,7 @@ export function SignInLedger(props) {
             <h2><Translate id='signInLedger.one'/></h2>
             <br/>
             <LocalAlertBox localAlert={status.localAlert}/>
+            <LedgerHdPaths/>
             <FormButton
                 onClick={handleSignIn}
                 sending={signingIn}
@@ -97,15 +99,13 @@ export function SignInLedger(props) {
             >
                 <Translate id={`button.${status.localAlert && !status.localAlert.success ? 'retry' : 'signIn'}`}/>
             </FormButton>
-            <button 
-                className='link' 
-                onClick={() => {
-                    Mixpanel.track("IE-Ledger Click cancel button")
-                    props.history.goBack()
-                }}
+            <FormButton 
+                className='link red' 
+                onClick={() => props.history.goBack()}
+                trackingId='IE-Ledger Click cancel button'
             >
                 <Translate id='button.cancel'/>
-            </button>
+            </FormButton>
 
             {signingIn &&
                 <LedgerSignInModal 

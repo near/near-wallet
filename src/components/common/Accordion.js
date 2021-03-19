@@ -5,14 +5,16 @@ import classNames from '../../utils/classNames'
 const Container = styled.div`
     overflow: hidden;
     height: 0;
-    transition: 250ms;
+    transition: ${props => props.transition}ms;
+    opacity: 0;
 
     &.open {
+        opacity: 1;
         height: ${props => props.height}px;
     }
 `
 
-const Accordion = ({ className, trigger, children }) => {
+const Accordion = ({ className, trigger, children, transition = '250' }) => {
     const [open, setOpen] = useState(false)
     const [contentHeight, setContentHeight] = useState('')
 
@@ -42,7 +44,7 @@ const Accordion = ({ className, trigger, children }) => {
     }
 
     return (
-        <Container id={`${trigger}-container`} height={contentHeight} className={classNames([className, open ? 'open' : ''])}>
+        <Container id={`${trigger}-container`} height={contentHeight} transition={transition} className={classNames([className, open ? 'open' : ''])}>
             <div id={`${trigger}-wrapper`}>
                 {children}
             </div>

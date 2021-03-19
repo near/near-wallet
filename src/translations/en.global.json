@@ -1116,6 +1116,12 @@
                 "waiting": "Up next",
                 "confirm": "Confirm"
             }
+        },
+        "advanced": {
+            "title": "Advanced Options",
+            "subTitle": "HD Path",
+            "desc": "Specify an HD path to import its linked accounts.",
+            "setPath": "Set HD Path"
         }
     },
 
