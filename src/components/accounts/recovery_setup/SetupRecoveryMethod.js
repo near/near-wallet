@@ -91,7 +91,7 @@ class SetupRecoveryMethod extends Component {
             localAlert
         } = this.props
 
-        if (this.isValidInput && !localAlert && !success) {
+        if (this.isValidInput && !success) {
             if (option === 'email' || option === 'phone') {
                 if (option === 'email') {
                     Mixpanel.track("SR Select email")
