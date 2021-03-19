@@ -667,7 +667,7 @@ class Wallet {
                 await this.postSignedJson('/account/validateSecurityCode', body);
             }
         } catch(e) {
-            throw new WalletError('Invalid code', 'setupRecoveryMessage.error')
+            throw new WalletError('Invalid code', 'setupRecoveryMessageNewAccount.invalidCode')
         }
     }
 
@@ -689,16 +689,7 @@ class Wallet {
     async setupRecoveryMessageNewAccount(accountId, method, securityCode, fundingOptions, recoverySeedPhrase) {
         const { secretKey } = parseSeedPhrase(recoverySeedPhrase)
         const recoveryKeyPair = KeyPair.fromString(secretKey)
-        
-        try {
-            await this.validateSecurityCode(accountId, method, securityCode);
-        } catch (error) {
-            if (error.toString().includes('Error: Invalid code')) {
-                throw new WalletError(error, 'setupRecoveryMessageNewAccount.invalidCode')
-            }
-            throw error
-        }
-
+        await this.validateSecurityCode(accountId, method, securityCode);
         await this.saveAccount(accountId, recoveryKeyPair);
 
         if (DISABLE_CREATE_ACCOUNT && !fundingOptions) {
