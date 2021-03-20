@@ -14,7 +14,6 @@ import {
     clearSignInWithLedgerModalState
 } from '../../../actions/account';
 import { clearLocalAlert } from '../../../actions/status'
-import { setMainLoader } from '../../../actions/status'
 import LocalAlertBox from '../../common/LocalAlertBox'
 import { controller as controllerHelperApi } from '../../../utils/helper-api'
 import { Mixpanel } from '../../../mixpanel/index'
@@ -87,6 +86,11 @@ export function SignInLedger(props) {
         }
     }
 
+    const handleSetPath = (path) => {
+        setPath(path)
+        setHdPathConfirmed(false)
+    }
+
     return (
         <Container className='small-centered ledger-theme'>
             <h1><Translate id='signInLedger.header'/></h1>
@@ -96,8 +100,11 @@ export function SignInLedger(props) {
             <LocalAlertBox localAlert={status.localAlert}/>
             <LedgerHdPaths
                 path={path}
-                onSetPath={path => setPath(path)}
-                onConfirmHdPath={() => setHdPathConfirmed(true)}
+                onSetPath={handleSetPath}
+                onConfirmHdPath={() => {
+                    setHdPathConfirmed(true)
+                    Mixpanel.track("IE-Ledger Sign in set custom HD path")
+                }}
             />
             <FormButton
                 onClick={handleSignIn}
