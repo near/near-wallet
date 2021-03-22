@@ -25,8 +25,8 @@ export function SignInLedger(props) {
     const [accountId, setAccountId] = useState('');
     const [loader, setLoader] = useState(false);
     const [path, setPath] = useState(1);
-    const [hDPathConfirmed, setHdPathConfirmed] = useState(false);
-    const ledgerHdPath = hDPathConfirmed ? `44'/397'/0'/0'/${path}'` : null;
+    const [confirmedPath, setConfirmedPath] = useState(null);
+    const ledgerHdPath = confirmedPath ? `44'/397'/0'/0'/${confirmedPath}'` : null;
 
     const account = useSelector(({ account }) => account);
     const status = useSelector(({ status }) => status);
@@ -86,11 +86,6 @@ export function SignInLedger(props) {
         }
     }
 
-    const handleSetPath = (path) => {
-        setPath(path)
-        setHdPathConfirmed(false)
-    }
-
     return (
         <Container className='small-centered ledger-theme'>
             <h1><Translate id='signInLedger.header'/></h1>
@@ -100,9 +95,9 @@ export function SignInLedger(props) {
             <LocalAlertBox localAlert={status.localAlert}/>
             <LedgerHdPaths
                 path={path}
-                onSetPath={handleSetPath}
+                onSetPath={path => setPath(path)}
                 onConfirmHdPath={() => {
-                    setHdPathConfirmed(true)
+                    setConfirmedPath(path)
                     Mixpanel.track("IE-Ledger Sign in set custom HD path")
                 }}
             />
