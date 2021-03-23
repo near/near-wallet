@@ -53,7 +53,7 @@ const Container = styled.div`
         margin: 25px auto;
         font-size: 16px !important;
         color: #24272a !important;
-        font-weight: 500 !important;
+        font-weight: 400 !important;
         max-width: 400px;
     }
 
