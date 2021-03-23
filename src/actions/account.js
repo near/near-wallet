@@ -93,6 +93,14 @@ export const handleRefreshUrl = () => (dispatch, getState) => {
                 accountData: true
             }))
         } 
+        else if (redirectUrl.includes(WALLET_SIGN_URL)) {
+            dispatch(setFlowLimitation({
+                mainMenu: true,
+                subMenu: true,
+                accountPages: true,
+                accountData: true
+            }))
+        }
         const { transactions, callbackUrl, meta } = getState().account.url
         if (transactions) {
             dispatch(parseTransactionsToSign({ transactions, callbackUrl, meta }))
