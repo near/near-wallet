@@ -667,7 +667,7 @@ class Wallet {
                 await this.postSignedJson('/account/validateSecurityCode', body);
             }
         } catch(e) {
-            throw new WalletError('Invalid code', 'setupRecoveryMessage.error')
+            throw new WalletError('Invalid code', 'setupRecoveryMessageNewAccount.invalidCode')
         }
     }
 

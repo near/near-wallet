@@ -87,11 +87,10 @@ class SetupRecoveryMethod extends Component {
         const {
             accountId,
             location,
-            redirectTo,
-            localAlert
+            redirectTo
         } = this.props
 
-        if (this.isValidInput && !localAlert && !success) {
+        if (this.isValidInput && !success) {
             if (option === 'email' || option === 'phone') {
                 if (option === 'email') {
                     Mixpanel.track("SR Select email")
@@ -283,7 +282,6 @@ class SetupRecoveryMethod extends Component {
                     onGoBack={this.handleGoBack}
                     onResend={this.handleSendCode}
                     loading={mainLoader}
-                    localAlert={this.props.localAlert}
                 />
             )
         }
@@ -309,7 +307,6 @@ const mapStateToProps = ({ account, router, recoveryMethods, status }, { match }
     accountId: match.params.accountId,
     activeAccountId: account.accountId,
     recoveryMethods,
-    localAlert: status.localAlert,
     mainLoader: status.mainLoader
 })
 

@@ -285,7 +285,7 @@ export const {
     ],
     SETUP_RECOVERY_MESSAGE_NEW_ACCOUNT: [
         wallet.setupRecoveryMessageNewAccount.bind(wallet),
-        () => ({})
+        () => showAlert({ onlyError: true })
     ],
     DELETE_RECOVERY_METHOD: [
         wallet.deleteRecoveryMethod.bind(wallet),

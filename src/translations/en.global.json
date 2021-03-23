@@ -129,6 +129,9 @@
         },
         "lockup": {
             "transferAllWithStakingPoolBalance": "Unstake and withdraw all funds from the staking pool in order to transfer your remaining lockup balance to Wallet."
+        },
+        "setupRecoveryMessageNewAccount": {
+            "invalidCode": "Invalid code"
         }
     },
     "account": {
@@ -617,7 +620,6 @@
         "pageText": "We've sent a 6-digit verification code to the ",
         "inputHeader": "Enter verification code",
         "inputPlaceholder": "Verification Code",
-        "invalidCode": "Invalid code",
         "didNotRecive": "Didn't receive your code?",
         "resendCode": "Resend your code",
         "or": "or",

@@ -55,8 +55,7 @@ const EnterVerificationCode = ({
     onResend,
     email,
     phoneNumber,
-    loading,
-    localAlert
+    loading
 }) => {
 
     const [code, setCode] = useState('');
@@ -65,8 +64,6 @@ const EnterVerificationCode = ({
     if (option !== 'email') {
         useEmail = false;
     }
-
-    const invalidCode = localAlert && localAlert.messageCode === 'account.SETUP_RECOVERY_MESSAGE.error';
 
     const handleConfirm = () => {
         if (code.length === 6 && !loading) {
@@ -93,11 +90,6 @@ const EnterVerificationCode = ({
                                 onChange={e => setCode(e.target.value)}
                                 autoFocus={true}
                             />
-                            {invalidCode && 
-                                <div style={{color: '#ff585d', marginTop: '5px'}}>
-                                    {translate('setRecoveryConfirm.invalidCode')}
-                                </div>
-                            }
                         </>
                     )}
                 </Translate>
