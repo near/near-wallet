@@ -93,13 +93,14 @@ class DesktopContainer extends Component {
             availableAccounts,
             selectAccount,
             showNavLinks,
-            showLimitedNav
+            showLimitedNav,
+            showLimitedNavLogin
         } = this.props;
 
         return (
             <Container>
                 <Logo/>
-                {showNavLinks && !showLimitedNav &&
+                {showNavLinks && !showLimitedNav && !showLimitedNavLogin &&
                     <NavLinks />
                 }
                 <Lang>
