@@ -14,6 +14,14 @@ const initialState = {
 }
 
 const flowLimitationReducer = handleActions({
+    [setFlowLimitation]: (state, { payload }) => ({
+        ...state,
+        ...payload
+    }),
+    [clearFlowLimitation]: (state) => ({
+        ...state,
+        ...initialState
+    }),
 }, initialState)
 
 export default reduceReducers(
