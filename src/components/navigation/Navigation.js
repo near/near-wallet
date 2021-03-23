@@ -68,6 +68,10 @@ class Navigation extends Component {
         return window.location.pathname === '/sign'
     }
 
+    get showLimitedNavLogin() {
+        return (this.props.account?.url?.redirect_url || this.props.router.location.pathname).includes('/login')
+    }
+
     toggleMenu = () => {
         this.setState(prevState => ({
             menuOpen: !prevState.menuOpen
@@ -90,6 +94,7 @@ class Navigation extends Component {
                     selectAccount={this.handleSelectAccount}
                     showNavLinks={this.showNavLinks}
                     showLimitedNav={this.showLimitedNav}
+                    showLimitedNavLogin={this.showLimitedNavLogin}
                     {...this.props}
                 />
                 <MobileContainer
@@ -98,6 +103,7 @@ class Navigation extends Component {
                     selectAccount={this.handleSelectAccount}
                     showNavLinks={this.showNavLinks}
                     showLimitedNav={this.showLimitedNav}
+                    showLimitedNavLogin={this.showLimitedNavLogin}
                     {...this.props}
                 />
             </Container>
@@ -105,9 +111,10 @@ class Navigation extends Component {
     }
 }
 
-const mapStateToProps = ({ account, availableAccounts }) => ({
+const mapStateToProps = ({ account, availableAccounts, router }) => ({
     account,
-    availableAccounts
+    availableAccounts,
+    router
 })
 
 const mapDispatchToProps = {
