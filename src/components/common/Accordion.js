@@ -23,12 +23,16 @@ const Accordion = ({ className, trigger, children, transition = '250' }) => {
         const secondEl = document.getElementById(`${trigger}-2`)
         const contentHeight = document.getElementById(`${trigger}-wrapper`).getBoundingClientRect().height
         el.addEventListener('click', handleClick)
-        secondEl.addEventListener('click', handleClick)
+        if (secondEl) {
+            secondEl.addEventListener('click', handleClick)
+        }
         setContentHeight(contentHeight)
 
         return () => {
             el.removeEventListener('click', handleClick)
-            secondEl.removeEventListener('click', handleClick)
+            if (secondEl) {
+                secondEl.removeEventListener('click', handleClick)
+            }
         }
 
     }, [open])
