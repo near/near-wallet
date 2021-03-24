@@ -111,7 +111,7 @@ class DesktopContainer extends Component {
                         <UserAccount
                             accountId={account.accountId}
                             onClick={toggleMenu}
-                            showLimitedNav={showLimitedNav}
+                            flowLimitation={flowLimitation}
                         />
                         <DesktopMenu
                             show={menuOpen}

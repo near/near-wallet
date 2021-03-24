@@ -171,7 +171,7 @@ class MobileContainer extends Component {
             menuOpen,
             toggleMenu,
             showNavLinks,
-            showLimitedNav
+            flowLimitation
         } = this.props;
 
         return (
@@ -184,9 +184,9 @@ class MobileContainer extends Component {
                                 accountId={account.accountId}
                                 onClick={toggleMenu}
                                 withIcon={false}
-                                showLimitedNav={showLimitedNav}
+                                flowLimitation={flowLimitation}
                             />
-                            <UserIcon background={true} color='#A2A2A8' onClick={!showLimitedNav ? toggleMenu : null}/>
+                            <UserIcon background={true} color='#A2A2A8' onClick={!flowLimitation.subMenu ? toggleMenu : null}/>
                         </>
                     }
                     {!showNavLinks &&
