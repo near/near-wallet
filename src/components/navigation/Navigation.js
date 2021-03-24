@@ -64,14 +64,6 @@ class Navigation extends Component {
         return this.props.account.accountId;
     }
 
-    get showLimitedNav() {   
-        return window.location.pathname === '/sign'
-    }
-
-    get showLimitedNavLogin() {
-        return (this.props.account?.url?.redirect_url || this.props.router.location.pathname).includes('/login')
-    }
-
     toggleMenu = () => {
         this.setState(prevState => ({
             menuOpen: !prevState.menuOpen
