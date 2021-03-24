@@ -4,6 +4,7 @@ import {
     WALLET_LOGIN_URL,
     WALLET_SIGN_URL
 } from '../utils/wallet'
+import { getBalance } from './account'
 
 export const handleflowLimitation = () => (dispatch, getState) => {
     const { pathname } = getState().router.location
@@ -29,6 +30,11 @@ export const handleflowLimitation = () => (dispatch, getState) => {
             accountBalance: false
         }))
     }
+}
+
+export const handleClearflowLimitation = () => (dispatch, getState) => {
+    dispatch(getBalance())
+    dispatch(clearFlowLimitation())
 }
 
 export const { 

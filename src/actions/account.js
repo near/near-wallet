@@ -14,7 +14,7 @@ import { WalletError } from '../utils/walletError'
 import { utils } from 'near-api-js'
 import { BN } from 'bn.js'
 import { showAlert, dispatchWithAlert } from '../utils/alerts'
-import { handleflowLimitation, clearFlowLimitation } from './flowLimitation'
+import { handleflowLimitation, handleClearflowLimitation } from './flowLimitation'
 
 export const loadRecoveryMethods = createAction('LOAD_RECOVERY_METHODS',
     wallet.getRecoveryMethods.bind(wallet),
@@ -59,8 +59,7 @@ export const handleClearUrl = () => (dispatch, getState) => {
     if (!guestLandingPage && !saveUrlPages) {
         clearState()
         dispatch(refreshUrl({}))
-        dispatch(getBalance())
-        dispatch(clearFlowLimitation())
+        dispatch(handleClearflowLimitation())
     }
 }
 
