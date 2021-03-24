@@ -148,7 +148,7 @@ export default function LedgerHdPaths({ onSetPath, path, onConfirmHdPath }) {
                         </div>
                     </div>
                 </div>
-                <FormButton id='hd-paths-dropdown-2' onClick={onConfirmHdPath}>
+                <FormButton className='hd-paths-dropdown-toggle' onClick={onConfirmHdPath}>
                     <Translate id='signInLedger.advanced.setPath'/>
                 </FormButton>
             </div>

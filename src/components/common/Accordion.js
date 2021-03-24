@@ -20,18 +20,19 @@ const Accordion = ({ className, trigger, children, transition = '250' }) => {
 
     useEffect(() => {
         const el = document.getElementById(trigger)
-        const secondEl = document.getElementById(`${trigger}-2`)
-        const contentHeight = document.getElementById(`${trigger}-wrapper`).getBoundingClientRect().height
         el.addEventListener('click', handleClick)
-        if (secondEl) {
-            secondEl.addEventListener('click', handleClick)
-        }
+        const contentHeight = document.getElementById(`${trigger}-wrapper`).getBoundingClientRect().height
+        const toggles = document.getElementsByClassName(`${trigger}-toggle`)
         setContentHeight(contentHeight)
+
+        for (let toggle of toggles) {
+            toggle.addEventListener('click', handleClick)
+        }
 
         return () => {
             el.removeEventListener('click', handleClick)
-            if (secondEl) {
-                secondEl.removeEventListener('click', handleClick)
+            for (let toggle of toggles) {
+                toggle.removeEventListener('click', handleClick)
             }
         }
 
