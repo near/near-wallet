@@ -99,7 +99,7 @@ export const handleRefreshUrl = () => (dispatch, getState) => {
                 mainMenu: true,
                 subMenu: true,
                 accountPages: true,
-                accountData: true
+                accountData: false
             }))
         }
 
