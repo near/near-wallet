@@ -69,10 +69,13 @@ export const handleRefreshUrl = (prevRouter) => (dispatch, getState) => {
     const { pathname, search } = prevRouter?.location || getState().router.location
     const currentPage = pathname.split('/')[pathname[1] === '/' ? 2 : 1]
 
+    const guestLandingPage = !wallet.accountId
+
     if ([...WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS, WALLET_LOGIN_URL, WALLET_SIGN_URL].includes(currentPage)) {
         const parsedUrl = {
             referrer: document.referrer && new URL(document.referrer).hostname,
-            ...parse(search)
+            ...parse(search),
+            redirect_url: guestLandingPage ? prevRouter.location.pathname : undefined
         }
 
         if ([WALLET_LOGIN_URL, WALLET_SIGN_URL].includes(currentPage) && search !== '') {
