@@ -10,7 +10,8 @@ const initialState = {
     mainMenu: false,
     subMenu: false,
     accountPages: false,
-    accountData: false
+    accountData: false,
+    accountBalance: false
 }
 
 const flowLimitationReducer = handleActions({
