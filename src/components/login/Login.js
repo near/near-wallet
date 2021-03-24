@@ -48,8 +48,8 @@ class Login extends Component {
             async () => await this.props.allowLogin(),
             () => {},
             () => this.setState(() => ({
-                    buttonLoader: false
-                    }))
+                buttonLoader: false
+            }))
         )
     }
 
