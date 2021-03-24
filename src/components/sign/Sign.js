@@ -8,19 +8,13 @@ import SignTransferReady from './SignTransferReady'
 import SignTransferSuccess from './SignTransferSuccess'
 import SignTransferCancelled from './SignTransferCancelled'
 import SignTransferTransferring from './SignTransferTransferring'
-import { signAndSendTransactions, getBalance, handleRefreshUrl } from '../../actions/account'
+import { signAndSendTransactions } from '../../actions/account'
 import { Mixpanel } from '../../mixpanel'
 
 class Sign extends Component {
 
     state = {
         sending: false,
-    }
-
-    componentDidMount = () => {
-        const { dispatch } = this.props
-        dispatch(handleRefreshUrl())
-        dispatch(getBalance())
     }
 
     handleDeny = e => {
