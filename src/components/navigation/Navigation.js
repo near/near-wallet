@@ -85,6 +85,7 @@ class Navigation extends Component {
 
     render() {
         const { menuOpen } = this.state;
+        const { flowLimitation } = this.props
 
         return (
             <Container id='nav-container' open={menuOpen}>
@@ -93,8 +94,7 @@ class Navigation extends Component {
                     toggleMenu={this.toggleMenu}
                     selectAccount={this.handleSelectAccount}
                     showNavLinks={this.showNavLinks}
-                    showLimitedNav={this.showLimitedNav}
-                    showLimitedNavLogin={this.showLimitedNavLogin}
+                    flowLimitation={flowLimitation}
                     {...this.props}
                 />
                 <MobileContainer
@@ -102,8 +102,7 @@ class Navigation extends Component {
                     toggleMenu={this.toggleMenu}
                     selectAccount={this.handleSelectAccount}
                     showNavLinks={this.showNavLinks}
-                    showLimitedNav={this.showLimitedNav}
-                    showLimitedNavLogin={this.showLimitedNavLogin}
+                    flowLimitation={flowLimitation}
                     {...this.props}
                 />
             </Container>
@@ -111,10 +110,11 @@ class Navigation extends Component {
     }
 }
 
-const mapStateToProps = ({ account, availableAccounts, router }) => ({
+const mapStateToProps = ({ account, availableAccounts, router, flowLimitation }) => ({
     account,
     availableAccounts,
-    router
+    router,
+    flowLimitation
 })
 
 const mapDispatchToProps = {

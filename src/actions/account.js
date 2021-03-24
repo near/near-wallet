@@ -102,6 +102,7 @@ export const handleRefreshUrl = () => (dispatch, getState) => {
                 accountData: true
             }))
         }
+
         const { transactions, callbackUrl, meta } = getState().account.url
         if (transactions) {
             dispatch(parseTransactionsToSign({ transactions, callbackUrl, meta }))
