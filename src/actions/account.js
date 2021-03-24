@@ -6,8 +6,13 @@ import { TwoFactor } from '../utils/twoFactor'
 import { push } from 'connected-react-router'
 import { loadState, saveState, clearState } from '../utils/sessionStorage'
 import {
-    WALLET_CREATE_NEW_ACCOUNT_URL, WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS, WALLET_LOGIN_URL, WALLET_SIGN_URL,
-    setKeyMeta, MULTISIG_MIN_PROMPT_AMOUNT
+    WALLET_CREATE_NEW_ACCOUNT_URL,
+    WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS,
+    WALLET_LOGIN_URL,
+    WALLET_SIGN_URL,
+    WALLET_RECOVER_ACCOUNT_URL, 
+    setKeyMeta,
+    MULTISIG_MIN_PROMPT_AMOUNT
 } from '../utils/wallet'
 import { PublicKey, KeyType } from 'near-api-js/lib/utils/key_pair'
 import { WalletError } from '../utils/walletError'
@@ -38,8 +43,9 @@ export const handleRedirectUrl = (previousLocation) => (dispatch, getState) => {
     const page = pathname.split('/')[1]
     const guestLandingPage = !page && !wallet.accountId
     const createAccountPage = page === WALLET_CREATE_NEW_ACCOUNT_URL
+    const recoverAccountPage = page === WALLET_RECOVER_ACCOUNT_URL
 
-    if ((guestLandingPage || createAccountPage) && isValidRedirectUrl) {
+    if ((guestLandingPage || createAccountPage || recoverAccountPage) && isValidRedirectUrl) {
         let url = {
             ...getState().account.url,
             redirect_url: previousLocation.pathname
@@ -48,7 +54,6 @@ export const handleRedirectUrl = (previousLocation) => (dispatch, getState) => {
         dispatch(refreshUrl(url))
     }
 }
-
 
 export const handleClearUrl = () => (dispatch, getState) => {
     const { pathname } = getState().router.location
@@ -69,13 +74,11 @@ export const handleRefreshUrl = (prevRouter) => (dispatch, getState) => {
     const { pathname, search } = prevRouter?.location || getState().router.location
     const currentPage = pathname.split('/')[pathname[1] === '/' ? 2 : 1]
 
-    const guestLandingPage = !wallet.accountId
-
     if ([...WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS, WALLET_LOGIN_URL, WALLET_SIGN_URL].includes(currentPage)) {
         const parsedUrl = {
             referrer: document.referrer && new URL(document.referrer).hostname,
             ...parse(search),
-            redirect_url: guestLandingPage ? prevRouter.location.pathname : undefined
+            redirect_url: prevRouter ? prevRouter.location.pathname : undefined
         }
 
         if ([WALLET_LOGIN_URL, WALLET_SIGN_URL].includes(currentPage) && search !== '') {
