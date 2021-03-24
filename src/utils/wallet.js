@@ -165,9 +165,9 @@ class Wallet {
         return !this.accounts || !Object.keys(this.accounts).length
     }
 
-    async refreshAccount() {
+    async refreshAccount(limitedAccountData = false) {
         try {
-            const account = await this.loadAccount()
+            const account = await this.loadAccount(limitedAccountData)
             setAccountConfirmed(this.accountId, true)
             return account
         } catch (error) {
@@ -207,9 +207,11 @@ class Wallet {
         }
     }
 
-    async loadAccount() {
+    async loadAccount(limitedAccountData = false) {
         if (!this.isEmpty()) {
-            const accessKeys = await this.getAccessKeys() || []
+            const accessKeys = limitedAccountData
+                ? []
+                : await this.getAccessKeys() || []
             const ledgerKey = accessKeys.find(key => key.meta.type === 'ledger')
             const account = await this.getAccount(this.accountId)
             const state = await account.state()

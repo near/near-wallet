@@ -510,9 +510,10 @@ export const { signAndSendTransactions, setSignTransactionStatus, sendMoney, tra
 })
 
 export const refreshAccount = (basicData = false) => async (dispatch, getState) => {
-    await dispatch(refreshAccountOwner())
+    const { flowLimitation } = getState()
+    await dispatch(refreshAccountOwner(flowLimitation.accountData))
 
-    if (!basicData && !getState().flowLimitation.accountData) {
+    if (!basicData && !flowLimitation.accountData) {
         dispatch(getBalance())
     }
 }
