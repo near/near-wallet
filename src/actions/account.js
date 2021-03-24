@@ -91,7 +91,8 @@ export const handleRefreshUrl = () => (dispatch, getState) => {
                 mainMenu: true,
                 subMenu: false,
                 accountPages: false,
-                accountData: true
+                accountData: true,
+                accountBalance: true
             }))
         } 
         else if (redirectUrl.includes(WALLET_SIGN_URL)) {
@@ -99,7 +100,8 @@ export const handleRefreshUrl = () => (dispatch, getState) => {
                 mainMenu: true,
                 subMenu: true,
                 accountPages: true,
-                accountData: false
+                accountData: true,
+                accountBalance: false
             }))
         }
 
@@ -513,7 +515,7 @@ export const refreshAccount = (basicData = false) => async (dispatch, getState) 
     const { flowLimitation } = getState()
     await dispatch(refreshAccountOwner(flowLimitation.accountData))
 
-    if (!basicData && !flowLimitation.accountData) {
+    if (!basicData && !flowLimitation.accountBalance) {
         dispatch(getBalance())
     }
 }
