@@ -14,7 +14,7 @@ import { WalletError } from '../utils/walletError'
 import { utils } from 'near-api-js'
 import { BN } from 'bn.js'
 import { showAlert, dispatchWithAlert } from '../utils/alerts'
-import { setFlowLimitation, clearFlowLimitation } from './flowLimitation'
+import { handleflowLimitation, clearFlowLimitation } from './flowLimitation'
 
 export const loadRecoveryMethods = createAction('LOAD_RECOVERY_METHODS',
     wallet.getRecoveryMethods.bind(wallet),
@@ -83,27 +83,7 @@ export const handleRefreshUrl = () => (dispatch, getState) => {
             dispatch(refreshUrl(loadState()))
         }
 
-        const { redirect_url } = getState().account.url
-        const redirectUrl = redirect_url || pathname
-
-        if (redirectUrl.includes(WALLET_LOGIN_URL)) {
-            dispatch(setFlowLimitation({
-                mainMenu: true,
-                subMenu: false,
-                accountPages: false,
-                accountData: true,
-                accountBalance: true
-            }))
-        } 
-        else if (redirectUrl.includes(WALLET_SIGN_URL)) {
-            dispatch(setFlowLimitation({
-                mainMenu: true,
-                subMenu: true,
-                accountPages: true,
-                accountData: true,
-                accountBalance: false
-            }))
-        }
+        dispatch(handleflowLimitation())
 
         const { transactions, callbackUrl, meta } = getState().account.url
         if (transactions) {
