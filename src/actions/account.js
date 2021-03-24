@@ -59,6 +59,7 @@ export const handleClearUrl = () => (dispatch, getState) => {
     if (!guestLandingPage && !saveUrlPages) {
         clearState()
         dispatch(refreshUrl({}))
+        dispatch(getBalance())
         dispatch(clearFlowLimitation())
     }
 }
