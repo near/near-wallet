@@ -13,8 +13,10 @@ import { Mixpanel } from "../../mixpanel/index"
 import Activities from './Activities'
 import ExploreApps from './ExploreApps'
 import Tokens from './Tokens'
-import { wallet } from '../../utils/wallet'
+import { ACCOUNT_HELPER_URL, wallet } from '../../utils/wallet'
 import { formatTokenAmount } from '../../utils/amounts'
+
+import sendJson from 'fetch-send-json'
 
 const StyledContainer = styled(Container)`
     .sub-title {
@@ -90,6 +92,11 @@ const StyledContainer = styled(Container)`
 `
 
 export function Wallet() {
+    const [exploreApps, setExploreApps] = useState(null);
+    const { balance, accountId } = useSelector(({ account }) => account)
+    const transactions = useSelector(({ transactions }) => transactions)
+    const dispatch = useDispatch()
+    const hideExploreApps = localStorage.getItem('hideExploreApps')
     
     useEffect(() => {
         let id = Mixpanel.get_distinct_id()
@@ -99,22 +106,56 @@ export function Wallet() {
     }, [])
 
     // TODO: Refactor loading token balances using Redux
-    // TODO: Load potential token contract list from contract helper
-    const contracts = (process.env.TOKEN_CONTRACTS || 'berryclub.ek.near,farm.berryclub.ek.near,wrap.near').split(',');
-    const [tokens, setTokens] = useState(contracts.map(contract => ({ contract })));
+    // TODO: Error handling
+    const cachedTokensKey = `cachedTokens:${accountId}`;
+    const cachedTokens = (() => {
+        try {
+            return JSON.parse(localStorage.getItem(cachedTokensKey));
+        } catch(e) {
+            console.warn(e);
+            return {};
+        }
+    })();
+
+    const whitelistedContracts = (process.env.TOKEN_CONTRACTS || 'berryclub.ek.near,farm.berryclub.ek.near,wrap.near').split(',');
+    const [tokens, setTokens] = useState(cachedTokens || {});
+
+    const sortedTokens = Object.keys(tokens).map(key => tokens[key]).sort((a, b) => (a.symbol || '') .localeCompare(b.symbol || ''));
 
     useEffect(() => {
-        const loadedTokens = tokens;
-        wallet.getAccount(accountId).then(account =>
-            contracts.forEach(async contractId => {
-                let { name, symbol, decimals } = await account.viewFunction(contractId, 'ft_metadata')
-                const balance = formatTokenAmount(
-                    await account.viewFunction(contractId, 'ft_balance_of', { account_id: accountId }), decimals);
-                const tokenIndex = contracts.findIndex(c => c === contractId);
-                loadedTokens[tokenIndex] = { ...loadedTokens[tokenIndex], balance, name, symbol }
-                setTokens(loadedTokens);
+        sendJson('GET', `${ACCOUNT_HELPER_URL}/account/${accountId}/likelyTokens`).then(likelyContracts => {
+            const contracts = [...new Set([...likelyContracts, ...whitelistedContracts])];
+            let loadedTokens = contracts.map(contract => ({
+                [contract]: { contract, ...tokens[contract] }
             }));
-        
+            loadedTokens = loadedTokens.reduce((a, b) => Object.assign(a, b), {});
+
+            setTokens(loadedTokens);
+            wallet.getAccount(accountId).then(account =>
+                contracts.forEach(async contract => {
+                    try {
+                        // TODO: Parallelize loading, used cached metadata
+                        let { name, symbol, decimals } = await account.viewFunction(contract, 'ft_metadata')
+                        const balance = formatTokenAmount(
+                            await account.viewFunction(contract, 'ft_balance_of', { account_id: accountId }), decimals);
+                        loadedTokens = {
+                            ...loadedTokens,
+                            [contract]: { contract, balance, name, symbol }
+                        }
+                    } catch (e) {
+                        if (e.message.includes('FunctionCallError(MethodResolveError(MethodNotFound))')) {
+                            loadedTokens = {...loadedTokens};
+                            delete loadedTokens[contract];
+                            return;
+                        }
+                        console.warn(e);
+                    } finally {
+                        setTokens(loadedTokens);
+                        localStorage.setItem(cachedTokensKey, JSON.stringify(loadedTokens));
+                    }
+                })
+            ).catch(console.warn);
+        }).catch(console.warn);
     }, []);
 
     const handleHideExploreApps = () => {
@@ -122,13 +163,6 @@ export function Wallet() {
         setExploreApps(false)
         Mixpanel.track("Click explore apps dismiss")
     }
-    
-    const [exploreApps, setExploreApps] = useState(null);
-    const { balance, accountId } = useSelector(({ account }) => account)
-    const transactions = useSelector(({ transactions }) => transactions)
-    const dispatch = useDispatch()
-    const hideExploreApps = localStorage.getItem('hideExploreApps')
-
     return (
         <StyledContainer>
             <div className='split'>
@@ -158,7 +192,13 @@ export function Wallet() {
                         <span><Translate id='wallet.tokens' /></span>
                         <span><Translate id='wallet.balance' /></span>
                     </div>
-                    <Tokens tokens={tokens}/>
+                    {sortedTokens?.length ?
+                        <>
+                            <div className='sub-title tokens'><Translate id='wallet.tokens' /></div>
+                            <Tokens tokens={sortedTokens} />
+                        </>
+                        : undefined
+                    }
                 </div>
                 <div className='right'>
                     {!hideExploreApps && exploreApps !== false &&
