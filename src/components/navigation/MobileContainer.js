@@ -171,22 +171,22 @@ class MobileContainer extends Component {
             menuOpen,
             toggleMenu,
             showNavLinks,
-            showLimitedNav
+            flowLimitation
         } = this.props;
 
         return (
             <Container className={menuOpen ? 'show' : ''} id='mobile-menu'>
                 <Collapsed>
-                    <Logo/>
+                    <Logo link={!flowLimitation.mainMenu}/>
                     {showNavLinks &&
                         <>
                             <UserAccount
                                 accountId={account.accountId}
                                 onClick={toggleMenu}
                                 withIcon={false}
-                                showLimitedNav={showLimitedNav}
+                                flowLimitation={flowLimitation}
                             />
-                            <UserIcon background={true} color='#A2A2A8' onClick={!showLimitedNav ? toggleMenu : null}/>
+                            <UserIcon background={true} color='#A2A2A8' onClick={!flowLimitation.subMenu ? toggleMenu : null}/>
                         </>
                     }
                     {!showNavLinks &&

@@ -6,14 +6,20 @@ import { TwoFactor } from '../utils/twoFactor'
 import { push } from 'connected-react-router'
 import { loadState, saveState, clearState } from '../utils/sessionStorage'
 import {
-    WALLET_CREATE_NEW_ACCOUNT_URL, WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS, WALLET_LOGIN_URL, WALLET_SIGN_URL,
-    setKeyMeta, MULTISIG_MIN_PROMPT_AMOUNT
+    WALLET_CREATE_NEW_ACCOUNT_URL,
+    WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS,
+    WALLET_LOGIN_URL,
+    WALLET_SIGN_URL,
+    WALLET_RECOVER_ACCOUNT_URL, 
+    setKeyMeta,
+    MULTISIG_MIN_PROMPT_AMOUNT
 } from '../utils/wallet'
 import { PublicKey, KeyType } from 'near-api-js/lib/utils/key_pair'
 import { WalletError } from '../utils/walletError'
 import { utils } from 'near-api-js'
 import { BN } from 'bn.js'
 import { showAlert, dispatchWithAlert } from '../utils/alerts'
+import { handleflowLimitation, handleClearflowLimitation } from './flowLimitation'
 
 export const loadRecoveryMethods = createAction('LOAD_RECOVERY_METHODS',
     wallet.getRecoveryMethods.bind(wallet),
@@ -37,8 +43,9 @@ export const handleRedirectUrl = (previousLocation) => (dispatch, getState) => {
     const page = pathname.split('/')[1]
     const guestLandingPage = !page && !wallet.accountId
     const createAccountPage = page === WALLET_CREATE_NEW_ACCOUNT_URL
+    const recoverAccountPage = page === WALLET_RECOVER_ACCOUNT_URL
 
-    if ((guestLandingPage || createAccountPage) && isValidRedirectUrl) {
+    if ((guestLandingPage || createAccountPage || recoverAccountPage) && isValidRedirectUrl) {
         let url = {
             ...getState().account.url,
             redirect_url: previousLocation.pathname
@@ -47,7 +54,6 @@ export const handleRedirectUrl = (previousLocation) => (dispatch, getState) => {
         dispatch(refreshUrl(url))
     }
 }
-
 
 export const handleClearUrl = () => (dispatch, getState) => {
     const { pathname } = getState().router.location
@@ -58,19 +64,21 @@ export const handleClearUrl = () => (dispatch, getState) => {
     if (!guestLandingPage && !saveUrlPages) {
         clearState()
         dispatch(refreshUrl({}))
+        dispatch(handleClearflowLimitation())
     }
 }
 
 export const parseTransactionsToSign = createAction('PARSE_TRANSACTIONS_TO_SIGN')
 
-export const handleRefreshUrl = () => (dispatch, getState) => {
-    const { pathname, search } = getState().router.location
+export const handleRefreshUrl = (prevRouter) => (dispatch, getState) => {
+    const { pathname, search } = prevRouter?.location || getState().router.location
     const currentPage = pathname.split('/')[pathname[1] === '/' ? 2 : 1]
 
     if ([...WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS, WALLET_LOGIN_URL, WALLET_SIGN_URL].includes(currentPage)) {
         const parsedUrl = {
             referrer: document.referrer && new URL(document.referrer).hostname,
-            ...parse(search)
+            ...parse(search),
+            redirect_url: prevRouter ? prevRouter.location.pathname : undefined
         }
 
         if ([WALLET_LOGIN_URL, WALLET_SIGN_URL].includes(currentPage) && search !== '') {
@@ -80,6 +88,8 @@ export const handleRefreshUrl = () => (dispatch, getState) => {
         } else {
             dispatch(refreshUrl(loadState()))
         }
+
+        dispatch(handleflowLimitation())
 
         const { transactions, callbackUrl, meta } = getState().account.url
         if (transactions) {
@@ -488,9 +498,10 @@ export const { signAndSendTransactions, setSignTransactionStatus, sendMoney, tra
 })
 
 export const refreshAccount = (basicData = false) => async (dispatch, getState) => {
-    await dispatch(refreshAccountOwner())
+    const { flowLimitation } = getState()
+    await dispatch(refreshAccountOwner(flowLimitation.accountData))
 
-    if (!basicData) {
+    if (!basicData && !flowLimitation.accountBalance) {
         dispatch(getBalance())
     }
 }

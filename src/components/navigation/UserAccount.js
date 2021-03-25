@@ -62,8 +62,8 @@ const Container = styled.div`
     }
 `
 
-const UserAccount = ({ accountId = '', onClick, withIcon = true, showLimitedNav }) => (
-    <Container className={classNames(['user-account', {'no-click' : showLimitedNav}])} onClick={onClick}>
+const UserAccount = ({ accountId = '', onClick, withIcon = true, flowLimitation }) => (
+    <Container className={classNames(['user-account', {'no-click' : !!flowLimitation?.subMenu }])} onClick={onClick}>
         {withIcon && <UserIcon color='#A2A2A8'/>}
         <div className='account-wrapper'>{accountId}</div>
         <div className='icon-wrapper'>
