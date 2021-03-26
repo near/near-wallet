@@ -134,7 +134,7 @@ export function Wallet() {
             <div className='split'>
                 <div className='left'>
                     <NearWithBackgroundIcon/>
-                    <h1><Balance amount={balance.total} symbol='near'/></h1>
+                    <h1><Balance amount={balance.total} symbol={false}/></h1>
                     <div className='sub-title'><Translate id='wallet.balanceTitle' /></div>
                     <div className='buttons'>
                         <FormButton
