@@ -616,10 +616,10 @@ class Wallet {
         return decorateWithLockup(account);
     }
 
-    async getBalance(accountId) {
+    async getBalance(accountId, limitedAccountData = false) {
         accountId = accountId || this.accountId
         const account = await this.getAccount(accountId)
-        return await account.getAccountBalance()
+        return await account.getAccountBalance(limitedAccountData)
     }
 
     async signatureFor(account) {

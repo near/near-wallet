@@ -502,7 +502,7 @@ export const refreshAccount = (basicData = false) => async (dispatch, getState) 
     await dispatch(refreshAccountOwner(flowLimitation.accountData))
 
     if (!basicData && !flowLimitation.accountBalance) {
-        dispatch(getBalance())
+        dispatch(getBalance('', flowLimitation.accountData))
     }
 }
 
