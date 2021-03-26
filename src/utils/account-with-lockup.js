@@ -139,9 +139,12 @@ async function getAccountBalance() {
         } = await viewLockupState(this.connection, lockupAccountId)
 
         const { transfer_poll_account_id, transfers_timestamp } = transferInformation
-        const transfersTimestamp = transfer_poll_account_id ? lockupTimestamp : transfers_timestamp
+        const transfersTimestamp = transfer_poll_account_id ? await this.viewFunction(transfer_poll_account_id, 'get_result') : transfers_timestamp
+        const startTimestamp = lockupTimestamp
+            ? BN.max(new BN(lockupTimestamp), new BN(transfersTimestamp))
+            : new BN(transfersTimestamp)
         const releaseDurationBN = new BN(releaseDuration || '0')
-        const endTimestamp = new BN(transfersTimestamp).add(releaseDurationBN)
+        const endTimestamp = startTimestamp.add(releaseDurationBN)
         const timeLeft = BN.max(new BN(0), endTimestamp.sub(new BN(Date.now()).mul(new BN('1000000'))))
         const unreleasedAmount = releaseDurationBN.eq(new BN(0))
             ? new BN(0)
