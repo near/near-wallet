@@ -666,8 +666,9 @@
     },
 
     "wallet": {
-        "balanceTitle": "Portfolio Balance",
+        "balanceTitle": "NEAR Balance",
         "tokens": "Tokens",
+        "balance": "Balance",
         "dateAndTime": "Date & Time",
         "status": "Status"
     },

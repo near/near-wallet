@@ -7,16 +7,16 @@ const Container = styled.div`
     padding: 0 14px;
 
     @media (min-width: 768px) {
-        width: 723px;
+        width: 720px;
     }
 
     @media (min-width: 992px) {
-        width: 933px;
+        width: 920px;
         padding: 10px 0 0 0;
     }
 
     @media (min-width: 1200px) {
-        width: 1127px;
+        width: 1000px;
     }
 
     &.small-centered {
@@ -46,6 +46,22 @@ const Container = styled.div`
     &.medium {
         max-width: 600px;
     }
+
+    @media (min-width: 992px) {
+        .split {
+            display: flex;
+
+            .left {
+                flex: 1.5;
+                margin-right: 40px;
+            }
+    
+            .right {
+                flex: 1;
+            }
+        }
+    }
+
 
     .sub-title, h2 {
         text-align: center !important;

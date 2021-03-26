@@ -7,16 +7,19 @@ const StyledContainer = styled.div`
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 15px 0;
+    padding: 15px 14px;
 
     @media (max-width: 767px) {
-        padding: 15px 14px;
-        margin: 0 -14px 0 -14px;
+        margin: 0 -14px;
+    }
+
+    @media (min-width: 992px) {
+        margin: 0 -20px;
     }
 
     .symbol {
-        width: 24px;
-        height: 24px;
+        width: 32px;
+        height: 32px;
         display: flex;
         align-items: center;
         justify-content: center;

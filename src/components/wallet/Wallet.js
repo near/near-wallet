@@ -17,10 +17,6 @@ import { wallet } from '../../utils/wallet'
 import { formatTokenAmount } from '../../utils/amounts'
 
 const StyledContainer = styled(Container)`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-
     .sub-title {
         margin: -10px 0 0 0;
         font-size: 14px !important;
@@ -29,31 +25,49 @@ const StyledContainer = styled(Container)`
         &.tokens {
             margin-top: 40px;
             margin-bottom: 15px;
-            align-self: flex-start;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            max-width: unset;
         }
     }
 
-    > .buttons {
+    .left {
         display: flex;
-        justify-content: space-between;
+        flex-direction: column;
         align-items: center;
-        margin-top: 20px;
-        width: 100%;
 
-        button {
+        @media (min-width: 992px) {
+            border: 2px solid #F0F0F0;
+            border-radius: 8px;
+            padding: 30px 20px 20px 20px;
+            height: max-content;
+        }
+
+        .buttons {
             display: flex;
-            justify-content: center;
+            justify-content: space-between;
             align-items: center;
-            flex: 1;
-            svg {
-                width: 22px !important;
-                height: 22px !important;
-                margin: 0 6px 0 0 !important;
-            }
-            :last-of-type {
-                margin-left: 25px;
-                @media (max-width: 767px) {
-                    margin-left: 10px;
+            margin: 30px 0;
+            width: 100%;
+    
+            button {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                flex: 1;
+                width: auto;
+                svg {
+                    width: 22px !important;
+                    height: 22px !important;
+                    margin: 0 6px 0 0 !important;
+                }
+                :last-of-type {
+                    margin-left: 25px;
+                    @media (max-width: 767px) {
+                        margin-left: 10px;
+                    }
                 }
             }
         }
@@ -106,6 +120,7 @@ export function Wallet() {
     const handleHideExploreApps = () => {
         localStorage.setItem('hideExploreApps', true)
         setExploreApps(false)
+        Mixpanel.track("Click explore apps dismiss")
     }
     
     const [exploreApps, setExploreApps] = useState(null);
@@ -115,39 +130,48 @@ export function Wallet() {
     const hideExploreApps = localStorage.getItem('hideExploreApps')
 
     return (
-        <StyledContainer className='small-centered'>
-            <NearWithBackgroundIcon/>
-            <h1><Balance amount={balance.total} symbol='near'/></h1>
-            <div className='sub-title'><Translate id='wallet.balanceTitle' /></div>
-            <div className='buttons'>
-                <FormButton
-                    color='green-pastel'
-                    linkTo='/send-money'
-                    trackingId='Click Send on Wallet page'
-                >
-                    <SendIcon/>
-                    <Translate id='button.send'/>
-                </FormButton>
-                <FormButton
-                    color='green-pastel'
-                    linkTo='/receive-money'
-                    trackingId='Click Receive on Wallet page'
-                >
-                    <DownArrowIcon/>
-                    <Translate id='button.receive'/>
-                </FormButton>
-            </div>
-            <div className='sub-title tokens'><Translate id='wallet.tokens' /></div>
-            <Tokens tokens={tokens}/>
-            {!hideExploreApps && exploreApps !== false &&
-                <ExploreApps onClick={handleHideExploreApps}/>
-            }
-            <Activities 
-                transactions={transactions[accountId] || []}
-                accountId={accountId}
-                getTransactionStatus={getTransactionStatus}
+        <StyledContainer>
+            <div className='split'>
+                <div className='left'>
+                    <NearWithBackgroundIcon/>
+                    <h1><Balance amount={balance.total} symbol='near'/></h1>
+                    <div className='sub-title'><Translate id='wallet.balanceTitle' /></div>
+                    <div className='buttons'>
+                        <FormButton
+                            color='green-pastel'
+                            linkTo='/send-money'
+                            trackingId='Click Send on Wallet page'
+                        >
+                            <SendIcon/>
+                            <Translate id='button.send'/>
+                        </FormButton>
+                        <FormButton
+                            color='green-pastel'
+                            linkTo='/receive-money'
+                            trackingId='Click Receive on Wallet page'
+                        >
+                            <DownArrowIcon/>
+                            <Translate id='button.receive'/>
+                        </FormButton>
+                    </div>
+                    <div className='sub-title tokens'>
+                        <span><Translate id='wallet.tokens' /></span>
+                        <span><Translate id='wallet.balance' /></span>
+                    </div>
+                    <Tokens tokens={tokens}/>
+                </div>
+                <div className='right'>
+                    {!hideExploreApps && exploreApps !== false &&
+                        <ExploreApps onClick={handleHideExploreApps}/>
+                    }
+                    <Activities 
+                        transactions={transactions[accountId] || []}
+                        accountId={accountId}
+                        getTransactionStatus={getTransactionStatus}
 
-            />
+                    />
+                </div>
+            </div>
         </StyledContainer>
     )
 }

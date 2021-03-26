@@ -9,7 +9,10 @@ import ChevronIcon from '../../svg/ChevronIcon'
 import Tooltip from '../../common/Tooltip'
 
 const Container = styled.div`
-    margin: 0 -14px;
+
+    @media (max-width: 767px) {
+        margin: 0 -14px;
+    }
 
     .border-box {
 

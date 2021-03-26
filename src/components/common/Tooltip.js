@@ -55,8 +55,8 @@ const Container = styled.div`
     }
 
     .rounded-info-icon {
-        width: 20px;
-        height: 20px;
+        width: 18px;
+        height: 18px;
     }
 
     &.icon-lg {

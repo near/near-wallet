@@ -12,12 +12,40 @@ import classNames from '../../utils/classNames'
 const StyledContainer = styled.div`
     width: 100%;
 
+    @media (min-width: 992px) {
+        border: 2px solid #F0F0F0;
+        border-radius: 8px;
+        padding: 20px;
+
+        h2 {
+            margin-bottom: 15px !important;
+        }
+
+        .activity-box {
+            margin: 0 -20px;
+            padding: 15px 20px;
+            transition: 100ms;
+
+            :hover {
+                background-color: #f9f9f9;
+            }
+
+            :first-of-type {
+                border-top: 1px solid #F0F0F1;
+            }
+        }
+    }
+
     .activity-box {
         border-bottom: 1px solid #F0F0F1;
 
         :last-of-type {
             border-bottom: 0;
         }
+    }
+
+    h2 {
+        margin-top: 0 !important;
     }
 
     .dots {
