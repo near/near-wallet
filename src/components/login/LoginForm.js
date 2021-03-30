@@ -125,7 +125,6 @@ const LoginForm = ({
                     {!accountConfirmationForm && (
                         <FormButton
                             color='blue'
-                            disabled={!account.balance.available}
                             sending={buttonLoader}
                             onClick={handleAllow}
                             sendingString='button.authorizing'

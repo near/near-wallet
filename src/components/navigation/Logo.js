@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import NearLogo from '../svg/NearLogo';
 
-const StyledLogo = styled(Link)`
+const StyledLogo = styled(`div`)`
     margin-top: 5px;
 
     svg {
@@ -26,10 +26,15 @@ const StyledLogo = styled(Link)`
     }
 `
 
-const Logo = () => (
-    <StyledLogo to='/' className='logo'>
-        <NearLogo/>
+const Logo = ({ link }) => (
+    <StyledLogo className='logo'>
+        {link
+            ? <Link to='/'>
+                <NearLogo />
+            </Link>
+            : <NearLogo />
+        }
     </StyledLogo>
 )
 
-export default Logo;
+export default Logo

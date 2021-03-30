@@ -11,6 +11,7 @@ import recoveryMethods from '../reducers/recoveryMethods'
 import ledger from './ledger'
 import staking from './staking'
 import status from './status'
+import flowLimitation from './flowLimitation'
 
 export default (history) => combineReducers({
     localize: localizeReducer,
@@ -23,5 +24,6 @@ export default (history) => combineReducers({
     ledger,
     staking,
     status,
+    flowLimitation,
     router: connectRouter(history)
 })
