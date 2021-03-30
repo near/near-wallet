@@ -544,10 +544,15 @@ export const switchAccount = (accountId) => async (dispatch, getState) => {
 }
 
 export const getAvailableAccountsBalance = () => async (dispatch, getState) => {
-    let { accounts, accountsBalance } = getState().account
+    let { accountsBalance } = getState().account
+    let { availableAccounts, flowLimitation } = getState()
 
-    for (let i = 0; i < Object.keys(accounts).length; i++) {
-        const accountId = Object.keys(accounts)[i]
+    if (flowLimitation.accountData) {
+        return
+    }
+
+    for (let i = 0; i < availableAccounts.length; i++) {
+        const accountId = availableAccounts[i]
         if (!accountsBalance || !accountsBalance[accountId]) {
             i < 5 && await dispatch(setAccountBalance(accountId))
         }
