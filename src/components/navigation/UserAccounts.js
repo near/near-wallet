@@ -138,38 +138,36 @@ const UserAccounts = ({ accounts, accountId, selectAccount, accountIdLocalStorag
         </Account>
         {accountId
             ? accounts.filter(a => a !== accountId).map((account, i) => (
-                <Account key={`link-${i}`} className='additional-account'>
-                    <div className='account-data' onClick={() => selectAccount(account)}>
-                        <div className='accountId'>
-                            {account}
-                        </div>
-                        <div className='balance'>
-                            {accountsBalance 
-                                && (accountsBalance[account]?.loading || accountsBalance[account]?.available)
-                                    ? <Balance amount={accountsBalance[account]?.available} />
-                                    : <div className='symbol'>Ⓝ</div>
-                            }
-                        </div>
-                    </div>
-                    <div>
-                        <SyncButton 
-                            className={classNames([{'dots': !(accountsBalance && !accountsBalance[account]?.loading)}])} 
-                            onClick={() => refreshBalance(account)} 
-                            title='Sync balance'
-                        >
-                            {accountsBalance 
-                                && !accountsBalance[account]?.loading 
-                                && <Translate id='sync'/>
-                            }
-                        </SyncButton>
-                    </div>
-                </Account>
-            )) : <SkeletonLoading
-                height='55px'
-                show={true}
-            />
-        }
-    </Wrapper>
+
+
+const UserAccount = ({ accountId, balance, balanceLoading, refreshBalance, active, onClick }) => (
+    <Account className={active ? 'active-account' : 'additional-account'}>
+        <div className='account-data' onClick={onClick}>
+            <div className='accountId'>
+                {accountId}
+            </div>
+            <div className='balance'>
+                {!balance && !balanceLoading
+                    ? <div className='symbol'>Ⓝ</div>
+                    : <Balance amount={balance} />
+                }
+            </div>
+        </div>
+        <div>
+            <SyncButton 
+                className={classNames([{'dots': balanceLoading}])}
+                onClick={refreshBalance}
+                title='Sync balance'
+            >
+                {balance
+                    ? <Translate id='sync'/>
+                    : !balanceLoading
+                        ? <Translate id='getBalance'/>
+                        : ''
+                }
+            </SyncButton>
+        </div>
+    </Account>
 )
 
 export default UserAccounts
