@@ -24,6 +24,7 @@ import EnterVerificationCode from '../EnterVerificationCode';
 import Container from '../../common/styled/Container.css';
 import isApprovedCountryCode from '../../../utils/isApprovedCountryCode'
 import { Mixpanel } from '../../../mixpanel/index'
+import { actionsPending } from '../../../utils/alerts'
 
 const StyledContainer = styled(Container)`
     button {
@@ -277,7 +278,7 @@ class SetupRecoveryMethod extends Component {
                             color='blue'
                             type='submit'
                             disabled={!this.isValidInput || mainLoader}
-                            sending={mainLoader}
+                            sending={actionsPending('INITIALIZE_RECOVERY_METHOD', 'SETUP_RECOVERY_MESSAGE')}
                             trackingId='SR Click submit button'
                         >
                             <Translate id='button.continue' />
