@@ -94,7 +94,8 @@ class DesktopContainer extends Component {
             selectAccount,
             showNavLinks,
             flowLimitation,
-            refreshBalance
+            refreshBalance,
+            getBalance
         } = this.props
 
         return (
@@ -124,6 +125,7 @@ class DesktopContainer extends Component {
                             accountsBalance={account.accountsBalance}
                             balance={account.balance}
                             refreshBalance={refreshBalance}
+                            getBalance={getBalance}
                         />
                     </>
                 }

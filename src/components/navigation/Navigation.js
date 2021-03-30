@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
-import { switchAccount, getAvailableAccountsBalance, getAccountBalance } from '../../actions/account';
+import { switchAccount, getAvailableAccountsBalance, getAccountBalance, getBalance } from '../../actions/account';
 import { connect } from 'react-redux';
 import DesktopContainer from './DesktopContainer';
 import MobileContainer from './MobileContainer';
@@ -95,6 +95,7 @@ class Navigation extends Component {
                     showNavLinks={this.showNavLinks}
                     flowLimitation={flowLimitation}
                     refreshBalance={this.props.getAccountBalance}
+                    getBalance={this.props.getBalance}
                     {...this.props}
                 />
                 <MobileContainer
@@ -121,7 +122,8 @@ const mapStateToProps = ({ account, availableAccounts, router, flowLimitation })
 const mapDispatchToProps = {
     switchAccount,
     getAvailableAccountsBalance,
-    getAccountBalance
+    getAccountBalance,
+    getBalance
 }
 
 export default connect(

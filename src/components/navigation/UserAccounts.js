@@ -5,6 +5,7 @@ import Balance from '../common/Balance'
 import SkeletonLoading from '../common/SkeletonLoading';
 import classNames from '../../utils/classNames'
 import { Translate } from 'react-localize-redux'
+import { actionsPending } from '../../utils/alerts'
 
 const Wrapper = styled.div`
     .animation-wrapper > .animation {
@@ -126,19 +127,33 @@ const SyncButton = styled.span`
     }
 `
 
-const UserAccounts = ({ accounts, accountId, selectAccount, accountIdLocalStorage, accountsBalance, balance, refreshBalance }) => (
+const UserAccounts = ({ accounts, accountId, selectAccount, accountsBalance, balance, refreshBalance, getBalance }) => (
     <Wrapper>
-        <Account className='active-account'>
-          <div className="account-data">
-            {accountId || accountIdLocalStorage}
-            <div className='balance'>
-                <Balance amount={balance?.available} />
-            </div>
-          </div>
-        </Account>
+        <UserAccount
+            accountId={accountId || accountIdLocalStorage}
+            balance={actionsPending('GET_BALANCE') ? '' : balance?.available}
+            balanceLoading={actionsPending('GET_BALANCE')}
+            refreshBalance={() => (getBalance(), refreshBalance(accountId))}
+            active={true}
+        />
         {accountId
             ? accounts.filter(a => a !== accountId).map((account, i) => (
-
+                <UserAccount
+                    key={i}
+                    accountId={account}
+                    balance={accountsBalance && accountsBalance[account]?.available}
+                    balanceLoading={accountsBalance && accountsBalance[account]?.loading}
+                    refreshBalance={() => refreshBalance(account)}
+                    active={false}
+                    onClick={() => selectAccount(account)}
+                />
+            )) : <SkeletonLoading
+                height='55px'
+                show={true}
+            />
+        }
+    </Wrapper>
+)
 
 const UserAccount = ({ accountId, balance, balanceLoading, refreshBalance, active, onClick }) => (
     <Account className={active ? 'active-account' : 'additional-account'}>
