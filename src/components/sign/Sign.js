@@ -8,19 +8,13 @@ import SignTransferReady from './SignTransferReady'
 import SignTransferSuccess from './SignTransferSuccess'
 import SignTransferCancelled from './SignTransferCancelled'
 import SignTransferTransferring from './SignTransferTransferring'
-import { signAndSendTransactions, getBalance, handleRefreshUrl } from '../../actions/account'
+import { signAndSendTransactions } from '../../actions/account'
 import { Mixpanel } from '../../mixpanel'
 
 class Sign extends Component {
 
     state = {
         sending: false,
-    }
-
-    componentDidMount = () => {
-        const { dispatch } = this.props
-        dispatch(handleRefreshUrl())
-        dispatch(getBalance())
     }
 
     handleDeny = e => {
@@ -103,7 +97,8 @@ class Sign extends Component {
 function addQueryParams(baseUrl, queryParams) {
     const url = new URL(baseUrl);
     for (let key in queryParams) {
-        url.searchParams.set(key, queryParams[key]);
+        const param = queryParams[key];
+        if(param) url.searchParams.set(key, param);
     }
     return url.toString();
 }

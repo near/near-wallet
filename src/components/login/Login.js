@@ -7,7 +7,7 @@ import LoginForm from './LoginForm'
 import LoginConfirm from './LoginConfirm'
 import LoginDetails from './LoginDetails'
 import LoginIncorrectContractId from './LoginIncorrectContractId'
-import { handleRefreshUrl, switchAccount, allowLogin, redirectToApp, getBalance } from '../../actions/account'
+import { handleRefreshUrl, switchAccount, allowLogin, redirectToApp } from '../../actions/account'
 import { clearLocalAlert } from '../../actions/status'
 import { LOCKUP_ACCOUNT_ID_SUFFIX } from '../../utils/wallet'
 import { Mixpanel } from '../../mixpanel/index'
@@ -16,10 +16,6 @@ class Login extends Component {
     state = {
         buttonLoader: false,
         dropdown: false
-    }
-
-    componentDidMount = () => {
-        this.props.getBalance()
     }
 
     handleOnClick = () => {
@@ -48,8 +44,8 @@ class Login extends Component {
             async () => await this.props.allowLogin(),
             () => {},
             () => this.setState(() => ({
-                    buttonLoader: false
-                    }))
+                buttonLoader: false
+            }))
         )
     }
 
@@ -130,8 +126,7 @@ const mapDispatchToProps = {
     switchAccount,
     allowLogin,
     redirectToApp,
-    clearLocalAlert,
-    getBalance
+    clearLocalAlert
 }
 
 const mapStateToProps = ({ account }) => ({

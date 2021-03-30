@@ -25,25 +25,6 @@ import Tooltip from '../common/Tooltip'
 
 const StyledContainer = styled(Container)`
 
-    @media (min-width: 992px) {
-        .split {
-            display: flex;
-        }
-
-        .left {
-            flex: 1.5;
-            margin-right: 50px;
-
-            .authorized-app-box {
-                margin: 0 -14px;
-            }
-        }
-
-        .right {
-            flex: 1;
-        }
-    }
-
     @media (max-width: 991px) {
         .right {
             margin-top: 50px;
@@ -81,12 +62,9 @@ const StyledContainer = styled(Container)`
 
     .left {
         @media (min-width: 992px) {
-            h2 {
-                margin-left: -20px;
-            }
 
             > hr {
-                margin: 50px -14px 30px -14px;
+                margin: 50px 0px 30px 0px;
             }
         }
 
@@ -131,10 +109,6 @@ const StyledContainer = styled(Container)`
         align-items: center;
         justify-content: space-between;
         margin-bottom: 35px;
-
-        @media (min-width: 992px) {
-            margin-right: -14px;
-        }
 
         button {
             &.link {

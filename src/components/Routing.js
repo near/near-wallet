@@ -125,10 +125,11 @@ class Routing extends Component {
             handleRefreshUrl,
             history,
             handleRedirectUrl,
-            handleClearUrl
+            handleClearUrl,
+            router
         } = this.props
 
-        handleRefreshUrl()
+        handleRefreshUrl(router)
         refreshAccount()
 
         history.listen(async () => {

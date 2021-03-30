@@ -13,17 +13,17 @@ import { EXPLORE_APPS_URL } from '/utils/wallet'
 
 const Container = styled.div`
     background-color: black;
-    border-radius: 32px;
+    border-radius: 8px;
     padding: 20px;
     width: 100%;
     position: relative;
-    margin-top: 50px;
     display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
     color: #D5D4D8;
     font-size: 15px;
+    margin-bottom: 50px;
 
     h2 {
         color: white !important;
@@ -43,32 +43,6 @@ const Container = styled.div`
         width: 100%;
         button {
             width: 100% !important;
-        }
-
-        @media (max-width: 991px) {
-            button {
-                &.link {
-                    display: none !important;
-                }
-            }
-        }
-
-        @media (min-width: 992px) {
-            button {
-                width: auto !important;
-                padding: 12px 25px;
-                height: auto !important;
-
-                &.link {
-                    color: white !important;
-                    text-decoration: none !important;
-                    margin-left: 30px !important;
-
-                    :hover {
-                        text-decoration: underline !important;
-                    }
-                }
-            }
         }
     }
 
@@ -116,67 +90,12 @@ const Container = styled.div`
             opacity: 0.3;
         }
     }
-
-    @media (min-width: 992px) {
-        text-align: left;
-        align-items: flex-start;
-        border-radius: 8px;
-        padding: 30px;
-        overflow: hidden;
-
-        h2 {
-            align-self: flex-start !important;
-            margin-bottom: 5px !important;
-        }
-
-        .apps-wrapper {
-            position: absolute;
-            right: 107px;
-            top: -42px;
-
-            img {
-                transform: scale(1);
-
-                :nth-of-type(1) {
-                    top: -68px;
-                    left: -39px;
-                }
-                :nth-of-type(2) {
-                    top: -80px;
-                    right: -85px;
-                }
-                :nth-of-type(3) {
-                    top: -21px;
-                    left: -81px;
-                }
-                :nth-of-type(4) {
-                    top: -28px;
-                    left: -10px;
-                }
-                :nth-of-type(5) {
-                    top: -20px;
-                    left: 80px;
-                }
-                :nth-of-type(6) {
-                    top: 11px;
-                    left: 32px;
-                    opacity: 0.3;
-                }
-            }
-        }
-
-        .desc {
-            max-width: 250px;
-            line-height: 150%;
-            margin-bottom: 20px;
-        }
-    }
 `
 
 const ExploreApps = ({ onClick }) => {
     return (
         <Container>
-            <CloseButton onClick={onClick} device='tablet'/>
+            <CloseButton onClick={onClick}/>
             <div className='apps-wrapper'>
                 <div>
                     <img src={HashRushLogo} alt='Hash Rush'/>
@@ -191,7 +110,6 @@ const ExploreApps = ({ onClick }) => {
             <div className='desc'><Translate id='exploreApps.desc' /></div>
             <div className='buttons'>
                 <FormButton linkTo={EXPLORE_APPS_URL} color='white-blue' trackingId='Click explore apps button'><Translate id='exploreApps.button' /></FormButton>
-                <FormButton onClick={onClick} color='link' trackingId='Click explore apps dismiss'><Translate id='button.dismiss' /></FormButton>
             </div>
         </Container>
     )

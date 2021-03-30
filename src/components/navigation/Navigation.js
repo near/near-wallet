@@ -64,10 +64,6 @@ class Navigation extends Component {
         return this.props.account.accountId;
     }
 
-    get showLimitedNav() {   
-        return window.location.pathname === '/sign'
-    }
-
     toggleMenu = () => {
         this.setState(prevState => ({
             menuOpen: !prevState.menuOpen
@@ -81,6 +77,7 @@ class Navigation extends Component {
 
     render() {
         const { menuOpen } = this.state;
+        const { flowLimitation } = this.props
 
         return (
             <Container id='nav-container' open={menuOpen}>
@@ -89,7 +86,7 @@ class Navigation extends Component {
                     toggleMenu={this.toggleMenu}
                     selectAccount={this.handleSelectAccount}
                     showNavLinks={this.showNavLinks}
-                    showLimitedNav={this.showLimitedNav}
+                    flowLimitation={flowLimitation}
                     {...this.props}
                 />
                 <MobileContainer
@@ -97,7 +94,7 @@ class Navigation extends Component {
                     toggleMenu={this.toggleMenu}
                     selectAccount={this.handleSelectAccount}
                     showNavLinks={this.showNavLinks}
-                    showLimitedNav={this.showLimitedNav}
+                    flowLimitation={flowLimitation}
                     {...this.props}
                 />
             </Container>
@@ -105,9 +102,11 @@ class Navigation extends Component {
     }
 }
 
-const mapStateToProps = ({ account, availableAccounts }) => ({
+const mapStateToProps = ({ account, availableAccounts, router, flowLimitation }) => ({
     account,
-    availableAccounts
+    availableAccounts,
+    router,
+    flowLimitation
 })
 
 const mapDispatchToProps = {
