@@ -12,7 +12,7 @@ const Container = styled.div`
     align-items: center;
     flex-wrap: wrap;
     padding: 20px;
-    margin: 0 0 50px -15px;
+    margin: 0 0 50px 0px;
 
     div {
         margin: 0 10px 0 20px;
@@ -27,14 +27,6 @@ const Container = styled.div`
         width: auto !important;
         font-size: 14px !important;
         margin: 0 0 0 auto !important;
-    }
-
-    @media (max-width: 991px) {
-        margin: 0 -14px 50px -14px;
-    }
-
-    @media (max-width: 767px) {
-        margin: 0 0 50px 0;
     }
 
     @media (max-width: 450px) {
