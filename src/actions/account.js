@@ -19,7 +19,7 @@ import { WalletError } from '../utils/walletError'
 import { utils } from 'near-api-js'
 import { BN } from 'bn.js'
 import { showAlert, dispatchWithAlert } from '../utils/alerts'
-import { handleflowLimitation, handleClearflowLimitation } from './flowLimitation'
+import { handleFlowLimitation, handleClearflowLimitation } from './flowLimitation'
 
 export const loadRecoveryMethods = createAction('LOAD_RECOVERY_METHODS',
     wallet.getRecoveryMethods.bind(wallet),
@@ -89,7 +89,7 @@ export const handleRefreshUrl = (prevRouter) => (dispatch, getState) => {
             dispatch(refreshUrl(loadState()))
         }
 
-        dispatch(handleflowLimitation())
+        dispatch(handleFlowLimitation())
 
         const { transactions, callbackUrl, meta } = getState().account.url
         if (transactions) {
@@ -502,7 +502,7 @@ export const refreshAccount = (basicData = false) => async (dispatch, getState) 
     await dispatch(refreshAccountOwner(flowLimitation.accountData))
 
     if (!basicData && !flowLimitation.accountBalance) {
-        dispatch(getBalance())
+        dispatch(getBalance('', flowLimitation.accountData))
     }
 }
 

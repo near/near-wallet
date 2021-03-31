@@ -114,8 +114,15 @@ export function getLockupAccountId(accountId) {
     return sha256(Buffer.from(accountId)).substring(0, 40) + '.' + LOCKUP_ACCOUNT_ID_SUFFIX
 }
 
-async function getAccountBalance() {
+async function getAccountBalance(limitedAccountData = false) {
     const balance = await this.wrappedAccount.getAccountBalance()
+
+    if (limitedAccountData) {
+        return {
+            ...balance,
+            balanceAvailable: balance.available,
+        }
+    }
 
     let stakingDeposits = await fetch(ACCOUNT_HELPER_URL + '/staking-deposits/' + this.accountId).then((r) => r.json()) 
     let stakedBalanceMainAccount = new BN(0)
