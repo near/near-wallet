@@ -40,6 +40,7 @@ const {
 
 export const { staking } = createActions({
     STAKING: {
+        CLEAR_STATE: null,
         GET_ACCOUNTS: null,
         STAKE: {
             LOCKUP: [
