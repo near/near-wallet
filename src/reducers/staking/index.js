@@ -74,6 +74,8 @@ const stakingHandlers = handleActions({
                 ...state,
                 allValidators: payload
             }),
+    [staking.clearState]: () => 
+        initialState,
 }, initialState)
 
 export default reduceReducers(
