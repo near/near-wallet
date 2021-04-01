@@ -19,7 +19,7 @@ import { WalletError } from '../utils/walletError'
 import { utils } from 'near-api-js'
 import { BN } from 'bn.js'
 import { showAlert, dispatchWithAlert } from '../utils/alerts'
-import { handleflowLimitation, handleClearflowLimitation } from './flowLimitation'
+import { handleFlowLimitation, handleClearflowLimitation } from './flowLimitation'
 
 export const loadRecoveryMethods = createAction('LOAD_RECOVERY_METHODS',
     wallet.getRecoveryMethods.bind(wallet),
@@ -89,7 +89,7 @@ export const handleRefreshUrl = (prevRouter) => (dispatch, getState) => {
             dispatch(refreshUrl(loadState()))
         }
 
-        dispatch(handleflowLimitation())
+        dispatch(handleFlowLimitation())
 
         const { transactions, callbackUrl, meta } = getState().account.url
         if (transactions) {
@@ -170,16 +170,19 @@ export const allowLogin = () => async (dispatch, getState) => {
     }
 }
 
-export const signInWithLedger = () => async (dispatch, getState) => {
-    await dispatch(getLedgerAccountIds())
-
+export const signInWithLedger = (path) => async (dispatch, getState) => {
+    await dispatch(getLedgerAccountIds(path))
     const accountIds = Object.keys(getState().ledger.signInWithLedger)
-    return await dispatch(signInWithLedgerAddAndSaveAccounts(accountIds))
+    await dispatch(signInWithLedgerAddAndSaveAccounts(accountIds, path))
+    return;
 }
 
-export const signInWithLedgerAddAndSaveAccounts = (accountIds) => async (dispatch, getState) => {
+export const signInWithLedgerAddAndSaveAccounts = (accountIds, path) => async (dispatch, getState) => {
     for (let accountId of accountIds) {
         try {
+            if (path) {
+                await localStorage.setItem(`ledgerHdPath:${accountId}`, path)
+            }
             await dispatch(addLedgerAccountId(accountId))
             await dispatch(setLedgerTxSigned(false, accountId))
         } catch (e) {
@@ -502,7 +505,7 @@ export const refreshAccount = (basicData = false) => async (dispatch, getState) 
     await dispatch(refreshAccountOwner(flowLimitation.accountData))
 
     if (!basicData && !flowLimitation.accountBalance) {
-        dispatch(getBalance())
+        dispatch(getBalance('', flowLimitation.accountData))
     }
 }
 

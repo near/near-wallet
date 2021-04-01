@@ -269,41 +269,34 @@ const CustomButton = styled(Button)`
             }
         }
         &.link {
-            width: auto;
+            width: auto !important;
             height: auto;
             padding: 0;
             margin: 0;
-
             border-radius: 0px;
-
             background: none;
             border: none;
             display: inline;
-
-            text-decoration: underline;
             color: #0072ce;
 
             :hover,
             :focus {
-                text-decoration: none;
                 color: #0072ce;
                 background-color: transparent;
+                text-decoration: underline;
             }
 
             &.gray {
-                text-decoration: none;
                 color: #999;
 
                 :hover,
                 :focus {
-                    text-decoration: underline;
                     color: #999;
                 }
             }
 
             &.red {
                 color: #ff585d;
-                text-decoration: none;
 
                 :disabled {
                     opacity: 0.8;
