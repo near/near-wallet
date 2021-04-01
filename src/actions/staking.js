@@ -299,7 +299,7 @@ export const { staking } = createActions({
                 await (await new Account(wallet.connection, lockupId)).state()
                 contract = await new Contract(await wallet.getAccountBasic(accountId), lockupId, { ...lockupMethods })
             } catch (e) {
-                throw new WalletError('No contract for account', 'staking.noLockup')
+                return
             }
 
             return { contract, lockupId, accountId }
