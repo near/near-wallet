@@ -98,15 +98,13 @@ const SetupLedger = (props) => {
             <FormButton onClick={handleClick} sending={props.mainLoader} sendingString='button.connecting'>
                 <Translate id={`button.${connect !== 'fail' ? 'continue' : 'retry'}`}/>
             </FormButton>
-            <button 
-                className='link' 
-                onClick={() => 
-                {
-                    Mixpanel.track("SR-Ledger Click cancel button")
-                    props.history.goBack()
-                }}>
+            <FormButton 
+                className='link red'
+                onClick={() => props.history.goBack()}
+                trackingId='SR-Ledger Click cancel button'
+            >
                     <Translate id='button.cancel'/>
-                </button>
+            </FormButton>
             {showInstructions && 
                 <InstructionsModal open={showInstructions} onClose={closeShowInstructions}/>
             }

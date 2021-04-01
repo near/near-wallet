@@ -70,7 +70,7 @@ const HardwareDevices = ({ recoveryMethods }) => {
     const publicKeys = keys.map(key => key.public_key)
     const hasOtherMethods = publicKeys.some(key => recoveryKeys.includes(key))
     const hasLedger = userRecoveryMethods.filter(method => method.kind === 'ledger').map(key => key.publicKey).some(key => publicKeys.includes(key))
-    const ledgerIsConnected = account.ledgerKey !== null && hasLedger;
+    const ledgerIsConnected = account.ledgerKey !== null;
     const hasLedgerButNotConnected = hasLedger && !ledgerIsConnected
     const recoveryLoader = actionsPending('LOAD_RECOVERY_METHODS') && !userRecoveryMethods.length
 
