@@ -348,14 +348,19 @@ export const { staking } = createActions({
 const handleGetAccounts = () => async (dispatch, getState) => {
     await dispatch(handleGetLockup())
 
-    return getState().staking?.lockup?.lockupId
-        ? await dispatch(staking.getAccounts({
-            accountId: wallet.accountId, 
-            lockupId: getState().staking.lockup.lockupId
-        }))
-        : await dispatch(staking.getAccounts({
-            accountId: wallet.accountId, 
-        }))
+    const accounts = [{
+        accountId: wallet.accountId,
+        ...getState().staking.accounts[0]
+    }]
+
+    if (getState().staking?.lockup?.lockupId) {
+        accounts.push({
+            accountId: getState().staking.lockup.lockupId,
+            ...getState().staking.accounts[1]
+        })
+    }
+
+    return await dispatch(staking.getAccounts(accounts))
 }
 
 export const handleGetLockup = (accountId) => async (dispatch, getState) => {
@@ -414,7 +419,8 @@ export const handleStakingAction = (action, validatorId, amount) => async (dispa
 }
 
 export const updateStaking = (currentAccountId, recentlyStakedValidators) => async (dispatch, getState) => {
-    const { accountId, lockupId } = (await dispatch(handleGetAccounts())).payload
+    await dispatch(handleGetAccounts())
+    const { accountId, lockupId } = getState().staking.accountsObj
 
     await dispatch(staking.getValidators(null, accountId))
 

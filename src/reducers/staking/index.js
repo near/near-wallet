@@ -26,10 +26,11 @@ const initialState = {
 const stakingHandlers = handleActions({
     [staking.getAccounts]: (state, { payload }) => ({
         ...state,
-        accounts: Object.values(payload).map((accountId) => ({
-            accountId 
-        })),
-        accountsObj: payload
+        accounts: payload,
+        accountsObj: {
+            accountId: payload[0]?.accountId,
+            lockupId: payload[1]?.accountId,
+        }
     }),
     [staking.updateAccount]: (state, { ready, error, payload }) => 
         (!ready || error)
