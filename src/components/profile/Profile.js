@@ -125,7 +125,7 @@ const StyledContainer = styled(Container)`
 
 export function Profile({ match }) {
     const [transferring, setTransferring] = useState(false)
-    const { has2fa, authorizedApps } = useSelector(({ account }) => account)
+    const { has2fa, authorizedApps, ledgerKey } = useSelector(({ account }) => account)
     const loginAccountId = useSelector(state => state.account.accountId)
     const recoveryMethods = useSelector(({ recoveryMethods }) => recoveryMethods);
     const accountIdFromUrl = match.params.accountId
@@ -145,7 +145,9 @@ export function Profile({ match }) {
         (async () => {
             if (isOwner) {
                 await dispatch(loadRecoveryMethods())
-                dispatch(getLedgerKey())
+                if (!ledgerKey) {
+                    dispatch(getLedgerKey())
+                }
                 const balance = await dispatch(getBalance())
                 dispatch(checkCanEnableTwoFactor(balance))
                 dispatch(getProfileStakingDetails())
