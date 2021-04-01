@@ -23,7 +23,8 @@ import { handleFlowLimitation, handleClearflowLimitation } from './flowLimitatio
 import {
     handleStakingUpdateAccount,
     handleStakingUpdateLockup,
-    handleGetLockup
+    handleGetLockup,
+    staking
 } from './staking'
 
 export const loadRecoveryMethods = createAction('LOAD_RECOVERY_METHODS',
@@ -519,6 +520,7 @@ export const refreshAccount = (basicData = false) => async (dispatch, getState) 
 export const switchAccount = (accountId) => async (dispatch, getState) => {
     dispatch(selectAccount(accountId))
     dispatch(handleRefreshUrl())
+    dispatch(staking.clearState())
     dispatch(refreshAccount())
 }
 
