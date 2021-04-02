@@ -380,6 +380,10 @@ export const handleStakingUpdateAccount = (recentlyStakedValidators = [], exAcco
 
     const validatorDepositMap = await getStakingDeposits(accountId)
 
+    if (!getState().staking.allValidators.length) {
+        await dispatch(staking.getValidators(null, exAccountId))
+    }
+
     const validators = getState().staking.allValidators
         .filter((validator) => Object.keys(validatorDepositMap).concat(recentlyStakedValidators).includes(validator.accountId))
         .map((validator) => ({ ...validator }))
