@@ -1,5 +1,5 @@
-import React from 'react'
-import { useSelector, useDispatch } from 'react-redux'
+import React, { useState, useEffect } from 'react'
+import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 import Container from '../common/styled/Container.css'
 import { Translate } from 'react-localize-redux'
@@ -9,6 +9,8 @@ import MoonPayIcon from '../svg/MoonPayIcon'
 import BinanceLogo from '../../images/binance-logo.svg'
 import HuobiLogo from '../../images/huobi-logo.svg'
 import OkexLogo from '../../images/okex-logo.svg'
+import { isMoonpayAvailable, getSignedUrl } from '../../utils/moonpay'
+import { Mixpanel } from '../../mixpanel'
 
 const StyledContainer = styled(Container)`
     position: relative;
@@ -104,8 +106,27 @@ const StyledContainer = styled(Container)`
 `
 
 export function BuyNear({ match, location, history }) {
-    const dispatch = useDispatch();
-    const { accountId, balance } = useSelector(({ account }) => account);
+    const { accountId } = useSelector(({ account }) => account);
+    const [moonPayAvailable, setMoonPayAvailable] = useState(null);
+    const [signedMoonPayUrl, setSignedMoonPayUrl] = useState(null);
+
+    useEffect(() => {
+        checkMoonPay()
+    }, [])
+
+    const checkMoonPay = async () => {
+        await Mixpanel.withTracking("Wallet Check Moonpay available", 
+            async () => {
+                const moonPay = await isMoonpayAvailable()
+                if (moonPay) {
+                    const url = await getSignedUrl(accountId, window.location.origin)
+                    setMoonPayAvailable(moonPay)
+                    setSignedMoonPayUrl(url)
+                }
+            },
+            (e) => console.warn('Error checking Moonpay', e)
+        )
+    }
 
     return (
         <StyledContainer className='small-centered'>
@@ -116,21 +137,27 @@ export function BuyNear({ match, location, history }) {
                 <ArrowIcon/>
             </FormButton>
             <h4><Translate id='buyNear.title' /></h4>
-            <h3>MoonPay</h3>
-            <div className='desc'>Purchase NEAR through MoonPay using your preferred payment method.</div>
-            <FormButton
-                color='link learn-more'
-                linkTo='https://www.moonpay.com/'
-            >
-                <Translate id='button.learnMore' />
-            </FormButton>
-            <FormButton
-                color='black'
-                linkTo='https://www.moonpay.com/'
-            >
-                Buy with
-                <MoonPayIcon/>
-            </FormButton>
+            {moonPayAvailable &&
+                <>
+                    <h3>MoonPay</h3>
+                    <div className='desc'>Purchase NEAR through MoonPay using your preferred payment method.</div>
+                    <FormButton
+                        color='link learn-more'
+                        linkTo='https://support.moonpay.com/'
+                    >
+                        <Translate id='button.learnMore' />
+                    </FormButton>
+                    <FormButton
+                        color='black'
+                        disabled={!moonPayAvailable}
+                        linkTo={signedMoonPayUrl}
+                        onClick={() => Mixpanel.track("Wallet Click Buy with Moonpay")}
+                    >
+                        Buy with
+                        <MoonPayIcon/>
+                    </FormButton>
+                </>   
+            }
             <h3>Supported Exchanges</h3>
             <div className='desc'>NEAR is available to purchase through the following exchanges.</div>
             <div className='exchanges'>

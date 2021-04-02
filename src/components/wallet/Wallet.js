@@ -7,6 +7,7 @@ import Container from '../common/styled/Container.css'
 import NearWithBackgroundIcon from '../svg/NearWithBackgroundIcon'
 import SendIcon from '../svg/SendIcon'
 import DownArrowIcon from '../svg/DownArrowIcon'
+import BuyIcon from '../svg/BuyIcon'
 import Balance from '../common/Balance'
 import { getTransactions, getTransactionStatus } from '../../actions/transactions'
 import { Mixpanel } from "../../mixpanel/index"
@@ -68,6 +69,10 @@ const StyledContainer = styled(Container)`
 
                 :hover {
                     color: #3F4045;
+
+                    > div {
+                        background-color: #1f1f1f;
+                    }
                 }
 
                 > div {
@@ -80,11 +85,16 @@ const StyledContainer = styled(Container)`
                     min-width: 56px;
                     width: 56px;
                     border-radius: 20px;
+                    margin-bottom: 10px;
                 }
                 svg {
                     width: 22px !important;
                     height: 22px !important;
-                    margin: 0 6px 0 0 !important;
+                    margin: 0 !important;
+
+                    path {
+                        stroke: white;
+                    }
                 }
             }
         }
@@ -177,7 +187,7 @@ export function Wallet() {
                             trackingId='Click Receive on Wallet page'
                         >
                             <div>
-                                <DownArrowIcon/>
+                                <BuyIcon/>
                             </div>
                             <Translate id='button.buy'/>
                         </FormButton>
