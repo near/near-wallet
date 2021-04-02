@@ -139,8 +139,8 @@ export function BuyNear({ match, location, history }) {
             <h4><Translate id='buyNear.title' /></h4>
             {moonPayAvailable &&
                 <>
-                    <h3>MoonPay</h3>
-                    <div className='desc'>Purchase NEAR through MoonPay using your preferred payment method.</div>
+                    <h3><Translate id='buyNear.moonPay' /></h3>
+                    <div className='desc'><Translate id='buyNear.descOne' /></div>
                     <FormButton
                         color='link learn-more'
                         linkTo='https://support.moonpay.com/'
@@ -153,13 +153,13 @@ export function BuyNear({ match, location, history }) {
                         linkTo={signedMoonPayUrl}
                         onClick={() => Mixpanel.track("Wallet Click Buy with Moonpay")}
                     >
-                        Buy with
+                        <Translate id='buyNear.buyWith' />
                         <MoonPayIcon/>
                     </FormButton>
                 </>   
             }
-            <h3>Supported Exchanges</h3>
-            <div className='desc'>NEAR is available to purchase through the following exchanges.</div>
+            <h3><Translate id='buyNear.supportedExchanges' /></h3>
+            <div className='desc'><Translate id='buyNear.descTwo' /></div>
             <div className='exchanges'>
                 <a href='https://www.binance.com/' target='_blank' rel='noreferrer'>
                     <img src={BinanceLogo} alt='BINANCE'/>

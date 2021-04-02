@@ -676,7 +676,12 @@
     },
 
     "buyNear": {
-        "title": "Purchase NEAR"
+        "title": "Purchase NEAR",
+        "moonPay": "MoonPay",
+        "descOne": "Purchase NEAR through MoonPay using your preferred payment method.",
+        "buyWith": "Buy with",
+        "supportedExchanges": "Supported Exchanges",
+        "descTwo": "NEAR is available to purchase through the following exchanges."
     },
     
     "exploreApps": {
