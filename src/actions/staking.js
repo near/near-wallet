@@ -404,7 +404,7 @@ export const handleStakingAction = (action, validatorId, amount) => async (dispa
 
     const isLockup = currentAccountId !== accountId
 
-    if (amount.length < 15) {
+    if (amount && amount.length < 15) {
         amount = parseNearAmount(amount)
     }
     if (isLockup) {
