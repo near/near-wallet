@@ -194,13 +194,12 @@ export function Wallet() {
                             <Translate id='button.receive'/>
                         </FormButton>
                     </div>
-                    <div className='sub-title tokens'>
-                        <span><Translate id='wallet.tokens' /></span>
-                        <span><Translate id='wallet.balance' /></span>
-                    </div>
                     {sortedTokens?.length ?
                         <>
-                            <div className='sub-title tokens'><Translate id='wallet.tokens' /></div>
+                            <div className='sub-title tokens'>
+                                <span><Translate id='wallet.tokens' /></span>
+                                <span><Translate id='wallet.balance' /></span>
+                            </div>
                             <Tokens tokens={sortedTokens} />
                         </>
                         : undefined
