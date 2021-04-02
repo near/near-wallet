@@ -47,27 +47,44 @@ const StyledContainer = styled(Container)`
 
         .buttons {
             display: flex;
-            justify-content: space-between;
+            justify-content: center;
             align-items: center;
             margin: 30px 0;
             width: 100%;
     
             button {
                 display: flex;
+                flex-direction: column;
                 justify-content: center;
                 align-items: center;
-                flex: 1;
                 width: auto;
+                background-color: transparent !important;
+                border: 0;
+                padding: 0;
+                color: #3F4045;
+                font-weight: 400;
+                font-size: 14px;
+                margin: 20px;
+
+                :hover {
+                    color: #3F4045;
+                }
+
+                > div {
+                    background-color: #111618;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    min-height: 56px;
+                    height: 56px;
+                    min-width: 56px;
+                    width: 56px;
+                    border-radius: 20px;
+                }
                 svg {
                     width: 22px !important;
                     height: 22px !important;
                     margin: 0 6px 0 0 !important;
-                }
-                :last-of-type {
-                    margin-left: 25px;
-                    @media (max-width: 767px) {
-                        margin-left: 10px;
-                    }
                 }
             }
         }
@@ -138,20 +155,31 @@ export function Wallet() {
                     <div className='sub-title'><Translate id='wallet.balanceTitle' /></div>
                     <div className='buttons'>
                         <FormButton
-                            color='green-pastel'
                             linkTo='/send-money'
                             trackingId='Click Send on Wallet page'
                         >
-                            <SendIcon/>
+                            <div>
+                                <SendIcon/>
+                            </div>
                             <Translate id='button.send'/>
                         </FormButton>
                         <FormButton
-                            color='green-pastel'
                             linkTo='/receive-money'
                             trackingId='Click Receive on Wallet page'
                         >
-                            <DownArrowIcon/>
+                            <div>
+                                <DownArrowIcon/>
+                            </div>
                             <Translate id='button.receive'/>
+                        </FormButton>
+                        <FormButton
+                            linkTo='/buy'
+                            trackingId='Click Receive on Wallet page'
+                        >
+                            <div>
+                                <DownArrowIcon/>
+                            </div>
+                            <Translate id='button.buy'/>
                         </FormButton>
                     </div>
                     <div className='sub-title tokens'>

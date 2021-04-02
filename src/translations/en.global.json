@@ -501,7 +501,9 @@
         "deAuthorizing": "Deauthorizing",
         "finish": "Finish",
         "transferring": "Transferring",
-        "viewOnExplorer": "View on Explorer"
+        "viewOnExplorer": "View on Explorer",
+        "buy": "Buy",
+        "learnMore": "Learn More"
     },
 
     "link": {
@@ -671,6 +673,10 @@
         "balance": "Balance",
         "dateAndTime": "Date & Time",
         "status": "Status"
+    },
+
+    "buyNear": {
+        "title": "Purchase NEAR"
     },
     
     "exploreApps": {

@@ -40,6 +40,15 @@ const CustomButton = styled(Button)`
             font-size: 14px;
         }
 
+        &.black {
+            background-color: black;
+            transition: 100ms;
+
+            :hover {
+                background-color: #1f1f1f;
+            }
+        }
+
         &.light-blue {
             background-color: #F0F9FF !important;
             border: 0;

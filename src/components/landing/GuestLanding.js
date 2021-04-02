@@ -53,11 +53,16 @@ const StyledContainer = styled.div`
 
         h3 {
             font-weight: 400 !important;
+            line-height: 150%;
 
             span {
                 span {
                     font-weight: 500;
                 }
+            }
+
+            @media (max-width: 767px) {
+                font-size: 16px !important;
             }
         }
 
