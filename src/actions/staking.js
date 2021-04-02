@@ -297,7 +297,7 @@ export const { staking } = createActions({
             let contract
             try {
                 await (await new Account(wallet.connection, lockupId)).state()
-                contract = await new Contract(await wallet.getAccountBasic(accountId), lockupId, { ...lockupMethods })
+                contract = await new Contract(await wallet.getAccount(accountId), lockupId, { ...lockupMethods })
             } catch (e) {
                 return
             }
