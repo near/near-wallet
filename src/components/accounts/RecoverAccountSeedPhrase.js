@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { Translate } from 'react-localize-redux'
 import styled from 'styled-components'
 import { recoverAccountSeedPhrase, redirectToApp, refreshAccount } from '../../actions/account'
+import { staking } from '../../actions/staking'
 import { clearLocalAlert } from '../../actions/status'
 import RecoverAccountSeedPhraseForm from './RecoverAccountSeedPhraseForm'
 import Container from '../common/styled/Container.css'
@@ -65,6 +66,7 @@ class RecoverAccountSeedPhrase extends Component {
                 await this.props.recoverAccountSeedPhrase(seedPhrase)
                 this.props.refreshAccount()
                 this.props.redirectToApp()
+                this.props.clearState()
             }
         )
     }
@@ -95,7 +97,8 @@ const mapDispatchToProps = {
     recoverAccountSeedPhrase, 
     redirectToApp,
     refreshAccount,
-    clearLocalAlert
+    clearLocalAlert,
+    clearState: staking.clearState
 }
 
 const mapStateToProps = ({ account, status }, { match }) => ({
