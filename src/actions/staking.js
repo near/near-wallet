@@ -409,7 +409,7 @@ export const handleStakingAction = (action, validatorId, amount) => async (dispa
     }
     if (isLockup) {
         const { contract, lockupId } = getState().staking.lockup
-        dispatch(staking[action].lockup(lockupId, amount, contract, validatorId))
+        await dispatch(staking[action].lockup(lockupId, amount, contract, validatorId))
     } else {
         const { contract } = getState().staking.allValidators.find((validator) => validator.accountId === validatorId)
         await dispatch(staking[action].account(validatorId, amount, accountId, contract))
