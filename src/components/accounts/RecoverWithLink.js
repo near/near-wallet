@@ -15,6 +15,7 @@ import copyText from '../../utils/copyText'
 import isMobile from '../../utils/isMobile'
 import { DISABLE_CREATE_ACCOUNT } from '../../utils/wallet'
 import { Mixpanel } from '../../mixpanel/index'
+import { actionsPending } from '../../utils/alerts'
 
 const Container = styled.div`
     margin-top: 5px;
@@ -180,7 +181,12 @@ class RecoverWithLink extends Component {
                             <Desc>{translate('recoverWithLink.pOne')} <UserName>{accountId}</UserName></Desc>
                             <Desc last>{translate('recoverWithLink.pTwo')}</Desc>
                             <ButtonWrapper>
-                                <FormButton onClick={this.handleContinue} disabled={mainLoader} sending={mainLoader} sendingString='button.recovering'>
+                                <FormButton
+                                    onClick={this.handleContinue}
+                                    disabled={mainLoader}
+                                    sending={actionsPending('RECOVER_ACCOUNT_SEED_PHRASE')}
+                                    sendingString='button.recovering'
+                                >
                                     {translate('button.continue')}
                                 </FormButton>
                                 <Button onClick={this.handleCopyUrl}>

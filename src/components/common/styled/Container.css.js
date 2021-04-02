@@ -12,7 +12,7 @@ const Container = styled.div`
 
     @media (min-width: 992px) {
         width: 920px;
-        padding: 10px 0 0 0;
+        padding: 10px 0 10px 0;
     }
 
     @media (min-width: 1200px) {
@@ -78,7 +78,7 @@ const Container = styled.div`
         flex-direction: column;
         align-items: center;
 
-        svg {
+        > svg {
             margin: 20px 0;
         }
 
@@ -86,6 +86,12 @@ const Container = styled.div`
 
             &.link {
                 margin-top: 25px;
+            }
+
+            &.link {
+                &.red {
+                    margin-top: 25px !important;
+                }
             }
 
             &.blue {

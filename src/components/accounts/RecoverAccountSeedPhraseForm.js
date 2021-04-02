@@ -3,6 +3,7 @@ import { Translate } from 'react-localize-redux'
 import { Input } from 'semantic-ui-react'
 import FormButton from '../common/FormButton'
 import classNames from '../../utils/classNames'
+import { actionsPending } from '../../utils/alerts'
 
 const RecoverAccountSeedPhraseForm = ({
     mainLoader,
@@ -30,8 +31,8 @@ const RecoverAccountSeedPhraseForm = ({
             <FormButton
                 type='submit'
                 color='blue'
-                disabled={!isLegit}
-                sending={mainLoader}
+                disabled={!isLegit || mainLoader}
+                sending={actionsPending('RECOVER_ACCOUNT_SEED_PHRASE')}
                 sendingString='button.recovering'
             >
                 <Translate id='button.findMyAccount' />

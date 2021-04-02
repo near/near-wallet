@@ -8,6 +8,7 @@ const StyledButton = styled.button`
     outline: none;
     font-size: 15px;
     height: 48px;
+    font-weight: 600;
     width: ${props => props.fullWidth === true ? "100%" : "auto"};
     cursor: pointer;
     display: flex;
