@@ -35,7 +35,7 @@ export const loadRecoveryMethods = createAction('LOAD_RECOVERY_METHODS',
 export const getProfileStakingDetails = (accountId) => async (dispatch, getState) => {
     await dispatch(handleGetLockup(accountId))
 
-    dispatch(handleStakingUpdateAccount([], accountId))
+    await dispatch(handleStakingUpdateAccount([], accountId))
 
     const lockupIdExists = accountId
         ? !!getState().allAccounts[accountId].balance.lockedAmount
