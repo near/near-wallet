@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
+import * as Sentry from '@sentry/browser'
 import styled from 'styled-components'
 import { Translate } from 'react-localize-redux'
 import FormButton from '../common/FormButton'
@@ -105,14 +106,18 @@ export function Wallet() {
         dispatch(getTransactions(accountId))
     }, [])
 
+    const logError = (error) => {
+        console.warn(error);
+        Sentry.captureException()
+    };
+
     // TODO: Refactor loading token balances using Redux
-    // TODO: Error handling
     const cachedTokensKey = `cachedTokens:${accountId}`;
     const cachedTokens = (() => {
         try {
             return JSON.parse(localStorage.getItem(cachedTokensKey));
         } catch(e) {
-            console.warn(e);
+            logError(e);
             return {};
         }
     })();
@@ -132,9 +137,10 @@ export function Wallet() {
 
             setTokens(loadedTokens);
             wallet.getAccount(accountId).then(account =>
+                // NOTE: This forEach parallelizes requests on purpose
                 contracts.forEach(async contract => {
                     try {
-                        // TODO: Parallelize loading, used cached metadata
+                        // TODO: Parallelize balance and metadata calls, use cached metadata?
                         let { name, symbol, decimals } = await account.viewFunction(contract, 'ft_metadata')
                         const balance = formatTokenAmount(
                             await account.viewFunction(contract, 'ft_balance_of', { account_id: accountId }), decimals);
@@ -148,14 +154,14 @@ export function Wallet() {
                             delete loadedTokens[contract];
                             return;
                         }
-                        console.warn(e);
+                        logError(e);
                     } finally {
                         setTokens(loadedTokens);
                         localStorage.setItem(cachedTokensKey, JSON.stringify(loadedTokens));
                     }
                 })
-            ).catch(console.warn);
-        }).catch(console.warn);
+            ).catch(logError);
+        }).catch(logError);
     }, []);
 
     const handleHideExploreApps = () => {
