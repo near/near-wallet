@@ -60,7 +60,7 @@ export const { staking } = createActions({
                         functionCall('deposit_and_stake', { amount }, STAKING_GAS_BASE * 5, '0')
                     ])
                 },
-                () => showAlert()
+                () => showAlert({ onlyError: true })
             ],
             ACCOUNT: [
                 async (validatorId, amount, accountId, contract) => {
@@ -72,7 +72,7 @@ export const { staking } = createActions({
                     await updateStakedBalance(validatorId, accountId, contract)
                     return result
                 },
-                () => showAlert()
+                () => showAlert({ onlyError: true })
             ],
         },
         UNSTAKE: {
@@ -87,7 +87,7 @@ export const { staking } = createActions({
                         functionCall('unstake_all', {}, STAKING_GAS_BASE * 5, '0')
                     ])
                 },
-                () => showAlert()
+                () => showAlert({ onlyError: true })
             ],
             ACCOUNT: [
                 async (validatorId, amount, accountId, contract) => {
@@ -106,7 +106,7 @@ export const { staking } = createActions({
                     await updateStakedBalance(validatorId, accountId, contract)
                     return result
                 },
-                () => showAlert()
+                () => showAlert({ onlyError: true })
             ],
         },
         WITHDRAW: {
