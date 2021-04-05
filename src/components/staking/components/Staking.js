@@ -31,7 +31,7 @@ export default function Staking({
                 <Translate id='staking.staking.selectAccount' />
                 <Tooltip translate='staking.stake.accounts' position='right'/>
             </div>
-            {!loading &&
+            {!loading && !loadingDetails &&
                 <SelectAccount
                     accounts={accounts}
                     onChange={e => onSwitchAccount(e.target.value)}
@@ -41,7 +41,7 @@ export default function Staking({
             <SkeletonLoading
                 height='102px'
                 number={hasLockup ? 2 : 1}
-                show={loading}
+                show={loading || loadingDetails}
                 className='account-loader'
             />
             <FormButton 
