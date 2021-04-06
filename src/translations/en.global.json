@@ -681,7 +681,9 @@
         "descOne": "Purchase NEAR through MoonPay using your preferred payment method.",
         "buyWith": "Buy with",
         "supportedExchanges": "Supported Exchanges",
-        "descTwo": "NEAR is available to purchase through the following exchanges."
+        "descTwo": "NEAR is available to purchase through the following exchanges.",
+        "seeMore": "See more on",
+        "coinMarketCap": "CoinMarketCap"
     },
     
     "exploreApps": {

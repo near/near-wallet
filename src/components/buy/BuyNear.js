@@ -104,6 +104,10 @@ const StyledContainer = styled(Container)`
             }
         }
     }
+
+    .see-more {
+        margin-top: 30px;
+    }
 `
 
 export function BuyNear({ match, location, history }) {
@@ -174,6 +178,9 @@ export function BuyNear({ match, location, history }) {
                 <a href='https://www.gate.io/' target='_blank' rel='noreferrer'>
                     <img src={GateLogo} alt='GATE'/>
                 </a>
+            </div>
+            <div className='see-more'>
+                <Translate id='buyNear.seeMore' /> <a href='https://coinmarketcap.com/currencies/near-protocol/markets/' target='_blank' rel='noreferrer'><Translate id='buyNear.coinMarketCap' /></a>
             </div>
         </StyledContainer>
     )
