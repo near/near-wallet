@@ -9,19 +9,22 @@ export const isMoonpayAvailable = async () => {
     const moonpayGet = (path) => sendJson('GET', `${MOONPAY_API_URL}${path}?apiKey=${MOONPAY_API_KEY}`)
     const isAllowed = ({ isAllowed, isBuyAllowed }) => isAllowed && isBuyAllowed
 
-    const ipAddressInfo = await moonpayGet('/v4/ip_address')
+    const [ipAddressInfo, countries, currencies] = await Promise.all([
+        moonpayGet('/v4/ip_address'),
+        moonpayGet('/v3/countries'),
+        moonpayGet('/v3/currencies')
+    ])
+
     if (!isAllowed(ipAddressInfo)) {
         return false
     }
     const { alpha2, alpha3, state } = ipAddressInfo
 
-    const countries = await moonpayGet('/v3/countries')
     const country = countries.find(c => c.alpha2 === alpha2 && c.alpha3 === alpha3) || {}
     if (!isAllowed(country)) {
         return false
     }
 
-    const currencies = await moonpayGet('/v3/currencies')
     const currency = currencies.find(({ code }) => code === 'near') || {}
     const { isSupportedInUS, notAllowedUSStates } = currency
 
