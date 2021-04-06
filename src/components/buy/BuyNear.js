@@ -9,6 +9,7 @@ import MoonPayIcon from '../svg/MoonPayIcon'
 import BinanceLogo from '../../images/binance-logo.svg'
 import HuobiLogo from '../../images/huobi-logo.svg'
 import OkexLogo from '../../images/okex-logo.svg'
+import GateLogo from '../../images/gate-io-logo.svg'
 import { isMoonpayAvailable, getSignedUrl } from '../../utils/moonpay'
 import { Mixpanel } from '../../mixpanel'
 
@@ -169,6 +170,9 @@ export function BuyNear({ match, location, history }) {
                 </a>
                 <a href='https://www.okex.com/' target='_blank' rel='noreferrer'>
                     <img src={OkexLogo} alt='OKEX'/>
+                </a>
+                <a href='https://www.gate.io/' target='_blank' rel='noreferrer'>
+                    <img src={GateLogo} alt='GATE'/>
                 </a>
             </div>
         </StyledContainer>
