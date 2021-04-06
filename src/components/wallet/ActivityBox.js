@@ -50,18 +50,22 @@ const StyledContainer = styled.div`
         }
         > span {
             color: #A2A2A8;
-            max-width: 300px;
+            max-width: 269px;
             overflow: hidden;
             display: block;
             text-overflow: ellipsis;
             white-space: nowrap;
 
+            @media (max-width: 991px) {
+                max-width: 350px;
+            }
+
             @media (max-width: 500px) {
-                max-width: 190px;
+                max-width: 220px;
             }
 
             @media (max-width: 355px) {
-                max-width: 140px;
+                max-width: 150px;
             }
 
             > span {

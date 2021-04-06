@@ -666,8 +666,9 @@
     },
 
     "wallet": {
-        "balanceTitle": "Portfolio Balance",
+        "balanceTitle": "NEAR Balance",
         "tokens": "Tokens",
+        "balance": "Balance",
         "dateAndTime": "Date & Time",
         "status": "Status"
     },
@@ -1076,10 +1077,8 @@
     "setupLedgerSteps": {
         "header": "Install NEAR on your Ledger device",
         "one": "Open <a href='https://www.ledger.com/ledger-live' target='_blank'>Ledger Live,</a> install any firmware updates available.",
-        "two": "Navigate to your <span class='color-black'>Settings</span>.",
-        "three": "Under <span class='color-black'>Experimental Features</span>, make sure that <span class='color-black'>Developer Mode</span> is switched <span class='color-black'>on</span>.",
-        "four": "Return to the <span class='color-black'>Manager</span> tab and search for <span class='color-black'>NEAR</span>.",
-        "five": "Follow the instructions to install the <span class='color-black'>NEAR application</span> on your device."
+        "two": "Click on the <span class='color-black'>Manager</span> tab, then search for <span class='color-black'>NEAR</span>.",
+        "three": "Follow the instructions to install the <span class='color-black'>NEAR application</span> on your device."
     },
 
     "setupLedgerSuccess": {
@@ -1118,6 +1117,12 @@
                 "waiting": "Up next",
                 "confirm": "Confirm"
             }
+        },
+        "advanced": {
+            "title": "Advanced Options",
+            "subTitle": "HD Path",
+            "desc": "Specify an HD path to import its linked accounts.",
+            "setPath": "Set HD Path"
         }
     },
 

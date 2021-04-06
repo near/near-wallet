@@ -14,16 +14,19 @@ import {
     clearSignInWithLedgerModalState
 } from '../../../actions/account';
 import { clearLocalAlert } from '../../../actions/status'
-import { setMainLoader } from '../../../actions/status'
 import LocalAlertBox from '../../common/LocalAlertBox'
 import { controller as controllerHelperApi } from '../../../utils/helper-api'
 import { Mixpanel } from '../../../mixpanel/index'
+import LedgerHdPaths from './LedgerHdPaths'
 
 export function SignInLedger(props) {
     const dispatch = useDispatch();
 
     const [accountId, setAccountId] = useState('');
     const [loader, setLoader] = useState(false);
+    const [path, setPath] = useState(1);
+    const [confirmedPath, setConfirmedPath] = useState(null);
+    const ledgerHdPath = confirmedPath ? `44'/397'/0'/0'/${confirmedPath}'` : null;
 
     const account = useSelector(({ account }) => account);
     const status = useSelector(({ status }) => status);
@@ -51,7 +54,7 @@ export function SignInLedger(props) {
         setLoader(false)
         await Mixpanel.withTracking("IE-Ledger Sign in",
             async () =>{
-                await dispatch(signInWithLedger())
+                await dispatch(signInWithLedger(ledgerHdPath))
                 refreshAndRedirect()
             }
         )
@@ -61,7 +64,7 @@ export function SignInLedger(props) {
         setLoader(true)
         await Mixpanel.withTracking("IE-Ledger Handle additional accountId",
             async () =>{
-                await dispatch(signInWithLedgerAddAndSaveAccounts([accountId]))
+                await dispatch(signInWithLedgerAddAndSaveAccounts([accountId], ledgerHdPath))
                 setLoader(false)
                 refreshAndRedirect()
             }
@@ -90,6 +93,14 @@ export function SignInLedger(props) {
             <h2><Translate id='signInLedger.one'/></h2>
             <br/>
             <LocalAlertBox localAlert={status.localAlert}/>
+            <LedgerHdPaths
+                path={path}
+                onSetPath={path => setPath(path)}
+                onConfirmHdPath={() => {
+                    setConfirmedPath(path)
+                    Mixpanel.track("IE-Ledger Sign in set custom HD path")
+                }}
+            />
             <FormButton
                 onClick={handleSignIn}
                 sending={signingIn}
@@ -97,15 +108,13 @@ export function SignInLedger(props) {
             >
                 <Translate id={`button.${status.localAlert && !status.localAlert.success ? 'retry' : 'signIn'}`}/>
             </FormButton>
-            <button 
-                className='link' 
-                onClick={() => {
-                    Mixpanel.track("IE-Ledger Click cancel button")
-                    props.history.goBack()
-                }}
+            <FormButton 
+                className='link red' 
+                onClick={() => props.history.goBack()}
+                trackingId='IE-Ledger Click cancel button'
             >
                 <Translate id='button.cancel'/>
-            </button>
+            </FormButton>
 
             {signingIn &&
                 <LedgerSignInModal 

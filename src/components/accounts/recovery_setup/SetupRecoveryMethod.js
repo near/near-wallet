@@ -6,23 +6,25 @@ import { parse as parseQuery } from 'query-string'
 import 'react-phone-number-input/style.css'
 import PhoneInput, { isValidPhoneNumber } from 'react-phone-number-input';
 import { validateEmail } from '../../../utils/account';
-import { 
-    initializeRecoveryMethod, 
+import {
+    initializeRecoveryMethod,
     setupRecoveryMessage,
-    setupRecoveryMessageNewAccount, 
+    setupRecoveryMessageNewAccount,
     redirectToApp,
     redirectTo,
-    loadRecoveryMethods, 
-    getAccessKeys, 
+    loadRecoveryMethods,
+    getAccessKeys,
     getLedgerKey,
     get2faMethod,
-    checkIsNew } from '../../../actions/account';
+    checkIsNew
+} from '../../../actions/account';
 import RecoveryOption from './RecoveryOption';
 import FormButton from '../../common/FormButton';
 import EnterVerificationCode from '../EnterVerificationCode';
 import Container from '../../common/styled/Container.css';
 import isApprovedCountryCode from '../../../utils/isApprovedCountryCode'
 import { Mixpanel } from '../../../mixpanel/index'
+import { actionsPending } from '../../../utils/alerts'
 
 const StyledContainer = styled(Container)`
     button {
@@ -59,6 +61,18 @@ class SetupRecoveryMethod extends Component {
         }
 
         if (this.props.activeAccountId) {
+            this.handleCheckMethodStatus()
+        }
+    }
+
+    componentDidUpdate(prevProps) {
+        if (this.props.activeAccountId !== prevProps.activeAccountId) {
+            this.handleCheckMethodStatus()
+        }
+    }
+
+    handleCheckMethodStatus = () => {
+        if (!this.checkNewAccount()) {
             this.props.loadRecoveryMethods()
             this.props.getLedgerKey()
             this.props.get2faMethod()
@@ -121,14 +135,14 @@ class SetupRecoveryMethod extends Component {
     }
 
     handleSendCode = async () => {
-        Mixpanel.track("SR Send code", {send_code_detail: this.method})
-        const  { accountId, initializeRecoveryMethod } = this.props;
+        Mixpanel.track("SR Send code", { send_code_detail: this.method })
+        const { accountId, initializeRecoveryMethod } = this.props;
         const recoverySeedPhrase = await initializeRecoveryMethod(accountId, this.method);
         this.setState({ success: true, recoverySeedPhrase: recoverySeedPhrase })
     }
 
     handleSetupRecoveryMethod = async (securityCode) => {
-        const  {
+        const {
             accountId,
             setupRecoveryMessage,
             checkIsNew,
@@ -179,7 +193,7 @@ class SetupRecoveryMethod extends Component {
         if (recoveryMethods[activeAccountId]) {
             activeMethods = recoveryMethods[activeAccountId].filter(method => method.confirmed).map(method => method.kind)
         }
-        
+
         return !this.checkNewAccount() && activeMethods.includes(method)
     }
 
@@ -194,17 +208,17 @@ class SetupRecoveryMethod extends Component {
         if (!success) {
             return (
                 <StyledContainer className='small-centered'>
-                    <form onSubmit={e => {this.handleNext(); e.preventDefault();}}>
-                        <h1><Translate id='setupRecovery.header'/></h1>
-                        <h2><Translate id='setupRecovery.subHeader'/></h2>
-                        <h4><Translate id='setupRecovery.advancedSecurity'/></h4>
+                    <form onSubmit={e => { this.handleNext(); e.preventDefault(); }}>
+                        <h1><Translate id='setupRecovery.header' /></h1>
+                        <h2><Translate id='setupRecovery.subHeader' /></h2>
+                        <h4><Translate id='setupRecovery.advancedSecurity' /></h4>
                         <RecoveryOption
                             onClick={() => this.setState({ option: 'phrase' })}
                             option='phrase'
                             active={option}
                             disabled={this.checkDisabled('phrase')}
                         />
-                        {(this.checkNewAccount() || !twoFactor ) &&
+                        {(this.checkNewAccount() || !twoFactor) &&
                             <RecoveryOption
                                 onClick={() => this.setState({ option: 'ledger' })}
                                 option='ledger'
@@ -212,7 +226,7 @@ class SetupRecoveryMethod extends Component {
                                 disabled={ledgerKey !== null && accountId === activeAccountId}
                             />
                         }
-                        <h4><Translate id='setupRecovery.basicSecurity'/></h4>
+                        <h4><Translate id='setupRecovery.basicSecurity' /></h4>
                         <RecoveryOption
                             onClick={() => this.setState({ option: 'email' })}
                             option='email'
@@ -222,7 +236,7 @@ class SetupRecoveryMethod extends Component {
                         >
                             <Translate>
                                 {({ translate }) => (
-                                    <input 
+                                    <input
                                         type='email'
                                         placeholder={translate('setupRecovery.emailPlaceholder')}
                                         value={email}
@@ -253,7 +267,7 @@ class SetupRecoveryMethod extends Component {
                                             tabIndex='1'
                                             onBlur={this.handleBlurPhone}
                                         />
-                                        {!isApprovedCountryCode(country) && 
+                                        {!isApprovedCountryCode(country) &&
                                             <div className='color-red'>{translate('setupRecovery.notSupportedPhone')}</div>
                                         }
                                     </>
@@ -264,10 +278,10 @@ class SetupRecoveryMethod extends Component {
                             color='blue'
                             type='submit'
                             disabled={!this.isValidInput || mainLoader}
-                            sending={mainLoader}
+                            sending={actionsPending('INITIALIZE_RECOVERY_METHOD', 'SETUP_RECOVERY_MESSAGE')}
                             trackingId='SR Click submit button'
                         >
-                        <Translate id='button.continue'/>
+                            <Translate id='button.continue' />
                         </FormButton>
                     </form>
                 </StyledContainer>
