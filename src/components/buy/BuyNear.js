@@ -27,9 +27,19 @@ const StyledContainer = styled(Container)`
 
         &.go-back {
             position: absolute;
+            top: 0;
+            min-height: 42px !important;
+            height: 42px !important;
+            min-width: 42px !important;
+            width: 42px !important;
+            border-radius: 50% !important;
 
-            svg {
-                margin-top: -2px !important;
+            :hover {
+                background-color: #eeefee !important;
+            }
+
+            @media (max-width: 991px) {
+                top: -9px;
             }
         }
 
