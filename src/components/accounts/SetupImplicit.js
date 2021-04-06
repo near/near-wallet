@@ -14,10 +14,11 @@ import FormButton from '../common/FormButton'
 import WhereToBuyNearModal from '../common/WhereToBuyNearModal'
 import AccountFundedModal from './AccountFundedModal'
 import { createAccountFromImplicit, redirectTo } from '../../actions/account'
-import { NETWORK_ID, NODE_URL, ACCOUNT_HELPER_URL } from '../../utils/wallet'
-import sendJson from 'fetch-send-json'
+import { NETWORK_ID, NODE_URL } from '../../utils/wallet'
 import { Mixpanel } from '../../mixpanel'
 import AlertBanner from '../common/AlertBanner'
+import { isMoonpayAvailable, getSignedUrl } from '../../utils/moonpay'
+import MoonPayIcon from '../svg/MoonPayIcon'
 
 const StyledContainer = styled(Container)`
     .account-id-wrapper {
@@ -60,6 +61,25 @@ const StyledContainer = styled(Container)`
                 text-decoration: underline !important;
             }
         }
+
+        &.gray-blue, &.black {
+            height: 54px !important;
+        }
+
+        &.black {
+            width: 100% !important;
+            display: flex !important;
+            align-items: center;
+            justify-content: center;
+            border: 0 !important;
+
+            svg {
+                width: initial !important;
+                height: initial !important;
+                margin: initial !important;
+                margin-left: 10px !important;
+            }
+        }
     }
 
     .alert-banner {
@@ -74,8 +94,6 @@ const StyledContainer = styled(Container)`
 
 // TODO: Make configurable
 const MIN_BALANCE_TO_CREATE = new BN(parseNearAmount('1'))
-
-const MOONPAY_API_KEY = process.env.MOONPAY_API_KEY || 'pk_test_wQDTsWBsvUm7cPiz9XowdtNeL5xasP9';
 
 let pollingInterval = null
 
@@ -102,51 +120,12 @@ class SetupImplicit extends Component {
         await dispatch(redirectTo('/fund-create-account/success'))
     }
 
-    fundWithMoonpay = async () => {
-        // TODO: Push new URL with Redux?
-        window.location = this.state.moonpaySignedURL
-    }
-
-    isMoonpayAvailable = async () => {
-        const MOONPAY_API_URL = 'https://api.moonpay.com'
-        const moonpayGet = (path) => sendJson('GET', `${MOONPAY_API_URL}${path}?apiKey=${MOONPAY_API_KEY}`)
-        const isAllowed = ({ isAllowed, isBuyAllowed }) => isAllowed && isBuyAllowed
-
-        const ipAddressInfo = await moonpayGet('/v4/ip_address')
-        if (!isAllowed(ipAddressInfo)) {
-            return false
-        }
-        const { alpha2, alpha3, state } = ipAddressInfo
-
-        const countries = await moonpayGet('/v3/countries')
-        const country = countries.find(c => c.alpha2 === alpha2 && c.alpha3 === alpha3) || {}
-        if (!isAllowed(country)) {
-            return false
-        }
-
-        const currencies = await moonpayGet('/v3/currencies')
-        const currency = currencies.find(({ code }) => code === 'near') || {}
-        const { isSupportedInUS, notAllowedUSStates } = currency
-
-        if (alpha2 === 'US' && (!isSupportedInUS || notAllowedUSStates.includes(state))) {
-            return false
-        }
-
-        return true
-    }
-
-    checkMoonpay = async () => {
-        await Mixpanel.withTracking("CA Check moonpay available start", 
+    checkMoonPay = async () => {
+        await Mixpanel.withTracking("CA Check Moonpay available", 
             async () => {
-                const moonpayAvailable = await this.isMoonpayAvailable()
+                const moonpayAvailable = await isMoonpayAvailable()
                 if (moonpayAvailable) {
-                    const MOONPAY_URL = `https://buy.moonpay.io?apiKey=${MOONPAY_API_KEY}`
-                    const { implicitAccountId } = this.props
-                    const widgetUrl = `${MOONPAY_URL}&walletAddress=${encodeURIComponent(implicitAccountId)}&currencyCode=NEAR` +
-                        `&redirectURL=${encodeURIComponent(window.location.href)}`
-    
-                    const { signature } = await sendJson('GET', `${ACCOUNT_HELPER_URL}/moonpay/signURL?url=${encodeURIComponent(widgetUrl)}`)
-                    const moonpaySignedURL = `${widgetUrl}&signature=${encodeURIComponent(signature)}`
+                    const moonpaySignedURL = await getSignedUrl(this.props.implicitAccountId, window.location.origin)
                     this.setState({ moonpayAvailable, moonpaySignedURL })
                 }
             },
@@ -179,6 +158,7 @@ class SetupImplicit extends Component {
     }
 
     componentDidMount = () => {
+
         this.connection = nearApiJs.Connection.fromConfig({
             networkId: NETWORK_ID,
             provider: { type: 'JsonRpcProvider', args: { url: NODE_URL + '/' } },
@@ -190,7 +170,7 @@ class SetupImplicit extends Component {
         clearInterval(pollingInterval)
         pollingInterval = setInterval(this.checkBalance, 2000)
 
-        this.checkMoonpay()
+        this.checkMoonPay()
     }
 
     componentWillUnmount = () => {
@@ -232,7 +212,8 @@ class SetupImplicit extends Component {
             whereToBuy,
             checked,
             createAccount,
-            moonpayAvailable
+            moonpayAvailable,
+            moonpaySignedURL
         } = this.state
 
         const { implicitAccountId, accountId, mainLoader } = this.props
@@ -269,14 +250,15 @@ class SetupImplicit extends Component {
                         <p id="implicit-account-id" style={{ display: 'none' }}>
                             <span>{implicitAccountId}</span>
                         </p>
-                        { moonpayAvailable &&
+                        {moonpayAvailable &&
                             <div style={{ marginTop: '1em' }}>
                                 <FormButton
-                                    onClick={this.fundWithMoonpay}
+                                    linkTo={moonpaySignedURL}
                                     color='black'
-                                    sending={this.props.formLoader}
+                                    onClick={() => Mixpanel.track("CA Click Fund with Moonpay")}
                                 >
-                                    Fund with Credit/Debit Card
+                                    <Translate id='account.createImplicit.pre.fundWith'/>
+                                    <MoonPayIcon/>
                                 </FormButton>
                             </div>
                         }
@@ -292,7 +274,7 @@ class SetupImplicit extends Component {
                                 open={whereToBuy}
                             />
                         }
-                        {createAccount &&
+                        {false &&
                             <AccountFundedModal
                                 onClose={() => {}}
                                 open={createAccount}

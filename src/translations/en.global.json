@@ -172,7 +172,8 @@
                 },
                 "alertBanner": {
                     "title": "Do not close this window!"
-                }
+                },
+                "fundWith": "Fund with"
             },
             "post": {
                 "modal": {
