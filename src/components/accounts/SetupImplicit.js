@@ -274,7 +274,7 @@ class SetupImplicit extends Component {
                                 open={whereToBuy}
                             />
                         }
-                        {false &&
+                        {createAccount &&
                             <AccountFundedModal
                                 onClose={() => {}}
                                 open={createAccount}
