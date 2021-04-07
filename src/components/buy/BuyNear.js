@@ -28,6 +28,7 @@ const StyledContainer = styled(Container)`
         &.go-back {
             position: absolute;
             top: 0;
+            left: -10px;
             min-height: 42px !important;
             height: 42px !important;
             min-width: 42px !important;
@@ -40,6 +41,7 @@ const StyledContainer = styled(Container)`
 
             @media (max-width: 991px) {
                 top: -9px;
+                left: 3px;
             }
         }
 
