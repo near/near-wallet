@@ -15,7 +15,6 @@ import Activities from './Activities'
 import ExploreApps from './ExploreApps'
 import Tokens from './Tokens'
 import { ACCOUNT_HELPER_URL, wallet } from '../../utils/wallet'
-import { formatTokenAmount } from '../../utils/amounts'
 
 import sendJson from 'fetch-send-json'
 
