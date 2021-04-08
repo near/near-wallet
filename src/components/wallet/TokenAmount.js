@@ -5,6 +5,7 @@ import { formatTokenAmount } from '../../utils/amounts'
 const FRAC_DIGITS = 5
 
 const TokenAmount = ({ token: { balance, decimals, symbol}, className }) => (
+    <div className={className} title={showFullAmount(balance, decimals, symbol)}>
         {balance && formatToken(balance, decimals)}
     </div>
 )
@@ -21,5 +22,10 @@ const formatToken = (amount, decimals) => {
     }
     return formattedAmount
 }
+
+const showFullAmount = (amount, decimals, symbol) => 
+    amount !== '0' 
+        ? `${formatTokenAmount(amount, decimals, decimals)} ${symbol}` 
+        : ''
 
 export default TokenAmount
