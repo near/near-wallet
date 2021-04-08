@@ -1,5 +1,4 @@
 import React from 'react'
-import Big from 'big.js'
 import { formatTokenAmount } from '../../utils/amounts'
 
 const FRAC_DIGITS = 5
