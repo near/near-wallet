@@ -146,7 +146,7 @@ export function Wallet() {
                             await account.viewFunction(contract, 'ft_balance_of', { account_id: accountId }), decimals);
                         loadedTokens = {
                             ...loadedTokens,
-                            [contract]: { contract, balance, name, symbol }
+                            [contract]: { contract, balance, name, symbol, decimals }
                         }
                     } catch (e) {
                         if (e.message.includes('FunctionCallError(MethodResolveError(MethodNotFound))')) {
