@@ -23,7 +23,7 @@ const formatToken = (amount, decimals) => {
 }
 
 const showFullAmount = (amount, decimals, symbol) => 
-    amount !== '0' 
+    (amount !== '0' && !!amount)
         ? `${formatTokenAmount(amount, decimals, decimals)} ${symbol}` 
         : ''
 
