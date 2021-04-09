@@ -19,12 +19,14 @@ const formatToken = (amount, decimals) => {
     if (formattedAmount === `0.${'0'.repeat(FRAC_DIGITS)}`) {
         return `<${!FRAC_DIGITS ? `0` : `0.${'0'.repeat((FRAC_DIGITS || 1) - 1)}1`}`
     }
-    return formattedAmount
+    return removeTrailingZeros(formattedAmount)
 }
 
 const showFullAmount = (amount, decimals, symbol) => 
     (amount !== '0' && !!amount)
         ? `${formatTokenAmount(amount, decimals, decimals)} ${symbol}` 
         : ''
+
+const removeTrailingZeros = (amount) => amount.replace(/\.?0*$/, '')
 
 export default TokenAmount
