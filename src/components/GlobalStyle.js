@@ -449,11 +449,6 @@ export default createGlobalStyle`
             font-weight: 600;
             margin: 0px;
         }
-        h3, .h3 {
-            font-size: 16px !important;
-            font-weight: 500;
-            margin: 0px;
-        }
         .box .column {
             padding: 16px 18px !important;
         }

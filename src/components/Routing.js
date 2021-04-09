@@ -38,6 +38,7 @@ import { FullAccessKeysWithRouter } from './access-keys/AccessKeys'
 import { SendContainer } from './send/SendContainer'
 import { ReceiveMoneyWithRouter } from './receive-money/ReceiveMoney'
 import { Profile } from './profile/Profile'
+import { BuyNear } from './buy/BuyNear'
 import { SignWithRouter } from './sign/Sign'
 import { NodeStakingWithRouter } from './node-staking/NodeStaking'
 import { AddNodeWithRouter } from './node-staking/AddNode'
@@ -302,6 +303,11 @@ class Routing extends Component {
                                 exact
                                 path='/receive-money'
                                 component={ReceiveMoneyWithRouter}
+                            />
+                            <PrivateRoute
+                                exact
+                                path='/buy'
+                                component={BuyNear}
                             />
                             <Route
                                 exact
