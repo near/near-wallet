@@ -12,6 +12,8 @@ import {
 import Container from '../common/styled/Container.css'
 import Staking from './components/Staking'
 import Validators from './components/Validators'
+import Unstake from './components/Unstake'
+import Withdraw from './components/Withdraw'
 import Validator from './components/Validator'
 import StakingAction from './components/StakingAction'
 import { setStakingAccountSelected, getStakingAccountSelected } from '../../utils/localStorage'
@@ -171,6 +173,7 @@ export function StakingContainer({ history, match }) {
     }
     const { totalUnstaked, selectedValidator } = currentAccount
     const loadingBalance = !stakingAccounts.every((account) => !!account.totalUnstaked)
+    const stakeFromAccount = currentAccount.accountId === accountId
 
     useEffect(() => {
         dispatch(getBalance())
@@ -211,8 +214,10 @@ export function StakingContainer({ history, match }) {
                                 activeAccount={currentAccount}
                                 accountId={accountId}
                                 loading={status.mainLoader && !stakingAccounts.length}
-                                loadingDetails={status.mainLoader && !stakingAccounts.length || loadingBalance}
+                                loadingDetails={status.mainLoader && (!stakingAccounts.length || loadingBalance)}
                                 hasLockup={hasLockup}
+                                stakeFromAccount={stakeFromAccount}
+                                selectedValidator={selectedValidator}
                             />
                         )}
                     />
@@ -223,7 +228,27 @@ export function StakingContainer({ history, match }) {
                             <Validators
                                 {...props}
                                 validators={validators}
-                                stakeFromAccount={currentAccount.accountId === accountId}
+                                stakeFromAccount={stakeFromAccount}
+                            />
+                        )}
+                    />
+                    <Route
+                        exact
+                        path='/staking/unstake'
+                        render={(props) => (
+                            <Unstake
+                                {...props}
+                                currentValidators={currentValidators}
+                            />
+                        )}
+                    />
+                    <Route
+                        exact
+                        path='/staking/withdraw'
+                        render={(props) => (
+                            <Withdraw
+                                {...props}
+                                currentValidators={currentValidators}
                             />
                         )}
                     />
@@ -254,7 +279,7 @@ export function StakingContainer({ history, match }) {
                                 loading={status.mainLoader}
                                 hasLedger={hasLedger}
                                 has2fa={has2fa}
-                                stakeFromAccount={currentAccount.accountId === accountId}
+                                stakeFromAccount={stakeFromAccount}
                             />
                         )}
                     />
