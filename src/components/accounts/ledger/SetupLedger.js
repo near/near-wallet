@@ -23,7 +23,8 @@ import { Mixpanel } from '../../../mixpanel/index'
 const SetupLedger = (props) => {
 
     const [showInstructions, setShowInstructions] = useState(false);
-    const [connect, setConnect] = useState(false);
+    const [connect, setConnect] = useState(null);
+
     const openShowInstructions = () => {
         setShowInstructions(true)
         Mixpanel.track("SR-Ledger See instructions")
@@ -40,7 +41,7 @@ const SetupLedger = (props) => {
             accountId,
         } = props
 
-        setConnect('')
+        setConnect(true)
         await Mixpanel.withTracking("SR-Ledger Connect ledger",
             async () => {
                 const isNew = await dispatch(checkIsNew(accountId))
@@ -95,7 +96,7 @@ const SetupLedger = (props) => {
                 <Translate id='setupLedger.one'/>
                 &nbsp;<Translate id='setupLedger.two'/> <span className='link underline' onClick={openShowInstructions}><Translate id='setupLedger.twoLink'/></span>.
             </h2>
-            <FormButton onClick={handleClick} sending={props.mainLoader} sendingString='button.connecting'>
+            <FormButton onClick={handleClick} sending={connect && props.mainLoader} sendingString='button.connecting'>
                 <Translate id={`button.${connect !== 'fail' ? 'continue' : 'retry'}`}/>
             </FormButton>
             <FormButton 
@@ -103,7 +104,7 @@ const SetupLedger = (props) => {
                 onClick={() => props.history.goBack()}
                 trackingId='SR-Ledger Click cancel button'
             >
-                    <Translate id='button.cancel'/>
+                <Translate id='button.cancel'/>
             </FormButton>
             {showInstructions && 
                 <InstructionsModal open={showInstructions} onClose={closeShowInstructions}/>

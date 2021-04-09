@@ -172,7 +172,8 @@
                 },
                 "alertBanner": {
                     "title": "Do not close this window!"
-                }
+                },
+                "fundWith": "Fund with"
             },
             "post": {
                 "modal": {
@@ -501,7 +502,9 @@
         "deAuthorizing": "Deauthorizing",
         "finish": "Finish",
         "transferring": "Transferring",
-        "viewOnExplorer": "View on Explorer"
+        "viewOnExplorer": "View on Explorer",
+        "buy": "Buy",
+        "learnMore": "Learn More"
     },
 
     "link": {
@@ -671,6 +674,17 @@
         "balance": "Balance",
         "dateAndTime": "Date & Time",
         "status": "Status"
+    },
+
+    "buyNear": {
+        "title": "Purchase NEAR",
+        "moonPay": "MoonPay",
+        "descOne": "Purchase NEAR through MoonPay using your preferred payment method.",
+        "buyWith": "Buy with",
+        "supportedExchanges": "Supported Exchanges",
+        "descTwo": "NEAR is available to purchase through the following exchanges.",
+        "seeMore": "See more on",
+        "coinMarketCap": "CoinMarketCap"
     },
     
     "exploreApps": {
@@ -1077,10 +1091,8 @@
     "setupLedgerSteps": {
         "header": "Install NEAR on your Ledger device",
         "one": "Open <a href='https://www.ledger.com/ledger-live' target='_blank'>Ledger Live,</a> install any firmware updates available.",
-        "two": "Navigate to your <span class='color-black'>Settings</span>.",
-        "three": "Under <span class='color-black'>Experimental Features</span>, make sure that <span class='color-black'>Developer Mode</span> is switched <span class='color-black'>on</span>.",
-        "four": "Return to the <span class='color-black'>Manager</span> tab and search for <span class='color-black'>NEAR</span>.",
-        "five": "Follow the instructions to install the <span class='color-black'>NEAR application</span> on your device."
+        "two": "Click on the <span class='color-black'>Manager</span> tab, then search for <span class='color-black'>NEAR</span>.",
+        "three": "Follow the instructions to install the <span class='color-black'>NEAR application</span> on your device."
     },
 
     "setupLedgerSuccess": {

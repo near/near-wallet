@@ -20,6 +20,7 @@ import { useRecoveryMethods } from '../../../hooks/recoveryMethods';
 import EnterVerificationCode from '../EnterVerificationCode';
 import Container from '../../common/styled/Container.css';
 import { Mixpanel } from '../../../mixpanel/index';
+import { actionsPending } from '../../../utils/alerts'
 
 const StyledContainer = styled(Container)`
 
@@ -59,6 +60,7 @@ export function EnableTwoFactor(props) {
     const [country, setCountry] = useState('');
     const recoveryMethods = useRecoveryMethods(accountId);
     const loading = status.mainLoader
+    const pendingTwoFactorAction = actionsPending('INIT_TWO_FACTOR', 'DEPLOY_MULTISIG')
 
     const method = {
         kind: `2fa-${option}`,
@@ -197,7 +199,7 @@ export function EnableTwoFactor(props) {
                         color='blue'
                         disabled={!isValidInput() || loading || has2fa || initiated}
                         type='submit'
-                        sending={loading}
+                        sending={pendingTwoFactorAction}
                         sendingString='button.enabling'
                     >
                         <Translate id={`button.continue`} />
