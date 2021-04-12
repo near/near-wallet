@@ -789,7 +789,7 @@
             "noValidators": "You haven't staked with a validator yet.",
             "selectAccount": "Staking from",
             "available": "Available",
-            "totalStaked": "Total staked"
+            "totalStaked": "Staked"
         },
         "balanceBox": {
             "staked": {

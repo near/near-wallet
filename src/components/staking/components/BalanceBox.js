@@ -18,9 +18,9 @@ const Container = styled.div`
 
     .list {
         display: block;
-        margin-top: 8px !important;
+        margin-top: 10px !important;
         color: #24272a;
-        font-size: 24px;
+        font-size: 22px;
         font-weight: 900;
     }
 
@@ -83,7 +83,7 @@ export default function BalanceBox({
                     <Translate id={title} />
                     <Tooltip translate={info}/>
                 </div>
-                <Balance amount={amount} />
+                <Balance amount={amount}/>
                 {disclaimer &&
                     <div className='withdrawal-disclaimer'>
                         <Translate id={disclaimer} />
