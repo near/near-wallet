@@ -74,7 +74,7 @@ const TermsModal = ({ open, onClose, termsChecked, privacyChecked, handleTermsCh
                 <div className='sub-title'><Translate id='createAccount.terms.desc'/></div>
                 <ul>
                     <li><a href='/terms' rel='noopener noreferrer' target='_blank'><Translate id='createAccount.terms.termsLink'/></a></li>
-                    <li><a href='/terms' rel='noopener noreferrer' target='_blank'><Translate id='createAccount.terms.privacyLink'/></a></li>
+                    <li><a href='https://near.org/privacy' rel='noopener noreferrer' target='_blank'><Translate id='createAccount.terms.privacyLink'/></a></li>
                 </ul>
                 <label>
                     <Checkbox
