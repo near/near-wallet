@@ -55,11 +55,11 @@ const StyledContainer = styled(Container)`
 
     h3 {
         border-bottom: 2px solid #F2F2F2;
-        margin-top: 35px;
+        margin-top: 50px;
         padding-bottom: 15px;
 
         @media (max-width: 767px) {
-            margin: 35px -14px 0px -14px;
+            margin: 50px -14px 0px -14px;
             padding: 0 14px 15px 14px;
         }
     }
