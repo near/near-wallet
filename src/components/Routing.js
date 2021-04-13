@@ -55,6 +55,7 @@ import { SetupImplicitSuccess } from './accounts/SetupImplicitSuccess'
 import { handleClearAlert} from '../utils/alerts'
 import { Mixpanel } from "../mixpanel/index";
 import classNames from '../utils/classNames';
+import Terms from './terms/Terms'
 
 const theme = {}
 
@@ -352,6 +353,11 @@ class Routing extends Component {
                                 exact
                                 path='/cli-login-success'
                                 component={LoginCliLoginSuccess}
+                            />
+                            <Route
+                                exact
+                                path='/terms'
+                                component={Terms}
                             />
                             <PrivateRoute
                                 component={Wallet}

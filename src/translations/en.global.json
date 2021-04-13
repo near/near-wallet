@@ -585,6 +585,16 @@
             "title": "Link Invalid",
             "one": "This NEAR Drop has been claimed.",
             "two": "NEAR Drops can only be used to create a single account, after which the link will expire."
+        },
+        "terms": {
+            "title": "Terms & Conditions",
+            "desc": "By proceeding with creating a NEAR account, you agree to the NEAR Wallet Terms of Service and Privacy Policy. We urge you to read them carefully:",
+            "termsLink": "Terms & Conditions",
+            "privacyLink": "Privacy Policy",
+            "termsCheck": "I agree to the Terms of Service",
+            "privacyCheck": "I agree to the Privacy Policy",
+            "agreeBtn": "Agree & Continue",
+            "declineBtn": "Decline"
         }
     },
 
