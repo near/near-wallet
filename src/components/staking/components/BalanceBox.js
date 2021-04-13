@@ -20,8 +20,8 @@ const Container = styled.div`
         display: block;
         margin-top: 10px !important;
         color: #24272a;
-        font-size: 22px;
-        font-weight: 900;
+        font-size: 16px;
+        font-weight: 700;
     }
 
     .title {
@@ -83,7 +83,7 @@ export default function BalanceBox({
                     <Translate id={title} />
                     <Tooltip translate={info}/>
                 </div>
-                <Balance amount={amount}/>
+                <Balance amount={amount} symbol='near'/>
                 {disclaimer &&
                     <div className='withdrawal-disclaimer'>
                         <Translate id={disclaimer} />
