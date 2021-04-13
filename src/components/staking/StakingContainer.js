@@ -23,7 +23,7 @@ import { Mixpanel } from '../../mixpanel/index'
 const StyledContainer = styled(Container)`
     button {
         display: block !important;
-        margin: 35px auto 45px auto !important;
+        margin: 35px auto 40px auto !important;
         width: 100% !important;
 
         &.seafoam-blue {
