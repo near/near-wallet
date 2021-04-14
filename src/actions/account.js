@@ -73,24 +73,23 @@ export const parseTransactionsToSign = createAction('PARSE_TRANSACTIONS_TO_SIGN'
 export const handleRefreshUrl = (prevRouter) => (dispatch, getState) => {
     const { pathname, search } = prevRouter?.location || getState().router.location
     const currentPage = pathname.split('/')[pathname[1] === '/' ? 2 : 1]
-
     if ([...WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS, WALLET_LOGIN_URL, WALLET_SIGN_URL].includes(currentPage)) {
         const parsedUrl = {
             referrer: document.referrer && new URL(document.referrer).hostname,
             ...parse(search),
             redirect_url: prevRouter ? prevRouter.location.pathname : undefined
         }
-
-        if ([WALLET_LOGIN_URL, WALLET_SIGN_URL].includes(currentPage) && search !== '') {
+        if (['create'].includes(currentPage) && search !== '') {
+            saveState(parsedUrl)
+            dispatch(refreshUrl(parsedUrl))
+        } else if ([WALLET_LOGIN_URL, WALLET_SIGN_URL].includes(currentPage) && search !== '') {
             saveState(parsedUrl)
             dispatch(refreshUrl(parsedUrl))
             dispatch(checkContractId())
         } else {
             dispatch(refreshUrl(loadState()))
         }
-
         dispatch(handleFlowLimitation())
-
         const { transactions, callbackUrl, meta } = getState().account.url
         if (transactions) {
             dispatch(parseTransactionsToSign({ transactions, callbackUrl, meta }))
@@ -414,18 +413,22 @@ export const handleCreateAccountWithSeedPhrase = (accountId, recoveryKeyPair, fu
 export const finishAccountSetup = () => async (dispatch, getState) => {
     await dispatch(refreshAccount())
     await dispatch(getBalance())
-    const account = getState().account
+    const { balance, url } = getState().account
     
-    let promptTwoFactor = await TwoFactor.checkCanEnableTwoFactor(account.balance)
+    let promptTwoFactor = await TwoFactor.checkCanEnableTwoFactor(balance)
 
-    if (new BN(account.balance.available).lt(new BN(utils.format.parseNearAmount(MULTISIG_MIN_PROMPT_AMOUNT)))) {
+    if (new BN(balance.available).lt(new BN(utils.format.parseNearAmount(MULTISIG_MIN_PROMPT_AMOUNT)))) {
         promptTwoFactor = false
     }
 
     if (promptTwoFactor) {
         dispatch(redirectTo('/enable-two-factor', { globalAlertPreventClear: true }))
     } else {
-        dispatch(redirectToApp('/profile'))
+        if (url.redirect_url.includes('/create')) {
+            window.location = url.success_url
+        } else {
+            dispatch(redirectToApp('/profile'))
+        }
     }
 }
 
