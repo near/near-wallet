@@ -32,7 +32,6 @@ const Account = styled.div`
     text-overflow: ellipsis;
     color: #72727A;
     margin-bottom: 4px;
-    padding: 16px;
     cursor: pointer;
     font-weight: 500;
     position: relative;
@@ -70,6 +69,10 @@ const Account = styled.div`
         display: flex;
         flex: 1;
         flex-direction: column;
+        padding: 16px 0 16px 16px;
+    }
+    .sync {
+        padding: 0 16px 0 0;
     }
 
     .balance {
@@ -85,10 +88,11 @@ const SyncButton = styled.span`
     font-size: 12px;
     font-weight: 500;
     padding: 4px 8px;
+    cursor: pointer;
 
     :hover, :active {
-    background-color: #F0F0F1;
-    border-color: #F0F0F1;
+        background-color: #F0F0F1;
+        border-color: #F0F0F1;
     }
 
     &.dots {
@@ -169,7 +173,7 @@ const UserAccount = ({ accountId, balance, balanceLoading, refreshBalance, activ
                 }
             </div>
         </div>
-        <div>
+        <div className='sync'>
             <SyncButton 
                 className={classNames([{'dots': balanceLoading}])}
                 onClick={refreshBalance}
