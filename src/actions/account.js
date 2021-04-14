@@ -413,7 +413,7 @@ export const handleCreateAccountWithSeedPhrase = (accountId, recoveryKeyPair, fu
 export const finishAccountSetup = () => async (dispatch, getState) => {
     await dispatch(refreshAccount())
     await dispatch(getBalance())
-    const { balance, url } = getState().account
+    const { balance, url, accountId } = getState().account
     
     let promptTwoFactor = await TwoFactor.checkCanEnableTwoFactor(balance)
 
@@ -425,7 +425,7 @@ export const finishAccountSetup = () => async (dispatch, getState) => {
         dispatch(redirectTo('/enable-two-factor', { globalAlertPreventClear: true }))
     } else {
         if (url.redirect_url.includes('/create')) {
-            window.location = url.success_url
+            window.location = `${url.success_url}?account_id=${accountId}`
         } else {
             dispatch(redirectToApp('/profile'))
         }
