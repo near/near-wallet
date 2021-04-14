@@ -276,6 +276,12 @@ export function Wallet() {
         }
     }, [accountId])
 
+    useEffect(() => {
+        if(!balance.total) {
+            Mixpanel.track('wallet balance loading')
+        }
+    }, [balance])
+
     const sortedTokens = Object.keys(tokens).map(key => tokens[key]).sort((a, b) => (a.symbol || '').localeCompare(b.symbol || ''));
     // TODO: Sort NFTS
     const sortedNFTs = Object.values(nft).sort((a, b) => a.name.localeCompare(b.name))
