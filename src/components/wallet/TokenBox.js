@@ -2,6 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import DefaultTokenIcon from '../svg/DefaultTokenIcon'
 import { EXPLORER_URL } from '../../utils/wallet'
+import TokenAmount from './TokenAmount'
 
 const StyledContainer = styled.div`
     display: flex;
@@ -85,7 +86,10 @@ const TokenBox = ({ token }) => {
                     </a>
                 </span>
             </div>
-            <div className='balance'>{token.balance}</div>
+            <TokenAmount 
+                token={token} 
+                className='balance'
+            />
         </StyledContainer>
     )
 }

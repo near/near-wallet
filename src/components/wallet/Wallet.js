@@ -8,6 +8,7 @@ import Container from '../common/styled/Container.css'
 import NearWithBackgroundIcon from '../svg/NearWithBackgroundIcon'
 import SendIcon from '../svg/SendIcon'
 import DownArrowIcon from '../svg/DownArrowIcon'
+import BuyIcon from '../svg/BuyIcon'
 import Balance from '../common/Balance'
 import { getTransactions, getTransactionStatus } from '../../actions/transactions'
 import { Mixpanel } from "../../mixpanel/index"
@@ -15,7 +16,6 @@ import Activities from './Activities'
 import ExploreApps from './ExploreApps'
 import Tokens from './Tokens'
 import { ACCOUNT_HELPER_URL, wallet } from '../../utils/wallet'
-import { formatTokenAmount } from '../../utils/amounts'
 
 import sendJson from 'fetch-send-json'
 
@@ -50,26 +50,52 @@ const StyledContainer = styled(Container)`
 
         .buttons {
             display: flex;
-            justify-content: space-between;
+            justify-content: center;
             align-items: center;
             margin: 30px 0;
             width: 100%;
     
             button {
                 display: flex;
+                flex-direction: column;
                 justify-content: center;
                 align-items: center;
-                flex: 1;
                 width: auto;
+                background-color: transparent !important;
+                border: 0;
+                padding: 0;
+                color: #3F4045;
+                font-weight: 400;
+                font-size: 14px;
+                margin: 20px;
+
+                :hover {
+                    color: #3F4045;
+
+                    > div {
+                        background-color: #1f1f1f;
+                    }
+                }
+
+                > div {
+                    background-color: #111618;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    min-height: 56px;
+                    height: 56px;
+                    min-width: 56px;
+                    width: 56px;
+                    border-radius: 20px;
+                    margin-bottom: 10px;
+                }
                 svg {
                     width: 22px !important;
                     height: 22px !important;
-                    margin: 0 6px 0 0 !important;
-                }
-                :last-of-type {
-                    margin-left: 25px;
-                    @media (max-width: 767px) {
-                        margin-left: 10px;
+                    margin: 0 !important;
+
+                    path {
+                        stroke: white;
                     }
                 }
             }
@@ -142,11 +168,10 @@ export function Wallet() {
                     try {
                         // TODO: Parallelize balance and metadata calls, use cached metadata?
                         let { name, symbol, decimals } = await account.viewFunction(contract, 'ft_metadata')
-                        const balance = formatTokenAmount(
-                            await account.viewFunction(contract, 'ft_balance_of', { account_id: accountId }), decimals);
+                        const balance = await account.viewFunction(contract, 'ft_balance_of', { account_id: accountId })
                         loadedTokens = {
                             ...loadedTokens,
-                            [contract]: { contract, balance, name, symbol }
+                            [contract]: { contract, balance, name, symbol, decimals }
                         }
                     } catch (e) {
                         if (e.message.includes('FunctionCallError(MethodResolveError(MethodNotFound))')) {
@@ -178,20 +203,31 @@ export function Wallet() {
                     <div className='sub-title'><Translate id='wallet.balanceTitle' /></div>
                     <div className='buttons'>
                         <FormButton
-                            color='green-pastel'
                             linkTo='/send-money'
                             trackingId='Click Send on Wallet page'
                         >
-                            <SendIcon/>
+                            <div>
+                                <SendIcon/>
+                            </div>
                             <Translate id='button.send'/>
                         </FormButton>
                         <FormButton
-                            color='green-pastel'
                             linkTo='/receive-money'
                             trackingId='Click Receive on Wallet page'
                         >
-                            <DownArrowIcon/>
+                            <div>
+                                <DownArrowIcon/>
+                            </div>
                             <Translate id='button.receive'/>
+                        </FormButton>
+                        <FormButton
+                            linkTo='/buy'
+                            trackingId='Click Receive on Wallet page'
+                        >
+                            <div>
+                                <BuyIcon/>
+                            </div>
+                            <Translate id='button.buy'/>
                         </FormButton>
                     </div>
                     {sortedTokens?.length ?

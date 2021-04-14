@@ -50,7 +50,7 @@ const StyledContainer = styled.div`
         }
         > span {
             color: #A2A2A8;
-            max-width: 269px;
+            max-width: 220px;
             overflow: hidden;
             display: block;
             text-overflow: ellipsis;

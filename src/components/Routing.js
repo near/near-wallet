@@ -38,6 +38,7 @@ import { FullAccessKeysWithRouter } from './access-keys/AccessKeys'
 import { SendContainer } from './send/SendContainer'
 import { ReceiveMoneyWithRouter } from './receive-money/ReceiveMoney'
 import { Profile } from './profile/Profile'
+import { BuyNear } from './buy/BuyNear'
 import { SignWithRouter } from './sign/Sign'
 import { NodeStakingWithRouter } from './node-staking/NodeStaking'
 import { AddNodeWithRouter } from './node-staking/AddNode'
@@ -54,6 +55,7 @@ import { SetupImplicitSuccess } from './accounts/SetupImplicitSuccess'
 import { handleClearAlert} from '../utils/alerts'
 import { Mixpanel } from "../mixpanel/index";
 import classNames from '../utils/classNames';
+import Terms from './terms/Terms'
 
 const theme = {}
 
@@ -303,6 +305,11 @@ class Routing extends Component {
                                 path='/receive-money'
                                 component={ReceiveMoneyWithRouter}
                             />
+                            <PrivateRoute
+                                exact
+                                path='/buy'
+                                component={BuyNear}
+                            />
                             <Route
                                 exact
                                 path='/profile/:accountId'
@@ -346,6 +353,11 @@ class Routing extends Component {
                                 exact
                                 path='/cli-login-success'
                                 component={LoginCliLoginSuccess}
+                            />
+                            <Route
+                                exact
+                                path='/terms'
+                                component={Terms}
                             />
                             <PrivateRoute
                                 component={Wallet}

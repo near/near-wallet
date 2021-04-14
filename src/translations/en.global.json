@@ -172,7 +172,8 @@
                 },
                 "alertBanner": {
                     "title": "Do not close this window!"
-                }
+                },
+                "fundWith": "Fund with"
             },
             "post": {
                 "modal": {
@@ -501,7 +502,9 @@
         "deAuthorizing": "Deauthorizing",
         "finish": "Finish",
         "transferring": "Transferring",
-        "viewOnExplorer": "View on Explorer"
+        "viewOnExplorer": "View on Explorer",
+        "buy": "Buy",
+        "learnMore": "Learn More"
     },
 
     "link": {
@@ -582,6 +585,16 @@
             "title": "Link Invalid",
             "one": "This NEAR Drop has been claimed.",
             "two": "NEAR Drops can only be used to create a single account, after which the link will expire."
+        },
+        "terms": {
+            "title": "Terms & Conditions",
+            "desc": "By proceeding with creating a NEAR account, you agree to the NEAR Wallet Terms of Service and Privacy Policy. We urge you to read them carefully:",
+            "termsLink": "Terms & Conditions",
+            "privacyLink": "Privacy Policy",
+            "termsCheck": "I agree to the Terms of Service",
+            "privacyCheck": "I agree to the Privacy Policy",
+            "agreeBtn": "Agree & Continue",
+            "declineBtn": "Decline"
         }
     },
 
@@ -671,6 +684,17 @@
         "balance": "Balance",
         "dateAndTime": "Date & Time",
         "status": "Status"
+    },
+
+    "buyNear": {
+        "title": "Purchase NEAR",
+        "moonPay": "MoonPay",
+        "descOne": "Purchase NEAR through MoonPay using your preferred payment method.",
+        "buyWith": "Buy with",
+        "supportedExchanges": "Supported Exchanges",
+        "descTwo": "NEAR is available to purchase through the following exchanges.",
+        "seeMore": "See more on",
+        "coinMarketCap": "CoinMarketCap"
     },
     
     "exploreApps": {

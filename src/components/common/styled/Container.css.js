@@ -58,6 +58,7 @@ const Container = styled.div`
     
             .right {
                 flex: 1;
+                max-width: 384px;
             }
         }
     }
