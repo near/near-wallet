@@ -424,7 +424,7 @@ export const finishAccountSetup = () => async (dispatch, getState) => {
     if (promptTwoFactor) {
         dispatch(redirectTo('/enable-two-factor', { globalAlertPreventClear: true }))
     } else {
-        if (url.redirect_url.includes('/create') && url.success_url) {
+        if (url?.redirect_url.includes('/create') && url?.success_url) {
             window.location = `${url.success_url}?account_id=${accountId}`
         } else {
             dispatch(redirectToApp('/profile'))
