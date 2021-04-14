@@ -79,7 +79,7 @@ export const handleRefreshUrl = (prevRouter) => (dispatch, getState) => {
             ...parse(search),
             redirect_url: prevRouter ? prevRouter.location.pathname : undefined
         }
-        if (['create'].includes(currentPage) && search !== '') {
+        if ([WALLET_CREATE_NEW_ACCOUNT_URL].includes(currentPage) && search !== '') {
             saveState(parsedUrl)
             dispatch(refreshUrl(parsedUrl))
         } else if ([WALLET_LOGIN_URL, WALLET_SIGN_URL].includes(currentPage) && search !== '') {
