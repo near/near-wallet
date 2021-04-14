@@ -105,6 +105,7 @@ class Navigation extends Component {
                     showNavLinks={this.showNavLinks}
                     flowLimitation={flowLimitation}
                     refreshBalance={this.props.getAccountBalance}
+                    getBalance={this.props.getBalance}
                     {...this.props}
                 />
             </Container>
