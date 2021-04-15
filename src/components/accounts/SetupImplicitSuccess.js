@@ -6,7 +6,6 @@ import { Translate } from 'react-localize-redux'
 import styled from 'styled-components'
 import StarIcon from '../svg/StarIcon.js'
 import { redirectToApp } from '../../actions/account'
-import { Mixpanel } from '../../mixpanel/index'
 
 const StyledContainer = styled(Container)`
     button {
