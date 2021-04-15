@@ -482,7 +482,7 @@
         "recoverAccount": "恢复账户",
         "goBack": "返回",
         "createNewAccount": "创建新的账户",
-        "importAccount": "添加其他账户",
+        "importAccount": "导入已有账户",
         "moreInformation": "更多信息",
         "dismiss": "关闭",
         "cancelOperation": "取消操作",
