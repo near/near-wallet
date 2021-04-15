@@ -20,21 +20,29 @@ import { utils } from 'near-api-js'
 import { BN } from 'bn.js'
 import { showAlert, dispatchWithAlert } from '../utils/alerts'
 import { handleFlowLimitation, handleClearflowLimitation } from './flowLimitation'
+import {
+    handleStakingUpdateAccount,
+    handleStakingUpdateLockup,
+    handleGetLockup,
+    staking
+} from './staking'
 
 export const loadRecoveryMethods = createAction('LOAD_RECOVERY_METHODS',
     wallet.getRecoveryMethods.bind(wallet),
     () => ({})
 )
 
-export const getProfileStakingDetails = (accountId) => (dispatch, getState) => {
-    dispatch(updateStakingAccount(accountId))
+export const getProfileStakingDetails = (accountId) => async (dispatch, getState) => {
+    await dispatch(handleGetLockup(accountId))
+
+    await dispatch(handleStakingUpdateAccount([], accountId))
 
     const lockupIdExists = accountId
         ? !!getState().allAccounts[accountId].balance.lockedAmount
         : !!getState().account.balance.lockedAmount
 
     lockupIdExists
-        && dispatch(updateStakingLockup(accountId))
+        && dispatch(handleStakingUpdateLockup(accountId))
 }
 
 export const handleRedirectUrl = (previousLocation) => (dispatch, getState) => {
@@ -413,6 +421,7 @@ export const handleCreateAccountWithSeedPhrase = (accountId, recoveryKeyPair, fu
 export const finishAccountSetup = () => async (dispatch, getState) => {
     await dispatch(refreshAccount())
     await dispatch(getBalance())
+    await dispatch(staking.clearState())
     const { balance, url, accountId } = getState().account
     
     let promptTwoFactor = await TwoFactor.checkCanEnableTwoFactor(balance)
@@ -515,10 +524,11 @@ export const refreshAccount = (basicData = false) => async (dispatch, getState) 
 export const switchAccount = (accountId) => async (dispatch, getState) => {
     dispatch(selectAccount(accountId))
     dispatch(handleRefreshUrl())
+    dispatch(staking.clearState())
     dispatch(refreshAccount())
 }
 
-export const { selectAccount, refreshAccountOwner, refreshAccountExternal, refreshUrl, updateStakingAccount, updateStakingLockup, getBalance } = createActions({
+export const { selectAccount, refreshAccountOwner, refreshAccountExternal, refreshUrl, getBalance } = createActions({
     SELECT_ACCOUNT: wallet.selectAccount.bind(wallet),
     REFRESH_ACCOUNT_OWNER: [
         wallet.refreshAccount.bind(wallet),
@@ -537,19 +547,5 @@ export const { selectAccount, refreshAccountOwner, refreshAccountExternal, refre
          })
     ],
     REFRESH_URL: null,
-    UPDATE_STAKING_ACCOUNT: [
-        async (accountId) => await wallet.staking.updateStakingAccount([], [] , accountId),
-        (accountId) => ({
-            accountId,
-            ...showAlert({ onlyError: true })
-        })
-    ],
-    UPDATE_STAKING_LOCKUP: [
-        async (accountId) => await wallet.staking.updateStakingLockup(accountId),
-        (accountId) => ({
-            accountId,
-            ...showAlert({ onlyError: true })
-        })
-    ],
     GET_BALANCE: wallet.getBalance.bind(wallet)
 })

@@ -1,11 +1,15 @@
 import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { updateStaking, switchAccount, stake, unstake, withdraw } from '../../actions/staking'
-import { clearGlobalAlert }from '../../actions/status'
-import styled from 'styled-components'
-import Container from '../common/styled/Container.css'
 import { Switch, Route } from 'react-router-dom'
 import { ConnectedRouter } from 'connected-react-router'
+import styled from 'styled-components'
+
+import {
+    updateStaking,
+    staking as stakingActions,
+    handleStakingAction
+} from '../../actions/staking'
+import Container from '../common/styled/Container.css'
 import Staking from './components/Staking'
 import Validators from './components/Validators'
 import Validator from './components/Validator'
@@ -119,7 +123,7 @@ const StyledContainer = styled(Container)`
     }
 
     .radio-label {
-        cursor: ${props => props.numAccounts > 1 ? 'pointer' : 'default'};
+        cursor: ${props => props.numAccounts ? 'pointer' : 'default'};
         .input-wrapper {
             display: ${props => props.numAccounts > 1 ? 'block' : 'none'};
         }
@@ -149,7 +153,7 @@ const StyledContainer = styled(Container)`
 
 export function StakingContainer({ history, match }) {
     const dispatch = useDispatch()
-    const { accountId, has2fa } = useSelector(({ account }) => account);
+    const { accountId, has2fa, balance } = useSelector(({ account }) => account);
     const status = useSelector(({ status }) => status);
     const { hasLedger } = useSelector(({ ledger }) => ledger)
     
@@ -166,48 +170,29 @@ export function StakingContainer({ history, match }) {
         validator = validators.filter(validator => validator.accountId === validatorId)[0]
     }
     const { totalUnstaked, selectedValidator } = currentAccount
+    const loadingBalance = !stakingAccounts.every((account) => !!account.totalUnstaked)
 
     useEffect(() => {
-        dispatch(updateStaking(getStakingAccountSelected()))
         dispatch(getBalance())
-    }, [accountId])
-
-    const handleSwitchAccount = async (accountId) => {
-        setStakingAccountSelected(accountId)
-        await dispatch(switchAccount(accountId, stakingAccounts))
-    }
-    
-    const handleStakingAction = async (action, validator, amount) => {
-        let id = Mixpanel.get_distinct_id()
-        Mixpanel.identify(id)
-        if (action === 'stake') {
-            await Mixpanel.withTracking("STAKE",
-                async () => {
-                    await dispatch(stake(currentAccount.accountId, validator, amount))
-                    Mixpanel.people.set({last_stake_time: new Date().toString()})
-                }
-            )
-        } else if (action === 'unstake') {
-            await Mixpanel.withTracking("UNSTAKE",
-                async () => {
-                    await dispatch(unstake(currentAccount.accountId, selectedValidator || validator, amount))
-                    Mixpanel.people.set({last_unstake_time: new Date().toString()})
-                }
-            )
+        if (!!balance.available) {
+            dispatch(updateStaking(getStakingAccountSelected()))
         }
-        await dispatch(updateStaking(currentAccount.accountId, [validator]))
+    }, [accountId, !!balance.available])
+
+    const handleSwitchAccount = (accountId) => {
+        setStakingAccountSelected(accountId)
+        dispatch(stakingActions.updateCurrent(accountId))
     }
 
-    const handleWithDraw = async () => {
+    const handleAction = async (action, validator, amount) => {
         let id = Mixpanel.get_distinct_id()
         Mixpanel.identify(id)
-        await Mixpanel.withTracking("WITHDRAW",
-                async () => {
-                    await dispatch(withdraw(currentAccount.accountId, selectedValidator || validator.accountId))
-                    Mixpanel.people.set({last_withdraw_time: new Date().toString()})
-                }
-            )
-        await dispatch(updateStaking(currentAccount.accountId))
+        await Mixpanel.withTracking(action.toUpperCase(),
+            async () => {
+                await dispatch(handleStakingAction(action, selectedValidator || validator, amount))
+                Mixpanel.people.set({[`last_${action}_time`]: new Date().toString()})
+            }
+        )
     }
 
     return (
@@ -226,6 +211,7 @@ export function StakingContainer({ history, match }) {
                                 activeAccount={currentAccount}
                                 accountId={accountId}
                                 loading={status.mainLoader && !stakingAccounts.length}
+                                loadingDetails={(status.mainLoader && !stakingAccounts.length) || loadingBalance}
                                 hasLockup={hasLockup}
                             />
                         )}
@@ -248,7 +234,7 @@ export function StakingContainer({ history, match }) {
                             <Validator 
                                 {...props} 
                                 validator={validator}
-                                onWithdraw={handleWithDraw}
+                                onWithdraw={handleAction}
                                 loading={status.mainLoader}
                                 selectedValidator={selectedValidator}
                                 currentValidators={currentValidators}
@@ -262,7 +248,7 @@ export function StakingContainer({ history, match }) {
                             <StakingAction
                                 {...props}
                                 action='stake'
-                                handleStakingAction={handleStakingAction}
+                                handleStakingAction={handleAction}
                                 availableBalance={totalUnstaked} 
                                 validator={validator}
                                 loading={status.mainLoader}
@@ -279,7 +265,7 @@ export function StakingContainer({ history, match }) {
                             <StakingAction
                                 {...props}
                                 action='unstake'
-                                handleStakingAction={handleStakingAction}
+                                handleStakingAction={handleAction}
                                 availableBalance={totalUnstaked}
                                 validator={validator}
                                 loading={status.mainLoader}

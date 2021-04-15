@@ -125,8 +125,6 @@ class Wallet {
             localStorage.getItem(KEY_WALLET_ACCOUNTS) || '{}'
         )
         this.accountId = localStorage.getItem(KEY_ACTIVE_ACCOUNT_ID) || ''
-
-        this.staking = new Staking(this)
     }
 
     async getLocalAccessKey(accountId, accessKeys) {
@@ -608,6 +606,10 @@ class Wallet {
             availableKeys.push(ledgerKey.toString())
         }
         return availableKeys
+    }
+
+    async getAccountBasic(accountId) {
+        return new nearApiJs.Account(this.connection, accountId)
     }
 
     async getAccount(accountId) {
