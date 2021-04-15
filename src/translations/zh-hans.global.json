@@ -129,6 +129,9 @@
         },
         "lockup": {
             "transferAllWithStakingPoolBalance": "为将你剩余锁定余额转账至钱包，请从质押池赎回并提现所有质押资产。"
+        },
+        "setupRecoveryMessageNewAccount": {
+            "invalidCode": "无效验证码"
         }
     },
     "account": {
@@ -169,7 +172,8 @@
                 },
                 "alertBanner": {
                     "title": "请勿关闭此窗口！"
-                }
+                },
+                "fundWith": "打开"
             },
             "post": {
                 "modal": {
@@ -478,7 +482,7 @@
         "recoverAccount": "恢复账户",
         "goBack": "返回",
         "createNewAccount": "创建新的账户",
-        "addAccount": "添加其他账户",
+        "importAccount": "添加其他账户",
         "moreInformation": "更多信息",
         "dismiss": "关闭",
         "cancelOperation": "取消操作",
@@ -498,7 +502,9 @@
         "deAuthorizing": "正在取消授权",
         "finish": "完成",
         "transferring": "正在转账",
-        "viewOnExplorer": "通过浏览器查看"
+        "viewOnExplorer": "通过浏览器查看",
+        "buy": "购买",
+        "learnMore": "了解更多"
     },
 
     "link": {
@@ -579,6 +585,16 @@
             "title": "链接无效",
             "one": "NEAR Drop 已经被领取。",
             "two": "NEAR Drop 只能被领取一次，之后链接会无效。"
+        },
+        "terms": {
+            "title": "服务条款",
+            "desc": "注册 NEAR 账户意味着你同意 NEAR Wallet 服务条款和隐私政策。 我们建议你仔细阅读：",
+            "termsLink": "服务条款",
+            "privacyLink": "隐私政策",
+            "termsCheck": "我同意服务条款",
+            "privacyCheck": "我同意隐私政策",
+            "agreeBtn": "同意并继续",
+            "declineBtn": "拒绝"
         }
     },
 
@@ -617,11 +633,12 @@
         "pageText": "我们已经发送 6 位验证码至",
         "inputHeader": "输入 6 位验证码",
         "inputPlaceholder": "验证码",
-        "invalidCode": "无效验证码",
         "didNotRecive": "未收到验证码？",
         "resendCode": "重新发送",
         "or": "或",
         "sendToDifferent": "发送至其他 Email 邮箱",
+        "email": "Email",
+        "phone": "手机号",
         "reenter": {
             "one": {
                 "email": "如果你没有收到邮件，或者上面的 Email 地址输入错误，",
@@ -632,9 +649,7 @@
                 "email": "重新输入 Email 地址并重新发送。",
                 "phoneNumber": "重新输入手机号并重新发送。"
             }
-        },
-        "email": "Email",
-        "phone": "手机号"
+        }
     },
 
     "disclaimer": {
@@ -649,7 +664,7 @@
         "desc": "NEAR 是开放性网络 (Open Web) 的基础架构, 提供了一个去中心化存储和计算平台。",
         "learnMore": "了解更多",
         "needHelp": "需要帮助？",
-        "contactSupport": "联系客服"
+        "contactSupport": "加入社区"
     },
 
     "dashboard": {
@@ -666,8 +681,20 @@
     "wallet": {
         "balanceTitle": "总资产",
         "tokens": "通证",
+        "balance": "余额",
         "dateAndTime": "日期和时间",
         "status": "状态"
+    },
+
+    "buyNear": {
+        "title": "购买 NEAR",
+        "moonPay": "MoonPay",
+        "descOne": "可在 MoonPay 使用偏好的支付方式购买 NEAR。",
+        "buyWith": "打开",
+        "supportedExchanges": "交易所",
+        "descTwo": "NEAR 已经在以下交易所流通，可交易。",
+        "seeMore": "查看更多：",
+        "coinMarketCap": "CoinMarketCap"
     },
     
     "exploreApps": {
@@ -1074,10 +1101,8 @@
     "setupLedgerSteps": {
         "header": "在硬件钱包上安装 NEAR",
         "one": "打开 <a href='https://www.ledger.com/ledger-live' target='_blank'>Ledger Live</a>，并安装固件更新。",
-        "two": "切换到你的<span class='color-black'>设置</span>",
-        "three": "在<span class='color-black'>试验性功能</span>中，确保<span class='color-black'>开发者模式</span>已经<span class='color-black'>开启</span>。",
-        "four": "返回至<span class='color-black'>管理器</span> Tab 并搜索 <span class='color-black'>NEAR</span>。",
-        "five": "根据步骤在设备上安装 <span class='color-black'>NEAR 应用</span>。"
+        "two": "返回至<span class='color-black'>管理器</span> Tab 并搜索 <span class='color-black'>NEAR</span>。",
+        "three": "根据步骤在设备上安装 <span class='color-black'>NEAR 应用</span>。"
     },
 
     "setupLedgerSuccess": {
@@ -1116,6 +1141,12 @@
                 "waiting": "下一个",
                 "confirm": "确认"
             }
+        },
+        "advanced": {
+            "title": "高级选项",
+            "subTitle": "HD 路径",
+            "desc": "指定 HD 路径来导入已链接的账户。",
+            "setPath": "设置 HD 路径"
         }
     },
 
