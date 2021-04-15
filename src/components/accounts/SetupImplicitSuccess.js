@@ -1,10 +1,11 @@
 import React from 'react'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux';
 import Container from '../common/styled/Container.css'
 import FormButton from '../common/FormButton'
 import { Translate } from 'react-localize-redux'
 import styled from 'styled-components'
 import StarIcon from '../svg/StarIcon.js'
+import { redirectToApp } from '../../actions/account'
 import { Mixpanel } from '../../mixpanel/index'
 
 const StyledContainer = styled(Container)`
@@ -58,6 +59,7 @@ const AccountIdGraphic = ({ accountId }) => {
 }
 
 export function SetupImplicitSuccess() {
+    const dispatch = useDispatch();
 
     const account = useSelector(({ account }) => account);
 
@@ -68,7 +70,10 @@ export function SetupImplicitSuccess() {
             <h2><Translate id='account.createImplicit.success.descOne' data={{ accountId: account.accountId}}/></h2>
             <h2><Translate id='account.createImplicit.success.descTwo'/></h2>
             <h2><Translate id='account.createImplicit.success.descThree'/></h2>
-            <FormButton linkTo='/profile' trackingId="CA Click continue to account button">
+            <FormButton
+                onClick={() => dispatch(redirectToApp('/profile'))}
+                trackingId='CA Click continue to account button'
+            >
                 <Translate id='account.createImplicit.success.button'/>
             </FormButton>
         </StyledContainer>
