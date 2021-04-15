@@ -66,10 +66,13 @@ export default function StakingAction({
             }
         }
 
-        await handleStakingAction(action, validator.accountId, stakeActionAmount)
-        setSuccess(true)
-        setConfirm(false)
-        setLoadingStaking(true)
+        try {
+            await handleStakingAction(action, validator.accountId, stakeActionAmount)
+            setSuccess(true)
+            setConfirm(false)
+        } finally {
+            setLoadingStaking(false)
+        }
     }
 
     const handleSetMax = () => {
@@ -190,7 +193,7 @@ export default function StakingAction({
                     trackingId="STAKE/UNSTAKE Return to dashboard"
                 >
                     <Translate id={`staking.${action}Success.button`} />
-                    </FormButton>
+                </FormButton>
             </>
         )
     }

@@ -214,7 +214,7 @@ export function StakingContainer({ history, match }) {
                                 activeAccount={currentAccount}
                                 accountId={accountId}
                                 loading={status.mainLoader && !stakingAccounts.length}
-                                loadingDetails={status.mainLoader && (!stakingAccounts.length || loadingBalance)}
+                                loadingDetails={(status.mainLoader && !stakingAccounts.length) || loadingBalance}
                                 hasLockup={hasLockup}
                                 stakeFromAccount={stakeFromAccount}
                                 selectedValidator={selectedValidator}

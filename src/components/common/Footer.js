@@ -144,7 +144,7 @@ class Footer extends Component {
                                     &copy; {new Date().getFullYear()} <Translate id='footer.copyrights' />
                                     <br />
                                     <a 
-                                        href="https://near.org/privacy/" 
+                                        href="/terms" 
                                         onClick={() => Mixpanel.track("Footer Click terms of service")}
                                     >
                                         <Translate id='footer.termsOfService' />

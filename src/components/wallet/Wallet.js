@@ -16,7 +16,6 @@ import Activities from './Activities'
 import ExploreApps from './ExploreApps'
 import Tokens from './Tokens'
 import { ACCOUNT_HELPER_URL, wallet } from '../../utils/wallet'
-import { formatTokenAmount } from '../../utils/amounts'
 
 import sendJson from 'fetch-send-json'
 
@@ -169,11 +168,10 @@ export function Wallet() {
                     try {
                         // TODO: Parallelize balance and metadata calls, use cached metadata?
                         let { name, symbol, decimals } = await account.viewFunction(contract, 'ft_metadata')
-                        const balance = formatTokenAmount(
-                            await account.viewFunction(contract, 'ft_balance_of', { account_id: accountId }), decimals);
+                        const balance = await account.viewFunction(contract, 'ft_balance_of', { account_id: accountId })
                         loadedTokens = {
                             ...loadedTokens,
-                            [contract]: { contract, balance, name, symbol }
+                            [contract]: { contract, balance, name, symbol, decimals }
                         }
                     } catch (e) {
                         if (e.message.includes('FunctionCallError(MethodResolveError(MethodNotFound))')) {
