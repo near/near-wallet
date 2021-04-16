@@ -159,11 +159,13 @@ async function getAccountBalance(limitedAccountData = false) {
 
         const lockupDurationBN = new BN(lockupDuration || '0')
         const lockupCliff = dateNowBN.lt(startTimestampBN.add(lockupDurationBN))
-        const unreleasedAmount = lockupCliff
+        const unreleasedAmountCorrect = lockupCliff
             ? new BN(lockupAmount)
             : releaseDurationBN.eq(new BN(0))
                 ? new BN(0)
                 : new BN(lockupAmount).mul(timeLeft).div(releaseDurationBN)
+        const unreleasedAmountCoreContracts = new BN(await this.wrappedAccount.viewFunction(lockupAccountId, 'get_locked_amount'))
+        const unreleasedAmount = BN.min(unreleasedAmountCorrect, unreleasedAmountCoreContracts)
 
         let totalBalance = new BN(lockupBalance.total)
         let stakedBalanceLockup = new BN(0)
