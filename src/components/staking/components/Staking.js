@@ -8,6 +8,7 @@ import NoValidators from './NoValidators'
 import SelectAccount from './SelectAccount'
 import SkeletonLoading from '../../common/SkeletonLoading'
 import Tooltip from '../../common/Tooltip'
+import BN from 'bn.js'
 
 export default function Staking({
     currentValidators,
@@ -20,7 +21,9 @@ export default function Staking({
     activeAccount,
     loading,
     hasLockup,
-    loadingDetails
+    loadingDetails,
+    stakeFromAccount,
+    selectedValidator
 }) {
 
     return (
@@ -63,6 +66,9 @@ export default function Staking({
                         title='staking.balanceBox.staked.title'
                         info='staking.balanceBox.staked.info'
                         amount={totalStaked}
+                        button={new BN(totalStaked).isZero() ? null : 'staking.balanceBox.staked.button'}
+                        linkTo={stakeFromAccount ? `/staking/unstake` : `/staking/${selectedValidator}/unstake`}
+                        buttonColor='gray-blue'
                     />
                     <BalanceBox
                         title='staking.balanceBox.unclaimed.title'
@@ -82,6 +88,9 @@ export default function Staking({
                         title='staking.balanceBox.available.title'
                         info='staking.balanceBox.available.info'
                         amount={totalAvailable}
+                        button={new BN(totalAvailable).isZero() ? null : 'staking.balanceBox.available.button'}
+                        linkTo={stakeFromAccount ? `/staking/withdraw` : `/staking/${selectedValidator}`}
+                        buttonColor='gray-blue'
                     />
                 </>
                 : null}

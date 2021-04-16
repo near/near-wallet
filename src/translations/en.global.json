@@ -799,7 +799,7 @@
             "noValidators": "You haven't staked with a validator yet.",
             "selectAccount": "Staking from",
             "available": "Available",
-            "totalStaked": "Total staked"
+            "totalStaked": "Staked"
         },
         "balanceBox": {
             "staked": {
@@ -884,7 +884,9 @@
             "title": "Select a Validator",
             "desc": {
                 "account": "Enter a known validator or select a validator from the list to stake your NEAR tokens.",
-                "lockup": "Enter a known validator or select a validator from the list to stake your NEAR tokens. You may only stake with a single validator at any given time."
+                "lockup": "Enter a known validator or select a validator from the list to stake your NEAR tokens. You may only stake with a single validator at any given time.",
+                "unstake": "Select the validator pool from which you wish to unstake your tokens.",
+                "withdraw": "Select the validator pool from which you wish to withdraw your tokens."
             },
             "inputLabel": "Validator account ID",
             "inputPlaceholder": "validator-name.near",

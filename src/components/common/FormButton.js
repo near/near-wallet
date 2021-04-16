@@ -97,6 +97,7 @@ const CustomButton = styled(Button)`
                 background: #e6e6e6;
                 border-color: #e6e6e6;
                 opacity: 1 !important;
+                color: #A2A2A8;
             }
         }
         &.seafoam-blue {
