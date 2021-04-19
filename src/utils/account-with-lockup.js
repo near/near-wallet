@@ -155,7 +155,7 @@ async function getAccountBalance(limitedAccountData = false) {
         const hasBrokenTimestamp = (await lockupAccount.state()).code_hash === '3kVY9qcVRoW3B5498SMX6R3rtSLiCdmBzKs7zcnzDJ7Q' && lockupTimestamp !== null
         const startTimestampBN = BN.max(
             new BN(transfersTimestamp),
-            new BN(!hasBrokenTimestamp && (lockupTimestamp || 0))
+            new BN(!hasBrokenTimestamp ? (lockupTimestamp || 0) : 0)
         )
 
         const releaseDurationBN = new BN(releaseDuration || '0')
