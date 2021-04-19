@@ -1043,6 +1043,7 @@
             "deleteAccount": "You are about to delete your account! Your NEAR balance will be destroyed, and all of your account data deleted."
         },
         "insufficientFunds": "Insufficient Funds",
+        "availableToTransfer": "Available to transfer",
         "hereAreSomeDetails": "Here are some details that will help you.",
         "contract": "Contract:",
         "unknownApp": "Unknown App",

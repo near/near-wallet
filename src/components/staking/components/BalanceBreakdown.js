@@ -79,7 +79,7 @@ const Container = styled.div`
     }
 `
 
-function BalanceBreakdown({ total, onClickAvailable, availableType, error }) {
+function BalanceBreakdown({ total, onClickAvailable, availableType, error, transfer }) {
     const [open, setOpen] = useState(false)
 
     const subtractAmount = nearApiJs.utils.format.parseNearAmount(WALLET_APP_MIN_AMOUNT)
@@ -90,7 +90,7 @@ function BalanceBreakdown({ total, onClickAvailable, availableType, error }) {
     return (
         <Translate>
             {({ translate }) => (
-                <Container className={classNames([open ? 'open' : '', error ? 'error' : ''])}>
+                <Container className={classNames(['balance-breakdown' , open ? 'open' : '', error ? 'error' : ''])}>
                     <Accordion trigger='balance-breakdown-1'>
                         <div className='item'>
                             <Translate id='balanceBreakdown.available'/>
@@ -106,7 +106,11 @@ function BalanceBreakdown({ total, onClickAvailable, availableType, error }) {
                             </div>
                         </div>
                     </Accordion>
-                    <div className='title'>
+                    <div 
+                        className='title'
+                        id={transfer ? 'balance-breakdown-1' : ''}
+                        onClick={() => transfer ? setOpen(!open) : null}
+                    >
                         <div id='balance-breakdown-1' onClick={() => {setOpen(!open); Mixpanel.track("Watch available to send")}}>
                             <Translate id={availableType}/><ChevronIcon color='#0072ce'/>
                         </div>
