@@ -137,7 +137,8 @@ async function getAccountBalance(limitedAccountData = false) {
     let lockupAccountId = getLockupAccountId(this.accountId)
     console.log('lockupAccountId', lockupAccountId)
     try {
-        const lockupBalance = await new Account(this.connection, lockupAccountId).getAccountBalance();
+        const lockupAccount = new Account(this.connection, lockupAccountId)
+        const lockupBalance = await lockupAccount.getAccountBalance();
         const {
             lockupAmount,
             releaseDuration,
@@ -150,9 +151,13 @@ async function getAccountBalance(limitedAccountData = false) {
 
         const { transfer_poll_account_id, transfers_timestamp } = transferInformation
         const transfersTimestamp = transfer_poll_account_id ? await this.viewFunction(transfer_poll_account_id, 'get_result') : transfers_timestamp
-        const startTimestampBN = lockupTimestamp
-            ? BN.max(new BN(lockupTimestamp), new BN(transfersTimestamp))
-            : new BN(transfersTimestamp)
+
+        const hasBrokenTimestamp = (await lockupAccount.state()).code_hash === '3kVY9qcVRoW3B5498SMX6R3rtSLiCdmBzKs7zcnzDJ7Q' && lockupTimestamp !== null
+        const startTimestampBN = BN.max(
+            new BN(transfersTimestamp),
+            new BN(!hasBrokenTimestamp ? (lockupTimestamp || 0) : 0)
+        )
+
         const releaseDurationBN = new BN(releaseDuration || '0')
         const endTimestamp = startTimestampBN.add(releaseDurationBN)
         const timeLeft = BN.max(new BN(0), endTimestamp.sub(dateNowBN))
