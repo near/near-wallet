@@ -114,8 +114,15 @@ export function getLockupAccountId(accountId) {
     return sha256(Buffer.from(accountId)).substring(0, 40) + '.' + LOCKUP_ACCOUNT_ID_SUFFIX
 }
 
-async function getAccountBalance() {
+async function getAccountBalance(limitedAccountData = false) {
     const balance = await this.wrappedAccount.getAccountBalance()
+
+    if (limitedAccountData) {
+        return {
+            ...balance,
+            balanceAvailable: balance.available,
+        }
+    }
 
     let stakingDeposits = await fetch(ACCOUNT_HELPER_URL + '/staking-deposits/' + this.accountId).then((r) => r.json()) 
     let stakedBalanceMainAccount = new BN(0)
@@ -130,21 +137,38 @@ async function getAccountBalance() {
     let lockupAccountId = getLockupAccountId(this.accountId)
     console.log('lockupAccountId', lockupAccountId)
     try {
-        const lockupBalance = await new Account(this.connection, lockupAccountId).getAccountBalance();
+        const lockupAccount = new Account(this.connection, lockupAccountId)
+        const lockupBalance = await lockupAccount.getAccountBalance();
         const {
             lockupAmount,
             releaseDuration,
             transferInformation,
+            lockupTimestamp,
+            lockupDuration
         } = await viewLockupState(this.connection, lockupAccountId)
+
+        const dateNowBN = new BN(Date.now()).mul(new BN('1000000'))
 
         const { transfer_poll_account_id, transfers_timestamp } = transferInformation
         const transfersTimestamp = transfer_poll_account_id ? await this.viewFunction(transfer_poll_account_id, 'get_result') : transfers_timestamp
+
+        const hasBrokenTimestamp = (await lockupAccount.state()).code_hash === '3kVY9qcVRoW3B5498SMX6R3rtSLiCdmBzKs7zcnzDJ7Q' && lockupTimestamp !== null
+        const startTimestampBN = BN.max(
+            new BN(transfersTimestamp),
+            new BN(!hasBrokenTimestamp ? (lockupTimestamp || 0) : 0)
+        )
+
         const releaseDurationBN = new BN(releaseDuration || '0')
-        const endTimestamp = new BN(transfersTimestamp).add(releaseDurationBN)
-        const timeLeft = BN.max(new BN(0), endTimestamp.sub(new BN(Date.now()).mul(new BN('1000000'))))
-        const unreleasedAmount = releaseDurationBN.eq(new BN(0))
-            ? new BN(0)
-            : new BN(lockupAmount).mul(timeLeft).div(releaseDurationBN)
+        const endTimestamp = startTimestampBN.add(releaseDurationBN)
+        const timeLeft = BN.max(new BN(0), endTimestamp.sub(dateNowBN))
+
+        const lockupDurationBN = new BN(lockupDuration || '0')
+        const lockupCliff = dateNowBN.lt(startTimestampBN.add(lockupDurationBN))
+        const unreleasedAmount = lockupCliff
+            ? new BN(lockupAmount)
+            : releaseDurationBN.eq(new BN(0))
+                ? new BN(0)
+                : new BN(lockupAmount).mul(timeLeft).div(releaseDurationBN)
 
         let totalBalance = new BN(lockupBalance.total)
         let stakedBalanceLockup = new BN(0)

@@ -13,7 +13,7 @@ const Container = styled.div`
         margin-bottom: 30px;
 
         @media (max-width: 450px) {
-            margin: -35px -14px 30px -14px;
+            margin: -25px -14px 30px -14px;
             border-radius: 0;
         }
 

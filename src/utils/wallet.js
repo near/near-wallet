@@ -30,6 +30,7 @@ export const WALLET_CREATE_NEW_ACCOUNT_URL = 'create'
 export const WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS = ['create', 'set-recovery', 'setup-seed-phrase', 'recover-account', 'recover-seed-phrase', 'sign-in-ledger']
 export const WALLET_LOGIN_URL = 'login'
 export const WALLET_SIGN_URL = 'sign'
+export const WALLET_RECOVER_ACCOUNT_URL = 'recover-account'
 export const ACCOUNT_HELPER_URL = process.env.REACT_APP_ACCOUNT_HELPER_URL || 'https://near-contract-helper.onrender.com'
 export const EXPLORER_URL = process.env.EXPLORER_URL || 'https://explorer.testnet.near.org';
 export const IS_MAINNET = process.env.REACT_APP_IS_MAINNET === 'true' || process.env.REACT_APP_IS_MAINNET === 'yes'
@@ -100,9 +101,10 @@ class Wallet {
             async signMessage(message, accountId, networkId) {
                 if (await wallet.getLedgerKey(accountId)) {
                     wallet.dispatchShowLedgerModal(true)
+                    const path = await localStorage.getItem(`ledgerHdPath:${accountId}`)
                     const { createLedgerU2FClient } = await import('./ledger.js')
                     const client = await createLedgerU2FClient()
-                    const signature = await client.sign(message)
+                    const signature = await client.sign(message, path)
                     await store.dispatch(setLedgerTxSigned(true, accountId))
                     const publicKey = await this.getPublicKey(accountId, networkId)
                     return {
@@ -123,8 +125,6 @@ class Wallet {
             localStorage.getItem(KEY_WALLET_ACCOUNTS) || '{}'
         )
         this.accountId = localStorage.getItem(KEY_ACTIVE_ACCOUNT_ID) || ''
-
-        this.staking = new Staking(this)
     }
 
     async getLocalAccessKey(accountId, accessKeys) {
@@ -165,9 +165,9 @@ class Wallet {
         return !this.accounts || !Object.keys(this.accounts).length
     }
 
-    async refreshAccount() {
+    async refreshAccount(limitedAccountData = false) {
         try {
-            const account = await this.loadAccount()
+            const account = await this.loadAccount(limitedAccountData)
             setAccountConfirmed(this.accountId, true)
             return account
         } catch (error) {
@@ -207,9 +207,11 @@ class Wallet {
         }
     }
 
-    async loadAccount() {
+    async loadAccount(limitedAccountData = false) {
         if (!this.isEmpty()) {
-            const accessKeys = await this.getAccessKeys() || []
+            const accessKeys = limitedAccountData
+                ? []
+                : await this.getAccessKeys() || []
             const ledgerKey = accessKeys.find(key => key.meta.type === 'ledger')
             const account = await this.getAccount(this.accountId)
             const state = await account.state()
@@ -499,12 +501,13 @@ class Wallet {
         await account.addKey(keyPair.publicKey)
         await this.keyStore.setKey(NETWORK_ID, this.accountId, keyPair)
 
-        const publicKey = await this.getLedgerPublicKey()
+        const path = await localStorage.getItem(`ledgerHdPath:${this.accountId}`)
+        const publicKey = await this.getLedgerPublicKey(path)
         await this.removeAccessKey(publicKey)
         await this.getAccessKeys(this.accountId)
 
         await this.deleteRecoveryMethod({ kind: 'ledger', publicKey: publicKey.toString() })
-
+        await localStorage.removeItem(`ledgerHdPath:${this.accountId}`)
     }
 
     async addWalletMetadataAccessKeyIfNeeded(accountId, localAccessKey) {
@@ -527,8 +530,9 @@ class Wallet {
         return null
     }
 
-    async getLedgerAccountIds() {
-        const publicKey = await this.getLedgerPublicKey()
+    async getLedgerAccountIds(path) {
+        const publicKey = await this.getLedgerPublicKey(path)
+
         await store.dispatch(setLedgerTxSigned(true))
         // TODO: getXXX methods shouldn't be modifying the state
         await setKeyMeta(publicKey, { type: 'ledger' })
@@ -600,11 +604,11 @@ class Wallet {
         }
     }
 
-    async getLedgerPublicKey() {
+    async getLedgerPublicKey(path) {
         const { createLedgerU2FClient } = await import('./ledger.js')
         const client = await createLedgerU2FClient()
         this.dispatchShowLedgerModal(true)
-        const rawPublicKey = await client.getPublicKey()
+        const rawPublicKey = await client.getPublicKey(path)
         return new PublicKey({ keyType: KeyType.ED25519, data: rawPublicKey })
     }
 
@@ -617,6 +621,10 @@ class Wallet {
         return availableKeys
     }
 
+    async getAccountBasic(accountId) {
+        return new nearApiJs.Account(this.connection, accountId)
+    }
+
     async getAccount(accountId) {
         let account = new nearApiJs.Account(this.connection, accountId)
         if (await TwoFactor.has2faEnabled(account)) {
@@ -626,10 +634,10 @@ class Wallet {
         return decorateWithLockup(account);
     }
 
-    async getBalance(accountId) {
+    async getBalance(accountId, limitedAccountData = false) {
         accountId = accountId || this.accountId
         const account = await this.getAccount(accountId)
-        return await account.getAccountBalance()
+        return await account.getAccountBalance(limitedAccountData)
     }
 
     async signatureFor(account) {
@@ -680,7 +688,7 @@ class Wallet {
                 await this.postSignedJson('/account/validateSecurityCode', body);
             }
         } catch(e) {
-            throw new WalletError('Invalid code', 'setupRecoveryMessage.error')
+            throw new WalletError('Invalid code', 'setupRecoveryMessageNewAccount.invalidCode')
         }
     }
 
@@ -903,11 +911,11 @@ class Wallet {
             let status, transaction
             if (account.deployMultisig) {
                 const result = await account.signAndSendTransaction(receiverId, actions)
-                ({ status, transaction } = result)
+                ;({ status, transaction } = result)
             } else {
                 // TODO: Maybe also only take receiverId and actions as with multisig path?
-                const [, signedTransaction] = await nearApiJs.transactions.signTransaction(receiverId, nonce, actions, blockHash, this.connection.signer, accountId, NETWORK_ID);
-                ({ status, transaction } = await this.connection.provider.sendTransaction(signedTransaction))
+                const [, signedTransaction] = await nearApiJs.transactions.signTransaction(receiverId, nonce, actions, blockHash, this.connection.signer, accountId, NETWORK_ID)
+                ;({ status, transaction } = await this.connection.provider.sendTransaction(signedTransaction))
             }
 
             // TODO: Shouldn't throw more specific errors on failure?

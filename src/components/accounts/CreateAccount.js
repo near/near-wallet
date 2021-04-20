@@ -12,6 +12,7 @@ import FormButton from '../common/FormButton'
 import AccountFormAccountId from './AccountFormAccountId'
 import AccountNote from '../common/AccountNote'
 import { Mixpanel } from '../../mixpanel/index'
+import TermsModal from './TermsModal'
 
 const StyledContainer = styled(Container)`
 
@@ -76,7 +77,10 @@ class CreateAccount extends Component {
         loader: false,
         accountId: '',
         token: '',
-        invalidNearDrop: null
+        invalidNearDrop: null,
+        showTerms: false,
+        termsChecked: false,
+        privacyChecked: false
     }
 
     componentDidMount() {
@@ -126,14 +130,14 @@ class CreateAccount extends Component {
     }
 
     render() {
-        const { loader, accountId, invalidNearDrop } = this.state
+        const { loader, accountId, invalidNearDrop, showTerms, termsChecked, privacyChecked } = this.state
         const { localAlert, mainLoader, checkNewAccount, resetAccount, clearLocalAlert } = this.props
         const useLocalAlert = accountId.length > 0 ? localAlert : undefined;
         
         if (!invalidNearDrop) {
             return (
                 <StyledContainer className='small-centered'>
-                    <form onSubmit={e => {this.handleCreateAccount(); e.preventDefault();}} autoComplete='off'>
+                    <form onSubmit={e => {this.setState({ showTerms: true }); e.preventDefault();}} autoComplete='off'>
                         <h1><Translate id='createAccount.pageTitle'/></h1>
                         <h2><Translate id='createAccount.pageText'/></h2>
                         <h4 className='small'><Translate id='createAccount.accountIdInput.title'/></h4>
@@ -161,6 +165,18 @@ class CreateAccount extends Component {
                             <Link to={process.env.DISABLE_PHONE_RECOVERY === 'yes' ? '/recover-seed-phrase' : '/recover-account'}><Translate id='createAccount.recoverItHere' /></Link>
                         </div>
                     </form>
+                    {showTerms &&
+                        <TermsModal
+                            onClose={() => this.setState({ showTerms: false })}
+                            open={showTerms}
+                            termsChecked={termsChecked}
+                            privacyChecked={privacyChecked}
+                            handleTermsChange={e => this.setState({ termsChecked: e.target.checked })}
+                            handlePrivacyChange={e => this.setState({ privacyChecked: e.target.checked })}
+                            handleFinishSetup={this.handleCreateAccount}
+                            loading={mainLoader}
+                        />
+                    }
                 </StyledContainer>
             )
         } else {

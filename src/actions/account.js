@@ -6,29 +6,43 @@ import { TwoFactor } from '../utils/twoFactor'
 import { push } from 'connected-react-router'
 import { loadState, saveState, clearState } from '../utils/sessionStorage'
 import {
-    WALLET_CREATE_NEW_ACCOUNT_URL, WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS, WALLET_LOGIN_URL, WALLET_SIGN_URL,
-    setKeyMeta, MULTISIG_MIN_PROMPT_AMOUNT
+    WALLET_CREATE_NEW_ACCOUNT_URL,
+    WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS,
+    WALLET_LOGIN_URL,
+    WALLET_SIGN_URL,
+    WALLET_RECOVER_ACCOUNT_URL, 
+    setKeyMeta,
+    MULTISIG_MIN_PROMPT_AMOUNT
 } from '../utils/wallet'
 import { PublicKey, KeyType } from 'near-api-js/lib/utils/key_pair'
 import { WalletError } from '../utils/walletError'
 import { utils } from 'near-api-js'
 import { BN } from 'bn.js'
 import { showAlert, dispatchWithAlert } from '../utils/alerts'
+import { handleFlowLimitation, handleClearflowLimitation } from './flowLimitation'
+import {
+    handleStakingUpdateAccount,
+    handleStakingUpdateLockup,
+    handleGetLockup,
+    staking
+} from './staking'
 
 export const loadRecoveryMethods = createAction('LOAD_RECOVERY_METHODS',
     wallet.getRecoveryMethods.bind(wallet),
     () => ({})
 )
 
-export const getProfileStakingDetails = (accountId) => (dispatch, getState) => {
-    dispatch(updateStakingAccount(accountId))
+export const getProfileStakingDetails = (accountId) => async (dispatch, getState) => {
+    await dispatch(handleGetLockup(accountId))
+
+    await dispatch(handleStakingUpdateAccount([], accountId))
 
     const lockupIdExists = accountId
         ? !!getState().allAccounts[accountId].balance.lockedAmount
         : !!getState().account.balance.lockedAmount
 
     lockupIdExists
-        && dispatch(updateStakingLockup(accountId))
+        && dispatch(handleStakingUpdateLockup(accountId))
 }
 
 export const handleRedirectUrl = (previousLocation) => (dispatch, getState) => {
@@ -37,8 +51,9 @@ export const handleRedirectUrl = (previousLocation) => (dispatch, getState) => {
     const page = pathname.split('/')[1]
     const guestLandingPage = !page && !wallet.accountId
     const createAccountPage = page === WALLET_CREATE_NEW_ACCOUNT_URL
+    const recoverAccountPage = page === WALLET_RECOVER_ACCOUNT_URL
 
-    if ((guestLandingPage || createAccountPage) && isValidRedirectUrl) {
+    if ((guestLandingPage || createAccountPage || recoverAccountPage) && isValidRedirectUrl) {
         let url = {
             ...getState().account.url,
             redirect_url: previousLocation.pathname
@@ -47,7 +62,6 @@ export const handleRedirectUrl = (previousLocation) => (dispatch, getState) => {
         dispatch(refreshUrl(url))
     }
 }
-
 
 export const handleClearUrl = () => (dispatch, getState) => {
     const { pathname } = getState().router.location
@@ -58,29 +72,32 @@ export const handleClearUrl = () => (dispatch, getState) => {
     if (!guestLandingPage && !saveUrlPages) {
         clearState()
         dispatch(refreshUrl({}))
+        dispatch(handleClearflowLimitation())
     }
 }
 
 export const parseTransactionsToSign = createAction('PARSE_TRANSACTIONS_TO_SIGN')
 
-export const handleRefreshUrl = () => (dispatch, getState) => {
-    const { pathname, search } = getState().router.location
+export const handleRefreshUrl = (prevRouter) => (dispatch, getState) => {
+    const { pathname, search } = prevRouter?.location || getState().router.location
     const currentPage = pathname.split('/')[pathname[1] === '/' ? 2 : 1]
-
     if ([...WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS, WALLET_LOGIN_URL, WALLET_SIGN_URL].includes(currentPage)) {
         const parsedUrl = {
             referrer: document.referrer && new URL(document.referrer).hostname,
-            ...parse(search)
+            ...parse(search),
+            redirect_url: prevRouter ? prevRouter.location.pathname : undefined
         }
-
-        if ([WALLET_LOGIN_URL, WALLET_SIGN_URL].includes(currentPage) && search !== '') {
+        if ([WALLET_CREATE_NEW_ACCOUNT_URL].includes(currentPage) && search !== '') {
+            saveState(parsedUrl)
+            dispatch(refreshUrl(parsedUrl))
+        } else if ([WALLET_LOGIN_URL, WALLET_SIGN_URL].includes(currentPage) && search !== '') {
             saveState(parsedUrl)
             dispatch(refreshUrl(parsedUrl))
             dispatch(checkContractId())
         } else {
             dispatch(refreshUrl(loadState()))
         }
-
+        dispatch(handleFlowLimitation())
         const { transactions, callbackUrl, meta } = getState().account.url
         if (transactions) {
             dispatch(parseTransactionsToSign({ transactions, callbackUrl, meta }))
@@ -160,16 +177,19 @@ export const allowLogin = () => async (dispatch, getState) => {
     }
 }
 
-export const signInWithLedger = () => async (dispatch, getState) => {
-    await dispatch(getLedgerAccountIds())
-
+export const signInWithLedger = (path) => async (dispatch, getState) => {
+    await dispatch(getLedgerAccountIds(path))
     const accountIds = Object.keys(getState().ledger.signInWithLedger)
-    return await dispatch(signInWithLedgerAddAndSaveAccounts(accountIds))
+    await dispatch(signInWithLedgerAddAndSaveAccounts(accountIds, path))
+    return;
 }
 
-export const signInWithLedgerAddAndSaveAccounts = (accountIds) => async (dispatch, getState) => {
+export const signInWithLedgerAddAndSaveAccounts = (accountIds, path) => async (dispatch, getState) => {
     for (let accountId of accountIds) {
         try {
+            if (path) {
+                await localStorage.setItem(`ledgerHdPath:${accountId}`, path)
+            }
             await dispatch(addLedgerAccountId(accountId))
             await dispatch(setLedgerTxSigned(false, accountId))
         } catch (e) {
@@ -286,7 +306,7 @@ export const {
     ],
     SETUP_RECOVERY_MESSAGE_NEW_ACCOUNT: [
         wallet.setupRecoveryMessageNewAccount.bind(wallet),
-        () => ({})
+        () => showAlert({ onlyError: true })
     ],
     DELETE_RECOVERY_METHOD: [
         wallet.deleteRecoveryMethod.bind(wallet),
@@ -406,18 +426,23 @@ export const handleCreateAccountWithSeedPhrase = (accountId, recoveryKeyPair, fu
 export const finishAccountSetup = () => async (dispatch, getState) => {
     await dispatch(refreshAccount())
     await dispatch(getBalance())
-    const account = getState().account
+    await dispatch(staking.clearState())
+    const { balance, url, accountId } = getState().account
     
-    let promptTwoFactor = await TwoFactor.checkCanEnableTwoFactor(account.balance)
+    let promptTwoFactor = await TwoFactor.checkCanEnableTwoFactor(balance)
 
-    if (new BN(account.balance.available).lt(new BN(utils.format.parseNearAmount(MULTISIG_MIN_PROMPT_AMOUNT)))) {
+    if (new BN(balance.available).lt(new BN(utils.format.parseNearAmount(MULTISIG_MIN_PROMPT_AMOUNT)))) {
         promptTwoFactor = false
     }
 
     if (promptTwoFactor) {
         dispatch(redirectTo('/enable-two-factor', { globalAlertPreventClear: true }))
     } else {
-        dispatch(redirectToApp('/profile'))
+        if (url?.redirectUrl) {
+            window.location = `${url.redirectUrl}?accountId=${accountId}`
+        } else {
+            dispatch(redirectToApp('/profile'))
+        }
     }
 }
 
@@ -493,20 +518,22 @@ export const { signAndSendTransactions, setSignTransactionStatus, sendMoney, tra
 })
 
 export const refreshAccount = (basicData = false) => async (dispatch, getState) => {
-    await dispatch(refreshAccountOwner())
+    const { flowLimitation } = getState()
+    await dispatch(refreshAccountOwner(flowLimitation.accountData))
 
-    if (!basicData) {
-        dispatch(getBalance())
+    if (!basicData && !flowLimitation.accountBalance) {
+        dispatch(getBalance('', flowLimitation.accountData))
     }
 }
 
 export const switchAccount = (accountId) => async (dispatch, getState) => {
     dispatch(selectAccount(accountId))
     dispatch(handleRefreshUrl())
+    dispatch(staking.clearState())
     dispatch(refreshAccount())
 }
 
-export const { selectAccount, refreshAccountOwner, refreshAccountExternal, refreshUrl, updateStakingAccount, updateStakingLockup, getBalance } = createActions({
+export const { selectAccount, refreshAccountOwner, refreshAccountExternal, refreshUrl, getBalance } = createActions({
     SELECT_ACCOUNT: wallet.selectAccount.bind(wallet),
     REFRESH_ACCOUNT_OWNER: [
         wallet.refreshAccount.bind(wallet),
@@ -525,19 +552,5 @@ export const { selectAccount, refreshAccountOwner, refreshAccountExternal, refre
          })
     ],
     REFRESH_URL: null,
-    UPDATE_STAKING_ACCOUNT: [
-        async (accountId) => await wallet.staking.updateStakingAccount([], [] , accountId),
-        (accountId) => ({
-            accountId,
-            ...showAlert({ onlyError: true })
-        })
-    ],
-    UPDATE_STAKING_LOCKUP: [
-        async (accountId) => await wallet.staking.updateStakingLockup(accountId),
-        (accountId) => ({
-            accountId,
-            ...showAlert({ onlyError: true })
-        })
-    ],
     GET_BALANCE: wallet.getBalance.bind(wallet)
 })

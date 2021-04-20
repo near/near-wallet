@@ -12,9 +12,9 @@ import { Mixpanel } from '../../../mixpanel/index'
 const Container = styled.div`
     display: flex;
     align-items: center;
-    border: 2px solid #F2F2F2;
+    background-color: #FAFAFA;
     border-radius: 8px;
-    padding: 12px;
+    padding: 14px;
     position: relative;
     cursor: ${props => props.clickable === 'true' ? 'pointer' : ''};
 
@@ -24,6 +24,10 @@ const Container = styled.div`
         &.user-icon {
             margin: -2px 10px 0 0;
             min-width: 36px;
+
+            .background {
+                fill: #F0F0F1;
+            }
         }
 
         &.chevron-icon {
@@ -41,7 +45,7 @@ const Container = styled.div`
     .left {
         div {
             text-align: left;
-            
+            color: #A7A29E;
             &:first-of-type {
                 color: #24272a;
                 max-width: 165px;
@@ -72,10 +76,6 @@ const Container = styled.div`
             &:last-of-type {
                 color: #24272a;
                 white-space: nowrap;
-
-                span {
-                    color: #999;
-                }
             }
         }
     }
@@ -125,22 +125,28 @@ export default function ValidatorBox({
     staking = true,
     clickable = true,
     style,
-    label = false
+    label = false,
+    stakeAction
 }) {
     const dispatch = useDispatch()
     const { accountId: validatorId, active } = validator
 
     const fee = validator.fee && validator.fee.percentage
     const cta = amount ? <ChevronIcon/> : <FormButton className='gray-blue' linkTo={`/staking/${validatorId}`}><Translate id='staking.validatorBox.cta' /></FormButton>
+
+    const handleClick = () => {
+        Mixpanel.track("STAKE Go to staked account page")
+        if (clickable && amount) {
+            dispatch(redirectTo(`/staking/${validatorId}${stakeAction ? `/${stakeAction}` : ``}`))
+        }
+    }
+
     return (
         <Container 
             className='validator-box' 
             clickable={clickable && amount ? 'true' : ''} 
             style={style} 
-            onClick={() => { 
-                clickable && amount && dispatch(redirectTo(`/staking/${validatorId}`))
-                Mixpanel.track("STAKE Go to staked account page")
-            }}
+            onClick={handleClick}
         >
             {label && <div className='with'><Translate id='staking.validatorBox.with' /></div>}
             <UserIcon background={true}/>

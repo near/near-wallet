@@ -40,6 +40,15 @@ const CustomButton = styled(Button)`
             font-size: 14px;
         }
 
+        &.black {
+            background-color: black;
+            transition: 100ms;
+
+            :hover {
+                background-color: #1f1f1f;
+            }
+        }
+
         &.light-blue {
             background-color: #F0F9FF !important;
             border: 0;
@@ -88,6 +97,7 @@ const CustomButton = styled(Button)`
                 background: #e6e6e6;
                 border-color: #e6e6e6;
                 opacity: 1 !important;
+                color: #A2A2A8;
             }
         }
         &.seafoam-blue {
@@ -269,41 +279,34 @@ const CustomButton = styled(Button)`
             }
         }
         &.link {
-            width: auto;
+            width: auto !important;
             height: auto;
             padding: 0;
             margin: 0;
-
             border-radius: 0px;
-
             background: none;
             border: none;
             display: inline;
-
-            text-decoration: underline;
             color: #0072ce;
 
             :hover,
             :focus {
-                text-decoration: none;
                 color: #0072ce;
                 background-color: transparent;
+                text-decoration: underline;
             }
 
             &.gray {
-                text-decoration: none;
                 color: #999;
 
                 :hover,
                 :focus {
-                    text-decoration: underline;
                     color: #999;
                 }
             }
 
             &.red {
                 color: #ff585d;
-                text-decoration: none;
 
                 :disabled {
                     opacity: 0.8;

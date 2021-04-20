@@ -1,13 +1,19 @@
 import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { updateStaking, switchAccount, stake, unstake, withdraw } from '../../actions/staking'
-import { clearGlobalAlert }from '../../actions/status'
-import styled from 'styled-components'
-import Container from '../common/styled/Container.css'
 import { Switch, Route } from 'react-router-dom'
 import { ConnectedRouter } from 'connected-react-router'
+import styled from 'styled-components'
+
+import {
+    updateStaking,
+    staking as stakingActions,
+    handleStakingAction
+} from '../../actions/staking'
+import Container from '../common/styled/Container.css'
 import Staking from './components/Staking'
 import Validators from './components/Validators'
+import Unstake from './components/Unstake'
+import Withdraw from './components/Withdraw'
 import Validator from './components/Validator'
 import StakingAction from './components/StakingAction'
 import { setStakingAccountSelected, getStakingAccountSelected } from '../../utils/localStorage'
@@ -17,7 +23,7 @@ import { Mixpanel } from '../../mixpanel/index'
 const StyledContainer = styled(Container)`
     button {
         display: block !important;
-        margin: 35px auto 45px auto !important;
+        margin: 35px auto 40px auto !important;
         width: 100% !important;
 
         &.seafoam-blue {
@@ -49,17 +55,17 @@ const StyledContainer = styled(Container)`
 
     h3 {
         border-bottom: 2px solid #F2F2F2;
-        margin-top: 35px;
+        margin-top: 50px;
         padding-bottom: 15px;
 
         @media (max-width: 767px) {
-            margin: 35px -14px 0px -14px;
+            margin: 50px -14px 0px -14px;
             padding: 0 14px 15px 14px;
         }
     }
 
     h4 {
-        margin: 30px 0 15px 0;
+        margin: 30px 0 10px 0;
     }
 
     .transfer-money-icon {
@@ -79,9 +85,9 @@ const StyledContainer = styled(Container)`
     }
 
     .alert-banner {
-        margin: -35px -15px 50px -15px;
+        margin: -25px -14px 50px -14px;
         border-radius: 0;
-        @media (min-width: 495px) {
+        @media (min-width: 451px) {
             margin: 0 0 50px 0;
             border-radius: 4px;
         }
@@ -92,7 +98,7 @@ const StyledContainer = styled(Container)`
         display: flex;
         align-items: center;
         justify-content: space-between;
-        margin: 30px 0 15px 0;
+        margin: 30px 0 10px 0;
 
         h4 {
             margin: 0;
@@ -119,7 +125,7 @@ const StyledContainer = styled(Container)`
     }
 
     .radio-label {
-        cursor: ${props => props.numAccounts > 1 ? 'pointer' : 'default'};
+        cursor: ${props => props.numAccounts ? 'pointer' : 'default'};
         .input-wrapper {
             display: ${props => props.numAccounts > 1 ? 'block' : 'none'};
         }
@@ -149,7 +155,7 @@ const StyledContainer = styled(Container)`
 
 export function StakingContainer({ history, match }) {
     const dispatch = useDispatch()
-    const { accountId, has2fa } = useSelector(({ account }) => account);
+    const { accountId, has2fa, balance } = useSelector(({ account }) => account);
     const status = useSelector(({ status }) => status);
     const { hasLedger } = useSelector(({ ledger }) => ledger)
     
@@ -166,48 +172,30 @@ export function StakingContainer({ history, match }) {
         validator = validators.filter(validator => validator.accountId === validatorId)[0]
     }
     const { totalUnstaked, selectedValidator } = currentAccount
+    const loadingBalance = !stakingAccounts.every((account) => !!account.totalUnstaked)
+    const stakeFromAccount = currentAccount.accountId === accountId
 
     useEffect(() => {
-        dispatch(updateStaking(getStakingAccountSelected()))
         dispatch(getBalance())
-    }, [accountId])
-
-    const handleSwitchAccount = async (accountId) => {
-        setStakingAccountSelected(accountId)
-        await dispatch(switchAccount(accountId, stakingAccounts))
-    }
-    
-    const handleStakingAction = async (action, validator, amount) => {
-        let id = Mixpanel.get_distinct_id()
-        Mixpanel.identify(id)
-        if (action === 'stake') {
-            await Mixpanel.withTracking("STAKE",
-                async () => {
-                    await dispatch(stake(currentAccount.accountId, validator, amount))
-                    Mixpanel.people.set({last_stake_time: new Date().toString()})
-                }
-            )
-        } else if (action === 'unstake') {
-            await Mixpanel.withTracking("UNSTAKE",
-                async () => {
-                    await dispatch(unstake(currentAccount.accountId, selectedValidator || validator, amount))
-                    Mixpanel.people.set({last_unstake_time: new Date().toString()})
-                }
-            )
+        if (!!balance.available) {
+            dispatch(updateStaking(getStakingAccountSelected()))
         }
-        await dispatch(updateStaking(currentAccount.accountId, [validator]))
+    }, [accountId, !!balance.available])
+
+    const handleSwitchAccount = (accountId) => {
+        setStakingAccountSelected(accountId)
+        dispatch(stakingActions.updateCurrent(accountId))
     }
 
-    const handleWithDraw = async () => {
+    const handleAction = async (action, validator, amount) => {
         let id = Mixpanel.get_distinct_id()
         Mixpanel.identify(id)
-        await Mixpanel.withTracking("WITHDRAW",
-                async () => {
-                    await dispatch(withdraw(currentAccount.accountId, selectedValidator || validator.accountId))
-                    Mixpanel.people.set({last_withdraw_time: new Date().toString()})
-                }
-            )
-        await dispatch(updateStaking(currentAccount.accountId))
+        await Mixpanel.withTracking(action.toUpperCase(),
+            async () => {
+                await dispatch(handleStakingAction(action, selectedValidator || validator, amount))
+                Mixpanel.people.set({[`last_${action}_time`]: new Date().toString()})
+            }
+        )
     }
 
     return (
@@ -226,7 +214,10 @@ export function StakingContainer({ history, match }) {
                                 activeAccount={currentAccount}
                                 accountId={accountId}
                                 loading={status.mainLoader && !stakingAccounts.length}
+                                loadingDetails={(status.mainLoader && !stakingAccounts.length) || loadingBalance}
                                 hasLockup={hasLockup}
+                                stakeFromAccount={stakeFromAccount}
+                                selectedValidator={selectedValidator}
                             />
                         )}
                     />
@@ -237,7 +228,27 @@ export function StakingContainer({ history, match }) {
                             <Validators
                                 {...props}
                                 validators={validators}
-                                stakeFromAccount={currentAccount.accountId === accountId}
+                                stakeFromAccount={stakeFromAccount}
+                            />
+                        )}
+                    />
+                    <Route
+                        exact
+                        path='/staking/unstake'
+                        render={(props) => (
+                            <Unstake
+                                {...props}
+                                currentValidators={currentValidators}
+                            />
+                        )}
+                    />
+                    <Route
+                        exact
+                        path='/staking/withdraw'
+                        render={(props) => (
+                            <Withdraw
+                                {...props}
+                                currentValidators={currentValidators}
                             />
                         )}
                     />
@@ -248,7 +259,7 @@ export function StakingContainer({ history, match }) {
                             <Validator 
                                 {...props} 
                                 validator={validator}
-                                onWithdraw={handleWithDraw}
+                                onWithdraw={handleAction}
                                 loading={status.mainLoader}
                                 selectedValidator={selectedValidator}
                                 currentValidators={currentValidators}
@@ -262,13 +273,13 @@ export function StakingContainer({ history, match }) {
                             <StakingAction
                                 {...props}
                                 action='stake'
-                                handleStakingAction={handleStakingAction}
+                                handleStakingAction={handleAction}
                                 availableBalance={totalUnstaked} 
                                 validator={validator}
                                 loading={status.mainLoader}
                                 hasLedger={hasLedger}
                                 has2fa={has2fa}
-                                stakeFromAccount={currentAccount.accountId === accountId}
+                                stakeFromAccount={stakeFromAccount}
                             />
                         )}
                     />
@@ -279,7 +290,7 @@ export function StakingContainer({ history, match }) {
                             <StakingAction
                                 {...props}
                                 action='unstake'
-                                handleStakingAction={handleStakingAction}
+                                handleStakingAction={handleAction}
                                 availableBalance={totalUnstaked}
                                 validator={validator}
                                 loading={status.mainLoader}

@@ -18,6 +18,10 @@ import {
     selectAccount
 } from '../../actions/account'
 
+import { 
+    staking
+} from '../../actions/staking'
+
 const initialState = {
     formLoader: false,
     sentMessage: false,
@@ -117,7 +121,7 @@ const account = handleActions({
         ...state,
         loginResetAccounts: true
     }),
-    [updateStakingAccount]: (state, { error, payload, ready }) => 
+    [staking.updateAccount]: (state, { ready, error, payload }) => 
         (!ready || error)
             ? state
             : ({
@@ -127,7 +131,7 @@ const account = handleActions({
                     account: payload
                 }
             }),
-    [updateStakingLockup]: (state, { error, payload, ready }) => 
+    [staking.updateLockup]: (state, { ready, error, payload }) => 
         (!ready || error)
             ? state
             : ({

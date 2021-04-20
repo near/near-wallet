@@ -129,6 +129,9 @@
         },
         "lockup": {
             "transferAllWithStakingPoolBalance": "Unstake and withdraw all funds from the staking pool in order to transfer your remaining lockup balance to Wallet."
+        },
+        "setupRecoveryMessageNewAccount": {
+            "invalidCode": "Invalid code"
         }
     },
     "account": {
@@ -169,7 +172,8 @@
                 },
                 "alertBanner": {
                     "title": "Do not close this window!"
-                }
+                },
+                "fundWith": "Fund with"
             },
             "post": {
                 "modal": {
@@ -498,7 +502,9 @@
         "deAuthorizing": "Deauthorizing",
         "finish": "Finish",
         "transferring": "Transferring",
-        "viewOnExplorer": "View on Explorer"
+        "viewOnExplorer": "View on Explorer",
+        "buy": "Buy",
+        "learnMore": "Learn More"
     },
 
     "link": {
@@ -579,6 +585,16 @@
             "title": "Link Invalid",
             "one": "This NEAR Drop has been claimed.",
             "two": "NEAR Drops can only be used to create a single account, after which the link will expire."
+        },
+        "terms": {
+            "title": "Terms & Conditions",
+            "desc": "By proceeding with creating a NEAR account, you agree to the NEAR Wallet Terms of Service and Privacy Policy. We urge you to read them carefully:",
+            "termsLink": "Terms & Conditions",
+            "privacyLink": "Privacy Policy",
+            "termsCheck": "I agree to the Terms of Service",
+            "privacyCheck": "I agree to the Privacy Policy",
+            "agreeBtn": "Agree & Continue",
+            "declineBtn": "Decline"
         }
     },
 
@@ -617,7 +633,6 @@
         "pageText": "We've sent a 6-digit verification code to the ",
         "inputHeader": "Enter verification code",
         "inputPlaceholder": "Verification Code",
-        "invalidCode": "Invalid code",
         "didNotRecive": "Didn't receive your code?",
         "resendCode": "Resend your code",
         "or": "or",
@@ -664,10 +679,22 @@
     },
 
     "wallet": {
-        "balanceTitle": "Portfolio Balance",
+        "balanceTitle": "NEAR Balance",
         "tokens": "Tokens",
+        "balance": "Balance",
         "dateAndTime": "Date & Time",
         "status": "Status"
+    },
+
+    "buyNear": {
+        "title": "Purchase NEAR",
+        "moonPay": "MoonPay",
+        "descOne": "Purchase NEAR through MoonPay using your preferred payment method.",
+        "buyWith": "Buy with",
+        "supportedExchanges": "Supported Exchanges",
+        "descTwo": "NEAR is available to purchase through the following exchanges.",
+        "seeMore": "See more on",
+        "coinMarketCap": "CoinMarketCap"
     },
     
     "exploreApps": {
@@ -772,7 +799,7 @@
             "noValidators": "You haven't staked with a validator yet.",
             "selectAccount": "Staking from",
             "available": "Available",
-            "totalStaked": "Total staked"
+            "totalStaked": "Staked"
         },
         "balanceBox": {
             "staked": {
@@ -857,7 +884,9 @@
             "title": "Select a Validator",
             "desc": {
                 "account": "Enter a known validator or select a validator from the list to stake your NEAR tokens.",
-                "lockup": "Enter a known validator or select a validator from the list to stake your NEAR tokens. You may only stake with a single validator at any given time."
+                "lockup": "Enter a known validator or select a validator from the list to stake your NEAR tokens. You may only stake with a single validator at any given time.",
+                "unstake": "Select the validator pool from which you wish to unstake your tokens.",
+                "withdraw": "Select the validator pool from which you wish to withdraw your tokens."
             },
             "inputLabel": "Validator account ID",
             "inputPlaceholder": "validator-name.near",
@@ -1074,10 +1103,8 @@
     "setupLedgerSteps": {
         "header": "Install NEAR on your Ledger device",
         "one": "Open <a href='https://www.ledger.com/ledger-live' target='_blank'>Ledger Live,</a> install any firmware updates available.",
-        "two": "Navigate to your <span class='color-black'>Settings</span>.",
-        "three": "Under <span class='color-black'>Experimental Features</span>, make sure that <span class='color-black'>Developer Mode</span> is switched <span class='color-black'>on</span>.",
-        "four": "Return to the <span class='color-black'>Manager</span> tab and search for <span class='color-black'>NEAR</span>.",
-        "five": "Follow the instructions to install the <span class='color-black'>NEAR application</span> on your device."
+        "two": "Click on the <span class='color-black'>Manager</span> tab, then search for <span class='color-black'>NEAR</span>.",
+        "three": "Follow the instructions to install the <span class='color-black'>NEAR application</span> on your device."
     },
 
     "setupLedgerSuccess": {
@@ -1116,6 +1143,12 @@
                 "waiting": "Up next",
                 "confirm": "Confirm"
             }
+        },
+        "advanced": {
+            "title": "Advanced Options",
+            "subTitle": "HD Path",
+            "desc": "Specify an HD path to import its linked accounts.",
+            "setPath": "Set HD Path"
         }
     },
 

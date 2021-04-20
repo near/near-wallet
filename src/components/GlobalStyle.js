@@ -58,6 +58,7 @@ export default createGlobalStyle`
 
     body, p, h1, h2, h3, h4, h5, h6, button, .button, input, select, textarea {
         font-family: "Inter", Lato, "Lucida Grande", Tahoma, Sans-Serif !important;
+        font-variant: slashed-zero;
     }
 
     .font-monospace {
@@ -448,11 +449,6 @@ export default createGlobalStyle`
             font-weight: 600;
             margin: 0px;
         }
-        h3, .h3 {
-            font-size: 16px !important;
-            font-weight: 500;
-            margin: 0px;
-        }
         .box .column {
             padding: 16px 18px !important;
         }
@@ -492,7 +488,7 @@ export default createGlobalStyle`
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin: 30px 0 15px 0;
+            margin: 30px 0 10px 0;
 
             h4 {
                 margin: 0;

@@ -25,25 +25,6 @@ import Tooltip from '../common/Tooltip'
 
 const StyledContainer = styled(Container)`
 
-    @media (min-width: 992px) {
-        .split {
-            display: flex;
-        }
-
-        .left {
-            flex: 1.5;
-            margin-right: 50px;
-
-            .authorized-app-box {
-                margin: 0 -14px;
-            }
-        }
-
-        .right {
-            flex: 1;
-        }
-    }
-
     @media (max-width: 991px) {
         .right {
             margin-top: 50px;
@@ -81,12 +62,9 @@ const StyledContainer = styled(Container)`
 
     .left {
         @media (min-width: 992px) {
-            h2 {
-                margin-left: -20px;
-            }
 
             > hr {
-                margin: 50px -14px 30px -14px;
+                margin: 50px 0px 30px 0px;
             }
         }
 
@@ -132,10 +110,6 @@ const StyledContainer = styled(Container)`
         justify-content: space-between;
         margin-bottom: 35px;
 
-        @media (min-width: 992px) {
-            margin-right: -14px;
-        }
-
         button {
             &.link {
                 text-decoration: none !important;
@@ -151,7 +125,7 @@ const StyledContainer = styled(Container)`
 
 export function Profile({ match }) {
     const [transferring, setTransferring] = useState(false)
-    const { has2fa, authorizedApps } = useSelector(({ account }) => account)
+    const { has2fa, authorizedApps, ledgerKey } = useSelector(({ account }) => account)
     const loginAccountId = useSelector(state => state.account.accountId)
     const recoveryMethods = useSelector(({ recoveryMethods }) => recoveryMethods);
     const accountIdFromUrl = match.params.accountId
@@ -171,7 +145,9 @@ export function Profile({ match }) {
         (async () => {
             if (isOwner) {
                 await dispatch(loadRecoveryMethods())
-                dispatch(getLedgerKey())
+                if (!ledgerKey) {
+                    dispatch(getLedgerKey())
+                }
                 const balance = await dispatch(getBalance())
                 dispatch(checkCanEnableTwoFactor(balance))
                 dispatch(getProfileStakingDetails())

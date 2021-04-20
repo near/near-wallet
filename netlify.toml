@@ -20,6 +20,7 @@
     SENTRY_ORG = "near-protocol"
     SENTRY_PROJECT = "mainnet-staging-wallet"
     MOONPAY_API_KEY = "pk_live_jYDdkGL7bJsrwalHZs1lVIhdOHOtK8BR"
+    TOKEN_CONTRACTS = 'berryclub.ek.near,wrap.near,6b175474e89094c44da98b954eedeac495271d0f.factory.bridge.near'
 
 
 [context.production.environment]

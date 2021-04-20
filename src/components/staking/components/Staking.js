@@ -8,6 +8,7 @@ import NoValidators from './NoValidators'
 import SelectAccount from './SelectAccount'
 import SkeletonLoading from '../../common/SkeletonLoading'
 import Tooltip from '../../common/Tooltip'
+import BN from 'bn.js'
 
 export default function Staking({
     currentValidators,
@@ -20,6 +21,9 @@ export default function Staking({
     activeAccount,
     loading,
     hasLockup,
+    loadingDetails,
+    stakeFromAccount,
+    selectedValidator
 }) {
 
     return (
@@ -30,7 +34,7 @@ export default function Staking({
                 <Translate id='staking.staking.selectAccount' />
                 <Tooltip translate='staking.stake.accounts' position='right'/>
             </div>
-            {!loading &&
+            {!loading && !loadingDetails &&
                 <SelectAccount
                     accounts={accounts}
                     onChange={e => onSwitchAccount(e.target.value)}
@@ -40,11 +44,11 @@ export default function Staking({
             <SkeletonLoading
                 height='102px'
                 number={hasLockup ? 2 : 1}
-                show={loading}
+                show={loading || loadingDetails}
                 className='account-loader'
             />
             <FormButton 
-                disabled={loading} 
+                disabled={loadingDetails} 
                 linkTo='/staking/validators'
                 trackingId="STAKE Click stake my tokens button"
             >
@@ -53,15 +57,18 @@ export default function Staking({
             <SkeletonLoading
                 height='80px'
                 number={2}
-                show={loading}
+                show={loadingDetails}
                 className='account-loader'
             />
-            {!loading &&
+            {!loadingDetails &&
                 <>
                     <BalanceBox
                         title='staking.balanceBox.staked.title'
                         info='staking.balanceBox.staked.info'
                         amount={totalStaked}
+                        button={new BN(totalStaked).isZero() ? null : 'staking.balanceBox.staked.button'}
+                        linkTo={stakeFromAccount ? `/staking/unstake` : `/staking/${selectedValidator}/unstake`}
+                        buttonColor='gray-blue'
                     />
                     <BalanceBox
                         title='staking.balanceBox.unclaimed.title'
@@ -81,23 +88,31 @@ export default function Staking({
                         title='staking.balanceBox.available.title'
                         info='staking.balanceBox.available.info'
                         amount={totalAvailable}
+                        button={new BN(totalAvailable).isZero() ? null : 'staking.balanceBox.available.button'}
+                        linkTo={stakeFromAccount ? `/staking/withdraw` : `/staking/${selectedValidator}`}
+                        buttonColor='gray-blue'
                     />
                 </>
                 : null}
             <h3><Translate id='staking.staking.currentValidators' /></h3>
-            {!loading && currentValidators.length ? (
-                <ListWrapper>
-                    {currentValidators.map((validator, i) =>
-                        <ValidatorBox
-                            key={i}
-                            validator={validator}
-                            amount={validator.staked}
-                        />
-                    )}
-                </ListWrapper>
-            ) : (
-                    <NoValidators />
-                )}
+            {!loadingDetails 
+                ? currentValidators.length
+                    ? <ListWrapper>
+                        {currentValidators.map((validator, i) =>
+                            <ValidatorBox
+                                key={i}
+                                validator={validator}
+                                amount={validator.staked}
+                            />
+                        )}
+                    </ListWrapper>
+                    : <NoValidators />
+                : <SkeletonLoading
+                    height='200px'
+                    show={true}
+                    className='account-loader'
+                />
+            }
         </>
     )
 }

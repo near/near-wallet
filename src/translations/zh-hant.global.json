@@ -129,6 +129,9 @@
         },
         "lockup": {
             "transferAllWithStakingPoolBalance": "為將你剩余鎖定餘額轉賬至錢包，請從質押池贖回並提現所有質押資產。"
+        },
+        "setupRecoveryMessageNewAccount": {
+            "invalidCode": "無效驗證碼"
         }
     },
     "account": {
@@ -169,7 +172,8 @@
                 },
                 "alertBanner": {
                     "title": "請勿關閉此窗口！"
-                }
+                },
+                "fundWith": "打開"
             },
             "post": {
                 "modal": {
@@ -478,7 +482,7 @@
         "recoverAccount": "恢復賬戶",
         "goBack": "返回",
         "createNewAccount": "創建新的賬戶",
-        "addAccount": "添加其他賬戶",
+        "importAccount": "導入已有賬戶",
         "moreInformation": "更多信息",
         "dismiss": "關閉",
         "cancelOperation": "取消操作",
@@ -498,7 +502,9 @@
         "deAuthorizing": "正在取消授權",
         "finish": "完成",
         "transferring": "正在轉賬",
-        "viewOnExplorer": "通過瀏覽器查看"
+        "viewOnExplorer": "通過瀏覽器查看",
+        "buy": "購買",
+        "learnMore": "了解更多" 
     },
 
     "link": {
@@ -579,6 +585,16 @@
             "title": "鏈接無效",
             "one": "NEAR Drop 已經被領取。",
             "two": "NEAR Drop 只能被領取一次，之後鏈接會無效。"
+        },
+        "terms": {
+            "title": "服務條款",
+            "desc": "註冊 NEAR 賬戶意味著你同意 NEAR Wallet 服務條款和隱私政策。 我們建議你仔細閱讀：",
+            "termsLink": "服務條款",
+            "privacyLink": "隱私政策",
+            "termsCheck": "我同意服務條款",
+            "privacyCheck": "我同意隱私政策",
+            "agreeBtn": "同意並繼續",
+            "declineBtn": "拒絕"
         }
     },
 
@@ -617,11 +633,12 @@
         "pageText": "我們已經發送 6 位驗證碼至",
         "inputHeader": "輸入 6 位驗證碼",
         "inputPlaceholder": "驗證碼",
-        "invalidCode": "無效驗證碼",
         "didNotRecive": "未收到驗證碼？",
         "resendCode": "重新發送",
         "or": "或",
         "sendToDifferent": "發送至其他 Email 郵箱",
+        "email": "Email",
+        "phone": "手機號",
         "reenter": {
             "one": {
                 "email": "如果你沒有收到郵件，或者上面的 Email 地址輸入錯誤，",
@@ -632,9 +649,7 @@
                 "email": "重新輸入 Email 地址並重新發送。",
                 "phoneNumber": "重新輸入手機號並重新發送。"
             }
-        },
-        "email": "Email",
-        "phone": "手機號"
+        }
     },
 
     "disclaimer": {
@@ -649,7 +664,7 @@
         "desc": "NEAR 是開放性網絡 (Open Web) 的基礎架構, 提供了一個去中心化存儲和計算平臺。",
         "learnMore": "了解更多",
         "needHelp": "需要幫助？",
-        "contactSupport": "聯繫客服"
+        "contactSupport": "加入社區"
     },
 
     "dashboard": {
@@ -666,9 +681,21 @@
     "wallet": {
         "balanceTitle": "總資產",
         "tokens": "通證",
+        "balance": "餘額",
         "dateAndTime": "日期和時間",
         "status": "狀態"
     },
+
+    "buyNear": {
+        "title": "購買 NEAR",
+        "moonPay": "MoonPay",
+        "descOne": "可在 MoonPay 使用偏好的支付方式購買 NEAR。",
+        "buyWith": "打開",
+        "supportedExchanges": "交易所",
+        "descTwo": "NEAR 已經在以下交易所流通，可交易。",
+        "seeMore": "查看更多：",
+        "coinMarketCap": "CoinMarketCap"
+    }, 
     
     "exploreApps": {
         "title": "尋找 NEAR 生態和應用？",
@@ -1074,10 +1101,8 @@
     "setupLedgerSteps": {
         "header": "在硬件錢包上安裝 NEAR",
         "one": "打開 <a href='https://www.ledger.com/ledger-live' target='_blank'>Ledger Live</a>，並安裝固件更新。",
-        "two": "切換到你的<span class='color-black'>設置</span>",
-        "three": "在<span class='color-black'>試驗性功能</span>中，確保<span class='color-black'>開發者模式</span>已經<span class='color-black'>開啟</span>。",
-        "four": "返回至<span class='color-black'>管理器</span> Tab 並搜索 <span class='color-black'>NEAR</span>。",
-        "five": "根據步驟在設備上安裝 <span class='color-black'>NEAR 應用</span>。"
+        "two": "返回至<span class='color-black'>管理器</span> Tab 並搜索 <span class='color-black'>NEAR</span>。",
+        "three": "根據步驟在設備上安裝 <span class='color-black'>NEAR 應用</span>。"
     },
 
     "setupLedgerSuccess": {
@@ -1116,6 +1141,12 @@
                 "waiting": "下一個",
                 "confirm": "確認"
             }
+        },
+        "advanced": {
+            "title": "高級選項",
+            "subTitle": "HD 路徑",
+            "desc": "指定 HD 路徑來導入已鏈接的賬戶。",
+            "setPath": "設置 HD 路徑"
         }
     },
 

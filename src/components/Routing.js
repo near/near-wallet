@@ -7,6 +7,7 @@ import { Route, Switch, Redirect } from 'react-router-dom'
 import { ConnectedRouter } from 'connected-react-router'
 import { withLocalize } from 'react-localize-redux'
 import translations_en from '../translations/en.global.json'
+import translations_pt from '../translations/pt.global.json'
 import translations_ru from '../translations/ru.global.json'
 import translations_zh_hans from '../translations/zh-hans.global.json'
 import translations_zh_hant from '../translations/zh-hant.global.json'
@@ -38,12 +39,13 @@ import { FullAccessKeysWithRouter } from './access-keys/AccessKeys'
 import { SendContainer } from './send/SendContainer'
 import { ReceiveMoneyWithRouter } from './receive-money/ReceiveMoney'
 import { Profile } from './profile/Profile'
+import { BuyNear } from './buy/BuyNear'
 import { SignWithRouter } from './sign/Sign'
 import { NodeStakingWithRouter } from './node-staking/NodeStaking'
 import { AddNodeWithRouter } from './node-staking/AddNode'
 import { NodeDetailsWithRouter } from './node-staking/NodeDetails'
 import { StakingContainer } from './staking/StakingContainer'
-import { DISABLE_SEND_MONEY, WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS } from '../utils/wallet'
+import { DISABLE_SEND_MONEY, WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS, IS_MAINNET, SHOW_PRERELEASE_WARNING } from '../utils/wallet'
 import { refreshAccount, handleRefreshUrl, handleRedirectUrl, handleClearUrl, promptTwoFactor } from '../actions/account'
 import LedgerConfirmActionModal from './accounts/ledger/LedgerConfirmActionModal';
 
@@ -53,6 +55,8 @@ import { SetupImplicitWithRouter } from './accounts/SetupImplicit'
 import { SetupImplicitSuccess } from './accounts/SetupImplicitSuccess'
 import { handleClearAlert} from '../utils/alerts'
 import { Mixpanel } from "../mixpanel/index";
+import classNames from '../utils/classNames';
+import Terms from './terms/Terms'
 
 const theme = {}
 
@@ -75,17 +79,26 @@ const Container = styled.div`
             }
         }
     }
+
+    &.network-banner {
+        @media (max-width: 450px) {
+            .alert-banner, .lockup-avail-transfer {
+                margin-top: -35px;
+            }
+        }
+    }
 `
 class Routing extends Component {
     constructor(props) {
         super(props)
         const languages = [
             { name: "English", code: "en" },
+            { name: "Português", code: "pt" },
             { name: "Русский", code: "ru" },
             { name: "简体中文", code: "zh-hans" },
             { name: "繁體中文", code: "zh-hant" }
         ]
-        
+
         const activeLang = localStorage.getItem("languageCode") || languages[0].code
 
         this.props.initialize({
@@ -97,9 +110,10 @@ class Routing extends Component {
                 renderInnerHtml: true
             }
         })
-        
+
         // TODO: Figure out how to load only necessary translations dynamically
         this.props.addTranslationForLanguage(translations_en, "en")
+        this.props.addTranslationForLanguage(translations_pt, "pt")
         this.props.addTranslationForLanguage(translations_ru, "ru")
         this.props.addTranslationForLanguage(translations_zh_hans, "zh-hans")
         this.props.addTranslationForLanguage(translations_zh_hant, "zh-hant")
@@ -109,17 +123,18 @@ class Routing extends Component {
     }
 
     componentDidMount = async () => {
-        const { 
-            refreshAccount, 
+        const {
+            refreshAccount,
             handleRefreshUrl,
             history,
-            handleRedirectUrl, 
-            handleClearUrl
+            handleRedirectUrl,
+            handleClearUrl,
+            router
         } = this.props
-        
-        handleRefreshUrl()
+
+        handleRefreshUrl(router)
         refreshAccount()
-        
+
         history.listen(async () => {
             handleRedirectUrl(this.props.router.location)
             handleClearUrl()
@@ -154,18 +169,18 @@ class Routing extends Component {
     render() {
         const { search } = this.props.router.location
         return (
-            <Container className='App' id='app-container'>
+            <Container className={classNames(['App', {'network-banner': (!IS_MAINNET || SHOW_PRERELEASE_WARNING)}])} id='app-container'>
                 <GlobalStyle />
                 <ConnectedRouter basename={PATH_PREFIX} history={this.props.history}>
                     <ThemeProvider theme={theme}>
                         <ScrollToTop/>
-                        <NetworkBanner 
+                        <NetworkBanner
                             account={this.props.account}
                         />
                         <Navigation/>
                         <GlobalAlert/>
                         <LedgerConfirmActionModal/>
-                        { 
+                        {
                             this.props.account.requestPending !== null &&
                             <TwoFactorVerifyModal
                                 onClose={(verified, error) => {
@@ -296,6 +311,11 @@ class Routing extends Component {
                                 path='/receive-money'
                                 component={ReceiveMoneyWithRouter}
                             />
+                            <PrivateRoute
+                                exact
+                                path='/buy'
+                                component={BuyNear}
+                            />
                             <Route
                                 exact
                                 path='/profile/:accountId'
@@ -339,6 +359,11 @@ class Routing extends Component {
                                 exact
                                 path='/cli-login-success'
                                 component={LoginCliLoginSuccess}
+                            />
+                            <Route
+                                exact
+                                path='/terms'
+                                component={Terms}
                             />
                             <PrivateRoute
                                 component={Wallet}
