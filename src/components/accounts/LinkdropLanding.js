@@ -90,7 +90,7 @@ class LinkdropLanding extends Component {
                 <div className='desc'>
                     <Translate id='linkdropLanding.desc'/>
                 </div>
-                <AccountDropdown/>
+                {accountId ? <AccountDropdown/> : null}
                 {accountId ?
                     <FormButton onClick={this.handleClaimNearDrop} sending={this.props.mainLoader}>
                         <Translate id='linkdropLanding.ctaAccount'/>
