@@ -392,7 +392,8 @@
         "alertBanner": {
             "title": "When enabled, <b>${data} NEAR</b> will be locked to cover the contract storage costs of two-factor authentication.",
             "button": "Learn More"
-        }
+        },
+        "checkBox": "I acknowledge that by enabling two-factor authentication, ${amount} NEAR will be reserved to cover contract storage."
     },
 
     "fullAccessKeys": {

@@ -20,6 +20,12 @@ const Container = styled.div`
         &.alert {
             background-color: #FFF0DE;
             color: #A15600;
+
+            button, a {
+                &.link {
+                    color: #452500 !important;
+                }
+            }
         }
 
         &.light-blue {
