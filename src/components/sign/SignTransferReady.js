@@ -11,7 +11,7 @@ import Balance from '../common/Balance'
 import Button from '../common/Button'
 import InlineNotification from '../common/InlineNotification'
 import FormButton from '../common/FormButton'
-import Tooltip from '../common/Tooltip'
+import BalanceBreakdown from '../staking/components/BalanceBreakdown'
 
 
 const Container = styled.div`
@@ -21,6 +21,18 @@ const Container = styled.div`
     flex-direction: column;
     align-items: center;
     color: #25282A;
+
+    .balance-breakdown {
+        width: 100%;
+        border: 1px solid #F0F0F1;
+        padding: 0px 15px;
+        border-radius: 8px;
+        margin-top: 30px;
+
+        #balance-breakdown-1 {
+            cursor: pointer;
+        }
+    }
 `
 
 const Title = styled.div`
@@ -42,21 +54,6 @@ const TransferAmount = styled.div`
     div {
         font-size: 26px !important;
         font-weight: 600;
-    }
-`
-
-const CurrentBalance = styled.div`
-    margin-top: 5px;
-    text-align: center;
-    color: #888888;
-    font-size: 14px;
-    font-weight: 400;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    .list {
-        margin: 0 !important;
     }
 `
 
@@ -89,7 +86,7 @@ const ActionsCounter = styled.div`
 
 const Footer = styled.div`
     width: 100%;
-    margin-top: 40px;
+    margin-top: 30px;
 
     @media (max-width: 767px) {
         position: fixed;
@@ -186,11 +183,12 @@ class SignTransferReady extends Component {
                         <TransferAmount>
                             <Balance amount={txTotalAmount}/>
                         </TransferAmount>
-                        <CurrentBalance>
-                            <Translate id='sign.availableBalance' />:&nbsp;
-                            <Balance amount={availableBalance}/>
-                            <Tooltip translate='availableBalanceInfo'/>
-                        </CurrentBalance>
+                        <BalanceBreakdown
+                            total={availableBalance}
+                            availableType='sign.availableToTransfer'
+                            error={insufficientFunds}
+                            transfer={true}
+                        />
                         <InlineNotification
                             show={insufficientFunds}
                             onClick={handleDeny}
