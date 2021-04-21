@@ -8,21 +8,45 @@ import Container from '../common/styled/Container.css'
 import FormButton from '../common/FormButton'
 import { Mixpanel } from '../../mixpanel/index'
 import Balance from '../common/Balance'
+import NearGiftIcons from '../svg/NearGiftIcons'
+import AccountDropdown from '../common/AccountDropdown'
 
 const StyledContainer = styled(Container)`
     display: flex;
     flex-direction: column;
     align-items: center;
+    text-align: center;
 
-    h1 {
-        :last-of-type {
-            margin-top: 0;
-        }
+    .near-balance {
+        color: #0072CE;
+        font-weight: 600;
+        border: 1px solid #D6EDFF;
+        border-radius: 4px;
+        padding: 6px 15px;
+        background-color: #F0F9FF;
+        margin: 30px 0;
+    }
+
+    .desc {
+        color: #72727A;
+        margin-bottom: 40px;
+    }
+
+    h3 {
+        margin-top: 40px;
+    }
+
+    .or {
+        color: #A2A2A8;
+        margin: 20px 0 -6px 0;
     }
 
     button {
-        height: auto !important;
-        line-height: 120% !important;
+        width: 100% !important;
+    }
+
+    .account-dropdown-container {
+        width: 100%;
     }
 `
 
@@ -54,14 +78,32 @@ class LinkdropLanding extends Component {
     }
 
     render() {
-        const { fundingContract, fundingKey } = this.props
+        const { fundingContract, fundingKey, accountId } = this.props
 
         return (
-            <StyledContainer className='small-centered'>
-                <h1><span role='img' aria-label='hooray'>🎉</span> Hooray! <span role='img' aria-label='hooray'>🎉</span></h1>
-                <h1>You've got <Balance amount={this.state.balance} symbol='near'/>!</h1>
-                <FormButton onClick={this.handleClaimNearDrop} sending={this.props.mainLoader}>Claim to My Account:<br/>{this.props.accountId}</FormButton>
-                <FormButton color='gray-blue' linkTo={`/create/${fundingContract}/${fundingKey}`}>Create New Account</FormButton>
+            <StyledContainer className='xs-centered'>
+                <NearGiftIcons/>
+                <h3><Translate id='linkdropLanding.title'/></h3>
+                <div className='near-balance'>
+                    <Balance amount={this.state.balance} symbol='near'/>
+                </div>
+                <div className='desc'>
+                    <Translate id='linkdropLanding.desc'/>
+                </div>
+                <AccountDropdown/>
+                {accountId ?
+                    <FormButton onClick={this.handleClaimNearDrop} sending={this.props.mainLoader}>
+                        <Translate id='linkdropLanding.ctaAccount'/>
+                    </FormButton>
+                    :
+                    <FormButton linkTo={`/recover-account/${fundingContract}/${fundingKey}`}>
+                        <Translate id='linkdropLanding.ctaLogin'/>
+                    </FormButton>
+                }
+                <div className='or'><Translate id='linkdropLanding.or'/></div>
+                <FormButton color='gray-blue' linkTo={`/create/${fundingContract}/${fundingKey}`}>
+                    <Translate id='linkdropLanding.ctaNew'/>
+                </FormButton>
             </StyledContainer>
         )
     }
