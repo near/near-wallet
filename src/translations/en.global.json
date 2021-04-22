@@ -392,7 +392,8 @@
         "alertBanner": {
             "title": "When enabled, <b>${data} NEAR</b> will be locked to cover the contract storage costs of two-factor authentication.",
             "button": "Learn More"
-        }
+        },
+        "checkBox": "I acknowledge that by enabling two-factor authentication, ${amount} NEAR will be reserved to cover contract storage."
     },
 
     "fullAccessKeys": {
@@ -663,7 +664,7 @@
         "privacyPolicy": "Privacy Policy",
         "desc": "NEAR is a scalable computing and storage platform that changes how the web works for better.",
         "learnMore": "Learn More",
-        "needHelp": "Need Help?",
+        "needHelp": "Questions?",
         "contactSupport": "Join Community"
     },
 
