@@ -27,7 +27,7 @@ import { decorateWithLockup } from './account-with-lockup'
 import { MULTISIG_CHANGE_METHODS } from 'near-api-js/lib/account_multisig'
 
 export const WALLET_CREATE_NEW_ACCOUNT_URL = 'create'
-export const WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS = ['create', 'set-recovery', 'setup-seed-phrase', 'recover-account', 'recover-seed-phrase', 'sign-in-ledger']
+export const WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS = ['create', 'set-recovery', 'setup-seed-phrase', 'recover-account', 'recover-seed-phrase', 'sign-in-ledger', 'fund-create-account']
 export const WALLET_LOGIN_URL = 'login'
 export const WALLET_SIGN_URL = 'sign'
 export const WALLET_RECOVER_ACCOUNT_URL = 'recover-account'
