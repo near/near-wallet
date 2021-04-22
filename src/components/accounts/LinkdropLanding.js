@@ -57,15 +57,17 @@ class LinkdropLanding extends Component {
     }
 
     componentDidMount() {
-        if (this.props.fundingContract && this.props.fundingKey) {
+        const { fundingContract, fundingKey } = this.props
+        if (fundingContract && fundingKey) {
             this.handleCheckNearDropBalance()
         }
     }
 
     handleCheckNearDropBalance = async () => {
+        const { fundingContract, fundingKey, checkNearDropBalance } = this.props
         await Mixpanel.withTracking("CA Check near drop balance",
             async () => {
-                const balance = await this.props.checkNearDropBalance(this.props.fundingContract, this.props.fundingKey)
+                const balance = await checkNearDropBalance(fundingContract, fundingKey)
                 this.setState({ balance: balance })
             },
             () => this.setState({ invalidNearDrop: true })
@@ -73,12 +75,13 @@ class LinkdropLanding extends Component {
     }
 
     handleClaimNearDrop = async () => {
-        await this.props.claimLinkdropToAccount(this.props.fundingContract, this.props.fundingKey)
-        this.props.redirectTo('/')
+        const { fundingContract, fundingKey, redirectTo, claimLinkdropToAccount } = this.props
+        await claimLinkdropToAccount(fundingContract, fundingKey, this.state.balance)
+        redirectTo('/')
     }
 
     render() {
-        const { fundingContract, fundingKey, accountId } = this.props
+        const { fundingContract, fundingKey, accountId, mainLoader } = this.props
 
         return (
             <StyledContainer className='xs-centered'>
@@ -92,7 +95,12 @@ class LinkdropLanding extends Component {
                 </div>
                 {accountId ? <AccountDropdown/> : null}
                 {accountId ?
-                    <FormButton onClick={this.handleClaimNearDrop} sending={this.props.mainLoader}>
+                    <FormButton
+                        onClick={this.handleClaimNearDrop}
+                        sending={mainLoader}
+                        disabled={mainLoader}
+                        sendingString='linkdropLanding.claiming'
+                    >
                         <Translate id='linkdropLanding.ctaAccount'/>
                     </FormButton>
                     :
@@ -119,7 +127,8 @@ const mapDispatchToProps = {
 const mapStateToProps = ({ account, status }, { match }) => ({
     ...account,
     fundingContract: match.params.fundingContract,
-    fundingKey: match.params.fundingKey
+    fundingKey: match.params.fundingKey,
+    mainLoader: status.mainLoader
 })
 
 export const LinkdropLandingWithRouter = connect(

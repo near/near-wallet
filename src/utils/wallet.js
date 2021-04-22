@@ -412,7 +412,7 @@ class Wallet {
         }, LINKDROP_GAS);
     }
 
-    async claimLinkdropToAccount(fundingContract, fundingKey) {
+    async claimLinkdropToAccount(fundingContract, fundingKey, balance) {
         await this.keyStore.setKey(NETWORK_ID, fundingContract, KeyPair.fromString(fundingKey))
         const account = await this.getAccount(fundingContract)
         const accountId = this.accountId
@@ -423,6 +423,7 @@ class Wallet {
         });
 
         await contract.claim({ account_id: accountId }, LINKDROP_GAS);
+        await localStorage.setItem('linkdropAmount', balance)
     }
 
     async saveAccount(accountId, keyPair) {

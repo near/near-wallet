@@ -32,7 +32,7 @@ const Container = styled.div`
 
 `
 
-const NearDropSuccessModal = ({ open, onClose }) => {
+const LinkDropSuccessModal = ({ open, onClose, linkdropAmount }) => {
     return (
         <Modal
             id='near-drop-success-modal'
@@ -45,7 +45,7 @@ const NearDropSuccessModal = ({ open, onClose }) => {
                 <NearGiftIcons/>
                 <h3><Translate id='linkdropLanding.modal.title'/></h3>
                 <div className='near-balance'>
-                    <Balance amount={'1000000823923829839823000000'} symbol='near'/>
+                    <Balance amount={linkdropAmount} symbol='near'/>
                 </div>
                 <div className='desc'>
                     <Translate id='linkdropLanding.modal.desc'/>
@@ -55,4 +55,4 @@ const NearDropSuccessModal = ({ open, onClose }) => {
     );
 }
 
-export default NearDropSuccessModal
+export default LinkDropSuccessModal

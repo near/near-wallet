@@ -318,7 +318,7 @@ export const {
     ],
     CLAIM_LINKDROP_TO_ACCOUNT: [
         wallet.claimLinkdropToAccount.bind(wallet),
-        () => showAlert()
+        () => showAlert({ onlyError: true })
     ],
     CHECK_IS_NEW: [
         wallet.checkIsNew.bind(wallet),

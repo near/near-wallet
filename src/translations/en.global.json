@@ -606,6 +606,7 @@
         "ctaLogin": "Log In and Claim",
         "ctaNew": "Claim with New Account",
         "or": "or",
+        "claiming": "Claiming",
         "modal": {
             "title": "Your NEAR drop has been claimed",
             "desc": "Your NEAR drop has been automatically deposited to your account."
