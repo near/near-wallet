@@ -16,6 +16,7 @@ import Activities from './Activities'
 import ExploreApps from './ExploreApps'
 import Tokens from './Tokens'
 import { ACCOUNT_HELPER_URL, wallet } from '../../utils/wallet'
+import NearDropSuccessModal from './NearDropSuccessModal'
 
 import sendJson from 'fetch-send-json'
 
@@ -194,6 +195,8 @@ export function Wallet() {
         setExploreApps(false)
         Mixpanel.track("Click explore apps dismiss")
     }
+
+    const showNearDropModal = false
     return (
         <StyledContainer>
             <div className='split'>
@@ -253,6 +256,12 @@ export function Wallet() {
                     />
                 </div>
             </div>
+            {showNearDropModal &&
+                <NearDropSuccessModal
+                    onClose={() => {}}
+                    open={showNearDropModal}
+                />
+            }
         </StyledContainer>
     )
 }
