@@ -519,6 +519,8 @@ export const { signAndSendTransactions, setSignTransactionStatus, sendMoney, tra
 
 export const refreshAccount = (basicData = false) => async (dispatch, getState) => {
     const { flowLimitation } = getState()
+
+    dispatch(setAccountFound(!!wallet.accountId))
     await dispatch(refreshAccountOwner(flowLimitation.accountData))
 
     if (!basicData && !flowLimitation.accountBalance) {
