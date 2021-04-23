@@ -33,6 +33,8 @@ const Container = styled.div`
         cursor: pointer;
         color: #72727A;
         font-weight: 500;
+        text-overflow: ellipsis;
+        overflow: hidden;
 
         :last-of-type {
             border: 0;

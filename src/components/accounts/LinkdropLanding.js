@@ -85,7 +85,7 @@ class LinkdropLanding extends Component {
     render() {
         const { fundingContract, fundingKey, accountId, mainLoader } = this.props
         const claimingDrop = actionsPending('CLAIM_LINKDROP_TO_ACCOUNT')
-
+        const fundingAmount = this.state.balance;
         return (
             <StyledContainer className='xs-centered'>
                 <NearGiftIcons/>
@@ -107,7 +107,9 @@ class LinkdropLanding extends Component {
                         <Translate id='linkdropLanding.ctaAccount'/>
                     </FormButton>
                     :
-                    <FormButton linkTo={`/recover-account/${fundingContract}/${fundingKey}`}>
+                    <FormButton
+                        linkTo={`/recover-account?fundingOptions=${encodeURIComponent(JSON.stringify({ fundingContract, fundingKey, fundingAmount }))}`}
+                    >
                         <Translate id='linkdropLanding.ctaLogin'/>
                     </FormButton>
                 }

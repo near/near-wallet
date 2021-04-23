@@ -3,7 +3,8 @@ import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { Translate } from 'react-localize-redux'
 import styled from 'styled-components'
-import { recoverAccountSeedPhrase, redirectToApp, refreshAccount } from '../../actions/account'
+import { parse as parseQuery } from 'query-string'
+import { recoverAccountSeedPhrase, redirectToApp, redirectTo, refreshAccount } from '../../actions/account'
 import { staking } from '../../actions/staking'
 import { clearLocalAlert } from '../../actions/status'
 import RecoverAccountSeedPhraseForm from './RecoverAccountSeedPhraseForm'
@@ -61,14 +62,19 @@ class RecoverAccountSeedPhrase extends Component {
             return false
         }
         const { seedPhrase } = this.state
+        const { fundingContract, fundingKey } = JSON.parse(parseQuery(this.props.location.search).fundingOptions || 'null')
         await Mixpanel.withTracking("IE-SP Recovery with seed phrase",
             async () => {
                 await this.props.recoverAccountSeedPhrase(seedPhrase)
-                this.props.refreshAccount()
-                this.props.redirectToApp()
-                this.props.clearState()
+                await this.props.refreshAccount()
             }
         )
+        if (fundingContract && fundingKey) {
+            this.props.redirectTo(`/linkdrop/${fundingContract}/${fundingKey}`)
+        } else {
+            this.props.redirectToApp('/')
+        }
+        this.props.clearState()
     }
 
     render() {
@@ -94,15 +100,17 @@ class RecoverAccountSeedPhrase extends Component {
 }
 
 const mapDispatchToProps = {
-    recoverAccountSeedPhrase, 
+    recoverAccountSeedPhrase,
+    redirectTo,
     redirectToApp,
     refreshAccount,
     clearLocalAlert,
     clearState: staking.clearState
 }
 
-const mapStateToProps = ({ account, status }, { match }) => ({
+const mapStateToProps = ({ account, status, router }, { match }) => ({
     ...account,
+    router,
     seedPhrase: match.params.seedPhrase || '',
     localAlert: status.localAlert,
     mainLoader: status.mainLoader

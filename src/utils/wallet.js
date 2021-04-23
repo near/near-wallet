@@ -334,10 +334,13 @@ class Wallet {
     async createNewAccount(accountId, fundingOptions, recoveryMethod, publicKey, previousAccountId) {
         await this.checkNewAccount(accountId);
 
-        const { fundingContract, fundingKey, fundingAccountId } = fundingOptions || {}
+        const { fundingContract, fundingKey, fundingAccountId, fundingAmount } = fundingOptions || {}
         if (fundingContract && fundingKey) {
             await this.createNewAccountLinkdrop(accountId, fundingContract, fundingKey, publicKey)
             await this.keyStore.removeKey(NETWORK_ID, fundingContract)
+            if (fundingAmount) {
+                await localStorage.setItem('linkdropAmount', fundingAmount)
+            }
         } else if (fundingAccountId) {
             await this.createNewAccountFromAnother(accountId, fundingAccountId, publicKey)
         } else {

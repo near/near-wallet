@@ -441,7 +441,7 @@ export const finishAccountSetup = () => async (dispatch, getState) => {
         if (url?.redirectUrl) {
             window.location = `${url.redirectUrl}?accountId=${accountId}`
         } else {
-            dispatch(redirectToApp('/profile'))
+            dispatch(redirectToApp('/'))
         }
     }
 }

@@ -80,7 +80,8 @@ class CreateAccount extends Component {
         invalidNearDrop: null,
         showTerms: false,
         termsChecked: false,
-        privacyChecked: false
+        privacyChecked: false,
+        fundingAmount: null
     }
 
     componentDidMount() {
@@ -95,7 +96,10 @@ class CreateAccount extends Component {
 
     handleCheckNearDropBalance = async () => {
         await Mixpanel.withTracking("CA Check near drop balance",
-            async () => await this.props.checkNearDropBalance(this.props.fundingContract, this.props.fundingKey),
+            async () =>  {
+                const fundingAmount = await this.props.checkNearDropBalance(this.props.fundingContract, this.props.fundingKey)
+                this.setState({ fundingAmount })
+            },
             () => this.setState({ invalidNearDrop: true })
         )
     }
@@ -109,7 +113,7 @@ class CreateAccount extends Component {
     }
 
     handleCreateAccount = async () => {
-        const { accountId } = this.state;
+        const { accountId, fundingAmount } = this.state;
         const { 
             fundingContract, fundingKey,
             fundingAccountId,
@@ -119,7 +123,7 @@ class CreateAccount extends Component {
 
         let queryString = ''
         if (fundingAccountId || fundingContract) {
-            const fundingOptions = fundingAccountId ? { fundingAccountId } : { fundingContract, fundingKey }
+            const fundingOptions = fundingAccountId ? { fundingAccountId } : { fundingContract, fundingKey, fundingAmount }
             queryString = `?fundingOptions=${encodeURIComponent(JSON.stringify(fundingOptions))}`
         }
         let nextUrl = process.env.DISABLE_PHONE_RECOVERY === 'yes' ?
