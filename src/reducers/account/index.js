@@ -16,7 +16,7 @@ import {
     updateStakingLockup,
     getBalance,
     selectAccount,
-    setAccountFound
+    setLocalStorage
 } from '../../actions/account'
 
 import { 
@@ -155,9 +155,11 @@ const account = handleActions({
     [selectAccount]: () => {
         return initialState
     },
-    [setAccountFound]: (state, { payload }) => ({
+    [setLocalStorage]: (state, { payload }) => ({
         ...state,
-        accountFound: payload
+        localStorage: {
+            accountFound: !!payload,
+        }
     })
 }, initialState)
 
