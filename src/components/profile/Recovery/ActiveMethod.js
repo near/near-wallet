@@ -132,7 +132,7 @@ class ActiveMethod extends Component {
     render() {
 
         const { disable, username } = this.state;
-        const { data, onDelete, accountId, deletingMethod, deleteAllowed } = this.props;
+        const { data, onDelete, accountId, deletingMethod, deleteAllowed, mainLoader } = this.props;
 
         if (!disable) {
             return (
@@ -199,7 +199,7 @@ class ActiveMethod extends Component {
                                 <FormButton
                                     type='submit'
                                     color='red small'
-                                    disabled={deletingMethod || username !== accountId}
+                                    disabled={deletingMethod || username !== accountId || mainLoader}
                                     sending={deletingMethod}
                                     sendingString='button.disabling'
                                 >
