@@ -10,6 +10,7 @@ import { Mixpanel } from '../../mixpanel/index'
 import Balance from '../common/Balance'
 import NearGiftIcons from '../svg/NearGiftIcons'
 import AccountDropdown from '../common/AccountDropdown'
+import { actionsPending } from '../../utils/alerts'
 
 const StyledContainer = styled(Container)`
     display: flex;
@@ -83,6 +84,7 @@ class LinkdropLanding extends Component {
 
     render() {
         const { fundingContract, fundingKey, accountId, mainLoader } = this.props
+        const claimingDrop = actionsPending('CLAIM_LINKDROP_TO_ACCOUNT')
 
         return (
             <StyledContainer className='xs-centered'>
@@ -98,7 +100,7 @@ class LinkdropLanding extends Component {
                 {accountId ?
                     <FormButton
                         onClick={this.handleClaimNearDrop}
-                        sending={mainLoader}
+                        sending={claimingDrop}
                         disabled={mainLoader}
                         sendingString='linkdropLanding.claiming'
                     >
