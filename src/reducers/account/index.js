@@ -159,6 +159,7 @@ const account = handleActions({
         ...state,
         localStorage: {
             accountFound: !!payload,
+            accountId: payload
         }
     })
 }, initialState)
