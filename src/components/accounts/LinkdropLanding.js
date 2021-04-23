@@ -76,7 +76,8 @@ class LinkdropLanding extends Component {
 
     handleClaimNearDrop = async () => {
         const { fundingContract, fundingKey, redirectTo, claimLinkdropToAccount } = this.props
-        await claimLinkdropToAccount(fundingContract, fundingKey, this.state.balance)
+        await claimLinkdropToAccount(fundingContract, fundingKey)
+        await localStorage.setItem('linkdropAmount', this.state.balance)
         redirectTo('/')
     }
 

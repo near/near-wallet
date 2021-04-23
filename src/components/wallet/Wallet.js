@@ -202,6 +202,7 @@ export function Wallet() {
     const handleCloseLinkdropModal = () => {
         localStorage.removeItem('linkdropAmount')
         setShowLinkdropModal(false)
+        Mixpanel.track("Click dismiss NEAR drop success modal")
     }
 
     return (
