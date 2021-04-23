@@ -15,7 +15,7 @@
     SHOW_PRERELEASE_WARNING = "yes"
     DISABLE_SEND_MONEY = "no"
     DISABLE_CREATE_ACCOUNT = "true"
-    REACT_APP_MULTISIG_MIN_AMOUNT = "36"
+    REACT_APP_MULTISIG_MIN_AMOUNT = "4"
     LOCKUP_ACCOUNT_ID_SUFFIX = "lockup.near"
     SENTRY_ORG = "near-protocol"
     SENTRY_PROJECT = "mainnet-staging-wallet"

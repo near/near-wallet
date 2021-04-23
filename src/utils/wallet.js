@@ -27,7 +27,7 @@ import { decorateWithLockup } from './account-with-lockup'
 import { MULTISIG_CHANGE_METHODS } from 'near-api-js/lib/account_multisig'
 
 export const WALLET_CREATE_NEW_ACCOUNT_URL = 'create'
-export const WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS = ['create', 'set-recovery', 'setup-seed-phrase', 'recover-account', 'recover-seed-phrase', 'sign-in-ledger']
+export const WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS = ['create', 'set-recovery', 'setup-seed-phrase', 'recover-account', 'recover-seed-phrase', 'sign-in-ledger', 'fund-create-account']
 export const WALLET_LOGIN_URL = 'login'
 export const WALLET_SIGN_URL = 'sign'
 export const WALLET_RECOVER_ACCOUNT_URL = 'recover-account'
@@ -38,7 +38,7 @@ export const SHOW_PRERELEASE_WARNING = process.env.SHOW_PRERELEASE_WARNING === '
 export const DISABLE_CREATE_ACCOUNT = process.env.DISABLE_CREATE_ACCOUNT === 'true' || process.env.DISABLE_CREATE_ACCOUNT === 'yes'
 export const DISABLE_SEND_MONEY = process.env.DISABLE_SEND_MONEY === 'true' || process.env.DISABLE_SEND_MONEY === 'yes'
 export const ACCOUNT_ID_SUFFIX = process.env.REACT_APP_ACCOUNT_ID_SUFFIX || 'testnet'
-export const MULTISIG_MIN_AMOUNT = process.env.REACT_APP_MULTISIG_MIN_AMOUNT || '40'
+export const MULTISIG_MIN_AMOUNT = process.env.REACT_APP_MULTISIG_MIN_AMOUNT || '4'
 export const MULTISIG_MIN_PROMPT_AMOUNT = process.env.REACT_APP_MULTISIG_MIN_PROMPT_AMOUNT || '200'
 export const LOCKUP_ACCOUNT_ID_SUFFIX = process.env.LOCKUP_ACCOUNT_ID_SUFFIX || 'lockup.near'
 export const MIN_BALANCE_FOR_GAS = process.env.REACT_APP_MIN_BALANCE_FOR_GAS || nearApiJs.utils.format.parseNearAmount('0.1')
@@ -125,8 +125,6 @@ class Wallet {
             localStorage.getItem(KEY_WALLET_ACCOUNTS) || '{}'
         )
         this.accountId = localStorage.getItem(KEY_ACTIVE_ACCOUNT_ID) || ''
-
-        this.staking = new Staking(this)
     }
 
     async getLocalAccessKey(accountId, accessKeys) {
@@ -608,6 +606,10 @@ class Wallet {
             availableKeys.push(ledgerKey.toString())
         }
         return availableKeys
+    }
+
+    async getAccountBasic(accountId) {
+        return new nearApiJs.Account(this.connection, accountId)
     }
 
     async getAccount(accountId) {

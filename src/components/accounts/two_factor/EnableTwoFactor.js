@@ -21,6 +21,7 @@ import EnterVerificationCode from '../EnterVerificationCode';
 import Container from '../../common/styled/Container.css';
 import { Mixpanel } from '../../../mixpanel/index';
 import { actionsPending } from '../../../utils/alerts'
+import Checkbox from '../../common/Checkbox'
 
 const StyledContainer = styled(Container)`
 
@@ -33,8 +34,11 @@ const StyledContainer = styled(Container)`
     }
 
     button {
-        margin-top: 50px !important;
         width: 100% !important;
+
+        &.blue {
+            margin-top: 20px !important;
+        }
 
         &.link {
             text-transform: none !important;
@@ -43,6 +47,24 @@ const StyledContainer = styled(Container)`
             width: auto !important;
             margin: 30px auto 0 auto !important;
             display: block !important;
+        }
+    }
+
+    label {
+        display: flex;
+        align-items: center;
+        border: 1px solid #F0F0F1;
+        border-radius: 8px;
+        padding: 15px;
+        margin-top: 50px;
+        cursor: pointer;
+
+        > span {
+            margin-left: 15px;
+            font-style: italic;
+            color: #72727A;
+            font-size: 12px;
+            font-weight: 500;
         }
     }
 `
@@ -58,6 +80,7 @@ export function EnableTwoFactor(props) {
     const [email, setEmail] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
     const [country, setCountry] = useState('');
+    const [twoFactorAmountApproved, setTwoFactorAmountApproved] = useState(false);
     const recoveryMethods = useRecoveryMethods(accountId);
     const loading = status.mainLoader
     const pendingTwoFactorAction = actionsPending('INIT_TWO_FACTOR', 'DEPLOY_MULTISIG')
@@ -147,7 +170,7 @@ export function EnableTwoFactor(props) {
                     title='twoFactor.alertBanner.title'
                     data={MULTISIG_MIN_AMOUNT}
                     button='twoFactor.alertBanner.button'
-                    theme='light-blue'
+                    theme='alert'
                     linkTo='https://docs.near.org/docs/concepts/storage-staking'
                 />
                 <form onSubmit={e => { handleNext(); e.preventDefault();}}>
@@ -195,9 +218,16 @@ export function EnableTwoFactor(props) {
                             )}
                         </Translate>
                     </TwoFactorOption>
+                    <label>
+                        <Checkbox
+                            checked={twoFactorAmountApproved}
+                            onChange={e => setTwoFactorAmountApproved(e.target.checked)}
+                        />
+                        <span><Translate id='twoFactor.checkBox' data={{ amount: MULTISIG_MIN_AMOUNT }}/></span>
+                    </label>
                     <FormButton
                         color='blue'
-                        disabled={!isValidInput() || loading || has2fa || initiated}
+                        disabled={!isValidInput() || loading || has2fa || initiated || !twoFactorAmountApproved}
                         type='submit'
                         sending={pendingTwoFactorAction}
                         sendingString='button.enabling'

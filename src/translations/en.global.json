@@ -392,7 +392,8 @@
         "alertBanner": {
             "title": "When enabled, <b>${data} NEAR</b> will be locked to cover the contract storage costs of two-factor authentication.",
             "button": "Learn More"
-        }
+        },
+        "checkBox": "I acknowledge that by enabling two-factor authentication, ${amount} NEAR will be reserved to cover contract storage."
     },
 
     "fullAccessKeys": {
@@ -663,7 +664,7 @@
         "privacyPolicy": "Privacy Policy",
         "desc": "NEAR is a scalable computing and storage platform that changes how the web works for better.",
         "learnMore": "Learn More",
-        "needHelp": "Need Help?",
+        "needHelp": "Questions?",
         "contactSupport": "Join Community"
     },
 
@@ -799,7 +800,7 @@
             "noValidators": "You haven't staked with a validator yet.",
             "selectAccount": "Staking from",
             "available": "Available",
-            "totalStaked": "Total staked"
+            "totalStaked": "Staked"
         },
         "balanceBox": {
             "staked": {
@@ -884,7 +885,9 @@
             "title": "Select a Validator",
             "desc": {
                 "account": "Enter a known validator or select a validator from the list to stake your NEAR tokens.",
-                "lockup": "Enter a known validator or select a validator from the list to stake your NEAR tokens. You may only stake with a single validator at any given time."
+                "lockup": "Enter a known validator or select a validator from the list to stake your NEAR tokens. You may only stake with a single validator at any given time.",
+                "unstake": "Select the validator pool from which you wish to unstake your tokens.",
+                "withdraw": "Select the validator pool from which you wish to withdraw your tokens."
             },
             "inputLabel": "Validator account ID",
             "inputPlaceholder": "validator-name.near",
@@ -1041,6 +1044,7 @@
             "deleteAccount": "You are about to delete your account! Your NEAR balance will be destroyed, and all of your account data deleted."
         },
         "insufficientFunds": "Insufficient Funds",
+        "availableToTransfer": "Available to transfer",
         "hereAreSomeDetails": "Here are some details that will help you.",
         "contract": "Contract:",
         "unknownApp": "Unknown App",

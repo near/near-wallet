@@ -10,7 +10,7 @@ const Root = styled.div`
         display: flex;
         align-items: center;
         padding: 15px;
-        border: 2px solid #F2F2F2;
+        border: 1px solid #F2F2F2;
         border-radius: 8px;
         overflow: hidden;
 

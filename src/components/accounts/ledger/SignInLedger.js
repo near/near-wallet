@@ -13,6 +13,7 @@ import {
     checkAccountAvailable, 
     clearSignInWithLedgerModalState
 } from '../../../actions/account';
+import { staking } from '../../../actions/staking';
 import { clearLocalAlert } from '../../../actions/status'
 import LocalAlertBox from '../../common/LocalAlertBox'
 import { controller as controllerHelperApi } from '../../../utils/helper-api'
@@ -74,6 +75,7 @@ export function SignInLedger(props) {
     const refreshAndRedirect = () => {
         dispatch(refreshAccount())
         dispatch(redirectToApp())
+        dispatch(staking.clearState())
     }
 
     const onClose = () => {

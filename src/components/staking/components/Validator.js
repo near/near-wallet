@@ -25,21 +25,20 @@ export default function Validator({
 
     const handleStakeAction = async () => {
         if (showConfirmModal && !loading) {
-           await onWithdraw()
+           await onWithdraw('withdraw', selectedValidator || validator.accountId)
            setConfirm('done')
         }
     }
 
     return (
         <>
-            {stakeNotAllowed ?
-                <AlertBanner
+            {stakeNotAllowed 
+                ? <AlertBanner
                     title='staking.alertBanner.title'
                     button='staking.alertBanner.button'
                     linkTo={`/staking/${selectedValidator}`}
                 />
-                :
-                null
+                : null
             }
             <h1><Translate id='staking.validator.title' data={{ validator: match.params.validator }}/></h1>
             <FormButton 

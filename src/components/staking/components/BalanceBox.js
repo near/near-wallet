@@ -18,10 +18,10 @@ const Container = styled.div`
 
     .list {
         display: block;
-        margin-top: 8px !important;
+        margin-top: 10px !important;
         color: #24272a;
-        font-size: 24px;
-        font-weight: 900;
+        font-size: 16px;
+        font-weight: 700;
     }
 
     .title {
@@ -74,6 +74,7 @@ export default function BalanceBox({
     buttonColor,
     loading,
     disclaimer,
+    linkTo
 }) {
     return (
         <Container className='balance-box'>
@@ -82,15 +83,15 @@ export default function BalanceBox({
                     <Translate id={title} />
                     <Tooltip translate={info}/>
                 </div>
-                <Balance amount={amount} />
+                <Balance amount={amount} symbol='near'/>
                 {disclaimer &&
                     <div className='withdrawal-disclaimer'>
                         <Translate id={disclaimer} />
                     </div>
                 }
             </div>
-            {button && onClick &&
-                <FormButton disabled={new BN(amount).isZero() || loading} onClick={onClick} className={classNames(['small', buttonColor])}><Translate id={button} /></FormButton>
+            {button && (onClick || linkTo) &&
+                <FormButton disabled={new BN(amount).isZero() || loading} onClick={onClick} linkTo={linkTo} className={classNames(['small', buttonColor])}><Translate id={button} /></FormButton>
             }
         </Container>
     )

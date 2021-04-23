@@ -2,6 +2,7 @@ import { handleActions } from 'redux-actions'
 import reduceReducers from 'reduce-reducers'
 
 import { refreshAccountExternal, updateStakingAccount, updateStakingLockup } from '../actions/account'
+import { staking } from '../actions/staking'
 
 const initialState = {}
 
@@ -16,32 +17,32 @@ const allAccountsReducer = handleActions({
                     ...payload
                 }
             }),
-    [updateStakingAccount]: (state, { error, meta, payload, ready }) => 
-        (!ready || error || !meta.accountId)
+    [staking.updateAccount]: (state, { ready, error, payload }) => 
+        (error || !ready || !state[payload.accountId])
             ? state
             : ({
                 ...state,
-                [meta.accountId]: { 
-                    ...state[meta.accountId],
+                [payload.accountId]: { 
+                    ...state[payload.accountId],
                     balance: {
-                        ...state[meta.accountId].balance,
+                        ...state[payload.accountId].balance,
                         account: payload
                     }
                 }
             }),
-    [updateStakingLockup]: (state, { error, meta, payload, ready }) => 
-        (!ready || error || !meta.accountId)
+    [staking.updateLockup]: (state, { ready, error, payload }) => 
+        (error || !ready || !payload.mainAccountId)
             ? state
             : ({
                 ...state,
-                [meta.accountId]: { 
-                    ...state[meta.accountId],
+                [payload.mainAccountId]: { 
+                    ...state[payload.mainAccountId],
                     balance: {
-                        ...state[meta.accountId].balance,
+                        ...state[payload.mainAccountId].balance,
                         lockupAccount: payload
                     }
                 }
-            })
+            }),
 }, initialState)
 
 

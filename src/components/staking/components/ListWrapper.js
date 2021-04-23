@@ -8,6 +8,13 @@ const Container = styled.div`
         border-bottom: 2px solid #F2F2F2;
         border-radius: 0;
         padding: 15px 0;
+        background-color: transparent;
+
+        .user-icon {
+            .background {
+                fill: #F8F8F8;
+            }
+        }
 
         &:last-of-type {
             border-bottom: 0;
