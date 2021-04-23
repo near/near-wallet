@@ -15,7 +15,8 @@ import {
     updateStakingAccount,
     updateStakingLockup,
     getBalance,
-    selectAccount
+    selectAccount,
+    setAccountFound
 } from '../../actions/account'
 
 import { 
@@ -153,7 +154,11 @@ const account = handleActions({
             }),
     [selectAccount]: () => {
         return initialState
-    }
+    },
+    [setAccountFound]: (state, { payload }) => ({
+        ...state,
+        accountFound: payload
+    })
 }, initialState)
 
 export default reduceReducers(
