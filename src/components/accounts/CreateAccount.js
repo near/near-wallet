@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { Translate } from 'react-localize-redux'
-import { checkNewAccount, createNewAccount, refreshAccount, checkNearDropBalance } from '../../actions/account'
+import { checkNewAccount, createNewAccount, refreshAccount, checkNearDropBalance, redirectTo } from '../../actions/account'
 import { clearLocalAlert } from '../../actions/status'
 import { ACCOUNT_ID_SUFFIX } from '../../utils/wallet'
 import Container from '../common/styled/Container.css'
@@ -85,8 +85,15 @@ class CreateAccount extends Component {
     }
 
     componentDidMount() {
-        if (this.props.fundingContract && this.props.fundingKey) {
-            this.handleCheckNearDropBalance()
+        const { fundingContract, fundingKey, history, redirectTo } = this.props;
+        const params = new URLSearchParams(history.location.search)
+
+        if (fundingContract && fundingKey) {
+            if (params.get('redirect') === 'false') {
+                this.handleCheckNearDropBalance()
+            } else {
+                redirectTo(`/linkdrop/${fundingContract}/${fundingKey}`)
+            }
         }
     }
 
@@ -95,9 +102,10 @@ class CreateAccount extends Component {
     }
 
     handleCheckNearDropBalance = async () => {
+        const { fundingContract, fundingKey, checkNearDropBalance } = this.props;
         await Mixpanel.withTracking("CA Check near drop balance",
             async () =>  {
-                const fundingAmount = await this.props.checkNearDropBalance(this.props.fundingContract, this.props.fundingKey)
+                const fundingAmount = await checkNearDropBalance(fundingContract, fundingKey)
                 this.setState({ fundingAmount })
             },
             () => this.setState({ invalidNearDrop: true })
@@ -201,7 +209,8 @@ const mapDispatchToProps = {
     createNewAccount,
     clearLocalAlert,
     refreshAccount,
-    checkNearDropBalance
+    checkNearDropBalance,
+    redirectTo
 }
 
 const mapStateToProps = ({ account, status }, { match }) => ({

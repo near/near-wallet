@@ -9,6 +9,7 @@ import FormButton from '../common/FormButton'
 import { Mixpanel } from '../../mixpanel/index'
 import Balance from '../common/Balance'
 import NearGiftIcons from '../svg/NearGiftIcons'
+import BrokenLinkIcon from '../svg/BrokenLinkIcon';
 import AccountDropdown from '../common/AccountDropdown'
 import { actionsPending } from '../../utils/alerts'
 
@@ -49,6 +50,17 @@ const StyledContainer = styled(Container)`
     .account-dropdown-container {
         width: 100%;
     }
+
+    &.invalid-link {
+        svg {
+            display: block;
+            margin: 0 auto;
+        }
+
+        h2 {
+            margin-top: 20px;
+        }
+    }
 `
 
 class LinkdropLanding extends Component {
@@ -84,41 +96,54 @@ class LinkdropLanding extends Component {
 
     render() {
         const { fundingContract, fundingKey, accountId, mainLoader } = this.props
+        const { balance, invalidNearDrop } = this.state
         const claimingDrop = actionsPending('CLAIM_LINKDROP_TO_ACCOUNT')
-        const fundingAmount = this.state.balance;
-        return (
-            <StyledContainer className='xs-centered'>
-                <NearGiftIcons/>
-                <h3><Translate id='linkdropLanding.title'/></h3>
-                <div className='near-balance'>
-                    <Balance amount={this.state.balance} symbol='near'/>
-                </div>
-                <div className='desc'>
-                    <Translate id='linkdropLanding.desc'/>
-                </div>
-                {accountId ? <AccountDropdown/> : null}
-                {accountId ?
-                    <FormButton
-                        onClick={this.handleClaimNearDrop}
-                        sending={claimingDrop}
-                        disabled={mainLoader}
-                        sendingString='linkdropLanding.claiming'
-                    >
-                        <Translate id='linkdropLanding.ctaAccount'/>
+        const fundingAmount = balance;
+
+        if (!invalidNearDrop) {
+            return (
+                <StyledContainer className='xs-centered'>
+                    <NearGiftIcons/>
+                    <h3><Translate id='linkdropLanding.title'/></h3>
+                    <div className='near-balance'>
+                        <Balance amount={balance} symbol='near'/>
+                    </div>
+                    <div className='desc'>
+                        <Translate id='linkdropLanding.desc'/>
+                    </div>
+                    {accountId ? <AccountDropdown/> : null}
+                    {accountId ?
+                        <FormButton
+                            onClick={this.handleClaimNearDrop}
+                            sending={claimingDrop}
+                            disabled={mainLoader}
+                            sendingString='linkdropLanding.claiming'
+                        >
+                            <Translate id='linkdropLanding.ctaAccount'/>
+                        </FormButton>
+                        :
+                        <FormButton
+                            linkTo={`/recover-account?fundingOptions=${encodeURIComponent(JSON.stringify({ fundingContract, fundingKey, fundingAmount }))}`}
+                        >
+                            <Translate id='linkdropLanding.ctaLogin'/>
+                        </FormButton>
+                    }
+                    <div className='or'><Translate id='linkdropLanding.or'/></div>
+                    <FormButton color='gray-blue' linkTo={`/create/${fundingContract}/${fundingKey}?redirect=false`}>
+                        <Translate id='linkdropLanding.ctaNew'/>
                     </FormButton>
-                    :
-                    <FormButton
-                        linkTo={`/recover-account?fundingOptions=${encodeURIComponent(JSON.stringify({ fundingContract, fundingKey, fundingAmount }))}`}
-                    >
-                        <Translate id='linkdropLanding.ctaLogin'/>
-                    </FormButton>
-                }
-                <div className='or'><Translate id='linkdropLanding.or'/></div>
-                <FormButton color='gray-blue' linkTo={`/create/${fundingContract}/${fundingKey}?fromLinkdrop=true`}>
-                    <Translate id='linkdropLanding.ctaNew'/>
-                </FormButton>
-            </StyledContainer>
-        )
+                </StyledContainer>
+            )
+        } else {
+            return (
+                <StyledContainer className='small-centered invalid-link'>
+                    <BrokenLinkIcon/>
+                    <h1><Translate id='createAccount.invalidLinkDrop.title'/></h1>
+                    <h2><Translate id='createAccount.invalidLinkDrop.one'/></h2>
+                    <h2><Translate id='createAccount.invalidLinkDrop.two'/></h2>
+                </StyledContainer>
+            )
+        }
     }
 }
 
