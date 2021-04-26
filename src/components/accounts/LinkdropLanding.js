@@ -111,7 +111,7 @@ class LinkdropLanding extends Component {
                     <div className='desc'>
                         <Translate id='linkdropLanding.desc'/>
                     </div>
-                    {accountId ? <AccountDropdown/> : null}
+                    {accountId ? <AccountDropdown disabled={claimingDrop}/> : null}
                     {accountId ?
                         <FormButton
                             onClick={this.handleClaimNearDrop}
@@ -129,7 +129,7 @@ class LinkdropLanding extends Component {
                         </FormButton>
                     }
                     <div className='or'><Translate id='linkdropLanding.or'/></div>
-                    <FormButton color='gray-blue' linkTo={`/create/${fundingContract}/${fundingKey}?redirect=false`}>
+                    <FormButton color='gray-blue' disabled={claimingDrop} linkTo={`/create/${fundingContract}/${fundingKey}?redirect=false`}>
                         <Translate id='linkdropLanding.ctaNew'/>
                     </FormButton>
                 </StyledContainer>

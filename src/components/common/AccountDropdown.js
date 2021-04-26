@@ -54,7 +54,7 @@ const Container = styled.div`
     }
 `
 
-export default function AccountDropdown() {
+export default function AccountDropdown({ disabled }) {
     const dispatch = useDispatch();
     const { accountId } = useSelector(({ account }) => account);
     const availAccounts = useSelector(({ availableAccounts }) => availableAccounts);
@@ -66,7 +66,7 @@ export default function AccountDropdown() {
                 <Translate id={`selectAccountDropdown.${singleAccount ? 'account' : 'selectAccount'}`}/>
             </div>
             <DropDown
-                disabled={singleAccount}
+                disabled={singleAccount || disabled}
                 name='account-dropdown'
                 title={accountId || ''}
                 content={
