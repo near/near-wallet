@@ -78,7 +78,7 @@ class LinkdropLanding extends Component {
     handleClaimNearDrop = async () => {
         const { fundingContract, fundingKey, redirectTo, claimLinkdropToAccount } = this.props
         await claimLinkdropToAccount(fundingContract, fundingKey)
-        await localStorage.setItem('linkdropAmount', this.state.balance)
+        localStorage.setItem('linkdropAmount', this.state.balance)
         redirectTo('/')
     }
 
@@ -114,7 +114,7 @@ class LinkdropLanding extends Component {
                     </FormButton>
                 }
                 <div className='or'><Translate id='linkdropLanding.or'/></div>
-                <FormButton color='gray-blue' linkTo={`/create/${fundingContract}/${fundingKey}`}>
+                <FormButton color='gray-blue' linkTo={`/create/${fundingContract}/${fundingKey}?fromLinkdrop=true`}>
                     <Translate id='linkdropLanding.ctaNew'/>
                 </FormButton>
             </StyledContainer>

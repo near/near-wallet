@@ -1,9 +1,7 @@
 import React from 'react';
 import { withRouter, Link } from 'react-router-dom';
-import { connect } from 'react-redux';
 import styled from 'styled-components';
 import { Translate } from 'react-localize-redux';
-import { parse as parseQuery } from 'query-string'
 // Images
 import EmailIcon from '../../images/icon-recover-email.svg';
 import PhoneIcon from '../../images/icon-recover-phone.svg';
@@ -141,19 +139,16 @@ const RecoverAccount = (props) => {
                 <Option>
                     <Header icon={PhraseIcon}><Translate id='recoverAccount.phrase.title'/><br/><Translate id='recoverAccount.actionType'/></Header>
                     <P><Translate id='recoverAccount.phrase.desc'/></P>
-                    <Button to={`/recover-seed-phrase${props.router.location.search}`} onClick={()=> Mixpanel.track("IE Click seed phrase recovery button")}><Translate id='button.recoverAccount' /></Button>
+                    <Button to={`/recover-seed-phrase${props.history.location.search}`} onClick={()=> Mixpanel.track("IE Click seed phrase recovery button")}><Translate id='button.recoverAccount' /></Button>
                 </Option>
                 <Option>
                     <Header icon={HardwareDeviceIcon}><Translate id='recoverAccount.ledger.title'/><br/><Translate id='recoverAccount.actionType'/></Header>
                     <P><Translate id='recoverAccount.ledger.desc'/></P>
-                    <Button to={`/sign-in-ledger${props.router.location.search}`} onClick={()=> Mixpanel.track("IE Click ledger recovery button")}><Translate id='button.signInLedger' /></Button>
+                    <Button to={`/sign-in-ledger${props.history.location.search}`} onClick={()=> Mixpanel.track("IE Click ledger recovery button")}><Translate id='button.signInLedger' /></Button>
                 </Option>
             </Options>
         </StyledContainer>
     )
 }
-const mapStateToProps = ({ router }, { match }) => ({
-    router
-})
 
-export const RecoverAccountWithRouter = connect(mapStateToProps)(RecoverAccount);
+export const RecoverAccountWithRouter = withRouter(RecoverAccount);
