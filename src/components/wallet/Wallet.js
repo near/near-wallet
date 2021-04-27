@@ -167,11 +167,11 @@ export function Wallet() {
                 contracts.forEach(async contract => {
                     try {
                         // TODO: Parallelize balance and metadata calls, use cached metadata?
-                        let { name, symbol, decimals } = await account.viewFunction(contract, 'ft_metadata')
+                        let { name, symbol, decimals, icon } = await account.viewFunction(contract, 'ft_metadata')
                         const balance = await account.viewFunction(contract, 'ft_balance_of', { account_id: accountId })
                         loadedTokens = {
                             ...loadedTokens,
-                            [contract]: { contract, balance, name, symbol, decimals }
+                            [contract]: { contract, balance, name, symbol, decimals, icon }
                         }
                     } catch (e) {
                         if (e.message.includes('FunctionCallError(MethodResolveError(MethodNotFound))')) {
