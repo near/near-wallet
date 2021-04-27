@@ -8,6 +8,14 @@ import ChevronIcon from '../svg/ChevronIcon'
 const Container = styled.div`
     position: relative;
 
+    &.disabled {
+        pointer-events: none;
+
+        .chevron-icon {
+            display: none;
+        }
+    }
+
     .dropdown-title-wrapper {
         display: flex;
         align-items: center;
@@ -73,9 +81,9 @@ const Container = styled.div`
 
 `
 
-export default function DropDown({ name, title, icon, content }) {
+export default function DropDown({ name, title, icon, content, disabled }) {
     return (
-        <Container className={classNames(['dropdown-container'])}>
+        <Container className={classNames(['dropdown-container', disabled ? 'disabled' : ''])}>
             <div id={name} className='dropdown-title-wrapper'>
                 {icon ? (
                     <div className='icon-wrapper'>
@@ -91,6 +99,7 @@ export default function DropDown({ name, title, icon, content }) {
                 trigger={name}
                 className='dropdown-content'
                 transition='0'
+                disabled={disabled}
             >
                 {content}
             </Accordion>
@@ -101,6 +110,12 @@ export default function DropDown({ name, title, icon, content }) {
 DropDown.propTypes = {
     name: PropTypes.string.isRequired,
     icon: PropTypes.object,
-    title: PropTypes.object.isRequired,
-    content: PropTypes.object.isRequired
+    title: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.object
+    ]),
+    content: PropTypes.oneOfType([
+        PropTypes.array,
+        PropTypes.object
+    ])
 }

@@ -334,10 +334,13 @@ class Wallet {
     async createNewAccount(accountId, fundingOptions, recoveryMethod, publicKey, previousAccountId) {
         await this.checkNewAccount(accountId);
 
-        const { fundingContract, fundingKey, fundingAccountId } = fundingOptions || {}
+        const { fundingContract, fundingKey, fundingAccountId, fundingAmount } = fundingOptions || {}
         if (fundingContract && fundingKey) {
             await this.createNewAccountLinkdrop(accountId, fundingContract, fundingKey, publicKey)
             await this.keyStore.removeKey(NETWORK_ID, fundingContract)
+            if (fundingAmount) {
+                await localStorage.setItem('linkdropAmount', fundingAmount)
+            }
         } else if (fundingAccountId) {
             await this.createNewAccountFromAnother(accountId, fundingAccountId, publicKey)
         } else {
@@ -410,6 +413,19 @@ class Wallet {
             new_account_id: accountId,
             new_public_key: publicKey.toString().replace('ed25519:', '')
         }, LINKDROP_GAS);
+    }
+
+    async claimLinkdropToAccount(fundingContract, fundingKey) {
+        await this.keyStore.setKey(NETWORK_ID, fundingContract, KeyPair.fromString(fundingKey))
+        const account = await this.getAccount(fundingContract)
+        const accountId = this.accountId
+
+        const contract = new nearApiJs.Contract(account, fundingContract, {
+            changeMethods: ['claim'],
+            sender: fundingContract
+        });
+
+        await contract.claim({ account_id: accountId }, LINKDROP_GAS);
     }
 
     async saveAccount(accountId, keyPair) {

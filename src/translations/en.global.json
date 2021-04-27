@@ -305,8 +305,9 @@
     },
 
     "selectAccountDropdown": {
-        "switchAccount": "Switch Account",
-        "selectAccount": "Select Account",
+        "switchAccount": "Switch account",
+        "selectAccount": "Select account",
+        "account": "Account",
         "switchAccounthNotAllowed": "This app doesn't allow account changes",
         "createAccount": "Create New Account",
         "noOtherAccounts": "You have no other accounts"
@@ -596,6 +597,20 @@
             "privacyCheck": "I agree to the Privacy Policy",
             "agreeBtn": "Agree & Continue",
             "declineBtn": "Decline"
+        }
+    },
+
+    "linkdropLanding": {
+        "title": "You’ve received a NEAR drop!",
+        "desc": "You may claim your NEAR drop with an existing account (must be logged in), or create a new account to receive it as an initial deposit.",
+        "ctaAccount": "Claim with Existing Account",
+        "ctaLogin": "Log In and Claim",
+        "ctaNew": "Claim with New Account",
+        "or": "or",
+        "claiming": "Claiming",
+        "modal": {
+            "title": "Your NEAR drop has been claimed",
+            "desc": "Your NEAR drop has been automatically deposited to your account."
         }
     },
 

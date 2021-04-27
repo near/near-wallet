@@ -227,6 +227,7 @@ export const {
     setupRecoveryMessageNewAccount,
     deleteRecoveryMethod,
     checkNearDropBalance,
+    claimLinkdropToAccount,
     checkIsNew,
     checkNewAccount,
     createNewAccount,
@@ -314,6 +315,10 @@ export const {
     CHECK_NEAR_DROP_BALANCE: [
         wallet.checkNearDropBalance.bind(wallet),
         () => ({})
+    ],
+    CLAIM_LINKDROP_TO_ACCOUNT: [
+        wallet.claimLinkdropToAccount.bind(wallet),
+        () => showAlert({ onlyError: true })
     ],
     CHECK_IS_NEW: [
         wallet.checkIsNew.bind(wallet),
@@ -436,7 +441,7 @@ export const finishAccountSetup = () => async (dispatch, getState) => {
         if (url?.redirectUrl) {
             window.location = `${url.redirectUrl}?accountId=${accountId}`
         } else {
-            dispatch(redirectToApp('/profile'))
+            dispatch(redirectToApp('/'))
         }
     }
 }
@@ -462,7 +467,7 @@ export const { addAccessKey, createAccountWithSeedPhrase, addAccessKeySeedPhrase
             await wallet.saveAccount(accountId, recoveryKeyPair);
             await wallet.createNewAccount(accountId, fundingOptions, recoveryMethod, recoveryKeyPair.publicKey, previousAccountId)
         },
-        () => showAlert()
+        () => showAlert({ onlyError: true })
     ],
     ADD_ACCESS_KEY_SEED_PHRASE: [
         async (accountId, recoveryKeyPair) => {

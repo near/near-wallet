@@ -19,7 +19,7 @@ const Container = styled.div`
         width: 1000px;
     }
 
-    &.small-centered {
+    &.small-centered, &.xs-centered {
         max-width: 500px;
 
         h1,
@@ -41,6 +41,10 @@ const Container = styled.div`
                 text-align: center !important;
             }
         }
+    }
+
+    &.xs-centered {
+        max-width: 350px !important;
     }
 
     &.medium {
