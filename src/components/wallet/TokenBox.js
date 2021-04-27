@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import DefaultTokenIcon from '../svg/DefaultTokenIcon'
 import { EXPLORER_URL } from '../../utils/wallet'
 import TokenAmount from './TokenAmount'
+import isDataURL from '../../utils/isDataURL'
 
 const StyledContainer = styled.div`
     display: flex;
@@ -20,11 +21,17 @@ const StyledContainer = styled.div`
     }
 
     .symbol {
-        width: 32px;
-        height: 32px;
+        width: 33px;
+        height: 33px;
         display: flex;
         align-items: center;
         justify-content: center;
+        overflow: hidden;
+
+        img, svg {
+            height: 32px;
+            width: 32px;
+        }
     }
 
     .desc {
@@ -76,7 +83,11 @@ const TokenBox = ({ token }) => {
     return (
         <StyledContainer className='token-box'>
             <div className='symbol'>
-                <DefaultTokenIcon/>
+                {token.icon && isDataURL(token.icon) ?
+                    <img src={token.icon} alt={token.name}/>
+                    :
+                    <DefaultTokenIcon/>
+                }
             </div>
             <div className='desc'>
                 <span>{token.symbol}</span>
