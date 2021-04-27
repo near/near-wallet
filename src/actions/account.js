@@ -467,7 +467,7 @@ export const { addAccessKey, createAccountWithSeedPhrase, addAccessKeySeedPhrase
             await wallet.saveAccount(accountId, recoveryKeyPair);
             await wallet.createNewAccount(accountId, fundingOptions, recoveryMethod, recoveryKeyPair.publicKey, previousAccountId)
         },
-        () => showAlert()
+        () => showAlert({ onlyError: true })
     ],
     ADD_ACCESS_KEY_SEED_PHRASE: [
         async (accountId, recoveryKeyPair) => {
