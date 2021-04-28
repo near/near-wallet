@@ -62,15 +62,16 @@ class RecoverAccountSeedPhrase extends Component {
             return false
         }
         const { seedPhrase } = this.state
-        const { fundingContract, fundingKey } = JSON.parse(parseQuery(this.props.location.search).fundingOptions || 'null')
+
         await Mixpanel.withTracking("IE-SP Recovery with seed phrase",
             async () => {
                 await this.props.recoverAccountSeedPhrase(seedPhrase)
                 await this.props.refreshAccount()
             }
         )
-        if (fundingContract && fundingKey) {
-            this.props.redirectTo(`/linkdrop/${fundingContract}/${fundingKey}`)
+        const options = JSON.parse(parseQuery(this.props.location.search).fundingOptions || 'null')
+        if (options) {
+            this.props.redirectTo(`/linkdrop/${options.fundingContract}/${options.fundingKey}`)
         } else {
             this.props.redirectToApp('/')
         }
