@@ -726,7 +726,8 @@
             "isRequestingFullAccess": "is requesting <b>full access</b>",
             "toYourAccount": "to your account.",
             "thisDoesNotAllow": "This does not allow the app to transfer any tokens.",
-            "thisProvidesAccess": "This provides access to <b>all of your tokens</b>.<br />Proceed with caution!"
+            "thisProvidesAccess": "This provides access to <b>all of your tokens</b>.<br />Proceed with caution!",
+            "accountIdOnly": "is asking for your Account ID."
         },
         "confirm": {
             "pageTitle": "Are you sure?",
