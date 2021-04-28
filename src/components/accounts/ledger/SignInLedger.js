@@ -75,7 +75,7 @@ export function SignInLedger(props) {
     }
 
     const refreshAndRedirect = () => {
-        const options = JSON.parse(parseQuery(this.props.location.search).fundingOptions || 'null')
+        const options = JSON.parse(parseQuery(props.history.location.search).fundingOptions || 'null')
         dispatch(refreshAccount())
         if (options) {
             dispatch(redirectTo(`/linkdrop/${options.fundingContract}/${options.fundingKey}`))
