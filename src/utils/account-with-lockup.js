@@ -163,9 +163,11 @@ async function getAccountBalance(limitedAccountData = false) {
         const endTimestamp = (hasBrokenTimestamp ? new BN(transfersTimestamp) : startTimestampBN).add(releaseDurationBN)
         const timeLeft = BN.max(new BN(0), endTimestamp.sub(dateNowBN))
 
-        const unreleasedAmount = startTimestampBN.lte(dateNowBN)
+        const unreleasedAmount = dateNowBN.lte(endTimestamp)
+            ? startTimestampBN.lte(dateNowBN)
                 ? new BN(lockupAmount).mul(timeLeft).div(releaseDurationBN)
                 : new BN(lockupAmount)
+            : new BN('0')
 
         let totalBalance = new BN(lockupBalance.total)
         let stakedBalanceLockup = new BN(0)
