@@ -1,11 +1,11 @@
 import React from 'react'
 import { GuestLanding } from '../landing/GuestLanding'
-import PrivateRoute from './PrivateRoute'
+import PrivateRouteLimited from './PrivateRouteLimited'
 
 const GuestLandingRoute = ({component: Component, accountFound, ...rest}) => (
     !accountFound
         ? <GuestLanding />
-        : <PrivateRoute
+        : <PrivateRouteLimited
             {...rest} 
             component={Component}
         />
