@@ -132,10 +132,12 @@ export function Wallet() {
     const linkdropModal = linkdropAmount && showLinkdropModal !== false;
     
     useEffect(() => {
-        let id = Mixpanel.get_distinct_id()
-        Mixpanel.identify(id)
-        Mixpanel.people.set({relogin_date: new Date().toString()})
-        dispatch(getTransactions(accountId))
+        if (accountId) {
+            let id = Mixpanel.get_distinct_id()
+            Mixpanel.identify(id)
+            Mixpanel.people.set({relogin_date: new Date().toString()})
+            dispatch(getTransactions(accountId))
+        }
     }, [accountId])
 
     const logError = (error) => {
