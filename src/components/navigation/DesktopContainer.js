@@ -109,14 +109,14 @@ class DesktopContainer extends Component {
                     <>
                         <div className='divider'/>
                         <UserAccount
-                            accountId={account.accountId}
+                            accountId={account.accountId || account.localStorage?.accountId}
                             onClick={toggleMenu}
                             flowLimitation={flowLimitation}
                         />
                         <DesktopMenu
                             show={menuOpen}
                             toggleMenu={toggleMenu}
-                            accountId={account.accountId}
+                            accountId={account.accountId || account.localStorage?.accountId}
                             accounts={availableAccounts}
                             selectAccount={selectAccount}
                         />
