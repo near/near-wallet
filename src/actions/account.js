@@ -520,6 +520,10 @@ export const { signAndSendTransactions, setSignTransactionStatus, sendMoney, tra
 export const refreshAccount = (basicData = false) => async (dispatch, getState) => {
     const { flowLimitation } = getState()
 
+    if (!wallet.accountId) {
+        return
+    }
+    
     dispatch(setLocalStorage(wallet.accountId))
     await dispatch(refreshAccountOwner(flowLimitation.accountData))
 
