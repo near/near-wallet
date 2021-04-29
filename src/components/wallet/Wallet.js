@@ -136,7 +136,7 @@ export function Wallet() {
         Mixpanel.identify(id)
         Mixpanel.people.set({relogin_date: new Date().toString()})
         dispatch(getTransactions(accountId))
-    }, [])
+    }, [accountId])
 
     const logError = (error) => {
         console.warn(error);
