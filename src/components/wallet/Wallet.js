@@ -62,6 +62,7 @@ const StyledContainer = styled(Container)`
                 justify-content: center;
                 align-items: center;
                 width: auto;
+                height: auto;
                 background-color: transparent !important;
                 border: 0;
                 padding: 0;
@@ -69,6 +70,7 @@ const StyledContainer = styled(Container)`
                 font-weight: 400;
                 font-size: 14px;
                 margin: 20px;
+                border-radius: 0;
 
                 :hover {
                     color: #3F4045;
