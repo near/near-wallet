@@ -19,6 +19,7 @@ import Footer from './common/Footer'
 import NetworkBanner from './common/NetworkBanner'
 import TwoFactorVerifyModal from '../components/accounts/two_factor/TwoFactorVerifyModal'
 import PrivateRoute from './common/PrivateRoute'
+import PrivateRouteLimited from './common/PrivateRouteLimited'
 import GuestLandingRoute from './common/GuestLandingRoute'
 import { Wallet } from './wallet/Wallet'
 import { CreateAccountWithRouter } from './accounts/CreateAccount'
@@ -342,7 +343,7 @@ class Routing extends Component {
                                 path='/terms'
                                 component={Terms}
                             />
-                            <PrivateRoute
+                            <PrivateRouteLimited
                                 component={Wallet}
                             />
                         </Switch>
