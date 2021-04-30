@@ -16,6 +16,7 @@ import Activities from './Activities'
 import ExploreApps from './ExploreApps'
 import Tokens from './Tokens'
 import { ACCOUNT_HELPER_URL, wallet } from '../../utils/wallet'
+import LinkDropSuccessModal from './LinkDropSuccessModal'
 
 import sendJson from 'fetch-send-json'
 
@@ -61,6 +62,7 @@ const StyledContainer = styled(Container)`
                 justify-content: center;
                 align-items: center;
                 width: auto;
+                height: auto;
                 background-color: transparent !important;
                 border: 0;
                 padding: 0;
@@ -68,6 +70,7 @@ const StyledContainer = styled(Container)`
                 font-weight: 400;
                 font-size: 14px;
                 margin: 20px;
+                border-radius: 0;
 
                 :hover {
                     color: #3F4045;
@@ -120,10 +123,13 @@ const StyledContainer = styled(Container)`
 
 export function Wallet() {
     const [exploreApps, setExploreApps] = useState(null);
+    const [showLinkdropModal, setShowLinkdropModal] = useState(null);
     const { balance, accountId } = useSelector(({ account }) => account)
     const transactions = useSelector(({ transactions }) => transactions)
     const dispatch = useDispatch()
     const hideExploreApps = localStorage.getItem('hideExploreApps')
+    const linkdropAmount = localStorage.getItem('linkdropAmount')
+    const linkdropModal = linkdropAmount && showLinkdropModal !== false;
     
     useEffect(() => {
         let id = Mixpanel.get_distinct_id()
@@ -167,11 +173,11 @@ export function Wallet() {
                 contracts.forEach(async contract => {
                     try {
                         // TODO: Parallelize balance and metadata calls, use cached metadata?
-                        let { name, symbol, decimals } = await account.viewFunction(contract, 'ft_metadata')
+                        let { name, symbol, decimals, icon } = await account.viewFunction(contract, 'ft_metadata')
                         const balance = await account.viewFunction(contract, 'ft_balance_of', { account_id: accountId })
                         loadedTokens = {
                             ...loadedTokens,
-                            [contract]: { contract, balance, name, symbol, decimals }
+                            [contract]: { contract, balance, name, symbol, decimals, icon }
                         }
                     } catch (e) {
                         if (e.message.includes('FunctionCallError(MethodResolveError(MethodNotFound))')) {
@@ -194,6 +200,13 @@ export function Wallet() {
         setExploreApps(false)
         Mixpanel.track("Click explore apps dismiss")
     }
+
+    const handleCloseLinkdropModal = () => {
+        localStorage.removeItem('linkdropAmount')
+        setShowLinkdropModal(false)
+        Mixpanel.track("Click dismiss NEAR drop success modal")
+    }
+
     return (
         <StyledContainer>
             <div className='split'>
@@ -253,6 +266,13 @@ export function Wallet() {
                     />
                 </div>
             </div>
+            {linkdropModal &&
+                <LinkDropSuccessModal
+                    onClose={handleCloseLinkdropModal}
+                    open={linkdropModal}
+                    linkdropAmount={linkdropAmount}
+                />
+            }
         </StyledContainer>
     )
 }

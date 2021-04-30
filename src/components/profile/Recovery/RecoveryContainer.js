@@ -36,6 +36,7 @@ const RecoveryContainer = ({ type, recoveryMethods }) => {
     const [deletingMethod, setDeletingMethod] = useState('');
     const dispatch = useDispatch();
     const account = useSelector(({ account }) => account);
+    const { mainLoader } = useSelector(({ status }) => status);
     let userRecoveryMethods = recoveryMethods || []
     const allKinds = ['email', 'phone', 'phrase'];
     const activeMethods = userRecoveryMethods.filter(({ kind }) => allKinds.includes(kind));
@@ -68,6 +69,7 @@ const RecoveryContainer = ({ type, recoveryMethods }) => {
                         deletingMethod={deletingMethod === method.publicKey}
                         onDelete={() => handleDeleteMethod(method)}
                         deleteAllowed={deleteAllowed}
+                        mainLoader={mainLoader}
                     />
                 )}
             </Container>

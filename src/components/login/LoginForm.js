@@ -25,7 +25,8 @@ const LoginForm = ({
     redirectCreateAccount,
     buttonLoader,
     match,
-    accountConfirmationForm
+    accountConfirmationForm,
+    requestAccountIdOnly
 }) => (
     <MobileContainer>
         <Grid padded>
@@ -53,8 +54,14 @@ const LoginForm = ({
                     {!accountConfirmationForm && (
                         <Fragment>
                             <div><b>{appTitle || <Translate id='sign.unknownApp' />}</b></div>
-                            <div className='h2'><Translate id='login.form.isRequestingTo' /> </div>
-                            <div className='h2'><Translate id='login.form.accessYourAccount' /></div>
+                            {requestAccountIdOnly ?
+                                <div className='h2'><Translate id='login.form.accountIdOnly' /></div>
+                            :
+                                <>
+                                    <div className='h2'><Translate id='login.form.isRequestingTo' /> </div>
+                                    <div className='h2'><Translate id='login.form.accessYourAccount' /></div>
+                                </>
+                            }
                         </Fragment>
                     )}
                     {accountConfirmationForm && (
@@ -82,23 +89,25 @@ const LoginForm = ({
                     )}
                 </Grid.Column>
             </Grid.Row>
-            <Grid.Row centered>
-                <Grid.Column
-                    largeScreen={12}
-                    computer={14}
-                    tablet={16}
-                    className='cont'
-                    textAlign='center'
-                >
-                    <FormButton
-                        linkTo={`${match.url}${match.url.substr(-1) === '/' ? '' : '/'}details`}
-                        className='more-information'
-                        trackingId="LOGIN Click more information button"
+            {!requestAccountIdOnly &&
+                <Grid.Row centered>
+                    <Grid.Column
+                        largeScreen={12}
+                        computer={14}
+                        tablet={16}
+                        className='cont'
+                        textAlign='center'
                     >
-                        <Translate id='button.moreInformation' />
-                    </FormButton>
-                </Grid.Column>
-            </Grid.Row>
+                        <FormButton
+                            linkTo={`${match.url}${match.url.substr(-1) === '/' ? '' : '/'}details`}
+                            className='more-information'
+                            trackingId="LOGIN Click more information button"
+                        >
+                            <Translate id='button.moreInformation' />
+                        </FormButton>
+                    </Grid.Column>
+                </Grid.Row>
+            }
         </Grid>
         <Grid padded>
             <Grid.Row centered>

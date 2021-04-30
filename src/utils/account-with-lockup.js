@@ -144,7 +144,8 @@ async function getAccountBalance(limitedAccountData = false) {
             releaseDuration,
             transferInformation,
             lockupTimestamp,
-            lockupDuration
+            lockupDuration,
+            terminationWithdrawnTokens
         } = await viewLockupState(this.connection, lockupAccountId)
 
         const dateNowBN = new BN(Date.now()).mul(new BN('1000000'))
@@ -162,9 +163,11 @@ async function getAccountBalance(limitedAccountData = false) {
         const endTimestamp = (hasBrokenTimestamp ? new BN(transfersTimestamp) : startTimestampBN).add(releaseDurationBN)
         const timeLeft = BN.max(new BN(0), endTimestamp.sub(dateNowBN))
 
-        const unreleasedAmount = startTimestampBN.lte(dateNowBN)
+        const unreleasedAmount = dateNowBN.lte(endTimestamp)
+            ? startTimestampBN.lte(dateNowBN)
                 ? new BN(lockupAmount).mul(timeLeft).div(releaseDurationBN)
                 : new BN(lockupAmount)
+            : new BN('0')
 
         let totalBalance = new BN(lockupBalance.total)
         let stakedBalanceLockup = new BN(0)
@@ -176,8 +179,8 @@ async function getAccountBalance(limitedAccountData = false) {
         }
         const isFullyUnlocked = timeLeft.eq(new BN(0))
         const ownersBalance = isFullyUnlocked
-            ? totalBalance
-            : totalBalance.sub(BN.max(unreleasedAmount, LOCKUP_MIN_BALANCE))
+            ? totalBalance.sub(new BN(terminationWithdrawnTokens))
+            : totalBalance.sub(BN.max(unreleasedAmount.sub(new BN(terminationWithdrawnTokens)), LOCKUP_MIN_BALANCE))
 
         const lockedAmount = totalBalance.sub(ownersBalance)
         const liquidOwnersBalance = BN.min(

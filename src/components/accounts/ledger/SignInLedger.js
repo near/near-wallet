@@ -5,9 +5,11 @@ import LedgerImage from '../../svg/LedgerImage';
 import FormButton from '../../common/FormButton';
 import { Translate } from 'react-localize-redux';
 import LedgerSignInModal from './LedgerSignInModal';
+import { parse as parseQuery } from 'query-string';
 import { 
     signInWithLedger, 
-    redirectToApp, 
+    redirectToApp,
+    redirectTo,
     refreshAccount, 
     signInWithLedgerAddAndSaveAccounts, 
     checkAccountAvailable, 
@@ -73,8 +75,13 @@ export function SignInLedger(props) {
     }
 
     const refreshAndRedirect = () => {
+        const options = JSON.parse(parseQuery(props.history.location.search).fundingOptions || 'null')
         dispatch(refreshAccount())
-        dispatch(redirectToApp())
+        if (options) {
+            dispatch(redirectTo(`/linkdrop/${options.fundingContract}/${options.fundingKey}`))
+        } else {
+            dispatch(redirectToApp())
+        }
         dispatch(staking.clearState())
     }
 

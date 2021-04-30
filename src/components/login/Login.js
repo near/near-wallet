@@ -61,7 +61,8 @@ class Login extends Component {
     render() {
         const { account: { url, accountId }, match, appTitle } = this.props
         const accountConfirmationForm = (url.public_key && (!url.contract_id || url.contract_id?.endsWith(`.${LOCKUP_ACCOUNT_ID_SUFFIX}`))) || url.contract_id === accountId
-
+        const requestAccountIdOnly = !url.public_key && !url.contract_id;
+        
         return (
             <LoginContainer>
                 <Route
@@ -79,6 +80,7 @@ class Login extends Component {
                             redirectCreateAccount={this.redirectCreateAccount}
                             handleDetails={this.handleDetails}
                             accountConfirmationForm={accountConfirmationForm}
+                            requestAccountIdOnly={requestAccountIdOnly}
                         />
                     )}
                 />
