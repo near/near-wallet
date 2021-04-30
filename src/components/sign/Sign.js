@@ -23,15 +23,22 @@ class Sign extends Component {
         const { callbackUrl, meta, actionStatus } = this.props;
         // TODO: Dispatch action for app redirect?
         if (this.props.callbackUrl) {
-            let errorMessage = 'userRejected';
+            let errorType = 'userRejected';
+            let errorMessage = 'User rejected transaction';
             const signTxStatus = actionStatus.SIGN_AND_SEND_TRANSACTIONS;
+            
             if (signTxStatus?.success === false) {
-                errorMessage = 'Unknown error occured';
+                errorType = 'unknownError';
+                errorMessage = 'Unknown error';
+
                 if (signTxStatus.errorMessage) {
                     errorMessage = signTxStatus.errorMessage;
                 }
+                if (signTxStatus.errorType) {
+                    errorType = signTxStatus.errorType;
+                }
             }
-            window.location.href = addQueryParams(callbackUrl, { meta, errorCode: errorMessage })
+            window.location.href = addQueryParams(callbackUrl, { meta, errorType, errorMessage })
         }
     }
 
