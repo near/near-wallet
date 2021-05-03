@@ -36,16 +36,14 @@ class Login extends Component {
     }
 
     handleAllow = async () => {
-        this.setState(() => ({
-            buttonLoader: true
-        }))
+        this.setState({ buttonLoader: true })
 
         await Mixpanel.withTracking("LOGIN",
             async () => await this.props.allowLogin(),
             () => {},
-            () => this.setState(() => ({
+            () => this.setState({
                 buttonLoader: false
-            }))
+            })
         )
     }
 
