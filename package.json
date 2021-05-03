@@ -17,6 +17,8 @@
     "query-string": "^7.0.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
+    "react-google-recaptcha": "^2.1.0",
+    "react-google-recaptcha-v3": "^1.9.4",
     "react-localize-redux": "^3.5.3",
     "react-phone-number-input": "2.3.11",
     "react-qr-svg": "^2.2.2",
