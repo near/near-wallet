@@ -41,9 +41,6 @@ import { ReceiveMoneyWithRouter } from './receive-money/ReceiveMoney'
 import { Profile } from './profile/Profile'
 import { BuyNear } from './buy/BuyNear'
 import { SignWithRouter } from './sign/Sign'
-import { NodeStakingWithRouter } from './node-staking/NodeStaking'
-import { AddNodeWithRouter } from './node-staking/AddNode'
-import { NodeDetailsWithRouter } from './node-staking/NodeDetails'
 import { StakingContainer } from './staking/StakingContainer'
 import { DISABLE_SEND_MONEY, WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS, IS_MAINNET, SHOW_PRERELEASE_WARNING } from '../utils/wallet'
 import { refreshAccount, handleRefreshUrl, handleRedirectUrl, handleClearUrl, promptTwoFactor } from '../actions/account'
@@ -330,21 +327,6 @@ class Routing extends Component {
                                 exact
                                 path='/sign'
                                 component={SignWithRouter}
-                            />
-                            <PrivateRoute
-                                exact
-                                path='/node-staking'
-                                component={NodeStakingWithRouter}
-                            />
-                            <PrivateRoute
-                                exact
-                                path='/add-node'
-                                component={AddNodeWithRouter}
-                            />
-                            <PrivateRoute
-                                exact
-                                path='/node-details'
-                                component={NodeDetailsWithRouter}
                             />
                             <PrivateRoute
                                 path='/staking'
