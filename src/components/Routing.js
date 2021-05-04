@@ -287,7 +287,7 @@ class Routing extends Component {
                                 path='/authorized-apps'
                                 component={AuthorizedAppsWithRouter}
                             />
-                            <PrivateRoute
+                            <PrivateRouteLimited
                                 exact
                                 path='/full-access-keys'
                                 component={FullAccessKeysWithRouter}
