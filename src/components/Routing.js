@@ -324,7 +324,7 @@ class Routing extends Component {
                                 path='/sign'
                                 component={SignWithRouter}
                             />
-                            <PrivateRoute
+                            <PrivateRouteLimited
                                 path='/staking'
                                 component={StakingContainer}
                                 render={() => (
