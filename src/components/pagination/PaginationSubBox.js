@@ -1,7 +1,6 @@
 import React from 'react'
 
 import AccessKeysDeauthorize from '../access-keys/AccessKeysDeauthorize'
-import ContactsRemove from '../contacts/ContactsRemove'
 
 import { List, Image } from 'semantic-ui-react'
 
@@ -232,7 +231,7 @@ const PaginationShowSubBox = ({
             />
         </List.Item>
         <List.Item>
-            {subPage === 'access-keys' && showSubData ? (
+            {subPage === 'access-keys' && showSubData &&
                 <AccessKeysDeauthorize 
                     showSubData={showSubData}
                     handleDeauthorize={handleDeauthorize}
@@ -245,12 +244,7 @@ const PaginationShowSubBox = ({
                     handleConfirmClear={handleConfirmClear}
                     mainLoader={mainLoader}
                 />
-            ) : (
-                <ContactsRemove
-                    showSubData={showSubData}
-                    handleDeauthorize={handleDeauthorize}
-                />
-            )}
+            }
         </List.Item>
     </CustomList>
 )

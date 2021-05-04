@@ -92,33 +92,6 @@ const AccessKeysDeauthorize = ({
                 }
             </div>
         </div>
-        {false && (
-            <div className='recent-transactions'>
-                <h6 className='title border-top'>
-                    RECENT TRANSACTIONS
-                </h6>
-                <div className='row border-top'>
-                    <b className='color-black'>Another thing here</b>
-                    <div>3h ago</div>
-                </div>
-                <div className='row border-top'>
-                    <b className='color-black'>Another Thing Happened</b>
-                    <div>3d ago</div>
-                </div>
-                <div className='row border-top'>
-                    <b className='color-black'>In-app purchase: 20 Ⓝ</b>
-                    <div>1w ago</div>
-                </div>
-                <div className='row border-top'>
-                    <b className='color-black'>Staked: 10 Ⓝ</b>
-                    <div>2w ago</div>
-                </div>
-                <div className='row border-top'>
-                    <b className='color-black'>Authorized</b>
-                    <div>2w ago</div>
-                </div>
-            </div>
-        )}
     </div>
 )
 

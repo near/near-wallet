@@ -33,7 +33,6 @@ import { RecoverWithLinkWithRouter } from './accounts/RecoverWithLink'
 import { SignInLedger } from './accounts/ledger/SignInLedger'
 import { LoginWithRouter } from './login/Login'
 import { LoginCliLoginSuccess } from './login/LoginCliLoginSuccess'
-import { ContactsWithRouter } from './contacts/Contacts'
 import { AuthorizedAppsWithRouter } from './access-keys/AccessKeys'
 import { FullAccessKeysWithRouter } from './access-keys/AccessKeys'
 import { SendContainer } from './send/SendContainer'
@@ -280,11 +279,6 @@ class Routing extends Component {
                             <PrivateRoute
                                 path='/login'
                                 component={LoginWithRouter}
-                            />
-                            <PrivateRoute
-                                exact
-                                path='/contacts'
-                                component={ContactsWithRouter}
                             />
                             <PrivateRoute
                                 exact
