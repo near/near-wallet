@@ -160,7 +160,7 @@ export const allowLogin = () => async (dispatch, getState) => {
 
     if (success_url) {
         if (public_key) {
-            await dispatchWithAlert(addAccessKey(account.accountId, url.contract_id, url.public_key), { onlyError: true })
+            await dispatchWithAlert(addAccessKey(account.accountId, url.contract_id, url.public_key, false, url.methodNames), { onlyError: true })
         }
         const availableKeys = await wallet.getAvailableKeys();
         const allKeys = availableKeys.map(key => key.toString());
@@ -172,7 +172,7 @@ export const allowLogin = () => async (dispatch, getState) => {
         parsedUrl.searchParams.set('all_keys', allKeys.join(','))
         window.location = parsedUrl.href
     } else {
-        await dispatchWithAlert(addAccessKey(account.accountId, url.contract_id, url.public_key), { data: { title } })
+        await dispatchWithAlert(addAccessKey(account.accountId, url.contract_id, url.public_key, false, url.methodNames), { data: { title } })
         dispatch(redirectTo('/authorized-apps', { globalAlertPreventClear: true }))
     }
 }
