@@ -282,7 +282,7 @@ class Routing extends Component {
                                 path='/login'
                                 component={LoginWithRouter}
                             />
-                            <PrivateRoute
+                            <PrivateRouteLimited
                                 exact
                                 path='/authorized-apps'
                                 component={AuthorizedAppsWithRouter}
