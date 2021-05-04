@@ -278,7 +278,7 @@ class Routing extends Component {
                                 path='/sign-in-ledger'
                                 component={SignInLedger}
                             />
-                            <PrivateRoute
+                            <PrivateRouteLimited
                                 path='/login'
                                 component={LoginWithRouter}
                             />
