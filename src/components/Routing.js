@@ -299,7 +299,7 @@ class Routing extends Component {
                                     component={SendContainer}
                                 />
                             }
-                            <PrivateRoute
+                            <PrivateRouteLimited
                                 exact
                                 path='/receive-money'
                                 component={ReceiveMoneyWithRouter}
