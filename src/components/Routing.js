@@ -314,7 +314,7 @@ class Routing extends Component {
                                 path='/profile/:accountId'
                                 component={Profile}
                             />
-                            <PrivateRoute
+                            <PrivateRouteLimited
                                 exact
                                 path='/profile/:accountId?'
                                 component={Profile}
