@@ -293,7 +293,7 @@ class Routing extends Component {
                                 component={FullAccessKeysWithRouter}
                             />
                             {!DISABLE_SEND_MONEY &&
-                                <PrivateRoute
+                                <PrivateRouteLimited
                                     exact
                                     path='/send-money/:id?'
                                     component={SendContainer}
