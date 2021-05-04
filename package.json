@@ -18,7 +18,6 @@
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-google-recaptcha": "^2.1.0",
-    "react-google-recaptcha-v3": "^1.9.4",
     "react-localize-redux": "^3.5.3",
     "react-phone-number-input": "2.3.11",
     "react-qr-svg": "^2.2.2",
@@ -37,7 +36,7 @@
   "scripts": {
     "predeploy": "yarn build",
     "update:static": "cp src/wasm/multisig.wasm dist/multisig.wasm && cp src/wasm/main.wasm dist/main.wasm",
-    "start": "yarn update:static; parcel src/index.html",
+    "start": "yarn update:static; parcel src/index.html --https",
     "prebuild": "rm -rf dist/",
     "build": "parcel build src/index.html && node scripts/sentry-send-release.js && yarn update:static",
     "test": "jest",
