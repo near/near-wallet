@@ -46,7 +46,10 @@ const SetupLedger = (props) => {
             async () => {
                 const isNew = await dispatch(checkIsNew(accountId))
                 if (isNew) {
-                    const fundingOptions = JSON.parse(parseQuery(location.search).fundingOptions || 'null')
+                    const queryOptions = parseQuery(location.search);
+                    const fundingOptions = JSON.parse(queryOptions.fundingOptions || 'null')
+                    const recaptchaToken = queryOptions.recaptchaToken;
+
                     console.log('SetupLedger', DISABLE_CREATE_ACCOUNT, fundingOptions)
                     const publicKey = await dispatch(getLedgerPublicKey())
                     await setKeyMeta(publicKey, { type: 'ledger' })
@@ -58,7 +61,7 @@ const SetupLedger = (props) => {
                         return
                     }
     
-                    await dispatch(createNewAccount(accountId, fundingOptions, 'ledger', publicKey))
+                    await dispatch(createNewAccount(accountId, fundingOptions, 'ledger', publicKey, undefined, recaptchaToken))
                     Mixpanel.track("SR-Ledger Create new account ledger")
                 } else {
                     await dispatch(addLedgerAccessKey())

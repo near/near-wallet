@@ -155,8 +155,10 @@ class SetupRecoveryMethod extends Component {
                 async () => {
                     const isNew = await checkIsNew(accountId)
                     if (isNew) {
-                        const fundingOptions = JSON.parse(parseQuery(location.search).fundingOptions || 'null')
-                        await setupRecoveryMessageNewAccount(accountId, this.method, securityCode, fundingOptions, this.state.recoverySeedPhrase)
+                        const queryOptions = parseQuery(location.search);
+                        const fundingOptions = JSON.parse(queryOptions.fundingOptions || 'null')
+                        const recaptchaToken = queryOptions.recaptchaToken;
+                        await setupRecoveryMessageNewAccount(accountId, this.method, securityCode, fundingOptions, this.state.recoverySeedPhrase, recaptchaToken)
                     } else {
                         await setupRecoveryMessage(accountId, this.method, securityCode, this.state.recoverySeedPhrase)
                     }

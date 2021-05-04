@@ -405,14 +405,14 @@ export const fundCreateAccountLedger = (accountId, ledgerPublicKey) => async (di
 }
 
 // TODO: Refactor common code with setupRecoveryMessageNewAccount
-export const handleCreateAccountWithSeedPhrase = (accountId, recoveryKeyPair, fundingOptions) => async (dispatch) => {
+export const handleCreateAccountWithSeedPhrase = (accountId, recoveryKeyPair, fundingOptions, recaptchaToken) => async (dispatch) => {
     if (DISABLE_CREATE_ACCOUNT && !fundingOptions) {
         await dispatch(fundCreateAccount(accountId, recoveryKeyPair, 'seed'))
         return
     }
 
     try {
-        await dispatch(createAccountWithSeedPhrase(accountId, recoveryKeyPair, fundingOptions))
+        await dispatch(createAccountWithSeedPhrase(accountId, recoveryKeyPair, fundingOptions, recaptchaToken))
     } catch (error) {
         if(await wallet.accountExists(accountId)) {
             // Requests sometimes fail after creating the NEAR account for another reason (transport error?)
@@ -465,11 +465,11 @@ export const { addAccessKey, createAccountWithSeedPhrase, addAccessKeySeedPhrase
         (title) => showAlert({ title })
     ],
     CREATE_ACCOUNT_WITH_SEED_PHRASE: [
-        async (accountId, recoveryKeyPair, fundingOptions = {}) => {
+        async (accountId, recoveryKeyPair, fundingOptions = {}, recaptchaToken) => {
             const recoveryMethod = 'seed'
             const previousAccountId = wallet.accountId
             await wallet.saveAccount(accountId, recoveryKeyPair);
-            await wallet.createNewAccount(accountId, fundingOptions, recoveryMethod, recoveryKeyPair.publicKey, previousAccountId)
+            await wallet.createNewAccount(accountId, fundingOptions, recoveryMethod, recoveryKeyPair.publicKey, previousAccountId, recaptchaToken)
         },
         () => showAlert({ onlyError: true })
     ],

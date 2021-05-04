@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { Translate } from 'react-localize-redux'
+import ReCAPTCHA from "react-google-recaptcha";
 import { checkNewAccount, createNewAccount, refreshAccount, checkNearDropBalance, redirectTo } from '../../actions/account'
 import { clearLocalAlert } from '../../actions/status'
 import { ACCOUNT_ID_SUFFIX } from '../../utils/wallet'
@@ -13,6 +14,21 @@ import AccountFormAccountId from './AccountFormAccountId'
 import AccountNote from '../common/AccountNote'
 import { Mixpanel } from '../../mixpanel/index'
 import TermsModal from './TermsModal'
+
+// TODO: Background (v3) recaptcha has a different lifecycle and requires a different API key than challenge-based (v2)
+// const RECAPTCHA_BACKGROUND_API_KEY = process.env.RECAPTCHA_BACKGROUND_API_KEY;
+const RECAPTCHA_CHALLENGE_API_KEY = process.env.RECAPTCHA_CHALLENGE_API_KEY;
+
+const RecaptchaString = styled.div`
+    margin-bottom: -10px;
+    font-size: 12px;
+    padding-top: 24px;
+    font-weight: 300;
+    a {
+        color: inherit;
+        text-decoration: underline;
+    }
+`
 
 const StyledContainer = styled(Container)`
 
@@ -76,12 +92,13 @@ class CreateAccount extends Component {
     state = {
         loader: false,
         accountId: '',
-        token: '',
+        recaptchaToken: '',
         invalidNearDrop: null,
         showTerms: false,
         termsChecked: false,
         privacyChecked: false,
-        fundingAmount: null
+        fundingAmount: null,
+        recaptchaFallback: false
     }
 
     componentDidMount() {
@@ -122,7 +139,7 @@ class CreateAccount extends Component {
 
     handleCreateAccount = async () => {
         const { accountId, fundingAmount } = this.state;
-        const { 
+        const {
             fundingContract, fundingKey,
             fundingAccountId,
         } = this.props
@@ -134,6 +151,11 @@ class CreateAccount extends Component {
             const fundingOptions = fundingAccountId ? { fundingAccountId } : { fundingContract, fundingKey, fundingAmount }
             queryString = `?fundingOptions=${encodeURIComponent(JSON.stringify(fundingOptions))}`
         }
+
+        if(RECAPTCHA_CHALLENGE_API_KEY) {
+            const recaptchaToken = encodeURIComponent(this.state.recaptchaToken);
+            queryString += `${queryString ? '&' : '?'}recaptchaToken=${recaptchaToken}`
+        }
         let nextUrl = process.env.DISABLE_PHONE_RECOVERY === 'yes' ?
             `/setup-seed-phrase/${accountId}/phrase${queryString}` :
             `/set-recovery/${accountId}${queryString}`;
@@ -141,11 +163,34 @@ class CreateAccount extends Component {
         this.props.history.push(nextUrl);
     }
 
+
+    /**
+     //
+     // If porting to Hooks, use useMemo() to get a stable reference to the function
+     /* * Do not refactor this to an in-line function!
+     *
+     * Must be a stable function, or reCaptcha will infinitely loop on reloading itself
+     *
+     * @param token recaptchaToken returned by recaptcha API
+     */
+    handleVerifyRecaptcha = (token) => {
+        this.setState({ recaptchaToken: token });
+    }
+
     render() {
-        const { loader, accountId, invalidNearDrop, showTerms, termsChecked, privacyChecked } = this.state
+        const {
+            loader,
+            accountId,
+            invalidNearDrop,
+            showTerms,
+            termsChecked,
+            privacyChecked,
+            recaptchaToken
+        } = this.state
+
         const { localAlert, mainLoader, checkNewAccount, resetAccount, clearLocalAlert } = this.props
         const useLocalAlert = accountId.length > 0 ? localAlert : undefined;
-        
+
         if (!invalidNearDrop) {
             return (
                 <StyledContainer className='small-centered'>
@@ -165,9 +210,20 @@ class CreateAccount extends Component {
                             defaultAccountId={resetAccount && resetAccount.accountIdNotConfirmed.split('.')[0]}
                         />
                         <AccountNote/>
+                        <RecaptchaString>
+                            This site is protected by reCAPTCHA and the Google <a
+                            href='https://policies.google.com/privacy' target='_blank' rel='noopener noreferrer'>Privacy
+                            Policy</a> and <a href='https://policies.google.com/terms' target='_blank'
+                                              rel='noopener noreferrer'>Terms of Service</a> apply.
+                        </RecaptchaString>
+                        {RECAPTCHA_CHALLENGE_API_KEY && <ReCAPTCHA
+                            sitekey={RECAPTCHA_CHALLENGE_API_KEY}
+                            onChange={this.handleVerifyRecaptcha}
+                            style={{ marginTop: '25px' }}
+                        />}
                         <FormButton
                             type='submit'
-                            disabled={!(localAlert && localAlert.success)}
+                            disabled={!(localAlert && localAlert.success) || !recaptchaToken}
                             sending={loader}
                         >
                             <Translate id='button.createAccountCapital'/>
@@ -190,6 +246,7 @@ class CreateAccount extends Component {
                         />
                     }
                 </StyledContainer>
+
             )
         } else {
             return (

@@ -115,9 +115,12 @@ class SetupSeedPhrase extends Component {
             return
         }
 
-        const fundingOptions = JSON.parse(parseQuery(location.search).fundingOptions || 'null')
+        const queryOptions = parseQuery(location.search);
+        const fundingOptions = JSON.parse(queryOptions.fundingOptions || 'null')
+        const recaptchaToken = queryOptions.recaptchaToken;
+
         await Mixpanel.withTracking("SR-SP Setup for new account", 
-            async () => await handleCreateAccountWithSeedPhrase(accountId, recoveryKeyPair, fundingOptions)
+            async () => await handleCreateAccountWithSeedPhrase(accountId, recoveryKeyPair, fundingOptions, recaptchaToken)
         )
     }
 

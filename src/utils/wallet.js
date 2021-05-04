@@ -51,6 +51,7 @@ export const EXPLORE_APPS_URL = process.env.EXPLORE_APPS_URL || 'https://awesome
 
 export const NETWORK_ID = process.env.REACT_APP_NETWORK_ID || 'default'
 const CONTRACT_CREATE_ACCOUNT_URL = `${ACCOUNT_HELPER_URL}/account`
+const FUNDED_ACCOUNT_CREATE_URL = `${ACCOUNT_HELPER_URL}/fundedAccount`
 export const NODE_URL = process.env.REACT_APP_NODE_URL || 'https://rpc.nearprotocol.com'
 export const WALLET_APP_MIN_AMOUNT = nearApiJs.utils.format.formatNearAmount(new BN (MIN_BALANCE_FOR_GAS).add(new BN(ACCESS_KEY_FUNDING_AMOUNT)))
 
@@ -183,7 +184,7 @@ class Wallet {
                     if (await this.accountExists(curAccountId)) {
                         nextAccountId = curAccountId
                         break
-                    }   
+                    }
                 }
                 store.dispatch(selectAccount(nextAccountId))
 
@@ -331,7 +332,7 @@ class Wallet {
         return !(await this.accountExists(accountId))
     }
 
-    async createNewAccount(accountId, fundingOptions, recoveryMethod, publicKey, previousAccountId) {
+    async createNewAccount(accountId, fundingOptions, recoveryMethod, publicKey, previousAccountId, recaptchaToken) {
         await this.checkNewAccount(accountId);
 
         const { fundingContract, fundingKey, fundingAccountId, fundingAmount } = fundingOptions || {}
@@ -343,10 +344,18 @@ class Wallet {
             }
         } else if (fundingAccountId) {
             await this.createNewAccountFromAnother(accountId, fundingAccountId, publicKey)
+        } else if(process.env.RECAPTCHA_CHALLENGE_API_KEY) {
+            // TODO: Only attempt this branch if a prior attempt using funded account has not failed due to lack of funding
+            // on the source account
+            await sendJson('POST', FUNDED_ACCOUNT_CREATE_URL, {
+                newAccountId: accountId,
+                newAccountPublicKey: publicKey.toString(),
+                recaptchaCode: recaptchaToken
+            })
         } else {
             await sendJson('POST', CONTRACT_CREATE_ACCOUNT_URL, {
                 newAccountId: accountId,
-                newAccountPublicKey: publicKey.toString()
+                newAccountPublicKey: publicKey.toString(),
             })
         }
 
@@ -375,7 +384,7 @@ class Wallet {
         const accessKeys = await account.getAccessKeys()
         if (accessKeys.length !== 1) {
             return
-        } 
+        }
         const [{ access_key: { permission }, public_key }] = accessKeys
         const implicitPublicKey = new PublicKey({ keyType: KeyType.ED25519, data: Buffer.from(fundingAccountId, 'hex') })
         if (permission !== 'FullAccess' || implicitPublicKey.toString() !==  public_key) {
@@ -578,7 +587,7 @@ class Wallet {
         try {
             const accessKeys =  await this.getAccessKeys(accountId)
             const localAccessKey = await this.getLocalAccessKey(accountId, accessKeys)
-    
+
             const newKeyPair = await this.addWalletMetadataAccessKeyIfNeeded(accountId, localAccessKey)
             await this.setKey(accountId, newKeyPair)
         } catch (error) {
@@ -710,18 +719,20 @@ class Wallet {
         }
     }
 
-    async setupRecoveryMessageNewAccount(accountId, method, securityCode, fundingOptions, recoverySeedPhrase) {
+    async setupRecoveryMessageNewAccount(accountId, method, securityCode, fundingOptions, recoverySeedPhrase, recaptchaToken) {
         const { secretKey } = parseSeedPhrase(recoverySeedPhrase)
         const recoveryKeyPair = KeyPair.fromString(secretKey)
         await this.validateSecurityCode(accountId, method, securityCode);
         await this.saveAccount(accountId, recoveryKeyPair);
 
+        // IMPLICIT ACCOUNT
         if (DISABLE_CREATE_ACCOUNT && !fundingOptions) {
             await store.dispatch(fundCreateAccount(accountId, recoveryKeyPair, fundingOptions, method))
             return
         }
 
-        await this.createNewAccount(accountId, fundingOptions, method, recoveryKeyPair.publicKey)
+        // NOT IMPLICIT ACCOUNT (testnet, linkdrop, funded to delegated account via contract helper)
+        await this.createNewAccount(accountId, fundingOptions, method, recoveryKeyPair.publicKey, undefined, recaptchaToken)
     }
 
     async addLocalKeyAndFinishSetup(accountId, recoveryMethod, publicKey, previousAccountId) {
@@ -834,9 +845,9 @@ class Wallet {
             provider: { type: 'JsonRpcProvider', args: { url: NODE_URL + '/' } },
             signer: new nearApiJs.InMemorySigner(tempKeyStore)
         })
-        
+
         const connectionConstructor = this.connection
-        
+
         const accountIdsSuccess = []
         const accountIdsError = []
         await Promise.all(accountIds.map(async (accountId, i) => {
@@ -849,7 +860,7 @@ class Wallet {
             // check if recover access key is FAK and if so add key without 2FA
             if (await TwoFactor.has2faEnabled(account)) {
                 const accessKeys = await account.getAccessKeys()
-                recoveryKeyIsFAK = accessKeys.find(({ public_key, access_key }) => 
+                recoveryKeyIsFAK = accessKeys.find(({ public_key, access_key }) =>
                     public_key === publicKey &&
                     access_key.permission &&
                     access_key.permission === 'FullAccess'
@@ -865,7 +876,7 @@ class Wallet {
             account.keyStore = tempKeyStore
             account.inMemorySigner = account.connection.signer = new nearApiJs.InMemorySigner(tempKeyStore)
             const newKeyPair = KeyPair.fromRandom('ed25519')
-            
+
             try {
                 await this.addAccessKey(accountId, accountId, newKeyPair.publicKey, fromSeedPhraseRecovery, '', recoveryKeyIsFAK)
                 accountIdsSuccess.push({
