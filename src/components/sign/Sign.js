@@ -50,7 +50,7 @@ class Sign extends Component {
         const { account: { url, balance }, totalAmount, sensitiveActionsCounter, status } = this.props
 
         const txTotalAmount = new BN(totalAmount) // TODO: add gas cost, etc
-        const availableBalance = balance.available
+        const availableBalance = balance?.available
         const insufficientFunds = availableBalance
             ? txTotalAmount.gt(new BN(availableBalance))
             : false
