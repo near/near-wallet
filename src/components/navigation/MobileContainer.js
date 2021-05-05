@@ -181,7 +181,7 @@ class MobileContainer extends Component {
                     {showNavLinks &&
                         <>
                             <UserAccount
-                                accountId={account.accountId}
+                                accountId={account.accountId || account.localStorage?.accountId}
                                 onClick={toggleMenu}
                                 withIcon={false}
                                 flowLimitation={flowLimitation}
@@ -206,6 +206,7 @@ class MobileContainer extends Component {
                             <UserAccounts
                                 accounts={availableAccounts}
                                 accountId={account.accountId}
+                                accountIdLocalStorage={account.localStorage?.accountId}
                                 selectAccount={selectAccount}
                             />
                             <AccessAccountBtn/>
