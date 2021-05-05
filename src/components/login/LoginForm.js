@@ -11,7 +11,6 @@ import SelectAccountDropdown from './SelectAccountDropdown'
 
 import IconProblems from '../../images/IconProblems'
 import IconAuthorize from '../../images/IconAuthorize'
-import { Mixpanel } from '../../mixpanel/index'
 
 const LoginForm = ({
     dropdown,

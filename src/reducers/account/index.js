@@ -12,8 +12,6 @@ import {
     checkCanEnableTwoFactor,
     get2faMethod,
     getLedgerKey,
-    updateStakingAccount,
-    updateStakingLockup,
     getBalance,
     selectAccount,
     setLocalStorage

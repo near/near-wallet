@@ -2,7 +2,6 @@ import React from 'react'
 import { Route, withRouter, Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { KEY_ACTIVE_ACCOUNT_ID } from '../../utils/wallet'
-import { GuestLanding } from '../landing/GuestLanding'
 
 const PrivateRouteLimited = ({component: Component, account, refreshAccountOwnerEnded, ...rest}) => (
     <Route 
