@@ -116,7 +116,8 @@ class DesktopContainer extends Component {
                         <DesktopMenu
                             show={menuOpen}
                             toggleMenu={toggleMenu}
-                            accountId={account.accountId || account.localStorage?.accountId}
+                            accountId={account.accountId}
+                            accountIdLocalStorage={account.localStorage?.accountId}
                             accounts={availableAccounts}
                             selectAccount={selectAccount}
                         />
