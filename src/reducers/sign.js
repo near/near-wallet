@@ -22,7 +22,7 @@ const sign = handleActions({
             transactions,
             totalAmount: allActions
                 .map(a => (a.transfer && a.transfer.deposit) || (a.functionCall && a.functionCall.deposit) || 0)
-                .reduce((totalAmount, amount) => totalAmount.add(amount), new BN(0)).toString(),
+                .reduce((totalAmount, amount) => totalAmount.add(new BN(amount)), new BN(0)).toString(),
             fees: {
                 transactionFees: '', // TODO: Calculate total fees
                 gasLimit: allActions
