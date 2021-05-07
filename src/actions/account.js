@@ -406,7 +406,8 @@ export const fundCreateAccountLedger = (accountId, ledgerPublicKey) => async (di
 
 // TODO: Refactor common code with setupRecoveryMessageNewAccount
 export const handleCreateAccountWithSeedPhrase = (accountId, recoveryKeyPair, fundingOptions, recaptchaToken) => async (dispatch) => {
-    if (DISABLE_CREATE_ACCOUNT && !fundingOptions) {
+    // Implicit account flow
+    if (DISABLE_CREATE_ACCOUNT && (!fundingOptions || !recaptchaToken)) {
         await dispatch(fundCreateAccount(accountId, recoveryKeyPair, 'seed'))
         return
     }
@@ -414,7 +415,7 @@ export const handleCreateAccountWithSeedPhrase = (accountId, recoveryKeyPair, fu
     try {
         await dispatch(createAccountWithSeedPhrase(accountId, recoveryKeyPair, fundingOptions, recaptchaToken))
     } catch (error) {
-        if(await wallet.accountExists(accountId)) {
+        if (await wallet.accountExists(accountId)) {
             // Requests sometimes fail after creating the NEAR account for another reason (transport error?)
             // If that happened, we allow the user can add the NEAR account to the wallet by entering the seed phrase
             dispatch(redirectTo('/recover-seed-phrase', {
@@ -423,6 +424,7 @@ export const handleCreateAccountWithSeedPhrase = (accountId, recoveryKeyPair, fu
             }))
             return
         }
+        throw error;
     }
 }
 
