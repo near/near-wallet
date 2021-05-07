@@ -138,10 +138,6 @@ export function Profile({ match }) {
     const profileBalance = selectProfileBalance(account.balance)
 
     useEffect(() => {
-        if (!loginAccountId) {
-            return
-        }
-
         if (accountIdFromUrl && accountIdFromUrl !== accountIdFromUrl.toLowerCase()) {
             dispatch(redirectTo(`/profile/${accountIdFromUrl.toLowerCase()}`))
         }
@@ -157,7 +153,7 @@ export function Profile({ match }) {
                 dispatch(getProfileStakingDetails())
             }
         })()
-    }, [loginAccountId]);
+    }, []);
 
     useEffect(() => {
         if (userRecoveryMethods) {

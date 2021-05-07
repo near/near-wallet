@@ -132,13 +132,11 @@ export function Wallet() {
     const linkdropModal = linkdropAmount && showLinkdropModal !== false;
     
     useEffect(() => {
-        if (accountId) {
-            let id = Mixpanel.get_distinct_id()
-            Mixpanel.identify(id)
-            Mixpanel.people.set({relogin_date: new Date().toString()})
-            dispatch(getTransactions(accountId))
-        }
-    }, [accountId])
+        let id = Mixpanel.get_distinct_id()
+        Mixpanel.identify(id)
+        Mixpanel.people.set({relogin_date: new Date().toString()})
+        dispatch(getTransactions(accountId))
+    }, [])
 
     const logError = (error) => {
         console.warn(error);
@@ -159,7 +157,7 @@ export function Wallet() {
     const whitelistedContracts = (process.env.TOKEN_CONTRACTS || 'berryclub.ek.near,farm.berryclub.ek.near,wrap.near').split(',');
     const [tokens, setTokens] = useState(cachedTokens || {});
 
-    const sortedTokens = Object.keys(tokens).map(key => tokens[key]).sort((a, b) => (a.symbol || '').localeCompare(b.symbol || ''));
+    const sortedTokens = Object.keys(tokens).map(key => tokens[key]).sort((a, b) => (a.symbol || '') .localeCompare(b.symbol || ''));
 
     useEffect(() => {
         sendJson('GET', `${ACCOUNT_HELPER_URL}/account/${accountId}/likelyTokens`).then(likelyContracts => {
@@ -214,7 +212,7 @@ export function Wallet() {
             <div className='split'>
                 <div className='left'>
                     <NearWithBackgroundIcon/>
-                    <h1><Balance amount={balance?.total} symbol={false}/></h1>
+                    <h1><Balance amount={balance.total} symbol={false}/></h1>
                     <div className='sub-title'><Translate id='wallet.balanceTitle' /></div>
                     <div className='buttons'>
                         <FormButton

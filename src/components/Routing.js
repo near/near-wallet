@@ -19,7 +19,6 @@ import Footer from './common/Footer'
 import NetworkBanner from './common/NetworkBanner'
 import TwoFactorVerifyModal from '../components/accounts/two_factor/TwoFactorVerifyModal'
 import PrivateRoute from './common/PrivateRoute'
-import PrivateRouteLimited from './common/PrivateRouteLimited'
 import GuestLandingRoute from './common/GuestLandingRoute'
 import { Wallet } from './wallet/Wallet'
 import { CreateAccountWithRouter } from './accounts/CreateAccount'
@@ -206,7 +205,6 @@ class Routing extends Component {
                                 exact
                                 path='/' 
                                 component={Wallet}
-                                accountFound={this.props.account.localStorage?.accountFound}
                             />
                             <Route
                                 exact
@@ -278,33 +276,33 @@ class Routing extends Component {
                                 path='/sign-in-ledger'
                                 component={SignInLedger}
                             />
-                            <PrivateRouteLimited
+                            <PrivateRoute
                                 path='/login'
                                 component={LoginWithRouter}
                             />
-                            <PrivateRouteLimited
+                            <PrivateRoute
                                 exact
                                 path='/authorized-apps'
                                 component={AuthorizedAppsWithRouter}
                             />
-                            <PrivateRouteLimited
+                            <PrivateRoute
                                 exact
                                 path='/full-access-keys'
                                 component={FullAccessKeysWithRouter}
                             />
                             {!DISABLE_SEND_MONEY &&
-                                <PrivateRouteLimited
+                                <PrivateRoute
                                     exact
                                     path='/send-money/:id?'
                                     component={SendContainer}
                                 />
                             }
-                            <PrivateRouteLimited
+                            <PrivateRoute
                                 exact
                                 path='/receive-money'
                                 component={ReceiveMoneyWithRouter}
                             />
-                            <PrivateRouteLimited
+                            <PrivateRoute
                                 exact
                                 path='/buy'
                                 component={BuyNear}
@@ -314,17 +312,17 @@ class Routing extends Component {
                                 path='/profile/:accountId'
                                 component={Profile}
                             />
-                            <PrivateRouteLimited
+                            <PrivateRoute
                                 exact
                                 path='/profile/:accountId?'
                                 component={Profile}
                             />
-                            <PrivateRouteLimited
+                            <PrivateRoute
                                 exact
                                 path='/sign'
                                 component={SignWithRouter}
                             />
-                            <PrivateRouteLimited
+                            <PrivateRoute
                                 path='/staking'
                                 component={StakingContainer}
                                 render={() => (
@@ -343,7 +341,7 @@ class Routing extends Component {
                                 path='/terms'
                                 component={Terms}
                             />
-                            <PrivateRouteLimited
+                            <PrivateRoute
                                 component={Wallet}
                             />
                         </Switch>

@@ -11,14 +11,14 @@ const CustomDiv = styled.div`
     }
 `
 
-const ProfileQRCode = ({ accountId }) => (
+const ProfileQRCode = ({ account }) => (
    <CustomDiv className='qr-code-container'>
         <QRCode
             bgColor="#FFFFFF"
             fgColor="#24272a"
             level="Q"
             style={{ width: "100%" }}
-            value={`${window.location.protocol}//${window.location.host}/send-money/${accountId}`}
+            value={`${window.location.protocol}//${window.location.host}/send-money/${account.accountId}`}
         />
         <p><Translate id='profile.details.qrDesc' /></p>
    </CustomDiv>
