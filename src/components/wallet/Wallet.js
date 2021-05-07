@@ -162,6 +162,10 @@ export function Wallet() {
     const sortedTokens = Object.keys(tokens).map(key => tokens[key]).sort((a, b) => (a.symbol || '').localeCompare(b.symbol || ''));
 
     useEffect(() => {
+        if (!accountId) {
+            return
+        }
+
         sendJson('GET', `${ACCOUNT_HELPER_URL}/account/${accountId}/likelyTokens`).then(likelyContracts => {
             const contracts = [...new Set([...likelyContracts, ...whitelistedContracts])];
             let loadedTokens = contracts.map(contract => ({
@@ -195,7 +199,7 @@ export function Wallet() {
                 })
             ).catch(logError);
         }).catch(logError);
-    }, []);
+    }, [accountId]);
 
     const handleHideExploreApps = () => {
         localStorage.setItem('hideExploreApps', true)
