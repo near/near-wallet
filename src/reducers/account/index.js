@@ -12,9 +12,10 @@ import {
     checkCanEnableTwoFactor,
     get2faMethod,
     getLedgerKey,
+    updateStakingAccount,
+    updateStakingLockup,
     getBalance,
-    selectAccount,
-    setLocalStorage
+    selectAccount
 } from '../../actions/account'
 
 import { 
@@ -152,14 +153,7 @@ const account = handleActions({
             }),
     [selectAccount]: () => {
         return initialState
-    },
-    [setLocalStorage]: (state, { payload }) => ({
-        ...state,
-        localStorage: {
-            accountFound: !!payload,
-            accountId: payload
-        }
-    })
+    }
 }, initialState)
 
 export default reduceReducers(

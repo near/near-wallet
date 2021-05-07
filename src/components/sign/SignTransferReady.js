@@ -125,14 +125,12 @@ class SignTransferReady extends Component {
         showMoreInfo: false
     }
 
-    componentDidUpdate = () => {
-        if (this.props.account.accountId) {
-            // NOTE: We need to make sure to use signer ID from transactions as account to sign
-            // TODO: Do this for signing process without changing current account in wallet globally
-            const { signerId } = this.props.transactions[0]
-            if (signerId !== this.props.account.accountId) {
-                this.handleSelectAccount(signerId)
-            }    
+    componentDidMount() {
+        // NOTE: We need to make sure to use signer ID from transactions as account to sign
+        // TODO: Do this for signing process without changing current account in wallet globally
+        const { signerId } = this.props.transactions[0]
+        if (signerId !== this.props.account.accountId) {
+            this.handleSelectAccount(signerId)
         }
     }
 

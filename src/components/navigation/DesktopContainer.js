@@ -109,7 +109,7 @@ class DesktopContainer extends Component {
                     <>
                         <div className='divider'/>
                         <UserAccount
-                            accountId={account.accountId || account.localStorage?.accountId}
+                            accountId={account.accountId}
                             onClick={toggleMenu}
                             flowLimitation={flowLimitation}
                         />
@@ -117,7 +117,6 @@ class DesktopContainer extends Component {
                             show={menuOpen}
                             toggleMenu={toggleMenu}
                             accountId={account.accountId}
-                            accountIdLocalStorage={account.localStorage?.accountId}
                             accounts={availableAccounts}
                             selectAccount={selectAccount}
                         />

@@ -61,7 +61,7 @@ class Navigation extends Component {
     }
 
     get showNavLinks() {
-        return this.props.account.localStorage?.accountFound
+        return this.props.account.accountId;
     }
 
     toggleMenu = () => {

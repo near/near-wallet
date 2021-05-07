@@ -11,6 +11,7 @@ import SelectAccountDropdown from './SelectAccountDropdown'
 
 import IconProblems from '../../images/IconProblems'
 import IconAuthorize from '../../images/IconAuthorize'
+import { Mixpanel } from '../../mixpanel/index'
 
 const LoginForm = ({
     dropdown,
@@ -136,7 +137,6 @@ const LoginForm = ({
                             sending={buttonLoader}
                             onClick={handleAllow}
                             sendingString='button.authorizing'
-                            disabled={!account.accountId}
                         >
                             <Translate id='button.allow' />
                         </FormButton>
@@ -146,7 +146,6 @@ const LoginForm = ({
                             linkTo={`${match.url}${match.url.substr(-1) === '/' ? '' : '/'}confirm`}
                             color='blue'
                             sending={buttonLoader}
-                            disabled={!account.accountId}
                         >
                             <Translate id='button.allow' />
                         </FormButton>

@@ -1,11 +1,12 @@
 import React from 'react'
+import { KEY_ACTIVE_ACCOUNT_ID } from '../../utils/wallet'
 import { GuestLanding } from '../landing/GuestLanding'
-import PrivateRouteLimited from './PrivateRouteLimited'
+import PrivateRoute from './PrivateRoute'
 
-const GuestLandingRoute = ({component: Component, accountFound, ...rest}) => (
-    !accountFound
+const GuestLandingRoute = ({component: Component, ...rest}) => (
+    !localStorage.getItem(KEY_ACTIVE_ACCOUNT_ID)
         ? <GuestLanding />
-        : <PrivateRouteLimited
+        : <PrivateRoute
             {...rest} 
             component={Component}
         />

@@ -1,12 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import SkeletonLoading from '../common/SkeletonLoading';
 
 const Wrapper = styled.div`
-    .animation-wrapper > .animation {
-        border-radius: 8px;
-    }
-
     @media (min-width: 992px) {
         max-height: 200px;
         overflow-y: auto;
@@ -50,21 +45,16 @@ const Account = styled.div`
     }
 `
 
-const UserAccounts = ({ accounts, accountId, selectAccount, accountIdLocalStorage }) => (
+const UserAccounts = ({ accounts, accountId, selectAccount }) => (
     <Wrapper>
         <Account>
-            {accountId || accountIdLocalStorage}
+            {accountId}
         </Account>
-        {accountId
-            ? accounts.filter(a => a !== accountId).map((account, i) => (
-                <Account key={`link-${i}`} onClick={() => selectAccount(account)} className='additional-account'>
-                    {account}
-                </Account>
-            )) : <SkeletonLoading
-                height='55px'
-                show={true}
-            />
-        }
+        {accounts.filter(a => a !== accountId).map((account, i) => (
+            <Account key={`link-${i}`} onClick={() => selectAccount(account)} className='additional-account'>
+                {account}
+            </Account>
+        ))}
     </Wrapper>
 )
 
