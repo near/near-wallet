@@ -31,7 +31,40 @@ const AlertContainer = styled.div`
 
     @media (max-width: 991px) {
         left: 0px;
+        right: 0px;
         margin-top: -15px;
+    }
+
+    .message-code {
+        display: flex;
+        align-items: center;
+
+        a {
+            white-space: nowrap;
+            background-color: #f2f2f2;
+            border: 2px solid #f2f2f2;
+            font-weight: 600;
+            padding: 6px 10px;
+            border-radius: 4px;
+            font-size: 13px;
+            margin-left: 10px;
+            transition: 100ms;
+            text-align: center;
+
+            :hover {
+                text-decoration: none;
+                background-color: transparent;
+            }
+        }
+
+        @media (max-width: 500px) {
+            flex-direction: column;
+            align-items: flex-start;
+
+            a {
+                margin: 10px 0 0 0;
+            }
+        }
     }
 `
 
@@ -180,13 +213,32 @@ const GlobalAlertNew = ({ globalAlert, actionStatus, clearGlobalAlert, closeIcon
                                 <Header success={alert.success}>
                                     <Translate id={alert.messageCodeHeader || (alert.success ? 'success' : 'error')} />
                                 </Header>
-                                <Translate>
-                                    {({ translate }) => 
-                                        (typeof translate(alert.messageCode) === 'string' ? translate(alert.messageCode) : '').includes('No default translation found!')
-                                            ? <Translate id={`reduxActions.default.${alert.success ? 'success' : 'error'}`} />
-                                            : <Translate id={alert.messageCode} data={alert.data} />
+                                <div className='message-code'>
+                                    <Translate>
+                                        {({ translate }) => 
+                                            (typeof translate(alert.messageCode) === 'string' ? translate(alert.messageCode) : '').includes('No default translation found!')
+                                                ? <Translate id={`reduxActions.default.${alert.success ? 'success' : 'error'}`} />
+                                                : <Translate id={alert.messageCode} data={alert.data} />
+                                        }
+                                    </Translate>
+                                    {!alert.success && alert.messageCode &&
+                                        <Translate>
+                                            {({ translate }) => 
+                                                <a
+                                                    href={
+                                                        translate(alert.messageCode).includes('No default translation found!') 
+                                                        ? `https://nearhelp.zendesk.com/hc/en-us/` 
+                                                        : `https://nearhelp.zendesk.com/hc/en-us/search?utf8=%E2%9C%93&query=${translate(alert.messageCode)}`
+                                                    }
+                                                    target='_blank'
+                                                    rel='noreferrer'
+                                                >
+                                                    <Translate id='button.viewFAQ'/>
+                                                </a>
+                                            }
+                                        </Translate>
                                     }
-                                </Translate>
+                                </div>
                                 {alert.console && 
                                     <Console>
                                         {alert.errorMessage}
