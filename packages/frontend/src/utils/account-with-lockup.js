@@ -28,8 +28,8 @@ export function decorateWithLockup(account) {
 }
 
 async function signAndSendTransaction(...args) {
-    if(args.length === 1) return signAndSendTransactionV2.bind(this,...args);
-    else return signAndSendTransactionV1.bind(this, ...args);
+    if(args.length === 1) return signAndSendTransactionV2.apply(this, args);
+    else return signAndSendTransactionV1.apply(this, args);
 }
 
 async function signAndSendTransactionV1(receiverId, actions) {
