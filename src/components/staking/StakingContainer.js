@@ -155,7 +155,7 @@ const StyledContainer = styled(Container)`
 
 export function StakingContainer({ history, match }) {
     const dispatch = useDispatch()
-    const { accountId, has2fa, balance } = useSelector(({ account }) => account);
+    const { accountId, has2fa, balance = {} } = useSelector(({ account }) => account);
     const status = useSelector(({ status }) => status);
     const { hasLedger } = useSelector(({ ledger }) => ledger)
     
@@ -176,7 +176,9 @@ export function StakingContainer({ history, match }) {
     const stakeFromAccount = currentAccount.accountId === accountId
 
     useEffect(() => {
-        dispatch(getBalance())
+        if (accountId) {
+            dispatch(getBalance())
+        }
         if (!!balance.available) {
             dispatch(updateStaking(getStakingAccountSelected()))
         }

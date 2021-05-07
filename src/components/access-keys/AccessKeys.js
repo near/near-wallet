@@ -124,6 +124,7 @@ class AccessKeys extends Component {
                         <span className='color-brown-grey'> <Translate id='total' /></span>
                     </h1>
                 )}
+                dots={!this.props.accountId}
             >
                 <PaginationBlock
                     filterTypes={filterTypes}
