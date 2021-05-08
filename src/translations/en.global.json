@@ -92,6 +92,7 @@
         }
     },
     "walletErrorCodes": {
+        "invalidRecaptchaCode": "Invalid reCAPTCHA code; try again!",
         "addAccessKeySeedPhrase": {
             "errorSecond": "An error has occurred.<br />The seed phrase was not added to your account. Please try again."
         },

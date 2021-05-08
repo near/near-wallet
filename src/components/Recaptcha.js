@@ -24,8 +24,9 @@ const RecaptchaString = styled.div`
     }
 `
 
+
 export class Recaptcha extends Component {
-    reCaptchaRef = null
+    recaptchaRef = null
     loadingTimeoutHandle = null;
 
     state = {
@@ -60,11 +61,11 @@ export class Recaptcha extends Component {
     }
 
     setCaptchaRef(ref) {
-        if (ref) { this.reCaptchaRef = ref; }
+        if (ref) { this.recaptchaRef = ref; }
     };
 
     /** Do not refactor this to an in-line function!
-     * Must be a stable function, or reCaptcha will infinitely loop on reloading itself in the background
+     * Must be a stable function, or recaptcha will infinitely loop on reloading itself in the background
      * If porting to Hooks, use useMemo() to get a stable reference to the function
      * @param token recaptchaToken returned by recaptcha API
      */
@@ -73,15 +74,22 @@ export class Recaptcha extends Component {
         this.props.onChange && this.props.onChange(token);
     }
 
-    handleOnLoad = () => {
-        debugLog('handleOnLoad()');
+    handleOnLoad = (scriptDetails) => {
+        debugLog('handleOnLoad()', scriptDetails);
+
         this.clearLoadingTimeout();
-        this.setState({ loaded: true });
+
+        if (scriptDetails.errored === true) {
+            this.setState({ loaded: false, loadFailed: true });
+            this.props.onLoadFailed && this.props.onLoadFailed();
+        } else {
+            this.setState({ loaded: true });
+        }
     }
 
     reset() {
         debugLog('reset()');
-        if (this.reCaptchaRef) { this.reCaptchaRef.reset(); }
+        if (this.recaptchaRef) { this.recaptchaRef.reset(); }
         // Reset does not call onChange; manually notify subscribers that there is no longer a valid token on reset
         this.handleOnChange(null);
     }
@@ -91,12 +99,12 @@ export class Recaptcha extends Component {
         const { loaded, loadFailed } = this.state;
 
         if (loadFailed) {
-            return (<RecaptchaString>Failed to load reCaptcha!</RecaptchaString>)
+            return (<RecaptchaString>Failed to load recaptcha!</RecaptchaString>)
         }
 
-        debugLog('Rendering', { reCaptchaRef: this.reCaptchaRef });
+        debugLog('Rendering', { recaptchaRef: this.recaptchaRef });
         return (<>
-            {!loaded && (<h2 className={'dots'}/>)}
+            {!loaded && (<span>Loading reCAPTCHA...</span>)}
             {loaded && (<RecaptchaString>
                 This site is protected by reCAPTCHA and the Google <a
                 href='https://policies.google.com/privacy' target='_blank' rel='noopener noreferrer'>Privacy
@@ -112,4 +120,10 @@ export class Recaptcha extends Component {
             />}
         </>)
     }
+}
+
+export const isRetryableRecaptchaError = (e) => {
+    return e.message.includes('invalid-input-response') ||
+        e.message.includes('missing-input-response') ||
+        e.message.includes('timeout-or-duplicate')
 }
