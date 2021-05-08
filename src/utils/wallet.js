@@ -22,7 +22,6 @@ import {
 } from '../actions/account'
 
 import { TwoFactor } from './twoFactor'
-import { Staking } from './staking'
 import { decorateWithLockup } from './account-with-lockup'
 import { MULTISIG_CHANGE_METHODS } from 'near-api-js/lib/account_multisig'
 
@@ -344,14 +343,19 @@ class Wallet {
             }
         } else if (fundingAccountId) {
             await this.createNewAccountFromAnother(accountId, fundingAccountId, publicKey)
-        } else if(process.env.RECAPTCHA_CHALLENGE_API_KEY) {
-            // TODO: Only attempt this branch if a prior attempt using funded account has not failed due to lack of funding
-            // on the source account
-            await sendJson('POST', FUNDED_ACCOUNT_CREATE_URL, {
+        } else if (process.env.RECAPTCHA_CHALLENGE_API_KEY && recaptchaToken) {
+            const { success, code, result } = await sendJson('POST', FUNDED_ACCOUNT_CREATE_URL, {
                 newAccountId: accountId,
                 newAccountPublicKey: publicKey.toString(),
                 recaptchaCode: recaptchaToken
             })
+
+            if (!success && code === 'NotEnoughBalance') {
+                // Signals the caller that they should fall back to implicit account creation
+                throw new Error('NotEnoughBalance');
+            }
+
+            return result;
         } else {
             await sendJson('POST', CONTRACT_CREATE_ACCOUNT_URL, {
                 newAccountId: accountId,
