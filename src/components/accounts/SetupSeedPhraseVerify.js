@@ -1,5 +1,4 @@
-import React from 'react'
-import { withRouter } from 'react-router-dom'
+import React, { useRef, useImperativeHandle, forwardRef, useState } from 'react'
 import { Responsive, Input } from 'semantic-ui-react'
 import { Translate } from 'react-localize-redux'
 
@@ -7,6 +6,11 @@ import LocalAlertBox from '../common/LocalAlertBox'
 import FormButton from '../common/FormButton'
 
 import styled from 'styled-components'
+import { Recaptcha } from '../Recaptcha';
+
+// FIXME: Use `debug` npm package so we can keep some debug logging around but not spam the console everywhere
+const ENABLE_DEBUG_LOGGING = false;
+const debugLog = (...args) => ENABLE_DEBUG_LOGGING && console.log('SetupSeedPhraseVerify:', ...args);
 
 const CustomDiv = styled.div`
 
@@ -40,41 +44,75 @@ const CustomDiv = styled.div`
     }
 `
 
-const SetupSeedPhraseVerify = ({
-    enterWord,
-    wordId,
-    handleChangeWord,
-    mainLoader,
-    localAlert
-}) => (
-    <CustomDiv>
-        <h4><Translate id='input.enterWord.title' data={{ wordId: wordId + 1 }} /></h4>
-        <Translate>
-            {({ translate }) => (
-                <Input
-                    name='enterWord'
-                    value={enterWord}
-                    onChange={handleChangeWord}
-                    placeholder={translate('input.enterWord.placeholder')}
-                    required
-                    tabIndex='1'
-                    pattern='[a-zA-Z ]*'
-                    className={localAlert ? (localAlert.success ? 'success' : 'problem') : ''}
-                    disabled={mainLoader}
-                />
-            )}
-        </Translate>
-        <Responsive as={LocalAlertBox} localAlert={localAlert} />
-        <FormButton
-            type='submit'
-            color='blue'
-            disabled={!enterWord || mainLoader}
-            sending={mainLoader}
-            sendingString='button.verifying'
-        >
-            <Translate id='button.verify' />
-        </FormButton>
-    </CustomDiv>
-)
 
-export default withRouter(SetupSeedPhraseVerify)
+const SetupSeedPhraseVerify = (
+    {
+        enterWord,
+        wordId,
+        handleChangeWord,
+        mainLoader,
+        localAlert,
+        onRecaptchaChange,
+        isNewAccount
+    },
+    ref
+) => {
+    debugLog('Re-rendering', { isNewAccount: isNewAccount });
+    const recaptchaRef = useRef(null);
+    const [recaptchaLoadFailed, setRecaptchaLoadFailed] = useState(false);
+    const [recaptchaToken, setRecaptchaToken] = useState();
+
+    useImperativeHandle(ref, () => ({
+        reset() {
+            debugLog('in imperative handle reset()');
+            return recaptchaRef.current.reset();
+        }
+    }))
+
+    const handleRecaptchaLoadFailed = () => setRecaptchaLoadFailed(true)
+    const shouldRenderRecaptcha = process.env.RECAPTCHA_CHALLENGE_API_KEY && isNewAccount && !recaptchaLoadFailed;
+
+    return (
+        <CustomDiv>
+            <h4><Translate id='input.enterWord.title' data={{ wordId: wordId + 1 }}/></h4>
+            <Translate>
+                {({ translate }) => (
+                    <Input
+                        name='enterWord'
+                        value={enterWord}
+                        onChange={handleChangeWord}
+                        placeholder={translate('input.enterWord.placeholder')}
+                        required
+                        tabIndex='1'
+                        pattern='[a-zA-Z ]*'
+                        className={localAlert ? (localAlert.success ? 'success' : 'problem') : ''}
+                        disabled={mainLoader}
+                    />
+                )}
+            </Translate>
+            <Responsive as={LocalAlertBox} localAlert={localAlert}/>
+            {
+                shouldRenderRecaptcha && <Recaptcha
+                    ref={recaptchaRef}
+                    onLoadFailed={handleRecaptchaLoadFailed}
+                    onChange={(token) => {
+                        debugLog('onChange from recaptcha', token);
+                        setRecaptchaToken(token);
+                        onRecaptchaChange(token);
+                    }}
+                />
+            }
+            <FormButton
+                type='submit'
+                color='blue'
+                disabled={!enterWord || mainLoader || (!recaptchaToken && shouldRenderRecaptcha)}
+                sending={mainLoader}
+                sendingString='button.verifying'
+            >
+                <Translate id='button.verify'/>
+            </FormButton>
+        </CustomDiv>
+    );
+}
+
+export default forwardRef(SetupSeedPhraseVerify)
