@@ -6,6 +6,7 @@ import AddBlueImage from '../../images/icon-add-blue.svg';
 import ArrowDownImage from '../../images/icon-arrow-down.svg';
 import ArrowUpImage from '../../images/icon-arrow-up.svg';
 import { DISABLE_CREATE_ACCOUNT } from '../../utils/wallet';
+import classNames from '../../utils/classNames';
 
 const CustomSegment = styled(Segment)`
     &&& {
@@ -78,6 +79,39 @@ const CustomSegment = styled(Segment)`
                     background-image: url(${ArrowUpImage});
                 }
             }
+            .dots {
+                color: #24272a;
+
+                :after {
+                    content: '.';
+                    animation: link 1s steps(5, end) infinite;
+                
+                    @keyframes link {
+                        0%, 20% {
+                            color: rgba(0,0,0,0);
+                            text-shadow:
+                                .3em 0 0 rgba(0,0,0,0),
+                                .6em 0 0 rgba(0,0,0,0);
+                        }
+                        40% {
+                            color: #24272a;
+                            text-shadow:
+                                .3em 0 0 rgba(0,0,0,0),
+                                .6em 0 0 rgba(0,0,0,0);
+                        }
+                        60% {
+                            text-shadow:
+                                .3em 0 0 #24272a,
+                                .6em 0 0 rgba(0,0,0,0);
+                        }
+                        80%, 100% {
+                            text-shadow:
+                                .3em 0 0 #24272a,
+                                .6em 0 0 #24272a;
+                        }
+                    }
+                }
+            }
         }
         .list-scroll {
             max-height: 140px;
@@ -124,7 +158,7 @@ const SelectAccountDropdown = ({
             >
                 <Segment basic>
                     <div className='item list-title'>
-                        {dropdown ? translate('button.close') : <div>{account.accountId}</div>}
+                        {dropdown ? translate('button.close') : <div className={classNames({dots: !account.accountId})}>{account.accountId}</div>}
                         <div className='arrow' />
                     </div>
                     <div className={`${dropdown ? '' : 'hide'}`}>
