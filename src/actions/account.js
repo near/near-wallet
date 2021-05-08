@@ -1,4 +1,3 @@
-
 import { parse, stringify } from 'query-string'
 import { createActions, createAction } from 'redux-actions'
 import { DISABLE_CREATE_ACCOUNT, wallet } from '../utils/wallet'
@@ -10,7 +9,7 @@ import {
     WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS,
     WALLET_LOGIN_URL,
     WALLET_SIGN_URL,
-    WALLET_RECOVER_ACCOUNT_URL, 
+    WALLET_RECOVER_ACCOUNT_URL,
     setKeyMeta,
     MULTISIG_MIN_PROMPT_AMOUNT
 } from '../utils/wallet'
@@ -42,7 +41,7 @@ export const getProfileStakingDetails = (accountId) => async (dispatch, getState
         : !!getState().account.balance.lockedAmount
 
     lockupIdExists
-        && dispatch(handleStakingUpdateLockup(accountId))
+    && dispatch(handleStakingUpdateLockup(accountId))
 }
 
 export const handleRedirectUrl = (previousLocation) => (dispatch, getState) => {
@@ -121,7 +120,7 @@ const checkContractId = () => async (dispatch, getState) => {
 
         try {
             await (await wallet.getAccount(contract_id)).state()
-        } catch(error) {
+        } catch (error) {
             if (error.message.indexOf('does not exist while viewing') !== -1) {
                 redirectIncorrectContractId()
             }
@@ -132,7 +131,7 @@ const checkContractId = () => async (dispatch, getState) => {
 export const redirectToProfile = () => (dispatch) => dispatch(push({ pathname: '/profile' }))
 
 export const redirectTo = (location, state = {}) => (dispatch) => {
-    const [ pathname, search ] = location.split('?')
+    const [pathname, search] = location.split('?')
     dispatch(push({
         pathname,
         search,
@@ -142,7 +141,7 @@ export const redirectTo = (location, state = {}) => (dispatch) => {
 
 export const redirectToApp = (fallback) => async (dispatch, getState) => {
     dispatch(handleRefreshUrl())
-    const { account: { url }} = getState()
+    const { account: { url } } = getState()
     dispatch(push({
         pathname: (url && url.redirect_url !== '/' && url.redirect_url) || fallback || '/',
         search: (url && (url.success_url || url.public_key)) ? `?${stringify(url)}` : '',
@@ -339,14 +338,26 @@ export const {
     CLEAR_CODE: null
 })
 
-export const { getAccessKeys, removeAccessKey, addLedgerAccessKey, disableLedger, removeNonLedgerAccessKeys, getLedgerAccountIds, addLedgerAccountId, saveAndSelectLedgerAccounts, setLedgerTxSigned, clearSignInWithLedgerModalState, showLedgerModal } = createActions({
+export const {
+    getAccessKeys,
+    removeAccessKey,
+    addLedgerAccessKey,
+    disableLedger,
+    removeNonLedgerAccessKeys,
+    getLedgerAccountIds,
+    addLedgerAccountId,
+    saveAndSelectLedgerAccounts,
+    setLedgerTxSigned,
+    clearSignInWithLedgerModalState,
+    showLedgerModal
+} = createActions({
     GET_ACCESS_KEYS: [wallet.getAccessKeys.bind(wallet), () => ({})],
     REMOVE_ACCESS_KEY: [
         wallet.removeAccessKey.bind(wallet),
         () => showAlert({ onlyError: true })
     ],
     ADD_LEDGER_ACCESS_KEY: [
-        wallet.addLedgerAccessKey.bind(wallet), 
+        wallet.addLedgerAccessKey.bind(wallet),
         () => showAlert({ onlyError: true })
     ],
     DISABLE_LEDGER: [
@@ -385,7 +396,7 @@ export const handleAddAccessKeySeedPhrase = (accountId, recoveryKeyPair) => asyn
     } catch (error) {
         // error is thrown in `addAccessKeySeedPhrase` action, despite the error, we still want to redirect to /profile
     }
-    dispatch(redirectTo('/profile', { 
+    dispatch(redirectTo('/profile', {
         globalAlertPreventClear: true
     }))
 }
@@ -428,13 +439,13 @@ export const handleCreateAccountWithSeedPhrase = (accountId, recoveryKeyPair, fu
     }
 }
 
-                
+
 export const finishAccountSetup = () => async (dispatch, getState) => {
     await dispatch(refreshAccount())
     await dispatch(getBalance())
     await dispatch(staking.clearState())
     const { balance, url, accountId } = getState().account
-    
+
     let promptTwoFactor = await TwoFactor.checkCanEnableTwoFactor(balance)
 
     if (new BN(balance.available).lt(new BN(utils.format.parseNearAmount(MULTISIG_MIN_PROMPT_AMOUNT)))) {
@@ -480,7 +491,7 @@ export const { addAccessKey, createAccountWithSeedPhrase, addAccessKeySeedPhrase
             const publicKey = recoveryKeyPair.publicKey.toString()
             const contractName = null;
             const fullAccess = true;
-            
+
             try {
                 await wallet.postSignedJson('/account/seedPhraseAdded', { accountId, publicKey })
                 await wallet.addAccessKey(accountId, contractName, publicKey, fullAccess)
@@ -555,7 +566,7 @@ export const { selectAccount, refreshAccountOwner, refreshAccountExternal, refre
         accountId => ({
             accountId,
             ...showAlert({ onlyError: true, data: { accountId } })
-         })
+        })
     ],
     REFRESH_URL: null,
     GET_BALANCE: wallet.getBalance.bind(wallet)
