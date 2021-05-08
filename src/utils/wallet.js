@@ -730,13 +730,23 @@ class Wallet {
         await this.saveAccount(accountId, recoveryKeyPair);
 
         // IMPLICIT ACCOUNT
-        if (DISABLE_CREATE_ACCOUNT && !fundingOptions) {
+        if (DISABLE_CREATE_ACCOUNT && !fundingOptions || !recaptchaToken) {
             await store.dispatch(fundCreateAccount(accountId, recoveryKeyPair, fundingOptions, method))
             return
         }
 
-        // NOT IMPLICIT ACCOUNT (testnet, linkdrop, funded to delegated account via contract helper)
-        await this.createNewAccount(accountId, fundingOptions, method, recoveryKeyPair.publicKey, undefined, recaptchaToken)
+        try {
+            // NOT IMPLICIT ACCOUNT (testnet, linkdrop, funded to delegated account via contract helper)
+            await this.createNewAccount(accountId, fundingOptions, method, recoveryKeyPair.publicKey, undefined, recaptchaToken)
+        } catch(e) {
+            if(e.message === 'NotEnoughBalance') {
+                // Dispatching from here rather than inside the component because we don't want to re-run this process from the top
+                // This is because it would  would fail due to invalid security code if the error occurred after validating the code
+                return store.dispatch(fundCreateAccount(accountId, recoveryKeyPair, fundingOptions, method))
+            }
+
+            throw e;
+        }
     }
 
     async addLocalKeyAndFinishSetup(accountId, recoveryMethod, publicKey, previousAccountId) {
