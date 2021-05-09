@@ -147,13 +147,20 @@ class SetupSeedPhrase extends Component {
                 
                 if (isRetryableRecaptchaError(err)) {
                     this.recaptchaRef.reset();
-                    showCustomAlert({
+                    this.props.showCustomAlert({
                         success: false,
                         messageCodeHeader: 'error',
                         messageCode: 'walletErrorCodes.invalidRecaptchaCode'
                     })
-                } else {
+                } else if(err.code === 'NotEnoughBalance') {
                     await fundCreateAccount(accountId, recoveryKeyPair, 'seed');
+                } else {
+                    // FIXME: I can't seem to get this to display a messageContent
+                    this.props.showCustomAlert({
+                        error: err,
+                        success: false,
+                        messageCodeHeader: 'error',
+                    })
                 }
             }
         );
@@ -258,7 +265,8 @@ const mapDispatchToProps = {
     checkIsNew,
     handleCreateAccountWithSeedPhrase,
     fundCreateAccount,
-    loadRecoveryMethods
+    loadRecoveryMethods,
+    showCustomAlert
 }
 
 const mapStateToProps = ({ account, recoveryMethods, status }, { match }) => ({
