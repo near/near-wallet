@@ -123,7 +123,7 @@ export class Recaptcha extends Component {
 }
 
 export const isRetryableRecaptchaError = (e) => {
-    return e.message.includes('invalid-input-response') ||
-        e.message.includes('missing-input-response') ||
-        e.message.includes('timeout-or-duplicate')
+    if (!e.code) { return false; }
+
+    return ['invalid-input-response','missing-input-response', 'timeout-or-duplicate'].includes(e.code);
 }
