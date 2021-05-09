@@ -19,7 +19,8 @@ import {
 import { DISABLE_CREATE_ACCOUNT, setKeyMeta } from '../../../utils/wallet'
 import GlobalAlert from '../../common/GlobalAlert'
 import { Mixpanel } from '../../../mixpanel/index'
-import { Recaptcha } from '../../Recaptcha';
+import { isRetryableRecaptchaError, Recaptcha } from '../../Recaptcha';
+import { showCustomAlert } from '../../../actions/status';
 
 // FIXME: Use `debug` npm package so we can keep some debug logging around but not spam the console everywhere
 const ENABLE_DEBUG_LOGGING = false;
@@ -67,22 +68,49 @@ const SetupLedger = (props) => {
         await Mixpanel.withTracking("SR-Ledger Connect ledger",
             async () => {
                 if (isNewAccount) {
-                    const queryOptions = parseQuery(location.search);
-                    const fundingOptions = JSON.parse(queryOptions.fundingOptions || 'null')
+                    let publicKey;
 
-                    debugLog(DISABLE_CREATE_ACCOUNT, fundingOptions)
-                    const publicKey = await dispatch(getLedgerPublicKey())
-                    await setKeyMeta(publicKey, { type: 'ledger' })
-                    Mixpanel.track("SR-Ledger Set key meta")
+                    try {
+                        const queryOptions = parseQuery(location.search);
+                        const fundingOptions = JSON.parse(queryOptions.fundingOptions || 'null')
 
-                    if (DISABLE_CREATE_ACCOUNT && (!fundingOptions || !recaptchaToken)) {
-                        await dispatch(fundCreateAccountLedger(accountId, publicKey))
-                        Mixpanel.track("SR-Ledger Fund create account ledger")
-                        return
+                        debugLog(DISABLE_CREATE_ACCOUNT, fundingOptions)
+                        publicKey = await dispatch(getLedgerPublicKey())
+                        await setKeyMeta(publicKey, { type: 'ledger' })
+                        Mixpanel.track("SR-Ledger Set key meta")
+
+                        if (DISABLE_CREATE_ACCOUNT && (!fundingOptions || !recaptchaToken)) {
+                            await dispatch(fundCreateAccountLedger(accountId, publicKey))
+                            Mixpanel.track("SR-Ledger Fund create account ledger")
+                            return
+                        }
+
+                        await dispatch(createNewAccount(accountId, fundingOptions, 'ledger', publicKey, undefined, recaptchaToken))
+                        Mixpanel.track("SR-Ledger Create new account ledger")
+                    } catch(err) {
+                        if (isRetryableRecaptchaError(err)) {
+                            recaptchaRef.current.reset();
+
+                            dispatch(showCustomAlert({
+                                success: false,
+                                messageCodeHeader: 'error',
+                                messageCode: 'walletErrorCodes.invalidRecaptchaCode'
+                            }))
+                        } else if(err.code === 'NotEnoughBalance') {
+                            dispatch(fundCreateAccountLedger(accountId, publicKey))
+                        } else {
+                            recaptchaRef.current.reset();
+
+                            // FIXME: I can't seem to get this to display a messageContent
+                            dispatch(showCustomAlert({
+                                error: err,
+                                success: false,
+                                messageCodeHeader: 'error',
+                            }))
+                        }
+
+                        return;
                     }
-
-                    await dispatch(createNewAccount(accountId, fundingOptions, 'ledger', publicKey, undefined, recaptchaToken))
-                    Mixpanel.track("SR-Ledger Create new account ledger")
                 } else {
                     await dispatch(addLedgerAccessKey())
                     Mixpanel.track("SR-Ledger Add ledger access key")
