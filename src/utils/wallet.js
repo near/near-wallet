@@ -1,6 +1,6 @@
 import * as nearApiJs from 'near-api-js'
 import { KeyPair } from 'near-api-js'
-import sendJson from 'fetch-send-json'
+import sendJson from '../tmp_fetch_send_json'
 import { parseSeedPhrase } from 'near-seed-phrase'
 import { PublicKey } from 'near-api-js/lib/utils'
 import { KeyType } from 'near-api-js/lib/utils/key_pair'
