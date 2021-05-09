@@ -29,7 +29,7 @@
     "regenerator-runtime": "^0.13.5",
     "semantic-ui-css": "^2.4.1",
     "semantic-ui-react": "^0.88.1",
-    "styled-components": "^5.2.3",
+    "styled-components": "^5.3.0",
     "timeago.js": "^4.0.2"
   },
   "scripts": {
