@@ -65,6 +65,8 @@ const EnterVerificationCode = ({
     onRecaptchaChange
 }) => {
     debugLog('Rendering', { isNewAccount });
+
+    // TODO: Custom recaptcha hook
     const recaptchaRef = useRef(null);
     const [recaptchaToken, setRecaptchaToken] = useState(null);
     const [recaptchaLoadFailed, setRecaptchaLoadFailed] = useState(false);

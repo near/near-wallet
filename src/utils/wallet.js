@@ -730,7 +730,7 @@ class Wallet {
         await this.saveAccount(accountId, recoveryKeyPair);
 
         // IMPLICIT ACCOUNT
-        if (DISABLE_CREATE_ACCOUNT && !fundingOptions || !recaptchaToken) {
+        if (DISABLE_CREATE_ACCOUNT && (!fundingOptions || !recaptchaToken)) {
             await store.dispatch(fundCreateAccount(accountId, recoveryKeyPair, fundingOptions, method))
             return
         }
