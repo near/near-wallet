@@ -324,10 +324,7 @@ export const {
         wallet.checkNewAccount.bind(wallet),
         () => showAlert({ localAlert: true })
     ],
-    CREATE_NEW_ACCOUNT: [
-        wallet.createNewAccount.bind(wallet),
-        () => showAlert({ localAlert: true })
-    ],
+    CREATE_NEW_ACCOUNT: wallet.createNewAccount.bind(wallet),
     CHECK_ACCOUNT_AVAILABLE: [
         wallet.checkAccountAvailable.bind(wallet),
         () => showAlert({ localAlert: true })
@@ -474,15 +471,12 @@ export const { addAccessKey, createAccountWithSeedPhrase, addAccessKeySeedPhrase
         wallet.addAccessKey.bind(wallet),
         (title) => showAlert({ title })
     ],
-    CREATE_ACCOUNT_WITH_SEED_PHRASE: [
-        async (accountId, recoveryKeyPair, fundingOptions = {}, recaptchaToken) => {
-            const recoveryMethod = 'seed'
-            const previousAccountId = wallet.accountId
-            await wallet.saveAccount(accountId, recoveryKeyPair);
-            await wallet.createNewAccount(accountId, fundingOptions, recoveryMethod, recoveryKeyPair.publicKey, previousAccountId, recaptchaToken)
-        },
-        () => showAlert({ onlyError: true })
-    ],
+    CREATE_ACCOUNT_WITH_SEED_PHRASE: async (accountId, recoveryKeyPair, fundingOptions = {}, recaptchaToken) => {
+        const recoveryMethod = 'seed'
+        const previousAccountId = wallet.accountId
+        await wallet.saveAccount(accountId, recoveryKeyPair);
+        await wallet.createNewAccount(accountId, fundingOptions, recoveryMethod, recoveryKeyPair.publicKey, previousAccountId, recaptchaToken)
+    },
     ADD_ACCESS_KEY_SEED_PHRASE: [
         async (accountId, recoveryKeyPair) => {
             const publicKey = recoveryKeyPair.publicKey.toString()
