@@ -194,7 +194,12 @@ class SetupRecoveryMethod extends Component {
                                 messageCode: 'walletErrorCodes.invalidRecaptchaCode'
                             })
                         } else {
-                            throw e;
+                            // FIXME: I can't seem to get this to actually display an alert
+                            showCustomAlert({
+                                error: e,
+                                success: false,
+                                messageCodeHeader: 'error',
+                            })
                         }
                     }
                 }
