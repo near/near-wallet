@@ -30,7 +30,7 @@ const SetupLedger = (props) => {
     const [showInstructions, setShowInstructions] = useState(false);
     const [connect, setConnect] = useState(null);
 
-    const [isNewAccount, setIsNewAccount] = useState(false);
+    const [isNewAccount, setIsNewAccount] = useState(null);
 
     // TODO: Custom recaptcha hook
     const [recaptchaToken, setRecaptchaToken] = useState(null);
@@ -133,7 +133,7 @@ const SetupLedger = (props) => {
                 onClick={handleClick}
                 sending={connect && props.mainLoader}
                 sendingString='button.connecting'
-                disabled={(!recaptchaToken && shouldRenderRecaptcha)}
+                disabled={(!recaptchaToken && shouldRenderRecaptcha) || isNewAccount === null}
             >
                 <Translate id={`button.${connect !== 'fail' ? 'continue' : 'retry'}`}/>
             </FormButton>
