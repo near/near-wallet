@@ -346,13 +346,11 @@ class Wallet {
         } else if (fundingAccountId) {
             await this.createNewAccountFromAnother(accountId, fundingAccountId, publicKey)
         } else if (process.env.RECAPTCHA_CHALLENGE_API_KEY && recaptchaToken) {
-            const { result } = await sendJson('POST', FUNDED_ACCOUNT_CREATE_URL, {
+            await sendJson('POST', FUNDED_ACCOUNT_CREATE_URL, {
                 newAccountId: accountId,
                 newAccountPublicKey: publicKey.toString(),
                 recaptchaCode: recaptchaToken
             });
-
-            return result;
         } else {
             await sendJson('POST', CONTRACT_CREATE_ACCOUNT_URL, {
                 newAccountId: accountId,
