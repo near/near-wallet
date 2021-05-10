@@ -76,6 +76,8 @@ const Container = styled.div`
             border-top-left-radius: 0;
             border-top-right-radius: 0;
             box-shadow: 0px 3px 9px -1px rgb(206 206 206 / 17%);
+            max-height: 200px;
+            overflow-y: scroll !important;
         }
     }
 
