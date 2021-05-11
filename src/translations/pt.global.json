@@ -173,7 +173,7 @@
                 "alertBanner": {
                     "title": "Não feche essa janela!"
                 },
-                "fundWith": "Fundar com"
+                "fundWith": "Adicionar fundos com"
             },
             "post": {
                 "modal": {
@@ -394,7 +394,7 @@
             "title": "Quando ativado, <b>${data} NEAR</b> será bloqueado para cobrir os custos de armazenamento do contrato de autenticação de dois fatores.",
             "button": "Saber mais"
         },
-        "checkBox": "Eu concordo que, ao habilitar a autenticação de dois fatores, ${amount} NEAR serão reservados para cobrir o custo de armazenamento do contrato."
+        "checkBox": "Eu concordo que, ao habilitar a autenticação de dois fatores, será feita a reserva de ${amount} NEAR para cobrir o custo de armazenamento do contrato."
     },
 
     "fullAccessKeys": {
