@@ -122,11 +122,11 @@ class SetupSeedPhrase extends Component {
             fundCreateAccount,
             checkIsNew,
             location,
+
         } = this.props
         const { recoveryKeyPair } = this.state
-        const isNewAccount = await checkIsNew(accountId)
 
-        if (!isNewAccount) {
+        if (!this.state.isNewAccount) {
             debugLog('handleSetupSeedPhrase()/existing account');
 
             await Mixpanel.withTracking("SR-SP Setup for existing account",
