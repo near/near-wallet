@@ -70,6 +70,13 @@ const Account = styled.div`
         flex: 1;
         flex-direction: column;
         padding: 16px 0 16px 16px;
+
+        .accountId {
+            max-width: 150px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
     }
     .sync {
         padding: 0 16px 0 0;
