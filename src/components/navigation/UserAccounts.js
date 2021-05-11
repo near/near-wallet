@@ -136,7 +136,7 @@ const UserAccounts = ({ accounts, accountId, accountIdLocalStorage, selectAccoun
     <Wrapper>
         <UserAccount
             accountId={accountId || accountIdLocalStorage}
-            balance={actionsPending('GET_BALANCE') ? '' : balance?.available}
+            balance={actionsPending('GET_BALANCE') ? '' : balance?.total}
             balanceLoading={actionsPending('GET_BALANCE')}
             refreshBalance={() => (getBalance(), refreshBalance(accountId))}
             active={true}
@@ -146,7 +146,7 @@ const UserAccounts = ({ accounts, accountId, accountIdLocalStorage, selectAccoun
                 <UserAccount
                     key={i}
                     accountId={account}
-                    balance={accountsBalance && accountsBalance[account]?.available}
+                    balance={accountsBalance && accountsBalance[account]?.total}
                     balanceLoading={accountsBalance && accountsBalance[account]?.loading}
                     refreshBalance={() => refreshBalance(account)}
                     active={false}
