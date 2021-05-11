@@ -132,7 +132,7 @@ const SyncButton = styled.span`
     }
 `
 
-const UserAccounts = ({ accounts, accountId, selectAccount, accountsBalance, balance, refreshBalance, getBalance }) => (
+const UserAccounts = ({ accounts, accountId, accountIdLocalStorage, selectAccount, accountsBalance, balance, refreshBalance, getBalance }) => (
     <Wrapper>
         <UserAccount
             accountId={accountId || accountIdLocalStorage}
