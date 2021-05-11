@@ -414,11 +414,15 @@ export const handleCreateAccountWithSeedPhrase = (accountId, recoveryKeyPair, fu
     try {
         await dispatch(createAccountWithSeedPhrase(accountId, recoveryKeyPair, fundingOptions))
     } catch (error) {
-        dispatch(redirectTo('/recover-seed-phrase', { 
-            globalAlertPreventClear: true,
-            defaultAccountId: accountId
-        }))
-        return
+        if(await wallet.accountExists(accountId)) {
+            // Requests sometimes fail after creating the NEAR account for another reason (transport error?)
+            // If that happened, we allow the user can add the NEAR account to the wallet by entering the seed phrase
+            dispatch(redirectTo('/recover-seed-phrase', {
+                globalAlertPreventClear: true,
+                defaultAccountId: accountId
+            }))
+            return
+        }
     }
 }
 
