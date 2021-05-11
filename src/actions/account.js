@@ -412,7 +412,7 @@ export const fundCreateAccountLedger = (accountId, ledgerPublicKey) => async (di
 // TODO: Refactor common code with setupRecoveryMessageNewAccount
 export const handleCreateAccountWithSeedPhrase = (accountId, recoveryKeyPair, fundingOptions, recaptchaToken) => async (dispatch) => {
     // Implicit account flow
-    if (DISABLE_CREATE_ACCOUNT && (!fundingOptions || !recaptchaToken)) {
+    if (DISABLE_CREATE_ACCOUNT && !fundingOptions && !recaptchaToken) {
         await dispatch(fundCreateAccount(accountId, recoveryKeyPair, 'seed'))
         return
     }

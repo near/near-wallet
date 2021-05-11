@@ -79,7 +79,7 @@ const SetupLedger = (props) => {
                         await setKeyMeta(publicKey, { type: 'ledger' })
                         Mixpanel.track("SR-Ledger Set key meta")
 
-                        if (DISABLE_CREATE_ACCOUNT && (!fundingOptions || !recaptchaToken)) {
+                        if (DISABLE_CREATE_ACCOUNT && !fundingOptions && !recaptchaToken) {
                             await dispatch(fundCreateAccountLedger(accountId, publicKey))
                             Mixpanel.track("SR-Ledger Fund create account ledger")
                             return
