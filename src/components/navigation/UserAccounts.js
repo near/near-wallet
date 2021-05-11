@@ -70,9 +70,10 @@ const Account = styled.div`
         flex: 1;
         flex-direction: column;
         padding: 16px 0 16px 16px;
+        overflow: hidden;
+        margin-right: 5px;
 
         .accountId {
-            max-width: 150px;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
