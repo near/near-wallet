@@ -122,7 +122,6 @@ const SetupLedger = (props) => {
                         } else {
                             recaptchaRef.current.reset();
 
-                            // FIXME: I can't seem to get this to display a messageContent
                             dispatch(showCustomAlert({
                                 errorMessage: err.message,
                                 success: false,

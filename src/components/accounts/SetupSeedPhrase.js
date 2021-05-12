@@ -155,7 +155,6 @@ class SetupSeedPhrase extends Component {
                 } else if(err.code === 'NotEnoughBalance') {
                     await fundCreateAccount(accountId, recoveryKeyPair, 'seed');
                 } else {
-                    // FIXME: I can't seem to get this to display a messageContent
                     showCustomAlert({
                         errorMessage: err.message,
                         success: false,

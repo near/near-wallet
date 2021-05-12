@@ -127,7 +127,6 @@ export class Recaptcha extends Component {
         this.handleOnChange(null);
     }
 
-    // FIXME: Translate strings
     render() {
         const { loaded, loadFailed } = this.state;
 

@@ -176,6 +176,7 @@ class SetupRecoveryMethod extends Component {
 
                     try {
                         await setupRecoveryMessageNewAccount(accountId, this.method, securityCode, fundingOptions, recoverySeedPhrase, recaptchaToken);
+
                     } catch (e) {
                         debugLog('setupRecoveryMessageNewAccount() failed', e.message);
                         if (e.message === 'Invalid code') {
@@ -191,7 +192,6 @@ class SetupRecoveryMethod extends Component {
                                 messageCode: 'walletErrorCodes.invalidRecaptchaCode'
                             })
                         } else {
-                            // FIXME: I can't seem to get this to actually display an alert
                             showCustomAlert({
                                 errorMessage: e.message,
                                 success: false,
