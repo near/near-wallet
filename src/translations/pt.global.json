@@ -129,6 +129,9 @@
         },
         "lockup": {
             "transferAllWithStakingPoolBalance": "Unstake e retire todos os fundos do pool de staking para transferir seu saldo bloqueado restante para a carteira."
+        },
+        "setupRecoveryMessageNewAccount": {
+            "invalidCode": "Código inválido"
         }
     },
     "account": {
@@ -169,7 +172,8 @@
                 },
                 "alertBanner": {
                     "title": "Não feche essa janela!"
-                }
+                },
+                "fundWith": "Adicionar fundos com"
             },
             "post": {
                 "modal": {
@@ -303,6 +307,7 @@
     "selectAccountDropdown": {
         "switchAccount": "Trocar conta",
         "selectAccount": "Selecionar Conta",
+        "account": "Conta",
         "switchAccounthNotAllowed": "Esse aplicativo não permite alterações na conta",
         "createAccount": "Criar Nova Conta",
         "noOtherAccounts": "Você não tem outras contas"
@@ -388,7 +393,8 @@
         "alertBanner": {
             "title": "Quando ativado, <b>${data} NEAR</b> será bloqueado para cobrir os custos de armazenamento do contrato de autenticação de dois fatores.",
             "button": "Saber mais"
-        }
+        },
+        "checkBox": "Eu concordo que, ao habilitar a autenticação de dois fatores, será feita a reserva de ${amount} NEAR para cobrir o custo de armazenamento do contrato."
     },
 
     "fullAccessKeys": {
@@ -478,7 +484,7 @@
         "recoverAccount": "Recuperar Conta",
         "goBack": "Voltar",
         "createNewAccount": "Criar Nova Conta",
-        "addAccount": "Adicionar Conta",
+        "importAccount": "Importar Conta",
         "moreInformation": "Mais informações",
         "dismiss": "Dispensar",
         "cancelOperation": "Cancelar Operação",
@@ -498,16 +504,19 @@
         "deAuthorizing": "Desautorizando",
         "finish": "Finalizar",
         "transferring": "Transferindo",
-        "viewOnExplorer": "Ver no Explorer"
+        "viewOnExplorer": "Ver no Explorer",
+        "buy": "Comprar",
+        "learnMore": "Aprender mais",
+        "viewFAQ": "Ver FAQ"
     },
 
     "link": {
-        "summary": "RESUMO",
-        "send": "ENVIAR",
-        "receive": "RECEBER",
-        "staking": "STAKING",
-        "help": "AJUDA",
-        "profile": "Perfil",
+        "wallet": "Carteira",
+        "send": "Enviar",
+        "receive": "Receber",
+        "staking": "Staking",
+        "help": "Ajuda",
+        "account": "Conta",
         "authorizedApps": "Apps Autorizados",
         "switchAccount": "Trocar conta",
         "noAccount": "Você não tem outras contas",
@@ -579,6 +588,29 @@
             "title": "Link inválido",
             "one": "Esta recompensa de NEAR já foi reivindicada.",
             "two": "Recompensas NEAR só podem ser usadas para criar uma única conta, depois disso o link irá expirar."
+        },
+        "terms": {
+            "title": "Termos e Condições",
+            "desc": "Ao prosseguir com a criação de uma conta NEAR, você concorda com os Termos de Serviço e Política de Privacidade da NEAR Wallet. Recomendamos que você os leia com atenção:",
+            "termsLink": "Termos e Condições",
+            "privacyLink": "Política de Privacidade",
+            "termsCheck": "Eu concordo com os Termos de Serviço",
+            "privacyCheck": "Eu concordo com a Política de Privacidade",
+            "agreeBtn": "Concordar e continuar",
+            "declineBtn": "Recusar"
+        }
+    },
+    "linkdropLanding": {
+        "title": "Você recebeu uma distribuição de NEAR!",
+        "desc": "Você pode reivindicar a distribuição de NEAR com uma conta existente (precisar estar logado), ou criar uma nova conta para receber como depósito inicial.",
+        "ctaAccount": "Reivindicar com uma Conta Existente",
+        "ctaLogin": "Logar e Reinvidicar",
+        "ctaNew": "Reivindicar com uma Nova Conta",
+        "or": "ou",
+        "claiming": "Reivindicar",
+        "modal": {
+            "title": "Recompensa de NEAR foi reivindicada.",
+            "desc": "Sua recompensa de NEAR foi automaticamente depositada na sua conta."
         }
     },
 
@@ -617,7 +649,6 @@
         "pageText": "Enviamos um código de verificação de 6 dígitos para ",
         "inputHeader": "Digitar Código de Verificação",
         "inputPlaceholder": "Código de Verificação",
-        "invalidCode": "Código inválido",
         "didNotRecive": "Não recebeu o seu código?",
         "resendCode": "Reenviar seu código",
         "or": "ou",
@@ -666,8 +697,19 @@
     "wallet": {
         "balanceTitle": "Saldo da carteira",
         "tokens": "Tokens",
+        "balance": "Saldo",
         "dateAndTime": "Data & Hora",
         "status": "Status"
+    },
+    "buyNear": {
+        "title": "Comprar NEAR",
+        "moonPay": "MoonPay",
+        "descOne": "Compre NEAR pela MoonPay usando seu método de pagamento preferido.",
+        "buyWith": "Comprar com",
+        "supportedExchanges": "Exchanges suportadas",
+        "descTwo": "NEAR está disponível para compra nas seguintes exchanges.",
+        "seeMore": "Ver mais em",
+        "coinMarketCap": "CoinMarketCap"
     },
 
     "exploreApps": {
@@ -683,7 +725,8 @@
             "isRequestingFullAccess": "está solicitando <b>acesso total</b>",
             "toYourAccount": "para sua conta.",
             "thisDoesNotAllow": "Isso não permite que o app transfira nenhum token.",
-            "thisProvidesAccess": "Isso fornece acesso a <b>todos os seus tokens</b>.<br />Prossiga com cuidado!"
+            "thisProvidesAccess": "Isso fornece acesso a <b>todos os seus tokens</b>.<br />Prossiga com cuidado!",
+            "accountIdOnly": "está solicitando seu ID da Conta."
         },
         "confirm": {
             "pageTitle": "Você tem certeza?",
@@ -857,7 +900,9 @@
             "title": "Selecione um validador",
             "desc": {
                 "account": "Insira um validador conhecido ou selecione um validador da lista para fazer stake de seus tokens NEAR.",
-                "lockup": "Insira um validador conhecido ou selecione um validador da lista para fazer stake de seus tokens NEAR. Você só pode fazer stake com um único validador em um determinado momento."
+                "lockup": "Insira um validador conhecido ou selecione um validador da lista para fazer stake de seus tokens NEAR. Você só pode fazer stake com um único validador em um determinado momento.",
+                "unstake": "Selecione o validador ao qual deseja fazer unstake de seus tokens.",
+                "withdraw": "Selecione o validador ao qual deseja fazer um saque de seus tokens."
             },
             "inputLabel": "ID da conta do validador",
             "inputPlaceholder": "validador-name.near",
@@ -962,7 +1007,7 @@
         "subtitle": {
             "default": "Informe o valor de NEAR para enviar, e a ID da conta para enviar.",
             "success": "NEAR enviado com sucesso",
-            "para": "to:"
+            "to": "para:"
         },
         "amount": {
             "available": "Disponível para enviar"
@@ -1014,6 +1059,7 @@
             "deleteAccount": "Você está prestes a excluir sua conta! Seu saldo de NEAR será destruído e todos os seus dados de conta serão excluídos."
         },
         "insufficientFunds": "Fundos insuficientes",
+        "availableToTransfer": "Disponível para transferência",
         "hereAreSomeDetails": "Aqui estão alguns detalhes que ajudarão você.",
         "contract": "Contrato:",
         "unknownApp": "App desconhecido",
@@ -1116,6 +1162,12 @@
                 "waiting": "A seguir",
                 "confirm": "Confirmar"
             }
+        },
+        "advanced": {
+            "title": "Opções avançadas",
+            "subTitle": "Caminho no disco",
+            "desc": "Especifique o caminho no disco para importar suas contas vinculadas.",
+            "setPath": "Definir caminho no disco"
         }
     },
 

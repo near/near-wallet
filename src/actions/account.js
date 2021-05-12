@@ -527,6 +527,12 @@ export const { signAndSendTransactions, setSignTransactionStatus, sendMoney, tra
 
 export const refreshAccount = (basicData = false) => async (dispatch, getState) => {
     const { flowLimitation } = getState()
+
+    if (!wallet.accountId) {
+        return
+    }
+    
+    dispatch(setLocalStorage(wallet.accountId))
     await dispatch(refreshAccountOwner(flowLimitation.accountData))
 
     if (!basicData && !flowLimitation.accountBalance) {
@@ -541,7 +547,7 @@ export const switchAccount = (accountId) => async (dispatch, getState) => {
     dispatch(refreshAccount())
 }
 
-export const { selectAccount, refreshAccountOwner, refreshAccountExternal, refreshUrl, getBalance } = createActions({
+export const { selectAccount, refreshAccountOwner, refreshAccountExternal, refreshUrl, getBalance, setLocalStorage } = createActions({
     SELECT_ACCOUNT: wallet.selectAccount.bind(wallet),
     REFRESH_ACCOUNT_OWNER: [
         wallet.refreshAccount.bind(wallet),
@@ -560,5 +566,6 @@ export const { selectAccount, refreshAccountOwner, refreshAccountExternal, refre
         })
     ],
     REFRESH_URL: null,
-    GET_BALANCE: wallet.getBalance.bind(wallet)
+    GET_BALANCE: wallet.getBalance.bind(wallet),
+    SET_LOCAL_STORAGE: null
 })

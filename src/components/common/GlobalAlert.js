@@ -226,7 +226,7 @@ const GlobalAlertNew = ({ globalAlert, actionStatus, clearGlobalAlert, closeIcon
                                             {({ translate }) => 
                                                 <a
                                                     href={
-                                                        translate(alert.messageCode).includes('No default translation found!') 
+                                                        (translate(alert.messageCode).includes('No default translation found!') || translate(alert.messageCode).includes('Sorry an error has occured')) 
                                                         ? `https://nearhelp.zendesk.com/hc/en-us/` 
                                                         : `https://nearhelp.zendesk.com/hc/en-us/search?utf8=%E2%9C%93&query=${translate(alert.messageCode)}`
                                                     }
