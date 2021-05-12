@@ -6,6 +6,7 @@ import ReactDOM from 'react-dom'
 import { initSentry } from './utils/sentry'
 import Routing from './components/Routing'
 import StoreConfiguration from './redux/store'
+import { history } from './redux/store'
 
 initSentry();
 
