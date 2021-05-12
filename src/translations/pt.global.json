@@ -1166,7 +1166,7 @@
         "advanced": {
             "title": "Opções avançadas",
             "subTitle": "Caminho no disco",
-            "desc": "Especifique o caminho no disco para importar as contas linkadas.",
+            "desc": "Especifique o caminho no disco para importar suas contas vinculadas.",
             "setPath": "Definir caminho no disco"
         }
     },
