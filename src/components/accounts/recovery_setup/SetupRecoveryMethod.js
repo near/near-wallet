@@ -157,20 +157,17 @@ class SetupRecoveryMethod extends Component {
         const {
             accountId,
             setupRecoveryMessage,
-            checkIsNew,
             setupRecoveryMessageNewAccount,
             location,
-            showCustomAlert
+            showCustomAlert,
         } = this.props;
 
         const { recoverySeedPhrase, recaptchaToken, success } = this.state;
 
-        const isNewAccount = await checkIsNew(accountId)
-
         if (success) {
             await Mixpanel.withTracking("SR Setup recovery method",
                 async () => {
-                    if (!isNewAccount) {
+                    if (!this.state.isNewAccount) {
                         return setupRecoveryMessage(accountId, this.method, securityCode, this.state.recoverySeedPhrase)
                     }
 
