@@ -120,8 +120,8 @@ class SetupSeedPhrase extends Component {
             handleAddAccessKeySeedPhrase,
             handleCreateAccountWithSeedPhrase,
             fundCreateAccount,
-            checkIsNew,
             location,
+            showCustomAlert,
 
         } = this.props
         const { recoveryKeyPair } = this.state
@@ -147,7 +147,7 @@ class SetupSeedPhrase extends Component {
                 
                 if (isRetryableRecaptchaError(err)) {
                     this.recaptchaRef.reset();
-                    this.props.showCustomAlert({
+                    showCustomAlert({
                         success: false,
                         messageCodeHeader: 'error',
                         messageCode: 'walletErrorCodes.invalidRecaptchaCode'
@@ -156,8 +156,8 @@ class SetupSeedPhrase extends Component {
                     await fundCreateAccount(accountId, recoveryKeyPair, 'seed');
                 } else {
                     // FIXME: I can't seem to get this to display a messageContent
-                    this.props.showCustomAlert({
-                        error: err,
+                    showCustomAlert({
+                        errorMessage: err.message,
                         success: false,
                         messageCodeHeader: 'error',
                     })

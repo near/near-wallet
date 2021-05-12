@@ -124,7 +124,7 @@ const SetupLedger = (props) => {
 
                             // FIXME: I can't seem to get this to display a messageContent
                             dispatch(showCustomAlert({
-                                error: err,
+                                errorMessage: err.message,
                                 success: false,
                                 messageCodeHeader: 'error',
                             }))

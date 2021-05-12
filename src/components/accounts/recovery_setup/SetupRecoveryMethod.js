@@ -193,7 +193,7 @@ class SetupRecoveryMethod extends Component {
                         } else {
                             // FIXME: I can't seem to get this to actually display an alert
                             showCustomAlert({
-                                error: e,
+                                errorMessage: e.message,
                                 success: false,
                                 messageCodeHeader: 'error',
                             })
