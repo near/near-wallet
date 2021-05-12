@@ -53,6 +53,10 @@ const StyledContainer = styled(Container)`
             text-decoration: underline;
         }
     }
+
+    .recaptcha-failed-box {
+        margin-top: 25px;
+    }
 `
 
 const EnterVerificationCode = ({
@@ -71,18 +75,16 @@ const EnterVerificationCode = ({
     // TODO: Custom recaptcha hook
     const recaptchaRef = useRef(null);
     const [recaptchaToken, setRecaptchaToken] = useState(null);
-    const [recaptchaLoadFailed, setRecaptchaLoadFailed] = useState(false);
     const [code, setCode] = useState('');
+    const [error, setError] = useState(false);
 
     let useEmail = true;
     if (option !== 'email') {
         useEmail = false;
     }
 
-    const handleConfirm = async () => {
-        if (code.length === 6 && !loading) {
-            return onConfirm(code);
-        }
+    const handleConfirm = () => {
+        onConfirm(code);
     }
 
     // TODO: Combine similar effect code into custom hook
@@ -107,16 +109,25 @@ const EnterVerificationCode = ({
         fetchIsFundedAccountAvailable();
     }, []);
 
-    const shouldRenderRecaptcha = process.env.RECAPTCHA_CHALLENGE_API_KEY && isNewAccount && !recaptchaLoadFailed && fundedAccountAvailable;
-    const handleRecaptchaLoadFailed = () => setRecaptchaLoadFailed(true)
+    const handleOnSubmit = (e) => {
+        if (code.length !== 6) {
+            e.preventDefault();
+            setError(true)
+            return
+        }
+
+        if (code.length === 6 && !loading) {
+            handleConfirm().then(() => recaptchaRef?.current?.reset());
+            e.preventDefault();
+        }
+    }
+
+    const shouldRenderRecaptcha = process.env.RECAPTCHA_CHALLENGE_API_KEY && isNewAccount && fundedAccountAvailable;
 
     return (
         <StyledContainer className='small-centered'>
             <form
-                onSubmit={e => {
-                    handleConfirm().then(() => recaptchaRef?.current?.reset());
-                    e.preventDefault();
-                }}
+                onSubmit={handleOnSubmit}
                 autoComplete='off'
             >
                 <h1><Translate id='setRecoveryConfirm.title'/></h1>
@@ -126,7 +137,7 @@ const EnterVerificationCode = ({
                 <h4 className='small'><Translate id='setRecoveryConfirm.inputHeader'/></h4>
                 <Translate>
                     {({ translate }) => (
-                        <>
+                        <div className={error ? 'problem' : ''}>
                             <input
                                 type='number'
                                 pattern='[0-9]*'
@@ -134,21 +145,21 @@ const EnterVerificationCode = ({
                                 aria-label={translate('setRecoveryConfirm.inputPlaceholder')}
                                 value={code}
                                 disabled={loading}
-                                onChange={e => setCode(e.target.value)}
+                                onChange={e => {setCode(e.target.value); setError(false);}}
                                 autoFocus={true}
                             />
-                        </>
+                        </div>
                     )}
                 </Translate>
                 {
                     shouldRenderRecaptcha && <Recaptcha
                         ref={recaptchaRef}
-                        onLoadFailed={handleRecaptchaLoadFailed}
                         onChange={(token) => {
                             debugLog('onChange from recaptcha - setting token in state', token);
                             setRecaptchaToken(token);
                             onRecaptchaChange(token)
                         }}
+                        onFundAccountCreation={handleOnSubmit}
                     />
                 }
                 <FormButton

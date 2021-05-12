@@ -55,13 +55,13 @@ const SetupSeedPhraseVerify = (
         mainLoader,
         localAlert,
         onRecaptchaChange,
-        isNewAccount
+        isNewAccount,
+        onSubmit
     },
     ref
 ) => {
     debugLog('Re-rendering', { isNewAccount: isNewAccount });
     const recaptchaRef = useRef(null);
-    const [recaptchaLoadFailed, setRecaptchaLoadFailed] = useState(false);
     const [recaptchaToken, setRecaptchaToken] = useState();
 
     useImperativeHandle(ref, () => ({
@@ -93,8 +93,7 @@ const SetupSeedPhraseVerify = (
         fetchIsFundedAccountAvailable();
     }, []);
 
-    const shouldRenderRecaptcha = process.env.RECAPTCHA_CHALLENGE_API_KEY && isNewAccount && !recaptchaLoadFailed && fundedAccountAvailable;
-    const handleRecaptchaLoadFailed = () => setRecaptchaLoadFailed(true)
+    const shouldRenderRecaptcha = process.env.RECAPTCHA_CHALLENGE_API_KEY && isNewAccount && fundedAccountAvailable;
 
     return (
         <CustomDiv>
@@ -118,12 +117,12 @@ const SetupSeedPhraseVerify = (
             {
                 shouldRenderRecaptcha && <Recaptcha
                     ref={recaptchaRef}
-                    onLoadFailed={handleRecaptchaLoadFailed}
                     onChange={(token) => {
                         debugLog('onChange from recaptcha', token);
                         setRecaptchaToken(token);
                         onRecaptchaChange(token);
                     }}
+                    onFundAccountCreation={onSubmit}
                 />
             }
             <FormButton

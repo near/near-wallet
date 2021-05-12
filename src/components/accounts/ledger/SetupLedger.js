@@ -36,7 +36,6 @@ const SetupLedger = (props) => {
 
     // TODO: Custom recaptcha hook
     const [recaptchaToken, setRecaptchaToken] = useState(null);
-    const [recaptchaLoadFailed, setRecaptchaLoadFailed] = useState(false);
     const recaptchaRef = useRef(null);
 
     // TODO: Combine similar effect code into custom hook
@@ -61,8 +60,7 @@ const SetupLedger = (props) => {
         fetchIsFundedAccountAvailable();
     }, []);
 
-    const shouldRenderRecaptcha = process.env.RECAPTCHA_CHALLENGE_API_KEY && isNewAccount && !recaptchaLoadFailed && fundedAccountAvailable;
-    const handleRecaptchaLoadFailed = () => setRecaptchaLoadFailed(true)
+    const shouldRenderRecaptcha = process.env.RECAPTCHA_CHALLENGE_API_KEY && isNewAccount && fundedAccountAvailable;
 
     useEffect(() => {
         const performNewAccountCheck = async () => {
@@ -173,11 +171,11 @@ const SetupLedger = (props) => {
             {
                 shouldRenderRecaptcha && <Recaptcha
                     ref={recaptchaRef}
-                    onLoadFailed={handleRecaptchaLoadFailed}
                     onChange={(token) => {
                         debugLog('onChange from recaptcha - setting token in state', token);
                         setRecaptchaToken(token);
                     }}
+                    onFundAccountCreation={handleClick}
                 />
             }
             <FormButton

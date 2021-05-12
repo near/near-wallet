@@ -598,6 +598,16 @@
         }
     },
 
+    "reCAPTCHA": {
+        "fail": {
+            "title": "Failed to load reCAPTCHA.",
+            "desc": "reCAPTCHA is required in order to authorize new accounts funded by NEAR.",
+            "link": "Fund your own account?"
+        },
+        "loading": "Loading reCAPTCHA...",
+        "disclaimer": "This site is protected by reCAPTCHA and the Google <a href='https://policies.google.com/privacy' target='_blank' rel='noopener noreferrer'>Privacy Policy</a> and <a href='https://policies.google.com/terms' target='_blank' rel='noopener noreferrer'>Terms of Service</a> apply."
+    },
+
     "topLevelAccounts": {
         "header": "顶级账户",
         "body": "账户名称类似于域名，只有 ${data} 才能创建比如 yourname.${data} 的账户，并且只有 yourname.${data} 可以创建 app.yourname.${data}。所有在此钱包创建的账户都使用 .${data} 顶级账户（TLA）。了解更多关于账户名称和创建你的顶级账户（TLA），请访问 <a rel='noopener noreferrer' href='https://docs.nearprotocol.com/docs/concepts/account'>NEAR 文档</a>。"

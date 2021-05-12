@@ -1,6 +1,9 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
 import ReCAPTCHA from 'react-google-recaptcha';
+import PuzzleIcon from './svg/PuzzleIcon';
+import FormButton from './common/FormButton';
+import { Translate } from 'react-localize-redux';
 
 const RECAPTCHA_CHALLENGE_API_KEY = process.env.RECAPTCHA_CHALLENGE_API_KEY;
 
@@ -11,6 +14,36 @@ const RECAPTCHA_LOADING_TIMEOUT = 15 * 1000;
 const ENABLE_DEBUG_LOGGING = false;
 
 const debugLog = (...args) => ENABLE_DEBUG_LOGGING && console.log('Recaptcha:', ...args);
+
+const RecaptchaFailedBox = styled.div`
+    border: 1px dashed #FF8588;
+    border-radius: 2px;
+    background-color: #FEF2F2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 20px 30px;
+    margin-bottom: 30px;
+
+    .title {
+        color: #A00005;
+        font-weight: 600;
+    }
+
+    .desc {
+        color: #DC1F25;
+    }
+
+    button {
+        font-weight: normal !important;
+        text-decoration: underline !important;
+    }
+
+    .title, .desc, button {
+        margin-top: 20px !important;
+    }
+`
 
 const RecaptchaString = styled.div`
     margin-bottom: -10px;
@@ -99,26 +132,39 @@ export class Recaptcha extends Component {
         const { loaded, loadFailed } = this.state;
 
         if (loadFailed) {
-            return (<RecaptchaString>Failed to load recaptcha!</RecaptchaString>)
+            return (
+                <RecaptchaFailedBox className='recaptcha-failed-box'>
+                    <PuzzleIcon/>
+                    <div className='title'><Translate id='reCAPTCHA.fail.title'/></div>
+                    <div className='desc'><Translate id='reCAPTCHA.fail.desc'/></div>
+                    <FormButton color='link' onClick={this.props.onFundAccountCreation}><Translate id='reCAPTCHA.fail.link'/></FormButton>
+                </RecaptchaFailedBox>
+            )
         }
 
         debugLog('Rendering', { recaptchaRef: this.recaptchaRef });
-        return (<>
-            {!loaded && (<span>Loading reCAPTCHA...</span>)}
-            {loaded && (<RecaptchaString>
-                This site is protected by reCAPTCHA and the Google <a
-                href='https://policies.google.com/privacy' target='_blank' rel='noopener noreferrer'>Privacy
-                Policy</a> and <a href='https://policies.google.com/terms' target='_blank'
-                                  rel='noopener noreferrer'>Terms of Service</a> apply.
-            </RecaptchaString>)}
-            {RECAPTCHA_CHALLENGE_API_KEY && <ReCAPTCHA
-                sitekey={RECAPTCHA_CHALLENGE_API_KEY}
-                ref={(ref) => this.setCaptchaRef(ref)}
-                onChange={this.handleOnChange}
-                asyncScriptOnLoad={this.handleOnLoad}
-                style={{ marginTop: '25px' }}
-            />}
-        </>)
+
+        return (
+            <>
+                {!loaded &&
+                    <span>
+                        <Translate id='reCAPTCHA.loading'/>
+                    </span>
+                }
+                {loaded &&
+                    <RecaptchaString>
+                        <Translate id='reCAPTCHA.disclaimer'/>
+                    </RecaptchaString>
+                }
+                {RECAPTCHA_CHALLENGE_API_KEY && <ReCAPTCHA
+                    sitekey={RECAPTCHA_CHALLENGE_API_KEY}
+                    ref={(ref) => this.setCaptchaRef(ref)}
+                    onChange={this.handleOnChange}
+                    asyncScriptOnLoad={this.handleOnLoad}
+                    style={{ marginTop: '25px' }}
+                />}
+            </>
+        )
     }
 }
 

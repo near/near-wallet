@@ -193,6 +193,11 @@ class SetupSeedPhrase extends Component {
         this.setState({ recaptchaToken })
     }
 
+    handleOnSubmit = (e) => {
+        this.handleVerifyPhrase();
+        e.preventDefault();
+    }
+
     render() {
         const recoveryMethods = this.props.recoveryMethods[this.props.accountId]
         const hasSeedPhraseRecovery = recoveryMethods && recoveryMethods.filter(m => m.kind === 'phrase').length > 0
@@ -221,10 +226,7 @@ class SetupSeedPhrase extends Component {
                             render={() => (
                                 <Container className='small-centered'>
                                     <form
-                                        onSubmit={e => {
-                                            this.handleVerifyPhrase();
-                                            e.preventDefault();
-                                        }}
+                                        onSubmit={this.handleOnSubmit}
                                         autoComplete='off'
                                     >
                                         <h1><Translate id='setupSeedPhraseVerify.pageTitle'/></h1>
@@ -240,6 +242,7 @@ class SetupSeedPhrase extends Component {
                                             onRecaptchaChange={this.handleRecaptchaChange}
                                             ref={(ref) => this.recaptchaRef = ref}
                                             isNewAccount={this.state.isNewAccount}
+                                            onSubmit={this.handleOnSubmit}
                                         />
                                     </form>
                                 </Container>

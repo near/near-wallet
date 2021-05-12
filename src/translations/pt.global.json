@@ -600,6 +600,17 @@
             "declineBtn": "Recusar"
         }
     },
+
+    "reCAPTCHA": {
+        "fail": {
+            "title": "Failed to load reCAPTCHA.",
+            "desc": "reCAPTCHA is required in order to authorize new accounts funded by NEAR.",
+            "link": "Fund your own account?"
+        },
+        "loading": "Loading reCAPTCHA...",
+        "disclaimer": "This site is protected by reCAPTCHA and the Google <a href='https://policies.google.com/privacy' target='_blank' rel='noopener noreferrer'>Privacy Policy</a> and <a href='https://policies.google.com/terms' target='_blank' rel='noopener noreferrer'>Terms of Service</a> apply."
+    },
+    
     "linkdropLanding": {
         "title": "Você recebeu uma distribuição de NEAR!",
         "desc": "Você pode reivindicar a distribuição de NEAR com uma conta existente (precisar estar logado), ou criar uma nova conta para receber como depósito inicial.",
