@@ -36,9 +36,11 @@ let persistor = persistStore(store)
 
 ReactDOM.render(
     <Provider store={store}>
-        <LocalizeProvider store={store}>
-            <Routing history={history} />
-        </LocalizeProvider>
+        <PersistGate loading={null} persistor={persistor}>
+            <LocalizeProvider store={store}>
+                <Routing history={history} />
+            </LocalizeProvider>
+        </PersistGate>
     </Provider>,
     document.getElementById('root')
 )
