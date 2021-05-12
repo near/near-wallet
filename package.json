@@ -26,6 +26,7 @@
     "reduce-reducers": "^1.0.4",
     "redux": "^4.0.5",
     "redux-actions": "^2.6.5",
+    "redux-persist": "^6.0.0",
     "redux-thunk": "^2.3.0",
     "regenerator-runtime": "^0.13.5",
     "semantic-ui-css": "^2.4.1",
