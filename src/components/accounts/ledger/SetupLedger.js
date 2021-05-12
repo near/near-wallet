@@ -16,11 +16,12 @@ import {
     fundCreateAccountLedger,
     getLedgerPublicKey
 } from '../../../actions/account'
-import { DISABLE_CREATE_ACCOUNT, setKeyMeta } from '../../../utils/wallet'
+import { ACCOUNT_HELPER_URL, DISABLE_CREATE_ACCOUNT, setKeyMeta } from '../../../utils/wallet'
 import GlobalAlert from '../../common/GlobalAlert'
 import { Mixpanel } from '../../../mixpanel/index'
 import { isRetryableRecaptchaError, Recaptcha } from '../../Recaptcha';
 import { showCustomAlert } from '../../../actions/status';
+import sendJson from '../../../tmp_fetch_send_json';
 
 // FIXME: Use `debug` npm package so we can keep some debug logging around but not spam the console everywhere
 const ENABLE_DEBUG_LOGGING = false;
@@ -38,7 +39,29 @@ const SetupLedger = (props) => {
     const [recaptchaLoadFailed, setRecaptchaLoadFailed] = useState(false);
     const recaptchaRef = useRef(null);
 
-    const shouldRenderRecaptcha = process.env.RECAPTCHA_CHALLENGE_API_KEY && isNewAccount && !recaptchaLoadFailed;
+    // TODO: Combine similar effect code into custom hook
+    const [fundedAccountAvailable, setFundedAccountAvailable] = useState(false);
+    useEffect(() => {
+        debugLog('Checking available funded account status');
+        const fetchIsFundedAccountAvailable = async () => {
+            let available;
+
+            try {
+                ({ available } = await sendJson('GET', ACCOUNT_HELPER_URL + '/checkFundedAccountAvailable'));
+            } catch (e) {
+                debugLog('Failed check available funded account status');
+                setFundedAccountAvailable(false);
+                return;
+            }
+
+            debugLog('Funded account availability', { available });
+            setFundedAccountAvailable(available);
+        }
+
+        fetchIsFundedAccountAvailable();
+    }, []);
+
+    const shouldRenderRecaptcha = process.env.RECAPTCHA_CHALLENGE_API_KEY && isNewAccount && !recaptchaLoadFailed && fundedAccountAvailable;
     const handleRecaptchaLoadFailed = () => setRecaptchaLoadFailed(true)
 
     useEffect(() => {
@@ -46,7 +69,7 @@ const SetupLedger = (props) => {
             setIsNewAccount(await props.dispatch(checkIsNew(props.accountId)));
         }
         performNewAccountCheck();
-    }, [isNewAccount])
+    }, [])
 
     const openShowInstructions = () => {
         setShowInstructions(true)

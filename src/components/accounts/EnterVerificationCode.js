@@ -1,10 +1,12 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Translate } from 'react-localize-redux';
 import FormButton from '../common/FormButton';
 import Container from '../common/styled/Container.css';
 import { Recaptcha } from '../Recaptcha';
+import sendJson from '../../tmp_fetch_send_json';
+import { ACCOUNT_HELPER_URL } from '../../utils/wallet';
 
 // FIXME: Use `debug` npm package so we can keep some debug logging around but not spam the console everywhere
 const ENABLE_DEBUG_LOGGING = false;
@@ -83,9 +85,31 @@ const EnterVerificationCode = ({
         }
     }
 
+    // TODO: Combine similar effect code into custom hook
+    const [fundedAccountAvailable, setFundedAccountAvailable] = useState(false);
+    useEffect(() => {
+        debugLog('Checking available funded account status');
+        const fetchIsFundedAccountAvailable = async () => {
+            let available;
+
+            try {
+                ({ available } = await sendJson('GET', ACCOUNT_HELPER_URL + '/checkFundedAccountAvailable'));
+            } catch (e) {
+                debugLog('Failed check available funded account status');
+                setFundedAccountAvailable(false);
+                return;
+            }
+
+            debugLog('Funded account availability', { available });
+            setFundedAccountAvailable(available);
+        }
+
+        fetchIsFundedAccountAvailable();
+    }, []);
+
+    const shouldRenderRecaptcha = process.env.RECAPTCHA_CHALLENGE_API_KEY && isNewAccount && !recaptchaLoadFailed && fundedAccountAvailable;
     const handleRecaptchaLoadFailed = () => setRecaptchaLoadFailed(true)
 
-    const shouldRenderRecaptcha = process.env.RECAPTCHA_CHALLENGE_API_KEY && isNewAccount && !recaptchaLoadFailed;
     return (
         <StyledContainer className='small-centered'>
             <form

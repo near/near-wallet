@@ -11,7 +11,7 @@ import { Recaptcha } from '../Recaptcha';
 import { ACCOUNT_HELPER_URL } from '../../utils/wallet';
 
 // FIXME: Use `debug` npm package so we can keep some debug logging around but not spam the console everywhere
-const ENABLE_DEBUG_LOGGING = true;
+const ENABLE_DEBUG_LOGGING = false;
 const debugLog = (...args) => ENABLE_DEBUG_LOGGING && console.log('SetupSeedPhraseVerify:', ...args);
 
 const CustomDiv = styled.div`
@@ -63,7 +63,6 @@ const SetupSeedPhraseVerify = (
     const recaptchaRef = useRef(null);
     const [recaptchaLoadFailed, setRecaptchaLoadFailed] = useState(false);
     const [recaptchaToken, setRecaptchaToken] = useState();
-    const [fundedAccountAvailable, setFundedAccountAvailable] = useState(false);
 
     useImperativeHandle(ref, () => ({
         reset() {
@@ -72,6 +71,8 @@ const SetupSeedPhraseVerify = (
         }
     }))
 
+    // TODO: Combine similar effect code into custom hook
+    const [fundedAccountAvailable, setFundedAccountAvailable] = useState(false);
     useEffect(() => {
         debugLog('Checking available funded account status');
         const fetchIsFundedAccountAvailable = async () => {
@@ -92,8 +93,8 @@ const SetupSeedPhraseVerify = (
         fetchIsFundedAccountAvailable();
     }, []);
 
-    const handleRecaptchaLoadFailed = () => setRecaptchaLoadFailed(true)
     const shouldRenderRecaptcha = process.env.RECAPTCHA_CHALLENGE_API_KEY && isNewAccount && !recaptchaLoadFailed && fundedAccountAvailable;
+    const handleRecaptchaLoadFailed = () => setRecaptchaLoadFailed(true)
 
     return (
         <CustomDiv>
