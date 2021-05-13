@@ -48,7 +48,7 @@ const RecaptchaFailedBox = styled.div`
 const RecaptchaString = styled.div`
     margin-bottom: -10px;
     font-size: 12px;
-    padding-top: 24px;
+    padding-top: 25px;
     font-weight: 300;
 
     a {
@@ -151,7 +151,7 @@ export class Recaptcha extends Component {
                     </span>
                 }
                 {loaded &&
-                    <RecaptchaString>
+                    <RecaptchaString className='recaptcha-disclaimer'>
                         <Translate id='reCAPTCHA.disclaimer'/>
                     </RecaptchaString>
                 }

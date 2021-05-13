@@ -44,6 +44,10 @@ const CustomDiv = styled.div`
             margin: 0 0 0 6px !important;
         }
     }
+
+    .recaptcha-disclaimer {
+        padding-top: 0;
+    }
 `
 
 
