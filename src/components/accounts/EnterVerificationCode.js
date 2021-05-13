@@ -83,7 +83,7 @@ const EnterVerificationCode = ({
         useEmail = false;
     }
 
-    const handleConfirm = () => {
+    const handleConfirm = async () => {
         onConfirm(code);
     }
 
