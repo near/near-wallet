@@ -106,7 +106,9 @@ const EnterVerificationCode = ({
             setFundedAccountAvailable(available);
         }
 
-        fetchIsFundedAccountAvailable();
+        if(process.env.RECAPTCHA_CHALLENGE_API_KEY && isNewAccount) {
+            fetchIsFundedAccountAvailable();
+        }
     }, []);
 
     const handleOnSubmit = (e) => {

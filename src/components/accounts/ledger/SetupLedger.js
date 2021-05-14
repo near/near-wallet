@@ -57,7 +57,9 @@ const SetupLedger = (props) => {
             setFundedAccountAvailable(available);
         }
 
-        fetchIsFundedAccountAvailable();
+        if(process.env.RECAPTCHA_CHALLENGE_API_KEY && isNewAccount) {
+            fetchIsFundedAccountAvailable();
+        }
     }, []);
 
     const shouldRenderRecaptcha = process.env.RECAPTCHA_CHALLENGE_API_KEY && isNewAccount && fundedAccountAvailable;
