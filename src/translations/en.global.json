@@ -860,6 +860,10 @@
         },
         "validatorBox": {
             "fee": "Fee",
+            "state": {
+                "active": "active",
+                "inactive": "inactive"
+            },
             "staking": "Staking",
             "near": "NEAR",
             "cta": "Select",
