@@ -162,6 +162,7 @@ export default function LedgerHdPaths({ onSetPath, path, onConfirmHdPath }) {
                 icon={<SettingsIcon/>}
                 title={<Translate id='signInLedger.advanced.title'/>}
                 content={dropDownContent()}
+                maxHeight={false}
             />
         </Container>
     )
