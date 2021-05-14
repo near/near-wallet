@@ -24,6 +24,7 @@ const CustomButton = styled(Button)`
         border-radius: 30px;
         
         font-size: 15px;
+        word-break: keep-all;
 
         svg {
             width: 16px;
