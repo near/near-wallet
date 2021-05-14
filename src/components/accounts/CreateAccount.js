@@ -32,18 +32,6 @@ const StyledContainer = styled(Container)`
         color: #24272a;
     }
 
-    .recaptcha-disclaimer {
-        font-size: 12px;
-        font-weight: 400;
-        max-width: 383px;
-        margin: 50px auto 0 auto;
-        text-align: center;
-
-        a {
-            color: inherit;
-        }
-    }
-
     a {
         text-decoration: underline;
     }
@@ -76,12 +64,11 @@ class CreateAccount extends Component {
     state = {
         loader: false,
         accountId: '',
-        token: '',
         invalidNearDrop: null,
         showTerms: false,
         termsChecked: false,
         privacyChecked: false,
-        fundingAmount: null
+        fundingAmount: null,
     }
 
     componentDidMount() {
@@ -122,7 +109,7 @@ class CreateAccount extends Component {
 
     handleCreateAccount = async () => {
         const { accountId, fundingAmount } = this.state;
-        const { 
+        const {
             fundingContract, fundingKey,
             fundingAccountId,
         } = this.props
@@ -142,10 +129,18 @@ class CreateAccount extends Component {
     }
 
     render() {
-        const { loader, accountId, invalidNearDrop, showTerms, termsChecked, privacyChecked } = this.state
+        const {
+            loader,
+            accountId,
+            invalidNearDrop,
+            showTerms,
+            termsChecked,
+            privacyChecked,
+        } = this.state
+
         const { localAlert, mainLoader, checkNewAccount, resetAccount, clearLocalAlert } = this.props
         const useLocalAlert = accountId.length > 0 ? localAlert : undefined;
-        
+
         if (!invalidNearDrop) {
             return (
                 <StyledContainer className='small-centered'>
@@ -190,6 +185,7 @@ class CreateAccount extends Component {
                         />
                     }
                 </StyledContainer>
+
             )
         } else {
             return (
