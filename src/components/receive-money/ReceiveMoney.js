@@ -145,6 +145,12 @@ class ReceiveMoney extends Component {
             successSnackbar
         } = this.state;
 
+        const {
+            account
+        } = this.props
+
+        const accountId = account?.accountId || account.localStorage?.accountId
+
         return (
             <Translate>
                 {({ translate }) => (
@@ -152,9 +158,9 @@ class ReceiveMoney extends Component {
                         <Container>
                             <h1>{translate('receivePage.addressTitle')}</h1>
                             <Address onClick={this.handleCopyAddress}>
-                                {this.props.account.accountId}
+                                {accountId}
                                 <UrlAddress ref={this.urlRef}>
-                                    {this.props.account.accountId}
+                                    {accountId}
                                 </UrlAddress>
                                 {navigator.share && isMobile() ? (
                                     <MobileShare/>
@@ -168,7 +174,7 @@ class ReceiveMoney extends Component {
                             <h1>
                                 {translate('receivePage.qrCodeTitle')}
                             </h1>
-                            <ProfileQRCode account={this.props.account}/>
+                            <ProfileQRCode accountId={accountId}/>
                         </Container>
                         <Snackbar
                             theme='success'

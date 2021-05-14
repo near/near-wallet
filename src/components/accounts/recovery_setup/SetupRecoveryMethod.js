@@ -25,6 +25,12 @@ import Container from '../../common/styled/Container.css';
 import isApprovedCountryCode from '../../../utils/isApprovedCountryCode'
 import { Mixpanel } from '../../../mixpanel/index'
 import { actionsPending } from '../../../utils/alerts'
+import { showCustomAlert } from '../../../actions/status';
+import { isRetryableRecaptchaError } from '../../Recaptcha';
+
+// FIXME: Use `debug` npm package so we can keep some debug logging around but not spam the console everywhere
+const ENABLE_DEBUG_LOGGING = false;
+const debugLog = (...args) => ENABLE_DEBUG_LOGGING && console.log('SetupRecoveryMethod:', ...args);
 
 const StyledContainer = styled(Container)`
     button {
@@ -39,6 +45,7 @@ const StyledContainer = styled(Container)`
     }
 
 `
+
 class SetupRecoveryMethod extends Component {
 
     state = {
@@ -49,11 +56,13 @@ class SetupRecoveryMethod extends Component {
         success: false,
         emailInvalid: false,
         phoneInvalid: false,
-        recoverySeedPhrase: null
+        recoverySeedPhrase: null,
+        recaptchaToken: null,
+        isNewAccount: false
     }
 
-    componentDidMount() {
-        const { router } = this.props;
+    async componentDidMount() {
+        const { router, checkIsNew } = this.props;
         const { method } = router.location;
 
         if (method) {
@@ -63,6 +72,9 @@ class SetupRecoveryMethod extends Component {
         if (this.props.activeAccountId) {
             this.handleCheckMethodStatus()
         }
+
+        const isNewAccount = await checkIsNew(this.props.accountId);
+        this.setState({ isNewAccount });
     }
 
     componentDidUpdate(prevProps) {
@@ -83,16 +95,16 @@ class SetupRecoveryMethod extends Component {
         const { option, phoneNumber, email, country } = this.state;
 
         switch (option) {
-            case 'email':
-                return validateEmail(email)
-            case 'phone':
-                return isApprovedCountryCode(country) && isValidPhoneNumber(phoneNumber)
-            case 'phrase':
-                return true
-            case 'ledger':
-                return true
-            default:
-                return false
+        case 'email':
+            return validateEmail(email)
+        case 'phone':
+            return isApprovedCountryCode(country) && isValidPhoneNumber(phoneNumber)
+        case 'phrase':
+            return true
+        case 'ledger':
+            return true
+        default:
+            return false
         }
     }
 
@@ -145,20 +157,47 @@ class SetupRecoveryMethod extends Component {
         const {
             accountId,
             setupRecoveryMessage,
-            checkIsNew,
             setupRecoveryMessageNewAccount,
             location,
+            showCustomAlert,
         } = this.props;
 
-        if (this.state.success) {
+        const { recoverySeedPhrase, recaptchaToken, success } = this.state;
+
+        if (success) {
             await Mixpanel.withTracking("SR Setup recovery method",
                 async () => {
-                    const isNew = await checkIsNew(accountId)
-                    if (isNew) {
-                        const fundingOptions = JSON.parse(parseQuery(location.search).fundingOptions || 'null')
-                        await setupRecoveryMessageNewAccount(accountId, this.method, securityCode, fundingOptions, this.state.recoverySeedPhrase)
-                    } else {
-                        await setupRecoveryMessage(accountId, this.method, securityCode, this.state.recoverySeedPhrase)
+                    if (!this.state.isNewAccount) {
+                        return setupRecoveryMessage(accountId, this.method, securityCode, this.state.recoverySeedPhrase)
+                    }
+
+                    const queryOptions = parseQuery(location.search);
+                    const fundingOptions = JSON.parse(queryOptions.fundingOptions || 'null')
+
+                    try {
+                        await setupRecoveryMessageNewAccount(accountId, this.method, securityCode, fundingOptions, recoverySeedPhrase, recaptchaToken);
+
+                    } catch (e) {
+                        debugLog('setupRecoveryMessageNewAccount() failed', e.message);
+                        if (e.message === 'Invalid code') {
+                            showCustomAlert({
+                                success: false,
+                                messageCodeHeader: 'error',
+                                messageCode: 'walletErrorCodes.setupRecoveryMessageNewAccount.invalidCode'
+                            })
+                        } else if (isRetryableRecaptchaError(e)) {
+                            showCustomAlert({
+                                success: false,
+                                messageCodeHeader: 'error',
+                                messageCode: 'walletErrorCodes.invalidRecaptchaCode'
+                            })
+                        } else {
+                            showCustomAlert({
+                                errorMessage: e.message,
+                                success: false,
+                                messageCodeHeader: 'error',
+                            })
+                        }
                     }
                 }
             )
@@ -201,17 +240,25 @@ class SetupRecoveryMethod extends Component {
         return this.props.accountId !== this.props.activeAccountId
     }
 
+    handleRecaptchaChange = (recaptchaToken) => {
+        debugLog('handleRecaptchaChange()', recaptchaToken)
+        this.setState({ recaptchaToken })
+    }
+
     render() {
-        const { option, phoneNumber, email, success, emailInvalid, phoneInvalid, country } = this.state;
+        const { option, phoneNumber, email, success, emailInvalid, phoneInvalid, country, isNewAccount } = this.state;
         const { mainLoader, accountId, activeAccountId, ledgerKey, twoFactor } = this.props;
 
         if (!success) {
             return (
                 <StyledContainer className='small-centered'>
-                    <form onSubmit={e => { this.handleNext(); e.preventDefault(); }}>
-                        <h1><Translate id='setupRecovery.header' /></h1>
-                        <h2><Translate id='setupRecovery.subHeader' /></h2>
-                        <h4><Translate id='setupRecovery.advancedSecurity' /></h4>
+                    <form onSubmit={e => {
+                        this.handleNext();
+                        e.preventDefault();
+                    }}>
+                        <h1><Translate id='setupRecovery.header'/></h1>
+                        <h2><Translate id='setupRecovery.subHeader'/></h2>
+                        <h4><Translate id='setupRecovery.advancedSecurity'/></h4>
                         <RecoveryOption
                             onClick={() => this.setState({ option: 'phrase' })}
                             option='phrase'
@@ -219,14 +266,14 @@ class SetupRecoveryMethod extends Component {
                             disabled={this.checkDisabled('phrase')}
                         />
                         {(this.checkNewAccount() || !twoFactor) &&
-                            <RecoveryOption
-                                onClick={() => this.setState({ option: 'ledger' })}
-                                option='ledger'
-                                active={option}
-                                disabled={ledgerKey !== null && accountId === activeAccountId}
-                            />
+                        <RecoveryOption
+                            onClick={() => this.setState({ option: 'ledger' })}
+                            option='ledger'
+                            active={option}
+                            disabled={ledgerKey !== null && accountId === activeAccountId}
+                        />
                         }
-                        <h4><Translate id='setupRecovery.basicSecurity' /></h4>
+                        <h4><Translate id='setupRecovery.basicSecurity'/></h4>
                         <RecoveryOption
                             onClick={() => this.setState({ option: 'email' })}
                             option='email'
@@ -262,13 +309,16 @@ class SetupRecoveryMethod extends Component {
                                             placeholder={translate('setupRecovery.phonePlaceholder')}
                                             value={phoneNumber}
                                             disabled={this.props.mainLoader}
-                                            onChange={value => this.setState({ phoneNumber: value, phoneInvalid: false })}
+                                            onChange={value => this.setState({
+                                                phoneNumber: value,
+                                                phoneInvalid: false
+                                            })}
                                             onCountryChange={option => this.setState({ country: option })}
                                             tabIndex='1'
                                             onBlur={this.handleBlurPhone}
                                         />
                                         {!isApprovedCountryCode(country) &&
-                                            <div className='color-red'>{translate('setupRecovery.notSupportedPhone')}</div>
+                                        <div className='color-red'>{translate('setupRecovery.notSupportedPhone')}</div>
                                         }
                                     </>
                                 )}
@@ -281,7 +331,7 @@ class SetupRecoveryMethod extends Component {
                             sending={actionsPending('INITIALIZE_RECOVERY_METHOD', 'SETUP_RECOVERY_MESSAGE')}
                             trackingId='SR Click submit button'
                         >
-                            <Translate id='button.continue' />
+                            <Translate id='button.continue'/>
                         </FormButton>
                     </form>
                 </StyledContainer>
@@ -289,6 +339,7 @@ class SetupRecoveryMethod extends Component {
         } else {
             return (
                 <EnterVerificationCode
+                    isNewAccount={isNewAccount}
                     option={option}
                     phoneNumber={phoneNumber}
                     email={email}
@@ -296,6 +347,7 @@ class SetupRecoveryMethod extends Component {
                     onGoBack={this.handleGoBack}
                     onResend={this.handleSendCode}
                     loading={mainLoader}
+                    onRecaptchaChange={this.handleRecaptchaChange}
                 />
             )
         }
@@ -312,7 +364,8 @@ const mapDispatchToProps = {
     getLedgerKey,
     get2faMethod,
     checkIsNew,
-    redirectTo
+    redirectTo,
+    showCustomAlert
 }
 
 const mapStateToProps = ({ account, router, recoveryMethods, status }, { match }) => ({

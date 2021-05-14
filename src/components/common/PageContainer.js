@@ -3,6 +3,7 @@ import React from 'react'
 import { Container, Grid, Segment } from 'semantic-ui-react'
 
 import styled from 'styled-components'
+import classNames from '../../utils/classNames'
 
 const CustomContainer = styled(Container)`
     &&& {
@@ -38,6 +39,39 @@ const CustomContainer = styled(Container)`
             .add {
                 text-align: right;
                 padding-right: 0;
+            }
+            .dots {
+                color: #24272a;
+
+                :after {
+                    content: '.';
+                    animation: link 1s steps(5, end) infinite;
+                
+                    @keyframes link {
+                        0%, 20% {
+                            color: rgba(0,0,0,0);
+                            text-shadow:
+                                .3em 0 0 rgba(0,0,0,0),
+                                .6em 0 0 rgba(0,0,0,0);
+                        }
+                        40% {
+                            color: #24272a;
+                            text-shadow:
+                                .3em 0 0 rgba(0,0,0,0),
+                                .6em 0 0 rgba(0,0,0,0);
+                        }
+                        60% {
+                            text-shadow:
+                                .3em 0 0 #24272a,
+                                .6em 0 0 rgba(0,0,0,0);
+                        }
+                        80%, 100% {
+                            text-shadow:
+                                .3em 0 0 #24272a,
+                                .6em 0 0 #24272a;
+                        }
+                    }
+                }
             }
         }
         @media screen and (max-width: 991px) {
@@ -89,7 +123,7 @@ const CustomContainer = styled(Container)`
     }
 `
 
-const PageContainer = ({ children, title, additional, bottom, type }) => (
+const PageContainer = ({ children, title, additional, bottom, type, dots }) => (
     <CustomContainer>
         <Grid className='title-section'>
             {type === 'center'
@@ -102,7 +136,9 @@ const PageContainer = ({ children, title, additional, bottom, type }) => (
                 ) : (
                     <Grid.Row columns='2' className='page-title'>
                         <Grid.Column as='h1' computer={11} tablet={16} mobile={16} verticalAlign='middle'>
-                            {title}
+                            <span className={classNames({ dots: dots })}>
+                                {title}
+                            </span>
                         </Grid.Column>
                         <Grid.Column computer={5} tablet={16} mobile={16} className='add'>
                             {additional}

@@ -598,6 +598,16 @@
         }
     },
 
+    "reCAPTCHA": {
+        "fail": {
+            "title": "Failed to load reCAPTCHA.",
+            "desc": "reCAPTCHA is required in order to authorize new accounts funded by NEAR.",
+            "link": "Fund your own account?"
+        },
+        "loading": "Loading reCAPTCHA...",
+        "disclaimer": "This site is protected by reCAPTCHA and the Google <a href='https://policies.google.com/privacy' target='_blank' rel='noopener noreferrer'>Privacy Policy</a> and <a href='https://policies.google.com/terms' target='_blank' rel='noopener noreferrer'>Terms of Service</a> apply."
+    },
+
     "topLevelAccounts": {
         "header": "頂級賬戶",
         "body": "賬戶名稱類似於域名，只有 ${data} 才能創建比如 yourname.${data} 的賬戶，並且只有 yourname.${data} 可以創建 app.yourname.${data}。所有在此錢包創建的賬戶都使用 .${data} 頂級賬戶（TLA）。了解更多關於賬戶名稱和創建你的頂級賬戶（TLA），請訪問 <a rel='noopener noreferrer' href='https://docs.nearprotocol.com/docs/concepts/account'>NEAR 文檔</a>。"

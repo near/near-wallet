@@ -92,6 +92,7 @@
         }
     },
     "walletErrorCodes": {
+        "invalidRecaptchaCode": "Invalid reCAPTCHA code; try again!",
         "addAccessKeySeedPhrase": {
             "errorSecond": "An error has occurred.<br />The seed phrase was not added to your account. Please try again."
         },
@@ -601,6 +602,16 @@
         }
     },
 
+    "reCAPTCHA": {
+        "fail": {
+            "title": "Failed to load reCAPTCHA.",
+            "desc": "reCAPTCHA is required in order to authorize new accounts funded by NEAR.",
+            "link": "Fund your own account?"
+        },
+        "loading": "Loading reCAPTCHA...",
+        "disclaimer": "This site is protected by reCAPTCHA and the Google <a href='https://policies.google.com/privacy' target='_blank' rel='noopener noreferrer'>Privacy Policy</a> and <a href='https://policies.google.com/terms' target='_blank' rel='noopener noreferrer'>Terms of Service</a> apply."
+    },
+
     "linkdropLanding": {
         "title": "You’ve received a NEAR drop!",
         "desc": "You may claim your NEAR drop with an existing account (must be logged in), or create a new account to receive it as an initial deposit.",
@@ -649,6 +660,7 @@
         "title": "Enter Verification Code",
         "pageText": "We've sent a 6-digit verification code to the ",
         "inputHeader": "Enter verification code",
+        "inputError": "Please enter verification code!",
         "inputPlaceholder": "Verification Code",
         "didNotRecive": "Didn't receive your code?",
         "resendCode": "Resend your code",

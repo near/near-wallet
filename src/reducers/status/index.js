@@ -19,7 +19,7 @@ const initialState = {
 const alertReducer = (state, { error, ready, payload, meta, type }) => {
     const actionStatus = {
         ...state.actionStatus,
-        [type]: typeof ready === 'undefined'
+        [type]: (typeof ready === 'undefined' && type !== 'SHOW_CUSTOM_ALERT')
             ? undefined
             : {
                 success: typeof ready === 'undefined' 
@@ -31,7 +31,7 @@ const alertReducer = (state, { error, ready, payload, meta, type }) => {
                     ? undefined 
                     : !ready,
                 errorType: payload?.type,
-                errorMessage: (error && payload?.toString()) || undefined,
+                errorMessage: (error && payload?.toString()) || (type === 'SHOW_CUSTOM_ALERT' && payload.errorMessage) || undefined,
                 data: {
                     ...meta?.data,
                     ...payload
@@ -60,7 +60,7 @@ const alertReducer = (state, { error, ready, payload, meta, type }) => {
                                 ? `reduxActions.${payload.type}`
                                 : `reduxActions.${type}.error`
                             : `reduxActions.${type}.success`),
-                    console: error && (meta.alert?.console || payload.data?.console)
+                    console: (error || (type === 'SHOW_CUSTOM_ALERT' && payload.errorMessage)) && (meta.alert?.console || payload.data?.console)
                 }
                 : undefined
         },

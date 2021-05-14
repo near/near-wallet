@@ -493,6 +493,8 @@
     },
 
     "link": {
+        "wallet": "Кошелёк",
+        "account": "Аккаунт",
         "summary": "ГЛАВНОЕ",
         "send": "ОТПРАВИТЬ",
         "receive": "ПОЛУЧИТЬ",
@@ -571,6 +573,16 @@
             "one": "Ссылка NEAR Drop уже была ранее активирована.",
             "two": "Ссылка NEAR Drop может быть использована для создания одной учетной записи, после чего ссылка станет недействительной."
         }
+    },
+
+    "reCAPTCHA": {
+        "fail": {
+            "title": "Failed to load reCAPTCHA.",
+            "desc": "reCAPTCHA is required in order to authorize new accounts funded by NEAR.",
+            "link": "Fund your own account?"
+        },
+        "loading": "Loading reCAPTCHA...",
+        "disclaimer": "This site is protected by reCAPTCHA and the Google <a href='https://policies.google.com/privacy' target='_blank' rel='noopener noreferrer'>Privacy Policy</a> and <a href='https://policies.google.com/terms' target='_blank' rel='noopener noreferrer'>Terms of Service</a> apply."
     },
 
     "topLevelAccounts": {

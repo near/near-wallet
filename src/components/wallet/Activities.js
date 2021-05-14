@@ -84,7 +84,7 @@ const StyledContainer = styled.div`
 
 const Activities = ({ transactions, accountId, getTransactionStatus }) => {
     const [transactionHash, setTransactionHash] = useState()
-    const activityLoader = actionsPending('GET_TRANSACTIONS')
+    const activityLoader = actionsPending(['GET_TRANSACTIONS', 'REFRESH_ACCOUNT_OWNER'])
 
     return (
         <StyledContainer>
