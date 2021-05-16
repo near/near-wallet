@@ -23,6 +23,7 @@
     "react-qr-svg": "^2.2.2",
     "react-redux": "^7.2.3",
     "react-router-dom": "^5.2.0",
+    "reactour": "^1.18.3",
     "reduce-reducers": "^1.0.4",
     "redux": "^4.0.5",
     "redux-actions": "^2.6.5",
@@ -36,7 +37,7 @@
   "scripts": {
     "predeploy": "yarn build",
     "update:static": "cp src/wasm/multisig.wasm dist/multisig.wasm && cp src/wasm/main.wasm dist/main.wasm",
-    "start": "yarn update:static; parcel src/index.html --https",
+    "start": "yarn update:static; parcel src/index.html",
     "prebuild": "rm -rf dist/",
     "build": "parcel build src/index.html && node scripts/sentry-send-release.js && yarn update:static",
     "test": "jest",

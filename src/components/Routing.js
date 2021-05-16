@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import styled, { ThemeProvider } from 'styled-components'
+import queryString from "query-string"
 
 import { Route, Switch, Redirect } from 'react-router-dom'
 import { ConnectedRouter } from 'connected-react-router'
@@ -85,6 +86,7 @@ const Container = styled.div`
         }
     }
 `
+
 class Routing extends Component {
     constructor(props) {
         super(props)
@@ -141,6 +143,13 @@ class Routing extends Component {
 
             handleClearAlert()
         })
+
+        // Check guide params in URL
+        const params = queryString.parse(this.props.router.location.search)
+        const curGuide = params.guide
+        if (curGuide) {
+            localStorage.setItem("onboardGuide", curGuide)
+        }
     }
 
     componentDidUpdate(prevProps) {

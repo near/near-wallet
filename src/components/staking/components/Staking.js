@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 import FormButton from '../../common/FormButton'
 import BalanceBox from './BalanceBox'
 import ValidatorBox from './ValidatorBox'
@@ -9,6 +9,14 @@ import SelectAccount from './SelectAccount'
 import SkeletonLoading from '../../common/SkeletonLoading'
 import Tooltip from '../../common/Tooltip'
 import BN from 'bn.js'
+import Tour from 'reactour'
+
+const tourConfig = [
+    {
+      selector: '.staking-confirm-btn',
+      content: '点击，快点击，点击质押！！！'
+    }
+  ]
 
 export default function Staking({
     currentValidators,
@@ -26,6 +34,15 @@ export default function Staking({
     selectedValidator
 }) {
 
+    const [isTourOpen, setIsTourOpen] = useState(false);
+
+    useEffect(() => {
+        const onboardGuide = localStorage.getItem("onboardGuide")
+        if (onboardGuide == 'staking') {
+            setIsTourOpen(true)
+        }
+    });
+    
     return (
         <>
             <h1><Translate id='staking.staking.title' /></h1>
@@ -34,6 +51,11 @@ export default function Staking({
                 <Translate id='staking.staking.selectAccount' />
                 <Tooltip translate='staking.stake.accounts' position='right'/>
             </div>
+            <Tour
+                steps={tourConfig}
+                isOpen={isTourOpen}
+                onRequestClose={() => setIsTourOpen(false)}
+            />
             {!loading && !loadingDetails &&
                 <SelectAccount
                     accounts={accounts}
@@ -48,6 +70,7 @@ export default function Staking({
                 className='account-loader'
             />
             <FormButton 
+                className="staking-confirm-btn"
                 disabled={loadingDetails} 
                 linkTo='/staking/validators'
                 trackingId="STAKE Click stake my tokens button"
@@ -60,6 +83,7 @@ export default function Staking({
                 show={loadingDetails}
                 className='account-loader'
             />
+            
             {!loadingDetails &&
                 <>
                     <BalanceBox
