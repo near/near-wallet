@@ -19,6 +19,7 @@ import TransferMoneyIcon from '../svg/TransferMoneyIcon'
 import { onKeyDown } from '../../hooks/eventListeners'
 import classNames from '../../utils/classNames'
 import { Mixpanel } from '../../mixpanel/index'
+import { actionsPending } from '../../utils/alerts'
 
 const {
     parseNearAmount, formatNearAmount
@@ -57,7 +58,13 @@ export function SendContainer({ match, location }) {
     const sufficientBalance = balance?.available
         ? !new BN(parseNearAmount(amount)).isZero() && (new BN(parseNearAmount(amount)).lte(amountAvailableToSend) || useMax) && isDecimalString(amount)
         : undefined
-    const sendAllowed = ((localAlert && localAlert.success !== false) || id.length === 64) && sufficientBalance && amount && !mainLoader && !success
+    
+    const sendAllowed = ((localAlert && localAlert.success !== false) || id.length === 64)
+        && sufficientBalance
+        && amount
+        && !mainLoader
+        && !success
+        && !actionsPending('GET_BALANCE')
 
     useEffect(() => {
         if (success) {
