@@ -143,7 +143,7 @@ export function EnableTwoFactor(props) {
 
     const handleDeployMultisig = async () => {
         await dispatch(deployMultisig())
-        await dispatch(redirectToApp('/profile'))
+        await dispatch(redirectToApp(`/${accountId}`))
     }
 
     const handleGoBack = () => {
@@ -237,7 +237,7 @@ export function EnableTwoFactor(props) {
                     <FormButton 
                         className='link' 
                         type='button' 
-                        linkTo='/profile' 
+                        linkTo={`/${accountId}`}
                         trackingId="2FA Click skip button"
                     >
                         <Translate id='button.skip' />

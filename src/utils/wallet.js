@@ -786,7 +786,7 @@ class Wallet {
             console.error(e)
             throw new WalletError(e.message, 'recoveryMethods.setupMethod')
         } finally {
-            await store.dispatch(redirectTo('/profile', { globalAlertPreventClear: true }))
+            await store.dispatch(redirectTo(`/${accountId}`, { globalAlertPreventClear: true }))
         }
     }
 
@@ -923,7 +923,7 @@ class Wallet {
         } else {
             const lastAccount = accountIdsError.reverse().find((account) => account.error.type === 'LackBalanceForState')
             if (lastAccount) {
-                store.dispatch(redirectTo(`/profile/${lastAccount.accountId}`, { globalAlertPreventClear: true }))
+                store.dispatch(redirectTo(`/${lastAccount.accountId}`, { globalAlertPreventClear: true }))
                 throw lastAccount.error
             } else {
                 throw accountIdsError[accountIdsError.length - 1].error

@@ -100,7 +100,7 @@ class DesktopContainer extends Component {
             <Container>
                 <Logo link={!flowLimitation.mainMenu} />
                 {showNavLinks && !flowLimitation.mainMenu &&
-                    <NavLinks />
+                    <NavLinks accountId={account.accountId}/>
                 }
                 <Lang>
                     <LanguageToggle />

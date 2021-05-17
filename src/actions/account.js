@@ -128,8 +128,6 @@ const checkContractId = () => async (dispatch, getState) => {
     }
 }
 
-export const redirectToProfile = () => (dispatch) => dispatch(push({ pathname: '/profile' }))
-
 export const redirectTo = (location, state = {}) => (dispatch) => {
     const [pathname, search] = location.split('?')
     dispatch(push({
@@ -390,7 +388,7 @@ export const handleAddAccessKeySeedPhrase = (accountId, recoveryKeyPair) => asyn
     } catch (error) {
         // error is thrown in `addAccessKeySeedPhrase` action, despite the error, we still want to redirect to /profile
     }
-    dispatch(redirectTo('/profile', {
+    dispatch(redirectTo(`/${accountId}`, {
         globalAlertPreventClear: true
     }))
 }

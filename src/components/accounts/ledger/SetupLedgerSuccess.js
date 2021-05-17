@@ -30,7 +30,7 @@ const SetupLedgerSuccess = (props) => {
 
     const goToProfile = () => {
         Mixpanel.track("SR-Ledger Go to profile page with ledger")
-        props.redirectTo('/profile')
+        props.redirectTo(`/${props.accountId}`)
     }
 
     return (

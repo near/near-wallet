@@ -73,7 +73,7 @@ const Container = styled.div`
     }
 `
 
-const NavLinks = () => (
+const NavLinks = ({ accountId }) => (
     <Container className='nav-links'>
         <NavLink exact to='/' activeClassName='selected' onClick={() => Mixpanel.track("Click Wallet button on nav")}>
             <WalletIcon/>
@@ -83,7 +83,7 @@ const NavLinks = () => (
             <VaultIcon/>
             <Translate id='link.staking'/>
         </NavLink>
-        <NavLink to='/profile' className='account-details-link' activeClassName='selected' onClick={() => Mixpanel.track("Click Account button on nav")}>
+        <NavLink to={`/${accountId}`} className='account-details-link' activeClassName='selected' onClick={() => Mixpanel.track("Click Account button on nav")}>
             <UserIcon/>
             <Translate id='link.account'/>
         </NavLink>

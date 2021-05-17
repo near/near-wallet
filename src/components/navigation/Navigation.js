@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
-import { switchAccount } from '../../actions/account';
+import { switchAccount, redirectTo } from '../../actions/account';
 import { connect } from 'react-redux';
 import DesktopContainer from './DesktopContainer';
 import MobileContainer from './MobileContainer';
@@ -71,8 +71,10 @@ class Navigation extends Component {
     }
 
     handleSelectAccount = accountId => {
-        this.props.switchAccount(accountId)
+        const { switchAccount, redirectTo } = this.props;
+        switchAccount(accountId)
         this.setState({ menuOpen: false });
+        redirectTo(`/${accountId}`)
     }
 
     render() {
@@ -110,7 +112,8 @@ const mapStateToProps = ({ account, availableAccounts, router, flowLimitation })
 })
 
 const mapDispatchToProps = {
-    switchAccount
+    switchAccount,
+    redirectTo
 }
 
 export default connect(
