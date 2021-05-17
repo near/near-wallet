@@ -23,10 +23,10 @@ export const selectProfileBalance = (balance) => {
     const lockupIdExists = !!lockedAmount
 
     const walletBalance = {
-        walletBalance: stakedBalanceMainAccount.add(new BN(balanceAvailable)).add(new BN(stateStaked)).toString(),
-        reservedForStorage: stateStaked.toString(),
+        walletBalance: new BN(stakedBalanceMainAccount).add(new BN(balanceAvailable)).add(new BN(stateStaked)).toString(),
+        reservedForStorage: stateStaked,
         inStakingPools: {
-            sum: stakedBalanceMainAccount.toString(),
+            sum: stakedBalanceMainAccount,
             staked: account?.totalStaked,
             pendingRelease: account?.totalPending,
             availableForWithdraw: account?.totalAvailable
@@ -41,18 +41,18 @@ export const selectProfileBalance = (balance) => {
         } = balance
 
         lockupBalance = {
-            lockupBalance: totalBalance.toString(),
+            lockupBalance: totalBalance,
             reservedForStorage: LOCKUP_MIN_BALANCE.toString(),
             inStakingPools: {
-                sum: stakedBalanceLockup.toString(),
+                sum: stakedBalanceLockup,
                 staked: lockupAccount?.totalStaked,
                 pendingRelease: lockupAccount?.totalPending && new BN(lockupAccount.totalPending).toString(),
                 availableForWithdraw: lockupAccount?.totalAvailable && new BN(lockupAccount.totalAvailable).toString()
             },
-            locked: lockedAmount.toString(),
+            locked: lockedAmount,
             unlocked: {
-                sum: ownersBalance.toString(),
-                availableToTransfer: liquidOwnersBalance.toString()
+                sum: ownersBalance,
+                availableToTransfer: liquidOwnersBalance
             }
         }
     }
