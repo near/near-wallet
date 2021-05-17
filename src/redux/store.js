@@ -14,6 +14,7 @@ import createMiddleware from '../middleware'
 const persistConfig = {
     key: 'root',
     storage,
+    blacklist: ['status', 'staking']
 }
 
 export const history = createBrowserHistory()
