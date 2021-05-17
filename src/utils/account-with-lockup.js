@@ -197,15 +197,15 @@ async function getAccountBalance(limitedAccountData = false) {
         return {
             ...balance,
             balanceAvailable: balance.available,
-            available,
-            ownersBalance,
-            liquidOwnersBalance,
-            lockedAmount,
-            total: new BN(balance.total).add(new BN(lockedAmount)).add(new BN(ownersBalance)).add(stakedBalanceMainAccount).toString(),
-            totalBalance,
-            stakedBalanceLockup: stakedBalanceLockup,
+            available: available.toString(),
+            ownersBalance: ownersBalance.toString(),
+            liquidOwnersBalance: liquidOwnersBalance.toString(),
+            lockedAmount: lockedAmount.toString(),
+            total: new BN(balance.total).add(lockedAmount).add(ownersBalance).add(stakedBalanceMainAccount).toString(),
+            totalBalance: totalBalance.toString(),
+            stakedBalanceLockup: stakedBalanceLockup.toString(),
             lockupAccountId,
-            stakedBalanceMainAccount
+            stakedBalanceMainAccount: stakedBalanceMainAccount.toString()
         }
     } catch (error) {
         if (error.message.match(/ccount ".+" doesn't exist/) || error.message.includes('does not exist while viewing') || error.message.includes('cannot find contract code for account')) {
@@ -213,7 +213,7 @@ async function getAccountBalance(limitedAccountData = false) {
                 ...balance,
                 balanceAvailable: balance.available,
                 total: new BN(balance.total).add(stakedBalanceMainAccount).toString(),
-                stakedBalanceMainAccount,
+                stakedBalanceMainAccount: stakedBalanceMainAccount.toString(),
 
             }
         }
