@@ -137,7 +137,7 @@ const SetupSeedPhraseVerify = (
                 color='blue'
                 disabled={!enterWord || mainLoader || (!recaptchaToken && shouldRenderRecaptcha)}
                 sending={mainLoader}
-                sendingString='button.verifying'
+                sendingString={isNewAccount ? 'button.creatingAccount' : 'button.verifying'}
             >
                 <Translate id='button.verify'/>
             </FormButton>
