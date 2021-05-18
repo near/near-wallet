@@ -11,10 +11,10 @@ import { PersistGate } from 'redux-persist/integration/react'
 import createRootReducer from '../reducers'
 import createMiddleware from '../middleware'
 
-import { wallet } from '../utils/wallet'
+import { ACCOUNT_ID_SUFFIX } from '../utils/wallet'
 
 const persistConfig = {
-    key: wallet.accountId,
+    key: `wallet.near.org:${ACCOUNT_ID_SUFFIX}`,
     storage,
     blacklist: ['status', 'staking']
 }
