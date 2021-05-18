@@ -128,7 +128,7 @@ export function Profile({ match }) {
     const { has2fa, authorizedApps, ledgerKey } = useSelector(({ account }) => account)
     const loginAccountId = useSelector(state => state.account.accountId)
     const recoveryMethods = useSelector(({ recoveryMethods }) => recoveryMethods);
-    const accountIdFromUrl = match.params.accountId?.toLowerCase()
+    const accountIdFromUrl = match.params.accountId?.toLowerCase();
     const accountId = accountIdFromUrl || loginAccountId
     const isOwner = accountId === loginAccountId
     const account = useAccount(accountId)
@@ -138,7 +138,7 @@ export function Profile({ match }) {
     const profileBalance = selectProfileBalance(account.balance)
 
     useEffect(() => {
-        if (accountIdFromUrl && window.location.pathname.split('/')[1] === 'profile') {
+        if (window.location.pathname.split('/')[1] === 'profile') {
             dispatch(redirectTo(`/${accountId}`))
         }
 

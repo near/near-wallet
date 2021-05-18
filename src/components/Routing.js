@@ -316,11 +316,6 @@ class Routing extends Component {
                             />
                             <PrivateRouteLimited
                                 exact
-                                path='/profile'
-                                component={Profile}
-                            />
-                            <PrivateRouteLimited
-                                exact
                                 path='/sign'
                                 component={SignWithRouter}
                             />
