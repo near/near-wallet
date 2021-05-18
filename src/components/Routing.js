@@ -210,7 +210,7 @@ class Routing extends Component {
                             />
                             <Route
                                 exact
-                                path='/linkdrop/:fundingContract?/:fundingKey?'
+                                path='/linkdrop/:fundingContract/:fundingKey'
                                 component={LinkdropLandingWithRouter}
                             />
                             <Route
