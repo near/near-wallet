@@ -54,8 +54,8 @@ const StyledContainer = styled(Container)`
         }
     }
 
-    .recaptcha-failed-box {
-        margin-top: 25px;
+    .recaptcha-failed-box, .recaptcha-widget {
+        margin-top: 20px;
     }
 `
 

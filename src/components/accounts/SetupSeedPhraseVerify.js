@@ -45,8 +45,8 @@ const CustomDiv = styled.div`
         }
     }
 
-    .recaptcha-disclaimer {
-        padding-top: 0;
+    .recaptcha-widget {
+        margin-top: -10px;
     }
 `
 
