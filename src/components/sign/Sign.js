@@ -23,7 +23,7 @@ class Sign extends Component {
         const { callbackUrl, meta, signTxStatus } = this.props;
         // TODO: Dispatch action for app redirect?
         if (this.props.callbackUrl) {
-            
+
             if (signTxStatus?.success !== false) {
                 window.location.href = addQueryParams(callbackUrl, {
                     meta,
@@ -63,9 +63,6 @@ class Sign extends Component {
 
     renderSubcomponent = () => {
         const { account: { url, balance }, totalAmount, sensitiveActionsCounter, status } = this.props
-
-        console.log('here is the status', status)
-        console.log('here is sign tx status', this.props.signTxStatus)
 
         const txTotalAmount = new BN(totalAmount) // TODO: add gas cost, etc
         const availableBalance = balance.available
