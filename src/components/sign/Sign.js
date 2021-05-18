@@ -20,25 +20,25 @@ class Sign extends Component {
     handleDeny = e => {
         e.preventDefault();
         Mixpanel.track("SIGN Deny the transaction")
-        const { callbackUrl, meta, actionStatus } = this.props;
+        const { callbackUrl, meta, signTxStatus } = this.props;
         // TODO: Dispatch action for app redirect?
         if (this.props.callbackUrl) {
-            let errorType = 'userRejected';
-            let errorMessage = 'User rejected transaction';
-            const signTxStatus = actionStatus.SIGN_AND_SEND_TRANSACTIONS;
             
-            if (signTxStatus?.success === false) {
-                errorType = 'unknownError';
-                errorMessage = 'Unknown error';
-
-                if (signTxStatus.errorMessage) {
-                    errorMessage = signTxStatus.errorMessage;
-                }
-                if (signTxStatus.errorType) {
-                    errorType = signTxStatus.errorType;
-                }
+            if (signTxStatus?.success !== false) {
+                window.location.href = addQueryParams(callbackUrl, {
+                    meta,
+                    errorType: 'userRejected',
+                    errorMessage: 'User rejected transaction'
+                })
+                return;
             }
-            window.location.href = addQueryParams(callbackUrl, { meta, errorType, errorMessage })
+
+            window.location.href = addQueryParams(callbackUrl, {
+                meta,
+                errorType: signTxStatus?.errorType || 'unknownError',
+                errorMessage: signTxStatus?.errorMessage || 'Unknown error'
+            })
+            return;
         }
     }
 
@@ -63,6 +63,9 @@ class Sign extends Component {
 
     renderSubcomponent = () => {
         const { account: { url, balance }, totalAmount, sensitiveActionsCounter, status } = this.props
+
+        console.log('here is the status', status)
+        console.log('here is sign tx status', this.props.signTxStatus)
 
         const txTotalAmount = new BN(totalAmount) // TODO: add gas cost, etc
         const availableBalance = balance.available
@@ -121,7 +124,7 @@ function addQueryParams(baseUrl, queryParams) {
 const mapStateToProps = ({ account, sign, status }) => ({
     account,
     ...sign,
-    ...status
+    signTxStatus: status.actionStatus.SIGN_AND_SEND_TRANSACTIONS
 })
 
 export const SignWithRouter = connect(
