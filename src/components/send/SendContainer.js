@@ -44,18 +44,17 @@ const StyledContainer = styled(Container)`
 
 export function SendContainer({ match, location }) {
     const dispatch = useDispatch()
-    const { accountId, balance, amount: availableBalanceState } = useSelector(({ account }) => account);
-    const availableBalance = balance?.available || availableBalanceState
+    const { accountId, balance } = useSelector(({ account }) => account);
     const { localAlert, mainLoader, actionStatus } = useSelector(({ status }) => status);
     const [useMax, setUseMax] = useState(null)
     const [amount, setAmount] = useState('')
     const [confirm, setConfirm] = useState(null)
     const [id, setId] = useState(match.params.id || '')
     const [success, setSuccess] = useState(null)
-    const amountAvailableToSend = availableBalance
-        ? new BN(availableBalance).sub(new BN(parseNearAmount(WALLET_APP_MIN_AMOUNT)))
+    const amountAvailableToSend = balance?.available
+        ? new BN(balance.available).sub(new BN(parseNearAmount(WALLET_APP_MIN_AMOUNT)))
         : undefined
-    const sufficientBalance = availableBalance
+    const sufficientBalance = balance?.available
         ? !new BN(parseNearAmount(amount)).isZero() && (new BN(parseNearAmount(amount)).lte(amountAvailableToSend) || useMax) && isDecimalString(amount)
         : undefined
     const sendAllowed = ((localAlert && localAlert.success !== false) || id.length === 64) && sufficientBalance && amount && !mainLoader && !success
@@ -79,6 +78,10 @@ export function SendContainer({ match, location }) {
             dispatch(checkAccountAvailable(id))
         }
     }, [actionStatus.GET_BALANCE?.success])
+
+    useEffect(() => {
+        dispatch(getBalance('', true))
+    }, [])
 
     onKeyDown(e => {
         if (e.keyCode === 13 && sendAllowed) {
@@ -143,7 +146,7 @@ export function SendContainer({ match, location }) {
                     tabIndex='1'
                 />
                 <BalanceBreakdown
-                    total={availableBalance}
+                    total={balance?.available}
                     onClickAvailable={handleSetUseMax}
                     availableType='sendMoney.amount.available'
                     error={!sufficientBalance}
