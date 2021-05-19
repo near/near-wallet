@@ -44,7 +44,8 @@ const StyledContainer = styled(Container)`
 
 export function SendContainer({ match, location }) {
     const dispatch = useDispatch()
-    const { accountId, balance } = useSelector(({ account }) => account);
+    const { accountId, balance, amount: availableBalanceState } = useSelector(({ account }) => account);
+    const availableBalance = balance?.available || availableBalanceState
     const { localAlert, mainLoader, actionStatus } = useSelector(({ status }) => status);
     const [useMax, setUseMax] = useState(null)
     const [amount, setAmount] = useState('')
