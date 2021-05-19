@@ -19,7 +19,7 @@ const ProfileQRCode = ({ accountId }) => (
             level="Q"
             style={{ width: "100%", height: '100%' }}
             renderAs='svg'
-            value={`${window.location.protocol}//${window.location.host}/send-money/${accountId}`}
+            value={`${accountId}`}
         />
         <p><Translate id='profile.details.qrDesc' /></p>
    </CustomDiv>
