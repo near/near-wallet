@@ -46,10 +46,12 @@ const RecaptchaFailedBox = styled.div`
 `
 
 const RecaptchaString = styled.div`
-    margin-bottom: -10px;
     font-size: 12px;
-    padding-top: 25px;
     font-weight: 300;
+    color: #72727A;
+    margin: 10px auto 50px auto;
+    text-align: center;
+    max-width: 304px;
 
     a {
         color: inherit;
@@ -150,18 +152,18 @@ export class Recaptcha extends Component {
                         <Translate id='reCAPTCHA.loading'/>
                     </span>
                 }
-                {loaded &&
-                    <RecaptchaString className='recaptcha-disclaimer'>
-                        <Translate id='reCAPTCHA.disclaimer'/>
-                    </RecaptchaString>
-                }
                 {RECAPTCHA_CHALLENGE_API_KEY && <ReCAPTCHA
                     sitekey={RECAPTCHA_CHALLENGE_API_KEY}
                     ref={(ref) => this.setCaptchaRef(ref)}
                     onChange={this.handleOnChange}
                     asyncScriptOnLoad={this.handleOnLoad}
-                    style={{ marginTop: '25px' }}
+                    class='recaptcha-widget'
                 />}
+                {loaded &&
+                    <RecaptchaString className='recaptcha-disclaimer'>
+                        <Translate id='reCAPTCHA.disclaimer'/>
+                    </RecaptchaString>
+                }
             </>
         )
     }
