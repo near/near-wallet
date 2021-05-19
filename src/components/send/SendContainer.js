@@ -52,10 +52,10 @@ export function SendContainer({ match, location }) {
     const [confirm, setConfirm] = useState(null)
     const [id, setId] = useState(match.params.id || '')
     const [success, setSuccess] = useState(null)
-    const amountAvailableToSend = balance?.available
-        ? new BN(balance.available).sub(new BN(parseNearAmount(WALLET_APP_MIN_AMOUNT)))
+    const amountAvailableToSend = availableBalance
+        ? new BN(availableBalance).sub(new BN(parseNearAmount(WALLET_APP_MIN_AMOUNT)))
         : undefined
-    const sufficientBalance = balance?.available
+    const sufficientBalance = availableBalance
         ? !new BN(parseNearAmount(amount)).isZero() && (new BN(parseNearAmount(amount)).lte(amountAvailableToSend) || useMax) && isDecimalString(amount)
         : undefined
     const sendAllowed = ((localAlert && localAlert.success !== false) || id.length === 64) && sufficientBalance && amount && !mainLoader && !success
@@ -143,7 +143,7 @@ export function SendContainer({ match, location }) {
                     tabIndex='1'
                 />
                 <BalanceBreakdown
-                    total={balance?.available}
+                    total={availableBalance}
                     onClickAvailable={handleSetUseMax}
                     availableType='sendMoney.amount.available'
                     error={!sufficientBalance}
