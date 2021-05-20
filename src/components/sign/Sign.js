@@ -8,7 +8,7 @@ import SignTransferReady from './SignTransferReady'
 import SignTransferSuccess from './SignTransferSuccess'
 import SignTransferCancelled from './SignTransferCancelled'
 import SignTransferTransferring from './SignTransferTransferring'
-import { signAndSendTransactions } from '../../actions/account'
+import { signAndSendTransactions, redirectTo } from '../../actions/account'
 import { Mixpanel } from '../../mixpanel'
 
 class Sign extends Component {
@@ -47,7 +47,7 @@ class Sign extends Component {
     }
 
     renderSubcomponent = () => {
-        const { account: { url, balance }, totalAmount, sensitiveActionsCounter, status } = this.props
+        const { account: { url, balance }, totalAmount, sensitiveActionsCounter, status, dispatch } = this.props
 
         const txTotalAmount = new BN(totalAmount) // TODO: add gas cost, etc
         const availableBalance = balance?.available
@@ -77,7 +77,7 @@ class Sign extends Component {
                         />
             case 'success':
                 return <SignTransferSuccess
-                            handleDeny={this.handleDeny}
+                            handleClose={() => dispatch(redirectTo('/'))}
                             isMonetaryTransaction={isMonetaryTransaction}
                             txTotalAmount={txTotalAmount}
                         />
