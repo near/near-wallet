@@ -10,7 +10,7 @@ import { Image, Grid } from 'semantic-ui-react'
 import CheckImage from '../../images/icon-check.svg'
 
 // TODO: Why handleDeny? It's not an error.
-const SignTransferReady = ({ handleDeny, txTotalAmount, isMonetaryTransaction }) => (
+const SignTransferReady = ({ handleClose, txTotalAmount, isMonetaryTransaction }) => (
     <MobileContainer>
         <Grid padded>
             <Grid.Row centered>
@@ -61,7 +61,7 @@ const SignTransferReady = ({ handleDeny, txTotalAmount, isMonetaryTransaction })
                 >
                     <FormButton
                         color='gray-white'
-                        onClick={handleDeny}
+                        onClick={handleClose}
                     >
                         <Translate id='button.close' />
                     </FormButton>
