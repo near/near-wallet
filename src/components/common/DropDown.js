@@ -76,16 +76,23 @@ const Container = styled.div`
             border-top-left-radius: 0;
             border-top-right-radius: 0;
             box-shadow: 0px 3px 9px -1px rgb(206 206 206 / 17%);
-            max-height: 200px;
-            overflow-y: scroll !important;
+        }
+    }
+    
+    &.max-height {
+        .dropdown-content {
+            &.open {
+                max-height: 200px;
+                overflow-y: scroll !important;
+            }
         }
     }
 
 `
 
-export default function DropDown({ name, title, icon, content, disabled }) {
+export default function DropDown({ name, title, icon, content, disabled, maxHeight = true }) {
     return (
-        <Container className={classNames(['dropdown-container', disabled ? 'disabled' : ''])}>
+        <Container className={classNames(['dropdown-container', disabled ? 'disabled' : '', maxHeight ? 'max-height' : ''])}>
             <div id={name} className='dropdown-title-wrapper'>
                 {icon ? (
                     <div className='icon-wrapper'>

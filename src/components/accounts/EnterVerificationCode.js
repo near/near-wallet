@@ -54,8 +54,8 @@ const StyledContainer = styled(Container)`
         }
     }
 
-    .recaptcha-failed-box {
-        margin-top: 25px;
+    .recaptcha-failed-box, .recaptcha-widget {
+        margin-top: 20px;
     }
 `
 
@@ -169,7 +169,7 @@ const EnterVerificationCode = ({
                     type='submit'
                     disabled={code.length !== 6 || loading || (!recaptchaToken && shouldRenderRecaptcha)}
                     sending={loading}
-                    sendingString='button.verifying'
+                    sendingString={isNewAccount ? 'button.creatingAccount' : 'button.verifying'}
                 >
                     <Translate id='button.verifyCodeEnable'/>
                 </FormButton>

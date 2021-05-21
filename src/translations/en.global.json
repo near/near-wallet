@@ -497,6 +497,7 @@
         "enabling": "Enabling",
         "disabling": "Disabling",
         "verifying": "Verifying",
+        "creatingAccount": "Creating account",
         "staking": "Staking",
         "unstaking": "Unstaking",
         "withdrawing": "Withdrawing",
@@ -860,6 +861,10 @@
         },
         "validatorBox": {
             "fee": "Fee",
+            "state": {
+                "active": "active",
+                "inactive": "inactive"
+            },
             "staking": "Staking",
             "near": "NEAR",
             "cta": "Select",

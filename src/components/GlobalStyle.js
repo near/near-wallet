@@ -515,4 +515,9 @@ export default createGlobalStyle`
             }
         }
     }
+
+    .recaptcha-widget {
+        display: flex;
+        justify-content: center;
+    }
 `
