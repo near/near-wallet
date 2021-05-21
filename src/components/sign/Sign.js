@@ -35,8 +35,8 @@ class Sign extends Component {
 
             window.location.href = addQueryParams(callbackUrl, {
                 meta,
-                errorCode: (signTxStatus?.errorType && encodeURIComponent(signTxStatus.errorType)) || encodeURIComponent('unknownError'),
-                errorMessage: (signTxStatus?.errorMessage && encodeURIComponent(signTxStatus.errorMessage.substring(0, 100))) || encodeURIComponent('Unknown error')
+                errorCode: encodeURIComponent(signTxStatus?.errorType) || encodeURIComponent('unknownError'),
+                errorMessage: encodeURIComponent(signTxStatus?.errorMessage?.substring(0, 100)) || encodeURIComponent('Unknown error')
             })
             return;
         }
