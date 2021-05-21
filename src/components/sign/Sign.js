@@ -27,16 +27,16 @@ class Sign extends Component {
             if (signTxStatus?.success !== false) {
                 window.location.href = addQueryParams(callbackUrl, {
                     meta,
-                    errorType: 'userRejected',
-                    errorMessage: 'User rejected transaction'
+                    errorCode: encodeURIComponent('userRejected'),
+                    errorMessage: encodeURIComponent('User rejected transaction')
                 })
                 return;
             }
 
             window.location.href = addQueryParams(callbackUrl, {
                 meta,
-                errorType: signTxStatus?.errorType || 'unknownError',
-                errorMessage: signTxStatus?.errorMessage || 'Unknown error'
+                errorCode: encodeURIComponent(signTxStatus?.errorType) || encodeURIComponent('unknownError'),
+                errorMessage: encodeURIComponent(signTxStatus?.errorMessage.substring(0, 100)) || encodeURIComponent('Unknown error')
             })
             return;
         }
