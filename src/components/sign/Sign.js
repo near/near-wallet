@@ -20,10 +20,25 @@ class Sign extends Component {
     handleDeny = e => {
         e.preventDefault();
         Mixpanel.track("SIGN Deny the transaction")
-        const { callbackUrl, meta } = this.props;
+        const { callbackUrl, meta, signTxStatus } = this.props;
         // TODO: Dispatch action for app redirect?
         if (this.props.callbackUrl) {
-            window.location.href = addQueryParams(callbackUrl, { meta, errorCode: 'userRejected' })
+
+            if (signTxStatus?.success !== false) {
+                window.location.href = addQueryParams(callbackUrl, {
+                    meta,
+                    errorCode: encodeURIComponent('userRejected'),
+                    errorMessage: encodeURIComponent('User rejected transaction')
+                })
+                return;
+            }
+
+            window.location.href = addQueryParams(callbackUrl, {
+                meta,
+                errorCode: encodeURIComponent(signTxStatus?.errorType) || encodeURIComponent('unknownError'),
+                errorMessage: encodeURIComponent(signTxStatus?.errorMessage?.substring(0, 100)) || encodeURIComponent('Unknown error')
+            })
+            return;
         }
     }
 
@@ -103,9 +118,10 @@ function addQueryParams(baseUrl, queryParams) {
     return url.toString();
 }
 
-const mapStateToProps = ({ account, sign }) => ({
+const mapStateToProps = ({ account, sign, status }) => ({
     account,
-    ...sign
+    ...sign,
+    signTxStatus: status.actionStatus.SIGN_AND_SEND_TRANSACTIONS
 })
 
 export const SignWithRouter = connect(
