@@ -110,6 +110,16 @@ export default function StakingAction({
         }
         return disclaimer
     }
+
+    if (stakeNotAllowed) {
+        return (
+            <AlertBanner
+                title='staking.alertBanner.title'
+                button='staking.alertBanner.button'
+                linkTo={`/staking/${selectedValidator}`}
+            />
+        )
+    }
     
     if (!success) {
         return (
