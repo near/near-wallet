@@ -7,9 +7,9 @@ const ACTIONS = {
 // TODO: Load from `near-api-js` config or similar?
 const ENVIRONMENTS = {
     DEVELOPMENT: 'development',
-    TESTNET_STAGING: 'testnet (STAGING)',
+    TESTNET_STAGING: 'testnet_STAGING',
     TESTNET: 'testnet',
-    MAINNET: 'mainnet (STAGING)',
+    MAINNET: 'mainnet_STAGING',
     MAINNET_STAGING: 'mainnet'
 }
 
