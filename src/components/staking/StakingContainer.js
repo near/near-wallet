@@ -285,6 +285,8 @@ export function StakingContainer({ history, match }) {
                                 hasLedger={hasLedger}
                                 has2fa={has2fa}
                                 stakeFromAccount={stakeFromAccount}
+                                selectedValidator={selectedValidator}
+                                currentValidators={currentValidators}
                             />
                         )}
                     />

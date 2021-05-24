@@ -28,7 +28,9 @@ export default function StakingAction({
     has2fa,
     action,
     handleStakingAction,
-    stakeFromAccount
+    stakeFromAccount,
+    selectedValidator,
+    currentValidators
 }) {
     const [confirm, setConfirm] = useState()
     const [amount, setAmount] = useState('')
@@ -42,6 +44,7 @@ export default function StakingAction({
     const availableToStake = stakeFromAccount ? new BN(availableBalance).sub(new BN(utils.format.parseNearAmount(WALLET_APP_MIN_AMOUNT))).toString() : availableBalance
     const invalidStakeActionAmount = new BN(useMax ? amount : parseNearAmount(amount)).sub(new BN(stake ? availableToStake : staked)).gt(new BN(STAKING_AMOUNT_DEVIATION)) || !isDecimalString(amount)
     const stakeActionAllowed = hasStakeActionAmount && !invalidStakeActionAmount && !success
+    const stakeNotAllowed = !!selectedValidator && selectedValidator !== match.params.validator && !!currentValidators.length
 
     onKeyDown(e => {
         if (e.keyCode === 13 && stakeActionAllowed) {
