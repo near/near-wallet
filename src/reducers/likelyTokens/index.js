@@ -5,7 +5,7 @@ import { likelyTokens, tokens } from '../../actions/likelyTokens'
 
 const initialState = {
     likelyContracts: [],
-    tokens: []
+    tokens: {}
 }
 
 
