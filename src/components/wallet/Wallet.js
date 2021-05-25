@@ -18,6 +18,8 @@ import Tokens from './Tokens'
 import { ACCOUNT_HELPER_URL, wallet } from '../../utils/wallet'
 import LinkDropSuccessModal from './LinkDropSuccessModal'
 
+import { handleGetLikelyTokens } from '../../actions/likelyTokens'
+
 import sendJson from 'fetch-send-json'
 
 const StyledContainer = styled(Container)`
@@ -165,6 +167,8 @@ export function Wallet() {
         if (!accountId) {
             return
         }
+
+        dispatch(handleGetLikelyTokens())
 
         sendJson('GET', `${ACCOUNT_HELPER_URL}/account/${accountId}/likelyTokens`).then(likelyContracts => {
             const contracts = [...new Set([...likelyContracts, ...whitelistedContracts])];
