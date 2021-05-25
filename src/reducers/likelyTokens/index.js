@@ -9,14 +9,17 @@ const initialState = {
 }
 
 
-const tokensReducer = handleActions({
-    [likelyTokens.get]: (state, { ready, error, payload }) => 
+const likelyTokensReducer = handleActions({
+    [likelyTokens.get]: (state, { ready, error, payload }) =>
         (!ready || error)
             ? state
             : ({
                 ...state,
                 likelyContracts: payload
             }),
+}, initialState)
+
+const tokensReducer = handleActions({
     [tokens.set]: (state, { payload }) => ({
         ...state,
         tokens: {
@@ -28,5 +31,6 @@ const tokensReducer = handleActions({
 
 export default reduceReducers(
     initialState,
+    likelyTokensReducer,
     tokensReducer
 )
