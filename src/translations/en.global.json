@@ -573,7 +573,7 @@
         "step": "Step ${step}/${total}",
         "accountIdInput": {
             "title": "Account ID",
-            "placeholder": "Example: satoshi"
+            "placeholder": "yourname.${data}"
         },
         "alreadyHaveAnAccount": "Already have an account?",
         "recoverItHere": "Import Existing Account",
