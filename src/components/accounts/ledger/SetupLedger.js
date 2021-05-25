@@ -140,7 +140,7 @@ const SetupLedger = (props) => {
                 await dispatch(refreshAccount())
                 if (isNewAccount) {
                     Mixpanel.track("SR-Ledger Go to profile of new account")
-                    await dispatch(redirectToApp('/profile'))
+                    await dispatch(redirectToApp('/'))
                 } else {
                     Mixpanel.track("SR-Ledger Go to setup ledger success")
                     await dispatch(redirectTo('/setup-ledger-success'));

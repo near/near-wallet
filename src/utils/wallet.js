@@ -923,7 +923,7 @@ class Wallet {
         } else {
             const lastAccount = accountIdsError.reverse().find((account) => account.error.type === 'LackBalanceForState')
             if (lastAccount) {
-                store.dispatch(redirectTo(`/profile/${lastAccount.accountId}`, { globalAlertPreventClear: true }))
+                store.dispatch(redirectTo(`/`, { globalAlertPreventClear: true }))
                 throw lastAccount.error
             } else {
                 throw accountIdsError[accountIdsError.length - 1].error

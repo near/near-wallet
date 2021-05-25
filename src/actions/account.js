@@ -128,8 +128,6 @@ const checkContractId = () => async (dispatch, getState) => {
     }
 }
 
-export const redirectToProfile = () => (dispatch) => dispatch(push({ pathname: '/profile' }))
-
 export const redirectTo = (location, state = {}) => (dispatch) => {
     const [pathname, search] = location.split('?')
     dispatch(push({
