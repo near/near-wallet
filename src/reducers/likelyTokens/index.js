@@ -1,7 +1,7 @@
 import { handleActions } from 'redux-actions'
 import reduceReducers from 'reduce-reducers'
 
-import { likelyTokens } from '../../actions/likelyTokens'
+import { likelyTokens, tokens } from '../../actions/likelyTokens'
 
 const initialState = {
     likelyContracts: [],
