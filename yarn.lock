@@ -7762,7 +7762,7 @@ inline-style-parser@0.1.1:
   resolved "https://registry.yarnpkg.com/inline-style-parser/-/inline-style-parser-0.1.1.tgz#ec8a3b429274e9c0a1f1c4ffa9453a7fef72cea1"
   integrity sha512-7NXolsK4CAS5+xvdj5OMMbI962hU/wvwoxk+LWR9Ek9bVtyuuYScDN6eS0rUm6TxApFpw7CX1o4uJzcd4AyD3Q==
 
-input-format@^0.2.2:
+input-format@^0.2.8:
   version "0.2.8"
   resolved "https://registry.yarnpkg.com/input-format/-/input-format-0.2.8.tgz#5e63d0f789a2081c1673c17c21bd0f9fd11d0ba4"
   integrity sha512-PUBQ7LQMq4xdF4nEXxZTKGRAA6QTCz2icH2bU1WBDn9GcP8mKygpOqqivf41vSfFd3UagzqcMFMSswqngQGvuA==
@@ -9131,10 +9131,10 @@ levn@^0.3.0, levn@~0.3.0:
     prelude-ls "~1.1.2"
     type-check "~0.3.2"
 
-libphonenumber-js@^1.7.13:
-  version "1.9.13"
-  resolved "https://registry.yarnpkg.com/libphonenumber-js/-/libphonenumber-js-1.9.13.tgz#41ecc8635103c5af44be422f0606a518022248fd"
-  integrity sha512-DOvAj9Now6KqP+L1Q3JrM3iNhH/mXiOPTj6kxb9OnJbYsVYRlVdvRY1kCpU3Tz9VegIEi6MgDrviBaAnvB3aSw==
+libphonenumber-js@^1.7.28:
+  version "1.9.18"
+  resolved "https://registry.yarnpkg.com/libphonenumber-js/-/libphonenumber-js-1.9.18.tgz#443f2ccb8c59eca55f6c2a9e968aeed5bd75fe7b"
+  integrity sha512-6u/trrEytXFTc7HLxKsZhboZNdwcKag6rYzpAV2SPKy45qImvlkwbne3mYi2zdXEFg7KPdX7iiwhkdmCB94+4Q==
 
 lines-and-columns@^1.1.6:
   version "1.1.6"
@@ -11262,7 +11262,7 @@ prop-types-exact@^1.2.0:
     object.assign "^4.1.0"
     reflect.ownkeys "^0.2.0"
 
-prop-types@^15.0.0, prop-types@^15.5.0, prop-types@^15.5.10, prop-types@^15.5.6, prop-types@^15.6.0, prop-types@^15.6.1, prop-types@^15.6.2, prop-types@^15.7.2:
+prop-types@^15.0.0, prop-types@^15.5.0, prop-types@^15.5.10, prop-types@^15.6.0, prop-types@^15.6.1, prop-types@^15.6.2, prop-types@^15.7.2:
   version "15.7.2"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.7.2.tgz#52c41e75b8c87e72b9d9360e0206b99dcbffa6c5"
   integrity sha512-8QQikdH7//R2vurIJSutZ1smHYTcLpRWEOlHnzcWHmBYrOGUysKwSsrC89BCiFj3CbrfJ/nXFdJepOVrY1GCHQ==
@@ -11701,17 +11701,17 @@ react-modal@^3.8.1:
     react-lifecycles-compat "^3.0.0"
     warning "^4.0.3"
 
-react-phone-number-input@2.3.11:
-  version "2.3.11"
-  resolved "https://registry.yarnpkg.com/react-phone-number-input/-/react-phone-number-input-2.3.11.tgz#103f6dc4578bdb39128a9ac8df4ae6952c193193"
-  integrity sha512-URiMDE2ucHHM85mP6LioTDTKawtdBAMHkCrSyk3hIDI+dZWM85uhuwuefLQ9la7sQoTGE8ujUVse/yF6n+dL3A==
+react-phone-number-input@2.5.3:
+  version "2.5.3"
+  resolved "https://registry.yarnpkg.com/react-phone-number-input/-/react-phone-number-input-2.5.3.tgz#e806ce09a62dd0f651dfa8828a111e48de7d76a2"
+  integrity sha512-CN4ICkrxnAVyGidWTHbY6DCPRMi5K9saA3zWgVjgvi8LtFqfLlJovl/Cxw0TVgiFljijteva4YOUOgRK5qtX3w==
   dependencies:
     classnames "^2.2.5"
-    input-format "^0.2.2"
-    libphonenumber-js "^1.7.13"
-    prop-types "^15.5.6"
+    input-format "^0.2.8"
+    libphonenumber-js "^1.7.28"
+    prop-types "^15.7.2"
     react-lifecycles-compat "^3.0.4"
-    react-responsive-ui "^0.14.123"
+    react-responsive-ui "^0.14.177"
 
 react-popper-tooltip@^3.1.1:
   version "3.1.1"
@@ -11760,7 +11760,7 @@ react-refresh@^0.8.3:
   resolved "https://registry.yarnpkg.com/react-refresh/-/react-refresh-0.8.3.tgz#721d4657672d400c5e3c75d063c4a85fb2d5d68f"
   integrity sha512-X8jZHc7nCMjaCqoU+V2I0cOhNW+QMBwSUkeXnTi8IPe6zaRWfn60ZzvFDZqWPfmSJfjub7dDW1SP0jaHWLu/hg==
 
-react-responsive-ui@^0.14.123:
+react-responsive-ui@^0.14.177:
   version "0.14.200"
   resolved "https://registry.yarnpkg.com/react-responsive-ui/-/react-responsive-ui-0.14.200.tgz#8bf8e51ce96f06be458180cf1bc0648ceec0cfeb"
   integrity sha512-3pA+USF2kf4Tvl8YBgcexff3WkoY0RipEA4ZxDUp3DCM1s7li9TLyidgDKbVzPVYpauLADCTCE8bGGJL8ICVDQ==
