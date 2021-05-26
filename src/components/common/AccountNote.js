@@ -20,15 +20,15 @@ const Container = styled.div`
 const AccountNote = () => (
 
     <Container>
-        <p><Translate id='createAccount.note.one'/></p>
+        <p><Translate id='createAccount.note.canContain'/></p>
         <ul>
-            <li><Translate id='createAccount.note.two'/></li>
-            <li><Translate id='createAccount.note.three'/></li>
-            <li><Translate id='createAccount.note.four'/></li>
+            <li><Translate id='createAccount.note.lowercase'/></li>
+            <li><Translate id='createAccount.note.digits'/></li>
+            <li><Translate id='createAccount.note.separators'/></li>
         </ul>
-        <p><Translate id='createAccount.note.five'/></p>
+        <p><Translate id='createAccount.note.cannotContain'/></p>
         <ul>
-            <li><Translate id='createAccount.note.six'/></li>
+            <li><Translate id='createAccount.note.characters'/></li>
         </ul>
     </Container>
 )

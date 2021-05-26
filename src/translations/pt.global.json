@@ -576,13 +576,12 @@
         "alreadyHaveAnAccount": "Já possui uma conta?",
         "recoverItHere": "Importar Conta Existente",
         "note": {
-            "title": "NOTA",
-            "one": "O ID da sua conta pode conter qualquer um dos seguintes itens:",
-            "two": "Caracteres minúsculos (a-z)",
-            "three": "Dígitos (0-9)",
-            "four": "Caracteres (_-) podem ser usados como separadores",
-            "five": "O ID da sua conta NÃO pode conter:",
-            "six": "Caracteres \"@\" ou \".\""
+            "canContain": "O ID da sua conta pode conter qualquer um dos seguintes itens:",
+            "lowercase": "Caracteres minúsculos (a-z)",
+            "digits": "Dígitos (0-9)",
+            "separators": "Caracteres (_-) podem ser usados como separadores",
+            "cannotContain": "O ID da sua conta NÃO pode conter:",
+            "characters": "Caracteres \"@\" ou \".\""
         },
         "invalidLinkDrop": {
             "title": "Link inválido",
