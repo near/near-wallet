@@ -583,7 +583,9 @@
             "digits": "Digits (0-9)",
             "separators": "Characters (_-) can be used as separators",
             "cannotContain": "Your account ID CANNOT contain:",
-            "characters": "Characters \"@\" or \".\""
+            "characters": "Characters \"@\" or \".\"",
+            "minCharacters": "Fewer than 2 characters",
+            "maxCharacters": "More than 64 characters (including .${accountSuffix})"
         },
         "invalidLinkDrop": {
             "title": "Link Invalid",
