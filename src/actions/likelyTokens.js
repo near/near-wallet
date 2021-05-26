@@ -51,5 +51,6 @@ export const { likelyTokens, tokens } = createActions({
     TOKENS: {
         SET: null,
         GET_METADATA: getMetadata,
+        GET_BALANCE_OF: getBalanceOf
     }
 })
