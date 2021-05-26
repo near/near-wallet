@@ -27,6 +27,19 @@ const tokensReducer = handleActions({
             ...payload
         }
     }),
+    [tokens.getMetadata]: (state, { ready, error, payload, meta }) =>
+        (!ready || error)
+            ? state
+            : ({
+                ...state,
+                tokens: {
+                    ...state.tokens,
+                    [payload.contract]: {
+                        ...state.tokens[payload.contract],
+                        ...payload.metadata
+                    }
+                }
+            }),
 }, initialState)
 
 export default reduceReducers(
