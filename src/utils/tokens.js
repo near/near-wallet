@@ -21,3 +21,18 @@ export const getMetadata = async (contract, account) => {
         }
     }
 }
+
+export const getBalanceOf = async (contract, account, accountId) => {
+    let balance
+
+    try {
+        balance = await account.viewFunction(contract, 'ft_balance_of', { account_id: accountId })
+    } catch (e) {
+        // logError(e);
+    } finally {
+        return {
+            contract,
+            balance
+        }
+    }
+}
