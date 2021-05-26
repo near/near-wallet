@@ -958,10 +958,6 @@ class Wallet {
         return transactionHashes;
     }
 
-    async getLikelyTokens() {
-        return await sendJson('GET', `${ACCOUNT_HELPER_URL}/account/${this.accountId}/likelyTokens`)
-    }
-
     dispatchShowLedgerModal(show) {
         const { actionStatus } = store.getState().status
         const actions = Object.keys(actionStatus).filter((action) => actionStatus[action]?.pending === true)
