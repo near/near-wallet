@@ -1,5 +1,6 @@
 import { createActions } from 'redux-actions'
 import { wallet } from '../utils/wallet'
+import { getLikelyTokens } from '../utils/tokens'
 
 const WHITELISTED_CONTRACTS = (process.env.TOKEN_CONTRACTS || 'berryclub.ek.near,farm.berryclub.ek.near,wrap.near').split(',');
 
@@ -45,7 +46,7 @@ export const handleGetLikelyTokens = () => async (dispatch, getState) => {
 
 export const { likelyTokens, tokens } = createActions({
     LIKELY_TOKENS: {
-        GET: wallet.getLikelyTokens.bind(wallet),
+        GET: getLikelyTokens,
     },
     TOKENS: {
         SET: null
