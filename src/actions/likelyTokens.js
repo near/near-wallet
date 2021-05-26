@@ -49,6 +49,7 @@ export const { likelyTokens, tokens } = createActions({
         GET: getLikelyTokens,
     },
     TOKENS: {
-        SET: null
+        SET: null,
+        GET_METADATA: getMetadata,
     }
 })
