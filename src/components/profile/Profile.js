@@ -39,6 +39,7 @@ const StyledContainer = styled(Container)`
         line-height: 140% !important;
         display: flex;
         align-items: center;
+        color: #24272a !important;
 
         svg {
             margin-right: 15px;

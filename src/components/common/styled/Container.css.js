@@ -22,11 +22,6 @@ const Container = styled.div`
     &.small-centered, &.xs-centered {
         max-width: 500px;
 
-        h1,
-        h2 {
-            text-align: center;
-        }
-
         &.center {
             display flex;
             flex-direction: column;
@@ -69,13 +64,11 @@ const Container = styled.div`
 
 
     .sub-title, h2 {
-        text-align: center !important;
         line-height: 150% !important;
-        margin: 25px auto;
+        margin: 25px 0;
         font-size: 16px !important;
-        color: #24272a !important;
+        color: #72727A !important;
         font-weight: 400 !important;
-        max-width: 400px;
     }
 
     &.ledger-theme {

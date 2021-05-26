@@ -568,6 +568,12 @@
     },
 
     "createAccount": {
+        "termsPage": {
+            "title": "Before you begin...",
+            "descOne": "NEAR accounts require an initial one-time deposit of <b>at least ${data} NEAR</b> to cover the <u>cost of hosting your account.</u>",
+            "descTwo": "After reserving a unique account name, you’ll be asked to make an initial deposit to activate your account.",
+            "disclaimer": "By creating a NEAR account, you agree to the NEAR Wallet <u><a href='/terms' rel='noopener noreferrer' target='_blank'>Terms of Service</a></u> and <u><a href='https://near.org/privacy' rel='noopener noreferrer' target='_blank'>Privacy Policy</a></u>."
+        },
         "pageTitle": "Reserve Account ID",
         "pageText": "Enter an Account ID to use with your NEAR account. Your Account ID will be used for all NEAR operations, including sending and receiving assets.",
         "step": "Step ${step}/${total}",

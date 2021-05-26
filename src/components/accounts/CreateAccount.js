@@ -12,7 +12,7 @@ import FormButton from '../common/FormButton'
 import AccountFormAccountId from './AccountFormAccountId'
 import AccountNote from '../common/AccountNote'
 import { Mixpanel } from '../../mixpanel/index'
-import TermsModal from './TermsModal'
+import WhereToBuyNearModal from '../common/WhereToBuyNearModal'
 
 const StyledContainer = styled(Container)`
 
@@ -21,8 +21,25 @@ const StyledContainer = styled(Container)`
     }
 
     button {
-        :first-of-type {
+        &.blue {
             width: 100% !important;
+        }
+        &.link {
+            &.blue {
+                text-decoration: underline;
+                font-weight: 400 !important;
+                margin-bottom: 60px !important;
+
+                :hover {
+                    text-decoration: none !important;
+                }
+            }
+
+            &.gray {
+                color: #72727A !important;
+                margin: 35px auto !important;
+                display: block !important;
+            }
         }
     }
 
@@ -58,6 +75,17 @@ const StyledContainer = styled(Container)`
             margin-top: 20px;
         }
     }
+
+    .disclaimer {
+        color: #72727A;
+        text-align: center;
+        font-size: 12px;
+        max-width: 300px;
+        margin: 0 auto;
+        a {
+            color: #72727A;
+        }
+    }
 `
 
 class CreateAccount extends Component {
@@ -65,10 +93,9 @@ class CreateAccount extends Component {
         loader: false,
         accountId: '',
         invalidNearDrop: null,
-        showTerms: false,
-        termsChecked: false,
-        privacyChecked: false,
         fundingAmount: null,
+        termsAccepted: false,
+        whereToBuy: false
     }
 
     componentDidMount() {
@@ -133,13 +160,50 @@ class CreateAccount extends Component {
             loader,
             accountId,
             invalidNearDrop,
-            showTerms,
-            termsChecked,
-            privacyChecked,
+            termsAccepted,
+            whereToBuy
         } = this.state
 
-        const { localAlert, mainLoader, checkNewAccount, resetAccount, clearLocalAlert } = this.props
+        const { localAlert, mainLoader, checkNewAccount, resetAccount, clearLocalAlert, fundingContract, fundingKey } = this.props;
+        const hasFunding = fundingContract && fundingKey;
         const useLocalAlert = accountId.length > 0 ? localAlert : undefined;
+
+        if (!hasFunding && !termsAccepted) {
+            return (
+                <StyledContainer className='small-centered'>
+                    <h1><Translate id='createAccount.termsPage.title'/></h1>
+                    <h2><Translate id='createAccount.termsPage.descOne' data={{ data: '0.35'}}/></h2>
+                    <h2><Translate id='createAccount.termsPage.descTwo'/></h2>
+                    <FormButton
+                        onClick={() => this.setState({ whereToBuy: true })}
+                        color='link blue'
+                        trackingId="CA Click where to buy button"
+                    >
+                        <Translate id='account.createImplicit.pre.whereToBuy.button' />
+                    </FormButton>
+                    <FormButton
+                        onClick={() => this.setState({ termsAccepted: true })}
+                    >
+                        <Translate id='createAccount.terms.agreeBtn'/>
+                    </FormButton>
+                    <FormButton
+                        color='link gray'
+                        onClick={() => this.props.redirectTo('/')}
+                    >
+                        <Translate id='button.cancel'/>
+                    </FormButton>
+                    <div className='disclaimer'>
+                        <Translate id='createAccount.termsPage.disclaimer'/>
+                    </div>
+                    {whereToBuy &&
+                        <WhereToBuyNearModal
+                            onClose={() => this.setState({ whereToBuy: false })}
+                            open={whereToBuy}
+                        />
+                    }
+                </StyledContainer>
+            )
+        }
 
         if (!invalidNearDrop) {
             return (
@@ -172,18 +236,6 @@ class CreateAccount extends Component {
                             <Link to={process.env.DISABLE_PHONE_RECOVERY === 'yes' ? '/recover-seed-phrase' : '/recover-account'}><Translate id='createAccount.recoverItHere' /></Link>
                         </div>
                     </form>
-                    {showTerms &&
-                        <TermsModal
-                            onClose={() => this.setState({ showTerms: false })}
-                            open={showTerms}
-                            termsChecked={termsChecked}
-                            privacyChecked={privacyChecked}
-                            handleTermsChange={e => this.setState({ termsChecked: e.target.checked })}
-                            handlePrivacyChange={e => this.setState({ privacyChecked: e.target.checked })}
-                            handleFinishSetup={this.handleCreateAccount}
-                            loading={mainLoader}
-                        />
-                    }
                 </StyledContainer>
 
             )

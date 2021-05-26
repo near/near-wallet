@@ -567,6 +567,12 @@
     },
 
     "createAccount": {
+        "termsPage": {
+            "title": "Before you begin...",
+            "descOne": "NEAR accounts require an initial one-time deposit of <b>at least ${data} NEAR</b> to cover the <u>cost of hosting your account.</u>",
+            "descTwo": "After reserving a unique account name, you’ll be asked to make an initial deposit to activate your account.",
+            "disclaimer": "By creating a NEAR account, you agree to the NEAR Wallet <u><a href='/terms' rel='noopener noreferrer' target='_blank'>Terms of Service</a></u> and <u><a href='https://near.org/privacy' rel='noopener noreferrer' target='_blank'>Privacy Policy</a></u>."
+        },
         "pageTitle": "創建新的賬戶",
         "pageText": "只需要輸入用戶名即完成註冊。",
         "step": "步驟 ${step}/${total}",
