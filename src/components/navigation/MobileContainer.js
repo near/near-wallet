@@ -171,8 +171,10 @@ class MobileContainer extends Component {
             menuOpen,
             toggleMenu,
             showNavLinks,
-            flowLimitation
-        } = this.props;
+            flowLimitation,
+            refreshBalance,
+            getBalance
+        } = this.props
 
         return (
             <Container className={menuOpen ? 'show' : ''} id='mobile-menu'>
@@ -208,6 +210,10 @@ class MobileContainer extends Component {
                                 accountId={account.accountId}
                                 accountIdLocalStorage={account.localStorage?.accountId}
                                 selectAccount={selectAccount}
+                                accountsBalance={account.accountsBalance}
+                                balance={account.balance}
+                                refreshBalance={refreshBalance}
+                                getBalance={getBalance}
                             />
                             <AccessAccountBtn/>
                             <CreateAccountBtn/>
@@ -219,4 +225,4 @@ class MobileContainer extends Component {
     }
 }
 
-export default MobileContainer;
+export default MobileContainer

@@ -93,8 +93,10 @@ class DesktopContainer extends Component {
             availableAccounts,
             selectAccount,
             showNavLinks,
-            flowLimitation
-        } = this.props;
+            flowLimitation,
+            refreshBalance,
+            getBalance
+        } = this.props
 
         return (
             <Container>
@@ -120,6 +122,10 @@ class DesktopContainer extends Component {
                             accountIdLocalStorage={account.localStorage?.accountId}
                             accounts={availableAccounts}
                             selectAccount={selectAccount}
+                            accountsBalance={account.accountsBalance}
+                            balance={account.balance}
+                            refreshBalance={refreshBalance}
+                            getBalance={getBalance}
                         />
                     </>
                 }
@@ -128,4 +134,4 @@ class DesktopContainer extends Component {
     }
 }
 
-export default DesktopContainer;
+export default DesktopContainer
