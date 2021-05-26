@@ -40,6 +40,19 @@ const tokensReducer = handleActions({
                     }
                 }
             }),
+    [tokens.getBalanceOf]: (state, { ready, error, payload, meta }) => 
+        (!ready || error)
+            ? state
+            : ({
+                ...state,
+                tokens: {
+                    ...state.tokens,
+                    [payload.contract]: {
+                        ...state.tokens[payload.contract],
+                        balance: payload.balance
+                    }
+                }
+            }),
 }, initialState)
 
 export default reduceReducers(
