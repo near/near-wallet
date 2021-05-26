@@ -20,7 +20,7 @@ export default function Validator({
 }) {
     const [confirm, setConfirm] = useState(null)
     const dispatch = useDispatch()
-    const stakeNotAllowed = selectedValidator && selectedValidator !== match.params.validator && currentValidators.length
+    const stakeNotAllowed = !!selectedValidator && selectedValidator !== match.params.validator && !!currentValidators.length
     const showConfirmModal = confirm === 'withdraw'
 
     const handleStakeAction = async () => {
