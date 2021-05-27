@@ -23,6 +23,10 @@ const Container = styled.div`
     @media (min-width: 768px) {
         margin-top: 32px;
     }
+
+    button {
+        width: 100%;
+    }
     
     &.error {
         display: flex;
