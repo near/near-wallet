@@ -9,14 +9,16 @@ import { validateEmail } from '../../../utils/account';
 import {
     initializeRecoveryMethod,
     setupRecoveryMessage,
-    setupRecoveryMessageNewAccount,
     redirectToApp,
     redirectTo,
     loadRecoveryMethods,
     getAccessKeys,
     getLedgerKey,
     get2faMethod,
-    checkIsNew
+    checkIsNew,
+    createNewAccount,
+    fundCreateAccount,
+    validateSecurityCode
 } from '../../../actions/account';
 import RecoveryOption from './RecoveryOption';
 import FormButton from '../../common/FormButton';
@@ -27,6 +29,9 @@ import { Mixpanel } from '../../../mixpanel/index'
 import { actionsPending } from '../../../utils/alerts'
 import { showCustomAlert } from '../../../actions/status';
 import { isRetryableRecaptchaError } from '../../Recaptcha';
+import { parseSeedPhrase } from 'near-seed-phrase';
+import { KeyPair } from 'near-api-js';
+import { DISABLE_CREATE_ACCOUNT, wallet } from '../../../utils/wallet';
 
 // FIXME: Use `debug` npm package so we can keep some debug logging around but not spam the console everywhere
 const ENABLE_DEBUG_LOGGING = false;
@@ -153,11 +158,38 @@ class SetupRecoveryMethod extends Component {
         this.setState({ success: true, recoverySeedPhrase: recoverySeedPhrase })
     }
 
+    async setupRecoveryMessageNewAccount(accountId, method, securityCode, fundingOptions, recoverySeedPhrase, recaptchaToken) {
+        const { fundCreateAccount, createNewAccount, validateSecurityCode } = this.props;
+
+        const { secretKey } = parseSeedPhrase(recoverySeedPhrase)
+        const recoveryKeyPair = KeyPair.fromString(secretKey)
+        await validateSecurityCode(accountId, method, securityCode);
+        await wallet.saveAccount(accountId, recoveryKeyPair);
+
+        // IMPLICIT ACCOUNT
+        if (DISABLE_CREATE_ACCOUNT && !fundingOptions && !recaptchaToken) {
+            await fundCreateAccount(accountId, recoveryKeyPair, fundingOptions, method);
+            return
+        }
+
+        try {
+            // NOT IMPLICIT ACCOUNT (testnet, linkdrop, funded to delegated account via contract helper)
+            await createNewAccount(accountId, fundingOptions, method, recoveryKeyPair.publicKey, undefined, recaptchaToken)
+        } catch (e) {
+            if (e.code === 'NotEnoughBalance') {
+                Mixpanel.track('SR NotEnoughBalance creating funded account');
+                return fundCreateAccount(accountId, recoveryKeyPair, fundingOptions, method);
+            }
+
+            throw e;
+        }
+    }
+
+
     handleSetupRecoveryMethod = async (securityCode) => {
         const {
             accountId,
             setupRecoveryMessage,
-            setupRecoveryMessageNewAccount,
             location,
             showCustomAlert,
         } = this.props;
@@ -175,7 +207,7 @@ class SetupRecoveryMethod extends Component {
                     const fundingOptions = JSON.parse(queryOptions.fundingOptions || 'null')
 
                     try {
-                        await setupRecoveryMessageNewAccount(accountId, this.method, securityCode, fundingOptions, recoverySeedPhrase, recaptchaToken);
+                        await this.setupRecoveryMessageNewAccount(accountId, this.method, securityCode, fundingOptions, recoverySeedPhrase, recaptchaToken);
 
                     } catch (e) {
                         debugLog('setupRecoveryMessageNewAccount() failed', e.message);
@@ -359,13 +391,15 @@ const mapDispatchToProps = {
     redirectToApp,
     loadRecoveryMethods,
     initializeRecoveryMethod,
-    setupRecoveryMessageNewAccount,
     getAccessKeys,
     getLedgerKey,
     get2faMethod,
     checkIsNew,
     redirectTo,
-    showCustomAlert
+    showCustomAlert,
+    fundCreateAccount,
+    createNewAccount,
+    validateSecurityCode
 }
 
 const mapStateToProps = ({ account, router, recoveryMethods, status }, { match }) => ({
