@@ -25,6 +25,7 @@ import {
     handleGetLockup,
     staking
 } from './staking'
+import { tokens } from './tokens'
 
 export const loadRecoveryMethods = createAction('LOAD_RECOVERY_METHODS',
     wallet.getRecoveryMethods.bind(wallet),
@@ -545,6 +546,7 @@ export const switchAccount = (accountId) => async (dispatch, getState) => {
     dispatch(handleRefreshUrl())
     dispatch(staking.clearState())
     dispatch(refreshAccount())
+    dispatch(tokens.clearState())
 }
 
 export const { selectAccount, refreshAccountOwner, refreshAccountExternal, refreshUrl, getBalance, setLocalStorage } = createActions({
