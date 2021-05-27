@@ -1,7 +1,7 @@
 import { handleActions } from 'redux-actions'
 import reduceReducers from 'reduce-reducers'
 
-import { likelyContracts, tokens, clear } from '../../actions/tokens'
+import { tokens } from '../../actions/tokens'
 
 const initialState = {
     likelyContracts: [],
@@ -9,7 +9,7 @@ const initialState = {
 }
 
 const likelyContractsReducer = handleActions({
-    [likelyContracts.get]: (state, { ready, error, payload }) =>
+    [tokens.likelyContracts.get]: (state, { ready, error, payload }) =>
         (!ready || error)
             ? state
             : ({
@@ -19,14 +19,14 @@ const likelyContractsReducer = handleActions({
 }, initialState)
 
 const tokensReducer = handleActions({
-    [tokens.set]: (state, { payload }) => ({
+    [tokens.tokensDetails.set]: (state, { payload }) => ({
         ...state,
         tokens: {
             ...state.tokens,
             ...payload
         }
     }),
-    [tokens.getMetadata]: (state, { ready, error, payload, meta }) =>
+    [tokens.tokensDetails.getMetadata]: (state, { ready, error, payload, meta }) =>
         (!ready || error)
             ? state
             : ({
@@ -39,7 +39,7 @@ const tokensReducer = handleActions({
                     }
                 }
             }),
-    [tokens.getBalanceOf]: (state, { ready, error, payload, meta }) => 
+    [tokens.tokensDetails.getBalanceOf]: (state, { ready, error, payload, meta }) => 
         (!ready || error)
             ? state
             : ({
@@ -55,7 +55,7 @@ const tokensReducer = handleActions({
 }, initialState)
 
 const clearReducer = handleActions({
-    [clear]: (state, { payload }) => ({
+    [tokens.clearState]: (state, { payload }) => ({
         ...initialState
     }),
 }, initialState)
