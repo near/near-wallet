@@ -3,9 +3,12 @@ import { formatTokenAmount } from '../../utils/amounts'
 
 const FRAC_DIGITS = 5
 
-const TokenAmount = ({ token: { balance, decimals, symbol}, className }) => (
+const TokenAmount = ({ token: { balance, decimals, symbol }, className }) => (
     <div className={className} title={showFullAmount(balance, decimals, symbol)}>
-        {balance && formatToken(balance, decimals)}
+        {balance
+            ? formatToken(balance, decimals)
+            : <span className='dots' />
+        }
     </div>
 )
 
@@ -22,9 +25,9 @@ const formatToken = (amount, decimals) => {
     return removeTrailingZeros(formattedAmount)
 }
 
-const showFullAmount = (amount, decimals, symbol) => 
+const showFullAmount = (amount, decimals, symbol) =>
     (amount !== '0' && !!amount)
-        ? `${formatTokenAmount(amount, decimals, decimals)} ${symbol}` 
+        ? `${formatTokenAmount(amount, decimals, decimals)} ${symbol}`
         : ''
 
 const removeTrailingZeros = (amount) => amount.replace(/\.?0*$/, '')
