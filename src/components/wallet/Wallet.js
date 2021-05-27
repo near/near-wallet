@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import * as Sentry from '@sentry/browser'
 import styled from 'styled-components'
 import { Translate } from 'react-localize-redux'
 import FormButton from '../common/FormButton'
@@ -15,14 +14,11 @@ import { Mixpanel } from "../../mixpanel/index"
 import Activities from './Activities'
 import ExploreApps from './ExploreApps'
 import Tokens from './Tokens'
-import { ACCOUNT_HELPER_URL, wallet } from '../../utils/wallet'
 import LinkDropSuccessModal from './LinkDropSuccessModal'
 
 import { handleGetTokens } from '../../actions/tokens'
 import classNames from '../../utils/classNames'
 import { actionsPending } from '../../utils/alerts'
-
-import sendJson from 'fetch-send-json'
 
 const StyledContainer = styled(Container)`
     .sub-title {
@@ -180,25 +176,6 @@ export function Wallet() {
         }
     }, [accountId])
 
-    const logError = (error) => {
-        console.warn(error);
-        Sentry.captureException()
-    };
-
-    // TODO: Refactor loading token balances using Redux
-    const cachedTokensKey = `cachedTokens:${accountId}`;
-    const cachedTokens = (() => {
-        try {
-            return JSON.parse(localStorage.getItem(cachedTokensKey));
-        } catch(e) {
-            logError(e);
-            return {};
-        }
-    })();
-
-    const whitelistedContracts = (process.env.TOKEN_CONTRACTS || 'berryclub.ek.near,farm.berryclub.ek.near,wrap.near').split(',');
-    const [tokens, setTokens] = useState(cachedTokens || {});
-
     const sortedTokens = Object.keys(tokens).map(key => tokens[key]).sort((a, b) => (a.symbol || '').localeCompare(b.symbol || ''));
 
     useEffect(() => {
@@ -207,40 +184,6 @@ export function Wallet() {
         }
 
         dispatch(handleGetTokens())
-
-        sendJson('GET', `${ACCOUNT_HELPER_URL}/account/${accountId}/likelyTokens`).then(likelyContracts => {
-            const contracts = [...new Set([...likelyContracts, ...whitelistedContracts])];
-            let loadedTokens = contracts.map(contract => ({
-                [contract]: { contract, ...tokens[contract] }
-            }));
-            loadedTokens = loadedTokens.reduce((a, b) => Object.assign(a, b), {});
-
-            setTokens(loadedTokens);
-            wallet.getAccount(accountId).then(account =>
-                // NOTE: This forEach parallelizes requests on purpose
-                contracts.forEach(async contract => {
-                    try {
-                        // TODO: Parallelize balance and metadata calls, use cached metadata?
-                        let { name, symbol, decimals, icon } = await account.viewFunction(contract, 'ft_metadata')
-                        const balance = await account.viewFunction(contract, 'ft_balance_of', { account_id: accountId })
-                        loadedTokens = {
-                            ...loadedTokens,
-                            [contract]: { contract, balance, name, symbol, decimals, icon }
-                        }
-                    } catch (e) {
-                        if (e.message.includes('FunctionCallError(MethodResolveError(MethodNotFound))')) {
-                            loadedTokens = {...loadedTokens};
-                            delete loadedTokens[contract];
-                            return;
-                        }
-                        logError(e);
-                    } finally {
-                        setTokens(loadedTokens);
-                        localStorage.setItem(cachedTokensKey, JSON.stringify(loadedTokens));
-                    }
-                })
-            ).catch(logError);
-        }).catch(logError);
     }, [accountId]);
 
     const handleHideExploreApps = () => {

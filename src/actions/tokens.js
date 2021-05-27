@@ -30,11 +30,9 @@ export const handleGetTokens = () => async (dispatch, getState) => {
 export const { tokens } = createActions({
     TOKENS: {
         LIKELY_CONTRACTS: {
-            // dodac showAlert onlyError
             GET: getLikelyContracts,
         },
         TOKENS_DETAILS: {
-            // ta logike wyzej od `const contracts = [...new Set(` do `dispatch(tokens.set(loadedTokens))` przeniesc tutaj do akcji
             SET: null,
             GET_METADATA: getMetadata,
             GET_BALANCE_OF: getBalanceOf
