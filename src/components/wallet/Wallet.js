@@ -168,6 +168,7 @@ export function Wallet() {
     const linkdropAmount = localStorage.getItem('linkdropAmount')
     const linkdropModal = linkdropAmount && showLinkdropModal !== false;
     const { tokens } = useSelector(({ tokens }) => tokens)
+    const tokensLoader = actionsPending(['TOKENS/LIKELY_CONTRACTS/GET', 'TOKENS/TOKENS_DETAILS/GET_METADATA', 'TOKENS/TOKENS_DETAILS/GET_BALANCE_OF'])
     
     useEffect(() => {
         if (accountId) {
@@ -290,7 +291,7 @@ export function Wallet() {
                         </FormButton>
                     </div>
                     <div className='sub-title tokens'>
-                        <span className={classNames({dots: actionsPending('TOKENS/LIKELY_CONTRACTS/GET')})}><Translate id='wallet.tokens' /></span>
+                        <span className={classNames({ dots: tokensLoader })}><Translate id='wallet.tokens' /></span>
                         <span><Translate id='wallet.balance' /></span>
                     </div>
                     <Tokens tokens={sortedTokens} />
