@@ -18,13 +18,15 @@ export const handleGetTokens = () => async (dispatch, getState) => {
 
     const account = await wallet.getAccount(accountId)
 
-    Object.keys(contracts).forEach(async contract => {
-        dispatch(tokens.tokensDetails.getMetadata(contract, account))
-        dispatch(tokens.tokensDetails.getBalanceOf(contract, account, accountId))
+    await Promise.all(Object.keys(contracts).map(async contract => {
+        await dispatch(tokens.tokensDetails.getMetadata(contract, account))
+    }))
+
+    Object.keys(contracts).map(async contract => {
+        await dispatch(tokens.tokensDetails.getBalanceOf(contract, account, accountId))
     })
 }
 
-// export const { likelyContracts, tokens, clear } = createActions({
 export const { tokens } = createActions({
     TOKENS: {
         LIKELY_CONTRACTS: {
