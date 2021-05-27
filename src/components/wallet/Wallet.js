@@ -19,6 +19,8 @@ import { ACCOUNT_HELPER_URL, wallet } from '../../utils/wallet'
 import LinkDropSuccessModal from './LinkDropSuccessModal'
 
 import { handleGetTokens } from '../../actions/tokens'
+import classNames from '../../utils/classNames'
+import { actionsPending } from '../../utils/alerts'
 
 import sendJson from 'fetch-send-json'
 
@@ -36,6 +38,39 @@ const StyledContainer = styled(Container)`
             justify-content: space-between;
             width: 100%;
             max-width: unset;
+
+            .dots {
+                :after {
+                    position: absolute;
+                    content: '.';
+                    animation: link 1s steps(5, end) infinite;
+                
+                    @keyframes link {
+                        0%, 20% {
+                            color: rgba(0,0,0,0);
+                            text-shadow:
+                                .3em 0 0 rgba(0,0,0,0),
+                                .6em 0 0 rgba(0,0,0,0);
+                        }
+                        40% {
+                            color: #24272a;
+                            text-shadow:
+                                .3em 0 0 rgba(0,0,0,0),
+                                .6em 0 0 rgba(0,0,0,0);
+                        }
+                        60% {
+                            text-shadow:
+                                .3em 0 0 #24272a,
+                                .6em 0 0 rgba(0,0,0,0);
+                        }
+                        80%, 100% {
+                            text-shadow:
+                                .3em 0 0 #24272a,
+                                .6em 0 0 #24272a;
+                        }
+                    }
+                }
+            }
         }
     }
 
@@ -254,16 +289,11 @@ export function Wallet() {
                             <Translate id='button.buy'/>
                         </FormButton>
                     </div>
-                    {sortedTokens?.length ?
-                        <>
-                            <div className='sub-title tokens'>
-                                <span><Translate id='wallet.tokens' /></span>
-                                <span><Translate id='wallet.balance' /></span>
-                            </div>
-                            <Tokens tokens={sortedTokens} />
-                        </>
-                        : undefined
-                    }
+                    <div className='sub-title tokens'>
+                        <span className={classNames({dots: actionsPending('TOKENS/LIKELY_CONTRACTS/GET')})}><Translate id='wallet.tokens' /></span>
+                        <span><Translate id='wallet.balance' /></span>
+                    </div>
+                    <Tokens tokens={sortedTokens} />
                 </div>
                 <div className='right'>
                     {!hideExploreApps && exploreApps !== false &&
