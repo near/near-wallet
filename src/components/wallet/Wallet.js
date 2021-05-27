@@ -18,7 +18,7 @@ import Tokens from './Tokens'
 import { ACCOUNT_HELPER_URL, wallet } from '../../utils/wallet'
 import LinkDropSuccessModal from './LinkDropSuccessModal'
 
-import { handleGetTokens } from '../../actions/likelyTokens'
+import { handleGetTokens } from '../../actions/tokens'
 
 import sendJson from 'fetch-send-json'
 
