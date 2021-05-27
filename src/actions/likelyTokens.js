@@ -4,8 +4,7 @@ import { getLikelyTokens, getMetadata, getBalanceOf } from '../utils/tokens'
 
 const WHITELISTED_CONTRACTS = (process.env.TOKEN_CONTRACTS || 'berryclub.ek.near,farm.berryclub.ek.near,wrap.near').split(',');
 
-export const handleGetLikelyTokens = () => async (dispatch, getState) => {
-
+export const handleGetTokens = () => async (dispatch, getState) => {
     const { accountId } = getState().account
 
     const likelyContracts = await dispatch(likelyTokens.get(accountId))
