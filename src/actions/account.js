@@ -227,6 +227,7 @@ export const {
     checkIsNew,
     checkNewAccount,
     createNewAccount,
+    saveAccount,
     checkAccountAvailable,
     clearCode
 } = createActions({
@@ -321,6 +322,7 @@ export const {
         () => showAlert({ localAlert: true })
     ],
     CREATE_NEW_ACCOUNT: wallet.createNewAccount.bind(wallet),
+    SAVE_ACCOUNT: wallet.saveAccount.bind(wallet),
     CHECK_ACCOUNT_AVAILABLE: [
         wallet.checkAccountAvailable.bind(wallet),
         () => showAlert({ localAlert: true })
@@ -527,7 +529,7 @@ export const refreshAccount = (basicData = false) => async (dispatch, getState) 
     if (!wallet.accountId) {
         return
     }
-    
+
     dispatch(setLocalStorage(wallet.accountId))
     await dispatch(refreshAccountOwner(flowLimitation.accountData))
 

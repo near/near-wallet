@@ -17,6 +17,7 @@ import {
     get2faMethod,
     checkIsNew,
     createNewAccount,
+    saveAccount,
     fundCreateAccount,
     validateSecurityCode
 } from '../../../actions/account';
@@ -31,7 +32,7 @@ import { showCustomAlert } from '../../../actions/status';
 import { isRetryableRecaptchaError } from '../../Recaptcha';
 import { parseSeedPhrase } from 'near-seed-phrase';
 import { KeyPair } from 'near-api-js';
-import { DISABLE_CREATE_ACCOUNT, wallet } from '../../../utils/wallet';
+import { DISABLE_CREATE_ACCOUNT } from '../../../utils/wallet';
 
 // FIXME: Use `debug` npm package so we can keep some debug logging around but not spam the console everywhere
 const ENABLE_DEBUG_LOGGING = false;
@@ -159,12 +160,17 @@ class SetupRecoveryMethod extends Component {
     }
 
     async setupRecoveryMessageNewAccount(accountId, method, securityCode, fundingOptions, recoverySeedPhrase, recaptchaToken) {
-        const { fundCreateAccount, createNewAccount, validateSecurityCode } = this.props;
+        const {
+            fundCreateAccount,
+            createNewAccount,
+            validateSecurityCode,
+            saveAccount
+        } = this.props;
 
         const { secretKey } = parseSeedPhrase(recoverySeedPhrase)
         const recoveryKeyPair = KeyPair.fromString(secretKey)
         await validateSecurityCode(accountId, method, securityCode);
-        await wallet.saveAccount(accountId, recoveryKeyPair);
+        await saveAccount(accountId, recoveryKeyPair);
 
         // IMPLICIT ACCOUNT
         if (DISABLE_CREATE_ACCOUNT && !fundingOptions && !recaptchaToken) {
@@ -400,6 +406,7 @@ const mapDispatchToProps = {
     showCustomAlert,
     fundCreateAccount,
     createNewAccount,
+    saveAccount,
     validateSecurityCode
 }
 
