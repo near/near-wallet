@@ -168,6 +168,7 @@ export function Wallet() {
     const linkdropAmount = localStorage.getItem('linkdropAmount')
     const linkdropModal = linkdropAmount && showLinkdropModal !== false;
     const { tokens } = useSelector(({ tokens }) => tokens)
+    const { actionStatus } = useSelector(({ status }) => status)
     const tokensLoader = actionsPending(['TOKENS/LIKELY_CONTRACTS/GET', 'TOKENS/TOKENS_DETAILS/GET_METADATA', 'TOKENS/TOKENS_DETAILS/GET_BALANCE_OF']) || !balance?.total
     
     useEffect(() => {

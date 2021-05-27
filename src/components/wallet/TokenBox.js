@@ -81,6 +81,7 @@ const StyledContainer = styled.div`
             :after {
                 position: absolute;
                 content: '.';
+                font-weight: 300;
                 animation: link 1s steps(5, end) infinite;
             
                 @keyframes link {
