@@ -26,7 +26,7 @@ const StyledContainer = styled.div`
 const Tokens = ({ tokens }) => {
     return (
         <StyledContainer>
-            {tokens.map((token, i) => (
+            {tokens.map((token, i) => token.spec && (
                 <TokenBox key={i} token={token}/>
             ))}
         </StyledContainer>
