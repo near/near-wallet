@@ -120,6 +120,7 @@ const SetupLedger = (props) => {
                                 messageCode: 'walletErrorCodes.invalidRecaptchaCode'
                             }))
                         } else if(err.code === 'NotEnoughBalance') {
+                            Mixpanel.track('SR-Ledger NotEnoughBalance creating funded account');
                             dispatch(fundCreateAccountLedger(accountId, publicKey))
                         } else {
                             recaptchaRef.current.reset();

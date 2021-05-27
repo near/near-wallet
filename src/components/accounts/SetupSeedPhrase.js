@@ -153,6 +153,7 @@ class SetupSeedPhrase extends Component {
                         messageCode: 'walletErrorCodes.invalidRecaptchaCode'
                     })
                 } else if(err.code === 'NotEnoughBalance') {
+                    Mixpanel.track('SR-SP NotEnoughBalance creating funded account');
                     await fundCreateAccount(accountId, recoveryKeyPair, 'seed');
                 } else {
                     showCustomAlert({
