@@ -1,15 +1,15 @@
 import { createActions } from 'redux-actions'
 import { wallet } from '../utils/wallet'
-import { getLikelyTokens, getMetadata, getBalanceOf } from '../utils/tokens'
+import { getLikelyContracts, getMetadata, getBalanceOf } from '../utils/tokens'
 
 const WHITELISTED_CONTRACTS = (process.env.TOKEN_CONTRACTS || 'berryclub.ek.near,farm.berryclub.ek.near,wrap.near').split(',');
 
 export const handleGetTokens = () => async (dispatch, getState) => {
     const { accountId } = getState().account
 
-    const likelyContracts = await dispatch(likelyTokens.get(accountId))
+    await dispatch(likelyContracts.get(accountId))
 
-    let contracts = [...new Set([...likelyContracts, ...WHITELISTED_CONTRACTS])].reduce((x, contract) => ({
+    let contracts = [...new Set([...getState().tokens.likelyContracts, ...WHITELISTED_CONTRACTS])].reduce((x, contract) => ({
         ...x,
         [contract]: { contract }
     }), {})
@@ -24,10 +24,10 @@ export const handleGetTokens = () => async (dispatch, getState) => {
     })
 }
 
-export const { likelyTokens, tokens } = createActions({
-    LIKELY_TOKENS: {
+export const { likelyContracts, tokens } = createActions({
+    LIKELY_CONTRACTS: {
         // dodac showAlert onlyError
-        GET: getLikelyTokens,
+        GET: getLikelyContracts,
     },
     TOKENS: {
         // ta logike wyzej od `const contracts = [...new Set(` do `dispatch(tokens.set(loadedTokens))` przeniesc tutaj do akcji

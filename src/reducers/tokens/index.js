@@ -1,7 +1,7 @@
 import { handleActions } from 'redux-actions'
 import reduceReducers from 'reduce-reducers'
 
-import { likelyTokens, tokens } from '../../actions/likelyTokens'
+import { likelyContracts, tokens } from '../../actions/tokens'
 
 const initialState = {
     likelyContracts: [],
@@ -10,8 +10,8 @@ const initialState = {
 
 // to chyba likelyTokens zmienic na likelyContracts
 
-const likelyTokensReducer = handleActions({
-    [likelyTokens.get]: (state, { ready, error, payload }) =>
+const likelyContractsReducer = handleActions({
+    [likelyContracts.get]: (state, { ready, error, payload }) =>
         (!ready || error)
             ? state
             : ({
@@ -58,6 +58,6 @@ const tokensReducer = handleActions({
 
 export default reduceReducers(
     initialState,
-    likelyTokensReducer,
+    likelyContractsReducer,
     tokensReducer
 )

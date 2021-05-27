@@ -3,7 +3,7 @@ import sendJson from '../tmp_fetch_send_json'
 import { ACCOUNT_HELPER_URL } from './wallet'
 import * as Sentry from '@sentry/browser'
 
-export const getLikelyTokens = async (accountId) => {
+export const getLikelyContracts = async (accountId) => {
     try {
         return await sendJson('GET', `${ACCOUNT_HELPER_URL}/account/${accountId}/likelyTokens`)
     } catch (e) {
