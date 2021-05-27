@@ -7,23 +7,22 @@ const WHITELISTED_CONTRACTS = (process.env.TOKEN_CONTRACTS || 'berryclub.ek.near
 export const handleGetLikelyTokens = () => async (dispatch, getState) => {
 
     const { accountId } = getState().account
-    const account = await wallet.getAccount(accountId)
 
     const likelyContracts = await dispatch(likelyTokens.get(accountId))
 
-    const contracts = [...new Set([...likelyContracts, ...WHITELISTED_CONTRACTS])];
-    let loadedTokens = contracts.map(contract => ({
+    let contracts = [...new Set([...likelyContracts, ...WHITELISTED_CONTRACTS])].reduce((x, contract) => ({
+        ...x,
         [contract]: { contract }
-    }));
-    loadedTokens = loadedTokens.reduce((a, b) => Object.assign(a, b), {});
+    }), {})
 
-    dispatch(tokens.set(loadedTokens))
-    
-    contracts.forEach(async contract => {
+    dispatch(tokens.set(contracts))
+
+    const account = await wallet.getAccount(accountId)
+
+    Object.keys(contracts).forEach(async contract => {
         dispatch(tokens.getMetadata(contract, account))
         dispatch(tokens.getBalanceOf(contract, account, accountId))
     })
-
 }
 
 export const { likelyTokens, tokens } = createActions({
