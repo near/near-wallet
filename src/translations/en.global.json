@@ -718,6 +718,9 @@
     },
 
     "loading": "Loading...",
+    "loadingNoDots": "Loading",
+    "sync": "Sync",
+    "getBalance": "Get balance",
 
     "balance": {
         "balance": "Total Balance",
