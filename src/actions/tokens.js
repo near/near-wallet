@@ -24,7 +24,7 @@ export const handleGetTokens = () => async (dispatch, getState) => {
     })
 }
 
-export const { likelyContracts, tokens } = createActions({
+export const { likelyContracts, tokens, clear } = createActions({
     LIKELY_CONTRACTS: {
         // dodac showAlert onlyError
         GET: getLikelyContracts,
@@ -34,5 +34,6 @@ export const { likelyContracts, tokens } = createActions({
         SET: null,
         GET_METADATA: getMetadata,
         GET_BALANCE_OF: getBalanceOf
-    }
+    },
+    CLEAR: null
 })
