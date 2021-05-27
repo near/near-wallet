@@ -8,6 +8,7 @@ const initialState = {
     tokens: {}
 }
 
+// to chyba likelyTokens zmienic na likelyContracts
 
 const likelyTokensReducer = handleActions({
     [likelyTokens.get]: (state, { ready, error, payload }) =>

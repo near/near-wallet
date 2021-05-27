@@ -132,6 +132,7 @@ export function Wallet() {
     const hideExploreApps = localStorage.getItem('hideExploreApps')
     const linkdropAmount = localStorage.getItem('linkdropAmount')
     const linkdropModal = linkdropAmount && showLinkdropModal !== false;
+    const { tokens } = useSelector(({ tokens }) => tokens)
     
     useEffect(() => {
         if (accountId) {
