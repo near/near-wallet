@@ -6,9 +6,6 @@ import BN from 'bn.js'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { Translate } from 'react-localize-redux'
-import copyText from '../../utils/copyText'
-import isMobile from '../../utils/isMobile'
-import { Snackbar, snackbarDuration } from '../common/Snackbar'
 import Container from '../common/styled/Container.css'
 import FormButton from '../common/FormButton'
 import WhereToBuyNearModal from '../common/WhereToBuyNearModal'
@@ -16,9 +13,9 @@ import AccountFundedModal from './AccountFundedModal'
 import { createAccountFromImplicit, redirectTo } from '../../actions/account'
 import { NETWORK_ID, NODE_URL } from '../../utils/wallet'
 import { Mixpanel } from '../../mixpanel'
-import AlertBanner from '../common/AlertBanner'
 import { isMoonpayAvailable, getSignedUrl } from '../../utils/moonpay'
-import MoonPayIcon from '../svg/MoonPayIcon'
+import MoonPayIcon from '../svg/MoonPayIcon';
+import AccountFundedStatus from './create/AccountFundedStatus'
 
 const StyledContainer = styled(Container)`
     .account-id-wrapper {
@@ -55,7 +52,6 @@ const StyledContainer = styled(Container)`
             text-align: left;
             margin-bottom: 50px !important;
             transition: 100ms;
-            display: block !important;
 
             :hover {
                 text-decoration: underline !important;
@@ -81,19 +77,10 @@ const StyledContainer = styled(Container)`
             }
         }
     }
-
-    .alert-banner {
-        align-items: center;
-        > div {
-            font-style: normal !important;
-            font-size: 18px !important;
-        }
-    }
-
 `
 
 // TODO: Make configurable
-const MIN_BALANCE_TO_CREATE = new BN(parseNearAmount('1'))
+const MIN_BALANCE_TO_CREATE = new BN(parseNearAmount('0.35'))
 
 let pollingInterval = null
 
@@ -157,58 +144,28 @@ class SetupImplicit extends Component {
         )
     }
 
-    componentDidMount = () => {
+    // componentDidMount = () => {
 
-        this.connection = nearApiJs.Connection.fromConfig({
-            networkId: NETWORK_ID,
-            provider: { type: 'JsonRpcProvider', args: { url: NODE_URL + '/' } },
-            signer: {},
-        })
+    //     this.connection = nearApiJs.Connection.fromConfig({
+    //         networkId: NETWORK_ID,
+    //         provider: { type: 'JsonRpcProvider', args: { url: NODE_URL + '/' } },
+    //         signer: {},
+    //     })
 
-        // TODO: Use wallet/Redux for queries? Or at least same connection.
+    //     // TODO: Use wallet/Redux for queries? Or at least same connection.
 
-        clearInterval(pollingInterval)
-        pollingInterval = setInterval(this.checkBalance, 2000)
+    //     clearInterval(pollingInterval)
+    //     pollingInterval = setInterval(this.checkBalance, 2000)
 
-        this.checkMoonPay()
-    }
+    //     this.checkMoonPay()
+    // }
 
     componentWillUnmount = () => {
         clearInterval(pollingInterval)
     }
 
-    // TODO: Refactor: Extract utility to copy text
-    // optionally pass in string to copy: textToCopy
-    handleCopyPhrase = (textToCopy) => {
-        Mixpanel.track("CA Copy funding address")
-        if (typeof textToCopy !== 'string') {
-            textToCopy = null
-        }
-        if (navigator.share && isMobile()) {
-            navigator.share({
-                text: textToCopy
-            }).catch(err => {
-                console.log(err.message);
-            });
-        } else {
-            this.handleCopyDesktop(textToCopy);
-        }
-    }
-
-    handleCopyDesktop = (textToCopy) => {
-        // TODO: Use actual textToCopy passed as parameter
-        copyText(document.getElementById('implicit-account-id'));
-        this.setState({ successSnackbar: true }, () => {
-            setTimeout(() => {
-                this.setState({ successSnackbar: false });
-            }, snackbarDuration)
-        });
-    }
-
     render() {
         const {
-            snackBarMessage,
-            successSnackbar,
             whereToBuy,
             checked,
             createAccount,
@@ -219,76 +176,54 @@ class SetupImplicit extends Component {
         const { implicitAccountId, accountId, mainLoader } = this.props
 
         return (
-            <Translate>
-                {({ translate }) => (
-                    <StyledContainer className='small-centered'>
-                        <AlertBanner
-                            title='account.createImplicit.pre.alertBanner.title'
-                            theme='alert'
-                        />
-                        <h1><Translate id='account.createImplicit.pre.title' /></h1>
-                        <h2><Translate id='account.createImplicit.pre.descOne' data={{ amount: formatNearAmount(MIN_BALANCE_TO_CREATE) }}/></h2>
-                        <h2><Translate id='account.createImplicit.pre.descTwo'/></h2>
+            <StyledContainer className='small-centered'>
+                <h1><Translate id='account.createImplicit.pre.title' /></h1>
+                <h2><Translate id='account.createImplicit.pre.descOne' data={{ amount: formatNearAmount(MIN_BALANCE_TO_CREATE) }}/></h2>
+                <FormButton
+                    onClick={() => this.setState({ whereToBuy: true })}
+                    color='link'
+                    className='where-to-buy-link'
+                    trackingId="CA Click where to buy button"
+                >
+                    <Translate id='account.createImplicit.pre.whereToBuy.button' />
+                </FormButton>
+                <AccountFundedStatus
+                    fundingAddress='0026506d88a4bbdb4973f1fe0004e988d32616e746f9444779ff28e9904c66de'
+                    minDeposit={MIN_BALANCE_TO_CREATE}
+                    intitalDeposit={null}
+                    accountId={null}
+                />
+                {moonpayAvailable &&
+                    <div style={{ marginTop: '1em' }}>
                         <FormButton
-                            onClick={() => this.setState({ whereToBuy: true })}
-                            color='link'
-                            className='where-to-buy-link'
-                            trackingId="CA Click where to buy button"
+                            linkTo={moonpaySignedURL}
+                            color='black'
+                            onClick={() => Mixpanel.track("CA Click Fund with Moonpay")}
                         >
-                            <Translate id='account.createImplicit.pre.whereToBuy.button' />
+                            <Translate id='account.createImplicit.pre.fundWith'/>
+                            <MoonPayIcon/>
                         </FormButton>
-                        <h4 className='small'><Translate id='account.createImplicit.pre.addressHeader'/></h4>
-                        <div className='account-id-wrapper'>
-                            {implicitAccountId}
-                        </div>
-                        <FormButton
-                            onClick={() => this.handleCopyPhrase(implicitAccountId)}
-                            color='gray-blue border'
-                        >
-                            <Translate id='button.copyImplicitAddress' />
-                        </FormButton>
-                        <p id="implicit-account-id" style={{ display: 'none' }}>
-                            <span>{implicitAccountId}</span>
-                        </p>
-                        {moonpayAvailable &&
-                            <div style={{ marginTop: '1em' }}>
-                                <FormButton
-                                    linkTo={moonpaySignedURL}
-                                    color='black'
-                                    onClick={() => Mixpanel.track("CA Click Fund with Moonpay")}
-                                >
-                                    <Translate id='account.createImplicit.pre.fundWith'/>
-                                    <MoonPayIcon/>
-                                </FormButton>
-                            </div>
-                        }
-                        <Snackbar
-                            theme='success'
-                            message={translate(snackBarMessage)}
-                            show={successSnackbar}
-                            onHide={() => this.setState({ successSnackbar: false })}
-                        />
-                        {whereToBuy &&
-                            <WhereToBuyNearModal
-                                onClose={() => this.setState({ whereToBuy: false })}
-                                open={whereToBuy}
-                            />
-                        }
-                        {createAccount &&
-                            <AccountFundedModal
-                                onClose={() => {}}
-                                open={createAccount}
-                                checked={checked}
-                                handleCheckboxChange={e => this.setState({ checked: e.target.checked })}
-                                implicitAccountId={implicitAccountId}
-                                accountId={accountId}
-                                handleFinishSetup={this.handleContinue}
-                                loading={mainLoader}
-                            />
-                        }
-                    </StyledContainer>
-                )}
-            </Translate>
+                    </div>
+                }
+                {whereToBuy &&
+                    <WhereToBuyNearModal
+                        onClose={() => this.setState({ whereToBuy: false })}
+                        open={whereToBuy}
+                    />
+                }
+                {createAccount &&
+                    <AccountFundedModal
+                        onClose={() => {}}
+                        open={createAccount}
+                        checked={checked}
+                        handleCheckboxChange={e => this.setState({ checked: e.target.checked })}
+                        implicitAccountId={implicitAccountId}
+                        accountId={accountId}
+                        handleFinishSetup={this.handleContinue}
+                        loading={mainLoader}
+                    />
+                }
+            </StyledContainer>
         )
     }
 }

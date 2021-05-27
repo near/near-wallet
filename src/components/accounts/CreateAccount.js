@@ -169,6 +169,7 @@ class CreateAccount extends Component {
         const useLocalAlert = accountId.length > 0 ? localAlert : undefined;
 
         if (!hasFunding && !termsAccepted) {
+            // ONLY ON MAINNET - UNLESS WE WANT TO ALIGN UX?
             return (
                 <StyledContainer className='small-centered'>
                     <h1><Translate id='createAccount.termsPage.title'/></h1>

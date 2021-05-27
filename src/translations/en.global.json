@@ -162,8 +162,8 @@
         },
         "createImplicit": {
             "pre": {
-                "title": "Fund Your Account",
-                "descOne": "Initialize your account by sending at least <b>${amount} NEAR</b> to the one-time funding address below.",
+                "title": "Almost there! Activate your account with an initial deposit.",
+                "descOne": "To begin using NEAR Wallet, make a minimum initial deposit by sending at least <b>${amount} NEAR</b> to the single-use funding address below.",
                 "descTwo": "Return to this screen once your funds have been deposited to finish creating your account.",
                 "addressHeader": "One-time funding address",
                 "whereToBuy": {
@@ -192,6 +192,16 @@
                 "descThree": "Please update your address on any exchanges or other devices.",
                 "button": "Continue to Account"
             }
+        },
+        "fundedStatus": {
+            "singleUse": "Single-use Funding address",
+            "nearName": "NEAR Name",
+            "status": "Account status",
+            "minDeposit": "Minimum deposit",
+            "initialDeposit": "Initial deposit",
+            "awaitingDeposit": "Awaiting deposit",
+            "ready": "Ready to claim",
+            "active": "Active"
         },
         "verifySeedPhrase": {
             "error": "You entered the incorrect word"
