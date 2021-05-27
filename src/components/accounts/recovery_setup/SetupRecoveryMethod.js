@@ -218,6 +218,7 @@ class SetupRecoveryMethod extends Component {
                                 messageCode: 'walletErrorCodes.setupRecoveryMessageNewAccount.invalidCode'
                             })
                         } else if (isRetryableRecaptchaError(e)) {
+                            Mixpanel.track('Funded account creation failed due to invalid / expired reCaptcha response from user');
                             showCustomAlert({
                                 success: false,
                                 messageCodeHeader: 'error',

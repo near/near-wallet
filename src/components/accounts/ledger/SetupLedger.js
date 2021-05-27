@@ -112,6 +112,7 @@ const SetupLedger = (props) => {
                         Mixpanel.track("SR-Ledger Create new account ledger")
                     } catch(err) {
                         if (isRetryableRecaptchaError(err)) {
+                            Mixpanel.track('Funded account creation failed due to invalid / expired reCaptcha response from user');
                             recaptchaRef.current.reset();
 
                             dispatch(showCustomAlert({

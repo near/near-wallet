@@ -146,6 +146,7 @@ class SetupSeedPhrase extends Component {
                 this.setState({ submitting: false });
                 
                 if (isRetryableRecaptchaError(err)) {
+                    Mixpanel.track('Funded account creation failed due to invalid / expired reCaptcha response from user');
                     this.recaptchaRef.reset();
                     showCustomAlert({
                         success: false,
