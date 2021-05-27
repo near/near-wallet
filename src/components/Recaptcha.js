@@ -1,9 +1,11 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
 import ReCAPTCHA from 'react-google-recaptcha';
+import { Translate } from 'react-localize-redux';
+
 import PuzzleIcon from './svg/PuzzleIcon';
 import FormButton from './common/FormButton';
-import { Translate } from 'react-localize-redux';
+import { Mixpanel } from '../mixpanel/index'
 
 const RECAPTCHA_CHALLENGE_API_KEY = process.env.RECAPTCHA_CHALLENGE_API_KEY;
 
@@ -106,6 +108,11 @@ export class Recaptcha extends Component {
      */
     handleOnChange = (token) => {
         debugLog('onchange()', token);
+
+        if (token) {
+            Mixpanel.track('solved reCaptcha');
+        }
+
         this.props.onChange && this.props.onChange(token);
     }
 
@@ -115,11 +122,15 @@ export class Recaptcha extends Component {
         this.clearLoadingTimeout();
 
         if (scriptDetails.errored === true) {
+            Mixpanel.track('failed to load reCaptcha script');
+
             this.setState({ loaded: false, loadFailed: true });
             this.props.onLoadFailed && this.props.onLoadFailed();
         } else {
+            Mixpanel.track('loaded reCaptcha script');
             this.setState({ loaded: true });
         }
+
     }
 
     reset() {
@@ -138,7 +149,15 @@ export class Recaptcha extends Component {
                     <PuzzleIcon/>
                     <div className='title'><Translate id='reCAPTCHA.fail.title'/></div>
                     <div className='desc'><Translate id='reCAPTCHA.fail.desc'/></div>
-                    <FormButton color='link' onClick={this.props.onFundAccountCreation}><Translate id='reCAPTCHA.fail.link'/></FormButton>
+                    <FormButton
+                        color='link'
+                        onClick={() => {
+                            Mixpanel.track('CA used reCaptcha escape hatch');
+                            this.props.onFundAccountCreation();
+                        }}
+                    >
+                        <Translate id='reCAPTCHA.fail.link'/>
+                    </FormButton>
                 </RecaptchaFailedBox>
             )
         }
