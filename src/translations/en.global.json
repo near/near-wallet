@@ -543,6 +543,7 @@
     },
 
     "copy": {
+        "title": "Copy",
         "default": "Copied!"
     },
 

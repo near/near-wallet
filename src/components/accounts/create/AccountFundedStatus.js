@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Translate } from 'react-localize-redux'
-import ClipboardIcon from '../../svg/ClipboardIcon'
+import CopyIcon from '../../svg/CopyIcon'
 import ClickToCopy from '../../common/ClickToCopy'
 import Balance from '../../common/Balance'
 
@@ -85,6 +85,18 @@ const Container = styled.div`
             }
         }
     }
+
+    .copy-funding-address {
+        display: flex;
+        align-items: center;
+        font-size: 12px;
+        color: #0072ce;
+
+        svg {
+            margin-right: 4px;
+            width: 16px;
+        }
+    }
 `
 
 const AccountFundedStatus = ({
@@ -103,9 +115,13 @@ const AccountFundedStatus = ({
                         : 
                         <Translate id='account.fundedStatus.nearName' />
                     }
-                    {!intitalDeposit &&
-                        <ClickToCopy copy={accountId || fundingAddress}>
-                            <ClipboardIcon/>
+                    {intitalDeposit &&
+                        <ClickToCopy 
+                            copy={accountId || fundingAddress}
+                            className='copy-funding-address'
+                        >
+                            <CopyIcon/>
+                            <Translate id='copy.title' />
                         </ClickToCopy>
                     }
                 </div>
