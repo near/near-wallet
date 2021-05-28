@@ -9,15 +9,10 @@ export const handleGetTokens = () => async (dispatch, getState) => {
 
     await dispatch(tokens.likelyContracts.get(accountId))
 
-    let contracts = [...new Set([...getState().tokens.likelyContracts, ...WHITELISTED_CONTRACTS])].reduce((x, contract) => ({
-        ...x,
-        [contract]: { contract }
-    }), {})
-
-    dispatch(tokens.tokensDetails.set(contracts))
-
     const account = await wallet.getAccount(accountId)
 
+    const { tokens: contracts } = getState().tokens
+    
     await Promise.all(Object.keys(contracts).map(async contract => {
         await dispatch(tokens.tokensDetails.getMetadata(contract, account))
     }))
