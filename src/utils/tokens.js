@@ -12,32 +12,18 @@ export const getLikelyContracts = async (accountId) => {
 }
 
 export const getMetadata = async (contract, account) => {
-    let metadata
-
-    try {
-        metadata = await account.viewFunction(contract, 'ft_metadata')
-    } catch (e) {
-        logError(e);
-    } finally {
-        return {
-            contract,
-            metadata
-        }
+    let metadata = await logAndIgnoreError(account.viewFunction(contract, 'ft_metadata'))
+    return {
+        contract,
+        metadata
     }
 }
 
 export const getBalanceOf = async (contract, account, accountId) => {
-    let balance
-
-    try {
-        balance = await account.viewFunction(contract, 'ft_balance_of', { account_id: accountId })
-    } catch (e) {
-        logError(e);
-    } finally {
-        return {
-            contract,
-            balance
-        }
+    let balance = await logAndIgnoreError(account.viewFunction(contract, 'ft_balance_of', { account_id: accountId }))
+    return {
+        contract,
+        balance
     }
 }
 
