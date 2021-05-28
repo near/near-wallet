@@ -1,6 +1,5 @@
 import React from 'react'
 import styled from 'styled-components'
-import QRCode from "qrcode.react";
 import { Translate } from 'react-localize-redux'
 import ClipboardIcon from '../../svg/ClipboardIcon'
 import ClickToCopy from '../../common/ClickToCopy'
@@ -97,16 +96,6 @@ const AccountFundedStatus = ({
 
     return (
         <Container className={intitalDeposit ? 'funded' : ''}>
-            {!intitalDeposit &&
-                <div className='qr-code'>
-                    <QRCode
-                        level="Q"
-                        style={{ width: "50%", height: '50%' }}
-                        renderAs='svg'
-                        value={accountId || fundingAddress}
-                    />
-                </div>
-            }
             <div className='address'>
                 <div>
                     {!intitalDeposit ? 

@@ -148,6 +148,15 @@ class SetupImplicit extends Component {
         clearInterval(this.interval)
     }
 
+    handleClaimAccount = () => {
+        const { dispatch, accountId, activeAccountId } = this.props;
+        if (accountId === activeAccountId) {
+            dispatch(redirectTo('/'))
+            return;
+        }
+        this.setState({ claimMyAccount: true });
+    }
+
     render() {
         const {
             whereToBuy,
@@ -175,7 +184,7 @@ class SetupImplicit extends Component {
                         />
                     }
                     <FormButton
-                        onClick={() => this.setState({ claimMyAccount: true })}
+                        onClick={this.handleClaimAccount}
                         trackingId="CA implicit click claim my account"
                         disabled={creatingAccount}
                     >
@@ -232,6 +241,7 @@ class SetupImplicit extends Component {
 
 const mapStateToProps = ({ account, status }, { match: { params: { accountId, implicitAccountId, recoveryMethod } } }) => ({
     ...account,
+    activeAccountId: account.accountId,
     accountId,
     implicitAccountId,
     recoveryMethod,
