@@ -7,7 +7,7 @@ import ClickToCopy from '../../common/ClickToCopy'
 import Balance from '../../common/Balance'
 
 const Container = styled.div`
-    border: 1px solid #F0F0F1;
+    box-shadow: 0px 9px 24px 0px rgba(0,0,0,0.08);
     border-radius: 16px;
     color: #A2A2A8;
     font-size: 13px;
@@ -72,6 +72,9 @@ const Container = styled.div`
 
         svg {
             margin: 30px;
+            border: 1px solid #F0F0F1;
+            padding: 20px;
+            border-radius: 8px;
         }
     }
 

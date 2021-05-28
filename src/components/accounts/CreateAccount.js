@@ -1,13 +1,15 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
+import { utils } from 'near-api-js'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { Translate } from 'react-localize-redux'
 import { checkNewAccount, createNewAccount, refreshAccount, checkNearDropBalance, redirectTo } from '../../actions/account'
 import { clearLocalAlert } from '../../actions/status'
-import { ACCOUNT_ID_SUFFIX } from '../../utils/wallet'
+import { ACCOUNT_ID_SUFFIX, MIN_BALANCE_TO_CREATE, DISABLE_CREATE_ACCOUNT } from '../../utils/wallet'
 import Container from '../common/styled/Container.css'
 import BrokenLinkIcon from '../svg/BrokenLinkIcon';
+import FundNearIcon from '../svg/FundNearIcon'
 import FormButton from '../common/FormButton'
 import AccountFormAccountId from './AccountFormAccountId'
 import AccountNote from '../common/AccountNote'
@@ -80,11 +82,16 @@ const StyledContainer = styled(Container)`
         color: #72727A;
         text-align: center;
         font-size: 12px;
-        max-width: 300px;
+        max-width: 350px;
         margin: 0 auto;
         a {
             color: #72727A;
         }
+    }
+
+    .fund-with-near-icon {
+        margin: 0 auto 40px auto;
+        display: block;
     }
 `
 
@@ -168,12 +175,12 @@ class CreateAccount extends Component {
         const hasFunding = fundingContract && fundingKey;
         const useLocalAlert = accountId.length > 0 ? localAlert : undefined;
 
-        if (!hasFunding && !termsAccepted) {
-            // ONLY ON MAINNET - UNLESS WE WANT TO ALIGN UX?
+        if (DISABLE_CREATE_ACCOUNT && !hasFunding && !termsAccepted) {
             return (
                 <StyledContainer className='small-centered'>
+                    <FundNearIcon/>
                     <h1><Translate id='createAccount.termsPage.title'/></h1>
-                    <h2><Translate id='createAccount.termsPage.descOne' data={{ data: '0.35'}}/></h2>
+                    <h2><Translate id='createAccount.termsPage.descOne' data={{ data: utils.format.formatNearAmount(MIN_BALANCE_TO_CREATE) }}/></h2>
                     <h2><Translate id='createAccount.termsPage.descTwo'/></h2>
                     <FormButton
                         onClick={() => this.setState({ whereToBuy: true })}

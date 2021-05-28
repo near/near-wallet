@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
 import * as nearApiJs from 'near-api-js'
-import { formatNearAmount, parseNearAmount } from 'near-api-js/lib/utils/format'
+import { formatNearAmount } from 'near-api-js/lib/utils/format'
 import BN from 'bn.js'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
@@ -11,35 +11,14 @@ import FormButton from '../common/FormButton'
 import WhereToBuyNearModal from '../common/WhereToBuyNearModal'
 import AccountFundedModal from './AccountFundedModal'
 import { createAccountFromImplicit, redirectTo } from '../../actions/account'
-import { NETWORK_ID, NODE_URL } from '../../utils/wallet'
+import { NETWORK_ID, NODE_URL, MIN_BALANCE_TO_CREATE } from '../../utils/wallet'
 import { Mixpanel } from '../../mixpanel'
 import { isMoonpayAvailable, getSignedUrl } from '../../utils/moonpay'
-import MoonPayIcon from '../svg/MoonPayIcon';
 import AccountFundedStatus from './create/AccountFundedStatus'
+import Divider from '../common/Divider'
+import FundWithMoonpay from './create/FundWithMoonpay'
 
 const StyledContainer = styled(Container)`
-    .account-id-wrapper {
-        background-color: #FAFAFA;
-        width: 100%;
-        border-radius: 4px;
-        border: 2px solid #F0F0F0;
-        padding: 20px;
-        font-size: 16px;
-        word-break: break-all;
-        line-height: 140%;
-        margin: 10px 0 40px 0;
-        text-align: center;
-        color: #72727A;
-    }
-
-    h2 {
-        span {
-            b {
-                white-space: nowrap;
-            }
-        }
-    }
-
     button {
         margin: 0 auto !important;
         width: 100% !important;
@@ -58,11 +37,8 @@ const StyledContainer = styled(Container)`
             }
         }
 
-        &.gray-blue, &.black {
-            height: 54px !important;
-        }
-
         &.black {
+            height: 54px !important;
             width: 100% !important;
             display: flex !important;
             align-items: center;
@@ -77,16 +53,21 @@ const StyledContainer = styled(Container)`
             }
         }
     }
-`
 
-// TODO: Make configurable
-const MIN_BALANCE_TO_CREATE = new BN(parseNearAmount('0.35'))
+    .divider-container {
+        margin: 50px 0;
+    }
+
+    &.funded {
+        .funded {
+            margin: 60px 0;
+        }
+    }
+`
 
 let pollingInterval = null
 
 const initialState = {
-    successSnackbar: false,
-    snackBarMessage: 'setupSeedPhrase.snackbarCopyImplicitAddress',
     balance: null,
     whereToBuy: false,
     checked: false,
@@ -108,11 +89,12 @@ class SetupImplicit extends Component {
     }
 
     checkMoonPay = async () => {
+        const { implicitAccountId } = this.props
         await Mixpanel.withTracking("CA Check Moonpay available", 
             async () => {
                 const moonpayAvailable = await isMoonpayAvailable()
                 if (moonpayAvailable) {
-                    const moonpaySignedURL = await getSignedUrl(this.props.implicitAccountId, window.location.origin)
+                    const moonpaySignedURL = await getSignedUrl(implicitAccountId, window.location.origin)
                     this.setState({ moonpayAvailable, moonpaySignedURL })
                 }
             },
@@ -144,21 +126,19 @@ class SetupImplicit extends Component {
         )
     }
 
-    // componentDidMount = () => {
+    componentDidMount = () => {
 
-    //     this.connection = nearApiJs.Connection.fromConfig({
-    //         networkId: NETWORK_ID,
-    //         provider: { type: 'JsonRpcProvider', args: { url: NODE_URL + '/' } },
-    //         signer: {},
-    //     })
+        this.connection = nearApiJs.Connection.fromConfig({
+            networkId: NETWORK_ID,
+            provider: { type: 'JsonRpcProvider', args: { url: NODE_URL + '/' } },
+            signer: {},
+        })
 
-    //     // TODO: Use wallet/Redux for queries? Or at least same connection.
+        clearInterval(pollingInterval)
+        pollingInterval = setInterval(this.checkBalance, 2000)
 
-    //     clearInterval(pollingInterval)
-    //     pollingInterval = setInterval(this.checkBalance, 2000)
-
-    //     this.checkMoonPay()
-    // }
+        this.checkMoonPay()
+    }
 
     componentWillUnmount = () => {
         clearInterval(pollingInterval)
@@ -167,13 +147,45 @@ class SetupImplicit extends Component {
     render() {
         const {
             whereToBuy,
-            checked,
             createAccount,
             moonpayAvailable,
-            moonpaySignedURL
+            moonpaySignedURL,
+            balance,
+            claimMyAccount
         } = this.state
 
         const { implicitAccountId, accountId, mainLoader } = this.props
+
+        if (createAccount) {
+            return (
+                <StyledContainer className='small-centered funded' >
+                    <h1><Translate id='account.createImplicit.post.title' /></h1>
+                    <h2><Translate id='account.createImplicit.post.descOne'/></h2>
+                    <h2><b><Translate id='account.createImplicit.post.descTwo'/></b></h2>
+                    <AccountFundedStatus
+                        fundingAddress={implicitAccountId}
+                        intitalDeposit={balance}
+                        accountId={accountId}
+                    />
+                    <FormButton
+                        onClick={() => this.setState({ claimMyAccount: true })}
+                        trackingId="CA implicit click claim my account"
+                    >
+                        <Translate id='button.claimMyAccount' />
+                </FormButton>
+                {claimMyAccount &&
+                    <AccountFundedModal
+                        onClose={() => {}}
+                        open={claimMyAccount}
+                        implicitAccountId={implicitAccountId}
+                        accountId={accountId}
+                        handleFinishSetup={this.handleContinue}
+                        loading={mainLoader}
+                    />
+                }
+                </StyledContainer>
+            )
+        }
 
         return (
             <StyledContainer className='small-centered'>
@@ -188,39 +200,21 @@ class SetupImplicit extends Component {
                     <Translate id='account.createImplicit.pre.whereToBuy.button' />
                 </FormButton>
                 <AccountFundedStatus
-                    fundingAddress='0026506d88a4bbdb4973f1fe0004e988d32616e746f9444779ff28e9904c66de'
+                    fundingAddress={implicitAccountId}
                     minDeposit={MIN_BALANCE_TO_CREATE}
-                    intitalDeposit={null}
-                    accountId={null}
                 />
                 {moonpayAvailable &&
-                    <div style={{ marginTop: '1em' }}>
-                        <FormButton
-                            linkTo={moonpaySignedURL}
-                            color='black'
-                            onClick={() => Mixpanel.track("CA Click Fund with Moonpay")}
-                        >
-                            <Translate id='account.createImplicit.pre.fundWith'/>
-                            <MoonPayIcon/>
-                        </FormButton>
-                    </div>
+                    <>
+                        <Divider/>
+                        <FundWithMoonpay
+                            moonpaySignedURL={moonpaySignedURL}
+                        />
+                    </>
                 }
                 {whereToBuy &&
                     <WhereToBuyNearModal
                         onClose={() => this.setState({ whereToBuy: false })}
                         open={whereToBuy}
-                    />
-                }
-                {createAccount &&
-                    <AccountFundedModal
-                        onClose={() => {}}
-                        open={createAccount}
-                        checked={checked}
-                        handleCheckboxChange={e => this.setState({ checked: e.target.checked })}
-                        implicitAccountId={implicitAccountId}
-                        accountId={accountId}
-                        handleFinishSetup={this.handleContinue}
-                        loading={mainLoader}
                     />
                 }
             </StyledContainer>

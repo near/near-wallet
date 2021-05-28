@@ -313,6 +313,20 @@ const CustomButton = styled(Button)`
                 }
             }
 
+            &.normal {
+                font-weight: 400;
+                font-size: 16px;
+            }
+
+            &.underline {
+                font-weight: 400;
+                text-decoration: underline;
+
+                :hover {
+                    text-decoration: none;
+                }
+            }
+
         }
 
         &.dots {
@@ -434,7 +448,7 @@ const FormButton = ({
         disabled={disabled}
         onClick={(e) => {
             onClick && onClick(e)
-            linkTo && (linkTo.includes('http') ? window.location = linkTo : history.push(linkTo))
+            linkTo && (linkTo.includes('http') ? window.open(linkTo, '_blank') : history.push(linkTo))
             trackingId && Mixpanel.track(trackingId)
         }}
         tabIndex='3'

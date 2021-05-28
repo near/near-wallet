@@ -1,6 +1,5 @@
 import React from 'react'
 import Modal from '../common/modal/Modal'
-import Checkbox from '../common/Checkbox'
 import { Translate } from 'react-localize-redux'
 import styled from 'styled-components'
 import FormButton from '../common/FormButton'
@@ -16,31 +15,24 @@ const Container = styled.div`
         padding: 30px 75px;
     }
 
-    h2, .sub-title {
+    h1 {
+        margin-top: 0;
+    }
+
+    h1, .sub-title {
         text-align: center;
     }
 
     .sub-title {
         margin-top: 20px;
+        color: #72727A;
+        line-height: 150%;
     }
 
     button {
         width: 100% !important;
-        margin-top: 40px !important;
+        margin-top: 50px !important;
     }
-
-    label {
-        cursor: pointer;
-        margin-top: 30px;
-        display: flex;
-        color: #A1A1A9;
-        max-width: 450px;
-
-        > span {
-            margin-left: 8px;
-        }
-    }
-
 `
 
 const SwapAccountContainer = styled.div`
@@ -151,7 +143,7 @@ const SwapAccountGraphic = ({ implicitAccountId, accountId }) => {
     )
 }
 
-const AccountFundedModal = ({ open, onClose, checked, handleCheckboxChange, accountId, implicitAccountId, handleFinishSetup, loading }) => {
+const AccountFundedModal = ({ open, onClose, accountId, implicitAccountId, handleFinishSetup, loading }) => {
     return (
         <Modal
             id='account-funded-modal'
@@ -161,19 +153,11 @@ const AccountFundedModal = ({ open, onClose, checked, handleCheckboxChange, acco
         >
             <Container>
                 <SwapAccountGraphic accountId={accountId || 'johndoe.near'} implicitAccountId={implicitAccountId || 'cd03cbd02b6e0fbfd51bdb42bfe60e'}/>
-                <h2><Translate id='account.createImplicit.post.modal.title'/></h2>
+                <h1><Translate id='account.createImplicit.post.modal.title'/></h1>
                 <div className='sub-title'><Translate id='account.createImplicit.post.modal.descOne'/></div>
                 <div className='sub-title'><Translate id='account.createImplicit.post.modal.descTwo'/></div>
-                <div className='sub-title'><Translate id='account.createImplicit.post.modal.descThree' data={{ accountId: accountId }}/></div>
-                <label>
-                    <Checkbox
-                        checked={checked}
-                        onChange={handleCheckboxChange}
-                    />
-                    <span><Translate id='account.createImplicit.post.modal.checkbox'/></span>
-                </label>
-                <FormButton disabled={!checked || loading} sending={loading} onClick={handleFinishSetup}>
-                    <Translate id='button.finish' />
+                <FormButton disabled={loading} sending={loading} onClick={handleFinishSetup}>
+                    <Translate id='button.acceptAndContinue' />
                 </FormButton>
             </Container>
         </Modal>

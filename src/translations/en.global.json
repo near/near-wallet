@@ -163,26 +163,31 @@
         "createImplicit": {
             "pre": {
                 "title": "Almost there! Activate your account with an initial deposit.",
-                "descOne": "To begin using NEAR Wallet, make a minimum initial deposit by sending at least <b>${amount} NEAR</b> to the single-use funding address below.",
+                "descOne": "To begin using NEAR Wallet, meet the minimum initial deposit by sending <b>at least ${amount} NEAR</b> to your single-use funding address below.",
                 "descTwo": "Return to this screen once your funds have been deposited to finish creating your account.",
                 "addressHeader": "One-time funding address",
                 "whereToBuy": {
-                    "button": "Where can I purchase NEAR?",
+                    "button": "Where can I purchase $NEAR tokens?",
                     "title": "Purchase NEAR tokens",
                     "desc": "NEAR tokens are available to purchase through the following exchanges"
                 },
                 "alertBanner": {
                     "title": "Do not close this window!"
                 },
-                "fundWith": "Fund with"
+                "moonPay": {
+                    "title": "Fund with MoonPay",
+                    "desc": "Make your initial deposit with MoonPay using your preferred payment method.",
+                    "buyWith": "Buy with"
+                }
             },
             "post": {
+                "title": "Claim your account",
+                "descOne": "Your initial deposit was received! Once claimed, your deposit will be transferred to your new account.",
+                "descTwo": "Important: Your single-use funding address will no longer be valid. Make sure to replace it with your NEAR Name on any exchanges or other devices where it may have been saved.",
                 "modal": {
-                    "title": "Account Funded",
-                    "descOne": "Your account has been successfully funded!",
-                    "descTwo": "The one-time funding address can no longer be used to receive assets.",
-                    "descThree": "Your Account ID: <b>${accountId}</b> is your sole address for all NEAR operations.",
-                    "checkbox": "I acknowledge that the one-time funding address is invalid, and any additional assets sent to this address will be lost."
+                    "title": "Update your address",
+                    "descOne": "By continuing, you acknowledge that the single-use funding address will be replaced, and any additional funds sent to the old address will be lost.",
+                    "descTwo": "Remember to replace it with your NEAR Name on any exchanges or other devices where it may have been saved."
                 }
             },
             "success": {
@@ -452,6 +457,7 @@
         "copyPhrase": "Copy Phrase",
         "copyImplicitAddress": "Copy Funding Address",
         "claimAccount": "Claim Account",
+        "claimMyAccount": "Claim My Account",
         "continue": "Continue",
         "continueSetup": "Continue to Setup",
         "verify": "Verify & Complete",
@@ -519,7 +525,8 @@
         "viewOnExplorer": "View on Explorer",
         "buy": "Buy",
         "learnMore": "Learn More",
-        "viewFAQ": "View FAQ"
+        "viewFAQ": "View FAQ",
+        "acceptAndContinue": "Accept & Continue"
     },
 
     "link": {
@@ -580,8 +587,8 @@
     "createAccount": {
         "termsPage": {
             "title": "Before you begin...",
-            "descOne": "NEAR accounts require an initial one-time deposit of <b>at least ${data} NEAR</b> to cover the <u>cost of hosting your account.</u>",
-            "descTwo": "After reserving a unique account name, you’ll be asked to make an initial deposit to activate your account.",
+            "descOne": "NEAR accounts require a minimum balance of <b>at least ${data} NEAR</b> to <u>hold a place on the network.</u>",
+            "descTwo": "After reserving a unique account address, you’ll be asked to make a small initial deposit to activate your account.",
             "disclaimer": "By creating a NEAR account, you agree to the NEAR Wallet <u><a href='/terms' rel='noopener noreferrer' target='_blank'>Terms of Service</a></u> and <u><a href='https://near.org/privacy' rel='noopener noreferrer' target='_blank'>Privacy Policy</a></u>."
         },
         "pageTitle": "Reserve Account ID",
@@ -1140,7 +1147,7 @@
     "warning": "Warning",
     "total": "total",
     "amount": "amount",
-    "or": "OR",
+    "or": "or",
     "sending": "Sending",
     "connecting": "Connecting",
     "back": "Back",
