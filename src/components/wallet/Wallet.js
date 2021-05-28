@@ -14,14 +14,17 @@ import { Mixpanel } from "../../mixpanel/index"
 import Activities from './Activities'
 import ExploreApps from './ExploreApps'
 import Tokens from './Tokens'
+import NFTs from './NFTs'
 import LinkDropSuccessModal from './LinkDropSuccessModal'
 import { selectTokensDetails } from '../../reducers/tokens'
 import { selectActionStatus } from '../../reducers/status'
 import { selectTransactions } from '../../reducers/transactions'
 import { selectAccountId, selectBalance } from '../../reducers/account'
 import { handleGetTokens } from '../../actions/tokens'
+import { handleGetNFTs } from '../../actions/nft'
 import classNames from '../../utils/classNames'
 import { actionsPendingByPrefix } from '../../utils/alerts'
+import { selectNFT } from '../../reducers/nft'
 
 const StyledContainer = styled(Container)`
     .sub-title {
@@ -168,6 +171,7 @@ export function Wallet() {
     const linkdropAmount = localStorage.getItem('linkdropAmount')
     const linkdropModal = linkdropAmount && showLinkdropModal !== false;
     const tokens = useSelector(state => selectTokensDetails(state))
+    const nft = useSelector(selectNFT)
     const actionStatus = useSelector(state => selectActionStatus(state))
     const tokensLoader = actionsPendingByPrefix('TOKENS/') || !balance?.total
     
@@ -181,6 +185,8 @@ export function Wallet() {
     }, [accountId])
 
     const sortedTokens = Object.keys(tokens).map(key => tokens[key]).sort((a, b) => (a.symbol || '').localeCompare(b.symbol || ''));
+    // TODO: Sort NFTS
+    const sortedNFTs = Object.values(nft)
 
     useEffect(() => {
         if (!accountId) {
@@ -188,6 +194,7 @@ export function Wallet() {
         }
 
         dispatch(handleGetTokens())
+        dispatch(handleGetNFTs())
     }, [accountId]);
 
     const handleHideExploreApps = () => {
@@ -243,6 +250,7 @@ export function Wallet() {
                         <span><Translate id='wallet.balance' /></span>
                     </div>
                     <Tokens tokens={sortedTokens} />
+                    <NFTs tokens={sortedNFTs} />
                 </div>
                 <div className='right'>
                     {!hideExploreApps && exploreApps !== false &&
