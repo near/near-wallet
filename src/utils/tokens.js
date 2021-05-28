@@ -43,5 +43,5 @@ export const getBalanceOf = async (contract, account, accountId) => {
 
 const logError = (error) => {
     console.warn(error)
-    Sentry.captureException()
+    Sentry.captureException(error)
 };
