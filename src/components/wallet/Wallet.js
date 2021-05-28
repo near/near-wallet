@@ -42,6 +42,16 @@ const StyledContainer = styled(Container)`
         flex-direction: column;
         align-items: center;
 
+        h1 {
+            &.total-balance {
+                font-size: 38px !important;
+
+                @media (max-width: 767px) {
+                    font-size: 30px !important;
+                }
+            }
+        }
+
         @media (min-width: 992px) {
             border: 2px solid #F0F0F0;
             border-radius: 8px;
@@ -118,6 +128,7 @@ const StyledContainer = styled(Container)`
         align-self: flex-start;
         margin: 50px 0 30px 0;
         text-align: left !important;
+        color: #24272a !important;
     }
 `
 
@@ -218,7 +229,7 @@ export function Wallet() {
             <div className='split'>
                 <div className='left'>
                     <NearWithBackgroundIcon/>
-                    <h1><Balance amount={balance?.total} symbol={false}/></h1>
+                    <h1 className='total-balance'><Balance amount={balance?.total} symbol={false}/></h1>
                     <div className='sub-title'><Translate id='wallet.balanceTitle' /></div>
                     <div className='buttons'>
                         <FormButton

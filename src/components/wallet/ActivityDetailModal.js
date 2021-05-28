@@ -16,6 +16,7 @@ const StyledContainer = styled.div`
     h2 {
         text-align: center;
         margin-top: 20px;
+        color: #24272a !important;
     }
 
     .row {

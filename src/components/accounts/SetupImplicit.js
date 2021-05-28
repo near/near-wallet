@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
-import * as nearApiJs from 'near-api-js'
 import { formatNearAmount } from 'near-api-js/lib/utils/format'
 import BN from 'bn.js'
 import { withRouter } from 'react-router-dom'
@@ -11,7 +10,7 @@ import FormButton from '../common/FormButton'
 import WhereToBuyNearModal from '../common/WhereToBuyNearModal'
 import AccountFundedModal from './AccountFundedModal'
 import { createAccountFromImplicit, redirectTo } from '../../actions/account'
-import { NETWORK_ID, NODE_URL, MIN_BALANCE_TO_CREATE } from '../../utils/wallet'
+import { MIN_BALANCE_TO_CREATE, wallet} from '../../utils/wallet'
 import { Mixpanel } from '../../mixpanel'
 import { isMoonpayAvailable, getSignedUrl } from '../../utils/moonpay'
 import AccountFundedStatus from './create/AccountFundedStatus'
@@ -19,6 +18,12 @@ import Divider from '../common/Divider'
 import FundWithMoonpay from './create/FundWithMoonpay'
 
 const StyledContainer = styled(Container)`
+
+    h2 {
+        b {
+            color: #3F4045;
+        }
+    }
     button {
         margin: 0 auto !important;
         width: 100% !important;
@@ -64,28 +69,27 @@ const StyledContainer = styled(Container)`
         }
     }
 `
-
-let pollingInterval = null
-
-const initialState = {
-    balance: null,
-    whereToBuy: false,
-    checked: false,
-    createAccount: null,
-    moonpayAvailable: false,
-    moonpaySignedURL: null,
-}
-
 class SetupImplicit extends Component {
-    state = { ...initialState }
+    state = { 
+        balance: null,
+        whereToBuy: false,
+        createAccount: null,
+        moonpayAvailable: false,
+        moonpaySignedURL: null,
+     }
 
     handleContinue = async () => {
         const { dispatch, accountId, implicitAccountId, recoveryMethod } = this.props
-        this.setState({ createAccount: true })
+        this.setState({ creatingAccount: true })
         await Mixpanel.withTracking("CA Create account from implicit", 
-            async () => await dispatch(createAccountFromImplicit(accountId, implicitAccountId, recoveryMethod))
+            async () => {
+                await dispatch(createAccountFromImplicit(accountId, implicitAccountId, recoveryMethod))
+            },
+            () => {
+                this.setState({ creatingAccount: false })
+            }
         )
-        await dispatch(redirectTo('/fund-create-account/success'))
+        dispatch(redirectTo('/fund-create-account/success'))
     }
 
     checkMoonPay = async () => {
@@ -104,44 +108,44 @@ class SetupImplicit extends Component {
 
     checkBalance = async () => {
         const { implicitAccountId } = this.props
+        const { createAccount } = this.state
 
-        const account = new nearApiJs.Account(this.connection, implicitAccountId)
-
-        await Mixpanel.withTracking("CA Check balance from implicit",
-            async () => {
-                const state = await account.state()
-                if (new BN(state.amount).gte(MIN_BALANCE_TO_CREATE)) {
-                    Mixpanel.track("CA Check balance from implicit: sufficient")
-                    return this.setState({ balance: formatNearAmount(state.amount, 2), whereToBuy: false, createAccount: true })
-                }else {
-                    Mixpanel.track("CA Check balance from implicit: insufficient")
+        const account = await wallet.getAccountBasic(implicitAccountId)
+        if (!createAccount) {
+            await Mixpanel.withTracking("CA Check balance from implicit",
+                async () => {
+                    const state = await account.state()
+                    if (new BN(state.amount).gte(MIN_BALANCE_TO_CREATE)) {
+                        Mixpanel.track("CA Check balance from implicit: sufficient")
+                        this.setState({ 
+                            balance: state.amount,
+                            whereToBuy: false,
+                            createAccount: true
+                        })
+                        window.scrollTo(0, 0);
+                        return;
+                    } else {
+                        Mixpanel.track("CA Check balance from implicit: insufficient")
+                    }
+                },
+                (e) => { 
+                    if (e.message.indexOf('exist while viewing') === -1) {
+                        throw e
+                    }
+                    this.setState({ balance: 0 })
                 }
-            },
-            (e) => { 
-                if (e.message.indexOf('exist while viewing') === -1) {
-                    throw e
-                }
-                this.setState({ balance: false })
+            )
         }
-        )
     }
 
     componentDidMount = () => {
-
-        this.connection = nearApiJs.Connection.fromConfig({
-            networkId: NETWORK_ID,
-            provider: { type: 'JsonRpcProvider', args: { url: NODE_URL + '/' } },
-            signer: {},
-        })
-
-        clearInterval(pollingInterval)
-        pollingInterval = setInterval(this.checkBalance, 2000)
-
+        // TODO: Check if account has already been created and if so, navigate to dashboard
+        this.interval = setInterval(() => this.checkBalance(), 2000)
         this.checkMoonPay()
     }
 
     componentWillUnmount = () => {
-        clearInterval(pollingInterval)
+        clearInterval(this.interval)
     }
 
     render() {
@@ -151,10 +155,11 @@ class SetupImplicit extends Component {
             moonpayAvailable,
             moonpaySignedURL,
             balance,
-            claimMyAccount
+            claimMyAccount,
+            creatingAccount
         } = this.state
 
-        const { implicitAccountId, accountId, mainLoader } = this.props
+        const { implicitAccountId, accountId, mainLoader } = this.props;
 
         if (createAccount) {
             return (
@@ -162,27 +167,30 @@ class SetupImplicit extends Component {
                     <h1><Translate id='account.createImplicit.post.title' /></h1>
                     <h2><Translate id='account.createImplicit.post.descOne'/></h2>
                     <h2><b><Translate id='account.createImplicit.post.descTwo'/></b></h2>
-                    <AccountFundedStatus
-                        fundingAddress={implicitAccountId}
-                        intitalDeposit={balance}
-                        accountId={accountId}
-                    />
+                    {!creatingAccount &&
+                        <AccountFundedStatus
+                            fundingAddress={implicitAccountId}
+                            intitalDeposit={balance}
+                            accountId={accountId}
+                        />
+                    }
                     <FormButton
                         onClick={() => this.setState({ claimMyAccount: true })}
                         trackingId="CA implicit click claim my account"
+                        disabled={creatingAccount}
                     >
                         <Translate id='button.claimMyAccount' />
-                </FormButton>
-                {claimMyAccount &&
-                    <AccountFundedModal
-                        onClose={() => {}}
-                        open={claimMyAccount}
-                        implicitAccountId={implicitAccountId}
-                        accountId={accountId}
-                        handleFinishSetup={this.handleContinue}
-                        loading={mainLoader}
-                    />
-                }
+                    </FormButton>
+                    {claimMyAccount &&
+                        <AccountFundedModal
+                            onClose={() => {}}
+                            open={claimMyAccount}
+                            implicitAccountId={implicitAccountId}
+                            accountId={accountId}
+                            handleFinishSetup={this.handleContinue}
+                            loading={mainLoader}
+                        />
+                    }
                 </StyledContainer>
             )
         }

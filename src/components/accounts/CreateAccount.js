@@ -190,7 +190,10 @@ class CreateAccount extends Component {
                         <Translate id='account.createImplicit.pre.whereToBuy.button' />
                     </FormButton>
                     <FormButton
-                        onClick={() => this.setState({ termsAccepted: true })}
+                        onClick={() => {
+                            this.setState({ termsAccepted: true });
+                            window.scrollTo(0, 0);
+                        }}
                     >
                         <Translate id='createAccount.terms.agreeBtn'/>
                     </FormButton>
@@ -216,7 +219,7 @@ class CreateAccount extends Component {
         if (!invalidNearDrop) {
             return (
                 <StyledContainer className='small-centered'>
-                    <form onSubmit={e => {this.setState({ showTerms: true }); e.preventDefault();}} autoComplete='off'>
+                    <form onSubmit={e => {this.handleCreateAccount(); e.preventDefault();}} autoComplete='off'>
                         <h1><Translate id='createAccount.pageTitle'/></h1>
                         <h2><Translate id='createAccount.pageText'/></h2>
                         <h4 className='small'><Translate id='createAccount.accountIdInput.title'/></h4>
