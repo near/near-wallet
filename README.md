@@ -12,7 +12,21 @@ Getting started
 
 To build locally, run this command in the project directory:
 
-`yarn && yarn start`
+```
+yarn && yarn start
+```
+
+## Running with HTTPS
+
+You can pass extra arguments to Parcel after `yarn start`. So to run with HTTPS enabled:
+
+```
+yarn start --https
+```
+
+HTTPS is required to test some of the features:
+- Ledger support
+- ReCAPTCHA for rate limiting account creation
 
 Testing
 ===
