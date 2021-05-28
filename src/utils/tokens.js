@@ -4,13 +4,9 @@ import { ACCOUNT_HELPER_URL } from './wallet'
 import * as Sentry from '@sentry/browser'
 import { wallet } from './wallet'
 
-export const getLikelyContracts = async (accountId) => {
-    try {
-        return await sendJson('GET', `${ACCOUNT_HELPER_URL}/account/${accountId}/likelyTokens`)
-    } catch (e) {
-        logError(e);
-    }
-}
+export const getLikelyContracts = async (accountId) => (
+    await logAndIgnoreError(sendJson('GET', `${ACCOUNT_HELPER_URL}/account/${accountId}/likelyTokens`))
+)
 
 export const getMetadata = async (contract, accountId) => {
     const account = await wallet.getAccountBasic(accountId)
