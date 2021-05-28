@@ -30,10 +30,12 @@ export const handleGetTokens = () => async (dispatch, getState) => {
 export const { tokens } = createActions({
     TOKENS: {
         LIKELY_CONTRACTS: {
-            GET: getLikelyContracts,
+            GET: [
+                getLikelyContracts,
+                () => WHITELISTED_CONTRACTS
+            ],
         },
         TOKENS_DETAILS: {
-            SET: null,
             GET_METADATA: getMetadata,
             GET_BALANCE_OF: getBalanceOf
         },
