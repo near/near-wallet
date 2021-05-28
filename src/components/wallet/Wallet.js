@@ -18,7 +18,7 @@ import LinkDropSuccessModal from './LinkDropSuccessModal'
 
 import { handleGetTokens } from '../../actions/tokens'
 import classNames from '../../utils/classNames'
-import { actionsPending } from '../../utils/alerts'
+import { actionsPendingByPrefix } from '../../utils/alerts'
 
 const StyledContainer = styled(Container)`
     .sub-title {
@@ -165,7 +165,7 @@ export function Wallet() {
     const linkdropModal = linkdropAmount && showLinkdropModal !== false;
     const { tokens } = useSelector(({ tokens }) => tokens)
     const { actionStatus } = useSelector(({ status }) => status)
-    const tokensLoader = actionsPending(['TOKENS/LIKELY_CONTRACTS/GET', 'TOKENS/TOKENS_DETAILS/GET_METADATA', 'TOKENS/TOKENS_DETAILS/GET_BALANCE_OF']) || !balance?.total
+    const tokensLoader = actionsPendingByPrefix('TOKENS/') || !balance?.total
     
     useEffect(() => {
         if (accountId) {
