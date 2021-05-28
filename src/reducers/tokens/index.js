@@ -19,13 +19,18 @@ const likelyContractsReducer = handleActions({
 }, initialState)
 
 const tokensReducer = handleActions({
-    [tokens.tokensDetails.set]: (state, { payload }) => ({
-        ...state,
-        tokens: {
-            ...state.tokens,
-            ...payload
-        }
-    }),
+    [tokens.likelyContracts.get]: (state, { ready, error, payload, meta }) => 
+        (!ready || error)
+            ? state
+            : ({
+                ...state,
+                tokens: [...payload, ...meta].reduce((x, contract) => ({
+                    ...x,
+                    [contract]: { 
+                        contract 
+                    }
+                }), {})
+            }),
     [tokens.tokensDetails.getMetadata]: (state, { ready, error, payload, meta }) =>
         (!ready || error)
             ? state
