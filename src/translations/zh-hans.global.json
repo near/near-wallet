@@ -577,13 +577,12 @@
         "alreadyHaveAnAccount": "已经拥有账户？",
         "recoverItHere": "恢复账户",
         "note": {
-            "title": "备注",
-            "one": "你的用户名可以输入以下任何字符：",
-            "two": "小写英文字母 (a-z)",
-            "three": "数字 (0-9)",
-            "four": "字符 (_-) 用于分割",
-            "five": "你的用户名不可以包括：",
-            "six": "符号 \"@\" 或 \".\""
+            "canContain": "你的用户名可以输入以下任何字符：",
+            "lowercase": "小写英文字母 (a-z)",
+            "digits": "数字 (0-9)",
+            "separators": "字符 (_-) 用于分割",
+            "cannotContain": "你的用户名不可以包括：",
+            "characters": "符号 \"@\" 或 \".\""
         },
         "invalidLinkDrop": {
             "title": "链接无效",
