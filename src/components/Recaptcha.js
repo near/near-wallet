@@ -176,7 +176,7 @@ export class Recaptcha extends Component {
                     ref={(ref) => this.setCaptchaRef(ref)}
                     onChange={this.handleOnChange}
                     asyncScriptOnLoad={this.handleOnLoad}
-                    class='recaptcha-widget'
+                    className='recaptcha-widget'
                 />}
                 {loaded &&
                     <RecaptchaString className='recaptcha-disclaimer'>
