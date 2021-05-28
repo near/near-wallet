@@ -1,5 +1,4 @@
 import { createActions } from 'redux-actions'
-import { wallet } from '../utils/wallet'
 import { getLikelyContracts, getMetadata, getBalanceOf } from '../utils/tokens'
 
 const WHITELISTED_CONTRACTS = (process.env.TOKEN_CONTRACTS || 'berryclub.ek.near,farm.berryclub.ek.near,wrap.near').split(',');

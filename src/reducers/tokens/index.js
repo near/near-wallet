@@ -31,7 +31,7 @@ const tokensReducer = handleActions({
                     }
                 }), {})
             }),
-    [tokens.tokensDetails.getMetadata]: (state, { ready, error, payload, meta }) =>
+    [tokens.tokensDetails.getMetadata]: (state, { ready, error, payload }) =>
         (!ready || error)
             ? state
             : ({
@@ -44,7 +44,7 @@ const tokensReducer = handleActions({
                     }
                 }
             }),
-    [tokens.tokensDetails.getBalanceOf]: (state, { ready, error, payload, meta }) => 
+    [tokens.tokensDetails.getBalanceOf]: (state, { ready, error, payload }) => 
         (!ready || error)
             ? state
             : ({
@@ -60,7 +60,7 @@ const tokensReducer = handleActions({
 }, initialState)
 
 const clearReducer = handleActions({
-    [tokens.clearState]: (state, { payload }) => ({
+    [tokens.clearState]: () => ({
         ...initialState
     }),
 }, initialState)
