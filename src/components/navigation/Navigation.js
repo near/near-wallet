@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
-import { switchAccount } from '../../actions/account';
+import { switchAccount, getAvailableAccountsBalance, getAccountBalance, getBalance } from '../../actions/account';
 import { connect } from 'react-redux';
 import DesktopContainer from './DesktopContainer';
 import MobileContainer from './MobileContainer';
@@ -54,10 +54,13 @@ class Navigation extends Component {
         const desktopMenu = document.getElementById('desktop-menu');
         const mobileMenu = document.getElementById('mobile-menu');
 
+        if (e.target.tagName === 'SPAN') {
+            return false
+        }
+
         if (e.target.tagName === 'BUTTON' || e.target.tagName === 'A' || (!desktopMenu.contains(e.target) && !mobileMenu.contains(e.target))) {
             this.setState({ menuOpen: false });
         }
-
     }
 
     get showNavLinks() {
@@ -65,6 +68,10 @@ class Navigation extends Component {
     }
 
     toggleMenu = () => {
+        if (!this.state.menuOpen) {
+            this.props.getAvailableAccountsBalance()
+        }
+
         this.setState(prevState => ({
             menuOpen: !prevState.menuOpen
         }));
@@ -87,6 +94,8 @@ class Navigation extends Component {
                     selectAccount={this.handleSelectAccount}
                     showNavLinks={this.showNavLinks}
                     flowLimitation={flowLimitation}
+                    refreshBalance={this.props.getAccountBalance}
+                    getBalance={this.props.getBalance}
                     {...this.props}
                 />
                 <MobileContainer
@@ -95,6 +104,8 @@ class Navigation extends Component {
                     selectAccount={this.handleSelectAccount}
                     showNavLinks={this.showNavLinks}
                     flowLimitation={flowLimitation}
+                    refreshBalance={this.props.getAccountBalance}
+                    getBalance={this.props.getBalance}
                     {...this.props}
                 />
             </Container>
@@ -110,7 +121,10 @@ const mapStateToProps = ({ account, availableAccounts, router, flowLimitation })
 })
 
 const mapDispatchToProps = {
-    switchAccount
+    switchAccount,
+    getAvailableAccountsBalance,
+    getAccountBalance,
+    getBalance
 }
 
 export default connect(

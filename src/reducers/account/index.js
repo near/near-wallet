@@ -14,7 +14,9 @@ import {
     getLedgerKey,
     getBalance,
     selectAccount,
-    setLocalStorage
+    setLocalStorage,
+    getAccountBalance,
+    setAccountBalance
 } from '../../actions/account'
 
 import { 
@@ -28,7 +30,8 @@ const initialState = {
     actionsPending: [],
     canEnableTwoFactor: null,
     twoFactor: null,
-    ledgerKey: null
+    ledgerKey: null,
+    accountsBalance: undefined
 }
 
 const recoverCodeReducer = handleActions({
@@ -158,6 +161,36 @@ const account = handleActions({
         localStorage: {
             accountFound: !!payload,
             accountId: payload
+        }
+    }),
+    [getAccountBalance]: (state, { error, payload, ready, meta }) => 
+        (!ready || error)
+            ? {
+                ...state,
+                accountsBalance: {
+                    ...state.accountsBalance,
+                    [meta.accountId]: {
+                        loading: true
+                    }
+                }
+            }
+            : {
+                ...state,
+                accountsBalance: {
+                    ...state.accountsBalance,
+                    [meta.accountId]: {
+                        ...payload,
+                        loading: false
+                    }
+                }
+            },
+    [setAccountBalance]: (state, { payload }) => ({
+        ...state,
+        accountsBalance: {
+            ...state.accountsBalance,
+            [payload]: {
+                loading: true
+            }
         }
     })
 }, initialState)

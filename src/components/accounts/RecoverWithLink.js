@@ -23,6 +23,10 @@ const Container = styled.div`
     @media (min-width: 768px) {
         margin-top: 32px;
     }
+
+    button {
+        width: 100%;
+    }
     
     &.error {
         display: flex;
@@ -159,7 +163,7 @@ class RecoverWithLink extends Component {
             async () => {
                 await this.props.recoverAccountSeedPhrase(this.state.seedPhrase, this.props.match.params.accountId, false)
                 this.props.refreshAccount()
-                this.props.redirectTo('/profile')
+                this.props.redirectTo('/')
             },
             () => {
                 this.setState({ successView: false })

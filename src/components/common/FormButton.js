@@ -18,8 +18,6 @@ const CustomButton = styled(Button)`
         margin: 24px 0 0 0;
         border: 2px solid;
         font-weight: 600;
-
-        width: 288px;
         height: 48px;
         border-radius: 30px;
         

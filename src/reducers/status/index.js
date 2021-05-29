@@ -29,13 +29,13 @@ const alertReducer = (state, { error, ready, payload, meta, type }) => {
                     : (ready ? !error : undefined),
                 pending: typeof ready === 'undefined' 
                     ? undefined 
-                    : !ready,
+                    : !meta?.alert?.ignoreMainLoader && !ready,
                 errorType: payload?.type,
                 errorMessage: (error && payload?.toString()) || (type === 'SHOW_CUSTOM_ALERT' && payload.errorMessage) || undefined,
                 data: {
                     ...meta?.data,
                     ...payload
-                } 
+                }
             }
     }
 
@@ -78,7 +78,7 @@ const alertReducer = (state, { error, ready, payload, meta, type }) => {
                             : 'pending'
                     }`
                 }
-                : undefined
+                : state.localAlert
     }
 }
 

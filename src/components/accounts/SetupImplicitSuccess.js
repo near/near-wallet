@@ -70,7 +70,7 @@ export function SetupImplicitSuccess() {
             <h2><Translate id='account.createImplicit.success.descTwo'/></h2>
             <h2><Translate id='account.createImplicit.success.descThree'/></h2>
             <FormButton
-                onClick={() => dispatch(redirectToApp('/profile'))}
+                onClick={() => dispatch(redirectToApp('/'))}
                 trackingId='CA Click continue to account button'
             >
                 <Translate id='account.createImplicit.success.button'/>
