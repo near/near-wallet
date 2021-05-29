@@ -64,7 +64,12 @@ class Navigation extends Component {
     }
 
     get showNavLinks() {
-        return this.props.account.localStorage?.accountFound
+        const { inactiveAccount } = this.props;
+        // USE REDUX STATE
+        if (inactiveAccount) {
+            return 'menuOnly';
+        }
+        return this.props.account.localStorage?.accountFound;
     }
 
     toggleMenu = () => {

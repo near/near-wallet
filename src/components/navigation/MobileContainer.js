@@ -199,7 +199,9 @@ class MobileContainer extends Component {
                 </Collapsed>
                 {menuOpen &&
                     <>
-                        <NavLinks />
+                        {showNavLinks !== 'menuOnly' &&
+                            <NavLinks />
+                        }
                         <Lang className="mobile-lang">
                             <LanguageToggle />
                         </Lang>

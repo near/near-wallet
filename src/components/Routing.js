@@ -50,6 +50,7 @@ import GlobalStyle from './GlobalStyle'
 import { SetupSeedPhraseWithRouter } from './accounts/SetupSeedPhrase'
 import { SetupImplicitWithRouter } from './accounts/SetupImplicit'
 import { SetupImplicitSuccess } from './accounts/SetupImplicitSuccess'
+import { ActivateAccountWithRouter } from './accounts/create/ActivateAccount'
 import { handleClearAlert} from '../utils/alerts'
 import { Mixpanel } from "../mixpanel/index";
 import classNames from '../utils/classNames';
@@ -85,7 +86,11 @@ const Container = styled.div`
 `
 class Routing extends Component {
     constructor(props) {
-        super(props)
+        super(props);
+        this.state = {
+            inactiveAccount: true
+            // FIX: USE REDUX STATE
+        };
         const languages = [
             { name: "English", code: "en" },
             { name: "Português", code: "pt" },
@@ -127,6 +132,9 @@ class Routing extends Component {
             router
         } = this.props
 
+        //FIX: GET /walletAccountState to see if initialFundedAccountBalance is true/false
+        // Call again if account is changed
+
         handleRefreshUrl(router)
         refreshAccount()
 
@@ -163,6 +171,7 @@ class Routing extends Component {
 
     render() {
         const { search } = this.props.router.location
+        const { inactiveAccount } = this.state;
         return (
             <Container className={classNames(['App', {'network-banner': (!IS_MAINNET || SHOW_PRERELEASE_WARNING)}])} id='app-container'>
                 <GlobalStyle />
@@ -172,7 +181,7 @@ class Routing extends Component {
                         <NetworkBanner
                             account={this.props.account}
                         />
-                        <Navigation/>
+                        <Navigation inactiveAccount={inactiveAccount}/>
                         <GlobalAlert/>
                         <LedgerConfirmActionModal/>
                         {
@@ -203,7 +212,7 @@ class Routing extends Component {
                             <GuestLandingRoute
                                 exact
                                 path='/' 
-                                component={Wallet}
+                                component={inactiveAccount ? ActivateAccountWithRouter : Wallet}
                                 accountFound={this.props.account.localStorage?.accountFound}
                             />
                             <Route
@@ -240,6 +249,11 @@ class Routing extends Component {
                                 exact
                                 path='/fund-create-account/success'
                                 component={SetupImplicitSuccess}
+                            />
+                            <PrivateRoute
+                                exact
+                                path='/activate-account/:accountId'
+                                component={ActivateAccountWithRouter}
                             />
                             <Route
                                 exact

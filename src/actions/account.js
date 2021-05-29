@@ -224,6 +224,7 @@ export const {
     setupRecoveryMessageNewAccount,
     deleteRecoveryMethod,
     checkNearDropBalance,
+    getAccountBasic,
     claimLinkdropToAccount,
     checkIsNew,
     checkNewAccount,
@@ -308,6 +309,10 @@ export const {
     ],
     CHECK_NEAR_DROP_BALANCE: [
         wallet.checkNearDropBalance.bind(wallet),
+        () => ({})
+    ],
+    GET_ACCOUNT_BASIC: [
+        wallet.getAccountBasic.bind(wallet),
         () => ({})
     ],
     CLAIM_LINKDROP_TO_ACCOUNT: [
