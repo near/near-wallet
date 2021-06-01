@@ -160,6 +160,17 @@
             "implicitAccount": "Always double check the account ID",
             "implicitAccountModal": "Please double check the account ID, especially if this is an exchange account. If the account ID is entered incorrectly, your funds will be lost forever."
         },
+        "activateAccount": {
+            "pre": {
+                "title": "Almost there! Make your initial desposit.",
+                "desc": "To begin using NEAR Wallet, make a minimum initial deposit by sending <b>at least ${amount} NEAR</b> to your NEAR Name (sometimes called an “address”)."
+            },
+            "post": {
+                "title": "Your account has been activated.",
+                "descOne": "Your initial deposit has been received and transferred to your new account. Your account is now active!",
+                "descTwo": "A portion of your deposit has been reserved to cover the <u>cost of hosting your account</u>."
+            }
+        },
         "createImplicit": {
             "pre": {
                 "title": "Almost there! Activate your account with an initial deposit.",
@@ -458,6 +469,7 @@
         "copyImplicitAddress": "Copy Funding Address",
         "claimAccount": "Claim Account",
         "claimMyAccount": "Claim My Account",
+        "continueToMyAccount": "Continue to My Account",
         "continue": "Continue",
         "continueSetup": "Continue to Setup",
         "verify": "Verify & Complete",

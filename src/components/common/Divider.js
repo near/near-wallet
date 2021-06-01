@@ -30,6 +30,7 @@ const Wrapper = styled.div`
     display: inline-block;
     color: #25282A;
     font-size: 14px;
+    font-style: italic;
 `
 
 const Divider = (props) => (

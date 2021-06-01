@@ -130,19 +130,19 @@ class ActivateAccount extends Component {
         if (accountFunded) {
             return (
                 <StyledContainer className='small-centered funded' >
-                    <h1><Translate id='account.createImplicit.post.title' /></h1>
-                    <h2><Translate id='account.createImplicit.post.descOne'/></h2>
-                    <h2><b><Translate id='account.createImplicit.post.descTwo'/></b></h2>
+                    <h1><Translate id='account.activateAccount.post.title' /></h1>
+                    <h2><Translate id='account.activateAccount.post.descOne'/></h2>
+                    <h2><Translate id='account.activateAccount.post.descTwo'/></h2>
                     <AccountFundedStatus
                         intitalDeposit={balance?.available}
                         accountId={accountId}
                     />
                     <FormButton
                         onClick={this.handleClaimAccount}
-                        trackingId="CA implicit click claim my account"
+                        trackingId="CA implicit click continue to my account"
                         disabled={mainLoader}
                     >
-                        <Translate id='button.claimMyAccount' />
+                        <Translate id='button.continueToMyAccount' />
                     </FormButton>
                 </StyledContainer>
             )
@@ -150,8 +150,8 @@ class ActivateAccount extends Component {
 
         return (
             <StyledContainer className='small-centered'>
-                <h1><Translate id='account.createImplicit.pre.title' /></h1>
-                <h2><Translate id='account.createImplicit.pre.descOne' data={{ amount: formatNearAmount(MIN_BALANCE_TO_CREATE) }}/></h2>
+                <h1><Translate id='account.activateAccount.pre.title' /></h1>
+                <h2><Translate id='account.activateAccount.pre.desc' data={{ amount: formatNearAmount(MIN_BALANCE_TO_CREATE) }}/></h2>
                 <FormButton
                     onClick={() => this.setState({ whereToBuy: true })}
                     color='link'

@@ -6,23 +6,18 @@ import ClickToCopy from '../../common/ClickToCopy'
 import Balance from '../../common/Balance'
 
 const Container = styled.div`
-    box-shadow: 0px 9px 24px 0px rgba(0,0,0,0.08);
-    border-radius: 16px;
-    color: #A2A2A8;
+    border-radius: 8px;
+    color: #D5D4D8;
     font-size: 13px;
+    background-color: #111618;
 
     > div {
-        border-bottom: 1px solid #F0F0F1;
         padding: 15px;
 
         &.status, &.amount {
             display: flex;
             align-items: center;
             justify-content: space-between;
-        }
-
-        :first-of-type, :last-of-type {
-            border-bottom: 0;
         }
     }
 
@@ -35,18 +30,20 @@ const Container = styled.div`
             }
             
             :last-of-type {
-                color: #272729;
-                background-color: #F0F0F1;
+                color: white;
+                background-color: #3F4045;
                 border-radius: 8px;
                 line-break: anywhere;
                 padding: 15px;
-                font-size: 12px;
+                font-size: 14px;
                 margin-top: 10px;
             }
         }
     }
 
     .status {
+        border-top: 1px solid #d5d4d84f;
+        border-bottom: 1px solid #d5d4d84f;
         span {
             border-radius: 40px;
             font-size: 11px;
@@ -58,22 +55,9 @@ const Container = styled.div`
 
     .amount {
         span {
-            color: #272729;
+            color: white;
             font-weight: 700;
             font-size: 14px;
-        }
-    }
-
-    .qr-code {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-
-        svg {
-            margin: 30px;
-            border: 1px solid #F0F0F1;
-            padding: 20px;
-            border-radius: 8px;
         }
     }
 
@@ -90,11 +74,15 @@ const Container = styled.div`
         display: flex;
         align-items: center;
         font-size: 12px;
-        color: #0072ce;
+        color: #8FCDFF;
 
         svg {
             margin-right: 4px;
             width: 16px;
+
+            path {
+                stroke: #8FCDFF;
+            }
         }
     }
 `
@@ -115,8 +103,8 @@ const AccountFundedStatus = ({
                         : 
                         <Translate id='account.fundedStatus.nearName' />
                     }
-                    {intitalDeposit &&
-                        <ClickToCopy 
+                    {!intitalDeposit &&
+                        <ClickToCopy
                             copy={accountId || fundingAddress}
                             className='copy-funding-address'
                         >
