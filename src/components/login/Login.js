@@ -58,11 +58,28 @@ class Login extends Component {
         this.props.history.push('/create')
     }
 
+    get shouldRenderAccountConfirmationForm() {
+        const { account: { url, accountId } } = this.props
+
+        if (!url) {
+            return undefined
+        }
+
+        if (url.public_key) {
+            if (!url.contract_id || url.contract_id?.endsWith(`.${LOCKUP_ACCOUNT_ID_SUFFIX}`)) {
+                return true
+            } 
+        }
+
+        if (accountId) {
+            return url.contract_id === accountId
+        }
+
+        return false
+    }
+
     render() {
-        const { account: { url, accountId }, match, appTitle } = this.props
-        const accountConfirmationForm = url
-            ? (url.public_key && (!url.contract_id || url.contract_id?.endsWith(`.${LOCKUP_ACCOUNT_ID_SUFFIX}`))) || (accountId && url.contract_id === accountId)
-            : undefined
+        const { account: { url }, match, appTitle } = this.props
         
         if (!url) {
             return false
@@ -86,7 +103,7 @@ class Login extends Component {
                             handleSelectAccount={this.handleSelectAccount}
                             redirectCreateAccount={this.redirectCreateAccount}
                             handleDetails={this.handleDetails}
-                            accountConfirmationForm={accountConfirmationForm}
+                            accountConfirmationForm={this.shouldRenderAccountConfirmationForm}
                             requestAccountIdOnly={requestAccountIdOnly}
                         />
                     )}
@@ -99,7 +116,7 @@ class Login extends Component {
                             {...props}
                             contractId={url && url.contract_id}
                             appTitle={appTitle}
-                            accountConfirmationForm={accountConfirmationForm}
+                            accountConfirmationForm={this.shouldRenderAccountConfirmationForm}
                         />
                     )}
                 />
