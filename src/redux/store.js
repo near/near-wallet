@@ -16,7 +16,12 @@ import { ACCOUNT_ID_SUFFIX } from '../utils/wallet'
 const persistConfig = {
     key: `wallet.near.org:${ACCOUNT_ID_SUFFIX}`,
     storage,
-    blacklist: ['status', 'staking']
+    blacklist: ['status', 'staking'],
+    writeFailHandler: (error) => {
+        if (error.name === 'QuotaExceededError') {
+            persistor.pause()
+        }
+    }
 }
 
 export const history = createBrowserHistory()
