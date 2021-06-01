@@ -81,7 +81,7 @@ class Login extends Component {
     render() {
         const { account: { url }, match, appTitle } = this.props
         
-        if (!url) {
+        if (this.shouldRenderAccountConfirmationForm === undefined) {
             return false
         }
 
