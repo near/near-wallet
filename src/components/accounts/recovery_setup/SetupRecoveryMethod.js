@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, createRef } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 import { Translate } from 'react-localize-redux'
@@ -60,6 +60,9 @@ class SetupRecoveryMethod extends Component {
         recaptchaToken: null,
         isNewAccount: false
     }
+
+    emailInput = createRef()
+    phoneInput = createRef()
 
     async componentDidMount() {
         const { router, checkIsNew } = this.props;
@@ -275,7 +278,12 @@ class SetupRecoveryMethod extends Component {
                         }
                         <h4><Translate id='setupRecovery.basicSecurity'/></h4>
                         <RecoveryOption
-                            onClick={() => this.setState({ option: 'email' })}
+                            onClick={() => {
+                                this.setState({ option: 'email' });
+                                setTimeout(() => {
+                                    this.emailInput.current.focus();
+                                }, 0)
+                                }}
                             option='email'
                             active={option}
                             disabled={this.checkDisabled('email')}
@@ -291,12 +299,18 @@ class SetupRecoveryMethod extends Component {
                                         onChange={e => this.setState({ email: e.target.value, emailInvalid: false })}
                                         onBlur={this.handleBlurEmail}
                                         tabIndex='1'
+                                        ref={this.emailInput}
                                     />
                                 )}
                             </Translate>
                         </RecoveryOption>
                         <RecoveryOption
-                            onClick={() => this.setState({ option: 'phone' })}
+                            onClick={() => {
+                                this.setState({ option: 'phone' });
+                                setTimeout(() => {
+                                    this.phoneInput.current.focus();
+                                }, 0)
+                            }}
                             option='phone'
                             active={option}
                             disabled={this.checkDisabled('phone')}
@@ -316,6 +330,7 @@ class SetupRecoveryMethod extends Component {
                                             onCountryChange={option => this.setState({ country: option })}
                                             tabIndex='1'
                                             onBlur={this.handleBlurPhone}
+                                            ref={this.phoneInput}
                                         />
                                         {!isApprovedCountryCode(country) &&
                                         <div className='color-red'>{translate('setupRecovery.notSupportedPhone')}</div>
