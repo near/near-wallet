@@ -1,8 +1,8 @@
 {
     "reduxActions": {
         "RECOVER_ACCOUNT_SEED_PHRASE": {
-            "success": "Recover using Seed Phrase is complete.<br/><b>${numberOfAccounts} account(s)</b> have been successfully recovered.<br/>The last one is set as active.",
-            "error": "Failed to recover account. No accounts were found for this seed phrase."
+            "success": "Recover using passphrase is complete.<br/><b>${numberOfAccounts} account(s)</b> have been successfully recovered.<br/>The last one is set as active.",
+            "error": "Failed to recover account. No accounts were found for this passphrase."
         },
         "SEND_MONEY": {
             "error": "Sorry an error has occurred. You may want to try again."
@@ -16,8 +16,8 @@
             "error": "An error occurred while approving this action. Please try again!"
         },
         "ADD_ACCESS_KEY_SEED_PHRASE": {
-            "success": "Seed phrase recovery setup is complete.",
-            "error": "An error occurred while setting up seed phrase recovery. Please try again!"
+            "success": "Passphrases recovery setup is complete.",
+            "error": "An error occurred while setting up passphrase recovery. Please try again!"
         },
         "SETUP_RECOVERY_MESSAGE": {
             "success": "Recovery setup is complete.",
@@ -94,7 +94,7 @@
     "walletErrorCodes": {
         "invalidRecaptchaCode": "Invalid reCAPTCHA code; try again!",
         "addAccessKeySeedPhrase": {
-            "errorSecond": "An error has occurred.<br />The seed phrase was not added to your account. Please try again."
+            "errorSecond": "An error has occurred.<br />The passphrases was not added to your account. Please try again."
         },
         "promptTwoFactor": {
             "userCancelled": "2FA code was not verified correctly."
@@ -119,14 +119,14 @@
             "error": "An error occurred while setting up your recovery method. Please try again!"
         },
         "addAccessKey": {
-            "error": "An error has occurred.<br />To access your account, please enter the seed phrase from the previous step below."
+            "error": "An error has occurred.<br />To access your account, please enter the passphrase from the previous step below."
         },
         "recoveryMethods": {
             "setupMethod": "An error occured. Please check your recovery method.",
             "lastMethod": "Cannot delete your last recovery method. Unless you have Ledger enabled, you need to keep at least one recovery method active to ensure recoverability of your account."
         },
         "recoverAccountSeedPhrase": {
-            "errorInvalidSeedPhrase": "No accounts were found for this seed phrase."
+            "errorInvalidSeedPhrase": "No accounts were found for this passphrase."
         },
         "lockup": {
             "transferAllWithStakingPoolBalance": "Unstake and withdraw all funds from the staking pool in order to transfer your remaining lockup balance to Wallet."
@@ -141,9 +141,9 @@
             "error": "Failed to send SMS with code."
         },
         "recoverAccount": {
-            "success": "Recover using Seed Phrase is complete.<br/><b>${numberOfAccounts} account(s)</b> have been successfully recovered.<br/>The last one is set as active.",
-            "error": "Failed to recover account. No accounts were found for this seed phrase.",
-            "errorInvalidSeedPhrase": "No accounts were found for this seed phrase."
+            "success": "Recover using passphrase is complete.<br/><b>${numberOfAccounts} account(s)</b> have been successfully recovered.<br/>The last one is set as active.",
+            "error": "Failed to recover account. No accounts were found for this passphrase.",
+            "errorInvalidSeedPhrase": "No accounts were found for this passphrase."
         },
         "create": {
             "errorInvalidAccountIdLength": "Account ID must be between 2 and 64 characters",
@@ -309,7 +309,7 @@
     "setupSeedPhrase": {
         "pageTitle": "Setup Phrase",
         "pageText": "Write down the following words IN ORDER and keep them somewhere safe. You cannot recover your account without them!",
-        "snackbarCopySuccess": "Seed phrase copied!",
+        "snackbarCopySuccess": "Passphrase copied!",
         "snackbarCopyImplicitAddress": "Funding Address Copied!"
     },
     "setupSeedPhraseVerify": {
@@ -353,7 +353,7 @@
         "title": "Recovery Methods",
         "noRecoveryMethod": "You have no method to recover your account. please add a method below.",
         "methodTitle": {
-            "phrase": "Seed Phrase",
+            "phrase": "Passphrase",
             "phone": "Phone",
             "email": "Email"
         },
@@ -364,7 +364,7 @@
         "enabled": "Enabled",
         "disableTitle": "Are you sure you want to disable this method?",
         "disableTextLink": "The magic link you received will be permanently deactivated.",
-        "disableTextPhrase": "Your current seed phrase will be permanently deactivated.",
+        "disableTextPhrase": "Your current passphrase will be permanently deactivated.",
         "disableInputPlaceholder": "Enter your account ID to confirm",
         "disableNo": "No, keep",
         "recoveryLinkSent": "Recovery Link Sent!",
@@ -585,7 +585,7 @@
             "number": "+14086179592."
         },
         "phrase": {
-            "title": "Seed Phrase",
+            "title": "Passphrase",
             "desc": "Make sure you have your 12 word recovery phrase, then click below to begin the recovery process."
         },
         "ledger": {
@@ -669,10 +669,10 @@
     },
 
     "recoverSeedPhrase": {
-        "pageTitle": "Recover using Seed Phrase",
-        "pageText": "Enter the backup seed phrase associated with the account.",
+        "pageTitle": "Recover using Passphrase",
+        "pageText": "Enter the backup passphrase associated with the account.",
         "seedPhraseInput": {
-            "title": "Seed Phrase (12 words)",
+            "title": "Passphrase (12 words)",
             "placeholder": "correct horse battery staple..."
         }
     },
@@ -690,7 +690,7 @@
         "phonePlaceholder": "+1 415 797 8554",
         "notSupportedPhone": "Unfortunately, we do not offer SMS for your region. Please choose email instead.",
         "advancedSecurity": "Most Secure (Recommended)",
-        "advancedSecurityDesc": "Write down a 12 word seed (recovery) phrase, or secure your account with your Ledger device.",
+        "advancedSecurityDesc": "Write down a 12 word passphrase, or secure your account with your Ledger device.",
         "ledgerTitle": "Ledger Hardware Wallet",
         "ledgerDesc": "Secure your account with a Ledger hardware device.",
         "phraseTitle": "Secure Passphrase",
@@ -1033,7 +1033,7 @@
         "security": {
             "title": "Security & Recovery",
             "mostSecure": "Most Secure (Recommended)",
-            "mostSecureDesc": "Ledger is the most secure option. Seed phrases can be secure if used correctly (they must be written down and stored safely).",
+            "mostSecureDesc": "Ledger is the most secure option. Passphrases can be secure if used correctly (they must be written down and stored safely).",
             "lessSecure": "Less Secure",
             "lessSecureDesc": "These options are recommended for accounts with small amounts of NEAR and other assets. They are convenient, but do present additional risk to the more secure options. If your email account or SMS messages are compromised, your funds might be at risk."
         },
@@ -1188,7 +1188,7 @@
     "setupLedgerSuccess": {
         "header": "Ledger has secured your account!",
         "one": "We recommend that you remove all existing keys (recovery methods and devices).",
-        "two": "Maintaining multiple keys and recovery methods (including seed phrases) increases the vulnerability of your account.",
+        "two": "Maintaining multiple keys and recovery methods (including passphrases) increases the vulnerability of your account.",
         "primaryCta": "Remove Existing Keys and Recovery Methods",
         "secondaryCta": "Keep existing keys",
         "nextStep": {
@@ -1197,11 +1197,11 @@
                 "keep": "Keep existing keys?"
             },
             "one": {
-                "remove": "Before removing your existing keys and recovery methods, make sure that you have recorded and securely stored your Ledger seed phrase.",
+                "remove": "Before removing your existing keys and recovery methods, make sure that you have recorded and securely stored your Ledger passphrase.",
                 "keep": "<span class='color-red'>Maintaining multiple recovery methods and devices increases the vulnerability of your account.</span>"
             },
             "two": {
-                "remove": "If you lose access to your seed phrase, NEAR Inc. will be unable to assist you in recovery of your account and its funds."
+                "remove": "If you lose access to your passphrase, NEAR Inc. will be unable to assist you in recovery of your account and its funds."
             }
         }
     },
