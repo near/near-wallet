@@ -51,11 +51,9 @@ const DesktopMenu = ({
                     refreshBalance={refreshBalance}
                     getBalance={getBalance}
                 />
+                <AccessAccountBtn/>
                 {!inactiveAccount &&
-                    <>
-                        <AccessAccountBtn/>
-                        <CreateAccountBtn/>
-                    </>
+                    <CreateAccountBtn/>
                 }
             </Menu>
         )

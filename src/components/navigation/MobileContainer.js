@@ -218,11 +218,9 @@ class MobileContainer extends Component {
                                 refreshBalance={refreshBalance}
                                 getBalance={getBalance}
                             />
+                            <AccessAccountBtn/>
                             {!inactiveAccount &&
-                                <>
-                                    <AccessAccountBtn/>
-                                    <CreateAccountBtn/>
-                                </>
+                                <CreateAccountBtn/>
                             }
                         </LowerSection>
                     </>
