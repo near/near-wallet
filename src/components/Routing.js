@@ -88,7 +88,7 @@ class Routing extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            inactiveAccount: true
+            inactiveAccount: false
             // FIX: USE REDUX STATE
         };
         const languages = [

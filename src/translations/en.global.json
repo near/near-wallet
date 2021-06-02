@@ -678,20 +678,23 @@
     },
 
     "setupRecovery": {
-        "header": "Choose Security Method",
+        "header": "Secure your account",
         "subHeader": "Select a method to secure and recover your account. This will be used to verify important activity, recover your account and access your account from other devices.",
         "basicSecurity": "Less Secure",
         "basicSecurityDesc": "Enter your email address or phone number and receive a magic link",
-        "emailTitle": "Email Recovery",
+        "emailTitle": "Email",
+        "emailDesc": "Receive a verification code and account recovery link via email.",
         "emailPlaceholder": "example@email.com",
-        "phoneTitle": "Phone Recovery",
-        "phoneDesc": "Enter your phone number below and receive a magic recovery link",
+        "phoneTitle": "Phone",
+        "phoneDesc": "Receive a verification code and account recovery link via SMS.",
         "phonePlaceholder": "+1 415 797 8554",
         "notSupportedPhone": "Unfortunately, we do not offer SMS for your region. Please choose email instead.",
         "advancedSecurity": "Most Secure (Recommended)",
         "advancedSecurityDesc": "Write down a 12 word seed (recovery) phrase, or secure your account with your Ledger device.",
-        "ledgerTitle": "Ledger Nano S or X",
-        "phraseTitle": "Recovery Phrase"
+        "ledgerTitle": "Ledger Hardware Wallet",
+        "ledgerDesc": "Secure your account with a Ledger hardware device.",
+        "phraseTitle": "Secure Passphrase",
+        "phraseDesc": "Generate and safely store a unique passphrase."
     },
     "setRecoveryConfirm": {
         "title": "Enter Verification Code",
