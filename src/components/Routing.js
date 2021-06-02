@@ -42,8 +42,8 @@ import { Profile } from './profile/Profile'
 import { BuyNear } from './buy/BuyNear'
 import { SignWithRouter } from './sign/Sign'
 import { StakingContainer } from './staking/StakingContainer'
-import { DISABLE_SEND_MONEY, WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS, IS_MAINNET, SHOW_PRERELEASE_WARNING } from '../utils/wallet'
-import { refreshAccount, handleRefreshUrl, handleRedirectUrl, handleClearUrl, promptTwoFactor } from '../actions/account'
+import { WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS, IS_MAINNET, SHOW_PRERELEASE_WARNING } from '../utils/wallet'
+import { refreshAccount, handleRefreshUrl, handleRedirectUrl, handleClearUrl, promptTwoFactor, redirectTo } from '../actions/account'
 import LedgerConfirmActionModal from './accounts/ledger/LedgerConfirmActionModal';
 
 import GlobalStyle from './GlobalStyle'
@@ -145,11 +145,14 @@ class Routing extends Component {
     }
 
     componentDidUpdate(prevProps) {
-        const { activeLanguage, account } = this.props;
+        const { activeLanguage, account, redirectTo } = this.props;
 
         if (account.accountId !== prevProps.account.accountId && account.accountId !== undefined) {
             console.log('here is the account id from componentDidUpdate', account.accountId)
             //FIX: Make call to backend to check if account is inactive and then set localStorage
+            if (localStorage.getItem(`wallet:account:${account.accountId}:inactive`)) {
+                redirectTo('/')
+            }
             //FIX: Check and clear localStorage even if it account comes back as active
         }
 
@@ -380,7 +383,8 @@ const mapDispatchToProps = {
     handleRefreshUrl,
     handleRedirectUrl,
     handleClearUrl,
-    promptTwoFactor
+    promptTwoFactor,
+    redirectTo
 }
 
 const mapStateToProps = ({ account, router }) => ({
