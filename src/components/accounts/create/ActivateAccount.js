@@ -101,7 +101,6 @@ class ActivateAccount extends Component {
     }
 
     componentDidMount = () => {
-        // FIX: Check if account has already been unlocked and if so, navigate to dashboard
         this.interval = setInterval(() => this.checkBalance(), 2000)
         this.checkMoonPay()
     }
@@ -111,9 +110,9 @@ class ActivateAccount extends Component {
     }
 
     handleClaimAccount = async () => {
-        const { dispatch } = this.props;
+        const { dispatch, accountId } = this.props;
         // FIX: POST to /clearInitialFundedAccountBalance
-        // FIX: SET REDUX STATE 'inactiveAccount'
+        localStorage.removeItem(`wallet:account:${this.props.localStorage?.accountId || accountId}:inactive`)
         dispatch(redirectTo('/'))
     }
 

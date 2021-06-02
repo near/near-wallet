@@ -87,10 +87,6 @@ const Container = styled.div`
 class Routing extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            inactiveAccount: false
-            // FIX: USE REDUX STATE
-        };
         const languages = [
             { name: "English", code: "en" },
             { name: "Português", code: "pt" },
@@ -132,8 +128,7 @@ class Routing extends Component {
             router
         } = this.props
 
-        //FIX: GET /walletAccountState to see if initialFundedAccountBalance is true/false
-        // Call again if account is changed
+        // localStorage.setItem(`wallet:account:efww4r23aer.testnet:inactive`, true)
 
         handleRefreshUrl(router)
         refreshAccount()
@@ -150,8 +145,16 @@ class Routing extends Component {
     }
 
     componentDidUpdate(prevProps) {
+        const { activeLanguage, account } = this.props;
+
+        if (account.accountId !== prevProps.account.accountId && account.accountId !== undefined) {
+            console.log('here is the account id from componentDidUpdate', account.accountId)
+            //FIX: Make call to backend to check if account is inactive and then set localStorage
+            //FIX: Check and clear localStorage even if it account comes back as active
+        }
+
         const prevLangCode = prevProps.activeLanguage && prevProps.activeLanguage.code
-        const curLangCode = this.props.activeLanguage && this.props.activeLanguage.code
+        const curLangCode = activeLanguage && activeLanguage.code
         const hasLanguageChanged = prevLangCode !== curLangCode
 
         if (hasLanguageChanged) {
@@ -171,7 +174,9 @@ class Routing extends Component {
 
     render() {
         const { search } = this.props.router.location
-        const { inactiveAccount } = this.state;
+        const { account } = this.props;
+        const inactiveAccount = localStorage.getItem(`wallet:account:${account.localStorage?.accountId || account.accountId}:inactive`)
+
         return (
             <Container className={classNames(['App', {'network-banner': (!IS_MAINNET || SHOW_PRERELEASE_WARNING)}])} id='app-container'>
                 <GlobalStyle />
@@ -179,13 +184,13 @@ class Routing extends Component {
                     <ThemeProvider theme={theme}>
                         <ScrollToTop/>
                         <NetworkBanner
-                            account={this.props.account}
+                            account={account}
                         />
                         <Navigation inactiveAccount={inactiveAccount}/>
                         <GlobalAlert/>
                         <LedgerConfirmActionModal/>
                         {
-                            this.props.account.requestPending !== null &&
+                            account.requestPending !== null &&
                             <TwoFactorVerifyModal
                                 onClose={(verified, error) => {
                                     const { account, promptTwoFactor } = this.props
@@ -250,11 +255,6 @@ class Routing extends Component {
                                 path='/fund-create-account/success'
                                 component={SetupImplicitSuccess}
                             />
-                            <PrivateRoute
-                                exact
-                                path='/activate-account/:accountId'
-                                component={ActivateAccountWithRouter}
-                            />
                             <Route
                                 exact
                                 path='/setup-ledger/:accountId'
@@ -304,7 +304,7 @@ class Routing extends Component {
                                 path='/full-access-keys'
                                 component={FullAccessKeysWithRouter}
                             />
-                            {!DISABLE_SEND_MONEY &&
+                            {!inactiveAccount &&
                                 <PrivateRouteLimited
                                     exact
                                     path='/send-money/:id?'
@@ -326,25 +326,29 @@ class Routing extends Component {
                                 path='/profile/:accountId'
                                 component={Profile}
                             />
-                            <PrivateRouteLimited
-                                exact
-                                path='/profile/:accountId?'
-                                component={Profile}
-                            />
+                            {!inactiveAccount &&
+                                <PrivateRouteLimited
+                                    exact
+                                    path='/profile/:accountId?'
+                                    component={Profile}
+                                />
+                            }
                             <PrivateRouteLimited
                                 exact
                                 path='/sign'
                                 component={SignWithRouter}
                             />
-                            <PrivateRouteLimited
-                                path='/staking'
-                                component={StakingContainer}
-                                render={() => (
-                                    <StakingContainer
-                                        history={this.props.history}
-                                    />
-                                )}
-                            />
+                            {!inactiveAccount &&
+                                <PrivateRouteLimited
+                                    path='/staking'
+                                    component={StakingContainer}
+                                    render={() => (
+                                        <StakingContainer
+                                            history={this.props.history}
+                                        />
+                                    )}
+                                />
+                            }
                             <Route
                                 exact
                                 path='/cli-login-success'
@@ -356,7 +360,7 @@ class Routing extends Component {
                                 component={Terms}
                             />
                             <PrivateRouteLimited
-                                component={Wallet}
+                                component={inactiveAccount ? ActivateAccountWithRouter : Wallet}
                             />
                         </Switch>
                         <Footer />

@@ -25,7 +25,18 @@ const Menu = styled.div`
     }
 `
 
-const DesktopMenu = ({ show, accountId, accounts, selectAccount, accountIdLocalStorage, accountsBalance, balance, refreshBalance, getBalance }) => {
+const DesktopMenu = ({
+    show,
+    accountId,
+    accounts,
+    selectAccount,
+    accountIdLocalStorage,
+    accountsBalance,
+    balance,
+    refreshBalance,
+    getBalance,
+    inactiveAccount
+}) => {
     if (show) {
         return (
             <Menu id='desktop-menu'>
@@ -40,8 +51,12 @@ const DesktopMenu = ({ show, accountId, accounts, selectAccount, accountIdLocalS
                     refreshBalance={refreshBalance}
                     getBalance={getBalance}
                 />
-                <AccessAccountBtn/>
-                <CreateAccountBtn/>
+                {!inactiveAccount &&
+                    <>
+                        <AccessAccountBtn/>
+                        <CreateAccountBtn/>
+                    </>
+                }
             </Menu>
         )
     }

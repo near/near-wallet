@@ -64,11 +64,6 @@ class Navigation extends Component {
     }
 
     get showNavLinks() {
-        const { inactiveAccount } = this.props;
-        // USE REDUX STATE
-        if (inactiveAccount) {
-            return 'menuOnly';
-        }
         return this.props.account.localStorage?.accountFound;
     }
 
@@ -89,7 +84,7 @@ class Navigation extends Component {
 
     render() {
         const { menuOpen } = this.state;
-        const { flowLimitation } = this.props
+        const { flowLimitation, inactiveAccount } = this.props
 
         return (
             <Container id='nav-container' open={menuOpen}>
@@ -101,6 +96,7 @@ class Navigation extends Component {
                     flowLimitation={flowLimitation}
                     refreshBalance={this.props.getAccountBalance}
                     getBalance={this.props.getBalance}
+                    inactiveAccount={inactiveAccount}
                     {...this.props}
                 />
                 <MobileContainer
@@ -111,6 +107,7 @@ class Navigation extends Component {
                     flowLimitation={flowLimitation}
                     refreshBalance={this.props.getAccountBalance}
                     getBalance={this.props.getBalance}
+                    inactiveAccount={inactiveAccount}
                     {...this.props}
                 />
             </Container>
