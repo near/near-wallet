@@ -68,7 +68,7 @@ export default createGlobalStyle`
     h1, .h1 {
         font-weight: 900 !important;
         color: #24272a;
-        font-size: calc(22px + (32 - 22) * ((100vw - 300px) / (1600 - 300))) !important;
+        font-size: calc(22px + (30 - 22) * ((100vw - 300px) / (1600 - 300))) !important;
         word-wrap: break-word;
 
         @media (max-width: 300px) {

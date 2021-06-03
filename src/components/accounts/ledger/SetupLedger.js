@@ -154,7 +154,7 @@ const SetupLedger = (props) => {
     }
 
     return (
-        <Container className='small-centered ledger-theme'>
+        <Container className='small-centered border ledger-theme'>
             {props.localAlert && !props.localAlert.success &&
                 <GlobalAlert
                     globalAlert={{

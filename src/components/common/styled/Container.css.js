@@ -22,6 +22,15 @@ const Container = styled.div`
     &.small-centered, &.xs-centered {
         max-width: 500px;
 
+        @media (min-width: 768px) {
+            &.border {
+                border: 1px solid #F0F0F1;
+                border-radius: 16px;
+                padding: 40px;
+                margin-top: 40px;
+            }
+        }
+
         &.center {
             display flex;
             flex-direction: column;

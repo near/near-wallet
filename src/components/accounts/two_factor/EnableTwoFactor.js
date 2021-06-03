@@ -165,7 +165,7 @@ export function EnableTwoFactor(props) {
 
     if (!initiated) {
         return (
-            <StyledContainer className='small-centered'>
+            <StyledContainer className='small-centered border'>
                 <AlertBanner
                     title='twoFactor.alertBanner.title'
                     data={MULTISIG_MIN_AMOUNT}

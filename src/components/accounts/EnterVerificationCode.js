@@ -127,7 +127,7 @@ const EnterVerificationCode = ({
     const shouldRenderRecaptcha = process.env.RECAPTCHA_CHALLENGE_API_KEY && isNewAccount && fundedAccountAvailable;
 
     return (
-        <StyledContainer className='small-centered'>
+        <StyledContainer className='small-centered border'>
             <form
                 onSubmit={handleOnSubmit}
                 autoComplete='off'

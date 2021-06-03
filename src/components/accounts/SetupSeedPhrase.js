@@ -208,7 +208,7 @@ class SetupSeedPhrase extends Component {
                             exact
                             path={`/setup-seed-phrase/:accountId/phrase`}
                             render={() => (
-                                <Container className='small-centered'>
+                                <Container className='small-centered border'>
                                     <h1><Translate id='setupSeedPhrase.pageTitle'/></h1>
                                     <h2><Translate id='setupSeedPhrase.pageText'/></h2>
                                     <SetupSeedPhraseForm
@@ -223,7 +223,7 @@ class SetupSeedPhrase extends Component {
                             exact
                             path={`/setup-seed-phrase/:accountId/verify`}
                             render={() => (
-                                <Container className='small-centered'>
+                                <Container className='small-centered border'>
                                     <form
                                         onSubmit={this.handleOnSubmit}
                                         autoComplete='off'

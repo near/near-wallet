@@ -254,7 +254,7 @@ class SetupRecoveryMethod extends Component {
 
         if (!success) {
             return (
-                <StyledContainer className='small-centered'>
+                <StyledContainer className='small-centered border'>
                     <form onSubmit={e => {
                         this.handleNext();
                         e.preventDefault();
@@ -280,9 +280,11 @@ class SetupRecoveryMethod extends Component {
                         <RecoveryOption
                             onClick={() => {
                                 this.setState({ option: 'email' });
-                                setTimeout(() => {
-                                    this.emailInput.current.focus();
-                                }, 0)
+                                if (option !== 'email') {
+                                    setTimeout(() => {
+                                        this.emailInput.current.focus();
+                                    }, 0)
+                                }
                                 }}
                             option='email'
                             active={option}
@@ -307,9 +309,11 @@ class SetupRecoveryMethod extends Component {
                         <RecoveryOption
                             onClick={() => {
                                 this.setState({ option: 'phone' });
-                                setTimeout(() => {
-                                    this.phoneInput.current.focus();
-                                }, 0)
+                                if (option !== 'phone') {
+                                    setTimeout(() => {
+                                        this.phoneInput.current.focus();
+                                    }, 0)
+                                }
                             }}
                             option='phone'
                             active={option}
@@ -321,6 +325,7 @@ class SetupRecoveryMethod extends Component {
                                     <>
                                         <PhoneInput
                                             placeholder={translate('setupRecovery.phonePlaceholder')}
+                                            type='phone'
                                             value={phoneNumber}
                                             disabled={this.props.mainLoader}
                                             onChange={value => this.setState({

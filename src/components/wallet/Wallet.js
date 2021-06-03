@@ -44,7 +44,7 @@ const StyledContainer = styled(Container)`
 
         h1 {
             &.total-balance {
-                font-size: 38px !important;
+                font-size: 36px !important;
 
                 @media (max-width: 767px) {
                     font-size: 30px !important;

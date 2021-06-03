@@ -177,7 +177,7 @@ class CreateAccount extends Component {
 
         if (DISABLE_CREATE_ACCOUNT && !hasFunding && !termsAccepted) {
             return (
-                <StyledContainer className='small-centered'>
+                <StyledContainer className='small-centered border'>
                     <FundNearIcon/>
                     <h1><Translate id='createAccount.termsPage.title'/></h1>
                     <h2><Translate id='createAccount.termsPage.descOne' data={{ data: utils.format.formatNearAmount(MIN_BALANCE_TO_CREATE) }}/></h2>
@@ -218,7 +218,7 @@ class CreateAccount extends Component {
 
         if (!invalidNearDrop) {
             return (
-                <StyledContainer className='small-centered'>
+                <StyledContainer className='small-centered border'>
                     <form onSubmit={e => {this.handleCreateAccount(); e.preventDefault();}} autoComplete='off'>
                         <h1><Translate id='createAccount.pageTitle'/></h1>
                         <h2><Translate id='createAccount.pageText'/></h2>
