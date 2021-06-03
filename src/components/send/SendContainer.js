@@ -80,8 +80,10 @@ export function SendContainer({ match, location }) {
     }, [actionStatus.GET_BALANCE?.success])
 
     useEffect(() => {
-        dispatch(getBalance('', true))
-    }, [])
+        if (accountId) {
+            dispatch(getBalance('', true))
+        }
+    }, [accountId])
 
     onKeyDown(e => {
         if (e.keyCode === 13 && sendAllowed) {
