@@ -95,7 +95,8 @@ class ActivateAccount extends Component {
         const { accountFunded } = this.state
 
         if (!accountFunded && new BN(balance.available).gte(new BN(MIN_BALANCE_TO_CREATE))) {
-            this.setState({ accountFunded: true })
+            this.setState({ accountFunded: true });
+            //FIX: POST to /clearInitialFundedAccountBalance
             window.scrollTo(0, 0)
         }
     }
@@ -111,8 +112,8 @@ class ActivateAccount extends Component {
 
     handleClaimAccount = async () => {
         const { dispatch, accountId } = this.props;
-        // FIX: POST to /clearInitialFundedAccountBalance
-        localStorage.removeItem(`wallet:account:${this.props.localStorage?.accountId || accountId}:inactive`)
+        // FIX: POST to /clearInitialFundedAccountBalance IF not already set
+        localStorage.removeItem(`wallet:account:${accountId}:inactive`)
         dispatch(redirectTo('/'))
     }
 

@@ -156,6 +156,17 @@
             "implicitAccount": "Всегда дважды перепроверьте имя пользователя",
             "implicitAccountModal": "Пожалуйста, проверьте дважды имя пользователя, особенно если это биржевой аккаунт. Если ввести неправильно имя пользователя, то вы навсегда утратите свои средства."
         },
+        "activateAccount": {
+            "pre": {
+                "title": "Almost there! Make your initial desposit.",
+                "desc": "To begin using NEAR Wallet, make a minimum initial deposit by sending <b>at least ${amount} NEAR</b> to your NEAR Name (sometimes called an “address”)."
+            },
+            "post": {
+                "title": "Your account has been activated.",
+                "descOne": "Your initial deposit has been received and transferred to your new account. Your account is now active!",
+                "descTwo": "A portion of your deposit has been reserved to cover the <u>cost of hosting your account</u>."
+            }
+        },
         "createImplicit": {
             "pre": {
                 "title": "Пополните свою учетную запись",
@@ -166,15 +177,21 @@
                     "button": "Где можно купить NEAR?",
                     "title": "Покупка токенов NEAR",
                     "desc": "NEAR токены доступны для покупки на следующих биржах"
+                },
+                "moonPay": {
+                    "title": "Fund with MoonPay",
+                    "desc": "Make your initial deposit with MoonPay using your preferred payment method.",
+                    "buyWith": "Buy with"
                 }
             },
             "post": {
+                "title": "Claim your account",
+                "descOne": "Your initial deposit was received! Once claimed, your deposit will be transferred to your new account.",
+                "descTwo": "Important: Your single-use funding address will no longer be valid. Make sure to replace it with your NEAR Name on any exchanges or other devices where it may have been saved.",
                 "modal": {
-                    "title": "Учетная запись пополнена",
-                    "descOne": "Ваша учетная запись была успешно пополнена!",
-                    "descTwo": "Ваш одноразовый адрес для пополнения больше не может использоваться для внесения средств.",
-                    "descThree": "Ваша учетная запись: <b>${accountId}</b> - это единственно возможный адрес для всех операций с NEAR.",
-                    "checkbox": "Я подтверждаю, что одноразовый адрес более недейстителен и все средства, отправленные на него, будут утрачены."
+                    "title": "Update your address",
+                    "descOne": "By continuing, you acknowledge that the single-use funding address will be replaced, and any additional funds sent to the old address will be lost.",
+                    "descTwo": "Remember to replace it with your NEAR Name on any exchanges or other devices where it may have been saved."
                 }
             },
             "success": {
@@ -561,7 +578,7 @@
         "step": "Шаг ${step}/${total}",
         "accountIdInput": {
             "title": "Выберите имя пользователя",
-            "placeholder": "Например: satoshi"
+            "placeholder": "yourname.${data}"
         },
         "alreadyHaveAnAccount": "Уже есть учетная запись?",
         "recoverItHere": "Восстановить доступ",

@@ -128,7 +128,7 @@ class Routing extends Component {
             router
         } = this.props
 
-        // localStorage.setItem(`wallet:account:efww4r23aer.testnet:inactive`, true)
+        //localStorage.setItem(`wallet:account:efww4r23aer.testnet:inactive`, true)
 
         handleRefreshUrl(router)
         refreshAccount()

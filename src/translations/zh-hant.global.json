@@ -160,6 +160,17 @@
             "implicitAccount": "轉賬不可逆，請確保賬戶 ID 準確",
             "implicitAccountModal": "請再確認賬戶 ID，如果賬戶輸入錯誤，你的資產將永久無法找回。"
         },
+        "activateAccount": {
+            "pre": {
+                "title": "Almost there! Make your initial desposit.",
+                "desc": "To begin using NEAR Wallet, make a minimum initial deposit by sending <b>at least ${amount} NEAR</b> to your NEAR Name (sometimes called an “address”)."
+            },
+            "post": {
+                "title": "Your account has been activated.",
+                "descOne": "Your initial deposit has been received and transferred to your new account. Your account is now active!",
+                "descTwo": "A portion of your deposit has been reserved to cover the <u>cost of hosting your account</u>."
+            }
+        },
         "createImplicit": {
             "pre": {
                 "title": "充值至賬戶",
@@ -171,18 +182,21 @@
                     "title": "購買 NEAR 通證",
                     "desc": "NEAR 通證可以在以下交易所購買"
                 },
-                "alertBanner": {
-                    "title": "請勿關閉此窗口！"
+                "moonPay": {
+                    "title": "Fund with MoonPay",
+                    "desc": "Make your initial deposit with MoonPay using your preferred payment method.",
+                    "buyWith": "Buy with"
                 },
                 "fundWith": "打開"
             },
             "post": {
+                "title": "Claim your account",
+                "descOne": "Your initial deposit was received! Once claimed, your deposit will be transferred to your new account.",
+                "descTwo": "Important: Your single-use funding address will no longer be valid. Make sure to replace it with your NEAR Name on any exchanges or other devices where it may have been saved.",
                 "modal": {
-                    "title": "賬戶已充值",
-                    "descOne": "你的賬戶已成功充值。",
-                    "descTwo": "臨時充值地址現已無效，請不要向此地址轉賬。你現在可以使用賬戶 ID 作為你的 NEAR 主要地址。",
-                    "descThree": "你的賬戶 ID：<b>${accountId}</b>是你所有 NEAR 操作的單一地址。",
-                    "checkbox": "我已知曉：繼續後，臨時充值地址將會永久失效，任何轉賬的資產將無法找回。"
+                    "title": "Update your address",
+                    "descOne": "By continuing, you acknowledge that the single-use funding address will be replaced, and any additional funds sent to the old address will be lost.",
+                    "descTwo": "Remember to replace it with your NEAR Name on any exchanges or other devices where it may have been saved."
                 }
             },
             "success": {
@@ -578,7 +592,7 @@
         "step": "步驟 ${step}/${total}",
         "accountIdInput": {
             "title": "輸入用戶名",
-            "placeholder": "例如：satoshi"
+            "placeholder": "yourname.${data}"
         },
         "alreadyHaveAnAccount": "已經擁有賬戶？",
         "recoverItHere": "恢復賬戶",

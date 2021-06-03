@@ -182,9 +182,6 @@
                     "title": "Purchase NEAR tokens",
                     "desc": "NEAR tokens are available to purchase through the following exchanges"
                 },
-                "alertBanner": {
-                    "title": "Do not close this window!"
-                },
                 "moonPay": {
                     "title": "Fund with MoonPay",
                     "desc": "Make your initial deposit with MoonPay using your preferred payment method.",

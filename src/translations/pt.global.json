@@ -159,6 +159,17 @@
             "implicitAccount": "Sempre verifique o ID da conta",
             "implicitAccountModal": "Por favor, verifique o ID da conta, especialmente se esta for uma conta de exchange. Se o ID da conta for inserido incorretamente, seus fundos serão perdidos para sempre."
         },
+        "activateAccount": {
+            "pre": {
+                "title": "Almost there! Make your initial desposit.",
+                "desc": "To begin using NEAR Wallet, make a minimum initial deposit by sending <b>at least ${amount} NEAR</b> to your NEAR Name (sometimes called an “address”)."
+            },
+            "post": {
+                "title": "Your account has been activated.",
+                "descOne": "Your initial deposit has been received and transferred to your new account. Your account is now active!",
+                "descTwo": "A portion of your deposit has been reserved to cover the <u>cost of hosting your account</u>."
+            }
+        },
         "createImplicit": {
             "pre": {
                 "title": "Coloque fundos em sua Conta",
@@ -170,18 +181,21 @@
                     "title": "Compre NEAR tokens",
                     "desc": "NEAR tokens estão disponíveis para compra nas seguintes exchanges"
                 },
-                "alertBanner": {
-                    "title": "Não feche essa janela!"
+                "moonPay": {
+                    "title": "Fund with MoonPay",
+                    "desc": "Make your initial deposit with MoonPay using your preferred payment method.",
+                    "buyWith": "Buy with"
                 },
                 "fundWith": "Adicionar fundos com"
             },
             "post": {
+                "title": "Claim your account",
+                "descOne": "Your initial deposit was received! Once claimed, your deposit will be transferred to your new account.",
+                "descTwo": "Important: Your single-use funding address will no longer be valid. Make sure to replace it with your NEAR Name on any exchanges or other devices where it may have been saved.",
                 "modal": {
-                    "title": "Conta com Fundos Depositados",
-                    "descOne": "Fundo depositado com sucesso em sua conta!",
-                    "descTwo": "O endereço de fundação único não pode mais ser usado para receber ativos.",
-                    "descThree": "ID da sua Conta: <b>${accountId}</b> é o seu endereço único para todas as operações NEAR.",
-                    "checkbox": "Eu reconheço que o endereço de fundação único é inválido e quaisquer ativos adicionais enviados para este endereço serão perdidos."
+                    "title": "Update your address",
+                    "descOne": "By continuing, you acknowledge that the single-use funding address will be replaced, and any additional funds sent to the old address will be lost.",
+                    "descTwo": "Remember to replace it with your NEAR Name on any exchanges or other devices where it may have been saved."
                 }
             },
             "success": {
@@ -577,7 +591,7 @@
         "step": "Passo ${step}/${total}",
         "accountIdInput": {
             "title": "ID da Conta",
-            "placeholder": "Exemplo: satoshi"
+            "placeholder": "yourname.${data}"
         },
         "alreadyHaveAnAccount": "Já possui uma conta?",
         "recoverItHere": "Importar Conta Existente",
