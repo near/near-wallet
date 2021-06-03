@@ -70,6 +70,9 @@ class SetupRecoveryMethod extends Component {
 
         if (method) {
             this.setState({ option: method });
+            if (method === 'email' || method === 'phone') {
+                window.scrollTo({ top: 450, left: 0 });
+            }
         }
 
         if (this.props.activeAccountId) {
@@ -98,16 +101,16 @@ class SetupRecoveryMethod extends Component {
         const { option, phoneNumber, email, country } = this.state;
 
         switch (option) {
-        case 'email':
-            return validateEmail(email)
-        case 'phone':
-            return isApprovedCountryCode(country) && isValidPhoneNumber(phoneNumber)
-        case 'phrase':
-            return true
-        case 'ledger':
-            return true
-        default:
-            return false
+            case 'email':
+                return validateEmail(email)
+            case 'phone':
+                return isApprovedCountryCode(country) && isValidPhoneNumber(phoneNumber)
+            case 'phrase':
+                return true
+            case 'ledger':
+                return true
+            default:
+                return false
         }
     }
 
@@ -259,9 +262,9 @@ class SetupRecoveryMethod extends Component {
                         this.handleNext();
                         e.preventDefault();
                     }}>
-                        <h1><Translate id='setupRecovery.header'/></h1>
-                        <h2><Translate id='setupRecovery.subHeader'/></h2>
-                        <h4><Translate id='setupRecovery.advancedSecurity'/></h4>
+                        <h1><Translate id='setupRecovery.header' /></h1>
+                        <h2><Translate id='setupRecovery.subHeader' /></h2>
+                        <h4><Translate id='setupRecovery.advancedSecurity' /></h4>
                         <RecoveryOption
                             onClick={() => this.setState({ option: 'phrase' })}
                             option='phrase'
@@ -269,14 +272,14 @@ class SetupRecoveryMethod extends Component {
                             disabled={this.checkDisabled('phrase')}
                         />
                         {(this.checkNewAccount() || !twoFactor) &&
-                        <RecoveryOption
-                            onClick={() => this.setState({ option: 'ledger' })}
-                            option='ledger'
-                            active={option}
-                            disabled={ledgerKey !== null && accountId === activeAccountId}
-                        />
+                            <RecoveryOption
+                                onClick={() => this.setState({ option: 'ledger' })}
+                                option='ledger'
+                                active={option}
+                                disabled={ledgerKey !== null && accountId === activeAccountId}
+                            />
                         }
-                        <h4><Translate id='setupRecovery.basicSecurity'/></h4>
+                        <h4><Translate id='setupRecovery.basicSecurity' /></h4>
                         <RecoveryOption
                             onClick={() => {
                                 this.setState({ option: 'email' });
@@ -285,7 +288,7 @@ class SetupRecoveryMethod extends Component {
                                         this.emailInput.current.focus();
                                     }, 0)
                                 }
-                                }}
+                            }}
                             option='email'
                             active={option}
                             disabled={this.checkDisabled('email')}
@@ -338,7 +341,7 @@ class SetupRecoveryMethod extends Component {
                                             ref={this.phoneInput}
                                         />
                                         {!isApprovedCountryCode(country) &&
-                                        <div className='color-red'>{translate('setupRecovery.notSupportedPhone')}</div>
+                                            <div className='color-red'>{translate('setupRecovery.notSupportedPhone')}</div>
                                         }
                                     </>
                                 )}
@@ -351,7 +354,7 @@ class SetupRecoveryMethod extends Component {
                             sending={actionsPending('INITIALIZE_RECOVERY_METHOD', 'SETUP_RECOVERY_MESSAGE')}
                             trackingId='SR Click submit button'
                         >
-                            <Translate id='button.continue'/>
+                            <Translate id='button.continue' />
                         </FormButton>
                     </form>
                 </StyledContainer>

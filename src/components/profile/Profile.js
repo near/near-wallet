@@ -33,7 +33,7 @@ const StyledContainer = styled(Container)`
 
     h2 {
         font-weight: 900 !important;
-        font-size: 24px !important;
+        font-size: 22px !important;
         margin: 10px 0;
         text-align: left !important;
         line-height: 140% !important;
