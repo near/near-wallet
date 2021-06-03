@@ -163,7 +163,7 @@
         "activateAccount": {
             "pre": {
                 "title": "Almost there! Make your initial desposit.",
-                "desc": "To begin using NEAR Wallet, make a minimum initial deposit by sending <b>at least ${amount} NEAR</b> to your NEAR Name (sometimes called an “address”)."
+                "desc": "To begin using NEAR Wallet, make a minimum initial deposit by sending <b>at least ${amount} NEAR</b> to your Account ID (sometimes called an “address”)."
             },
             "post": {
                 "title": "Your account has been activated.",
@@ -191,11 +191,11 @@
             "post": {
                 "title": "Claim your account",
                 "descOne": "Your initial deposit was received! Once claimed, your deposit will be transferred to your new account.",
-                "descTwo": "Important: Your single-use funding address will no longer be valid. Make sure to replace it with your NEAR Name on any exchanges or other devices where it may have been saved.",
+                "descTwo": "Important: Your single-use funding address will no longer be valid. Make sure to replace it with your Account ID on any exchanges or other devices where it may have been saved.",
                 "modal": {
                     "title": "Update your address",
                     "descOne": "By continuing, you acknowledge that the single-use funding address will be replaced, and any additional funds sent to the old address will be lost.",
-                    "descTwo": "Remember to replace it with your NEAR Name on any exchanges or other devices where it may have been saved."
+                    "descTwo": "Remember to replace it with your Account ID on any exchanges or other devices where it may have been saved."
                 }
             },
             "success": {
@@ -208,7 +208,7 @@
         },
         "fundedStatus": {
             "singleUse": "Single-use Funding address",
-            "nearName": "NEAR Name",
+            "nearName": "Account ID",
             "status": "Account status",
             "minDeposit": "Minimum deposit",
             "initialDeposit": "Initial deposit",
