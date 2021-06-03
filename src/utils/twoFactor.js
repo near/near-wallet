@@ -1,5 +1,5 @@
 import * as nearApiJs from 'near-api-js'
-import { store } from '../redux/store'
+import { store } from '..'
 import { promptTwoFactor, refreshAccount } from '../actions/account'
 import { MULTISIG_MIN_AMOUNT, ACCOUNT_HELPER_URL } from './wallet'
 import { utils } from 'near-api-js'

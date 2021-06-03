@@ -10,7 +10,7 @@ import { generateSeedPhrase } from 'near-seed-phrase';
 import { WalletError } from './walletError'
 import { setAccountConfirmed, getAccountConfirmed } from './localStorage'
 
-import { store } from '../redux/store'
+import { store } from '..'
 import {
     setSignTransactionStatus,
     setLedgerTxSigned,
