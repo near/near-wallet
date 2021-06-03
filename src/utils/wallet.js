@@ -721,33 +721,6 @@ class Wallet {
         }
     }
 
-    async setupRecoveryMessageNewAccount(accountId, method, securityCode, fundingOptions, recoverySeedPhrase, recaptchaToken) {
-        const { secretKey } = parseSeedPhrase(recoverySeedPhrase)
-        const recoveryKeyPair = KeyPair.fromString(secretKey)
-        await this.validateSecurityCode(accountId, method, securityCode);
-        await this.saveAccount(accountId, recoveryKeyPair);
-
-        // IMPLICIT ACCOUNT
-        if (DISABLE_CREATE_ACCOUNT && !fundingOptions && !recaptchaToken) {
-            await store.dispatch(fundCreateAccount(accountId, recoveryKeyPair, fundingOptions, method))
-            return
-        }
-
-        try {
-            // NOT IMPLICIT ACCOUNT (testnet, linkdrop, funded to delegated account via contract helper)
-            await this.createNewAccount(accountId, fundingOptions, method, recoveryKeyPair.publicKey, undefined, recaptchaToken)
-        } catch (e) {
-            if (e.code === 'NotEnoughBalance') {
-                // Dispatching from here rather than inside the SetupRecoveryMethod component's handle method because
-                // we don't want to re-run this process from the top
-                // This is because calling the flow from the top would always fail due to invalid security code when the error occurred after validating the code
-                return store.dispatch(fundCreateAccount(accountId, recoveryKeyPair, fundingOptions, method))
-            }
-
-            throw e;
-        }
-    }
-
     async addLocalKeyAndFinishSetup(accountId, recoveryMethod, publicKey, previousAccountId) {
         if (recoveryMethod === 'ledger') {
             await this.addLedgerAccountId(accountId)

@@ -611,13 +611,14 @@
         "alreadyHaveAnAccount": "Already have an account?",
         "recoverItHere": "Import Existing Account",
         "note": {
-            "title": "NOTE",
-            "one": "Your account ID can contain any of the following:",
-            "two": "Lowercase characters (a-z)",
-            "three": "Digits (0-9)",
-            "four": "Characters (_-) can be used as separators",
-            "five": "Your account ID CANNOT contain:",
-            "six": "Characters \"@\" or \".\""
+            "canContain": "Your account ID can contain any of the following:",
+            "lowercase": "Lowercase characters (a-z)",
+            "digits": "Digits (0-9)",
+            "separators": "Characters (_-) can be used as separators",
+            "cannotContain": "Your account ID CANNOT contain:",
+            "characters": "Characters \"@\" or \".\"",
+            "minCharacters": "Fewer than 2 characters",
+            "maxCharacters": "More than 64 characters (including .${accountSuffix})"
         },
         "invalidLinkDrop": {
             "title": "Link Invalid",
