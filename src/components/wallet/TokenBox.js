@@ -125,9 +125,9 @@ const TokenBox = ({ token }) => {
             </div>
             <div className='desc'>
                 <span>{token.symbol}</span>
-                <span title={token.contract}>
-                    <a href={`${EXPLORER_URL}/accounts/${token.contract}`} target='_blank' rel='noopener noreferrer'>
-                        {token.contract}
+                <span title={token.contractName}>
+                    <a href={`${EXPLORER_URL}/accounts/${token.contractName}`} target='_blank' rel='noopener noreferrer'>
+                        {token.contractName}
                     </a>
                 </span>
             </div>

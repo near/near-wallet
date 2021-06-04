@@ -8,22 +8,20 @@ export const getLikelyContracts = async (accountId) => (
     await logAndIgnoreError(sendJson('GET', `${ACCOUNT_HELPER_URL}/account/${accountId}/likelyTokens`))
 )
 
-export const getMetadata = async (contract, accountId) => {
+export const getMetadata = async (contractName, accountId) => {
     const account = await wallet.getAccountBasic(accountId)
-
-    let metadata = await logAndIgnoreError(account.viewFunction(contract, 'ft_metadata'))
+    let metadata = await logAndIgnoreError(account.viewFunction(contractName, 'ft_metadata'))
     return {
-        contract,
+        contractName,
         metadata
     }
 }
 
-export const getBalanceOf = async (contract, accountId) => {
+export const getBalanceOf = async (contractName, accountId) => {
     const account = await wallet.getAccountBasic(accountId)
-
-    let balance = await logAndIgnoreError(account.viewFunction(contract, 'ft_balance_of', { account_id: accountId }))
+    let balance = await logAndIgnoreError(account.viewFunction(contractName, 'ft_balance_of', { account_id: accountId }))
     return {
-        contract,
+        contractName,
         balance
     }
 }

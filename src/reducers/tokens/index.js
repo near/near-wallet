@@ -24,10 +24,10 @@ const tokensReducer = handleActions({
             ? state
             : ({
                 ...state,
-                tokens: [...payload, ...whitelistedContractNames].reduce((x, contract) => ({
+                tokens: [...payload, ...whitelistedContractNames].reduce((x, contractName) => ({
                     ...x,
-                    [contract]: { 
-                        contract 
+                    [contractName]: { 
+                        contractName: contractName
                     }
                 }), {})
             }),
@@ -38,8 +38,8 @@ const tokensReducer = handleActions({
                 ...state,
                 tokens: {
                     ...state.tokens,
-                    [payload.contract]: {
-                        ...state.tokens[payload.contract],
+                    [payload.contractName]: {
+                        ...state.tokens[payload.contractName],
                         ...payload.metadata
                     }
                 }
@@ -51,8 +51,8 @@ const tokensReducer = handleActions({
                 ...state,
                 tokens: {
                     ...state.tokens,
-                    [payload.contract]: {
-                        ...state.tokens[payload.contract],
+                    [payload.contractName]: {
+                        ...state.tokens[payload.contractName],
                         balance: payload.balance
                     }
                 }
