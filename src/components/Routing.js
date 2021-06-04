@@ -148,7 +148,6 @@ class Routing extends Component {
         const { activeLanguage, account, redirectTo } = this.props;
 
         if (account.accountId !== prevProps.account.accountId && account.accountId !== undefined) {
-            console.log('here is the account id from componentDidUpdate', account.accountId)
             //FIX: Make call to backend to check if account is inactive and then set localStorage
             if (localStorage.getItem(`wallet:account:${account.accountId}:inactive`)) {
                 redirectTo('/')

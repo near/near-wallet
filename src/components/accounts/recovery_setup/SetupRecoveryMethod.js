@@ -55,7 +55,7 @@ const StyledContainer = styled(Container)`
 class SetupRecoveryMethod extends Component {
 
     state = {
-        option: 'phrase',
+        option: this.props.router.location.method || 'phrase',
         phoneNumber: '',
         country: '',
         email: '',
