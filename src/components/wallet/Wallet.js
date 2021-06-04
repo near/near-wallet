@@ -18,6 +18,8 @@ import LinkDropSuccessModal from './LinkDropSuccessModal'
 import { selectTokensDetails } from '../../reducers/tokens'
 import { selectActionStatus } from '../../reducers/status'
 import { selectTransactions } from '../../reducers/transactions'
+import { selectAccountId } from '../../reducers/account'
+import { selectBalance } from '../../reducers/account'
 
 import { handleGetTokens } from '../../actions/tokens'
 import classNames from '../../utils/classNames'
@@ -160,6 +162,8 @@ const StyledContainer = styled(Container)`
 export function Wallet() {
     const [exploreApps, setExploreApps] = useState(null);
     const [showLinkdropModal, setShowLinkdropModal] = useState(null);
+    const accountId = useSelector(state => selectAccountId(state))
+    const balance = useSelector(state => selectBalance(state))
     const transactions = useSelector(state => selectTransactions(state))
     const dispatch = useDispatch()
     const hideExploreApps = localStorage.getItem('hideExploreApps')
