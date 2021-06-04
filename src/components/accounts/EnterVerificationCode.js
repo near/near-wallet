@@ -14,6 +14,13 @@ const debugLog = (...args) => ENABLE_DEBUG_LOGGING && console.log('EnterVerifica
 
 const StyledContainer = styled(Container)`
 
+    h2 {
+        span {
+            color: #72727A;
+            font-weight: 600;
+        }
+    }
+
     h4 {
         margin-top: 30px;
     }
@@ -25,7 +32,7 @@ const StyledContainer = styled(Container)`
 
     button {
         width: 100% !important;
-        margin-top: 40px !important;
+        margin-top: 50px !important;
     }
 
     .resend {
@@ -179,10 +186,8 @@ const EnterVerificationCode = ({
                 <div><Translate id='setRecoveryConfirm.didNotRecive'/></div>
                 <div>
                     <span onClick={onResend} className='link'><Translate id='setRecoveryConfirm.resendCode'/></span>
-                    &nbsp;<Translate id='setRecoveryConfirm.or'/>&nbsp;<span onClick={onGoBack}
-                                                                             className='link'><Translate
-                    id='setRecoveryConfirm.sendToDifferent'/> <Translate
-                    id={`setRecoveryConfirm.${useEmail ? 'email' : 'phone'}`}/></span>
+                    &nbsp;<Translate id='setRecoveryConfirm.or'/>&nbsp;<span onClick={onGoBack} className='link'>
+                        <Translate id='setRecoveryConfirm.sendToDifferent'/> <Translate id={`setRecoveryConfirm.${useEmail ? 'email' : 'phone'}`}/></span>
                 </div>
             </div>
         </StyledContainer>
