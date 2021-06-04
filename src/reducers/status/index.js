@@ -120,3 +120,5 @@ export default reduceReducers(
     clearReducer,
     mainLoader
 )
+
+export const selectActionStatus = state => state.status.actionStatus

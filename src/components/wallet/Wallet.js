@@ -16,6 +16,7 @@ import ExploreApps from './ExploreApps'
 import Tokens from './Tokens'
 import LinkDropSuccessModal from './LinkDropSuccessModal'
 import { selectTokensDetails } from '../../reducers/tokens'
+import { selectActionStatus } from '../../reducers/status'
 
 import { handleGetTokens } from '../../actions/tokens'
 import classNames from '../../utils/classNames'
@@ -165,6 +166,7 @@ export function Wallet() {
     const linkdropAmount = localStorage.getItem('linkdropAmount')
     const linkdropModal = linkdropAmount && showLinkdropModal !== false;
     const tokens = useSelector(state => selectTokensDetails(state))
+    const actionStatus = useSelector(state => selectActionStatus(state))
     const tokensLoader = actionsPendingByPrefix('TOKENS/') || !balance?.total
     
     useEffect(() => {
