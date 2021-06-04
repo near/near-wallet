@@ -4,13 +4,13 @@ import { ACCOUNT_HELPER_URL } from './wallet'
 import * as Sentry from '@sentry/browser'
 import { wallet } from './wallet'
 
-export const getLikelyContracts = async (accountId) => (
+export const getLikelyContracts = (accountId) => (
     sendJson('GET', `${ACCOUNT_HELPER_URL}/account/${accountId}/likelyTokens`).catch(logError)
 )
 
 export const getMetadata = async (contractName, accountId) => {
     const account = await wallet.getAccountBasic(accountId)
-    let metadata = await account.viewFunction(contractName, 'ft_metadata').catch(logError)
+    const metadata = await account.viewFunction(contractName, 'ft_metadata').catch(logError)
     return {
         contractName,
         metadata
@@ -19,7 +19,7 @@ export const getMetadata = async (contractName, accountId) => {
 
 export const getBalanceOf = async (contractName, accountId) => {
     const account = await wallet.getAccountBasic(accountId)
-    let balance = await account.viewFunction(contractName, 'ft_balance_of', { account_id: accountId }).catch(logError)
+    const balance = await account.viewFunction(contractName, 'ft_balance_of', { account_id: accountId }).catch(logError)
     return {
         contractName,
         balance
