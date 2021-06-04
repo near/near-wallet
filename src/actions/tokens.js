@@ -14,8 +14,8 @@ export const handleGetTokens = () => async (dispatch, getState) => {
         await dispatch(tokens.tokensDetails.getMetadata(contract, accountId))
     }))
 
-    Object.keys(contracts).map(async contract => {
-        await dispatch(tokens.tokensDetails.getBalanceOf(contract, accountId))
+    Object.keys(contracts).map(contract => {
+        dispatch(tokens.tokensDetails.getBalanceOf(contract, accountId))
     })
 }
 
