@@ -28,7 +28,7 @@ export const actionsPendingByPrefix = (typePrefix) => {
     const { actionStatus = {} } = store.getState().status
 
     return Object.keys(actionStatus).some((type) => {
-        if (type.includes(typePrefix)) {
+        if (type.startsWith(typePrefix)) {
             return actionStatus[type]?.pending
         }
     })
