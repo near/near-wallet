@@ -71,3 +71,5 @@ export default reduceReducers(
     tokensReducer,
     clearReducer
 )
+
+export const selectTokensDetails = state => state.tokens.tokens
