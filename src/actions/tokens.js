@@ -8,14 +8,14 @@ export const handleGetTokens = () => async (dispatch, getState) => {
 
     await dispatch(tokens.likelyContracts.get(accountId))
 
-    const { tokens: contractNames } = getState().tokens
-
-    await Promise.all(Object.keys(contractNames).map(async contractName => {
+    const { likelyContracts: contractNames } = getState().tokens
+    
+    await Promise.all(contractNames.map(async contractName => {
         await dispatch(tokens.tokensDetails.getMetadata(contractName, accountId))
     }))
 
-    Object.keys(contractNames).map(contractName => {
-        getState().tokens.tokens[contractName].spec && dispatch(tokens.tokensDetails.getBalanceOf(contractName, accountId))
+    Object.keys(getState().tokens.tokens).map(contractName => {
+        dispatch(tokens.tokensDetails.getBalanceOf(contractName, accountId))
     })
 }
 
