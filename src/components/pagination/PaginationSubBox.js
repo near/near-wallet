@@ -79,8 +79,9 @@ const CustomList = styled(List)`
                         background-size: 12px auto;
                     }
                     .row {
+                        height: 40px;
                         margin: 0 0 0 24px;
-                        padding: 12px 0 0 32px !important;
+                        padding: 18px 0 0 32px !important;
                         background: url(${CheckBlueImage}) no-repeat left 14px;
                     }
                     .row:last-child {
