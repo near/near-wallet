@@ -475,6 +475,7 @@
         "startOver": "Start over",
         "copyUrl": "Copy URL",
         "createAccount": "Create Account",
+        "reserveMyAccountId": "Reserve My Account ID",
         "recoverYourAccount": "Recover your Account",
         "importExistingAccount": "Import Existing Account",
         "enable": "Enable",
@@ -678,7 +679,7 @@
     "setupRecovery": {
         "header": "Secure your account",
         "subHeader": "Select a method to secure and recover your account. This will be used to verify important activity, recover your account and access your account from other devices.",
-        "basicSecurity": "Less Secure",
+        "basicSecurity": "Most Convenient",
         "basicSecurityDesc": "Enter your email address or phone number and receive a magic link",
         "emailTitle": "Email",
         "emailDesc": "Receive a verification code and account recovery link via email.",
@@ -1032,7 +1033,7 @@
             "title": "Security & Recovery",
             "mostSecure": "Most Secure (Recommended)",
             "mostSecureDesc": "Ledger is the most secure option. Passphrases can be secure if used correctly (they must be written down and stored safely).",
-            "lessSecure": "Less Secure",
+            "lessSecure": "Most Convenient",
             "lessSecureDesc": "These options are recommended for accounts with small amounts of NEAR and other assets. They are convenient, but do present additional risk to the more secure options. If your email account or SMS messages are compromised, your funds might be at risk."
         },
         "twoFactor": "Two-Factor Authentication",

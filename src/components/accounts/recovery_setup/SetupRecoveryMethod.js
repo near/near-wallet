@@ -23,6 +23,7 @@ import {
 } from '../../../actions/account';
 import RecoveryOption from './RecoveryOption';
 import FormButton from '../../common/FormButton';
+import Tooltip from '../../common/Tooltip'
 import EnterVerificationCode from '../EnterVerificationCode';
 import Container from '../../common/styled/Container.css';
 import isApprovedCountryCode from '../../../utils/isApprovedCountryCode'
@@ -48,6 +49,8 @@ const StyledContainer = styled(Container)`
         margin-top: 40px;
         font-weight: 600;
         font-size: 15px;
+        display: flex;
+        align-items: center;
     }
 
 `
@@ -303,7 +306,10 @@ class SetupRecoveryMethod extends Component {
                     }}>
                         <h1><Translate id='setupRecovery.header' /></h1>
                         <h2><Translate id='setupRecovery.subHeader' /></h2>
-                        <h4><Translate id='setupRecovery.advancedSecurity' /></h4>
+                        <h4>
+                            <Translate id='setupRecovery.advancedSecurity' />
+                            <Tooltip translate='profile.security.mostSecureDesc' icon='icon-lg'/>
+                        </h4>
                         <RecoveryOption
                             onClick={() => this.setState({ option: 'phrase' })}
                             option='phrase'
@@ -318,7 +324,10 @@ class SetupRecoveryMethod extends Component {
                                 disabled={ledgerKey !== null && accountId === activeAccountId}
                             />
                         }
-                        <h4><Translate id='setupRecovery.basicSecurity' /></h4>
+                        <h4>
+                            <Translate id='setupRecovery.basicSecurity' />
+                            <Tooltip translate='profile.security.lessSecureDesc' icon='icon-lg'/>
+                        </h4>
                         <RecoveryOption
                             onClick={() => {
                                 this.setState({ option: 'email' });

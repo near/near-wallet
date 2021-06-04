@@ -240,7 +240,7 @@ class CreateAccount extends Component {
                             disabled={!(localAlert && localAlert.success)}
                             sending={loader}
                         >
-                            <Translate id='button.createAccountCapital'/>
+                            <Translate id='button.reserveMyAccountId'/>
                         </FormButton>
                         <div className='alternatives-title'><Translate id='createAccount.alreadyHaveAnAccount'/></div>
                         <div className='alternatives' onClick={() => {Mixpanel.track("IE Click import existing account button")}}>
