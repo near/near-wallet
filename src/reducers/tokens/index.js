@@ -9,12 +9,12 @@ const initialState = {
 }
 
 const likelyContractsReducer = handleActions({
-    [tokens.likelyContracts.get]: (state, { ready, error, payload, meta: whitelistedContractNames }) =>
+    [tokens.likelyContracts.get]: (state, { ready, error, payload: likelyContracts, meta: whitelistedContractNames }) =>
         (!ready || error)
             ? state
             : ({
                 ...state,
-                likelyContracts: [...new Set([...payload, ...whitelistedContractNames])]
+                likelyContracts: [...new Set([...likelyContracts, ...whitelistedContractNames])]
             }),
 }, initialState)
 
