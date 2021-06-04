@@ -226,11 +226,6 @@ const CustomButton = styled(Button)`
                 color: #fff;
                 background-color: #FF585D;
             }
-
-            :disabled {
-                background-color: #e6e6e6;
-                color: white;
-            }
         }
         &.gray-blue {
             color: #0072ce;
