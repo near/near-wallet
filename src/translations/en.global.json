@@ -703,6 +703,7 @@
         "inputPlaceholder": "Verification Code",
         "didNotRecive": "Didn't receive your code?",
         "resendCode": "Resend your code",
+        "resending": "Resending...",
         "or": "or",
         "sendToDifferent": "Send to a different",
         "email": "email address",

@@ -417,6 +417,7 @@ class SetupRecoveryMethod extends Component {
                     onConfirm={this.handleSetupRecoveryMethod}
                     onGoBack={this.handleGoBack}
                     onResend={this.handleSendCode}
+                    reSending={actionsPending('INITIALIZE_RECOVERY_METHOD')}
                     loading={mainLoader}
                     onRecaptchaChange={this.handleRecaptchaChange}
                 />

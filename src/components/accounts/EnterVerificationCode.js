@@ -33,6 +33,13 @@ const StyledContainer = styled(Container)`
     button {
         width: 100% !important;
         margin-top: 50px !important;
+
+        &.link {
+            &.red {
+                margin: 30px auto 0 auto !important;
+                display: block !important;
+            }
+        }
     }
 
     .resend {
@@ -71,6 +78,7 @@ const EnterVerificationCode = ({
     onConfirm,
     onGoBack,
     onResend,
+    reSending,
     email,
     phoneNumber,
     loading,
@@ -180,12 +188,18 @@ const EnterVerificationCode = ({
                 >
                     <Translate id='button.verifyCodeEnable'/>
                 </FormButton>
+                <FormButton
+                    className='link red'
+                    onClick={onGoBack}
+                >
+                    <Translate id='button.cancel'/>
+                </FormButton>
             </form>
 
             <div className='resend'>
                 <div><Translate id='setRecoveryConfirm.didNotRecive'/></div>
                 <div>
-                    <span onClick={onResend} className='link'><Translate id='setRecoveryConfirm.resendCode'/></span>
+                    <span onClick={!reSending ? onResend : () => {}} className='link'><Translate id={`setRecoveryConfirm.${!reSending ? 'resendCode' : 'resending'}`}/></span>
                     &nbsp;<Translate id='setRecoveryConfirm.or'/>&nbsp;<span onClick={onGoBack} className='link'>
                         <Translate id='setRecoveryConfirm.sendToDifferent'/> <Translate id={`setRecoveryConfirm.${useEmail ? 'email' : 'phone'}`}/></span>
                 </div>
