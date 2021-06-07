@@ -5,6 +5,7 @@ import styled from 'styled-components'
 import BinanceLogo from '../../images/binance-logo.svg'
 import HuobiLogo from '../../images/huobi-logo.svg'
 import OkexLogo from '../../images/okex-logo.svg'
+import LiqualityLogo from '../../images/liquality-logo.svg'
 
 const Container = styled.div`
     display: flex;
@@ -59,6 +60,9 @@ const WhereToBuyNearModal = ({ open, onClose }) => {
                 </a>
                 <a href='https://www.okex.com/' target='_blank' rel='noreferrer'>
                     <img src={OkexLogo} alt='OKEX'/>
+                </a>
+                <a href='https://liquality.io/' target='_blank' rel='noreferrer'>
+                    <img src={LiqualityLogo} alt='LIQUALITY'/>
                 </a>
             </Container>
         </Modal>
