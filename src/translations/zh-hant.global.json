@@ -306,8 +306,8 @@
     "setupSeedPhrase": {
         "pageTitle": "設置恢復助記詞",
         "pageText": "請按順序記錄以下助記詞，並安全保管它們。沒有助記詞你將無法恢復賬戶！",
-        "snackbarCopySuccess": "助記詞已復制！",
-        "snackbarCopyImplicitAddress": "賬戶 ID 已復制！"
+        "snackbarCopySuccess": "助記詞已複製！",
+        "snackbarCopyImplicitAddress": "賬戶 ID 已複製！"
     },
     "setupSeedPhraseVerify": {
         "pageTitle": "驗證助記詞",
@@ -323,9 +323,9 @@
     "receivePage": {
         "addressTitle": "你的地址",
         "qrCodeTitle": "掃描二維碼",
-        "copyAddressLinkLong": "復制地址鏈接",
-        "copyAddressLinkShort": "復制",
-        "snackbarCopySuccess": "地址鏈接已復制！"
+        "copyAddressLinkLong": "複製地址鏈接",
+        "copyAddressLinkShort": "複製",
+        "snackbarCopySuccess": "地址鏈接已複製！"
     },
 
     "selectAccountDropdown": {
@@ -340,8 +340,8 @@
     "recoverWithLink": {
         "title": "恢復賬戶",
         "pOne": "點擊 \"繼續\" 恢復你的賬戶：",
-        "pTwo": "如果這不是你偏好的瀏覽器，請復制鏈接並在你偏好的瀏覽器中完成恢復流程。",
-        "snackbarCopySuccess": "恢復鏈接已復制",
+        "pTwo": "如果這不是你偏好的瀏覽器，請複製鏈接並在你偏好的瀏覽器中完成恢復流程。",
+        "snackbarCopySuccess": "恢復鏈接已複製",
         "errorTitle": "鏈接已過期",
         "errorP": "請檢查你的 Email 或手機最新消息，之前消息裏的鏈接已經無效。"
     },
@@ -553,7 +553,7 @@
 
     "copy": {
         "title": "複製",
-        "default": "已復制！"
+        "default": "已複製！"
     }, 
 
     "input": {
