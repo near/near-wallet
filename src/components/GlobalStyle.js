@@ -4,7 +4,7 @@ import EmailIconGray from '../images/email-icon-gray.svg'
 import CloseBtn from '../images/close-btn.svg'
 
 export default createGlobalStyle`
-  
+
   * {
         box-sizing: inherit;
     }
@@ -174,7 +174,7 @@ export default createGlobalStyle`
 
     .username-input-icon {
         position: relative;
-      
+
         &:after {
             content: '';
             background: url(${EmailIconGray}) center no-repeat;
@@ -403,7 +403,7 @@ export default createGlobalStyle`
             > h5.item {
                 top: -4px;
             }
-        } 
+        }
     }
 
 
@@ -423,7 +423,7 @@ export default createGlobalStyle`
             font-weight: 100 !important;
         }
     }
-   
+
 
     .transactions-block .item {
         margin-left: 10px !important;
@@ -513,7 +513,7 @@ export default createGlobalStyle`
     .send-theme {
 
         > button {
-            width: 100% !important;
+            width: 100%;
         }
 
         .header-button {
@@ -546,5 +546,10 @@ export default createGlobalStyle`
                 margin-top: 10px;
             }
         }
+    }
+
+    .recaptcha-widget {
+        display: flex;
+        justify-content: center;
     }
 `

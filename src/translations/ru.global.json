@@ -560,19 +560,28 @@
         "alreadyHaveAnAccount": "Уже есть учетная запись?",
         "recoverItHere": "Восстановить доступ",
         "note": {
-            "title": "ОБРАТИТЕ ВНИМАНИЕ",
-            "one": "Ваше имя пользователя может содержать любое из следующих значений:",
-            "two": "Строчные буквы (a-z)",
-            "three": "Цифры (0-9)",
-            "four": "Символы (_-) могут быть использованы в качестве разделителей",
-            "five": "Ваше имя пользователя не может содержать:",
-            "six": "Символы \"@\" или \".\""
+            "canContain": "Ваше имя пользователя может содержать любое из следующих значений:",
+            "lowercase": "Строчные буквы (a-z)",
+            "digits": "Цифры (0-9)",
+            "separators": "Символы (_-) могут быть использованы в качестве разделителей",
+            "cannotContain": "Ваше имя пользователя не может содержать:",
+            "characters": "Символы \"@\" или \".\""
         },
         "invalidLinkDrop": {
             "title": "Некорректная ссылка",
             "one": "Ссылка NEAR Drop уже была ранее активирована.",
             "two": "Ссылка NEAR Drop может быть использована для создания одной учетной записи, после чего ссылка станет недействительной."
         }
+    },
+
+    "reCAPTCHA": {
+        "fail": {
+            "title": "Failed to load reCAPTCHA.",
+            "desc": "reCAPTCHA is required in order to authorize new accounts funded by NEAR.",
+            "link": "Fund your own account?"
+        },
+        "loading": "Loading reCAPTCHA...",
+        "disclaimer": "This site is protected by reCAPTCHA and the Google <a href='https://policies.google.com/privacy' target='_blank' rel='noopener noreferrer'>Privacy Policy</a> and <a href='https://policies.google.com/terms' target='_blank' rel='noopener noreferrer'>Terms of Service</a> apply."
     },
 
     "topLevelAccounts": {
@@ -1097,7 +1106,7 @@
 
     "confirmLedgerModal": {
         "header": {
-            "confirm": "Пожалуйста, подтвердите оперцию на вашем устройстве...",
+            "confirm": "Пожалуйста, подтвердите операцию на вашем устройстве...",
             "processing": "Обработка"
         },
         "one": "Вы должны будете подтвердить данные входа на вашем устройстве Ledger."

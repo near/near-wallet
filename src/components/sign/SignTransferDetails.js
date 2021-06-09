@@ -39,6 +39,10 @@ const CustomGrid = styled(Grid)`
 
             .title {
                 padding: 6px 0 0 0;
+
+                .color-blue {
+                    line-break: anywhere;
+                }
             }
             .details-subitem {
                 padding: 12px 12px 0;
@@ -48,6 +52,10 @@ const CustomGrid = styled(Grid)`
                     align-items: center;
                     padding-top: 4px;
                     word-break: break-all;
+
+                    pre {
+                        white-space: pre-wrap;
+                    }
 
                     .icon {
                         margin-right: 10px;

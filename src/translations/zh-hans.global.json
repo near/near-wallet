@@ -92,6 +92,7 @@
         }
     },
     "walletErrorCodes": {
+        "invalidRecaptchaCode": "reCAPTCHA 验证失败，请重试。",
         "addAccessKeySeedPhrase": {
             "errorSecond": "出现问题。<br />该助记词无法恢复你的账户，请检查后重试。"
         },
@@ -307,6 +308,7 @@
     "selectAccountDropdown": {
         "switchAccount": "切换账户",
         "selectAccount": "选择账户",
+        "account": "账户",
         "switchAccounthNotAllowed": "该应用不支持账户切换",
         "createAccount": "创建新的账户",
         "noOtherAccounts": "你没有其他账户"
@@ -392,7 +394,8 @@
         "alertBanner": {
             "title": "开启两步验证后，<b>${data} NEAR</b> 将会被锁定，以涵盖存储的消耗。",
             "button": "了解更多"
-        }
+        },
+        "checkBox": "我已知晓：开启两步验证后，${amount} NEAR 将会被锁定，以涵盖合约的存储。"
     },
 
     "fullAccessKeys": {
@@ -497,14 +500,15 @@
         "staking": "正在质押",
         "unstaking": "正在赎回质押",
         "withdrawing": "正在提现",
-        "recovering": "正在充值账户",
+        "recovering": "正在恢复账户",
         "authorizing": "正在授权",
         "deAuthorizing": "正在取消授权",
         "finish": "完成",
         "transferring": "正在转账",
         "viewOnExplorer": "通过浏览器查看",
         "buy": "购买",
-        "learnMore": "了解更多"
+        "learnMore": "了解更多",
+        "viewFAQ": "查看常见问题"
     },
 
     "link": {
@@ -573,13 +577,12 @@
         "alreadyHaveAnAccount": "已经拥有账户？",
         "recoverItHere": "恢复账户",
         "note": {
-            "title": "备注",
-            "one": "你的用户名可以输入以下任何字符：",
-            "two": "小写英文字母 (a-z)",
-            "three": "数字 (0-9)",
-            "four": "字符 (_-) 用于分割",
-            "five": "你的用户名不可以包括：",
-            "six": "符号 \"@\" 或 \".\""
+            "canContain": "你的用户名可以输入以下任何字符：",
+            "lowercase": "小写英文字母 (a-z)",
+            "digits": "数字 (0-9)",
+            "separators": "字符 (_-) 用于分割",
+            "cannotContain": "你的用户名不可以包括：",
+            "characters": "符号 \"@\" 或 \".\""
         },
         "invalidLinkDrop": {
             "title": "链接无效",
@@ -595,6 +598,30 @@
             "privacyCheck": "我同意隐私政策",
             "agreeBtn": "同意并继续",
             "declineBtn": "拒绝"
+        }
+    },
+
+    "reCAPTCHA": {
+        "fail": {
+            "title": "加载 reCAPTCHA 失败。",
+            "desc": "注册新账户时必须通过 reCAPTCHA 验证。",
+            "link": "充值你的账户？"
+        },
+        "loading": "正在加载 reCAPTCHA...",
+        "disclaimer": "此站点由 reCAPTCHA 保护，并遵循 Google <a href='https://policies.google.com/privacy' target='_blank' rel='noopener noreferrer'>隐私策略</a>和<a href='https://policies.google.com/terms' target='_blank' rel='noopener noreferrer'>服务条款</a>。"
+    },
+
+    "linkdropLanding": {
+        "title": "你收到了 NEAR 空投！",
+        "desc": "你可以登录已有的账户领取，或创建新的账户领取。",
+        "ctaAccount": "登录已有账户并领取",
+        "ctaLogin": "登录并领取",
+        "ctaNew": "注册新账户并领取",
+        "or": "或",
+        "claiming": "正在领取",
+        "modal": {
+            "title": "你的 NEAR 空投已领取",
+            "desc": "你的 NEAR 空投已自动领取至你的账户。"
         }
     },
 
@@ -632,6 +659,7 @@
         "title": "输入验证码",
         "pageText": "我们已经发送 6 位验证码至",
         "inputHeader": "输入 6 位验证码",
+        "inputError": "请输入验证码。",
         "inputPlaceholder": "验证码",
         "didNotRecive": "未收到验证码？",
         "resendCode": "重新发送",
@@ -710,7 +738,8 @@
             "isRequestingFullAccess": "正在请求<b>完全访问</b>",
             "toYourAccount": "你的账户。",
             "thisDoesNotAllow": "不允许该应用转账任何通证。",
-            "thisProvidesAccess": "提供<b>所有通证</b>操作权限。<br />请谨慎操作！"
+            "thisProvidesAccess": "提供<b>所有通证</b>操作权限。<br />请谨慎操作！",
+            "accountIdOnly": "正在请求获取你的账户 ID。"
         },
         "confirm": {
             "pageTitle": "是否确认？",
@@ -830,6 +859,10 @@
         },
         "validatorBox": {
             "fee": "费用",
+            "state": {
+                "active": "活跃",
+                "inactive": "非活跃"
+            },
             "staking": "质押",
             "near": "NEAR",
             "cta": "选择",
@@ -884,7 +917,9 @@
             "title": "选择验证节点",
             "desc": {
                 "account": "输入并选择一个验证节点来质押 NEAR 通证。",
-                "lockup": "请输入一个已知节点的名称或选择节点开始质押。同时间，你只能质押到一个节点。"
+                "lockup": "请输入一个已知节点的名称或选择节点开始质押。同时间，你只能质押到一个节点。",
+                "unstake": "请选择你希望赎回通证的验证节点。",
+                "withdraw": "请选择你希望提现的验证节点。"
             },
             "inputLabel": "输入验证节点账户 ID",
             "inputPlaceholder": "validator-name.near",
@@ -1041,6 +1076,7 @@
             "deleteAccount": "你将要删除你的账户！你的 NEAR 余额将被清空，并且你的账户数据都将被删除。"
         },
         "insufficientFunds": "资产不足",
+        "availableToTransfer": "可转账",
         "hereAreSomeDetails": "这里是能够帮助你的一些信息。",
         "contract": "合约：",
         "unknownApp": "未知应用",

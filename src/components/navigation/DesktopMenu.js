@@ -7,29 +7,14 @@ import AccessAccountBtn from './AccessAccountBtn';
 
 const Menu = styled.div`
     position: absolute;
-    top: 85px;
-    right: 40px;
-    border-radius: 4px;
+    top: 70px;
+    right: 16px;
+    border-radius: 8px;
     background-color: white;
     color: #4a4f54;
     width: 320px;
-    box-shadow: 0px 3px 9px -1px rgba(0,0,0,0.17);
-    padding: 20px;
-
-    :after {
-        content: '';
-        position: absolute;
-        top: -6px;
-        right: 25px;
-        width: 12px;
-        height: 12px;
-        background-color: white;
-        transform: rotate(-135deg);
-        border: 1px solid #eaeaea73;
-        border-left: 0;
-        border-top: 0;
-
-    }
+    box-shadow: 0px 45px 56px rgba(0, 0, 0, 0.07), 0px 10.0513px 12.5083px rgba(0, 0, 0, 0.0417275), 0px 2.99255px 3.72406px rgba(0, 0, 0, 0.0282725);
+    padding: 16px;
 
     .user-links {
         padding: 20px;
@@ -40,8 +25,7 @@ const Menu = styled.div`
     }
 `
 
-const DesktopMenu = ({ show, accountId, accounts, selectAccount, accountIdLocalStorage }) => {
-
+const DesktopMenu = ({ show, accountId, accounts, selectAccount, accountIdLocalStorage, accountsBalance, balance, refreshBalance, getBalance }) => {
     if (show) {
         return (
             <Menu id='desktop-menu'>
@@ -51,6 +35,10 @@ const DesktopMenu = ({ show, accountId, accounts, selectAccount, accountIdLocalS
                     accountId={accountId}
                     accountIdLocalStorage={accountIdLocalStorage}
                     selectAccount={selectAccount}
+                    accountsBalance={accountsBalance}
+                    balance={balance}
+                    refreshBalance={refreshBalance}
+                    getBalance={getBalance}
                 />
                 <AccessAccountBtn/>
                 <CreateAccountBtn/>
@@ -60,4 +48,4 @@ const DesktopMenu = ({ show, accountId, accounts, selectAccount, accountIdLocalS
     return null;
 }
 
-export default DesktopMenu;
+export default DesktopMenu

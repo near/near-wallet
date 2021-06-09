@@ -36,6 +36,10 @@ const CustomGrid = styled(Grid)`
             padding: 12px 0px;
             border-bottom: 1px solid #e6e6e6;
 
+            .color-blue {
+                line-break: anywhere;
+            }
+
             ul {
                 padding-left: 20px;
             }

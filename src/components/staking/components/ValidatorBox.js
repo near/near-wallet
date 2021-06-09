@@ -158,9 +158,9 @@ export default function ValidatorBox({
                         <span>
                             {
                             active ?
-                            <span className="active">active</span>
+                            <span className="active"><Translate id='staking.validatorBox.state.active' /></span>
                             :
-                            <span className="inactive">inactive</span>
+                            <span className="inactive"><Translate id='staking.validatorBox.state.inactive' /></span>
                         }
                         </span>
                     </div>

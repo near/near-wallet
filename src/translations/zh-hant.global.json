@@ -92,6 +92,7 @@
         }
     },
     "walletErrorCodes": {
+        "invalidRecaptchaCode": "reCAPTCHA 驗證失敗，請重試。", 
         "addAccessKeySeedPhrase": {
             "errorSecond": "出現問題。<br />該助記詞無法恢復你的賬戶，請檢查後重試。"
         },
@@ -307,6 +308,7 @@
     "selectAccountDropdown": {
         "switchAccount": "切換賬戶",
         "selectAccount": "選擇賬戶",
+        "account": "賬戶", 
         "switchAccounthNotAllowed": "該應用不支持賬戶切換",
         "createAccount": "創建新的賬戶",
         "noOtherAccounts": "你沒有其他賬戶"
@@ -392,7 +394,8 @@
         "alertBanner": {
             "title": "開啟兩步驗證後，<b>${data} NEAR</b> 將會被鎖定，以涵蓋存儲的消耗。",
             "button": "了解更多"
-        }
+        },
+        "checkBox": "我已知曉：開啟兩步驗證後，${amount} NEAR 將會被鎖定，以涵蓋合約的存儲。" 
     },
 
     "fullAccessKeys": {
@@ -497,14 +500,15 @@
         "staking": "正在質押",
         "unstaking": "正在贖回質押",
         "withdrawing": "正在提現",
-        "recovering": "正在充值賬戶",
+        "recovering": "正在恢復賬戶", 
         "authorizing": "正在授權",
         "deAuthorizing": "正在取消授權",
         "finish": "完成",
         "transferring": "正在轉賬",
         "viewOnExplorer": "通過瀏覽器查看",
         "buy": "購買",
-        "learnMore": "了解更多" 
+        "learnMore": "了解更多",
+        "viewFAQ": "查看常見問題" 
     },
 
     "link": {
@@ -573,13 +577,12 @@
         "alreadyHaveAnAccount": "已經擁有賬戶？",
         "recoverItHere": "恢復賬戶",
         "note": {
-            "title": "備註",
-            "one": "你的用戶名可以輸入以下任何字符：",
-            "two": "小寫英文字母 (a-z)",
-            "three": "數字 (0-9)",
-            "four": "字符 (_-) 用於分割",
-            "five": "你的用戶名不可以包括：",
-            "six": "符號 \"@\" 或 \".\""
+            "canContain": "你的用戶名可以輸入以下任何字符：",
+            "lowercase": "小寫英文字母 (a-z)",
+            "digits": "數字 (0-9)",
+            "separators": "字符 (_-) 用於分割",
+            "cannotContain": "你的用戶名不可以包括：",
+            "characters": "符號 \"@\" 或 \".\""
         },
         "invalidLinkDrop": {
             "title": "鏈接無效",
@@ -595,6 +598,30 @@
             "privacyCheck": "我同意隱私政策",
             "agreeBtn": "同意並繼續",
             "declineBtn": "拒絕"
+        }
+    },
+
+    "reCAPTCHA": {
+        "fail": {
+            "title": "加載 reCAPTCHA 失敗。",
+            "desc": "註冊新賬戶時必須通過 reCAPTCHA 驗證。",
+            "link": "充值你的賬戶？"
+        },
+        "loading": "正在加載 reCAPTCHA...",
+        "disclaimer": "此站點由 reCAPTCHA 保護，並遵循 Google <a href='https://policies.google.com/privacy' target='_blank' rel='noopener noreferrer'>隱私策略</a>和<a href='https://policies.google.com/terms' target='_blank' rel='noopener noreferrer'>服務條款</a>。"
+    }, 
+
+    "linkdropLanding": {
+        "title": "你收到了 NEAR 空投！",
+        "desc": "你可以登錄已有的賬戶領取，或創建新的賬戶領取。",
+        "ctaAccount": "登錄已有賬戶並領取",
+        "ctaLogin": "登錄並領取",
+        "ctaNew": "註冊新賬戶並領取",
+        "or": "或",
+        "claiming": "正在領取",
+        "modal": {
+            "title": "你的 NEAR 空投已領取",
+            "desc": "你的 NEAR 空投已自動領取至你的賬戶。"
         }
     },
 
@@ -632,6 +659,7 @@
         "title": "輸入驗證碼",
         "pageText": "我們已經發送 6 位驗證碼至",
         "inputHeader": "輸入 6 位驗證碼",
+        "inputError": "請輸入驗證碼。", 
         "inputPlaceholder": "驗證碼",
         "didNotRecive": "未收到驗證碼？",
         "resendCode": "重新發送",
@@ -710,7 +738,8 @@
             "isRequestingFullAccess": "正在請求<b>完全訪問</b>",
             "toYourAccount": "你的賬戶。",
             "thisDoesNotAllow": "不允許該應用轉賬任何通證。",
-            "thisProvidesAccess": "提供<b>所有通證</b>操作權限。<br />請謹慎操作！"
+            "thisProvidesAccess": "提供<b>所有通證</b>操作權限。<br />請謹慎操作！",
+            "accountIdOnly": "正在請求獲取你的賬戶 ID。" 
         },
         "confirm": {
             "pageTitle": "是否確認？",
@@ -830,6 +859,10 @@
         },
         "validatorBox": {
             "fee": "費用",
+            "state": {
+                "active": "活躍",
+                "inactive": "非活躍"
+            },
             "staking": "質押",
             "near": "NEAR",
             "cta": "選擇",
@@ -884,7 +917,9 @@
             "title": "選擇驗證節點",
             "desc": {
                 "account": "輸入並選擇一個驗證節點來質押 NEAR 通證。",
-                "lockup": "請輸入一個已知節點的名稱或選擇節點開始質押。同時間，你只能質押到一個節點。"
+                "lockup": "請輸入一個已知節點的名稱或選擇節點開始質押。同時間，你只能質押到一個節點。",
+                "unstake": "請選擇你希望贖回通證的驗證節點。",
+                "withdraw": "請選擇你希望提現的驗證節點。" 
             },
             "inputLabel": "輸入驗證節點賬戶 ID",
             "inputPlaceholder": "validator-name.near",
@@ -1041,6 +1076,7 @@
             "deleteAccount": "你將要刪除你的賬戶！你的 NEAR 餘額將被清空，並且你的賬戶數據都將被刪除。"
         },
         "insufficientFunds": "資產不足",
+        "availableToTransfer": "可轉賬", 
         "hereAreSomeDetails": "這裏是能夠幫助你的一些信息。",
         "contract": "合約：",
         "unknownApp": "未知應用",
