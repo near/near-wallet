@@ -15,14 +15,18 @@ const StyledContainer = styled(Container)`
     button {
         margin: 40px auto 0 auto !important;
         display: block !important;
+        width: 100% !important;
     }
 `
 
-export function AutoRecover() {
+export function AutoImport() {
     const dispatch = useDispatch();
     const [recovering, setRecovering] = useState(false);
-    const seedPhrase = decodeURI(window.location.hash.substring(1));
-
+    const string = decodeURI(window.location.hash.substring(1));
+    const hasAccountId = string.includes('/');
+    const accountId = hasAccountId ? string.split('/')[0] : null;
+    const seedPhrase = hasAccountId ? string.split('/')[1] : string;
+    
     useEffect(() => {
         recoverWithSeedPhrase()
     }, []);
@@ -31,7 +35,7 @@ export function AutoRecover() {
         await Mixpanel.withTracking("IE-SP Recovery with seed phrase auto",
             async () => {
                 setRecovering(true)
-                await dispatch(recoverAccountSeedPhrase(seedPhrase))
+                await dispatch(recoverAccountSeedPhrase(seedPhrase, accountId))
                 await dispatch(refreshAccount())
                 await dispatch(redirectTo('/'))
             },
@@ -43,13 +47,24 @@ export function AutoRecover() {
 
     return (
         <StyledContainer className='small-centered'>
-            {recovering === true && 
-                <h1 className='animated-dots'><Translate id='recoverAccount.recovering'/></h1>
+            {recovering === true &&
+                <h1 className='animated-dots'>
+                    <Translate
+                        id={`importAccount.${accountId ? 'withId' : 'noId'}`}
+                        data={{ accountId: accountId }}
+                    />
+                </h1>
             }
             {recovering === 'failed' &&
                 <>
-                    <h1><Translate id='recoverAccount.recoveringFailed'/></h1>
-                    <FormButton linkTo='/create'><Translate id='button.createNewAccount'/></FormButton>
+                    <h1>
+                        <Translate
+                            id={`importAccount.${accountId ? 'withIdFailed' : 'noIdFailed'}`}
+                            data={{ accountId: accountId }}
+                        />
+                    </h1>
+                    <FormButton onClick={recoverWithSeedPhrase}><Translate id='button.tryAgain'/></FormButton>
+                    <FormButton color='gray-blue' linkTo='/create'><Translate id='button.createNewAccount'/></FormButton>
                 </>
             }
         </StyledContainer>
