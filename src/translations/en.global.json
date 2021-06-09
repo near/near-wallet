@@ -585,7 +585,8 @@
             "cannotContain": "Your account ID CANNOT contain:",
             "characters": "Characters \"@\" or \".\"",
             "minCharacters": "Fewer than 2 characters",
-            "maxCharacters": "More than 64 characters (including .${accountSuffix})"
+            "maxCharacters": "More than 64 characters (including .${accountSuffix})",
+            "nearBet": "Discover account IDs for sale on <a href=\"https://near.bet\">near.bet</a>"
         },
         "invalidLinkDrop": {
             "title": "Link Invalid",

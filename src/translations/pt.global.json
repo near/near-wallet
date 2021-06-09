@@ -581,7 +581,8 @@
             "digits": "Dígitos (0-9)",
             "separators": "Caracteres (_-) podem ser usados como separadores",
             "cannotContain": "O ID da sua conta NÃO pode conter:",
-            "characters": "Caracteres \"@\" ou \".\""
+            "characters": "Caracteres \"@\" ou \".\"",
+            "nearBet": "Discover account IDs for sale on <a href=\"https://near.bet\">near.bet</a>"
         },
         "invalidLinkDrop": {
             "title": "Link inválido",

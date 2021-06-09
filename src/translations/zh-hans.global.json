@@ -582,7 +582,8 @@
             "digits": "数字 (0-9)",
             "separators": "字符 (_-) 用于分割",
             "cannotContain": "你的用户名不可以包括：",
-            "characters": "符号 \"@\" 或 \".\""
+            "characters": "符号 \"@\" 或 \".\"",
+            "nearBet": "Discover account IDs for sale on <a href=\"https://near.bet\">near.bet</a>"
         },
         "invalidLinkDrop": {
             "title": "链接无效",

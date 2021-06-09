@@ -33,6 +33,8 @@ const AccountNote = () => (
             <li><Translate id='createAccount.note.minCharacters'/></li>
             <li><Translate id='createAccount.note.maxCharacters' data={{ accountSuffix: ACCOUNT_ID_SUFFIX }}/></li>
         </ul>
+
+        <Translate id="createAccount.note.nearBet"></Translate>
     </Container>
 )
 

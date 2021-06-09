@@ -565,7 +565,8 @@
             "digits": "Цифры (0-9)",
             "separators": "Символы (_-) могут быть использованы в качестве разделителей",
             "cannotContain": "Ваше имя пользователя не может содержать:",
-            "characters": "Символы \"@\" или \".\""
+            "characters": "Символы \"@\" или \".\"",
+            "nearBet": "Discover account IDs for sale on <a href=\"https://near.bet\">near.bet</a>"
         },
         "invalidLinkDrop": {
             "title": "Некорректная ссылка",
