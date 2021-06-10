@@ -9,7 +9,7 @@ import SendIcon from '../svg/SendIcon'
 import DownArrowIcon from '../svg/DownArrowIcon'
 import BuyIcon from '../svg/BuyIcon'
 import Balance from '../common/Balance'
-import { getTransactions, getTransactionStatus } from '../../actions/transactions'
+import { getTransactions, getTransactionStatus } from '../../redux/actions/transactions'
 import { Mixpanel } from "../../mixpanel/index"
 import Activities from './Activities'
 import ExploreApps from './ExploreApps'
@@ -26,6 +26,9 @@ import classNames from '../../utils/classNames'
 import { actionsPendingByPrefix } from '../../utils/alerts'
 import { selectNFT } from '../../reducers/nft'
 import { SHOW_NETWORK_BANNER } from '../../utils/wallet'
+
+import sendJson from 'fetch-send-json'
+import { useSelectorActiveAccount } from '../../redux/useSelector'
 
 const StyledContainer = styled(Container)`
     @media (max-width: 991px) {
@@ -243,9 +246,8 @@ const StyledContainer = styled(Container)`
 export function Wallet() {
     const [exploreApps, setExploreApps] = useState(null);
     const [showLinkdropModal, setShowLinkdropModal] = useState(null);
-    const accountId = useSelector(state => selectAccountId(state))
-    const balance = useSelector(state => selectBalance(state))
-    const transactions = useSelector(state => selectTransactions(state))
+    const { balance, accountId } = useSelector(({ account }) => account)
+    const transactions = useSelectorActiveAccount(({ transactions }) => transactions)
     const dispatch = useDispatch()
     const hideExploreApps = localStorage.getItem('hideExploreApps')
     const linkdropAmount = localStorage.getItem('linkdropAmount')
