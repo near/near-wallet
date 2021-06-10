@@ -22,3 +22,8 @@ const setupReducers = (history, accounts) => {
         })
     }, {})
 }
+
+export default (history, accounts) => combineReducers({
+    ...combinedMainReducers(history),
+    ...setupReducers(history, accounts)
+})
