@@ -119,9 +119,8 @@ class ActivateAccount extends Component {
         clearInterval(this.interval)
     }
 
-    handleClaimAccount = async () => {
+    handleClaimAccount = () => {
         const { dispatch, accountId } = this.props;
-
         localStorage.removeItem(`wallet:account:${accountId}:inactive`)
         dispatch(redirectTo('/'))
     }
