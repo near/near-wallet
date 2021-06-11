@@ -162,7 +162,7 @@
         },
         "activateAccount": {
             "pre": {
-                "title": "Almost there! Make your initial desposit.",
+                "title": "Almost there! Make your initial deposit.",
                 "desc": "To begin using NEAR Wallet, make a minimum initial deposit by sending <b>at least ${amount} NEAR</b> to your Account ID (sometimes called an “address”)."
             },
             "post": {
