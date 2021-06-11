@@ -149,9 +149,9 @@ class Routing extends Component {
         const { activeLanguage, account, getAccountHelperWalletState } = this.props;
 
         //TODO: Remove if call within refreshAccount() is ok
-        // if (prevProps.account.accountId !== account.accountId && account.accountId !== undefined) {
-        //     getAccountHelperWalletState(account.accountId)
-        // }
+        if (prevProps.account.accountId !== account.accountId && account.accountId !== undefined) {
+            getAccountHelperWalletState(account.accountId)
+        }
 
         const prevLangCode = prevProps.activeLanguage && prevProps.activeLanguage.code
         const curLangCode = activeLanguage && activeLanguage.code
