@@ -674,9 +674,8 @@ class Wallet {
     async getAccountHelperWalletState(accountId) {
         const state = await sendJson('GET', ACCOUNT_HELPER_URL + `/account/walletState/${accountId}`);
         const localStorageInactive = `wallet:account:${accountId}:inactive`
-        if (state.fundedAccountNeedsDeposit) {
+        if (state.fundedAccountNeedsDeposit && !localStorage.getItem(localStorageInactive)) {
             localStorage.setItem(localStorageInactive, true)
-            store.dispatch(redirectTo('/'))
         }
         return state;
     }
