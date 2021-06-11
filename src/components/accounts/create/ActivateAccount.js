@@ -98,7 +98,7 @@ class ActivateAccount extends Component {
                 await dispatch(getBalance())
             }
             
-            if (new BN(balance.available).gte(new BN(minBalanceToUnlock))) {
+            if (minBalanceToUnlock && new BN(balance.available).gte(new BN(minBalanceToUnlock))) {
                 this.setState({ accountFunded: true });
                 if (needsDeposit) {
                     await dispatch(clearFundedAccountNeedsDeposit(accountId));
