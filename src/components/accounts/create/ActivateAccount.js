@@ -8,7 +8,7 @@ import { Translate } from 'react-localize-redux'
 import Container from '../../common/styled/Container.css'
 import FormButton from '../../common/FormButton'
 import WhereToBuyNearModal from '../../common/WhereToBuyNearModal'
-import { redirectTo, clearFundedAccountNeedsDeposit } from '../../../actions/account'
+import { redirectTo, clearFundedAccountNeedsDeposit, getBalance } from '../../../actions/account'
 import { Mixpanel } from '../../../mixpanel'
 import { isMoonpayAvailable, getSignedUrl } from '../../../utils/moonpay'
 import AccountFundedStatus from './AccountFundedStatus'
@@ -92,6 +92,8 @@ class ActivateAccount extends Component {
     checkBalance = () => {
         const { dispatch, balance, minBalanceToUnlock, accountId, needsDeposit } = this.props
         const { accountFunded } = this.state
+
+        dispatch(getBalance())
         
         if (new BN(balance.available).gte(new BN(minBalanceToUnlock))) {
             console.log('ActivateAccount.js, checkBalance(): is greater true')
