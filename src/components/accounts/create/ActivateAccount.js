@@ -93,7 +93,15 @@ class ActivateAccount extends Component {
         const { dispatch, balance, minBalanceToUnlock, accountId, needsDeposit } = this.props
         const { accountFunded } = this.state
 
-        dispatch(getBalance())
+        //FIX: Only get balance if tab is active
+        //FIX: Only gets balance a few times??
+
+        console.log('ActivateAccount.js, checkBalance(): function fired')
+
+        if (needsDeposit) {
+            console.log('ActivateAccount.js, checkBalance(): function fired and needs deposit')
+            dispatch(getBalance())
+        }
         
         if (new BN(balance.available).gte(new BN(minBalanceToUnlock))) {
             console.log('ActivateAccount.js, checkBalance(): is greater true')
