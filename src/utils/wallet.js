@@ -350,6 +350,7 @@ class Wallet {
                 newAccountPublicKey: publicKey.toString(),
                 recaptchaCode: recaptchaToken
             });
+            localStorage.setItem(`wallet:account:${accountId}:inactive`, true)
         } else {
             await sendJson('POST', CONTRACT_CREATE_ACCOUNT_URL, {
                 newAccountId: accountId,
