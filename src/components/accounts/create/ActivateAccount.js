@@ -8,8 +8,7 @@ import { Translate } from 'react-localize-redux'
 import Container from '../../common/styled/Container.css'
 import FormButton from '../../common/FormButton'
 import WhereToBuyNearModal from '../../common/WhereToBuyNearModal'
-import { redirectTo } from '../../../actions/account'
-import { MIN_BALANCE_TO_CREATE } from '../../../utils/wallet'
+import { redirectTo, clearFundedAccountNeedsDeposit } from '../../../actions/account'
 import { Mixpanel } from '../../../mixpanel'
 import { isMoonpayAvailable, getSignedUrl } from '../../../utils/moonpay'
 import AccountFundedStatus from './AccountFundedStatus'
@@ -91,12 +90,12 @@ class ActivateAccount extends Component {
     }
 
     checkBalance = () => {
-        const { balance } = this.props
+        const { dispatch, balance, minBalanceToUnlock, accountId } = this.props
         const { accountFunded } = this.state
-
-        if (!accountFunded && new BN(balance.available).gte(new BN(MIN_BALANCE_TO_CREATE))) {
+        
+        if (!accountFunded && new BN(balance.available).gte(new BN(minBalanceToUnlock))) {
             this.setState({ accountFunded: true });
-            //FIX: POST to /clearInitialFundedAccountBalance
+            dispatch(clearFundedAccountNeedsDeposit(accountId));
             window.scrollTo(0, 0)
         }
     }
@@ -111,8 +110,10 @@ class ActivateAccount extends Component {
     }
 
     handleClaimAccount = async () => {
-        const { dispatch, accountId } = this.props;
-        // FIX: POST to /clearInitialFundedAccountBalance IF not already set
+        const { dispatch, needsDeposit, accountId } = this.props
+        if (needsDeposit) {
+            await dispatch(clearFundedAccountNeedsDeposit(accountId));
+        }
         localStorage.removeItem(`wallet:account:${accountId}:inactive`)
         dispatch(redirectTo('/'))
     }
@@ -125,7 +126,8 @@ class ActivateAccount extends Component {
             accountFunded
         } = this.state
 
-        const { accountId, balance, mainLoader } = this.props;
+        const { accountId, balance, mainLoader, minBalanceToUnlock } = this.props;
+
 
         if (accountFunded) {
             return (
@@ -151,7 +153,7 @@ class ActivateAccount extends Component {
         return (
             <StyledContainer className='small-centered border'>
                 <h1><Translate id='account.activateAccount.pre.title' /></h1>
-                <h2><Translate id='account.activateAccount.pre.desc' data={{ amount: formatNearAmount(MIN_BALANCE_TO_CREATE) }}/></h2>
+                <h2><Translate id='account.activateAccount.pre.desc' data={{ amount: formatNearAmount(minBalanceToUnlock) }}/></h2>
                 <FormButton
                     onClick={() => this.setState({ whereToBuy: true })}
                     color='link'
@@ -162,7 +164,7 @@ class ActivateAccount extends Component {
                 </FormButton>
                 <AccountFundedStatus
                     accountId={accountId}
-                    minDeposit={MIN_BALANCE_TO_CREATE}
+                    minDeposit={minBalanceToUnlock}
                 />
                 {moonpayAvailable &&
                     <>
@@ -185,7 +187,9 @@ class ActivateAccount extends Component {
 
 const mapStateToProps = ({ account, status }) => ({
     ...account,
-    mainLoader: status.mainLoader
+    mainLoader: status.mainLoader,
+    minBalanceToUnlock: account.accountHelperWalletState?.requiredUnlockBalance,
+    needsDeposit: account.accountHelperWalletState?.fundedAccountNeedsDeposit
 })
 
 export const ActivateAccountWithRouter = connect(mapStateToProps)(withRouter(ActivateAccount))

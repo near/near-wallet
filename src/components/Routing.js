@@ -43,7 +43,7 @@ import { BuyNear } from './buy/BuyNear'
 import { SignWithRouter } from './sign/Sign'
 import { StakingContainer } from './staking/StakingContainer'
 import { WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS, IS_MAINNET, SHOW_PRERELEASE_WARNING } from '../utils/wallet'
-import { refreshAccount, handleRefreshUrl, handleRedirectUrl, handleClearUrl, promptTwoFactor, redirectTo } from '../actions/account'
+import { refreshAccount, handleRefreshUrl, handleRedirectUrl, handleClearUrl, promptTwoFactor, redirectTo, getAccountHelperWalletState } from '../actions/account'
 import LedgerConfirmActionModal from './accounts/ledger/LedgerConfirmActionModal';
 
 import GlobalStyle from './GlobalStyle'
@@ -128,6 +128,7 @@ class Routing extends Component {
             router
         } = this.props
 
+        //FIX: Cleanup
         //localStorage.setItem(`wallet:account:efww4r23aer.testnet:inactive`, true)
 
         handleRefreshUrl(router)
@@ -145,15 +146,12 @@ class Routing extends Component {
     }
 
     componentDidUpdate(prevProps) {
-        const { activeLanguage, account, redirectTo } = this.props;
+        const { activeLanguage, account, getAccountHelperWalletState } = this.props;
 
-        if (account.accountId !== prevProps.account.accountId && account.accountId !== undefined) {
-            //FIX: Make call to backend to check if account is inactive and then set localStorage
-            if (localStorage.getItem(`wallet:account:${account.accountId}:inactive`)) {
-                redirectTo('/')
-            }
-            //FIX: Check and clear localStorage even if it account comes back as active
-        }
+        //TODO: Remove if call within refreshAccount() is ok
+        // if (prevProps.account.accountId !== account.accountId && account.accountId !== undefined) {
+        //     getAccountHelperWalletState(account.accountId)
+        // }
 
         const prevLangCode = prevProps.activeLanguage && prevProps.activeLanguage.code
         const curLangCode = activeLanguage && activeLanguage.code
@@ -177,7 +175,8 @@ class Routing extends Component {
     render() {
         const { search } = this.props.router.location
         const { account } = this.props;
-        const inactiveAccount = localStorage.getItem(`wallet:account:${account.localStorage?.accountId || account.accountId}:inactive`)
+
+        const inactiveAccount = localStorage.getItem(`wallet:account:${account.localStorage?.accountId || account.accountId}:inactive`) || account.accountHelperWalletState?.fundedAccountNeedsDeposit;
 
         return (
             <Container className={classNames(['App', {'network-banner': (!IS_MAINNET || SHOW_PRERELEASE_WARNING)}])} id='app-container'>
@@ -383,7 +382,8 @@ const mapDispatchToProps = {
     handleRedirectUrl,
     handleClearUrl,
     promptTwoFactor,
-    redirectTo
+    redirectTo,
+    getAccountHelperWalletState
 }
 
 const mapStateToProps = ({ account, router }) => ({

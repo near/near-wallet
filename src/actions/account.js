@@ -219,6 +219,8 @@ export const {
     checkCanEnableTwoFactor,
     get2faMethod,
     getLedgerKey,
+    getAccountHelperWalletState,
+    clearFundedAccountNeedsDeposit,
     getLedgerPublicKey,
     setupRecoveryMessage,
     deleteRecoveryMethod,
@@ -293,6 +295,14 @@ export const {
     GET_LEDGER_KEY: [
         wallet.getLedgerKey.bind(wallet),
         () => ({})
+    ],
+    GET_ACCOUNT_HELPER_WALLET_STATE: [
+        wallet.getAccountHelperWalletState.bind(wallet),
+        () => ({})
+    ],
+    CLEAR_FUNDED_ACCOUNT_NEEDS_DEPOSIT: [
+        wallet.clearFundedAccountNeedsDeposit.bind(wallet),
+        () => showAlert({ onlyError: true })
     ],
     GET_LEDGER_PUBLIC_KEY: [
         wallet.getLedgerPublicKey.bind(wallet),
@@ -541,6 +551,8 @@ export const refreshAccount = (basicData = false) => async (dispatch, getState) 
     if (!basicData && !flowLimitation.accountBalance) {
         dispatch(getBalance('', flowLimitation.accountData))
     }
+    
+    dispatch(getAccountHelperWalletState(wallet.accountId))
 }
 
 export const switchAccount = (accountId) => async (dispatch, getState) => {

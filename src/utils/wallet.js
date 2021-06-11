@@ -16,7 +16,6 @@ import {
     setLedgerTxSigned,
     showLedgerModal,
     redirectTo,
-    fundCreateAccount,
     finishAccountSetup,
     selectAccount
 } from '../actions/account'
@@ -47,7 +46,7 @@ export const ENABLE_FULL_ACCESS_KEYS = process.env.ENABLE_FULL_ACCESS_KEYS === '
 export const HIDE_SIGN_IN_WITH_LEDGER_ENTER_ACCOUNT_ID_MODAL = process.env.HIDE_SIGN_IN_WITH_LEDGER_ENTER_ACCOUNT_ID_MODAL
 export const SMS_BLACKLIST = process.env.SMS_BLACKLIST || 'CN'
 export const EXPLORE_APPS_URL = process.env.EXPLORE_APPS_URL || 'https://awesomenear.com/trending/'
-export const MIN_BALANCE_TO_CREATE = process.env.MIN_BALANCE_TO_CREATE || nearApiJs.utils.format.parseNearAmount('0.35')
+export const MIN_BALANCE_TO_CREATE = process.env.MIN_BALANCE_TO_CREATE || nearApiJs.utils.format.parseNearAmount('0.2')
 export const NETWORK_ID = process.env.REACT_APP_NETWORK_ID || 'default'
 const CONTRACT_CREATE_ACCOUNT_URL = `${ACCOUNT_HELPER_URL}/account`
 const FUNDED_ACCOUNT_CREATE_URL = `${ACCOUNT_HELPER_URL}/fundedAccount`
@@ -669,6 +668,24 @@ class Wallet {
             ...options,
             ...(await this.signatureFor(this))
         });
+    }
+
+    async getAccountHelperWalletState(accountId) {
+        const state = await sendJson('GET', ACCOUNT_HELPER_URL + `/account/walletState/${accountId}`);
+        const localStorageInactive = `wallet:account:${accountId}:inactive`
+        if (state.fundedAccountNeedsDeposit) {
+            localStorage.setItem(localStorageInactive, true)
+            store.dispatch(redirectTo('/'))
+        }
+        return state;
+    }
+
+    async clearFundedAccountNeedsDeposit(accountId) {
+        const state = await sendJson('POST', ACCOUNT_HELPER_URL + `/fundedAccount/clearNeedsDeposit`, {
+            accountId
+        });
+        await this.getAccountHelperWalletState(accountId);
+        console.log('result from clearFundedAccountNeedsDeposit:', state)
     }
 
     async initializeRecoveryMethod(accountId, method) {
