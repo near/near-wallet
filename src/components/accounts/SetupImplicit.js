@@ -110,31 +110,33 @@ class SetupImplicit extends Component {
         const { implicitAccountId, dispatch } = this.props
         const { createAccount } = this.state
 
-        const account = await dispatch(getAccountBasic(implicitAccountId))
-        if (!createAccount) {
-            await Mixpanel.withTracking("CA Check balance from implicit",
-                async () => {
-                    const state = await account.state()
-                    if (new BN(state.amount).gte(new BN(MIN_BALANCE_TO_CREATE))) {
-                        Mixpanel.track("CA Check balance from implicit: sufficient")
-                        this.setState({ 
-                            balance: state.amount,
-                            whereToBuy: false,
-                            createAccount: true
-                        })
-                        window.scrollTo(0, 0);
-                        return;
-                    } else {
-                        Mixpanel.track("CA Check balance from implicit: insufficient")
+        if (!document.hidden) {
+            const account = await dispatch(getAccountBasic(implicitAccountId))
+            if (!createAccount) {
+                await Mixpanel.withTracking("CA Check balance from implicit",
+                    async () => {
+                        const state = await account.state()
+                        if (new BN(state.amount).gte(new BN(MIN_BALANCE_TO_CREATE))) {
+                            Mixpanel.track("CA Check balance from implicit: sufficient")
+                            this.setState({ 
+                                balance: state.amount,
+                                whereToBuy: false,
+                                createAccount: true
+                            })
+                            window.scrollTo(0, 0);
+                            return;
+                        } else {
+                            Mixpanel.track("CA Check balance from implicit: insufficient")
+                        }
+                    },
+                    (e) => { 
+                        if (e.message.indexOf('exist while viewing') === -1) {
+                            throw e
+                        }
+                        this.setState({ balance: 0 })
                     }
-                },
-                (e) => { 
-                    if (e.message.indexOf('exist while viewing') === -1) {
-                        throw e
-                    }
-                    this.setState({ balance: 0 })
-                }
-            )
+                )
+            }
         }
     }
 
