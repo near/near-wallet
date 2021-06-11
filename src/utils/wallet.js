@@ -683,13 +683,9 @@ class Wallet {
     }
 
     async clearFundedAccountNeedsDeposit(accountId) {
-        const clearDeposit = await sendJson('POST', ACCOUNT_HELPER_URL + `/fundedAccount/clearNeedsDeposit`, {
+        await sendJson('POST', ACCOUNT_HELPER_URL + `/fundedAccount/clearNeedsDeposit`, {
             accountId
         });
-        //const walletState = await this.getAccountHelperWalletState(accountId);
-        const walletState = await store.dispatch(getAccountHelperWalletState(accountId))
-        console.log('result from clearFundedAccountNeedsDeposit, clearNeedsDeposit:', clearDeposit)
-        console.log('result from clearFundedAccountNeedsDeposit, walletState:', walletState)
     }
 
     async initializeRecoveryMethod(accountId, method) {

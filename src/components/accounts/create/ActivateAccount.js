@@ -8,7 +8,7 @@ import { Translate } from 'react-localize-redux'
 import Container from '../../common/styled/Container.css'
 import FormButton from '../../common/FormButton'
 import WhereToBuyNearModal from '../../common/WhereToBuyNearModal'
-import { redirectTo, clearFundedAccountNeedsDeposit, getBalance } from '../../../actions/account'
+import { redirectTo, clearFundedAccountNeedsDeposit, getBalance, getAccountHelperWalletState } from '../../../actions/account'
 import { Mixpanel } from '../../../mixpanel'
 import { isMoonpayAvailable, getSignedUrl } from '../../../utils/moonpay'
 import AccountFundedStatus from './AccountFundedStatus'
@@ -89,33 +89,28 @@ class ActivateAccount extends Component {
         )
     }
 
-    checkBalance = () => {
+    checkBalance = async () => {
         const { dispatch, balance, minBalanceToUnlock, accountId, needsDeposit } = this.props
         const { accountFunded } = this.state
 
         //FIX: Only get balance if tab is active
-        //FIX: Only gets balance a few times??
-
-        console.log('ActivateAccount.js, checkBalance(): function fired')
 
         if (needsDeposit) {
-            console.log('ActivateAccount.js, checkBalance(): function fired and needs deposit')
-            dispatch(getBalance())
+            await dispatch(getBalance())
         }
         
         if (new BN(balance.available).gte(new BN(minBalanceToUnlock))) {
-            console.log('ActivateAccount.js, checkBalance(): is greater true')
             this.setState({ accountFunded: true });
             if (needsDeposit) {
-                console.log('ActivateAccount.js, checkBalance(): needsDeposit true')
-                dispatch(clearFundedAccountNeedsDeposit(accountId));
+                await dispatch(clearFundedAccountNeedsDeposit(accountId));
+                await dispatch(getAccountHelperWalletState(accountId))
                 window.scrollTo(0, 0);
             }
         }
     }
 
     componentDidMount = () => {
-        this.interval = setInterval(() => this.checkBalance(), 2000)
+        this.interval = setInterval(() => this.checkBalance(), 3000)
         this.checkMoonPay()
     }
 
@@ -125,13 +120,12 @@ class ActivateAccount extends Component {
 
     handleClaimAccount = async () => {
         const { dispatch, needsDeposit, accountId } = this.props
-        if (needsDeposit) {
-            await dispatch(clearFundedAccountNeedsDeposit(accountId));
-        }
+        // if (needsDeposit) {
+        //     await dispatch(clearFundedAccountNeedsDeposit(accountId));
+        // }
+        //FIX: Remove above. Shouldn't be needed
         localStorage.removeItem(`wallet:account:${accountId}:inactive`)
         dispatch(redirectTo('/'))
-
-        console.log('ActivateAccount.js, handleClaimAccount(): needsDeposit?', needsDeposit)
     }
 
     render() {

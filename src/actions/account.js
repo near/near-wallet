@@ -551,9 +551,6 @@ export const refreshAccount = (basicData = false) => async (dispatch, getState) 
     if (!basicData && !flowLimitation.accountBalance) {
         dispatch(getBalance('', flowLimitation.accountData))
     }
-
-    //FIX: remove
-    //dispatch(getAccountHelperWalletState(wallet.accountId))
 }
 
 export const switchAccount = (accountId) => async (dispatch, getState) => {
