@@ -90,13 +90,17 @@ class ActivateAccount extends Component {
     }
 
     checkBalance = () => {
-        const { dispatch, balance, minBalanceToUnlock, accountId } = this.props
+        const { dispatch, balance, minBalanceToUnlock, accountId, needsDeposit } = this.props
         const { accountFunded } = this.state
         
-        if (!accountFunded && new BN(balance.available).gte(new BN(minBalanceToUnlock))) {
+        if (new BN(balance.available).gte(new BN(minBalanceToUnlock))) {
+            console.log('ActivateAccount.js, checkBalance(): is greater true')
             this.setState({ accountFunded: true });
-            dispatch(clearFundedAccountNeedsDeposit(accountId));
-            window.scrollTo(0, 0)
+            if (needsDeposit) {
+                console.log('ActivateAccount.js, checkBalance(): needsDeposit true')
+                dispatch(clearFundedAccountNeedsDeposit(accountId));
+                window.scrollTo(0, 0);
+            }
         }
     }
 
@@ -116,6 +120,8 @@ class ActivateAccount extends Component {
         }
         localStorage.removeItem(`wallet:account:${accountId}:inactive`)
         dispatch(redirectTo('/'))
+
+        console.log('ActivateAccount.js, handleClaimAccount(): needsDeposit?', needsDeposit)
     }
 
     render() {

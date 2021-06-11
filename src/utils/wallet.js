@@ -17,7 +17,8 @@ import {
     showLedgerModal,
     redirectTo,
     finishAccountSetup,
-    selectAccount
+    selectAccount,
+    getAccountHelperWalletState
 } from '../actions/account'
 
 import { TwoFactor } from './twoFactor'
@@ -682,11 +683,13 @@ class Wallet {
     }
 
     async clearFundedAccountNeedsDeposit(accountId) {
-        const state = await sendJson('POST', ACCOUNT_HELPER_URL + `/fundedAccount/clearNeedsDeposit`, {
+        const clearDeposit = await sendJson('POST', ACCOUNT_HELPER_URL + `/fundedAccount/clearNeedsDeposit`, {
             accountId
         });
-        await this.getAccountHelperWalletState(accountId);
-        console.log('result from clearFundedAccountNeedsDeposit:', state)
+        //const walletState = await this.getAccountHelperWalletState(accountId);
+        const walletState = await store.dispatch(getAccountHelperWalletState(accountId))
+        console.log('result from clearFundedAccountNeedsDeposit, clearNeedsDeposit:', clearDeposit)
+        console.log('result from clearFundedAccountNeedsDeposit, walletState:', walletState)
     }
 
     async initializeRecoveryMethod(accountId, method) {
