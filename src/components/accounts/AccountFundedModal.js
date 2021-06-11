@@ -52,6 +52,7 @@ const SwapAccountContainer = styled.div`
             text-overflow: ellipsis;
             display: block;
             font-size: 13px;
+            white-space: nowrap;
         }
 
         :first-of-type {
