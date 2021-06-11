@@ -128,9 +128,6 @@ class Routing extends Component {
             router
         } = this.props
 
-        //FIX: Cleanup
-        //localStorage.setItem(`wallet:account:efww4r23aer.testnet:inactive`, true)
-
         handleRefreshUrl(router)
         refreshAccount()
 
@@ -148,7 +145,6 @@ class Routing extends Component {
     componentDidUpdate(prevProps) {
         const { activeLanguage, account, getAccountHelperWalletState } = this.props;
 
-        //TODO: Remove if call within refreshAccount() is ok
         if (prevProps.account.accountId !== account.accountId && account.accountId !== undefined) {
             getAccountHelperWalletState(account.accountId)
         }

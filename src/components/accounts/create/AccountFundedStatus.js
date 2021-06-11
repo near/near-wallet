@@ -128,12 +128,7 @@ const AccountFundedStatus = ({
                 </span>
             </div>
             <div className='amount'>
-                {!intitalDeposit ? 
-                    <Translate id='account.fundedStatus.minDeposit' />
-                    :
-                    <Translate id='account.fundedStatus.initialDeposit' />
-                    // FIX: NO NEED FOR TWO Translate tags
-                }
+                <Translate id={`account.fundedStatus.${!intitalDeposit ? 'minDeposit' : 'initialDeposit'}`} />
                 <span>
                     <Balance
                         amount={!intitalDeposit ? minDeposit : intitalDeposit}

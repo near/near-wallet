@@ -90,22 +90,23 @@ class ActivateAccount extends Component {
     }
 
     checkBalance = async () => {
-        const { dispatch, balance, minBalanceToUnlock, accountId, needsDeposit } = this.props
-        const { accountFunded } = this.state
+        const { dispatch, balance, minBalanceToUnlock, accountId, needsDeposit } = this.props;
 
-        //FIX: Only get balance if tab is active
+        if (!document.hidden) {
 
-        if (needsDeposit) {
-            await dispatch(getBalance())
-        }
-        
-        if (new BN(balance.available).gte(new BN(minBalanceToUnlock))) {
-            this.setState({ accountFunded: true });
             if (needsDeposit) {
-                await dispatch(clearFundedAccountNeedsDeposit(accountId));
-                await dispatch(getAccountHelperWalletState(accountId))
-                window.scrollTo(0, 0);
+                await dispatch(getBalance())
             }
+            
+            if (new BN(balance.available).gte(new BN(minBalanceToUnlock))) {
+                this.setState({ accountFunded: true });
+                if (needsDeposit) {
+                    await dispatch(clearFundedAccountNeedsDeposit(accountId));
+                    await dispatch(getAccountHelperWalletState(accountId))
+                    window.scrollTo(0, 0);
+                }
+            }
+            
         }
     }
 
@@ -119,11 +120,8 @@ class ActivateAccount extends Component {
     }
 
     handleClaimAccount = async () => {
-        const { dispatch, needsDeposit, accountId } = this.props
-        // if (needsDeposit) {
-        //     await dispatch(clearFundedAccountNeedsDeposit(accountId));
-        // }
-        //FIX: Remove above. Shouldn't be needed
+        const { dispatch, accountId } = this.props;
+
         localStorage.removeItem(`wallet:account:${accountId}:inactive`)
         dispatch(redirectTo('/'))
     }
