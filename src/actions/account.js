@@ -10,6 +10,7 @@ import {
     WALLET_LOGIN_URL,
     WALLET_SIGN_URL,
     WALLET_RECOVER_ACCOUNT_URL,
+    WALLET_LINKDROP_URL,
     setKeyMeta,
     MULTISIG_MIN_PROMPT_AMOUNT
 } from '../utils/wallet'
@@ -80,13 +81,14 @@ export const parseTransactionsToSign = createAction('PARSE_TRANSACTIONS_TO_SIGN'
 export const handleRefreshUrl = (prevRouter) => (dispatch, getState) => {
     const { pathname, search } = prevRouter?.location || getState().router.location
     const currentPage = pathname.split('/')[pathname[1] === '/' ? 2 : 1]
-    if ([...WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS, WALLET_LOGIN_URL, WALLET_SIGN_URL].includes(currentPage)) {
+
+    if ([...WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS, WALLET_LOGIN_URL, WALLET_SIGN_URL, WALLET_LINKDROP_URL].includes(currentPage)) {
         const parsedUrl = {
             referrer: document.referrer && new URL(document.referrer).hostname,
             ...parse(search),
             redirect_url: prevRouter ? prevRouter.location.pathname : undefined
         }
-        if ([WALLET_CREATE_NEW_ACCOUNT_URL].includes(currentPage) && search !== '') {
+        if ([WALLET_CREATE_NEW_ACCOUNT_URL, WALLET_LINKDROP_URL].includes(currentPage) && search !== '') {
             saveState(parsedUrl)
             dispatch(refreshUrl(parsedUrl))
         } else if ([WALLET_LOGIN_URL, WALLET_SIGN_URL].includes(currentPage) && search !== '') {
