@@ -67,7 +67,7 @@ export const handleClearUrl = () => (dispatch, getState) => {
     const { pathname } = getState().router.location
     const page = pathname.split('/')[1]
     const guestLandingPage = !page && !wallet.accountId
-    const saveUrlPages = [...WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS, WALLET_LOGIN_URL, WALLET_SIGN_URL].includes(page)
+    const saveUrlPages = [...WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS, WALLET_LOGIN_URL, WALLET_SIGN_URL, WALLET_LINKDROP_URL].includes(page)
 
     if (!guestLandingPage && !saveUrlPages) {
         clearState()
