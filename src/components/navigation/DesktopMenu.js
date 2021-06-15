@@ -35,7 +35,7 @@ const DesktopMenu = ({
     balance,
     refreshBalance,
     getBalance,
-    inactiveAccount
+    isInactiveAccount
 }) => {
     if (show) {
         return (
@@ -52,7 +52,7 @@ const DesktopMenu = ({
                     getBalance={getBalance}
                 />
                 <AccessAccountBtn/>
-                {!inactiveAccount &&
+                {!isInactiveAccount &&
                     <CreateAccountBtn/>
                 }
             </Menu>

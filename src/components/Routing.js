@@ -172,7 +172,7 @@ class Routing extends Component {
         const { search } = this.props.router.location
         const { account } = this.props;
 
-        const inactiveAccount = localStorage.getItem(`wallet:account:${account.localStorage?.accountId || account.accountId}:inactive`) || account.accountHelperWalletState?.fundedAccountNeedsDeposit;
+        const isInactiveAccount = localStorage.getItem(`wallet:account:${account.localStorage?.accountId || account.accountId}:inactive`) || account.accountHelperWalletState?.fundedAccountNeedsDeposit;
 
         return (
             <Container className={classNames(['App', {'network-banner': (!IS_MAINNET || SHOW_PRERELEASE_WARNING)}])} id='app-container'>
@@ -183,7 +183,7 @@ class Routing extends Component {
                         <NetworkBanner
                             account={account}
                         />
-                        <Navigation inactiveAccount={inactiveAccount}/>
+                        <Navigation isInactiveAccount={isInactiveAccount}/>
                         <GlobalAlert/>
                         <LedgerConfirmActionModal/>
                         {
@@ -214,7 +214,7 @@ class Routing extends Component {
                             <GuestLandingRoute
                                 exact
                                 path='/' 
-                                component={inactiveAccount ? ActivateAccountWithRouter : Wallet}
+                                component={isInactiveAccount ? ActivateAccountWithRouter : Wallet}
                                 accountFound={this.props.account.localStorage?.accountFound}
                             />
                             <Route
@@ -301,7 +301,7 @@ class Routing extends Component {
                                 path='/full-access-keys'
                                 component={FullAccessKeysWithRouter}
                             />
-                            {!inactiveAccount &&
+                            {!isInactiveAccount &&
                                 <PrivateRouteLimited
                                     exact
                                     path='/send-money/:id?'
@@ -323,7 +323,7 @@ class Routing extends Component {
                                 path='/profile/:accountId'
                                 component={Profile}
                             />
-                            {!inactiveAccount &&
+                            {!isInactiveAccount &&
                                 <PrivateRouteLimited
                                     exact
                                     path='/profile/:accountId?'
@@ -335,7 +335,7 @@ class Routing extends Component {
                                 path='/sign'
                                 component={SignWithRouter}
                             />
-                            {!inactiveAccount &&
+                            {!isInactiveAccount &&
                                 <PrivateRouteLimited
                                     path='/staking'
                                     component={StakingContainer}
@@ -357,7 +357,7 @@ class Routing extends Component {
                                 component={Terms}
                             />
                             <PrivateRouteLimited
-                                component={inactiveAccount ? ActivateAccountWithRouter : Wallet}
+                                component={isInactiveAccount ? ActivateAccountWithRouter : Wallet}
                             />
                         </Switch>
                         <Footer />
