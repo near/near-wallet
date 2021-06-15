@@ -32,6 +32,7 @@ import { RecoverAccountWithRouter } from './accounts/RecoverAccount'
 import { RecoverAccountSeedPhraseWithRouter } from './accounts/RecoverAccountSeedPhrase'
 import { RecoverWithLinkWithRouter } from './accounts/RecoverWithLink'
 import { SignInLedger } from './accounts/ledger/SignInLedger'
+import { AutoImport } from './accounts/auto_import/AutoImport'
 import { LoginWithRouter } from './login/Login'
 import { LoginCliLoginSuccess } from './login/LoginCliLoginSuccess'
 import { AuthorizedAppsWithRouter } from './access-keys/AccessKeys'
@@ -272,6 +273,11 @@ class Routing extends Component {
                                 exact
                                 path='/recover-with-link/:accountId?/:seedPhrase?'
                                 component={RecoverWithLinkWithRouter}
+                            />
+                            <Route
+                                exact
+                                path='/auto-import-seed-phrase'
+                                component={AutoImport}
                             />
                             <Route
                                 exact

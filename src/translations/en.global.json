@@ -458,6 +458,7 @@
         "connectLedger": "Connect to Ledger",
         "connect": "Connect",
         "retry": "Retry",
+        "tryAgain": "Try Again",
         "browseApps": "Browse Apps",
         "createAccountCapital": "Create Account",
         "findMyAccount": "Find My Account",
@@ -565,6 +566,13 @@
         "actionType": "Recovery",
         "actionRequired": "This message contains a magic link. Click the link to begin recovery!",
         "cannotResend": "This message was sent when you enabled email/phone recovery. We only send this message once, and cannot resend it."
+    },
+
+    "importAccount": {
+        "withId": "Importing account: ${accountId}",
+        "noId": "Importing account",
+        "withIdFailed": "Failed to import account: ${accountId}",
+        "noIdFailed": "Failed to import account."
     },
 
     "createAccount": {
