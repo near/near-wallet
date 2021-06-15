@@ -73,7 +73,7 @@ class SetupImplicit extends Component {
     state = { 
         balance: null,
         whereToBuy: false,
-        createAccount: null,
+        hasBeenFunded: false,
         moonpayAvailable: false,
         moonpaySignedURL: null,
         creatingAccount: false,
@@ -110,11 +110,11 @@ class SetupImplicit extends Component {
 
     checkBalance = async () => {
         const { implicitAccountId, dispatch } = this.props
-        const { createAccount } = this.state
+        const { hasBeenFunded } = this.state
 
         if (!document.hidden) {
             const account = await dispatch(getAccountBasic(implicitAccountId))
-            if (!createAccount) {
+            if (!hasBeenFunded) {
                 await Mixpanel.withTracking("CA Check balance from implicit",
                     async () => {
                         const state = await account.state()
@@ -123,7 +123,7 @@ class SetupImplicit extends Component {
                             this.setState({ 
                                 balance: state.amount,
                                 whereToBuy: false,
-                                createAccount: true
+                                hasBeenFunded: true
                             })
                             window.scrollTo(0, 0);
                             return;
@@ -164,7 +164,7 @@ class SetupImplicit extends Component {
     render() {
         const {
             whereToBuy,
-            createAccount,
+            hasBeenFunded,
             moonpayAvailable,
             moonpaySignedURL,
             balance,
@@ -174,7 +174,7 @@ class SetupImplicit extends Component {
 
         const { implicitAccountId, accountId, mainLoader } = this.props;
 
-        if (createAccount) {
+        if (hasBeenFunded) {
             return (
                 <StyledContainer className='small-centered funded' >
                     <h1><Translate id='account.createImplicit.post.title' /></h1>
