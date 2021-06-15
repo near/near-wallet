@@ -76,6 +76,8 @@ class SetupImplicit extends Component {
         createAccount: null,
         moonpayAvailable: false,
         moonpaySignedURL: null,
+        creatingAccount: false,
+        claimMyAccount: false
     }
 
     handleContinue = async () => {
