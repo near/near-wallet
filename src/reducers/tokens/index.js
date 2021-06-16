@@ -4,7 +4,6 @@ import reduceReducers from 'reduce-reducers'
 import { tokens } from '../../actions/tokens'
 
 const initialState = {
-    likelyContracts: [],
     tokens: {}
 }
 
