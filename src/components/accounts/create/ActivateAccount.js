@@ -87,7 +87,10 @@ class ActivateAccount extends Component {
                     this.setState({ moonpayAvailable, moonpaySignedURL })
                 }
             },
-            (e) => console.warn('Error checking Moonpay', e)
+            (e) => {
+                this.setState({ moonpayAvailable: false });
+                console.warn('Error checking Moonpay', e)
+            }
         )
     }
 
