@@ -14,6 +14,7 @@ import { isMoonpayAvailable, getSignedUrl } from '../../../utils/moonpay'
 import AccountFundedStatus from './AccountFundedStatus'
 import Divider from '../../common/Divider'
 import FundWithMoonpay from './FundWithMoonpay'
+import { removeAccountIsInactive } from '../../../utils/localStorage'
 
 const StyledContainer = styled(Container)`
 
@@ -147,7 +148,7 @@ class ActivateAccount extends Component {
 
     handleClaimAccount = () => {
         const { dispatch, accountId } = this.props;
-        localStorage.removeItem(`wallet:account:${accountId}:inactive`)
+        removeAccountIsInactive(accountId);
         dispatch(redirectTo('/'))
     }
 

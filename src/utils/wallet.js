@@ -8,7 +8,7 @@ import { BN } from 'bn.js'
 import { getAccountIds } from './helper-api'
 import { generateSeedPhrase } from 'near-seed-phrase';
 import { WalletError } from './walletError'
-import { setAccountConfirmed, getAccountConfirmed } from './localStorage'
+import { setAccountConfirmed, getAccountConfirmed, setAccountIsInactive, getAccountIsInactive } from './localStorage'
 
 import { store } from '..'
 import {
@@ -60,6 +60,7 @@ const ACCOUNT_ID_REGEX = /^(([a-z\d]+[-_])*[a-z\d]+\.)*([a-z\d]+[-_])*[a-z\d]+$/
 
 export const keyAccountConfirmed = (accountId) => `wallet.account:${accountId}:${NETWORK_ID}:confirmed`
 export const keyStakingAccountSelected = () => `wallet.account:${wallet.accountId}:${NETWORK_ID}:stakingAccount`
+export const keyAccountInactive = (accountId) => `wallet.account:${accountId}:${NETWORK_ID}:inactive`
 
 const WALLET_METADATA_METHOD = '__wallet__metadata'
 
@@ -350,7 +351,7 @@ class Wallet {
                 newAccountPublicKey: publicKey.toString(),
                 recaptchaCode: recaptchaToken
             });
-            localStorage.setItem(`wallet:account:${accountId}:inactive`, true)
+            setAccountIsInactive(accountId);
         } else {
             await sendJson('POST', CONTRACT_CREATE_ACCOUNT_URL, {
                 newAccountId: accountId,
@@ -673,9 +674,8 @@ class Wallet {
 
     async getAccountHelperWalletState(accountId) {
         const state = await sendJson('GET', ACCOUNT_HELPER_URL + `/account/walletState/${accountId}`);
-        const localStorageInactive = `wallet:account:${accountId}:inactive`
-        if (state.fundedAccountNeedsDeposit && !localStorage.getItem(localStorageInactive)) {
-            localStorage.setItem(localStorageInactive, true)
+        if (state.fundedAccountNeedsDeposit && !getAccountIsInactive(accountId)) {
+            setAccountIsInactive(accountId)
         }
         return state;
     }

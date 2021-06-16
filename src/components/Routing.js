@@ -55,7 +55,8 @@ import { ActivateAccountWithRouter } from './accounts/create/ActivateAccount'
 import { handleClearAlert} from '../utils/alerts'
 import { Mixpanel } from "../mixpanel/index";
 import classNames from '../utils/classNames';
-import Terms from './terms/Terms'
+import Terms from './terms/Terms';
+import { getAccountIsInactive } from '../utils/localStorage'
 
 const theme = {}
 
@@ -187,7 +188,7 @@ class Routing extends Component {
         const { search } = this.props.router.location
         const { account } = this.props;
 
-        const isInactiveAccount = localStorage.getItem(`wallet:account:${account.localStorage?.accountId || account.accountId}:inactive`) || account.accountHelperWalletState?.fundedAccountNeedsDeposit;
+        const isInactiveAccount = getAccountIsInactive(`${account.localStorage?.accountId || account.accountId}`) || account.accountHelperWalletState?.fundedAccountNeedsDeposit;
 
         return (
             <Container className={classNames(['App', {'network-banner': (!IS_MAINNET || SHOW_PRERELEASE_WARNING)}])} id='app-container'>
