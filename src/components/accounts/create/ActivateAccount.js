@@ -75,6 +75,8 @@ class ActivateAccount extends Component {
         accountFunded: false
     }
 
+    pollAccountBalanceHandle = null;
+
     checkMoonPay = async () => {
         const { accountId } = this.props
         await Mixpanel.withTracking("CA Check Moonpay available", 
@@ -92,31 +94,52 @@ class ActivateAccount extends Component {
     checkBalance = async () => {
         const { dispatch, balance, minBalanceToUnlock, accountId, needsDeposit } = this.props;
 
-        if (!document.hidden) {
-
+        if (needsDeposit) {
+            await dispatch(getBalance())
+        }
+        
+        if (minBalanceToUnlock && new BN(balance.available).gte(new BN(minBalanceToUnlock))) {
+            this.setState({ accountFunded: true });
             if (needsDeposit) {
-                await dispatch(getBalance())
+                await dispatch(clearFundedAccountNeedsDeposit(accountId));
+                await dispatch(getAccountHelperWalletState(accountId))
+                window.scrollTo(0, 0);
             }
-            
-            if (minBalanceToUnlock && new BN(balance.available).gte(new BN(minBalanceToUnlock))) {
-                this.setState({ accountFunded: true });
-                if (needsDeposit) {
-                    await dispatch(clearFundedAccountNeedsDeposit(accountId));
-                    await dispatch(getAccountHelperWalletState(accountId))
-                    window.scrollTo(0, 0);
-                }
-            }
-            
         }
     }
 
+    startPollingAccountBalance = () => {
+        const handleCheckBalance = async () => {
+            await this.checkBalance().catch(() => {});
+            this.pollAccountBalanceHandle = setTimeout(() => handleCheckBalance(), 3000);
+        }
+        this.pollAccountBalanceHandle = setTimeout(() => handleCheckBalance(), 3000);
+    }
+
+    stopPollingAccountBalance = () => {
+        clearTimeout(this.pollAccountBalanceHandle)
+        this.pollAccountBalanceHandle = null;
+    }
+ 
     componentDidMount = () => {
-        this.interval = setInterval(() => this.checkBalance(), 3000)
+        this.startPollingAccountBalance()
         this.checkMoonPay()
     }
 
+    componentDidUpdate = (prevProps) => {
+        const { windowIsVisible } = this.props;
+
+        if (prevProps.windowIsVisible !== windowIsVisible) {
+            if (windowIsVisible) {
+                this.startPollingAccountBalance()
+            } else {
+                this.stopPollingAccountBalance()
+            }
+        }
+    }
+
     componentWillUnmount = () => {
-        clearInterval(this.interval)
+        this.stopPollingAccountBalance()
     }
 
     handleClaimAccount = () => {
@@ -134,7 +157,6 @@ class ActivateAccount extends Component {
         } = this.state
 
         const { accountId, balance, mainLoader, minBalanceToUnlock } = this.props;
-
 
         if (accountFunded) {
             return (
@@ -196,7 +218,8 @@ const mapStateToProps = ({ account, status }) => ({
     ...account,
     mainLoader: status.mainLoader,
     minBalanceToUnlock: account.accountHelperWalletState?.requiredUnlockBalance,
-    needsDeposit: account.accountHelperWalletState?.fundedAccountNeedsDeposit
+    needsDeposit: account.accountHelperWalletState?.fundedAccountNeedsDeposit,
+    windowIsVisible: status.windowIsVisible
 })
 
 export const ActivateAccountWithRouter = connect(mapStateToProps)(withRouter(ActivateAccount))

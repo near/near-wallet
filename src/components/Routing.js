@@ -44,6 +44,7 @@ import { SignWithRouter } from './sign/Sign'
 import { StakingContainer } from './staking/StakingContainer'
 import { WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS, IS_MAINNET, SHOW_PRERELEASE_WARNING } from '../utils/wallet'
 import { refreshAccount, handleRefreshUrl, handleRedirectUrl, handleClearUrl, promptTwoFactor, redirectTo, getAccountHelperWalletState } from '../actions/account'
+import { setWindowIsVisible } from '../actions/status'
 import LedgerConfirmActionModal from './accounts/ledger/LedgerConfirmActionModal';
 
 import GlobalStyle from './GlobalStyle'
@@ -130,6 +131,7 @@ class Routing extends Component {
 
         handleRefreshUrl(router)
         refreshAccount()
+        document.addEventListener('visibilitychange', this.handleVisibilityChange);
 
         history.listen(async () => {
             handleRedirectUrl(this.props.router.location)
@@ -156,6 +158,19 @@ class Routing extends Component {
         if (hasLanguageChanged) {
             // this.addTranslationsForActiveLanguage(curLangCode)
             localStorage.setItem("languageCode", curLangCode)
+        }
+    }
+
+    componentWillUnmount = () => {
+        document.removeEventListener('visibilitychange', this.handleVisibilityChange);
+    }
+
+    handleVisibilityChange = () => {
+        const { setWindowIsVisible } = this.props;
+        if (document.hidden) {
+            setWindowIsVisible(false)
+        } else {
+            setWindowIsVisible(true)
         }
     }
 
@@ -379,7 +394,8 @@ const mapDispatchToProps = {
     handleClearUrl,
     promptTwoFactor,
     redirectTo,
-    getAccountHelperWalletState
+    getAccountHelperWalletState,
+    setWindowIsVisible
 }
 
 const mapStateToProps = ({ account, router }) => ({

@@ -73,12 +73,14 @@ class SetupImplicit extends Component {
     state = { 
         balance: null,
         whereToBuy: false,
-        hasBeenFunded: false,
+        accountFunded: false,
         moonpayAvailable: false,
         moonpaySignedURL: null,
         creatingAccount: false,
         claimMyAccount: false
     }
+
+    pollAccountBalanceHandle = null;
 
     handleContinue = async () => {
         const { dispatch, accountId, implicitAccountId, recoveryMethod } = this.props
@@ -110,46 +112,69 @@ class SetupImplicit extends Component {
 
     checkBalance = async () => {
         const { implicitAccountId, dispatch } = this.props
-        const { hasBeenFunded } = this.state
+        const { accountFunded } = this.state
 
-        if (!document.hidden) {
-            const account = await dispatch(getAccountBasic(implicitAccountId))
-            if (!hasBeenFunded) {
-                await Mixpanel.withTracking("CA Check balance from implicit",
-                    async () => {
-                        const state = await account.state()
-                        if (new BN(state.amount).gte(new BN(MIN_BALANCE_TO_CREATE))) {
-                            Mixpanel.track("CA Check balance from implicit: sufficient")
-                            this.setState({ 
-                                balance: state.amount,
-                                whereToBuy: false,
-                                hasBeenFunded: true
-                            })
-                            window.scrollTo(0, 0);
-                            return;
-                        } else {
-                            Mixpanel.track("CA Check balance from implicit: insufficient")
-                        }
-                    },
-                    (e) => { 
-                        if (e.message.indexOf('exist while viewing') === -1) {
-                            throw e
-                        }
-                        this.setState({ balance: 0 })
+        const account = await dispatch(getAccountBasic(implicitAccountId))
+        if (!accountFunded) {
+            await Mixpanel.withTracking("CA Check balance from implicit",
+                async () => {
+                    const state = await account.state()
+                    if (new BN(state.amount).gte(new BN(MIN_BALANCE_TO_CREATE))) {
+                        Mixpanel.track("CA Check balance from implicit: sufficient")
+                        this.setState({ 
+                            balance: state.amount,
+                            whereToBuy: false,
+                            accountFunded: true
+                        })
+                        window.scrollTo(0, 0);
+                        return;
+                    } else {
+                        Mixpanel.track("CA Check balance from implicit: insufficient")
                     }
-                )
+                },
+                (e) => { 
+                    if (e.message.indexOf('exist while viewing') === -1) {
+                        throw e
+                    }
+                    this.setState({ balance: 0 })
+                }
+            )
+        }
+    }
+
+    startPollingAccountBalance = () => {
+        const handleCheckBalance = async () => {
+            await this.checkBalance().catch(() => {});
+            this.pollAccountBalanceHandle = setTimeout(() => handleCheckBalance(), 3000);
+        }
+        this.pollAccountBalanceHandle = setTimeout(() => handleCheckBalance(), 3000);
+    }
+
+    stopPollingAccountBalance = () => {
+        clearTimeout(this.pollAccountBalanceHandle)
+        this.pollAccountBalanceHandle = null;
+    }
+ 
+    componentDidMount = () => {
+        // TODO: Check if account has already been created and if so, navigate to dashboard
+        this.startPollingAccountBalance()
+        this.checkMoonPay()
+    }
+
+    componentDidUpdate = (prevProps) => {
+        const { windowIsVisible } = this.props;
+
+        if (prevProps.windowIsVisible !== windowIsVisible) {
+            if (windowIsVisible) {
+                this.startPollingAccountBalance()
+            } else {
+                this.stopPollingAccountBalance()
             }
         }
     }
 
-    componentDidMount = () => {
-        // TODO: Check if account has already been created and if so, navigate to dashboard
-        this.interval = setInterval(() => this.checkBalance(), 2000)
-        this.checkMoonPay()
-    }
-
     componentWillUnmount = () => {
-        clearInterval(this.interval)
+        this.stopPollingAccountBalance()
     }
 
     handleClaimAccount = () => {
@@ -164,7 +189,7 @@ class SetupImplicit extends Component {
     render() {
         const {
             whereToBuy,
-            hasBeenFunded,
+            accountFunded,
             moonpayAvailable,
             moonpaySignedURL,
             balance,
@@ -174,7 +199,7 @@ class SetupImplicit extends Component {
 
         const { implicitAccountId, accountId, mainLoader } = this.props;
 
-        if (hasBeenFunded) {
+        if (accountFunded) {
             return (
                 <StyledContainer className='small-centered funded' >
                     <h1><Translate id='account.createImplicit.post.title' /></h1>
@@ -249,7 +274,8 @@ const mapStateToProps = ({ account, status }, { match: { params: { accountId, im
     accountId,
     implicitAccountId,
     recoveryMethod,
-    mainLoader: status.mainLoader
+    mainLoader: status.mainLoader,
+    windowIsVisible: status.windowIsVisible
 })
 
 export const SetupImplicitWithRouter = connect(mapStateToProps)(withRouter(SetupImplicit))

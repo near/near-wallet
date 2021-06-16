@@ -54,7 +54,7 @@ class AccountFormAccountId extends Component {
         invalidAccountIdLength: false,
         wrongChar: false
     }
-
+    canvas = null;
     input = createRef()
     suffix = createRef();
     componentDidMount = () => {
@@ -85,8 +85,10 @@ class AccountFormAccountId extends Component {
     }
 
     getTextWidth = (text, font) => {
-        let canvas = this.getTextWidth.canvas || (this.getTextWidth.canvas = document.createElement('canvas'));
-        let context = canvas.getContext('2d');
+        if (!this.canvas) {
+            this.canvas = document.createElement('canvas');
+        }
+        let context = this.canvas.getContext('2d');
         context.font = font;
         let metrics = context.measureText(text);
         return metrics.width;
