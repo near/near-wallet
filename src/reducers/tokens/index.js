@@ -8,16 +8,6 @@ const initialState = {
     tokens: {}
 }
 
-const likelyContractsReducer = handleActions({
-    [tokens.likelyContracts.get]: (state, { ready, error, payload: likelyContracts, meta: whitelistedContractNames }) =>
-        (!ready || error)
-            ? state
-            : ({
-                ...state,
-                likelyContracts: [...new Set([...likelyContracts, ...whitelistedContractNames])]
-            }),
-}, initialState)
-
 const tokensReducer = handleActions({
     [tokens.tokensDetails.getMetadata]: (state, { ready, error, payload }) =>
         (!ready || error || !payload.metadata)
@@ -55,7 +45,6 @@ const clearReducer = handleActions({
 
 export default reduceReducers(
     initialState,
-    likelyContractsReducer,
     tokensReducer,
     clearReducer
 )

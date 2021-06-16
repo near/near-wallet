@@ -6,9 +6,7 @@ const WHITELISTED_CONTRACTS = (process.env.TOKEN_CONTRACTS || 'berryclub.ek.near
 export const handleGetTokens = () => async (dispatch, getState) => {
     const { accountId } = getState().account
 
-    await dispatch(tokens.likelyContracts.get(accountId))
-
-    const { likelyContracts: contractNames } = getState().tokens
+    const contractNames = [...new Set([...(await getLikelyContracts(accountId)), ...WHITELISTED_CONTRACTS])]
     
     await Promise.all(contractNames.map(async contractName => {
         await dispatch(tokens.tokensDetails.getMetadata(contractName, accountId))
@@ -21,12 +19,6 @@ export const handleGetTokens = () => async (dispatch, getState) => {
 
 export const { tokens } = createActions({
     TOKENS: {
-        LIKELY_CONTRACTS: {
-            GET: [
-                getLikelyContracts,
-                () => WHITELISTED_CONTRACTS
-            ],
-        },
         TOKENS_DETAILS: {
             GET_METADATA: getMetadata,
             GET_BALANCE_OF: getBalanceOf
