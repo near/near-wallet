@@ -7,6 +7,7 @@ import { Translate } from 'react-localize-redux'
 import { checkNewAccount, createNewAccount, refreshAccount, checkNearDropBalance, redirectTo } from '../../actions/account'
 import { clearLocalAlert } from '../../actions/status'
 import { ACCOUNT_ID_SUFFIX, MIN_BALANCE_TO_CREATE, IS_MAINNET } from '../../utils/wallet'
+import isMobile from '../../utils/isMobile'
 import Container from '../common/styled/Container.css'
 import BrokenLinkIcon from '../svg/BrokenLinkIcon';
 import FundNearIcon from '../svg/FundNearIcon'
@@ -239,6 +240,7 @@ class CreateAccount extends Component {
                             accountId={accountId}
                             clearLocalAlert={clearLocalAlert}
                             defaultAccountId={resetAccount && resetAccount.accountIdNotConfirmed.split('.')[0]}
+                            autoFocus={!isMobile() ? true : false}
                         />
                         <AccountNote/>
                         <FormButton
