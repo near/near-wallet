@@ -53,6 +53,10 @@ const CustomGrid = styled(Grid)`
                     padding-top: 4px;
                     word-break: break-all;
 
+                    pre {
+                        white-space: pre-wrap;
+                    }
+
                     .icon {
                         margin-right: 10px;
 

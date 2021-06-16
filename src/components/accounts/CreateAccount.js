@@ -116,7 +116,8 @@ class CreateAccount extends Component {
             if (params.get('redirect') === 'false') {
                 this.handleCheckNearDropBalance()
             } else {
-                redirectTo(`/linkdrop/${fundingContract}/${fundingKey}`)
+                const redirectUrl = params.has('redirectUrl') ? `?redirectUrl=${params.get('redirectUrl')}` : ''
+                redirectTo(`/linkdrop/${fundingContract}/${fundingKey}${redirectUrl}`)
             }
         }
     }
