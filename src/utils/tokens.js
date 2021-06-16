@@ -4,7 +4,7 @@ import { ACCOUNT_HELPER_URL } from './wallet'
 import * as Sentry from '@sentry/browser'
 import { wallet } from './wallet'
 
-export const getLikelyContracts = (accountId) => (
+export const getLikelyTokenContracts = (accountId) => (
     sendJson('GET', `${ACCOUNT_HELPER_URL}/account/${accountId}/likelyTokens`).catch(logError)
 )
 
@@ -14,7 +14,7 @@ export const getMetadata = async (contractName, accountId) => {
     // FungibleTokenMetadata interface
     // https://github.com/near/NEPs/blob/master/specs/Standards/FungibleToken/Metadata.md
     const metadata = await account.viewFunction(contractName, 'ft_metadata').catch(logError)
-    
+
     return {
         contractName,
         metadata
