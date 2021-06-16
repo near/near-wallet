@@ -172,10 +172,10 @@ class CreateAccount extends Component {
         } = this.state
 
         const { localAlert, mainLoader, checkNewAccount, resetAccount, clearLocalAlert, fundingContract, fundingKey } = this.props;
-        const hasFunding = fundingContract && fundingKey;
+        const isLinkDrop = fundingContract && fundingKey;
         const useLocalAlert = accountId.length > 0 ? localAlert : undefined;
 
-        if (DISABLE_CREATE_ACCOUNT && !hasFunding && !termsAccepted) {
+        if (DISABLE_CREATE_ACCOUNT && !isLinkDrop && !termsAccepted) {
             return (
                 <StyledContainer className='small-centered border'>
                     <FundNearIcon/>
