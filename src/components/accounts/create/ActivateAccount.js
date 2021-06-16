@@ -165,7 +165,7 @@ class ActivateAccount extends Component {
                     <h2><Translate id='account.activateAccount.post.descOne'/></h2>
                     <h2><Translate id='account.activateAccount.post.descTwo'/></h2>
                     <AccountFundedStatus
-                        intitalDeposit={balance?.available}
+                        initialDeposit={balance?.available}
                         accountId={accountId}
                     />
                     <FormButton

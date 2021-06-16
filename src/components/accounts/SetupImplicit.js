@@ -208,7 +208,7 @@ class SetupImplicit extends Component {
                     {!creatingAccount &&
                         <AccountFundedStatus
                             fundingAddress={implicitAccountId}
-                            intitalDeposit={balance}
+                            initialDeposit={balance}
                             accountId={newAccountId}
                         />
                     }

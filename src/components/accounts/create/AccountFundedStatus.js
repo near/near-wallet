@@ -91,19 +91,19 @@ const AccountFundedStatus = ({
     accountId,
     fundingAddress,
     minDeposit,
-    intitalDeposit
+    initialDeposit
 }) => {
 
     return (
-        <Container className={intitalDeposit ? 'funded' : ''}>
+        <Container className={initialDeposit ? 'funded' : ''}>
             <div className='address'>
                 <div>
-                    {!intitalDeposit ? 
+                    {!initialDeposit ? 
                         <Translate id={`account.fundedStatus.${fundingAddress ? 'singleUse' : 'nearName'}`} /> 
                         : 
                         <Translate id='account.fundedStatus.nearName' />
                     }
-                    {!intitalDeposit &&
+                    {!initialDeposit &&
                         <ClickToCopy
                             copy={accountId || fundingAddress}
                             className='copy-funding-address'
@@ -120,7 +120,7 @@ const AccountFundedStatus = ({
             <div className='status'>
                 <Translate id='account.fundedStatus.status' />
                 <span>
-                    {!intitalDeposit ? 
+                    {!initialDeposit ? 
                         <Translate id='account.fundedStatus.awaitingDeposit' />
                         :
                         <Translate id={`account.fundedStatus.${fundingAddress ? 'ready' : 'active'}`} /> 
@@ -128,10 +128,10 @@ const AccountFundedStatus = ({
                 </span>
             </div>
             <div className='amount'>
-                <Translate id={`account.fundedStatus.${!intitalDeposit ? 'minDeposit' : 'initialDeposit'}`} />
+                <Translate id={`account.fundedStatus.${!initialDeposit ? 'minDeposit' : 'initialDeposit'}`} />
                 <span>
                     <Balance
-                        amount={!intitalDeposit ? minDeposit : intitalDeposit}
+                        amount={!initialDeposit ? minDeposit : initialDeposit}
                         symbol='near'
                     />
                 </span>
