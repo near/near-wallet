@@ -83,11 +83,11 @@ class SetupImplicit extends Component {
     pollAccountBalanceHandle = null;
 
     handleContinue = async () => {
-        const { dispatch, accountId, implicitAccountId, recoveryMethod } = this.props
+        const { dispatch, newAccountId, implicitAccountId, recoveryMethod } = this.props
         this.setState({ creatingAccount: true })
         await Mixpanel.withTracking("CA Create account from implicit", 
             async () => {
-                await dispatch(createAccountFromImplicit(accountId, implicitAccountId, recoveryMethod))
+                await dispatch(createAccountFromImplicit(newAccountId, implicitAccountId, recoveryMethod))
             },
             () => {
                 this.setState({ creatingAccount: false })
@@ -178,8 +178,8 @@ class SetupImplicit extends Component {
     }
 
     handleClaimAccount = () => {
-        const { dispatch, accountId, activeAccountId } = this.props;
-        if (accountId === activeAccountId) {
+        const { dispatch, newAccountId, activeAccountId } = this.props;
+        if (newAccountId === activeAccountId) {
             dispatch(redirectTo('/'))
             return;
         }
@@ -197,7 +197,7 @@ class SetupImplicit extends Component {
             creatingAccount
         } = this.state
 
-        const { implicitAccountId, accountId, mainLoader } = this.props;
+        const { implicitAccountId, newAccountId, mainLoader } = this.props;
 
         if (accountFunded) {
             return (
@@ -209,7 +209,7 @@ class SetupImplicit extends Component {
                         <AccountFundedStatus
                             fundingAddress={implicitAccountId}
                             intitalDeposit={balance}
-                            accountId={accountId}
+                            accountId={newAccountId}
                         />
                     }
                     <FormButton
@@ -224,7 +224,7 @@ class SetupImplicit extends Component {
                             onClose={() => {}}
                             open={claimMyAccount}
                             implicitAccountId={implicitAccountId}
-                            accountId={accountId}
+                            accountId={newAccountId}
                             handleFinishSetup={this.handleContinue}
                             loading={mainLoader}
                         />
@@ -271,7 +271,7 @@ class SetupImplicit extends Component {
 const mapStateToProps = ({ account, status }, { match: { params: { accountId, implicitAccountId, recoveryMethod } } }) => ({
     ...account,
     activeAccountId: account.accountId,
-    accountId,
+    newAccountId: accountId,
     implicitAccountId,
     recoveryMethod,
     mainLoader: status.mainLoader,
