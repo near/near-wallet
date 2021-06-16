@@ -13,7 +13,8 @@ import { createAccountFromImplicit, redirectTo, getAccountBasic } from '../../ac
 import { MIN_BALANCE_TO_CREATE } from '../../utils/wallet'
 import { Mixpanel } from '../../mixpanel'
 import { isMoonpayAvailable, getSignedUrl } from '../../utils/moonpay'
-import AccountFundedStatus from './create/AccountFundedStatus'
+import AccountNeedsFunding from './create/status/AccountNeedsFunding'
+import AccountFunded from './create/status/AccountFunded'
 import Divider from '../common/Divider'
 import FundWithMoonpay from './create/FundWithMoonpay'
 
@@ -209,7 +210,7 @@ class SetupImplicit extends Component {
                     <h2><Translate id='account.createImplicit.post.descOne'/></h2>
                     <h2><b><Translate id='account.createImplicit.post.descTwo'/></b></h2>
                     {!creatingAccount &&
-                        <AccountFundedStatus
+                        <AccountFunded
                             fundingAddress={implicitAccountId}
                             initialDeposit={balance}
                             accountId={newAccountId}
@@ -248,7 +249,7 @@ class SetupImplicit extends Component {
                 >
                     <Translate id='account.createImplicit.pre.whereToBuy.button' />
                 </FormButton>
-                <AccountFundedStatus
+                <AccountNeedsFunding
                     fundingAddress={implicitAccountId}
                     minDeposit={MIN_BALANCE_TO_CREATE}
                 />

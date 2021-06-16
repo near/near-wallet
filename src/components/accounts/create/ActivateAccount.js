@@ -11,7 +11,8 @@ import WhereToBuyNearModal from '../../common/WhereToBuyNearModal'
 import { redirectTo, clearFundedAccountNeedsDeposit, getBalance, getAccountHelperWalletState } from '../../../actions/account'
 import { Mixpanel } from '../../../mixpanel'
 import { isMoonpayAvailable, getSignedUrl } from '../../../utils/moonpay'
-import AccountFundedStatus from './AccountFundedStatus'
+import AccountNeedsFunding from './status/AccountNeedsFunding'
+import AccountFunded from './status/AccountFunded'
 import Divider from '../../common/Divider'
 import FundWithMoonpay from './FundWithMoonpay'
 import { removeAccountIsInactive } from '../../../utils/localStorage'
@@ -168,7 +169,7 @@ class ActivateAccount extends Component {
                     <h1><Translate id='account.activateAccount.post.title' /></h1>
                     <h2><Translate id='account.activateAccount.post.descOne'/></h2>
                     <h2><Translate id='account.activateAccount.post.descTwo'/></h2>
-                    <AccountFundedStatus
+                    <AccountFunded
                         initialDeposit={balance?.available}
                         accountId={accountId}
                     />
@@ -195,7 +196,7 @@ class ActivateAccount extends Component {
                 >
                     <Translate id='account.createImplicit.pre.whereToBuy.button' />
                 </FormButton>
-                <AccountFundedStatus
+                <AccountNeedsFunding
                     accountId={accountId}
                     minDeposit={minBalanceToUnlock}
                 />
