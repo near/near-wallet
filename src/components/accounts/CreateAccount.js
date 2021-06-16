@@ -184,7 +184,8 @@ class CreateAccount extends Component {
                     <h2><Translate id='createAccount.termsPage.descTwo'/></h2>
                     <FormButton
                         onClick={() => this.setState({ whereToBuy: true })}
-                        color='link blue'
+                        color='blue'
+                        className='link'
                         trackingId="CA Click where to buy button"
                     >
                         <Translate id='account.createImplicit.pre.whereToBuy.button' />
@@ -198,7 +199,8 @@ class CreateAccount extends Component {
                         <Translate id='createAccount.terms.agreeBtn'/>
                     </FormButton>
                     <FormButton
-                        color='link gray'
+                        color='gray'
+                        className='link'
                         onClick={() => this.props.redirectTo('/')}
                     >
                         <Translate id='button.cancel'/>

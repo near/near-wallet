@@ -32,7 +32,7 @@ const FundWithMoonpay = ({ moonpaySignedURL }) => {
             <h2><Translate id='account.createImplicit.pre.moonPay.desc'/></h2>
             <FormButton
                 linkTo='https://support.moonpay.com/'
-                color='link normal underline'
+                className='link normal underline'
                 trackingId="CA Click Moonpay learn more"
             >
                 <Translate id='button.learnMore' />
