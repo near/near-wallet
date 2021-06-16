@@ -91,6 +91,10 @@ const StyledContainer = styled(Container)`
         font-size: 12px;
         max-width: 350px;
         margin: 0 auto;
+
+        &.no-terms-page {
+            margin-top: 35px;
+        }
     }
 
     .fund-with-near-icon {
@@ -179,8 +183,9 @@ class CreateAccount extends Component {
         const { localAlert, mainLoader, checkNewAccount, resetAccount, clearLocalAlert, fundingContract, fundingKey } = this.props;
         const isLinkDrop = fundingContract && fundingKey;
         const useLocalAlert = accountId.length > 0 ? localAlert : undefined;
+        const showTermsPage = IS_MAINNET && !isLinkDrop && !termsAccepted;
 
-        if (IS_MAINNET && !isLinkDrop && !termsAccepted) {
+        if (showTermsPage) {
             return (
                 <StyledContainer className='small-centered border'>
                     <FundNearIcon/>
@@ -250,6 +255,11 @@ class CreateAccount extends Component {
                         >
                             <Translate id='button.reserveMyAccountId'/>
                         </FormButton>
+                        {!termsAccepted && 
+                            <div className='disclaimer no-terms-page'>
+                                <Translate id='createAccount.termsPage.disclaimer'/>
+                            </div>
+                        }
                         <div className='alternatives-title'><Translate id='createAccount.alreadyHaveAnAccount'/></div>
                         <div className='alternatives' onClick={() => {Mixpanel.track("IE Click import existing account button")}}>
                             <Link to={process.env.DISABLE_PHONE_RECOVERY === 'yes' ? '/recover-seed-phrase' : '/recover-account'}><Translate id='createAccount.recoverItHere' /></Link>
