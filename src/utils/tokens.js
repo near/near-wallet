@@ -10,7 +10,11 @@ export const getLikelyContracts = (accountId) => (
 
 export const getMetadata = async (contractName, accountId) => {
     const account = await wallet.getAccountBasic(accountId)
+    
+    // FungibleTokenMetadata interface
+    // https://github.com/near/NEPs/blob/master/specs/Standards/FungibleToken/Metadata.md
     const metadata = await account.viewFunction(contractName, 'ft_metadata').catch(logError)
+    
     return {
         contractName,
         metadata
