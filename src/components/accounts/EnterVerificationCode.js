@@ -81,7 +81,7 @@ const EnterVerificationCode = ({
     reSending,
     email,
     phoneNumber,
-    loading,
+    verifyingCode,
     isNewAccount,
     onRecaptchaChange
 }) => {
@@ -133,7 +133,7 @@ const EnterVerificationCode = ({
             return
         }
 
-        if (code.length === 6 && !loading) {
+        if (code.length === 6 && !verifyingCode) {
             handleConfirm().then(() => recaptchaRef?.current?.reset());
             e.preventDefault();
         }
@@ -161,7 +161,7 @@ const EnterVerificationCode = ({
                                 placeholder={translate('setRecoveryConfirm.inputPlaceholder')}
                                 aria-label={translate('setRecoveryConfirm.inputPlaceholder')}
                                 value={code}
-                                disabled={loading}
+                                disabled={verifyingCode}
                                 onChange={e => {setCode(e.target.value); setError(false);}}
                                 autoFocus={true}
                             />
@@ -182,8 +182,8 @@ const EnterVerificationCode = ({
                 <FormButton
                     color='blue'
                     type='submit'
-                    disabled={code.length !== 6 || loading || (!recaptchaToken && shouldRenderRecaptcha)}
-                    sending={loading}
+                    disabled={code.length !== 6 || verifyingCode || (!recaptchaToken && shouldRenderRecaptcha)}
+                    sending={verifyingCode}
                     sendingString={isNewAccount ? 'button.creatingAccount' : 'button.verifying'}
                 >
                     <Translate id='button.verifyCodeEnable'/>

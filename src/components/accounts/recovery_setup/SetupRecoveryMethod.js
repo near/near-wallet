@@ -67,7 +67,8 @@ class SetupRecoveryMethod extends Component {
         phoneInvalid: false,
         recoverySeedPhrase: null,
         recaptchaToken: null,
-        isNewAccount: false
+        isNewAccount: false,
+        settingUpNewAccount: false
     }
 
     emailInput = createRef()
@@ -175,28 +176,33 @@ class SetupRecoveryMethod extends Component {
             validateSecurityCode,
             saveAccount
         } = this.props;
-
-        const { secretKey } = parseSeedPhrase(recoverySeedPhrase)
-        const recoveryKeyPair = KeyPair.fromString(secretKey)
-        await validateSecurityCode(accountId, method, securityCode);
-        await saveAccount(accountId, recoveryKeyPair);
-
-        // IMPLICIT ACCOUNT
-        if (DISABLE_CREATE_ACCOUNT && !fundingOptions && !recaptchaToken) {
-            await fundCreateAccount(accountId, recoveryKeyPair, fundingOptions, method);
-            return
-        }
+        this.setState({ settingUpNewAccount: true })
 
         try {
-            // NOT IMPLICIT ACCOUNT (testnet, linkdrop, funded to delegated account via contract helper)
-            await createNewAccount(accountId, fundingOptions, method, recoveryKeyPair.publicKey, undefined, recaptchaToken)
-        } catch (e) {
-            if (e.code === 'NotEnoughBalance') {
-                Mixpanel.track('SR NotEnoughBalance creating funded account');
-                return fundCreateAccount(accountId, recoveryKeyPair, fundingOptions, method);
+            const { secretKey } = parseSeedPhrase(recoverySeedPhrase)
+            const recoveryKeyPair = KeyPair.fromString(secretKey)
+            await validateSecurityCode(accountId, method, securityCode);
+            await saveAccount(accountId, recoveryKeyPair);
+
+            // IMPLICIT ACCOUNT
+            if (DISABLE_CREATE_ACCOUNT && !fundingOptions && !recaptchaToken) {
+                await fundCreateAccount(accountId, recoveryKeyPair, fundingOptions, method);
+                return
             }
 
-            throw e;
+            try {
+                // NOT IMPLICIT ACCOUNT (testnet, linkdrop, funded to delegated account via contract helper)
+                await createNewAccount(accountId, fundingOptions, method, recoveryKeyPair.publicKey, undefined, recaptchaToken)
+            } catch (e) {
+                if (e.code === 'NotEnoughBalance') {
+                    Mixpanel.track('SR NotEnoughBalance creating funded account');
+                    return fundCreateAccount(accountId, recoveryKeyPair, fundingOptions, method);
+                }
+
+                throw e;
+            }
+        } catch(e) {
+            this.setState({ settingUpNewAccount: false })
         }
     }
 
@@ -294,7 +300,7 @@ class SetupRecoveryMethod extends Component {
     }
 
     render() {
-        const { option, phoneNumber, email, success, emailInvalid, phoneInvalid, country, isNewAccount } = this.state;
+        const { option, phoneNumber, email, success, emailInvalid, phoneInvalid, country, isNewAccount, settingUpNewAccount } = this.state;
         const { mainLoader, accountId, activeAccountId, ledgerKey, twoFactor } = this.props;
 
         if (!success) {
@@ -418,7 +424,7 @@ class SetupRecoveryMethod extends Component {
                     onGoBack={this.handleGoBack}
                     onResend={this.handleSendCode}
                     reSending={actionsPending('INITIALIZE_RECOVERY_METHOD')}
-                    loading={mainLoader}
+                    verifyingCode={actionsPending('SETUP_RECOVERY_MESSAGE') || settingUpNewAccount}
                     onRecaptchaChange={this.handleRecaptchaChange}
                 />
             )

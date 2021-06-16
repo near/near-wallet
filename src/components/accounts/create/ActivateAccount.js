@@ -175,7 +175,7 @@ class ActivateAccount extends Component {
                     />
                     <FormButton
                         onClick={this.handleClaimAccount}
-                        trackingId="CA implicit click continue to my account"
+                        trackingId="CA activate account click continue to my account"
                         disabled={mainLoader}
                     >
                         <Translate id='button.continueToMyAccount' />

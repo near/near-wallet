@@ -19,7 +19,6 @@ import Divider from '../common/Divider'
 import FundWithMoonpay from './create/FundWithMoonpay'
 
 const StyledContainer = styled(Container)`
-
     h2 {
         b {
             color: #3F4045;
@@ -238,7 +237,7 @@ class SetupImplicit extends Component {
         }
 
         return (
-            <StyledContainer className='small-centered'>
+            <StyledContainer className='small-centered funded'>
                 <h1><Translate id='account.createImplicit.pre.title' /></h1>
                 <h2><Translate id='account.createImplicit.pre.descOne' data={{ amount: formatNearAmount(MIN_BALANCE_TO_CREATE) }}/></h2>
                 <FormButton

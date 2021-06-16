@@ -255,7 +255,7 @@ export function EnableTwoFactor(props) {
                 onGoBack={handleGoBack}
                 onResend={handleResendCode}
                 reSending={actionsPending('INIT_TWO_FACTOR')}
-                loading={loading}
+                verifyingCode={loading}
                 localAlert={status.localAlert}
             />
         )
