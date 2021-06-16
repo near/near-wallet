@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom'
 import { Translate } from 'react-localize-redux'
 import { checkNewAccount, createNewAccount, refreshAccount, checkNearDropBalance, redirectTo } from '../../actions/account'
 import { clearLocalAlert } from '../../actions/status'
-import { ACCOUNT_ID_SUFFIX, MIN_BALANCE_TO_CREATE, DISABLE_CREATE_ACCOUNT } from '../../utils/wallet'
+import { ACCOUNT_ID_SUFFIX, MIN_BALANCE_TO_CREATE, IS_MAINNET } from '../../utils/wallet'
 import Container from '../common/styled/Container.css'
 import BrokenLinkIcon from '../svg/BrokenLinkIcon';
 import FundNearIcon from '../svg/FundNearIcon'
@@ -175,7 +175,7 @@ class CreateAccount extends Component {
         const isLinkDrop = fundingContract && fundingKey;
         const useLocalAlert = accountId.length > 0 ? localAlert : undefined;
 
-        if (DISABLE_CREATE_ACCOUNT && !isLinkDrop && !termsAccepted) {
+        if (IS_MAINNET && !isLinkDrop && !termsAccepted) {
             return (
                 <StyledContainer className='small-centered border'>
                     <FundNearIcon/>
