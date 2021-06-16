@@ -168,7 +168,7 @@
             "post": {
                 "title": "Your account has been activated.",
                 "descOne": "Your initial deposit has been received and transferred to your new account. Your account is now active!",
-                "descTwo": "A portion of your deposit has been reserved to cover the <u>cost of hosting your account</u>."
+                "descTwo": "A portion of your deposit has been reserved to cover the <a href='https://docs.near.org/docs/concepts/account' rel='noopener noreferrer' target='_blank'>cost of hosting your account</a>."
             }
         },
         "createImplicit": {
@@ -598,9 +598,9 @@
     "createAccount": {
         "termsPage": {
             "title": "Before you begin...",
-            "descOne": "NEAR accounts require a minimum balance of <b>at least ${data} NEAR</b> to <u>hold a place on the network.</u>",
+            "descOne": "NEAR accounts require a minimum balance of <a href='https://docs.near.org/docs/concepts/account' rel='noopener noreferrer' target='_blank'>at least ${data} NEAR</a> to <a href='https://docs.near.org/docs/concepts/account' rel='noopener noreferrer' target='_blank'>hold a place on the network.</a>",
             "descTwo": "After reserving a unique account address, you’ll be asked to make a small initial deposit to activate your account.",
-            "disclaimer": "By creating a NEAR account, you agree to the NEAR Wallet <u><a href='/terms' rel='noopener noreferrer' target='_blank'>Terms of Service</a></u> and <u><a href='https://near.org/privacy' rel='noopener noreferrer' target='_blank'>Privacy Policy</a></u>."
+            "disclaimer": "By creating a NEAR account, you agree to the NEAR Wallet <a href='/terms' rel='noopener noreferrer' target='_blank'>Terms of Service</a> and <a href='https://near.org/privacy' rel='noopener noreferrer' target='_blank'>Privacy Policy</a>."
         },
         "pageTitle": "Reserve Account ID",
         "pageText": "Enter an Account ID to use with your NEAR account. Your Account ID will be used for all NEAR operations, including sending and receiving assets.",

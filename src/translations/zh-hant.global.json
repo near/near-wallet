@@ -168,7 +168,7 @@
             "post": {
                 "title": "你的賬戶已經激活。",
                 "descOne": "你的初始充值已經收到，並且轉至新的賬戶，新賬戶已經激活！",
-                "descTwo": "一部分充值被保留用於涵蓋<u>賬戶的存儲成本</u>。"
+                "descTwo": "一部分充值被保留用於涵蓋<a href='https://docs.near.org/docs/concepts/account' rel='noopener noreferrer' target='_blank'>賬戶的存儲成本</a>。"
             }
         },
         "createImplicit": {
@@ -597,9 +597,9 @@
     "createAccount": {
         "termsPage": {
             "title": "在開始之前...",
-            "descOne": "NEAR 賬戶要求進行一筆一次性<b>至少 ${data} NEAR</b> 的充值來涵蓋<u>你的賬戶存儲成本</u>。",
+            "descOne": "NEAR 賬戶要求進行一筆一次性<a href='https://docs.near.org/docs/concepts/account' rel='noopener noreferrer' target='_blank'>至少 ${data} NEAR</a> 的充值來涵蓋<a href='https://docs.near.org/docs/concepts/account' rel='noopener noreferrer' target='_blank'>你的賬戶存儲成本</a>。",
             "descTwo": "在保留你的個性化賬戶 ID 之後，你需要進行一筆初始充值來激活的賬戶。",
-            "disclaimer": "通過註冊NEAR 賬戶，意味著你同意NEAR 錢包的<u><a href='/terms' rel='noopener noreferrer' target='_blank'>服務條款</a></u>和<u><a href='https://near.org/privacy' rel='noopener noreferrer' target='_blank'>隱私策略</a></u>。"
+            "disclaimer": "通過註冊NEAR 賬戶，意味著你同意NEAR 錢包的<a href='/terms' rel='noopener noreferrer' target='_blank'>服務條款</a>和<a href='https://near.org/privacy' rel='noopener noreferrer' target='_blank'>隱私策略</a>。"
         },
         "pageTitle": "創建新的賬戶",
         "pageText": "只需要輸入用戶名即完成註冊。",

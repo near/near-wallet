@@ -53,6 +53,12 @@ const StyledContainer = styled(Container)`
 
     a {
         text-decoration: underline;
+        color: #72727A;
+
+        :hover {
+            text-decoration: none;
+            color: #72727A;
+        }
     }
     
     .alternatives-title {
@@ -84,9 +90,6 @@ const StyledContainer = styled(Container)`
         font-size: 12px;
         max-width: 350px;
         margin: 0 auto;
-        a {
-            color: #72727A;
-        }
     }
 
     .fund-with-near-icon {

@@ -67,6 +67,16 @@ const StyledContainer = styled(Container)`
         .funded {
             margin: 60px 0;
         }
+
+        a {
+            color: #72727A;
+            text-decoration: underline;
+
+            :hover {
+                color: #72727A;
+                text-decoration: none;
+            }
+        }
     }
 `
 class ActivateAccount extends Component {
