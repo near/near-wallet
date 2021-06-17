@@ -373,9 +373,9 @@ export const handleGetLockup = (accountId) => async (dispatch, getState) => {
     }
 }
 
-export const handleStakingUpdateAccount = (recentlyStakedValidators = [], exAccountId) => async (dispatch, getState) => {
+export const handleStakingUpdateAccount = (recentlyStakedValidators = [], exAccountId) => async (dispatch, getState, getStateActiveAccount) => {
     const { accountId, balance } = exAccountId
-        ? getState().allAccounts[exAccountId]
+        ? getStateActiveAccount().allAccounts[exAccountId]
         : getState().account
 
     const validatorDepositMap = await getStakingDeposits(accountId)
