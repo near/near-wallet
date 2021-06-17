@@ -4,17 +4,21 @@ import combinedAccountReducers from './combinedAccountReducers'
 import combinedMainReducers from './combinedMainReducers'
 
 import { wallet } from '../../utils/wallet'
+import { store } from '../../'
 
-const setupReducers = (history, accounts) => {
-    if (!accounts.length) {
+const setupReducers = (history) => {
+    const accounts = Object.keys(wallet.accounts)
+    if (!accounts) {
         return {}
     }
 
     return accounts.reduce((x, accountId) => {
         const reducer = combinedAccountReducers(history)
+        const inicialState = reducer(store?.getState()[accountId], {})
+
         return ({
             ...x,
-            [accountId]: (state = reducer({}, {}), action) => (
+            [accountId]: (state = inicialState, action) => (
                 (accountId === wallet.accountId)
                     ? reducer(state, action)
                     : state
@@ -23,7 +27,7 @@ const setupReducers = (history, accounts) => {
     }, {})
 }
 
-export default (history, accounts) => combineReducers({
+export default (history) => combineReducers({
     ...combinedMainReducers(history),
-    ...setupReducers(history, accounts)
+    ...setupReducers(history)
 })
