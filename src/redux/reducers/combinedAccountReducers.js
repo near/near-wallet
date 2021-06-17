@@ -2,7 +2,6 @@ import { combineReducers } from 'redux'
 import { connectRouter } from 'connected-react-router'
 import { localizeReducer } from 'react-localize-redux'
 
-import availableAccounts from '../../reducers/available-accounts'
 import account from '../../reducers/account'
 import sign from '../../reducers/sign'
 import recoveryMethods from '../../reducers/recoveryMethods'
@@ -13,11 +12,12 @@ import flowLimitation from '../../reducers/flowLimitation'
 
 import transactions from './transactions'
 import allAccounts from './allAccounts'
+import availableAccounts from './availableAccounts'
 
 export default (history) => combineReducers({
     // localize: localizeReducer,
     allAccounts,
-    // availableAccounts,
+    availableAccounts,
     // account,
     transactions,
     // sign,
