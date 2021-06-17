@@ -12,6 +12,7 @@ import Button from '../common/Button'
 import InlineNotification from '../common/InlineNotification'
 import FormButton from '../common/FormButton'
 import BalanceBreakdown from '../staking/components/BalanceBreakdown'
+import connectAccount from '../../redux/connectAccount'
 
 
 const Container = styled.div`
@@ -252,10 +253,10 @@ const mapDispatchToProps = {
     switchAccount
 }
 
-const mapStateToProps = ({ account, sign, availableAccounts }) => ({
+const mapStateToProps = ({ account, sign }, { availableAccounts }) => ({
     account,
     availableAccounts,
     ...sign
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(SignTransferReady))
+export default connectAccount(mapStateToProps, mapDispatchToProps)(withRouter(SignTransferReady))
