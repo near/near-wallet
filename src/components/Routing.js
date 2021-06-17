@@ -149,7 +149,7 @@ class Routing extends Component {
     componentDidUpdate(prevProps) {
         const { activeLanguage, account, getAccountHelperWalletState } = this.props;
 
-        if (prevProps.account.accountId !== account.accountId && account.accountId !== undefined) {
+        if (account && prevProps.account.accountId !== account.accountId && account.accountId !== undefined) {
             getAccountHelperWalletState(account.accountId)
         }
 
@@ -189,7 +189,7 @@ class Routing extends Component {
         const { search } = this.props.router.location
         const { account } = this.props;
 
-        const isInactiveAccount = getAccountIsInactive(`${account.localStorage?.accountId || account.accountId}`) || account.accountHelperWalletState?.fundedAccountNeedsDeposit;
+        const isInactiveAccount = account && (getAccountIsInactive(`${account.localStorage?.accountId || account.accountId}`) || account.accountHelperWalletState?.fundedAccountNeedsDeposit);
 
         return (
             <Container className={classNames(['App', {'network-banner': (!IS_MAINNET || SHOW_PRERELEASE_WARNING)}])} id='app-container'>
