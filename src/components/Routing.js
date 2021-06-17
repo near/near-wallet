@@ -172,11 +172,7 @@ class Routing extends Component {
 
     handleVisibilityChange = () => {
         const { setWindowIsVisible } = this.props;
-        if (document.hidden) {
-            setWindowIsVisible(false)
-        } else {
-            setWindowIsVisible(true)
-        }
+        setWindowIsVisible(document.hidden ? false : true)
     }
 
     // addTranslationsForActiveLanguage(activeLang) {
