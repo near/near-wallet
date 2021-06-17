@@ -117,8 +117,8 @@ class SetupImplicit extends Component {
         const { implicitAccountId, dispatch } = this.props
         const { accountFunded } = this.state
 
-        const account = await dispatch(getAccountBasic(implicitAccountId))
         if (!accountFunded) {
+            const account = await dispatch(getAccountBasic(implicitAccountId))
             await Mixpanel.withTracking("CA Check balance from implicit",
                 async () => {
                     const state = await account.state()
@@ -143,6 +143,7 @@ class SetupImplicit extends Component {
                 }
             )
         }
+
     }
 
     startPollingAccountBalance = () => {
