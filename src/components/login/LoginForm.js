@@ -11,6 +11,7 @@ import SelectAccountDropdown from './SelectAccountDropdown'
 
 import IconProblems from '../../images/IconProblems'
 import IconAuthorize from '../../images/IconAuthorize'
+import connectAccount from '../../redux/connectAccount'
 
 const LoginForm = ({
     dropdown,
@@ -165,9 +166,9 @@ LoginForm.propTypes = {
     redirectCreateAccount: PropTypes.func.isRequired
 }
 
-const mapStateToProps = ({ account, availableAccounts }) => ({
+const mapStateToProps = ({ account }, { availableAccounts }) => ({
     account,
     availableAccounts
 })
 
-export default connect(mapStateToProps)(withRouter(LoginForm))
+export default connectAccount(mapStateToProps)(withRouter(LoginForm))
