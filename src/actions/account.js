@@ -19,7 +19,7 @@ import { WalletError } from '../utils/walletError'
 import { utils } from 'near-api-js'
 import { BN } from 'bn.js'
 import { showAlert, dispatchWithAlert } from '../utils/alerts'
-import { handleFlowLimitation, handleClearflowLimitation } from './flowLimitation'
+import { handleFlowLimitation, handleClearflowLimitation } from '../redux/actions/flowLimitation'
 import {
     handleStakingUpdateAccount,
     handleStakingUpdateLockup,
@@ -528,8 +528,8 @@ export const { signAndSendTransactions, setSignTransactionStatus, sendMoney, tra
     ]
 })
 
-export const refreshAccount = (basicData = false) => async (dispatch, getState) => {
-    const { flowLimitation } = getState()
+export const refreshAccount = (basicData = false) => async (dispatch, getState, getStateActiveAccount) => {
+    const { flowLimitation } = getStateActiveAccount()
 
     if (!wallet.accountId) {
         return
@@ -554,8 +554,7 @@ export const switchAccount = (accountId) => async (dispatch, getState) => {
 
 export const getAvailableAccountsBalance = () => async (dispatch, getState, getStateActiveAccount) => {
     let { accountsBalance } = getState().account
-    let { flowLimitation } = getState()
-    let { availableAccounts } = getStateActiveAccount()
+    let { availableAccounts, flowLimitation } = getStateActiveAccount()
 
     if (flowLimitation.accountData) {
         return
