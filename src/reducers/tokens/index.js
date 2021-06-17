@@ -16,12 +16,13 @@ const tokensReducer = handleActions({
                 tokens: {
                     ...state.tokens,
                     [payload.contractName]: {
+                        contractName: payload.contractName,
                         ...state.tokens[payload.contractName],
                         ...payload.metadata
                     }
                 }
             }),
-    [tokens.tokensDetails.getBalanceOf]: (state, { ready, error, payload }) => 
+    [tokens.tokensDetails.getBalanceOf]: (state, { ready, error, payload }) =>
         (!ready || error)
             ? state
             : ({
@@ -30,6 +31,7 @@ const tokensReducer = handleActions({
                     ...state.tokens,
                     [payload.contractName]: {
                         ...state.tokens[payload.contractName],
+                        contractName: payload.contractName,
                         balance: payload.balance
                     }
                 }
