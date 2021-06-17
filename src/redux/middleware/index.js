@@ -4,6 +4,8 @@ import { routerMiddleware } from 'connected-react-router'
 
 import * as Sentry from '@sentry/browser'
 
+import { wallet } from '../../utils/wallet'
+
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
 
 /**
@@ -40,10 +42,28 @@ const readyStatePromise = store => next => action => {
     )
 }
 
+const thunkWithActiveAccount = store => next => action => {
+    if (typeof action === 'function') {
+        const dispatch = store.dispatch
+        const getStateActiveAccount = () => {
+            console.log(wallet.accountId);
+            return getState()[wallet.accountId]
+        }
+        const getState = store.getState
+
+        // ultimately: return action(dispatch, getStateActiveAccount, getState)
+        return action(dispatch, getState, getStateActiveAccount)
+    }
+    return next(action)
+}
+
+console.log('thunk', thunk);
+
 export default (history) => composeEnhancers(
     applyMiddleware(
         routerMiddleware(history),
-        thunk,
-        readyStatePromise
+        // thunk,
+        readyStatePromise,
+        thunkWithActiveAccount
     )
 )
