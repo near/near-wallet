@@ -57,8 +57,6 @@ const thunkWithActiveAccount = store => next => action => {
     return next(action)
 }
 
-console.log('thunk', thunk);
-
 export default (history) => composeEnhancers(
     applyMiddleware(
         routerMiddleware(history),
