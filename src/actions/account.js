@@ -552,9 +552,10 @@ export const switchAccount = (accountId) => async (dispatch, getState) => {
     dispatch(nft.clearState())
 }
 
-export const getAvailableAccountsBalance = () => async (dispatch, getState) => {
+export const getAvailableAccountsBalance = () => async (dispatch, getState, getStateActiveAccount) => {
     let { accountsBalance } = getState().account
-    let { availableAccounts, flowLimitation } = getState()
+    let { flowLimitation } = getState()
+    let { availableAccounts } = getStateActiveAccount()
 
     if (flowLimitation.accountData) {
         return
