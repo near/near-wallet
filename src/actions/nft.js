@@ -5,7 +5,6 @@ import { Account } from 'near-api-js'
 
 export const handleGetNFTs = () => async (dispatch, getState) => {
     let { account: { accountId } } = getState()
-    accountId = 'vlad.near'
 
     const likelyContracts = await dispatch(nft.likelyContracts.get(accountId))
 
