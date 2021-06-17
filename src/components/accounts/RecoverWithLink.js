@@ -12,7 +12,6 @@ import {
 import { Snackbar, snackbarDuration } from '../common/Snackbar'
 import { Translate } from 'react-localize-redux'
 import copyText from '../../utils/copyText'
-import isMobile from '../../utils/isMobile'
 import { DISABLE_CREATE_ACCOUNT } from '../../utils/wallet'
 import { Mixpanel } from '../../mixpanel/index'
 import { actionsPending } from '../../utils/alerts'
@@ -138,7 +137,7 @@ class RecoverWithLink extends Component {
 
     handleCopyUrl = () => {
         Mixpanel.track("IE with link Click copy url button")
-        if (navigator.share && isMobile()) {
+        if (navigator.share && this.props.isMobile) {
             navigator.share({
                 url: window.location.href
             }).catch(err => {
@@ -241,7 +240,8 @@ const mapStateToProps = ({ account, status }, { match }) => ({
     ...account,
     accountId: match.params.accountId || '',
     seedPhrase: match.params.seedPhrase || '',
-    mainLoader: status.mainLoader
+    mainLoader: status.mainLoader,
+    isMobile: status.isMobile
 })
 
 export const RecoverWithLinkWithRouter = connect(

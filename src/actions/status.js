@@ -1,7 +1,7 @@
 import { createActions } from 'redux-actions'
 import { showAlert } from '../utils/alerts'
 
-export const { clearLocalAlert, clearGlobalAlert, showCustomAlert, setMainLoader, setWindowIsVisible } = createActions({
+export const { clearLocalAlert, clearGlobalAlert, showCustomAlert, setMainLoader, setWindowIsVisible, setIsMobile } = createActions({
     CLEAR_LOCAL_ALERT: null,
     CLEAR_GLOBAL_ALERT: null,
     SHOW_CUSTOM_ALERT: [
@@ -9,5 +9,6 @@ export const { clearLocalAlert, clearGlobalAlert, showCustomAlert, setMainLoader
         (meta) => showAlert(meta)
     ],
     SET_MAIN_LOADER: null,
-    SET_WINDOW_IS_VISIBLE: null
+    SET_WINDOW_IS_VISIBLE: null,
+    SET_IS_MOBILE: null
 })

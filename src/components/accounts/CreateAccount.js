@@ -7,7 +7,6 @@ import { Translate } from 'react-localize-redux'
 import { checkNewAccount, createNewAccount, refreshAccount, checkNearDropBalance, redirectTo } from '../../actions/account'
 import { clearLocalAlert } from '../../actions/status'
 import { ACCOUNT_ID_SUFFIX, MIN_BALANCE_TO_CREATE, IS_MAINNET } from '../../utils/wallet'
-import isMobile from '../../utils/isMobile'
 import Container from '../common/styled/Container.css'
 import BrokenLinkIcon from '../svg/BrokenLinkIcon';
 import FundNearIcon from '../svg/FundNearIcon'
@@ -180,7 +179,7 @@ class CreateAccount extends Component {
             whereToBuy
         } = this.state
 
-        const { localAlert, mainLoader, checkNewAccount, resetAccount, clearLocalAlert, fundingContract, fundingKey } = this.props;
+        const { localAlert, mainLoader, checkNewAccount, resetAccount, clearLocalAlert, fundingContract, fundingKey, isMobile } = this.props;
         const isLinkDrop = fundingContract && fundingKey;
         const useLocalAlert = accountId.length > 0 ? localAlert : undefined;
         const showTermsPage = IS_MAINNET && !isLinkDrop && !termsAccepted;
@@ -245,7 +244,7 @@ class CreateAccount extends Component {
                             accountId={accountId}
                             clearLocalAlert={clearLocalAlert}
                             defaultAccountId={resetAccount && resetAccount.accountIdNotConfirmed.split('.')[0]}
-                            autoFocus={!isMobile() ? true : false}
+                            autoFocus={isMobile ? false : true}
                         />
                         <AccountNote/>
                         <FormButton
@@ -294,6 +293,7 @@ const mapStateToProps = ({ account, status }, { match }) => ({
     ...account,
     localAlert: status.localAlert,
     mainLoader: status.mainLoader,
+    isMobile: status.isMobile,
     fundingContract: match.params.fundingContract,
     fundingKey: match.params.fundingKey,
     fundingAccountId: match.params.fundingAccountId,

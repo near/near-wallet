@@ -44,8 +44,9 @@ import { BuyNear } from './buy/BuyNear'
 import { SignWithRouter } from './sign/Sign'
 import { StakingContainer } from './staking/StakingContainer'
 import { WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS, IS_MAINNET, SHOW_PRERELEASE_WARNING } from '../utils/wallet'
+import isMobile from '../utils/isMobile'
 import { refreshAccount, handleRefreshUrl, handleRedirectUrl, handleClearUrl, promptTwoFactor, redirectTo, getAccountHelperWalletState } from '../actions/account'
-import { setWindowIsVisible } from '../actions/status'
+import { setWindowIsVisible, setIsMobile } from '../actions/status'
 import LedgerConfirmActionModal from './accounts/ledger/LedgerConfirmActionModal';
 
 import GlobalStyle from './GlobalStyle'
@@ -128,11 +129,13 @@ class Routing extends Component {
             history,
             handleRedirectUrl,
             handleClearUrl,
-            router
+            router,
+            setIsMobile
         } = this.props
 
         handleRefreshUrl(router)
         refreshAccount()
+        setIsMobile(isMobile())
         document.addEventListener('visibilitychange', this.handleVisibilityChange);
 
         history.listen(async () => {
@@ -402,7 +405,8 @@ const mapDispatchToProps = {
     promptTwoFactor,
     redirectTo,
     getAccountHelperWalletState,
-    setWindowIsVisible
+    setWindowIsVisible,
+    setIsMobile
 }
 
 const mapStateToProps = ({ account, router }) => ({
