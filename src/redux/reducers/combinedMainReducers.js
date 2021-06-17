@@ -8,7 +8,6 @@ import recoveryMethods from '../../reducers/recoveryMethods'
 import ledger from '../../reducers/ledger'
 import staking from '../../reducers/staking'
 import status from '../../reducers/status'
-import flowLimitation from '../../reducers/flowLimitation'
 
 export default (history) => ({
     localize: localizeReducer,
@@ -22,5 +21,4 @@ export default (history) => ({
     ledger,
     staking,
     status,
-    flowLimitation,
 })
