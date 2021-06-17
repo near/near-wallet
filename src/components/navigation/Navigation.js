@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import DesktopContainer from './DesktopContainer';
 import MobileContainer from './MobileContainer';
 import styled from 'styled-components';
+import connectAccount from '../../redux/connectAccount';
 
 const Container = styled.div`
     position: fixed;
@@ -113,7 +114,7 @@ class Navigation extends Component {
     }
 }
 
-const mapStateToProps = ({ account, availableAccounts, router, flowLimitation }) => ({
+const mapStateToProps = ({ account, router, flowLimitation }, { availableAccounts }) => ({
     account,
     availableAccounts,
     router,
@@ -127,7 +128,7 @@ const mapDispatchToProps = {
     getBalance
 }
 
-export default connect(
+export default connectAccount(
     mapStateToProps,
     mapDispatchToProps
 )(withRouter(Navigation))
