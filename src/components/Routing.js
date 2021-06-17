@@ -149,7 +149,7 @@ class Routing extends Component {
     componentDidUpdate(prevProps) {
         const { activeLanguage, account, getAccountHelperWalletState } = this.props;
 
-        if (prevProps.account?.accountId !== account?.accountId && account?.accountId !== undefined) {
+        if (prevProps.account.accountId !== account.accountId && account.accountId !== undefined) {
             getAccountHelperWalletState(account.accountId)
         }
 
