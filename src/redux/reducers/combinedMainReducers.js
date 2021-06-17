@@ -1,7 +1,6 @@
 import { connectRouter } from 'connected-react-router'
 import { localizeReducer } from 'react-localize-redux'
 
-import allAccounts from '../../reducers/allAccounts'
 import availableAccounts from '../../reducers/available-accounts'
 import account from '../../reducers/account'
 import transactions from '../../reducers/transactions'
@@ -17,7 +16,6 @@ export default (history) => ({
     router: connectRouter(history),
 
     // to be removed after redux refactor finish
-    allAccounts,
     availableAccounts,
     account,
     transactions,
