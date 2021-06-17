@@ -76,6 +76,40 @@ const StyledContainer = styled.div`
         font-size: 16px;
         font-weight: 700;
         color: #24272a;
+
+        .dots {
+            :after {
+                position: absolute;
+                content: '.';
+                font-weight: 300;
+                animation: link 1s steps(5, end) infinite;
+            
+                @keyframes link {
+                    0%, 20% {
+                        color: rgba(0,0,0,0);
+                        text-shadow:
+                            .3em 0 0 rgba(0,0,0,0),
+                            .6em 0 0 rgba(0,0,0,0);
+                    }
+                    40% {
+                        color: #24272a;
+                        text-shadow:
+                            .3em 0 0 rgba(0,0,0,0),
+                            .6em 0 0 rgba(0,0,0,0);
+                    }
+                    60% {
+                        text-shadow:
+                            .3em 0 0 #24272a,
+                            .6em 0 0 rgba(0,0,0,0);
+                    }
+                    80%, 100% {
+                        text-shadow:
+                            .3em 0 0 #24272a,
+                            .6em 0 0 #24272a;
+                    }
+                }
+            }
+        }
     }
 `
 
@@ -91,9 +125,9 @@ const TokenBox = ({ token }) => {
             </div>
             <div className='desc'>
                 <span>{token.symbol}</span>
-                <span title={token.contract}>
-                    <a href={`${EXPLORER_URL}/accounts/${token.contract}`} target='_blank' rel='noopener noreferrer'>
-                        {token.contract}
+                <span title={token.contractName}>
+                    <a href={`${EXPLORER_URL}/accounts/${token.contractName}`} target='_blank' rel='noopener noreferrer'>
+                        {token.contractName}
                     </a>
                 </span>
             </div>

@@ -206,3 +206,7 @@ export default reduceReducers(
     twoFactorPrompt,
     ledgerKey
 )
+
+export const selectAccountId = state => state.account.accountId
+
+export const selectBalance = state => state.account.balance

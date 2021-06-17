@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import * as Sentry from '@sentry/browser'
 import styled from 'styled-components'
 import { Translate } from 'react-localize-redux'
 import FormButton from '../common/FormButton'
@@ -15,10 +14,14 @@ import { Mixpanel } from "../../mixpanel/index"
 import Activities from './Activities'
 import ExploreApps from './ExploreApps'
 import Tokens from './Tokens'
-import { ACCOUNT_HELPER_URL, wallet } from '../../utils/wallet'
 import LinkDropSuccessModal from './LinkDropSuccessModal'
-
-import sendJson from 'fetch-send-json'
+import { selectTokensDetails } from '../../reducers/tokens'
+import { selectActionStatus } from '../../reducers/status'
+import { selectTransactions } from '../../reducers/transactions'
+import { selectAccountId, selectBalance } from '../../reducers/account'
+import { handleGetTokens } from '../../actions/tokens'
+import classNames from '../../utils/classNames'
+import { actionsPendingByPrefix } from '../../utils/alerts'
 
 const StyledContainer = styled(Container)`
     .sub-title {
@@ -34,6 +37,39 @@ const StyledContainer = styled(Container)`
             justify-content: space-between;
             width: 100%;
             max-width: unset;
+
+            .dots {
+                :after {
+                    position: absolute;
+                    content: '.';
+                    animation: link 1s steps(5, end) infinite;
+                
+                    @keyframes link {
+                        0%, 20% {
+                            color: rgba(0,0,0,0);
+                            text-shadow:
+                                .3em 0 0 rgba(0,0,0,0),
+                                .6em 0 0 rgba(0,0,0,0);
+                        }
+                        40% {
+                            color: #24272a;
+                            text-shadow:
+                                .3em 0 0 rgba(0,0,0,0),
+                                .6em 0 0 rgba(0,0,0,0);
+                        }
+                        60% {
+                            text-shadow:
+                                .3em 0 0 #24272a,
+                                .6em 0 0 rgba(0,0,0,0);
+                        }
+                        80%, 100% {
+                            text-shadow:
+                                .3em 0 0 #24272a,
+                                .6em 0 0 #24272a;
+                        }
+                    }
+                }
+            }
         }
     }
 
@@ -124,12 +160,16 @@ const StyledContainer = styled(Container)`
 export function Wallet() {
     const [exploreApps, setExploreApps] = useState(null);
     const [showLinkdropModal, setShowLinkdropModal] = useState(null);
-    const { balance, accountId } = useSelector(({ account }) => account)
-    const transactions = useSelector(({ transactions }) => transactions)
+    const accountId = useSelector(state => selectAccountId(state))
+    const balance = useSelector(state => selectBalance(state))
+    const transactions = useSelector(state => selectTransactions(state))
     const dispatch = useDispatch()
     const hideExploreApps = localStorage.getItem('hideExploreApps')
     const linkdropAmount = localStorage.getItem('linkdropAmount')
     const linkdropModal = linkdropAmount && showLinkdropModal !== false;
+    const tokens = useSelector(state => selectTokensDetails(state))
+    const actionStatus = useSelector(state => selectActionStatus(state))
+    const tokensLoader = actionsPendingByPrefix('TOKENS/') || !balance?.total
     
     useEffect(() => {
         if (accountId) {
@@ -140,25 +180,6 @@ export function Wallet() {
         }
     }, [accountId])
 
-    const logError = (error) => {
-        console.warn(error);
-        Sentry.captureException()
-    };
-
-    // TODO: Refactor loading token balances using Redux
-    const cachedTokensKey = `cachedTokens:${accountId}`;
-    const cachedTokens = (() => {
-        try {
-            return JSON.parse(localStorage.getItem(cachedTokensKey));
-        } catch(e) {
-            logError(e);
-            return {};
-        }
-    })();
-
-    const whitelistedContracts = (process.env.TOKEN_CONTRACTS || 'berryclub.ek.near,farm.berryclub.ek.near,wrap.near').split(',');
-    const [tokens, setTokens] = useState(cachedTokens || {});
-
     const sortedTokens = Object.keys(tokens).map(key => tokens[key]).sort((a, b) => (a.symbol || '').localeCompare(b.symbol || ''));
 
     useEffect(() => {
@@ -166,39 +187,7 @@ export function Wallet() {
             return
         }
 
-        sendJson('GET', `${ACCOUNT_HELPER_URL}/account/${accountId}/likelyTokens`).then(likelyContracts => {
-            const contracts = [...new Set([...likelyContracts, ...whitelistedContracts])];
-            let loadedTokens = contracts.map(contract => ({
-                [contract]: { contract, ...tokens[contract] }
-            }));
-            loadedTokens = loadedTokens.reduce((a, b) => Object.assign(a, b), {});
-
-            setTokens(loadedTokens);
-            wallet.getAccount(accountId).then(account =>
-                // NOTE: This forEach parallelizes requests on purpose
-                contracts.forEach(async contract => {
-                    try {
-                        // TODO: Parallelize balance and metadata calls, use cached metadata?
-                        let { name, symbol, decimals, icon } = await account.viewFunction(contract, 'ft_metadata')
-                        const balance = await account.viewFunction(contract, 'ft_balance_of', { account_id: accountId })
-                        loadedTokens = {
-                            ...loadedTokens,
-                            [contract]: { contract, balance, name, symbol, decimals, icon }
-                        }
-                    } catch (e) {
-                        if (e.message.includes('FunctionCallError(MethodResolveError(MethodNotFound))')) {
-                            loadedTokens = {...loadedTokens};
-                            delete loadedTokens[contract];
-                            return;
-                        }
-                        logError(e);
-                    } finally {
-                        setTokens(loadedTokens);
-                        localStorage.setItem(cachedTokensKey, JSON.stringify(loadedTokens));
-                    }
-                })
-            ).catch(logError);
-        }).catch(logError);
+        dispatch(handleGetTokens())
     }, [accountId]);
 
     const handleHideExploreApps = () => {
@@ -249,16 +238,11 @@ export function Wallet() {
                             <Translate id='button.buy'/>
                         </FormButton>
                     </div>
-                    {sortedTokens?.length ?
-                        <>
-                            <div className='sub-title tokens'>
-                                <span><Translate id='wallet.tokens' /></span>
-                                <span><Translate id='wallet.balance' /></span>
-                            </div>
-                            <Tokens tokens={sortedTokens} />
-                        </>
-                        : undefined
-                    }
+                    <div className='sub-title tokens'>
+                        <span className={classNames({ dots: tokensLoader })}><Translate id='wallet.tokens' /></span>
+                        <span><Translate id='wallet.balance' /></span>
+                    </div>
+                    <Tokens tokens={sortedTokens} />
                 </div>
                 <div className='right'>
                     {!hideExploreApps && exploreApps !== false &&
