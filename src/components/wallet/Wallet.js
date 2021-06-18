@@ -177,11 +177,14 @@ const StyledContainer = styled(Container)`
             }
 
             .tab-balances {
-                border-top-left-radius: 8px;
                 border-right: 1px solid transparent;
 
                 @media (max-width: 767px) {
                     margin-left: -14px;
+                }
+
+                @media (min-width: 992px) {
+                    border-top-left-radius: 8px;
                 }
 
                 &.inactive {
@@ -190,11 +193,14 @@ const StyledContainer = styled(Container)`
             }
 
             .tab-collectibles {
-                border-top-right-radius: 8px;
                 border-left: 1px solid transparent;
 
                 @media (max-width: 767px) {
                     margin-right: -14px;
+                }
+
+                @media (min-width: 992px) {
+                    border-top-right-radius: 8px;
                 }
 
                 &.inactive {
