@@ -79,14 +79,15 @@ const StyledContainer = styled.div`
     .tokens {
         display: flex;
         flex-wrap: wrap;
+        margin-right: -15px;
     }
 
     .nft {
         flex-grow: 1;
-        flex-basis: 250px;
-        max-width: 250px;
-        margin: 15px 0;
-        margin-right: 15px;
+        flex-basis: 50%;
+        max-width: 50%;
+        padding: 15px 0;
+        padding-right: 15px;
     }
 
     .nft img {

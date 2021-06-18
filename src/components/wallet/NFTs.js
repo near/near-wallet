@@ -9,6 +9,8 @@ const StyledContainer = styled.div`
         margin-bottom: 50px;
     }
 
+    margin-top: 20px;
+
     .token-box {
         border-top: 1px solid #F0F0F1;
 
