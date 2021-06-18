@@ -9,18 +9,11 @@ const StyledContainer = styled.div`
         margin-bottom: 50px;
     }
 
-    margin-top: 20px;
-
-    .token-box {
+    .nft-box {
         border-top: 1px solid #F0F0F1;
 
-        :last-of-type {
-            border-bottom: 1px solid #F0F0F1;
-
-            @media (min-width: 992px) {
-                margin-bottom: -20px;
-                border-bottom: 0;
-            }
+        :first-of-type {
+            border-top: none;
         }
     }
 `

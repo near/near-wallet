@@ -10,13 +10,20 @@ const StyledContainer = styled.div`
     flex-direction: column;
     padding: 15px 14px;
 
+    :first-of-type {
+        padding: 0 14px 15px 14px;
+    }
+
     @media (max-width: 767px) {
         margin: 0 -14px;
     }
 
     @media (min-width: 992px) {
-        margin: 0 -20px;
         padding: 15px 20px;
+
+        :first-of-type {
+            padding: 0 20px 15px 20px;
+        }
     }
 
     .nft-header {
@@ -41,38 +48,27 @@ const StyledContainer = styled.div`
 
     .desc {
         display: flex;
-        flex-direction: column;
+        align-items: center;
         margin-left: 14px;
 
+        a {
+            font-weight: 700;
+            font-size: 16px;
+            color: #24272a;
+        }
+
         span {
-            :first-of-type {
-                font-weight: 700;
-                font-size: 16px;
-                color: #24272a;
-            }
-            :last-of-type {
-                font-size: 12px;
-                color: #72727A;
-                max-width: 350px;
-                overflow: hidden;
-                text-overflow: ellipsis;
-
-                @media (max-width: 991px) {
-                    max-width: 250px;
-                }
-
-                @media (max-width: 500px) {
-                    max-width: 180px;
-                }
-
-                @media (max-width: 330px) {
-                    max-width: 150px;
-                }
-
-                a {
-                    color: inherit;
-                }
-            }
+            color: #72727A;
+            background-color: #F0F0F1;
+            font-size: 15px;
+            font-weight: 600;
+            min-width: 28px;
+            min-height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-left: 10px;
         }
     }
 
@@ -88,6 +84,7 @@ const StyledContainer = styled.div`
         max-width: 50%;
         padding: 15px 0;
         padding-right: 15px;
+        color: black;
     }
 
     .nft img {
@@ -97,7 +94,7 @@ const StyledContainer = styled.div`
 
 const NFTBox = ({ token }) => {
     return (
-        <StyledContainer className='token-box'>
+        <StyledContainer className='nft-box'>
             <div className='nft-header'>
                 <div className='symbol'>
                     {token.icon && isDataURL(token.icon) ?
@@ -107,19 +104,17 @@ const NFTBox = ({ token }) => {
                     }
                 </div>
                 <div className='desc'>
-                    <span>{token.symbol}</span>
-                    <span title={token.contractName}>
-                        <a href={`${EXPLORER_URL}/accounts/${token.contractName}`} target='_blank' rel='noopener noreferrer'>
-                            {token.contractName}
-                        </a>
-                    </span>
+                    <a href={`${EXPLORER_URL}/accounts/${token.contractName}`} title={token.name} target='_blank' rel='noopener noreferrer'>
+                        {token.name}
+                    </a>
+                    <span>{token.tokens?.length}</span>
                 </div>
             </div>
             {
                 token.tokens &&
                 <div className='tokens'>
                     {token.tokens.map(token => <div className='nft' key={token.token_id}>
-                        <img src={token.metadata.mediaUrl}/>
+                        <img src={token.metadata.mediaUrl} alt='NFT'/>
                         <b>{token.metadata.title}</b>
                     </div>)}
                 </div>
