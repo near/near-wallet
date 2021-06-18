@@ -101,5 +101,6 @@ export const { nft } = createActions({
             GET_METADATA: getMetadata,
             GET_TOKENS: getTokens,
         },
+        CLEAR_STATE: null
     }
 })

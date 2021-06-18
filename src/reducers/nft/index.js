@@ -48,11 +48,17 @@ const nftReducer = handleActions({
             }),
 }, initialState)
 
+const clearReducer = handleActions({
+    [nft.clearState]: () => ({
+        ...initialState
+    }),
+}, initialState)
 
 export default reduceReducers(
     initialState,
     likelyContractsReducer,
     nftReducer,
+    clearReducer
 )
 
 export const selectNFT = state => state.nft.nft
