@@ -25,10 +25,15 @@ import { handleGetNFTs } from '../../actions/nft'
 import classNames from '../../utils/classNames'
 import { actionsPendingByPrefix } from '../../utils/alerts'
 import { selectNFT } from '../../reducers/nft'
+import { SHOW_NETWORK_BANNER } from '../../utils/wallet'
 
 const StyledContainer = styled(Container)`
     @media (max-width: 991px) {
         margin: -5px auto 0 auto;
+
+        &.showing-banner {
+            margin-top: -15px;
+        }
     }
     .sub-title {
         margin: -10px 0 0 0;
@@ -277,7 +282,7 @@ export function Wallet() {
     }
 
     return (
-        <StyledContainer>
+        <StyledContainer className={SHOW_NETWORK_BANNER ? 'showing-banner' : ''}>
             <div className='split'>
                 <div className='left'>
                     <div className='tab-selector'>
