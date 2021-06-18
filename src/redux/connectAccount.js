@@ -5,7 +5,11 @@ export default (mapStateToProps, mapDispatchToProps) => {
     return connect(
         (state, ownProps) => {
             return {
-                ...mapStateToProps(state, state[wallet.accountId], ownProps),
+                ...mapStateToProps(
+                    state, 
+                    wallet.accountId ? state[wallet.accountId] : {}, 
+                    ownProps
+                ),
             }
         },
         mapDispatchToProps
