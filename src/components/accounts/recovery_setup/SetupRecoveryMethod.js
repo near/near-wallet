@@ -33,6 +33,7 @@ import { isRetryableRecaptchaError } from '../../Recaptcha';
 import { parseSeedPhrase } from 'near-seed-phrase';
 import { KeyPair } from 'near-api-js';
 import { DISABLE_CREATE_ACCOUNT } from '../../../utils/wallet';
+import connectAccount from '../../../redux/connectAccount';
 
 // FIXME: Use `debug` npm package so we can keep some debug logging around but not spam the console everywhere
 const ENABLE_DEBUG_LOGGING = false;
@@ -410,7 +411,7 @@ const mapDispatchToProps = {
     validateSecurityCode
 }
 
-const mapStateToProps = ({ account, router, recoveryMethods, status }, { match }) => ({
+const mapStateToProps = ({ account, router, status }, { recoveryMethods }, { match }) => ({
     ...account,
     router,
     accountId: match.params.accountId,
@@ -419,4 +420,4 @@ const mapStateToProps = ({ account, router, recoveryMethods, status }, { match }
     mainLoader: status.mainLoader
 })
 
-export const SetupRecoveryMethodWithRouter = connect(mapStateToProps, mapDispatchToProps)(SetupRecoveryMethod);
+export const SetupRecoveryMethodWithRouter = connectAccount(mapStateToProps, mapDispatchToProps)(SetupRecoveryMethod);
