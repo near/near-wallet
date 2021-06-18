@@ -8,12 +8,13 @@ import { Translate } from 'react-localize-redux';
 import { removeNonLedgerAccessKeys, redirectTo } from '../../../actions/account';
 import { actionsPending } from '../../../utils/alerts'
 import { Mixpanel } from '../../../mixpanel/index'
+import { useSelectorActiveAccount } from '../../../redux/useSelector';
 
 const SetupLedgerSuccess = (props) => {
 
     const [nextStep, setNextStep] = useState('');
     const removingkeys = actionsPending('REMOVE_NON_LEDGER_ACCESS_KEYS');
-    const { hasLedger } = useSelector(({ ledger }) => ledger)
+    const { hasLedger } = useSelectorActiveAccount(({ ledger }) => ledger)
 
     const handleConfirm = async () => {
         if (nextStep === 'keep') {
