@@ -179,7 +179,7 @@ class MobileContainer extends Component {
         return (
             <Container className={menuOpen ? 'show' : ''} id='mobile-menu'>
                 <Collapsed>
-                    <Logo link={!flowLimitation.mainMenu}/>
+                    <Logo link={!flowLimitation?.mainMenu}/>
                     {showNavLinks &&
                         <>
                             <UserAccount
