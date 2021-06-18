@@ -19,6 +19,7 @@ import StakingAction from './components/StakingAction'
 import { setStakingAccountSelected, getStakingAccountSelected } from '../../utils/localStorage'
 import { getBalance } from '../../actions/account'
 import { Mixpanel } from '../../mixpanel/index'
+import { useSelectorActiveAccount } from '../../redux/useSelector'
 
 const StyledContainer = styled(Container)`
     button {
@@ -157,7 +158,7 @@ export function StakingContainer({ history, match }) {
     const dispatch = useDispatch()
     const { accountId, has2fa, balance = {} } = useSelector(({ account }) => account);
     const status = useSelector(({ status }) => status);
-    const { hasLedger } = useSelector(({ ledger }) => ledger)
+    const { hasLedger } = useSelectorActiveAccount(({ ledger }) => ledger)
     
     const staking = useSelector(({ staking }) => staking)
     const hasLockup = !!staking.lockupId
