@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import DefaultTokenIcon from '../svg/DefaultTokenIcon'
 import { EXPLORER_URL } from '../../utils/wallet'
 import isDataURL from '../../utils/isDataURL'
+import FailedToLoad from '../../images/failed_to_load.svg'
 
 const StyledContainer = styled.div`
     display: flex;
@@ -122,7 +123,7 @@ const NFTBox = ({ token }) => {
                 token.tokens &&
                 <div className='tokens'>
                     {token.tokens.map(token => <div className='nft' key={token.token_id}>
-                        <img src={token.metadata.mediaUrl} alt='NFT'/>
+                        <img src={token.metadata.mediaUrl} alt='NFT' onError={(e)=>{e.target.onerror = null; e.target.src = FailedToLoad}}/>
                         <b>{token.metadata.title}</b>
                     </div>)}
                 </div>
