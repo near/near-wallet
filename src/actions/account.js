@@ -178,14 +178,14 @@ export const allowLogin = () => async (dispatch, getState) => {
     }
 }
 
-export const signInWithLedger = (path) => async (dispatch, getState) => {
+export const signInWithLedger = (path) => async (dispatch, getState, getStateActiveAccount) => {
     await dispatch(getLedgerAccountIds(path))
-    const accountIds = Object.keys(getState().ledger.signInWithLedger)
+    const accountIds = Object.keys(getStateActiveAccount().ledger.signInWithLedger)
     await dispatch(signInWithLedgerAddAndSaveAccounts(accountIds, path))
     return;
 }
 
-export const signInWithLedgerAddAndSaveAccounts = (accountIds, path) => async (dispatch, getState) => {
+export const signInWithLedgerAddAndSaveAccounts = (accountIds, path) => async (dispatch, getState, getStateActiveAccount) => {
     for (let accountId of accountIds) {
         try {
             if (path) {
@@ -199,7 +199,7 @@ export const signInWithLedgerAddAndSaveAccounts = (accountIds, path) => async (d
         }
     }
 
-    return dispatch(saveAndSelectLedgerAccounts(getState().ledger.signInWithLedger))
+    return dispatch(saveAndSelectLedgerAccounts(getStateActiveAccount().ledger.signInWithLedger))
 }
 
 const twoFactorMethod = async (method, wallet, args) => {
