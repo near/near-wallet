@@ -2,6 +2,7 @@ import { createActions } from 'redux-actions'
 import sendJson from '../tmp_fetch_send_json'
 import { wallet, ACCOUNT_HELPER_URL } from '../utils/wallet'
 import { Account } from 'near-api-js'
+import isPlainObject from 'lodash.isplainobject'
 
 export const handleGetNFTs = () => async (dispatch, getState) => {
     let { account: { accountId } } = getState()
@@ -37,6 +38,53 @@ async function getMetadata(contractName, accountId) {
     return { metadata, contractName }
 }
 
+const readBlobAsDataUrl = (blob) => new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => {
+        resolve(reader.result);
+    };
+    reader.onerror = reject;
+    reader.readAsDataURL(blob);
+});
+
+
+const readBlobAsText = (blob) => new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => {
+        resolve(reader.result);
+    };
+    reader.onerror = reject;
+    reader.readAsText(blob);
+});
+
+const getFileData = async (mediaUrl) => {
+    let response;
+
+    try {
+        response = await fetch(`${mediaUrl}`);
+    } catch (e) {
+        console.error(e);
+
+        return null;
+    }
+
+    try {
+        const blob = await response.blob();
+
+        if (blob.type === 'application/json') {
+            const text = await readBlobAsText(blob);
+
+            return JSON.parse(text)?.file || null;
+        }
+
+        return await readBlobAsDataUrl(blob);
+    } catch (e) {
+        console.error(e);
+    }
+
+    return null;
+};
+
 async function getTokens(contractName, accountId, { base_uri }) {
     const account = new Account(wallet.connection, accountId)
     let tokens
@@ -56,14 +104,14 @@ async function getTokens(contractName, accountId, { base_uri }) {
     } catch (e) {
         if (!e.toString().includes('FunctionCallError(MethodResolveError(MethodNotFound))')) {
             throw e;
-        } 
+        }
 
         // TODO: Pagination
         tokens = await account.viewFunction(contractName, 'nft_tokens_for_owner', { account_id: accountId, from_index: "0", limit: "10" });
     }
     console.log('tokens', tokens);
     // TODO: Separate Redux action for loading image
-    tokens = await Promise.all(tokens.filter(({ metadata }) => !!metadata).map(async ({ metadata , ...token }) => {
+    tokens = await Promise.all(tokens.filter(({ metadata }) => !!metadata).map(async ({ metadata, ...token }) => {
         const { media } = metadata;
         let mediaUrl
         if (base_uri) {
@@ -72,8 +120,12 @@ async function getTokens(contractName, accountId, { base_uri }) {
         if (!base_uri) {
             // TODO: Figure out why images are stored as JSON and whehter NFT NEP should be changed
             const mediaJsonUrl = `https://cloudflare-ipfs.com/ipfs/${media}`;
-            const mediaJson = await sendJson('GET', mediaJsonUrl);
-            mediaUrl = mediaJson.file;
+            const response = await getFileData(mediaJsonUrl)
+            if (isPlainObject(response)) {
+                mediaUrl = response.file
+            } else {
+                mediaUrl = response;
+            }
         }
 
         return {
@@ -81,7 +133,7 @@ async function getTokens(contractName, accountId, { base_uri }) {
             metadata: {
                 ...metadata,
                 mediaUrl
-            } 
+            }
         }
     }));
     console.log('tokens map', tokens);
