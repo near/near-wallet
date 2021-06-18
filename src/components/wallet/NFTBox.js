@@ -60,10 +60,10 @@ const StyledContainer = styled.div`
         span {
             color: #72727A;
             background-color: #F0F0F1;
-            font-size: 15px;
+            font-size: 14px;
             font-weight: 600;
-            min-width: 28px;
-            min-height: 28px;
+            min-width: 26px;
+            min-height: 26px;
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -75,7 +75,7 @@ const StyledContainer = styled.div`
     .tokens {
         display: flex;
         flex-wrap: wrap;
-        margin-right: -15px;
+        max-width: 100%;
     }
 
     .nft {
@@ -83,12 +83,20 @@ const StyledContainer = styled.div`
         flex-basis: 50%;
         max-width: 50%;
         padding: 15px 0;
-        padding-right: 15px;
         color: black;
+
+        :nth-child(odd) {
+            padding-right: 5px;
+        }
+
+        :nth-child(even) {
+            padding-left: 5px;
+        }
     }
 
     .nft img {
         width: 100%;
+        margin-bottom: 10px;
     }
 `
 
