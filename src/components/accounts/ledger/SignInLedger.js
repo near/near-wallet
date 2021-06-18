@@ -22,6 +22,7 @@ import LocalAlertBox from '../../common/LocalAlertBox'
 import { controller as controllerHelperApi } from '../../../utils/helper-api'
 import { Mixpanel } from '../../../mixpanel/index'
 import LedgerHdPaths from './LedgerHdPaths'
+import { useSelectorActiveAccount } from '../../../redux/useSelector';
 
 export function SignInLedger(props) {
     const dispatch = useDispatch();
@@ -34,7 +35,7 @@ export function SignInLedger(props) {
 
     const account = useSelector(({ account }) => account);
     const status = useSelector(({ status }) => status);
-    const { signInWithLedger: signInWithLedgerState, txSigned, signInWithLedgerStatus} = useSelector(({ ledger }) => ledger);
+    const { signInWithLedger: signInWithLedgerState, txSigned, signInWithLedgerStatus} = useSelectorActiveAccount(({ ledger }) => ledger);
     
     const signInWithLedgerKeys = Object.keys(signInWithLedgerState || {})
 
