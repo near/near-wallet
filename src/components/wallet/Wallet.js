@@ -93,6 +93,10 @@ const StyledContainer = styled(Container)`
         flex-direction: column;
         align-items: center;
 
+        > svg {
+            margin-top: 25px;
+        }
+
         @media (min-width: 992px) {
             border: 2px solid #F0F0F0;
             border-radius: 8px;
@@ -156,7 +160,7 @@ const StyledContainer = styled(Container)`
 
         .tab-selector {
             width: 100%;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
             display: flex;
             align-items: center;
             justify-content: space-around;
@@ -178,6 +182,11 @@ const StyledContainer = styled(Container)`
                     border-bottom: 1px solid #F0F0F1;
                     cursor: pointer;
                     color: #A2A2A8;
+                    transition: color 100ms;
+
+                    :hover {
+                        color: black;
+                    }
                 }
             }
 
