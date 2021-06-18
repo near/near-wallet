@@ -247,7 +247,7 @@ export function Wallet() {
 
     const sortedTokens = Object.keys(tokens).map(key => tokens[key]).sort((a, b) => (a.symbol || '').localeCompare(b.symbol || ''));
     // TODO: Sort NFTS
-    const sortedNFTs = Object.values(nft)
+    const sortedNFTs = Object.values(nft).sort((a, b) => a.name.localeCompare(b.name))
 
     useEffect(() => {
         if (!accountId) {
