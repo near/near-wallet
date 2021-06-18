@@ -22,6 +22,7 @@ import { KeyPair } from 'near-api-js'
 import { Mixpanel } from '../../mixpanel/index'
 import { clearGlobalAlert, showCustomAlert } from '../../actions/status';
 import { isRetryableRecaptchaError } from '../Recaptcha';
+import connectAccount from '../../redux/connectAccount'
 
 // FIXME: Use `debug` npm package so we can keep some debug logging around but not spam the console everywhere
 const ENABLE_DEBUG_LOGGING = false;
@@ -200,6 +201,7 @@ class SetupSeedPhrase extends Component {
     }
 
     render() {
+        // TODO: store recovery methods for only active account in recoveryMethods reducer
         const recoveryMethods = this.props.recoveryMethods[this.props.accountId]
         const hasSeedPhraseRecovery = recoveryMethods && recoveryMethods.filter(m => m.kind === 'phrase').length > 0
         return (
@@ -273,7 +275,7 @@ const mapDispatchToProps = {
     showCustomAlert
 }
 
-const mapStateToProps = ({ account, recoveryMethods, status }, { match }) => ({
+const mapStateToProps = ({ account, status }, { recoveryMethods }, { match }) => ({
     ...account,
     verify: match.params.verify,
     accountId: match.params.accountId,
@@ -282,4 +284,4 @@ const mapStateToProps = ({ account, recoveryMethods, status }, { match }) => ({
     mainLoader: status.mainLoader
 })
 
-export const SetupSeedPhraseWithRouter = connect(mapStateToProps, mapDispatchToProps)(withRouter(SetupSeedPhrase))
+export const SetupSeedPhraseWithRouter = connectAccount(mapStateToProps, mapDispatchToProps)(withRouter(SetupSeedPhrase))
