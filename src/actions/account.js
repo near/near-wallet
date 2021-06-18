@@ -459,6 +459,13 @@ export const finishAccountSetup = () => async (dispatch, getState) => {
     }
 }
 
+export const finishLinkdropClaim = () => async (dispatch, getState) => {
+    const { balance, url, accountId } = getState().account
+    if (url?.redirectUrl) {
+        window.location = `${url.redirectUrl}?accountId=${accountId}`
+    }
+}
+
 export const createAccountFromImplicit = createAction('CREATE_ACCOUNT_FROM_IMPLICIT', async (accountId, implicitAccountId, recoveryMethod) => {
     const recoveryKeyPair = await wallet.keyStore.getKey(wallet.connection.networkId, implicitAccountId)
     if (recoveryKeyPair) {
