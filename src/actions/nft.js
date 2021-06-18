@@ -45,14 +45,16 @@ async function getTokens(contractName, accountId, { base_uri }) {
         const tokenIds = await account.viewFunction(contractName, 'nft_tokens_for_owner_set', { account_id: accountId })
         console.log('tokenIds', tokenIds)
         tokens = await Promise.all(tokenIds.map(async token_id => {
-            let tokenMetadata = await account.viewFunction(contractName, 'nft_token_metadata', { token_id: token_id.toString() })
-            let { media, reference } = tokenMetadata
+            let metadata = await account.viewFunction(contractName, 'nft_token_metadata', { token_id: token_id.toString() })
+            let { media, reference } = metadata
             if (!media && reference) {
                 // TODO: Filter which URIs are allowed for privacy?
                 // TODO: Figure out ARWeave CORS issue
-                tokenMetadata = sendJson('GET', `${base_uri}/${reference}`);
+                // NOTE: For some reason raw fetch() doesn't have same issue as sendJson
+                // tokenMetadata = sendJson('GET', `${base_uri}/${reference}`);
+                metadata = await (await fetch(`${base_uri}/${reference}`)).json();
             }
-            return { ...tokenMetadata }
+            return { token_id, metadata }
         }));
     } catch (e) {
         if (!e.toString().includes('FunctionCallError(MethodResolveError(MethodNotFound))')) {
@@ -67,11 +69,14 @@ async function getTokens(contractName, accountId, { base_uri }) {
     tokens = await Promise.all(tokens.filter(({ metadata }) => !!metadata).map(async ({ metadata, ...token }) => {
         const { media } = metadata;
         let mediaUrl
-        if (base_uri) {
-            mediaUrl = `${base_uri}/${media}`;
-        }
-        if (!base_uri) {
-            mediaUrl = `https://cloudflare-ipfs.com/ipfs/${media}`;
+        if (!media.includes('://')) {
+            if (base_uri) {
+                mediaUrl = `${base_uri}/${media}`;
+            } else {
+                mediaUrl = `https://cloudflare-ipfs.com/ipfs/${media}`;
+            }
+        } else {
+            mediaUrl = media;
         }
 
         return {
