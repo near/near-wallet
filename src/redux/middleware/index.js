@@ -46,8 +46,9 @@ const thunkWithActiveAccount = store => next => action => {
     if (typeof action === 'function') {
         const dispatch = store.dispatch
         const getStateActiveAccount = () => {
-            console.log(wallet.accountId);
-            return getState()[wallet.accountId]
+            return wallet.accountId 
+                ? getState()[wallet.accountId] 
+                : {}
         }
         const getState = store.getState
 
