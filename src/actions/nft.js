@@ -38,53 +38,6 @@ async function getMetadata(contractName, accountId) {
     return { metadata, contractName }
 }
 
-const readBlobAsDataUrl = (blob) => new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onload = () => {
-        resolve(reader.result);
-    };
-    reader.onerror = reject;
-    reader.readAsDataURL(blob);
-});
-
-
-const readBlobAsText = (blob) => new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onload = () => {
-        resolve(reader.result);
-    };
-    reader.onerror = reject;
-    reader.readAsText(blob);
-});
-
-const getFileData = async (mediaUrl) => {
-    let response;
-
-    try {
-        response = await fetch(`${mediaUrl}`);
-    } catch (e) {
-        console.error(e);
-
-        return null;
-    }
-
-    try {
-        const blob = await response.blob();
-
-        if (blob.type === 'application/json') {
-            const text = await readBlobAsText(blob);
-
-            return JSON.parse(text)?.file || null;
-        }
-
-        return await readBlobAsDataUrl(blob);
-    } catch (e) {
-        console.error(e);
-    }
-
-    return null;
-};
-
 async function getTokens(contractName, accountId, { base_uri }) {
     const account = new Account(wallet.connection, accountId)
     let tokens
@@ -118,14 +71,7 @@ async function getTokens(contractName, accountId, { base_uri }) {
             mediaUrl = `${base_uri}/${media}`;
         }
         if (!base_uri) {
-            // TODO: Figure out why images are stored as JSON and whehter NFT NEP should be changed
-            const mediaJsonUrl = `https://cloudflare-ipfs.com/ipfs/${media}`;
-            const response = await getFileData(mediaJsonUrl)
-            if (isPlainObject(response)) {
-                mediaUrl = response.file
-            } else {
-                mediaUrl = response;
-            }
+            mediaUrl = `https://cloudflare-ipfs.com/ipfs/${media}`;
         }
 
         return {
