@@ -62,7 +62,7 @@ async function getTokens(contractName, accountId, { base_uri }) {
         }
 
         // TODO: Pagination
-        tokens = await account.viewFunction(contractName, 'nft_tokens_for_owner', { account_id: accountId, from_index: "0", limit: "10" });
+        tokens = await account.viewFunction(contractName, 'nft_tokens_for_owner', { account_id: accountId, from_index: "0", limit: "50" });
     }
     console.log('tokens', tokens);
     // TODO: Separate Redux action for loading image
