@@ -9,7 +9,6 @@
     "connected-react-router": "^6.6.0",
     "fetch-send-json": "0.0.2",
     "js-sha256": "^0.9.0",
-    "lodash.isplainobject": "^4.0.6",
     "mixpanel-browser": "^2.41.0",
     "near-api-js": "^0.39.0",
     "near-ledger-js": "^0.1.2",
