@@ -1,8 +1,8 @@
 {
     "reduxActions": {
         "RECOVER_ACCOUNT_SEED_PHRASE": {
-            "success": "Recover using Seed Phrase is complete.<br/><b>${numberOfAccounts} account(s)</b> have been successfully recovered.<br/>The last one is set as active.",
-            "error": "Failed to recover account. No accounts were found for this seed phrase."
+            "success": "Recover using passphrase is complete.<br/><b>${numberOfAccounts} account(s)</b> have been successfully recovered.<br/>The last one is set as active.",
+            "error": "Failed to recover account. No accounts were found for this passphrase."
         },
         "SEND_MONEY": {
             "error": "Sorry an error has occurred. You may want to try again."
@@ -16,8 +16,8 @@
             "error": "An error occurred while approving this action. Please try again!"
         },
         "ADD_ACCESS_KEY_SEED_PHRASE": {
-            "success": "Seed phrase recovery setup is complete.",
-            "error": "An error occurred while setting up seed phrase recovery. Please try again!"
+            "success": "Passphrases recovery setup is complete.",
+            "error": "An error occurred while setting up passphrase recovery. Please try again!"
         },
         "SETUP_RECOVERY_MESSAGE": {
             "success": "Recovery setup is complete.",
@@ -94,7 +94,7 @@
     "walletErrorCodes": {
         "invalidRecaptchaCode": "Invalid reCAPTCHA code; try again!",
         "addAccessKeySeedPhrase": {
-            "errorSecond": "An error has occurred.<br />The seed phrase was not added to your account. Please try again."
+            "errorSecond": "An error has occurred.<br />The passphrases was not added to your account. Please try again."
         },
         "promptTwoFactor": {
             "userCancelled": "2FA code was not verified correctly."
@@ -119,14 +119,14 @@
             "error": "An error occurred while setting up your recovery method. Please try again!"
         },
         "addAccessKey": {
-            "error": "An error has occurred.<br />To access your account, please enter the seed phrase from the previous step below."
+            "error": "An error has occurred.<br />To access your account, please enter the passphrase from the previous step below."
         },
         "recoveryMethods": {
             "setupMethod": "An error occured. Please check your recovery method.",
             "lastMethod": "Cannot delete your last recovery method. Unless you have Ledger enabled, you need to keep at least one recovery method active to ensure recoverability of your account."
         },
         "recoverAccountSeedPhrase": {
-            "errorInvalidSeedPhrase": "No accounts were found for this seed phrase."
+            "errorInvalidSeedPhrase": "No accounts were found for this passphrase."
         },
         "lockup": {
             "transferAllWithStakingPoolBalance": "Unstake and withdraw all funds from the staking pool in order to transfer your remaining lockup balance to Wallet."
@@ -141,9 +141,9 @@
             "error": "Failed to send SMS with code."
         },
         "recoverAccount": {
-            "success": "Recover using Seed Phrase is complete.<br/><b>${numberOfAccounts} account(s)</b> have been successfully recovered.<br/>The last one is set as active.",
-            "error": "Failed to recover account. No accounts were found for this seed phrase.",
-            "errorInvalidSeedPhrase": "No accounts were found for this seed phrase."
+            "success": "Recover using passphrase is complete.<br/><b>${numberOfAccounts} account(s)</b> have been successfully recovered.<br/>The last one is set as active.",
+            "error": "Failed to recover account. No accounts were found for this passphrase.",
+            "errorInvalidSeedPhrase": "No accounts were found for this passphrase."
         },
         "create": {
             "errorInvalidAccountIdLength": "Account ID must be between 2 and 64 characters",
@@ -160,29 +160,42 @@
             "implicitAccount": "Always double check the account ID",
             "implicitAccountModal": "Please double check the account ID, especially if this is an exchange account. If the account ID is entered incorrectly, your funds will be lost forever."
         },
+        "activateAccount": {
+            "pre": {
+                "title": "Almost there! Make your initial deposit.",
+                "desc": "To begin using NEAR Wallet, make a minimum initial deposit by sending <b>at least ${amount} NEAR</b> to your Account ID (sometimes called an “address”)."
+            },
+            "post": {
+                "title": "Your account has been activated.",
+                "descOne": "Your initial deposit has been received and transferred to your new account. Your account is now active!",
+                "descTwo": "A portion of your deposit has been reserved to cover the <a href='https://docs.near.org/docs/concepts/account' rel='noopener noreferrer' target='_blank'>cost of hosting your account</a>."
+            }
+        },
         "createImplicit": {
             "pre": {
-                "title": "Fund Your Account",
-                "descOne": "Initialize your account by sending at least <b>${amount} NEAR</b> to the one-time funding address below.",
+                "title": "Almost there! Activate your account with an initial deposit.",
+                "descOne": "To begin using NEAR Wallet, meet the minimum initial deposit by sending <b>at least ${amount} NEAR</b> to your single-use funding address below.",
                 "descTwo": "Return to this screen once your funds have been deposited to finish creating your account.",
                 "addressHeader": "One-time funding address",
                 "whereToBuy": {
-                    "button": "Where can I purchase NEAR?",
+                    "button": "Where can I purchase $NEAR tokens?",
                     "title": "Purchase NEAR tokens",
                     "desc": "NEAR tokens are available to purchase through the following exchanges"
                 },
-                "alertBanner": {
-                    "title": "Do not close this window!"
-                },
-                "fundWith": "Fund with"
+                "moonPay": {
+                    "title": "Fund with MoonPay",
+                    "desc": "Make your initial deposit with MoonPay using your preferred payment method.",
+                    "buyWith": "Buy with"
+                }
             },
             "post": {
+                "title": "Claim your account",
+                "descOne": "Your initial deposit was received! Once claimed, your deposit will be transferred to your new account.",
+                "descTwo": "Important: Your single-use funding address will no longer be valid. Make sure to replace it with your Account ID on any exchanges or other devices where it may have been saved.",
                 "modal": {
-                    "title": "Account Funded",
-                    "descOne": "Your account has been successfully funded!",
-                    "descTwo": "The one-time funding address can no longer be used to receive assets.",
-                    "descThree": "Your Account ID: <b>${accountId}</b> is your sole address for all NEAR operations.",
-                    "checkbox": "I acknowledge that the one-time funding address is invalid, and any additional assets sent to this address will be lost."
+                    "title": "Update your address",
+                    "descOne": "By continuing, you acknowledge that the single-use funding address will be replaced, and any additional funds sent to the old address will be lost.",
+                    "descTwo": "Remember to replace it with your Account ID on any exchanges or other devices where it may have been saved."
                 }
             },
             "success": {
@@ -192,6 +205,16 @@
                 "descThree": "Please update your address on any exchanges or other devices.",
                 "button": "Continue to Account"
             }
+        },
+        "fundedStatus": {
+            "singleUse": "Single-use Funding address",
+            "nearName": "Account ID",
+            "status": "Account status",
+            "minDeposit": "Minimum deposit",
+            "initialDeposit": "Initial deposit",
+            "awaitingDeposit": "Awaiting deposit",
+            "ready": "Ready to claim",
+            "active": "Active"
         },
         "verifySeedPhrase": {
             "error": "You entered the incorrect word"
@@ -283,7 +306,7 @@
     "setupSeedPhrase": {
         "pageTitle": "Setup Phrase",
         "pageText": "Write down the following words IN ORDER and keep them somewhere safe. You cannot recover your account without them!",
-        "snackbarCopySuccess": "Seed phrase copied!",
+        "snackbarCopySuccess": "Passphrase copied!",
         "snackbarCopyImplicitAddress": "Funding Address Copied!"
     },
     "setupSeedPhraseVerify": {
@@ -327,7 +350,7 @@
         "title": "Recovery Methods",
         "noRecoveryMethod": "You have no method to recover your account. please add a method below.",
         "methodTitle": {
-            "phrase": "Seed Phrase",
+            "phrase": "Passphrase",
             "phone": "Phone",
             "email": "Email"
         },
@@ -338,7 +361,7 @@
         "enabled": "Enabled",
         "disableTitle": "Are you sure you want to disable this method?",
         "disableTextLink": "The magic link you received will be permanently deactivated.",
-        "disableTextPhrase": "Your current seed phrase will be permanently deactivated.",
+        "disableTextPhrase": "Your current passphrase will be permanently deactivated.",
         "disableInputPlaceholder": "Enter your account ID to confirm",
         "disableNo": "No, keep",
         "recoveryLinkSent": "Recovery Link Sent!",
@@ -368,8 +391,8 @@
         "select": "Select Authentication Method",
         "title": "Two-Factor Authentication",
         "desc": "Protect your account by requiring confirmation via SMS or email when authorizing transactions.",
-        "email": "Email Address",
-        "phone": "Phone Number",
+        "email": "Email",
+        "phone": "Phone",
         "notEnabled": "2FA Not Enabled",
         "notEnoughBalance": "To enable 2FA, your account requires a minimum available balance of",
         "active": "Active",
@@ -442,6 +465,8 @@
         "copyPhrase": "Copy Phrase",
         "copyImplicitAddress": "Copy Funding Address",
         "claimAccount": "Claim Account",
+        "claimMyAccount": "Claim My Account",
+        "continueToMyAccount": "Continue to My Account",
         "continue": "Continue",
         "continueSetup": "Continue to Setup",
         "verify": "Verify & Complete",
@@ -450,6 +475,7 @@
         "startOver": "Start over",
         "copyUrl": "Copy URL",
         "createAccount": "Create Account",
+        "reserveMyAccountId": "Reserve My Account ID",
         "recoverYourAccount": "Recover your Account",
         "importExistingAccount": "Import Existing Account",
         "enable": "Enable",
@@ -510,7 +536,8 @@
         "viewOnExplorer": "View on Explorer",
         "buy": "Buy",
         "learnMore": "Learn More",
-        "viewFAQ": "View FAQ"
+        "viewFAQ": "View FAQ",
+        "acceptAndContinue": "Accept & Continue"
     },
 
     "link": {
@@ -527,6 +554,7 @@
     },
 
     "copy": {
+        "title": "Copy",
         "default": "Copied!"
     },
 
@@ -556,7 +584,7 @@
             "number": "+14086179592."
         },
         "phrase": {
-            "title": "Seed Phrase",
+            "title": "Passphrase",
             "desc": "Make sure you have your 12 word recovery phrase, then click below to begin the recovery process."
         },
         "ledger": {
@@ -576,12 +604,18 @@
     },
 
     "createAccount": {
+        "termsPage": {
+            "title": "Before you begin...",
+            "descOne": "NEAR accounts require a minimum balance of <a href='https://docs.near.org/docs/concepts/account' rel='noopener noreferrer' target='_blank'>at least ${data} NEAR</a> to <a href='https://docs.near.org/docs/concepts/account' rel='noopener noreferrer' target='_blank'>hold a place on the network.</a>",
+            "descTwo": "After reserving a unique account address, you’ll be asked to make a small initial deposit to activate your account.",
+            "disclaimer": "By creating a NEAR account, you agree to the NEAR Wallet <a href='/terms' rel='noopener noreferrer' target='_blank'>Terms of Service</a> and <a href='https://near.org/privacy' rel='noopener noreferrer' target='_blank'>Privacy Policy</a>."
+        },
         "pageTitle": "Reserve Account ID",
         "pageText": "Enter an Account ID to use with your NEAR account. Your Account ID will be used for all NEAR operations, including sending and receiving assets.",
         "step": "Step ${step}/${total}",
         "accountIdInput": {
             "title": "Account ID",
-            "placeholder": "Example: satoshi"
+            "placeholder": "yourname.${data}"
         },
         "alreadyHaveAnAccount": "Already have an account?",
         "recoverItHere": "Import Existing Account",
@@ -642,29 +676,32 @@
     },
 
     "recoverSeedPhrase": {
-        "pageTitle": "Recover using Seed Phrase",
-        "pageText": "Enter the backup seed phrase associated with the account.",
+        "pageTitle": "Recover using Passphrase",
+        "pageText": "Enter the backup passphrase associated with the account.",
         "seedPhraseInput": {
-            "title": "Seed Phrase (12 words)",
+            "title": "Passphrase (12 words)",
             "placeholder": "correct horse battery staple..."
         }
     },
 
     "setupRecovery": {
-        "header": "Choose Security Method",
+        "header": "Secure your account",
         "subHeader": "Select a method to secure and recover your account. This will be used to verify important activity, recover your account and access your account from other devices.",
-        "basicSecurity": "Less Secure",
+        "basicSecurity": "Most Convenient",
         "basicSecurityDesc": "Enter your email address or phone number and receive a magic link",
-        "emailTitle": "Email Recovery",
+        "emailTitle": "Email",
+        "emailDesc": "Receive a verification code and account recovery link via email.",
         "emailPlaceholder": "example@email.com",
-        "phoneTitle": "Phone Recovery",
-        "phoneDesc": "Enter your phone number below and receive a magic recovery link",
+        "phoneTitle": "Phone",
+        "phoneDesc": "Receive a verification code and account recovery link via SMS.",
         "phonePlaceholder": "+1 415 797 8554",
         "notSupportedPhone": "Unfortunately, we do not offer SMS for your region. Please choose email instead.",
         "advancedSecurity": "Most Secure (Recommended)",
-        "advancedSecurityDesc": "Write down a 12 word seed (recovery) phrase, or secure your account with your Ledger device.",
-        "ledgerTitle": "Ledger Nano S or X",
-        "phraseTitle": "Recovery Phrase"
+        "advancedSecurityDesc": "Write down a 12 word passphrase, or secure your account with your Ledger device.",
+        "ledgerTitle": "Ledger Hardware Wallet",
+        "ledgerDesc": "Secure your account with a Ledger hardware device.",
+        "phraseTitle": "Secure Passphrase",
+        "phraseDesc": "Generate and safely store a unique passphrase."
     },
     "setRecoveryConfirm": {
         "title": "Enter Verification Code",
@@ -674,6 +711,7 @@
         "inputPlaceholder": "Verification Code",
         "didNotRecive": "Didn't receive your code?",
         "resendCode": "Resend your code",
+        "resending": "Resending...",
         "or": "or",
         "sendToDifferent": "Send to a different",
         "email": "email address",
@@ -1003,8 +1041,8 @@
         "security": {
             "title": "Security & Recovery",
             "mostSecure": "Most Secure (Recommended)",
-            "mostSecureDesc": "Ledger is the most secure option. Seed phrases can be secure if used correctly (they must be written down and stored safely).",
-            "lessSecure": "Less Secure",
+            "mostSecureDesc": "Ledger is the most secure option. Passphrases can be secure if used correctly (they must be written down and stored safely).",
+            "lessSecure": "Most Convenient",
             "lessSecureDesc": "These options are recommended for accounts with small amounts of NEAR and other assets. They are convenient, but do present additional risk to the more secure options. If your email account or SMS messages are compromised, your funds might be at risk."
         },
         "twoFactor": "Two-Factor Authentication",
@@ -1133,7 +1171,7 @@
     "warning": "Warning",
     "total": "total",
     "amount": "amount",
-    "or": "OR",
+    "or": "or",
     "sending": "Sending",
     "connecting": "Connecting",
     "back": "Back",
@@ -1158,7 +1196,7 @@
     "setupLedgerSuccess": {
         "header": "Ledger has secured your account!",
         "one": "We recommend that you remove all existing keys (recovery methods and devices).",
-        "two": "Maintaining multiple keys and recovery methods (including seed phrases) increases the vulnerability of your account.",
+        "two": "Maintaining multiple keys and recovery methods (including passphrases) increases the vulnerability of your account.",
         "primaryCta": "Remove Existing Keys and Recovery Methods",
         "secondaryCta": "Keep existing keys",
         "nextStep": {
@@ -1167,11 +1205,11 @@
                 "keep": "Keep existing keys?"
             },
             "one": {
-                "remove": "Before removing your existing keys and recovery methods, make sure that you have recorded and securely stored your Ledger seed phrase.",
+                "remove": "Before removing your existing keys and recovery methods, make sure that you have recorded and securely stored your Ledger passphrase.",
                 "keep": "<span class='color-red'>Maintaining multiple recovery methods and devices increases the vulnerability of your account.</span>"
             },
             "two": {
-                "remove": "If you lose access to your seed phrase, NEAR Inc. will be unable to assist you in recovery of your account and its funds."
+                "remove": "If you lose access to your passphrase, NEAR Inc. will be unable to assist you in recovery of your account and its funds."
             }
         }
     },

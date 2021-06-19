@@ -14,6 +14,13 @@ const debugLog = (...args) => ENABLE_DEBUG_LOGGING && console.log('EnterVerifica
 
 const StyledContainer = styled(Container)`
 
+    h2 {
+        span {
+            color: #72727A;
+            font-weight: 600;
+        }
+    }
+
     h4 {
         margin-top: 30px;
     }
@@ -25,7 +32,14 @@ const StyledContainer = styled(Container)`
 
     button {
         width: 100% !important;
-        margin-top: 40px !important;
+        margin-top: 50px !important;
+
+        &.link {
+            &.red {
+                margin: 30px auto 0 auto !important;
+                display: block !important;
+            }
+        }
     }
 
     .resend {
@@ -64,9 +78,10 @@ const EnterVerificationCode = ({
     onConfirm,
     onGoBack,
     onResend,
+    reSending,
     email,
     phoneNumber,
-    loading,
+    verifyingCode,
     isNewAccount,
     onRecaptchaChange
 }) => {
@@ -118,7 +133,7 @@ const EnterVerificationCode = ({
             return
         }
 
-        if (code.length === 6 && !loading) {
+        if (code.length === 6 && !verifyingCode) {
             handleConfirm().then(() => recaptchaRef?.current?.reset());
             e.preventDefault();
         }
@@ -127,7 +142,7 @@ const EnterVerificationCode = ({
     const shouldRenderRecaptcha = process.env.RECAPTCHA_CHALLENGE_API_KEY && isNewAccount && fundedAccountAvailable;
 
     return (
-        <StyledContainer className='small-centered'>
+        <StyledContainer className='small-centered border'>
             <form
                 onSubmit={handleOnSubmit}
                 autoComplete='off'
@@ -146,7 +161,7 @@ const EnterVerificationCode = ({
                                 placeholder={translate('setRecoveryConfirm.inputPlaceholder')}
                                 aria-label={translate('setRecoveryConfirm.inputPlaceholder')}
                                 value={code}
-                                disabled={loading}
+                                disabled={verifyingCode}
                                 onChange={e => {setCode(e.target.value); setError(false);}}
                                 autoFocus={true}
                             />
@@ -167,22 +182,26 @@ const EnterVerificationCode = ({
                 <FormButton
                     color='blue'
                     type='submit'
-                    disabled={code.length !== 6 || loading || (!recaptchaToken && shouldRenderRecaptcha)}
-                    sending={loading}
+                    disabled={code.length !== 6 || verifyingCode || (!recaptchaToken && shouldRenderRecaptcha)}
+                    sending={verifyingCode}
                     sendingString={isNewAccount ? 'button.creatingAccount' : 'button.verifying'}
                 >
                     <Translate id='button.verifyCodeEnable'/>
+                </FormButton>
+                <FormButton
+                    className='link red'
+                    onClick={onGoBack}
+                >
+                    <Translate id='button.cancel'/>
                 </FormButton>
             </form>
 
             <div className='resend'>
                 <div><Translate id='setRecoveryConfirm.didNotRecive'/></div>
                 <div>
-                    <span onClick={onResend} className='link'><Translate id='setRecoveryConfirm.resendCode'/></span>
-                    &nbsp;<Translate id='setRecoveryConfirm.or'/>&nbsp;<span onClick={onGoBack}
-                                                                             className='link'><Translate
-                    id='setRecoveryConfirm.sendToDifferent'/> <Translate
-                    id={`setRecoveryConfirm.${useEmail ? 'email' : 'phone'}`}/></span>
+                    <span onClick={!reSending ? onResend : () => {}} className='link'><Translate id={`setRecoveryConfirm.${!reSending ? 'resendCode' : 'resending'}`}/></span>
+                    &nbsp;<Translate id='setRecoveryConfirm.or'/>&nbsp;<span onClick={onGoBack} className='link'>
+                        <Translate id='setRecoveryConfirm.sendToDifferent'/> <Translate id={`setRecoveryConfirm.${useEmail ? 'email' : 'phone'}`}/></span>
                 </div>
             </div>
         </StyledContainer>

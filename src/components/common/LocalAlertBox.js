@@ -5,8 +5,8 @@ import classNames from '../../utils/classNames'
 
 const LocalAlertBoxContainer = styled.div`
     font-weight: 500;
-    margin-top: -20px;
-    padding-bottom: 4px;
+    margin-top: -25px;
+    padding-bottom: 9px;
     line-height: 16px;
 
     &.problem {

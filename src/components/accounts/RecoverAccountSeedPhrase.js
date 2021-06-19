@@ -86,7 +86,7 @@ class RecoverAccountSeedPhrase extends Component {
         }
 
         return (
-            <StyledContainer className='small-centered'>
+            <StyledContainer className='small-centered border'>
                 <h1><Translate id='recoverSeedPhrase.pageTitle' /></h1>
                 <h2><Translate id='recoverSeedPhrase.pageText' /></h2>
                 <form onSubmit={e => {this.handleSubmit(); e.preventDefault();}} autoComplete='off'>

@@ -68,12 +68,12 @@ export default createGlobalStyle`
     h1, .h1 {
         font-weight: 900 !important;
         color: #24272a;
-        font-size: calc(24px + (38 - 24) * ((100vw - 300px) / (1600 - 300))) !important;
+        font-size: calc(22px + (30 - 22) * ((100vw - 300px) / (1600 - 300))) !important;
         word-wrap: break-word;
 
         @media (max-width: 300px) {
             h1 {
-                font-size: 24px;
+                font-size: 22px;
             }
         }
 
@@ -84,11 +84,15 @@ export default createGlobalStyle`
     h2, .h2 {
         font-size: 24px !important;
         font-weight: 900 !important;
-        color: #24272a !important;
+        color: #72727A !important;
         margin: 0px;
 
         @media (max-width: 767px) {
             font-size: 18px !important;
+        }
+
+        b {
+            color: #3F4045;
         }
     }
     h3, .h3 {
@@ -472,7 +476,7 @@ export default createGlobalStyle`
 
     @media screen and (max-width: 767px) {
         h1, .h1 {
-            font-size: 24px !important;
+            font-size: 22px !important;
             font-weight: 500;
             color: #24272a;
         }
