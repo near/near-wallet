@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import * as Sentry from '@sentry/browser'
 import styled from 'styled-components'
 import { Translate } from 'react-localize-redux'
 import FormButton from '../common/FormButton'
@@ -15,12 +14,27 @@ import { Mixpanel } from "../../mixpanel/index"
 import Activities from './Activities'
 import ExploreApps from './ExploreApps'
 import Tokens from './Tokens'
-import { ACCOUNT_HELPER_URL, wallet } from '../../utils/wallet'
+import NFTs from './NFTs'
 import LinkDropSuccessModal from './LinkDropSuccessModal'
-
-import sendJson from 'fetch-send-json'
+import { selectTokensDetails } from '../../reducers/tokens'
+import { selectActionStatus } from '../../reducers/status'
+import { selectTransactions } from '../../reducers/transactions'
+import { selectAccountId, selectBalance } from '../../reducers/account'
+import { handleGetTokens } from '../../actions/tokens'
+import { handleGetNFTs } from '../../actions/nft'
+import classNames from '../../utils/classNames'
+import { actionsPendingByPrefix } from '../../utils/alerts'
+import { selectNFT } from '../../reducers/nft'
+import { SHOW_NETWORK_BANNER } from '../../utils/wallet'
 
 const StyledContainer = styled(Container)`
+    @media (max-width: 991px) {
+        margin: -5px auto 0 auto;
+
+        &.showing-banner {
+            margin-top: -15px;
+        }
+    }
     .sub-title {
         margin: -10px 0 0 0;
         font-size: 14px !important;
@@ -34,6 +48,43 @@ const StyledContainer = styled(Container)`
             justify-content: space-between;
             width: 100%;
             max-width: unset;
+
+            @media (min-width: 768px) {
+                padding: 0 20px;
+            }
+
+            .dots {
+                :after {
+                    position: absolute;
+                    content: '.';
+                    animation: link 1s steps(5, end) infinite;
+                
+                    @keyframes link {
+                        0%, 20% {
+                            color: rgba(0,0,0,0);
+                            text-shadow:
+                                .3em 0 0 rgba(0,0,0,0),
+                                .6em 0 0 rgba(0,0,0,0);
+                        }
+                        40% {
+                            color: #24272a;
+                            text-shadow:
+                                .3em 0 0 rgba(0,0,0,0),
+                                .6em 0 0 rgba(0,0,0,0);
+                        }
+                        60% {
+                            text-shadow:
+                                .3em 0 0 #24272a,
+                                .6em 0 0 rgba(0,0,0,0);
+                        }
+                        80%, 100% {
+                            text-shadow:
+                                .3em 0 0 #24272a,
+                                .6em 0 0 #24272a;
+                        }
+                    }
+                }
+            }
         }
     }
 
@@ -42,10 +93,13 @@ const StyledContainer = styled(Container)`
         flex-direction: column;
         align-items: center;
 
+        > svg {
+            margin-top: 25px;
+        }
+
         @media (min-width: 992px) {
             border: 2px solid #F0F0F0;
             border-radius: 8px;
-            padding: 30px 20px 20px 20px;
             height: max-content;
         }
 
@@ -103,6 +157,71 @@ const StyledContainer = styled(Container)`
                 }
             }
         }
+
+        .tab-selector {
+            width: 100%;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+
+            > div {
+                flex: 1;
+                flex: 1;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: 25px 0;
+                border-bottom: 1px solid transparent;
+                color: black;
+                font-weight: 600;
+                font-size: 16px;
+
+                &.inactive {
+                    background-color: #FAFAFA;
+                    border-bottom: 1px solid #F0F0F1;
+                    cursor: pointer;
+                    color: #A2A2A8;
+                    transition: color 100ms;
+
+                    :hover {
+                        color: black;
+                    }
+                }
+            }
+
+            .tab-balances {
+                border-right: 1px solid transparent;
+
+                @media (max-width: 767px) {
+                    margin-left: -14px;
+                }
+
+                @media (min-width: 992px) {
+                    border-top-left-radius: 8px;
+                }
+
+                &.inactive {
+                    border-right: 1px solid #F0F0F1;
+                }
+            }
+
+            .tab-collectibles {
+                border-left: 1px solid transparent;
+
+                @media (max-width: 767px) {
+                    margin-right: -14px;
+                }
+
+                @media (min-width: 992px) {
+                    border-top-right-radius: 8px;
+                }
+
+                &.inactive {
+                    border-left: 1px solid #F0F0F1;
+                }
+            }
+        }
     }
 
     button {
@@ -124,12 +243,18 @@ const StyledContainer = styled(Container)`
 export function Wallet() {
     const [exploreApps, setExploreApps] = useState(null);
     const [showLinkdropModal, setShowLinkdropModal] = useState(null);
-    const { balance, accountId } = useSelector(({ account }) => account)
-    const transactions = useSelector(({ transactions }) => transactions)
+    const accountId = useSelector(state => selectAccountId(state))
+    const balance = useSelector(state => selectBalance(state))
+    const transactions = useSelector(state => selectTransactions(state))
     const dispatch = useDispatch()
     const hideExploreApps = localStorage.getItem('hideExploreApps')
     const linkdropAmount = localStorage.getItem('linkdropAmount')
     const linkdropModal = linkdropAmount && showLinkdropModal !== false;
+    const tokens = useSelector(state => selectTokensDetails(state))
+    const nft = useSelector(selectNFT)
+    const actionStatus = useSelector(state => selectActionStatus(state))
+    const tokensLoader = actionsPendingByPrefix('TOKENS/') || !balance?.total
+    const [tokenView, setTokenView] = useState('fungibleTokens');
     
     useEffect(() => {
         if (accountId) {
@@ -140,65 +265,17 @@ export function Wallet() {
         }
     }, [accountId])
 
-    const logError = (error) => {
-        console.warn(error);
-        Sentry.captureException()
-    };
-
-    // TODO: Refactor loading token balances using Redux
-    const cachedTokensKey = `cachedTokens:${accountId}`;
-    const cachedTokens = (() => {
-        try {
-            return JSON.parse(localStorage.getItem(cachedTokensKey));
-        } catch(e) {
-            logError(e);
-            return {};
-        }
-    })();
-
-    const whitelistedContracts = (process.env.TOKEN_CONTRACTS || 'berryclub.ek.near,farm.berryclub.ek.near,wrap.near').split(',');
-    const [tokens, setTokens] = useState(cachedTokens || {});
-
     const sortedTokens = Object.keys(tokens).map(key => tokens[key]).sort((a, b) => (a.symbol || '').localeCompare(b.symbol || ''));
+    // TODO: Sort NFTS
+    const sortedNFTs = Object.values(nft).sort((a, b) => a.name.localeCompare(b.name))
 
     useEffect(() => {
         if (!accountId) {
             return
         }
 
-        sendJson('GET', `${ACCOUNT_HELPER_URL}/account/${accountId}/likelyTokens`).then(likelyContracts => {
-            const contracts = [...new Set([...likelyContracts, ...whitelistedContracts])];
-            let loadedTokens = contracts.map(contract => ({
-                [contract]: { contract, ...tokens[contract] }
-            }));
-            loadedTokens = loadedTokens.reduce((a, b) => Object.assign(a, b), {});
-
-            setTokens(loadedTokens);
-            wallet.getAccount(accountId).then(account =>
-                // NOTE: This forEach parallelizes requests on purpose
-                contracts.forEach(async contract => {
-                    try {
-                        // TODO: Parallelize balance and metadata calls, use cached metadata?
-                        let { name, symbol, decimals, icon } = await account.viewFunction(contract, 'ft_metadata')
-                        const balance = await account.viewFunction(contract, 'ft_balance_of', { account_id: accountId })
-                        loadedTokens = {
-                            ...loadedTokens,
-                            [contract]: { contract, balance, name, symbol, decimals, icon }
-                        }
-                    } catch (e) {
-                        if (e.message.includes('FunctionCallError(MethodResolveError(MethodNotFound))')) {
-                            loadedTokens = {...loadedTokens};
-                            delete loadedTokens[contract];
-                            return;
-                        }
-                        logError(e);
-                    } finally {
-                        setTokens(loadedTokens);
-                        localStorage.setItem(cachedTokensKey, JSON.stringify(loadedTokens));
-                    }
-                })
-            ).catch(logError);
-        }).catch(logError);
+        dispatch(handleGetTokens())
+        dispatch(handleGetNFTs())
     }, [accountId]);
 
     const handleHideExploreApps = () => {
@@ -214,50 +291,32 @@ export function Wallet() {
     }
 
     return (
-        <StyledContainer>
+        <StyledContainer className={SHOW_NETWORK_BANNER ? 'showing-banner' : ''}>
             <div className='split'>
                 <div className='left'>
-                    <NearWithBackgroundIcon/>
-                    <h1><Balance amount={balance?.total} symbol={false}/></h1>
-                    <div className='sub-title'><Translate id='wallet.balanceTitle' /></div>
-                    <div className='buttons'>
-                        <FormButton
-                            linkTo='/send-money'
-                            trackingId='Click Send on Wallet page'
+                    <div className='tab-selector'>
+                        <div 
+                            className={classNames(['tab-balances', tokenView !== 'fungibleTokens' ? 'inactive' : ''])}
+                            onClick={() => setTokenView('fungibleTokens')}
                         >
-                            <div>
-                                <SendIcon/>
-                            </div>
-                            <Translate id='button.send'/>
-                        </FormButton>
-                        <FormButton
-                            linkTo='/receive-money'
-                            trackingId='Click Receive on Wallet page'
+                            Balances
+                        </div>
+                        <div 
+                            className={classNames(['tab-collectibles', tokenView !== 'nonFungibleTokens' ? 'inactive' : ''])}
+                            onClick={() => setTokenView('nonFungibleTokens')}
                         >
-                            <div>
-                                <DownArrowIcon/>
-                            </div>
-                            <Translate id='button.receive'/>
-                        </FormButton>
-                        <FormButton
-                            linkTo='/buy'
-                            trackingId='Click Receive on Wallet page'
-                        >
-                            <div>
-                                <BuyIcon/>
-                            </div>
-                            <Translate id='button.buy'/>
-                        </FormButton>
+                            Collectibles
+                        </div>
                     </div>
-                    {sortedTokens?.length ?
-                        <>
-                            <div className='sub-title tokens'>
-                                <span><Translate id='wallet.tokens' /></span>
-                                <span><Translate id='wallet.balance' /></span>
-                            </div>
-                            <Tokens tokens={sortedTokens} />
-                        </>
-                        : undefined
+                    {tokenView === 'fungibleTokens' &&
+                        <FungibleTokens
+                            balance={balance}
+                            tokensLoader={tokensLoader}
+                            sortedTokens={sortedTokens}
+                        />
+                    }
+                    {tokenView === 'nonFungibleTokens' &&
+                        <NFTs tokens={sortedNFTs} />
                     }
                 </div>
                 <div className='right'>
@@ -280,5 +339,49 @@ export function Wallet() {
                 />
             }
         </StyledContainer>
+    )
+}
+
+const FungibleTokens = ({ balance, tokensLoader, sortedTokens, }) => {
+    return (
+        <>
+            <NearWithBackgroundIcon/>
+            <h1><Balance amount={balance?.total} symbol={false}/></h1>
+            <div className='sub-title'><Translate id='wallet.balanceTitle' /></div>
+            <div className='buttons'>
+                <FormButton
+                    linkTo='/send-money'
+                    trackingId='Click Send on Wallet page'
+                >
+                    <div>
+                        <SendIcon/>
+                    </div>
+                    <Translate id='button.send'/>
+                </FormButton>
+                <FormButton
+                    linkTo='/receive-money'
+                    trackingId='Click Receive on Wallet page'
+                >
+                    <div>
+                        <DownArrowIcon/>
+                    </div>
+                    <Translate id='button.receive'/>
+                </FormButton>
+                <FormButton
+                    linkTo='/buy'
+                    trackingId='Click Receive on Wallet page'
+                >
+                    <div>
+                        <BuyIcon/>
+                    </div>
+                    <Translate id='button.buy'/>
+                </FormButton>
+            </div>
+            <div className='sub-title tokens'>
+                <span className={classNames({ dots: tokensLoader })}><Translate id='wallet.tokens' /></span>
+                <span><Translate id='wallet.balance' /></span>
+            </div>
+            <Tokens tokens={sortedTokens} />
+        </>
     )
 }

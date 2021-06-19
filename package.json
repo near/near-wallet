@@ -36,7 +36,7 @@
   "scripts": {
     "predeploy": "yarn build",
     "update:static": "cp src/wasm/multisig.wasm dist/multisig.wasm && cp src/wasm/main.wasm dist/main.wasm",
-    "start": "yarn update:static; parcel src/index.html --https",
+    "start": "yarn update:static; parcel src/index.html --https --cert devServerCertificates/primary.crt --key devServerCertificates/private.pem",
     "prebuild": "rm -rf dist/",
     "build": "parcel build src/index.html && node scripts/sentry-send-release.js && yarn update:static",
     "test": "jest",
@@ -55,7 +55,7 @@
     "@babel/core": "^7.14.3",
     "@babel/preset-env": "^7.14.1",
     "@babel/preset-react": "^7.13.13",
-    "@sentry/cli": "^1.64.1",
+    "@sentry/cli": "^1.65.0",
     "@storybook/addon-actions": "^6.1.21",
     "@storybook/addon-essentials": "^6.1.21",
     "@storybook/addon-links": "^6.1.21",

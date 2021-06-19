@@ -57,3 +57,5 @@ const transactions = handleActions({
 }, initialState)
 
 export default transactions
+
+export const selectTransactions = state => state.transactions

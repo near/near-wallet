@@ -10,6 +10,7 @@ import {
     WALLET_LOGIN_URL,
     WALLET_SIGN_URL,
     WALLET_RECOVER_ACCOUNT_URL,
+    WALLET_LINKDROP_URL,
     setKeyMeta,
     MULTISIG_MIN_PROMPT_AMOUNT
 } from '../utils/wallet'
@@ -25,6 +26,8 @@ import {
     handleGetLockup,
     staking
 } from './staking'
+import { tokens } from './tokens'
+import { nft } from './nft';
 
 export const loadRecoveryMethods = createAction('LOAD_RECOVERY_METHODS',
     wallet.getRecoveryMethods.bind(wallet),
@@ -66,7 +69,7 @@ export const handleClearUrl = () => (dispatch, getState) => {
     const { pathname } = getState().router.location
     const page = pathname.split('/')[1]
     const guestLandingPage = !page && !wallet.accountId
-    const saveUrlPages = [...WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS, WALLET_LOGIN_URL, WALLET_SIGN_URL].includes(page)
+    const saveUrlPages = [...WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS, WALLET_LOGIN_URL, WALLET_SIGN_URL, WALLET_LINKDROP_URL].includes(page)
 
     if (!guestLandingPage && !saveUrlPages) {
         clearState()
@@ -80,13 +83,14 @@ export const parseTransactionsToSign = createAction('PARSE_TRANSACTIONS_TO_SIGN'
 export const handleRefreshUrl = (prevRouter) => (dispatch, getState) => {
     const { pathname, search } = prevRouter?.location || getState().router.location
     const currentPage = pathname.split('/')[pathname[1] === '/' ? 2 : 1]
-    if ([...WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS, WALLET_LOGIN_URL, WALLET_SIGN_URL].includes(currentPage)) {
+
+    if ([...WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS, WALLET_LOGIN_URL, WALLET_SIGN_URL, WALLET_LINKDROP_URL].includes(currentPage)) {
         const parsedUrl = {
             referrer: document.referrer && new URL(document.referrer).hostname,
             ...parse(search),
             redirect_url: prevRouter ? prevRouter.location.pathname : undefined
         }
-        if ([WALLET_CREATE_NEW_ACCOUNT_URL].includes(currentPage) && search !== '') {
+        if ([WALLET_CREATE_NEW_ACCOUNT_URL, WALLET_LINKDROP_URL].includes(currentPage) && search !== '') {
             saveState(parsedUrl)
             dispatch(refreshUrl(parsedUrl))
         } else if ([WALLET_LOGIN_URL, WALLET_SIGN_URL].includes(currentPage) && search !== '') {
@@ -436,6 +440,7 @@ export const finishAccountSetup = () => async (dispatch, getState) => {
     await dispatch(refreshAccount())
     await dispatch(getBalance())
     await dispatch(staking.clearState())
+    dispatch(tokens.clearState())
     const { balance, url, accountId } = getState().account
 
     let promptTwoFactor = await TwoFactor.checkCanEnableTwoFactor(balance)
@@ -543,6 +548,8 @@ export const switchAccount = (accountId) => async (dispatch, getState) => {
     dispatch(handleRefreshUrl())
     dispatch(staking.clearState())
     dispatch(refreshAccount())
+    dispatch(tokens.clearState())
+    dispatch(nft.clearState())
 }
 
 export const getAvailableAccountsBalance = () => async (dispatch, getState) => {
