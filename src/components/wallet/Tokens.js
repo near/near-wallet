@@ -16,7 +16,6 @@ const StyledContainer = styled.div`
             border-bottom: 1px solid #F0F0F1;
 
             @media (min-width: 992px) {
-                margin-bottom: -20px;
                 border-bottom: 0;
             }
         }

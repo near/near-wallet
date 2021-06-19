@@ -738,6 +738,10 @@
         "seeMore": "See more on",
         "coinMarketCap": "CoinMarketCap"
     },
+
+    "NFTs": {
+        "emptyState": "Looks like you don't have any collectibles yet."
+    },
     
     "exploreApps": {
         "title": "What's on NEAR?",
