@@ -160,17 +160,6 @@
             "implicitAccount": "转账不可逆，请确保账户 ID 准确",
             "implicitAccountModal": "请再确认账户 ID，如果账户输入错误，你的资产将永久无法找回。"
         },
-        "activateAccount": {
-            "pre": {
-                "title": "即将完成注册！请为账户进行首次充值。",
-                "desc": "开始使用 NEAR 钱包前，请先充值<b>至少 ${amount} NEAR</b> 至你的账户（或称地址）。"
-            },
-            "post": {
-                "title": "你的账户已经激活。",
-                "descOne": "你的初始充值已经收到，并且转至新的账户，新账户已经激活！",
-                "descTwo": "一部分充值被保留用于涵盖<a href='https://docs.near.org/docs/concepts/account' rel='noopener noreferrer' target='_blank'>账户的存储成本</a>。"
-            }
-        },
         "createImplicit": {
             "pre": {
                 "title": "充值至账户",
@@ -182,20 +171,18 @@
                     "title": "购买 NEAR 通证",
                     "desc": "NEAR 通证可以在以下交易所购买"
                 },
-                "moonPay": {
-                    "title": "通过 MoonPay 充值",
-                    "desc": "通过 MoonPay 支持的支付方式进行你的首次充值。",
-                    "buyWith": "打开"
-                }
+                "alertBanner": {
+                    "title": "请勿关闭此窗口！"
+                },
+                "fundWith": "打开"
             },
             "post": {
-                "title": "认领你的账户",
-                "descOne": "你的初始充值已经收到，一旦认领，你的充值会转移到新认领的账户。",
-                "descTwo": "重要：你的单次充值地址将不再有效。请确认用新的账户 ID 替换旧地址，以防资产丢失。",
                 "modal": {
-                    "title": "更新你的地址",
-                    "descOne": "点击确认，意味着你已经知晓单次充值地址将会无效，任何充值到旧地址的资产会丢失。",
-                    "descTwo": "请记得在各个交易所或钱包内用新的账户 ID 替换旧地址。"
+                    "title": "账户已充值",
+                    "descOne": "你的账户已成功充值。",
+                    "descTwo": "临时充值地址现已无效，请不要向此地址转账。你现在可以使用账户 ID 作为你的 NEAR 主要地址。",
+                    "descThree": "你的账户 ID：<b>${accountId}</b>是你所有 NEAR 操作的单一地址。",
+                    "checkbox": "我已知晓：继续后，临时充值地址将会永久失效，任何转账的资产将无法找回。"
                 }
             },
             "success": {
@@ -205,16 +192,6 @@
                 "descThree": "请在交易所或其他设备上更新你的地址。",
                 "button": "前往账户页"
             }
-        },
-        "fundedStatus": {
-            "singleUse": "单次充值地址",
-            "nearName": "账户 ID",
-            "status": "账户状态",
-            "minDeposit": "最低充值",
-            "initialDeposit": "初始充值",
-            "awaitingDeposit": "等待充值",
-            "ready": "可供领取",
-            "active": "活跃"
         },
         "verifySeedPhrase": {
             "error": "你输入了错误的助记词"
@@ -465,8 +442,6 @@
         "copyPhrase": "复制助记词",
         "copyImplicitAddress": "复制账户 ID",
         "claimAccount": "认领账户",
-        "claimMyAccount": "认领我的账户",
-        "continueToMyAccount": "前往我的账户",
         "continue": "继续",
         "continueSetup": "继续设置",
         "verify": "验证并完成",
@@ -522,7 +497,6 @@
         "enabling": "正在开启",
         "disabling": "正在禁用",
         "verifying": "正在验证",
-        "creatingAccount": "创建账户",
         "staking": "正在质押",
         "unstaking": "正在赎回质押",
         "withdrawing": "正在提现",
@@ -534,8 +508,7 @@
         "viewOnExplorer": "通过浏览器查看",
         "buy": "购买",
         "learnMore": "了解更多",
-        "viewFAQ": "查看常见问题",
-        "acceptAndContinue": "接受并继续"
+        "viewFAQ": "查看常见问题"
     },
 
     "link": {
@@ -552,7 +525,6 @@
     },
 
     "copy": {
-        "title": "复制",
         "default": "已复制！"
     },
 
@@ -595,18 +567,12 @@
     },
 
     "createAccount": {
-        "termsPage": {
-            "title": "在开始之前...",
-            "descOne": "NEAR 账户要求进行一笔一次性<a href='https://docs.near.org/docs/concepts/account' rel='noopener noreferrer' target='_blank'>至少 ${data} NEAR</a> 的充值来涵盖<a href='https://docs.near.org/docs/concepts/account' rel='noopener noreferrer' target='_blank'>你的账户存储成本</a>。",
-            "descTwo": "在保留你的个性化账户 ID 之后，你需要进行一笔初始充值来激活的账户。",
-            "disclaimer": "通过注册 NEAR 账户，意味着你同意 NEAR 钱包的<a href='/terms' rel='noopener noreferrer' target='_blank'>服务条款</a>和<a href='https://near.org/privacy' rel='noopener noreferrer' target='_blank'>隐私策略</a>。"
-        },
         "pageTitle": "创建新的账户",
         "pageText": "只需要输入用户名即完成注册。",
         "step": "步骤 ${step}/${total}",
         "accountIdInput": {
             "title": "输入用户名",
-            "placeholder": "yourname.${data}"
+            "placeholder": "例如：satoshi"
         },
         "alreadyHaveAnAccount": "已经拥有账户？",
         "recoverItHere": "恢复账户",
@@ -616,9 +582,7 @@
             "digits": "数字 (0-9)",
             "separators": "字符 (_-) 用于分割",
             "cannotContain": "你的用户名不可以包括：",
-            "characters": "符号 \"@\" 或 \".\"",
-            "minCharacters": "少于 2 个字符",
-            "maxCharacters": "超过 64 个字符（包括 .${accountSuffix}）"
+            "characters": "符号 \"@\" 或 \".\""
         },
         "invalidLinkDrop": {
             "title": "链接无效",
@@ -681,18 +645,15 @@
         "basicSecurity": "基础安全",
         "basicSecurityDesc": "请输入你的 Email 地址或手机号以获取恢复链接",
         "emailTitle": "Email 方式",
-        "emailDesc": "通过 Email 方式接收验证码和账户恢复链接。",
         "emailPlaceholder": "example@email.com",
         "phoneTitle": "手机短信方式",
-        "phoneDesc": "请输入你的手机号以接收恢复链接。",
+        "phoneDesc": "请输入你的手机号以获取恢复链接",
         "phonePlaceholder": "+1 415 797 8554",
         "notSupportedPhone": "抱歉，目前我们还为你所在的地区开放短信恢复方式。请选择 Email 方式。",
         "advancedSecurity": "高级安全",
         "advancedSecurityDesc": "记录 12 个单词组成的助记词，并安全保存。",
-        "ledgerTitle": "Ledger 硬件钱包",
-        "ledgerDesc": "通过 Ledger 硬件钱包保护你的账户安全。",
-        "phraseTitle": "安全助记词",
-        "phraseDesc": "生成并安全地存储唯一的助记词。"
+        "ledgerTitle": "Ledger Nano S/X",
+        "phraseTitle": "恢复助记词"
     },
     "setRecoveryConfirm": {
         "title": "输入验证码",
@@ -703,7 +664,7 @@
         "didNotRecive": "未收到验证码？",
         "resendCode": "重新发送",
         "or": "或",
-        "sendToDifferent": "发送至其他",
+        "sendToDifferent": "发送至其他 Email 邮箱",
         "email": "Email",
         "phone": "手机号",
         "reenter": {
@@ -735,13 +696,10 @@
     },
 
     "dashboard": {
-        "activity": "最近动态"
+        "activity": "动态"
     },
 
     "loading": "加载中...",
-    "loadingNoDots": "加载中",
-    "sync": "刷新",
-    "getBalance": "查看余额",
 
     "balance": {
         "balance": "总余额",

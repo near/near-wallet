@@ -95,14 +95,13 @@ class DesktopContainer extends Component {
             showNavLinks,
             flowLimitation,
             refreshBalance,
-            getBalance,
-            isInactiveAccount
+            getBalance
         } = this.props
 
         return (
             <Container>
                 <Logo link={!flowLimitation.mainMenu} />
-                {showNavLinks && !isInactiveAccount && !flowLimitation.mainMenu &&
+                {showNavLinks && !flowLimitation.mainMenu &&
                     <NavLinks />
                 }
                 <Lang>
@@ -127,7 +126,6 @@ class DesktopContainer extends Component {
                             balance={account.balance}
                             refreshBalance={refreshBalance}
                             getBalance={getBalance}
-                            isInactiveAccount={isInactiveAccount}
                         />
                     </>
                 }

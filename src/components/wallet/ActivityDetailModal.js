@@ -13,12 +13,9 @@ const StyledContainer = styled.div`
     flex-direction: column;
     align-items: center;
 
-    .title {
+    h2 {
         text-align: center;
         margin-top: 20px;
-        font-size: 20px;
-        color: #24272a;
-        font-weight: 900;
     }
 
     .row {
@@ -146,14 +143,14 @@ const ActivityDetailModal = ({
             closeButton
         >
             <StyledContainer>
-                <div className='title'>
+                <h2>
                     <ActionTitle 
                         transaction={transaction}
                         actionArgs={actionArgs}
                         actionKind={actionKind}
                         accountId={accountId}
                     />
-                </div>
+                </h2>
                 <div className='row'>
                     {['Transfer', 'Stake'].includes(actionKind) &&
                         <div className='item'>

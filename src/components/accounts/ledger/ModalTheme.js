@@ -1,11 +1,7 @@
 import { createGlobalStyle } from 'styled-components';
 
 export default createGlobalStyle`
-    #instructions-modal {
-        h2 {
-            color: #24272a !important;
-        }
-    }
+
     .modal {
         display: flex;
         flex-direction: column;

@@ -159,17 +159,6 @@
             "implicitAccount": "Sempre verifique o ID da conta",
             "implicitAccountModal": "Por favor, verifique o ID da conta, especialmente se esta for uma conta de exchange. Se o ID da conta for inserido incorretamente, seus fundos serão perdidos para sempre."
         },
-        "activateAccount": {
-            "pre": {
-                "title": "Almost there! Make your initial deposit.",
-                "desc": "To begin using NEAR Wallet, make a minimum initial deposit by sending <b>at least ${amount} NEAR</b> to your Account ID (sometimes called an “address”)."
-            },
-            "post": {
-                "title": "Your account has been activated.",
-                "descOne": "Your initial deposit has been received and transferred to your new account. Your account is now active!",
-                "descTwo": "A portion of your deposit has been reserved to cover the <a href='https://docs.near.org/docs/concepts/account' rel='noopener noreferrer' target='_blank'>cost of hosting your account</a>."
-            }
-        },
         "createImplicit": {
             "pre": {
                 "title": "Coloque fundos em sua Conta",
@@ -181,21 +170,18 @@
                     "title": "Compre NEAR tokens",
                     "desc": "NEAR tokens estão disponíveis para compra nas seguintes exchanges"
                 },
-                "moonPay": {
-                    "title": "Fund with MoonPay",
-                    "desc": "Make your initial deposit with MoonPay using your preferred payment method.",
-                    "buyWith": "Buy with"
+                "alertBanner": {
+                    "title": "Não feche essa janela!"
                 },
                 "fundWith": "Adicionar fundos com"
             },
             "post": {
-                "title": "Claim your account",
-                "descOne": "Your initial deposit was received! Once claimed, your deposit will be transferred to your new account.",
-                "descTwo": "Important: Your single-use funding address will no longer be valid. Make sure to replace it with your Account ID on any exchanges or other devices where it may have been saved.",
                 "modal": {
-                    "title": "Update your address",
-                    "descOne": "By continuing, you acknowledge that the single-use funding address will be replaced, and any additional funds sent to the old address will be lost.",
-                    "descTwo": "Remember to replace it with your Account ID on any exchanges or other devices where it may have been saved."
+                    "title": "Conta com Fundos Depositados",
+                    "descOne": "Fundo depositado com sucesso em sua conta!",
+                    "descTwo": "O endereço de fundação único não pode mais ser usado para receber ativos.",
+                    "descThree": "ID da sua Conta: <b>${accountId}</b> é o seu endereço único para todas as operações NEAR.",
+                    "checkbox": "Eu reconheço que o endereço de fundação único é inválido e quaisquer ativos adicionais enviados para este endereço serão perdidos."
                 }
             },
             "success": {
@@ -580,18 +566,12 @@
     },
 
     "createAccount": {
-        "termsPage": {
-            "title": "Before you begin...",
-            "descOne": "NEAR accounts require a minimum balance of <a href='https://docs.near.org/docs/concepts/account' rel='noopener noreferrer' target='_blank'>at least ${data} NEAR</a> to <a href='https://docs.near.org/docs/concepts/account' rel='noopener noreferrer' target='_blank'>hold a place on the network.</a>",
-            "descTwo": "After reserving a unique account address, you’ll be asked to make a small initial deposit to activate your account.",
-            "disclaimer": "By creating a NEAR account, you agree to the NEAR Wallet <a href='/terms' rel='noopener noreferrer' target='_blank'>Terms of Service</a> and <a href='https://near.org/privacy' rel='noopener noreferrer' target='_blank'>Privacy Policy</a>."
-        },
         "pageTitle": "Definir ID da conta",
         "pageText": "Digite um ID para usar com sua conta NEAR. O ID da conta será usado para todas as operações NEAR, incluindo o envio e o recebimento de ativos.",
         "step": "Passo ${step}/${total}",
         "accountIdInput": {
             "title": "ID da Conta",
-            "placeholder": "yourname.${data}"
+            "placeholder": "Exemplo: satoshi"
         },
         "alreadyHaveAnAccount": "Já possui uma conta?",
         "recoverItHere": "Importar Conta Existente",

@@ -1,4 +1,4 @@
-import React, { Component, createRef } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 import { Translate } from 'react-localize-redux'
@@ -23,7 +23,6 @@ import {
 } from '../../../actions/account';
 import RecoveryOption from './RecoveryOption';
 import FormButton from '../../common/FormButton';
-import Tooltip from '../../common/Tooltip'
 import EnterVerificationCode from '../EnterVerificationCode';
 import Container from '../../common/styled/Container.css';
 import isApprovedCountryCode from '../../../utils/isApprovedCountryCode'
@@ -49,8 +48,6 @@ const StyledContainer = styled(Container)`
         margin-top: 40px;
         font-weight: 600;
         font-size: 15px;
-        display: flex;
-        align-items: center;
     }
 
 `
@@ -58,7 +55,7 @@ const StyledContainer = styled(Container)`
 class SetupRecoveryMethod extends Component {
 
     state = {
-        option: this.props.router.location.method || 'phrase',
+        option: 'phrase',
         phoneNumber: '',
         country: '',
         email: '',
@@ -67,12 +64,8 @@ class SetupRecoveryMethod extends Component {
         phoneInvalid: false,
         recoverySeedPhrase: null,
         recaptchaToken: null,
-        isNewAccount: false,
-        settingUpNewAccount: false
+        isNewAccount: false
     }
-
-    emailInput = createRef()
-    phoneInput = createRef()
 
     async componentDidMount() {
         const { router, checkIsNew } = this.props;
@@ -80,9 +73,6 @@ class SetupRecoveryMethod extends Component {
 
         if (method) {
             this.setState({ option: method });
-            if (method === 'email' || method === 'phone') {
-                window.scrollTo({ top: 450, left: 0 });
-            }
         }
 
         if (this.props.activeAccountId) {
@@ -111,16 +101,16 @@ class SetupRecoveryMethod extends Component {
         const { option, phoneNumber, email, country } = this.state;
 
         switch (option) {
-            case 'email':
-                return validateEmail(email)
-            case 'phone':
-                return isApprovedCountryCode(country) && isValidPhoneNumber(phoneNumber)
-            case 'phrase':
-                return true
-            case 'ledger':
-                return true
-            default:
-                return false
+        case 'email':
+            return validateEmail(email)
+        case 'phone':
+            return isApprovedCountryCode(country) && isValidPhoneNumber(phoneNumber)
+        case 'phrase':
+            return true
+        case 'ledger':
+            return true
+        default:
+            return false
         }
     }
 
@@ -176,33 +166,28 @@ class SetupRecoveryMethod extends Component {
             validateSecurityCode,
             saveAccount
         } = this.props;
-        this.setState({ settingUpNewAccount: true })
+
+        const { secretKey } = parseSeedPhrase(recoverySeedPhrase)
+        const recoveryKeyPair = KeyPair.fromString(secretKey)
+        await validateSecurityCode(accountId, method, securityCode);
+        await saveAccount(accountId, recoveryKeyPair);
+
+        // IMPLICIT ACCOUNT
+        if (DISABLE_CREATE_ACCOUNT && !fundingOptions && !recaptchaToken) {
+            await fundCreateAccount(accountId, recoveryKeyPair, fundingOptions, method);
+            return
+        }
 
         try {
-            const { secretKey } = parseSeedPhrase(recoverySeedPhrase)
-            const recoveryKeyPair = KeyPair.fromString(secretKey)
-            await validateSecurityCode(accountId, method, securityCode);
-            await saveAccount(accountId, recoveryKeyPair);
-
-            // IMPLICIT ACCOUNT
-            if (DISABLE_CREATE_ACCOUNT && !fundingOptions && !recaptchaToken) {
-                await fundCreateAccount(accountId, recoveryKeyPair, fundingOptions, method);
-                return
+            // NOT IMPLICIT ACCOUNT (testnet, linkdrop, funded to delegated account via contract helper)
+            await createNewAccount(accountId, fundingOptions, method, recoveryKeyPair.publicKey, undefined, recaptchaToken)
+        } catch (e) {
+            if (e.code === 'NotEnoughBalance') {
+                Mixpanel.track('SR NotEnoughBalance creating funded account');
+                return fundCreateAccount(accountId, recoveryKeyPair, fundingOptions, method);
             }
 
-            try {
-                // NOT IMPLICIT ACCOUNT (testnet, linkdrop, funded to delegated account via contract helper)
-                await createNewAccount(accountId, fundingOptions, method, recoveryKeyPair.publicKey, undefined, recaptchaToken)
-            } catch (e) {
-                if (e.code === 'NotEnoughBalance') {
-                    Mixpanel.track('SR NotEnoughBalance creating funded account');
-                    return fundCreateAccount(accountId, recoveryKeyPair, fundingOptions, method);
-                }
-
-                throw e;
-            }
-        } catch(e) {
-            this.setState({ settingUpNewAccount: false })
+            throw e;
         }
     }
 
@@ -300,22 +285,19 @@ class SetupRecoveryMethod extends Component {
     }
 
     render() {
-        const { option, phoneNumber, email, success, emailInvalid, phoneInvalid, country, isNewAccount, settingUpNewAccount } = this.state;
+        const { option, phoneNumber, email, success, emailInvalid, phoneInvalid, country, isNewAccount } = this.state;
         const { mainLoader, accountId, activeAccountId, ledgerKey, twoFactor } = this.props;
 
         if (!success) {
             return (
-                <StyledContainer className='small-centered border'>
+                <StyledContainer className='small-centered'>
                     <form onSubmit={e => {
                         this.handleNext();
                         e.preventDefault();
                     }}>
-                        <h1><Translate id='setupRecovery.header' /></h1>
-                        <h2><Translate id='setupRecovery.subHeader' /></h2>
-                        <h4>
-                            <Translate id='setupRecovery.advancedSecurity' />
-                            <Tooltip translate='profile.security.mostSecureDesc' icon='icon-lg'/>
-                        </h4>
+                        <h1><Translate id='setupRecovery.header'/></h1>
+                        <h2><Translate id='setupRecovery.subHeader'/></h2>
+                        <h4><Translate id='setupRecovery.advancedSecurity'/></h4>
                         <RecoveryOption
                             onClick={() => this.setState({ option: 'phrase' })}
                             option='phrase'
@@ -323,26 +305,16 @@ class SetupRecoveryMethod extends Component {
                             disabled={this.checkDisabled('phrase')}
                         />
                         {(this.checkNewAccount() || !twoFactor) &&
-                            <RecoveryOption
-                                onClick={() => this.setState({ option: 'ledger' })}
-                                option='ledger'
-                                active={option}
-                                disabled={ledgerKey !== null && accountId === activeAccountId}
-                            />
-                        }
-                        <h4>
-                            <Translate id='setupRecovery.basicSecurity' />
-                            <Tooltip translate='profile.security.lessSecureDesc' icon='icon-lg'/>
-                        </h4>
                         <RecoveryOption
-                            onClick={() => {
-                                this.setState({ option: 'email' });
-                                if (option !== 'email') {
-                                    setTimeout(() => {
-                                        this.emailInput.current.focus();
-                                    }, 0)
-                                }
-                            }}
+                            onClick={() => this.setState({ option: 'ledger' })}
+                            option='ledger'
+                            active={option}
+                            disabled={ledgerKey !== null && accountId === activeAccountId}
+                        />
+                        }
+                        <h4><Translate id='setupRecovery.basicSecurity'/></h4>
+                        <RecoveryOption
+                            onClick={() => this.setState({ option: 'email' })}
                             option='email'
                             active={option}
                             disabled={this.checkDisabled('email')}
@@ -358,20 +330,12 @@ class SetupRecoveryMethod extends Component {
                                         onChange={e => this.setState({ email: e.target.value, emailInvalid: false })}
                                         onBlur={this.handleBlurEmail}
                                         tabIndex='1'
-                                        ref={this.emailInput}
                                     />
                                 )}
                             </Translate>
                         </RecoveryOption>
                         <RecoveryOption
-                            onClick={() => {
-                                this.setState({ option: 'phone' });
-                                if (option !== 'phone') {
-                                    setTimeout(() => {
-                                        this.phoneInput.current.focus();
-                                    }, 0)
-                                }
-                            }}
+                            onClick={() => this.setState({ option: 'phone' })}
                             option='phone'
                             active={option}
                             disabled={this.checkDisabled('phone')}
@@ -382,7 +346,6 @@ class SetupRecoveryMethod extends Component {
                                     <>
                                         <PhoneInput
                                             placeholder={translate('setupRecovery.phonePlaceholder')}
-                                            type='phone'
                                             value={phoneNumber}
                                             disabled={this.props.mainLoader}
                                             onChange={value => this.setState({
@@ -392,10 +355,9 @@ class SetupRecoveryMethod extends Component {
                                             onCountryChange={option => this.setState({ country: option })}
                                             tabIndex='1'
                                             onBlur={this.handleBlurPhone}
-                                            ref={this.phoneInput}
                                         />
                                         {!isApprovedCountryCode(country) &&
-                                            <div className='color-red'>{translate('setupRecovery.notSupportedPhone')}</div>
+                                        <div className='color-red'>{translate('setupRecovery.notSupportedPhone')}</div>
                                         }
                                     </>
                                 )}
@@ -408,7 +370,7 @@ class SetupRecoveryMethod extends Component {
                             sending={actionsPending('INITIALIZE_RECOVERY_METHOD', 'SETUP_RECOVERY_MESSAGE')}
                             trackingId='SR Click submit button'
                         >
-                            <Translate id='button.continue' />
+                            <Translate id='button.continue'/>
                         </FormButton>
                     </form>
                 </StyledContainer>
@@ -423,8 +385,7 @@ class SetupRecoveryMethod extends Component {
                     onConfirm={this.handleSetupRecoveryMethod}
                     onGoBack={this.handleGoBack}
                     onResend={this.handleSendCode}
-                    reSending={actionsPending('INITIALIZE_RECOVERY_METHOD')}
-                    verifyingCode={actionsPending('SETUP_RECOVERY_MESSAGE') || settingUpNewAccount}
+                    loading={mainLoader}
                     onRecaptchaChange={this.handleRecaptchaChange}
                 />
             )

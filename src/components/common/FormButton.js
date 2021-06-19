@@ -226,6 +226,11 @@ const CustomButton = styled(Button)`
                 color: #fff;
                 background-color: #FF585D;
             }
+
+            :disabled {
+                background-color: #e6e6e6;
+                color: white;
+            }
         }
         &.gray-blue {
             color: #0072ce;
@@ -305,20 +310,6 @@ const CustomButton = styled(Button)`
                 :disabled {
                     opacity: 0.8;
                     background: transparent !important;
-                }
-            }
-
-            &.normal {
-                font-weight: 400;
-                font-size: 16px;
-            }
-
-            &.underline {
-                font-weight: 400;
-                text-decoration: underline;
-
-                :hover {
-                    text-decoration: none;
                 }
             }
 
@@ -443,7 +434,7 @@ const FormButton = ({
         disabled={disabled}
         onClick={(e) => {
             onClick && onClick(e)
-            linkTo && (linkTo.includes('http') ? window.open(linkTo, '_blank') : history.push(linkTo))
+            linkTo && (linkTo.includes('http') ? window.location = linkTo : history.push(linkTo))
             trackingId && Mixpanel.track(trackingId)
         }}
         tabIndex='3'

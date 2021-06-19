@@ -21,10 +21,6 @@ import { getBalance } from '../../actions/account'
 import { Mixpanel } from '../../mixpanel/index'
 
 const StyledContainer = styled(Container)`
-    h1, h2 {
-        text-align: center !important;
-    }
-    
     button {
         display: block !important;
         margin: 35px auto 40px auto !important;

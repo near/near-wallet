@@ -8,7 +8,7 @@ import { BN } from 'bn.js'
 import { getAccountIds } from './helper-api'
 import { generateSeedPhrase } from 'near-seed-phrase';
 import { WalletError } from './walletError'
-import { setAccountConfirmed, getAccountConfirmed, setAccountIsInactive, getAccountIsInactive } from './localStorage'
+import { setAccountConfirmed, getAccountConfirmed } from './localStorage'
 
 import { store } from '..'
 import {
@@ -16,6 +16,7 @@ import {
     setLedgerTxSigned,
     showLedgerModal,
     redirectTo,
+    fundCreateAccount,
     finishAccountSetup,
     selectAccount
 } from '../actions/account'
@@ -47,12 +48,12 @@ export const ENABLE_FULL_ACCESS_KEYS = process.env.ENABLE_FULL_ACCESS_KEYS === '
 export const HIDE_SIGN_IN_WITH_LEDGER_ENTER_ACCOUNT_ID_MODAL = process.env.HIDE_SIGN_IN_WITH_LEDGER_ENTER_ACCOUNT_ID_MODAL
 export const SMS_BLACKLIST = process.env.SMS_BLACKLIST || 'CN'
 export const EXPLORE_APPS_URL = process.env.EXPLORE_APPS_URL || 'https://awesomenear.com/trending/'
-export const MIN_BALANCE_TO_CREATE = process.env.MIN_BALANCE_TO_CREATE || nearApiJs.utils.format.parseNearAmount('0.2')
+
 export const NETWORK_ID = process.env.REACT_APP_NETWORK_ID || 'default'
 const CONTRACT_CREATE_ACCOUNT_URL = `${ACCOUNT_HELPER_URL}/account`
 const FUNDED_ACCOUNT_CREATE_URL = `${ACCOUNT_HELPER_URL}/fundedAccount`
 export const NODE_URL = process.env.REACT_APP_NODE_URL || 'https://rpc.nearprotocol.com'
-export const WALLET_APP_MIN_AMOUNT = process.env.WALLET_APP_MIN_AMOUNT || '0.2'
+export const WALLET_APP_MIN_AMOUNT = nearApiJs.utils.format.formatNearAmount(new BN(MIN_BALANCE_FOR_GAS).add(new BN(ACCESS_KEY_FUNDING_AMOUNT)))
 
 const KEY_UNIQUE_PREFIX = '_4:'
 const KEY_WALLET_ACCOUNTS = KEY_UNIQUE_PREFIX + 'wallet:accounts_v2'
@@ -61,7 +62,6 @@ const ACCOUNT_ID_REGEX = /^(([a-z\d]+[-_])*[a-z\d]+\.)*([a-z\d]+[-_])*[a-z\d]+$/
 
 export const keyAccountConfirmed = (accountId) => `wallet.account:${accountId}:${NETWORK_ID}:confirmed`
 export const keyStakingAccountSelected = () => `wallet.account:${wallet.accountId}:${NETWORK_ID}:stakingAccount`
-export const keyAccountInactive = (accountId) => `wallet.account:${accountId}:${NETWORK_ID}:inactive`
 
 const WALLET_METADATA_METHOD = '__wallet__metadata'
 
@@ -352,7 +352,6 @@ class Wallet {
                 newAccountPublicKey: publicKey.toString(),
                 recaptchaCode: recaptchaToken
             });
-            setAccountIsInactive(accountId);
         } else {
             await sendJson('POST', CONTRACT_CREATE_ACCOUNT_URL, {
                 newAccountId: accountId,
@@ -670,20 +669,6 @@ class Wallet {
         return await sendJson('POST', ACCOUNT_HELPER_URL + path, {
             ...options,
             ...(await this.signatureFor(this))
-        });
-    }
-
-    async getAccountHelperWalletState(accountId) {
-        const state = await sendJson('GET', ACCOUNT_HELPER_URL + `/account/walletState/${accountId}`);
-        if (state.fundedAccountNeedsDeposit && !getAccountIsInactive(accountId)) {
-            setAccountIsInactive(accountId)
-        }
-        return state;
-    }
-
-    async clearFundedAccountNeedsDeposit(accountId) {
-        await sendJson('POST', ACCOUNT_HELPER_URL + `/fundedAccount/clearNeedsDeposit`, {
-            accountId
         });
     }
 
