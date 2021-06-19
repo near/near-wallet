@@ -1,24 +1,29 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import EmailIcon from '../../svg/EmailIcon';
-import PhoneIcon from '../../svg/PhoneIcon';
-import PhraseIcon from '../../svg/PhraseIcon';
-import HardwareDeviceIcon from '../../svg/HardwareDeviceIcon';
+import EmailIconOne from '../../svg/EmailIconOne';
+import PhoneIconOne from '../../svg/PhoneIconOne';
+import PassPhraseIcon from '../../svg/PassPhraseIcon';
+import HardwareWalletIcon from '../../svg/HardwareWalletIcon';
 import { Translate } from 'react-localize-redux';
 import IntFlagIcon from '../../../images/int-flag-small.svg';
 import classNames from '../../../utils/classNames';
 
 const Container = styled.div`
-    background-color: #F8F8F8;
-    border: 2px solid #E6E6E6;
-    border-radius: 4px;
+    background-color: #FAFAFA;
+    border-radius: 8px;
     padding: 15px;
     max-width: 500px;
     cursor: pointer;
     position: relative;
-    margin-left: 35px;
     margin-top: 20px;
+    border-left: 4px solid #FAFAFA;
+    overflow: hidden;
+
+    @media (max-width: 499px) {
+        margin: 20px -14px 0 -14px;
+        border-radius: 0 !important;
+    }
 
     .color-red {
         margin-top: 15px;
@@ -26,43 +31,81 @@ const Container = styled.div`
 
     :before {
         content: '';
-        height: 22px;
-        width: 22px;
+        height: 23px;
+        width: 23px;
+        top: 29px;
         border: 2px solid #E6E6E6;
         position: absolute;
-        left: -35px;
-        top: 13px;
         border-radius: 50%;
     }
 
-    path {
-        stroke: #8dd4bd;
+    .title {
+        color: #3F4045;
+        font-weight: 600;
+    }
+
+    .desc { 
+        color: #72727A;
+        max-width: 270px;
+        margin-top: 5px;
+
+        @media (max-width: 450px) {
+            max-width: 240px;
+        }
+
+        @media (max-width: 360px) {
+            max-width: 175px;
+        }
+    }
+
+    svg {
+        &.hardware-wallet-icon {
+            width: 66px;
+            margin-right: -23px;
+            position: absolute;
+            right: 0;
+            top: -6px;
+        }
     }
 
     &.active {
-        border-color: #0072CE;
-        background-color: white;
+        background-color: #F0F9FF;
         cursor: default;
+        border-left: 4px solid #2B9AF4;
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
 
         :before {
-            background-color: #0072CE;
-            border-color: #0072CE;
+            background-color: #2B9AF4;
+            border-color: #2B9AF4;
         }
 
         :after {
             content: '';
             position: absolute;
             transform: rotate(45deg);
-            left: -27px;
-            top: 17px;
+            left: 21px;
+            top: 35px;
             height: 11px;
-            width: 6px;
-            border-bottom: 2px solid white;
-            border-right: 2px solid white;
+            width: 11px;
+            background-color: white;
+            border-radius: 50%;
+            box-shadow: 1px 0px 2px 0px #0000005;
         }
 
-        .icon, path {
-            stroke: #0072CE !important;
+        .title {
+            color: #003560;
+        }
+
+        .desc {
+            color: #005497;
+        }
+
+        > hr {
+            border: 0;
+            background-color: #D6EDFF;
+            height: 1px;
+            margin: 20px -15px 0px -15px;
         }
     }
     &.inputProblem {
@@ -128,36 +171,26 @@ const Container = styled.div`
 const Header = styled.div`
     position: relative;
     padding-left: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 
     svg {
-        width: 23px;
-        height: 23px;
-        position: absolute;
-        left: 0;
-    }
+        width: 50px;
 
-`
-
-const Title = styled.div`
-    font-size: 16px;
-    color: #24272a;
-    font-weight: 500;
-
-    span {
-        color: #FF585D;
     }
 `
 
-const Icon = ({option}) => {
+const Icon = ({option, color}) => {
     switch (option) {
         case 'email':
-            return <EmailIcon/>
+            return <EmailIconOne color={color}/>
         case 'phone':
-            return <PhoneIcon/>
+            return <PhoneIconOne color={color}/>
         case 'phrase':
-            return <PhraseIcon/>
+            return <PassPhraseIcon color={color}/>
         case 'ledger':
-            return <HardwareDeviceIcon/>
+            return <HardwareWalletIcon color={color}/>
         default:
             return
     }
@@ -180,12 +213,17 @@ const RecoveryOption = ({
             className={classNames([{active: active && !disabled, disabled, inputProblem: problem}])}
         >
             <Header>
-                <Icon option={option}/>
-                <Title>
-                    <Translate id={`setupRecovery.${option}Title`}/>
-                    {active && option !== 'phrase' && option !== 'ledger' && <span>*</span>}
-                </Title>
+                <div>
+                    <div className='title'>
+                        <Translate id={`setupRecovery.${option}Title`}/>
+                    </div>
+                    <div className='desc'>
+                        <Translate id={`setupRecovery.${option}Desc`}/>
+                    </div>
+                </div>
+                <Icon option={option} color={active}/>
             </Header>
+            {active && option !== 'phrase' && option !== 'ledger' && <hr/>}
             {!disabled && active && children}
         </Container>
     )

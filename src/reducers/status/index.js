@@ -4,7 +4,9 @@ import reduceReducers from 'reduce-reducers'
 import {
     clearLocalAlert,
     clearGlobalAlert,
-    setMainLoader
+    setMainLoader,
+    setWindowIsVisible,
+    setIsMobile
 } from '../../actions/status'
 
 import { selectAccount } from '../../actions/account'
@@ -13,7 +15,9 @@ const initialState = {
     mainLoader: false,
     actionStatus: {},
     globalAlert: {},
-    localAlert: {}
+    localAlert: {},
+    windowIsVisible: true,
+    isMobile: null
 }
 
 const alertReducer = (state, { error, ready, payload, meta, type }) => {
@@ -114,11 +118,27 @@ const mainLoader = handleActions({
     })
 }, initialState)
 
+const windowIsVisible = handleActions({
+    [setWindowIsVisible]: (state, { payload }) => ({
+        ...state,
+        windowIsVisible: payload
+    })
+}, initialState)
+
+const isMobile = handleActions({
+    [setIsMobile]: (state, { payload }) => ({
+        ...state,
+        isMobile: payload
+    })
+}, initialState)
+
 export default reduceReducers(
     initialState,
     alertReducer,
     clearReducer,
-    mainLoader
+    mainLoader,
+    windowIsVisible,
+    isMobile
 )
 
 export const selectActionStatus = state => state.status.actionStatus
