@@ -7,9 +7,6 @@ const Container = styled.div`
     position: relative;
     width: 100%;
     margin: 10px 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
 
     &:after {
         content: '';
@@ -29,8 +26,7 @@ const Wrapper = styled.div`
     padding: 0 10px;
     display: inline-block;
     color: #25282A;
-    font-size: 14px;
-    font-style: italic;
+    font-size: 16px;
 `
 
 const Divider = (props) => (

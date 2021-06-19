@@ -16,8 +16,7 @@ import {
     selectAccount,
     setLocalStorage,
     getAccountBalance,
-    setAccountBalance,
-    getAccountHelperWalletState
+    setAccountBalance
 } from '../../actions/account'
 
 import { 
@@ -30,7 +29,6 @@ const initialState = {
     requestPending: null,
     actionsPending: [],
     canEnableTwoFactor: null,
-    accountHelperWalletState: {},
     twoFactor: null,
     ledgerKey: null,
     accountsBalance: undefined
@@ -67,13 +65,6 @@ const canEnableTwoFactor = handleActions({
     [checkCanEnableTwoFactor]: (state, { payload }) => ({
         ...state,
         canEnableTwoFactor: payload
-    })
-}, initialState)
-
-const accountHelperWalletState = handleActions({
-    [getAccountHelperWalletState]: (state, { payload }) => ({
-        ...state,
-        accountHelperWalletState: payload
     })
 }, initialState)
 
@@ -211,7 +202,6 @@ export default reduceReducers(
     account,
     url,
     canEnableTwoFactor,
-    accountHelperWalletState,
     twoFactor,
     twoFactorPrompt,
     ledgerKey

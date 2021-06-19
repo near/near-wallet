@@ -1,25 +1,23 @@
 import React, { Component, createRef } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import { Input } from 'semantic-ui-react'
+import { Modal, Input } from 'semantic-ui-react'
 import { Translate } from 'react-localize-redux'
+import InfoIcon from '../svg/InfoIcon.js'
 import classNames from '../../utils/classNames'
 
 import { ACCOUNT_CHECK_TIMEOUT, ACCOUNT_ID_SUFFIX } from '../../utils/wallet'
 import LocalAlertBox from '../common/LocalAlertBox.js'
 import { Mixpanel } from '../../mixpanel/index'
+import Tooltip from '../common/Tooltip'
 
 const InputWrapper = styled.div`
     position: relative;
-    display: inline-block;
-    font: 16px 'Inter';
-    width: 100%;
-    overflow: hidden;
-    padding: 4px;
-    margin: 5px -4px 30px -4px;
+    margin-bottom: 30px !important;
+    margin: 0;
 
     input {
-        margin-top: 0px !important;
+        padding-right: ${props => props.type === 'create' ? '120px' : '12px'} !important;
     }
     
     .wrong-char {
@@ -39,59 +37,41 @@ const InputWrapper = styled.div`
             }
         }
     }
+`
 
-    .input-suffix {
-        position: absolute;
-        color: #a6a6a6;
-        pointer-events: none;
-        top: 50%;
-        transform: translateY(-50%);
+const DomainName = styled.div`
+    position: absolute;
+    right: 0px;
+    top: calc(8px + 8px);
+    bottom: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    font-weight: 300;
+    color: #4a4f54;
+    font-size: 16px;
+    padding: 0 10px;
+
+    .tooltip {
+        margin: 0 8px -1px 6px;
     }
 `
+
 class AccountFormAccountId extends Component {
     state = {
         accountId: this.props.defaultAccountId || '',
         invalidAccountIdLength: false,
         wrongChar: false
     }
-    canvas = null;
+
     input = createRef()
-    suffix = createRef();
     componentDidMount = () => {
-        const { defaultAccountId, type } = this.props
+        const { defaultAccountId } = this.props
         const { accountId } = this.state
-
-        if (type === 'create') {
-            this.suffix.current.style.visibility = 'hidden';
-            this.input.current.inputRef.current.addEventListener('input', this.updateSuffix);
-        }
-
         if (defaultAccountId) {
             this.handleChangeAccountId({}, { name: 'accountId', value: accountId})
         }
-    }
-
-    componentWillUnmount() {
-        this.input.current.inputRef.current.removeEventListener('input', this.updateSuffix);
-    }
-
-    updateSuffix = () => {
-        const isSafari = /Safari/.test(navigator.userAgent) && /Apple Computer/.test(navigator.vendor);
-        const width = this.getTextWidth(this.input.current.inputRef.current.value, '16px Inter');
-        const extraSpace = isSafari ? 21.5 : 22
-        this.suffix.current.style.left = width + extraSpace + 'px';
-        this.suffix.current.style.visibility = 'visible';
-        if (this.input.current.inputRef.current.value.length === 0) this.suffix.current.style.visibility = 'hidden';
-    }
-
-    getTextWidth = (text, font) => {
-        if (!this.canvas) {
-            this.canvas = document.createElement('canvas');
-        }
-        let context = this.canvas.getContext('2d');
-        context.font = font;
-        let metrics = context.measureText(text);
-        return metrics.width;
     }
 
     handleChangeAccountId = (e, { name, value }) => {
@@ -234,7 +214,7 @@ class AccountFormAccountId extends Component {
                                 ref={this.input}
                                 value={accountId}
                                 onChange={this.handleChangeAccountId}
-                                placeholder={type === 'create' ? translate('createAccount.accountIdInput.placeholder', { data: ACCOUNT_ID_SUFFIX}) : translate('input.accountId.placeholder')}
+                                placeholder={type === 'create' ? translate('createAccount.accountIdInput.placeholder') : translate('input.accountId.placeholder')}
                                 required
                                 autoComplete='off'
                                 autoCorrect='off'
@@ -245,7 +225,9 @@ class AccountFormAccountId extends Component {
                                 disabled={disabled}
                             />
                             {type !== 'create' && <div className='input-sub-label'>{translate('input.accountId.subLabel')}</div>}
-                            {type === 'create' && <span className='input-suffix' ref={this.suffix}>.{ACCOUNT_ID_SUFFIX}</span>}
+                            {type === 'create' &&
+                                <DomainName>.{ACCOUNT_ID_SUFFIX}<Tooltip translate='topLevelAccounts.body' data={ACCOUNT_ID_SUFFIX} modalOnly={true}/></DomainName>
+                            }
                         </InputWrapper>
                     )}
                 </Translate>

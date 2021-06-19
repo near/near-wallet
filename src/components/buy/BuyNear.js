@@ -10,7 +10,6 @@ import BinanceLogo from '../../images/binance-logo.svg'
 import HuobiLogo from '../../images/huobi-logo.svg'
 import OkexLogo from '../../images/okex-logo.svg'
 import GateLogo from '../../images/gate-io-logo.svg'
-import LiqualityLogo from '../../images/liquality-logo.svg'
 import { isMoonpayAvailable, getSignedUrl } from '../../utils/moonpay'
 import { Mixpanel } from '../../mixpanel'
 
@@ -190,9 +189,6 @@ export function BuyNear({ match, location, history }) {
                 </a>
                 <a href='https://www.gate.io/' target='_blank' rel='noreferrer'>
                     <img src={GateLogo} alt='GATE'/>
-                </a>
-                <a href='https://liquality.io/' target='_blank' rel='noreferrer'>
-                    <img src={LiqualityLogo} alt='LIQUALITY'/>
                 </a>
             </div>
             <div className='see-more'>

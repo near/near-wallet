@@ -12,9 +12,6 @@ import styled from 'styled-components'
 
 const CustomContainer = styled(Container)`
     &&& {
-        h2, .h2 {
-            color: #24272a !important;
-        }
         .authorize {
             margin-top: 30px;
             height: 48px;

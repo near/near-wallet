@@ -25,10 +25,6 @@ const {
 } = utils.format
 
 const StyledContainer = styled(Container)`
-    h1, .sub-title {
-        text-align: center !important;
-    }
-
     &.success {
         svg {
             display: block;
@@ -37,7 +33,6 @@ const StyledContainer = styled(Container)`
         .sub-title {
             span {
                 font-weight: 600;
-                color: #3F4045;
 
                 &.receiver {
                     line-break: anywhere;

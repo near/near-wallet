@@ -160,17 +160,6 @@
             "implicitAccount": "轉賬不可逆，請確保賬戶 ID 準確",
             "implicitAccountModal": "請再確認賬戶 ID，如果賬戶輸入錯誤，你的資產將永久無法找回。"
         },
-        "activateAccount": {
-            "pre": {
-                "title": "即將完成註冊！請為賬戶進行首次充值。",
-                "desc": "開始使用 NEAR 錢包前，請先充值<b>至少 ${amount} NEAR</b> 至你的賬戶（或稱地址）。"
-            },
-            "post": {
-                "title": "你的賬戶已經激活。",
-                "descOne": "你的初始充值已經收到，並且轉至新的賬戶，新賬戶已經激活！",
-                "descTwo": "一部分充值被保留用於涵蓋<a href='https://docs.near.org/docs/concepts/account' rel='noopener noreferrer' target='_blank'>賬戶的存儲成本</a>。"
-            }
-        },
         "createImplicit": {
             "pre": {
                 "title": "充值至賬戶",
@@ -178,24 +167,22 @@
                 "descTwo": "充值完成後，請返回本頁繼續完成賬戶創建。",
                 "addressHeader": "臨時充值地址",
                 "whereToBuy": {
-                    "button": "我可以在哪裡購買 NEAR？",
+                    "button": "我可以在哪裏購買 NEAR？",
                     "title": "購買 NEAR 通證",
                     "desc": "NEAR 通證可以在以下交易所購買"
                 },
-                "moonPay": {
-                    "title": "通過 MoonPay 充值",
-                    "desc": "通過 MoonPay 支持的支付方式進行你的首次充值。",
-                    "buyWith": "打開"
-                }
+                "alertBanner": {
+                    "title": "請勿關閉此窗口！"
+                },
+                "fundWith": "打開"
             },
             "post": {
-                "title": "認領你的賬戶",
-                "descOne": "你的初始充值已經收到，一旦認領，你的充值會轉移到新認領的賬戶。",
-                "descTwo": "重要：你的單次充值地址將不再有效。請確認用新的賬戶 ID 替換舊地址，以防資產丟失。",
                 "modal": {
-                    "title": "更新你的地址",
-                    "descOne": "點擊確認，意味著你已經知曉單次充值地址將會無效，任何充值到舊地址的資產會丟失。",
-                    "descTwo": "請記得在各個交易所或錢包內用新的賬戶 ID 替換舊地址。"
+                    "title": "賬戶已充值",
+                    "descOne": "你的賬戶已成功充值。",
+                    "descTwo": "臨時充值地址現已無效，請不要向此地址轉賬。你現在可以使用賬戶 ID 作為你的 NEAR 主要地址。",
+                    "descThree": "你的賬戶 ID：<b>${accountId}</b>是你所有 NEAR 操作的單一地址。",
+                    "checkbox": "我已知曉：繼續後，臨時充值地址將會永久失效，任何轉賬的資產將無法找回。"
                 }
             },
             "success": {
@@ -206,16 +193,6 @@
                 "button": "前往賬戶頁"
             }
         },
-        "fundedStatus": {
-            "singleUse": "單次充值地址",
-            "nearName": "賬戶 ID",
-            "status": "賬戶狀態",
-            "minDeposit": "最低充值",
-            "initialDeposit": "初始充值",
-            "awaitingDeposit": "等待充值",
-            "ready": "可供領取",
-            "active": "活躍"
-        }, 
         "verifySeedPhrase": {
             "error": "你輸入了錯誤的助記詞"
         },
@@ -306,8 +283,8 @@
     "setupSeedPhrase": {
         "pageTitle": "設置恢復助記詞",
         "pageText": "請按順序記錄以下助記詞，並安全保管它們。沒有助記詞你將無法恢復賬戶！",
-        "snackbarCopySuccess": "助記詞已複製！",
-        "snackbarCopyImplicitAddress": "賬戶 ID 已複製！"
+        "snackbarCopySuccess": "助記詞已復制！",
+        "snackbarCopyImplicitAddress": "賬戶 ID 已復制！"
     },
     "setupSeedPhraseVerify": {
         "pageTitle": "驗證助記詞",
@@ -323,9 +300,9 @@
     "receivePage": {
         "addressTitle": "你的地址",
         "qrCodeTitle": "掃描二維碼",
-        "copyAddressLinkLong": "複製地址鏈接",
-        "copyAddressLinkShort": "複製",
-        "snackbarCopySuccess": "地址鏈接已複製！"
+        "copyAddressLinkLong": "復制地址鏈接",
+        "copyAddressLinkShort": "復制",
+        "snackbarCopySuccess": "地址鏈接已復制！"
     },
 
     "selectAccountDropdown": {
@@ -340,8 +317,8 @@
     "recoverWithLink": {
         "title": "恢復賬戶",
         "pOne": "點擊 \"繼續\" 恢復你的賬戶：",
-        "pTwo": "如果這不是你偏好的瀏覽器，請複製鏈接並在你偏好的瀏覽器中完成恢復流程。",
-        "snackbarCopySuccess": "恢復鏈接已複製",
+        "pTwo": "如果這不是你偏好的瀏覽器，請復制鏈接並在你偏好的瀏覽器中完成恢復流程。",
+        "snackbarCopySuccess": "恢復鏈接已復制",
         "errorTitle": "鏈接已過期",
         "errorP": "請檢查你的 Email 或手機最新消息，之前消息裏的鏈接已經無效。"
     },
@@ -462,18 +439,16 @@
     "button": {
         "signIn": "登錄",
         "signingIn": "正在登錄",
-        "copyPhrase": "複製助記詞",
-        "copyImplicitAddress": "複製賬戶 ID",
+        "copyPhrase": "復制助記詞",
+        "copyImplicitAddress": "復制賬戶 ID",
         "claimAccount": "認領賬戶",
-        "claimMyAccount": "認領我的賬戶",
-        "continueToMyAccount": "前往我的賬戶",
         "continue": "繼續",
         "continueSetup": "繼續設置",
         "verify": "驗證並完成",
         "verifyCode": "驗證代碼",
         "verifyCodeEnable": "驗證代碼並開啟",
         "startOver": "重新開始",
-        "copyUrl": "複製鏈接",
+        "copyUrl": "復制鏈接",
         "createAccount": "創建賬戶",
         "recoverYourAccount": "恢復賬戶",
         "importExistingAccount": "導入已有賬戶",
@@ -522,11 +497,10 @@
         "enabling": "正在開啟",
         "disabling": "正在禁用",
         "verifying": "正在驗證",
-        "creatingAccount": "創建賬戶",
         "staking": "正在質押",
         "unstaking": "正在贖回質押",
         "withdrawing": "正在提現",
-        "recovering": "正在恢復賬戶",
+        "recovering": "正在恢復賬戶", 
         "authorizing": "正在授權",
         "deAuthorizing": "正在取消授權",
         "finish": "完成",
@@ -534,8 +508,7 @@
         "viewOnExplorer": "通過瀏覽器查看",
         "buy": "購買",
         "learnMore": "了解更多",
-        "viewFAQ": "查看常見問題",
-        "acceptAndContinue": "接受並繼續"
+        "viewFAQ": "查看常見問題" 
     },
 
     "link": {
@@ -552,9 +525,8 @@
     },
 
     "copy": {
-        "title": "複製",
-        "default": "已複製！"
-    }, 
+        "default": "已復制！"
+    },
 
     "input": {
         "enterWord": {
@@ -595,18 +567,12 @@
     },
 
     "createAccount": {
-        "termsPage": {
-            "title": "在開始之前...",
-            "descOne": "NEAR 賬戶要求進行一筆一次性<a href='https://docs.near.org/docs/concepts/account' rel='noopener noreferrer' target='_blank'>至少 ${data} NEAR</a> 的充值來涵蓋<a href='https://docs.near.org/docs/concepts/account' rel='noopener noreferrer' target='_blank'>你的賬戶存儲成本</a>。",
-            "descTwo": "在保留你的個性化賬戶 ID 之後，你需要進行一筆初始充值來激活的賬戶。",
-            "disclaimer": "通過註冊NEAR 賬戶，意味著你同意NEAR 錢包的<a href='/terms' rel='noopener noreferrer' target='_blank'>服務條款</a>和<a href='https://near.org/privacy' rel='noopener noreferrer' target='_blank'>隱私策略</a>。"
-        },
         "pageTitle": "創建新的賬戶",
         "pageText": "只需要輸入用戶名即完成註冊。",
         "step": "步驟 ${step}/${total}",
         "accountIdInput": {
             "title": "輸入用戶名",
-            "placeholder": "yourname.${data}"
+            "placeholder": "例如：satoshi"
         },
         "alreadyHaveAnAccount": "已經擁有賬戶？",
         "recoverItHere": "恢復賬戶",
@@ -616,9 +582,7 @@
             "digits": "數字 (0-9)",
             "separators": "字符 (_-) 用於分割",
             "cannotContain": "你的用戶名不可以包括：",
-            "characters": "符號 \"@\" 或 \".\"",
-            "minCharacters": "少於 2 個字符",
-            "maxCharacters": "超過 64 個字符（包括 .${accountSuffix}）"
+            "characters": "符號 \"@\" 或 \".\""
         },
         "invalidLinkDrop": {
             "title": "鏈接無效",
@@ -681,19 +645,16 @@
         "basicSecurity": "基礎安全",
         "basicSecurityDesc": "請輸入你的 Email 地址或手機號以獲取恢復鏈接",
         "emailTitle": "Email 方式",
-        "emailDesc": "通過 Email 方式接收驗證碼和賬戶恢復鏈接。",
         "emailPlaceholder": "example@email.com",
         "phoneTitle": "手機短信方式",
-        "phoneDesc": "請輸入你的手機號以接收恢復鏈接。",
+        "phoneDesc": "請輸入你的手機號以獲取恢復鏈接",
         "phonePlaceholder": "+1 415 797 8554",
         "notSupportedPhone": "抱歉，目前我們還為你所在的地區開放短信恢復方式。請選擇 Email 方式。",
         "advancedSecurity": "高級安全",
         "advancedSecurityDesc": "記錄 12 個單詞組成的助記詞，並安全保存。",
-        "ledgerTitle": "Ledger 硬件錢包",
-        "ledgerDesc": "通過 Ledger 硬件錢包保護你的賬戶安全。",
-        "phraseTitle": "安全助記詞",
-        "phraseDesc": "生成並安全地存儲唯一的助記詞。"
-    }, 
+        "ledgerTitle": "Ledger Nano S/X",
+        "phraseTitle": "恢復助記詞"
+    },
     "setRecoveryConfirm": {
         "title": "輸入驗證碼",
         "pageText": "我們已經發送 6 位驗證碼至",
@@ -703,7 +664,7 @@
         "didNotRecive": "未收到驗證碼？",
         "resendCode": "重新發送",
         "or": "或",
-        "sendToDifferent": "發送至其他",
+        "sendToDifferent": "發送至其他 Email 郵箱",
         "email": "Email",
         "phone": "手機號",
         "reenter": {
@@ -735,13 +696,10 @@
     },
 
     "dashboard": {
-        "activity": "最近動態"
+        "activity": "動態"
     },
 
     "loading": "加載中...",
-    "loadingNoDots": "加載中",
-    "sync": "刷新",
-    "getBalance": "查看餘額",
 
     "balance": {
         "balance": "總餘額",

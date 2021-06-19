@@ -12,24 +12,10 @@ const Container = styled.div`
     display: flex;
     z-index: 3;
 
-    svg {
-        pointer-events: none;
-    }
-
-    @keyframes fadeInTop {
-        from {
-            opacity: 0.2;
-            transform: translate(-50%, 3px);
-        }
-        to {
-            opacity: 1;
-            transform: translate(-50%, 0);
-        }
-    }
-
     .hover-content {
         position: absolute;
         left: 50%;
+        transform: translate(-50%, 0);
         text-align: left;
         background-color: #24272a;
         color: white;
@@ -41,13 +27,7 @@ const Container = styled.div`
         width: max-content;
         max-width: 250px;
         z-index: 1;
-        box-shadow: 0px 3px 12px 0px rgb(0 0 0 / 15%);
-
-        &.show {
-            animation-name: fadeInTop;
-            animation-duration: 200ms;
-            animation-fill-mode: forwards;
-        }
+        box-shadow: 0px 45px 56px rgba(0, 0, 0, 0.07), 0px 10.0513px 12.5083px rgba(0, 0, 0, 0.0417275), 0px 2.99255px 3.72406px rgba(0, 0, 0, 0.0282725);
     }
 
     &.right {
@@ -81,8 +61,8 @@ const Container = styled.div`
 
     &.icon-lg {
         .rounded-info-icon {
-            width: 23px;
-            height: 23px;
+            width: 24px;
+            height: 24px;
         }
     }
 `
@@ -134,7 +114,7 @@ const Tooltip = ({ className, children, translate, data, position, icon, modalOn
         >
             {children ? children : <InfoIconRounded/>}
             {show && !mobile && !modalOnly &&
-                <div className={classNames(['hover-content', show ? 'show' : ''])}><Translate id={translate} data={{ data: data }}/></div>
+                <div className='hover-content'><Translate id={translate} data={{ data: data }}/></div>
             }
             {show && (mobile || modalOnly) &&
                 <Modal

@@ -7,6 +7,7 @@ import Divider from '../common/Divider';
 import { Translate } from 'react-localize-redux';
 import {Snackbar, snackbarDuration } from '../common/Snackbar';
 import copyText from '../../utils/copyText';
+import isMobile from '../../utils/isMobile';
 import iconShare from '../../images/icon-share-blue.svg';
 import { Mixpanel } from '../../mixpanel/index';
 
@@ -118,7 +119,7 @@ class ReceiveMoney extends Component {
 
     handleCopyAddress = () => {
         Mixpanel.track("RECEIVE Copy account address")
-        if (navigator.share && this.props.isMobile) {
+        if (navigator.share && isMobile()) {
             navigator.share({
                 url: this.props.account.accountId
             }).catch(err => {
@@ -145,8 +146,7 @@ class ReceiveMoney extends Component {
         } = this.state;
 
         const {
-            account,
-            isMobile
+            account
         } = this.props
 
         const accountId = account?.accountId || account.localStorage?.accountId
@@ -162,7 +162,7 @@ class ReceiveMoney extends Component {
                                 <UrlAddress ref={this.urlRef}>
                                     {accountId}
                                 </UrlAddress>
-                                {navigator.share && isMobile ? (
+                                {navigator.share && isMobile() ? (
                                     <MobileShare/>
                                 ) : (
                                     <CopyAddress title={translate('receivePage.copyAddressLinkLong')}>
@@ -189,9 +189,8 @@ class ReceiveMoney extends Component {
     }
 }
 
-const mapStateToProps = ({ account, status }) => ({
-   account,
-   isMobile: status.isMobile
+const mapStateToProps = ({ account }) => ({
+   account
 })
 
 export const ReceiveMoneyWithRouter = connect(

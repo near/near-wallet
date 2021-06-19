@@ -14,10 +14,6 @@ const Container = styled.div`
     padding-top: 40px;
     font-size: 13px;
 
-    h2 {
-        color: #24272a !important;
-    }
-
     @media (min-width: 500px) {
         padding: 40px 25px;
     }

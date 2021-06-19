@@ -15,7 +15,7 @@ const Wrapper = styled.div`
     @media (min-width: 992px) {
         display: flex;
         flex-direction: column;
-        max-height: 260px;
+        max-height: 228px;
         overflow-y: auto;
 
         ::-webkit-scrollbar {
