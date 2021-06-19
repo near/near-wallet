@@ -2,7 +2,6 @@ import { createActions } from 'redux-actions'
 import sendJson from '../tmp_fetch_send_json'
 import { wallet, ACCOUNT_HELPER_URL } from '../utils/wallet'
 import { Account } from 'near-api-js'
-import isPlainObject from 'lodash.isplainobject'
 
 export const handleGetNFTs = () => async (dispatch, getState) => {
     let { account: { accountId } } = getState()
