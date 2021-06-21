@@ -1,5 +1,6 @@
 import { connect } from 'react-redux'
-import { wallet } from '../utils/wallet'
+
+const accountId = localStorage.getItem('4:wallet:active_account_id_v2') || ''
 
 export default (mapStateToProps, mapDispatchToProps) => {
     return connect(
@@ -7,7 +8,7 @@ export default (mapStateToProps, mapDispatchToProps) => {
             return {
                 ...mapStateToProps(
                     state, 
-                    wallet.accountId ? state[wallet.accountId] : {}, 
+                    accountId ? state[accountId] : {}, 
                     ownProps
                 ),
             }

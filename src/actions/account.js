@@ -1,6 +1,5 @@
 import { parse, stringify } from 'query-string'
 import { createActions, createAction } from 'redux-actions'
-import { DISABLE_CREATE_ACCOUNT, wallet } from '../utils/wallet'
 import { TwoFactor } from '../utils/twoFactor'
 import { push } from 'connected-react-router'
 import { loadState, saveState, clearState } from '../utils/sessionStorage'
@@ -12,7 +11,9 @@ import {
     WALLET_RECOVER_ACCOUNT_URL,
     WALLET_LINKDROP_URL,
     setKeyMeta,
-    MULTISIG_MIN_PROMPT_AMOUNT
+    MULTISIG_MIN_PROMPT_AMOUNT,
+    DISABLE_CREATE_ACCOUNT, 
+    wallet
 } from '../utils/wallet'
 import { PublicKey, KeyType } from 'near-api-js/lib/utils/key_pair'
 import { WalletError } from '../utils/walletError'

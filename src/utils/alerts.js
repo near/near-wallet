@@ -1,5 +1,7 @@
 import { store } from '..'
-import { clearGlobalAlert, clearLocalAlert } from '../actions/status'
+import { clearGlobalAlert, clearLocalAlert } from '../redux/actions/status'
+
+const accountId = localStorage.getItem('4:wallet:active_account_id_v2') || ''
 
 export const showAlert = ({ data, onlyError, onlySuccess, console = true, localAlert, messageCodeHeader, success } = {}) => ({
     alert: {
@@ -22,7 +24,7 @@ export const dispatchWithAlert = (action, data) => store.dispatch({
     }
 })
 
-export const actionsPending = (types) => (typeof types === 'string' ? [types] : types).some((type) => store.getState().status?.actionStatus[type]?.pending)
+export const actionsPending = (types) => (typeof types === 'string' ? [types] : types).some((type) => store.getState()[accountId]?.status?.actionStatus[type]?.pending)
 
 export const actionsPendingByPrefix = (typePrefix) => {
     const { actionStatus = {} } = store.getState().status
