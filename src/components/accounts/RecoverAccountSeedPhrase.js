@@ -114,8 +114,8 @@ const mapStateToProps = ({ account, router }, { status }, { match }) => ({
     ...account,
     router,
     seedPhrase: match.params.seedPhrase || '',
-    localAlert: status.localAlert,
-    mainLoader: status.mainLoader
+    localAlert: status?.localAlert,
+    mainLoader: status?.mainLoader
 })
 
 export const RecoverAccountSeedPhraseWithRouter = connectAccount(
