@@ -16,6 +16,7 @@ import isMobile from '../../utils/isMobile'
 import { DISABLE_CREATE_ACCOUNT } from '../../utils/wallet'
 import { Mixpanel } from '../../mixpanel/index'
 import { actionsPending } from '../../utils/alerts'
+import connectAccount from '../../redux/connectAccount'
 
 const Container = styled.div`
     margin-top: 5px;
@@ -237,14 +238,14 @@ const mapDispatchToProps = {
     redirectTo
 }
 
-const mapStateToProps = ({ account, status }, { match }) => ({
+const mapStateToProps = ({ account }, { status }, { match }) => ({
     ...account,
     accountId: match.params.accountId || '',
     seedPhrase: match.params.seedPhrase || '',
     mainLoader: status.mainLoader
 })
 
-export const RecoverWithLinkWithRouter = connect(
+export const RecoverWithLinkWithRouter = connectAccount(
     mapStateToProps, 
     mapDispatchToProps
 )(withRouter(RecoverWithLink))
