@@ -19,6 +19,7 @@ import TransferMoneyIcon from '../svg/TransferMoneyIcon'
 import { onKeyDown } from '../../hooks/eventListeners'
 import classNames from '../../utils/classNames'
 import { Mixpanel } from '../../mixpanel/index'
+import { useSelectorActiveAccount } from '../../redux/useSelector'
 
 const {
     parseNearAmount, formatNearAmount
@@ -45,7 +46,7 @@ const StyledContainer = styled(Container)`
 export function SendContainer({ match, location }) {
     const dispatch = useDispatch()
     const { accountId, balance } = useSelector(({ account }) => account);
-    const { localAlert, mainLoader, actionStatus } = useSelector(({ status }) => status);
+    const { localAlert, mainLoader, actionStatus } = useSelectorActiveAccount(({ status }) => status);
     const [useMax, setUseMax] = useState(null)
     const [amount, setAmount] = useState('')
     const [confirm, setConfirm] = useState(null)
