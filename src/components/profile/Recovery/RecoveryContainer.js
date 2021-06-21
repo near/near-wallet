@@ -10,6 +10,7 @@ import {
 import SkeletonLoading from '../../common/SkeletonLoading';
 import { actionsPending } from '../../../utils/alerts';
 import { Mixpanel } from '../../../mixpanel/index'
+import { useSelectorActiveAccount } from '../../../redux/useSelector';
 
 const Container = styled.div`
 
@@ -36,7 +37,7 @@ const RecoveryContainer = ({ type, recoveryMethods }) => {
     const [deletingMethod, setDeletingMethod] = useState('');
     const dispatch = useDispatch();
     const account = useSelector(({ account }) => account);
-    const { mainLoader } = useSelector(({ status }) => status);
+    const { mainLoader } = useSelectorActiveAccount(({ status }) => status);
     let userRecoveryMethods = recoveryMethods || []
     const allKinds = ['email', 'phone', 'phrase'];
     const activeMethods = userRecoveryMethods.filter(({ kind }) => allKinds.includes(kind));
