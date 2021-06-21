@@ -10,6 +10,7 @@ import PaginationBlock from '../pagination/PaginationBlock'
 import PageContainer from '../common/PageContainer';
 
 import KeyListItem from '../dashboard/KeyListItem'
+import connectAccount from '../../redux/connectAccount'
 
 class AccessKeys extends Component {
     state = {
@@ -166,7 +167,7 @@ const mapDispatchToProps = {
     removeAccessKey
 }
 
-const mapStateToPropsAuthorizedApps = ({ account, status }) => ({
+const mapStateToPropsAuthorizedApps = ({ account }, { status }) => ({
     ...account,
     authorizedApps: account.authorizedApps,
     title: 'authorizedApps.pageTitle',
@@ -184,7 +185,7 @@ const mapStateToPropsFullAccess = ({ account }) => ({
     title: 'fullAccessKeys.pageTitle'
 })
 
-export const FullAccessKeysWithRouter = connect(
+export const FullAccessKeysWithRouter = connectAccount(
     mapStateToPropsFullAccess,
     mapDispatchToProps
 )(withRouter(AccessKeys))
