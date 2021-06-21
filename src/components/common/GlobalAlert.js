@@ -190,6 +190,9 @@ const GlobalAlertNew = ({ globalAlert, actionStatus, clearGlobalAlert, closeIcon
     }
 
     useEffect(() => {
+        if (!globalAlert) {
+            return
+        }
         setAlerts(Object.keys(globalAlert)
             .filter((type) => globalAlert[type])
             .reverse()
