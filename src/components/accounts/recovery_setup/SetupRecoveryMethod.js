@@ -411,7 +411,7 @@ const mapDispatchToProps = {
     validateSecurityCode
 }
 
-const mapStateToProps = ({ account, router, status }, { recoveryMethods }, { match }) => ({
+const mapStateToProps = ({ account, router }, { recoveryMethods, status }, { match }) => ({
     ...account,
     router,
     accountId: match.params.accountId,
