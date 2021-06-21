@@ -5,7 +5,6 @@ import { localizeReducer } from 'react-localize-redux'
 import account from '../../reducers/account'
 import sign from '../../reducers/sign'
 import staking from '../../reducers/staking'
-import status from '../../reducers/status'
 
 import transactions from './transactions'
 import allAccounts from './allAccounts'
@@ -13,6 +12,7 @@ import availableAccounts from './availableAccounts'
 import flowLimitation from './flowLimitation'
 import recoveryMethods from './recoveryMethods'
 import ledger from './ledger'
+import status from './status'
 
 export default (history) => combineReducers({
     // localize: localizeReducer,
@@ -24,7 +24,7 @@ export default (history) => combineReducers({
     recoveryMethods,
     ledger,
     // staking,
-    // status,
+    status,
     flowLimitation,
     // router: connectRouter(history)
 })
