@@ -17,7 +17,7 @@ import {
 } from '../../../actions/account';
 import { staking } from '../../../actions/staking';
 import { tokens } from '../../../actions/tokens'
-import { clearLocalAlert } from '../../../actions/status'
+import { clearLocalAlert } from '../../../redux/actions/status'
 import LocalAlertBox from '../../common/LocalAlertBox'
 import { controller as controllerHelperApi } from '../../../utils/helper-api'
 import { Mixpanel } from '../../../mixpanel/index'

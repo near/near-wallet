@@ -11,7 +11,7 @@ import { Grid } from 'semantic-ui-react'
 
 import styled from 'styled-components'
 
-import { showCustomAlert } from '../../actions/status'
+import { showCustomAlert } from '../../redux/actions/status'
 
 const CustomGrid = styled(Grid)`
     .top-back {

@@ -20,7 +20,7 @@ import { ACCOUNT_HELPER_URL, DISABLE_CREATE_ACCOUNT, setKeyMeta } from '../../..
 import GlobalAlert from '../../common/GlobalAlert'
 import { Mixpanel } from '../../../mixpanel/index'
 import { isRetryableRecaptchaError, Recaptcha } from '../../Recaptcha';
-import { showCustomAlert } from '../../../actions/status';
+import { showCustomAlert } from '../../../redux/actions/status';
 import sendJson from '../../../tmp_fetch_send_json';
 import connectAccount from '../../../redux/connectAccount';
 

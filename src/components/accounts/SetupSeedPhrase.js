@@ -20,7 +20,7 @@ import { Snackbar, snackbarDuration } from '../common/Snackbar'
 import Container from '../common/styled/Container.css'
 import { KeyPair } from 'near-api-js'
 import { Mixpanel } from '../../mixpanel/index'
-import { clearGlobalAlert, showCustomAlert } from '../../actions/status';
+import { clearGlobalAlert, showCustomAlert } from '../../redux/actions/status';
 import { isRetryableRecaptchaError } from '../Recaptcha';
 import connectAccount from '../../redux/connectAccount'
 

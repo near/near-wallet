@@ -28,7 +28,7 @@ import Container from '../../common/styled/Container.css';
 import isApprovedCountryCode from '../../../utils/isApprovedCountryCode'
 import { Mixpanel } from '../../../mixpanel/index'
 import { actionsPending } from '../../../utils/alerts'
-import { showCustomAlert } from '../../../actions/status';
+import { showCustomAlert } from '../../../redux/actions/status';
 import { isRetryableRecaptchaError } from '../../Recaptcha';
 import { parseSeedPhrase } from 'near-seed-phrase';
 import { KeyPair } from 'near-api-js';

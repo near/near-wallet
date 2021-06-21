@@ -15,7 +15,7 @@ import {
     deployMultisig,
     redirectToApp
 } from '../../../actions/account';
-import { clearGlobalAlert } from '../../../actions/status'
+import { clearGlobalAlert } from '../../../redux/actions/status'
 import { useRecoveryMethods } from '../../../hooks/recoveryMethods';
 import EnterVerificationCode from '../EnterVerificationCode';
 import Container from '../../common/styled/Container.css';

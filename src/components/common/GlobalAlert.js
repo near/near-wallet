@@ -5,7 +5,7 @@ import { Translate } from 'react-localize-redux'
 import IconsAlertCircleImage from '../../images/icon_alert-circle.svg'
 import IconCheckCircleImage from '../../images/icon-check-circle.svg'
 
-import { clearGlobalAlert } from '../../actions/status'
+import { clearGlobalAlert } from '../../redux/actions/status'
 
 import styled from 'styled-components'
 import connectAccount from '../../redux/connectAccount'

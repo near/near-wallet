@@ -8,7 +8,7 @@ import LoginConfirm from './LoginConfirm'
 import LoginDetails from './LoginDetails'
 import LoginIncorrectContractId from './LoginIncorrectContractId'
 import { handleRefreshUrl, switchAccount, allowLogin, redirectToApp } from '../../actions/account'
-import { clearLocalAlert } from '../../actions/status'
+import { clearLocalAlert } from '../../redux/actions/status'
 import { LOCKUP_ACCOUNT_ID_SUFFIX } from '../../utils/wallet'
 import { Mixpanel } from '../../mixpanel/index'
 
