@@ -23,8 +23,8 @@ const PrivateRouteLimited = ({component: Component, account, refreshAccountOwner
 
 const mapStateToProps = ({ account }, { status }) => ({
     account,
-    localAlert: status.localAlert,
-    refreshAccountOwnerEnded: status.actionStatus.REFRESH_ACCOUNT_OWNER?.success === true
+    localAlert: status?.localAlert,
+    refreshAccountOwnerEnded: status?.actionStatus.REFRESH_ACCOUNT_OWNER?.success === true
 })
 
 export default withRouter(connectAccount(mapStateToProps)(PrivateRouteLimited))
