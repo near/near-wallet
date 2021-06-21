@@ -8,6 +8,7 @@ import IconCheckCircleImage from '../../images/icon-check-circle.svg'
 import { clearGlobalAlert } from '../../actions/status'
 
 import styled from 'styled-components'
+import connectAccount from '../../redux/connectAccount'
 
 
 const AlertContainer = styled.div`
@@ -266,11 +267,11 @@ const mapDispatchToProps = {
     clearGlobalAlert
 }
 
-const mapStateToProps = ({ status }) => ({
+const mapStateToProps = (state, { status }) => ({
     ...status
 })
 
-export default connect(
+export default connectAccount(
     mapStateToProps,
     mapDispatchToProps
 )(GlobalAlertNew)
