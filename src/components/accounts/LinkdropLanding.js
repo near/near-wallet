@@ -12,6 +12,7 @@ import NearGiftIcons from '../svg/NearGiftIcons'
 import BrokenLinkIcon from '../svg/BrokenLinkIcon';
 import AccountDropdown from '../common/AccountDropdown'
 import { actionsPending } from '../../utils/alerts'
+import connectAccount from '../../redux/connectAccount'
 
 const StyledContainer = styled(Container)`
     display: flex;
@@ -154,14 +155,14 @@ const mapDispatchToProps = {
     redirectTo
 }
 
-const mapStateToProps = ({ account, status }, { match }) => ({
+const mapStateToProps = ({ account }, { status }, { match }) => ({
     ...account,
     fundingContract: match.params.fundingContract,
     fundingKey: match.params.fundingKey,
     mainLoader: status.mainLoader
 })
 
-export const LinkdropLandingWithRouter = connect(
+export const LinkdropLandingWithRouter = connectAccount(
     mapStateToProps,
     mapDispatchToProps
 )(LinkdropLanding)
