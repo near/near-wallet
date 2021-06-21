@@ -34,7 +34,7 @@ export function SignInLedger(props) {
     const ledgerHdPath = confirmedPath ? `44'/397'/0'/0'/${confirmedPath}'` : null;
 
     const account = useSelector(({ account }) => account);
-    const status = useSelector(({ status }) => status);
+    const status = useSelectorActiveAccount(({ status }) => status);
     const { signInWithLedger: signInWithLedgerState, txSigned, signInWithLedgerStatus} = useSelectorActiveAccount(({ ledger }) => ledger);
     
     const signInWithLedgerKeys = Object.keys(signInWithLedgerState || {})
