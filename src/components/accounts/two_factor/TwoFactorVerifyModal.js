@@ -10,6 +10,7 @@ import { WalletError } from '../../../utils/walletError'
 import { resendTwoFactor, get2faMethod } from '../../../actions/account';
 import { actionsPending } from '../../../utils/alerts';
 import { Mixpanel } from "../../../mixpanel/index"
+import { useSelectorActiveAccount } from '../../../redux/useSelector';
 
 const Form = styled.form`
     display: flex;
@@ -25,7 +26,7 @@ const TwoFactorVerifyModal = ({ open, onClose }) => {
     const [resendCode, setResendCode] = useState();
     const dispatch = useDispatch();
     const account = useSelector(({ account }) => account);
-    const status = useSelector(({ status }) => status);
+    const status = useSelectorActiveAccount(({ status }) => status);
     const loading = actionsPending('VERIFY_TWO_FACTOR');
 
     useEffect(() => {
