@@ -10,6 +10,7 @@ import { clearLocalAlert } from '../../actions/status'
 import RecoverAccountSeedPhraseForm from './RecoverAccountSeedPhraseForm'
 import Container from '../common/styled/Container.css'
 import { Mixpanel } from '../../mixpanel/index'
+import connectAccount from '../../redux/connectAccount'
 
 const StyledContainer = styled(Container)`
     .input {
@@ -109,7 +110,7 @@ const mapDispatchToProps = {
     clearState: staking.clearState
 }
 
-const mapStateToProps = ({ account, status, router }, { match }) => ({
+const mapStateToProps = ({ account, router }, { status }, { match }) => ({
     ...account,
     router,
     seedPhrase: match.params.seedPhrase || '',
@@ -117,7 +118,7 @@ const mapStateToProps = ({ account, status, router }, { match }) => ({
     mainLoader: status.mainLoader
 })
 
-export const RecoverAccountSeedPhraseWithRouter = connect(
+export const RecoverAccountSeedPhraseWithRouter = connectAccount(
     mapStateToProps, 
     mapDispatchToProps
 )(withRouter(RecoverAccountSeedPhrase))
