@@ -13,6 +13,7 @@ import AccountFormAccountId from './AccountFormAccountId'
 import AccountNote from '../common/AccountNote'
 import { Mixpanel } from '../../mixpanel/index'
 import TermsModal from './TermsModal'
+import connectAccount from '../../redux/connectAccount'
 
 const StyledContainer = styled(Container)`
 
@@ -210,7 +211,7 @@ const mapDispatchToProps = {
     redirectTo
 }
 
-const mapStateToProps = ({ account, status }, { match }) => ({
+const mapStateToProps = ({ account }, { status }, { match }) => ({
     ...account,
     localAlert: status.localAlert,
     mainLoader: status.mainLoader,
@@ -219,7 +220,7 @@ const mapStateToProps = ({ account, status }, { match }) => ({
     fundingAccountId: match.params.fundingAccountId,
 })
 
-export const CreateAccountWithRouter = connect(
+export const CreateAccountWithRouter = connectAccount(
     mapStateToProps,
     mapDispatchToProps
 )(CreateAccount)
