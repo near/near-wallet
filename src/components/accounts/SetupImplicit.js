@@ -19,6 +19,7 @@ import { Mixpanel } from '../../mixpanel'
 import AlertBanner from '../common/AlertBanner'
 import { isMoonpayAvailable, getSignedUrl } from '../../utils/moonpay'
 import MoonPayIcon from '../svg/MoonPayIcon'
+import connectAccount from '../../redux/connectAccount'
 
 const StyledContainer = styled(Container)`
     .account-id-wrapper {
@@ -293,7 +294,7 @@ class SetupImplicit extends Component {
     }
 }
 
-const mapStateToProps = ({ account, status }, { match: { params: { accountId, implicitAccountId, recoveryMethod } } }) => ({
+const mapStateToProps = ({ account }, { status }, { match: { params: { accountId, implicitAccountId, recoveryMethod } } }) => ({
     ...account,
     accountId,
     implicitAccountId,
@@ -301,4 +302,4 @@ const mapStateToProps = ({ account, status }, { match: { params: { accountId, im
     mainLoader: status.mainLoader
 })
 
-export const SetupImplicitWithRouter = connect(mapStateToProps)(withRouter(SetupImplicit))
+export const SetupImplicitWithRouter = connectAccount(mapStateToProps)(withRouter(SetupImplicit))
