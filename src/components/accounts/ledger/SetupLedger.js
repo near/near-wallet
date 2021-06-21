@@ -22,6 +22,7 @@ import { Mixpanel } from '../../../mixpanel/index'
 import { isRetryableRecaptchaError, Recaptcha } from '../../Recaptcha';
 import { showCustomAlert } from '../../../actions/status';
 import sendJson from '../../../tmp_fetch_send_json';
+import connectAccount from '../../../redux/connectAccount';
 
 // FIXME: Use `debug` npm package so we can keep some debug logging around but not spam the console everywhere
 const ENABLE_DEBUG_LOGGING = false;
@@ -203,10 +204,10 @@ const SetupLedger = (props) => {
     );
 }
 
-const mapStateToProps = ({ account, status }, { match }) => ({
+const mapStateToProps = ({ account }, { status }, { match }) => ({
     ...account,
     accountId: match.params.accountId,
     mainLoader: status.mainLoader
 })
 
-export const SetupLedgerWithRouter = connect(mapStateToProps)(SetupLedger);
+export const SetupLedgerWithRouter = connectAccount(mapStateToProps)(SetupLedger);
