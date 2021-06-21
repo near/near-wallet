@@ -188,7 +188,7 @@ class MobileContainer extends Component {
                                 withIcon={false}
                                 flowLimitation={flowLimitation}
                             />
-                            <UserIcon background={true} color='#A2A2A8' onClick={!flowLimitation.subMenu ? toggleMenu : null}/>
+                            <UserIcon background={true} color='#A2A2A8' onClick={!flowLimitation?.subMenu ? toggleMenu : null}/>
                         </>
                     }
                     {!showNavLinks &&
