@@ -9,7 +9,7 @@ import LedgerImage from '../../svg/LedgerImage';
 import { useSelectorActiveAccount } from '../../../redux/useSelector';
 
 const LedgerConfirmActionModal = () => {
-    const { modal, txSigned } = useSelectorActiveAccount(({ ledger }) => ledger)
+    const { modal, txSigned } = useSelectorActiveAccount(({ ledger }) => ledger || {})
 
     return (modal && modal.show)
         ? (
