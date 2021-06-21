@@ -22,6 +22,7 @@ import Container from '../../common/styled/Container.css';
 import { Mixpanel } from '../../../mixpanel/index';
 import { actionsPending } from '../../../utils/alerts'
 import Checkbox from '../../common/Checkbox'
+import { useSelectorActiveAccount } from '../../../redux/useSelector';
 
 const StyledContainer = styled(Container)`
 
@@ -73,7 +74,7 @@ export function EnableTwoFactor(props) {
 
     const dispatch = useDispatch();
     const { accountId, has2fa } = useSelector(({ account }) => account);
-    const status = useSelector(({ status }) => status);
+    const status = useSelectorActiveAccount(({ status }) => status);
 
     const [initiated, setInitiated] = useState(false);
     const [option, setOption] = useState('email');
