@@ -160,7 +160,7 @@ export function StakingContainer({ history, match }) {
     const status = useSelectorActiveAccount(({ status }) => status);
     const { hasLedger } = useSelectorActiveAccount(({ ledger }) => ledger)
     
-    const staking = useSelector(({ staking }) => staking)
+    const staking = useSelectorActiveAccount(({ staking }) => staking)
     const hasLockup = !!staking.lockupId
     const { currentAccount } = staking
     const stakingAccounts = staking.accounts
