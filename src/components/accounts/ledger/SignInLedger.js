@@ -15,8 +15,8 @@ import {
     checkAccountAvailable, 
     clearSignInWithLedgerModalState
 } from '../../../actions/account';
-import { staking } from '../../../actions/staking';
 import { tokens } from '../../../actions/tokens'
+import { staking } from '../../../redux/actions/staking';
 import { clearLocalAlert } from '../../../redux/actions/status'
 import LocalAlertBox from '../../common/LocalAlertBox'
 import { controller as controllerHelperApi } from '../../../utils/helper-api'

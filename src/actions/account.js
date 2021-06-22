@@ -26,7 +26,7 @@ import {
     handleStakingUpdateLockup,
     handleGetLockup,
     staking
-} from './staking'
+} from '../redux/actions/staking'
 import { tokens } from './tokens'
 import { nft } from './nft';
 

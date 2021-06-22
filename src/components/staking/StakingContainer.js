@@ -8,7 +8,7 @@ import {
     updateStaking,
     staking as stakingActions,
     handleStakingAction
-} from '../../actions/staking'
+} from '../../redux/actions/staking'
 import Container from '../common/styled/Container.css'
 import Staking from './components/Staking'
 import Validators from './components/Validators'

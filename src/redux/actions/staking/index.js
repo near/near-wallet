@@ -288,11 +288,11 @@ export const { staking } = createActions({
         UPDATE_CURRENT: null,
         GET_LOCKUP: async (accountId) => {
             let lockupId
-            // if (process.env.REACT_APP_USE_TESTINGLOCKUP && accountId.length < 64) {
+            if (process.env.REACT_APP_USE_TESTINGLOCKUP && accountId.length < 64) {
                 lockupId = `testinglockup.${accountId}`
-            // } else {
-                // lockupId = getLockupAccountId(accountId)
-            // }
+            } else {
+                lockupId = getLockupAccountId(accountId)
+            }
 
             let contract
             try {
