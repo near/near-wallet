@@ -18,7 +18,7 @@ export default (history) => combineReducers({
     // localize: localizeReducer,
     allAccounts,
     availableAccounts,
-    // account,
+    account,
     transactions,
     sign,
     recoveryMethods,
