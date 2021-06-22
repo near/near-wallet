@@ -31,13 +31,15 @@ const SetupLedger = (props) => {
     const [showInstructions, setShowInstructions] = useState(false);
     const [connect, setConnect] = useState(null);
     const [isNewAccount, setIsNewAccount] = useState(null);
+    const [fundingOptions, setFundingOptions] = useState(null);
     // TODO: Custom recaptcha hook
     const [recaptchaToken, setRecaptchaToken] = useState(null);
     const recaptchaRef = useRef(null);
-    const fundingOptions = JSON.parse(parseQuery(props.location.search).fundingOptions || 'null')
     const shouldRenderRecaptcha = !fundingOptions && process.env.RECAPTCHA_CHALLENGE_API_KEY && isNewAccount;
 
     useEffect(() => {
+        setFundingOptions(JSON.parse(parseQuery(props.location.search).fundingOptions || 'null'));
+        
         const performNewAccountCheck = async () => {
             setIsNewAccount(await props.dispatch(checkIsNew(props.accountId)));
         }
