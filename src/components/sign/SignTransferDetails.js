@@ -9,6 +9,7 @@ import IconProblems from '../../images/IconProblems'
 import { Grid } from 'semantic-ui-react'
 
 import styled from 'styled-components'
+import connectAccount from '../../redux/connectAccount'
 
 const CustomGrid = styled(Grid)`
     .top-back {
@@ -236,9 +237,9 @@ const ActionWarrning = ({ actionKind, action }) => {
 
 const mapDispatchToProps = {}
 
-const mapStateToProps = ({ account, sign }) => ({
+const mapStateToProps = ({ account }, { sign }) => ({
     account,
     ...sign,
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(SignTransferDetails))
+export default connectAccount(mapStateToProps, mapDispatchToProps)(withRouter(SignTransferDetails))
