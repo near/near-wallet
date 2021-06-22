@@ -53,7 +53,7 @@
   ],
   "devDependencies": {
     "@babel/core": "^7.14.3",
-    "@babel/preset-env": "^7.14.1",
+    "@babel/preset-env": "^7.14.7",
     "@babel/preset-react": "^7.13.13",
     "@sentry/cli": "^1.65.0",
     "@storybook/addon-actions": "^6.1.21",
