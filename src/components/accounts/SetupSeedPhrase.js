@@ -44,6 +44,9 @@ class SetupSeedPhrase extends Component {
     }
 
     componentDidMount = async () => {
+        const fundingOptions = JSON.parse(parseQuery(this.props.location.search).fundingOptions || 'null')
+        this.setState({ fundingOptions })
+        
         this.refreshData()
 
         if (this.props.accountId === this.props.activeAccountId) {
@@ -53,9 +56,6 @@ class SetupSeedPhrase extends Component {
         // We need to know if the account is new so when we render SetupSeedPhraseVerify, it doesn't load reCaptcha if its an existing account
         const isNewAccount = await this.props.checkIsNew(this.props.accountId)
         this.setState({ isNewAccount });
-
-        const fundingOptions = JSON.parse(parseQuery(this.props.location.search).fundingOptions || 'null')
-        this.setState({ fundingOptions })
     }
 
     refreshData = () => {

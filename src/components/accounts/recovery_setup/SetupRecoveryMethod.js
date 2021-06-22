@@ -72,6 +72,9 @@ class SetupRecoveryMethod extends Component {
         const { router, checkIsNew, location } = this.props;
         const { method } = router.location;
 
+        const fundingOptions = JSON.parse(parseQuery(location.search).fundingOptions || 'null')
+        this.setState({ fundingOptions })
+
         if (method) {
             this.setState({ option: method });
         }
@@ -82,9 +85,6 @@ class SetupRecoveryMethod extends Component {
 
         const isNewAccount = await checkIsNew(this.props.accountId);
         this.setState({ isNewAccount });
-
-        const fundingOptions = JSON.parse(parseQuery(location.search).fundingOptions || 'null')
-        this.setState({ fundingOptions })
     }
 
     componentDidUpdate(prevProps) {
