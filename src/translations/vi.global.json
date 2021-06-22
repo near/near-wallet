@@ -576,13 +576,14 @@
         "alreadyHaveAnAccount": "Bạn đã có một tài khoản?",
         "recoverItHere": "Thêm tài khoản hiện có",
         "note": {
-            "title": "GHI CHÚ",
-            "one": "ID tài khoản của bạn có thể chứa bất kỳ thông tin nào sau đây:",
-            "two": "Ký tự viết thường (a-z)",
-            "three": "Chữ số (0-9)",
-            "four": "Ký tự (_-) có thể được sử dụng thay dấu cách",
-            "five": "ID tài khoản của bạn KHÔNG THỂ chứa:",
-            "six": "Ký tự \"@\" hoặc \".\""
+            "canContain": "ID tài khoản của bạn có thể chứa các thông tin sau đây:",
+            "lowercase": "Ký tự viết thường (a-z)",
+            "digits": "Chữ số (0-9)",
+            "separators": "Ký tự (_-) có thể được sử dụng thay cho dấu cách",
+            "cannotContain": "ID tài khoản của bạn KHÔNG THỂ chứa:",
+            "characters": "Các ký tự \"@\" or \".\"",
+            "minCharacters": "Ít hơn 2 ký tự",
+            "maxCharacters": "Hơn 64 ký tự (kể cả .${accountSuffix})"
         },
         "invalidLinkDrop": {
             "title": "Liên kết không hợp lệ",
