@@ -2,7 +2,6 @@ import { connectRouter } from 'connected-react-router'
 import { localizeReducer } from 'react-localize-redux'
 
 import account from '../../reducers/account'
-import staking from '../../reducers/staking'
 
 export default (history) => ({
     localize: localizeReducer,
@@ -10,5 +9,4 @@ export default (history) => ({
 
     // to be removed after redux refactor finish
     account,
-    staking,
 })
