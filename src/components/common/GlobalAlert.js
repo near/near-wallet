@@ -229,7 +229,7 @@ const GlobalAlertNew = ({ globalAlert, actionStatus, clearGlobalAlert, closeIcon
                                                         <a
                                                             href={
                                                                 (msgCode.includes('No default translation found!') || msgCode.includes('Sorry an error has occured')) 
-                                                                ? `https://nearhelp.zendesk.com/hc/en-us/` 
+                                                                ? `https://nearhelp.zendesk.com/hc/en-us/${alert.errorMessage ? `search?utf8=%E2%9C%93&query=${alert.errorMessage}` : ''}` 
                                                                 : `https://nearhelp.zendesk.com/hc/en-us/search?utf8=%E2%9C%93&query=${translate(alert.messageCode)}`
                                                             }
                                                             target='_blank'
