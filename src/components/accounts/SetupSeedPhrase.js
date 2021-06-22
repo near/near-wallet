@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react'
 import { withRouter, Route } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { Translate } from 'react-localize-redux'
-import { parse as parseQuery } from 'query-string'
+import parseFundingOptions from '../../utils/parseFundingOptions'
 import {
     handleAddAccessKeySeedPhrase,
     refreshAccount,
@@ -39,14 +39,11 @@ class SetupSeedPhrase extends Component {
         successSnackbar: false,
         submitting: false,
         recaptchaToken: null,
-        isNewAccount: false,
-        fundingOptions: null
+        isNewAccount: false
     }
 
     componentDidMount = async () => {
-        const fundingOptions = JSON.parse(parseQuery(this.props.location.search).fundingOptions || 'null')
-        this.setState({ fundingOptions })
-        
+
         this.refreshData()
 
         if (this.props.accountId === this.props.activeAccountId) {
@@ -125,8 +122,9 @@ class SetupSeedPhrase extends Component {
             handleCreateAccountWithSeedPhrase,
             fundCreateAccount,
             showCustomAlert,
+            location
         } = this.props
-        const { recoveryKeyPair, fundingOptions, recaptchaToken } = this.state
+        const { recoveryKeyPair, recaptchaToken } = this.state
 
         if (!this.state.isNewAccount) {
             debugLog('handleSetupSeedPhrase()/existing account');
@@ -136,6 +134,8 @@ class SetupSeedPhrase extends Component {
             )
             return
         }
+
+        const fundingOptions = parseFundingOptions(location.search)
 
         await Mixpanel.withTracking("SR-SP Setup for new account",
             async () => await handleCreateAccountWithSeedPhrase(accountId, recoveryKeyPair, fundingOptions, recaptchaToken),
@@ -201,7 +201,7 @@ class SetupSeedPhrase extends Component {
     render() {
         const recoveryMethods = this.props.recoveryMethods[this.props.accountId]
         const hasSeedPhraseRecovery = recoveryMethods && recoveryMethods.filter(m => m.kind === 'phrase').length > 0;
-        const { seedPhrase, enterWord, wordId, submitting, localAlert, isNewAccount, fundingOptions, successSnackbar } = this.state;
+        const { seedPhrase, enterWord, wordId, submitting, localAlert, isNewAccount, successSnackbar } = this.state;
 
         return (
             <Translate>
@@ -245,7 +245,7 @@ class SetupSeedPhrase extends Component {
                                             ref={(ref) => this.recaptchaRef = ref}
                                             isNewAccount={isNewAccount}
                                             onSubmit={this.handleOnSubmit}
-                                            isLinkDrop={fundingOptions}
+                                            isLinkDrop={parseFundingOptions(this.props.location.search)}
                                         />
                                     </form>
                                 </Container>

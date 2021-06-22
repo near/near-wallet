@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 import { Translate } from 'react-localize-redux'
-import { parse as parseQuery } from 'query-string'
+import parseFundingOptions from '../../../utils/parseFundingOptions'
 import 'react-phone-number-input/style.css'
 import PhoneInput, { isValidPhoneNumber } from 'react-phone-number-input';
 import { validateEmail } from '../../../utils/account';
@@ -64,16 +64,12 @@ class SetupRecoveryMethod extends Component {
         phoneInvalid: false,
         recoverySeedPhrase: null,
         recaptchaToken: null,
-        isNewAccount: false,
-        fundingOptions: null
+        isNewAccount: false
     }
 
     async componentDidMount() {
-        const { router, checkIsNew, location } = this.props;
+        const { router, checkIsNew } = this.props;
         const { method } = router.location;
-
-        const fundingOptions = JSON.parse(parseQuery(location.search).fundingOptions || 'null')
-        this.setState({ fundingOptions })
 
         if (method) {
             this.setState({ option: method });
@@ -163,12 +159,13 @@ class SetupRecoveryMethod extends Component {
         this.setState({ success: true, recoverySeedPhrase: recoverySeedPhrase })
     }
 
-    async setupRecoveryMessageNewAccount(accountId, method, securityCode, fundingOptions, recoverySeedPhrase, recaptchaToken) {
+    async setupRecoveryMessageNewAccount(accountId, method, securityCode, recoverySeedPhrase, recaptchaToken) {
         const {
             fundCreateAccount,
             createNewAccount,
             validateSecurityCode,
-            saveAccount
+            saveAccount,
+            location
         } = this.props;
 
         const { secretKey } = parseSeedPhrase(recoverySeedPhrase)
@@ -176,6 +173,7 @@ class SetupRecoveryMethod extends Component {
         await validateSecurityCode(accountId, method, securityCode);
         await saveAccount(accountId, recoveryKeyPair);
 
+        const fundingOptions = parseFundingOptions(location.search)
         // IMPLICIT ACCOUNT
         if (DISABLE_CREATE_ACCOUNT && !fundingOptions && !recaptchaToken) {
             await fundCreateAccount(accountId, recoveryKeyPair, fundingOptions, method);
@@ -201,9 +199,11 @@ class SetupRecoveryMethod extends Component {
             accountId,
             setupRecoveryMessage,
             showCustomAlert,
+            location
         } = this.props;
+        const fundingOptions = parseFundingOptions(location.search)
 
-        const { recoverySeedPhrase, recaptchaToken, success, fundingOptions } = this.state;
+        const { recoverySeedPhrase, recaptchaToken, success } = this.state;
 
         if (success) {
             await Mixpanel.withTracking("SR Setup recovery method",
@@ -285,8 +285,8 @@ class SetupRecoveryMethod extends Component {
     }
 
     render() {
-        const { option, phoneNumber, email, success, emailInvalid, phoneInvalid, country, isNewAccount, fundingOptions } = this.state;
-        const { mainLoader, accountId, activeAccountId, ledgerKey, twoFactor } = this.props;
+        const { option, phoneNumber, email, success, emailInvalid, phoneInvalid, country, isNewAccount } = this.state;
+        const { mainLoader, accountId, activeAccountId, ledgerKey, twoFactor, location } = this.props;
 
         if (!success) {
             return (
@@ -387,7 +387,7 @@ class SetupRecoveryMethod extends Component {
                     onResend={this.handleSendCode}
                     loading={mainLoader}
                     onRecaptchaChange={this.handleRecaptchaChange}
-                    isLinkDrop={fundingOptions}
+                    isLinkDrop={parseFundingOptions(location.search)}
                 />
             )
         }

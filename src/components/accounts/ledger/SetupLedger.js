@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { connect } from 'react-redux';
-import { parse as parseQuery } from 'query-string';
 import Container from '../../common/styled/Container.css';
 import InstructionsModal from './InstructionsModal';
 import LedgerIcon from '../../svg/LedgerIcon';
@@ -17,6 +16,7 @@ import {
     getLedgerPublicKey
 } from '../../../actions/account'
 import { DISABLE_CREATE_ACCOUNT, setKeyMeta } from '../../../utils/wallet'
+import parseFundingOptions from '../../../utils/parseFundingOptions'
 import GlobalAlert from '../../common/GlobalAlert'
 import { Mixpanel } from '../../../mixpanel/index'
 import { isRetryableRecaptchaError, Recaptcha } from '../../Recaptcha';
@@ -31,15 +31,13 @@ const SetupLedger = (props) => {
     const [showInstructions, setShowInstructions] = useState(false);
     const [connect, setConnect] = useState(null);
     const [isNewAccount, setIsNewAccount] = useState(null);
-    const [fundingOptions, setFundingOptions] = useState(null);
     // TODO: Custom recaptcha hook
     const [recaptchaToken, setRecaptchaToken] = useState(null);
     const recaptchaRef = useRef(null);
+    const fundingOptions = parseFundingOptions(props.location.search)
     const shouldRenderRecaptcha = !fundingOptions && process.env.RECAPTCHA_CHALLENGE_API_KEY && isNewAccount;
 
     useEffect(() => {
-        setFundingOptions(JSON.parse(parseQuery(props.location.search).fundingOptions || 'null'));
-        
         const performNewAccountCheck = async () => {
             setIsNewAccount(await props.dispatch(checkIsNew(props.accountId)));
         }

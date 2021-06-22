@@ -1,12 +1,10 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Translate } from 'react-localize-redux';
 import FormButton from '../common/FormButton';
 import Container from '../common/styled/Container.css';
 import { Recaptcha } from '../Recaptcha';
-import sendJson from '../../tmp_fetch_send_json';
-import { ACCOUNT_HELPER_URL } from '../../utils/wallet';
 
 // FIXME: Use `debug` npm package so we can keep some debug logging around but not spam the console everywhere
 const ENABLE_DEBUG_LOGGING = false;
