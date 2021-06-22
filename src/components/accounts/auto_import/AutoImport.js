@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import Container from '../../common/styled/Container.css';
 import { Translate } from 'react-localize-redux';
@@ -21,11 +21,14 @@ const StyledContainer = styled(Container)`
 
 export function AutoImport() {
     const dispatch = useDispatch();
+    const { location } = useSelector(({ router }) => router);
     const [recovering, setRecovering] = useState(false);
     const string = decodeURI(window.location.hash.substring(1));
     const hasAccountId = string.includes('/');
     const accountId = hasAccountId ? string.split('/')[0] : null;
     const seedPhrase = hasAccountId ? string.split('/')[1] : string;
+    const successUrl = location.query.success_url;
+    const failureUrl = location.query.failure_url;
     
     useEffect(() => {
         recoverWithSeedPhrase()
@@ -37,10 +40,17 @@ export function AutoImport() {
                 setRecovering(true)
                 await dispatch(recoverAccountSeedPhrase(seedPhrase, accountId))
                 await dispatch(refreshAccount())
+
+                if (successUrl) {
+                    window.location.href = successUrl
+                    return;
+                }
+                
                 await dispatch(redirectTo('/'))
             },
-            () => {
+            (e) => {
                 setRecovering('failed')
+                console.error(e);
             }
         )
     }
@@ -64,7 +74,11 @@ export function AutoImport() {
                         />
                     </h1>
                     <FormButton onClick={recoverWithSeedPhrase}><Translate id='button.tryAgain'/></FormButton>
-                    <FormButton color='gray-blue' linkTo='/create'><Translate id='button.createNewAccount'/></FormButton>
+                    {failureUrl ? 
+                        <FormButton color='gray-blue' onClick={() => window.location.href = failureUrl}><Translate id='button.cancel'/></FormButton>
+                        :
+                        <FormButton color='gray-blue' linkTo='/create'><Translate id='button.createNewAccount'/></FormButton>
+                    }
                 </>
             }
         </StyledContainer>
