@@ -119,7 +119,7 @@ function addQueryParams(baseUrl, queryParams) {
     return url.toString();
 }
 
-const mapStateToProps = ({ account, sign }, { status }) => ({
+const mapStateToProps = ({ account }, { status, sign }) => ({
     account,
     ...sign,
     signTxStatus: status.actionStatus.SIGN_AND_SEND_TRANSACTIONS
