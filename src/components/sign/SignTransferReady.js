@@ -253,7 +253,7 @@ const mapDispatchToProps = {
     switchAccount
 }
 
-const mapStateToProps = ({ account, sign }, { availableAccounts }) => ({
+const mapStateToProps = ({ account }, { availableAccounts, sign }) => ({
     account,
     availableAccounts,
     ...sign
