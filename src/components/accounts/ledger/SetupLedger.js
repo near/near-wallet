@@ -16,12 +16,11 @@ import {
     fundCreateAccountLedger,
     getLedgerPublicKey
 } from '../../../actions/account'
-import { ACCOUNT_HELPER_URL, DISABLE_CREATE_ACCOUNT, setKeyMeta } from '../../../utils/wallet'
+import { DISABLE_CREATE_ACCOUNT, setKeyMeta } from '../../../utils/wallet'
 import GlobalAlert from '../../common/GlobalAlert'
 import { Mixpanel } from '../../../mixpanel/index'
 import { isRetryableRecaptchaError, Recaptcha } from '../../Recaptcha';
 import { showCustomAlert } from '../../../actions/status';
-import sendJson from '../../../tmp_fetch_send_json';
 
 // FIXME: Use `debug` npm package so we can keep some debug logging around but not spam the console everywhere
 const ENABLE_DEBUG_LOGGING = false;
@@ -31,38 +30,12 @@ const SetupLedger = (props) => {
 
     const [showInstructions, setShowInstructions] = useState(false);
     const [connect, setConnect] = useState(null);
-
     const [isNewAccount, setIsNewAccount] = useState(null);
-
     // TODO: Custom recaptcha hook
     const [recaptchaToken, setRecaptchaToken] = useState(null);
     const recaptchaRef = useRef(null);
-
-    // TODO: Combine similar effect code into custom hook
-    const [fundedAccountAvailable, setFundedAccountAvailable] = useState(false);
-    useEffect(() => {
-        debugLog('Checking available funded account status');
-        const fetchIsFundedAccountAvailable = async () => {
-            let available;
-
-            try {
-                ({ available } = await sendJson('GET', ACCOUNT_HELPER_URL + '/checkFundedAccountAvailable'));
-            } catch (e) {
-                debugLog('Failed check available funded account status');
-                setFundedAccountAvailable(false);
-                return;
-            }
-
-            debugLog('Funded account availability', { available });
-            setFundedAccountAvailable(available);
-        }
-
-        if(process.env.RECAPTCHA_CHALLENGE_API_KEY && isNewAccount) {
-            fetchIsFundedAccountAvailable();
-        }
-    }, []);
-
-    const shouldRenderRecaptcha = process.env.RECAPTCHA_CHALLENGE_API_KEY && isNewAccount && fundedAccountAvailable;
+    const fundingOptions = JSON.parse(parseQuery(props.location.search).fundingOptions || 'null')
+    const shouldRenderRecaptcha = !fundingOptions && process.env.RECAPTCHA_CHALLENGE_API_KEY && isNewAccount;
 
     useEffect(() => {
         const performNewAccountCheck = async () => {
@@ -83,7 +56,6 @@ const SetupLedger = (props) => {
     const handleClick = async () => {
         const {
             dispatch,
-            location,
             accountId,
         } = props
 
@@ -94,8 +66,6 @@ const SetupLedger = (props) => {
                     let publicKey;
 
                     try {
-                        const queryOptions = parseQuery(location.search);
-                        const fundingOptions = JSON.parse(queryOptions.fundingOptions || 'null')
 
                         debugLog(DISABLE_CREATE_ACCOUNT, fundingOptions)
                         publicKey = await dispatch(getLedgerPublicKey())

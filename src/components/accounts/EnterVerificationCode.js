@@ -68,7 +68,8 @@ const EnterVerificationCode = ({
     phoneNumber,
     loading,
     isNewAccount,
-    onRecaptchaChange
+    onRecaptchaChange,
+    isLinkDrop
 }) => {
     debugLog('Rendering', { isNewAccount });
 
@@ -87,30 +88,6 @@ const EnterVerificationCode = ({
         onConfirm(code);
     }
 
-    // TODO: Combine similar effect code into custom hook
-    const [fundedAccountAvailable, setFundedAccountAvailable] = useState(false);
-    useEffect(() => {
-        debugLog('Checking available funded account status');
-        const fetchIsFundedAccountAvailable = async () => {
-            let available;
-
-            try {
-                ({ available } = await sendJson('GET', ACCOUNT_HELPER_URL + '/checkFundedAccountAvailable'));
-            } catch (e) {
-                debugLog('Failed check available funded account status');
-                setFundedAccountAvailable(false);
-                return;
-            }
-
-            debugLog('Funded account availability', { available });
-            setFundedAccountAvailable(available);
-        }
-
-        if(process.env.RECAPTCHA_CHALLENGE_API_KEY && isNewAccount) {
-            fetchIsFundedAccountAvailable();
-        }
-    }, []);
-
     const handleOnSubmit = (e) => {
         if (code.length !== 6) {
             e.preventDefault();
@@ -124,7 +101,7 @@ const EnterVerificationCode = ({
         }
     }
 
-    const shouldRenderRecaptcha = process.env.RECAPTCHA_CHALLENGE_API_KEY && isNewAccount && fundedAccountAvailable;
+    const shouldRenderRecaptcha = !isLinkDrop && process.env.RECAPTCHA_CHALLENGE_API_KEY && isNewAccount;
 
     return (
         <StyledContainer className='small-centered'>

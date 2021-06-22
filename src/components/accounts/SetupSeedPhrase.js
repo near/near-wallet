@@ -39,7 +39,8 @@ class SetupSeedPhrase extends Component {
         successSnackbar: false,
         submitting: false,
         recaptchaToken: null,
-        isNewAccount: false
+        isNewAccount: false,
+        fundingOptions: null
     }
 
     componentDidMount = async () => {
@@ -52,6 +53,9 @@ class SetupSeedPhrase extends Component {
         // We need to know if the account is new so when we render SetupSeedPhraseVerify, it doesn't load reCaptcha if its an existing account
         const isNewAccount = await this.props.checkIsNew(this.props.accountId)
         this.setState({ isNewAccount });
+
+        const fundingOptions = JSON.parse(parseQuery(this.props.location.search).fundingOptions || 'null')
+        this.setState({ fundingOptions })
     }
 
     refreshData = () => {
@@ -120,11 +124,9 @@ class SetupSeedPhrase extends Component {
             handleAddAccessKeySeedPhrase,
             handleCreateAccountWithSeedPhrase,
             fundCreateAccount,
-            location,
             showCustomAlert,
-
         } = this.props
-        const { recoveryKeyPair } = this.state
+        const { recoveryKeyPair, fundingOptions, recaptchaToken } = this.state
 
         if (!this.state.isNewAccount) {
             debugLog('handleSetupSeedPhrase()/existing account');
@@ -135,11 +137,8 @@ class SetupSeedPhrase extends Component {
             return
         }
 
-        const queryOptions = parseQuery(location.search);
-        const fundingOptions = JSON.parse(queryOptions.fundingOptions || 'null')
-
         await Mixpanel.withTracking("SR-SP Setup for new account",
-            async () => await handleCreateAccountWithSeedPhrase(accountId, recoveryKeyPair, fundingOptions, this.state.recaptchaToken),
+            async () => await handleCreateAccountWithSeedPhrase(accountId, recoveryKeyPair, fundingOptions, recaptchaToken),
             async (err) => {
                 debugLog('failed to create account!', err);
 
@@ -201,7 +200,9 @@ class SetupSeedPhrase extends Component {
 
     render() {
         const recoveryMethods = this.props.recoveryMethods[this.props.accountId]
-        const hasSeedPhraseRecovery = recoveryMethods && recoveryMethods.filter(m => m.kind === 'phrase').length > 0
+        const hasSeedPhraseRecovery = recoveryMethods && recoveryMethods.filter(m => m.kind === 'phrase').length > 0;
+        const { seedPhrase, enterWord, wordId, submitting, localAlert, isNewAccount, fundingOptions, successSnackbar } = this.state;
+
         return (
             <Translate>
                 {({ translate }) => (
@@ -214,7 +215,7 @@ class SetupSeedPhrase extends Component {
                                     <h1><Translate id='setupSeedPhrase.pageTitle'/></h1>
                                     <h2><Translate id='setupSeedPhrase.pageText'/></h2>
                                     <SetupSeedPhraseForm
-                                        seedPhrase={this.state.seedPhrase}
+                                        seedPhrase={seedPhrase}
                                         handleCopyPhrase={this.handleCopyPhrase}
                                         hasSeedPhraseRecovery={hasSeedPhraseRecovery}
                                     />
@@ -233,17 +234,18 @@ class SetupSeedPhrase extends Component {
                                         <h1><Translate id='setupSeedPhraseVerify.pageTitle'/></h1>
                                         <h2><Translate id='setupSeedPhraseVerify.pageText'/></h2>
                                         <SetupSeedPhraseVerify
-                                            enterWord={this.state.enterWord}
-                                            wordId={this.state.wordId}
+                                            enterWord={enterWord}
+                                            wordId={wordId}
                                             handleChangeWord={this.handleChangeWord}
                                             handleStartOver={this.handleStartOver}
-                                            mainLoader={this.props.mainLoader || this.state.submitting}
-                                            localAlert={this.state.localAlert}
+                                            mainLoader={this.props.mainLoader || submitting}
+                                            localAlert={localAlert}
                                             globalAlert={this.props.globalAlert}
                                             onRecaptchaChange={this.handleRecaptchaChange}
                                             ref={(ref) => this.recaptchaRef = ref}
-                                            isNewAccount={this.state.isNewAccount}
+                                            isNewAccount={isNewAccount}
                                             onSubmit={this.handleOnSubmit}
+                                            isLinkDrop={fundingOptions}
                                         />
                                     </form>
                                 </Container>
@@ -252,7 +254,7 @@ class SetupSeedPhrase extends Component {
                         <Snackbar
                             theme='success'
                             message={translate('setupSeedPhrase.snackbarCopySuccess')}
-                            show={this.state.successSnackbar}
+                            show={successSnackbar}
                             onHide={() => this.setState({ successSnackbar: false })}
                         />
                     </Fragment>

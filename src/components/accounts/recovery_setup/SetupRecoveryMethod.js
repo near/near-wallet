@@ -64,11 +64,12 @@ class SetupRecoveryMethod extends Component {
         phoneInvalid: false,
         recoverySeedPhrase: null,
         recaptchaToken: null,
-        isNewAccount: false
+        isNewAccount: false,
+        fundingOptions: null
     }
 
     async componentDidMount() {
-        const { router, checkIsNew } = this.props;
+        const { router, checkIsNew, location } = this.props;
         const { method } = router.location;
 
         if (method) {
@@ -81,6 +82,9 @@ class SetupRecoveryMethod extends Component {
 
         const isNewAccount = await checkIsNew(this.props.accountId);
         this.setState({ isNewAccount });
+
+        const fundingOptions = JSON.parse(parseQuery(location.search).fundingOptions || 'null')
+        this.setState({ fundingOptions })
     }
 
     componentDidUpdate(prevProps) {
@@ -196,11 +200,10 @@ class SetupRecoveryMethod extends Component {
         const {
             accountId,
             setupRecoveryMessage,
-            location,
             showCustomAlert,
         } = this.props;
 
-        const { recoverySeedPhrase, recaptchaToken, success } = this.state;
+        const { recoverySeedPhrase, recaptchaToken, success, fundingOptions } = this.state;
 
         if (success) {
             await Mixpanel.withTracking("SR Setup recovery method",
@@ -208,9 +211,6 @@ class SetupRecoveryMethod extends Component {
                     if (!this.state.isNewAccount) {
                         return setupRecoveryMessage(accountId, this.method, securityCode, this.state.recoverySeedPhrase)
                     }
-
-                    const queryOptions = parseQuery(location.search);
-                    const fundingOptions = JSON.parse(queryOptions.fundingOptions || 'null')
 
                     try {
                         await this.setupRecoveryMessageNewAccount(accountId, this.method, securityCode, fundingOptions, recoverySeedPhrase, recaptchaToken);
@@ -285,7 +285,7 @@ class SetupRecoveryMethod extends Component {
     }
 
     render() {
-        const { option, phoneNumber, email, success, emailInvalid, phoneInvalid, country, isNewAccount } = this.state;
+        const { option, phoneNumber, email, success, emailInvalid, phoneInvalid, country, isNewAccount, fundingOptions } = this.state;
         const { mainLoader, accountId, activeAccountId, ledgerKey, twoFactor } = this.props;
 
         if (!success) {
@@ -387,6 +387,7 @@ class SetupRecoveryMethod extends Component {
                     onResend={this.handleSendCode}
                     loading={mainLoader}
                     onRecaptchaChange={this.handleRecaptchaChange}
+                    isLinkDrop={fundingOptions}
                 />
             )
         }
