@@ -18,7 +18,6 @@ import {
     redirectTo,
     fundCreateAccount,
     finishAccountSetup,
-    finishLinkdropClaim,
     selectAccount
 } from '../actions/account'
 
@@ -439,8 +438,6 @@ class Wallet {
         });
 
         await contract.claim({ account_id: accountId }, LINKDROP_GAS);
-
-        await store.dispatch(finishLinkdropClaim());
     }
 
     async saveAccount(accountId, keyPair) {
