@@ -731,7 +731,7 @@
     "login": {
         "form": {
             "isRequestingTo": "está solicitando para",
-            "accessYourAccount": "acesse sua conta.",
+            "accessYourAccount": "acessar sua conta.",
             "isRequestingFullAccess": "está solicitando <b>acesso total</b>",
             "toYourAccount": "para sua conta.",
             "thisDoesNotAllow": "Isso não permite que o app transfira nenhum token.",

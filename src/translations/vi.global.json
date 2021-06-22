@@ -1,0 +1,1217 @@
+{
+    "reduxActions": {
+        "RECOVER_ACCOUNT_SEED_PHRASE": {
+            "success": "Hoàn tất khôi phục bằng từ khóa bảo mật.<br/><b>Tài khoản ${numberOfAccounts}</b> đã được khôi phục.<br/>Tài khoản đang được hoạt động.",
+            "error": "Khôi phục tài khoản thất bại. Không có tài khoản nào được tìm thấy cho cụm từ bảo mật."
+        },
+        "SEND_MONEY": {
+            "error": "Xin lỗi, đã có lỗi xảy ra. Bạn có thể muốn thử lại."
+        },
+        "CHECK_NEW_ACCOUNT": {
+            "success": "Chúc mừng! ${accountId} đang có sẵn.",
+            "error": "ID tài khoản đã được sử dụng. Hãy thử lại với một tên khác."
+        },
+        "ADD_ACCESS_KEY": {
+            "success": "${title} bây giờ được phép sử dụng tài khoản của bạn",
+            "error": "Đã xảy ra lỗi khi duyệt hành động này. Vui lòng thử lại!"
+        },
+        "ADD_ACCESS_KEY_SEED_PHRASE": {
+            "success": "Hoàn tất khôi phục bằng từ khóa bảo mật.",
+            "error": "Đã xảy ra lỗi khi thiết lập khôi phục cụm từ bảo mật. Vui lòng thử lại!"
+        },
+        "SETUP_RECOVERY_MESSAGE": {
+            "success": "Quá trình khôi phục đã hoàn tất.",
+            "error": "Đã xảy ra lỗi khi thiết lập phương pháp khôi phục của bạn. Vui lòng thử lại!"
+        },
+        "SAVE_AND_SELECT_LEDGER_ACCOUNTS": {
+            "success": "Bạn đã đăng nhập thành công.<br/><b>Tài khoản ${numberOfAccounts} đã được khôi phục.</b> Tài khoản đang được hoạt động.",
+            "error": "Vui lòng kiểm tra xem thiết bị của bạn đã được kết nối chưa và ứng dụng NEAR đang mở."
+        },
+        "DELETE_RECOVERY_METHOD": {
+            "success": "",
+            "error": ""
+        },
+        "DEPLOY_MULTISIG": {
+            "success": "",
+            "error": ""
+        },
+        "REMOVE_ACCESS_KEY": {
+            "success": "",
+            "error": "Vui lòng kiểm tra xem thiết bị của bạn đã được kết nối chưa và ứng dụng NEAR đang mở."
+        },
+        "SIGN_AND_SEND_TRANSACTIONS": {
+            "success": "",
+            "error": ""
+        },
+        "CREATE_ACCOUNT_WITH_SEED_PHRASE": {
+            "success": "",
+            "error": ""
+        },
+        "ADD_LEDGER_ACCOUNT_ID": {
+            "success": "",
+            "error": "Quyền truy cập vào một trong các tài khoản đã bị từ chối. Không có tài khoản nào được khôi phục.<br>Để tiếp tục, bạn phải cho phép quyền truy cập chỉ đọc vào từng tài khoản trên thiết bị Ledger của bạn. Vui lòng thử lại."
+        },
+        "PROMPT_TWO_FACTOR": {
+            "invalidCode": "Mã 2FA không hợp lệ. Vui lòng thử lại."
+        },
+        "CHECK_ACCOUNT_AVAILABLE": {
+            "success": "Người dùng được tìm thấy.",
+            "error": "Người dùng không được tìm thấy."
+        },
+        "GET_LEDGER_ACCOUNT_IDS": {
+            "success": "",
+            "error": "Quyền truy cập khóa công khai đã bị từ chối. Không có tài khoản nào được khôi phục.<br/>Để tiếp tục, bạn phải cho phép NEAR Wallet xem khóa công khai của bạn. Vui lòng thử lại."
+        },
+        "VERIFY_TWO_FACTOR": {
+            "success": "Xác thực hai yếu tố đã thiết lập thành công!",
+            "error": "Không thể thiết lập Xác thực hai yếu tố. Vui lòng thử lại."
+        },
+        "CHECK_IS_NEW": {
+            "success": "Chúc mừng! ${accountId} đang có sẵn.",
+            "error": "ID tài khoản đã được sử dụng. Hãy thử lại với một tên khác."
+        },
+        "CREATE_NEW_ACCOUNT": {
+            "success": "Chúc mừng! ${accountId} đang có sẵn.",
+            "error": "ID tài khoản đã được sử dụng. Hãy thử lại với một tên khác."
+        },
+        "TRANSFER_ALL_FROM_LOCKUP": {
+            "success": "Bạn đã chuyển thành công token từ khóa của bạn!",
+            "error": "Đã xảy ra lỗi. Vui lòng thử lại."
+        },
+        "REFRESH_ACCOUNT_EXTERNAL": {
+            "error": "Tài khoản <b>${accountId}</b> không tìm thấy"
+        },
+
+        "Deserialization": "",
+        "RetriesExceeded": "Đã vượt quá số lần thử tối đa cho giao dịch này.",
+        "U2F_4": "Không thể đăng nhập bằng thiết bị Ledger: U2F DEVICE_INELIGIBLE. Hãy đảm bảo rằng thiết bị Ledger của bạn đã được kết nối và mở khóa.",
+
+        "default": {
+            "success": "",
+            "error": "Xin lỗi, đã xảy ra lỗi. Bạn có thể thử lại."
+        }
+    },
+    "walletErrorCodes": {
+        "addAccessKeySeedPhrase": {
+            "errorSecond": "Một lỗi đã xảy ra.<br />Cụm từ khôi phụ không được thêm vào tài khoản của bạn. Vui lòng thử lại."
+        },
+        "promptTwoFactor": {
+            "userCancelled": "Mã 2FA không được xác minh chính xác."
+        },
+        "signAndSendTransactions": {
+            "notEnoughTokens": "Không đủ token."
+        },
+        "getLedgerAccountIds": {
+            "U2FNotSupported": "Hỗ trợ trình duyệt U2F là cần thiết cho Ledger. Vui lòng sử dụng Chrome, Opera hoặc Firefox với U2F Extension.",
+            "noAccounts": "Không có tài khoản nào được tìm thấy cho thiết bị Ledger này. Vui lòng xác nhận rằng bạn đã liên kết tài khoản với Ledger này.",
+            "aborted": "Hành động đã bị hủy bỏ.",
+            "noAccountsAccepted": "Không có tài khoản nào được chấp nhận."
+        },
+        "staking": {
+            "noWithdraw": "Không thể rút số dư đang chờ xử lý từ validator",
+            "noLockup": "Không có hợp đồng khóa cho tài khoản"
+        },
+        "addLedgerAccountId": {
+            "errorRpc": "Lỗi hiển khi khôi phục tài khoản."
+        },
+        "setupRecoveryMessage": {
+            "error": "Đã xảy ra lỗi khi thiết lập phương thức khôi phục của bạn. Vui lòng thử lại!"
+        },
+        "addAccessKey": {
+            "error": "Một lỗi đã xảy ra.<br />Để truy cập tài khoản của bạn, vui lòng nhập cụm từ khôi phục từ bước trước đó vào bên dưới."
+        },
+        "recoveryMethods": {
+            "setupMethod": "Đã xảy ra lỗi. Vui lòng kiểm tra phương thức khôi phục của bạn.",
+            "lastMethod": "Không thể xóa phương thức khôi phục cuối cùng của bạn. Trừ khi bạn đã bật Ledger, bạn cần duy trì hoạt động ít nhất một phương thức khôi phục để đảm bảo khả năng khôi phục của tài khoản của bạn."
+        },
+        "recoverAccountSeedPhrase": {
+            "errorInvalidSeedPhrase": "Không có tài khoản nào được tìm thấy cho cụm từ khôi phục này."
+        },
+        "lockup": {
+            "transferAllWithStakingPoolBalance": "Unstake và rút tất cả tiền từ pool staking để chuyển số dư khóa còn lại của bạn sang Ví."
+        },
+        "setupRecoveryMessageNewAccount": {
+            "invalidCode": "Mã không hợp lệ"
+        }
+    },
+    "account": {
+        "requestCode": {
+            "success": "Đã gửi mã tin nhắn SMS.",
+            "error": "Không gửi được mã SMS."
+        },
+        "recoverAccount": {
+            "success": "Quá trình khôi phục bằng cách sử dụng cụm từ khôi phục đã hoàn tất.<br/><b>tài khoản ${numberOfAccounts}</b> đã được khôi phục thành công.<br/>Tài khoản đang hoạt động.",
+            "error": "Không thể khôi phục tài khoản. Không có tài khoản nào được tìm thấy cho cụm từ khôi phục này.",
+            "errorInvalidSeedPhrase": "Không có tài khoản nào được tìm thấy cho cụm từ khôi phục này."
+        },
+        "create": {
+            "errorInvalidAccountIdLength": "ID tài khoản phải từ 2 đến 64 ký tự",
+            "checkingAvailablity": {
+                "create": "Kiểm tra tính khả dụng",
+                "check": "Đang kiểm tra"
+            },
+            "errorAccountNotExist": "Đã xảy ra lỗi khi tạo tài khoản của bạn. Vui lòng thử lại!"
+        },
+        "available": {
+            "success": "Người dùng được tìm thấy!",
+            "error": "Người dùng không được tìm thấy!",
+            "errorSameAccount": "Không thể gửi cho chính bạn.",
+            "implicitAccount": "Luôn kiểm tra kỹ ID tài khoản",
+            "implicitAccountModal": "Vui lòng kiểm tra kỹ ID tài khoản, đặc biệt nếu đây là tài khoản giao dịch. Nếu ID tài khoản được nhập không chính xác, tiền của bạn sẽ bị mất vĩnh viễn."
+        },
+        "createImplicit": {
+            "pre": {
+                "title": "Nạp tiền vào tài khoản của bạn",
+                "descOne": "Khởi tạo tài khoản của bạn bằng cách gửi ít nhất <b>${amount} NEAR</b> đến địa chỉ ví one-time bên dưới.",
+                "descTwo": "Quay lại màn hình này sau khi tiền của bạn đã được gửi để hoàn tất việc tạo tài khoản của bạn.",
+                "addressHeader": "Địa chỉ ví one-time",
+                "whereToBuy": {
+                    "button": "Tôi có thể mua NEAR ở đâu?",
+                    "title": "Mua NEAR token",
+                    "desc": "NEAR token có sẵn để mua thông qua các sàn giao dịch sau"
+                },
+                "alertBanner": {
+                    "title": "Đừng đóng cửa sổ này!"
+                },
+                "fundWith": "Gửi tiền với"
+            },
+            "post": {
+                "modal": {
+                    "title": "Tài khoản quỹ",
+                    "descOne": "Tài khoản của bạn đã được nạp tiền thành công!",
+                    "descTwo": "Địa chỉ ví one-time không còn được sử dụng để nhận tài sản.",
+                    "descThree": "ID tài khoản của bạn: <b>${accountId}</b> là địa chỉ duy nhất của bạn cho tất cả các hoạt động NEAR.",
+                    "checkbox": "Tôi xác nhận rằng địa chỉ one-time không hợp lệ và bất kỳ tài sản bổ sung nào được gửi đến địa chỉ này sẽ bị mất."
+                }
+            },
+            "success": {
+                "title": "Chào mừng đến với NEAR",
+                "descOne": "Chúc mừng <b>${accountId}</b>! Tài khoản của bạn đã được tạo thành công.",
+                "descTwo": "Bây giờ bạn phải sử dụng ID tài khoản này làm địa chỉ của bạn cho tất cả các hoạt động NEAR.",
+                "descThree": "Vui lòng cập nhật địa chỉ của bạn trên bất kỳ sàn giao dịch nào hoặc các thiết bị khác.",
+                "button": "Tiếp tục đến Tài khoản"
+            }
+        },
+        "verifySeedPhrase": {
+            "error": "Bạn đã nhập từ không chính xác"
+        },
+        "sendNewRecoveryLink": {
+            "success": "Liên kết khôi phục đã được gửi thành công!",
+            "error": "Không gửi lại được. Vui lòng thử lại."
+        },
+        "login": {
+            "details": {
+                "warning": "Điều này cho phép truy cập vào toàn bộ số dư của bạn. Hãy thực hiện một cách thận trọng."
+            },
+            "incorrectContractId": {
+                "error": "Hợp đồng ${contractId} không tồn  tại. Đây có thể là vấn đề với ứng dụng bạn đang cố gắng sử dụng hoặc hợp đồng này có thể đã bị xóa. Bạn sẽ được chuyển hướng trở lại ứng dụng"
+            }
+        },
+        "nameDoesntMatch": "Tên tài khoản không khớp",
+        "sendMoney": {
+            "error": "Xin lỗi, đã có lỗi xảy ra. Bạn có thể thử lại."
+        }
+    },
+
+    "dashboardActivity": {
+        "title": {
+            "CreateAccount": "Tài khoản mới đã được tạo",
+            "DeleteAccount": "Tài khoản đã bị xóa",
+            "DeployContract": "Hợp đồng đã được triển khai",
+            "FunctionCall": "Phương thức đã được gọi",
+            "Transfer": {
+                "transferred": "Gửi NEAR",
+                "received": "Nhận NEAR"
+            },
+            "Stake": "Đã Stake",
+            "AddKey": {
+                "forContract": "Đã thêm khóa truy cập",
+                "forReceiver": "Đã thêm khóa truy cập"
+            },
+            "DeleteKey": "Khóa đã bị xóa"
+        },
+        "message": {
+            "CreateAccount": "<span>tài khoản</span> <span>${receiverId}</span>",
+            "DeleteAccount": "<span>tài khoản</span> <span>${receiverId}<span>",
+            "DeployContract": "<span>hợp đồng</span> <span>${receiverId}</span>",
+            "FunctionCall": "<span>${methodName}</span> trong hợp đồng <span>${receiverId}</span>",
+            "FunctionCallDetails": {
+                "first": "<span>Phương thức</span> <span>${methodName}</span>",
+                "second": "<span>Trong hợp đồng</span> <span>${receiverId}</span>"
+            },
+            "Transfer": {
+                "transferred": "<span>đến</span> <span>${receiverId}</span>",
+                "received": "<span>từ</span> <span>${signerId}</span>"
+            },
+            "Stake": "<span>stake</span><span>${stake}</span>",
+            "AddKey": {
+                "forContract": "<span>cho</span> <span>${permissionReceiverId}</span>",
+                "forReceiver": "<span>cho</span> <span>${receiverId}</span>"
+            },
+            "DeleteKey": ""
+        }
+    },
+
+    "actions": {
+        "CreateAccount": "Tài khoản mới đã được tạo: ${receiverId}",
+        "DeleteAccount": "Tài khoản đã bị xóa: ${receiverId}",
+        "DeployContract": "Hợp đồng đã được triển khai ${receiverId}",
+        "FunctionCall": "Phương thức đã được gọi: ${methodName} trong hợp đồng: ${receiverId}",
+        "Transfer": {
+            "transferred": "Gửi ${deposit} đến ${receiverId}",
+            "received": "Đã nhận ${deposit} từ ${signerId}"
+        },
+        "Stake": "Đã Stake ${stake}",
+        "AddKey": {
+            "forContract": "Đã thêm khóa truy cập cho: ${permissionReceiverId}",
+            "forReceiver": "Đã thêm khóa truy cập toàn quyền cho: ${receiverId}"
+        },
+        "DeleteKey": "Khóa đã bị xóa"
+    },
+    "actionsSign": {
+        "createAccount": "Tạo tài khoản: ${receiverId}",
+        "deployContract": "Triển khai hợp đồng: ${receiverId}",
+        "functionCall": "Gọi hàm: ${methodName}",
+        "transfer": "Đang chuyển: ${deposit}Ⓝ đến ${receiverId}",
+        "stake": "Staking: ${stake}Ⓝ ${publicKey}...",
+        "addKey": "Thêm khóa truy cập",
+        "deleteKey": "Xóa khóa truy cập",
+        "deleteAccount": "Xóa tài khoản: ${receiverId}"
+    },
+
+    "setupSeedPhrase": {
+        "pageTitle": "Cài đặt cụm từ khôi phục",
+        "pageText": "Viết ra những từ sau TRONG LỆNH và cất chúng ở nơi an toàn. Bạn không thể khôi phục tài khoản của bạn mà không có chúng!",
+        "snackbarCopySuccess": "Đã sao chép cụm từ khôi phục!",
+        "snackbarCopyImplicitAddress": "Đã sao chép địa chỉ gửi tiền!"
+    },
+    "setupSeedPhraseVerify": {
+        "pageTitle": "Xác nhận cụm từ khôi phục",
+        "pageText": "Nhập từ sau từ cụm từ khôi phục của bạn để hoàn tất quá trình thiết lập.",
+        "startOverText": "Không viết sẽ ra sao?"
+    },
+    "setupSeedPhraseSuccess": {
+        "pageTitle": "Thiết lập khôi phục đã hoàn tất",
+        "pageText": "Sử dụng cụm từ khôi phục để khôi phục tài khoản của bạn.",
+        "pageTextSecondLine": "Bất kỳ ai có quyền truy cập vào cụm từ khôi phục của bạn đều có thể truy cập vào tài sản của bạn, vì vậy hãy giữ nó ở một nơi an toàn và bảo mật."
+    },
+
+    "receivePage": {
+        "addressTitle": "Địa chỉ của bạn",
+        "qrCodeTitle": "Quét mã QR",
+        "copyAddressLinkLong": "Sao chép địa chỉ URL",
+        "copyAddressLinkShort": "SAO CHÉP",
+        "snackbarCopySuccess": "Đã sao chép địa chỉ URL!"
+    },
+
+    "selectAccountDropdown": {
+        "switchAccount": "Chuyển tài khoản",
+        "selectAccount": "Chọn tài khoản",
+        "account": "Tài khoản",
+        "switchAccounthNotAllowed": "Ứng dụng này không cho phép thay đổi tài khoản",
+        "createAccount": "Tạo tài khoản mới",
+        "noOtherAccounts": "Bạn không có tài khoản nào khác"
+    },
+
+    "recoverWithLink": {
+        "title": "Khôi phục tài khoản",
+        "pOne": "Nhấn \"Tiếp tục\" để khôi phục tài khoản của bạn:",
+        "pTwo": "Nếu đây không phải là trình duyệt ưa thích của bạn, hãy sao chép URL và hoàn tất quá trình này trong trình duyệt mà bạn muốn.",
+        "snackbarCopySuccess": "Đã sao chép URL khôi phục",
+        "errorTitle": "Liên kết đã hết hạn",
+        "errorP": "Vui lòng kiểm tra email hoặc điện thoại của bạn để biết tin nhắn gần đây nhất. Các liên kết trong tất cả các tin nhắn trước đó không hợp lệ."
+    },
+
+    "recoveryMgmt": {
+        "title": "Phương thức khôi phục",
+        "noRecoveryMethod": "Bạn không có phương thức nào để khôi phục tài khoản của bạn. Vui lòng thêm một phương thức bên dưới.",
+        "methodTitle": {
+            "phrase": "Cụm từ khôi phục",
+            "phone": "Số điện thoại",
+            "email": "Email"
+        },
+        "resend": {
+            "phone": "Gửi lại SMS",
+            "email": "Gửi lại Email"
+        },
+        "enabled": "Đã bật",
+        "disableTitle": "Bạn có chắc chắn muốn tắt phương thức này không?",
+        "disableTextLink": "Liên kết bạn nhận được sẽ bị vô hiệu hóa vĩnh viễn.",
+        "disableTextPhrase": "Cụm từ khôi phục hiện tại của bạn sẽ bị vô hiệu hóa vĩnh viễn.",
+        "disableInputPlaceholder": "Nhập ID tài khoản của bạn để xác nhận",
+        "disableNo": "Không, giữ lại",
+        "recoveryLinkSent": "Liên kết khôi phục đã được gửi!",
+        "disableNotAllowed": "Các tài khoản bắt buộc phải có ít nhất một phương thức khôi phục đang hoạt động. Trước tiên, vui lòng kích hoạt một phương thức khôi phục thay thế để tiếp tục."
+    },
+
+    "hardwareDevices": {
+        "title": "Thiêt bị ổ cứng",
+        "desc": "Cải thiện bảo mật cho tài khoản của bạn bằng cách sử dụng ví cứng.",
+        "ledger": {
+            "title": "Ví Ledger",
+            "auth": "Ủy quyền",
+            "disclaimer": "Để vô hiệu hóa thiết bị Ledger của bạn, trước tiên bạn phải bật một phương thức khôi phục thay thế.",
+            "connect": "Ledger của bạn hiện không được kết nối. Chúng tôi khuyên bạn nên kết nối lại Ledger để đảm bảo tài khoản của bạn được bảo mật."
+        },
+        "disable": {
+            "title": "Bạn có chắc chắn muốn tắt Ledger không?",
+            "desc": "Đảm bảo rằng bạn đã thiết lập các phương thức khôi phục khác trước khi tắt.",
+            "disable": "Tắt Ledger",
+            "keep": "Không, giữ lại Ledger"
+        }
+    },
+
+    "twoFactor": {
+        "enable": "Bật xác thực hai yếu tố",
+        "subHeader": "Xác thực hai yếu tố bổ sung thêm một lớp bảo mật cho tài khoản của bạn. Với 2FA được kích hoạt, tất cả các giao dịch phải được xác nhận bằng SMS hoặc email.",
+        "select": "Chọn phương thức xác thực",
+        "title": "Xác thực hai yếu tố",
+        "desc": "Bảo vệ tài khoản của bạn bằng cách yêu cầu xác nhận qua SMS hoặc email khi ủy quyền giao dịch.",
+        "email": "Địa chỉ email",
+        "phone": "Số điện thoại",
+        "notEnabled": "2FA không được bật",
+        "notEnoughBalance": "Để bật 2FA, tài khoản của bạn yêu cầu số dư khả dụng tối thiểu là",
+        "active": "Hoạt động",
+        "since": "từ",
+        "promptDesc": "Chúng tôi khuyên bạn nên thiết lập phương thức xác thực hai yếu tố để tăng tính bảo mật cho tài khoản và các tài sản của bạn",
+        "verify": {
+            "title": "Nhập mã xác minh hai yếu tố",
+            "desc": "Mã xác minh gồm 6 chữ số đã được gửi tới:",
+            "inputLabel": "Nhập mã xác minh gồm 6 chữ số của bạn",
+            "placeholder": "Mã xác nhận",
+            "didntReceive": "Không nhận được mã của bạn?",
+            "resend": "Gửi lại",
+            "resending": "Đang gửi...",
+            "resent": "Đã gửi mã!"
+        },
+        "disable": {
+            "title": "Bạn có chắc chắn muốn tắt 2FA không?",
+            "desc": "Hãy nhớ rằng các giao dịch sẽ không cần xác nhận khi 2FA bị vô hiệu hóa.",
+            "disable": "Tắt 2FA",
+            "keep": "Không, giữ lại 2FA"
+        },
+        "alertBanner": {
+            "title": "Khi được bật, <b>${data} NEAR</b> sẽ bị khóa để duy trì chi phí lưu trữ hợp đồng của xác thực hai yếu tố.",
+            "button": "Tìm hiểu thêm"
+        },
+        "checkBox": "Tôi xác nhận bằng cách bật xác thực hai yếu tố, ${amount} NEAR sẽ được dành để chi trả cho việc lưu trữ hợp đồng."
+    },
+
+    "fullAccessKeys": {
+        "pageTitle": "Các khóa truy cập",
+        "authorizedTo": "CHO PHÉP",
+        "viewYourAccountName": "Xem tên tài khoản của bạn",
+        "submitAnyTransaction": "Gửi bất kỳ giao dịch nào thay bạn",
+        "useContract": "Sử dụng <b>${receiverId}</b> ký hợp đồng thay bạn",
+        "noKeys": "Bạn chưa kết nối NEAR Wallet của bạn với bất kỳ ứng dụng nào. Khi bạn làm điều đó, bạn có thể quản lý chúng tại đây.<br /><br />Xem các thông tin đã được xây dựng với NEAR:",
+        "dashboardNoKeys": "Bạn không có khóa truy cập"
+    },
+
+    "authorizedApps": {
+        "pageTitle": "Các ứng dụng được ủy quyền",
+        "dashboardNoApps": "Bạn chưa ủy quyền cho bất kỳ ứng dụng nào",
+        "feeAllowance": "Phí phát sinh",
+        "publicKey": "Khóa công khai",
+        "ledger": "Ledger"
+    },
+
+    "ledgerSignTxModal": {
+        "SEND_MONEY": "Bạn sẽ cần xác nhận chi tiết chuyển tiền trên Ledger của bạn.",
+        "ADD_ACCESS_KEY": "Bạn sẽ cần xác nhận chi tiết đăng nhập trên Ledger của bạn.",
+        "SET_SIGN_TRANSACTION_STATUS": "Bạn sẽ cần xác nhận chi tiết tiền gửi trên Ledger của bạn.",
+        "REMOVE_ACCESS_KEY": "Bạn sẽ cần xác nhận xóa các chi tiết khóa trên Ledger của bạn.",
+        "ADD_ACCESS_KEY_SEED_PHRASE": "Bạn sẽ cần xác nhận chi tiết toàn quyền truy cập trên Ledger của bạn.",
+        "DELETE_RECOVERY_METHOD": "Bạn sẽ cần xác nhận xóa các chi tiết khóa trên Ledger của bạn.",
+        "SETUP_RECOVERY_MESSAGE": "Bạn sẽ cần xác nhận chi tiết toàn quyền truy cập trên Ledger của bạn.",
+        "ADD_LEDGER_ACCESS_KEY": "Bạn sẽ cần xác nhận chi tiết khóa công khai trên Ledger của bạn.",
+        "GET_LEDGER_PUBLIC_KEY": "Bạn sẽ cần xác nhận quyền truy cập khóa công khai trên Ledger của bạn.",
+        "CREATE_NEW_ACCOUNT": "Bạn sẽ cần xác nhận thêm khóa cho tài khoản mới trên Ledger của bạn.",
+        "CREATE_ACCOUNT_FROM_IMPLICIT": "Bạn sẽ cần xác nhận việc tạo tài khoản trên Ledger của bạn. Điều này bao gồm các giao dịch cần thiết để chuyển số dư từ tài khoản tạm thời.",
+        "SIGN_AND_SEND_TRANSACTIONS": "Bạn sẽ cần xác nhận chi tiết tiền gửi trên Ledger của bạn.",
+        "REMOVE_NON_LEDGER_ACCESS_KEYS": "Bạn sẽ cần xác nhận thông tin chi tiết trên Ledger của mình.",
+        "STAKE": "Bạn sẽ cần xác nhận việc staking trên Ledger của bạn",
+        "UNSTAKE": "Bạn sẽ cần xác nhận việc unstaking trên Ledger của bạn",
+        "WITHDRAW": "Bạn sẽ cần xác nhận việc rút tiền trên Ledger của bạn",
+        "DISABLE_LEDGER": "Bạn sẽ cần xác nhận chi tiết khóa công khai trên Ledger của bạn."
+    },
+
+    "button": {
+        "signIn": "Đăng nhập",
+        "signingIn": "Đang đăng nhập",
+        "copyPhrase": "Sao chép cụm từ",
+        "copyImplicitAddress": "Sao chép địa chỉ gửi tiền",
+        "claimAccount": "Claim tài khoản",
+        "continue": "Tiếp tục",
+        "continueSetup": "Tiếp tục để cài đặt",
+        "verify": "Xác minh & Hoàn thành",
+        "verifyCode": "Mã xác minh",
+        "verifyCodeEnable": "Xác minh & Tiếp tục",
+        "startOver": "Bắt đầu lại",
+        "copyUrl": "Sao chép URL",
+        "createAccount": "Tạo tài khoản",
+        "recoverYourAccount": "Khôi phục tài khoản của bạn",
+        "importExistingAccount": "Thêm tài khoản",
+        "enable": "Bật",
+        "disable": "Tắt",
+        "signInLedger": "Đăng nhập bằng Ledger",
+        "connectLedger": "Kết nối với Ledger",
+        "connect": "Kết nối",
+        "retry": "Thử lại",
+        "browseApps": "Duyệt ứng dụng",
+        "createAccountCapital": "Tạo tài khoản",
+        "findMyAccount": "Tìm tài khoản của tôi",
+        "protectAccount": "Bảo vệ tài khoản",
+        "setupPhrase": "Thiết lập cụm từ khôi phục",
+        "confirm": "Xác nhận",
+        "viewAll": "Xem tất cả",
+        "send": "Gửi",
+        "receive": "Nhận",
+        "cancel": "Hủy",
+        "skip": "Bỏ qua",
+        "deny": "Từ chối",
+        "allow": "Cho phép",
+        "addNode": "Thêm node",
+        "saveChanges": "Lưu thay đổi",
+        "removeNode": "Xóa node",
+        "stake": "Stake",
+        "confirmAndSend": "Xác nhận & Gửi",
+        "needToEditGoBack": "Cần chỉnh sửa? Quay lại",
+        "cancelTransfer": "Hủy chuyển tiền",
+        "goToDashboard": "Đi đến bảng điều khiển",
+        "close": "Đóng",
+        "addFunds": "Thêm quỹ tiền",
+        "deauthorize": "Hủy ủy quyền",
+        "recoverAccount": "Khôi phục tài khoản",
+        "goBack": "Quay lại",
+        "createNewAccount": "Tạo tài khoản mới",
+        "importAccount": "Thêm tài khoản",
+        "moreInformation": "Xem thêm thông tin",
+        "dismiss": "Bỏ qua",
+        "cancelOperation": "Hủy hoạt động",
+        "subscribe": "Đăng ký",
+        "Close": "Đóng",
+        "edit": "Sửa",
+        "connecting": "Đang kết nối",
+        "removingKeys": "Gỡ bỏ các khóa",
+        "enabling": "Đang bật",
+        "disabling": "Đang tắt",
+        "verifying": "Đang xác minh",
+        "staking": "Staking",
+        "unstaking": "Unstaking",
+        "withdrawing": "Đang rút tiền",
+        "recovering": "Đang tìm tài khoản",
+        "authorizing": "Đang ủy quyền",
+        "deAuthorizing": "Đang hủy ủy quyền",
+        "finish": "Hoàn thành",
+        "transferring": "Đang chuyển tiền",
+        "viewOnExplorer": "Xem trên Explorer",
+        "buy": "Mua",
+        "learnMore": "Tìm hiểu thêm",
+        "viewFAQ": "Xem FAQ"
+    },
+
+    "link": {
+        "wallet": "Ví",
+        "send": "Gửi",
+        "receive": "Nhận",
+        "staking": "Staking",
+        "help": "Hỗ trợ",
+        "account": "Tài khoản",
+        "authorizedApps": "Các ứng dụng được ủy quyền",
+        "switchAccount": "Tài khoản",
+        "noAccount": "Bạn không có tài khoản nào khác",
+        "fullAccessKeys": "Các khóa toàn quyền truy cập"
+    },
+
+    "copy": {
+        "default": "Đã sao chép!"
+    },
+
+    "input": {
+        "enterWord": {
+            "title": "Từ <b>#${wordId}</b>",
+            "placeholder": ""
+        },
+        "accountId": {
+            "title": "ID tài khoản",
+            "placeholder": "ví dụ johndoe.near",
+            "subLabel": "ID tài khoản phải bao gồm một tài khoản cấp cao nhất, chẳng hạn như <b>.near</b> hoặc chứa chính xác 64 ký tự."
+        }
+    },
+
+    "recoverAccount": {
+        "pageTitle": "Thêm tài khoản",
+        "pageText": "Nếu bạn đã thiết lập một hoặc nhiều phương thức khôi phục tài khoản, hãy làm theo hướng dẫn bên dưới để thêm tài khoản của bạn.",
+        "email": {
+            "title": "Email",
+            "desc": "Kiểm tra email của bạn để tìm thư từ near.org với chủ đề:",
+            "subject": "\"Quan trọng: Email không phục NEAR Wallet\"."
+        },
+        "phone": {
+            "title": "Số điện thoại",
+            "desc": "Kiểm tra lịch sửa tin nhắn của bạn để tìm tin nhắn SMS từ",
+            "number": "+14086179592."
+        },
+        "phrase": {
+            "title": "Cụm từ khôi phục",
+            "desc": "Đảm bảo bạn có 12 từ khôi phục, sau đó nhấp vào bên dưới để bắt đầu quá trình khôi phục."
+        },
+        "ledger": {
+            "title": "Ledger",
+            "desc": "Make sure your ledger is connected securely, and that the NEAR app is open on the device."
+        },
+        "actionType": "Khôi phục",
+        "actionRequired": "Tin nhắn này chứa một liên kết khôi phục. Nhấp vào liên kết để bắt đầu khôi phục!",
+        "cannotResend": "Tin nhắn này được gửi khi bạn bật khôi phục email / số điện thoại. Chúng tôi chỉ gửi tin nhắn này một lần và không thể gửi lại."
+    },
+
+    "createAccount": {
+        "pageTitle": "ID tài khoản dự phòng",
+        "pageText": "Nhập ID tài khoản để sử dụng với tài khoản NEAR của bạn. ID tài khoản của bạn sẽ được sử dụng cho tất cả các hoạt động NEAR, bao gồm cả việc gửi và nhận tài sản.",
+        "step": "Bước ${step}/${total}",
+        "accountIdInput": {
+            "title": "ID tài khoản",
+            "placeholder": "Ví dụ: satoshi"
+        },
+        "alreadyHaveAnAccount": "Bạn đã có một tài khoản?",
+        "recoverItHere": "Thêm tài khoản hiện có",
+        "note": {
+            "canContain": "ID tài khoản của bạn có thể chứa các thông tin sau đây:",
+            "lowercase": "Ký tự viết thường (a-z)",
+            "digits": "Chữ số (0-9)",
+            "separators": "Ký tự (_-) có thể được sử dụng thay cho dấu cách",
+            "cannotContain": "ID tài khoản của bạn KHÔNG THỂ chứa:",
+            "characters": "Các ký tự \"@\" or \".\"",
+            "minCharacters": "Ít hơn 2 ký tự",
+            "maxCharacters": "Hơn 64 ký tự (kể cả .${accountSuffix})"
+        },
+        "invalidLinkDrop": {
+            "title": "Liên kết không hợp lệ",
+            "one": "NEAR Drop này đã được claim.",
+            "two": "NEAR Drop chỉ có thể được sử dụng để tạo một tài khoản duy nhất, sau đó liên kết sẽ hết hạn."
+        },
+        "terms": {
+            "title": "Điều khoản và điều kiện",
+            "desc": "Để tiếp tục tạo tài khoản NEAR, bạn đồng ý với Điều khoản dịch vụ và Chính sách quyền riêng tư của NEAR Wallet. Vui lòng đọc thông tin thật kỹ trước khi xác nhận:",
+            "termsLink": "Điều khoản và điều kiện",
+            "privacyLink": "Chính sách bảo mật",
+            "termsCheck": "Tôi đồng ý với các Điều khoản dịch vụ",
+            "privacyCheck": "Tôi đồng ý với Chính sách bảo mật",
+            "agreeBtn": "Đồng ý & Tiếp tục",
+            "declineBtn": "Từ chối"
+        }
+    },
+
+    "linkdropLanding": {
+        "title": "Bạn đã nhận được một NEAR Drop!",
+        "desc": "Bạn có thể claim NEAR của mình với một tài khoản hiện có (phải đăng nhập) hoặc tạo một tài khoản mới để nhận nó như một khoản gửi tiền ban đầu.",
+        "ctaAccount": "Claim bằng tài khoản hiện có",
+        "ctaLogin": "Đăng nhập và Claim",
+        "ctaNew": "Claim với Tài khoản mới",
+        "or": "or",
+        "claiming": "Đang Claim",
+        "modal": {
+            "title": "NEAR Drop của bạn đã được claim",
+            "desc": "NEAR Drop của bạn đã được tự động gửi vào tài khoản của bạn."
+        }
+    },
+
+    "topLevelAccounts": {
+        "header": "Tài khoản cấp cao nhất",
+        "body": "Tên tài khoản tương tự như tên miền. Chỉ tài khoản ${data} mới có thể tạo các tài khoản như tên của bạn.${data}, và chỉ tên của bạn.${data} có thể tạo app.yourname.${data}. Tất cả các tài khoản được tạo trong ví này đều sử dụng .${data} Tài khoản cấp cao nhất (TLA). Để tìm hiểu thêm về tên tài khoản và tạo TLA của riêng bạn, truy cập <a rel='noopener noreferrer' href='https://docs.nearprotocol.com/docs/concepts/account'>trang tài liệu</a>."
+    },
+
+    "recoverSeedPhrase": {
+        "pageTitle": "Khôi phục bằng cách sử dụng Cụm từ khôi phục",
+        "pageText": "Nhập cụm từ khôi phục dự phòng được liên kết với tài khoản.",
+        "seedPhraseInput": {
+            "title": "Cụm từ khôi phục (12 từ)",
+            "placeholder": "correct horse battery staple..."
+        }
+    },
+
+    "setupRecovery": {
+        "header": "Chọn phương thức bảo mật",
+        "subHeader": "Chọn một phương thức để bảo mật và khôi phục tài khoản của bạn. Sẽ được sử dụng để xác minh các hoạt động quan trọng, khôi phục tài khoản của bạn và truy cập tài khoản của bạn từ các thiết bị khác.",
+        "basicSecurity": "Kém an toàn",
+        "basicSecurityDesc": "Nhập địa chỉ email hoặc số điện thoại của bạn và nhận một liên kết khôi phục",
+        "emailTitle": "Khôi phục bằng Email",
+        "emailPlaceholder": "example@email.com",
+        "phoneTitle": "Khôi phục bằng số điện thoại",
+        "phoneDesc": "Nhập số điện thoại của bạn vào bên dưới và nhận liên kết khôi phục",
+        "phonePlaceholder": "+1 415 797 8554",
+        "notSupportedPhone": "Rất tiếc, chúng tôi không cung cấp SMS cho khu vực của bạn. Vui lòng chọn email để thay thế.",
+        "advancedSecurity": "An toàn nhất (được đề xuất)",
+        "advancedSecurityDesc": "Viết ra cụm từ khôi phục (12 từ), hoặc bảo mật tài khoản của bạn bằng thiết bị Ledger.",
+        "ledgerTitle": "Ledger Nano S hoặc X",
+        "phraseTitle": "Cụm từ khôi phục"
+    },
+    "setRecoveryConfirm": {
+        "title": "Nhập mã xác nhận",
+        "pageText": "Chúng tôi đã gửi mã xác minh gồm 6 chữ số tới ",
+        "inputHeader": "Nhập mã xác nhận",
+        "inputPlaceholder": "Mã xác nhận",
+        "didNotRecive": "Bạn chưa nhận được mã?",
+        "resendCode": "Gửi lại mã của bạn",
+        "or": "hoặc",
+        "sendToDifferent": "Gửi cho một người khác",
+        "email": "Địa chỉ email",
+        "phone": "Số điện thoại",
+        "reenter": {
+            "one": {
+                "email": "Nếu bạn chưa nhận được email này hoặc địa chỉ email trên không chính xác, ",
+                "phoneNumber": "Nếu bạn chưa nhận được SMS này hoặc số điện thoại trên không chính xác, "
+            },
+            "link": "nhấn vào đây",
+            "two": {
+                "email": " Nhập lại địa chỉ email của bạn và gửi lại.",
+                "phoneNumber": " Nhập lại số điện thoại của bạn và gửi lại."
+            }
+        }
+    },
+
+    "disclaimer": {
+        "title": "KHUYẾN NGHỊ",
+        "text": "Đây là một nhà phát triển &apos; xem trước Ví. Nên được sử dụng cho NEAR Protocol DevNet. Tìm hiểu thêm tại "
+    },
+
+    "footer": {
+        "copyrights": "Mọi quyền được bảo lưu NEAR Inc.",
+        "termsOfService": "Điều khoản dịch vụ",
+        "privacyPolicy": "Chính sách bảo mật",
+        "desc": "NEAR là một nền tảng lưu trữ và điện toán có thể mở rộng, thay đổi cách thức hoạt động của web trở nên tốt hơn.",
+        "learnMore": "Tìm hiểu thêm",
+        "needHelp": "Các câu hỏi?",
+        "contactSupport": "Tham gia cộng đồng"
+    },
+
+    "dashboard": {
+        "activity": "Hoạt động gần đây"
+    },
+
+    "loading": "Đang tải...",
+
+    "balance": {
+        "balance": "Tổng số dư",
+        "balanceLoading": "Đang tải số dư"
+    },
+
+    "wallet": {
+        "balanceTitle": "Số dư NEAR",
+        "tokens": "Token",
+        "balance": "Số dư",
+        "dateAndTime": "Ngày & Giờ",
+        "status": "Trạng thái"
+    },
+
+    "buyNear": {
+        "title": "Mua NEAR",
+        "moonPay": "MoonPay",
+        "descOne": "Mua NEAR qua MoonPay bằng phương thức thanh toán ưa thích của bạn.",
+        "buyWith": "Mua với",
+        "supportedExchanges": "Các sàn giao dịch được hỗ trợ",
+        "descTwo": "NEAR có sẵn để mua thông qua các sàn giao dịch sau.",
+        "seeMore": "Xem thêm trên",
+        "coinMarketCap": "CoinMarketCap"
+    },
+    
+    "exploreApps": {
+        "title": "Có gì trên NEAR?",
+        "desc": "Kiếm tiền, Mint và chơi game! Khám phá hệ sinh thái của các ứng dụng trên NEAR.",
+        "button": "Khám phá các ứng dụng"
+    },
+
+    "login": {
+        "form": {
+            "isRequestingTo": "đang yêu cầu",
+            "accessYourAccount": "truy cập tài khoản của bạn.",
+            "isRequestingFullAccess": "đang yêu cầu <b>toàn quyền truy cập</b>",
+            "toYourAccount": "đến tài khoản của bạn.",
+            "thisDoesNotAllow": "Điều này không cho phép ứng dụng chuyển bất kỳ token nào.",
+            "thisProvidesAccess": "Điều này cung cấp quyền truy cập vào <b>tất cả các token của bạn</b>.<br />Vui lòng thận trọng!",
+            "accountIdOnly": "đang yêu cầu ID tài khoản của bạn."
+        },
+        "confirm": {
+            "pageTitle": "Bạn có chắc không?",
+            "pageText": "Bạn đang cấp <b>toàn quyền truy cập</b> đến ${appTitle}!",
+            "pageTextSecondLine": "<b>Để xác nhận</b>, vui lòng nhập ID tài khoản của bạn vào bên dưới.",
+            "username": "ID tài khoản"
+        },
+        "details": {
+            "detailedDescription": "Mô tả chi tiết về giao dịch",
+            "thisAllows": "Điều này cho phép ${appTitle} đến:",
+            "createNewAccounts": "Tạo tài khoản mới",
+            "transferTokens": "Chuyển token từ tài khoản của bạn sang các tài khoản khác",
+            "deploySmartContracts": "Triển khai hợp đồng thông minh",
+            "callFunctions": "Gọi các hàm trên bất kỳ hợp đồng thông minh nào",
+            "stakeAndUnstake": "Stake và unstake NEAR token",
+            "createAndDeleteAccessKeys": "Tạo và xóa khóa truy cập",
+            "forContract": "Cho hợp đồng",
+            "function": "Hàm",
+            "noDescription": "Không có mô tả nào được chỉ định cho phương thức này"
+        },
+        "cliLoginSuccess": {
+            "pageTitle": "Bạn đã ủy quyền thành công NEAR Shell!",
+            "pageText": "Vui lòng đóng cửa sổ này và làm theo hướng dẫn đến bước cuối cùng."
+        }
+    },
+
+    "addNode": {
+        "pageTitle": "Thêm một node",
+        "pageText": "Thiết lập node của bạn thông qua CLI, sau đó thêm nó vào đây.",
+        "ipAddressInput": {
+            "title": "Nhập địa chỉ IP node của bạn",
+            "placeholder": "ví dụ: 0.0.0.0"
+        },
+        "nicknameInput": {
+            "title": "Đặt một nickname (tùy chọn)",
+            "placeholder": "ví dụ: AWS Instance"
+        },
+        "desc": "Node của bạn phải được thiết lập thông qua CLI trước khi thêm nó vào đây."
+    },
+    "nodeDetails": {
+        "pageTitle": "Chi tiết node",
+        "pageText": "Cập nhật thông tin chi tiết về node của bạn."
+    },
+    "nodeStaking": {
+        "pageTitle": "Node & Staking",
+        "pageText": "nodeandstaking.near",
+        "steps": {
+            "title": "Để chạy một node hoặc stake, vui lòng làm theo các bước sau:",
+            "one": {
+                "title": "1. Thiết lập và chạy một node thông qua CLI",
+                "desc": "Hướng dẫn có sẵn trong phần tài liệu"
+            },
+            "two": {
+                "title": "2. Chờ node được đồng bộ",
+                "desc": "Một node không được đồng bộ không thể tạo hoặc xác thực"
+            },
+            "three": {
+                "title": "3. Bắt đầu staking",
+                "desc": "Stake từ đây hoặc CLI. Xem tài liệu để được hỗ trợ."
+            }
+        },
+        "nodes": {
+            "title": "Node",
+            "noNode": {
+                "title": "Đã thiết lập node nút của bạn? Thêm nó tại đây.",
+                "text": "Điều này kết nối node của bạn với tài khoản ví của bạn."
+            }
+        },
+        "staking": {
+            "title": "Staking",
+            "youAreStaking": "Bạn đang staking"
+        }
+    },
+    "staking": {
+        "pageTitle": "Staking",
+        "pageText": "Thiết lập node của bạn thông qua CLI, sau đó thêm nó tại đây.",
+        "amountStakingInput": {
+            "title": "Nhập số tiền stake",
+            "placeholder": "vĩ dụ: 15"
+        },
+        "staking": {
+            "title": "Staking",
+            "desc": "Stake NEAR của bạn với một Validator",
+            "button": "Stake token của tôi",
+            "currentValidators": "Validator hiện tại của bạn",
+            "noValidators": "Bạn chưa stake với validator nào.",
+            "selectAccount": "Staking từ",
+            "available": "Khả dụng",
+            "totalStaked": "Đã stake"
+        },
+        "balanceBox": {
+            "staked": {
+                "title": "Tổng số tiền đã stake",
+                "info": "NEAR token hiện được stake với validator. Các token này đang tích lũy phần thưởng. Để truy cập các token này, trước tiên bạn phải unstake  và sau đó rút token.",
+                "button": "Unstake"
+            },
+            "unclaimed": {
+                "title": "Phần thưởng đã kiếm được",
+                "info": "Phần thưởng đã kiếm được, nhưng không được rút. Phần thưởng kiếm được sẽ tự động được stake, có nghĩa là tổng số tiền đã stake của bạn tự động tăng lên theo thời gian, và phần thưởng của bạn là <a target='_blank' href='https://www.investopedia.com/terms/c/compoundinterest.asp'>lãi kép</a>.",
+                "unavailable": {
+                    "title": "Không thể hiển thị phần thưởng đã kiếm được.",
+                    "cta": "Tìm hiểu thêm",
+                    "modalTitle": "Không thể hiển thị phần thưởng staking kiếm được",
+                    "modalDescOne": "Chúng tôi hiện không thể tính phần thưởng khi Xác thực hai yếu tố được bật. Chúng tôi hy vọng sẽ kích hoạt chức năng này trong tương lai gần.",
+                    "modalDescTwo": "Trong thời gian chờ đợi, bạn sẽ có thể thấy phần thưởng của mình được tích lũy trong ”Tổng số tiền đã stake”. Số dư này sẽ tăng lên khi token của bạn được stake, vì phần thưởng của bạn sẽ tự động được stake lại với validator hiện tại của bạn."
+                }
+            },
+            "available": {
+                "title": "Khả dụng để rút tiền",
+                "info": "Các token này đã được unstake và sẵn sàng để rút.",
+                "button": "Rút tiền"
+            },
+            "pending": {
+                "title": "Đang chờ phát hành",
+                "info": "Các token này đã được unstake, nhưng vẫn chưa sẵn sàng để rút. Việc rút sẽ khả dụng từ 52 đến 65 giờ sau khi unstake."
+            }
+        },
+        "validatorBox": {
+            "fee": "Phí",
+            "staking": "Staking",
+            "near": "NEAR",
+            "cta": "Chọn",
+            "with": "với"
+        },
+        "stake": {
+            "title": "Số lượng stake",
+            "desc": "Nhập số lượng bạn muốn stake với validator đã chọn của bạn.",
+            "amount": "Số lượng",
+            "stakeWith": "Stake với",
+            "button": "Gửi stake",
+            "confirm": "Bạn đang staking",
+            "input": {
+                "availableBalance": "Khả dụng để stake",
+                "near": "NEAR"
+            },
+            "ledgerDisclaimer": "Lưu ý: Vì đây là lần đầu tiên bạn staking với validator này, bạn sẽ cần xác nhận hai giao dịch.",
+            "useMax": "Sử dụng tối đa",
+            "with": "với",
+            "from": "từ",
+            "accounts": "Nếu bạn đã khóa NEAR, bạn có thể chọn stake bằng NEAR đã khóa của mình (lockup.near), hoặc NEAR đã mở khóa của bạn (tên tài khoản của bạn). Bạn sẽ chỉ thấy các vị trí staking cho tài khoản đã chọn. Nếu bạn chưa khóa NEAR thì có thể bỏ qua phần này",
+            "banner": {
+                "stakeMax": "Một phần nhỏ (${data} NEAR) trong số dư khả dụng của bạn đã được bảo lưu để trả phí giao dịch.",
+                "insufficientBalance": "Bạn đang stake toàn bộ số dư hiện có của mình. Ít nhất <b>${data} NEAR</b> cần được có tại ví để làm phí giao dịch."
+            }
+        },
+        "unstake": {
+            "title": "Unstake Token",
+            "desc": "Nhập số lượng token bạn muốn unstake khỏi validator.",
+            "stakeWith": "Unstake từ",
+            "button": "Unstake Token",
+            "confirm": "Bạn đang unstake",
+            "input": {
+                "availableBalance": "Khả dụng để unstake",
+                "near": "NEAR"
+            },
+            "beforeUnstakeDisclaimer": "Unstake token sẽ có sẵn trong khoảng thời gian từ 52 đến 65 giờ (4 epochs)."
+        },
+        "stakeSuccess": {
+            "title": "Thành công!",
+            "desc": "Stake của bạn đã được ủy quyền thành công cho validator mà bạn đã chọn:",
+            "descTwo": "Giờ đây, bạn có thể xem ủy quyền và phần thưởng staking của mình từ trang tổng quan staking.",
+            "button": "Quay lại trang tổng quan"
+        },
+        "unstakeSuccess": {
+            "title": "Thành công!",
+            "desc": "<b>${amount} NEAR</b> đã được unstake thành công khỏi validator này:",
+            "descTwo": "Các token của bạn đang chờ phát hành và sẽ có sẵn trong ~ 52 đến 65 giờ (4 epochs).",
+            "button": "Quay lại trang tổng quan"
+        },
+        "validators": {
+            "title": "Chọn một Validator",
+            "desc": {
+                "account": "Nhập một validator đã biết hoặc chọn một validator từ danh sách để stake NEAR của bạn.",
+                "lockup": "Nhập một validator đã biết hoặc chọn một validator từ danh sách để stake NEAR của bạn. Bạn có thể stake với một validator duy nhất tại bất kỳ thời điểm nào.",
+                "unstake": "Chọn pool validator mà bạn muốn unstake.",
+                "withdraw": "Chọn pool validator mà bạn muốn rút token."
+            },
+            "inputLabel": "ID tài khoản validator",
+            "inputPlaceholder": "validator-name.near",
+            "button": "Xem validator",
+            "available": "Các validator có sẵn",
+            "search": {
+                "success": "Đã tìm thấy validator!",
+                "error": "Không có validator nào phù hợp."
+            }
+        },
+        "validator": {
+            "title": "Validator: <br/>${validator}",
+            "button": "Stake với validator",
+            "fee": "Phí validator",
+            "desc": "Đây là khoản phí trả cho validator khi bạn stake. Phí này chỉ tính trên phần thưởng của bạn.",
+            "withdrawalDisclaimer": "Các token của bạn đang chờ phát hành và sẽ có sẵn trong ~ 52 đến 65 giờ (4 epochs)",
+            "unstake": "Bạn đang unstake",
+            "withdraw": "Bạn đang rút tiền"
+        },
+        "balanceBanner": {
+            "title": "Số dư khả dụng đang khóa",
+            "currency": "NEAR"
+        },
+        "alertBanner": {
+            "title": "Trước tiên, bạn phải unstake và rút các token của bạn từ validator hiện tại để có thể stake với một validator mới.",
+            "button": "Xem validator hiện tại"
+        },
+        "noValidators": {
+            "title": "Hiện tại bạn không staking với bất kỳ validator nào."
+        }
+    },
+    "balanceBreakdown": {
+        "available": "Số dư khả dụng",
+        "reserved": "Dành cho các khoản phí"
+    },
+    "profile": {
+        "lockupBanner": {
+            "title": "Bạn có <b>${amount}</b> NEAR khả dụng để rút!",
+            "cta": "Chuyển đến Ví"
+        },
+        "pageTitle": {
+            "loading": "Đang tải...",
+            "notFound": "Tài khoản ${accountId} không tìm thấy",
+            "default": "Chi tiết tài khoản"
+        },
+        "account": {
+            "walletId": "ID ví",
+            "walletBalance": "Số dư trên ví",
+            "reservedForStorage": "Dành để lưu trữ",
+            "inStakingPools": "Trong pool staking",
+            "staked": "Đã stake",
+            "unstaked": "Đã unstake",
+            "available": "Khả dụng",
+            "pendingRelease": "Đang chờ phát hành",
+            "availableToWithdraw": "Khả dụng để rút",
+            "availableToTransfer": "Khả dụng để chuyển"
+        },
+        "authorizedApps": {
+            "title": "Các ứng dụng được ủy quyền"
+        },
+        "lockup": {
+            "lockupBalance": "Số dư đang khóa",
+            "lockupId": "ID đang khóa",
+            "locked": "Đã khóa",
+            "unlocked": "Đã mở khóa"
+        },
+        "security": {
+            "title": "Bảo mật & Khôi phục",
+            "mostSecure": "An toàn nhất (được đề xuất)",
+            "mostSecureDesc": "Ledger là lựa chọn an toàn nhất. Các cụm từ khôi phục có thể được bảo mật nếu được sử dụng đúng cách (được viết ra và lưu trữ một cách an toàn).",
+            "lessSecure": "Kém an toàn",
+            "lessSecureDesc": "Các tùy chọn này được đề xuất cho các tài khoản có số lượng NEAR nhỏ và các tài sản khác. Chúng thuận tiện, nhưng có thêm rủi ro đối với các tùy chọn an toàn hơn. Nếu tài khoản email hoặc tin nhắn SMS của bạn bị xâm phạm, tài sản của bạn có thể sẽ gặp rủi ro."
+        },
+        "twoFactor": "Xác thực hai yếu tố",
+        "twoFactorDesc": "Xác thực bằng SMS hoặc email khi ủy quyền giao dịch hoặc đăng nhập vào tài khoản của bạn.",
+        "details": {
+            "profile": "HỒ SƠ",
+            "visibleTo": "HIỂN THỊ",
+            "username": "ID tài khoản",
+            "public": "Công khai",
+            "totalBalance": "Tổng số dư",
+            "minBalance": "Số dư tối thiểu",
+            "staked": "Đã stake",
+            "locked": "Đã khóa",
+            "unvested": "Chưa đầu tư",
+            "unlocked": "Đã mở khóa",
+            "availableBalance": "Số dư khả dụng",
+            "lockPopup": {
+                "title": "Tại sao bị khóa?",
+                "text": "ID tài khoản của bạn là duy nhất để nhận dạng trong hệ thống và không thể thay đổi được vì quyền của chủ sở hữu tài sản và nội dung gắn liền với nó. Tuy nhiên, chúng tôi chào mừng bạn đến với ${link} tên mong muốn và chuyển tài sản khi cần thiết.",
+                "createAnotherAccount": "tạo một tài khoản khác"
+            },
+            "qrDesc": "Sử dụng máy ảnh trên điện thoại của bạn để gửi đến địa chỉ này"
+        }
+    },
+
+    "sendMoney": {
+        "title": {
+            "default": "Gửi",
+            "success": "Thành công!"
+        },
+        "subtitle": {
+            "default": "Nhập số lượng NEAR và ID tài khoản để gửi.",
+            "success": "Bạn đã gửi thành công",
+            "to": "to:"
+        },
+        "amount": {
+            "available": "Khả dụng để gửi"
+        },
+        "confirmModal": {
+            "title": "Xác nhận giao dịch"
+        },
+        "account": {
+            "title": "Gửi đến"
+        },
+        "button": {
+            "send": "Gửi",
+            "confirm": "Xác nhận & Gửi",
+            "dashboard": "Đi đến bảng điều khiển"
+        },
+        "amountStatusId": {
+            "noMoreThan": "KHÔNG QUÁ 5 SỐ THẬP PHÂN",
+            "notEnoughTokens": "Bạn phải để lại ít nhất ${amount} NEAR trong tài khoản của bạn",
+            "howMuch": "Số lượng bạn muốn gửi?",
+            "available": "Số dư khả dụng",
+            "sending": "Đang gửi:"
+        },
+        "youAreSending": "Bạn đang gửi",
+        "to": "đến",
+        "onceConfirmed": "Sau khi xác nhận, điều này không thể được hoàn tác.",
+        "wasSentTo": "đã gửi đến:",
+        "banner": {
+            "useMax": "Một phần nhỏ (${data} NEAR) trong số dư khả dụng của bạn đã được bảo lưu để trả phí giao dịch.",
+            "insufficient": "Bạn đang gửi toàn bộ số dư khả dụng của mình. Ít nhất <b>${data} NEAR</b> cần được có tại ví để làm phí giao dịch."
+        }
+    },
+
+    "sign": {
+        "unexpectedStatus": "Trạng thái không mong đợi",
+        "transactionCancelled": "Giao dịch đã được hủy",
+        "nothingHasBeenTransferred": "Không có lệnh chuyển nào.",
+        "details": {
+            "detailedDescription": "Mô tả chi tiết về giao dịch",
+            "transactionFees": "Phí giao dịch",
+            "gasLimit": "Giới hạn gas",
+            "gasPriceUnavailable": "Giá gas ước tính không khả dụng",
+            "forContract": "Cho hợp đồng"
+        },
+        "ActionWarrning": {
+            "functionCall": "Không có mô tả nào cho chức năng này.",
+            "binaryData": "Đối số chứa dữ liệu nhị phân",
+            "deployContract": "Bạn sắp triển khai một hợp đồng cho tài khoản của mình! Hợp đồng này có thể truy cập số dư NEAR của bạn và thay bạn tương tác với các hợp đồng khác.",
+            "stake": "Bạn sắp stake NEAR. Các token này sẽ bị khóa và có nguy cơ bị mất nếu validator của bạn không phản hồi.",
+            "deleteAccount": "Bạn sắp xóa tài khoản của mình! Số dư NEAR của bạn sẽ bị hủy và tất cả dữ liệu tài khoản của bạn sẽ bị xóa."
+        },
+        "insufficientFunds": "Không đủ tiền",
+        "availableToTransfer": "Khả dụng để chuyển",
+        "hereAreSomeDetails": "Dưới đây là một số chi tiết sẽ hỗ trợ bạn.",
+        "contract": "Contract:",
+        "unknownApp": "Ứng dụng không xác định",
+        "isRequesting": {
+            "transferOf": "đang yêu cầu chuyển",
+            "authorization": "đang yêu cầu ủy quyền"
+        },
+        "availableBalance": "Số dư khả dụng",
+        "wasTransferredSuccessfully": "đã được chuyển thành công",
+        "authorizationRequestSuccessful": "Yêu cầu ủy quyền thành công",
+        "transferring": "Đang chuyển",
+        "authorizing": "Đang ủy quyền"
+    },
+
+    "availableBalanceInfo": "”Số dư khả dụng” là số dư NEAR có thể sử dụng của bạn.",
+    "reservedForFeesInfo": "Một số lượng tối thiểu NEAR cần được trữ trên ví của bạn để trả phí giao dịch.",
+    "availableBalanceProfile": "Đây là số dư NEAR có thể sử dụng của bạn hoặc chuyển ngay lập tức. Số tiền này sẽ thấp hơn tổng số dư của bạn.",
+    "minimumBalance": "Đây là số dư NEAR tối thiểu mà tài khoản của bạn cần có để duy trì hoạt động. Số dư này là không gian lưu trữ mà tài khoản của bạn đang sử dụng trên NEAR Blockchain (với một bộ đệm nhỏ), và sẽ tăng hoặc giảm phụ thuộc vào việc bạn sử dụng nhiều hay ít.",
+    "totalBalance": "Tổng số dư của bạn sẽ hiển thị là NEAR dưới sự quản lý của bạn. Trong nhiều trường hợp, bạn sẽ không có quyền truy cập ngay lập tức vào toàn bộ số dư này (ví dụ: bị khóa, ủy quyền hoặc đã stake). Kiểm tra số dư khả dụng của bạn để biết NEAR mà bạn có thể sử dụng, chuyển tiền, ủy quyền và stake.",
+    "stakedBalance": "NEAR này đang tích cực được sử dụng để hỗ trợ validator và bảo mật mạng lưới. Khi bạn quyết định unstake NEAR, sẽ mất một khoảng thời gian để hiển thị trong số dư khả dụng của bạn, khoảng 4 epochs (~ 52 đến 65 giờ) để unstake.",
+    "unvestedBalance": "NEAR chưa đầu tư được dành cho bạn, nhưng chưa thuộc quyền sở hữu của bạn. Bạn vẫn có thể ủy quyền hoặc stake NEAR và phần thưởng sẽ hoàn toàn thuộc về bạn. Khi NEAR của bạn được cấp, nó sẽ xuất hiện trong số dư đã khóa hoặc đã mở khóa của bạn.",
+    "lockedBalance": "NEAR đang bị khóa trong hợp đồng khóa và không thể rút. Bạn vẫn có thể ủy quyền hoặc stake NEAR này. Khi NEAR được mở khóa, bạn có thể xem nó trong số dư đã mở khóa của bạn và chọn rút nó (chuyển sang số dư khả dụng của bạn).",
+    "unlockedBalance": "NEAR này vẫn còn trong hợp đồng khóa, nhưng đã được mở khóa.",
+    "unlockedAvailTransfer": "NEAR này đã được mở khóa và có thể được chuyển ra khỏi hợp đồng khóa của bạn.",
+    "stakingPoolUnstaked": "NEAR này hiện đang ở trong một pool staking nhưng chưa được unstake và sẽ ở trạng thái đang chờ xử lý khi bạn unstake.",
+
+    "transaction": {
+        "status": {
+            "NotStarted": "Chưa bắt đầu",
+            "Started": "Đã bắt đầu",
+            "Failure": "Không thành công",
+            "SuccessValue": "Thành công",
+            "checkingStatus": "Đang kiểm tra trạng thái...",
+            "notAvailable": "Trạng thái không khả dụng"
+        }
+    },
+
+    "success": "Thành công",
+    "error": "Lỗi",
+    "warning": "Cảnh báo",
+    "total": "tổng",
+    "amount": "số tiền",
+    "or": "HOẶC",
+    "sending": "Đang gửi",
+    "connecting": "Đang kết nối",
+    "back": "Trở lại",
+    "of": "của",
+    "ofTotal": "của Tổng",
+    "arguments": "Arguments",
+
+    "setupLedger": {
+        "header": "Kết nối thiết bị Ledger của bạn",
+        "one": "Kết nối Ledger Nano S hoặc X với máy tính hoặc thiết bị di động của bạn qua USB và <b>mở ứng dụng NEAR</b>. <br><br>Sau đó, <b>nhấn cả hai nút</b> tại màn hình 'Xem Ledger đang chờ xử lý'.",
+        "two": "Nếu bạn chưa cài đặt ứng dụng NEAR Ledger, hãy làm theo",
+        "twoLink": "những hướng dẫn này"
+    },
+
+    "setupLedgerSteps": {
+        "header": "Cài đặt NEAR trên thiết bị Ledger của bạn",
+        "one": "Mở <a href='https://www.ledger.com/ledger-live' target='_blank'>trực tiếp Ledger,</a> cài đặt bất kỳ bản cập nhật firmware nào có sẵn.",
+        "two": "Nhấn vào tab <span class='color-black'>Quản lý</span>, sau đó tìm kiếm <span class='color-black'>NEAR</span>.",
+        "three": "Làm theo hướng dẫn để cài đặt <span class='color-black'>ứng dụng NEAR</span> trên thiết bị của bạn."
+    },
+
+    "setupLedgerSuccess": {
+        "header": "Ledger đã bảo mật tài khoản của bạn!",
+        "one": "Chúng tôi khuyên bạn nên xóa tất cả các khóa hiện có (phương pháp và thiết bị khôi phục).",
+        "two": "Việc duy trì nhiều khóa và các phương pháp khôi phục (bao gồm cả các cụm từ khôi phục) sẽ làm tăng tính dễ bị xâm nhập cho tài khoản của bạn.",
+        "primaryCta": "Xóa các khóa và phương thức khôi phục hiện có",
+        "secondaryCta": "Giữ các khóa hiện tại",
+        "nextStep": {
+            "header": {
+                "remove": "Xác nhận xóa khóa",
+                "keep": "Giữ các khóa hiện tại?"
+            },
+            "one": {
+                "remove": "Trước khi xóa các khóa và phương thức khôi phục hiện tại của bạn, hãy đảm bảo rằng bạn đã ghi lại và lưu trữ an toàn cụm từ khôi phục trên Ledger của mình.",
+                "keep": "<span class='color-red'>Việc duy trì nhiều phương pháp và thiết bị khôi phục sẽ làm tăng khả năng dễ bị xâm nhập cho tài khoản của bạn.</span>"
+            },
+            "two": {
+                "remove": "Nếu bạn mất quyền truy cập vào cụm từ khôi phục của mình, NEAR Inc. sẽ không thể hỗ trợ bạn khôi phục tài khoản và tài sản của tài khoản."
+            }
+        }
+    },
+
+    "signInLedger": {
+        "header": "Đăng nhập bằng thiết bị Ledger của bạn",
+        "one": "Đảm bảo Ledger của bạn được kết nối an toàn và ứng dụng NEAR đang mở trên thiết bị.",
+        "modal": {
+            "confirmPublicKey": "Xác nhận khóa công khai",
+            "ledgerMustAdd": "Ledger phải thêm khóa truy cập cho từng tài khoản được thiết bị của bạn bảo vệ:",
+            "accountsApproved": "Các tài khoản được chấp thuận",
+            "status": {
+                "success": "Được chấp thuận",
+                "error": "Lỗi",
+                "rejected": "Từ chối",
+                "pending": "Đang chờ xử lý",
+                "waiting": "Tiếp theo",
+                "confirm": "Xác nhận"
+            }
+        },
+        "advanced": {
+            "title": "Cài đặt nâng cao",
+            "subTitle": "Đường dẫn HD",
+            "desc": "Chỉ định một đường dẫn HD để nhập các tài khoản được liên kết của nó.",
+            "setPath": "Thiết lập đường dẫn HD"
+        }
+    },
+
+    "confirmLedgerModal": {
+        "header": {
+            "confirm": "Vui lòng xác nhận hoạt động trên thiết bị của bạn...",
+            "processing": "Đang xử lý"
+        },
+        "one": "Bạn sẽ cần xác nhận chi tiết đăng nhập của mình trên Ledger."
+    },
+    "enterAccountNameLedgerModal": {
+        "header": "Nhập tên tài khoản",
+        "one": "Nhập tên của tài khoản bạn đang đăng nhập"
+    },
+
+    "errors": {
+        "type": {
+            "RetriesExceeded": "Đã vượt quá số lần thử tối đa cho giao dịch này.",
+            "LackBalanceForState": "Số dư khả dụng của bạn quá thấp để thực hiện bất kỳ hành động nào trên tài khoản của bạn. Vui lòng gửi NEAR vào tài khoản của bạn và sau đó thử lại."
+        },
+        "ledger": {
+            "U2FNotSupported": "Hỗ trợ trình duyệt U2F là cần thiết cho Ledger. Vui lòng sử dụng Chrome, Opera hoặc Firefox với U2F Extension. Đồng thời đảm bảo rằng bạn đang sử dụng kết nối HTTPS.",
+            "U2F_4": "Không thể đăng nhập bằng thiết bị Ledger: U2F DEVICE_INELIGIBLE. Hãy đảm bảo rằng thiết bị Ledger của bạn đã được kết nối và mở khóa."
+        }
+    },
+
+    "networkBanner": {
+        "title": "Ví chỉ thử nghiệm",
+        "header": "NEAR thử nghiệm Ví",
+        "desc": "Ví này (và mạng lưới) chỉ dành cho mục đích thử nghiệm. Token và các tài sản khác không có giá trị. Các tài khoản được tạo không thể chuyển sang Mainnet."
+    },
+    "stagingBanner": {
+        "title": "Cảnh báo: Đây là phiên bản phát hành trước của Ví. Sử dụng có các rủi ro nhất định!",
+        "desc": "Cảnh báo: Đây là phiên bản phát hành trước của Ví. Sử dụng có các rủi ro nhất định. Có thể có lỗi và những lỗi này có thể dẫn đến mất tiền. Bằng cách tiếp tục sử dụng phiên bản này, bạn đồng ý rằng bạn hiểu và chấp nhận những rủi ro này, đồng thời hiểu rằng đội ngũ NEAR Wallet sẽ không thể hỗ trợ bạn."
+    },
+    "landing": {
+        "title":"NEAR ở đây.",
+        "desc": "Lưu trữ và stake NEAR một cách an toàn và tài sản tương thích của bạn với <span>NEAR Wallet</span>.",
+        "or": "hoặc",
+        "banner": "NEAR Wallet đang ở giai đoạn Private Beta"
+    },
+    "emailSubscribe": {
+        "title": "Đăng ký bên dưới để có thể truy cập sớm",
+        "placeholder": "Email của bạn..."
+    }
+}
