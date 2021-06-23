@@ -37,10 +37,13 @@ export const actionsPendingByPrefix = (typePrefix) => {
 }
 
 export const handleClearAlert = () => {
-    const { dispatch, getState } = store
-    const { account, router } = getState()
+    const accountId = localStorage.getItem('_4:wallet:active_account_id_v2') || ''
 
-    if (!router.location.state?.globalAlertPreventClear && !account.globalAlertPreventClear) {
+    const { dispatch, getState } = store
+    const { account } = accountId ? getState()[accountId] : {}
+    const { router } = getState()
+
+    if (!router.location.state?.globalAlertPreventClear && !account?.globalAlertPreventClear) {
         dispatch(clearGlobalAlert())
     }
     dispatch(clearLocalAlert())
