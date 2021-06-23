@@ -141,18 +141,6 @@ class ActivateAccount extends Component {
         this.checkMoonPay()
     }
 
-    componentDidUpdate = (prevProps) => {
-        const { windowIsVisible } = this.props;
-
-        if (prevProps.windowIsVisible !== windowIsVisible) {
-            if (windowIsVisible) {
-                this.startPollingAccountBalance()
-            } else {
-                this.stopPollingAccountBalance()
-            }
-        }
-    }
-
     componentWillUnmount = () => {
         this.stopPollingAccountBalance()
     }
