@@ -1,20 +1,20 @@
 import React, { useState } from 'react';
-import { connect, useSelector } from 'react-redux';
+import { connect } from 'react-redux';
 import Container from '../../common/styled/Container.css';
 import HardwareDeviceIcon from '../../svg/HardwareDeviceIcon';
 import NextStepModal from './NextStepModal';
 import FormButton from '../../common/FormButton';
 import { Translate } from 'react-localize-redux';
-import { removeNonLedgerAccessKeys, redirectTo } from '../../../actions/account';
+import { removeNonLedgerAccessKeys, redirectTo } from '../../../redux/actions/account';
 import { actionsPending } from '../../../utils/alerts'
 import { Mixpanel } from '../../../mixpanel/index'
-import { useSelectorActiveAccount } from '../../../redux/useSelector';
+import { useSelector } from '../../../redux/useSelector';
 
 const SetupLedgerSuccess = (props) => {
 
     const [nextStep, setNextStep] = useState('');
     const removingkeys = actionsPending('REMOVE_NON_LEDGER_ACCESS_KEYS');
-    const { hasLedger } = useSelectorActiveAccount(({ ledger }) => ledger)
+    const { hasLedger } = useSelector(({ ledger }) => ledger)
 
     const handleConfirm = async () => {
         if (nextStep === 'keep') {
