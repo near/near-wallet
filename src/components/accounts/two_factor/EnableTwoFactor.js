@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { Translate } from 'react-localize-redux';
 import TwoFactorOption from './TwoFactorOption';
@@ -22,7 +22,7 @@ import Container from '../../common/styled/Container.css';
 import { Mixpanel } from '../../../mixpanel/index';
 import { actionsPending } from '../../../utils/alerts'
 import Checkbox from '../../common/Checkbox'
-import { useSelectorActiveAccount } from '../../../redux/useSelector';
+import { useSelector } from '../../../redux/useSelector';
 
 const StyledContainer = styled(Container)`
 
@@ -74,7 +74,7 @@ export function EnableTwoFactor(props) {
 
     const dispatch = useDispatch();
     const { accountId, has2fa } = useSelector(({ account }) => account);
-    const status = useSelectorActiveAccount(({ status }) => status);
+    const status = useSelector(({ status }) => status);
 
     const [initiated, setInitiated] = useState(false);
     const [option, setOption] = useState('email');
