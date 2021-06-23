@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Translate } from 'react-localize-redux'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import Container from '../common/styled/Container.css'
 import RecoveryContainer from './Recovery/RecoveryContainer'
 import BalanceContainer from './balances/BalanceContainer'
@@ -21,7 +21,7 @@ import { Mixpanel } from "../../mixpanel/index"
 import AuthorizedApp from './authorized_apps/AuthorizedApp'
 import FormButton from '../common/FormButton'
 import Tooltip from '../common/Tooltip'
-import { useSelectorActiveAccount } from '../../redux/useSelector'
+import { useSelector } from '../../redux/useSelector'
 
 
 const StyledContainer = styled(Container)`
@@ -128,7 +128,7 @@ export function Profile({ match }) {
     const [transferring, setTransferring] = useState(false)
     const { has2fa, authorizedApps, ledgerKey } = useSelector(({ account }) => account)
     const loginAccountId = useSelector(state => state.account.accountId)
-    const recoveryMethods = useSelectorActiveAccount(({ recoveryMethods }) => recoveryMethods);
+    const recoveryMethods = useSelector(({ recoveryMethods }) => recoveryMethods);
     const accountIdFromUrl = match.params.accountId
     const accountId = accountIdFromUrl || loginAccountId
     const isOwner = accountId === loginAccountId
