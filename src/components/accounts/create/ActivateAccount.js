@@ -221,8 +221,7 @@ const mapStateToProps = ({ account, status }) => ({
     ...account,
     mainLoader: status.mainLoader,
     minBalanceToUnlock: account.accountHelperWalletState?.requiredUnlockBalance,
-    needsDeposit: account.accountHelperWalletState?.fundedAccountNeedsDeposit,
-    windowIsVisible: status.windowIsVisible
+    needsDeposit: account.accountHelperWalletState?.fundedAccountNeedsDeposit
 })
 
 export const ActivateAccountWithRouter = connect(mapStateToProps)(withRouter(ActivateAccount))

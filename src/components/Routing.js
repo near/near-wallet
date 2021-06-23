@@ -46,7 +46,7 @@ import { StakingContainer } from './staking/StakingContainer'
 import { WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS, IS_MAINNET, SHOW_PRERELEASE_WARNING } from '../utils/wallet'
 import isMobile from '../utils/isMobile'
 import { refreshAccount, handleRefreshUrl, handleRedirectUrl, handleClearUrl, promptTwoFactor, redirectTo, getAccountHelperWalletState } from '../actions/account'
-import { setWindowIsVisible, setIsMobile } from '../actions/status'
+import { setIsMobile } from '../actions/status'
 import LedgerConfirmActionModal from './accounts/ledger/LedgerConfirmActionModal';
 
 import GlobalStyle from './GlobalStyle'
@@ -136,7 +136,6 @@ class Routing extends Component {
         handleRefreshUrl(router)
         refreshAccount()
         setIsMobile(isMobile())
-        document.addEventListener('visibilitychange', this.handleVisibilityChange);
 
         history.listen(async () => {
             handleRedirectUrl(this.props.router.location)
@@ -164,15 +163,6 @@ class Routing extends Component {
             // this.addTranslationsForActiveLanguage(curLangCode)
             localStorage.setItem("languageCode", curLangCode)
         }
-    }
-
-    componentWillUnmount = () => {
-        document.removeEventListener('visibilitychange', this.handleVisibilityChange);
-    }
-
-    handleVisibilityChange = () => {
-        const { setWindowIsVisible } = this.props;
-        setWindowIsVisible(document.hidden ? false : true)
     }
 
     // addTranslationsForActiveLanguage(activeLang) {
@@ -401,7 +391,6 @@ const mapDispatchToProps = {
     promptTwoFactor,
     redirectTo,
     getAccountHelperWalletState,
-    setWindowIsVisible,
     setIsMobile
 }
 

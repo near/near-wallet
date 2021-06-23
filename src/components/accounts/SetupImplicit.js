@@ -266,8 +266,7 @@ const mapStateToProps = ({ account, status }, { match: { params: { accountId, im
     newAccountId: accountId,
     implicitAccountId,
     recoveryMethod,
-    mainLoader: status.mainLoader,
-    windowIsVisible: status.windowIsVisible
+    mainLoader: status.mainLoader
 })
 
 export const SetupImplicitWithRouter = connect(mapStateToProps)(withRouter(SetupImplicit))
