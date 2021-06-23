@@ -912,6 +912,7 @@ class Wallet {
         for (let { receiverId, nonce, blockHash, actions } of transactions) {
             let status, transaction
             // TODO: Decide whether we always want to be recreating transaction (vs only if it's invalid)
+            // See https://github.com/near/near-wallet/issues/1856
             const recreateTransaction = account.deployMultisig || true
             if (recreateTransaction) {
                 const result = await account.signAndSendTransaction(receiverId, actions)
