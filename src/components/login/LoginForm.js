@@ -166,7 +166,7 @@ LoginForm.propTypes = {
     redirectCreateAccount: PropTypes.func.isRequired
 }
 
-const mapStateToProps = ({ account }, { availableAccounts }) => ({
+const mapStateToProps = ({ account, availableAccounts }) => ({
     account,
     availableAccounts
 })
