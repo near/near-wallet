@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import Container from '../../common/styled/Container.css';
 import LedgerImage from '../../svg/LedgerImage';
 import FormButton from '../../common/FormButton';
@@ -22,7 +22,7 @@ import LocalAlertBox from '../../common/LocalAlertBox'
 import { controller as controllerHelperApi } from '../../../utils/helper-api'
 import { Mixpanel } from '../../../mixpanel/index'
 import LedgerHdPaths from './LedgerHdPaths'
-import { useSelectorActiveAccount } from '../../../redux/useSelector';
+import { useSelector } from '../../../redux/useSelector';
 
 export function SignInLedger(props) {
     const dispatch = useDispatch();
@@ -34,8 +34,8 @@ export function SignInLedger(props) {
     const ledgerHdPath = confirmedPath ? `44'/397'/0'/0'/${confirmedPath}'` : null;
 
     const account = useSelector(({ account }) => account);
-    const status = useSelectorActiveAccount(({ status }) => status);
-    const { signInWithLedger: signInWithLedgerState, txSigned, signInWithLedgerStatus} = useSelectorActiveAccount(({ ledger }) => ledger);
+    const status = useSelector(({ status }) => status);
+    const { signInWithLedger: signInWithLedgerState, txSigned, signInWithLedgerStatus} = useSelector(({ ledger }) => ledger);
     
     const signInWithLedgerKeys = Object.keys(signInWithLedgerState || {})
 
