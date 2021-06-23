@@ -1,9 +1,8 @@
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector as useSelectorReactRedux, useDispatch } from 'react-redux';
 import { wallet } from '../utils/wallet'
 
-// TODO: ultimately change the name to useSelector 
-export const useSelectorActiveAccount = (selector) => 
-    useSelector((state) => 
+export const useSelector = (selector) => 
+    useSelectorReactRedux((state) => 
         selector(
             wallet.accountId
                 ? state[wallet.accountId]
