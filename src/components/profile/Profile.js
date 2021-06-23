@@ -15,7 +15,7 @@ import LockIcon from '../svg/LockIcon'
 import CheckCircleIcon from '../svg/CheckCircleIcon'
 import BN from 'bn.js'
 import SkeletonLoading from '../common/SkeletonLoading'
-import { selectProfileBalance } from '../../reducers/selectors/balance'
+import { selectProfileBalance } from '../../redux/selectors/balance'
 import { useAccount } from '../../hooks/allAccounts'
 import { Mixpanel } from "../../mixpanel/index"
 import AuthorizedApp from './authorized_apps/AuthorizedApp'
