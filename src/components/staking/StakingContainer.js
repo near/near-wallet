@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { Switch, Route } from 'react-router-dom'
 import { ConnectedRouter } from 'connected-react-router'
 import styled from 'styled-components'
@@ -19,7 +19,7 @@ import StakingAction from './components/StakingAction'
 import { setStakingAccountSelected, getStakingAccountSelected } from '../../utils/localStorage'
 import { getBalance } from '../../actions/account'
 import { Mixpanel } from '../../mixpanel/index'
-import { useSelectorActiveAccount } from '../../redux/useSelector'
+import { useSelector } from '../../redux/useSelector'
 
 const StyledContainer = styled(Container)`
     button {
@@ -157,10 +157,10 @@ const StyledContainer = styled(Container)`
 export function StakingContainer({ history, match }) {
     const dispatch = useDispatch()
     const { accountId, has2fa, balance = {} } = useSelector(({ account }) => account);
-    const status = useSelectorActiveAccount(({ status }) => status);
-    const { hasLedger } = useSelectorActiveAccount(({ ledger }) => ledger)
+    const status = useSelector(({ status }) => status);
+    const { hasLedger } = useSelector(({ ledger }) => ledger)
     
-    const staking = useSelectorActiveAccount(({ staking }) => staking)
+    const staking = useSelector(({ staking }) => staking)
     const hasLockup = !!staking.lockupId
     const { currentAccount } = staking
     const stakingAccounts = staking.accounts
