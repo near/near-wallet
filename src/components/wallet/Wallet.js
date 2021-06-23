@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
+import { useDispatch } from 'react-redux'
+import * as Sentry from '@sentry/browser'
 import styled from 'styled-components'
 import { Translate } from 'react-localize-redux'
 import FormButton from '../common/FormButton'
@@ -28,7 +29,7 @@ import { selectNFT } from '../../reducers/nft'
 import { SHOW_NETWORK_BANNER } from '../../utils/wallet'
 
 import sendJson from 'fetch-send-json'
-import { useSelectorActiveAccount } from '../../redux/useSelector'
+import { useSelector } from '../../redux/useSelector'
 
 const StyledContainer = styled(Container)`
     @media (max-width: 991px) {
@@ -247,7 +248,7 @@ export function Wallet() {
     const [exploreApps, setExploreApps] = useState(null);
     const [showLinkdropModal, setShowLinkdropModal] = useState(null);
     const { balance, accountId } = useSelector(({ account }) => account)
-    const transactions = useSelectorActiveAccount(({ transactions }) => transactions)
+    const transactions = useSelector(({ transactions }) => transactions)
     const dispatch = useDispatch()
     const hideExploreApps = localStorage.getItem('hideExploreApps')
     const linkdropAmount = localStorage.getItem('linkdropAmount')
