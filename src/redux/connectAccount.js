@@ -6,8 +6,8 @@ export default (mapStateToProps, mapDispatchToProps) => {
             const accountId = localStorage.getItem('_4:wallet:active_account_id_v2') || ''
             return {
                 ...mapStateToProps(
-                    state, 
                     accountId ? state[accountId] : {}, 
+                    state, 
                     ownProps
                 ),
             }
