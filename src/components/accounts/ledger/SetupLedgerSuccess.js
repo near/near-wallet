@@ -9,6 +9,7 @@ import { removeNonLedgerAccessKeys, redirectTo } from '../../../redux/actions/ac
 import { actionsPending } from '../../../utils/alerts'
 import { Mixpanel } from '../../../mixpanel/index'
 import { useSelector } from '../../../redux/useSelector';
+import connectAccount from '../../../redux/connectAccount';
 
 const SetupLedgerSuccess = (props) => {
 
@@ -71,4 +72,4 @@ const mapStateToProps = ({ account }) => ({
     ...account
 })
 
-export const SetupLedgerSuccessWithRouter = connect(mapStateToProps, mapDispatchToProps)(SetupLedgerSuccess);
+export const SetupLedgerSuccessWithRouter = connectAccount(mapStateToProps, mapDispatchToProps)(SetupLedgerSuccess);
