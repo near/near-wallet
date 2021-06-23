@@ -237,7 +237,7 @@ const ActionWarrning = ({ actionKind, action }) => {
 
 const mapDispatchToProps = {}
 
-const mapStateToProps = ({ account }, { sign }) => ({
+const mapStateToProps = ({ account, sign }) => ({
     account,
     ...sign,
 })
