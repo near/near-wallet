@@ -48,8 +48,8 @@ export const getProfileStakingDetails = (accountId) => async (dispatch, getState
         && dispatch(handleStakingUpdateLockup(accountId))
 }
 
-export const handleRedirectUrl = (previousLocation) => (dispatch, getState) => {
-    const { pathname } = getState().router.location
+export const handleRedirectUrl = (previousLocation) => (dispatch, getState, getStateMainReducer) => {
+    const { pathname } = getStateMainReducer().router.location
     const isValidRedirectUrl = previousLocation.pathname.includes(WALLET_LOGIN_URL) || previousLocation.pathname.includes(WALLET_SIGN_URL)
     const page = pathname.split('/')[1]
     const guestLandingPage = !page && !wallet.accountId
@@ -66,8 +66,8 @@ export const handleRedirectUrl = (previousLocation) => (dispatch, getState) => {
     }
 }
 
-export const handleClearUrl = () => (dispatch, getState) => {
-    const { pathname } = getState().router.location
+export const handleClearUrl = () => (dispatch, getState, getStateMainReducer) => {
+    const { pathname } = getStateMainReducer().router.location
     const page = pathname.split('/')[1]
     const guestLandingPage = !page && !wallet.accountId
     const saveUrlPages = [...WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS, WALLET_LOGIN_URL, WALLET_SIGN_URL, WALLET_LINKDROP_URL].includes(page)
@@ -81,8 +81,8 @@ export const handleClearUrl = () => (dispatch, getState) => {
 
 export const parseTransactionsToSign = createAction('PARSE_TRANSACTIONS_TO_SIGN')
 
-export const handleRefreshUrl = (prevRouter) => (dispatch, getState) => {
-    const { pathname, search } = prevRouter?.location || getState().router.location
+export const handleRefreshUrl = (prevRouter) => (dispatch, getState, getStateMainReducer) => {
+    const { pathname, search } = prevRouter?.location || getStateMainReducer().router.location
     const currentPage = pathname.split('/')[pathname[1] === '/' ? 2 : 1]
 
     if ([...WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS, WALLET_LOGIN_URL, WALLET_SIGN_URL, WALLET_LINKDROP_URL].includes(currentPage)) {
