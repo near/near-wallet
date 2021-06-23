@@ -53,7 +53,7 @@ const thunkWithActiveAccount = store => next => action => {
         const getState = store.getState
 
         // ultimately: return action(dispatch, getStateActiveAccount, getState)
-        return action(dispatch, getState, getStateActiveAccount)
+        return action(dispatch, getStateActiveAccount, getState )
     }
     return next(action)
 }
