@@ -183,7 +183,7 @@ class Routing extends Component {
                         <GlobalAlert/>
                         <LedgerConfirmActionModal/>
                         {
-                            this.props.account.requestPending !== null &&
+                            this.props.account && this.props.account.requestPending !== null &&
                             <TwoFactorVerifyModal
                                 onClose={(verified, error) => {
                                     const { account, promptTwoFactor } = this.props
@@ -211,7 +211,7 @@ class Routing extends Component {
                                 exact
                                 path='/' 
                                 component={Wallet}
-                                accountFound={this.props.account.localStorage?.accountFound}
+                                accountFound={this.props.account?.localStorage?.accountFound}
                             />
                             <Route
                                 exact
