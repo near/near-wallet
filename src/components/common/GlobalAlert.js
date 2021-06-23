@@ -179,6 +179,7 @@ const GlobalAlertNew = ({ globalAlert, actionStatus, clearGlobalAlert, closeIcon
 
     const [closing, setClosing] = useState(false)
     const [alerts, setAlerts] = useState([])
+    const zendeskBaseURL = 'https://nearhelp.zendesk.com/hc/en-us/';
 
     const handleClose = (type) => {
         setClosing(type)
@@ -229,8 +230,8 @@ const GlobalAlertNew = ({ globalAlert, actionStatus, clearGlobalAlert, closeIcon
                                                         <a
                                                             href={
                                                                 (msgCode.includes('No default translation found!') || msgCode.includes('Sorry an error has occured')) 
-                                                                ? `https://nearhelp.zendesk.com/hc/en-us/${alert.errorMessage ? `search?utf8=%E2%9C%93&query=${alert.errorMessage}` : ''}` 
-                                                                : `https://nearhelp.zendesk.com/hc/en-us/search?utf8=%E2%9C%93&query=${translate(alert.messageCode)}`
+                                                                ? `${zendeskBaseURL}${alert.errorMessage ? `search?query=${encodeURIComponent(alert.errorMessage.substring(0, 500))}` : ''}` 
+                                                                : `${zendeskBaseURL}search?query=${encodeURIComponent(msgCode.substring(0, 500))}`
                                                             }
                                                             target='_blank'
                                                             rel='noreferrer'
