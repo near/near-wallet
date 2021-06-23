@@ -211,7 +211,7 @@ const mapDispatchToProps = {
     redirectTo
 }
 
-const mapStateToProps = ({ account }, { status }, { match }) => ({
+const mapStateToProps = ({ account, status }, stateMainReducer, { match }) => ({
     ...account,
     localAlert: status.localAlert,
     mainLoader: status.mainLoader,
