@@ -126,7 +126,9 @@ class ActivateAccount extends Component {
     startPollingAccountBalance = () => {
         const handleCheckBalance = async () => {
             await this.checkBalance().catch(() => {});
-            this.pollAccountBalanceHandle = setTimeout(() => handleCheckBalance(), 3000);
+            if (this.pollAccountBalanceHandle) {
+                this.pollAccountBalanceHandle = setTimeout(() => handleCheckBalance(), 3000);
+            }
         }
         this.pollAccountBalanceHandle = setTimeout(() => handleCheckBalance(), 3000);
     }
