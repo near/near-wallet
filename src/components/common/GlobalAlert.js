@@ -270,9 +270,9 @@ const mapDispatchToProps = {
     clearGlobalAlert
 }
 
-const mapStateToProps = ({ status }) => ({
-    ...status
-})
+const mapStateToProps = ({ status }, { statusMain }) => (
+    status || statusMain
+)
 
 export default connectAccount(
     mapStateToProps,
