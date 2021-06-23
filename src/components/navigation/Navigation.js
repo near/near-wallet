@@ -114,7 +114,7 @@ class Navigation extends Component {
     }
 }
 
-const mapStateToProps = ({ account, router }, { availableAccounts, flowLimitation }) => ({
+const mapStateToProps = ({ account, availableAccounts, flowLimitation }, { router }) => ({
     account,
     availableAccounts,
     router,
