@@ -1,11 +1,10 @@
 import { useEffect } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
-import { refreshAccountExternal, getProfileStakingDetails } from '../actions/account'
-import { useSelectorActiveAccount } from '../redux/useSelector'
+import { useDispatch } from 'react-redux'
+import { useSelector } from '../redux/useSelector'
 
 export function useAccount(accountId) {
     const { account } = useSelector(state => state)
-    const { allAccounts } = useSelectorActiveAccount(state => state)
+    const { allAccounts } = useSelector(state => state)
 
     const isOwner = account.accountId === accountId
 
