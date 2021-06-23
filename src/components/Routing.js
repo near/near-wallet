@@ -56,6 +56,7 @@ import { handleClearAlert} from '../utils/alerts'
 import { Mixpanel } from "../mixpanel/index";
 import classNames from '../utils/classNames';
 import Terms from './terms/Terms'
+import connectAccount from '../redux/connectAccount'
 
 const theme = {}
 
@@ -376,12 +377,12 @@ const mapDispatchToProps = {
     promptTwoFactor
 }
 
-const mapStateToProps = ({ account, router }) => ({
+const mapStateToProps = ({ account }, { router }) => ({
     account,
     router
 })
 
-export default connect(
+export default connectAccount(
     mapStateToProps,
     mapDispatchToProps
 )(withLocalize(Routing))
