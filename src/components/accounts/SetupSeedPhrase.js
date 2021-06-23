@@ -275,7 +275,7 @@ const mapDispatchToProps = {
     showCustomAlert
 }
 
-const mapStateToProps = ({ account }, { recoveryMethods, status }, { match }) => ({
+const mapStateToProps = ({ account, recoveryMethods, status }, stateMainReducer, { match }) => ({
     ...account,
     verify: match.params.verify,
     accountId: match.params.accountId,
