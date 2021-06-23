@@ -3,9 +3,8 @@ import styled from 'styled-components'
 import classNames from '../../utils/classNames'
 import DropDown from '../common/DropDown'
 import { Translate } from 'react-localize-redux'
-import { useSelector, useDispatch } from 'react-redux';
-import { switchAccount } from '../../actions/account';
-import { useSelectorActiveAccount } from '../../redux/useSelector'
+import { useDispatch } from 'react-redux';
+import { useSelector } from '../../redux/useSelector'
 
 const Container = styled.div`
     .dropdown-container {
@@ -58,7 +57,7 @@ const Container = styled.div`
 export default function AccountDropdown({ disabled }) {
     const dispatch = useDispatch();
     const { accountId } = useSelector(({ account }) => account);
-    const availAccounts = useSelectorActiveAccount(({ availableAccounts }) => availableAccounts);
+    const availAccounts = useSelector(({ availableAccounts }) => availableAccounts);
 
     const singleAccount = availAccounts.length < 2;
     
