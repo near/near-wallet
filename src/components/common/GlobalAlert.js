@@ -270,7 +270,7 @@ const mapDispatchToProps = {
     clearGlobalAlert
 }
 
-const mapStateToProps = (state, { status }) => ({
+const mapStateToProps = ({ status }) => ({
     ...status
 })
 
