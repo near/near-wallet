@@ -204,7 +204,7 @@ const SetupLedger = (props) => {
     );
 }
 
-const mapStateToProps = ({ account }, { status }, { match }) => ({
+const mapStateToProps = ({ account, status }, stateMainReducer, { match }) => ({
     ...account,
     accountId: match.params.accountId,
     mainLoader: status.mainLoader
