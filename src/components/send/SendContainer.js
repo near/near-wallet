@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import styled from 'styled-components'
 import Container from '../common/styled/Container.css'
 import { Translate } from 'react-localize-redux'
@@ -19,7 +19,7 @@ import TransferMoneyIcon from '../svg/TransferMoneyIcon'
 import { onKeyDown } from '../../hooks/eventListeners'
 import classNames from '../../utils/classNames'
 import { Mixpanel } from '../../mixpanel/index'
-import { useSelectorActiveAccount } from '../../redux/useSelector'
+import { useSelector } from '../../redux/useSelector'
 
 const {
     parseNearAmount, formatNearAmount
@@ -46,7 +46,7 @@ const StyledContainer = styled(Container)`
 export function SendContainer({ match, location }) {
     const dispatch = useDispatch()
     const { accountId, balance } = useSelector(({ account }) => account);
-    const { localAlert, mainLoader, actionStatus } = useSelectorActiveAccount(({ status }) => status);
+    const { localAlert, mainLoader, actionStatus } = useSelector(({ status }) => status);
     const [useMax, setUseMax] = useState(null)
     const [amount, setAmount] = useState('')
     const [confirm, setConfirm] = useState(null)
