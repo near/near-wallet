@@ -110,7 +110,7 @@ const mapDispatchToProps = {
     clearState: staking.clearState
 }
 
-const mapStateToProps = ({ account, router }, { status }, { match }) => ({
+const mapStateToProps = ({ account, status }, { router }, { match }) => ({
     ...account,
     router,
     seedPhrase: match.params.seedPhrase || '',
