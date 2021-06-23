@@ -2,8 +2,7 @@ import { combineReducers } from 'redux'
 import { connectRouter } from 'connected-react-router'
 import { localizeReducer } from 'react-localize-redux'
 
-import account from '../../reducers/account'
-
+import account from './account'
 import transactions from './transactions'
 import allAccounts from './allAccounts'
 import availableAccounts from './availableAccounts'
