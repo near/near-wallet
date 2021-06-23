@@ -6,9 +6,9 @@ import {
 } from '../../../utils/wallet'
 import { getBalance } from '../account'
 
-export const handleFlowLimitation = () => (dispatch, getState) => {
-    const { pathname } = getState().router.location
-    const { redirect_url } = getState().account.url
+export const handleFlowLimitation = () => (dispatch, getState, getStateMainReducer) => {
+    const { pathname } = getStateMainReducer().router.location
+    const { redirect_url } = getState().account ? getState().account.url : {}
 
     const redirectUrl = redirect_url || pathname
 
