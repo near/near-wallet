@@ -11,6 +11,7 @@ import { handleRefreshUrl, switchAccount, allowLogin, redirectToApp } from '../.
 import { clearLocalAlert } from '../../redux/actions/status'
 import { LOCKUP_ACCOUNT_ID_SUFFIX } from '../../utils/wallet'
 import { Mixpanel } from '../../mixpanel/index'
+import connectAccount from '../../redux/connectAccount'
 
 class Login extends Component {
     state = {
@@ -160,7 +161,7 @@ const mapStateToProps = ({ account }) => ({
     appTitle: account.url?.referrer
 })
 
-export const LoginWithRouter = connect(
+export const LoginWithRouter = connectAccount(
     mapStateToProps,
     mapDispatchToProps
 )(withRouter(Login))
