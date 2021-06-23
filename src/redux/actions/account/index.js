@@ -1,8 +1,8 @@
 import { parse, stringify } from 'query-string'
 import { createActions, createAction } from 'redux-actions'
-import { TwoFactor } from '../utils/twoFactor'
+import { TwoFactor } from '../../../utils/twoFactor'
 import { push } from 'connected-react-router'
-import { loadState, saveState, clearState } from '../utils/sessionStorage'
+import { loadState, saveState, clearState } from '../../../utils/sessionStorage'
 import {
     WALLET_CREATE_NEW_ACCOUNT_URL,
     WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS,
@@ -33,21 +33,21 @@ export const loadRecoveryMethods = createAction('LOAD_RECOVERY_METHODS',
     () => ({})
 )
 
-export const getProfileStakingDetails = (accountId) => async (dispatch, getState, getStateActiveAccount) => {
+export const getProfileStakingDetails = (accountId) => async (dispatch, getState) => {
     await dispatch(handleGetLockup(accountId))
 
     await dispatch(handleStakingUpdateAccount([], accountId))
 
     const lockupIdExists = accountId
-        ? !!getStateActiveAccount().allAccounts[accountId].balance.lockedAmount
+        ? !!getState().allAccounts[accountId].balance.lockedAmount
         : !!getState().account.balance.lockedAmount
 
     lockupIdExists
         && dispatch(handleStakingUpdateLockup(accountId))
 }
 
-export const handleRedirectUrl = (previousLocation) => (dispatch, getState) => {
-    const { pathname } = getState().router.location
+export const handleRedirectUrl = (previousLocation) => (dispatch, getState, getStateMainReducer) => {
+    const { pathname } = getStateMainReducer().router.location
     const isValidRedirectUrl = previousLocation.pathname.includes(WALLET_LOGIN_URL) || previousLocation.pathname.includes(WALLET_SIGN_URL)
     const page = pathname.split('/')[1]
     const guestLandingPage = !page && !wallet.accountId
@@ -64,8 +64,8 @@ export const handleRedirectUrl = (previousLocation) => (dispatch, getState) => {
     }
 }
 
-export const handleClearUrl = () => (dispatch, getState) => {
-    const { pathname } = getState().router.location
+export const handleClearUrl = () => (dispatch, getState, getStateMainReducer) => {
+    const { pathname } = getStateMainReducer().router.location
     const page = pathname.split('/')[1]
     const guestLandingPage = !page && !wallet.accountId
     const saveUrlPages = [...WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS, WALLET_LOGIN_URL, WALLET_SIGN_URL, WALLET_LINKDROP_URL].includes(page)
@@ -79,8 +79,8 @@ export const handleClearUrl = () => (dispatch, getState) => {
 
 export const parseTransactionsToSign = createAction('PARSE_TRANSACTIONS_TO_SIGN')
 
-export const handleRefreshUrl = (prevRouter) => (dispatch, getState) => {
-    const { pathname, search } = prevRouter?.location || getState().router.location
+export const handleRefreshUrl = (prevRouter) => (dispatch, getState, getStateMainReducer) => {
+    const { pathname, search } = prevRouter?.location || getStateMainReducer().router.location
     const currentPage = pathname.split('/')[pathname[1] === '/' ? 2 : 1]
 
     if ([...WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS, WALLET_LOGIN_URL, WALLET_SIGN_URL, WALLET_LINKDROP_URL].includes(currentPage)) {
@@ -100,7 +100,7 @@ export const handleRefreshUrl = (prevRouter) => (dispatch, getState) => {
             dispatch(refreshUrl(loadState()))
         }
         dispatch(handleFlowLimitation())
-        const { transactions, callbackUrl, meta } = getState().account.url
+        const { transactions, callbackUrl, meta } = getState().account ? getState().account.url : {}
         if (transactions) {
             dispatch(parseTransactionsToSign({ transactions, callbackUrl, meta }))
         }
@@ -177,14 +177,14 @@ export const allowLogin = () => async (dispatch, getState) => {
     }
 }
 
-export const signInWithLedger = (path) => async (dispatch, getState, getStateActiveAccount) => {
+export const signInWithLedger = (path) => async (dispatch, getState) => {
     await dispatch(getLedgerAccountIds(path))
-    const accountIds = Object.keys(getStateActiveAccount().ledger.signInWithLedger)
+    const accountIds = Object.keys(getState().ledger.signInWithLedger)
     await dispatch(signInWithLedgerAddAndSaveAccounts(accountIds, path))
     return;
 }
 
-export const signInWithLedgerAddAndSaveAccounts = (accountIds, path) => async (dispatch, getState, getStateActiveAccount) => {
+export const signInWithLedgerAddAndSaveAccounts = (accountIds, path) => async (dispatch, getState) => {
     for (let accountId of accountIds) {
         try {
             if (path) {
@@ -198,7 +198,7 @@ export const signInWithLedgerAddAndSaveAccounts = (accountIds, path) => async (d
         }
     }
 
-    return dispatch(saveAndSelectLedgerAccounts(getStateActiveAccount().ledger.signInWithLedger))
+    return dispatch(saveAndSelectLedgerAccounts(getState().ledger.signInWithLedger))
 }
 
 const twoFactorMethod = async (method, wallet, args) => {
@@ -526,8 +526,8 @@ export const { signAndSendTransactions, setSignTransactionStatus, sendMoney, tra
     ]
 })
 
-export const refreshAccount = (basicData = false) => async (dispatch, getState, getStateActiveAccount) => {
-    const { flowLimitation } = getStateActiveAccount()
+export const refreshAccount = (basicData = false) => async (dispatch, getState) => {
+    const { flowLimitation } = getState()
 
     if (!wallet.accountId) {
         return
@@ -548,9 +548,9 @@ export const switchAccount = (accountId) => async (dispatch, getState) => {
     dispatch(refreshAccount())
 }
 
-export const getAvailableAccountsBalance = () => async (dispatch, getState, getStateActiveAccount) => {
+export const getAvailableAccountsBalance = () => async (dispatch, getState) => {
     let { accountsBalance } = getState().account
-    let { availableAccounts, flowLimitation } = getStateActiveAccount()
+    let { availableAccounts, flowLimitation } = getState()
 
     if (flowLimitation.accountData) {
         return
