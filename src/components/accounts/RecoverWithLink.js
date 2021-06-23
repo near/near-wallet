@@ -8,7 +8,7 @@ import {
     recoverAccountSeedPhrase,
     refreshAccount,
     redirectTo,
-} from '../../actions/account'
+} from '../../redux/actions/account'
 import { Snackbar, snackbarDuration } from '../common/Snackbar'
 import { Translate } from 'react-localize-redux'
 import copyText from '../../utils/copyText'
@@ -238,7 +238,7 @@ const mapDispatchToProps = {
     redirectTo
 }
 
-const mapStateToProps = ({ account }, { status }, { match }) => ({
+const mapStateToProps = ({ account, status }, stateMainReducer, { match }) => ({
     ...account,
     accountId: match.params.accountId || '',
     seedPhrase: match.params.seedPhrase || '',
