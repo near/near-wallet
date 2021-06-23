@@ -155,7 +155,7 @@ const mapDispatchToProps = {
     redirectTo
 }
 
-const mapStateToProps = ({ account }, { status }, { match }) => ({
+const mapStateToProps = ({ account, status }, stateMainReducer, { match }) => ({
     ...account,
     fundingContract: match.params.fundingContract,
     fundingKey: match.params.fundingKey,
