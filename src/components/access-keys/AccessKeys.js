@@ -167,14 +167,14 @@ const mapDispatchToProps = {
     removeAccessKey
 }
 
-const mapStateToPropsAuthorizedApps = ({ account }, { status }) => ({
+const mapStateToPropsAuthorizedApps = ({ account, status }) => ({
     ...account,
     authorizedApps: account.authorizedApps,
     title: 'authorizedApps.pageTitle',
     mainLoader: status.mainLoader
 })
 
-export const AuthorizedAppsWithRouter = connect(
+export const AuthorizedAppsWithRouter = connectAccount(
     mapStateToPropsAuthorizedApps,
     mapDispatchToProps
 )(withRouter(AccessKeys))
