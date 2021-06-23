@@ -10,7 +10,7 @@ import {
     handleCreateAccountWithSeedPhrase,
     fundCreateAccount,
     loadRecoveryMethods
-} from '../../actions/account'
+} from '../../redux/actions/account'
 import { generateSeedPhrase } from 'near-seed-phrase'
 import SetupSeedPhraseVerify from './SetupSeedPhraseVerify'
 import SetupSeedPhraseForm from './SetupSeedPhraseForm'

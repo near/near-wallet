@@ -14,7 +14,7 @@ import {
     verifyTwoFactor,
     deployMultisig,
     redirectToApp
-} from '../../../actions/account';
+} from '../../../redux/actions/account';
 import { clearGlobalAlert } from '../../../redux/actions/status'
 import { useRecoveryMethods } from '../../../hooks/recoveryMethods';
 import EnterVerificationCode from '../EnterVerificationCode';

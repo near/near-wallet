@@ -21,7 +21,7 @@ import {
     stakingMethods,
     shuffle
 } from '../../../utils/staking'
-import { getBalance } from '../../../actions/account'
+import { getBalance } from '../account'
 
 let ghValidators
 

@@ -6,7 +6,7 @@ import RecoveryMethod from './RecoveryMethod';
 import {
     deleteRecoveryMethod,
     loadRecoveryMethods
-} from '../../../actions/account';
+} from '../../../redux/actions/account';
 import SkeletonLoading from '../../common/SkeletonLoading';
 import { actionsPending } from '../../../utils/alerts';
 import { Mixpanel } from '../../../mixpanel/index'

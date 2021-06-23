@@ -7,7 +7,7 @@ import FormButton from '../../common/FormButton';
 import { Translate } from 'react-localize-redux';
 import TwoFactorVerifyInput from './TwoFactorVerifyInput';
 import { WalletError } from '../../../utils/walletError'
-import { resendTwoFactor, get2faMethod } from '../../../actions/account';
+import { resendTwoFactor, get2faMethod } from '../../../redux/actions/account';
 import { actionsPending } from '../../../utils/alerts';
 import { Mixpanel } from "../../../mixpanel/index"
 import { useSelector } from '../../../redux/useSelector';

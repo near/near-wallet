@@ -5,7 +5,7 @@ import FormButton from '../common/FormButton'
 import { Translate } from 'react-localize-redux'
 import styled from 'styled-components'
 import StarIcon from '../svg/StarIcon.js'
-import { redirectToApp } from '../../actions/account'
+import { redirectToApp } from '../../redux/actions/account'
 
 const StyledContainer = styled(Container)`
     button {

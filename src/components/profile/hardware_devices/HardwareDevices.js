@@ -12,7 +12,7 @@ import {
     getLedgerKey,
     addLedgerAccessKey,
     loadRecoveryMethods
-} from '../../../actions/account';
+} from '../../../redux/actions/account';
 import ConfirmDisable from './ConfirmDisable';
 import SkeletonLoading from '../../common/SkeletonLoading';
 import { actionsPending } from '../../../utils/alerts'

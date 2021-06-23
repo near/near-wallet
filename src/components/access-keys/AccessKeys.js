@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { Translate } from 'react-localize-redux'
 import { withRouter } from 'react-router-dom'
 
-import { getAccessKeys, removeAccessKey } from '../../actions/account'
+import { getAccessKeys, removeAccessKey } from '../../redux/actions/account'
 
 import AccessKeysEmpty from './AccessKeysEmpty'
 import PaginationBlock from '../pagination/PaginationBlock'

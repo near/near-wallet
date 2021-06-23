@@ -2,7 +2,7 @@ import { utils, transactions as transaction } from 'near-api-js'
 import { handleActions } from 'redux-actions'
 import BN from 'bn.js'
 
-import { parseTransactionsToSign, signAndSendTransactions, setSignTransactionStatus, selectAccount } from '../../../actions/account'
+import { parseTransactionsToSign, signAndSendTransactions, setSignTransactionStatus, selectAccount } from '../../actions/account'
 
 const initialState = {
     status: 'needs-confirmation'

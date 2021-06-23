@@ -1,5 +1,6 @@
 import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
+import { loadRecoveryMethods } from '../redux/actions/account'
 import { useSelector } from '../redux/useSelector'
 import { wallet } from '../utils/wallet'
 

@@ -5,7 +5,7 @@ import {
     getTransactionStatus
 } from '../../actions/transactions'
 
-import { selectAccount } from '../../../actions/account'
+import { selectAccount } from '../../actions/account'
 
 const initialState = {}
 

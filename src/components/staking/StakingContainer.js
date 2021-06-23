@@ -17,7 +17,7 @@ import Withdraw from './components/Withdraw'
 import Validator from './components/Validator'
 import StakingAction from './components/StakingAction'
 import { setStakingAccountSelected, getStakingAccountSelected } from '../../utils/localStorage'
-import { getBalance } from '../../actions/account'
+import { getBalance } from '../../redux/actions/account'
 import { Mixpanel } from '../../mixpanel/index'
 import { useSelector } from '../../redux/useSelector'
 

@@ -8,7 +8,7 @@ import SignTransferReady from './SignTransferReady'
 import SignTransferSuccess from './SignTransferSuccess'
 import SignTransferCancelled from './SignTransferCancelled'
 import SignTransferTransferring from './SignTransferTransferring'
-import { signAndSendTransactions, redirectTo } from '../../actions/account'
+import { signAndSendTransactions, redirectTo } from '../../redux/actions/account'
 import { Mixpanel } from '../../mixpanel'
 import connectAccount from '../../redux/connectAccount'
 

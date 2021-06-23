@@ -14,7 +14,7 @@ import {
     signInWithLedgerAddAndSaveAccounts, 
     checkAccountAvailable, 
     clearSignInWithLedgerModalState
-} from '../../../actions/account';
+} from '../../../redux/actions/account';
 import { tokens } from '../../../actions/tokens'
 import { staking } from '../../../redux/actions/staking';
 import { clearLocalAlert } from '../../../redux/actions/status'

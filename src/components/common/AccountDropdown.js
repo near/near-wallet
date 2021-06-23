@@ -4,6 +4,7 @@ import classNames from '../../utils/classNames'
 import DropDown from '../common/DropDown'
 import { Translate } from 'react-localize-redux'
 import { useDispatch } from 'react-redux';
+import { switchAccount } from '../../redux/actions/account';
 import { useSelector } from '../../redux/useSelector'
 
 const Container = styled.div`

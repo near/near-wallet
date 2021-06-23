@@ -45,7 +45,7 @@ import { BuyNear } from './buy/BuyNear'
 import { SignWithRouter } from './sign/Sign'
 import { StakingContainer } from './staking/StakingContainer'
 import { DISABLE_SEND_MONEY, WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS, IS_MAINNET, SHOW_PRERELEASE_WARNING } from '../utils/wallet'
-import { refreshAccount, handleRefreshUrl, handleRedirectUrl, handleClearUrl, promptTwoFactor } from '../actions/account'
+import { refreshAccount, handleRefreshUrl, handleRedirectUrl, handleClearUrl, promptTwoFactor } from '../redux/actions/account'
 import LedgerConfirmActionModal from './accounts/ledger/LedgerConfirmActionModal';
 
 import GlobalStyle from './GlobalStyle'

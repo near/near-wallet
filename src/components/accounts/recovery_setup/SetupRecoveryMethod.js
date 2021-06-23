@@ -20,7 +20,7 @@ import {
     saveAccount,
     fundCreateAccount,
     validateSecurityCode
-} from '../../../actions/account';
+} from '../../../redux/actions/account';
 import RecoveryOption from './RecoveryOption';
 import FormButton from '../../common/FormButton';
 import EnterVerificationCode from '../EnterVerificationCode';

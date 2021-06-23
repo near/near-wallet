@@ -15,7 +15,7 @@ import {
     checkIsNew,
     fundCreateAccountLedger,
     getLedgerPublicKey
-} from '../../../actions/account'
+} from '../../../redux/actions/account'
 import { ACCOUNT_HELPER_URL, DISABLE_CREATE_ACCOUNT, setKeyMeta } from '../../../utils/wallet'
 import GlobalAlert from '../../common/GlobalAlert'
 import { Mixpanel } from '../../../mixpanel/index'

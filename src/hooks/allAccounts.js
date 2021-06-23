@@ -1,5 +1,6 @@
 import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
+import { refreshAccountExternal, getProfileStakingDetails } from '../redux/actions/account'
 import { useSelector } from '../redux/useSelector'
 
 export function useAccount(accountId) {

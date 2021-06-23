@@ -8,7 +8,7 @@ import { Translate } from 'react-localize-redux';import { MULTISIG_MIN_AMOUNT } 
 import Balance from '../../common/Balance'
 import { utils } from 'near-api-js'
 import ConfirmDisable from '../hardware_devices/ConfirmDisable'
-import { disableMultisig, loadRecoveryMethods } from '../../../actions/account'
+import { disableMultisig, loadRecoveryMethods } from '../../../redux/actions/account'
 import { actionsPending } from '../../../utils/alerts'
 import { useSelector } from '../../../redux/useSelector';
 

@@ -7,7 +7,7 @@ import {
     setMainLoader
 } from '../../actions/status'
 
-import { selectAccount } from '../../../actions/account'
+import { selectAccount } from '../../actions/account'
 
 const initialState = {
     mainLoader: false,

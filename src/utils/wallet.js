@@ -19,7 +19,7 @@ import {
     fundCreateAccount,
     finishAccountSetup,
     selectAccount
-} from '../actions/account'
+} from '../redux/actions/account'
 
 import { TwoFactor } from './twoFactor'
 import { decorateWithLockup } from './account-with-lockup'

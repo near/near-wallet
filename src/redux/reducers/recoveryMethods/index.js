@@ -1,5 +1,5 @@
 import { handleAction } from 'redux-actions'
-import { loadRecoveryMethods } from '../../../actions/account'
+import { loadRecoveryMethods } from '../../actions/account'
 
 const initialState = {}
 

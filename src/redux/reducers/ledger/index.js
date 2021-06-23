@@ -9,7 +9,7 @@ import {
     setLedgerTxSigned,
     clearSignInWithLedgerModalState,
     showLedgerModal
-} from '../../../actions/account'
+} from '../../actions/account'
 
 import { HIDE_SIGN_IN_WITH_LEDGER_ENTER_ACCOUNT_ID_MODAL } from '../../../utils/wallet'
 

@@ -1,6 +1,6 @@
 import { handleActions } from 'redux-actions'
 
-import { refreshAccountOwner } from '../actions/account'
+import { refreshAccountOwner } from '../redux/actions/account'
 
 const initialState = []
 const availableAccounts = handleActions({
