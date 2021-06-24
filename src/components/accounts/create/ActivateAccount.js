@@ -107,20 +107,12 @@ class ActivateAccount extends Component {
     }
 
     checkBalance = async () => {
-        const { dispatch, balance, minBalanceToUnlock, accountId, needsDeposit } = this.props;
+        const { dispatch, needsDeposit } = this.props;
 
         if (needsDeposit) {
             await dispatch(getBalance())
         }
-        
-        if (minBalanceToUnlock && new BN(balance.available).gte(new BN(minBalanceToUnlock))) {
-            this.setState({ accountFunded: true });
-            if (needsDeposit) {
-                await dispatch(clearFundedAccountNeedsDeposit(accountId));
-                await dispatch(getAccountHelperWalletState(accountId))
-                window.scrollTo(0, 0);
-            }
-        }
+    
     }
 
     startPollingAccountBalance = () => {
@@ -143,12 +135,38 @@ class ActivateAccount extends Component {
         this.checkMoonPay()
     }
 
+    handleClearAccountNeedsDeposit = async () => {
+        const { dispatch, accountId } = this.props;
+        await dispatch(clearFundedAccountNeedsDeposit(accountId));
+        await dispatch(getAccountHelperWalletState(accountId));
+    }
+
+    componentDidUpdate = (prevProps) => {
+        const { balance, minBalanceToUnlock, needsDeposit } = this.props;
+
+        if (minBalanceToUnlock && balance.available !== prevProps.balance.available) {
+            if (new BN(balance.available).gte(new BN(minBalanceToUnlock))) {
+                this.setState({ accountFunded: true });
+                window.scrollTo(0, 0);
+
+                if (needsDeposit) {
+                    this.handleClearAccountNeedsDeposit()
+                }
+            }
+        }
+    }
+
     componentWillUnmount = () => {
         this.stopPollingAccountBalance()
     }
 
     handleClaimAccount = () => {
-        const { dispatch, accountId } = this.props;
+        const { dispatch, accountId, needsDeposit } = this.props;
+
+        if (needsDeposit) {
+            this.handleClearAccountNeedsDeposit()
+        }
+
         removeAccountIsInactive(accountId);
         dispatch(redirectTo('/'))
     }
