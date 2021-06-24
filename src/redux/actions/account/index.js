@@ -27,6 +27,8 @@ import {
     handleGetLockup,
     staking
 } from '../staking'
+import { tokens } from '../tokens'
+import { nft } from '../nft'
 
 export const loadRecoveryMethods = createAction('LOAD_RECOVERY_METHODS',
     wallet.getRecoveryMethods.bind(wallet),
@@ -439,6 +441,7 @@ export const finishAccountSetup = () => async (dispatch, getState) => {
     await dispatch(refreshAccount())
     await dispatch(getBalance())
     await dispatch(staking.clearState())
+    dispatch(tokens.clearState())
     const { balance, url, accountId } = getState().account
 
     let promptTwoFactor = await TwoFactor.checkCanEnableTwoFactor(balance)
@@ -546,6 +549,8 @@ export const switchAccount = (accountId) => async (dispatch, getState) => {
     dispatch(handleRefreshUrl())
     dispatch(staking.clearState())
     dispatch(refreshAccount())
+    dispatch(tokens.clearState())
+    dispatch(nft.clearState())
 }
 
 export const getAvailableAccountsBalance = () => async (dispatch, getState) => {
