@@ -17,15 +17,15 @@ import ExploreApps from './ExploreApps'
 import Tokens from './Tokens'
 import NFTs from './NFTs'
 import LinkDropSuccessModal from './LinkDropSuccessModal'
-import { selectTokensDetails } from '../../reducers/tokens'
-import { selectActionStatus } from '../../reducers/status'
-import { selectTransactions } from '../../reducers/transactions'
+import { selectTokensDetails } from '../../redux/reducers/tokens'
+import { selectActionStatus } from '../../redux/reducers/status'
+import { selectTransactions } from '../../redux/reducers/transactions'
 import { selectAccountId, selectBalance } from '../../reducers/account'
-import { handleGetTokens } from '../../actions/tokens'
-import { handleGetNFTs } from '../../actions/nft'
+import { handleGetTokens } from '../../redux/actions/tokens'
+import { handleGetNFTs } from '../../redux/actions/nft'
 import classNames from '../../utils/classNames'
 import { actionsPendingByPrefix } from '../../utils/alerts'
-import { selectNFT } from '../../reducers/nft'
+import { selectNFT } from '../../redux/reducers/nft'
 import { SHOW_NETWORK_BANNER } from '../../utils/wallet'
 
 import sendJson from 'fetch-send-json'
@@ -256,7 +256,7 @@ export function Wallet() {
     const tokens = useSelector(state => selectTokensDetails(state))
     const nft = useSelector(selectNFT)
     const actionStatus = useSelector(state => selectActionStatus(state))
-    const tokensLoader = actionsPendingByPrefix('TOKENS/') || !balance?.total
+    const tokensLoader = actionsPendingByPrefix('TOKENS_DETAILS/') || !balance?.total
     const [tokenView, setTokenView] = useState('fungibleTokens');
     
     useEffect(() => {
