@@ -13,6 +13,7 @@ import status from './status'
 import sign from './sign'
 import staking from './staking'
 import tokens from './tokens'
+import nft from './nft'
 
 export default (history) => combineReducers({
     // localize: localizeReducer,
@@ -27,5 +28,6 @@ export default (history) => combineReducers({
     status,
     flowLimitation,
     tokens,
+    nft
     // router: connectRouter(history)
 })
