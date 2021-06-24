@@ -1,6 +1,4 @@
 import { combineReducers } from 'redux'
-import { connectRouter } from 'connected-react-router'
-import { localizeReducer } from 'react-localize-redux'
 
 import account from './account'
 import transactions from './transactions'
@@ -16,7 +14,6 @@ import tokens from './tokens'
 import nft from './nft'
 
 export default (history) => combineReducers({
-    // localize: localizeReducer,
     allAccounts,
     availableAccounts,
     account,
@@ -29,5 +26,4 @@ export default (history) => combineReducers({
     flowLimitation,
     tokens,
     nft
-    // router: connectRouter(history)
 })

@@ -1,6 +1,5 @@
 import React, { Component, Fragment } from 'react'
 import { withRouter, Route } from 'react-router-dom'
-import { connect } from 'react-redux'
 import { Translate } from 'react-localize-redux'
 import { parse as parseQuery } from 'query-string'
 import {

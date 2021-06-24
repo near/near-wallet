@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import { connect } from 'react-redux'
 import { Translate } from 'react-localize-redux'
 
 import IconsAlertCircleImage from '../../images/icon_alert-circle.svg'

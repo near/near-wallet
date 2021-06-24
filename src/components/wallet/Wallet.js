@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
-import * as Sentry from '@sentry/browser'
 import styled from 'styled-components'
 import { Translate } from 'react-localize-redux'
 import FormButton from '../common/FormButton'
@@ -19,16 +18,12 @@ import NFTs from './NFTs'
 import LinkDropSuccessModal from './LinkDropSuccessModal'
 import { selectTokensDetails } from '../../redux/reducers/tokens'
 import { selectActionStatus } from '../../redux/reducers/status'
-import { selectTransactions } from '../../redux/reducers/transactions'
-import { selectAccountId, selectBalance } from '../../reducers/account'
 import { handleGetTokens } from '../../redux/actions/tokens'
 import { handleGetNFTs } from '../../redux/actions/nft'
 import classNames from '../../utils/classNames'
 import { actionsPendingByPrefix } from '../../utils/alerts'
 import { selectNFT } from '../../redux/reducers/nft'
 import { SHOW_NETWORK_BANNER } from '../../utils/wallet'
-
-import sendJson from 'fetch-send-json'
 import { useSelector } from '../../redux/useSelector'
 
 const StyledContainer = styled(Container)`
@@ -256,7 +251,7 @@ export function Wallet() {
     const tokens = useSelector(state => selectTokensDetails(state))
     const nft = useSelector(selectNFT)
     const actionStatus = useSelector(state => selectActionStatus(state))
-    const tokensLoader = actionsPendingByPrefix('TOKENS_DETAILS/') || !balance?.total
+    const tokensLoader = actionsPendingByPrefix('TOKENS/') || !balance?.total
     const [tokenView, setTokenView] = useState('fungibleTokens');
     
     useEffect(() => {

@@ -31,6 +31,7 @@ export const actionsPendingByPrefix = (typePrefix) => {
         if (type.startsWith(typePrefix)) {
             return actionStatus[type]?.pending
         }
+        return null
     })
 }
 

@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import { connect } from 'react-redux'
 import { withRouter, Route } from 'react-router-dom'
 
 import LoginContainer from './LoginContainer'

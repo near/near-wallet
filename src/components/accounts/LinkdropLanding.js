@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
-import { connect } from 'react-redux'
 import { Translate } from 'react-localize-redux'
 import { checkNearDropBalance, claimLinkdropToAccount, redirectTo } from '../../redux/actions/account'
 import { clearLocalAlert } from '../../redux/actions/status'

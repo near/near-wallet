@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
-import { connect } from 'react-redux'
 import styled from 'styled-components'
 import Button from '../common/Button'
 import FormButton from '../common/FormButton'

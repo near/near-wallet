@@ -1,4 +1,4 @@
-import { useSelector as useSelectorReactRedux, useDispatch } from 'react-redux';
+import { useSelector as useSelectorReactRedux } from 'react-redux';
 import { wallet } from '../utils/wallet'
 
 export const useSelector = (selector) => 

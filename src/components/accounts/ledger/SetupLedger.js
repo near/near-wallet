@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { connect } from 'react-redux';
 import { parse as parseQuery } from 'query-string';
 import Container from '../../common/styled/Container.css';
 import InstructionsModal from './InstructionsModal';
