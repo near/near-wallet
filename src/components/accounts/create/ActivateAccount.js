@@ -144,7 +144,7 @@ class ActivateAccount extends Component {
     componentDidUpdate = (prevProps) => {
         const { balance, minBalanceToUnlock, needsDeposit } = this.props;
 
-        if (minBalanceToUnlock && balance.available !== prevProps.balance.available) {
+        if (minBalanceToUnlock && balance?.available !== prevProps.balance?.available) {
             if (new BN(balance.available).gte(new BN(minBalanceToUnlock))) {
                 this.setState({ accountFunded: true });
                 window.scrollTo(0, 0);
