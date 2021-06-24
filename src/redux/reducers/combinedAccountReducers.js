@@ -12,6 +12,7 @@ import ledger from './ledger'
 import status from './status'
 import sign from './sign'
 import staking from './staking'
+import tokens from './tokens'
 
 export default (history) => combineReducers({
     // localize: localizeReducer,
@@ -25,5 +26,6 @@ export default (history) => combineReducers({
     staking,
     status,
     flowLimitation,
+    tokens,
     // router: connectRouter(history)
 })
