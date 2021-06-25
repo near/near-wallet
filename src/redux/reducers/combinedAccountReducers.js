@@ -20,9 +20,7 @@ export default (history) => combineReducers({
     transactions,
     sign,
     recoveryMethods,
-    ledger,
     staking,
-    status,
     flowLimitation,
     tokens,
     nft
