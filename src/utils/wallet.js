@@ -941,7 +941,7 @@ class Wallet {
     }
 
     dispatchShowLedgerModal(show) {
-        const { actionStatus } = store.getState()[this.accountId].status
+        const { actionStatus } = store.getState()[this.accountId]?.status || store.getState()?.status
         const actions = Object.keys(actionStatus).filter((action) => actionStatus[action]?.pending === true)
         const action = actions.length ? actions[actions.length - 1] : false
         store.dispatch(showLedgerModal({ show, action }))
