@@ -201,7 +201,7 @@ class SetupSeedPhrase extends Component {
 
     render() {
         // TODO: store recovery methods for only active account in recoveryMethods reducer
-        const recoveryMethods = this.props.recoveryMethods[this.props.accountId]
+        const recoveryMethods = this.props.recoveryMethods && this.props.recoveryMethods[this.props.accountId]
         const hasSeedPhraseRecovery = recoveryMethods && recoveryMethods.filter(m => m.kind === 'phrase').length > 0
         return (
             <Translate>
@@ -274,13 +274,13 @@ const mapDispatchToProps = {
     showCustomAlert
 }
 
-const mapStateToProps = ({ account, recoveryMethods, status }, stateMainReducer, { match }) => ({
+const mapStateToProps = ({ account, recoveryMethods }, { statusMain }, { match }) => ({
     ...account,
     verify: match.params.verify,
     accountId: match.params.accountId,
-    activeAccountId: account.accountId,
+    activeAccountId: account?.accountId,
     recoveryMethods,
-    mainLoader: status.mainLoader
+    mainLoader: statusMain?.mainLoader
 })
 
 export const SetupSeedPhraseWithRouter = connectAccount(mapStateToProps, mapDispatchToProps)(withRouter(SetupSeedPhrase))
