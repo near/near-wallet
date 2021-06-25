@@ -23,7 +23,7 @@ const PrivateRoute = ({component: Component, account, refreshAccountOwnerEnded, 
     />
 )
 
-const mapStateToProps = ({ account, status }) => ({
+const mapStateToProps = ({ account }, { status }) => ({
     account,
     localAlert: status.localAlert,
     refreshAccountOwnerEnded: status.actionStatus.REFRESH_ACCOUNT_OWNER?.success === true

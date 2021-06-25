@@ -26,7 +26,7 @@ import EnterVerificationCode from '../EnterVerificationCode';
 import Container from '../../common/styled/Container.css';
 import isApprovedCountryCode from '../../../utils/isApprovedCountryCode'
 import { Mixpanel } from '../../../mixpanel/index'
-import { actionsPendingMainReducer } from '../../../utils/alerts'
+import { actionsPending } from '../../../utils/alerts'
 import { showCustomAlert } from '../../../redux/actions/status';
 import { isRetryableRecaptchaError } from '../../Recaptcha';
 import { parseSeedPhrase } from 'near-seed-phrase';
@@ -288,8 +288,6 @@ class SetupRecoveryMethod extends Component {
         const { option, phoneNumber, email, success, emailInvalid, phoneInvalid, country, isNewAccount } = this.state;
         const { mainLoader, accountId, activeAccountId, ledgerKey, twoFactor } = this.props;
 
-        console.log('mainLoader', mainLoader);
-
         if (!success) {
             return (
                 <StyledContainer className='small-centered'>
@@ -369,7 +367,7 @@ class SetupRecoveryMethod extends Component {
                             color='blue'
                             type='submit'
                             disabled={!this.isValidInput || mainLoader}
-                            sending={actionsPendingMainReducer('INITIALIZE_RECOVERY_METHOD', 'SETUP_RECOVERY_MESSAGE')}
+                            sending={actionsPending('INITIALIZE_RECOVERY_METHOD', 'SETUP_RECOVERY_MESSAGE')}
                             trackingId='SR Click submit button'
                         >
                             <Translate id='button.continue'/>
@@ -412,13 +410,13 @@ const mapDispatchToProps = {
     validateSecurityCode
 }
 
-const mapStateToProps = ({ account, recoveryMethods }, { router, statusMain }, { match }) => ({
+const mapStateToProps = ({ account, recoveryMethods }, { router, status }, { match }) => ({
     ...account,
     router,
     accountId: match.params.accountId,
     activeAccountId: account?.accountId,
     recoveryMethods,
-    mainLoader: statusMain.mainLoader
+    mainLoader: status.mainLoader
 })
 
 export const SetupRecoveryMethodWithRouter = connectAccount(mapStateToProps, mapDispatchToProps)(SetupRecoveryMethod);

@@ -237,7 +237,7 @@ const mapDispatchToProps = {
     redirectTo
 }
 
-const mapStateToProps = ({ account, status }, stateMainReducer, { match }) => ({
+const mapStateToProps = ({ account }, { status }, { match }) => ({
     ...account,
     accountId: match.params.accountId || '',
     seedPhrase: match.params.seedPhrase || '',

@@ -109,12 +109,12 @@ const mapDispatchToProps = {
     clearState: staking.clearState
 }
 
-const mapStateToProps = ({ account }, { router, statusMain }, { match }) => ({
+const mapStateToProps = ({ account }, { router, status }, { match }) => ({
     ...account,
     router,
     seedPhrase: match.params.seedPhrase || '',
-    localAlert: statusMain?.localAlert,
-    mainLoader: statusMain?.mainLoader
+    localAlert: status?.localAlert,
+    mainLoader: status?.mainLoader
 })
 
 export const RecoverAccountSeedPhraseWithRouter = connectAccount(

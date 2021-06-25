@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector as useSelectorMainReducer } from 'react-redux'
 import styled from 'styled-components'
 import { Translate } from 'react-localize-redux'
 import FormButton from '../common/FormButton'
@@ -250,7 +250,7 @@ export function Wallet() {
     const linkdropModal = linkdropAmount && showLinkdropModal !== false;
     const tokens = useSelector(state => selectTokensDetails(state))
     const nft = useSelector(selectNFT)
-    const actionStatus = useSelector(state => selectActionStatus(state))
+    const actionStatus = useSelectorMainReducer(state => selectActionStatus(state))
     const tokensLoader = actionsPendingByPrefix('TOKENS/') || !balance?.total
     const [tokenView, setTokenView] = useState('fungibleTokens');
     

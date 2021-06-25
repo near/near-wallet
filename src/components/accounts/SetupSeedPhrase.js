@@ -274,13 +274,13 @@ const mapDispatchToProps = {
     showCustomAlert
 }
 
-const mapStateToProps = ({ account, recoveryMethods }, { statusMain }, { match }) => ({
+const mapStateToProps = ({ account, recoveryMethods }, { status }, { match }) => ({
     ...account,
     verify: match.params.verify,
     accountId: match.params.accountId,
     activeAccountId: account?.accountId,
     recoveryMethods,
-    mainLoader: statusMain?.mainLoader
+    mainLoader: status?.mainLoader
 })
 
 export const SetupSeedPhraseWithRouter = connectAccount(mapStateToProps, mapDispatchToProps)(withRouter(SetupSeedPhrase))

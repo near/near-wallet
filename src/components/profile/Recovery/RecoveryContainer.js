@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector as useSelectorMainReducer } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 import RecoveryMethod from './RecoveryMethod';
@@ -37,7 +37,7 @@ const RecoveryContainer = ({ type, recoveryMethods }) => {
     const [deletingMethod, setDeletingMethod] = useState('');
     const dispatch = useDispatch();
     const account = useSelector(({ account }) => account);
-    const { mainLoader } = useSelector(({ status }) => status);
+    const { mainLoader } = useSelectorMainReducer(({ status }) => status);
     let userRecoveryMethods = recoveryMethods || []
     const allKinds = ['email', 'phone', 'phrase'];
     const activeMethods = userRecoveryMethods.filter(({ kind }) => allKinds.includes(kind));

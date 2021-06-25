@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector as useSelectorMainReducer } from 'react-redux'
 import styled from 'styled-components'
 import Container from '../common/styled/Container.css'
 import { Translate } from 'react-localize-redux'
@@ -46,7 +46,7 @@ const StyledContainer = styled(Container)`
 export function SendContainer({ match, location }) {
     const dispatch = useDispatch()
     const { accountId, balance } = useSelector(({ account }) => account);
-    const { localAlert, mainLoader, actionStatus } = useSelector(({ status }) => status);
+    const { localAlert, mainLoader, actionStatus } = useSelectorMainReducer(({ status }) => status);
     const [useMax, setUseMax] = useState(null)
     const [amount, setAmount] = useState('')
     const [confirm, setConfirm] = useState(null)

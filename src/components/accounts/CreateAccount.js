@@ -210,10 +210,10 @@ const mapDispatchToProps = {
     redirectTo
 }
 
-const mapStateToProps = ({ account }, { statusMain }, { match }) => ({
+const mapStateToProps = ({ account }, { status }, { match }) => ({
     ...account,
-    localAlert: statusMain.localAlert,
-    mainLoader: statusMain.mainLoader,
+    localAlert: status.localAlert,
+    mainLoader: status.mainLoader,
     fundingContract: match.params.fundingContract,
     fundingKey: match.params.fundingKey,
     fundingAccountId: match.params.fundingAccountId,

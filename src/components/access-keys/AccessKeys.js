@@ -166,7 +166,7 @@ const mapDispatchToProps = {
     removeAccessKey
 }
 
-const mapStateToPropsAuthorizedApps = ({ account, status }) => ({
+const mapStateToPropsAuthorizedApps = ({ account }, { status }) => ({
     ...account,
     authorizedApps: account.authorizedApps,
     title: 'authorizedApps.pageTitle',

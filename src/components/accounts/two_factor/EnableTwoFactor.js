@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector as useSelectorMainReducer } from 'react-redux';
 import styled from 'styled-components';
 import { Translate } from 'react-localize-redux';
 import TwoFactorOption from './TwoFactorOption';
@@ -74,7 +74,7 @@ export function EnableTwoFactor(props) {
 
     const dispatch = useDispatch();
     const { accountId, has2fa } = useSelector(({ account }) => account);
-    const status = useSelector(({ status }) => status);
+    const status = useSelectorMainReducer(({ status }) => status);
 
     const [initiated, setInitiated] = useState(false);
     const [option, setOption] = useState('email');

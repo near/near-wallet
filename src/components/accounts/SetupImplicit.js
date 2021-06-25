@@ -293,7 +293,7 @@ class SetupImplicit extends Component {
     }
 }
 
-const mapStateToProps = ({ account, status }, stateMainReducer, { match: { params: { accountId, implicitAccountId, recoveryMethod } } }) => ({
+const mapStateToProps = ({ account }, { status }, { match: { params: { accountId, implicitAccountId, recoveryMethod } } }) => ({
     ...account,
     accountId,
     implicitAccountId,

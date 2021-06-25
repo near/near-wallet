@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector as useSelectorMainReducer } from 'react-redux';
 import Modal from "../../common/modal/Modal";
 import ModalTheme from '../ledger/ModalTheme';
 import FormButton from '../../common/FormButton';
@@ -26,7 +26,7 @@ const TwoFactorVerifyModal = ({ open, onClose }) => {
     const [resendCode, setResendCode] = useState();
     const dispatch = useDispatch();
     const account = useSelector(({ account }) => account);
-    const status = useSelector(({ status }) => status);
+    const status = useSelectorMainReducer(({ status }) => status);
     const loading = actionsPending('VERIFY_TWO_FACTOR');
 
     useEffect(() => {

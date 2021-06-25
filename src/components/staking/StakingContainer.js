@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector as useSelectorMainReducer } from 'react-redux'
 import { Switch, Route } from 'react-router-dom'
 import { ConnectedRouter } from 'connected-react-router'
 import styled from 'styled-components'
@@ -157,8 +157,7 @@ const StyledContainer = styled(Container)`
 export function StakingContainer({ history, match }) {
     const dispatch = useDispatch()
     const { accountId, has2fa, balance = {} } = useSelector(({ account }) => account);
-    const status = useSelector(({ status }) => status);
-    const { hasLedger } = useSelector(({ ledger }) => ledger)
+    const status = useSelectorMainReducer(({ status }) => status);
     
     const staking = useSelector(({ staking }) => staking)
     const hasLockup = !!staking.lockupId

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector as useSelectorMainReducer } from 'react-redux';
 import Container from '../../common/styled/Container.css';
 import LedgerImage from '../../svg/LedgerImage';
 import FormButton from '../../common/FormButton';
@@ -34,8 +34,7 @@ export function SignInLedger(props) {
     const ledgerHdPath = confirmedPath ? `44'/397'/0'/0'/${confirmedPath}'` : null;
 
     const account = useSelector(({ account }) => account);
-    const status = useSelector(({ status }) => status);
-    const { signInWithLedger: signInWithLedgerState, txSigned, signInWithLedgerStatus} = useSelector(({ ledger }) => ledger);
+    const status = useSelectorMainReducer(({ status }) => status);
     
     const signInWithLedgerKeys = Object.keys(signInWithLedgerState || {})
 
