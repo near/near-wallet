@@ -22,12 +22,10 @@ export const dispatchWithAlert = (action, data) => store.dispatch({
     }
 })
 
-export const actionsPending = (types) => (typeof types === 'string' ? [types] : types).some((type) => store.getState()[localStorage.getItem('_4:wallet:active_account_id_v2') || '']?.status?.actionStatus[type]?.pending)
-
-export const actionsPendingMainReducer = (types) => (typeof types === 'string' ? [types] : types).some((type) => store.getState()?.statusMain?.actionStatus[type]?.pending)
+export const actionsPending = (types) => (typeof types === 'string' ? [types] : types).some((type) => store.getState().status?.actionStatus[type]?.pending)
 
 export const actionsPendingByPrefix = (typePrefix) => {
-    const { actionStatus = {} } = store.getState()[localStorage.getItem('_4:wallet:active_account_id_v2') || ''].status
+    const { actionStatus = {} } = store.getState().status
 
     return Object.keys(actionStatus).some((type) => {
         if (type.startsWith(typePrefix)) {
@@ -38,11 +36,8 @@ export const actionsPendingByPrefix = (typePrefix) => {
 }
 
 export const handleClearAlert = () => {
-    const accountId = localStorage.getItem('_4:wallet:active_account_id_v2') || ''
-
     const { dispatch, getState } = store
-    const { account } = accountId ? getState()[accountId] : {}
-    const { router } = getState()
+    const { account, router } = getState()
 
     if (!router.location.state?.globalAlertPreventClear && !account?.globalAlertPreventClear) {
         dispatch(clearGlobalAlert())
