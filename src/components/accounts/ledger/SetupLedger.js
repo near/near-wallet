@@ -203,10 +203,10 @@ const SetupLedger = (props) => {
     );
 }
 
-const mapStateToProps = ({ account, status }, stateMainReducer, { match }) => ({
+const mapStateToProps = ({ account }, { statusMain }, { match }) => ({
     ...account,
     accountId: match.params.accountId,
-    mainLoader: status.mainLoader
+    mainLoader: statusMain?.mainLoader
 })
 
 export const SetupLedgerWithRouter = connectAccount(mapStateToProps)(SetupLedger);
