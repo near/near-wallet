@@ -158,6 +158,7 @@ export function StakingContainer({ history, match }) {
     const dispatch = useDispatch()
     const { accountId, has2fa, balance = {} } = useSelector(({ account }) => account);
     const status = useSelectorMainReducer(({ status }) => status);
+    const { hasLedger } = useSelectorMainReducer(({ ledger }) => ledger)
     
     const staking = useSelector(({ staking }) => staking)
     const hasLockup = !!staking.lockupId

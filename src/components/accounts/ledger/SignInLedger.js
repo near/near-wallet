@@ -35,6 +35,7 @@ export function SignInLedger(props) {
 
     const account = useSelector(({ account }) => account);
     const status = useSelectorMainReducer(({ status }) => status);
+    const { signInWithLedger: signInWithLedgerState, txSigned, signInWithLedgerStatus} = useSelectorMainReducer(({ ledger }) => ledger);
     
     const signInWithLedgerKeys = Object.keys(signInWithLedgerState || {})
 

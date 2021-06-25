@@ -6,11 +6,9 @@ import Modal from "../../common/modal/Modal";
 import ModalTheme from './ModalTheme';
 
 import LedgerImage from '../../svg/LedgerImage';
-import { useSelector } from '../../../redux/useSelector';
 
 const LedgerConfirmActionModal = () => {
-    const modal = useSelector(({ ledger }) => ledger?.modal) || useSelectorMainReducer(({ ledger }) => ledger?.modal)
-    const txSigned = useSelector(({ ledger }) => ledger?.txSigned) || useSelectorMainReducer(({ ledger }) => ledger?.txSigned)
+    const { modal, txSigned } = useSelectorMainReducer(({ ledger }) => ledger || {})
 
     return (modal && modal.show)
         ? (

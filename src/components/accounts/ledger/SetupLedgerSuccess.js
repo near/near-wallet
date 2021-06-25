@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useSelector as useSelectorMainReducer } from 'react-redux'
 import Container from '../../common/styled/Container.css';
 import HardwareDeviceIcon from '../../svg/HardwareDeviceIcon';
 import NextStepModal from './NextStepModal';
@@ -14,7 +15,7 @@ const SetupLedgerSuccess = (props) => {
 
     const [nextStep, setNextStep] = useState('');
     const removingkeys = actionsPending('REMOVE_NON_LEDGER_ACCESS_KEYS');
-    const { hasLedger } = useSelector(({ ledger }) => ledger)
+    const { hasLedger } = useSelectorMainReducer(({ ledger }) => ledger)
 
     const handleConfirm = async () => {
         if (nextStep === 'keep') {
