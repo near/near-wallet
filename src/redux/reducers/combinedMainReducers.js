@@ -7,6 +7,6 @@ import ledger from './ledger'
 export default (history) => ({
     localize: localizeReducer,
     router: connectRouter(history),
-    statusMain: status,
+    status,
     ledger
 })
