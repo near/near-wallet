@@ -173,7 +173,8 @@ class MobileContainer extends Component {
             showNavLinks,
             flowLimitation,
             refreshBalance,
-            getBalance
+            getBalance,
+            isInactiveAccount
         } = this.props
 
         return (
@@ -199,7 +200,9 @@ class MobileContainer extends Component {
                 </Collapsed>
                 {menuOpen &&
                     <>
-                        <NavLinks />
+                        {!isInactiveAccount &&
+                            <NavLinks />
+                        }
                         <Lang className="mobile-lang">
                             <LanguageToggle />
                         </Lang>
@@ -216,7 +219,9 @@ class MobileContainer extends Component {
                                 getBalance={getBalance}
                             />
                             <AccessAccountBtn/>
-                            <CreateAccountBtn/>
+                            {!isInactiveAccount &&
+                                <CreateAccountBtn/>
+                            }
                         </LowerSection>
                     </>
                 }

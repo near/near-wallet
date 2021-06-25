@@ -32,7 +32,7 @@ export default function Staking({
             <h2><Translate id='staking.staking.desc' /></h2>
             <div className='select-account-title'>
                 <Translate id='staking.staking.selectAccount' />
-                <Tooltip translate='staking.stake.accounts' position='right'/>
+                <Tooltip translate='staking.stake.accounts' position='bottom'/>
             </div>
             {!loading && !loadingDetails &&
                 <SelectAccount

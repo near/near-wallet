@@ -43,12 +43,11 @@ const StyledContainer = styled.div`
 
     .desc {
         overflow: hidden;
-        
-        > div {
-            font-weight: 700;
-            color: #24272a;
-        }
+        font-weight: 700;
+        color: #24272a;
+
         > span {
+            font-weight: normal;
             color: #A2A2A8;
             max-width: 220px;
             overflow: hidden;
@@ -169,11 +168,9 @@ const ActivityBox = ({ transaction, actionArgs, actionKind, accountId, setTransa
 }
 
 export const ActionTitle = ({ transaction, actionArgs, actionKind, accountId }) => (
-    <div>
-        <Translate 
-            id={`dashboardActivity.title.${translateId(transaction, actionArgs, actionKind, accountId)}`}
-        />
-    </div>
+    <Translate 
+        id={`dashboardActivity.title.${translateId(transaction, actionArgs, actionKind, accountId)}`}
+    />
 )
 
 export const ActionMessage = ({ transaction, actionArgs, actionKind, accountId }) => (
