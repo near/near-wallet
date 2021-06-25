@@ -24,6 +24,8 @@ export const dispatchWithAlert = (action, data) => store.dispatch({
 
 export const actionsPending = (types) => (typeof types === 'string' ? [types] : types).some((type) => store.getState()[localStorage.getItem('_4:wallet:active_account_id_v2') || '']?.status?.actionStatus[type]?.pending)
 
+export const actionsPendingMainReducer = (types) => (typeof types === 'string' ? [types] : types).some((type) => store.getState()?.statusMain?.actionStatus[type]?.pending)
+
 export const actionsPendingByPrefix = (typePrefix) => {
     const { actionStatus = {} } = store.getState()[localStorage.getItem('_4:wallet:active_account_id_v2') || ''].status
 
