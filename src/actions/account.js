@@ -329,7 +329,10 @@ export const {
         () => ({})
     ],
     CLAIM_LINKDROP_TO_ACCOUNT: [
-        wallet.claimLinkdropToAccount.bind(wallet),
+        async (fundingContract, fundingKey, accountId, url) => {
+            await wallet.claimLinkdropToAccount(fundingContract, fundingKey)
+            finishLinkdropClaim(accountId, url)
+        },
         () => showAlert({ onlyError: true })
     ],
     CHECK_IS_NEW: [
@@ -472,6 +475,12 @@ export const finishAccountSetup = () => async (dispatch, getState) => {
         } else {
             dispatch(redirectToApp('/'))
         }
+    }
+}
+
+const finishLinkdropClaim = (accountId, url) => {
+    if (url?.redirectUrl) {
+        window.location = `${url.redirectUrl}?accountId=${accountId}`
     }
 }
 
