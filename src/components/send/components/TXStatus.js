@@ -15,7 +15,7 @@ const Indicator = styled.span`
     margin-right: 10px;
 `
 
-const getStatusColor = ({ status }) => {
+const getStatusColor = (status) => {
     switch (status) {
         case 'SuccessValue':
             return '#4DD5A6'
@@ -31,7 +31,7 @@ const getStatusColor = ({ status }) => {
 const TXStatus = ({ status }) => {
     return (
         <StyledContainer className='status'>
-            <Indicator color={getStatusColor({ status })}/>
+            <Indicator color={getStatusColor(status)}/>
             <Translate id={`sendV2.TXEntry.status.${status}`} />
         </StyledContainer>
     )
