@@ -223,10 +223,13 @@ export const {
     checkCanEnableTwoFactor,
     get2faMethod,
     getLedgerKey,
+    getAccountHelperWalletState,
+    clearFundedAccountNeedsDeposit,
     getLedgerPublicKey,
     setupRecoveryMessage,
     deleteRecoveryMethod,
     checkNearDropBalance,
+    getAccountBasic,
     claimLinkdropToAccount,
     checkIsNew,
     checkNewAccount,
@@ -297,6 +300,14 @@ export const {
         wallet.getLedgerKey.bind(wallet),
         () => ({})
     ],
+    GET_ACCOUNT_HELPER_WALLET_STATE: [
+        wallet.getAccountHelperWalletState.bind(wallet),
+        () => ({})
+    ],
+    CLEAR_FUNDED_ACCOUNT_NEEDS_DEPOSIT: [
+        wallet.clearFundedAccountNeedsDeposit.bind(wallet),
+        () => showAlert({ onlyError: true })
+    ],
     GET_LEDGER_PUBLIC_KEY: [
         wallet.getLedgerPublicKey.bind(wallet),
         () => ({})
@@ -313,8 +324,15 @@ export const {
         wallet.checkNearDropBalance.bind(wallet),
         () => ({})
     ],
+    GET_ACCOUNT_BASIC: [
+        wallet.getAccountBasic.bind(wallet),
+        () => ({})
+    ],
     CLAIM_LINKDROP_TO_ACCOUNT: [
-        wallet.claimLinkdropToAccount.bind(wallet),
+        async (fundingContract, fundingKey, accountId, url) => {
+            await wallet.claimLinkdropToAccount(fundingContract, fundingKey)
+            finishLinkdropClaim(accountId, url)
+        },
         () => showAlert({ onlyError: true })
     ],
     CHECK_IS_NEW: [
@@ -457,6 +475,12 @@ export const finishAccountSetup = () => async (dispatch, getState) => {
         } else {
             dispatch(redirectToApp('/'))
         }
+    }
+}
+
+const finishLinkdropClaim = (accountId, url) => {
+    if (url?.redirectUrl) {
+        window.location = `${url.redirectUrl}?accountId=${accountId}`
     }
 }
 

@@ -98,7 +98,7 @@ export function SignInLedger(props) {
     }
 
     return (
-        <Container className='small-centered ledger-theme'>
+        <Container className='small-centered border ledger-theme'>
             <h1><Translate id='signInLedger.header'/></h1>
             <LedgerImage/>
             <h2><Translate id='signInLedger.one'/></h2>

@@ -165,7 +165,7 @@ export function EnableTwoFactor(props) {
 
     if (!initiated) {
         return (
-            <StyledContainer className='small-centered'>
+            <StyledContainer className='small-centered border'>
                 <AlertBanner
                     title='twoFactor.alertBanner.title'
                     data={MULTISIG_MIN_AMOUNT}
@@ -254,7 +254,8 @@ export function EnableTwoFactor(props) {
                 onConfirm={handleConfirm}
                 onGoBack={handleGoBack}
                 onResend={handleResendCode}
-                loading={loading}
+                reSending={actionsPending('INIT_TWO_FACTOR')}
+                verifyingCode={loading}
                 localAlert={status.localAlert}
             />
         )

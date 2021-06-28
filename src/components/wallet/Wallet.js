@@ -97,6 +97,16 @@ const StyledContainer = styled(Container)`
             margin-top: 25px;
         }
 
+        h1 {
+            &.total-balance {
+                font-size: 36px !important;
+
+                @media (max-width: 767px) {
+                    font-size: 30px !important;
+                }
+            }
+        }
+
         @media (min-width: 992px) {
             border: 2px solid #F0F0F0;
             border-radius: 8px;
@@ -237,6 +247,7 @@ const StyledContainer = styled(Container)`
         align-self: flex-start;
         margin: 50px 0 30px 0;
         text-align: left !important;
+        color: #24272a !important;
     }
 `
 
@@ -255,7 +266,7 @@ export function Wallet() {
     const actionStatus = useSelector(state => selectActionStatus(state))
     const tokensLoader = actionsPendingByPrefix('TOKENS/') || !balance?.total
     const [tokenView, setTokenView] = useState('fungibleTokens');
-    
+
     useEffect(() => {
         if (accountId) {
             let id = Mixpanel.get_distinct_id()
@@ -295,13 +306,13 @@ export function Wallet() {
             <div className='split'>
                 <div className='left'>
                     <div className='tab-selector'>
-                        <div 
+                        <div
                             className={classNames(['tab-balances', tokenView !== 'fungibleTokens' ? 'inactive' : ''])}
                             onClick={() => setTokenView('fungibleTokens')}
                         >
                             Balances
                         </div>
-                        <div 
+                        <div
                             className={classNames(['tab-collectibles', tokenView !== 'nonFungibleTokens' ? 'inactive' : ''])}
                             onClick={() => setTokenView('nonFungibleTokens')}
                         >
@@ -323,7 +334,7 @@ export function Wallet() {
                     {!hideExploreApps && exploreApps !== false &&
                         <ExploreApps onClick={handleHideExploreApps}/>
                     }
-                    <Activities 
+                    <Activities
                         transactions={transactions[accountId] || []}
                         accountId={accountId}
                         getTransactionStatus={getTransactionStatus}
@@ -346,7 +357,7 @@ const FungibleTokens = ({ balance, tokensLoader, sortedTokens, }) => {
     return (
         <>
             <NearWithBackgroundIcon/>
-            <h1><Balance amount={balance?.total} symbol={false}/></h1>
+            <h1 className='total-balance'><Balance amount={balance?.total} symbol={false}/></h1>
             <div className='sub-title'><Translate id='wallet.balanceTitle' /></div>
             <div className='buttons'>
                 <FormButton

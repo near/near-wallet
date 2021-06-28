@@ -15,7 +15,6 @@ import { generateSeedPhrase } from 'near-seed-phrase'
 import SetupSeedPhraseVerify from './SetupSeedPhraseVerify'
 import SetupSeedPhraseForm from './SetupSeedPhraseForm'
 import copyText from '../../utils/copyText'
-import isMobile from '../../utils/isMobile'
 import { Snackbar, snackbarDuration } from '../common/Snackbar'
 import Container from '../common/styled/Container.css'
 import { KeyPair } from 'near-api-js'
@@ -168,7 +167,7 @@ class SetupSeedPhrase extends Component {
 
     handleCopyPhrase = () => {
         Mixpanel.track("SR-SP Copy seed phrase")
-        if (navigator.share && isMobile()) {
+        if (navigator.share && this.props.isMobile) {
             navigator.share({
                 text: this.state.seedPhrase
             }).catch(err => {
@@ -211,7 +210,7 @@ class SetupSeedPhrase extends Component {
                             exact
                             path={`/setup-seed-phrase/:accountId/phrase`}
                             render={() => (
-                                <Container className='small-centered'>
+                                <Container className='small-centered border'>
                                     <h1><Translate id='setupSeedPhrase.pageTitle'/></h1>
                                     <h2><Translate id='setupSeedPhrase.pageText'/></h2>
                                     <SetupSeedPhraseForm
@@ -226,7 +225,7 @@ class SetupSeedPhrase extends Component {
                             exact
                             path={`/setup-seed-phrase/:accountId/verify`}
                             render={() => (
-                                <Container className='small-centered'>
+                                <Container className='small-centered border'>
                                     <form
                                         onSubmit={this.handleOnSubmit}
                                         autoComplete='off'
@@ -281,7 +280,8 @@ const mapStateToProps = ({ account, recoveryMethods, status }, { match }) => ({
     accountId: match.params.accountId,
     activeAccountId: account.accountId,
     recoveryMethods,
-    mainLoader: status.mainLoader
+    mainLoader: status.mainLoader,
+    isMobile: status.isMobile
 })
 
 export const SetupSeedPhraseWithRouter = connect(mapStateToProps, mapDispatchToProps)(withRouter(SetupSeedPhrase))

@@ -44,24 +44,26 @@ import { Profile } from './profile/Profile'
 import { BuyNear } from './buy/BuyNear'
 import { SignWithRouter } from './sign/Sign'
 import { StakingContainer } from './staking/StakingContainer'
-import { DISABLE_SEND_MONEY, WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS, IS_MAINNET, SHOW_PRERELEASE_WARNING } from '../utils/wallet'
-import { refreshAccount, handleRefreshUrl, handleRedirectUrl, handleClearUrl, promptTwoFactor } from '../actions/account'
+import { WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS, IS_MAINNET, SHOW_PRERELEASE_WARNING } from '../utils/wallet'
+import isMobile from '../utils/isMobile'
+import { refreshAccount, handleRefreshUrl, handleRedirectUrl, handleClearUrl, promptTwoFactor, redirectTo, getAccountHelperWalletState } from '../actions/account'
+import { setIsMobile } from '../actions/status'
 import LedgerConfirmActionModal from './accounts/ledger/LedgerConfirmActionModal';
 
 import GlobalStyle from './GlobalStyle'
 import { SetupSeedPhraseWithRouter } from './accounts/SetupSeedPhrase'
 import { SetupImplicitWithRouter } from './accounts/SetupImplicit'
 import { SetupImplicitSuccess } from './accounts/SetupImplicitSuccess'
+import { ActivateAccountWithRouter } from './accounts/create/ActivateAccount'
 import { handleClearAlert} from '../utils/alerts'
 import { Mixpanel } from "../mixpanel/index";
 import classNames from '../utils/classNames';
-import Terms from './terms/Terms'
+import Terms from './terms/Terms';
+import { getAccountIsInactive } from '../utils/localStorage'
 
 const theme = {}
 
 const PATH_PREFIX = process.env.PUBLIC_URL
-
-const onMissingTranslation = ({ defaultTranslation }) => defaultTranslation;
 
 const Container = styled.div`
     min-height: 100vh;
@@ -89,7 +91,7 @@ const Container = styled.div`
 `
 class Routing extends Component {
     constructor(props) {
-        super(props)
+        super(props);
         const languages = [
             { name: "English", code: "en" },
             { name: "Português", code: "pt" },
@@ -130,11 +132,13 @@ class Routing extends Component {
             history,
             handleRedirectUrl,
             handleClearUrl,
-            router
+            router,
+            setIsMobile
         } = this.props
 
         handleRefreshUrl(router)
         refreshAccount()
+        setIsMobile(isMobile())
 
         history.listen(async () => {
             handleRedirectUrl(this.props.router.location)
@@ -148,8 +152,14 @@ class Routing extends Component {
     }
 
     componentDidUpdate(prevProps) {
+        const { activeLanguage, account, getAccountHelperWalletState } = this.props;
+
+        if (account && prevProps.account.accountId !== account.accountId && account.accountId !== undefined) {
+            getAccountHelperWalletState(account.accountId)
+        }
+
         const prevLangCode = prevProps.activeLanguage && prevProps.activeLanguage.code
-        const curLangCode = this.props.activeLanguage && this.props.activeLanguage.code
+        const curLangCode = activeLanguage && activeLanguage.code
         const hasLanguageChanged = prevLangCode !== curLangCode
 
         if (hasLanguageChanged) {
@@ -169,6 +179,10 @@ class Routing extends Component {
 
     render() {
         const { search } = this.props.router.location
+        const { account } = this.props;
+
+        const isInactiveAccount = account && (getAccountIsInactive(`${account.localStorage?.accountId || account.accountId}`) || account.accountHelperWalletState?.fundedAccountNeedsDeposit);
+
         return (
             <Container className={classNames(['App', {'network-banner': (!IS_MAINNET || SHOW_PRERELEASE_WARNING)}])} id='app-container'>
                 <GlobalStyle />
@@ -176,13 +190,13 @@ class Routing extends Component {
                     <ThemeProvider theme={theme}>
                         <ScrollToTop/>
                         <NetworkBanner
-                            account={this.props.account}
+                            account={account}
                         />
-                        <Navigation/>
+                        <Navigation isInactiveAccount={isInactiveAccount}/>
                         <GlobalAlert/>
                         <LedgerConfirmActionModal/>
                         {
-                            this.props.account.requestPending !== null &&
+                            account.requestPending !== null &&
                             <TwoFactorVerifyModal
                                 onClose={(verified, error) => {
                                     const { account, promptTwoFactor } = this.props
@@ -209,7 +223,7 @@ class Routing extends Component {
                             <GuestLandingRoute
                                 exact
                                 path='/' 
-                                component={Wallet}
+                                component={isInactiveAccount ? ActivateAccountWithRouter : Wallet}
                                 accountFound={this.props.account.localStorage?.accountFound}
                             />
                             <Route
@@ -301,7 +315,7 @@ class Routing extends Component {
                                 path='/full-access-keys'
                                 component={FullAccessKeysWithRouter}
                             />
-                            {!DISABLE_SEND_MONEY &&
+                            {!isInactiveAccount &&
                                 <PrivateRouteLimited
                                     exact
                                     path='/send-money/:id?'
@@ -323,25 +337,29 @@ class Routing extends Component {
                                 path='/profile/:accountId'
                                 component={Profile}
                             />
-                            <PrivateRouteLimited
-                                exact
-                                path='/profile/:accountId?'
-                                component={Profile}
-                            />
+                            {!isInactiveAccount &&
+                                <PrivateRouteLimited
+                                    exact
+                                    path='/profile/:accountId?'
+                                    component={Profile}
+                                />
+                            }
                             <PrivateRouteLimited
                                 exact
                                 path='/sign'
                                 component={SignWithRouter}
                             />
-                            <PrivateRouteLimited
-                                path='/staking'
-                                component={StakingContainer}
-                                render={() => (
-                                    <StakingContainer
-                                        history={this.props.history}
-                                    />
-                                )}
-                            />
+                            {!isInactiveAccount &&
+                                <PrivateRouteLimited
+                                    path='/staking'
+                                    component={StakingContainer}
+                                    render={() => (
+                                        <StakingContainer
+                                            history={this.props.history}
+                                        />
+                                    )}
+                                />
+                            }
                             <Route
                                 exact
                                 path='/cli-login-success'
@@ -353,7 +371,7 @@ class Routing extends Component {
                                 component={Terms}
                             />
                             <PrivateRouteLimited
-                                component={Wallet}
+                                component={isInactiveAccount ? ActivateAccountWithRouter : Wallet}
                             />
                         </Switch>
                         <Footer />
@@ -373,7 +391,10 @@ const mapDispatchToProps = {
     handleRefreshUrl,
     handleRedirectUrl,
     handleClearUrl,
-    promptTwoFactor
+    promptTwoFactor,
+    redirectTo,
+    getAccountHelperWalletState,
+    setIsMobile
 }
 
 const mapStateToProps = ({ account, router }) => ({

@@ -5,6 +5,7 @@ import styled from 'styled-components'
 import BinanceLogo from '../../images/binance-logo.svg'
 import HuobiLogo from '../../images/huobi-logo.svg'
 import OkexLogo from '../../images/okex-logo.svg'
+import LiqualityLogo from '../../images/liquality-logo.svg'
 
 const Container = styled.div`
     display: flex;
@@ -12,9 +13,10 @@ const Container = styled.div`
     align-items: center;
     padding: 40px 0 30px 0;
 
-    .sub-title {
-        color: #72727A;
-        font-size: 16px;
+    h2 {
+        color: #72727A !important;
+        font-size: 16px !important;
+        font-weight: 400 !important;
         line-height: 150%;
         text-align: center;
         margin: 20px 0 30px 0;
@@ -48,8 +50,8 @@ const WhereToBuyNearModal = ({ open, onClose }) => {
             modalSize='md'
         >
             <Container>
-                <h2><Translate id='account.createImplicit.pre.whereToBuy.title'/></h2>
-                <div className='sub-title'><Translate id='account.createImplicit.pre.whereToBuy.desc'/></div>
+                <h1><Translate id='account.createImplicit.pre.whereToBuy.title'/></h1>
+                <h2><Translate id='account.createImplicit.pre.whereToBuy.desc'/></h2>
                 <a href='https://www.binance.com/' target='_blank' rel='noreferrer'>
                     <img src={BinanceLogo} alt='BINANCE'/>
                 </a>
@@ -58,6 +60,9 @@ const WhereToBuyNearModal = ({ open, onClose }) => {
                 </a>
                 <a href='https://www.okex.com/' target='_blank' rel='noreferrer'>
                     <img src={OkexLogo} alt='OKEX'/>
+                </a>
+                <a href='https://liquality.io/' target='_blank' rel='noreferrer'>
+                    <img src={LiqualityLogo} alt='LIQUALITY'/>
                 </a>
             </Container>
         </Modal>
