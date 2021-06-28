@@ -245,7 +245,7 @@ class SetupSeedPhrase extends Component {
                                             ref={(ref) => this.recaptchaRef = ref}
                                             isNewAccount={isNewAccount}
                                             onSubmit={this.handleOnSubmit}
-                                            isLinkDrop={parseFundingOptions(this.props.location.search)}
+                                            isLinkDrop={parseFundingOptions(this.props.location.search) !== null}
                                         />
                                     </form>
                                 </Container>
