@@ -15,24 +15,23 @@ const Indicator = styled.span`
     margin-right: 10px;
 `
 
-const TXStatus = ({ status }) => {
-
-    const getStatusColor = () => {
-        switch (status) {
-            case 'SuccessValue':
-                return '#4DD5A6'
-            case 'Failure':
-                return '#ff585d'
-            case 'notAvailable':
-                return '#ff585d'
-            default:
-                return
-        }
+const getStatusColor = ({ status }) => {
+    switch (status) {
+        case 'SuccessValue':
+            return '#4DD5A6'
+        case 'Failure':
+            return '#ff585d'
+        case 'notAvailable':
+            return '#ff585d'
+        default:
+            return
     }
+}
 
+const TXStatus = ({ status }) => {
     return (
         <StyledContainer className='status'>
-            <Indicator color={getStatusColor()}/>
+            <Indicator color={getStatusColor({ status })}/>
             <Translate id={`sendV2.TXEntry.status.${status}`} />
         </StyledContainer>
     )
