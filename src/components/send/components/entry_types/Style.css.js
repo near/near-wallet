@@ -18,7 +18,9 @@ const Style = styled.div`
         display: flex;
         align-items: center;
 
-        svg {
+        img, svg {
+            height: 32px;
+            width: 32px;
             margin-right: 10px;
         }
     }

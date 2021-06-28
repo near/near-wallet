@@ -2,9 +2,10 @@ import React from 'react'
 import { Translate } from 'react-localize-redux'
 import StyledContainer from './Style.css'
 import DefaultTokenIconBlack from '../../../svg/DefaultTokenIconBlack'
+import isDataURL from '../../../../utils/isDataURL'
 
 const Icon = ({ symbol, icon }) => {
-    if (icon) {
+    if (icon && isDataURL(icon)) {
         return <img src={icon} alt={symbol}/>
     } else {
         return <DefaultTokenIconBlack/>
