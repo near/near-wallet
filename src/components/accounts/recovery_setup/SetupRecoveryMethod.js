@@ -428,7 +428,7 @@ class SetupRecoveryMethod extends Component {
                     reSending={actionsPending('INITIALIZE_RECOVERY_METHOD')}
                     verifyingCode={actionsPending('SETUP_RECOVERY_MESSAGE') || settingUpNewAccount}
                     onRecaptchaChange={this.handleRecaptchaChange}
-                    isLinkDrop={parseFundingOptions(location.search)}
+                    isLinkDrop={parseFundingOptions(location.search) !== null}
                 />
             )
         }
