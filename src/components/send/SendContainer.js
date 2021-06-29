@@ -143,7 +143,7 @@ export function SendContainer({ match, location }) {
                     placeholder='0'
                     value={amount}
                     onChange={handleChangeAmount}
-                    className={classNames(['amount-input', !sufficientBalance ? 'error' : ''])}
+                    className={classNames(['send-amount-input', !sufficientBalance ? 'error' : ''])}
                     tabIndex='1'
                 />
                 <BalanceBreakdown

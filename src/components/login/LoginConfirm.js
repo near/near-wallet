@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Translate } from 'react-localize-redux'
-import { Grid, Input } from 'semantic-ui-react'
+import { Grid } from 'semantic-ui-react'
 
 import MobileContainer from '../sign/MobileContainer'
 import FormButton from '../common/FormButton'
@@ -16,9 +16,9 @@ class LoginForm extends Component {
         confirmStatus: ''
     }
 
-    handleChange = (e, { name, value }) => {
+    handleChange = (value) => {
         this.setState(() => ({
-            [name]: value,
+            accountId: value,
             confirmStatus: ''
         }))
     }
@@ -78,11 +78,10 @@ class LoginForm extends Component {
                             <Grid.Column largeScreen={6} computer={8} tablet={10} mobile={16}>
                                 <Translate>
                                     {({ translate }) => (
-                                        <Input 
-                                            name='accountId'
+                                        <input
                                             value={accountId}
-                                            onChange={this.handleChange}
-                                            className={`username-input-icon ${confirmStatus ? (confirmStatus === 'success' ? 'success' : 'problem') : ''}`}
+                                            onChange={e => this.handleChange(e.target.value)}
+                                            className={`${confirmStatus ? (confirmStatus === 'success' ? 'success' : 'problem') : ''}`}
                                             placeholder={translate('login.confirm.username')}
                                             maxLength='64'
                                             required

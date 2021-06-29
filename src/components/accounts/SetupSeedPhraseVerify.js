@@ -1,5 +1,5 @@
 import React, { useRef, useImperativeHandle, forwardRef, useState, useEffect } from 'react'
-import { Responsive, Input } from 'semantic-ui-react'
+import { Responsive } from 'semantic-ui-react'
 import { Translate } from 'react-localize-redux'
 
 import sendJson from '../../tmp_fetch_send_json'
@@ -107,10 +107,9 @@ const SetupSeedPhraseVerify = (
             <h4><Translate id='input.enterWord.title' data={{ wordId: wordId + 1 }}/></h4>
             <Translate>
                 {({ translate }) => (
-                    <Input
-                        name='enterWord'
+                    <input
                         value={enterWord}
-                        onChange={handleChangeWord}
+                        onChange={e => handleChangeWord(e.target.value)}
                         placeholder={translate('input.enterWord.placeholder')}
                         required
                         tabIndex='1'

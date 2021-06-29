@@ -50,7 +50,7 @@ export function SignInLedger(props) {
     
     const signingIn = !!signInWithLedgerStatus
 
-    const handleChange = (e, { value }) => {
+    const handleChange = (value) => {
         setAccountId(value)
     }
 

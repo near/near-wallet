@@ -48,9 +48,9 @@ class RecoverAccountSeedPhrase extends Component {
 
     componentDidMount = () => {}
 
-    handleChange = (e, { name, value }) => {
+    handleChange = (value) => {
         this.setState(() => ({
-            [name]: value
+            seedPhrase: value
         }))
 
         this.props.clearLocalAlert()

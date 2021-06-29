@@ -1,7 +1,6 @@
 import React, { Component, createRef } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import { Input } from 'semantic-ui-react'
 import { Translate } from 'react-localize-redux'
 import classNames from '../../utils/classNames'
 
@@ -63,25 +62,25 @@ class AccountFormAccountId extends Component {
 
         if (type === 'create') {
             this.suffix.current.style.visibility = 'hidden';
-            this.input.current.inputRef.current.addEventListener('input', this.updateSuffix);
+            this.input.current.addEventListener('input', this.updateSuffix);
         }
 
         if (defaultAccountId) {
-            this.handleChangeAccountId({}, { name: 'accountId', value: accountId})
+            this.handleChangeAccountId(accountId)
         }
     }
 
     componentWillUnmount() {
-        this.input.current.inputRef.current.removeEventListener('input', this.updateSuffix);
+        this.input.current.removeEventListener('input', this.updateSuffix);
     }
 
     updateSuffix = () => {
         const isSafari = /Safari/.test(navigator.userAgent) && /Apple Computer/.test(navigator.vendor);
-        const width = this.getTextWidth(this.input.current.inputRef.current.value, '16px Inter');
+        const width = this.getTextWidth(this.input.current.value, '16px Inter');
         const extraSpace = isSafari ? 21.5 : 22
         this.suffix.current.style.left = width + extraSpace + 'px';
         this.suffix.current.style.visibility = 'visible';
-        if (this.input.current.inputRef.current.value.length === 0) this.suffix.current.style.visibility = 'hidden';
+        if (this.input.current.value.length === 0) this.suffix.current.style.visibility = 'hidden';
     }
 
     getTextWidth = (text, font) => {
@@ -94,14 +93,14 @@ class AccountFormAccountId extends Component {
         return metrics.width;
     }
 
-    handleChangeAccountId = (e, { name, value }) => {
+    handleChangeAccountId = (value) => {
         const { pattern, handleChange, type } = this.props
 
         value = value.trim().toLowerCase()
 
         if (value.match(pattern)) {
             if (this.state.wrongChar) {
-                const el = this.input.current.inputRef.current
+                const el = this.input.current
                 el.style.animation = 'none'
                 void el.offsetHeight
                 el.style.animation = null
@@ -118,10 +117,10 @@ class AccountFormAccountId extends Component {
         }
         
         this.setState(() => ({
-            [name]: value
+            accountId: value
         }))
         
-        handleChange(e, { name, value })
+        handleChange(value)
 
         this.props.localAlert && this.props.clearLocalAlert()
 
@@ -228,12 +227,11 @@ class AccountFormAccountId extends Component {
                 <Translate>
                     {({ translate }) => (
                         <InputWrapper type={type}>
-                            <Input
+                            <input
                                 className={classNames([{'success': localAlert && localAlert.success}, {'problem': localAlert && localAlert.success === false}, {'wrong-char': wrongChar}])}
-                                name='accountId'
                                 ref={this.input}
                                 value={accountId}
-                                onChange={this.handleChangeAccountId}
+                                onChange={e => this.handleChangeAccountId(e.target.value)}
                                 placeholder={type === 'create' ? translate('createAccount.accountIdInput.placeholder', { data: ACCOUNT_ID_SUFFIX}) : translate('input.accountId.placeholder')}
                                 required
                                 autoComplete='off'

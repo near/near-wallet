@@ -38,7 +38,7 @@ export default function AmountInput({
                 placeholder='0'
                 value={value}
                 onChange={e => onChange(e.target.value)}
-                className='amount-input'
+                className='stake-amount-input'
             />
             {(action === 'unstake' || !stakeFromAccount) ? (
                 <div className='available-balance' onClick={availableClick}>
