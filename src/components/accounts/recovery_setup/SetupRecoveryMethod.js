@@ -214,10 +214,8 @@ class SetupRecoveryMethod extends Component {
         const {
             accountId,
             setupRecoveryMessage,
-            showCustomAlert,
-            location
+            showCustomAlert
         } = this.props;
-        const fundingOptions = parseFundingOptions(location.search)
 
         const { recoverySeedPhrase, recaptchaToken, success } = this.state;
 
@@ -229,7 +227,7 @@ class SetupRecoveryMethod extends Component {
                     }
 
                     try {
-                        await this.setupRecoveryMessageNewAccount(accountId, this.method, securityCode, fundingOptions, recoverySeedPhrase, recaptchaToken);
+                        await this.setupRecoveryMessageNewAccount(accountId, this.method, securityCode, recoverySeedPhrase, recaptchaToken);
 
                     } catch (e) {
                         debugLog('setupRecoveryMessageNewAccount() failed', e.message);
