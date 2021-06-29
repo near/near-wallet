@@ -3,7 +3,7 @@ import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { Translate } from 'react-localize-redux'
 import styled from 'styled-components'
-import parseFundingOptions from '../../utils/parseFundingOptions'
+import { parse as parseQuery } from 'query-string'
 import { recoverAccountSeedPhrase, redirectToApp, redirectTo, refreshAccount } from '../../actions/account'
 import { staking } from '../../actions/staking'
 import { clearLocalAlert } from '../../actions/status'
@@ -69,7 +69,7 @@ class RecoverAccountSeedPhrase extends Component {
                 await this.props.refreshAccount()
             }
         )
-        const options = parseFundingOptions(this.props.location.search)
+        const options = JSON.parse(parseQuery(this.props.location.search).fundingOptions || 'null')
         if (options) {
             this.props.redirectTo(`/linkdrop/${options.fundingContract}/${options.fundingKey}`)
         } else {
