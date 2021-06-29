@@ -182,7 +182,7 @@ export default createGlobalStyle`
         height: 48px;
         border: 2px solid #E4E4E6;
         padding: 0 0 0 15px;
-        color: #4a4f54;
+        color: #24272A;
         font-weight: 300;
         position: relative;
         margin-top: 8px;
