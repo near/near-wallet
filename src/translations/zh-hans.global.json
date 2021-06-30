@@ -753,7 +753,9 @@
         "tokens": "通证",
         "balance": "余额",
         "dateAndTime": "日期和时间",
-        "status": "状态"
+        "status": "状态",
+        "balances": "余额",
+        "collectibles": "收藏品"
     },
 
     "buyNear": {
@@ -767,6 +769,10 @@
         "coinMarketCap": "CoinMarketCap"
     },
     
+    "NFTs": {
+        "emptyState": "似乎你还没有收藏品。"
+    },
+
     "exploreApps": {
         "title": "寻找 NEAR 生态和应用？",
         "desc": "赚取、铸币和玩游戏！发现 NEAR 生态的应用。",
