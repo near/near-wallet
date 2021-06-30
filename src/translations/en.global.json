@@ -1115,6 +1115,29 @@
         }
     },
 
+    "sendV2": {
+        "TXEntry": {
+            "title": {
+                "token": "Asset",
+                "estimatedFees": "Estimated fees",
+                "estimatedTotal": "Estimated total",
+                "status": "TXN Status",
+                "amount": "Amount",
+                "networkFees": "Network fees",
+                "receiverId": "Sent to",
+                "timeStamp": "Date & time",
+                "reservedForFees": "Reserved for fees",
+                "availableBalane": "Available balance",
+                "availableToSend": "Available to Send"
+            },
+            "status": {
+                "SuccessValue": "Successful",
+                "Failure": "Failed",
+                "notAvailable": "Status not available"
+            }
+        }
+    },
+
     "sign": {
         "unexpectedStatus": "Unexpected status",
         "transactionCancelled": "Transaction cancelled",
