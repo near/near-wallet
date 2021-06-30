@@ -3,7 +3,7 @@ import { Translate } from 'react-localize-redux';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 
-import { checkNearDropBalance, claimLinkdropToAccount, redirectTo } from '../../actions/account';
+import { checkNearDropBalance, claimLinkdropToAccount, redirectTo, handleRefreshUrl } from '../../actions/account';
 import { clearLocalAlert } from '../../actions/status';
 import { Mixpanel } from '../../mixpanel/index';
 import { actionsPending } from '../../utils/alerts';
@@ -71,9 +71,10 @@ class LinkdropLanding extends Component {
     }
 
     componentDidMount() {
-        const { fundingContract, fundingKey } = this.props;
+        const { fundingContract, fundingKey, handleRefreshUrl } = this.props;
         if (fundingContract && fundingKey) {
             this.handleCheckNearDropBalance();
+            handleRefreshUrl();
         }
     }
 
@@ -96,12 +97,15 @@ class LinkdropLanding extends Component {
     }
 
     render() {
-        const { fundingContract, fundingKey, accountId, mainLoader } = this.props;
+        const { fundingContract, fundingKey, accountId, mainLoader, history } = this.props;
         const { balance, invalidNearDrop } = this.state;
         const claimingDrop = actionsPending('CLAIM_LINKDROP_TO_ACCOUNT');
         const fundingAmount = balance;
 
         if (!invalidNearDrop) {
+            const params = new URLSearchParams(history.location.search);
+            const redirectUrl = params.has('redirectUrl') ? `&redirectUrl=${params.get('redirectUrl')}` : '';
+
             return (
                 <StyledContainer className='xs-centered'>
                     <NearGiftIcons/>
@@ -124,7 +128,7 @@ class LinkdropLanding extends Component {
                         </FormButton>
                         :
                         <FormButton
-                            linkTo={`/recover-account?fundingOptions=${encodeURIComponent(JSON.stringify({ fundingContract, fundingKey, fundingAmount }))}`}
+                            linkTo={`/recover-account?fundingOptions=${encodeURIComponent(JSON.stringify({ fundingContract, fundingKey, fundingAmount }))}${redirectUrl}`}
                         >
                             <Translate id='linkdropLanding.ctaLogin'/>
                         </FormButton>
@@ -152,7 +156,8 @@ const mapDispatchToProps = {
     clearLocalAlert,
     checkNearDropBalance,
     claimLinkdropToAccount,
-    redirectTo
+    redirectTo,
+    handleRefreshUrl
 };
 
 const mapStateToProps = ({ account, status }, { match }) => ({

@@ -1,3 +1,4 @@
+import { parse as parseQuery } from 'query-string';
 import React, { Component } from 'react';
 import { Translate } from 'react-localize-redux';
 import { connect } from 'react-redux';
@@ -70,9 +71,12 @@ class RecoverAccountSeedPhrase extends Component {
                 await this.props.refreshAccount();
             }
         );
+
+        const query = parseQuery(this.props.location.search);
         const options = parseFundingOptions(this.props.location.search);
         if (options) {
-            this.props.redirectTo(`/linkdrop/${options.fundingContract}/${options.fundingKey}`);
+            const redirectUrl = query.redirectUrl ? `?redirectUrl=${query.redirectUrl}` : '';
+            this.props.redirectTo(`/linkdrop/${options.fundingContract}/${options.fundingKey}${redirectUrl}`);
         } else {
             this.props.redirectToApp('/');
         }
