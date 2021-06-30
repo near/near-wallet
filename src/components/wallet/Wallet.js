@@ -310,13 +310,13 @@ export function Wallet() {
                             className={classNames(['tab-balances', tokenView !== 'fungibleTokens' ? 'inactive' : ''])}
                             onClick={() => setTokenView('fungibleTokens')}
                         >
-                            Balances
+                            <Translate id='wallet.balances' />
                         </div>
                         <div
                             className={classNames(['tab-collectibles', tokenView !== 'nonFungibleTokens' ? 'inactive' : ''])}
                             onClick={() => setTokenView('nonFungibleTokens')}
                         >
-                            Collectibles
+                            <Translate id='wallet.collectibles' />
                         </div>
                     </div>
                     {tokenView === 'fungibleTokens' &&

@@ -763,7 +763,9 @@
         "tokens": "Tokens",
         "balance": "Balance",
         "dateAndTime": "Date & Time",
-        "status": "Status"
+        "status": "Status",
+        "balances": "Balances",
+        "collectibles": "Collectibles"
     },
 
     "buyNear": {
