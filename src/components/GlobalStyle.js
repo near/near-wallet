@@ -217,6 +217,24 @@ export default createGlobalStyle`
                 color: #ff585d;
             }
         }
+
+        &.problem {
+            border: 2px solid #ff585d;
+
+            &:focus {
+                box-shadow: 0px 0px 0px 2pt #FFBDBE;
+            }
+        }
+
+        &.success {
+            border: 2px solid #6ad1e3;
+
+            &:focus {
+                box-shadow: 0px 0px 0px 2pt #c2f6ff;
+            }
+        }
+
+
     }
 
     input::-webkit-outer-spin-button,
@@ -261,23 +279,23 @@ export default createGlobalStyle`
     .problem > .input > input,
     .problem > .input > input:focus,
     .problem > input {
-        border: 2px solid #ff585d !important;
+        border: 2px solid #ff585d;
     }
 
     .problem > .input > input:focus,
     .problem > input:focus {
-        box-shadow: 0px 0px 0px 2pt #FFBDBE !important;
+        box-shadow: 0px 0px 0px 2pt #FFBDBE;
     }
 
     .success > .input > input,
     .success > .input > input:focus,
     .success > input {
-        border: 2px solid #6ad1e3 !important;
+        border: 2px solid #6ad1e3;
     }
 
     .success > .input > input:focus,
     .success > input:focus {
-        box-shadow: 0px 0px 0px 2pt #c2f6ff !important;
+        box-shadow: 0px 0px 0px 2pt #c2f6ff;
     }
 
     b {
