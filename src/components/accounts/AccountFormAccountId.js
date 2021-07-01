@@ -6,9 +6,6 @@ import classNames from '../../utils/classNames'
 import { ACCOUNT_CHECK_TIMEOUT, ACCOUNT_ID_SUFFIX } from '../../utils/wallet'
 import LocalAlertBox from '../common/LocalAlertBox.js'
 import { Mixpanel } from '../../mixpanel/index'
-import CheckCircleIcon from '../svg/CheckCircleIcon'
-
-// FIX: 'wrong-char' color scheme
 
 const InputWrapper = styled.div`
     position: relative;
@@ -28,7 +25,6 @@ const InputWrapper = styled.div`
             animation-duration: 0.4s;
             animation-iteration-count: 1;
             animation-name: border-blink;
-            background-color: #8fd6bd;
 
             @keyframes border-blink {
                 0% {
@@ -50,58 +46,6 @@ const InputWrapper = styled.div`
             transform: translateY(-50%);
         }
     }
-
-    &.send {
-        &.success, &.problem {
-            input {
-                border: 0;
-            }
-        }
-        input {
-            display: block;
-            text-align: right;
-            border: 0;
-            padding-right: 15px;
-
-            &:focus {
-                box-shadow: none;
-            }
-        }
-    
-        .check-circle-icon {
-            width: 19px;
-            height: 19px;
-        }
-    
-        .success-prefix {
-            position: absolute;
-            pointer-events: none;
-            top: 50%;
-            transform: translateY(-50%);
-            height: 19px;
-            opacity: 0;
-            margin-top: 1px;
-        }
-    }
-
-    &.success {
-        &.send {
-            input {
-                color: #008D6A;
-            }
-            .success-prefix {
-                opacity: 1;
-            }
-        }
-    }
-
-    &.problem {
-        &.send {
-            input {
-                color: #FC5B5B;
-            }
-        }
-    }
 `
 
 const isSafari = /Safari/.test(navigator.userAgent) && /Apple Computer/.test(navigator.vendor);
@@ -115,7 +59,6 @@ class AccountFormAccountId extends Component {
     canvas = null;
     input = createRef();
     suffix = createRef();
-    prefix = createRef();
 
     componentDidMount = () => {
         const { defaultAccountId, type } = this.props
@@ -126,11 +69,6 @@ class AccountFormAccountId extends Component {
             this.input.current.addEventListener('input', this.updateSuffix);
         }
 
-        if (type === 'send') {
-            this.prefix.current.style.visibility = 'hidden';
-            this.input.current.addEventListener('input', this.updatePrefix);
-        }
-
         if (defaultAccountId) {
             this.handleChangeAccountId(accountId)
         }
@@ -138,17 +76,7 @@ class AccountFormAccountId extends Component {
 
     componentWillUnmount() {
         const { type } = this.props
-
         if (type === 'create') this.input.current.removeEventListener('input', this.updateSuffix);
-        if (type === 'send') this.input.current.removeEventListener('input', this.updatePrefix);
-    }
-
-    updatePrefix = () => {
-        const width = this.getTextWidth(this.input.current.value, '16px Inter');
-        const extraSpace = isSafari ? 25 : 26
-        this.prefix.current.style.right = width + extraSpace + 'px';
-        this.prefix.current.style.visibility = 'visible';
-        if (this.input.current.value.length === 0) this.prefix.current.style.visibility = 'hidden';
     }
 
     updateSuffix = () => {
@@ -253,6 +181,7 @@ class AccountFormAccountId extends Component {
     get sameAccountLocalAlert() {
         return {
             success: false,
+            show: true,
             messageCode: 'account.available.errorSameAccount'
         }
     }
@@ -291,15 +220,14 @@ class AccountFormAccountId extends Component {
             mainLoader,
             autoFocus,
             type,
-            disabled,
+            disabled
         } = this.props
 
         const { accountId, wrongChar } = this.state
 
         const localAlert = this.localAlertWithFormValidation
         const success = localAlert?.success
-        const problem = localAlert?.success === false
-        const withLocalAlert = type !== 'send'
+        const problem = !localAlert?.success && localAlert?.show
 
         return (
             <>
@@ -320,20 +248,14 @@ class AccountFormAccountId extends Component {
                                 autoFocus={autoFocus && accountId.length === 0}
                                 disabled={disabled}
                             />
-                            {/* FIX: Add on send page instead */}
-                            {/* {type !== 'create' && <div className='input-sub-label'>{translate('input.accountId.subLabel')}</div>} */}
-                            {type === 'create' && <span className='input-suffix' ref={this.suffix}>.{ACCOUNT_ID_SUFFIX}</span>}
-                            {type === 'send' && 
-                                <span className='success-prefix' ref={this.prefix}>
-                                        <CheckCircleIcon color='#00C08B'/>
-                                </span>
+                            {type === 'create' && 
+                                <span className='input-suffix' ref={this.suffix}>.{ACCOUNT_ID_SUFFIX}</span>
                             }
+                            {type !== 'create' && <div className='input-sub-label'>{translate('input.accountId.subLabel')}</div>}
                         </InputWrapper>
                     )}
                 </Translate>
-                {withLocalAlert && 
-                    <LocalAlertBox dots={mainLoader} localAlert={localAlert} accountId={this.props.accountId}/>
-                }
+                <LocalAlertBox dots={mainLoader} localAlert={localAlert} accountId={this.props.accountId}/>
             </>
         )
     }
