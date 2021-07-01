@@ -18,6 +18,7 @@ import translations_zh_hans from '../translations/zh-hans.global.json';
 import translations_zh_hant from '../translations/zh-hant.global.json';
 import { handleClearAlert } from '../utils/alerts';
 import classNames from '../utils/classNames';
+import getBrowserLocale from '../utils/getBrowserLocale';
 import isMobile from '../utils/isMobile';
 import { getAccountIsInactive } from '../utils/localStorage';
 import { reportUiActiveMixpanelThrottled } from '../utils/reportUiActiveMixpanelThrottled';
@@ -111,7 +112,8 @@ class Routing extends Component {
             { name: "繁體中文", code: "zh-hant" }
         ];
 
-        const activeLang = localStorage.getItem("languageCode") || languages[0].code;
+        const browserLanguage = getBrowserLocale(languages.map(l => l.code));
+        const activeLang = localStorage.getItem("languageCode") || browserLanguage || languages[0].code;
 
         this.props.initialize({
             languages,
