@@ -47,8 +47,6 @@ const InputWrapper = styled.div`
         }
     }
 `
-
-const isSafari = /Safari/.test(navigator.userAgent) && /Apple Computer/.test(navigator.vendor);
 class AccountFormAccountId extends Component {
     state = {
         accountId: this.props.defaultAccountId || '',
@@ -80,6 +78,7 @@ class AccountFormAccountId extends Component {
     }
 
     updateSuffix = () => {
+        const isSafari = /Safari/.test(navigator.userAgent) && /Apple Computer/.test(navigator.vendor);
         const width = this.getTextWidth(this.input.current.value, '16px Inter');
         const extraSpace = isSafari ? 21.5 : 22
         this.suffix.current.style.left = width + extraSpace + 'px';
@@ -248,9 +247,7 @@ class AccountFormAccountId extends Component {
                                 autoFocus={autoFocus && accountId.length === 0}
                                 disabled={disabled}
                             />
-                            {type === 'create' && 
-                                <span className='input-suffix' ref={this.suffix}>.{ACCOUNT_ID_SUFFIX}</span>
-                            }
+                            {type === 'create' && <span className='input-suffix' ref={this.suffix}>.{ACCOUNT_ID_SUFFIX}</span>}
                             {type !== 'create' && <div className='input-sub-label'>{translate('input.accountId.subLabel')}</div>}
                         </InputWrapper>
                     )}
