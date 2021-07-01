@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import styled from 'styled-components'
 import { Translate } from 'react-localize-redux'
+import throttle from 'lodash.throttle';
 import FormButton from '../common/FormButton'
 import Container from '../common/styled/Container.css'
 import NearWithBackgroundIcon from '../svg/NearWithBackgroundIcon'
@@ -251,6 +252,17 @@ const StyledContainer = styled(Container)`
     }
 `
 
+
+const runOncePerHourMax = (functionToRun) => throttle(
+    functionToRun,
+    1000 * 60 *  60, //  1 hour in ms
+    { leading: true, trailing: false}
+);
+
+const throttledReportBalanceLoadingMixpanel = runOncePerHourMax(() => {
+    return Mixpanel.track('wallet balance loading');
+});
+
 export function Wallet() {
     const [exploreApps, setExploreApps] = useState(null);
     const [showLinkdropModal, setShowLinkdropModal] = useState(null);
@@ -277,9 +289,7 @@ export function Wallet() {
     }, [accountId])
 
     useEffect(() => {
-        if(!balance.total) {
-            Mixpanel.track('wallet balance loading')
-        }
+        throttledReportBalanceLoadingMixpanel();
     }, [balance])
 
     const sortedTokens = Object.keys(tokens).map(key => tokens[key]).sort((a, b) => (a.symbol || '').localeCompare(b.symbol || ''));
