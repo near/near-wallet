@@ -6,7 +6,8 @@ const AccessKeysDeauthorizeConfirm = ({ handleConfirmSubmit, handleChange, accou
     <form onSubmit={(e) => {handleConfirmSubmit(e); e.preventDefault();}}>
         <Translate>
             {({ translate }) => (
-                <input 
+                <input
+                    name='accountId'
                     value={accountId}
                     onChange={e => handleChange(e.target.value)}
                     className={confirmStatus ? (confirmStatus === 'success' ? 'success' : 'problem') : ''}

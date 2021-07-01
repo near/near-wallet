@@ -60,6 +60,7 @@ const InputWrapper = styled.div`
         height: 19px;
         opacity: 0;
         margin-top: 1px;
+        visibility: hidden;
     }
 
     &.success {
@@ -88,32 +89,26 @@ class AccountIDInput extends Component {
         wrongChar: false
     }
 
+    checkAccountAvailabilityTimer = null;
     canvas = null;
-    input = createRef();
     prefix = createRef();
 
     componentDidMount = () => {
         const { accountId } = this.props
 
-        this.prefix.current.style.visibility = 'hidden';
-        this.input.current.addEventListener('input', this.updatePrefix);
-
         if (accountId) {
-            this.handleChangeAccountId(accountId)
+            this.handleChangeAccountId({ userValue: accountId })
         }
     }
 
-    componentWillUnmount() {
-        this.input.current.removeEventListener('input', this.updatePrefix);
-    }
-
-    updatePrefix = () => {
+    updatePrefix = (userValue) => {
+        // FIX: Handle prefix placement for overflowing input (implicit accounts, etc.)
         const isSafari = /Safari/.test(navigator.userAgent) && /Apple Computer/.test(navigator.vendor);
-        const width = this.getTextWidth(this.input.current.value, '16px Inter');
+        const width = this.getTextWidth(userValue, '16px Inter');
         const extraSpace = isSafari ? 22 : 23
         this.prefix.current.style.right = width + extraSpace + 'px';
         this.prefix.current.style.visibility = 'visible';
-        if (this.input.current.value.length === 0) this.prefix.current.style.visibility = 'hidden';
+        if (userValue.length === 0) this.prefix.current.style.visibility = 'hidden';
     }
 
     getTextWidth = (text, font) => {
@@ -126,16 +121,15 @@ class AccountIDInput extends Component {
         return metrics.width;
     }
 
-    handleChangeAccountId = (accountId) => {
+    handleChangeAccountId = ({ userValue, el }) => {
         const { handleChange, localAlert, clearLocalAlert } = this.props
         const { wrongChar } = this.state
         const pattern = /[^a-zA-Z0-9._-]/;
 
-        accountId = accountId.trim().toLowerCase()
+        const accountId = userValue.trim().toLowerCase()
 
         if (accountId.match(pattern)) {
             if (wrongChar) {
-                const el = this.input.current
                 el.style.animation = 'none'
                 void el.offsetHeight
                 el.style.animation = null
@@ -151,24 +145,31 @@ class AccountIDInput extends Component {
 
         localAlert && clearLocalAlert()
 
-        this.timeout && clearTimeout(this.timeout)
-        this.timeout = setTimeout(() => {
+        this.checkAccountAvailabilityTimer && clearTimeout(this.checkAccountAvailabilityTimer)
+        this.checkAccountAvailabilityTimer = setTimeout(() => {
             this.handleCheckAvailability(accountId)
         }, ACCOUNT_CHECK_TIMEOUT)
     }
 
-    isImplicitAccount = (accountId) => accountId.length === 64
+    isImplicitAccount = (accountId) => accountId.length === 64 && !accountId.includes('.')
 
-    handleCheckAvailability = (accountId) => {
-        const { checkAvailability } = this.props
+    handleCheckAvailability = async (accountId) => {
+        const { checkAvailability, clearLocalAlert } = this.props
 
         if (!accountId) {
             return false
         }
-        if (this.isImplicitAccount(accountId)) {
-            return true
+
+        try {
+            await checkAvailability(accountId)
+        } catch(e) {
+            if (this.isImplicitAccount(accountId) && e.toString().includes('does not exist while viewing')) {
+                console.warn(`${accountId} does not exist. Assuming this is an implicit Account ID.`)
+                clearLocalAlert()
+                return;
+            }
+            throw e;
         }
-        checkAvailability(accountId)
     }
 
     render() {
@@ -189,7 +190,8 @@ class AccountIDInput extends Component {
                         <input
                             ref={this.input}
                             value={accountId}
-                            onChange={e => this.handleChangeAccountId(e.target.value)}
+                            onInput={(e) => this.updatePrefix(e.target.value)}
+                            onChange={e => this.handleChangeAccountId({ userValue: e.target.value, el: e.target })}
                             placeholder={translate('input.accountId.placeholder')}
                             required
                             autoComplete='off'

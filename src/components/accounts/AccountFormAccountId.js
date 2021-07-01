@@ -44,6 +44,7 @@ const InputWrapper = styled.div`
             pointer-events: none;
             top: 50%;
             transform: translateY(-50%);
+            visibility: hidden;
         }
     }
 `
@@ -54,36 +55,26 @@ class AccountFormAccountId extends Component {
         wrongChar: false
     }
     
+    checkAccountAvailabilityTimer = null;
     canvas = null;
-    input = createRef();
     suffix = createRef();
 
     componentDidMount = () => {
-        const { defaultAccountId, type } = this.props
+        const { defaultAccountId } = this.props
         const { accountId } = this.state
 
-        if (type === 'create') {
-            this.suffix.current.style.visibility = 'hidden';
-            this.input.current.addEventListener('input', this.updateSuffix);
-        }
-
         if (defaultAccountId) {
-            this.handleChangeAccountId(accountId)
+            this.handleChangeAccountId({ userValue: accountId })
         }
     }
 
-    componentWillUnmount() {
-        const { type } = this.props
-        if (type === 'create') this.input.current.removeEventListener('input', this.updateSuffix);
-    }
-
-    updateSuffix = () => {
+    updateSuffix = (userValue) => {
         const isSafari = /Safari/.test(navigator.userAgent) && /Apple Computer/.test(navigator.vendor);
-        const width = this.getTextWidth(this.input.current.value, '16px Inter');
+        const width = this.getTextWidth(userValue, '16px Inter');
         const extraSpace = isSafari ? 21.5 : 22
         this.suffix.current.style.left = width + extraSpace + 'px';
         this.suffix.current.style.visibility = 'visible';
-        if (this.input.current.value.length === 0) this.suffix.current.style.visibility = 'hidden';
+        if (userValue.length === 0) this.suffix.current.style.visibility = 'hidden';
     }
 
     getTextWidth = (text, font) => {
@@ -96,14 +87,13 @@ class AccountFormAccountId extends Component {
         return metrics.width;
     }
 
-    handleChangeAccountId = (value) => {
+    handleChangeAccountId = ({ userValue, el }) => {
         const { pattern, handleChange, type } = this.props
 
-        value = value.trim().toLowerCase()
+        const accountId = userValue.trim().toLowerCase()
 
-        if (value.match(pattern)) {
+        if (accountId.match(pattern)) {
             if (this.state.wrongChar) {
-                const el = this.input.current
                 el.style.animation = 'none'
                 void el.offsetHeight
                 el.style.animation = null
@@ -120,18 +110,18 @@ class AccountFormAccountId extends Component {
         }
         
         this.setState(() => ({
-            accountId: value
+            accountId: accountId
         }))
         
-        handleChange(value)
+        handleChange(accountId)
 
         this.props.localAlert && this.props.clearLocalAlert()
 
-        this.state.invalidAccountIdLength && this.handleAccountIdLengthState(value)
+        this.state.invalidAccountIdLength && this.handleAccountIdLengthState(accountId)
 
-        this.timeout && clearTimeout(this.timeout)
-        this.timeout = setTimeout(() => {
-            this.handleCheckAvailability(value, type);
+        this.checkAccountAvailabilityTimer && clearTimeout(this.checkAccountAvailabilityTimer)
+        this.checkAccountAvailabilityTimer = setTimeout(() => {
+            this.handleCheckAvailability(accountId, type);
         }, ACCOUNT_CHECK_TIMEOUT)
     }
 
@@ -234,9 +224,11 @@ class AccountFormAccountId extends Component {
                     {({ translate }) => (
                         <InputWrapper className={classNames([type, {'success': success}, {'problem': problem}, {'wrong-char': wrongChar}])}>
                             <input
+                                name='accountId'
                                 ref={this.input}
                                 value={accountId}
-                                onChange={e => this.handleChangeAccountId(e.target.value)}
+                                onInput={e => type === 'create' && this.updateSuffix(e.target.value)}
+                                onChange={e => this.handleChangeAccountId({ userValue: e.target.value, el: e.target })}
                                 placeholder={type === 'create' ? translate('createAccount.accountIdInput.placeholder', { data: ACCOUNT_ID_SUFFIX}) : translate('input.accountId.placeholder')}
                                 required
                                 autoComplete='off'

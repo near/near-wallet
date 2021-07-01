@@ -79,6 +79,7 @@ class LoginForm extends Component {
                                 <Translate>
                                     {({ translate }) => (
                                         <input
+                                            name='accountId'
                                             value={accountId}
                                             onChange={e => this.handleChange(e.target.value)}
                                             className={`${confirmStatus ? (confirmStatus === 'success' ? 'success' : 'problem') : ''}`}

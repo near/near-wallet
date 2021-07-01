@@ -80,6 +80,7 @@ const SetupSeedPhraseVerify = (
             <Translate>
                 {({ translate }) => (
                     <input
+                        name='enterWord'
                         value={enterWord}
                         onChange={e => handleChangeWord(e.target.value)}
                         placeholder={translate('input.enterWord.placeholder')}
