@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import styled from 'styled-components'
 import { Translate } from 'react-localize-redux'
-import throttle from 'lodash.throttle';
 import FormButton from '../common/FormButton'
 import Container from '../common/styled/Container.css'
 import NearWithBackgroundIcon from '../svg/NearWithBackgroundIcon'
@@ -27,6 +26,8 @@ import classNames from '../../utils/classNames'
 import { actionsPendingByPrefix } from '../../utils/alerts'
 import { selectNFT } from '../../reducers/nft'
 import { SHOW_NETWORK_BANNER } from '../../utils/wallet'
+import { reportUiActiveMixpanelThrottled } from '../../utils/reportUiActiveMixpanelThrottled';
+
 
 const StyledContainer = styled(Container)`
     @media (max-width: 991px) {
@@ -252,17 +253,6 @@ const StyledContainer = styled(Container)`
     }
 `
 
-
-const runOncePerHourMax = (functionToRun) => throttle(
-    functionToRun,
-    1000 * 60 *  60, //  1 hour in ms
-    { leading: true, trailing: false}
-);
-
-const throttledReportBalanceLoadingMixpanel = runOncePerHourMax(() => {
-    return Mixpanel.track('wallet balance loading');
-});
-
 export function Wallet() {
     const [exploreApps, setExploreApps] = useState(null);
     const [showLinkdropModal, setShowLinkdropModal] = useState(null);
@@ -279,6 +269,8 @@ export function Wallet() {
     const tokensLoader = actionsPendingByPrefix('TOKENS/') || !balance?.total
     const [tokenView, setTokenView] = useState('fungibleTokens');
 
+    reportUiActiveMixpanelThrottled();
+
     useEffect(() => {
         if (accountId) {
             let id = Mixpanel.get_distinct_id()
@@ -287,10 +279,6 @@ export function Wallet() {
             dispatch(getTransactions(accountId))
         }
     }, [accountId])
-
-    useEffect(() => {
-        throttledReportBalanceLoadingMixpanel();
-    }, [balance])
 
     const sortedTokens = Object.keys(tokens).map(key => tokens[key]).sort((a, b) => (a.symbol || '').localeCompare(b.symbol || ''));
     // TODO: Sort NFTS

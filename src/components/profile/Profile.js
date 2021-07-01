@@ -21,6 +21,7 @@ import { Mixpanel } from "../../mixpanel/index"
 import AuthorizedApp from './authorized_apps/AuthorizedApp'
 import FormButton from '../common/FormButton'
 import Tooltip from '../common/Tooltip'
+import { reportUiActiveMixpanelThrottled } from '../../utils/reportUiActiveMixpanelThrottled';
 
 
 const StyledContainer = styled(Container)`
@@ -137,6 +138,8 @@ export function Profile({ match }) {
     const userRecoveryMethods = recoveryMethods[account.accountId]
     const twoFactor = has2fa && userRecoveryMethods && userRecoveryMethods.filter(m => m.kind.includes('2fa'))[0]
     const profileBalance = selectProfileBalance(account.balance)
+
+    reportUiActiveMixpanelThrottled();
 
     useEffect(() => {
         if (!loginAccountId) {
