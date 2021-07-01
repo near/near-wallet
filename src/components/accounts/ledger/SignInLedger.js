@@ -5,7 +5,6 @@ import LedgerImage from '../../svg/LedgerImage';
 import FormButton from '../../common/FormButton';
 import { Translate } from 'react-localize-redux';
 import LedgerSignInModal from './LedgerSignInModal';
-import { parse as parseQuery } from 'query-string';
 import { 
     signInWithLedger, 
     redirectToApp,
@@ -20,6 +19,7 @@ import { tokens } from '../../../actions/tokens'
 import { clearLocalAlert } from '../../../actions/status'
 import LocalAlertBox from '../../common/LocalAlertBox'
 import { controller as controllerHelperApi } from '../../../utils/helper-api'
+import parseFundingOptions from '../../../utils/parseFundingOptions'
 import { Mixpanel } from '../../../mixpanel/index'
 import LedgerHdPaths from './LedgerHdPaths'
 
@@ -76,7 +76,7 @@ export function SignInLedger(props) {
     }
 
     const refreshAndRedirect = () => {
-        const options = JSON.parse(parseQuery(props.history.location.search).fundingOptions || 'null')
+        const options = parseFundingOptions(props.history.location.search)
         dispatch(refreshAccount())
         if (options) {
             dispatch(redirectTo(`/linkdrop/${options.fundingContract}/${options.fundingKey}`))

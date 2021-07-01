@@ -763,7 +763,9 @@
         "tokens": "Tokens",
         "balance": "Balance",
         "dateAndTime": "Date & Time",
-        "status": "Status"
+        "status": "Status",
+        "balances": "Balances",
+        "collectibles": "Collectibles"
     },
 
     "buyNear": {
@@ -1110,6 +1112,29 @@
         "banner": {
             "useMax": "A small portion (${data} NEAR) of your available balance has been reserved to cover transaction fees.",
             "insufficient": "You are attempting to send your entire available balance. At least <b>${data} NEAR</b> must be reserved to cover transaction fees."
+        }
+    },
+
+    "sendV2": {
+        "TXEntry": {
+            "title": {
+                "token": "Asset",
+                "estimatedFees": "Estimated fees",
+                "estimatedTotal": "Estimated total",
+                "status": "TXN Status",
+                "amount": "Amount",
+                "networkFees": "Network fees",
+                "receiverId": "Sent to",
+                "timeStamp": "Date & time",
+                "reservedForFees": "Reserved for fees",
+                "availableBalane": "Available balance",
+                "availableToSend": "Available to Send"
+            },
+            "status": {
+                "SuccessValue": "Successful",
+                "Failure": "Failed",
+                "notAvailable": "Status not available"
+            }
         }
     },
 

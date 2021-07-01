@@ -753,7 +753,9 @@
         "tokens": "通證",
         "balance": "餘額",
         "dateAndTime": "日期和時間",
-        "status": "狀態"
+        "status": "狀態",
+        "balances": "餘額",
+        "collectibles": "收藏品"
     },
 
     "buyNear": {
@@ -767,6 +769,10 @@
         "coinMarketCap": "CoinMarketCap"
     }, 
     
+    "NFTs": {
+        "emptyState": "似乎你還沒有收藏品。"
+    },
+
     "exploreApps": {
         "title": "尋找 NEAR 生態和應用？",
         "desc": "賺取、鑄幣和玩遊戲！發現 NEAR 生態的應用。",

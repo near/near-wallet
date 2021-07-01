@@ -2,7 +2,7 @@ import React, { Component, createRef } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 import { Translate } from 'react-localize-redux'
-import { parse as parseQuery } from 'query-string'
+import parseFundingOptions from '../../../utils/parseFundingOptions'
 import 'react-phone-number-input/style.css'
 import PhoneInput, { isValidPhoneNumber } from 'react-phone-number-input';
 import { validateEmail } from '../../../utils/account';
@@ -169,13 +169,16 @@ class SetupRecoveryMethod extends Component {
         this.setState({ success: true, recoverySeedPhrase: recoverySeedPhrase })
     }
 
-    async setupRecoveryMessageNewAccount(accountId, method, securityCode, fundingOptions, recoverySeedPhrase, recaptchaToken) {
+    async setupRecoveryMessageNewAccount(accountId, method, securityCode, recoverySeedPhrase, recaptchaToken) {
         const {
             fundCreateAccount,
             createNewAccount,
             validateSecurityCode,
-            saveAccount
+            saveAccount,
+            location
         } = this.props;
+      
+        const fundingOptions = parseFundingOptions(location.search)
         this.setState({ settingUpNewAccount: true })
 
         try {
@@ -211,8 +214,7 @@ class SetupRecoveryMethod extends Component {
         const {
             accountId,
             setupRecoveryMessage,
-            location,
-            showCustomAlert,
+            showCustomAlert
         } = this.props;
 
         const { recoverySeedPhrase, recaptchaToken, success } = this.state;
@@ -224,11 +226,8 @@ class SetupRecoveryMethod extends Component {
                         return setupRecoveryMessage(accountId, this.method, securityCode, this.state.recoverySeedPhrase)
                     }
 
-                    const queryOptions = parseQuery(location.search);
-                    const fundingOptions = JSON.parse(queryOptions.fundingOptions || 'null')
-
                     try {
-                        await this.setupRecoveryMessageNewAccount(accountId, this.method, securityCode, fundingOptions, recoverySeedPhrase, recaptchaToken);
+                        await this.setupRecoveryMessageNewAccount(accountId, this.method, securityCode, recoverySeedPhrase, recaptchaToken);
 
                     } catch (e) {
                         debugLog('setupRecoveryMessageNewAccount() failed', e.message);
@@ -300,8 +299,9 @@ class SetupRecoveryMethod extends Component {
     }
 
     render() {
+
         const { option, phoneNumber, email, success, emailInvalid, phoneInvalid, country, isNewAccount, settingUpNewAccount } = this.state;
-        const { mainLoader, accountId, activeAccountId, ledgerKey, twoFactor } = this.props;
+        const { mainLoader, accountId, activeAccountId, ledgerKey, twoFactor, location } = this.props;
 
         if (!success) {
             return (
@@ -426,6 +426,7 @@ class SetupRecoveryMethod extends Component {
                     reSending={actionsPending('INITIALIZE_RECOVERY_METHOD')}
                     verifyingCode={actionsPending('SETUP_RECOVERY_MESSAGE') || settingUpNewAccount}
                     onRecaptchaChange={this.handleRecaptchaChange}
+                    isLinkDrop={parseFundingOptions(location.search) !== null}
                 />
             )
         }

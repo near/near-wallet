@@ -1,14 +1,10 @@
-import React, { useRef, useImperativeHandle, forwardRef, useState, useEffect } from 'react'
+import React, { useRef, useImperativeHandle, forwardRef, useState } from 'react'
 import { Responsive } from 'semantic-ui-react'
 import { Translate } from 'react-localize-redux'
-
-import sendJson from '../../tmp_fetch_send_json'
 import LocalAlertBox from '../common/LocalAlertBox'
 import FormButton from '../common/FormButton'
-
 import styled from 'styled-components'
 import { Recaptcha } from '../Recaptcha';
-import { ACCOUNT_HELPER_URL } from '../../utils/wallet';
 
 // FIXME: Use `debug` npm package so we can keep some debug logging around but not spam the console everywhere
 const ENABLE_DEBUG_LOGGING = false;
@@ -60,7 +56,8 @@ const SetupSeedPhraseVerify = (
         localAlert,
         onRecaptchaChange,
         isNewAccount,
-        onSubmit
+        onSubmit,
+        isLinkDrop
     },
     ref
 ) => {
@@ -75,32 +72,7 @@ const SetupSeedPhraseVerify = (
         }
     }))
 
-
-    // TODO: Combine similar effect code into custom hook
-    const [fundedAccountAvailable, setFundedAccountAvailable] = useState(false);
-    useEffect(() => {
-        debugLog('Checking available funded account status');
-        const fetchIsFundedAccountAvailable = async () => {
-            let available;
-
-            try {
-                ({ available } = await sendJson('GET', ACCOUNT_HELPER_URL + '/checkFundedAccountAvailable'));
-            } catch (e) {
-                debugLog('Failed check available funded account status');
-                setFundedAccountAvailable(false);
-                return;
-            }
-
-            debugLog('Funded account availability', { available });
-            setFundedAccountAvailable(available);
-        }
-
-        if(process.env.RECAPTCHA_CHALLENGE_API_KEY && isNewAccount) {
-            fetchIsFundedAccountAvailable();
-        }
-    }, []);
-
-    const shouldRenderRecaptcha = process.env.RECAPTCHA_CHALLENGE_API_KEY && isNewAccount && fundedAccountAvailable;
+    const shouldRenderRecaptcha = !isLinkDrop && process.env.RECAPTCHA_CHALLENGE_API_KEY && isNewAccount;
 
     return (
         <CustomDiv>
