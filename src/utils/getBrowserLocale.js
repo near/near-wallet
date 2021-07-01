@@ -9,6 +9,13 @@ export default function getBrowserLocale(appLanguages) {
 function matchBrowserLocale(appLocales, browserLocales) {
   const matchedLocales = []
 
+  // special handling for traditional Chinese
+  for (const browserCode of browserLocales) {
+    if (['zh-TW', 'zh-HK'].includes(browserCode)) {
+      return 'zh-hant'
+    }
+  }
+
   // first pass: match exact locale.
   for (const [index, browserCode] of browserLocales.entries()) {
     const matchedLocale = appLocales.find(appLocale => appLocale.toLowerCase() === browserCode.toLowerCase())
