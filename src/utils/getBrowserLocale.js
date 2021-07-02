@@ -1,8 +1,9 @@
 import { getUserLocales } from './getUserLocale'
 
 export default function getBrowserLocale(appLanguages) {
-  const browserLanguages = getUserLocales();
-  if (browserLanguages) {
+  const browserLanguages = getUserLocales()
+  if (appLanguages && appLanguages.length > 0
+      && browserLanguages && browserLanguages.length > 0) {
     return matchBrowserLocale(appLanguages, browserLanguages)
   } else {
     return undefined
