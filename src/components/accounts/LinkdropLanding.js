@@ -108,7 +108,7 @@ class LinkdropLanding extends Component {
 
         if (!invalidNearDrop) {
             const params = new URLSearchParams(history.location.search);
-            const redirectUrl = params.has('redirectUrl') ? `&redirectUrl=${params.get('redirectUrl')}` : '';
+            const redirectUrl = params.has('redirectUrl') ? `&redirectUrl=${encodeURIComponent(params.get('redirectUrl'))}` : '';
 
             return (
                 <StyledContainer className='xs-centered'>

@@ -75,7 +75,7 @@ class RecoverAccountSeedPhrase extends Component {
         const query = parseQuery(this.props.location.search);
         const options = parseFundingOptions(this.props.location.search);
         if (options) {
-            const redirectUrl = query.redirectUrl ? `?redirectUrl=${query.redirectUrl}` : '';
+            const redirectUrl = query.redirectUrl ? `?redirectUrl=${encodeURIComponent(query.redirectUrl)}` : '';
             this.props.redirectTo(`/linkdrop/${options.fundingContract}/${options.fundingKey}${redirectUrl}`);
         } else {
             this.props.redirectToApp('/');
