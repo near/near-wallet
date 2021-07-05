@@ -91,9 +91,13 @@ class LinkdropLanding extends Component {
 
     handleClaimNearDrop = async () => {
         const { fundingContract, fundingKey, redirectTo, claimLinkdropToAccount, accountId, url } = this.props;
-        await claimLinkdropToAccount(fundingContract, fundingKey, accountId, url);
+        await claimLinkdropToAccount(fundingContract, fundingKey);
         localStorage.setItem('linkdropAmount', this.state.balance);
-        redirectTo('/');
+        if (url?.redirectUrl) {
+            window.location = `${url.redirectUrl}?accountId=${accountId}`;
+        } else {
+            redirectTo('/');
+        }
     }
 
     render() {
