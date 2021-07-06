@@ -22,7 +22,6 @@ import AuthorizedApp from './authorized_apps/AuthorizedApp'
 import FormButton from '../common/FormButton'
 import Tooltip from '../common/Tooltip'
 
-
 const StyledContainer = styled(Container)`
 
     @media (max-width: 991px) {

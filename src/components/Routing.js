@@ -60,6 +60,7 @@ import { Mixpanel } from "../mixpanel/index";
 import classNames from '../utils/classNames';
 import Terms from './terms/Terms';
 import { getAccountIsInactive } from '../utils/localStorage'
+import { reportUiActiveMixpanelThrottled } from '../utils/reportUiActiveMixpanelThrottled';
 
 const theme = {}
 
@@ -182,6 +183,8 @@ class Routing extends Component {
         const { account } = this.props;
 
         const isInactiveAccount = account && (getAccountIsInactive(`${account.localStorage?.accountId || account.accountId}`) || account.accountHelperWalletState?.fundedAccountNeedsDeposit);
+
+        reportUiActiveMixpanelThrottled();
 
         return (
             <Container className={classNames(['App', {'network-banner': (!IS_MAINNET || SHOW_PRERELEASE_WARNING)}])} id='app-container'>
