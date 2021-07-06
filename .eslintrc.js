@@ -2,6 +2,7 @@ module.exports = {
     extends: 'react-app',
     rules: {
         'jsx-a11y/no-access-key': 'off',
+        'no-useless-escape': 'off',
         'semi': ['error', 'always'],
         'import/order': [
             'error',
