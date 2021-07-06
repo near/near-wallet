@@ -2,8 +2,6 @@ import React, { useEffect } from 'react';
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
-import helpIconBrown from '../../images/icon-help-brown.svg';
-import helpIconWhite from '../../images/icon-help-white.svg';
 import { Mixpanel } from "../../mixpanel/index";
 import { IS_MAINNET, SHOW_PRERELEASE_WARNING, NODE_URL, NETWORK_ID } from '../../utils/wallet';
 import AlertTriangleIcon from '../svg/AlertTriangleIcon.js';

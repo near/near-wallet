@@ -9,7 +9,6 @@ import { getTransactions, getTransactionStatus } from '../../actions/transaction
 import { Mixpanel } from "../../mixpanel/index";
 import { selectAccountId, selectBalance } from '../../reducers/account';
 import { selectNFT } from '../../reducers/nft';
-import { selectActionStatus } from '../../reducers/status';
 import { selectTokensDetails } from '../../reducers/tokens';
 import { selectTransactions } from '../../reducers/transactions';
 import { actionsPendingByPrefix } from '../../utils/alerts';
@@ -264,7 +263,6 @@ export function Wallet() {
     const linkdropModal = linkdropAmount && showLinkdropModal !== false;
     const tokens = useSelector(state => selectTokensDetails(state));
     const nft = useSelector(selectNFT);
-    const actionStatus = useSelector(state => selectActionStatus(state));
     const tokensLoader = actionsPendingByPrefix('TOKENS/') || !balance?.total;
     const [tokenView, setTokenView] = useState('fungibleTokens');
 

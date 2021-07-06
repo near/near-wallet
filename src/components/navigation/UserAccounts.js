@@ -146,7 +146,10 @@ const UserAccounts = ({ accounts, accountId, accountIdLocalStorage, selectAccoun
             accountId={accountId || accountIdLocalStorage}
             balance={actionsPending('GET_BALANCE') ? '' : balance?.total}
             balanceLoading={actionsPending('GET_BALANCE')}
-            refreshBalance={() => (getBalance(), refreshBalance(accountId))}
+            refreshBalance={() => {
+                getBalance();
+                refreshBalance(accountId);
+            }}
             active={true}
         />
         {accountId

@@ -1,10 +1,29 @@
+import { KeyPair } from 'near-api-js';
+import { parseSeedPhrase } from 'near-seed-phrase';
 import React, { Component, createRef } from 'react';
 import { Translate } from 'react-localize-redux';
 import PhoneInput, { isValidPhoneNumber } from 'react-phone-number-input';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 
-import {
+import accountActions from '../../../actions/account';
+import { showCustomAlert } from '../../../actions/status';
+import { Mixpanel } from '../../../mixpanel/index';
+import { validateEmail } from '../../../utils/account';
+import { actionsPending } from '../../../utils/alerts';
+import isApprovedCountryCode from '../../../utils/isApprovedCountryCode';
+import parseFundingOptions from '../../../utils/parseFundingOptions';
+import { DISABLE_CREATE_ACCOUNT } from '../../../utils/wallet';
+import FormButton from '../../common/FormButton';
+import Container from '../../common/styled/Container.css';
+import Tooltip from '../../common/Tooltip';
+import { isRetryableRecaptchaError } from '../../Recaptcha';
+import EnterVerificationCode from '../EnterVerificationCode';
+import RecoveryOption from './RecoveryOption';
+
+import 'react-phone-number-input/style.css';
+
+const {
     initializeRecoveryMethod,
     setupRecoveryMessage,
     redirectToApp,
@@ -18,27 +37,7 @@ import {
     saveAccount,
     fundCreateAccount,
     validateSecurityCode
-} from '../../../actions/account';
-import { showCustomAlert } from '../../../actions/status';
-import { Mixpanel } from '../../../mixpanel/index';
-import { validateEmail } from '../../../utils/account';
-import { actionsPending } from '../../../utils/alerts';
-import isApprovedCountryCode from '../../../utils/isApprovedCountryCode';
-import parseFundingOptions from '../../../utils/parseFundingOptions';
-
-import 'react-phone-number-input/style.css';
-
-import { DISABLE_CREATE_ACCOUNT } from '../../../utils/wallet';
-import FormButton from '../../common/FormButton';
-import Container from '../../common/styled/Container.css';
-import Tooltip from '../../common/Tooltip';
-import { isRetryableRecaptchaError } from '../../Recaptcha';
-import EnterVerificationCode from '../EnterVerificationCode';
-import RecoveryOption from './RecoveryOption';
-
-import { parseSeedPhrase } from 'near-seed-phrase';
-import { KeyPair } from 'near-api-js';
-
+} = accountActions;
 
 // FIXME: Use `debug` npm package so we can keep some debug logging around but not spam the console everywhere
 const ENABLE_DEBUG_LOGGING = false;

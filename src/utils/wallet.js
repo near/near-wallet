@@ -1,4 +1,3 @@
-import { BN } from 'bn.js';
 import * as nearApiJs from 'near-api-js';
 import { KeyPair } from 'near-api-js';
 import { MULTISIG_CHANGE_METHODS } from 'near-api-js/lib/account_multisig';

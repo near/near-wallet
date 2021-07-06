@@ -8,7 +8,7 @@ const {
         format: { parseNearAmount }
     }
 } = require('near-api-js');
-const { parseSeedPhrase, generateSeedPhrase } = require('near-seed-phrase');
+const { parseSeedPhrase } = require('near-seed-phrase');
 const { webkit } = require('playwright');
 
 
@@ -96,7 +96,7 @@ let lastTestAccountId;
         await page.fill('[name=seedPhrase]', seedPhrase);
         await page.click('[type=submit]');
         await page.waitForNavigation();
-        assert(page.url() == config.walletUrl + '/');
+        assert(page.url() === config.walletUrl + '/');
         assert.strictEqual(await page.textContent('.user-name'), testAccount1.accountId);
         await browser.close();
     } finally {

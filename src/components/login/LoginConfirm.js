@@ -6,7 +6,6 @@ import { Grid } from 'semantic-ui-react';
 
 
 import IconHelp from '../../images/IconHelp';
-import { Mixpanel } from "../../mixpanel/index";
 import FormButton from '../common/FormButton';
 import MobileContainer from '../sign/MobileContainer';
 

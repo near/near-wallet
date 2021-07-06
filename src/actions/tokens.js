@@ -9,13 +9,12 @@ export const handleGetTokens = () => async (dispatch, getState) => {
 
     const tokenContractsNames = [...new Set([...(await getLikelyTokenContracts(accountId)), ...WHITELISTED_CONTRACTS])];
 
-    await Promise.all(tokenContractsNames.map(async contractName => {
-        await dispatch(tokens.tokensDetails.getMetadata(contractName, accountId));
-    }));
+    await Promise.all(tokenContractsNames.map(
+        (contractName) => dispatch(tokens.tokensDetails.getMetadata(contractName, accountId))
+    ));
 
-    Object.keys(getState().tokens.tokens).map(contractName => {
-        dispatch(tokens.tokensDetails.getBalanceOf(contractName, accountId));
-    });
+    Object.keys(getState().tokens.tokens)
+        .forEach(contractName => dispatch(tokens.tokensDetails.getBalanceOf(contractName, accountId)));
 };
 
 export const tokens = createActions({
