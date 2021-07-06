@@ -1,11 +1,12 @@
-import React from 'react'
-import { Translate } from 'react-localize-redux'
-import FormButton from '../common/FormButton'
-import MobileContainer from './MobileContainer'
+import React from 'react';
+import { Translate } from 'react-localize-redux';
+import { Image, Grid } from 'semantic-ui-react';
 
-import { Image, Grid } from 'semantic-ui-react'
+import DenyImage from '../../images/icon-deny.svg';
+import FormButton from '../common/FormButton';
+import MobileContainer from './MobileContainer';
 
-import DenyImage from '../../images/icon-deny.svg'
+
 
 const SignTransferCancelled = ({ handleDeny }) => (
     <MobileContainer>
@@ -60,6 +61,6 @@ const SignTransferCancelled = ({ handleDeny }) => (
             </Grid.Row>
         </Grid>
     </MobileContainer>
-)
+);
 
-export default SignTransferCancelled
+export default SignTransferCancelled;

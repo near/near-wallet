@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import React, { Component } from 'react';
 
 export default class ClickOutside extends Component {
 
@@ -34,7 +34,7 @@ export default class ClickOutside extends Component {
 
 ClickOutside.defaultProps = {
     clickInside: true
-}
+};
 
 ClickOutside.propTypes = {
     onClickOutside: PropTypes.func.isRequired,

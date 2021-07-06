@@ -1,9 +1,10 @@
 import React from 'react';
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
-import UserAccounts from './UserAccounts';
-import CreateAccountBtn from './CreateAccountBtn';
+
 import AccessAccountBtn from './AccessAccountBtn';
+import CreateAccountBtn from './CreateAccountBtn';
+import UserAccounts from './UserAccounts';
 
 const Menu = styled.div`
     position: absolute;
@@ -23,7 +24,7 @@ const Menu = styled.div`
     button {
         width: 100% !important;
     }
-`
+`;
 
 const DesktopMenu = ({
     show,
@@ -56,9 +57,9 @@ const DesktopMenu = ({
                     <CreateAccountBtn/>
                 }
             </Menu>
-        )
+        );
     }
     return null;
-}
+};
 
-export default DesktopMenu
+export default DesktopMenu;

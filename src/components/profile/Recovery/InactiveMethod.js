@@ -1,7 +1,8 @@
 import React from 'react';
-import styled from 'styled-components';
 import { Translate } from 'react-localize-redux';
 import { Link } from 'react-router-dom';
+import styled from 'styled-components';
+
 import { Mixpanel } from '../../../mixpanel/index';
 
 const NotEnabledContainer = styled.div`
@@ -10,7 +11,7 @@ const NotEnabledContainer = styled.div`
     justify-content: space-between;
     color: #24272a;
     font-weight: 500;
-`
+`;
 
 const Button = styled(Link)`
     display: flex;
@@ -27,7 +28,7 @@ const Button = styled(Link)`
         color: white;
         text-decoration: none;
     }
-`
+`;
 
 const InactiveMethod = ({ method, accountId }) => (
     <NotEnabledContainer>

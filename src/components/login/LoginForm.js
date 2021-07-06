@@ -1,16 +1,15 @@
-import React, { Fragment } from 'react'
-import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
-import { withRouter } from 'react-router-dom'
-import { Translate } from 'react-localize-redux'
-import { Grid } from 'semantic-ui-react'
+import PropTypes from 'prop-types';
+import React, { Fragment } from 'react';
+import { Translate } from 'react-localize-redux';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
+import { Grid } from 'semantic-ui-react';
 
-import MobileContainer from '../sign/MobileContainer'
-import FormButton from '../common/FormButton'
-import SelectAccountDropdown from './SelectAccountDropdown'
-
-import IconProblems from '../../images/IconProblems'
-import IconAuthorize from '../../images/IconAuthorize'
+import IconAuthorize from '../../images/IconAuthorize';
+import IconProblems from '../../images/IconProblems';
+import FormButton from '../common/FormButton';
+import MobileContainer from '../sign/MobileContainer';
+import SelectAccountDropdown from './SelectAccountDropdown';
 
 const LoginForm = ({
     dropdown,
@@ -155,7 +154,7 @@ const LoginForm = ({
             </Grid.Row>
         </Grid>
     </MobileContainer>
-)
+);
 
 LoginForm.propTypes = {
     dropdown: PropTypes.bool.isRequired,
@@ -163,11 +162,11 @@ LoginForm.propTypes = {
     handleDeny: PropTypes.func.isRequired,
     handleSelectAccount: PropTypes.func.isRequired,
     redirectCreateAccount: PropTypes.func.isRequired
-}
+};
 
 const mapStateToProps = ({ account, availableAccounts }) => ({
     account,
     availableAccounts
-})
+});
 
-export default connect(mapStateToProps)(withRouter(LoginForm))
+export default connect(mapStateToProps)(withRouter(LoginForm));

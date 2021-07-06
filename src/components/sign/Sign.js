@@ -1,15 +1,16 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import { withRouter } from 'react-router-dom'
-import BN from 'bn.js'
-import { Translate } from 'react-localize-redux'
-import SignContainer from './SignContainer'
-import SignTransferReady from './SignTransferReady'
-import SignTransferSuccess from './SignTransferSuccess'
-import SignTransferCancelled from './SignTransferCancelled'
-import SignTransferTransferring from './SignTransferTransferring'
-import { signAndSendTransactions, redirectTo } from '../../actions/account'
-import { Mixpanel } from '../../mixpanel'
+import BN from 'bn.js';
+import React, { Component } from 'react';
+import { Translate } from 'react-localize-redux';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
+
+import { signAndSendTransactions, redirectTo } from '../../actions/account';
+import { Mixpanel } from '../../mixpanel';
+import SignContainer from './SignContainer';
+import SignTransferCancelled from './SignTransferCancelled';
+import SignTransferReady from './SignTransferReady';
+import SignTransferSuccess from './SignTransferSuccess';
+import SignTransferTransferring from './SignTransferTransferring';
 
 class Sign extends Component {
 
@@ -19,7 +20,7 @@ class Sign extends Component {
 
     handleDeny = e => {
         e.preventDefault();
-        Mixpanel.track("SIGN Deny the transaction")
+        Mixpanel.track("SIGN Deny the transaction");
         const { callbackUrl, meta, signTxStatus } = this.props;
         // TODO: Dispatch action for app redirect?
         if (this.props.callbackUrl) {
@@ -29,7 +30,7 @@ class Sign extends Component {
                     meta,
                     errorCode: encodeURIComponent('userRejected'),
                     errorMessage: encodeURIComponent('User rejected transaction')
-                })
+                });
                 return;
             }
 
@@ -37,39 +38,39 @@ class Sign extends Component {
                 meta,
                 errorCode: encodeURIComponent(signTxStatus?.errorType) || encodeURIComponent('unknownError'),
                 errorMessage: encodeURIComponent(signTxStatus?.errorMessage?.substring(0, 100)) || encodeURIComponent('Unknown error')
-            })
+            });
             return;
         }
     }
 
     handleAllow = async () => {
-        this.setState({ sending: true })
+        this.setState({ sending: true });
         await Mixpanel.withTracking("SIGN",
             async () => {
                 // TODO: Maybe this needs Redux reducer to propagate result into state?
                 const { transactions, account: { accountId }, callbackUrl, meta, dispatch } = this.props;
 
-                const transactionHashes = await dispatch(signAndSendTransactions(transactions, accountId))
+                const transactionHashes = await dispatch(signAndSendTransactions(transactions, accountId));
                 console.log('transactionHashes', transactionHashes);
                 if (this.props.callbackUrl) {
                     window.location.href = addQueryParams(callbackUrl, {
                         meta,
                         transactionHashes: transactionHashes.join(',')
-                    })
+                    });
                 }
             }
-        )
+        );
     }
 
     renderSubcomponent = () => {
-        const { account: { url, balance }, totalAmount, sensitiveActionsCounter, status, dispatch } = this.props
+        const { account: { url, balance }, totalAmount, sensitiveActionsCounter, status, dispatch } = this.props;
 
-        const txTotalAmount = new BN(totalAmount) // TODO: add gas cost, etc
-        const availableBalance = balance?.available
+        const txTotalAmount = new BN(totalAmount); // TODO: add gas cost, etc
+        const availableBalance = balance?.available;
         const insufficientFunds = availableBalance
             ? txTotalAmount.gt(new BN(availableBalance))
-            : false
-        const isMonetaryTransaction = txTotalAmount.gt(new BN(0))
+            : false;
+        const isMonetaryTransaction = txTotalAmount.gt(new BN(0));
 
         switch (status) {
             case 'needs-confirmation':
@@ -84,23 +85,23 @@ class Sign extends Component {
                             availableBalance={availableBalance}
                             insufficientFunds={insufficientFunds}
                             isMonetaryTransaction={isMonetaryTransaction}
-                        />
+                        />;
             case 'in-progress':
                 return <SignTransferTransferring
                             {...this.state}
                             isMonetaryTransaction={isMonetaryTransaction}
-                        />
+                        />;
             case 'success':
                 return <SignTransferSuccess
                             handleClose={() => dispatch(redirectTo('/'))}
                             isMonetaryTransaction={isMonetaryTransaction}
                             txTotalAmount={txTotalAmount}
-                        />
+                        />;
             case 'error':
                 // TODO: Figure out how to handle different error types
-                return <SignTransferCancelled handleDeny={this.handleDeny} />
+                return <SignTransferCancelled handleDeny={this.handleDeny} />;
             default:
-                return <b><Translate id='sign.unexpectedStatus' />: {status}</b>
+                return <b><Translate id='sign.unexpectedStatus' />: {status}</b>;
         }
     }
 
@@ -122,8 +123,8 @@ const mapStateToProps = ({ account, sign, status }) => ({
     account,
     ...sign,
     signTxStatus: status.actionStatus.SIGN_AND_SEND_TRANSACTIONS
-})
+});
 
 export const SignWithRouter = connect(
     mapStateToProps
-)(withRouter(Sign))
+)(withRouter(Sign));

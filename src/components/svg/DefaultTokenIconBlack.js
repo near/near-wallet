@@ -13,7 +13,7 @@ const DefaultTokenIconBlack = () => {
                 </clipPath>
             </defs>
         </svg>
-    )
-}
+    );
+};
 
 export default DefaultTokenIconBlack;

@@ -1,20 +1,20 @@
-import { utils, transactions as transaction } from 'near-api-js'
-import { handleActions } from 'redux-actions'
-import BN from 'bn.js'
+import BN from 'bn.js';
+import { utils, transactions as transaction } from 'near-api-js';
+import { handleActions } from 'redux-actions';
 
-import { parseTransactionsToSign, signAndSendTransactions, setSignTransactionStatus, selectAccount } from '../actions/account'
+import { parseTransactionsToSign, signAndSendTransactions, setSignTransactionStatus, selectAccount } from '../actions/account';
 
 const initialState = {
     status: 'needs-confirmation'
-}
+};
 
 const sign = handleActions({
     [parseTransactionsToSign]: (state, { payload: { transactions: transactionsString, callbackUrl, meta } }) => {
         const transactions = transactionsString.split(',')
             .map(str => Buffer.from(str, 'base64'))
-            .map(buffer => utils.serialize.deserialize(transaction.SCHEMA, transaction.Transaction, buffer))
+            .map(buffer => utils.serialize.deserialize(transaction.SCHEMA, transaction.Transaction, buffer));
 
-        const allActions = transactions.flatMap(t => t.actions)
+        const allActions = transactions.flatMap(t => t.actions);
         return {
             status: 'needs-confirmation',
             callbackUrl,
@@ -34,7 +34,7 @@ const sign = handleActions({
             sensitiveActionsCounter: allActions
                 .filter(a => ['deployContract', 'stake', 'deleteAccount'].indexOf(Object.keys(a)[0]) > -1)
                 .length
-        }
+        };
     },
     [signAndSendTransactions]: (state, { error, payload, ready }) => {
 
@@ -42,7 +42,7 @@ const sign = handleActions({
             return {
                 ...state,
                 status: 'needs-confirmation'
-            }
+            };
         }
 
         if (error) {
@@ -50,23 +50,23 @@ const sign = handleActions({
                 ...state,
                 status: 'error',
                 error: payload
-            }
+            };
         }
 
         return {
             ...state,
             status: 'success'
-        }
+        };
     },
     [setSignTransactionStatus]: (state, { payload }) => {
         return {
             ...state,
             status: payload.status
-        }
+        };
     },
     [selectAccount]: () => {
-        return initialState
+        return initialState;
     }
-}, initialState)
+}, initialState);
 
-export default sign
+export default sign;

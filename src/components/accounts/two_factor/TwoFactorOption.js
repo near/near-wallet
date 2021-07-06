@@ -1,10 +1,11 @@
 import React from 'react';
-import styled from 'styled-components';
-import EmailIcon from '../../svg/EmailIcon';
-import PhoneIcon from '../../svg/PhoneIcon';
 import { Translate } from 'react-localize-redux';
+import styled from 'styled-components';
+
 import IntFlagIcon from '../../../images/int-flag-small.svg';
 import classNames from '../../../utils/classNames';
+import EmailIcon from '../../svg/EmailIcon';
+import PhoneIcon from '../../svg/PhoneIcon';
 
 const Container = styled.div`
     background-color: #F8F8F8;
@@ -117,7 +118,7 @@ const Container = styled.div`
             font-size: 16px;
         }
     }
-`
+`;
 
 const Header = styled.div`
     position: relative;
@@ -130,13 +131,13 @@ const Header = styled.div`
         left: 0;
     }
 
-`
+`;
 
 const Title = styled.div`
     font-size: 16px;
     color: #24272a;
     font-weight: 500;
-`
+`;
 
 const TwoFactorOption = ({
     children,
@@ -156,7 +157,7 @@ const TwoFactorOption = ({
             </Header>
             {active && children}
         </Container>
-    )
-}
+    );
+};
 
 export default TwoFactorOption;

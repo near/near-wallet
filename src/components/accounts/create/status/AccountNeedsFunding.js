@@ -1,9 +1,10 @@
-import React from 'react'
-import { Translate } from 'react-localize-redux'
-import CopyIcon from '../../../svg/CopyIcon'
-import ClickToCopy from '../../../common/ClickToCopy'
-import Balance from '../../../common/Balance'
-import StyledContainer from './Style.css'
+import React from 'react';
+import { Translate } from 'react-localize-redux';
+
+import Balance from '../../../common/Balance';
+import ClickToCopy from '../../../common/ClickToCopy';
+import CopyIcon from '../../../svg/CopyIcon';
+import StyledContainer from './Style.css';
 
 const AccountNeedsFunding = ({
     accountId,
@@ -43,7 +44,7 @@ const AccountNeedsFunding = ({
                 </span>
             </div>
         </StyledContainer>
-    )
-}
+    );
+};
 
-export default AccountNeedsFunding
+export default AccountNeedsFunding;

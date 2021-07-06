@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
+
+import { Mixpanel } from '../../../mixpanel/index';
 import Button from '../../common/Button';
 import FormButton from '../../common/FormButton';
-import { Mixpanel } from '../../../mixpanel/index'
 
 const EnabledContainer = styled.div`
     &&& {
@@ -67,7 +68,7 @@ const EnabledContainer = styled.div`
             }
         }
     }
-`
+`;
 
 const DisableContainer = styled.form`
     && {
@@ -114,7 +115,7 @@ const DisableContainer = styled.form`
             }
         }
     }
-`
+`;
 
 class ActiveMethod extends Component {
 
@@ -146,8 +147,8 @@ class ActiveMethod extends Component {
                         </div>
                         <Button 
                             onClick={() => {
-                                Mixpanel.track(data.kind === 'phrase' ? 'SR-SP Click disable button': `SR Click disable button for ${data.kind}`)
-                                this.handleToggleDisable()
+                                Mixpanel.track(data.kind === 'phrase' ? 'SR-SP Click disable button': `SR Click disable button for ${data.kind}`);
+                                this.handleToggleDisable();
                             }} 
                             title='Disable'
                         >

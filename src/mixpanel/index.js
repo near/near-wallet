@@ -14,18 +14,18 @@ let Mixpanel = {
             await fn();
         } catch (e) {
             if (errorOperation) {
-                await errorOperation(e)
+                await errorOperation(e);
             } else {
-                throw e
+                throw e;
             }
         } finally {
             if (finalOperation) {
-                await finalOperation()
+                await finalOperation();
             }
         }
     },
     register: () => {}
-}
+};
 
 if (process.env.BROWSER_MIXPANEL_TOKEN) {
     mixpanel.init(process.env.BROWSER_MIXPANEL_TOKEN);
@@ -48,29 +48,29 @@ if (process.env.BROWSER_MIXPANEL_TOKEN) {
                 mixpanel.people.set(props);
             },
             set_once: (props)  => {
-                mixpanel.people.set_once(props)
+                mixpanel.people.set_once(props);
             }
         },
         withTracking: async (name, fn, errorOperation, finalOperation) => {
             try {
-                mixpanel.track(`${name} start`)
+                mixpanel.track(`${name} start`);
                 await fn();
-                mixpanel.track(`${name} finish`)
+                mixpanel.track(`${name} finish`);
             } catch (e) {
-                mixpanel.track(`${name} fail`, {error: e.message})
+                mixpanel.track(`${name} fail`, {error: e.message});
                 if (errorOperation) {
-                    await errorOperation(e)
+                    await errorOperation(e);
                 } else {
-                    throw e
+                    throw e;
                 }
             } finally {
                 if (finalOperation) {
-                    await finalOperation()
+                    await finalOperation();
                 }
             }
         },
         register: (props) => {
-            mixpanel.register(props)
+            mixpanel.register(props);
         }
     };
 }

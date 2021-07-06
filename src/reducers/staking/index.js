@@ -1,8 +1,8 @@
-import { handleActions } from 'redux-actions'
-import reduceReducers from 'reduce-reducers'
+import reduceReducers from 'reduce-reducers';
+import { handleActions } from 'redux-actions';
 
-import { staking } from '../../actions/staking'
-import { ACCOUNT_DEFAULTS } from '../../utils/staking'
+import { staking } from '../../actions/staking';
+import { ACCOUNT_DEFAULTS } from '../../utils/staking';
 
 // sample validator entry
 // const validator = {
@@ -21,7 +21,7 @@ const initialState = {
     accounts: [],
     isLockup: false,
     currentAccount: { ...ACCOUNT_DEFAULTS }
-}
+};
 
 const stakingHandlers = handleActions({
     [staking.getAccounts]: (state, { payload }) => ({
@@ -77,9 +77,9 @@ const stakingHandlers = handleActions({
             }),
     [staking.clearState]: () => 
         initialState,
-}, initialState)
+}, initialState);
 
 export default reduceReducers(
     initialState,
     stakingHandlers
-)
+);

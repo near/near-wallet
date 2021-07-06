@@ -1,11 +1,11 @@
-import React from 'react'
-import styled from 'styled-components'
-import { Translate } from 'react-localize-redux'
+import React from 'react';
+import { Translate } from 'react-localize-redux';
+import styled from 'styled-components';
 
 const StyledContainer = styled.div`
     display: flex;
     align-items: center;
-`
+`;
 const Indicator = styled.span`
     display: inline-block;
     width: 9px;
@@ -13,20 +13,20 @@ const Indicator = styled.span`
     background-color: ${props => props.color};
     border-radius: 50%;
     margin-right: 10px;
-`
+`;
 
 const getStatusColor = (status) => {
     switch (status) {
         case 'SuccessValue':
-            return '#4DD5A6'
+            return '#4DD5A6';
         case 'Failure':
-            return '#ff585d'
+            return '#ff585d';
         case 'notAvailable':
-            return '#ff585d'
+            return '#ff585d';
         default:
-            return
+            return;
     }
-}
+};
 
 const TXStatus = ({ status }) => {
     return (
@@ -34,7 +34,7 @@ const TXStatus = ({ status }) => {
             <Indicator color={getStatusColor(status)}/>
             <Translate id={`sendV2.TXEntry.status.${status}`} />
         </StyledContainer>
-    )
-}
+    );
+};
 
-export default TXStatus
+export default TXStatus;

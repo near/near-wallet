@@ -1,28 +1,29 @@
-import React, { useState, useEffect } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
-import styled from 'styled-components'
-import Container from '../common/styled/Container.css'
-import { Translate } from 'react-localize-redux'
-import FormButton from '../common/FormButton'
-import ArrowCircleIcon from '../svg/ArrowCircleIcon'
-import AccountFormAccountId from '../accounts/AccountFormAccountId'
-import { checkAccountAvailable, sendMoney, getBalance } from '../../actions/account'
-import { clearLocalAlert } from '../../actions/status'
-import BalanceBreakdown from '../staking/components/BalanceBreakdown'
-import BN from 'bn.js'
-import { utils } from 'near-api-js'
-import { WALLET_APP_MIN_AMOUNT } from '../../utils/wallet'
-import isDecimalString from '../../utils/isDecimalString'
-import SendConfirmModal from './SendConfirmModal'
-import Balance from '../common/Balance'
-import TransferMoneyIcon from '../svg/TransferMoneyIcon'
-import { onKeyDown } from '../../hooks/eventListeners'
-import classNames from '../../utils/classNames'
-import { Mixpanel } from '../../mixpanel/index'
+import BN from 'bn.js';
+import { utils } from 'near-api-js';
+import React, { useState, useEffect } from 'react';
+import { Translate } from 'react-localize-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import styled from 'styled-components';
+
+import { checkAccountAvailable, sendMoney, getBalance } from '../../actions/account';
+import { clearLocalAlert } from '../../actions/status';
+import { onKeyDown } from '../../hooks/eventListeners';
+import { Mixpanel } from '../../mixpanel/index';
+import classNames from '../../utils/classNames';
+import isDecimalString from '../../utils/isDecimalString';
+import { WALLET_APP_MIN_AMOUNT } from '../../utils/wallet';
+import AccountFormAccountId from '../accounts/AccountFormAccountId';
+import Balance from '../common/Balance';
+import FormButton from '../common/FormButton';
+import Container from '../common/styled/Container.css';
+import BalanceBreakdown from '../staking/components/BalanceBreakdown';
+import ArrowCircleIcon from '../svg/ArrowCircleIcon';
+import TransferMoneyIcon from '../svg/TransferMoneyIcon';
+import SendConfirmModal from './SendConfirmModal';
 
 const {
     parseNearAmount, formatNearAmount
-} = utils.format
+} = utils.format;
 
 const StyledContainer = styled(Container)`
     h1, .sub-title {
@@ -45,87 +46,87 @@ const StyledContainer = styled(Container)`
             }
         }
     }
-`
+`;
 
 export function SendContainer({ match, location }) {
-    const dispatch = useDispatch()
+    const dispatch = useDispatch();
     const { accountId, balance } = useSelector(({ account }) => account);
     const { localAlert, mainLoader, actionStatus } = useSelector(({ status }) => status);
-    const [useMax, setUseMax] = useState(null)
-    const [amount, setAmount] = useState('')
-    const [confirm, setConfirm] = useState(null)
-    const [id, setId] = useState(match.params.id || '')
-    const [success, setSuccess] = useState(null)
+    const [useMax, setUseMax] = useState(null);
+    const [amount, setAmount] = useState('');
+    const [confirm, setConfirm] = useState(null);
+    const [id, setId] = useState(match.params.id || '');
+    const [success, setSuccess] = useState(null);
     const amountAvailableToSend = balance?.available
         ? new BN(balance.available).sub(new BN(parseNearAmount(WALLET_APP_MIN_AMOUNT)))
-        : undefined
+        : undefined;
     const sufficientBalance = balance?.available
         ? !new BN(parseNearAmount(amount)).isZero() && (new BN(parseNearAmount(amount)).lte(amountAvailableToSend) || useMax) && isDecimalString(amount)
-        : undefined
-    const sendAllowed = ((localAlert && localAlert.success !== false) || id.length === 64) && sufficientBalance && amount && !mainLoader && !success
+        : undefined;
+    const sendAllowed = ((localAlert && localAlert.success !== false) || id.length === 64) && sufficientBalance && amount && !mainLoader && !success;
 
     useEffect(() => {
         if (success) {
-            let id = Mixpanel.get_distinct_id()
-            Mixpanel.identify(id)
-            Mixpanel.people.set({last_send_token: new Date().toString()})
+            let id = Mixpanel.get_distinct_id();
+            Mixpanel.identify(id);
+            Mixpanel.people.set({last_send_token: new Date().toString()});
 
-            setUseMax(null)
-            setAmount('')
-            setConfirm(null)
-            setId('')
-            setSuccess(null)
+            setUseMax(null);
+            setAmount('');
+            setConfirm(null);
+            setId('');
+            setSuccess(null);
         }
-    }, [location.key])
+    }, [location.key]);
 
     useEffect(() => {
         if (id && actionStatus.GET_BALANCE?.success) {
-            dispatch(checkAccountAvailable(id))
+            dispatch(checkAccountAvailable(id));
         }
-    }, [actionStatus.GET_BALANCE?.success])
+    }, [actionStatus.GET_BALANCE?.success]);
 
     onKeyDown(e => {
         if (e.keyCode === 13 && sendAllowed) {
             if (!confirm) {
-                setConfirm(true)
+                setConfirm(true);
             } else {
-                handleSend()
+                handleSend();
             }
         }
-    })
+    });
 
     const handleSetUseMax = () => {
         if (amountAvailableToSend.gt(new BN('0'))) {
-            Mixpanel.track("SEND Use max amount")
-            setUseMax(true)
-            setAmount(formatNearAmount(amountAvailableToSend, 5).replace(/,/g, ''))
+            Mixpanel.track("SEND Use max amount");
+            setUseMax(true);
+            setAmount(formatNearAmount(amountAvailableToSend, 5).replace(/,/g, ''));
         }
-    }
+    };
 
     const handleChangeAmount = (e) => {
         if (!/^\d*[.]?\d*$/.test(e.target.value)) {
-            return
+            return;
         }
-        setUseMax(false)
-        setAmount(e.target.value)
-    }
+        setUseMax(false);
+        setAmount(e.target.value);
+    };
 
     const handleConfirm = () => {
-        Mixpanel.track("SEND Click submit button")
-        setConfirm(true)
-    }
+        Mixpanel.track("SEND Click submit button");
+        setConfirm(true);
+    };
 
     const handleSend = async () => {
         await Mixpanel.withTracking("SEND token", 
             async () => {
-                await dispatch(sendMoney(id, parseNearAmount(amount)))
-                await dispatch(getBalance())
-                setConfirm(false)
-                setSuccess(true)
-                window.scrollTo(0, 0) 
+                await dispatch(sendMoney(id, parseNearAmount(amount)));
+                await dispatch(getBalance());
+                setConfirm(false);
+                setSuccess(true);
+                window.scrollTo(0, 0); 
             }
-        )
-    }
+        );
+    };
 
     if (!success) {
         return (
@@ -171,8 +172,8 @@ export function SendContainer({ match, location }) {
                 {confirm &&
                     <SendConfirmModal
                         onClose={() => {
-                            setConfirm(false)
-                            Mixpanel.track("SEND Click cancel button")
+                            setConfirm(false);
+                            Mixpanel.track("SEND Click cancel button");
                         }}
                         onConfirm={handleSend}
                         loading={mainLoader}
@@ -181,7 +182,7 @@ export function SendContainer({ match, location }) {
                     />
                 }
             </StyledContainer>
-        )
+        );
     } else {
         return (
             <StyledContainer className='small-centered send-theme success'>
@@ -192,6 +193,6 @@ export function SendContainer({ match, location }) {
                     <Translate id='button.goToDashboard' />
                 </FormButton>
             </StyledContainer>
-        )
+        );
     }
 }

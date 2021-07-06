@@ -1,14 +1,14 @@
 import React from 'react';
-import styled from 'styled-components';
 import { Translate } from 'react-localize-redux';
+import styled from 'styled-components';
 
-import Modal from "../../common/modal/Modal";
-import ModalTheme from './ModalTheme';
-import LedgerImage from '../../svg/LedgerImage';
+import IconCheck from '../../../images/IconCheck';
 import UserIconGrey from '../../../images/UserIconGrey';
-import IconCheck from '../../../images/IconCheck'
+import AccountFormAccountId from '../../accounts/AccountFormAccountId';
 import FormButton from '../../common/FormButton';
-import AccountFormAccountId from '../../accounts/AccountFormAccountId'
+import Modal from "../../common/modal/Modal";
+import LedgerImage from '../../svg/LedgerImage';
+import ModalTheme from './ModalTheme';
 
 const UserIcon = styled.div`
     background-size: 21px;
@@ -28,17 +28,17 @@ const UserIcon = styled.div`
     @media (min-width: 940px) {
         display: inline-block;
     }
-`
+`;
 
 const H4 = styled.div`
     color: #999;
     text-align: center;
     padding: 30px 0 60px 0;
     font-size: 16px;
-`
+`;
 const CustomContainer = styled.div`
     width: 100%;
-`
+`;
 
 const AnimateList = styled.div`
     margin-top: 10px;
@@ -139,7 +139,7 @@ const AnimateList = styled.div`
             line-height: 24px;
         }
     }
-`
+`;
 
 const LedgerSignInModal = ({ 
     open, 
@@ -162,7 +162,7 @@ const LedgerSignInModal = ({
     clearSignInWithLedgerModalState
 }) => {
     
-    const animationScope = Math.min(Math.max((accountsApproved + accountsError + accountsRejected) - 1, 0), totalAccounts - 3)
+    const animationScope = Math.min(Math.max((accountsApproved + accountsError + accountsRejected) - 1, 0), totalAccounts - 3);
 
     return (
         <Modal
@@ -269,6 +269,6 @@ const LedgerSignInModal = ({
             )}
         </Modal>
     );
-}
+};
 
 export default LedgerSignInModal;

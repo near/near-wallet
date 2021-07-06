@@ -1,21 +1,22 @@
-import React, { Component } from 'react'
-import styled from 'styled-components'
-import { formatNearAmount } from 'near-api-js/lib/utils/format'
-import BN from 'bn.js'
-import { withRouter } from 'react-router-dom'
-import { connect } from 'react-redux'
-import { Translate } from 'react-localize-redux'
-import Container from '../../common/styled/Container.css'
-import FormButton from '../../common/FormButton'
-import WhereToBuyNearModal from '../../common/WhereToBuyNearModal'
-import { redirectTo, clearFundedAccountNeedsDeposit, getBalance, getAccountHelperWalletState } from '../../../actions/account'
-import { Mixpanel } from '../../../mixpanel'
-import { isMoonpayAvailable, getSignedUrl } from '../../../utils/moonpay'
-import AccountNeedsFunding from './status/AccountNeedsFunding'
-import AccountFunded from './status/AccountFunded'
-import Divider from '../../common/Divider'
-import FundWithMoonpay from './FundWithMoonpay'
-import { removeAccountIsInactive } from '../../../utils/localStorage'
+import BN from 'bn.js';
+import { formatNearAmount } from 'near-api-js/lib/utils/format';
+import React, { Component } from 'react';
+import { Translate } from 'react-localize-redux';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
+import styled from 'styled-components';
+
+import { redirectTo, clearFundedAccountNeedsDeposit, getBalance, getAccountHelperWalletState } from '../../../actions/account';
+import { Mixpanel } from '../../../mixpanel';
+import { removeAccountIsInactive } from '../../../utils/localStorage';
+import { isMoonpayAvailable, getSignedUrl } from '../../../utils/moonpay';
+import Divider from '../../common/Divider';
+import FormButton from '../../common/FormButton';
+import Container from '../../common/styled/Container.css';
+import WhereToBuyNearModal from '../../common/WhereToBuyNearModal';
+import FundWithMoonpay from './FundWithMoonpay';
+import AccountFunded from './status/AccountFunded';
+import AccountNeedsFunding from './status/AccountNeedsFunding';
 
 const StyledContainer = styled(Container)`
 
@@ -78,7 +79,7 @@ const StyledContainer = styled(Container)`
             }
         }
     }
-`
+`;
 class ActivateAccount extends Component {
     state = { 
         whereToBuy: false,
@@ -90,27 +91,27 @@ class ActivateAccount extends Component {
     pollAccountBalanceHandle = null;
 
     checkMoonPay = async () => {
-        const { accountId } = this.props
+        const { accountId } = this.props;
         await Mixpanel.withTracking("CA Check Moonpay available", 
             async () => {
-                const moonpayAvailable = await isMoonpayAvailable()
+                const moonpayAvailable = await isMoonpayAvailable();
                 if (moonpayAvailable) {
-                    const moonpaySignedURL = await getSignedUrl(accountId, window.location.origin)
-                    this.setState({ moonpayAvailable, moonpaySignedURL })
+                    const moonpaySignedURL = await getSignedUrl(accountId, window.location.origin);
+                    this.setState({ moonpayAvailable, moonpaySignedURL });
                 }
             },
             (e) => {
                 this.setState({ moonpayAvailable: false });
-                console.warn('Error checking Moonpay', e)
+                console.warn('Error checking Moonpay', e);
             }
-        )
+        );
     }
 
     checkBalance = async () => {
         const { dispatch, needsDeposit } = this.props;
 
         if (needsDeposit) {
-            await dispatch(getBalance())
+            await dispatch(getBalance());
         }
     
     }
@@ -121,18 +122,18 @@ class ActivateAccount extends Component {
             if (this.pollAccountBalanceHandle) {
                 this.pollAccountBalanceHandle = setTimeout(() => handleCheckBalance(), 3000);
             }
-        }
+        };
         this.pollAccountBalanceHandle = setTimeout(() => handleCheckBalance(), 3000);
     }
 
     stopPollingAccountBalance = () => {
-        clearTimeout(this.pollAccountBalanceHandle)
+        clearTimeout(this.pollAccountBalanceHandle);
         this.pollAccountBalanceHandle = null;
     }
  
     componentDidMount = () => {
-        this.startPollingAccountBalance()
-        this.checkMoonPay()
+        this.startPollingAccountBalance();
+        this.checkMoonPay();
     }
 
     handleClearAccountNeedsDeposit = async () => {
@@ -150,25 +151,25 @@ class ActivateAccount extends Component {
                 window.scrollTo(0, 0);
 
                 if (needsDeposit) {
-                    this.handleClearAccountNeedsDeposit()
+                    this.handleClearAccountNeedsDeposit();
                 }
             }
         }
     }
 
     componentWillUnmount = () => {
-        this.stopPollingAccountBalance()
+        this.stopPollingAccountBalance();
     }
 
     handleClaimAccount = () => {
         const { dispatch, accountId, needsDeposit } = this.props;
 
         if (needsDeposit) {
-            this.handleClearAccountNeedsDeposit()
+            this.handleClearAccountNeedsDeposit();
         }
 
         removeAccountIsInactive(accountId);
-        dispatch(redirectTo('/'))
+        dispatch(redirectTo('/'));
     }
 
     render() {
@@ -177,7 +178,7 @@ class ActivateAccount extends Component {
             moonpayAvailable,
             moonpaySignedURL,
             accountFunded
-        } = this.state
+        } = this.state;
 
         const { accountId, balance, mainLoader, minBalanceToUnlock } = this.props;
 
@@ -199,7 +200,7 @@ class ActivateAccount extends Component {
                         <Translate id='button.continueToMyAccount' />
                     </FormButton>
                 </StyledContainer>
-            )
+            );
         }
 
         return (
@@ -233,7 +234,7 @@ class ActivateAccount extends Component {
                     />
                 }
             </StyledContainer>
-        )
+        );
     }
 }
 
@@ -242,6 +243,6 @@ const mapStateToProps = ({ account, status }) => ({
     mainLoader: status.mainLoader,
     minBalanceToUnlock: account.accountHelperWalletState?.requiredUnlockBalance,
     needsDeposit: account.accountHelperWalletState?.fundedAccountNeedsDeposit
-})
+});
 
-export const ActivateAccountWithRouter = connect(mapStateToProps)(withRouter(ActivateAccount))
+export const ActivateAccountWithRouter = connect(mapStateToProps)(withRouter(ActivateAccount));

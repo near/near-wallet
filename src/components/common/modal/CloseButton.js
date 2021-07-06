@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+
 import classNames from '../../../utils/classNames';
 
 const Container = styled.button`
@@ -53,7 +54,7 @@ const Container = styled.button`
             stroke: #0072CE;
         }
     }
-`
+`;
 
 const CloseButton = ({ onClick, device }) => (
     <Container onClick={onClick} title='Close' className={classNames(['modal-close-btn', device])}>
@@ -62,6 +63,6 @@ const CloseButton = ({ onClick, device }) => (
             <path className='icon' d="M22.9954 11.6817L11.6817 22.9954M11.6817 11.632L22.9954 22.9458" stroke="black" strokeWidth="2.5" strokeLinecap="round"/>
         </svg>
     </Container>
-)
+);
 
 export default CloseButton;

@@ -1,11 +1,12 @@
-import React from 'react'
-import Modal from '../common/modal/Modal'
-import { Translate } from 'react-localize-redux'
-import styled from 'styled-components'
-import BinanceLogo from '../../images/binance-logo.svg'
-import HuobiLogo from '../../images/huobi-logo.svg'
-import OkexLogo from '../../images/okex-logo.svg'
-import LiqualityLogo from '../../images/liquality-logo.svg'
+import React from 'react';
+import { Translate } from 'react-localize-redux';
+import styled from 'styled-components';
+
+import BinanceLogo from '../../images/binance-logo.svg';
+import HuobiLogo from '../../images/huobi-logo.svg';
+import LiqualityLogo from '../../images/liquality-logo.svg';
+import OkexLogo from '../../images/okex-logo.svg';
+import Modal from '../common/modal/Modal';
 
 const Container = styled.div`
     display: flex;
@@ -38,7 +39,7 @@ const Container = styled.div`
             background-color: #F0F9FF;
         }
     }
-`
+`;
 
 const WhereToBuyNearModal = ({ open, onClose }) => {
     return (
@@ -67,6 +68,6 @@ const WhereToBuyNearModal = ({ open, onClose }) => {
             </Container>
         </Modal>
     );
-}
+};
 
-export default WhereToBuyNearModal
+export default WhereToBuyNearModal;

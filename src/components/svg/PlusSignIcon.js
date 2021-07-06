@@ -6,7 +6,7 @@ const PlusSignIcon = ({ color = 'white' }) => {
             <path d="M12.5 5V19" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
             <path d="M5.5 12H19.5" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
         </svg>
-    )
-}
+    );
+};
 
 export default PlusSignIcon;

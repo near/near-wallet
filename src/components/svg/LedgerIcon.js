@@ -9,7 +9,7 @@ const LedgerIcon = () => {
             <path d="M38.2609 15.4779C39.2674 12.3208 42.6427 10.5773 45.7999 11.5838C48.957 12.5904 50.7004 15.9657 49.6939 19.1228L39.3666 51.5165L27.9336 47.8715L38.2609 15.4779Z" fill="white" stroke="#A6A6A6" strokeWidth="2"/>
             <circle cx="43.9775" cy="17.3003" r="2" transform="rotate(17.6826 43.9775 17.3003)" fill="white" stroke="#A6A6A6" strokeWidth="2"/>
         </svg>
-    )
-}
+    );
+};
 
 export default LedgerIcon;

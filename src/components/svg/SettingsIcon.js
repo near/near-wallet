@@ -13,7 +13,7 @@ const SettingsIcon = ({ color = '#D5D4D8' }) => {
                 </clipPath>
             </defs>
         </svg>
-    )
-}
+    );
+};
 
 export default SettingsIcon;

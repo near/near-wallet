@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+
 import classNames from '../../utils/classNames';
 
 
@@ -61,7 +62,7 @@ const MenuBtn = styled.div`
             }
         }
     }
-`
+`;
 
 const MenuButton = ({ onClick, open }) => (
     <div className='menu-btn-wrapper' onClick={onClick}>
@@ -71,6 +72,6 @@ const MenuButton = ({ onClick, open }) => (
             <div/>
         </MenuBtn>
     </div>
-)
+);
 
 export default MenuButton;

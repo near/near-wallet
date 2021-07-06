@@ -1,15 +1,17 @@
-import React from 'react'
-import styled from 'styled-components'
-import { Translate } from 'react-localize-redux'
-import FormButton from '../common/FormButton'
-import CloseButton from '../common/modal/CloseButton'
-import HashRushLogo from '../../images/hash-rush-logo.svg'
-import ParasLogo from '../../images/paras-logo.svg'
-import ZedLogo from '../../images/zed-logo.svg'
-import MintbaseLogo from '../../images/mintbase-logo.svg'
-import FluxLogo from '../../images/flux-logo.svg'
-import BerryClubLogo from '../../images/berryclub-logo.svg'
-import { EXPLORE_APPS_URL } from '/utils/wallet'
+import React from 'react';
+import styled from 'styled-components';
+import { Translate } from 'react-localize-redux';
+
+import FormButton from '../common/FormButton';
+import CloseButton from '../common/modal/CloseButton';
+import HashRushLogo from '../../images/hash-rush-logo.svg';
+import ParasLogo from '../../images/paras-logo.svg';
+import ZedLogo from '../../images/zed-logo.svg';
+import MintbaseLogo from '../../images/mintbase-logo.svg';
+import FluxLogo from '../../images/flux-logo.svg';
+import BerryClubLogo from '../../images/berryclub-logo.svg';
+
+import { EXPLORE_APPS_URL } from '/utils/wallet';
 
 const Container = styled.div`
     && {
@@ -92,7 +94,7 @@ const Container = styled.div`
             }
         }
     }
-`
+`;
 
 const ExploreApps = ({ onClick }) => {
     return (
@@ -114,7 +116,7 @@ const ExploreApps = ({ onClick }) => {
                 <FormButton linkTo={EXPLORE_APPS_URL} color='white-blue' trackingId='Click explore apps button'><Translate id='exploreApps.button' /></FormButton>
             </div>
         </Container>
-    )
-}
+    );
+};
 
-export default ExploreApps
+export default ExploreApps;

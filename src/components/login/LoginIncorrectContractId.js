@@ -1,9 +1,9 @@
-import React, { useEffect } from 'react'
+import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 
-import MobileContainer from '../sign/MobileContainer'
-import FormButton from '../common/FormButton'
-import { showCustomAlert } from '../../actions/status'
+import { showCustomAlert } from '../../actions/status';
+import FormButton from '../common/FormButton';
+import MobileContainer from '../sign/MobileContainer';
 
 const LoginIncorrectContractId = ({ contractId, failureUrl }) => {
     const dispatch = useDispatch();
@@ -15,7 +15,7 @@ const LoginIncorrectContractId = ({ contractId, failureUrl }) => {
             data: {
                 contractId
             }
-        }))
+        }));
     }, []);
     
     return (
@@ -30,7 +30,7 @@ const LoginIncorrectContractId = ({ contractId, failureUrl }) => {
                 </FormButton>
             </div>
         </MobileContainer>
-    )
-}
+    );
+};
 
-export default LoginIncorrectContractId
+export default LoginIncorrectContractId;

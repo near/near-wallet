@@ -1,10 +1,7 @@
 import React, { useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import Container from '../../common/styled/Container.css';
-import LedgerImage from '../../svg/LedgerImage';
-import FormButton from '../../common/FormButton';
 import { Translate } from 'react-localize-redux';
-import LedgerSignInModal from './LedgerSignInModal';
+import { useSelector, useDispatch } from 'react-redux';
+
 import { 
     signInWithLedger, 
     redirectToApp,
@@ -15,13 +12,17 @@ import {
     clearSignInWithLedgerModalState
 } from '../../../actions/account';
 import { staking } from '../../../actions/staking';
-import { tokens } from '../../../actions/tokens'
-import { clearLocalAlert } from '../../../actions/status'
-import LocalAlertBox from '../../common/LocalAlertBox'
-import { controller as controllerHelperApi } from '../../../utils/helper-api'
-import parseFundingOptions from '../../../utils/parseFundingOptions'
-import { Mixpanel } from '../../../mixpanel/index'
-import LedgerHdPaths from './LedgerHdPaths'
+import { clearLocalAlert } from '../../../actions/status';
+import { tokens } from '../../../actions/tokens';
+import { Mixpanel } from '../../../mixpanel/index';
+import { controller as controllerHelperApi } from '../../../utils/helper-api';
+import parseFundingOptions from '../../../utils/parseFundingOptions';
+import FormButton from '../../common/FormButton';
+import LocalAlertBox from '../../common/LocalAlertBox';
+import Container from '../../common/styled/Container.css';
+import LedgerImage from '../../svg/LedgerImage';
+import LedgerHdPaths from './LedgerHdPaths';
+import LedgerSignInModal from './LedgerSignInModal';
 
 export function SignInLedger(props) {
     const dispatch = useDispatch();
@@ -36,66 +37,66 @@ export function SignInLedger(props) {
     const status = useSelector(({ status }) => status);
     const { signInWithLedger: signInWithLedgerState, txSigned, signInWithLedgerStatus} = useSelector(({ ledger }) => ledger);
     
-    const signInWithLedgerKeys = Object.keys(signInWithLedgerState || {})
+    const signInWithLedgerKeys = Object.keys(signInWithLedgerState || {});
 
     const ledgerAccounts = signInWithLedgerKeys.map((accountId) => ({
         accountId,
         status: signInWithLedgerState[accountId].status
-    }))
+    }));
     
-    const accountsApproved = signInWithLedgerKeys.reduce((a, accountId) => signInWithLedgerState[accountId].status === 'success' ? a + 1 : a, 0)
-    const accountsError = signInWithLedgerKeys.reduce((a, accountId) => signInWithLedgerState[accountId].status === 'error' ? a + 1 : a, 0)
-    const accountsRejected = signInWithLedgerKeys.reduce((a, accountId) => signInWithLedgerState[accountId].status === 'rejected' ? a + 1 : a, 0)
-    const totalAccounts = signInWithLedgerKeys.length
+    const accountsApproved = signInWithLedgerKeys.reduce((a, accountId) => signInWithLedgerState[accountId].status === 'success' ? a + 1 : a, 0);
+    const accountsError = signInWithLedgerKeys.reduce((a, accountId) => signInWithLedgerState[accountId].status === 'error' ? a + 1 : a, 0);
+    const accountsRejected = signInWithLedgerKeys.reduce((a, accountId) => signInWithLedgerState[accountId].status === 'rejected' ? a + 1 : a, 0);
+    const totalAccounts = signInWithLedgerKeys.length;
     
-    const signingIn = !!signInWithLedgerStatus
+    const signingIn = !!signInWithLedgerStatus;
 
     const handleChange = (value) => {
-        setAccountId(value)
-    }
+        setAccountId(value);
+    };
 
     const handleSignIn = async () => {
-        setLoader(false)
+        setLoader(false);
         await Mixpanel.withTracking("IE-Ledger Sign in",
             async () =>{
-                await dispatch(signInWithLedger(ledgerHdPath))
-                refreshAndRedirect()
+                await dispatch(signInWithLedger(ledgerHdPath));
+                refreshAndRedirect();
             }
-        )
-    }
+        );
+    };
 
     const handleAdditionalAccountId = async () => {
-        setLoader(true)
+        setLoader(true);
         await Mixpanel.withTracking("IE-Ledger Handle additional accountId",
             async () =>{
-                await dispatch(signInWithLedgerAddAndSaveAccounts([accountId], ledgerHdPath))
-                setLoader(false)
-                refreshAndRedirect()
+                await dispatch(signInWithLedgerAddAndSaveAccounts([accountId], ledgerHdPath));
+                setLoader(false);
+                refreshAndRedirect();
             }
-        )
-    }
+        );
+    };
 
     const refreshAndRedirect = () => {
-        const options = parseFundingOptions(props.history.location.search)
-        dispatch(refreshAccount())
+        const options = parseFundingOptions(props.history.location.search);
+        dispatch(refreshAccount());
         if (options) {
-            dispatch(redirectTo(`/linkdrop/${options.fundingContract}/${options.fundingKey}`))
+            dispatch(redirectTo(`/linkdrop/${options.fundingContract}/${options.fundingKey}`));
         } else {
-            dispatch(redirectToApp())
+            dispatch(redirectToApp());
         }
-        dispatch(staking.clearState())
-        dispatch(tokens.clearState())
-    }
+        dispatch(staking.clearState());
+        dispatch(tokens.clearState());
+    };
 
     const onClose = () => {
-        Mixpanel.track("IE-Ledger Close ledger confirmation")
+        Mixpanel.track("IE-Ledger Close ledger confirmation");
         if (signInWithLedgerStatus === 'confirm-public-key') {
-            controllerHelperApi.abort()
+            controllerHelperApi.abort();
         }
         if (signInWithLedgerStatus === 'enter-accountId') {
-            dispatch(clearSignInWithLedgerModalState())
+            dispatch(clearSignInWithLedgerModalState());
         }
-    }
+    };
 
     return (
         <Container className='small-centered border ledger-theme'>
@@ -108,8 +109,8 @@ export function SignInLedger(props) {
                 path={path}
                 onSetPath={path => setPath(path)}
                 onConfirmHdPath={() => {
-                    setConfirmedPath(path)
-                    Mixpanel.track("IE-Ledger Sign in set custom HD path")
+                    setConfirmedPath(path);
+                    Mixpanel.track("IE-Ledger Sign in set custom HD path");
                 }}
             />
             <FormButton

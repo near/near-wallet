@@ -1,37 +1,38 @@
 import React, { useState } from 'react';
+import { Translate } from 'react-localize-redux';
 import { connect, useSelector } from 'react-redux';
+
+import { removeNonLedgerAccessKeys, redirectTo } from '../../../actions/account';
+import { Mixpanel } from '../../../mixpanel/index';
+import { actionsPending } from '../../../utils/alerts';
+import FormButton from '../../common/FormButton';
 import Container from '../../common/styled/Container.css';
 import HardwareDeviceIcon from '../../svg/HardwareDeviceIcon';
 import NextStepModal from './NextStepModal';
-import FormButton from '../../common/FormButton';
-import { Translate } from 'react-localize-redux';
-import { removeNonLedgerAccessKeys, redirectTo } from '../../../actions/account';
-import { actionsPending } from '../../../utils/alerts'
-import { Mixpanel } from '../../../mixpanel/index'
 
 const SetupLedgerSuccess = (props) => {
 
     const [nextStep, setNextStep] = useState('');
     const removingkeys = actionsPending('REMOVE_NON_LEDGER_ACCESS_KEYS');
-    const { hasLedger } = useSelector(({ ledger }) => ledger)
+    const { hasLedger } = useSelector(({ ledger }) => ledger);
 
     const handleConfirm = async () => {
         if (nextStep === 'keep') {
-            goToProfile()
+            goToProfile();
         } else if (nextStep === 'remove') {
             if (hasLedger) {
-                setNextStep('')
+                setNextStep('');
             }
-            Mixpanel.track("SR-Ledger Remove non ledger access keys")
-            await props.removeNonLedgerAccessKeys()
-            goToProfile()
+            Mixpanel.track("SR-Ledger Remove non ledger access keys");
+            await props.removeNonLedgerAccessKeys();
+            goToProfile();
         }
-    }
+    };
 
     const goToProfile = () => {
-        Mixpanel.track("SR-Ledger Go to profile page with ledger")
-        props.redirectTo('/profile')
-    }
+        Mixpanel.track("SR-Ledger Go to profile page with ledger");
+        props.redirectTo('/profile');
+    };
 
     return (
         <Container className='small-centered ledger-theme'>
@@ -59,15 +60,15 @@ const SetupLedgerSuccess = (props) => {
             }
         </Container>
     );
-}
+};
 
 const mapDispatchToProps = {
     removeNonLedgerAccessKeys,
     redirectTo
-}
+};
 
 const mapStateToProps = ({ account }) => ({
     ...account
-})
+});
 
 export const SetupLedgerSuccessWithRouter = connect(mapStateToProps, mapDispatchToProps)(SetupLedgerSuccess);

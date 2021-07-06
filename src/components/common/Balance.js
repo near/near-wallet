@@ -1,9 +1,9 @@
-import React from 'react'
-import styled from 'styled-components'
-import { List } from 'semantic-ui-react'
-import { utils } from 'near-api-js'
-import { BN } from 'bn.js'
-import { Translate } from 'react-localize-redux'
+import { BN } from 'bn.js';
+import { utils } from 'near-api-js';
+import React from 'react';
+import { Translate } from 'react-localize-redux';
+import { List } from 'semantic-ui-react';
+import styled from 'styled-components';
 
 const CustomDiv = styled(List)`
     position: relative;
@@ -52,13 +52,13 @@ const CustomDiv = styled(List)`
             }
         }
     }
-`
+`;
 
-const FRAC_DIGITS = 5
-const YOCTO_NEAR_THRESHOLD = new BN('10', 10).pow(new BN(utils.format.NEAR_NOMINATION_EXP - FRAC_DIGITS + 1, 10))
+const FRAC_DIGITS = 5;
+const YOCTO_NEAR_THRESHOLD = new BN('10', 10).pow(new BN(utils.format.NEAR_NOMINATION_EXP - FRAC_DIGITS + 1, 10));
 
 const Balance = ({ amount, symbol, className }) => {
-    let amountShow = amount && formatNEAR(amount)
+    let amountShow = amount && formatNEAR(amount);
 
     return (
         <CustomDiv title={showInYocto(amount)} className={className}>
@@ -69,8 +69,8 @@ const Balance = ({ amount, symbol, className }) => {
             }
             {amount && symbol === 'near' && <span className='currency'>&nbsp;NEAR</span>}
         </CustomDiv>
-    )
-}
+    );
+};
 
 export const formatNEAR = (amount) => {
     amount = amount.toString();
@@ -82,21 +82,21 @@ export const formatNEAR = (amount) => {
         return `<${!FRAC_DIGITS ? `0` : `0.${'0'.repeat((FRAC_DIGITS || 1) - 1)}1`}`;
     }
     return formattedAmount;
-}
+};
 
 const showInYocto = (amountStr) => {
-    const amount = new BN(amountStr)
+    const amount = new BN(amountStr);
     if (amount.lte(YOCTO_NEAR_THRESHOLD)) {
-        return formatWithCommas(amountStr) + ' yoctoⓃ'
+        return formatWithCommas(amountStr) + ' yoctoⓃ';
     }
-}
+};
 
 const formatWithCommas = (value) => {
-    const pattern = /(-?\d+)(\d{3})/
+    const pattern = /(-?\d+)(\d{3})/;
     while (pattern.test(value)) {
-        value = value.toString().replace(pattern, '$1,$2')
+        value = value.toString().replace(pattern, '$1,$2');
     }
-    return value
-}
+    return value;
+};
 
-export default Balance
+export default Balance;

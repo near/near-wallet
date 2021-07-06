@@ -19,7 +19,7 @@ const HardwareDeviceIcon = () => {
             <path d="M11.6998 11.6998L10.7998 10.7998" stroke="#A6A6A6" strokeWidth="2" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round"/>
         </svg>
 
-    )
-}
+    );
+};
 
 export default HardwareDeviceIcon;

@@ -1,9 +1,10 @@
-import React from 'react'
-import { Translate } from 'react-localize-redux'
-import styled from 'styled-components'
-import AlertTriangleIcon from '../../svg/AlertTriangleIcon.js'
-import FormButton from '../../common/FormButton'
-import classNames from '../../../utils/classNames'
+import React from 'react';
+import { Translate } from 'react-localize-redux';
+import styled from 'styled-components';
+
+import classNames from '../../../utils/classNames';
+import FormButton from '../../common/FormButton';
+import AlertTriangleIcon from '../../svg/AlertTriangleIcon.js';
 
 const Container = styled.div`
     background-color: #FFF0DE;
@@ -45,7 +46,7 @@ const Container = styled.div`
         }
     }
 
-`
+`;
 
 export default function AlertBanner({ title, button, linkTo, theme, titleData }) {
     return (
@@ -56,5 +57,5 @@ export default function AlertBanner({ title, button, linkTo, theme, titleData })
                 {linkTo && button && <FormButton className='link' linkTo={linkTo} trackingId="Click alert banner"><Translate id={button} /></FormButton>}
             </div>
         </Container>
-    )
+    );
 }

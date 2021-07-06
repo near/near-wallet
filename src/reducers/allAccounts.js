@@ -1,10 +1,10 @@
-import { handleActions } from 'redux-actions'
-import reduceReducers from 'reduce-reducers'
+import reduceReducers from 'reduce-reducers';
+import { handleActions } from 'redux-actions';
 
-import { refreshAccountExternal } from '../actions/account'
-import { staking } from '../actions/staking'
+import { refreshAccountExternal } from '../actions/account';
+import { staking } from '../actions/staking';
 
-const initialState = {}
+const initialState = {};
 
 const allAccountsReducer = handleActions({
     [refreshAccountExternal]: (state, { error, meta: { accountId }, payload, ready }) => 
@@ -43,9 +43,9 @@ const allAccountsReducer = handleActions({
                     }
                 }
             }),
-}, initialState)
+}, initialState);
 
 
 export default reduceReducers(
     allAccountsReducer
-)
+);

@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import styled from 'styled-components';
-import FormButton from '../../common/FormButton';
 import { Translate } from 'react-localize-redux';
+import styled from 'styled-components';
+
+import FormButton from '../../common/FormButton';
 
 const Container = styled.form`
     &&& {
@@ -38,7 +39,7 @@ const Container = styled.form`
             padding: 5px;
         }
     }
-`
+`;
 
 const ConfirmDisable = ({ onConfirmDisable, onKeepEnabled, accountId, disabling, component }) => {
     const [username, setUsername] = useState('');
@@ -77,7 +78,7 @@ const ConfirmDisable = ({ onConfirmDisable, onKeepEnabled, accountId, disabling,
                 </FormButton>
             </div>
         </Container>
-    )
-}
+    );
+};
 
 export default ConfirmDisable;

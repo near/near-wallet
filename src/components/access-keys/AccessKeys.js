@@ -1,15 +1,13 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import { Translate } from 'react-localize-redux'
-import { withRouter } from 'react-router-dom'
+import React, { Component } from 'react';
+import { Translate } from 'react-localize-redux';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 
-import { getAccessKeys, removeAccessKey } from '../../actions/account'
-
-import AccessKeysEmpty from './AccessKeysEmpty'
-import PaginationBlock from '../pagination/PaginationBlock'
+import { getAccessKeys, removeAccessKey } from '../../actions/account';
 import PageContainer from '../common/PageContainer';
-
-import KeyListItem from '../dashboard/KeyListItem'
+import KeyListItem from '../dashboard/KeyListItem';
+import PaginationBlock from '../pagination/PaginationBlock';
+import AccessKeysEmpty from './AccessKeysEmpty';
 
 class AccessKeys extends Component {
     state = {
@@ -31,22 +29,22 @@ class AccessKeys extends Component {
     handleConfirm = () => {
         this.setState((state) => ({
             confirm: !state.confirm
-        }))
+        }));
     }
 
     handleConfirmSubmit = (e) => {
-        e.preventDefault()
+        e.preventDefault();
 
         if (this.state.accountId === this.props.accountId) {
             this.setState(() => ({
                 confirmStatus: 'success'
-            }))
-            this.handleDeauthorize()
+            }));
+            this.handleDeauthorize();
         }
         else {
             this.setState(() => ({
                 confirmStatus: 'problem'
-            }))
+            }));
         }
     }
 
@@ -54,7 +52,7 @@ class AccessKeys extends Component {
         this.setState(() => ({
             accountId: value,
             confirmStatus: ''
-        }))
+        }));
     }
 
     handleConfirmClear = () => {
@@ -62,19 +60,19 @@ class AccessKeys extends Component {
             accountId: '',
             confirm: false,
             confirmStatus: ''
-        }))
+        }));
     }
 
     toggleShowSub = (i, accessKey) => {
-        i = i == null ? this.state.showSubOpen : i
+        i = i == null ? this.state.showSubOpen : i;
 
         this.setState(state => ({
             showSub: true,
             showSubOpen: i,
             showSubData: accessKey
-        }))
+        }));
 
-        this.handleConfirmClear()
+        this.handleConfirmClear();
     }
 
     toggleCloseSub = () => {
@@ -82,24 +80,24 @@ class AccessKeys extends Component {
             showSub: false,
             showSubOpen: 0,
             showSubData: null
-        }))
+        }));
 
-        this.handleConfirmClear()
+        this.handleConfirmClear();
     }
 
     handleDeauthorize = async () => {
-        const publicKey = this.state.showSubData.public_key
+        const publicKey = this.state.showSubData.public_key;
 
         try {
-            await this.props.removeAccessKey(publicKey)
+            await this.props.removeAccessKey(publicKey);
         } finally {
-            this.toggleCloseSub()
-            this.refreshAccessKeys()
+            this.toggleCloseSub();
+            this.refreshAccessKeys();
         }
     }
 
     refreshAccessKeys = () => {
-        this.props.getAccessKeys()
+        this.props.getAccessKeys();
     }
 
     render() {
@@ -111,9 +109,9 @@ class AccessKeys extends Component {
             accountId,
             confirm,
             confirmStatus
-        } = this.state
+        } = this.state;
 
-        const { authorizedApps, title, mainLoader } = this.props
+        const { authorizedApps, title, mainLoader } = this.props;
 
         return (
             <PageContainer
@@ -157,34 +155,34 @@ class AccessKeys extends Component {
                         )) : <AccessKeysEmpty />)}
                 </PaginationBlock>
             </PageContainer>
-        )
+        );
     }
 }
 
 const mapDispatchToProps = {
     getAccessKeys,
     removeAccessKey
-}
+};
 
 const mapStateToPropsAuthorizedApps = ({ account, status }) => ({
     ...account,
     authorizedApps: account.authorizedApps,
     title: 'authorizedApps.pageTitle',
     mainLoader: status.mainLoader
-})
+});
 
 export const AuthorizedAppsWithRouter = connect(
     mapStateToPropsAuthorizedApps,
     mapDispatchToProps
-)(withRouter(AccessKeys))
+)(withRouter(AccessKeys));
 
 const mapStateToPropsFullAccess = ({ account }) => ({
     ...account,
     authorizedApps: account.fullAccessKeys,
     title: 'fullAccessKeys.pageTitle'
-})
+});
 
 export const FullAccessKeysWithRouter = connect(
     mapStateToPropsFullAccess,
     mapDispatchToProps
-)(withRouter(AccessKeys))
+)(withRouter(AccessKeys));

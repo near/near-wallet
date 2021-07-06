@@ -1,4 +1,5 @@
 import throttle from 'lodash.throttle';
+
 import { Mixpanel } from '../mixpanel';
 
 function runOncePerHourMax(functionToRun) {

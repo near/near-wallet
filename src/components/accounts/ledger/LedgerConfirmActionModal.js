@@ -1,14 +1,14 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
 import { Translate } from 'react-localize-redux';
+import { useSelector } from 'react-redux';
 
 import Modal from "../../common/modal/Modal";
+import LedgerImage from '../../svg/LedgerImage';
 import ModalTheme from './ModalTheme';
 
-import LedgerImage from '../../svg/LedgerImage';
 
 const LedgerConfirmActionModal = () => {
-    const { modal, txSigned } = useSelector(({ ledger }) => ledger)
+    const { modal, txSigned } = useSelector(({ ledger }) => ledger);
 
     return (modal && modal.show)
         ? (
@@ -38,7 +38,7 @@ const LedgerConfirmActionModal = () => {
                 }
             </Modal>
         )
-        : null
-}
+        : null;
+};
 
 export default LedgerConfirmActionModal;

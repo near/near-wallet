@@ -1,9 +1,12 @@
-import React from 'react'
-import { Translate } from 'react-localize-redux'
-import { Segment, Header } from 'semantic-ui-react'
-import FormButton from '../common/FormButton'
-import styled from 'styled-components'
-import { EXPLORE_APPS_URL } from '/utils/wallet'
+import React from 'react';
+import { Translate } from 'react-localize-redux';
+import { Segment, Header } from 'semantic-ui-react';
+
+import FormButton from '../common/FormButton';
+
+import styled from 'styled-components';
+
+import { EXPLORE_APPS_URL } from '/utils/wallet';
 
 const CustomSegment = styled(Segment)`
     &&& {
@@ -18,7 +21,7 @@ const CustomSegment = styled(Segment)`
             text-align: center;
         }
     }
-`
+`;
 
 const AccessKeysEmpty = () => (
     <CustomSegment basic>
@@ -31,6 +34,6 @@ const AccessKeysEmpty = () => (
             </FormButton>
         </a>
     </CustomSegment>
-)
+);
 
-export default AccessKeysEmpty
+export default AccessKeysEmpty;

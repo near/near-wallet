@@ -1,15 +1,17 @@
+import { utils } from 'near-api-js';
 import React, { useState } from 'react';
+import { Translate } from 'react-localize-redux';
 import { useSelector, useDispatch } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
-import Card from '../../common/styled/Card.css';
+
+import { disableMultisig, loadRecoveryMethods } from '../../../actions/account';
+import { actionsPending } from '../../../utils/alerts';
+import { MULTISIG_MIN_AMOUNT } from '../../../utils/wallet';
+import Balance from '../../common/Balance';
 import FormButton from '../../common/FormButton';
-import { Translate } from 'react-localize-redux';import { MULTISIG_MIN_AMOUNT } from '../../../utils/wallet'
-import Balance from '../../common/Balance'
-import { utils } from 'near-api-js'
-import ConfirmDisable from '../hardware_devices/ConfirmDisable'
-import { disableMultisig, loadRecoveryMethods } from '../../../actions/account'
-import { actionsPending } from '../../../utils/alerts'
+import Card from '../../common/styled/Card.css';
+import ConfirmDisable from '../hardware_devices/ConfirmDisable';
 
 const Container = styled(Card)`
     margin-top: 30px;
@@ -50,7 +52,7 @@ const Container = styled(Card)`
         }
 
     }
-`
+`;
 
 const TwoFactorAuth = ({ twoFactor, history }) => {
     const [confirmDisable, setConfirmDisable] = useState(false);
@@ -58,10 +60,10 @@ const TwoFactorAuth = ({ twoFactor, history }) => {
     const dispatch = useDispatch();
 
     const handleConfirmDisable = async () => {
-        await dispatch(disableMultisig())
-        await dispatch(loadRecoveryMethods())
-        setConfirmDisable(false)
-    }
+        await dispatch(disableMultisig());
+        await dispatch(loadRecoveryMethods());
+        setConfirmDisable(false);
+    };
 
     return (
         <Container>
@@ -112,7 +114,7 @@ const TwoFactorAuth = ({ twoFactor, history }) => {
                 </div>
             }
         </Container>
-    )
-}
+    );
+};
 
 export default withRouter(TwoFactorAuth);

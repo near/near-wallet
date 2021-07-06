@@ -1,13 +1,13 @@
-import React from 'react'
-import { Translate } from 'react-localize-redux'
+import React from 'react';
+import { Translate } from 'react-localize-redux';
+import { Image, Grid } from 'semantic-ui-react';
 
-import Balance from '../common/Balance'
-import FormButton from '../common/FormButton'
-import MobileContainer from './MobileContainer'
+import CheckImage from '../../images/icon-check.svg';
+import Balance from '../common/Balance';
+import FormButton from '../common/FormButton';
+import MobileContainer from './MobileContainer';
 
-import { Image, Grid } from 'semantic-ui-react'
 
-import CheckImage from '../../images/icon-check.svg'
 
 // TODO: Why handleDeny? It's not an error.
 const SignTransferReady = ({ handleClose, txTotalAmount, isMonetaryTransaction }) => (
@@ -48,6 +48,6 @@ const SignTransferReady = ({ handleClose, txTotalAmount, isMonetaryTransaction }
             </Grid.Row>
         </Grid>
     </MobileContainer>
-)
+);
 
-export default SignTransferReady
+export default SignTransferReady;

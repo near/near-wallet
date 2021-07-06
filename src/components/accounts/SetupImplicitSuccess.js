@@ -1,18 +1,19 @@
-import React from 'react'
+import React from 'react';
+import { Translate } from 'react-localize-redux';
 import { useSelector, useDispatch } from 'react-redux';
-import Container from '../common/styled/Container.css'
-import FormButton from '../common/FormButton'
-import { Translate } from 'react-localize-redux'
-import styled from 'styled-components'
-import StarIcon from '../svg/StarIcon.js'
-import { redirectToApp } from '../../actions/account'
+import styled from 'styled-components';
+
+import { redirectToApp } from '../../actions/account';
+import FormButton from '../common/FormButton';
+import Container from '../common/styled/Container.css';
+import StarIcon from '../svg/StarIcon.js';
 
 const StyledContainer = styled(Container)`
     button {
         margin-top: 40px !important;
         width: 100% !important;
     }
-`
+`;
 
 const IdGraphic = styled.div`
     position: relative;
@@ -44,7 +45,7 @@ const IdGraphic = styled.div`
             width: 16px;
         }
     }
-`
+`;
 
 const AccountIdGraphic = ({ accountId }) => {
     return (
@@ -54,8 +55,8 @@ const AccountIdGraphic = ({ accountId }) => {
             <StarIcon/>
             {accountId}
         </IdGraphic>
-    )
-}
+    );
+};
 
 export function SetupImplicitSuccess() {
     const dispatch = useDispatch();

@@ -1,8 +1,10 @@
-import React, { Component, Fragment } from 'react'
-import { withRouter, Route } from 'react-router-dom'
-import { connect } from 'react-redux'
-import { Translate } from 'react-localize-redux'
-import parseFundingOptions from '../../utils/parseFundingOptions'
+import { KeyPair } from 'near-api-js';
+import { generateSeedPhrase } from 'near-seed-phrase';
+import React, { Component, Fragment } from 'react';
+import { Translate } from 'react-localize-redux';
+import { connect } from 'react-redux';
+import { withRouter, Route } from 'react-router-dom';
+
 import {
     handleAddAccessKeySeedPhrase,
     refreshAccount,
@@ -10,17 +12,16 @@ import {
     handleCreateAccountWithSeedPhrase,
     fundCreateAccount,
     loadRecoveryMethods
-} from '../../actions/account'
-import { generateSeedPhrase } from 'near-seed-phrase'
-import SetupSeedPhraseVerify from './SetupSeedPhraseVerify'
-import SetupSeedPhraseForm from './SetupSeedPhraseForm'
-import copyText from '../../utils/copyText'
-import { Snackbar, snackbarDuration } from '../common/Snackbar'
-import Container from '../common/styled/Container.css'
-import { KeyPair } from 'near-api-js'
-import { Mixpanel } from '../../mixpanel/index'
+} from '../../actions/account';
 import { clearGlobalAlert, showCustomAlert } from '../../actions/status';
+import { Mixpanel } from '../../mixpanel/index';
+import copyText from '../../utils/copyText';
+import parseFundingOptions from '../../utils/parseFundingOptions';
+import { Snackbar, snackbarDuration } from '../common/Snackbar';
+import Container from '../common/styled/Container.css';
 import { isRetryableRecaptchaError } from '../Recaptcha';
+import SetupSeedPhraseForm from './SetupSeedPhraseForm';
+import SetupSeedPhraseVerify from './SetupSeedPhraseVerify';
 
 // FIXME: Use `debug` npm package so we can keep some debug logging around but not spam the console everywhere
 const ENABLE_DEBUG_LOGGING = false;
@@ -43,22 +44,22 @@ class SetupSeedPhrase extends Component {
 
     componentDidMount = async () => {
 
-        this.refreshData()
+        this.refreshData();
 
         if (this.props.accountId === this.props.activeAccountId) {
-            this.props.loadRecoveryMethods()
+            this.props.loadRecoveryMethods();
         }
 
         // We need to know if the account is new so when we render SetupSeedPhraseVerify, it doesn't load reCaptcha if its an existing account
-        const isNewAccount = await this.props.checkIsNew(this.props.accountId)
+        const isNewAccount = await this.props.checkIsNew(this.props.accountId);
         this.setState({ isNewAccount });
     }
 
     refreshData = () => {
 
-        const { seedPhrase, publicKey, secretKey } = generateSeedPhrase()
-        const recoveryKeyPair = KeyPair.fromString(secretKey)
-        const wordId = Math.floor(Math.random() * 12)
+        const { seedPhrase, publicKey, secretKey } = generateSeedPhrase();
+        const recoveryKeyPair = KeyPair.fromString(secretKey);
+        const wordId = Math.floor(Math.random() * 12);
 
         this.setState((prevState) => ({
             ...prevState,
@@ -68,18 +69,18 @@ class SetupSeedPhrase extends Component {
             enterWord: '',
             localAlert: null,
             recoveryKeyPair
-        }))
+        }));
     }
 
     handleChangeWord = (value) => {
         if (value.match(/[^a-zA-Z]/)) {
-            return false
+            return false;
         }
 
         this.setState(() => ({
             enterWord: value.trim().toLowerCase(),
             localAlert: null
-        }))
+        }));
     }
 
     handleStartOver = e => {
@@ -87,30 +88,30 @@ class SetupSeedPhrase extends Component {
             history,
             location,
             accountId,
-        } = this.props
+        } = this.props;
 
-        this.refreshData()
-        history.push(`/setup-seed-phrase/${accountId}/phrase${location.search}`)
+        this.refreshData();
+        history.push(`/setup-seed-phrase/${accountId}/phrase${location.search}`);
     }
 
     handleVerifyPhrase = () => {
-        const { seedPhrase, enterWord, wordId, submitting } = this.state
-        Mixpanel.track("SR-SP Verify start")
+        const { seedPhrase, enterWord, wordId, submitting } = this.state;
+        Mixpanel.track("SR-SP Verify start");
         if (enterWord !== seedPhrase.split(' ')[wordId]) {
             this.setState(() => ({
                 localAlert: {
                     success: false,
                     messageCode: 'account.verifySeedPhrase.error'
                 }
-            }))
-            Mixpanel.track("SR-SP Verify fail", { error: 'word is not matched the phrase' })
-            return false
+            }));
+            Mixpanel.track("SR-SP Verify fail", { error: 'word is not matched the phrase' });
+            return false;
         }
 
         if (!submitting) {
-            this.setState({ submitting: true }, this.handleSetupSeedPhrase)
+            this.setState({ submitting: true }, this.handleSetupSeedPhrase);
         }
-        Mixpanel.track("SR-SP Verify finish")
+        Mixpanel.track("SR-SP Verify finish");
     }
 
     handleSetupSeedPhrase = async () => {
@@ -122,19 +123,19 @@ class SetupSeedPhrase extends Component {
             fundCreateAccount,
             showCustomAlert,
             location
-        } = this.props
-        const { recoveryKeyPair, recaptchaToken } = this.state
+        } = this.props;
+        const { recoveryKeyPair, recaptchaToken } = this.state;
 
         if (!this.state.isNewAccount) {
             debugLog('handleSetupSeedPhrase()/existing account');
 
             await Mixpanel.withTracking("SR-SP Setup for existing account",
                 async () => await handleAddAccessKeySeedPhrase(accountId, recoveryKeyPair)
-            )
-            return
+            );
+            return;
         }
 
-        const fundingOptions = parseFundingOptions(location.search)
+        const fundingOptions = parseFundingOptions(location.search);
 
         await Mixpanel.withTracking("SR-SP Setup for new account",
             async () => await handleCreateAccountWithSeedPhrase(accountId, recoveryKeyPair, fundingOptions, recaptchaToken),
@@ -150,7 +151,7 @@ class SetupSeedPhrase extends Component {
                         success: false,
                         messageCodeHeader: 'error',
                         messageCode: 'walletErrorCodes.invalidRecaptchaCode'
-                    })
+                    });
                 } else if(err.code === 'NotEnoughBalance') {
                     Mixpanel.track('SR-SP NotEnoughBalance creating funded account');
                     await fundCreateAccount(accountId, recoveryKeyPair, 'seed');
@@ -159,14 +160,14 @@ class SetupSeedPhrase extends Component {
                         errorMessage: err.message,
                         success: false,
                         messageCodeHeader: 'error',
-                    })
+                    });
                 }
             }
         );
     }
 
     handleCopyPhrase = () => {
-        Mixpanel.track("SR-SP Copy seed phrase")
+        Mixpanel.track("SR-SP Copy seed phrase");
         if (navigator.share && this.props.isMobile) {
             navigator.share({
                 text: this.state.seedPhrase
@@ -183,13 +184,13 @@ class SetupSeedPhrase extends Component {
         this.setState({ successSnackbar: true }, () => {
             setTimeout(() => {
                 this.setState({ successSnackbar: false });
-            }, snackbarDuration)
+            }, snackbarDuration);
         });
     }
 
     handleRecaptchaChange = (recaptchaToken) => {
-        debugLog('handleRecaptchaChange()', recaptchaToken)
-        this.setState({ recaptchaToken })
+        debugLog('handleRecaptchaChange()', recaptchaToken);
+        this.setState({ recaptchaToken });
     }
 
     handleOnSubmit = (e) => {
@@ -198,7 +199,7 @@ class SetupSeedPhrase extends Component {
     }
 
     render() {
-        const recoveryMethods = this.props.recoveryMethods[this.props.accountId]
+        const recoveryMethods = this.props.recoveryMethods[this.props.accountId];
         const hasSeedPhraseRecovery = recoveryMethods && recoveryMethods.filter(m => m.kind === 'phrase').length > 0;
         const { seedPhrase, enterWord, wordId, submitting, localAlert, isNewAccount, successSnackbar } = this.state;
 
@@ -259,7 +260,7 @@ class SetupSeedPhrase extends Component {
                     </Fragment>
                 )}
             </Translate>
-        )
+        );
     }
 }
 
@@ -272,7 +273,7 @@ const mapDispatchToProps = {
     fundCreateAccount,
     loadRecoveryMethods,
     showCustomAlert
-}
+};
 
 const mapStateToProps = ({ account, recoveryMethods, status }, { match }) => ({
     ...account,
@@ -282,6 +283,6 @@ const mapStateToProps = ({ account, recoveryMethods, status }, { match }) => ({
     recoveryMethods,
     mainLoader: status.mainLoader,
     isMobile: status.isMobile
-})
+});
 
-export const SetupSeedPhraseWithRouter = connect(mapStateToProps, mapDispatchToProps)(withRouter(SetupSeedPhrase))
+export const SetupSeedPhraseWithRouter = connect(mapStateToProps, mapDispatchToProps)(withRouter(SetupSeedPhrase));

@@ -2,14 +2,15 @@ import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
-import RecoveryMethod from './RecoveryMethod';
+
 import {
     deleteRecoveryMethod,
     loadRecoveryMethods
 } from '../../../actions/account';
-import SkeletonLoading from '../../common/SkeletonLoading';
+import { Mixpanel } from '../../../mixpanel/index';
 import { actionsPending } from '../../../utils/alerts';
-import { Mixpanel } from '../../../mixpanel/index'
+import SkeletonLoading from '../../common/SkeletonLoading';
+import RecoveryMethod from './RecoveryMethod';
 
 const Container = styled.div`
 
@@ -30,33 +31,33 @@ const Container = styled.div`
         width: 100px;
         height: 36px;
     }
-`
+`;
 
 const RecoveryContainer = ({ type, recoveryMethods }) => {
     const [deletingMethod, setDeletingMethod] = useState('');
     const dispatch = useDispatch();
     const account = useSelector(({ account }) => account);
     const { mainLoader } = useSelector(({ status }) => status);
-    let userRecoveryMethods = recoveryMethods || []
+    let userRecoveryMethods = recoveryMethods || [];
     const allKinds = ['email', 'phone', 'phrase'];
     const activeMethods = userRecoveryMethods.filter(({ kind }) => allKinds.includes(kind));
     const currentActiveKinds = new Set(activeMethods.map(method => method.kind));
-    const missingKinds = allKinds.filter(kind => !currentActiveKinds.has(kind))
+    const missingKinds = allKinds.filter(kind => !currentActiveKinds.has(kind));
     const deleteAllowed = [...currentActiveKinds].length > 1 || account.ledgerKey;
-    const recoveryLoader = (actionsPending('LOAD_RECOVERY_METHODS') && !userRecoveryMethods.length) || !account.accountId
+    const recoveryLoader = (actionsPending('LOAD_RECOVERY_METHODS') && !userRecoveryMethods.length) || !account.accountId;
     missingKinds.forEach(kind => activeMethods.push({kind: kind}));
 
     const handleDeleteMethod = async (method) => {
         try {
-            setDeletingMethod(method.publicKey)
+            setDeletingMethod(method.publicKey);
             await Mixpanel.withTracking(method.kind === 'phrase'? 'SR-SP Delete method': `SR ${method.kind} Delete method`,
                 async () => await dispatch(deleteRecoveryMethod(method, deleteAllowed))
-            )   
+            );   
         } finally {
-            setDeletingMethod('')
+            setDeletingMethod('');
         }
-        dispatch(loadRecoveryMethods())
-    }
+        dispatch(loadRecoveryMethods());
+    };
 
     if (!recoveryLoader) {
         return (
@@ -73,15 +74,15 @@ const RecoveryContainer = ({ type, recoveryMethods }) => {
                     />
                 )}
             </Container>
-        )
+        );
     } else {
         return (
             <SkeletonLoading
                 height='80px'
                 show={recoveryLoader}
             />
-        )
+        );
     }
-}
+};
 
 export default withRouter(RecoveryContainer);

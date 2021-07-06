@@ -1,4 +1,5 @@
 import React from 'react';
+
 import ActiveMethod from './ActiveMethod';
 import InactiveMethod from './InactiveMethod';
 
@@ -21,15 +22,15 @@ const RecoveryMethod = ({
                 deleteAllowed={deleteAllowed}
                 mainLoader={mainLoader}
             />
-        )
+        );
     } else {
         return (
             <InactiveMethod
                 method={method.kind}
                 accountId={accountId}
             />
-        )
+        );
     }
-}
+};
 
 export default RecoveryMethod;

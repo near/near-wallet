@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from 'react'
-import styled from 'styled-components'
-import { Translate } from 'react-localize-redux'
-import InfoIconRounded from '../svg/InfoIconRounded'
-import Modal from '../common/modal/Modal'
-import isMobile from '../../utils/isMobile'
-import classNames from '../../utils/classNames'
+import React, { useState, useEffect } from 'react';
+import { Translate } from 'react-localize-redux';
+import styled from 'styled-components';
+
+import classNames from '../../utils/classNames';
+import isMobile from '../../utils/isMobile';
+import Modal from '../common/modal/Modal';
+import InfoIconRounded from '../svg/InfoIconRounded';
 
 const Container = styled.div`
     position: relative;
@@ -85,7 +86,7 @@ const Container = styled.div`
             height: 23px;
         }
     }
-`
+`;
 
 const Tooltip = ({ className, children, translate, data, position, icon, modalOnly = false }) => {
     const [show, setShow] = useState(false);
@@ -93,36 +94,36 @@ const Tooltip = ({ className, children, translate, data, position, icon, modalOn
     const [mouseDisabled, setMouseDisabled] = useState(false);
 
     useEffect(() => {
-        handleCheckDevice()
-        window.addEventListener('resize', handleCheckDevice)
+        handleCheckDevice();
+        window.addEventListener('resize', handleCheckDevice);
 
         return () => {
-            window.removeEventListener('resize', handleCheckDevice)
-        }
-    }, [])
+            window.removeEventListener('resize', handleCheckDevice);
+        };
+    }, []);
 
     const handleCheckDevice = () => {
         if (window.innerWidth < 992 || isMobile()) {
-            setMobile(true)
+            setMobile(true);
         } else {
-            setMobile(false)
+            setMobile(false);
         }
-    }
+    };
 
     const mouseEventDisabled = () => {
-        return (mouseDisabled || modalOnly || window.innerWidth < 992 || isMobile())
-    }
+        return (mouseDisabled || modalOnly || window.innerWidth < 992 || isMobile());
+    };
 
     const handleClick = () => {
-        setShow(true)
+        setShow(true);
         if (!mobile && !modalOnly) {
-            setMouseDisabled(true)
+            setMouseDisabled(true);
             setTimeout(() => {
-                setMouseDisabled(false)
-                setShow(false)
-            }, 3000)
+                setMouseDisabled(false);
+                setShow(false);
+            }, 3000);
         }
-    }
+    };
 
     return (
         <Container
@@ -149,7 +150,7 @@ const Tooltip = ({ className, children, translate, data, position, icon, modalOn
                 </Modal>
             }
         </Container>
-    )
-}
+    );
+};
 
-export default Tooltip
+export default Tooltip;

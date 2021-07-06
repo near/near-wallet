@@ -1,8 +1,9 @@
-import React from 'react'
-import { Translate } from 'react-localize-redux'
-import FormButton from '../common/FormButton'
-import classNames from '../../utils/classNames'
-import { actionsPending } from '../../utils/alerts'
+import React from 'react';
+import { Translate } from 'react-localize-redux';
+
+import { actionsPending } from '../../utils/alerts';
+import classNames from '../../utils/classNames';
+import FormButton from '../common/FormButton';
 
 const RecoverAccountSeedPhraseForm = ({
     mainLoader,
@@ -36,6 +37,6 @@ const RecoverAccountSeedPhraseForm = ({
                 <Translate id='button.findMyAccount' />
             </FormButton>
         </>
-    )
+    );
 
-export default RecoverAccountSeedPhraseForm
+export default RecoverAccountSeedPhraseForm;

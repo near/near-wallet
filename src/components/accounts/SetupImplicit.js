@@ -1,22 +1,23 @@
-import React, { Component } from 'react'
-import styled from 'styled-components'
-import { formatNearAmount } from 'near-api-js/lib/utils/format'
-import BN from 'bn.js'
-import { withRouter } from 'react-router-dom'
-import { connect } from 'react-redux'
-import { Translate } from 'react-localize-redux'
-import Container from '../common/styled/Container.css'
-import FormButton from '../common/FormButton'
-import WhereToBuyNearModal from '../common/WhereToBuyNearModal'
-import AccountFundedModal from './AccountFundedModal'
-import { createAccountFromImplicit, redirectTo, getAccountBasic } from '../../actions/account'
-import { MIN_BALANCE_TO_CREATE } from '../../utils/wallet'
-import { Mixpanel } from '../../mixpanel'
-import { isMoonpayAvailable, getSignedUrl } from '../../utils/moonpay'
-import AccountNeedsFunding from './create/status/AccountNeedsFunding'
-import AccountFunded from './create/status/AccountFunded'
-import Divider from '../common/Divider'
-import FundWithMoonpay from './create/FundWithMoonpay'
+import BN from 'bn.js';
+import { formatNearAmount } from 'near-api-js/lib/utils/format';
+import React, { Component } from 'react';
+import { Translate } from 'react-localize-redux';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
+import styled from 'styled-components';
+
+import { createAccountFromImplicit, redirectTo, getAccountBasic } from '../../actions/account';
+import { Mixpanel } from '../../mixpanel';
+import { isMoonpayAvailable, getSignedUrl } from '../../utils/moonpay';
+import { MIN_BALANCE_TO_CREATE } from '../../utils/wallet';
+import Divider from '../common/Divider';
+import FormButton from '../common/FormButton';
+import Container from '../common/styled/Container.css';
+import WhereToBuyNearModal from '../common/WhereToBuyNearModal';
+import AccountFundedModal from './AccountFundedModal';
+import FundWithMoonpay from './create/FundWithMoonpay';
+import AccountFunded from './create/status/AccountFunded';
+import AccountNeedsFunding from './create/status/AccountNeedsFunding';
 
 const StyledContainer = styled(Container)`
     h2 {
@@ -68,7 +69,7 @@ const StyledContainer = styled(Container)`
             margin: 60px 0;
         }
     }
-`
+`;
 class SetupImplicit extends Component {
     state = { 
         balance: null,
@@ -83,65 +84,65 @@ class SetupImplicit extends Component {
     pollAccountBalanceHandle = null;
 
     handleContinue = async () => {
-        const { dispatch, newAccountId, implicitAccountId, recoveryMethod } = this.props
-        this.setState({ creatingAccount: true })
+        const { dispatch, newAccountId, implicitAccountId, recoveryMethod } = this.props;
+        this.setState({ creatingAccount: true });
         await Mixpanel.withTracking("CA Create account from implicit", 
             async () => {
-                await dispatch(createAccountFromImplicit(newAccountId, implicitAccountId, recoveryMethod))
+                await dispatch(createAccountFromImplicit(newAccountId, implicitAccountId, recoveryMethod));
             },
             () => {
-                this.setState({ creatingAccount: false })
+                this.setState({ creatingAccount: false });
             }
-        )
-        dispatch(redirectTo('/fund-create-account/success'))
+        );
+        dispatch(redirectTo('/fund-create-account/success'));
     }
 
     checkMoonPay = async () => {
-        const { implicitAccountId } = this.props
+        const { implicitAccountId } = this.props;
         await Mixpanel.withTracking("CA Check Moonpay available", 
             async () => {
-                const moonpayAvailable = await isMoonpayAvailable()
+                const moonpayAvailable = await isMoonpayAvailable();
                 if (moonpayAvailable) {
-                    const moonpaySignedURL = await getSignedUrl(implicitAccountId, window.location.origin)
-                    this.setState({ moonpayAvailable, moonpaySignedURL })
+                    const moonpaySignedURL = await getSignedUrl(implicitAccountId, window.location.origin);
+                    this.setState({ moonpayAvailable, moonpaySignedURL });
                 }
             },
             (e) => {
                 this.setState({ moonpayAvailable: false });
-                console.warn('Error checking Moonpay', e)
+                console.warn('Error checking Moonpay', e);
             }
-        )
+        );
     }
 
     checkBalance = async () => {
-        const { implicitAccountId, dispatch } = this.props
-        const { accountFunded } = this.state
+        const { implicitAccountId, dispatch } = this.props;
+        const { accountFunded } = this.state;
 
         if (!accountFunded) {
-            const account = await dispatch(getAccountBasic(implicitAccountId))
+            const account = await dispatch(getAccountBasic(implicitAccountId));
             await Mixpanel.withTracking("CA Check balance from implicit",
                 async () => {
-                    const state = await account.state()
+                    const state = await account.state();
                     if (new BN(state.amount).gte(new BN(MIN_BALANCE_TO_CREATE))) {
-                        Mixpanel.track("CA Check balance from implicit: sufficient")
+                        Mixpanel.track("CA Check balance from implicit: sufficient");
                         this.setState({ 
                             balance: state.amount,
                             whereToBuy: false,
                             accountFunded: true
-                        })
+                        });
                         window.scrollTo(0, 0);
                         return;
                     } else {
-                        Mixpanel.track("CA Check balance from implicit: insufficient")
+                        Mixpanel.track("CA Check balance from implicit: insufficient");
                     }
                 },
                 (e) => { 
                     if (e.message.indexOf('exist while viewing') === -1) {
-                        throw e
+                        throw e;
                     }
-                    this.setState({ balance: 0 })
+                    this.setState({ balance: 0 });
                 }
-            )
+            );
         }
 
     }
@@ -152,29 +153,29 @@ class SetupImplicit extends Component {
             if (this.pollAccountBalanceHandle) {
                 this.pollAccountBalanceHandle = setTimeout(() => handleCheckBalance(), 3000);
             }
-        }
+        };
         this.pollAccountBalanceHandle = setTimeout(() => handleCheckBalance(), 3000);
     }
 
     stopPollingAccountBalance = () => {
-        clearTimeout(this.pollAccountBalanceHandle)
+        clearTimeout(this.pollAccountBalanceHandle);
         this.pollAccountBalanceHandle = null;
     }
  
     componentDidMount = () => {
         // TODO: Check if account has already been created and if so, navigate to dashboard
-        this.startPollingAccountBalance()
-        this.checkMoonPay()
+        this.startPollingAccountBalance();
+        this.checkMoonPay();
     }
 
     componentWillUnmount = () => {
-        this.stopPollingAccountBalance()
+        this.stopPollingAccountBalance();
     }
 
     handleClaimAccount = () => {
         const { dispatch, newAccountId, activeAccountId } = this.props;
         if (newAccountId === activeAccountId) {
-            dispatch(redirectTo('/'))
+            dispatch(redirectTo('/'));
             return;
         }
         this.setState({ claimMyAccount: true });
@@ -189,7 +190,7 @@ class SetupImplicit extends Component {
             balance,
             claimMyAccount,
             creatingAccount
-        } = this.state
+        } = this.state;
 
         const { implicitAccountId, newAccountId, mainLoader } = this.props;
 
@@ -224,7 +225,7 @@ class SetupImplicit extends Component {
                         />
                     }
                 </StyledContainer>
-            )
+            );
         }
 
         return (
@@ -258,7 +259,7 @@ class SetupImplicit extends Component {
                     />
                 }
             </StyledContainer>
-        )
+        );
     }
 }
 
@@ -269,6 +270,6 @@ const mapStateToProps = ({ account, status }, { match: { params: { accountId, im
     implicitAccountId,
     recoveryMethod,
     mainLoader: status.mainLoader
-})
+});
 
-export const SetupImplicitWithRouter = connect(mapStateToProps)(withRouter(SetupImplicit))
+export const SetupImplicitWithRouter = connect(mapStateToProps)(withRouter(SetupImplicit));

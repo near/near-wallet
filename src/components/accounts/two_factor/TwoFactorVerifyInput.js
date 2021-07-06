@@ -1,6 +1,6 @@
 import React from 'react';
-import styled from 'styled-components';
 import { Translate } from 'react-localize-redux';
+import styled from 'styled-components';
 
 const Container = styled.div`
     max-width: 350px;
@@ -28,7 +28,7 @@ const Container = styled.div`
             cursor: pointer;
         }
     }
-`
+`;
 
 const TwoFactorVerifyInput = ({
     onChange,
@@ -70,7 +70,7 @@ const TwoFactorVerifyInput = ({
                 {resendCode === 'resent' && <span className='color-green'><Translate id='twoFactor.verify.resent'/></span>}
             </div>
         </Container>
-    )
-}
+    );
+};
 
 export default TwoFactorVerifyInput;

@@ -1,9 +1,10 @@
-import React, { useRef, useImperativeHandle, forwardRef, useState } from 'react'
-import { Responsive } from 'semantic-ui-react'
-import { Translate } from 'react-localize-redux'
-import LocalAlertBox from '../common/LocalAlertBox'
-import FormButton from '../common/FormButton'
-import styled from 'styled-components'
+import React, { useRef, useImperativeHandle, forwardRef, useState } from 'react';
+import { Translate } from 'react-localize-redux';
+import { Responsive } from 'semantic-ui-react';
+import styled from 'styled-components';
+
+import FormButton from '../common/FormButton';
+import LocalAlertBox from '../common/LocalAlertBox';
 import { Recaptcha } from '../Recaptcha';
 
 // FIXME: Use `debug` npm package so we can keep some debug logging around but not spam the console everywhere
@@ -44,7 +45,7 @@ const CustomDiv = styled.div`
     .recaptcha-widget {
         margin-top: -10px;
     }
-`
+`;
 
 
 const SetupSeedPhraseVerify = (
@@ -70,7 +71,7 @@ const SetupSeedPhraseVerify = (
             debugLog('in imperative handle reset()');
             return recaptchaRef.current.reset();
         }
-    }))
+    }));
 
     const shouldRenderRecaptcha = !isLinkDrop && process.env.RECAPTCHA_CHALLENGE_API_KEY && isNewAccount;
 
@@ -115,6 +116,6 @@ const SetupSeedPhraseVerify = (
             </FormButton>
         </CustomDiv>
     );
-}
+};
 
-export default forwardRef(SetupSeedPhraseVerify)
+export default forwardRef(SetupSeedPhraseVerify);
