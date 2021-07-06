@@ -12,7 +12,7 @@ const BuyIcon = () => {
                 </clipPath>
             </defs>
         </svg>
-    )
-}
+    );
+};
 
 export default BuyIcon;

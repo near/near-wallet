@@ -1,5 +1,5 @@
-import { handleActions } from 'redux-actions'
-import reduceReducers from 'reduce-reducers'
+import reduceReducers from 'reduce-reducers';
+import { handleActions } from 'redux-actions';
 
 import {
     getLedgerAccountIds,
@@ -9,13 +9,12 @@ import {
     setLedgerTxSigned,
     clearSignInWithLedgerModalState,
     showLedgerModal
-} from '../../actions/account'
-
-import { HIDE_SIGN_IN_WITH_LEDGER_ENTER_ACCOUNT_ID_MODAL } from '../../utils/wallet'
+} from '../../actions/account';
+import { HIDE_SIGN_IN_WITH_LEDGER_ENTER_ACCOUNT_ID_MODAL } from '../../utils/wallet';
 
 const initialState = {
     modal: {}
-}
+};
 
 const ledgerModalReducer = (state, { error, ready, type }) => {
     if (state.modal?.show && type === state.modal?.action && (ready || error)) {
@@ -23,11 +22,11 @@ const ledgerModalReducer = (state, { error, ready, type }) => {
             ...state,
             modal: undefined,
             txSigned: undefined
-        }
+        };
     }
 
-    return state
-}
+    return state;
+};
 
 // TODO: Extract actions related to signInWithLedger so that all state is automatically scoped there. Is txSigned ledger-specific?
 const ledgerActions = handleActions({
@@ -38,7 +37,7 @@ const ledgerActions = handleActions({
                 signInWithLedgerStatus: (payload.messageCode === 'walletErrorCodes.getLedgerAccountIds.noAccounts' && !HIDE_SIGN_IN_WITH_LEDGER_ENTER_ACCOUNT_ID_MODAL) ? 'enter-accountId' : undefined,
                 signInWithLedger: undefined,
                 txSigned: undefined
-            }
+            };
         }
 
         return {
@@ -53,7 +52,7 @@ const ledgerActions = handleActions({
                     }
                 }), {})
                 : {}
-        }
+        };
     },
     [addLedgerAccountId]: (state, { error, ready, meta, payload }) => {
         return {
@@ -67,7 +66,7 @@ const ledgerActions = handleActions({
                         : (ready ? 'success' : 'confirm')
                 }
             }
-        }
+        };
     },
     [saveAndSelectLedgerAccounts]: (state, { error, ready }) => {
         if (error) {
@@ -75,7 +74,7 @@ const ledgerActions = handleActions({
                 ...state,
                 signInWithLedgerStatus: undefined,
                 signInWithLedger: undefined
-            }
+            };
         }
 
         return ready 
@@ -84,13 +83,13 @@ const ledgerActions = handleActions({
                 signInWithLedgerStatus: ready ? undefined : state.signInWithLedgerStatus,
                 signInWithLedger: undefined
             }
-            : state
+            : state;
     },
     [refreshAccountOwner]: (state, { payload }) => {
         return {
             ...state,
             ...(payload && payload.ledger)
-        }
+        };
     },
     [setLedgerTxSigned]: (state, { payload, meta }) => {
         const signInWithLedger = (meta.accountId && Object.keys(state.signInWithLedger || {}).length )
@@ -102,13 +101,13 @@ const ledgerActions = handleActions({
                         : state.signInWithLedger[meta.accountId].status
                 }
             }
-            : undefined
+            : undefined;
 
         return {
             ...state,
             txSigned: payload.status,
             signInWithLedger
-        }
+        };
     },
     [clearSignInWithLedgerModalState]: (state) => {
         return {
@@ -116,7 +115,7 @@ const ledgerActions = handleActions({
             txSigned: undefined,
             signInWithLedgerStatus: undefined,
             signInWithLedger: undefined
-        }
+        };
     },
     // TODO: Make it clear how this interacts with ledgerModalReducer
     [showLedgerModal]: (state, { payload }) => {
@@ -129,12 +128,12 @@ const ledgerActions = handleActions({
                 textId: `ledgerSignTxModal.${payload.action}`
             },
             txSigned: undefined
-        }
+        };
     },
-}, initialState)
+}, initialState);
 
 export default reduceReducers(
     initialState,
     ledgerActions,
     ledgerModalReducer
-)
+);

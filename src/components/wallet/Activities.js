@@ -1,13 +1,13 @@
-import React, { useState } from 'react'
-import styled from 'styled-components'
-import { Translate } from 'react-localize-redux'
+import React, { useState } from 'react';
+import { Translate } from 'react-localize-redux';
+import styled from 'styled-components';
 
-import ActivityBox from './ActivityBox'
-import ActivityDetailModal from './ActivityDetailModal'
-import FormButton from '../common/FormButton'
-import { EXPLORER_URL } from '../../utils/wallet'
-import { actionsPending } from '../../utils/alerts'
-import classNames from '../../utils/classNames'
+import { actionsPending } from '../../utils/alerts';
+import classNames from '../../utils/classNames';
+import { EXPLORER_URL } from '../../utils/wallet';
+import FormButton from '../common/FormButton';
+import ActivityBox from './ActivityBox';
+import ActivityDetailModal from './ActivityDetailModal';
 
 const StyledContainer = styled.div`
     width: 100%;
@@ -80,11 +80,11 @@ const StyledContainer = styled.div`
             }
         }
     }
-`
+`;
 
 const Activities = ({ transactions, accountId, getTransactionStatus }) => {
-    const [transactionHash, setTransactionHash] = useState()
-    const activityLoader = actionsPending(['GET_TRANSACTIONS', 'REFRESH_ACCOUNT_OWNER'])
+    const [transactionHash, setTransactionHash] = useState();
+    const activityLoader = actionsPending(['GET_TRANSACTIONS', 'REFRESH_ACCOUNT_OWNER']);
 
     return (
         <StyledContainer>
@@ -120,7 +120,7 @@ const Activities = ({ transactions, accountId, getTransactionStatus }) => {
                 <Translate id='button.viewAll'/>
             </FormButton>
         </StyledContainer>
-    )
-}
+    );
+};
 
-export default Activities
+export default Activities;

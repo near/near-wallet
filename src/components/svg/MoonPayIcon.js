@@ -1,7 +1,7 @@
 import React from 'react';
 
 const MoonPayIcon = ({ color }) => {
-    const fill = color || 'white'
+    const fill = color || 'white';
     return (
         <svg width="110" height="30" viewBox="0 0 110 30" fill="none" xmlns="http://www.w3.org/2000/svg">
             <g clipPath="url(#clip2342342340)">
@@ -21,7 +21,7 @@ const MoonPayIcon = ({ color }) => {
                 </clipPath>
             </defs>
         </svg>
-    )
-}
+    );
+};
 
 export default MoonPayIcon;

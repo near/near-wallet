@@ -1,5 +1,6 @@
-import { createActions } from 'redux-actions'
-import { getTransactions as getTransactionsApi, transactionExtraInfo } from '../utils/explorer-api'
+import { createActions } from 'redux-actions';
+
+import { getTransactions as getTransactionsApi, transactionExtraInfo } from '../utils/explorer-api';
 
 export const { getTransactions, getTransactionStatus } = createActions({
     GET_TRANSACTIONS: [
@@ -10,4 +11,4 @@ export const { getTransactions, getTransactionStatus } = createActions({
         transactionExtraInfo,
         (hash, signer_id, accountId) => ({ hash, accountId })
     ]
-})
+});

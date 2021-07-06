@@ -1,10 +1,11 @@
-import React from 'react'
-import styled from 'styled-components'
-import Status from './entry_types/Status'
-import Token from './entry_types/Token'
-import Amount from './entry_types/Amount'
-import Receiver from './entry_types/Receiver'
-import DateAndTime from './entry_types/DateAndTime'
+import React from 'react';
+import styled from 'styled-components';
+
+import Amount from './entry_types/Amount';
+import DateAndTime from './entry_types/DateAndTime';
+import Receiver from './entry_types/Receiver';
+import Status from './entry_types/Status';
+import Token from './entry_types/Token';
 
 const StyledContainer = styled.div`
     background-color: #FAFAFA;
@@ -18,7 +19,7 @@ const StyledContainer = styled.div`
             border-bottom: 0;
         }
     }
-`
+`;
 
 const translate = (type) => `sendV2.TXEntry.title.${type}`;
 
@@ -54,7 +55,7 @@ const Receipt = ({ status, token, network_fees, receiver_id, block_timestamp }) 
                 timeStamp={block_timestamp}
             />
         </StyledContainer>
-    )
-}
+    );
+};
 
-export default Receipt
+export default Receipt;

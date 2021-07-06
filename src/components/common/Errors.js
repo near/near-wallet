@@ -1,13 +1,13 @@
-import React from 'react'
-import { Button, Divider } from 'semantic-ui-react'
+import React from 'react';
+import { Button, Divider } from 'semantic-ui-react';
 
 export class Error extends React.Component {
     getErrorText() {
-        return 'An unexpected error occurred'
+        return 'An unexpected error occurred';
     }
 
     goBack = () => {
-        this.props.history.go(-2)
+        this.props.history.go(-2);
     }
 
     render() {
@@ -21,16 +21,16 @@ export class Error extends React.Component {
                     <Button onClick={this.goBack} content='Go back' />
                 </div>
             </section>
-        )
+        );
     }
 }
 
 export class NotFound extends Error {
     goBack = () => {
-        this.props.history.go(-2)
+        this.props.history.go(-2);
     }
 
     getErrorText() {
-        return 'Not Found'
+        return 'Not Found';
     }
 }

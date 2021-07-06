@@ -1,8 +1,7 @@
-import React from 'react'
-import { Grid } from 'semantic-ui-react'
-import { Translate } from 'react-localize-redux'
-
-import styled from 'styled-components'
+import React from 'react';
+import { Translate } from 'react-localize-redux';
+import { Grid } from 'semantic-ui-react';
+import styled from 'styled-components';
 
 const DisclaimerGrid = styled(Grid)`
     && .disclaimer {
@@ -26,7 +25,7 @@ const DisclaimerGrid = styled(Grid)`
             margin-right: 1rem;
         }
     }
-`
+`;
 
 const Disclaimer = () => (
     <DisclaimerGrid>
@@ -37,6 +36,6 @@ const Disclaimer = () => (
             </Grid.Column>
         </Grid.Row>
     </DisclaimerGrid>
-)
+);
 
-export default Disclaimer
+export default Disclaimer;

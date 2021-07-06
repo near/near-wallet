@@ -1,12 +1,13 @@
 import React from 'react';
+import { Translate } from 'react-localize-redux';
 import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
-import { Translate } from 'react-localize-redux';
-import WalletIcon from '../svg/WalletIcon'
-import VaultIcon from '../svg/VaultIcon'
-import UserIcon from '../svg/UserIcon'
-import HelpIcon from '../svg/HelpIcon'
+
 import { Mixpanel } from '../../mixpanel/index';
+import HelpIcon from '../svg/HelpIcon';
+import UserIcon from '../svg/UserIcon';
+import VaultIcon from '../svg/VaultIcon';
+import WalletIcon from '../svg/WalletIcon';
 
 const Container = styled.div`
     display: flex;
@@ -71,7 +72,7 @@ const Container = styled.div`
             }
         }
     }
-`
+`;
 
 const NavLinks = () => (
     <Container className='nav-links'>
@@ -92,6 +93,6 @@ const NavLinks = () => (
             <Translate id='link.help'/>
         </a>
     </Container>
-)
+);
 
 export default NavLinks;

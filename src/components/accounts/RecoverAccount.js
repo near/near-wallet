@@ -1,14 +1,15 @@
 import React from 'react';
+import { Translate } from 'react-localize-redux';
 import { withRouter, Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { Translate } from 'react-localize-redux';
+
 // Images
+import HardwareDeviceIcon from '../../images/icon-hardware-device.svg';
 import EmailIcon from '../../images/icon-recover-email.svg';
 import PhoneIcon from '../../images/icon-recover-phone.svg';
 import PhraseIcon from '../../images/icon-recover-seedphrase.svg';
-import HardwareDeviceIcon from '../../images/icon-hardware-device.svg';
+import { Mixpanel } from '../../mixpanel/index';
 import Container from '../common/styled/Container.css';
-import { Mixpanel } from '../../mixpanel/index'
 
 const StyledContainer = styled(Container)`
 
@@ -148,7 +149,7 @@ const RecoverAccount = (props) => {
                 </Option>
             </Options>
         </StyledContainer>
-    )
-}
+    );
+};
 
 export const RecoverAccountWithRouter = withRouter(RecoverAccount);

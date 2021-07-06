@@ -1,6 +1,7 @@
-import React from 'react'
-import { Translate } from 'react-localize-redux'
-import FormButton from '../common/FormButton'
+import React from 'react';
+import { Translate } from 'react-localize-redux';
+
+import FormButton from '../common/FormButton';
 
 const AccessKeysDeauthorizeConfirm = ({ handleConfirmSubmit, handleChange, accountId, confirmStatus, handleConfirmClear, mainLoader }) => (
     <form onSubmit={(e) => {handleConfirmSubmit(e); e.preventDefault();}}>
@@ -47,6 +48,6 @@ const AccessKeysDeauthorizeConfirm = ({ handleConfirmSubmit, handleChange, accou
             </FormButton>
         </div>
     </form>
-)
+);
 
-export default AccessKeysDeauthorizeConfirm
+export default AccessKeysDeauthorizeConfirm;

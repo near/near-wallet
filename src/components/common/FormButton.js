@@ -1,16 +1,14 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import { Button } from 'semantic-ui-react'
-import { Translate } from 'react-localize-redux'
-import { withRouter } from 'react-router'
-import classNames from '../../utils/classNames'
-import { Mixpanel } from '../../mixpanel/index'
+import PropTypes from 'prop-types';
+import React from 'react';
+import { Translate } from 'react-localize-redux';
+import { withRouter } from 'react-router';
+import { Button } from 'semantic-ui-react';
+import styled from 'styled-components';
 
-import ArrowGrnImage from '../../images/icon-arrow-grn.svg'
-import ArrowWhiteImage from '../../images/icon-arrow-white.svg'
-
-
-import styled from 'styled-components'
+import ArrowGrnImage from '../../images/icon-arrow-grn.svg';
+import ArrowWhiteImage from '../../images/icon-arrow-white.svg';
+import { Mixpanel } from '../../mixpanel/index';
+import classNames from '../../utils/classNames';
 
 const CustomButton = styled(Button)`
     &&& {
@@ -419,7 +417,7 @@ const CustomButton = styled(Button)`
             width: 100%;
         }
     }
-`
+`;
 
 const FormButton = ({ 
     children, 
@@ -442,9 +440,9 @@ const FormButton = ({
         className={classNames([color, size, className, {'dots': sending}])}
         disabled={disabled}
         onClick={(e) => {
-            onClick && onClick(e)
-            linkTo && (linkTo.includes('http') ? window.open(linkTo, '_blank') : history.push(linkTo))
-            trackingId && Mixpanel.track(trackingId)
+            onClick && onClick(e);
+            linkTo && (linkTo.includes('http') ? window.open(linkTo, '_blank') : history.push(linkTo));
+            trackingId && Mixpanel.track(trackingId);
         }}
         tabIndex='3'
     >
@@ -453,7 +451,7 @@ const FormButton = ({
             : children
         }
     </CustomButton>
-)
+);
 
 FormButton.propTypes = {
     children: PropTypes.node.isRequired,
@@ -466,6 +464,6 @@ FormButton.propTypes = {
     linkTo: PropTypes.string,
     className: PropTypes.string,
     trackingId: PropTypes.string
-}
+};
 
-export default withRouter(FormButton)
+export default withRouter(FormButton);

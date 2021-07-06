@@ -1,12 +1,13 @@
 import React from 'react';
+import { Translate } from 'react-localize-redux';
 import { Segment } from 'semantic-ui-react';
 import styled from 'styled-components';
-import { Translate } from 'react-localize-redux';
+
 import AddBlueImage from '../../images/icon-add-blue.svg';
 import ArrowDownImage from '../../images/icon-arrow-down.svg';
 import ArrowUpImage from '../../images/icon-arrow-up.svg';
-import { DISABLE_CREATE_ACCOUNT } from '../../utils/wallet';
 import classNames from '../../utils/classNames';
+import { DISABLE_CREATE_ACCOUNT } from '../../utils/wallet';
 
 const CustomSegment = styled(Segment)`
     &&& {
@@ -137,7 +138,7 @@ const CustomSegment = styled(Segment)`
         }
     }
 }
-`
+`;
 
 const SelectAccountDropdown = ({
     handleOnClick,
@@ -191,6 +192,6 @@ const SelectAccountDropdown = ({
             </CustomSegment>
         )}
     </Translate>
-)
+);
 
 export default SelectAccountDropdown;

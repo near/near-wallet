@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 
 const FundNearIcon = () => {
     return (
@@ -16,7 +16,7 @@ const FundNearIcon = () => {
                 </clipPath>
             </defs>
         </svg>
-    )
-}
+    );
+};
 
-export default FundNearIcon
+export default FundNearIcon;

@@ -1,8 +1,9 @@
 import React from 'react';
+import { Translate } from 'react-localize-redux';
+
+import FormButton from '../../common/FormButton';
 import Modal from "../../common/modal/Modal";
 import ModalTheme from '../ledger/ModalTheme';
-import FormButton from '../../common/FormButton';
-import { Translate } from 'react-localize-redux';
 
 const EnableTwoFactorPromptModal = ({ open, onClose }) => {
     return (
@@ -21,6 +22,6 @@ const EnableTwoFactorPromptModal = ({ open, onClose }) => {
             <button className='link color-red' id='close-button'><Translate id='button.skip'/></button>
         </Modal>
     );
-}
+};
 
 export default EnableTwoFactorPromptModal;

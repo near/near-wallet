@@ -1,11 +1,11 @@
-import React, { Component } from 'react'
-import styled from 'styled-components'
+import React, { Component } from 'react';
 import ReCAPTCHA from 'react-google-recaptcha';
 import { Translate } from 'react-localize-redux';
+import styled from 'styled-components';
 
-import PuzzleIcon from './svg/PuzzleIcon';
+import { Mixpanel } from '../mixpanel/index';
 import FormButton from './common/FormButton';
-import { Mixpanel } from '../mixpanel/index'
+import PuzzleIcon from './svg/PuzzleIcon';
 
 const RECAPTCHA_CHALLENGE_API_KEY = process.env.RECAPTCHA_CHALLENGE_API_KEY;
 
@@ -45,7 +45,7 @@ const RecaptchaFailedBox = styled.div`
     .title, .desc, button {
         margin-top: 20px !important;
     }
-`
+`;
 
 const RecaptchaString = styled.div`
     font-size: 12px;
@@ -59,7 +59,7 @@ const RecaptchaString = styled.div`
         color: inherit;
         text-decoration: underline;
     }
-`
+`;
 
 
 export class Recaptcha extends Component {
@@ -76,15 +76,15 @@ export class Recaptcha extends Component {
         this.clearLoadingTimeout();
         this.loadingTimeoutHandle = setTimeout(
             () => {
-                this.setState({ loadFailed: true })
+                this.setState({ loadFailed: true });
             },
             RECAPTCHA_LOADING_TIMEOUT
-        )
+        );
     }
 
     clearLoadingTimeout() {
         if (this.loadingTimeoutHandle) {
-            clearTimeout(this.loadingTimeoutHandle)
+            clearTimeout(this.loadingTimeoutHandle);
         }
         this.loadingTimeoutHandle = null;
     }
@@ -159,7 +159,7 @@ export class Recaptcha extends Component {
                         <Translate id='reCAPTCHA.fail.link'/>
                     </FormButton>
                 </RecaptchaFailedBox>
-            )
+            );
         }
 
         debugLog('Rendering', { recaptchaRef: this.recaptchaRef });
@@ -184,7 +184,7 @@ export class Recaptcha extends Component {
                     </RecaptchaString>
                 }
             </>
-        )
+        );
     }
 }
 
@@ -192,4 +192,4 @@ export const isRetryableRecaptchaError = (e) => {
     if (!e.code) { return false; }
 
     return ['invalid-input-response','missing-input-response', 'timeout-or-duplicate'].includes(e.code);
-}
+};

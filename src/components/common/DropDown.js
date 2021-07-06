@@ -1,9 +1,10 @@
-import React from 'react'
-import styled from 'styled-components'
-import Accordion from '../common/Accordion'
-import classNames from '../../utils/classNames'
-import PropTypes from 'prop-types'
-import ChevronIcon from '../svg/ChevronIcon'
+import PropTypes from 'prop-types';
+import React from 'react';
+import styled from 'styled-components';
+
+import classNames from '../../utils/classNames';
+import Accordion from '../common/Accordion';
+import ChevronIcon from '../svg/ChevronIcon';
 
 const Container = styled.div`
     position: relative;
@@ -88,7 +89,7 @@ const Container = styled.div`
         }
     }
 
-`
+`;
 
 export default function DropDown({ name, title, icon, content, disabled, maxHeight = true }) {
     return (
@@ -113,7 +114,7 @@ export default function DropDown({ name, title, icon, content, disabled, maxHeig
                 {content}
             </Accordion>
         </Container>
-    )
+    );
 }
 
 DropDown.propTypes = {
@@ -127,4 +128,4 @@ DropDown.propTypes = {
         PropTypes.array,
         PropTypes.object
     ])
-}
+};

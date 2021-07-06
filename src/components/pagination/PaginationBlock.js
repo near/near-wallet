@@ -1,15 +1,13 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
+import { Grid, List } from 'semantic-ui-react';
+import styled from 'styled-components';
 
-import { Grid, List } from 'semantic-ui-react'
+import TransactionFilter from '../../images/icon-m-filter.svg';
+import PaginationPaging from './PaginationPaging';
+import PaginationShowSubBox from './PaginationSubBox';
+import PaginationSummary from './PaginationSummary';
+import { PaginationTab } from './PaginationTab';
 
-import TransactionFilter from '../../images/icon-m-filter.svg'
-
-import PaginationShowSubBox from './PaginationSubBox'
-import { PaginationTab } from './PaginationTab'
-import PaginationPaging from './PaginationPaging'
-import PaginationSummary from './PaginationSummary'
-
-import styled from 'styled-components'
 
 const PaginationBlockGrid = styled(Grid)`
     &&& {
@@ -73,7 +71,7 @@ const PaginationBlockGrid = styled(Grid)`
             }
         }
     }
-`
+`;
 
 class PaginationBlock extends Component {
     static defaultProps = {
@@ -94,16 +92,16 @@ class PaginationBlock extends Component {
     handleOnClickPaging = () => {
         this.setState({
             pagingDropdown: !this.state.pagingDropdown
-        })
+        });
     }
 
     handlePagingDropdownClick = pagingValue => {
         this.setState({
             pagingValue,
             pagingDropdown: !this.state.pagingDropdown
-        })
+        });
 
-        this.props.onPageChanged(1, pagingValue)
+        this.props.onPageChanged(1, pagingValue);
     }
 
     render() {
@@ -122,12 +120,12 @@ class PaginationBlock extends Component {
             confirm,
             confirmStatus,
             mainLoader
-        } = this.props
+        } = this.props;
 
         const {
             pagingValue,
             pagingDropdown
-        } = this.state
+        } = this.state;
 
         const {
             totalRecords = 1100,
@@ -135,7 +133,7 @@ class PaginationBlock extends Component {
             initialPage = 0,
             onPageChanged = () => {},
             pageNeighbors = 1
-        } = this.props
+        } = this.props;
 
         return (
             <PaginationBlockGrid
@@ -217,8 +215,8 @@ class PaginationBlock extends Component {
                     </Grid.Row>
                 )}
             </PaginationBlockGrid>
-        )
+        );
     }
 }
 
-export default PaginationBlock
+export default PaginationBlock;

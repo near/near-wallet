@@ -1,9 +1,14 @@
-import { parse, stringify } from 'query-string'
-import { createActions, createAction } from 'redux-actions'
-import { DISABLE_CREATE_ACCOUNT, wallet } from '../utils/wallet'
-import { TwoFactor } from '../utils/twoFactor'
-import { push } from 'connected-react-router'
-import { loadState, saveState, clearState } from '../utils/sessionStorage'
+import { BN } from 'bn.js';
+import { push } from 'connected-react-router';
+import { utils } from 'near-api-js';
+import { PublicKey, KeyType } from 'near-api-js/lib/utils/key_pair';
+import { parse, stringify } from 'query-string';
+import { createActions, createAction } from 'redux-actions';
+
+import { showAlert, dispatchWithAlert } from '../utils/alerts';
+import { loadState, saveState, clearState } from '../utils/sessionStorage';
+import { TwoFactor } from '../utils/twoFactor';
+import { DISABLE_CREATE_ACCOUNT, wallet } from '../utils/wallet';
 import {
     WALLET_CREATE_NEW_ACCOUNT_URL,
     WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS,
@@ -13,202 +18,198 @@ import {
     WALLET_LINKDROP_URL,
     setKeyMeta,
     MULTISIG_MIN_PROMPT_AMOUNT
-} from '../utils/wallet'
-import { PublicKey, KeyType } from 'near-api-js/lib/utils/key_pair'
-import { WalletError } from '../utils/walletError'
-import { utils } from 'near-api-js'
-import { BN } from 'bn.js'
-import { showAlert, dispatchWithAlert } from '../utils/alerts'
-import { handleFlowLimitation, handleClearflowLimitation } from './flowLimitation'
+} from '../utils/wallet';
+import { WalletError } from '../utils/walletError';
+import { handleFlowLimitation, handleClearflowLimitation } from './flowLimitation';
+import { nft } from './nft';
 import {
     handleStakingUpdateAccount,
     handleStakingUpdateLockup,
     handleGetLockup,
     staking
-} from './staking'
-import { tokens } from './tokens'
-import { nft } from './nft';
+} from './staking';
+import { tokens } from './tokens';
 
 export const loadRecoveryMethods = createAction('LOAD_RECOVERY_METHODS',
     wallet.getRecoveryMethods.bind(wallet),
     () => ({})
-)
+);
 
 export const getProfileStakingDetails = (accountId) => async (dispatch, getState) => {
-    await dispatch(handleGetLockup(accountId))
+    await dispatch(handleGetLockup(accountId));
 
-    await dispatch(handleStakingUpdateAccount([], accountId))
+    await dispatch(handleStakingUpdateAccount([], accountId));
 
     const lockupIdExists = accountId
         ? !!getState().allAccounts[accountId].balance.lockedAmount
-        : !!getState().account.balance.lockedAmount
+        : !!getState().account.balance.lockedAmount;
 
     lockupIdExists
-    && dispatch(handleStakingUpdateLockup(accountId))
-}
+    && dispatch(handleStakingUpdateLockup(accountId));
+};
 
 export const handleRedirectUrl = (previousLocation) => (dispatch, getState) => {
-    const { pathname } = getState().router.location
-    const isValidRedirectUrl = previousLocation.pathname.includes(WALLET_LOGIN_URL) || previousLocation.pathname.includes(WALLET_SIGN_URL)
-    const page = pathname.split('/')[1]
-    const guestLandingPage = !page && !wallet.accountId
-    const createAccountPage = page === WALLET_CREATE_NEW_ACCOUNT_URL
-    const recoverAccountPage = page === WALLET_RECOVER_ACCOUNT_URL
+    const { pathname } = getState().router.location;
+    const isValidRedirectUrl = previousLocation.pathname.includes(WALLET_LOGIN_URL) || previousLocation.pathname.includes(WALLET_SIGN_URL);
+    const page = pathname.split('/')[1];
+    const guestLandingPage = !page && !wallet.accountId;
+    const createAccountPage = page === WALLET_CREATE_NEW_ACCOUNT_URL;
+    const recoverAccountPage = page === WALLET_RECOVER_ACCOUNT_URL;
 
     if ((guestLandingPage || createAccountPage || recoverAccountPage) && isValidRedirectUrl) {
         let url = {
             ...getState().account.url,
             redirect_url: previousLocation.pathname
-        }
-        saveState(url)
-        dispatch(refreshUrl(url))
+        };
+        saveState(url);
+        dispatch(refreshUrl(url));
     }
-}
+};
 
 export const handleClearUrl = () => (dispatch, getState) => {
-    const { pathname } = getState().router.location
-    const page = pathname.split('/')[1]
-    const guestLandingPage = !page && !wallet.accountId
-    const saveUrlPages = [...WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS, WALLET_LOGIN_URL, WALLET_SIGN_URL, WALLET_LINKDROP_URL].includes(page)
+    const { pathname } = getState().router.location;
+    const page = pathname.split('/')[1];
+    const guestLandingPage = !page && !wallet.accountId;
+    const saveUrlPages = [...WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS, WALLET_LOGIN_URL, WALLET_SIGN_URL, WALLET_LINKDROP_URL].includes(page);
 
     if (!guestLandingPage && !saveUrlPages) {
-        clearState()
-        dispatch(refreshUrl({}))
-        dispatch(handleClearflowLimitation())
+        clearState();
+        dispatch(refreshUrl({}));
+        dispatch(handleClearflowLimitation());
     }
-}
+};
 
-export const parseTransactionsToSign = createAction('PARSE_TRANSACTIONS_TO_SIGN')
+export const parseTransactionsToSign = createAction('PARSE_TRANSACTIONS_TO_SIGN');
 
 export const handleRefreshUrl = (prevRouter) => (dispatch, getState) => {
-    const { pathname, search } = prevRouter?.location || getState().router.location
-    const currentPage = pathname.split('/')[pathname[1] === '/' ? 2 : 1]
+    const { pathname, search } = prevRouter?.location || getState().router.location;
+    const currentPage = pathname.split('/')[pathname[1] === '/' ? 2 : 1];
 
     if ([...WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS, WALLET_LOGIN_URL, WALLET_SIGN_URL, WALLET_LINKDROP_URL].includes(currentPage)) {
         const parsedUrl = {
             referrer: document.referrer && new URL(document.referrer).hostname,
             ...parse(search),
             redirect_url: prevRouter ? prevRouter.location.pathname : undefined
-        }
+        };
         if ([WALLET_CREATE_NEW_ACCOUNT_URL, WALLET_LINKDROP_URL].includes(currentPage) && search !== '') {
-            saveState(parsedUrl)
-            dispatch(refreshUrl(parsedUrl))
+            saveState(parsedUrl);
+            dispatch(refreshUrl(parsedUrl));
         } else if ([WALLET_LOGIN_URL, WALLET_SIGN_URL].includes(currentPage) && search !== '') {
-            saveState(parsedUrl)
-            dispatch(refreshUrl(parsedUrl))
-            dispatch(checkContractId())
+            saveState(parsedUrl);
+            dispatch(refreshUrl(parsedUrl));
+            dispatch(checkContractId());
         } else {
-            dispatch(refreshUrl(loadState()))
+            dispatch(refreshUrl(loadState()));
         }
-        dispatch(handleFlowLimitation())
-        const { transactions, callbackUrl, meta } = getState().account.url
+        dispatch(handleFlowLimitation());
+        const { transactions, callbackUrl, meta } = getState().account.url;
         if (transactions) {
-            dispatch(parseTransactionsToSign({ transactions, callbackUrl, meta }))
+            dispatch(parseTransactionsToSign({ transactions, callbackUrl, meta }));
         }
     }
-}
+};
 
 const checkContractId = () => async (dispatch, getState) => {
-    const { contract_id } = getState().account.url
+    const { contract_id } = getState().account.url;
 
     if (contract_id) {
         const redirectIncorrectContractId = () => {
-            console.error('Invalid contractId:', contract_id)
-            dispatch(redirectTo(`/${WALLET_LOGIN_URL}/incorrect-contract-id`, { globalAlertPreventClear: true }))
-        }
+            console.error('Invalid contractId:', contract_id);
+            dispatch(redirectTo(`/${WALLET_LOGIN_URL}/incorrect-contract-id`, { globalAlertPreventClear: true }));
+        };
 
         if (!wallet.isLegitAccountId(contract_id)) {
-            redirectIncorrectContractId()
-            return
+            redirectIncorrectContractId();
+            return;
         }
 
         try {
-            await (await wallet.getAccount(contract_id)).state()
+            await (await wallet.getAccount(contract_id)).state();
         } catch (error) {
             if (error.message.indexOf('does not exist while viewing') !== -1) {
-                redirectIncorrectContractId()
+                redirectIncorrectContractId();
             }
         }
     }
-}
+};
 
 export const redirectTo = (location, state = {}) => (dispatch) => {
-    const [pathname, search] = location.split('?')
+    const [pathname, search] = location.split('?');
     dispatch(push({
         pathname,
         search,
         state
-    }))
-}
+    }));
+};
 
 export const redirectToApp = (fallback) => async (dispatch, getState) => {
-    dispatch(handleRefreshUrl())
-    const { account: { url } } = getState()
+    dispatch(handleRefreshUrl());
+    const { account: { url } } = getState();
     dispatch(push({
         pathname: (url && url.redirect_url !== '/' && url.redirect_url) || fallback || '/',
         search: (url && (url.success_url || url.public_key)) ? `?${stringify(url)}` : '',
         state: {
             globalAlertPreventClear: true
         }
-    }))
-}
+    }));
+};
 
 
 export const allowLogin = () => async (dispatch, getState) => {
-    const { account } = getState()
-    const { url } = account
-    const { success_url, public_key, title } = url
+    const { account } = getState();
+    const { url } = account;
+    const { success_url, public_key, title } = url;
 
     if (success_url) {
         if (public_key) {
-            await dispatchWithAlert(addAccessKey(account.accountId, url.contract_id, url.public_key, false, url.methodNames), { onlyError: true })
+            await dispatchWithAlert(addAccessKey(account.accountId, url.contract_id, url.public_key, false, url.methodNames), { onlyError: true });
         }
         const availableKeys = await wallet.getAvailableKeys();
         const allKeys = availableKeys.map(key => key.toString());
-        const parsedUrl = new URL(success_url)
-        parsedUrl.searchParams.set('account_id', account.accountId)
+        const parsedUrl = new URL(success_url);
+        parsedUrl.searchParams.set('account_id', account.accountId);
         if (public_key) {
-            parsedUrl.searchParams.set('public_key', public_key)
+            parsedUrl.searchParams.set('public_key', public_key);
         }
-        parsedUrl.searchParams.set('all_keys', allKeys.join(','))
-        window.location = parsedUrl.href
+        parsedUrl.searchParams.set('all_keys', allKeys.join(','));
+        window.location = parsedUrl.href;
     } else {
-        await dispatchWithAlert(addAccessKey(account.accountId, url.contract_id, url.public_key, false, url.methodNames), { data: { title } })
-        dispatch(redirectTo('/authorized-apps', { globalAlertPreventClear: true }))
+        await dispatchWithAlert(addAccessKey(account.accountId, url.contract_id, url.public_key, false, url.methodNames), { data: { title } });
+        dispatch(redirectTo('/authorized-apps', { globalAlertPreventClear: true }));
     }
-}
+};
 
 export const signInWithLedger = (path) => async (dispatch, getState) => {
-    await dispatch(getLedgerAccountIds(path))
-    const accountIds = Object.keys(getState().ledger.signInWithLedger)
-    await dispatch(signInWithLedgerAddAndSaveAccounts(accountIds, path))
+    await dispatch(getLedgerAccountIds(path));
+    const accountIds = Object.keys(getState().ledger.signInWithLedger);
+    await dispatch(signInWithLedgerAddAndSaveAccounts(accountIds, path));
     return;
-}
+};
 
 export const signInWithLedgerAddAndSaveAccounts = (accountIds, path) => async (dispatch, getState) => {
     for (let accountId of accountIds) {
         try {
             if (path) {
-                await localStorage.setItem(`ledgerHdPath:${accountId}`, path)
+                await localStorage.setItem(`ledgerHdPath:${accountId}`, path);
             }
-            await dispatch(addLedgerAccountId(accountId))
-            await dispatch(setLedgerTxSigned(false, accountId))
+            await dispatch(addLedgerAccountId(accountId));
+            await dispatch(setLedgerTxSigned(false, accountId));
         } catch (e) {
-            console.warn('Error importing Ledger-based account', accountId, e)
+            console.warn('Error importing Ledger-based account', accountId, e);
             // NOTE: We still continue importing other accounts
         }
     }
 
-    return dispatch(saveAndSelectLedgerAccounts(getState().ledger.signInWithLedger))
-}
+    return dispatch(saveAndSelectLedgerAccounts(getState().ledger.signInWithLedger));
+};
 
 const twoFactorMethod = async (method, wallet, args) => {
-    const account = await wallet.getAccount(wallet.accountId)
+    const account = await wallet.getAccount(wallet.accountId);
     if (account[method]) {
-        return await account[method](...args)
+        return await account[method](...args);
     }
-    return false
-}
+    return false;
+};
 
 export const {
     initializeRecoveryMethod,
@@ -264,19 +265,19 @@ export const {
     ],
     PROMPT_TWO_FACTOR: [
         (requestPending) => {
-            let promise
+            let promise;
             if (requestPending !== null) {
                 promise = new Promise((resolve, reject) => {
                     requestPending = (verified, error) => {
                         if (verified) {
-                            resolve(verified)
+                            resolve(verified);
                         } else {
-                            reject(error)
+                            reject(error);
                         }
-                    }
-                })
+                    };
+                });
             }
-            return ({ requestPending, promise })
+            return ({ requestPending, promise });
         },
         () => ({})
     ],
@@ -330,8 +331,8 @@ export const {
     ],
     CLAIM_LINKDROP_TO_ACCOUNT: [
         async (fundingContract, fundingKey, accountId, url) => {
-            await wallet.claimLinkdropToAccount(fundingContract, fundingKey)
-            finishLinkdropClaim(accountId, url)
+            await wallet.claimLinkdropToAccount(fundingContract, fundingKey);
+            finishLinkdropClaim(accountId, url);
         },
         () => showAlert({ onlyError: true })
     ],
@@ -350,7 +351,7 @@ export const {
         () => showAlert({ localAlert: true })
     ],
     CLEAR_CODE: null
-})
+});
 
 export const {
     getAccessKeys,
@@ -402,43 +403,43 @@ export const {
     ],
     CLEAR_SIGN_IN_WITH_LEDGER_MODAL_STATE: null,
     SHOW_LEDGER_MODAL: null
-})
+});
 
 export const handleAddAccessKeySeedPhrase = (accountId, recoveryKeyPair) => async (dispatch) => {
     try {
-        await dispatch(addAccessKeySeedPhrase(accountId, recoveryKeyPair))
+        await dispatch(addAccessKeySeedPhrase(accountId, recoveryKeyPair));
     } catch (error) {
         // error is thrown in `addAccessKeySeedPhrase` action, despite the error, we still want to redirect to /profile
     }
     dispatch(redirectTo('/profile', {
         globalAlertPreventClear: true
-    }))
-}
+    }));
+};
 
 export const fundCreateAccount = (accountId, recoveryKeyPair, recoveryMethod) => async (dispatch) => {
-    await wallet.keyStore.setKey(wallet.connection.networkId, accountId, recoveryKeyPair)
-    const implicitAccountId = Buffer.from(recoveryKeyPair.publicKey.data).toString('hex')
-    await wallet.keyStore.setKey(wallet.connection.networkId, implicitAccountId, recoveryKeyPair)
-    dispatch(redirectTo(`/fund-create-account/${accountId}/${implicitAccountId}/${recoveryMethod}`))
-}
+    await wallet.keyStore.setKey(wallet.connection.networkId, accountId, recoveryKeyPair);
+    const implicitAccountId = Buffer.from(recoveryKeyPair.publicKey.data).toString('hex');
+    await wallet.keyStore.setKey(wallet.connection.networkId, implicitAccountId, recoveryKeyPair);
+    dispatch(redirectTo(`/fund-create-account/${accountId}/${implicitAccountId}/${recoveryMethod}`));
+};
 
 export const fundCreateAccountLedger = (accountId, ledgerPublicKey) => async (dispatch) => {
-    await setKeyMeta(ledgerPublicKey, { type: 'ledger' })
-    const implicitAccountId = Buffer.from(ledgerPublicKey.data).toString('hex')
-    const recoveryMethod = 'ledger'
-    dispatch(redirectTo(`/fund-create-account/${accountId}/${implicitAccountId}/${recoveryMethod}`))
-}
+    await setKeyMeta(ledgerPublicKey, { type: 'ledger' });
+    const implicitAccountId = Buffer.from(ledgerPublicKey.data).toString('hex');
+    const recoveryMethod = 'ledger';
+    dispatch(redirectTo(`/fund-create-account/${accountId}/${implicitAccountId}/${recoveryMethod}`));
+};
 
 // TODO: Refactor common code with setupRecoveryMessageNewAccount
 export const handleCreateAccountWithSeedPhrase = (accountId, recoveryKeyPair, fundingOptions, recaptchaToken) => async (dispatch) => {
     // Implicit account flow
     if (DISABLE_CREATE_ACCOUNT && !fundingOptions && !recaptchaToken) {
-        await dispatch(fundCreateAccount(accountId, recoveryKeyPair, 'seed'))
-        return
+        await dispatch(fundCreateAccount(accountId, recoveryKeyPair, 'seed'));
+        return;
     }
 
     try {
-        await dispatch(createAccountWithSeedPhrase(accountId, recoveryKeyPair, fundingOptions, recaptchaToken))
+        await dispatch(createAccountWithSeedPhrase(accountId, recoveryKeyPair, fundingOptions, recaptchaToken));
     } catch (error) {
         if (await wallet.accountExists(accountId)) {
             // Requests sometimes fail after creating the NEAR account for another reason (transport error?)
@@ -446,52 +447,52 @@ export const handleCreateAccountWithSeedPhrase = (accountId, recoveryKeyPair, fu
             dispatch(redirectTo('/recover-seed-phrase', {
                 globalAlertPreventClear: true,
                 defaultAccountId: accountId
-            }))
-            return
+            }));
+            return;
         }
         throw error;
     }
-}
+};
 
 
 export const finishAccountSetup = () => async (dispatch, getState) => {
-    await dispatch(refreshAccount())
-    await dispatch(getBalance())
-    await dispatch(staking.clearState())
-    dispatch(tokens.clearState())
-    const { balance, url, accountId } = getState().account
+    await dispatch(refreshAccount());
+    await dispatch(getBalance());
+    await dispatch(staking.clearState());
+    dispatch(tokens.clearState());
+    const { balance, url, accountId } = getState().account;
 
-    let promptTwoFactor = await TwoFactor.checkCanEnableTwoFactor(balance)
+    let promptTwoFactor = await TwoFactor.checkCanEnableTwoFactor(balance);
 
     if (new BN(balance.available).lt(new BN(utils.format.parseNearAmount(MULTISIG_MIN_PROMPT_AMOUNT)))) {
-        promptTwoFactor = false
+        promptTwoFactor = false;
     }
 
     if (promptTwoFactor) {
-        dispatch(redirectTo('/enable-two-factor', { globalAlertPreventClear: true }))
+        dispatch(redirectTo('/enable-two-factor', { globalAlertPreventClear: true }));
     } else {
         if (url?.redirectUrl) {
-            window.location = `${url.redirectUrl}?accountId=${accountId}`
+            window.location = `${url.redirectUrl}?accountId=${accountId}`;
         } else {
-            dispatch(redirectToApp('/'))
+            dispatch(redirectToApp('/'));
         }
     }
-}
+};
 
 const finishLinkdropClaim = (accountId, url) => {
     if (url?.redirectUrl) {
-        window.location = `${url.redirectUrl}?accountId=${accountId}`
+        window.location = `${url.redirectUrl}?accountId=${accountId}`;
     }
-}
+};
 
 export const createAccountFromImplicit = createAction('CREATE_ACCOUNT_FROM_IMPLICIT', async (accountId, implicitAccountId, recoveryMethod) => {
-    const recoveryKeyPair = await wallet.keyStore.getKey(wallet.connection.networkId, implicitAccountId)
+    const recoveryKeyPair = await wallet.keyStore.getKey(wallet.connection.networkId, implicitAccountId);
     if (recoveryKeyPair) {
-        await wallet.saveAccount(accountId, recoveryKeyPair)
+        await wallet.saveAccount(accountId, recoveryKeyPair);
     }
-    const publicKey = new PublicKey({ keyType: KeyType.ED25519, data: Buffer.from(implicitAccountId, 'hex') })
-    await wallet.createNewAccount(accountId, { fundingAccountId: implicitAccountId }, recoveryMethod, publicKey)
-})
+    const publicKey = new PublicKey({ keyType: KeyType.ED25519, data: Buffer.from(implicitAccountId, 'hex') });
+    await wallet.createNewAccount(accountId, { fundingAccountId: implicitAccountId }, recoveryMethod, publicKey);
+});
 
 export const { addAccessKey, createAccountWithSeedPhrase, addAccessKeySeedPhrase } = createActions({
     ADD_ACCESS_KEY: [
@@ -499,34 +500,34 @@ export const { addAccessKey, createAccountWithSeedPhrase, addAccessKeySeedPhrase
         (title) => showAlert({ title })
     ],
     CREATE_ACCOUNT_WITH_SEED_PHRASE: async (accountId, recoveryKeyPair, fundingOptions = {}, recaptchaToken) => {
-        const recoveryMethod = 'seed'
-        const previousAccountId = wallet.accountId
+        const recoveryMethod = 'seed';
+        const previousAccountId = wallet.accountId;
         await wallet.saveAccount(accountId, recoveryKeyPair);
-        await wallet.createNewAccount(accountId, fundingOptions, recoveryMethod, recoveryKeyPair.publicKey, previousAccountId, recaptchaToken)
+        await wallet.createNewAccount(accountId, fundingOptions, recoveryMethod, recoveryKeyPair.publicKey, previousAccountId, recaptchaToken);
     },
     ADD_ACCESS_KEY_SEED_PHRASE: [
         async (accountId, recoveryKeyPair) => {
-            const publicKey = recoveryKeyPair.publicKey.toString()
+            const publicKey = recoveryKeyPair.publicKey.toString();
             const contractName = null;
             const fullAccess = true;
 
             try {
-                await wallet.postSignedJson('/account/seedPhraseAdded', { accountId, publicKey })
-                await wallet.addAccessKey(accountId, contractName, publicKey, fullAccess)
+                await wallet.postSignedJson('/account/seedPhraseAdded', { accountId, publicKey });
+                await wallet.addAccessKey(accountId, contractName, publicKey, fullAccess);
             } catch (error) {
-                throw new WalletError(error, 'addAccessKeySeedPhrase.errorSecond')
+                throw new WalletError(error, 'addAccessKeySeedPhrase.errorSecond');
             }
         },
         () => showAlert()
     ]
-})
+});
 
 export const { recoverAccountSeedPhrase } = createActions({
     RECOVER_ACCOUNT_SEED_PHRASE: [
         wallet.recoverAccountSeedPhrase.bind(wallet),
         () => showAlert()
     ],
-})
+});
 
 export const { signAndSendTransactions, setSignTransactionStatus, sendMoney, transferAllFromLockup } = createActions({
     SET_SIGN_TRANSACTION_STATUS: [
@@ -543,63 +544,63 @@ export const { signAndSendTransactions, setSignTransactionStatus, sendMoney, tra
     ],
     TRANSFER_ALL_FROM_LOCKUP: [
         async () => {
-            const account = await wallet.getAccount(wallet.accountId)
+            const account = await wallet.getAccount(wallet.accountId);
             if (account.transferAllFromLockup) {
-                await account.transferAllFromLockup()
+                await account.transferAllFromLockup();
             }
         },
         () => showAlert()
     ]
-})
+});
 
 export const refreshAccount = (basicData = false) => async (dispatch, getState) => {
-    const { flowLimitation } = getState()
+    const { flowLimitation } = getState();
 
     if (!wallet.accountId) {
-        return
+        return;
     }
 
-    dispatch(setLocalStorage(wallet.accountId))
-    await dispatch(refreshAccountOwner(flowLimitation.accountData))
+    dispatch(setLocalStorage(wallet.accountId));
+    await dispatch(refreshAccountOwner(flowLimitation.accountData));
 
     if (!basicData && !flowLimitation.accountBalance) {
-        dispatch(getBalance('', flowLimitation.accountData))
+        dispatch(getBalance('', flowLimitation.accountData));
     }
-}
+};
 
 export const switchAccount = (accountId) => async (dispatch, getState) => {
-    dispatch(selectAccount(accountId))
-    dispatch(handleRefreshUrl())
-    dispatch(staking.clearState())
-    dispatch(refreshAccount())
-    dispatch(tokens.clearState())
-    dispatch(nft.clearState())
-}
+    dispatch(selectAccount(accountId));
+    dispatch(handleRefreshUrl());
+    dispatch(staking.clearState());
+    dispatch(refreshAccount());
+    dispatch(tokens.clearState());
+    dispatch(nft.clearState());
+};
 
 export const getAvailableAccountsBalance = () => async (dispatch, getState) => {
-    let { accountsBalance } = getState().account
-    let { availableAccounts, flowLimitation } = getState()
+    let { accountsBalance } = getState().account;
+    let { availableAccounts, flowLimitation } = getState();
 
     if (flowLimitation.accountData) {
-        return
+        return;
     }
 
     for (let i = 0; i < availableAccounts.length; i++) {
-        const accountId = availableAccounts[i]
+        const accountId = availableAccounts[i];
         if (!accountsBalance || !accountsBalance[accountId]) {
-            i < 0 && await dispatch(setAccountBalance(accountId))
+            i < 0 && await dispatch(setAccountBalance(accountId));
         }
     }
 
-    accountsBalance = getState().account.accountsBalance || {}
+    accountsBalance = getState().account.accountsBalance || {};
 
     for (let i = 0; i < Object.keys(accountsBalance).length; i++) {
-        const accountId = Object.keys(accountsBalance)[i]
+        const accountId = Object.keys(accountsBalance)[i];
         if (accountsBalance[accountId].loading) {
-            await dispatch(getAccountBalance(accountId))
+            await dispatch(getAccountBalance(accountId));
         }
     }
-}
+};
 
 export const { selectAccount, refreshAccountOwner, refreshAccountExternal, refreshUrl, updateStakingAccount, updateStakingLockup, getBalance, setLocalStorage, getAccountBalance, setAccountBalance } = createActions({
     SELECT_ACCOUNT: wallet.selectAccount.bind(wallet),
@@ -646,4 +647,4 @@ export const { selectAccount, refreshAccountOwner, refreshAccountExternal, refre
         })
     ],
     SET_ACCOUNT_BALANCE: null
-})
+});

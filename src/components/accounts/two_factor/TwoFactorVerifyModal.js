@@ -1,22 +1,23 @@
 import React, { useEffect, useState } from 'react';
-import styled from 'styled-components';
+import { Translate } from 'react-localize-redux';
 import { useDispatch, useSelector } from 'react-redux';
+import styled from 'styled-components';
+
+import { resendTwoFactor, get2faMethod } from '../../../actions/account';
+import { Mixpanel } from "../../../mixpanel/index";
+import { actionsPending } from '../../../utils/alerts';
+import { WalletError } from '../../../utils/walletError';
+import FormButton from '../../common/FormButton';
 import Modal from "../../common/modal/Modal";
 import ModalTheme from '../ledger/ModalTheme';
-import FormButton from '../../common/FormButton';
-import { Translate } from 'react-localize-redux';
 import TwoFactorVerifyInput from './TwoFactorVerifyInput';
-import { WalletError } from '../../../utils/walletError'
-import { resendTwoFactor, get2faMethod } from '../../../actions/account';
-import { actionsPending } from '../../../utils/alerts';
-import { Mixpanel } from "../../../mixpanel/index"
 
 const Form = styled.form`
     display: flex;
     flex-direction: column;
     align-items: center;
     width: 100%;
-`
+`;
 
 const TwoFactorVerifyModal = ({ open, onClose }) => {
 
@@ -32,45 +33,45 @@ const TwoFactorVerifyModal = ({ open, onClose }) => {
         let isMounted = true;
 
         const handleGetTwoFactor = async () => {
-            setMethod(await dispatch(get2faMethod()))
+            setMethod(await dispatch(get2faMethod()));
         };
 
         if (isMounted) {
-            handleGetTwoFactor()
+            handleGetTwoFactor();
         }
         
-        return () => { isMounted = false }
+        return () => { isMounted = false; };
     }, []);
 
     const handleVerifyCode = async () => {
         if (code.length === 6 && !loading) {
-            onClose(code)
+            onClose(code);
         }
-    }
+    };
 
     const handleChange = (code) => {
         setCode(code);
-    }
+    };
 
     const handleResendCode = async () => {
-        setResendCode('resending')
+        setResendCode('resending');
         await Mixpanel.withTracking("2FA Modal Resend code", 
             async () => await dispatch(resendTwoFactor()),
             (e) => {
-                setResendCode()
-                throw e
+                setResendCode();
+                throw e;
             },
             () => {
-                setResendCode('resent')
-                setTimeout(() => { setResendCode() }, 3000)
+                setResendCode('resent');
+                setTimeout(() => { setResendCode(); }, 3000);
             }
-        )
-    }
+        );
+    };
     
     const handleCancelClose = () => {
-        Mixpanel.track("2FA Modal Cancel verification")
-        onClose(false, new WalletError('Request was cancelled.', 'promptTwoFactor.userCancelled'))
-    }
+        Mixpanel.track("2FA Modal Cancel verification");
+        onClose(false, new WalletError('Request was cancelled.', 'promptTwoFactor.userCancelled'));
+    };
     
     return (
         <Modal
@@ -99,6 +100,6 @@ const TwoFactorVerifyModal = ({ open, onClose }) => {
             <button onClick={handleCancelClose} className='link color-red'><Translate id='button.cancel'/></button>
         </Modal>
     );
-}
+};
 
 export default TwoFactorVerifyModal;

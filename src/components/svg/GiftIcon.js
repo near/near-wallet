@@ -10,7 +10,7 @@ const GiftIcon = () => {
             <path d="M12 7H16.5C17.163 7 17.7989 6.73661 18.2678 6.26777C18.7366 5.79893 19 5.16304 19 4.5C19 3.83696 18.7366 3.20107 18.2678 2.73223C17.7989 2.26339 17.163 2 16.5 2C13 2 12 7 12 7Z" stroke="#008D6A" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
         </svg>
 
-    )
-}
+    );
+};
 
 export default GiftIcon;

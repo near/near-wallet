@@ -1,8 +1,9 @@
-import React from 'react'
-import { Translate } from 'react-localize-redux'
-import StyledContainer from './Style.css'
-import Balance from '../../../common/Balance'
-import TokenAmount from '../../../wallet/TokenAmount'
+import React from 'react';
+import { Translate } from 'react-localize-redux';
+
+import Balance from '../../../common/Balance';
+import TokenAmount from '../../../wallet/TokenAmount';
+import StyledContainer from './Style.css';
 
 const RawAmount = ({ symbol, amount, decimals }) => {
     if (decimals && symbol) {
@@ -11,11 +12,11 @@ const RawAmount = ({ symbol, amount, decimals }) => {
                 token={{ symbol, decimals, balance: amount }}
                 withSymbol={true}
             />
-        )
+        );
     } else {
-        return <Balance amount={amount} symbol='near'/>
+        return <Balance amount={amount} symbol='near'/>;
     }
-}
+};
 
 const Amount = ({ symbol, amount, decimals, translate, withInfo }) => {
     /* TODO: Handle long amounts */
@@ -31,7 +32,7 @@ const Amount = ({ symbol, amount, decimals, translate, withInfo }) => {
                 />
             </div>
         </StyledContainer>
-    )
-}
+    );
+};
 
-export default Amount
+export default Amount;

@@ -1,7 +1,8 @@
-import React from 'react'
-import { Translate } from 'react-localize-redux'
-import Balance from '../../../common/Balance'
-import StyledContainer from './Style.css'
+import React from 'react';
+import { Translate } from 'react-localize-redux';
+
+import Balance from '../../../common/Balance';
+import StyledContainer from './Style.css';
 
 const AccountFunded = ({
     accountId,
@@ -34,7 +35,7 @@ const AccountFunded = ({
                 </span>
             </div>
         </StyledContainer>
-    )
-}
+    );
+};
 
-export default AccountFunded
+export default AccountFunded;

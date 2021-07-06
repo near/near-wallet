@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
-import { withRouter } from 'react-router-dom';
-import { switchAccount, getAvailableAccountsBalance, getAccountBalance, getBalance } from '../../actions/account';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
+import styled from 'styled-components';
+
+import { switchAccount, getAvailableAccountsBalance, getAccountBalance, getBalance } from '../../actions/account';
 import DesktopContainer from './DesktopContainer';
 import MobileContainer from './MobileContainer';
-import styled from 'styled-components';
+
 
 const Container = styled.div`
     position: fixed;
@@ -22,7 +24,7 @@ const Container = styled.div`
         color: #72727A;
         font-weight: normal !important;
     }
-`
+`;
 class Navigation extends Component {
 
     state = {
@@ -55,7 +57,7 @@ class Navigation extends Component {
         const mobileMenu = document.getElementById('mobile-menu');
 
         if (e.target.tagName === 'SPAN') {
-            return false
+            return false;
         }
 
         if (e.target.tagName === 'BUTTON' || e.target.tagName === 'A' || (!desktopMenu.contains(e.target) && !mobileMenu.contains(e.target))) {
@@ -69,7 +71,7 @@ class Navigation extends Component {
 
     toggleMenu = () => {
         if (!this.state.menuOpen) {
-            this.props.getAvailableAccountsBalance()
+            this.props.getAvailableAccountsBalance();
         }
 
         this.setState(prevState => ({
@@ -78,13 +80,13 @@ class Navigation extends Component {
     }
 
     handleSelectAccount = accountId => {
-        this.props.switchAccount(accountId)
+        this.props.switchAccount(accountId);
         this.setState({ menuOpen: false });
     }
 
     render() {
         const { menuOpen } = this.state;
-        const { flowLimitation, isInactiveAccount } = this.props
+        const { flowLimitation, isInactiveAccount } = this.props;
 
         return (
             <Container id='nav-container' open={menuOpen}>
@@ -111,7 +113,7 @@ class Navigation extends Component {
                     {...this.props}
                 />
             </Container>
-        )
+        );
     }
 }
 
@@ -120,16 +122,16 @@ const mapStateToProps = ({ account, availableAccounts, router, flowLimitation })
     availableAccounts,
     router,
     flowLimitation
-})
+});
 
 const mapDispatchToProps = {
     switchAccount,
     getAvailableAccountsBalance,
     getAccountBalance,
     getBalance
-}
+};
 
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(withRouter(Navigation))
+)(withRouter(Navigation));

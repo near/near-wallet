@@ -1,8 +1,9 @@
 import React from 'react';
-import styled from 'styled-components';
 import { Translate } from 'react-localize-redux';
-import ImportIcon from '../svg/ImportIcon';
+import styled from 'styled-components';
+
 import FormButton from '../common/FormButton';
+import ImportIcon from '../svg/ImportIcon';
 
 const Button = styled(FormButton)`
     display: flex;
@@ -15,13 +16,13 @@ const Button = styled(FormButton)`
         height: 22px !important;
         width: 22px !important;
     }
-`
+`;
 
 const AccessAccountBtn = () => (
     <Button linkTo='/recover-account' trackingId='IE Click add account button'>
         <ImportIcon/>
         <Translate id='button.importAccount'/>
     </Button>
-)
+);
 
 export default AccessAccountBtn;

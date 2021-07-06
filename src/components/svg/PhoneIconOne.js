@@ -7,7 +7,7 @@ const PhoneIconOne = ({ color }) => {
             <rect x="2.41936" y="2.41943" width="20.1613" height="30.6452" rx="3" fill={color ? "#D6EDFF" : "#FAFAFA"}/>
             <circle cx="12.5" cy="37.5" r="2.01613" fill={color ? "#49AEFF" : "#D5D4D8"}/>
         </svg>
-    )
-}
+    );
+};
 
 export default PhoneIconOne;

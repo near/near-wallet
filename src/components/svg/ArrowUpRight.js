@@ -6,7 +6,7 @@ const ArrowUpRight = () => {
             <path d="M4.66699 11.6032L11.3337 4.93652" stroke="#2B9AF4" stroke-width="1.5" strokeLinecap="round" strokeLinejoin="round"/>
             <path d="M4.66699 4.93652H11.3337V11.6032" stroke="#2B9AF4" stroke-width="1.5" strokeLinecap="round" strokeLinejoin="round"/>
         </svg>
-    )
-}
+    );
+};
 
 export default ArrowUpRight;

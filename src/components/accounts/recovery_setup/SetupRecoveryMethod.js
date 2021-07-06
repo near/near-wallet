@@ -1,11 +1,9 @@
 import React, { Component, createRef } from 'react';
+import { Translate } from 'react-localize-redux';
+import PhoneInput, { isValidPhoneNumber } from 'react-phone-number-input';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
-import { Translate } from 'react-localize-redux'
-import parseFundingOptions from '../../../utils/parseFundingOptions'
-import 'react-phone-number-input/style.css'
-import PhoneInput, { isValidPhoneNumber } from 'react-phone-number-input';
-import { validateEmail } from '../../../utils/account';
+
 import {
     initializeRecoveryMethod,
     setupRecoveryMessage,
@@ -21,19 +19,26 @@ import {
     fundCreateAccount,
     validateSecurityCode
 } from '../../../actions/account';
-import RecoveryOption from './RecoveryOption';
-import FormButton from '../../common/FormButton';
-import Tooltip from '../../common/Tooltip'
-import EnterVerificationCode from '../EnterVerificationCode';
-import Container from '../../common/styled/Container.css';
-import isApprovedCountryCode from '../../../utils/isApprovedCountryCode'
-import { Mixpanel } from '../../../mixpanel/index'
-import { actionsPending } from '../../../utils/alerts'
 import { showCustomAlert } from '../../../actions/status';
+import { Mixpanel } from '../../../mixpanel/index';
+import { validateEmail } from '../../../utils/account';
+import { actionsPending } from '../../../utils/alerts';
+import isApprovedCountryCode from '../../../utils/isApprovedCountryCode';
+import parseFundingOptions from '../../../utils/parseFundingOptions';
+
+import 'react-phone-number-input/style.css';
+
+import { DISABLE_CREATE_ACCOUNT } from '../../../utils/wallet';
+import FormButton from '../../common/FormButton';
+import Container from '../../common/styled/Container.css';
+import Tooltip from '../../common/Tooltip';
 import { isRetryableRecaptchaError } from '../../Recaptcha';
+import EnterVerificationCode from '../EnterVerificationCode';
+import RecoveryOption from './RecoveryOption';
+
 import { parseSeedPhrase } from 'near-seed-phrase';
 import { KeyPair } from 'near-api-js';
-import { DISABLE_CREATE_ACCOUNT } from '../../../utils/wallet';
+
 
 // FIXME: Use `debug` npm package so we can keep some debug logging around but not spam the console everywhere
 const ENABLE_DEBUG_LOGGING = false;
@@ -53,7 +58,7 @@ const StyledContainer = styled(Container)`
         align-items: center;
     }
 
-`
+`;
 
 class SetupRecoveryMethod extends Component {
 
@@ -86,7 +91,7 @@ class SetupRecoveryMethod extends Component {
         }
 
         if (this.props.activeAccountId) {
-            this.handleCheckMethodStatus()
+            this.handleCheckMethodStatus();
         }
 
         const isNewAccount = await checkIsNew(this.props.accountId);
@@ -95,15 +100,15 @@ class SetupRecoveryMethod extends Component {
 
     componentDidUpdate(prevProps) {
         if (this.props.activeAccountId !== prevProps.activeAccountId) {
-            this.handleCheckMethodStatus()
+            this.handleCheckMethodStatus();
         }
     }
 
     handleCheckMethodStatus = () => {
         if (!this.checkNewAccount()) {
-            this.props.loadRecoveryMethods()
-            this.props.getLedgerKey()
-            this.props.get2faMethod()
+            this.props.loadRecoveryMethods();
+            this.props.getLedgerKey();
+            this.props.get2faMethod();
         }
     }
 
@@ -112,15 +117,15 @@ class SetupRecoveryMethod extends Component {
 
         switch (option) {
             case 'email':
-                return validateEmail(email)
+                return validateEmail(email);
             case 'phone':
-                return isApprovedCountryCode(country) && isValidPhoneNumber(phoneNumber)
+                return isApprovedCountryCode(country) && isValidPhoneNumber(phoneNumber);
             case 'phrase':
-                return true
+                return true;
             case 'ledger':
-                return true
+                return true;
             default:
-                return false
+                return false;
         }
     }
 
@@ -130,23 +135,23 @@ class SetupRecoveryMethod extends Component {
             accountId,
             location,
             redirectTo
-        } = this.props
+        } = this.props;
 
         if (this.isValidInput && !success) {
             if (option === 'email' || option === 'phone') {
                 if (option === 'email') {
-                    Mixpanel.track("SR Select email")
+                    Mixpanel.track("SR Select email");
                 } else {
-                    Mixpanel.track("SR Select phone")
+                    Mixpanel.track("SR Select phone");
                 }
-                await this.handleSendCode()
+                await this.handleSendCode();
                 window.scrollTo(0, 0);
             } else if (option === 'phrase') {
-                Mixpanel.track("SR-SP Select seed phrase")
-                redirectTo(`/setup-seed-phrase/${accountId}/phrase${location.search}`)
+                Mixpanel.track("SR-SP Select seed phrase");
+                redirectTo(`/setup-seed-phrase/${accountId}/phrase${location.search}`);
             } else if (option === 'ledger') {
-                Mixpanel.track("SR-Ledger Select ledger")
-                redirectTo(`/setup-ledger/${accountId}${location.search}`)
+                Mixpanel.track("SR-Ledger Select ledger");
+                redirectTo(`/setup-ledger/${accountId}${location.search}`);
             }
         }
     }
@@ -157,16 +162,16 @@ class SetupRecoveryMethod extends Component {
         const method = {
             kind: option === 'email' ? 'email' : 'phone',
             detail: option === 'email' ? email : phoneNumber
-        }
+        };
 
         return method;
     }
 
     handleSendCode = async () => {
-        Mixpanel.track("SR Send code", { send_code_detail: this.method })
+        Mixpanel.track("SR Send code", { send_code_detail: this.method });
         const { accountId, initializeRecoveryMethod } = this.props;
         const recoverySeedPhrase = await initializeRecoveryMethod(accountId, this.method);
-        this.setState({ success: true, recoverySeedPhrase: recoverySeedPhrase })
+        this.setState({ success: true, recoverySeedPhrase: recoverySeedPhrase });
     }
 
     async setupRecoveryMessageNewAccount(accountId, method, securityCode, recoverySeedPhrase, recaptchaToken) {
@@ -178,24 +183,24 @@ class SetupRecoveryMethod extends Component {
             location
         } = this.props;
       
-        const fundingOptions = parseFundingOptions(location.search)
-        this.setState({ settingUpNewAccount: true })
+        const fundingOptions = parseFundingOptions(location.search);
+        this.setState({ settingUpNewAccount: true });
 
         try {
-            const { secretKey } = parseSeedPhrase(recoverySeedPhrase)
-            const recoveryKeyPair = KeyPair.fromString(secretKey)
+            const { secretKey } = parseSeedPhrase(recoverySeedPhrase);
+            const recoveryKeyPair = KeyPair.fromString(secretKey);
             await validateSecurityCode(accountId, method, securityCode);
             await saveAccount(accountId, recoveryKeyPair);
 
             // IMPLICIT ACCOUNT
             if (DISABLE_CREATE_ACCOUNT && !fundingOptions && !recaptchaToken) {
                 await fundCreateAccount(accountId, recoveryKeyPair, fundingOptions, method);
-                return
+                return;
             }
 
             try {
                 // NOT IMPLICIT ACCOUNT (testnet, linkdrop, funded to delegated account via contract helper)
-                await createNewAccount(accountId, fundingOptions, method, recoveryKeyPair.publicKey, undefined, recaptchaToken)
+                await createNewAccount(accountId, fundingOptions, method, recoveryKeyPair.publicKey, undefined, recaptchaToken);
             } catch (e) {
                 if (e.code === 'NotEnoughBalance') {
                     Mixpanel.track('SR NotEnoughBalance creating funded account');
@@ -205,7 +210,7 @@ class SetupRecoveryMethod extends Component {
                 throw e;
             }
         } catch(e) {
-            this.setState({ settingUpNewAccount: false })
+            this.setState({ settingUpNewAccount: false });
         }
     }
 
@@ -223,7 +228,7 @@ class SetupRecoveryMethod extends Component {
             await Mixpanel.withTracking("SR Setup recovery method",
                 async () => {
                     if (!this.state.isNewAccount) {
-                        return setupRecoveryMessage(accountId, this.method, securityCode, this.state.recoverySeedPhrase)
+                        return setupRecoveryMessage(accountId, this.method, securityCode, this.state.recoverySeedPhrase);
                     }
 
                     try {
@@ -236,66 +241,66 @@ class SetupRecoveryMethod extends Component {
                                 success: false,
                                 messageCodeHeader: 'error',
                                 messageCode: 'walletErrorCodes.setupRecoveryMessageNewAccount.invalidCode'
-                            })
+                            });
                         } else if (isRetryableRecaptchaError(e)) {
                             Mixpanel.track('Funded account creation failed due to invalid / expired reCaptcha response from user');
                             showCustomAlert({
                                 success: false,
                                 messageCodeHeader: 'error',
                                 messageCode: 'walletErrorCodes.invalidRecaptchaCode'
-                            })
+                            });
                         } else {
                             showCustomAlert({
                                 errorMessage: e.message,
                                 success: false,
                                 messageCodeHeader: 'error',
-                            })
+                            });
                         }
                     }
                 }
-            )
+            );
         }
     }
 
     handleGoBack = () => {
         const { option } = this.state;
-        Mixpanel.track(option === 'email' ? "SR Send to different email" : "SR Send to different phone")
+        Mixpanel.track(option === 'email' ? "SR Send to different email" : "SR Send to different phone");
         this.setState({
             email: '',
             phoneNumber: '',
             success: false
-        })
+        });
     }
 
     handleBlurEmail = () => {
         this.setState((state) => ({
             emailInvalid: state.email !== '' && !this.isValidInput
-        }))
+        }));
     }
 
     handleBlurPhone = () => {
         this.setState((state) => ({
             phoneInvalid: state.phoneNumber !== '' && !this.isValidInput
-        }))
+        }));
     }
 
     checkDisabled = (method) => {
-        const { recoveryMethods, activeAccountId } = this.props
-        let activeMethods = []
+        const { recoveryMethods, activeAccountId } = this.props;
+        let activeMethods = [];
         if (recoveryMethods[activeAccountId]) {
-            activeMethods = recoveryMethods[activeAccountId].filter(method => method.confirmed).map(method => method.kind)
+            activeMethods = recoveryMethods[activeAccountId].filter(method => method.confirmed).map(method => method.kind);
         }
 
-        return !this.checkNewAccount() && activeMethods.includes(method)
+        return !this.checkNewAccount() && activeMethods.includes(method);
     }
 
     checkNewAccount = () => {
-        return this.props.accountId !== this.props.activeAccountId
+        return this.props.accountId !== this.props.activeAccountId;
     }
 
     handleRecaptchaChange = (recaptchaToken) => {
-        debugLog('handleRecaptchaChange()', recaptchaToken)
-        this.setState({ recaptchaToken })
+        debugLog('handleRecaptchaChange()', recaptchaToken);
+        this.setState({ recaptchaToken });
     }
 
     render() {
@@ -340,7 +345,7 @@ class SetupRecoveryMethod extends Component {
                                 if (option !== 'email') {
                                     setTimeout(() => {
                                         this.emailInput.current.focus();
-                                    }, 0)
+                                    }, 0);
                                 }
                             }}
                             option='email'
@@ -369,7 +374,7 @@ class SetupRecoveryMethod extends Component {
                                 if (option !== 'phone') {
                                     setTimeout(() => {
                                         this.phoneInput.current.focus();
-                                    }, 0)
+                                    }, 0);
                                 }
                             }}
                             option='phone'
@@ -412,7 +417,7 @@ class SetupRecoveryMethod extends Component {
                         </FormButton>
                     </form>
                 </StyledContainer>
-            )
+            );
         } else {
             return (
                 <EnterVerificationCode
@@ -428,7 +433,7 @@ class SetupRecoveryMethod extends Component {
                     onRecaptchaChange={this.handleRecaptchaChange}
                     isLinkDrop={parseFundingOptions(location.search) !== null}
                 />
-            )
+            );
         }
     }
 }
@@ -448,7 +453,7 @@ const mapDispatchToProps = {
     createNewAccount,
     saveAccount,
     validateSecurityCode
-}
+};
 
 const mapStateToProps = ({ account, router, recoveryMethods, status }, { match }) => ({
     ...account,
@@ -457,6 +462,6 @@ const mapStateToProps = ({ account, router, recoveryMethods, status }, { match }
     activeAccountId: account.accountId,
     recoveryMethods,
     mainLoader: status.mainLoader
-})
+});
 
 export const SetupRecoveryMethodWithRouter = connect(mapStateToProps, mapDispatchToProps)(SetupRecoveryMethod);

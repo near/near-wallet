@@ -18,7 +18,7 @@ const PassPhraseIcon = ({ color }) => {
             <rect x="24.219" y="17.2" width="4.98626" height="2.34545" fill={rectColor}/>
             <rect x="24.219" y="22.6727" width="4.98626" height="2.34545" fill={rectColor}/>
         </svg>
-    )
-}
+    );
+};
 
 export default PassPhraseIcon;

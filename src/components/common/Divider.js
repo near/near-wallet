@@ -1,6 +1,5 @@
 import React from 'react';
-import { Translate } from 'react-localize-redux'
-
+import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
 
 const Container = styled.div`
@@ -22,7 +21,7 @@ const Container = styled.div`
         transform: translate(-50%, 0);
         z-index: -1;
     }
-`
+`;
 
 const Wrapper = styled.div`
     background-color: white;
@@ -31,7 +30,7 @@ const Wrapper = styled.div`
     color: #25282A;
     font-size: 14px;
     font-style: italic;
-`
+`;
 
 const Divider = (props) => (
     <Container className='divider-container'>
@@ -39,6 +38,6 @@ const Divider = (props) => (
             {props.title || <Translate id='or' />}
         </Wrapper>
     </Container>
-)
+);
 
 export default Divider;

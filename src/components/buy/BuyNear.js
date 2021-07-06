@@ -1,18 +1,19 @@
-import React, { useState, useEffect } from 'react'
-import { useSelector } from 'react-redux'
-import styled from 'styled-components'
-import Container from '../common/styled/Container.css'
-import { Translate } from 'react-localize-redux'
-import FormButton from '../common/FormButton'
-import ArrowIcon from '../svg/ArrowIcon'
-import MoonPayIcon from '../svg/MoonPayIcon'
-import BinanceLogo from '../../images/binance-logo.svg'
-import HuobiLogo from '../../images/huobi-logo.svg'
-import OkexLogo from '../../images/okex-logo.svg'
-import GateLogo from '../../images/gate-io-logo.svg'
-import LiqualityLogo from '../../images/liquality-logo.svg'
-import { isMoonpayAvailable, getSignedUrl } from '../../utils/moonpay'
-import { Mixpanel } from '../../mixpanel'
+import React, { useState, useEffect } from 'react';
+import { Translate } from 'react-localize-redux';
+import { useSelector } from 'react-redux';
+import styled from 'styled-components';
+
+import BinanceLogo from '../../images/binance-logo.svg';
+import GateLogo from '../../images/gate-io-logo.svg';
+import HuobiLogo from '../../images/huobi-logo.svg';
+import LiqualityLogo from '../../images/liquality-logo.svg';
+import OkexLogo from '../../images/okex-logo.svg';
+import { Mixpanel } from '../../mixpanel';
+import { isMoonpayAvailable, getSignedUrl } from '../../utils/moonpay';
+import FormButton from '../common/FormButton';
+import Container from '../common/styled/Container.css';
+import ArrowIcon from '../svg/ArrowIcon';
+import MoonPayIcon from '../svg/MoonPayIcon';
 
 const StyledContainer = styled(Container)`
     position: relative;
@@ -121,7 +122,7 @@ const StyledContainer = styled(Container)`
     .see-more {
         margin-top: 30px;
     }
-`
+`;
 
 export function BuyNear({ match, location, history }) {
     const { accountId } = useSelector(({ account }) => account);
@@ -129,22 +130,22 @@ export function BuyNear({ match, location, history }) {
     const [signedMoonPayUrl, setSignedMoonPayUrl] = useState(null);
 
     useEffect(() => {
-        checkMoonPay()
-    }, [])
+        checkMoonPay();
+    }, []);
 
     const checkMoonPay = async () => {
         await Mixpanel.withTracking("Wallet Check Moonpay available", 
             async () => {
-                const moonPay = await isMoonpayAvailable()
+                const moonPay = await isMoonpayAvailable();
                 if (moonPay) {
-                    const url = await getSignedUrl(accountId, window.location.origin)
-                    setMoonPayAvailable(moonPay)
-                    setSignedMoonPayUrl(url)
+                    const url = await getSignedUrl(accountId, window.location.origin);
+                    setMoonPayAvailable(moonPay);
+                    setSignedMoonPayUrl(url);
                 }
             },
             (e) => console.warn('Error checking Moonpay', e)
-        )
-    }
+        );
+    };
 
     return (
         <StyledContainer className='small-centered'>
@@ -199,5 +200,5 @@ export function BuyNear({ match, location, history }) {
                 <Translate id='buyNear.seeMore' /> <a href='https://coinmarketcap.com/currencies/near-protocol/markets/' target='_blank' rel='noreferrer'><Translate id='buyNear.coinMarketCap' /></a>
             </div>
         </StyledContainer>
-    )
+    );
 }

@@ -1,7 +1,7 @@
 import React from 'react';
 
 const AlertTriangleIcon = ({ color }) => {
-    const stroke = color || '#EF860D'
+    const stroke = color || '#EF860D';
     return (
         <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" className='alert-triangle-icon'>
             <g clipPath="url(#clip0)">
@@ -15,7 +15,7 @@ const AlertTriangleIcon = ({ color }) => {
                 </clipPath>
             </defs>
         </svg>
-    )
-}
+    );
+};
 
 export default AlertTriangleIcon;

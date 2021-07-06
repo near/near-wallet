@@ -1,5 +1,5 @@
-import React from 'react'
-import styled from 'styled-components'
+import React from 'react';
+import styled from 'styled-components';
 
 const StyledInput = styled.input`
     text-align: center;
@@ -20,16 +20,16 @@ const StyledInput = styled.input`
     &.error {
         color: #FC5B5B;
     }
-`
+`;
 
 const getFontSize = (charLength) => {
-    const baseSize = 60
+    const baseSize = 60;
     if (charLength >= baseSize) {
-        charLength = baseSize - 5
+        charLength = baseSize - 5;
     }
-    const fontSize = baseSize - charLength
-    return fontSize
-}
+    const fontSize = baseSize - charLength;
+    return fontSize;
+};
 
 const AmountInput = ({ value, onChange, error }) => {
     return (
@@ -41,7 +41,7 @@ const AmountInput = ({ value, onChange, error }) => {
             value={value}
             onChange={e => onChange(e.target.value)}
         />
-    )
-}
+    );
+};
 
-export default AmountInput 
+export default AmountInput; 

@@ -1,10 +1,10 @@
-import { handleActions } from 'redux-actions'
-import reduceReducers from 'reduce-reducers'
+import reduceReducers from 'reduce-reducers';
+import { handleActions } from 'redux-actions';
 
 import {
     setFlowLimitation,
     clearFlowLimitation
-} from '../../actions/flowLimitation'
+} from '../../actions/flowLimitation';
 
 const initialState = {
     mainMenu: false,
@@ -12,7 +12,7 @@ const initialState = {
     accountPages: false,
     accountData: false,
     accountBalance: false
-}
+};
 
 const flowLimitationReducer = handleActions({
     [setFlowLimitation]: (state, { payload }) => ({
@@ -23,9 +23,9 @@ const flowLimitationReducer = handleActions({
         ...state,
         ...initialState
     }),
-}, initialState)
+}, initialState);
 
 export default reduceReducers(
     initialState,
     flowLimitationReducer
-)
+);

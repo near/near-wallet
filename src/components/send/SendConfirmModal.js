@@ -1,10 +1,11 @@
-import React from 'react'
-import Modal from '../common/modal/Modal'
-import FormButton from '../common/FormButton'
-import { Translate } from 'react-localize-redux'
-import styled from 'styled-components'
-import Balance from '../common/Balance'
-import { utils } from 'near-api-js'
+import { utils } from 'near-api-js';
+import React from 'react';
+import { Translate } from 'react-localize-redux';
+import styled from 'styled-components';
+
+import Balance from '../common/Balance';
+import FormButton from '../common/FormButton';
+import Modal from '../common/modal/Modal';
 
 const Container = styled.div`
     display: flex;
@@ -56,7 +57,7 @@ const Container = styled.div`
         }
     }
 
-`
+`;
 
 const SendConfirmModal = ({ open, onClose, onConfirm, amount, receiver, loading }) => {
     return (
@@ -87,6 +88,6 @@ const SendConfirmModal = ({ open, onClose, onConfirm, amount, receiver, loading 
             </Container>
         </Modal>
     );
-}
+};
 
-export default SendConfirmModal
+export default SendConfirmModal;

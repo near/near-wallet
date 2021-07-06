@@ -1,17 +1,14 @@
-import React, { Component, Fragment } from 'react'
-import { connect } from 'react-redux'
-import { withRouter, Link } from 'react-router-dom'
-import { Translate } from 'react-localize-redux'
-import { EXPLORER_URL } from '../../utils/wallet'
+import React, { Component, Fragment } from 'react';
+import { Translate } from 'react-localize-redux';
+import { connect } from 'react-redux';
+import { withRouter, Link } from 'react-router-dom';
+import { Grid } from 'semantic-ui-react';
+import styled from 'styled-components';
 
-import IconArrowLeft from '../../images/IconArrowLeft'
-import IconProblems from '../../images/IconProblems'
-
-import { Grid } from 'semantic-ui-react'
-
-import styled from 'styled-components'
-
-import { showCustomAlert } from '../../actions/status'
+import { showCustomAlert } from '../../actions/status';
+import IconArrowLeft from '../../images/IconArrowLeft';
+import IconProblems from '../../images/IconProblems';
+import { EXPLORER_URL } from '../../utils/wallet';
 
 const CustomGrid = styled(Grid)`
     .top-back {
@@ -90,24 +87,24 @@ const CustomGrid = styled(Grid)`
             }
         }
     }
-`
+`;
 
 class LoginDetails extends Component {
 
     componentDidMount = () => {
-        const { contractId, accountConfirmationForm, showCustomAlert } = this.props
+        const { contractId, accountConfirmationForm, showCustomAlert } = this.props;
 
         if (!contractId || (contractId && (accountConfirmationForm))) {
             showCustomAlert({
                 success: false,
                 messageCodeHeader: 'warning',
                 messageCode: 'account.login.details.warning'
-            })
+            });
         }
     }
 
     render() {
-        const { contractId, transactions, fees, appTitle, accountConfirmationForm } = this.props
+        const { contractId, transactions, fees, appTitle, accountConfirmationForm } = this.props;
 
         return (
             <CustomGrid padded>
@@ -192,7 +189,7 @@ class LoginDetails extends Component {
                     </Grid.Column>
                 </Grid.Row>
             </CustomGrid>
-        )
+        );
     }
 }
 
@@ -207,7 +204,7 @@ const TransactionsList = ({ transactions }) =>
                 actions={t.actions}
             />}
         </div>
-))
+));
 
 const ActionsList = ({ transaction, actions }) => 
     actions
@@ -219,7 +216,7 @@ const ActionsList = ({ transaction, actions }) =>
                 action={a} 
                 actionKind={Object.keys(a)[0]}  
             />
-))
+));
 
 const ActionRow = ({ transaction, action, actionKind }) => (
     <div key={`subitem-`} className='details-subitem color-charcoal-grey'>
@@ -234,7 +231,7 @@ const ActionRow = ({ transaction, action, actionKind }) => (
             />
         </div>
     </div>
-)
+);
 
 const ActionMessage = ({ transaction, action, actionKind }) => (
     <Translate>
@@ -242,7 +239,7 @@ const ActionMessage = ({ transaction, action, actionKind }) => (
             {({ translate }) => actionKind === 'functionCall' && `${translate('login.details.function')}: ${action.functionCall.methodName}`}
         </b>
     </Translate>
-)
+);
 
 const ActionWarrning = ({ actionKind }) => (
     <Fragment>
@@ -253,11 +250,11 @@ const ActionWarrning = ({ actionKind }) => (
             </Fragment>
         )}
     </Fragment>
-)
+);
 
 const mapDispatchToProps = {
     showCustomAlert
-}
+};
 
 const mapStateToProps = ({ transactions = [], account }) => {
     transactions = [
@@ -281,7 +278,7 @@ const mapStateToProps = ({ transactions = [], account }) => {
                 }
             ]
         }
-    ]
+    ];
     
     return {
         transactions,
@@ -303,7 +300,7 @@ const mapStateToProps = ({ transactions = [], account }) => {
                     : ca
             , 0)
         , 0)
-    }
-}
+    };
+};
 
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(LoginDetails))
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(LoginDetails));

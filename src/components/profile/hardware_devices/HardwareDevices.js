@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
+import { Translate } from 'react-localize-redux';
 import { useSelector, useDispatch } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
-import { Translate } from 'react-localize-redux';
-import Card from '../../common/styled/Card.css';
 
-import FormButton from '../../common/FormButton';
 import { 
     getAccessKeys,
     disableLedger,
@@ -13,10 +11,12 @@ import {
     addLedgerAccessKey,
     loadRecoveryMethods
 } from '../../../actions/account';
-import ConfirmDisable from './ConfirmDisable';
+import { Mixpanel } from '../../../mixpanel/index';
+import { actionsPending } from '../../../utils/alerts';
+import FormButton from '../../common/FormButton';
 import SkeletonLoading from '../../common/SkeletonLoading';
-import { actionsPending } from '../../../utils/alerts'
-import { Mixpanel } from '../../../mixpanel/index'
+import Card from '../../common/styled/Card.css';
+import ConfirmDisable from './ConfirmDisable';
 
 const Container = styled(Card)`
 
@@ -56,7 +56,7 @@ const Container = styled(Card)`
         margin-top: 20px;
     }
 
-`
+`;
 
 const HardwareDevices = ({ recoveryMethods }) => {
 
@@ -64,52 +64,52 @@ const HardwareDevices = ({ recoveryMethods }) => {
     const [confirmDisable, setConfirmDisable] = useState(false);
     const dispatch = useDispatch();
     const account = useSelector(({ account }) => account);
-    let userRecoveryMethods = recoveryMethods || []
+    let userRecoveryMethods = recoveryMethods || [];
     const keys = account.fullAccessKeys || [];
-    const recoveryKeys = userRecoveryMethods.filter(method => method.kind !== 'ledger').map(key => key.publicKey)
-    const publicKeys = keys.map(key => key.public_key)
-    const hasOtherMethods = publicKeys.some(key => recoveryKeys.includes(key))
-    const hasLedger = userRecoveryMethods.filter(method => method.kind === 'ledger').map(key => key.publicKey).some(key => publicKeys.includes(key))
+    const recoveryKeys = userRecoveryMethods.filter(method => method.kind !== 'ledger').map(key => key.publicKey);
+    const publicKeys = keys.map(key => key.public_key);
+    const hasOtherMethods = publicKeys.some(key => recoveryKeys.includes(key));
+    const hasLedger = userRecoveryMethods.filter(method => method.kind === 'ledger').map(key => key.publicKey).some(key => publicKeys.includes(key));
     const ledgerIsConnected = account.ledgerKey;
-    const hasLedgerButNotConnected = hasLedger && !ledgerIsConnected
-    const recoveryLoader = (actionsPending('LOAD_RECOVERY_METHODS') && !userRecoveryMethods.length) || !account.accountId
+    const hasLedgerButNotConnected = hasLedger && !ledgerIsConnected;
+    const recoveryLoader = (actionsPending('LOAD_RECOVERY_METHODS') && !userRecoveryMethods.length) || !account.accountId;
 
     const handleConfirmDisable = async () => {
         await Mixpanel.withTracking("SR-Ledger Handle confirm disable",
             async () => {
-                setDisabling(true)
+                setDisabling(true);
                 await dispatch(disableLedger());
             },
             () => {},
             async () => {
-                await dispatch(getAccessKeys())
-                await dispatch(getLedgerKey())
-                await dispatch(loadRecoveryMethods())
-                setDisabling(false)
-                setConfirmDisable(false)
+                await dispatch(getAccessKeys());
+                await dispatch(getLedgerKey());
+                await dispatch(loadRecoveryMethods());
+                setDisabling(false);
+                setConfirmDisable(false);
             }
-        )
-    }
+        );
+    };
 
     const handleConnectLedger = async () => {
         await Mixpanel.withTracking("SR-Ledger Reconnect ledger",
             async () => {
-                await dispatch(addLedgerAccessKey())
-                await dispatch(getLedgerKey())
-                await dispatch(loadRecoveryMethods())
+                await dispatch(addLedgerAccessKey());
+                await dispatch(getLedgerKey());
+                await dispatch(loadRecoveryMethods());
             }
-        )
-    }
+        );
+    };
 
     const getActionButton = () => {
         if (ledgerIsConnected) {
-            return <FormButton disabled={!hasOtherMethods} color='gray-red' onClick={() => setConfirmDisable(true)}><Translate id='button.disable'/></FormButton>
+            return <FormButton disabled={!hasOtherMethods} color='gray-red' onClick={() => setConfirmDisable(true)}><Translate id='button.disable'/></FormButton>;
         } else if (hasLedgerButNotConnected) {
-            return <FormButton color='blue' onClick={handleConnectLedger}><Translate id='button.connect'/></FormButton>
+            return <FormButton color='blue' onClick={handleConnectLedger}><Translate id='button.connect'/></FormButton>;
         } else {
-            return <FormButton linkTo={`/setup-ledger/${account.accountId}`} color='blue' trackingId="SR-Ledger Click enable button"><Translate id='button.enable'/></FormButton> 
+            return <FormButton linkTo={`/setup-ledger/${account.accountId}`} color='blue' trackingId="SR-Ledger Click enable button"><Translate id='button.enable'/></FormButton>; 
         }
-    }
+    };
 
     if (!recoveryLoader) {
         return (
@@ -143,16 +143,16 @@ const HardwareDevices = ({ recoveryMethods }) => {
                     />
                 }
             </Container>
-        )
+        );
     } else {
         return (
             <SkeletonLoading
                 height='138px'
                 show={recoveryLoader}
             />
-        )
+        );
     }
-}
+};
 
 
 export default withRouter(HardwareDevices);

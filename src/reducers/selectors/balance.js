@@ -1,10 +1,10 @@
-import BN from 'bn.js'
+import BN from 'bn.js';
 
-import { LOCKUP_MIN_BALANCE } from '../../utils/account-with-lockup'
+import { LOCKUP_MIN_BALANCE } from '../../utils/account-with-lockup';
 
 export const selectProfileBalance = (balance) => {
     if (!balance || !balance.available) {
-        return false
+        return false;
     }
 
     const { 
@@ -18,9 +18,9 @@ export const selectProfileBalance = (balance) => {
         balanceAvailable,
         stakedBalanceLockup,
         account
-    } = balance
+    } = balance;
 
-    const lockupIdExists = !!lockedAmount
+    const lockupIdExists = !!lockedAmount;
 
     const walletBalance = {
         walletBalance: stakedBalanceMainAccount.add(new BN(balanceAvailable)).add(new BN(stateStaked)).toString(),
@@ -32,13 +32,13 @@ export const selectProfileBalance = (balance) => {
             availableForWithdraw: account?.totalAvailable
         },
         available: balanceAvailable
-    }
+    };
 
-    let lockupBalance = {}
+    let lockupBalance = {};
     if (lockupIdExists) {
         const {
             lockupAccount
-        } = balance
+        } = balance;
 
         lockupBalance = {
             lockupBalance: totalBalance.toString(),
@@ -54,7 +54,7 @@ export const selectProfileBalance = (balance) => {
                 sum: ownersBalance.toString(),
                 availableToTransfer: liquidOwnersBalance.toString()
             }
-        }
+        };
     }
 
     return {
@@ -62,5 +62,5 @@ export const selectProfileBalance = (balance) => {
         lockupId: lockupAccountId,
         lockupBalance,
         lockupIdExists
-    }
-}
+    };
+};

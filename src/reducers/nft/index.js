@@ -1,12 +1,12 @@
-import { handleActions } from 'redux-actions'
-import reduceReducers from 'reduce-reducers'
+import reduceReducers from 'reduce-reducers';
+import { handleActions } from 'redux-actions';
 
-import { nft } from '../../actions/nft'
+import { nft } from '../../actions/nft';
 
 const initialState = {
     likelyContracts: [],
     nft: {}
-}
+};
 
 const likelyContractsReducer = handleActions({
     [nft.likelyContracts.get]: (state, { ready, error, payload: likelyContracts }) =>
@@ -16,7 +16,7 @@ const likelyContractsReducer = handleActions({
                 ...state,
                 likelyContracts
             }),
-}, initialState)
+}, initialState);
 
 const nftReducer = handleActions({
     [nft.tokensDetails.getMetadata]: (state, { ready, error, payload }) =>
@@ -46,19 +46,19 @@ const nftReducer = handleActions({
                     }
                 }
             }),
-}, initialState)
+}, initialState);
 
 const clearReducer = handleActions({
     [nft.clearState]: () => ({
         ...initialState
     }),
-}, initialState)
+}, initialState);
 
 export default reduceReducers(
     initialState,
     likelyContractsReducer,
     nftReducer,
     clearReducer
-)
+);
 
-export const selectNFT = state => state.nft.nft
+export const selectNFT = state => state.nft.nft;

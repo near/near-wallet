@@ -4,7 +4,7 @@
 */
 const classNames = (names) => {
     if (!names) {
-        return false
+        return false;
     }
 
     let isArray = Array.isArray;
@@ -18,6 +18,6 @@ const classNames = (names) => {
     }
 
     return Object.keys(names).filter(key => names[key]).join(" ");
-}
+};
 
 export default classNames;

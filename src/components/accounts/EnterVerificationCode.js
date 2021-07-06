@@ -1,7 +1,8 @@
-import React, { useState, useRef } from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
+import React, { useState, useRef } from 'react';
 import { Translate } from 'react-localize-redux';
+import styled from 'styled-components';
+
 import FormButton from '../common/FormButton';
 import Container from '../common/styled/Container.css';
 import { Recaptcha } from '../Recaptcha';
@@ -69,7 +70,7 @@ const StyledContainer = styled(Container)`
     .recaptcha-failed-box, .recaptcha-widget {
         margin-top: 20px;
     }
-`
+`;
 
 const EnterVerificationCode = ({
     option,
@@ -99,20 +100,20 @@ const EnterVerificationCode = ({
 
     const handleConfirm = async () => {
         onConfirm(code);
-    }
+    };
 
     const handleOnSubmit = (e) => {
         if (code.length !== 6) {
             e.preventDefault();
-            setError(true)
-            return
+            setError(true);
+            return;
         }
 
         if (code.length === 6 && !verifyingCode) {
             handleConfirm().then(() => recaptchaRef?.current?.reset());
             e.preventDefault();
         }
-    }
+    };
 
     const shouldRenderRecaptcha = !isLinkDrop && process.env.RECAPTCHA_CHALLENGE_API_KEY && isNewAccount;
 
@@ -149,7 +150,7 @@ const EnterVerificationCode = ({
                         onChange={(token) => {
                             debugLog('onChange from recaptcha - setting token in state', token);
                             setRecaptchaToken(token);
-                            onRecaptchaChange(token)
+                            onRecaptchaChange(token);
                         }}
                         onFundAccountCreation={handleOnSubmit}
                     />
@@ -180,8 +181,8 @@ const EnterVerificationCode = ({
                 </div>
             </div>
         </StyledContainer>
-    )
-}
+    );
+};
 
 EnterVerificationCode.propTypes = {
     email: PropTypes.string,
@@ -189,6 +190,6 @@ EnterVerificationCode.propTypes = {
     option: PropTypes.string.isRequired,
     onGoBack: PropTypes.func.isRequired,
     onConfirm: PropTypes.func.isRequired
-}
+};
 
 export default EnterVerificationCode;

@@ -1,9 +1,10 @@
-import React from 'react'
-import styled from 'styled-components'
-import FormButton from '../../common/FormButton'
-import GiftIcon from '../../svg/GiftIcon'
-import { Translate } from 'react-localize-redux'
-import { utils } from 'near-api-js'
+import { utils } from 'near-api-js';
+import React from 'react';
+import { Translate } from 'react-localize-redux';
+import styled from 'styled-components';
+
+import FormButton from '../../common/FormButton';
+import GiftIcon from '../../svg/GiftIcon';
 
 const Container = styled.div`
     background-color: #C8F6E0;
@@ -38,7 +39,7 @@ const Container = styled.div`
             margin-top: 25px !important;
         }
     }
-`
+`;
 
 const LockupAvailTransfer = ({ onTransfer, available, sending }) => {
     return (
@@ -53,7 +54,7 @@ const LockupAvailTransfer = ({ onTransfer, available, sending }) => {
                     <Translate id='profile.lockupBanner.cta'/>
             </FormButton>
         </Container>
-    )
-}
+    );
+};
 
-export default LockupAvailTransfer
+export default LockupAvailTransfer;

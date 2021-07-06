@@ -1,11 +1,12 @@
-import React from 'react'
-import { Translate } from 'react-localize-redux'
-import styled from 'styled-components'
-import LandingBackground from './LandingBackground'
-import Container from '../common/styled/Container.css'
-import FormButton from '../common/FormButton'
-import iPhoneMockup from '../../images/iphone-mockup.png'
-import EmailSubscribe from './EmailSubscribe'
+import React from 'react';
+import { Translate } from 'react-localize-redux';
+import styled from 'styled-components';
+
+import iPhoneMockup from '../../images/iphone-mockup.png';
+import FormButton from '../common/FormButton';
+import Container from '../common/styled/Container.css';
+import EmailSubscribe from './EmailSubscribe';
+import LandingBackground from './LandingBackground';
 
 const StyledContainer = styled.div`
 
@@ -137,7 +138,7 @@ const StyledContainer = styled.div`
             }
         }
     }
-`
+`;
 
 export function GuestLanding() {
     return (
@@ -155,5 +156,5 @@ export function GuestLanding() {
             </Container>
             <EmailSubscribe/>
         </StyledContainer>
-    )
+    );
 }

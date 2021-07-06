@@ -1,24 +1,25 @@
-import React, { useState } from 'react'
-import AmountInput from './AmountInput'
-import ValidatorBox from './ValidatorBox'
-import FormButton from '../../common/FormButton'
-import { Translate } from 'react-localize-redux'
-import ArrowCircleIcon from '../../svg/ArrowCircleIcon'
-import TransferMoneyIcon from '../../svg/TransferMoneyIcon'
-import StakeConfirmModal from './StakeConfirmModal'
-import AlertBanner from './AlertBanner'
-import BN from 'bn.js'
-import { utils } from 'near-api-js'
-import isDecimalString from '../../../utils/isDecimalString'
-import { STAKING_AMOUNT_DEVIATION } from '../../../utils/staking'
-import { onKeyDown } from '../../../hooks/eventListeners'
-import { toNear } from '../../../utils/amounts'
-import { WALLET_APP_MIN_AMOUNT } from '../../../utils/wallet'
-import { Mixpanel } from '../../../mixpanel/index'
+import BN from 'bn.js';
+import { utils } from 'near-api-js';
+import React, { useState } from 'react';
+import { Translate } from 'react-localize-redux';
+
+import { onKeyDown } from '../../../hooks/eventListeners';
+import { Mixpanel } from '../../../mixpanel/index';
+import { toNear } from '../../../utils/amounts';
+import isDecimalString from '../../../utils/isDecimalString';
+import { STAKING_AMOUNT_DEVIATION } from '../../../utils/staking';
+import { WALLET_APP_MIN_AMOUNT } from '../../../utils/wallet';
+import FormButton from '../../common/FormButton';
+import ArrowCircleIcon from '../../svg/ArrowCircleIcon';
+import TransferMoneyIcon from '../../svg/TransferMoneyIcon';
+import AlertBanner from './AlertBanner';
+import AmountInput from './AmountInput';
+import StakeConfirmModal from './StakeConfirmModal';
+import ValidatorBox from './ValidatorBox';
 
 const {
     parseNearAmount, formatNearAmount
-} = utils.format
+} = utils.format;
 
 export default function StakingAction({
     match,
@@ -33,84 +34,84 @@ export default function StakingAction({
     selectedValidator,
     currentValidators
 }) {
-    const [confirm, setConfirm] = useState()
-    const [amount, setAmount] = useState('')
-    const [success, setSuccess] = useState()
-    const [useMax, setUseMax] = useState(null)
-    const [loadingStaking, setLoadingStaking] = useState(false)
-    const hasStakeActionAmount = !loading && amount.length && amount !== '0'
-    let staked = (validator && validator.staked) || '0'
-    const stake = action === 'stake' ? true : false
-    const displayAmount = useMax ? formatNearAmount(amount, 5).replace(/,/g, '') : amount
-    const availableToStake = stakeFromAccount ? new BN(availableBalance).sub(new BN(utils.format.parseNearAmount(WALLET_APP_MIN_AMOUNT))).toString() : availableBalance
-    const invalidStakeActionAmount = new BN(useMax ? amount : parseNearAmount(amount)).sub(new BN(stake ? availableToStake : staked)).gt(new BN(STAKING_AMOUNT_DEVIATION)) || !isDecimalString(amount)
-    const stakeActionAllowed = hasStakeActionAmount && !invalidStakeActionAmount && !success
-    const stakeNotAllowed = !!selectedValidator && selectedValidator !== match.params.validator && !!currentValidators.length
+    const [confirm, setConfirm] = useState();
+    const [amount, setAmount] = useState('');
+    const [success, setSuccess] = useState();
+    const [useMax, setUseMax] = useState(null);
+    const [loadingStaking, setLoadingStaking] = useState(false);
+    const hasStakeActionAmount = !loading && amount.length && amount !== '0';
+    let staked = (validator && validator.staked) || '0';
+    const stake = action === 'stake' ? true : false;
+    const displayAmount = useMax ? formatNearAmount(amount, 5).replace(/,/g, '') : amount;
+    const availableToStake = stakeFromAccount ? new BN(availableBalance).sub(new BN(utils.format.parseNearAmount(WALLET_APP_MIN_AMOUNT))).toString() : availableBalance;
+    const invalidStakeActionAmount = new BN(useMax ? amount : parseNearAmount(amount)).sub(new BN(stake ? availableToStake : staked)).gt(new BN(STAKING_AMOUNT_DEVIATION)) || !isDecimalString(amount);
+    const stakeActionAllowed = hasStakeActionAmount && !invalidStakeActionAmount && !success;
+    const stakeNotAllowed = !!selectedValidator && selectedValidator !== match.params.validator && !!currentValidators.length;
 
     onKeyDown(e => {
         if (e.keyCode === 13 && stakeActionAllowed) {
             if (!confirm) {
-                setConfirm(true)
+                setConfirm(true);
             } else {
-                onStakingAction()
+                onStakingAction();
             }
         }
-    })
+    });
 
     const onStakingAction = async () => {
-        setLoadingStaking(true)
-        let stakeActionAmount = amount
-        const userInputAmountIsMax = new BN(parseNearAmount(amount)).sub(new BN(stake ? availableBalance : staked)).abs().lte(new BN(STAKING_AMOUNT_DEVIATION))
+        setLoadingStaking(true);
+        let stakeActionAmount = amount;
+        const userInputAmountIsMax = new BN(parseNearAmount(amount)).sub(new BN(stake ? availableBalance : staked)).abs().lte(new BN(STAKING_AMOUNT_DEVIATION));
 
         if (!stake) {
             if (!useMax && userInputAmountIsMax) {
-                stakeActionAmount = staked
+                stakeActionAmount = staked;
             } else if (useMax || userInputAmountIsMax) {
-                stakeActionAmount = null
+                stakeActionAmount = null;
             }
         }
 
         try {
-            await handleStakingAction(action, validator.accountId, stakeActionAmount)
-            setSuccess(true)
-            setConfirm(false)
+            await handleStakingAction(action, validator.accountId, stakeActionAmount);
+            setSuccess(true);
+            setConfirm(false);
         } finally {
-            setLoadingStaking(false)
+            setLoadingStaking(false);
         }
-    }
+    };
 
     const handleSetMax = () => {
-        let amount = stake ? availableBalance : staked
+        let amount = stake ? availableBalance : staked;
 
         if (stake && stakeFromAccount) {
-            amount = availableToStake
+            amount = availableToStake;
         }
 
-        const isPositiveValue = new BN(amount).gt(new BN('0'))
+        const isPositiveValue = new BN(amount).gt(new BN('0'));
 
         if (isPositiveValue) {
-            setAmount(amount)
-            setUseMax(true)
+            setAmount(amount);
+            setUseMax(true);
         }
-        Mixpanel.track("STAKE/UNSTAKE Use max token")
-    }
+        Mixpanel.track("STAKE/UNSTAKE Use max token");
+    };
 
     const handleOnChange = (amount) => {
-        setAmount(amount)
-        setUseMax(false)
-    }
+        setAmount(amount);
+        setUseMax(false);
+    };
 
     const getStakeActionDisclaimer = () => {
-        let disclaimer = ''
+        let disclaimer = '';
         if (stake) {
             if ((hasLedger || has2fa) && !stakeFromAccount && new BN(staked).isZero()) {
-                disclaimer = 'staking.stake.ledgerDisclaimer'
+                disclaimer = 'staking.stake.ledgerDisclaimer';
             }
         } else {
-            disclaimer = 'staking.unstake.beforeUnstakeDisclaimer'
+            disclaimer = 'staking.unstake.beforeUnstakeDisclaimer';
         }
-        return disclaimer
-    }
+        return disclaimer;
+    };
 
     if (stakeNotAllowed) {
         return (
@@ -119,7 +120,7 @@ export default function StakingAction({
                 button='staking.alertBanner.button'
                 linkTo={`/staking/${selectedValidator}`}
             />
-        )
+        );
     }
     
     if (!success) {
@@ -176,8 +177,8 @@ export default function StakingAction({
                         open={confirm} 
                         onConfirm={onStakingAction} 
                         onClose={() => {
-                            setConfirm(false)
-                            Mixpanel.track("STAKE/UNSTAKE Close the modal")
+                            setConfirm(false);
+                            Mixpanel.track("STAKE/UNSTAKE Close the modal");
                         }}
                         loading={loadingStaking}
                         disclaimer={getStakeActionDisclaimer()}
@@ -185,7 +186,7 @@ export default function StakingAction({
                     />
                 }
             </div>
-        )
+        );
     } else {
         return (
             <>
@@ -209,6 +210,6 @@ export default function StakingAction({
                     <Translate id={`staking.${action}Success.button`} />
                 </FormButton>
             </>
-        )
+        );
     }
 }

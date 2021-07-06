@@ -1,24 +1,24 @@
-import React, { useEffect } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
-import { Switch, Route } from 'react-router-dom'
-import { ConnectedRouter } from 'connected-react-router'
-import styled from 'styled-components'
+import { ConnectedRouter } from 'connected-react-router';
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { Switch, Route } from 'react-router-dom';
+import styled from 'styled-components';
 
+import { getBalance } from '../../actions/account';
 import {
     updateStaking,
     staking as stakingActions,
     handleStakingAction
-} from '../../actions/staking'
-import Container from '../common/styled/Container.css'
-import Staking from './components/Staking'
-import Validators from './components/Validators'
-import Unstake from './components/Unstake'
-import Withdraw from './components/Withdraw'
-import Validator from './components/Validator'
-import StakingAction from './components/StakingAction'
-import { setStakingAccountSelected, getStakingAccountSelected } from '../../utils/localStorage'
-import { getBalance } from '../../actions/account'
-import { Mixpanel } from '../../mixpanel/index'
+} from '../../actions/staking';
+import { Mixpanel } from '../../mixpanel/index';
+import { setStakingAccountSelected, getStakingAccountSelected } from '../../utils/localStorage';
+import Container from '../common/styled/Container.css';
+import Staking from './components/Staking';
+import StakingAction from './components/StakingAction';
+import Unstake from './components/Unstake';
+import Validator from './components/Validator';
+import Validators from './components/Validators';
+import Withdraw from './components/Withdraw';
 
 const StyledContainer = styled(Container)`
     h1, h2 {
@@ -155,58 +155,58 @@ const StyledContainer = styled(Container)`
             margin-bottom: -1px;
         }
     }
-`
+`;
 
 
 export function StakingContainer({ history, match }) {
-    const dispatch = useDispatch()
+    const dispatch = useDispatch();
     const { accountId, has2fa, balance = {} } = useSelector(({ account }) => account);
     const status = useSelector(({ status }) => status);
-    const { hasLedger } = useSelector(({ ledger }) => ledger)
+    const { hasLedger } = useSelector(({ ledger }) => ledger);
     
-    const staking = useSelector(({ staking }) => staking)
-    const hasLockup = !!staking.lockupId
-    const { currentAccount } = staking
-    const stakingAccounts = staking.accounts
-    const validators = staking.allValidators
-    const currentValidators = currentAccount.validators
-    const validatorId = history.location.pathname.split('/')[2]
-    let validator = currentValidators.filter(validator => validator.accountId === validatorId)[0]
+    const staking = useSelector(({ staking }) => staking);
+    const hasLockup = !!staking.lockupId;
+    const { currentAccount } = staking;
+    const stakingAccounts = staking.accounts;
+    const validators = staking.allValidators;
+    const currentValidators = currentAccount.validators;
+    const validatorId = history.location.pathname.split('/')[2];
+    let validator = currentValidators.filter(validator => validator.accountId === validatorId)[0];
     // validator profile not in account's current validators (with balances) find validator in allValidators
     if (!validator) {
-        validator = validators.filter(validator => validator.accountId === validatorId)[0]
+        validator = validators.filter(validator => validator.accountId === validatorId)[0];
     }
-    const { totalUnstaked, selectedValidator } = currentAccount
-    const loadingBalance = !stakingAccounts.every((account) => !!account.totalUnstaked)
-    const stakeFromAccount = currentAccount.accountId === accountId
+    const { totalUnstaked, selectedValidator } = currentAccount;
+    const loadingBalance = !stakingAccounts.every((account) => !!account.totalUnstaked);
+    const stakeFromAccount = currentAccount.accountId === accountId;
 
     useEffect(() => {
         if (accountId) {
-            dispatch(getBalance())
+            dispatch(getBalance());
         }
         if (!!balance.available) {
-            dispatch(updateStaking(getStakingAccountSelected()))
+            dispatch(updateStaking(getStakingAccountSelected()));
         }
-    }, [accountId, !!balance.available])
+    }, [accountId, !!balance.available]);
 
     const handleSwitchAccount = (accountId) => {
-        setStakingAccountSelected(accountId)
-        dispatch(stakingActions.updateCurrent(accountId))
-    }
+        setStakingAccountSelected(accountId);
+        dispatch(stakingActions.updateCurrent(accountId));
+    };
 
     const handleAction = async (action, validator, amount) => {
-        let id = Mixpanel.get_distinct_id()
-        Mixpanel.identify(id)
+        let id = Mixpanel.get_distinct_id();
+        Mixpanel.identify(id);
         await Mixpanel.withTracking(action.toUpperCase(),
             async () => {
                 const properValidator = action === 'stake'
                     ? validator
-                    : selectedValidator || validator
-                await dispatch(handleStakingAction(action, properValidator, amount))
-                Mixpanel.people.set({[`last_${action}_time`]: new Date().toString()})
+                    : selectedValidator || validator;
+                await dispatch(handleStakingAction(action, properValidator, amount));
+                Mixpanel.people.set({[`last_${action}_time`]: new Date().toString()});
             }
-        )
-    }
+        );
+    };
 
     return (
         <StyledContainer className='small-centered' numAccounts={stakingAccounts.length}>
@@ -314,5 +314,5 @@ export function StakingContainer({ history, match }) {
                 </Switch>
             </ConnectedRouter>
         </StyledContainer>
-    )
+    );
 }

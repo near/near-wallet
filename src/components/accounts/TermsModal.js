@@ -1,9 +1,10 @@
-import React from 'react'
-import Modal from '../common/modal/Modal'
-import Checkbox from '../common/Checkbox'
-import { Translate } from 'react-localize-redux'
-import styled from 'styled-components'
-import FormButton from '../common/FormButton'
+import React from 'react';
+import { Translate } from 'react-localize-redux';
+import styled from 'styled-components';
+
+import Checkbox from '../common/Checkbox';
+import FormButton from '../common/FormButton';
+import Modal from '../common/modal/Modal';
 
 const Container = styled.div`
     padding: 15px 0;
@@ -59,7 +60,7 @@ const Container = styled.div`
         }
     }
 
-`
+`;
 
 const TermsModal = ({ open, onClose, termsChecked, privacyChecked, handleTermsChange, handlePrivacyChange, handleFinishSetup, loading }) => {
     return (
@@ -99,6 +100,6 @@ const TermsModal = ({ open, onClose, termsChecked, privacyChecked, handleTermsCh
             </Container>
         </Modal>
     );
-}
+};
 
-export default TermsModal
+export default TermsModal;

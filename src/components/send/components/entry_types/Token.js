@@ -1,16 +1,17 @@
-import React from 'react'
-import { Translate } from 'react-localize-redux'
-import StyledContainer from './Style.css'
-import DefaultTokenIconBlack from '../../../svg/DefaultTokenIconBlack'
-import isDataURL from '../../../../utils/isDataURL'
+import React from 'react';
+import { Translate } from 'react-localize-redux';
+
+import isDataURL from '../../../../utils/isDataURL';
+import DefaultTokenIconBlack from '../../../svg/DefaultTokenIconBlack';
+import StyledContainer from './Style.css';
 
 const Icon = ({ symbol, icon }) => {
     if (icon && isDataURL(icon)) {
-        return <img src={icon} alt={symbol}/>
+        return <img src={icon} alt={symbol}/>;
     } else {
-        return <DefaultTokenIconBlack/>
+        return <DefaultTokenIconBlack/>;
     }
-}
+};
 
 const Token = ({ symbol, icon, translate }) => {
     return (
@@ -21,7 +22,7 @@ const Token = ({ symbol, icon, translate }) => {
                 {symbol}
             </div>
         </StyledContainer>
-    )
-}
+    );
+};
 
-export default Token
+export default Token;

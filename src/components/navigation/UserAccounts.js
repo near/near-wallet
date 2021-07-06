@@ -1,11 +1,11 @@
-import React from 'react'
-import styled from 'styled-components'
+import React from 'react';
+import { Translate } from 'react-localize-redux';
+import styled from 'styled-components';
 
-import Balance from '../common/Balance'
+import { actionsPending } from '../../utils/alerts';
+import classNames from '../../utils/classNames';
+import Balance from '../common/Balance';
 import SkeletonLoading from '../common/SkeletonLoading';
-import classNames from '../../utils/classNames'
-import { Translate } from 'react-localize-redux'
-import { actionsPending } from '../../utils/alerts'
 
 const Wrapper = styled.div`
     .animation-wrapper > .animation {
@@ -22,7 +22,7 @@ const Wrapper = styled.div`
             display: none;
         }
     }
-`
+`;
 
 const Account = styled.div`
     align-items: center;
@@ -86,7 +86,7 @@ const Account = styled.div`
     .balance {
       font-weight: 400;
     }
-`
+`;
 
 const SyncButton = styled.span`
     background-color: #f8f8f8;
@@ -138,7 +138,7 @@ const SyncButton = styled.span`
             }
         }
     }
-`
+`;
 
 const UserAccounts = ({ accounts, accountId, accountIdLocalStorage, selectAccount, accountsBalance, balance, refreshBalance, getBalance }) => (
     <Wrapper>
@@ -166,7 +166,7 @@ const UserAccounts = ({ accounts, accountId, accountIdLocalStorage, selectAccoun
             />
         }
     </Wrapper>
-)
+);
 
 const UserAccount = ({ accountId, balance, balanceLoading, refreshBalance, active, onClick }) => (
     <Account className={active ? 'active-account' : 'additional-account'}>
@@ -196,6 +196,6 @@ const UserAccount = ({ accountId, balance, balanceLoading, refreshBalance, activ
             </SyncButton>
         </div>
     </Account>
-)
+);
 
-export default UserAccounts
+export default UserAccounts;

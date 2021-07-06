@@ -1,13 +1,14 @@
-import React from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
-import EmailIconOne from '../../svg/EmailIconOne';
-import PhoneIconOne from '../../svg/PhoneIconOne';
-import PassPhraseIcon from '../../svg/PassPhraseIcon';
-import HardwareWalletIcon from '../../svg/HardwareWalletIcon';
+import React from 'react';
 import { Translate } from 'react-localize-redux';
+import styled from 'styled-components';
+
 import IntFlagIcon from '../../../images/int-flag-small.svg';
 import classNames from '../../../utils/classNames';
+import EmailIconOne from '../../svg/EmailIconOne';
+import HardwareWalletIcon from '../../svg/HardwareWalletIcon';
+import PassPhraseIcon from '../../svg/PassPhraseIcon';
+import PhoneIconOne from '../../svg/PhoneIconOne';
 
 const Container = styled.div`
     background-color: #FAFAFA;
@@ -166,7 +167,7 @@ const Container = styled.div`
         opacity: 0.3;
         cursor: not-allowed;
     }
-`
+`;
 
 const Header = styled.div`
     position: relative;
@@ -179,22 +180,22 @@ const Header = styled.div`
         width: 50px;
 
     }
-`
+`;
 
 const Icon = ({option, color}) => {
     switch (option) {
         case 'email':
-            return <EmailIconOne color={color}/>
+            return <EmailIconOne color={color}/>;
         case 'phone':
-            return <PhoneIconOne color={color}/>
+            return <PhoneIconOne color={color}/>;
         case 'phrase':
-            return <PassPhraseIcon color={color}/>
+            return <PassPhraseIcon color={color}/>;
         case 'ledger':
-            return <HardwareWalletIcon color={color}/>
+            return <HardwareWalletIcon color={color}/>;
         default:
-            return
+            return;
     }
-}
+};
 
 const RecoveryOption = ({
     children,
@@ -226,8 +227,8 @@ const RecoveryOption = ({
             {active && option !== 'phrase' && option !== 'ledger' && <hr/>}
             {!disabled && active && children}
         </Container>
-    )
-}
+    );
+};
 
 RecoveryOption.propTypes = {
     children: PropTypes.oneOfType([
@@ -238,6 +239,6 @@ RecoveryOption.propTypes = {
     onClick: PropTypes.func.isRequired,
     active: PropTypes.string.isRequired,
     problem: PropTypes.bool
-}
+};
 
 export default RecoveryOption;

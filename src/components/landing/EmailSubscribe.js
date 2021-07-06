@@ -1,7 +1,8 @@
-import React, { useState } from 'react'
-import styled from 'styled-components'
-import { Translate } from 'react-localize-redux'
-import { Mixpanel } from '../../mixpanel/index'
+import React, { useState } from 'react';
+import { Translate } from 'react-localize-redux';
+import styled from 'styled-components';
+
+import { Mixpanel } from '../../mixpanel/index';
 
 const Container = styled.div`
     background-color: #25272A;
@@ -64,7 +65,7 @@ const Container = styled.div`
             background-color: #ff6d71;
         }
     }
-`
+`;
 
 export default function EmailSubscribe() {
     const [email, setEmail] = useState('');
@@ -81,5 +82,5 @@ export default function EmailSubscribe() {
                 <button type='submit' onClick={() => Mixpanel.track("Subscribe email")}><Translate id='button.subscribe' /></button>
             </form>
         </Container>
-    )
+    );
 }

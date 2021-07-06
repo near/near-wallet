@@ -1,7 +1,8 @@
-import React, { Component } from 'react'
-import styled from 'styled-components'
-import PropTypes from "prop-types"
-import classNames from '../../../utils/classNames'
+import PropTypes from "prop-types";
+import React, { Component } from 'react';
+import styled from 'styled-components';
+
+import classNames from '../../../utils/classNames';
 
 const Root = styled.div`
   
@@ -55,7 +56,7 @@ const Root = styled.div`
     .radio-content {
         width: 100%;
     }
-`
+`;
 const Fill = styled.div`
     background-color: transparent;
     border-radius: 50%;
@@ -68,7 +69,7 @@ const Fill = styled.div`
     z-index: 1;
     width: 9px;
     height: 9px;
-`
+`;
 
 const Input = styled.input`
     width: 26px !important;
@@ -89,16 +90,16 @@ const Input = styled.input`
         background-color: white;
       }
     }
-`
+`;
 
 export default class RadioButton extends Component {
     render() {
-        const { name, selectedValue } = this.context.radioGroup
-        const { onChange, value, children } = this.props
-        let checked = false
+        const { name, selectedValue } = this.context.radioGroup;
+        const { onChange, value, children } = this.props;
+        let checked = false;
 
         if (selectedValue !== undefined) {
-            checked = value === selectedValue
+            checked = value === selectedValue;
         }
 
         return (
@@ -127,9 +128,9 @@ export default class RadioButton extends Component {
 
 RadioButton.contextTypes = {
     radioGroup: PropTypes.object
-}
+};
 
 RadioButton.defaultProps = {
     onChange: () => {},
     value: ''
-}
+};

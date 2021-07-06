@@ -1,8 +1,9 @@
-import React from 'react'
-import Modal from '../common/modal/Modal'
-import { Translate } from 'react-localize-redux'
-import styled from 'styled-components'
-import FormButton from '../common/FormButton'
+import React from 'react';
+import { Translate } from 'react-localize-redux';
+import styled from 'styled-components';
+
+import FormButton from '../common/FormButton';
+import Modal from '../common/modal/Modal';
 
 const Container = styled.div`
     padding: 15px 0;
@@ -33,7 +34,7 @@ const Container = styled.div`
         width: 100% !important;
         margin-top: 50px !important;
     }
-`
+`;
 
 const SwapAccountContainer = styled.div`
     position: relative;
@@ -105,7 +106,7 @@ const SwapAccountContainer = styled.div`
             }
         }
     }
-`
+`;
 
 const SwapAccountGraphic = ({ implicitAccountId, accountId }) => {
     return (
@@ -141,8 +142,8 @@ const SwapAccountGraphic = ({ implicitAccountId, accountId }) => {
                 </div>
             </div>
         </SwapAccountContainer>
-    )
-}
+    );
+};
 
 const AccountFundedModal = ({ open, onClose, accountId, implicitAccountId, handleFinishSetup, loading }) => {
     return (
@@ -163,6 +164,6 @@ const AccountFundedModal = ({ open, onClose, accountId, implicitAccountId, handl
             </Container>
         </Modal>
     );
-}
+};
 
-export default AccountFundedModal
+export default AccountFundedModal;

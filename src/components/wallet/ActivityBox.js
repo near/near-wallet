@@ -1,17 +1,16 @@
-import React from 'react'
-import styled from 'styled-components'
-import { Translate } from 'react-localize-redux'
-import { format } from 'timeago.js'
+import React from 'react';
+import { Translate } from 'react-localize-redux';
+import styled from 'styled-components';
+import { format } from 'timeago.js';
 
-import Balance from '../common/Balance'
-import IconTStake from '../../images/IconTStake'
-import classNames from '../../utils/classNames'
-
-import KeyIcon from '../svg/KeyIcon'
-import DownArrowIcon from '../svg/DownArrowIcon'
-import SendIcon from '../svg/SendIcon'
-import CodeIcon from '../svg/CodeIcon'
-import UserIcon from '../svg/UserIcon'
+import IconTStake from '../../images/IconTStake';
+import classNames from '../../utils/classNames';
+import Balance from '../common/Balance';
+import CodeIcon from '../svg/CodeIcon';
+import DownArrowIcon from '../svg/DownArrowIcon';
+import KeyIcon from '../svg/KeyIcon';
+import SendIcon from '../svg/SendIcon';
+import UserIcon from '../svg/UserIcon';
 
 
 const StyledContainer = styled.div`
@@ -120,7 +119,7 @@ const StyledContainer = styled.div`
             stroke: #00C08B;
         }
     }
-`
+`;
 
 const StyledDot = styled.span`
     height: 7px;
@@ -128,10 +127,10 @@ const StyledDot = styled.span`
     border-radius: 50%;
     background-color: ${(props) => props.background};
     margin-right: 5px;
-`
+`;
 
 const ActivityBox = ({ transaction, actionArgs, actionKind, accountId, setTransactionHash, receiverId }) => {
-    const { hash, block_timestamp, kind } = transaction
+    const { hash, block_timestamp, kind } = transaction;
 
     return (
         <StyledContainer className='activity-box' onClick={() => setTransactionHash(`${hash}-${kind}`)}>
@@ -164,21 +163,21 @@ const ActivityBox = ({ transaction, actionArgs, actionKind, accountId, setTransa
                 />
             </div>
         </StyledContainer>
-    )
-}
+    );
+};
 
 export const ActionTitle = ({ transaction, actionArgs, actionKind, accountId }) => (
     <Translate 
         id={`dashboardActivity.title.${translateId(transaction, actionArgs, actionKind, accountId)}`}
     />
-)
+);
 
 export const ActionMessage = ({ transaction, actionArgs, actionKind, accountId }) => (
     <Translate 
         id={`dashboardActivity.message.${translateId(transaction, actionArgs, actionKind, accountId)}`}
         data={translateData(transaction, actionArgs, actionKind)}
     />
-)
+);
 
 const translateId = (transaction, actionArgs, actionKind, accountId) => (
     `${actionKind
@@ -193,7 +192,7 @@ const translateId = (transaction, actionArgs, actionKind, accountId) => (
                 : '.received'
             : ''
     }`
-)
+);
 
 export const translateData = (transaction, actionArgs, actionKind) => ({
     receiverId: transaction.receiver_id || '',
@@ -202,7 +201,7 @@ export const translateData = (transaction, actionArgs, actionKind) => ({
     deposit: actionKind === "Transfer" ? <Balance amount={actionArgs.deposit} /> : '',
     stake: actionKind === "Stake" ? <Balance amount={actionArgs.stake} />  : '',
     permissionReceiverId: (actionKind === "AddKey" && actionArgs.access_key && actionArgs.access_key.permission.permission_kind === 'FUNCTION_CALL') ? actionArgs.access_key.permission.permission_details.receiver_id : ''
-})
+});
 
 const ActionIcon = ({ actionKind, receiverId, accountId }) => (
     <div className='symbol'>
@@ -215,10 +214,10 @@ const ActionIcon = ({ actionKind, receiverId, accountId }) => (
         {actionKind === 'AddKey' && <KeyIcon />}
         {actionKind === 'DeleteKey' && <KeyIcon color='#ff585d' />}
     </div>
-)
+);
 
 const ActionTimeStamp = ({ timeStamp }) => {
-    let time = format(timeStamp)
+    let time = format(timeStamp);
     let formatting = {
         'ago': '',
         'years': 'y',
@@ -234,29 +233,29 @@ const ActionTimeStamp = ({ timeStamp }) => {
         'minutes': 'm',
         'minute': 'm',
         'seconds': 's'
-    }
+    };
 
     for (const format in formatting) {
-        time = time.replace(`${format}`, `${formatting[format]}`)
+        time = time.replace(`${format}`, `${formatting[format]}`);
     }
 
     if (time !== 'just now') {
-        time = time.split(' ').join('')
+        time = time.split(' ').join('');
     }
 
     return (
         <span className='time'>
             {time}
         </span>
-    )
-}
+    );
+};
 
 export const ActionValue = ({ transaction, actionArgs, actionKind, accountId }) => (
     <div className={`value ${actionKind === 'Transfer' ? transaction.signer_id === accountId ? 'transferred' : 'received' : ''}`}>
         {actionKind === "Transfer" && <Balance amount={actionArgs.deposit} symbol='near' />}
         {actionKind === "Stake" && <Balance amount={actionArgs.stake} symbol='near' />}
     </div>
-)
+);
 
 const TX_STATUS_COLOR = {
     NotStarted: '',
@@ -264,13 +263,13 @@ const TX_STATUS_COLOR = {
     Failure: '#ff585d',
     SuccessValue: '#5ace84',
     notAvailable: '#ff585d'
-}
+};
 
 export const ActionStatus = ({ status }) => (
     <span className={classNames(['status', {'dots': !status}])}>
         {status && <StyledDot background={TX_STATUS_COLOR[status]} />}
         <Translate id={`transaction.status.${status || 'checkingStatus'}`} />
     </span>
-)
+);
 
-export default ActivityBox
+export default ActivityBox;

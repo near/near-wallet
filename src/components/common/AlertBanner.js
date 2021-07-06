@@ -1,9 +1,10 @@
-import React from 'react'
-import { Translate } from 'react-localize-redux'
-import styled from 'styled-components'
-import AlertRoundedIcon from '../svg/AlertRoundedIcon.js'
-import FormButton from './FormButton'
-import classNames from '../../utils/classNames'
+import React from 'react';
+import { Translate } from 'react-localize-redux';
+import styled from 'styled-components';
+
+import classNames from '../../utils/classNames';
+import AlertRoundedIcon from '../svg/AlertRoundedIcon.js';
+import FormButton from './FormButton';
 
 const Container = styled.div`
     &&& {
@@ -74,7 +75,7 @@ const Container = styled.div`
             display: table !important;
         }
     }
-`
+`;
 
 export default function AlertBanner({ title, button, linkTo, data, theme }) {
     return (
@@ -94,5 +95,5 @@ export default function AlertBanner({ title, button, linkTo, data, theme }) {
                 }
             </div>
         </Container>
-    )
+    );
 }

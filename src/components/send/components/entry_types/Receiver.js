@@ -1,6 +1,7 @@
-import React from 'react'
-import { Translate } from 'react-localize-redux'
-import StyledContainer from './Style.css'
+import React from 'react';
+import { Translate } from 'react-localize-redux';
+
+import StyledContainer from './Style.css';
 
 const Receiver = ({ receiverId, translate }) => {
     /* TODO: Handle long Account ID & Add icon */
@@ -9,7 +10,7 @@ const Receiver = ({ receiverId, translate }) => {
             <Translate id={translate} />
             <div className='receiver'>{receiverId}</div>
         </StyledContainer>
-    )
-}
+    );
+};
 
-export default Receiver
+export default Receiver;

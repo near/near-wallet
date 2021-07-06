@@ -1,26 +1,27 @@
-import React, { useEffect, useState } from 'react'
-import { Translate } from 'react-localize-redux'
-import { useDispatch, useSelector } from 'react-redux'
-import Container from '../common/styled/Container.css'
-import RecoveryContainer from './Recovery/RecoveryContainer'
-import BalanceContainer from './balances/BalanceContainer'
-import HardwareDevices from './hardware_devices/HardwareDevices'
-import TwoFactorAuth from './two_factor/TwoFactorAuth'
-import { getLedgerKey, checkCanEnableTwoFactor, redirectTo, refreshAccount, transferAllFromLockup, loadRecoveryMethods, getProfileStakingDetails, getBalance } from '../../actions/account'
-import styled from 'styled-components'
-import LockupAvailTransfer from './balances/LockupAvailTransfer'
-import UserIcon from '../svg/UserIcon'
-import ShieldIcon from '../svg/ShieldIcon'
-import LockIcon from '../svg/LockIcon'
-import CheckCircleIcon from '../svg/CheckCircleIcon'
-import BN from 'bn.js'
-import SkeletonLoading from '../common/SkeletonLoading'
-import { selectProfileBalance } from '../../reducers/selectors/balance'
-import { useAccount } from '../../hooks/allAccounts'
-import { Mixpanel } from "../../mixpanel/index"
-import AuthorizedApp from './authorized_apps/AuthorizedApp'
-import FormButton from '../common/FormButton'
-import Tooltip from '../common/Tooltip'
+import BN from 'bn.js';
+import React, { useEffect, useState } from 'react';
+import { Translate } from 'react-localize-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import styled from 'styled-components';
+
+import { getLedgerKey, checkCanEnableTwoFactor, redirectTo, refreshAccount, transferAllFromLockup, loadRecoveryMethods, getProfileStakingDetails, getBalance } from '../../actions/account';
+import { useAccount } from '../../hooks/allAccounts';
+import { Mixpanel } from "../../mixpanel/index";
+import { selectProfileBalance } from '../../reducers/selectors/balance';
+import FormButton from '../common/FormButton';
+import SkeletonLoading from '../common/SkeletonLoading';
+import Container from '../common/styled/Container.css';
+import Tooltip from '../common/Tooltip';
+import CheckCircleIcon from '../svg/CheckCircleIcon';
+import LockIcon from '../svg/LockIcon';
+import ShieldIcon from '../svg/ShieldIcon';
+import UserIcon from '../svg/UserIcon';
+import AuthorizedApp from './authorized_apps/AuthorizedApp';
+import BalanceContainer from './balances/BalanceContainer';
+import LockupAvailTransfer from './balances/LockupAvailTransfer';
+import HardwareDevices from './hardware_devices/HardwareDevices';
+import RecoveryContainer from './Recovery/RecoveryContainer';
+import TwoFactorAuth from './two_factor/TwoFactorAuth';
 
 const StyledContainer = styled(Container)`
 
@@ -121,83 +122,83 @@ const StyledContainer = styled(Container)`
     .authorized-app-box {
         margin-top: 20px !important;
     }
-`
+`;
 
 export function Profile({ match }) {
-    const [transferring, setTransferring] = useState(false)
-    const { has2fa, authorizedApps, ledgerKey } = useSelector(({ account }) => account)
-    const loginAccountId = useSelector(state => state.account.accountId)
+    const [transferring, setTransferring] = useState(false);
+    const { has2fa, authorizedApps, ledgerKey } = useSelector(({ account }) => account);
+    const loginAccountId = useSelector(state => state.account.accountId);
     const recoveryMethods = useSelector(({ recoveryMethods }) => recoveryMethods);
-    const accountIdFromUrl = match.params.accountId
-    const accountId = accountIdFromUrl || loginAccountId
-    const isOwner = accountId === loginAccountId
-    const account = useAccount(accountId)
-    const dispatch = useDispatch()
-    const userRecoveryMethods = recoveryMethods[account.accountId]
-    const twoFactor = has2fa && userRecoveryMethods && userRecoveryMethods.filter(m => m.kind.includes('2fa'))[0]
-    const profileBalance = selectProfileBalance(account.balance)
+    const accountIdFromUrl = match.params.accountId;
+    const accountId = accountIdFromUrl || loginAccountId;
+    const isOwner = accountId === loginAccountId;
+    const account = useAccount(accountId);
+    const dispatch = useDispatch();
+    const userRecoveryMethods = recoveryMethods[account.accountId];
+    const twoFactor = has2fa && userRecoveryMethods && userRecoveryMethods.filter(m => m.kind.includes('2fa'))[0];
+    const profileBalance = selectProfileBalance(account.balance);
 
     useEffect(() => {
         if (!loginAccountId) {
-            return
+            return;
         }
 
         if (accountIdFromUrl && accountIdFromUrl !== accountIdFromUrl.toLowerCase()) {
-            dispatch(redirectTo(`/profile/${accountIdFromUrl.toLowerCase()}`))
+            dispatch(redirectTo(`/profile/${accountIdFromUrl.toLowerCase()}`));
         }
         
         (async () => {
             if (isOwner) {
-                await dispatch(loadRecoveryMethods())
+                await dispatch(loadRecoveryMethods());
                 if (!ledgerKey) {
-                    dispatch(getLedgerKey())
+                    dispatch(getLedgerKey());
                 }
-                const balance = await dispatch(getBalance())
-                dispatch(checkCanEnableTwoFactor(balance))
-                dispatch(getProfileStakingDetails())
+                const balance = await dispatch(getBalance());
+                dispatch(checkCanEnableTwoFactor(balance));
+                dispatch(getProfileStakingDetails());
             }
-        })()
+        })();
     }, [loginAccountId]);
 
     useEffect(() => {
         if (userRecoveryMethods) {
-            let id = Mixpanel.get_distinct_id()
-            Mixpanel.identify(id)
-            Mixpanel.people.set_once({create_date: new Date().toString(),})
+            let id = Mixpanel.get_distinct_id();
+            Mixpanel.identify(id);
+            Mixpanel.people.set_once({create_date: new Date().toString(),});
             Mixpanel.people.set({
                 relogin_date: new Date().toString(),
                 enabled_2FA: account.has2fa
-            })
-            Mixpanel.alias(accountId)
+            });
+            Mixpanel.alias(accountId);
             userRecoveryMethods.map(method => {
-                Mixpanel.people.set({['recovery_with_'+method.kind]:true})
-            })
+                Mixpanel.people.set({['recovery_with_'+method.kind]:true});
+            });
         }
-    },[userRecoveryMethods])
+    },[userRecoveryMethods]);
 
     useEffect(()=> {
         if (twoFactor) {
-            let id = Mixpanel.get_distinct_id()
-            Mixpanel.identify(id)
+            let id = Mixpanel.get_distinct_id();
+            Mixpanel.identify(id);
             Mixpanel.people.set({
                 create_2FA_at: twoFactor.createdAt, 
                 enable_2FA_kind:twoFactor.kind, 
-                enabled_2FA: twoFactor.confirmed})
+                enabled_2FA: twoFactor.confirmed});
         }
-    }, [twoFactor])
+    }, [twoFactor]);
 
     const handleTransferFromLockup = async () => {
         try {
-            setTransferring(true)
-            await dispatch(transferAllFromLockup())
-            await dispatch(refreshAccount())
-            await dispatch(getProfileStakingDetails())
+            setTransferring(true);
+            await dispatch(transferAllFromLockup());
+            await dispatch(refreshAccount());
+            await dispatch(getProfileStakingDetails());
         } finally {
-            setTransferring(false)
+            setTransferring(false);
         }
-    }
+    };
 
-    const MINIMUM_AVAILABLE_TO_TRANSFER = new BN('10000000000000000000000')
+    const MINIMUM_AVAILABLE_TO_TRANSFER = new BN('10000000000000000000000');
 
     return (
         <StyledContainer>
@@ -268,5 +269,5 @@ export function Profile({ match }) {
                 }
             </div>
         </StyledContainer>
-    )
+    );
 }

@@ -6,7 +6,7 @@ const CodeIcon = ({ color = '#FFB259' }) => {
             <path d="M16 18.3501L22 12.3501L16 6.3501" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
             <path d="M8 6.3501L2 12.3501L8 18.3501" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
         </svg>
-    )
-}
+    );
+};
 
 export default CodeIcon;

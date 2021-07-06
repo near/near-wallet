@@ -1,10 +1,12 @@
-import React from 'react'
-import styled from 'styled-components'
-import classNames from '../../utils/classNames'
-import DropDown from '../common/DropDown'
-import { Translate } from 'react-localize-redux'
+import React from 'react';
+import { Translate } from 'react-localize-redux';
 import { useSelector, useDispatch } from 'react-redux';
+import styled from 'styled-components';
+
 import { switchAccount } from '../../actions/account';
+import classNames from '../../utils/classNames';
+import DropDown from '../common/DropDown';
+
 
 const Container = styled.div`
     .dropdown-container {
@@ -52,7 +54,7 @@ const Container = styled.div`
         font-size: 13px;
         color: #A2A2A8;
     }
-`
+`;
 
 export default function AccountDropdown({ disabled }) {
     const dispatch = useDispatch();
@@ -82,5 +84,5 @@ export default function AccountDropdown({ disabled }) {
                 }
             />
         </Container>
-    )
+    );
 }

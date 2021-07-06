@@ -1,12 +1,13 @@
-import React from 'react'
-import styled from 'styled-components'
-import AccountId from './AccountId'
-import Balance from '../../common/Balance'
-import Accordion from '../../common/Accordion'
-import ClickToCopy from '../../common/ClickToCopy'
-import { Translate } from 'react-localize-redux'
-import ChevronIcon from '../../svg/ChevronIcon'
-import Tooltip from '../../common/Tooltip'
+import React from 'react';
+import { Translate } from 'react-localize-redux';
+import styled from 'styled-components';
+
+import Accordion from '../../common/Accordion';
+import Balance from '../../common/Balance';
+import ClickToCopy from '../../common/ClickToCopy';
+import Tooltip from '../../common/Tooltip';
+import ChevronIcon from '../../svg/ChevronIcon';
+import AccountId from './AccountId';
 
 const Container = styled.div`
 
@@ -128,7 +129,7 @@ const Container = styled.div`
         height: 12px;
         margin-top: 2px;
     }
-`
+`;
 
 const BalanceContainer = ({ account, profileBalance }) => {
     return (
@@ -224,7 +225,7 @@ const BalanceContainer = ({ account, profileBalance }) => {
                 </>
             }
         </Container>
-    )
-}
+    );
+};
 
-export default BalanceContainer
+export default BalanceContainer;

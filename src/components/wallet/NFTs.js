@@ -1,9 +1,10 @@
-import React from 'react'
-import styled from 'styled-components'
-import NFTBox from './NFTBox'
-import FormButton from '../common/FormButton'
-import NearCircleIcon from '../svg/NearCircleIcon.js'
-import { Translate } from 'react-localize-redux'
+import React from 'react';
+import { Translate } from 'react-localize-redux';
+import styled from 'styled-components';
+
+import FormButton from '../common/FormButton';
+import NearCircleIcon from '../svg/NearCircleIcon.js';
+import NFTBox from './NFTBox';
 
 const StyledContainer = styled.div`
     &&& {
@@ -54,7 +55,7 @@ const StyledContainer = styled.div`
             }
         }
     }
-`
+`;
 
 const NFTs = ({ tokens }) => {
     if (tokens.length) {
@@ -64,7 +65,7 @@ const NFTs = ({ tokens }) => {
                     <NFTBox key={i} token={token}/>
                 ))}
             </StyledContainer>
-        )
+        );
     }
     
     return (
@@ -77,7 +78,7 @@ const NFTs = ({ tokens }) => {
                 </FormButton>
             </div>
         </StyledContainer>
-    )
-}
+    );
+};
 
-export default NFTs
+export default NFTs;

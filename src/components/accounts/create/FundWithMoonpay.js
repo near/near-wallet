@@ -1,9 +1,10 @@
-import React from 'react'
-import styled from 'styled-components'
-import { Translate } from 'react-localize-redux'
-import FormButton from '../../common/FormButton'
-import MoonPayIcon from '../../svg/MoonPayIcon'
-import { Mixpanel } from '../../../mixpanel'
+import React from 'react';
+import { Translate } from 'react-localize-redux';
+import styled from 'styled-components';
+
+import { Mixpanel } from '../../../mixpanel';
+import FormButton from '../../common/FormButton';
+import MoonPayIcon from '../../svg/MoonPayIcon';
 
 const Container = styled.div`
 
@@ -22,7 +23,7 @@ const Container = styled.div`
         font-size: 20px !important;
     }
 
-`
+`;
 
 const FundWithMoonpay = ({ moonpaySignedURL }) => {
 
@@ -46,7 +47,7 @@ const FundWithMoonpay = ({ moonpaySignedURL }) => {
                 <MoonPayIcon/>
             </FormButton>
         </Container>
-    )
-}
+    );
+};
 
-export default FundWithMoonpay
+export default FundWithMoonpay;

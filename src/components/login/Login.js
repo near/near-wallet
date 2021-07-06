@@ -1,16 +1,16 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import { withRouter, Route } from 'react-router-dom'
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { withRouter, Route } from 'react-router-dom';
 
-import LoginContainer from './LoginContainer'
-import LoginForm from './LoginForm'
-import LoginConfirm from './LoginConfirm'
-import LoginDetails from './LoginDetails'
-import LoginIncorrectContractId from './LoginIncorrectContractId'
-import { handleRefreshUrl, switchAccount, allowLogin, redirectToApp } from '../../actions/account'
-import { clearLocalAlert } from '../../actions/status'
-import { LOCKUP_ACCOUNT_ID_SUFFIX } from '../../utils/wallet'
-import { Mixpanel } from '../../mixpanel/index'
+import { handleRefreshUrl, switchAccount, allowLogin, redirectToApp } from '../../actions/account';
+import { clearLocalAlert } from '../../actions/status';
+import { Mixpanel } from '../../mixpanel/index';
+import { LOCKUP_ACCOUNT_ID_SUFFIX } from '../../utils/wallet';
+import LoginConfirm from './LoginConfirm';
+import LoginContainer from './LoginContainer';
+import LoginDetails from './LoginDetails';
+import LoginForm from './LoginForm';
+import LoginIncorrectContractId from './LoginIncorrectContractId';
 
 class Login extends Component {
     state = {
@@ -21,12 +21,12 @@ class Login extends Component {
     handleOnClick = () => {
         this.setState({
             dropdown: !this.state.dropdown
-        })
+        });
     }
 
     handleDeny = () => {
         const failureUrl = this.props.account.url.failure_url;
-        Mixpanel.track("LOGIN Click deny button")
+        Mixpanel.track("LOGIN Click deny button");
 
         if (failureUrl) {
             window.location.href = failureUrl;
@@ -38,7 +38,7 @@ class Login extends Component {
     handleAllow = async () => {
         this.setState(() => ({
             buttonLoader: true
-        }))
+        }));
 
         await Mixpanel.withTracking("LOGIN",
             async () => await this.props.allowLogin(),
@@ -46,43 +46,43 @@ class Login extends Component {
             () => this.setState(() => ({
                 buttonLoader: false
             }))
-        )
+        );
     }
 
     handleSelectAccount = accountId => {
-        this.props.switchAccount(accountId)
+        this.props.switchAccount(accountId);
     }
 
     redirectCreateAccount = () => {
-        Mixpanel.track("LOGIN Click create new account button")
-        this.props.history.push('/create')
+        Mixpanel.track("LOGIN Click create new account button");
+        this.props.history.push('/create');
     }
 
     get shouldRenderAccountConfirmationForm() {
-        const { account: { url, accountId } } = this.props
+        const { account: { url, accountId } } = this.props;
 
         if (!url) {
-            return undefined
+            return undefined;
         }
 
         if (url.public_key) {
             if (!url.contract_id || url.contract_id?.endsWith(`.${LOCKUP_ACCOUNT_ID_SUFFIX}`)) {
-                return true
+                return true;
             } 
         }
 
         if (accountId) {
-            return url.contract_id === accountId
+            return url.contract_id === accountId;
         }
 
-        return false
+        return false;
     }
 
     render() {
-        const { account: { url }, match, appTitle } = this.props
+        const { account: { url }, match, appTitle } = this.props;
         
         if (this.shouldRenderAccountConfirmationForm === undefined) {
-            return false
+            return false;
         }
 
         const requestAccountIdOnly = !url.public_key && !url.contract_id;
@@ -143,7 +143,7 @@ class Login extends Component {
                     )}
                 />
             </LoginContainer>
-        )
+        );
     }
 }
 
@@ -153,14 +153,14 @@ const mapDispatchToProps = {
     allowLogin,
     redirectToApp,
     clearLocalAlert
-}
+};
 
 const mapStateToProps = ({ account }) => ({
     account,
     appTitle: account.url?.referrer
-})
+});
 
 export const LoginWithRouter = connect(
     mapStateToProps,
     mapDispatchToProps
-)(withRouter(Login))
+)(withRouter(Login));
