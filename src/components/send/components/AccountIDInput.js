@@ -188,7 +188,6 @@ class AccountIDInput extends Component {
                 {({ translate }) => (
                     <InputWrapper className={classNames([{ 'success': success }, { 'problem': problem }, { 'wrong-char': wrongChar }])}>
                         <input
-                            ref={this.input}
                             value={accountId}
                             onInput={(e) => this.updatePrefix(e.target.value)}
                             onChange={e => this.handleChangeAccountId({ userValue: e.target.value, el: e.target })}
