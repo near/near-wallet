@@ -170,9 +170,7 @@ export function Profile({ match }) {
                 enabled_2FA: account.has2fa
             });
             Mixpanel.alias(accountId);
-            userRecoveryMethods.map(method => {
-                Mixpanel.people.set({['recovery_with_'+method.kind]:true});
-            });
+            userRecoveryMethods.forEach((method) => Mixpanel.people.set({ ['recovery_with_' + method.kind]: true }));
         }
     },[userRecoveryMethods]);
 

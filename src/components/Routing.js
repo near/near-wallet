@@ -3,21 +3,46 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { withLocalize } from 'react-localize-redux';
 import { connect } from 'react-redux';
-import { Route, Switch, Redirect } from 'react-router-dom';
+import { Redirect, Route, Switch } from 'react-router-dom';
 import styled, { ThemeProvider } from 'styled-components';
 
-import { refreshAccount, handleRefreshUrl, handleRedirectUrl, handleClearUrl, promptTwoFactor, redirectTo, getAccountHelperWalletState } from '../actions/account';
+import accountActions from '../actions/account';
 import { setIsMobile } from '../actions/status';
 import TwoFactorVerifyModal from '../components/accounts/two_factor/TwoFactorVerifyModal';
+import { Mixpanel } from "../mixpanel/index";
 import translations_en from '../translations/en.global.json';
 import translations_pt from '../translations/pt.global.json';
 import translations_ru from '../translations/ru.global.json';
 import translations_vi from '../translations/vi.global.json';
 import translations_zh_hans from '../translations/zh-hans.global.json';
 import translations_zh_hant from '../translations/zh-hant.global.json';
+import { handleClearAlert } from '../utils/alerts';
+import classNames from '../utils/classNames';
+import isMobile from '../utils/isMobile';
+import { getAccountIsInactive } from '../utils/localStorage';
+import { reportUiActiveMixpanelThrottled } from '../utils/reportUiActiveMixpanelThrottled';
 import ScrollToTop from '../utils/ScrollToTop';
+import { IS_MAINNET, SHOW_PRERELEASE_WARNING, WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS } from '../utils/wallet';
+import { AuthorizedAppsWithRouter, FullAccessKeysWithRouter } from './access-keys/AccessKeys';
+import { AutoImport } from './accounts/auto_import/AutoImport';
+import { ActivateAccountWithRouter } from './accounts/create/ActivateAccount';
+import { CreateAccountWithRouter } from './accounts/CreateAccount';
+import LedgerConfirmActionModal from './accounts/ledger/LedgerConfirmActionModal';
+import { SetupLedgerWithRouter } from './accounts/ledger/SetupLedger';
+import { SetupLedgerSuccessWithRouter } from './accounts/ledger/SetupLedgerSuccess';
+import { SignInLedger } from './accounts/ledger/SignInLedger';
+import { LinkdropLandingWithRouter } from './accounts/LinkdropLanding';
+import { RecoverAccountWithRouter } from './accounts/RecoverAccount';
+import { RecoverAccountSeedPhraseWithRouter } from './accounts/RecoverAccountSeedPhrase';
+import { RecoverWithLinkWithRouter } from './accounts/RecoverWithLink';
+import { SetupRecoveryMethodWithRouter } from './accounts/recovery_setup/SetupRecoveryMethod';
+import { SetupImplicitWithRouter } from './accounts/SetupImplicit';
+import { SetupImplicitSuccess } from './accounts/SetupImplicitSuccess';
+import { SetupSeedPhraseWithRouter } from './accounts/SetupSeedPhrase';
+import { EnableTwoFactor } from './accounts/two_factor/EnableTwoFactor';
+import { BuyNear } from './buy/BuyNear';
+import Footer from './common/Footer';
 import GlobalAlert from './common/GlobalAlert';
-import '../index.css';
 import GuestLandingRoute from './common/GuestLandingRoute';
 import NetworkBanner from './common/NetworkBanner';
 import PrivateRoute from './common/PrivateRoute';
@@ -26,7 +51,6 @@ import GlobalStyle from './GlobalStyle';
 import { LoginWithRouter } from './login/Login';
 import { LoginCliLoginSuccess } from './login/LoginCliLoginSuccess';
 import Navigation from './navigation/Navigation';
-import Footer from './common/Footer';
 import { Profile } from './profile/Profile';
 import { ReceiveMoneyWithRouter } from './receive-money/ReceiveMoney';
 import { SendContainer } from './send/SendContainer';
@@ -34,32 +58,18 @@ import { SignWithRouter } from './sign/Sign';
 import { StakingContainer } from './staking/StakingContainer';
 import Terms from './terms/Terms';
 import { Wallet } from './wallet/Wallet';
-import { CreateAccountWithRouter } from './accounts/CreateAccount';
-import { LinkdropLandingWithRouter } from './accounts/LinkdropLanding';
-import { SetupRecoveryMethodWithRouter } from './accounts/recovery_setup/SetupRecoveryMethod';
-import { SetupLedgerWithRouter } from './accounts/ledger/SetupLedger';
-import { SetupLedgerSuccessWithRouter } from './accounts/ledger/SetupLedgerSuccess';
-import { EnableTwoFactor } from './accounts/two_factor/EnableTwoFactor';
-import { RecoverAccountWithRouter } from './accounts/RecoverAccount';
-import { RecoverAccountSeedPhraseWithRouter } from './accounts/RecoverAccountSeedPhrase';
-import { RecoverWithLinkWithRouter } from './accounts/RecoverWithLink';
-import { SignInLedger } from './accounts/ledger/SignInLedger';
-import { AutoImport } from './accounts/auto_import/AutoImport';
-import { AuthorizedAppsWithRouter } from './access-keys/AccessKeys';
-import { FullAccessKeysWithRouter } from './access-keys/AccessKeys';
-import { BuyNear } from './buy/BuyNear';
-import { WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS, IS_MAINNET, SHOW_PRERELEASE_WARNING } from '../utils/wallet';
-import isMobile from '../utils/isMobile';
-import LedgerConfirmActionModal from './accounts/ledger/LedgerConfirmActionModal';
-import { SetupSeedPhraseWithRouter } from './accounts/SetupSeedPhrase';
-import { SetupImplicitWithRouter } from './accounts/SetupImplicit';
-import { SetupImplicitSuccess } from './accounts/SetupImplicitSuccess';
-import { ActivateAccountWithRouter } from './accounts/create/ActivateAccount';
-import { handleClearAlert} from '../utils/alerts';
-import { Mixpanel } from "../mixpanel/index";
-import classNames from '../utils/classNames';
-import { getAccountIsInactive } from '../utils/localStorage';
-import { reportUiActiveMixpanelThrottled } from '../utils/reportUiActiveMixpanelThrottled';
+
+import '../index.css';
+
+const  {
+    getAccountHelperWalletState,
+    handleClearUrl,
+    handleRedirectUrl,
+    handleRefreshUrl,
+    promptTwoFactor,
+    redirectTo,
+    refreshAccount
+} = accountActions;
 
 const theme = {};
 
