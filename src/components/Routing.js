@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import styled, { ThemeProvider } from 'styled-components';
 
-import accountActions from '../actions/account';
+import * as accountActions from '../actions/account';
 import { setIsMobile } from '../actions/status';
 import TwoFactorVerifyModal from '../components/accounts/two_factor/TwoFactorVerifyModal';
 import { Mixpanel } from "../mixpanel/index";
