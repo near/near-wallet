@@ -19,7 +19,6 @@ import StakingAction from './components/StakingAction'
 import { setStakingAccountSelected, getStakingAccountSelected } from '../../utils/localStorage'
 import { getBalance } from '../../actions/account'
 import { Mixpanel } from '../../mixpanel/index'
-import { reportUiActiveMixpanelThrottled } from '../../utils/reportUiActiveMixpanelThrottled';
 
 const StyledContainer = styled(Container)`
     h1, h2 {
@@ -180,8 +179,6 @@ export function StakingContainer({ history, match }) {
     const { totalUnstaked, selectedValidator } = currentAccount
     const loadingBalance = !stakingAccounts.every((account) => !!account.totalUnstaked)
     const stakeFromAccount = currentAccount.accountId === accountId
-
-    reportUiActiveMixpanelThrottled();
 
     useEffect(() => {
         if (accountId) {

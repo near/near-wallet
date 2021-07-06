@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import styled from 'styled-components'
 import { Translate } from 'react-localize-redux'
@@ -26,8 +26,6 @@ import classNames from '../../utils/classNames'
 import { actionsPendingByPrefix } from '../../utils/alerts'
 import { selectNFT } from '../../reducers/nft'
 import { SHOW_NETWORK_BANNER } from '../../utils/wallet'
-import { reportUiActiveMixpanelThrottled } from '../../utils/reportUiActiveMixpanelThrottled';
-
 
 const StyledContainer = styled(Container)`
     @media (max-width: 991px) {
@@ -268,8 +266,6 @@ export function Wallet() {
     const actionStatus = useSelector(state => selectActionStatus(state))
     const tokensLoader = actionsPendingByPrefix('TOKENS/') || !balance?.total
     const [tokenView, setTokenView] = useState('fungibleTokens');
-
-    reportUiActiveMixpanelThrottled();
 
     useEffect(() => {
         if (accountId) {
