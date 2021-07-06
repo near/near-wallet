@@ -143,7 +143,7 @@ export function SendContainer({ match, location }) {
                     placeholder='0'
                     value={amount}
                     onChange={handleChangeAmount}
-                    className={classNames(['amount-input', !sufficientBalance ? 'error' : ''])}
+                    className={classNames(['send-amount-input', !sufficientBalance ? 'error' : ''])}
                     tabIndex='1'
                 />
                 <BalanceBreakdown
@@ -156,7 +156,7 @@ export function SendContainer({ match, location }) {
                 <h4><Translate id='sendMoney.account.title' /></h4>
                 <AccountFormAccountId
                     mainLoader={mainLoader || false}
-                    handleChange={(e, { value }) => setId(value)}
+                    handleChange={(value) => setId(value)}
                     defaultAccountId={id}
                     checkAvailability={() => dispatch(checkAccountAvailable(id))}
                     localAlert={localAlert}

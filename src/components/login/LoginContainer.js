@@ -116,24 +116,7 @@ const CustomContainer = styled(Container)`
                 background-size: 24px 24px;
             }
         }
-        input {
-            width: 100%;
-            height: 64px;
-            border: 4px solid #f8f8f8;
-            padding: 0 0 0 20px;
-            font-size: 18px;
-            color: #4a4f54;
-            font-weight: 400;
-            background-color: #f8f8f8;
-            position: relative;
-            :focus {
-                border-color: #f8f8f8;
-                background-color: #fff;
-            }
-            :valid {
-                background-color: #fff;
-            }
-        }
+
         .alert-info {
             height: 14px;
             font-size: 14px;

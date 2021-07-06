@@ -50,9 +50,9 @@ class AccessKeys extends Component {
         }
     }
 
-    handleChange = (e, { name, value }) => {
+    handleChange = (value) => {
         this.setState(() => ({
-            [name]: value,
+            accountId: value,
             confirmStatus: ''
         }))
     }

@@ -71,13 +71,13 @@ class SetupSeedPhrase extends Component {
         }))
     }
 
-    handleChangeWord = (e, { name, value }) => {
+    handleChangeWord = (value) => {
         if (value.match(/[^a-zA-Z]/)) {
             return false
         }
 
-        this.setState((state) => ({
-            [name]: value.trim().toLowerCase(),
+        this.setState(() => ({
+            enterWord: value.trim().toLowerCase(),
             localAlert: null
         }))
     }

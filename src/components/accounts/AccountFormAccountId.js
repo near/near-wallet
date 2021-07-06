@@ -1,10 +1,8 @@
 import React, { Component, createRef } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import { Input } from 'semantic-ui-react'
 import { Translate } from 'react-localize-redux'
 import classNames from '../../utils/classNames'
-
 import { ACCOUNT_CHECK_TIMEOUT, ACCOUNT_ID_SUFFIX } from '../../utils/wallet'
 import LocalAlertBox from '../common/LocalAlertBox.js'
 import { Mixpanel } from '../../mixpanel/index'
@@ -22,12 +20,11 @@ const InputWrapper = styled.div`
         margin-top: 0px !important;
     }
     
-    .wrong-char {
+    &.wrong-char {
         input {
             animation-duration: 0.4s;
             animation-iteration-count: 1;
             animation-name: border-blink;
-            background-color: #8fd6bd;
 
             @keyframes border-blink {
                 0% {
@@ -40,12 +37,15 @@ const InputWrapper = styled.div`
         }
     }
 
-    .input-suffix {
-        position: absolute;
-        color: #a6a6a6;
-        pointer-events: none;
-        top: 50%;
-        transform: translateY(-50%);
+    &.create {
+        .input-suffix {
+            position: absolute;
+            color: #a6a6a6;
+            pointer-events: none;
+            top: 50%;
+            transform: translateY(-50%);
+            visibility: hidden;
+        }
     }
 `
 class AccountFormAccountId extends Component {
@@ -54,34 +54,27 @@ class AccountFormAccountId extends Component {
         invalidAccountIdLength: false,
         wrongChar: false
     }
+    
+    checkAccountAvailabilityTimer = null;
     canvas = null;
-    input = createRef()
     suffix = createRef();
+
     componentDidMount = () => {
-        const { defaultAccountId, type } = this.props
+        const { defaultAccountId } = this.props
         const { accountId } = this.state
 
-        if (type === 'create') {
-            this.suffix.current.style.visibility = 'hidden';
-            this.input.current.inputRef.current.addEventListener('input', this.updateSuffix);
-        }
-
         if (defaultAccountId) {
-            this.handleChangeAccountId({}, { name: 'accountId', value: accountId})
+            this.handleChangeAccountId({ userValue: accountId })
         }
     }
 
-    componentWillUnmount() {
-        this.input.current.inputRef.current.removeEventListener('input', this.updateSuffix);
-    }
-
-    updateSuffix = () => {
+    updateSuffix = (userValue) => {
         const isSafari = /Safari/.test(navigator.userAgent) && /Apple Computer/.test(navigator.vendor);
-        const width = this.getTextWidth(this.input.current.inputRef.current.value, '16px Inter');
+        const width = this.getTextWidth(userValue, '16px Inter');
         const extraSpace = isSafari ? 21.5 : 22
         this.suffix.current.style.left = width + extraSpace + 'px';
         this.suffix.current.style.visibility = 'visible';
-        if (this.input.current.inputRef.current.value.length === 0) this.suffix.current.style.visibility = 'hidden';
+        if (userValue.length === 0) this.suffix.current.style.visibility = 'hidden';
     }
 
     getTextWidth = (text, font) => {
@@ -94,14 +87,13 @@ class AccountFormAccountId extends Component {
         return metrics.width;
     }
 
-    handleChangeAccountId = (e, { name, value }) => {
+    handleChangeAccountId = ({ userValue, el }) => {
         const { pattern, handleChange, type } = this.props
 
-        value = value.trim().toLowerCase()
+        const accountId = userValue.trim().toLowerCase()
 
-        if (value.match(pattern)) {
+        if (accountId.match(pattern)) {
             if (this.state.wrongChar) {
-                const el = this.input.current.inputRef.current
                 el.style.animation = 'none'
                 void el.offsetHeight
                 el.style.animation = null
@@ -118,18 +110,18 @@ class AccountFormAccountId extends Component {
         }
         
         this.setState(() => ({
-            [name]: value
+            accountId: accountId
         }))
         
-        handleChange(e, { name, value })
+        handleChange(accountId)
 
         this.props.localAlert && this.props.clearLocalAlert()
 
-        this.state.invalidAccountIdLength && this.handleAccountIdLengthState(value)
+        this.state.invalidAccountIdLength && this.handleAccountIdLengthState(accountId)
 
-        this.timeout && clearTimeout(this.timeout)
-        this.timeout = setTimeout(() => {
-            this.handleCheckAvailability(value, type);
+        this.checkAccountAvailabilityTimer && clearTimeout(this.checkAccountAvailabilityTimer)
+        this.checkAccountAvailabilityTimer = setTimeout(() => {
+            this.handleCheckAvailability(accountId, type);
         }, ACCOUNT_CHECK_TIMEOUT)
     }
 
@@ -178,6 +170,7 @@ class AccountFormAccountId extends Component {
     get sameAccountLocalAlert() {
         return {
             success: false,
+            show: true,
             messageCode: 'account.available.errorSameAccount'
         }
     }
@@ -222,18 +215,19 @@ class AccountFormAccountId extends Component {
         const { accountId, wrongChar } = this.state
 
         const localAlert = this.localAlertWithFormValidation
+        const success = localAlert?.success
+        const problem = !localAlert?.success && localAlert?.show
 
         return (
             <>
                 <Translate>
                     {({ translate }) => (
-                        <InputWrapper type={type}>
-                            <Input
-                                className={classNames([{'success': localAlert && localAlert.success}, {'problem': localAlert && localAlert.success === false}, {'wrong-char': wrongChar}])}
+                        <InputWrapper className={classNames([type, {'success': success}, {'problem': problem}, {'wrong-char': wrongChar}])}>
+                            <input
                                 name='accountId'
-                                ref={this.input}
                                 value={accountId}
-                                onChange={this.handleChangeAccountId}
+                                onInput={e => type === 'create' && this.updateSuffix(e.target.value)}
+                                onChange={e => this.handleChangeAccountId({ userValue: e.target.value, el: e.target })}
                                 placeholder={type === 'create' ? translate('createAccount.accountIdInput.placeholder', { data: ACCOUNT_ID_SUFFIX}) : translate('input.accountId.placeholder')}
                                 required
                                 autoComplete='off'
@@ -244,8 +238,8 @@ class AccountFormAccountId extends Component {
                                 autoFocus={autoFocus && accountId.length === 0}
                                 disabled={disabled}
                             />
-                            {type !== 'create' && <div className='input-sub-label'>{translate('input.accountId.subLabel')}</div>}
                             {type === 'create' && <span className='input-suffix' ref={this.suffix}>.{ACCOUNT_ID_SUFFIX}</span>}
+                            {type !== 'create' && <div className='input-sub-label'>{translate('input.accountId.subLabel')}</div>}
                         </InputWrapper>
                     )}
                 </Translate>

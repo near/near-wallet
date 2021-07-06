@@ -176,56 +176,37 @@ export default createGlobalStyle`
         }
     }
 
-    .username-input-icon {
+    input, .react-phone-number-input__input {
+        font-size: 16px;
+        width: 100%;
+        height: 48px;
+        border: 2px solid #E4E4E6;
+        padding: 0 0 0 15px;
+        color: #24272A;
+        font-weight: 300;
         position: relative;
-
-        &:after {
-            content: '';
-            background: url(${EmailIconGray}) center no-repeat;
-            display: inline-block;
-            height: 17px;
-            width: 17px;
-            position: absolute;
-            left: 15px;
-            top: calc(50% - -4px);
-            transform: translateY(-50%);
-            pointer-events: none;
-        }
-        input {
-            padding-left: 37px !important;
-        }
-    }
-
-    input {
-        font-size: 16px !important;
-        width: 100% !important;
-        height: 48px !important;
-        border: 2px solid #E4E4E6 !important;
-        padding: 0 0 0 15px !important;
-        color: #4a4f54 !important;
-        font-weight: 300 !important;
-        position: relative !important;
-        margin-top: 8px !important;
+        margin-top: 8px;
         outline: none;
         appearance: none;
-        border-radius: 8px !important;
+        border-radius: 8px;
 
         ::placeholder {
             color: #999999;
         }
 
         :focus {
-            border-color: #0072ce !important;
-            background-color: #fff !important;
-            box-shadow: 0 0 0 2pt #C8E3FC !important;
+            border-color: #0072ce;
+            background-color: #fff;
+            box-shadow: 0 0 0 2pt #C8E3FC;
         }
 
-        &.amount-input {
-            font-size: 38px !important;
-            margin: 0 !important;
-            font-weight: 600 !important;
-            height: 62px !important;
-            color: #24272A !important;
+        &.stake-amount-input,
+        &.send-amount-input {
+            font-size: 38px;
+            margin: 0;
+            font-weight: 600;
+            height: 62px;
+            color: #24272A;
 
             ::placeholder {
                 color: #CCCCCC;
@@ -233,9 +214,27 @@ export default createGlobalStyle`
             }
 
             &.error {
-                color: #ff585d !important;
+                color: #ff585d;
             }
         }
+
+        &.problem {
+            border: 2px solid #ff585d;
+
+            &:focus {
+                box-shadow: 0px 0px 0px 2pt #FFBDBE;
+            }
+        }
+
+        &.success {
+            border: 2px solid #6ad1e3;
+
+            &:focus {
+                box-shadow: 0px 0px 0px 2pt #c2f6ff;
+            }
+        }
+
+
     }
 
     input::-webkit-outer-spin-button,
@@ -280,23 +279,23 @@ export default createGlobalStyle`
     .problem > .input > input,
     .problem > .input > input:focus,
     .problem > input {
-        border: 2px solid #ff585d !important;
+        border: 2px solid #ff585d;
     }
 
     .problem > .input > input:focus,
     .problem > input:focus {
-        box-shadow: 0px 0px 0px 2pt #FFBDBE !important;
+        box-shadow: 0px 0px 0px 2pt #FFBDBE;
     }
 
     .success > .input > input,
     .success > .input > input:focus,
     .success > input {
-        border: 2px solid #6ad1e3 !important;
+        border: 2px solid #6ad1e3;
     }
 
     .success > .input > input:focus,
     .success > input:focus {
-        box-shadow: 0px 0px 0px 2pt #c2f6ff !important;
+        box-shadow: 0px 0px 0px 2pt #c2f6ff;
     }
 
     b {

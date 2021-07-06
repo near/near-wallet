@@ -8,9 +8,6 @@ import PaginationShowSubBox from './PaginationSubBox'
 import { PaginationTab } from './PaginationTab'
 import PaginationPaging from './PaginationPaging'
 import PaginationSummary from './PaginationSummary'
-import Search from '../common/Search'
-
-import PaginationSortBy from './PaginationSortBy'
 
 import styled from 'styled-components'
 
@@ -91,34 +88,12 @@ class PaginationBlock extends Component {
             : TransactionFilter,
         pagingDropdown: false,
         pagingValue: 10,
-
         buttonRadio: false
-    }
-
-    handleOnClick = () => {
-        this.setState({
-            dropdown: !this.state.dropdown
-        })
     }
 
     handleOnClickPaging = () => {
         this.setState({
             pagingDropdown: !this.state.pagingDropdown
-        })
-    }
-
-    handleChange = (e, { name, value }) => {
-        this.setState(() => ({ [name]: value }))
-    }
-
-    handleSubmit = () => {
-        console.log('not ready yet')
-    }
-
-    handleDropdownClick = dropdownType => {
-        this.setState({
-            dropdownType,
-            dropdown: !this.state.dropdown
         })
     }
 
@@ -131,25 +106,8 @@ class PaginationBlock extends Component {
         this.props.onPageChanged(1, pagingValue)
     }
 
-    handleTabChange(pageNumber) {
-        // this.setState({
-        //     pageNumber: pageNumber,
-        //     loader: true,
-        // })
-        // this.updateBlock(pageNumber)
-        // return pageNumber
-    }
-
-    buttonRadioClick = () => {
-        this.setState(state => ({
-            buttonRadio: !state.buttonRadio
-        }))
-    }
-
     render() {
         const {
-            filterTypes,
-            type,
             pageNumber = 0,
             showSub = false,
             subPage,
@@ -167,9 +125,6 @@ class PaginationBlock extends Component {
         } = this.props
 
         const {
-            dropdownType,
-            dropdown,
-            search,
             pagingValue,
             pagingDropdown
         } = this.state
@@ -182,43 +137,11 @@ class PaginationBlock extends Component {
             pageNeighbors = 1
         } = this.props
 
-        const filterTypesByType = type ? [filterTypes[type]] : filterTypes
-
         return (
             <PaginationBlockGrid
                 stackable
                 columns={2}
             >
-                {false && (
-                    <Grid.Row className='border-bottom-light'>
-                        <Grid.Column
-                            width={10}
-                            verticalAlign='middle'
-                            className='pagination-block-top'
-                        >
-                            <PaginationSortBy
-                                filterTypesByType={filterTypesByType}
-                                handleOnClick={this.handleOnClick}
-                                dropdownType={dropdownType}
-                                handleDropdownClick={this.handleDropdownClick}
-                                dropdown={dropdown}
-                            />
-                        </Grid.Column>
-                        <Grid.Column
-                            width={6}
-                            textAlign='right'
-                            floated='right'
-                            verticalAlign='middle'
-                            className='pagination-block-top-search'
-                        >
-                            <Search
-                                handleSubmit={this.handleSubmit}
-                                handleChange={this.handleChange}
-                                search={search}
-                            />
-                        </Grid.Column>
-                    </Grid.Row>
-                )}
                 <Grid.Row>
                     <Grid.Column
                         computer={showSub ? 10 : 16}
