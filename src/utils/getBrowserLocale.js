@@ -1,56 +1,59 @@
 import { getUserLocales } from './getUserLocale'
 
+const DEBUG_LOG = false;
+
+const debugLog = (...args) => DEBUG_LOG && console.log(...args);
+
 export default function getBrowserLocale(appLanguages) {
-  const browserLanguages = getUserLocales()
-  if (appLanguages && appLanguages.length > 0
-      && browserLanguages && browserLanguages.length > 0) {
-    return matchBrowserLocale(appLanguages, browserLanguages)
-  } else {
-    return undefined
-  }
+    const browserLanguages = getUserLocales();
+
+    debugLog('Languages from browser:', browserLanguages);
+
+    if (appLanguages && appLanguages.length > 0
+        && browserLanguages && browserLanguages.length > 0) {
+        return findBestSupportedLocale(appLanguages, browserLanguages);
+    }
 }
 
-function matchBrowserLocale(appLocales, browserLocales) {
-  const matchedLocales = []
+function findBestSupportedLocale(appLocales, browserLocales) {
+    const matchedLocales = {};
 
-  // special handling for traditional Chinese
-  for (const browserCode of browserLocales) {
-    if (['zh-TW', 'zh-HK'].includes(browserCode)) {
-      return 'zh-hant'
+    // Process special mappings
+    const walletLocales = browserLocales.map((locale) => {
+        // Handle special cases for traditional Chinesee fallback
+        if (['zh-TW', 'zh-HK'].includes(locale)) { return 'zh-hant'; }
+
+        return locale;
+    });
+
+    for (const [index, browserLocale] of walletLocales.entries()) {
+        // match exact locale.
+        const matchedExactLocale = appLocales.find(appLocale => appLocale.toLowerCase() === browserLocale.toLowerCase())
+        if (matchedExactLocale) {
+            debugLog('Found direct match:', { browserLocale, matchedExactLocale });
+            matchedLocales[matchedExactLocale] = { code: matchedExactLocale, score: 1 - index / walletLocales.length };
+        } else {
+            // match only locale code part of the browser locale (not including country).
+            const languageCode = browserLocale.split('-')[0].toLowerCase();
+            const matchedPartialLocale = appLocales.find(appLocale => appLocale.split('-')[0].toLowerCase() === languageCode);
+            if (matchedPartialLocale) {
+                const existingMatch = matchedLocales[matchedPartialLocale];
+
+                // Deduct a thousandth for being non-exact match.
+                const newMatch = { code: matchedPartialLocale, score: 0.999 - index / walletLocales.length };
+                if (!existingMatch || existingMatch && existingMatch.score <= matchedPartialLocale.score) {
+                    debugLog('Found language-only match:', { browserLocale, matchedPartialLocale });
+                    matchedLocales[matchedPartialLocale] = newMatch
+                }
+            }
+        }
     }
-  }
 
-  // first pass: match exact locale.
-  for (const [index, browserCode] of browserLocales.entries()) {
-    const matchedLocale = appLocales.find(appLocale => appLocale.toLowerCase() === browserCode.toLowerCase())
-    if (matchedLocale) {
-      matchedLocales.push({ code: matchedLocale, score: 1 - index / browserLocales.length })
-      break
+
+    // Sort the list by score (0 - lowest, 1 - highest).
+    if (Object.keys(matchedLocales).length > 0) {
+        const bestMatch = Object.values(matchedLocales).sort((localeA, localeB) => localeB.score - localeA.score)[0].code;
+        debugLog('bestMatch', bestMatch);
+        return bestMatch;
     }
-  }
-
-  // second pass: match only locale code part of the browser locale (not including country).
-  for (const [index, browserCode] of browserLocales.entries()) {
-    const languageCode = browserCode.split('-')[0].toLowerCase()
-    const matchedLocale = appLocales.find(appLocale => appLocale.split('-')[0].toLowerCase() === languageCode)
-    if (matchedLocale) {
-      // Deduct a thousandth for being non-exact match.
-      matchedLocales.push({ code: matchedLocale, score: 0.999 - index / browserLocales.length })
-      break
-    }
-  }
-
-  // Sort the list by score (0 - lowest, 1 - highest).
-  if (matchedLocales.length > 1) {
-    matchedLocales.sort((localeA, localeB) => {
-      if (localeA.score === localeB.score) {
-        // If scores are equal then pick more specific (longer) code.
-        return localeB.code.length - localeA.code.length
-      }
-
-      return localeB.score - localeA.score
-    })
-  }
-
-  return matchedLocales.length ? matchedLocales[0].code : undefined
 }
