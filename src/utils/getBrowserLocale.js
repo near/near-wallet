@@ -1,4 +1,4 @@
-import { getUserLocales } from './getUserLocale'
+import { getUserLocales } from './getUserLocale';
 
 const DEBUG_LOG = false;
 
@@ -28,7 +28,7 @@ function findBestSupportedLocale(appLocales, browserLocales) {
 
     for (const [index, browserLocale] of walletLocales.entries()) {
         // match exact locale.
-        const matchedExactLocale = appLocales.find(appLocale => appLocale.toLowerCase() === browserLocale.toLowerCase())
+        const matchedExactLocale = appLocales.find(appLocale => appLocale.toLowerCase() === browserLocale.toLowerCase());
         if (matchedExactLocale) {
             debugLog('Found direct match:', { browserLocale, matchedExactLocale });
             matchedLocales[matchedExactLocale] = { code: matchedExactLocale, score: 1 - index / walletLocales.length };
@@ -41,9 +41,9 @@ function findBestSupportedLocale(appLocales, browserLocales) {
 
                 // Deduct a thousandth for being non-exact match.
                 const newMatch = { code: matchedPartialLocale, score: 0.999 - index / walletLocales.length };
-                if (!existingMatch || existingMatch && existingMatch.score <= matchedPartialLocale.score) {
+                if (!existingMatch || (existingMatch && existingMatch.score <= matchedPartialLocale.score)) {
                     debugLog('Found language-only match:', { browserLocale, matchedPartialLocale });
-                    matchedLocales[matchedPartialLocale] = newMatch
+                    matchedLocales[matchedPartialLocale] = newMatch;
                 }
             }
         }
