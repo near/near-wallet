@@ -1,6 +1,9 @@
 import * as Sentry from '@sentry/browser';
 import * as nearApiJs from 'near-api-js';
+
+import sendJson from '../tmp_fetch_send_json';
 import { wallet } from '../utils/wallet';
+import { ACCOUNT_HELPER_URL } from '../utils/wallet';
 
 const FT_MINIMUM_STORAGE_BALANCE = '1250000000000000000000';
 const FT_STORAGE_DEPOSIT_GAS = '30000000000000';
@@ -35,6 +38,10 @@ class FungibleTokens {
     async signAndSendTransaction(receiverId, actions) {
         return await this.account.signAndSendTransaction(receiverId, actions).catch(logError);
     }
+
+    getLikelyTokenContracts = () => (
+        sendJson('GET', `${ACCOUNT_HELPER_URL}/account/${this.account.accountId}/likelyTokens`).catch(logError)
+    )
 }
 
 const logError = (error) => {
