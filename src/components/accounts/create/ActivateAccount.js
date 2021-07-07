@@ -1,5 +1,5 @@
 import BN from 'bn.js';
-import { formatNearAmount } from 'near-api-js/lib/utils/format';
+import { formatNearAmount, parseNearAmount } from 'near-api-js/lib/utils/format';
 import React, { Component } from 'react';
 import { Translate } from 'react-localize-redux';
 import { connect } from 'react-redux';
@@ -10,6 +10,7 @@ import { redirectTo, clearFundedAccountNeedsDeposit, getBalance, getAccountHelpe
 import { Mixpanel } from '../../../mixpanel';
 import { removeAccountIsInactive } from '../../../utils/localStorage';
 import { isMoonpayAvailable, getSignedUrl } from '../../../utils/moonpay';
+import { WALLET_APP_MIN_AMOUNT } from '../../../utils/wallet';
 import Divider from '../../common/Divider';
 import FormButton from '../../common/FormButton';
 import Container from '../../common/styled/Container.css';
@@ -85,7 +86,7 @@ class ActivateAccount extends Component {
         whereToBuy: false,
         moonpayAvailable: false,
         moonpaySignedURL: null,
-        accountFunded: false
+        activatingAccount: false
     }
 
     pollAccountBalanceHandle = null;
@@ -110,8 +111,12 @@ class ActivateAccount extends Component {
     checkBalance = async () => {
         const { dispatch, needsDeposit } = this.props;
 
-        if (needsDeposit) {
+        if (needsDeposit || !this.accountHasMinimumBalanceToUnlock()) {
             await dispatch(getBalance());
+        }
+
+        if (this.accountHasMinimumBalanceToUnlock()) {
+            this.stopPollingAccountBalance();
         }
     
     }
@@ -134,6 +139,7 @@ class ActivateAccount extends Component {
     componentDidMount = () => {
         this.startPollingAccountBalance();
         this.checkMoonPay();
+
     }
 
     handleClearAccountNeedsDeposit = async () => {
@@ -142,34 +148,31 @@ class ActivateAccount extends Component {
         await dispatch(getAccountHelperWalletState(accountId));
     }
 
-    componentDidUpdate = (prevProps) => {
-        const { balance, minBalanceToUnlock, needsDeposit } = this.props;
-
-        if (minBalanceToUnlock && balance?.available !== prevProps.balance?.available) {
-            if (new BN(balance.available).gte(new BN(minBalanceToUnlock))) {
-                this.setState({ accountFunded: true });
-                window.scrollTo(0, 0);
-
-                if (needsDeposit) {
-                    this.handleClearAccountNeedsDeposit();
-                }
-            }
-        }
-    }
-
     componentWillUnmount = () => {
         this.stopPollingAccountBalance();
     }
 
-    handleClaimAccount = () => {
+    handleClaimAccount = async () => {
         const { dispatch, accountId, needsDeposit } = this.props;
 
+        this.setState({ activatingAccount: true });
+
         if (needsDeposit) {
-            this.handleClearAccountNeedsDeposit();
+            try {
+                await this.handleClearAccountNeedsDeposit();
+            } catch(e) {
+                this.setState({ activatingAccount: false });
+                throw e;
+            }
         }
 
         removeAccountIsInactive(accountId);
         dispatch(redirectTo('/'));
+    }
+
+    accountHasMinimumBalanceToUnlock = () => {
+        const { balance, minBalanceToUnlock } = this.props;
+        return new BN(balance?.available).gte(new BN(minBalanceToUnlock));
     }
 
     render() {
@@ -177,10 +180,11 @@ class ActivateAccount extends Component {
             whereToBuy,
             moonpayAvailable,
             moonpaySignedURL,
-            accountFunded
+            activatingAccount
         } = this.state;
 
-        const { accountId, balance, mainLoader, minBalanceToUnlock } = this.props;
+        const { accountId, balance, minBalanceToUnlock } = this.props;
+        const accountFunded = this.accountHasMinimumBalanceToUnlock();
 
         if (accountFunded) {
             return (
@@ -195,7 +199,8 @@ class ActivateAccount extends Component {
                     <FormButton
                         onClick={this.handleClaimAccount}
                         trackingId="CA activate account click continue to my account"
-                        disabled={mainLoader}
+                        disabled={activatingAccount}
+                        sending={activatingAccount}
                     >
                         <Translate id='button.continueToMyAccount' />
                     </FormButton>
@@ -241,7 +246,7 @@ class ActivateAccount extends Component {
 const mapStateToProps = ({ account, status }) => ({
     ...account,
     mainLoader: status.mainLoader,
-    minBalanceToUnlock: account.accountHelperWalletState?.requiredUnlockBalance,
+    minBalanceToUnlock: account.accountHelperWalletState?.requiredUnlockBalance || parseNearAmount(WALLET_APP_MIN_AMOUNT),
     needsDeposit: account.accountHelperWalletState?.fundedAccountNeedsDeposit
 });
 

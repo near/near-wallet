@@ -606,7 +606,7 @@
     "createAccount": {
         "termsPage": {
             "title": "Before you begin...",
-            "descOne": "NEAR accounts require a minimum balance of <a href='https://docs.near.org/docs/concepts/account' rel='noopener noreferrer' target='_blank'>at least ${data} NEAR</a> to <a href='https://docs.near.org/docs/concepts/account' rel='noopener noreferrer' target='_blank'>hold a place on the network.</a>",
+            "descOne": "NEAR accounts require a minimum balance of <b>at least ${data} NEAR</b> to <a href='https://docs.near.org/docs/concepts/account' rel='noopener noreferrer' target='_blank'>hold a place on the network.</a>",
             "descTwo": "After reserving a unique account address, you’ll be asked to make a small initial deposit to activate your account.",
             "disclaimer": "By creating a NEAR account, you agree to the NEAR Wallet <a href='/terms' rel='noopener noreferrer' target='_blank'>Terms of Service</a> and <a href='https://near.org/privacy' rel='noopener noreferrer' target='_blank'>Privacy Policy</a>."
         },

@@ -20,7 +20,7 @@ import { handleClearAlert } from '../utils/alerts';
 import classNames from '../utils/classNames';
 import getBrowserLocale from '../utils/getBrowserLocale';
 import isMobile from '../utils/isMobile';
-import { getAccountIsInactive } from '../utils/localStorage';
+import { getAccountIsInactive, removeAccountIsInactive, setAccountIsInactive } from '../utils/localStorage';
 import { reportUiActiveMixpanelThrottled } from '../utils/reportUiActiveMixpanelThrottled';
 import ScrollToTop from '../utils/ScrollToTop';
 import { IS_MAINNET, SHOW_PRERELEASE_WARNING, WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS } from '../utils/wallet';
@@ -103,6 +103,11 @@ const Container = styled.div`
 class Routing extends Component {
     constructor(props) {
         super(props);
+
+        this.state = {
+            isInactiveAccount: null
+        };
+
         const languages = [
             { name: "English", code: "en" },
             { name: "Português", code: "pt" },
@@ -166,8 +171,25 @@ class Routing extends Component {
     componentDidUpdate(prevProps) {
         const { activeLanguage, account, getAccountHelperWalletState } = this.props;
 
-        if (account && prevProps.account.accountId !== account.accountId && account.accountId !== undefined) {
+        if (prevProps.account.localStorage?.accountId !== account.localStorage?.accountId) {
+            this.setState({ isInactiveAccount: getAccountIsInactive(`${account.accountId || account.localStorage?.accountId}`) });
+        }
+
+        if (prevProps.account.accountId !== account.accountId && account.accountId !== undefined) {
             getAccountHelperWalletState(account.accountId);
+        }
+
+        if (prevProps.account.accountHelperWalletState.isLoaded !== account.accountHelperWalletState.isLoaded) {
+            const needsDeposit = account.accountHelperWalletState.fundedAccountNeedsDeposit;
+            const accountId = account.accountId || account.localStorage?.accountId;
+
+            this.setState({ isInactiveAccount: needsDeposit });
+
+            if (!needsDeposit) {
+                removeAccountIsInactive(accountId);
+            } else {
+                setAccountIsInactive(accountId);
+            }
         }
 
         const prevLangCode = prevProps.activeLanguage && prevProps.activeLanguage.code;
@@ -192,8 +214,7 @@ class Routing extends Component {
     render() {
         const { search } = this.props.router.location;
         const { account } = this.props;
-
-        const isInactiveAccount = account && (getAccountIsInactive(`${account.localStorage?.accountId || account.accountId}`) || account.accountHelperWalletState?.fundedAccountNeedsDeposit);
+        const { isInactiveAccount } = this.state;
 
         reportUiActiveMixpanelThrottled();
 

@@ -159,6 +159,17 @@
             "implicitAccount": "Luôn kiểm tra kỹ ID tài khoản",
             "implicitAccountModal": "Vui lòng kiểm tra kỹ ID tài khoản, đặc biệt nếu đây là tài khoản giao dịch. Nếu ID tài khoản được nhập không chính xác, tiền của bạn sẽ bị mất vĩnh viễn."
         },
+        "activateAccount": {
+            "pre": {
+                "title": "Almost there! Make your initial deposit.",
+                "desc": "To begin using NEAR Wallet, make a minimum initial deposit by sending <b>at least ${amount} NEAR</b> to your Account ID (sometimes called an “address”)."
+            },
+            "post": {
+                "title": "Your account has been activated.",
+                "descOne": "Your initial deposit has been received and transferred to your new account. Your account is now active!",
+                "descTwo": "A portion of your deposit has been reserved to cover the <a href='https://docs.near.org/docs/concepts/account' rel='noopener noreferrer' target='_blank'>cost of hosting your account</a>."
+            }
+        },
         "createImplicit": {
             "pre": {
                 "title": "Nạp tiền vào tài khoản của bạn",
@@ -191,6 +202,16 @@
                 "descThree": "Vui lòng cập nhật địa chỉ của bạn trên bất kỳ sàn giao dịch nào hoặc các thiết bị khác.",
                 "button": "Tiếp tục đến Tài khoản"
             }
+        },
+        "fundedStatus": {
+            "singleUse": "Single-use Funding address",
+            "nearName": "Account ID",
+            "status": "Account status",
+            "minDeposit": "Minimum deposit",
+            "initialDeposit": "Initial deposit",
+            "awaitingDeposit": "Awaiting deposit",
+            "ready": "Ready to claim",
+            "active": "Active"
         },
         "verifySeedPhrase": {
             "error": "Bạn đã nhập từ không chính xác"
@@ -566,6 +587,12 @@
     },
 
     "createAccount": {
+        "termsPage": {
+            "title": "Before you begin...",
+            "descOne": "NEAR accounts require a minimum balance of <b>at least ${data} NEAR</b> to <a href='https://docs.near.org/docs/concepts/account' rel='noopener noreferrer' target='_blank'>hold a place on the network.</a>",
+            "descTwo": "After reserving a unique account address, you’ll be asked to make a small initial deposit to activate your account.",
+            "disclaimer": "By creating a NEAR account, you agree to the NEAR Wallet <a href='/terms' rel='noopener noreferrer' target='_blank'>Terms of Service</a> and <a href='https://near.org/privacy' rel='noopener noreferrer' target='_blank'>Privacy Policy</a>."
+        },
         "pageTitle": "ID tài khoản dự phòng",
         "pageText": "Nhập ID tài khoản để sử dụng với tài khoản NEAR của bạn. ID tài khoản của bạn sẽ được sử dụng cho tất cả các hoạt động NEAR, bao gồm cả việc gửi và nhận tài sản.",
         "step": "Bước ${step}/${total}",
