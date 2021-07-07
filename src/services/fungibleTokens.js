@@ -42,6 +42,17 @@ class FungibleTokens {
     getLikelyTokenContracts = () => (
         sendJson('GET', `${ACCOUNT_HELPER_URL}/account/${this.account.accountId}/likelyTokens`).catch(logError)
     )
+
+    async getMetadata(contractName) {
+        // FungibleTokenMetadata interface
+        // https://github.com/near/NEPs/blob/master/specs/Standards/FungibleToken/Metadata.md
+        const metadata = await this.account.viewFunction(contractName, 'ft_metadata').catch(logError);
+    
+        return {
+            contractName,
+            metadata
+        };
+    }
 }
 
 const logError = (error) => {
