@@ -14,6 +14,10 @@ class FungibleTokens {
     async checkStorageBalance(contractName, accountId) {
         return await this.account.viewFunction(contractName, 'storage_balance_of', { account_id: accountId }).catch(logError);
     }
+
+    async signAndSendTransaction(receiverId, actions) {
+        return await this.account.signAndSendTransaction(receiverId, actions).catch(logError);
+    }
 }
 
 const logError = (error) => {
