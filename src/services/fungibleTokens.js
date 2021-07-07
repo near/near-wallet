@@ -53,6 +53,14 @@ class FungibleTokens {
             metadata
         };
     }
+
+    async getBalanceOf(contractName) {
+        const balance = await this.account.viewFunction(contractName, 'ft_balance_of', { account_id: this.account.accountId }).catch(logError);
+        return {
+            contractName,
+            balance
+        };
+    }
 }
 
 const logError = (error) => {
