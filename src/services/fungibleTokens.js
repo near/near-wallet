@@ -1,4 +1,5 @@
 import * as Sentry from '@sentry/browser';
+import BN from 'bn.js';
 import * as nearApiJs from 'near-api-js';
 
 import sendJson from '../tmp_fetch_send_json';
@@ -24,6 +25,11 @@ class FungibleTokens {
 
     async checkStorageBalance(contractName, accountId) {
         return await this.account.viewFunction(contractName, 'storage_balance_of', { account_id: accountId }).catch(logError);
+    }
+
+    async calculateAmount(contractName, amount) {
+        const { metadata } = await this.getMetadata(contractName);
+        return new BN(10).pow(new BN(metadata.decimals)).mul(new BN(amount)).toString();
     }
 
     async transferStorageDeposit(contractName, accountId) {
