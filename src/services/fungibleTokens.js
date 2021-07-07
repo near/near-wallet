@@ -8,6 +8,9 @@ import { ACCOUNT_HELPER_URL } from '../utils/wallet';
 
 const FT_MINIMUM_STORAGE_BALANCE = '1250000000000000000000';
 const FT_STORAGE_DEPOSIT_GAS = '30000000000000';
+const FT_TRANSFER_GAS = '30000000000000';
+const FT_TRANSFER_DEPOSIT = '1';
+
 const {
     transactions: {
         functionCall
@@ -25,6 +28,16 @@ class FungibleTokens {
 
     async checkStorageBalance(contractName, accountId) {
         return await this.account.viewFunction(contractName, 'storage_balance_of', { account_id: accountId }).catch(logError);
+    }
+
+    async transfer(contractName, amount, memo, receiver) {
+        await this.signAndSendTransaction(contractName, [
+            functionCall('ft_transfer', {
+                receiver_id: receiver,
+                amount: await this.calculateAmount(contractName, amount),
+                memo: memo
+            }, FT_TRANSFER_GAS, FT_TRANSFER_DEPOSIT)
+        ]);
     }
 
     async calculateAmount(contractName, amount) {
