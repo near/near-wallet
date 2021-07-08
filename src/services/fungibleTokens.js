@@ -26,10 +26,10 @@ export class FungibleTokens {
     }
 
     async isStorageBalanceAvailable(contractName, accountId) {
-        return new BN((await this.checkStorageBalance(contractName, accountId)).total).gte(new BN(FT_MINIMUM_STORAGE_BALANCE));
+        return new BN((await this.getStorageBalance(contractName, accountId)).total).gte(new BN(FT_MINIMUM_STORAGE_BALANCE));
     }
 
-    async checkStorageBalance(contractName, accountId) {
+    async getStorageBalance(contractName, accountId) {
         return await this.account.viewFunction(contractName, 'storage_balance_of', { account_id: accountId });
     }
 
