@@ -64,9 +64,9 @@ export class FungibleTokens {
         return await this.account.signAndSendTransaction(receiverId, actions);
     }
 
-    getLikelyTokenContracts = () => (
-        sendJson('GET', `${ACCOUNT_HELPER_URL}/account/${this.account.accountId}/likelyTokens`)
-    )
+    getLikelyTokenContracts() {
+        return sendJson('GET', `${ACCOUNT_HELPER_URL}/account/${this.account.accountId}/likelyTokens`)
+    }
 
     async getMetadata(contractName) {
         // FungibleTokenMetadata interface
