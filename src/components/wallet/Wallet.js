@@ -295,10 +295,15 @@ export function Wallet(props) {
     }, [accountId]);
 
     const switchTokenView = (tab) => {
-        const params = new URLSearchParams(props.history.location.search);
-        params.set("tab", tab);
-        props.history.push(props.history.location.pathname + "?" + params.toString());
-        setTokenView(getTokenView());
+        if (tokenView !== 'nonFungibleTokens' && tab === "nft") {
+            const params = new URLSearchParams(props.history.location.search);
+            params.set("tab", tab);
+            props.history.push(props.history.location.pathname + "?" + params.toString());
+            setTokenView(getTokenView());
+        } else if (tokenView !== 'fungibleTokens' && tab === "ft") {
+            props.history.push(props.history.location.pathname);
+            setTokenView(getTokenView());
+        }
     };
 
     const handleHideExploreApps = () => {
