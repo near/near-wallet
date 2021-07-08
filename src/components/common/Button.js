@@ -1,6 +1,6 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import styled from 'styled-components';
-import PropTypes from 'prop-types';
 
 const StyledButton = styled.button`
     border-radius: 40px;
@@ -32,7 +32,7 @@ const StyledButton = styled.button`
         opacity: 0.3;
         cursor: not-allowed;
     }
-`
+`;
 
 const Button = (props) => (
     <StyledButton
@@ -46,7 +46,7 @@ const Button = (props) => (
     >
         {props.children}
     </StyledButton>
-)
+);
 
 Button.propTypes = {
   disabled: PropTypes.bool,
@@ -58,6 +58,6 @@ Button.defaultProps = {
   disabled: false,
   theme: 'primary',
   fullWidth: true,
-}
+};
 
 export default Button;

@@ -1,5 +1,5 @@
-import { handleActions } from 'redux-actions'
-import reduceReducers from 'reduce-reducers'
+import reduceReducers from 'reduce-reducers';
+import { handleActions } from 'redux-actions';
 
 import {
     requestCode,
@@ -16,12 +16,12 @@ import {
     selectAccount,
     setLocalStorage,
     getAccountBalance,
-    setAccountBalance
-} from '../../actions/account'
-
+    setAccountBalance,
+    getAccountHelperWalletState
+} from '../../actions/account';
 import { 
     staking
-} from '../../actions/staking'
+} from '../../actions/staking';
 
 const initialState = {
     formLoader: false,
@@ -29,22 +29,25 @@ const initialState = {
     requestPending: null,
     actionsPending: [],
     canEnableTwoFactor: null,
+    accountHelperWalletState: {
+        isLoaded: false
+    },
     twoFactor: null,
     ledgerKey: null,
     accountsBalance: undefined
-}
+};
 
 const recoverCodeReducer = handleActions({
     [requestCode]: (state, { error, ready }) => {
         if (ready && !error) {
-            return { ...state, sentMessage: true }
+            return { ...state, sentMessage: true };
         }
-        return state
+        return state;
     },
     [clearCode]: (state, { error, ready }) => {
-        return { ...state, sentMessage: false }
+        return { ...state, sentMessage: false };
     }
-}, initialState)
+}, initialState);
 
 const accessKeys = handleActions({
     [getAccessKeys]: (state, { error, payload }) => ({
@@ -52,42 +55,52 @@ const accessKeys = handleActions({
         authorizedApps: payload && payload.filter(it => it.access_key && it.access_key.permission.FunctionCall && it.access_key.permission.FunctionCall.receiver_id !== state.accountId),
         fullAccessKeys: payload && payload.filter(it => it.access_key && it.access_key.permission === 'FullAccess'),
     })
-}, initialState)
+}, initialState);
 
 const url = handleActions({
     [refreshUrl]: (state, { payload }) => ({
         ...state,
         url: payload
     })
-}, initialState)
+}, initialState);
 
 const canEnableTwoFactor = handleActions({
     [checkCanEnableTwoFactor]: (state, { payload }) => ({
         ...state,
         canEnableTwoFactor: payload
     })
-}, initialState)
+}, initialState);
+
+const accountHelperWalletState = handleActions({
+    [getAccountHelperWalletState]: (state, { payload }) => ({
+        ...state,
+        accountHelperWalletState: {
+            ...payload,
+            isLoaded: payload ? true : false
+        }
+    })
+}, initialState);
 
 const twoFactor = handleActions({
     [get2faMethod]: (state, { payload }) => ({
         ...state,
         twoFactor: payload
     })
-}, initialState)
+}, initialState);
 
 const twoFactorPrompt = handleActions({
     [promptTwoFactor]: (state, { payload }) => ({
         ...state,
         requestPending: payload.requestPending
     })
-}, initialState)
+}, initialState);
 
 const ledgerKey = handleActions({
     [getLedgerKey]: (state, { payload }) => ({
         ...state,
         ledgerKey: payload
     })
-}, initialState)
+}, initialState);
 
 const account = handleActions({
     [refreshAccountOwner]: (state, { payload, ready, meta }) => {
@@ -96,7 +109,7 @@ const account = handleActions({
             return {
                 ...state,
                 loader: meta.accountId !== state.accountId
-            }
+            };
         }
 
         const resetAccountState = {
@@ -105,7 +118,7 @@ const account = handleActions({
                 ...state.resetAccount,
                 preventClear: false
             } : payload && payload.resetAccount
-        }
+        };
 
         return {
             ...state,
@@ -117,7 +130,7 @@ const account = handleActions({
             ledger: undefined,
             ...resetAccountState,
             loader: false
-        }
+        };
     },
     [resetAccounts]: (state) => ({
         ...state,
@@ -154,7 +167,7 @@ const account = handleActions({
                 }
             }),
     [selectAccount]: () => {
-        return initialState
+        return initialState;
     },
     [setLocalStorage]: (state, { payload }) => ({
         ...state,
@@ -193,7 +206,7 @@ const account = handleActions({
             }
         }
     })
-}, initialState)
+}, initialState);
 
 export default reduceReducers(
     initialState,
@@ -202,11 +215,12 @@ export default reduceReducers(
     account,
     url,
     canEnableTwoFactor,
+    accountHelperWalletState,
     twoFactor,
     twoFactorPrompt,
     ledgerKey
-)
+);
 
-export const selectAccountId = state => state.account.accountId
+export const selectAccountId = state => state.account.accountId;
 
-export const selectBalance = state => state.account.balance
+export const selectBalance = state => state.account.balance;

@@ -1,18 +1,16 @@
-import React from 'react'
-import { Translate } from 'react-localize-redux'
+import React from 'react';
+import { Translate } from 'react-localize-redux';
 
-import FormButton from '../common/FormButton'
-
-import { Input, Form } from 'semantic-ui-react'
+import FormButton from '../common/FormButton';
 
 const AccessKeysDeauthorizeConfirm = ({ handleConfirmSubmit, handleChange, accountId, confirmStatus, handleConfirmClear, mainLoader }) => (
-    <Form onSubmit={(e) => handleConfirmSubmit(e)}>
+    <form onSubmit={(e) => {handleConfirmSubmit(e); e.preventDefault();}}>
         <Translate>
             {({ translate }) => (
-                <Input 
+                <input
                     name='accountId'
                     value={accountId}
-                    onChange={handleChange}
+                    onChange={e => handleChange(e.target.value)}
                     className={confirmStatus ? (confirmStatus === 'success' ? 'success' : 'problem') : ''}
                     placeholder={translate('login.confirm.username')}
                     maxLength='64'
@@ -49,7 +47,7 @@ const AccessKeysDeauthorizeConfirm = ({ handleConfirmSubmit, handleChange, accou
                 <Translate id='button.confirm' />
             </FormButton>
         </div>
-    </Form>
-)
+    </form>
+);
 
-export default AccessKeysDeauthorizeConfirm
+export default AccessKeysDeauthorizeConfirm;

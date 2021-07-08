@@ -1,8 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
-import UserIcon from '../svg/UserIcon'
-import ChevronIcon from '../svg/ChevronIcon'
-import classNames from '../../utils/classNames'
+
+import classNames from '../../utils/classNames';
+import ChevronIcon from '../svg/ChevronIcon';
+import UserIcon from '../svg/UserIcon';
 
 const Container = styled.div`
     background-color: #F0F0F1;
@@ -60,7 +61,7 @@ const Container = styled.div`
             display: none;
         }
     }
-`
+`;
 
 const UserAccount = ({ accountId = '', onClick, withIcon = true, flowLimitation }) => (
     <Container className={classNames(['user-account', {'no-click' : !!flowLimitation?.subMenu }])} onClick={onClick}>
@@ -70,6 +71,6 @@ const UserAccount = ({ accountId = '', onClick, withIcon = true, flowLimitation 
             <ChevronIcon/>
         </div>
     </Container>
-)
+);
 
 export default UserAccount;

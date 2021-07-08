@@ -4,12 +4,5 @@ updates:
   directory: "/"
   schedule:
     interval: daily
-  open-pull-requests-limit: 10
-  ignore:
-  - dependency-name: "@storybook/addon-essentials"
-  - dependency-name: "@storybook/addon-links"
-  - dependency-name: "@storybook/addon-actions"
-  - dependency-name: "@storybook/react"
-  - dependency-name: react-phone-number-input
-    versions:
-    - 3.x
+  open-pull-requests-limit: 0
+  target-branch: "dump"

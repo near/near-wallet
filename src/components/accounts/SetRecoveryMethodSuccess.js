@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
+import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
-import { Translate } from 'react-localize-redux'
+
 import FormButton from '../common/FormButton';
 
 const Container = styled.div`

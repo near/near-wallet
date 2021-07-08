@@ -1,10 +1,11 @@
-import React, { useState } from 'react'
-import { Translate } from 'react-localize-redux'
-import styled from 'styled-components'
-import AlertRoundedIcon from '../../svg/AlertRoundedIcon.js'
-import NearCircleIcon from '../../svg/NearCircleIcon.js'
-import FormButton from '../../common/FormButton'
-import Modal from '../../common/modal/Modal'
+import React, { useState } from 'react';
+import { Translate } from 'react-localize-redux';
+import styled from 'styled-components';
+
+import FormButton from '../../common/FormButton';
+import Modal from '../../common/modal/Modal';
+import AlertRoundedIcon from '../../svg/AlertRoundedIcon.js';
+import NearCircleIcon from '../../svg/NearCircleIcon.js';
 
 const Container = styled.div`
     &&&& {
@@ -37,7 +38,7 @@ const Container = styled.div`
         }
     }
 }
-`
+`;
 
 const ModalContainer = styled.div`
     display: flex;
@@ -58,7 +59,7 @@ const ModalContainer = styled.div`
             margin-top: 40px;
         }
     }
-`
+`;
 
 export default function StakingRewardsBanner() {
     const [info, setInfo] = useState(false);
@@ -93,5 +94,5 @@ export default function StakingRewardsBanner() {
                 </Modal>
             }
         </Container>
-    )
+    );
 }

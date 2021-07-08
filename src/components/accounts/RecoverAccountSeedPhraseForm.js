@@ -1,9 +1,9 @@
-import React from 'react'
-import { Translate } from 'react-localize-redux'
-import { Input } from 'semantic-ui-react'
-import FormButton from '../common/FormButton'
-import classNames from '../../utils/classNames'
-import { actionsPending } from '../../utils/alerts'
+import React from 'react';
+import { Translate } from 'react-localize-redux';
+
+import { actionsPending } from '../../utils/alerts';
+import classNames from '../../utils/classNames';
+import FormButton from '../common/FormButton';
 
 const RecoverAccountSeedPhraseForm = ({
     mainLoader,
@@ -16,10 +16,9 @@ const RecoverAccountSeedPhraseForm = ({
             <h4><Translate id='recoverSeedPhrase.seedPhraseInput.title' /></h4>
             <Translate>
                 {({ translate }) => (
-                    <Input
-                        name='seedPhrase'
+                    <input
                         value={seedPhrase}
-                        onChange={handleChange}
+                        onChange={e => handleChange(e.target.value)}
                         className={classNames([{'success': localAlert && localAlert.success}, {'problem': localAlert && localAlert.success === false}])}
                         placeholder={translate('recoverSeedPhrase.seedPhraseInput.placeholder')}
                         disabled={mainLoader}
@@ -38,6 +37,6 @@ const RecoverAccountSeedPhraseForm = ({
                 <Translate id='button.findMyAccount' />
             </FormButton>
         </>
-    )
+    );
 
-export default RecoverAccountSeedPhraseForm
+export default RecoverAccountSeedPhraseForm;

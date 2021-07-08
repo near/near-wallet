@@ -1,11 +1,12 @@
-import React from 'react'
-import { Translate } from 'react-localize-redux'
-import styled from 'styled-components'
-import FormButton from '../../common/FormButton'
-import DropDown from '../../common/DropDown'
-import ChevronIcon from '../../svg/ChevronIcon'
-import SettingsIcon from '../../svg/SettingsIcon'
-import { onKeyDown } from '../../../hooks/eventListeners'
+import React from 'react';
+import { Translate } from 'react-localize-redux';
+import styled from 'styled-components';
+
+import { onKeyDown } from '../../../hooks/eventListeners';
+import DropDown from '../../common/DropDown';
+import FormButton from '../../common/FormButton';
+import ChevronIcon from '../../svg/ChevronIcon';
+import SettingsIcon from '../../svg/SettingsIcon';
 
 const Container = styled.div`
     width: 100%;
@@ -103,30 +104,30 @@ const Container = styled.div`
             }
         }
     }
-`
+`;
 
 export default function LedgerHdPaths({ onSetPath, path, onConfirmHdPath }) {
     onKeyDown(e => {
-        const dropdownOpen = document.getElementById('hd-paths-dropdown').classList.contains('open')
+        const dropdownOpen = document.getElementById('hd-paths-dropdown').classList.contains('open');
         if (dropdownOpen) {
             if (e.keyCode === 38) {
-                increment()
+                increment();
             } else if (e.keyCode === 40) {
-                decrement()
+                decrement();
             }
-            e.preventDefault()
+            e.preventDefault();
         }
-    })
+    });
 
     const increment = () => {
-        onSetPath(path + 1)
-    }
+        onSetPath(path + 1);
+    };
 
     const decrement = () => {
         if (path > 0) {
-            onSetPath(path - 1)
+            onSetPath(path - 1);
         }
-    }
+    };
 
     const dropDownContent = () => {
         return (
@@ -152,8 +153,8 @@ export default function LedgerHdPaths({ onSetPath, path, onConfirmHdPath }) {
                     <Translate id='signInLedger.advanced.setPath'/>
                 </FormButton>
             </div>
-        )
-    }
+        );
+    };
 
     return (
         <Container>
@@ -165,5 +166,5 @@ export default function LedgerHdPaths({ onSetPath, path, onConfirmHdPath }) {
                 maxHeight={false}
             />
         </Container>
-    )
+    );
 }

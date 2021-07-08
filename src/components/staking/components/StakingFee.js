@@ -1,7 +1,8 @@
-import React from 'react'
-import { Translate } from 'react-localize-redux'
-import styled from 'styled-components'
-import Tooltip from '../../common/Tooltip'
+import React from 'react';
+import { Translate } from 'react-localize-redux';
+import styled from 'styled-components';
+
+import Tooltip from '../../common/Tooltip';
 
 const Container = styled.div`
     background-color: #FFF0DE;
@@ -34,7 +35,7 @@ const Container = styled.div`
         margin-left: auto;
         color: #452500;
     }
-`
+`;
 
 export default function StakingFee({ fee }) {
     
@@ -44,5 +45,5 @@ export default function StakingFee({ fee }) {
             <Tooltip translate='staking.validator.desc'/>
             <span className='fee'>{fee}%</span>
         </Container>
-    )
+    );
 }

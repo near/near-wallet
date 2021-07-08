@@ -1,9 +1,10 @@
-import React from 'react'
-import styled from 'styled-components'
-import DefaultTokenIcon from '../svg/DefaultTokenIcon'
-import { EXPLORER_URL } from '../../utils/wallet'
-import isDataURL from '../../utils/isDataURL'
-import FailedToLoad from '../../images/failed_to_load.svg'
+import React from 'react';
+import styled from 'styled-components';
+
+import FailedToLoad from '../../images/failed_to_load.svg';
+import isDataURL from '../../utils/isDataURL';
+import { EXPLORER_URL } from '../../utils/wallet';
+import DefaultTokenIcon from '../svg/DefaultTokenIcon';
 
 const StyledContainer = styled.div`
     display: flex;
@@ -99,7 +100,7 @@ const StyledContainer = styled.div`
         width: 100%;
         margin-bottom: 10px;
     }
-`
+`;
 
 const NFTBox = ({ token }) => {
     return (
@@ -123,13 +124,13 @@ const NFTBox = ({ token }) => {
                 token.tokens &&
                 <div className='tokens'>
                     {token.tokens.map(token => <div className='nft' key={token.token_id}>
-                        <img src={token.metadata.mediaUrl} alt='NFT' onError={(e)=>{e.target.onerror = null; e.target.src = FailedToLoad}}/>
+                        <img src={token.metadata.mediaUrl} alt='NFT' onError={(e)=>{e.target.onerror = null; e.target.src = FailedToLoad;}}/>
                         <b>{token.metadata.title}</b>
                     </div>)}
                 </div>
             }
         </StyledContainer>
-    )
-}
+    );
+};
 
-export default NFTBox
+export default NFTBox;

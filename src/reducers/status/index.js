@@ -1,20 +1,22 @@
-import { handleActions } from 'redux-actions'
-import reduceReducers from 'reduce-reducers'
+import reduceReducers from 'reduce-reducers';
+import { handleActions } from 'redux-actions';
 
+import { selectAccount } from '../../actions/account';
 import {
     clearLocalAlert,
     clearGlobalAlert,
-    setMainLoader
-} from '../../actions/status'
+    setMainLoader,
+    setIsMobile
+} from '../../actions/status';
 
-import { selectAccount } from '../../actions/account'
 
 const initialState = {
     mainLoader: false,
     actionStatus: {},
     globalAlert: {},
-    localAlert: {}
-}
+    localAlert: {},
+    isMobile: null
+};
 
 const alertReducer = (state, { error, ready, payload, meta, type }) => {
     const actionStatus = {
@@ -37,7 +39,7 @@ const alertReducer = (state, { error, ready, payload, meta, type }) => {
                     ...payload
                 }
             }
-    }
+    };
 
     return {
         ...state,
@@ -79,8 +81,8 @@ const alertReducer = (state, { error, ready, payload, meta, type }) => {
                     }`
                 }
                 : state.localAlert
-    }
-}
+    };
+};
 
 const clearReducer = handleActions({
     [clearLocalAlert]: state => Object.keys(state)
@@ -103,22 +105,30 @@ const clearReducer = handleActions({
             }), {})
     }),
     [selectAccount]: () => {
-        return initialState
+        return initialState;
     }
-}, initialState)
+}, initialState);
 
 const mainLoader = handleActions({
     [setMainLoader]: (state, { payload }) => ({
         ...state,
         mainLoader: payload
     })
-}, initialState)
+}, initialState);
+
+const isMobile = handleActions({
+    [setIsMobile]: (state, { payload }) => ({
+        ...state,
+        isMobile: payload
+    })
+}, initialState);
 
 export default reduceReducers(
     initialState,
     alertReducer,
     clearReducer,
-    mainLoader
-)
+    mainLoader,
+    isMobile
+);
 
-export const selectActionStatus = state => state.status.actionStatus
+export const selectActionStatus = state => state.status.actionStatus;

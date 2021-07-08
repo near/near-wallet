@@ -1,12 +1,14 @@
-import React from 'react'
-import { Translate } from 'react-localize-redux'
-import styled from 'styled-components'
-import { ACCOUNT_ID_SUFFIX } from '../../utils/wallet'
+import React from 'react';
+import { Translate } from 'react-localize-redux';
+import styled from 'styled-components';
+
+import { ACCOUNT_ID_SUFFIX } from '../../utils/wallet';
 
 const Container = styled.div`
     font-style: italic;
-    padding: 15px 0;
+    padding: 10px 0 20px 0;
     font-size: 13px;
+    color: #A2A2A8;
     
     p {
         margin-bottom: 5px;
@@ -16,7 +18,7 @@ const Container = styled.div`
         margin-top: 0;
         padding-left: 17px;
     }
-`
+`;
 
 const AccountNote = () => (
 
@@ -34,6 +36,6 @@ const AccountNote = () => (
             <li><Translate id='createAccount.note.maxCharacters' data={{ accountSuffix: ACCOUNT_ID_SUFFIX }}/></li>
         </ul>
     </Container>
-)
+);
 
-export default AccountNote
+export default AccountNote;

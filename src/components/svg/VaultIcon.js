@@ -19,7 +19,7 @@ const VaultIcon = ({ color = '#A2A2A8' }) => {
                 </clipPath>
             </defs>
         </svg>
-    )
-}
+    );
+};
 
 export default VaultIcon;

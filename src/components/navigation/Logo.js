@@ -1,6 +1,7 @@
 import React from 'react';
-import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import styled from 'styled-components';
+
 import NearLogo from '../svg/NearLogo';
 
 const StyledLogo = styled(`div`)`
@@ -24,7 +25,7 @@ const StyledLogo = styled(`div`)`
             width: 133px;
         }
     }
-`
+`;
 
 const Logo = ({ link }) => (
     <StyledLogo className='logo'>
@@ -35,6 +36,6 @@ const Logo = ({ link }) => (
             : <NearLogo />
         }
     </StyledLogo>
-)
+);
 
-export default Logo
+export default Logo;

@@ -1,11 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { connect } from 'react-redux';
-import { parse as parseQuery } from 'query-string';
-import Container from '../../common/styled/Container.css';
-import InstructionsModal from './InstructionsModal';
-import LedgerIcon from '../../svg/LedgerIcon';
-import FormButton from '../../common/FormButton';
 import { Translate } from 'react-localize-redux';
+import { connect } from 'react-redux';
+
 import {
     addLedgerAccessKey,
     createNewAccount,
@@ -15,13 +11,17 @@ import {
     checkIsNew,
     fundCreateAccountLedger,
     getLedgerPublicKey
-} from '../../../actions/account'
-import { ACCOUNT_HELPER_URL, DISABLE_CREATE_ACCOUNT, setKeyMeta } from '../../../utils/wallet'
-import GlobalAlert from '../../common/GlobalAlert'
-import { Mixpanel } from '../../../mixpanel/index'
-import { isRetryableRecaptchaError, Recaptcha } from '../../Recaptcha';
+} from '../../../actions/account';
 import { showCustomAlert } from '../../../actions/status';
-import sendJson from '../../../tmp_fetch_send_json';
+import { Mixpanel } from '../../../mixpanel/index';
+import parseFundingOptions from '../../../utils/parseFundingOptions';
+import { DISABLE_CREATE_ACCOUNT, setKeyMeta } from '../../../utils/wallet';
+import FormButton from '../../common/FormButton';
+import GlobalAlert from '../../common/GlobalAlert';
+import Container from '../../common/styled/Container.css';
+import { isRetryableRecaptchaError, Recaptcha } from '../../Recaptcha';
+import LedgerIcon from '../../svg/LedgerIcon';
+import InstructionsModal from './InstructionsModal';
 
 // FIXME: Use `debug` npm package so we can keep some debug logging around but not spam the console everywhere
 const ENABLE_DEBUG_LOGGING = false;
@@ -31,85 +31,56 @@ const SetupLedger = (props) => {
 
     const [showInstructions, setShowInstructions] = useState(false);
     const [connect, setConnect] = useState(null);
-
     const [isNewAccount, setIsNewAccount] = useState(null);
-
     // TODO: Custom recaptcha hook
     const [recaptchaToken, setRecaptchaToken] = useState(null);
     const recaptchaRef = useRef(null);
-
-    // TODO: Combine similar effect code into custom hook
-    const [fundedAccountAvailable, setFundedAccountAvailable] = useState(false);
-    useEffect(() => {
-        debugLog('Checking available funded account status');
-        const fetchIsFundedAccountAvailable = async () => {
-            let available;
-
-            try {
-                ({ available } = await sendJson('GET', ACCOUNT_HELPER_URL + '/checkFundedAccountAvailable'));
-            } catch (e) {
-                debugLog('Failed check available funded account status');
-                setFundedAccountAvailable(false);
-                return;
-            }
-
-            debugLog('Funded account availability', { available });
-            setFundedAccountAvailable(available);
-        }
-
-        if(process.env.RECAPTCHA_CHALLENGE_API_KEY && isNewAccount) {
-            fetchIsFundedAccountAvailable();
-        }
-    }, []);
-
-    const shouldRenderRecaptcha = process.env.RECAPTCHA_CHALLENGE_API_KEY && isNewAccount && fundedAccountAvailable;
+    const fundingOptions = parseFundingOptions(props.location.search);
+    const shouldRenderRecaptcha = !fundingOptions && process.env.RECAPTCHA_CHALLENGE_API_KEY && isNewAccount;
 
     useEffect(() => {
         const performNewAccountCheck = async () => {
             setIsNewAccount(await props.dispatch(checkIsNew(props.accountId)));
-        }
+        };
         performNewAccountCheck();
-    }, [])
+    }, []);
 
     const openShowInstructions = () => {
-        setShowInstructions(true)
-        Mixpanel.track("SR-Ledger See instructions")
-    }
+        setShowInstructions(true);
+        Mixpanel.track("SR-Ledger See instructions");
+    };
     const closeShowInstructions = () => {
-        setShowInstructions(false)
-        Mixpanel.track("SR-Ledger Close instructions")
-    }
+        setShowInstructions(false);
+        Mixpanel.track("SR-Ledger Close instructions");
+    };
 
     const handleClick = async () => {
         const {
             dispatch,
-            location,
             accountId,
-        } = props
+        } = props;
 
-        setConnect(true)
+        setConnect(true);
         await Mixpanel.withTracking("SR-Ledger Connect ledger",
             async () => {
                 if (isNewAccount) {
                     let publicKey;
 
                     try {
-                        const queryOptions = parseQuery(location.search);
-                        const fundingOptions = JSON.parse(queryOptions.fundingOptions || 'null')
 
-                        debugLog(DISABLE_CREATE_ACCOUNT, fundingOptions)
-                        publicKey = await dispatch(getLedgerPublicKey())
-                        await setKeyMeta(publicKey, { type: 'ledger' })
-                        Mixpanel.track("SR-Ledger Set key meta")
+                        debugLog(DISABLE_CREATE_ACCOUNT, fundingOptions);
+                        publicKey = await dispatch(getLedgerPublicKey());
+                        await setKeyMeta(publicKey, { type: 'ledger' });
+                        Mixpanel.track("SR-Ledger Set key meta");
 
                         if (DISABLE_CREATE_ACCOUNT && !fundingOptions && !recaptchaToken) {
-                            await dispatch(fundCreateAccountLedger(accountId, publicKey))
-                            Mixpanel.track("SR-Ledger Fund create account ledger")
-                            return
+                            await dispatch(fundCreateAccountLedger(accountId, publicKey));
+                            Mixpanel.track("SR-Ledger Fund create account ledger");
+                            return;
                         }
 
-                        await dispatch(createNewAccount(accountId, fundingOptions, 'ledger', publicKey, undefined, recaptchaToken))
-                        Mixpanel.track("SR-Ledger Create new account ledger")
+                        await dispatch(createNewAccount(accountId, fundingOptions, 'ledger', publicKey, undefined, recaptchaToken));
+                        Mixpanel.track("SR-Ledger Create new account ledger");
                     } catch(err) {
                         if (isRetryableRecaptchaError(err)) {
                             Mixpanel.track('Funded account creation failed due to invalid / expired reCaptcha response from user');
@@ -119,10 +90,10 @@ const SetupLedger = (props) => {
                                 success: false,
                                 messageCodeHeader: 'error',
                                 messageCode: 'walletErrorCodes.invalidRecaptchaCode'
-                            }))
+                            }));
                         } else if(err.code === 'NotEnoughBalance') {
                             Mixpanel.track('SR-Ledger NotEnoughBalance creating funded account');
-                            dispatch(fundCreateAccountLedger(accountId, publicKey))
+                            dispatch(fundCreateAccountLedger(accountId, publicKey));
                         } else {
                             recaptchaRef.current.reset();
 
@@ -130,21 +101,21 @@ const SetupLedger = (props) => {
                                 errorMessage: err.message,
                                 success: false,
                                 messageCodeHeader: 'error',
-                            }))
+                            }));
                         }
 
                         return;
                     }
                 } else {
-                    await dispatch(addLedgerAccessKey())
-                    Mixpanel.track("SR-Ledger Add ledger access key")
+                    await dispatch(addLedgerAccessKey());
+                    Mixpanel.track("SR-Ledger Add ledger access key");
                 }
-                await dispatch(refreshAccount())
+                await dispatch(refreshAccount());
                 if (isNewAccount) {
-                    Mixpanel.track("SR-Ledger Go to profile of new account")
-                    await dispatch(redirectToApp('/'))
+                    Mixpanel.track("SR-Ledger Go to profile of new account");
+                    await dispatch(redirectToApp('/'));
                 } else {
-                    Mixpanel.track("SR-Ledger Go to setup ledger success")
+                    Mixpanel.track("SR-Ledger Go to setup ledger success");
                     await dispatch(redirectTo('/setup-ledger-success'));
                 }
             },
@@ -152,11 +123,11 @@ const SetupLedger = (props) => {
                 setConnect('fail');
                 throw e;
             }
-        )
-    }
+        );
+    };
 
     return (
-        <Container className='small-centered ledger-theme'>
+        <Container className='small-centered border ledger-theme'>
             {props.localAlert && !props.localAlert.success &&
                 <GlobalAlert
                     globalAlert={{
@@ -201,12 +172,12 @@ const SetupLedger = (props) => {
             }
         </Container>
     );
-}
+};
 
 const mapStateToProps = ({ account, status }, { match }) => ({
     ...account,
     accountId: match.params.accountId,
     mainLoader: status.mainLoader
-})
+});
 
 export const SetupLedgerWithRouter = connect(mapStateToProps)(SetupLedger);

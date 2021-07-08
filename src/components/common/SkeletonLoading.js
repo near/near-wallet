@@ -5,7 +5,7 @@ const Wrapper = styled.div`
     position: relative;
     min-width: 100%;
     min-height: 10px;
-`
+`;
 
 const Animation = styled.div`
     animation-duration: 1s;
@@ -30,7 +30,7 @@ const Animation = styled.div`
             background-position: -100% 0
         }
     }
-`
+`;
 
 const SkeletonLoading = ({ height, padding, number, show, className }) => {
     if (show) {
@@ -45,6 +45,6 @@ const SkeletonLoading = ({ height, padding, number, show, className }) => {
         );
     }
     return null;
-}
+};
 
 export default SkeletonLoading;

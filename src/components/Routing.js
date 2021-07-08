@@ -1,67 +1,80 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import PropTypes from 'prop-types'
-import styled, { ThemeProvider } from 'styled-components'
+import { ConnectedRouter } from 'connected-react-router';
+import PropTypes from 'prop-types';
+import React, { Component } from 'react';
+import { withLocalize } from 'react-localize-redux';
+import { connect } from 'react-redux';
+import { Redirect, Route, Switch } from 'react-router-dom';
+import styled, { ThemeProvider } from 'styled-components';
 
-import { Route, Switch, Redirect } from 'react-router-dom'
-import { ConnectedRouter } from 'connected-react-router'
-import { withLocalize } from 'react-localize-redux'
-import translations_en from '../translations/en.global.json'
-import translations_pt from '../translations/pt.global.json'
-import translations_ru from '../translations/ru.global.json'
-import translations_vi from '../translations/vi.global.json'
-import translations_zh_hans from '../translations/zh-hans.global.json'
-import translations_zh_hant from '../translations/zh-hant.global.json'
-import ScrollToTop from '../utils/ScrollToTop'
-import GlobalAlert from './common/GlobalAlert'
-import '../index.css'
-import Navigation from './navigation/Navigation'
-import Footer from './common/Footer'
-import NetworkBanner from './common/NetworkBanner'
-import TwoFactorVerifyModal from '../components/accounts/two_factor/TwoFactorVerifyModal'
-import PrivateRoute from './common/PrivateRoute'
-import PrivateRouteLimited from './common/PrivateRouteLimited'
-import GuestLandingRoute from './common/GuestLandingRoute'
-import { Wallet } from './wallet/Wallet'
-import { CreateAccountWithRouter } from './accounts/CreateAccount'
-import { LinkdropLandingWithRouter } from './accounts/LinkdropLanding'
-import { SetupRecoveryMethodWithRouter } from './accounts/recovery_setup/SetupRecoveryMethod'
-import { SetupLedgerWithRouter } from './accounts/ledger/SetupLedger'
-import { SetupLedgerSuccessWithRouter } from './accounts/ledger/SetupLedgerSuccess'
-import { EnableTwoFactor } from './accounts/two_factor/EnableTwoFactor'
-import { RecoverAccountWithRouter } from './accounts/RecoverAccount'
-import { RecoverAccountSeedPhraseWithRouter } from './accounts/RecoverAccountSeedPhrase'
-import { RecoverWithLinkWithRouter } from './accounts/RecoverWithLink'
-import { SignInLedger } from './accounts/ledger/SignInLedger'
-import { AutoImport } from './accounts/auto_import/AutoImport'
-import { LoginWithRouter } from './login/Login'
-import { LoginCliLoginSuccess } from './login/LoginCliLoginSuccess'
-import { AuthorizedAppsWithRouter } from './access-keys/AccessKeys'
-import { FullAccessKeysWithRouter } from './access-keys/AccessKeys'
-import { SendContainer } from './send/SendContainer'
-import { ReceiveMoneyWithRouter } from './receive-money/ReceiveMoney'
-import { Profile } from './profile/Profile'
-import { BuyNear } from './buy/BuyNear'
-import { SignWithRouter } from './sign/Sign'
-import { StakingContainer } from './staking/StakingContainer'
-import { DISABLE_SEND_MONEY, WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS, IS_MAINNET, SHOW_PRERELEASE_WARNING } from '../utils/wallet'
-import { refreshAccount, handleRefreshUrl, handleRedirectUrl, handleClearUrl, promptTwoFactor } from '../actions/account'
-import LedgerConfirmActionModal from './accounts/ledger/LedgerConfirmActionModal';
-
-import GlobalStyle from './GlobalStyle'
-import { SetupSeedPhraseWithRouter } from './accounts/SetupSeedPhrase'
-import { SetupImplicitWithRouter } from './accounts/SetupImplicit'
-import { SetupImplicitSuccess } from './accounts/SetupImplicitSuccess'
-import { handleClearAlert} from '../utils/alerts'
+import * as accountActions from '../actions/account';
+import { setIsMobile } from '../actions/status';
+import TwoFactorVerifyModal from '../components/accounts/two_factor/TwoFactorVerifyModal';
 import { Mixpanel } from "../mixpanel/index";
+import translations_en from '../translations/en.global.json';
+import translations_pt from '../translations/pt.global.json';
+import translations_ru from '../translations/ru.global.json';
+import translations_vi from '../translations/vi.global.json';
+import translations_zh_hans from '../translations/zh-hans.global.json';
+import translations_zh_hant from '../translations/zh-hant.global.json';
+import { handleClearAlert } from '../utils/alerts';
 import classNames from '../utils/classNames';
-import Terms from './terms/Terms'
+import getBrowserLocale from '../utils/getBrowserLocale';
+import isMobile from '../utils/isMobile';
+import { getAccountIsInactive, removeAccountIsInactive, setAccountIsInactive } from '../utils/localStorage';
+import { reportUiActiveMixpanelThrottled } from '../utils/reportUiActiveMixpanelThrottled';
+import ScrollToTop from '../utils/ScrollToTop';
+import { IS_MAINNET, SHOW_PRERELEASE_WARNING, WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS } from '../utils/wallet';
+import { AuthorizedAppsWithRouter, FullAccessKeysWithRouter } from './access-keys/AccessKeys';
+import { AutoImport } from './accounts/auto_import/AutoImport';
+import { ActivateAccountWithRouter } from './accounts/create/ActivateAccount';
+import { CreateAccountWithRouter } from './accounts/CreateAccount';
+import LedgerConfirmActionModal from './accounts/ledger/LedgerConfirmActionModal';
+import { SetupLedgerWithRouter } from './accounts/ledger/SetupLedger';
+import { SetupLedgerSuccessWithRouter } from './accounts/ledger/SetupLedgerSuccess';
+import { SignInLedger } from './accounts/ledger/SignInLedger';
+import { LinkdropLandingWithRouter } from './accounts/LinkdropLanding';
+import { RecoverAccountWithRouter } from './accounts/RecoverAccount';
+import { RecoverAccountSeedPhraseWithRouter } from './accounts/RecoverAccountSeedPhrase';
+import { RecoverWithLinkWithRouter } from './accounts/RecoverWithLink';
+import { SetupRecoveryMethodWithRouter } from './accounts/recovery_setup/SetupRecoveryMethod';
+import { SetupImplicitWithRouter } from './accounts/SetupImplicit';
+import { SetupImplicitSuccess } from './accounts/SetupImplicitSuccess';
+import { SetupSeedPhraseWithRouter } from './accounts/SetupSeedPhrase';
+import { EnableTwoFactor } from './accounts/two_factor/EnableTwoFactor';
+import { BuyNear } from './buy/BuyNear';
+import Footer from './common/Footer';
+import GlobalAlert from './common/GlobalAlert';
+import GuestLandingRoute from './common/GuestLandingRoute';
+import NetworkBanner from './common/NetworkBanner';
+import PrivateRoute from './common/PrivateRoute';
+import PrivateRouteLimited from './common/PrivateRouteLimited';
+import GlobalStyle from './GlobalStyle';
+import { LoginWithRouter } from './login/Login';
+import { LoginCliLoginSuccess } from './login/LoginCliLoginSuccess';
+import Navigation from './navigation/Navigation';
+import { Profile } from './profile/Profile';
+import { ReceiveMoneyWithRouter } from './receive-money/ReceiveMoney';
+import { SendContainer } from './send/SendContainer';
+import { SignWithRouter } from './sign/Sign';
+import { StakingContainer } from './staking/StakingContainer';
+import Terms from './terms/Terms';
+import { Wallet } from './wallet/Wallet';
 
-const theme = {}
+import '../index.css';
 
-const PATH_PREFIX = process.env.PUBLIC_URL
+const  {
+    getAccountHelperWalletState,
+    handleClearUrl,
+    handleRedirectUrl,
+    handleRefreshUrl,
+    promptTwoFactor,
+    redirectTo,
+    refreshAccount
+} = accountActions;
 
-const onMissingTranslation = ({ defaultTranslation }) => defaultTranslation;
+const theme = {};
+
+const PATH_PREFIX = process.env.PUBLIC_URL;
 
 const Container = styled.div`
     min-height: 100vh;
@@ -86,10 +99,15 @@ const Container = styled.div`
             }
         }
     }
-`
+`;
 class Routing extends Component {
     constructor(props) {
-        super(props)
+        super(props);
+
+        this.state = {
+            isInactiveAccount: null
+        };
+
         const languages = [
             { name: "English", code: "en" },
             { name: "Português", code: "pt" },
@@ -97,9 +115,10 @@ class Routing extends Component {
             { name: "Tiếng Việt", code: "vi" },
             { name: "简体中文", code: "zh-hans" },
             { name: "繁體中文", code: "zh-hant" }
-        ]
+        ];
 
-        const activeLang = localStorage.getItem("languageCode") || languages[0].code
+        const browserLanguage = getBrowserLocale(languages.map(l => l.code));
+        const activeLang = localStorage.getItem("languageCode") || browserLanguage || languages[0].code;
 
         this.props.initialize({
             languages,
@@ -109,17 +128,17 @@ class Routing extends Component {
                 renderToStaticMarkup: false,
                 renderInnerHtml: true
             }
-        })
+        });
 
         // TODO: Figure out how to load only necessary translations dynamically
-        this.props.addTranslationForLanguage(translations_en, "en")
-        this.props.addTranslationForLanguage(translations_pt, "pt")
-        this.props.addTranslationForLanguage(translations_ru, "ru")
-        this.props.addTranslationForLanguage(translations_zh_hans, "zh-hans")
-        this.props.addTranslationForLanguage(translations_zh_hant, "zh-hant")
-        this.props.addTranslationForLanguage(translations_vi, "vi")
+        this.props.addTranslationForLanguage(translations_en, "en");
+        this.props.addTranslationForLanguage(translations_pt, "pt");
+        this.props.addTranslationForLanguage(translations_ru, "ru");
+        this.props.addTranslationForLanguage(translations_zh_hans, "zh-hans");
+        this.props.addTranslationForLanguage(translations_zh_hant, "zh-hant");
+        this.props.addTranslationForLanguage(translations_vi, "vi");
 
-        this.props.setActiveLanguage(activeLang)
+        this.props.setActiveLanguage(activeLang);
         // this.addTranslationsForActiveLanguage(defaultLanguage)
     }
 
@@ -130,31 +149,56 @@ class Routing extends Component {
             history,
             handleRedirectUrl,
             handleClearUrl,
-            router
-        } = this.props
+            router,
+            setIsMobile
+        } = this.props;
 
-        handleRefreshUrl(router)
-        refreshAccount()
+        handleRefreshUrl(router);
+        refreshAccount();
+        setIsMobile(isMobile());
 
         history.listen(async () => {
-            handleRedirectUrl(this.props.router.location)
-            handleClearUrl()
+            handleRedirectUrl(this.props.router.location);
+            handleClearUrl();
             if (!WALLET_CREATE_NEW_ACCOUNT_FLOW_URLS.find((path) => this.props.router.location.pathname.indexOf(path) > -1)) {
-                await refreshAccount(true)
+                await refreshAccount(true);
             }
 
-            handleClearAlert()
-        })
+            handleClearAlert();
+        });
     }
 
     componentDidUpdate(prevProps) {
-        const prevLangCode = prevProps.activeLanguage && prevProps.activeLanguage.code
-        const curLangCode = this.props.activeLanguage && this.props.activeLanguage.code
-        const hasLanguageChanged = prevLangCode !== curLangCode
+        const { activeLanguage, account, getAccountHelperWalletState } = this.props;
+
+        if (prevProps.account.localStorage?.accountId !== account.localStorage?.accountId) {
+            this.setState({ isInactiveAccount: getAccountIsInactive(`${account.accountId || account.localStorage?.accountId}`) });
+        }
+
+        if (prevProps.account.accountId !== account.accountId && account.accountId !== undefined) {
+            getAccountHelperWalletState(account.accountId);
+        }
+
+        if (prevProps.account.accountHelperWalletState.isLoaded !== account.accountHelperWalletState.isLoaded) {
+            const needsDeposit = account.accountHelperWalletState.fundedAccountNeedsDeposit;
+            const accountId = account.accountId || account.localStorage?.accountId;
+
+            this.setState({ isInactiveAccount: needsDeposit });
+
+            if (!needsDeposit) {
+                removeAccountIsInactive(accountId);
+            } else {
+                setAccountIsInactive(accountId);
+            }
+        }
+
+        const prevLangCode = prevProps.activeLanguage && prevProps.activeLanguage.code;
+        const curLangCode = activeLanguage && activeLanguage.code;
+        const hasLanguageChanged = prevLangCode !== curLangCode;
 
         if (hasLanguageChanged) {
             // this.addTranslationsForActiveLanguage(curLangCode)
-            localStorage.setItem("languageCode", curLangCode)
+            localStorage.setItem("languageCode", curLangCode);
         }
     }
 
@@ -168,7 +212,12 @@ class Routing extends Component {
     // }
 
     render() {
-        const { search } = this.props.router.location
+        const { search } = this.props.router.location;
+        const { account } = this.props;
+        const { isInactiveAccount } = this.state;
+
+        reportUiActiveMixpanelThrottled();
+
         return (
             <Container className={classNames(['App', {'network-banner': (!IS_MAINNET || SHOW_PRERELEASE_WARNING)}])} id='app-container'>
                 <GlobalStyle />
@@ -176,27 +225,27 @@ class Routing extends Component {
                     <ThemeProvider theme={theme}>
                         <ScrollToTop/>
                         <NetworkBanner
-                            account={this.props.account}
+                            account={account}
                         />
-                        <Navigation/>
+                        <Navigation isInactiveAccount={isInactiveAccount}/>
                         <GlobalAlert/>
                         <LedgerConfirmActionModal/>
                         {
-                            this.props.account.requestPending !== null &&
+                            account.requestPending !== null &&
                             <TwoFactorVerifyModal
                                 onClose={(verified, error) => {
-                                    const { account, promptTwoFactor } = this.props
-                                    Mixpanel.track("2FA Modal Verify start")
+                                    const { account, promptTwoFactor } = this.props;
+                                    Mixpanel.track("2FA Modal Verify start");
                                     // requestPending will resolve (verified == true) or reject the Promise being awaited in the method that dispatched promptTwoFactor
-                                    account.requestPending(verified, error)
+                                    account.requestPending(verified, error);
                                     // clears requestPending and closes the modal
-                                    promptTwoFactor(null)
+                                    promptTwoFactor(null);
                                     if (error) {
                                         // tracking error
-                                        Mixpanel.track("2FA Modal Verify fail", {error: error.message})
+                                        Mixpanel.track("2FA Modal Verify fail", {error: error.message});
                                     }
                                     if (verified) {
-                                        Mixpanel.track("2FA Modal Verify finish")
+                                        Mixpanel.track("2FA Modal Verify finish");
                                     }
                                 }}
                             />
@@ -209,7 +258,7 @@ class Routing extends Component {
                             <GuestLandingRoute
                                 exact
                                 path='/' 
-                                component={Wallet}
+                                component={isInactiveAccount ? ActivateAccountWithRouter : Wallet}
                                 accountFound={this.props.account.localStorage?.accountFound}
                             />
                             <Route
@@ -301,7 +350,7 @@ class Routing extends Component {
                                 path='/full-access-keys'
                                 component={FullAccessKeysWithRouter}
                             />
-                            {!DISABLE_SEND_MONEY &&
+                            {!isInactiveAccount &&
                                 <PrivateRouteLimited
                                     exact
                                     path='/send-money/:id?'
@@ -323,25 +372,29 @@ class Routing extends Component {
                                 path='/profile/:accountId'
                                 component={Profile}
                             />
-                            <PrivateRouteLimited
-                                exact
-                                path='/profile/:accountId?'
-                                component={Profile}
-                            />
+                            {!isInactiveAccount &&
+                                <PrivateRouteLimited
+                                    exact
+                                    path='/profile/:accountId?'
+                                    component={Profile}
+                                />
+                            }
                             <PrivateRouteLimited
                                 exact
                                 path='/sign'
                                 component={SignWithRouter}
                             />
-                            <PrivateRouteLimited
-                                path='/staking'
-                                component={StakingContainer}
-                                render={() => (
-                                    <StakingContainer
-                                        history={this.props.history}
-                                    />
-                                )}
-                            />
+                            {!isInactiveAccount &&
+                                <PrivateRouteLimited
+                                    path='/staking'
+                                    component={StakingContainer}
+                                    render={() => (
+                                        <StakingContainer
+                                            history={this.props.history}
+                                        />
+                                    )}
+                                />
+                            }
                             <Route
                                 exact
                                 path='/cli-login-success'
@@ -353,35 +406,38 @@ class Routing extends Component {
                                 component={Terms}
                             />
                             <PrivateRouteLimited
-                                component={Wallet}
+                                component={isInactiveAccount ? ActivateAccountWithRouter : Wallet}
                             />
                         </Switch>
                         <Footer />
                     </ThemeProvider>
                 </ConnectedRouter>
             </Container>
-        )
+        );
     }
 }
 
 Routing.propTypes = {
     history: PropTypes.object.isRequired
-}
+};
 
 const mapDispatchToProps = {
     refreshAccount,
     handleRefreshUrl,
     handleRedirectUrl,
     handleClearUrl,
-    promptTwoFactor
-}
+    promptTwoFactor,
+    redirectTo,
+    getAccountHelperWalletState,
+    setIsMobile
+};
 
 const mapStateToProps = ({ account, router }) => ({
     account,
     router
-})
+});
 
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(withLocalize(Routing))
+)(withLocalize(Routing));

@@ -14,7 +14,7 @@ const NearWithBackgroundIcon = () => {
                 </clipPath>
             </defs>
         </svg>
-    )
-}
+    );
+};
 
 export default NearWithBackgroundIcon;

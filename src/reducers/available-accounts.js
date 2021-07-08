@@ -1,10 +1,10 @@
-import { handleActions } from 'redux-actions'
+import { handleActions } from 'redux-actions';
 
-import { refreshAccountOwner } from '../actions/account'
+import { refreshAccountOwner } from '../actions/account';
 
-const initialState = []
+const initialState = [];
 const availableAccounts = handleActions({
     [refreshAccountOwner]: (state, { payload }) => Object.keys((payload && payload.accounts) || {}).sort()
-}, initialState)
+}, initialState);
 
-export default availableAccounts
+export default availableAccounts;

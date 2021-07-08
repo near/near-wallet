@@ -19,7 +19,7 @@ const NearGiftIcons = () => {
                 </clipPath>
             </defs>
         </svg>
-    )
-}
+    );
+};
 
 export default NearGiftIcons;

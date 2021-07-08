@@ -1,25 +1,22 @@
 import "regenerator-runtime/runtime";
 
-import React from 'react'
-import ReactDOM from 'react-dom'
-
-import { initSentry } from './utils/sentry'
-
-import { createStore } from 'redux'
-import { Provider } from 'react-redux'
+import { createBrowserHistory } from 'history';
+import React from 'react';
+import ReactDOM from 'react-dom';
 import { LocalizeProvider } from 'react-localize-redux';
-import { createBrowserHistory } from 'history'
+import { Provider } from 'react-redux';
+import { createStore } from 'redux';
 
-import createRootReducer from './reducers'
-import createMiddleware from './middleware'
-
-import Routing from './components/Routing'
+import Routing from './components/Routing';
+import createMiddleware from './middleware';
+import createRootReducer from './reducers';
+import { initSentry } from './utils/sentry';
 
 initSentry();
 
-const history = createBrowserHistory()
+const history = createBrowserHistory();
 
-export const store = createStore(createRootReducer(history), createMiddleware(history))
+export const store = createStore(createRootReducer(history), createMiddleware(history));
 
 ReactDOM.render(
     <Provider store={store}>
@@ -28,4 +25,4 @@ ReactDOM.render(
         </LocalizeProvider>
     </Provider>,
     document.getElementById('root')
-)
+);

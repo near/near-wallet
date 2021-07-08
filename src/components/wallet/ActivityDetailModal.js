@@ -1,21 +1,24 @@
-import React, { useEffect } from 'react'
-import { useDispatch } from 'react-redux'
-import { Translate } from 'react-localize-redux'
-import styled from 'styled-components'
+import React, { useEffect } from 'react';
+import { Translate } from 'react-localize-redux';
+import { useDispatch } from 'react-redux';
+import styled from 'styled-components';
 
-import FormButton from '../common/FormButton'
-import Modal from "../common/modal/Modal"
-import { ActionTitle, ActionValue, ActionMessage, ActionStatus, translateData } from './ActivityBox'
-import { EXPLORER_URL, TRANSACTIONS_REFRESH_INTERVAL } from '../../utils/wallet'
+import { EXPLORER_URL, TRANSACTIONS_REFRESH_INTERVAL } from '../../utils/wallet';
+import FormButton from '../common/FormButton';
+import Modal from "../common/modal/Modal";
+import { ActionTitle, ActionValue, ActionMessage, ActionStatus, translateData } from './ActivityBox';
 
 const StyledContainer = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
 
-    h2 {
+    .title {
         text-align: center;
         margin-top: 20px;
+        font-size: 20px;
+        color: #24272a;
+        font-weight: 900;
     }
 
     .row {
@@ -104,7 +107,7 @@ const StyledContainer = styled.div`
             max-width: 400px;
         }
     }
-`
+`;
 
 const ActivityDetailModal = ({ 
     open,
@@ -121,19 +124,19 @@ const ActivityDetailModal = ({
         hash,
         signer_id,
         block_timestamp
-    } = transaction
+    } = transaction;
 
-    const dispatch = useDispatch()
-    const getTransactionStatusConditions = () => checkStatus && !document.hidden && dispatch(getTransactionStatus(hash, signer_id, accountId))
+    const dispatch = useDispatch();
+    const getTransactionStatusConditions = () => checkStatus && !document.hidden && dispatch(getTransactionStatus(hash, signer_id, accountId));
 
     useEffect(() => {
-        getTransactionStatusConditions()
+        getTransactionStatusConditions();
         const interval = setInterval(() => {
-            getTransactionStatusConditions()
-        }, TRANSACTIONS_REFRESH_INTERVAL)
+            getTransactionStatusConditions();
+        }, TRANSACTIONS_REFRESH_INTERVAL);
 
-        return () => clearInterval(interval)
-    }, [hash, checkStatus])
+        return () => clearInterval(interval);
+    }, [hash, checkStatus]);
 
     return (
         <Modal
@@ -143,14 +146,14 @@ const ActivityDetailModal = ({
             closeButton
         >
             <StyledContainer>
-                <h2>
+                <div className='title'>
                     <ActionTitle 
                         transaction={transaction}
                         actionArgs={actionArgs}
                         actionKind={actionKind}
                         accountId={accountId}
                     />
-                </h2>
+                </div>
                 <div className='row'>
                     {['Transfer', 'Stake'].includes(actionKind) &&
                         <div className='item'>
@@ -216,7 +219,7 @@ const ActivityDetailModal = ({
                 </FormButton>
             </StyledContainer>
         </Modal>
-    )
-}
+    );
+};
 
-export default ActivityDetailModal
+export default ActivityDetailModal;

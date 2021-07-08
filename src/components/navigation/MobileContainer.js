@@ -1,15 +1,16 @@
 import React, { Component } from 'react';
+import { Translate } from 'react-localize-redux';
 import styled from 'styled-components';
+
+import languagesIcon from '../../images/icon-languages.svg';
+import LanguageToggle from '../common/LangSwitcher';
+import UserIcon from '../svg/UserIcon';
+import AccessAccountBtn from './AccessAccountBtn';
+import CreateAccountBtn from './CreateAccountBtn';
 import Logo from './Logo';
 import NavLinks from './NavLinks';
-import UserAccounts from './UserAccounts';
-import CreateAccountBtn from './CreateAccountBtn';
-import LanguageToggle from '../common/LangSwitcher';
-import languagesIcon from '../../images/icon-languages.svg';
-import { Translate } from 'react-localize-redux';
-import AccessAccountBtn from './AccessAccountBtn';
 import UserAccount from './UserAccount';
-import UserIcon from '../svg/UserIcon';
+import UserAccounts from './UserAccounts';
 
 const Container = styled.div`
     display: none;
@@ -69,7 +70,7 @@ const Container = styled.div`
             }
         }
     }
-`
+`;
 
 const Collapsed = styled.div`
     height: 70px;
@@ -86,13 +87,13 @@ const Collapsed = styled.div`
             fill: #E5E5E6;
         }
     }
-`
+`;
 
 const LowerSection = styled.div`
     background-color: white;
     margin: 0px -20px 0 -20px;
     padding: 20px 20px 100% 20px;
-`
+`;
 
 const Lang = styled.div`
     border-top: 1px solid #efefef;
@@ -159,7 +160,7 @@ const Lang = styled.div`
             }
         }
     }
-`
+`;
 
 class MobileContainer extends Component {
     render() {
@@ -173,8 +174,9 @@ class MobileContainer extends Component {
             showNavLinks,
             flowLimitation,
             refreshBalance,
-            getBalance
-        } = this.props
+            getBalance,
+            isInactiveAccount
+        } = this.props;
 
         return (
             <Container className={menuOpen ? 'show' : ''} id='mobile-menu'>
@@ -199,7 +201,9 @@ class MobileContainer extends Component {
                 </Collapsed>
                 {menuOpen &&
                     <>
-                        <NavLinks />
+                        {!isInactiveAccount &&
+                            <NavLinks />
+                        }
                         <Lang className="mobile-lang">
                             <LanguageToggle />
                         </Lang>
@@ -216,13 +220,15 @@ class MobileContainer extends Component {
                                 getBalance={getBalance}
                             />
                             <AccessAccountBtn/>
-                            <CreateAccountBtn/>
+                            {!isInactiveAccount &&
+                                <CreateAccountBtn/>
+                            }
                         </LowerSection>
                     </>
                 }
             </Container>
-        )
+        );
     }
 }
 
-export default MobileContainer
+export default MobileContainer;

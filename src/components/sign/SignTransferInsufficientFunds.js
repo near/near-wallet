@@ -1,12 +1,13 @@
-import React from 'react'
-import { withRouter } from 'react-router-dom'
-import { Translate } from 'react-localize-redux'
-import FormButton from '../common/FormButton'
-import MobileContainer from './MobileContainer'
+import React from 'react';
+import { Translate } from 'react-localize-redux';
+import { withRouter } from 'react-router-dom';
+import { Image, Grid } from 'semantic-ui-react';
 
-import { Image, Grid } from 'semantic-ui-react'
+import ProblemsImage from '../../images/icon-problems.svg';
+import FormButton from '../common/FormButton';
+import MobileContainer from './MobileContainer';
 
-import ProblemsImage from '../../images/icon-problems.svg'
+
 
 const SignTransferInsufficientFunds = ({ handleDeny, handleAddFunds }) => (
     <MobileContainer>
@@ -67,6 +68,6 @@ const SignTransferInsufficientFunds = ({ handleDeny, handleAddFunds }) => (
             </Grid.Row>
         </Grid>
     </MobileContainer>
-)
+);
 
-export default withRouter(SignTransferInsufficientFunds)
+export default withRouter(SignTransferInsufficientFunds);

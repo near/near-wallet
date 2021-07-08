@@ -1,14 +1,13 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
-import { Translate } from 'react-localize-redux'
-import { Grid, Input } from 'semantic-ui-react'
+import PropTypes from 'prop-types';
+import React, { Component } from 'react';
+import { Translate } from 'react-localize-redux';
+import { connect } from 'react-redux';
+import { Grid } from 'semantic-ui-react';
 
-import MobileContainer from '../sign/MobileContainer'
-import FormButton from '../common/FormButton'
 
-import IconHelp from '../../images/IconHelp'
-import { Mixpanel } from "../../mixpanel/index";
+import IconHelp from '../../images/IconHelp';
+import FormButton from '../common/FormButton';
+import MobileContainer from '../sign/MobileContainer';
 
 class LoginForm extends Component {
     state = {
@@ -16,30 +15,30 @@ class LoginForm extends Component {
         confirmStatus: ''
     }
 
-    handleChange = (e, { name, value }) => {
+    handleChange = (value) => {
         this.setState(() => ({
-            [name]: value,
+            accountId: value,
             confirmStatus: ''
-        }))
+        }));
     }
 
     handleConfirmSubmit = () => {
         if (this.state.accountId === this.props.account.accountId) {
             this.setState(() => ({
                 confirmStatus: 'success'
-            }))
-            this.props.handleAllow()
+            }));
+            this.props.handleAllow();
         }
         else {
             this.setState(() => ({
                 confirmStatus: 'problem'
-            }))
+            }));
         }
     }
 
     render() {
-        const { appTitle, buttonLoader } = this.props
-        const { accountId, confirmStatus } = this.state
+        const { appTitle, buttonLoader } = this.props;
+        const { accountId, confirmStatus } = this.state;
 
         return (
             <MobileContainer>
@@ -78,11 +77,11 @@ class LoginForm extends Component {
                             <Grid.Column largeScreen={6} computer={8} tablet={10} mobile={16}>
                                 <Translate>
                                     {({ translate }) => (
-                                        <Input 
+                                        <input
                                             name='accountId'
                                             value={accountId}
-                                            onChange={this.handleChange}
-                                            className={`username-input-icon ${confirmStatus ? (confirmStatus === 'success' ? 'success' : 'problem') : ''}`}
+                                            onChange={e => this.handleChange(e.target.value)}
+                                            className={`${confirmStatus ? (confirmStatus === 'success' ? 'success' : 'problem') : ''}`}
                                             placeholder={translate('login.confirm.username')}
                                             maxLength='64'
                                             required
@@ -122,16 +121,16 @@ class LoginForm extends Component {
                     </Grid>
                 </form>
             </MobileContainer>
-)}}
+);}}
 
 LoginForm.propTypes = {
     buttonLoader: PropTypes.bool.isRequired,
     appTitle: PropTypes.string,
     handleAllow: PropTypes.func.isRequired
-}
+};
 
 const mapStateToProps = ({ account }) => ({
     account
-})
+});
 
-export default connect(mapStateToProps)(LoginForm)
+export default connect(mapStateToProps)(LoginForm);

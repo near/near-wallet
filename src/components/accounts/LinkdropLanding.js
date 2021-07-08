@@ -1,17 +1,18 @@
-import React, { Component } from 'react'
-import styled from 'styled-components'
-import { connect } from 'react-redux'
-import { Translate } from 'react-localize-redux'
-import { checkNearDropBalance, claimLinkdropToAccount, redirectTo } from '../../actions/account'
-import { clearLocalAlert } from '../../actions/status'
-import Container from '../common/styled/Container.css'
-import FormButton from '../common/FormButton'
-import { Mixpanel } from '../../mixpanel/index'
-import Balance from '../common/Balance'
-import NearGiftIcons from '../svg/NearGiftIcons'
+import React, { Component } from 'react';
+import { Translate } from 'react-localize-redux';
+import { connect } from 'react-redux';
+import styled from 'styled-components';
+
+import { checkNearDropBalance, claimLinkdropToAccount, redirectTo, handleRefreshUrl } from '../../actions/account';
+import { clearLocalAlert } from '../../actions/status';
+import { Mixpanel } from '../../mixpanel/index';
+import { actionsPending } from '../../utils/alerts';
+import AccountDropdown from '../common/AccountDropdown';
+import Balance from '../common/Balance';
+import FormButton from '../common/FormButton';
+import Container from '../common/styled/Container.css';
 import BrokenLinkIcon from '../svg/BrokenLinkIcon';
-import AccountDropdown from '../common/AccountDropdown'
-import { actionsPending } from '../../utils/alerts'
+import NearGiftIcons from '../svg/NearGiftIcons';
 
 const StyledContainer = styled(Container)`
     display: flex;
@@ -61,7 +62,7 @@ const StyledContainer = styled(Container)`
             margin-top: 20px;
         }
     }
-`
+`;
 
 class LinkdropLanding extends Component {
     state = {
@@ -70,37 +71,45 @@ class LinkdropLanding extends Component {
     }
 
     componentDidMount() {
-        const { fundingContract, fundingKey } = this.props
+        const { fundingContract, fundingKey, handleRefreshUrl } = this.props;
         if (fundingContract && fundingKey) {
-            this.handleCheckNearDropBalance()
+            this.handleCheckNearDropBalance();
+            handleRefreshUrl();
         }
     }
 
     handleCheckNearDropBalance = async () => {
-        const { fundingContract, fundingKey, checkNearDropBalance } = this.props
+        const { fundingContract, fundingKey, checkNearDropBalance } = this.props;
         await Mixpanel.withTracking("CA Check near drop balance",
             async () => {
-                const balance = await checkNearDropBalance(fundingContract, fundingKey)
-                this.setState({ balance: balance })
+                const balance = await checkNearDropBalance(fundingContract, fundingKey);
+                this.setState({ balance: balance });
             },
             () => this.setState({ invalidNearDrop: true })
-        )
+        );
     }
 
     handleClaimNearDrop = async () => {
-        const { fundingContract, fundingKey, redirectTo, claimLinkdropToAccount } = this.props
-        await claimLinkdropToAccount(fundingContract, fundingKey)
-        localStorage.setItem('linkdropAmount', this.state.balance)
-        redirectTo('/')
+        const { fundingContract, fundingKey, redirectTo, claimLinkdropToAccount, accountId, url } = this.props;
+        await claimLinkdropToAccount(fundingContract, fundingKey);
+        localStorage.setItem('linkdropAmount', this.state.balance);
+        if (url?.redirectUrl) {
+            window.location = `${url.redirectUrl}?accountId=${accountId}`;
+        } else {
+            redirectTo('/');
+        }
     }
 
     render() {
-        const { fundingContract, fundingKey, accountId, mainLoader } = this.props
-        const { balance, invalidNearDrop } = this.state
-        const claimingDrop = actionsPending('CLAIM_LINKDROP_TO_ACCOUNT')
+        const { fundingContract, fundingKey, accountId, mainLoader, history } = this.props;
+        const { balance, invalidNearDrop } = this.state;
+        const claimingDrop = actionsPending('CLAIM_LINKDROP_TO_ACCOUNT');
         const fundingAmount = balance;
 
         if (!invalidNearDrop) {
+            const params = new URLSearchParams(history.location.search);
+            const redirectUrl = params.has('redirectUrl') ? `&redirectUrl=${encodeURIComponent(params.get('redirectUrl'))}` : '';
+
             return (
                 <StyledContainer className='xs-centered'>
                     <NearGiftIcons/>
@@ -123,7 +132,7 @@ class LinkdropLanding extends Component {
                         </FormButton>
                         :
                         <FormButton
-                            linkTo={`/recover-account?fundingOptions=${encodeURIComponent(JSON.stringify({ fundingContract, fundingKey, fundingAmount }))}`}
+                            linkTo={`/recover-account?fundingOptions=${encodeURIComponent(JSON.stringify({ fundingContract, fundingKey, fundingAmount }))}${redirectUrl}`}
                         >
                             <Translate id='linkdropLanding.ctaLogin'/>
                         </FormButton>
@@ -133,7 +142,7 @@ class LinkdropLanding extends Component {
                         <Translate id='linkdropLanding.ctaNew'/>
                     </FormButton>
                 </StyledContainer>
-            )
+            );
         } else {
             return (
                 <StyledContainer className='small-centered invalid-link'>
@@ -142,7 +151,7 @@ class LinkdropLanding extends Component {
                     <h2><Translate id='createAccount.invalidLinkDrop.one'/></h2>
                     <h2><Translate id='createAccount.invalidLinkDrop.two'/></h2>
                 </StyledContainer>
-            )
+            );
         }
     }
 }
@@ -151,17 +160,18 @@ const mapDispatchToProps = {
     clearLocalAlert,
     checkNearDropBalance,
     claimLinkdropToAccount,
-    redirectTo
-}
+    redirectTo,
+    handleRefreshUrl
+};
 
 const mapStateToProps = ({ account, status }, { match }) => ({
     ...account,
     fundingContract: match.params.fundingContract,
     fundingKey: match.params.fundingKey,
     mainLoader: status.mainLoader
-})
+});
 
 export const LinkdropLandingWithRouter = connect(
     mapStateToProps,
     mapDispatchToProps
-)(LinkdropLanding)
+)(LinkdropLanding);

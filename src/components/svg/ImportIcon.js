@@ -7,7 +7,7 @@ const ImportIcon = ({ color = 'white' }) => {
             <path d="M7 10L12 15L17 10" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
             <path d="M12 15V3" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
         </svg>
-    )
-}
+    );
+};
 
 export default ImportIcon;

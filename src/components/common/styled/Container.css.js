@@ -22,9 +22,13 @@ const Container = styled.div`
     &.small-centered, &.xs-centered {
         max-width: 500px;
 
-        h1,
-        h2 {
-            text-align: center;
+        @media (min-width: 768px) {
+            &.border {
+                border: 1px solid #F0F0F1;
+                border-radius: 16px;
+                padding: 40px;
+                margin-top: 40px;
+            }
         }
 
         &.center {
@@ -62,20 +66,18 @@ const Container = styled.div`
     
             .right {
                 flex: 1;
-                max-width: 384px;
+                max-width: 365px;
             }
         }
     }
 
 
     .sub-title, h2 {
-        text-align: center !important;
         line-height: 150% !important;
-        margin: 25px auto;
+        margin: 25px 0;
         font-size: 16px !important;
-        color: #24272a !important;
+        color: #72727A !important;
         font-weight: 400 !important;
-        max-width: 400px;
     }
 
     &.ledger-theme {
@@ -110,6 +112,6 @@ const Container = styled.div`
             }
         }
     }
-`
+`;
 
 export default Container;

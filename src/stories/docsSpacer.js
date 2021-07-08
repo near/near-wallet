@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 import styled from "styled-components";
 
 let getSpacerSize = size => {
@@ -17,10 +17,10 @@ let getSpacerSize = size => {
 const StyledBox = styled.div`
   height: ${(props) => getSpacerSize(props.size)};
   width: 100%;
-`
+`;
 
 const Spacer = (props) => (
   <StyledBox size={props.size}/>
-)
+);
 
 export default Spacer;

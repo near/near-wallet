@@ -1,14 +1,15 @@
-import React, { useState } from 'react'
-import { useDispatch } from 'react-redux'
-import FormButton from '../../common/FormButton'
-import { Translate } from 'react-localize-redux'
-import BalanceBox from './BalanceBox'
-import StakingFee from './StakingFee'
-import AlertBanner from './AlertBanner'
-import StakeConfirmModal from './StakeConfirmModal'
-import { redirectTo } from '../../../actions/account'
-import { actionsPending } from '../../../utils/alerts'
-import { Mixpanel } from '../../../mixpanel'
+import React, { useState } from 'react';
+import { Translate } from 'react-localize-redux';
+import { useDispatch } from 'react-redux';
+
+import { redirectTo } from '../../../actions/account';
+import { Mixpanel } from '../../../mixpanel';
+import { actionsPending } from '../../../utils/alerts';
+import FormButton from '../../common/FormButton';
+import AlertBanner from './AlertBanner';
+import BalanceBox from './BalanceBox';
+import StakeConfirmModal from './StakeConfirmModal';
+import StakingFee from './StakingFee';
 
 export default function Validator({
     match,
@@ -18,17 +19,17 @@ export default function Validator({
     selectedValidator,
     currentValidators,
 }) {
-    const [confirm, setConfirm] = useState(null)
-    const dispatch = useDispatch()
-    const stakeNotAllowed = !!selectedValidator && selectedValidator !== match.params.validator && !!currentValidators.length
-    const showConfirmModal = confirm === 'withdraw'
+    const [confirm, setConfirm] = useState(null);
+    const dispatch = useDispatch();
+    const stakeNotAllowed = !!selectedValidator && selectedValidator !== match.params.validator && !!currentValidators.length;
+    const showConfirmModal = confirm === 'withdraw';
 
     const handleStakeAction = async () => {
         if (showConfirmModal && !loading) {
-           await onWithdraw('withdraw', selectedValidator || validator.accountId)
-           setConfirm('done')
+           await onWithdraw('withdraw', selectedValidator || validator.accountId);
+           setConfirm('done');
         }
-    }
+    };
 
     return (
         <>
@@ -56,8 +57,8 @@ export default function Validator({
                         info='staking.balanceBox.staked.info'
                         amount={validator.staked || '0'}
                         onClick={() => {
-                            dispatch(redirectTo(`/staking/${match.params.validator}/unstake`))
-                            Mixpanel.track("UNSTAKE Click unstake button")
+                            dispatch(redirectTo(`/staking/${match.params.validator}/unstake`));
+                            Mixpanel.track("UNSTAKE Click unstake button");
                         }}
                         button='staking.balanceBox.staked.button'
                         buttonColor='gray-red'
@@ -79,8 +80,8 @@ export default function Validator({
                         info='staking.balanceBox.available.info'
                         amount={ validator.available || '0' }
                         onClick={() => {
-                            setConfirm('withdraw')
-                            Mixpanel.track("WITHDRAW Click withdraw button")
+                            setConfirm('withdraw');
+                            Mixpanel.track("WITHDRAW Click withdraw button");
                         }}
                         button='staking.balanceBox.available.button'
                         loading={loading}
@@ -101,5 +102,5 @@ export default function Validator({
                 </>
             }
         </>
-    )
+    );
 }

@@ -1,9 +1,10 @@
-import * as nearApiJs from 'near-api-js'
-import { store } from '..'
-import { promptTwoFactor, refreshAccount } from '../actions/account'
-import { MULTISIG_MIN_AMOUNT, ACCOUNT_HELPER_URL } from './wallet'
-import { utils } from 'near-api-js'
-import { BN } from 'bn.js'
+import { BN } from 'bn.js';
+import * as nearApiJs from 'near-api-js';
+import { utils } from 'near-api-js';
+
+import { store } from '..';
+import { promptTwoFactor, refreshAccount } from '../actions/account';
+import { MULTISIG_MIN_AMOUNT, ACCOUNT_HELPER_URL } from './wallet';
 
 export const MULTISIG_CONTRACT_HASHES = process.env.MULTISIG_CONTRACT_HASHES || [
     // https://github.com/near/core-contracts/blob/fa3e2c6819ef790fdb1ec9eed6b4104cd13eb4b7/multisig/src/lib.rs
@@ -18,7 +19,7 @@ export const MULTISIG_CONTRACT_HASHES = process.env.MULTISIG_CONTRACT_HASHES || 
 
 const {
     multisig: { Account2FA },
-} = nearApiJs
+} = nearApiJs;
 
 export class TwoFactor extends Account2FA {
     constructor(wallet, accountId) {
@@ -26,32 +27,32 @@ export class TwoFactor extends Account2FA {
             storage: localStorage,
             helperUrl: ACCOUNT_HELPER_URL,
             getCode: () => store.dispatch(promptTwoFactor(true)).payload.promise
-        })
-        this.wallet = wallet
+        });
+        this.wallet = wallet;
     }
 
     static async has2faEnabled(account) {
-        const state = await account.state()
-        if (!state) return false
-        return MULTISIG_CONTRACT_HASHES.includes(state.code_hash)
+        const state = await account.state();
+        if (!state) return false;
+        return MULTISIG_CONTRACT_HASHES.includes(state.code_hash);
     }
 
     static async checkCanEnableTwoFactor(balance) {
-        const availableBalance = new BN(balance.available)
-        const multisigMinAmount = new BN(utils.format.parseNearAmount(MULTISIG_MIN_AMOUNT))
-        return multisigMinAmount.lt(availableBalance)
+        const availableBalance = new BN(balance.available);
+        const multisigMinAmount = new BN(utils.format.parseNearAmount(MULTISIG_MIN_AMOUNT));
+        return multisigMinAmount.lt(availableBalance);
     }
 
     async get2faMethod() {
         if (TwoFactor.has2faEnabled(this)) {
-            return super.get2faMethod()
+            return super.get2faMethod();
         }
-        return null
+        return null;
     }
 
     async initTwoFactor(accountId, method) {
         // clear any previous requests in localStorage (for verifyTwoFactor)
-        this.setRequest({ requestId: -1 })
+        this.setRequest({ requestId: -1 });
         return await this.wallet.postSignedJson('/2fa/init', {
             accountId,
             method
@@ -59,14 +60,14 @@ export class TwoFactor extends Account2FA {
     }
 
     async deployMultisig() {
-        const contractBytes = new Uint8Array(await (await fetch('/multisig.wasm')).arrayBuffer())
-        await super.deployMultisig(contractBytes)
+        const contractBytes = new Uint8Array(await (await fetch('/multisig.wasm')).arrayBuffer());
+        await super.deployMultisig(contractBytes);
     }
 
     async disableMultisig() {
-        const contractBytes = new Uint8Array(await (await fetch('/main.wasm')).arrayBuffer())
-        const result = await this.disable(contractBytes)
-        await store.dispatch(refreshAccount())
-        return result
+        const contractBytes = new Uint8Array(await (await fetch('/main.wasm')).arrayBuffer());
+        const result = await this.disable(contractBytes);
+        await store.dispatch(refreshAccount());
+        return result;
     }
 }

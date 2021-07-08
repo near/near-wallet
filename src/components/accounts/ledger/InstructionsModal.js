@@ -1,8 +1,9 @@
 import React from 'react';
+import { Translate } from 'react-localize-redux';
+
+import FormButton from '../../common/FormButton';
 import Modal from "../../common/modal/Modal";
 import ModalTheme from './ModalTheme';
-import FormButton from '../../common/FormButton';
-import { Translate } from 'react-localize-redux';
 
 const InstructionsModal = ({ open, onClose }) => {
     return (
@@ -24,6 +25,6 @@ const InstructionsModal = ({ open, onClose }) => {
             </FormButton>
         </Modal>
     );
-}
+};
 
 export default InstructionsModal;

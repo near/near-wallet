@@ -2,7 +2,7 @@ import React from 'react';
 
 const InfoIconRounded = (props) => {
 
-    const color = props.color || '#A1A1A9'
+    const color = props.color || '#A1A1A9';
 
     return (
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className='rounded-info-icon'>
@@ -17,7 +17,7 @@ const InfoIconRounded = (props) => {
                 </clipPath>
             </defs>
         </svg>
-    )
-}
+    );
+};
 
 export default InfoIconRounded;

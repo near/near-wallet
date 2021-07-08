@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
+import { Translate } from 'react-localize-redux';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
-import ProfileQRCode from '../profile/ProfileQRCode';
-import Divider from '../common/Divider';
-import { Translate } from 'react-localize-redux';
-import {Snackbar, snackbarDuration } from '../common/Snackbar';
-import copyText from '../../utils/copyText';
-import isMobile from '../../utils/isMobile';
+
 import iconShare from '../../images/icon-share-blue.svg';
 import { Mixpanel } from '../../mixpanel/index';
+import copyText from '../../utils/copyText';
+import Divider from '../common/Divider';
+import {Snackbar, snackbarDuration } from '../common/Snackbar';
+import ProfileQRCode from '../profile/ProfileQRCode';
 
 const Container = styled.div`
     display: flex;
@@ -48,7 +48,7 @@ const Container = styled.div`
         align-self: center;
         margin: 0;
     }
-`
+`;
 
 const Address = styled.div`
     border: 1px solid #e6e6e6;
@@ -72,7 +72,7 @@ const Address = styled.div`
         margin-top: 35px;
         font-size: 28px;
     }
-`
+`;
 
 const CopyAddress = styled.div`
     color: #0072CE;
@@ -86,13 +86,13 @@ const CopyAddress = styled.div`
     background-color: #f8f8f8;
     border-radius: 4px;
     padding: 6px 10px;
-`
+`;
 
 const UrlAddress = styled.div`
     position: absolute;
     z-index: -1;
     text-transform: initial;
-`
+`;
 
 const MobileShare = styled.div`
     background: url(${iconShare}) center no-repeat;
@@ -105,7 +105,7 @@ const MobileShare = styled.div`
     height: 40px;
     width: 40px;
     border-radius: 4px;
-`
+`;
 
 class ReceiveMoney extends Component {
     constructor(props) {
@@ -118,8 +118,8 @@ class ReceiveMoney extends Component {
     }
 
     handleCopyAddress = () => {
-        Mixpanel.track("RECEIVE Copy account address")
-        if (navigator.share && isMobile()) {
+        Mixpanel.track("RECEIVE Copy account address");
+        if (navigator.share && this.props.isMobile) {
             navigator.share({
                 url: this.props.account.accountId
             }).catch(err => {
@@ -135,7 +135,7 @@ class ReceiveMoney extends Component {
         this.setState({ successSnackbar: true }, () => {
             setTimeout(() => {
                 this.setState({ successSnackbar: false });
-            }, snackbarDuration)
+            }, snackbarDuration);
         });
     }
 
@@ -146,10 +146,11 @@ class ReceiveMoney extends Component {
         } = this.state;
 
         const {
-            account
-        } = this.props
+            account,
+            isMobile
+        } = this.props;
 
-        const accountId = account?.accountId || account.localStorage?.accountId
+        const accountId = account?.accountId || account.localStorage?.accountId;
 
         return (
             <Translate>
@@ -162,7 +163,7 @@ class ReceiveMoney extends Component {
                                 <UrlAddress ref={this.urlRef}>
                                     {accountId}
                                 </UrlAddress>
-                                {navigator.share && isMobile() ? (
+                                {navigator.share && isMobile ? (
                                     <MobileShare/>
                                 ) : (
                                     <CopyAddress title={translate('receivePage.copyAddressLinkLong')}>
@@ -185,14 +186,15 @@ class ReceiveMoney extends Component {
                     </div>
                 )}
             </Translate>
-        )
+        );
     }
 }
 
-const mapStateToProps = ({ account }) => ({
-   account
-})
+const mapStateToProps = ({ account, status }) => ({
+   account,
+   isMobile: status.isMobile
+});
 
 export const ReceiveMoneyWithRouter = connect(
    mapStateToProps
-)(withRouter(ReceiveMoney))
+)(withRouter(ReceiveMoney));

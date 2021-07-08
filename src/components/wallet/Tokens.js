@@ -1,6 +1,7 @@
-import React from 'react'
-import styled from 'styled-components'
-import TokenBox from './TokenBox'
+import React from 'react';
+import styled from 'styled-components';
+
+import TokenBox from './TokenBox';
 
 const StyledContainer = styled.div`
     width: 100%;
@@ -20,7 +21,7 @@ const StyledContainer = styled.div`
             }
         }
     }
-`
+`;
 
 const Tokens = ({ tokens }) => {
     return (
@@ -29,7 +30,7 @@ const Tokens = ({ tokens }) => {
                 <TokenBox key={i} token={token}/>
             ))}
         </StyledContainer>
-    )
-}
+    );
+};
 
-export default Tokens
+export default Tokens;

@@ -1,31 +1,31 @@
-import React, { useState, useEffect } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
-import styled from 'styled-components'
-import { Translate } from 'react-localize-redux'
-import FormButton from '../common/FormButton'
-import Container from '../common/styled/Container.css'
-import NearWithBackgroundIcon from '../svg/NearWithBackgroundIcon'
-import SendIcon from '../svg/SendIcon'
-import DownArrowIcon from '../svg/DownArrowIcon'
-import BuyIcon from '../svg/BuyIcon'
-import Balance from '../common/Balance'
-import { getTransactions, getTransactionStatus } from '../../actions/transactions'
-import { Mixpanel } from "../../mixpanel/index"
-import Activities from './Activities'
-import ExploreApps from './ExploreApps'
-import Tokens from './Tokens'
-import NFTs from './NFTs'
-import LinkDropSuccessModal from './LinkDropSuccessModal'
-import { selectTokensDetails } from '../../reducers/tokens'
-import { selectActionStatus } from '../../reducers/status'
-import { selectTransactions } from '../../reducers/transactions'
-import { selectAccountId, selectBalance } from '../../reducers/account'
-import { handleGetTokens } from '../../actions/tokens'
-import { handleGetNFTs } from '../../actions/nft'
-import classNames from '../../utils/classNames'
-import { actionsPendingByPrefix } from '../../utils/alerts'
-import { selectNFT } from '../../reducers/nft'
-import { SHOW_NETWORK_BANNER } from '../../utils/wallet'
+import React, { useState, useEffect } from 'react';
+import { Translate } from 'react-localize-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import styled from 'styled-components';
+
+import { handleGetNFTs } from '../../actions/nft';
+import { handleGetTokens } from '../../actions/tokens';
+import { getTransactions, getTransactionStatus } from '../../actions/transactions';
+import { Mixpanel } from "../../mixpanel/index";
+import { selectAccountId, selectBalance } from '../../reducers/account';
+import { selectNFT } from '../../reducers/nft';
+import { selectTokensDetails } from '../../reducers/tokens';
+import { selectTransactions } from '../../reducers/transactions';
+import { actionsPendingByPrefix } from '../../utils/alerts';
+import classNames from '../../utils/classNames';
+import { SHOW_NETWORK_BANNER } from '../../utils/wallet';
+import Balance from '../common/Balance';
+import FormButton from '../common/FormButton';
+import Container from '../common/styled/Container.css';
+import BuyIcon from '../svg/BuyIcon';
+import DownArrowIcon from '../svg/DownArrowIcon';
+import NearWithBackgroundIcon from '../svg/NearWithBackgroundIcon';
+import SendIcon from '../svg/SendIcon';
+import Activities from './Activities';
+import ExploreApps from './ExploreApps';
+import LinkDropSuccessModal from './LinkDropSuccessModal';
+import NFTs from './NFTs';
+import Tokens from './Tokens';
 
 const StyledContainer = styled(Container)`
     @media (max-width: 991px) {
@@ -95,6 +95,16 @@ const StyledContainer = styled(Container)`
 
         > svg {
             margin-top: 25px;
+        }
+
+        h1 {
+            &.total-balance {
+                font-size: 36px !important;
+
+                @media (max-width: 767px) {
+                    font-size: 30px !important;
+                }
+            }
         }
 
         @media (min-width: 992px) {
@@ -237,75 +247,75 @@ const StyledContainer = styled(Container)`
         align-self: flex-start;
         margin: 50px 0 30px 0;
         text-align: left !important;
+        color: #24272a !important;
     }
-`
+`;
 
 export function Wallet() {
     const [exploreApps, setExploreApps] = useState(null);
     const [showLinkdropModal, setShowLinkdropModal] = useState(null);
-    const accountId = useSelector(state => selectAccountId(state))
-    const balance = useSelector(state => selectBalance(state))
-    const transactions = useSelector(state => selectTransactions(state))
-    const dispatch = useDispatch()
-    const hideExploreApps = localStorage.getItem('hideExploreApps')
-    const linkdropAmount = localStorage.getItem('linkdropAmount')
+    const accountId = useSelector(state => selectAccountId(state));
+    const balance = useSelector(state => selectBalance(state));
+    const transactions = useSelector(state => selectTransactions(state));
+    const dispatch = useDispatch();
+    const hideExploreApps = localStorage.getItem('hideExploreApps');
+    const linkdropAmount = localStorage.getItem('linkdropAmount');
     const linkdropModal = linkdropAmount && showLinkdropModal !== false;
-    const tokens = useSelector(state => selectTokensDetails(state))
-    const nft = useSelector(selectNFT)
-    const actionStatus = useSelector(state => selectActionStatus(state))
-    const tokensLoader = actionsPendingByPrefix('TOKENS/') || !balance?.total
+    const tokens = useSelector(state => selectTokensDetails(state));
+    const nft = useSelector(selectNFT);
+    const tokensLoader = actionsPendingByPrefix('TOKENS/') || !balance?.total;
     const [tokenView, setTokenView] = useState('fungibleTokens');
-    
+
     useEffect(() => {
         if (accountId) {
-            let id = Mixpanel.get_distinct_id()
-            Mixpanel.identify(id)
-            Mixpanel.people.set({relogin_date: new Date().toString()})
-            dispatch(getTransactions(accountId))
+            let id = Mixpanel.get_distinct_id();
+            Mixpanel.identify(id);
+            Mixpanel.people.set({relogin_date: new Date().toString()});
+            dispatch(getTransactions(accountId));
         }
-    }, [accountId])
+    }, [accountId]);
 
     const sortedTokens = Object.keys(tokens).map(key => tokens[key]).sort((a, b) => (a.symbol || '').localeCompare(b.symbol || ''));
     // TODO: Sort NFTS
-    const sortedNFTs = Object.values(nft).sort((a, b) => a.name.localeCompare(b.name))
+    const sortedNFTs = Object.values(nft).sort((a, b) => a.name.localeCompare(b.name));
 
     useEffect(() => {
         if (!accountId) {
-            return
+            return;
         }
 
-        dispatch(handleGetTokens())
-        dispatch(handleGetNFTs())
+        dispatch(handleGetTokens());
+        dispatch(handleGetNFTs());
     }, [accountId]);
 
     const handleHideExploreApps = () => {
-        localStorage.setItem('hideExploreApps', true)
-        setExploreApps(false)
-        Mixpanel.track("Click explore apps dismiss")
-    }
+        localStorage.setItem('hideExploreApps', true);
+        setExploreApps(false);
+        Mixpanel.track("Click explore apps dismiss");
+    };
 
     const handleCloseLinkdropModal = () => {
-        localStorage.removeItem('linkdropAmount')
-        setShowLinkdropModal(false)
-        Mixpanel.track("Click dismiss NEAR drop success modal")
-    }
+        localStorage.removeItem('linkdropAmount');
+        setShowLinkdropModal(false);
+        Mixpanel.track("Click dismiss NEAR drop success modal");
+    };
 
     return (
         <StyledContainer className={SHOW_NETWORK_BANNER ? 'showing-banner' : ''}>
             <div className='split'>
                 <div className='left'>
                     <div className='tab-selector'>
-                        <div 
+                        <div
                             className={classNames(['tab-balances', tokenView !== 'fungibleTokens' ? 'inactive' : ''])}
                             onClick={() => setTokenView('fungibleTokens')}
                         >
-                            Balances
+                            <Translate id='wallet.balances' />
                         </div>
-                        <div 
+                        <div
                             className={classNames(['tab-collectibles', tokenView !== 'nonFungibleTokens' ? 'inactive' : ''])}
                             onClick={() => setTokenView('nonFungibleTokens')}
                         >
-                            Collectibles
+                            <Translate id='wallet.collectibles' />
                         </div>
                     </div>
                     {tokenView === 'fungibleTokens' &&
@@ -323,7 +333,7 @@ export function Wallet() {
                     {!hideExploreApps && exploreApps !== false &&
                         <ExploreApps onClick={handleHideExploreApps}/>
                     }
-                    <Activities 
+                    <Activities
                         transactions={transactions[accountId] || []}
                         accountId={accountId}
                         getTransactionStatus={getTransactionStatus}
@@ -339,14 +349,14 @@ export function Wallet() {
                 />
             }
         </StyledContainer>
-    )
+    );
 }
 
 const FungibleTokens = ({ balance, tokensLoader, sortedTokens, }) => {
     return (
         <>
             <NearWithBackgroundIcon/>
-            <h1><Balance amount={balance?.total} symbol={false}/></h1>
+            <h1 className='total-balance'><Balance amount={balance?.total} symbol={false}/></h1>
             <div className='sub-title'><Translate id='wallet.balanceTitle' /></div>
             <div className='buttons'>
                 <FormButton
@@ -383,5 +393,5 @@ const FungibleTokens = ({ balance, tokensLoader, sortedTokens, }) => {
             </div>
             <Tokens tokens={sortedTokens} />
         </>
-    )
-}
+    );
+};

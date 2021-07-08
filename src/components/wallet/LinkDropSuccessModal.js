@@ -1,9 +1,10 @@
-import React from 'react'
-import Modal from '../common/modal/Modal'
-import { Translate } from 'react-localize-redux'
-import styled from 'styled-components'
-import NearGiftIcons from '../svg/NearGiftIcons'
-import Balance from '../common/Balance'
+import React from 'react';
+import { Translate } from 'react-localize-redux';
+import styled from 'styled-components';
+
+import Balance from '../common/Balance';
+import Modal from '../common/modal/Modal';
+import NearGiftIcons from '../svg/NearGiftIcons';
 
 const Container = styled.div`
     display: flex;
@@ -30,7 +31,7 @@ const Container = styled.div`
         color: #72727A;
     }
 
-`
+`;
 
 const LinkDropSuccessModal = ({ open, onClose, linkdropAmount }) => {
     return (
@@ -53,6 +54,6 @@ const LinkDropSuccessModal = ({ open, onClose, linkdropAmount }) => {
             </Container>
         </Modal>
     );
-}
+};
 
-export default LinkDropSuccessModal
+export default LinkDropSuccessModal;

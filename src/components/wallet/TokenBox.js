@@ -1,9 +1,10 @@
-import React from 'react'
-import styled from 'styled-components'
-import DefaultTokenIcon from '../svg/DefaultTokenIcon'
-import { EXPLORER_URL } from '../../utils/wallet'
-import TokenAmount from './TokenAmount'
-import isDataURL from '../../utils/isDataURL'
+import React from 'react';
+import styled from 'styled-components';
+
+import isDataURL from '../../utils/isDataURL';
+import { EXPLORER_URL } from '../../utils/wallet';
+import DefaultTokenIcon from '../svg/DefaultTokenIcon';
+import TokenAmount from './TokenAmount';
 
 const StyledContainer = styled.div`
     display: flex;
@@ -110,7 +111,7 @@ const StyledContainer = styled.div`
             }
         }
     }
-`
+`;
 
 const TokenBox = ({ token }) => {
     return (
@@ -135,7 +136,7 @@ const TokenBox = ({ token }) => {
                 className='balance'
             />
         </StyledContainer>
-    )
-}
+    );
+};
 
-export default TokenBox
+export default TokenBox;

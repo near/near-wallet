@@ -1,5 +1,5 @@
-import React from 'react'
-import styled from 'styled-components'
+import React from 'react';
+import styled from 'styled-components';
 
 const Container = styled.div`
 
@@ -29,12 +29,12 @@ const Container = styled.div`
     .chevron-icon {
         display: block;
     }
-`
+`;
 
 export default function ListWrapper(props) {
     return (
         <Container>
             {props.children}
         </Container>
-    )
+    );
 }

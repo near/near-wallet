@@ -1,3 +1,5 @@
+const assert = require('assert');
+
 const {
     connect,
     keyStores: { InMemoryKeyStore },
@@ -6,10 +8,9 @@ const {
         format: { parseNearAmount }
     }
 } = require('near-api-js');
-const { parseSeedPhrase, generateSeedPhrase } = require('near-seed-phrase');
+const { parseSeedPhrase } = require('near-seed-phrase');
 const { webkit } = require('playwright');
 
-const assert = require('assert');
 
 const NETWORK_ID = 'default';
 const BANK_SEED_PHRASE = process.env.BANK_SEED_PHRASE;
@@ -30,7 +31,7 @@ async function createIncident(accountId, error) {
 
     const pd = api({ token: process.env.PAGERDUTY_API_KEY });
 
-    console.log('Creating incident on PagerDuty')
+    console.log('Creating incident on PagerDuty');
     await pd.post('/incidents', {
         data: {
             incident: {
@@ -86,7 +87,7 @@ let lastTestAccountId;
         return near.account(accountId);
     }
 
-    const testAccount1 = await createTestAccount()
+    const testAccount1 = await createTestAccount();
     try {
         const browser = await webkit.launch({ headless: HEADLESS });
         const page = await browser.newPage();
@@ -95,7 +96,7 @@ let lastTestAccountId;
         await page.fill('[name=seedPhrase]', seedPhrase);
         await page.click('[type=submit]');
         await page.waitForNavigation();
-        assert(page.url() == config.walletUrl + '/');
+        assert(page.url() === config.walletUrl + '/');
         assert.strictEqual(await page.textContent('.user-name'), testAccount1.accountId);
         await browser.close();
     } finally {

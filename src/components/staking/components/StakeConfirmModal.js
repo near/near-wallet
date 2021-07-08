@@ -1,10 +1,11 @@
-import React from 'react'
-import Modal from '../../common/modal/Modal'
-import FormButton from '../../common/FormButton'
-import { Translate } from 'react-localize-redux'
-import styled from 'styled-components'
-import ValidatorBox from './ValidatorBox'
-import Balance from '../../common/Balance'
+import React from 'react';
+import { Translate } from 'react-localize-redux';
+import styled from 'styled-components';
+
+import Balance from '../../common/Balance';
+import FormButton from '../../common/FormButton';
+import Modal from '../../common/modal/Modal';
+import ValidatorBox from './ValidatorBox';
 
 const Container = styled.div`
     display: flex;
@@ -12,6 +13,10 @@ const Container = styled.div`
     align-items: center;
     text-align: center;
     padding-top: 40px;
+
+    h2 {
+        color: #24272a !important;
+    }
 
     @media (min-width: 500px) {
         padding: 40px 25px;
@@ -76,7 +81,7 @@ const Container = styled.div`
         }
     }
 
-`
+`;
 
 const StakeConfirmModal = ({ open, onClose, onConfirm, validator, amount, loading, title, disclaimer, label, sendingString }) => {
     return (
@@ -111,6 +116,6 @@ const StakeConfirmModal = ({ open, onClose, onConfirm, validator, amount, loadin
             </Container>
         </Modal>
     );
-}
+};
 
-export default StakeConfirmModal
+export default StakeConfirmModal;

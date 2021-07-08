@@ -1,14 +1,15 @@
-import React from 'react'
-import FormButton from '../../common/FormButton'
-import BalanceBox from './BalanceBox'
-import ValidatorBox from './ValidatorBox'
-import ListWrapper from './ListWrapper'
-import { Translate } from 'react-localize-redux'
-import NoValidators from './NoValidators'
-import SelectAccount from './SelectAccount'
-import SkeletonLoading from '../../common/SkeletonLoading'
-import Tooltip from '../../common/Tooltip'
-import BN from 'bn.js'
+import BN from 'bn.js';
+import React from 'react';
+import { Translate } from 'react-localize-redux';
+
+import FormButton from '../../common/FormButton';
+import SkeletonLoading from '../../common/SkeletonLoading';
+import Tooltip from '../../common/Tooltip';
+import BalanceBox from './BalanceBox';
+import ListWrapper from './ListWrapper';
+import NoValidators from './NoValidators';
+import SelectAccount from './SelectAccount';
+import ValidatorBox from './ValidatorBox';
 
 export default function Staking({
     currentValidators,
@@ -32,7 +33,7 @@ export default function Staking({
             <h2><Translate id='staking.staking.desc' /></h2>
             <div className='select-account-title'>
                 <Translate id='staking.staking.selectAccount' />
-                <Tooltip translate='staking.stake.accounts' position='right'/>
+                <Tooltip translate='staking.stake.accounts' position='bottom'/>
             </div>
             {!loading && !loadingDetails &&
                 <SelectAccount
@@ -114,5 +115,5 @@ export default function Staking({
                 />
             }
         </>
-    )
+    );
 }

@@ -1,10 +1,9 @@
-import React from 'react'
+import React from 'react';
+import { Button, List } from 'semantic-ui-react';
+import styled from 'styled-components';
 
-import { Button, List } from 'semantic-ui-react'
+import ArrowDown from '../../images/icon-arrow-down.svg';
 
-import ArrowDown from '../../images/icon-arrow-down.svg'
-
-import styled from 'styled-components'
 
 const PaginationFilterList = styled(List)`
    && .sortby-dropdown-tr {
@@ -54,7 +53,7 @@ const PaginationFilterList = styled(List)`
       padding-left: 10px;
       padding-right: 0px;
    }
-`
+`;
 
 const PaginationFilter = ({
    filterTypesByType,
@@ -91,6 +90,6 @@ const PaginationFilter = ({
          </List>
       </List.Item>
    </PaginationFilterList>
-)
+);
 
-export default PaginationFilter
+export default PaginationFilter;

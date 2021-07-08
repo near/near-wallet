@@ -1,17 +1,18 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import { withRouter } from 'react-router-dom'
-import styled from 'styled-components'
-import { Translate } from 'react-localize-redux'
-import { switchAccount } from '../../actions/account'
-import SignAnimatedArrow from './SignAnimatedArrow'
-import SignTransferDetails from './SignTransferDetails'
-import SelectAccountDropdown from '../login/SelectAccountDropdown'
-import Balance from '../common/Balance'
-import Button from '../common/Button'
-import InlineNotification from '../common/InlineNotification'
-import FormButton from '../common/FormButton'
-import BalanceBreakdown from '../staking/components/BalanceBreakdown'
+import React, { Component } from 'react';
+import { Translate } from 'react-localize-redux';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
+import styled from 'styled-components';
+
+import { switchAccount } from '../../actions/account';
+import Balance from '../common/Balance';
+import Button from '../common/Button';
+import FormButton from '../common/FormButton';
+import InlineNotification from '../common/InlineNotification';
+import SelectAccountDropdown from '../login/SelectAccountDropdown';
+import BalanceBreakdown from '../staking/components/BalanceBreakdown';
+import SignAnimatedArrow from './SignAnimatedArrow';
+import SignTransferDetails from './SignTransferDetails';
 
 
 const Container = styled.div`
@@ -33,19 +34,19 @@ const Container = styled.div`
             cursor: pointer;
         }
     }
-`
+`;
 
 const Title = styled.div`
     font-size: 26px;
     font-weight: 600;
     margin-top: 30px;
     text-align: center;
-`
+`;
 
 const Desc = styled.div`
     font-size: 26px;
     margin-top: 25px;
-`
+`;
 
 const TransferAmount = styled.div`
     margin-top: 25px;
@@ -55,7 +56,7 @@ const TransferAmount = styled.div`
         font-size: 26px !important;
         font-weight: 600;
     }
-`
+`;
 
 const MoreInfo = styled.div`
     background-color: #f5f5f5;
@@ -66,7 +67,7 @@ const MoreInfo = styled.div`
     margin-top: 30px;
     height: 39px;
     position: relative;
-`
+`;
 
 const ActionsCounter = styled.div`
     height: 30px;
@@ -82,7 +83,7 @@ const ActionsCounter = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-`
+`;
 
 const Footer = styled.div`
     width: 100%;
@@ -95,7 +96,7 @@ const Footer = styled.div`
         background-color: white;
         border-top: 1px solid #f5f5f5;
     }
-`
+`;
 
 const ButtonWrapper = styled.div`
     display: flex;
@@ -117,7 +118,7 @@ const ButtonWrapper = styled.div`
             }
         }
     }
-`
+`;
 
 class SignTransferReady extends Component {
     state = {
@@ -129,9 +130,9 @@ class SignTransferReady extends Component {
         if (this.props.account.accountId) {
             // NOTE: We need to make sure to use signer ID from transactions as account to sign
             // TODO: Do this for signing process without changing current account in wallet globally
-            const { signerId } = this.props.transactions[0]
+            const { signerId } = this.props.transactions[0];
             if (signerId !== this.props.account.accountId) {
-                this.handleSelectAccount(signerId)
+                this.handleSelectAccount(signerId);
             }    
         }
     }
@@ -149,11 +150,11 @@ class SignTransferReady extends Component {
     }
 
     handleSelectAccount = accountId => {
-        this.props.switchAccount(accountId)
+        this.props.switchAccount(accountId);
     }
 
     redirectCreateAccount = () => {
-        this.props.history.push('/create')
+        this.props.history.push('/create');
     }
 
     handleGoBack = () => {
@@ -227,7 +228,7 @@ class SignTransferReady extends Component {
                         </Button>
                         <FormButton
                             onClick={handleAllow}
-                            disabled={isMonetaryTransaction && insufficientFunds || !availableBalance}
+                            disabled={insufficientFunds}
                             sending={sending}
                             sendingString='button.authorizing'
                         >
@@ -236,7 +237,7 @@ class SignTransferReady extends Component {
                     </ButtonWrapper>
                 </Footer>
             </Container>
-        )
+        );
 
     }
 
@@ -250,12 +251,12 @@ class SignTransferReady extends Component {
 
 const mapDispatchToProps = {
     switchAccount
-}
+};
 
 const mapStateToProps = ({ account, sign, availableAccounts }) => ({
     account,
     availableAccounts,
     ...sign
-})
+});
 
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(SignTransferReady))
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(SignTransferReady));

@@ -1,12 +1,13 @@
-import React from 'react'
-import styled from 'styled-components'
-import { Translate } from 'react-localize-redux'
-import classNames from '../../utils/classNames'
+import React from 'react';
+import { Translate } from 'react-localize-redux';
+import styled from 'styled-components';
+
+import classNames from '../../utils/classNames';
 
 const LocalAlertBoxContainer = styled.div`
     font-weight: 500;
-    margin-top: -20px;
-    padding-bottom: 4px;
+    margin-top: -25px;
+    padding-bottom: 9px;
     line-height: 16px;
 
     &.problem {
@@ -54,7 +55,7 @@ const LocalAlertBoxContainer = styled.div`
         font-size: 12px;
     }
   }
-`
+`;
 /**
  * Renders request status.
  *
@@ -68,6 +69,6 @@ const LocalAlertBox = ({ localAlert, accountId, dots }) => (
             <Translate id={localAlert.messageCode} data={{ accountId: accountId }}/>
         </LocalAlertBoxContainer>
         : null
-)
+);
 
-export default LocalAlertBox
+export default LocalAlertBox;

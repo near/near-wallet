@@ -1,11 +1,11 @@
-import { handleActions } from 'redux-actions'
-import reduceReducers from 'reduce-reducers'
+import reduceReducers from 'reduce-reducers';
+import { handleActions } from 'redux-actions';
 
-import { tokens } from '../../actions/tokens'
+import { tokens } from '../../actions/tokens';
 
 const initialState = {
     tokens: {}
-}
+};
 
 const tokensReducer = handleActions({
     [tokens.tokensDetails.getMetadata]: (state, { ready, error, payload }) =>
@@ -36,18 +36,18 @@ const tokensReducer = handleActions({
                     }
                 }
             }),
-}, initialState)
+}, initialState);
 
 const clearReducer = handleActions({
     [tokens.clearState]: () => ({
         ...initialState
     }),
-}, initialState)
+}, initialState);
 
 export default reduceReducers(
     initialState,
     tokensReducer,
     clearReducer
-)
+);
 
-export const selectTokensDetails = state => state.tokens.tokens
+export const selectTokensDetails = state => state.tokens.tokens;

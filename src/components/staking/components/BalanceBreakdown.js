@@ -1,15 +1,16 @@
-import React, { useState } from 'react'
-import styled from 'styled-components'
-import classNames from '../../../utils/classNames'
-import { Translate } from 'react-localize-redux'
-import ChevronIcon from '../../svg/ChevronIcon'
-import Balance from '../../common/Balance'
-import { WALLET_APP_MIN_AMOUNT } from '../../../utils/wallet'
-import * as nearApiJs from 'near-api-js'
-import BN from 'bn.js'
-import { Mixpanel } from '../../../mixpanel/index'
-import Tooltip from '../../common/Tooltip'
-import Accordion from '../../common/Accordion'
+import BN from 'bn.js';
+import * as nearApiJs from 'near-api-js';
+import React, { useState } from 'react';
+import { Translate } from 'react-localize-redux';
+import styled from 'styled-components';
+
+import { Mixpanel } from '../../../mixpanel/index';
+import classNames from '../../../utils/classNames';
+import { WALLET_APP_MIN_AMOUNT } from '../../../utils/wallet';
+import Accordion from '../../common/Accordion';
+import Balance from '../../common/Balance';
+import Tooltip from '../../common/Tooltip';
+import ChevronIcon from '../../svg/ChevronIcon';
 
 const Container = styled.div`
     font-size: 13px;
@@ -77,15 +78,15 @@ const Container = styled.div`
         height: 16px;
         margin-bottom: -4px;
     }
-`
+`;
 
 function BalanceBreakdown({ total, onClickAvailable, availableType, error, transfer }) {
-    const [open, setOpen] = useState(false)
+    const [open, setOpen] = useState(false);
 
-    const subtractAmount = nearApiJs.utils.format.parseNearAmount(WALLET_APP_MIN_AMOUNT)
+    const subtractAmount = nearApiJs.utils.format.parseNearAmount(WALLET_APP_MIN_AMOUNT);
     const available = total
         ? new BN(total).sub(new BN(subtractAmount)).isNeg() ? '0' :  new BN(total).sub(new BN(subtractAmount))
-        : undefined
+        : undefined;
 
     return (
         <Translate>
@@ -111,7 +112,7 @@ function BalanceBreakdown({ total, onClickAvailable, availableType, error, trans
                         id={transfer ? 'balance-breakdown-1' : ''}
                         onClick={() => transfer ? setOpen(!open) : null}
                     >
-                        <div id='balance-breakdown-1' onClick={() => {setOpen(!open); Mixpanel.track("Watch available to send")}}>
+                        <div id='balance-breakdown-1' onClick={() => {setOpen(!open); Mixpanel.track("Watch available to send");}}>
                             <Translate id={availableType}/><ChevronIcon color='#0072ce'/>
                         </div>
                         <div className='right' onClick={onClickAvailable}>
@@ -121,7 +122,7 @@ function BalanceBreakdown({ total, onClickAvailable, availableType, error, trans
                 </Container>
             )}
         </Translate>
-    )
+    );
 }
 
-export default BalanceBreakdown
+export default BalanceBreakdown;

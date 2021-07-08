@@ -1,21 +1,23 @@
-import React, { Component } from 'react'
-import { withRouter } from 'react-router-dom'
-import { connect } from 'react-redux'
-import styled from 'styled-components'
-import Button from '../common/Button'
-import FormButton from '../common/FormButton'
+import React, { Component } from 'react';
+import { Translate } from 'react-localize-redux';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
+import styled from 'styled-components';
+
 import { 
     recoverAccountSeedPhrase,
     refreshAccount,
     redirectTo,
-} from '../../actions/account'
-import { Snackbar, snackbarDuration } from '../common/Snackbar'
-import { Translate } from 'react-localize-redux'
-import copyText from '../../utils/copyText'
-import isMobile from '../../utils/isMobile'
-import { DISABLE_CREATE_ACCOUNT } from '../../utils/wallet'
-import { Mixpanel } from '../../mixpanel/index'
-import { actionsPending } from '../../utils/alerts'
+} from '../../actions/account';
+import { Mixpanel } from '../../mixpanel/index';
+import { actionsPending } from '../../utils/alerts';
+import copyText from '../../utils/copyText';
+import { DISABLE_CREATE_ACCOUNT } from '../../utils/wallet';
+import Button from '../common/Button';
+import FormButton from '../common/FormButton';
+import { Snackbar, snackbarDuration } from '../common/Snackbar';
+
+
 
 const Container = styled.div`
     margin-top: 5px;
@@ -48,7 +50,7 @@ const Container = styled.div`
             }
         }
     }
-`
+`;
 
 const Title = styled.h1`
     margin-bottom: 10px;
@@ -56,7 +58,7 @@ const Title = styled.h1`
     @media (min-width: 768px) {
         margin-bottom: 0;
     }
-`
+`;
 
 const Desc = styled.div`
     color: #4a4f54;
@@ -67,13 +69,13 @@ const Desc = styled.div`
     @media (min-width: 768px) {
         font-size: 28px;
     }
-`
+`;
 
 const UserName = styled.span`
     color: #24272a;
     background-color: #f8f8f8;
     padding: 5px;
-`
+`;
 
 const ButtonWrapper = styled.div`
     display: flex;
@@ -114,13 +116,13 @@ const ButtonWrapper = styled.div`
             }
         }
     }
-`
+`;
 
 const RecoverUrl = styled.div`
     position: absolute;
     z-index: -1;
     text-transform: initial;
-`
+`;
 
 class RecoverWithLink extends Component {
     constructor(props) {
@@ -137,8 +139,8 @@ class RecoverWithLink extends Component {
     }
 
     handleCopyUrl = () => {
-        Mixpanel.track("IE with link Click copy url button")
-        if (navigator.share && isMobile()) {
+        Mixpanel.track("IE with link Click copy url button");
+        if (navigator.share && this.props.isMobile) {
             navigator.share({
                 url: window.location.href
             }).catch(err => {
@@ -154,27 +156,27 @@ class RecoverWithLink extends Component {
         this.setState({ successSnackbar: true }, () => {
             setTimeout(() => {
                 this.setState({ successSnackbar: false });
-            }, snackbarDuration)
+            }, snackbarDuration);
         });
     }
 
     handleContinue = async () => {
         await Mixpanel.withTracking("IE Recover with link", 
             async () => {
-                await this.props.recoverAccountSeedPhrase(this.state.seedPhrase, this.props.match.params.accountId, false)
-                this.props.refreshAccount()
-                this.props.redirectTo('/')
+                await this.props.recoverAccountSeedPhrase(this.state.seedPhrase, this.props.match.params.accountId, false);
+                this.props.refreshAccount();
+                this.props.redirectTo('/');
             },
             () => {
-                this.setState({ successView: false })
+                this.setState({ successView: false });
             }
-        )
+        );
     }
 
     render() {
 
-        const { accountId, successSnackbar, successView } = this.state
-        const { mainLoader, history } = this.props
+        const { accountId, successSnackbar, successView } = this.state;
+        const { mainLoader, history } = this.props;
 
         if (successView) {
             return (
@@ -207,7 +209,7 @@ class RecoverWithLink extends Component {
                         </Container>
                     )}
                 </Translate>
-            )
+            );
         } else {
             return (
                 <Translate>
@@ -217,8 +219,8 @@ class RecoverWithLink extends Component {
                             <Desc>{translate('recoverWithLink.errorP')}</Desc>
                             {!DISABLE_CREATE_ACCOUNT &&
                                 <Button onClick={() => {
-                                    Mixpanel.track("IE with link expired click create button")
-                                    history.push('/create')
+                                    Mixpanel.track("IE with link expired click create button");
+                                    history.push('/create');
                                 }}>
                                     {translate('button.createAccount')}
                                 </Button>
@@ -226,7 +228,7 @@ class RecoverWithLink extends Component {
                         </Container>
                     )}
                 </Translate>
-            )
+            );
         }
     }
 }
@@ -235,16 +237,17 @@ const mapDispatchToProps = {
     recoverAccountSeedPhrase, 
     refreshAccount,
     redirectTo
-}
+};
 
 const mapStateToProps = ({ account, status }, { match }) => ({
     ...account,
     accountId: match.params.accountId || '',
     seedPhrase: match.params.seedPhrase || '',
-    mainLoader: status.mainLoader
-})
+    mainLoader: status.mainLoader,
+    isMobile: status.isMobile
+});
 
 export const RecoverWithLinkWithRouter = connect(
     mapStateToProps, 
     mapDispatchToProps
-)(withRouter(RecoverWithLink))
+)(withRouter(RecoverWithLink));

@@ -1,14 +1,11 @@
-import React, { useRef, useImperativeHandle, forwardRef, useState, useEffect } from 'react'
-import { Responsive, Input } from 'semantic-ui-react'
-import { Translate } from 'react-localize-redux'
+import React, { useRef, useImperativeHandle, forwardRef, useState } from 'react';
+import { Translate } from 'react-localize-redux';
+import { Responsive } from 'semantic-ui-react';
+import styled from 'styled-components';
 
-import sendJson from '../../tmp_fetch_send_json'
-import LocalAlertBox from '../common/LocalAlertBox'
-import FormButton from '../common/FormButton'
-
-import styled from 'styled-components'
+import FormButton from '../common/FormButton';
+import LocalAlertBox from '../common/LocalAlertBox';
 import { Recaptcha } from '../Recaptcha';
-import { ACCOUNT_HELPER_URL } from '../../utils/wallet';
 
 // FIXME: Use `debug` npm package so we can keep some debug logging around but not spam the console everywhere
 const ENABLE_DEBUG_LOGGING = false;
@@ -48,7 +45,7 @@ const CustomDiv = styled.div`
     .recaptcha-widget {
         margin-top: -10px;
     }
-`
+`;
 
 
 const SetupSeedPhraseVerify = (
@@ -60,7 +57,8 @@ const SetupSeedPhraseVerify = (
         localAlert,
         onRecaptchaChange,
         isNewAccount,
-        onSubmit
+        onSubmit,
+        isLinkDrop
     },
     ref
 ) => {
@@ -73,44 +71,19 @@ const SetupSeedPhraseVerify = (
             debugLog('in imperative handle reset()');
             return recaptchaRef.current.reset();
         }
-    }))
+    }));
 
-
-    // TODO: Combine similar effect code into custom hook
-    const [fundedAccountAvailable, setFundedAccountAvailable] = useState(false);
-    useEffect(() => {
-        debugLog('Checking available funded account status');
-        const fetchIsFundedAccountAvailable = async () => {
-            let available;
-
-            try {
-                ({ available } = await sendJson('GET', ACCOUNT_HELPER_URL + '/checkFundedAccountAvailable'));
-            } catch (e) {
-                debugLog('Failed check available funded account status');
-                setFundedAccountAvailable(false);
-                return;
-            }
-
-            debugLog('Funded account availability', { available });
-            setFundedAccountAvailable(available);
-        }
-
-        if(process.env.RECAPTCHA_CHALLENGE_API_KEY && isNewAccount) {
-            fetchIsFundedAccountAvailable();
-        }
-    }, []);
-
-    const shouldRenderRecaptcha = process.env.RECAPTCHA_CHALLENGE_API_KEY && isNewAccount && fundedAccountAvailable;
+    const shouldRenderRecaptcha = !isLinkDrop && process.env.RECAPTCHA_CHALLENGE_API_KEY && isNewAccount;
 
     return (
         <CustomDiv>
             <h4><Translate id='input.enterWord.title' data={{ wordId: wordId + 1 }}/></h4>
             <Translate>
                 {({ translate }) => (
-                    <Input
+                    <input
                         name='enterWord'
                         value={enterWord}
-                        onChange={handleChangeWord}
+                        onChange={e => handleChangeWord(e.target.value)}
                         placeholder={translate('input.enterWord.placeholder')}
                         required
                         tabIndex='1'
@@ -143,6 +116,6 @@ const SetupSeedPhraseVerify = (
             </FormButton>
         </CustomDiv>
     );
-}
+};
 
-export default forwardRef(SetupSeedPhraseVerify)
+export default forwardRef(SetupSeedPhraseVerify);

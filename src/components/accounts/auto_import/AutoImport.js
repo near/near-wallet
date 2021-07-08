@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import { Translate } from 'react-localize-redux';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
-import Container from '../../common/styled/Container.css';
-import { Translate } from 'react-localize-redux';
+
 import { recoverAccountSeedPhrase, refreshAccount, redirectTo } from '../../../actions/account';
 import { Mixpanel } from '../../../mixpanel/index';
 import FormButton from '../../common/FormButton';
+import Container from '../../common/styled/Container.css';
 
 const StyledContainer = styled(Container)`
     h1 {
@@ -17,7 +18,7 @@ const StyledContainer = styled(Container)`
         display: block !important;
         width: 100% !important;
     }
-`
+`;
 
 export function AutoImport() {
     const dispatch = useDispatch();
@@ -31,29 +32,29 @@ export function AutoImport() {
     const failureUrl = location.query.failure_url;
     
     useEffect(() => {
-        recoverWithSeedPhrase()
+        recoverWithSeedPhrase();
     }, []);
 
     const recoverWithSeedPhrase = async () => {
         await Mixpanel.withTracking("IE-SP Recovery with seed phrase auto",
             async () => {
-                setRecovering(true)
-                await dispatch(recoverAccountSeedPhrase(seedPhrase, accountId))
-                await dispatch(refreshAccount())
+                setRecovering(true);
+                await dispatch(recoverAccountSeedPhrase(seedPhrase, accountId));
+                await dispatch(refreshAccount());
 
                 if (successUrl) {
-                    window.location.href = successUrl
+                    window.location.href = successUrl;
                     return;
                 }
                 
-                await dispatch(redirectTo('/'))
+                await dispatch(redirectTo('/'));
             },
             (e) => {
-                setRecovering('failed')
+                setRecovering('failed');
                 console.error(e);
             }
-        )
-    }
+        );
+    };
 
     return (
         <StyledContainer className='small-centered'>

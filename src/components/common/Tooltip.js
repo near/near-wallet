@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from 'react'
-import styled from 'styled-components'
-import { Translate } from 'react-localize-redux'
-import InfoIconRounded from '../svg/InfoIconRounded'
-import Modal from '../common/modal/Modal'
-import isMobile from '../../utils/isMobile'
-import classNames from '../../utils/classNames'
+import React, { useState, useEffect } from 'react';
+import { Translate } from 'react-localize-redux';
+import styled from 'styled-components';
+
+import classNames from '../../utils/classNames';
+import isMobile from '../../utils/isMobile';
+import Modal from '../common/modal/Modal';
+import InfoIconRounded from '../svg/InfoIconRounded';
 
 const Container = styled.div`
     position: relative;
@@ -12,10 +13,24 @@ const Container = styled.div`
     display: flex;
     z-index: 3;
 
+    svg {
+        pointer-events: none;
+    }
+
+    @keyframes fadeInTop {
+        from {
+            opacity: 0.2;
+            transform: translate(-50%, 3px);
+        }
+        to {
+            opacity: 1;
+            transform: translate(-50%, 0);
+        }
+    }
+
     .hover-content {
         position: absolute;
         left: 50%;
-        transform: translate(-50%, 0);
         text-align: left;
         background-color: #24272a;
         color: white;
@@ -27,7 +42,13 @@ const Container = styled.div`
         width: max-content;
         max-width: 250px;
         z-index: 1;
-        box-shadow: 0px 45px 56px rgba(0, 0, 0, 0.07), 0px 10.0513px 12.5083px rgba(0, 0, 0, 0.0417275), 0px 2.99255px 3.72406px rgba(0, 0, 0, 0.0282725);
+        box-shadow: 0px 3px 12px 0px rgb(0 0 0 / 15%);
+
+        &.show {
+            animation-name: fadeInTop;
+            animation-duration: 200ms;
+            animation-fill-mode: forwards;
+        }
     }
 
     &.right {
@@ -61,11 +82,11 @@ const Container = styled.div`
 
     &.icon-lg {
         .rounded-info-icon {
-            width: 24px;
-            height: 24px;
+            width: 23px;
+            height: 23px;
         }
     }
-`
+`;
 
 const Tooltip = ({ className, children, translate, data, position, icon, modalOnly = false }) => {
     const [show, setShow] = useState(false);
@@ -73,36 +94,36 @@ const Tooltip = ({ className, children, translate, data, position, icon, modalOn
     const [mouseDisabled, setMouseDisabled] = useState(false);
 
     useEffect(() => {
-        handleCheckDevice()
-        window.addEventListener('resize', handleCheckDevice)
+        handleCheckDevice();
+        window.addEventListener('resize', handleCheckDevice);
 
         return () => {
-            window.removeEventListener('resize', handleCheckDevice)
-        }
-    }, [])
+            window.removeEventListener('resize', handleCheckDevice);
+        };
+    }, []);
 
     const handleCheckDevice = () => {
         if (window.innerWidth < 992 || isMobile()) {
-            setMobile(true)
+            setMobile(true);
         } else {
-            setMobile(false)
+            setMobile(false);
         }
-    }
+    };
 
     const mouseEventDisabled = () => {
-        return (mouseDisabled || modalOnly || window.innerWidth < 992 || isMobile())
-    }
+        return (mouseDisabled || modalOnly || window.innerWidth < 992 || isMobile());
+    };
 
     const handleClick = () => {
-        setShow(true)
+        setShow(true);
         if (!mobile && !modalOnly) {
-            setMouseDisabled(true)
+            setMouseDisabled(true);
             setTimeout(() => {
-                setMouseDisabled(false)
-                setShow(false)
-            }, 3000)
+                setMouseDisabled(false);
+                setShow(false);
+            }, 3000);
         }
-    }
+    };
 
     return (
         <Container
@@ -114,7 +135,7 @@ const Tooltip = ({ className, children, translate, data, position, icon, modalOn
         >
             {children ? children : <InfoIconRounded/>}
             {show && !mobile && !modalOnly &&
-                <div className='hover-content'><Translate id={translate} data={{ data: data }}/></div>
+                <div className={classNames(['hover-content', show ? 'show' : ''])}><Translate id={translate} data={{ data: data }}/></div>
             }
             {show && (mobile || modalOnly) &&
                 <Modal
@@ -129,7 +150,7 @@ const Tooltip = ({ className, children, translate, data, position, icon, modalOn
                 </Modal>
             }
         </Container>
-    )
-}
+    );
+};
 
-export default Tooltip
+export default Tooltip;
