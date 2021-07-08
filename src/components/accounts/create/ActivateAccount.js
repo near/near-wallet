@@ -160,9 +160,9 @@ class ActivateAccount extends Component {
         if (needsDeposit) {
             try {
                 await this.handleClearAccountNeedsDeposit();
-            } catch(e) {
+            } catch {
                 this.setState({ activatingAccount: false });
-                throw e;
+                return;
             }
         }
 
