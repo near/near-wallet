@@ -1127,7 +1127,7 @@
                 "receiverId": "Sent to",
                 "timeStamp": "Date & time",
                 "reservedForFees": "Reserved for fees",
-                "availableBalane": "Available balance",
+                "availableBalance": "Available balance",
                 "availableToSend": "Available to Send"
             },
             "status": {
@@ -1136,11 +1136,9 @@
                 "notAvailable": "Status not available"
             }
         },
-        "availableToSend": {
-            "availableToSend": "Available to Send",
-            "availableBalance": "Available balance",
-            "reservedForFees": "Reserved for fees",
-            "balanceDetails": "Balance details"
+        "accordionTriggerTitle": {
+            "balanceDetails": "Balance details",
+            "transactionDetails": "Transaction Details"
         }
     },
 
