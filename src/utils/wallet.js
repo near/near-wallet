@@ -644,7 +644,7 @@ class Wallet {
         return availableKeys;
     }
 
-    getAccountBasic(accountId = this.accountId) {
+    getAccountBasic(accountId) {
         return new nearApiJs.Account(this.connection, accountId);
     }
 
