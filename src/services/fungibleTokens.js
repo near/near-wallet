@@ -2,7 +2,6 @@ import BN from 'bn.js';
 import * as nearApiJs from 'near-api-js';
 
 import sendJson from '../tmp_fetch_send_json';
-import { wallet } from '../utils/wallet';
 import { ACCOUNT_HELPER_URL } from '../utils/wallet';
 
 const {
@@ -21,9 +20,9 @@ const FT_STORAGE_DEPOSIT_GAS = parseNearAmount('0.00000000003');
 const FT_TRANSFER_GAS = parseNearAmount('0.00000000003');
 const FT_TRANSFER_DEPOSIT = '1'; // 1 yoctoNear
 
-class FungibleTokens {
-    constructor() {
-        this.account = wallet.getAccountBasic();
+export class FungibleTokens {
+    constructor(account) {
+        this.account = account;
     }
 
     async isStorageBalanceAvailable(contractName, accountId) {
@@ -85,5 +84,3 @@ class FungibleTokens {
         };
     }
 }
-
-export const fungibleTokens = new FungibleTokens();
