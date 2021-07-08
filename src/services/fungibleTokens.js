@@ -35,7 +35,7 @@ export class FungibleTokens {
     }
 
     async transfer(contractName, amount, memo, receiver, contractMetadata) {
-        await this.signAndSendTransaction(contractName, [
+        return await this.signAndSendTransaction(contractName, [
             functionCall('ft_transfer', {
                 receiver_id: receiver,
                 amount: await this.calculateAmount(contractName, amount, contractMetadata),
