@@ -1135,6 +1135,12 @@
                 "Failure": "Failed",
                 "notAvailable": "Status not available"
             }
+        },
+        "availableToSend": {
+            "availableToSend": "Available to Send",
+            "availableBalance": "Available balance",
+            "reservedForFees": "Reserved for fees",
+            "balanceDetails": "Balance details"
         }
     },
 

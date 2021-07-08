@@ -7,11 +7,17 @@ const Style = styled.div`
     padding: 0px 15px;
     min-height: 75px;
     color: #72727A;
+    font-size: 13px;
+
+    .tooltip {
+        margin-right: auto;
+        width: 15px;
+    }
 
     .icon, .amount {
-        color: black;
+        color: #272729;
         font-weight: 600;
-        font-size: 16px;
+        font-size: 14px;
     }
 
     .icon {

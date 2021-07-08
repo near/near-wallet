@@ -2,8 +2,9 @@ import React from 'react';
 import { Translate } from 'react-localize-redux';
 
 import Balance from '../../../common/Balance';
+import Tooltip from '../../../common/Tooltip';
 import TokenAmount from '../../../wallet/TokenAmount';
-import StyledContainer from './Style.css';
+import StyledContainer from './css/Style.css';
 
 const RawAmount = ({ symbol, amount, decimals }) => {
     if (decimals && symbol) {
@@ -18,12 +19,14 @@ const RawAmount = ({ symbol, amount, decimals }) => {
     }
 };
 
-const Amount = ({ symbol, amount, decimals, translate, withInfo }) => {
+const Amount = ({ symbol, amount, decimals, translateIdTitle, translateIdInfoTooltip }) => {
     /* TODO: Handle long amounts */
-    /* TODO: Add 'withInfo' tooltip */
     return (
         <StyledContainer>
-            <Translate id={translate} />
+            <Translate id={translateIdTitle} />
+            {translateIdInfoTooltip &&
+                <Tooltip translate={translateIdInfoTooltip}/>
+            }
             <div className='amount'>
                 <RawAmount
                     symbol={symbol}
