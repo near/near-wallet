@@ -3,10 +3,10 @@ import React, { useState } from 'react';
 import classNames from '../../../utils/classNames';
 import Accordion from '../../common/Accordion';
 import AccordionTrigger from './AccordionTrigger';
-import Breakdown from './Breakdown.css';
+import Breakdown from './css/Breakdown.css';
 import Amount from './entry_types/Amount';
 
-const translate = (type) => `sendV2.availableToSend.${type}`;
+const prefixAvailableToSendId = (key) => `sendV2.availableToSend.${key}`;
 
 const AvailableToSend = () => {
     const [open, setOpen] = useState(false);
@@ -14,7 +14,7 @@ const AvailableToSend = () => {
     return (
         <Breakdown className={classNames(['available-to-send-breakdown' , open ? 'open' : ''])}>
             <Amount
-                translate={translate('availableToSend')}
+                translateIdTitle={prefixAvailableToSendId('availableToSend')}
                 amount='200000000000000000000'
             />
             <Accordion
@@ -22,18 +22,18 @@ const AvailableToSend = () => {
                 className='breakdown'
             >
                 <Amount
-                    translate={translate('availableBalance')}
+                    translateIdTitle={prefixAvailableToSendId('availableBalance')}
                     amount='500000000000000000000'
                 />
                 <Amount
-                    translate={translate('reservedForFees')}
+                    translateIdTitle={prefixAvailableToSendId('reservedForFees')}
                     amount='9900000000000000000000'
-                    infoTranslate='profile.security.mostSecureDesc'
+                    translateIdInfoTooltip='profile.security.mostSecureDesc'
                 />
             </Accordion>
             <AccordionTrigger
                 id='available-to-send-breakdown'
-                translate={translate('balanceDetails')}
+                translateIdTitle={prefixAvailableToSendId('balanceDetails')}
                 open={open}
                 onClick={() => setOpen(!open)}
             />

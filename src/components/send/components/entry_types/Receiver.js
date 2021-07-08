@@ -1,13 +1,13 @@
 import React from 'react';
 import { Translate } from 'react-localize-redux';
 
-import StyledContainer from './Style.css';
+import StyledContainer from './css/Style.css';
 
-const Receiver = ({ receiverId, translate }) => {
+const Receiver = ({ receiverId, translateIdTitle }) => {
     /* TODO: Handle long Account ID & Add icon */
     return (
         <StyledContainer>
-            <Translate id={translate} />
+            <Translate id={translateIdTitle} />
             <div className='receiver'>{receiverId}</div>
         </StyledContainer>
     );

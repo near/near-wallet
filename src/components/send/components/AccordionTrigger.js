@@ -32,14 +32,14 @@ const StyledContainer = styled.div`
     }
 `;
 
-const AccordionTrigger = ({ id, onClick, translate, open }) => {
+const AccordionTrigger = ({ id, onClick, translateIdTitle, open }) => {
     return (
         <StyledContainer
             id={id}
             onClick={onClick}
             className={classNames(['accordion-trigger' , open ? 'open' : ''])}
         >
-            <Translate id={translate} />
+            <Translate id={translateIdTitle} />
             <ChevronIcon color='#0072ce'/>
         </StyledContainer>
     );

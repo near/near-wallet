@@ -3,7 +3,7 @@ import { Translate } from 'react-localize-redux';
 
 import isDataURL from '../../../../utils/isDataURL';
 import DefaultTokenIconBlack from '../../../svg/DefaultTokenIconBlack';
-import StyledContainer from './Style.css';
+import StyledContainer from './css/Style.css';
 
 const Icon = ({ symbol, icon }) => {
     if (icon && isDataURL(icon)) {
@@ -13,10 +13,10 @@ const Icon = ({ symbol, icon }) => {
     }
 };
 
-const Token = ({ symbol, icon, translate }) => {
+const Token = ({ symbol, icon, translateIdTitle }) => {
     return (
         <StyledContainer>
-            <Translate id={translate} />
+            <Translate id={translateIdTitle} />
             <div className='icon'>
                 <Icon symbol={symbol} icon={icon}/>
                 {symbol}
