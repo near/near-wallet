@@ -34,19 +34,21 @@ export class FungibleTokens {
         return await this.account.viewFunction(contractName, 'storage_balance_of', { account_id: accountId });
     }
 
-    async transfer(contractName, amount, memo, receiver) {
+    async transfer(contractName, amount, memo, receiver, contractMetadata) {
         await this.signAndSendTransaction(contractName, [
             functionCall('ft_transfer', {
                 receiver_id: receiver,
-                amount: await this.calculateAmount(contractName, amount),
+                amount: await this.calculateAmount(contractName, amount, contractMetadata),
                 memo: memo
             }, FT_TRANSFER_GAS, FT_TRANSFER_DEPOSIT)
         ]);
     }
 
-    async calculateAmount(contractName, amount) {
-        const { metadata } = await this.getMetadata(contractName);
-        return parseTokenAmount(amount, metadata.decimals);
+    async calculateAmount(contractName, amount, contractMetadata) {
+        if (!contractMetadata) {
+            contractMetadata = await this.getMetadata(contractName);
+        }
+        return parseTokenAmount(amount, contractMetadata.decimals);
     }
 
     async transferStorageDeposit(contractName, accountId) {
