@@ -251,7 +251,7 @@ const StyledContainer = styled(Container)`
     }
 `;
 
-export function Wallet() {
+export function Wallet(props) {
     const [exploreApps, setExploreApps] = useState(null);
     const [showLinkdropModal, setShowLinkdropModal] = useState(null);
     const accountId = useSelector(state => selectAccountId(state));
@@ -264,7 +264,13 @@ export function Wallet() {
     const tokens = useSelector(state => selectTokensDetails(state));
     const nft = useSelector(selectNFT);
     const tokensLoader = actionsPendingByPrefix('TOKENS/') || !balance?.total;
-    const [tokenView, setTokenView] = useState('fungibleTokens');
+    const getTokenView = () => {
+        const params = new URLSearchParams(props.history.location.search);
+        return params && params.has("tab") && params.get("tab").toLocaleLowerCase() === "nft"
+            ? "nonFungibleTokens"
+            : "fungibleTokens";
+    };
+    const [tokenView, setTokenView] = useState(getTokenView());
 
     useEffect(() => {
         if (accountId) {
@@ -288,6 +294,13 @@ export function Wallet() {
         dispatch(handleGetNFTs());
     }, [accountId]);
 
+    const switchTokenView = (tab) => {
+        const params = new URLSearchParams(props.history.location.search);
+        params.set("tab", tab);
+        props.history.push(props.history.location.pathname + "?" + params.toString());
+        setTokenView(getTokenView());
+    };
+
     const handleHideExploreApps = () => {
         localStorage.setItem('hideExploreApps', true);
         setExploreApps(false);
@@ -307,13 +320,13 @@ export function Wallet() {
                     <div className='tab-selector'>
                         <div
                             className={classNames(['tab-balances', tokenView !== 'fungibleTokens' ? 'inactive' : ''])}
-                            onClick={() => setTokenView('fungibleTokens')}
+                            onClick={() => switchTokenView('ft')}
                         >
                             <Translate id='wallet.balances' />
                         </div>
                         <div
                             className={classNames(['tab-collectibles', tokenView !== 'nonFungibleTokens' ? 'inactive' : ''])}
-                            onClick={() => setTokenView('nonFungibleTokens')}
+                            onClick={() => switchTokenView('nft')}
                         >
                             <Translate id='wallet.collectibles' />
                         </div>
