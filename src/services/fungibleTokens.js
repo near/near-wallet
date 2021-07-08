@@ -2,6 +2,7 @@ import BN from 'bn.js';
 import * as nearApiJs from 'near-api-js';
 
 import sendJson from '../tmp_fetch_send_json';
+import { parseTokenAmount } from '../utils/amounts';
 import { ACCOUNT_HELPER_URL } from '../utils/wallet';
 
 const {
@@ -45,7 +46,7 @@ export class FungibleTokens {
 
     async calculateAmount(contractName, amount) {
         const { metadata } = await this.getMetadata(contractName);
-        return new BN(10).pow(new BN(metadata.decimals)).mul(new BN(amount)).toString();
+        return parseTokenAmount(amount, metadata.decimals);
     }
 
     async transferStorageDeposit(contractName, accountId) {
