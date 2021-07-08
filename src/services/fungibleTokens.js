@@ -5,16 +5,21 @@ import sendJson from '../tmp_fetch_send_json';
 import { wallet } from '../utils/wallet';
 import { ACCOUNT_HELPER_URL } from '../utils/wallet';
 
-const FT_MINIMUM_STORAGE_BALANCE = parseNearAmount('0.00125');
-const FT_STORAGE_DEPOSIT_GAS = parseNearAmount('0.00000000003');
-const FT_TRANSFER_GAS = parseNearAmount('0.00000000003');
-const FT_TRANSFER_DEPOSIT = '1'; // 1yoctoNear
-
 const {
     transactions: {
         functionCall
+    },
+    utils: {
+        format: { 
+            parseNearAmount
+        }
     }
 } = nearApiJs;
+
+const FT_MINIMUM_STORAGE_BALANCE = parseNearAmount('0.00125');
+const FT_STORAGE_DEPOSIT_GAS = parseNearAmount('0.00000000003');
+const FT_TRANSFER_GAS = parseNearAmount('0.00000000003');
+const FT_TRANSFER_DEPOSIT = '1'; // 1 yoctoNear
 
 class FungibleTokens {
     constructor() {
