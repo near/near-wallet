@@ -65,7 +65,7 @@ export class FungibleTokens {
     }
 
     getLikelyTokenContracts() {
-        return sendJson('GET', `${ACCOUNT_HELPER_URL}/account/${this.account.accountId}/likelyTokens`)
+        return sendJson('GET', `${ACCOUNT_HELPER_URL}/account/${this.account.accountId}/likelyTokens`);
     }
 
     async getMetadata(contractName) {
