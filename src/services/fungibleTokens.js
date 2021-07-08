@@ -52,7 +52,7 @@ export class FungibleTokens {
     }
 
     async transferStorageDeposit(contractName, accountId) {
-        await this.signAndSendTransaction(contractName, [
+        return this.signAndSendTransaction(contractName, [
             functionCall('storage_deposit', {
                 account_id: accountId,
                 registration_only: true,
