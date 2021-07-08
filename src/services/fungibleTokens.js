@@ -5,10 +5,10 @@ import sendJson from '../tmp_fetch_send_json';
 import { wallet } from '../utils/wallet';
 import { ACCOUNT_HELPER_URL } from '../utils/wallet';
 
-const FT_MINIMUM_STORAGE_BALANCE = '1250000000000000000000';
-const FT_STORAGE_DEPOSIT_GAS = '30000000000000';
-const FT_TRANSFER_GAS = '30000000000000';
-const FT_TRANSFER_DEPOSIT = '1';
+const FT_MINIMUM_STORAGE_BALANCE = parseNearAmount('0.00125');
+const FT_STORAGE_DEPOSIT_GAS = parseNearAmount('0.00000000003');
+const FT_TRANSFER_GAS = parseNearAmount('0.00000000003');
+const FT_TRANSFER_DEPOSIT = '1'; // 1yoctoNear
 
 const {
     transactions: {
