@@ -1,4 +1,3 @@
-import * as Sentry from '@sentry/browser';
 import BN from 'bn.js';
 import * as nearApiJs from 'near-api-js';
 
@@ -27,7 +26,7 @@ class FungibleTokens {
     }
 
     async checkStorageBalance(contractName, accountId) {
-        return await this.account.viewFunction(contractName, 'storage_balance_of', { account_id: accountId }).catch(logError);
+        return await this.account.viewFunction(contractName, 'storage_balance_of', { account_id: accountId });
     }
 
     async transfer(contractName, amount, memo, receiver) {
@@ -55,17 +54,17 @@ class FungibleTokens {
     }
 
     async signAndSendTransaction(receiverId, actions) {
-        return await this.account.signAndSendTransaction(receiverId, actions).catch(logError);
+        return await this.account.signAndSendTransaction(receiverId, actions);
     }
 
     getLikelyTokenContracts = () => (
-        sendJson('GET', `${ACCOUNT_HELPER_URL}/account/${this.account.accountId}/likelyTokens`).catch(logError)
+        sendJson('GET', `${ACCOUNT_HELPER_URL}/account/${this.account.accountId}/likelyTokens`)
     )
 
     async getMetadata(contractName) {
         // FungibleTokenMetadata interface
         // https://github.com/near/NEPs/blob/master/specs/Standards/FungibleToken/Metadata.md
-        const metadata = await this.account.viewFunction(contractName, 'ft_metadata').catch(logError);
+        const metadata = await this.account.viewFunction(contractName, 'ft_metadata');
     
         return {
             contractName,
@@ -74,17 +73,12 @@ class FungibleTokens {
     }
 
     async getBalanceOf(contractName) {
-        const balance = await this.account.viewFunction(contractName, 'ft_balance_of', { account_id: this.account.accountId }).catch(logError);
+        const balance = await this.account.viewFunction(contractName, 'ft_balance_of', { account_id: this.account.accountId });
         return {
             contractName,
             balance
         };
     }
 }
-
-const logError = (error) => {
-    console.warn(error);
-    Sentry.captureException(error);
-};
 
 export const fungibleTokens = new FungibleTokens();
