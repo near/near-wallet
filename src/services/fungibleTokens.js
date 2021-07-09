@@ -29,6 +29,8 @@ const FT_TRANSFER_GAS = parseNearAmount('0.00000000003');
 // from: https://github.com/near/NEPs/issues/141
 const FT_TRANSFER_DEPOSIT = '1';
 
+// Fungible Token Standard
+// https://github.com/near/NEPs/tree/master/specs/Standards/FungibleToken
 export class FungibleTokens {
     constructor(account) {
         this.account = account;
@@ -70,8 +72,6 @@ export class FungibleTokens {
     }
 
     async getMetadata(contractName) {
-        // FungibleTokenMetadata interface
-        // https://github.com/near/NEPs/blob/master/specs/Standards/FungibleToken/Metadata.md
         return await this.account.viewFunction(contractName, 'ft_metadata');
     }
 
