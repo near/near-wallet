@@ -49,7 +49,7 @@ const AccountId = ({ accountId }) => {
     return (
         <StyledContainer>
             <div className='top'>
-                <div><Translate id='receiveV2.accountIdTitle' /></div>
+                <div><Translate id='input.accountId.title' /></div>
                 <ClickToCopy
                     copy={accountId}
                     className='copy-account-id'
