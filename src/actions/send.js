@@ -31,6 +31,10 @@ export const { send } = createActions({
                 () => showAlert({ onlyError: true })
             ],
         },
+        IS_STORAGE_BALANCE_AVAILABLE: [
+            () => {},
+            () => showAlert({ onlyError: true })
+        ],
         SET_TX_STATUS: null,
     }
 });
