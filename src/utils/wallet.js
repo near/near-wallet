@@ -15,7 +15,7 @@ import {
     finishAccountSetup,
     selectAccount
 } from '../actions/account';
-import { FungibleTokens } from '../services/fungibleTokens';
+import FungibleTokens from '../services/fungibleTokens';
 import sendJson from '../tmp_fetch_send_json';
 import { decorateWithLockup } from './account-with-lockup';
 import { getAccountIds } from './helper-api';

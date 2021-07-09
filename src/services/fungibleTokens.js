@@ -31,7 +31,7 @@ const FT_TRANSFER_DEPOSIT = '1';
 
 // Fungible Token Standard
 // https://github.com/near/NEPs/tree/master/specs/Standards/FungibleToken
-export class FungibleTokens {
+export default class FungibleTokens {
     constructor(account) {
         this.account = account;
     }
