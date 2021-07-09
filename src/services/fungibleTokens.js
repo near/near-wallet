@@ -44,7 +44,7 @@ export default class FungibleTokens {
         return await this.account.viewFunction(contractName, 'storage_balance_of', { account_id: accountId });
     }
 
-    async transfer({ contractMetadata: { contractName, decimals }, amount, receiverId, memo }) {
+    async transfer({ token: { contractName, metadata: { decimals } }, amount, receiverId, memo }) {
         return await this.signAndSendTransaction(contractName, [
             functionCall('ft_transfer', {
                 receiver_id: receiverId,
