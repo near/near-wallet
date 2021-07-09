@@ -46,17 +46,10 @@ export class FungibleTokens {
         return await this.signAndSendTransaction(contractName, [
             functionCall('ft_transfer', {
                 receiver_id: receiver,
-                amount: await this.calculateAmount(contractName, amount, contractMetadata),
+                amount: parseTokenAmount(amount, contractMetadata.decimals),
                 memo: memo
             }, FT_TRANSFER_GAS, FT_TRANSFER_DEPOSIT)
         ]);
-    }
-
-    async calculateAmount(contractName, amount, contractMetadata) {
-        if (!contractMetadata) {
-            contractMetadata = await this.getMetadata(contractName);
-        }
-        return parseTokenAmount(amount, contractMetadata.decimals);
     }
 
     async transferStorageDeposit(contractName, accountId) {
