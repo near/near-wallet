@@ -9,6 +9,10 @@ export const transfer = ({ contractName, amount, memo, receiverId, isStorageBala
     }
 
     const { transaction, status } = await dispatch(send.transfer[contractName ? 'TOKENS' : 'NEAR'](contractName, amount, memo, receiverId));
+
+    if (status?.SuccessValue) {
+        dispatch(send.setTxStatus(transaction.hash, 'success'));
+    }
 };
 
 export const { send } = createActions({
