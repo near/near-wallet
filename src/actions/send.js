@@ -11,6 +11,14 @@ export const transfer = ({ contractName, amount, memo, receiverId, isStorageBala
 export const { send } = createActions({
     SEND: {
         TRANSFER: {
+            NEAR: [
+                () => {},
+                () => showAlert({ onlyError: true })
+            ],
+            TOKENS: [
+                () => {},
+                () => showAlert({ onlyError: true })
+            ],
             STORAGE_DEPOSIT: [
                 () => {},
                 () => showAlert({ onlyError: true })
