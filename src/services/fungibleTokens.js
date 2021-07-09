@@ -72,19 +72,10 @@ export class FungibleTokens {
     async getMetadata(contractName) {
         // FungibleTokenMetadata interface
         // https://github.com/near/NEPs/blob/master/specs/Standards/FungibleToken/Metadata.md
-        const metadata = await this.account.viewFunction(contractName, 'ft_metadata');
-    
-        return {
-            contractName,
-            metadata
-        };
+        return await this.account.viewFunction(contractName, 'ft_metadata');
     }
 
     async getBalanceOf(contractName) {
-        const balance = await this.account.viewFunction(contractName, 'ft_balance_of', { account_id: this.account.accountId });
-        return {
-            contractName,
-            balance
-        };
+        return await this.account.viewFunction(contractName, 'ft_balance_of', { account_id: this.account.accountId });
     }
 }
