@@ -12,7 +12,7 @@ export const { send } = createActions({
     SEND: {
         TRANSFER: {
             NEAR: [
-                () => {},
+                wallet.sendMoney.bind(wallet),
                 () => showAlert({ onlyError: true })
             ],
             TOKENS: [
