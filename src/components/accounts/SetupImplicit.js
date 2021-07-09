@@ -6,10 +6,11 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { createAccountFromImplicit, redirectTo, getAccountBasic } from '../../actions/account';
+import { createAccountFromImplicit, redirectTo } from '../../actions/account';
 import { Mixpanel } from '../../mixpanel';
 import { isMoonpayAvailable, getSignedUrl } from '../../utils/moonpay';
 import { MIN_BALANCE_TO_CREATE } from '../../utils/wallet';
+import { wallet } from '../../utils/wallet';
 import Divider from '../common/Divider';
 import FormButton from '../common/FormButton';
 import Container from '../common/styled/Container.css';
@@ -115,11 +116,11 @@ class SetupImplicit extends Component {
     }
 
     checkBalance = async () => {
-        const { implicitAccountId, dispatch } = this.props;
+        const { implicitAccountId } = this.props;
         const { accountFunded } = this.state;
 
         if (!accountFunded) {
-            const account = dispatch(getAccountBasic(implicitAccountId));
+            const account = wallet.getAccountBasic(implicitAccountId);
             await Mixpanel.withTracking("CA Check balance from implicit",
                 async () => {
                     const state = await account.state();
