@@ -8,14 +8,14 @@ import Amount from './entry_types/Amount';
 
 const prefixTXEntryTitledId = (key) => `sendV2.TXEntry.title.${key}`;
 
-const BalanceDetails = () => {
+const BalanceDetails = ({ availableToSend, availableBalance, reservedForFees }) => {
     const [open, setOpen] = useState(false);
     
     return (
         <Breakdown className={classNames(['available-to-send-breakdown' , open ? 'open' : ''])}>
             <Amount
                 translateIdTitle={prefixTXEntryTitledId('availableToSend')}
-                amount='200000000000000000000'
+                amount={availableToSend}
             />
             <Accordion
                 trigger='available-to-send-breakdown'
@@ -23,11 +23,11 @@ const BalanceDetails = () => {
             >
                 <Amount
                     translateIdTitle={prefixTXEntryTitledId('availableBalance')}
-                    amount='500000000000000000000'
+                    amount={availableBalance}
                 />
                 <Amount
                     translateIdTitle={prefixTXEntryTitledId('reservedForFees')}
-                    amount='9900000000000000000000'
+                    amount={reservedForFees}
                     translateIdInfoTooltip='profile.security.mostSecureDesc'
                 />
             </Accordion>

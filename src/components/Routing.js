@@ -55,7 +55,8 @@ import Navigation from './navigation/Navigation';
 import { Profile } from './profile/Profile';
 // import { ReceiveMoneyWithRouter } from './receive-money/ReceiveMoney';
 import { ReceiveContainerWithRouter } from './receive-money/ReceiveContainer';
-import { SendContainer } from './send/SendContainer';
+// import { SendContainer } from './send/SendContainer';
+import { SendContainerV2WithRouter } from './send/SendContainerV2';
 import { SignWithRouter } from './sign/Sign';
 import { StakingContainer } from './staking/StakingContainer';
 import Terms from './terms/Terms';
@@ -369,7 +370,7 @@ class Routing extends Component {
                                 <PrivateRouteLimited
                                     exact
                                     path='/send-money/:id?'
-                                    component={SendContainer}
+                                    component={SendContainerV2WithRouter}
                                 />
                             }
                             <PrivateRouteLimited

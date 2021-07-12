@@ -47,16 +47,22 @@ const CustomButton = styled(Button)`
         }
 
         &.light-blue {
-            background-color: #F0F9FF !important;
+            background-color: #D6EDFF !important;
             border: 0;
-            color: #0072ce;
+            color: #005497;
             border-radius: 4px;
 
             &.small {
                 padding: 6px 12px;
                 height: auto;
                 font-weight: 400 !important;
-                font-size: 13px;
+                font-size: 12px;
+            }
+
+            &.rounded {
+                border-radius: 50px;
+                padding: 12px 15px;
+                width: auto;
             }
         }
 

@@ -23,9 +23,9 @@ const StyledInput = styled.input`
 `;
 
 const getFontSize = (charLength) => {
-    const baseSize = 60;
+    const baseSize = 70;
     if (charLength >= baseSize) {
-        charLength = baseSize - 5;
+        charLength = baseSize - 6;
     }
     const fontSize = baseSize - charLength;
     return fontSize;
@@ -35,7 +35,7 @@ const AmountInput = ({ value, onChange, error }) => {
     return (
         <StyledInput
             className={error ? 'error' : ''}
-            style={{ fontSize: `${value.length > 8 ? getFontSize(value.length) : 60}px` }}
+            style={{ fontSize: `${value.length > 5 ? getFontSize(value.length) : 70}px` }}
             type='number'
             placeholder='0'
             value={value}

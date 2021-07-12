@@ -537,7 +537,8 @@
         "buy": "Buy",
         "learnMore": "Learn More",
         "viewFAQ": "View FAQ",
-        "acceptAndContinue": "Accept & Continue"
+        "acceptAndContinue": "Accept & Continue",
+        "useMax": "Use Max"
     },
 
     "link": {
