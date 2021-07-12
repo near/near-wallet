@@ -15,11 +15,10 @@ export const transfer = ({
     params: {
         contractName, 
         amount, 
-        memo, 
-        receiverId
+        receiverId,
+        memo
     }
-}) => async (dispatch) => {
-
+}) => async (dispatch, getState) => {
     if (type === TOKEN_TYPES.NEAR) {
         const { transaction, status } = await dispatch(send.transfer.near(receiverId, amount));
 
@@ -31,7 +30,17 @@ export const transfer = ({
             await dispatch(send.payStorageDeposit(contractName, receiverId));
         }
 
-        const { transaction, status } = await dispatch(send.transfer.nep141(contractName, amount, memo, receiverId));
+        const { transaction, status } = await dispatch(send.transfer.nep141({
+            token: { 
+                contractName,
+                metadata: { 
+                    decimals: getState().tokens.tokens[contractName]
+                }
+            },
+            amount,
+            receiverId,
+            memo
+        }));
 
         if (status?.SuccessValue) {
             dispatch(send.setTxStatus(transaction.hash, 'success'));
