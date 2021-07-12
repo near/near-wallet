@@ -47,15 +47,15 @@ export const { send } = createActions({
                 wallet.sendMoney.bind(wallet),
                 () => showAlert({ onlyError: true })
             ],
-            TOKENS: [
-                () => {},
-                () => showAlert({ onlyError: true })
-            ],
-            STORAGE_DEPOSIT: [
+            NEP141: [
                 () => {},
                 () => showAlert({ onlyError: true })
             ],
         },
+        PAY_STORAGE_DEPOSIT: [
+            () => {},
+            () => showAlert({ onlyError: true })
+        ],
         IS_STORAGE_BALANCE_AVAILABLE: [
             () => {},
             () => showAlert({ onlyError: true })
