@@ -8,10 +8,35 @@ export const TOKEN_TYPES = {
     NEP141: 'NEP141'
 };
 
-    const { transaction, status } = await dispatch(send.transfer[contractName ? 'TOKENS' : 'NEAR'](contractName, amount, memo, receiverId));
+export const transfer = ({ 
+    type,
+    isStorageBalanceAvailable,
+    params: {
+        contractName, 
+        amount, 
+        memo, 
+        receiverId
+    }
+}) => async (dispatch) => {
 
-    if (status?.SuccessValue) {
-        dispatch(send.setTxStatus(transaction.hash, 'success'));
+    if (type === TOKEN_TYPES.NEAR) {
+        const { transaction, status } = await dispatch(send.transfer.near(receiverId, amount));
+
+        if (status?.SuccessValue) {
+            dispatch(send.setTxStatus(transaction.hash, 'success'));
+        }
+    } else if(type === TOKEN_TYPES.NEP141) {
+        if (!isStorageBalanceAvailable) {
+            await dispatch(send.payStorageDeposit(contractName, receiverId));
+        }
+
+        const { transaction, status } = await dispatch(send.transfer.nep141(contractName, amount, memo, receiverId));
+
+        if (status?.SuccessValue) {
+            dispatch(send.setTxStatus(transaction.hash, 'success'));
+        }
+    } else {
+        throw new TypeError(`Could not transfer unsupported token: ${type}`);
     }
 };
 
