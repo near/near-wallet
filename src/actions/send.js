@@ -46,7 +46,7 @@ export const transfer = ({
             dispatch(send.setTxStatus(transaction.hash, 'success'));
         }
     } else {
-        throw new WalletError(`Could not transfer unsupported token: ${type}`, 'send.unsupportedToken', { type: type });
+        throw new WalletError(`Could not transfer unsupported token: ${type}`, 'send.unsupportedToken', { type });
     }
 };
 
@@ -58,16 +58,16 @@ export const { send } = createActions({
                 () => showAlert({ onlyError: true })
             ],
             NEP141: [
-                () => {},
+                wallet.fungibleTokens.transfer.bind(wallet),
                 () => showAlert({ onlyError: true })
             ],
         },
         PAY_STORAGE_DEPOSIT: [
-            () => {},
+            wallet.fungibleTokens.transferStorageDeposit.bind(wallet),
             () => showAlert({ onlyError: true })
         ],
         IS_STORAGE_BALANCE_AVAILABLE: [
-            () => {},
+            wallet.fungibleTokens.isStorageBalanceAvailable.bind(wallet),
             () => showAlert({ onlyError: true })
         ],
         SET_TX_STATUS: null,
