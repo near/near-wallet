@@ -3,7 +3,6 @@ import ReactDom from 'react-dom';
 
 import classNames from '../../../utils/classNames';
 import isMobile from '../../../utils/isMobile';
-import MobileActionSheet from '../../common/modal/MobileActionSheet';
 import CloseButton from './CloseButton';
 import StyledModal from './Style.css';
 
@@ -69,14 +68,11 @@ function Modal({ isOpen, onClose, id, modalSize, modalClass, children, closeButt
     return ReactDom.createPortal(
         <StyledModal
             id={id}
-            className={classNames(['modal-wrapper', `size-${modalSize}`, `fade-${fadeType}`, modalClass, fullScreen])}
+            className={classNames(['modal-wrapper', `size-${modalSize}`, `fade-${fadeType}`, modalClass, fullScreen, { 'mobile-action-sheet' : mobileActionSheet }])}
             role='dialog'
             modalSize={modalSize}
             onTransitionEnd={transitionEnd}
         >
-            {mobileActionSheet &&
-                <MobileActionSheet/>
-            }
             <div id='modal-container' className='modal'>
                 {closeButton && 
                     <CloseButton device={closeButton} onClick={handleClick}/>
