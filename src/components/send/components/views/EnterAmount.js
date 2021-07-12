@@ -38,7 +38,7 @@ const EnterAmount = ({
     reservedForFees
 }) => {
     return (
-        <StyledContainer>
+        <StyledContainer className='buttons-bottom enter-amount'>
             <TabSelector/>
             <AmountInput
                 value={amount}
@@ -59,6 +59,21 @@ const EnterAmount = ({
                 availableBalance={availableBalance}
                 reservedForFees={reservedForFees}
             />
+            <div className='main-buttons-container'>
+                <FormButton
+                    color='dark-gray'
+                    onClick={onSetMaxAmaount}
+                >
+                    <Translate id='button.continue'/>
+                </FormButton>
+                <FormButton
+                    onClick={onSetMaxAmaount}
+                    className='link'
+                    color='gray'
+                >
+                    <Translate id='button.cancel'/>
+                </FormButton>
+            </div>
         </StyledContainer>
     );
 };

@@ -46,6 +46,15 @@ const CustomButton = styled(Button)`
             }
         }
 
+        &.dark-gray {
+            background-color: #272729;
+            transition: 100ms;
+
+            :hover {
+                background-color: black;
+            }
+        }
+
         &.light-blue {
             background-color: #D6EDFF !important;
             border: 0;
@@ -295,11 +304,11 @@ const CustomButton = styled(Button)`
             }
 
             &.gray {
-                color: #999;
+                color: #72727A;
 
                 :hover,
                 :focus {
-                    color: #999;
+                    color: #72727A;
                 }
             }
 

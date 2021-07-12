@@ -7,8 +7,38 @@ import Container from '../common/styled/Container.css';
 import EnterAmount from './components/views/EnterAmount';
 
 const StyledContainer = styled(Container)`
-
+    &&& {
+        .main-buttons-container {
+            margin-top: 55px;
+    
+            > button {
+                display: block;
+                width: 100%;
+            }
+    
+            .link {
+                display: block;
+                margin: 20px auto;
+            }
+        }
+    
+        @media (max-width: 500px) {
+            .buttons-bottom {
+                display: flex;
+                flex-direction: column;
+        
+                .main-buttons-container {
+                    margin-top: auto;
+                }
+        
+                &.enter-amount {
+                    min-height: calc(100vh - 110px);
+                }
+            }
+        }
+    }
 `;
+//TODO: Handle min-height when showing top banner
 
 
 class SendContainerV2 extends Component {
