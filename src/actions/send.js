@@ -2,6 +2,7 @@ import { createActions } from 'redux-actions';
 
 import { showAlert } from '../utils/alerts';
 import { wallet } from '../utils/wallet';
+import { WalletError } from '../utils/walletError';
 
 export const TOKEN_TYPES = {
     NEAR: 'NEAR',
@@ -36,7 +37,7 @@ export const transfer = ({
             dispatch(send.setTxStatus(transaction.hash, 'success'));
         }
     } else {
-        throw new TypeError(`Could not transfer unsupported token: ${type}`);
+        throw new WalletError(`Could not transfer unsupported token: ${type}`, 'send.unsupportedToken', { type: type });
     }
 };
 
