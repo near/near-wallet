@@ -190,8 +190,19 @@ class Routing extends Component {
     // }
 
     render() {
-        const { search } = this.props.router.location;
+        const { search, pathname, query: { tab } } = this.props.router.location;
         const { account } = this.props;
+        const setTab = (nextTab) => {
+            if (tab !== nextTab) {
+                let query = "";
+                if (nextTab) {
+                    const params = new URLSearchParams(search);
+                    params.set("tab", nextTab);
+                    query = "?" + params.toString();
+                }
+                this.props.history.push(pathname + query);
+            }
+        };
 
         const isInactiveAccount = account && (getAccountIsInactive(`${account.localStorage?.accountId || account.accountId}`) || account.accountHelperWalletState?.fundedAccountNeedsDeposit);
 
@@ -237,7 +248,7 @@ class Routing extends Component {
                             <GuestLandingRoute
                                 exact
                                 path='/' 
-                                component={isInactiveAccount ? ActivateAccountWithRouter : Wallet}
+                                render={(props) => isInactiveAccount ? <ActivateAccountWithRouter {...props}/> : <Wallet tab={tab} setTab={setTab} {...props} />}
                                 accountFound={this.props.account.localStorage?.accountFound}
                             />
                             <Route

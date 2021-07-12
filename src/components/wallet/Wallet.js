@@ -264,13 +264,7 @@ export function Wallet(props) {
     const tokens = useSelector(state => selectTokensDetails(state));
     const nft = useSelector(selectNFT);
     const tokensLoader = actionsPendingByPrefix('TOKENS/') || !balance?.total;
-    const getTokenView = () => {
-        const params = new URLSearchParams(props.history.location.search);
-        return params && params.has("tab") && params.get("tab").toLocaleLowerCase() === "nft"
-            ? "nonFungibleTokens"
-            : "fungibleTokens";
-    };
-    const [tokenView, setTokenView] = useState(getTokenView());
+    const { tab, setTab } = props;
 
     useEffect(() => {
         if (accountId) {
@@ -294,18 +288,6 @@ export function Wallet(props) {
         dispatch(handleGetNFTs());
     }, [accountId]);
 
-    const switchTokenView = (tab) => {
-        if (tokenView !== 'nonFungibleTokens' && tab === "nft") {
-            const params = new URLSearchParams(props.history.location.search);
-            params.set("tab", tab);
-            props.history.push(props.history.location.pathname + "?" + params.toString());
-            setTokenView(getTokenView());
-        } else if (tokenView !== 'fungibleTokens' && tab === "ft") {
-            props.history.push(props.history.location.pathname);
-            setTokenView(getTokenView());
-        }
-    };
-
     const handleHideExploreApps = () => {
         localStorage.setItem('hideExploreApps', true);
         setExploreApps(false);
@@ -324,26 +306,26 @@ export function Wallet(props) {
                 <div className='left'>
                     <div className='tab-selector'>
                         <div
-                            className={classNames(['tab-balances', tokenView !== 'fungibleTokens' ? 'inactive' : ''])}
-                            onClick={() => switchTokenView('ft')}
+                            className={classNames(['tab-balances', tab ? 'inactive' : ''])}
+                            onClick={() => setTab('')}
                         >
                             <Translate id='wallet.balances' />
                         </div>
                         <div
-                            className={classNames(['tab-collectibles', tokenView !== 'nonFungibleTokens' ? 'inactive' : ''])}
-                            onClick={() => switchTokenView('nft')}
+                            className={classNames(['tab-collectibles', tab !== 'collectibles' ? 'inactive' : ''])}
+                            onClick={() => setTab('collectibles')}
                         >
                             <Translate id='wallet.collectibles' />
                         </div>
                     </div>
-                    {tokenView === 'fungibleTokens' &&
+                    {!tab &&
                         <FungibleTokens
                             balance={balance}
                             tokensLoader={tokensLoader}
                             sortedTokens={sortedTokens}
                         />
                     }
-                    {tokenView === 'nonFungibleTokens' &&
+                    {tab === 'collectibles' &&
                         <NFTs tokens={sortedNFTs} />
                     }
                 </div>

@@ -4,10 +4,10 @@ import { Route, withRouter, Redirect } from 'react-router-dom';
 
 import { KEY_ACTIVE_ACCOUNT_ID } from '../../utils/wallet';
 
-const PrivateRouteLimited = ({component: Component, account, refreshAccountOwnerEnded, ...rest}) => (
+const PrivateRouteLimited = ({component: Component, render, account, refreshAccountOwnerEnded, ...rest}) => (
     <Route 
         {...rest} 
-        render={(props) => (
+        render={ render || ((props) => (
             !localStorage.getItem(KEY_ACTIVE_ACCOUNT_ID)
                 ? (
                     <Redirect
@@ -17,7 +17,7 @@ const PrivateRouteLimited = ({component: Component, account, refreshAccountOwner
                     />
                 )
                 : <Component {...props} />
-        )}
+        ))}
     />
 );
 
