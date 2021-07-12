@@ -3,7 +3,7 @@ import { createActions } from 'redux-actions';
 import { showAlert } from '../utils/alerts';
 import { wallet } from '../utils/wallet';
 
-export const transfer = ({ contractName, amount, memo, receiverId, isStorageBalanceAvailable }) => async (dispatch, gesState) => {
+export const transfer = ({ contractName, amount, memo, receiverId, isStorageBalanceAvailable }) => async (dispatch) => {
     if (contractName && !isStorageBalanceAvailable) {
         await dispatch(send.transfer.storageDeposit(contractName, receiverId));
     }
