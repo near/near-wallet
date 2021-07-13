@@ -37,10 +37,9 @@
   },
   "scripts": {
     "predeploy": "yarn build",
-    "update:static": "cp src/wasm/multisig.wasm dist/multisig.wasm && cp src/wasm/main.wasm dist/main.wasm",
-    "start": "yarn update:static; parcel src/index.html --https --cert devServerCertificates/primary.crt --key devServerCertificates/private.pem",
+    "start": "NODE_ENV=development yarn build",
     "prebuild": "rm -rf dist/",
-    "build": "parcel build src/index.html && node scripts/sentry-send-release.js && yarn update:static",
+    "build": "node ci/runBundler.js && node ci/sentry-send-release.js",
     "test": "jest",
     "lint": "eslint --ext .js --ext .jsx .",
     "fix": "eslint --ext .js --ext .jsx . --fix",
