@@ -37,7 +37,8 @@
   },
   "scripts": {
     "predeploy": "yarn build",
-    "start": "NODE_ENV=development yarn build",
+    "update:static": "cp src/wasm/multisig.wasm dist/multisig.wasm && cp src/wasm/main.wasm dist/main.wasm",
+    "start": "yarn update:static; parcel src/index.html --https --cert devServerCertificates/primary.crt --key devServerCertificates/private.pem",
     "prebuild": "rm -rf dist/",
     "build": "node ci/runBundler.js && node ci/sentry-send-release.js",
     "test": "jest",

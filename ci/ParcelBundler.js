@@ -50,6 +50,7 @@ class ParcelBundler {
 
     debugLog(...args) {
         this.isDebug && console.log(...args);
+
     }
 
     getBaseConfig() {
@@ -57,11 +58,13 @@ class ParcelBundler {
             outDir: this.outDir,
             outFile: 'index.html',
             logLevel: 3, // 5 = save everything to a file, 4 = like 3, but with timestamps and additionally log http requests to dev server, 3 = log info, warnings & errors, 2 = log warnings & errors, 1 = log errors, 0 = log nothing
-            watch: false,
+            watch: this.isDevelopment,
+            hmr: this.isDevelopment,
             sourceMaps: true,
             detailedReport: false,
             autoInstall: true,
         };
+
     }
 
     buildOutputPath(filename) {
@@ -147,9 +150,7 @@ class ParcelBundler {
                 ...this.getBaseConfig(),
                 publicUrl: this.buildCloudflarePath(`/ntl/branch/${branchName}/`)
             };
-        case
-            'deploy-preview'
-        :
+        case 'deploy-preview':
             // TODO: Create netlify PR deploy preview link
             return {
                 ...this.getBaseConfig(),
@@ -182,6 +183,8 @@ class ParcelBundler {
     initializeBundlerInstance() {
         const bundlerConfig = this.composeBundlerConfig();
 
+        this.debugLog('entryPath', this.entryPath);
+        this.debugLog('bundlerConfig', bundlerConfig);
         this.bundler = new Bundler(this.entryPath, bundlerConfig);
         this.bundler.on('bundled', (bundle) => {
             fs.copyFileSync(this.buildWasmSourcePath('multisig.wasm'), this.buildOutputPath('multisig.wasm'));
@@ -195,6 +198,7 @@ class ParcelBundler {
         const { isDevelopment } = this;
 
         if (isDevelopment) {
+            // FIXME: Why does HMR not work with this configuration?
             // Watch mode with custom dev SSL certs
             await this.bundler.serve(undefined, {
                 cert: this.buildSslPath('primary.crt'),
