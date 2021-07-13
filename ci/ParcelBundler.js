@@ -96,7 +96,6 @@ class ParcelBundler {
         });
 
         if (isPullRequestPreview) {
-            // TODO: Create render PR link
             const prNumberRegex = new RegExp(/^http[s]?:\/\/near-wallet-pr-(\d+)\.onrender\.com/g);
             const prNumber = prNumberRegex.exec(externalUrl);
 
@@ -131,7 +130,6 @@ class ParcelBundler {
 
         switch (buildContext) {
         case 'production':
-            // TODO: Create netlify PR deploy preview link
             if (primeUrl.contains('near-wallet-staging')) {
                 // Netlify staging is a dedicated deployment using 'master' as the production branch
                 return {
@@ -147,7 +145,6 @@ class ParcelBundler {
             };
 
         case 'branch-deploy':
-            // TODO: Create netlify branch link
             return {
                 ...this.getBaseConfig(),
                 publicUrl: this.buildCloudflarePath(`/ntl/branch/${branchName}/`)
@@ -161,7 +158,6 @@ class ParcelBundler {
                 };
             }
 
-            // TODO: Create netlify PR deploy preview link
             return {
                 ...this.getBaseConfig(),
                 publicUrl: this.buildCloudflarePath(`/ntl/preview/${pullRequestId}/`)
