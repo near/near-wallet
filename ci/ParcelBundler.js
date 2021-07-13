@@ -135,7 +135,7 @@ class ParcelBundler {
                 // Netlify staging is a dedicated deployment using 'master' as the production branch
                 return {
                     ...this.getBaseConfig(),
-                    publicUrl: this.buildCloudflarePath(`/ntl/staging/${pullRequestId}/`)
+                    publicUrl: this.buildCloudflarePath(`/ntl/staging/`)
                 };
             }
 
@@ -152,6 +152,14 @@ class ParcelBundler {
                 publicUrl: this.buildCloudflarePath(`/ntl/branch/${branchName}/`)
             };
         case 'deploy-preview':
+            if (primeUrl.contains('near-wallet-staging')) {
+                // Netlify staging is a dedicated deployment using 'master' as the production branch
+                return {
+                    ...this.getBaseConfig(),
+                    publicUrl: this.buildCloudflarePath(`/ntl/previewstaging/${pullRequestId}/`)
+                };
+            }
+
             // TODO: Create netlify PR deploy preview link
             return {
                 ...this.getBaseConfig(),
