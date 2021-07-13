@@ -26,7 +26,7 @@ export const transfer = ({
             dispatch(send.setTxStatus(transaction.hash, 'success'));
         }
     } else if(type === TOKEN_TYPES.NEP141) {
-        if (!isStorageBalanceAvailable) {
+        if (isStorageBalanceAvailable === false) {
             await dispatch(send.payStorageDeposit(contractName, receiverId));
         }
 
