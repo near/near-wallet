@@ -1,0 +1,8 @@
+name = "near-wallet"
+type = 'webpack'
+account_id = 'c40432376f6282b027153e3ecbbf7e2b'
+route = ''
+zone_id = '182950c9904e74c61a687187eeeb16cc'
+usage_model = ''
+workers_dev = true
+target_type = "webpack"
