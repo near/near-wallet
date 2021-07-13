@@ -65,16 +65,15 @@ export const { send } = createActions({
                 })
             ],
             NEP141: [
-                wallet.fungibleTokens.transfer.bind(wallet),
-                () => showAlert({ onlyError: true })
+                wallet.fungibleTokens.transfer?.bind(wallet.fungibleTokens),
             ],
         },
         PAY_STORAGE_DEPOSIT: [
-            wallet.fungibleTokens.transferStorageDeposit.bind(wallet),
+            wallet.fungibleTokens.transferStorageDeposit?.bind(wallet.fungibleTokens),
             () => showAlert({ onlyError: true })
         ],
         IS_STORAGE_BALANCE_AVAILABLE: [
-            wallet.fungibleTokens.isStorageBalanceAvailable.bind(wallet),
+            wallet.fungibleTokens.isStorageBalanceAvailable?.bind(wallet.fungibleTokens),
             () => showAlert({ onlyError: true })
         ],
         SET_TX_STATUS: null,
