@@ -58,7 +58,11 @@ export const { send } = createActions({
         TRANSFER: {
             NEAR: [
                 wallet.sendMoney.bind(wallet),
-                () => showAlert({ onlyError: true })
+                (receiverId, amount) => ({
+                    ...showAlert({ onlyError: true }),
+                    receiverId,
+                    amount
+                })
             ],
             NEP141: [
                 wallet.fungibleTokens.transfer.bind(wallet),
