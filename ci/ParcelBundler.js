@@ -63,6 +63,7 @@ class ParcelBundler {
             sourceMaps: true,
             detailedReport: false,
             autoInstall: true,
+            minify: !this.isDevelopment
         };
 
     }
