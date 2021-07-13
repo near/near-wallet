@@ -93,9 +93,15 @@ class ParcelBundler {
 
         if (isPullRequestPreview) {
             // TODO: Create render PR link
+            const prNumber = externalUrl.match(/^near-wallet-pr-(\d+)\.onrender\.com/g);
+
+            if (!prNumber) {
+                throw new Error(`Could not identify PR number from externalURL: ${externalUrl}`);
+            }
+
             return {
                 ...this.getBaseConfig(),
-                publicUrl: this.buildCloudflarePath('/render/pr/')
+                publicUrl: this.buildCloudflarePath(`/render/pr/${prNumber[1]}/`)
             };
         }
 
@@ -125,23 +131,25 @@ class ParcelBundler {
                 // Netlify staging is a dedicated deployment using 'master' as the production branch
                 return {
                     ...this.getBaseConfig(),
-                    publicUrl: this.buildCloudflarePath(`/ntl/staging/${pullRequestId}/`)
+                    publicUrl: this.buildCloudflarePath(` / ntl / staging /${pullRequestId}/`)
                 };
             }
 
             // Netlify production/mainnet is a dedicated deployment using 'stable' as the production branch
             return {
                 ...this.getBaseConfig(),
-                publicUrl: this.buildCloudflarePath(`/ntl/mainnet/`)
+                publicUrl: this.buildCloudflarePath(` / ntl / mainnet / `)
             };
 
         case 'branch-deploy':
             // TODO: Create netlify branch link
             return {
                 ...this.getBaseConfig(),
-                publicUrl: this.buildCloudflarePath(`/ntl/branch/${branchName}/`)
+                publicUrl: this.buildCloudflarePath(` / ntl / branch /${branchName}/`)
             };
-        case 'deploy-preview':
+        case
+            'deploy-preview'
+        :
             // TODO: Create netlify PR deploy preview link
             return {
                 ...this.getBaseConfig(),
