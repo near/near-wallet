@@ -57,6 +57,19 @@ const sendReducer = handleActions({
                     }
                 ]
             }),
+    [send.setTxStatus]: (state, { payload }) => ({
+        ...state,
+        items: state.items.map((item) => item.hash === payload.hash
+            ? ({
+                ...item,
+                status: {
+                    ...item.status,
+                    txStatus: payload.newStatus
+                }
+            })
+            : item
+        )
+    })
 }, initialState)
 
 export default reduceReducers(
