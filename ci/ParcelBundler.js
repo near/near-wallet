@@ -13,7 +13,7 @@ const IS_NETLIFY = process.env.NETLIFY === 'true';
 const IS_DEVELOPMENT = process.env.NODE_ENV === 'development';
 
 const CLOUDFLARE_BASE_URL = process.env.CLOUDFLARE_BASE_URL || 'https://content.near-wallet.workers.dev';
-const SHOULD_USE_CLOUDFLARE = process.env.USE_CLOUDFLARE === true;
+const SHOULD_USE_CLOUDFLARE = process.env.USE_CLOUDFLARE === 'true';
 
 const enableDebugLogging = !process.env.DEBUG_BUILD ? true : process.env.DEBUG_BUILD === 'true';
 
