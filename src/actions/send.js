@@ -30,7 +30,7 @@ export const transfer = ({
             await dispatch(send.payStorageDeposit(contractName, receiverId));
         }
 
-        const { transaction, status } = await dispatch(send.transfer.nep141({
+        const { transaction: { hash }, status } = await dispatch(send.transfer.nep141({
             token: { 
                 contractName,
                 metadata: { 
@@ -42,8 +42,10 @@ export const transfer = ({
             memo
         }));
 
-        if (status?.SuccessValue) {
-            dispatch(send.setTxStatus(transaction.hash, 'success'));
+            dispatch(send.setTxStatus({
+                hash,
+                newStatus: 'success'
+            }));
         }
     } else {
         throw new WalletError(`Could not transfer unsupported token: ${type}`, 'send.unsupportedToken', { type });
