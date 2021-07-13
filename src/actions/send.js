@@ -42,6 +42,7 @@ export const transfer = ({
             memo
         }));
 
+        if (status?.SuccessValue === '') {
             dispatch(send.setTxStatus({
                 hash,
                 newStatus: 'success'
