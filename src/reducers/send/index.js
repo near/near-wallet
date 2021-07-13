@@ -3,6 +3,43 @@ import { handleActions } from 'redux-actions';
 
 import { send } from '../../actions/send'
 
+// sample items states for near and fungible tokens transfer
+// const items = [
+//     {
+//         hash: '',
+//         type: 'NEP141',
+//         details: {
+//             token: {
+//                 contractName: '',
+//                 name: '',
+//                 symbol: ''
+//             },
+//             amount: '',
+//             receiver: {
+//                 accountId: '',
+//             },
+//         },
+//         status: {
+//             txStatus: '',
+//             networkFees: ''
+//         }
+//     },
+//     {
+//         hash: '',
+//         type: 'NEAR',
+//         details: {
+//             amount: '',
+//             receiver: {
+//                 accountId: ''
+//             }
+//         },
+//         status: {
+//             txStatus: '',
+//             networkFees: ''
+//         }
+//     }
+// ]
+
 const initialState = {
     items: []
 }
