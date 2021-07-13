@@ -106,13 +106,13 @@ class ParcelBundler {
 
             return {
                 ...this.getBaseConfig(),
-                publicUrl: this.buildCloudflarePath(`/render/pr/${prNumber[1]}/`)
+                publicUrl: this.buildCloudflarePath(`/rnd/pr/${prNumber[1]}/`)
             };
         }
 
         return {
             ...this.getBaseConfig(),
-            publicUrl: this.buildCloudflarePath('/render/testnet/')
+            publicUrl: this.buildCloudflarePath('/rnd/testnet/')
         };
     }
 
