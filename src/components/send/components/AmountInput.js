@@ -31,7 +31,7 @@ const getFontSize = (charLength) => {
     return fontSize;
 };
 
-const AmountInput = ({ value, onChange, error }) => {
+const AmountInput = ({ value, onChange, error, autoFocus = true }) => {
     return (
         <StyledInput
             className={error ? 'error' : ''}
@@ -40,6 +40,7 @@ const AmountInput = ({ value, onChange, error }) => {
             placeholder='0'
             value={value}
             onChange={e => onChange(e.target.value)}
+            autoFocus={autoFocus}
         />
     );
 };

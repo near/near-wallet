@@ -35,8 +35,13 @@ const EnterAmount = ({
     onSetMaxAmaount,
     availableToSend,
     availableBalance,
-    reservedForFees
+    reservedForFees,
+    continueAllowed,
+    onContinue,
+    onGoBack,
+    selectedToken
 }) => {
+
     return (
         <StyledContainer className='buttons-bottom enter-amount'>
             <TabSelector/>
@@ -52,7 +57,7 @@ const EnterAmount = ({
                 <Translate id='button.useMax'/>
             </FormButton>
             <SelectTokenButton
-                symbol='NEAR'
+                symbol={selectedToken.symbol}
             />
             <BalanceDetails
                 availableToSend={availableToSend}
@@ -62,12 +67,13 @@ const EnterAmount = ({
             <div className='main-buttons-container'>
                 <FormButton
                     color='dark-gray'
-                    onClick={onSetMaxAmaount}
+                    onClick={onContinue}
+                    disabled={!continueAllowed}
                 >
                     <Translate id='button.continue'/>
                 </FormButton>
                 <FormButton
-                    onClick={onSetMaxAmaount}
+                    onClick={onGoBack}
                     className='link'
                     color='gray'
                 >

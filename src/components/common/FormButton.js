@@ -48,10 +48,18 @@ const CustomButton = styled(Button)`
 
         &.dark-gray {
             background-color: #272729;
+            border-color: #272729;
             transition: 100ms;
 
             :hover {
                 background-color: black;
+            }
+
+            :disabled {
+                background: #e6e6e6;
+                border-color: #e6e6e6;
+                opacity: 1 !important;
+                color: #A2A2A8;
             }
         }
 
