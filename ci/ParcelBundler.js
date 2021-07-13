@@ -24,7 +24,7 @@ class ParcelBundler {
         wasmSourcePath = WASM_PATH,
         sslPath = SSL_PATH,
         cloudflareBaseUrl = CLOUDFLARE_BASE_URL,
-        shouldUseCloudfront = SHOULD_USE_CLOUDFLARE,
+        shouldUseCloudflare = SHOULD_USE_CLOUDFLARE,
         isDebug = enableDebugLogging,
         isRender = IS_RENDER,
         isNetlify = IS_NETLIFY,
@@ -38,6 +38,8 @@ class ParcelBundler {
         this.isRender = isRender;
         this.isNetlify = isNetlify;
         this.isDevelopment = isDevelopment;
+        this.cloudflareBaseUrl = cloudflareBaseUrl;
+        this.shouldUseCloudflare = shouldUseCloudflare;
 
         this.debugLog('Environment', {
             isDevelopment,
@@ -157,7 +159,7 @@ class ParcelBundler {
     composeBundlerConfig() {
         const { isRender, isNetlify, isDevelopment } = this;
 
-        if (isDevelopment || !this.shouldUseCloudfront) {
+        if (isDevelopment || !this.shouldUseCloudflare) {
             return { ...this.getBaseConfig(), publicUrl: '/' };
         }
 
