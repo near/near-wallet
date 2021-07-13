@@ -152,7 +152,7 @@ class ParcelBundler {
                 publicUrl: this.buildCloudflarePath(`/ntl/branch/${branchName}/`)
             };
         case 'deploy-preview':
-            if (primeUrl.contains('near-wallet-staging')) {
+            if (primeUrl.includes('near-wallet-staging')) {
                 // Netlify staging is a dedicated deployment using 'master' as the production branch
                 return {
                     ...this.getBaseConfig(),
