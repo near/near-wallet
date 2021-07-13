@@ -31,6 +31,32 @@ const sendReducer = handleActions({
                     }
                 ]
             }),
+    [send.transfer.nep141]: (state, { payload, meta, ready, error }) => 
+        (!ready || error)
+            ? state
+            : ({
+                ...state,
+                items: [
+                    ...state.items,
+                    {
+                        hash: payload.transaction.hash,
+                        type: 'NEP141',
+                        details: {
+                            token: {
+                                contractName: payload.transaction.receiver_id
+                            },
+                            amount: meta.amount,
+                            receiver: {
+                                accountId: meta.receiverId
+                            }
+                        },
+                        status: {
+                            txStatus: 'pending',
+                            networkFees: payload.transaction_outcome.outcome.gas_burnt,
+                        }
+                    }
+                ]
+            }),
 }, initialState)
 
 export default reduceReducers(
