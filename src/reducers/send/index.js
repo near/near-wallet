@@ -8,7 +8,7 @@ const initialState = {
 }
 
 const sendReducer = handleActions({
-    [send.transfer.near]: (state, { payload, meta }) => 
+    [send.transfer.near]: (state, { payload, meta, ready, error }) => 
         (!ready || error)
             ? state
             : ({
