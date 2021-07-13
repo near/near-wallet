@@ -48,10 +48,6 @@ class ParcelBundler {
         });
     }
 
-    isDebug() {
-        return this.isDebug;
-    }
-
     debugLog(...args) {
         this.isDebug && console.log(...args);
     }
