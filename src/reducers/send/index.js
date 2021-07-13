@@ -1,7 +1,7 @@
 import reduceReducers from 'reduce-reducers';
 import { handleActions } from 'redux-actions';
 
-import { send } from '../../actions/send'
+import { send } from '../../actions/send';
 
 // sample items states for near and fungible tokens transfer
 // const items = [
@@ -42,7 +42,7 @@ import { send } from '../../actions/send'
 
 const initialState = {
     items: []
-}
+};
 
 const sendReducer = handleActions({
     [send.transfer.near]: (state, { payload, meta, ready, error }) => 
@@ -107,7 +107,7 @@ const sendReducer = handleActions({
             : item
         )
     })
-}, initialState)
+}, initialState);
 
 export default reduceReducers(
     initialState,
