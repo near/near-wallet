@@ -306,7 +306,7 @@ export function Wallet(props) {
                 <div className='left'>
                     <div className='tab-selector'>
                         <div
-                            className={classNames(['tab-balances', tab ? 'inactive' : ''])}
+                            className={classNames(['tab-balances', tab === 'collectibles' ? 'inactive' : ''])}
                             onClick={() => setTab('')}
                         >
                             <Translate id='wallet.balances' />
@@ -318,15 +318,14 @@ export function Wallet(props) {
                             <Translate id='wallet.collectibles' />
                         </div>
                     </div>
-                    {!tab &&
-                        <FungibleTokens
+                    {tab === 'collectibles'
+                        ? <NFTs tokens={sortedNFTs} />
+                        : <FungibleTokens
                             balance={balance}
                             tokensLoader={tokensLoader}
                             sortedTokens={sortedTokens}
                         />
-                    }
-                    {tab === 'collectibles' &&
-                        <NFTs tokens={sortedNFTs} />
+
                     }
                 </div>
                 <div className='right'>
