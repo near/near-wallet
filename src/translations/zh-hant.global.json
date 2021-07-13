@@ -1267,8 +1267,8 @@
         "desc": "註意：這是預發布版本 NEAR 錢包，可能有 Bugs，這些 Bugs 可能會導致丟失通證。繼續使用此版本則表示你理解並接受此風險，並知曉 NEAR 錢包團隊將無法幫助你。"
     },
     "landing": {
-        "title": "NEAR 已來臨。",
-        "desc": "使用 <span>NEAR 錢包</span>安全地存儲並質押你的 NEAR 和其他通證。",
+        "title": "NEAR 數字錢包",
+        "desc": "使用 <span>NEAR 錢包</span>安全地存儲、使用您的資產。",
         "or": "或",
         "banner": "NEAR 錢包已經在內測"
     },
