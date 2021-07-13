@@ -66,6 +66,14 @@ export const { send } = createActions({
             ],
             NEP141: [
                 wallet.fungibleTokens.transfer?.bind(wallet.fungibleTokens),
+                ({
+                    amount,
+                    receiverId
+                }) => ({
+                    ...showAlert({ onlyError: true }),
+                    amount,
+                    receiverId
+                })
             ],
         },
         PAY_STORAGE_DEPOSIT: [
