@@ -96,7 +96,8 @@ class ParcelBundler {
 
         if (isPullRequestPreview) {
             // TODO: Create render PR link
-            const prNumber = externalUrl.match(/^http[s]?:\/\/near-wallet-pr-(\d+)\.onrender\.com/g);
+            const prNumberRegex = new RegExp(/^http[s]?:\/\/near-wallet-pr-(\d+)\.onrender\.com/g);
+            const prNumber = prNumberRegex.exec(externalUrl);
 
             if (!prNumber) {
                 throw new Error(`Could not identify PR number from externalURL: ${externalUrl}`);
