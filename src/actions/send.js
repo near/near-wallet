@@ -34,7 +34,7 @@ export const transfer = ({
             token: { 
                 contractName,
                 metadata: { 
-                    decimals: getState().tokens.tokens[contractName]
+                    decimals: getState().tokens.tokens[contractName].decimals
                 }
             },
             amount,
