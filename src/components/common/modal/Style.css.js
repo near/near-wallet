@@ -62,12 +62,27 @@ const Style = styled.div`
         margin: 14px;
     }
 
+    &.mobile-action-sheet {
+        @media (max-width: 649px) {
+            .modal {
+                margin: 0;
+                margin-bottom: -15px;
+                border-radius: 14px;
+                border-bottom-left-radius: 0;
+                border-bottom-right-radius: 0;
+                position: fixed;
+                bottom: 0;
+            }
+        }
+    }
+
     &.full-screen {
         .modal {
             height: 100%;
             border-radius: 0;
             overflow-y: auto;
             overflow-x: hidden;
+            position: fixed;
 
             ::-webkit-scrollbar {
                 display: none;

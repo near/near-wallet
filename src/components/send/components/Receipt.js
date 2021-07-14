@@ -21,37 +21,37 @@ const StyledContainer = styled.div`
     }
 `;
 
-const translate = (type) => `sendV2.TXEntry.title.${type}`;
+const prefixTXEntryTitleId = (key) => `sendV2.TXEntry.title.${key}`;
 
 const Receipt = ({ status, token, network_fees, receiver_id, block_timestamp }) => {
     
     return (
         <StyledContainer>
             <Status
-                translate={translate('status')}
+                translateIdTitle={prefixTXEntryTitleId('status')}
                 status={status}
             />
             <Token
-                translate={translate('token')}
+                translateIdTitle={prefixTXEntryTitleId('token')}
                 symbol={token.symbol}
                 icon={token.icon}
             />
             <Amount
-                translate={translate('amount')}
+                translateIdTitle={prefixTXEntryTitleId('amount')}
                 symbol={token.symbol}
                 amount={token.amount}
                 decimals={token.decimals}
             />
             <Amount
-                translate={translate('networkFees')}
+                translateIdTitle={prefixTXEntryTitleId('networkFees')}
                 amount={network_fees}
             />
             <Receiver
-                translate={translate('receiverId')}
+                translateIdTitle={prefixTXEntryTitleId('receiverId')}
                 receiverId={receiver_id}
             />
             <DateAndTime
-                translate={translate('timeStamp')}
+                translateIdTitle={prefixTXEntryTitleId('timeStamp')}
                 timeStamp={block_timestamp}
             />
         </StyledContainer>

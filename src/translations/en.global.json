@@ -606,7 +606,7 @@
     "createAccount": {
         "termsPage": {
             "title": "Before you begin...",
-            "descOne": "NEAR accounts require a minimum balance of <a href='https://docs.near.org/docs/concepts/account' rel='noopener noreferrer' target='_blank'>at least ${data} NEAR</a> to <a href='https://docs.near.org/docs/concepts/account' rel='noopener noreferrer' target='_blank'>hold a place on the network.</a>",
+            "descOne": "NEAR accounts require a minimum balance of <b>at least ${data} NEAR</b> to <a href='https://docs.near.org/docs/concepts/account' rel='noopener noreferrer' target='_blank'>hold a place on the network.</a>",
             "descTwo": "After reserving a unique account address, you’ll be asked to make a small initial deposit to activate your account.",
             "disclaimer": "By creating a NEAR account, you agree to the NEAR Wallet <a href='/terms' rel='noopener noreferrer' target='_blank'>Terms of Service</a> and <a href='https://near.org/privacy' rel='noopener noreferrer' target='_blank'>Privacy Policy</a>."
         },
@@ -1114,7 +1114,6 @@
             "insufficient": "You are attempting to send your entire available balance. At least <b>${data} NEAR</b> must be reserved to cover transaction fees."
         }
     },
-
     "sendV2": {
         "TXEntry": {
             "title": {
@@ -1127,15 +1126,22 @@
                 "receiverId": "Sent to",
                 "timeStamp": "Date & time",
                 "reservedForFees": "Reserved for fees",
-                "availableBalane": "Available balance",
-                "availableToSend": "Available to Send"
+                "availableBalance": "Available balance",
+                "availableToSend": "Available to Send",
+                "from": "From",
+                "to": "To"
             },
             "status": {
                 "SuccessValue": "Successful",
                 "Failure": "Failed",
                 "notAvailable": "Status not available"
             }
-        }
+        },
+        "accordionTriggerTitle": {
+            "balanceDetails": "Balance details",
+            "transactionDetails": "Transaction Details"
+        },
+        "selectTokenButtonTitle": "Select Asset"
     },
 
     "sign": {

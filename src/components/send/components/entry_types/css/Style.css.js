@@ -4,12 +4,26 @@ const Style = styled.div`
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0px 15px;
-    min-height: 75px;
+    padding: 20px 15px;
     color: #72727A;
 
+    &.information {
+        color: #272729;
+        font-weight: 600;
+
+        > div {
+            font-weight: 400;
+        }
+    }
+
+    .tooltip {
+        margin-right: auto;
+        width: 15px;
+        margin-top: 2px;
+    }
+
     .icon, .amount {
-        color: black;
+        color: #272729;
         font-weight: 600;
         font-size: 16px;
     }
@@ -34,6 +48,11 @@ const Style = styled.div`
 
     .time, .status {
         color: #3F4045;
+    }
+
+    &.stand-alone {
+        border-radius: 8px;
+        background-color: #FAFAFA;
     }
 `;
 

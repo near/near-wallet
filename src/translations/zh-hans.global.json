@@ -597,7 +597,7 @@
     "createAccount": {
         "termsPage": {
             "title": "在开始之前...",
-            "descOne": "NEAR 账户要求进行一笔一次性<a href='https://docs.near.org/docs/concepts/account' rel='noopener noreferrer' target='_blank'>至少 ${data} NEAR</a> 的充值来涵盖<a href='https://docs.near.org/docs/concepts/account' rel='noopener noreferrer' target='_blank'>你的账户存储成本</a>。",
+            "descOne": "NEAR 账户要求进行一笔一次性<b>至少 ${data} NEAR</b> 的充值来涵盖<a href='https://docs.near.org/docs/concepts/account' rel='noopener noreferrer' target='_blank'>你的账户存储成本</a>。",
             "descTwo": "在保留你的个性化账户 ID 之后，你需要进行一笔初始充值来激活的账户。",
             "disclaimer": "通过注册 NEAR 账户，意味着你同意 NEAR 钱包的<a href='/terms' rel='noopener noreferrer' target='_blank'>服务条款</a>和<a href='https://near.org/privacy' rel='noopener noreferrer' target='_blank'>隐私策略</a>。"
         },
@@ -1267,8 +1267,8 @@
         "desc": "注意：这是预发布版本 NEAR 钱包，可能有 Bugs，这些 Bugs 可能会导致丢失通证。继续使用此版本则表示你理解并接受此风险，并知晓 NEAR 钱包团队将无法帮助你。"
     },
     "landing": {
-        "title": "NEAR 已来临。",
-        "desc": "使用 <span>NEAR 钱包</span>安全地存储并质押你的 NEAR 和其他通证。",
+        "title": "NEAR 数字钱包",
+        "desc": "使用 <span>NEAR 钱包</span>安全地存储、使用您的资产。",
         "or": "或",
         "banner": "NEAR 钱包已经在内测"
     },

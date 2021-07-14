@@ -29,7 +29,9 @@ const initialState = {
     requestPending: null,
     actionsPending: [],
     canEnableTwoFactor: null,
-    accountHelperWalletState: {},
+    accountHelperWalletState: {
+        isLoaded: false
+    },
     twoFactor: null,
     ledgerKey: null,
     accountsBalance: undefined
@@ -72,7 +74,10 @@ const canEnableTwoFactor = handleActions({
 const accountHelperWalletState = handleActions({
     [getAccountHelperWalletState]: (state, { payload }) => ({
         ...state,
-        accountHelperWalletState: payload
+        accountHelperWalletState: {
+            ...payload,
+            isLoaded: payload ? true : false
+        }
     })
 }, initialState);
 

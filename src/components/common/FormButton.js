@@ -441,7 +441,7 @@ const FormButton = ({
         disabled={disabled}
         onClick={(e) => {
             onClick && onClick(e);
-            linkTo && (linkTo.includes('http') ? window.open(linkTo, '_blank') : history.push(linkTo));
+            linkTo && (linkTo.toLowerCase().startsWith('http') ? window.open(linkTo, '_blank') : history.push(linkTo));
             trackingId && Mixpanel.track(trackingId);
         }}
         tabIndex='3'
