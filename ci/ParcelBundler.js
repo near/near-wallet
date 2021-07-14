@@ -132,7 +132,7 @@ class ParcelBundler {
         switch (buildContext) {
         case 'production':
             // TODO: Create netlify PR deploy preview link
-            if (primeUrl.contains('near-wallet-staging')) {
+            if (primeUrl.includes('near-wallet-staging')) {
                 // Netlify staging is a dedicated deployment using 'master' as the production branch
                 return {
                     ...this.getBaseConfig(),
